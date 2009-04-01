@@ -1,0 +1,436 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
+		AB9E78C20F27D8D80043A657 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E789A0F27D8D80043A657 /* NanoTest.cpp */; };
+		AB9E78C30F27D8D80043A657 /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E789C0F27D8D80043A657 /* TCommandLine.cpp */; };
+		AB9E78C40F27D8D80043A657 /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E789F0F27D8D80043A657 /* TFile.cpp */; };
+		AB9E78C50F27D8D80043A657 /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78A20F27D8D80043A657 /* TArray.cpp */; };
+		AB9E78C60F27D8D80043A657 /* TBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78A40F27D8D80043A657 /* TBitVector.cpp */; };
+		AB9E78C70F27D8D80043A657 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78A60F27D8D80043A657 /* TData.cpp */; };
+		AB9E78C80F27D8D80043A657 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78A80F27D8D80043A657 /* TDictionary.cpp */; };
+		AB9E78C90F27D8D80043A657 /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78AA0F27D8D80043A657 /* TPoint.cpp */; };
+		AB9E78CA0F27D8D80043A657 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78AC0F27D8D80043A657 /* TRange.cpp */; };
+		AB9E78CB0F27D8D80043A657 /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78AE0F27D8D80043A657 /* TRectangle.cpp */; };
+		AB9E78CC0F27D8D80043A657 /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78B00F27D8D80043A657 /* TSize.cpp */; };
+		AB9E78CD0F27D8D80043A657 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78B20F27D8D80043A657 /* TString.cpp */; };
+		AB9E78CE0F27D8D80043A657 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78B50F27D8D80043A657 /* TColor.cpp */; };
+		AB9E78CF0F27D8D80043A657 /* TMsgBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78B80F27D8D80043A657 /* TMsgBroadcaster.cpp */; };
+		AB9E78D00F27D8D80043A657 /* TMsgListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78BA0F27D8D80043A657 /* TMsgListener.cpp */; };
+		AB9E78D10F27D8D80043A657 /* TAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78BE0F27D8D80043A657 /* TAtomicInt.cpp */; };
+		AB9E78D20F27D8D80043A657 /* TLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E78C00F27D8D80043A657 /* TLock.cpp */; };
+		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC06F0554671400DB518D;
+			remoteInfo = Nano;
+		};
+		ABE0709509FBBC890031D3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC06E0554671400DB518D;
+			remoteInfo = Nano;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
+		AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
+		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.pch"; sourceTree = "<group>"; };
+		AB9E789A0F27D8D80043A657 /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
+		AB9E789C0F27D8D80043A657 /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
+		AB9E789D0F27D8D80043A657 /* TCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCommandLine.h; sourceTree = "<group>"; };
+		AB9E789F0F27D8D80043A657 /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
+		AB9E78A00F27D8D80043A657 /* TFIle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFIle.h; sourceTree = "<group>"; };
+		AB9E78A20F27D8D80043A657 /* TArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TArray.cpp; sourceTree = "<group>"; };
+		AB9E78A30F27D8D80043A657 /* TArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TArray.h; sourceTree = "<group>"; };
+		AB9E78A40F27D8D80043A657 /* TBitVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBitVector.cpp; sourceTree = "<group>"; };
+		AB9E78A50F27D8D80043A657 /* TBitVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBitVector.h; sourceTree = "<group>"; };
+		AB9E78A60F27D8D80043A657 /* TData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TData.cpp; sourceTree = "<group>"; };
+		AB9E78A70F27D8D80043A657 /* TData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TData.h; sourceTree = "<group>"; };
+		AB9E78A80F27D8D80043A657 /* TDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDictionary.cpp; sourceTree = "<group>"; };
+		AB9E78A90F27D8D80043A657 /* TDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDictionary.h; sourceTree = "<group>"; };
+		AB9E78AA0F27D8D80043A657 /* TPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPoint.cpp; sourceTree = "<group>"; };
+		AB9E78AB0F27D8D80043A657 /* TPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPoint.h; sourceTree = "<group>"; };
+		AB9E78AC0F27D8D80043A657 /* TRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRange.cpp; sourceTree = "<group>"; };
+		AB9E78AD0F27D8D80043A657 /* TRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRange.h; sourceTree = "<group>"; };
+		AB9E78AE0F27D8D80043A657 /* TRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRectangle.cpp; sourceTree = "<group>"; };
+		AB9E78AF0F27D8D80043A657 /* TRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRectangle.h; sourceTree = "<group>"; };
+		AB9E78B00F27D8D80043A657 /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
+		AB9E78B10F27D8D80043A657 /* TSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSize.h; sourceTree = "<group>"; };
+		AB9E78B20F27D8D80043A657 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
+		AB9E78B30F27D8D80043A657 /* TString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TString.h; sourceTree = "<group>"; };
+		AB9E78B50F27D8D80043A657 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
+		AB9E78B60F27D8D80043A657 /* TColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TColor.h; sourceTree = "<group>"; };
+		AB9E78B80F27D8D80043A657 /* TMsgBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMsgBroadcaster.cpp; sourceTree = "<group>"; };
+		AB9E78B90F27D8D80043A657 /* TMsgBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMsgBroadcaster.h; sourceTree = "<group>"; };
+		AB9E78BA0F27D8D80043A657 /* TMsgListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMsgListener.cpp; sourceTree = "<group>"; };
+		AB9E78BB0F27D8D80043A657 /* TMsgListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMsgListener.h; sourceTree = "<group>"; };
+		AB9E78BE0F27D8D80043A657 /* TAtomicInt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomicInt.cpp; sourceTree = "<group>"; };
+		AB9E78BF0F27D8D80043A657 /* TAtomicInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAtomicInt.h; sourceTree = "<group>"; };
+		AB9E78C00F27D8D80043A657 /* TLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLock.cpp; sourceTree = "<group>"; };
+		AB9E78C10F27D8D80043A657 /* TLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLock.h; sourceTree = "<group>"; };
+		ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D0C4E910486CD37000505A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */,
+				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
+				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		195DF8CFFE9D517E11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D0C4E970486CD37000505A6 /* NanoTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20286C29FDCF999611CA2CEA /* NanoDemo */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29A909CAD85D008C593C /* Configuration */,
+				AB5B29B509CAD866008C593C /* Prefix */,
+				AB5B29C009CAD87B008C593C /* Source */,
+				AB5B29B809CAD871008C593C /* Resources */,
+				20286C32FDCF999611CA2CEA /* Frameworks */,
+				AB5B29DB09CAD8B7008C593C /* Dependencies */,
+				195DF8CFFE9D517E11CA2CBB /* Products */,
+			);
+			name = NanoDemo;
+			sourceTree = "<group>";
+		};
+		20286C32FDCF999611CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				AB6E7E3609F9052300F73093 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB5B29A909CAD85D008C593C /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */,
+				AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */,
+				AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */,
+			);
+			name = Configuration;
+			path = ../../../Support/Xcode/Configuration;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29B509CAD866008C593C /* Prefix */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */,
+			);
+			name = Prefix;
+			path = ../Prefix;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29B809CAD871008C593C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			path = ../Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29C009CAD87B008C593C /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E789A0F27D8D80043A657 /* NanoTest.cpp */,
+				AB9E789B0F27D8D80043A657 /* Application */,
+				AB9E789E0F27D8D80043A657 /* Files */,
+				AB9E78A10F27D8D80043A657 /* Core */,
+				AB9E78B40F27D8D80043A657 /* Graphics */,
+				AB9E78B70F27D8D80043A657 /* Events */,
+				AB9E78BC0F27D8D80043A657 /* Utilities */,
+				AB9E78BD0F27D8D80043A657 /* Threads */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29DB09CAD8B7008C593C /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		AB9E789B0F27D8D80043A657 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E789C0F27D8D80043A657 /* TCommandLine.cpp */,
+				AB9E789D0F27D8D80043A657 /* TCommandLine.h */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		AB9E789E0F27D8D80043A657 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E789F0F27D8D80043A657 /* TFile.cpp */,
+				AB9E78A00F27D8D80043A657 /* TFIle.h */,
+			);
+			path = Files;
+			sourceTree = "<group>";
+		};
+		AB9E78A10F27D8D80043A657 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E78A20F27D8D80043A657 /* TArray.cpp */,
+				AB9E78A30F27D8D80043A657 /* TArray.h */,
+				AB9E78A40F27D8D80043A657 /* TBitVector.cpp */,
+				AB9E78A50F27D8D80043A657 /* TBitVector.h */,
+				AB9E78A60F27D8D80043A657 /* TData.cpp */,
+				AB9E78A70F27D8D80043A657 /* TData.h */,
+				AB9E78A80F27D8D80043A657 /* TDictionary.cpp */,
+				AB9E78A90F27D8D80043A657 /* TDictionary.h */,
+				AB9E78AA0F27D8D80043A657 /* TPoint.cpp */,
+				AB9E78AB0F27D8D80043A657 /* TPoint.h */,
+				AB9E78AC0F27D8D80043A657 /* TRange.cpp */,
+				AB9E78AD0F27D8D80043A657 /* TRange.h */,
+				AB9E78AE0F27D8D80043A657 /* TRectangle.cpp */,
+				AB9E78AF0F27D8D80043A657 /* TRectangle.h */,
+				AB9E78B00F27D8D80043A657 /* TSize.cpp */,
+				AB9E78B10F27D8D80043A657 /* TSize.h */,
+				AB9E78B20F27D8D80043A657 /* TString.cpp */,
+				AB9E78B30F27D8D80043A657 /* TString.h */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		AB9E78B40F27D8D80043A657 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E78B50F27D8D80043A657 /* TColor.cpp */,
+				AB9E78B60F27D8D80043A657 /* TColor.h */,
+			);
+			path = Graphics;
+			sourceTree = "<group>";
+		};
+		AB9E78B70F27D8D80043A657 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E78B80F27D8D80043A657 /* TMsgBroadcaster.cpp */,
+				AB9E78B90F27D8D80043A657 /* TMsgBroadcaster.h */,
+				AB9E78BA0F27D8D80043A657 /* TMsgListener.cpp */,
+				AB9E78BB0F27D8D80043A657 /* TMsgListener.h */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		AB9E78BC0F27D8D80043A657 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AB9E78BD0F27D8D80043A657 /* Threads */ = {
+			isa = PBXGroup;
+			children = (
+				AB9E78BE0F27D8D80043A657 /* TAtomicInt.cpp */,
+				AB9E78BF0F27D8D80043A657 /* TAtomicInt.h */,
+				AB9E78C00F27D8D80043A657 /* TLock.cpp */,
+				AB9E78C10F27D8D80043A657 /* TLock.h */,
+			);
+			path = Threads;
+			sourceTree = "<group>";
+		};
+		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABE0709009FBBC7A0031D3D1 /* libNano.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D0C4E890486CD37000505A6 /* NanoTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoTest" */;
+			buildPhases = (
+				8D0C4E8C0486CD37000505A6 /* Resources */,
+				8D0C4E8F0486CD37000505A6 /* Sources */,
+				8D0C4E910486CD37000505A6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABE0709609FBBC890031D3D1 /* PBXTargetDependency */,
+			);
+			name = NanoTest;
+			productInstallPath = "$(HOME)/Applications";
+			productName = NanoDemo;
+			productReference = 8D0C4E970486CD37000505A6 /* NanoTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20286C28FDCF999611CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoTest" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 20286C29FDCF999611CA2CEA /* NanoDemo */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABE0708B09FBBC7A0031D3D1 /* Products */;
+					ProjectRef = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+				},
+			);
+			projectRoot = ..;
+			targets = (
+				8D0C4E890486CD37000505A6 /* NanoTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABE0709009FBBC7A0031D3D1 /* libNano.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNano.a;
+			remoteRef = ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D0C4E8C0486CD37000505A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D0C4E8F0486CD37000505A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB9E78C20F27D8D80043A657 /* NanoTest.cpp in Sources */,
+				AB9E78C30F27D8D80043A657 /* TCommandLine.cpp in Sources */,
+				AB9E78C40F27D8D80043A657 /* TFile.cpp in Sources */,
+				AB9E78C50F27D8D80043A657 /* TArray.cpp in Sources */,
+				AB9E78C60F27D8D80043A657 /* TBitVector.cpp in Sources */,
+				AB9E78C70F27D8D80043A657 /* TData.cpp in Sources */,
+				AB9E78C80F27D8D80043A657 /* TDictionary.cpp in Sources */,
+				AB9E78C90F27D8D80043A657 /* TPoint.cpp in Sources */,
+				AB9E78CA0F27D8D80043A657 /* TRange.cpp in Sources */,
+				AB9E78CB0F27D8D80043A657 /* TRectangle.cpp in Sources */,
+				AB9E78CC0F27D8D80043A657 /* TSize.cpp in Sources */,
+				AB9E78CD0F27D8D80043A657 /* TString.cpp in Sources */,
+				AB9E78CE0F27D8D80043A657 /* TColor.cpp in Sources */,
+				AB9E78CF0F27D8D80043A657 /* TMsgBroadcaster.cpp in Sources */,
+				AB9E78D00F27D8D80043A657 /* TMsgListener.cpp in Sources */,
+				AB9E78D10F27D8D80043A657 /* TAtomicInt.cpp in Sources */,
+				AB9E78D20F27D8D80043A657 /* TLock.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABE0709609FBBC890031D3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano;
+			targetProxy = ABE0709509FBBC890031D3D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C0E91AC608A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.pch";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = NanoTest;
+			};
+			name = Debug;
+		};
+		C0E91AC708A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.pch";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = NanoTest;
+			};
+			name = Release;
+		};
+		C0E91ACA08A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C0E91ACB08A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91AC608A95435008D54AB /* Debug */,
+				C0E91AC708A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91ACA08A95435008D54AB /* Debug */,
+				C0E91ACB08A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20286C28FDCF999611CA2CEA /* Project object */;
+}

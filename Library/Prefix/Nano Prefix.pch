@@ -1,0 +1,37 @@
+/*	NAME:
+		Nano Prefix.pch
+
+	DESCRIPTION:
+		Nano prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) 2006-2009, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef NANO_PREFIX_HDR
+#define NANO_PREFIX_HDR
+//============================================================================
+//		Build constants
+//----------------------------------------------------------------------------
+// PCRE
+#define HAVE_CONFIG_H													1
+
+
+
+
+
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano.h"
+
+
+
+
+
+#endif // NANO_PREFIX_HDR
+
+
