@@ -105,7 +105,7 @@ const NAtomicInt& NAtomicInt::operator = (const NAtomicInt &theObject)
 
 
 //============================================================================
-//		NAtomicInt::+= : Post-increment operator.
+//		NAtomicInt::+= : Addition operator.
 //----------------------------------------------------------------------------
 const NAtomicInt& NAtomicInt::operator += (const NAtomicInt &theObject)
 {
@@ -122,7 +122,7 @@ const NAtomicInt& NAtomicInt::operator += (const NAtomicInt &theObject)
 
 
 //============================================================================
-//		NAtomicInt::-= : Post-decrement operator.
+//		NAtomicInt::-= : Subtraction operator.
 //----------------------------------------------------------------------------
 const NAtomicInt& NAtomicInt::operator -= (const NAtomicInt &theObject)
 {
@@ -139,7 +139,7 @@ const NAtomicInt& NAtomicInt::operator -= (const NAtomicInt &theObject)
 
 
 //============================================================================
-//		NAtomicInt::++ : Increment operator.
+//		NAtomicInt::++ : Prefix increment operator.
 //----------------------------------------------------------------------------
 const NAtomicInt& NAtomicInt::operator ++ (void)
 {
@@ -156,7 +156,7 @@ const NAtomicInt& NAtomicInt::operator ++ (void)
 
 
 //============================================================================
-//		NAtomicInt::-- : Decrement operator.
+//		NAtomicInt::-- : Prefix decrement operator.
 //----------------------------------------------------------------------------
 const NAtomicInt& NAtomicInt::operator -- (void)
 {
@@ -166,6 +166,42 @@ const NAtomicInt& NAtomicInt::operator -- (void)
 	Decrement(1);
 
 	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::++ : Postfix increment operator.
+//----------------------------------------------------------------------------
+NAtomicInt NAtomicInt::operator ++ (int)
+{	NAtomicInt		prevValue(mValue);
+
+
+
+	// Adjust the value
+	Increment(1);
+
+	return(prevValue);
+}
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::-- : Postfix decrement operator.
+//----------------------------------------------------------------------------
+NAtomicInt NAtomicInt::operator -- (int)
+{	NAtomicInt		prevValue(mValue);
+
+
+
+	// Adjust the value
+	Decrement(1);
+
+	return(prevValue);
 }
 
 

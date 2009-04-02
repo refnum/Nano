@@ -45,6 +45,9 @@ public:
 	const NAtomicInt&					operator ++(void);
 	const NAtomicInt&					operator --(void);
 
+	NAtomicInt							operator ++(int);
+	NAtomicInt							operator --(int);
+
 										operator SInt32(void) const;
 
 
