@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NAtomicInt.h"
 
 
 
@@ -61,7 +62,7 @@ protected:
 
 
 protected:
-    SInt32								mCount;
+    NAtomicInt							mCount;
 	NLockRef							mLock;
 };
 
@@ -101,8 +102,8 @@ public:
 
 	// Acquire/release the lock
 	//
-	// Multiple readers can acquire the lock simultaneously, but will
-	// block if a thread has acquired the lock for writing.
+	// Multiple readers can acquire the lock simultaneously, but will block if
+	// a thread has acquired the lock for writing.
 	//
 	// Read/write locks are not recursive.
 	bool								Lock(NTime waitFor=kNTimeForever);

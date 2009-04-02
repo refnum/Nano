@@ -92,9 +92,9 @@ void NLock::AdjustLock(bool didLock)
 
 	// Update our state
 	if (didLock)
-		NThreadUtilities::AtomicAdd32(mCount,  1);
+		mCount++;
 	else
-		NThreadUtilities::AtomicAdd32(mCount, -1);
+		mCount--;
 }
 
 
