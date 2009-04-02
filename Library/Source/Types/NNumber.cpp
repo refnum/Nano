@@ -579,7 +579,7 @@ bool NNumber::SetValue(const NString &theValue)
 
 
 	// Parse the value
-	if (sscanf(theValue.GetUTF8(), "%llf", &valueReal) == 1)
+	if (sscanf(theValue.GetUTF8(), "%lf", &valueReal) == 1)
 		{
 		SetValueFloat64(valueReal);
 		return(true);
