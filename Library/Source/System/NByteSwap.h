@@ -1,8 +1,8 @@
 /*	NAME:
-		NSystemUtilities.h
+		NByteSwap.h
 
 	DESCRIPTION:
-		System utilities.
+		Nano byte-swap support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NSYSTEMUTILITIES_HDR
-#define NSYSTEMUTILITIES_HDR
+#ifndef NBYTESWAP_HDR
+#define NBYTESWAP_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -22,14 +22,15 @@
 
 
 //============================================================================
-//		Macros
+//		Constants
 //----------------------------------------------------------------------------
-// Get the size of an array
-#define GET_ARRAY_SIZE(_a)											(sizeof((_a)) / sizeof((_a)[0]))
+// Endian
+typedef enum {
+	kEndianBig,
+	kEndianLittle
+} EndianFormat;
 
-
-// Clamp a value
-#define GET_CLAMPED_VALUE(_v, _min, _max)							std::min((_max), std::max((_min), (_v)))
+static const EndianFormat kEndianNative								= (NN_TARGET_ENDIAN_BIG ? kEndianBig : kEndianLittle);
 
 
 
@@ -38,7 +39,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NSystemUtilities {
+class NByteSwap {
 public:
 
 
@@ -48,8 +49,6 @@ public:
 
 
 
-
-#endif // NSYSTEMUTILITIES_HDR
-
+#endif // NBYTESWAP_HDR
 
 
