@@ -66,6 +66,7 @@
 		AB984AED0F84ADD00070067B /* NMacTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984AEA0F84ADD00070067B /* NMacTime.cpp */; };
 		AB984AEE0F84ADD00070067B /* NMacMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984AEB0F84ADD00070067B /* NMacMath.cpp */; };
 		AB984B500F84BB8C0070067B /* NMacTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984B4F0F84BB8C0070067B /* NMacTarget.cpp */; };
+		AB984BD60F8570640070067B /* NFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984BD50F8570640070067B /* NFileUtilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -188,6 +189,8 @@
 		AB984B4F0F84BB8C0070067B /* NMacTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTarget.cpp; sourceTree = "<group>"; };
 		AB984B530F84BC500070067B /* NWinTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWinTarget.h; sourceTree = "<group>"; };
 		AB984B540F84BC500070067B /* NWinTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTarget.cpp; sourceTree = "<group>"; };
+		AB984BD40F8570640070067B /* NFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtilities.h; sourceTree = "<group>"; };
+		AB984BD50F8570640070067B /* NFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtilities.cpp; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
@@ -410,6 +413,8 @@
 		AB984A970F84AD500070067B /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				AB984BD50F8570640070067B /* NFileUtilities.cpp */,
+				AB984BD40F8570640070067B /* NFileUtilities.h */,
 				AB984A980F84AD500070067B /* NMathUtilities.cpp */,
 				AB984A990F84AD500070067B /* NMathUtilities.h */,
 				AB984A9A0F84AD500070067B /* NSTLUtilities.cpp */,
@@ -558,6 +563,7 @@
 				AB984AC70F84AD500070067B /* NSize.cpp in Sources */,
 				AB984AC80F84AD500070067B /* NString.cpp in Sources */,
 				AB984AC90F84AD500070067B /* NVariant.cpp in Sources */,
+				AB984BD60F8570640070067B /* NFileUtilities.cpp in Sources */,
 				AB984AE10F84AD500070067B /* NMathUtilities.cpp in Sources */,
 				AB984AE20F84AD500070067B /* NSTLUtilities.cpp in Sources */,
 				AB984AE30F84AD500070067B /* NSystemUtilities.cpp in Sources */,

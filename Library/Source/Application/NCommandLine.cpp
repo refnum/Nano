@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NNumber.h"
+#include "NFileUtilities.h"
 #include "NCommandLine.h"
 
 
