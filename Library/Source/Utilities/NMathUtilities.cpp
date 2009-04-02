@@ -162,9 +162,9 @@ UInt32 NMathUtilities::CountBits(UInt32 theValue)
 
     // Count the bits
     //
-    // By subtracting 1, we can obtain a mask that removes the
-    // highest set bit in the value. This ensures we only need
-    // to loop as many times as there are set bits.
+    // By subtracting 1, we can obtain a mask that removes the highest set bit
+	// in the value. This ensures we only need to loop as many times as there
+	// are set bits.
     numBits = 0;
     
     while (theValue != 0)

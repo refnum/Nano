@@ -45,8 +45,8 @@ public:
 
 	// Get a flag argument
 	//
-	// Flag arguments take the form "-arg=value" or "--arg=value".
-	// If the value is missing, a 0/empty value is returned.
+	// Flag arguments take the form "-arg=value" or "--arg=value". If the value is
+	// missing, a 0/empty value is returned.
 	SInt32								GetFlagSInt32( const NString &theArgument) const;
 	Float32								GetFlagFloat32(const NString &theArgument) const;
 	NString								GetFlagString( const NString &theArgument) const;

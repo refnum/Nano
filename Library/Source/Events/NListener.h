@@ -25,7 +25,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NBroadcaster *kBroadcasterAny					= NULL;
+static const NBroadcaster *kBroadcasterAny							= NULL;
 
 
 
@@ -34,10 +34,10 @@ static const NBroadcaster *kBroadcasterAny					= NULL;
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-// Lists
-typedef std::map<NBroadcaster*, UInt8>						NBroadcasterList;
-typedef NBroadcasterList::iterator							NBroadcasterListIterator;
-typedef NBroadcasterList::const_iterator						NBroadcasterListConstIterator;
+// Lists	
+typedef std::map<NBroadcaster*, UInt8>								NBroadcasterList;
+typedef NBroadcasterList::iterator									NBroadcasterListIterator;
+typedef NBroadcasterList::const_iterator							NBroadcasterListConstIterator;
 
 
 

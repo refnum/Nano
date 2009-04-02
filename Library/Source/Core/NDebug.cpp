@@ -28,7 +28,7 @@
 //============================================================================
 //      Internal constants
 //----------------------------------------------------------------------------
-static const UInt32 kDebugBufferSize									= 1024;
+static const UInt32 kDebugBufferSize									= 1024 * 2;
 
 
 
@@ -162,7 +162,7 @@ void NDebug::LogMessage(const char *theFormat, const va_list &argList, const cha
 	if (thePath != NULL)
 		{
 		fileName = mShowPath ? thePath : GetFileName(thePath);
-		theMsg += Format("%s:%ld: ", fileName, lineNum);
+		theMsg  += Format("%s:%ld: ", fileName, lineNum);
 		}
 
 	theMsg += Format(theFormat, argList);

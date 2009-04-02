@@ -142,6 +142,8 @@ static const Float64 kMaxFloat64									= DBL_MAX;
 static const NIndex    kNIndexNone									= -1;
 static const NHashCode kNHashCodeNone								= 0;
 
+
+// Memory
 static const UInt32 kKilobyte										= 1024;
 static const UInt32 kMegabyte										= 1024 * kKilobyte;
 static const UInt32 kGigabyte										= 1024 * kMegabyte;
