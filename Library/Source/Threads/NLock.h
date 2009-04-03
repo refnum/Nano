@@ -80,9 +80,6 @@ public:
 
 
 	// Acquire/release the lock
-	//
-	// Mutexes are recursive, and may be called multiple times from the same
-	// thread providing every Lock is balanced with a subsequent Unlock.
 	bool								Lock(NTime waitFor=kNTimeForever);
 	void								Unlock(void);
 };
@@ -102,15 +99,14 @@ public:
 
 	// Acquire/release the lock
 	//
-	// Multiple readers can acquire the lock simultaneously, but will block if
-	// a thread has acquired the lock for writing.
-	//
-	// Read/write locks are not recursive.
+	// Multiple threads can acquire the lock when reading.
 	bool								Lock(NTime waitFor=kNTimeForever);
 	void								Unlock(void);
 
 
 	// Acquire the lock for writing
+	//
+	// Only one thread can acquire the lock when writing.
 	bool								LockForWrite(NTime waitFor=kNTimeForever);
 
 
@@ -132,9 +128,6 @@ public:
 
 
 	// Acquire/release the lock
-	//
-	// Spin locks are not recursive, and should typically be avoided in favour
-	// of an NMutexLock unless the situation specifically calls for a spin lock.
 	bool								Lock(NTime waitFor=kNTimeForever);
 	void								Unlock(void);
 

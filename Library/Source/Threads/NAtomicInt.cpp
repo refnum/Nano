@@ -29,7 +29,9 @@ NAtomicInt::NAtomicInt(SInt32 theValue)
 
 
 	// Validate our state
-	NN_ASSERT((((UInt32) &mValue) % sizeof(mValue)) == 0);
+	//
+	// We assume that read/writes from a 4-byte aligned 32-bit integer are atomic.
+	NN_ASSERT((((UInt32) &mValue) % 4) == 0);
 
 
 
@@ -57,12 +59,14 @@ NAtomicInt::~NAtomicInt(void)
 //----------------------------------------------------------------------------
 #pragma mark -
 NComparison NAtomicInt::Compare(const SInt32 &theValue) const
-{	SInt32		myValue;
+{	volatile SInt32		myValue;
 
 
 
 	// Compare the value
-	myValue = mValue;										// dair, make atomic
+	//
+	// The value is copied to ensure it is immutable.
+	myValue = mValue;
 
 	return(GET_COMPARISON(myValue, theValue));
 }
@@ -81,7 +85,7 @@ SInt32 NAtomicInt::Increment(SInt32 theDelta)
 	// Adjust the value
 	NThreadUtilities::AtomicAdd32(mValue, theDelta);
 
-	return(mValue);										// dair, make atomic
+	return(mValue);
 }
 
 
@@ -98,7 +102,7 @@ SInt32 NAtomicInt::Decrement(SInt32 theDelta)
 	// Adjust the value
 	NThreadUtilities::AtomicAdd32(mValue, -theDelta);
 
-	return(mValue);										// dair, make atomic
+	return(mValue);
 }
 
 
@@ -114,7 +118,7 @@ const NAtomicInt& NAtomicInt::operator = (const NAtomicInt &theObject)
 
 	// Assign the object
 	if (this != &theObject)
-		mValue = theObject.mValue;		// dair, make atomic
+		mValue = theObject.mValue;
 
 	return(*this);
 }
@@ -325,7 +329,7 @@ NAtomicInt::operator SInt32(void) const
 
 
 	// Get the value
-	return(mValue);		// dair, make atomic
+	return(mValue);
 }
 
 

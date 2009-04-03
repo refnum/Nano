@@ -16,6 +16,8 @@
 //----------------------------------------------------------------------------
 #include <unistd.h>
 
+#include <libKern/OSAtomic.h>
+
 #include "NTargetThread.h"
 
 
@@ -86,7 +88,7 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 
 
 	// Compare and swap
-	return(CompareAndSwap(oldValue, newValue, &theValue));
+	return(OSAtomicCompareAndSwap32Barrier(oldValue, newValue, (int32_t *) &theValue));
 }
 
 
@@ -101,7 +103,7 @@ void NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 
 
 	// Add the value
-	AddAtomic(theDelta, &theValue);
+	OSAtomicAdd32Barrier(theDelta, (int32_t *) &theValue);
 }
 
 
@@ -116,7 +118,7 @@ void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Update the value
-	BitAndAtomic(theMask, &theValue);
+	OSAtomicAnd32Barrier(theMask, (uint32_t *) &theValue);
 }
 
 
@@ -131,7 +133,7 @@ void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Update the value
-	BitXorAtomic(theMask, &theValue);
+	OSAtomicXor32Barrier(theMask, (uint32_t *) &theValue);
 }
 
 
@@ -146,5 +148,6 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Update the value
-	BitOrAtomic(theMask, &theValue);
+	OSAtomicOr32Barrier(theMask, (uint32_t *) &theValue);
 }
+
