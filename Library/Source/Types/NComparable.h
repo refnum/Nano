@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFunctor.h"
 
 
 
@@ -29,6 +30,15 @@ typedef enum {
 	kNCompareEqualTo		=  0,
 	kNCompareGreaterThan	=  1
 } NComparison;
+
+
+
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
+typedef nfunctor<NComparison (const void *value1, const void *value2, void *userData)> NComparisonFunctor;
 
 
 
