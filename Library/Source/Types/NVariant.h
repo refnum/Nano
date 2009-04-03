@@ -77,7 +77,7 @@ public:
 	// Compare the value
 	//
 	// Only values of the same type, or numeric values, can be compared.
-	NComparison							Compare(const NVariant &theValue) const;
+	inline NComparison					Compare(const NVariant &theValue) const;
 
 
 	// Get the type
