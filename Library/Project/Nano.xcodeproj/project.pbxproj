@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB4DD4B00F85FA3D00501468 /* NMacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4DD4AE0F85FA3D00501468 /* NMacSystem.cpp */; };
+		AB4DD4B70F85FC1100501468 /* NCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4DD4B50F85FC1100501468 /* NCipher.cpp */; };
 		AB984AA70F84AD500070067B /* NMacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984A290F84AD500070067B /* NMacDebug.cpp */; };
 		AB984AA80F84AD500070067B /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984A2A0F84AD500070067B /* NMacFile.cpp */; };
 		AB984AA90F84AD500070067B /* NMacLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984A2B0F84AD500070067B /* NMacLock.cpp */; };
@@ -72,6 +74,11 @@
 
 /* Begin PBXFileReference section */
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
+		AB4DD4AC0F85FA3D00501468 /* NTargetSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetSystem.h; sourceTree = "<group>"; };
+		AB4DD4AD0F85FA3D00501468 /* NWinSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinSystem.cpp; sourceTree = "<group>"; };
+		AB4DD4AE0F85FA3D00501468 /* NMacSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacSystem.cpp; sourceTree = "<group>"; };
+		AB4DD4B50F85FC1100501468 /* NCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCipher.cpp; sourceTree = "<group>"; };
+		AB4DD4B60F85FC1100501468 /* NCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCipher.h; sourceTree = "<group>"; };
 		AB984A290F84AD500070067B /* NMacDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacDebug.cpp; sourceTree = "<group>"; };
 		AB984A2A0F84AD500070067B /* NMacFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacFile.cpp; sourceTree = "<group>"; };
 		AB984A2B0F84AD500070067B /* NMacLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacLock.cpp; sourceTree = "<group>"; };
@@ -252,6 +259,7 @@
 				AB984A300F84AD500070067B /* NTargetFile.h */,
 				AB984A310F84AD500070067B /* NTargetLock.h */,
 				AB984A320F84AD500070067B /* NTargetMath.h */,
+				AB4DD4AC0F85FA3D00501468 /* NTargetSystem.h */,
 				AB984A330F84AD500070067B /* NTargetThread.h */,
 				AB984A340F84AD500070067B /* NTargetTime.h */,
 				AB984A280F84AD500070067B /* Mac */,
@@ -268,6 +276,7 @@
 				AB984A2A0F84AD500070067B /* NMacFile.cpp */,
 				AB984A2B0F84AD500070067B /* NMacLock.cpp */,
 				AB984AEB0F84ADD00070067B /* NMacMath.cpp */,
+				AB4DD4AE0F85FA3D00501468 /* NMacSystem.cpp */,
 				AB984B4F0F84BB8C0070067B /* NMacTarget.cpp */,
 				AB984B4E0F84BB8C0070067B /* NMacTarget.h */,
 				AB984AE90F84ADD00070067B /* NMacThread.cpp */,
@@ -453,6 +462,7 @@
 				AB984AF90F84AEE80070067B /* NWinFile.cpp */,
 				AB984AFA0F84AEE80070067B /* NWinLock.cpp */,
 				AB984AFB0F84AEE80070067B /* NWinMath.cpp */,
+				AB4DD4AD0F85FA3D00501468 /* NWinSystem.cpp */,
 				AB984B540F84BC500070067B /* NWinTarget.cpp */,
 				AB984B530F84BC500070067B /* NWinTarget.h */,
 				AB984AFC0F84AEE80070067B /* NWinThread.cpp */,
@@ -466,6 +476,8 @@
 			children = (
 				ABAF5C1E0F8575CF0097D8EF /* NByteSwap.cpp */,
 				ABAF5C1F0F8575CF0097D8EF /* NByteSwap.h */,
+				AB4DD4B50F85FC1100501468 /* NCipher.cpp */,
+				AB4DD4B60F85FC1100501468 /* NCipher.h */,
 			);
 			name = System;
 			path = ../Source/System;
@@ -549,10 +561,12 @@
 				AB984AB30F84AD500070067B /* NBroadcaster.cpp in Sources */,
 				AB984AB40F84AD500070067B /* NListener.cpp in Sources */,
 				ABAF5C200F8575CF0097D8EF /* NByteSwap.cpp in Sources */,
+				AB4DD4B70F85FC1100501468 /* NCipher.cpp in Sources */,
 				AB984AA70F84AD500070067B /* NMacDebug.cpp in Sources */,
 				AB984AA80F84AD500070067B /* NMacFile.cpp in Sources */,
 				AB984AA90F84AD500070067B /* NMacLock.cpp in Sources */,
 				AB984AEE0F84ADD00070067B /* NMacMath.cpp in Sources */,
+				AB4DD4B00F85FA3D00501468 /* NMacSystem.cpp in Sources */,
 				AB984B500F84BB8C0070067B /* NMacTarget.cpp in Sources */,
 				AB984AEC0F84ADD00070067B /* NMacThread.cpp in Sources */,
 				AB984AED0F84ADD00070067B /* NMacTime.cpp in Sources */,
