@@ -84,6 +84,7 @@ typedef NSharedValue<NStringValue>									NSharedValueString;
 //----------------------------------------------------------------------------
 class NString :	public NContainer,
 				public NHashable,
+				public NComparable<NString>,
 				public NSharedValueString {
 public:
 										NString(const char  *theText, NIndex theSize=kNStringSize, NStringEncoding theEncoding=kNStringEncodingUTF8);
@@ -139,7 +140,8 @@ public:
 	// Compare two strings
 	//
 	// EqualTo defaults to a case-insensitive comparison, since case-sensitive comparisons can be obtained with '=='.
-	NComparison							CompareTo(const NString &theString, NStringFlags theFlags=kNStringNone)                const;
+	NComparison							Compare(  const NString &theValue)                                        const;
+	NComparison							CompareTo(const NString &theString, NStringFlags theFlags=kNStringNone)   const;
 	bool								EqualTo(  const NString &theString, NStringFlags theFlags=kNStringNoCase) const;
 
 
@@ -204,15 +206,9 @@ public:
 	// Operators
 	const NString&						operator += (const NString &theString);
 	const NString						operator +	(const NString &theString) const;
-	bool								operator == (const NString &theString) const;
-	bool								operator != (const NString &theString) const;
 
 
 protected:
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
-
-
 	// Get the null value
 	const NStringValue					*GetNullValue(void) const;
 

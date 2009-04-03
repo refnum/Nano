@@ -82,6 +82,21 @@ bool NDate::IsValid(void) const
 
 
 //============================================================================
+//		NDate::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NDate::Compare(const NDate &theValue) const
+{
+
+
+	// Compare the value
+	return(GET_COMPARISON(mTime, theValue.mTime));
+}
+
+
+
+
+
+//============================================================================
 //		NDate::GetTime : Get the time.
 //----------------------------------------------------------------------------
 NTime NDate::GetTime(void) const
@@ -152,28 +167,6 @@ NTime NDate::operator - (const NDate &theDate) const
 
 	// Subtract the dates
 	return(mTime - theDate.mTime);
-}
-
-
-
-
-
-//============================================================================
-//		NDate::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-#pragma mark -
-NComparison NDate::Compare(const NComparable &theObject) const
-{	const NDate		*theDate = dynamic_cast<const NDate*>(&theObject);
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theDate != NULL);
-
-
-
-	// Compare the values
-	return(GET_COMPARISON(mTime, theDate->mTime));
 }
 
 

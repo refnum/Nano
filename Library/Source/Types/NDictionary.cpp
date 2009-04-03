@@ -59,6 +59,40 @@ NIndex NDictionary::GetSize(void) const
 
 
 //============================================================================
+//		NDictionary::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NDictionary::Compare(const NDictionary &theValue) const
+{	const NDictionaryValue		*ourValue, *otherValue;
+	NIndex						ourSize, otherSize;
+	NComparison					theResult;
+
+
+
+	// Get the state we need
+	ourValue   =          GetImmutable();
+	otherValue = theValue.GetImmutable();
+
+	ourSize   = ourValue->size();
+	otherSize = otherValue->size();
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GET_COMPARISON(ourSize, otherSize);
+
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(ourValue, otherValue);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NDictionary::Join : Join two dictionaries.
 //----------------------------------------------------------------------------
 void NDictionary::Join(const NDictionary &theValue)
@@ -75,6 +109,29 @@ void NDictionary::Join(const NDictionary &theValue)
 	// Join the dictionaries
 	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
 		SetValue(theIter->first, theIter->second);
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::ForEach : Process each item.
+//----------------------------------------------------------------------------
+void NDictionary::ForEach(const NDictionaryForEachFunctor &theFunctor)
+{	const	NDictionaryValue			*theDict;
+	NDictionaryValueConstIterator		theIter;
+
+
+
+	// Get the state we need
+	theDict = GetImmutable();
+
+
+
+	// Process the array
+	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
+		theFunctor(theIter->first, theIter->second);
 }
 
 

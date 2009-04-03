@@ -36,15 +36,6 @@ typedef enum {
 
 
 //============================================================================
-//		Types
-//----------------------------------------------------------------------------
-typedef nfunctor<NComparison (const void *value1, const void *value2, void *userData)> NComparisonFunctor;
-
-
-
-
-
-//============================================================================
 //		Macros
 //----------------------------------------------------------------------------
 // Compare two values
@@ -59,33 +50,46 @@ typedef nfunctor<NComparison (const void *value1, const void *value2, void *user
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NComparable {
+template <class T> class NComparable {
 public:
 										 NComparable(void);
 	virtual								~NComparable(void);
 
 
+	// Compare the value
+	virtual NComparison					Compare(const T &theValue) const = 0;
+
+
 	// Operators
-	bool								operator == (const NComparable &theObject) const;
-	bool								operator != (const NComparable &theObject) const;
-	bool								operator <= (const NComparable &theObject) const;
-	bool								operator <	(const NComparable &theObject) const;
-	bool								operator >= (const NComparable &theObject) const;
-	bool								operator >	(const NComparable &theObject) const;
+	inline bool							operator == (const T &theValue) const;
+	inline bool							operator != (const T &theValue) const;
+	inline bool							operator <= (const T &theValue) const;
+	inline bool							operator <	(const T &theValue) const;
+	inline bool							operator >= (const T &theValue) const;
+	inline bool							operator >	(const T &theValue) const;
 
 
 protected:
-	// Compare two objects
-	//
-	// The base class compares objects by address; sub-classes can
-	// override this method to provide a value-based comparison.
-	virtual NComparison					Compare(const NComparable &theObject) const;
+	// Compare two blocks of data
+	inline NComparison					CompareData(NIndex theSize1, const void *thePtr1,
+													NIndex theSize2, const void *thePtr2) const;
 
 
 private:
 
 
 };
+
+
+
+
+
+//============================================================================
+//		Class definition
+//----------------------------------------------------------------------------
+#define   NCOMPARABLE_CPP
+#include "NComparable.cpp"
+#undef    NCOMPARABLE_CPP
 
 
 

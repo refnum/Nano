@@ -11,6 +11,23 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
+
+//============================================================================
+//		Linker stub
+//----------------------------------------------------------------------------
+#ifndef NCOMPARABLE_CPP
+
+void SuppressNoCodeLinkerWarning_NComparable(void);
+void SuppressNoCodeLinkerWarning_NComparable(void)
+{
+}
+
+#else
+
+
+
+
+
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -23,7 +40,7 @@
 //============================================================================
 //		NComparable::NComparable : Constructor.
 //----------------------------------------------------------------------------
-NComparable::NComparable(void)
+template<typename T> NComparable<T>::NComparable(void)
 {
 }
 
@@ -34,7 +51,7 @@ NComparable::NComparable(void)
 //============================================================================
 //		NComparable::~NComparable : Destructor.
 //----------------------------------------------------------------------------
-NComparable::~NComparable(void)
+template<typename T> NComparable<T>::~NComparable(void)
 {
 }
 
@@ -45,12 +62,12 @@ NComparable::~NComparable(void)
 //============================================================================
 //		NComparable::== : Equality operator
 //----------------------------------------------------------------------------
-bool NComparable::operator == (const NComparable &theObject) const
+template<typename T> bool NComparable<T>::operator == (const T &theValue) const
 {
 
 
 	// Compare the objects
-	return(Compare(theObject) == kNCompareEqualTo);
+	return(Compare(theValue) == kNCompareEqualTo);
 }
 
 
@@ -60,12 +77,12 @@ bool NComparable::operator == (const NComparable &theObject) const
 //============================================================================
 //		NComparable::!= : Inequality operator.
 //----------------------------------------------------------------------------
-bool NComparable::operator != (const NComparable &theObject) const
+template<typename T> bool NComparable<T>::operator != (const T &theValue) const
 {
 
 
 	// Compare the objects
-	return(Compare(theObject) != kNCompareEqualTo);
+	return(Compare(theValue) != kNCompareEqualTo);
 }
 
 
@@ -75,12 +92,12 @@ bool NComparable::operator != (const NComparable &theObject) const
 //============================================================================
 //		NComparable::<= : Comparison operator.
 //----------------------------------------------------------------------------
-bool NComparable::operator <= (const NComparable &theObject) const
+template<typename T> bool NComparable<T>::operator <= (const T &theValue) const
 {
 
 
 	// Compare the objects
-	return(Compare(theObject) != kNCompareGreaterThan);
+	return(Compare(theValue) != kNCompareGreaterThan);
 }
 
 
@@ -90,12 +107,12 @@ bool NComparable::operator <= (const NComparable &theObject) const
 //============================================================================
 //		NComparable::< : Comparison operator.
 //----------------------------------------------------------------------------
-bool NComparable::operator < (const NComparable &theObject) const
+template<typename T> bool NComparable<T>::operator < (const T &theValue) const
 {
 
 
 	// Compare the objects
-	return(Compare(theObject) == kNCompareLessThan);
+	return(Compare(theValue) == kNCompareLessThan);
 }
 
 
@@ -105,12 +122,12 @@ bool NComparable::operator < (const NComparable &theObject) const
 //============================================================================
 //		NComparable::>= : Comparison operator.
 //----------------------------------------------------------------------------
-bool NComparable::operator >= (const NComparable &theObject) const
+template<typename T> bool NComparable<T>::operator >= (const T &theValue) const
 {
 
 
 	// Compare the objects
-	return(Compare(theObject) != kNCompareLessThan);
+	return(Compare(theValue) != kNCompareLessThan);
 }
 
 
@@ -120,12 +137,12 @@ bool NComparable::operator >= (const NComparable &theObject) const
 //============================================================================
 //		NComparable::> : Comparison operator.
 //----------------------------------------------------------------------------
-bool NComparable::operator > (const NComparable &theObject) const
+template<typename T> bool NComparable<T>::operator > (const T &theValue) const
 {
 
 
 	// Compare the objects
-	return(Compare(theObject) == kNCompareGreaterThan);
+	return(Compare(theValue) == kNCompareGreaterThan);
 }
 
 
@@ -133,14 +150,35 @@ bool NComparable::operator > (const NComparable &theObject) const
 
 
 //============================================================================
-//		NComparable::Compare : Compare two objects.
+//		NComparable::CompareData : Compare two blocks of data.
 //----------------------------------------------------------------------------
-#pragma mark -
-NComparison NComparable::Compare(const NComparable &theObject) const
-{
+template<typename T> NComparison NComparable<T>::CompareData(NIndex theSize1, const void *thePtr1,
+															 NIndex theSize2, const void *thePtr2) const
+{	NComparison		theResult;
 
 
-	// Compare the objects
-	return(GET_COMPARISON(this, &theObject));
+
+	// Compare the data
+	//
+	// Since differently-sized bits of data can't be ordered, we compare
+	// by size first and only examine content if we have equal sizes.
+	if (theSize1 != theSize2)
+		theResult = GET_COMPARISON(theSize1, theSize2);
+	else
+		{
+		if (thePtr1 == thePtr2)
+			theResult = kNCompareEqualTo;
+		else
+			theResult = (NComparison) memcmp(thePtr1, thePtr2, theSize1);
+		}
+	
+	return(theResult);
 }
+
+
+
+
+
+
+#endif // NCOMPARABLE_CPP
 

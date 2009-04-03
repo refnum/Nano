@@ -104,28 +104,21 @@ bool NSize::IsNotEmpty(void) const
 
 
 //============================================================================
-//		NSize::== : Equality operator
+//		NSize::Compare : Compare the value.
 //----------------------------------------------------------------------------
-bool NSize::operator == (const NSize &theSize) const
-{
-
-
-	// Compare the values
-	return(NMathUtilities::AreEqual(width, theSize.width) && NMathUtilities::AreEqual(height, theSize.height));
-}
+NComparison NSize::Compare(const NSize &theValue) const
+{	NComparison		theResult;
 
 
 
-
-
-//============================================================================
-//		NSize::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NSize::operator != (const NSize &theSize) const
-{
-
-
-	// Compare the values
-	return(NMathUtilities::NotEqual(width, theSize.width) || NMathUtilities::NotEqual(height, theSize.height));
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GET_COMPARISON(width, theValue.width);
+		
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(height, theValue.height);
+	
+	return(theResult);
 }
 

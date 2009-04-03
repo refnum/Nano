@@ -149,6 +149,35 @@ NColor::~NColor(void)
 
 
 //============================================================================
+//		NColor::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NColor::Compare(const NColor &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GET_COMPARISON(mRed, theValue.mRed);
+		
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(mGreen, theValue.mGreen);
+
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(mBlue, theValue.mBlue);
+
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(mAlpha, theValue.mAlpha);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NColor::GetColor : Get the color.
 //----------------------------------------------------------------------------
 void NColor::GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const
@@ -388,39 +417,4 @@ void NColor::SetAlpha(Float32 theValue)
 	mAlpha = theValue;
 }
 
-
-
-
-
-//============================================================================
-//		NColor::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-#pragma mark -
-NComparison NColor::Compare(const NComparable &theObject) const
-{	const NColor	*theColor = dynamic_cast<const NColor*>(&theObject);
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theColor != NULL);
-
-
-
-	// Compare the colors
-	//
-	// Although colors have equality, they do not have any real ordering.
-	if (NMathUtilities::AreEqual(mRed,   theColor->mRed)   &&
-		NMathUtilities::AreEqual(mGreen, theColor->mGreen) && 
-		NMathUtilities::AreEqual(mBlue,  theColor->mBlue)  && 
-		NMathUtilities::AreEqual(mAlpha, theColor->mAlpha))
-		return(kNCompareEqualTo);
-
-	if (mRed   < theColor->mRed   &&
-		mGreen < theColor->mGreen &&
-		mBlue  < theColor->mBlue  &&
-		mAlpha < theColor->mAlpha)
-		return(kNCompareEqualTo);
-	
-	return(kNCompareGreaterThan);
-}
 

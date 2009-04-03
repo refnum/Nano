@@ -56,6 +56,30 @@ NRange::~NRange(void)
 
 
 
+
+//============================================================================
+//		NRange::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NRange::Compare(const NRange &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GET_COMPARISON(mSize, theValue.mSize);
+
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(mLocation, theValue.mLocation);
+
+	return(theResult);
+}
+
+
+
+
+
 //============================================================================
 //		NRange::GetLocation : Get the location.
 //----------------------------------------------------------------------------
@@ -285,33 +309,4 @@ bool NRange::Contains(NIndex theIndex) const
     return(theIndex >= GetFirst() && theIndex <= GetLast());
 }
 
-
-
-
-
-//============================================================================
-//		NRange::== : Equality operator
-//----------------------------------------------------------------------------
-bool NRange::operator == (const NRange &theRange) const
-{
-
-
-	// Compare the values
-    return(mLocation == theRange.mLocation && mSize == theRange.mSize);
-}
-
-
-
-
-
-//============================================================================
-//		NRange::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NRange::operator != (const NRange &theRange) const
-{
-
-
-	// Compare the values
-    return(mLocation != theRange.mLocation || mSize != theRange.mSize);
-}
 

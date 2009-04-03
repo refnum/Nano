@@ -401,6 +401,37 @@ void NData::RemoveData(const NRange &theRange)
 
 
 //============================================================================
+//		NData::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NData::Compare(const NData &theValue) const
+{	const void				*ourPtr, *otherPtr;
+	NIndex					ourSize, otherSize;
+	NComparison				theResult;
+
+
+
+	// Get the state we need
+	ourPtr   = (         mExternalPtr != NULL) ?          mExternalPtr  :          GetData();
+	otherPtr = (theValue.mExternalPtr != NULL) ? theValue.mExternalPtr  : theValue.GetData();
+
+	ourSize   = (         mExternalPtr != NULL) ?          mExternalSize :          GetSize();
+	otherSize = (theValue.mExternalPtr != NULL) ? theValue.mExternalSize : theValue.GetSize();
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = CompareData(ourSize, ourPtr, otherSize, otherPtr);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NData::GetMutable : Get the mutable value.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -448,33 +479,5 @@ const NDataValue *NData::GetNullValue(void) const
 
 
 
-
-
-//============================================================================
-//		NData::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-NComparison NData::Compare(const NComparable &theObject) const
-{	const NData		*theValue = dynamic_cast<const NData*>(&theObject);
-	NComparison		theResult;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theValue != NULL);
-
-
-
-	// Compare the values
-	if (mExternalPtr != NULL || theValue->mExternalPtr != NULL)
-		{
-		theResult = GET_COMPARISON(mExternalPtr, theValue->mExternalPtr);
-		if (theResult == kNCompareEqualTo)
-			theResult = GET_COMPARISON(mExternalSize, theValue->mExternalSize);
-		}
-	else
-		theResult = NSharedValueData::Compare(theObject);
-
-	return(theResult);
-}
 
 

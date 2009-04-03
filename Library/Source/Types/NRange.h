@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NComparable.h"
 
 
 
@@ -48,10 +49,14 @@ typedef NRangeList::reverse_iterator								NRangeListReverseIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NRange {
+class NRange : public NComparable<NRange> {
 public:
 										 NRange(NIndex theLocation=0, NIndex theSize=0);
 	virtual								~NRange(void);
+
+
+	// Compare the value
+	NComparison							Compare(const NRange &theValue) const;
 
 
 	// Get/set the location
@@ -94,11 +99,6 @@ public:
 
 	bool								Overlaps(const NRange &theRange) const;
 	bool								Contains(NIndex        theIndex) const;
-
-
-	// Operators
-	bool								operator == (const NRange &theRange) const;
-	bool								operator != (const NRange &theRange) const;
 
 
 private:

@@ -44,7 +44,6 @@ void SuppressNoCodeLinkerWarning_NSharedValue(void)
 //		NSharedValue::NSharedValue : Constructor.
 //----------------------------------------------------------------------------
 template<class T> NSharedValue<T>::NSharedValue(const NSharedValue<T> &theValue)
-								: NComparable()
 {
 
 
@@ -63,7 +62,6 @@ template<class T> NSharedValue<T>::NSharedValue(const NSharedValue<T> &theValue)
 //		NSharedValue::NSharedValue : Constructor.
 //----------------------------------------------------------------------------
 template<class T> NSharedValue<T>::NSharedValue(void)
-								: NComparable()
 {
 
 
@@ -183,27 +181,6 @@ template<class T> T *NSharedValue<T>::GetMutable(void)
 		}
 
 	return(mValue);
-}
-
-
-
-
-
-//============================================================================
-//		NSharedValue::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-template<class T> NComparison NSharedValue<T>::Compare(const NComparable &theObject) const
-{	const NSharedValue<T>		*theValue = dynamic_cast<const NSharedValue<T>*>(&theObject);
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theValue != NULL);
-
-
-
-	// Compare the values
-	return(GET_COMPARISON(mValue, theValue->mValue));
 }
 
 

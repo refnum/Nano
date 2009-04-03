@@ -74,6 +74,29 @@ void NPoint::Clear(void)
 
 
 //============================================================================
+//		NPoint::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NPoint::Compare(const NPoint &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GET_COMPARISON(x, theValue.x);
+		
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(y, theValue.y);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NPoint::IsZero : Is the point zero?
 //----------------------------------------------------------------------------
 bool NPoint::IsZero(void) const
@@ -97,35 +120,5 @@ bool NPoint::IsNotZero(void) const
 
 	// Test the point
 	return(NMathUtilities::NotZero(x) || NMathUtilities::NotZero(y));
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::== : Equality operator
-//----------------------------------------------------------------------------
-bool NPoint::operator == (const NPoint &thePoint) const
-{
-
-
-	// Compare the values
-	return(NMathUtilities::AreEqual(x, thePoint.x) && NMathUtilities::AreEqual(y, thePoint.y));
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NPoint::operator != (const NPoint &thePoint) const
-{
-
-
-	// Compare the values
-	return(NMathUtilities::NotEqual(x, thePoint.x) || NMathUtilities::NotEqual(y, thePoint.y));
 }
 

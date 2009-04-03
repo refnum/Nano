@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NComparable.h"
 #include "NPoint.h"
 #include "NSize.h"
 
@@ -37,7 +38,7 @@ extern const NRectangle kNRectangleZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NRectangle {
+class NRectangle : public NComparable<NRectangle> {
 public:
 										 NRectangle(const Float32 x, Float32 y, Float32 width, Float32 height);
 										 NRectangle(const NPoint &origin = kNPointZero,
@@ -54,9 +55,8 @@ public:
 	bool								IsNotEmpty(void) const;
 
 
-	// Operators
-	bool								operator == (const NRectangle &theRectangle) const;
-	bool								operator != (const NRectangle &theRectangle) const;
+	// Compare the value
+	NComparison							Compare(const NRectangle &theValue) const;
 
 
 public:

@@ -47,6 +47,7 @@ typedef NSharedValue<NDataValue>									NSharedValueData;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NData :	public NContainer,
+				public NComparable<NData>,
 				public NSharedValueData {
 public:
 										 NData(NIndex theSize, const void *thePtr, bool makeCopy=true);
@@ -95,6 +96,10 @@ public:
 	void								RemoveData(const NRange &theRange);
 
 
+	// Compare the value
+	NComparison							Compare(const NData &theValue) const;
+
+
 protected:
 	// Get the value
 	NDataValue							*GetMutable(void);
@@ -102,10 +107,6 @@ protected:
 
 	// Get the null value
 	const NDataValue					*GetNullValue(void) const;
-
-
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
 
 
 private:

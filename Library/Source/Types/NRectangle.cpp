@@ -119,28 +119,21 @@ bool NRectangle::IsNotEmpty(void) const
 
 
 //============================================================================
-//		NRectangle::== : Equality operator
+//		NRectangle::Compare : Compare the value.
 //----------------------------------------------------------------------------
-bool NRectangle::operator == (const NRectangle &theRectangle) const
-{
-
-
-	// Compare the values
-    return(origin == theRectangle.origin && size == theRectangle.size);
-}
+NComparison NRectangle::Compare(const NRectangle &theValue) const
+{	NComparison		theResult;
 
 
 
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = size.Compare(theValue.size);
+		
+	if (theResult == kNCompareEqualTo)
+		theResult = origin.Compare(theValue.origin);
 
-
-//============================================================================
-//		NRectangle::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NRectangle::operator != (const NRectangle &theRectangle) const
-{
-
-
-	// Compare the values
-    return(origin != theRectangle.origin || size != theRectangle.size);
+	return(theResult);
 }
 

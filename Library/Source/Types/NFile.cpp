@@ -39,7 +39,7 @@ NFile::NFile(const NString &thePath)
 //		NFile::NFile : Constructor.
 //----------------------------------------------------------------------------
 NFile::NFile(const NFile &theFile)
-		: NComparable()
+		: NComparable<NFile>()
 {
 
 
@@ -174,6 +174,22 @@ bool NFile::NotExists(void) const
 
 	// Check the file
 	return(!Exists());
+}
+
+
+
+
+
+//============================================================================
+//		NFile::Compare : Compare the value.
+//----------------------------------------------------------------------------
+#pragma mark -
+NComparison NFile::Compare(const NFile &theValue) const
+{
+
+
+	// Compare the value
+	return(mPath.Compare(theValue.mPath));
 }
 
 
@@ -409,28 +425,6 @@ const NFile& NFile::operator = (const NFile &theFile)
 		CloneFile(theFile);
 	
 	return(*this);
-}
-
-
-
-
-
-//============================================================================
-//		NFile::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-#pragma mark -
-NComparison NFile::Compare(const NComparable &theObject) const
-{	const NFile		*theValue = dynamic_cast<const NFile*>(&theObject);
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theValue != NULL);
-
-
-
-	// Compare the values
-	return(GET_COMPARISON(mPath, theValue->mPath));
 }
 
 

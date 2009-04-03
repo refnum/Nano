@@ -35,10 +35,17 @@
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Functors
+typedef nfunctor<void (const NString &theKey, const NVariant &theValue)>	NDictionaryForEachFunctor;
+
+
+// Lists
 typedef std::map<NString, NVariant>									NDictionaryValue;
 typedef NDictionaryValue::iterator									NDictionaryValueIterator;
 typedef NDictionaryValue::const_iterator							NDictionaryValueConstIterator;
 
+
+// Value
 typedef NSharedValue<NDictionaryValue>								NSharedValueDictionary;
 
 
@@ -49,6 +56,7 @@ typedef NSharedValue<NDictionaryValue>								NSharedValueDictionary;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NDictionary :	public NContainer,
+					public NComparable<NDictionary>,
 					public NSharedValueDictionary {
 public:
 										 NDictionary(void);
@@ -59,10 +67,18 @@ public:
 	NIndex								GetSize(void) const;
 
 
+	// Compare the value
+	NComparison							Compare(const NDictionary &theValue) const;
+
+
 	// Join two dictionaries
 	//
 	// Existing keys will have their values replaced.
 	void								Join(const NDictionary &theValue);
+
+
+	// Process each item
+	void								ForEach(const NDictionaryForEachFunctor &theFunctor);
 
 
 	// Does a key exist?

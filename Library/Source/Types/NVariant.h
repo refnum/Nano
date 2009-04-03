@@ -18,6 +18,8 @@
 //----------------------------------------------------------------------------
 #include <typeinfo>
 
+#include "NComparable.h"
+
 
 
 
@@ -39,7 +41,7 @@ typedef NVariantList::const_iterator								NVariantListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NVariant {
+class NVariant : public NComparable<NVariant> {
 public:
 	template <class T>					 NVariant(const T &theValue);
 	inline								 NVariant(const NVariant &theValue);
@@ -50,6 +52,10 @@ public:
 
 	// Is the value valid?
 	inline bool							IsValid(void) const;
+
+
+	// Is the value numeric?
+	inline bool							IsNumeric(void) const;
 
 
 	// Is the value of a type?
@@ -68,6 +74,12 @@ public:
 	template <class T> bool				IsType(const T              &theValue) const;
 
 
+	// Compare the value
+	//
+	// Only values of the same type, or numeric values, can be compared.
+	NComparison							Compare(const NVariant &theValue) const;
+
+
 	// Get the type
 	inline const std::type_info			&GetType(void) const;	
 
@@ -77,9 +89,7 @@ public:
 
 
 	// Operators
-	inline NVariant&					operator =  (const NVariant &theValue);
-	inline bool							operator == (const NVariant &theValue) const;
-	inline bool							operator != (const NVariant &theValue) const;
+	inline NVariant&					operator = (const NVariant &theValue);
 
 
 private:

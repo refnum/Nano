@@ -37,6 +37,7 @@ void SuppressNoCodeLinkerWarning_NVariant(void)
 //		Include files
 //----------------------------------------------------------------------------
 #include "NRefCounted.h"
+#include "NNumber.h"
 #include "NVariant.h"
 
 
@@ -53,7 +54,7 @@ public:
 
 	virtual const std::type_info		&GetType(void) const = 0;
 
-	virtual bool						EqualTo(const NVariantData *dataOther) const = 0;
+	virtual NComparison					Compare(const NVariantData *dataOther) const = 0;
 };
 
 
@@ -78,14 +79,18 @@ public:
 		return(mValue);
 	}
 
-	bool								EqualTo(const NVariantData *dataOther) const
+	NComparison							Compare(const NVariantData *dataOther) const
 	{	const NVariantValue<T>		*valueOther;
 	
-		valueOther = dynamic_cast<const NVariantValue<T>*>(dataOther);
-		if (valueOther == NULL)
-			return(false);
+	
+		// Validate our state
+		NN_ASSERT(GetType() == dataOther->GetType());
 		
-		return(mValue == valueOther->mValue);
+		
+		// Compare the values
+		valueOther = dynamic_cast<const NVariantValue<T>*>(dataOther);
+		
+		return(GET_COMPARISON(mValue, valueOther->mValue));
 	}
 
 private:
@@ -115,6 +120,7 @@ template<typename T> NVariant::NVariant(const T &theValue)
 //		NVariant::NVariant : Constructor.
 //----------------------------------------------------------------------------
 NVariant::NVariant(const NVariant &theValue)
+		: NComparable<NVariant>()
 {
 
 
@@ -176,6 +182,33 @@ bool NVariant::IsValid(void) const
 
 
 //============================================================================
+//		NVariant::IsNumeric : Is the value numeric?
+//----------------------------------------------------------------------------
+bool NVariant::IsNumeric(void) const
+{	bool	isNumeric;
+
+
+
+	// Check our type
+	isNumeric = IsType(typeid(UInt8))   ||
+				IsType(typeid(UInt16))  ||
+				IsType(typeid(UInt32))  ||
+				IsType(typeid(UInt64))  ||
+				IsType(typeid(SInt8))   ||
+				IsType(typeid(SInt16))  ||
+				IsType(typeid(SInt32))  ||
+				IsType(typeid(SInt64))  ||
+				IsType(typeid(Float32)) ||
+				IsType(typeid(Float64));
+
+	return(isNumeric);
+}
+
+
+
+
+
+//============================================================================
 //		NVariant::IsType : Is the value of a type?
 //----------------------------------------------------------------------------
 bool NVariant::IsType(const std::type_info &theType) const
@@ -199,6 +232,59 @@ template <class T> bool NVariant::IsType(const T &theValue) const
 
 	// Check our type
 	return(GetType() == typeid(theValue));
+}
+
+
+
+
+
+//============================================================================
+//		NVariant::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NVariant::Compare(const NVariant &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Check for NULL values
+	//
+	// NULL values can never be compared directly. Since we have to return some
+	// kind of comparison, we use our address.
+	//
+	// This will lead to unpredictable results if we are a temporary object, but
+	// since the comparison is undefined, this is acceptable.
+	if (mData == NULL || theValue.mData == NULL)
+		{
+		NN_LOG("Attempted to compare a NULL value");
+		theResult = GET_COMPARISON(this, &theValue);
+		}
+
+
+
+	// Check for mismatched types
+	//
+	// Different types can not be compared directly, except for numeric values
+	// since we can push these through an NNumber to obtain a comparison.
+	//
+	// All other mis-matches fail as per NULL values.
+	else if (mData->GetType() != theValue.mData->GetType())
+		{
+		if (IsNumeric() && theValue.IsNumeric())
+			theResult = NNumber(*this).Compare(NNumber(theValue));
+		else
+			{
+			NN_LOG("Attempted to compare different types");
+			theResult = GET_COMPARISON(this, &theValue);
+			}
+		}
+
+
+
+	// Compare the values
+	else
+		theResult = mData->Compare(theValue.mData);
+	
+	return(theResult);
 }
 
 
@@ -258,13 +344,13 @@ template <class T> bool NVariant::GetValue(T &theValue) const
 //============================================================================
 //		NVariant::= : Assignment operator.
 //----------------------------------------------------------------------------
-NVariant& NVariant::operator = (const NVariant &theVariant)
+NVariant& NVariant::operator = (const NVariant &theValue)
 {
 
 
 	// Adjust the reference counts
-	if (theVariant.mData != NULL)
-		theVariant.mData->Retain();
+	if (theValue.mData != NULL)
+		theValue.mData->Retain();
 		
 	if (mData != NULL)
 		mData->Release();
@@ -272,7 +358,7 @@ NVariant& NVariant::operator = (const NVariant &theVariant)
 
 
 	// Assign the value
-	mData = theVariant.mData;
+	mData = theValue.mData;
 
 	return(*this);
 }
@@ -281,40 +367,7 @@ NVariant& NVariant::operator = (const NVariant &theVariant)
 
 
 
-//============================================================================
-//		NVariant::== : Equality operator.
-//----------------------------------------------------------------------------
-bool NVariant::operator == (const NVariant &theValue) const
-{
-
-
-	// Compare the values
-	//
-	// A NULL value is never equal to anything.
-	if (mData == NULL || theValue.mData == NULL)
-		return(false);
-
-	return(mData->EqualTo(theValue.mData));
-}
-
-
-
-
-
-//============================================================================
-//		NVariant::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NVariant::operator != (const NVariant &theValue) const
-{
-
-
-	// Compare the values
-	return(!(*this == theValue));
-}
-
-
-
-
 #endif // NVARIANT_CPP
+
 
 

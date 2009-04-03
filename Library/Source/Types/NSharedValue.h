@@ -17,7 +17,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NAtomicInt.h"
-#include "NComparable.h"
 
 
 
@@ -26,7 +25,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-template<class T> class NSharedValue : public NComparable {
+template<class T> class NSharedValue {
 public:
 										 NSharedValue(const NSharedValue<T> &theValue);
 
@@ -56,10 +55,6 @@ protected:
 	// The same null value must be returned for all instances of the
 	// object (e.g., by returning a global or local static).
 	virtual const T						*GetNullValue(void) const = 0;
-
-
-	// Compare two objects
-	virtual NComparison					Compare(const NComparable &theObject) const;
 
 
 private:

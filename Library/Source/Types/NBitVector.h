@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NContainer.h"
+#include "NComparable.h"
 #include "NRange.h"
 #include "NData.h"
 
@@ -27,7 +28,8 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NBitVector : public NContainer {
+class NBitVector :	public NContainer,
+					public NComparable<NBitVector> {
 public:
 										 NBitVector(void);
 	virtual								~NBitVector(void);
@@ -35,6 +37,10 @@ public:
 
 	// Clear the vector
 	void								Clear(void);
+
+
+	// Compare the value
+	NComparison							Compare(const NBitVector &theValue) const;
 
 
 	// Get/set the vector size

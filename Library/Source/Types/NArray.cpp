@@ -14,10 +14,35 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <algorithm>
+
 #include "NSTLUtilities.h"
 #include "NDictionary.h"
 #include "NNumber.h"
 #include "NArray.h"
+
+
+
+
+
+//============================================================================
+//		Internal classes
+//----------------------------------------------------------------------------
+class NSortArray {
+public:
+	NSortArray(const NArraySortFunctor &theFunctor)
+	{
+		mFunctor = theFunctor;
+	}
+
+	bool operator()(const NVariant &a, const NVariant &b)
+	{
+		return(mFunctor(a, b) == kNCompareLessThan);
+	}
+
+private:
+	NArraySortFunctor		mFunctor;
+};
 
 
 
@@ -136,6 +161,40 @@ NIndex NArray::GetSize(void) const
 
 
 //============================================================================
+//		NArray::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NArray::Compare(const NArray &theValue) const
+{	const NArrayValue		*ourValue, *otherValue;
+	NIndex					ourSize, otherSize;
+	NComparison				theResult;
+
+
+
+	// Get the state we need
+	ourValue   =          GetImmutable();
+	otherValue = theValue.GetImmutable();
+
+	ourSize   = ourValue->size();
+	otherSize = otherValue->size();
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GET_COMPARISON(ourSize, otherSize);
+
+	if (theResult == kNCompareEqualTo)
+		theResult = GET_COMPARISON(ourValue, otherValue);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NArray::Join : Join two arrays.
 //----------------------------------------------------------------------------
 void NArray::Join(const NArray &theValue)
@@ -157,27 +216,52 @@ void NArray::Join(const NArray &theValue)
 
 
 //============================================================================
+//		NArray::ForEach : Process each item.
+//----------------------------------------------------------------------------
+void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange)
+{	NArrayValueConstIterator	iterFirst, iterLast;
+	const NArrayValue			*theArray;
+	NRange						sortRange;
+
+
+
+	// Get the state we need
+	theArray  = GetImmutable();
+	sortRange = theRange.GetNormalized(GetSize());
+	iterFirst = theArray->begin() + sortRange.GetFirst();
+	iterLast  = theArray->begin() + sortRange.GetLast();
+
+
+
+	// Process the array
+	for_each(iterFirst, iterLast, theFunctor);
+}
+
+
+
+
+
+//============================================================================
 //		NArray::Sort : Sort the array.
 //----------------------------------------------------------------------------
-// dair
-/*
-void NArray::Sort(CFComparatorFunction sortFunc, void *sortData, const CFRange &theRange)
-{	CFRange		sortRange;
+void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
+{	NArrayValueIterator		iterFirst, iterLast;
+	NArrayValue				*theArray;
+	NRange					sortRange;
 
 
 
-	// Prepare the range
-	sortRange = theRange;
-	if (sortRange.length == -1)
-		sortRange.length = GetSize();
+	// Get the state we need
+	theArray  = GetMutable();
+	sortRange = theRange.GetNormalized(GetSize());
+	iterFirst = theArray->begin() + sortRange.GetFirst();
+	iterLast  = theArray->begin() + sortRange.GetLast();
 
 
 
 	// Sort the array
-	if (MakeMutable())
-		CFArraySortValues(*this, sortRange, sortFunc, sortData);
+	std::sort(iterFirst, iterLast, NSortArray(theFunctor));
 }
-*/
 
 
 

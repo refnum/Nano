@@ -25,10 +25,14 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NAtomicInt {
+class NAtomicInt : public NComparable<SInt32> {
 public:
 										 NAtomicInt(SInt32 theValue=0);
 	virtual								~NAtomicInt(void);
+
+
+	// Compare the value
+	NComparison							Compare(const SInt32 &theValue) const;
 
 
 	// Increment/decrement the value
@@ -48,12 +52,14 @@ public:
 	NAtomicInt							operator ++(int);
 	NAtomicInt							operator --(int);
 
+	bool								operator == (int theValue) const;
+	bool								operator != (int theValue) const;
+	bool								operator <= (int theValue) const;
+	bool								operator <	(int theValue) const;
+	bool								operator >= (int theValue) const;
+	bool								operator >	(int theValue) const;
+
 										operator SInt32(void) const;
-
-
-protected:
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
 
 
 private:

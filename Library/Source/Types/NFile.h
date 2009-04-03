@@ -67,7 +67,7 @@ typedef NFileList::const_iterator								NFileListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NFile : public NComparable {
+class NFile : public NComparable<NFile> {
 public:
 										NFile(const NString &thePath);
 										NFile(const NFile   &theFile);
@@ -98,6 +98,10 @@ public:
 	// Does the file exist?
 	bool								Exists(   void) const;
 	bool								NotExists(void) const;
+
+
+	// Compare the value
+	NComparison							Compare(const NFile &theValue) const;
 
 
 	// Get/set the path
@@ -167,11 +171,6 @@ public:
 
 	// Operators
 	const NFile&						operator = (const NFile &theFile);
-
-
-protected:
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
 
 
 private:

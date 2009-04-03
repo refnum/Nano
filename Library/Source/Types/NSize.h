@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NComparable.h"
 
 
 
@@ -35,7 +36,7 @@ extern const NSize kNSizeZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NSize {
+class NSize : public NComparable<NSize> {
 public:
 										 NSize(Float32 width=0.0f, Float32 height=0.0f);
 	virtual								~NSize(void);
@@ -50,9 +51,8 @@ public:
 	bool								IsNotEmpty(void) const;
 
 
-	// Operators
-	bool								operator == (const NSize &theSize) const;
-	bool								operator != (const NSize &theSize) const;
+	// Compare the value
+	NComparison							Compare(const NSize &theValue) const;
 
 
 public:

@@ -58,7 +58,7 @@ extern const NColor kColorYellow;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NColor : public NComparable {
+class NColor : public NComparable<NColor> {
 public:
 										NColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
 										NColor(      UInt32    theColor, ColorFormat theFormat=kColorRGBA);
@@ -66,6 +66,10 @@ public:
 										
 										NColor( void);
 	virtual								~NColor(void);
+
+
+	// Compare the value
+	NComparison							Compare(const NColor &theValue) const;
 
 
 	// Get/set the color
@@ -86,11 +90,6 @@ public:
 	void								SetGreen(Float32 theValue);
 	void								SetBlue( Float32 theValue);
 	void								SetAlpha(Float32 theValue);
-
-
-protected:
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
 
 
 private:

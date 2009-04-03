@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NComparable.h"
 
 
 
@@ -35,7 +36,7 @@ extern const NPoint kNPointZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NPoint {
+class NPoint : public NComparable<NPoint> {
 public:
 										 NPoint(Float32 x=0.0f, Float32 y=0.0f);
 	virtual								~NPoint(void);
@@ -45,14 +46,13 @@ public:
 	void								Clear(void);
 
 
+	// Compare the value
+	NComparison							Compare(const NPoint &theValue) const;
+
+
 	// Test the point
 	bool								IsZero(   void) const;
 	bool								IsNotZero(void) const;
-
-
-	// Operators
-	bool								operator == (const NPoint &thePoint) const;
-	bool								operator != (const NPoint &thePoint) const;
 
 
 public:

@@ -53,6 +53,25 @@ NAtomicInt::~NAtomicInt(void)
 
 
 //============================================================================
+//		NAtomicInt::Compare : Compare the value.
+//----------------------------------------------------------------------------
+#pragma mark -
+NComparison NAtomicInt::Compare(const SInt32 &theValue) const
+{	SInt32		myValue;
+
+
+
+	// Compare the value
+	myValue = mValue;										// dair, make atomic
+
+	return(GET_COMPARISON(myValue, theValue));
+}
+
+
+
+
+
+//============================================================================
 //		NAtomicInt::Increment : Increment the value.
 //----------------------------------------------------------------------------
 SInt32 NAtomicInt::Increment(SInt32 theDelta)
@@ -62,7 +81,7 @@ SInt32 NAtomicInt::Increment(SInt32 theDelta)
 	// Adjust the value
 	NThreadUtilities::AtomicAdd32(mValue, theDelta);
 
-	return(mValue);										// dair, make assignment atomic
+	return(mValue);										// dair, make atomic
 }
 
 
@@ -79,7 +98,7 @@ SInt32 NAtomicInt::Decrement(SInt32 theDelta)
 	// Adjust the value
 	NThreadUtilities::AtomicAdd32(mValue, -theDelta);
 
-	return(mValue);										// dair, make assignment atomic
+	return(mValue);										// dair, make atomic
 }
 
 
@@ -209,14 +228,14 @@ NAtomicInt NAtomicInt::operator -- (int)
 
 
 //============================================================================
-//		NAtomicInt::SInt32 : Cast operator.
+//		NAtomicInt::== : Equality operator
 //----------------------------------------------------------------------------
-NAtomicInt::operator SInt32(void) const
+bool NAtomicInt::operator == (int theValue) const
 {
 
 
-	// Get the value
-	return(mValue);
+	// Compare the objects
+	return(Compare(theValue) == kNCompareEqualTo);
 }
 
 
@@ -224,18 +243,90 @@ NAtomicInt::operator SInt32(void) const
 
 
 //============================================================================
-//		NAtomicInt::Compare : Compare two objects.
+//		NAtomicInt::!= : Inequality operator.
 //----------------------------------------------------------------------------
-#pragma mark -
-NComparison NAtomicInt::Compare(const NComparable &theObject) const
-{	NAtomicInt		*otherInt = (NAtomicInt *) &theObject;
-	SInt32			myValue, otherValue;
-
+bool NAtomicInt::operator != (int theValue) const
+{
 
 
 	// Compare the objects
-	myValue    = mValue;										// dair, make atomic
-	otherValue = otherInt->mValue;								// dair, make atomic
-
-	return(GET_COMPARISON(myValue, otherValue));
+	return(Compare(theValue) != kNCompareEqualTo);
 }
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::<= : Comparison operator.
+//----------------------------------------------------------------------------
+bool NAtomicInt::operator <= (int theValue) const
+{
+
+
+	// Compare the objects
+	return(Compare(theValue) != kNCompareGreaterThan);
+}
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::< : Comparison operator.
+//----------------------------------------------------------------------------
+bool NAtomicInt::operator < (int theValue) const
+{
+
+
+	// Compare the objects
+	return(Compare(theValue) == kNCompareLessThan);
+}
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::>= : Comparison operator.
+//----------------------------------------------------------------------------
+bool NAtomicInt::operator >= (int theValue) const
+{
+
+
+	// Compare the objects
+	return(Compare(theValue) != kNCompareLessThan);
+}
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::> : Comparison operator.
+//----------------------------------------------------------------------------
+bool NAtomicInt::operator > (int theValue) const
+{
+
+
+	// Compare the objects
+	return(Compare(theValue) == kNCompareGreaterThan);
+}
+
+
+
+
+
+//============================================================================
+//		NAtomicInt::SInt32 : Cast operator.
+//----------------------------------------------------------------------------
+NAtomicInt::operator SInt32(void) const
+{
+
+
+	// Get the value
+	return(mValue);		// dair, make atomic
+}
+
+
+

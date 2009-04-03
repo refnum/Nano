@@ -423,13 +423,29 @@ bool NString::Contains(const NString &theString, NStringFlags theFlags) const
 
 
 //============================================================================
+//		NString::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NString::Compare(const NString &theValue) const
+{
+
+
+	// Compare the values
+	return(CompareTo(theValue, kNStringNone));
+}
+
+
+
+
+
+//============================================================================
 //		NString::CompareTo : Compare two strings.
 //----------------------------------------------------------------------------
 NComparison NString::CompareTo(const NString &theString, NStringFlags theFlags) const
 {
 	// dair, to do
 		// implement EqualTo in terms of this, want to have special-cases here
-		// for equality via hash code and equality via shared pointer
+		// for equality via hash code and equality via shared pointer if not checking for case
+	return((NComparison) strcmp(GetUTF8(), theString.GetUTF8()));
 }
 
 
@@ -903,60 +919,9 @@ const NString NString::operator + (const NString &theString) const
 
 
 //============================================================================
-//		NString::== : Equality operator
-//----------------------------------------------------------------------------
-bool NString::operator == (const NString &theString) const
-{
-
-
-	// Compare the strings
-	return(EqualTo(theString, kNStringNone));
-}
-
-
-
-
-
-//============================================================================
-//		NString::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NString::operator != (const NString &theString) const
-{
-
-
-	// Compare the strings
-	return(!EqualTo(theString, kNStringNone));
-}
-
-
-
-
-
-//============================================================================
-//		NString::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-#pragma mark -
-NComparison NString::Compare(const NComparable &theObject) const
-{	const NString		*theString = dynamic_cast<const NString*>(&theObject);
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theString != NULL);
-
-
-
-	// Compare the values
-	return((NComparison) strcmp(GetUTF8(), theString->GetUTF8()));
-}
-
-
-
-
-
-//============================================================================
 //		NString::GetNullValue : Get the null value.
 //----------------------------------------------------------------------------
+#pragma mark -
 const NStringValue *NString::GetNullValue(void) const
 {	static NStringValue		sNullValue = vector((UInt8) 0x00);
 

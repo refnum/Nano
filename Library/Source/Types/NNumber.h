@@ -17,7 +17,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NComparable.h"
-#include "NVariant.h"
 #include "NString.h"
 
 
@@ -39,10 +38,15 @@ typedef enum {
 //============================================================================
 //      Types
 //----------------------------------------------------------------------------
+// Values
 typedef union {
 	SInt64		integer;
 	Float64		real;
 } NumberValue;
+
+
+// Classes
+class NVariant;
 
 
 
@@ -51,14 +55,20 @@ typedef union {
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NNumber : public NComparable {
+class NNumber : public NComparable<NNumber> {
 public:
+										 NNumber(const NVariant &theValue);
+
 										 NNumber(void);
 	virtual								~NNumber(void);
 
 
 	// Get the type
 	NumberType							GetType(void) const;
+
+
+	// Compare the value
+	NComparison							Compare(const NNumber &theValue) const;
 
 
 	// Get/set the value
@@ -92,11 +102,6 @@ public:
 	// Set a value
 	bool								SetValue(const NVariant &theValue);
 	bool								SetValue(const NString  &theValue);
-
-
-protected:
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
 
 
 private:

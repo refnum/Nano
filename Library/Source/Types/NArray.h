@@ -19,6 +19,8 @@
 #include "NSharedValue.h"
 #include "NContainer.h"
 #include "NVariant.h"
+#include "NComparable.h"
+#include "NRange.h"
 #include "NPoint.h"
 #include "NSize.h"
 #include "NRectangle.h"
@@ -34,12 +36,22 @@
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Classes
 class NDictionary;
 
+
+// Functors
+typedef nfunctor<NComparison (const NVariant &value1, const NVariant &value2)>	NArraySortFunctor;
+typedef nfunctor<void        (const NVariant &theValue)>						NArrayForEachFunctor;
+
+
+// Lists
 typedef std::vector<NVariant>										NArrayValue;
 typedef NArrayValue::iterator										NArrayValueIterator;
 typedef NArrayValue::const_iterator									NArrayValueConstIterator;
 
+
+// Value
 typedef NSharedValue<NArrayValue>									NSharedValueArray;
 
 
@@ -50,6 +62,7 @@ typedef NSharedValue<NArrayValue>									NSharedValueArray;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NArray :	public NContainer,
+				public NComparable<NArray>,
 				public NSharedValueArray {
 public:
 										NArray(const SInt32List  &theValues);
@@ -66,14 +79,20 @@ public:
 	NIndex								GetSize(void) const;
 
 
+	// Compare the value
+	NComparison							Compare(const NArray &theValue) const;
+
+
 	// Join two arrays
 	void								Join(const NArray &theValue);
 
 
+	// Process each item
+	void								ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange=kNRangeAll);
+
 
 	// Sort the array
-// dair
-//	void								Sort(CFComparatorFunction sortFunc, void *sortData=NULL, const CFRange &theRange=kCFRangeAll);
+	void								Sort(const NArraySortFunctor &theFunctor, const NRange &theRange=kNRangeAll);
 
 
 	// Does a value exist?

@@ -67,6 +67,26 @@ void NBitVector::Clear(void)
 
 
 //============================================================================
+//		NBitVector::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NBitVector::Compare(const NBitVector &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = CompareData(mSize/8, mBytes, theValue.mSize/8, theValue.mBytes);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NBitVector::GetSize : Get the size.
 //----------------------------------------------------------------------------
 NIndex NBitVector::GetSize(void) const

@@ -38,7 +38,7 @@ typedef NDateList::const_iterator									NDateListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NDate : public NComparable {
+class NDate : public NComparable<NDate> {
 public:
 										 NDate(NTime theTime);
 										 NDate(void);
@@ -47,6 +47,10 @@ public:
 
 	// Is the date valid?
 	bool								IsValid(void) const;
+
+
+	// Compare the value
+	NComparison							Compare(const NDate &theValue) const;
 
 
 	// Get/set the time
@@ -59,11 +63,6 @@ public:
 
 	NTime								operator +(const NDate &theDate) const;
 	NTime								operator -(const NDate &theDate) const;
-
-
-protected:
-	// Compare two objects
-	NComparison							Compare(const NComparable &theObject) const;
 
 
 private:

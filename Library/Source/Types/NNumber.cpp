@@ -17,7 +17,30 @@
 #include <math.h>
 
 #include "NMathUtilities.h"
+#include "NVariant.h"
 #include "NNumber.h"
+
+
+
+
+
+//============================================================================
+//		NNumber::NNumber : Constructor.
+//----------------------------------------------------------------------------
+NNumber::NNumber(const NVariant &theValue)
+{	bool	wasOK;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theValue.IsNumeric());
+
+
+
+	// Initialise ourselves
+	wasOK = SetValue(theValue);
+	NN_ASSERT(wasOK);
+}
 
 
 
@@ -59,6 +82,68 @@ NumberType NNumber::GetType(void) const
 
 	// Get the type
 	return(mType);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::Compare : Compare the value.
+//----------------------------------------------------------------------------
+NComparison NNumber::Compare(const NNumber &theValue) const
+{	SInt64				valueInteger;
+	Float64				valueReal;
+	NComparison			theResult;
+
+
+
+	// Get the state we need
+	theResult = kNCompareLessThan;
+
+
+
+	// Compare equal types
+	if (mType == theValue.mType)
+		{
+		switch (mType) {
+			case kNumberInteger:
+				theResult = GET_COMPARISON(mValue.integer, theValue.mValue.integer);
+				break;
+			
+			case kNumberReal:
+				theResult = GET_COMPARISON(mValue.real,    theValue.mValue.real);
+				break;
+
+			default:
+				NN_LOG("Unknown number type: %d", mType);
+				break;
+			}
+		}
+	else
+		{
+		switch (mType) {
+			case kNumberInteger:
+				if (theValue.GetValueSInt64(valueInteger))
+					theResult = GET_COMPARISON(mValue.integer, valueInteger);
+				else
+					NN_LOG("Unable to compare numbers across types");
+				break;
+			
+			case kNumberReal:
+				if (theValue.GetValueFloat64(valueReal))
+					theResult = GET_COMPARISON(mValue.real, valueReal);
+				else
+					NN_LOG("Unable to compare numbers across types");
+				break;
+
+			default:
+				NN_LOG("Unknown number type: %d", mType);
+				break;
+			}
+		}
+
+	return(theResult);
 }
 
 
@@ -595,75 +680,4 @@ bool NNumber::SetValue(const NString &theValue)
 
 	return(false);
 }
-
-
-
-
-
-//============================================================================
-//		NNumber::Compare : Compare two objects.
-//----------------------------------------------------------------------------
-#pragma mark -
-NComparison NNumber::Compare(const NComparable &theObject) const
-{	const NNumber		*theNumber = dynamic_cast<const NNumber*>(&theObject);
-	SInt64				valueInteger;
-	Float64				valueReal;
-	NComparison			theResult;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNumber != NULL);
-
-
-
-	// Get the state we need
-	theResult = kNCompareLessThan;
-
-
-
-	// Compare equal types
-	if (mType == theNumber->mType)
-		{
-		switch (mType) {
-			case kNumberInteger:
-				theResult = GET_COMPARISON(mValue.integer, theNumber->mValue.integer);
-				break;
-			
-			case kNumberReal:
-				theResult = GET_COMPARISON(mValue.real,    theNumber->mValue.real);
-				break;
-
-			default:
-				NN_LOG("Unknown number type: %d", mType);
-				break;
-			}
-		}
-	else
-		{
-		switch (mType) {
-			case kNumberInteger:
-				if (theNumber->GetValueSInt64(valueInteger))
-					theResult = GET_COMPARISON(mValue.integer, valueInteger);
-				else
-					NN_LOG("Unable to compare numbers across types");
-				break;
-			
-			case kNumberReal:
-				if (theNumber->GetValueFloat64(valueReal))
-					theResult = GET_COMPARISON(mValue.real, valueReal);
-				else
-					NN_LOG("Unable to compare numbers across types");
-				break;
-
-			default:
-				NN_LOG("Unknown number type: %d", mType);
-				break;
-			}
-		}
-
-	return(theResult);
-}
-
-
 
