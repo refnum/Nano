@@ -96,10 +96,10 @@ public:
 
 	// Get the size
 	//
-	// GetSize returns the number of characters in the string, and GetSizeBytes
+	// GetSize returns the number of characters in the string, while GetEncodingSize
 	// returns the number of bytes needed for a particular encoding.
 	NIndex								GetSize(void) const;
-	NIndex								GetSizeBytes(NStringEncoding theEncoding=kNStringEncodingUTF8) const;
+	NIndex								GetEncodingSize(NStringEncoding theEncoding=kNStringEncodingUTF8) const;
 
 
 	// Get the string data
@@ -177,30 +177,12 @@ public:
 	void								TrimLeft( const NString &theString=kNStringWhitespace, bool isExact=false);
 	void								TrimRight(const NString &theString=kNStringWhitespace, bool isExact=false);
 
-	void								TrimLeft( UInt32 theSize);
-	void								TrimRight(UInt32 theSize);
+	void								TrimLeft( NIndex theSize);
+	void								TrimRight(NIndex theSize);
 
 
-// dair
-/*
 	// Printf into the string
-	//
-	// Format uses the standard CoreFoundation formatter, and accepts '%@' as an
-	// argument specifier for NCFObjects (automatically casting to a CFTypeRef):
-	//
-	//		NString		value, output;
-	//
-	//		value = "World!";
-	//		output.Format("Hello %@", value);
-	//
-	// Since CoreFoundation does not provide a UTF8-aware specifier, string data
-	// must always be printed with '%S' (and GetUTF16) or '%@'.
-	//
-	// Using '%s' and GetUTF8 will produce unreliable results, since '%s' is
-	// interpreted in the default system encoding (which may/may not be UTF8).
-	void			    DECLARE_NSTRING_FORMAT(const NString &formatString, ...)
-	void								Format(const NString &formatString, va_list argList);
-*/
+	void								Format(const NString &formatString, ...);
 
 
 	// Operators

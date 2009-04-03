@@ -102,9 +102,9 @@ NIndex NString::GetSize(void) const
 
 
 //============================================================================
-//		NString::GetSizeBytes : Get the size in bytes.
+//		NString::GetEncodingSize : Get the size in bytes for an encoding.
 //----------------------------------------------------------------------------
-NIndex NString::GetSizeBytes(NStringEncoding theEncoding) const
+NIndex NString::GetEncodingSize(NStringEncoding theEncoding) const
 {	const NStringValue		*theValue = GetImmutable();
 	NIndex					theSize;
 
@@ -596,7 +596,7 @@ void NString::MakeCapitals(bool eachWord)
 				theRange = NRange(theRange.GetNext(), kNIndexNone);
 				}
 			}
-		while (theRange.IsNotEmpty())
+		while (theRange.IsNotEmpty());
 		}
 }
 
@@ -812,11 +812,8 @@ void NString::TrimLeft(const NString &theString, bool isExact)
 
 
 	// Trim the string
-	if (MakeMutable())
-		{
-		thePattern.Format(isExact ? "^\\Q%@" : "^[\\Q%@\\E]+", theString);
-		Replace(thePattern, "", kNStringPattern);
-		}
+	thePattern.Format(isExact ? "^\\Q%@" : "^[\\Q%@\\E]+", theString);
+	Replace(thePattern, "", kNStringPattern);
 }
 
 
@@ -832,11 +829,8 @@ void NString::TrimRight(const NString &theString, bool isExact)
 
 
 	// Trim the string
-	if (MakeMutable())
-		{
-		thePattern.Format(isExact ? "\\Q%@$" : "[\\Q%@\\E]+$", theString);
-		Replace(thePattern, "", kNStringPattern);
-		}
+	thePattern.Format(isExact ? "\\Q%@$" : "[\\Q%@\\E]+$", theString);
+	Replace(thePattern, "", kNStringPattern);
 }
 
 
@@ -875,6 +869,18 @@ void NString::TrimRight(NIndex theSize)
 
 // dair, to do
 //	CFStringDelete(*this, NormalizeRange(theRange));
+}
+
+
+
+
+
+//============================================================================
+//		NString::Format : Printf into a string.
+//----------------------------------------------------------------------------
+void NString::Format(const NString &formatString, ...)
+{
+	// dair, to do
 }
 
 
@@ -948,7 +954,7 @@ NHashCode NString::CalculateHash(void) const
 	if (theValue->empty())
 		theResult = kNHashCodeNone;
 	else
-		theResult = CalculateHash(theValue->size(), &theValue->at(0));
+		theResult = NHashable::CalculateHash(theValue->size(), &theValue->at(0));
 
 	return(theResult);
 }
@@ -968,7 +974,7 @@ void NString::SetValue(NIndex theSize, const void *thePtr, NStringEncoding theEn
 
 	// Get the state we need
 	if (theSize == kNStringSize)
-		theSize = strlen(theText);
+		theSize = 0; // dair, to do theSize = strlen(theText);
 
 
 
@@ -1031,11 +1037,8 @@ NRange NString::NormalizeRange(const NRange &theRange) const
 
 
 	// Normalize the range
-	theResult = theRange;
 	theSize   = GetSize();
-
-	if (theResult.GetSize() == kNStringSize)
-		theResult.SetSize(theSize);
+	theResult = theRange.GetNormalized(theSize);
 	
 	if (theResult.GetNext() > theSize)
 		theResult.SetSize(theSize - theResult.GetLocation());
@@ -1052,7 +1055,7 @@ NRange NString::NormalizeRange(const NRange &theRange) const
 //----------------------------------------------------------------------------
 NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
 {	NRangeList		theResults;
-	NRange			findRange 
+	NRange			findRange ;
 	bool			isPattern;
 
 
@@ -1065,7 +1068,6 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 
 	// Get the state we need
 	findRange = NormalizeRange(theRange);
-	theFlags  = NormalizeFlags(theFlags, isPattern);
 
 
 
@@ -1086,7 +1088,10 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 //      NString::FindString : Find a string.
 //----------------------------------------------------------------------------
 NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	UInt32			n, numItems;
+{
+// dair, to do
+/*
+	UInt32			n, numItems;
 	NRange			foundRange;
 	NRangeList		theResult;
 	NCFObject		cfArray;
@@ -1125,6 +1130,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 		}
 	
 	return(theResult);
+*/
 }
 
 
@@ -1149,7 +1155,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	// Validate our parameters
 	NN_ASSERT(theString.IsNotEmpty());
-	NN_ASSERT(theRange.location >= 0 && (theRange.location+theRange.Size) <= (CFIndex) GetSize());
+	NN_ASSERT(theRange.GetLocation() >= 0 && theRange.GetNext() <= GetSize());
 	NN_ASSERT(theFlags == kNStringNone || theFlags == kNStringNoCase);
 
 
@@ -1161,7 +1167,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	if (theFlags & kNStringNoCase)
 		regFlags |= PCRE_CASELESS;
 
-	if (theRange.location == 0)
+	if (theRange.GetLocation() == 0)
 		searchPtr  = GetUTF8();
 	else
 		{
@@ -1214,11 +1220,11 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 				matchRange = kNRangeNone;
 			else
 				{
-				matchText           = NString(searchPtr, matchStart, kCFStringEncodingUTF8);
-				matchRange.location = theRange.location + matchText.GetSize();
+				matchText = NString(searchPtr, matchStart, kNStringEncodingUTF8);
+				matchRange.SetLocation(theRange.GetLocation() + matchText.GetSize());
 
-				matchText       = NString(searchPtr + matchStart, matchEnd - matchStart, kCFStringEncodingUTF8);
-				matchRange.Size = matchText.GetSize();
+				matchText = NString(searchPtr + matchStart, matchEnd - matchStart, kNStringEncodingUTF8);
+				matchRange.SetSize(matchText.GetSize());
 				}
 
 
