@@ -119,7 +119,7 @@ private:
 	std::string							Format(const char *theFormat, const va_list &argList);
 
 	const char							*GetFileName(const char *thePath);
-	NSpinLock							*GetLock(void);
+	NSpinLock							&GetLock(void);
 
 
 private:

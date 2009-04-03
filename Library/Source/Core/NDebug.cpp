@@ -150,7 +150,7 @@ NDebug &NDebug::Get(void)
 //----------------------------------------------------------------------------
 #pragma mark -
 void NDebug::LogMessage(const char *theFormat, const va_list &argList, const char *thePath, UInt32 lineNum)
-{	StLock			acquireLock(*GetLock());
+{	StLock			acquireLock(GetLock());
 	const char		*fileName;
 	std::string		theMsg;
 
@@ -171,7 +171,7 @@ void NDebug::LogMessage(const char *theFormat, const va_list &argList, const cha
 
 
 	// Print it out
-	LogMessage(theMsg.c_str());
+	NTargetDebug::LogMessage(theMsg.c_str());
 }
 
 
@@ -250,10 +250,10 @@ const char *NDebug::GetFileName(const char *thePath)
 //============================================================================
 //      NDebug::GetLock : Get the lock.
 //----------------------------------------------------------------------------
-NSpinLock *NDebug::GetLock(void)
+NSpinLock &NDebug::GetLock(void)
 {	static NSpinLock	sLock;
 
 
 	// Get the lock
-	return(&sLock);
+	return(sLock);
 }
