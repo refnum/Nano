@@ -123,9 +123,11 @@ Float32 NTargetMath::FastRoot(Float32 theValue)
 
 
     // Get the value
-    //
-    // Could use __frsqrte on PowerPC.
+#if TARGET_CPU_PPC
+	return(__fsqrts(theValue));
+#else
     return(sqrtf(theValue));
+#endif
 }
 
 
@@ -140,9 +142,11 @@ Float32 NTargetMath::FastInvRoot(Float32 theValue)
 
 
     // Get the value
-    //
-    // Could use __frsqrte on PowerPC.
+#if TARGET_CPU_PPC
+	return(__frsqrte(theValue));
+#else
     return(FastReciprocal(FastRoot(theValue)));
+#endif
 }
 
 
