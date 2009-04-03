@@ -74,7 +74,7 @@ bool NThreadUtilities::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue,
 
 
 	// Compare and swap
-	return(NTargetThread::AtomicCompareAndSwap32(oldValue, newValue, theValue));
+	return(NTargetThread::AtomicCompareAndSwap32(theValue, oldValue, newValue));
 }
 
 
@@ -89,7 +89,7 @@ void NThreadUtilities::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 
 
 	// Add the value
-	NTargetThread::AtomicAdd32(theDelta, theValue);
+	NTargetThread::AtomicAdd32(theValue, theDelta);
 }
 
 
@@ -104,7 +104,7 @@ void NThreadUtilities::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Update the value
-	NTargetThread::AtomicAnd32(theMask, theValue);
+	NTargetThread::AtomicAnd32(theValue, theMask);
 }
 
 
@@ -119,7 +119,7 @@ void NThreadUtilities::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Update the value
-	NTargetThread::AtomicXor32(theMask, theValue);
+	NTargetThread::AtomicXor32(theValue, theMask);
 }
 
 
@@ -134,7 +134,7 @@ void NThreadUtilities::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Update the value
-	NTargetThread::AtomicOr32(theMask, theValue);
+	NTargetThread::AtomicOr32(theValue, theMask);
 }
 
 
