@@ -28,20 +28,24 @@
 //      NTargetLock::MutexCreate : Create a mutex lock.
 //----------------------------------------------------------------------------
 NLockRef NTargetLock::MutexCreate(void)
-{	MPCriticalRegionID		mutexLock;
-	OSStatus				theErr;
+{	pthread_mutex_t		*mutexLock;
+	NStatus				theErr;
 
 
 
 	// Validate our state
 	NN_ASSERT(sizeof(mutexLock) == sizeof(NLockRef));
-
+	
 
 
 	// Create the lock
-	theErr = MPCreateCriticalRegion(&mutexLock);
-	NN_ASSERT_NOERR(theErr);
-	
+	mutexLock = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+	if (mutexLock != NULL)
+		{
+		theErr = pthread_mutex_init(mutexLock, NULL);
+		NN_ASSERT_NOERR(theErr);
+		}
+
 	return((NLockRef) mutexLock);
 }
 
@@ -53,8 +57,8 @@ NLockRef NTargetLock::MutexCreate(void)
 //      NTargetLock::MutexDestroy : Destroy a mutex lock.
 //----------------------------------------------------------------------------
 void NTargetLock::MutexDestroy(NLockRef &theLock)
-{	MPCriticalRegionID		mutexLock = (MPCriticalRegionID) theLock;
-	OSStatus				theErr;
+{	pthread_mutex_t		*mutexLock = (pthread_mutex_t *) theLock;
+	NStatus				theErr;
 
 
 
@@ -63,9 +67,11 @@ void NTargetLock::MutexDestroy(NLockRef &theLock)
 
 
 
-	// Delete the lock
-	theErr = MPDeleteCriticalRegion(mutexLock);
+	// Destroy the lock
+	theErr = pthread_mutex_destroy(mutexLock);
 	NN_ASSERT_NOERR(theErr);
+	
+	free(mutexLock);
 
 
 
@@ -81,8 +87,9 @@ void NTargetLock::MutexDestroy(NLockRef &theLock)
 //      NTargetLock::MutexLock : Lock a mutex lock.
 //----------------------------------------------------------------------------
 NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
-{	MPCriticalRegionID		mutexLock = (MPCriticalRegionID) theLock;
-	OSStatus				theErr;
+{	pthread_mutex_t		*mutexLock = (pthread_mutex_t *) theLock;
+	NTime				stopTime;
+	NStatus				theErr;
 
 
 
@@ -91,11 +98,39 @@ NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
 
 
 
-	// Acquire the lock
-	theErr = MPEnterCriticalRegion(mutexLock, NMacTarget::GetDuration(waitFor));
-	NN_ASSERT(theErr == noErr || theErr == kMPTimeoutErr);
+	// Acquire with timeout
+	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		do
+			{
+			// Acquire the lock
+			theErr = pthread_mutex_trylock(mutexLock);
 
-	return(NMacTarget::GetStatus(theErr));
+
+			// Handle failure
+			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
+				{
+				NThreadUtilities::Sleep(kNThreadSpinTime);
+				theErr = kNoErr;
+				}
+			}
+		while (theErr != kNoErr);
+		}
+
+
+
+	// Acquire the lock
+	else
+		theErr = pthread_mutex_lock(mutexLock);
+
+
+
+	// Convert the result
+	if (theErr != kNoErr)
+		theErr = kNErrTimeout;
+
+	return(theErr);
 }
 
 
@@ -106,8 +141,8 @@ NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
 //      NTargetLock::MutexUnlock : Unlock a mutex lock.
 //----------------------------------------------------------------------------
 void NTargetLock::MutexUnlock(NLockRef &theLock)
-{	MPCriticalRegionID		mutexLock = (MPCriticalRegionID) theLock;
-	OSStatus				theErr;
+{	pthread_mutex_t		*mutexLock = (pthread_mutex_t *) theLock;
+	NStatus				theErr;
 
 
 
@@ -117,7 +152,7 @@ void NTargetLock::MutexUnlock(NLockRef &theLock)
 
 
 	// Release the lock
-	theErr = MPExitCriticalRegion(mutexLock);
+	theErr = pthread_mutex_unlock(mutexLock);
 	NN_ASSERT_NOERR(theErr);
 }
 
