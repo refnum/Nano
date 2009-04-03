@@ -77,6 +77,12 @@ public:
 	NIndex								GetNext( void) const;
 
 
+	// Get a normalized range
+	//
+	// A normalized range converts a meta-range into a range for a specific size.
+	NRange								GetNormalized(NIndex theSize) const;
+	
+
 	// Get a modified range
 	NRange								GetUnion(       const NRange &theRange) const;
 	NRange								GetIntersection(const NRange &theRange) const;

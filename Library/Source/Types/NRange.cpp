@@ -165,6 +165,27 @@ NIndex NRange::GetNext(void) const
 
 
 //============================================================================
+//		NRange::GetNormalized : Get a normalized range.
+//----------------------------------------------------------------------------
+NRange NRange::GetNormalized(NIndex theSize) const
+{	NRange		theResult;
+
+
+
+	// Get the range
+	theResult = *this;
+	
+	if (theResult.mSize == kNIndexNone)
+		theResult.mSize = theSize;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NRange::GetUnion : Get the union of a range.
 //----------------------------------------------------------------------------
 NRange NRange::GetUnion(const NRange &theRange) const
