@@ -1,8 +1,8 @@
 /*	NAME:
-		TMsgListener.cpp
+		TFileUtilities.cpp
 
 	DESCRIPTION:
-		NMsgListener tests.
+		NFileUtilities tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,24 +14,21 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NMsgListener.h"
+#include "NFileUtilities.h"
 
-#include "TMsgListener.h"
+#include "TFileUtilities.h"
 
 
 
 
 
 //============================================================================
-//		TMsgListener::Execute : Execute the tests.
+//		TFileUtilities::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-void TMsgListener::Execute(void)
+void TFileUtilities::Execute(void)
 {
 
 
-	// Execute the tests
 }
-
-
 
 

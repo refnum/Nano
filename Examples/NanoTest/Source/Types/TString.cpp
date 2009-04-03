@@ -45,7 +45,7 @@ void TString::Execute(void)
 	NN_ASSERT(testString.GetSize() == strlen(kTestString1));
 	NN_ASSERT(strcmp(testString.GetUTF8(), kTestString1) == 0);
 
-	testString.SetValue(kTestString2);
+	testString = kTestString2;
 	NN_ASSERT(testString.GetSize() == strlen(kTestString2));
 	NN_ASSERT(strcmp(testString.GetUTF8(), kTestString2) == 0);
 }

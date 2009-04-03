@@ -1,8 +1,8 @@
 /*	NAME:
-		TMsgBroadcaster.cpp
+		TTargetSystem.cpp
 
 	DESCRIPTION:
-		NMsgBroadcaster tests.
+		NTargetSystem tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,25 +14,23 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NMsgBroadcaster.h"
+#include "NTargetSystem.h"
 
-#include "TMsgBroadcaster.h"
+#include "TTargetSystem.h"
 
 
 
 
 
 //============================================================================
-//		TMsgBroadcaster::Execute : Execute the tests.
+//		TTargetSystem::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-void TMsgBroadcaster::Execute(void)
+void TTargetSystem::Execute(void)
 {
 
 
 	// Execute the tests
 }
-
-
 
 
 

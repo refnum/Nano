@@ -16,20 +16,46 @@
 //----------------------------------------------------------------------------
 #include "Nano.h"
 
-#include "TPoint.h"
-#include "TSize.h"
-#include "TRectangle.h"
-#include "TRange.h"
-#include "TArray.h"
-#include "TData.h"
-#include "TString.h"
-#include "TDictionary.h"
-#include "TBitVector.h"
-#include "TMsgBroadcaster.h"
-#include "TMsgListener.h"
 #include "TCommandLine.h"
-#include "TFile.h"
+
+#include "TBroadcaster.h"
+#include "TListener.h"
+
+#include "TByteSwap.h"
+#include "TCipher.h"
+
+#include "TTargetDebug.h"
+#include "TTargetFile.h"
+#include "TTargetLock.h"
+#include "TTargetMath.h"
+#include "TTargetSystem.h"
+#include "TTargetThread.h"
+#include "TTargetTime.h"
+
+#include "TAtomicInt.h"
+#include "TLock.h"
+
+#include "TArray.h"
+#include "TBitVector.h"
 #include "TColor.h"
+#include "TData.h"
+#include "TDate.h"
+#include "TDictionary.h"
+#include "TFile.h"
+#include "TNumber.h"
+#include "TPoint.h"
+#include "TRange.h"
+#include "TRectangle.h"
+#include "TSize.h"
+#include "TString.h"
+#include "TVariant.h"
+
+#include "TFileUtilities.h"
+#include "TMathUtilities.h"
+#include "TSTLUtilities.h"
+#include "TSystemUtilities.h"
+#include "TThreadUtilities.h"
+#include "TTimeUtilities.h"
 
 
 
@@ -42,26 +68,65 @@ int main(int /*argc*/, const char ** /*argv*/)
 {
 
 
-	// Execute the tests
-	TPoint::Execute();
-	TSize::Execute();
-	TRectangle::Execute();
-	TRange::Execute();
-
-	TData::Execute();
-	TArray::Execute();
-	TDictionary::Execute();
-	TString::Execute();
-
-	TColor::Execute();
-	TBitVector::Execute();
-
-	TMsgBroadcaster::Execute();
-	TMsgListener::Execute();
-
+	// Application
 	TCommandLine::Execute();
+	
+	
+	
+	// Events
+	TBroadcaster::Execute();
+	TListener::Execute();
+	
+	
+	
+	// System
+	TByteSwap::Execute();
+	TCipher::Execute();
+	
+	
+	
+	// Targets
+	TTargetDebug::Execute();
+	TTargetFile::Execute();
+	TTargetLock::Execute();
+	TTargetMath::Execute();
+	TTargetSystem::Execute();
+	TTargetThread::Execute();
+	TTargetTime::Execute();
 
+
+
+	// Threads
+	TAtomicInt::Execute();
+	TLock::Execute();
+
+
+
+	// Types
+	TArray::Execute();
+	TBitVector::Execute();
+	TColor::Execute();
+	TData::Execute();
+	TDate::Execute();
+	TDictionary::Execute();
 	TFile::Execute();
+	TNumber::Execute();
+	TPoint::Execute();
+	TRange::Execute();
+	TRectangle::Execute();
+	TSize::Execute();
+	TString::Execute();
+	TVariant::Execute();
+
+
+
+	// Utilities
+	TFileUtilities::Execute();
+	TMathUtilities::Execute();
+	TSTLUtilities::Execute();
+	TSystemUtilities::Execute();
+	TThreadUtilities::Execute();
+	TTimeUtilities::Execute();
 
 	return(0);
 }

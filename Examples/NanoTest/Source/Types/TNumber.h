@@ -1,8 +1,8 @@
 /*	NAME:
-		TMsgListener.h
+		TNumber.h
 
 	DESCRIPTION:
-		NMsgListener tests.
+		NNumber tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TMSGLISTENER_HDR
-#define TMSGLISTENER_HDR
+#ifndef TNUMBER_HDR
+#define TNUMBER_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -24,7 +24,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TMsgListener {
+class TNumber {
 public:
 	// Execute the tests
 	static void							Execute(void);
@@ -34,4 +34,4 @@ public:
 
 
 
-#endif // TMSGLISTENER_HDR
+#endif // TNUMBER_HDR
