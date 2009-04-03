@@ -16,11 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if TARGET_OS_MAC
-	#include <tr1/functional>
-#else
-	#include <functional>
-#endif
+#include "NTargetSystem.h"
 
 
 
