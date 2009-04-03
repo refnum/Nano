@@ -14,29 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NMathUtilities.h"
 #include "NMacTarget.h"
-
-
-
-
-
-//============================================================================
-//		NMacTarget::GetDuration : Convert a time.
-//----------------------------------------------------------------------------
-Duration NMacTarget::GetDuration(NTime theTime)
-{	Duration	theDuration;
-
-
-
-	// Convert the time
-	if (NMathUtilities::AreEqual(theTime, kNTimeForever))
-		theDuration = kDurationForever;
-	else
-		theDuration = (Duration) (theTime / kNTimeMillisecond);
-	
-	return(theDuration);
-}
 
 
 

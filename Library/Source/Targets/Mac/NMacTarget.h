@@ -26,10 +26,6 @@
 //----------------------------------------------------------------------------
 class NMacTarget {
 public:
-	// Convert a time
-	static Duration						GetDuration(NTime theTime);
-
-
 	// Convert an error code
 	static NStatus						GetStatus(OSStatus theErr);
 };
