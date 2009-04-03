@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NCipher.h"
 #include "NHashable.h"
 
 
@@ -88,17 +89,11 @@ void NHashable::ClearHash(void)
 //----------------------------------------------------------------------------
 NHashCode NHashable::CalculateHash(NIndex theSize, const void *thePtr) const
 {	NHashCode		theResult;
-	const UInt8		*theData;
-	NIndex			n;
 
 
 
 	// Calculate the hash code
-	theResult = kNHashCodeNone;
-	theData   = (const UInt8 *) thePtr;
-
-	for (n = 0; n < theSize; n++)
-		theResult += (theData[n] * 0x31415926);
+	theResult = (NHashCode) NCipher::GetChecksumInternet(theSize, thePtr);
 
 	return(theResult);
 }
