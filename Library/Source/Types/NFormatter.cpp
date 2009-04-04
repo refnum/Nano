@@ -285,18 +285,18 @@ NString NFormatArgument::GetValue(const NString &theFormat, const NString &valid
 //		NFormatArgument::IsValidType : Is a format type valid?
 //----------------------------------------------------------------------------
 bool NFormatArgument::IsValidType(const NString &theFormat, const NString &validTypes)
-{	const char		*textUTF8, *theType;
+{	const char		*formatUTF8, *theType;
 
 
 
 	// Get the state we need
-	textUTF8  = theFormat.GetUTF8();
-	textUTF8 += strlen(textUTF8) - 1;
+	formatUTF8  = theFormat.GetUTF8();
+	formatUTF8 += strlen(formatUTF8) - 1;
 
 
 
 	// Find the type
-	theType = strpbrk(textUTF8, validTypes.GetUTF8());
+	theType = strpbrk(formatUTF8, validTypes.GetUTF8());
 
 	return(theType != NULL);
 }

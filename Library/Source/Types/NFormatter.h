@@ -132,18 +132,11 @@ public:
 	//
 	//		http://www.opengroup.org/onlinepubs/009695399/functions/printf.html
 	//
-	// Each argument is wrapped in an NFormatArgument object, whose GetValue method
-	// is invoked to obtain the formatted text.
+	// Each argument is wrapped in an NFormatArgument object, whose GetValue
+	// method is invoked to obtain the formatted text.
 	//
-	// This allows custom objects to be printed via %s, by providing an NFormatArgument
-	// cast operator that returns the text for the object.
-	//
-	// For object whose state can not be represented via a standard printf type, the
-	// NFormatArgument can be constructed with a NFormatFunctor that will be invoked
-	// to obtain the formatted text.
-	//
-	// This can be seen in NString (which converts to char*) and NArray (which uses
-	// a functor) objects.
+	// Custom objects can be printed using a '%@' specifier by providing an
+	// NFormatArgument cast operator that returns the text for the object.
 	NString								Format(const NString &theFormat);
 	NString								Format(const NString &theFormat, FORMAT_ARG1);
 	NString								Format(const NString &theFormat, FORMAT_ARG2);
