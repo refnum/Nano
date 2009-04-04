@@ -891,12 +891,25 @@ void NString::Format(const NString &formatString, ...)
 //		NString::+= : Append to a string.
 //----------------------------------------------------------------------------
 const NString& NString::operator += (const NString &theString)
-{
+{	const NStringValue		*otherValue;
+	NStringValue			*theValue;
+
+
+
+	// Get the state we need
+	theValue   = GetMutable();
+	otherValue = theString.GetImmutable();
+
 
 
 	// Append the string
-// dair, to do
-//	CFStringAppend(*this, theString);
+	theValue->pop_back();
+	append(*theValue, *otherValue);
+
+
+
+	// Update our state
+	ValueChanged();
 	
 	return(*this);
 }
@@ -974,7 +987,7 @@ void NString::SetValue(NIndex theSize, const void *thePtr, NStringEncoding theEn
 
 	// Get the state we need
 	if (theSize == kNStringSize)
-		theSize = 0; // dair, to do theSize = strlen(theText);
+		theSize = strlen((const char *) thePtr);			// dair, handle non-UTF8 encodings
 
 
 

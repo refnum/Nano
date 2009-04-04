@@ -202,6 +202,9 @@ std::string NDebug::Format(const char *theFormat, ...)
 //============================================================================
 //      NDebug::Format : Format a string.
 //----------------------------------------------------------------------------
+//		Note :	NDebug can not use NFormatter, since NFormatter may need to
+//				use NDebug to log errors when formatting.
+//----------------------------------------------------------------------------
 std::string NDebug::Format(const char *theFormat, const va_list &argList)
 {	char	theBuffer[kDebugBufferSize];
 
