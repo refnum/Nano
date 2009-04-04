@@ -88,7 +88,7 @@ NColor::NColor(UInt32 theColor, ColorFormat theFormat)
 //		NColor::NColor : Constructor.
 //----------------------------------------------------------------------------
 NColor::NColor(const NString &hexColor, ColorFormat theFormat)
-{	UInt32		byteR, byteG, byteB, byteA;		// dair, Windows sscanf uses 4 bytes for hhx, corrupts stack
+{	UInt32		valueR, valueG, valueB, valueA;
 	Float32		r, g, b, a;
 
 
@@ -98,12 +98,12 @@ NColor::NColor(const NString &hexColor, ColorFormat theFormat)
 
 	switch (theFormat) {
 		case kColorRGBA:
-			if (sscanf(hexColor.GetUTF8(), "%2hhx%2hhx%2hhx%2hhx", &byteR, &byteG, &byteB, &byteA) == 4)
+			if (sscanf(hexColor.GetUTF8(), "%2lx%2lx%2lx%2lx", &valueR, &valueG, &valueB, &valueA) == 4)
 				{
-				r = ((Float32) byteR) * kOneOver255;
-				g = ((Float32) byteG) * kOneOver255;
-				b = ((Float32) byteB) * kOneOver255;
-				a = ((Float32) byteA) * kOneOver255;
+				r = ((Float32) valueR) * kOneOver255;
+				g = ((Float32) valueG) * kOneOver255;
+				b = ((Float32) valueB) * kOneOver255;
+				a = ((Float32) valueA) * kOneOver255;
 				}
 			break;
 
@@ -159,16 +159,16 @@ NComparison NColor::Compare(const NColor &theValue) const
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = GET_COMPARISON(mRed, theValue.mRed);
+	theResult = GetComparison(mRed, theValue.mRed);
 		
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(mGreen, theValue.mGreen);
+		theResult = GetComparison(mGreen, theValue.mGreen);
 
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(mBlue, theValue.mBlue);
+		theResult = GetComparison(mBlue, theValue.mBlue);
 
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(mAlpha, theValue.mAlpha);
+		theResult = GetComparison(mAlpha, theValue.mAlpha);
 
 	return(theResult);
 }
