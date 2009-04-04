@@ -89,7 +89,7 @@ NComparison NDate::Compare(const NDate &theValue) const
 
 
 	// Compare the value
-	return(GET_COMPARISON(mTime, theValue.mTime));
+	return(GetComparison(mTime, theValue.mTime));
 }
 
 

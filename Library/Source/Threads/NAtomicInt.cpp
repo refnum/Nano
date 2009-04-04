@@ -68,7 +68,7 @@ NComparison NAtomicInt::Compare(const SInt32 &theValue) const
 	// The value is copied to ensure it is immutable.
 	myValue = mValue;
 
-	return(GET_COMPARISON(myValue, theValue));
+	return(GetComparison(myValue, theValue));
 }
 
 

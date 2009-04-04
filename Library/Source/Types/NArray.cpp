@@ -182,10 +182,10 @@ NComparison NArray::Compare(const NArray &theValue) const
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = GET_COMPARISON(ourSize, otherSize);
+	theResult = GetComparison(ourSize, otherSize);
 
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(ourValue, otherValue);
+		theResult = GetComparison(ourValue, otherValue);
 
 	return(theResult);
 }

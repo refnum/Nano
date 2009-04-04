@@ -68,10 +68,10 @@ NComparison NRange::Compare(const NRange &theValue) const
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = GET_COMPARISON(mSize, theValue.mSize);
+	theResult = GetComparison(mSize, theValue.mSize);
 
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(mLocation, theValue.mLocation);
+		theResult = GetComparison(mLocation, theValue.mLocation);
 
 	return(theResult);
 }

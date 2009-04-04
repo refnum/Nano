@@ -90,7 +90,7 @@ public:
 		// Compare the values
 		valueOther = dynamic_cast<const NVariantValue<T>*>(dataOther);
 		
-		return(GET_COMPARISON(mValue, valueOther->mValue));
+		return(GetComparison(mValue, valueOther->mValue));
 	}
 
 private:
@@ -256,7 +256,7 @@ NComparison NVariant::Compare(const NVariant &theValue) const
 	if (mData == NULL || theValue.mData == NULL)
 		{
 		NN_LOG("Attempted to compare a NULL value");
-		theResult = GET_COMPARISON(this, &theValue);
+		theResult = GetComparison(this, &theValue);
 		}
 
 
@@ -274,7 +274,7 @@ NComparison NVariant::Compare(const NVariant &theValue) const
 		else
 			{
 			NN_LOG("Attempted to compare different types");
-			theResult = GET_COMPARISON(this, &theValue);
+			theResult = GetComparison(this, &theValue);
 			}
 		}
 

@@ -441,11 +441,14 @@ NComparison NString::Compare(const NString &theValue) const
 //		NString::CompareTo : Compare two strings.
 //----------------------------------------------------------------------------
 NComparison NString::CompareTo(const NString &theString, NStringFlags theFlags) const
-{
+{	NComparison		theResult;
+
 	// dair, to do
 		// implement EqualTo in terms of this, want to have special-cases here
 		// for equality via hash code and equality via shared pointer if not checking for case
-	return((NComparison) strcmp(GetUTF8(), theString.GetUTF8()));
+	theResult = GetComparison(strcmp(GetUTF8(), theString.GetUTF8()));
+
+	return(theResult);
 }
 
 

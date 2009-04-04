@@ -108,11 +108,11 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 		{
 		switch (mType) {
 			case kNumberInteger:
-				theResult = GET_COMPARISON(mValue.integer, theValue.mValue.integer);
+				theResult = GetComparison(mValue.integer, theValue.mValue.integer);
 				break;
 			
 			case kNumberReal:
-				theResult = GET_COMPARISON(mValue.real,    theValue.mValue.real);
+				theResult = GetComparison(mValue.real,    theValue.mValue.real);
 				break;
 
 			default:
@@ -125,14 +125,14 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 		switch (mType) {
 			case kNumberInteger:
 				if (theValue.GetValueSInt64(valueInteger))
-					theResult = GET_COMPARISON(mValue.integer, valueInteger);
+					theResult = GetComparison(mValue.integer, valueInteger);
 				else
 					NN_LOG("Unable to compare numbers across types");
 				break;
 			
 			case kNumberReal:
 				if (theValue.GetValueFloat64(valueReal))
-					theResult = GET_COMPARISON(mValue.real, valueReal);
+					theResult = GetComparison(mValue.real, valueReal);
 				else
 					NN_LOG("Unable to compare numbers across types");
 				break;

@@ -114,10 +114,10 @@ NComparison NSize::Compare(const NSize &theValue) const
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = GET_COMPARISON(width, theValue.width);
+	theResult = GetComparison(width, theValue.width);
 		
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(height, theValue.height);
+		theResult = GetComparison(height, theValue.height);
 	
 	return(theResult);
 }

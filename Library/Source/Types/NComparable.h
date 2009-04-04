@@ -36,18 +36,6 @@ typedef enum {
 
 
 //============================================================================
-//		Macros
-//----------------------------------------------------------------------------
-// Compare two values
-//
-// Returns an NComparisonResult for two types that define the < and > operators.
-#define GET_COMPARISON(_a, _b)						((_a) < (_b) ? kNCompareLessThan : ((_a) > (_b) ? kNCompareGreaterThan : kNCompareEqualTo))
-
-
-
-
-
-//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 template <class T> class NComparable {
@@ -73,12 +61,27 @@ protected:
 	// Compare two blocks of data
 	inline NComparison					CompareData(NIndex theSize1, const void *thePtr1,
 													NIndex theSize2, const void *thePtr2) const;
-
-
-private:
-
-
 };
+
+
+
+
+
+//============================================================================
+//		Inline functions
+//----------------------------------------------------------------------------
+// Get an NComparison from two values using < and >
+template <class A, class B> inline NComparison GetComparison(const A &a, const B &b)
+{
+	return(a < b ? kNCompareLessThan : (a > b ? kNCompareGreaterThan : kNCompareEqualTo));
+}
+
+
+// Get an NComparison from a memcmp/strcmp-style result
+inline NComparison GetComparison(SInt32 x)
+{
+	return(GetComparison(x, 0L));
+}
 
 
 

@@ -84,10 +84,10 @@ NComparison NPoint::Compare(const NPoint &theValue) const
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = GET_COMPARISON(x, theValue.x);
+	theResult = GetComparison(x, theValue.x);
 		
 	if (theResult == kNCompareEqualTo)
-		theResult = GET_COMPARISON(y, theValue.y);
+		theResult = GetComparison(y, theValue.y);
 	
 	return(theResult);
 }

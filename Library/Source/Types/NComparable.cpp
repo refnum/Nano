@@ -163,13 +163,13 @@ template<typename T> NComparison NComparable<T>::CompareData(NIndex theSize1, co
 	// Since differently-sized bits of data can't be ordered, we compare
 	// by size first and only examine content if we have equal sizes.
 	if (theSize1 != theSize2)
-		theResult = GET_COMPARISON(theSize1, theSize2);
+		theResult = GetComparison(theSize1, theSize2);
 	else
 		{
 		if (thePtr1 == thePtr2)
 			theResult = kNCompareEqualTo;
 		else
-			theResult = (NComparison) memcmp(thePtr1, thePtr2, theSize1);
+			theResult = GetComparison(memcmp(thePtr1, thePtr2, theSize1));
 		}
 	
 	return(theResult);
