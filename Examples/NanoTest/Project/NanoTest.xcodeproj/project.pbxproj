@@ -43,6 +43,7 @@
 		AB4546F60F8667E4008801FB /* TThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546D20F8667E4008801FB /* TThreadUtilities.cpp */; };
 		AB4546F70F8667E4008801FB /* TTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546D40F8667E4008801FB /* TTimeUtilities.cpp */; };
 		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
+		AB7447D10F87577500FE0825 /* TFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7447D00F87577500FE0825 /* TFormatter.cpp */; };
 		AB9E78C20F27D8D80043A657 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E789A0F27D8D80043A657 /* NanoTest.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 /* End PBXBuildFile section */
@@ -139,6 +140,8 @@
 		AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
 		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		AB7447CF0F87577500FE0825 /* TFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFormatter.h; sourceTree = "<group>"; };
+		AB7447D00F87577500FE0825 /* TFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFormatter.cpp; sourceTree = "<group>"; };
 		AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.pch"; sourceTree = "<group>"; };
 		AB9E789A0F27D8D80043A657 /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
 		ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 				AB4546A10F8667E4008801FB /* TDictionary.h */,
 				AB4546A20F8667E4008801FB /* TFile.cpp */,
 				AB4546A30F8667E4008801FB /* TFile.h */,
+				AB7447D00F87577500FE0825 /* TFormatter.cpp */,
+				AB7447CF0F87577500FE0825 /* TFormatter.h */,
 				AB4546A40F8667E4008801FB /* TNumber.cpp */,
 				AB4546A50F8667E4008801FB /* TNumber.h */,
 				AB4546A60F8667E4008801FB /* TPoint.cpp */,
@@ -471,6 +476,7 @@
 				AB4546F50F8667E4008801FB /* TSystemUtilities.cpp in Sources */,
 				AB4546F60F8667E4008801FB /* TThreadUtilities.cpp in Sources */,
 				AB4546F70F8667E4008801FB /* TTimeUtilities.cpp in Sources */,
+				AB7447D10F87577500FE0825 /* TFormatter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -42,6 +42,7 @@
 #include "TDate.h"
 #include "TDictionary.h"
 #include "TFile.h"
+#include "TFormatter.h"
 #include "TNumber.h"
 #include "TPoint.h"
 #include "TRange.h"
@@ -110,6 +111,7 @@ int main(int /*argc*/, const char ** /*argv*/)
 	TDate::Execute();
 	TDictionary::Execute();
 	TFile::Execute();
+	TFormatter::Execute();
 	TNumber::Execute();
 	TPoint::Execute();
 	TRange::Execute();
