@@ -160,7 +160,7 @@ void NBitVector::SetBits(bool theValue)
 
 
 	// Set the bits
-	memset(mData.GetData(), mData.GetSize(), theValue ? 0xFF : 0x00);
+	memset(mData.GetData(), theValue ? 0xFF : 0x00, mData.GetSize());
 }
 
 
@@ -258,6 +258,7 @@ void NBitVector::FlipBit(NIndex theIndex)
 //----------------------------------------------------------------------------
 void NBitVector::FlipBits(const NRange &theRange)
 {	NIndex		n, firstBit, lastBit;
+	NRange		bitRange;
 
 
 
@@ -266,10 +267,14 @@ void NBitVector::FlipBits(const NRange &theRange)
 
 
 
+	// Get the state we need
+	bitRange = theRange.GetNormalized(GetSize());
+	firstBit = bitRange.GetFirst();
+	lastBit	 = bitRange.GetLast();
+
+
+
 	// Flip the bits
-	firstBit = theRange.GetFirst();
-	lastBit	 = theRange.GetLast();
-	
 	for (n = firstBit; n <= lastBit; n++)
 		SetBit(n, !GetBit(n));
 }
@@ -283,6 +288,7 @@ void NBitVector::FlipBits(const NRange &theRange)
 //----------------------------------------------------------------------------
 NIndex NBitVector::CountBits(bool theValue, const NRange &theRange) const
 {	NIndex		n, firstBit, lastBit, numFound;
+	NRange		bitRange;
 
 
 
@@ -291,11 +297,15 @@ NIndex NBitVector::CountBits(bool theValue, const NRange &theRange) const
 
 
 
-	// Count the bits
-	firstBit = theRange.GetFirst();
-	lastBit	 = theRange.GetLast();
+	// Get the state we need
+	bitRange = theRange.GetNormalized(GetSize());
+	firstBit = bitRange.GetFirst();
+	lastBit	 = bitRange.GetLast();
 	numFound = 0;
-	
+
+
+
+	// Count the bits
 	for (n = firstBit; n <= lastBit; n++)
 		{
 		if (GetBit(n) == theValue)
@@ -314,18 +324,23 @@ NIndex NBitVector::CountBits(bool theValue, const NRange &theRange) const
 //----------------------------------------------------------------------------
 bool NBitVector::ContainsBit(bool theValue, const NRange &theRange) const
 {	NIndex		n, firstBit, lastBit;
+	NRange		bitRange;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(theRange.GetFirst() >= 0 && theRange.GetLast() < GetSize());
-	
+
+
+
+	// Get the state we need
+	bitRange = theRange.GetNormalized(GetSize());
+	firstBit = bitRange.GetFirst();
+	lastBit	 = bitRange.GetLast();
+
 
 
 	// Test the bits
-	firstBit = theRange.GetFirst();
-	lastBit	 = theRange.GetLast();
-	
 	for (n = firstBit; n <= lastBit; n++)
 		{
 		if (GetBit(n) == theValue)
@@ -344,6 +359,7 @@ bool NBitVector::ContainsBit(bool theValue, const NRange &theRange) const
 //----------------------------------------------------------------------------
 NIndex NBitVector::FindFirstBit(bool theValue, const NRange &theRange) const
 {	NIndex		n, firstBit, lastBit;
+	NRange		bitRange;
 
 
 
@@ -352,10 +368,14 @@ NIndex NBitVector::FindFirstBit(bool theValue, const NRange &theRange) const
 
 
 
+	// Get the state we need
+	bitRange = theRange.GetNormalized(GetSize());
+	firstBit = bitRange.GetFirst();
+	lastBit	 = bitRange.GetLast();
+
+
+
 	// Find the bit
-	firstBit = theRange.GetFirst();
-	lastBit	 = theRange.GetLast();
-	
 	for (n = firstBit; n <= lastBit; n++)
 		{
 		if (GetBit(n) == theValue)
@@ -374,7 +394,8 @@ NIndex NBitVector::FindFirstBit(bool theValue, const NRange &theRange) const
 //----------------------------------------------------------------------------
 NIndex NBitVector::FindLastBit(bool theValue, const NRange &theRange) const
 {	NIndex		n, firstBit, lastBit;
-
+	NRange		bitRange;
+	
 
 
 	// Validate our parameters
@@ -382,10 +403,14 @@ NIndex NBitVector::FindLastBit(bool theValue, const NRange &theRange) const
 
 
 
+	// Get the state we need
+	bitRange = theRange.GetNormalized(GetSize());
+	firstBit = bitRange.GetFirst();
+	lastBit	 = bitRange.GetLast();
+
+
+
 	// Find the bit
-	firstBit = theRange.GetFirst();
-	lastBit	 = theRange.GetLast();
-	
 	for (n = lastBit; n >= firstBit; n--)
 		{
 		if (n >= 0 && GetBit(n) == theValue)
@@ -409,7 +434,7 @@ void NBitVector::UpdateSize(NIndex numBits)
 
 	// Update our state
 	mSize  = numBits;
-	mBytes = mData.GetData();
+	mBytes = (mSize == 0) ? NULL : mData.GetData();
 }
 
 

@@ -40,8 +40,8 @@ void TBitVector::Execute(void)
 	NN_ASSERT(testVector.GetBit(0) == false);
 	NN_ASSERT(testVector.GetBit(1) == true);
 	NN_ASSERT(testVector.GetBit(2) == false);
-	NN_ASSERT(testVector.CountBits(true) == 2);
-	NN_ASSERT(testVector.CountBits(true) == 1);
+	NN_ASSERT(testVector.CountBits(false) == 2);
+	NN_ASSERT(testVector.CountBits(true)  == 1);
 	NN_ASSERT(testVector.GetBits().GetSize() == 1);
 	NN_ASSERT(testVector.GetBits(0, 3)       == 0x02);
 
