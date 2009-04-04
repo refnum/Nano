@@ -25,7 +25,7 @@
 //		Macros
 //----------------------------------------------------------------------------
 // Get the size of an array
-#define GET_ARRAY_SIZE(_a)											(sizeof((_a)) / sizeof((_a)[0]))
+#define GET_ARRAY_SIZE(_a)											((NIndex) (sizeof((_a)) / sizeof((_a)[0])))
 
 
 // Clamp a value
