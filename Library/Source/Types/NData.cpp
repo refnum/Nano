@@ -160,7 +160,7 @@ const UInt8 *NData::GetData(NIndex theOffset) const
 
 
 	// Get the data
-	if (mExternalSize != 0)
+	if (mExternalPtr != NULL)
 		thePtr = ((const UInt8 *) mExternalPtr) + theOffset;
 	else
 		thePtr = &GetImmutable()->at(theOffset);
@@ -180,14 +180,15 @@ UInt8 *NData::GetData(NIndex theOffset)
 
 
 
-	// Validate our parameters
+	// Validate our parameters and state
 	NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+	NN_ASSERT(mExternalSize == 0 && mExternalPtr == NULL);
 
 
 
 	// Get the data
 	thePtr = &GetMutable()->at(theOffset);
-	
+
 	return(thePtr);
 }
 

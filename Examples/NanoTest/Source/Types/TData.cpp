@@ -59,8 +59,10 @@ void TData::Execute(void)
 
 	testData = kNDataTest1;
 	NN_ASSERT(testData.IsNotEmpty());
+
 	testData.Clear();
 	NN_ASSERT(testData.IsEmpty());
+	NN_ASSERT(testData.GetSize() == 0);
 
 	testData = kNDataTest1;
 	testData.SetData(GET_ARRAY_SIZE(kBlock1_and_3), kBlock1_and_3);
