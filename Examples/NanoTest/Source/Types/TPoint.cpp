@@ -26,7 +26,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NPoint kNPointTest1(1.0f, -1.0f);
+static const NPoint kValuePoint										= NPoint(1.0f, -1.0f);
 
 
 
@@ -42,19 +42,17 @@ void TPoint::Execute(void)
 
 	// Execute the tests
 	NN_ASSERT(kNPointZero.IsZero());
-	NN_ASSERT(kNPointTest1.IsNotZero());
 
-	testPoint = kNPointTest1;
+	testPoint = kValuePoint;
 	NN_ASSERT(testPoint.IsNotZero());
 
 	testPoint.Clear();
 	NN_ASSERT(testPoint.IsZero());
-
 	NN_ASSERT(testPoint == kNPointZero);
-	NN_ASSERT(testPoint != kNPointTest1);
+	NN_ASSERT(testPoint != kValuePoint);
 
-	NN_ASSERT(NMathUtilities::AreEqual(kNPointTest1.x,  1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kNPointTest1.y, -1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint.x,  1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint.y, -1.0f));
 }
 
 

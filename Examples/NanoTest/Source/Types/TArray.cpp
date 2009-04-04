@@ -26,10 +26,14 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const SInt32List  kTestListSInt32			= vector((SInt32) 1, (SInt32) 2);
-static const SInt64List  kTestListSInt64			= vector((SInt64) 1, (SInt64) 2, (SInt64) 3);
-static const Float32List kTestListFloat32			= vector(1.0f, 2.0f, 3.0f, 4.0f);
-static const Float64List kTestListFloat64			= vector(1.0, 2.0, 3.0, 4.0, 5.0);
+static const SInt32List  kListSInt32								= vector((SInt32) 1, (SInt32) 2);
+static const SInt64List  kListSInt64								= vector((SInt64) 1, (SInt64) 2, (SInt64) 3);
+static const Float32List kListFloat32								= vector(1.0f, 2.0f, 3.0f, 4.0f);
+static const Float64List kListFloat64								= vector(1.0, 2.0, 3.0, 4.0, 5.0);
+
+static const NPoint kValuePoint										= NPoint(10, 10);
+static const SInt32 kValueSInt32									=  2000;
+static const SInt64 kValueSInt64									= -4000;
 
 
 
@@ -40,64 +44,62 @@ static const Float64List kTestListFloat64			= vector(1.0, 2.0, 3.0, 4.0, 5.0);
 //----------------------------------------------------------------------------
 void TArray::Execute(void)
 {	NArray		testArray, testArray2;
-	NPoint		valuePoint(10, 10);
-	SInt32		valueSInt32 =  2000;
-	SInt64		valueSInt64 = -4000;
 
 
 
 	// Execute the tests
-	testArray.AppendValue(valuePoint);
-	testArray.AppendValue(valueSInt32);
-	testArray.AppendValue(valueSInt64);
+	testArray.AppendValue(kValuePoint);
+	testArray.AppendValue(kValueSInt32);
+	testArray.AppendValue(kValueSInt64);
 	NN_ASSERT(testArray.GetSize() == 3);
-	NN_ASSERT(testArray.GetValuePoint(0)  == valuePoint);
-	NN_ASSERT(testArray.GetValueSInt32(1) == valueSInt32);
-	NN_ASSERT(testArray.GetValueSInt64(2) == valueSInt64);
+	NN_ASSERT(testArray.GetValuePoint(0)  == kValuePoint);
+	NN_ASSERT(testArray.GetValueSInt32(1) == kValueSInt32);
+	NN_ASSERT(testArray.GetValueSInt64(2) == kValueSInt64);
 
-	testArray = NArray(kTestListSInt32);
-	NN_ASSERT(testArray.GetSize() == kTestListSInt32.size());
+	testArray = NArray(kListSInt32);
+	NN_ASSERT(testArray.GetSize() == (NIndex) kListSInt32.size());
 
-	testArray = NArray(kTestListSInt64);
-	NN_ASSERT(testArray.GetSize() == kTestListSInt64.size());
+	testArray = NArray(kListSInt64);
+	NN_ASSERT(testArray.GetSize() == (NIndex) kListSInt64.size());
 
-	testArray = NArray(kTestListFloat32);
-	NN_ASSERT(testArray.GetSize() == kTestListFloat32.size());
+	testArray = NArray(kListFloat32);
+	NN_ASSERT(testArray.GetSize() == (NIndex) kListFloat32.size());
 
-	testArray = NArray(kTestListFloat64);
-	NN_ASSERT(testArray.GetSize() == kTestListFloat64.size());
+	testArray = NArray(kListFloat64);
+	NN_ASSERT(testArray.GetSize() == (NIndex) kListFloat64.size());
 
-	testArray.SetValuesSInt32(kTestListSInt32);
-	NN_ASSERT(testArray.GetSize()         == kTestListSInt32.size());
-	NN_ASSERT(testArray.GetValuesSInt32() == kTestListSInt32);
+	testArray.SetValuesSInt32(kListSInt32);
+	NN_ASSERT(testArray.GetSize()         == (NIndex) kListSInt32.size());
+	NN_ASSERT(testArray.GetValuesSInt32() ==          kListSInt32);
 
-	testArray.SetValuesSInt64(kTestListSInt64);
-	NN_ASSERT(testArray.GetSize()         == kTestListSInt64.size());
-	NN_ASSERT(testArray.GetValuesSInt64() == kTestListSInt64);
+	testArray.SetValuesSInt64(kListSInt64);
+	NN_ASSERT(testArray.GetSize()         == (NIndex) kListSInt64.size());
+	NN_ASSERT(testArray.GetValuesSInt64() ==          kListSInt64);
 
-	testArray.SetValuesFloat32(kTestListFloat32);
-	NN_ASSERT(testArray.GetSize()          == kTestListFloat32.size());
-	NN_ASSERT(testArray.GetValuesFloat32() == kTestListFloat32);
+	testArray.SetValuesFloat32(kListFloat32);
+	NN_ASSERT(testArray.GetSize()          == (NIndex) kListFloat32.size());
+	NN_ASSERT(testArray.GetValuesFloat32() ==          kListFloat32);
 
-	testArray.SetValuesFloat64(kTestListFloat64);
-	NN_ASSERT(testArray.GetSize()          == kTestListFloat64.size());
-	NN_ASSERT(testArray.GetValuesFloat64() == kTestListFloat64);
+	testArray.SetValuesFloat64(kListFloat64);
+	NN_ASSERT(testArray.GetSize()          == (NIndex) kListFloat64.size());
+	NN_ASSERT(testArray.GetValuesFloat64() ==          kListFloat64);
 
-	testArray  = NArray(kTestListSInt32);
-	testArray2 = NArray(kTestListSInt64);
+	testArray  = NArray(kListSInt32);
+	testArray2 = NArray(kListSInt64);
 	testArray.Join(testArray2);
-	NN_ASSERT(testArray.GetSize() == kTestListSInt32.size() + kTestListSInt64.size());
+	NN_ASSERT(testArray.GetSize() == (NIndex) (kListSInt32.size() + kListSInt64.size()));
 
-	testArray = NArray(kTestListFloat32);
+	testArray = NArray(kListFloat32);
 	NN_ASSERT( testArray.HasValue(2.0f));
-	NN_ASSERT(!testArray.HasValue(2.0));
+	NN_ASSERT(!testArray.HasValue(2.1));
 	
-	testArray = NArray(kTestListSInt32);
+	testArray = NArray(kListSInt32);
 	testArray.Clear();
 	NN_ASSERT(testArray.IsEmpty());
 
+	testArray = NArray(kListSInt32);
 	testArray.Clear();
-	testArray.AppendValue(valueSInt32);
-	testArray.SetValue(0, valueSInt64);
-	NN_ASSERT(testArray.GetValue(0) == valueSInt64);
+	testArray.AppendValue(kValueSInt32);
+	testArray.SetValue(0, kValueSInt64);
+	NN_ASSERT(testArray.GetValue(0) == kValueSInt64);
 }

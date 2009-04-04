@@ -26,7 +26,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NSize kNSizeTest1(1.0f, -1.0f);
+static const NSize kValueSize										= NSize(1.0f, -1.0f);
 
 
 
@@ -42,19 +42,19 @@ void TSize::Execute(void)
 
 	// Execute the tests
 	NN_ASSERT(kNSizeZero.IsEmpty());
-	NN_ASSERT(kNSizeTest1.IsNotEmpty());
+	NN_ASSERT(kValueSize.IsNotEmpty());
 
-	testSize = kNSizeTest1;
+	testSize = kValueSize;
 	NN_ASSERT(testSize.IsNotEmpty());
 
 	testSize.Clear();
 	NN_ASSERT(testSize.IsEmpty());
 
 	NN_ASSERT(testSize == kNSizeZero);
-	NN_ASSERT(testSize != kNSizeTest1);
+	NN_ASSERT(testSize != kValueSize);
 
-	NN_ASSERT(NMathUtilities::AreEqual(kNSizeTest1.width,   1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kNSizeTest1.height, -1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueSize.width,   1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueSize.height, -1.0f));
 }
 
 

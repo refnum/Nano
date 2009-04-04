@@ -26,7 +26,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NRectangle kNRectangleTest1(1.0f, 2.0f, 10.0f, 20.0f);
+static const NRectangle kValueRectangle								= NRectangle(1.0f, 2.0f, 10.0f, 20.0f);
 
 
 
@@ -45,21 +45,21 @@ void TRectangle::Execute(void)
 	NN_ASSERT(kNRectangleZero.size   == kNSizeZero);
 
 	NN_ASSERT(kNRectangleZero.IsEmpty());
-	NN_ASSERT(kNRectangleTest1.IsNotEmpty());
+	NN_ASSERT(kValueRectangle.IsNotEmpty());
 
-	testRect = kNRectangleTest1;
+	testRect = kValueRectangle;
 	NN_ASSERT(testRect.IsNotEmpty());
 
 	testRect.Clear();
 	NN_ASSERT(testRect.IsEmpty());
 
 	NN_ASSERT(testRect == kNRectangleZero);
-	NN_ASSERT(testRect != kNRectangleTest1);
+	NN_ASSERT(testRect != kValueRectangle);
 
-	NN_ASSERT(NMathUtilities::AreEqual(kNRectangleTest1.origin.x,     1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kNRectangleTest1.origin.y,     2.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kNRectangleTest1.size.width,  10.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kNRectangleTest1.size.height, 20.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.origin.x,     1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.origin.y,     2.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.size.width,  10.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.size.height, 20.0f));
 }
 
 
