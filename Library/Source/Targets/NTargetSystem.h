@@ -1,3 +1,4 @@
+
 /*	NAME:
 		NTargetSystem.h
 
@@ -16,7 +17,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if TARGET_OS_MAC
+#if NN_TARGET_MAC
 	#include <tr1/functional>
 #else
 	#include <functional>
