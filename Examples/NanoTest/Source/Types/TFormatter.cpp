@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NFormatter.h"
+#include "NString.h"
 
 #include "TFormatter.h"
 

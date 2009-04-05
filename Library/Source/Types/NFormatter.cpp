@@ -3,6 +3,54 @@
 
 	DESCRIPTION:
 		String formatter.
+		
+		NFormatter uses NStringUTF8, rather than NString, since its header is
+		included in the precompiled header to allow the NN_LOG macros from
+		NDebug.h to format objects:
+		
+			NString		theString = "test";
+			NColor		theColor  = kColorRed;
+			
+			NN_LOG("Text is %@, color is %@", theString, theColor);
+
+		Unfortunately gcc 4.0 contains a bug which prevents the use of anonymous
+		namespaces within precompiled header files, and NFunctor pulls in parts
+		of TR1 which use anonymous namespaces.
+		
+			http://gcc.gnu.org/bugzilla/show_bug.cgi?id=10591
+
+		This prevents us from using NFunctor, or classes which reference it, in
+		the precompiled header file.
+		
+		Instead NFormatter defines its own simple string class, which NString
+		provides a copy contructor and cast operator for to allow it to be used
+		interchangeably with NString outside of NDebug.h.
+
+
+		This bug has been fixed in gcc 4.2, but that can only support Mac OS X
+		10.5 or higher.
+		
+		At some point Nano will require gcc 4.2, at which point the implementation
+		can be simplified:
+		
+			- Nano.h can pull in all header files into the precompiled header,
+			  including NFunctor.h, speeding up builds and avoiding this issue.
+		
+			- NFormatter.h can declare NFormatFunctor, and NFormatArgument can
+			  use this type directly rather than through a pointer.
+
+			- NFormatArgument will be able to take an NFormatFunctor for the
+			  the %@ case, rather than an explicit string, allowing an arbitrary
+			  callback for formatting custom objects (the current functor-based
+			  approach for formatting integer/float values could be simplified
+			  with a union, but the generalised functor approach is a better
+			  design so this has been kept with a view to simplifying the changes
+			  for gcc 4.2).
+			
+			- NStringUTF8 can be removed, since NString can be used in NDebug.h.
+		
+		Until then we must use this custom string class, and hide the implementation
+		of NFormatFunctor, so that custom objects can be printed via NDebug macros.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,6 +62,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFunctor.h"
 #include "NFormatter.h"
 
 
@@ -23,12 +72,16 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kFormatTypesInteger								= "diouxXcC";
-static const NString kFormatTypesDouble									= "fFeEgGaA";
-static const NString kFormatTypesPointer								= "sSpn";
+static const NStringUTF8 kFormatTypesInteger							= "diouxXcC";
+static const NStringUTF8 kFormatTypesDouble								= "fFeEgGaA";
+static const NStringUTF8 kFormatTypesPointer							= "sSpn";
+static const NStringUTF8 kFormatTypesCustom								= "@";
 
-static const NString kFormatTypes										= kFormatTypesInteger + kFormatTypesDouble + kFormatTypesPointer;
-static const UInt32  kFormatBufferSize									= 256;
+static const UInt32      kFormatBufferSize								= 256;
+static const NStringUTF8 kFormatTypes									= kFormatTypesInteger +
+																		  kFormatTypesDouble  +
+																		  kFormatTypesPointer +
+																		  kFormatTypesCustom;
 
 
 
@@ -37,24 +90,37 @@ static const UInt32  kFormatBufferSize									= 256;
 //============================================================================
 //		Internal macros
 //----------------------------------------------------------------------------
-#define DECLARE_ARGS					NFormatArgumentList		 _argList
-#define FORMAT_ARGS						return(Format(theFormat, _argList))
+// Collect an argument list
+#define FORMAT_ARGS_COLLECT(_argList)			if (arg1.IsValid())		{								_argList.push_back(&arg1);	} \
+												if (arg2.IsValid())		{ NN_ASSERT(arg1.IsValid());	_argList.push_back(&arg2);	} \
+												if (arg3.IsValid())		{ NN_ASSERT(arg2.IsValid());	_argList.push_back(&arg3);	} \
+												if (arg4.IsValid())		{ NN_ASSERT(arg3.IsValid());	_argList.push_back(&arg4);	} \
+												if (arg5.IsValid())		{ NN_ASSERT(arg4.IsValid());	_argList.push_back(&arg5);	} \
+												if (arg6.IsValid())		{ NN_ASSERT(arg5.IsValid());	_argList.push_back(&arg6);	} \
+												if (arg7.IsValid())		{ NN_ASSERT(arg6.IsValid());	_argList.push_back(&arg7);	} \
+												if (arg8.IsValid())		{ NN_ASSERT(arg7.IsValid());	_argList.push_back(&arg8);	} \
+												if (arg9.IsValid())		{ NN_ASSERT(arg8.IsValid());	_argList.push_back(&arg9);	} \
+												if (arg10.IsValid())	{ NN_ASSERT(arg9.IsValid());	_argList.push_back(&arg10);	} \
+												if (arg11.IsValid())	{ NN_ASSERT(arg10.IsValid());	_argList.push_back(&arg11);	} \
+												if (arg12.IsValid())	{ NN_ASSERT(arg11.IsValid());	_argList.push_back(&arg12);	} \
+												if (arg13.IsValid())	{ NN_ASSERT(arg12.IsValid());	_argList.push_back(&arg13);	} \
+												if (arg14.IsValid())	{ NN_ASSERT(arg13.IsValid());	_argList.push_back(&arg14);	} \
+												if (arg15.IsValid())	{ NN_ASSERT(arg14.IsValid());	_argList.push_back(&arg15);	}
 
-#define PUSH_ARGS1										_argList.push_back(arg1);
-#define PUSH_ARGS2						PUSH_ARGS1;		_argList.push_back(arg2);
-#define PUSH_ARGS3						PUSH_ARGS2;		_argList.push_back(arg3);
-#define PUSH_ARGS4						PUSH_ARGS3;		_argList.push_back(arg4);
-#define PUSH_ARGS5						PUSH_ARGS4;		_argList.push_back(arg5);
-#define PUSH_ARGS6						PUSH_ARGS5;		_argList.push_back(arg6);
-#define PUSH_ARGS7						PUSH_ARGS6;		_argList.push_back(arg7);
-#define PUSH_ARGS8						PUSH_ARGS7;		_argList.push_back(arg8);
-#define PUSH_ARGS9						PUSH_ARGS8;		_argList.push_back(arg9);
-#define PUSH_ARGS10						PUSH_ARGS9;		_argList.push_back(arg10);
-#define PUSH_ARGS11						PUSH_ARGS10;	_argList.push_back(arg11);
-#define PUSH_ARGS12						PUSH_ARGS11;	_argList.push_back(arg12);
-#define PUSH_ARGS13						PUSH_ARGS12;	_argList.push_back(arg13);
-#define PUSH_ARGS14						PUSH_ARGS13;	_argList.push_back(arg14);
-#define PUSH_ARGS15						PUSH_ARGS14;	_argList.push_back(arg15);
+
+
+
+
+//============================================================================
+//		Internal types
+//----------------------------------------------------------------------------
+typedef nfunctor<NStringUTF8 (const NStringUTF8 &theFormat)>		NFormatFunctorBase;
+
+class NFormatFunctor : public NFormatFunctorBase {
+public:
+			 NFormatFunctor(const NFormatFunctorBase &theFunctor) : NFormatFunctorBase(theFunctor)	{ }
+	virtual ~NFormatFunctor(void)																	{ }
+};
 
 
 
@@ -63,18 +129,33 @@ static const UInt32  kFormatBufferSize									= 256;
 //============================================================================
 //		NFormatArgument::NFormatArgument : Constructor.
 //----------------------------------------------------------------------------
-NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueUInt,			_1, theValue);	}
-NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueSInt,			_1, theValue);	}
+NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueUInt,		_1, theValue));	}
+NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSInt,		_1, theValue));	}
 
-NFormatArgument::NFormatArgument(unsigned long theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueULong,		_1, theValue);	}
-NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueULong,		_1, theValue);	}
+NFormatArgument::NFormatArgument(unsigned long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULong,		_1, theValue));	}
+NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULong,		_1, theValue));	}
 
-NFormatArgument::NFormatArgument(unsigned long long theValue)		{	mGetValue = BindSelf(NFormatArgument::GetValueULongLong,	_1, theValue);	}
-NFormatArgument::NFormatArgument(  signed long long theValue)		{	mGetValue = BindSelf(NFormatArgument::GetValueSLongLong,	_1, theValue);	}
+NFormatArgument::NFormatArgument(unsigned long long theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULongLong,	_1, theValue));	}
+NFormatArgument::NFormatArgument(  signed long long theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSLongLong,	_1, theValue));	}
 
-NFormatArgument::NFormatArgument(double                theValue)	{	mGetValue = BindSelf(NFormatArgument::GetValueDouble,		_1, theValue);	}
-NFormatArgument::NFormatArgument(const void           *theValue)	{	mGetValue = BindSelf(NFormatArgument::GetValuePointer,		_1, theValue);	}
-NFormatArgument::NFormatArgument(const NFormatFunctor &getValue)	{	mGetValue = getValue;														}
+NFormatArgument::NFormatArgument(double				 theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueDouble,	_1, theValue));	}
+NFormatArgument::NFormatArgument(const void			*theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValuePointer,	_1, theValue));	}
+NFormatArgument::NFormatArgument(const NStringUTF8	&theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueString,	_1, theValue));	}
+
+
+
+
+
+//============================================================================
+//		NFormatArgument::NFormatArgument : Constructor.
+//----------------------------------------------------------------------------
+NFormatArgument::NFormatArgument(void)
+{
+
+
+	// Initialize ourselves
+	mGetValue = NULL;
+}
 
 
 
@@ -85,6 +166,25 @@ NFormatArgument::NFormatArgument(const NFormatFunctor &getValue)	{	mGetValue = g
 //----------------------------------------------------------------------------
 NFormatArgument::~NFormatArgument(void)
 {
+
+
+	// Clean up
+	delete mGetValue;
+}
+
+
+
+
+
+//============================================================================
+//		NFormatArgument::IsValid : Is the argument valid?
+//----------------------------------------------------------------------------
+bool NFormatArgument::IsValid(void) const
+{
+
+
+	// Check our state
+	return(mGetValue != NULL);
 }
 
 
@@ -94,12 +194,17 @@ NFormatArgument::~NFormatArgument(void)
 //============================================================================
 //		NFormatArgument::GetValue : Get the value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValue(const NString &theFormat) const
+NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat) const
 {
 
 
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
 	// Get the value
-	return(mGetValue(theFormat));
+	return((*mGetValue)(theFormat));
 }
 
 
@@ -110,7 +215,7 @@ NString NFormatArgument::GetValue(const NString &theFormat) const
 //		NFormatArgument::GetValueUInt : Get an unsigned int value.
 //----------------------------------------------------------------------------
 #pragma mark -
-NString NFormatArgument::GetValueUInt(const NString &theFormat, unsigned int theValue)
+NStringUTF8 NFormatArgument::GetValueUInt(const NStringUTF8 &theFormat, unsigned int theValue)
 {
 
 
@@ -125,7 +230,7 @@ NString NFormatArgument::GetValueUInt(const NString &theFormat, unsigned int the
 //============================================================================
 //		NFormatArgument::GetValueSInt : Get a signed int value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValueSInt(const NString &theFormat, signed int theValue)
+NStringUTF8 NFormatArgument::GetValueSInt(const NStringUTF8 &theFormat, signed int theValue)
 {
 
 
@@ -140,7 +245,7 @@ NString NFormatArgument::GetValueSInt(const NString &theFormat, signed int theVa
 //============================================================================
 //		NFormatArgument::GetValueULong : Get an unsigned long value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValueULong(const NString &theFormat, unsigned long theValue)
+NStringUTF8 NFormatArgument::GetValueULong(const NStringUTF8 &theFormat, unsigned long theValue)
 {
 
 
@@ -155,7 +260,7 @@ NString NFormatArgument::GetValueULong(const NString &theFormat, unsigned long t
 //============================================================================
 //		NFormatArgument::GetValueSLong : Get a signed long value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValueSLong(const NString &theFormat, signed long theValue)
+NStringUTF8 NFormatArgument::GetValueSLong(const NStringUTF8 &theFormat, signed long theValue)
 {
 
 
@@ -170,7 +275,7 @@ NString NFormatArgument::GetValueSLong(const NString &theFormat, signed long the
 //============================================================================
 //		NFormatArgument::GetValueULongLong : Get an unsigned long long value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValueULongLong(const NString &theFormat, unsigned long long theValue)
+NStringUTF8 NFormatArgument::GetValueULongLong(const NStringUTF8 &theFormat, unsigned long long theValue)
 {
 
 
@@ -185,7 +290,7 @@ NString NFormatArgument::GetValueULongLong(const NString &theFormat, unsigned lo
 //============================================================================
 //		NFormatArgument::GetValueSLongLong : Get a signed long long value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValueSLongLong(const NString &theFormat, signed long long theValue)
+NStringUTF8 NFormatArgument::GetValueSLongLong(const NStringUTF8 &theFormat, signed long long theValue)
 {
 
 
@@ -200,7 +305,7 @@ NString NFormatArgument::GetValueSLongLong(const NString &theFormat, signed long
 //============================================================================
 //		NFormatArgument::GetValueDouble : Get a double value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValueDouble(const NString &theFormat, double theValue)
+NStringUTF8 NFormatArgument::GetValueDouble(const NStringUTF8 &theFormat, double theValue)
 {
 
 
@@ -215,7 +320,7 @@ NString NFormatArgument::GetValueDouble(const NString &theFormat, double theValu
 //============================================================================
 //		NFormatArgument::GetValuePointer : Get a pointer value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValuePointer(const NString &theFormat, const void *theValue)
+NStringUTF8 NFormatArgument::GetValuePointer(const NStringUTF8 &theFormat, const void *theValue)
 {
 
 
@@ -228,12 +333,32 @@ NString NFormatArgument::GetValuePointer(const NString &theFormat, const void *t
 
 
 //============================================================================
+//		NFormatArgument::GetValueString : Get a string value.
+//----------------------------------------------------------------------------
+NStringUTF8 NFormatArgument::GetValueString(const NStringUTF8 &theFormat, const NStringUTF8 &theValue)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theFormat == "%@");
+
+
+
+	// Get the value
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
 //		NFormatArgument::GetValue : Get a formatted value.
 //----------------------------------------------------------------------------
-NString NFormatArgument::GetValue(const NString &theFormat, const NString &validTypes, ...)
+NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes, ...)
 {	char		stackBuffer[kFormatBufferSize];
 	char		*heapBuffer;
-	NString		theResult;
+	NStringUTF8		theResult;
 	NIndex		numChars;
 	va_list		argList;
 
@@ -252,7 +377,7 @@ NString NFormatArgument::GetValue(const NString &theFormat, const NString &valid
 	// Format to the stack
 	numChars = vsnprintf(stackBuffer, sizeof(stackBuffer), theFormat.GetUTF8(), argList);
 	if (numChars < (NIndex) sizeof(stackBuffer))
-		theResult = NString(stackBuffer, numChars);
+		theResult = NStringUTF8(stackBuffer, numChars);
 
 
 	// Format to the heap
@@ -263,7 +388,7 @@ NString NFormatArgument::GetValue(const NString &theFormat, const NString &valid
 		if (heapBuffer != NULL)
 			{
 			numChars  = vsnprintf(heapBuffer, numChars, theFormat.GetUTF8(), argList);
-			theResult = NString(heapBuffer, numChars);
+			theResult = NStringUTF8(heapBuffer, numChars);
 
 			free(heapBuffer);
 			}
@@ -284,7 +409,7 @@ NString NFormatArgument::GetValue(const NString &theFormat, const NString &valid
 //============================================================================
 //		NFormatArgument::IsValidType : Is a format type valid?
 //----------------------------------------------------------------------------
-bool NFormatArgument::IsValidType(const NString &theFormat, const NString &validTypes)
+bool NFormatArgument::IsValidType(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes)
 {	const char		*formatUTF8, *theType;
 
 
@@ -331,22 +456,16 @@ NFormatter::~NFormatter(void)
 //============================================================================
 //		NFormatter::Format : Format an argument list.
 //----------------------------------------------------------------------------
-NString NFormatter::Format(const NString &theFormat)					{	DECLARE_ARGS;						FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG1)		{	DECLARE_ARGS;		PUSH_ARGS1;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG2)		{	DECLARE_ARGS;		PUSH_ARGS2;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG3)		{	DECLARE_ARGS;		PUSH_ARGS3;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG4)		{	DECLARE_ARGS;		PUSH_ARGS4;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG5)		{	DECLARE_ARGS;		PUSH_ARGS5;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG6)		{	DECLARE_ARGS;		PUSH_ARGS6;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG7)		{	DECLARE_ARGS;		PUSH_ARGS7;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG8)		{	DECLARE_ARGS;		PUSH_ARGS8;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG9)		{	DECLARE_ARGS;		PUSH_ARGS9;		FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG10)		{	DECLARE_ARGS;		PUSH_ARGS10;	FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG11)		{	DECLARE_ARGS;		PUSH_ARGS11;	FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG12)		{	DECLARE_ARGS;		PUSH_ARGS12;	FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG13)		{	DECLARE_ARGS;		PUSH_ARGS13;	FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG14)		{	DECLARE_ARGS;		PUSH_ARGS14;	FORMAT_ARGS;	}
-NString NFormatter::Format(const NString &theFormat, FORMAT_ARG15)		{	DECLARE_ARGS;		PUSH_ARGS15;	FORMAT_ARGS;	}
+NStringUTF8 NFormatter::Format(const NStringUTF8 &theFormat, FORMAT_ARGS_PARAM)
+{	NFormatArgumentList		theArguments;
+
+
+
+	// Format the arguments
+	FORMAT_ARGS_COLLECT(theArguments);
+	
+	return(Format(theFormat, theArguments));
+}
 
 
 
@@ -356,9 +475,9 @@ NString NFormatter::Format(const NString &theFormat, FORMAT_ARG15)		{	DECLARE_AR
 //		NFormatter::Format : Format an argument list.
 //----------------------------------------------------------------------------
 #pragma mark -
-NString NFormatter::Format(const NString &theFormat, const NFormatArgumentList &theArguments)
+NStringUTF8 NFormatter::Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments)
 {	const char		*textUTF8, *typesUTF8, *formatStart, *formatEnd;
-	NString			theResult, argFormat;
+	NStringUTF8			theResult, argFormat;
 	UInt32			numFound, numUsed;
 	bool			areDone;
 
@@ -385,7 +504,7 @@ NString NFormatter::Format(const NString &theFormat, const NFormatArgumentList &
 
 
 		// Append the text to this point
-		theResult += NString(textUTF8, formatStart - textUTF8);
+		theResult += NStringUTF8(textUTF8, formatStart - textUTF8);
 		textUTF8   = formatStart + 1;
 
 
@@ -417,8 +536,8 @@ NString NFormatter::Format(const NString &theFormat, const NFormatArgumentList &
 					// Append the argument
 					if (numUsed < theArguments.size())
 						{
-						argFormat  = NString(formatStart, formatEnd - formatStart + 1);
-						theResult += theArguments[numUsed].GetValue(argFormat);
+						argFormat  = NStringUTF8(formatStart, formatEnd - formatStart + 1);
+						theResult += theArguments.at(numUsed)->GetValue(argFormat);
 					
 						numUsed++;
 						}
@@ -436,7 +555,7 @@ NString NFormatter::Format(const NString &theFormat, const NFormatArgumentList &
 
 	// Append any remaining text
 	if (*textUTF8 != 0x00)
-		theResult += NString(textUTF8);
+		theResult += NStringUTF8(textUTF8);
 
 
 

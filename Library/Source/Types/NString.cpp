@@ -66,6 +66,21 @@ NString::NString(const NData &theData, NStringEncoding theEncoding)
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
+NString::NString(const NStringUTF8 &theString)
+{
+
+
+	// Initialize ourselves
+	SetValue(theString.GetSize(), theString.GetUTF8(), kNStringEncodingUTF8);
+}
+
+
+
+
+
+//============================================================================
+//		NString::NString : Constructor.
+//----------------------------------------------------------------------------
 NString::NString(void)
 {
 }
@@ -879,11 +894,15 @@ void NString::TrimRight(NIndex theSize)
 
 
 //============================================================================
-//		NString::Format : Printf into a string.
+//		NString::Format : Format the string.
 //----------------------------------------------------------------------------
-void NString::Format(const NString &formatString, ...)
-{
-	// dair, to do
+void NString::Format(const NString &theFormat, FORMAT_ARGS_PARAM)
+{	NFormatter		theFormatter;
+
+
+
+	// Format the string
+	*this = theFormatter.Format(theFormat, FORMAT_ARGS_LIST);
 }
 
 
@@ -934,6 +953,42 @@ const NString NString::operator + (const NString &theString) const
 	newString += theString;
 	
 	return(newString);
+}
+
+
+
+
+
+//============================================================================
+//		NString::NStringUTF8 : NStringUTF8 operator.
+//----------------------------------------------------------------------------
+NString::operator NStringUTF8(void) const
+{	NStringUTF8		theResult;
+
+
+
+	// Get the value
+	theResult = NStringUTF8(GetUTF8(), GetSize());
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NString::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NString::operator NFormatArgument(void) const
+{	NStringUTF8		theResult;
+
+
+
+	// Get the value
+	theResult = NStringUTF8(GetUTF8(), GetSize());
+	
+	return(NFormatArgument(theResult));
 }
 
 

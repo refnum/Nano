@@ -20,6 +20,7 @@
 #include "NHashable.h"
 #include "NSharedValue.h"
 #include "NData.h"
+#include "NFormatter.h"
 #include "NRange.h"
 
 
@@ -87,9 +88,10 @@ class NString :	public NContainer,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
-										NString(const char  *theText, NIndex theSize=kNStringSize, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(const NData &theData,                              NStringEncoding theEncoding=kNStringEncodingUTF8);
-
+										NString(const char			*theText, NIndex theSize=kNStringSize, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const NData			&theData,                              NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const NStringUTF8	&theString);
+										
 										 NString(void);
 	virtual								~NString(void);
 
@@ -181,13 +183,16 @@ public:
 	void								TrimRight(NIndex theSize);
 
 
-	// Printf into the string
-	void								Format(const NString &formatString, ...);
+	// Format the string
+	void								Format(const NString &theFormat, FORMAT_ARGS);
 
 
 	// Operators
 	const NString&						operator += (const NString &theString);
 	const NString						operator +	(const NString &theString) const;
+
+										operator NStringUTF8(    void) const;
+										operator NFormatArgument(void) const;
 
 
 protected:

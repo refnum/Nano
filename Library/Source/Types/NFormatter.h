@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NString.h"
+#include <string>
 
 
 
@@ -25,23 +25,40 @@
 //============================================================================
 //		Macros
 //----------------------------------------------------------------------------
-#define FORMAT_ARG(_n)					const NFormatArgument &arg ## _n
+// Format arguments
+#define FORMAT_ARGS						const NFormatArgument &arg1  = NFormatArgument(),	\
+										const NFormatArgument &arg2  = NFormatArgument(),	\
+										const NFormatArgument &arg3  = NFormatArgument(),	\
+										const NFormatArgument &arg4  = NFormatArgument(),	\
+										const NFormatArgument &arg5  = NFormatArgument(),	\
+										const NFormatArgument &arg6  = NFormatArgument(),	\
+										const NFormatArgument &arg7  = NFormatArgument(),	\
+										const NFormatArgument &arg8  = NFormatArgument(),	\
+										const NFormatArgument &arg9  = NFormatArgument(),	\
+										const NFormatArgument &arg10 = NFormatArgument(),	\
+										const NFormatArgument &arg11 = NFormatArgument(),	\
+										const NFormatArgument &arg12 = NFormatArgument(),	\
+										const NFormatArgument &arg13 = NFormatArgument(),	\
+										const NFormatArgument &arg14 = NFormatArgument(),	\
+										const NFormatArgument &arg15 = NFormatArgument()
 
-#define FORMAT_ARG1						FORMAT_ARG(1)
-#define FORMAT_ARG2						FORMAT_ARG1,  FORMAT_ARG(2)
-#define FORMAT_ARG3						FORMAT_ARG2,  FORMAT_ARG(3)
-#define FORMAT_ARG4						FORMAT_ARG3,  FORMAT_ARG(4)
-#define FORMAT_ARG5						FORMAT_ARG4,  FORMAT_ARG(5)
-#define FORMAT_ARG6						FORMAT_ARG5,  FORMAT_ARG(6)
-#define FORMAT_ARG7						FORMAT_ARG6,  FORMAT_ARG(7)
-#define FORMAT_ARG8						FORMAT_ARG7,  FORMAT_ARG(8)
-#define FORMAT_ARG9						FORMAT_ARG8,  FORMAT_ARG(9)
-#define FORMAT_ARG10					FORMAT_ARG9,  FORMAT_ARG(10)
-#define FORMAT_ARG11					FORMAT_ARG10, FORMAT_ARG(11)
-#define FORMAT_ARG12					FORMAT_ARG11, FORMAT_ARG(12)
-#define FORMAT_ARG13					FORMAT_ARG12, FORMAT_ARG(13)
-#define FORMAT_ARG14					FORMAT_ARG13, FORMAT_ARG(14)
-#define FORMAT_ARG15					FORMAT_ARG14, FORMAT_ARG(15)
+#define FORMAT_ARGS_PARAM				const NFormatArgument &arg1,						\
+										const NFormatArgument &arg2, 						\
+										const NFormatArgument &arg3, 						\
+										const NFormatArgument &arg4, 						\
+										const NFormatArgument &arg5, 						\
+										const NFormatArgument &arg6, 						\
+										const NFormatArgument &arg7, 						\
+										const NFormatArgument &arg8, 						\
+										const NFormatArgument &arg9, 						\
+										const NFormatArgument &arg10,						\
+										const NFormatArgument &arg11,						\
+										const NFormatArgument &arg12,						\
+										const NFormatArgument &arg13,						\
+										const NFormatArgument &arg14,						\
+										const NFormatArgument &arg15
+
+#define FORMAT_ARGS_LIST				arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15
 
 
 
@@ -52,16 +69,38 @@
 //----------------------------------------------------------------------------
 // Classes
 class NFormatArgument;
+class NFormatFunctor;
 
-
-// Functors
-typedef nfunctor<NString (const NString &theFormat)>				NFormatFunctor;
 
 
 // Lists
-typedef std::vector<NFormatArgument>								NFormatArgumentList;
+typedef std::vector<const NFormatArgument*>							NFormatArgumentList;
 typedef NFormatArgumentList::iterator								NFormatArgumentListIterator;
 typedef NFormatArgumentList::const_iterator							NFormatArgumentListConstIterator;
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+//		Note :	See NFormatter.cpp for background - this class is needed to
+//				work around a gcc 4.0 bug, but user code should always use
+//				NString rather than this class.
+//----------------------------------------------------------------------------
+class NStringUTF8 : public std::string {
+public:
+	NStringUTF8(const std::string &theString)			: std::string(theString)			{ }
+	NStringUTF8(const char *theText)					: std::string(theText)				{ }
+	NStringUTF8(const char *theText, NIndex theSize)	: std::string(theText, theSize)		{ }
+
+										 NStringUTF8(void)		{ };
+	virtual								~NStringUTF8(void)		{ };
+
+	NIndex								GetSize(void)  const	{ return(size());  }
+	const char							*GetUTF8(void) const	{ return(c_str()); }
+};
 
 
 
@@ -81,36 +120,42 @@ public:
 										 NFormatArgument(unsigned long long theValue);
 										 NFormatArgument(  signed long long theValue);
 
-										 NFormatArgument(double      theValue);
-										 NFormatArgument(const void *theValue);
+										 NFormatArgument(double             theValue);
+										 NFormatArgument(const void        *theValue);
+										 NFormatArgument(const NStringUTF8 &theValue);
 
-										 NFormatArgument(const NFormatFunctor &getValue);
+										 NFormatArgument(void);
 	virtual								~NFormatArgument(void);
 
 
+	// Is the argument valid?
+	bool								IsValid(void) const;
+	
+
 	// Get the value
-	NString								GetValue(const NString &theFormat) const;
+	NStringUTF8							GetValue(const NStringUTF8 &theFormat) const;
 
 
 private:
-	NString								GetValueUInt(const NString &theFormat, unsigned int theValue);
-	NString								GetValueSInt(const NString &theFormat,   signed int theValue);
+	NStringUTF8							GetValueUInt(const NStringUTF8 &theFormat, unsigned int theValue);
+	NStringUTF8							GetValueSInt(const NStringUTF8 &theFormat,   signed int theValue);
 
-	NString								GetValueULong(const NString &theFormat, unsigned long theValue);
-	NString								GetValueSLong(const NString &theFormat,   signed long theValue);
+	NStringUTF8							GetValueULong(const NStringUTF8 &theFormat, unsigned long theValue);
+	NStringUTF8							GetValueSLong(const NStringUTF8 &theFormat,   signed long theValue);
 
-	NString								GetValueULongLong(const NString &theFormat, unsigned long long theValue);
-	NString								GetValueSLongLong(const NString &theFormat,   signed long long theValue);
+	NStringUTF8							GetValueULongLong(const NStringUTF8 &theFormat, unsigned long long theValue);
+	NStringUTF8							GetValueSLongLong(const NStringUTF8 &theFormat,   signed long long theValue);
 
-	NString								GetValueDouble( const NString &theFormat, double      theValue);
-	NString								GetValuePointer(const NString &theFormat, const void *theValue);
-
-	NString								GetValue(   const NString &theFormat, const NString &validTypes, ...);
-	bool								IsValidType(const NString &theFormat, const NString &validTypes);
+	NStringUTF8							GetValueDouble( const NStringUTF8 &theFormat, double             theValue);
+	NStringUTF8							GetValuePointer(const NStringUTF8 &theFormat, const void        *theValue);
+	NStringUTF8							GetValueString( const NStringUTF8 &theFormat, const NStringUTF8 &theValue);
+	
+	NStringUTF8							GetValue(   const NStringUTF8 &theFormat, const NStringUTF8 &validTypes, ...);
+	bool								IsValidType(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes);
 
 
 private:
-	NFormatFunctor						mGetValue;
+	NFormatFunctor						*mGetValue;
 };
 
 
@@ -135,28 +180,13 @@ public:
 	// Each argument is wrapped in an NFormatArgument object, whose GetValue
 	// method is invoked to obtain the formatted text.
 	//
-	// Custom objects can be printed using a '%@' specifier by providing an
+	// Custom objects can be printed using a '%@' specifier, by providing an
 	// NFormatArgument cast operator that returns the text for the object.
-	NString								Format(const NString &theFormat);
-	NString								Format(const NString &theFormat, FORMAT_ARG1);
-	NString								Format(const NString &theFormat, FORMAT_ARG2);
-	NString								Format(const NString &theFormat, FORMAT_ARG3);
-	NString								Format(const NString &theFormat, FORMAT_ARG4);
-	NString								Format(const NString &theFormat, FORMAT_ARG5);
-	NString								Format(const NString &theFormat, FORMAT_ARG6);
-	NString								Format(const NString &theFormat, FORMAT_ARG7);
-	NString								Format(const NString &theFormat, FORMAT_ARG8);
-	NString								Format(const NString &theFormat, FORMAT_ARG9);
-	NString								Format(const NString &theFormat, FORMAT_ARG10);
-	NString								Format(const NString &theFormat, FORMAT_ARG11);
-	NString								Format(const NString &theFormat, FORMAT_ARG12);
-	NString								Format(const NString &theFormat, FORMAT_ARG13);
-	NString								Format(const NString &theFormat, FORMAT_ARG14);
-	NString								Format(const NString &theFormat, FORMAT_ARG15);
+	NStringUTF8								Format(const NStringUTF8 &theFormat, FORMAT_ARGS);
 
 
 private:
-	NString								Format(const NString &theFormat, const NFormatArgumentList &theArguments);
+	NStringUTF8								Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
 
 
 private:

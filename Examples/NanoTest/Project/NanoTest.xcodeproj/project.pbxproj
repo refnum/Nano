@@ -35,7 +35,6 @@
 		AB4546EE0F8667E4008801FB /* TTargetTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546BF0F8667E4008801FB /* TTargetTime.cpp */; };
 		AB4546EF0F8667E4008801FB /* TAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546C20F8667E4008801FB /* TAtomicInt.cpp */; };
 		AB4546F00F8667E4008801FB /* TLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546C40F8667E4008801FB /* TLock.cpp */; };
-		AB4546F10F8667E4008801FB /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546C70F8667E4008801FB /* TCommandLine.cpp */; };
 		AB4546F20F8667E4008801FB /* TFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546CA0F8667E4008801FB /* TFileUtilities.cpp */; };
 		AB4546F30F8667E4008801FB /* TMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546CC0F8667E4008801FB /* TMathUtilities.cpp */; };
 		AB4546F40F8667E4008801FB /* TSTLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546CE0F8667E4008801FB /* TSTLUtilities.cpp */; };
@@ -44,6 +43,7 @@
 		AB4546F70F8667E4008801FB /* TTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546D40F8667E4008801FB /* TTimeUtilities.cpp */; };
 		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
 		AB7447D10F87577500FE0825 /* TFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7447D00F87577500FE0825 /* TFormatter.cpp */; };
+		AB9D47920F88257F00192692 /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4546C70F8667E4008801FB /* TCommandLine.cpp */; };
 		AB9E78C20F27D8D80043A657 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E789A0F27D8D80043A657 /* NanoTest.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 /* End PBXBuildFile section */
@@ -442,7 +442,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB9E78C20F27D8D80043A657 /* NanoTest.cpp in Sources */,
-				AB4546F10F8667E4008801FB /* TCommandLine.cpp in Sources */,
 				AB4546D60F8667E4008801FB /* TBroadcaster.cpp in Sources */,
 				AB4546D70F8667E4008801FB /* TListener.cpp in Sources */,
 				AB4546D80F8667E4008801FB /* TByteSwap.cpp in Sources */,
@@ -477,6 +476,7 @@
 				AB4546F60F8667E4008801FB /* TThreadUtilities.cpp in Sources */,
 				AB4546F70F8667E4008801FB /* TTimeUtilities.cpp in Sources */,
 				AB7447D10F87577500FE0825 /* TFormatter.cpp in Sources */,
+				AB9D47920F88257F00192692 /* TCommandLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

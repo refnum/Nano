@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NComparable.h"
+#include "NFormatter.h"
 #include "NString.h"
 
 
@@ -90,6 +91,10 @@ public:
 	void								SetGreen(Float32 theValue);
 	void								SetBlue( Float32 theValue);
 	void								SetAlpha(Float32 theValue);
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 private:

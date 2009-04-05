@@ -418,3 +418,22 @@ void NColor::SetAlpha(Float32 theValue)
 }
 
 
+
+
+
+//============================================================================
+//		NColor::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NColor::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{r=%g, g=%g, b=%g, a=%g}", mRed, mGreen, mBlue, mAlpha);
+
+	return(theResult);
+}
+
+
+
