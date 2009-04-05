@@ -322,7 +322,7 @@ bool NAtomicInt::operator > (int theValue) const
 
 
 //============================================================================
-//		NAtomicInt::SInt32 : Cast operator.
+//		NAtomicInt::SInt32 : SInt32 operator.
 //----------------------------------------------------------------------------
 NAtomicInt::operator SInt32(void) const
 {
