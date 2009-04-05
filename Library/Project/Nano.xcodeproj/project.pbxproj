@@ -202,6 +202,8 @@
 		AB984B540F84BC500070067B /* NWinTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTarget.cpp; sourceTree = "<group>"; };
 		AB984BD40F8570640070067B /* NFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtilities.h; sourceTree = "<group>"; };
 		AB984BD50F8570640070067B /* NFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtilities.cpp; sourceTree = "<group>"; };
+		AB9D4A5E0F8963FD00192692 /* checked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = checked.h; sourceTree = "<group>"; };
+		AB9D4A5F0F8963FD00192692 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
 		ABAF5C1E0F8575CF0097D8EF /* NByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NByteSwap.cpp; sourceTree = "<group>"; };
 		ABAF5C1F0F8575CF0097D8EF /* NByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NByteSwap.h; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				AB984A8A0F84AD500070067B /* Read Me.txt */,
 				AB984A700F84AD500070067B /* pcre_7.8 */,
 				AB984A8B0F84AD500070067B /* sqlite_3.6.12 */,
+				AB9D4A5D0F8963FD00192692 /* utf8_2.1 */,
 			);
 			name = "3rd Party";
 			path = "../Source/3rd Party";
@@ -474,6 +477,15 @@
 				AB984AFD0F84AEE80070067B /* NWinTime.cpp */,
 			);
 			path = Windows;
+			sourceTree = "<group>";
+		};
+		AB9D4A5D0F8963FD00192692 /* utf8_2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				AB9D4A5E0F8963FD00192692 /* checked.h */,
+				AB9D4A5F0F8963FD00192692 /* core.h */,
+			);
+			path = utf8_2.1;
 			sourceTree = "<group>";
 		};
 		ABAF5C1D0F8575CF0097D8EF /* System */ = {

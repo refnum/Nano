@@ -160,10 +160,9 @@ public:
 
 
 	// Extract a substring
-	NString								GetLeft(  NIndex theSize)								   const;
-	NString								GetRight( NIndex theSize)								   const;
-	NString								GetString(NIndex theLocation, NIndex theSize=kNStringSize) const;
-	NString								GetString(const NRange &theRange)						   const;
+	NString								GetLeft( NIndex theSize)          const;
+	NString								GetRight(NIndex theSize)          const;
+	NString								GetString(const NRange &theRange) const;
 
 
 	// Split the string

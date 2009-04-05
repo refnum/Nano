@@ -2,8 +2,8 @@
 		NString.cpp
 
 	DESCRIPTION:
-		String object.
-	
+		Strings are stored as NULL-terminated UTF8 strings.
+
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
 		<http://www.refnum.com/>
@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "checked.h"
 #include "pcre.h"
 
 #include "NSTLUtilities.h"
@@ -277,7 +278,7 @@ void NString::Replace(const NRange &theRange, const NString &replaceWith)
 
 	// Get the state we need
 	if (theRange.GetLocation() != 0)
-		thePrefix = GetString(0, theRange.GetLocation() - 1);
+		thePrefix = GetString(NRange(0, theRange.GetLocation() - 1));
 
 	if (theRange.GetNext() < GetSize())
 		theSuffix = GetString(theRange.GetNext());
@@ -636,7 +637,7 @@ NString NString::GetLeft(NIndex theSize) const
 
 
 	// Get the substring
-	return(GetString(0, theSize));
+	return(GetString(NRange(0, theSize)));
 }
 
 
@@ -657,22 +658,7 @@ NString NString::GetRight(NIndex theSize) const
 
 
 	// Get the substring
-	return(GetString(GetSize() - theSize, theSize));
-}
-
-
-
-
-
-//============================================================================
-//		NString::GetString : Get a substring.
-//----------------------------------------------------------------------------
-NString NString::GetString(NIndex theOffset, NIndex theSize) const
-{
-
-
-	// Get the substring
-	return(GetString(NRange(theOffset, theSize)));
+	return(GetString(NRange(GetSize() - theSize, theSize)));
 }
 
 
