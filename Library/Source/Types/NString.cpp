@@ -29,6 +29,13 @@
 const NString kNStringWhitespace									= "\\s";
 const NIndex  kNStringSize											= -1;
 
+static const UInt8 kMaskBytes1										= B8(10000000);
+static const UInt8 kMaskBytes2										= B8(11000000);
+static const UInt8 kMaskBytes3										= B8(11100000);
+static const UInt8 kMaskBytes4										= B8(11110000);
+static const UInt8 kMaskBytes0										= B8(00000000);
+static const UInt8 kMaskBytesN										= B8(10000000);
+
 
 
 
@@ -114,7 +121,7 @@ NIndex NString::GetSize(void) const
 	// Get the size
 	theValue = GetImmutable();
 
-	return(theValue->theSize);
+	return(theValue->codePoints.size());
 }
 
 
@@ -189,16 +196,20 @@ void NString::SetData(const NData &theData, NStringEncoding theEncoding)
 	theValue = GetMutable();
 	theErr   = theEncoder.Convert(theData, theValue->dataUTF8, theEncoding, kNStringEncodingUTF8);
 
+	if (theErr == noErr)
+		{
+		theValue->dataUTF8.AppendData(1);
+		ValueChanged(theValue);
+		}
+
+
+
+	// Handle failure
 	if (theErr != noErr)
 		{
 		NN_LOG("Unable to set string data");
 		Clear();
 		}
-	
-	
-	
-	// Update our state
-	ValueChanged();
 }
 
 
@@ -356,10 +367,11 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 //		NString::EndsWith : Does the string end with a string?
 //----------------------------------------------------------------------------
 bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
-{	NString		matchString;
-	NRange		theRange;
-	NIndex		theSize;
-	bool		isMatch;
+{	const char		*text1, *text2;
+	NString			matchString;
+	NRange			theRange;
+	NIndex			theSize;
+	bool			isMatch;
 
 
 
@@ -370,7 +382,11 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 		isMatch = (theSize <= GetSize());
 
 		if (isMatch)
-			isMatch = (memcmp(theString.GetUTF8(), GetUTF8() + GetSize() - theSize, theSize) == 0);
+			{
+			text1   = GetUTF8() + GetSize() - theSize;
+			text2   = theString.GetUTF8();
+			isMatch = (memcmp(text1, text2, theSize) == 0);
+			}
 		}
 
 
@@ -889,13 +905,11 @@ const NString& NString::operator += (const NString &theString)
 
 
 	// Append the string
-	theData->SetSize(theData->GetSize() - 1);
+	if (!theData->IsEmpty())
+		theData->SetSize(theData->GetSize() - 1);
+
 	theData->AppendData(*otherData);
-
-
-
-	// Update our state
-	ValueChanged();
+	ValueChanged(theValue);
 	
 	return(*this);
 }
@@ -964,7 +978,7 @@ NString::operator NFormatArgument(void) const
 //----------------------------------------------------------------------------
 #pragma mark -
 const NStringValue *NString::GetNullValue(void) const
-{	static NStringValue		sNullValue = { 0, NData() };
+{	static NStringValue		sNullValue = { NIndexList(), NData() };
 
 
 
@@ -986,7 +1000,7 @@ NHashCode NString::CalculateHash(void) const
 
 
 	// Calculate the hash code
-	if (theValue->theSize == 0)
+	if (theValue->codePoints.empty())
 		theResult = kNHashCodeNone;
 	else
 		theResult = NHashable::CalculateHash(theValue->dataUTF8.GetSize(), theValue->dataUTF8.GetData());
@@ -1002,13 +1016,15 @@ NHashCode NString::CalculateHash(void) const
 //      NString::ValueChanged : Our value has been changed.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NString::ValueChanged(void)
+void NString::ValueChanged(NStringValue *theValue)
 {
 
 
+	// Update the count
+	theValue->codePoints = GetCodePoints(theValue->dataUTF8);
+
+
 	// Reset our state
-	//
-	// State that depends on our value needs to be reset whenever it changes.
 	ClearHash();
 }
 
@@ -1233,4 +1249,85 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//      NString::GetCodePoints : Get the byte offsets of each UTF8 code point.
+//----------------------------------------------------------------------------
+NIndexList NString::GetCodePoints(const NData &theData)
+{	NIndex				n, numBytes, lastByte;
+	NIndexList			codePoints;
+	const UInt8			*theBytes;
+	UInt8				theByte;
+
+
+
+	// Get the state we need
+	numBytes = theData.IsEmpty() ? 0 : (theData.GetSize() - 1);
+	theBytes = theData.GetData();
+
+
+
+	// Find the offset for each code point
+	//
+	// Code points require 1-4 bytes in UTF8, identified by the top bits:
+	//
+	//		11110zzz	10zzyyyy	10yyyyxx	10xxxxxx
+	//		1110yyyy	10yyyyxx	10xxxxxx
+	//		110yyyxx	10xxxxxx
+	//		0xxxxxxx
+	//
+	// We should only be passed well-formed data.
+	lastByte = numBytes - 1;
+	n        = 0;
+
+	while (n < numBytes)
+		{
+		// Save the offset
+		codePoints.push_back(n);
+
+
+		// Advance to the next code point
+		theByte = theBytes[n];
+
+		if ((theByte & kMaskBytes4) == kMaskBytes4)
+			{
+			NN_ASSERT(n <= (lastByte-4));
+			NN_ASSERT((theBytes[n+1] & kMaskBytesN) != 0x00);
+			NN_ASSERT((theBytes[n+2] & kMaskBytesN) != 0x00);
+			NN_ASSERT((theBytes[n+3] & kMaskBytesN) != 0x00);
+			
+			n += 3;
+			}
+
+		else if ((theByte & kMaskBytes3) == kMaskBytes3)
+			{
+			NN_ASSERT(n <= (lastByte-2));
+			NN_ASSERT((theBytes[n+1] & kMaskBytesN) != 0x00);
+			NN_ASSERT((theBytes[n+2] & kMaskBytesN) != 0x00);
+			
+			n += 3;
+			}
+		
+		else if ((theByte & kMaskBytes2) == kMaskBytes2)
+			{
+			NN_ASSERT(n <= (lastByte-1));
+			NN_ASSERT((theBytes[n+1] & kMaskBytesN) != 0x00);
+
+			n += 2;
+			}
+		
+		else
+			{
+			NN_ASSERT((theBytes[n] & kMaskBytesN) == 0x00);
+			n += 1;
+			}
+		}
+
+	return(codePoints);
+}
+
 

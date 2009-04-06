@@ -57,7 +57,7 @@ extern const NIndex  kNStringSize;
 //----------------------------------------------------------------------------
 // Value
 typedef struct {
-	NIndex			theSize;
+	NIndexList		codePoints;
 	NData			dataUTF8;
 } NStringValue;
 
@@ -198,7 +198,7 @@ protected:
 
 
 private:
-	void								ValueChanged(void);
+	void								ValueChanged(NStringValue *theValue);
 
 	NRange								NormalizeRange(const NRange &theRange) const;
 
@@ -206,8 +206,7 @@ private:
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 
-
-private:
+	NIndexList							GetCodePoints(const NData &theData);
 
 
 };
