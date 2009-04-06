@@ -276,6 +276,27 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 
 
 //============================================================================
+//		NData::AppendData : Append data to the buffer.
+//----------------------------------------------------------------------------
+UInt8 *NData::AppendData(const NData &theData)
+{
+
+
+	// Check our parameters
+	if (theData.IsEmpty())
+		return(NULL);
+
+
+
+	// Append the data
+	return(AppendData(theData.GetSize(), theData.GetData()));
+}
+
+
+
+
+
+//============================================================================
 //		NData::ReplaceData : Replace data within the buffer.
 //----------------------------------------------------------------------------
 UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)

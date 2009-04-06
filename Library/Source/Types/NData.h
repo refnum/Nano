@@ -83,6 +83,7 @@ public:
 	// Returns a pointer to the newly-appended data within the buffer,
 	// or NULL if no data was appended.
 	UInt8								*AppendData(NIndex theSize, const void *thePtr=NULL);
+	UInt8								*AppendData(const NData &theData);
 
 
 	// Replace data
