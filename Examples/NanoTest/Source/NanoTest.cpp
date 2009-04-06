@@ -18,6 +18,8 @@
 
 #include "TCommandLine.h"
 
+#include "TDebug.h"
+
 #include "TBroadcaster.h"
 #include "TListener.h"
 
@@ -72,9 +74,13 @@ int main(int /*argc*/, const char ** /*argv*/)
 
 	// Application
 	TCommandLine::Execute();
-	
-	
-	
+
+
+	// Core
+	TDebug::Execute();
+
+
+
 	// Events
 	TBroadcaster::Execute();
 	TListener::Execute();

@@ -17,6 +17,7 @@
 #include "NMathUtilities.h"
 #include "NString.h"
 
+#include "CTestUtilities.h"
 #include "TStringFormatter.h"
 
 
@@ -42,6 +43,10 @@ static const Float64 kValueFloat64									= (Float64) kPi;
 static const char *kValuePtrChar									= "text";
 static const void *kValuePtrVoid									= (void *) 0xDEADBEEF;
 
+static const NString kResultMissingType								= ": Missing type: found '%' without type in 'NoSpecifier [% 12345]'\n";
+static const NString kResultTooFewArgs								= ": Wrong argument count: 'TooFewArgs [%d] [%d]' references 2 arguments, but 1 supplied\n";
+static const NString kResultTooManyArgs								= ": Wrong argument count: 'TooManyArgs [%d] [%d]' references 2 arguments, but 3 supplied\n";
+
 
 
 
@@ -50,8 +55,9 @@ static const void *kValuePtrVoid									= (void *) 0xDEADBEEF;
 //		TStringFormatter::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TStringFormatter::Execute(void)
-{	NStringFormatter	testFormatter;
-	NString				theResult;
+{	NString				theResult, theAssert;
+	NStringFormatter	testFormatter;
+
 
 
 	// Validate types
@@ -115,12 +121,22 @@ void TStringFormatter::Execute(void)
 	theResult = testFormatter.Format("PercentArg [%%]");
 	NN_ASSERT(theResult == "PercentArg [%]");
 
+	CTestUtilities::SetDebugCapture(true);
 	theResult = testFormatter.Format("NoSpecifier [% 12345]");
+	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "NoSpecifier [% 12345]");
+	NN_ASSERT(theAssert.EndsWith(kResultMissingType));
 
+	CTestUtilities::SetDebugCapture(true);
 	theResult = testFormatter.Format("TooFewArgs [%d] [%d]", 42);
+	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "TooFewArgs [42] []");
+	NN_ASSERT(theAssert.EndsWith(kResultTooFewArgs));
 
+	CTestUtilities::SetDebugCapture(true);
 	theResult = testFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
+	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "TooManyArgs [42] [23]");
+	NN_ASSERT(theAssert.EndsWith(kResultTooManyArgs));
 }
+
