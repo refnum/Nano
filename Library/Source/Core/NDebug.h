@@ -36,6 +36,15 @@
 
 
 //============================================================================
+//		Types
+//----------------------------------------------------------------------------
+typedef void (*DebugOutputProc)(const char *theMsg);
+
+
+
+
+
+//============================================================================
 //		Macros
 //----------------------------------------------------------------------------
 #if NN_DEBUG
@@ -104,6 +113,11 @@ public:
 	void								SetShowPath(bool showPath);
 
 
+	// Get/set the debug output callback
+	DebugOutputProc						GetDebugOutput(void) const;
+	void								SetDebugOutput(DebugOutputProc debugOutput);
+
+
 	// Log a message
 	void								LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &theMsg);
 
@@ -119,6 +133,7 @@ private:
 
 private:
 	bool								mShowPath;
+	DebugOutputProc						mDebugOutput;
 };
 
 

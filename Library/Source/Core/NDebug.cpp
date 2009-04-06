@@ -40,7 +40,8 @@ NDebug::NDebug(void)
 
 
 	// Initialize ourselves
-	mShowPath = false;
+	mShowPath    = false;
+	mDebugOutput = NTargetDebug::LogMessage;
 }
 
 
@@ -89,6 +90,39 @@ void NDebug::SetShowPath(bool showPath)
 
 
 //============================================================================
+//      NDebug::GetDebugOutput : Get the debug output callback.
+//----------------------------------------------------------------------------
+DebugOutputProc NDebug::GetDebugOutput(void) const
+{
+
+
+	// Get the callback
+	return(mDebugOutput);
+}
+
+
+
+
+
+//============================================================================
+//      NDebug::SetDebugOutput : Set the debug output callback.
+//----------------------------------------------------------------------------
+void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
+{
+
+
+	// Set the callback
+	if (debugOutput == NULL)
+		debugOutput = NTargetDebug::LogMessage;
+	
+	mDebugOutput = debugOutput;
+}
+
+
+
+
+
+//============================================================================
 //      NDebug::LogMessage : Log a message.
 //----------------------------------------------------------------------------
 void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &theMsg)
@@ -110,7 +144,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 
 	// Print it out
-	NTargetDebug::LogMessage(finalMsg.GetUTF8());
+	mDebugOutput(finalMsg.GetUTF8());
 }
 
 
