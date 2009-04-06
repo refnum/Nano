@@ -69,6 +69,8 @@ public:
  	
 
 	// Get/set the data
+	//
+	// An empty data object will return a NULL pointer.
 	const UInt8							*GetData(NIndex theOffset=0) const;
 	UInt8								*GetData(NIndex theOffset=0);
 	

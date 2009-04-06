@@ -93,7 +93,8 @@ void NData::Clear(void)
 //		NData::GetSize : Get the size.
 //----------------------------------------------------------------------------
 NIndex NData::GetSize(void) const
-{	NIndex		theSize;
+{	const NDataValue		*theValue;
+	NIndex					theSize;
 
 
 
@@ -101,7 +102,10 @@ NIndex NData::GetSize(void) const
 	if (mExternalSize != 0)
 		theSize = mExternalSize;
 	else
-		theSize = GetImmutable()->size();
+		{
+		theValue = GetImmutable();
+		theSize  = theValue->size();
+		}
 
 	return(theSize);
 }
@@ -114,12 +118,18 @@ NIndex NData::GetSize(void) const
 //		NData::SetSize : Set the size.
 //----------------------------------------------------------------------------
 void NData::SetSize(NIndex theSize)
-{	NDataValue		*theData;
+{	NDataValue		*theValue;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(theSize >= 0);
+
+
+
+	// Check our state
+	if (theSize == GetSize())
+		return;
 
 
 
@@ -133,11 +143,11 @@ void NData::SetSize(NIndex theSize)
 			mExternalSize = theSize;
 
 
-		// Or resize our own (if necessary)
-		else if (theSize != GetSize())
+		// Or resize our own
+		else
 			{
-			theData = GetMutable();
-			theData->resize(theSize, 0x00);
+			theValue = GetMutable();
+			theValue->resize(theSize, 0x00);
 			}
 		}
 }
@@ -150,20 +160,31 @@ void NData::SetSize(NIndex theSize)
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
 const UInt8 *NData::GetData(NIndex theOffset) const
-{	const UInt8		*thePtr;
+{	const NDataValue		*theValue;
+	const UInt8				*thePtr;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+#if NN_DEBUG
+	if (!IsEmpty())
+		NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+#endif
 
 
 
 	// Get the data
-	if (mExternalPtr != NULL)
+	if (IsEmpty())
+		thePtr = NULL;
+
+	else if (mExternalPtr != NULL)
 		thePtr = ((const UInt8 *) mExternalPtr) + theOffset;
+
 	else
-		thePtr = &GetImmutable()->at(theOffset);
+		{
+		theValue = GetImmutable();
+		thePtr   = &theValue->at(theOffset);
+		}
 
 	return(thePtr);
 }
@@ -176,18 +197,30 @@ const UInt8 *NData::GetData(NIndex theOffset) const
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
 UInt8 *NData::GetData(NIndex theOffset)
-{	UInt8	*thePtr;
+{	NDataValue		*theValue;
+	UInt8			*thePtr;
 
 
 
 	// Validate our parameters and state
-	NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+#if NN_DEBUG
+	if (!IsEmpty())
+		NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+#endif
+
 	NN_ASSERT(mExternalSize == 0 && mExternalPtr == NULL);
 
 
 
 	// Get the data
-	thePtr = &GetMutable()->at(theOffset);
+	if (IsEmpty())
+		thePtr = NULL;
+	
+	else
+		{
+		theValue = GetMutable();
+		thePtr   = &theValue->at(theOffset);
+		}
 
 	return(thePtr);
 }
@@ -200,7 +233,7 @@ UInt8 *NData::GetData(NIndex theOffset)
 //		NData::SetData : Set the data.
 //----------------------------------------------------------------------------
 void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
-{	NDataValue		*theData;
+{	NDataValue		*theValue;
 
 
 
@@ -212,11 +245,11 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 	// Copy the data
 	if (makeCopy)
 		{
-		theData = GetMutable();
-		theData->resize(theSize);
+		theValue = GetMutable();
+		theValue->resize(theSize);
 
 		if (theSize != 0)
-			memcpy(&theData->at(0), thePtr, theSize);
+			memcpy(&theValue->at(0), thePtr, theSize);
 		}
 
 
@@ -238,7 +271,7 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 //		NData::AppendData : Append data to the buffer.
 //----------------------------------------------------------------------------
 UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
-{	NDataValue		*theData;
+{	NDataValue		*theValue;
 	UInt8			*dstPtr;
 	NIndex			oldSize;
 
@@ -256,14 +289,14 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 
 
 	// Get the state we need
-	theData = GetMutable();
-	oldSize = theData->size();
+	theValue = GetMutable();
+	oldSize  = theValue->size();
 
 
 
 	// Append the data
-	theData->resize(oldSize + theSize, 0x00);
-	dstPtr = &theData->at(oldSize);
+	theValue->resize(oldSize + theSize, 0x00);
+	dstPtr = &theValue->at(oldSize);
 
 	if (thePtr != NULL)
 		memcpy(dstPtr, thePtr, theSize);
@@ -301,7 +334,7 @@ UInt8 *NData::AppendData(const NData &theData)
 //----------------------------------------------------------------------------
 UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)
 {	NIndex			oldSize, blockSize, sizeDelta;
-	NDataValue		*theData;
+	NDataValue		*theValue;
 	UInt8			*dstPtr;
 	const UInt8		*srcPtr;
 
@@ -314,8 +347,8 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 
 
 	// Get the state we need
-	theData = GetMutable();
-	oldSize = theData->size();
+	theValue = GetMutable();
+	oldSize  = theValue->size();
 
 
 
@@ -323,15 +356,15 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 	if (theSize >= theRange.GetSize())
 		{
 		sizeDelta = theSize - theRange.GetSize();
-		theData->resize(oldSize + sizeDelta);
+		theValue->resize(oldSize + sizeDelta);
 
-		srcPtr    = &theData->at(theRange.GetLocation() + theRange.GetSize());
-		dstPtr    = &theData->at(theRange.GetLocation() + theSize);
+		srcPtr    = &theValue->at(theRange.GetLocation() + theRange.GetSize());
+		dstPtr    = &theValue->at(theRange.GetLocation() + theSize);
 		blockSize = oldSize - theRange.GetNext();
 		memmove(dstPtr, srcPtr, blockSize);
 
 		srcPtr    = (const UInt8 *) thePtr;
-		dstPtr    = &theData->at(theRange.GetLocation());
+		dstPtr    = &theValue->at(theRange.GetLocation());
 		blockSize = theSize;
 		memcpy(dstPtr, srcPtr, blockSize);
 		}
@@ -341,23 +374,23 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 	else
 		{
 		srcPtr    = (const UInt8 *) thePtr;
-		dstPtr    = &theData->at(theRange.GetLocation());
+		dstPtr    = &theValue->at(theRange.GetLocation());
 		blockSize = theSize;
 		memcpy(dstPtr, srcPtr, blockSize);
 
-		srcPtr    = &theData->at(theRange.GetLocation() + theRange.GetSize());
-		dstPtr    = &theData->at(theRange.GetLocation() + theSize);
+		srcPtr    = &theValue->at(theRange.GetLocation() + theRange.GetSize());
+		dstPtr    = &theValue->at(theRange.GetLocation() + theSize);
 		blockSize = oldSize - theRange.GetNext();
 		memmove(dstPtr, srcPtr, blockSize);
 
 		sizeDelta = theRange.GetSize() - theSize;
-		theData->resize(oldSize - sizeDelta);
+		theValue->resize(oldSize - sizeDelta);
 		}
 
 
 
 	// Get the data
-	dstPtr = &theData->at(theRange.GetLocation());
+	dstPtr = &theValue->at(theRange.GetLocation());
 
 	return(dstPtr);
 }
@@ -397,7 +430,7 @@ void NData::RemoveData(NIndex theSize, bool fromFront)
 //----------------------------------------------------------------------------
 void NData::RemoveData(const NRange &theRange)
 {	NDataValueIterator		iterStart, iterEnd;
-	NDataValue				*theData;
+	NDataValue				*theValue;
 
 
 
@@ -408,14 +441,14 @@ void NData::RemoveData(const NRange &theRange)
 
 
 	// Get the state we need
-	theData   = GetMutable();
-	iterStart = theData->begin() + theRange.GetFirst();
-	iterEnd   = theData->begin() + theRange.GetNext();
+	theValue  = GetMutable();
+	iterStart = theValue->begin() + theRange.GetFirst();
+	iterEnd   = theValue->begin() + theRange.GetNext();
 
 
 
 	// Remove the data
-	theData->erase(iterStart, iterEnd);
+	theValue->erase(iterStart, iterEnd);
 }
 
 
@@ -458,12 +491,12 @@ NComparison NData::Compare(const NData &theValue) const
 //----------------------------------------------------------------------------
 #pragma mark -
 NDataValue *NData::GetMutable(void)
-{	NDataValue		*theData;
+{	NDataValue		*theValue;
 
 
 
 	// Get the state we need
-	theData = NSharedValueData::GetMutable();
+	theValue = NSharedValueData::GetMutable();
 
 
 
@@ -473,14 +506,14 @@ NDataValue *NData::GetMutable(void)
 	// access, but must be copied when mutable access is required.
 	if (mExternalSize != 0)
 		{
-		theData->resize(mExternalSize);
-		memcpy(&theData->at(0), mExternalPtr, mExternalSize);
+		theValue->resize(mExternalSize);
+		memcpy(&theValue->at(0), mExternalPtr, mExternalSize);
 
 		mExternalSize = 0;
 		mExternalPtr  = NULL;
 		}
 
-	return(theData);
+	return(theValue);
 }
 
 
