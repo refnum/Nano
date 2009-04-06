@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <algorithm>
+#include <iterator>
 #include <vector>
 #include <list>
 #include <map>
@@ -165,10 +166,13 @@ static const NTime kNTimeForever									= -1.0;
 
 // Status
 static const NStatus kNoErr											= 0;
-static const NStatus kNErrMemFull									= -1;
-static const NStatus kNErrBadParam									= -2;
-static const NStatus kNErrTimeout									= -3;
-
+static const NStatus kNErrParam										= -1;
+static const NStatus kNErrTimeout									= -2;
+static const NStatus kNErrMemory									= -3;
+static const NStatus kNErrMalformed									= -4;
+static const NStatus kNErrInternal									= -5;
+static const NStatus kNErrExhaustedSrc								= -6;
+static const NStatus kNErrExhaustedDst								= -7;
 
 
 

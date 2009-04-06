@@ -31,13 +31,13 @@ NStatus NMacTarget::GetStatus(OSStatus theErr)
 	// Convert the error
 	switch (theErr) {
 		case noErr:				theResult = kNoErr;				break;
-		case memFullErr:		theResult = kNErrMemFull;		break;
-		case paramErr:			theResult = kNErrBadParam;		break;
+		case memFullErr:		theResult = kNErrMemory;		break;
+		case paramErr:			theResult = kNErrParam;			break;
 		case kMPTimeoutErr:		theResult = kNErrTimeout;		break;
 
 		default:
 			NN_LOG("Unable to convert %ld", theErr);
-			theResult = kNErrBadParam;
+			theResult = kNErrParam;
 			break;
 		}
 	
