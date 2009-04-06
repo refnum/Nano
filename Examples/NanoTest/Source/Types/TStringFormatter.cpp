@@ -1,8 +1,8 @@
 /*	NAME:
-		TFormatter.cpp
+		TStringFormatter.cpp
 
 	DESCRIPTION:
-		NFormatter tests.
+		NStringFormatter tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -15,10 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
-#include "NFormatter.h"
 #include "NString.h"
 
-#include "TFormatter.h"
+#include "TStringFormatter.h"
 
 
 
@@ -48,11 +47,11 @@ static const void *kValuePtrVoid									= (void *) 0xDEADBEEF;
 
 
 //============================================================================
-//		TFormatter::Execute : Execute the tests.
+//		TStringFormatter::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-void TFormatter::Execute(void)
-{	NFormatter		testFormatter;
-	NString			theResult;
+void TStringFormatter::Execute(void)
+{	NStringFormatter	testFormatter;
+	NString				theResult;
 
 
 	// Validate types

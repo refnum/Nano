@@ -1,5 +1,5 @@
 /*	NAME:
-		NFormatter.h
+		NStringFormatter.h
 
 	DESCRIPTION:
 		String formatter.
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NFORMATTER_HDR
-#define NFORMATTER_HDR
+#ifndef NSTRINGFORMATTER_HDR
+#define NSTRINGFORMATTER_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ public:
 										 NStringUTF8(void)		{ };
 	virtual								~NStringUTF8(void)		{ };
 
-	NIndex								GetSize(void)  const	{ return(size());  }
+	NIndex								 GetSize(void) const	{ return(size()); }
 	const char							*GetUTF8(void) const	{ return(c_str()); }
 };
 
@@ -165,10 +165,10 @@ private:
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NFormatter {
+class NStringFormatter {
 public:
-										 NFormatter(void);
-	virtual								~NFormatter(void);
+										 NStringFormatter(void);
+	virtual								~NStringFormatter(void);
 
 
 	// Format an argument list
@@ -198,4 +198,4 @@ private:
 
 
 
-#endif // NFORMATTER_HDR
+#endif // NSTRINGFORMATTER_HDR

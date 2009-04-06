@@ -20,7 +20,8 @@
 #include "NHashable.h"
 #include "NSharedValue.h"
 #include "NData.h"
-#include "NFormatter.h"
+#include "NStringFormatter.h"
+#include "NStringEncoder.h"
 #include "NRange.h"
 
 
@@ -30,14 +31,6 @@
 //============================================================================
 //      Constants
 //----------------------------------------------------------------------------
-// Encodings
-typedef enum {
-	kNStringEncodingUTF8,
-	kNStringEncodingUTF16,
-	kNStringEncodingUTF32
-} NStringEncoding;
-
-
 // Flags
 typedef NBitfield NStringFlags;
 
@@ -62,10 +55,16 @@ extern const NIndex  kNStringSize;
 //============================================================================
 //      Types
 //----------------------------------------------------------------------------
-typedef std::vector<UInt8>											NStringValue;
-typedef NStringValue::iterator										NStringValueIterator;
-typedef NStringValue::const_iterator								NStringValueConstIterator;
+// Value
+typedef struct {
+	NIndex			theSize;
+	NData			dataUTF8;
+} NStringValue;
 
+typedef NSharedValue<NStringValue>									NSharedValueString;
+
+
+// Lists
 typedef std::vector<NString>										NStringList;
 typedef NStringList::iterator										NStringListIterator;
 typedef NStringList::const_iterator									NStringListConstIterator;
@@ -73,8 +72,6 @@ typedef NStringList::const_iterator									NStringListConstIterator;
 typedef std::map<NString, NString>									NStringMap;
 typedef NStringMap::iterator										NStringMapIterator;
 typedef NStringMap::const_iterator									NStringMapConstIterator;
-
-typedef NSharedValue<NStringValue>									NSharedValueString;
 
 
 
@@ -88,7 +85,7 @@ class NString :	public NContainer,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
-										NString(const char			*theText, NIndex theSize=kNStringSize, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const void			*thePtr, NIndex numBytes=kNStringSize, NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NData			&theData,                              NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NStringUTF8	&theString);
 										
@@ -98,21 +95,18 @@ public:
 
 	// Get the size
 	//
-	// GetSize returns the number of characters in the string, while GetEncodingSize
-	// returns the number of bytes needed for a particular encoding.
+	// Returns the number of code points in the string.
 	NIndex								GetSize(void) const;
-	NIndex								GetEncodingSize(NStringEncoding theEncoding=kNStringEncodingUTF8) const;
 
 
-	// Get the string data
+	// Get/set the string
 	//
-	// Returned pointers are to a NULL-terminated string in the specified encoding,
-	// which are valid until the string object is modified or destroyed.
-	//
-	// Multi-byte encodings may contain embedded 0s, so must return an explicit size.
+	// GetUTF8 returns a NULL-terminated string. GetData can optionally include
+	// a NULL terminator, of the specified size, to the encoded string.
 	const char							*GetUTF8(void) const;
-	const UInt8							*GetData(NIndex &theSize, NStringEncoding theEncoding=kNStringEncodingUTF8) const;
-	NData								 GetData(                 NStringEncoding theEncoding=kNStringEncodingUTF8) const;
+
+	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NIndex nullBytes=0) const;
+	void								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
 
 	// Find a substring
@@ -204,7 +198,6 @@ protected:
 
 
 private:
-	void								SetValue(NIndex theSize, const void *thePtr, NStringEncoding theEncoding);
 	void								ValueChanged(void);
 
 	NRange								NormalizeRange(const NRange &theRange) const;
@@ -215,7 +208,8 @@ private:
 
 
 private:
-	mutable UInt8List					mData;
+
+
 };
 
 

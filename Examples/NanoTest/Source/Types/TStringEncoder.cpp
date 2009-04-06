@@ -1,8 +1,8 @@
 /*	NAME:
-		TFormatter.h
+		TStringEncoder.cpp
 
 	DESCRIPTION:
-		NFormatter tests.
+		NStringEncoder tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,27 +11,25 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TFORMATTER_HDR
-#define TFORMATTER_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NString.h"
+
+#include "TStringEncoder.h"
 
 
 
 
 
 //============================================================================
-//		Class declaration
+//		TStringEncoder::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-class TFormatter {
-public:
+void TStringEncoder::Execute(void)
+{	NStringEncoder		testEncoder;
+
+
+
 	// Execute the tests
-	static void							Execute(void);
-};
+}
 
-
-
-
-
-#endif // TFORMATTER_HDR

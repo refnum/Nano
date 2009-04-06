@@ -1,12 +1,12 @@
 /*	NAME:
-		NFormatter.cpp
+		NStringFormatter.cpp
 
 	DESCRIPTION:
 		String formatter.
 		
-		NFormatter uses NStringUTF8, rather than NString, since its header is
-		included in the precompiled header to allow the NN_LOG macros from
-		NDebug.h to format objects:
+		NStringFormatter uses NStringUTF8, rather than NString, since its header
+		is included in the precompiled header so that the NN_LOG macros from
+		NDebug.h can be used to format objects:
 		
 			NString		theString = "test";
 			NColor		theColor  = kColorRed;
@@ -22,7 +22,7 @@
 		This prevents us from using NFunctor, or classes which reference it, in
 		the precompiled header file.
 		
-		Instead NFormatter defines its own simple string class, which NString
+		Instead NStringFormatter defines its own simple string class, which NString
 		provides a copy contructor and cast operator for to allow it to be used
 		interchangeably with NString outside of NDebug.h.
 
@@ -36,8 +36,8 @@
 			- Nano.h can pull in all header files into the precompiled header,
 			  including NFunctor.h, speeding up builds and avoiding this issue.
 		
-			- NFormatter.h can declare NFormatFunctor, and NFormatArgument can
-			  use this type directly rather than through a pointer.
+			- NStringFormatter.h can declare NFormatFunctor, and NFormatArgument
+			  can use this type directly rather than through a pointer.
 
 			- NFormatArgument will be able to take an NFormatFunctor for the
 			  the %@ case, rather than an explicit string, allowing an arbitrary
@@ -63,7 +63,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFunctor.h"
-#include "NFormatter.h"
+#include "NStringFormatter.h"
 
 
 
@@ -431,10 +431,10 @@ bool NFormatArgument::IsValidType(const NStringUTF8 &theFormat, const NStringUTF
 
 
 //============================================================================
-//		NFormatter::NFormatter : Constructor.
+//		NStringFormatter::NStringFormatter : Constructor.
 //----------------------------------------------------------------------------
 #pragma mark -
-NFormatter::NFormatter(void)
+NStringFormatter::NStringFormatter(void)
 {
 }
 
@@ -443,9 +443,9 @@ NFormatter::NFormatter(void)
 
 
 //============================================================================
-//		NFormatter::~NFormatter : Destructor.
+//		NStringFormatter::~NStringFormatter : Destructor.
 //----------------------------------------------------------------------------
-NFormatter::~NFormatter(void)
+NStringFormatter::~NStringFormatter(void)
 {
 }
 
@@ -454,9 +454,9 @@ NFormatter::~NFormatter(void)
 
 
 //============================================================================
-//		NFormatter::Format : Format an argument list.
+//		NStringFormatter::Format : Format an argument list.
 //----------------------------------------------------------------------------
-NStringUTF8 NFormatter::Format(const NStringUTF8 &theFormat, FORMAT_ARGS_PARAM)
+NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, FORMAT_ARGS_PARAM)
 {	NFormatArgumentList		theArguments;
 
 
@@ -472,10 +472,10 @@ NStringUTF8 NFormatter::Format(const NStringUTF8 &theFormat, FORMAT_ARGS_PARAM)
 
 
 //============================================================================
-//		NFormatter::Format : Format an argument list.
+//		NStringFormatter::Format : Format an argument list.
 //----------------------------------------------------------------------------
 #pragma mark -
-NStringUTF8 NFormatter::Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments)
+NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments)
 {	const char		*textUTF8, *typesUTF8, *formatStart, *formatEnd;
 	NStringUTF8			theResult, argFormat;
 	UInt32			numFound, numUsed;

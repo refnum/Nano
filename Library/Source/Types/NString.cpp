@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "checked.h"
 #include "pcre.h"
 
 #include "NSTLUtilities.h"
@@ -37,12 +36,15 @@ const NIndex  kNStringSize											= -1;
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
-NString::NString(const char *theText, NIndex theSize, NStringEncoding theEncoding)
+NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncoding)
 {
 
 
 	// Initialize ourselves
-	SetValue(theSize, theText, theEncoding);
+	if (numBytes == kNStringSize)
+		numBytes = strlen((const char *) thePtr);
+	
+	SetData(NData(numBytes, thePtr), theEncoding);
 }
 
 
@@ -57,7 +59,7 @@ NString::NString(const NData &theData, NStringEncoding theEncoding)
 
 
 	// Initialize ourselves
-	SetValue(theData.GetSize(), theData.GetData(), theEncoding);
+	SetData(theData, theEncoding);
 }
 
 
@@ -72,7 +74,7 @@ NString::NString(const NStringUTF8 &theString)
 
 
 	// Initialize ourselves
-	SetValue(theString.GetSize(), theString.GetUTF8(), kNStringEncodingUTF8);
+	SetData(NData(theString.GetSize(), theString.GetUTF8()), kNStringEncodingUTF8);
 }
 
 
@@ -105,45 +107,14 @@ NString::~NString(void)
 //		NString::GetSize : Get the size.
 //----------------------------------------------------------------------------
 NIndex NString::GetSize(void) const
-{	const NStringValue		*theValue = GetImmutable();
+{	const NStringValue		*theValue;
 
 
 
 	// Get the size
-	return(theValue->size() - 1);
-}
+	theValue = GetImmutable();
 
-
-
-
-
-//============================================================================
-//		NString::GetEncodingSize : Get the size in bytes for an encoding.
-//----------------------------------------------------------------------------
-NIndex NString::GetEncodingSize(NStringEncoding theEncoding) const
-{	const NStringValue		*theValue = GetImmutable();
-	NIndex					theSize;
-
-
-
-	// Get the size
-	switch (theEncoding) {
-		case kNStringEncodingUTF8:
-			theSize = theValue->size();
-			break;
-
-		case kNStringEncodingUTF16:
-		case kNStringEncodingUTF32:
-			NN_LOG("Unsupported encoding");
-			break;
-
-		default:
-			NN_LOG("Unknown encoding: %d", theEncoding);
-			theSize = 0;
-			break;
-		}
-
-	return(theSize);
+	return(theValue->theSize);
 }
 
 
@@ -154,12 +125,16 @@ NIndex NString::GetEncodingSize(NStringEncoding theEncoding) const
 //		NString::GetUTF8 : Get the string.
 //----------------------------------------------------------------------------
 const char *NString::GetUTF8(void) const
-{	const NStringValue		*theValue = GetImmutable();
+{	const NStringValue		*theValue;
+	const char				*theText;
 
 
 
 	// Get the string
-	return((const char *) &theValue->at(0));
+	theValue = GetImmutable();
+	theText  = (const char *) theValue->dataUTF8.GetData();
+	
+	return(theText);
 }
 
 
@@ -169,63 +144,61 @@ const char *NString::GetUTF8(void) const
 //============================================================================
 //		NString::GetData : Get the string.
 //----------------------------------------------------------------------------
-const UInt8 *NString::GetData(NIndex &theSize, NStringEncoding theEncoding) const
-{	const UInt8		*thePtr;
-	NData			theData;
+NData NString::GetData(NStringEncoding theEncoding, NIndex nullBytes) const
+{	NStringEncoder			theEncoder;
+	const NStringValue		*theValue;
+	NData					theData;
+	OSStatus				theErr;
 
 
 
 	// Get the string
-	switch (theEncoding) {
-		case kNStringEncodingUTF8:
-			// Use the internal representation
-			theSize = GetSize();
-			thePtr  = (const UInt8 *) GetUTF8();
-			break;
+	theValue = GetImmutable();
+	theErr   = theEncoder.Convert(theValue->dataUTF8, theData, kNStringEncodingUTF8, theEncoding);
 
-		default:
-			// Use the temporary buffer
-			theData = GetData(theEncoding);
-			theSize = theData.GetSize();
-
-			mData.resize(theSize);
-			memcpy(&mData[0], theData.GetData(), theSize);
-			thePtr = &mData[0];
-			break;
+	if (theErr != noErr)
+		{
+		NN_LOG("Unable to convert '%@' to encoding %d", *this, theEncoding);
+		theData.Clear();
 		}
 
-	return(thePtr);
-}
 
 
-
-
-
-//============================================================================
-//		NString::GetData : Get the string.
-//----------------------------------------------------------------------------
-NData NString::GetData(NStringEncoding theEncoding) const
-{	NData	theData;
-
-
-
-	// Get the string
-	switch (theEncoding) {
-		case kNStringEncodingUTF8:
-			theData.AppendData(GetSize(), GetUTF8());
-			break;
-
-		case kNStringEncodingUTF16:
-		case kNStringEncodingUTF32:
-			NN_LOG("Unsupported encoding");
-			break;
-
-		default:
-			NN_LOG("Unknown encoding: %d", theEncoding);
-			break;
-		}
+	// Add the terminator
+	if (theErr == noErr && nullBytes != 0)
+		theData.AppendData(nullBytes);
 
 	return(theData);
+}
+
+
+
+
+
+//============================================================================
+//		NString::SetData : Set the string.
+//----------------------------------------------------------------------------
+void NString::SetData(const NData &theData, NStringEncoding theEncoding)
+{	NStringEncoder			theEncoder;
+	NStringValue			*theValue;
+	OSStatus				theErr;
+
+
+
+	// Set the string
+	theValue = GetMutable();
+	theErr   = theEncoder.Convert(theData, theValue->dataUTF8, theEncoding, kNStringEncodingUTF8);
+
+	if (theErr != noErr)
+		{
+		NN_LOG("Unable to set string data");
+		Clear();
+		}
+	
+	
+	
+	// Update our state
+	ValueChanged();
 }
 
 
@@ -883,7 +856,7 @@ void NString::TrimRight(NIndex theSize)
 //		NString::Format : Format the string.
 //----------------------------------------------------------------------------
 void NString::Format(const NString &theFormat, FORMAT_ARGS_PARAM)
-{	NFormatter		theFormatter;
+{	NStringFormatter		theFormatter;
 
 
 
@@ -900,19 +873,24 @@ void NString::Format(const NString &theFormat, FORMAT_ARGS_PARAM)
 //----------------------------------------------------------------------------
 const NString& NString::operator += (const NString &theString)
 {	const NStringValue		*otherValue;
+	const NData				*otherData;
 	NStringValue			*theValue;
+	NData					*theData;
 
 
 
 	// Get the state we need
-	theValue   = GetMutable();
+	theValue = GetMutable();
+	theData  = &theValue->dataUTF8;
+	
 	otherValue = theString.GetImmutable();
+	otherData  = &otherValue->dataUTF8;
 
 
 
 	// Append the string
-	theValue->pop_back();
-	append(*theValue, *otherValue);
+	theData->SetSize(theData->GetSize() - 1);
+	theData->AppendData(*otherData);
 
 
 
@@ -986,7 +964,7 @@ NString::operator NFormatArgument(void) const
 //----------------------------------------------------------------------------
 #pragma mark -
 const NStringValue *NString::GetNullValue(void) const
-{	static NStringValue		sNullValue = vector((UInt8) 0x00);
+{	static NStringValue		sNullValue = { 0, NData() };
 
 
 
@@ -1008,10 +986,10 @@ NHashCode NString::CalculateHash(void) const
 
 
 	// Calculate the hash code
-	if (theValue->empty())
+	if (theValue->theSize == 0)
 		theResult = kNHashCodeNone;
 	else
-		theResult = NHashable::CalculateHash(theValue->size(), &theValue->at(0));
+		theResult = NHashable::CalculateHash(theValue->dataUTF8.GetSize(), theValue->dataUTF8.GetData());
 
 	return(theResult);
 }
@@ -1021,45 +999,9 @@ NHashCode NString::CalculateHash(void) const
 
 
 //============================================================================
-//		NString::SetValue : Set the value.
-//----------------------------------------------------------------------------
-#pragma mark -
-void NString::SetValue(NIndex theSize, const void *thePtr, NStringEncoding theEncoding)
-{	NStringValue	*theValue;
-
-
-
-	// Get the state we need
-	if (theSize == kNStringSize)
-		theSize = strlen((const char *) thePtr);			// dair, handle non-UTF8 encodings
-
-
-
-	// Set the value
-	if (theSize == 0 || thePtr == NULL)
-		Clear();
-	else
-		{
-		theValue = GetMutable();
-		theValue->resize(theSize);
-
-		memcpy(&theValue->at(0), thePtr, theSize);
-		theValue->push_back(0x00);
-		}
-
-
-
-	// Update our state
-	ValueChanged();
-}
-
-
-
-
-
-//============================================================================
 //      NString::ValueChanged : Our value has been changed.
 //----------------------------------------------------------------------------
+#pragma mark -
 void NString::ValueChanged(void)
 {
 
@@ -1067,17 +1009,7 @@ void NString::ValueChanged(void)
 	// Reset our state
 	//
 	// State that depends on our value needs to be reset whenever it changes.
-	//
-	// To help expose stale pointers returned through GetData(), we scrub the
-	// buffer in debug builds (vs just freeing the memory).
 	ClearHash();
-
-#if NN_DEBUG
-	if (!mData.empty())
-		memset(&mData[0], 'X', mData.size());
-#else
-	mData.clear();
-#endif
 }
 
 
@@ -1301,8 +1233,4 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	return(theResult);
 }
-
-
-
-
 

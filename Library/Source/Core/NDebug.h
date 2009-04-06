@@ -18,7 +18,7 @@
 //----------------------------------------------------------------------------
 #include <stdarg.h>
 
-#include "NFormatter.h"
+#include "NStringFormatter.h"
 
 
 
@@ -39,35 +39,35 @@
 //		Macros
 //----------------------------------------------------------------------------
 #if NN_DEBUG
-	#define NN_ASSERT(_test)																							\
-		do																												\
-			{																											\
-			if (!(_test))																								\
-				NDebug::Get()->LogMessage(__FILE__, __LINE__, NFormatter().Format("Assertion failed: %s", #_test));		\
-			}																											\
+	#define NN_ASSERT(_test)																								\
+		do																													\
+			{																												\
+			if (!(_test))																									\
+				NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format("Assertion failed: %s", #_test));	\
+			}																												\
 		while(0)
 
-	#define NN_ASSERT_MSG(_test, _message, ...)																										\
-		do																																			\
-			{																																		\
-			if (!(_test))																															\
-				NDebug::Get()->LogMessage(__FILE__, __LINE__, NFormatter().Format("Assertion failed: %s (" #_message ")", #_test, ##__VA_ARGS__));	\
-			}																																		\
+	#define NN_ASSERT_MSG(_test, _message, ...)																												\
+		do																																					\
+			{																																				\
+			if (!(_test))																																	\
+				NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format("Assertion failed: %s (" #_message ")", #_test, ##__VA_ARGS__));	\
+			}																																				\
 		while(0)
 
-	#define NN_ASSERT_NOERR(_error)																						\
-		do																												\
-			{																											\
-			if ((_error) != kNoErr)																						\
-				NDebug::Get()->LogMessage(__FILE__, __LINE__, NFormatter().Format("Error: %ld", _error));				\
-			}																											\
+	#define NN_ASSERT_NOERR(_error)																							\
+		do																													\
+			{																												\
+			if ((_error) != kNoErr)																							\
+				NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format("Error: %ld", _error));				\
+			}																												\
 		while(0)
 
-	#define NN_LOG(...)																									\
-		do																												\
-			{																											\
-			NDebug::Get()->LogMessage(__FILE__, __LINE__, NFormatter().Format(__VA_ARGS__));							\
-			}																											\
+	#define NN_LOG(...)																										\
+		do																													\
+			{																												\
+			NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format(__VA_ARGS__));							\
+			}																												\
 		while(0)
 
 #else
