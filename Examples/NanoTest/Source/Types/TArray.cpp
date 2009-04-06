@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NMathUtilities.h"
 #include "NSTLUtilities.h"
 #include "NArray.h"
 
@@ -43,7 +44,10 @@ static const SInt64 kValueSInt64									= -4000;
 //		TArray::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TArray::Execute(void)
-{	NArray		testArray, testArray2;
+{	NArray			testArray, testArray2;
+	Float32List		listFloat32;
+	Float64List		listFloat64;
+	NIndex			n;
 
 
 
@@ -77,12 +81,18 @@ void TArray::Execute(void)
 	NN_ASSERT(testArray.GetValuesSInt64() ==          kListSInt64);
 
 	testArray.SetValuesFloat32(kListFloat32);
-	NN_ASSERT(testArray.GetSize()          == (NIndex) kListFloat32.size());
-	NN_ASSERT(testArray.GetValuesFloat32() ==          kListFloat32);
+	listFloat32 = testArray.GetValuesFloat32();
+	NN_ASSERT(testArray.GetSize() == (NIndex) kListFloat32.size());
+	NN_ASSERT(listFloat32.size()  ==          kListFloat32.size());
+	for (n = 0; n < testArray.GetSize(); n++)
+		NN_ASSERT(NMathUtilities::AreEqual(listFloat32[n], kListFloat32[n]));
 
 	testArray.SetValuesFloat64(kListFloat64);
-	NN_ASSERT(testArray.GetSize()          == (NIndex) kListFloat64.size());
-	NN_ASSERT(testArray.GetValuesFloat64() ==          kListFloat64);
+	listFloat64 = testArray.GetValuesFloat64();
+	NN_ASSERT(testArray.GetSize() == (NIndex) kListFloat64.size());
+	NN_ASSERT(listFloat64.size()  ==          kListFloat64.size());
+	for (n = 0; n < testArray.GetSize(); n++)
+		NN_ASSERT(NMathUtilities::AreEqual(listFloat64[n], kListFloat64[n]));
 
 	testArray  = NArray(kListSInt32);
 	testArray2 = NArray(kListSInt64);
