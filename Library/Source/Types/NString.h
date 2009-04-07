@@ -19,9 +19,9 @@
 #include "NContainer.h"
 #include "NHashable.h"
 #include "NSharedValue.h"
-#include "NData.h"
 #include "NStringFormatter.h"
 #include "NStringEncoder.h"
+#include "NData.h"
 #include "NRange.h"
 
 

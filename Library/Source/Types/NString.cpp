@@ -30,11 +30,16 @@ const NString kNStringWhitespace									= "\\s";
 const NIndex  kNStringSize											= -1;
 
 static const UInt8 kMaskBytes1										= B8(10000000);
-static const UInt8 kMaskBytes2										= B8(11000000);
-static const UInt8 kMaskBytes3										= B8(11100000);
-static const UInt8 kMaskBytes4										= B8(11110000);
-static const UInt8 kMaskBytes0										= B8(00000000);
-static const UInt8 kMaskBytesN										= B8(10000000);
+static const UInt8 kMaskBytes2										= B8(11100000);
+static const UInt8 kMaskBytes3										= B8(11110000);
+static const UInt8 kMaskBytes4										= B8(11111000);
+static const UInt8 kMaskBytesN										= B8(11000000);
+
+static const UInt8 kCodeBytes1										= B8(00000000);
+static const UInt8 kCodeBytes2										= B8(11000000);
+static const UInt8 kCodeBytes3										= B8(11100000);
+static const UInt8 kCodeBytes4										= B8(11110000);
+static const UInt8 kCodeBytesN										= B8(10000000);
 
 
 
@@ -1275,10 +1280,10 @@ NIndexList NString::GetCodePoints(const NData &theData)
 	//
 	// Code points require 1-4 bytes in UTF8, identified by the top bits:
 	//
-	//		11110zzz	10zzyyyy	10yyyyxx	10xxxxxx
-	//		1110yyyy	10yyyyxx	10xxxxxx
-	//		110yyyxx	10xxxxxx
 	//		0xxxxxxx
+	//		110yyyxx	10xxxxxx
+	//		1110yyyy	10yyyyxx	10xxxxxx
+	//		11110zzz	10zzyyyy	10yyyyxx	10xxxxxx
 	//
 	// We should only be passed well-formed data.
 	lastByte = numBytes - 1;
@@ -1293,37 +1298,42 @@ NIndexList NString::GetCodePoints(const NData &theData)
 		// Advance to the next code point
 		theByte = theBytes[n];
 
-		if ((theByte & kMaskBytes4) == kMaskBytes4)
+		if ((theByte & kMaskBytes1) == kCodeBytes1)
 			{
-			NN_ASSERT(n <= (lastByte-4));
-			NN_ASSERT((theBytes[n+1] & kMaskBytesN) != 0x00);
-			NN_ASSERT((theBytes[n+2] & kMaskBytesN) != 0x00);
-			NN_ASSERT((theBytes[n+3] & kMaskBytesN) != 0x00);
-			
-			n += 3;
+			NN_ASSERT((theBytes[n] & kMaskBytesN) == 0x00);
+			n += 1;
 			}
 
-		else if ((theByte & kMaskBytes3) == kMaskBytes3)
+		else if ((theByte & kMaskBytes2) == kCodeBytes2)
+			{
+			NN_ASSERT(n <= (lastByte-1));
+			NN_ASSERT((theBytes[n+1] & kMaskBytesN) == kCodeBytesN);
+
+			n += 2;
+			}
+		else if ((theByte & kMaskBytes3) == kCodeBytes3)
 			{
 			NN_ASSERT(n <= (lastByte-2));
-			NN_ASSERT((theBytes[n+1] & kMaskBytesN) != 0x00);
-			NN_ASSERT((theBytes[n+2] & kMaskBytesN) != 0x00);
+			NN_ASSERT((theBytes[n+1] & kMaskBytesN) == kCodeBytesN);
+			NN_ASSERT((theBytes[n+2] & kMaskBytesN) == kCodeBytesN);
 			
 			n += 3;
 			}
 		
-		else if ((theByte & kMaskBytes2) == kMaskBytes2)
+		else if ((theByte & kMaskBytes4) == kCodeBytes4)
 			{
-			NN_ASSERT(n <= (lastByte-1));
-			NN_ASSERT((theBytes[n+1] & kMaskBytesN) != 0x00);
-
-			n += 2;
+			NN_ASSERT(n <= (lastByte-4));
+			NN_ASSERT((theBytes[n+1] & kMaskBytesN) == kCodeBytesN);
+			NN_ASSERT((theBytes[n+2] & kMaskBytesN) == kCodeBytesN);
+			NN_ASSERT((theBytes[n+3] & kMaskBytesN) == kCodeBytesN);
+			
+			n += 3;
 			}
 		
 		else
 			{
-			NN_ASSERT((theBytes[n] & kMaskBytesN) == 0x00);
-			n += 1;
+			NN_LOG("Malformed string at byte %d", n);
+			break;
 			}
 		}
 
