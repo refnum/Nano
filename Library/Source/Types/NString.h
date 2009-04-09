@@ -19,6 +19,7 @@
 #include "NContainer.h"
 #include "NHashable.h"
 #include "NSharedValue.h"
+#include "NUnicodeParser.h"
 #include "NStringFormatter.h"
 #include "NStringEncoder.h"
 #include "NData.h"
@@ -206,7 +207,8 @@ private:
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 
-
+	NComparison							CompareNumeric(const NUnicodeParser &stringA, const NUnicodeParser &stringB, bool ignoreCase) const;
+	NComparison							CompareLiteral(const NUnicodeParser &stringA, const NUnicodeParser &stringB, bool ignoreCase) const;
 };
 
 

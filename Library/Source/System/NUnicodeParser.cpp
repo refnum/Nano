@@ -58,11 +58,33 @@ static const NIndex kUTF8TrailingBytes[256] =					{	0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 //============================================================================
 //		NUnicodeParser::NUnicodeParser : Constructor.
 //----------------------------------------------------------------------------
-NUnicodeParser::NUnicodeParser(const NData &theData, NStringEncoding theEncoding)
+NUnicodeParser::NUnicodeParser(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NUnicodeParser::~NUnicodeParser : Destructor.
+//----------------------------------------------------------------------------
+NUnicodeParser::~NUnicodeParser(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NUnicodeParser::SetValue : Set the value.
+//----------------------------------------------------------------------------
+void NUnicodeParser::SetValue(const NData &theData, NStringEncoding theEncoding)
 {
 
 
-	// Initialise ourselves
+	// Set the value
 	mData     = theData;
 	mEncoding = theEncoding;
 	
@@ -83,17 +105,6 @@ NUnicodeParser::NUnicodeParser(const NData &theData, NStringEncoding theEncoding
 			NN_LOG("Unknown encoding: %d", theEncoding);
 			break;
 		}
-}
-
-
-
-
-
-//============================================================================
-//		NUnicodeParser::~NUnicodeParser : Destructor.
-//----------------------------------------------------------------------------
-NUnicodeParser::~NUnicodeParser(void)
-{
 }
 
 

@@ -29,8 +29,12 @@
 //----------------------------------------------------------------------------
 class NUnicodeParser {
 public:
-										NUnicodeParser(const NData &theData, NStringEncoding theEncoding);
+										 NUnicodeParser(void);
 	virtual								~NUnicodeParser(void);
+
+
+	// Set the value
+	void								SetValue(const NData &theData, NStringEncoding theEncoding);
 
 
 	// Get the size
