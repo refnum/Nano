@@ -17,6 +17,8 @@
 #include "pcre.h"
 
 #include "NSTLUtilities.h"
+#include "NUnicodeParser.h"
+#include "NNumber.h"
 #include "NString.h"
 
 
@@ -28,18 +30,6 @@
 //----------------------------------------------------------------------------
 const NString kNStringWhitespace									= "\\s";
 const NIndex  kNStringSize											= -1;
-
-static const UInt8 kMaskBytes1										= B8(10000000);
-static const UInt8 kMaskBytes2										= B8(11100000);
-static const UInt8 kMaskBytes3										= B8(11110000);
-static const UInt8 kMaskBytes4										= B8(11111000);
-static const UInt8 kMaskBytesN										= B8(11000000);
-
-static const UInt8 kCodeBytes1										= B8(00000000);
-static const UInt8 kCodeBytes2										= B8(11000000);
-static const UInt8 kCodeBytes3										= B8(11100000);
-static const UInt8 kCodeBytes4										= B8(11110000);
-static const UInt8 kCodeBytesN										= B8(10000000);
 
 
 
@@ -126,7 +116,7 @@ NIndex NString::GetSize(void) const
 	// Get the size
 	theValue = GetImmutable();
 
-	return(theValue->codePoints.size());
+	return(theValue->theSize);
 }
 
 
@@ -266,8 +256,8 @@ void NString::Replace(const NRange &theRange, const NString &replaceWith)
 
 
 	// Get the state we need
-	if (theRange.GetLocation() != 0)
-		thePrefix = GetString(NRange(0, theRange.GetLocation() - 1));
+	if (theRange.GetFirst() != 0)
+		thePrefix = GetString(NRange(0, theRange.GetFirst() - 1));
 
 	if (theRange.GetNext() < GetSize())
 		theSuffix = GetString(theRange.GetNext());
@@ -308,7 +298,7 @@ bool NString::Replace(const NString &theString, const NString &replaceWith, NStr
 //============================================================================
 //		NString::ReplaceAll : Replace every instance of a substring.
 //----------------------------------------------------------------------------
-UInt32 NString::ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
+NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
 {	NRangeList						foundRanges;
 	NRangeListReverseIterator		theIter;
 
@@ -372,8 +362,7 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 //		NString::EndsWith : Does the string end with a string?
 //----------------------------------------------------------------------------
 bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
-{	const char		*text1, *text2;
-	NString			matchString;
+{	NString			matchString;
 	NRange			theRange;
 	NIndex			theSize;
 	bool			isMatch;
@@ -387,11 +376,7 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 		isMatch = (theSize <= GetSize());
 
 		if (isMatch)
-			{
-			text1   = GetUTF8() + GetSize() - theSize;
-			text2   = theString.GetUTF8();
-			isMatch = (memcmp(text1, text2, theSize) == 0);
-			}
+			isMatch = (memcmp(GetUTF8() + GetSize() - theSize, theString.GetUTF8(), theSize) == 0);
 		}
 
 
@@ -439,8 +424,8 @@ NComparison NString::Compare(const NString &theValue) const
 {
 
 
-	// Compare the values
-	return(CompareTo(theValue, kNStringNone));
+	// Compare the value
+	return(Compare(theValue, kNStringNone));
 }
 
 
@@ -448,15 +433,46 @@ NComparison NString::Compare(const NString &theValue) const
 
 
 //============================================================================
-//		NString::CompareTo : Compare two strings.
+//		NString::Compare : Compare the value.
 //----------------------------------------------------------------------------
-NComparison NString::CompareTo(const NString &theString, NStringFlags theFlags) const
-{	NComparison		theResult;
+NComparison NString::Compare(const NString &theString, NStringFlags theFlags) const
+{	NNumber			numberThis, numberOther;
+	NString			lowerThis, lowerOther;
+	const char		*textThis, *textOther;
+	NComparison		theResult;
 
-	// dair, to do
-		// implement EqualTo in terms of this, want to have special-cases here
-		// for equality via hash code and equality via shared pointer if not checking for case
-	theResult = GetComparison(strcmp(GetUTF8(), theString.GetUTF8()));
+
+
+	// Get the state we need
+	if (theFlags & kNStringNoCase)
+		{
+		lowerThis  =           GetLower();
+		lowerOther = theString.GetLower();
+
+		textThis  =  lowerThis.GetUTF8();
+		textOther = lowerOther.GetUTF8();
+		}
+	else
+		{
+		textThis  =           GetUTF8();
+		textOther = theString.GetUTF8();
+		}
+
+
+
+	// Numeric comparison
+	if (theFlags & kNStringNumeric)
+		{
+		if (numberThis.SetValue(NString(textThis)) && numberOther.SetValue(NString(textOther)))
+			theResult = numberThis.Compare(numberOther);
+		else
+			theResult = GetComparison(strcmp(textThis, textOther));
+		}
+	
+	
+	// Literal comparison
+	else
+		theResult = GetComparison(strcmp(textThis, textOther));
 
 	return(theResult);
 }
@@ -469,16 +485,19 @@ NComparison NString::CompareTo(const NString &theString, NStringFlags theFlags) 
 //		NString::EqualTo : Compare two strings.
 //----------------------------------------------------------------------------
 bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
-{
+{	bool	areEqual;
 
 
-	// Compare the strings
+
+	// Check for equality
 	//
 	// Exact comparisons can use a mis-matched hash code as a cheap test.
 	if (!(theFlags & kNStringNoCase) && GetHash() != theString.GetHash())
-		return(false);
-
-	return(CompareTo(theString, theFlags) == kNCompareEqualTo);
+		areEqual = false;
+	else
+		areEqual = (Compare(theString, theFlags) == kNCompareEqualTo);
+	
+	return(areEqual);
 }
 
 
@@ -573,8 +592,8 @@ void NString::MakeCapitals(bool eachWord)
 {	NRange			theRange;
 	NString			theText;
 
-	
-	
+
+
 	// Capitalize each word
 	if (eachWord)
 		; // dair, to do	CFStringCapitalize(*this, cfLocale);
@@ -983,7 +1002,7 @@ NString::operator NFormatArgument(void) const
 //----------------------------------------------------------------------------
 #pragma mark -
 const NStringValue *NString::GetNullValue(void) const
-{	static NStringValue		sNullValue = { NIndexList(), NData() };
+{	static NStringValue		sNullValue = { 0, NData() };
 
 
 
@@ -1005,7 +1024,7 @@ NHashCode NString::CalculateHash(void) const
 
 
 	// Calculate the hash code
-	if (theValue->codePoints.empty())
+	if (theValue->theSize == 0)
 		theResult = kNHashCodeNone;
 	else
 		theResult = NHashable::CalculateHash(theValue->dataUTF8.GetSize(), theValue->dataUTF8.GetData());
@@ -1022,11 +1041,13 @@ NHashCode NString::CalculateHash(void) const
 //----------------------------------------------------------------------------
 #pragma mark -
 void NString::ValueChanged(NStringValue *theValue)
-{
+{	NUnicodeParser		theParser(theValue->dataUTF8, kNStringEncodingUTF8);
+
 
 
 	// Update the count
-	theValue->codePoints = GetCodePoints(theValue->dataUTF8);
+	theValue->theSize = theParser.GetSize();
+
 
 
 	// Reset our state
@@ -1254,90 +1275,4 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	return(theResult);
 }
-
-
-
-
-
-//============================================================================
-//      NString::GetCodePoints : Get the byte offsets of each UTF8 code point.
-//----------------------------------------------------------------------------
-NIndexList NString::GetCodePoints(const NData &theData)
-{	NIndex				n, numBytes, lastByte;
-	NIndexList			codePoints;
-	const UInt8			*theBytes;
-	UInt8				theByte;
-
-
-
-	// Get the state we need
-	numBytes = theData.IsEmpty() ? 0 : (theData.GetSize() - 1);
-	theBytes = theData.GetData();
-
-
-
-	// Find the offset for each code point
-	//
-	// Code points require 1-4 bytes in UTF8, identified by the top bits:
-	//
-	//		0xxxxxxx
-	//		110yyyxx	10xxxxxx
-	//		1110yyyy	10yyyyxx	10xxxxxx
-	//		11110zzz	10zzyyyy	10yyyyxx	10xxxxxx
-	//
-	// We should only be passed well-formed data.
-	lastByte = numBytes - 1;
-	n        = 0;
-
-	while (n < numBytes)
-		{
-		// Save the offset
-		codePoints.push_back(n);
-
-
-		// Advance to the next code point
-		theByte = theBytes[n];
-
-		if ((theByte & kMaskBytes1) == kCodeBytes1)
-			{
-			NN_ASSERT((theBytes[n] & kMaskBytesN) == 0x00);
-			n += 1;
-			}
-
-		else if ((theByte & kMaskBytes2) == kCodeBytes2)
-			{
-			NN_ASSERT(n <= (lastByte-1));
-			NN_ASSERT((theBytes[n+1] & kMaskBytesN) == kCodeBytesN);
-
-			n += 2;
-			}
-		else if ((theByte & kMaskBytes3) == kCodeBytes3)
-			{
-			NN_ASSERT(n <= (lastByte-2));
-			NN_ASSERT((theBytes[n+1] & kMaskBytesN) == kCodeBytesN);
-			NN_ASSERT((theBytes[n+2] & kMaskBytesN) == kCodeBytesN);
-			
-			n += 3;
-			}
-		
-		else if ((theByte & kMaskBytes4) == kCodeBytes4)
-			{
-			NN_ASSERT(n <= (lastByte-4));
-			NN_ASSERT((theBytes[n+1] & kMaskBytesN) == kCodeBytesN);
-			NN_ASSERT((theBytes[n+2] & kMaskBytesN) == kCodeBytesN);
-			NN_ASSERT((theBytes[n+3] & kMaskBytesN) == kCodeBytesN);
-			
-			n += 3;
-			}
-		
-		else
-			{
-			NN_LOG("Malformed string at byte %d", n);
-			break;
-			}
-		}
-
-	return(codePoints);
-}
-
 

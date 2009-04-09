@@ -46,6 +46,7 @@
 		AB9E78C20F27D8D80043A657 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9E789A0F27D8D80043A657 /* NanoTest.cpp */; };
 		ABA1BC0D0F8A5B850098180F /* TDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BC0B0F8A5B850098180F /* TDebug.cpp */; };
 		ABA1BC130F8A5D630098180F /* CTestUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BC120F8A5D630098180F /* CTestUtilities.cpp */; };
+		ABA318720F8E0A4D008BC3B2 /* TUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA318700F8E0A4D008BC3B2 /* TUnicodeParser.cpp */; };
 		ABDE909F0F8A14AD001976CB /* TStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE909B0F8A14AD001976CB /* TStringEncoder.cpp */; };
 		ABDE90A00F8A14AD001976CB /* TStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE909D0F8A14AD001976CB /* TStringFormatter.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
@@ -149,6 +150,8 @@
 		ABA1BC0C0F8A5B850098180F /* TDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDebug.h; sourceTree = "<group>"; };
 		ABA1BC110F8A5D630098180F /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
 		ABA1BC120F8A5D630098180F /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
+		ABA318700F8E0A4D008BC3B2 /* TUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeParser.cpp; sourceTree = "<group>"; };
+		ABA318710F8E0A4D008BC3B2 /* TUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUnicodeParser.h; sourceTree = "<group>"; };
 		ABDE909B0F8A14AD001976CB /* TStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringEncoder.cpp; sourceTree = "<group>"; };
 		ABDE909C0F8A14AD001976CB /* TStringEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TStringEncoder.h; sourceTree = "<group>"; };
 		ABDE909D0F8A14AD001976CB /* TStringFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringFormatter.cpp; sourceTree = "<group>"; };
@@ -219,6 +222,8 @@
 				AB4546920F8667E4008801FB /* TByteSwap.h */,
 				AB4546930F8667E4008801FB /* TCipher.cpp */,
 				AB4546940F8667E4008801FB /* TCipher.h */,
+				ABA318700F8E0A4D008BC3B2 /* TUnicodeParser.cpp */,
+				ABA318710F8E0A4D008BC3B2 /* TUnicodeParser.h */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				AB4546D70F8667E4008801FB /* TListener.cpp in Sources */,
 				AB4546D80F8667E4008801FB /* TByteSwap.cpp in Sources */,
 				AB4546D90F8667E4008801FB /* TCipher.cpp in Sources */,
+				ABA318720F8E0A4D008BC3B2 /* TUnicodeParser.cpp in Sources */,
 				AB4546E80F8667E4008801FB /* TTargetDebug.cpp in Sources */,
 				AB4546E90F8667E4008801FB /* TTargetFile.cpp in Sources */,
 				AB4546EA0F8667E4008801FB /* TTargetLock.cpp in Sources */,

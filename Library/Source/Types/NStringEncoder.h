@@ -53,10 +53,16 @@ private:
 	NStatus								ConvertFromUTF16(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 	NStatus								ConvertFromUTF32(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 
+	NStatus								ConvertUTF8ToUTF16(const NData &srcData, NData &dstData);
+	NStatus								ConvertUTF8ToUTF32(const NData &srcData, NData &dstData);
 
-private:
+	NStatus								ConvertUTF16ToUTF8( const NData &srcData, NData &dstData);
+	NStatus								ConvertUTF16ToUTF32(const NData &srcData, NData &dstData);
 
-
+	NStatus								ConvertUTF32ToUTF8( const NData &srcData, NData &dstData);
+	NStatus								ConvertUTF32ToUTF16(const NData &srcData, NData &dstData);
+	
+	NStatus								ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult);
 };
 
 

@@ -53,6 +53,9 @@ typedef SInt32														NStatus;
 typedef UInt32														NHashCode;
 typedef UInt32														NBitfield;
 typedef Float64														NTime;
+typedef UInt8														UTF8Char;
+typedef UInt16														UTF16Char;
+typedef UInt32														UTF32Char;
 
 
 // Lists

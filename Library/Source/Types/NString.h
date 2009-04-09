@@ -57,7 +57,7 @@ extern const NIndex  kNStringSize;
 //----------------------------------------------------------------------------
 // Value
 typedef struct {
-	NIndexList		codePoints;
+	NIndex			theSize;
 	NData			dataUTF8;
 } NStringValue;
 
@@ -94,8 +94,6 @@ public:
 
 
 	// Get the size
-	//
-	// Returns the number of code points in the string.
 	NIndex								GetSize(void) const;
 
 
@@ -103,6 +101,8 @@ public:
 	//
 	// GetUTF8 returns a NULL-terminated string. GetData can optionally include
 	// a NULL terminator, of the specified size, to the encoded string.
+	//
+	// Data passed to SetData should not be NULL terminated. 
 	const char							*GetUTF8(void) const;
 
 	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NIndex nullBytes=0) const;
@@ -124,7 +124,7 @@ public:
 	// When replacing a string, returns the number of replacements made.
 	void								Replace(   const NRange  &theRange,  const NString &replaceWith);
     bool								Replace(   const NString &theString, const NString &replaceWith, NStringFlags theFlags=kNStringNone, const NRange &theRange=kNRangeAll);
-    UInt32								ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags=kNStringNone, const NRange &theRange=kNRangeAll);
+    NIndex								ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags=kNStringNone, const NRange &theRange=kNRangeAll);
 
 
 	// Test the contents
@@ -136,9 +136,9 @@ public:
 	// Compare two strings
 	//
 	// EqualTo defaults to a case-insensitive comparison, since case-sensitive comparisons can be obtained with '=='.
-	NComparison							Compare(  const NString &theValue)                                        const;
-	NComparison							CompareTo(const NString &theString, NStringFlags theFlags=kNStringNone)   const;
-	bool								EqualTo(  const NString &theString, NStringFlags theFlags=kNStringNoCase) const;
+	NComparison							Compare(const NString &theValue)                                        const;
+	NComparison							Compare(const NString &theString, NStringFlags theFlags)                const;
+	bool								EqualTo(const NString &theString, NStringFlags theFlags=kNStringNoCase) const;
 
 
 	// Change the case
@@ -205,8 +205,6 @@ private:
 	NRangeList							FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
-
-	NIndexList							GetCodePoints(const NData &theData);
 
 
 };

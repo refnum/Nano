@@ -69,8 +69,8 @@
 		AB984AEE0F84ADD00070067B /* NMacMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984AEB0F84ADD00070067B /* NMacMath.cpp */; };
 		AB984B500F84BB8C0070067B /* NMacTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984B4F0F84BB8C0070067B /* NMacTarget.cpp */; };
 		AB984BD60F8570640070067B /* NFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB984BD50F8570640070067B /* NFileUtilities.cpp */; };
+		ABA318330F8E0354008BC3B2 /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA318320F8E0354008BC3B2 /* NUnicodeParser.cpp */; };
 		ABAF5C200F8575CF0097D8EF /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C1E0F8575CF0097D8EF /* NByteSwap.cpp */; };
-		ABB757AE0F8DECA000FD9980 /* NUnicodeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB757AC0F8DECA000FD9980 /* NUnicodeUtilities.cpp */; };
 		ABDE90040F89F39C001976CB /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE90020F89F39C001976CB /* NStringEncoder.cpp */; };
 		ABDE90050F89F39C001976CB /* NStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE90030F89F39C001976CB /* NStringFormatter.cpp */; };
 		ABDE90360F89FBE3001976CB /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = ABDE90340F89FBE3001976CB /* ConvertUTF.c */; };
@@ -203,10 +203,10 @@
 		AB984B540F84BC500070067B /* NWinTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTarget.cpp; sourceTree = "<group>"; };
 		AB984BD40F8570640070067B /* NFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtilities.h; sourceTree = "<group>"; };
 		AB984BD50F8570640070067B /* NFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtilities.cpp; sourceTree = "<group>"; };
+		ABA318310F8E0354008BC3B2 /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
+		ABA318320F8E0354008BC3B2 /* NUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeParser.cpp; sourceTree = "<group>"; };
 		ABAF5C1E0F8575CF0097D8EF /* NByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NByteSwap.cpp; sourceTree = "<group>"; };
 		ABAF5C1F0F8575CF0097D8EF /* NByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NByteSwap.h; sourceTree = "<group>"; };
-		ABB757AC0F8DECA000FD9980 /* NUnicodeUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeUtilities.cpp; sourceTree = "<group>"; };
-		ABB757AD0F8DECA000FD9980 /* NUnicodeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeUtilities.h; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
 		ABDE90000F89F39C001976CB /* NStringFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringFormatter.h; sourceTree = "<group>"; };
@@ -455,8 +455,6 @@
 				AB984A9F0F84AD500070067B /* NThreadUtilities.h */,
 				AB984AA00F84AD500070067B /* NTimeUtilities.cpp */,
 				AB984AA10F84AD500070067B /* NTimeUtilities.h */,
-				ABB757AC0F8DECA000FD9980 /* NUnicodeUtilities.cpp */,
-				ABB757AD0F8DECA000FD9980 /* NUnicodeUtilities.h */,
 			);
 			name = Utilities;
 			path = ../Source/Utilities;
@@ -497,6 +495,8 @@
 				ABAF5C1F0F8575CF0097D8EF /* NByteSwap.h */,
 				AB4DD4B50F85FC1100501468 /* NCipher.cpp */,
 				AB4DD4B60F85FC1100501468 /* NCipher.h */,
+				ABA318320F8E0354008BC3B2 /* NUnicodeParser.cpp */,
+				ABA318310F8E0354008BC3B2 /* NUnicodeParser.h */,
 			);
 			name = System;
 			path = ../Source/System;
@@ -591,6 +591,7 @@
 				AB984AB40F84AD500070067B /* NListener.cpp in Sources */,
 				ABAF5C200F8575CF0097D8EF /* NByteSwap.cpp in Sources */,
 				AB4DD4B70F85FC1100501468 /* NCipher.cpp in Sources */,
+				ABA318330F8E0354008BC3B2 /* NUnicodeParser.cpp in Sources */,
 				AB984AA70F84AD500070067B /* NMacDebug.cpp in Sources */,
 				AB984AA80F84AD500070067B /* NMacFile.cpp in Sources */,
 				AB984AA90F84AD500070067B /* NMacLock.cpp in Sources */,
@@ -629,7 +630,6 @@
 				AB984AE30F84AD500070067B /* NSystemUtilities.cpp in Sources */,
 				AB984AE40F84AD500070067B /* NThreadUtilities.cpp in Sources */,
 				AB984AE50F84AD500070067B /* NTimeUtilities.cpp in Sources */,
-				ABB757AE0F8DECA000FD9980 /* NUnicodeUtilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

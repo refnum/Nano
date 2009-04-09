@@ -14,7 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NUnicodeUtilities.h"
+#include "ConvertUTF.h"
+
 #include "NStringEncoder.h"
 
 
@@ -95,11 +96,11 @@ NStatus NStringEncoder::ConvertFromUTF8(const NData &srcData, NData &dstData, NS
 			break;
 
 		case kNStringEncodingUTF16:
-			theErr = NUnicodeUtilities::ConvertUTF8ToUTF16(srcData, dstData);
+			theErr = ConvertUTF8ToUTF16(srcData, dstData);
 			break;
 
 		case kNStringEncodingUTF32:
-			theErr = NUnicodeUtilities::ConvertUTF8ToUTF32(srcData, dstData);
+			theErr = ConvertUTF8ToUTF32(srcData, dstData);
 			break;
 
 		default:
@@ -126,7 +127,7 @@ NStatus NStringEncoder::ConvertFromUTF16(const NData &srcData, NData &dstData, N
 	// Convert the string
 	switch (dstEncoding) {
 		case kNStringEncodingUTF8:
-			theErr = NUnicodeUtilities::ConvertUTF16ToUTF8(srcData, dstData);
+			theErr = ConvertUTF16ToUTF8(srcData, dstData);
 			break;
 
 		case kNStringEncodingUTF16:
@@ -135,7 +136,7 @@ NStatus NStringEncoder::ConvertFromUTF16(const NData &srcData, NData &dstData, N
 			break;
 
 		case kNStringEncodingUTF32:
-			theErr = NUnicodeUtilities::ConvertUTF16ToUTF32(srcData, dstData);
+			theErr = ConvertUTF16ToUTF32(srcData, dstData);
 			break;
 
 		default:
@@ -162,11 +163,11 @@ NStatus NStringEncoder::ConvertFromUTF32(const NData &srcData, NData &dstData, N
 	// Convert the string
 	switch (dstEncoding) {
 		case kNStringEncodingUTF8:
-			theErr = NUnicodeUtilities::ConvertUTF32ToUTF8(srcData, dstData);
+			theErr = ConvertUTF32ToUTF8(srcData, dstData);
 			break;
 
 		case kNStringEncodingUTF16:
-			theErr = NUnicodeUtilities::ConvertUTF32ToUTF16(srcData, dstData);
+			theErr = ConvertUTF32ToUTF16(srcData, dstData);
 			break;
 
 		case kNStringEncodingUTF32:
@@ -183,5 +184,267 @@ NStatus NStringEncoder::ConvertFromUTF32(const NData &srcData, NData &dstData, N
 	return(theErr);
 }
 
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertUTF8ToUTF16 : Convert UTF8 to UTF16.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertUTF8ToUTF16(const NData &srcData, NData &dstData)
+{	const UInt8				*srcBase, *dstBase;
+	const UTF8				*srcStart, *srcEnd;
+	UTF16					*dstStart, *dstEnd;
+	ConversionResult		theResult;
+	NStatus					theErr;
+
+
+
+	// Convert the data
+	dstData.SetSize(srcData.GetSize() * 2);
+
+	do
+		{
+		srcBase  = srcData.GetData();
+		srcStart = (const UTF8 *) (srcBase + 0);
+		srcEnd   = (const UTF8 *) (srcBase + srcData.GetSize());
+
+		dstBase  = dstData.GetData();
+		dstStart = (UTF16 *) (dstBase + 0);
+		dstEnd   = (UTF16 *) (dstBase + dstData.GetSize());
+		
+		theResult = ConvertUTF8toUTF16(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
+		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		}
+	while (theErr == kNErrExhaustedDst);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertUTF8ToUTF32 : Convert UTF8 to UTF32.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertUTF8ToUTF32(const NData &srcData, NData &dstData)
+{	const UInt8				*srcBase, *dstBase;
+	const UTF8				*srcStart, *srcEnd;
+	UTF32					*dstStart, *dstEnd;
+	ConversionResult		theResult;
+	NStatus					theErr;
+
+
+
+	// Convert the data
+	dstData.SetSize(srcData.GetSize() * 4);
+
+	do
+		{
+		srcBase  = srcData.GetData();
+		srcStart = (const UTF8 *) (srcBase + 0);
+		srcEnd   = (const UTF8 *) (srcBase + srcData.GetSize());
+
+		dstBase  = dstData.GetData();
+		dstStart = (UTF32 *) (dstBase + 0);
+		dstEnd   = (UTF32 *) (dstBase + dstData.GetSize());
+		
+		theResult = ConvertUTF8toUTF32(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
+		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		}
+	while (theErr == kNErrExhaustedDst);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertUTF16ToUTF8 : Convert UTF16 to UTF8.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertUTF16ToUTF8(const NData &srcData, NData &dstData)
+{	const UInt8				*srcBase, *dstBase;
+	const UTF16				*srcStart, *srcEnd;
+	UTF8					*dstStart, *dstEnd;
+	ConversionResult		theResult;
+	NStatus					theErr;
+
+
+
+	// Convert the data
+	dstData.SetSize(srcData.GetSize());
+
+	do
+		{
+		srcBase  = srcData.GetData();
+		srcStart = (const UTF16 *) (srcBase + 0);
+		srcEnd   = (const UTF16 *) (srcBase + srcData.GetSize());
+
+		dstBase  = dstData.GetData();
+		dstStart = (UTF8 *) (dstBase + 0);
+		dstEnd   = (UTF8 *) (dstBase + dstData.GetSize());
+		
+		theResult = ConvertUTF16toUTF8(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
+		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		}
+	while (theErr == kNErrExhaustedDst);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertUTF16ToUTF32 : Convert UTF16 to UTF32.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertUTF16ToUTF32(const NData &srcData, NData &dstData)
+{	const UInt8				*srcBase, *dstBase;
+	const UTF16				*srcStart, *srcEnd;
+	UTF32					*dstStart, *dstEnd;
+	ConversionResult		theResult;
+	NStatus					theErr;
+
+
+
+	// Convert the data
+	dstData.SetSize(srcData.GetSize() * 2);
+
+	do
+		{
+		srcBase  = srcData.GetData();
+		srcStart = (const UTF16 *) (srcBase + 0);
+		srcEnd   = (const UTF16 *) (srcBase + srcData.GetSize());
+
+		dstBase  = dstData.GetData();
+		dstStart = (UTF32 *) (dstBase + 0);
+		dstEnd   = (UTF32 *) (dstBase + dstData.GetSize());
+		
+		theResult = ConvertUTF16toUTF32(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
+		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		}
+	while (theErr == kNErrExhaustedDst);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertUTF32ToUTF8 : Convert UTF32 to UTF8.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertUTF32ToUTF8(const NData &srcData, NData &dstData)
+{	const UInt8				*srcBase, *dstBase;
+	const UTF32				*srcStart, *srcEnd;
+	UTF8					*dstStart, *dstEnd;
+	ConversionResult		theResult;
+	NStatus					theErr;
+
+
+
+	// Convert the data
+	dstData.SetSize(srcData.GetSize());
+
+	do
+		{
+		srcBase  = srcData.GetData();
+		srcStart = (const UTF32 *) (srcBase + 0);
+		srcEnd   = (const UTF32 *) (srcBase + srcData.GetSize());
+
+		dstBase  = dstData.GetData();
+		dstStart = (UTF8 *) (dstBase + 0);
+		dstEnd   = (UTF8 *) (dstBase + dstData.GetSize());
+		
+		theResult = ConvertUTF32toUTF8(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
+		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		}
+	while (theErr == kNErrExhaustedDst);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertUTF32ToUTF16 : Convert UTF32 to UTF16.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData)
+{	const UInt8				*srcBase, *dstBase;
+	const UTF32				*srcStart, *srcEnd;
+	UTF16					*dstStart, *dstEnd;
+	ConversionResult		theResult;
+	NStatus					theErr;
+
+
+
+	// Convert the data
+	dstData.SetSize(srcData.GetSize());
+
+	do
+		{
+		srcBase  = srcData.GetData();
+		srcStart = (const UTF32 *) (srcBase + 0);
+		srcEnd   = (const UTF32 *) (srcBase + srcData.GetSize());
+
+		dstBase  = dstData.GetData();
+		dstStart = (UTF16 *) (dstBase + 0);
+		dstEnd   = (UTF16 *) (dstBase + dstData.GetSize());
+		
+		theResult = ConvertUTF32toUTF16(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
+		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		}
+	while (theErr == kNErrExhaustedDst);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ProcessUnicode : Process a Unicode conversion.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult)
+{	OSStatus	theErr;
+
+
+
+	// Process the result
+	switch ((ConversionResult) theResult) {
+		case conversionOK:
+			theData.SetSize(((const UInt8 *) dataEnd) - theData.GetData());
+			theErr = kNoErr;
+			break;
+			
+		case targetExhausted:
+			theData.SetSize(theData.GetSize() * 2);
+			theErr = kNErrExhaustedDst;
+			break;
+			
+		case sourceExhausted:
+			theErr = kNErrExhaustedSrc;
+			break;
+
+		case sourceIllegal:
+			theErr = kNErrMalformed;
+			break;
+
+		default:
+			NN_LOG("Unknown result: %d", theResult);
+			theErr = kNErrInternal;
+			break;
+		}
+
+	return(theErr);
+}
 
 

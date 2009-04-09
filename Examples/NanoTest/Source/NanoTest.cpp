@@ -25,6 +25,7 @@
 
 #include "TByteSwap.h"
 #include "TCipher.h"
+#include "TUnicodeParser.h"
 
 #include "TTargetDebug.h"
 #include "TTargetFile.h"
@@ -90,6 +91,7 @@ int main(int /*argc*/, const char ** /*argv*/)
 	// System
 	TByteSwap::Execute();
 	TCipher::Execute();
+	TUnicodeParser::Execute();
 	
 	
 	
