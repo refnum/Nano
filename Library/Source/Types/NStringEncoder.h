@@ -45,25 +45,18 @@ public:
 
 
 	// Convert a string
-	NStatus								Convert(const NData  &srcData,                     NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
-	NStatus								Convert(      NIndex  srcSize, const void *srcPtr, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
+	NStatus								Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
 
 
 private:
-	NStatus								ConvertFromUTF8( NIndex srcSize, const UInt8  *srcPtr, NData &dstData, NStringEncoding dstEncoding);
-	NStatus								ConvertFromUTF16(NIndex srcSize, const UInt16 *srcPtr, NData &dstData, NStringEncoding dstEncoding);
-	NStatus								ConvertFromUTF32(NIndex srcSize, const UInt32 *srcPtr, NData &dstData, NStringEncoding dstEncoding);
+	NStatus								ConvertFromUTF8( const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
+	NStatus								ConvertFromUTF16(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
+	NStatus								ConvertFromUTF32(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 
-	NStatus								ConvertUTF8ToUTF16(NIndex srcSize, const UInt8 *srcPtr, NData &dstData);
-	NStatus								ConvertUTF8ToUTF32(NIndex srcSize, const UInt8 *srcPtr, NData &dstData);
 
-	NStatus								ConvertUTF16ToUTF8( NIndex srcSize, const UInt16 *srcPtr, NData &dstData);
-	NStatus								ConvertUTF16ToUTF32(NIndex srcSize, const UInt16 *srcPtr, NData &dstData);
+private:
 
-	NStatus								ConvertUTF32ToUTF8( NIndex srcSize, const UInt32 *srcPtr, NData &dstData);
-	NStatus								ConvertUTF32ToUTF16(NIndex srcSize, const UInt32 *srcPtr, NData &dstData);
-	
-	NStatus								ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult);
+
 };
 
 
