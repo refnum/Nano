@@ -434,9 +434,12 @@ NComparison NString::Compare(const NString &theValue) const
 //		NString::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NString::Compare(const NString &theString, NStringFlags theFlags) const
-{	bool					ignoreCase, isNumeric;
-	NUnicodeParser			parsedA, parsedB;
+{	NIndex					indexA, indexB, sizeA, sizeB;
+	bool					ignoreCase, isNumeric;
+	NUnicodeParser			parserA, parserB;
 	const NStringValue		*valueA, *valueB;
+	UInt64					numberA, numberB;
+	UTF32Char				charA, charB;
 	NComparison				theResult;
 
 
@@ -444,9 +447,12 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 	// Get the state we need
 	valueA =           GetImmutable();
 	valueB = theString.GetImmutable();
+
+	sizeA = valueA->theSize;
+	sizeB = valueB->theSize;
 	
-	parsedA.SetValue(valueA->dataUTF8, kNStringEncodingUTF8);
-	parsedB.SetValue(valueB->dataUTF8, kNStringEncodingUTF8);
+	parserA.SetValue(valueA->dataUTF8, kNStringEncodingUTF8);
+	parserB.SetValue(valueB->dataUTF8, kNStringEncodingUTF8);
 
 	ignoreCase = ((theFlags & kNStringNoCase)  != kNStringNone);
 	isNumeric  = ((theFlags & kNStringNumeric) != kNStringNone);
@@ -454,10 +460,75 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 
 
 	// Compare the strings
-	if (isNumeric)
-		theResult = CompareNumeric(parsedA, parsedB, ignoreCase);
-	else
-		theResult = CompareLiteral(parsedA, parsedB, ignoreCase);
+	//
+	// Should probably use ICU for standard Unicode collation.
+	theResult = GetComparison(sizeA, sizeB);
+	indexA    = 0;
+	indexB    = 0;
+
+	while (indexA < sizeA && indexB < sizeB)
+		{
+		// Get the characters
+		charA = parserA.GetChar(indexA);
+		charB = parserB.GetChar(indexB);
+		
+		indexA++;
+		indexB++;
+
+
+
+		// Compare numerically
+		if (isNumeric && parserA.IsDigit(charA) && parserB.IsDigit(charB))
+			{
+			// Collect the values
+			numberA = 0;
+			numberB = 0;
+			
+			do
+				{
+				NN_ASSERT(numberA <= (kMaxUInt64/10));
+				numberA = (numberA * 10) + (charA - (UTF32Char) '0');
+				charA   = parserA.GetChar(indexA);
+				indexA++;
+				}
+			while (parserA.IsDigit(charA) && indexA < sizeA);
+
+			do
+				{
+				NN_ASSERT(numberB <= (kMaxUInt64/10));
+				numberB = (numberB * 10) + (charB - (UTF32Char) '0');
+				charB   = parserB.GetChar(indexB);
+				indexB++;
+				}
+			while (parserB.IsDigit(charB) && indexB < sizeB);
+
+
+			// Compare by value
+			if (numberA != numberB)
+				{
+				theResult = GetComparison(numberA, numberB);
+				break;
+				}
+			
+			if (indexA == sizeA || indexB == sizeB)
+				break;
+			}
+
+
+
+		// Compare alphabetically
+		if (ignoreCase)
+			{
+			charA = parserA.GetLower(charA);
+			charB = parserB.GetLower(charB);
+			}
+
+		if (charA != charB)
+			{
+			theResult = GetComparison(charA, charB);
+			break;
+			}
+		}
 	
 	return(theResult);
 }
@@ -1262,113 +1333,5 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	return(theResult);
 }
-
-
-
-
-
-//============================================================================
-//      NString::CompareNumeric : Perform a numeric comparison.
-//----------------------------------------------------------------------------
-NComparison NString::CompareNumeric(const NUnicodeParser &stringA, const NUnicodeParser &stringB, bool ignoreCase) const
-{	NIndex			n, sizeA, sizeB;
-	UTF32Char		charA, charB;
-
-
-
-	// Get the state we need
-	sizeA = stringA.GetSize();
-	sizeB = stringA.GetSize();
-
-
-
-	// Compare the strings
-	for (n = 0; n < sizeA; n++)
-		{
-		// Check for smaller
-		if (n >= sizeB)
-			return(kNCompareLessThan);
-
-
-
-		// Get the characters
-		charA = stringA.GetChar(n);
-		charB = stringB.GetChar(n);
-		
-		if (ignoreCase)
-			{
-			charA = stringA.GetLower(charA);
-			charB = stringB.GetLower(charB);
-			}
-
-
-
-		// Check for numbers
-		if (stringA.IsDigit(charA) && stringB.IsDigit(charB))
-			{
-			// dair, to do
-			
-			}
-
-
-
-		// Check for equality
-		if (charA != charB)
-			return(GetComparison(charA, charB));
-		}
-	
-	return(kNCompareEqualTo);
-}
-
-
-
-
-
-//============================================================================
-//      NString::CompareLiteral : Perform a literal comparison.
-//----------------------------------------------------------------------------
-NComparison NString::CompareLiteral(const NUnicodeParser &stringA, const NUnicodeParser &stringB, bool ignoreCase) const
-{	NIndex			n, sizeA, sizeB;
-	UTF32Char		charA, charB;
-
-
-
-	// Get the state we need
-	sizeA = stringA.GetSize();
-	sizeB = stringA.GetSize();
-
-
-
-	// Compare the strings
-	//
-	// Should use the Unicode collation algorithm from ICU.
-	for (n = 0; n < sizeA; n++)
-		{
-		// Check for smaller
-		if (n >= sizeB)
-			return(kNCompareLessThan);
-
-
-
-		// Get the characters
-		charA = stringA.GetChar(n);
-		charB = stringB.GetChar(n);
-		
-		if (ignoreCase)
-			{
-			charA = stringA.GetLower(charA);
-			charB = stringB.GetLower(charB);
-			}
-
-
-
-		// Check for equality
-		if (charA != charB)
-			return(GetComparison(charA, charB));
-		}
-	
-	return(kNCompareEqualTo);
-}
-
 
 

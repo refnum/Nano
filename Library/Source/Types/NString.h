@@ -70,7 +70,7 @@ typedef std::vector<NString>										NStringList;
 typedef NStringList::iterator										NStringListIterator;
 typedef NStringList::const_iterator									NStringListConstIterator;
 
-typedef std::map<NString, NString>									NStringMap;
+typedef std::map<NString, NString, NHashableCompare<NString> >		NStringMap;
 typedef NStringMap::iterator										NStringMapIterator;
 typedef NStringMap::const_iterator									NStringMapConstIterator;
 
@@ -206,9 +206,6 @@ private:
 	NRangeList							FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
-
-	NComparison							CompareNumeric(const NUnicodeParser &stringA, const NUnicodeParser &stringB, bool ignoreCase) const;
-	NComparison							CompareLiteral(const NUnicodeParser &stringA, const NUnicodeParser &stringB, bool ignoreCase) const;
 };
 
 

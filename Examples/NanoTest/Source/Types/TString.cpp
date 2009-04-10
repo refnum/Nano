@@ -36,7 +36,7 @@ static const NString kValueString									= "another test string";
 //		TString::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TString::Execute(void)
-{	NString		testString1, testString2, testString3;
+{	NString		testString1, testString2;
 
 
 
@@ -85,15 +85,16 @@ void TString::Execute(void)
 
 	testString1 = "test";
 	testString2 = "TeSt";
-	NN_ASSERT(testString1.Compare(testString2, kNStringNone)   == kNCompareLessThan);
+	NN_ASSERT(testString1.Compare(testString2, kNStringNone)   == kNCompareGreaterThan);
 	NN_ASSERT(testString1.Compare(testString2, kNStringNoCase) == kNCompareEqualTo);
 
-	testString1 = "foo2.txt";
-	testString2 = "foo7.txt";
-	testString3 = "foo25.txt";
-	NN_ASSERT(testString1.Compare(testString2, kNStringNumeric) == kNCompareLessThan);
-	NN_ASSERT(testString2.Compare(testString3, kNStringNumeric) == kNCompareLessThan);
-	NN_ASSERT(testString3.Compare(testString1, kNStringNumeric) == kNCompareGreaterThan);
+	NN_ASSERT(NString("foo2.txt"	).Compare("foo7.txt",	kNStringNumeric) == kNCompareLessThan);
+	NN_ASSERT(NString("foo7.txt"	).Compare("foo2.txt",	kNStringNumeric) == kNCompareGreaterThan);
+	NN_ASSERT(NString("foo002.txt"	).Compare("foo007.txt",	kNStringNumeric) == kNCompareLessThan);
+	NN_ASSERT(NString("123"			).Compare("0123",		kNStringNumeric) == kNCompareLessThan);
+	NN_ASSERT(NString("99"			).Compare("0123",		kNStringNumeric) == kNCompareLessThan);
+	NN_ASSERT(NString("010"			).Compare("0002",		kNStringNumeric) == kNCompareGreaterThan);
+	NN_ASSERT(NString("0100"		).Compare("20",			kNStringNumeric) == kNCompareGreaterThan);
 
 
 
