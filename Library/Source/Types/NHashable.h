@@ -24,6 +24,36 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
+template <class T> struct NHashableCompare
+{
+	bool operator()(const T &value1, const T &value2) const
+	{	NHashCode		hash1, hash2;
+
+
+		// Check the hash code
+		//
+		// A different hash code means the objects are not equal.
+		hash1 = value1.GetHash();
+		hash2 = value2.GetHash();
+		
+		if (hash1 != hash2)
+			return(hash1 < hash2);
+		
+		
+		// General comparison
+		//
+		// Equal hash codes means the objects might be equal.
+		return(value1 < value2);
+	}
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
 class NHashable {
 public:
 										 NHashable(void);
