@@ -45,6 +45,8 @@ public:
 
 
 	// Convert a string
+	//
+	// The terminating null character, if any, will be removed.
 	NStatus								Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
 
 
@@ -63,6 +65,7 @@ private:
 	NStatus								ConvertUTF32ToUTF16(const NData &srcData, NData &dstData);
 	
 	NStatus								ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult);
+	void								TrimTerminator(NData &theData, NStringEncoding theEncoding);
 };
 
 

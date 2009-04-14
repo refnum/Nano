@@ -72,6 +72,12 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 			break;
 		}
 
+
+
+	// Trim the terminator
+	if (theErr == noErr)
+		TrimTerminator(dstData, dstEncoding);
+
 	return(theErr);
 }
 
@@ -108,7 +114,7 @@ NStatus NStringEncoder::ConvertFromUTF8(const NData &srcData, NData &dstData, NS
 			theErr = kNErrParam;
 			break;
 		}
-	
+
 	return(theErr);
 }
 
@@ -445,6 +451,60 @@ NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt
 		}
 
 	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::TrimTerminator : Trim the terminating null character.
+//----------------------------------------------------------------------------
+void NStringEncoder::TrimTerminator(NData &theData, NStringEncoding theEncoding)
+{	NIndex					numBytes, theSize;
+	static const UInt64		nullValue = 0;
+	const UInt8				*thePtr;
+
+
+
+	// Get the state we need
+	theSize  = theData.GetSize();
+	numBytes = 0;
+
+	switch (theEncoding) {
+		case kNStringEncodingUTF8:
+			numBytes = sizeof(UTF8Char);
+			break;
+
+		case kNStringEncodingUTF16:
+			numBytes = sizeof(UTF16Char);
+			break;
+
+		case kNStringEncodingUTF32:
+			numBytes = sizeof(UTF32Char);
+			break;
+
+		default:
+			NN_LOG("Unknown encoding: %d", theEncoding);
+			numBytes = 0;
+			break;
+		}
+
+
+
+	// Check our state
+	NN_ASSERT(numBytes <= (NIndex) sizeof(nullValue));
+
+	if (numBytes == 0 || theSize < numBytes)
+		return;
+
+
+
+	// Remove the terminator
+	thePtr = theData.GetData(theSize - numBytes);
+
+	if (memcmp(thePtr, &nullValue, numBytes) == 0)
+		theData.SetSize(theSize - numBytes);
 }
 
 
