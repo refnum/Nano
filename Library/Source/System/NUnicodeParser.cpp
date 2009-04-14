@@ -318,6 +318,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(void) const
 	NRangeList			theResult;
 	NRange				theRange;
 	const UTF8Char		*theData;
+	UTF8Char			theChar;
 
 
 
@@ -332,9 +333,18 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(void) const
 
 	while (n < theSize)
 		{
+		// Get the character
 		NN_ASSERT(n >= 0 && n < (NIndex) sizeof(kUTF8TrailingBytes));
+		theChar  = theData[n];
 		charSize = kUTF8TrailingBytes[n] + 1;
+		
+		
+		// Break on NULL
+		if (theChar == 0x00)
+			break;
 
+
+		// Add the code point
 		theRange = NRange(n, charSize);
 		theResult.push_back(theRange);
 		
@@ -373,6 +383,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(void) const
 
 	while (n < theSize)
 		{
+		// Get the character
 		theChar  = theData[n];
 		charSize = 2;
 		
@@ -384,6 +395,13 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(void) const
 			charSize += 2;
 			}
 
+
+		// Break on NULL
+		if (theChar == 0x0000)
+			break;
+		
+		
+		// Add the code point
 		theRange = NRange(n, charSize);
 		theResult.push_back(theRange);
 		
@@ -401,24 +419,42 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(void) const
 //		NUnicodeParser::GetCodePointsUTF32 : Get the code points from a UTF32 string.
 //----------------------------------------------------------------------------
 NRangeList NUnicodeParser::GetCodePointsUTF32(void) const
-{	NIndex				n, theSize;
+{	NIndex				n, theSize, charSize;
 	NRangeList			theResult;
 	NRange				theRange;
+	const UTF32Char		*theData;
+	UTF32Char			theChar;
 
 
 
 	// Get the state we need
-	theSize = mData.GetSize();
+	theSize =                     mData.GetSize();
+	theData = (const UTF32Char *) mData.GetData();
 	
 	NN_ASSERT((theSize % sizeof(UTF32Char)) == 0);
 
 
 
 	// Get the code points
-	for (n = 0; n < theSize; n += 4)
+	n = 0;
+	
+	while (n < theSize)
 		{
-		theRange = NRange(n, 4);
+		// Get the character
+		theChar  = theData[n];
+		charSize = 4;
+
+
+		// Break on NULL
+		if (theChar == 0x00000000)
+			break;
+
+
+		// Add the code point
+		theRange = NRange(n, charSize);
 		theResult.push_back(theRange);
+		
+		n += charSize;
 		}
 
 	return(theResult);
