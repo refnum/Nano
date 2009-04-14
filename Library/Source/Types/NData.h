@@ -50,7 +50,7 @@ class NData :	public NContainer,
 				public NComparable<NData>,
 				public NSharedValueData {
 public:
-										 NData(NIndex theSize, const void *thePtr, bool makeCopy=true);
+										 NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
 
 										 NData(void);
 	virtual								~NData(void);
@@ -70,7 +70,9 @@ public:
 
 	// Get/set the data
 	//
-	// An empty data object will return a NULL pointer.
+	// GetData will return a NULL pointer if the data object is empty.
+	//
+	// SetData(xxx, NULL) is equivalent to Clear+AppendData(xxx);
 	const UInt8							*GetData(NIndex theOffset=0) const;
 	UInt8								*GetData(NIndex theOffset=0);
 	

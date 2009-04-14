@@ -248,7 +248,7 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 		theValue = GetMutable();
 		theValue->resize(theSize);
 
-		if (theSize != 0)
+		if (theSize != 0 && thePtr != NULL)
 			memcpy(&theValue->at(0), thePtr, theSize);
 		}
 
@@ -312,7 +312,8 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 //		NData::AppendData : Append data to the buffer.
 //----------------------------------------------------------------------------
 UInt8 *NData::AppendData(const NData &theData)
-{
+{	UInt8		*thePtr;
+
 
 
 	// Check our parameters
@@ -322,7 +323,17 @@ UInt8 *NData::AppendData(const NData &theData)
 
 
 	// Append the data
-	return(AppendData(theData.GetSize(), theData.GetData()));
+	//
+	// If we're empty then we can share the other data, rather than appending bytes.
+	if (IsEmpty())
+		{
+		*this  = theData;
+		thePtr = GetData();
+		}
+	else
+		thePtr = AppendData(theData.GetSize(), theData.GetData());
+	
+	return(thePtr);
 }
 
 
@@ -502,8 +513,8 @@ NDataValue *NData::GetMutable(void)
 
 	// Copy external data
 	//
-	// External data can be supported indefinitely for immutable
-	// access, but must be copied when mutable access is required.
+	// External data can be supported indefinitely for immutable access,
+	// but must be copied whenever mutable access is required.
 	if (mExternalSize != 0)
 		{
 		theValue->resize(mExternalSize);
