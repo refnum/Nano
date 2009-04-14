@@ -2,7 +2,8 @@
 		NString.cpp
 
 	DESCRIPTION:
-		Strings are stored as NULL-terminated UTF8 strings.
+		Strings are stored as NULL-terminated UTF8 or UTF16 strings, and
+		converted to other encodings on demand.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -42,7 +43,7 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 
 	// Initialize ourselves
 	if (numBytes == kNStringSize)
-		numBytes = strlen((const char *) thePtr);
+		numBytes = strlen((const char *) thePtr) + 1;
 	
 	SetData(NData(numBytes, thePtr), theEncoding);
 }
@@ -74,7 +75,7 @@ NString::NString(const NStringUTF8 &theString)
 
 
 	// Initialize ourselves
-	SetData(NData(theString.GetSize(), theString.GetUTF8()), kNStringEncodingUTF8);
+	SetData(NData(theString.GetSize()+1, theString.GetUTF8()), kNStringEncodingUTF8);
 }
 
 
@@ -127,13 +128,63 @@ NIndex NString::GetSize(void) const
 const char *NString::GetUTF8(void) const
 {	const NStringValue		*theValue;
 	const char				*theText;
+	const NData				*theData;
+
+
+
+	// Get the state we need
+	//
+	// Strings that require encoding conversion are converted via a per-object
+	// buffer, allowing the pointer to persist until we are modified.
+	theValue = GetImmutable();
+	theData  = &theValue->theData;
+
+	if (theValue->theEncoding != kNStringEncodingUTF8)
+		{
+		mData   = GetData(kNStringEncodingUTF8, sizeof(UTF8Char));
+		theData = &mData;
+		}
 
 
 
 	// Get the string
+	theText = (const char *) theData->GetData();
+
+	return(theText);
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetUTF16 : Get the string.
+//----------------------------------------------------------------------------
+const UTF16Char *NString::GetUTF16(void) const
+{	const NStringValue		*theValue;
+	const UTF16Char			*theText;
+	const NData				*theData;
+
+
+
+	// Get the state we need
+	//
+	// Strings that require encoding conversion are converted via a per-object
+	// buffer, allowing the pointer to persist until we are modified.
 	theValue = GetImmutable();
-	theText  = (const char *) theValue->dataUTF8.GetData();
-	
+	theData  = &theValue->theData;
+
+	if (theValue->theEncoding != kNStringEncodingUTF16)
+		{
+		mData   = GetData(kNStringEncodingUTF16, sizeof(UTF16Char));
+		theData = &mData;
+		}
+
+
+
+	// Get the string
+	theText = (const UTF16Char *) theData->GetData();
+
 	return(theText);
 }
 
@@ -144,7 +195,7 @@ const char *NString::GetUTF8(void) const
 //============================================================================
 //		NString::GetData : Get the string.
 //----------------------------------------------------------------------------
-NData NString::GetData(NStringEncoding theEncoding, NIndex nullBytes) const
+NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
 {	NStringEncoder			theEncoder;
 	const NStringValue		*theValue;
 	NData					theData;
@@ -152,9 +203,9 @@ NData NString::GetData(NStringEncoding theEncoding, NIndex nullBytes) const
 
 
 
-	// Get the string
+	// Get the state we need
 	theValue = GetImmutable();
-	theErr   = theEncoder.Convert(theValue->dataUTF8, theData, kNStringEncodingUTF8, theEncoding);
+	theErr   = theEncoder.Convert(theValue->theData, theData, theValue->theEncoding, theEncoding);
 
 	if (theErr != noErr)
 		{
@@ -165,8 +216,8 @@ NData NString::GetData(NStringEncoding theEncoding, NIndex nullBytes) const
 
 
 	// Add the terminator
-	if (theErr == noErr && nullBytes != 0)
-		theData.AppendData(nullBytes);
+	if (theErr == noErr && nullTerminate)
+		theEncoder.AddTerminator(theData, theEncoding);
 
 	return(theData);
 }
@@ -178,31 +229,36 @@ NData NString::GetData(NStringEncoding theEncoding, NIndex nullBytes) const
 //============================================================================
 //		NString::SetData : Set the string.
 //----------------------------------------------------------------------------
-void NString::SetData(const NData &theData, NStringEncoding theEncoding)
-{	NStringEncoder			theEncoder;
+OSStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
+{	NStringEncoding			bestEncoding;
+	NStringEncoder			theEncoder;
 	NStringValue			*theValue;
+	NData					bestData;
 	OSStatus				theErr;
 
 
 
-	// Set the string
-	theValue = GetMutable();
-	theErr   = theEncoder.Convert(theData, theValue->dataUTF8, theEncoding, kNStringEncodingUTF8);
-
-	if (theErr == noErr)
-		{
-		theValue->dataUTF8.AppendData(1);
-		ValueChanged(theValue);
-		}
+	// Get the state we need
+	theValue     = GetMutable();
+	bestEncoding = GetBestEncoding(theData, theEncoding);
 
 
 
-	// Handle failure
+	// Convert the data
+	theErr = theEncoder.Convert(theData, bestData, theEncoding, bestEncoding);
+	NN_ASSERT_NOERR(theErr);
+	
 	if (theErr != noErr)
-		{
-		NN_LOG("Unable to set string data");
-		Clear();
-		}
+		return(theErr);
+
+
+
+	// Update our state
+	theValue->theEncoding = bestEncoding;
+	theValue->theData     = bestData;
+
+	theEncoder.AddTerminator(theValue->theData, theValue->theEncoding);
+	ValueChanged(theValue);
 }
 
 
@@ -451,11 +507,17 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 	sizeA = valueA->theSize;
 	sizeB = valueB->theSize;
 	
-	parserA.SetValue(valueA->dataUTF8, kNStringEncodingUTF8);
-	parserB.SetValue(valueB->dataUTF8, kNStringEncodingUTF8);
+	parserA.SetValue(valueA->theData, valueA->theEncoding);
+	parserB.SetValue(valueB->theData, valueB->theEncoding);
 
 	ignoreCase = ((theFlags & kNStringNoCase)  != kNStringNone);
 	isNumeric  = ((theFlags & kNStringNumeric) != kNStringNone);
+
+
+
+	// Check for equality
+	if (valueA == valueB)
+		return(kNCompareEqualTo);
 
 
 
@@ -969,26 +1031,39 @@ void NString::Format(const NString &theFormat, FORMAT_ARGS_PARAM)
 //----------------------------------------------------------------------------
 const NString& NString::operator += (const NString &theString)
 {	const NStringValue		*otherValue;
-	const NData				*otherData;
+	NStringEncoder			theEncoder;
 	NStringValue			*theValue;
-	NData					*theData;
+	NData					theData;
+	OSStatus				theErr;
 
 
 
 	// Get the state we need
-	theValue = GetMutable();
-	theData  = &theValue->dataUTF8;
-	
+	theValue   = GetMutable();
 	otherValue = theString.GetImmutable();
-	otherData  = &otherValue->dataUTF8;
+
+	theEncoder.RemoveTerminator(theValue->theData, theValue->theEncoding);
 
 
 
 	// Append the string
-	if (!theData->IsEmpty())
-		theData->SetSize(theData->GetSize() - 1);
+	if (theValue->theEncoding == otherValue->theEncoding)
+		theValue->theData.AppendData(otherValue->theData);
+	else
+		{
+		theErr = theEncoder.Convert(otherValue->theData, theData, otherValue->theEncoding, theValue->theEncoding);
+		NN_ASSERT_NOERR(theErr);
+		
+		if (theErr == noErr)
+			{
+			theValue->theData.AppendData(theData);
+			theEncoder.AddTerminator(theValue->theData, theValue->theEncoding);
+			}
+		}
 
-	theData->AppendData(*otherData);
+
+
+	// Update our state
 	ValueChanged(theValue);
 	
 	return(*this);
@@ -1058,7 +1133,7 @@ NString::operator NFormatArgument(void) const
 //----------------------------------------------------------------------------
 #pragma mark -
 const NStringValue *NString::GetNullValue(void) const
-{	static NStringValue		sNullValue = { 0, NData() };
+{	static NStringValue		sNullValue = { 0, kNStringEncodingUTF8, NData(1) };
 
 
 
@@ -1083,7 +1158,7 @@ NHashCode NString::CalculateHash(void) const
 	if (theValue->theSize == 0)
 		theResult = kNHashCodeNone;
 	else
-		theResult = NHashable::CalculateHash(theValue->dataUTF8.GetSize(), theValue->dataUTF8.GetData());
+		theResult = NHashable::CalculateHash(theValue->theData.GetSize(), theValue->theData.GetData());
 
 	return(theResult);
 }
@@ -1101,15 +1176,27 @@ void NString::ValueChanged(NStringValue *theValue)
 
 
 
-	// Update the count
-	theParser.SetValue(theValue->dataUTF8, kNStringEncodingUTF8);
+	// Update our value
+	theParser.SetValue(theValue->theData, theValue->theEncoding);
 
 	theValue->theSize = theParser.GetSize();
 
 
 
 	// Reset our state
+	//
+	// State that depends on our value needs to be reset whenever it changes.
+	//
+	// To help expose stale pointers returned through GetData(), we scrub the
+	// buffer in debug builds (vs just freeing the memory).
 	ClearHash();
+
+#if NN_DEBUG
+	if (mData.IsNotEmpty())
+		memset(theValue->theData.GetData(), 'X', theValue->theData.GetSize());
+#else
+	theValue->theData.Clear();
+#endif
 }
 
 
@@ -1333,5 +1420,54 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//      NString::GetBestEncoding : Get the best encoding for a string.
+//----------------------------------------------------------------------------
+NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding)
+{	NStringEncoding		bestEncoding;
+	NIndex				n, theSize;
+	const UTF16Char		*theChars;
+
+
+
+	// Get the best encoding
+	switch (theEncoding) {
+		// Single byte
+		case kNStringEncodingUTF8:
+			bestEncoding = kNStringEncodingUTF8;
+			break;
+
+
+		// Multiple-bytes or single bytes
+		case kNStringEncodingUTF16:
+			theSize      = theData.GetSize() / sizeof(UTF16Char);
+			theChars     = (const UTF16Char *) theData.GetData();
+			bestEncoding = kNStringEncodingUTF8;
+			
+			for (n = 0; n < theSize; n++)
+				{
+				if (theChars[n] > 0x7F)
+					{
+					bestEncoding = kNStringEncodingUTF16;
+					break;
+					}
+				}
+			break;
+
+
+		// Multiple bytes
+		default:
+			bestEncoding = kNStringEncodingUTF16;
+			break;
+		}
+	
+	return(bestEncoding);
+}
+
 
 

@@ -31,5 +31,7 @@ void TStringEncoder::Execute(void)
 
 
 	// Execute the tests
+		// dair: validate that null bytes are always stripped off by encoding
+		// dair: validate that adding/removing terminators works correctly
 }
 

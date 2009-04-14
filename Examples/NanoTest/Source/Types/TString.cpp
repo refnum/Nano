@@ -111,7 +111,12 @@ void TString::Execute(void)
 	
 	
 	// Operators
-	
+	testString1 = "hello ";
+	testString2 = "world";
+	NN_ASSERT(testString1 + testString2 == "hello world");
+
+	testString1 += testString2;
+	NN_ASSERT(testString1 == "hello world");
 	
 
 

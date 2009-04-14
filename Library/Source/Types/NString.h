@@ -22,8 +22,8 @@
 #include "NUnicodeParser.h"
 #include "NStringFormatter.h"
 #include "NStringEncoder.h"
-#include "NData.h"
 #include "NRange.h"
+#include "NData.h"
 
 
 
@@ -58,8 +58,9 @@ extern const NIndex  kNStringSize;
 //----------------------------------------------------------------------------
 // Value
 typedef struct {
-	NIndex			theSize;
-	NData			dataUTF8;
+	NIndex				theSize;
+	NStringEncoding		theEncoding;
+	NData				theData;
 } NStringValue;
 
 typedef NSharedValue<NStringValue>									NSharedValueString;
@@ -100,14 +101,12 @@ public:
 
 	// Get/set the string
 	//
-	// GetUTF8 returns a NULL-terminated string. GetData can optionally include
-	// a NULL terminator, of the specified size, to the encoded string.
-	//
-	// Data passed to SetData should not be NULL terminated. 
-	const char							*GetUTF8(void) const;
+	// GetUTF8/16 will always return a NULL-terminated string.
+	const char							*GetUTF8( void) const;
+	const UTF16Char						*GetUTF16(void) const;
 
-	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NIndex nullBytes=0) const;
-	void								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, bool nullTerminate=false) const;
+	OSStatus							 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
 
 	// Find a substring
@@ -206,6 +205,12 @@ private:
 	NRangeList							FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
+
+	NStringEncoding						GetBestEncoding(const NData &theData, NStringEncoding theEncoding);
+
+
+private:
+	mutable NData						mData;
 };
 
 
