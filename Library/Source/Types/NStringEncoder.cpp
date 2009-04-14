@@ -23,6 +23,15 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const UInt64 kStringTerminator									= 0;
+
+
+
+
+
+//============================================================================
 //		NStringEncoder::NStringEncoder : Constructor.
 //----------------------------------------------------------------------------
 NStringEncoder::NStringEncoder(void)
@@ -74,11 +83,81 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 
 
 
-	// Trim the terminator
+	// Remove the terminator
 	if (theErr == noErr)
-		TrimTerminator(dstData, dstEncoding);
+		RemoveTerminator(dstData, dstEncoding);
 
 	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::AddTerminator : Add a terminating null character.
+//----------------------------------------------------------------------------
+void NStringEncoder::AddTerminator(NData &theData, NStringEncoding theEncoding)
+{	NIndex			sizeData, sizeTerm;
+	bool			modifyData;
+	const UInt8		*thePtr;
+
+
+
+	// Get the state we need
+	sizeData = theData.GetSize();
+	sizeTerm = GetTerminatorSize(theEncoding);
+
+	NN_ASSERT(sizeTerm > 0 && sizeTerm <= (NIndex) sizeof(kStringTerminator));
+
+
+
+	// Add the terminator
+	modifyData = (sizeData < sizeTerm);
+
+	if (!modifyData)
+		{
+		thePtr     = theData.GetData(sizeData - sizeTerm);
+		modifyData = (memcmp(thePtr, &kStringTerminator, sizeTerm) != 0);
+		}
+
+	if (modifyData)
+		theData.SetSize(sizeData + sizeTerm);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::RemoveTerminator : Remove a terminating null character.
+//----------------------------------------------------------------------------
+void NStringEncoder::RemoveTerminator(NData &theData, NStringEncoding theEncoding)
+{	NIndex			sizeData, sizeTerm;
+	bool			modifyData;
+	const UInt8		*thePtr;
+
+
+
+	// Get the state we need
+	sizeData = theData.GetSize();
+	sizeTerm = GetTerminatorSize(theEncoding);
+
+	NN_ASSERT(sizeTerm > 0 && sizeTerm <= (NIndex) sizeof(kStringTerminator));
+
+
+
+	// Remove the terminator
+	modifyData = (sizeData >= sizeTerm);
+	
+	if (modifyData)
+		{
+		thePtr     = theData.GetData(sizeData - sizeTerm);
+		modifyData = (memcmp(thePtr, &kStringTerminator, sizeTerm) == 0);
+		}
+
+	if (modifyData)
+		theData.SetSize(sizeData - sizeTerm);
 }
 
 
@@ -458,53 +537,35 @@ NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt
 
 
 //============================================================================
-//		NStringEncoder::TrimTerminator : Trim the terminating null character.
+//		NStringEncoder::GetTerminatorSize : Get the size of a terminator.
 //----------------------------------------------------------------------------
-void NStringEncoder::TrimTerminator(NData &theData, NStringEncoding theEncoding)
-{	NIndex					numBytes, theSize;
-	static const UInt64		nullValue = 0;
-	const UInt8				*thePtr;
+NIndex NStringEncoder::GetTerminatorSize(NStringEncoding theEncoding)
+{	NIndex		theSize;
 
 
 
 	// Get the state we need
-	theSize  = theData.GetSize();
-	numBytes = 0;
-
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
-			numBytes = sizeof(UTF8Char);
+			theSize = sizeof(UTF8Char);
 			break;
 
 		case kNStringEncodingUTF16:
-			numBytes = sizeof(UTF16Char);
+			theSize = sizeof(UTF16Char);
 			break;
 
 		case kNStringEncodingUTF32:
-			numBytes = sizeof(UTF32Char);
+			theSize = sizeof(UTF32Char);
 			break;
 
 		default:
 			NN_LOG("Unknown encoding: %d", theEncoding);
-			numBytes = 0;
+			theSize = 0;
 			break;
 		}
 
-
-
-	// Check our state
-	NN_ASSERT(numBytes <= (NIndex) sizeof(nullValue));
-
-	if (numBytes == 0 || theSize < numBytes)
-		return;
-
-
-
-	// Remove the terminator
-	thePtr = theData.GetData(theSize - numBytes);
-
-	if (memcmp(thePtr, &nullValue, numBytes) == 0)
-		theData.SetSize(theSize - numBytes);
+	return(theSize);
 }
+
 
 

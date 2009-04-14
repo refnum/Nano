@@ -50,6 +50,11 @@ public:
 	NStatus								Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
 
 
+	// Add/remove a null terminator
+	void								AddTerminator(   NData &theData, NStringEncoding theEncoding);
+	void								RemoveTerminator(NData &theData, NStringEncoding theEncoding);
+
+
 private:
 	NStatus								ConvertFromUTF8( const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 	NStatus								ConvertFromUTF16(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
@@ -65,7 +70,7 @@ private:
 	NStatus								ConvertUTF32ToUTF16(const NData &srcData, NData &dstData);
 	
 	NStatus								ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult);
-	void								TrimTerminator(NData &theData, NStringEncoding theEncoding);
+	NIndex								GetTerminatorSize(NStringEncoding theEncoding);
 };
 
 
