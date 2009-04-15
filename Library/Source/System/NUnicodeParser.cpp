@@ -127,6 +127,21 @@ NIndex NUnicodeParser::GetSize(void) const
 
 
 //============================================================================
+//		NUnicodeParser::GetRanges ; Get the character ranges.
+//----------------------------------------------------------------------------
+NRangeList NUnicodeParser::GetRanges(void) const
+{
+
+
+	// Get the ranges
+	return(mCodePoints);
+}
+
+
+
+
+
+//============================================================================
 //		NUnicodeParser::GetRange : Get the range of a character.
 //----------------------------------------------------------------------------
 NRange NUnicodeParser::GetRange(NIndex theIndex) const

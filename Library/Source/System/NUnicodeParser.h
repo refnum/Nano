@@ -47,20 +47,18 @@ public:
 
 
 	// Get the size
-	//
-	// Returns the number of characters in the string.
 	NIndex								GetSize(void) const;
 
 
+	// Get the character ranges
+	NRangeList							GetRanges(void) const;
+
+
 	// Get the range of a character
-	//
-	// Returns the bytes used by the character at the specified index.
 	NRange								GetRange(NIndex theIndex) const;
 
 
 	// Get a character
-	//
-	// Returns the character at the specified index.
 	UTF32Char							GetChar(NIndex theIndex) const;
 
 
