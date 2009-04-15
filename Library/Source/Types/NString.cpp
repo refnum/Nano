@@ -493,31 +493,27 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 {	NIndex					indexA, indexB, sizeA, sizeB;
 	bool					ignoreCase, isNumeric;
 	NUnicodeParser			parserA, parserB;
-	const NStringValue		*valueA, *valueB;
 	UInt64					numberA, numberB;
 	UTF32Char				charA, charB;
 	NComparison				theResult;
 
 
 
-	// Get the state we need
-	valueA =           GetImmutable();
-	valueB = theString.GetImmutable();
+	// Check for identity
+	if (GetImmutable() == theString.GetImmutable())
+		return(kNCompareEqualTo);
 
-	sizeA = valueA->theSize;
-	sizeB = valueB->theSize;
+
+
+	// Get the state we need
+	parserA =           GetParser();
+	parserB = theString.GetParser();
 	
-	parserA.SetValue(valueA->theData, valueA->theEncoding);
-	parserB.SetValue(valueB->theData, valueB->theEncoding);
+	sizeA = parserA.GetSize();
+	sizeB = parserB.GetSize();
 
 	ignoreCase = ((theFlags & kNStringNoCase)  != kNStringNone);
 	isNumeric  = ((theFlags & kNStringNumeric) != kNStringNone);
-
-
-
-	// Check for equality
-	if (valueA == valueB)
-		return(kNCompareEqualTo);
 
 
 
@@ -888,39 +884,6 @@ NStringList NString::Split(const NString &theString, bool isExact) const
 
 
 //============================================================================
-//		NString::Trim : Trim a string at both ends.
-//----------------------------------------------------------------------------
-void NString::Trim(const NString &theString, bool isExact)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(theString.IsNotEmpty());
-
-
-
-	// Whitespace trim
-	if (theString == kNStringWhitespace)
-		{
-// dair, to do
-//		if (MakeMutable())
-//			CFStringTrimWhitespace(*this);
-		}
-	
-	
-	// General trim
-	else
-		{
-		TrimLeft( theString, isExact);
-		TrimRight(theString, isExact);
-		}
-}
-
-
-
-
-
-//============================================================================
 //		NString::TrimLeft : Trim a string on the left.
 //----------------------------------------------------------------------------
 void NString::TrimLeft(const NString &theString, bool isExact)
@@ -948,6 +911,39 @@ void NString::TrimRight(const NString &theString, bool isExact)
 	// Trim the string
 	thePattern.Format(isExact ? "\\Q%@$" : "[\\Q%@\\E]+$", theString);
 	Replace(thePattern, "", kNStringPattern);
+}
+
+
+
+
+
+//============================================================================
+//		NString::Trim : Trim a string at both ends.
+//----------------------------------------------------------------------------
+void NString::Trim(const NString &theString, bool isExact)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theString.IsNotEmpty());
+
+
+
+	// Whitespace trim
+	if (theString == kNStringWhitespace)
+		{
+// dair, to do
+//		if (MakeMutable())
+//			CFStringTrimWhitespace(*this);
+		}
+	
+	
+	// General trim
+	else
+		{
+		TrimLeft( theString, isExact);
+		TrimRight(theString, isExact);
+		}
 }
 
 
@@ -986,6 +982,18 @@ void NString::TrimRight(NIndex theSize)
 
 // dair, to do
 //	CFStringDelete(*this, NormalizeRange(theRange));
+}
+
+
+
+
+
+//============================================================================
+//		NString::Trim : Trim a string.
+//----------------------------------------------------------------------------
+void NString::Trim(const NRange &theRange)
+{
+	// dair, to do
 }
 
 
@@ -1154,14 +1162,11 @@ NHashCode NString::CalculateHash(void) const
 //----------------------------------------------------------------------------
 #pragma mark -
 void NString::ValueChanged(NStringValue *theValue)
-{	NUnicodeParser		theParser;
-
+{
 
 
 	// Update our value
-	theParser.SetValue(theValue->theData, theValue->theEncoding);
-
-	theValue->theSize = theParser.GetSize();
+	theValue->theSize = GetParser().GetSize();
 
 
 
@@ -1186,29 +1191,6 @@ void NString::ValueChanged(NStringValue *theValue)
 
 
 //============================================================================
-//		NString::NormalizeRange : Normalize a range.
-//----------------------------------------------------------------------------
-NRange NString::NormalizeRange(const NRange &theRange) const
-{	NRange		theResult;
-	NIndex		theSize;
-
-
-
-	// Normalize the range
-	theSize   = GetSize();
-	theResult = theRange.GetNormalized(theSize);
-	
-	if (theResult.GetNext() > theSize)
-		theResult.SetSize(theSize - theResult.GetLocation());
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
 //		NString::FindMatches : Find a string.
 //----------------------------------------------------------------------------
 NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
@@ -1225,7 +1207,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 
 
 	// Get the state we need
-	findRange = NormalizeRange(theRange);
+	findRange = theRange.GetNormalized(GetSize());
 
 
 
@@ -1411,23 +1393,21 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 //		NString::CapitalizeCharacters : Capitalize characters.
 //----------------------------------------------------------------------------
 void NString::CapitalizeCharacters(bool toUpper)
-{	const NStringValue		*theValue;
+{	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	UTF32Char				theChar;
 	NData					theData;
-	NIndex					n;
 
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	
-	theParser.SetValue(theValue->theData, theValue->theEncoding);
+	theParser = GetParser();
+	theSize   = theParser.GetSize();
 
 
 
 	// Convert to upper case
-	for (n = 0; n < theValue->theSize; n++)
+	for (n = 0; n < theSize; n++)
 		{
 		theChar = theParser.GetChar(n);
 		theChar = toUpper ? theParser.GetUpper(theChar) : theParser.GetLower(theChar);
@@ -1449,25 +1429,23 @@ void NString::CapitalizeCharacters(bool toUpper)
 //      NString::CapitalizeWords : Capitalize words.
 //----------------------------------------------------------------------------
 void NString::CapitalizeWords(void)
-{	const NStringValue		*theValue;
+{	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	UTF32Char				theChar;
 	bool					toUpper;
 	NData					theData;
-	NIndex					n;
 
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	toUpper  = true;
-	
-	theParser.SetValue(theValue->theData, theValue->theEncoding);
+	theParser = GetParser();
+	theSize   = theParser.GetSize();
+	toUpper   = true;
 
 
 
 	// Capitalize words
-	for (n = 0; n < theValue->theSize; n++)
+	for (n = 0; n < theSize; n++)
 		{
 		theChar = theParser.GetChar(n);
 
@@ -1499,25 +1477,23 @@ void NString::CapitalizeWords(void)
 //      NString::CapitalizeSentences : Capitalize sentences.
 //----------------------------------------------------------------------------
 void NString::CapitalizeSentences(void)
-{	const NStringValue		*theValue;
+{	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	UTF32Char				theChar;
 	bool					toUpper;
 	NData					theData;
-	NIndex					n;
 
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	toUpper  = true;
-	
-	theParser.SetValue(theValue->theData, theValue->theEncoding);
+	theParser = GetParser();
+	theSize   = theParser.GetSize();
+	toUpper   = true;
 
 
 
 	// Capitalize sentences
-	for (n = 0; n < theValue->theSize; n++)
+	for (n = 0; n < theSize; n++)
 		{
 		theChar = theParser.GetChar(n);
 
@@ -1541,6 +1517,26 @@ void NString::CapitalizeSentences(void)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetParser : Get a parser.
+//----------------------------------------------------------------------------
+NUnicodeParser NString::GetParser(void) const
+{	const NStringValue		*theValue;
+	NUnicodeParser			theParser;
+
+
+
+	// Get the parser
+	theValue = GetImmutable();
+	theParser.SetValue(theValue->theData, theValue->theEncoding);
+
+	return(theParser);
 }
 
 
@@ -1606,9 +1602,6 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 					break;
 					}
 				}
-			
-			// dair
-			bestEncoding = kNStringEncodingUTF16;
 			break;
 
 

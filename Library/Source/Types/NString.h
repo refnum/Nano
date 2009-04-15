@@ -173,12 +173,13 @@ public:
 	// Trim the string
 	//
 	// Can trim with an an exact substring, or a list of matching characters.
-	void								Trim(     const NString &theString=kNStringWhitespace, bool isExact=false);
 	void								TrimLeft( const NString &theString=kNStringWhitespace, bool isExact=false);
 	void								TrimRight(const NString &theString=kNStringWhitespace, bool isExact=false);
+	void								Trim(     const NString &theString=kNStringWhitespace, bool isExact=false);
 
 	void								TrimLeft( NIndex theSize);
 	void								TrimRight(NIndex theSize);
+	void								Trim(const NRange &theRange);
 
 
 	// Format the string
@@ -205,8 +206,6 @@ protected:
 private:
 	void								ValueChanged(NStringValue *theValue);
 
-	NRange								NormalizeRange(const NRange &theRange) const;
-
 	NRangeList							FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
@@ -215,6 +214,7 @@ private:
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
 	
+	NUnicodeParser						GetParser(void) const;
 	NStringEncoding						GetBestEncoding(const NData &theData, NStringEncoding theEncoding);
 
 
