@@ -199,8 +199,8 @@ bool NUnicodeParser::IsSpace(UTF32Char theChar) const
 
 	// Check the character
 	//
-	// For now we use a simple ASCII test.
-	theResult = (theChar <= 0xFF && isspace(theChar));
+	// This test needs to be more sophisticated.
+	theResult = (theChar <= kASCIILimit && isspace(theChar));
 	
 	return(theResult);
 }
@@ -219,8 +219,8 @@ bool NUnicodeParser::IsPunct(UTF32Char theChar) const
 
 	// Check the character
 	//
-	// For now we use a simple ASCII test.
-	theResult = (theChar <= 0xFF && ispunct(theChar));
+	// This test needs to be more sophisticated.
+	theResult = (theChar <= kASCIILimit && ispunct(theChar));
 	
 	return(theResult);
 }
@@ -239,8 +239,8 @@ bool NUnicodeParser::IsAlpha(UTF32Char theChar) const
 
 	// Check the character
 	//
-	// For now we use a simple ASCII test.
-	theResult = (theChar <= 0xFF && isalpha(theChar));
+	// This test needs to be more sophisticated.
+	theResult = (theChar <= kASCIILimit && isalpha(theChar));
 	
 	return(theResult);
 }
@@ -259,8 +259,8 @@ bool NUnicodeParser::IsDigit(UTF32Char theChar) const
 
 	// Check the character
 	//
-	// For now we use a simple ASCII test.
-	theResult = (theChar <= 0xFF && isdigit(theChar));
+	// This test needs to be more sophisticated.
+	theResult = (theChar <= kASCIILimit && isdigit(theChar));
 	
 	return(theResult);
 }
@@ -278,8 +278,8 @@ UTF32Char NUnicodeParser::GetLower(UTF32Char theChar) const
 
 	// Convert the character
 	//
-	// For now we use a simple ASCII test.
-	if (theChar <= 0xFF)
+	// This test needs to be more sophisticated.
+	if (theChar <= kASCIILimit)
 		theChar = tolower(theChar);
 	
 	return(theChar);
@@ -298,8 +298,8 @@ UTF32Char NUnicodeParser::GetUpper(UTF32Char theChar) const
 
 	// Convert the character
 	//
-	// For now we use a simple ASCII test.
-	if (theChar <= 0xFF)
+	// This test needs to be more sophisticated.
+	if (theChar <= kASCIILimit)
 		theChar = toupper(theChar);
 	
 	return(theChar);
@@ -314,17 +314,17 @@ UTF32Char NUnicodeParser::GetUpper(UTF32Char theChar) const
 //----------------------------------------------------------------------------
 #pragma mark -
 NRangeList NUnicodeParser::GetCodePointsUTF8(void) const
-{	NIndex				n, theSize, charSize;
-	NRangeList			theResult;
-	NRange				theRange;
-	const UTF8Char		*theData;
-	UTF8Char			theChar;
+{	NIndex			n, theSize, charSize;
+	NRangeList		theResult;
+	NRange			theRange;
+	const UInt8		*theData;
+	UTF8Char		theChar;
 
 
 
 	// Get the state we need
-	theSize =                    mData.GetSize();
-	theData = (const UTF8Char *) mData.GetData();
+	theSize = mData.GetSize();
+	theData = mData.GetData();
 
 
 
@@ -335,7 +335,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(void) const
 		{
 		// Get the character
 		NN_ASSERT(n >= 0 && n < (NIndex) sizeof(kUTF8TrailingBytes));
-		theChar  = theData[n];
+		theChar  = *((const UTF8Char *) &theData[n]);
 		charSize = kUTF8TrailingBytes[n] + 1;
 		
 		
@@ -362,17 +362,17 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(void) const
 //		NUnicodeParser::GetCodePointsUTF16 : Get the code points from a UTF16 string.
 //----------------------------------------------------------------------------
 NRangeList NUnicodeParser::GetCodePointsUTF16(void) const
-{	NIndex				n, theSize, charSize;
-	NRangeList			theResult;
-	NRange				theRange;
-	const UTF16Char		*theData;
-	UTF16Char			theChar;
+{	NIndex			n, theSize, charSize;
+	NRangeList		theResult;
+	NRange			theRange;
+	const UInt8		*theData;
+	UTF16Char		theChar;
 
 
 
 	// Get the state we need
-	theSize =                  mData.GetSize();
-	theData = (const UInt16 *) mData.GetData();
+	theSize = mData.GetSize();
+	theData = mData.GetData();
 
 	NN_ASSERT((theSize % sizeof(UTF16Char)) == 0);
 
@@ -384,13 +384,14 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(void) const
 	while (n < theSize)
 		{
 		// Get the character
-		theChar  = theData[n];
+		theChar  = *((const UTF16Char *) &theData[n]);
 		charSize = 2;
 		
 		if (theChar >= kUTF16SurrogateHighStart && theChar <= kUTF16SurrogateHighEnd)
 			{
 			NN_ASSERT(n <= (theSize-2));
-			NN_ASSERT(theData[n+2] >= kUTF16SurrogateLowStart && theData[n+2] <= kUTF16SurrogateLowEnd);
+			NN_ASSERT(*((const UTF16Char *) &theData[n+2]) >= kUTF16SurrogateLowStart &&
+					  *((const UTF16Char *) &theData[n+2]) <= kUTF16SurrogateLowEnd);
 			
 			charSize += 2;
 			}
@@ -419,17 +420,17 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(void) const
 //		NUnicodeParser::GetCodePointsUTF32 : Get the code points from a UTF32 string.
 //----------------------------------------------------------------------------
 NRangeList NUnicodeParser::GetCodePointsUTF32(void) const
-{	NIndex				n, theSize, charSize;
-	NRangeList			theResult;
-	NRange				theRange;
-	const UTF32Char		*theData;
-	UTF32Char			theChar;
+{	NIndex			n, theSize, charSize;
+	NRangeList		theResult;
+	NRange			theRange;
+	const UInt8		*theData;
+	UTF32Char		theChar;
 
 
 
 	// Get the state we need
-	theSize =                     mData.GetSize();
-	theData = (const UTF32Char *) mData.GetData();
+	theSize = mData.GetSize();
+	theData = mData.GetData();
 	
 	NN_ASSERT((theSize % sizeof(UTF32Char)) == 0);
 
@@ -441,7 +442,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF32(void) const
 	while (n < theSize)
 		{
 		// Get the character
-		theChar  = theData[n];
+		theChar  = *((const UTF32Char *) &theData[n]);
 		charSize = 4;
 
 

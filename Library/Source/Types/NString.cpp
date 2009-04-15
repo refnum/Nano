@@ -2,8 +2,8 @@
 		NString.cpp
 
 	DESCRIPTION:
-		Strings are stored as NULL-terminated UTF8 or UTF16 strings, and
-		converted to other encodings on demand.
+		Strings are stored as NULL-terminated UTF8 or UTF16 data, depending
+		on their content.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -43,7 +43,7 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 
 	// Initialize ourselves
 	if (numBytes == kNStringSize)
-		numBytes = strlen((const char *) thePtr) + 1;
+		numBytes = strlen((const char *) thePtr);
 	
 	SetData(NData(numBytes, thePtr), theEncoding);
 }
@@ -75,7 +75,7 @@ NString::NString(const NStringUTF8 &theString)
 
 
 	// Initialize ourselves
-	SetData(NData(theString.GetSize()+1, theString.GetUTF8()), kNStringEncodingUTF8);
+	SetData(NData(theString.GetSize(), theString.GetUTF8()), kNStringEncodingUTF8);
 }
 
 
@@ -208,10 +208,7 @@ NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
 	theErr   = theEncoder.Convert(theValue->theData, theData, theValue->theEncoding, theEncoding);
 
 	if (theErr != noErr)
-		{
 		NN_LOG("Unable to convert '%@' to encoding %d", *this, theEncoding);
-		theData.Clear();
-		}
 
 
 
@@ -254,11 +251,14 @@ OSStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 
 
 	// Update our state
+	theEncoder.AddTerminator(bestData, bestEncoding);
+
 	theValue->theEncoding = bestEncoding;
 	theValue->theData     = bestData;
 
-	theEncoder.AddTerminator(theValue->theData, theValue->theEncoding);
 	ValueChanged(theValue);
+	
+	return(noErr);
 }
 
 
@@ -663,14 +663,14 @@ NString NString::GetLower(void) const
 //============================================================================
 //      NString::GetCapitals : Get as capitalized.
 //----------------------------------------------------------------------------
-NString NString::GetCapitals(bool eachWord) const
+NString NString::GetCapitals(NStringCapitalization theStyle) const
 {	NString		theString;
 
 
 
 	// Get the string
 	theString = *this;
-	theString.MakeCapitals(eachWord);
+	theString.MakeCapitals(theStyle);
     
 	return(theString);
 }
@@ -684,7 +684,10 @@ NString NString::GetCapitals(bool eachWord) const
 //----------------------------------------------------------------------------
 void NString::MakeUpper(void)
 {
-	// dair, to do
+
+
+	// Update the string
+	CapitalizeCharacters(true);
 }
 
 
@@ -696,7 +699,10 @@ void NString::MakeUpper(void)
 //----------------------------------------------------------------------------
 void NString::MakeLower(void)
 {
-	// dair, to do
+
+
+	// Update the string
+	CapitalizeCharacters(false);
 }
 
 
@@ -706,47 +712,23 @@ void NString::MakeLower(void)
 //============================================================================
 //      NString::MakeCapitals : Convert to capitalized form.
 //----------------------------------------------------------------------------
-void NString::MakeCapitals(bool eachWord)
-{	NRange			theRange;
-	NString			theText;
+void NString::MakeCapitals(NStringCapitalization theStyle)
+{
 
 
-
-	// Capitalize each word
-	if (eachWord)
-		; // dair, to do	CFStringCapitalize(*this, cfLocale);
+	// Update the string
+	switch (theStyle) {
+		case kNCapitalizeWords:
+			CapitalizeWords();
+			break;
 		
+		case kNCapitalizeSentences:
+			CapitalizeSentences();
+			break;
 		
-	// Or each sentence
-	else
-		{
-		// Start with lower case
-		MakeLower();
-			
-			
-		// Fix the first word
-		theRange = Find("^(\\s*[a-z])", kNStringPattern);
-		if (theRange.IsNotEmpty())
-			{
-			theText = GetString(theRange).GetUpper();
-			Replace(theRange, theText);
-			}
-			
-			
-		// Fix each subsequent sentance
-		theRange = kNRangeAll;
-		do
-			{
-			theRange = Find("([\\.\\?\\!]\\s*[a-z])", kNStringPattern, theRange);
-			if (theRange.IsNotEmpty())
-				{
-				theText = GetString(theRange).GetUpper();
-				Replace(theRange, theText);
-			
-				theRange = NRange(theRange.GetNext(), kNIndexNone);
-				}
-			}
-		while (theRange.IsNotEmpty());
+		default:
+			NN_LOG("Unknown capitalization style: %d", theStyle);
+			break;
 		}
 }
 
@@ -1426,32 +1408,167 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 
 //============================================================================
+//		NString::CapitalizeCharacters : Capitalize characters.
+//----------------------------------------------------------------------------
+void NString::CapitalizeCharacters(bool toUpper)
+{	const NStringValue		*theValue;
+	NUnicodeParser			theParser;
+	UTF32Char				theChar;
+	NData					theData;
+	NIndex					n;
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	
+	theParser.SetValue(theValue->theData, theValue->theEncoding);
+
+
+
+	// Convert to upper case
+	for (n = 0; n < theValue->theSize; n++)
+		{
+		theChar = theParser.GetChar(n);
+		theChar = toUpper ? theParser.GetUpper(theChar) : theParser.GetLower(theChar);
+		
+		theData.AppendData(sizeof(theChar), &theChar);
+		}
+
+
+
+	// Update the string
+	SetData(theData, kNStringEncodingUTF32);
+}
+
+
+
+
+
+//============================================================================
+//      NString::CapitalizeWords : Capitalize words.
+//----------------------------------------------------------------------------
+void NString::CapitalizeWords(void)
+{	const NStringValue		*theValue;
+	NUnicodeParser			theParser;
+	UTF32Char				theChar;
+	bool					toUpper;
+	NData					theData;
+	NIndex					n;
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	toUpper  = true;
+	
+	theParser.SetValue(theValue->theData, theValue->theEncoding);
+
+
+
+	// Capitalize words
+	for (n = 0; n < theValue->theSize; n++)
+		{
+		theChar = theParser.GetChar(n);
+
+		if (theParser.IsAlpha(theChar))
+			{
+			if (toUpper)
+				{
+				theChar = theParser.GetUpper(theChar);
+				toUpper = false;
+				}
+			}
+		else
+			toUpper = true;
+		
+		theData.AppendData(sizeof(theChar), &theChar);
+		}
+
+
+
+	// Update the string
+	SetData(theData, kNStringEncodingUTF32);
+}
+
+
+
+
+
+//============================================================================
+//      NString::CapitalizeSentences : Capitalize sentences.
+//----------------------------------------------------------------------------
+void NString::CapitalizeSentences(void)
+{	const NStringValue		*theValue;
+	NUnicodeParser			theParser;
+	UTF32Char				theChar;
+	bool					toUpper;
+	NData					theData;
+	NIndex					n;
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	toUpper  = true;
+	
+	theParser.SetValue(theValue->theData, theValue->theEncoding);
+
+
+
+	// Capitalize sentences
+	for (n = 0; n < theValue->theSize; n++)
+		{
+		theChar = theParser.GetChar(n);
+
+		if (toUpper)
+			{
+			if (theParser.IsAlpha(theChar))
+				{
+				theChar = theParser.GetUpper(theChar);
+				toUpper = false;
+				}
+			}
+		else
+			toUpper = (theChar == (UTF32Char) '!' ||
+					   theChar == (UTF32Char) '.' ||
+					   theChar == (UTF32Char) '?');
+		
+		theData.AppendData(sizeof(theChar), &theChar);
+		}
+
+
+
+	// Update the string
+	SetData(theData, kNStringEncodingUTF32);
+}
+
+
+
+
+
+//============================================================================
 //      NString::GetBestEncoding : Get the best encoding for a string.
 //----------------------------------------------------------------------------
 NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding)
-{	NStringEncoding		bestEncoding;
-	NIndex				n, theSize;
-	const UTF16Char		*theChars;
+{	NStringEncoding			bestEncoding;
+	NIndex					n, theSize;
+	const UTF32Char			*chars32;
+	const UTF16Char			*chars16;
+	const UTF8Char			*chars8;
 
 
 
 	// Get the best encoding
 	switch (theEncoding) {
-		// Single byte
 		case kNStringEncodingUTF8:
-			bestEncoding = kNStringEncodingUTF8;
-			break;
-
-
-		// Multiple-bytes or single bytes
-		case kNStringEncodingUTF16:
-			theSize      = theData.GetSize() / sizeof(UTF16Char);
-			theChars     = (const UTF16Char *) theData.GetData();
+			theSize      = theData.GetSize() / sizeof(UTF8Char);
+			chars8       = (const UTF8Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
 			for (n = 0; n < theSize; n++)
 				{
-				if (theChars[n] > 0x7F)
+				if (chars8[n] > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -1460,7 +1577,41 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 			break;
 
 
-		// Multiple bytes
+		case kNStringEncodingUTF16:
+			theSize      = theData.GetSize() / sizeof(UTF16Char);
+			chars16      = (const UTF16Char *) theData.GetData();
+			bestEncoding = kNStringEncodingUTF8;
+			
+			for (n = 0; n < theSize; n++)
+				{
+				if (chars16[n] > kASCIILimit)
+					{
+					bestEncoding = kNStringEncodingUTF16;
+					break;
+					}
+				}
+			break;
+
+
+		case kNStringEncodingUTF32:
+			theSize      = theData.GetSize() / sizeof(UTF32Char);
+			chars32      = (const UTF32Char *) theData.GetData();
+			bestEncoding = kNStringEncodingUTF8;
+			
+			for (n = 0; n < theSize; n++)
+				{
+				if (chars32[n] > kASCIILimit)
+					{
+					bestEncoding = kNStringEncodingUTF16;
+					break;
+					}
+				}
+			
+			// dair
+			bestEncoding = kNStringEncodingUTF16;
+			break;
+
+
 		default:
 			bestEncoding = kNStringEncodingUTF16;
 			break;

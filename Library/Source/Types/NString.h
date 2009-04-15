@@ -16,12 +16,12 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NContainer.h"
-#include "NHashable.h"
-#include "NSharedValue.h"
-#include "NUnicodeParser.h"
 #include "NStringFormatter.h"
 #include "NStringEncoder.h"
+#include "NUnicodeParser.h"
+#include "NSharedValue.h"
+#include "NContainer.h"
+#include "NHashable.h"
 #include "NRange.h"
 #include "NData.h"
 
@@ -41,6 +41,13 @@ static const NStringFlags kNStringNumeric							= (1 << 1);
 static const NStringFlags kNStringPattern							= (1 << 2);
 static const NStringFlags kNStringNumericNoCase						= kNStringNumeric | kNStringNoCase;
 static const NStringFlags kNStringPatternNoCase						= kNStringPattern | kNStringNoCase;
+
+
+// Capitalization
+typedef enum {
+	kNCapitalizeWords,
+	kNCapitalizeSentences
+} NStringCapitalization;
 
 
 // Misc
@@ -101,7 +108,7 @@ public:
 
 	// Get/set the string
 	//
-	// GetUTF8/16 will always return a NULL-terminated string.
+	// GetUTF8/16 return a NULL-terminated string, valid until the string is modified.
 	const char							*GetUTF8( void) const;
 	const UTF16Char						*GetUTF16(void) const;
 
@@ -121,7 +128,7 @@ public:
 
 	// Replace a substring
 	//
-	// When replacing a string, returns the number of replacements made.
+	// ReplaceAll returns the number of replacements made.
 	void								Replace(   const NRange  &theRange,  const NString &replaceWith);
     bool								Replace(   const NString &theString, const NString &replaceWith, NStringFlags theFlags=kNStringNone, const NRange &theRange=kNRangeAll);
     NIndex								ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags=kNStringNone, const NRange &theRange=kNRangeAll);
@@ -142,15 +149,13 @@ public:
 
 
 	// Change the case
-	//
-	// Capitalization can be performed on each word, or each sentence.
-	NString								GetUpper(void)                  const;
-	NString								GetLower(void)                  const;
-    NString                             GetCapitals(bool eachWord=true) const;
+	NString								GetUpper(void)                                                const;
+	NString								GetLower(void)                                                const;
+    NString                             GetCapitals(NStringCapitalization theStyle=kNCapitalizeWords) const;
 
 	void								MakeUpper(void);
 	void								MakeLower(void);
-    void								MakeCapitals(bool eachWord=true);
+    void								MakeCapitals(NStringCapitalization theStyle=kNCapitalizeWords);
 
 
 	// Extract a substring
@@ -206,6 +211,10 @@ private:
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 
+	void								CapitalizeCharacters(bool toUpper);
+	void								CapitalizeWords(void);
+	void								CapitalizeSentences(void);
+	
 	NStringEncoding						GetBestEncoding(const NData &theData, NStringEncoding theEncoding);
 
 
