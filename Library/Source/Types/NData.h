@@ -66,7 +66,11 @@ public:
 	// If the size is increased, the new space will be zero-filled.
 	NIndex								GetSize(void) const;
 	void								SetSize(NIndex theSize);
- 	
+
+
+	// Reserve additional space
+	void								Reserve(NIndex theSize);
+
 
 	// Get/set the data
 	//

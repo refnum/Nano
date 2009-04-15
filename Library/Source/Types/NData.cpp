@@ -157,6 +157,23 @@ void NData::SetSize(NIndex theSize)
 
 
 //============================================================================
+//		NData::Reserve : Reserve additional space.
+//----------------------------------------------------------------------------
+void NData::Reserve(NIndex theSize)
+{	NDataValue		*theValue;
+
+
+
+	// Reserve the space
+	theValue = GetMutable();
+	theValue->reserve(theSize);
+}
+
+
+
+
+
+//============================================================================
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
 const UInt8 *NData::GetData(NIndex theOffset) const
