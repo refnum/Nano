@@ -84,7 +84,7 @@ public:
 
 	// Get a normalized range
 	//
-	// A normalized range converts meta-range into a range for a specific size.
+	// A normalized range converts meta-values and clamps to a specific size.
 	NRange								GetNormalized(NIndex theSize) const;
 	
 

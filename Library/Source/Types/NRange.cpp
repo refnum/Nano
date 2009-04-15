@@ -201,7 +201,10 @@ NRange NRange::GetNormalized(NIndex theSize) const
 	
 	if (theResult.mSize == kNIndexNone)
 		theResult.mSize = theSize;
-	
+
+	if (theResult.GetNext() > theSize)
+		theResult.SetSize(theSize - theResult.GetLocation());
+
 	return(theResult);
 }
 
