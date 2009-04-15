@@ -2,8 +2,7 @@
 		NString.cpp
 
 	DESCRIPTION:
-		Strings are stored as NULL-terminated UTF8 or UTF16 data, depending
-		on their content.
+		Strings are stored as NULL-terminated UTF8 or UTF16 data.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -992,15 +991,11 @@ void NString::Trim(const NString &theString, bool isExact)
 //		NString::TrimLeft : Trim a string on the left.
 //----------------------------------------------------------------------------
 void NString::TrimLeft(NIndex theSize)
-{	NRange		theRange;
-
+{
 
 
 	// Trim the string
-	theRange = NRange(0, theSize);
-
-// dair, to do
-//	CFStringDelete(*this, NormalizeRange(theRange));
+	Trim(NRange(0, theSize));
 }
 
 
@@ -1011,15 +1006,11 @@ void NString::TrimLeft(NIndex theSize)
 //		NString::TrimRight : Trim a string on the right.
 //----------------------------------------------------------------------------
 void NString::TrimRight(NIndex theSize)
-{	NRange	theRange;
-
+{
 
 
 	// Trim the string
-	theRange = NRange(GetSize() - theSize, theSize);
-
-// dair, to do
-//	CFStringDelete(*this, NormalizeRange(theRange));
+	Trim(NRange(GetSize() - theSize, theSize));
 }
 
 
@@ -1030,8 +1021,43 @@ void NString::TrimRight(NIndex theSize)
 //		NString::Trim : Trim a string.
 //----------------------------------------------------------------------------
 void NString::Trim(const NRange &theRange)
-{
-	// dair, to do
+{	NIndex				offsetFirst, offsetLast;
+	NRange				trimRange, byteRange;
+	NStringValue		*theValue;
+	NString				theResult;
+	NRangeList			theRanges;
+	NData				theData;
+
+
+
+	// Get the state we need
+	theValue  = GetMutable();
+	theRanges = GetParser().GetRanges();
+	trimRange = theRange.GetNormalized(GetSize());
+
+
+
+	// Identify the bytes to remove
+	NN_ASSERT(trimRange.GetFirst() < theRanges.size());
+	NN_ASSERT(trimRange.GetLast()  < theRanges.size());
+	
+	offsetFirst = theRanges[trimRange.GetFirst()].GetFirst();
+	offsetLast  = theRanges[trimRange.GetLast()].GetLast();
+	
+	if (offsetLast != offsetFirst)
+		offsetLast++;
+		
+	byteRange.SetLocation(offsetFirst);
+	byteRange.SetSize(    offsetLast - offsetFirst);
+
+
+
+	// Trim the string
+	if (byteRange.IsNotEmpty())
+		{
+		theValue->theData.RemoveData(byteRange);
+		ValueChanged(theValue);
+		}
 }
 
 

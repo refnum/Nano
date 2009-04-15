@@ -142,10 +142,25 @@ void TString::Execute(void)
 
 
 
-	// Manipulation
+	// Split
+	
+	
+	
+	// Trim
+	testString1 = "TrimLeft";
+	testString1.TrimLeft(4);
+	NN_ASSERT(testString1 == "Left");
 
-	
-	
+	testString1 = "TrimRight";
+	testString1.TrimRight(5);
+	NN_ASSERT(testString1 == "Trim");
+
+	testString1 = "TrimTrim";
+	testString1.Trim(NRange(2, 4));
+	NN_ASSERT(testString1 == "Trim");
+
+
+
 	// Formatting
 	
 	
