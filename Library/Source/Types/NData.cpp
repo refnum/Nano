@@ -230,6 +230,24 @@ UInt8 *NData::GetData(NIndex theOffset)
 
 
 //============================================================================
+//		NData::GetData : Get the data.
+//----------------------------------------------------------------------------
+NData NData::GetData(const NRange &theRange) const
+{	NData		theResult;
+
+
+
+	// Get the data
+	theResult.SetData(theRange.GetSize(), GetData(theRange.GetLocation()));
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NData::SetData : Set the data.
 //----------------------------------------------------------------------------
 void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
@@ -268,7 +286,7 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 
 
 //============================================================================
-//		NData::AppendData : Append data to the buffer.
+//		NData::AppendData : Append data.
 //----------------------------------------------------------------------------
 UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 {	NDataValue		*theValue;
@@ -309,7 +327,7 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 
 
 //============================================================================
-//		NData::AppendData : Append data to the buffer.
+//		NData::AppendData : Append data.
 //----------------------------------------------------------------------------
 UInt8 *NData::AppendData(const NData &theData)
 {	UInt8		*thePtr;
@@ -324,7 +342,7 @@ UInt8 *NData::AppendData(const NData &theData)
 
 	// Append the data
 	//
-	// If we're empty then we can share the other data, rather than appending bytes.
+	// If we're empty then we can share the value, rather than appending bytes.
 	if (IsEmpty())
 		{
 		*this  = theData;
@@ -341,7 +359,63 @@ UInt8 *NData::AppendData(const NData &theData)
 
 
 //============================================================================
-//		NData::ReplaceData : Replace data within the buffer.
+//		NData::RemoveData : Remove data.
+//----------------------------------------------------------------------------
+void NData::RemoveData(NIndex theSize, bool fromFront)
+{	NRange		theRange;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theSize > 0 && theSize <= GetSize());
+
+
+
+    // Remove the data
+	if (fromFront)
+		theRange = NRange(0, theSize);
+	else
+		theRange = NRange(GetSize() - theSize, theSize);
+
+	RemoveData(theRange);
+}
+
+
+
+
+
+//============================================================================
+//      NData::RemoveData : Remove data.
+//----------------------------------------------------------------------------
+void NData::RemoveData(const NRange &theRange)
+{	NDataValueIterator		iterStart, iterEnd;
+	NDataValue				*theValue;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theRange.GetLocation() >= 0);
+	NN_ASSERT(theRange.GetLast()     <  GetSize());
+
+
+
+	// Get the state we need
+	theValue  = GetMutable();
+	iterStart = theValue->begin() + theRange.GetFirst();
+	iterEnd   = theValue->begin() + theRange.GetNext();
+
+
+
+	// Remove the data
+	theValue->erase(iterStart, iterEnd);
+}
+
+
+
+
+
+//============================================================================
+//		NData::ReplaceData : Replace data.
 //----------------------------------------------------------------------------
 UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)
 {	NIndex			oldSize, blockSize, sizeDelta;
@@ -411,62 +485,6 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 
 
 //============================================================================
-//		NData::RemoveData : Remove data from the buffer.
-//----------------------------------------------------------------------------
-void NData::RemoveData(NIndex theSize, bool fromFront)
-{	NRange		theRange;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theSize > 0 && theSize <= GetSize());
-
-
-
-    // Remove the data
-	if (fromFront)
-		theRange = NRange(0, theSize);
-	else
-		theRange = NRange(GetSize() - theSize, theSize);
-
-	RemoveData(theRange);
-}
-
-
-
-
-
-//============================================================================
-//      NData::RemoveData : Remove data from the buffer.
-//----------------------------------------------------------------------------
-void NData::RemoveData(const NRange &theRange)
-{	NDataValueIterator		iterStart, iterEnd;
-	NDataValue				*theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theRange.GetLocation() >= 0);
-	NN_ASSERT(theRange.GetLast()     <  GetSize());
-
-
-
-	// Get the state we need
-	theValue  = GetMutable();
-	iterStart = theValue->begin() + theRange.GetFirst();
-	iterEnd   = theValue->begin() + theRange.GetNext();
-
-
-
-	// Remove the data
-	theValue->erase(iterStart, iterEnd);
-}
-
-
-
-
-
-//============================================================================
 //		NData::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NData::Compare(const NData &theValue) const
@@ -490,6 +508,42 @@ NComparison NData::Compare(const NData &theValue) const
 	// We have no natural order, so the only real comparison is equality.
 	theResult = CompareData(ourSize, ourPtr, otherSize, otherPtr);
 
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NData::+= : Append data.
+//----------------------------------------------------------------------------
+const NData& NData::operator += (const NData &theData)
+{
+
+
+	// Append the data
+	AppendData(theData);
+	
+	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NData::+ : Append data.
+//----------------------------------------------------------------------------
+const NData NData::operator + (const NData &theData) const
+{	NData	theResult;
+
+
+
+	// Append the data
+	theResult  = *this;
+	theResult += theData;
+	
 	return(theResult);
 }
 

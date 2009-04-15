@@ -16,8 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NContainer.h"
 #include "NSharedValue.h"
+#include "NContainer.h"
 #include "NRange.h"
 
 
@@ -75,25 +75,20 @@ public:
 	// SetData(xxx, NULL) is equivalent to Clear+AppendData(xxx);
 	const UInt8							*GetData(NIndex theOffset=0) const;
 	UInt8								*GetData(NIndex theOffset=0);
+
+	NData								GetData(const NRange &theRange) const;
 	
 	void								SetData(NIndex theSize, const void *thePtr, bool makeCopy=true);
 
 
 	// Append data
 	//
-    // Appending to the buffer will invalidate any previously returned
-	// pointers. If no data is supplied, the new space is zero-filled.
+    // Appending will invalidate any previously returned pointers. If no data is
+	// supplied, the new space is zero-filled.
 	//
-	// Returns a pointer to the newly-appended data within the buffer,
-	// or NULL if no data was appended.
+	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
 	UInt8								*AppendData(NIndex theSize, const void *thePtr=NULL);
 	UInt8								*AppendData(const NData &theData);
-
-
-	// Replace data
-	//
-	// Returns a pointer to the newly-replaced data within the buffer.
-	UInt8								*ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr);
 
 
 	// Remove data
@@ -101,8 +96,19 @@ public:
 	void								RemoveData(const NRange &theRange);
 
 
+	// Replace data
+	//
+	// Returns a pointer to the modified data.
+	UInt8								*ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr);
+
+
 	// Compare the value
 	NComparison							Compare(const NData &theValue) const;
+
+
+	// Operators
+	const NData&						operator += (const NData &theData);
+	const NData							operator +	(const NData &theData) const;
 
 
 protected:
