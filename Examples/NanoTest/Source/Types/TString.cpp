@@ -123,9 +123,25 @@ void TString::Execute(void)
 
 
 	// Extraction
-	
+	testString1 = "GetLeft";
+	NN_ASSERT(testString1.GetLeft(0)  == "");
+	NN_ASSERT(testString1.GetLeft(3)  == "Get");
+	NN_ASSERT(testString1.GetLeft(30) == "GetLeft");
 
-	
+	testString1 = "GetRight";
+	NN_ASSERT(testString1.GetRight(0)  == "");
+	NN_ASSERT(testString1.GetRight(3)  == "ght");
+	NN_ASSERT(testString1.GetRight(30) == "GetRight");
+
+	testString1 = "GetString";
+	NN_ASSERT(testString1.GetString(kNRangeNone)             == "");
+	NN_ASSERT(testString1.GetString(kNRangeAll)              == "GetString");
+	NN_ASSERT(testString1.GetString(NRange(5,  3))           == "rin");
+	NN_ASSERT(testString1.GetString(NRange(5,  kNIndexNone)) == "ring");
+	NN_ASSERT(testString1.GetString(NRange(50, kNIndexNone)) == "");
+
+
+
 	// Manipulation
 
 	

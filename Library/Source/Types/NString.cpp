@@ -28,7 +28,6 @@
 //		Public constants
 //----------------------------------------------------------------------------
 const NString kNStringWhitespace									= "\\s";
-const NIndex  kNStringSize											= -1;
 
 
 
@@ -42,7 +41,7 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 
 
 	// Initialize ourselves
-	if (numBytes == kNStringSize)
+	if (numBytes == kNIndexNone)
 		numBytes = strlen((const char *) thePtr);
 	
 	SetData(NData(numBytes, thePtr), theEncoding);
@@ -739,6 +738,11 @@ NString NString::GetLeft(NIndex theSize) const
 {
 
 
+	// Validate our parameters
+	NN_ASSERT(theSize >= 0);
+
+
+
 	// Check for overflow
 	if (theSize >= GetSize())
 		return(*this);
@@ -760,6 +764,10 @@ NString NString::GetRight(NIndex theSize) const
 {
 
 
+	// Validate our parameters
+	NN_ASSERT(theSize >= 0);
+
+
 	// Check for overflow
 	if (theSize >= GetSize())
 		return(*this);
@@ -778,13 +786,43 @@ NString NString::GetRight(NIndex theSize) const
 //		NString::GetString : Get a substring.
 //----------------------------------------------------------------------------
 NString NString::GetString(const NRange &theRange) const
-{	NString		theResult;
+{	NIndex					offsetFirst, offsetLast;
+	NRange					subRange, byteRange;
+	const NStringValue		*theValue;
+	NString					theResult;
+	NRangeList				theRanges;
+	NData					theData;
 
 
 
-	// Get the substring
-	if (theRange.GetLocation() < GetSize())
-		; // dair, to do theResult.Set(CFStringCreateWithSubstring(kCFAllocatorNano, *this, NormalizeRange(theRange)));
+	// Get the state we need
+	theValue  = GetImmutable();
+	theRanges = GetParser().GetRanges();
+	subRange  = theRange.GetNormalized(GetSize());
+
+
+
+	// Identify the bytes to extract
+	NN_ASSERT(subRange.GetFirst() < theRanges.size());
+	NN_ASSERT(subRange.GetLast()  < theRanges.size());
+	
+	offsetFirst = theRanges[subRange.GetFirst()].GetFirst();
+	offsetLast  = theRanges[subRange.GetLast()].GetLast();
+	
+	if (offsetLast != offsetFirst)
+		offsetLast++;
+		
+	byteRange.SetLocation(offsetFirst);
+	byteRange.SetSize(    offsetLast - offsetFirst);
+
+
+
+	// Extract the string
+	if (byteRange.IsNotEmpty())
+		{
+		theData = theValue->theData.GetData(byteRange);
+		theResult.SetData(theData, theValue->theEncoding);
+		}
 
 	return(theResult);
 }
@@ -1017,7 +1055,7 @@ void NString::Format(const NString &theFormat, FORMAT_ARGS_PARAM)
 
 
 //============================================================================
-//		NString::+= : Append to a string.
+//		NString::+= : Append a string.
 //----------------------------------------------------------------------------
 const NString& NString::operator += (const NString &theString)
 {	const NStringValue		*otherValue;
@@ -1038,7 +1076,7 @@ const NString& NString::operator += (const NString &theString)
 
 	// Append the string
 	if (theValue->theEncoding == otherValue->theEncoding)
-		theValue->theData.AppendData(otherValue->theData);
+		theValue->theData += otherValue->theData;
 	else
 		{
 		theErr = theEncoder.Convert(otherValue->theData, theData, otherValue->theEncoding, theValue->theEncoding);
@@ -1046,7 +1084,7 @@ const NString& NString::operator += (const NString &theString)
 		
 		if (theErr == noErr)
 			{
-			theValue->theData.AppendData(theData);
+			theValue->theData += theData;
 			theEncoder.AddTerminator(theValue->theData, theValue->theEncoding);
 			}
 		}
@@ -1064,18 +1102,18 @@ const NString& NString::operator += (const NString &theString)
 
 
 //============================================================================
-//		NString::+ : Append to a string.
+//		NString::+ : Append a string.
 //----------------------------------------------------------------------------
 const NString NString::operator + (const NString &theString) const
-{	NString		newString;
+{	NString		theResult;
 
 
 
 	// Append the string
-	newString  = *this;
-	newString += theString;
+	theResult  = *this;
+	theResult += theString;
 	
-	return(newString);
+	return(theResult);
 }
 
 

@@ -54,7 +54,6 @@ typedef enum {
 class NString;
 
 extern const NString kNStringWhitespace;
-extern const NIndex  kNStringSize;
 
 
 
@@ -94,8 +93,8 @@ class NString :	public NContainer,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
-										NString(const void			*thePtr, NIndex numBytes=kNStringSize, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(const NData			&theData,                              NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const void			*thePtr, NIndex numBytes=kNIndexNone, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const NData			&theData,                             NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NStringUTF8	&theString);
 										
 										 NString(void);
