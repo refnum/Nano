@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NContainer.h"
 #include "NComparable.h"
 
 
@@ -49,7 +50,8 @@ typedef NRangeList::reverse_iterator								NRangeListReverseIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NRange : public NComparable<NRange> {
+class NRange :	public NContainer,
+				public NComparable<NRange> {
 public:
 										 NRange(NIndex theLocation=0, NIndex theSize=0);
 	virtual								~NRange(void);

@@ -196,13 +196,22 @@ NRange NRange::GetNormalized(NIndex theSize) const
 
 
 
-	// Get the range
+	// Convert the size
 	theResult = *this;
 	
 	if (theResult.mSize == kNIndexNone)
 		theResult.mSize = theSize;
 
-	if (theResult.GetNext() > theSize)
+
+
+	// Check for start beyond end
+	if (theResult.GetFirst() >= theSize)
+		theResult = kNRangeNone;
+
+
+
+	// Check for last beyond end
+	if (theResult.GetLast() >= theSize)
 		theResult.SetSize(theSize - theResult.GetLocation());
 
 	return(theResult);
