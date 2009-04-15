@@ -5,8 +5,8 @@
 		String formatter.
 		
 		NStringFormatter uses NStringUTF8, rather than NString, since its header
-		is included in the precompiled header so that the NN_LOG macros from
-		NDebug.h can be used to format objects:
+		is included in the precompiled header. This is so that the NN_LOG macros
+		from NDebug.h can be used to format objects:
 		
 			NString		theString = "test";
 			NColor		theColor  = kColorRed;
@@ -356,11 +356,11 @@ NStringUTF8 NFormatArgument::GetValueString(const NStringUTF8 &theFormat, const 
 //		NFormatArgument::GetValue : Get a formatted value.
 //----------------------------------------------------------------------------
 NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes, ...)
-{	char		stackBuffer[kFormatBufferSize];
-	char		*heapBuffer;
+{	char			stackBuffer[kFormatBufferSize];
+	char			*heapBuffer;
 	NStringUTF8		theResult;
-	NIndex		numChars;
-	va_list		argList;
+	NIndex			numChars;
+	va_list			argList;
 
 
 
@@ -477,7 +477,7 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, FORMAT_ARGS_P
 #pragma mark -
 NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments)
 {	const char		*textUTF8, *typesUTF8, *formatStart, *formatEnd;
-	NStringUTF8			theResult, argFormat;
+	NStringUTF8		theResult, argFormat;
 	UInt32			numFound, numUsed;
 	bool			areDone;
 
