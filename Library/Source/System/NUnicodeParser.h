@@ -59,7 +59,7 @@ public:
 
 
 	// Get a character
-	UTF32Char							GetChar(NIndex theIndex) const;
+	UTF32Char							GetChar(NIndex theIndex, bool toLower=false) const;
 
 
 	// Test a character

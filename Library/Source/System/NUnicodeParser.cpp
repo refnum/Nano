@@ -164,11 +164,11 @@ NRange NUnicodeParser::GetRange(NIndex theIndex) const
 //============================================================================
 //		NUnicodeParser::GetChar : Get a character.
 //----------------------------------------------------------------------------
-UTF32Char NUnicodeParser::GetChar(NIndex theIndex) const
+UTF32Char NUnicodeParser::GetChar(NIndex theIndex, bool toLower) const
 {	NData				srcData, dstData;
 	NStringEncoder		theEncoder;
-	UTF32Char			theResult;
 	NRange				theRange;
+	UTF32Char			theChar;
 	NStatus				theErr;
 
 
@@ -185,19 +185,22 @@ UTF32Char NUnicodeParser::GetChar(NIndex theIndex) const
 
 
 	// Convert the character
-	theResult = 0;
-	theErr    = theEncoder.Convert(srcData, dstData, mEncoding, kNStringEncodingUTF32);
+	theChar = 0;
+	theErr  = theEncoder.Convert(srcData, dstData, mEncoding, kNStringEncodingUTF32);
 
 	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(dstData.GetSize() == sizeof(theResult));
+	NN_ASSERT(dstData.GetSize() == sizeof(theChar));
 
 
 
 	// Get the result
-	if (theErr == noErr && dstData.GetSize() == sizeof(theResult))
-		theResult = *((UTF32Char *) dstData.GetData());
+	if (theErr == noErr && dstData.GetSize() == sizeof(theChar))
+		theChar = *((UTF32Char *) dstData.GetData());
 	
-	return(theResult);
+	if (toLower)
+		theChar = GetLower(theChar);
+
+	return(theChar);
 }
 
 

@@ -525,8 +525,8 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 	while (indexA < sizeA && indexB < sizeB)
 		{
 		// Get the characters
-		charA = parserA.GetChar(indexA);
-		charB = parserB.GetChar(indexB);
+		charA = parserA.GetChar(indexA, ignoreCase);
+		charB = parserB.GetChar(indexB, ignoreCase);
 		
 		indexA++;
 		indexB++;
@@ -573,12 +573,6 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 
 
 		// Compare alphabetically
-		if (ignoreCase)
-			{
-			charA = parserA.GetLower(charA);
-			charB = parserB.GetLower(charB);
-			}
-
 		if (charA != charB)
 			{
 			theResult = GetComparison(charA, charB);
@@ -802,8 +796,8 @@ NString NString::GetString(const NRange &theRange) const
 
 
 	// Identify the bytes to extract
-	NN_ASSERT(subRange.GetFirst() < theRanges.size());
-	NN_ASSERT(subRange.GetLast()  < theRanges.size());
+	NN_ASSERT(subRange.GetFirst() < (NIndex) theRanges.size());
+	NN_ASSERT(subRange.GetLast()  < (NIndex) theRanges.size());
 	
 	offsetFirst = theRanges[subRange.GetFirst()].GetFirst();
 	offsetLast  = theRanges[subRange.GetLast()].GetLast();
@@ -966,21 +960,9 @@ void NString::Trim(const NString &theString, bool isExact)
 
 
 
-	// Whitespace trim
-	if (theString == kNStringWhitespace)
-		{
-// dair, to do
-//		if (MakeMutable())
-//			CFStringTrimWhitespace(*this);
-		}
-	
-	
-	// General trim
-	else
-		{
-		TrimLeft( theString, isExact);
-		TrimRight(theString, isExact);
-		}
+	// Trim the string
+	TrimLeft( theString, isExact);
+	TrimRight(theString, isExact);
 }
 
 
@@ -1038,8 +1020,8 @@ void NString::Trim(const NRange &theRange)
 
 
 	// Identify the bytes to remove
-	NN_ASSERT(trimRange.GetFirst() < theRanges.size());
-	NN_ASSERT(trimRange.GetLast()  < theRanges.size());
+	NN_ASSERT(trimRange.GetFirst() < (NIndex) theRanges.size());
+	NN_ASSERT(trimRange.GetLast()  < (NIndex) theRanges.size());
 	
 	offsetFirst = theRanges[trimRange.GetFirst()].GetFirst();
 	offsetLast  = theRanges[trimRange.GetLast()].GetLast();
@@ -1295,6 +1277,8 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 {
 // dair, to do
 /*
+
+
 	UInt32			n, numItems;
 	NRange			foundRange;
 	NRangeList		theResult;
