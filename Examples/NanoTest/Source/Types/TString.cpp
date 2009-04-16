@@ -36,7 +36,11 @@ static const NString kValueString									= "another test string";
 //		TString::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TString::Execute(void)
-{	NString		testString1, testString2;
+{	NString			testString1, testString2;
+	NRangeList		theRanges;
+	NRange			theRange;
+	NIndex			theIndex;
+	bool			theFlag;
 
 
 
@@ -60,14 +64,95 @@ void TString::Execute(void)
 	
 	
 	// Find
+	testString1 = "FindString";
+
+	theRange = testString1.Find("Find");
+	NN_ASSERT(theRange == NRange(0, 4));
+
+	theRange = testString1.Find("ndStri");
+	NN_ASSERT(theRange == NRange(2, 6));
+
+	theRange = testString1.Find("ring");
+	NN_ASSERT(theRange == NRange(6, 4));
+
+	theRange = testString1.Find("ringer");
+	NN_ASSERT(theRange == kNRangeNone);
+
+	theRange = testString1.Find("FindStringer");
+	NN_ASSERT(theRange == kNRangeNone);
 	
-	
-	
-	
+	theRange = testString1.Find("String", kNStringNoCase);
+	NN_ASSERT(theRange == NRange(4, 6));
+
+	theRange = testString1.Find("ndstr", kNStringNoCase, NRange(1, 7));
+	NN_ASSERT(theRange == NRange(2, 5));
+
+	theRange = testString1.Find("ndstr", kNStringNoCase, NRange(2, 5));
+	NN_ASSERT(theRange == NRange(2, 5));
+
+	theRange = testString1.Find("ndstr", kNStringNoCase, NRange(3, 4));
+	NN_ASSERT(theRange == kNRangeNone);
+
+	theRanges = testString1.FindAll("in");
+	NN_ASSERT(theRanges.size() == 2);
+	NN_ASSERT(theRanges[0] == NRange(1, 2));
+	NN_ASSERT(theRanges[1] == NRange(7, 2));
+
+
+
 	// Replace
-	
-	
-	
+	testString1 = "FindReplaceString";
+	testString1.Replace(NRange(0, 4), "");
+	NN_ASSERT(testString1 == "ReplaceString");
+
+	testString1 = "FindReplaceString";
+	testString1.Replace(NRange(4, 7), "");
+	NN_ASSERT(testString1 == "FindString");
+
+	testString1 = "FindReplaceString";
+	testString1.Replace(NRange(11, 6), "");
+	NN_ASSERT(testString1 == "FindReplace");
+
+	testString1 = "FindReplaceString";
+	testString1.Replace(NRange(0, 4), "A");
+	NN_ASSERT(testString1 == "AReplaceString");
+
+	testString1 = "FindReplaceString";
+	testString1.Replace(NRange(0, 4), "Longer");
+	NN_ASSERT(testString1 == "LongerReplaceString");
+
+	testString1 = "FindReplaceString";
+	theFlag     = testString1.Replace("Replace", "");
+	NN_ASSERT(theFlag);
+	NN_ASSERT(testString1 == "FindString");
+
+	testString1 = "FindReplaceString";
+	theFlag     = testString1.Replace("Replace", "A");
+	NN_ASSERT(theFlag);
+	NN_ASSERT(testString1 == "FindAString");
+
+	testString1 = "FindReplaceString";
+	theFlag     = testString1.Replace("Replace", "andreplace", kNStringNoCase);
+	NN_ASSERT(theFlag);
+	NN_ASSERT(testString1 == "FindandreplaceString");
+
+	testString1 = "FindReplaceString";
+	theFlag     = testString1.Replace("Fail", "Failed");
+	NN_ASSERT(!theFlag);
+	NN_ASSERT(testString1 == "FindReplaceString");
+
+	testString1 = "FindReplaceString";
+	theIndex    = testString1.ReplaceAll("in", "out");
+	NN_ASSERT(theIndex    == 2);
+	NN_ASSERT(testString1 == "FoutdReplaceStroutg");
+
+	testString1 = "FindReplaceString";
+	theIndex    = testString1.ReplaceAll("IN", "out", kNStringNoCase, NRange(0, 5));
+	NN_ASSERT(theIndex    == 1);
+	NN_ASSERT(testString1 == "FoutdReplaceString");
+
+
+
 	// Contents
 	
 	

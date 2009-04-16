@@ -309,10 +309,10 @@ void NString::Replace(const NRange &theRange, const NString &replaceWith)
 
 	// Get the state we need
 	if (theRange.GetFirst() != 0)
-		thePrefix = GetString(NRange(0, theRange.GetFirst() - 1));
+		thePrefix = GetString(NRange(0, theRange.GetFirst()));
 
 	if (theRange.GetNext() < GetSize())
-		theSuffix = GetString(theRange.GetNext());
+		theSuffix = GetString(NRange(theRange.GetNext(), kNIndexNone));
 
 
 
@@ -736,7 +736,7 @@ NString NString::GetLeft(NIndex theSize) const
 
 
 
-	// Check for overflow
+	// Check the size
 	if (theSize >= GetSize())
 		return(*this);
 
@@ -761,7 +761,8 @@ NString NString::GetRight(NIndex theSize) const
 	NN_ASSERT(theSize >= 0);
 
 
-	// Check for overflow
+
+	// Check the size
 	if (theSize >= GetSize())
 		return(*this);
 
@@ -789,33 +790,34 @@ NString NString::GetString(const NRange &theRange) const
 
 
 	// Get the state we need
-	theValue  = GetImmutable();
-	theRanges = GetParser().GetRanges();
-	subRange  = theRange.GetNormalized(GetSize());
+	theValue = GetImmutable();
+	subRange = theRange.GetNormalized(GetSize());
+
+
+
+	// Check the size
+	if (subRange.IsEmpty())
+		return(theResult);
 
 
 
 	// Identify the bytes to extract
+	theRanges = GetParser().GetRanges();
+
 	NN_ASSERT(subRange.GetFirst() < (NIndex) theRanges.size());
 	NN_ASSERT(subRange.GetLast()  < (NIndex) theRanges.size());
-	
+
 	offsetFirst = theRanges[subRange.GetFirst()].GetFirst();
 	offsetLast  = theRanges[subRange.GetLast()].GetLast();
 	
-	if (offsetLast != offsetFirst)
-		offsetLast++;
-		
 	byteRange.SetLocation(offsetFirst);
-	byteRange.SetSize(    offsetLast - offsetFirst);
+	byteRange.SetSize(    offsetLast - offsetFirst + 1);
 
 
 
 	// Extract the string
-	if (byteRange.IsNotEmpty())
-		{
-		theData = theValue->theData.GetData(byteRange);
-		theResult.SetData(theData, theValue->theEncoding);
-		}
+	theData = theValue->theData.GetData(byteRange);
+	theResult.SetData(theData, theValue->theEncoding);
 
 	return(theResult);
 }
@@ -1241,19 +1243,20 @@ void NString::ValueChanged(NStringValue *theValue)
 //----------------------------------------------------------------------------
 NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
 {	NRangeList		theResults;
-	NRange			findRange ;
+	NRange			findRange;
 	bool			isPattern;
-
-
-
-	// Check our state
-	if (IsEmpty() || theString.IsEmpty())
-		return(theResults);
 
 
 
 	// Get the state we need
 	findRange = theRange.GetNormalized(GetSize());
+	isPattern = (theFlags & kNStringPattern);
+
+
+
+	// Check the size
+	if (theString.IsEmpty() || theString.GetSize() > findRange.GetSize())
+		return(theResults);
 
 
 
@@ -1274,51 +1277,107 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 //      NString::FindString : Find a string.
 //----------------------------------------------------------------------------
 NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{
-// dair, to do
-/*
-
-
-	UInt32			n, numItems;
-	NRange			foundRange;
-	NRangeList		theResult;
-	NCFObject		cfArray;
+{	NIndex				sizeA, sizeB, n, offsetB, limitA;
+	bool				ignoreCase, updateB;
+	NUnicodeParser		parserA, parserB;
+	UTF32Char			charA, charB;
+	NRange				findRange;
+	NRangeList			theResult;
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theString.IsNotEmpty());
-	NN_ASSERT(theRange.location >= 0 && (theRange.location+theRange.Size) <= (CFIndex) GetSize());
-	NN_ASSERT((theFlags & kCFCompareMaskNano) == 0);
-
-
-
-	// Find a single substring
-	if (!doAll)
-		{
-		if (CFStringFindWithOptions(*this, theString, theRange, theFlags, &foundRange))
-			theResult.push_back(foundRange);
-		}
+	// Get the state we need
+	parserA =           GetParser();
+	parserB = theString.GetParser();
 	
+	sizeA = parserA.GetSize();
+	sizeB = parserB.GetSize();
 
-	
-	// Find every instance of the substring
-	else
+	limitA     = std::max((NIndex) 1, std::min(theRange.GetLast(), theRange.GetSize() - sizeB));
+	ignoreCase = (theFlags & kNStringNoCase);
+
+	findRange = kNRangeNone;
+	updateB   = true;
+	offsetB   = 0;
+
+
+
+	// Find the string
+	for (n = theRange.GetFirst(); n <= theRange.GetLast(); n++)
 		{
-		if (cfArray.Set(CFStringCreateArrayWithFindResults(kCFAllocatorNano, *this, theString, theRange, theFlags)))
+		// Get the state we need
+		charA = parserA.GetChar(n, ignoreCase);
+		
+		if (updateB)
 			{
-			numItems = CFArrayGetCount(cfArray);
+			charB   = parserB.GetChar(offsetB, ignoreCase);
+			updateB = false;
+			}
 
-			for (n = 0; n < numItems; n++)
+
+
+		// Check for a match
+		if (findRange.IsEmpty())
+			{
+			// Found a match
+			if (charA == charB)
 				{
-				foundRange = *((const NRange *) CFArrayGetValueAtIndex(cfArray, n));
-				theResult.push_back(foundRange);
+				findRange = NRange(n, 1);
+				updateB   = true;
+				offsetB   = 1;
+				}
+			
+			// No match found
+			else
+				;
+			}
+		
+		
+		// Continue matching
+		else
+			{
+			// Continue the match
+			if (charA == charB)
+				{
+				findRange.SetSize(findRange.GetSize() + 1);
+				updateB  = true;
+				offsetB += 1;
+				}
+			
+			// Cancel the match
+			else
+				{
+				findRange = kNRangeNone;
+				updateB   = true;
+				offsetB   = 0;
 				}
 			}
+
+
+
+		// Save the match
+		if (offsetB == sizeB)
+			{
+			theResult.push_back(findRange);
+			if (!doAll)
+				break;
+
+			findRange = kNRangeNone;
+			updateB   = true;
+			offsetB   = 0;
+			}
+		
+		
+		
+		// Check the limit
+		//
+		// If we've found a match we need to search to the end of the range, but once we
+		// pass the final B-sized section without a match then we know it can't fit.
+		if (n >= limitA && findRange.IsEmpty())
+			break;
 		}
-	
+
 	return(theResult);
-*/
 }
 
 
