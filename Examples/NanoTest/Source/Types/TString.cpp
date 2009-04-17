@@ -37,6 +37,7 @@ static const NString kValueString									= "another test string";
 //----------------------------------------------------------------------------
 void TString::Execute(void)
 {	NString			testString1, testString2;
+	NStringList		theStrings;
 	NRangeList		theRanges;
 	NRange			theRange;
 	NIndex			theIndex;
@@ -228,9 +229,37 @@ void TString::Execute(void)
 
 
 	// Split
-	
-	
-	
+	testString1 = "aa,bb,cc,dd";
+	theStrings  = testString1.Split(",");
+	NN_ASSERT(theStrings.size() == 4);
+	NN_ASSERT(theStrings[0] == "aa");
+	NN_ASSERT(theStrings[1] == "bb");
+	NN_ASSERT(theStrings[2] == "cc");
+	NN_ASSERT(theStrings[3] == "dd");
+
+	testString1 = "a,b,c,d";
+	theStrings  = testString1.Split("b,");
+	NN_ASSERT(theStrings.size() == 2);
+	NN_ASSERT(theStrings[0] == "a,");
+	NN_ASSERT(theStrings[1] == "c,d");
+
+	testString1 = " a b\n c\t\td\t";
+	theStrings  = testString1.Split(kNStringWhitespace);
+	NN_ASSERT(theStrings.size() == 4);
+	NN_ASSERT(theStrings[0] == "a");
+	NN_ASSERT(theStrings[1] == "b");
+	NN_ASSERT(theStrings[2] == "c");
+	NN_ASSERT(theStrings[3] == "d");
+
+	testString1 = "a,b,c,d";
+	theStrings  = testString1.Split("[b,]", kNStringPattern);
+	NN_ASSERT(theStrings.size() == 3);
+	NN_ASSERT(theStrings[0] == "a");
+	NN_ASSERT(theStrings[1] == "c");
+	NN_ASSERT(theStrings[2] == "d");
+
+
+
 	// Trim
 	testString1 = "TrimLeft";
 	testString1.TrimLeft(4);

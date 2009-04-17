@@ -829,16 +829,13 @@ NString NString::GetString(const NRange &theRange) const
 //============================================================================
 //		NString::Split : Split a string.
 //----------------------------------------------------------------------------
-NStringList NString::Split(const NString &theString, bool isExact) const
-{
-// dair, to do
-/*
-	NString					tmpString, subString, matchString;
-	UInt32					n, numItems;
-	NStringList				theStrings;
-	NArray					theArray;
-	NRange					theRange;
-	NStringListIterator		theIter;
+NStringList NString::Split(const NString &theString, NStringFlags theFlags) const
+{	NString						subString, matchString;
+	NRange						theRange, subRange;
+	NRangeList					theMatches;
+	NIndex						offsetPrev;
+	NRangeListConstIterator		iterMatch;
+	NStringList					theResult;
 
 
 
@@ -847,69 +844,38 @@ NStringList NString::Split(const NString &theString, bool isExact) const
 
 
 
-	// Split with an exact match
-	if (isExact || theString.GetSize() == 1)
+	// Get the state we need
+	matchString = GetWhitespacePattern(theString, theFlags);
+	offsetPrev  = 0;
+
+
+
+	// Find the split points
+	theMatches = FindAll(matchString, theFlags);
+
+	if (!theMatches.empty())
+		theMatches.push_back(NRange(GetSize(), 1));
+
+
+
+	// Split the string
+	for (iterMatch = theMatches.begin(); iterMatch != theMatches.end(); iterMatch++)
 		{
-		if (theArray.Set(CFStringCreateArrayBySeparatingStrings(kCFAllocatorNano, *this, theString)))
+		theRange = *iterMatch;
+		
+		if (theRange.GetLocation() > offsetPrev)
 			{
-			numItems = theArray.GetSize();
-			theStrings.reserve(numItems);
-			
-			for (n = 0; n < numItems; n++)
-				theStrings.push_back(theArray.GetValueString(n));
+			subRange  = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
+			subString = GetString(subRange);
+
+			NN_ASSERT(subString.IsNotEmpty());
+			theResult.push_back(subString);
 			}
+		
+		offsetPrev = theRange.GetNext();
 		}
 	
-	
-	// Or split with any character
-	else
-		{
-		matchString.Format("[\\Q%@\\E]", theString);
-		tmpString = *this;
-	
-		while (tmpString.IsNotEmpty())
-			{
-			theRange = tmpString.Find(matchString, kCFComparePattern);
-
-			if (theRange.Size == 0)
-				{
-				subString = tmpString;
-				tmpString.Clear();
-				}
-			else
-				{
-				subString = tmpString.GetLeft(	theRange.location);
-				tmpString = tmpString.GetString(theRange.location + theRange.Size);
-				}
-			
-			theStrings.push_back(subString);
-			}
-
-		}
-
-
-
-	// Clean up the results
-	//
-	// CFStringCreateArrayBySeparatingStrings can return empty strings in some situations:
-	//
-	//		- When target is empty, returns a list containing the empty string
-	//		- When target equals split, returns a list containing two empty strings
-	//		- When target starts with split, returns a list with an initial empty string
-	//
-	// The pattern matching case can also produce empty strings, and so we normalise both
-	// sets of results to produce a list of "things separated by the split" without any
-	// empty strings produced by the process of splitting.
-	for (theIter = theStrings.begin(); theIter != theStrings.end(); )
-		{
-		if (theIter->IsEmpty())
-			theIter = theStrings.erase(theIter);
-		else
-			theIter++;
-		}
-
-	return(theStrings);
-*/
+	return(theResult);
 }
 
 
@@ -919,14 +885,23 @@ NStringList NString::Split(const NString &theString, bool isExact) const
 //============================================================================
 //		NString::TrimLeft : Trim a string on the left.
 //----------------------------------------------------------------------------
-void NString::TrimLeft(const NString &theString, bool isExact)
-{	NString		thePattern;
+void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
+{	NString		trimString;
+
+
+
+	// Get the state we need
+	trimString = GetWhitespacePattern(theString, theFlags);
+
+	if (theFlags & kNStringPattern)
+		trimString.Format("^%@",       trimString);
+	else
+		trimString.Format("^\\Q%@\\E", trimString);
 
 
 
 	// Trim the string
-	thePattern.Format(isExact ? "^\\Q%@" : "^[\\Q%@\\E]+", theString);
-	Replace(thePattern, "", kNStringPattern);
+	Replace(trimString, "", theFlags | kNStringPattern);
 }
 
 
@@ -936,14 +911,23 @@ void NString::TrimLeft(const NString &theString, bool isExact)
 //============================================================================
 //		NString::TrimRight : Trim a string on the right.
 //----------------------------------------------------------------------------
-void NString::TrimRight(const NString &theString, bool isExact)
-{	NString		thePattern;
+void NString::TrimRight(const NString &theString, NStringFlags theFlags)
+{	NString		trimString;
+
+
+
+	// Get the state we need
+	trimString = GetWhitespacePattern(theString, theFlags);
+
+	if (theFlags & kNStringPattern)
+		trimString.Format("%@$",       trimString);
+	else
+		trimString.Format("\\Q%@\\E$", trimString);
 
 
 
 	// Trim the string
-	thePattern.Format(isExact ? "\\Q%@$" : "[\\Q%@\\E]+$", theString);
-	Replace(thePattern, "", kNStringPattern);
+	Replace(trimString, "", theFlags | kNStringPattern);
 }
 
 
@@ -953,7 +937,7 @@ void NString::TrimRight(const NString &theString, bool isExact)
 //============================================================================
 //		NString::Trim : Trim a string at both ends.
 //----------------------------------------------------------------------------
-void NString::Trim(const NString &theString, bool isExact)
+void NString::Trim(const NString &theString, NStringFlags theFlags)
 {
 
 
@@ -963,8 +947,8 @@ void NString::Trim(const NString &theString, bool isExact)
 
 
 	// Trim the string
-	TrimLeft( theString, isExact);
-	TrimRight(theString, isExact);
+	TrimLeft( theString, theFlags);
+	TrimRight(theString, theFlags);
 }
 
 
@@ -1653,7 +1637,7 @@ NUnicodeParser NString::GetParser(void) const
 //============================================================================
 //      NString::GetBestEncoding : Get the best encoding for a string.
 //----------------------------------------------------------------------------
-NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding)
+NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding) const
 {	NStringEncoding			bestEncoding;
 	NIndex					n, theSize;
 	const UTF32Char			*chars32;
@@ -1720,5 +1704,42 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 	return(bestEncoding);
 }
 
+
+
+
+
+//============================================================================
+//      NString::GetWhitespacePattern : Get a whitespace pattern.
+//----------------------------------------------------------------------------
+NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &theFlags) const
+{	NString		thePattern;
+
+
+
+	// Get the state we need
+	thePattern = theString;
+
+
+
+	// Convert whitespace to a pattern
+	//
+	// This allows callers to write foo(kNStringWhitespace) rather than
+	// explicitly specifying a "*" suffix and kNStringPattern.
+	if (thePattern == kNStringWhitespace)
+		{
+		thePattern += "*";
+		theFlags   |= kNStringPattern;
+		}
+
+
+
+	// Disable pattern matching if we can
+	//
+	// Single-character patterns area treated as a (faster) literal match.
+	else if (thePattern.GetSize() == 1)
+		theFlags &= ~kNStringPattern;
+
+	return(thePattern);
+}
 
 

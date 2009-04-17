@@ -165,16 +165,16 @@ public:
 
 	// Split the string
 	//
-	// Can split with an exact substring, or a list of matching characters.
-	NStringList							Split(const NString &theString, bool isExact=false) const;
+	// kNStringWhitespace is always interpreted as a pattern.
+	NStringList							Split(const NString &theString, NStringFlags theFlags=kNStringNone) const;
 
 
 	// Trim the string
 	//
-	// Can trim with an an exact substring, or a list of matching characters.
-	void								TrimLeft( const NString &theString=kNStringWhitespace, bool isExact=false);
-	void								TrimRight(const NString &theString=kNStringWhitespace, bool isExact=false);
-	void								Trim(     const NString &theString=kNStringWhitespace, bool isExact=false);
+	// kNStringWhitespace is always interpreted as a pattern.
+	void								TrimLeft( const NString &theString=kNStringWhitespace, NStringFlags theFlags=kNStringNone);
+	void								TrimRight(const NString &theString=kNStringWhitespace, NStringFlags theFlags=kNStringNone);
+	void								Trim(     const NString &theString=kNStringWhitespace, NStringFlags theFlags=kNStringNone);
 
 	void								TrimLeft( NIndex theSize);
 	void								TrimRight(NIndex theSize);
@@ -213,8 +213,9 @@ private:
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
 	
-	NUnicodeParser						GetParser(void) const;
-	NStringEncoding						GetBestEncoding(const NData &theData, NStringEncoding theEncoding);
+	NUnicodeParser						GetParser(void)                                                        const;
+	NStringEncoding						GetBestEncoding(const NData &theData, NStringEncoding theEncoding)     const;
+	NString								GetWhitespacePattern(const NString &theString, NStringFlags &theFlags) const;
 
 
 private:
