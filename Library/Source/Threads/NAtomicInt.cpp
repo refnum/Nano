@@ -65,7 +65,7 @@ NComparison NAtomicInt::Compare(const SInt32 &theValue) const
 
 	// Compare the value
 	//
-	// The value is copied to ensure it is immutable.
+	// The value is copied to the comparison is atomic.
 	myValue = mValue;
 
 	return(GetComparison(myValue, theValue));
@@ -169,7 +169,7 @@ const NAtomicInt& NAtomicInt::operator ++ (void)
 
 
 	// Adjust the value
-	Increment(1);
+	Increment();
 
 	return(*this);
 }
@@ -186,7 +186,7 @@ const NAtomicInt& NAtomicInt::operator -- (void)
 
 
 	// Adjust the value
-	Decrement(1);
+	Decrement();
 
 	return(*this);
 }
@@ -204,7 +204,7 @@ NAtomicInt NAtomicInt::operator ++ (int)
 
 
 	// Adjust the value
-	Increment(1);
+	Increment();
 
 	return(prevValue);
 }
@@ -222,7 +222,7 @@ NAtomicInt NAtomicInt::operator -- (int)
 
 
 	// Adjust the value
-	Decrement(1);
+	Decrement();
 
 	return(prevValue);
 }

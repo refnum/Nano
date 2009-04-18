@@ -180,7 +180,7 @@ public:
 	// Each argument is wrapped in an NFormatArgument object, whose GetValue
 	// method is invoked to obtain the formatted text.
 	//
-	// Custom objects can be printed using a '%@' specifier, and providing an
+	// Custom objects can be printed using a '%@' specifier and providing an
 	// NFormatArgument cast operator that returns the text for the object.
 	NStringUTF8								Format(const NStringUTF8 &theFormat, FORMAT_ARGS);
 

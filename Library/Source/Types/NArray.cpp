@@ -481,7 +481,6 @@ Float64 NArray::GetValueFloat64(NIndex theIndex) const
 		NN_LOG("Unable to convert [%d] to Float64", theIndex);
 
 	return(theValue);
-
 }
 
 

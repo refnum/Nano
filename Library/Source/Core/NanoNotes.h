@@ -54,13 +54,14 @@
 
 
 
+
 //============================================================================
 //		Release Notes
 //----------------------------------------------------------------------------
 #if NN_SEEN_RELEASE_NOTES_FOR < NN_RELEASE_NOTES_2_0
 
 	// Misc
-	#pragma message("2.0: Not 100% compatible with 1.x");
+	#pragma message("2.0: May not be backwards compatible with 1.x");
 
 #endif
 

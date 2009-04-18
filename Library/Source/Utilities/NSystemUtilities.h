@@ -38,7 +38,7 @@
 //		B16(10101010, 01010101)							= 43605
 //		B32(10000000, 11111111, 10101010, 01010101)		= 2164238933
 //
-// Original implementation by Tom Torfs.
+// Based on a PD implementation by Tom Torfs ("Binary constant macros").
 #define _HEX(_n)		0x ## _n ## LU
 
 #define _B8(_x)			(UInt8) (((_x & 0x0000000FLU) ?   1 : 0) | \

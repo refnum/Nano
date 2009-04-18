@@ -15,7 +15,7 @@
 
 		Unfortunately gcc 4.0 contains a bug which prevents the use of anonymous
 		namespaces within precompiled header files, and NFunctor pulls in parts
-		of TR1 which use anonymous namespaces.
+		of TR1 that use anonymous namespaces.
 		
 			http://gcc.gnu.org/bugzilla/show_bug.cgi?id=10591
 
