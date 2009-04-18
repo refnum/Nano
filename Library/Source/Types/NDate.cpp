@@ -2,7 +2,7 @@
 		NDate.cpp
 
 	DESCRIPTION:
-		Dates are stored as an offset from the epoch (00:00:00 on 2000/01/01),
+		Dates are stored as an offset from the epoch (00:00:00 on 2001/01/01),
 		in the UTC time zone.
 
 		Dates are translated to/from a specific time zone when converted to
@@ -19,6 +19,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NTimeUtilities.h"
 #include "NDate.h"
 
 
@@ -48,7 +49,7 @@ NDate::NDate(void)
 
 
 	// Initialize ourselves
-	mTime = 0.0f;				// dair, get current time in UTC
+	mTime = NTimeUtilities::GetCurrentTime();
 }
 
 

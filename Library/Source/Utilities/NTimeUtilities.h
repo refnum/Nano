@@ -27,11 +27,13 @@
 class NTimeUtilities {
 public:
 	// Get the current time
-	//
-	// Returns the time since the system started.
-	static UInt32						GetTimeInMS(void);
-	static UInt64						GetTimeInUS(void);
-	static NTime						GetTime(void);
+	static NTime						GetCurrentTime(void);
+
+
+	// Get the time since boot
+	static NTime						GetBootTime(  void);
+	static UInt32						GetBootTimeMS(void);
+	static UInt64						GetBootTimeUS(void);
 };
 
 

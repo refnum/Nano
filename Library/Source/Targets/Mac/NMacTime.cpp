@@ -21,9 +21,24 @@
 
 
 //============================================================================
-//		NTargetTime::GetTime : Get the time.
+//		NTargetTime::GetCurrentTime : Get the current time.
 //----------------------------------------------------------------------------
-NTime NTargetTime::GetTime(void)
+NTime NTargetTime::GetCurrentTime(void)
+{
+
+
+	// Get the time
+	return(CFAbsoluteTimeGetCurrent());
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::GetBootTime : Get the time since booting.
+//----------------------------------------------------------------------------
+NTime NTargetTime::GetBootTime(void)
 {
 
 

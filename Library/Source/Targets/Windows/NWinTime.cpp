@@ -21,12 +21,27 @@
 
 
 //============================================================================
-//		NTargetTime::GetTime : Get the time.
+//		NTargetTime::GetCurrentTime : Get the current time.
 //----------------------------------------------------------------------------
-NTime NTargetTime::GetTime(void)
+NTime NTargetTime::GetCurrentTime(void)
+{
+
+	// dair, to do
+	return(0.0);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::GetBootTime : Get the time since booting.
+//----------------------------------------------------------------------------
+NTime NTargetTime::GetBootTime(void)
 {
 
 
 	// dair, to do; use QueryPerformanceTimer
 	return(((NTime) GetTickCount()) * kNTimeMillisecond);
 }
+

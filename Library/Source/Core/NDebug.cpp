@@ -14,8 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetDebug.h"
 #include "NTimeUtilities.h"
+#include "NTargetDebug.h"
 #include "NLock.h"
 #include "NDebug.h"
 
@@ -135,7 +135,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 	// Construct the message
 	fileName = mShowPath ? thePath : GetFileName(thePath);
-	snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", NTimeUtilities::GetTimeInMS(), fileName, lineNum);
+	snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", NTimeUtilities::GetBootTimeMS(), fileName, lineNum);
 
 	finalMsg  = thePrefix;
 	finalMsg += theMsg;

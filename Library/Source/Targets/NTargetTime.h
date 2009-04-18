@@ -27,7 +27,12 @@
 class NTargetTime {
 public:
 	// Get the current time
-	static NTime						GetTime(void);
+	static NTime						GetCurrentTime(void);
+
+
+	// Get the time since boot
+	static NTime						GetBootTime(void);
+
 };
 
 

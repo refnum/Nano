@@ -22,14 +22,14 @@
 
 
 //============================================================================
-//		NTimeUtilities::GetTimeInMS : Get the time in milliseconds.
+//		NTimeUtilities::GetCurrentTime : Get the current time.
 //----------------------------------------------------------------------------
-UInt32 NTimeUtilities::GetTimeInMS(void)
+NTime NTimeUtilities::GetCurrentTime(void)
 {
 
 
 	// Get the time
-	return((UInt32) (NTargetTime::GetTime() / kNTimeMillisecond));
+	return(NTargetTime::GetCurrentTime());
 }
 
 
@@ -37,14 +37,14 @@ UInt32 NTimeUtilities::GetTimeInMS(void)
 
 
 //============================================================================
-//		NTimeUtilities::GetTimeInUS : Get the time in microseconds.
+//		NTimeUtilities::GetBootTime : Get the time since boot.
 //----------------------------------------------------------------------------
-UInt64 NTimeUtilities::GetTimeInUS(void)
+NTime NTimeUtilities::GetBootTime(void)
 {
 
 
 	// Get the time
-	return((UInt64) (NTargetTime::GetTime() / kNTimeMicrosecond));
+	return(NTargetTime::GetBootTime());
 }
 
 
@@ -52,14 +52,31 @@ UInt64 NTimeUtilities::GetTimeInUS(void)
 
 
 //============================================================================
-//		NTimeUtilities::GetTime : Get the time.
+//		NTimeUtilities::GetBootTimeMS : Get the time since boot in milliseconds.
 //----------------------------------------------------------------------------
-NTime NTimeUtilities::GetTime(void)
+UInt32 NTimeUtilities::GetBootTimeMS(void)
 {
 
 
 	// Get the time
-	return(NTargetTime::GetTime());
+	return((UInt32) (NTargetTime::GetBootTime() / kNTimeMillisecond));
 }
+
+
+
+
+
+//============================================================================
+//		NTimeUtilities::GetBootTimeUS : Get the time since boot in microseconds.
+//----------------------------------------------------------------------------
+UInt64 NTimeUtilities::GetBootTimeUS(void)
+{
+
+
+	// Get the time
+	return((UInt64) (NTargetTime::GetBootTime() / kNTimeMicrosecond));
+}
+
+
 
 
