@@ -27,7 +27,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const MPTaskID kMainThreadID								= MPCurrentTaskID();
+static const pthread_t kMainThreadID								= pthread_self();
 
 
 
@@ -43,7 +43,7 @@ bool NTargetThread::IsMainThread(void)
 	// Check our state
 	//
 	// This assumes that the main thread performs static initialization.
-	return(MPCurrentTaskID() == kMainThreadID);
+	return(pthread_self() == kMainThreadID);
 }
 
 
