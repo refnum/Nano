@@ -22,6 +22,9 @@
 #include <list>
 #include <map>
 
+#include <math.h>
+#include <ctype.h>
+#include <stdarg.h>
 #include <limits.h>
 #include <float.h>
 
