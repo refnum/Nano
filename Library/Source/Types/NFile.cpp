@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTargetFile.h"
 #include "NFile.h"
 
 
@@ -103,8 +104,10 @@ bool NFile::IsValid(void) const
 //----------------------------------------------------------------------------
 bool NFile::IsFile(void) const
 {
-    // dair, to do
-    return(false);
+
+
+	// Check the path
+	return(Exists() && NTargetFile::IsFile(mPath));
 }
 
 
@@ -116,8 +119,10 @@ bool NFile::IsFile(void) const
 //----------------------------------------------------------------------------
 bool NFile::IsDirectory(void) const
 {
-    // dair, to do
-    return(false);
+
+
+	// Check the path
+	return(Exists() && NTargetFile::IsDirectory(mPath));
 }
 
 
@@ -129,8 +134,10 @@ bool NFile::IsDirectory(void) const
 //----------------------------------------------------------------------------
 bool NFile::IsWriteable(void) const
 {
-    // dair, to do
-    return(false);
+
+
+	// Check the path
+	return(NTargetFile::IsWriteable(mPath));
 }
 
 
@@ -145,7 +152,7 @@ bool NFile::IsOpen(void) const
 
 
 	// Check our state
-	return(mFileRef != kNFileRefNone);
+	return(mFile != NULL);
 }
 
 
@@ -157,8 +164,10 @@ bool NFile::IsOpen(void) const
 //----------------------------------------------------------------------------
 bool NFile::Exists(void) const
 {
-    // dair, to do
-    return(false);
+
+
+	// Check the path
+	return(NTargetFile::Exists(mPath));
 }
 
 
@@ -218,6 +227,12 @@ void NFile::SetPath(const NString &thePath)
 {
 
 
+	// Update our state
+	if (IsOpen())
+		Close();
+
+
+
 	// Set the path
 	mPath = thePath;
 }
@@ -231,6 +246,10 @@ void NFile::SetPath(const NString &thePath)
 //----------------------------------------------------------------------------
 NString NFile::GetName(bool displayName) const
 {
+
+
+	// Get the name
+	return(NTargetFile::GetName(mPath, displayName));
 }
 
 
@@ -241,7 +260,19 @@ NString NFile::GetName(bool displayName) const
 //        NFile::SetName : Set the file name.
 //----------------------------------------------------------------------------
 NStatus NFile::SetName(const NString &theName, bool renameFile)
-{
+{	NString		newPath;
+	NStatus		theErr;
+
+
+
+	// Set the name
+	newPath = NTargetFile::SetName(mPath, theName, renameFile);
+	theErr  = newPath.IsEmpty() ? kNErrPermission : kNoErr;
+	
+	if (theErr == kNoErr)
+		mPath = newPath;
+	
+	return(theErr);
 }
 
 
@@ -252,7 +283,28 @@ NStatus NFile::SetName(const NString &theName, bool renameFile)
 //		NFile::GetExtension : Set the file extension.
 //----------------------------------------------------------------------------
 NString NFile::GetExtension(void) const
-{
+{	NString			theResult;
+	NRangeList		theRanges;
+	NRange			theDot;
+
+
+
+	// Get the state we need
+	theResult = GetName();
+	theRanges = theResult.FindAll(".");
+	
+	if (!theRanges.empty())
+		theDot = theRanges.back();
+
+
+
+	// Extract the extension
+	if (theDot.IsEmpty())
+		theResult.Clear();
+	else
+		theResult = theResult.GetString(theDot.GetNext());
+
+	return(theResult);
 }
 
 
@@ -263,7 +315,21 @@ NString NFile::GetExtension(void) const
 //		NFile::SetExtension : Set the file extension.
 //----------------------------------------------------------------------------
 NStatus NFile::SetExtension(const NString &theExtension, bool renameFile)
-{
+{	NString		theName, oldExtension;
+
+
+
+	// Construct the new name
+	theName      = GetName();
+	oldExtension = GetExtension();
+
+	theName  = theName.GetLeft(theName.GetSize() - oldExtension.GetSize());
+	theName += theExtension;
+
+
+
+	// Set the file name
+	return(SetName(theName, renameFile));
 }
 
 
@@ -275,6 +341,10 @@ NStatus NFile::SetExtension(const NString &theExtension, bool renameFile)
 //----------------------------------------------------------------------------
 SInt64 NFile::GetSize(void) const
 {
+
+
+	// Get the size
+	return(NTargetFile::GetSize(mPath));
 }
 
 
@@ -285,7 +355,15 @@ SInt64 NFile::GetSize(void) const
 //        NFile::SetSize : Set the file size.
 //----------------------------------------------------------------------------
 NStatus NFile::SetSize(SInt64 theSize)
-{
+{	NStatus		theErr;
+
+
+
+	// Set the size
+	theErr = NTargetFile::SetSize(mPath, theSize);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
@@ -297,6 +375,10 @@ NStatus NFile::SetSize(SInt64 theSize)
 //----------------------------------------------------------------------------
 NFile NFile::GetChild(const NString &fileName) const
 {
+
+
+	// Get the child
+	return(NTargetFile::GetChild(mPath, fileName));
 }
 
 
@@ -308,6 +390,10 @@ NFile NFile::GetChild(const NString &fileName) const
 //----------------------------------------------------------------------------
 NFile NFile::GetParent(void) const
 {
+
+
+	// Get the parent
+	return(NTargetFile::GetParent(mPath));
 }
 
 
@@ -319,6 +405,10 @@ NFile NFile::GetParent(void) const
 //----------------------------------------------------------------------------
 void NFile::Delete(void)
 {
+
+
+	// Delete the file
+	NTargetFile::Delete(mPath);
 }
 
 
@@ -326,10 +416,18 @@ void NFile::Delete(void)
 
 
 //============================================================================
-//        NFile::CreateDirectory : Create the directory.
+//        NFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NFile::CreateDirectory(void)
-{
+{	NStatus		theErr;
+
+
+
+	// Create a directory
+	theErr = NTargetFile::CreateDirectory(mPath);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
@@ -340,7 +438,15 @@ NStatus NFile::CreateDirectory(void)
 //        NFile::ExchangeWith : Exchange two files.
 //----------------------------------------------------------------------------
 NStatus NFile::ExchangeWith(const NFile &theTarget)
-{
+{	NStatus		theErr;
+
+
+
+	// Exchange two files
+	theErr = NTargetFile::ExchangeWith(mPath, theTarget.mPath);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
@@ -351,7 +457,27 @@ NStatus NFile::ExchangeWith(const NFile &theTarget)
 //        NFile::Open : Open the file.
 //----------------------------------------------------------------------------
 NStatus NFile::Open(NFilePermission thePermissions, bool canCreate)
-{
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(!IsOpen());
+
+
+
+	// Check our state
+	if (!canCreate && !IsFile())
+		return(kNErrPermission);
+
+
+
+	// Open the file
+	mFile  = NTargetFile::Open(mPath, thePermissions);
+	theErr = (mFile == NULL) ? kNErrPermission : kNoErr;
+	
+	return(theErr);
 }
 
 
@@ -363,6 +489,17 @@ NStatus NFile::Open(NFilePermission thePermissions, bool canCreate)
 //----------------------------------------------------------------------------
 void NFile::Close(void)
 {
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(IsOpen());
+
+
+
+	// Close the file
+	NTargetFile::Close(mFile);
+	mFile = NULL;
 }
 
 
@@ -373,7 +510,20 @@ void NFile::Close(void)
 //        NFile::GetPosition : Get the read/write position.
 //----------------------------------------------------------------------------
 SInt64 NFile::GetPosition(void) const
-{
+{	SInt64		thePosition;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(IsOpen());
+
+
+
+	// Get the position
+	thePosition = NTargetFile::GetPosition(mFile);
+	
+	return(thePosition);
 }
 
 
@@ -384,7 +534,21 @@ SInt64 NFile::GetPosition(void) const
 //        NFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
 NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition filePos)
-{
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(IsOpen());
+
+
+
+	// Set the position
+	theErr = NTargetFile::SetPosition(mFile, theOffset, filePos);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
@@ -395,7 +559,21 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition filePos)
 //        NFile::Read : Read data from the file.
 //----------------------------------------------------------------------------
 NStatus NFile::Read(SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition filePos)
-{
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(IsOpen());
+
+
+
+	// Read the file
+	theErr = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, filePos);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
@@ -406,7 +584,21 @@ NStatus NFile::Read(SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 //        NFile::Write : Write data to the file.
 //----------------------------------------------------------------------------
 NStatus NFile::Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition filePos)
-{
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(IsOpen());
+
+
+
+	// Write the file
+	theErr = NTargetFile::Write(mFile, theSize, thePtr, numWritten, theOffset, filePos);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
@@ -440,8 +632,8 @@ void NFile::InitializeSelf(const NString &thePath)
 
 
 	// Initialize ourselves
-	mPath    = thePath;
-	mFileRef = kNFileRefNone;
+	mPath = thePath;
+	mFile = NULL;
 }
 
 
@@ -467,18 +659,6 @@ void NFile::CloneFile(const NFile &theFile)
 	// is owned by the file object which opened it.
 	mPath = theFile.mPath;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

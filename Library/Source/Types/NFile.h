@@ -43,9 +43,7 @@ typedef enum {
 
 
 // File reference
-typedef SInt32 NFileRef;
-
-static const NFileRef kNFileRefNone									= -1;
+typedef void *NFileRef;
 
 
 
@@ -180,7 +178,7 @@ private:
 
 private:
 	NString								mPath;
-	NFileRef							mFileRef;
+	NFileRef							mFile;
 };
 
 
