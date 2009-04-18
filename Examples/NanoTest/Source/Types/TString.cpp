@@ -243,13 +243,13 @@ void TString::Execute(void)
 	NN_ASSERT(theStrings[0] == "a,");
 	NN_ASSERT(theStrings[1] == "c,d");
 
-	testString1 = " a b\n c\t\td\t";
+	testString1 = " aa bbb\n cccc\t\tddd\t";
 	theStrings  = testString1.Split(kNStringWhitespace);
 	NN_ASSERT(theStrings.size() == 4);
-	NN_ASSERT(theStrings[0] == "a");
-	NN_ASSERT(theStrings[1] == "b");
-	NN_ASSERT(theStrings[2] == "c");
-	NN_ASSERT(theStrings[3] == "d");
+	NN_ASSERT(theStrings[0] == "aa");
+	NN_ASSERT(theStrings[1] == "bbb");
+	NN_ASSERT(theStrings[2] == "cccc");
+	NN_ASSERT(theStrings[3] == "ddd");
 
 	testString1 = "a,b,c,d";
 	theStrings  = testString1.Split("[b,]", kNStringPattern);

@@ -213,9 +213,12 @@ private:
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
 	
-	NUnicodeParser						GetParser(void)                                                        const;
-	NStringEncoding						GetBestEncoding(const NData &theData, NStringEncoding theEncoding)     const;
-	NString								GetWhitespacePattern(const NString &theString, NStringFlags &theFlags) const;
+	NUnicodeParser						GetParser(void)                                              const;
+	NUnicodeParser						GetParser(const NData &theData, NStringEncoding theEncoding) const;
+
+	NIndex								GetCharacterOffset(  const NRangeList &theRanges, NIndex          byteOffset)  const;
+	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
+	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;
 
 
 private:

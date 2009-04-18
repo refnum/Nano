@@ -851,6 +851,9 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 
 
 	// Find the split points
+	//
+	// If we find anything, a final range is added to ensure we include
+	// any text beyond the last split point into the result.
 	theMatches = FindAll(matchString, theFlags);
 
 	if (!theMatches.empty())
@@ -1012,11 +1015,8 @@ void NString::Trim(const NRange &theRange)
 	offsetFirst = theRanges[trimRange.GetFirst()].GetFirst();
 	offsetLast  = theRanges[trimRange.GetLast()].GetLast();
 	
-	if (offsetLast != offsetFirst)
-		offsetLast++;
-		
 	byteRange.SetLocation(offsetFirst);
-	byteRange.SetSize(    offsetLast - offsetFirst);
+	byteRange.SetSize(    offsetLast - offsetFirst + 1);
 
 
 
@@ -1270,6 +1270,11 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 
 
 
+	// Validate our parameters
+	NN_ASSERT(theString.IsNotEmpty());
+	
+
+
 	// Get the state we need
 	parserA =           GetParser();
 	parserB = theString.GetParser();
@@ -1372,39 +1377,48 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 //      NString::FindPattern : Find a pattern.
 //----------------------------------------------------------------------------
 NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	int						n, errorPos, numMatches, matchStart, matchEnd;
-    NString                 searchText, matchText;
-	int						regFlags, regErr;
-	std::vector<int>		theMatches;
-	const char				*searchPtr;
+{	NIndex					n, matchStart, matchEnd, offsetFirst, offsetLast, searchSize, searchOffset;
+	int						regFlags, regErr, numMatches, errorPos;
+	const char				*textUTF8, *searchUTF8, *errorMsg;
+	NRangeList				theResult, theRanges;
 	NRange					matchRange;
-	NRangeList				theResult;
-	const char				*errorMsg;
+	std::vector<int>		theMatches;
+	NUnicodeParser			theParser;
+	NData					dataUTF8;
 	pcre					*regExp;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(theString.IsNotEmpty());
-	NN_ASSERT(theRange.GetLocation() >= 0 && theRange.GetNext() <= GetSize());
-	NN_ASSERT(theFlags == kNStringNone || theFlags == kNStringNoCase);
-
+	
 
 
 	// Get the state we need
 	numMatches = 0;
-	regFlags   = PCRE_UTF8;
+	regFlags   = PCRE_UTF8 | PCRE_NO_UTF8_CHECK;
 	
 	if (theFlags & kNStringNoCase)
 		regFlags |= PCRE_CASELESS;
 
-	if (theRange.GetLocation() == 0)
-		searchPtr  = GetUTF8();
-	else
-		{
-		searchText = GetString(theRange);
-		searchPtr  = searchText.GetUTF8();
-		}
+	dataUTF8 = GetData(kNStringEncodingUTF8);
+	textUTF8 = (const char *) dataUTF8.GetData();
+
+	theParser = GetParser(dataUTF8, kNStringEncodingUTF8);
+	theRanges = theParser.GetRanges();
+
+
+
+	// Get the range to search
+	NN_ASSERT(theRange.GetFirst() < (NIndex) theRanges.size());
+	NN_ASSERT(theRange.GetLast()  < (NIndex) theRanges.size());
+
+	offsetFirst = theRanges[theRange.GetFirst()].GetFirst();
+	offsetLast  = theRanges[theRange.GetLast()].GetLast();
+
+	searchUTF8   = textUTF8   + offsetFirst;
+	searchSize   = offsetLast - offsetFirst + 1;
+	searchOffset = 0;
 
 
 
@@ -1412,60 +1426,67 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	regExp = pcre_compile(theString.GetUTF8(), regFlags, &errorMsg, &errorPos, NULL);
 	if (regExp == NULL)
 		{
-		NN_LOG("Unable to compile '%s': %s (%d)", theString.GetUTF8(), errorMsg, errorPos);
+		NN_LOG("Unable to compile '%@': %s (%d)", theString, errorMsg, errorPos);
+		return(theResult);
+		}
+
+	regErr = pcre_fullinfo(regExp, NULL, PCRE_INFO_CAPTURECOUNT, &numMatches);
+	if (regErr != 0)
+		{
+		NN_LOG("Unable to extract capture count");
 		return(theResult);
 		}
 
 
 
 	// Execute the expression
-	regErr = pcre_fullinfo(regExp, NULL, PCRE_INFO_CAPTURECOUNT, &numMatches);
-	NN_ASSERT(regErr == 0);
+	theMatches.resize((numMatches+1) * 3);
 
-	if (regErr == 0)
+	while (searchOffset >= 0)
 		{
-		theMatches.resize((numMatches+1) * 3);
-
-		regErr = pcre_exec(regExp, NULL, searchPtr, strlen(searchPtr), 0, PCRE_NO_UTF8_CHECK, &theMatches[0], theMatches.size());
+		// Apply the expression
+		regErr = pcre_exec(regExp, NULL, searchUTF8, searchSize, searchOffset, PCRE_NO_UTF8_CHECK, &theMatches[0], theMatches.size());
 		NN_ASSERT(regErr == PCRE_ERROR_NOMATCH || regErr > 0);
-		}
 
 
 
-	// Collect the results
-	//
-	// Matches are returned as start/end offsets within the UTF8 search string.
-	//
-	// To convert these offsets to a character index, we must extract and measure
-	// the relevant portions of the UTF8 string to handle multi-byte sequences in
-	// the UTF8 string which correspond to a single character.
-	if (regErr > 0)
-		{
-		for (n = 0; n <= numMatches; n++)
+		// Collect the results
+		//
+		// Offsets are returned as byte offsets relative to the start of the search
+		// string, which we convert into absolute character offsets.
+		if (regErr > 0)
 			{
-			// Identify the range
-            matchStart = theMatches[(n * 2) + 0];
-            matchEnd   = theMatches[(n * 2) + 1];
-			
-			if (matchStart == -1)
-				matchRange = kNRangeNone;
-			else
+			for (n = 0; n <= numMatches; n++)
 				{
-				matchText = NString(searchPtr, matchStart, kNStringEncodingUTF8);
-				matchRange.SetLocation(theRange.GetLocation() + matchText.GetSize());
-
-				matchText = NString(searchPtr + matchStart, matchEnd - matchStart, kNStringEncodingUTF8);
-				matchRange.SetSize(matchText.GetSize());
-				}
-
-
-
-			// Collect the match
-			theResult.push_back(matchRange);
+				matchStart = theMatches[(n * 2) + 0];
+				matchEnd   = theMatches[(n * 2) + 1];
+				matchRange = kNRangeNone;
 			
-			if (!doAll)
-				break;
+				if (matchStart != -1)
+					{
+					matchStart = GetCharacterOffset(theRanges, offsetFirst + matchStart);
+					matchEnd   = GetCharacterOffset(theRanges, offsetFirst + matchEnd);
+					matchRange = NRange(matchStart, matchEnd - matchStart);
+					}
+
+				theResult.push_back(matchRange);
+				}
 			}
+
+
+
+		// Advance the search
+		if (doAll)
+			{
+			matchEnd = theMatches[1];
+			
+			if (regErr > 0 && matchEnd != searchSize)
+				searchOffset = matchEnd;
+			else
+				searchOffset = -1;
+			}
+		else
+			searchOffset = -1;
 		}
 
 
@@ -1619,15 +1640,72 @@ void NString::CapitalizeSentences(void)
 //----------------------------------------------------------------------------
 NUnicodeParser NString::GetParser(void) const
 {	const NStringValue		*theValue;
-	NUnicodeParser			theParser;
 
 
 
 	// Get the parser
 	theValue = GetImmutable();
-	theParser.SetValue(theValue->theData, theValue->theEncoding);
+	
+	return(GetParser(theValue->theData, theValue->theEncoding));
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetParser : Get a parser.
+//----------------------------------------------------------------------------
+NUnicodeParser NString::GetParser(const NData &theData, NStringEncoding theEncoding) const
+{	NUnicodeParser			theParser;
+
+
+
+	// Get the parser
+	theParser.SetValue(theData, theEncoding);
 
 	return(theParser);
+}
+
+
+
+
+
+//============================================================================
+//      NString::GetCharacterOffset : Get the offset of a character.
+//----------------------------------------------------------------------------
+NIndex NString::GetCharacterOffset(const NRangeList &theRanges, NIndex byteOffset) const
+{	NIndex		n, numItems;
+
+
+
+	// Locate the offset
+	numItems = theRanges.size();
+	
+	for (n = 0; n < numItems; n++)
+		{
+		if (theRanges[n].GetLocation() == byteOffset)
+			return(n);
+		}
+	
+	
+	
+	// Handle last character
+	//
+	// We allow the byte beyond the last character to be requested, which returns
+	// a fake character one beyond the last character (so that a suitable range
+	// can be calculated which takes in the last character).
+	n = theRanges.back().GetNext();
+	
+	if (byteOffset == n)
+		return(numItems);
+
+
+
+	// Handle failure
+	NN_LOG("Unable to lcoate character at offset %d", byteOffset);
+
+	return(kNIndexNone);
 }
 
 
@@ -1724,10 +1802,10 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 	// Convert whitespace to a pattern
 	//
 	// This allows callers to write foo(kNStringWhitespace) rather than
-	// explicitly specifying a "*" suffix and kNStringPattern.
+	// explicitly specifying a "+" suffix and kNStringPattern.
 	if (thePattern == kNStringWhitespace)
 		{
-		thePattern += "*";
+		thePattern += "+";
 		theFlags   |= kNStringPattern;
 		}
 
