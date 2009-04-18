@@ -64,10 +64,10 @@ public:
 	//		SInt32		theInt;
 	//
 	//		if (theValue.IsType(typeid(theInt)))
-	//			;
+	//			foo();
 	//
 	//		if (theValue.IsType(theInt))
-	//			;
+	//			bar();
 	//
 	// The type can be explicit, or obtained implicitly from a value.
 	inline bool							IsType(const std::type_info &theType)  const;

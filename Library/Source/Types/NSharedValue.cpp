@@ -16,12 +16,12 @@
 	__________________________________________________________________________
 */
 //============================================================================
-//		Linker stub
+//		Linker
 //----------------------------------------------------------------------------
 #ifndef NSHAREDVALUE_CPP
 
-void SuppressNoCodeLinkerWarning_NSharedValue(void);
-void SuppressNoCodeLinkerWarning_NSharedValue(void)
+void NSharedValue_SuppressNoCodeLinkerWarning(void);
+void NSharedValue_SuppressNoCodeLinkerWarning(void)
 {
 }
 

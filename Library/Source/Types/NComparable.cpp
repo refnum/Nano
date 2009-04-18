@@ -13,12 +13,12 @@
 */
 
 //============================================================================
-//		Linker stub
+//		Linker
 //----------------------------------------------------------------------------
 #ifndef NCOMPARABLE_CPP
 
-void SuppressNoCodeLinkerWarning_NComparable(void);
-void SuppressNoCodeLinkerWarning_NComparable(void)
+void NComparable_SuppressNoCodeLinkerWarning(void);
+void NComparable_SuppressNoCodeLinkerWarning(void)
 {
 }
 

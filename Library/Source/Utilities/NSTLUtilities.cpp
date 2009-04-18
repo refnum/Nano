@@ -23,8 +23,8 @@
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
-void SuppressNoCodeLinkerWarning_NSTLUtilities(void);
-void SuppressNoCodeLinkerWarning_NSTLUtilities(void)
+void NSTLUtilities_SuppressNoCodeLinkerWarning(void);
+void NSTLUtilities_SuppressNoCodeLinkerWarning(void)
 {
 }
 

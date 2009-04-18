@@ -18,12 +18,12 @@
 	__________________________________________________________________________
 */
 //============================================================================
-//		Linker stub
+//		Linker
 //----------------------------------------------------------------------------
 #ifndef NVARIANT_CPP
 
-void SuppressNoCodeLinkerWarning_NVariant(void);
-void SuppressNoCodeLinkerWarning_NVariant(void)
+void NVariant_SuppressNoCodeLinkerWarning(void);
+void NVariant_SuppressNoCodeLinkerWarning(void)
 {
 }
 
