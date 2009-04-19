@@ -14,6 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <sys/stat.h>
+#include <dirent.h>
+
 #include "NTargetFile.h"
 
 
@@ -24,8 +27,17 @@
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsFile(const NString &thePath)
-{
-	// dair, to do
+{	struct stat64		fileInfo;
+	NStatus				sysErr;
+	bool				isFile;
+
+
+
+	// Check the path
+	sysErr = stat64(thePath.GetUTF8(), &fileInfo);
+	isFile = (sysErr == kNoErr && S_ISREG(fileInfo.st_mode));
+	
+	return(isFile);
 }
 
 
@@ -36,8 +48,17 @@ bool NTargetFile::IsFile(const NString &thePath)
 //      NTargetFile::IsDirectory : Is this a directory?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsDirectory(const NString &thePath)
-{
-	// dair, to do
+{	struct stat64		fileInfo;
+	NStatus				sysErr;
+	bool				isFile;
+
+
+
+	// Check the path
+	sysErr = stat64(thePath.GetUTF8(), &fileInfo);
+	isFile = (sysErr == kNoErr && S_ISDIR(fileInfo.st_mode));
+	
+	return(isFile);
 }
 
 
@@ -48,8 +69,52 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 //      NTargetFile::IsWriteable : Is a file writeable?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsWriteable(const NString &thePath)
-{
-	// dair, to do
+{	bool				isWriteable;
+	struct stat64		fileInfo;
+	FILE				*tmpFile;
+	DIR					*tmpDir;
+	NStatus				sysErr;
+
+
+
+	// Check the path
+	isWriteable = false;
+	sysErr      = stat64(thePath.GetUTF8(), &fileInfo);
+
+	if (sysErr != kNoErr)
+		return(isWriteable);
+
+
+
+	// Check a file
+	if (S_ISREG(fileInfo.st_mode))
+		{
+		tmpFile = fopen(thePath.GetUTF8(), "wb");
+		if (tmpFile != NULL)
+			{
+			isWriteable = true;
+			fclose(tmpFile);
+			}
+		}
+	
+	
+	// Check a directory
+	else if (S_ISDIR(fileInfo.st_mode))
+		{
+		tmpDir = opendir(thePath.GetUTF8());
+		if (tmpDir != NULL)
+			{
+			isWriteable = true;
+			closedir(tmpDir);
+			}
+		}
+
+
+	// Handle failure
+	else
+		NN_LOG("Don't know how to open '%@'", thePath);
+	
+	return(isWriteable);
 }
 
 
@@ -60,8 +125,17 @@ bool NTargetFile::IsWriteable(const NString &thePath)
 //      NTargetFile::Exists : Does a file exist?
 //----------------------------------------------------------------------------
 bool NTargetFile::Exists(const NString &thePath)
-{
-	// dair, to do
+{	struct stat64		fileInfo;
+	bool				doesExist;
+	NStatus				sysErr;
+
+
+
+	// Check the path
+	sysErr    = stat64(thePath.GetUTF8(), &fileInfo);
+	doesExist = (sysErr == kNoErr);
+	
+	return(doesExist);
 }
 
 

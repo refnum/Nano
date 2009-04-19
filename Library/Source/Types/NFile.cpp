@@ -284,17 +284,13 @@ NStatus NFile::SetName(const NString &theName, bool renameFile)
 //----------------------------------------------------------------------------
 NString NFile::GetExtension(void) const
 {	NString			theResult;
-	NRangeList		theRanges;
 	NRange			theDot;
 
 
 
 	// Get the state we need
 	theResult = GetName();
-	theRanges = theResult.FindAll(".");
-	
-	if (!theRanges.empty())
-		theDot = theRanges.back();
+	theDot    = theResult.Find(".", kNStringBackwards);
 
 
 
