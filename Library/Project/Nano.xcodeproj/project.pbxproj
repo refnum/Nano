@@ -74,6 +74,8 @@
 		AB9155BF0F9B4DD6009FFEAF /* NSystemUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */; };
 		AB9155C00F9B4DD6009FFEAF /* NThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */; };
 		AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
+		AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
+		AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -213,6 +215,10 @@
 		AB9155740F9B4DD6009FFEAF /* NThreadUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadUtilities.h; sourceTree = "<group>"; };
 		AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtilities.cpp; sourceTree = "<group>"; };
 		AB9155760F9B4DD6009FFEAF /* NTimeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtilities.h; sourceTree = "<group>"; };
+		AB9156770F9B5328009FFEAF /* NCFObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFObject.cpp; sourceTree = "<group>"; };
+		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
+		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
+		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFString.cpp; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
@@ -251,8 +257,8 @@
 		AB9154DE0F9B4DD5009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				AB9154E10F9B4DD5009FFEAF /* Nano */,
 				AB9154DF0F9B4DD5009FFEAF /* Nanites */,
+				AB9154E10F9B4DD5009FFEAF /* Nano */,
 			);
 			name = Source;
 			path = ../Source;
@@ -269,6 +275,10 @@
 		AB9154E00F9B4DD5009FFEAF /* CoreFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				AB9156770F9B5328009FFEAF /* NCFObject.cpp */,
+				AB9156780F9B5328009FFEAF /* NCFObject.h */,
+				AB91567A0F9B5328009FFEAF /* NCFString.cpp */,
+				AB9156790F9B5328009FFEAF /* NCFString.h */,
 			);
 			path = CoreFoundation;
 			sourceTree = "<group>";
@@ -579,6 +589,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
+				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
 				AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */,
 				AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */,
 				AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */,

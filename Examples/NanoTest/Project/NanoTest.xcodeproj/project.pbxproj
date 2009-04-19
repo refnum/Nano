@@ -49,6 +49,8 @@
 		AB91565B0F9B4F37009FFEAF /* TThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156310F9B4F37009FFEAF /* TThreadUtilities.cpp */; };
 		AB91565C0F9B4F37009FFEAF /* TTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156330F9B4F37009FFEAF /* TTimeUtilities.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
+		AB9156900F9B5383009FFEAF /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91568C0F9B5383009FFEAF /* TCFObject.cpp */; };
+		AB9156910F9B5383009FFEAF /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91568E0F9B5383009FFEAF /* TCFString.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +157,10 @@
 		AB9156330F9B4F37009FFEAF /* TTimeUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtilities.cpp; sourceTree = "<group>"; };
 		AB9156340F9B4F37009FFEAF /* TTimeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTimeUtilities.h; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
+		AB91568C0F9B5383009FFEAF /* TCFObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFObject.cpp; sourceTree = "<group>"; };
+		AB91568D0F9B5383009FFEAF /* TCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFObject.h; sourceTree = "<group>"; };
+		AB91568E0F9B5383009FFEAF /* TCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFString.cpp; sourceTree = "<group>"; };
+		AB91568F0F9B5383009FFEAF /* TCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFString.h; sourceTree = "<group>"; };
 		AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.pch"; sourceTree = "<group>"; };
 		ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -246,19 +252,12 @@
 				AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */,
 				AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */,
 				AB9156350F9B4F37009FFEAF /* NanoTest.cpp */,
+				AB91568A0F9B5383009FFEAF /* Nanites */,
 				AB9155E00F9B4F37009FFEAF /* Nano */,
-				AB9155DF0F9B4F37009FFEAF /* Nanites */,
 			);
 			name = Source;
 			path = ../Source;
 			sourceTree = SOURCE_ROOT;
-		};
-		AB9155DF0F9B4F37009FFEAF /* Nanites */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Nanites;
-			sourceTree = "<group>";
 		};
 		AB9155E00F9B4F37009FFEAF /* Nano */ = {
 			isa = PBXGroup;
@@ -407,6 +406,25 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		AB91568A0F9B5383009FFEAF /* Nanites */ = {
+			isa = PBXGroup;
+			children = (
+				AB91568B0F9B5383009FFEAF /* CoreFoundation */,
+			);
+			path = Nanites;
+			sourceTree = "<group>";
+		};
+		AB91568B0F9B5383009FFEAF /* CoreFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				AB91568C0F9B5383009FFEAF /* TCFObject.cpp */,
+				AB91568D0F9B5383009FFEAF /* TCFObject.h */,
+				AB91568E0F9B5383009FFEAF /* TCFString.cpp */,
+				AB91568F0F9B5383009FFEAF /* TCFString.h */,
+			);
+			path = CoreFoundation;
+			sourceTree = "<group>";
+		};
 		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +505,8 @@
 			files = (
 				AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
+				AB9156900F9B5383009FFEAF /* TCFObject.cpp in Sources */,
+				AB9156910F9B5383009FFEAF /* TCFString.cpp in Sources */,
 				AB9156370F9B4F37009FFEAF /* TCommandLine.cpp in Sources */,
 				AB9156380F9B4F37009FFEAF /* TDebug.cpp in Sources */,
 				AB9156390F9B4F37009FFEAF /* TBroadcaster.cpp in Sources */,

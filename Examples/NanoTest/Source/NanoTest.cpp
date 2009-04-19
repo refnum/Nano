@@ -16,6 +16,9 @@
 //----------------------------------------------------------------------------
 #include "Nano.h"
 
+#include "TCFObject.h"
+#include "TCFString.h"
+
 #include "TCommandLine.h"
 
 #include "TDebug.h"
@@ -140,6 +143,11 @@ int main(int /*argc*/, const char ** /*argv*/)
 	TThreadUtilities::Execute();
 	TTimeUtilities::Execute();
 
+
+	// Nanite - CoreFoundation
+	TCFObject::Execute();
+	TCFString::Execute();
+	
 	return(0);
 }
 

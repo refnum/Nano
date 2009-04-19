@@ -17,6 +17,8 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
+#include "NCFString.h"
+
 #include "NTargetFile.h"
 
 
@@ -146,8 +148,35 @@ bool NTargetFile::Exists(const NString &thePath)
 //      NTargetFile::GetName : Get a file's name.
 //----------------------------------------------------------------------------
 NString NTargetFile::GetName(const NString &thePath, bool displayName)
-{
-	// dair, to do
+{	CFStringRef		cfString;
+	NRange			slashPos;
+	NString			theName;
+	NStatus			theErr;
+	NCFObject		cfURL;
+
+
+
+	// Get the display name
+	if (displayName)
+		{
+		if (cfURL.Set(CFURLCreateWithFileSystemPath(NULL, NCFString(thePath), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
+			{
+			theErr = LSCopyDisplayNameForURL(cfURL, &cfString);
+			if (theErr == noErr)
+				theName = NCFString(cfString, true);
+			}
+		}
+	
+	
+	// Get the file name
+	else
+		{
+		slashPos = thePath.Find("/", kNStringBackwards);
+		if (slashPos.IsNotEmpty())
+			theName = thePath.GetRight(thePath.GetSize() - slashPos.GetNext());
+		}
+
+	return(theName);
 }
 
 
