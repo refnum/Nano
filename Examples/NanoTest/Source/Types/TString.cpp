@@ -94,6 +94,12 @@ void TString::Execute(void)
 	theRange = testString1.Find("ndstr", kNStringNoCase, NRange(3, 4));
 	NN_ASSERT(theRange == kNRangeNone);
 
+	theRange = testString1.Find("in");
+	NN_ASSERT(theRange == NRange(1, 2));
+
+	theRange = testString1.Find("in", kNStringBackwards);
+	NN_ASSERT(theRange == NRange(7, 2));
+
 	theRanges = testString1.FindAll("in");
 	NN_ASSERT(theRanges.size() == 2);
 	NN_ASSERT(theRanges[0] == NRange(1, 2));

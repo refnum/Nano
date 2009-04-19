@@ -1226,15 +1226,16 @@ void NString::ValueChanged(NStringValue *theValue)
 //		NString::FindMatches : Find a string.
 //----------------------------------------------------------------------------
 NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	NRangeList		theResults;
+{	bool			isBackwards, isPattern;
+	NRangeList		theResults;
 	NRange			findRange;
-	bool			isPattern;
 
 
 
 	// Get the state we need
-	findRange = theRange.GetNormalized(GetSize());
-	isPattern = (theFlags & kNStringPattern);
+	findRange   = theRange.GetNormalized(GetSize());
+	isBackwards = (theFlags & kNStringBackwards);
+	isPattern   = (theFlags & kNStringPattern);
 
 
 
@@ -1245,11 +1246,26 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 
 
 	// Find the string
+	//
+	// Backwards searching is only supported for non-pattern searches, and with
+	// a forwards search which is then reversed - this should be improved.
 	if (isPattern)
 		theResults = FindPattern(theString, theFlags, findRange, doAll);
 	else
-		theResults = FindString( theString, theFlags, findRange, doAll);
-	
+		{
+		if (isBackwards)
+			{
+			theResults = FindString( theString, theFlags, findRange, true);
+			
+			if (doAll)
+				reverse(theResults);
+			else
+				theResults = vector(theResults.back());
+			}
+		else
+			theResults = FindString( theString, theFlags, findRange, doAll);
+		}
+		
 	return(theResults);
 }
 

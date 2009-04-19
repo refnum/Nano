@@ -37,8 +37,9 @@ typedef NBitfield NStringFlags;
 
 static const NStringFlags kNStringNone								= 0;
 static const NStringFlags kNStringNoCase							= (1 << 0);
-static const NStringFlags kNStringNumeric							= (1 << 1);
-static const NStringFlags kNStringPattern							= (1 << 2);
+static const NStringFlags kNStringBackwards							= (1 << 1);
+static const NStringFlags kNStringNumeric							= (1 << 2);
+static const NStringFlags kNStringPattern							= (1 << 3);
 static const NStringFlags kNStringNumericNoCase						= kNStringNumeric | kNStringNoCase;
 static const NStringFlags kNStringPatternNoCase						= kNStringPattern | kNStringNoCase;
 
