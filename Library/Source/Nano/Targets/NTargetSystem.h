@@ -17,7 +17,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC
+#if NN_TARGET_MAC || NN_TARGET_IPHONE
 	#include <tr1/functional>
 #else
 	#include <functional>

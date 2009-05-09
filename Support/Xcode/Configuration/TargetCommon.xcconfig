@@ -1,6 +1,7 @@
 //============================================================================
 //		Compiler
 //----------------------------------------------------------------------------
+ALWAYS_SEARCH_USER_PATHS							= NO
 DEBUG_INFORMATION_FORMAT							= dwarf
 GCC_DEBUGGING_SYMBOLS								= used
 GCC_DYNAMIC_NO_PIC									= NO
@@ -56,11 +57,15 @@ ZERO_LINK											= NO
 
 
 //============================================================================
-//		Platform
+//		Target
 //----------------------------------------------------------------------------
-GCC_VERSION											= 4.0
-MACOSX_DEPLOYMENT_TARGET							= 10.4
-SDKROOT												= /Developer/SDKs/MacOSX10.5.sdk
+GCC_VERSION[sdk=macosx*]							= 4.0
+MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]				= 10.4
 
+ARCHS[sdk=iphonesimulator*]							= i386
+ARCHS[sdk=iphoneos*]								= armv6
+ARCHS[sdk=macosx10.4*]								= i386 ppc
+ARCHS[sdk=macosx10.5*]								= i386 x86_64 ppc ppc64
+ARCHS[sdk=macosx10.6*]								= i386 x86_64 ppc ppc64
 
 

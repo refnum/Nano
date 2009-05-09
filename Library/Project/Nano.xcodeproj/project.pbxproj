@@ -3,10 +3,79 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
+		AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC080FB5D9F000F72C61 /* pcre_dfa_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E90F9B4DD5009FFEAF /* pcre_dfa_exec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC090FB5D9F000F72C61 /* pcre_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EA0F9B4DD5009FFEAF /* pcre_exec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC0A0FB5D9F000F72C61 /* pcre_fullinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EB0F9B4DD5009FFEAF /* pcre_fullinfo.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC0B0FB5D9F000F72C61 /* pcre_get.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EC0F9B4DD5009FFEAF /* pcre_get.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC0C0FB5D9F000F72C61 /* pcre_globals.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154ED0F9B4DD5009FFEAF /* pcre_globals.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC0D0FB5D9F000F72C61 /* pcre_info.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EE0F9B4DD5009FFEAF /* pcre_info.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC0E0FB5D9F000F72C61 /* pcre_maketables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F00F9B4DD5009FFEAF /* pcre_maketables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC0F0FB5D9F000F72C61 /* pcre_newline.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F10F9B4DD5009FFEAF /* pcre_newline.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC100FB5D9F000F72C61 /* pcre_ord2utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F20F9B4DD5009FFEAF /* pcre_ord2utf8.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC110FB5D9F000F72C61 /* pcre_refcount.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F40F9B4DD5009FFEAF /* pcre_refcount.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC120FB5D9F000F72C61 /* pcre_study.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F50F9B4DD5009FFEAF /* pcre_study.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC130FB5D9F000F72C61 /* pcre_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F60F9B4DD5009FFEAF /* pcre_tables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC140FB5D9F000F72C61 /* pcre_try_flipped.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F70F9B4DD5009FFEAF /* pcre_try_flipped.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC150FB5D9F000F72C61 /* pcre_ucd.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F80F9B4DD5009FFEAF /* pcre_ucd.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC160FB5D9F000F72C61 /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F90F9B4DD5009FFEAF /* pcre_valid_utf8.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC170FB5D9F000F72C61 /* pcre_version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FA0F9B4DD5009FFEAF /* pcre_version.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
+		AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */; };
+		AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
+		AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
+		AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
+		AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
+		AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
+		AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */; };
+		AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
+		AB28FC220FB5D9F000F72C61 /* NMacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */; };
+		AB28FC230FB5D9F000F72C61 /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */; };
+		AB28FC240FB5D9F000F72C61 /* NMacLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155200F9B4DD6009FFEAF /* NMacLock.cpp */; };
+		AB28FC250FB5D9F000F72C61 /* NMacMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */; };
+		AB28FC260FB5D9F000F72C61 /* NMacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */; };
+		AB28FC270FB5D9F000F72C61 /* NMacTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */; };
+		AB28FC280FB5D9F000F72C61 /* NMacThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155250F9B4DD6009FFEAF /* NMacThread.cpp */; };
+		AB28FC290FB5D9F000F72C61 /* NMacTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155260F9B4DD6009FFEAF /* NMacTime.cpp */; };
+		AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155390F9B4DD6009FFEAF /* NAtomicInt.cpp */; };
+		AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553B0F9B4DD6009FFEAF /* NLock.cpp */; };
+		AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
+		AB28FC2D0FB5D9F000F72C61 /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
+		AB28FC2E0FB5D9F000F72C61 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155420F9B4DD6009FFEAF /* NColor.cpp */; };
+		AB28FC2F0FB5D9F000F72C61 /* NComparable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155440F9B4DD6009FFEAF /* NComparable.cpp */; };
+		AB28FC300FB5D9F000F72C61 /* NContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155460F9B4DD6009FFEAF /* NContainer.cpp */; };
+		AB28FC310FB5D9F000F72C61 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
+		AB28FC320FB5D9F000F72C61 /* NDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554A0F9B4DD6009FFEAF /* NDate.cpp */; };
+		AB28FC330FB5D9F000F72C61 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
+		AB28FC340FB5D9F000F72C61 /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554E0F9B4DD6009FFEAF /* NFile.cpp */; };
+		AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */; };
+		AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155520F9B4DD6009FFEAF /* NHashable.cpp */; };
+		AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
+		AB28FC380FB5D9F000F72C61 /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155560F9B4DD6009FFEAF /* NPoint.cpp */; };
+		AB28FC390FB5D9F000F72C61 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
+		AB28FC3A0FB5D9F000F72C61 /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555A0F9B4DD6009FFEAF /* NRectangle.cpp */; };
+		AB28FC3B0FB5D9F000F72C61 /* NRefCounted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */; };
+		AB28FC3C0FB5D9F000F72C61 /* NSharedValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */; };
+		AB28FC3D0FB5D9F000F72C61 /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155600F9B4DD6009FFEAF /* NSize.cpp */; };
+		AB28FC3E0FB5D9F000F72C61 /* NString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155620F9B4DD6009FFEAF /* NString.cpp */; };
+		AB28FC3F0FB5D9F000F72C61 /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */; };
+		AB28FC400FB5D9F000F72C61 /* NStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */; };
+		AB28FC410FB5D9F000F72C61 /* NVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155680F9B4DD6009FFEAF /* NVariant.cpp */; };
+		AB28FC420FB5D9F000F72C61 /* NFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */; };
+		AB28FC430FB5D9F000F72C61 /* NMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */; };
+		AB28FC440FB5D9F000F72C61 /* NSTLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91556F0F9B4DD6009FFEAF /* NSTLUtilities.cpp */; };
+		AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */; };
+		AB28FC460FB5D9F000F72C61 /* NThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */; };
+		AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -80,6 +149,7 @@
 
 /* Begin PBXFileReference section */
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
+		AB28FBDD0FB5D36300F72C61 /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		AB9154E50F9B4DD5009FFEAF /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
 		AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_chartables.c; sourceTree = "<group>"; };
@@ -230,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				D2AAC06F0554671400DB518D /* libNano.a */,
+				AB28FBDD0FB5D36300F72C61 /* libNano.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -551,9 +622,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC06E0554671400DB518D /* Nano */ = {
+		AB28FBDC0FB5D36300F72C61 /* iPhone */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Nano" */;
+			buildConfigurationList = AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iPhone" */;
+			buildPhases = (
+				AB28FBDA0FB5D36300F72C61 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iPhone;
+			productName = iPhone;
+			productReference = AB28FBDD0FB5D36300F72C61 /* libNano.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D2AAC06E0554671400DB518D /* Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Mac" */;
 			buildPhases = (
 				D2AAC06C0554671400DB518D /* Sources */,
 			);
@@ -561,7 +647,7 @@
 			);
 			dependencies = (
 			);
-			name = Nano;
+			name = Mac;
 			productName = Nano;
 			productReference = D2AAC06F0554671400DB518D /* libNano.a */;
 			productType = "com.apple.product-type.library.static";
@@ -572,19 +658,96 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB920508733DBB0010E9CD /* Build configuration list for PBXProject "Nano" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* Nano */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
 			projectRoot = ..;
 			targets = (
-				D2AAC06E0554671400DB518D /* Nano */,
+				D2AAC06E0554671400DB518D /* Mac */,
+				AB28FBDC0FB5D36300F72C61 /* iPhone */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AB28FBDA0FB5D36300F72C61 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
+				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
+				AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */,
+				AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */,
+				AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */,
+				AB28FC080FB5D9F000F72C61 /* pcre_dfa_exec.c in Sources */,
+				AB28FC090FB5D9F000F72C61 /* pcre_exec.c in Sources */,
+				AB28FC0A0FB5D9F000F72C61 /* pcre_fullinfo.c in Sources */,
+				AB28FC0B0FB5D9F000F72C61 /* pcre_get.c in Sources */,
+				AB28FC0C0FB5D9F000F72C61 /* pcre_globals.c in Sources */,
+				AB28FC0D0FB5D9F000F72C61 /* pcre_info.c in Sources */,
+				AB28FC0E0FB5D9F000F72C61 /* pcre_maketables.c in Sources */,
+				AB28FC0F0FB5D9F000F72C61 /* pcre_newline.c in Sources */,
+				AB28FC100FB5D9F000F72C61 /* pcre_ord2utf8.c in Sources */,
+				AB28FC110FB5D9F000F72C61 /* pcre_refcount.c in Sources */,
+				AB28FC120FB5D9F000F72C61 /* pcre_study.c in Sources */,
+				AB28FC130FB5D9F000F72C61 /* pcre_tables.c in Sources */,
+				AB28FC140FB5D9F000F72C61 /* pcre_try_flipped.c in Sources */,
+				AB28FC150FB5D9F000F72C61 /* pcre_ucd.c in Sources */,
+				AB28FC160FB5D9F000F72C61 /* pcre_valid_utf8.c in Sources */,
+				AB28FC170FB5D9F000F72C61 /* pcre_version.c in Sources */,
+				AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */,
+				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */,
+				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
+				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
+				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
+				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
+				AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */,
+				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
+				AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */,
+				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
+				AB28FC220FB5D9F000F72C61 /* NMacDebug.cpp in Sources */,
+				AB28FC230FB5D9F000F72C61 /* NMacFile.cpp in Sources */,
+				AB28FC240FB5D9F000F72C61 /* NMacLock.cpp in Sources */,
+				AB28FC250FB5D9F000F72C61 /* NMacMath.cpp in Sources */,
+				AB28FC260FB5D9F000F72C61 /* NMacSystem.cpp in Sources */,
+				AB28FC270FB5D9F000F72C61 /* NMacTarget.cpp in Sources */,
+				AB28FC280FB5D9F000F72C61 /* NMacThread.cpp in Sources */,
+				AB28FC290FB5D9F000F72C61 /* NMacTime.cpp in Sources */,
+				AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */,
+				AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */,
+				AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */,
+				AB28FC2D0FB5D9F000F72C61 /* NBitVector.cpp in Sources */,
+				AB28FC2E0FB5D9F000F72C61 /* NColor.cpp in Sources */,
+				AB28FC2F0FB5D9F000F72C61 /* NComparable.cpp in Sources */,
+				AB28FC300FB5D9F000F72C61 /* NContainer.cpp in Sources */,
+				AB28FC310FB5D9F000F72C61 /* NData.cpp in Sources */,
+				AB28FC320FB5D9F000F72C61 /* NDate.cpp in Sources */,
+				AB28FC330FB5D9F000F72C61 /* NDictionary.cpp in Sources */,
+				AB28FC340FB5D9F000F72C61 /* NFile.cpp in Sources */,
+				AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */,
+				AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */,
+				AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */,
+				AB28FC380FB5D9F000F72C61 /* NPoint.cpp in Sources */,
+				AB28FC390FB5D9F000F72C61 /* NRange.cpp in Sources */,
+				AB28FC3A0FB5D9F000F72C61 /* NRectangle.cpp in Sources */,
+				AB28FC3B0FB5D9F000F72C61 /* NRefCounted.cpp in Sources */,
+				AB28FC3C0FB5D9F000F72C61 /* NSharedValue.cpp in Sources */,
+				AB28FC3D0FB5D9F000F72C61 /* NSize.cpp in Sources */,
+				AB28FC3E0FB5D9F000F72C61 /* NString.cpp in Sources */,
+				AB28FC3F0FB5D9F000F72C61 /* NStringEncoder.cpp in Sources */,
+				AB28FC400FB5D9F000F72C61 /* NStringFormatter.cpp in Sources */,
+				AB28FC410FB5D9F000F72C61 /* NVariant.cpp in Sources */,
+				AB28FC420FB5D9F000F72C61 /* NFileUtilities.cpp in Sources */,
+				AB28FC430FB5D9F000F72C61 /* NMathUtilities.cpp in Sources */,
+				AB28FC440FB5D9F000F72C61 /* NSTLUtilities.cpp in Sources */,
+				AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */,
+				AB28FC460FB5D9F000F72C61 /* NThreadUtilities.cpp in Sources */,
+				AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2AAC06C0554671400DB518D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -696,10 +859,30 @@
 			};
 			name = Release;
 		};
+		AB28FBDE0FB5D36300F72C61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = Nano;
+			};
+			name = Debug;
+		};
+		AB28FBDF0FB5D36300F72C61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = Nano;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Nano" */ = {
+		1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB920208733DBB0010E9CD /* Debug */,
@@ -713,6 +896,15 @@
 			buildConfigurations = (
 				1DEB920608733DBB0010E9CD /* Debug */,
 				1DEB920708733DBB0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB28FBDE0FB5D36300F72C61 /* Debug */,
+				AB28FBDF0FB5D36300F72C61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
