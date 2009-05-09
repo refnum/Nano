@@ -26,7 +26,7 @@
 //============================================================================
 //      Internal constants
 //----------------------------------------------------------------------------
-static const NIndex kPrefixBufferSize									= 512;
+static const NIndex kPrefixBufferSize									= 1024;
 
 
 
@@ -191,7 +191,7 @@ const char *NDebug::GetFileName(const char *thePath)
 
 
 	// Handle failure
-	if (fileName == NULL)
+	if (fileName == NULL || *fileName == 0x00)
 		fileName = thePath;
 
 	return(fileName);
