@@ -38,6 +38,15 @@
 #endif
 
 
+// iPhone
+#if NN_TARGET_IPHONE
+	#if defined(__OBJC__)
+		#include <Cocoa/Cocoa.h>
+		#include <UIKit/UIKit.h>
+	#endif
+#endif
+
+
 // Nano
 #if defined(__cplusplus)
 	#include "NanoTypes.h"
