@@ -179,10 +179,11 @@ static const NStatus kNErrParam										= -1;
 static const NStatus kNErrTimeout									= -2;
 static const NStatus kNErrMemory									= -3;
 static const NStatus kNErrMalformed									= -4;
-static const NStatus kNErrInternal									= -5;
-static const NStatus kNErrPermission								= -7;
-static const NStatus kNErrExhaustedSrc								= -8;
-static const NStatus kNErrExhaustedDst								= -9;
+static const NStatus kNErrPermission								= -5;
+static const NStatus kNErrExhaustedSrc								= -6;
+static const NStatus kNErrExhaustedDst								= -7;
+static const NStatus kNErrNotFound									= -8;
+static const NStatus kNErrDiskFull									= -9;
 
 
 

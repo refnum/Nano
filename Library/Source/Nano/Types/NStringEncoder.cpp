@@ -525,7 +525,7 @@ NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt
 
 		default:
 			NN_LOG("Unknown result: %d", theResult);
-			theErr = kNErrInternal;
+			theErr = kNErrParam;
 			break;
 		}
 
