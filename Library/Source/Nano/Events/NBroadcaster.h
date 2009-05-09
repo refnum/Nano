@@ -42,7 +42,7 @@ typedef NListenerList::const_iterator								NListenerListConstIterator;
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const BroadcastMsg kMsgBroadcasterDestroyed					= 'dead';
+static const BroadcastMsg kMsgBroadcasterDestroyed					= 0xDEADDEAD;
 
 
 
