@@ -1,11 +1,12 @@
 //============================================================================
 //		Compiler
 //----------------------------------------------------------------------------
-GCC_ENABLE_FIX_AND_CONTINUE							= YES
 GCC_OPTIMIZATION_LEVEL								= 0
-GCC_PREPROCESSOR_DEFINITIONS						= NN_DEBUG=1 _GLIBCXX_DEBUG _GLIBCXX_DEBUG_PEDANTIC 
+GCC_PREPROCESSOR_DEFINITIONS						= NN_DEBUG=1 _GLIBCXX_DEBUG _GLIBCXX_DEBUG_PEDANTIC _GLIBCPP_CONCEPT_CHECKS
 GCC_UNROLL_LOOPS									= NO
 GCC_WARN_UNINITIALIZED_AUTOS						= NO
+NANO_DEBUG_WARNING_CFLAGS							= -Wstack-protector
+NANO_DEBUG_OTHER_CFLAGS								= -fstack-protector-all
 
 
 
@@ -37,4 +38,5 @@ STRIPFLAGS											=
 //============================================================================
 //		Target
 //----------------------------------------------------------------------------
+NANO_OTHER_CLAGS									= 
 ONLY_ACTIVE_ARCH									= YES

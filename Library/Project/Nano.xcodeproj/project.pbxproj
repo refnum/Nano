@@ -291,7 +291,7 @@
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFString.cpp; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
-		ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
+		ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
 		D2AAC06F0554671400DB518D /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -832,7 +832,10 @@
 			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
-				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				OTHER_CFLAGS = (
+					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
+					"$(NANO_OTHER_CFLAGS)",
+				);
 				PRODUCT_NAME = Nano;
 			};
 			name = Debug;
@@ -842,7 +845,10 @@
 			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
-				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				OTHER_CFLAGS = (
+					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
+					"$(NANO_OTHER_CFLAGS)",
+				);
 				PRODUCT_NAME = Nano;
 			};
 			name = Release;
@@ -864,7 +870,10 @@
 			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
-				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				OTHER_CFLAGS = (
+					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
+					"$(NANO_OTHER_CFLAGS)",
+				);
 				PRODUCT_NAME = Nano;
 			};
 			name = Debug;
@@ -874,7 +883,10 @@
 			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
-				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				OTHER_CFLAGS = (
+					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
+					"$(NANO_OTHER_CFLAGS)",
+				);
 				PRODUCT_NAME = Nano;
 			};
 			name = Release;
