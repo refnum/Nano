@@ -26,7 +26,7 @@
 //		Note : From <http://www.rfc-editor.org/rfc/rfc1071.txt>.
 //----------------------------------------------------------------------------
 UInt16 NChecksum::GetInternet(NIndex theSize, const void *thePtr)
-{	UInt32			count, sum;
+{	UInt32			count, sum, hi, lo;
 	const UInt8		*addr;
 
 
@@ -38,14 +38,17 @@ UInt16 NChecksum::GetInternet(NIndex theSize, const void *thePtr)
 	
 	while (count > 1)
 		{
-		sum   += * (UInt16 *) addr++;
+		hi = *addr++;
+		lo = *addr++;
+
+		sum   += ((hi << 8) | lo);
 		count -= 2;
 		}
 
 
 	/* Add left-over byte, if any */
 	if (count > 0)
-		sum += * (UInt8 *) addr;
+		sum += *addr++;
 
 
 	/* Fold 32-bit sum to 16 bits */
