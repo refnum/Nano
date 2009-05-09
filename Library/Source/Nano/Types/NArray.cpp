@@ -153,7 +153,7 @@ NIndex NArray::GetSize(void) const
 
 
 	// Get the size
-	return(GetImmutable()->size());
+	return((NIndex) GetImmutable()->size());
 }
 
 
@@ -174,8 +174,8 @@ NComparison NArray::Compare(const NArray &theValue) const
 	ourValue   =          GetImmutable();
 	otherValue = theValue.GetImmutable();
 
-	ourSize   = ourValue->size();
-	otherSize = otherValue->size();
+	ourSize   = (NIndex) ourValue->size();
+	otherSize = (NIndex) otherValue->size();
 
 
 

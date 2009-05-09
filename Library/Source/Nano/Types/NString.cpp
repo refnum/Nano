@@ -42,7 +42,7 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 
 	// Initialize ourselves
 	if (numBytes == kNStringLength)
-		numBytes = strlen((const char *) thePtr);
+		numBytes = (NIndex) strlen((const char *) thePtr);
 	
 	SetData(NData(numBytes, thePtr), theEncoding);
 }
@@ -363,7 +363,7 @@ NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith,
 	for (theIter = foundRanges.rbegin(); theIter != foundRanges.rend(); theIter++)
 		Replace(*theIter, replaceWith);
 	
-	return(foundRanges.size());
+	return((NIndex) foundRanges.size());
 }
 
 
@@ -1298,6 +1298,9 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 	
 	sizeA = parserA.GetSize();
 	sizeB = parserB.GetSize();
+	
+	charA = 0;
+	charB = 0;
 
 	limitA     = std::max((NIndex) 1, std::min(theRange.GetLast(), theRange.GetSize() - sizeB));
 	ignoreCase = (theFlags & kNStringNoCase);
@@ -1462,7 +1465,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	while (searchOffset >= 0)
 		{
 		// Apply the expression
-		regErr = pcre_exec(regExp, NULL, searchUTF8, searchSize, searchOffset, PCRE_NO_UTF8_CHECK, &theMatches[0], theMatches.size());
+		regErr = pcre_exec(regExp, NULL, searchUTF8, searchSize, searchOffset, PCRE_NO_UTF8_CHECK, &theMatches[0], (int) theMatches.size());
 		NN_ASSERT(regErr == PCRE_ERROR_NOMATCH || regErr > 0);
 
 
@@ -1541,7 +1544,7 @@ void NString::CapitalizeCharacters(bool toUpper)
 		theChar = theParser.GetChar(n);
 		theChar = toUpper ? theParser.GetUpper(theChar) : theParser.GetLower(theChar);
 		
-		theData.AppendData(sizeof(theChar), &theChar);
+		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
 
 
@@ -1589,7 +1592,7 @@ void NString::CapitalizeWords(void)
 		else
 			toUpper = true;
 		
-		theData.AppendData(sizeof(theChar), &theChar);
+		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
 
 
@@ -1639,7 +1642,7 @@ void NString::CapitalizeSentences(void)
 					   theChar == (UTF32Char) '.' ||
 					   theChar == (UTF32Char) '?');
 		
-		theData.AppendData(sizeof(theChar), &theChar);
+		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
 
 
@@ -1697,7 +1700,7 @@ NIndex NString::GetCharacterOffset(const NRangeList &theRanges, NIndex byteOffse
 
 
 	// Locate the offset
-	numItems = theRanges.size();
+	numItems = (NIndex) theRanges.size();
 	
 	for (n = 0; n < numItems; n++)
 		{
@@ -1744,7 +1747,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 	// Get the best encoding
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
-			theSize      = theData.GetSize() / sizeof(UTF8Char);
+			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF8Char));
 			chars8       = (const UTF8Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
@@ -1760,7 +1763,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 
 		case kNStringEncodingUTF16:
-			theSize      = theData.GetSize() / sizeof(UTF16Char);
+			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF16Char));
 			chars16      = (const UTF16Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
@@ -1776,7 +1779,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 
 		case kNStringEncodingUTF32:
-			theSize      = theData.GetSize() / sizeof(UTF32Char);
+			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF32Char));
 			chars32      = (const UTF32Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			

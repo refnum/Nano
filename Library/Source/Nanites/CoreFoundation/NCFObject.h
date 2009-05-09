@@ -44,7 +44,7 @@
 		if ((_object) != NULL)												\
 			CFRetain((CFTypeRef) (_object));								\
 		}																	\
-	while(0)
+	while (false)
 #endif // CFSafeRetain
 
 
@@ -59,7 +59,7 @@
 			(_object) = NULL;												\
 			}																\
 		}																	\
-	while(0)
+	while (false)
 #endif // CFSafeRelease
 
 

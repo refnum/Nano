@@ -87,7 +87,7 @@ bool NCFString::Set(CFStringRef cfString, bool takeOwnership)
 		{
 		if (cfData.Set(CFStringCreateExternalRepresentation(kCFAllocatorNano, cfString, kCFStringEncodingUTF8, 0)))
 			{
-			theData = NData(CFDataGetLength(cfData), CFDataGetBytePtr(cfData));
+			theData = NData((NIndex) CFDataGetLength(cfData), CFDataGetBytePtr(cfData));
 			SetData(theData, kNStringEncodingUTF8);
 			}
 

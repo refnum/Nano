@@ -51,7 +51,7 @@ NIndex NDictionary::GetSize(void) const
 
 
 	// Get the size
-	return(GetImmutable()->size());
+	return((NIndex) GetImmutable()->size());
 }
 
 
@@ -72,8 +72,8 @@ NComparison NDictionary::Compare(const NDictionary &theValue) const
 	ourValue   =          GetImmutable();
 	otherValue = theValue.GetImmutable();
 
-	ourSize   = ourValue->size();
-	otherSize = otherValue->size();
+	ourSize   = (NIndex) ourValue->size();
+	otherSize = (NIndex) otherValue->size();
 
 
 

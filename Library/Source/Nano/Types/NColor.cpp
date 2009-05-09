@@ -88,8 +88,8 @@ NColor::NColor(UInt32 theColor, ColorFormat theFormat)
 //		NColor::NColor : Constructor.
 //----------------------------------------------------------------------------
 NColor::NColor(const NString &hexColor, ColorFormat theFormat)
-{	UInt32		valueR, valueG, valueB, valueA;
-	Float32		r, g, b, a;
+{	unsigned int	valueR, valueG, valueB, valueA;
+	Float32			r, g, b, a;
 
 
 
@@ -98,7 +98,7 @@ NColor::NColor(const NString &hexColor, ColorFormat theFormat)
 
 	switch (theFormat) {
 		case kColorRGBA:
-			if (sscanf(hexColor.GetUTF8(), "%2lx%2lx%2lx%2lx", &valueR, &valueG, &valueB, &valueA) == 4)
+			if (sscanf(hexColor.GetUTF8(), "%2x%2x%2x%2x", &valueR, &valueG, &valueB, &valueA) == 4)
 				{
 				r = ((Float32) valueR) * kOneOver255;
 				g = ((Float32) valueG) * kOneOver255;

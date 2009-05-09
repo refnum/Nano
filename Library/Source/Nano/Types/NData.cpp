@@ -104,7 +104,7 @@ NIndex NData::GetSize(void) const
 	else
 		{
 		theValue = GetImmutable();
-		theSize  = theValue->size();
+		theSize  = (NIndex) theValue->size();
 		}
 
 	return(theSize);
@@ -325,7 +325,7 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 
 	// Get the state we need
 	theValue = GetMutable();
-	oldSize  = theValue->size();
+	oldSize  = (NIndex) theValue->size();
 
 
 
@@ -450,7 +450,7 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 
 	// Get the state we need
 	theValue = GetMutable();
-	oldSize  = theValue->size();
+	oldSize  = (NIndex) theValue->size();
 
 
 

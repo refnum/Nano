@@ -547,15 +547,15 @@ NIndex NStringEncoder::GetTerminatorSize(NStringEncoding theEncoding)
 	// Get the state we need
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
-			theSize = sizeof(UTF8Char);
+			theSize = (NIndex) sizeof(UTF8Char);
 			break;
 
 		case kNStringEncodingUTF16:
-			theSize = sizeof(UTF16Char);
+			theSize = (NIndex) sizeof(UTF16Char);
 			break;
 
 		case kNStringEncodingUTF32:
-			theSize = sizeof(UTF32Char);
+			theSize = (NIndex) sizeof(UTF32Char);
 			break;
 
 		default:

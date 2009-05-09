@@ -33,24 +33,57 @@
 
 
 //============================================================================
+//		Bootstrap
+//----------------------------------------------------------------------------
+// Baseline
+//
+// gcc uses the LP64 model, however Visual C++ uses the LLP64 model.
+//
+// We define a set of types that are the correct size in both models, and then
+// adust them to suit the current platform's system headers.
+#define NANO_INT8													char
+#define NANO_INT16													short
+#define NANO_INT32													int
+#define NANO_INT64													long long
+
+
+// Mac/iPhone
+//
+// MacTypes.h uses a different type for UInt32/SInt32 depending on the architecture
+// size, so to avoid a type redeclaration error we must redefine our type.
+#if NN_TARGET_MAC || NN_TARGET_IPHONE
+	#undef NANO_INT32
+
+	#if NN_TARGET_ARCH_64
+		#define NANO_INT32											int
+	#else
+		#define NANO_INT32											long
+	#endif
+#endif
+
+
+
+
+
+//============================================================================
 //		Types
 //----------------------------------------------------------------------------
 // Primitives
-typedef unsigned char												UInt8;
-typedef unsigned short												UInt16;
-typedef unsigned long												UInt32;
-typedef unsigned long long											UInt64;
+//
+// These types are a consistent size on all targets and architectures. 
+typedef unsigned NANO_INT8											UInt8;
+typedef unsigned NANO_INT16											UInt16;
+typedef unsigned NANO_INT32											UInt32;
+typedef unsigned NANO_INT64											UInt64;
 
-typedef signed char													SInt8;
-typedef signed short												SInt16;
-typedef signed long													SInt32;
-typedef signed long long											SInt64;
+typedef signed NANO_INT8											SInt8;
+typedef signed NANO_INT16											SInt16;
+typedef signed NANO_INT32											SInt32;
+typedef signed NANO_INT64											SInt64;
 
 typedef float														Float32;
 typedef double														Float64;
 
-
-// Characters
 typedef UInt8														UTF8Char;
 typedef UInt16														UTF16Char;
 typedef UInt32														UTF32Char;
@@ -129,7 +162,7 @@ static const UInt8  kUInt8Max										= UCHAR_MAX;
 static const UInt16 kUInt16Min										= 0;
 static const UInt16 kUInt16Max										= USHRT_MAX;
 static const UInt32 kUInt32Min										= 0;
-static const UInt32 kUInt32Max										= ULONG_MAX;
+static const UInt32 kUInt32Max										= UINT_MAX;
 static const UInt64 kUInt64Min										= 0;
 static const UInt64 kUInt64Max										= ULLONG_MAX;
 
@@ -137,8 +170,8 @@ static const SInt8  kSInt8Min										= SCHAR_MIN;
 static const SInt8  kSInt8Max										= SCHAR_MAX;
 static const SInt16 kSInt16Min										= SHRT_MIN;
 static const SInt16 kSInt16Max										= SHRT_MAX;
-static const SInt32 kSInt32Min										= LONG_MIN;
-static const SInt32 kSInt32Max										= LONG_MAX;
+static const SInt32 kSInt32Min										= INT_MIN;
+static const SInt32 kSInt32Max										= INT_MAX;
 static const SInt64 kSInt64Min										= LLONG_MIN;
 static const SInt64 kSInt64Max										= LLONG_MAX;
 
@@ -154,9 +187,9 @@ static const NHashCode kNHashCodeNone								= 0;
 
 
 // Memory
-static const UInt32 kKilobyte										= 1024;
-static const UInt32 kMegabyte										= 1024 * kKilobyte;
-static const UInt32 kGigabyte										= 1024 * kMegabyte;
+static const NIndex kKilobyte										= 1024;
+static const NIndex kMegabyte										= 1024 * kKilobyte;
+static const NIndex kGigabyte										= 1024 * kMegabyte;
 
 
 // Times

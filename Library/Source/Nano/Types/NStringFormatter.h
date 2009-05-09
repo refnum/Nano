@@ -98,7 +98,7 @@ public:
 										 NStringUTF8(void)		{ };
 	virtual								~NStringUTF8(void)		{ };
 
-	NIndex								 GetSize(void) const	{ return(size()); }
+	NIndex								 GetSize(void) const	{ return((NIndex) size()); }
 	const char							*GetUTF8(void) const	{ return(c_str()); }
 };
 

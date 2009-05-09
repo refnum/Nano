@@ -342,6 +342,8 @@ NStringUTF8 NFormatArgument::GetValueString(const NStringUTF8 &theFormat, const 
 	// Validate our parameters
 	NN_ASSERT(theFormat == "%@");
 
+	(void) theFormat;
+
 
 
 	// Get the value

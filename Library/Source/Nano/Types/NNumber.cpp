@@ -158,8 +158,9 @@ bool NNumber::GetValueBoolean(bool &theValue) const
 
 
 	// Get the value
-	theValue = false;
-	canCast  = GetValueSInt64(valueInteger);
+	valueInteger = 0;
+	theValue     = false;
+	canCast      = GetValueSInt64(valueInteger);
 
 	if (canCast)
 		theValue = (valueInteger != 0);
@@ -250,8 +251,9 @@ bool NNumber::GetValueUInt64(UInt64 &theValue) const
 
 
 	// Get the value
-	theValue = 0;
-	canCast  = GetValueSInt64(valueInteger);
+	valueInteger = 0;
+	theValue     = 0;
+	canCast      = GetValueSInt64(valueInteger);
 
 	if (canCast)
 		theValue = (UInt64) valueInteger;
@@ -273,8 +275,9 @@ bool NNumber::GetValueSInt8(SInt8 &theValue) const
 
 
 	// Get the value
-	theValue = 0;
-	canCast  = GetValueSInt64(valueInteger);
+	valueInteger = 0;
+	theValue     = 0;
+	canCast      = GetValueSInt64(valueInteger);
 
 	if (canCast && valueInteger >= kSInt8Min && valueInteger <= kSInt8Max)
 		theValue = (SInt8) valueInteger;
@@ -296,8 +299,9 @@ bool NNumber::GetValueSInt16(SInt16 &theValue) const
 
 
 	// Get the value
-	theValue = 0;
-	canCast  = GetValueSInt64(valueInteger);
+	valueInteger = 0;
+	theValue     = 0;
+	canCast      = GetValueSInt64(valueInteger);
 
 	if (canCast && valueInteger >= kSInt16Min && valueInteger <= kSInt16Max)
 		theValue = (SInt16) valueInteger;
@@ -319,8 +323,9 @@ bool NNumber::GetValueSInt32(SInt32 &theValue) const
 
 
 	// Get the value
-	theValue = 0;
-	canCast  = GetValueSInt64(valueInteger);
+	valueInteger = 0;
+	theValue     = 0;
+	canCast      = GetValueSInt64(valueInteger);
 
 	if (canCast && valueInteger >= kSInt32Min && valueInteger <= kSInt32Max)
 		theValue = (SInt32) valueInteger;
@@ -355,7 +360,9 @@ bool NNumber::GetValueSInt64(SInt64 &theValue) const
 
 		default:
 			NN_LOG("Unknown number type: %d", mType);
-			canCast = false;
+
+			canCast  = false;
+			theValue = 0;
 			break;
 		}
 
@@ -376,8 +383,9 @@ bool NNumber::GetValueFloat32(Float32 &theValue) const
 
 
 	// Get the value
-	theValue = 0;
-	canCast  = GetValueFloat64(valueReal);
+	valueReal = 0.0;
+	theValue  = 0;
+	canCast   = GetValueFloat64(valueReal);
 
 	if (canCast && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
 		theValue = (Float32) valueReal;
@@ -412,7 +420,9 @@ bool NNumber::GetValueFloat64(Float64 &theValue) const
 
 		default:
 			NN_LOG("Unknown number type: %d", mType);
-			canCast = false;
+
+			canCast  = false;
+			theValue = 0.0;
 			break;
 		}
 
