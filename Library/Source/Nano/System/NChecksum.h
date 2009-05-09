@@ -1,8 +1,8 @@
 /*	NAME:
-		NCipher.h
+		NChecksum.h
 
 	DESCRIPTION:
-		Nano encryption support.
+		Nano checksum support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NCIPHER_HDR
-#define NCIPHER_HDR
+#ifndef NCHECKSUM_HDR
+#define NCHECKSUM_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -24,17 +24,24 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NCipher {
+class NChecksum {
 public:
-	// Calculate a checksum
-	static UInt16						GetChecksumInternet(NIndex theSize, const void *thePtr);
-	static UInt32						GetChecksumAdler32( NIndex theSize, const void *thePtr, UInt32 prevAdler=0);
+	// Get the internet checksum
+	UInt16								GetInternet(NIndex theSize, const void *thePtr);
+
+
+	// Get a DJB2 checksum
+	UInt32								GetDJB2(NIndex theSize, const void *thePtr);
+
+
+	// Get an Adler32 checksum
+	UInt32								GetAdler32(NIndex theSize, const void *thePtr, UInt32 prevValue=0);
 };
 
 
 
 
 
-#endif // NCIPHER_HDR
+#endif // NCHECKSUM_HDR
 
 

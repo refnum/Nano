@@ -15,7 +15,7 @@
 		AB9156390F9B4F37009FFEAF /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155E80F9B4F37009FFEAF /* TBroadcaster.cpp */; };
 		AB91563A0F9B4F37009FFEAF /* TListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155EA0F9B4F37009FFEAF /* TListener.cpp */; };
 		AB91563B0F9B4F37009FFEAF /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155ED0F9B4F37009FFEAF /* TByteSwap.cpp */; };
-		AB91563C0F9B4F37009FFEAF /* TCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155EF0F9B4F37009FFEAF /* TCipher.cpp */; };
+		AB91563C0F9B4F37009FFEAF /* TChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155EF0F9B4F37009FFEAF /* TChecksum.cpp */; };
 		AB91563D0F9B4F37009FFEAF /* TUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155F10F9B4F37009FFEAF /* TUnicodeParser.cpp */; };
 		AB91563E0F9B4F37009FFEAF /* TTargetDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155F40F9B4F37009FFEAF /* TTargetDebug.cpp */; };
 		AB91563F0F9B4F37009FFEAF /* TTargetFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155F60F9B4F37009FFEAF /* TTargetFile.cpp */; };
@@ -90,8 +90,8 @@
 		AB9155EB0F9B4F37009FFEAF /* TListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TListener.h; sourceTree = "<group>"; };
 		AB9155ED0F9B4F37009FFEAF /* TByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TByteSwap.cpp; sourceTree = "<group>"; };
 		AB9155EE0F9B4F37009FFEAF /* TByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TByteSwap.h; sourceTree = "<group>"; };
-		AB9155EF0F9B4F37009FFEAF /* TCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCipher.cpp; sourceTree = "<group>"; };
-		AB9155F00F9B4F37009FFEAF /* TCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCipher.h; sourceTree = "<group>"; };
+		AB9155EF0F9B4F37009FFEAF /* TChecksum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TChecksum.cpp; sourceTree = "<group>"; };
+		AB9155F00F9B4F37009FFEAF /* TChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TChecksum.h; sourceTree = "<group>"; };
 		AB9155F10F9B4F37009FFEAF /* TUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeParser.cpp; sourceTree = "<group>"; };
 		AB9155F20F9B4F37009FFEAF /* TUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUnicodeParser.h; sourceTree = "<group>"; };
 		AB9155F40F9B4F37009FFEAF /* TTargetDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetDebug.cpp; sourceTree = "<group>"; };
@@ -308,8 +308,8 @@
 			children = (
 				AB9155ED0F9B4F37009FFEAF /* TByteSwap.cpp */,
 				AB9155EE0F9B4F37009FFEAF /* TByteSwap.h */,
-				AB9155EF0F9B4F37009FFEAF /* TCipher.cpp */,
-				AB9155F00F9B4F37009FFEAF /* TCipher.h */,
+				AB9155EF0F9B4F37009FFEAF /* TChecksum.cpp */,
+				AB9155F00F9B4F37009FFEAF /* TChecksum.h */,
 				AB9155F10F9B4F37009FFEAF /* TUnicodeParser.cpp */,
 				AB9155F20F9B4F37009FFEAF /* TUnicodeParser.h */,
 			);
@@ -512,7 +512,7 @@
 				AB9156390F9B4F37009FFEAF /* TBroadcaster.cpp in Sources */,
 				AB91563A0F9B4F37009FFEAF /* TListener.cpp in Sources */,
 				AB91563B0F9B4F37009FFEAF /* TByteSwap.cpp in Sources */,
-				AB91563C0F9B4F37009FFEAF /* TCipher.cpp in Sources */,
+				AB91563C0F9B4F37009FFEAF /* TChecksum.cpp in Sources */,
 				AB91563D0F9B4F37009FFEAF /* TUnicodeParser.cpp in Sources */,
 				AB91563E0F9B4F37009FFEAF /* TTargetDebug.cpp in Sources */,
 				AB91563F0F9B4F37009FFEAF /* TTargetFile.cpp in Sources */,

@@ -1,8 +1,8 @@
 /*	NAME:
-		TCipher.cpp
+		TChecksum.h
 
 	DESCRIPTION:
-		NCipher tests.
+		NChecksum tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,26 +11,27 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
+#ifndef TCHECKSUM_HDR
+#define TCHECKSUM_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NCipher.h"
-
-#include "TCipher.h"
 
 
 
 
 
 //============================================================================
-//		TCipher::Execute : Execute the tests.
+//		Class declaration
 //----------------------------------------------------------------------------
-void TCipher::Execute(void)
-{
-
-
+class TChecksum {
+public:
 	// Execute the tests
-}
+	static void							Execute(void);
+};
 
 
 
+
+
+#endif // TCHECKSUM_HDR

@@ -1,8 +1,8 @@
 /*	NAME:
-		NCipher.cpp
+		NChecksum.cpp
 
 	DESCRIPTION:
-		Nano encryption support.
+		Nano checksum support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,25 +14,20 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NCipher.h"
+#include "NChecksum.h"
 
 
 
 
 
 //============================================================================
-//		NCipher::GetChecksumInternet : Calculate an internet checksum.
+//		NChecksum::GetInternet : Get the internet checksum.
 //----------------------------------------------------------------------------
 //		Note : From <http://www.rfc-editor.org/rfc/rfc1071.txt>.
 //----------------------------------------------------------------------------
-UInt16 NCipher::GetChecksumInternet(NIndex theSize, const void *thePtr)
+UInt16 NChecksum::GetInternet(NIndex theSize, const void *thePtr)
 {	UInt32			count, sum;
 	const UInt8		*addr;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theSize != 0);
 
 
 
@@ -58,7 +53,7 @@ UInt16 NCipher::GetChecksumInternet(NIndex theSize, const void *thePtr)
 		sum = (sum & 0xffff) + (sum >> 16);
 
 	sum  = ~sum;
-	sum &= 0x0000FFF;
+	sum &= 0x0000FFFF;
 
 	return(sum);
 }
@@ -68,11 +63,40 @@ UInt16 NCipher::GetChecksumInternet(NIndex theSize, const void *thePtr)
 
 
 //============================================================================
-//		NCipher::GetChecksumAdler32 : Calculate an Adler32 checksum.
+//		NChecksum::GetDJB2 : Get a a DJB2 checksum.
+//----------------------------------------------------------------------------
+//		Note : From <http://www.cse.yorku.ca/~oz/hash.html>.
+//----------------------------------------------------------------------------
+UInt32 NChecksum::GetDJB2(NIndex theSize, const void *thePtr)
+{	UInt32			theHash;
+	const UInt8		*bytePtr;
+	NIndex			n;
+
+
+
+	// Get the state we need
+	theHash = 5381;
+	bytePtr = (const UInt8 *) thePtr;
+
+
+
+	// Calculate the hash
+	for (n = 0; n < theSize; n++)
+		theHash = ((theHash << 5) + theHash) + bytePtr[n];
+	
+	return(theHash);
+}
+
+
+
+
+
+//============================================================================
+//		NChecksum::GetAdler32 : Get an Adler32 checksum.
 //----------------------------------------------------------------------------
 //		Note : ZLib's adler32.c. For conditions of use, see zlib.h.
 //----------------------------------------------------------------------------
-UInt32 NCipher::GetChecksumAdler32(NIndex theSize, const void *thePtr, UInt32 prevAdler)
+UInt32 NChecksum::GetAdler32(NIndex theSize, const void *thePtr, UInt32 prevAdler)
 {
 	// Setup
 	#define BASE 65521UL    /* largest prime smaller than 65536 */

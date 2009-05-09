@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NCipher.h"
+#include "NChecksum.h"
 #include "NHashable.h"
 
 
@@ -88,12 +88,10 @@ void NHashable::ClearHash(void)
 //		NHashable::CalculateHash : Calculate a hash code.
 //----------------------------------------------------------------------------
 NHashCode NHashable::CalculateHash(NIndex theSize, const void *thePtr) const
-{	NHashCode		theResult;
+{	NChecksum		checkSum;
 
 
 
 	// Calculate the hash code
-	theResult = (NHashCode) NCipher::GetChecksumInternet(theSize, thePtr);
-
-	return(theResult);
+	return((NHashCode) checkSum.GetInternet(theSize, thePtr));
 }

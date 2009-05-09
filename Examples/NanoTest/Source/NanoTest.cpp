@@ -27,7 +27,7 @@
 #include "TListener.h"
 
 #include "TByteSwap.h"
-#include "TCipher.h"
+#include "TChecksum.h"
 #include "TUnicodeParser.h"
 
 #include "TTargetDebug.h"
@@ -93,7 +93,7 @@ int main(int /*argc*/, const char ** /*argv*/)
 	
 	// System
 	TByteSwap::Execute();
-	TCipher::Execute();
+	TChecksum::Execute();
 	TUnicodeParser::Execute();
 	
 	

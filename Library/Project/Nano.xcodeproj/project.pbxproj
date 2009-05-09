@@ -34,7 +34,7 @@
 		AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
-		AB9155920F9B4DD6009FFEAF /* NCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155180F9B4DD5009FFEAF /* NCipher.cpp */; };
+		AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */; };
 		AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
 		AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */; };
 		AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */; };
@@ -126,8 +126,8 @@
 		AB9155140F9B4DD5009FFEAF /* NListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NListener.h; sourceTree = "<group>"; };
 		AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NByteSwap.cpp; sourceTree = "<group>"; };
 		AB9155170F9B4DD5009FFEAF /* NByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NByteSwap.h; sourceTree = "<group>"; };
-		AB9155180F9B4DD5009FFEAF /* NCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCipher.cpp; sourceTree = "<group>"; };
-		AB9155190F9B4DD5009FFEAF /* NCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCipher.h; sourceTree = "<group>"; };
+		AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NChecksum.cpp; sourceTree = "<group>"; };
+		AB9155190F9B4DD5009FFEAF /* NChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NChecksum.h; sourceTree = "<group>"; };
 		AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeParser.cpp; sourceTree = "<group>"; };
 		AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
 		AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacDebug.cpp; sourceTree = "<group>"; };
@@ -400,8 +400,8 @@
 			children = (
 				AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */,
 				AB9155170F9B4DD5009FFEAF /* NByteSwap.h */,
-				AB9155180F9B4DD5009FFEAF /* NCipher.cpp */,
-				AB9155190F9B4DD5009FFEAF /* NCipher.h */,
+				AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */,
+				AB9155190F9B4DD5009FFEAF /* NChecksum.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
 				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
 			);
@@ -618,7 +618,7 @@
 				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
 				AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */,
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
-				AB9155920F9B4DD6009FFEAF /* NCipher.cpp in Sources */,
+				AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,
 				AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */,
 				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
