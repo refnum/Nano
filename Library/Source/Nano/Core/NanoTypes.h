@@ -50,15 +50,18 @@ typedef float														Float32;
 typedef double														Float64;
 
 
+// Characters
+typedef UInt8														UTF8Char;
+typedef UInt16														UTF16Char;
+typedef UInt32														UTF32Char;
+
+
 // Misc
 typedef SInt32														NIndex;
 typedef SInt32														NStatus;
 typedef UInt32														NHashCode;
 typedef UInt32														NBitfield;
 typedef Float64														NTime;
-typedef UInt8														UTF8Char;
-typedef UInt16														UTF16Char;
-typedef UInt32														UTF32Char;
 
 
 // Lists
@@ -121,28 +124,28 @@ typedef NHashCodeList::const_iterator								NHashCodeListConstIterator;
 //		Constants
 //----------------------------------------------------------------------------
 // Limits
-static const UInt8  kMinUInt8										= 0;
-static const UInt8  kMaxUInt8										= UCHAR_MAX;
-static const UInt16 kMinUInt16										= 0;
-static const UInt16 kMaxUInt16										= USHRT_MAX;
-static const UInt32 kMinUInt32										= 0;
-static const UInt32 kMaxUInt32										= ULONG_MAX;
-static const UInt64 kMinUInt64										= 0;
-static const UInt64 kMaxUInt64										= ULLONG_MAX;
+static const UInt8  kUInt8Min										= 0;
+static const UInt8  kUInt8Max										= UCHAR_MAX;
+static const UInt16 kUInt16Min										= 0;
+static const UInt16 kUInt16Max										= USHRT_MAX;
+static const UInt32 kUInt32Min										= 0;
+static const UInt32 kUInt32Max										= ULONG_MAX;
+static const UInt64 kUInt64Min										= 0;
+static const UInt64 kUInt64Max										= ULLONG_MAX;
 
-static const SInt8  kMinSInt8										= SCHAR_MIN;
-static const SInt8  kMaxSInt8										= SCHAR_MAX;
-static const SInt16 kMinSInt16										= SHRT_MIN;
-static const SInt16 kMaxSInt16										= SHRT_MAX;
-static const SInt32 kMinSInt32										= LONG_MIN;
-static const SInt32 kMaxSInt32										= LONG_MAX;
-static const SInt64 kMinSInt64										= LLONG_MIN;
-static const SInt64 kMaxSInt64										= LLONG_MAX;
+static const SInt8  kSInt8Min										= SCHAR_MIN;
+static const SInt8  kSInt8Max										= SCHAR_MAX;
+static const SInt16 kSInt16Min										= SHRT_MIN;
+static const SInt16 kSInt16Max										= SHRT_MAX;
+static const SInt32 kSInt32Min										= LONG_MIN;
+static const SInt32 kSInt32Max										= LONG_MAX;
+static const SInt64 kSInt64Min										= LLONG_MIN;
+static const SInt64 kSInt64Max										= LLONG_MAX;
 
-static const Float32 kMinFloat32									= FLT_MIN;
-static const Float32 kMaxFloat32									= FLT_MAX;
-static const Float64 kMinFloat64									= DBL_MIN;
-static const Float64 kMaxFloat64									= DBL_MAX;
+static const Float32 kFloat32Min									= FLT_MIN;
+static const Float32 kFloat32Max									= FLT_MAX;
+static const Float64 kFloat64Min									= DBL_MIN;
+static const Float64 kFloat64Max									= DBL_MAX;
 
 
 // Misc

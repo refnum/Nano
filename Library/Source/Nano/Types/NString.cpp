@@ -542,7 +542,7 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 			
 			do
 				{
-				NN_ASSERT(numberA <= (kMaxUInt64/10));
+				NN_ASSERT(numberA <= (kUInt64Max/10));
 				numberA = (numberA * 10) + (charA - (UTF32Char) '0');
 				charA   = parserA.GetChar(indexA);
 				indexA++;
@@ -551,7 +551,7 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 
 			do
 				{
-				NN_ASSERT(numberB <= (kMaxUInt64/10));
+				NN_ASSERT(numberB <= (kUInt64Max/10));
 				numberB = (numberB * 10) + (charB - (UTF32Char) '0');
 				charB   = parserB.GetChar(indexB);
 				indexB++;

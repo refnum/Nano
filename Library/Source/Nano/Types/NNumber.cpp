@@ -278,7 +278,7 @@ bool NNumber::GetValueSInt8(SInt8 &theValue) const
 	theValue = 0;
 	canCast  = GetValueSInt64(valueInteger);
 
-	if (canCast && valueInteger >= kMinSInt8 && valueInteger <= kMaxSInt8)
+	if (canCast && valueInteger >= kSInt8Min && valueInteger <= kSInt8Max)
 		theValue = (SInt8) valueInteger;
 
 	return(canCast);
@@ -301,7 +301,7 @@ bool NNumber::GetValueSInt16(SInt16 &theValue) const
 	theValue = 0;
 	canCast  = GetValueSInt64(valueInteger);
 
-	if (canCast && valueInteger >= kMinSInt16 && valueInteger <= kMaxSInt16)
+	if (canCast && valueInteger >= kSInt16Min && valueInteger <= kSInt16Max)
 		theValue = (SInt16) valueInteger;
 
 	return(canCast);
@@ -324,7 +324,7 @@ bool NNumber::GetValueSInt32(SInt32 &theValue) const
 	theValue = 0;
 	canCast  = GetValueSInt64(valueInteger);
 
-	if (canCast && valueInteger >= kMinSInt32 && valueInteger <= kMaxSInt32)
+	if (canCast && valueInteger >= kSInt32Min && valueInteger <= kSInt32Max)
 		theValue = (SInt32) valueInteger;
 
 	return(canCast);
@@ -351,7 +351,7 @@ bool NNumber::GetValueSInt64(SInt64 &theValue) const
 
 		case kNumberReal:
 			canCast = NMathUtilities::AreEqual(floor(mValue.real), mValue.real);
-			if (canCast && mValue.real >= kMinSInt64 && mValue.real <= kMaxSInt64)
+			if (canCast && mValue.real >= kSInt64Min && mValue.real <= kSInt64Max)
 				theValue = (SInt64) mValue.real;
 			break;
 
@@ -381,7 +381,7 @@ bool NNumber::GetValueFloat32(Float32 &theValue) const
 	theValue = 0;
 	canCast  = GetValueFloat64(valueReal);
 
-	if (canCast && valueReal >= kMinFloat32 && valueReal <= kMaxFloat32)
+	if (canCast && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
 		theValue = (Float32) valueReal;
 
 	return(canCast);
@@ -402,7 +402,7 @@ bool NNumber::GetValueFloat64(Float64 &theValue) const
 	// Get the value
 	switch (mType) {
 		case kNumberInteger:
-			canCast = (mValue.integer >= kMinFloat64 && mValue.integer <= kMaxFloat64);
+			canCast = (mValue.integer >= kFloat64Min && mValue.integer <= kFloat64Max);
 			if (canCast)
 				theValue = (Float64) mValue.integer;
 			break;
