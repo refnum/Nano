@@ -73,7 +73,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = AB28FBDD0FB5D36300F72C61 /* libNano.a */;
+			remoteGlobalIDString = AB28FBDD0FB5D36300F72C61;
 			remoteInfo = iPhone;
 		};
 /* End PBXContainerItemProxy section */
