@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -68,6 +68,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC06E0554671400DB518D;
 			remoteInfo = Nano;
+		};
+		ABF81BD60FB5F9D50040A020 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB28FBDD0FB5D36300F72C61 /* libNano.a */;
+			remoteInfo = iPhone;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -429,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				ABE0709009FBBC7A0031D3D1 /* libNano.a */,
+				ABF81BD70FB5F9D50040A020 /* libNano.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -484,6 +492,13 @@
 			fileType = archive.ar;
 			path = libNano.a;
 			remoteRef = ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABF81BD70FB5F9D50040A020 /* libNano.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNano.a;
+			remoteRef = ABF81BD60FB5F9D50040A020 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
