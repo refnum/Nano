@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <unistd.h>
+#include <sys/sysctl.h>
 
 #include <libKern/OSAtomic.h>
 
@@ -69,11 +70,20 @@ void NTargetThread::Sleep(NTime theTime)
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
 UInt32 NTargetThread::GetCPUCount(void)
-{
+{	int			mibName[2] = { CTL_HW, HW_NCPU }; 
+	int			numCPUs, sysErr;
+	size_t		theSize;
+
 
 
 	// Get the CPU count
-	return(MPProcessorsScheduled());
+	theSize = sizeof(numCPUs);
+	sysErr  = sysctl(mibName, 2, &numCPUs, &theSize, NULL, 0);
+	
+	if (sysErr != 0)
+		numCPUs = 1;
+	
+	return(numCPUs);
 }
 
 
