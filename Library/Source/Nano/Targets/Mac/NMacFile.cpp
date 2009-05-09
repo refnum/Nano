@@ -19,6 +19,7 @@
 
 #include "NCFString.h"
 
+#include "NMacTarget.h"
 #include "NTargetFile.h"
 
 
@@ -186,9 +187,25 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 //============================================================================
 //      NTargetFile::SetName : Set a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::SetName(const NString &thePath, const NString &theName, bool renameFile)
-{
-	// dair, to do
+NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile)
+{	NString		newPath;
+	NStatus		sysErr;
+
+
+
+	// Get the new path
+	newPath = GetChild(GetParent(thePath), fileName);
+
+
+
+	// Rename the file
+	if (renameFile)
+		{
+		sysErr = rename(thePath.GetUTF8(), newPath.GetUTF8());
+		NN_ASSERT_NOERR(sysErr);
+		}
+	
+	return(newPath);
 }
 
 
@@ -199,8 +216,21 @@ NString NTargetFile::SetName(const NString &thePath, const NString &theName, boo
 //      NTargetFile::GetSize : Get a file's size.
 //----------------------------------------------------------------------------
 SInt64 NTargetFile::GetSize(const NString &thePath)
-{
-	// dair, to do
+{	struct stat64		fileInfo;
+	SInt64				theSize;
+	NStatus				sysErr;
+
+
+
+	// Get the file size
+	theSize = 0;
+	sysErr  = stat64(thePath.GetUTF8(), &fileInfo);
+	NN_ASSERT_NOERR(sysErr);
+
+	if (sysErr == kNoErr)
+		theSize = fileInfo.st_size;
+
+	return(theSize);
 }
 
 
@@ -210,9 +240,16 @@ SInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(const NString &thePath, SInt64 theSize)
-{
-	// dair, to do
+NStatus NTargetFile::SetSize(NFileRef theFile, SInt64 theSize)
+{	OSStatus	theErr;
+
+
+
+	// Set the size
+	theErr = FSSetForkSize(NMacTarget::GetFileRefNum(theFile), fsFromStart, theSize);
+	NN_ASSERT_NOERR(theErr);
+
+	return(NMacTarget::GetStatus(theErr));
 }
 
 
@@ -222,9 +259,22 @@ NStatus NTargetFile::SetSize(const NString &thePath, SInt64 theSize)
 //============================================================================
 //      NTargetFile::GetChild : Get the child of a path.
 //----------------------------------------------------------------------------
-NString NTargetFile::GetChild(const NString &thePath, const NString &theChild)
-{
-	// dair, to do
+NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)
+{	NString		theChild;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!fileName.StartsWith("/"));
+
+
+
+	// Get the child
+	theChild = thePath;
+	theChild.TrimRight("/");
+	theChild += fileName;
+	
+	return(theChild);
 }
 
 
@@ -235,8 +285,20 @@ NString NTargetFile::GetChild(const NString &thePath, const NString &theChild)
 //      NTargetFile::GetParent : Get the parent of a path.
 //----------------------------------------------------------------------------
 NString NTargetFile::GetParent(const NString &thePath)
-{
-	// dair, to do
+{	NString		theParent;
+	NRange		slashPos;
+
+
+
+	// Get the parent
+	slashPos = thePath.Find("/", kNStringBackwards);
+
+	if (slashPos.IsNotEmpty() && slashPos.GetLocation() >= 1)
+		theParent = thePath.GetLeft(slashPos.GetLocation() - 1);
+	else
+		theParent = thePath;
+	
+	return(theParent);
 }
 
 
@@ -248,7 +310,10 @@ NString NTargetFile::GetParent(const NString &thePath)
 //----------------------------------------------------------------------------
 void NTargetFile::Delete(const NString &thePath)
 {
-	// dair, to do
+
+
+	// Delete the file
+	unlink(thePath.GetUTF8());
 }
 
 
@@ -259,8 +324,15 @@ void NTargetFile::Delete(const NString &thePath)
 //      NTargetFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::CreateDirectory(const NString &thePath)
-{
-	// dair, to do
+{	NStatus		sysErr;
+
+
+
+	// Create the directory
+	sysErr = mkdir(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
+	NN_ASSERT_NOERR(sysErr);
+	
+	return(sysErr);
 }
 
 
@@ -270,9 +342,28 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 //============================================================================
 //      NTargetFile::ExchangeWith : Exchange two files.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &targetPath)
-{
-	// dair, to do
+NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath)
+{	FSRef		srcFSRef, dstFSRef;
+	NStatus		theErr;
+
+
+
+	// Get the state we need
+	theErr  = NMacTarget::GetFSRef(srcPath, srcFSRef);
+	theErr |= NMacTarget::GetFSRef(dstPath, dstFSRef);
+	
+	NN_ASSERT_NOERR(theErr);
+
+
+
+	// Exchange the files
+	if (theErr == noErr)
+		{
+		theErr = NMacTarget::GetStatus(FSExchangeObjects(&srcFSRef, &dstFSRef));
+		NN_ASSERT_NOERR(theErr);
+		}
+	
+	return(theErr);
 }
 
 
@@ -282,9 +373,43 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &targetP
 //============================================================================
 //      NTargetFile::Open : Open a file.
 //----------------------------------------------------------------------------
-NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermissions)
-{
-	// dair, to do
+NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission)
+{	HFSUniStr255		forkName;
+	FSRef				theFSRef;
+	FSIORefNum			fileRef;
+	OSStatus			theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(FSIORefNum) <= sizeof(NFileRef));
+
+
+
+	// Get the state we need
+	fileRef = 0;
+	theErr  = FSGetDataForkName(&forkName);
+	NN_ASSERT_NOERR(theErr);
+
+
+
+	// Create the file
+	if (!Exists(thePath))
+		{
+		theErr = creat(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
+		NN_ASSERT_NOERR(theErr);
+		}
+
+
+
+	// Open the file
+	theErr  = NMacTarget::GetFSRef(thePath, theFSRef);
+	theErr |= FSOpenFork(&theFSRef, forkName.length, forkName.unicode,
+							NMacTarget::GetFilePermission(thePermission), &fileRef);
+
+	NN_ASSERT_NOERR(theErr);
+
+	return((NFileRef) fileRef);
 }
 
 
@@ -295,8 +420,13 @@ NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission
 //      NTargetFile::Close : Close a file.
 //----------------------------------------------------------------------------
 void NTargetFile::Close(NFileRef theFile)
-{
-	// dair, to do
+{	OSStatus	theErr;
+
+
+
+	// Close the file
+	theErr = FSCloseFork(NMacTarget::GetFileRefNum(theFile));
+	NN_ASSERT_NOERR(theErr);
 }
 
 
@@ -307,8 +437,17 @@ void NTargetFile::Close(NFileRef theFile)
 //      NTargetFile::GetPosition : Get the read/write position.
 //----------------------------------------------------------------------------
 SInt64 NTargetFile::GetPosition(NFileRef theFile)
-{
-	// dair, to do
+{	SInt64		thePos;
+	OSStatus	theErr;
+
+
+
+	// Get the position
+	thePos = 0;
+	theErr = FSGetForkPosition(NMacTarget::GetFileRefNum(theFile), &thePos);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(thePos);
 }
 
 
@@ -318,9 +457,16 @@ SInt64 NTargetFile::GetPosition(NFileRef theFile)
 //============================================================================
 //      NTargetFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition filePos)
-{
-	// dair, to do
+NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
+{	OSStatus	theErr;
+
+
+
+	// Set the position
+	theErr = FSSetForkPosition(NMacTarget::GetFileRefNum(theFile), NMacTarget::GetFilePosition(thePosition), theOffset);
+	NN_ASSERT_NOERR(theErr);
+
+	return(NMacTarget::GetStatus(theErr));
 }
 
 
@@ -330,9 +476,27 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 //============================================================================
 //      NTargetFile::Read : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition filePos)
-{
-	// dair, to do
+NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
+{	ByteCount		actualSize;
+	OSStatus		theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theSize <= kUInt32Max);
+
+
+
+	// Read from the file
+	actualSize = 0;
+	theErr     = FSReadFork(NMacTarget::GetFileRefNum(theFile),
+							NMacTarget::GetFilePosition(thePosition),
+							theOffset, (ByteCount) theSize, thePtr, &actualSize);
+
+    NN_ASSERT(theErr == noErr || theErr == eofErr);
+    numRead = actualSize;
+
+	return(NMacTarget::GetStatus(theErr));
 }
 
 
@@ -342,10 +506,29 @@ NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64
 //============================================================================
 //      NTargetFile::Write : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition filePos)
-{
-	// dair, to do
+NStatus NTargetFile::Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
+{	ByteCount		actualSize;
+	OSStatus		theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theSize <= kUInt32Max);
+
+
+
+	// Write to the file
+	actualSize = 0;
+	theErr     = FSWriteFork(NMacTarget::GetFileRefNum(theFile),
+							 NMacTarget::GetFilePosition(thePosition),
+							 theOffset, (ByteCount) theSize, thePtr, &actualSize);
+
+    NN_ASSERT_NOERR(theErr);
+	numWritten = actualSize;
+
+	return(NMacTarget::GetStatus(theErr));
 }
+
 
 
 

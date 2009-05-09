@@ -339,6 +339,11 @@ SInt64 NFile::GetSize(void) const
 {
 
 
+	// Validate our state
+	NN_ASSERT(IsFile());
+
+
+
 	// Get the size
 	return(NTargetFile::GetSize(mPath));
 }
@@ -355,8 +360,14 @@ NStatus NFile::SetSize(SInt64 theSize)
 
 
 
+	// Validate our state
+	NN_ASSERT(IsFile());
+	NN_ASSERT(IsOpen());
+
+
+
 	// Set the size
-	theErr = NTargetFile::SetSize(mPath, theSize);
+	theErr = NTargetFile::SetSize(mFile, theSize);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);
@@ -367,7 +378,7 @@ NStatus NFile::SetSize(SInt64 theSize)
 
 
 //============================================================================
-//        NFile::GetChild : Get the child of a file.
+//        NFile::GetChild : Get the child of a directory.
 //----------------------------------------------------------------------------
 NFile NFile::GetChild(const NString &fileName) const
 {
@@ -382,7 +393,7 @@ NFile NFile::GetChild(const NString &fileName) const
 
 
 //============================================================================
-//        NFile::GetParent : Get the parent of a file.
+//        NFile::GetParent : Get the parent of a file/directory.
 //----------------------------------------------------------------------------
 NFile NFile::GetParent(void) const
 {
@@ -401,6 +412,11 @@ NFile NFile::GetParent(void) const
 //----------------------------------------------------------------------------
 void NFile::Delete(void)
 {
+
+
+	// Validate our state
+	NN_ASSERT(IsFile());
+
 
 
 	// Delete the file
@@ -452,7 +468,7 @@ NStatus NFile::ExchangeWith(const NFile &theTarget)
 //============================================================================
 //        NFile::Open : Open the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Open(NFilePermission thePermissions, bool canCreate)
+NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
 {	NStatus		theErr;
 
 
@@ -465,12 +481,12 @@ NStatus NFile::Open(NFilePermission thePermissions, bool canCreate)
 
 	// Check our state
 	if (!canCreate && !IsFile())
-		return(kNErrPermission);
+		return(kNErrNotFound);
 
 
 
 	// Open the file
-	mFile  = NTargetFile::Open(mPath, thePermissions);
+	mFile  = NTargetFile::Open(mPath, thePermission);
 	theErr = (mFile == NULL) ? kNErrPermission : kNoErr;
 	
 	return(theErr);
@@ -529,7 +545,7 @@ SInt64 NFile::GetPosition(void) const
 //============================================================================
 //        NFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition filePos)
+NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
 {	NStatus		theErr;
 
 
@@ -541,7 +557,7 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition filePos)
 
 
 	// Set the position
-	theErr = NTargetFile::SetPosition(mFile, theOffset, filePos);
+	theErr = NTargetFile::SetPosition(mFile, theOffset, thePosition);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);
@@ -554,7 +570,7 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition filePos)
 //============================================================================
 //        NFile::Read : Read data from the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Read(SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition filePos)
+NStatus NFile::Read(SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
 {	NStatus		theErr;
 
 
@@ -566,7 +582,7 @@ NStatus NFile::Read(SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 
 
 	// Read the file
-	theErr = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, filePos);
+	theErr = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, thePosition);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);
@@ -579,7 +595,7 @@ NStatus NFile::Read(SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 //============================================================================
 //        NFile::Write : Write data to the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition filePos)
+NStatus NFile::Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
 {	NStatus		theErr;
 
 
@@ -591,7 +607,7 @@ NStatus NFile::Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SIn
 
 
 	// Write the file
-	theErr = NTargetFile::Write(mFile, theSize, thePtr, numWritten, theOffset, filePos);
+	theErr = NTargetFile::Write(mFile, theSize, thePtr, numWritten, theOffset, thePosition);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);

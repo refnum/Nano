@@ -45,16 +45,16 @@ public:
 
 	// Get/set a file's name
 	static NString						GetName(const NString &thePath, bool displayName);
-	static NString						SetName(const NString &thePath, const NString &theName, bool renameFile);
+	static NString						SetName(const NString &thePath, const NString &fileName, bool renameFile);
 
 
 	// Get/set a file's size
 	static SInt64						GetSize(const NString &thePath);
-	static NStatus						SetSize(const NString &thePath, SInt64 theSize);
+	static NStatus						SetSize(NFileRef theFile, SInt64 theSize);
 
 
 	// Get the child/parent of a path
-	static NString						GetChild( const NString &thePath, const NString &theChild);
+	static NString						GetChild( const NString &thePath, const NString &fileName);
 	static NString						GetParent(const NString &thePath);
 
 
@@ -67,22 +67,22 @@ public:
 
 
 	// Exchange two files
-	static NStatus						ExchangeWith(const NString &srcPath, const NString &targetPath);
+	static NStatus						ExchangeWith(const NString &srcPath, const NString &dstPath);
 
 
 	// Open/close a file
-	static NFileRef						Open(const NString &thePath, NFilePermission thePermissions);
+	static NFileRef						Open(const NString &thePath, NFilePermission thePermission);
 	static void							Close(NFileRef theFile);
 
 
 	// Get/set the read/write position
 	static SInt64						GetPosition(NFileRef theFile);
-	static NStatus						SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition filePos);
+	static NStatus						SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition);
 
 
 	// Read/write from a file
-	static NStatus						Read( NFileRef theFile, SInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition filePos);
-	static NStatus						Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition filePos);
+	static NStatus						Read( NFileRef theFile, SInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition);
+	static NStatus						Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition);
 };
 
 

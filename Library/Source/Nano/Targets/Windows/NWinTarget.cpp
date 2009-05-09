@@ -21,9 +21,9 @@
 
 
 //============================================================================
-//		NMacTarget::GetStatus : Convert an error code.
+//		NWinTarget::GetStatus : Convert an error code.
 //----------------------------------------------------------------------------
-NStatus NMacTarget::GetStatus(HRESULT theErr)
+NStatus NWinTarget::GetStatus(HRESULT theErr)
 {
 }
 

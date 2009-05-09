@@ -149,7 +149,7 @@ public:
 
 
 	// Open/close the file
-	NStatus								Open(NFilePermission thePermissions=kFilePermissionRead, bool canCreate=false);
+	NStatus								Open(NFilePermission thePermission=kFilePermissionRead, bool canCreate=false);
 	void								Close(void);
 
 
@@ -157,14 +157,14 @@ public:
     //
     // The file must be opened with appropriate permissions first.
 	SInt64								GetPosition(void) const;
-	NStatus								SetPosition(SInt64 theOffset, NFilePosition filePos=kFilePositionFromStart);
+	NStatus								SetPosition(SInt64 theOffset, NFilePosition thePosition=kFilePositionFromStart);
 
 
 	// Read/write the file
 	//
 	// The file must be opened with appropriate permissions first.
-	NStatus								Read( SInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition filePos=kFilePositionFromMark);
-	NStatus								Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition filePos=kFilePositionFromMark);
+	NStatus								Read( SInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
+	NStatus								Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
 
 
 	// Operators

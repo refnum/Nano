@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NString.h"
+#include "NFile.h"
 
 
 
@@ -26,8 +28,24 @@
 //----------------------------------------------------------------------------
 class NMacTarget {
 public:
-	// Convert an error code
+	// Get an FSRef
+	static NStatus						GetFSRef(const NString &thePath, FSRef &theFSRef);
+
+
+	// Get a status code
 	static NStatus						GetStatus(OSStatus theErr);
+
+
+	// Get a file permission
+	static SInt8						GetFilePermission(NFilePermission thePermission);
+
+
+	// Get a file position
+	static UInt16						GetFilePosition(NFilePosition thePosition);
+
+
+	// Get a file reference
+	static FSIORefNum					GetFileRefNum(NFileRef theFile);
 };
 
 

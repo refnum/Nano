@@ -83,7 +83,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 //============================================================================
 //      NTargetFile::SetName : Set a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::SetName(const NString &thePath, const NString &theName, bool renameFile)
+NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile)
 {
 	// dair, to do
 }
@@ -107,7 +107,7 @@ SInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(const NString &thePath, SInt64 theSize)
+NStatus NTargetFile::SetSize(NFileRef theFile, SInt64 theSize)
 {
 	// dair, to do
 }
@@ -119,7 +119,7 @@ NStatus NTargetFile::SetSize(const NString &thePath, SInt64 theSize)
 //============================================================================
 //      NTargetFile::GetChild : Get the child of a path.
 //----------------------------------------------------------------------------
-NString NTargetFile::GetChild(const NString &thePath, const NString &theChild)
+NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)
 {
 	// dair, to do
 }
@@ -167,7 +167,7 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 //============================================================================
 //      NTargetFile::ExchangeWith : Exchange two files.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &targetPath)
+NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath)
 {
 	// dair, to do
 }
@@ -179,7 +179,7 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &targetP
 //============================================================================
 //      NTargetFile::Open : Open a file.
 //----------------------------------------------------------------------------
-NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermissions)
+NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission)
 {
 	// dair, to do
 }
@@ -215,7 +215,7 @@ SInt64 NTargetFile::GetPosition(NFileRef theFile)
 //============================================================================
 //      NTargetFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition filePos)
+NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
 }
@@ -227,7 +227,7 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 //============================================================================
 //      NTargetFile::Read : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition filePos)
+NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
 }
@@ -239,7 +239,7 @@ NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64
 //============================================================================
 //      NTargetFile::Write : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition filePos)
+NStatus NTargetFile::Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
 }
