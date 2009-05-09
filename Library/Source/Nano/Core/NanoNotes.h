@@ -47,11 +47,6 @@
 #endif
 
 
-// dair
-#undef  NN_SEEN_RELEASE_NOTES_FOR
-#define NN_SEEN_RELEASE_NOTES_FOR								NN_RELEASE_NOTES_SHOW_NONE
-
-
 
 
 
@@ -61,7 +56,7 @@
 #if NN_SEEN_RELEASE_NOTES_FOR < NN_RELEASE_NOTES_2_0
 
 	// Misc
-	#pragma message("2.0: May not be backwards compatible with 1.x");
+	#pragma message("2.0: Review all source - not backwards compatible with 1.x");
 
 #endif
 
@@ -84,31 +79,31 @@
 	// NPropertyStore
 	//
 	// See NPropertyStore.h
-	#warning "1.5: NPropertyStore coder interface replaced with storage model"
+	#pragma message("1.5: NPropertyStore coder interface replaced with storage model")
 
 
 	// NDocument
 	//
 	// See NDocument.h
-	#warning "1.5: NDocument::EncodeProperties/DecodeProperties renamed to EncodeState/DecodeState"
+	#pragma message( "1.5: NDocument::EncodeProperties/DecodeProperties renamed to EncodeState/DecodeState")
 
 
 	// NDataBrowser
 	//
 	// See NDataBrowser.h
-	#warning "1.5: NDataBrowser::EncodeProperties/DecodeProperties renamed to EncodeState/DecodeState"
+	#pragma message( "1.5: NDataBrowser::EncodeProperties/DecodeProperties renamed to EncodeState/DecodeState")
 
 
 	// Array accessors
 	//
 	// See NArray.h/NDictionary.h
-	#warning "1.5: NArray/NDictionary removed [] accessors"
+	#pragma message( "1.5: NArray/NDictionary removed [] accessors")
 
 
 	// NPropertyFile
 	//
 	// See NPropertyFile.h
-	#warning "1.5: NPropertyFile::GetProperties no longer returns a reference"
+	#pragma message( "1.5: NPropertyFile::GetProperties no longer returns a reference")
 
 #endif
 
@@ -119,19 +114,19 @@
 	// NColorPicker
 	//
 	// See NColorPicker.h/NColorPanel.h
-	#warning "1.4: NColorPicker messages now defined by NColorPanel"
+	#pragma message( "1.4: NColorPicker messages now defined by NColorPanel")
 
 
 	// Strings
 	//
 	// See Nano Build.h
-	#warning "1.4: kStringToolbarShow/Hide renamed to kStringShow/HideToolbar"
+	#pragma message( "1.4: kStringToolbarShow/Hide renamed to kStringShow/HideToolbar")
 
 
 	// Help tags
 	//
 	// See NHelpTag/NHIView/NMenuItem/NHelpUtilities
-	#warning "1.4: NHIView/NMenuItem help tags now accessed through NHelpTag"
+	#pragma message( "1.4: NHIView/NMenuItem help tags now accessed through NHelpTag")
 
 #endif
 
@@ -142,46 +137,46 @@
 	// NString
 	//
 	// See NString.h
-	#warning "1.3: NString::EqualTo is now case-INsensitive by default"
-	#warning "1.3: NString::IsMatch        replaced with NString::Contains(kCFComparePattern)"
-	#warning "1.3: NString::FindPattern    replaced with NString::FindAll( kCFComparePattern)"
-	#warning "1.3: NString::TrimWhitespace replaced with NString::Trim()"
+	#pragma message( "1.3: NString::EqualTo is now case-INsensitive by default")
+	#pragma message( "1.3: NString::IsMatch        replaced with NString::Contains(kCFComparePattern)")
+	#pragma message( "1.3: NString::FindPattern    replaced with NString::FindAll( kCFComparePattern)")
+	#pragma message( "1.3: NString::TrimWhitespace replaced with NString::Trim()")
 
 
 	// NUTI
 	//
 	// See NUTI.h
-	#warning "1.3: NUTI::EqualTo replaced with operator =="
+	#pragma message( "1.3: NUTI::EqualTo replaced with operator ==")
 
 
 	// NCFObject
 	//
 	// See NCFObject.h
-	#warning "1.3: NCFObject now provides copy-on-write; review any custom sub-classes of NCFObject"
+	#pragma message( "1.3: NCFObject now provides copy-on-write; review any custom sub-classes of NCFObject")
 
 
 	// NTextUtilities
 	//
 	// See NTextUtilities.h
-	#warning "1.3: NTextUtilities Get/FromUInt32 replaced with SInt64"
+	#pragma message( "1.3: NTextUtilities Get/FromUInt32 replaced with SInt64")
 
 
 	// NSystemUtilities
 	//
 	// See NSTLUtilities.h
-	#warning "1.3: CREATE_VECTOR and STL helpers moved from NSystemUtilities to NSTLUtilities"
+	#pragma message( "1.3: CREATE_VECTOR and STL helpers moved from NSystemUtilities to NSTLUtilities")
 
 
 	// NTimerTask
 	//
 	// See NTimer.h
-	#warning "1.3: NTimerTask replaced wth functor-based NTimer"
+	#pragma message( "1.3: NTimerTask replaced wth functor-based NTimer")
 
 
 	// NAutoReleasePool
 	//
 	// See NAppKitUtilities.h
-	#warning "1.3: NAutoReleasePool replaced wth StAutoReleasePool"
+	#pragma message( "1.3: NAutoReleasePool replaced wth StAutoReleasePool")
 
 #endif
 
@@ -192,41 +187,41 @@
 	// PrefPanelInfo
 	//
 	// See NWindowPanels.h
-	#warning "1.2: PrefPanelInfo renamed to PanelInfo to support NWindowPanels; rename usage to match"
+	#pragma message( "1.2: PrefPanelInfo renamed to PanelInfo to support NWindowPanels; rename usage to match")
 
 
 	// NCFDate
 	//
 	// See NDate.h
-	#warning "1.2: NCFDate was replaced with NDate"
+	#pragma message( "1.2: NCFDate was replaced with NDate")
 	
 	
 	// NEditText
 	//
 	// See NEditText.h
-	#warning "1.2: NEditText::[GS]etSelection now uses CFRange rather than ControlEditTextSelectionRec"
+	#pragma message( "1.2: NEditText::[GS]etSelection now uses CFRange rather than ControlEditTextSelectionRec")
 
 
 	// NSystemUtilities
 	//
 	// See NSystemUtilities.h
-	#warning "1.2: NSystemUtilities::ShowEffect moved to NThemeUtilities"
+	#pragma message( "1.2: NSystemUtilities::ShowEffect moved to NThemeUtilities")
 
 
 	// NString
 	//
 	// See NString.h
-	#warning "1.2: NString::Find/FindAll now treats range length of -1 as end-of-string (was 0)"
+	#pragma message( "1.2: NString::Find/FindAll now treats range length of -1 as end-of-string (was 0)")
 
 
 	// Projects
-	#warning "1.2: Add Security.framework, SystemConfiguration.framework, WebKit.framework, and Nano.nib to your project - required for NSoftwareUpdate"
+	#pragma message( "1.2: Add Security.framework, SystemConfiguration.framework, WebKit.framework, and Nano.nib to your project - required for NSoftwareUpdate")
 
 
 	// Properties
 	//
 	// See NApplication::InitializeProperties.
-	#warning "1.2: NApplication::InitializeProperties now adds kAppDefaultPrefsKey, update rather than replacing this dictionary in your InitializeProperties"
+	#pragma message( "1.2: NApplication::InitializeProperties now adds kAppDefaultPrefsKey, update rather than replacing this dictionary in your InitializeProperties")
 
 #endif
 
@@ -237,7 +232,7 @@
 	// kHICommandNToggleToolbar
 	//
 	// See NCarbonEventHandler.h.
-	#warning "1.1: kHICommandNToggleToolbar changed from 'Ntog' to 'tbtg' to match 10.5; update .nib usage"
+	#pragma message( "1.1: kHICommandNToggleToolbar changed from 'Ntog' to 'tbtg' to match 10.5; update .nib usage")
 
 #endif
 
