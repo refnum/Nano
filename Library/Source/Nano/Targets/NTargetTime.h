@@ -32,7 +32,6 @@ public:
 
 	// Get the time since boot
 	static NTime						GetBootTime(void);
-
 };
 
 

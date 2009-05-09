@@ -340,8 +340,6 @@ bool NSpinLock::Lock(NTime waitFor)
 
 
 	// Acquire the lock
-	//
-	// A spin loop is less efficient than blocking, but sufficient for our needs.
 	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
 		while (!SpinLockTry(mSpinLock))
