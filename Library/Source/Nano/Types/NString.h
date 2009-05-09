@@ -54,6 +54,7 @@ typedef enum {
 // Misc
 class NString;
 
+extern const NIndex  kNStringLength;
 extern const NString kNStringWhitespace;
 
 
@@ -94,8 +95,8 @@ class NString :	public NContainer,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
-										NString(const void			*thePtr, NIndex numBytes=kNIndexNone, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(const NData			&theData,                             NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const void			*thePtr, NIndex numBytes=kNStringLength, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const NData			&theData,                               NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NStringUTF8	&theString);
 										
 										 NString(void);
@@ -117,8 +118,6 @@ public:
 
 
 	// Find a substring
-	//
-	// If the size of theRange is kNIndexNone, the search is to the end of the string.
 	//
 	// When finding a regexp, the first returned range is the substring matched by the
 	// entire expression with subsequent ranges for parenthesized sub-expressions.

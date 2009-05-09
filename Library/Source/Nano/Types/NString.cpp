@@ -26,6 +26,7 @@
 //============================================================================
 //		Public constants
 //----------------------------------------------------------------------------
+const NIndex  kNStringLength										= kNIndexNone;
 const NString kNStringWhitespace									= "\\s";
 
 
@@ -40,7 +41,7 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 
 
 	// Initialize ourselves
-	if (numBytes == kNIndexNone)
+	if (numBytes == kNStringLength)
 		numBytes = strlen((const char *) thePtr);
 	
 	SetData(NData(numBytes, thePtr), theEncoding);
@@ -312,7 +313,7 @@ void NString::Replace(const NRange &theRange, const NString &replaceWith)
 		thePrefix = GetString(NRange(0, theRange.GetFirst()));
 
 	if (theRange.GetNext() < GetSize())
-		theSuffix = GetString(NRange(theRange.GetNext(), kNIndexNone));
+		theSuffix = GetString(NRange(theRange.GetNext(), kNStringLength));
 
 
 
