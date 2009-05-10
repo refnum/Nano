@@ -26,6 +26,7 @@
 bool NTargetFile::IsFile(const NString &thePath)
 {
 	// dair, to do
+	return(false);
 }
 
 
@@ -38,6 +39,7 @@ bool NTargetFile::IsFile(const NString &thePath)
 bool NTargetFile::IsDirectory(const NString &thePath)
 {
 	// dair, to do
+	return(false);
 }
 
 
@@ -50,6 +52,7 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 bool NTargetFile::IsWriteable(const NString &thePath)
 {
 	// dair, to do
+	return(false);
 }
 
 
@@ -62,6 +65,7 @@ bool NTargetFile::IsWriteable(const NString &thePath)
 bool NTargetFile::Exists(const NString &thePath)
 {
 	// dair, to do
+	return(false);
 }
 
 
@@ -74,6 +78,7 @@ bool NTargetFile::Exists(const NString &thePath)
 NString NTargetFile::GetName(const NString &thePath, bool displayName)
 {
 	// dair, to do
+	return("TODO");
 }
 
 
@@ -86,6 +91,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile)
 {
 	// dair, to do
+	return("TODO");
 }
 
 
@@ -98,6 +104,7 @@ NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 UInt64 NTargetFile::GetSize(const NString &thePath)
 {
 	// dair, to do
+	return(0);
 }
 
 
@@ -110,6 +117,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 NStatus NTargetFile::SetSize(NFileRef theFile, UInt64 theSize)
 {
 	// dair, to do
+	return(kNErrParam);
 }
 
 
@@ -122,6 +130,7 @@ NStatus NTargetFile::SetSize(NFileRef theFile, UInt64 theSize)
 NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)
 {
 	// dair, to do
+	return("TODO");
 }
 
 
@@ -134,6 +143,7 @@ NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)
 NString NTargetFile::GetParent(const NString &thePath)
 {
 	// dair, to do
+	return("TODO");
 }
 
 
@@ -158,6 +168,7 @@ void NTargetFile::Delete(const NString &thePath)
 NStatus NTargetFile::CreateDirectory(const NString &thePath)
 {
 	// dair, to do
+	return(kNErrParam);
 }
 
 
@@ -170,6 +181,7 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath)
 {
 	// dair, to do
+	return(kNErrParam);
 }
 
 
@@ -182,6 +194,7 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission)
 {
 	// dair, to do
+	return(NULL);
 }
 
 
@@ -206,6 +219,7 @@ void NTargetFile::Close(NFileRef theFile)
 UInt64 NTargetFile::GetPosition(NFileRef theFile)
 {
 	// dair, to do
+	return(0);
 }
 
 
@@ -218,6 +232,7 @@ UInt64 NTargetFile::GetPosition(NFileRef theFile)
 NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
+	return(kNErrParam);
 }
 
 
@@ -230,6 +245,7 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
+	return(kNErrParam);
 }
 
 
@@ -242,6 +258,7 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
+	return(kNErrParam);
 }
 
 
