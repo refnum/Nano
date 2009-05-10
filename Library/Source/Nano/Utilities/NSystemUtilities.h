@@ -39,9 +39,9 @@
 //		B32(10000000, 11111111, 10101010, 01010101)		= 2164238933
 //
 // Based on a PD implementation by Tom Torfs ("Binary constant macros").
-#define _HEX(_n)		0x ## _n ## LU
+#define _NANO_HEX(_n)	0x ## _n ## LU
 
-#define _B8(_x)			(UInt8) (((_x & 0x0000000FLU) ?   1 : 0) | \
+#define _NANO_B8(_x)	(UInt8) (((_x & 0x0000000FLU) ?   1 : 0) | \
 								 ((_x & 0x000000F0LU) ?   2 : 0) | \
 								 ((_x & 0x00000F00LU) ?   4 : 0) | \
 								 ((_x & 0x0000F000LU) ?   8 : 0) | \
@@ -50,7 +50,7 @@
 								 ((_x & 0x0F000000LU) ?  64 : 0) | \
 								 ((_x & 0xF0000000LU) ? 128 : 0))
 
-#define B8(_byte1)												(	(UInt8) _B8(_HEX(_byte1)) )
+#define B8(_byte1)												(	(UInt8) _NANO_B8(_NANO_HEX(_byte1)) )
 
 #define B16(_byte1, _byte2)										(	(((UInt16) B8(_byte1)) <<  8) | \
 																	(((UInt16) B8(_byte2)) <<  0) )
