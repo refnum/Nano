@@ -49,8 +49,8 @@ public:
 
 
 	// Get/set a file's size
-	static SInt64						GetSize(const NString &thePath);
-	static NStatus						SetSize(NFileRef theFile, SInt64 theSize);
+	static UInt64						GetSize(const NString &thePath);
+	static NStatus						SetSize(NFileRef theFile, UInt64 theSize);
 
 
 	// Get the child/parent of a path
@@ -76,13 +76,13 @@ public:
 
 
 	// Get/set the read/write position
-	static SInt64						GetPosition(NFileRef theFile);
+	static UInt64						GetPosition(NFileRef theFile);
 	static NStatus						SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition);
 
 
 	// Read/write from a file
-	static NStatus						Read( NFileRef theFile, SInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition);
-	static NStatus						Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition);
+	static NStatus						Read( NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition);
+	static NStatus						Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition);
 };
 
 

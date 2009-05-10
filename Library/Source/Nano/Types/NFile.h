@@ -120,8 +120,8 @@ public:
 	// Get/set the size
 	//
 	// Growing the file will zero-fill any new space.
-	SInt64								GetSize(void) const;
-	NStatus								SetSize(SInt64 theSize);
+	UInt64								GetSize(void) const;
+	NStatus								SetSize(UInt64 theSize);
 
 
 	// Get the child/parent of a file
@@ -156,15 +156,15 @@ public:
 	// Get/set the read/write position
     //
     // The file must be opened with appropriate permissions first.
-	SInt64								GetPosition(void) const;
+	UInt64								GetPosition(void) const;
 	NStatus								SetPosition(SInt64 theOffset, NFilePosition thePosition=kFilePositionFromStart);
 
 
 	// Read/write the file
 	//
 	// The file must be opened with appropriate permissions first.
-	NStatus								Read( SInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
-	NStatus								Write(SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
+	NStatus								Read( UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
+	NStatus								Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
 
 
 	// Operators

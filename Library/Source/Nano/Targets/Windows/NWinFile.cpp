@@ -95,7 +95,7 @@ NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 //============================================================================
 //      NTargetFile::GetSize : Get a file's size.
 //----------------------------------------------------------------------------
-SInt64 NTargetFile::GetSize(const NString &thePath)
+UInt64 NTargetFile::GetSize(const NString &thePath)
 {
 	// dair, to do
 }
@@ -107,7 +107,7 @@ SInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(NFileRef theFile, SInt64 theSize)
+NStatus NTargetFile::SetSize(NFileRef theFile, UInt64 theSize)
 {
 	// dair, to do
 }
@@ -203,7 +203,7 @@ void NTargetFile::Close(NFileRef theFile)
 //============================================================================
 //      NTargetFile::GetPosition : Get the read/write position.
 //----------------------------------------------------------------------------
-SInt64 NTargetFile::GetPosition(NFileRef theFile)
+UInt64 NTargetFile::GetPosition(NFileRef theFile)
 {
 	// dair, to do
 }
@@ -227,7 +227,7 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 //============================================================================
 //      NTargetFile::Read : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
+NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
 }
@@ -239,7 +239,7 @@ NStatus NTargetFile::Read(NFileRef theFile, SInt64 theSize, void *thePtr, UInt64
 //============================================================================
 //      NTargetFile::Write : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, SInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
+NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
 {
 	// dair, to do
 }
