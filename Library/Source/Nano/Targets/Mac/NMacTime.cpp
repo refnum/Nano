@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <sys/sysctl.h>
+
 #include "NTargetTime.h"
 
 
@@ -39,9 +41,33 @@ NTime NTargetTime::GetCurrentTime(void)
 //		NTargetTime::GetBootTime : Get the time since booting.
 //----------------------------------------------------------------------------
 NTime NTargetTime::GetBootTime(void)
-{
+{	int					mibNames[2] = { CTL_KERN, KERN_BOOTTIME }; 
+	struct timeval		timeBoot, timeNow, theDelta;
+	size_t				theSize;
+	NTime				theTime;
+	int					sysErr;
 
 
-	// Get the time
-	return(GetCurrentEventTime());
+
+	// Get the state we need
+	theSize = sizeof(timeBoot);
+	sysErr  = sysctl(mibNames, 2, &timeBoot, &theSize, NULL, 0);
+	NN_ASSERT_NOERR(sysErr);
+
+	sysErr |= gettimeofday(&timeNow, NULL);
+	NN_ASSERT_NOERR(sysErr);
+
+
+
+	// Get the time since boot
+	theTime = 0.0;
+
+	if (sysErr == 0)
+		{
+		timersub(&timeNow, &timeBoot, &theDelta);
+		theTime = ((NTime) theDelta.tv_sec) + (((NTime) theDelta.tv_usec) / 1000000.0);
+		}
+	
+	return(theTime);
 }
+

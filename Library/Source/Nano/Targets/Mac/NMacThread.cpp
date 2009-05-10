@@ -70,7 +70,7 @@ void NTargetThread::Sleep(NTime theTime)
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
 UInt32 NTargetThread::GetCPUCount(void)
-{	int			mibName[2] = { CTL_HW, HW_NCPU }; 
+{	int			mibNames[2] = { CTL_HW, HW_NCPU }; 
 	int			numCPUs, sysErr;
 	size_t		theSize;
 
@@ -78,7 +78,8 @@ UInt32 NTargetThread::GetCPUCount(void)
 
 	// Get the CPU count
 	theSize = sizeof(numCPUs);
-	sysErr  = sysctl(mibName, 2, &numCPUs, &theSize, NULL, 0);
+	sysErr  = sysctl(mibNames, 2, &numCPUs, &theSize, NULL, 0);
+	NN_ASSERT_NOERR(sysErr);
 	
 	if (sysErr != 0)
 		numCPUs = 1;
