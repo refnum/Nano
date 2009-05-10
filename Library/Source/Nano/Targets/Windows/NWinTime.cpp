@@ -21,9 +21,9 @@
 
 
 //============================================================================
-//		NTargetTime::GetCurrentTime : Get the current time.
+//		NTargetTime::GetTime : Get the time.
 //----------------------------------------------------------------------------
-NTime NTargetTime::GetCurrentTime(void)
+NTime NTargetTime::GetTime(void)
 {
 
 	// dair, to do
@@ -35,9 +35,9 @@ NTime NTargetTime::GetCurrentTime(void)
 
 
 //============================================================================
-//		NTargetTime::GetBootTime : Get the time since booting.
+//		NTargetTime::GetUpTime : Get the time since boot.
 //----------------------------------------------------------------------------
-NTime NTargetTime::GetBootTime(void)
+NTime NTargetTime::GetUpTime(void)
 {
 
 

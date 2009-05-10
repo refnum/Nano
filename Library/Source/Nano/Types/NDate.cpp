@@ -49,7 +49,7 @@ NDate::NDate(void)
 
 
 	// Initialize ourselves
-	mTime = NTimeUtilities::GetCurrentTime();
+	mTime = NTimeUtilities::GetTime();
 }
 
 

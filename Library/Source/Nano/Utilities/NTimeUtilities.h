@@ -27,11 +27,11 @@
 class NTimeUtilities {
 public:
 	// Get the current time
-	static NTime						GetCurrentTime(void);
+	static NTime						GetTime(void);
 
 
 	// Get the time since boot
-	static NTime						GetBootTime(void);
+	static NTime						GetUpTime(void);
 };
 
 

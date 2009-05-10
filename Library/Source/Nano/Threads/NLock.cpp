@@ -349,7 +349,7 @@ bool NSpinLock::Lock(NTime waitFor)
 		}
 	else
 		{
-		stopTime = NTimeUtilities::GetBootTime() + waitFor;
+		stopTime = NTimeUtilities::GetTime() + waitFor;
 		gotLock  = false;
 		do
 			{
@@ -357,7 +357,7 @@ bool NSpinLock::Lock(NTime waitFor)
 			if (!gotLock)
 				NThreadUtilities::Sleep(kNThreadSpinTime);
 			}
-		while (!gotLock && NTimeUtilities::GetBootTime() < stopTime);
+		while (!gotLock && NTimeUtilities::GetTime() < stopTime);
 		}
 
 

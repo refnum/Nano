@@ -135,7 +135,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 
 	// Get the state we need
-	timeStamp = (unsigned long) (NTimeUtilities::GetBootTime() / kNTimeMillisecond);
+	timeStamp = (unsigned long) (NTimeUtilities::GetUpTime() / kNTimeMillisecond);
 	fileName  = mShowPath ? thePath : GetFileName(thePath);
 
 

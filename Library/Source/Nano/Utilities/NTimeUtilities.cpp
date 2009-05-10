@@ -22,14 +22,14 @@
 
 
 //============================================================================
-//		NTimeUtilities::GetCurrentTime : Get the current time.
+//		NTimeUtilities::GetTime : Get the time.
 //----------------------------------------------------------------------------
-NTime NTimeUtilities::GetCurrentTime(void)
+NTime NTimeUtilities::GetTime(void)
 {
 
 
 	// Get the time
-	return(NTargetTime::GetCurrentTime());
+	return(NTargetTime::GetTime());
 }
 
 
@@ -37,14 +37,14 @@ NTime NTimeUtilities::GetCurrentTime(void)
 
 
 //============================================================================
-//		NTimeUtilities::GetBootTime : Get the time since boot.
+//		NTimeUtilities::GetUpTime : Get the time since boot.
 //----------------------------------------------------------------------------
-NTime NTimeUtilities::GetBootTime(void)
+NTime NTimeUtilities::GetUpTime(void)
 {
 
 
 	// Get the time
-	return(NTargetTime::GetBootTime());
+	return(NTargetTime::GetUpTime());
 }
 
 

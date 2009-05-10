@@ -101,7 +101,7 @@ NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
 	// Acquire with timeout
 	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
 		{
-		stopTime = NTimeUtilities::GetBootTime() + waitFor;
+		stopTime = NTimeUtilities::GetTime() + waitFor;
 		do
 			{
 			// Acquire the lock
@@ -109,7 +109,7 @@ NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
 
 
 			// Handle failure
-			if (theErr != kNoErr && NTimeUtilities::GetBootTime() < stopTime)
+			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
 				NThreadUtilities::Sleep(kNThreadSpinTime);
 				theErr = kNoErr;
@@ -237,7 +237,7 @@ NStatus NTargetLock::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWri
 	// Acquire with timeout
 	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
 		{
-		stopTime = NTimeUtilities::GetBootTime() + waitFor;
+		stopTime = NTimeUtilities::GetTime() + waitFor;
 		do
 			{
 			// Acquire the lock
@@ -248,7 +248,7 @@ NStatus NTargetLock::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWri
 
 
 			// Handle failure
-			if (theErr != kNoErr && NTimeUtilities::GetBootTime() < stopTime)
+			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
 				NThreadUtilities::Sleep(kNThreadSpinTime);
 				theErr = kNoErr;
