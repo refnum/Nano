@@ -28,6 +28,6 @@ void NTargetDebug::LogMessage(const char *theMsg)
 
 
 	// Log the message
-	OutputDebugString(stderr, "%s", theMsg);
+	OutputDebugString(theMsg);
 }
 
