@@ -168,7 +168,6 @@ NStatus NMacTarget::ConvertSysErr(int sysErr)
 		case ENOSTR:				theErr = kNErrParam;				break;		// Not a STREAM
 		case EPROTO:				theErr = kNErrParam;				break;		// Protocol error
 		case ETIME:					theErr = kNErrTimeout;				break;		// STREAM ioctl timeout
-		case EOPNOTSUPP:			theErr = kNErrNotSupported;			break;		// Operation not supported on socket
 		case ENOPOLICY:				theErr = kNErrParam;				break;		// No such policy registered
 
 		default:
