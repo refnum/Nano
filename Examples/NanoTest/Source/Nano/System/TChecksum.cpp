@@ -42,8 +42,8 @@ void TChecksum::Execute(void)
 
 
 	// Execute the tests
-	NN_ASSERT(checkSum.GetInternet(GET_ARRAY_SIZE(kData1), kData1) == 0x7799);
-	NN_ASSERT(checkSum.GetInternet(GET_ARRAY_SIZE(kData2), kData2) == 0xF9FC);
+	NN_ASSERT(checkSum.GetInternet(GET_ARRAY_SIZE(kData1), kData1) == 0x8866);
+	NN_ASSERT(checkSum.GetInternet(GET_ARRAY_SIZE(kData2), kData2) == 0xF9F6);
 	NN_ASSERT(checkSum.GetInternet(0, NULL)                        == 0xFFFF);
 
 	NN_ASSERT(checkSum.GetDJB2(GET_ARRAY_SIZE(kData1), kData1) == 0x7CBD7E93);
