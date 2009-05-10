@@ -40,19 +40,20 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Source\Common\Core&quot;;&quot;$(ProjectDir)..\Source\Common\Threads&quot;;&quot;$(ProjectDir)..\Source\Common\Utilities&quot;;&quot;$(ProjectDir)..\Source\Common\Graphics&quot;;&quot;$(ProjectDir)..\Source\Common\Events&quot;;&quot;$(ProjectDir)..\Source\Common\Files&quot;;&quot;$(ProjectDir)..\Source\Common\Application&quot;"
-				PreprocessorDefinitions="NN_DEBUG=1"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=1"
+				StringPooling="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderThrough="D:\Develop\Projects\Nano\Library\Source\Common\Core\Nano.h"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough=""
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CompileAs="2"
 				DisableSpecificWarnings="4068"
-				ForcedIncludeFiles="D:\Develop\Projects\Nano\Library\Source\Common\Core\Nano.h"
+				ForcedIncludeFiles="&quot;$(ProjectDir)..\Prefix\Nano Prefix.pch&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -109,10 +110,18 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
+				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough="&quot;$(ProjectDir)..\Prefix\NanoPrefix.h&quot;"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4068"
+				ForcedIncludeFiles="&quot;$(ProjectDir)..\Prefix\Nano Prefix.pch&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -162,247 +171,311 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\Source\Common\Core\NArray.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Threads\NAtomicInt.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NBitVector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Graphics\NColor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Application\NCommandLine.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NComparable.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NContainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NDate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NDebug.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NDictionary.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Files\NFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NFunctor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NHashable.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Threads\NLock.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Utilities\NMathUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Events\NMsgBroadcaster.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Events\NMsgListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NNumber.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NPoint.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NRange.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NRectangle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NRefCounted.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NSharedValue.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NSize.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Utilities\NSTLUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NString.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Utilities\NSystemUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Utilities\NThreadUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Utilities\NTimeUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\Core\NVariant.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Windows\Core\NWinDebug.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Windows\Files\NWinFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Windows\Threads\NWinLock.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Windows\Utilities\NWinMathUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Windows\Utilities\NWinThreadUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Windows\Utilities\NWinTimeUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_chartables.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_compile.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_config.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_dfa_exec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_exec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_fullinfo.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_get.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_globals.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_info.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_maketables.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_newline.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_ord2utf8.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_refcount.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_study.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_tables.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_try_flipped.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_ucp_searchfuncs.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_valid_utf8.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_version.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_xclass.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Common\3rd Party\sqlite_3.6.4\sqlite_3.6.4.c"
+				RelativePath="..\Source\Nano\Internal\3rd Party\unicode.org\ConvertUTF.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						WarningLevel="1"
-						CompileAs="1"
+						PrecompiledHeaderThrough="D:\Develop\Libraries\RefNum\nano\Library\Prefix\NanoPrefix.h"
+						ForcedIncludeFiles="D:\Develop\Libraries\RefNum\nano\Library\Prefix\NanoPrefix.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NArray.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NAtomicInt.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NBitVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\NBroadcaster.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NByteSwap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NChecksum.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NColor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\NCommandLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NComparable.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NData.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NDate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Core\NDebug.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NDictionary.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NFileUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NFunctor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NHashable.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\NListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NMathUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NNumber.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NPoint.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NRange.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NRectangle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NRefCounted.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NSharedValue.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NSize.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NSTLUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NString.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NStringEncoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NStringFormatter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NSystemUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NThreadUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NTimeUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NUnicodeParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NVariant.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinDebug.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinMath.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinTarget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinThread.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinTime.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_chartables.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_compile.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_config.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_dfa_exec.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_exec.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_fullinfo.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_get.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_globals.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_info.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_maketables.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_newline.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_ord2utf8.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_refcount.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_study.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_tables.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_try_flipped.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_ucd.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_valid_utf8.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_version.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_xclass.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\sqlite_3.6.12.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -413,175 +486,231 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\config.h"
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\Nano.h"
+				RelativePath="..\Source\Nano\Internal\3rd Party\unicode.org\ConvertUTF.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NanoNotes.h"
+				RelativePath="..\Source\Nano\Core\Nano.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NanoTarget.h"
+				RelativePath="..\Source\Nano\Core\NanoNotes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NanoTypes.h"
+				RelativePath="..\Source\Nano\Core\NanoTarget.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NArray.h"
+				RelativePath="..\Source\Nano\Core\NanoTypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Threads\NAtomicInt.h"
+				RelativePath="..\Source\Nano\Types\NArray.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NBitVector.h"
+				RelativePath="..\Source\Nano\Threads\NAtomicInt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Graphics\NColor.h"
+				RelativePath="..\Source\Nano\Types\NBitVector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Application\NCommandLine.h"
+				RelativePath="..\Source\Nano\Events\NBroadcaster.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NComparable.h"
+				RelativePath="..\Source\Nano\System\NByteSwap.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NContainer.h"
+				RelativePath="..\Source\Nano\System\NChecksum.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NData.h"
+				RelativePath="..\Source\Nano\Types\NColor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NDate.h"
+				RelativePath="..\Source\Nano\Application\NCommandLine.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NDebug.h"
+				RelativePath="..\Source\Nano\Types\NComparable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NDictionary.h"
+				RelativePath="..\Source\Nano\Types\NContainer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Files\NFile.h"
+				RelativePath="..\Source\Nano\Types\NData.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NFunctor.h"
+				RelativePath="..\Source\Nano\Types\NDate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NHashable.h"
+				RelativePath="..\Source\Nano\Core\NDebug.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Threads\NLock.h"
+				RelativePath="..\Source\Nano\Types\NDictionary.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Utilities\NMathUtilities.h"
+				RelativePath="..\Source\Nano\Files\NFile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Events\NMsgBroadcaster.h"
+				RelativePath="..\Source\Nano\Utilities\NFileUtilities.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Events\NMsgListener.h"
+				RelativePath="..\Source\Nano\Types\NFunctor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NNumber.h"
+				RelativePath="..\Source\Nano\Types\NHashable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NObject.h"
+				RelativePath="..\Source\Nano\Events\NListener.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NPoint.h"
+				RelativePath="..\Source\Nano\Threads\NLock.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NRange.h"
+				RelativePath="..\Source\Nano\Utilities\NMathUtilities.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NRectangle.h"
+				RelativePath="..\Source\Nano\Types\NNumber.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NRefCounted.h"
+				RelativePath="..\Source\Nano\Types\NPoint.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NSharedValue.h"
+				RelativePath="..\Source\Nano\Types\NRange.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NSize.h"
+				RelativePath="..\Source\Nano\Types\NRectangle.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Utilities\NSTLUtilities.h"
+				RelativePath="..\Source\Nano\Types\NRefCounted.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NString.h"
+				RelativePath="..\Source\Nano\Types\NSharedValue.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Utilities\NSystemUtilities.h"
+				RelativePath="..\Source\Nano\Types\NSize.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Utilities\NThreadUtilities.h"
+				RelativePath="..\Source\Nano\Utilities\NSTLUtilities.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Utilities\NTimeUtilities.h"
+				RelativePath="..\Source\Nano\Types\NString.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\Core\NVariant.h"
+				RelativePath="..\Source\Nano\Types\NStringEncoder.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre.h"
+				RelativePath="..\Source\Nano\Types\NStringFormatter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\pcre_internal.h"
+				RelativePath="..\Source\Nano\Utilities\NSystemUtilities.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\3rd Party\sqlite_3.6.4\sqlite_3.6.4.h"
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetDebug.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\3rd Party\sqlite_3.6.4\sqlite_3.6.4_fts3_tokenizer.h"
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetFile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\ucp.h"
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetLock.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Common\3rd Party\pcre_7.0\ucpinternal.h"
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetMath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetTime.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NThreadUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NTimeUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NUnicodeParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NVariant.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinTarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_internal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\sqlite_3.6.12.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\sqlite_3.6.12_fts3_tokenizer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\sqlite_nano.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\ucp.h"
 				>
 			</File>
 		</Filter>
