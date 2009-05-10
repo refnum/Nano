@@ -31,9 +31,7 @@ public:
 
 
 	// Get the time since boot
-	static NTime						GetBootTime(  void);
-	static UInt32						GetBootTimeMS(void);
-	static UInt64						GetBootTimeUS(void);
+	static NTime						GetBootTime(void);
 };
 
 

@@ -48,35 +48,3 @@ NTime NTimeUtilities::GetBootTime(void)
 }
 
 
-
-
-
-//============================================================================
-//		NTimeUtilities::GetBootTimeMS : Get the time since boot in milliseconds.
-//----------------------------------------------------------------------------
-UInt32 NTimeUtilities::GetBootTimeMS(void)
-{
-
-
-	// Get the time
-	return((UInt32) (NTargetTime::GetBootTime() / kNTimeMillisecond));
-}
-
-
-
-
-
-//============================================================================
-//		NTimeUtilities::GetBootTimeUS : Get the time since boot in microseconds.
-//----------------------------------------------------------------------------
-UInt64 NTimeUtilities::GetBootTimeUS(void)
-{
-
-
-	// Get the time
-	return((UInt64) (NTargetTime::GetBootTime() / kNTimeMicrosecond));
-}
-
-
-
-

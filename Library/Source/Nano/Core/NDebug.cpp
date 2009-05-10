@@ -126,16 +126,22 @@ void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
 //      NDebug::LogMessage : Log a message.
 //----------------------------------------------------------------------------
 void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &theMsg)
-{	char			thePrefix[kPrefixBufferSize];
-	StLock			acquireLock(GetLock());
-	const char		*fileName;
-	NStringUTF8		finalMsg;
+{	char				thePrefix[kPrefixBufferSize];
+	StLock				acquireLock(GetLock());
+	unsigned long		timeStamp;
+	const char			*fileName;
+	NStringUTF8			finalMsg;
+
+
+
+	// Get the state we need
+	timeStamp = (unsigned long) (NTimeUtilities::GetBootTime() / kNTimeMillisecond);
+	fileName  = mShowPath ? thePath : GetFileName(thePath);
 
 
 
 	// Construct the message
-	fileName = mShowPath ? thePath : GetFileName(thePath);
-	snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", (unsigned long) NTimeUtilities::GetBootTimeMS(), fileName, (long) lineNum);
+	snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
 
 	finalMsg  = thePrefix;
 	finalMsg += theMsg;
