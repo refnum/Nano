@@ -99,7 +99,7 @@ void NTargetLock::ReadWriteDestroy(NLockRef &theLock)
 //============================================================================
 //      NTargetLock::ReadWriteLock : Lock a read-write lock.
 //----------------------------------------------------------------------------
-NStatus NTargetLock::ReadWriteLock(NLockRef *theLock, NTime waitFor, bool forWrite)
+NStatus NTargetLock::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWrite)
 {
 	// dair,to do
 	return(kNoErr);
