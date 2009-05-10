@@ -26,8 +26,8 @@
 //----------------------------------------------------------------------------
 class NWinTarget {
 public:
-	// Convert an error code
-	static NStatus						GetStatus(HRESULT theErr);
+	// Convert a status code
+	static NStatus						ConvertHRESULT(HRESULT theErr);
 };
 
 

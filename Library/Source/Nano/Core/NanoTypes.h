@@ -39,7 +39,7 @@
 //
 // gcc uses the LP64 model, however Visual C++ uses the LLP64 model.
 //
-// We define a set of types that are the correct size in both models, and then
+// We define a set of types that are the correct size in both models, then
 // adust them to suit the current platform's system headers.
 #define NANO_INT8													char
 #define NANO_INT16													short
@@ -49,8 +49,8 @@
 
 // Mac/iPhone
 //
-// MacTypes.h uses a different type for UInt32/SInt32 depending on the architecture
-// size, so to avoid a type redeclaration error we must redefine our type.
+// MacTypes.h uses a different type for UInt32/SInt32 for each architecture
+// size, so to avoid a type redeclaration error we must define ours to match.
 #if NN_TARGET_MAC || NN_TARGET_IPHONE
 	#undef NANO_INT32
 
@@ -70,7 +70,8 @@
 //----------------------------------------------------------------------------
 // Primitives
 //
-// These types are a consistent size on all targets and architectures. 
+// These types are a consistent size on all targets and architectures. All
+// other types may change their size to suit the current platform.
 typedef unsigned NANO_INT8											UInt8;
 typedef unsigned NANO_INT16											UInt16;
 typedef unsigned NANO_INT32											UInt32;
@@ -213,10 +214,11 @@ static const NStatus kNErrTimeout									= -2;
 static const NStatus kNErrMemory									= -3;
 static const NStatus kNErrMalformed									= -4;
 static const NStatus kNErrPermission								= -5;
-static const NStatus kNErrExhaustedSrc								= -6;
-static const NStatus kNErrExhaustedDst								= -7;
-static const NStatus kNErrNotFound									= -8;
-static const NStatus kNErrDiskFull									= -9;
+static const NStatus kNErrDiskFull									= -6;
+static const NStatus kNErrNotFound									= -7;
+static const NStatus kNErrNotSupported								= -8;
+static const NStatus kNErrExhaustedSrc								= -9;
+static const NStatus kNErrExhaustedDst								= -10;
 
 
 
