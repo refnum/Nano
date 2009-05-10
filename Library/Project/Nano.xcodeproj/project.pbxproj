@@ -12,7 +12,7 @@
 		AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AB28FC080FB5D9F000F72C61 /* pcre_dfa_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E90F9B4DD5009FFEAF /* pcre_dfa_exec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB28FC080FB5D9F000F72C61 /* pcre_dfa_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E90F9B4DD5009FFEAF /* pcre_dfa_exec.c */; settings = {COMPILER_FLAGS = "-w -fno-guess-branch-probability"; }; };
 		AB28FC090FB5D9F000F72C61 /* pcre_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EA0F9B4DD5009FFEAF /* pcre_exec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC0A0FB5D9F000F72C61 /* pcre_fullinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EB0F9B4DD5009FFEAF /* pcre_fullinfo.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC0B0FB5D9F000F72C61 /* pcre_get.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EC0F9B4DD5009FFEAF /* pcre_get.c */; settings = {COMPILER_FLAGS = "-w"; }; };
