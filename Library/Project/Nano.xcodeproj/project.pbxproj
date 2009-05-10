@@ -38,14 +38,6 @@
 		AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
 		AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */; };
 		AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
-		AB28FC220FB5D9F000F72C61 /* NMacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */; };
-		AB28FC230FB5D9F000F72C61 /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */; };
-		AB28FC240FB5D9F000F72C61 /* NMacLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155200F9B4DD6009FFEAF /* NMacLock.cpp */; };
-		AB28FC250FB5D9F000F72C61 /* NMacMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */; };
-		AB28FC260FB5D9F000F72C61 /* NMacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */; };
-		AB28FC270FB5D9F000F72C61 /* NMacTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */; };
-		AB28FC280FB5D9F000F72C61 /* NMacThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155250F9B4DD6009FFEAF /* NMacThread.cpp */; };
-		AB28FC290FB5D9F000F72C61 /* NMacTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155260F9B4DD6009FFEAF /* NMacTime.cpp */; };
 		AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155390F9B4DD6009FFEAF /* NAtomicInt.cpp */; };
 		AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553B0F9B4DD6009FFEAF /* NLock.cpp */; };
 		AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
@@ -56,7 +48,6 @@
 		AB28FC310FB5D9F000F72C61 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		AB28FC320FB5D9F000F72C61 /* NDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554A0F9B4DD6009FFEAF /* NDate.cpp */; };
 		AB28FC330FB5D9F000F72C61 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
-		AB28FC340FB5D9F000F72C61 /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554E0F9B4DD6009FFEAF /* NFile.cpp */; };
 		AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */; };
 		AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155520F9B4DD6009FFEAF /* NHashable.cpp */; };
 		AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
@@ -123,7 +114,6 @@
 		AB9155AB0F9B4DD6009FFEAF /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		AB9155AC0F9B4DD6009FFEAF /* NDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554A0F9B4DD6009FFEAF /* NDate.cpp */; };
 		AB9155AD0F9B4DD6009FFEAF /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
-		AB9155AE0F9B4DD6009FFEAF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554E0F9B4DD6009FFEAF /* NFile.cpp */; };
 		AB9155AF0F9B4DD6009FFEAF /* NFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */; };
 		AB9155B00F9B4DD6009FFEAF /* NHashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155520F9B4DD6009FFEAF /* NHashable.cpp */; };
 		AB9155B10F9B4DD6009FFEAF /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
@@ -145,6 +135,24 @@
 		AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
 		AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
+		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
+		ABB95B7D0FB7250100C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
+		ABB95B7E0FB7250100C5A7FF /* NIPhoneFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */; };
+		ABB95B7F0FB7250100C5A7FF /* NIPhoneLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */; };
+		ABB95B800FB7250100C5A7FF /* NIPhoneMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */; };
+		ABB95B810FB7250100C5A7FF /* NIPhoneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */; };
+		ABB95B820FB7250100C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
+		ABB95B830FB7250100C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
+		ABB95B840FB7250100C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
+		ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
+		ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */; };
+		ABB95B870FB7250500C5A7FF /* NIPhoneLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */; };
+		ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */; };
+		ABB95B890FB7250600C5A7FF /* NIPhoneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */; };
+		ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
+		ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
+		ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -245,8 +253,6 @@
 		AB91554B0F9B4DD6009FFEAF /* NDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDate.h; sourceTree = "<group>"; };
 		AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDictionary.cpp; sourceTree = "<group>"; };
 		AB91554D0F9B4DD6009FFEAF /* NDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDictionary.h; sourceTree = "<group>"; };
-		AB91554E0F9B4DD6009FFEAF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
-		AB91554F0F9B4DD6009FFEAF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFunctor.cpp; sourceTree = "<group>"; };
 		AB9155510F9B4DD6009FFEAF /* NFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFunctor.h; sourceTree = "<group>"; };
 		AB9155520F9B4DD6009FFEAF /* NHashable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NHashable.cpp; sourceTree = "<group>"; };
@@ -289,6 +295,17 @@
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFString.cpp; sourceTree = "<group>"; };
+		ABB95B660FB7243700C5A7FF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
+		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
+		ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneDebug.cpp; sourceTree = "<group>"; };
+		ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneFile.cpp; sourceTree = "<group>"; };
+		ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneLock.cpp; sourceTree = "<group>"; };
+		ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneMath.cpp; sourceTree = "<group>"; };
+		ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneSystem.cpp; sourceTree = "<group>"; };
+		ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTarget.cpp; sourceTree = "<group>"; };
+		ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIPhoneTarget.h; sourceTree = "<group>"; };
+		ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneThread.cpp; sourceTree = "<group>"; };
+		ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTime.cpp; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
@@ -357,12 +374,12 @@
 		AB9154E10F9B4DD5009FFEAF /* Nano */ = {
 			isa = PBXGroup;
 			children = (
-				AB9154E20F9B4DD5009FFEAF /* 3rd Party */,
 				AB9155060F9B4DD5009FFEAF /* Application */,
 				AB9155090F9B4DD5009FFEAF /* Core */,
 				AB9155100F9B4DD5009FFEAF /* Events */,
+				ABB95B650FB7243700C5A7FF /* Files */,
+				ABB95B640FB7241B00C5A7FF /* Internal */,
 				AB9155150F9B4DD5009FFEAF /* System */,
-				AB91551C0F9B4DD5009FFEAF /* Targets */,
 				AB9155380F9B4DD6009FFEAF /* Threads */,
 				AB91553D0F9B4DD6009FFEAF /* Types */,
 				AB91556A0F9B4DD6009FFEAF /* Utilities */,
@@ -489,6 +506,7 @@
 				AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */,
 				AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */,
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
+				ABB95B730FB7250100C5A7FF /* iPhone */,
 				AB91551D0F9B4DD5009FFEAF /* Mac */,
 				AB91552E0F9B4DD6009FFEAF /* Windows */,
 			);
@@ -557,8 +575,6 @@
 				AB91554B0F9B4DD6009FFEAF /* NDate.h */,
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
-				AB91554E0F9B4DD6009FFEAF /* NFile.cpp */,
-				AB91554F0F9B4DD6009FFEAF /* NFile.h */,
 				AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */,
 				AB9155510F9B4DD6009FFEAF /* NFunctor.h */,
 				AB9155520F9B4DD6009FFEAF /* NHashable.cpp */,
@@ -606,6 +622,40 @@
 				AB9155760F9B4DD6009FFEAF /* NTimeUtilities.h */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		ABB95B640FB7241B00C5A7FF /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				AB9154E20F9B4DD5009FFEAF /* 3rd Party */,
+				AB91551C0F9B4DD5009FFEAF /* Targets */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		ABB95B650FB7243700C5A7FF /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				ABB95B660FB7243700C5A7FF /* NFile.cpp */,
+				ABB95B670FB7243700C5A7FF /* NFile.h */,
+			);
+			path = Files;
+			sourceTree = "<group>";
+		};
+		ABB95B730FB7250100C5A7FF /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */,
+				ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */,
+				ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */,
+				ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */,
+				ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */,
+				ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */,
+				ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */,
+				ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */,
+				ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */,
+			);
+			path = iPhone;
 			sourceTree = "<group>";
 		};
 		ABCE52F009C8ABC8007B718A /* Configuration */ = {
@@ -678,6 +728,10 @@
 			files = (
 				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
+				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
+				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
+				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
+				AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */,
 				AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */,
 				AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */,
 				AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */,
@@ -700,21 +754,17 @@
 				AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */,
 				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
-				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
-				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
-				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
-				AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */,
+				ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */,
+				ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */,
+				ABB95B870FB7250500C5A7FF /* NIPhoneLock.cpp in Sources */,
+				ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */,
+				ABB95B890FB7250600C5A7FF /* NIPhoneSystem.cpp in Sources */,
+				ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */,
+				ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */,
+				ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */,
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
 				AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */,
 				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
-				AB28FC220FB5D9F000F72C61 /* NMacDebug.cpp in Sources */,
-				AB28FC230FB5D9F000F72C61 /* NMacFile.cpp in Sources */,
-				AB28FC240FB5D9F000F72C61 /* NMacLock.cpp in Sources */,
-				AB28FC250FB5D9F000F72C61 /* NMacMath.cpp in Sources */,
-				AB28FC260FB5D9F000F72C61 /* NMacSystem.cpp in Sources */,
-				AB28FC270FB5D9F000F72C61 /* NMacTarget.cpp in Sources */,
-				AB28FC280FB5D9F000F72C61 /* NMacThread.cpp in Sources */,
-				AB28FC290FB5D9F000F72C61 /* NMacTime.cpp in Sources */,
 				AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */,
 				AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */,
 				AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */,
@@ -725,7 +775,6 @@
 				AB28FC310FB5D9F000F72C61 /* NData.cpp in Sources */,
 				AB28FC320FB5D9F000F72C61 /* NDate.cpp in Sources */,
 				AB28FC330FB5D9F000F72C61 /* NDictionary.cpp in Sources */,
-				AB28FC340FB5D9F000F72C61 /* NFile.cpp in Sources */,
 				AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */,
 				AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */,
 				AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */,
@@ -745,6 +794,7 @@
 				AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */,
 				AB28FC460FB5D9F000F72C61 /* NThreadUtilities.cpp in Sources */,
 				AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */,
+				ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,6 +804,11 @@
 			files = (
 				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
+				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
+				AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */,
+				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
+				AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */,
+				ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */,
 				AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */,
 				AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */,
 				AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */,
@@ -776,10 +831,6 @@
 				AB91558A0F9B4DD6009FFEAF /* pcre_xclass.c in Sources */,
 				AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.12.c in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
-				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
-				AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */,
-				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
-				AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */,
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
 				AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,
@@ -801,7 +852,6 @@
 				AB9155AB0F9B4DD6009FFEAF /* NData.cpp in Sources */,
 				AB9155AC0F9B4DD6009FFEAF /* NDate.cpp in Sources */,
 				AB9155AD0F9B4DD6009FFEAF /* NDictionary.cpp in Sources */,
-				AB9155AE0F9B4DD6009FFEAF /* NFile.cpp in Sources */,
 				AB9155AF0F9B4DD6009FFEAF /* NFunctor.cpp in Sources */,
 				AB9155B00F9B4DD6009FFEAF /* NHashable.cpp in Sources */,
 				AB9155B10F9B4DD6009FFEAF /* NNumber.cpp in Sources */,
@@ -821,6 +871,14 @@
 				AB9155BF0F9B4DD6009FFEAF /* NSystemUtilities.cpp in Sources */,
 				AB9155C00F9B4DD6009FFEAF /* NThreadUtilities.cpp in Sources */,
 				AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */,
+				ABB95B7D0FB7250100C5A7FF /* NIPhoneDebug.cpp in Sources */,
+				ABB95B7E0FB7250100C5A7FF /* NIPhoneFile.cpp in Sources */,
+				ABB95B7F0FB7250100C5A7FF /* NIPhoneLock.cpp in Sources */,
+				ABB95B800FB7250100C5A7FF /* NIPhoneMath.cpp in Sources */,
+				ABB95B810FB7250100C5A7FF /* NIPhoneSystem.cpp in Sources */,
+				ABB95B820FB7250100C5A7FF /* NIPhoneTarget.cpp in Sources */,
+				ABB95B830FB7250100C5A7FF /* NIPhoneThread.cpp in Sources */,
+				ABB95B840FB7250100C5A7FF /* NIPhoneTime.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
