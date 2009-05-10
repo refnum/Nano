@@ -140,7 +140,7 @@ const char *NString::GetUTF8(void) const
 
 	if (theValue->theEncoding != kNStringEncodingUTF8)
 		{
-		mData   = GetData(kNStringEncodingUTF8, sizeof(UTF8Char));
+		mData   = GetData(kNStringEncodingUTF8, true);
 		theData = &mData;
 		}
 
@@ -175,7 +175,7 @@ const UTF16Char *NString::GetUTF16(void) const
 
 	if (theValue->theEncoding != kNStringEncodingUTF16)
 		{
-		mData   = GetData(kNStringEncodingUTF16, sizeof(UTF16Char));
+		mData   = GetData(kNStringEncodingUTF16, true);
 		theData = &mData;
 		}
 
