@@ -137,14 +137,6 @@
 		AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
-		ABB95B7D0FB7250100C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
-		ABB95B7E0FB7250100C5A7FF /* NIPhoneFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */; };
-		ABB95B7F0FB7250100C5A7FF /* NIPhoneLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */; };
-		ABB95B800FB7250100C5A7FF /* NIPhoneMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */; };
-		ABB95B810FB7250100C5A7FF /* NIPhoneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */; };
-		ABB95B820FB7250100C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
-		ABB95B830FB7250100C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
-		ABB95B840FB7250100C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
 		ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
 		ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */; };
 		ABB95B870FB7250500C5A7FF /* NIPhoneLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */; };
@@ -871,14 +863,6 @@
 				AB9155BF0F9B4DD6009FFEAF /* NSystemUtilities.cpp in Sources */,
 				AB9155C00F9B4DD6009FFEAF /* NThreadUtilities.cpp in Sources */,
 				AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */,
-				ABB95B7D0FB7250100C5A7FF /* NIPhoneDebug.cpp in Sources */,
-				ABB95B7E0FB7250100C5A7FF /* NIPhoneFile.cpp in Sources */,
-				ABB95B7F0FB7250100C5A7FF /* NIPhoneLock.cpp in Sources */,
-				ABB95B800FB7250100C5A7FF /* NIPhoneMath.cpp in Sources */,
-				ABB95B810FB7250100C5A7FF /* NIPhoneSystem.cpp in Sources */,
-				ABB95B820FB7250100C5A7FF /* NIPhoneTarget.cpp in Sources */,
-				ABB95B830FB7250100C5A7FF /* NIPhoneThread.cpp in Sources */,
-				ABB95B840FB7250100C5A7FF /* NIPhoneTime.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
