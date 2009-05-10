@@ -124,7 +124,7 @@ UInt32 NChecksum::GetAdler32(NIndex theSize, const void *thePtr, UInt32 prevAdle
 
 
     /* split Adler-32 into component sums */
-    sum2 = (adler >> 16) & 0xffff;
+    sum2 = (((UInt32) adler) >> 16) & 0xffff;
     adler &= 0xffff;
 
     /* in case user likes doing a byte at a time, keep it fast */
