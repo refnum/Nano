@@ -114,7 +114,7 @@ public:
 	const UTF16Char						*GetUTF16(void) const;
 
 	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, bool nullTerminate=false) const;
-	OSStatus							 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	NStatus								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
 
 	// Find a substring

@@ -84,7 +84,7 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 
 
 	// Remove the terminator
-	if (theErr == noErr)
+	if (theErr == kNoErr)
 		RemoveTerminator(dstData, dstEncoding);
 
 	return(theErr);
@@ -177,7 +177,7 @@ NStatus NStringEncoder::ConvertFromUTF8(const NData &srcData, NData &dstData, NS
 	switch (dstEncoding) {
 		case kNStringEncodingUTF8:
 			dstData = srcData;
-			theErr  = noErr;
+			theErr  = kNoErr;
 			break;
 
 		case kNStringEncodingUTF16:
@@ -217,7 +217,7 @@ NStatus NStringEncoder::ConvertFromUTF16(const NData &srcData, NData &dstData, N
 
 		case kNStringEncodingUTF16:
 			dstData = srcData;
-			theErr  = noErr;
+			theErr  = kNoErr;
 			break;
 
 		case kNStringEncodingUTF32:
@@ -257,7 +257,7 @@ NStatus NStringEncoder::ConvertFromUTF32(const NData &srcData, NData &dstData, N
 
 		case kNStringEncodingUTF32:
 			dstData = srcData;
-			theErr  = noErr;
+			theErr  = kNoErr;
 			break;
 
 		default:
@@ -499,7 +499,7 @@ NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData
 //		NStringEncoder::ProcessUnicode : Process a Unicode conversion.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult)
-{	OSStatus	theErr;
+{	NStatus		theErr;
 
 
 

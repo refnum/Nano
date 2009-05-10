@@ -198,7 +198,7 @@ NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
 {	NStringEncoder			theEncoder;
 	const NStringValue		*theValue;
 	NData					theData;
-	OSStatus				theErr;
+	NStatus					theErr;
 
 
 
@@ -206,13 +206,13 @@ NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
 	theValue = GetImmutable();
 	theErr   = theEncoder.Convert(theValue->theData, theData, theValue->theEncoding, theEncoding);
 
-	if (theErr != noErr)
+	if (theErr != kNoErr)
 		NN_LOG("Unable to convert '%@' to encoding %d", *this, theEncoding);
 
 
 
 	// Add the terminator
-	if (theErr == noErr && nullTerminate)
+	if (theErr == kNoErr && nullTerminate)
 		theEncoder.AddTerminator(theData, theEncoding);
 
 	return(theData);
@@ -225,12 +225,12 @@ NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
 //============================================================================
 //		NString::SetData : Set the string.
 //----------------------------------------------------------------------------
-OSStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
+NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 {	NStringEncoding			bestEncoding;
 	NStringEncoder			theEncoder;
 	NStringValue			*theValue;
 	NData					bestData;
-	OSStatus				theErr;
+	NStatus					theErr;
 
 
 
@@ -244,7 +244,7 @@ OSStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 	theErr = theEncoder.Convert(theData, bestData, theEncoding, bestEncoding);
 	NN_ASSERT_NOERR(theErr);
 	
-	if (theErr != noErr)
+	if (theErr != kNoErr)
 		return(theErr);
 
 
@@ -257,7 +257,7 @@ OSStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 
 	ValueChanged(theValue);
 	
-	return(noErr);
+	return(kNoErr);
 }
 
 
@@ -1057,7 +1057,7 @@ const NString& NString::operator += (const NString &theString)
 	NStringEncoder			theEncoder;
 	NStringValue			*theValue;
 	NData					theData;
-	OSStatus				theErr;
+	NStatus					theErr;
 
 
 
@@ -1077,7 +1077,7 @@ const NString& NString::operator += (const NString &theString)
 		theErr = theEncoder.Convert(otherValue->theData, theData, otherValue->theEncoding, theValue->theEncoding);
 		NN_ASSERT_NOERR(theErr);
 		
-		if (theErr == noErr)
+		if (theErr == kNoErr)
 			{
 			theValue->theData += theData;
 			theEncoder.AddTerminator(theValue->theData, theValue->theEncoding);
@@ -1235,8 +1235,8 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 
 	// Get the state we need
 	findRange   = theRange.GetNormalized(GetSize());
-	isBackwards = (theFlags & kNStringBackwards);
-	isPattern   = (theFlags & kNStringPattern);
+	isBackwards = ((theFlags & kNStringBackwards) == kNStringBackwards);
+	isPattern   = ((theFlags & kNStringPattern)   == kNStringPattern);
 
 
 

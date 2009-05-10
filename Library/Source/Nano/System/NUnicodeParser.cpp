@@ -192,7 +192,7 @@ UTF32Char NUnicodeParser::GetChar(NIndex theIndex, bool toLower) const
 
 
 	// Get the result
-	if (theErr == noErr && dstData.GetSize() == sizeof(theChar))
+	if (theErr == kNoErr && dstData.GetSize() == sizeof(theChar))
 		theChar = *((UTF32Char *) dstData.GetData());
 	
 	if (toLower)
