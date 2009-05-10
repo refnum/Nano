@@ -26,9 +26,7 @@
 #include "TBroadcaster.h"
 #include "TListener.h"
 
-#include "TByteSwap.h"
-#include "TChecksum.h"
-#include "TUnicodeParser.h"
+#include "TFile.h"
 
 #include "TTargetDebug.h"
 #include "TTargetFile.h"
@@ -37,6 +35,10 @@
 #include "TTargetSystem.h"
 #include "TTargetThread.h"
 #include "TTargetTime.h"
+
+#include "TByteSwap.h"
+#include "TChecksum.h"
+#include "TUnicodeParser.h"
 
 #include "TAtomicInt.h"
 #include "TLock.h"
@@ -47,7 +49,6 @@
 #include "TData.h"
 #include "TDate.h"
 #include "TDictionary.h"
-#include "TFile.h"
 #include "TNumber.h"
 #include "TPoint.h"
 #include "TRange.h"
@@ -90,15 +91,11 @@ int main(int /*argc*/, const char ** /*argv*/)
 	TListener::Execute();
 	
 	
-	
-	// System
-	TByteSwap::Execute();
-	TChecksum::Execute();
-	TUnicodeParser::Execute();
-	
-	
-	
-	// Targets
+	// Files
+	TFile::Execute();
+
+
+	// Internal/Targets
 	TTargetDebug::Execute();
 	TTargetFile::Execute();
 	TTargetLock::Execute();
@@ -106,6 +103,12 @@ int main(int /*argc*/, const char ** /*argv*/)
 	TTargetSystem::Execute();
 	TTargetThread::Execute();
 	TTargetTime::Execute();
+	
+	
+	// System
+	TByteSwap::Execute();
+	TChecksum::Execute();
+	TUnicodeParser::Execute();
 
 
 
@@ -122,7 +125,6 @@ int main(int /*argc*/, const char ** /*argv*/)
 	TData::Execute();
 	TDate::Execute();
 	TDictionary::Execute();
-	TFile::Execute();
 	TNumber::Execute();
 	TPoint::Execute();
 	TRange::Execute();
