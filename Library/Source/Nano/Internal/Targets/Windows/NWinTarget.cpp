@@ -25,5 +25,7 @@
 //----------------------------------------------------------------------------
 NStatus NWinTarget::ConvertHRESULT(HRESULT theErr)
 {
+	// dair, to do
+	return(kNErrParam);
 }
 
