@@ -42,7 +42,7 @@
 #if NN_TARGET_IPHONE
 	#include <CoreFoundation/CoreFoundation.h>
 	#if defined(__OBJC__)
-		#include <Cocoa/Cocoa.h>
+		#include <Foundation/Foundation.h>
 		#include <UIKit/UIKit.h>
 	#endif
 #endif
