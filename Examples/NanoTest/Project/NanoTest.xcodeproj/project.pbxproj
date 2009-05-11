@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 42;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -81,8 +81,8 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
-		AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
+		AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
+		AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 		ABB95BC10FB726B800C5A7FF /* TTargetThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetThread.h; sourceTree = "<group>"; };
 		ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetTime.cpp; sourceTree = "<group>"; };
 		ABB95BC30FB726B800C5A7FF /* TTargetTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetTime.h; sourceTree = "<group>"; };
-		ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
+		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,9 +220,9 @@
 		AB5B29A909CAD85D008C593C /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */,
-				AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */,
-				AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */,
+				ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */,
+				AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */,
+				AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */,
 			);
 			name = Configuration;
 			path = ../../../Support/Xcode/Configuration;
@@ -592,7 +592,7 @@
 /* Begin XCBuildConfiguration section */
 		C0E91AC608A95435008D54AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */;
+			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.pch";
 				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
@@ -602,7 +602,7 @@
 		};
 		C0E91AC708A95435008D54AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */;
+			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.pch";
 				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";

@@ -298,9 +298,9 @@
 		ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIPhoneTarget.h; sourceTree = "<group>"; };
 		ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneThread.cpp; sourceTree = "<group>"; };
 		ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTime.cpp; sourceTree = "<group>"; };
-		ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
-		ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
-		ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
+		ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
+		ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
+		ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
 		D2AAC06F0554671400DB518D /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -653,9 +653,9 @@
 		ABCE52F009C8ABC8007B718A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				ABE0730D09FBCA1B0031D3D1 /* TargetCommon.xcconfig */,
-				ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */,
-				ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */,
+				ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */,
+				ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */,
+				ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */,
 			);
 			name = Configuration;
 			path = ../../Support/Xcode/Configuration;
@@ -871,7 +871,7 @@
 /* Begin XCBuildConfiguration section */
 		1DEB920208733DBB0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */;
+			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
 				OTHER_CFLAGS = (
@@ -884,7 +884,7 @@
 		};
 		1DEB920308733DBB0010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */;
+			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
 				OTHER_CFLAGS = (
@@ -909,7 +909,7 @@
 		};
 		AB28FBDE0FB5D36300F72C61 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* TargetDebug.xcconfig */;
+			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
 				OTHER_CFLAGS = (
@@ -922,7 +922,7 @@
 		};
 		AB28FBDF0FB5D36300F72C61 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* TargetRelease.xcconfig */;
+			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
 				OTHER_CFLAGS = (
