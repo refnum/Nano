@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -52,6 +52,7 @@
 		ABB95BC90FB726B800C5A7FF /* TTargetThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BC00FB726B800C5A7FF /* TTargetThread.cpp */; };
 		ABB95BCA0FB726B800C5A7FF /* TTargetTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
+		ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +171,8 @@
 		ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetTime.cpp; sourceTree = "<group>"; };
 		ABB95BC30FB726B800C5A7FF /* TTargetTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetTime.h; sourceTree = "<group>"; };
 		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
+		ABEC870A0FC5AF1E003B7166 /* TFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFunctor.h; sourceTree = "<group>"; };
+		ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunctor.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +353,8 @@
 				AB9156110F9B4F37009FFEAF /* TDate.h */,
 				AB9156120F9B4F37009FFEAF /* TDictionary.cpp */,
 				AB9156130F9B4F37009FFEAF /* TDictionary.h */,
+				ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */,
+				ABEC870A0FC5AF1E003B7166 /* TFunctor.h */,
 				AB9156160F9B4F37009FFEAF /* TNumber.cpp */,
 				AB9156170F9B4F37009FFEAF /* TNumber.h */,
 				AB9156180F9B4F37009FFEAF /* TPoint.cpp */,
@@ -485,7 +490,7 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoTest" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* NanoDemo */;
 			projectDirPath = "";
@@ -561,6 +566,7 @@
 				AB91564A0F9B4F37009FFEAF /* TData.cpp in Sources */,
 				AB91564B0F9B4F37009FFEAF /* TDate.cpp in Sources */,
 				AB91564C0F9B4F37009FFEAF /* TDictionary.cpp in Sources */,
+				ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */,
 				AB91564E0F9B4F37009FFEAF /* TNumber.cpp in Sources */,
 				AB91564F0F9B4F37009FFEAF /* TPoint.cpp in Sources */,
 				AB9156500F9B4F37009FFEAF /* TRange.cpp in Sources */,

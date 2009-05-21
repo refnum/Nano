@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Core\TFunctor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Files\TFile.cpp"
 				>
 			</File>
@@ -278,6 +282,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Core\TDictionary.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Core\TFunctor.h"
 				>
 			</File>
 			<File
