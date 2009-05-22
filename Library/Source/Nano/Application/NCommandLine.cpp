@@ -110,7 +110,7 @@ bool NCommandLine::HasArgument(const NString &theArgument) const
 		else
 			theArg = *theIter;
 		
-		theArg.TrimLeft("-");
+		theArg.TrimLeft("-*", kNStringPattern);
 		if (theArg == theArgument)
 			return(true);
 		}
@@ -185,7 +185,7 @@ NString NCommandLine::GetFlagString(const NString &theArgument) const
 			theArg   = theTokens[0];
 			theValue = theTokens[1];
 			
-			theArg.TrimLeft("-");
+			theArg.TrimLeft("-*", kNStringPattern);
 			if (theArg == theArgument)
 				return(theValue);
 			}
