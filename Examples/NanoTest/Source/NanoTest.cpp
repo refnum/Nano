@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "Nano.h"
+#include "NCommandLine.h"
 
 #include "TCFObject.h"
 #include "TCFString.h"
@@ -74,8 +75,13 @@
 //============================================================================
 //		main : Program entry point.
 //----------------------------------------------------------------------------
-int main(int /*argc*/, const char ** /*argv*/)
+int main(int argc, const char **argv)
 {
+
+
+	// Initialise ourselves
+	*NCommandLine::Get() = NCommandLine(argc, argv);
+
 
 
 	// Application

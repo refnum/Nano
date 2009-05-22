@@ -63,8 +63,8 @@ void TCommandLine::Execute(void)
 	// Flags
 	NN_ASSERT(cmdLine.GetFlagSInt32("arg2") == -2);
 	NN_ASSERT(NMathUtilities::AreEqual(cmdLine.GetFlagFloat32("arg3"), 3.0f));
-	NN_ASSERT(cmdLine.GetFlagString("arg4") == kValueString);
-	NN_ASSERT(cmdLine.GetFlagString("arg5") == kValueString);
+	NN_ASSERT(cmdLine.GetFlagString("arg4") == "\"" kValueString "\"");
+	NN_ASSERT(cmdLine.GetFlagString("arg5") ==      kValueString);
 
 
 
@@ -99,6 +99,6 @@ void TCommandLine::Execute(void)
 	NN_ASSERT(theArgs.size() >= 1);
 	
 	theValue = theArgs[0];
-	NN_ASSERT(theValue.GetLower().StartsWith("NanoTest"));
+	NN_ASSERT(theValue.GetLower().Contains("nanotest"));
 }
 
