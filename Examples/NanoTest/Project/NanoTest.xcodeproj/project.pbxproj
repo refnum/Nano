@@ -53,6 +53,7 @@
 		ABB95BCA0FB726B800C5A7FF /* TTargetTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 		ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */; };
+		ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +174,8 @@
 		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 		ABEC870A0FC5AF1E003B7166 /* TFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFunctor.h; sourceTree = "<group>"; };
 		ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunctor.cpp; sourceTree = "<group>"; };
+		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
+		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +262,8 @@
 		AB9155DC0F9B4F37009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */,
+				ABEC885C0FC73DD7003B7166 /* CTestListener.h */,
 				AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */,
 				AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */,
 				AB9156350F9B4F37009FFEAF /* NanoTest.cpp */,
@@ -539,6 +544,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */,
 				AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
 				AB9156900F9B5383009FFEAF /* TCFObject.cpp in Sources */,
