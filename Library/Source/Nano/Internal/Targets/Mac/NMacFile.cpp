@@ -54,15 +54,15 @@ bool NTargetFile::IsFile(const NString &thePath)
 bool NTargetFile::IsDirectory(const NString &thePath)
 {	struct stat		fileInfo;
 	int				sysErr;
-	bool			isFile;
+	bool			isDir;
 
 
 
 	// Check the path
 	sysErr = stat(thePath.GetUTF8(), &fileInfo);
-	isFile = (sysErr == kNoErr && S_ISDIR(fileInfo.st_mode));
+	isDir  = (sysErr == kNoErr && S_ISDIR(fileInfo.st_mode));
 	
-	return(isFile);
+	return(isDir);
 }
 
 
@@ -93,7 +93,7 @@ bool NTargetFile::IsWriteable(const NString &thePath)
 	// Check a file
 	if (S_ISREG(fileInfo.st_mode))
 		{
-		tmpFile = fopen(thePath.GetUTF8(), "wb");
+		tmpFile = fopen(thePath.GetUTF8(), "a");
 		if (tmpFile != NULL)
 			{
 			isWriteable = true;
@@ -159,6 +159,8 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 
 
 	// Get the display name
+	//
+	// Only files that exist have a display name, and so we fall through on errors.
 	if (displayName)
 		{
 		if (cfURL.Set(CFURLCreateWithFileSystemPath(NULL, NCFString(thePath), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
@@ -252,20 +254,15 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(NFileRef theFile, UInt64 theSize)
+NStatus NTargetFile::SetSize(const NString &thePath, UInt64 theSize)
 {	int		sysErr;
 
 
 
-	// Validate our state
-	NN_ASSERT(sizeof(off_t) >= sizeof(UInt64));
-
-
-
-	// Set the position
-	sysErr = fseeko((FILE *) theFile, theSize, SEEK_SET);
+	// Set the file size
+	sysErr = truncate(thePath.GetUTF8(), theSize);
 	NN_ASSERT_NOERR(sysErr);
-	
+
 	return(NMacTarget::ConvertSysErr(sysErr));
 }
 
@@ -289,6 +286,8 @@ NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)
 	// Get the child
 	theChild = thePath;
 	theChild.TrimRight("/");
+
+	theChild += "/";
 	theChild += fileName;
 	
 	return(theChild);
@@ -310,8 +309,8 @@ NString NTargetFile::GetParent(const NString &thePath)
 	// Get the parent
 	slashPos = thePath.Find("/", kNStringBackwards);
 
-	if (slashPos.IsNotEmpty() && slashPos.GetLocation() >= 1)
-		theParent = thePath.GetLeft(slashPos.GetLocation() - 1);
+	if (slashPos.IsNotEmpty())
+		theParent = thePath.GetLeft(slashPos.GetLocation());
 	else
 		theParent = thePath;
 	
@@ -331,7 +330,11 @@ void NTargetFile::Delete(const NString &thePath)
 
 
 	// Delete the file
-	sysErr = unlink(thePath.GetUTF8());
+	if (IsDirectory(thePath))
+		sysErr = rmdir( thePath.GetUTF8());
+	else
+		sysErr = unlink(thePath.GetUTF8());
+
 	NN_ASSERT_NOERR(sysErr);
 }
 
@@ -382,15 +385,18 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //----------------------------------------------------------------------------
 NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission)
 {	FILE	*theFile;
-	int		sysErr;
+	int		theFD;
 
 
 
 	// Create the file
 	if (!Exists(thePath))
 		{
-		sysErr = creat(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
-		NN_ASSERT_NOERR(sysErr);
+		theFD = creat(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
+		if (theFD == 0)
+			return(NULL);
+		
+		close(theFD);
 		}
 
 

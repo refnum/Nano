@@ -114,7 +114,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(NFileRef theFile, UInt64 theSize)
+NStatus NTargetFile::SetSize(const NString &thePath, UInt64 theSize)
 {
 	// dair, to do
 	return(kNErrParam);

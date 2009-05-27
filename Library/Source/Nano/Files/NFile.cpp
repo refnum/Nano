@@ -318,8 +318,11 @@ NStatus NFile::SetExtension(const NString &theExtension, bool renameFile)
 	// Construct the new name
 	theName      = GetName();
 	oldExtension = GetExtension();
-
-	theName  = theName.GetLeft(theName.GetSize() - oldExtension.GetSize());
+	
+	if (oldExtension.IsNotEmpty())
+		theName = theName.GetLeft(theName.GetSize() - (oldExtension.GetSize() + 1));
+	
+	theName += ".";
 	theName += theExtension;
 
 
@@ -339,8 +342,9 @@ UInt64 NFile::GetSize(void) const
 {
 
 
-	// Validate our state
-	NN_ASSERT(IsFile());
+	// Check our state
+	if (NotExists() || !IsFile())
+		return(0);
 
 
 
@@ -360,14 +364,14 @@ NStatus NFile::SetSize(UInt64 theSize)
 
 
 
-	// Validate our state
-	NN_ASSERT(IsFile());
-	NN_ASSERT(IsOpen());
+	// Create the file if necessary
+	if (NotExists())
+		CreateFile();
 
 
 
 	// Set the size
-	theErr = NTargetFile::SetSize(mFile, theSize);
+	theErr = NTargetFile::SetSize(mPath, theSize);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);
@@ -415,7 +419,7 @@ void NFile::Delete(void)
 
 
 	// Validate our state
-	NN_ASSERT(IsFile());
+	NN_ASSERT(Exists());
 
 
 
@@ -428,10 +432,42 @@ void NFile::Delete(void)
 
 
 //============================================================================
+//        NFile::CreateFile : Create a file.
+//----------------------------------------------------------------------------
+NStatus NFile::CreateFile(void)
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(!Exists());
+
+
+
+	// Create a file
+	theErr = Open(kFilePermissionWrite, true);
+	NN_ASSERT_NOERR(theErr);
+
+	if (theErr == noErr)
+		Close();
+	
+	return(theErr);
+}
+		
+		
+
+
+
+//============================================================================
 //        NFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NFile::CreateDirectory(void)
 {	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(!Exists());
 
 
 
@@ -474,7 +510,6 @@ NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
 
 
 	// Validate our state
-	NN_ASSERT(IsFile());
 	NN_ASSERT(!IsOpen());
 
 
@@ -504,7 +539,7 @@ void NFile::Close(void)
 
 
 	// Validate our state
-	NN_ASSERT(IsFile());
+	NN_ASSERT(Exists() ? IsFile() : true);
 	NN_ASSERT(IsOpen());
 
 
@@ -583,7 +618,7 @@ NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 
 	// Read the file
 	theErr = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, thePosition);
-	NN_ASSERT_NOERR(theErr);
+	NN_ASSERT(theErr == kNoErr || theErr == kNErrExhaustedSrc);
 	
 	return(theErr);
 }

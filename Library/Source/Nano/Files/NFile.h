@@ -140,7 +140,8 @@ public:
 	void								Delete(void);
 
 
-	// Create a directory
+	// Create a file/directory
+	NStatus								CreateFile(     void);
 	NStatus								CreateDirectory(void);
 
 

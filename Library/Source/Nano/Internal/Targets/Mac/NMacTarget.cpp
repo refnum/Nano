@@ -194,7 +194,7 @@ const char *NMacTarget::ConvertPermission(NFilePermission thePermission)
 	// Convert the value
 	switch (thePermission) {
 		case kFilePermissionRead:			theResult = "r";		break;
-		case kFilePermissionWrite:			theResult = "w";		break;
+		case kFilePermissionWrite:			theResult = "a";		break;
 		case kFilePermissionReadWrite:		theResult = "r+";		break;
 
 		default:
