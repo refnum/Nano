@@ -160,6 +160,7 @@ public:
 	// Extract a substring
 	NString								GetLeft( NIndex theSize)          const;
 	NString								GetRight(NIndex theSize)          const;
+	NString								GetString(NIndex thePosition)     const;
 	NString								GetString(const NRange &theRange) const;
 
 

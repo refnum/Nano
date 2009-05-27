@@ -780,6 +780,26 @@ NString NString::GetRight(NIndex theSize) const
 //============================================================================
 //		NString::GetString : Get a substring.
 //----------------------------------------------------------------------------
+NString NString::GetString(NIndex thePosition) const
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(thePosition >= 0 && thePosition < GetSize());
+
+
+
+	// Get the substring
+	return(GetString(NRange(thePosition, kNStringLength)));
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetString : Get a substring.
+//----------------------------------------------------------------------------
 NString NString::GetString(const NRange &theRange) const
 {	NIndex					offsetFirst, offsetLast;
 	NRange					subRange, byteRange;
@@ -1257,11 +1277,13 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 		if (isBackwards)
 			{
 			theResults = FindString( theString, theFlags, findRange, true);
-			
-			if (doAll)
-				reverse(theResults);
-			else
-				theResults = vector(theResults.back());
+			if (!theResults.empty())
+				{
+				if (doAll)
+					reverse(theResults);
+				else
+					theResults = vector(theResults.back());
+				}
 			}
 		else
 			theResults = FindString( theString, theFlags, findRange, doAll);

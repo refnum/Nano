@@ -226,6 +226,11 @@ void TString::Execute(void)
 	NN_ASSERT(testString1.GetRight(30) == "GetRight");
 
 	testString1 = "GetString";
+	NN_ASSERT(testString1.GetString(0)  == "GetString");
+	NN_ASSERT(testString1.GetString(3)  == "String");
+	NN_ASSERT(testString1.GetString(30) == "");
+
+	testString1 = "GetString";
 	NN_ASSERT(testString1.GetString(kNRangeNone)             == "");
 	NN_ASSERT(testString1.GetString(kNRangeAll)              == "GetString");
 	NN_ASSERT(testString1.GetString(NRange(5,  3))           == "rin");
