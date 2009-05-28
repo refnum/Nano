@@ -44,13 +44,6 @@
 		AB9156900F9B5383009FFEAF /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91568C0F9B5383009FFEAF /* TCFObject.cpp */; };
 		AB9156910F9B5383009FFEAF /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91568E0F9B5383009FFEAF /* TCFString.cpp */; };
 		ABB95BB00FB726A500C5A7FF /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BAE0FB726A500C5A7FF /* TFile.cpp */; };
-		ABB95BC40FB726B800C5A7FF /* TTargetDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BB60FB726B800C5A7FF /* TTargetDebug.cpp */; };
-		ABB95BC50FB726B800C5A7FF /* TTargetFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BB80FB726B800C5A7FF /* TTargetFile.cpp */; };
-		ABB95BC60FB726B800C5A7FF /* TTargetLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BBA0FB726B800C5A7FF /* TTargetLock.cpp */; };
-		ABB95BC70FB726B800C5A7FF /* TTargetMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BBC0FB726B800C5A7FF /* TTargetMath.cpp */; };
-		ABB95BC80FB726B800C5A7FF /* TTargetSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BBE0FB726B800C5A7FF /* TTargetSystem.cpp */; };
-		ABB95BC90FB726B800C5A7FF /* TTargetThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BC00FB726B800C5A7FF /* TTargetThread.cpp */; };
-		ABB95BCA0FB726B800C5A7FF /* TTargetTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 		ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */; };
 		ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */; };
@@ -157,20 +150,6 @@
 		AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.pch"; sourceTree = "<group>"; };
 		ABB95BAE0FB726A500C5A7FF /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
 		ABB95BAF0FB726A500C5A7FF /* TFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFile.h; sourceTree = "<group>"; };
-		ABB95BB60FB726B800C5A7FF /* TTargetDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetDebug.cpp; sourceTree = "<group>"; };
-		ABB95BB70FB726B800C5A7FF /* TTargetDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetDebug.h; sourceTree = "<group>"; };
-		ABB95BB80FB726B800C5A7FF /* TTargetFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetFile.cpp; sourceTree = "<group>"; };
-		ABB95BB90FB726B800C5A7FF /* TTargetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetFile.h; sourceTree = "<group>"; };
-		ABB95BBA0FB726B800C5A7FF /* TTargetLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetLock.cpp; sourceTree = "<group>"; };
-		ABB95BBB0FB726B800C5A7FF /* TTargetLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetLock.h; sourceTree = "<group>"; };
-		ABB95BBC0FB726B800C5A7FF /* TTargetMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetMath.cpp; sourceTree = "<group>"; };
-		ABB95BBD0FB726B800C5A7FF /* TTargetMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetMath.h; sourceTree = "<group>"; };
-		ABB95BBE0FB726B800C5A7FF /* TTargetSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetSystem.cpp; sourceTree = "<group>"; };
-		ABB95BBF0FB726B800C5A7FF /* TTargetSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetSystem.h; sourceTree = "<group>"; };
-		ABB95BC00FB726B800C5A7FF /* TTargetThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetThread.cpp; sourceTree = "<group>"; };
-		ABB95BC10FB726B800C5A7FF /* TTargetThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetThread.h; sourceTree = "<group>"; };
-		ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTargetTime.cpp; sourceTree = "<group>"; };
-		ABB95BC30FB726B800C5A7FF /* TTargetTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTargetTime.h; sourceTree = "<group>"; };
 		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 		ABEC870A0FC5AF1E003B7166 /* TFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFunctor.h; sourceTree = "<group>"; };
 		ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunctor.cpp; sourceTree = "<group>"; };
@@ -281,7 +260,6 @@
 				AB9155E40F9B4F37009FFEAF /* Core */,
 				AB9155E70F9B4F37009FFEAF /* Events */,
 				ABB95BAD0FB726A500C5A7FF /* Files */,
-				ABB95BB40FB726B800C5A7FF /* Internal */,
 				AB9155EC0F9B4F37009FFEAF /* System */,
 				AB9156020F9B4F37009FFEAF /* Threads */,
 				AB9156070F9B4F37009FFEAF /* Types */,
@@ -429,35 +407,6 @@
 			path = Files;
 			sourceTree = "<group>";
 		};
-		ABB95BB40FB726B800C5A7FF /* Internal */ = {
-			isa = PBXGroup;
-			children = (
-				ABB95BB50FB726B800C5A7FF /* Targets */,
-			);
-			path = Internal;
-			sourceTree = "<group>";
-		};
-		ABB95BB50FB726B800C5A7FF /* Targets */ = {
-			isa = PBXGroup;
-			children = (
-				ABB95BB60FB726B800C5A7FF /* TTargetDebug.cpp */,
-				ABB95BB70FB726B800C5A7FF /* TTargetDebug.h */,
-				ABB95BB80FB726B800C5A7FF /* TTargetFile.cpp */,
-				ABB95BB90FB726B800C5A7FF /* TTargetFile.h */,
-				ABB95BBA0FB726B800C5A7FF /* TTargetLock.cpp */,
-				ABB95BBB0FB726B800C5A7FF /* TTargetLock.h */,
-				ABB95BBC0FB726B800C5A7FF /* TTargetMath.cpp */,
-				ABB95BBD0FB726B800C5A7FF /* TTargetMath.h */,
-				ABB95BBE0FB726B800C5A7FF /* TTargetSystem.cpp */,
-				ABB95BBF0FB726B800C5A7FF /* TTargetSystem.h */,
-				ABB95BC00FB726B800C5A7FF /* TTargetThread.cpp */,
-				ABB95BC10FB726B800C5A7FF /* TTargetThread.h */,
-				ABB95BC20FB726B800C5A7FF /* TTargetTime.cpp */,
-				ABB95BC30FB726B800C5A7FF /* TTargetTime.h */,
-			);
-			path = Targets;
-			sourceTree = "<group>";
-		};
 		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -554,13 +503,6 @@
 				AB9156390F9B4F37009FFEAF /* TBroadcaster.cpp in Sources */,
 				AB91563A0F9B4F37009FFEAF /* TListener.cpp in Sources */,
 				ABB95BB00FB726A500C5A7FF /* TFile.cpp in Sources */,
-				ABB95BC40FB726B800C5A7FF /* TTargetDebug.cpp in Sources */,
-				ABB95BC50FB726B800C5A7FF /* TTargetFile.cpp in Sources */,
-				ABB95BC60FB726B800C5A7FF /* TTargetLock.cpp in Sources */,
-				ABB95BC70FB726B800C5A7FF /* TTargetMath.cpp in Sources */,
-				ABB95BC80FB726B800C5A7FF /* TTargetSystem.cpp in Sources */,
-				ABB95BC90FB726B800C5A7FF /* TTargetThread.cpp in Sources */,
-				ABB95BCA0FB726B800C5A7FF /* TTargetTime.cpp in Sources */,
 				AB91563B0F9B4F37009FFEAF /* TByteSwap.cpp in Sources */,
 				AB91563C0F9B4F37009FFEAF /* TChecksum.cpp in Sources */,
 				AB91563D0F9B4F37009FFEAF /* TUnicodeParser.cpp in Sources */,

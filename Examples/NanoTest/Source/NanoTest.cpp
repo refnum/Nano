@@ -29,14 +29,6 @@
 
 #include "TFile.h"
 
-#include "TTargetDebug.h"
-#include "TTargetFile.h"
-#include "TTargetLock.h"
-#include "TTargetMath.h"
-#include "TTargetSystem.h"
-#include "TTargetThread.h"
-#include "TTargetTime.h"
-
 #include "TByteSwap.h"
 #include "TChecksum.h"
 #include "TUnicodeParser.h"
@@ -102,16 +94,6 @@ int main(int argc, const char **argv)
 	TFile::Execute();
 
 
-	// Internal/Targets
-	TTargetDebug::Execute();
-	TTargetFile::Execute();
-	TTargetLock::Execute();
-	TTargetMath::Execute();
-	TTargetSystem::Execute();
-	TTargetThread::Execute();
-	TTargetTime::Execute();
-	
-	
 	// System
 	TByteSwap::Execute();
 	TChecksum::Execute();
