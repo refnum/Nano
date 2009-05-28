@@ -785,7 +785,13 @@ NString NString::GetString(NIndex thePosition) const
 
 
 	// Validate our parameters
-	NN_ASSERT(thePosition >= 0 && thePosition < GetSize());
+	NN_ASSERT(thePosition >= 0);
+
+
+
+	// Check the size
+	if (thePosition >= GetSize())
+		return("");
 
 
 
