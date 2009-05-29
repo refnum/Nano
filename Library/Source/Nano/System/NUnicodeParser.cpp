@@ -350,11 +350,11 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(void) const
 	while (n < theSize)
 		{
 		// Get the character
-		NN_ASSERT(n >= 0 && n < (NIndex) sizeof(kUTF8TrailingBytes));
-		theChar  = *((const UTF8Char *) &theData[n]);
-		charSize = kUTF8TrailingBytes[n] + 1;
-		
-		
+		theChar = *((const UTF8Char *) &theData[n]);
+		charSize = kUTF8TrailingBytes[theChar] + 1;
+		NN_ASSERT(charSize >= 1 && charSize <= 6);
+
+
 		// Break on NULL
 		if (theChar == 0x00)
 			break;
