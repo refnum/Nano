@@ -1,0 +1,261 @@
+#!/usr/bin/ruby -w
+#============================================================================
+#	NAME:
+#		nqmake
+#
+#	DESCRIPTION:
+#		Nano-aware wrapper around Qt's qmake.
+#	
+#	COPYRIGHT:
+#		Copyright (c) 2009, refNum Software
+#		<http://www.refnum.com/>
+#
+#		All rights reserved.
+#============================================================================
+#		Imports
+#----------------------------------------------------------------------------
+
+
+
+
+
+#============================================================================
+#		XCProject : Xcode project object.
+#----------------------------------------------------------------------------
+class XCProject
+	#========================================================================
+	#		initialize : Initializer.
+	#------------------------------------------------------------------------
+	def initialize(qtProject)
+	
+		# Check our parameters
+		raise("Unable to find .pro") if qtProject.nil?;
+		
+		
+		
+		# Initialise ourselves
+		projectName  = File.basename(qtProject).sub(".pro", ".xcodeproj");
+		@projectPath = File.dirname(qtProject) + "/" + projectName + "/project.pbxproj";
+
+	end
+
+
+
+
+
+	#========================================================================
+	#		loadProject : Load the project.
+	#------------------------------------------------------------------------
+	def loadProject()
+	
+		# Load the project
+		@theState = IO.read(@projectPath);
+			@theState.gsub!(/\\"/,       '__QUOTE__');
+			@theState.gsub!(/(".*?")/m,   '\'\1\'');
+			@theState.gsub!('__QUOTE__', '\\"');
+
+			@theState.gsub!(" = ", " => ");
+			@theState.gsub!(";",   ",");
+
+			@theState.gsub!("(", "[");
+			@theState.gsub!(")", "]");
+
+			@theState.gsub!(/(\w+) =/,  '"\1" =');
+			@theState.gsub!(/=> ([^'].*[^']),/, '=> \'\1\',');
+
+			@theState.sub!('// !$*UTF8*$!', "@theState = ");
+		eval(@theState);
+
+	end
+
+
+
+
+
+	#========================================================================
+	#		saveProject : Save the project.
+	#------------------------------------------------------------------------
+	def saveProject
+	
+		# Save the project
+		theProject = "// !$*UTF8*$!\n";
+		theProject += flattenHash(1, @theState);
+		
+		File.open(@projectPath, 'w') {|theFile| theFile.write(theProject) }
+		
+	end
+
+
+
+
+
+	#========================================================================
+	#		flattenHash : Flatten a hash.
+	#------------------------------------------------------------------------
+	def flattenHash(theIndent, theHash)
+	
+		# Get the state we need
+		theResult = "{\n"
+		thePrefix = Array.new(theIndent, "\t").join();
+
+
+
+		# Flatten the hash
+		theHash.each_key do |theKey|
+
+			theValue   = theHash[theKey];
+			theResult += thePrefix + "#{theKey} = ";
+			
+			if theValue.is_a?(Array):
+				theResult += flattenArray(theIndent+1, theValue);
+			
+			elsif theValue.is_a?(Hash):
+				theResult += flattenHash(theIndent+1,  theValue);
+			
+			else
+				theResult += "#{ flattenValue(theValue) }";
+			end
+			
+			theResult += ";\n";
+		end
+		
+		
+		
+		# Close the value
+		theResult += thePrefix.chop() + "}"
+
+		return(theResult);
+
+	end
+
+
+
+
+
+	#========================================================================
+	#		flattenArray : Flatten an array.
+	#------------------------------------------------------------------------
+	def flattenArray(theIndent, theArray)
+	
+		# Get the state we need
+		theResult = "(\n"
+		thePrefix = Array.new(theIndent, "\t").join();
+
+
+
+		# Flatten the array
+		theArray.each do |theValue|
+			theResult += thePrefix;
+			
+			if theValue.is_a?(Array):
+				theResult += flattenArray(theIndent+1, theValue);
+			
+			elsif theValue.is_a?(Hash):
+				theResult += flattenHash(theIndent+1,  theValue);
+			
+			else
+				theResult += flattenValue(theValue);
+			end
+			
+			theResult += ",\n";
+		end
+		
+		
+		
+		# Close the value
+		theResult += "\n" if theResult.chomp!(",\n");
+		theResult += thePrefix.chop() + ")"
+
+		return(theResult);
+
+	end
+
+
+
+
+
+	#========================================================================
+	#		flattenValue : Flatten a value.
+	#------------------------------------------------------------------------
+	def flattenValue(theValue)
+
+		return(theValue);
+
+	end
+end
+
+
+
+
+
+#============================================================================
+#		findQtProject : Find the Qt project.
+#----------------------------------------------------------------------------
+def findQtProject
+
+	# Check the command line
+	if (ARGV.last != nil):
+		return(ARGV.last);
+	end
+
+
+
+	# Or search for a file
+	thePath = Dir.getwd + "/*.pro";
+	thePath = Dir[thePath].first;
+	
+	return(thePath);
+
+end
+
+
+
+
+
+#============================================================================
+#		createProject : Create the project.
+#----------------------------------------------------------------------------
+def createProject
+
+	# Create the project
+	#
+	# qmake is silent if successful, so we halt on any output.
+	theErr = `qmake #{ ARGV.join(' ') } 2>&1`.chomp;
+	if !theErr.empty?:
+		puts theErr + "\n";
+		exit;
+	end
+
+end
+
+
+
+
+
+#============================================================================
+#		updateProject : Update the project.
+#----------------------------------------------------------------------------
+def updateProject
+
+	# Get the state we need
+	qtProject = findQtProject();
+	xcProject = XCProject.new(qtProject);
+
+
+
+	# Update the project
+	xcProject.loadProject();
+	xcProject.saveProject();
+
+end
+
+
+
+
+
+#============================================================================
+#		nqmake : Nano qmake.
+#----------------------------------------------------------------------------
+createProject();
+updateProject();
+
