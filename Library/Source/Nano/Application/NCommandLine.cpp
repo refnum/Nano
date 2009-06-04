@@ -123,10 +123,10 @@ bool NCommandLine::HasArgument(const NString &theArgument) const
 
 
 //============================================================================
-//		NCommandLine::GetFlagSInt32 : Get a SInt32 flag value.
+//		NCommandLine::GetFlagSInt64 : Get a SInt64 flag value.
 //----------------------------------------------------------------------------
-SInt32 NCommandLine::GetFlagSInt32(const NString &theArgument) const
-{	SInt32		theResult;
+SInt64 NCommandLine::GetFlagSInt64(const NString &theArgument) const
+{	SInt64		theResult;
 	NNumber		theNumber;
 
 
@@ -135,7 +135,7 @@ SInt32 NCommandLine::GetFlagSInt32(const NString &theArgument) const
 	theResult = 0;
 
 	if (theNumber.SetValue(GetFlagString(theArgument)))
-		theNumber.GetValueSInt32(theResult);
+		theNumber.GetValueSInt64(theResult);
 
 	return(theResult);
 }
@@ -145,19 +145,19 @@ SInt32 NCommandLine::GetFlagSInt32(const NString &theArgument) const
 
 
 //============================================================================
-//		NCommandLine::GetFlagFloat32 : Get a Float32 flag value.
+//		NCommandLine::GetFlagFloat64 : Get a Float64 flag value.
 //----------------------------------------------------------------------------
-Float32 NCommandLine::GetFlagFloat32(const NString &theArgument) const
-{	Float32		theResult;
+Float64 NCommandLine::GetFlagFloat64(const NString &theArgument) const
+{	Float64		theResult;
 	NNumber		theNumber;
 
 
 
 	// Get the value
-	theResult = 0.0f;
+	theResult = 0.0;
 
 	if (theNumber.SetValue(GetFlagString(theArgument)))
-		theNumber.GetValueFloat32(theResult);
+		theNumber.GetValueFloat64(theResult);
 
 	return(theResult);
 }
