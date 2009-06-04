@@ -680,7 +680,8 @@ bool NNumber::SetValue(const NString &theValue)
 
 	else if (sscanf(theValue.GetUTF8(), "%lld",   &valueInteger) == 1 ||
 			 sscanf(theValue.GetUTF8(), "%llx",   &valueInteger) == 1 ||
-			 sscanf(theValue.GetUTF8(), "0x%llx", &valueInteger) == 1)
+			 sscanf(theValue.GetUTF8(), "0x%llx", &valueInteger) == 1 ||
+			 sscanf(theValue.GetUTF8(), "0X%llx", &valueInteger) == 1)
 		{
 		SetValueSInt64(valueInteger);
 		return(true);
