@@ -49,22 +49,22 @@ class XCProject
 	def loadProject()
 	
 		# Load the project
-		@theState = IO.read(@projectPath);
-			@theState.gsub!(/\\"/,       '__QUOTE__');
-			@theState.gsub!(/(".*?")/m,   '\'\1\'');
-			@theState.gsub!('__QUOTE__', '\\"');
+		@projectState = IO.read(@projectPath);
+			@projectState.gsub!(/\\"/,       '__QUOTE__');
+			@projectState.gsub!(/(".*?")/m,   '\'\1\'');
+			@projectState.gsub!('__QUOTE__', '\\"');
 
-			@theState.gsub!(" = ", " => ");
-			@theState.gsub!(";",   ",");
+			@projectState.gsub!(" = ", " => ");
+			@projectState.gsub!(";",   ",");
 
-			@theState.gsub!("(", "[");
-			@theState.gsub!(")", "]");
+			@projectState.gsub!("(", "[");
+			@projectState.gsub!(")", "]");
 
-			@theState.gsub!(/(\w+) =/,  '"\1" =');
-			@theState.gsub!(/=> ([^'].*[^']),/, '=> \'\1\',');
+			@projectState.gsub!(/(\w+) =/,  '"\1" =');
+			@projectState.gsub!(/=> ([^'].*[^']),/, '=> \'\1\',');
 
-			@theState.sub!('// !$*UTF8*$!', "@theState = ");
-		eval(@theState);
+			@projectState.sub!('// !$*UTF8*$!', "@projectState = ");
+		eval(@projectState);
 
 	end
 
@@ -79,10 +79,129 @@ class XCProject
 	
 		# Save the project
 		theProject = "// !$*UTF8*$!\n";
-		theProject += flattenHash(1, @theState);
+		theProject += flattenHash(1, @projectState);
 		
 		File.open(@projectPath, 'w') {|theFile| theFile.write(theProject) }
 		
+	end
+
+
+
+
+
+	#========================================================================
+	#		modifyBuildMake : Modify the makefile build phase.
+	#------------------------------------------------------------------------
+	def modifyBuildMake
+	
+		# Replace absolute paths
+		#
+		# qmake uses absolute paths for its shell script phases.
+		#
+		# These can be turned into relative paths from PROJECT_DIR, allowing the
+		# project to be checked into source control and shared between developers.
+		findObjects("PBXShellScriptBuildPhase") do |theID, theState|
+
+			if (theState["shellScript"] != nil):
+				theState["shellScript"].sub!(Dir.getwd, '$PROJECT_DIR');
+			end
+
+		end
+	
+	end
+
+
+
+
+
+	#========================================================================
+	#		modifyBuildCopy : Modify the copy build phase.
+	#------------------------------------------------------------------------
+	def modifyBuildCopy
+	
+		# Get the state we need
+		theIDs = Array.new;
+
+
+		# Identify the copy build phase
+		#
+		# qmake generates a build phase which copies the app into the same
+		# directory as the .pro file.
+		#
+		# Since this area is under source control, we remove this step to let
+		# deveopers use the Xcode build products preference to control where
+		# the output is placed.
+		findObjects("PBXCopyFilesBuildPhase") do |theID, theState|
+
+			theState["files"].each do |fileID|
+				theIDs.push(fileID);
+			end
+		
+			theIDs.push(theID);
+		end
+
+
+		# Remove the build phase
+		removeObjects(theIDs);
+	
+	end
+
+
+
+
+
+	#========================================================================
+	#		modifyProjectRoot : Modify the project root.
+	#------------------------------------------------------------------------
+	def modifyProjectRoot
+	
+		# Set the project root
+		#
+		# qmake does not generate a projectRoot value for the project.
+		#
+		# This causes Xcode 3 to prompt the user for this value whe the project
+		# is first opened, so we define it for them.
+		findObjects("PBXProject") do |theID, theState|
+			theState["projectRoot"] = '""';
+		end
+	
+	end
+
+
+
+
+
+	#========================================================================
+	#		findObjects : Find objects of a given type.
+	#------------------------------------------------------------------------
+	def findObjects(theType)
+	
+		# Walk the objects
+		@projectState["objects"].each_pair do |theKey, theValue|
+
+			if (theValue["isa"] == theType):
+				yield(theKey, theValue);
+			end
+
+		end
+	
+	end
+
+
+
+
+
+	#========================================================================
+	#		removeObjects : Remove objects.
+	#------------------------------------------------------------------------
+	def removeObjects(theIDs)
+	
+		# Remove the objects
+		theIDs.each do |theID|
+			theID.gsub!('"', '');
+			@projectState["objects"].delete(theID);
+		end
+	
 	end
 
 
@@ -101,9 +220,7 @@ class XCProject
 
 
 		# Flatten the hash
-		theHash.each_key do |theKey|
-
-			theValue   = theHash[theKey];
+		theHash.each_pair do |theKey, theValue|
 			theResult += thePrefix + "#{theKey} = ";
 			
 			if theValue.is_a?(Array):
@@ -113,7 +230,7 @@ class XCProject
 				theResult += flattenHash(theIndent+1,  theValue);
 			
 			else
-				theResult += "#{ flattenValue(theValue) }";
+				theResult += flattenValue(theValue);
 			end
 			
 			theResult += ";\n";
@@ -175,13 +292,14 @@ class XCProject
 
 
 	#========================================================================
-	#		flattenValue : Flatten a value.
+	#        flattenValue : Flatten a value.
 	#------------------------------------------------------------------------
 	def flattenValue(theValue)
 
-		return(theValue);
-
+		return("#{theValue}");
+	
 	end
+
 end
 
 
@@ -245,6 +363,9 @@ def updateProject
 
 	# Update the project
 	xcProject.loadProject();
+	xcProject.modifyBuildMake();
+	xcProject.modifyBuildCopy();
+	xcProject.modifyProjectRoot();
 	xcProject.saveProject();
 
 end
