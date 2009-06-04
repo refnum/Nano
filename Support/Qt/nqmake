@@ -83,6 +83,9 @@ class XCProject
 		
 		File.open(@projectPath, 'w') {|theFile| theFile.write(theProject) }
 		
+		# dair
+		puts theProject;
+		
 	end
 
 
@@ -165,6 +168,32 @@ class XCProject
 			theState["projectRoot"] = '""';
 		end
 	
+	end
+
+
+
+
+
+	#========================================================================
+	#		modifyProjectPList : Modify the project Info.plist.
+	#------------------------------------------------------------------------
+	def modifyProjectPList
+	
+		# Adjust the project
+		#
+		# qmake generates a template Info.plist in the project directory.
+		#
+		# We replace this with a custom Info.plist in the Resources directory.
+		findObjects("PBXNativeTarget") do |theID, theState|
+			theState["buildSettings"]["INFOPLIST_FILE"] = '"../Resources/Info.plist"';
+			theState.delete("productSettingsXML");
+		end
+		
+		
+		
+		# Remove the qmake file
+		File.unlink(Dir.getwd + "/Info.plist");
+
 	end
 
 
@@ -366,6 +395,7 @@ def updateProject
 	xcProject.modifyBuildMake();
 	xcProject.modifyBuildCopy();
 	xcProject.modifyProjectRoot();
+	xcProject.modifyProjectPList();
 	xcProject.saveProject();
 
 end
