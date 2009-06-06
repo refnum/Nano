@@ -137,7 +137,7 @@ class XCProject
 		findObjects("PBXCopyFilesBuildPhase") do |theID, theState|
 
 			theState["files"].each do |fileID|
-				theIDs.push(fileID);
+				theIDs.push(dequoteValue(fileID));
 			end
 		
 			theIDs.push(theID);
@@ -204,7 +204,7 @@ class XCProject
 	#		findObjects : Find objects of a given type.
 	#------------------------------------------------------------------------
 	def findObjects(theType)
-	
+
 		# Walk the objects
 		@projectState["objects"].each_pair do |theKey, theValue|
 
@@ -227,10 +227,27 @@ class XCProject
 	
 		# Remove the objects
 		theIDs.each do |theID|
-			theID.gsub!('"', '');
 			@projectState["objects"].delete(theID);
 		end
 	
+	end
+
+
+
+
+
+	#========================================================================
+	#        objectID : Create a unique object ID.
+	#------------------------------------------------------------------------
+	def objectID
+
+		loop do
+			theID = (0...12).map { '%02X' % rand(256) }.join;
+			if (! @projectState["objects"].has_key?(theID)):
+				return(theID);
+			end
+		end
+
 	end
 
 
@@ -259,7 +276,7 @@ class XCProject
 				theResult += flattenHash(theIndent+1,  theValue);
 			
 			else
-				theResult += flattenValue(theValue);
+				theResult += enquoteValue(theValue);
 			end
 			
 			theResult += ";\n";
@@ -300,7 +317,7 @@ class XCProject
 				theResult += flattenHash(theIndent+1,  theValue);
 			
 			else
-				theResult += flattenValue(theValue);
+				theResult += enquoteValue(theValue);
 			end
 			
 			theResult += ",\n";
@@ -321,11 +338,28 @@ class XCProject
 
 
 	#========================================================================
-	#        flattenValue : Flatten a value.
+	#        enquoteValue : Enquote a value.
 	#------------------------------------------------------------------------
-	def flattenValue(theValue)
+	def enquoteValue(theValue)
 
 		return("#{theValue}");
+	
+	end
+
+
+
+
+
+	#========================================================================
+	#        dequoteValue : Dequote a value.
+	#------------------------------------------------------------------------
+	def dequoteValue(theValue)
+
+		if (theValue =~ /"(.*)"/):
+			theValue = $1;
+		end
+		
+		return(theValue);
 	
 	end
 
