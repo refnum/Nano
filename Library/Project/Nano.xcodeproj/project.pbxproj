@@ -135,6 +135,8 @@
 		AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
 		AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
+		ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
@@ -287,6 +289,8 @@
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFString.cpp; sourceTree = "<group>"; };
+		ABAA12400FE4F959000BDCDC /* NQObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NQObject.cpp; sourceTree = "<group>"; };
+		ABAA12410FE4F959000BDCDC /* NQObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQObject.h; sourceTree = "<group>"; };
 		ABB95B660FB7243700C5A7FF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneDebug.cpp; sourceTree = "<group>"; };
@@ -348,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				AB9154E00F9B4DD5009FFEAF /* CoreFoundation */,
+				ABAA123F0FE4F959000BDCDC /* Qt */,
 			);
 			path = Nanites;
 			sourceTree = "<group>";
@@ -616,6 +621,15 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		ABAA123F0FE4F959000BDCDC /* Qt */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA12400FE4F959000BDCDC /* NQObject.cpp */,
+				ABAA12410FE4F959000BDCDC /* NQObject.h */,
+			);
+			path = Qt;
+			sourceTree = "<group>";
+		};
 		ABB95B640FB7241B00C5A7FF /* Internal */ = {
 			isa = PBXGroup;
 			children = (
@@ -720,6 +734,7 @@
 			files = (
 				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
+				ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */,
 				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
 				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
 				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
@@ -796,6 +811,7 @@
 			files = (
 				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
+				ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */,
 				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
 				AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */,
 				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
