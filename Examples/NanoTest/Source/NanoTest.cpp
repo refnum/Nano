@@ -20,7 +20,9 @@
 #include "TCFObject.h"
 #include "TCFString.h"
 
+#include "TBundle.h"
 #include "TCommandLine.h"
+#include "TPreferences.h"
 
 #include "TDebug.h"
 
@@ -77,7 +79,9 @@ int main(int argc, const char **argv)
 
 
 	// Application
+	TBundle::Execute();
 	TCommandLine::Execute();
+	TPreferences::Execute();
 
 
 	// Core
