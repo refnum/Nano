@@ -126,8 +126,10 @@ public:
 
 	// Get the child/parent of a file
 	//
-	// Only directories have children, however all files/directories except the
-	// root directory have a parent.
+	// Only directories have children, however all files/directories except the root
+	// directory have a parent.
+	//
+	// The child file name may include path components.
 	NFile								GetChild(const NString &fileName) const;
 	NFile								GetParent(void)                   const;
 

@@ -43,7 +43,8 @@ static const UInt32 kTestSize2										= 222;
 	static const NString kTestExtension2							= "txtrename";
 	
 	static const NString kPathFile									= "/bin/bash";
-	static const NString kPathDirectory								= "/Library/Application Support";
+	static const NString kPathDirectoryRoot							= "/Library";
+	static const NString kPathDirectoryChildren						= "Application Support/Apple";
 	static const NString kPathFileTmp								= kTestPath + "/" + kTestName  + "." + kTestExtension;
 	static const NString kPathFileTmp2								= kTestPath + "/" + kTestName2 + "." + kTestExtension2;
 #else
@@ -69,7 +70,7 @@ void TFile::Execute(void)
 
 	// Initialize ourselves
 	theFile = kPathFile;
-	theDir  = kPathDirectory;
+	theDir  = NFile(kPathDirectoryRoot).GetChild(kPathDirectoryChildren);
 
 
 
