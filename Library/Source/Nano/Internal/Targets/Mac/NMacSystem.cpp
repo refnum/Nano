@@ -1,5 +1,5 @@
 /*	NAME:
-		NMacdowsSystem.cpp
+		NMacSystem.cpp
 
 	DESCRIPTION:
 		Mac system support.
