@@ -65,7 +65,7 @@ public:
     // Changing the size will invalidate any previously returned pointers.
 	// If the size is increased, the new space will be zero-filled.
 	NIndex								GetSize(void) const;
-	void								SetSize(NIndex theSize);
+	bool								SetSize(NIndex theSize);
 
 
 	// Reserve additional space

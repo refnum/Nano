@@ -117,8 +117,9 @@ NIndex NData::GetSize(void) const
 //============================================================================
 //		NData::SetSize : Set the size.
 //----------------------------------------------------------------------------
-void NData::SetSize(NIndex theSize)
+bool NData::SetSize(NIndex theSize)
 {	NDataValue		*theValue;
+	bool			didSet;
 
 
 
@@ -129,7 +130,7 @@ void NData::SetSize(NIndex theSize)
 
 	// Check our state
 	if (theSize == GetSize())
-		return;
+		return(true);
 
 
 
@@ -139,6 +140,8 @@ void NData::SetSize(NIndex theSize)
 	else
 		{
 		// Keep using an external buffer
+		//
+		// We can't grow an external buffer, so must take a copy.
 		if (mExternalSize != 0 && theSize <= mExternalSize)
 			mExternalSize = theSize;
 
@@ -150,6 +153,12 @@ void NData::SetSize(NIndex theSize)
 			theValue->resize(theSize, 0x00);
 			}
 		}
+
+
+
+	// Check the size
+	didSet = (GetSize() == theSize);
+	return(didSet);
 }
 
 
