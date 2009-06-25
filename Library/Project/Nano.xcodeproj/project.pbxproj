@@ -138,9 +138,15 @@
 		ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
 		ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
 		ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
-		ABB145400FF2C4DA006F178C /* NBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453C0FF2C4DA006F178C /* NBundle.cpp */; };
-		ABB145410FF2C4EE006F178C /* NBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453C0FF2C4DA006F178C /* NBundle.cpp */; };
 		ABB145420FF2C4EF006F178C /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
+		ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CA0FF36A34006F178C /* NPropertyList.cpp */; };
+		ABB145CE0FF36A34006F178C /* NBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CC0FF36A34006F178C /* NBundle.cpp */; };
+		ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CA0FF36A34006F178C /* NPropertyList.cpp */; };
+		ABB145D00FF36A34006F178C /* NBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CC0FF36A34006F178C /* NBundle.cpp */; };
+		ABB145D80FF36B03006F178C /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
+		ABB145D90FF36B03006F178C /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
+		ABB145DA0FF36B03006F178C /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
+		ABB145DB0FF36B03006F178C /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
@@ -296,9 +302,15 @@
 		ABAA12400FE4F959000BDCDC /* NQObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NQObject.cpp; sourceTree = "<group>"; };
 		ABAA12410FE4F959000BDCDC /* NQObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQObject.h; sourceTree = "<group>"; };
 		ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferences.cpp; sourceTree = "<group>"; };
-		ABB1453C0FF2C4DA006F178C /* NBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBundle.cpp; sourceTree = "<group>"; };
 		ABB1453D0FF2C4DA006F178C /* NPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPreferences.h; sourceTree = "<group>"; };
-		ABB1453E0FF2C4DA006F178C /* NBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBundle.h; sourceTree = "<group>"; };
+		ABB145C90FF36A34006F178C /* NPropertyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPropertyList.h; sourceTree = "<group>"; };
+		ABB145CA0FF36A34006F178C /* NPropertyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPropertyList.cpp; sourceTree = "<group>"; };
+		ABB145CB0FF36A34006F178C /* NBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBundle.h; sourceTree = "<group>"; };
+		ABB145CC0FF36A34006F178C /* NBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBundle.cpp; sourceTree = "<group>"; };
+		ABB145D40FF36B03006F178C /* NXMLNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLNode.cpp; sourceTree = "<group>"; };
+		ABB145D50FF36B03006F178C /* NXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLNode.h; sourceTree = "<group>"; };
+		ABB145D60FF36B03006F178C /* NXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLParser.h; sourceTree = "<group>"; };
+		ABB145D70FF36B03006F178C /* NXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLParser.cpp; sourceTree = "<group>"; };
 		ABB95B660FB7243700C5A7FF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneDebug.cpp; sourceTree = "<group>"; };
@@ -458,8 +470,6 @@
 		AB9155060F9B4DD5009FFEAF /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				ABB1453C0FF2C4DA006F178C /* NBundle.cpp */,
-				ABB1453E0FF2C4DA006F178C /* NBundle.h */,
 				AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */,
 				AB9155080F9B4DD5009FFEAF /* NCommandLine.h */,
 				ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */,
@@ -501,6 +511,10 @@
 				AB9155190F9B4DD5009FFEAF /* NChecksum.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
 				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
+				ABB145D40FF36B03006F178C /* NXMLNode.cpp */,
+				ABB145D50FF36B03006F178C /* NXMLNode.h */,
+				ABB145D70FF36B03006F178C /* NXMLParser.cpp */,
+				ABB145D60FF36B03006F178C /* NXMLParser.h */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -654,8 +668,12 @@
 		ABB95B650FB7243700C5A7FF /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				ABB145CC0FF36A34006F178C /* NBundle.cpp */,
+				ABB145CB0FF36A34006F178C /* NBundle.h */,
 				ABB95B660FB7243700C5A7FF /* NFile.cpp */,
 				ABB95B670FB7243700C5A7FF /* NFile.h */,
+				ABB145CA0FF36A34006F178C /* NPropertyList.cpp */,
+				ABB145C90FF36A34006F178C /* NPropertyList.h */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -747,12 +765,14 @@
 				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
 				ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */,
-				ABB145410FF2C4EE006F178C /* NBundle.cpp in Sources */,
 				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
 				ABB145420FF2C4EF006F178C /* NPreferences.cpp in Sources */,
 				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
 				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
 				AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */,
+				ABB145D00FF36A34006F178C /* NBundle.cpp in Sources */,
+				ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */,
+				ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */,
 				AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */,
 				AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */,
 				AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */,
@@ -786,6 +806,8 @@
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
 				AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */,
 				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
+				ABB145DA0FF36B03006F178C /* NXMLNode.cpp in Sources */,
+				ABB145DB0FF36B03006F178C /* NXMLParser.cpp in Sources */,
 				AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */,
 				AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */,
 				AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */,
@@ -815,7 +837,6 @@
 				AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */,
 				AB28FC460FB5D9F000F72C61 /* NThreadUtilities.cpp in Sources */,
 				AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */,
-				ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -826,13 +847,14 @@
 				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
 				ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */,
-				ABB145400FF2C4DA006F178C /* NBundle.cpp in Sources */,
 				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
 				ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */,
 				AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */,
 				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
 				AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */,
+				ABB145CE0FF36A34006F178C /* NBundle.cpp in Sources */,
 				ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */,
+				ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */,
 				AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */,
 				AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */,
 				AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */,
@@ -858,6 +880,8 @@
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
 				AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,
+				ABB145D80FF36B03006F178C /* NXMLNode.cpp in Sources */,
+				ABB145D90FF36B03006F178C /* NXMLParser.cpp in Sources */,
 				AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */,
 				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
 				AB9155960F9B4DD6009FFEAF /* NMacLock.cpp in Sources */,

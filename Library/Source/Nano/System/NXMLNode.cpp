@@ -1,11 +1,11 @@
 /*	NAME:
-		NPreferences.cpp
+		NXMLNode.cpp
 
 	DESCRIPTION:
-		Preferences.
+		XML node.
 	
 	COPYRIGHT:
-		Copyright (c) 2006-2007, refNum Software
+		Copyright (c) 2006-2009, refNum Software
 		<http://www.refnum.com/>
 
 		All rights reserved. Released under the terms of licence.html.
@@ -14,16 +14,16 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NPreferences.h"
+#include "NXMLNode.h"
 
 
 
 
 
 //============================================================================
-//		NPreferences::NPreferences : Constructor.
+//		NXMLNode::NXMLNode : Constructor.
 //----------------------------------------------------------------------------
-NPreferences::NPreferences(void)
+NXMLNode::NXMLNode(void)
 {
 }
 
@@ -32,29 +32,8 @@ NPreferences::NPreferences(void)
 
 
 //============================================================================
-//		NPreferences::~NPreferences : Destructor.
+//		NXMLNode::~NXMLNode : Destructor.
 //----------------------------------------------------------------------------
-NPreferences::~NPreferences(void)
+NXMLNode::~NXMLNode(void)
 {
-
-
-	// Save the preferences
-	Save();
 }
-
-
-
-
-
-//============================================================================
-//		NPreferences::Save : Save the preferences.
-//----------------------------------------------------------------------------
-void NPreferences::Save(void)
-{
-
-
-	// Save the preferences
-		// dair, to do
-}
-
-

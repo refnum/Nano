@@ -20,7 +20,6 @@
 #include "TCFObject.h"
 #include "TCFString.h"
 
-#include "TBundle.h"
 #include "TCommandLine.h"
 #include "TPreferences.h"
 
@@ -29,11 +28,15 @@
 #include "TBroadcaster.h"
 #include "TListener.h"
 
+#include "TBundle.h"
 #include "TFile.h"
+#include "TPropertyList.h"
 
 #include "TByteSwap.h"
 #include "TChecksum.h"
 #include "TUnicodeParser.h"
+#include "TXMLParser.h"
+#include "TXMLNode.h"
 
 #include "TAtomicInt.h"
 #include "TLock.h"
@@ -79,7 +82,6 @@ int main(int argc, const char **argv)
 
 
 	// Application
-	TBundle::Execute();
 	TCommandLine::Execute();
 	TPreferences::Execute();
 
@@ -93,15 +95,21 @@ int main(int argc, const char **argv)
 	TBroadcaster::Execute();
 	TListener::Execute();
 	
+
 	
 	// Files
+	TBundle::Execute();
 	TFile::Execute();
+	TPropertyList::Execute();
+
 
 
 	// System
 	TByteSwap::Execute();
 	TChecksum::Execute();
 	TUnicodeParser::Execute();
+	TXMLParser::Execute();
+	TXMLNode::Execute();
 
 
 
@@ -138,6 +146,7 @@ int main(int argc, const char **argv)
 	TSystemUtilities::Execute();
 	TThreadUtilities::Execute();
 	TTimeUtilities::Execute();
+
 
 
 	// Nanite - CoreFoundation

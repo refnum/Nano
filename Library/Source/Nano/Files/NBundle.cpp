@@ -5,7 +5,7 @@
 		Resource bundle.
 	
 	COPYRIGHT:
-		Copyright (c) 2006-2007, refNum Software
+		Copyright (c) 2006-2009, refNum Software
 		<http://www.refnum.com/>
 
 		All rights reserved. Released under the terms of licence.html.

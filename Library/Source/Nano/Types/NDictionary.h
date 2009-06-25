@@ -100,7 +100,7 @@ public:
 
 	// Get a type'd value
 	//
-	// If the value can not be returned as the specified type, 0/empty is returned.
+	// If the value does not exist, or can not be returned as the specified type, 0/empty is returned.
 	bool								GetValueBoolean(   const NString &theKey) const;
 	SInt32								GetValueSInt32(    const NString &theKey) const;
 	SInt64								GetValueSInt64(    const NString &theKey) const;
