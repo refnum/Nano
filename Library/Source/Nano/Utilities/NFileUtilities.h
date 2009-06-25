@@ -17,6 +17,7 @@
 //      Include files
 //----------------------------------------------------------------------------
 #include "NFile.h"
+#include "NData.h"
 
 
 
@@ -29,6 +30,14 @@ class NFileUtilities {
 public:
 	// Get the current working directory
 	static NFile						GetCWD(void);
+
+
+	// Get/set the contents of a file
+	static NString						GetFileText(const NFile &theFile, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	static NData						GetFileData(const NFile &theFile);
+
+	static NStatus						SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	static NStatus						SetFileData(const NFile &theFile, const NData   &theData);
 };
 
 
