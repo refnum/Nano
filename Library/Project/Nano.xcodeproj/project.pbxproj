@@ -147,6 +147,18 @@
 		ABB145D90FF36B03006F178C /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
 		ABB145DA0FF36B03006F178C /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
 		ABB145DB0FF36B03006F178C /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
+		ABB146180FF36F84006F178C /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146100FF36F84006F178C /* xmlparse.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB146190FF36F84006F178C /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146110FF36F84006F178C /* xmlrole.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB1461A0FF36F84006F178C /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146130FF36F84006F178C /* xmltok.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB1461B0FF36F84006F178C /* xmltok_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146150FF36F84006F178C /* xmltok_impl.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB1461C0FF36F84006F178C /* xmltok_ns.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146170FF36F84006F178C /* xmltok_ns.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146100FF36F84006F178C /* xmlparse.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146110FF36F84006F178C /* xmlrole.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB1461F0FF36F84006F178C /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146130FF36F84006F178C /* xmltok.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB146200FF36F84006F178C /* xmltok_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146150FF36F84006F178C /* xmltok_impl.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB146210FF36F84006F178C /* xmltok_ns.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146170FF36F84006F178C /* xmltok_ns.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146560FF37325006F178C /* NMacPreferences.cpp */; };
+		ABB146590FF3732E006F178C /* NIPhonePreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
@@ -311,6 +323,28 @@
 		ABB145D50FF36B03006F178C /* NXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLNode.h; sourceTree = "<group>"; };
 		ABB145D60FF36B03006F178C /* NXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLParser.h; sourceTree = "<group>"; };
 		ABB145D70FF36B03006F178C /* NXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLParser.cpp; sourceTree = "<group>"; };
+		ABB146060FF36F84006F178C /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
+		ABB146070FF36F84006F178C /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
+		ABB146080FF36F84006F178C /* expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_config.h; sourceTree = "<group>"; };
+		ABB146090FF36F84006F178C /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
+		ABB1460A0FF36F84006F178C /* expat_external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_external.h; sourceTree = "<group>"; };
+		ABB1460B0FF36F84006F178C /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
+		ABB1460C0FF36F84006F178C /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		ABB1460D0FF36F84006F178C /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
+		ABB1460E0FF36F84006F178C /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
+		ABB1460F0FF36F84006F178C /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
+		ABB146100FF36F84006F178C /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
+		ABB146110FF36F84006F178C /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
+		ABB146120FF36F84006F178C /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
+		ABB146130FF36F84006F178C /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
+		ABB146140FF36F84006F178C /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
+		ABB146150FF36F84006F178C /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
+		ABB146160FF36F84006F178C /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
+		ABB146170FF36F84006F178C /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
+		ABB146540FF37315006F178C /* NTargetPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPreferences.h; sourceTree = "<group>"; };
+		ABB146550FF37321006F178C /* NWinPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPreferences.cpp; sourceTree = "<group>"; };
+		ABB146560FF37325006F178C /* NMacPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPreferences.cpp; sourceTree = "<group>"; };
+		ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhonePreferences.cpp; sourceTree = "<group>"; };
 		ABB95B660FB7243700C5A7FF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneDebug.cpp; sourceTree = "<group>"; };
@@ -408,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
+				ABB146050FF36F84006F178C /* expat_2.0.1 */,
 				AB9154E30F9B4DD5009FFEAF /* pcre_7.8 */,
 				AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.12 */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
@@ -527,6 +562,7 @@
 				AB9155290F9B4DD6009FFEAF /* NTargetLock.h */,
 				AB91552A0F9B4DD6009FFEAF /* NTargetMath.h */,
 				AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */,
+				ABB146540FF37315006F178C /* NTargetPreferences.h */,
 				AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */,
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
 				ABB95B730FB7250100C5A7FF /* iPhone */,
@@ -543,6 +579,7 @@
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
 				AB9155200F9B4DD6009FFEAF /* NMacLock.cpp */,
 				AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */,
+				ABB146560FF37325006F178C /* NMacPreferences.cpp */,
 				AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */,
 				AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */,
 				AB9155240F9B4DD6009FFEAF /* NMacTarget.h */,
@@ -559,6 +596,7 @@
 				AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */,
 				AB9155310F9B4DD6009FFEAF /* NWinLock.cpp */,
 				AB9155320F9B4DD6009FFEAF /* NWinMath.cpp */,
+				ABB146550FF37321006F178C /* NWinPreferences.cpp */,
 				AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */,
 				AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */,
 				AB9155350F9B4DD6009FFEAF /* NWinTarget.h */,
@@ -656,6 +694,31 @@
 			path = Qt;
 			sourceTree = "<group>";
 		};
+		ABB146050FF36F84006F178C /* expat_2.0.1 */ = {
+			isa = PBXGroup;
+			children = (
+				ABB146060FF36F84006F178C /* ascii.h */,
+				ABB146070FF36F84006F178C /* asciitab.h */,
+				ABB146080FF36F84006F178C /* expat_config.h */,
+				ABB1460A0FF36F84006F178C /* expat_external.h */,
+				ABB146090FF36F84006F178C /* expat.h */,
+				ABB1460B0FF36F84006F178C /* iasciitab.h */,
+				ABB1460C0FF36F84006F178C /* internal.h */,
+				ABB1460D0FF36F84006F178C /* latin1tab.h */,
+				ABB1460E0FF36F84006F178C /* nametab.h */,
+				ABB1460F0FF36F84006F178C /* utf8tab.h */,
+				ABB146100FF36F84006F178C /* xmlparse.c */,
+				ABB146110FF36F84006F178C /* xmlrole.c */,
+				ABB146120FF36F84006F178C /* xmlrole.h */,
+				ABB146130FF36F84006F178C /* xmltok.c */,
+				ABB146140FF36F84006F178C /* xmltok.h */,
+				ABB146150FF36F84006F178C /* xmltok_impl.c */,
+				ABB146160FF36F84006F178C /* xmltok_impl.h */,
+				ABB146170FF36F84006F178C /* xmltok_ns.c */,
+			);
+			path = expat_2.0.1;
+			sourceTree = "<group>";
+		};
 		ABB95B640FB7241B00C5A7FF /* Internal */ = {
 			isa = PBXGroup;
 			children = (
@@ -685,6 +748,7 @@
 				ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */,
 				ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */,
 				ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */,
+				ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */,
 				ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */,
 				ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */,
 				ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */,
@@ -793,12 +857,18 @@
 				AB28FC160FB5D9F000F72C61 /* pcre_valid_utf8.c in Sources */,
 				AB28FC170FB5D9F000F72C61 /* pcre_version.c in Sources */,
 				AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */,
+				ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */,
+				ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */,
+				ABB146200FF36F84006F178C /* xmltok_impl.c in Sources */,
+				ABB146210FF36F84006F178C /* xmltok_ns.c in Sources */,
+				ABB1461F0FF36F84006F178C /* xmltok.c in Sources */,
 				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
 				ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */,
 				ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */,
 				ABB95B870FB7250500C5A7FF /* NIPhoneLock.cpp in Sources */,
 				ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */,
+				ABB146590FF3732E006F178C /* NIPhonePreferences.cpp in Sources */,
 				ABB95B890FB7250600C5A7FF /* NIPhoneSystem.cpp in Sources */,
 				ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */,
 				ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */,
@@ -875,6 +945,11 @@
 				AB9155880F9B4DD6009FFEAF /* pcre_valid_utf8.c in Sources */,
 				AB9155890F9B4DD6009FFEAF /* pcre_version.c in Sources */,
 				AB91558A0F9B4DD6009FFEAF /* pcre_xclass.c in Sources */,
+				ABB146180FF36F84006F178C /* xmlparse.c in Sources */,
+				ABB146190FF36F84006F178C /* xmlrole.c in Sources */,
+				ABB1461B0FF36F84006F178C /* xmltok_impl.c in Sources */,
+				ABB1461C0FF36F84006F178C /* xmltok_ns.c in Sources */,
+				ABB1461A0FF36F84006F178C /* xmltok.c in Sources */,
 				AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.12.c in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
@@ -886,6 +961,7 @@
 				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
 				AB9155960F9B4DD6009FFEAF /* NMacLock.cpp in Sources */,
 				AB9155970F9B4DD6009FFEAF /* NMacMath.cpp in Sources */,
+				ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */,
 				AB9155980F9B4DD6009FFEAF /* NMacSystem.cpp in Sources */,
 				AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */,
 				AB91559A0F9B4DD6009FFEAF /* NMacThread.cpp in Sources */,
