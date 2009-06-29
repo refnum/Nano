@@ -16,7 +16,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NXMLNode.h"
 #include "NFile.h"
 #include "NData.h"
 
@@ -32,6 +31,8 @@ typedef nfunctor<bool (const NString &theName, const NStringList &theAttributes)
 typedef nfunctor<bool (const NString &theName)>											NXMLProcessElementEndFunctor;
 typedef nfunctor<bool (const NString &theValue)>										NXMLProcessTextFunctor;
 typedef nfunctor<bool (const NString &theValue)>										NXMLProcessCommentFunctor;
+typedef nfunctor<bool (void)>															NXMLProcessCDATAStartFunctor;
+typedef nfunctor<bool (void)>															NXMLProcessCDATAEndFunctor;
 
 
 // Internal
@@ -56,8 +57,9 @@ public:
 
 
 	// Parse a document
-	NStatus								Parse(const NFile &theFile);
-	NStatus								Parse(const NData &theData);
+	NStatus								Parse(const NFile   &theFile);
+	NStatus								Parse(const NString &theText);
+	NStatus								Parse(const NData   &theData);
 
 
 	// Parse a fragment
@@ -75,6 +77,8 @@ public:
 	void								SetProcessElementEnd(  const NXMLProcessElementEndFunctor   &theFunctor);
 	void								SetProcessText(        const NXMLProcessTextFunctor         &theFunctor);
 	void								SetProcessComment(     const NXMLProcessCommentFunctor      &theFunctor);
+	void								SetProcessCDATAStart(  const NXMLProcessCDATAStartFunctor   &theFunctor);
+	void								SetProcessCDATAEnd(    const NXMLProcessCDATAEndFunctor     &theFunctor);
 
 
 protected:
@@ -83,7 +87,9 @@ protected:
 	virtual bool						ProcessElementEnd(  const NString &theName);
 	virtual bool						ProcessText(        const NString &theValue);
 	virtual bool						ProcessComment(     const NString &theValue);
-
+	virtual bool						ProcessCDATAStart(void);
+	virtual bool						ProcessCDATAEnd(  void);
+	
 
 private:
 	NStatus								CreateParser( void);
@@ -96,7 +102,9 @@ private:
 	static void							ParsedElementEnd(  void *userData, const XML_Char *theName);
 	static void							ParsedText(        void *userData, const XML_Char *theText, int theSize);
 	static void							ParsedComment(     void *userData, const XML_Char *theText);
-
+	static void							ParsedCDATAStart(  void *userData);
+	static void							ParsedCDATAEnd(    void *userData);
+	
 
 private:
 	XML_Parser							mParser;
@@ -105,6 +113,8 @@ private:
 	NXMLProcessElementEndFunctor		mProcessElementEnd;
 	NXMLProcessTextFunctor				mProcessText;
 	NXMLProcessCommentFunctor			mProcessComment;
+	NXMLProcessCDATAStartFunctor		mProcessCDATAStart;
+	NXMLProcessCDATAEndFunctor			mProcessCDATAEnd;
 };
 
 

@@ -37,6 +37,8 @@ NXMLParser::NXMLParser(void)
 	mProcessElementEnd   = NULL;
 	mProcessText         = NULL;
 	mProcessComment      = NULL;
+	mProcessCDATAStart   = NULL;
+	mProcessCDATAEnd     = NULL;
 }
 
 
@@ -70,11 +72,13 @@ void NXMLParser::Clear(void)
 		{
 		XML_ParserReset(mParser, NULL);
 
-		XML_SetUserData(            mParser, this);
-		XML_SetStartElementHandler( mParser, ParsedElementStart);
-		XML_SetEndElementHandler(   mParser, ParsedElementEnd);
-		XML_SetCharacterDataHandler(mParser, ParsedText);
-		XML_SetCommentHandler(      mParser, ParsedComment);
+		XML_SetUserData(                mParser, this);
+		XML_SetStartElementHandler(     mParser, ParsedElementStart);
+		XML_SetEndElementHandler(       mParser, ParsedElementEnd);
+		XML_SetCharacterDataHandler(    mParser, ParsedText);
+		XML_SetCommentHandler(          mParser, ParsedComment);
+		XML_SetStartCdataSectionHandler(mParser, ParsedCDATAStart);
+		XML_SetEndCdataSectionHandler(  mParser, ParsedCDATAEnd);
 		}
 }
 
@@ -91,6 +95,21 @@ NStatus NXMLParser::Parse(const NFile &theFile)
 
 	// Parse the document
 	return(Parse(NFileUtilities::GetFileData(theFile)));
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::Parse : Parse a document.
+//----------------------------------------------------------------------------
+NStatus NXMLParser::Parse(const NString &theText)
+{
+
+
+	// Parse the document
+	return(Parse(theText.GetData());
 }
 
 
@@ -212,6 +231,42 @@ bool NXMLParser::ProcessComment(const NString &theValue)
 	// Process the item
 	if (mProcessComment != NULL)
 		return(mProcessComment(theValue));
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::ProcessCDATAStart : Process a CDATA start.
+//----------------------------------------------------------------------------
+bool NXMLParser::ProcessCDATAStart(void)
+{
+
+
+	// Process the item
+	if (mProcessCDATAStart != NULL)
+		return(mProcessCDATAStart());
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::ProcessCDATAEnd : Process a CDATA end.
+//----------------------------------------------------------------------------
+bool NXMLParser::ProcessCDATAEnd(void)
+{
+
+
+	// Process the item
+	if (mProcessCDATAEnd != NULL)
+		return(mProcessCDATAEnd());
 
 	return(true);
 }
@@ -376,6 +431,40 @@ void NXMLParser::ParsedComment(void *userData, const XML_Char *theText)
 
 	// Process the item
 	if (!thisPtr->ProcessComment(theText))
+		thisPtr->StopParsing();
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::ParsedCDAtAStart : Process a CDATA start.
+//----------------------------------------------------------------------------
+void NXMLParser::ParsedCDATAStart(void *userData)
+{	NXMLParser		*thisPtr = (NXMLParser *) userData;
+
+
+
+	// Process the item
+	if (!thisPtr->ProcessCDATAStart())
+		thisPtr->StopParsing();
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::ParsedCDAtAEnd : Process a CDATA end.
+//----------------------------------------------------------------------------
+void NXMLParser::ParsedCDATAEnd(void *userData)
+{	NXMLParser		*thisPtr = (NXMLParser *) userData;
+
+
+
+	// Process the item
+	if (!thisPtr->ProcessCDATAEnd())
 		thisPtr->StopParsing();
 }
 
