@@ -35,6 +35,7 @@
 #include "TByteSwap.h"
 #include "TChecksum.h"
 #include "TUnicodeParser.h"
+#include "TXMLEncoder.h"
 #include "TXMLParser.h"
 #include "TXMLNode.h"
 
@@ -108,6 +109,7 @@ int main(int argc, const char **argv)
 	TByteSwap::Execute();
 	TChecksum::Execute();
 	TUnicodeParser::Execute();
+	TXMLEncoder::Execute();
 	TXMLParser::Execute();
 	TXMLNode::Execute();
 

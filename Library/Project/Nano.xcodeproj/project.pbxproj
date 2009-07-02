@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
+		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
 		AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
 		AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -172,6 +174,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
+		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
 		AB28FBDD0FB5D36300F72C61 /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -546,6 +550,8 @@
 				AB9155190F9B4DD5009FFEAF /* NChecksum.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
 				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
+				AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */,
+				AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */,
 				ABB145D40FF36B03006F178C /* NXMLNode.cpp */,
 				ABB145D50FF36B03006F178C /* NXMLNode.h */,
 				ABB145D70FF36B03006F178C /* NXMLParser.cpp */,
@@ -876,6 +882,7 @@
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
 				AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */,
 				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
+				AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */,
 				ABB145DA0FF36B03006F178C /* NXMLNode.cpp in Sources */,
 				ABB145DB0FF36B03006F178C /* NXMLParser.cpp in Sources */,
 				AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */,
@@ -955,6 +962,7 @@
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
 				AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,
+				AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */,
 				ABB145D80FF36B03006F178C /* NXMLNode.cpp in Sources */,
 				ABB145D90FF36B03006F178C /* NXMLParser.cpp in Sources */,
 				AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */,
