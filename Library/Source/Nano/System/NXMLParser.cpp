@@ -109,7 +109,7 @@ NStatus NXMLParser::Parse(const NString &theText)
 
 
 	// Parse the document
-	return(Parse(theText.GetData());
+	return(Parse(theText.GetData()));
 }
 
 
