@@ -37,7 +37,10 @@ public:
 
 	bool operator()(const NVariant &a, const NVariant &b)
 	{
-		return(mFunctor(a, b) == kNCompareLessThan);
+		if (mFunctor != NULL)
+			return(mFunctor(a, b) == kNCompareLessThan);
+
+		return(a.Compare(b) == kNCompareLessThan);
 	}
 
 private:
@@ -256,7 +259,6 @@ void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
 	sortRange = theRange.GetNormalized(GetSize());
 	iterFirst = theArray->begin() + sortRange.GetFirst();
 	iterLast  = theArray->begin() + sortRange.GetLast();
-
 
 
 	// Sort the array

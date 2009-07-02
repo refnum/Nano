@@ -92,7 +92,7 @@ public:
 
 
 	// Sort the array
-	void								Sort(const NArraySortFunctor &theFunctor, const NRange &theRange=kNRangeAll);
+	void								Sort(const NArraySortFunctor &theFunctor=NULL, const NRange &theRange=kNRangeAll);
 
 
 	// Does a value exist?
@@ -144,6 +144,11 @@ public:
 protected:
 	// Get the null value
 	const NArrayValue					*GetNullValue(void) const;
+
+
+private:
+
+
 };
 
 
