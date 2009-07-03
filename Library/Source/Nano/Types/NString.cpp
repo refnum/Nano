@@ -1268,7 +1268,13 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 
 
 	// Check the size
-	if (theString.IsEmpty() || theString.GetSize() > findRange.GetSize())
+	//
+	// A literal search string can be checked for length, however a pattern-based
+	// search may be larger than the text it matches ("^\s+" will match " ").
+	if (IsEmpty() || theString.IsEmpty())
+		return(theResults);
+	
+	if (!isPattern && theString.GetSize() > findRange.GetSize())
 		return(theResults);
 
 
@@ -1445,7 +1451,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	// Get the state we need
 	numMatches = 0;
-	regFlags   = PCRE_UTF8 | PCRE_NO_UTF8_CHECK;
+	regFlags   = PCRE_MULTILINE | PCRE_DOTALL | PCRE_UTF8 | PCRE_NO_UTF8_CHECK;
 	
 	if (theFlags & kNStringNoCase)
 		regFlags |= PCRE_CASELESS;
