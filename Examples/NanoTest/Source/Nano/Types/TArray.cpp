@@ -131,6 +131,6 @@ void TArray::ForEach(const NVariant &/*theValue*/, NIndex *theCount)
 
 
 	// Update the count
-	*theCount = theCount + 1;
+	*theCount = *theCount + 1;
 }
 
