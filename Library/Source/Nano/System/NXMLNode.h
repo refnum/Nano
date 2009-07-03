@@ -28,8 +28,8 @@
 //----------------------------------------------------------------------------
 typedef enum {
 	kXMLNodeElement,
-	kXMLNodeText,
 	kXMLNodeComment,
+	kXMLNodeText,
 	kXMLNodeCDATA
 } XMLNodeType;
 

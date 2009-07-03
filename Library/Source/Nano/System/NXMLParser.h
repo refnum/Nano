@@ -25,6 +25,25 @@
 
 
 //============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// NXMLParser options
+//
+// kNXMLParserSkipWhitespace
+//		Skip all-whitespace text sections found outside of a CDATA section.
+typedef NBitfield NXMLParserOptions;
+
+static const NXMLParserOptions kNXMLParserNone							= 0;
+static const NXMLParserOptions kNXMLParserAll							= 0xFFFFFFFF;
+
+static const NXMLParserOptions kNXMLParserSkipWhitespace				= (1 << 0);
+static const NXMLParserOptions kNXMLParserDefault						= kNXMLParserSkipWhitespace;
+
+
+
+
+
+//============================================================================
 //		Types
 //----------------------------------------------------------------------------
 // Functors
@@ -32,10 +51,8 @@
 // Processing functors should return true to continue processing.
 typedef nfunctor<bool (const NString &theName, const NDictionary &theAttributes)>		NXMLProcessElementStartFunctor;
 typedef nfunctor<bool (const NString &theName)>											NXMLProcessElementEndFunctor;
-typedef nfunctor<bool (const NString &theValue)>										NXMLProcessTextFunctor;
 typedef nfunctor<bool (const NString &theValue)>										NXMLProcessCommentFunctor;
-typedef nfunctor<bool (void)>															NXMLProcessCDATAStartFunctor;
-typedef nfunctor<bool (void)>															NXMLProcessCDATAEndFunctor;
+typedef nfunctor<bool (const NString &theValue, bool isCDATA)>							NXMLProcessTextFunctor;
 
 
 // Internal
@@ -55,8 +72,13 @@ public:
 	virtual								~NXMLParser(void);
 
 
-	// Clear the parser
+	// Clear the parser state
 	void								Clear(void);
+
+
+	// Get/set the options
+	NXMLParserOptions					GetOptions(void) const;
+	void								SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese=kNXMLParserNone);
 
 
 	// Parse a document
@@ -78,10 +100,8 @@ public:
 	// by the default implementation of ProcessXXX.
 	void								SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor);
 	void								SetProcessElementEnd(  const NXMLProcessElementEndFunctor   &theFunctor);
-	void								SetProcessText(        const NXMLProcessTextFunctor         &theFunctor);
 	void								SetProcessComment(     const NXMLProcessCommentFunctor      &theFunctor);
-	void								SetProcessCDATAStart(  const NXMLProcessCDATAStartFunctor   &theFunctor);
-	void								SetProcessCDATAEnd(    const NXMLProcessCDATAEndFunctor     &theFunctor);
+	void								SetProcessText(        const NXMLProcessTextFunctor         &theFunctor);
 
 
 protected:
@@ -90,10 +110,8 @@ protected:
 	// Processing methods should return true to continue processing.
 	virtual bool						ProcessElementStart(const NString &theName, const NDictionary &theAttributes);
 	virtual bool						ProcessElementEnd(  const NString &theName);
-	virtual bool						ProcessText(        const NString &theValue);
 	virtual bool						ProcessComment(     const NString &theValue);
-	virtual bool						ProcessCDATAStart(void);
-	virtual bool						ProcessCDATAEnd(  void);
+	virtual bool						ProcessText(        const NString &theValue, bool isCDATA);
 	
 
 private:
@@ -101,25 +119,29 @@ private:
 	void								DestroyParser(void);
 
 	NStatus								ConvertXMLStatus(SInt32 xmlErr);
+	
+	bool								FlushText(  void);
 	void								StopParsing(void);
 
 	static void							ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList);
 	static void							ParsedElementEnd(  void *userData, const XML_Char *theName);
-	static void							ParsedText(        void *userData, const XML_Char *theText, int theSize);
 	static void							ParsedComment(     void *userData, const XML_Char *theText);
+	static void							ParsedText(        void *userData, const XML_Char *theText, int theSize);
 	static void							ParsedCDATAStart(  void *userData);
 	static void							ParsedCDATAEnd(    void *userData);
 	
 
 private:
 	XML_Parser							mParser;
+	NXMLParserOptions					mOptions;
+
+	bool								mInsideCDATA;
+	NString								mParsedText;
 
 	NXMLProcessElementStartFunctor		mProcessElementStart;
 	NXMLProcessElementEndFunctor		mProcessElementEnd;
-	NXMLProcessTextFunctor				mProcessText;
 	NXMLProcessCommentFunctor			mProcessComment;
-	NXMLProcessCDATAStartFunctor		mProcessCDATAStart;
-	NXMLProcessCDATAEndFunctor			mProcessCDATAEnd;
+	NXMLProcessTextFunctor				mProcessText;
 };
 
 

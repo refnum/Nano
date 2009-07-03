@@ -31,7 +31,7 @@ static const NString kValueNodeChild2								= "child2";
 static const NString kValueNodeChild3								= "child3";
 
 static const NString kValueNodeText									= "This \" is & a ' test < text > node";
-static const NString kValueNodeComment								= "This is a comment";
+static const NString kValueNodeComment								= " This is a comment ";
 static const NString kValueNodeCDATA								= "This is some &CDATA&";
 
 static const NString kAttribute1Name								= "attribute1";

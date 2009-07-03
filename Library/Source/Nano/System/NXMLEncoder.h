@@ -39,16 +39,14 @@ public:
 private:
 	NString								EncodeNode(   const NXMLNode *theNode, const NString &theIndent);
 	NString								EncodeElement(const NXMLNode *theNode, const NString &theIndent);
-	NString								EncodeText(   const NXMLNode *theNode);
 	NString								EncodeComment(const NXMLNode *theNode);
+	NString								EncodeText(   const NXMLNode *theNode);
 	NString								EncodeCDATA(  const NXMLNode *theNode);
 
 	bool								DecodeElementStart(const NString &theName, const NDictionary &theAttributes);
 	bool								DecodeElementEnd(  const NString &theName);
-	bool								DecodeText(        const NString &theValue);
 	bool								DecodeComment(     const NString &theValue);
-	bool								DecodeCDATAStart(  void);
-	bool								DecodeCDATAEnd(    void);
+	bool								DecodeText(        const NString &theValue, bool isCDATA);
 
 	void								EncodeElementAttribute(const NDictionary &theAttributes, const NVariant &attributeKey, NString *theResult);
 	bool								ContainsElements(const NXMLNodeList *theNodes); 
@@ -57,9 +55,7 @@ private:
 	
 
 private:
-	NString								mDecodeText;
 	NXMLNode							*mDecodeRoot;
-	NXMLNode							*mDecodeCDATA;
 	NXMLNodeList						mDecodeElements;
 };
 

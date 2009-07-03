@@ -127,11 +127,14 @@ void NXMLNode::AddChild(NXMLNode *theChild, NIndex insertBefore)
 
 	// Validate our parameters
 	NN_ASSERT(theChild != NULL);
+	NN_ASSERT(theChild->GetParent() == NULL);
 	NN_ASSERT(!contains(mChildren, theChild));
 
 
 
 	// Add the child
+	theChild->mParent = this;
+	
 	if (insertBefore == kNIndexNone)
 		mChildren.push_back(theChild);
 	else
@@ -156,6 +159,7 @@ void NXMLNode::RemoveChild(NXMLNode *theChild, bool destroyChild)
 
 	// Validate our parameters
 	NN_ASSERT(theChild != NULL);
+	NN_ASSERT(theChild->GetParent() == this);
 	NN_ASSERT(contains(mChildren, theChild));
 
 
@@ -281,12 +285,12 @@ NString NXMLNode::GetElementContents(void) const
 				theValue += theChild->GetElementContents();
 				break;
 			
+			case kXMLNodeComment:
+				break;
+
 			case kXMLNodeText:
 			case kXMLNodeCDATA:
 				theValue += theChild->GetTextValue();
-				break;
-			
-			case kXMLNodeComment:
 				break;
 			
 			default:

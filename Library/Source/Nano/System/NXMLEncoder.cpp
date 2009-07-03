@@ -38,8 +38,7 @@ NXMLEncoder::NXMLEncoder(void)
 
 
 	// Initialise ourselves
-	mDecodeRoot  = NULL;
-	mDecodeCDATA = NULL;
+	mDecodeRoot = NULL;
 }
 
 
@@ -92,9 +91,7 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 
 
 	// Validate our state
-	NN_ASSERT(mDecodeText.IsEmpty());
-	NN_ASSERT(mDecodeRoot  == NULL);
-	NN_ASSERT(mDecodeCDATA == NULL);
+	NN_ASSERT(mDecodeRoot == NULL);
 	NN_ASSERT(mDecodeElements.empty());
 	
 
@@ -102,10 +99,8 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 	// Prepare the parser
 	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, _1, _2));
 	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   _1));
-	theParser.SetProcessText(        BindSelf(NXMLEncoder::DecodeText,         _1));
 	theParser.SetProcessComment(     BindSelf(NXMLEncoder::DecodeComment,      _1));
-	theParser.SetProcessCDATAStart(  BindSelf(NXMLEncoder::DecodeCDATAStart));
-	theParser.SetProcessCDATAEnd(    BindSelf(NXMLEncoder::DecodeCDATAEnd));
+	theParser.SetProcessText(        BindSelf(NXMLEncoder::DecodeText,         _1, _2));
 
 
 
@@ -120,10 +115,7 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 
 
 	// Clean up
-	mDecodeRoot  = NULL;
-	mDecodeCDATA = NULL;
-	
-	mDecodeText.Clear();
+	mDecodeRoot = NULL;
 	mDecodeElements.clear();
 	
 	return(theNode);
@@ -148,12 +140,12 @@ NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theInden
 			theText = EncodeElement(theNode, theIndent);
 			break;
 		
-		case kXMLNodeText:
-			theText = EncodeText(theNode);
-			break;
-		
 		case kXMLNodeComment:
 			theText = EncodeComment(theNode);
+			break;
+		
+		case kXMLNodeText:
+			theText = EncodeText(theNode);
 			break;
 		
 		case kXMLNodeCDATA:
@@ -247,6 +239,29 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 
 
 //============================================================================
+//		NXMLEncoder::EncodeComment : Encode a comment node.
+//----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeComment(const NXMLNode *theNode)
+{	NString		theText;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->GetType() == kXMLNodeComment);
+
+
+
+	// Encode the node
+	theText.Format("<!--%@-->", theNode->GetTextValue());
+	
+	return(theText);
+}
+
+
+
+
+
+//============================================================================
 //		NXMLEncoder::EncodeText : Encode an text node.
 //----------------------------------------------------------------------------
 NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
@@ -268,29 +283,6 @@ NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 	theText.ReplaceAll("'",  "&apos;");
 	theText.ReplaceAll("\"", "&quot;");
 
-	return(theText);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLEncoder::EncodeComment : Encode a comment node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeComment(const NXMLNode *theNode)
-{	NString		theText;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeComment);
-
-
-
-	// Encode the node
-	theText.Format("<!-- %@ -->", theNode->GetTextValue());
-	
 	return(theText);
 }
 
@@ -379,24 +371,16 @@ bool NXMLEncoder::DecodeElementEnd(const NString &theName)
 //============================================================================
 //		NXMLEncoder::DecodeText : Decode text.
 //----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeText(const NString &theValue)
+bool NXMLEncoder::DecodeText(const NString &theValue, bool isCDATA)
 {	NXMLNode		*theParent, *theNode;
 
 
 
-	// Accumulate text within a CDATA
-	if (mDecodeCDATA != NULL)
-		mDecodeText += theValue;
-	
-	
 	// Decode the node
-	else
-		{
-		theParent = GetDecodeParent();
-		theNode   = new NXMLNode(kXMLNodeText, theValue);
+	theParent = GetDecodeParent();
+	theNode   = new NXMLNode(isCDATA ? kXMLNodeCDATA : kXMLNodeText, theValue);
 	
-		theParent->AddChild(theNode);
-		}
+	theParent->AddChild(theNode);
 
 	return(true);
 }
@@ -419,57 +403,6 @@ bool NXMLEncoder::DecodeComment(const NString &theValue)
 	
 	theParent->AddChild(theNode);
 	
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLEncoder::DecodeCDATAStart : Decode a CDATA start.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeCDATAStart(void)
-{	NXMLNode		*theParent;
-
-
-
-	// Validate our state
-	NN_ASSERT(mDecodeCDATA == NULL);
-
-
-
-	// Decode the node
-	theParent    = GetDecodeParent();
-	mDecodeCDATA = new NXMLNode(kXMLNodeCDATA, "");
-	
-	theParent->AddChild(mDecodeCDATA);
-	
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLEncoder::DecodeCDATAEnd : Decode a CDATA end.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeCDATAEnd(void)
-{
-
-
-	// Validate our state
-	NN_ASSERT(mDecodeCDATA != NULL);
-
-
-
-	// Update the node
-	mDecodeCDATA->SetTextValue(mDecodeText);
-	
-	mDecodeText.Clear();
-	mDecodeCDATA = NULL;
-
 	return(true);
 }
 
