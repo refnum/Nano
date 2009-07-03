@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NXMLParser.h"
 #include "NXMLEncoder.h"
 
 
@@ -34,6 +35,11 @@ static const NString kEncodeIndent									= "\t";
 //----------------------------------------------------------------------------
 NXMLEncoder::NXMLEncoder(void)
 {
+
+
+	// Initialise ourselves
+	mDecodeRoot  = NULL;
+	mDecodeCDATA = NULL;
 }
 
 
@@ -79,9 +85,48 @@ NString NXMLEncoder::Encode(const NXMLNode *theNode)
 //		NXMLEncoder::Decode : Decode an XML document to a node.
 //----------------------------------------------------------------------------
 NXMLNode *NXMLEncoder::Decode(const NString &theXML)
-{
-	// dair, to do
-	return(NULL);
+{	NXMLParser		theParser;
+	NXMLNode		*theNode;
+	NStatus			theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(mDecodeText.IsEmpty());
+	NN_ASSERT(mDecodeRoot  == NULL);
+	NN_ASSERT(mDecodeCDATA == NULL);
+	NN_ASSERT(mDecodeElements.empty());
+	
+
+
+	// Prepare the parser
+	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, _1, _2));
+	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   _1));
+	theParser.SetProcessText(        BindSelf(NXMLEncoder::DecodeText,         _1));
+	theParser.SetProcessComment(     BindSelf(NXMLEncoder::DecodeComment,      _1));
+	theParser.SetProcessCDATAStart(  BindSelf(NXMLEncoder::DecodeCDATAStart));
+	theParser.SetProcessCDATAEnd(    BindSelf(NXMLEncoder::DecodeCDATAEnd));
+
+
+
+	// Decode the XML
+	theNode = NULL;
+	theErr  = theParser.Parse(theXML);
+	NN_ASSERT_NOERR(theErr);
+	
+	if (theErr == kNoErr)
+		theNode = mDecodeRoot;
+
+
+
+	// Clean up
+	mDecodeRoot  = NULL;
+	mDecodeCDATA = NULL;
+	
+	mDecodeText.Clear();
+	mDecodeElements.clear();
+	
+	return(theNode);
 }
 
 
@@ -217,6 +262,12 @@ NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 	// Encode the node
 	theText = theNode->GetTextValue();
 	
+	theText.ReplaceAll("&",  "&amp;");
+	theText.ReplaceAll("<",  "&lt;");
+	theText.ReplaceAll(">",  "&gt;");
+	theText.ReplaceAll("'",  "&apos;");
+	theText.ReplaceAll("\"", "&quot;");
+
 	return(theText);
 }
 
@@ -271,21 +322,155 @@ NString NXMLEncoder::EncodeCDATA(const NXMLNode *theNode)
 
 
 //============================================================================
-//		NXMLEncoder::ContainsElements : Does a node list contain elements?
+//		NXMLEncoder::DecodeElementStart : Decode an element start.
 //----------------------------------------------------------------------------
-bool NXMLEncoder::ContainsElements(const NXMLNodeList *theNodes)
-{	NXMLNodeListConstIterator		theIter;
+bool NXMLEncoder::DecodeElementStart(const NString &theName, const NDictionary &theAttributes)
+{	NXMLNode		*theParent, *theNode;
 
 
 
-	// Check the nodes
-	for (theIter = theNodes->begin(); theIter != theNodes->end(); theIter++)
-		{
-		if ((*theIter)->IsType(kXMLNodeElement))
-			return(true);
-		}
+	// Decode the node
+	theParent = GetDecodeParent();
+	theNode   = new NXMLNode(kXMLNodeElement, theName);
+	theNode->SetElementAttributes(theAttributes);
+
+
+
+	// Update our state
+	mDecodeElements.push_back(theNode);
+
+	if (theParent == NULL)
+		mDecodeRoot = theNode;
+	else
+		theParent->AddChild(theNode);
 	
-	return(false);
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::DecodeElementEnd : Decode an element end.
+//----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeElementEnd(const NString &theName)
+{
+
+
+	// Validate our parameters and state
+	NN_ASSERT(!mDecodeElements.empty());
+	NN_ASSERT(mDecodeElements.back()->GetTextValue() == theName);
+	
+	(void) theName;
+	
+	
+	
+	// Update our state
+	mDecodeElements.pop_back();
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::DecodeText : Decode text.
+//----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeText(const NString &theValue)
+{	NXMLNode		*theParent, *theNode;
+
+
+
+	// Accumulate text within a CDATA
+	if (mDecodeCDATA != NULL)
+		mDecodeText += theValue;
+	
+	
+	// Decode the node
+	else
+		{
+		theParent = GetDecodeParent();
+		theNode   = new NXMLNode(kXMLNodeText, theValue);
+	
+		theParent->AddChild(theNode);
+		}
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::DecodeComment : Decode a comment.
+//----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeComment(const NString &theValue)
+{	NXMLNode		*theParent, *theNode;
+
+
+
+	// Decode the node
+	theParent = GetDecodeParent();
+	theNode   = new NXMLNode(kXMLNodeComment, theValue);
+	
+	theParent->AddChild(theNode);
+	
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::DecodeCDATAStart : Decode a CDATA start.
+//----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeCDATAStart(void)
+{	NXMLNode		*theParent;
+
+
+
+	// Validate our state
+	NN_ASSERT(mDecodeCDATA == NULL);
+
+
+
+	// Decode the node
+	theParent    = GetDecodeParent();
+	mDecodeCDATA = new NXMLNode(kXMLNodeCDATA, "");
+	
+	theParent->AddChild(mDecodeCDATA);
+	
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::DecodeCDATAEnd : Decode a CDATA end.
+//----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeCDATAEnd(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mDecodeCDATA != NULL);
+
+
+
+	// Update the node
+	mDecodeCDATA->SetTextValue(mDecodeText);
+	
+	mDecodeText.Clear();
+	mDecodeCDATA = NULL;
+
+	return(true);
 }
 
 
@@ -318,6 +503,50 @@ void NXMLEncoder::EncodeElementAttribute(const NDictionary &theAttributes, const
 	theText.Format(" %@=\"%@\" ", theKey, theValue);
 	*theResult += theText;
 }
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::ContainsElements : Does a node list contain elements?
+//----------------------------------------------------------------------------
+bool NXMLEncoder::ContainsElements(const NXMLNodeList *theNodes)
+{	NXMLNodeListConstIterator		theIter;
+
+
+
+	// Check the nodes
+	for (theIter = theNodes->begin(); theIter != theNodes->end(); theIter++)
+		{
+		if ((*theIter)->IsType(kXMLNodeElement))
+			return(true);
+		}
+	
+	return(false);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::GetDecodeParent : Get the parent element.
+//----------------------------------------------------------------------------
+NXMLNode *NXMLEncoder::GetDecodeParent(void)
+{	NXMLNode	*theNode;
+
+
+
+	// Get the parent
+	theNode = NULL;
+	
+	if (!mDecodeElements.empty())
+		theNode = mDecodeElements.back();
+	
+	return(theNode);
+}
+
 
 
 

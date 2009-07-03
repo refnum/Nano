@@ -168,9 +168,100 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 
 
 //============================================================================
+//		NXMLParser::SetProcessElementStart : Set the element start functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessElementStart = theFunctor;
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::SetProcessElementEnd : Set the element end functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessElementEnd(const NXMLProcessElementEndFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessElementEnd = theFunctor;
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::SetProcessText : Set the text functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessText(const NXMLProcessTextFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessText = theFunctor;
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::SetProcessComment : Set the comment functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessComment(const NXMLProcessCommentFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessComment = theFunctor;
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::SetProcessCDATAStart : Set the CDATA start functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessCDATAStart(const NXMLProcessCDATAStartFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessCDATAStart = theFunctor;
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::SetProcessCDATAEnd : Set the CDATA end functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessCDATAEnd(const NXMLProcessCDATAEndFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessCDATAEnd = theFunctor;
+}
+
+
+
+
+
+//============================================================================
 //		NXMLParser::ProcessElementStart : Process an element start.
 //----------------------------------------------------------------------------
-bool NXMLParser::ProcessElementStart(const NString &theName, const NStringList &theAttributes)
+#pragma mark -
+bool NXMLParser::ProcessElementStart(const NString &theName, const NDictionary &theAttributes)
 {
 
 
@@ -363,23 +454,27 @@ NStatus NXMLParser::ConvertXMLStatus(SInt32 xmlErr)
 //============================================================================
 //		NXMLParser::ParsedElementStart : Process an element start.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **theAttributes)
+void NXMLParser::ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
-	NStringList		attributeList;
+	NString			theKey, theValue;
+	NDictionary		theAttributes;
 
 
 
 	// Get the state we need
-	while (theAttributes != NULL)
+	while (*attributeList != NULL)
 		{
-		attributeList.push_back(NString(*theAttributes));
-		theAttributes++;
+		theKey   = NString(*attributeList++);
+		theValue = NString(*attributeList++);
+		
+		NN_ASSERT(!theAttributes.HasKey(theKey));
+		theAttributes.SetValue(theKey, theValue);
 		}
 
 
 
 	// Process the item
-	if (!thisPtr->ProcessElementStart(theName, attributeList))
+	if (!thisPtr->ProcessElementStart(theName, theAttributes))
 		thisPtr->StopParsing();
 }
 

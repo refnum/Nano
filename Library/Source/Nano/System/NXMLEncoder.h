@@ -43,13 +43,24 @@ private:
 	NString								EncodeComment(const NXMLNode *theNode);
 	NString								EncodeCDATA(  const NXMLNode *theNode);
 
-	bool								ContainsElements(const NXMLNodeList *theNodes); 
-	void								EncodeElementAttribute(const NDictionary &theAttributes, const NVariant &attributeKey, NString *theResult);
+	bool								DecodeElementStart(const NString &theName, const NDictionary &theAttributes);
+	bool								DecodeElementEnd(  const NString &theName);
+	bool								DecodeText(        const NString &theValue);
+	bool								DecodeComment(     const NString &theValue);
+	bool								DecodeCDATAStart(  void);
+	bool								DecodeCDATAEnd(    void);
 
+	void								EncodeElementAttribute(const NDictionary &theAttributes, const NVariant &attributeKey, NString *theResult);
+	bool								ContainsElements(const NXMLNodeList *theNodes); 
+
+	NXMLNode							*GetDecodeParent(void);
+	
 
 private:
-
-
+	NString								mDecodeText;
+	NXMLNode							*mDecodeRoot;
+	NXMLNode							*mDecodeCDATA;
+	NXMLNodeList						mDecodeElements;
 };
 
 

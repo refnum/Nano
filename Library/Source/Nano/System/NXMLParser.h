@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NDictionary.h"
 #include "NFile.h"
 #include "NData.h"
 
@@ -27,7 +28,9 @@
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<bool (const NString &theName, const NStringList &theAttributes)>		NXMLProcessElementStartFunctor;
+//
+// Processing functors should return true to continue processing.
+typedef nfunctor<bool (const NString &theName, const NDictionary &theAttributes)>		NXMLProcessElementStartFunctor;
 typedef nfunctor<bool (const NString &theName)>											NXMLProcessElementEndFunctor;
 typedef nfunctor<bool (const NString &theValue)>										NXMLProcessTextFunctor;
 typedef nfunctor<bool (const NString &theValue)>										NXMLProcessCommentFunctor;
@@ -83,7 +86,9 @@ public:
 
 protected:
 	// Process the items
-	virtual bool						ProcessElementStart(const NString &theName, const NStringList &theAttributes);
+	//
+	// Processing methods should return true to continue processing.
+	virtual bool						ProcessElementStart(const NString &theName, const NDictionary &theAttributes);
 	virtual bool						ProcessElementEnd(  const NString &theName);
 	virtual bool						ProcessText(        const NString &theValue);
 	virtual bool						ProcessComment(     const NString &theValue);
@@ -98,7 +103,7 @@ private:
 	NStatus								ConvertXMLStatus(SInt32 xmlErr);
 	void								StopParsing(void);
 
-	static void							ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **theAttributes);
+	static void							ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList);
 	static void							ParsedElementEnd(  void *userData, const XML_Char *theName);
 	static void							ParsedText(        void *userData, const XML_Char *theText, int theSize);
 	static void							ParsedComment(     void *userData, const XML_Char *theText);
