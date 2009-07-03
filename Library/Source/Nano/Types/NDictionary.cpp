@@ -284,10 +284,12 @@ bool NDictionary::GetValueBoolean(const NString &theKey) const
 
 	// Get the value
 	theValue = 0;
-	rawValue = GetValue(theKey);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueBoolean(theValue))
-		NN_LOG("Unable to convert [%s] to bool", theKey.GetUTF8());
+	
+	if (GetValue(theKey, rawValue))
+		{
+		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueBoolean(theValue))
+			NN_LOG("Unable to convert [%s] to bool", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -308,10 +310,12 @@ SInt32 NDictionary::GetValueSInt32(const NString &theKey) const
 
 	// Get the value
 	theValue = 0;
-	rawValue = GetValue(theKey);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt32(theValue))
-		NN_LOG("Unable to convert [%s] to SInt32", theKey.GetUTF8());
+	
+	if (GetValue(theKey, rawValue))
+		{
+		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt32(theValue))
+			NN_LOG("Unable to convert [%s] to SInt32", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -332,10 +336,12 @@ SInt64 NDictionary::GetValueSInt64(const NString &theKey) const
 
 	// Get the value
 	theValue = 0;
-	rawValue = GetValue(theKey);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt64(theValue))
-		NN_LOG("Unable to convert [%s] to SInt64", theKey.GetUTF8());
+	
+	if (GetValue(theKey, rawValue))
+		{
+		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt64(theValue))
+			NN_LOG("Unable to convert [%s] to SInt64", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -356,10 +362,12 @@ Float32 NDictionary::GetValueFloat32(const NString &theKey) const
 
 	// Get the value
 	theValue = 0.0f;
-	rawValue = GetValue(theKey);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat32(theValue))
-		NN_LOG("Unable to convert [%s] to Float32", theKey.GetUTF8());
+	
+	if (GetValue(theKey, rawValue))
+		{
+		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat32(theValue))
+			NN_LOG("Unable to convert [%s] to Float32", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -380,13 +388,14 @@ Float64 NDictionary::GetValueFloat64(const NString &theKey) const
 
 	// Get the value
 	theValue = 0.0;
-	rawValue = GetValue(theKey);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat64(theValue))
-		NN_LOG("Unable to convert [%s] to Float64", theKey.GetUTF8());
+	
+	if (GetValue(theKey, rawValue))
+		{
+		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat64(theValue))
+			NN_LOG("Unable to convert [%s] to Float64", theKey.GetUTF8());
+		}
 
 	return(theValue);
-
 }
 
 
@@ -403,10 +412,11 @@ NString NDictionary::GetValueString(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NString", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NString", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -425,10 +435,11 @@ NPoint NDictionary::GetValuePoint(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NPoint", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NPoint", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -447,10 +458,11 @@ NSize NDictionary::GetValueSize(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NSize", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NSize", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -469,10 +481,11 @@ NRectangle NDictionary::GetValueRectangle(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NRectangle", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NRectangle", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -491,10 +504,11 @@ NColor NDictionary::GetValueColor(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NColor", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NColor", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -513,10 +527,11 @@ NDate NDictionary::GetValueDate(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NDate", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NDate", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -535,10 +550,11 @@ NArray NDictionary::GetValueArray(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NArray", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NArray", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -557,10 +573,11 @@ NDictionary NDictionary::GetValueDictionary(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NDictionary", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NDictionary", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -579,10 +596,11 @@ NData NDictionary::GetValueData(const NString &theKey) const
 
 
 	// Get the value
-	rawValue = GetValue(theKey);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%s] to NData", theKey.GetUTF8());
+	if (GetValue(theKey, rawValue))
+		{
+		if (!rawValue.GetValue(theValue))
+			NN_LOG("Unable to convert [%s] to NData", theKey.GetUTF8());
+		}
 
 	return(theValue);
 }
@@ -606,5 +624,16 @@ const NDictionaryValue *NDictionary::GetNullValue(void) const
 
 
 
+//============================================================================
+//		NDictionary::GetValue : Get a value value.
+//----------------------------------------------------------------------------
+bool NDictionary::GetValue(const NString &theKey, NVariant &theValue) const
+{
 
+
+	// Get the value
+	theValue = GetValue(theKey);
+	
+	return(theValue.IsValid());
+}
 

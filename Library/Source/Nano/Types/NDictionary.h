@@ -120,6 +120,10 @@ public:
 protected:
 	// Get the null value
 	const NDictionaryValue				*GetNullValue(void) const;
+
+
+private:
+	bool								GetValue(const NString &theKey, NVariant &theValue) const;
 };
 
 
