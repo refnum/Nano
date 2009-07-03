@@ -318,7 +318,13 @@ template <class T> bool NVariant::GetValue(T &theValue) const
 
 
 
-	// Get the state we need
+	// Check our state
+	if (mData == NULL)
+		return(false);
+
+
+
+	// Determine if we can cast
 	canCast = (typeid(theValue) == mData->GetType());
 
 	if (canCast)
