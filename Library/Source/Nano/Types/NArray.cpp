@@ -223,16 +223,16 @@ void NArray::Join(const NArray &theValue)
 //----------------------------------------------------------------------------
 void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange)
 {	NArrayValueConstIterator	iterFirst, iterLast;
+	NRange						processRange;
 	const NArrayValue			*theArray;
-	NRange						sortRange;
 
 
 
 	// Get the state we need
-	theArray  = GetImmutable();
-	sortRange = theRange.GetNormalized(GetSize());
-	iterFirst = theArray->begin() + sortRange.GetFirst();
-	iterLast  = theArray->begin() + sortRange.GetLast();
+	theArray     = GetImmutable();
+	processRange = theRange.GetNormalized(GetSize());
+	iterFirst    = theArray->begin() + processRange.GetFirst();
+	iterLast     = theArray->begin() + processRange.GetNext();
 
 
 
@@ -249,16 +249,16 @@ void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRa
 //----------------------------------------------------------------------------
 void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
 {	NArrayValueIterator		iterFirst, iterLast;
+	NRange					processRange;
 	NArrayValue				*theArray;
-	NRange					sortRange;
 
 
 
 	// Get the state we need
-	theArray  = GetMutable();
-	sortRange = theRange.GetNormalized(GetSize());
-	iterFirst = theArray->begin() + sortRange.GetFirst();
-	iterLast  = theArray->begin() + sortRange.GetLast();
+	theArray     = GetMutable();
+	processRange = theRange.GetNormalized(GetSize());
+	iterFirst    = theArray->begin() + processRange.GetFirst();
+	iterLast     = theArray->begin() + processRange.GetNext();
 
 
 	// Sort the array
@@ -273,8 +273,8 @@ void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
 //		NArray::HasValue : Does a value exist?
 //----------------------------------------------------------------------------
 bool NArray::HasValue(const NVariant &theValue) const
-{	NIndex				n, numValues;
-	const NArrayValue	*theArray;
+{	NIndex					n, numValues;
+	const NArrayValue		*theArray;
 
 
 

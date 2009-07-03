@@ -47,7 +47,7 @@ void TArray::Execute(void)
 {	NArray			testArray, testArray2;
 	Float32List		listFloat32;
 	Float64List		listFloat64;
-	NIndex			n;
+	NIndex			n, theCount;
 
 
 
@@ -59,6 +59,10 @@ void TArray::Execute(void)
 	NN_ASSERT(testArray.GetValuePoint(0)  == kValuePoint);
 	NN_ASSERT(testArray.GetValueSInt32(1) == kValueSInt32);
 	NN_ASSERT(testArray.GetValueSInt64(2) == kValueSInt64);
+	
+	theCount = 0;
+	testArray.ForEach(BindFunction(TArray::ForEach, _1, &theCount));
+	NN_ASSERT(theCount == 3);
 
 	testArray = NArray(kListSInt32);
 	NN_ASSERT(testArray.GetSize() == (NIndex) kListSInt32.size());
@@ -113,3 +117,20 @@ void TArray::Execute(void)
 	testArray.SetValue(0, kValueSInt64);
 	NN_ASSERT(testArray.GetValue(0) == kValueSInt64);
 }
+
+
+
+
+
+//============================================================================
+//		TArray::ForEach : ForEach functor.
+//----------------------------------------------------------------------------
+#pragma mark -
+void TArray::ForEach(const NVariant &/*theValue*/, NIndex *theCount)
+{
+
+
+	// Update the count
+	*theCount = theCount + 1;
+}
+

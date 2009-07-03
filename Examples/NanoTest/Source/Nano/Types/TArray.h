@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NVariant.h"
 
 
 
@@ -28,6 +29,10 @@ class TArray {
 public:
 	// Execute the tests
 	static void							Execute(void);
+
+
+private:
+	static void							ForEach(const NVariant &theValue, NIndex *theCount);
 };
 
 
