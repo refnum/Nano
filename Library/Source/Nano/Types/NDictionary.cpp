@@ -117,6 +117,48 @@ void NDictionary::Join(const NDictionary &theValue)
 
 
 //============================================================================
+//		NDictionary::Invert : Invert the dictinary.
+//----------------------------------------------------------------------------
+bool NDictionary::Invert(void)
+{	NString							theKey, theValue;
+	NDictionary						theResult;
+	bool							canInvert;
+	NStringList						theKeys;
+	NStringListConstIterator		theIter;
+
+
+
+	// Get the state we need
+	theKeys   = GetKeys();
+	canInvert = true;
+
+
+
+	// Create the inverted dictionary
+	for (theIter = theKeys.begin(); theIter != theKeys.end() && canInvert; theIter++)
+		{
+		theKey   = *theIter;
+		theValue = GetValueString(theKey);
+
+		canInvert = theValue.IsNotEmpty() && !theResult.HasKey(theValue);
+		if (canInvert)
+			theResult.SetValue(theValue, theKey);
+		}
+	
+	
+	
+	// Update our state
+	if (canInvert)
+		*this = theResult;
+	
+	return(canInvert);
+}
+
+
+
+
+
+//============================================================================
 //		NDictionary::ForEach : Process each item.
 //----------------------------------------------------------------------------
 void NDictionary::ForEach(const NDictionaryForEachFunctor &theFunctor)

@@ -77,6 +77,12 @@ public:
 	void								Join(const NDictionary &theValue);
 
 
+	// Invert the dictionary
+	//
+	// A dictionary can only be inverted if all values are unique, non-empty, strings.
+	bool								Invert(void);
+
+
 	// Process each item
 	void								ForEach(const NDictionaryForEachFunctor &theFunctor);
 
