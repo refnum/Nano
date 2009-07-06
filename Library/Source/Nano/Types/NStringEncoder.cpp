@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "ConvertUTF.h"
 
+#include "NUnicodeParser.h"
 #include "NStringEncoder.h"
 
 
@@ -56,36 +57,60 @@ NStringEncoder::~NStringEncoder(void)
 //============================================================================
 //		NStringEncoder::Convert : Convert a string.
 //----------------------------------------------------------------------------
+//		Note :	Currently only UTF string encodings are defined, which makes
+//				the structure of the string converter straightforward.
+//
+//				This will need to be generalised to push all conversions
+//				through a common format when non-UTF encodings are supported.
+//----------------------------------------------------------------------------
 NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
-{	NStatus		theErr;
+{	NStringEncoding		genericSrc, genericDst;
+	NUnicodeParser		theParser;
+	NData				tmpSrc;
+	NStatus				theErr;
+
+
+
+	// Get the state we need
+	genericSrc = theParser.GetGenericEncoding(srcEncoding);
+	genericDst = theParser.GetGenericEncoding(dstEncoding);
+	tmpSrc     = srcData;
+
+
+
+	// Prepare the input
+	theParser.RemoveBOM(tmpSrc, srcEncoding);
+	RemoveTerminator(   tmpSrc, srcEncoding);
+	
+	SwapUTF(tmpSrc, srcEncoding, genericSrc);
 
 
 
 	// Convert the string
-	switch (srcEncoding) {
+	switch (genericSrc) {
 		case kNStringEncodingUTF8:
-			theErr = ConvertFromUTF8(srcData, dstData, dstEncoding);
+			theErr = ConvertFromUTF8( tmpSrc, dstData, genericDst);
 			break;
 
 		case kNStringEncodingUTF16:
-			theErr = ConvertFromUTF16(srcData, dstData, dstEncoding);
+			theErr = ConvertFromUTF16(tmpSrc, dstData, genericDst);
 			break;
 
 		case kNStringEncodingUTF32:
-			theErr = ConvertFromUTF32(srcData, dstData, dstEncoding);
+			theErr = ConvertFromUTF32(tmpSrc, dstData, genericDst);
 			break;
 
 		default:
-			NN_LOG("Unknown encoding: %d", srcEncoding);
+			NN_LOG("Unknown encoding: %d", genericSrc);
 			theErr = kNErrParam;
 			break;
 		}
 
 
 
-	// Remove the terminator
+	// Prepare the result
 	if (theErr == kNoErr)
-		RemoveTerminator(dstData, dstEncoding);
+		SwapUTF(dstData, genericDst, dstEncoding);
 
 	return(theErr);
 }
@@ -106,7 +131,7 @@ void NStringEncoder::AddTerminator(NData &theData, NStringEncoding theEncoding)
 
 	// Get the state we need
 	sizeData = theData.GetSize();
-	sizeTerm = GetTerminatorSize(theEncoding);
+	sizeTerm = GetMaxCharSize(theEncoding);
 
 	NN_ASSERT(sizeTerm > 0 && sizeTerm <= (NIndex) sizeof(kStringTerminator));
 
@@ -141,7 +166,7 @@ void NStringEncoder::RemoveTerminator(NData &theData, NStringEncoding theEncodin
 
 	// Get the state we need
 	sizeData = theData.GetSize();
-	sizeTerm = GetTerminatorSize(theEncoding);
+	sizeTerm = GetMaxCharSize(theEncoding);
 
 	NN_ASSERT(sizeTerm > 0 && sizeTerm <= (NIndex) sizeof(kStringTerminator));
 
@@ -165,9 +190,48 @@ void NStringEncoder::RemoveTerminator(NData &theData, NStringEncoding theEncodin
 
 
 //============================================================================
-//		NStringEncoder::ConvertFromUTF8 : Convert a UTF8 string.
+//		NStringEncoder::GetMaxCharSize : Get the maximum size of a character.
 //----------------------------------------------------------------------------
 #pragma mark -
+NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
+{	NIndex		theSize;
+
+
+
+	// Get the state we need
+	switch (theEncoding) {
+		case kNStringEncodingUTF8:
+			theSize = (NIndex) sizeof(UTF8Char);
+			break;
+
+		case kNStringEncodingUTF16:
+		case kNStringEncodingUTF16BE:
+		case kNStringEncodingUTF16LE:
+			theSize = (NIndex) sizeof(UTF16Char);
+			break;
+
+		case kNStringEncodingUTF32:
+		case kNStringEncodingUTF32BE:
+		case kNStringEncodingUTF32LE:
+			theSize = (NIndex) sizeof(UTF32Char);
+			break;
+
+		default:
+			NN_LOG("Unknown encoding: %d", theEncoding);
+			theSize = 0;
+			break;
+		}
+
+	return(theSize);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertFromUTF8 : Convert a UTF8 string.
+//----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertFromUTF8(const NData &srcData, NData &dstData, NStringEncoding dstEncoding)
 {	NStatus		theErr;
 
@@ -299,7 +363,7 @@ NStatus NStringEncoder::ConvertUTF8ToUTF16(const NData &srcData, NData &dstData)
 		dstEnd   = (UTF16 *) (dstBase + dstData.GetSize());
 		
 		theResult = ConvertUTF8toUTF16(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
-		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		theErr    = ConvertUTF(dstData, dstStart, theResult);
 		}
 	while (theErr == kNErrExhaustedDst);
 
@@ -336,7 +400,7 @@ NStatus NStringEncoder::ConvertUTF8ToUTF32(const NData &srcData, NData &dstData)
 		dstEnd   = (UTF32 *) (dstBase + dstData.GetSize());
 		
 		theResult = ConvertUTF8toUTF32(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
-		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		theErr    = ConvertUTF(dstData, dstStart, theResult);
 		}
 	while (theErr == kNErrExhaustedDst);
 
@@ -373,7 +437,7 @@ NStatus NStringEncoder::ConvertUTF16ToUTF8(const NData &srcData, NData &dstData)
 		dstEnd   = (UTF8 *) (dstBase + dstData.GetSize());
 		
 		theResult = ConvertUTF16toUTF8(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
-		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		theErr    = ConvertUTF(dstData, dstStart, theResult);
 		}
 	while (theErr == kNErrExhaustedDst);
 
@@ -410,7 +474,7 @@ NStatus NStringEncoder::ConvertUTF16ToUTF32(const NData &srcData, NData &dstData
 		dstEnd   = (UTF32 *) (dstBase + dstData.GetSize());
 		
 		theResult = ConvertUTF16toUTF32(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
-		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		theErr    = ConvertUTF(dstData, dstStart, theResult);
 		}
 	while (theErr == kNErrExhaustedDst);
 
@@ -447,7 +511,7 @@ NStatus NStringEncoder::ConvertUTF32ToUTF8(const NData &srcData, NData &dstData)
 		dstEnd   = (UTF8 *) (dstBase + dstData.GetSize());
 		
 		theResult = ConvertUTF32toUTF8(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
-		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		theErr    = ConvertUTF(dstData, dstStart, theResult);
 		}
 	while (theErr == kNErrExhaustedDst);
 
@@ -484,7 +548,7 @@ NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData
 		dstEnd   = (UTF16 *) (dstBase + dstData.GetSize());
 		
 		theResult = ConvertUTF32toUTF16(&srcStart, srcEnd, &dstStart, dstEnd, lenientConversion);
-		theErr    = ProcessUnicode(dstData, dstStart, theResult);
+		theErr    = ConvertUTF(dstData, dstStart, theResult);
 		}
 	while (theErr == kNErrExhaustedDst);
 
@@ -496,9 +560,9 @@ NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData
 
 
 //============================================================================
-//		NStringEncoder::ProcessUnicode : Process a Unicode conversion.
+//		NStringEncoder::ConvertUTF : Process a Unicode conversion.
 //----------------------------------------------------------------------------
-NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt32 theResult)
+NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, UInt32 theResult)
 {	NStatus		theErr;
 
 
@@ -537,35 +601,59 @@ NStatus NStringEncoder::ProcessUnicode(NData &theData, const void *dataEnd, UInt
 
 
 //============================================================================
-//		NStringEncoder::GetTerminatorSize : Get the size of a terminator.
+//		NStringEncoder::SwapUTF : Endian-swap UTF data.
 //----------------------------------------------------------------------------
-NIndex NStringEncoder::GetTerminatorSize(NStringEncoding theEncoding)
-{	NIndex		theSize;
+void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
+{	NIndex				n, charSize, dataSize;
+	EndianFormat		srcFormat, dstFormat;
+	NUnicodeParser		theParser;
+	UInt8				*dataPtr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(GetMaxCharSize(srcEncoding) == GetMaxCharSize(dstEncoding));
 
 
 
 	// Get the state we need
-	switch (theEncoding) {
-		case kNStringEncodingUTF8:
-			theSize = (NIndex) sizeof(UTF8Char);
-			break;
+	srcFormat = theParser.GetEndianFormat(srcEncoding);
+	dstFormat = theParser.GetEndianFormat(dstEncoding);
+	charSize  = GetMaxCharSize(srcEncoding);
+	
+	if (charSize == 1 || srcFormat == dstFormat)
+		return;
 
-		case kNStringEncodingUTF16:
-			theSize = (NIndex) sizeof(UTF16Char);
-			break;
 
-		case kNStringEncodingUTF32:
-			theSize = (NIndex) sizeof(UTF32Char);
-			break;
 
-		default:
-			NN_LOG("Unknown encoding: %d", theEncoding);
-			theSize = 0;
-			break;
+	// Get the data
+	dataPtr  = theData.GetData();
+	dataSize = theData.GetSize();
+	
+	NN_ASSERT((dataSize % charSize) == 0);
+
+
+
+	// Swap the data
+	for (n = 0; n < dataSize; n += charSize)
+		{
+		switch (charSize) {
+			case 2:
+				SwapUInt16((UInt16 *) dataPtr);
+				break;
+			
+			case 4:
+				SwapUInt32((UInt32 *) dataPtr);
+				break;
+
+			default:
+				NN_LOG("Unknown char size: %d", charSize);
+				return;
+				break;
+			}
+		
+		dataPtr += charSize;
 		}
-
-	return(theSize);
 }
-
 
 

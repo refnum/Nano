@@ -2,7 +2,8 @@
 		NString.cpp
 
 	DESCRIPTION:
-		Strings are stored as NULL-terminated UTF8 or UTF16 data.
+		Strings are stored as NULL-terminated UTF8 or UTF16 data, without any
+		leading BOM.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -16,6 +17,7 @@
 //----------------------------------------------------------------------------
 #include "pcre.h"
 
+#include "NTextUtilities.h"
 #include "NSTLUtilities.h"
 #include "NString.h"
 
@@ -176,7 +178,7 @@ const UTF16Char *NString::GetUTF16(void) const
 
 	if (theValue->theEncoding != kNStringEncodingUTF16)
 		{
-		mData   = GetData(kNStringEncodingUTF16, true);
+		mData   = GetData(kNStringEncodingUTF16, kNStringNullTerminate);
 		theData = &mData;
 		}
 
@@ -195,8 +197,9 @@ const UTF16Char *NString::GetUTF16(void) const
 //============================================================================
 //		NString::GetData : Get the string.
 //----------------------------------------------------------------------------
-NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
+NData NString::GetData(NStringEncoding theEncoding, NStringRendering renderAs) const
 {	NStringEncoder			theEncoder;
+	NUnicodeParser			theParser;
 	const NStringValue		*theValue;
 	NData					theData;
 	NStatus					theErr;
@@ -212,9 +215,15 @@ NData NString::GetData(NStringEncoding theEncoding, bool nullTerminate) const
 
 
 
-	// Add the terminator
-	if (theErr == kNoErr && nullTerminate)
-		theEncoder.AddTerminator(theData, theEncoding);
+	// Render the string
+	if (theErr == kNoErr)
+		{
+		if (renderAs & kNStringUnicodeBOM)
+			theParser.AddBOM(theData, theEncoding);
+
+		if (renderAs & kNStringNullTerminate)
+			theEncoder.AddTerminator(theData, theEncoding);
+		}
 
 	return(theData);
 }
@@ -1717,7 +1726,7 @@ NUnicodeParser NString::GetParser(const NData &theData, NStringEncoding theEncod
 
 
 	// Get the parser
-	theParser.SetValue(theData, theEncoding);
+	theParser.Parse(theData, theEncoding);
 
 	return(theParser);
 }
@@ -1773,13 +1782,18 @@ NIndex NString::GetCharacterOffset(const NRangeList &theRanges, NIndex byteOffse
 NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding) const
 {	NStringEncoding			bestEncoding;
 	NIndex					n, theSize;
+	NUnicodeParser			theParser;
 	const UTF32Char			*chars32;
 	const UTF16Char			*chars16;
 	const UTF8Char			*chars8;
+	UTF16Char				char16;
+	UTF32Char				char32;
 
 
 
 	// Get the best encoding
+	//
+	// We use UTF8 by default, switching to UTF16 for non-ASCII content.
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
 			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF8Char));
@@ -1798,13 +1812,16 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 
 		case kNStringEncodingUTF16:
+		case kNStringEncodingUTF16BE:
+		case kNStringEncodingUTF16LE:
 			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF16Char));
 			chars16      = (const UTF16Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
 			for (n = 0; n < theSize; n++)
 				{
-				if (chars16[n] > kASCIILimit)
+				char16 = theParser.GetNativeUTF16(chars16[n], theEncoding);
+				if (char16 > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -1814,13 +1831,16 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 
 		case kNStringEncodingUTF32:
+		case kNStringEncodingUTF32BE:
+		case kNStringEncodingUTF32LE:
 			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF32Char));
 			chars32      = (const UTF32Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
 			for (n = 0; n < theSize; n++)
 				{
-				if (chars32[n] > kASCIILimit)
+				char32 = theParser.GetNativeUTF32(chars32[n], theEncoding);
+				if (char32 > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -1830,6 +1850,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 
 		default:
+			NN_LOG("Unknown encoding: %d", theEncoding);
 			bestEncoding = kNStringEncodingUTF16;
 			break;
 		}

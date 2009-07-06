@@ -44,6 +44,14 @@ static const NStringFlags kNStringNumericNoCase						= kNStringNumeric | kNStrin
 static const NStringFlags kNStringPatternNoCase						= kNStringPattern | kNStringNoCase;
 
 
+// Renderings
+typedef NBitfield NStringRendering;
+
+static const NStringRendering kNStringRenderNone					= 0;
+static const NStringRendering kNStringNullTerminate					= (1 << 0);
+static const NStringRendering kNStringUnicodeBOM					= (1 << 1);
+
+
 // Capitalization
 typedef enum {
 	kNCapitalizeWords,
@@ -97,9 +105,9 @@ class NString :	public NContainer,
 				public NSharedValueString {
 public:
 										NString(const void			*thePtr, NIndex numBytes=kNStringLength, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(const NData			&theData,                               NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const NData			&theData,                                NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NStringUTF8	&theString);
-										
+
 										 NString(void);
 	virtual								~NString(void);
 
@@ -114,7 +122,7 @@ public:
 	const char							*GetUTF8( void) const;
 	const UTF16Char						*GetUTF16(void) const;
 
-	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, bool nullTerminate=false) const;
+	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NStringRendering renderAs=kNStringRenderNone) const;
 	NStatus								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
 
