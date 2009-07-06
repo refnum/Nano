@@ -87,12 +87,12 @@ public:
 	void								Join(const NArray &theValue);
 
 
-	// Process each item
-	void								ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange=kNRangeAll);
-
-
 	// Sort the array
 	void								Sort(const NArraySortFunctor &theFunctor=NULL, const NRange &theRange=kNRangeAll);
+
+
+	// Process each item
+	void								ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange=kNRangeAll);
 
 
 	// Does a value exist?

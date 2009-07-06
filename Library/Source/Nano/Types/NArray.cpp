@@ -219,6 +219,31 @@ void NArray::Join(const NArray &theValue)
 
 
 //============================================================================
+//		NArray::Sort : Sort the array.
+//----------------------------------------------------------------------------
+void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
+{	NArrayValueIterator		iterFirst, iterLast;
+	NRange					processRange;
+	NArrayValue				*theArray;
+
+
+
+	// Get the state we need
+	theArray     = GetMutable();
+	processRange = theRange.GetNormalized(GetSize());
+	iterFirst    = theArray->begin() + processRange.GetFirst();
+	iterLast     = theArray->begin() + processRange.GetNext();
+
+
+	// Sort the array
+	std::sort(iterFirst, iterLast, NSortArray(theFunctor));
+}
+
+
+
+
+
+//============================================================================
 //		NArray::ForEach : Process each item.
 //----------------------------------------------------------------------------
 void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange)
@@ -238,31 +263,6 @@ void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRa
 
 	// Process the array
 	for_each(iterFirst, iterLast, theFunctor);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::Sort : Sort the array.
-//----------------------------------------------------------------------------
-void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
-{	NArrayValueIterator		iterFirst, iterLast;
-	NRange					processRange;
-	NArrayValue				*theArray;
-
-
-
-	// Get the state we need
-	theArray     = GetMutable();
-	processRange = theRange.GetNormalized(GetSize());
-	iterFirst    = theArray->begin() + processRange.GetFirst();
-	iterLast     = theArray->begin() + processRange.GetNext();
-
-
-	// Sort the array
-	std::sort(iterFirst, iterLast, NSortArray(theFunctor));
 }
 
 
