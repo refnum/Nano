@@ -26,6 +26,10 @@
 //----------------------------------------------------------------------------
 class NChecksum {
 public:
+										NChecksum( void);
+	virtual								~NChecksum(void);
+
+
 	// Get the internet checksum
 	UInt16								GetInternet(NIndex theSize, const void *thePtr);
 
@@ -36,6 +40,11 @@ public:
 
 	// Get an Adler32 checksum
 	UInt32								GetAdler32(NIndex theSize, const void *thePtr, UInt32 prevValue=0);
+
+
+private:
+
+
 };
 
 
