@@ -191,12 +191,11 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 
 	hasChildElements = ContainsElements(theChildren);
 	childIndent      = theIndent + kEncodeIndent;
-	theKeys          = theAttributes.GetKeys();
+	theKeys          = theAttributes.GetKeys(true);
 
 
 
 	// Collect the attributes
-	theKeys.Sort();
 	theKeys.ForEach(BindSelf(NXMLEncoder::EncodeElementAttribute, theAttributes, _1, &textAttributes));
 	textAttributes.TrimRight();
 

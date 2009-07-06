@@ -90,7 +90,7 @@ public:
 
 
 	// Get the keys
-	NStringList							GetKeys(void) const;
+	NStringList							GetKeys(bool sortKeys=false) const;
 
 
 	// Get/set a value

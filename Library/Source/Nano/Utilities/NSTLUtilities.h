@@ -145,6 +145,11 @@ template <class T, class C> void sort(T &container, const C &comparator)
 	std::sort(container.begin(), container.end(), comparator);
 }
 
+template <class T> void sort(T &container) 
+{
+	std::sort(container.begin(), container.end());
+}
+
 
 // Search a container
 template <class T> bool contains(const T &container, const typename T::value_type &value) 

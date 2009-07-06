@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSTLUtilities.h"
 #include "NNumber.h"
 #include "NDictionary.h"
 
@@ -194,7 +195,7 @@ void NDictionary::RemoveKey(const NString &theKey)
 //============================================================================
 //		NDictionary::GetKeys : Get the keys.
 //----------------------------------------------------------------------------
-NStringList NDictionary::GetKeys(void) const
+NStringList NDictionary::GetKeys(bool sortKeys) const
 {	const NDictionaryValue				*theDict;
 	NDictionaryValueConstIterator		theIter;
 	NStringList							theKeys;
@@ -209,6 +210,9 @@ NStringList NDictionary::GetKeys(void) const
 	// Get the keys
 	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
 		theKeys.push_back(theIter->first);
+
+	if (sortKeys)
+		sort(theKeys);
 
 	return(theKeys);
 }
