@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTextUtilities.h"
 #include "NXMLParser.h"
 #include "NXMLEncoder.h"
 
@@ -275,12 +276,7 @@ NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 
 	// Encode the node
 	theText = theNode->GetTextValue();
-	
-	theText.ReplaceAll("&",  "&amp;");
-	theText.ReplaceAll("<",  "&lt;");
-	theText.ReplaceAll(">",  "&gt;");
-	theText.ReplaceAll("'",  "&apos;");
-	theText.ReplaceAll("\"", "&quot;");
+	theText = NTextUtilities::EscapeEntities(theText);
 
 	return(theText);
 }
