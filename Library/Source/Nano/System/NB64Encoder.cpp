@@ -74,6 +74,12 @@ NString NB64Encoder::Encode(const NData &theValue)
 	if (dataSize != 0)
 		theString += NString(dataPtr, dataSize);
 
+
+
+	// Remove the trailing newline
+	NN_ASSERT(theString.GetRight(1) == "\n");
+	theString.TrimRight(1);
+
 	return(theString);
 }
 

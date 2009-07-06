@@ -189,7 +189,7 @@ static const char *kTestDataBase64						=	"iVBORw0KGgoAAAANSUhEUgAAAD4AAABACAMAA
 															"VWUWOIpBu+NaN78FL4IQXCpRCCmWlmJTjvCYJ+cOG7gqcMKBhkYK1SqZq2LmifWooTARgsIt\n"
 															"O3w2zGXwcvJ7gtvLpS5OAwvoacSu6FZvhpecDhKB7QZmVLS0+K6/ZPpU/6GhS0xXJLAR268V\n"
 															"oYoSPWJ7QyYZwS1ryQII0oLmMA1iJsoCHBdZNdFxgLnfksY5mgcXYfBRURTZ1UY2mShy2rgD\n"
-															"/JLLIfjzL9zuCy7i52K4emm2McQocPP/7shVbe5p1HUAAAAASUVORK5CYII=\n";
+															"/JLLIfjzL9zuCy7i52K4emm2McQocPP/7shVbe5p1HUAAAAASUVORK5CYII=";
 
 
 
