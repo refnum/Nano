@@ -32,6 +32,7 @@
 #include "TFile.h"
 #include "TPropertyList.h"
 
+#include "TB64Encoder.h"
 #include "TByteSwap.h"
 #include "TChecksum.h"
 #include "TUnicodeParser.h"
@@ -107,6 +108,7 @@ int main(int argc, const char **argv)
 
 
 	// System
+	TB64Encoder::Execute();
 	TByteSwap::Execute();
 	TChecksum::Execute();
 	TUnicodeParser::Execute();
