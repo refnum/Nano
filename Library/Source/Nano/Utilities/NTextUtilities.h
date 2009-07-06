@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NDictionary.h"
 #include "NString.h"
 
 
@@ -27,12 +28,29 @@
 //----------------------------------------------------------------------------
 class NTextUtilities {
 public:
+	// Escape/unescape XML entities
+	//
+	// Replaces special characters with their entities, or the reverse.
+	//
+	// The standard five entities are always replaced. Additional entities
+	// can replaced with a custom dictionary.
+	//
+	// The keys of this dictionary are the entity characters ("&"), while the
+	// values are their expansions ("&amp;"). The dictionary must be invertible.
+	static NString						EscapeEntities(  const NString &theValue, const NDictionary &extraEntities=NDictionary());
+	static NString						UnescapeEntities(const NString &theValue, const NDictionary &extraEntities=NDictionary());
+
+
 	// Get a hex dump
-	static NString						GetHexDump(UInt32 theSize, const void *thePtr, char flowSign=0x00, bool hexOnly=false);
+	static NString						GetHexDump(NIndex theSize, const void *thePtr, char flowSign=0x00, bool hexOnly=false);
 
 
 private:
-	static NString						GetHexLine(UInt32 lineOffset, UInt32 lineSize, UInt32 linePad, const UInt8 *theData, char flowSign, bool hexOnly);
+	static NDictionary					GetEntityDictionary(const NDictionary &extraEntities, bool forEscape);
+	static void							ProcessEntities(const NString &theKey, const NVariant &theValue, NString *theResult);
+	
+
+	static NString						GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const UInt8 *theData, char flowSign, bool hexOnly);
 };
 
 
