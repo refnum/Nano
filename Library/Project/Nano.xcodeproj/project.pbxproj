@@ -69,6 +69,8 @@
 		AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */; };
 		AB28FC460FB5D9F000F72C61 /* NThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */; };
 		AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
+		AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
+		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -178,6 +180,8 @@
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
 		AB28FBDD0FB5D36300F72C61 /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
+		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		AB9154E50F9B4DD5009FFEAF /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
 		AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_chartables.c; sourceTree = "<group>"; };
@@ -683,6 +687,8 @@
 				AB9155700F9B4DD6009FFEAF /* NSTLUtilities.h */,
 				AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */,
 				AB9155720F9B4DD6009FFEAF /* NSystemUtilities.h */,
+				AB35B34210011269009B75EF /* NTextUtilities.cpp */,
+				AB35B34310011269009B75EF /* NTextUtilities.h */,
 				AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */,
 				AB9155740F9B4DD6009FFEAF /* NThreadUtilities.h */,
 				AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */,
@@ -912,6 +918,7 @@
 				AB28FC430FB5D9F000F72C61 /* NMathUtilities.cpp in Sources */,
 				AB28FC440FB5D9F000F72C61 /* NSTLUtilities.cpp in Sources */,
 				AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */,
+				AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */,
 				AB28FC460FB5D9F000F72C61 /* NThreadUtilities.cpp in Sources */,
 				AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */,
 			);
@@ -1001,6 +1008,7 @@
 				AB9155BD0F9B4DD6009FFEAF /* NMathUtilities.cpp in Sources */,
 				AB9155BE0F9B4DD6009FFEAF /* NSTLUtilities.cpp in Sources */,
 				AB9155BF0F9B4DD6009FFEAF /* NSystemUtilities.cpp in Sources */,
+				AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */,
 				AB9155C00F9B4DD6009FFEAF /* NThreadUtilities.cpp in Sources */,
 				AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */,
 			);

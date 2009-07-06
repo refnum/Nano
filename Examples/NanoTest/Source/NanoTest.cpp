@@ -63,6 +63,7 @@
 #include "TMathUtilities.h"
 #include "TSTLUtilities.h"
 #include "TSystemUtilities.h"
+#include "TTextUtilities.h"
 #include "TThreadUtilities.h"
 #include "TTimeUtilities.h"
 
@@ -146,6 +147,7 @@ int main(int argc, const char **argv)
 	TMathUtilities::Execute();
 	TSTLUtilities::Execute();
 	TSystemUtilities::Execute();
+	TTextUtilities::Execute();
 	TThreadUtilities::Execute();
 	TTimeUtilities::Execute();
 
