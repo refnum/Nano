@@ -28,8 +28,8 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const UInt8 kTextUTF8[]										= { 0xE6, 0x97, 0xA5, 0xE6, 0x9C, 0xAC, 0xE8, 0xAA, 0x9E };
-static const UInt8 kTextUTF16[]										= { 0x65, 0xE5, 0x67, 0x2C, 0x8A, 0x9E };
-static const UInt8 kTextUTF32[]										= { 0x65, 0xE5, 0x00, 0x00, 0x67, 0x2C, 0x00, 0x00, 0x8A, 0x9E, 0x00, 0x00 };
+static const UInt8 kTextUTF16BE[]									= { 0x65, 0xE5, 0x67, 0x2C, 0x8A, 0x9E };
+static const UInt8 kTextUTF32BE[]									= { 0x00, 0x00, 0x65, 0xE5, 0x00, 0x00, 0x67, 0x2C, 0x00, 0x00, 0x8A, 0x9E };
 
 static const UTF32Char kChar0										= 0x000065E5;
 static const UTF32Char kChar1										= 0x0000672C;
@@ -50,13 +50,13 @@ void TUnicodeParser::Execute(void)
 
 
 	// Initialise ourselves
-	dataUTF8  = NData(GET_ARRAY_SIZE(kTextUTF8),   kTextUTF8);
-	dataUTF16 = NData(GET_ARRAY_SIZE(kTextUTF16), kTextUTF16);
-	dataUTF32 = NData(GET_ARRAY_SIZE(kTextUTF32), kTextUTF32);
+	dataUTF8  = NData(GET_ARRAY_SIZE(kTextUTF8),    kTextUTF8);
+	dataUTF16 = NData(GET_ARRAY_SIZE(kTextUTF16BE), kTextUTF16BE);
+	dataUTF32 = NData(GET_ARRAY_SIZE(kTextUTF32BE), kTextUTF32BE);
 
-	parserUTF8.SetValue( dataUTF8,  kNStringEncodingUTF8);
-	parserUTF16.SetValue(dataUTF16, kNStringEncodingUTF16);
-	parserUTF32.SetValue(dataUTF32, kNStringEncodingUTF32);
+	parserUTF8.Parse( dataUTF8,  kNStringEncodingUTF8);
+	parserUTF16.Parse(dataUTF16, kNStringEncodingUTF16BE);
+	parserUTF32.Parse(dataUTF32, kNStringEncodingUTF32BE);
 
 
 
