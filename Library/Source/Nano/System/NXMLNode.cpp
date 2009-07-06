@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTextUtilities.h"
 #include "NSTLUtilities.h"
 #include "NXMLNode.h"
 
@@ -353,7 +354,9 @@ NString NXMLNode::GetElementAttribute(const NString &theName) const
 //		NXMLNode::SetElementContents : Set the element contents.
 //----------------------------------------------------------------------------
 void NXMLNode::SetElementContents(const NString &theValue)
-{
+{	NXMLNode		*theNode;
+	NString			theText;
+
 
 
 	// Validate our state
@@ -361,9 +364,15 @@ void NXMLNode::SetElementContents(const NString &theValue)
 
 
 
+	// Get the state we need
+	theText = NTextUtilities::EscapeEntities(theValue);
+	theNode = new NXMLNode(kXMLNodeText, theText);
+
+
+
 	// Set the contents
 	RemoveChildren();
-	AddChild(new NXMLNode(kXMLNodeCDATA, theValue));
+	AddChild(theNode);
 }
 
 

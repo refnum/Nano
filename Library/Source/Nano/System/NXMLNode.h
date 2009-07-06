@@ -96,7 +96,7 @@ public:
 	//
 	// For element nodes, the contents are the concatenation of any text or CDATA nodes
 	// under the node. Assigning new contents to an element will replace any existing
-	// children with a single CDATA node.
+	// children with a single text node.
 	NString								GetElementContents( void)                   const;
 	NDictionary							GetElementAttributes(void)                  const;
 	NString								GetElementAttribute(const NString &theName) const;
