@@ -32,6 +32,10 @@ public:
 
 	// Get the time since boot
 	static NTime						GetUpTime(void);
+
+
+	// Thread-safe gmtime
+	static struct tm					gmtime(time_t theTime);
 };
 
 

@@ -25,6 +25,18 @@
 //============================================================================
 //      Types
 //----------------------------------------------------------------------------
+// Gregorian date
+typedef struct {
+	SInt32			year;			// Absolute value
+	SInt8			month;			// 1..12
+	SInt8			day;			// 1..31
+	SInt8			hour;			// 0..23
+	SInt8			minute;			// 0..59
+	NTime			second;			// 0..60
+} NGregorianDate;
+
+
+// Lists
 class NDate;
 
 typedef std::vector<NDate>											NDateList;
@@ -40,7 +52,9 @@ typedef NDateList::const_iterator									NDateListConstIterator;
 //----------------------------------------------------------------------------
 class NDate : public NComparable<NDate> {
 public:
-										 NDate(NTime theTime);
+										 NDate(const NGregorianDate &theDate);
+										 NDate(      NTime           theTime);
+
 										 NDate(void);
 	virtual								~NDate(void);
 
@@ -51,6 +65,11 @@ public:
 
 	// Compare the value
 	NComparison							Compare(const NDate &theValue) const;
+
+
+	// Get/set the Gregorian date
+	NGregorianDate						GetGregorianDate(void) const;
+	void								SetGregorianDate(const NGregorianDate &theDate);
 
 
 	// Get/set the time
