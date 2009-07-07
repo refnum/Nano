@@ -48,6 +48,7 @@
 #include "TColor.h"
 #include "TData.h"
 #include "TDate.h"
+#include "TDateFormatter.h"
 #include "TDictionary.h"
 #include "TFunctor.h"
 #include "TNumber.h"
@@ -130,6 +131,7 @@ int main(int argc, const char **argv)
 	TColor::Execute();
 	TData::Execute();
 	TDate::Execute();
+	TDateFormatter::Execute();
 	TDictionary::Execute();
 	TFunctor::Execute();
 	TNumber::Execute();

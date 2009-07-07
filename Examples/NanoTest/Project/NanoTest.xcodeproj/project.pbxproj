@@ -11,6 +11,7 @@
 		AB1694F610028D1E00F7D4B7 /* TB64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1694F510028D1E00F7D4B7 /* TB64Encoder.cpp */; };
 		AB1F63200FF9095300A0AE35 /* TXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F631F0FF9095300A0AE35 /* TXMLEncoder.cpp */; };
 		AB35B33110011228009B75EF /* TTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B33010011228009B75EF /* TTextUtilities.cpp */; };
+		AB669B4210035253006CB82F /* TDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4010035253006CB82F /* TDateFormatter.cpp */; };
 		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
 		AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */; };
 		AB9156370F9B4F37009FFEAF /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155E20F9B4F37009FFEAF /* TCommandLine.cpp */; };
@@ -93,6 +94,8 @@
 		AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AB669B4010035253006CB82F /* TDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDateFormatter.cpp; sourceTree = "<group>"; };
+		AB669B4110035253006CB82F /* TDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDateFormatter.h; sourceTree = "<group>"; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
 		AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
@@ -368,6 +371,8 @@
 				AB91560F0F9B4F37009FFEAF /* TData.h */,
 				AB9156100F9B4F37009FFEAF /* TDate.cpp */,
 				AB9156110F9B4F37009FFEAF /* TDate.h */,
+				AB669B4010035253006CB82F /* TDateFormatter.cpp */,
+				AB669B4110035253006CB82F /* TDateFormatter.h */,
 				AB9156120F9B4F37009FFEAF /* TDictionary.cpp */,
 				AB9156130F9B4F37009FFEAF /* TDictionary.h */,
 				ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */,
@@ -560,6 +565,7 @@
 				AB9156490F9B4F37009FFEAF /* TColor.cpp in Sources */,
 				AB91564A0F9B4F37009FFEAF /* TData.cpp in Sources */,
 				AB91564B0F9B4F37009FFEAF /* TDate.cpp in Sources */,
+				AB669B4210035253006CB82F /* TDateFormatter.cpp in Sources */,
 				AB91564C0F9B4F37009FFEAF /* TDictionary.cpp in Sources */,
 				ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */,
 				AB91564E0F9B4F37009FFEAF /* TNumber.cpp in Sources */,
