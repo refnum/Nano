@@ -672,9 +672,17 @@ bool NNumber::SetValue(const NString &theValue)
 
 
 	// Parse the value
+	//
+	// Some integers will also pass parsing as floats, however we coerce these
+	// back to integers when possible to allow us to use more tightly packed
+	// types for storage in the future.
 	if (sscanf(theValue.GetUTF8(), "%lf", &valueReal) == 1)
 		{
 		SetValueFloat64(valueReal);
+
+		if (GetValueSInt64(valueInteger))
+			SetValueSInt64(valueInteger);
+
 		return(true);
 		}
 
