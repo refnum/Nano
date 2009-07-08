@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NXMLNode.h"
+#include "NXMLParser.h"
 
 
 
@@ -37,16 +38,19 @@ public:
 
 
 private:
-	NString								EncodeNode(   const NXMLNode *theNode, const NString &theIndent);
-	NString								EncodeElement(const NXMLNode *theNode, const NString &theIndent);
-	NString								EncodeComment(const NXMLNode *theNode);
-	NString								EncodeText(   const NXMLNode *theNode);
-	NString								EncodeCDATA(  const NXMLNode *theNode);
+	NString								EncodeNode(    const NXMLNode *theNode, const NString &theIndent);
+	NString								EncodeDocument(const NXMLNode *theNode, const NString &theIndent);
+	NString								EncodeDocType( const NXMLNode *theNode);
+	NString								EncodeElement( const NXMLNode *theNode, const NString &theIndent);
+	NString								EncodeComment( const NXMLNode *theNode);
+	NString								EncodeText(    const NXMLNode *theNode);
+	NString								EncodeCData(   const NXMLNode *theNode);
 
-	bool								DecodeElementStart(const NString &theName, const NDictionary &theAttributes);
+	bool								DecodeDocType(     const NString &theName, const NXMLDocumentTypeInfo &theInfo);
+	bool								DecodeElementStart(const NString &theName, const NDictionary          &theAttributes);
 	bool								DecodeElementEnd(  const NString &theName);
 	bool								DecodeComment(     const NString &theValue);
-	bool								DecodeText(        const NString &theValue, bool isCDATA);
+	bool								DecodeText(        const NString &theValue, bool isCData);
 
 	void								EncodeElementAttribute(const NDictionary &theAttributes, const NVariant &attributeKey, NString *theResult);
 	bool								ContainsElements(const NXMLNodeList *theNodes); 

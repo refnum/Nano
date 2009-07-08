@@ -46,13 +46,22 @@ static const NXMLParserOptions kNXMLParserDefault						= kNXMLParserSkipWhitespa
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Document info
+typedef struct {
+	NString			systemID;
+	NString			publicID;
+	bool			hasInternal;
+} NXMLDocumentTypeInfo;
+
+
 // Functors
 //
 // Processing functors should return true to continue processing.
+typedef nfunctor<bool (const NString &theName, const NXMLDocumentTypeInfo &theInfo)>	NXMLProcessDocumentTypeFunctor;
 typedef nfunctor<bool (const NString &theName, const NDictionary &theAttributes)>		NXMLProcessElementStartFunctor;
 typedef nfunctor<bool (const NString &theName)>											NXMLProcessElementEndFunctor;
 typedef nfunctor<bool (const NString &theValue)>										NXMLProcessCommentFunctor;
-typedef nfunctor<bool (const NString &theValue, bool isCDATA)>							NXMLProcessTextFunctor;
+typedef nfunctor<bool (const NString &theValue, bool isCData)>							NXMLProcessTextFunctor;
 
 
 // Internal
@@ -98,6 +107,7 @@ public:
 	// Documents can be parsed by sub-classing and overriding ProcessXXX, or
 	// by assigning processing functors. If set, these functors are invoked
 	// by the default implementation of ProcessXXX.
+	void								SetProcessDocumentType(const NXMLProcessDocumentTypeFunctor &theFunctor);
 	void								SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor);
 	void								SetProcessElementEnd(  const NXMLProcessElementEndFunctor   &theFunctor);
 	void								SetProcessComment(     const NXMLProcessCommentFunctor      &theFunctor);
@@ -108,11 +118,12 @@ protected:
 	// Process the items
 	//
 	// Processing methods should return true to continue processing.
-	virtual bool						ProcessElementStart(const NString &theName, const NDictionary &theAttributes);
+	virtual bool						ProcessDocumentType(const NString &theName, const NXMLDocumentTypeInfo &theInfo);
+	virtual bool						ProcessElementStart(const NString &theName, const NDictionary          &theAttributes);
 	virtual bool						ProcessElementEnd(  const NString &theName);
 	virtual bool						ProcessComment(     const NString &theValue);
-	virtual bool						ProcessText(        const NString &theValue, bool isCDATA);
-	
+	virtual bool						ProcessText(        const NString &theValue, bool isCData);
+
 
 private:
 	NStatus								CreateParser( void);
@@ -123,21 +134,23 @@ private:
 	bool								FlushText(  void);
 	void								StopParsing(void);
 
+	static void							ParsedDocumentType(void *userData, const XML_Char *theName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal);
 	static void							ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList);
 	static void							ParsedElementEnd(  void *userData, const XML_Char *theName);
 	static void							ParsedComment(     void *userData, const XML_Char *theText);
 	static void							ParsedText(        void *userData, const XML_Char *theText, int theSize);
-	static void							ParsedCDATAStart(  void *userData);
-	static void							ParsedCDATAEnd(    void *userData);
+	static void							ParsedCDataStart(  void *userData);
+	static void							ParsedCDataEnd(    void *userData);
 	
 
 private:
 	XML_Parser							mParser;
 	NXMLParserOptions					mOptions;
 
-	bool								mInsideCDATA;
+	bool								mInsideCData;
 	NString								mParsedText;
 
+	NXMLProcessDocumentTypeFunctor		mProcessDocumentType;
 	NXMLProcessElementStartFunctor		mProcessElementStart;
 	NXMLProcessElementEndFunctor		mProcessElementEnd;
 	NXMLProcessCommentFunctor			mProcessComment;

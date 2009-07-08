@@ -27,10 +27,12 @@
 //		Constants
 //----------------------------------------------------------------------------
 typedef enum {
+	kXMLNodeDocument,
+	kXMLNodeDocType,
 	kXMLNodeElement,
 	kXMLNodeComment,
 	kXMLNodeText,
-	kXMLNodeCDATA
+	kXMLNodeCData
 } XMLNodeType;
 
 
@@ -86,18 +88,26 @@ public:
 
 	// Get/set the value
 	//
-	// The text value is the text associated with the node. For element nodes,
-	// this is the name of the element.
+	// The text value is the text associated with the node (for document
+	// type or element nodes, the text value is the name of the node).
 	NString								GetTextValue(void) const;
 	void								SetTextValue(const NString &theValue);
 
 
+	// Get/set document type properties
+	NString								GetDocTypeSystemID(void) const;
+	NString								GetDocTypePublicID(void) const;
+
+	void								SetDocTypeSystemID(const NString &theID);
+	void								SetDocTypePublicID(const NString &theID);
+
+
 	// Get/set element properties
 	//
-	// For element nodes, the contents are the concatenation of any text or CDATA nodes
+	// The contents of an element node are the concatenation of any text or CData nodes
 	// under the node. Assigning new contents to an element will replace any existing
 	// children with a single text node.
-	NString								GetElementContents( void)                   const;
+	NString								GetElementContents(  void)                  const;
 	NDictionary							GetElementAttributes(void)                  const;
 	NString								GetElementAttribute(const NString &theName) const;
 	
@@ -112,7 +122,7 @@ private:
 
 	XMLNodeType							mType;
 	NString								mValue;
-	NDictionary							mElementAttributes;
+	NDictionary							mAttributes;
 };
 
 

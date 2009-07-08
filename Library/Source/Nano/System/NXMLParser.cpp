@@ -34,8 +34,9 @@ NXMLParser::NXMLParser(void)
 	mParser  = NULL;
 	mOptions = kNXMLParserDefault;
 	
-	mInsideCDATA = false;
+	mInsideCData = false;
 
+	mProcessDocumentType = NULL;
 	mProcessElementStart = NULL;
 	mProcessElementEnd   = NULL;
 	mProcessComment      = NULL;
@@ -78,17 +79,18 @@ void NXMLParser::Clear(void)
 	XML_ParserReset(mParser, NULL);
 
 	XML_SetUserData(                mParser, this);
+	XML_SetStartDoctypeDeclHandler( mParser, ParsedDocumentType);
 	XML_SetStartElementHandler(     mParser, ParsedElementStart);
 	XML_SetEndElementHandler(       mParser, ParsedElementEnd);
 	XML_SetCommentHandler(          mParser, ParsedComment);
 	XML_SetCharacterDataHandler(    mParser, ParsedText);
-	XML_SetStartCdataSectionHandler(mParser, ParsedCDATAStart);
-	XML_SetEndCdataSectionHandler(  mParser, ParsedCDATAEnd);
+	XML_SetStartCdataSectionHandler(mParser, ParsedCDataStart);
+	XML_SetEndCdataSectionHandler(  mParser, ParsedCDataEnd);
 
 
 
 	// Reset our state
-	mInsideCDATA = false;
+	mInsideCData = false;
 
 	mParsedText.Clear();
 }
@@ -213,6 +215,21 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 
 
 //============================================================================
+//		NXMLParser::SetProcessDocumentType : Set the document type functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProcessDocumentType(const NXMLProcessDocumentTypeFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProcessDocumentType = theFunctor;
+}
+
+
+
+
+
+//============================================================================
 //		NXMLParser::SetProcessElementStart : Set the element start functor.
 //----------------------------------------------------------------------------
 void NXMLParser::SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor)
@@ -273,9 +290,27 @@ void NXMLParser::SetProcessText(const NXMLProcessTextFunctor &theFunctor)
 
 
 //============================================================================
-//		NXMLParser::ProcessElementStart : Process an element start.
+//		NXMLParser::ProcessDocumentType : Process a document type.
 //----------------------------------------------------------------------------
 #pragma mark -
+bool NXMLParser::ProcessDocumentType(const NString &theName, const NXMLDocumentTypeInfo &theInfo)
+{
+
+
+	// Process the item
+	if (mProcessDocumentType != NULL)
+		return(mProcessDocumentType(theName, theInfo));
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::ProcessElementStart : Process an element start.
+//----------------------------------------------------------------------------
 bool NXMLParser::ProcessElementStart(const NString &theName, const NDictionary &theAttributes)
 {
 
@@ -330,13 +365,13 @@ bool NXMLParser::ProcessComment(const NString &theValue)
 //============================================================================
 //		NXMLParser::ProcessText : Process text.
 //----------------------------------------------------------------------------
-bool NXMLParser::ProcessText(const NString &theValue, bool isCDATA)
+bool NXMLParser::ProcessText(const NString &theValue, bool isCData)
 {
 
 
 	// Process the item
 	if (mProcessText != NULL)
-		return(mProcessText(theValue, isCDATA));
+		return(mProcessText(theValue, isCData));
 
 	return(true);
 }
@@ -431,6 +466,31 @@ NStatus NXMLParser::ConvertXMLStatus(SInt32 xmlErr)
 
 
 //============================================================================
+//		NXMLParser::ParsedDocumentType : Process a document type.
+//----------------------------------------------------------------------------
+void NXMLParser::ParsedDocumentType(void *userData, const XML_Char *theName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal)
+{	NXMLParser					*thisPtr = (NXMLParser *) userData;
+	NXMLDocumentTypeInfo		theInfo;
+
+
+
+	// Get the state we need
+	theInfo.systemID    = NString(sysID);
+	theInfo.publicID    = NString(pubID);
+	theInfo.hasInternal = (hasInternal != 0);
+
+
+
+	// Process the item
+	if (!thisPtr->FlushText() || !thisPtr->ProcessDocumentType(theName, theInfo))
+		thisPtr->StopParsing();
+}
+
+
+
+
+
+//============================================================================
 //		NXMLParser::ParsedElementStart : Process an element start.
 //----------------------------------------------------------------------------
 void NXMLParser::ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList)
@@ -512,15 +572,15 @@ void NXMLParser::ParsedText(void *userData, const XML_Char *theText, int theSize
 
 
 //============================================================================
-//		NXMLParser::ParsedCDATAStart : Process a CDATA start.
+//		NXMLParser::ParsedCDataStart : Process a CDATA start.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedCDATAStart(void *userData)
+void NXMLParser::ParsedCDataStart(void *userData)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
 
 
 
 	// Validate our state
-	NN_ASSERT(!thisPtr->mInsideCDATA);
+	NN_ASSERT(!thisPtr->mInsideCData);
 	
 
 
@@ -528,7 +588,7 @@ void NXMLParser::ParsedCDATAStart(void *userData)
 	if (!thisPtr->FlushText())
 		thisPtr->StopParsing();
 
-	thisPtr->mInsideCDATA = true;
+	thisPtr->mInsideCData = true;
 }
 
 
@@ -536,15 +596,15 @@ void NXMLParser::ParsedCDATAStart(void *userData)
 
 
 //============================================================================
-//		NXMLParser::ParsedCDATAEnd : Process a CDATA end.
+//		NXMLParser::ParsedCDataEnd : Process a CDATA end.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedCDATAEnd(void *userData)
+void NXMLParser::ParsedCDataEnd(void *userData)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
 
 
 
 	// Validate our state
-	NN_ASSERT(thisPtr->mInsideCDATA);
+	NN_ASSERT(thisPtr->mInsideCData);
 
 
 
@@ -552,7 +612,7 @@ void NXMLParser::ParsedCDATAEnd(void *userData)
 	if (!thisPtr->FlushText())
 		thisPtr->StopParsing();
 
-	thisPtr->mInsideCDATA = false;
+	thisPtr->mInsideCData = false;
 }
 
 
@@ -578,7 +638,7 @@ bool NXMLParser::FlushText(void)
 	//
 	// Whitespace within a CDATA is always preserved, as is any whitespace
 	// surrounding a non-whitespace text section.
-	if (!mInsideCDATA && (mOptions & kNXMLParserSkipWhitespace))
+	if (!mInsideCData && (mOptions & kNXMLParserSkipWhitespace))
 		{
 		trimmedText = mParsedText;
 		trimmedText.Trim();
@@ -593,7 +653,7 @@ bool NXMLParser::FlushText(void)
 
 
 	// Flush the text
-	keepParsing = ProcessText(mParsedText, mInsideCDATA);
+	keepParsing = ProcessText(mParsedText, mInsideCData);
 	mParsedText.Clear();
 
 	return(keepParsing);

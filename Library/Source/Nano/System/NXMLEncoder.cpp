@@ -66,14 +66,13 @@ NString NXMLEncoder::Encode(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->IsType(kXMLNodeElement));
+	NN_ASSERT(theNode->IsType(kXMLNodeDocument));
 
 
 
 	// Encode the XML
-	theXML  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-	theXML += EncodeNode(theNode, "");
-	
+	theXML = EncodeNode(theNode, "");
+
 	return(theXML);
 }
 
@@ -98,6 +97,7 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 
 
 	// Prepare the parser
+	theParser.SetProcessDocumentType(BindSelf(NXMLEncoder::DecodeDocType,      _1, _2));
 	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, _1, _2));
 	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   _1));
 	theParser.SetProcessComment(     BindSelf(NXMLEncoder::DecodeComment,      _1));
@@ -105,13 +105,21 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 
 
 
+	// Create the root
+	mDecodeRoot = new NXMLNode(kXMLNodeDocument, "");
+	theNode     = mDecodeRoot;
+
+
+
 	// Decode the XML
-	theNode = NULL;
-	theErr  = theParser.Parse(theXML);
+	theErr = theParser.Parse(theXML);
 	NN_ASSERT_NOERR(theErr);
-	
-	if (theErr == kNoErr)
-		theNode = mDecodeRoot;
+
+	if (theErr != kNoErr)
+		{
+		delete mDecodeRoot;
+		theNode = NULL;
+		}
 
 
 
@@ -137,6 +145,14 @@ NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theInden
 
 	// Encode the node
 	switch (theNode->GetType()) {
+		case kXMLNodeDocument:
+			theText = EncodeDocument(theNode, theIndent);
+			break;
+		
+		case kXMLNodeDocType:
+			theText = EncodeDocType(theNode);
+			break;
+		
 		case kXMLNodeElement:
 			theText = EncodeElement(theNode, theIndent);
 			break;
@@ -149,8 +165,8 @@ NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theInden
 			theText = EncodeText(theNode);
 			break;
 		
-		case kXMLNodeCDATA:
-			theText = EncodeCDATA(theNode);
+		case kXMLNodeCData:
+			theText = EncodeCData(theNode);
 			break;
 		
 		default:
@@ -158,6 +174,79 @@ NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theInden
 			break;
 		}
 
+	return(theText);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::EncodeDocument : Encode a document node.
+//----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeDocument(const NXMLNode *theNode, const NString &theIndent)
+{	const NXMLNodeList				*theChildren;
+	NXMLNodeListConstIterator		theIter;
+	NString							theText;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->GetType() == kXMLNodeDocument);
+
+
+
+	// Get the state we need
+	theChildren = theNode->GetChildren();
+
+
+
+	// Encode the node
+	theText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+		{
+		theText += EncodeNode(*theIter, theIndent);
+		theText += kNStringNewline;
+		}
+
+	return(theText);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::EncodeDocType : Encode a DOCTYPE node.
+//----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeDocType(const NXMLNode *theNode)
+{	NString		theName, systemID, publicID;
+	NString		theText;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->GetType() == kXMLNodeDocType);
+
+
+
+	// Get the state we need
+	theName  = theNode->GetTextValue();
+	systemID = theNode->GetDocTypeSystemID();
+	publicID = theNode->GetDocTypePublicID();
+
+
+
+	// Encode the node
+	if (publicID.IsNotEmpty())
+		{
+		NN_ASSERT(systemID.IsNotEmpty());
+		theText.Format("<!DOCTYPE %@ PUBLIC \"%@\" \"%@\">", theName, publicID, systemID);
+		}
+	else
+		theText.Format("<!DOCTYPE %@ SYSTEM \"%@\">", theName, systemID);
+	
 	return(theText);
 }
 
@@ -286,15 +375,15 @@ NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 
 
 //============================================================================
-//		NXMLEncoder::EncodeCDATA : Encode a CDATA node.
+//		NXMLEncoder::EncodeCData : Encode a CDATA node.
 //----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeCDATA(const NXMLNode *theNode)
+NString NXMLEncoder::EncodeCData(const NXMLNode *theNode)
 {	NString		theText;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeCDATA);
+	NN_ASSERT(theNode->GetType() == kXMLNodeCData);
 
 
 
@@ -302,6 +391,33 @@ NString NXMLEncoder::EncodeCDATA(const NXMLNode *theNode)
 	theText.Format("<![CDATA[%@]]>", theNode->GetTextValue());
 	
 	return(theText);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLEncoder::DecodeDocType : Decode a DOCTYPE.
+//----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeDocType(const NString &theName, const NXMLDocumentTypeInfo &theInfo)
+{	NXMLNode		*theParent, *theNode;
+
+
+
+	// Decode the node
+	theParent = GetDecodeParent();
+	theNode   = new NXMLNode(kXMLNodeDocType, theName);
+	
+	if (theInfo.systemID.IsNotEmpty())
+		theNode->SetDocTypeSystemID(theInfo.systemID);
+
+	if (theInfo.publicID.IsNotEmpty())
+		theNode->SetDocTypePublicID(theInfo.publicID);
+	
+	theParent->AddChild(theNode);
+
+	return(true);
 }
 
 
@@ -325,11 +441,7 @@ bool NXMLEncoder::DecodeElementStart(const NString &theName, const NDictionary &
 
 	// Update our state
 	mDecodeElements.push_back(theNode);
-
-	if (theParent == NULL)
-		mDecodeRoot = theNode;
-	else
-		theParent->AddChild(theNode);
+	theParent->AddChild(theNode);
 	
 	return(true);
 }
@@ -366,14 +478,14 @@ bool NXMLEncoder::DecodeElementEnd(const NString &theName)
 //============================================================================
 //		NXMLEncoder::DecodeText : Decode text.
 //----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeText(const NString &theValue, bool isCDATA)
+bool NXMLEncoder::DecodeText(const NString &theValue, bool isCData)
 {	NXMLNode		*theParent, *theNode;
 
 
 
 	// Decode the node
 	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(isCDATA ? kXMLNodeCDATA : kXMLNodeText, theValue);
+	theNode   = new NXMLNode(isCData ? kXMLNodeCData : kXMLNodeText, theValue);
 	
 	theParent->AddChild(theNode);
 
@@ -467,9 +579,9 @@ NXMLNode *NXMLEncoder::GetDecodeParent(void)
 
 
 	// Get the parent
-	theNode = NULL;
-	
-	if (!mDecodeElements.empty())
+	if (mDecodeElements.empty())
+		theNode = mDecodeRoot;
+	else
 		theNode = mDecodeElements.back();
 	
 	return(theNode);

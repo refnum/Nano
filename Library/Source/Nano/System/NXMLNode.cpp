@@ -23,6 +23,16 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kAttributeDocTypeSystemID						= "system";
+static const NString kAttributeDocTypePublicID						= "public";
+
+
+
+
+
+//============================================================================
 //		NXMLNode::NXMLNode : Constructor.
 //----------------------------------------------------------------------------
 NXMLNode::NXMLNode(XMLNodeType theType, const NString &theValue)
@@ -216,8 +226,8 @@ void NXMLNode::SetType(XMLNodeType theType)
 
 
 	// Reset our state
-	if (mElementAttributes.IsNotEmpty())
-		mElementAttributes.Clear();
+	if (mAttributes.IsNotEmpty())
+		mAttributes.Clear();
 	
 	mValue.Clear();
 
@@ -262,7 +272,67 @@ void NXMLNode::SetTextValue(const NString &theValue)
 
 
 //============================================================================
-//		NXMLNode::GetElementContents : Get the element contents.
+//		NXMLNode::GetDocTypeSystemID : Get a DocType system identifier.
+//----------------------------------------------------------------------------
+NString NXMLNode::GetDocTypeSystemID(void) const
+{
+
+
+	// Get the value
+	return(mAttributes.GetValueString(kAttributeDocTypeSystemID));
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::GetDocTypePublicID : Get a DocType public identifier.
+//----------------------------------------------------------------------------
+NString NXMLNode::GetDocTypePublicID(void) const
+{
+
+
+	// Get the value
+	return(mAttributes.GetValueString(kAttributeDocTypePublicID));
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::SetDocTypeSystemID : Set a DocType system identifier.
+//----------------------------------------------------------------------------
+void NXMLNode::SetDocTypeSystemID(const NString &theID)
+{
+
+
+	// Set the value
+	mAttributes.SetValue(kAttributeDocTypeSystemID, theID);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::SetDocTypePublicID : Set a DocType public identifier.
+//----------------------------------------------------------------------------
+void NXMLNode::SetDocTypePublicID(const NString &theID)
+{
+
+
+	// Set the value
+	mAttributes.SetValue(kAttributeDocTypePublicID, theID);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::GetElementContents : Get an element's contents.
 //----------------------------------------------------------------------------
 NString NXMLNode::GetElementContents(void) const
 {	NXMLNode						*theChild;
@@ -282,15 +352,21 @@ NString NXMLNode::GetElementContents(void) const
 		theChild = *theIter;
 		
 		switch (theChild->GetType()) {
+			case kXMLNodeDocument:
+			case kXMLNodeDocType:
+				NN_LOG("Unexpected node %d inside an element!", theChild->GetType());
+				break;
+
 			case kXMLNodeElement:
 				theValue += theChild->GetElementContents();
 				break;
 			
 			case kXMLNodeComment:
+				// Ignore
 				break;
 
 			case kXMLNodeText:
-			case kXMLNodeCDATA:
+			case kXMLNodeCData:
 				theValue += theChild->GetTextValue();
 				break;
 			
@@ -308,7 +384,7 @@ NString NXMLNode::GetElementContents(void) const
 
 
 //============================================================================
-//		NXMLNode::GetElementAttributes : Get the element attributes.
+//		NXMLNode::GetElementAttributes : Get an element's attributes.
 //----------------------------------------------------------------------------
 NDictionary NXMLNode::GetElementAttributes(void) const
 {
@@ -320,7 +396,7 @@ NDictionary NXMLNode::GetElementAttributes(void) const
 
 
 	// Get the attributes
-	return(mElementAttributes);
+	return(mAttributes);
 }
 
 
@@ -341,7 +417,7 @@ NString NXMLNode::GetElementAttribute(const NString &theName) const
 
 
 	// Get the attribute
-	theValue = mElementAttributes.GetValueString(theName);
+	theValue = mAttributes.GetValueString(theName);
 	
 	return(theValue);
 }
@@ -351,7 +427,7 @@ NString NXMLNode::GetElementAttribute(const NString &theName) const
 
 
 //============================================================================
-//		NXMLNode::SetElementContents : Set the element contents.
+//		NXMLNode::SetElementContents : Set an element's contents.
 //----------------------------------------------------------------------------
 void NXMLNode::SetElementContents(const NString &theValue)
 {	NXMLNode		*theNode;
@@ -380,7 +456,7 @@ void NXMLNode::SetElementContents(const NString &theValue)
 
 
 //============================================================================
-//		NXMLNode::SetElementAttributes : Set the element attributes.
+//		NXMLNode::SetElementAttributes : Set an element's attributes.
 //----------------------------------------------------------------------------
 void NXMLNode::SetElementAttributes(const NDictionary &theValue)
 {
@@ -392,7 +468,7 @@ void NXMLNode::SetElementAttributes(const NDictionary &theValue)
 
 
 	// Set the attributes
-	mElementAttributes = theValue;
+	mAttributes = theValue;
 }
 
 
@@ -412,7 +488,7 @@ void NXMLNode::SetElementAttribute(const NString &theName, const NString &theVal
 
 
 	// Set the attribute
-	mElementAttributes.SetValue(theName, theValue);
+	mAttributes.SetValue(theName, theValue);
 }
 
 
