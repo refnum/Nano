@@ -27,45 +27,54 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kTestString1							= "First Text";
-static const NString kTestString2							= "Second Text";
+// Keys
+static const NString kKeyDictionary							= "Test Dictionary";
+static const NString kKeyArray								= "Test Array";
+static const NString kKeyString								= "Test String";
+static const NString kKeyNumber								= "Test Number";
+static const NString kKeyData								= "Test Data";
+static const NString kKeyDate								= "Test Date";
 
-static const SInt64  kTestNumber1							= -2342;
-static const Float64 kTestNumber2							= kPi;
 
-static const UInt8 kTestData1[]								= { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A };
-static const UInt8 kTestData2[]								= { 0x3C, 0xE7, 0xC7, 0x32, 0xE3, 0xD8, 0x52 };
+// Values
+static const NString kValueString1							= "First String";
+static const NString kValueString2							= "Second String";
+static const SInt64  kValueNumber1							= -2342;
+static const Float64 kValueNumber2							= kPi;
+static const UInt8   kValueData1[]							= { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A };
+static const UInt8   kValueData2[]							= { 0x3C, 0xE7, 0xC7, 0x32, 0xE3, 0xD8, 0x52 };
+static const NDate   kValueDate1							= NDate(-886538221);
+static const NDate   kValueDate2							= NDate( 268617632);
 
-static const NDate kTestDate1								= NDate(-886538221.7);
-static const NDate kTestDate2								= NDate( 268617632.3);
 
+// XML
 static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 																"<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
 																"<plist version=\"1.0\">\n"
 																"<dict>\n"
 																"	<key>Test Array</key>\n"
 																"	<array>\n"
-																"		<string>First Text</string>\n"
+																"		<string>First String</string>\n"
 																"		<integer>-2342</integer>\n"
-																"		<date>1972-11-28T03:22:58Z</date>\n"
+																"		<date>1972-11-28T03:22:59Z</date>\n"
 																"		<data>iVBORw0KGg==</data>\n"
 																"		<dict>\n"
 																"			<key>Test Number</key>\n"
 																"			<real>3.1415926535897931</real>\n"
 																"			<key>Test String</key>\n"
-																"			<string>Second Text</string>\n"
+																"			<string>Second String</string>\n"
 																"		</dict>\n"
 																"	</array>\n"
 																"	<key>Test Data</key>\n"
 																"	<data>POfHMuPYUg==</data>\n"
 																"	<key>Test Date</key>\n"
 																"	<date>2009-07-07T00:00:32Z</date>\n"
-																"	<key>Test Dict</key>\n"
+																"	<key>Test Dictionary</key>\n"
 																"	<dict>\n"
 																"		<key>Test Number</key>\n"
 																"		<real>3.1415926535897931</real>\n"
 																"		<key>Test String</key>\n"
-																"		<string>Second Text</string>\n"
+																"		<string>Second String</string>\n"
 																"	</dict>\n"
 																"</dict>\n"
 																"</plist>\n";
@@ -79,44 +88,88 @@ static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"
 //----------------------------------------------------------------------------
 void TPropertyList::Execute(void)
 {	NData				testData1, testData2;
-	NDictionary			theDict, testDict;
-	NArray				theArray;
-	NString				theXML;
+	NDictionary			testDict1, testDict2;
+	NString				theXML, testString;
+	NArray				testArray;
+	NDate				testDate;
 	NPropertyList		pList;
 
 
 
 	// Get the state we need
-	testData1 = NData(GET_ARRAY_SIZE(kTestData1), kTestData1);
-	testData2 = NData(GET_ARRAY_SIZE(kTestData2), kTestData2);
+	testData1 = NData(GET_ARRAY_SIZE(kValueData1), kValueData1);
+	testData2 = NData(GET_ARRAY_SIZE(kValueData2), kValueData2);
 
-	testDict.SetValue("Test Number", kTestNumber2);
-	testDict.SetValue("Test String", kTestString2);
+	testDict2.SetValue(kKeyString, kValueString2);
+	testDict2.SetValue(kKeyNumber, kValueNumber2);
 
-	theArray.AppendValue(kTestString1);
-	theArray.AppendValue(kTestNumber1);
-	theArray.AppendValue(kTestDate1);
-	theArray.AppendValue(testData1);
-	theArray.AppendValue(testDict);
+	testArray.AppendValue(kValueString1);
+	testArray.AppendValue(kValueNumber1);
+	testArray.AppendValue(kValueDate1);
+	testArray.AppendValue(testData1);
+	testArray.AppendValue(testDict2);
 
-	theDict.SetValue("Test Date",  kTestDate2);
-	theDict.SetValue("Test Data",  testData2);
-	theDict.SetValue("Test Dict",  testDict);
-	theDict.SetValue("Test Array", theArray);
+	testDict1.SetValue(kKeyDictionary, testDict2);
+	testDict1.SetValue(kKeyArray,      testArray);
+	testDict1.SetValue(kKeyData,       testData2);
+	testDict1.SetValue(kKeyDate,       kValueDate2);
 
 
 
 	// Encode to XML
-	theXML = pList.EncodeXML(theDict);
+	theXML = pList.EncodeXML(testDict1);
 	NN_ASSERT(theXML == kTestXML);
+
+	testDict1.Clear();
+	testDict2.Clear();
+	testData1.Clear();
+	testData2.Clear();
+	testArray.Clear();
 
 
 
 	// Decode from XML
+	testDict1 = pList.DecodeXML(theXML);
+	NN_ASSERT(testDict1.HasKey(kKeyDictionary));
+	NN_ASSERT(testDict1.HasKey(kKeyArray));
+	NN_ASSERT(testDict1.HasKey(kKeyData));
+	NN_ASSERT(testDict1.HasKey(kKeyDate));
 
 
+	testDict2 = testDict1.GetValueDictionary(kKeyDictionary);
+	NN_ASSERT(testDict2.HasKey(kKeyString));
+	NN_ASSERT(testDict2.HasKey(kKeyNumber));
+	NN_ASSERT(testDict2.GetValueString(kKeyString) == kValueString2);
+	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
 
+
+	testArray = testDict1.GetValueArray(kKeyArray);
+	NN_ASSERT(testArray.GetSize() == 5);
+	NN_ASSERT(testArray.GetValueString(0) == kValueString1);
+	NN_ASSERT(testArray.GetValueSInt64(1) == kValueNumber1);
+	NN_ASSERT(testArray.GetValueDate  (2) == kValueDate1);
+
+	testData1 = testArray.GetValueData(3);
+	NN_ASSERT(testData1.GetSize() == GET_ARRAY_SIZE(kValueData1));
+	NN_ASSERT(memcmp(testData1.GetData(), kValueData1, GET_ARRAY_SIZE(kValueData1)) == 0);
+
+	testDict2 = testArray.GetValueDictionary(4);
+	NN_ASSERT(testDict2.HasKey(kKeyString));
+	NN_ASSERT(testDict2.HasKey(kKeyNumber));
+	NN_ASSERT(testDict2.GetValueString(kKeyString) == kValueString2);
+	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
+
+
+	testData2 = testDict1.GetValueData(kKeyData);
+	NN_ASSERT(testData2.GetSize() == GET_ARRAY_SIZE(kValueData2));
+	NN_ASSERT(memcmp(testData2.GetData(), kValueData2, GET_ARRAY_SIZE(kValueData2)) == 0);
+
+
+	testDate = testDict1.GetValueDate(kKeyDate);
+	NN_ASSERT(testDate == kValueDate2);
 }
+
+
 
 
 

@@ -85,6 +85,14 @@ private:
 	NXMLNode							*EncodeMacXML_1_0_Data(      const NData       &theValue);
 	NXMLNode							*EncodeMacXML_1_0_Date(      const NDate       &theValue);
 
+	NDictionary							DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode);
+	NArray								DecodeMacXML_1_0_Array(     const NXMLNode *theNode);
+	NString								DecodeMacXML_1_0_String(    const NXMLNode *theNode);
+	SInt64								DecodeMacXML_1_0_Integer(   const NXMLNode *theNode);
+	Float64								DecodeMacXML_1_0_Real(      const NXMLNode *theNode);
+	NData								DecodeMacXML_1_0_Data(      const NXMLNode *theNode);
+	NDate								DecodeMacXML_1_0_Date(      const NXMLNode *theNode);
+
 
 private:
 
