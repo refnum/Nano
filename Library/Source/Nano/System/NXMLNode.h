@@ -62,12 +62,16 @@ public:
 
 
 	// Query the node state
-	bool								IsType(XMLNodeType theType) const;
-	bool								HasChildren(void)           const;
+	bool								IsType(XMLNodeType       theType) const;
+	bool								IsElement(const NString &theName) const;
 
 
 	// Get the parent
 	NXMLNode							*GetParent(void) const;
+
+
+	// Does the node have any children?
+	bool								HasChildren(void) const;
 
 
 	// Get the children

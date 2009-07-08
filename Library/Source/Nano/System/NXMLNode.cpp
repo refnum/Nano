@@ -84,14 +84,14 @@ bool NXMLNode::IsType(XMLNodeType theType) const
 
 
 //============================================================================
-//		NXMLNode::HasChildren : Does a node have any children?
+//		NXMLNode::IsElement : Is the node a named element?
 //----------------------------------------------------------------------------
-bool NXMLNode::HasChildren(void) const
+bool NXMLNode::IsElement(const NString &theName) const
 {
 
 
-	// Check our state
-	return(!mChildren.empty());
+	// Check the node
+	return(IsType(kXMLNodeElement) && GetTextValue() == theName);
 }
 
 
@@ -107,6 +107,21 @@ NXMLNode *NXMLNode::GetParent(void) const
 
 	// Get the parent
 	return(mParent);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::HasChildren : Does a node have any children?
+//----------------------------------------------------------------------------
+bool NXMLNode::HasChildren(void) const
+{
+
+
+	// Check our state
+	return(!mChildren.empty());
 }
 
 
