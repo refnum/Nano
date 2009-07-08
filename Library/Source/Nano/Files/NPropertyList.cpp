@@ -31,6 +31,9 @@
 static const UInt8 kMagicMacXML_1_0[]								= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
 static const UInt8 kMagicMacBinary_1_0[]							= { 0x62, 0x70, 0x6C, 0x69, 0x73, 0x74, 0x30, 0x30 };
 
+static const NString kApplePListSystemID_1_0						= "http://www.apple.com/DTDs/PropertyList-1.0.dtd";
+static const NString kApplePListPublicID_1_0						= "-//Apple Computer//DTD PLIST 1.0//EN";
+
 
 
 
@@ -251,24 +254,34 @@ NPropertyListFormat NPropertyList::GetFormat(const NData &theData)
 //		NPropertyList::EncodeMacXML_1_0 : Encode kNPropertyListMacXML_1_0.
 //----------------------------------------------------------------------------
 NData NPropertyList::EncodeMacXML_1_0(const NDictionary &theState)
-{	NXMLNode		*thePList, *theDict;
+{	NXMLNode		*nodeDoc, *nodeDocType, *nodePList, *nodeDict;
 	NXMLEncoder		theEncoder;
 	NString			theXML;
 
 
 
 	// Create the nodes
-	thePList = new NXMLNode(kXMLNodeElement, "plist");
-	thePList->SetElementAttribute("version", "1.0");
-	
-	theDict = EncodeMacXML_1_0_Dictionary(theState);
-	thePList->AddChild(theDict);
+	nodeDict = EncodeMacXML_1_0_Dictionary(theState);
+
+	nodePList = new NXMLNode(kXMLNodeElement, "plist");
+	nodePList->SetElementAttribute("version", "1.0");
+	nodePList->AddChild(nodeDict);
+
+	nodeDocType = new NXMLNode(kXMLNodeDocType, "plist");
+	nodeDocType->SetDocTypeSystemID(kApplePListSystemID_1_0);
+	nodeDocType->SetDocTypePublicID(kApplePListPublicID_1_0);
+
+	nodeDoc = new NXMLNode(kXMLNodeDocument, "");
+	nodeDoc->AddChild(nodeDocType);
+	nodeDoc->AddChild(nodePList);
 
 
 
 	// Encode the XML
-	theXML = theEncoder.Encode(thePList);
-	delete thePList;
+	theXML = theEncoder.Encode(nodeDoc);
+	theXML.ReplaceAll("^\t", "", kNStringPattern);
+
+	delete nodeDoc;
 	
 	return(theXML.GetData());
 }
