@@ -111,10 +111,12 @@ public:
 	// The contents of an element node are the concatenation of any text or CData nodes
 	// under the node. Assigning new contents to an element will replace any existing
 	// children with a single text node.
-	NString								GetElementContents(  void)                  const;
-	NDictionary							GetElementAttributes(void)                  const;
+	bool								 IsElementUnpaired(  void) const;
+	NString								GetElementContents(  void) const;
+	NDictionary							GetElementAttributes(void) const;
 	NString								GetElementAttribute(const NString &theName) const;
 	
+	void								SetElementUnpaired(        bool         theValue);
 	void								SetElementContents(  const NString     &theValue);
 	void								SetElementAttributes(const NDictionary &theValue);
 	void								SetElementAttribute( const NString     &theName, const NString &theValue);
@@ -127,6 +129,8 @@ private:
 	XMLNodeType							mType;
 	NString								mValue;
 	NDictionary							mAttributes;
+
+	bool								mElementUnpaired;
 };
 
 

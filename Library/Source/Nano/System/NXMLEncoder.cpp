@@ -291,34 +291,52 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 
 
 
-	// Prepare the tags
-	tagOpen.Format("<%@%@>", textName, textAttributes);
-	tagClose.Format("</%@>", textName);
-
-
-
-	// Encode the node
-	theText = theIndent + tagOpen;
-
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+	// Encode an unpaired element
+	if (theNode->IsElementUnpaired())
 		{
-		theChild = *theIter;
-		
-		if (hasChildElements)
-			{
-			theText += kNStringNewline;
+		// Get the state we need
+		if (textAttributes.IsNotEmpty())
+			textAttributes += " ";
 
-			if (!theChild->IsType(kXMLNodeElement))
-				theText += childIndent;
-			}
 
-		theText += EncodeNode(theChild, childIndent);
+		// Encode the tag
+		tagOpen.Format("<%@%@/>", textName, textAttributes);
+		theText = theIndent + tagOpen;
 		}
 
-	if (hasChildElements)
-		theText += kNStringNewline + theIndent;
 
-	theText += tagClose;
+	// Encode a paired element
+	else
+		{
+		// Encode the open tag
+		tagOpen.Format("<%@%@>", textName, textAttributes);
+		theText = theIndent + tagOpen;
+
+
+		// Encode the children
+		for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+			{
+			theChild = *theIter;
+		
+			if (hasChildElements)
+				{
+				theText += kNStringNewline;
+
+				if (!theChild->IsType(kXMLNodeElement))
+					theText += childIndent;
+				}
+
+			theText += EncodeNode(theChild, childIndent);
+			}
+
+		if (hasChildElements)
+			theText += kNStringNewline + theIndent;
+
+
+		// Encode the close tag
+		tagClose.Format("</%@>", textName);
+		theText += tagClose;
+		}
 
 	return(theText);
 }

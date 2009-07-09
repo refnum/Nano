@@ -44,6 +44,8 @@ NXMLNode::NXMLNode(XMLNodeType theType, const NString &theValue)
 
 	mType  = theType;
 	mValue = theValue;
+	
+	mElementUnpaired = false;
 }
 
 
@@ -347,6 +349,21 @@ void NXMLNode::SetDocTypePublicID(const NString &theID)
 
 
 //============================================================================
+//		NXMLNode::IsElementUnpaired : Is an element unpaired?
+//----------------------------------------------------------------------------
+bool NXMLNode::IsElementUnpaired(void) const
+{
+
+
+	// Get the state
+	return(mElementUnpaired);
+}
+
+
+
+
+
+//============================================================================
 //		NXMLNode::GetElementContents : Get an element's contents.
 //----------------------------------------------------------------------------
 NString NXMLNode::GetElementContents(void) const
@@ -435,6 +452,27 @@ NString NXMLNode::GetElementAttribute(const NString &theName) const
 	theValue = mAttributes.GetValueString(theName);
 	
 	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::SetElementUnpaired : Set an element's unpaired state.
+//----------------------------------------------------------------------------
+void NXMLNode::SetElementUnpaired(bool theValue)
+{
+
+
+	// Validate our state
+	if (theValue)
+		NN_ASSERT(mChildren.empty());
+
+
+
+	// Set the state
+	mElementUnpaired = theValue;
 }
 
 
