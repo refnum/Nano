@@ -14,7 +14,23 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFileUtilities.h"
+#include "NPropertyList.h"
 #include "NBundle.h"
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kPathBundlePList						= "Contents/Info.plist";
+static const NString kPathBundleResources					= "Contents/Resources";
+
+static const NString kStringsExtension						= ".strings";
+static const NString kStringsDefaultLanguage				= "en.lproj";
+static const NString kStringsDefaultTable					= "Localizable";
 
 
 
@@ -40,48 +56,16 @@ NBundle::NBundle(const NFile &theFile)
 //----------------------------------------------------------------------------
 NBundle::NBundle(const NString &bundleID)
 {
-// dair
-/*
-	bool			takeOwnership;
-	CFBundleRef     cfBundle;
-	OSStatus		theErr;
-	CFURLRef		cfURL;
 
 
-
-	// Find the bundle
-	//
-	// If a name is supplied, we first check the currently open bundles
-	// before falling back to a more expensive search using LaunchServices.
-	//
-	// Note that LSFindApplicationForInfo, despite not being a CreateXXX
-	// API, expects us to take ownership of the returned URL.
-	takeOwnership = false;
-
-	if (bundleID.IsEmpty())
-		cfBundle = CFBundleGetMainBundle();
-	else
-		{
-		cfBundle = CFBundleGetBundleWithIdentifier(bundleID);
-		if (cfBundle == NULL)
-			{
-			theErr = LSFindApplicationForInfo(kLSUnknownCreator, bundleID, NULL, NULL, &cfURL);
-			if (theErr == noErr && cfURL != NULL)
-				{
-				cfBundle      = CFBundleCreate(kCFAllocatorNano, cfURL);
-				takeOwnership = (cfBundle != NULL);
-
-				CFSafeRelease(cfURL);
-				}
-			}
-		}
-
-
-
+	// Validate our parameters
+	NN_ASSERT(bundleID.IsEmpty());
+	
+	
+	
 	// Initialize ourselves
-    Set(cfBundle, takeOwnership);
-	NN_ASSERT(IsValid());
-*/
+		// mFile = app bundle
+		NN_LOG("NBundle - unable to locate app bundle");
 }
 
 
@@ -137,7 +121,7 @@ NFile NBundle::GetResources(void) const
 
 
 	// Get the resources
-	return(mFile.GetChild("Contents/Resources"));
+	return(mFile.GetChild(kPathBundleResources));
 }
 
 
@@ -197,9 +181,9 @@ NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
 
 
 
-	// Load the dictionary
+	// Load the bundle
 	if (mInfo.IsEmpty())
-		LoadDictionary();
+		LoadBundle();
 
 
 
@@ -220,17 +204,8 @@ NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
 //		NBundle::GetResource : Get a resource from the bundle.
 //----------------------------------------------------------------------------
 NFile NBundle::GetResource(const NString &theName, const NString &theType, const NString &subDir) const
-{
-// dair
-/*
-	CFStringRef		cfType, cfSubDir;
-	NFile			theFile;
-	NCFURL			theURL;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsValid());
+{	NFile		theFile;
+	NString		thePath;
 
 
 
@@ -240,27 +215,31 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 
 
 
-	// Get the state we need
-	cfType   = theType.IsEmpty() ? NULL : (CFStringRef) theType;
-	cfSubDir =  subDir.IsEmpty() ? NULL : (CFStringRef) subDir;
-
-
-
-	// Get the file
+	// Get the resource
 	//
-	// We allow bundle resources to be specified with an absolute path, since
-	// this lets us use absolute paths in .nib files and treat those items as
-	// if they were part of the bundle.
+	// We allow bundle resources to be specified with an absolute path,
+	// since this allows us to reference 'resources' outside the bundle.
 	if (theName.StartsWith("/"))
-		theFile = NFile(theName);
+		thePath = theName;
 	else
 		{
-		if (theURL.Set(CFBundleCopyResourceURL(*this, theName, cfType, cfSubDir)))
-			theFile = theURL.GetFile();
+		if (subDir.IsEmpty())
+			thePath.Format("%@/%@",    kPathBundleResources,         theName);
+		else
+			thePath.Format("%@/%@/%@", kPathBundleResources, subDir, theName);
+
+		if (theType.IsNotEmpty())
+			{
+			if (!theType.StartsWith("."))
+				thePath += ".";
+
+			thePath += theType;
+			}
 		}
 	
+	theFile = NFile(thePath);
+
 	return(theFile);
-*/
 }
 
 
@@ -271,36 +250,25 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 //		NBundle::GetString : Get a string from the bundle.
 //----------------------------------------------------------------------------
 NString NBundle::GetString(const NString &theKey, const NString &defaultValue, const NString &tableName) const
-{
-// dair
-/*
-	CFStringRef		cfDefaultValue, cfTableName;
-	NString			theValue;
+{	NString		theTable, theValue;
 
 
 
-	// Validate our state
-	NN_ASSERT(IsValid());
+	// Load the strings
+	theTable = tableName.IsEmpty() ? kStringsDefaultTable : tableName;
+	theTable.Replace(kStringsExtension, "");
+
+	if (!mStrings.HasKey(theTable))
+		LoadStrings(theTable);
 
 
 
-	// Check our parameters
-	if (theKey.IsEmpty())
-		return(theValue);
-
-
-
-	// Get the state we need
-	cfDefaultValue = defaultValue.IsEmpty() ? NULL : ((CFStringRef) defaultValue);
-	cfTableName    =    tableName.IsEmpty() ? NULL : ((CFStringRef) tableName);
-
-
-
-	// Get the string
-	theValue.Set(CFBundleCopyLocalizedString(*this, theKey, cfDefaultValue, cfTableName));
+	// Get the value
+	theValue = mStrings.GetValueDictionary(theTable).GetValueString(theKey);
+	if (theValue.IsEmpty())
+		theValue = defaultValue;
 	
 	return(theValue);
-*/
 }
 
 
@@ -308,11 +276,12 @@ NString NBundle::GetString(const NString &theKey, const NString &defaultValue, c
 
 
 //============================================================================
-//		NBundle::LoadDictionary : Load the dictionary.
+//		NBundle::LoadBundle : Load the bundle.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NBundle::LoadDictionary(void) const
-{	NFile		thePList;
+void NBundle::LoadBundle(void) const
+{	NFile				theFile;
+	NPropertyList		pList;
 
 
 
@@ -322,11 +291,59 @@ void NBundle::LoadDictionary(void) const
 
 
 	// Load the dictionary
-	thePList = mFile.GetChild("Contents/Info.plist");
+	theFile = mFile.GetChild(kPathBundlePList);
+	mInfo   = pList.Load(theFile);
+}
 
 
 
-		// dair, to do
+
+
+//============================================================================
+//		NBundle::LoadStrings : Load the strings.
+//----------------------------------------------------------------------------
+void NBundle::LoadStrings(const NString &theTable) const
+{	NString							theText, theLine, theKey, theValue;
+	NDictionary						theStrings;
+	NRangeList						theRanges;
+	NStringList						theLines;
+	NStringListConstIterator		theIter;
+	NFile							theFile;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(theTable.IsNotEmpty());
+	NN_ASSERT(!mStrings.HasKey(theTable));
+
+
+
+	// Get the state we need
+	theFile  = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
+	theText  = NFileUtilities::GetFileText(theFile);
+	theLines = theText.Split(kNStringNewline);
+
+
+
+	// Parse the strings
+	for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
+		{
+		theLine   = *theIter;
+		theRanges = theLine.FindAll("(.*?)\\s*=\\s*\"(.*)\";", kNStringPattern);
+		
+		if (theRanges.size() == 3)
+			{
+			theKey   = theLine.GetString(theRanges[1]);
+			theValue = theLine.GetString(theRanges[2]);
+			
+			theStrings.SetValue(theKey, theValue);
+			}
+		}
+
+
+
+	// Update our state
+	mStrings.SetValue(theTable, theStrings);
 }
 
 

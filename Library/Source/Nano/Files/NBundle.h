@@ -28,10 +28,10 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NString kNBundleExecutableKey						= "CFBundleExecutableKey";
-static const NString kNBundleIdentifierKey						= "CFBundleIdentifierKey";
-static const NString kNBundleVersionKey							= "CFBundleVersionKey";
-static const NString kNBundleNameKey							= "kCFBundleNameKey";
+static const NString kNBundleExecutableKey						= "CFBundleExecutable";
+static const NString kNBundleIdentifierKey						= "CFBundleIdentifier";
+static const NString kNBundleVersionKey							= "CFBundleVersion";
+static const NString kNBundleNameKey							= "CFBundleName";
 
 
 
@@ -43,7 +43,7 @@ static const NString kNBundleNameKey							= "kCFBundleNameKey";
 class NBundle {
 public:
 										NBundle(const NFile   &theFile);
-										NBundle(const NString &bundleID = "");
+										NBundle(const NString &bundleID="");
 	virtual								~NBundle(void);
 	
 
@@ -61,7 +61,7 @@ public:
 
 	// Get an Info.plist value
 	//
-	// GetInfoDictionary returns the entire Info.plist dictionary if passed an empty key.
+	// GetInfoDictionary returns the entire Info.plist dictionary if theKey is empty.
     bool								GetInfoBoolean(   const NString &theKey)    const;
 	NString								GetInfoString(    const NString &theKey)    const;
 	NArray								GetInfoArray(     const NString &theKey)    const;
@@ -81,12 +81,14 @@ public:
 
 
 private:
-	void								LoadDictionary(void) const;
+	void								LoadBundle(void)                     const;
+	void								LoadStrings(const NString &theTable) const;
 
 
 private:
 	NFile								mFile;
 	mutable NDictionary					mInfo;
+	mutable NDictionary					mStrings;
 };
 
 
