@@ -38,6 +38,8 @@ static const NString kTokenPList									= "plist";
 static const NString kTokenDictionary								= "dict";
 static const NString kTokenArray									= "array";
 static const NString kTokenString									= "string";
+static const NString kTokenTrue										= "true";
+static const NString kTokenFalse									= "false";
 static const NString kTokenInteger									= "integer";
 static const NString kTokenReal										= "real";
 static const NString kTokenData										= "data";
@@ -433,6 +435,9 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue
 		else if (theItem.IsType(typeid(NString)))
 			nodeValue = EncodeMacXML_1_0_String(theValue.GetValueString(theKey));
 
+		else if (theItem.IsType(typeid(bool)))
+			nodeValue = EncodeMacXML_1_0_Boolean(theValue.GetValueBoolean(theKey));
+
 		else if (theItem.IsNumeric())
 			nodeValue = EncodeMacXML_1_0_Number(theValue.GetValue(theKey));
 
@@ -496,6 +501,9 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 		else if (theItem.IsType(typeid(NString)))
 			nodeValue = EncodeMacXML_1_0_String(theValue.GetValueString(n));
 
+		else if (theItem.IsType(typeid(bool)))
+			nodeValue = EncodeMacXML_1_0_Boolean(theValue.GetValueBoolean(n));
+
 		else if (theItem.IsNumeric())
 			nodeValue = EncodeMacXML_1_0_Number(theValue.GetValue(n));
 
@@ -535,6 +543,25 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_String(const NString &theValue)
 	// Encode the value
 	theNode = new NXMLNode(kXMLNodeElement, kTokenString);
 	theNode->SetElementContents(theValue);
+	
+	return(theNode);
+}
+
+
+
+
+
+//============================================================================
+//		NPropertyList::EncodeMacXML_1_0_Boolean : Encode a bool.
+//----------------------------------------------------------------------------
+NXMLNode *NPropertyList::EncodeMacXML_1_0_Boolean(bool theValue)
+{	NXMLNode	*theNode;
+
+
+
+	// Encode the value
+	theNode = new NXMLNode(kXMLNodeElement, theValue ? kTokenTrue : kTokenFalse);
+	theNode->SetElementUnpaired(true);
 	
 	return(theNode);
 }
@@ -698,6 +725,9 @@ NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
 		else if (nodeValue->IsElement(kTokenString))
 			theValue.SetValue(theKey, DecodeMacXML_1_0_String(nodeValue));
 		
+		else if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Boolean(nodeValue));
+		
 		else if (nodeValue->IsElement(kTokenInteger))
 			theValue.SetValue(theKey, DecodeMacXML_1_0_Integer(nodeValue));
 		
@@ -759,6 +789,9 @@ NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
 		else if (nodeValue->IsElement(kTokenString))
 			theValue.AppendValue(DecodeMacXML_1_0_String(nodeValue));
 		
+		else if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
+			theValue.AppendValue(DecodeMacXML_1_0_Boolean(nodeValue));
+
 		else if (nodeValue->IsElement(kTokenInteger))
 			theValue.AppendValue(DecodeMacXML_1_0_Integer(nodeValue));
 		
@@ -806,6 +839,29 @@ NString NPropertyList::DecodeMacXML_1_0_String(const NXMLNode *theNode)
 
 
 //============================================================================
+//		NPropertyList::DecodeMacXML_1_0_Boolean : Decode a bool.
+//----------------------------------------------------------------------------
+bool NPropertyList::DecodeMacXML_1_0_Boolean(const NXMLNode *theNode)
+{	bool	theValue;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->IsElement(kTokenTrue) || theNode->IsElement(kTokenFalse));
+
+
+
+	// Decode the value
+	theValue = theNode->IsElement(kTokenTrue);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
 //		NPropertyList::DecodeMacXML_1_0_Integer : Decode an integer.
 //----------------------------------------------------------------------------
 SInt64 NPropertyList::DecodeMacXML_1_0_Integer(const NXMLNode *theNode)
@@ -815,7 +871,7 @@ SInt64 NPropertyList::DecodeMacXML_1_0_Integer(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenInteger) || theNode->IsElement(kTokenReal));
+	NN_ASSERT(theNode->IsElement(kTokenInteger));
 
 
 
@@ -842,7 +898,7 @@ Float64 NPropertyList::DecodeMacXML_1_0_Real(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenInteger) || theNode->IsElement(kTokenReal));
+	NN_ASSERT(theNode->IsElement(kTokenReal));
 
 
 

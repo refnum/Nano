@@ -31,6 +31,7 @@
 static const NString kKeyDictionary							= "Test Dictionary";
 static const NString kKeyArray								= "Test Array";
 static const NString kKeyString								= "Test String";
+static const NString kKeyBoolean							= "Test Boolean";
 static const NString kKeyNumber								= "Test Number";
 static const NString kKeyData								= "Test Data";
 static const NString kKeyDate								= "Test Date";
@@ -39,6 +40,8 @@ static const NString kKeyDate								= "Test Date";
 // Values
 static const NString kValueString1							= "First String";
 static const NString kValueString2							= "Second String";
+static const bool    kValueBoolean1							= true;
+static const bool    kValueBoolean2							= false;
 static const SInt64  kValueNumber1							= -2342;
 static const Float64 kValueNumber2							= kPi;
 static const UInt8   kValueData1[]							= { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A };
@@ -55,10 +58,13 @@ static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"
 																"	<key>Test Array</key>\n"
 																"	<array>\n"
 																"		<string>First String</string>\n"
+																"		<true/>\n"
 																"		<integer>-2342</integer>\n"
 																"		<date>1972-11-28T03:22:59Z</date>\n"
 																"		<data>iVBORw0KGg==</data>\n"
 																"		<dict>\n"
+																"			<key>Test Boolean</key>\n"
+																"			<false/>\n"
 																"			<key>Test Number</key>\n"
 																"			<real>3.1415926535897931</real>\n"
 																"			<key>Test String</key>\n"
@@ -71,6 +77,8 @@ static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"
 																"	<date>2009-07-07T00:00:32Z</date>\n"
 																"	<key>Test Dictionary</key>\n"
 																"	<dict>\n"
+																"		<key>Test Boolean</key>\n"
+																"		<false/>\n"
 																"		<key>Test Number</key>\n"
 																"		<real>3.1415926535897931</real>\n"
 																"		<key>Test String</key>\n"
@@ -100,10 +108,12 @@ void TPropertyList::Execute(void)
 	testData1 = NData(GET_ARRAY_SIZE(kValueData1), kValueData1);
 	testData2 = NData(GET_ARRAY_SIZE(kValueData2), kValueData2);
 
-	testDict2.SetValue(kKeyString, kValueString2);
-	testDict2.SetValue(kKeyNumber, kValueNumber2);
+	testDict2.SetValue(kKeyString,  kValueString2);
+	testDict2.SetValue(kKeyBoolean, kValueBoolean2);
+	testDict2.SetValue(kKeyNumber,  kValueNumber2);
 
 	testArray.AppendValue(kValueString1);
+	testArray.AppendValue(kValueBoolean1);
 	testArray.AppendValue(kValueNumber1);
 	testArray.AppendValue(kValueDate1);
 	testArray.AppendValue(testData1);
@@ -138,25 +148,30 @@ void TPropertyList::Execute(void)
 
 	testDict2 = testDict1.GetValueDictionary(kKeyDictionary);
 	NN_ASSERT(testDict2.HasKey(kKeyString));
+	NN_ASSERT(testDict2.HasKey(kKeyBoolean));
 	NN_ASSERT(testDict2.HasKey(kKeyNumber));
-	NN_ASSERT(testDict2.GetValueString(kKeyString) == kValueString2);
+	NN_ASSERT(testDict2.GetValueString( kKeyString)  == kValueString2);
+	NN_ASSERT(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
 	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
 
 
 	testArray = testDict1.GetValueArray(kKeyArray);
-	NN_ASSERT(testArray.GetSize() == 5);
-	NN_ASSERT(testArray.GetValueString(0) == kValueString1);
-	NN_ASSERT(testArray.GetValueSInt64(1) == kValueNumber1);
-	NN_ASSERT(testArray.GetValueDate  (2) == kValueDate1);
+	NN_ASSERT(testArray.GetSize() == 6);
+	NN_ASSERT(testArray.GetValueString (0) == kValueString1);
+	NN_ASSERT(testArray.GetValueBoolean(1) == kValueBoolean1);
+	NN_ASSERT(testArray.GetValueSInt64 (2) == kValueNumber1);
+	NN_ASSERT(testArray.GetValueDate   (3) == kValueDate1);
 
-	testData1 = testArray.GetValueData(3);
+	testData1 = testArray.GetValueData(4);
 	NN_ASSERT(testData1.GetSize() == GET_ARRAY_SIZE(kValueData1));
 	NN_ASSERT(memcmp(testData1.GetData(), kValueData1, GET_ARRAY_SIZE(kValueData1)) == 0);
 
-	testDict2 = testArray.GetValueDictionary(4);
+	testDict2 = testArray.GetValueDictionary(5);
 	NN_ASSERT(testDict2.HasKey(kKeyString));
+	NN_ASSERT(testDict2.HasKey(kKeyBoolean));
 	NN_ASSERT(testDict2.HasKey(kKeyNumber));
-	NN_ASSERT(testDict2.GetValueString(kKeyString) == kValueString2);
+	NN_ASSERT(testDict2.GetValueString( kKeyString)  == kValueString2);
+	NN_ASSERT(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
 	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
 
 
