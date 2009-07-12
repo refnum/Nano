@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <direct.h>
+
 #include "NTargetPOSIX.h"
 
 
@@ -95,11 +97,11 @@ struct tm NTargetPOSIX::gmtime(time_t theTime)
 //		NTargetPOSIX::timegm : Windows timegm.
 //----------------------------------------------------------------------------
 time_t NTargetPOSIX::timegm(const struct tm *tm)
-{
+{	struct tm	localTM = *tm;
 
 
 	// Get the value
-	return(_mkgmtime32(tm));
+	return(_mkgmtime32(&localTM));
 }
 
 
