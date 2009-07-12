@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=1"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -171,17 +171,16 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\libb64_1.1\cdecode.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\libb64_1.1\cencode.c"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\unicode.org\ConvertUTF.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="D:\Develop\Libraries\RefNum\nano\Library\Prefix\NanoPrefix.h"
-						ForcedIncludeFiles="D:\Develop\Libraries\RefNum\nano\Library\Prefix\NanoPrefix.h"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NArray.cpp"
@@ -192,11 +191,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NB64Encoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NBitVector.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Events\NBroadcaster.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NBundle.cpp"
 				>
 			</File>
 			<File
@@ -229,6 +236,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NDate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NDateFormatter.cpp"
 				>
 			</File>
 			<File
@@ -276,6 +287,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Application\NPreferences.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NPropertyList.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NRange.cpp"
 				>
 			</File>
@@ -316,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Utilities\NTextUtilities.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NThreadUtilities.cpp"
 				>
 			</File>
@@ -348,6 +371,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinPOSIX.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinPreferences.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinSystem.cpp"
 				>
 			</File>
@@ -364,6 +395,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NXMLEncoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NXMLNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NXMLParser.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_chartables.c"
 				>
 			</File>
@@ -376,6 +419,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						WarningLevel="0"
+						DisableSpecificWarnings="4065"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -467,15 +511,11 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						WarningLevel="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						WarningLevel="0"
+						UsePrecompiledHeader="0"
+						PrecompiledHeaderThrough=""
+						CompileAs="1"
+						DisableSpecificWarnings="4244"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -499,6 +539,26 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmlparse.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmlrole.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_impl.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_ns.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -506,11 +566,55 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\ascii.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\asciitab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\libb64_1.1\cdecode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\libb64_1.1\cencode.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\config.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\unicode.org\ConvertUTF.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\expat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\expat_config.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\expat_external.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\iasciitab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\internal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\latin1tab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\nametab.h"
 				>
 			</File>
 			<File
@@ -538,11 +642,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NB64Encoder.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NBitVector.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Events\NBroadcaster.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NBundle.h"
 				>
 			</File>
 			<File
@@ -575,6 +687,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NDate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NDateFormatter.h"
 				>
 			</File>
 			<File
@@ -619,6 +735,14 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NPoint.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\NPreferences.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NPropertyList.h"
 				>
 			</File>
 			<File
@@ -678,6 +802,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetPOSIX.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetPreferences.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\Targets\NTargetSystem.h"
 				>
 			</File>
@@ -687,6 +819,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\NTargetTime.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\NTextUtilities.h"
 				>
 			</File>
 			<File
@@ -707,6 +843,18 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinTarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NXMLEncoder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NXMLNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NXMLParser.h"
 				>
 			</File>
 			<File
@@ -735,6 +883,22 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\ucp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\utf8tab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmlrole.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_impl.h"
 				>
 			</File>
 		</Filter>
