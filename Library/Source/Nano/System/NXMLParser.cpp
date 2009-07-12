@@ -188,7 +188,7 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 	if (mParser == NULL)
 		{
 		theErr = CreateParser();
-		if (theErr != noErr)
+		if (theErr != kNoErr)
 			return(theErr);
 		}
 
@@ -198,13 +198,13 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 	xmlErr = XML_Parse(mParser, (const char *) thePtr, theSize, isFinal);
 	theErr = ConvertXMLStatus(xmlErr);
 
-	if (theErr != noErr)
+	if (theErr != kNoErr)
 		NN_LOG("NXMLParser failed: %s", XML_ErrorString(XML_GetErrorCode(mParser)));
 
 
 
 	// Clean up
-	if (theErr != noErr || isFinal)
+	if (theErr != kNoErr || isFinal)
 		Clear();
 	
 	return(theErr);

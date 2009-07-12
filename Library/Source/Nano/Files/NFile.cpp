@@ -448,7 +448,7 @@ NStatus NFile::CreateFile(void)
 	theErr = Open(kFilePermissionWrite, true);
 	NN_ASSERT_NOERR(theErr);
 
-	if (theErr == noErr)
+	if (theErr == kNoErr)
 		Close();
 	
 	return(theErr);
