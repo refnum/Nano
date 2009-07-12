@@ -47,20 +47,3 @@ NTime NTargetTime::GetUpTime(void)
 
 
 
-
-
-//============================================================================
-//		NTargetTime::gmtime : Thread-safe gmtime.
-//----------------------------------------------------------------------------
-struct tm NTargetTime::gmtime(time_t theTime)
-{	struct tm		theResult;
-
-
-
-	// Get the time
-	//
-	// gmtime uses thread-local storage on Windows, so is always thread-safe.
-	gmtime(&theTime, &theResult);
-	
-	return(theResult);
-}

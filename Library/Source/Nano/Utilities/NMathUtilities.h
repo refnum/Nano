@@ -53,7 +53,6 @@ public:
 
 
     // Floating point tests
-	static bool							IsNan(  Float64 theValue);
     static bool                         IsZero( Float64 theValue);
     static bool                         NotZero(Float64 theValue);
 

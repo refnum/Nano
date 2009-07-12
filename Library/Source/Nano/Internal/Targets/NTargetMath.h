@@ -26,10 +26,6 @@
 //----------------------------------------------------------------------------
 class NTargetMath {
 public:
-    // Floating point tests
-	static bool							IsNan(Float64 theValue);
-
-
 	// Rotate an integer
 	static UInt32						RotateLeft( UInt32 theValue, UInt32 rotateBy);
 	static UInt32						RotateRight(UInt32 theValue, UInt32 rotateBy);

@@ -14,6 +14,7 @@
 //============================================================================
 //      Include files
 //----------------------------------------------------------------------------
+#include "NTargetPOSIX.h"
 #include "NFileUtilities.h"
 
 
@@ -30,7 +31,7 @@ NFile NFileUtilities::GetCWD(void)
 
 
 	// Get the directory
-	thePath = getcwd(NULL, 0);
+	thePath = NTargetPOSIX::getcwd(NULL, 0);
 	if (thePath != NULL)
 		{
 		theFile = NFile(NString(thePath));

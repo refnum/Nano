@@ -15,6 +15,7 @@
 //      Include files
 //----------------------------------------------------------------------------
 #include "NTargetMath.h"
+#include "NTargetPOSIX.h"
 #include "NMathUtilities.h"
 
 
@@ -30,8 +31,8 @@ bool NMathUtilities::AreEqual(Float64 a, Float64 b)
 
 
     // Validate our parameters
-    NN_ASSERT(!IsNan(a));
-    NN_ASSERT(!IsNan(b));
+    NN_ASSERT(!NTargetPOSIX::is_nan(a));
+    NN_ASSERT(!NTargetPOSIX::is_nan(b));
 
 
 
@@ -54,21 +55,6 @@ bool NMathUtilities::NotEqual(Float64 a, Float64 b)
 
     // Check for inequality
     return(!AreEqual(a, b));
-}
-
-
-
-
-
-//============================================================================
-//      NMathUtilities::IsNan : Is a floating point number NaN?
-//----------------------------------------------------------------------------
-bool NMathUtilities::IsNan(Float64 theValue)
-{
-
-
-    // Check for NaN
-	return(NTargetMath::IsNan(theValue));
 }
 
 

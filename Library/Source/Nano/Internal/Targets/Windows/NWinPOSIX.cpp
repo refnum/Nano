@@ -1,8 +1,8 @@
 /*	NAME:
-		NWinMath.cpp
+		NWinPOSIX.cpp
 
 	DESCRIPTION:
-		Windows math support.
+		Windows POSIX support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,24 +14,21 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include <math.h>
-#include <float.h>
-
-#include "NTargetMath.h"
+#include "NTargetPOSIX.h"
 
 
 
 
 
 //============================================================================
-//      NTargetMath::RotateLeft : Left-rotate.
+//		NTargetPOSIX::is_nan : Windows isnan.
 //----------------------------------------------------------------------------
-UInt32 NTargetMath::RotateLeft(UInt32 theValue, UInt32 rotateBy)
+int NTargetPOSIX::is_nan(double r)
 {
 
 
-    // Rotate the value
-    return((theValue << rotateBy) | (theValue >> (32 - rotateBy)));
+	// Get the value
+	return(_isnan(r));
 }
 
 
@@ -39,14 +36,14 @@ UInt32 NTargetMath::RotateLeft(UInt32 theValue, UInt32 rotateBy)
 
 
 //============================================================================
-//      NTargetMath::RotateRight : Right-rotate.
+//		NTargetPOSIX::is_inf : Windows isinf.
 //----------------------------------------------------------------------------
-UInt32 NTargetMath::RotateRight(UInt32 theValue, UInt32 rotateBy)
+int NTargetPOSIX::is_inf(double r)
 {
 
 
-    // Rotate the value
-    return((theValue >> rotateBy) | (theValue << (32 - rotateBy)));
+	// Get the value
+	return(!_finite(r));
 }
 
 
@@ -54,14 +51,20 @@ UInt32 NTargetMath::RotateRight(UInt32 theValue, UInt32 rotateBy)
 
 
 //============================================================================
-//      NTargetMath::GetAbsolute : Get an absolute value.
+//		NTargetPOSIX::snprintf : Windows snprintf.
 //----------------------------------------------------------------------------
-Float32 NTargetMath::GetAbsolute(Float32 theValue)
-{
+int NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
+{	int			theResult;
+	va_list		argList;
 
 
-    // Get the value
-    return(fabsf(theValue));
+
+	// Print the value
+	va_start(argList, format);
+	theResult = vsnprintf(s, n, format, argList);
+	va_end(argList);
+	
+	return(theResult);
 }
 
 
@@ -69,14 +72,19 @@ Float32 NTargetMath::GetAbsolute(Float32 theValue)
 
 
 //============================================================================
-//      NTargetMath::FastReciprocal : Get an approximate reciprocal.
+//		NTargetPOSIX::gmtime : Windows gmtime.
 //----------------------------------------------------------------------------
-Float32 NTargetMath::FastReciprocal(Float32 theValue)
-{
+struct tm NTargetPOSIX::gmtime(time_t theTime)
+{	struct tm		theResult;
 
 
-    // Get the value
-    return(1.0f / theValue);
+
+	// Get the value
+	//
+	// gmtime uses thread-local storage on Windows, so is always thread-safe.
+	theResult = *::gmtime(&theTime);
+	
+	return(theResult);
 }
 
 
@@ -84,14 +92,14 @@ Float32 NTargetMath::FastReciprocal(Float32 theValue)
 
 
 //============================================================================
-//      NTargetMath::FastRoot : Get an approximate square root.
+//		NTargetPOSIX::timegm : Windows timegm.
 //----------------------------------------------------------------------------
-Float32 NTargetMath::FastRoot(Float32 theValue)
+time_t NTargetPOSIX::timegm(const struct tm *tm)
 {
 
 
-    // Get the value
-    return(sqrtf(theValue));
+	// Get the value
+	return(_mkgmtime32(tm));
 }
 
 
@@ -99,15 +107,14 @@ Float32 NTargetMath::FastRoot(Float32 theValue)
 
 
 //============================================================================
-//      NTargetMath::FastInvRoot : Get an approximate inverse square root.
+//		NTargetPOSIX::getcwd : Windows getcwd.
 //----------------------------------------------------------------------------
-Float32 NTargetMath::FastInvRoot(Float32 theValue)
+char *NTargetPOSIX::getcwd(char *buf, size_t size)
 {
 
 
-    // Get the value
-    return(FastReciprocal(FastRoot(theValue)));
+	// Get the value
+	return(_getcwd(buf, size));
 }
-
 
 

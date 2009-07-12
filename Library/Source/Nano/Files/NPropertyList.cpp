@@ -19,6 +19,7 @@
 #include "NMathUtilities.h"
 #include "NXMLEncoder.h"
 #include "NB64Encoder.h"
+#include "NTargetPOSIX.h"
 #include "NPropertyList.h"
 
 
@@ -592,10 +593,10 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 		{
 		textType = kTokenReal;
 		
-		if (isnan(valueReal))
+		if (NTargetPOSIX::is_nan(valueReal))
 			textValue = kTokenNaN;
 
-		else if (isinf(valueReal))
+		else if (NTargetPOSIX::is_inf(valueReal))
 			textValue = (valueReal < 0.0) ? kTokenInfinityNeg : kTokenInfinityPos;
 
 		else if (NMathUtilities::IsZero(valueReal))

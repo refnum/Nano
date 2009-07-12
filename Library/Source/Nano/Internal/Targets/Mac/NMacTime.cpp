@@ -72,21 +72,3 @@ NTime NTargetTime::GetUpTime(void)
 }
 
 
-
-
-
-//============================================================================
-//		NTargetTime::gmtime : Thread-safe gmtime.
-//----------------------------------------------------------------------------
-struct tm NTargetTime::gmtime(time_t theTime)
-{	struct tm		theResult;
-
-
-
-	// Get the time
-	gmtime_r(&theTime, &theResult);
-	
-	return(theResult);
-}
-
-

@@ -17,7 +17,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
-#include "NTargetTime.h"
+#include "NTargetPOSIX.h"
 #include "NDate.h"
 
 
@@ -135,7 +135,7 @@ NGregorianDate NDate::GetGregorianDate(void) const
 	secsFrac  = mTime - secsFloor;
 
 	timeUnix = (time_t) (secsFloor + kTimeSinceEpoch19070);
-	timeGreg = NTargetTime::gmtime(timeUnix);
+	timeGreg = NTargetPOSIX::gmtime(timeUnix);
 	NN_ASSERT(timeGreg.tm_gmtoff == 0);
 
 
@@ -181,7 +181,7 @@ void NDate::SetGregorianDate(const NGregorianDate &theDate)
 	timeGreg.tm_min  = theDate.minute;
 	timeGreg.tm_sec  = (int) secsFloor;
 
-	timeUnix = timegm(&timeGreg);
+	timeUnix = NTargetPOSIX::timegm(&timeGreg);
 	mTime    = (timeUnix - kTimeSinceEpoch19070) + secsFrac;
 }
 

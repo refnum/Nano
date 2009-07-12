@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NTimeUtilities.h"
 #include "NTargetDebug.h"
+#include "NTargetPOSIX.h"
 #include "NLock.h"
 #include "NDebug.h"
 
@@ -141,7 +142,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 
 	// Construct the message
-	snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
+	NTargetPOSIX::snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
 
 	finalMsg  = thePrefix;
 	finalMsg += theMsg;

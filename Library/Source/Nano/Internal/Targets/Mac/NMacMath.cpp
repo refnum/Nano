@@ -25,21 +25,6 @@
 
 
 //============================================================================
-//      NTargetMath::IsNan : Is a value NaN?
-//----------------------------------------------------------------------------
-bool NTargetMath::IsNan(Float64 theValue)
-{
-
-
-	// Check the value
-	return(isnan(theValue));
-}
-
-
-
-
-
-//============================================================================
 //      NTargetMath::RotateLeft : Left-rotate.
 //----------------------------------------------------------------------------
 UInt32 NTargetMath::RotateLeft(UInt32 theValue, UInt32 rotateBy)

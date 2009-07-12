@@ -1,8 +1,8 @@
 /*	NAME:
-		NTargetTime.h
+		NIPhonePOSIX.cpp
 
 	DESCRIPTION:
-		Time support.
+		iPhone POSIX support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,32 +11,16 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NTARGET_TIME_HDR
-#define NTARGET_TIME_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTargetPOSIX.h"
 
 
 
 
 
 //============================================================================
-//		Class declaration
+//      NTargetPOSIX : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-class NTargetTime {
-public:
-	// Get the current time
-	static NTime						GetTime(void);
-
-
-	// Get the time since boot
-	static NTime						GetUpTime(void);
-};
-
-
-
-
-
-#endif // NTARGET_TIME_HDR
-
+#include "../Mac/NMacPOSIX.cpp"
