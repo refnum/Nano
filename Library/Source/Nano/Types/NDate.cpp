@@ -136,7 +136,6 @@ NGregorianDate NDate::GetGregorianDate(void) const
 
 	timeUnix = (time_t) (secsFloor + kTimeSinceEpoch19070);
 	timeGreg = NTargetPOSIX::gmtime(timeUnix);
-	NN_ASSERT(timeGreg.tm_gmtoff == 0);
 
 
 
