@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NFileUtilities.h"
 #include "NPropertyList.h"
+#include "NTargetSystem.h"
 #include "NBundle.h"
 
 
@@ -43,6 +44,11 @@ NBundle::NBundle(const NFile &theFile)
 {
 
 
+	// Validate our parameters
+	NN_ASSERT(theFile.IsDirectory());
+
+
+
 	// Initialize ourselves
 	mFile = theFile;
 }
@@ -58,14 +64,9 @@ NBundle::NBundle(const NString &bundleID)
 {
 
 
-	// Validate our parameters
-	NN_ASSERT(bundleID.IsEmpty());
-	
-	
-	
 	// Initialize ourselves
-		// mFile = app bundle
-		NN_LOG("NBundle - unable to locate app bundle");
+	mFile = NTargetSystem::FindBundle(bundleID);
+	NN_ASSERT(mFile.IsDirectory());
 }
 
 
@@ -181,17 +182,11 @@ NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
 
 
 
-	// Load the bundle
-	if (mInfo.IsEmpty())
-		LoadBundle();
-
-
-
 	// Get the value
-	if (theKey.IsEmpty())
-		theValue = mInfo;
-	else
-		theValue = mInfo.GetValueDictionary(theKey);
+	theValue = GetBundleInfo();
+	
+	if (theKey.IsNotEmpty())
+		theValue = theValue.GetValueDictionary(theKey);
 	
 	return(theValue);
 }
@@ -250,21 +245,20 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 //		NBundle::GetString : Get a string from the bundle.
 //----------------------------------------------------------------------------
 NString NBundle::GetString(const NString &theKey, const NString &defaultValue, const NString &tableName) const
-{	NString		theTable, theValue;
+{	NString			theTable, theValue;
+	NDictionary		theStrings;
 
 
 
-	// Load the strings
+	// Get the state we need
 	theTable = tableName.IsEmpty() ? kStringsDefaultTable : tableName;
 	theTable.Replace(kStringsExtension, "");
-
-	if (!mStrings.HasKey(theTable))
-		LoadStrings(theTable);
+	theStrings = GetBundleStrings(theTable);
 
 
 
 	// Get the value
-	theValue = mStrings.GetValueDictionary(theTable).GetValueString(theKey);
+	theValue = theStrings.GetValueString(theKey);
 	if (theValue.IsEmpty())
 		theValue = defaultValue;
 	
@@ -276,23 +270,39 @@ NString NBundle::GetString(const NString &theKey, const NString &defaultValue, c
 
 
 //============================================================================
-//		NBundle::LoadBundle : Load the bundle.
+//		NBundle::GetBundleInfo : Get a bundle's info dictionary.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NBundle::LoadBundle(void) const
-{	NFile				theFile;
+NDictionary NBundle::GetBundleInfo(void) const
+{	NBundleInfo			*bundleInfo;
+	NDictionary			theResult;
+	NString				thePath;
+	NFile				theFile;
 	NPropertyList		pList;
 
 
 
-	// Validate our state
-	NN_ASSERT(mInfo.IsEmpty());
+	// Get the state we need
+	bundleInfo = AcquireInfo(mFile);
+	theResult  = bundleInfo->theInfo;
 
 
 
-	// Load the dictionary
-	theFile = mFile.GetChild(kPathBundlePList);
-	mInfo   = pList.Load(theFile);
+	// Load the info
+	if (theResult.IsEmpty())
+		{
+		theFile   = mFile.GetChild(kPathBundlePList);
+		theResult = pList.Load(theFile);
+
+		bundleInfo->theInfo = theResult;
+		}
+	
+	
+	
+	// Clean up
+	ReleaseInfo();
+	
+	return(theResult);
 }
 
 
@@ -300,11 +310,12 @@ void NBundle::LoadBundle(void) const
 
 
 //============================================================================
-//		NBundle::LoadStrings : Load the strings.
+//		NBundle::GetBundleStrings : Get a bundle's string table.
 //----------------------------------------------------------------------------
-void NBundle::LoadStrings(const NString &theTable) const
+NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 {	NString							theText, theLine, theKey, theValue;
-	NDictionary						theStrings;
+	NBundleInfo						*bundleInfo;
+	NDictionary						theResult;
 	NRangeList						theRanges;
 	NStringList						theLines;
 	NStringListConstIterator		theIter;
@@ -312,40 +323,112 @@ void NBundle::LoadStrings(const NString &theTable) const
 
 
 
-	// Validate our parameters and state
+	// Validate our parameters
 	NN_ASSERT(theTable.IsNotEmpty());
-	NN_ASSERT(!mStrings.HasKey(theTable));
 
 
 
 	// Get the state we need
-	theFile  = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
-	theText  = NFileUtilities::GetFileText(theFile);
-	theLines = theText.Split(kNStringNewline);
+	bundleInfo = AcquireInfo(mFile);
+	theResult  = bundleInfo->theStrings.GetValueDictionary(theTable);
 
 
 
-	// Parse the strings
-	for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
+	// Load the strings
+	if (theResult.IsEmpty())
 		{
-		theLine   = *theIter;
-		theRanges = theLine.FindAll("(.*?)\\s*=\\s*\"(.*)\";", kNStringPattern);
-		
-		if (theRanges.size() == 3)
+		// Get the state we need
+		theFile  = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
+		theText  = NFileUtilities::GetFileText(theFile);
+		theLines = theText.Split(kNStringNewline);
+
+
+
+		// Parse the strings
+		for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
 			{
-			theKey   = theLine.GetString(theRanges[1]);
-			theValue = theLine.GetString(theRanges[2]);
-			
-			theStrings.SetValue(theKey, theValue);
+			theLine   = *theIter;
+			theRanges = theLine.FindAll("(.*?)\\s*=\\s*\"(.*)\";", kNStringPattern);
+
+			if (theRanges.size() == 3)
+				{
+				theKey   = theLine.GetString(theRanges[1]);
+				theValue = theLine.GetString(theRanges[2]);
+
+				theResult.SetValue(theKey, theValue);
+				}
 			}
+		
+		
+		
+		// Update the info
+		bundleInfo->theStrings.SetValue(theTable, theResult);
 		}
-
-
-
-	// Update our state
-	mStrings.SetValue(theTable, theStrings);
+	
+	
+	
+	// Clean up
+	ReleaseInfo();
+	
+	return(theResult);
 }
 
 
+
+
+
+//============================================================================
+//		NBundle::AcquireInfo : Acquire the info for a bundle.
+//----------------------------------------------------------------------------
+NBundleInfo *NBundle::AcquireInfo(const NFile &theFile)
+{	NBundleInfo					theInfo;
+	NBundleInfoMapIterator		theIter;
+	NString						thePath;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theFile.IsDirectory());
+
+
+
+	// Acquire the lock
+	mLock.Lock();
+
+
+
+	// Get the state we need
+	thePath = theFile.GetPath();
+	theIter = mBundles.find(theFile.GetPath());
+
+
+
+	// Populate the info
+	if (theIter == mBundles.end())
+		{
+		mBundles[thePath] = theInfo;
+		theIter           = mBundles.find(theFile.GetPath());
+		}
+	
+	
+	
+	// Get the info
+	return(&theIter->second);
+}
+
+
+
+
+
+//============================================================================
+//		NBundle::ReleaseInfo : Release the info for a bundle.
+//----------------------------------------------------------------------------
+void NBundle::ReleaseInfo(void)
+{
+
+
+	// Release the lock
+	mLock.Unlock();
+}
 
 

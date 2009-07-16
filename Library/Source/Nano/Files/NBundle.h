@@ -19,6 +19,7 @@
 #include "NDictionary.h"
 #include "NString.h"
 #include "NArray.h"
+#include "NLock.h"
 #include "NFile.h"
 
 
@@ -32,6 +33,25 @@ static const NString kNBundleExecutableKey						= "CFBundleExecutable";
 static const NString kNBundleIdentifierKey						= "CFBundleIdentifier";
 static const NString kNBundleVersionKey							= "CFBundleVersion";
 static const NString kNBundleNameKey							= "CFBundleName";
+
+
+
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
+// Bundle info
+typedef struct {
+	NDictionary			theInfo;
+	NDictionary			theStrings;
+} NBundleInfo;
+
+
+// Lists
+typedef std::map<NString, NBundleInfo, NHashableCompare<NString> >	NBundleInfoMap;
+typedef NBundleInfoMap::iterator									NBundleInfoMapIterator;
+typedef NBundleInfoMap::const_iterator								NBundleInfoMapConstIterator;
 
 
 
@@ -81,14 +101,18 @@ public:
 
 
 private:
-	void								LoadBundle(void)                     const;
-	void								LoadStrings(const NString &theTable) const;
+	NDictionary							GetBundleInfo(   void)                    const;
+	NDictionary							GetBundleStrings(const NString &theTable) const;
+
+	static NBundleInfo					*AcquireInfo(const NFile &theFile);
+	static void							ReleaseInfo(void);
 
 
 private:
 	NFile								mFile;
-	mutable NDictionary					mInfo;
-	mutable NDictionary					mStrings;
+	
+	static NMutexLock					mLock;
+	static NBundleInfoMap				mBundles;
 };
 
 
