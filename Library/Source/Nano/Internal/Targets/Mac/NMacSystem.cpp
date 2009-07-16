@@ -14,6 +14,53 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NCFObject.h"
+#include "NCFString.h"
+
 #include "NTargetSystem.h"
+
+
+
+
+
+//============================================================================
+//      NTargetSystem::FindBundle : Find a bundle.
+//----------------------------------------------------------------------------
+NFile NTargetSystem(const NString &bundleID)
+{	NCFObject		cfBundle, cfURL;
+	NCFString		cfString;
+	NFile			theFile;
+
+
+
+	// Get the bundle
+	if (bundleID.IsEmpty())
+		cfBundle.Set(CFBundleGetMainBundle(), false);
+	else
+		{
+		cfString = bundleID;
+		cfBundle.Set(CFBundleGetBundleWithIdentifier(cfString), false);
+		}
+
+	if (!cfBundle.IsValid())
+		return(theFile);
+
+
+
+	// Get the file
+	if (cfURL.Set(CFBundleCopyBundleURL(cfBundle)))
+		{
+		cfString.Set(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle));
+		theFile = NFile(cfString);
+		}
+	
+	return(theFile);
+}
+
+
+
+
+
+
 
 

@@ -16,11 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC || NN_TARGET_IPHONE
-	#include <tr1/functional>
-#else
-	#include <functional>
-#endif
+#include "NString.h"
+#include "NFile.h"
 
 
 
@@ -31,8 +28,10 @@
 //----------------------------------------------------------------------------
 class NTargetSystem {
 public:
-
-
+	// Find a bundle
+	//
+	// Returns the application bundle if bundleID is empty.
+	static NFile						FindBundle(const NString &bundleID);
 };
 
 

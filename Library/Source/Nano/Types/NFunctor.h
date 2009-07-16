@@ -16,7 +16,11 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetSystem.h"
+#if NN_TARGET_MAC || NN_TARGET_IPHONE
+	#include <tr1/functional>
+#else
+	#include <functional>
+#endif
 
 
 

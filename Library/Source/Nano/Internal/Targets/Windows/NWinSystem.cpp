@@ -17,3 +17,23 @@
 #include "NTargetSystem.h"
 
 
+
+
+
+//============================================================================
+//      NTargetSystem::FindBundle : Find a bundle.
+//----------------------------------------------------------------------------
+NFile NTargetSystem(const NString &bundleID)
+{	NFile			theFile;
+
+
+	// dair, to do
+	return(theFile);
+}
+
+
+
+
+
+
+
