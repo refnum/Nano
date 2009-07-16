@@ -78,7 +78,7 @@ public:
 	
 
 	// Broadcast a message
-	void								BroadcastMessage(BroadcastMsg theMsg, void *msgData=NULL);
+	void								BroadcastMessage(BroadcastMsg theMsg, const void *msgData=NULL);
 
 
 	// Operators

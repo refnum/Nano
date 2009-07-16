@@ -74,7 +74,7 @@ public:
 
 protected:
 	// Handle messages
-	virtual void						DoMessage(BroadcastMsg theMsg, void *msgData) = 0;
+	virtual void						DoMessage(BroadcastMsg theMsg, const void *msgData) = 0;
 
 
 	// Add/remove a broadcaster
