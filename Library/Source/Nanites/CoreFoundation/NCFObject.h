@@ -115,7 +115,10 @@ public:
 	// Operators
 	const NCFObject&					operator = (const NCFObject &theObject);
 
+	DECLARE_NCF_OPERATOR(CFArrayRef);
+	DECLARE_NCF_OPERATOR(CFBundleRef);
 	DECLARE_NCF_OPERATOR(CFDataRef);
+	DECLARE_NCF_OPERATOR(CFDictionaryRef);
 	DECLARE_NCF_OPERATOR(CFStringRef);
 	DECLARE_NCF_OPERATOR(CFTypeRef);
 	DECLARE_NCF_OPERATOR(CFURLRef);
