@@ -149,30 +149,6 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueBoolean : Get a bool value.
-//----------------------------------------------------------------------------
-bool NNumber::GetValueBoolean(bool &theValue) const
-{	SInt64		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	valueInteger = 0;
-	theValue     = false;
-	canCast      = GetValueSInt64(valueInteger);
-
-	if (canCast)
-		theValue = (valueInteger != 0);
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
 //		NNumber::GetValueUInt8 : Get a UInt8 value.
 //----------------------------------------------------------------------------
 bool NNumber::GetValueUInt8(UInt8 &theValue) const
@@ -434,21 +410,6 @@ bool NNumber::GetValueFloat64(Float64 &theValue) const
 
 
 //============================================================================
-//		NNumber::SetValueBoolean : Set a bool value.
-//----------------------------------------------------------------------------
-void NNumber::SetValueBoolean(bool theValue)
-{
-
-
-	// Set the value
-	SetValueSInt64(theValue ? 1 : 0);
-}
-
-
-
-
-
-//============================================================================
 //		NNumber::SetValueUInt8 : Set a UInt8 value.
 //----------------------------------------------------------------------------
 void NNumber::SetValueUInt8(UInt8 theValue)
@@ -604,8 +565,7 @@ void NNumber::SetValueFloat64(Float64 theValue)
 //		NNumber::SetValue : Set the value.
 //----------------------------------------------------------------------------
 bool NNumber::SetValue(const NVariant &theValue)
-{	bool					valueBool;
-	UInt8					valueUInt8;
+{	UInt8					valueUInt8;
 	UInt16					valueUInt16;
 	UInt32					valueUInt32;
 	UInt64					valueUInt64;
@@ -618,11 +578,8 @@ bool NNumber::SetValue(const NVariant &theValue)
 
 
 
-	// Get the value
-	if (theValue.GetValue(valueBool))
-		SetValueBoolean(valueBool);
-
-	else if (theValue.GetValue(valueUInt8))
+	// Set the value
+	if (theValue.GetValue(valueUInt8))
 		SetValueUInt8(valueUInt8);
 
 	else if (theValue.GetValue(valueUInt16))

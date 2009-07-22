@@ -373,17 +373,16 @@ void NArray::AppendValue(const NVariant &theValue)
 //		NArray::GetValueBoolean : Get a boolean value.
 //----------------------------------------------------------------------------
 bool NArray::GetValueBoolean(NIndex theIndex) const
-{	NNumber		theNumber;
+{	bool		theValue;
 	NVariant	rawValue;
-	bool		theValue;
 
 
 
 	// Get the value
-	theValue = 0;
+	theValue = false;
 	rawValue = GetValue(theIndex);
 
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueBoolean(theValue))
+	if (!rawValue.GetValue(theValue))
 		NN_LOG("Unable to convert [%d] to bool", theIndex);
 
 	return(theValue);

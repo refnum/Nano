@@ -74,7 +74,6 @@ public:
 	// Get/set the value
 	//
 	// Numbers will fail to coerce if casting would lose precision.
-	bool								GetValueBoolean(bool    &theValue) const;
 	bool								GetValueUInt8(  UInt8   &theValue) const;
 	bool								GetValueUInt16( UInt16  &theValue) const;
 	bool								GetValueUInt32( UInt32  &theValue) const;
@@ -86,7 +85,6 @@ public:
 	bool								GetValueFloat32(Float32 &theValue) const;
 	bool								GetValueFloat64(Float64 &theValue) const;
 
-	void								SetValueBoolean(bool    theValue);
 	void								SetValueUInt8  (UInt8   theValue);
 	void								SetValueUInt16 (UInt16  theValue);
 	void								SetValueUInt32 (UInt32  theValue);

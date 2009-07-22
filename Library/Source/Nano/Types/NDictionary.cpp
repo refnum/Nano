@@ -322,18 +322,17 @@ void NDictionary::SetValue(const NString &theKey, const NVariant &theValue)
 //		NDictionary::GetValueBoolean : Get a boolean value.
 //----------------------------------------------------------------------------
 bool NDictionary::GetValueBoolean(const NString &theKey) const
-{	NNumber		theNumber;
+{	bool		theValue;
 	NVariant	rawValue;
-	bool		theValue;
 
 
 
 	// Get the value
-	theValue = 0;
+	theValue = false;
 	
 	if (GetValue(theKey, rawValue))
 		{
-		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueBoolean(theValue))
+		if (!rawValue.GetValue(theValue))
 			NN_LOG("Unable to convert [%s] to bool", theKey.GetUTF8());
 		}
 
