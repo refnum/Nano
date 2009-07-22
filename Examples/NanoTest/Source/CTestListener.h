@@ -46,7 +46,7 @@ public:
 
 
 	// Handle messages
-	void								DoMessage(BroadcastMsg theMsg, void *msgData);
+	void								DoMessage(BroadcastMsg theMsg, const void *msgData);
 
 
 private:

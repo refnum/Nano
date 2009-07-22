@@ -64,7 +64,7 @@ void CTestListener::SetTarget(BroadcastMsg *theTarget)
 //============================================================================
 //		CTestListener::DoMessage : Handle messages.
 //----------------------------------------------------------------------------
-void CTestListener::DoMessage(BroadcastMsg theMsg, void */*msgData*/)
+void CTestListener::DoMessage(BroadcastMsg theMsg, const void */*msgData*/)
 {
 
 
