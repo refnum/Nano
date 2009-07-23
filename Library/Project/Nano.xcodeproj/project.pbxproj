@@ -183,6 +183,10 @@
 		ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
 		ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
 		ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
+		ABFAA556101871460060ED12 /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
+		ABFAA557101871460060ED12 /* NEncodable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA555101871460060ED12 /* NEncodable.cpp */; };
+		ABFAA558101871460060ED12 /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
+		ABFAA559101871460060ED12 /* NEncodable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA555101871460060ED12 /* NEncodable.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -389,6 +393,10 @@
 		ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
+		ABFAA552101871460060ED12 /* NEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncoder.h; sourceTree = "<group>"; };
+		ABFAA553101871460060ED12 /* NEncodable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncodable.h; sourceTree = "<group>"; };
+		ABFAA554101871460060ED12 /* NEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NEncoder.cpp; sourceTree = "<group>"; };
+		ABFAA555101871460060ED12 /* NEncodable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NEncodable.cpp; sourceTree = "<group>"; };
 		D2AAC06F0554671400DB518D /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -687,6 +695,10 @@
 				AB669B5010035285006CB82F /* NDateFormatter.h */,
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
+				ABFAA555101871460060ED12 /* NEncodable.cpp */,
+				ABFAA553101871460060ED12 /* NEncodable.h */,
+				ABFAA554101871460060ED12 /* NEncoder.cpp */,
+				ABFAA552101871460060ED12 /* NEncoder.h */,
 				AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */,
 				AB9155510F9B4DD6009FFEAF /* NFunctor.h */,
 				AB9155520F9B4DD6009FFEAF /* NHashable.cpp */,
@@ -948,6 +960,8 @@
 				AB28FC320FB5D9F000F72C61 /* NDate.cpp in Sources */,
 				AB669B5110035285006CB82F /* NDateFormatter.cpp in Sources */,
 				AB28FC330FB5D9F000F72C61 /* NDictionary.cpp in Sources */,
+				ABFAA559101871460060ED12 /* NEncodable.cpp in Sources */,
+				ABFAA558101871460060ED12 /* NEncoder.cpp in Sources */,
 				AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */,
 				AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */,
 				AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */,
@@ -1043,6 +1057,8 @@
 				AB9155AC0F9B4DD6009FFEAF /* NDate.cpp in Sources */,
 				AB669B5210035285006CB82F /* NDateFormatter.cpp in Sources */,
 				AB9155AD0F9B4DD6009FFEAF /* NDictionary.cpp in Sources */,
+				ABFAA557101871460060ED12 /* NEncodable.cpp in Sources */,
+				ABFAA556101871460060ED12 /* NEncoder.cpp in Sources */,
 				AB9155AF0F9B4DD6009FFEAF /* NFunctor.cpp in Sources */,
 				AB9155B00F9B4DD6009FFEAF /* NHashable.cpp in Sources */,
 				AB9155B10F9B4DD6009FFEAF /* NNumber.cpp in Sources */,

@@ -50,6 +50,7 @@
 #include "TDate.h"
 #include "TDateFormatter.h"
 #include "TDictionary.h"
+#include "TEncoder.h"
 #include "TFunctor.h"
 #include "TNumber.h"
 #include "TPoint.h"
@@ -133,6 +134,7 @@ int main(int argc, const char **argv)
 	TDate::Execute();
 	TDateFormatter::Execute();
 	TDictionary::Execute();
+	TEncoder::Execute();
 	TFunctor::Execute();
 	TNumber::Execute();
 	TPoint::Execute();

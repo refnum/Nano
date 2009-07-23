@@ -56,6 +56,7 @@
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 		ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */; };
 		ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */; };
+		ABFAA542101870B80060ED12 /* TEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA540101870B80060ED12 /* TEncoder.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +183,8 @@
 		ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunctor.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
 		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
+		ABFAA540101870B80060ED12 /* TEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TEncoder.cpp; sourceTree = "<group>"; };
+		ABFAA541101870B80060ED12 /* TEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TEncoder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,6 +378,8 @@
 				AB669B4110035253006CB82F /* TDateFormatter.h */,
 				AB9156120F9B4F37009FFEAF /* TDictionary.cpp */,
 				AB9156130F9B4F37009FFEAF /* TDictionary.h */,
+				ABFAA540101870B80060ED12 /* TEncoder.cpp */,
+				ABFAA541101870B80060ED12 /* TEncoder.h */,
 				ABEC870B0FC5AF1E003B7166 /* TFunctor.cpp */,
 				ABEC870A0FC5AF1E003B7166 /* TFunctor.h */,
 				AB9156160F9B4F37009FFEAF /* TNumber.cpp */,
@@ -567,6 +572,7 @@
 				AB91564B0F9B4F37009FFEAF /* TDate.cpp in Sources */,
 				AB669B4210035253006CB82F /* TDateFormatter.cpp in Sources */,
 				AB91564C0F9B4F37009FFEAF /* TDictionary.cpp in Sources */,
+				ABFAA542101870B80060ED12 /* TEncoder.cpp in Sources */,
 				ABEC870C0FC5AF1E003B7166 /* TFunctor.cpp in Sources */,
 				AB91564E0F9B4F37009FFEAF /* TNumber.cpp in Sources */,
 				AB91564F0F9B4F37009FFEAF /* TPoint.cpp in Sources */,
