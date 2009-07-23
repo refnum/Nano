@@ -1,9 +1,9 @@
 /*	NAME:
-		Nano Prefix.pch
+		TDataCompressor.h
 
 	DESCRIPTION:
-		Nano prefix header.
-	
+		NDataCompressor tests.
+
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
 		<http://www.refnum.com/>
@@ -11,36 +11,27 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NANO_PREFIX_HDR
-#define NANO_PREFIX_HDR
-//============================================================================
-//		Build constants
-//----------------------------------------------------------------------------
-// PCRE
-#define HAVE_CONFIG_H													1
-
-
-// Expat
-#define HAVE_EXPAT_CONFIG_H												1
-
-
-// ZLib
-#define Z_PREFIX														1
-#define z_Byte															UInt8
-
-
-
-
-
+#ifndef TDATACOMPRESSOR_HDR
+#define TDATACOMPRESSOR_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "Nano.h"
 
 
 
 
 
-#endif // NANO_PREFIX_HDR
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class TDataCompressor {
+public:
+	// Execute the tests
+	static void							Execute(void);
+};
 
 
+
+
+
+#endif // TDATACOMPRESSOR_HDR

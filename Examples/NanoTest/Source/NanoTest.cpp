@@ -35,6 +35,7 @@
 #include "TB64Encoder.h"
 #include "TByteSwap.h"
 #include "TChecksum.h"
+#include "TDataCompressor.h"
 #include "TUnicodeParser.h"
 #include "TXMLEncoder.h"
 #include "TXMLParser.h"
@@ -113,6 +114,7 @@ int main(int argc, const char **argv)
 	TB64Encoder::Execute();
 	TByteSwap::Execute();
 	TChecksum::Execute();
+	TDataCompressor::Execute();
 	TUnicodeParser::Execute();
 	TXMLEncoder::Execute();
 	TXMLParser::Execute();
