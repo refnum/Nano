@@ -575,7 +575,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Boolean(bool theValue)
 //		NPropertyList::EncodeMacXML_1_0_Number : Encode a number.
 //----------------------------------------------------------------------------
 NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
-{	NString			textType, textValue;
+{	NString			textType, valueText;
 	SInt64			valueInteger;
 	Float64			valueReal;
 	NXMLNode		*theNode;
@@ -586,7 +586,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 	if (theValue.GetValueSInt64(valueInteger))
 		{
 		textType = kTokenInteger;
-		textValue.Format("%lld", valueInteger);
+		valueText.Format("%lld", valueInteger);
 		}
 		
 	else if (theValue.GetValueFloat64(valueReal))
@@ -594,16 +594,16 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 		textType = kTokenReal;
 		
 		if (NTargetPOSIX::is_nan(valueReal))
-			textValue = kTokenNaN;
+			valueText = kTokenNaN;
 
 		else if (NTargetPOSIX::is_inf(valueReal))
-			textValue = (valueReal < 0.0) ? kTokenInfinityNeg : kTokenInfinityPos;
+			valueText = (valueReal < 0.0) ? kTokenInfinityNeg : kTokenInfinityPos;
 
 		else if (NMathUtilities::IsZero(valueReal))
-			textValue = "0.0";
+			valueText = "0.0";
 
 		else
-			textValue.Format("%.17g", valueReal);
+			valueText.Format("%.17g", valueReal);
 		}
 	
 	else
@@ -616,7 +616,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 
 	// Encode the value
 	theNode = new NXMLNode(kXMLNodeElement, textType);
-	theNode->SetElementContents(textValue);
+	theNode->SetElementContents(valueText);
 
 	return(theNode);
 }
