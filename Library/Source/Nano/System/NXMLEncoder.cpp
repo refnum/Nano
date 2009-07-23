@@ -558,7 +558,7 @@ void NXMLEncoder::EncodeElementAttribute(const NDictionary &theAttributes, const
 
 
 	// Encode the attribute
-	theText.Format(" %@=\"%@\" ", theKey, theValue);
+	theText.Format(" %@=\"%@\"", theKey, theValue);
 	*theResult += theText;
 }
 
