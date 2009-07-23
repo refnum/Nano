@@ -35,23 +35,24 @@ static const UInt8 kMagicMacBinary_1_0[]							= { 0x62, 0x70, 0x6C, 0x69, 0x73,
 
 
 // Tokens
-static const NString kTokenPList									= "plist";
-static const NString kTokenDictionary								= "dict";
 static const NString kTokenArray									= "array";
-static const NString kTokenString									= "string";
-static const NString kTokenTrue										= "true";
-static const NString kTokenFalse									= "false";
-static const NString kTokenInteger									= "integer";
-static const NString kTokenReal										= "real";
 static const NString kTokenData										= "data";
 static const NString kTokenDate										= "date";
+static const NString kTokenDictionary								= "dict";
+static const NString kTokenFalse									= "false";
+static const NString kTokenInteger									= "integer";
+static const NString kTokenPList									= "plist";
+static const NString kTokenReal										= "real";
+static const NString kTokenString									= "string";
+static const NString kTokenTrue										= "true";
 
+static const NString kTokenInfinityNeg								= "-infinity";
+static const NString kTokenInfinityPos								= "+infinity";
 static const NString kTokenKey										= "key";
 static const NString kTokenNaN										= "nan";
-static const NString kTokenInfinityPos								= "+infinity";
-static const NString kTokenInfinityNeg								= "-infinity";
 static const NString kTokenUnknown									= "unknown";
 static const NString kTokenVersion									= "version";
+static const NString kTokenZero										= "0.0";
 
 
 // Misc
@@ -600,7 +601,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 			valueText = (valueReal < 0.0) ? kTokenInfinityNeg : kTokenInfinityPos;
 
 		else if (NMathUtilities::IsZero(valueReal))
-			valueText = "0.0";
+			valueText = kTokenZero;
 
 		else
 			valueText.Format("%.17g", valueReal);
