@@ -543,5 +543,3 @@ void NXMLNode::SetElementAttribute(const NString &theName, const NString &theVal
 	// Set the attribute
 	mAttributes.SetValue(theName, theValue);
 }
-
-
