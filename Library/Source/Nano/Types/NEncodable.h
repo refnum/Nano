@@ -22,15 +22,36 @@
 
 
 //============================================================================
+//		Types
+//----------------------------------------------------------------------------
+class NEncoder;
+class NString;
+
+
+
+
+
+//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NEncodable {
+friend class NEncoder;
 public:
 										 NEncodable(void);
 	virtual								~NEncodable(void);
 
 
 protected:
+	// Get the encoder class name
+	virtual NString						GetEncoderClass(void) const = 0;
+
+
+	// Encode/decode the object
+	virtual void						EncodeSelf(      NEncoder &theEncoder) const = 0;
+	virtual void						DecodeSelf(const NEncoder &theEncoder)       = 0;
+
+
+private:
 
 
 };

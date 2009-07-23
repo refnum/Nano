@@ -19,6 +19,7 @@
 
 #include "NTextUtilities.h"
 #include "NSTLUtilities.h"
+#include "NEncoder.h"
 #include "NString.h"
 
 
@@ -1220,6 +1221,50 @@ NHashCode NString::CalculateHash(void) const
 		theResult = NHashable::CalculateHash(theValue->theData.GetSize(), theValue->theData.GetData());
 
 	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NString::GetEncoderClass : Get the encoder class name.
+//----------------------------------------------------------------------------
+NString NString::GetEncoderClass(void) const
+{
+
+
+	// Get the class name
+	return("NString");
+}
+
+
+
+
+
+//============================================================================
+//      NString::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NString::EncodeSelf(NEncoder &theEncoder) const
+{	const char		*textUTF8;
+
+
+
+	// Encode the object
+	textUTF8 = GetUTF8();
+	
+	theEncoder.EncodeUTF8(kNEncoderValueKey, strlen(textUTF8), textUTF8);
+}
+
+
+
+
+
+//============================================================================
+//      NString::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NString::DecodeSelf(const NEncoder &theEncoder)
+{
 }
 
 

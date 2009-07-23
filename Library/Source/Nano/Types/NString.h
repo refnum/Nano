@@ -20,6 +20,7 @@
 #include "NStringEncoder.h"
 #include "NUnicodeParser.h"
 #include "NSharedValue.h"
+#include "NEncodable.h"
 #include "NContainer.h"
 #include "NHashable.h"
 #include "NRange.h"
@@ -101,6 +102,7 @@ typedef NStringMap::const_iterator									NStringMapConstIterator;
 //----------------------------------------------------------------------------
 class NString :	public NContainer,
 				public NHashable,
+				public NEncodable,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
@@ -210,6 +212,15 @@ protected:
 
 	// Calculate the hash code
 	NHashCode							CalculateHash(void) const;
+
+
+	// Get the encoder class name
+	NString								GetEncoderClass(void) const;
+
+
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:
