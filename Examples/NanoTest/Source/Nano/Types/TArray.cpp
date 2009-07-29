@@ -115,7 +115,7 @@ void TArray::Execute(void)
 	testArray.Clear();
 	testArray.AppendValue(kValueSInt32);
 	testArray.SetValue(0, kValueSInt64);
-	NN_ASSERT(testArray.GetValue(0) == kValueSInt64);
+	NN_ASSERT(testArray.GetValueSInt64(0) == kValueSInt64);
 }
 
 
