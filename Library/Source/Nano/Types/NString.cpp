@@ -44,10 +44,18 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 {
 
 
-	// Initialize ourselves
+	// Get the state we need
 	if (numBytes == kNStringLength)
-		numBytes = (NIndex) strlen((const char *) thePtr);
-	
+		{
+		if (thePtr == NULL)
+			numBytes = 0;
+		else
+			numBytes = (NIndex) strlen((const char *) thePtr);
+		}
+
+
+
+	// Initialize ourselves
 	SetData(NData(numBytes, thePtr), theEncoding);
 }
 
