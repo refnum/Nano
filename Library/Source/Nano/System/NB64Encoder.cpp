@@ -60,7 +60,7 @@ NString NB64Encoder::Encode(const NData &theValue)
 	// Get the state we need
 	base64_init_encodestate(&theState);
 
-	if (!theBuffer.SetSize(theValue.GetSize() * 2))
+	if (theValue.IsEmpty() || !theBuffer.SetSize(theValue.GetSize() * 2))
 		return(theString);
 
 
