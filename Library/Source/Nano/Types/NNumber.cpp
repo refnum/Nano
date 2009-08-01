@@ -575,10 +575,14 @@ bool NNumber::SetValue(const NVariant &theValue)
 	SInt64					valueSInt64;
 	Float32					valueFloat32;
 	Float64					valueFloat64;
+	int						valueInt;
+	long					valueLong;
 
 
 
 	// Set the value
+	//
+	// NVariant treats some unsized types as numeric, to support literal constants.
 	if (theValue.GetValue(valueUInt8))
 		SetValueUInt8(valueUInt8);
 
@@ -608,6 +612,12 @@ bool NNumber::SetValue(const NVariant &theValue)
 	
 	else if (theValue.GetValue(valueFloat64))
 		SetValueFloat64(valueFloat64);
+	
+	else if (theValue.GetValue(valueInt))
+		SetValueSInt64(valueInt);
+	
+	else if (theValue.GetValue(valueLong))
+		SetValueSInt64(valueLong);
 	
 	else
 		return(false);

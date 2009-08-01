@@ -190,6 +190,8 @@ bool NVariant::IsNumeric(void) const
 
 
 	// Check our type
+	//
+	// As per NNumber, some unsized types are also allowed to support literal constants.
 	isNumeric = IsType(typeid(UInt8))   ||
 				IsType(typeid(UInt16))  ||
 				IsType(typeid(UInt32))  ||
@@ -199,7 +201,9 @@ bool NVariant::IsNumeric(void) const
 				IsType(typeid(SInt32))  ||
 				IsType(typeid(SInt64))  ||
 				IsType(typeid(Float32)) ||
-				IsType(typeid(Float64));
+				IsType(typeid(Float64)) ||
+				IsType(typeid(int))     ||
+				IsType(typeid(long));
 
 	return(isNumeric);
 }

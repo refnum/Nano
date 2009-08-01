@@ -72,7 +72,7 @@
 // Primitives
 //
 // These types are a consistent size on all targets and architectures. All
-// other types may change their size to suit the current platform.
+// other types may change their size between releases or for each target.
 typedef unsigned NANO_INT8											UInt8;
 typedef unsigned NANO_INT16											UInt16;
 typedef unsigned NANO_INT32											UInt32;
