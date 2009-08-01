@@ -27,9 +27,29 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt8   kTestData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
-static const NString kTestString1						= "This is the first string";
-static const NString kTestString2						= "This is the second string";
+// Keys
+static const NString kKeyBoolean1							= "Test Boolean 1";
+static const NString kKeyBoolean2							= "Test Boolean 2";
+static const NString kKeyNumber1							= "Test Number 1";
+static const NString kKeyNumber2							= "Test Number 2";
+static const NString kKeyNumber3							= "Test Number 3";
+static const NString kKeyNumber4							= "Test Number 4";
+static const NString kKeyData								= "Test Data";
+static const NString kKeyString								= "Test String";
+static const NString kKeyObject								= "Test Object";
+
+
+
+// Values
+static const bool    kValueBoolean1						= true;
+static const bool    kValueBoolean2						= false;
+static const NNumber kValueNumber1						= NVariant( 1234);
+static const NNumber kValueNumber2						= NVariant(-5678);
+static const NNumber kValueNumber3						= NVariant( 1234.123);
+static const NNumber kValueNumber4						= NVariant(-5678.567);
+static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
+static const NString kValueString						= "This is a string";
+static const NString kValueObject						= "This is an object";
 
 
 
@@ -38,45 +58,42 @@ static const NString kTestString2						= "This is the second string";
 //============================================================================
 //		Internal class definition
 //----------------------------------------------------------------------------
-class TEncodable : public NEncodable {
-	// Get the encoder class name
-	NString GetEncoderClass(void) const
-	{
-		return("TEncodable");
-	}
-
-
-
+class TEncodable :	public NEncodable,
+					public NComparable<TEncodable> {
+public:
+	DECLARE_NENCODABLE(TEncodable);
 
 
 	// Encode the object
 	void EncodeSelf(NEncoder &theEncoder) const
 	{	
-		theEncoder.EncodeBoolean("TestBool1", false);
-		theEncoder.EncodeBoolean("TestBool2", true);
-		
-		theEncoder.EncodeSInt32("TestSInt32",  1234);
-		theEncoder.EncodeSInt32("TestSInt64", -5678);
-
-		theEncoder.EncodeFloat32("TestFloat32",  1234.1234);
-		theEncoder.EncodeFloat32("TestFloat64", -5678.5678);
-		
-		theEncoder.EncodeBytes( "TestData",    GET_ARRAY_SIZE(kTestData), kTestData);
-		theEncoder.EncodeUTF8(  "TestString1", strlen(kTestString1.GetUTF8()), kTestString1.GetUTF8());
-		theEncoder.EncodeObject("TestString2", kTestString2);
+		theEncoder.EncodeBoolean(kKeyBoolean1, kValueBoolean1);
+		theEncoder.EncodeBoolean(kKeyBoolean2, kValueBoolean2);
+		theEncoder.EncodeNumber( kKeyNumber1,  kValueNumber1);
+		theEncoder.EncodeNumber( kKeyNumber2,  kValueNumber2);
+		theEncoder.EncodeNumber( kKeyNumber3,  kValueNumber3);
+		theEncoder.EncodeNumber( kKeyNumber4,  kValueNumber4);
+		theEncoder.EncodeData(   kKeyData,     NData(GET_ARRAY_SIZE(kValueData), kValueData));
+		theEncoder.EncodeString( kKeyString,   kValueString);
+		theEncoder.EncodeObject( kKeyObject,   kValueObject);
 	}
-
-
-
 
 
 	// Decode the object
 	void DecodeSelf(const NEncoder &theEncoder)
 	{
-	
-		   
 	}
+	
+	
+	// Compare the value
+	NComparison Compare(const TEncodable &theValue) const
+	{
+		return(GetComparison(this, &theValue));
+	}
+
 };
+
+DEFINE_NENCODABLE(TEncodable);
 
 
 
