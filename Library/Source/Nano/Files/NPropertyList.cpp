@@ -19,7 +19,6 @@
 #include "NMathUtilities.h"
 #include "NXMLEncoder.h"
 #include "NB64Encoder.h"
-#include "NTargetPOSIX.h"
 #include "NPropertyList.h"
 
 
@@ -46,13 +45,9 @@ static const NString kTokenReal										= "real";
 static const NString kTokenString									= "string";
 static const NString kTokenTrue										= "true";
 
-static const NString kTokenInfinityNeg								= "-infinity";
-static const NString kTokenInfinityPos								= "+infinity";
 static const NString kTokenKey										= "key";
-static const NString kTokenNaN										= "nan";
 static const NString kTokenUnknown									= "unknown";
 static const NString kTokenVersion									= "version";
-static const NString kTokenZero										= "0.0";
 
 
 // Misc
@@ -577,41 +572,22 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Boolean(bool theValue)
 //----------------------------------------------------------------------------
 NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 {	NString			textType, valueText;
-	SInt64			valueInteger;
-	Float64			valueReal;
 	NXMLNode		*theNode;
 
 
 
+	// Validate our state
+	//
+	// The XML property list format requires specific values for nan/info.
+	NN_ASSERT(kNStringInfinityNeg == "-infinity");
+	NN_ASSERT(kNStringInfinityPos == "+infinity");
+	NN_ASSERT(kNStringNaN         == "nan");
+
+
+
 	// Get the state we need
-	if (theValue.GetValueSInt64(valueInteger))
-		{
-		textType = kTokenInteger;
-		valueText.Format("%lld", valueInteger);
-		}
-		
-	else if (theValue.GetValueFloat64(valueReal))
-		{
-		textType = kTokenReal;
-		
-		if (NTargetPOSIX::is_nan(valueReal))
-			valueText = kTokenNaN;
-
-		else if (NTargetPOSIX::is_inf(valueReal))
-			valueText = (valueReal < 0.0) ? kTokenInfinityNeg : kTokenInfinityPos;
-
-		else if (NMathUtilities::IsZero(valueReal))
-			valueText = kTokenZero;
-
-		else
-			valueText.Format("%.17g", valueReal);
-		}
-	
-	else
-		{
-		NN_LOG("Unknown type: %d", theValue.GetType());
-		textType = kTokenUnknown;
-		}
+	textType  = (theValue.GetType() == kNumberInteger) ? kTokenInteger : kTokenReal;
+	valueText =  theValue.GetString();
 
 
 
