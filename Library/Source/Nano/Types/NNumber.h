@@ -26,6 +26,13 @@
 //============================================================================
 //      Constants
 //----------------------------------------------------------------------------
+// String values
+static const NString kNStringInfinityNeg								= "-infinity";
+static const NString kNStringInfinityPos								= "+infinity";
+static const NString kNStringNaN										= "nan";
+
+
+// Types
 typedef enum {
 	kNumberInteger,
 	kNumberReal
@@ -65,6 +72,12 @@ public:
 
 	// Get the type
 	NumberType							GetType(void) const;
+
+
+	// Get the number as a string
+	//
+	// Returns kNStringNaN or kNStringInfinityXXX as necessary.
+	NString								GetString(void) const;
 
 
 	// Compare the value

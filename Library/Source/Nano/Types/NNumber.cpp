@@ -15,8 +15,18 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NTargetPOSIX.h"
 #include "NVariant.h"
 #include "NNumber.h"
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNStringZero										= "0.0";
 
 
 
@@ -80,6 +90,47 @@ NumberType NNumber::GetType(void) const
 
 	// Get the type
 	return(mType);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetString : Get the number as a string.
+//----------------------------------------------------------------------------
+NString NNumber::GetString(void) const
+{	NString		valueText;
+
+
+
+	// Get the string
+	switch (mType) {
+		case kNumberInteger:
+			valueText.Format("%lld", mValue.integer);
+			break;
+			
+		case kNumberReal:
+			if (NTargetPOSIX::is_nan(mValue.real))
+				valueText = kNStringNaN;
+
+			else if (NTargetPOSIX::is_inf(mValue.real))
+				valueText = (mValue.real < 0.0) ? kNStringInfinityNeg : kNStringInfinityPos;
+
+			else if (NMathUtilities::IsZero(mValue.real))
+				valueText = kNStringZero;
+
+			else
+				valueText.Format("%.17g", mValue.real);
+			break;
+
+		default:
+			NN_LOG("Unknown number type: %d", mType);
+			valueText = kNStringZero;
+			break;
+		}
+
+	return(valueText);
 }
 
 
