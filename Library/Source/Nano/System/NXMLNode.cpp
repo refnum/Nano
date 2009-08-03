@@ -131,6 +131,27 @@ bool NXMLNode::HasChildren(void) const
 
 
 //============================================================================
+//		NXMLNode::GetChild : Get a child.
+//----------------------------------------------------------------------------
+NXMLNode *NXMLNode::GetChild(NIndex theIndex) const
+{	NXMLNode	*theChild;
+
+
+
+	// Get the child
+	theChild = NULL;
+	
+	if (theIndex < (NIndex) mChildren.size())
+		theChild = mChildren[theIndex];
+	
+	return(theChild);
+}
+
+
+
+
+
+//============================================================================
 //		NXMLNode::GetChildren : Get the children.
 //----------------------------------------------------------------------------
 const NXMLNodeList *NXMLNode::GetChildren(void) const
