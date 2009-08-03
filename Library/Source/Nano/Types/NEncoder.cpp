@@ -14,7 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSystemUtilities.h"
 #include "NMathUtilities.h"
+#include "NDataCompressor.h"
 #include "NTargetPOSIX.h"
 #include "NB64Encoder.h"
 #include "NXMLEncoder.h"
@@ -28,6 +30,13 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
+// Magic
+//
+// The binary format is simply zipped, so the header is kNCompressionZLib. 
+static const UInt8 kMagicXML_1_0[]									= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
+static const UInt8 kMagicBinary_1_0[]								= { 0x6E, 0x7A, 0x6C, 0x62 };
+
+
 // Tokens
 static const NString kTokenBoolean									= "bool";
 static const NString kTokenData										= "data";
@@ -42,6 +51,8 @@ static const NString kTokenFalse									= "false";
 static const NString kTokenKey										= "key";
 static const NString kTokenTrue										= "true";
 static const NString kTokenVersion									= "version";
+
+static const NString kVersion_1_0									= "1.0";
 
 
 
@@ -83,10 +94,8 @@ NEncoder::~NEncoder(void)
 //============================================================================
 //		NEncoder::Encode : Encode an object.
 //----------------------------------------------------------------------------
-NData NEncoder::Encode(const NEncodable &theObject)
-{	NXMLEncoder		xmlEncoder;
-	NXMLNode		*nodeDoc;
-	NString			theText;
+NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
+{	NXMLNode		*theRoot;
 	NData			theData;
 
 
@@ -96,31 +105,54 @@ NData NEncoder::Encode(const NEncodable &theObject)
 
 
 
-	// Create the nodes
-	mNodeRoot = new NXMLNode(kXMLNodeElement, kTokenEncoder);
-	mNodeRoot->SetElementAttribute(kTokenVersion, "1.0");
-
-	nodeDoc = new NXMLNode(kXMLNodeDocument, "");
-	nodeDoc->AddChild(mNodeRoot);
+	// Get the state we need
+	mState    = kNEncoderEncoding;
+	mNodeRoot = new NXMLNode(kXMLNodeDocument, "");
+	theRoot   = NULL;
 
 
 
-	// Encode the objects
-	mState = kNEncoderEncoding;
+	// Encode the object
 	EncodeObject(kTokenRoot, theObject);
-	mState = kNEncoderIdle;
+
+	if (mNodeRoot->GetChildren()->size() == 1)
+		theRoot = mNodeRoot->GetChild(0);
+
+	if (theRoot == NULL)
+		{
+		NN_LOG("Unable to encode object!");
+		return(theData);
+		}
 
 
 
-	// Encode the XML
-	theText = xmlEncoder.Encode(nodeDoc);
-	theData = theText.GetData();
+	// Encode the data
+	//
+	// The encoded object is extracted as a root XML node.
+	mNodeRoot->RemoveChild(theRoot, false);
+
+	switch (theFormat) {
+		case kNEncoderXML_1_0:
+			theData = EncodeXML_1_0(theRoot);
+			break;
+
+		case kNEncoderBinary_1_0:
+			theData = EncodeBinary_1_0(theRoot);
+			break;
+
+		default:
+			NN_LOG("Unknown encoder format: %d", theFormat);
+			break;
+		}
 
 
 
 	// Clean up
-	delete nodeDoc;
+	delete theRoot;
+	delete mNodeRoot;
+
 	mNodeRoot = NULL;
+	mState    = kNEncoderIdle;
 
 	return(theData);
 }
@@ -132,21 +164,47 @@ NData NEncoder::Encode(const NEncodable &theObject)
 //============================================================================
 //		NEncoder::Decode : Decode an object.
 //----------------------------------------------------------------------------
-void NEncoder::Decode(NEncodable &theObject, const NData &theData)
-{
+NStatus NEncoder::Decode(NEncodable &theObject, const NData &theData)
+{	NEncoderFormat		theFormat;
 
 
-	// Validate our state
-	NN_ASSERT(mState == kNEncoderIdle);
+
+	// Get the state we need
+	mState    = kNEncoderDecoding;
+	theFormat = GetFormat(theData);
+	
+
+
+	// Decode the data
+	switch (theFormat) {
+		case kNEncoderXML_1_0:
+			mNodeRoot = DecodeXML_1_0(theData);
+			break;
+
+		case kNEncoderBinary_1_0:
+			mNodeRoot = DecodeBinary_1_0(theData);
+			break;
+		
+		default:
+			NN_LOG("Unknown encoder format: %d", theFormat);
+			return(kNErrParam);
+			break;
+		}
 
 
 
 	// Decode the object
-	mState = kNEncoderDecoding;
+	theObject.DecodeSelf(*this);
 
-		// dair, to do
 
-	mState = kNEncoderIdle;
+
+	// Clean up
+	delete mNodeRoot;
+
+	mNodeRoot = NULL;
+	mState    = kNEncoderIdle;
+	
+	return(kNoErr);
 }
 
 
@@ -156,6 +214,7 @@ void NEncoder::Decode(NEncodable &theObject, const NData &theData)
 //============================================================================
 //		NEncoder::HasKey : Does the current object have a key?
 //----------------------------------------------------------------------------
+#pragma mark -
 bool NEncoder::HasKey(const NString &theKey) const
 {	const NXMLNode		*theChild;
 
@@ -167,7 +226,7 @@ bool NEncoder::HasKey(const NString &theKey) const
 
 
 	// Get the state we need
-	theChild = FindChild(theKey);
+	theChild = GetChildNode(theKey);
 	return(theChild != NULL);
 }
 
@@ -190,7 +249,7 @@ NEncodedType NEncoder::GetValueType(const NString &theKey) const
 
 
 	// Get the state we need
-	theChild = FindChild(theKey);
+	theChild = GetChildNode(theKey);
 
 
 
@@ -226,7 +285,6 @@ NEncodedType NEncoder::GetValueType(const NString &theKey) const
 //============================================================================
 //		NEncoder::EncodeBoolean : Encode a boolean.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NEncoder::EncodeBoolean(const NString &theKey, bool theValue)
 {	NString		valueText;
 
@@ -472,81 +530,181 @@ void NEncoder::RegisterClass(const NString &className, const NEncodableCreateFun
 
 
 //============================================================================
-//		NEncoder::GetParentNode : Get the parent node.
+//		NEncoder::GetFormat : Get the format of encoded data.
 //----------------------------------------------------------------------------
 #pragma mark -
-const NXMLNode *NEncoder::GetParentNode(void) const
-{	NXMLNode	*theNode;
-
-
-
-	// Validate our state
-	NN_ASSERT(mNodeRoot != NULL);
-
-
-
-	// Get the parent node
-	if (mNodeStack.empty())
-		theNode = mNodeRoot;
-	else
-		theNode = mNodeStack.back();
-	
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NEncoder::GetParentNode : Get the parent node.
-//----------------------------------------------------------------------------
-NXMLNode *NEncoder::GetParentNode(void)
-{	const NXMLNode		*theNode;
-
-
-
-	// Get the parent node
-	theNode = ((const NEncoder *) this)->GetParentNode();
-	
-	return((NXMLNode *) theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NEncoder::FindChild : Find a child node.
-//----------------------------------------------------------------------------
-const NXMLNode *NEncoder::FindChild(const NString &theKey) const
-{	const NXMLNodeList				*theChildren;
-	NString							theAttribute;
-	const NXMLNode					*theParent;
-	NXMLNodeListConstIterator		theIter;
-
-
-
-	// Validate our state
-	NN_ASSERT(mState != kNEncoderIdle);
+NEncoderFormat NEncoder::GetFormat(const NData &theData)
+{	NEncoderFormat		theFormat;
+	const UInt8			*dataPtr;
+	NIndex				dataSize;
 
 
 
 	// Get the state we need
-	theParent   = GetParentNode();
-	theChildren = theParent->GetChildren();
+	theFormat = kNEncoderInvalid;
+	dataSize  = theData.GetSize();
+	dataPtr   = theData.GetData();
 
 
 
-	// Find the child
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
-		{
-		theAttribute = (*theIter)->GetElementAttribute(kTokenKey);
-		if (theAttribute == theKey)
-			return(*theIter);
-		}
+	// Identify the format
+	#define MATCH_FORMAT(_magic, _format)													\
+		do																					\
+			{																				\
+			if (theFormat == kNEncoderInvalid && dataSize >= GET_ARRAY_SIZE(_magic))		\
+				{																			\
+				if (memcmp(dataPtr, _magic, GET_ARRAY_SIZE(_magic)) == 0)					\
+					{																		\
+					theFormat = _format;													\
+					}																		\
+				}																			\
+			}																				\
+		while (0)
+
+	MATCH_FORMAT(kMagicXML_1_0,    kNEncoderXML_1_0);
+	MATCH_FORMAT(kMagicBinary_1_0, kNEncoderBinary_1_0);
 	
-	return(NULL);
+	#undef MATCH_FORMAT
+	
+	return(theFormat);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::EncodeXML_1_0 : Encode to the XML 1.0 format.
+//----------------------------------------------------------------------------
+NData NEncoder::EncodeXML_1_0(NXMLNode *theRoot)
+{	NXMLNode		*nodeDoc, *nodeEncoder;
+	NXMLEncoder		xmlEncoder;
+	NData			theData;
+	NString			theXML;
+
+
+
+	// Create the nodes
+	nodeEncoder = new NXMLNode(kXMLNodeElement, kTokenEncoder);
+	nodeEncoder->SetElementAttribute(kTokenVersion, kVersion_1_0);
+	nodeEncoder->AddChild(theRoot);
+
+	nodeDoc = new NXMLNode(kXMLNodeDocument, "");
+	nodeDoc->AddChild(nodeEncoder);
+
+
+
+	// Encode the XML
+	theXML  = xmlEncoder.Encode(nodeDoc);
+	theData = theXML.GetData();
+	
+
+
+	// Clean up
+	nodeEncoder->RemoveChild(theRoot, false);
+	delete nodeDoc;
+
+	return(theData);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::DecodeXML_1_0 : Decode the XML 1.0 format.
+//----------------------------------------------------------------------------
+NXMLNode *NEncoder::DecodeXML_1_0(const NData &theData)
+{	NXMLNode		*nodeDoc, *nodeEncoder, *nodeRoot;
+	NXMLEncoder		xmlEncoder;
+	NStatus			theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(mState == kNEncoderIdle);
+
+
+
+	// Get the state we need
+	theErr   = kNErrMalformed;
+	nodeRoot = NULL;
+
+
+
+	// Decode the XML
+	nodeDoc = xmlEncoder.Decode(theData);
+	if (nodeDoc == NULL || !nodeDoc->IsType(kXMLNodeDocument) || nodeDoc->GetChildren()->size() != 1)
+		goto cleanup;
+
+
+
+	// Extract the encoder
+	nodeEncoder = nodeDoc->GetChildren()->at(0);
+	if (!nodeEncoder->IsElement(kTokenEncoder) || nodeEncoder->GetChildren()->size() != 1 || nodeEncoder->GetElementAttribute(kTokenVersion) != kVersion_1_0)
+		goto cleanup;
+
+
+
+	// Extract the root
+	nodeRoot = nodeEncoder->GetChildren()->at(0);
+	if (!nodeRoot->IsElement(kTokenObject) || nodeRoot->GetElementAttribute(kTokenKey) != kTokenRoot)
+		goto cleanup;
+
+	nodeEncoder->RemoveChild(nodeRoot, false);
+	theErr = kNoErr;
+
+
+
+	// Clean up
+cleanup:
+	if (theErr != kNoErr)
+		NN_LOG("Unable to decode XML (%d)", theErr);
+
+	delete nodeDoc;
+	
+	return(nodeRoot);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::EncodeBinary_1_0 : Encode to the binary 1.0 format.
+//----------------------------------------------------------------------------
+NData NEncoder::EncodeBinary_1_0(NXMLNode *theRoot)
+{	NDataCompressor		theCompressor;
+	NData				theData;
+
+
+
+	// Encode the state
+	theData = EncodeXML_1_0(theRoot);
+	theData = theCompressor.Compress(theData);
+	
+	return(theData);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::DecodeBinary_1_0 : Decode the binary 1.0 format.
+//----------------------------------------------------------------------------
+NXMLNode *NEncoder::DecodeBinary_1_0(const NData &theData)
+{	NDataCompressor		theCompressor;
+	NXMLNode			*theRoot;
+	NData				xmlData;
+
+
+
+	// Decode the state
+	xmlData = theCompressor.Decompress(theData);
+	theRoot = DecodeXML_1_0(xmlData);
+	
+	return(theRoot);
 }
 
 
@@ -576,10 +734,73 @@ NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, 
 
 
 	// Attach to its parent
-	theParent = GetParentNode();
+	theParent = const_cast<NXMLNode*>(GetParentNode());
 	theParent->AddChild(theChild);
 
 	return(theChild);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::GetParentNode : Get the parent node.
+//----------------------------------------------------------------------------
+const NXMLNode *NEncoder::GetParentNode(void) const
+{	NXMLNode	*theNode;
+
+
+
+	// Validate our state
+	NN_ASSERT(mNodeRoot != NULL);
+
+
+
+	// Get the parent node
+	if (mNodeStack.empty())
+		theNode = mNodeRoot;
+	else
+		theNode = mNodeStack.back();
+	
+	return(theNode);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::GetChildNode : Get a child node.
+//----------------------------------------------------------------------------
+const NXMLNode *NEncoder::GetChildNode(const NString &theKey) const
+{	const NXMLNodeList				*theChildren;
+	NString							theAttribute;
+	const NXMLNode					*theParent;
+	NXMLNodeListConstIterator		theIter;
+
+
+
+	// Validate our state
+	NN_ASSERT(mState != kNEncoderIdle);
+
+
+
+	// Get the state we need
+	theParent   = GetParentNode();
+	theChildren = theParent->GetChildren();
+
+
+
+	// Find the child
+	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+		{
+		theAttribute = (*theIter)->GetElementAttribute(kTokenKey);
+		if (theAttribute == theKey)
+			return(*theIter);
+		}
+	
+	return(NULL);
 }
 
 

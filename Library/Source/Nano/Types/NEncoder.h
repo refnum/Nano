@@ -53,6 +53,20 @@ typedef enum {
 } NEncoderState;
 
 
+// Encoder formats
+typedef enum {
+	// Specific
+	kNEncoderInvalid,
+	kNEncoderXML_1_0,
+	kNEncoderBinary_1_0,
+
+
+	// Generic
+	kNEncoderXML		= kNEncoderXML_1_0,
+	kNEncoderBinary		= kNEncoderBinary_1_0,
+} NEncoderFormat;
+
+
 
 
 
@@ -89,10 +103,11 @@ public:
 
 
 	// Encode/decode an object
-	NData								Encode(const NEncodable &theObject);
-	void								Decode(      NEncodable &theObject, const NData &theData);
+	NData								Encode(const NEncodable &theObject, NEncoderFormat theFormat=kNEncoderBinary);
+	NStatus								Decode(      NEncodable &theObject, const NData &theData);
 
 
+public:
 	// Does the current object contain a key?
 	//
 	// Can be invoked by NEncodable::EncodeSelf/DecodeSelf.
@@ -126,12 +141,18 @@ public:
 
 
 private:
-	const NXMLNode						*GetParentNode(void) const;
-	NXMLNode							*GetParentNode(void);
+	NEncoderFormat						GetFormat(const NData &theData);
 
-	const NXMLNode						*FindChild(  const NString &theKey) const;
-	NXMLNode							*EncodeChild(const NString &theKey, const NString &theValue, const NString &theName);
-	
+	const NXMLNode						*GetParentNode(void)                 const;
+	const NXMLNode						*GetChildNode(const NString &theKey) const;
+	NXMLNode							*EncodeChild( const NString &theKey, const NString &theValue, const NString &theName);
+
+	NData								 EncodeXML_1_0(      NXMLNode *theRoot);
+	NXMLNode							*DecodeXML_1_0(const NData    &theData);
+
+	NData								 EncodeBinary_1_0(      NXMLNode *theRoot);
+	NXMLNode							*DecodeBinary_1_0(const NData    &theData);
+
 	static bool							IsKnownClass(const NString &className);
 	static NEncoderClasses				*GetClasses(void);
 

@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
 #include "NEncodable.h"
+#include "NChecksum.h"
 #include "NEncoder.h"
 
 #include "TEncoder.h"
@@ -50,6 +51,26 @@ static const NNumber kValueNumber4						= NVariant(-5678.567);
 static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
 static const NString kValueString						= "This is a string";
 static const NString kValueObject						= "This is an object";
+
+
+// Results
+static const UInt32  kResultBinary						= 0xC9B4856E;
+static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+															"<encoder version=\"1.0\">\n"
+															"	<object class=\"TEncodable\" key=\"root\">\n"
+															"		<bool key=\"Test Boolean 1\">true</bool>\n"
+															"		<bool key=\"Test Boolean 2\">false</bool>\n"
+															"		<number key=\"Test Number 1\">1234</number>\n"
+															"		<number key=\"Test Number 2\">-5678</number>\n"
+															"		<number key=\"Test Number 3\">1234.123</number>\n"
+															"		<number key=\"Test Number 4\">-5678.567</number>\n"
+															"		<data key=\"Test Data\">qrvM3Q==</data>\n"
+															"		<string key=\"Test String\">This is a string</string>\n"
+															"		<object class=\"NString\" key=\"Test Object\">\n"
+															"			<string key=\"value\">This is an object</string>\n"
+															"		</object>\n"
+															"	</object>\n"
+															"</encoder>\n";
 
 
 
@@ -103,18 +124,24 @@ DEFINE_NENCODABLE(TEncodable);
 //		TEncoder::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TEncoder::Execute(void)
-{	NEncoder		theEncoder;
+{	NData			dataXML, dataBinary;
+	NEncoder		theEncoder;
 	TEncodable		theObject;
-	NString			theText;
-	NData			theData;
+	UInt32			adlerData;
+	NChecksum		checkSum;
+	NString			textXML;
 
 
 
 	// Encoding
-	theData = theEncoder.Encode(theObject);
-	theText.SetData(theData);
-	
-	NN_LOG("[%@]", theText);
+	dataXML    = theEncoder.Encode(theObject, kNEncoderXML);
+	dataBinary = theEncoder.Encode(theObject, kNEncoderBinary);
+
+	textXML   = NString(dataXML);
+	adlerData = checkSum.GetAdler32(dataBinary.GetSize(), dataBinary.GetData());
+
+	NN_ASSERT(textXML   == kResultXML);
+	NN_ASSERT(adlerData == kResultBinary);
 
 
 
