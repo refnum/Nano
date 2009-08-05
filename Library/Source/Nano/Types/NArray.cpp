@@ -30,21 +30,18 @@
 //----------------------------------------------------------------------------
 class NSortArray {
 public:
-	NSortArray(const NArraySortFunctor &theFunctor)
+	NSortArray(const NArrayCompareFunctor &theFunctor)
 	{
 		mFunctor = theFunctor;
 	}
 
 	bool operator()(const NVariant &a, const NVariant &b)
 	{
-		if (mFunctor != NULL)
-			return(mFunctor(a, b) == kNCompareLessThan);
-
-		return(a.Compare(b) == kNCompareLessThan);
+		return(mFunctor(a, b) == kNCompareLessThan);
 	}
 
 private:
-	NArraySortFunctor		mFunctor;
+	NArrayCompareFunctor	mFunctor;
 };
 
 
@@ -221,22 +218,24 @@ void NArray::Join(const NArray &theValue)
 //============================================================================
 //		NArray::Sort : Sort the array.
 //----------------------------------------------------------------------------
-void NArray::Sort(const NArraySortFunctor &theFunctor, const NRange &theRange)
-{	NArrayValueIterator		iterFirst, iterLast;
-	NRange					processRange;
-	NArrayValue				*theArray;
+void NArray::Sort(const NArrayCompareFunctor &theFunctor, const NRange &theRange)
+{	NArrayValueIterator			iterFirst, iterLast;
+	NRange						processRange;
+	NArrayCompareFunctor		compareWith;
+	NArrayValue					*theArray;
 
 
 
 	// Get the state we need
 	theArray     = GetMutable();
+	compareWith  = GetCompareFunctor(theFunctor);
 	processRange = theRange.GetNormalized(GetSize());
 	iterFirst    = theArray->begin() + processRange.GetFirst();
 	iterLast     = theArray->begin() + processRange.GetNext();
 
 
 	// Sort the array
-	std::sort(iterFirst, iterLast, NSortArray(theFunctor));
+	std::sort(iterFirst, iterLast, NSortArray(compareWith));
 }
 
 
@@ -272,22 +271,24 @@ void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRa
 //============================================================================
 //		NArray::HasValue : Does a value exist?
 //----------------------------------------------------------------------------
-bool NArray::HasValue(const NVariant &theValue) const
-{	NIndex					n, numValues;
-	const NArrayValue		*theArray;
+bool NArray::HasValue(const NVariant &theValue, const NArrayCompareFunctor &theFunctor) const
+{	NIndex						n, numValues;
+	NArrayCompareFunctor		compareWith;
+	const NArrayValue			*theArray;
 
 
 
 	// Get the state we need
-	theArray  = GetImmutable();
-	numValues = GetSize();
+	theArray    = GetImmutable();
+	compareWith = GetCompareFunctor(theFunctor);
+	numValues   = GetSize();
 	
 
 
 	// Find the value
 	for (n = 0; n < numValues; n++)
 		{
-		if (theArray->at(n) == theValue)
+		if (compareWith(theArray->at(n), theValue) == kNCompareEqualTo)
 			return(true);
 		}
 
@@ -904,6 +905,27 @@ const NArrayValue *NArray::GetNullValue(void) const
 	return(&sNullValue);
 }
 
+
+
+
+
+//============================================================================
+//		NArray::GetCompareFunctor : Get a comparison functor.
+//----------------------------------------------------------------------------
+#pragma mark -
+NArrayCompareFunctor NArray::GetCompareFunctor(const NArrayCompareFunctor &theFunctor) const
+{	NArrayCompareFunctor	compareWith;
+
+
+
+	// Get the functor
+	if (theFunctor != NULL)
+		compareWith = theFunctor;
+	else
+		compareWith = BindFunction(NVariant::CompareValues, _1, _2);
+	
+	return(compareWith);
+}
 
 
 

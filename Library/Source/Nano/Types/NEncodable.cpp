@@ -15,7 +15,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NEncodable.h"
-#include "NVariant.h"
 #include "NString.h"
 
 

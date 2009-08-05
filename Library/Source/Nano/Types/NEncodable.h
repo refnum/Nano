@@ -16,7 +16,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NComparable.h"
 
 
 
@@ -41,7 +40,7 @@ class NVariant;
 //
 // Example usage:
 //
-//		class NFoo : public NEncodable, public NComparable<NFoo> {
+//		class NFoo : public NEncodable {
 //		public:
 //							DECLARE_NENCODABLE(NEncodable);
 //
@@ -52,13 +51,6 @@ class NVariant;
 //
 // Sub-clases of NEncodable must include a DECLARE_NENCODABLE in their class
 // declaration, and a DEFINE_NENCODABLE in their class implementation.
-//
-// To allow NEncoder::DecodeObject to return new objects through an NVariant,
-// sub-classes of NEncodable must also conform to the NComparable interface.
-//
-// Unfortunately NEncodable can not derive from this interface automatically,
-// or it would produce an ambigious parentage if an NEncodable sub-class also
-// derived from NComparable.
 #define DECLARE_NENCODABLE(_class)																				\
 																												\
 	private:																									\
@@ -97,6 +89,7 @@ class NVariant;
 	}																											\
 																												\
 	void *kEatLastSemiColonForPedanticWarning ## _class
+
 
 
 

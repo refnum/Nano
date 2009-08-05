@@ -41,7 +41,7 @@ class NDictionary;
 
 
 // Functors
-typedef nfunctor<NComparison (const NVariant &value1, const NVariant &value2)>	NArraySortFunctor;
+typedef nfunctor<NComparison (const NVariant &value1, const NVariant &value2)>	NArrayCompareFunctor;
 typedef nfunctor<void        (const NVariant &theValue)>						NArrayForEachFunctor;
 
 
@@ -88,7 +88,9 @@ public:
 
 
 	// Sort the array
-	void								Sort(const NArraySortFunctor &theFunctor=NULL, const NRange &theRange=kNRangeAll);
+	//
+	// If no comparison functor is provided, values are sorted by NVariant::Compare.
+	void								Sort(const NArrayCompareFunctor &theFunctor=NULL, const NRange &theRange=kNRangeAll);
 
 
 	// Process each item
@@ -96,7 +98,9 @@ public:
 
 
 	// Does a value exist?
-	bool								HasValue(const NVariant &theValue) const;
+	//
+	// If no comparison functor is provided, values are compared by NVariant::Compare.
+	bool								HasValue(const NVariant &theValue, const NArrayCompareFunctor &theFunctor=NULL) const;
 	
 
 	// Get/set a value
@@ -144,6 +148,10 @@ public:
 protected:
 	// Get the null value
 	const NArrayValue					*GetNullValue(void) const;
+
+
+private:
+	NArrayCompareFunctor				GetCompareFunctor(const NArrayCompareFunctor &theFunctor) const;
 
 
 private:

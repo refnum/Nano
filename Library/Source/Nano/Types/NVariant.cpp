@@ -17,14 +17,136 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-//============================================================================
-//		Linker
-//----------------------------------------------------------------------------
 #ifndef NVARIANT_CPP
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "NBitVector.h"
+#include "NColor.h"
+#include "NData.h"
+#include "NDate.h"
+#include "NDictionary.h"
+#include "NNumber.h"
+#include "NPoint.h"
+#include "NRange.h"
+#include "NRectangle.h"
+#include "NSize.h"
+#include "NString.h"
+#include "NVariant.h"
 
-void NVariant_SuppressNoCodeLinkerWarning(void);
-void NVariant_SuppressNoCodeLinkerWarning(void)
-{
+
+
+
+
+//============================================================================
+//		NVariant::CompareValuesT : Compare two values.
+//----------------------------------------------------------------------------
+template <class T> NComparison NVariant::CompareValuesT(const NVariant &value1, const NVariant &value2)
+{	const NVariantValue<T>		*valuePtr1;
+	const NVariantValue<T>		*valuePtr2;
+	NComparison					theResult;
+
+
+
+	// Compare the values
+	valuePtr1 = dynamic_cast<NVariantValue<T>*>(value1.mData);
+	valuePtr2 = dynamic_cast<NVariantValue<T>*>(value2.mData);
+	theResult = (valuePtr1->GetValue().Compare(valuePtr2->GetValue()));
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NVariant::CompareValues : Compare two values.
+//----------------------------------------------------------------------------
+NComparison NVariant::CompareValues(const NVariant &value1, const NVariant &value2)
+{	NComparison		theResult;
+
+
+
+	// Check the values
+	//
+	// Testing by address gives us a fast test for equality, and a default
+	// order for undefined cases (e.g., comparing different types).
+	theResult = GetComparison(value1.mData, value1.mData);
+	if (theResult == kNCompareEqualTo)
+		return(theResult);
+
+
+
+	// Check for NULL values
+	//
+	// NULL values can't be compared.
+	if (!value1.IsValid() || !value2.IsValid())
+		NN_LOG("Attempted to compare a NULL value");
+
+
+
+	// Check for mismatched types
+	//
+	// Different types can't be compared, except for numeric values which we can
+	// push through an NNumber to obtain a comparison.
+	else if (value1.GetType() != value2.GetType())
+		{
+		if (value1.IsNumeric() && value2.IsNumeric())
+			theResult = NNumber(value1).Compare(NNumber(value2));
+		else
+			NN_LOG("Attempted to compare different types (%s) (%s)", value1.GetType().name(), value2.GetType().name());
+		}
+
+
+
+	// Compare the values
+	//
+	// We provide default comparisons for standard comparable objects.
+	//
+	// This list can be extended in the future to support new types. Unfortunately we can't
+	// automatically determine if a type is a sub-class of NComparable, since our type may
+	// also be a built-in type like 'long' rather than an object.
+	else
+		{
+		if (value1.IsNumeric())
+			theResult = NNumber(value1).Compare(NNumber(value2));
+
+		else if (value1.IsType(typeid(NBitVector)))
+			theResult = CompareValuesT<NBitVector>(value1, value2);
+
+		else if (value1.IsType(typeid(NColor)))
+			theResult = CompareValuesT<NColor>(value1, value2);
+
+		else if (value1.IsType(typeid(NData)))
+			theResult = CompareValuesT<NData>(value1, value2);
+
+		else if (value1.IsType(typeid(NDate)))
+			theResult = CompareValuesT<NDate>(value1, value2);
+
+		else if (value1.IsType(typeid(NDictionary)))
+			theResult = CompareValuesT<NDictionary>(value1, value2);
+
+		else if (value1.IsType(typeid(NPoint)))
+			theResult = CompareValuesT<NPoint>(value1, value2);
+
+		else if (value1.IsType(typeid(NRange)))
+			theResult = CompareValuesT<NRange>(value1, value2);
+
+		else if (value1.IsType(typeid(NRectangle)))
+			theResult = CompareValuesT<NRectangle>(value1, value2);
+
+		else if (value1.IsType(typeid(NSize)))
+			theResult = CompareValuesT<NSize>(value1, value2);
+
+		else if (value1.IsType(typeid(NString)))
+			theResult = CompareValuesT<NString>(value1, value2);
+
+		else
+			NN_LOG("NVariant::CompareValues passed an unknown type (%s)", value1.GetType().name());
+		}
+
+	return(theResult);
 }
 
 #else
@@ -53,8 +175,6 @@ public:
 	virtual								~NVariantData(void) { }
 
 	virtual const std::type_info		&GetType(void) const = 0;
-
-	virtual NComparison					Compare(const NVariantData *dataOther) const = 0;
 };
 
 
@@ -79,19 +199,6 @@ public:
 		return(mValue);
 	}
 
-	NComparison							Compare(const NVariantData *dataOther) const
-	{	const NVariantValue<T>		*valueOther;
-	
-	
-		// Validate our state
-		NN_ASSERT(GetType() == dataOther->GetType());
-		
-		
-		// Compare the values
-		valueOther = dynamic_cast<const NVariantValue<T>*>(dataOther);
-		
-		return(GetComparison(mValue, valueOther->mValue));
-	}
 
 private:
 	T									mValue;
@@ -246,49 +353,11 @@ template <class T> bool NVariant::IsType(const T &theValue) const
 //		NVariant::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NVariant::Compare(const NVariant &theValue) const
-{	NComparison		theResult;
+{
 
 
-
-	// Check for NULL values
-	//
-	// NULL values can never be compared directly. Since we have to return some
-	// kind of comparison, we use our address.
-	//
-	// This will lead to unpredictable results if we are a temporary object, but
-	// since the comparison is undefined, this is acceptable.
-	if (mData == NULL || theValue.mData == NULL)
-		{
-		NN_LOG("Attempted to compare a NULL value");
-		theResult = GetComparison(this, &theValue);
-		}
-
-
-
-	// Check for mismatched types
-	//
-	// Different types can not be compared directly, except for numeric values
-	// since we can push these through an NNumber to obtain a comparison.
-	//
-	// All other mis-matches fail as per NULL values.
-	else if (mData->GetType() != theValue.mData->GetType())
-		{
-		if (IsNumeric() && theValue.IsNumeric())
-			theResult = NNumber(*this).Compare(NNumber(theValue));
-		else
-			{
-			NN_LOG("Attempted to compare different types");
-			theResult = GetComparison(this, &theValue);
-			}
-		}
-
-
-
-	// Compare the values
-	else
-		theResult = mData->Compare(theValue.mData);
-	
-	return(theResult);
+	// Compare the value
+	return(NVariant::CompareValues(*this, theValue));
 }
 
 

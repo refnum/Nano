@@ -92,6 +92,14 @@ public:
 	inline NVariant&					operator = (const NVariant &theValue);
 
 
+	// Compare values
+	static NComparison					CompareValues(const NVariant &value1, const NVariant &value2);
+
+
+private:
+	template <class T> static NComparison	CompareValuesT(const NVariant &value1, const NVariant &value2);
+
+
 private:
 	NVariantData						*mData;
 };
