@@ -102,7 +102,7 @@ NComparison NVariant::CompareValues(const NVariant &value1, const NVariant &valu
 
 	// Compare the values
 	//
-	// We provide default comparisons for standard comparable objects.
+	// NVariant provides default comparisons for standard comparable objects.
 	//
 	// This list can be extended in the future to support new types. Unfortunately we can't
 	// automatically determine if a type is a sub-class of NComparable, since our type may
@@ -299,7 +299,8 @@ bool NVariant::IsNumeric(void) const
 	// Check our type
 	//
 	// As per NNumber, some unsized types are also allowed to support literal constants.
-	isNumeric = IsType(typeid(UInt8))   ||
+	isNumeric = IsType(typeid(NNumber)) ||
+				IsType(typeid(UInt8))   ||
 				IsType(typeid(UInt16))  ||
 				IsType(typeid(UInt32))  ||
 				IsType(typeid(UInt64))  ||
