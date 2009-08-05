@@ -56,9 +56,9 @@ class NVariant;
 	private:																									\
 	static bool sEncodableRegistered;																			\
 																												\
-	static bool							EncodableRegister(void);												\
-	static bool							EncodableEncode(      NEncoder &theEncoder, const NString &theKey, const NVariant &theValue);	\
-	static NVariant						EncodableDecode(const NEncoder &theEncoder);							\
+	static bool							 EncodableRegister(void);												\
+	static const NEncodable				*EncodableCast(  const NVariant &theValue);								\
+	static NVariant						 EncodableDecode(const NEncoder &theEncoder);							\
 																												\
 	public:																										\
 	virtual NString						EncodableGetClass(void) const
@@ -71,22 +71,18 @@ class NVariant;
 	bool _class::EncodableRegister(void)																		\
 	{	NEncoderClassInfo		classInfo;																		\
 																												\
-		classInfo.encodeObject = BindFunction(_class::EncodableEncode, _1, _2, _3);								\
+		classInfo.castObject   = BindFunction(_class::EncodableCast,   _1);										\
 		classInfo.decodeObject = BindFunction(_class::EncodableDecode, _1);										\
 																												\
 		NEncoder::RegisterClass(#_class, classInfo);															\
 		return(true);																							\
 	}																											\
 																												\
-	bool _class::EncodableEncode(NEncoder &theEncoder, const NString &theKey, const NVariant &theValue)			\
-	{	_class		theObject;																					\
-		bool		didEncode;																					\
+	const NEncodable *_class::EncodableCast(const NVariant &theValue)											\
+	{	const _class	*theObject;																				\
 																												\
-		didEncode = theValue.GetValue(theObject);																\
-		if (didEncode)																							\
-			theEncoder.EncodeObject(theKey, theObject);															\
-																												\
-		return(didEncode);																						\
+		theObject = theValue.GetValue<_class>();																\
+		return(theObject);																						\
 	}																											\
 																												\
 	NVariant _class::EncodableDecode(const NEncoder &theEncoder)												\

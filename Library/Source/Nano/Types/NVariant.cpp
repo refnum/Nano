@@ -51,7 +51,7 @@ template <class T> NComparison NVariant::CompareValuesT(const NVariant &value1, 
 	// Compare the values
 	valuePtr1 = dynamic_cast<NVariantValue<T>*>(value1.mData);
 	valuePtr2 = dynamic_cast<NVariantValue<T>*>(value2.mData);
-	theResult = (valuePtr1->GetValue().Compare(valuePtr2->GetValue()));
+	theResult = (valuePtr1->GetValue()->Compare(*valuePtr2->GetValue()));
 
 	return(theResult);
 }
@@ -194,9 +194,9 @@ public:
 		return(typeid(mValue));
 	}
 
-	const T								&GetValue(void) const
+	const T								*GetValue(void) const
 	{
-		return(mValue);
+		return(&mValue);
 	}
 
 
@@ -386,35 +386,43 @@ const std::type_info &NVariant::GetType(void) const
 //============================================================================
 //		NVariant::GetValue : Get the value.
 //----------------------------------------------------------------------------
-template <class T> bool NVariant::GetValue(T &theValue) const
-{	NVariantValue<T>	*valuePtr;
-	bool				canCast;
+template <class T> const T *NVariant::GetValue(void) const
+{	const T				*theValue;
+	NVariantValue<T>	*valuePtr;
 
 
 
 	// Check our state
 	if (mData == NULL)
-		return(false);
-
-
-
-	// Determine if we can cast
-	canCast = (typeid(theValue) == mData->GetType());
-
-	if (canCast)
-		{
-		valuePtr = dynamic_cast<NVariantValue<T>*>(mData);
-		canCast  = (valuePtr != NULL);
-		NN_ASSERT(canCast);
-		}
+		return(NULL);
 
 
 
 	// Get the value
-	if (canCast)
-		theValue = valuePtr->GetValue();
+	valuePtr = dynamic_cast<NVariantValue<T>*>(mData);
+	theValue = (valuePtr == NULL) ? NULL : valuePtr->GetValue();
 
-	return(canCast);
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NVariant::GetValue : Get the value.
+//----------------------------------------------------------------------------
+template <class T> bool NVariant::GetValue(T &theValue) const
+{	const T		*valuePtr;
+
+
+
+	// Get the value
+	valuePtr = GetValue<T>();
+	if (valuePtr != NULL)
+		theValue = *valuePtr;
+	
+	return(valuePtr != NULL);
 }
 
 

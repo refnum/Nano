@@ -926,6 +926,7 @@ void NArray::EncodeSelf(NEncoder &theEncoder) const
 {	bool					valueBoolean;
 	NString					valueString;
 	NIndex					n, numItems;
+	const NEncodable		*theObject;
 	const NArrayValue		*theArray;
 	NData					valueData;
 	NVariant				theValue;
@@ -958,7 +959,13 @@ void NArray::EncodeSelf(NEncoder &theEncoder) const
 			theEncoder.EncodeData(theKey, valueData);
 
 		else
-			theEncoder.EncodeObject(theKey, theValue);
+			{
+			theObject = NEncoder::GetEncodable(theValue);
+			if (theObject != NULL)
+				theEncoder.EncodeObject(theKey, *theObject);
+			else
+				NN_LOG("Unable to encode object %d (%s)", n, theValue.GetType().name());
+			}
 		}
 }
 

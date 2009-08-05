@@ -702,6 +702,7 @@ bool NDictionary::GetValue(const NString &theKey, NVariant &theValue) const
 void NDictionary::EncodeSelf(NEncoder &theEncoder) const
 {	bool								valueBoolean;
 	NString								valueString;
+	const NEncodable					*theObject;
 	NData								valueData;
 	const NDictionaryValue				*theDict;
 	NVariant							theValue;
@@ -734,7 +735,13 @@ void NDictionary::EncodeSelf(NEncoder &theEncoder) const
 			theEncoder.EncodeData(theKey, valueData);
 
 		else
-			theEncoder.EncodeObject(theKey, theValue);
+			{
+			theObject = NEncoder::GetEncodable(theValue);
+			if (theObject != NULL)
+				theEncoder.EncodeObject(theKey, *theObject);
+			else
+				NN_LOG("Unable to encode object '%@' (%s)", theKey, theValue.GetType().name());
+			}
 		}
 }
 

@@ -31,6 +31,8 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Keys
+//
+// These values are considered to be fixed, and will never change.
 static const NString kNEncoderValueKey								= "value";
 
 
@@ -74,13 +76,13 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<bool     (      NEncoder &theEncoder, const NString &theKey, const NVariant &theValue)>	NEncodableEncodeFunctor;
-typedef nfunctor<NVariant (const NEncoder &theEncoder)>														NEncodableDecodeFunctor;
+typedef nfunctor<const NEncodable *(const NVariant &theValue)>					NEncodableCastFunctor;
+typedef nfunctor<NVariant          (const NEncoder &theEncoder)>				NEncodableDecodeFunctor;
 
 
 // Info
 typedef struct {
-	NEncodableEncodeFunctor		encodeObject;
+	NEncodableCastFunctor		castObject;
 	NEncodableDecodeFunctor		decodeObject;
 } NEncoderClassInfo;
 
@@ -112,7 +114,13 @@ public:
 
 	// Encode/decode an object
 	NData								Encode(const NEncodable &theObject, NEncoderFormat theFormat=kNEncoderBinary);
-	NStatus								Decode(      NEncodable &theObject, const NData &theData);
+	NVariant							Decode(const NData      &theData);
+
+
+	// Get an encodable object
+	//
+	// Returns NULL if theObject is not encodable.
+	static const NEncodable				*GetEncodable(const NVariant &theObject);
 
 
 public:
@@ -138,7 +146,6 @@ public:
 	void								EncodeString( const NString &theKey, const NString    &theValue);
 	void								EncodeData(   const NString &theKey, const NData      &theValue);
 	void								EncodeObject( const NString &theKey, const NEncodable &theValue);
-	void								EncodeObject( const NString &theKey, const NVariant   &theValue);
 
 	bool								DecodeBoolean(const NString &theKey) const;
 	NNumber								DecodeNumber( const NString &theKey) const;
@@ -148,6 +155,8 @@ public:
 
 
 	// Register a class
+	//
+	// Invoked automatically by DEFINE_NENCODABLE.
 	static void							RegisterClass(const NString &className, const NEncoderClassInfo &classInfo);
 
 

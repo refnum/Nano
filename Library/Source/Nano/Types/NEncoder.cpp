@@ -164,13 +164,16 @@ NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
 //============================================================================
 //		NEncoder::Decode : Decode an object.
 //----------------------------------------------------------------------------
-NStatus NEncoder::Decode(NEncodable &theObject, const NData &theData)
+NVariant NEncoder::Decode(const NData &theData)
 {	NEncoderFormat		theFormat;
+	NVariant			theObject;
+	NXMLNode			*theRoot;
 
 
 
 	// Get the state we need
 	mState    = kNEncoderDecoding;
+	mNodeRoot = new NXMLNode(kXMLNodeDocument, "");
 	theFormat = GetFormat(theData);
 	
 
@@ -178,11 +181,11 @@ NStatus NEncoder::Decode(NEncodable &theObject, const NData &theData)
 	// Decode the data
 	switch (theFormat) {
 		case kNEncoderXML_1_0:
-			mNodeRoot = DecodeXML_1_0(theData);
+			theRoot = DecodeXML_1_0(theData);
 			break;
 
 		case kNEncoderBinary_1_0:
-			mNodeRoot = DecodeBinary_1_0(theData);
+			theRoot = DecodeBinary_1_0(theData);
 			break;
 		
 		default:
@@ -194,7 +197,9 @@ NStatus NEncoder::Decode(NEncodable &theObject, const NData &theData)
 
 
 	// Decode the object
-	theObject.DecodeSelf(*this);
+	mNodeRoot->AddChild(theRoot);
+	
+	theObject = DecodeObject(kTokenRoot);
 
 
 
@@ -204,7 +209,47 @@ NStatus NEncoder::Decode(NEncodable &theObject, const NData &theData)
 	mNodeRoot = NULL;
 	mState    = kNEncoderIdle;
 	
-	return(kNoErr);
+	return(theObject);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::GetEncodable : Get an encodable object.
+//----------------------------------------------------------------------------
+const NEncodable *NEncoder::GetEncodable(const NVariant &theValue)
+{	const NEncodable					*theObject;
+	NEncoderClassInfoMapConstIterator	theIter;
+	NEncoderClassInfoMap				theInfo;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theValue.IsValid());
+
+
+
+	// Get the state we need
+	theInfo   = GetClassesInfo();
+	theObject = NULL;
+	
+
+
+	// Cast the object
+	//
+	// Since we can't cast an NVariant back to an NEncodable, only to its leaf type,
+	// we need to iterate through the registered classes to find the class which can
+	// retrieve the NEncodable object from the variant.
+	for (theIter = theInfo.begin(); theIter != theInfo.end(); theIter++)
+		{
+		theObject = theIter->second.castObject(theValue);
+		if (theObject != NULL)
+			break;
+		}
+	
+	return(theObject);
 }
 
 
@@ -421,50 +466,6 @@ void NEncoder::EncodeObject(const NString &theKey, const NEncodable &theValue)
 
 
 //============================================================================
-//		NEncoder::EncodeObject : Encode an object.
-//----------------------------------------------------------------------------
-void NEncoder::EncodeObject(const NString &theKey, const NVariant &theValue)
-{	bool								didEncode;
-	NEncoderClassInfoMapConstIterator	theIter;
-	NEncoderClassInfoMap				theInfo;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theValue.IsValid());
-
-
-
-	// Get the state we need
-	theInfo   = GetClassesInfo();
-	didEncode = false;
-
-
-
-	// Encode the object
-	//
-	// Since we can't cast an NVariant back to an NEncodable, only to its leaf
-	// type, we need to iterate through the registered classes to find the class
-	// which can retrieve the NEncodable object from the variant.
-	for (theIter = theInfo.begin(); theIter != theInfo.end(); theIter++)
-		{
-		didEncode = theIter->second.encodeObject(*this, theKey, theValue);
-		if (didEncode)
-			break;
-		}
-
-
-
-	// Validate our state
-	if (!didEncode)
-		NN_LOG("Unable to encode object (%s)", theValue.GetType().name());
-}
-
-
-
-
-
-//============================================================================
 //		NEncoder::DecodeBoolean : Decode a bool.
 //----------------------------------------------------------------------------
 bool NEncoder::DecodeBoolean(const NString &theKey) const
@@ -623,7 +624,7 @@ void NEncoder::RegisterClass(const NString &className, const NEncoderClassInfo &
 
 	// Validate our parameters
 	NN_ASSERT(!IsKnownClass(className));
-	NN_ASSERT(classInfo.encodeObject != NULL);
+	NN_ASSERT(classInfo.castObject   != NULL);
 	NN_ASSERT(classInfo.decodeObject != NULL);
 	
 	

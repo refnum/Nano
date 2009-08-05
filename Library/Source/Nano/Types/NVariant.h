@@ -85,7 +85,8 @@ public:
 
 
 	// Get the value
-	template <class T> bool				GetValue(T &theValue) const;
+	template <class T> const T			*GetValue(void)        const;
+	template <class T> bool				 GetValue(T &theValue) const;
 
 
 	// Operators
