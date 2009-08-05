@@ -72,7 +72,7 @@ NComparison NVariant::CompareValues(const NVariant &value1, const NVariant &valu
 	//
 	// Testing by address gives us a fast test for equality, and a default
 	// order for undefined cases (e.g., comparing different types).
-	theResult = GetComparison(value1.mData, value1.mData);
+	theResult = GetComparison(value1.mData, value2.mData);
 	if (theResult == kNCompareEqualTo)
 		return(theResult);
 
