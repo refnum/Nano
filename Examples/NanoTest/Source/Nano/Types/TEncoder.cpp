@@ -35,9 +35,10 @@ static const NString kKeyNumber1							= "Test Number 1";
 static const NString kKeyNumber2							= "Test Number 2";
 static const NString kKeyNumber3							= "Test Number 3";
 static const NString kKeyNumber4							= "Test Number 4";
-static const NString kKeyData								= "Test Data";
 static const NString kKeyString								= "Test String";
-static const NString kKeyObject								= "Test Object";
+static const NString kKeyData								= "Test Data";
+static const NString kKeyArray								= "Test Array";
+static const NString kKeyDictionary							= "Test Dictionary";
 
 
 
@@ -48,13 +49,12 @@ static const NNumber kValueNumber1						= NVariant( 1234);
 static const NNumber kValueNumber2						= NVariant(-5678);
 static const NNumber kValueNumber3						= NVariant( 1234.123);
 static const NNumber kValueNumber4						= NVariant(-5678.567);
-static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
 static const NString kValueString						= "This is a string";
-static const NString kValueObject						= "This is an object";
+static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
 
 
 // Results
-static const UInt32  kResultBinary						= 0xC9B4856E;
+static const UInt32  kResultBinary						= 0xA24D90C3;
 static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 															"<encoder version=\"1.0\">\n"
 															"	<object class=\"TEncodable\" key=\"root\">\n"
@@ -64,10 +64,17 @@ static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\
 															"		<number key=\"Test Number 2\">-5678</number>\n"
 															"		<number key=\"Test Number 3\">1234.123</number>\n"
 															"		<number key=\"Test Number 4\">-5678.567</number>\n"
-															"		<data key=\"Test Data\">qrvM3Q==</data>\n"
 															"		<string key=\"Test String\">This is a string</string>\n"
-															"		<object class=\"NString\" key=\"Test Object\">\n"
-															"			<string key=\"value\">This is an object</string>\n"
+															"		<data key=\"Test Data\">qrvM3Q==</data>\n"
+															"		<object class=\"NArray\" key=\"Test Array\">\n"
+															"			<bool key=\"0\">true</bool>\n"
+															"			<number key=\"1\">1234</number>\n"
+															"			<string key=\"2\">This is a string</string>\n"
+															"		</object>\n"
+															"		<object class=\"NDictionary\" key=\"Test Dictionary\">\n"
+															"			<number key=\"Test Number 1\">1234</number>\n"
+															"			<bool key=\"Test Boolean 1\">true</bool>\n"
+															"			<string key=\"Test String\">This is a string</string>\n"
 															"		</object>\n"
 															"	</object>\n"
 															"</encoder>\n";
@@ -87,23 +94,39 @@ public:
 
 	// Encode the object
 	void EncodeSelf(NEncoder &theEncoder) const
-	{	
-		theEncoder.EncodeBoolean(kKeyBoolean1, kValueBoolean1);
-		theEncoder.EncodeBoolean(kKeyBoolean2, kValueBoolean2);
-		theEncoder.EncodeNumber( kKeyNumber1,  kValueNumber1);
-		theEncoder.EncodeNumber( kKeyNumber2,  kValueNumber2);
-		theEncoder.EncodeNumber( kKeyNumber3,  kValueNumber3);
-		theEncoder.EncodeNumber( kKeyNumber4,  kValueNumber4);
-		theEncoder.EncodeData(   kKeyData,     NData(GET_ARRAY_SIZE(kValueData), kValueData));
-		theEncoder.EncodeString( kKeyString,   kValueString);
-		theEncoder.EncodeObject( kKeyObject,   kValueObject);
+	{	NArray			theArray;
+		NDictionary		theDict;
+		NData			theData;
+		
+		theData = NData(GET_ARRAY_SIZE(kValueData), kValueData);
+
+		theArray.AppendValue(kValueBoolean1);
+		theArray.AppendValue(kValueNumber1);
+		theArray.AppendValue(kValueString);
+
+		theDict.SetValue(kKeyBoolean1, kValueBoolean1);
+		theDict.SetValue(kKeyNumber1,  kValueNumber1);
+		theDict.SetValue(kKeyString,   kValueString);
+	
+		theEncoder.EncodeBoolean(kKeyBoolean1,   kValueBoolean1);
+		theEncoder.EncodeBoolean(kKeyBoolean2,   kValueBoolean2);
+		theEncoder.EncodeNumber( kKeyNumber1,    kValueNumber1);
+		theEncoder.EncodeNumber( kKeyNumber2,    kValueNumber2);
+		theEncoder.EncodeNumber( kKeyNumber3,    kValueNumber3);
+		theEncoder.EncodeNumber( kKeyNumber4,    kValueNumber4);
+		theEncoder.EncodeString( kKeyString,     kValueString);
+		theEncoder.EncodeData(   kKeyData,       theData);
+		theEncoder.EncodeObject( kKeyArray,      theArray);
+		theEncoder.EncodeObject( kKeyDictionary, theDict);
 	}
 
 
 	// Decode the object
 	void DecodeSelf(const NEncoder &theEncoder)
-	{	NData	theData;
-		
+	{	NArray			theArray;
+		NDictionary		theDict;
+		NData			theData;
+
 		NN_ASSERT(theEncoder.DecodeBoolean(kKeyBoolean1) == kValueBoolean1);
 		NN_ASSERT(theEncoder.DecodeBoolean(kKeyBoolean2) == kValueBoolean2);
 		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber1)  == kValueNumber1);
@@ -111,11 +134,22 @@ public:
 		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber3)  == kValueNumber3);
 		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber4)  == kValueNumber4);
 		NN_ASSERT(theEncoder.DecodeString( kKeyString)   == kValueString);
-		NN_ASSERT(theEncoder.DecodeObject( kKeyObject)   == kValueObject);
 
 		theData = theEncoder.DecodeData(kKeyData);
 		NN_ASSERT(theData.GetSize() == GET_ARRAY_SIZE(kValueData));
 		NN_ASSERT(memcmp(theData.GetData(), kValueData, theData.GetSize()) == 0);
+
+		NN_ASSERT(theEncoder.DecodeObject(kKeyArray).GetValue(theArray));
+		NN_ASSERT(theArray.GetSize() == 3);
+		NN_ASSERT(theArray.GetValueBoolean(0) == kValueBoolean1);
+		NN_ASSERT(theArray.GetValue       (1) == kValueNumber1);
+		NN_ASSERT(theArray.GetValueString (2) == kValueString);
+
+		NN_ASSERT(theEncoder.DecodeObject(kKeyDictionary).GetValue(theDict));
+		NN_ASSERT(theDict.GetSize() == 3);
+		NN_ASSERT(theDict.GetValueBoolean(kKeyBoolean1) == kValueBoolean1);
+		NN_ASSERT(theDict.GetValue       (kKeyNumber1)  == kValueNumber1);
+		NN_ASSERT(theDict.GetValueString (kKeyString)   == kValueString);
 	}
 	
 	
