@@ -67,6 +67,51 @@ NNumber::NNumber(const NVariant &theValue)
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
+NNumber::NNumber(SInt64 theValue)
+{
+
+
+	// Initialise ourselves
+	SetValueSInt64(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::NNumber : Constructor.
+//----------------------------------------------------------------------------
+NNumber::NNumber(Float32 theValue)
+{
+
+
+	// Initialise ourselves
+	SetValueFloat32(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::NNumber : Constructor.
+//----------------------------------------------------------------------------
+NNumber::NNumber(Float64 theValue)
+{
+
+
+	// Initialise ourselves
+	SetValueFloat64(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::NNumber : Constructor.
+//----------------------------------------------------------------------------
 NNumber::NNumber(void)
 {
 
@@ -92,14 +137,14 @@ NNumber::~NNumber(void)
 
 
 //============================================================================
-//		NNumber::GetType : Get the type.
+//		NNumber::IsInteger : Is the number an integer?
 //----------------------------------------------------------------------------
-NumberType NNumber::GetType(void) const
+bool NNumber::IsInteger(void) const
 {
 
 
 	// Get the type
-	return(mType);
+	return(mType == kNumberInteger);
 }
 
 
@@ -115,12 +160,16 @@ NString NNumber::GetString(void) const
 
 
 	// Get the string
+	//
+	// Having separate 32 and 64-bit float types allows us to ensure Float32
+	// values do not get expanded to Float64 precision due to rounding.
 	switch (mType) {
 		case kNumberInteger:
 			valueText.Format("%lld", mValue.integer);
 			break;
 			
-		case kNumberReal:
+		case kNumberFloat32:
+		case kNumberFloat64:
 			if (NTargetPOSIX::is_nan(mValue.real))
 				valueText = kNStringNaN;
 
@@ -131,7 +180,12 @@ NString NNumber::GetString(void) const
 				valueText = kNStringZero;
 
 			else
-				valueText.Format("%.17g", mValue.real);
+				{
+				if (mType == kNumberFloat32)
+					valueText.Format("%.7g", (Float32) mValue.real);
+				else
+					valueText.Format("%.17g",          mValue.real);
+				}
 			break;
 
 		default:
@@ -151,8 +205,9 @@ NString NNumber::GetString(void) const
 //		NNumber::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NNumber::Compare(const NNumber &theValue) const
-{	SInt64				valueInteger;
-	Float64				valueReal;
+{	Float64				valueFloat64_1, valueFloat64_2;
+	Float32				valueFloat32_1, valueFloat32_2;
+	SInt64				valueInteger;
 	NComparison			theResult;
 
 
@@ -170,8 +225,12 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 				theResult = GetComparison(mValue.integer, theValue.mValue.integer);
 				break;
 			
-			case kNumberReal:
-				theResult = GetComparison(mValue.real,    theValue.mValue.real);
+			case kNumberFloat32:
+			case kNumberFloat64:
+				if (NMathUtilities::AreEqual( mValue.real, theValue.mValue.real))
+					theResult = kNCompareEqualTo;
+				else
+					theResult = GetComparison(mValue.real, theValue.mValue.real);
 				break;
 
 			default:
@@ -179,6 +238,11 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 				break;
 			}
 		}
+	
+	
+	// Compare dis-similar types
+	//
+	// Floating point comparisons are truncated to the smallest precision of the two.
 	else
 		{
 		switch (mType) {
@@ -189,11 +253,28 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 					NN_LOG("Unable to compare numbers across types");
 				break;
 			
-			case kNumberReal:
-				if (theValue.GetValueFloat64(valueReal))
-					theResult = GetComparison(mValue.real, valueReal);
+			case kNumberFloat32:
+			case kNumberFloat64:
+				if (mType == kNumberFloat32 || theValue.mType == kNumberFloat32)
+					{
+					valueFloat32_1 = (Float32)          mValue.real;
+					valueFloat32_2 = (Float32) theValue.mValue.real;
+
+					if (NMathUtilities::AreEqual(valueFloat32_1, valueFloat32_2))
+						theResult = kNCompareEqualTo;
+					else
+						theResult = GetComparison(valueFloat32_1, valueFloat32_2);
+					}
 				else
-					NN_LOG("Unable to compare numbers across types");
+					{
+					valueFloat64_1 =          mValue.real;
+					valueFloat64_2 = theValue.mValue.real;
+
+					if (NMathUtilities::AreEqual(valueFloat64_1, valueFloat64_2))
+						theResult = kNCompareEqualTo;
+					else
+						theResult = GetComparison(valueFloat64_1, valueFloat64_2);
+					}
 				break;
 
 			default:
@@ -389,7 +470,13 @@ bool NNumber::GetValueSInt64(SInt64 &theValue) const
 			theValue = mValue.integer;
 			break;
 
-		case kNumberReal:
+		case kNumberFloat32:
+			canCast = NMathUtilities::AreEqual(floorf(mValue.real), (Float32) mValue.real);
+			if (canCast && mValue.real >= kFloat32Min && mValue.real <= kFloat32Max)
+				theValue = (SInt64) mValue.real;
+			break;
+
+		case kNumberFloat64:
 			canCast = NMathUtilities::AreEqual(floor(mValue.real), mValue.real);
 			if (canCast && mValue.real >= kSInt64Min && mValue.real <= kSInt64Max)
 				theValue = (SInt64) mValue.real;
@@ -422,11 +509,19 @@ bool NNumber::GetValueFloat32(Float32 &theValue) const
 	// Get the value
 	valueReal = 0.0;
 	theValue  = 0;
-	canCast   = GetValueFloat64(valueReal);
 
-	if (canCast && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
-		theValue = (Float32) valueReal;
-
+	if (mType == kNumberFloat32)
+		{
+		canCast  = true;
+		theValue = (Float32) mValue.real;
+		}
+	else
+		{
+		canCast = GetValueFloat64(valueReal);
+		if (canCast && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
+			theValue = (Float32) valueReal;
+		}
+		
 	return(canCast);
 }
 
@@ -450,7 +545,8 @@ bool NNumber::GetValueFloat64(Float64 &theValue) const
 				theValue = (Float64) mValue.integer;
 			break;
 
-		case kNumberReal:
+		case kNumberFloat32:
+		case kNumberFloat64:
 			canCast  = true;
 			theValue = mValue.real;
 			break;
@@ -599,7 +695,8 @@ void NNumber::SetValueFloat32(Float32 theValue)
 
 
 	// Set the value
-	SetValueFloat64(theValue);
+	mType       = kNumberFloat32;
+	mValue.real = theValue;
 }
 
 
@@ -614,7 +711,7 @@ void NNumber::SetValueFloat64(Float64 theValue)
 
 
 	// Set the value
-	mType       = kNumberReal;
+	mType       = kNumberFloat64;
 	mValue.real = theValue;
 }
 

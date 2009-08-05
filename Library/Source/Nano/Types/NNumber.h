@@ -36,7 +36,8 @@ static const NString kNStringNaN										= "nan";
 // Types
 typedef enum {
 	kNumberInteger,
-	kNumberReal
+	kNumberFloat32,
+	kNumberFloat64,
 } NumberType;
 
 
@@ -69,13 +70,16 @@ public:
 										DECLARE_NENCODABLE(NString);
 
 										 NNumber(const NVariant &theValue);
+										 NNumber(      SInt64    theValue);
+										 NNumber(      Float32   theValue);
+										 NNumber(      Float64   theValue);
 
 										 NNumber(void);
 	virtual								~NNumber(void);
 
 
-	// Get the type
-	NumberType							GetType(void) const;
+	// Is the number an integer?
+	bool								IsInteger(void) const;
 
 
 	// Get the number as a string
