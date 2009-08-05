@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NString.h"
 
 
@@ -62,8 +63,11 @@ class NVariant;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NNumber : public NComparable<NNumber> {
+class NNumber :	public NEncodable,
+				public NComparable<NNumber> {
 public:
+										DECLARE_NENCODABLE(NString);
+
 										 NNumber(const NVariant &theValue);
 
 										 NNumber(void);
@@ -113,6 +117,12 @@ public:
 	// Set a value
 	bool								SetValue(const NVariant &theValue);
 	bool								SetValue(const NString  &theValue);
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

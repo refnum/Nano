@@ -16,7 +16,17 @@
 //----------------------------------------------------------------------------
 #include "NSTLUtilities.h"
 #include "NNumber.h"
+#include "NEncoder.h"
 #include "NDictionary.h"
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NDictionary);
 
 
 
@@ -682,3 +692,108 @@ bool NDictionary::GetValue(const NString &theKey, NVariant &theValue) const
 	return(theValue.IsValid());
 }
 
+
+
+
+
+//============================================================================
+//      NDictionary::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NDictionary::EncodeSelf(NEncoder &theEncoder) const
+{	bool								valueBoolean;
+	NString								valueString;
+	NData								valueData;
+	const NDictionaryValue				*theDict;
+	NVariant							theValue;
+	NDictionaryValueConstIterator		theIter;
+	NString								theKey;
+
+
+
+	// Get the state we need
+	theDict = GetImmutable();
+
+
+
+	// Encode the object
+	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
+		{
+		theKey   = theIter->first;
+		theValue = theIter->second;
+		
+		if (theValue.GetValue(valueBoolean))
+			theEncoder.EncodeBoolean(theKey, valueBoolean);
+
+		else if (theValue.IsNumeric())
+			theEncoder.EncodeNumber(theKey, NNumber(theValue));
+
+		else if (theValue.GetValue(valueString))
+			theEncoder.EncodeString(theKey, valueString);
+
+		else if (theValue.GetValue(valueData))
+			theEncoder.EncodeData(theKey, valueData);
+
+		else
+			theEncoder.EncodeObject(theKey, theValue);
+		}
+}
+
+
+
+
+
+//============================================================================
+//      NDictionary::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NDictionary::DecodeSelf(const NEncoder &theEncoder)
+{	NNumber							theNumber;
+	NStringList						theKeys;
+	NEncodedType					theType;
+	NStringListConstIterator		theIter;
+	NString							theKey;
+
+
+
+	// Get the state we need
+	theKeys = theEncoder.GetKeys();
+
+
+
+	// Decode the object
+	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
+		{
+		// Get the state we need
+		theKey  = *theIter;
+		theType = theEncoder.GetValueType(theKey);
+
+
+
+		// Decode the value
+		switch (theType) {
+			case kNEncodedBoolean:
+				SetValue(theKey, theEncoder.DecodeBoolean(theKey));
+				break;
+
+			case kNEncodedNumber:
+				SetValue(theKey, theEncoder.DecodeNumber(theKey));
+				break;
+
+			case kNEncodedString:
+				SetValue(theKey, theEncoder.DecodeString(theKey));
+				break;
+
+			case kNEncodedData:
+				SetValue(theKey, theEncoder.DecodeData(theKey));
+				break;
+
+			case kNEncodedObject:
+				SetValue(theKey, theEncoder.DecodeObject(theKey));
+				break;
+			
+			case kNEncodedUnknown:
+			default:
+				NN_LOG("Unknown encoder type (%d)(%@) - skipping", theType, theKey);
+				break;
+			}
+		}
+}

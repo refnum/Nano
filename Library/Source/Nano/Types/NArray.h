@@ -20,6 +20,7 @@
 #include "NContainer.h"
 #include "NVariant.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NRange.h"
 #include "NPoint.h"
 #include "NSize.h"
@@ -62,9 +63,12 @@ typedef NSharedValue<NArrayValue>									NSharedValueArray;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NArray :	public NContainer,
+				public NEncodable,
 				public NComparable<NArray>,
 				public NSharedValueArray {
 public:
+										DECLARE_NENCODABLE(NString);
+
 										NArray(const SInt32List  &theValues);
 										NArray(const SInt64List  &theValues);
 										NArray(const Float32List &theValues);
@@ -148,6 +152,11 @@ public:
 protected:
 	// Get the null value
 	const NArrayValue					*GetNullValue(void) const;
+
+
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

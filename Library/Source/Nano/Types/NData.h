@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSharedValue.h"
+#include "NEncodable.h"
 #include "NContainer.h"
 #include "NRange.h"
 
@@ -47,9 +48,12 @@ typedef NSharedValue<NDataValue>									NSharedValueData;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NData :	public NContainer,
+				public NEncodable,
 				public NComparable<NData>,
 				public NSharedValueData {
 public:
+										DECLARE_NENCODABLE(NString);
+
 										 NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
 
 										 NData(void);
@@ -122,6 +126,11 @@ protected:
 
 	// Get the null value
 	const NDataValue					*GetNullValue(void) const;
+
+
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

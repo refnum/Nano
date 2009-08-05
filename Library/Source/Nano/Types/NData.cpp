@@ -14,7 +14,17 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NEncoder.h"
 #include "NData.h"
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NData);
 
 
 
@@ -627,3 +637,28 @@ const NDataValue *NData::GetNullValue(void) const
 
 
 
+//============================================================================
+//      NData::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NData::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeData(kNEncoderValueKey, *this);
+}
+
+
+
+
+
+//============================================================================
+//      NData::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NData::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	*this = theEncoder.DecodeData(kNEncoderValueKey);
+}

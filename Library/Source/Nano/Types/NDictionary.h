@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NSharedValue.h"
 #include "NContainer.h"
+#include "NEncodable.h"
 #include "NString.h"
 #include "NPoint.h"
 #include "NSize.h"
@@ -56,9 +57,12 @@ typedef NSharedValue<NDictionaryValue>								NSharedValueDictionary;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NDictionary :	public NContainer,
+					public NEncodable,
 					public NComparable<NDictionary>,
 					public NSharedValueDictionary {
 public:
+										DECLARE_NENCODABLE(NString);
+
 										 NDictionary(void);
 	virtual								~NDictionary(void);
 
@@ -126,6 +130,11 @@ public:
 protected:
 	// Get the null value
 	const NDictionaryValue				*GetNullValue(void) const;
+
+
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

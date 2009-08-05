@@ -17,6 +17,7 @@
 #include "NMathUtilities.h"
 #include "NTargetPOSIX.h"
 #include "NVariant.h"
+#include "NEncoder.h"
 #include "NNumber.h"
 
 
@@ -27,6 +28,15 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NString kNStringZero										= "0.0";
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NNumber);
 
 
 
@@ -634,7 +644,10 @@ bool NNumber::SetValue(const NVariant &theValue)
 	// Set the value
 	//
 	// NVariant treats some unsized types as numeric, to support literal constants.
-	if (theValue.GetValue(valueUInt8))
+	if (theValue.GetValue(*this))
+		; // Assigned to this
+
+	else if (theValue.GetValue(valueUInt8))
 		SetValueUInt8(valueUInt8);
 
 	else if (theValue.GetValue(valueUInt16))
@@ -716,3 +729,32 @@ bool NNumber::SetValue(const NString &theValue)
 	return(false);
 }
 
+
+
+
+
+//============================================================================
+//      NNumber::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NNumber::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNEncoderValueKey, *this);
+}
+
+
+
+
+
+//============================================================================
+//      NNumber::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NNumber::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	*this = theEncoder.DecodeNumber(kNEncoderValueKey);
+}

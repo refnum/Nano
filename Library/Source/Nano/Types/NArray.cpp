@@ -18,6 +18,7 @@
 
 #include "NSTLUtilities.h"
 #include "NDictionary.h"
+#include "NEncoder.h"
 #include "NNumber.h"
 #include "NArray.h"
 
@@ -43,6 +44,15 @@ public:
 private:
 	NArrayCompareFunctor	mFunctor;
 };
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NArray);
 
 
 
@@ -903,6 +913,124 @@ const NArrayValue *NArray::GetNullValue(void) const
 
 	// Get the value
 	return(&sNullValue);
+}
+
+
+
+
+
+//============================================================================
+//      NArray::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NArray::EncodeSelf(NEncoder &theEncoder) const
+{	bool					valueBoolean;
+	NString					valueString;
+	NIndex					n, numItems;
+	const NArrayValue		*theArray;
+	NData					valueData;
+	NVariant				theValue;
+	NString					theKey;
+
+
+
+	// Get the state we need
+	theArray = GetImmutable();
+	numItems = theArray->size();
+
+
+
+	// Encode the object
+	for (n = 0; n < numItems; n++)
+		{
+		theKey.Format("%ld", n);
+		theValue = theArray->at(n);
+		
+		if (theValue.GetValue(valueBoolean))
+			theEncoder.EncodeBoolean(theKey, valueBoolean);
+
+		else if (theValue.IsNumeric())
+			theEncoder.EncodeNumber(theKey, NNumber(theValue));
+
+		else if (theValue.GetValue(valueString))
+			theEncoder.EncodeString(theKey, valueString);
+
+		else if (theValue.GetValue(valueData))
+			theEncoder.EncodeData(theKey, valueData);
+
+		else
+			theEncoder.EncodeObject(theKey, theValue);
+		}
+}
+
+
+
+
+
+//============================================================================
+//      NArray::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NArray::DecodeSelf(const NEncoder &theEncoder)
+{	NIndex							n, numItems;
+	NNumber							theNumber;
+	NStringList						theKeys;
+	NEncodedType					theType;
+	NStringListConstIterator		theIter;
+	NString							theKey;
+
+
+
+	// Get the state we need
+	theKeys = theEncoder.GetKeys();
+	numItems = theKeys.size();
+	
+	for (n = 0; n < numItems; n++)
+		AppendValue(0);
+
+
+
+	// Decode the object
+	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
+		{
+		// Get the state we need
+		theKey  = *theIter;
+		theType = theEncoder.GetValueType(theKey);
+		
+		if (!theNumber.SetValue(theKey) || !theNumber.GetValueSInt32(n))
+			{
+			NN_LOG("Unknown index format (%@) - skipping", theKey);
+			return;
+			}
+
+
+
+		// Decode the value
+		switch (theType) {
+			case kNEncodedBoolean:
+				SetValue(n, theEncoder.DecodeBoolean(theKey));
+				break;
+
+			case kNEncodedNumber:
+				SetValue(n, theEncoder.DecodeNumber(theKey));
+				break;
+
+			case kNEncodedString:
+				SetValue(n, theEncoder.DecodeString(theKey));
+				break;
+
+			case kNEncodedData:
+				SetValue(n, theEncoder.DecodeData(theKey));
+				break;
+
+			case kNEncodedObject:
+				SetValue(n, theEncoder.DecodeObject(theKey));
+				break;
+			
+			case kNEncodedUnknown:
+			default:
+				NN_LOG("Unknown encoder type (%d)(%d) - skipping", theType, n);
+				break;
+			}
+		}
 }
 
 
