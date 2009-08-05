@@ -102,7 +102,20 @@ public:
 
 	// Decode the object
 	void DecodeSelf(const NEncoder &theEncoder)
-	{
+	{	NData	theData;
+		
+		NN_ASSERT(theEncoder.DecodeBoolean(kKeyBoolean1) == kValueBoolean1);
+		NN_ASSERT(theEncoder.DecodeBoolean(kKeyBoolean2) == kValueBoolean2);
+		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber1)  == kValueNumber1);
+		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber2)  == kValueNumber2);
+		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber3)  == kValueNumber3);
+		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber4)  == kValueNumber4);
+		NN_ASSERT(theEncoder.DecodeString( kKeyString)   == kValueString);
+		NN_ASSERT(theEncoder.DecodeObject( kKeyObject)   == kValueObject);
+
+		theData = theEncoder.DecodeData(kKeyData);
+		NN_ASSERT(theData.GetSize() == GET_ARRAY_SIZE(kValueData));
+		NN_ASSERT(memcmp(theData.GetData(), kValueData, theData.GetSize()) == 0);
 	}
 	
 	
@@ -129,7 +142,9 @@ void TEncoder::Execute(void)
 	TEncodable		theObject;
 	UInt32			adlerData;
 	NChecksum		checkSum;
+	NVariant		theValue;
 	NString			textXML;
+	NStatus			theErr;
 
 
 
@@ -146,9 +161,12 @@ void TEncoder::Execute(void)
 
 
 	// Decoding
+	theErr = theEncoder.Decode(theObject, dataXML);
+	NN_ASSERT(theErr == kNoErr);
 
-
-
+	theErr = theEncoder.Decode(theObject, dataBinary);
+	NN_ASSERT(theErr == kNoErr);
 }
+
 
 

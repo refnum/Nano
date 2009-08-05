@@ -59,44 +59,44 @@ class NVariant;
 // Unfortunately NEncodable can not derive from this interface automatically,
 // or it would produce an ambigious parentage if an NEncodable sub-class also
 // derived from NComparable.
-#define DECLARE_NENCODABLE(_class)														\
-																						\
-	private:																			\
-	static bool sEncodableRegistered;													\
-																						\
-	static bool							EncodableRegister(void);						\
-	static NVariant						EncodableCreate(const NString &className);		\
-																						\
-	public:																				\
-	NString								EncodableGetClass(void) const
+#define DECLARE_NENCODABLE(_class)																				\
+																												\
+	private:																									\
+	static bool sEncodableRegistered;																			\
+																												\
+	static bool							EncodableRegister(void);												\
+	static NVariant						EncodableCreate(const NEncoder &theEncoder, const NString &className);	\
+																												\
+	public:																										\
+	virtual NString						EncodableGetClass(void) const
 
 
-#define DEFINE_NENCODABLE(_class)														\
-																						\
-	bool _class::sEncodableRegistered = _class::EncodableRegister();					\
-																						\
-	bool _class::EncodableRegister(void)												\
-	{																					\
-		NEncoder::RegisterClass(#_class, BindFunction(_class::EncodableCreate, _1));	\
-		return(true);																	\
-	}																					\
-																						\
-	NVariant _class::EncodableCreate(const NString &className)							\
-	{	_class		theObject;															\
-																						\
-		NN_ASSERT(className == #_class);												\
-		(void) className;																\
-																						\
-		return(NVariant(theObject));													\
-	}																					\
-																						\
-	NString _class::EncodableGetClass(void) const										\
-	{																					\
-		return(#_class);																\
-	}																					\
-																						\
+#define DEFINE_NENCODABLE(_class)																				\
+																												\
+	bool _class::sEncodableRegistered = _class::EncodableRegister();											\
+																												\
+	bool _class::EncodableRegister(void)																		\
+	{																											\
+		NEncoder::RegisterClass(#_class, BindFunction(_class::EncodableCreate, _1, _2));						\
+		return(true);																							\
+	}																											\
+																												\
+	NVariant _class::EncodableCreate(const NEncoder &theEncoder, const NString &className)						\
+	{	_class		theObject;																					\
+																												\
+		NN_ASSERT(className == #_class);																		\
+		(void) className;																						\
+																												\
+		theObject.DecodeSelf(theEncoder);																		\
+		return(NVariant(theObject));																			\
+	}																											\
+																												\
+	NString _class::EncodableGetClass(void) const																\
+	{																											\
+		return(#_class);																						\
+	}																											\
+																												\
 	void *kEatLastSemiColonForPedanticWarning ## _class
-
 
 
 
@@ -115,12 +115,12 @@ protected:
 	// Get the encoder class name
 	//
 	// This method is implemented automatically by DECLARE_NENCODABLE. 
-	virtual NString						EncodableGetClass(void) const = 0;
+	virtual NString						EncodableGetClass(void) const;
 
 
 	// Encode/decode the object
-	virtual void						EncodeSelf(      NEncoder &theEncoder) const = 0;
-	virtual void						DecodeSelf(const NEncoder &theEncoder)       = 0;
+	virtual void						EncodeSelf(      NEncoder &theEncoder) const;
+	virtual void						DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

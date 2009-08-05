@@ -38,6 +38,15 @@ const NString kNStringWhitespace									= "\\s";
 
 
 //============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NString);
+
+
+
+
+
+//============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
 NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncoding)
@@ -1236,32 +1245,14 @@ NHashCode NString::CalculateHash(void) const
 
 
 //============================================================================
-//      NString::GetEncoderClass : Get the encoder class name.
-//----------------------------------------------------------------------------
-NString NString::GetEncoderClass(void) const
-{
-
-
-	// Get the class name
-	return("NString");
-}
-
-
-
-
-
-//============================================================================
 //      NString::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
 void NString::EncodeSelf(NEncoder &theEncoder) const
-{	const char		*textUTF8;
-
+{
 
 
 	// Encode the object
-	textUTF8 = GetUTF8();
-	
-	theEncoder.EncodeUTF8(kNEncoderValueKey, strlen(textUTF8), textUTF8);
+	theEncoder.EncodeString(kNEncoderValueKey, *this);
 }
 
 
@@ -1273,6 +1264,10 @@ void NString::EncodeSelf(NEncoder &theEncoder) const
 //----------------------------------------------------------------------------
 void NString::DecodeSelf(const NEncoder &theEncoder)
 {
+
+
+	// Decode the object
+	*this = theEncoder.DecodeString(kNEncoderValueKey);
 }
 
 

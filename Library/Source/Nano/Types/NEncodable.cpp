@@ -15,7 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NEncodable.h"
-
+#include "NVariant.h"
+#include "NString.h"
 
 
 
@@ -37,3 +38,46 @@ NEncodable::NEncodable(void)
 NEncodable::~NEncodable(void)
 {
 }
+
+
+
+
+
+//============================================================================
+//		NEncodable::EncodableGetClass : Get the encoder class name.
+//----------------------------------------------------------------------------
+NString NEncodable::EncodableGetClass(void) const
+{
+
+
+	// Should never be reached
+	NN_LOG("NEncodable::EncodableGetClass should never be reached!");
+
+	return("NEncodable");
+}
+
+
+
+
+
+//============================================================================
+//		NEncodable::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NEncodable::EncodeSelf(NEncoder &/*theEncoder*/) const
+{
+}
+
+
+
+
+
+//============================================================================
+//		NEncodable::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NEncodable::DecodeSelf(const NEncoder &/*theEncoder*/)
+{
+}
+
+
+
+

@@ -106,6 +106,8 @@ class NString :	public NContainer,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
+										DECLARE_NENCODABLE(NString);
+
 										NString(const void			*thePtr, NIndex numBytes=kNStringLength, NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NData			&theData,                                NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NStringUTF8	&theString);
@@ -212,10 +214,6 @@ protected:
 
 	// Calculate the hash code
 	NHashCode							CalculateHash(void) const;
-
-
-	// Get the encoder class name
-	NString								GetEncoderClass(void) const;
 
 
 	// Encode/decode the object

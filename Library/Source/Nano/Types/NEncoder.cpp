@@ -409,7 +409,9 @@ void NEncoder::EncodeObject(const NString &theKey, const NEncodable &theValue)
 //		NEncoder::DecodeBoolean : Decode a bool.
 //----------------------------------------------------------------------------
 bool NEncoder::DecodeBoolean(const NString &theKey) const
-{
+{	NString		valueText;
+	bool		theValue;
+
 
 
 	// Validate our state
@@ -418,6 +420,10 @@ bool NEncoder::DecodeBoolean(const NString &theKey) const
 	
 	
 	// Decode the value
+	valueText = DecodeChild(theKey, kTokenBoolean);
+	theValue  = (valueText == kTokenTrue);
+	
+	return(theValue);
 }
 
 
@@ -428,7 +434,9 @@ bool NEncoder::DecodeBoolean(const NString &theKey) const
 //		NEncoder::DecodeNumber : Decode a number.
 //----------------------------------------------------------------------------
 NNumber NEncoder::DecodeNumber(const NString &theKey) const
-{
+{	NString		valueText;
+	NNumber		theValue;
+
 
 
 	// Validate our state
@@ -437,6 +445,10 @@ NNumber NEncoder::DecodeNumber(const NString &theKey) const
 	
 	
 	// Decode the value
+	valueText = DecodeChild(theKey, kTokenNumber);
+	theValue.SetValue(valueText);
+	
+	return(theValue);
 }
 
 
@@ -447,7 +459,10 @@ NNumber NEncoder::DecodeNumber(const NString &theKey) const
 //		NEncoder::DecodeData : Decode data.
 //----------------------------------------------------------------------------
 NData NEncoder::DecodeData(const NString &theKey) const
-{
+{	NB64Encoder		theEncoder;
+	NString			valueText;
+	NData			theValue;
+
 
 
 	// Validate our state
@@ -456,6 +471,10 @@ NData NEncoder::DecodeData(const NString &theKey) const
 	
 	
 	// Decode the value
+	valueText = DecodeChild(theKey, kTokenData);
+	theValue  = theEncoder.Decode(valueText);
+	
+	return(theValue);
 }
 
 
@@ -466,7 +485,8 @@ NData NEncoder::DecodeData(const NString &theKey) const
 //		NEncoder::DecodeString : Decode a string.
 //----------------------------------------------------------------------------
 NString NEncoder::DecodeString(const NString &theKey) const
-{
+{	NString		theValue;
+
 
 
 	// Validate our state
@@ -475,6 +495,9 @@ NString NEncoder::DecodeString(const NString &theKey) const
 	
 	
 	// Decode the value
+	theValue = DecodeChild(theKey, kTokenString);
+	
+	return(theValue);
 }
 
 
@@ -485,15 +508,36 @@ NString NEncoder::DecodeString(const NString &theKey) const
 //		NEncoder::DecodeObject : Decode an object.
 //----------------------------------------------------------------------------
 NVariant NEncoder::DecodeObject(const NString &theKey) const
-{
+{	NString					className;
+	const NXMLNode			*theNode;
+	NVariant				theValue;
+
 
 
 	// Validate our state
 	NN_ASSERT(mState == kNEncoderDecoding);
 	
 	
-	
+	// Get the state we need
+	theNode = GetChildNode(theKey);
+	if (theNode == NULL)
+		return(theValue);
+
+	className = theNode->GetElementAttribute(kTokenClass);
+	if (!IsKnownClass(className))
+		{
+		NN_LOG("Unknown class (%@), skipping", className);
+		return(theValue);
+		}
+
+
+
 	// Decode the value
+	mNodeStack.push_back(const_cast<NXMLNode*>(theNode));
+	theValue = CreateClass(className, *this);
+	mNodeStack.pop_back();
+
+	return(theValue);
 }
 
 
@@ -521,7 +565,9 @@ void NEncoder::RegisterClass(const NString &className, const NEncodableCreateFun
 
 	// Register the class
 	theClasses->theLock.Lock();
+
 		theClasses->classFactory[className] = createFunctor;
+
 	theClasses->theLock.Unlock();
 }
 
@@ -621,11 +667,6 @@ NXMLNode *NEncoder::DecodeXML_1_0(const NData &theData)
 
 
 
-	// Validate our state
-	NN_ASSERT(mState == kNEncoderIdle);
-
-
-
 	// Get the state we need
 	theErr   = kNErrMalformed;
 	nodeRoot = NULL;
@@ -714,7 +755,7 @@ NXMLNode *NEncoder::DecodeBinary_1_0(const NData &theData)
 //============================================================================
 //		NEncoder::EncodeChild : Encode a child node.
 //----------------------------------------------------------------------------
-NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, const NString &theName)
+NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, const NString &theType)
 {	NXMLNode		*theParent, *theChild;
 
 
@@ -725,7 +766,7 @@ NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, 
 
 
 	// Encode the child
-	theChild = new NXMLNode(kXMLNodeElement, theName);
+	theChild = new NXMLNode(kXMLNodeElement, theType);
 	theChild->SetElementAttribute(kTokenKey, theKey);
 
 	if (theValue.IsNotEmpty())
@@ -738,6 +779,37 @@ NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, 
 	theParent->AddChild(theChild);
 
 	return(theChild);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::DecodeChild : Decode a child node.
+//----------------------------------------------------------------------------
+NString NEncoder::DecodeChild(const NString &theKey, const NString &theType) const
+{	const NXMLNode		*theNode;
+	NString				theValue;
+
+
+
+	// Validate our state
+	NN_ASSERT(mState == kNEncoderDecoding);
+	
+	(void) theType;
+
+
+
+	// Decode the child
+	theNode = GetChildNode(theKey);
+	if (theNode != NULL)
+		{
+		NN_ASSERT(theNode->GetTextValue() == theType);
+		theValue = theNode->GetElementContents();
+		}
+	
+	return(theValue);
 }
 
 
@@ -808,6 +880,37 @@ const NXMLNode *NEncoder::GetChildNode(const NString &theKey) const
 
 
 //============================================================================
+//		NEncoder::CreateClass : Create a class instance.
+//----------------------------------------------------------------------------
+NVariant NEncoder::CreateClass(const NString &className, const NEncoder &theEncoder)
+{	NEncoderClasses						*theClasses;
+	NVariant							theObject;
+	NEncodableClassMapConstIterator		theIter;
+
+
+
+	// Get the state we need
+	theClasses = GetClasses();
+
+
+
+	// Instantiate the class
+	theClasses->theLock.Lock();
+
+		theIter = theClasses->classFactory.find(className);
+		if (theIter != theClasses->classFactory.end())
+			theObject = theIter->second(theEncoder, className);
+
+	theClasses->theLock.Unlock();
+	
+	return(theObject);
+}
+
+
+
+
+
+//============================================================================
 //		NEncoder::IsKnownClass : Is a class name known?
 //----------------------------------------------------------------------------
 bool NEncoder::IsKnownClass(const NString &className)
@@ -824,8 +927,10 @@ bool NEncoder::IsKnownClass(const NString &className)
 
 	// Find the class
 	theClasses->theLock.Lock();
+
 		theIter = theClasses->classFactory.find(className);
 		isKnown = (theIter != theClasses->classFactory.end());
+
 	theClasses->theLock.Unlock();
 	
 	return(isKnown);

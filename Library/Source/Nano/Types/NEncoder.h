@@ -74,7 +74,7 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<NVariant (const NString &className)>							NEncodableCreateFunctor;
+typedef nfunctor<NVariant (const NEncoder &theEncoder, const NString &className)>	NEncodableCreateFunctor;
 
 
 // Lists
@@ -122,6 +122,8 @@ public:
 
 	// Encode/decode a value within the current object.
 	//
+	// If the value can not be returned as the specified type, 0/empty is returned.
+	//
 	// Can be invoked by NEncodable::EncodeSelf/DecodeSelf.
 	void								EncodeBoolean(const NString &theKey,       bool       theValue);
 	void								EncodeNumber( const NString &theKey, const NNumber    &theValue);
@@ -145,7 +147,9 @@ private:
 
 	const NXMLNode						*GetParentNode(void)                 const;
 	const NXMLNode						*GetChildNode(const NString &theKey) const;
-	NXMLNode							*EncodeChild( const NString &theKey, const NString &theValue, const NString &theName);
+
+	NXMLNode							*EncodeChild(const NString &theKey, const NString &theValue, const NString &theType);
+	NString								 DecodeChild(const NString &theKey,                          const NString &theType) const;
 
 	NData								 EncodeXML_1_0(      NXMLNode *theRoot);
 	NXMLNode							*DecodeXML_1_0(const NData    &theData);
@@ -153,6 +157,7 @@ private:
 	NData								 EncodeBinary_1_0(      NXMLNode *theRoot);
 	NXMLNode							*DecodeBinary_1_0(const NData    &theData);
 
+	static NVariant						 CreateClass(const NString &className, const NEncoder &theEncoder);
 	static bool							IsKnownClass(const NString &className);
 	static NEncoderClasses				*GetClasses(void);
 
@@ -160,7 +165,7 @@ private:
 private:
 	NEncoderState						mState;
 	NXMLNode							*mNodeRoot;
-	NXMLNodeList						mNodeStack;
+	mutable NXMLNodeList				mNodeStack;
 };
 
 
