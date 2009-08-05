@@ -212,11 +212,15 @@ NStatus NEncoder::Decode(NEncodable &theObject, const NData &theData)
 
 
 //============================================================================
-//		NEncoder::HasKey : Does the current object have a key?
+//		NEncoder::GetKeys : Get the current object's keys.
 //----------------------------------------------------------------------------
 #pragma mark -
-bool NEncoder::HasKey(const NString &theKey) const
-{	const NXMLNode		*theChild;
+NStringList NEncoder::GetKeys(void) const
+{	const NXMLNodeList				*theChildren;
+	const NXMLNode					*theParent;
+	NXMLNodeListConstIterator		theIter;
+	NStringList						theKeys;
+	NString							theKey;
 
 
 
@@ -226,8 +230,19 @@ bool NEncoder::HasKey(const NString &theKey) const
 
 
 	// Get the state we need
-	theChild = GetChildNode(theKey);
-	return(theChild != NULL);
+	theParent   = GetParentNode();
+	theChildren = theParent->GetChildren();
+
+
+
+	// Get the keys
+	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+		{
+		theKey = (*theIter)->GetElementAttribute(kTokenKey);
+		theKeys.push_back(theKey);
+		}
+	
+	return(theKeys);
 }
 
 
@@ -406,6 +421,50 @@ void NEncoder::EncodeObject(const NString &theKey, const NEncodable &theValue)
 
 
 //============================================================================
+//		NEncoder::EncodeObject : Encode an object.
+//----------------------------------------------------------------------------
+void NEncoder::EncodeObject(const NString &theKey, const NVariant &theValue)
+{	bool								didEncode;
+	NEncoderClassInfoMapConstIterator	theIter;
+	NEncoderClassInfoMap				theInfo;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theValue.IsValid());
+
+
+
+	// Get the state we need
+	theInfo   = GetClassesInfo();
+	didEncode = false;
+
+
+
+	// Encode the object
+	//
+	// Since we can't cast an NVariant back to an NEncodable, only to its leaf
+	// type, we need to iterate through the registered classes to find the class
+	// which can retrieve the NEncodable object from the variant.
+	for (theIter = theInfo.begin(); theIter != theInfo.end(); theIter++)
+		{
+		didEncode = theIter->second.encodeObject(*this, theKey, theValue);
+		if (didEncode)
+			break;
+		}
+
+
+
+	// Validate our state
+	if (!didEncode)
+		NN_LOG("Unable to encode object (%s)", theValue.GetType().name());
+}
+
+
+
+
+
+//============================================================================
 //		NEncoder::DecodeBoolean : Decode a bool.
 //----------------------------------------------------------------------------
 bool NEncoder::DecodeBoolean(const NString &theKey) const
@@ -508,23 +567,33 @@ NString NEncoder::DecodeString(const NString &theKey) const
 //		NEncoder::DecodeObject : Decode an object.
 //----------------------------------------------------------------------------
 NVariant NEncoder::DecodeObject(const NString &theKey) const
-{	NString					className;
-	const NXMLNode			*theNode;
-	NVariant				theValue;
+{	NString									className;
+	const NXMLNode							*theNode;
+	NVariant								theValue;
+	NEncoderClassInfoMap					theInfo;
+	NEncoderClassInfoMapConstIterator		theIter;
 
 
 
 	// Validate our state
 	NN_ASSERT(mState == kNEncoderDecoding);
-	
-	
+
+
+
 	// Get the state we need
+	theInfo = GetClassesInfo();
 	theNode = GetChildNode(theKey);
+
 	if (theNode == NULL)
 		return(theValue);
 
+
+
+	// Get the class
 	className = theNode->GetElementAttribute(kTokenClass);
-	if (!IsKnownClass(className))
+	theIter   = theInfo.find(className);
+
+	if (theIter == theInfo.end())
 		{
 		NN_LOG("Unknown class (%@), skipping", className);
 		return(theValue);
@@ -534,7 +603,7 @@ NVariant NEncoder::DecodeObject(const NString &theKey) const
 
 	// Decode the value
 	mNodeStack.push_back(const_cast<NXMLNode*>(theNode));
-	theValue = CreateClass(className, *this);
+	theValue = theIter->second.decodeObject(*this);
 	mNodeStack.pop_back();
 
 	return(theValue);
@@ -547,26 +616,23 @@ NVariant NEncoder::DecodeObject(const NString &theKey) const
 //============================================================================
 //		NEncoder::RegisterClass : Register a class.
 //----------------------------------------------------------------------------
-void NEncoder::RegisterClass(const NString &className, const NEncodableCreateFunctor &createFunctor)
+void NEncoder::RegisterClass(const NString &className, const NEncoderClassInfo &classInfo)
 {	NEncoderClasses		*theClasses;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(!IsKnownClass(className));
-	NN_ASSERT(createFunctor != NULL);
+	NN_ASSERT(classInfo.encodeObject != NULL);
+	NN_ASSERT(classInfo.decodeObject != NULL);
 	
 	
 	
-	// Get the state we need
-	theClasses = GetClasses();
-
-
-
 	// Register the class
+	theClasses = GetClasses();
 	theClasses->theLock.Lock();
 
-		theClasses->classFactory[className] = createFunctor;
+		theClasses->theInfo[className] = classInfo;
 
 	theClasses->theLock.Unlock();
 }
@@ -880,58 +946,19 @@ const NXMLNode *NEncoder::GetChildNode(const NString &theKey) const
 
 
 //============================================================================
-//		NEncoder::CreateClass : Create a class instance.
-//----------------------------------------------------------------------------
-NVariant NEncoder::CreateClass(const NString &className, const NEncoder &theEncoder)
-{	NEncoderClasses						*theClasses;
-	NVariant							theObject;
-	NEncodableClassMapConstIterator		theIter;
-
-
-
-	// Get the state we need
-	theClasses = GetClasses();
-
-
-
-	// Instantiate the class
-	theClasses->theLock.Lock();
-
-		theIter = theClasses->classFactory.find(className);
-		if (theIter != theClasses->classFactory.end())
-			theObject = theIter->second(theEncoder, className);
-
-	theClasses->theLock.Unlock();
-	
-	return(theObject);
-}
-
-
-
-
-
-//============================================================================
 //		NEncoder::IsKnownClass : Is a class name known?
 //----------------------------------------------------------------------------
 bool NEncoder::IsKnownClass(const NString &className)
-{	NEncoderClasses						*theClasses;
-	NEncodableClassMapConstIterator		theIter;
+{	NEncoderClassInfoMap				theInfo;
+	NEncoderClassInfoMapConstIterator	theIter;
 	bool								isKnown;
 
 
 
-	// Get the state we need
-	theClasses = GetClasses();
-
-
-
 	// Find the class
-	theClasses->theLock.Lock();
-
-		theIter = theClasses->classFactory.find(className);
-		isKnown = (theIter != theClasses->classFactory.end());
-
-	theClasses->theLock.Unlock();
+	theInfo = GetClassesInfo();
+	theIter = theInfo.find(className);
+	isKnown = (theIter != theInfo.end());
 	
 	return(isKnown);
 }
@@ -957,3 +984,24 @@ NEncoderClasses *NEncoder::GetClasses(void)
 
 
 
+
+
+//============================================================================
+//		NEncoder::GetClassesInfo : Get the classes info.
+//----------------------------------------------------------------------------
+NEncoderClassInfoMap NEncoder::GetClassesInfo(void)
+{	NEncoderClasses			*theClasses;
+	NEncoderClassInfoMap	theInfo;
+
+
+
+	// Get the state we need
+	theClasses = GetClasses();
+	theClasses->theLock.Lock();
+
+		theInfo = theClasses->theInfo;
+
+	theClasses->theLock.Unlock();
+	
+	return(theInfo);
+}

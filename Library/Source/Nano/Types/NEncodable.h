@@ -57,7 +57,8 @@ class NVariant;
 	static bool sEncodableRegistered;																			\
 																												\
 	static bool							EncodableRegister(void);												\
-	static NVariant						EncodableCreate(const NEncoder &theEncoder, const NString &className);	\
+	static bool							EncodableEncode(      NEncoder &theEncoder, const NString &theKey, const NVariant &theValue);	\
+	static NVariant						EncodableDecode(const NEncoder &theEncoder);							\
 																												\
 	public:																										\
 	virtual NString						EncodableGetClass(void) const
@@ -68,16 +69,28 @@ class NVariant;
 	bool _class::sEncodableRegistered = _class::EncodableRegister();											\
 																												\
 	bool _class::EncodableRegister(void)																		\
-	{																											\
-		NEncoder::RegisterClass(#_class, BindFunction(_class::EncodableCreate, _1, _2));						\
+	{	NEncoderClassInfo		classInfo;																		\
+																												\
+		classInfo.encodeObject = BindFunction(_class::EncodableEncode, _1, _2, _3);								\
+		classInfo.decodeObject = BindFunction(_class::EncodableDecode, _1);										\
+																												\
+		NEncoder::RegisterClass(#_class, classInfo);															\
 		return(true);																							\
 	}																											\
 																												\
-	NVariant _class::EncodableCreate(const NEncoder &theEncoder, const NString &className)						\
+	bool _class::EncodableEncode(NEncoder &theEncoder, const NString &theKey, const NVariant &theValue)			\
 	{	_class		theObject;																					\
+		bool		didEncode;																					\
 																												\
-		NN_ASSERT(className == #_class);																		\
-		(void) className;																						\
+		didEncode = theValue.GetValue(theObject);																\
+		if (didEncode)																							\
+			theEncoder.EncodeObject(theKey, theObject);															\
+																												\
+		return(didEncode);																						\
+	}																											\
+																												\
+	NVariant _class::EncodableDecode(const NEncoder &theEncoder)												\
+	{	_class		theObject;																					\
 																												\
 		theObject.DecodeSelf(theEncoder);																		\
 		return(NVariant(theObject));																			\

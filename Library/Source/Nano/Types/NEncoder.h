@@ -74,19 +74,27 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<NVariant (const NEncoder &theEncoder, const NString &className)>	NEncodableCreateFunctor;
+typedef nfunctor<bool     (      NEncoder &theEncoder, const NString &theKey, const NVariant &theValue)>	NEncodableEncodeFunctor;
+typedef nfunctor<NVariant (const NEncoder &theEncoder)>														NEncodableDecodeFunctor;
+
+
+// Info
+typedef struct {
+	NEncodableEncodeFunctor		encodeObject;
+	NEncodableDecodeFunctor		decodeObject;
+} NEncoderClassInfo;
 
 
 // Lists
-typedef std::map<NString, NEncodableCreateFunctor, NHashableCompare<NString> >	NEncodableClassMap;
-typedef NEncodableClassMap::iterator											NEncodableClassMapIterator;
-typedef NEncodableClassMap::const_iterator										NEncodableClassMapConstIterator;
+typedef std::map<NString, NEncoderClassInfo, NHashableCompare<NString> >		NEncoderClassInfoMap;
+typedef NEncoderClassInfoMap::iterator											NEncoderClassInfoMapIterator;
+typedef NEncoderClassInfoMap::const_iterator									NEncoderClassInfoMapConstIterator;
 
 
 // Classes
 typedef struct {
 	NMutexLock				theLock;
-	NEncodableClassMap		classFactory;
+	NEncoderClassInfoMap	theInfo;
 } NEncoderClasses;
 
 
@@ -108,10 +116,10 @@ public:
 
 
 public:
-	// Does the current object contain a key?
+	// Get the keys from the current object.
 	//
 	// Can be invoked by NEncodable::EncodeSelf/DecodeSelf.
-	bool								HasKey(const NString &theKey) const;
+	NStringList							GetKeys(void) const;
 
 
 	// Get a value type from the current object.
@@ -130,6 +138,7 @@ public:
 	void								EncodeString( const NString &theKey, const NString    &theValue);
 	void								EncodeData(   const NString &theKey, const NData      &theValue);
 	void								EncodeObject( const NString &theKey, const NEncodable &theValue);
+	void								EncodeObject( const NString &theKey, const NVariant   &theValue);
 
 	bool								DecodeBoolean(const NString &theKey) const;
 	NNumber								DecodeNumber( const NString &theKey) const;
@@ -139,7 +148,7 @@ public:
 
 
 	// Register a class
-	static void							RegisterClass(const NString &className, const NEncodableCreateFunctor &createFunctor);
+	static void							RegisterClass(const NString &className, const NEncoderClassInfo &classInfo);
 
 
 private:
@@ -157,9 +166,9 @@ private:
 	NData								 EncodeBinary_1_0(      NXMLNode *theRoot);
 	NXMLNode							*DecodeBinary_1_0(const NData    &theData);
 
-	static NVariant						 CreateClass(const NString &className, const NEncoder &theEncoder);
 	static bool							IsKnownClass(const NString &className);
 	static NEncoderClasses				*GetClasses(void);
+	static NEncoderClassInfoMap			GetClassesInfo(void);
 
 
 private:
