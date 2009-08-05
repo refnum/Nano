@@ -45,16 +45,16 @@ static const NString kKeyDictionary							= "Test Dictionary";
 // Values
 static const bool    kValueBoolean1						= true;
 static const bool    kValueBoolean2						= false;
-static const NNumber kValueNumber1						= NVariant( 1234);
-static const NNumber kValueNumber2						= NVariant(-5678);
-static const NNumber kValueNumber3						= NVariant( 1234.123);
-static const NNumber kValueNumber4						= NVariant(-5678.567);
+static const NNumber kValueNumber1						=  1234LL;
+static const NNumber kValueNumber2						= -5678LL;
+static const NNumber kValueNumber3						=  1234.12f;
+static const NNumber kValueNumber4						= -5678.5678765000102;
 static const NString kValueString						= "This is a string";
 static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
 
 
 // Results
-static const UInt32  kResultBinary						= 0xA24D90C3;
+static const UInt32  kResultBinary						= 0x27D79EE3;
 static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 															"<encoder version=\"1.0\">\n"
 															"	<object class=\"TEncodable\" key=\"root\">\n"
@@ -62,8 +62,8 @@ static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\
 															"		<bool key=\"Test Boolean 2\">false</bool>\n"
 															"		<number key=\"Test Number 1\">1234</number>\n"
 															"		<number key=\"Test Number 2\">-5678</number>\n"
-															"		<number key=\"Test Number 3\">1234.123</number>\n"
-															"		<number key=\"Test Number 4\">-5678.567</number>\n"
+															"		<number key=\"Test Number 3\">1234.12</number>\n"
+															"		<number key=\"Test Number 4\">-5678.5678765000102</number>\n"
 															"		<string key=\"Test String\">This is a string</string>\n"
 															"		<data key=\"Test Data\">qrvM3Q==</data>\n"
 															"		<object class=\"NArray\" key=\"Test Array\">\n"
@@ -178,7 +178,6 @@ void TEncoder::Execute(void)
 	NChecksum		checkSum;
 	NVariant		theValue;
 	NString			textXML;
-	NStatus			theErr;
 
 
 
@@ -195,11 +194,11 @@ void TEncoder::Execute(void)
 
 
 	// Decoding
-	theErr = theEncoder.Decode(theObject, dataXML);
-	NN_ASSERT(theErr == kNoErr);
-
-	theErr = theEncoder.Decode(theObject, dataBinary);
-	NN_ASSERT(theErr == kNoErr);
+	theValue = theEncoder.Decode(dataXML);
+	NN_ASSERT(theValue.GetValue(theObject));
+	
+	theValue = theEncoder.Decode(dataBinary);
+	NN_ASSERT(theValue.GetValue(theObject));
 }
 
 

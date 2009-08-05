@@ -35,6 +35,7 @@ static const NString kKeyBoolean							= "Test Boolean";
 static const NString kKeyNumber								= "Test Number";
 static const NString kKeyData								= "Test Data";
 static const NString kKeyDate								= "Test Date";
+static const NString kKeyColor								= "Test Color";
 
 
 // Values
@@ -48,6 +49,8 @@ static const UInt8   kValueData1[]							= { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A,
 static const UInt8   kValueData2[]							= { 0x3C, 0xE7, 0xC7, 0x32, 0xE3, 0xD8, 0x52 };
 static const NDate   kValueDate1							= NDate(-886538221);
 static const NDate   kValueDate2							= NDate( 268617632);
+static const NColor  kValueColor1							= NColor(1.0f, 0.8f, 0.4f, 0.2f);
+static const NColor  kValueColor2							= NColor(0.1f, 0.2f, 0.3f, 0.4f);
 
 
 // XML
@@ -61,10 +64,17 @@ static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"
 																"		<true/>\n"
 																"		<integer>-2342</integer>\n"
 																"		<date>1972-11-28T03:22:59Z</date>\n"
+																"		<data>TmVOY29EZVJuemxiAAAAAAAAAPN42rOxr8jNUShLLSrOzM+zVTLUM1BSSM1Lzk/JzEu3VQoN\n"
+																"cdO1ULK347IBi6UWoaq04+K0yU/KSk0uUUjOSSwutlXyc87PyS9SUshOrbRVKsrPLwGp4bTJ\n"
+																"K81NAmqGiCrZGdroQ0QwJNOV7Az0LHBKJ4GkTXBKJ4KkjZCkbfQhzgN6QB/qAzsuAND5Sk0=</data>\n"
 																"		<data>iVBORw0KGg==</data>\n"
 																"		<dict>\n"
 																"			<key>Test Boolean</key>\n"
 																"			<false/>\n"
+																"			<key>Test Color</key>\n"
+																"			<data>TmVOY29EZVJuemxiAAAAAAAAAPV42rOxr8jNUShLLSrOzM+zVTLUM1BSSM1Lzk/JzEu3VQoN\n"
+																"cdO1ULK347IBi6UWoaq04+K0yU/KSk0uUUjOSSwutlXyc87PyS9SUshOrbRVKsrPLwGp4bTJ\n"
+																"K81NAmqGiCrZGegZ2uhDxDCk00HSRjilk0DSxjilE0HSJkjSNvoQBwK9oA/1gx0XAEawSqY=</data>\n"
 																"			<key>Test Number</key>\n"
 																"			<real>3.1415926535897931</real>\n"
 																"			<key>Test String</key>\n"
@@ -79,6 +89,10 @@ static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"
 																"	<dict>\n"
 																"		<key>Test Boolean</key>\n"
 																"		<false/>\n"
+																"		<key>Test Color</key>\n"
+																"		<data>TmVOY29EZVJuemxiAAAAAAAAAPV42rOxr8jNUShLLSrOzM+zVTLUM1BSSM1Lzk/JzEu3VQoN\n"
+																"cdO1ULK347IBi6UWoaq04+K0yU/KSk0uUUjOSSwutlXyc87PyS9SUshOrbRVKsrPLwGp4bTJ\n"
+																"K81NAmqGiCrZGegZ2uhDxDCk00HSRjilk0DSxjilE0HSJkjSNvoQBwK9oA/1gx0XAEawSqY=</data>\n"
 																"		<key>Test Number</key>\n"
 																"		<real>3.1415926535897931</real>\n"
 																"		<key>Test String</key>\n"
@@ -110,12 +124,14 @@ void TPropertyList::Execute(void)
 
 	testDict2.SetValue(kKeyString,  kValueString2);
 	testDict2.SetValue(kKeyBoolean, kValueBoolean2);
+	testDict2.SetValue(kKeyColor,   kValueColor2);
 	testDict2.SetValue(kKeyNumber,  kValueNumber2);
 
 	testArray.AppendValue(kValueString1);
 	testArray.AppendValue(kValueBoolean1);
 	testArray.AppendValue(kValueNumber1);
 	testArray.AppendValue(kValueDate1);
+	testArray.AppendValue(kValueColor1);
 	testArray.AppendValue(testData1);
 	testArray.AppendValue(testDict2);
 
@@ -152,21 +168,23 @@ void TPropertyList::Execute(void)
 	NN_ASSERT(testDict2.HasKey(kKeyNumber));
 	NN_ASSERT(testDict2.GetValueString( kKeyString)  == kValueString2);
 	NN_ASSERT(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
+	NN_ASSERT(testDict2.GetValueColor(  kKeyColor)   == kValueColor2);
 	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
 
 
 	testArray = testDict1.GetValueArray(kKeyArray);
-	NN_ASSERT(testArray.GetSize() == 6);
+	NN_ASSERT(testArray.GetSize() == 7);
 	NN_ASSERT(testArray.GetValueString (0) == kValueString1);
 	NN_ASSERT(testArray.GetValueBoolean(1) == kValueBoolean1);
 	NN_ASSERT(testArray.GetValueSInt64 (2) == kValueNumber1);
 	NN_ASSERT(testArray.GetValueDate   (3) == kValueDate1);
+	NN_ASSERT(testArray.GetValueColor  (4) == kValueColor1);
 
-	testData1 = testArray.GetValueData(4);
+	testData1 = testArray.GetValueData(5);
 	NN_ASSERT(testData1.GetSize() == GET_ARRAY_SIZE(kValueData1));
 	NN_ASSERT(memcmp(testData1.GetData(), kValueData1, GET_ARRAY_SIZE(kValueData1)) == 0);
 
-	testDict2 = testArray.GetValueDictionary(5);
+	testDict2 = testArray.GetValueDictionary(6);
 	NN_ASSERT(testDict2.HasKey(kKeyString));
 	NN_ASSERT(testDict2.HasKey(kKeyBoolean));
 	NN_ASSERT(testDict2.HasKey(kKeyNumber));
