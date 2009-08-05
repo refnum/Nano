@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NEncoder.h"
 #include "NColor.h"
 
 
@@ -47,8 +48,27 @@ const NColor kColorYellow									= NColor(1.00f, 1.00f, 0.00f, 1.0f);
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
+// Keys
+//
+// These values are considered to be fixed, and will never change.
+static const NString kNColorRedKey							= "r";
+static const NString kNColorGreenKey						= "g";
+static const NString kNColorBlueKey							= "b";
+static const NString kNColorAlphaKey						= "a";
+
+
+// Misc
 static const float kOneOver255								= 1.0f /   255.0f;
 static const float kOneOver65535							= 1.0f / 65535.0f;
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NColor);
 
 
 
@@ -435,5 +455,44 @@ NColor::operator NFormatArgument(void) const
 	return(theResult);
 }
 
+
+
+
+
+//============================================================================
+//      NColor::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NColor::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNColorRedKey,   mRed);
+	theEncoder.EncodeNumber(kNColorGreenKey, mGreen);
+	theEncoder.EncodeNumber(kNColorBlueKey,  mBlue);
+	theEncoder.EncodeNumber(kNColorAlphaKey, mAlpha);
+}
+
+
+
+
+
+//============================================================================
+//      NColor::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NColor::DecodeSelf(const NEncoder &theEncoder)
+{	bool	gotField;
+
+
+
+	// Encode the object
+	gotField  = theEncoder.DecodeNumber(kNColorRedKey  ).GetValueFloat32(mRed);
+	gotField |= theEncoder.DecodeNumber(kNColorGreenKey).GetValueFloat32(mGreen);
+	gotField |= theEncoder.DecodeNumber(kNColorBlueKey ).GetValueFloat32(mBlue);
+	gotField |= theEncoder.DecodeNumber(kNColorAlphaKey).GetValueFloat32(mAlpha);
+	
+	NN_ASSERT(gotField);
+}
 
 

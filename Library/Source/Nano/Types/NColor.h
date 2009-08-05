@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NString.h"
 
 
@@ -59,8 +60,11 @@ extern const NColor kColorYellow;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NColor : public NComparable<NColor> {
+class NColor :	public NEncodable,
+				public NComparable<NColor> {
 public:
+										DECLARE_NENCODABLE(NColor);
+
 										NColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
 										NColor(      UInt32    theColor, ColorFormat theFormat=kColorRGBA);
 										NColor(const NString  &hexColor, ColorFormat theFormat=kColorRGBA);
@@ -95,6 +99,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:
