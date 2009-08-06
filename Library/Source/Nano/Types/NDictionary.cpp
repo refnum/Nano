@@ -679,8 +679,10 @@ const NDictionaryValue *NDictionary::GetNullValue(void) const
 
 
 
+
+
 //============================================================================
-//		NDictionary::GetValue : Get a value value.
+//		NDictionary::GetValue : Get a value.
 //----------------------------------------------------------------------------
 bool NDictionary::GetValue(const NString &theKey, NVariant &theValue) const
 {

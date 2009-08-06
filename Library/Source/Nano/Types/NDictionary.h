@@ -139,6 +139,11 @@ protected:
 
 private:
 	bool								GetValue(const NString &theKey, NVariant &theValue) const;
+
+
+private:
+
+
 };
 
 
