@@ -30,22 +30,20 @@
 class NCFString : public NString {
 public:
 										NCFString(const NString &theString);
-										NCFString(CFStringRef cfString, bool takeOwnership);
+										NCFString(CFStringRef cfObject, bool takeOwnership);
 										
 										NCFString( void);
 	virtual								~NCFString(void);
 
 
-	// Assign an object
-	bool								Set(CFStringRef cfString, bool takeOwnership=true);
-
-
-	// Operators
-										operator CFStringRef(void) const;
+	// Get/set the object
+	NCFObject							GetObject(void) const;
+	bool								SetObject(CFStringRef cfObject, bool takeOwnership=true);
 
 
 private:
-	mutable NCFObjectList				mObjects;
+
+
 };
 
 

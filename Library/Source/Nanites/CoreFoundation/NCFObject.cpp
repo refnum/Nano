@@ -96,9 +96,9 @@ bool NCFObject::IsValid(void) const
 
 
 //============================================================================
-//		NCFObject::Set : Assign an object.
+//		NCFObject::SetObject : Set the object.
 //----------------------------------------------------------------------------
-bool NCFObject::Set(CFTypeRef cfObject, bool takeOwnership)
+bool NCFObject::SetObject(CFTypeRef cfObject, bool takeOwnership)
 {
 
 
@@ -141,32 +141,9 @@ const NCFObject& NCFObject::operator = (const NCFObject &theObject)
 
 	// Assign the object
 	if (this != &theObject)
-		Set(theObject.mObject, false);
+		SetObject(theObject.mObject, false);
 
 	return(*this);
-}
-
-
-
-
-
-//============================================================================
-//		NCFObject::ReleaseObjects : Release an object list.
-//----------------------------------------------------------------------------
-void NCFObject::ReleaseObjects(NCFObjectList &theObjects)
-{	CFTypeRef						cfObject;
-	NCFObjectListConstIterator		theIter;
-
-
-
-	// Release the objects
-	for (theIter = theObjects.begin(); theIter != theObjects.end(); theIter++)
-		{
-		cfObject = *theIter;
-		CFSafeRelease(cfObject);
-		}
-	
-	theObjects.clear();
 }
 
 

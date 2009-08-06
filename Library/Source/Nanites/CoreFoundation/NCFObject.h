@@ -80,19 +80,6 @@
 
 
 //============================================================================
-//		Types
-//----------------------------------------------------------------------------
-class NCFObject;
-
-typedef std::vector<NCFObject>										NCFObjectList;
-typedef NCFObjectList::iterator										NCFObjectListIterator;
-typedef NCFObjectList::const_iterator								NCFObjectListConstIterator;
-
-
-
-
-
-//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NCFObject {
@@ -108,24 +95,27 @@ public:
 	bool								IsValid(void) const;
 
 
-	// Assign an object
-	bool								Set(CFTypeRef cfObject, bool takeOwnership=true);
+	// Set the object
+	bool								SetObject(CFTypeRef cfObject, bool takeOwnership=true);
 
 
 	// Operators
 	const NCFObject&					operator = (const NCFObject &theObject);
 
 	DECLARE_NCF_OPERATOR(CFArrayRef);
+	DECLARE_NCF_OPERATOR(CFBooleanRef);
 	DECLARE_NCF_OPERATOR(CFBundleRef);
 	DECLARE_NCF_OPERATOR(CFDataRef);
+	DECLARE_NCF_OPERATOR(CFDateRef);
 	DECLARE_NCF_OPERATOR(CFDictionaryRef);
+	DECLARE_NCF_OPERATOR(CFMutableArrayRef);
+	DECLARE_NCF_OPERATOR(CFMutableDataRef);
+	DECLARE_NCF_OPERATOR(CFMutableDictionaryRef);
+	DECLARE_NCF_OPERATOR(CFMutableStringRef);
+	DECLARE_NCF_OPERATOR(CFNumberRef);
 	DECLARE_NCF_OPERATOR(CFStringRef);
 	DECLARE_NCF_OPERATOR(CFTypeRef);
 	DECLARE_NCF_OPERATOR(CFURLRef);
-
-
-	// Release an object list
-	static void							ReleaseObjects(NCFObjectList &theObjects);
 	
 
 private:

@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NCFData.h"
 #include "NCFString.h"
 
 
@@ -35,12 +36,12 @@ NCFString::NCFString(const NString &theString)
 //============================================================================
 //		NCFString::NCFString : Constructor.
 //----------------------------------------------------------------------------
-NCFString::NCFString(CFStringRef cfString, bool takeOwnership)
+NCFString::NCFString(CFStringRef cfObject, bool takeOwnership)
 {
 
 
 	// Initialize ourselves
-	Set(cfString, takeOwnership);
+	SetObject(cfObject, takeOwnership);
 }
 
 
@@ -63,10 +64,6 @@ NCFString::NCFString(void)
 //----------------------------------------------------------------------------
 NCFString::~NCFString(void)
 {
-
-
-	// Clean up
-	NCFObject::ReleaseObjects(mObjects);
 }
 
 
@@ -74,46 +71,46 @@ NCFString::~NCFString(void)
 
 
 //============================================================================
-//		NCFString::Set : Assign an object.
+//		NCFString::GetObject : Get the object.
 //----------------------------------------------------------------------------
-bool NCFString::Set(CFStringRef cfString, bool takeOwnership)
-{	NData			theData;
-	NCFObject		cfData;
+NCFObject NCFString::GetObject(void) const
+{	NCFObject		theObject;
 
 
 
-	// Assign the string
-	if (cfString != NULL)
+	// Get the object
+	theObject.SetObject(CFStringCreateWithCString(kCFAllocatorNano, GetUTF8(), kCFStringEncodingUTF8));
+
+	return(theObject);
+}
+
+
+
+
+
+//============================================================================
+//		NCFString::SetObject : Set the object.
+//----------------------------------------------------------------------------
+bool NCFString::SetObject(CFStringRef cfObject, bool takeOwnership)
+{	NCFObject		theObject(cfObject, takeOwnership);
+	NCFData			theData;
+	bool			isValid;
+
+
+
+	// Get the state we need
+	isValid = (cfObject != NULL);
+	Clear();
+
+
+
+	// Set the object
+	if (isValid)
 		{
-		if (cfData.Set(CFStringCreateExternalRepresentation(kCFAllocatorNano, cfString, kCFStringEncodingUTF8, 0)))
-			{
-			theData = NData((NIndex) CFDataGetLength(cfData), CFDataGetBytePtr(cfData));
+		if (theData.SetObject(CFStringCreateExternalRepresentation(kCFAllocatorNano, cfObject, kCFStringEncodingUTF8, 0)))
 			SetData(theData, kNStringEncodingUTF8);
-			}
-
-		if (takeOwnership)
-			CFSafeRelease(cfString);
 		}
-	
-	return(cfString != NULL);
+
+	return(isValid);
 }
 
-
-
-
-
-//============================================================================
-//		NCFString::CFStringRef : Cast operator.
-//----------------------------------------------------------------------------
-NCFString::operator CFStringRef(void) const
-{	CFStringRef		cfString;
-
-
-
-	// Convert the string
-	cfString = CFStringCreateWithCString(kCFAllocatorNano, GetUTF8(), kCFStringEncodingUTF8);
-	if (cfString != NULL)
-		mObjects.push_back(cfString);
-		
-	return(cfString);
-}

@@ -163,7 +163,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 	// Only files that exist have a display name, and so we fall through on errors.
 	if (displayName)
 		{
-		if (cfURL.Set(CFURLCreateWithFileSystemPath(NULL, NCFString(thePath), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
+		if (cfURL.SetObject(CFURLCreateWithFileSystemPath(NULL, NCFString(thePath).GetObject(), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
 			{
 #if NN_TARGET_MAC
 			theErr = LSCopyDisplayNameForURL(cfURL, &cfString);

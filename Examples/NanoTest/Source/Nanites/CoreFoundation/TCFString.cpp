@@ -37,22 +37,22 @@ static const CFStringRef kCFStringValue						= CFSTR("Hello World");
 //----------------------------------------------------------------------------
 void TCFString::Execute(void)
 {	NCFString		theString;
-	CFStringRef		cfString;
+	NCFObject		cfString;
 
 
 
 	// Execute the tests
 	theString = kNStringValue;
-	cfString  = theString;
+	cfString  = theString.GetObject();
 	NN_ASSERT(CFStringCompare(cfString, kCFStringValue, 0) == kCFCompareEqualTo);
 
 	theString = NCFString(kCFStringValue, false);
 	NN_ASSERT(theString == kNStringValue);
 
-	theString.Set(kCFStringValue, false);
+	theString.SetObject(kCFStringValue, false);
 	NN_ASSERT(theString == kNStringValue);
 
-	theString.Set(CFStringCreateCopy(kCFAllocatorDefault, kCFStringValue), true);
+	theString.SetObject(CFStringCreateCopy(kCFAllocatorDefault, kCFStringValue), true);
 	NN_ASSERT(theString == kNStringValue);
 }
 

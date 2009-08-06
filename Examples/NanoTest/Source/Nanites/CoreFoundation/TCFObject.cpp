@@ -55,7 +55,7 @@ void TCFObject::Execute(void)
 
 	// Assignment
 	NN_ASSERT(!theArray.IsValid());
-	theArray.Set(CFArrayCreateMutable(kCFAllocatorDefault, 0, NULL));
+	theArray.SetObject(CFArrayCreateMutable(kCFAllocatorDefault, 0, NULL));
 
 	NN_ASSERT(theArray.IsValid());
 	NN_ASSERT(CFGetRetainCount(theArray) == 1);
