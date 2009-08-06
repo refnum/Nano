@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NVariant.h"
+#include "NString.h"
 
 
 
@@ -26,8 +28,17 @@
 //----------------------------------------------------------------------------
 class NTargetPreferences {
 public:
+	// Does a key exist?
+	static bool							HasKey(const NString &theKey);
 
 
+	// Remove a key
+	static void							RemoveKey(const NString &theKey);
+
+
+	// Get/set a value
+	static NVariant						GetValue(const NString &theKey);
+	static void							SetValue(const NString &theKey, const NVariant &theValue);
 };
 
 

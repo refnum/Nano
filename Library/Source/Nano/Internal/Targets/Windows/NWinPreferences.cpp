@@ -17,3 +17,66 @@
 #include "NTargetPreferences.h"
 
 
+
+
+
+//============================================================================
+//		NTargetPreferences::HasKey : Does a key exist?
+//----------------------------------------------------------------------------
+bool NTargetPreferences::HasKey(const NString &theKey)
+{
+
+	// dair, to do
+	return(false);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetPreferences::RemoveKey : Remove a key.
+//----------------------------------------------------------------------------
+void NTargetPreferences::RemoveKey(const NString &theKey)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NTargetPreferences::GetValue : Get a value.
+//----------------------------------------------------------------------------
+NVariant NTargetPreferences::GetValue(const NString &theKey)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theKey.IsNotEmpty());
+
+
+
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//		NTargetPreferences::SetValue : Set a value.
+//----------------------------------------------------------------------------
+void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValue)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theKey.IsNotEmpty());
+
+
+
+	// dair, to do
+}
+
+
