@@ -35,11 +35,11 @@ NFile NTargetSystem(const NString &bundleID)
 
 	// Get the bundle
 	if (bundleID.IsEmpty())
-		cfBundle.Set(CFBundleGetMainBundle(), false);
+		cfBundle.SetObject(CFBundleGetMainBundle(), false);
 	else
 		{
 		cfString = bundleID;
-		cfBundle.Set(CFBundleGetBundleWithIdentifier(cfString), false);
+		cfBundle.SetObject(CFBundleGetBundleWithIdentifier(cfString.GetObject()), false);
 		}
 
 	if (!cfBundle.IsValid())
@@ -48,9 +48,9 @@ NFile NTargetSystem(const NString &bundleID)
 
 
 	// Get the file
-	if (cfURL.Set(CFBundleCopyBundleURL(cfBundle)))
+	if (cfURL.SetObject(CFBundleCopyBundleURL(cfBundle)))
 		{
-		cfString.Set(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle));
+		cfString.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle));
 		theFile = NFile(cfString);
 		}
 	
