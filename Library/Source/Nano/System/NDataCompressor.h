@@ -69,8 +69,10 @@ public:
 	// Compressed data is returned with a NCompressionHeader prefix.
 	//
 	// If this header is removed from the data and stored elsewhere, it must be
-	// supplied externally to decompress the data. External headers are assumed
-	// to be in native endian format.
+	// supplied externally to decompress the data.
+	//
+	// External headers are assumed to be in native endian. Internal headers are
+	// stored in big endian.
 	NData								Compress(  const NData &srcData,       NCompression theCompression=kNCompressionZLib);
 	NData								Decompress(const NData &srcData, const NCompressionHeader *theHeader=NULL);
 
