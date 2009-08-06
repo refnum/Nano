@@ -121,7 +121,7 @@ public:
 
 
     // Get the debug instance
-    static NDebug                       *Get(void);
+    static NDebug						*Get(void);
 
 
 private:
