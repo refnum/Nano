@@ -17,6 +17,11 @@
 #include "Nano.h"
 #include "NCommandLine.h"
 
+#include "TCFArray.h"
+#include "TCFData.h"
+#include "TCFDate.h"
+#include "TCFDictionary.h"
+#include "TCFNumber.h"
 #include "TCFObject.h"
 #include "TCFString.h"
 
@@ -162,6 +167,11 @@ int main(int argc, const char **argv)
 
 
 	// Nanite - CoreFoundation
+	TCFArray::Execute();
+	TCFData::Execute();
+	TCFDate::Execute();
+	TCFDictionary::Execute();
+	TCFNumber::Execute();
 	TCFObject::Execute();
 	TCFString::Execute();
 	

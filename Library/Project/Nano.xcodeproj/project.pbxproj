@@ -149,6 +149,16 @@
 		AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
 		AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		AB9DA5E2102AF78F0062E311 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5D8102AF78F0062E311 /* NCFData.cpp */; };
+		AB9DA5E3102AF78F0062E311 /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
+		AB9DA5E4102AF78F0062E311 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */; };
+		AB9DA5E5102AF78F0062E311 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */; };
+		AB9DA5E6102AF78F0062E311 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
+		AB9DA5E7102AF78F0062E311 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5D8102AF78F0062E311 /* NCFData.cpp */; };
+		AB9DA5E8102AF78F0062E311 /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
+		AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */; };
+		AB9DA5EA102AF78F0062E311 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */; };
+		AB9DA5EB102AF78F0062E311 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
 		ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
 		ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
 		ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
@@ -371,6 +381,16 @@
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFString.cpp; sourceTree = "<group>"; };
+		AB9DA5D8102AF78F0062E311 /* NCFData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFData.cpp; sourceTree = "<group>"; };
+		AB9DA5D9102AF78F0062E311 /* NCFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFData.h; sourceTree = "<group>"; };
+		AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFDictionary.cpp; sourceTree = "<group>"; };
+		AB9DA5DB102AF78F0062E311 /* NCFDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDictionary.h; sourceTree = "<group>"; };
+		AB9DA5DC102AF78F0062E311 /* NCFNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFNumber.h; sourceTree = "<group>"; };
+		AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFArray.cpp; sourceTree = "<group>"; };
+		AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFDate.cpp; sourceTree = "<group>"; };
+		AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFNumber.cpp; sourceTree = "<group>"; };
+		AB9DA5E0102AF78F0062E311 /* NCFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFArray.h; sourceTree = "<group>"; };
+		AB9DA5E1102AF78F0062E311 /* NCFDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDate.h; sourceTree = "<group>"; };
 		ABAA12400FE4F959000BDCDC /* NQObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NQObject.cpp; sourceTree = "<group>"; };
 		ABAA12410FE4F959000BDCDC /* NQObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQObject.h; sourceTree = "<group>"; };
 		ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferences.cpp; sourceTree = "<group>"; };
@@ -514,6 +534,16 @@
 		AB9154E00F9B4DD5009FFEAF /* CoreFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */,
+				AB9DA5E0102AF78F0062E311 /* NCFArray.h */,
+				AB9DA5D8102AF78F0062E311 /* NCFData.cpp */,
+				AB9DA5D9102AF78F0062E311 /* NCFData.h */,
+				AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */,
+				AB9DA5E1102AF78F0062E311 /* NCFDate.h */,
+				AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */,
+				AB9DA5DB102AF78F0062E311 /* NCFDictionary.h */,
+				AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */,
+				AB9DA5DC102AF78F0062E311 /* NCFNumber.h */,
 				AB9156770F9B5328009FFEAF /* NCFObject.cpp */,
 				AB9156780F9B5328009FFEAF /* NCFObject.h */,
 				AB91567A0F9B5328009FFEAF /* NCFString.cpp */,
@@ -976,6 +1006,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */,
+				AB9DA5E7102AF78F0062E311 /* NCFData.cpp in Sources */,
+				AB9DA5EA102AF78F0062E311 /* NCFDate.cpp in Sources */,
+				AB9DA5E8102AF78F0062E311 /* NCFDictionary.cpp in Sources */,
+				AB9DA5EB102AF78F0062E311 /* NCFNumber.cpp in Sources */,
 				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
 				ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */,
@@ -1086,6 +1121,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9DA5E4102AF78F0062E311 /* NCFArray.cpp in Sources */,
+				AB9DA5E2102AF78F0062E311 /* NCFData.cpp in Sources */,
+				AB9DA5E5102AF78F0062E311 /* NCFDate.cpp in Sources */,
+				AB9DA5E3102AF78F0062E311 /* NCFDictionary.cpp in Sources */,
+				AB9DA5E6102AF78F0062E311 /* NCFNumber.cpp in Sources */,
 				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
 				ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */,
