@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NCFObject.h"
+#include "NVariant.h"
 #include "NString.h"
 #include "NFile.h"
 
@@ -39,6 +41,11 @@ public:
 
 	// Convert file positions
 	static int							ConvertPosition(NFilePosition thePosition);
+
+
+	// Convert between Nano/CF objects
+	static NCFObject					ConvertObjectToCF(const NVariant  &theValue);
+	static NVariant						ConvertCFToObject(const NCFObject &theValue);
 };
 
 

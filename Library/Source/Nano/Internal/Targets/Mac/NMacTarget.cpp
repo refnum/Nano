@@ -14,6 +14,14 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSystemUtilities.h"
+#include "NCFNumber.h"
+#include "NCFString.h"
+#include "NCFData.h"
+#include "NCFDate.h"
+#include "NCFArray.h"
+#include "NCFDictionary.h"
+#include "NEncoder.h"
 #include "NMacTarget.h"
 
 
@@ -232,4 +240,111 @@ int NMacTarget::ConvertPosition(NFilePosition thePosition)
 	
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//		NMacTarget::ConvertObjectToCF : Convert a Nano object to a CF object.
+//----------------------------------------------------------------------------
+NCFObject NMacTarget::ConvertObjectToCF(const NVariant &theValue)
+{	NEncoder		theEncoder;
+	NCFObject		theObject;
+	NData			theData;
+
+
+
+	// Convert the object
+	if (theValue.IsType(typeid(bool)))
+		theObject = NCFObject(NSystemUtilities::GetBoolean(theValue) ? kCFBooleanTrue : kCFBooleanFalse, false);
+	
+	else if (theValue.IsNumeric())
+		theObject = NCFNumber(theValue).GetObject();
+	
+	else if (theValue.IsType(typeid(NString)))
+		theObject = NCFString(NSystemUtilities::GetString(theValue)).GetObject();
+	
+	else if (theValue.IsType(typeid(NData)))
+		theObject = NCFData(NSystemUtilities::GetData(theValue)).GetObject();
+	
+	else if (theValue.IsType(typeid(NDate)))
+		theObject = NCFDate(NSystemUtilities::GetDate(theValue)).GetObject();
+	
+	else if (theValue.IsType(typeid(NArray)))
+		theObject = NCFArray(NSystemUtilities::GetArray(theValue)).GetObject();
+	
+	else if (theValue.IsType(typeid(NDictionary)))
+		theObject = NCFDictionary(NSystemUtilities::GetDictionary(theValue)).GetObject();
+
+	else
+		{
+		theData = theEncoder.Encode(theValue);
+		if (theData.IsNotEmpty())
+			theObject = NCFData(theData).GetObject();
+		else
+			NN_LOG("Unable to convert Nano object to CF!");
+		}
+	
+	return(theObject);
+}
+
+
+
+
+
+//============================================================================
+//		NMacTarget::ConvertCFToObject : Convert a CF object to a Nano object.
+//----------------------------------------------------------------------------
+NVariant NMacTarget::ConvertCFToObject(const NCFObject &theObject)
+{	NEncoder		theEncoder;
+	NVariant		theValue;
+	NData			theData;
+	CFTypeID		cfType;
+
+
+
+	// Get the state we need
+	if (!theObject.IsValid())
+		return(theValue);
+
+	cfType = CFGetTypeID(theObject);
+
+
+
+	// Convert the object
+	if (cfType == CFBooleanGetTypeID())
+		theValue = CFBooleanGetValue(theObject) ? true : false;
+
+	else if (cfType == CFNumberGetTypeID())
+		theValue = NNumber(NCFNumber(theObject, false));
+
+	else if (cfType == CFStringGetTypeID())
+		theValue = NString(NCFString(theObject, false));
+
+	else if (cfType == CFDataGetTypeID())
+		{
+		theData  = NData(NCFData(theObject, false));
+		theValue = theEncoder.Decode(theData);
+
+		if (!theValue.IsValid())
+			theValue = theData;
+		}
+
+	else if (cfType == CFDateGetTypeID())
+		theValue = NDate(NCFDate(theObject, false));
+
+	else if (cfType == CFArrayGetTypeID())
+		theValue = NArray(NCFArray(theObject, false));
+
+	else if (cfType == CFDictionaryGetTypeID())
+		theValue = NDictionary(NCFDictionary(theObject, false));
+		
+	else
+		NN_LOG("Unable to convert CF object to Nano!");
+
+	return(theValue);
+}
+
+
 
