@@ -34,6 +34,7 @@
 //
 // These values are considered to be fixed, and will never change.
 static const NString kNEncoderValueKey								= "value";
+static const UInt8   kNEncoderSignature[]							= { 0x4E, 0x65, 0x6E, 0x43 };
 
 
 // Encoded types

@@ -32,7 +32,6 @@
 // Magic
 static const UInt8 kMagicMacXML_1_0[]								= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
 static const UInt8 kMagicMacBinary_1_0[]							= { 0x62, 0x70, 0x6C, 0x69, 0x73, 0x74, 0x30, 0x30 };
-static const UInt8 kMagicNEncoder[]									= { 0x4E, 0x65, 0x4E, 0x63, 0x6F, 0x44, 0x65, 0x52 };
 
 
 // Tokens
@@ -1003,7 +1002,7 @@ bool NPropertyList::EncodeObject(const NVariant &thObject, NData &theData)
 
 	// Encode the object
 	theData = theEncoder.Encode(*theEncodable);
-	theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kMagicNEncoder), kMagicNEncoder);
+	theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kNEncoderSignature), kNEncoderSignature);
 
 	return(theData.IsNotEmpty());
 }
@@ -1023,8 +1022,8 @@ bool NPropertyList::DecodeObject(NVariant &theObject, const NData &theData)
 
 
 	// Get the state we need
-	magicSize = GET_ARRAY_SIZE(kMagicNEncoder);
-	magicPtr  = kMagicNEncoder;
+	magicSize = GET_ARRAY_SIZE(kNEncoderSignature);
+	magicPtr  = kNEncoderSignature;
 	
 	dataSize = theData.GetSize();
 	dataPtr  = theData.GetData();
