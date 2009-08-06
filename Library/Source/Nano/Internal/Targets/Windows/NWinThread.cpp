@@ -129,3 +129,58 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 	// dair, to do
 	theValue |= theMask;
 }
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreCreate : Create a semaphore.
+//----------------------------------------------------------------------------
+NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)
+{
+	// dair, to do
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreDestroy : Destroy a semaphore.
+//----------------------------------------------------------------------------
+void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
+{
+	// dair, to do
+	theSemaphore = NULL;
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreSignal : Signal a semaphore.
+//----------------------------------------------------------------------------
+void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreWait : Wait for a semaphore.
+//----------------------------------------------------------------------------
+bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime theTime)
+{
+	// dair, to do
+	return(false);
+}
+
+
+
+

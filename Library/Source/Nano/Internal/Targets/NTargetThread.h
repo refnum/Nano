@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSemaphore.h"
 
 
 
@@ -45,6 +46,13 @@ public:
 	static void							AtomicAnd32(UInt32 &theValue, UInt32 theMask);
 	static void							AtomicOr32( UInt32 &theValue, UInt32 theMask);
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
+
+
+	// Semaphores
+	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
+	static void							SemaphoreDestroy(NSemaphoreRef &theSemaphore);
+	static void							SemaphoreSignal( NSemaphoreRef  theSemaphore);
+	static bool							SemaphoreWait(   NSemaphoreRef  theSemaphore, NTime waitFor=kNTimeForever);
 };
 
 

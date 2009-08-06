@@ -211,15 +211,19 @@ static const NTime kNTimeForever									= -1.0;
 // Status
 static const NStatus kNoErr											= 0;
 static const NStatus kNErrParam										= -1;
-static const NStatus kNErrTimeout									= -2;
-static const NStatus kNErrMemory									= -3;
-static const NStatus kNErrMalformed									= -4;
-static const NStatus kNErrPermission								= -5;
-static const NStatus kNErrDiskFull									= -6;
-static const NStatus kNErrNotFound									= -7;
-static const NStatus kNErrNotSupported								= -8;
-static const NStatus kNErrExhaustedSrc								= -9;
-static const NStatus kNErrExhaustedDst								= -10;
+static const NStatus kNErrInternal									= -2;
+static const NStatus kNErrBusy										= -3;
+static const NStatus kNErrTimeout									= -4;
+static const NStatus kNErrCancelled									= -5;
+static const NStatus kNErrMalformed									= -6;
+static const NStatus kNErrPermission								= -7;
+static const NStatus kNErrLocked									= -8;
+static const NStatus kNErrDiskFull									= -9;
+static const NStatus kNErrMemory									= -10;
+static const NStatus kNErrNotFound									= -11;
+static const NStatus kNErrNotSupported								= -12;
+static const NStatus kNErrExhaustedSrc								= -13;
+static const NStatus kNErrExhaustedDst								= -14;
 
 
 

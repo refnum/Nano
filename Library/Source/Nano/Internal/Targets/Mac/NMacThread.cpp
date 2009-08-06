@@ -15,10 +15,14 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <unistd.h>
+#include <semaphore.h>
 #include <sys/sysctl.h>
 
 #include <libKern/OSAtomic.h>
 
+#include "NThreadUtilities.h"
+#include "NTimeUtilities.h"
+#include "NMathUtilities.h"
 #include "NTargetThread.h"
 
 
@@ -161,4 +165,104 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 	// Update the value
 	OSAtomicOr32Barrier(theMask, (uint32_t *) &theValue);
 }
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreCreate : Create a semaphore.
+//----------------------------------------------------------------------------
+NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)
+{	sem_t		semRef;
+	int			sysErr;
+
+
+
+	// Create the semaphore
+	semRef = 0;
+	sysErr = sem_init(&semRef, 0, theValue);
+	NN_ASSERT_NOERR(sysErr);
+
+	return((NSemaphoreRef) semRef);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreDestroy : Destroy a semaphore.
+//----------------------------------------------------------------------------
+void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
+{	sem_t		semRef = (sem_t) theSemaphore;
+	int			sysErr;
+
+
+
+	// Destroy the semaphore
+	sysErr = sem_destroy(&semRef);
+	NN_ASSERT_NOERR(sysErr);
+
+	theSemaphore = NULL;
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreSignal : Signal a semaphore.
+//----------------------------------------------------------------------------
+void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
+{	sem_t	semRef = (sem_t) theSemaphore;
+	int		sysErr;
+
+
+
+	// Signal the semaphore
+    sysErr = sem_post(&semRef);
+	NN_ASSERT_NOERR(sysErr);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreWait : Wait for a semaphore.
+//----------------------------------------------------------------------------
+bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
+{	sem_t		semRef = (sem_t) theSemaphore;
+	NTime		stopTime;
+	int			sysErr;
+
+
+
+	// Wait with timeout
+	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		do
+			{
+			sysErr = sem_trywait(&semRef);
+			if (sysErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
+				{
+				NThreadUtilities::Sleep(kNThreadSpinTime);
+				sysErr = kNoErr;
+				}
+			}
+		while (sysErr != kNoErr);
+		}
+
+
+	// Wait for the semaphore
+	else
+		sysErr = sem_wait(&semRef);
+
+	return(sysErr == kNoErr);
+}
+
+
+
 
