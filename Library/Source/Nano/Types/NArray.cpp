@@ -384,19 +384,11 @@ void NArray::AppendValue(const NVariant &theValue)
 //		NArray::GetValueBoolean : Get a boolean value.
 //----------------------------------------------------------------------------
 bool NArray::GetValueBoolean(NIndex theIndex) const
-{	bool		theValue;
-	NVariant	rawValue;
-
+{
 
 
 	// Get the value
-	theValue = false;
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to bool", theIndex);
-
-	return(theValue);
+	return(NSystemUtilities::GetBoolean(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -407,20 +399,11 @@ bool NArray::GetValueBoolean(NIndex theIndex) const
 //		NArray::GetValueSInt32 : Get a SInt32 value.
 //----------------------------------------------------------------------------
 SInt32 NArray::GetValueSInt32(NIndex theIndex) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	SInt32		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0;
-	rawValue = GetValue(theIndex);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt32(theValue))
-		NN_LOG("Unable to convert [%d] to SInt32", theIndex);
-
-	return(theValue);
+	return(NSystemUtilities::GetSInt32(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -431,20 +414,11 @@ SInt32 NArray::GetValueSInt32(NIndex theIndex) const
 //		NArray::GetValueSInt64 : Get a SInt64 value.
 //----------------------------------------------------------------------------
 SInt64 NArray::GetValueSInt64(NIndex theIndex) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	SInt64		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0;
-	rawValue = GetValue(theIndex);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt64(theValue))
-		NN_LOG("Unable to convert [%d] to SInt64", theIndex);
-
-	return(theValue);
+	return(NSystemUtilities::GetSInt64(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -455,20 +429,11 @@ SInt64 NArray::GetValueSInt64(NIndex theIndex) const
 //		NArray::GetValueFloat32 : Get a Float32 value.
 //----------------------------------------------------------------------------
 Float32 NArray::GetValueFloat32(NIndex theIndex) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	Float32		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0.0f;
-	rawValue = GetValue(theIndex);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat32(theValue))
-		NN_LOG("Unable to convert [%d] to Float32", theIndex);
-
-	return(theValue);
+	return(NSystemUtilities::GetFloat32(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -479,20 +444,11 @@ Float32 NArray::GetValueFloat32(NIndex theIndex) const
 //		NArray::GetValueFloat64 : Get a Float64 value.
 //----------------------------------------------------------------------------
 Float64 NArray::GetValueFloat64(NIndex theIndex) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	Float64		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0.0;
-	rawValue = GetValue(theIndex);
-
-	if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat64(theValue))
-		NN_LOG("Unable to convert [%d] to Float64", theIndex);
-
-	return(theValue);
+	return(NSystemUtilities::GetFloat64(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -503,172 +459,11 @@ Float64 NArray::GetValueFloat64(NIndex theIndex) const
 //		NArray::GetValueString : Get a string value.
 //----------------------------------------------------------------------------
 NString NArray::GetValueString(NIndex theIndex) const
-{	NString		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NString", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValuePoint : Get a point value.
-//----------------------------------------------------------------------------
-NPoint NArray::GetValuePoint(NIndex theIndex) const
-{	NPoint		theValue;
-	NVariant	rawValue;
-
+{
 
 
 	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NPoint", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValueSize : Get a size value.
-//----------------------------------------------------------------------------
-NSize NArray::GetValueSize(NIndex theIndex) const
-{	NSize		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NSize", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValueRectangle : Get a rectangle value.
-//----------------------------------------------------------------------------
-NRectangle NArray::GetValueRectangle(NIndex theIndex) const
-{	NRectangle	theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NRectangle", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValueColor : Get a color value.
-//----------------------------------------------------------------------------
-NColor NArray::GetValueColor(NIndex theIndex) const
-{	NColor		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NColor", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValueDate : Get a date value.
-//----------------------------------------------------------------------------
-NDate NArray::GetValueDate(NIndex theIndex) const
-{	NDate		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NDate", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValueArray : Get an array value.
-//----------------------------------------------------------------------------
-NArray NArray::GetValueArray(NIndex theIndex) const
-{	NArray		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NArray", theIndex);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NArray::GetValueDictionary : Get a dictionary value.
-//----------------------------------------------------------------------------
-NDictionary NArray::GetValueDictionary(NIndex theIndex) const
-{	NDictionary		theValue;
-	NVariant		rawValue;
-
-
-
-	// Get the value
-	rawValue = GetValue(theIndex);
-
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NDictionary", theIndex);
-
-	return(theValue);
+	return(NSystemUtilities::GetString(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -679,18 +474,116 @@ NDictionary NArray::GetValueDictionary(NIndex theIndex) const
 //		NArray::GetValueData : Get a data value.
 //----------------------------------------------------------------------------
 NData NArray::GetValueData(NIndex theIndex) const
-{	NData		theValue;
-	NVariant	rawValue;
-
+{
 
 
 	// Get the value
-	rawValue = GetValue(theIndex);
+	return(NSystemUtilities::GetData(GetValue(theIndex), GetDebugID(theIndex)));
+}
 
-	if (!rawValue.GetValue(theValue))
-		NN_LOG("Unable to convert [%d] to NData", theIndex);
 
-	return(theValue);
+
+
+
+//============================================================================
+//		NArray::GetValueDate : Get a date value.
+//----------------------------------------------------------------------------
+NDate NArray::GetValueDate(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetDate(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
+//		NArray::GetValueColor : Get a color value.
+//----------------------------------------------------------------------------
+NColor NArray::GetValueColor(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetColor(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
+//		NArray::GetValuePoint : Get a point value.
+//----------------------------------------------------------------------------
+NPoint NArray::GetValuePoint(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetPoint(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
+//		NArray::GetValueSize : Get a size value.
+//----------------------------------------------------------------------------
+NSize NArray::GetValueSize(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetSize(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
+//		NArray::GetValueRectangle : Get a rectangle value.
+//----------------------------------------------------------------------------
+NRectangle NArray::GetValueRectangle(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetRectangle(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
+//		NArray::GetValueArray : Get an array value.
+//----------------------------------------------------------------------------
+NArray NArray::GetValueArray(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetArray(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
+//		NArray::GetValueDictionary : Get a dictionary value.
+//----------------------------------------------------------------------------
+NDictionary NArray::GetValueDictionary(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetDictionary(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -1063,5 +956,23 @@ NArrayCompareFunctor NArray::GetCompareFunctor(const NArrayCompareFunctor &theFu
 }
 
 
+
+
+
+//============================================================================
+//		NArray::GetDebugID : Get the debug ID for a value.
+//----------------------------------------------------------------------------
+NString NArray::GetDebugID(NIndex theIndex) const
+{	NString		theID;
+
+
+
+	// Get the ID
+#if NN_DEBUG
+	theID.Format("%ld", theIndex);
+#endif
+
+	return(theID);
+}
 
 

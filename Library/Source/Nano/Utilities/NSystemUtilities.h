@@ -16,6 +16,16 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NArray.h"
+#include "NColor.h"
+#include "NData.h"
+#include "NDate.h"
+#include "NDictionary.h"
+#include "NPoint.h"
+#include "NRectangle.h"
+#include "NSize.h"
+#include "NString.h"
+#include "NVariant.h"
 
 
 
@@ -69,8 +79,23 @@
 //----------------------------------------------------------------------------
 class NSystemUtilities {
 public:
-
-
+	// Get a type'd value
+	//
+	// If the value can not be returned as the specified type, 0/empty is returned.
+	static bool							GetBoolean(   const NVariant &theValue, const NString &debugID="");
+	static SInt32						GetSInt32(    const NVariant &theValue, const NString &debugID="");
+	static SInt64						GetSInt64(    const NVariant &theValue, const NString &debugID="");
+	static Float32						GetFloat32(   const NVariant &theValue, const NString &debugID="");
+	static Float64						GetFloat64(   const NVariant &theValue, const NString &debugID="");
+	static NString						GetString(    const NVariant &theValue, const NString &debugID="");
+	static NData						GetData(      const NVariant &theValue, const NString &debugID="");
+	static NDate						GetDate(      const NVariant &theValue, const NString &debugID="");
+	static NColor						GetColor(     const NVariant &theValue, const NString &debugID="");
+	static NPoint						GetPoint(     const NVariant &theValue, const NString &debugID="");
+	static NSize						GetSize(      const NVariant &theValue, const NString &debugID="");
+	static NRectangle					GetRectangle( const NVariant &theValue, const NString &debugID="");
+	static NArray						GetArray(     const NVariant &theValue, const NString &debugID="");
+	static NDictionary					GetDictionary(const NVariant &theValue, const NString &debugID="");
 };
 
 

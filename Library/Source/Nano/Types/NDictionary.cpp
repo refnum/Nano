@@ -332,21 +332,11 @@ void NDictionary::SetValue(const NString &theKey, const NVariant &theValue)
 //		NDictionary::GetValueBoolean : Get a boolean value.
 //----------------------------------------------------------------------------
 bool NDictionary::GetValueBoolean(const NString &theKey) const
-{	bool		theValue;
-	NVariant	rawValue;
-
+{
 
 
 	// Get the value
-	theValue = false;
-	
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to bool", theKey.GetUTF8());
-		}
-
-	return(theValue);
+	return(NSystemUtilities::GetBoolean(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -357,22 +347,11 @@ bool NDictionary::GetValueBoolean(const NString &theKey) const
 //		NDictionary::GetValueSInt32 : Get a SInt32 value.
 //----------------------------------------------------------------------------
 SInt32 NDictionary::GetValueSInt32(const NString &theKey) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	SInt32		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0;
-	
-	if (GetValue(theKey, rawValue))
-		{
-		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt32(theValue))
-			NN_LOG("Unable to convert [%s] to SInt32", theKey.GetUTF8());
-		}
-
-	return(theValue);
+	return(NSystemUtilities::GetSInt32(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -383,22 +362,11 @@ SInt32 NDictionary::GetValueSInt32(const NString &theKey) const
 //		NDictionary::GetValueSInt64 : Get a SInt64 value.
 //----------------------------------------------------------------------------
 SInt64 NDictionary::GetValueSInt64(const NString &theKey) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	SInt64		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0;
-	
-	if (GetValue(theKey, rawValue))
-		{
-		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueSInt64(theValue))
-			NN_LOG("Unable to convert [%s] to SInt64", theKey.GetUTF8());
-		}
-
-	return(theValue);
+	return(NSystemUtilities::GetSInt64(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -409,22 +377,11 @@ SInt64 NDictionary::GetValueSInt64(const NString &theKey) const
 //		NDictionary::GetValueFloat32 : Get a Float32 value.
 //----------------------------------------------------------------------------
 Float32 NDictionary::GetValueFloat32(const NString &theKey) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	Float32		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0.0f;
-	
-	if (GetValue(theKey, rawValue))
-		{
-		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat32(theValue))
-			NN_LOG("Unable to convert [%s] to Float32", theKey.GetUTF8());
-		}
-
-	return(theValue);
+	return(NSystemUtilities::GetFloat32(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -435,22 +392,11 @@ Float32 NDictionary::GetValueFloat32(const NString &theKey) const
 //		NDictionary::GetValueFloat64 : Get a Float64 value.
 //----------------------------------------------------------------------------
 Float64 NDictionary::GetValueFloat64(const NString &theKey) const
-{	NNumber		theNumber;
-	NVariant	rawValue;
-	Float64		theValue;
-
+{
 
 
 	// Get the value
-	theValue = 0.0;
-	
-	if (GetValue(theKey, rawValue))
-		{
-		if (!theNumber.SetValue(rawValue) || !theNumber.GetValueFloat64(theValue))
-			NN_LOG("Unable to convert [%s] to Float64", theKey.GetUTF8());
-		}
-
-	return(theValue);
+	return(NSystemUtilities::GetFloat64(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -461,180 +407,11 @@ Float64 NDictionary::GetValueFloat64(const NString &theKey) const
 //		NDictionary::GetValueString : Get a string value.
 //----------------------------------------------------------------------------
 NString NDictionary::GetValueString(const NString &theKey) const
-{	NString		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NString", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValuePoint : Get a point value.
-//----------------------------------------------------------------------------
-NPoint NDictionary::GetValuePoint(const NString &theKey) const
-{	NPoint		theValue;
-	NVariant	rawValue;
-
+{
 
 
 	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NPoint", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueSize : Get a size value.
-//----------------------------------------------------------------------------
-NSize NDictionary::GetValueSize(const NString &theKey) const
-{	NSize		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NSize", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueRectangle : Get a rectangle value.
-//----------------------------------------------------------------------------
-NRectangle NDictionary::GetValueRectangle(const NString &theKey) const
-{	NRectangle	theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NRectangle", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueColor : Get a color value.
-//----------------------------------------------------------------------------
-NColor NDictionary::GetValueColor(const NString &theKey) const
-{	NColor		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NColor", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueDate : Get a date value.
-//----------------------------------------------------------------------------
-NDate NDictionary::GetValueDate(const NString &theKey) const
-{	NDate		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NDate", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueArray : Get an array value.
-//----------------------------------------------------------------------------
-NArray NDictionary::GetValueArray(const NString &theKey) const
-{	NArray		theValue;
-	NVariant	rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NArray", theKey.GetUTF8());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueDictionary : Get a dictionary value.
-//----------------------------------------------------------------------------
-NDictionary NDictionary::GetValueDictionary(const NString &theKey) const
-{	NDictionary		theValue;
-	NVariant		rawValue;
-
-
-
-	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NDictionary", theKey.GetUTF8());
-		}
-
-	return(theValue);
+	return(NSystemUtilities::GetString(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -645,19 +422,116 @@ NDictionary NDictionary::GetValueDictionary(const NString &theKey) const
 //		NDictionary::GetValueData : Get a data value.
 //----------------------------------------------------------------------------
 NData NDictionary::GetValueData(const NString &theKey) const
-{	NData		theValue;
-	NVariant	rawValue;
-
+{
 
 
 	// Get the value
-	if (GetValue(theKey, rawValue))
-		{
-		if (!rawValue.GetValue(theValue))
-			NN_LOG("Unable to convert [%s] to NData", theKey.GetUTF8());
-		}
+	return(NSystemUtilities::GetData(GetValue(theKey), GetDebugID(theKey)));
+}
 
-	return(theValue);
+
+
+
+
+//============================================================================
+//		NDictionary::GetValueDate : Get a date value.
+//----------------------------------------------------------------------------
+NDate NDictionary::GetValueDate(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetDate(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetValueColor : Get a color value.
+//----------------------------------------------------------------------------
+NColor NDictionary::GetValueColor(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetColor(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetValuePoint : Get a point value.
+//----------------------------------------------------------------------------
+NPoint NDictionary::GetValuePoint(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetPoint(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetValueSize : Get a size value.
+//----------------------------------------------------------------------------
+NSize NDictionary::GetValueSize(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetSize(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetValueRectangle : Get a rectangle value.
+//----------------------------------------------------------------------------
+NRectangle NDictionary::GetValueRectangle(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetRectangle(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetValueArray : Get an array value.
+//----------------------------------------------------------------------------
+NArray NDictionary::GetValueArray(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetArray(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetValueDictionary : Get a dictionary value.
+//----------------------------------------------------------------------------
+NDictionary NDictionary::GetValueDictionary(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetDictionary(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -675,23 +549,6 @@ const NDictionaryValue *NDictionary::GetNullValue(void) const
 
 	// Get the value
 	return(&sNullValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValue : Get a value.
-//----------------------------------------------------------------------------
-bool NDictionary::GetValue(const NString &theKey, NVariant &theValue) const
-{
-
-
-	// Get the value
-	theValue = GetValue(theKey);
-	
-	return(theValue.IsValid());
 }
 
 
@@ -801,8 +658,31 @@ void NDictionary::DecodeSelf(const NEncoder &theEncoder)
 			
 			case kNEncodedUnknown:
 			default:
-				NN_LOG("Unknown encoder type (%d)(%@) - skipping", theType, theKey);
+				NN_LOG("Unknown encoder type %d (%@) - skipping", theType, theKey);
 				break;
 			}
 		}
 }
+
+
+
+
+
+//============================================================================
+//		NDictionary::GetDebugID : Get the debug ID for a value.
+//----------------------------------------------------------------------------
+NString NDictionary::GetDebugID(const NString &theKey) const
+{	NString		theID;
+
+
+
+	// Get the ID
+#if NN_DEBUG
+	if (HasKey(theKey))
+		theID = theKey;
+#endif
+
+	return(theID);
+}
+
+

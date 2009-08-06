@@ -125,14 +125,14 @@ public:
 	Float32								GetValueFloat32(   NIndex theIndex) const;
 	Float64								GetValueFloat64(   NIndex theIndex) const;
 	NString								GetValueString(    NIndex theIndex) const;
+	NData								GetValueData(      NIndex theIndex) const;
+	NDate								GetValueDate(      NIndex theIndex) const;
+	NColor								GetValueColor(     NIndex theIndex) const;
 	NPoint								GetValuePoint(     NIndex theIndex) const;
 	NSize								GetValueSize(      NIndex theIndex) const;
 	NRectangle							GetValueRectangle( NIndex theIndex) const;
-	NColor								GetValueColor(     NIndex theIndex) const;
-	NDate								GetValueDate(      NIndex theIndex) const;
 	NArray								GetValueArray(     NIndex theIndex) const;
 	NDictionary							GetValueDictionary(NIndex theIndex) const;
-	NData								GetValueData(      NIndex theIndex) const;
 
 
 	// Get/set an array of values
@@ -161,6 +161,7 @@ protected:
 
 private:
 	NArrayCompareFunctor				GetCompareFunctor(const NArrayCompareFunctor &theFunctor) const;
+	NString								GetDebugID(NIndex theIndex)                               const;
 
 
 private:

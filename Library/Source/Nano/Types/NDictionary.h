@@ -117,14 +117,14 @@ public:
 	Float32								GetValueFloat32(   const NString &theKey) const;
 	Float64								GetValueFloat64(   const NString &theKey) const;
 	NString								GetValueString(    const NString &theKey) const;
+	NData								GetValueData(      const NString &theKey) const;
+	NDate								GetValueDate(      const NString &theKey) const;
+	NColor								GetValueColor(     const NString &theKey) const;
 	NPoint								GetValuePoint(     const NString &theKey) const;
 	NSize								GetValueSize(      const NString &theKey) const;
 	NRectangle							GetValueRectangle( const NString &theKey) const;
-	NColor								GetValueColor(     const NString &theKey) const;
-	NDate								GetValueDate(      const NString &theKey) const;
 	NArray								GetValueArray(     const NString &theKey) const;
 	NDictionary							GetValueDictionary(const NString &theKey) const;
-	NData								GetValueData(      const NString &theKey) const;
 
 
 protected:
@@ -138,10 +138,7 @@ protected:
 
 
 private:
-	bool								GetValue(const NString &theKey, NVariant &theValue) const;
-
-
-private:
+	NString								GetDebugID(const NString &theKey) const;
 
 
 };

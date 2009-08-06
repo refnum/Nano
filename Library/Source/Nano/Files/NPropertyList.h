@@ -79,22 +79,22 @@ private:
 	NData								EncodeMacBinary_1_0(const NDictionary &theState);
 	NDictionary							DecodeMacBinary_1_0(const NData       &theData);
 
-	NXMLNode							*EncodeMacXML_1_0_Dictionary(const NDictionary &theValue);
-	NXMLNode							*EncodeMacXML_1_0_Array(     const NArray      &theValue);
-	NXMLNode							*EncodeMacXML_1_0_String(    const NString     &theValue);
 	NXMLNode							*EncodeMacXML_1_0_Boolean(         bool         theValue);
 	NXMLNode							*EncodeMacXML_1_0_Number(    const NNumber     &theValue);
-	NXMLNode							*EncodeMacXML_1_0_Date(      const NDate       &theValue);
+	NXMLNode							*EncodeMacXML_1_0_String(    const NString     &theValue);
 	NXMLNode							*EncodeMacXML_1_0_Data(      const NData       &theValue);
+	NXMLNode							*EncodeMacXML_1_0_Date(      const NDate       &theValue);
+	NXMLNode							*EncodeMacXML_1_0_Array(     const NArray      &theValue);
+	NXMLNode							*EncodeMacXML_1_0_Dictionary(const NDictionary &theValue);
 
-	NDictionary							DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode);
-	NArray								DecodeMacXML_1_0_Array(     const NXMLNode *theNode);
-	NString								DecodeMacXML_1_0_String(    const NXMLNode *theNode);
 	bool								DecodeMacXML_1_0_Boolean(   const NXMLNode *theNode);
 	SInt64								DecodeMacXML_1_0_Integer(   const NXMLNode *theNode);
 	Float64								DecodeMacXML_1_0_Real(      const NXMLNode *theNode);
-	NDate								DecodeMacXML_1_0_Date(      const NXMLNode *theNode);
+	NString								DecodeMacXML_1_0_String(    const NXMLNode *theNode);
 	NData								DecodeMacXML_1_0_Data(      const NXMLNode *theNode);
+	NDate								DecodeMacXML_1_0_Date(      const NXMLNode *theNode);
+	NArray								DecodeMacXML_1_0_Array(     const NXMLNode *theNode);
+	NDictionary							DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode);
 
 	bool								EncodeObject(const NVariant &theObject,       NData &theData);
 	bool								DecodeObject(      NVariant &theObject, const NData &theData);

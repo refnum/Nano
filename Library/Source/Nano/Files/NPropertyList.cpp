@@ -395,170 +395,6 @@ NDictionary NPropertyList::DecodeMacBinary_1_0(const NData &/*theData*/)
 
 
 //============================================================================
-//		NPropertyList::EncodeMacXML_1_0_Dictionary : Encode a dictionary.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue)
-{	NXMLNode					*theNode, *nodeKey, *nodeValue;
-	NVariant					theItem;
-	NStringList					theKeys;
-	NStringListConstIterator	theIter;
-	NData						theData;
-	NString						theKey;
-
-
-
-	// Get the state we need
-	theKeys = theValue.GetKeys(true);
-	theNode = new NXMLNode(kXMLNodeElement, kTokenDictionary);
-
-
-
-	// Encode the value
-	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
-		{
-		// Get the state we need
-		theKey  = *theIter;
-		theItem = theValue.GetValue(theKey);
-		
-		
-		
-		// Create the key-value pair
-		nodeKey = new NXMLNode(kXMLNodeElement, kTokenKey);
-		nodeKey->SetElementContents(theKey);
-
-		if (theItem.IsType(typeid(NDictionary)))
-			nodeValue = EncodeMacXML_1_0_Dictionary(theValue.GetValueDictionary(theKey));
-
-		else if (theItem.IsType(typeid(NArray)))
-			nodeValue = EncodeMacXML_1_0_Array(theValue.GetValueArray(theKey));
-
-		else if (theItem.IsType(typeid(NString)))
-			nodeValue = EncodeMacXML_1_0_String(theValue.GetValueString(theKey));
-
-		else if (theItem.IsType(typeid(bool)))
-			nodeValue = EncodeMacXML_1_0_Boolean(theValue.GetValueBoolean(theKey));
-
-		else if (theItem.IsNumeric())
-			nodeValue = EncodeMacXML_1_0_Number(theValue.GetValue(theKey));
-
-		else if (theItem.IsType(typeid(NDate)))
-			nodeValue = EncodeMacXML_1_0_Date(theValue.GetValueDate(theKey));
-
-		else if (theItem.IsType(typeid(NData)))
-			nodeValue = EncodeMacXML_1_0_Data(theValue.GetValueData(theKey));
-		
-		else if (EncodeObject(theItem, theData))
-			nodeValue = EncodeMacXML_1_0_Data(theData);
-
-		else
-			{
-			NN_LOG("Unknown property list value!");
-			nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
-			}
-
-
-
-		// Add the key-value pair
-		theNode->AddChild(nodeKey);
-		theNode->AddChild(nodeValue);
-		}
-	 
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML_1_0_Array : Encode an array.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
-{	NXMLNode		*theNode, *nodeValue;
-	NIndex			n, theSize;
-	NData			theData;
-	NVariant		theItem;
-
-
-
-	// Get the state we need
-	theSize = theValue.GetSize();
-	theNode = new NXMLNode(kXMLNodeElement, kTokenArray);
-
-
-
-	// Encode the value
-	for (n = 0; n < theSize; n++)
-		{
-		// Get the state we need
-		theItem = theValue.GetValue(n);
-
-
-
-		// Create the value
-		if (theItem.IsType(typeid(NDictionary)))
-			nodeValue = EncodeMacXML_1_0_Dictionary(theValue.GetValueDictionary(n));
-
-		else if (theItem.IsType(typeid(NArray)))
-			nodeValue = EncodeMacXML_1_0_Array(theValue.GetValueArray(n));
-
-		else if (theItem.IsType(typeid(NString)))
-			nodeValue = EncodeMacXML_1_0_String(theValue.GetValueString(n));
-
-		else if (theItem.IsType(typeid(bool)))
-			nodeValue = EncodeMacXML_1_0_Boolean(theValue.GetValueBoolean(n));
-
-		else if (theItem.IsNumeric())
-			nodeValue = EncodeMacXML_1_0_Number(theValue.GetValue(n));
-
-		else if (theItem.IsType(typeid(NDate)))
-			nodeValue = EncodeMacXML_1_0_Date(theValue.GetValueDate(n));
-
-		else if (theItem.IsType(typeid(NData)))
-			nodeValue = EncodeMacXML_1_0_Data(theValue.GetValueData(n));
-		
-		else if (EncodeObject(theItem, theData))
-			nodeValue = EncodeMacXML_1_0_Data(theData);
-		
-		else
-			{
-			NN_LOG("Unknown property list value!");
-			nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
-			}
-
-
-
-		// Add the value
-		theNode->AddChild(nodeValue);
-		}
-	 
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML_1_0_String : Encode a string.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML_1_0_String(const NString &theValue)
-{	NXMLNode	*theNode;
-
-
-
-	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, kTokenString);
-	theNode->SetElementContents(theValue);
-	
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
 //		NPropertyList::EncodeMacXML_1_0_Boolean : Encode a bool.
 //----------------------------------------------------------------------------
 NXMLNode *NPropertyList::EncodeMacXML_1_0_Boolean(bool theValue)
@@ -613,26 +449,16 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 
 
 //============================================================================
-//		NPropertyList::EncodeMacXML_1_0_Date : Encode a date.
+//		NPropertyList::EncodeMacXML_1_0_String : Encode a string.
 //----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML_1_0_Date(const NDate &theValue)
-{	NString				valueText;
-	NGregorianDate		gregDate;
-	NXMLNode			*theNode;
-
-
-
-	// Get the state we ned
-	gregDate = theValue.GetGregorianDate();
-
-	valueText.Format(kFormatISO8601, gregDate.year, gregDate.month,  gregDate.day,
-									 gregDate.hour, gregDate.minute, (UInt32) gregDate.second);
+NXMLNode *NPropertyList::EncodeMacXML_1_0_String(const NString &theValue)
+{	NXMLNode	*theNode;
 
 
 
 	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, kTokenDate);
-	theNode->SetElementContents(valueText);
+	theNode = new NXMLNode(kXMLNodeElement, kTokenString);
+	theNode->SetElementContents(theValue);
 	
 	return(theNode);
 }
@@ -668,79 +494,28 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Data(const NData &theValue)
 
 
 //============================================================================
-//		NPropertyList::DecodeMacXML_1_0_Dictionary : Decode a dictionary.
+//		NPropertyList::EncodeMacXML_1_0_Date : Encode a date.
 //----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
-{	const NXMLNode					*nodeKey, *nodeValue;
-	const NXMLNodeList				*theChildren;
-	NVariant						theObject;
-	NDictionary						theValue;
-	NXMLNodeListConstIterator		theIter;
-	NData							theData;
-	NString							theKey;
+NXMLNode *NPropertyList::EncodeMacXML_1_0_Date(const NDate &theValue)
+{	NString				valueText;
+	NGregorianDate		gregDate;
+	NXMLNode			*theNode;
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenDictionary));
+	// Get the state we ned
+	gregDate = theValue.GetGregorianDate();
+
+	valueText.Format(kFormatISO8601, gregDate.year, gregDate.month,  gregDate.day,
+									 gregDate.hour, gregDate.minute, (UInt32) gregDate.second);
 
 
 
-	// Get the state we need
-	theChildren = theNode->GetChildren();
-	NN_ASSERT(NMathUtilities::IsEven(theChildren->size()));
-
-
-
-	// Decode the value
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); )
-		{
-		// Get the state we need
-		nodeKey   = *theIter++;
-		nodeValue = *theIter++;
-
-
-		// Get the key
-		NN_ASSERT(nodeKey->IsElement(kTokenKey));
-		theKey = nodeKey->GetElementContents();
-		
-		
-		// Get the value
-		if (nodeValue->IsElement(kTokenDictionary))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_Dictionary(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenArray))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_Array(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenString))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_String(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_Boolean(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenInteger))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_Integer(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenReal))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_Real(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenDate))
-			theValue.SetValue(theKey, DecodeMacXML_1_0_Date(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenData))
-			{
-			theData = DecodeMacXML_1_0_Data(nodeValue);
-			if (DecodeObject(theObject, theData))
-				theValue.SetValue(theKey, theObject);
-			else
-				theValue.SetValue(theKey, theData);
-			}
-		
-		else
-			NN_LOG("Unknown property list value [%@] [%@]!", theKey, nodeValue->GetTextValue());
-		}
-
-	return(theValue);
+	// Encode the value
+	theNode = new NXMLNode(kXMLNodeElement, kTokenDate);
+	theNode->SetElementContents(valueText);
+	
+	return(theNode);
 }
 
 
@@ -748,71 +523,68 @@ NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
 
 
 //============================================================================
-//		NPropertyList::DecodeMacXML_1_0_Array : Decode an array.
+//		NPropertyList::EncodeMacXML_1_0_Array : Encode an array.
 //----------------------------------------------------------------------------
-NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
-{	const NXMLNodeList				*theChildren;
-	const NXMLNode					*nodeValue;
-	NVariant						theObject;
-	NArray							theValue;
-	NData							theData;
-	NXMLNodeListConstIterator		theIter;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenArray));
+NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
+{	NXMLNode		*theNode, *nodeValue;
+	NIndex			n, theSize;
+	NData			theData;
+	NVariant		theItem;
 
 
 
 	// Get the state we need
-	theChildren = theNode->GetChildren();
+	theSize = theValue.GetSize();
+	theNode = new NXMLNode(kXMLNodeElement, kTokenArray);
 
 
 
-	// Decode the value
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+	// Encode the value
+	for (n = 0; n < theSize; n++)
 		{
 		// Get the state we need
-		nodeValue = *theIter;
-		
-		
-		// Get the value
-		if (nodeValue->IsElement(kTokenDictionary))
-			theValue.AppendValue(DecodeMacXML_1_0_Dictionary(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenArray))
-			theValue.AppendValue(DecodeMacXML_1_0_Array(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenString))
-			theValue.AppendValue(DecodeMacXML_1_0_String(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
-			theValue.AppendValue(DecodeMacXML_1_0_Boolean(nodeValue));
+		theItem = theValue.GetValue(n);
 
-		else if (nodeValue->IsElement(kTokenInteger))
-			theValue.AppendValue(DecodeMacXML_1_0_Integer(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenReal))
-			theValue.AppendValue(DecodeMacXML_1_0_Real(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenDate))
-			theValue.AppendValue(DecodeMacXML_1_0_Date(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenData))
-			{
-			theData = DecodeMacXML_1_0_Data(nodeValue);
-			if (DecodeObject(theObject, theData))
-				theValue.AppendValue(theObject);
-			else
-				theValue.AppendValue(theData);
-			}
+
+
+		// Create the value
+		if (theItem.IsType(typeid(bool)))
+			nodeValue = EncodeMacXML_1_0_Boolean(theValue.GetValueBoolean(n));
+
+		else if (theItem.IsNumeric())
+			nodeValue = EncodeMacXML_1_0_Number(theValue.GetValue(n));
+
+		else if (theItem.IsType(typeid(NString)))
+			nodeValue = EncodeMacXML_1_0_String(theValue.GetValueString(n));
+
+		else if (theItem.IsType(typeid(NData)))
+			nodeValue = EncodeMacXML_1_0_Data(theValue.GetValueData(n));
+
+		else if (theItem.IsType(typeid(NDate)))
+			nodeValue = EncodeMacXML_1_0_Date(theValue.GetValueDate(n));
+
+		else if (theItem.IsType(typeid(NArray)))
+			nodeValue = EncodeMacXML_1_0_Array(theValue.GetValueArray(n));
+
+		else if (theItem.IsType(typeid(NDictionary)))
+			nodeValue = EncodeMacXML_1_0_Dictionary(theValue.GetValueDictionary(n));
+
+		else if (EncodeObject(theItem, theData))
+			nodeValue = EncodeMacXML_1_0_Data(theData);
 		
 		else
-			NN_LOG("Unknown property list value [%@]!", nodeValue->GetTextValue());
+			{
+			NN_LOG("Unknown property list value!");
+			nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+			}
+
+
+
+		// Add the value
+		theNode->AddChild(nodeValue);
 		}
-	
-	return(theValue);
+	 
+	return(theNode);
 }
 
 
@@ -820,22 +592,75 @@ NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
 
 
 //============================================================================
-//		NPropertyList::DecodeMacXML_1_0_String : Decode a string.
+//		NPropertyList::EncodeMacXML_1_0_Dictionary : Encode a dictionary.
 //----------------------------------------------------------------------------
-NString NPropertyList::DecodeMacXML_1_0_String(const NXMLNode *theNode)
-{	NString		theValue;
+NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue)
+{	NXMLNode					*theNode, *nodeKey, *nodeValue;
+	NVariant					theItem;
+	NStringList					theKeys;
+	NStringListConstIterator	theIter;
+	NData						theData;
+	NString						theKey;
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenString));
+	// Get the state we need
+	theKeys = theValue.GetKeys(true);
+	theNode = new NXMLNode(kXMLNodeElement, kTokenDictionary);
 
 
 
-	// Decode the value
-	theValue = theNode->GetElementContents();
-	
-	return(theValue);
+	// Encode the value
+	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
+		{
+		// Get the state we need
+		theKey  = *theIter;
+		theItem = theValue.GetValue(theKey);
+		
+		
+		
+		// Create the key-value pair
+		nodeKey = new NXMLNode(kXMLNodeElement, kTokenKey);
+		nodeKey->SetElementContents(theKey);
+
+		if (theItem.IsType(typeid(bool)))
+			nodeValue = EncodeMacXML_1_0_Boolean(theValue.GetValueBoolean(theKey));
+
+		else if (theItem.IsNumeric())
+			nodeValue = EncodeMacXML_1_0_Number(theValue.GetValue(theKey));
+
+		else if (theItem.IsType(typeid(NString)))
+			nodeValue = EncodeMacXML_1_0_String(theValue.GetValueString(theKey));
+
+		else if (theItem.IsType(typeid(NData)))
+			nodeValue = EncodeMacXML_1_0_Data(theValue.GetValueData(theKey));
+
+		else if (theItem.IsType(typeid(NDate)))
+			nodeValue = EncodeMacXML_1_0_Date(theValue.GetValueDate(theKey));
+
+		else if (theItem.IsType(typeid(NArray)))
+			nodeValue = EncodeMacXML_1_0_Array(theValue.GetValueArray(theKey));
+
+		else if (theItem.IsType(typeid(NDictionary)))
+			nodeValue = EncodeMacXML_1_0_Dictionary(theValue.GetValueDictionary(theKey));
+		
+		else if (EncodeObject(theItem, theData))
+			nodeValue = EncodeMacXML_1_0_Data(theData);
+
+		else
+			{
+			NN_LOG("Unknown property list value!");
+			nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+			}
+
+
+
+		// Add the key-value pair
+		theNode->AddChild(nodeKey);
+		theNode->AddChild(nodeValue);
+		}
+	 
+	return(theNode);
 }
 
 
@@ -920,6 +745,29 @@ Float64 NPropertyList::DecodeMacXML_1_0_Real(const NXMLNode *theNode)
 
 
 //============================================================================
+//		NPropertyList::DecodeMacXML_1_0_String : Decode a string.
+//----------------------------------------------------------------------------
+NString NPropertyList::DecodeMacXML_1_0_String(const NXMLNode *theNode)
+{	NString		theValue;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->IsElement(kTokenString));
+
+
+
+	// Decode the value
+	theValue = theNode->GetElementContents();
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
 //		NPropertyList::DecodeMacXML_1_0_Data : Decode binary data.
 //----------------------------------------------------------------------------
 NData NPropertyList::DecodeMacXML_1_0_Data(const NXMLNode *theNode)
@@ -978,6 +826,158 @@ NDate NPropertyList::DecodeMacXML_1_0_Date(const NXMLNode *theNode)
 	else
 		theValue.SetTime(0.0);
 	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NPropertyList::DecodeMacXML_1_0_Array : Decode an array.
+//----------------------------------------------------------------------------
+NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
+{	const NXMLNodeList				*theChildren;
+	const NXMLNode					*nodeValue;
+	NVariant						theObject;
+	NArray							theValue;
+	NData							theData;
+	NXMLNodeListConstIterator		theIter;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->IsElement(kTokenArray));
+
+
+
+	// Get the state we need
+	theChildren = theNode->GetChildren();
+
+
+
+	// Decode the value
+	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+		{
+		// Get the state we need
+		nodeValue = *theIter;
+		
+		
+		// Get the value
+		if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
+			theValue.AppendValue(DecodeMacXML_1_0_Boolean(nodeValue));
+
+		else if (nodeValue->IsElement(kTokenInteger))
+			theValue.AppendValue(DecodeMacXML_1_0_Integer(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenReal))
+			theValue.AppendValue(DecodeMacXML_1_0_Real(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenString))
+			theValue.AppendValue(DecodeMacXML_1_0_String(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenData))
+			{
+			theData = DecodeMacXML_1_0_Data(nodeValue);
+			if (DecodeObject(theObject, theData))
+				theValue.AppendValue(theObject);
+			else
+				theValue.AppendValue(theData);
+			}
+		
+		else if (nodeValue->IsElement(kTokenDate))
+			theValue.AppendValue(DecodeMacXML_1_0_Date(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenArray))
+			theValue.AppendValue(DecodeMacXML_1_0_Array(nodeValue));
+
+		else if (nodeValue->IsElement(kTokenDictionary))
+			theValue.AppendValue(DecodeMacXML_1_0_Dictionary(nodeValue));
+		
+		else
+			NN_LOG("Unknown property list value [%@]!", nodeValue->GetTextValue());
+		}
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NPropertyList::DecodeMacXML_1_0_Dictionary : Decode a dictionary.
+//----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
+{	const NXMLNode					*nodeKey, *nodeValue;
+	const NXMLNodeList				*theChildren;
+	NVariant						theObject;
+	NDictionary						theValue;
+	NXMLNodeListConstIterator		theIter;
+	NData							theData;
+	NString							theKey;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theNode->IsElement(kTokenDictionary));
+
+
+
+	// Get the state we need
+	theChildren = theNode->GetChildren();
+	NN_ASSERT(NMathUtilities::IsEven(theChildren->size()));
+
+
+
+	// Decode the value
+	for (theIter = theChildren->begin(); theIter != theChildren->end(); )
+		{
+		// Get the state we need
+		nodeKey   = *theIter++;
+		nodeValue = *theIter++;
+
+
+		// Get the key
+		NN_ASSERT(nodeKey->IsElement(kTokenKey));
+		theKey = nodeKey->GetElementContents();
+		
+		
+		// Get the value
+		if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Boolean(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenInteger))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Integer(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenReal))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Real(nodeValue));
+
+		else if (nodeValue->IsElement(kTokenString))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_String(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenData))
+			{
+			theData = DecodeMacXML_1_0_Data(nodeValue);
+			if (DecodeObject(theObject, theData))
+				theValue.SetValue(theKey, theObject);
+			else
+				theValue.SetValue(theKey, theData);
+			}
+		
+		else if (nodeValue->IsElement(kTokenDate))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Date(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenArray))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Array(nodeValue));
+		
+		else if (nodeValue->IsElement(kTokenDictionary))
+			theValue.SetValue(theKey, DecodeMacXML_1_0_Dictionary(nodeValue));
+		
+		else
+			NN_LOG("Unknown property list value [%@] [%@]!", theKey, nodeValue->GetTextValue());
+		}
+
 	return(theValue);
 }
 
