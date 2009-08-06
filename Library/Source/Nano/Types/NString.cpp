@@ -50,22 +50,26 @@ DEFINE_NENCODABLE(NString);
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
 NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncoding)
-{
+{	const char		*charPtr;
+
 
 
 	// Get the state we need
+	charPtr = (const char *) thePtr;
+	if (charPtr == NULL)
+		numBytes = 0;
+
 	if (numBytes == kNStringLength)
 		{
-		if (thePtr == NULL)
-			numBytes = 0;
-		else
-			numBytes = (NIndex) strlen((const char *) thePtr);
+		NN_ASSERT(theEncoding == kNStringEncodingUTF8);
+		numBytes = (NIndex) strlen(charPtr);
 		}
 
 
 
 	// Initialize ourselves
-	SetData(NData(numBytes, thePtr), theEncoding);
+	if (numBytes != 0)
+		SetData(NData(numBytes, thePtr), theEncoding);
 }
 
 
