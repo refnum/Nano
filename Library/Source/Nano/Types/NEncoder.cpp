@@ -32,9 +32,9 @@
 //----------------------------------------------------------------------------
 // Magic
 //
-// The binary format is simply zipped, so the header is kNCompressionZLib. 
+// These values are considered to be fixed, and will never change.
 static const UInt8 kMagicXML_1_0[]									= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
-static const UInt8 kMagicBinary_1_0[]								= { 0x6E, 0x7A, 0x6C, 0x62 };
+static const UInt8 kMagicBinary_1_0[]								= { 0x4E, 0x65, 0x4E, 0x63, 0x30, 0x30, 0x30, 0x31 };
 
 
 // Tokens
@@ -121,7 +121,7 @@ NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
 	if (theRoot == NULL)
 		{
 		NN_LOG("Unable to encode object!");
-		return(theData);
+		goto cleanup;
 		}
 
 
@@ -148,12 +148,34 @@ NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
 
 
 	// Clean up
-	delete theRoot;
+cleanup:
 	delete mNodeRoot;
+	delete theRoot;
 
 	mNodeRoot = NULL;
 	mState    = kNEncoderIdle;
 
+	return(theData);
+}
+
+
+
+
+
+//============================================================================
+//		NEncoder::Encode : Encode an object.
+//----------------------------------------------------------------------------
+NData NEncoder::Encode(const NVariant &theObject, NEncoderFormat theFormat)
+{	const NEncodable		*theEncodable;
+	NData					theData;
+
+
+
+	// Encode the object
+	theEncodable = GetEncodable(theObject);
+	if (theEncodable != NULL)
+		theData = Encode(*theEncodable, theFormat);
+	
 	return(theData);
 }
 
@@ -174,12 +196,18 @@ NVariant NEncoder::Decode(const NData &theData)
 	// Get the state we need
 	mState    = kNEncoderDecoding;
 	mNodeRoot = new NXMLNode(kXMLNodeDocument, "");
-	theFormat = GetFormat(theData);
-	
+	theRoot   = NULL;
+
 
 
 	// Decode the data
+	theFormat = GetFormat(theData);
+
 	switch (theFormat) {
+		case kNEncoderInvalid:
+			// Not an object
+			break;
+
 		case kNEncoderXML_1_0:
 			theRoot = DecodeXML_1_0(theData);
 			break;
@@ -187,19 +215,20 @@ NVariant NEncoder::Decode(const NData &theData)
 		case kNEncoderBinary_1_0:
 			theRoot = DecodeBinary_1_0(theData);
 			break;
-		
+
 		default:
 			NN_LOG("Unknown encoder format: %d", theFormat);
-			return(kNErrParam);
 			break;
 		}
 
 
 
 	// Decode the object
-	mNodeRoot->AddChild(theRoot);
-	
-	theObject = DecodeObject(kTokenRoot);
+	if (theRoot != NULL)
+		{
+		mNodeRoot->AddChild(theRoot);
+		theObject = DecodeObject(kTokenRoot);
+		}
 
 
 
@@ -667,9 +696,7 @@ NEncoderFormat NEncoder::GetFormat(const NData &theData)
 			if (theFormat == kNEncoderInvalid && dataSize >= GET_ARRAY_SIZE(_magic))		\
 				{																			\
 				if (memcmp(dataPtr, _magic, GET_ARRAY_SIZE(_magic)) == 0)					\
-					{																		\
 					theFormat = _format;													\
-					}																		\
 				}																			\
 			}																				\
 		while (0)
@@ -783,13 +810,32 @@ cleanup:
 //----------------------------------------------------------------------------
 NData NEncoder::EncodeBinary_1_0(NXMLNode *theRoot)
 {	NDataCompressor		theCompressor;
+	NIndex				sizeMagic;
 	NData				theData;
 
 
 
 	// Encode the state
 	theData = EncodeXML_1_0(theRoot);
-	theData = theCompressor.Compress(theData);
+	theData = theCompressor.Compress(theData, kNCompressionZLib);
+	
+	
+	
+	// Rewrite the header
+	//
+	// To save space our signature is overlaid on top of the existing NCompressionHeader.
+	// If the compression header grows then a future version may need to leave that header
+	// intact and prepend our own signature to the compressed block.
+	sizeMagic = GET_ARRAY_SIZE(kMagicBinary_1_0);
+
+	NN_ASSERT(sizeMagic                  == 8);
+	NN_ASSERT(sizeof(NCompressionHeader) == 12);
+
+	NN_ASSERT(offsetof(NCompressionHeader, compression) == 0);
+	NN_ASSERT(offsetof(NCompressionHeader, reserved)    == 4);
+	NN_ASSERT(offsetof(NCompressionHeader, origSize)    == 8);
+
+	theData.ReplaceData(NRange(0, sizeMagic), sizeMagic, kMagicBinary_1_0);
 	
 	return(theData);
 }
@@ -802,14 +848,40 @@ NData NEncoder::EncodeBinary_1_0(NXMLNode *theRoot)
 //		NEncoder::DecodeBinary_1_0 : Decode the binary 1.0 format.
 //----------------------------------------------------------------------------
 NXMLNode *NEncoder::DecodeBinary_1_0(const NData &theData)
-{	NDataCompressor		theCompressor;
-	NXMLNode			*theRoot;
-	NData				xmlData;
+{	NDataCompressor			theCompressor;
+	NCompressionHeader		theHeader;
+	NXMLNode				*theRoot;
+	NIndex					dataSize;
+	const UInt8				*dataPtr;
+	NData					xmlData;
+
+
+
+	// Get the state we need
+	dataSize = theData.GetSize();
+	dataPtr  = theData.GetData();
+
+	NN_ASSERT(dataSize >= GET_ARRAY_SIZE(kMagicBinary_1_0));
+	NN_ASSERT(memcmp(dataPtr, kMagicBinary_1_0, GET_ARRAY_SIZE(kMagicBinary_1_0)) == 0);
+
+
+
+	// Prepare the header
+	//
+	// Due to our encoding approach, the NCompressionHeader is supplied externally.
+	memcpy(&theHeader, dataPtr, sizeof(theHeader));
+	
+	theHeader.compression = kNCompressionZLib;
+	theHeader.reserved    = 0;
+	theHeader.origSize    = SwapUInt32_BtoN(theHeader.origSize);
+
+	dataSize -= sizeof(theHeader);
+	dataPtr  += sizeof(theHeader);
 
 
 
 	// Decode the state
-	xmlData = theCompressor.Decompress(theData);
+	xmlData = theCompressor.Decompress(NData(dataSize, dataPtr, false), &theHeader);
 	theRoot = DecodeXML_1_0(xmlData);
 	
 	return(theRoot);

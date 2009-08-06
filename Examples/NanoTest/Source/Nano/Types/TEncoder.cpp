@@ -54,7 +54,7 @@ static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
 
 
 // Results
-static const UInt32  kResultBinary						= 0x27D79EE3;
+static const UInt32  kResultBinary						= 0xA9F99F52;
 static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 															"<encoder version=\"1.0\">\n"
 															"	<object class=\"TEncodable\" key=\"root\">\n"

@@ -96,9 +96,6 @@ private:
 	NArray								DecodeMacXML_1_0_Array(     const NXMLNode *theNode);
 	NDictionary							DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode);
 
-	bool								EncodeObject(const NVariant &theObject,       NData &theData);
-	bool								DecodeObject(      NVariant &theObject, const NData &theData);
-
 
 private:
 

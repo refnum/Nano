@@ -253,9 +253,7 @@ NPropertyListFormat NPropertyList::GetFormat(const NData &theData)
 			if (theFormat == kNPropertyListInvalid && dataSize >= GET_ARRAY_SIZE(_magic))	\
 				{																			\
 				if (memcmp(dataPtr, _magic, GET_ARRAY_SIZE(_magic)) == 0)					\
-					{																		\
 					theFormat = _format;													\
-					}																		\
 				}																			\
 			}																				\
 		while (0)
@@ -527,6 +525,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Date(const NDate &theValue)
 NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 {	NXMLNode		*theNode, *nodeValue;
 	NIndex			n, theSize;
+	NEncoder		theEncoder;
 	NData			theData;
 	NVariant		theItem;
 
@@ -568,13 +567,16 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 		else if (theItem.IsType(typeid(NDictionary)))
 			nodeValue = EncodeMacXML_1_0_Dictionary(theValue.GetValueDictionary(n));
 
-		else if (EncodeObject(theItem, theData))
-			nodeValue = EncodeMacXML_1_0_Data(theData);
-		
 		else
 			{
-			NN_LOG("Unknown property list value!");
-			nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+			theData = theEncoder.Encode(theItem);
+			if (theData.IsNotEmpty())
+				nodeValue = EncodeMacXML_1_0_Data(theData);
+			else
+				{
+				NN_LOG("Unknown property list value!");
+				nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+				}
 			}
 
 
@@ -595,6 +597,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 //----------------------------------------------------------------------------
 NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue)
 {	NXMLNode					*theNode, *nodeKey, *nodeValue;
+	NEncoder					theEncoder;
 	NVariant					theItem;
 	NStringList					theKeys;
 	NStringListConstIterator	theIter;
@@ -642,14 +645,17 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue
 
 		else if (theItem.IsType(typeid(NDictionary)))
 			nodeValue = EncodeMacXML_1_0_Dictionary(theValue.GetValueDictionary(theKey));
-		
-		else if (EncodeObject(theItem, theData))
-			nodeValue = EncodeMacXML_1_0_Data(theData);
 
 		else
 			{
-			NN_LOG("Unknown property list value!");
-			nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+			theData = theEncoder.Encode(theItem);
+			if (theData.IsNotEmpty())
+				nodeValue = EncodeMacXML_1_0_Data(theData);
+			else
+				{
+				NN_LOG("Unknown property list value!");
+				nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+				}
 			}
 
 
@@ -838,6 +844,7 @@ NDate NPropertyList::DecodeMacXML_1_0_Date(const NXMLNode *theNode)
 NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
 {	const NXMLNodeList				*theChildren;
 	const NXMLNode					*nodeValue;
+	NEncoder						theEncoder;
 	NVariant						theObject;
 	NArray							theValue;
 	NData							theData;
@@ -877,8 +884,10 @@ NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
 		
 		else if (nodeValue->IsElement(kTokenData))
 			{
-			theData = DecodeMacXML_1_0_Data(nodeValue);
-			if (DecodeObject(theObject, theData))
+			theData   = DecodeMacXML_1_0_Data(nodeValue);
+			theObject = theEncoder.Decode(theData);
+
+			if (theObject.IsValid())
 				theValue.AppendValue(theObject);
 			else
 				theValue.AppendValue(theData);
@@ -910,6 +919,7 @@ NArray NPropertyList::DecodeMacXML_1_0_Array(const NXMLNode *theNode)
 NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
 {	const NXMLNode					*nodeKey, *nodeValue;
 	const NXMLNodeList				*theChildren;
+	NEncoder						theEncoder;
 	NVariant						theObject;
 	NDictionary						theValue;
 	NXMLNodeListConstIterator		theIter;
@@ -957,8 +967,10 @@ NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
 		
 		else if (nodeValue->IsElement(kTokenData))
 			{
-			theData = DecodeMacXML_1_0_Data(nodeValue);
-			if (DecodeObject(theObject, theData))
+			theData   = DecodeMacXML_1_0_Data(nodeValue);
+			theObject = theEncoder.Decode(theData);
+
+			if (theObject.IsValid())
 				theValue.SetValue(theKey, theObject);
 			else
 				theValue.SetValue(theKey, theData);
@@ -978,72 +990,6 @@ NDictionary NPropertyList::DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode)
 		}
 
 	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeObject : Encode an object.
-//----------------------------------------------------------------------------
-bool NPropertyList::EncodeObject(const NVariant &thObject, NData &theData)
-{	const NEncodable		*theEncodable;
-	NEncoder				theEncoder;
-
-
-
-	// Get the state we need
-	theEncodable = NEncoder::GetEncodable(thObject);
-	if (theEncodable == NULL)
-		return(false);
-
-
-
-	// Encode the object
-	theData = theEncoder.Encode(*theEncodable);
-	theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kNEncoderSignature), kNEncoderSignature);
-
-	return(theData.IsNotEmpty());
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeObject : Decode an object.
-//----------------------------------------------------------------------------
-bool NPropertyList::DecodeObject(NVariant &theObject, const NData &theData)
-{	NIndex				dataSize, magicSize;
-	const UInt8			*dataPtr, *magicPtr;
-	NEncoder			theEncoder;
-
-
-
-	// Get the state we need
-	magicSize = GET_ARRAY_SIZE(kNEncoderSignature);
-	magicPtr  = kNEncoderSignature;
-	
-	dataSize = theData.GetSize();
-	dataPtr  = theData.GetData();
-
-
-
-	// Check our state
-	if (dataSize < magicSize || memcmp(dataPtr, magicPtr, magicSize) != 0)
-		return(false);
-	
-	
-	
-	// Decode the object
-	dataSize -= magicSize;
-	dataPtr  += magicSize;
-	
-	theObject = theEncoder.Decode(NData(dataSize, dataPtr, false));
-	NN_ASSERT(theObject.IsValid());
-	
-	return(theObject.IsValid());
 }
 
 
