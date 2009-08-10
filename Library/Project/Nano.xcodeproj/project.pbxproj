@@ -244,6 +244,7 @@
 		AB1694D910028C8200F7D4B7 /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cencode.h; sourceTree = "<group>"; };
 		AB1694E010028CEE00F7D4B7 /* NB64Encoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NB64Encoder.cpp; sourceTree = "<group>"; };
 		AB1694E110028CEE00F7D4B7 /* NB64Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NB64Encoder.h; sourceTree = "<group>"; };
+		AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDistribution.xcconfig; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
@@ -958,6 +959,7 @@
 				ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */,
 				ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */,
 				ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */,
+				AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */,
 			);
 			name = Configuration;
 			path = ../../Support/Xcode/Configuration;
@@ -1329,6 +1331,38 @@
 			};
 			name = Release;
 		};
+		AB1A77F61030585E00DFBA38 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Distribution;
+		};
+		AB1A77F71030585E00DFBA38 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				OTHER_CFLAGS = (
+					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
+					"$(NANO_OTHER_CFLAGS)",
+				);
+				PRODUCT_NAME = Nano;
+			};
+			name = Distribution;
+		};
+		AB1A77F81030585E00DFBA38 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				OTHER_CFLAGS = (
+					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
+					"$(NANO_OTHER_CFLAGS)",
+				);
+				PRODUCT_NAME = Nano;
+			};
+			name = Distribution;
+		};
 		AB28FBDE0FB5D36300F72C61 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */;
@@ -1363,6 +1397,7 @@
 			buildConfigurations = (
 				1DEB920208733DBB0010E9CD /* Debug */,
 				1DEB920308733DBB0010E9CD /* Release */,
+				AB1A77F71030585E00DFBA38 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1372,6 +1407,7 @@
 			buildConfigurations = (
 				1DEB920608733DBB0010E9CD /* Debug */,
 				1DEB920708733DBB0010E9CD /* Release */,
+				AB1A77F61030585E00DFBA38 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1381,6 +1417,7 @@
 			buildConfigurations = (
 				AB28FBDE0FB5D36300F72C61 /* Debug */,
 				AB28FBDF0FB5D36300F72C61 /* Release */,
+				AB1A77F81030585E00DFBA38 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
