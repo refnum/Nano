@@ -16,8 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NFile.h"
 #include "NFunctor.h"
+#include "NFile.h"
 #include "NDBResult.h"
 #include "NDBStatement.h"
 
