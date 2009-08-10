@@ -34,6 +34,29 @@ static const NIndex kPrefixBufferSize									= 1024;
 
 
 //============================================================================
+//      Public functions
+//----------------------------------------------------------------------------
+//		NDebug_LogMessage : Log a message from C.
+//----------------------------------------------------------------------------
+void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...)
+{	char		theBuffer[kPrefixBufferSize];
+	va_list		argList;
+
+
+
+	// Log the message
+	va_start(argList, theMsg);
+	NTargetPOSIX::snprintf(theBuffer, kPrefixBufferSize, theMsg, argList);
+	va_end(argList);
+	
+	NDebug::Get()->LogMessage(thePath, lineNum, theBuffer);
+}
+
+
+
+
+
+//============================================================================
 //      NDebug::NDebug : Constructor.
 //----------------------------------------------------------------------------
 NDebug::NDebug(void)

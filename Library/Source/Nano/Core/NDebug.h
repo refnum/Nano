@@ -14,20 +14,79 @@
 #ifndef NDEBUG_HDR
 #define NDEBUG_HDR
 //============================================================================
-//		Include files
+//		Build Constants
 //----------------------------------------------------------------------------
-#include "NStringFormatter.h"
+#ifndef NN_DEBUG
+#define NN_DEBUG															1
+#endif
 
 
 
 
 
 //============================================================================
-//		Build Constants
+//		C Wrapper
 //----------------------------------------------------------------------------
-#ifndef NN_DEBUG
-#define NN_DEBUG															1
+//		Note :	Not as functional as the C++ interface, but allows basic
+//				assertions and logging from code that includes Nano.h via
+//				a precompiled header but may have to be compiled as C.
+//----------------------------------------------------------------------------
+#if defined(__cplusplus)
+extern "C" void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...);
 #endif
+
+#if !defined(__cplusplus)
+extern     void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...);
+
+#if NN_DEBUG
+	#define NN_ASSERT(_test)																								\
+		do																													\
+			{																												\
+			if (!(_test))																									\
+				NDebug_LogMessage(__FILE__, __LINE__, "Assertion failed: %s", #_test);										\
+			}																												\
+		while(0)
+
+	#define NN_ASSERT_MSG(_test, _message, ...)																				\
+		do																													\
+			{																												\
+			if (!(_test))																									\
+				NDebug_LogMessage(__FILE__, __LINE__, "Assertion failed: %s (" #_message ")", #_test, ##__VA_ARGS__);		\
+			}																												\
+		while(0)
+
+	#define NN_ASSERT_NOERR(_error)																							\
+		do																													\
+			{																												\
+			if ((_error) != 0)																								\
+				NDebug_LogMessage(__FILE__, __LINE__, "Error: %ld", _error);												\
+			}																												\
+		while(0)
+
+	#define NN_LOG(...)																										\
+		do																													\
+			{																												\
+			NDebug_LogMessage(__FILE__, __LINE__, __VA_ARGS__);																\
+			}																												\
+		while(0)
+
+#else
+	#define NN_ASSERT(_test)
+	#define NN_ASSERT_MSG(_test, _message, ...)
+	#define NN_ASSERT_NOERR(_error)
+	#define NN_LOG(...)
+#endif
+
+#else
+
+
+
+
+
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 
 
 
@@ -136,6 +195,9 @@ private:
 
 
 
+
+
+#endif // !defined(__cplusplus)
 
 
 #endif // NDEBUG_HDR
