@@ -32,7 +32,8 @@ public:
 
 	
 	// stdio.h
-	static int							snprintf(char *s, size_t n, const char *format, ...);
+	static int							snprintf( char *s, size_t n, const char *format, ...);
+	static int							vsnprintf(char *s, size_t n, const char *format, va_list argList);
 
 
 	// time.h

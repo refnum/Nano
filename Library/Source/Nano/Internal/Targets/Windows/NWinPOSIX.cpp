@@ -74,6 +74,24 @@ int NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 
 
 //============================================================================
+//		NTargetPOSIX::vsnprintf : Windows vsnprintf.
+//----------------------------------------------------------------------------
+int NTargetPOSIX::vsnprintf(char *s, size_t n, const char *format, va_list argList)
+{	int		theResult;
+
+
+
+	// Print the value
+	theResult = vsnprintf(s, n, format, argList);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetPOSIX::gmtime : Windows gmtime.
 //----------------------------------------------------------------------------
 struct tm NTargetPOSIX::gmtime(time_t theTime)
