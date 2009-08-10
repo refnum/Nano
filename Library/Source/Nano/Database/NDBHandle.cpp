@@ -196,7 +196,7 @@ NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunc
 	sqlStatement = SQLiteCreateStatement(theStatement);
 
 	if (sqlStatement == NULL)
-		return(paramErr);
+		return(kNErrParam);
 
 
 

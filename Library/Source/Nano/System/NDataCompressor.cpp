@@ -174,7 +174,7 @@ NData NDataCompressor::Decompress(const NData &srcData, const NCompressionHeader
 		
 		default:
 			NN_LOG("Unknown compression: %08X", srcHeader.compression);
-			theErr = paramErr;
+			theErr = kNErrParam;
 			break;
 		}
 
