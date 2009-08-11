@@ -161,7 +161,7 @@ void TFile::Execute(void)
 
 
 	// Open
-	theErr = tmpFile.Open(kFilePermissionReadWrite);
+	theErr = tmpFile.Open(kNPermissionReadWrite);
 	NN_ASSERT_NOERR(theErr);
 
 	NN_ASSERT(tmpFile.IsOpen());
@@ -211,7 +211,7 @@ void TFile::Execute(void)
 
 	// Verify
 	theSize = 123456;
-	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize, 0, kFilePositionFromStart);
+	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize, 0, kNPositionFromStart);
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(theSize == kBufferSize);
 

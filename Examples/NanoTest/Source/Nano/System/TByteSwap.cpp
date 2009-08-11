@@ -70,9 +70,9 @@ void TByteSwap::Execute(void)
 
 	// Constants
 	if (NN_TARGET_ENDIAN_BIG)
-		NN_ASSERT(kEndianNative == kEndianBig);
+		NN_ASSERT(kNEndianNative == kNEndianBig);
 	else
-		NN_ASSERT(kEndianNative == kEndianLittle);
+		NN_ASSERT(kNEndianNative == kNEndianLittle);
 
 
 

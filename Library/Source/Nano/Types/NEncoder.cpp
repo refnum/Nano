@@ -107,7 +107,7 @@ NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
 
 	// Get the state we need
 	mState    = kNEncoderEncoding;
-	mNodeRoot = new NXMLNode(kXMLNodeDocument, "");
+	mNodeRoot = new NXMLNode(kNXMLNodeDocument, "");
 	theRoot   = NULL;
 
 
@@ -195,7 +195,7 @@ NVariant NEncoder::Decode(const NData &theData)
 
 	// Get the state we need
 	mState    = kNEncoderDecoding;
-	mNodeRoot = new NXMLNode(kXMLNodeDocument, "");
+	mNodeRoot = new NXMLNode(kNXMLNodeDocument, "");
 	theRoot   = NULL;
 
 
@@ -725,11 +725,11 @@ NData NEncoder::EncodeXML_1_0(NXMLNode *theRoot)
 
 
 	// Create the nodes
-	nodeEncoder = new NXMLNode(kXMLNodeElement, kTokenEncoder);
+	nodeEncoder = new NXMLNode(kNXMLNodeElement, kTokenEncoder);
 	nodeEncoder->SetElementAttribute(kTokenVersion, kVersion_1_0);
 	nodeEncoder->AddChild(theRoot);
 
-	nodeDoc = new NXMLNode(kXMLNodeDocument, "");
+	nodeDoc = new NXMLNode(kNXMLNodeDocument, "");
 	nodeDoc->AddChild(nodeEncoder);
 
 
@@ -769,7 +769,7 @@ NXMLNode *NEncoder::DecodeXML_1_0(const NData &theData)
 
 	// Decode the XML
 	nodeDoc = xmlEncoder.Decode(theData);
-	if (nodeDoc == NULL || !nodeDoc->IsType(kXMLNodeDocument) || nodeDoc->GetChildren()->size() != 1)
+	if (nodeDoc == NULL || !nodeDoc->IsType(kNXMLNodeDocument) || nodeDoc->GetChildren()->size() != 1)
 		goto cleanup;
 
 
@@ -905,7 +905,7 @@ NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, 
 
 
 	// Encode the child
-	theChild = new NXMLNode(kXMLNodeElement, theType);
+	theChild = new NXMLNode(kNXMLNodeElement, theType);
 	theChild->SetElementAttribute(kTokenKey, theKey);
 
 	if (theValue.IsNotEmpty())

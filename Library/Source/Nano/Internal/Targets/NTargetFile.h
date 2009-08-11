@@ -71,18 +71,18 @@ public:
 
 
 	// Open/close a file
-	static NFileRef						Open(const NString &thePath, NFilePermission thePermission);
+	static NFileRef						Open(const NString &thePath, NPermission thePermission);
 	static void							Close(NFileRef theFile);
 
 
 	// Get/set the read/write position
 	static UInt64						GetPosition(NFileRef theFile);
-	static NStatus						SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition);
+	static NStatus						SetPosition(NFileRef theFile, SInt64 theOffset, NPosition thePosition);
 
 
 	// Read/write from a file
-	static NStatus						Read( NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition);
-	static NStatus						Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition);
+	static NStatus						Read( NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NPosition thePosition);
+	static NStatus						Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NPosition thePosition);
 };
 
 

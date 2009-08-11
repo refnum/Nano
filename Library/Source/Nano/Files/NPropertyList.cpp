@@ -283,15 +283,15 @@ NData NPropertyList::EncodeMacXML_1_0(const NDictionary &theState)
 	// Create the nodes
 	nodeDict = EncodeMacXML_1_0_Dictionary(theState);
 
-	nodePList = new NXMLNode(kXMLNodeElement, kTokenPList);
+	nodePList = new NXMLNode(kNXMLNodeElement, kTokenPList);
 	nodePList->SetElementAttribute(kTokenVersion, "1.0");
 	nodePList->AddChild(nodeDict);
 
-	nodeDocType = new NXMLNode(kXMLNodeDocType, kTokenPList);
+	nodeDocType = new NXMLNode(kNXMLNodeDocType, kTokenPList);
 	nodeDocType->SetDocTypeSystemID(kPListSystemID_1_0);
 	nodeDocType->SetDocTypePublicID(kPListPublicID_1_0);
 
-	nodeDoc = new NXMLNode(kXMLNodeDocument, "");
+	nodeDoc = new NXMLNode(kNXMLNodeDocument, "");
 	nodeDoc->AddChild(nodeDocType);
 	nodeDoc->AddChild(nodePList);
 
@@ -400,7 +400,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Boolean(bool theValue)
 
 
 	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, theValue ? kTokenTrue : kTokenFalse);
+	theNode = new NXMLNode(kNXMLNodeElement, theValue ? kTokenTrue : kTokenFalse);
 	theNode->SetElementUnpaired(true);
 	
 	return(theNode);
@@ -435,7 +435,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Number(const NNumber &theValue)
 
 
 	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, textType);
+	theNode = new NXMLNode(kNXMLNodeElement, textType);
 	theNode->SetElementContents(valueText);
 
 	return(theNode);
@@ -454,7 +454,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_String(const NString &theValue)
 
 
 	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, kTokenString);
+	theNode = new NXMLNode(kNXMLNodeElement, kTokenString);
 	theNode->SetElementContents(theValue);
 	
 	return(theNode);
@@ -480,7 +480,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Data(const NData &theValue)
 
 
 	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, kTokenData);
+	theNode = new NXMLNode(kNXMLNodeElement, kTokenData);
 	theNode->SetElementContents(valueText);
 
 	return(theNode);
@@ -509,7 +509,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Date(const NDate &theValue)
 
 
 	// Encode the value
-	theNode = new NXMLNode(kXMLNodeElement, kTokenDate);
+	theNode = new NXMLNode(kNXMLNodeElement, kTokenDate);
 	theNode->SetElementContents(valueText);
 	
 	return(theNode);
@@ -533,7 +533,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 
 	// Get the state we need
 	theSize = theValue.GetSize();
-	theNode = new NXMLNode(kXMLNodeElement, kTokenArray);
+	theNode = new NXMLNode(kNXMLNodeElement, kTokenArray);
 
 
 
@@ -575,7 +575,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 			else
 				{
 				NN_LOG("Unknown property list value!");
-				nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+				nodeValue = new NXMLNode(kNXMLNodeElement, kTokenUnknown);
 				}
 			}
 
@@ -608,7 +608,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue
 
 	// Get the state we need
 	theKeys = theValue.GetKeys(true);
-	theNode = new NXMLNode(kXMLNodeElement, kTokenDictionary);
+	theNode = new NXMLNode(kNXMLNodeElement, kTokenDictionary);
 
 
 
@@ -622,7 +622,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue
 		
 		
 		// Create the key-value pair
-		nodeKey = new NXMLNode(kXMLNodeElement, kTokenKey);
+		nodeKey = new NXMLNode(kNXMLNodeElement, kTokenKey);
 		nodeKey->SetElementContents(theKey);
 
 		if (theItem.IsType(typeid(bool)))
@@ -654,7 +654,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue
 			else
 				{
 				NN_LOG("Unknown property list value!");
-				nodeValue = new NXMLNode(kXMLNodeElement, kTokenUnknown);
+				nodeValue = new NXMLNode(kNXMLNodeElement, kTokenUnknown);
 				}
 			}
 

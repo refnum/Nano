@@ -26,20 +26,20 @@
 //============================================================================
 //      Constants
 //----------------------------------------------------------------------------
-// File permissions
+// Permissions
 typedef enum {
-	kFilePermissionRead,
-	kFilePermissionWrite,
-	kFilePermissionReadWrite
-} NFilePermission;
+	kNPermissionRead,
+	kNPermissionWrite,
+	kNPermissionReadWrite
+} NPermission;
 
 
-// File positions
+// Positions
 typedef enum {
-	kFilePositionFromStart,
-	kFilePositionFromMark,
-	kFilePositionFromEnd
-} NFilePosition;
+	kNPositionFromStart,
+	kNPositionFromMark,
+	kNPositionFromEnd
+} NPosition;
 
 
 // File reference
@@ -152,7 +152,7 @@ public:
 
 
 	// Open/close the file
-	NStatus								Open(NFilePermission thePermission=kFilePermissionRead, bool canCreate=false);
+	NStatus								Open(NPermission thePermission=kNPermissionRead, bool canCreate=false);
 	void								Close(void);
 
 
@@ -160,14 +160,14 @@ public:
     //
     // The file must be opened with appropriate permissions first.
 	UInt64								GetPosition(void) const;
-	NStatus								SetPosition(SInt64 theOffset, NFilePosition thePosition=kFilePositionFromStart);
+	NStatus								SetPosition(SInt64 theOffset, NPosition thePosition=kNPositionFromStart);
 
 
 	// Read/write the file
 	//
 	// The file must be opened with appropriate permissions first.
-	NStatus								Read( UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
-	NStatus								Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition thePosition=kFilePositionFromMark);
+	NStatus								Read( UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NPosition thePosition=kNPositionFromMark);
+	NStatus								Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NPosition thePosition=kNPositionFromMark);
 
 
 	// Operators

@@ -605,7 +605,7 @@ NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, UInt32 t
 //----------------------------------------------------------------------------
 void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
 {	NIndex				n, charSize, dataSize;
-	EndianFormat		srcFormat, dstFormat;
+	NEndianFormat		srcFormat, dstFormat;
 	NUnicodeParser		theParser;
 	UInt8				*dataPtr;
 

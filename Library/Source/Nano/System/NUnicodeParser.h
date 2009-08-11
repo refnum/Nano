@@ -98,7 +98,7 @@ public:
 
 
 	// Get the EndianFormat of a UTF encoding
-	EndianFormat						GetEndianFormat(NStringEncoding theEncoding) const;
+	NEndianFormat						GetEndianFormat(NStringEncoding theEncoding) const;
 
 
 	// Get the native form of a UTF character
@@ -112,9 +112,9 @@ private:
 	NRangeList							GetCodePointsUTF16(const NRange &theBOM) const;
 	NRangeList							GetCodePointsUTF32(const NRange &theBOM) const;
 
-	void								AddBOMToUTF8( NData &theData)                         const;
-	void								AddBOMToUTF16(NData &theData, EndianFormat theFormat) const;
-	void								AddBOMToUTF32(NData &theData, EndianFormat theFormat) const;
+	void								AddBOMToUTF8( NData &theData)                          const;
+	void								AddBOMToUTF16(NData &theData, NEndianFormat theFormat) const;
+	void								AddBOMToUTF32(NData &theData, NEndianFormat theFormat) const;
 
 
 private:

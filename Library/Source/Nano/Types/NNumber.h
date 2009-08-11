@@ -35,10 +35,10 @@ static const NString kNStringNaN										= "nan";
 
 // Types
 typedef enum {
-	kNumberInteger,
-	kNumberFloat32,
-	kNumberFloat64,
-} NumberType;
+	kNNumberInteger,
+	kNNumberFloat32,
+	kNNumberFloat64,
+} NNumberType;
 
 
 
@@ -51,7 +51,7 @@ typedef enum {
 typedef union {
 	SInt64		integer;
 	Float64		real;
-} NumberValue;
+} NNumberValue;
 
 
 // Classes
@@ -130,8 +130,8 @@ protected:
 
 
 private:
-	NumberType							mType;
-	NumberValue							mValue;
+	NNumberType							mType;
+	NNumberValue						mValue;
 };
 
 

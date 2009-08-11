@@ -194,16 +194,16 @@ NStatus NMacTarget::ConvertSysErr(int sysErr)
 //============================================================================
 //		NMacTarget::ConvertPermission : Convert file permissions.
 //----------------------------------------------------------------------------
-const char *NMacTarget::ConvertPermission(NFilePermission thePermission)
+const char *NMacTarget::ConvertPermission(NPermission thePermission)
 {	const char	*theResult;
 
 
 
 	// Convert the value
 	switch (thePermission) {
-		case kFilePermissionRead:			theResult = "r";		break;
-		case kFilePermissionWrite:			theResult = "a";		break;
-		case kFilePermissionReadWrite:		theResult = "r+";		break;
+		case kNPermissionRead:			theResult = "r";		break;
+		case kNPermissionWrite:			theResult = "a";		break;
+		case kNPermissionReadWrite:		theResult = "r+";		break;
 
 		default:
 			NN_LOG("Unable to convert %ld", thePermission);
@@ -221,16 +221,16 @@ const char *NMacTarget::ConvertPermission(NFilePermission thePermission)
 //============================================================================
 //		NMacTarget::ConvertPosition : Convert file positions.
 //----------------------------------------------------------------------------
-int NMacTarget::ConvertPosition(NFilePosition thePosition)
+int NMacTarget::ConvertPosition(NPosition thePosition)
 {	int		theResult;
 
 
 
 	// Convert the value
 	switch (thePosition) {
-		case kFilePositionFromStart:	theResult = SEEK_SET;		break;
-		case kFilePositionFromMark:		theResult = SEEK_CUR;		break;
-		case kFilePositionFromEnd:		theResult = SEEK_END;		break;
+		case kNPositionFromStart:		theResult = SEEK_SET;	break;
+		case kNPositionFromMark:		theResult = SEEK_CUR;	break;
+		case kNPositionFromEnd:			theResult = SEEK_END;	break;
 
 		default:
 			NN_LOG("Unable to convert %ld", thePosition);

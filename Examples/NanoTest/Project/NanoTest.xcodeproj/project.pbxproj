@@ -233,7 +233,6 @@
 				AB5B29A909CAD85D008C593C /* Configuration */,
 				AB5B29B509CAD866008C593C /* Prefix */,
 				AB9155DC0F9B4F37009FFEAF /* Source */,
-				AB5B29B809CAD871008C593C /* Resources */,
 				20286C32FDCF999611CA2CEA /* Frameworks */,
 				AB5B29DB09CAD8B7008C593C /* Dependencies */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
@@ -268,14 +267,6 @@
 			);
 			name = Prefix;
 			path = ../Prefix;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB5B29B809CAD871008C593C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Resources;
-			path = ../Resources;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB5B29DB09CAD8B7008C593C /* Dependencies */ = {

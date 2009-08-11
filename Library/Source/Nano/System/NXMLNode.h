@@ -27,13 +27,13 @@
 //		Constants
 //----------------------------------------------------------------------------
 typedef enum {
-	kXMLNodeDocument,
-	kXMLNodeDocType,
-	kXMLNodeElement,
-	kXMLNodeComment,
-	kXMLNodeText,
-	kXMLNodeCData
-} XMLNodeType;
+	kNXMLNodeDocument,
+	kNXMLNodeDocType,
+	kNXMLNodeElement,
+	kNXMLNodeComment,
+	kNXMLNodeText,
+	kNXMLNodeCData
+} NXMLNodeType;
 
 
 
@@ -57,12 +57,12 @@ typedef NXMLNodeList::const_iterator								NXMLNodeListConstIterator;
 //----------------------------------------------------------------------------
 class NXMLNode {
 public:
-										 NXMLNode(XMLNodeType theType, const NString &theValue);
+										 NXMLNode(NXMLNodeType theType, const NString &theValue);
 	virtual								~NXMLNode(void);
 
 
 	// Query the node state
-	bool								IsType(XMLNodeType       theType) const;
+	bool								IsType(NXMLNodeType      theType) const;
 	bool								IsElement(const NString &theName) const;
 
 
@@ -87,8 +87,8 @@ public:
 
 
 	// Get/set the type
-	XMLNodeType							GetType(void) const;
-	void								SetType(XMLNodeType theType);
+	NXMLNodeType						GetType(void) const;
+	void								SetType(NXMLNodeType theType);
 
 
 	// Get/set the value
@@ -127,7 +127,7 @@ private:
 	NXMLNode							*mParent;
 	NXMLNodeList						mChildren;
 
-	XMLNodeType							mType;
+	NXMLNodeType						mType;
 	NString								mValue;
 	NDictionary							mAttributes;
 

@@ -92,7 +92,7 @@ NColor::NColor(Float32 r, Float32 g, Float32 b, Float32 a)
 //============================================================================
 //		NColor::NColor : Constructor.
 //----------------------------------------------------------------------------
-NColor::NColor(UInt32 theColor, ColorFormat theFormat)
+NColor::NColor(UInt32 theColor, NColorFormat theFormat)
 {
 
 
@@ -107,7 +107,7 @@ NColor::NColor(UInt32 theColor, ColorFormat theFormat)
 //============================================================================
 //		NColor::NColor : Constructor.
 //----------------------------------------------------------------------------
-NColor::NColor(const NString &hexColor, ColorFormat theFormat)
+NColor::NColor(const NString &hexColor, NColorFormat theFormat)
 {	unsigned int	valueR, valueG, valueB, valueA;
 	Float32			r, g, b, a;
 
@@ -117,7 +117,7 @@ NColor::NColor(const NString &hexColor, ColorFormat theFormat)
 	r = g = b = a = 0.0f;
 
 	switch (theFormat) {
-		case kColorRGBA:
+		case kNColorRGBA:
 			if (sscanf(hexColor.GetUTF8(), "%2x%2x%2x%2x", &valueR, &valueG, &valueB, &valueA) == 4)
 				{
 				r = ((Float32) valueR) * kOneOver255;
@@ -218,7 +218,7 @@ void NColor::GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const
 //============================================================================
 //		NColor::GetColor : Get the color.
 //----------------------------------------------------------------------------
-UInt32 NColor::GetColor(ColorFormat theFormat) const
+UInt32 NColor::GetColor(NColorFormat theFormat) const
 {	UInt32	theColor, r, g, b, a;
 
 
@@ -233,7 +233,7 @@ UInt32 NColor::GetColor(ColorFormat theFormat) const
 
 	// Encode the color
 	switch (theFormat) {
-		case kColorRGBA:
+		case kNColorRGBA:
 			theColor = (r << 24) | (g << 16) | (b << 8) | (a << 0);
 			break;
 
@@ -271,14 +271,14 @@ void NColor::SetColor(Float32 r, Float32 g, Float32 b, Float32 a)
 //============================================================================
 //		NColor::SetColor : Set the color.
 //----------------------------------------------------------------------------
-void NColor::SetColor(UInt32 theColor, ColorFormat theFormat)
+void NColor::SetColor(UInt32 theColor, NColorFormat theFormat)
 {	Float32		r, g, b, a;
 
 
 
 	// Break down the color
 	switch (theFormat) {
-		case kColorRGBA:
+		case kNColorRGBA:
 			r = ((Float32) ((theColor >> 24) & 0xFF)) * kOneOver255;
 			g = ((Float32) ((theColor >> 16) & 0xFF)) * kOneOver255;
 			b = ((Float32) ((theColor >>  8) & 0xFF)) * kOneOver255;

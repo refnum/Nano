@@ -152,7 +152,7 @@ NStatus NFileUtilities::SetFileData(const NFile &theFile, const NData &theData)
 
 
 	// Open the file
-	theErr = mutableFile.Open(kFilePermissionWrite, true);
+	theErr = mutableFile.Open(kNPermissionWrite, true);
 	if (theErr != kNoErr)
 		return(theErr);
 

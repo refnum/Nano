@@ -36,11 +36,11 @@ public:
 
 
 	// Convert file permissions
-	static const char					*ConvertPermission(NFilePermission thePermission);
+	static const char					*ConvertPermission(NPermission thePermission);
 
 
 	// Convert file positions
-	static int							ConvertPosition(NFilePosition thePosition);
+	static int							ConvertPosition(NPosition thePosition);
 
 
 	// Convert between Nano/CF objects

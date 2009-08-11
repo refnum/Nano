@@ -417,27 +417,27 @@ void NUnicodeParser::AddBOM(NData &theData, NStringEncoding theEncoding) const
 			break;
 
 		case kNStringEncodingUTF16:
-			AddBOMToUTF16(theData, kEndianNative);
+			AddBOMToUTF16(theData, kNEndianNative);
 			break;
 
 		case kNStringEncodingUTF16BE:
-			AddBOMToUTF16(theData, kEndianBig);
+			AddBOMToUTF16(theData, kNEndianBig);
 			break;
 
 		case kNStringEncodingUTF16LE:
-			AddBOMToUTF16(theData, kEndianLittle);
+			AddBOMToUTF16(theData, kNEndianLittle);
 			break;
 
 		case kNStringEncodingUTF32:
-			AddBOMToUTF32(theData, kEndianNative);
+			AddBOMToUTF32(theData, kNEndianNative);
 			break;
 
 		case kNStringEncodingUTF32BE:
-			AddBOMToUTF32(theData, kEndianBig);
+			AddBOMToUTF32(theData, kNEndianBig);
 			break;
 
 		case kNStringEncodingUTF32LE:
-			AddBOMToUTF16(theData, kEndianLittle);
+			AddBOMToUTF16(theData, kNEndianLittle);
 			break;
 
 		default:
@@ -537,8 +537,8 @@ NStringEncoding NUnicodeParser::GetGenericEncoding(NStringEncoding theEncoding) 
 //============================================================================
 //		NUnicodeParser::GetEndianFormat : Get the EndianFormat of a UTF encoding.
 //----------------------------------------------------------------------------
-EndianFormat NUnicodeParser::GetEndianFormat(NStringEncoding theEncoding) const
-{	EndianFormat		theFormat;
+NEndianFormat NUnicodeParser::GetEndianFormat(NStringEncoding theEncoding) const
+{	NEndianFormat		theFormat;
 
 
 
@@ -547,22 +547,22 @@ EndianFormat NUnicodeParser::GetEndianFormat(NStringEncoding theEncoding) const
 		case kNStringEncodingUTF8:
 		case kNStringEncodingUTF16:
 		case kNStringEncodingUTF32:
-			theFormat = kEndianNative;
+			theFormat = kNEndianNative;
 			break;
 
 		case kNStringEncodingUTF16BE:
 		case kNStringEncodingUTF32BE:
-			theFormat = kEndianBig;
+			theFormat = kNEndianBig;
 			break;
 
 		case kNStringEncodingUTF16LE:
 		case kNStringEncodingUTF32LE:
-			theFormat = kEndianLittle;
+			theFormat = kNEndianLittle;
 			break;
 
 		default:
 			NN_LOG("Unknown encoding: %d", theEncoding);
-			theFormat = kEndianNative;
+			theFormat = kNEndianNative;
 			break;
 		}
 	
@@ -596,7 +596,7 @@ UTF16Char NUnicodeParser::GetNativeUTF16(UTF16Char theChar, NStringEncoding theE
 
 
 	// Get the character
-	if (GetEndianFormat(theEncoding) != kEndianNative)
+	if (GetEndianFormat(theEncoding) != kNEndianNative)
 		SwapUInt16(&theChar);
 	
 	return(theChar);
@@ -614,7 +614,7 @@ UTF32Char NUnicodeParser::GetNativeUTF32(UTF32Char theChar, NStringEncoding theE
 
 
 	// Get the character
-	if (GetEndianFormat(theEncoding) != kEndianNative)
+	if (GetEndianFormat(theEncoding) != kNEndianNative)
 		SwapUInt32(&theChar);
 	
 	return(theChar);
@@ -800,13 +800,13 @@ void NUnicodeParser::AddBOMToUTF8(NData &theData) const
 //============================================================================
 //		NUnicodeParser::AddBOMToUTF16 : Add a UTF16 BOM.
 //----------------------------------------------------------------------------
-void NUnicodeParser::AddBOMToUTF16(NData &theData, EndianFormat theFormat) const
+void NUnicodeParser::AddBOMToUTF16(NData &theData, NEndianFormat theFormat) const
 {	const UInt8		*theBOM;
 
 
 
 	// Insert the BOM
-	if (theFormat == kEndianBig)
+	if (theFormat == kNEndianBig)
 		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF16BOMBE), kUTF16BOMBE);
 	else
 		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF16BOMLE), kUTF16BOMLE);
@@ -821,13 +821,13 @@ void NUnicodeParser::AddBOMToUTF16(NData &theData, EndianFormat theFormat) const
 //============================================================================
 //		NUnicodeParser::AddBOMToUTF32 : Add a UTF32 BOM.
 //----------------------------------------------------------------------------
-void NUnicodeParser::AddBOMToUTF32(NData &theData, EndianFormat theFormat) const
+void NUnicodeParser::AddBOMToUTF32(NData &theData, NEndianFormat theFormat) const
 {	const UInt8		*theBOM;
 
 
 
 	// Insert the BOM
-	if (theFormat == kEndianBig)
+	if (theFormat == kNEndianBig)
 		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF32BOMBE), kUTF32BOMBE);
 	else
 		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF32BOMLE), kUTF32BOMLE);

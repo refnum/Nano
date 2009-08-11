@@ -35,7 +35,7 @@ static const NString kAttributeDocTypePublicID						= "public";
 //============================================================================
 //		NXMLNode::NXMLNode : Constructor.
 //----------------------------------------------------------------------------
-NXMLNode::NXMLNode(XMLNodeType theType, const NString &theValue)
+NXMLNode::NXMLNode(NXMLNodeType theType, const NString &theValue)
 {
 
 
@@ -73,7 +73,7 @@ NXMLNode::~NXMLNode(void)
 //============================================================================
 //		NXMLNode::IsType : Is a node of a type?
 //----------------------------------------------------------------------------
-bool NXMLNode::IsType(XMLNodeType theType) const
+bool NXMLNode::IsType(NXMLNodeType theType) const
 {
 
 
@@ -93,7 +93,7 @@ bool NXMLNode::IsElement(const NString &theName) const
 
 
 	// Check the node
-	return(IsType(kXMLNodeElement) && GetTextValue() == theName);
+	return(IsType(kNXMLNodeElement) && GetTextValue() == theName);
 }
 
 
@@ -244,7 +244,7 @@ void NXMLNode::RemoveChildren(void)
 //============================================================================
 //		NXMLNode::GetType : Get the type.
 //----------------------------------------------------------------------------
-XMLNodeType NXMLNode::GetType(void) const
+NXMLNodeType NXMLNode::GetType(void) const
 {
 
 
@@ -259,7 +259,7 @@ XMLNodeType NXMLNode::GetType(void) const
 //============================================================================
 //		NXMLNode::SetType : Set the type.
 //----------------------------------------------------------------------------
-void NXMLNode::SetType(XMLNodeType theType)
+void NXMLNode::SetType(NXMLNodeType theType)
 {
 
 
@@ -395,7 +395,7 @@ NString NXMLNode::GetElementContents(void) const
 
 
 	// Validate our state
-	NN_ASSERT(IsType(kXMLNodeElement));
+	NN_ASSERT(IsType(kNXMLNodeElement));
 
 
 
@@ -405,21 +405,21 @@ NString NXMLNode::GetElementContents(void) const
 		theChild = *theIter;
 		
 		switch (theChild->GetType()) {
-			case kXMLNodeDocument:
-			case kXMLNodeDocType:
+			case kNXMLNodeDocument:
+			case kNXMLNodeDocType:
 				NN_LOG("Unexpected node %d inside an element!", theChild->GetType());
 				break;
 
-			case kXMLNodeElement:
+			case kNXMLNodeElement:
 				theValue += theChild->GetElementContents();
 				break;
 			
-			case kXMLNodeComment:
+			case kNXMLNodeComment:
 				// Ignore
 				break;
 
-			case kXMLNodeText:
-			case kXMLNodeCData:
+			case kNXMLNodeText:
+			case kNXMLNodeCData:
 				theValue += theChild->GetTextValue();
 				break;
 			
@@ -444,7 +444,7 @@ NDictionary NXMLNode::GetElementAttributes(void) const
 
 
 	// Validate our state
-	NN_ASSERT(IsType(kXMLNodeElement));
+	NN_ASSERT(IsType(kNXMLNodeElement));
 
 
 
@@ -465,7 +465,7 @@ NString NXMLNode::GetElementAttribute(const NString &theName) const
 
 
 	// Validate our state
-	NN_ASSERT(IsType(kXMLNodeElement));
+	NN_ASSERT(IsType(kNXMLNodeElement));
 
 
 
@@ -510,13 +510,13 @@ void NXMLNode::SetElementContents(const NString &theValue)
 
 
 	// Validate our state
-	NN_ASSERT(IsType(kXMLNodeElement));
+	NN_ASSERT(IsType(kNXMLNodeElement));
 
 
 
 	// Get the state we need
 	theText = NTextUtilities::EscapeEntities(theValue);
-	theNode = new NXMLNode(kXMLNodeText, theText);
+	theNode = new NXMLNode(kNXMLNodeText, theText);
 
 
 
@@ -537,7 +537,7 @@ void NXMLNode::SetElementAttributes(const NDictionary &theValue)
 
 
 	// Validate our state
-	NN_ASSERT(IsType(kXMLNodeElement));
+	NN_ASSERT(IsType(kNXMLNodeElement));
 
 
 
@@ -557,7 +557,7 @@ void NXMLNode::SetElementAttribute(const NString &theName, const NString &theVal
 
 
 	// Validate our state
-	NN_ASSERT(IsType(kXMLNodeElement));
+	NN_ASSERT(IsType(kNXMLNodeElement));
 
 
 

@@ -445,7 +445,7 @@ NStatus NFile::CreateFile(void)
 
 
 	// Create a file
-	theErr = Open(kFilePermissionWrite, true);
+	theErr = Open(kNPermissionWrite, true);
 	NN_ASSERT_NOERR(theErr);
 
 	if (theErr == kNoErr)
@@ -504,7 +504,7 @@ NStatus NFile::ExchangeWith(const NFile &theTarget)
 //============================================================================
 //        NFile::Open : Open the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
+NStatus NFile::Open(NPermission thePermission, bool canCreate)
 {	NStatus		theErr;
 
 
@@ -580,7 +580,7 @@ UInt64 NFile::GetPosition(void) const
 //============================================================================
 //        NFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
+NStatus NFile::SetPosition(SInt64 theOffset, NPosition thePosition)
 {	NStatus		theErr;
 
 
@@ -605,7 +605,7 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
 //============================================================================
 //        NFile::Read : Read data from the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition)
+NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NPosition thePosition)
 {	NStatus		theErr;
 
 
@@ -630,7 +630,7 @@ NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 //============================================================================
 //        NFile::Write : Write data to the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition)
+NStatus NFile::Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NPosition thePosition)
 {	NStatus		theErr;
 
 

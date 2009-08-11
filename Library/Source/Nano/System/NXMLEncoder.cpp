@@ -66,7 +66,7 @@ NString NXMLEncoder::Encode(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->IsType(kXMLNodeDocument));
+	NN_ASSERT(theNode->IsType(kNXMLNodeDocument));
 
 
 
@@ -106,7 +106,7 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 
 
 	// Create the root
-	mDecodeRoot = new NXMLNode(kXMLNodeDocument, "");
+	mDecodeRoot = new NXMLNode(kNXMLNodeDocument, "");
 	theNode     = mDecodeRoot;
 
 
@@ -145,27 +145,27 @@ NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theInden
 
 	// Encode the node
 	switch (theNode->GetType()) {
-		case kXMLNodeDocument:
+		case kNXMLNodeDocument:
 			theText = EncodeDocument(theNode, theIndent);
 			break;
 		
-		case kXMLNodeDocType:
+		case kNXMLNodeDocType:
 			theText = EncodeDocType(theNode);
 			break;
 		
-		case kXMLNodeElement:
+		case kNXMLNodeElement:
 			theText = EncodeElement(theNode, theIndent);
 			break;
 		
-		case kXMLNodeComment:
+		case kNXMLNodeComment:
 			theText = EncodeComment(theNode);
 			break;
 		
-		case kXMLNodeText:
+		case kNXMLNodeText:
 			theText = EncodeText(theNode);
 			break;
 		
-		case kXMLNodeCData:
+		case kNXMLNodeCData:
 			theText = EncodeCData(theNode);
 			break;
 		
@@ -192,7 +192,7 @@ NString NXMLEncoder::EncodeDocument(const NXMLNode *theNode, const NString &theI
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeDocument);
+	NN_ASSERT(theNode->GetType() == kNXMLNodeDocument);
 
 
 
@@ -227,7 +227,7 @@ NString NXMLEncoder::EncodeDocType(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeDocType);
+	NN_ASSERT(theNode->GetType() == kNXMLNodeDocType);
 
 
 
@@ -270,7 +270,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeElement);
+	NN_ASSERT(theNode->GetType() == kNXMLNodeElement);
 
 
 
@@ -322,7 +322,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 				{
 				theText += kNStringNewline;
 
-				if (!theChild->IsType(kXMLNodeElement))
+				if (!theChild->IsType(kNXMLNodeElement))
 					theText += childIndent;
 				}
 
@@ -354,7 +354,7 @@ NString NXMLEncoder::EncodeComment(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeComment);
+	NN_ASSERT(theNode->GetType() == kNXMLNodeComment);
 
 
 
@@ -377,7 +377,7 @@ NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeText);
+	NN_ASSERT(theNode->GetType() == kNXMLNodeText);
 
 
 
@@ -401,7 +401,7 @@ NString NXMLEncoder::EncodeCData(const NXMLNode *theNode)
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kXMLNodeCData);
+	NN_ASSERT(theNode->GetType() == kNXMLNodeCData);
 
 
 
@@ -425,7 +425,7 @@ bool NXMLEncoder::DecodeDocType(const NString &theName, const NXMLDocumentTypeIn
 
 	// Decode the node
 	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(kXMLNodeDocType, theName);
+	theNode   = new NXMLNode(kNXMLNodeDocType, theName);
 	
 	if (theInfo.systemID.IsNotEmpty())
 		theNode->SetDocTypeSystemID(theInfo.systemID);
@@ -452,7 +452,7 @@ bool NXMLEncoder::DecodeElementStart(const NString &theName, const NDictionary &
 
 	// Decode the node
 	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(kXMLNodeElement, theName);
+	theNode   = new NXMLNode(kNXMLNodeElement, theName);
 	theNode->SetElementAttributes(theAttributes);
 
 
@@ -503,7 +503,7 @@ bool NXMLEncoder::DecodeText(const NString &theValue, bool isCData)
 
 	// Decode the node
 	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(isCData ? kXMLNodeCData : kXMLNodeText, theValue);
+	theNode   = new NXMLNode(isCData ? kNXMLNodeCData : kNXMLNodeText, theValue);
 	
 	theParent->AddChild(theNode);
 
@@ -524,7 +524,7 @@ bool NXMLEncoder::DecodeComment(const NString &theValue)
 
 	// Decode the node
 	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(kXMLNodeComment, theValue);
+	theNode   = new NXMLNode(kNXMLNodeComment, theValue);
 	
 	theParent->AddChild(theNode);
 	
@@ -577,7 +577,7 @@ bool NXMLEncoder::ContainsElements(const NXMLNodeList *theNodes)
 	// Check the nodes
 	for (theIter = theNodes->begin(); theIter != theNodes->end(); theIter++)
 		{
-		if ((*theIter)->IsType(kXMLNodeElement))
+		if ((*theIter)->IsType(kNXMLNodeElement))
 			return(true);
 		}
 	

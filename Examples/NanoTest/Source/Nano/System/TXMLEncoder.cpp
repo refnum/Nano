@@ -72,15 +72,15 @@ void TXMLEncoder::Execute(void)
 
 
 	// Encoding
-	nodeDoc      = new NXMLNode(kXMLNodeDocument, "");
-	nodeDocType  = new NXMLNode(kXMLNodeDocType,  kValueDocType);
-	nodeContents = new NXMLNode(kXMLNodeElement,  kValueContents);
-	nodeChild1   = new NXMLNode(kXMLNodeElement,  kValueNodeChild1);
-	nodeChild2   = new NXMLNode(kXMLNodeElement,  kValueNodeChild2);
-	nodeChild3   = new NXMLNode(kXMLNodeElement,  kValueNodeChild3);
-	nodeText     = new NXMLNode(kXMLNodeText,     kValueNodeText);
-	nodeComment  = new NXMLNode(kXMLNodeComment,  kValueNodeComment);
-	nodeCData    = new NXMLNode(kXMLNodeCData,    kValueNodeCData);
+	nodeDoc      = new NXMLNode(kNXMLNodeDocument, "");
+	nodeDocType  = new NXMLNode(kNXMLNodeDocType,  kValueDocType);
+	nodeContents = new NXMLNode(kNXMLNodeElement,  kValueContents);
+	nodeChild1   = new NXMLNode(kNXMLNodeElement,  kValueNodeChild1);
+	nodeChild2   = new NXMLNode(kNXMLNodeElement,  kValueNodeChild2);
+	nodeChild3   = new NXMLNode(kNXMLNodeElement,  kValueNodeChild3);
+	nodeText     = new NXMLNode(kNXMLNodeText,     kValueNodeText);
+	nodeComment  = new NXMLNode(kNXMLNodeComment,  kValueNodeComment);
+	nodeCData    = new NXMLNode(kNXMLNodeCData,    kValueNodeCData);
 
 	nodeDoc->AddChild(nodeDocType);
 	nodeDocType->SetDocTypeSystemID(kValueDocTypeSystemID);
@@ -109,20 +109,20 @@ void TXMLEncoder::Execute(void)
 
 	// Decoding
 	nodeDoc = theEncoder.Decode(theText);
-	NN_ASSERT(nodeDoc->IsType(kXMLNodeDocument));
+	NN_ASSERT(nodeDoc->IsType(kNXMLNodeDocument));
 
 
 	theChildren = *(nodeDoc->GetChildren());
 	NN_ASSERT(theChildren.size() == 2);
 	
 	nodeChild1 = theChildren[0];
-	NN_ASSERT(nodeChild1->IsType(kXMLNodeDocType));
+	NN_ASSERT(nodeChild1->IsType(kNXMLNodeDocType));
 	NN_ASSERT(nodeChild1->GetTextValue() == kValueDocType);
 	NN_ASSERT(nodeChild1->GetDocTypeSystemID() == kValueDocTypeSystemID);
 	NN_ASSERT(nodeChild1->GetDocTypePublicID() == kValueDocTypePublicID);
 
 	nodeChild2 = theChildren[1];
-	NN_ASSERT(nodeChild2->IsType(kXMLNodeElement));
+	NN_ASSERT(nodeChild2->IsType(kNXMLNodeElement));
 	NN_ASSERT(nodeChild2->GetTextValue() == kValueContents);
 	NN_ASSERT(nodeChild2->GetElementAttributes().IsEmpty());
 
@@ -131,14 +131,14 @@ void TXMLEncoder::Execute(void)
 	NN_ASSERT(theChildren.size() == 2);
 
 	nodeChild1 = theChildren[0];
-	NN_ASSERT(nodeChild1->IsType(kXMLNodeElement));
+	NN_ASSERT(nodeChild1->IsType(kNXMLNodeElement));
 	NN_ASSERT(nodeChild1->GetTextValue() == kValueNodeChild1);
 	NN_ASSERT(nodeChild1->GetElementAttribute(kAttribute1Name) == kAttribute1Value);
 	NN_ASSERT(nodeChild1->GetElementAttribute(kAttribute2Name).IsEmpty());
 	NN_ASSERT(nodeChild1->GetElementAttributes().GetSize() == 1);
 
 	nodeChild2 = theChildren[1];
-	NN_ASSERT(nodeChild2->IsType(kXMLNodeElement));
+	NN_ASSERT(nodeChild2->IsType(kNXMLNodeElement));
 	NN_ASSERT(nodeChild2->GetTextValue() == kValueNodeChild2);
 	NN_ASSERT(nodeChild2->GetElementAttribute(kAttribute2Name) == kAttribute2Value);
 	NN_ASSERT(nodeChild2->GetElementAttribute(kAttribute1Name).IsEmpty());
@@ -149,7 +149,7 @@ void TXMLEncoder::Execute(void)
 	NN_ASSERT(theChildren.size() == 1);
 	
 	nodeText = theChildren[0];
-	NN_ASSERT(nodeText->IsType(kXMLNodeText));
+	NN_ASSERT(nodeText->IsType(kNXMLNodeText));
 	NN_ASSERT(nodeText->GetTextValue() == kValueNodeText);
 
 
@@ -157,11 +157,11 @@ void TXMLEncoder::Execute(void)
 	NN_ASSERT(theChildren.size() == 2);
 	
 	nodeComment = theChildren[0];
-	NN_ASSERT(nodeComment->IsType(kXMLNodeComment));
+	NN_ASSERT(nodeComment->IsType(kNXMLNodeComment));
 	NN_ASSERT(nodeComment->GetTextValue() == kValueNodeComment);
 
 	nodeChild3 = theChildren[1];
-	NN_ASSERT(nodeChild3->IsType(kXMLNodeElement));
+	NN_ASSERT(nodeChild3->IsType(kNXMLNodeElement));
 	NN_ASSERT(nodeChild3->GetTextValue() == kValueNodeChild3);
 	NN_ASSERT(nodeChild3->GetElementAttribute(kAttribute1Name).IsEmpty());
 	NN_ASSERT(nodeChild3->GetElementAttribute(kAttribute2Name).IsEmpty());
@@ -172,7 +172,7 @@ void TXMLEncoder::Execute(void)
 	NN_ASSERT(theChildren.size() == 1);
 	
 	nodeCData = theChildren[0];
-	NN_ASSERT(nodeCData->IsType(kXMLNodeCData));
+	NN_ASSERT(nodeCData->IsType(kNXMLNodeCData));
 	NN_ASSERT(nodeCData->GetTextValue() == kValueNodeCData);
 
 

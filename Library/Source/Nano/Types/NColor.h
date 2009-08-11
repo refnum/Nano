@@ -30,8 +30,8 @@
 //----------------------------------------------------------------------------
 // Color formats
 typedef enum {
-	kColorRGBA
-} ColorFormat;
+	kNColorRGBA
+} NColorFormat;
 
 
 // Colors
@@ -66,8 +66,8 @@ public:
 										DECLARE_NENCODABLE(NColor);
 
 										NColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
-										NColor(      UInt32    theColor, ColorFormat theFormat=kColorRGBA);
-										NColor(const NString  &hexColor, ColorFormat theFormat=kColorRGBA);
+										NColor(      UInt32    theColor, NColorFormat theFormat=kNColorRGBA);
+										NColor(const NString  &hexColor, NColorFormat theFormat=kNColorRGBA);
 										
 										NColor( void);
 	virtual								~NColor(void);
@@ -79,10 +79,10 @@ public:
 
 	// Get/set the color
 	void								GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const;
-	UInt32								GetColor(ColorFormat theFormat=kColorRGBA)               const;
+	UInt32								GetColor(NColorFormat theFormat=kNColorRGBA)             const;
 
 	void								SetColor(Float32 r, Float32 g, Float32 b, Float32 a);
-	void								SetColor(UInt32 theColor, ColorFormat theFormat=kColorRGBA);
+	void								SetColor(UInt32 theColor, NColorFormat theFormat=kNColorRGBA);
 	
 
 	// Get/set the components

@@ -26,11 +26,11 @@
 //----------------------------------------------------------------------------
 // Endian
 typedef enum {
-	kEndianBig,
-	kEndianLittle
-} EndianFormat;
+	kNEndianBig,
+	kNEndianLittle
+} NEndianFormat;
 
-static const EndianFormat kEndianNative								= (NN_TARGET_ENDIAN_BIG ? kEndianBig : kEndianLittle);
+static const NEndianFormat kNEndianNative = (NN_TARGET_ENDIAN_BIG ? kNEndianBig : kNEndianLittle);
 
 
 
