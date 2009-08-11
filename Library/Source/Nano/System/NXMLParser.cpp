@@ -455,6 +455,7 @@ NStatus NXMLParser::ConvertXMLStatus(SInt32 xmlErr)
 		
 		default:
 			NN_LOG("Unknown error: %d", xmlErr);
+			theErr = kNErrParam;
 			break;
 		}
 	
