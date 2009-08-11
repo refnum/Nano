@@ -47,7 +47,7 @@ void TRange::Execute(void)
 	NN_ASSERT(kNRangeAll.GetSize()     == kNIndexNone);
 
 	NN_ASSERT(kNRangeNone.IsEmpty());
-	NN_ASSERT(kNRangeAll.IsNotEmpty());
+	NN_ASSERT(!kNRangeAll.IsEmpty());
 
 	NN_ASSERT(kValueRange1.GetLocation() == 0);
 	NN_ASSERT(kValueRange1.GetSize()     == 5);

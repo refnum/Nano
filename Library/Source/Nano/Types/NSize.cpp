@@ -89,21 +89,6 @@ bool NSize::IsEmpty(void) const
 
 
 //============================================================================
-//		NSize::IsNotEmpty : Is the size non-empty?
-//----------------------------------------------------------------------------
-bool NSize::IsNotEmpty(void) const
-{
-
-
-	// Test the size
-	return(NMathUtilities::NotZero(width) || NMathUtilities::NotZero(height));
-}
-
-
-
-
-
-//============================================================================
 //		NSize::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NSize::Compare(const NSize &theValue) const

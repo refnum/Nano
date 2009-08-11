@@ -239,9 +239,9 @@ NString NXMLEncoder::EncodeDocType(const NXMLNode *theNode)
 
 
 	// Encode the node
-	if (publicID.IsNotEmpty())
+	if (!publicID.IsEmpty())
 		{
-		NN_ASSERT(systemID.IsNotEmpty());
+		NN_ASSERT(!systemID.IsEmpty());
 		theText.Format("<!DOCTYPE %@ PUBLIC \"%@\" \"%@\">", theName, publicID, systemID);
 		}
 	else
@@ -295,7 +295,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 	if (theNode->IsElementUnpaired())
 		{
 		// Get the state we need
-		if (textAttributes.IsNotEmpty())
+		if (!textAttributes.IsEmpty())
 			textAttributes += " ";
 
 
@@ -427,10 +427,10 @@ bool NXMLEncoder::DecodeDocType(const NString &theName, const NXMLDocumentTypeIn
 	theParent = GetDecodeParent();
 	theNode   = new NXMLNode(kNXMLNodeDocType, theName);
 	
-	if (theInfo.systemID.IsNotEmpty())
+	if (!theInfo.systemID.IsEmpty())
 		theNode->SetDocTypeSystemID(theInfo.systemID);
 
-	if (theInfo.publicID.IsNotEmpty())
+	if (!theInfo.publicID.IsEmpty())
 		theNode->SetDocTypePublicID(theInfo.publicID);
 	
 	theParent->AddChild(theNode);

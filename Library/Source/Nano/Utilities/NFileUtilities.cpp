@@ -56,7 +56,7 @@ NString NFileUtilities::GetFileText(const NFile &theFile, NStringEncoding theEnc
 
 	// Get the file text
 	theData = GetFileData(theFile);
-	if (theData.IsNotEmpty())
+	if (!theData.IsEmpty())
 		theText = NString((const char *) theData.GetData(), theData.GetSize(), theEncoding);
 		
 	return(theText);

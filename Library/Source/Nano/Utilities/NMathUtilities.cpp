@@ -47,21 +47,6 @@ bool NMathUtilities::AreEqual(Float64 a, Float64 b)
 
 
 //============================================================================
-//      NMathUtilities::NotEqual : Are two floating point numbers not equal?
-//----------------------------------------------------------------------------
-bool NMathUtilities::NotEqual(Float64 a, Float64 b)
-{
-
-
-    // Check for inequality
-    return(!AreEqual(a, b));
-}
-
-
-
-
-
-//============================================================================
 //      NMathUtilities::IsZero : Is a floating point number zero?
 //----------------------------------------------------------------------------
 bool NMathUtilities::IsZero(Float64 theValue)
@@ -70,21 +55,6 @@ bool NMathUtilities::IsZero(Float64 theValue)
 
     // Check for zero
     return(AreEqual(theValue, 0.0));
-}
-
-
-
-
-
-//============================================================================
-//      NMathUtilities::NotZero : Is a floating point number non-zero?
-//----------------------------------------------------------------------------
-bool NMathUtilities::NotZero(Float64 theValue)
-{
-
-
-    // Check for zero
-    return(!AreEqual(theValue, 0.0));
 }
 
 

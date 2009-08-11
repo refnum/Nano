@@ -150,7 +150,7 @@ bool NDictionary::Invert(void)
 		theKey   = *theIter;
 		theValue = GetValueString(theKey);
 
-		canInvert = theValue.IsNotEmpty() && !theResult.HasKey(theValue);
+		canInvert = !theValue.IsEmpty() && !theResult.HasKey(theValue);
 		if (canInvert)
 			theResult.SetValue(theValue, theKey);
 		}
@@ -202,7 +202,7 @@ bool NDictionary::HasKey(const NString &theKey) const
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -227,7 +227,7 @@ void NDictionary::RemoveKey(const NString &theKey)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -284,7 +284,7 @@ NVariant NDictionary::GetValue(const NString &theKey) const
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -314,7 +314,7 @@ void NDictionary::SetValue(const NString &theKey, const NVariant &theValue)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 	NN_ASSERT(theValue.IsValid());
 
 

@@ -51,8 +51,7 @@ public:
 
 
 	// Test the rectangle
-	bool								IsEmpty(   void) const;
-	bool								IsNotEmpty(void) const;
+	bool								IsEmpty(void) const;
 
 
 	// Compare the value

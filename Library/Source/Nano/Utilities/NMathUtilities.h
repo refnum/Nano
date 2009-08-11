@@ -49,12 +49,10 @@ class NMathUtilities {
 public:
     // Floating point equality
     static bool                         AreEqual(Float64 a, Float64 b);
-    static bool                         NotEqual(Float64 a, Float64 b);
 
 
     // Floating point tests
-    static bool                         IsZero( Float64 theValue);
-    static bool                         NotZero(Float64 theValue);
+    static bool                         IsZero(Float64 theValue);
 
 
     // Integer tests

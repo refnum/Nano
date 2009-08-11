@@ -99,7 +99,7 @@ NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
 
 
 	// Acquire with timeout
-	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
 		stopTime = NTimeUtilities::GetTime() + waitFor;
 		do
@@ -235,7 +235,7 @@ NStatus NTargetLock::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWri
 
 
 	// Acquire with timeout
-	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
 		stopTime = NTimeUtilities::GetTime() + waitFor;
 		do

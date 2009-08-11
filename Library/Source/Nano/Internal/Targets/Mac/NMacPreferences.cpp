@@ -34,7 +34,7 @@ bool NTargetPreferences::HasKey(const NString &theKey)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -56,7 +56,7 @@ void NTargetPreferences::RemoveKey(const NString &theKey)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -78,7 +78,7 @@ NVariant NTargetPreferences::GetValue(const NString &theKey)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -102,7 +102,7 @@ void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValu
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 

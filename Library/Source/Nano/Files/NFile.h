@@ -94,8 +94,7 @@ public:
 
 
 	// Does the file exist?
-	bool								Exists(   void) const;
-	bool								NotExists(void) const;
+	bool								Exists(void) const;
 
 
 	// Compare the value

@@ -570,7 +570,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Array(const NArray &theValue)
 		else
 			{
 			theData = theEncoder.Encode(theItem);
-			if (theData.IsNotEmpty())
+			if (!theData.IsEmpty())
 				nodeValue = EncodeMacXML_1_0_Data(theData);
 			else
 				{
@@ -649,7 +649,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Dictionary(const NDictionary &theValue
 		else
 			{
 			theData = theEncoder.Encode(theItem);
-			if (theData.IsNotEmpty())
+			if (!theData.IsEmpty())
 				nodeValue = EncodeMacXML_1_0_Data(theData);
 			else
 				{

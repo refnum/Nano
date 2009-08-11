@@ -185,7 +185,7 @@ NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
 	// Get the value
 	theValue = GetBundleInfo();
 	
-	if (theKey.IsNotEmpty())
+	if (!theKey.IsEmpty())
 		theValue = theValue.GetValueDictionary(theKey);
 	
 	return(theValue);
@@ -223,7 +223,7 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 		else
 			thePath.Format("%@/%@/%@", kPathBundleResources, subDir, theName);
 
-		if (theType.IsNotEmpty())
+		if (!theType.IsEmpty())
 			{
 			if (!theType.StartsWith("."))
 				thePath += ".";
@@ -324,7 +324,7 @@ NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 
 
 	// Validate our parameters
-	NN_ASSERT(theTable.IsNotEmpty());
+	NN_ASSERT(!theTable.IsEmpty());
 
 
 

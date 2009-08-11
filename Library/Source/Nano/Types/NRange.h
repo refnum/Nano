@@ -96,9 +96,7 @@ public:
 
 
 	// Test the range
-	bool								IsEmpty(   void)                 const;
-	bool								IsNotEmpty(void)                 const;
-
+	bool								IsEmpty(void)                    const;
 	bool								Overlaps(const NRange &theRange) const;
 	bool								Contains(NIndex        theIndex) const;
 

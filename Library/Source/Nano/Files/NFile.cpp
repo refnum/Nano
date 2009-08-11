@@ -92,7 +92,7 @@ bool NFile::IsValid(void) const
 
 
 	// Check our state
-	return(mPath.IsNotEmpty());
+	return(!mPath.IsEmpty());
 }
 
 
@@ -168,21 +168,6 @@ bool NFile::Exists(void) const
 
 	// Check the path
 	return(NTargetFile::Exists(mPath));
-}
-
-
-
-
-
-//============================================================================
-//		NFile::NotExists : Does the file not exist?
-//----------------------------------------------------------------------------
-bool NFile::NotExists(void) const
-{
-
-
-	// Check the file
-	return(!Exists());
 }
 
 
@@ -319,7 +304,7 @@ NStatus NFile::SetExtension(const NString &theExtension, bool renameFile)
 	theName      = GetName();
 	oldExtension = GetExtension();
 	
-	if (oldExtension.IsNotEmpty())
+	if (!oldExtension.IsEmpty())
 		theName = theName.GetLeft(theName.GetSize() - (oldExtension.GetSize() + 1));
 	
 	theName += ".";
@@ -343,7 +328,7 @@ UInt64 NFile::GetSize(void) const
 
 
 	// Check our state
-	if (NotExists() || !IsFile())
+	if (!Exists() || !IsFile())
 		return(0);
 
 
@@ -365,7 +350,7 @@ NStatus NFile::SetSize(UInt64 theSize)
 
 
 	// Create the file if necessary
-	if (NotExists())
+	if (!Exists())
 		CreateFile();
 
 

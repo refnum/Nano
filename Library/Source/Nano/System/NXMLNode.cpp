@@ -264,7 +264,7 @@ void NXMLNode::SetType(NXMLNodeType theType)
 
 
 	// Reset our state
-	if (mAttributes.IsNotEmpty())
+	if (!mAttributes.IsEmpty())
 		mAttributes.Clear();
 	
 	mValue.Clear();

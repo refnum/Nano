@@ -50,8 +50,8 @@ void TData::Execute(void)
 
 
 	// Execute the tests
-	NN_ASSERT(kNDataTest1.IsNotEmpty());
-	NN_ASSERT(kNDataTest2.IsNotEmpty());
+	NN_ASSERT(!kNDataTest1.IsEmpty());
+	NN_ASSERT(!kNDataTest2.IsEmpty());
 
 	NN_ASSERT(kNDataTest1.GetSize() == GET_ARRAY_SIZE(kBlock1));
 	NN_ASSERT(kNDataTest2.GetSize() == GET_ARRAY_SIZE(kBlock2));
@@ -61,7 +61,7 @@ void TData::Execute(void)
 	NN_ASSERT(testData.GetData() == NULL);
 
 	testData = kNDataTest1;
-	NN_ASSERT(testData.IsNotEmpty());
+	NN_ASSERT(!testData.IsEmpty());
 
 	testData.Clear();
 	NN_ASSERT(testData.IsEmpty());

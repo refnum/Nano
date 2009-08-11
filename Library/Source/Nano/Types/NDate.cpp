@@ -97,7 +97,7 @@ bool NDate::IsValid(void) const
 
 
 	// Check our state
-	return(NMathUtilities::NotZero(mTime));
+	return(!NMathUtilities::IsZero(mTime));
 }
 
 

@@ -104,21 +104,6 @@ bool NRectangle::IsEmpty(void) const
 
 
 //============================================================================
-//		NRectangle::IsNotEmpty : Is the rectangle non-empty?
-//----------------------------------------------------------------------------
-bool NRectangle::IsNotEmpty(void) const
-{
-
-
-	// Test the rectangle
-	return(size.IsNotEmpty());
-}
-
-
-
-
-
-//============================================================================
 //		NRectangle::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NRectangle::Compare(const NRectangle &theValue) const

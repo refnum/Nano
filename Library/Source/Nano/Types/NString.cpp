@@ -433,7 +433,7 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 			matchString.Format("^\\Q%@\\E", theString);
 
 		theRange = Find(matchString, theFlags | kNStringPattern);
-		isMatch  = theRange.IsNotEmpty();
+		isMatch  = !theRange.IsEmpty();
 		}
 	
 	return(isMatch);
@@ -474,7 +474,7 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 			matchString.Format("\\Q%@\\E$", theString);
 
 		theRange = Find(matchString, theFlags | kNStringPattern);
-		isMatch  = theRange.IsNotEmpty();
+		isMatch  = !theRange.IsEmpty();
 		}
 	
 	return(isMatch);
@@ -495,7 +495,7 @@ bool NString::Contains(const NString &theString, NStringFlags theFlags) const
 	// Find the string
 	theRange = Find(theString, theFlags);
 
-	return(theRange.IsNotEmpty());
+	return(!theRange.IsEmpty());
 }
 
 
@@ -899,7 +899,7 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 
 
 	// Validate our parameters
-	NN_ASSERT(theString.IsNotEmpty());
+	NN_ASSERT(!theString.IsEmpty());
 
 
 
@@ -930,7 +930,7 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 			subRange  = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
 			subString = GetString(subRange);
 
-			NN_ASSERT(subString.IsNotEmpty());
+			NN_ASSERT(!subString.IsEmpty());
 			theResult.push_back(subString);
 			}
 		
@@ -1004,7 +1004,7 @@ void NString::Trim(const NString &theString, NStringFlags theFlags)
 
 
 	// Validate our parameters
-	NN_ASSERT(theString.IsNotEmpty());
+	NN_ASSERT(!theString.IsEmpty());
 
 
 
@@ -1080,7 +1080,7 @@ void NString::Trim(const NRange &theRange)
 
 
 	// Trim the string
-	if (byteRange.IsNotEmpty())
+	if (!byteRange.IsEmpty())
 		{
 		theValue->theData.RemoveData(byteRange);
 		ValueChanged(theValue);
@@ -1300,7 +1300,7 @@ void NString::ValueChanged(NStringValue *theValue)
 	ClearHash();
 
 #if NN_DEBUG
-	if (mData.IsNotEmpty())
+	if (!mData.IsEmpty())
 		memset(theValue->theData.GetData(), 'X', theValue->theData.GetSize());
 #else
 	theValue->theData.Clear();
@@ -1384,7 +1384,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 
 
 	// Validate our parameters
-	NN_ASSERT(theString.IsNotEmpty());
+	NN_ASSERT(!theString.IsEmpty());
 	
 
 
@@ -1506,7 +1506,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 
 	// Validate our parameters
-	NN_ASSERT(theString.IsNotEmpty());
+	NN_ASSERT(!theString.IsEmpty());
 	
 
 

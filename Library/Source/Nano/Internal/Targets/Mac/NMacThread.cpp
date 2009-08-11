@@ -240,7 +240,7 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 
 
 	// Wait with timeout
-	if (NMathUtilities::NotEqual(waitFor, kNTimeForever))
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
 		stopTime = NTimeUtilities::GetTime() + waitFor;
 		do

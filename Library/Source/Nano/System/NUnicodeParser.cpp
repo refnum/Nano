@@ -461,7 +461,7 @@ void NUnicodeParser::RemoveBOM(NData &theData, NStringEncoding theEncoding) cons
 
 	// Get the state we need
 	bomEncoding = GetBOM(theData, theBOM);
-	if (theBOM.IsNotEmpty())
+	if (!theBOM.IsEmpty())
 		theData.RemoveData(theBOM);
 
 

@@ -30,9 +30,8 @@ public:
 	virtual								~NContainer(void);
 
 
-	// Is this object empty/non-empty?
-	bool								IsEmpty(   void) const;
-	bool								IsNotEmpty(void) const;
+	// Is this object empty?
+	bool								IsEmpty(void) const;
 
 
 	// Get the size

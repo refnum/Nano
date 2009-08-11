@@ -53,19 +53,3 @@ bool NContainer::IsEmpty(void) const
 	return(GetSize() == 0);
 }
 
-
-
-
-
-//============================================================================
-//		NContainer::IsNotEmpty : Is the container non-empty?
-//----------------------------------------------------------------------------
-bool NContainer::IsNotEmpty(void) const
-{
-
-
-	// Check our size
-	return(GetSize() != 0);
-}
-
-

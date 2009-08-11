@@ -281,21 +281,6 @@ bool NRange::IsEmpty(void) const
 
 
 //============================================================================
-//		NRange::IsNotEmpty : Is the range non-empty?
-//----------------------------------------------------------------------------
-bool NRange::IsNotEmpty(void) const
-{
-
-
-	// Check our state
-	return(mSize != 0);
-}
-
-
-
-
-
-//============================================================================
 //		NRange::Overlaps : Does the range overlap another?
 //----------------------------------------------------------------------------
 bool NRange::Overlaps(const NRange &theRange) const
@@ -303,7 +288,7 @@ bool NRange::Overlaps(const NRange &theRange) const
 
 
 	// Check for overlap
-    return(GetIntersection(theRange).IsNotEmpty());
+    return(!GetIntersection(theRange).IsEmpty());
 }
 
 

@@ -280,7 +280,7 @@ NCFObject NMacTarget::ConvertObjectToCF(const NVariant &theValue)
 	else
 		{
 		theData = theEncoder.Encode(theValue);
-		if (theData.IsNotEmpty())
+		if (!theData.IsEmpty())
 			theObject = NCFData(theData).GetObject();
 		else
 			NN_LOG("Unable to convert Nano object to CF!");

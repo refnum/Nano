@@ -53,7 +53,7 @@ bool NPreferences::HasKey(const NString &theKey, bool checkDefaults) const
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -77,7 +77,7 @@ void NPreferences::RemoveKey(const NString &theKey)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 
 
 
@@ -98,7 +98,7 @@ NVariant NPreferences::GetValue(const NString &theKey) const
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 	
 
 
@@ -122,7 +122,7 @@ void NPreferences::SetValue(const NString &theKey, const NVariant &theValue)
 
 
 	// Validate our parameters
-	NN_ASSERT(theKey.IsNotEmpty());
+	NN_ASSERT(!theKey.IsEmpty());
 	
 
 

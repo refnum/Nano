@@ -51,8 +51,7 @@ public:
 
 
 	// Test the point
-	bool								IsZero(   void) const;
-	bool								IsNotZero(void) const;
+	bool								IsZero(void) const;
 
 
 public:

@@ -95,7 +95,7 @@ void NDBStatement::SetValue(const NString &theValue)
 
 
 	// Validate our parameters
-	NN_ASSERT(theValue.IsNotEmpty());
+	NN_ASSERT(!theValue.IsEmpty());
 
 
 

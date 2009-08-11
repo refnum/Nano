@@ -182,7 +182,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 	if (theName.IsEmpty())
 		{
 		slashPos = thePath.Find("/", kNStringBackwards);
-		if (slashPos.IsNotEmpty())
+		if (!slashPos.IsEmpty())
 			theName = thePath.GetRight(thePath.GetSize() - slashPos.GetNext());
 		}
 
@@ -309,7 +309,7 @@ NString NTargetFile::GetParent(const NString &thePath)
 	// Get the parent
 	slashPos = thePath.Find("/", kNStringBackwards);
 
-	if (slashPos.IsNotEmpty())
+	if (!slashPos.IsEmpty())
 		theParent = thePath.GetLeft(slashPos.GetLocation());
 	else
 		theParent = thePath;

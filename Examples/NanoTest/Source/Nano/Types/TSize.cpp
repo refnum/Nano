@@ -42,10 +42,10 @@ void TSize::Execute(void)
 
 	// Execute the tests
 	NN_ASSERT(kNSizeZero.IsEmpty());
-	NN_ASSERT(kValueSize.IsNotEmpty());
+	NN_ASSERT(!kValueSize.IsEmpty());
 
 	testSize = kValueSize;
-	NN_ASSERT(testSize.IsNotEmpty());
+	NN_ASSERT(!testSize.IsEmpty());
 
 	testSize.Clear();
 	NN_ASSERT(testSize.IsEmpty());

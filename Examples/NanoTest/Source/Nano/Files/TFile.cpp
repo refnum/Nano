@@ -95,9 +95,9 @@ void TFile::Execute(void)
 	NN_ASSERT( !theDir.IsOpen());
 	NN_ASSERT(!tmpFile.IsOpen());
 
-	NN_ASSERT(theFile.Exists());
-	NN_ASSERT( theDir.Exists());
-	NN_ASSERT(tmpFile.NotExists());
+	NN_ASSERT( theFile.Exists());
+	NN_ASSERT(  theDir.Exists());
+	NN_ASSERT(!tmpFile.Exists());
 
 
 

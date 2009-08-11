@@ -414,7 +414,7 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 
 	// Validate our parameters and state
 	NN_ASSERT(IsOpen());
-	NN_ASSERT(theStatement.GetValue().IsNotEmpty());
+	NN_ASSERT(!theStatement.GetValue().IsEmpty());
 
 
 
@@ -455,7 +455,7 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 
 
 	// Bind the parameters
-	if (theParameters.IsNotEmpty())
+	if (!theParameters.IsEmpty())
 		SQLiteBindParameters(sqlStatement, theParameters);
 	
 	return(sqlStatement);

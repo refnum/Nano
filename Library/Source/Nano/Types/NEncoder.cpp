@@ -908,7 +908,7 @@ NXMLNode *NEncoder::EncodeChild(const NString &theKey, const NString &theValue, 
 	theChild = new NXMLNode(kNXMLNodeElement, theType);
 	theChild->SetElementAttribute(kTokenKey, theKey);
 
-	if (theValue.IsNotEmpty())
+	if (!theValue.IsEmpty())
 		theChild->SetElementContents(theValue);
 
 

@@ -44,7 +44,7 @@ void TPoint::Execute(void)
 	NN_ASSERT(kNPointZero.IsZero());
 
 	testPoint = kValuePoint;
-	NN_ASSERT(testPoint.IsNotZero());
+	NN_ASSERT(!testPoint.IsZero());
 
 	testPoint.Clear();
 	NN_ASSERT(testPoint.IsZero());

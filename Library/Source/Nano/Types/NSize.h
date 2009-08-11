@@ -47,8 +47,7 @@ public:
 
 
 	// Test the size
-	bool								IsEmpty(   void) const;
-	bool								IsNotEmpty(void) const;
+	bool								IsEmpty(void) const;
 
 
 	// Compare the value

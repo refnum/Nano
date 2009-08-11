@@ -44,11 +44,11 @@ void TRectangle::Execute(void)
 	NN_ASSERT(kNRectangleZero.origin == kNPointZero);
 	NN_ASSERT(kNRectangleZero.size   == kNSizeZero);
 
-	NN_ASSERT(kNRectangleZero.IsEmpty());
-	NN_ASSERT(kValueRectangle.IsNotEmpty());
+	NN_ASSERT( kNRectangleZero.IsEmpty());
+	NN_ASSERT(!kValueRectangle.IsEmpty());
 
 	testRect = kValueRectangle;
-	NN_ASSERT(testRect.IsNotEmpty());
+	NN_ASSERT(!testRect.IsEmpty());
 
 	testRect.Clear();
 	NN_ASSERT(testRect.IsEmpty());

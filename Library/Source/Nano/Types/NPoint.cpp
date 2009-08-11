@@ -107,18 +107,3 @@ bool NPoint::IsZero(void) const
 	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
 }
 
-
-
-
-
-//============================================================================
-//		NPoint::IsNotZero : Is the point non-zero?
-//----------------------------------------------------------------------------
-bool NPoint::IsNotZero(void) const
-{
-
-
-	// Test the point
-	return(NMathUtilities::NotZero(x) || NMathUtilities::NotZero(y));
-}
-
