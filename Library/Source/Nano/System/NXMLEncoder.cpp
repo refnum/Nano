@@ -479,7 +479,7 @@ bool NXMLEncoder::DecodeElementEnd(const NString &theName)
 	NN_ASSERT(!mDecodeElements.empty());
 	NN_ASSERT(mDecodeElements.back()->GetTextValue() == theName);
 	
-	(void) theName;
+	NN_UNUSED(theName);
 	
 	
 	

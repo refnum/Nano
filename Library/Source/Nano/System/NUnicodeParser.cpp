@@ -459,6 +459,11 @@ void NUnicodeParser::RemoveBOM(NData &theData, NStringEncoding theEncoding) cons
 
 
 
+	// Silence compiler warnings
+	NN_UNUSED(theEncoding);
+	
+
+
 	// Get the state we need
 	bomEncoding = GetBOM(theData, theBOM);
 	if (!theBOM.IsEmpty())

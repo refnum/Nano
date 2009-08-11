@@ -676,6 +676,13 @@ NString NDictionary::GetDebugID(const NString &theKey) const
 
 
 
+	// Validate our parameters
+	NN_ASSERT(!theKey.IsEmpy());
+	
+	NN_UNUSED(theKey);
+
+
+
 	// Get the ID
 #if NN_DEBUG
 	if (HasKey(theKey))

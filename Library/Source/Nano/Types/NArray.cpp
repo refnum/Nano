@@ -967,6 +967,13 @@ NString NArray::GetDebugID(NIndex theIndex) const
 
 
 
+	// Validate our parameters
+	NN_ASSERT(theIndex < GetSize());
+	
+	NN_UNUSED(theIndex);
+
+
+
 	// Get the ID
 #if NN_DEBUG
 	theID.Format("%ld", theIndex);

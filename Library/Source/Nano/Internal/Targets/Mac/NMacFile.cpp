@@ -170,8 +170,8 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 			if (theErr == noErr)
 				theName = NCFString(cfString, true);
 #else
-			(void) theErr;
-			(void) cfString;
+			NN_UNUSED(theErr);
+			NN_UNUSED(cfString);
 #endif
 			}
 		}
