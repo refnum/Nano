@@ -204,7 +204,7 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
 	sysErr = sem_destroy(&semRef);
 	NN_ASSERT_NOERR(sysErr);
 
-	theSemaphore = NULL;
+	theSemaphore = (NSemaphoreRef) NULL;
 }
 
 
@@ -215,8 +215,8 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
 //		NTargetThread::SemaphoreSignal : Signal a semaphore.
 //----------------------------------------------------------------------------
 void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
-{	sem_t	semRef = (sem_t) theSemaphore;
-	int		sysErr;
+{	sem_t		semRef = (sem_t) theSemaphore;
+	int			sysErr;
 
 
 
