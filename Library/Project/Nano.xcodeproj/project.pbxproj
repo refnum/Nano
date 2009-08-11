@@ -13,6 +13,8 @@
 		AB1694DD10028C8200F7D4B7 /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D810028C8200F7D4B7 /* cencode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694E210028CEE00F7D4B7 /* NB64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1694E010028CEE00F7D4B7 /* NB64Encoder.cpp */; };
 		AB1694E310028CEE00F7D4B7 /* NB64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1694E010028CEE00F7D4B7 /* NB64Encoder.cpp */; };
+		AB1A786D1031842C00DFBA38 /* NNSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1A786C1031842C00DFBA38 /* NNSSingleton.m */; };
+		AB1A786E1031842C00DFBA38 /* NNSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1A786C1031842C00DFBA38 /* NNSSingleton.m */; };
 		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
@@ -245,6 +247,8 @@
 		AB1694E010028CEE00F7D4B7 /* NB64Encoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NB64Encoder.cpp; sourceTree = "<group>"; };
 		AB1694E110028CEE00F7D4B7 /* NB64Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NB64Encoder.h; sourceTree = "<group>"; };
 		AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDistribution.xcconfig; sourceTree = "<group>"; };
+		AB1A786B1031842C00DFBA38 /* NNSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSSingleton.h; sourceTree = "<group>"; };
+		AB1A786C1031842C00DFBA38 /* NNSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NNSSingleton.m; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
@@ -528,6 +532,15 @@
 			path = libb64_1.1;
 			sourceTree = "<group>";
 		};
+		AB1A786A1031842C00DFBA38 /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				AB1A786B1031842C00DFBA38 /* NNSSingleton.h */,
+				AB1A786C1031842C00DFBA38 /* NNSSingleton.m */,
+			);
+			path = Cocoa;
+			sourceTree = "<group>";
+		};
 		AB223D8F09CA2DF700533C00 /* Prefix */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,6 +578,7 @@
 		AB9154DF0F9B4DD5009FFEAF /* Nanites */ = {
 			isa = PBXGroup;
 			children = (
+				AB1A786A1031842C00DFBA38 /* Cocoa */,
 				AB9154E00F9B4DD5009FFEAF /* CoreFoundation */,
 				ABAA123F0FE4F959000BDCDC /* Qt */,
 			);
@@ -1052,6 +1066,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1A786D1031842C00DFBA38 /* NNSSingleton.m in Sources */,
 				AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */,
 				AB9DA5E7102AF78F0062E311 /* NCFData.cpp in Sources */,
 				AB9DA5EA102AF78F0062E311 /* NCFDate.cpp in Sources */,
@@ -1173,6 +1188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1A786E1031842C00DFBA38 /* NNSSingleton.m in Sources */,
 				AB9DA5E4102AF78F0062E311 /* NCFArray.cpp in Sources */,
 				AB9DA5E2102AF78F0062E311 /* NCFData.cpp in Sources */,
 				AB9DA5E5102AF78F0062E311 /* NCFDate.cpp in Sources */,
