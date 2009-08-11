@@ -677,7 +677,7 @@ NString NDictionary::GetDebugID(const NString &theKey) const
 
 
 	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpy());
+	NN_ASSERT(!theKey.IsEmpty());
 	
 	NN_UNUSED(theKey);
 
