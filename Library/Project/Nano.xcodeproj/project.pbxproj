@@ -19,6 +19,8 @@
 		AB1A78A2103234BE00DFBA38 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
 		AB1A78A3103234BE00DFBA38 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
 		AB1A78A4103234BE00DFBA38 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
+		AB1A78CD1032398000DFBA38 /* NTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78CB1032398000DFBA38 /* NTimer.cpp */; };
+		AB1A78CE1032398000DFBA38 /* NTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78CB1032398000DFBA38 /* NTimer.cpp */; };
 		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
@@ -257,6 +259,8 @@
 		AB1A789E103234BE00DFBA38 /* NUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoManager.h; sourceTree = "<group>"; };
 		AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoSource.cpp; sourceTree = "<group>"; };
 		AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoManager.cpp; sourceTree = "<group>"; };
+		AB1A78CB1032398000DFBA38 /* NTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimer.cpp; sourceTree = "<group>"; };
+		AB1A78CC1032398000DFBA38 /* NTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimer.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
@@ -732,6 +736,8 @@
 				AB9155120F9B4DD5009FFEAF /* NBroadcaster.h */,
 				AB9155130F9B4DD5009FFEAF /* NListener.cpp */,
 				AB9155140F9B4DD5009FFEAF /* NListener.h */,
+				AB1A78CB1032398000DFBA38 /* NTimer.cpp */,
+				AB1A78CC1032398000DFBA38 /* NTimer.h */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1098,6 +1104,7 @@
 				AB23BAFC102B5B96009CA347 /* NDBStatement.cpp in Sources */,
 				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
 				AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */,
+				AB1A78CD1032398000DFBA38 /* NTimer.cpp in Sources */,
 				ABB145D00FF36A34006F178C /* NBundle.cpp in Sources */,
 				ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */,
 				ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */,
@@ -1222,6 +1229,7 @@
 				AB23BAF8102B5B96009CA347 /* NDBStatement.cpp in Sources */,
 				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
 				AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */,
+				AB1A78CE1032398000DFBA38 /* NTimer.cpp in Sources */,
 				ABB145CE0FF36A34006F178C /* NBundle.cpp in Sources */,
 				ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */,
 				ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */,

@@ -16,7 +16,45 @@
 //----------------------------------------------------------------------------
 #include <sys/sysctl.h>
 
+#include "NCFObject.h"
 #include "NTargetTime.h"
+
+
+
+
+
+//============================================================================
+//		Internal types
+//----------------------------------------------------------------------------
+typedef struct {
+	CFRunLoopTimerRef		cfTimer;
+	NTimerFunctor			theFunctor;
+} TimerInfo;
+
+
+
+
+
+//============================================================================
+//		Internal functions
+//----------------------------------------------------------------------------
+//		TimerCallback : Timer callback.
+//----------------------------------------------------------------------------
+static void TimerCallback(CFRunLoopTimerRef cfTimer, void *userData)
+{	TimerInfo			*timerInfo = (TimerInfo *) userData;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(cfTimer == timerInfo->cfTimer);
+	
+	NN_UNUSED(cfTimer);
+
+
+
+	// Invoke the timer
+	timerInfo->theFunctor(kNTimerFired);
+}
 
 
 
@@ -70,5 +108,78 @@ NTime NTargetTime::GetUpTime(void)
 	
 	return(theTime);
 }
+
+
+
+
+
+//============================================================================
+//		NTargetTime::TimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
+{	CFRunLoopTimerContext		timerContext;
+	TimerInfo					*timerInfo;
+	CFAbsoluteTime				fireTime;
+
+
+
+	// Get the state we need
+	memset(&timerContext, 0x00, sizeof(timerContext));
+
+	fireTime          = CFAbsoluteTimeGetCurrent() + fireAfter;
+	timerInfo         = new TimerInfo;
+	timerContext.info = timerInfo;
+
+
+
+	// Create the timer
+	timerInfo->cfTimer    = CFRunLoopTimerCreate(kCFAllocatorNano, fireTime, fireEvery, 0, 0, TimerCallback, &timerContext);
+	timerInfo->theFunctor = theFunctor;
+
+	CFRunLoopAddTimer(CFRunLoopGetMain(), timerInfo->cfTimer, kCFRunLoopCommonModes);
+	
+	return((NTimerID) timerInfo);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::TimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+void NTargetTime::TimerDestroy(NTimerID theTimer)
+{	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
+
+
+
+	// Destroy the timer
+	CFRunLoopRemoveTimer(CFRunLoopGetMain(), timerInfo->cfTimer, kCFRunLoopCommonModes);
+	CFRelease(timerInfo->cfTimer);
+	
+	delete timerInfo;
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::TimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
+{	TimerInfo			*timerInfo = (TimerInfo *) theTimer;
+	CFAbsoluteTime		fireTime;
+
+
+
+	// Reset the timer
+	fireTime = CFAbsoluteTimeGetCurrent() + fireAfter;
+	
+	CFRunLoopTimerSetNextFireDate(timerInfo->cfTimer, fireTime);
+}
+
+
+
 
 

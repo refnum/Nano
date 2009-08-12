@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTimer.h"
 
 
 
@@ -32,6 +33,14 @@ public:
 
 	// Get the time since boot
 	static NTime						GetUpTime(void);
+
+
+	// Manage timers
+	//
+	// Timers are always executed on the main thread.
+	static NTimerID						TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery);
+	static void							TimerDestroy(NTimerID theTimer);
+	static void							TimerReset(  NTimerID theTimer, NTime fireAfter);
 };
 
 

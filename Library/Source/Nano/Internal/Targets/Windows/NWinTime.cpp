@@ -47,3 +47,40 @@ NTime NTargetTime::GetUpTime(void)
 
 
 
+
+
+//============================================================================
+//		NTargetTime::TimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::TimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+void NTargetTime::TimerDestroy(NTimerID theTimer)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::TimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
+{
+	// dair, to do
+}
+
+
+
+
