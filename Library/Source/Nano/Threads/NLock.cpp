@@ -17,7 +17,7 @@
 #include "NThreadUtilities.h"
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
-#include "NTargetLock.h"
+#include "NTargetThread.h"
 #include "NThread.h"
 #include "NLock.h"
 
@@ -111,7 +111,7 @@ NMutexLock::NMutexLock(void)
 
 
 	// Initialize ourselves
-	mLock = NTargetLock::MutexCreate();
+	mLock = NTargetThread::MutexCreate();
 }
 
 
@@ -131,7 +131,7 @@ NMutexLock::~NMutexLock(void)
 
 
 	// Clean up
-	NTargetLock::MutexDestroy(mLock);
+	NTargetThread::MutexDestroy(mLock);
 }
 
 
@@ -152,7 +152,7 @@ bool NMutexLock::Lock(NTime theTime)
 
 
 	// Acquire the lock
-	theErr = NTargetLock::MutexLock(mLock, theTime);
+	theErr = NTargetThread::MutexLock(mLock, theTime);
 	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
 
 
@@ -184,7 +184,7 @@ void NMutexLock::Unlock(void)
 	// Release the lock
 	AdjustLock(false);
 	
-	NTargetLock::MutexUnlock(mLock);
+	NTargetThread::MutexUnlock(mLock);
 }
 
 
@@ -200,7 +200,7 @@ NReadWriteLock::NReadWriteLock(void)
 
 
 	// Initialize ourselves
-	mLock = NTargetLock::ReadWriteCreate();
+	mLock = NTargetThread::ReadWriteCreate();
 }
 
 
@@ -220,7 +220,7 @@ NReadWriteLock::~NReadWriteLock(void)
 
 
 	// Clean up
-	NTargetLock::ReadWriteDestroy(mLock);
+	NTargetThread::ReadWriteDestroy(mLock);
 }
 
 
@@ -257,7 +257,7 @@ void NReadWriteLock::Unlock(void)
 	// Release the lock
 	AdjustLock(false);
 	
-	NTargetLock::ReadWriteUnlock(mLock);
+	NTargetThread::ReadWriteUnlock(mLock);
 }
 
 
@@ -288,7 +288,7 @@ bool NReadWriteLock::AcquireLock(NTime theTime, bool forWrite)
 
 
 	// Acquire the lock
-	theErr = NTargetLock::ReadWriteLock(mLock, theTime, forWrite);
+	theErr = NTargetThread::ReadWriteLock(mLock, theTime, forWrite);
 	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
 
 

@@ -110,6 +110,44 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 //============================================================================
+//		NTargetThread::ThreadIsMain : Is this the main thread?
+//----------------------------------------------------------------------------
+bool NTargetThread::ThreadIsMain(void)
+{
+	// dair, to do
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadSleep : Sleep the current thread.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadSleep(NTime theTime)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadCreate : Create a thread.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
+{
+	// dair, to do
+	return(kNErrInternal);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::SemaphoreCreate : Create a semaphore.
 //----------------------------------------------------------------------------
 NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)
@@ -161,12 +199,12 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime theTime)
 
 
 //============================================================================
-//		NTargetThread::ThreadIsMain : Is this the main thread?
+//      NTargetThread::MutexCreate : Create a mutex lock.
 //----------------------------------------------------------------------------
-bool NTargetThread::ThreadIsMain(void)
+NLockRef NTargetThread::MutexCreate(void)
 {
-	// dair, to do
-	return(true);
+	// dair,to do
+	return(NULL);
 }
 
 
@@ -174,11 +212,12 @@ bool NTargetThread::ThreadIsMain(void)
 
 
 //============================================================================
-//		NTargetThread::ThreadSleep : Sleep the current thread.
+//      NTargetThread::MutexDestroy : Destroy a mutex lock.
 //----------------------------------------------------------------------------
-void NTargetThread::ThreadSleep(NTime theTime)
+void NTargetThread::MutexDestroy(NLockRef &theLock)
 {
-	// dair, to do
+	// dair,to do
+	theLock = NULL;
 }
 
 
@@ -186,13 +225,74 @@ void NTargetThread::ThreadSleep(NTime theTime)
 
 
 //============================================================================
-//		NTargetThread::ThreadCreate : Create a thread.
+//      NTargetThread::MutexLock : Lock a mutex lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
+NStatus NTargetThread::MutexLock(NLockRef &theLock, NTime waitFor)
 {
-	// dair, to do
-	return(kNErrInternal);
+	// dair,to do
+	return(kNoErr);
 }
 
+
+
+
+
+//============================================================================
+//      NTargetThread::MutexUnlock : Unlock a mutex lock.
+//----------------------------------------------------------------------------
+void NTargetThread::MutexUnlock(NLockRef &theLock)
+{
+	// dair,to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteCreate : Create a read-write lock.
+//----------------------------------------------------------------------------
+NLockRef NTargetThread::ReadWriteCreate(void)
+{
+	// dair,to do
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteDestroy : Destroy a read-write lock.
+//----------------------------------------------------------------------------
+void NTargetThread::ReadWriteDestroy(NLockRef &theLock)
+{
+	// dair,to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteLock : Lock a read-write lock.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWrite)
+{
+	// dair,to do
+	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteUnlock : Unlock a read-write lock.
+//----------------------------------------------------------------------------
+void NTargetThread::ReadWriteUnlock(NLockRef &theLock)
+{
+	// dair,to do
+}
 
 

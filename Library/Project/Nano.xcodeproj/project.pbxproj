@@ -140,7 +140,6 @@
 		AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
 		AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */; };
 		AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */; };
-		AB9155960F9B4DD6009FFEAF /* NMacLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155200F9B4DD6009FFEAF /* NMacLock.cpp */; };
 		AB9155970F9B4DD6009FFEAF /* NMacMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */; };
 		AB9155980F9B4DD6009FFEAF /* NMacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */; };
 		AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */; };
@@ -215,7 +214,6 @@
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */; };
 		ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */; };
-		ABB95B870FB7250500C5A7FF /* NIPhoneLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */; };
 		ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */; };
 		ABB95B890FB7250600C5A7FF /* NIPhoneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */; };
 		ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
@@ -353,7 +351,6 @@
 		AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
 		AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacDebug.cpp; sourceTree = "<group>"; };
 		AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacFile.cpp; sourceTree = "<group>"; };
-		AB9155200F9B4DD6009FFEAF /* NMacLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacLock.cpp; sourceTree = "<group>"; };
 		AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacMath.cpp; sourceTree = "<group>"; };
 		AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacSystem.cpp; sourceTree = "<group>"; };
 		AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTarget.cpp; sourceTree = "<group>"; };
@@ -362,14 +359,12 @@
 		AB9155260F9B4DD6009FFEAF /* NMacTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTime.cpp; sourceTree = "<group>"; };
 		AB9155270F9B4DD6009FFEAF /* NTargetDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetDebug.h; sourceTree = "<group>"; };
 		AB9155280F9B4DD6009FFEAF /* NTargetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetFile.h; sourceTree = "<group>"; };
-		AB9155290F9B4DD6009FFEAF /* NTargetLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetLock.h; sourceTree = "<group>"; };
 		AB91552A0F9B4DD6009FFEAF /* NTargetMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetMath.h; sourceTree = "<group>"; };
 		AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetSystem.h; sourceTree = "<group>"; };
 		AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetThread.h; sourceTree = "<group>"; };
 		AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetTime.h; sourceTree = "<group>"; };
 		AB91552F0F9B4DD6009FFEAF /* NWinDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinDebug.cpp; sourceTree = "<group>"; };
 		AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinFile.cpp; sourceTree = "<group>"; };
-		AB9155310F9B4DD6009FFEAF /* NWinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinLock.cpp; sourceTree = "<group>"; };
 		AB9155320F9B4DD6009FFEAF /* NWinMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinMath.cpp; sourceTree = "<group>"; };
 		AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinSystem.cpp; sourceTree = "<group>"; };
 		AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTarget.cpp; sourceTree = "<group>"; };
@@ -486,7 +481,6 @@
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneDebug.cpp; sourceTree = "<group>"; };
 		ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneFile.cpp; sourceTree = "<group>"; };
-		ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneLock.cpp; sourceTree = "<group>"; };
 		ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneMath.cpp; sourceTree = "<group>"; };
 		ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneSystem.cpp; sourceTree = "<group>"; };
 		ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTarget.cpp; sourceTree = "<group>"; };
@@ -786,7 +780,6 @@
 			children = (
 				AB9155270F9B4DD6009FFEAF /* NTargetDebug.h */,
 				AB9155280F9B4DD6009FFEAF /* NTargetFile.h */,
-				AB9155290F9B4DD6009FFEAF /* NTargetLock.h */,
 				AB91552A0F9B4DD6009FFEAF /* NTargetMath.h */,
 				AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */,
 				AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */,
@@ -805,7 +798,6 @@
 			children = (
 				AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */,
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
-				AB9155200F9B4DD6009FFEAF /* NMacLock.cpp */,
 				AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */,
 				AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */,
 				ABB146560FF37325006F178C /* NMacPreferences.cpp */,
@@ -823,7 +815,6 @@
 			children = (
 				AB91552F0F9B4DD6009FFEAF /* NWinDebug.cpp */,
 				AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */,
-				AB9155310F9B4DD6009FFEAF /* NWinLock.cpp */,
 				AB9155320F9B4DD6009FFEAF /* NWinMath.cpp */,
 				AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */,
 				ABB146550FF37321006F178C /* NWinPreferences.cpp */,
@@ -996,7 +987,6 @@
 			children = (
 				ABB95B740FB7250100C5A7FF /* NIPhoneDebug.cpp */,
 				ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */,
-				ABB95B760FB7250100C5A7FF /* NIPhoneLock.cpp */,
 				ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */,
 				AB4EA38E1009B17400E7B73C /* NIPhonePOSIX.cpp */,
 				ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */,
@@ -1176,7 +1166,6 @@
 				ABFAA6B31018AB360060ED12 /* zutil.c in Sources */,
 				ABB95B850FB7250400C5A7FF /* NIPhoneDebug.cpp in Sources */,
 				ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */,
-				ABB95B870FB7250500C5A7FF /* NIPhoneLock.cpp in Sources */,
 				ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */,
 				AB4EA38F1009B17400E7B73C /* NIPhonePOSIX.cpp in Sources */,
 				ABB146590FF3732E006F178C /* NIPhonePreferences.cpp in Sources */,
@@ -1313,7 +1302,6 @@
 				ABB145D90FF36B03006F178C /* NXMLParser.cpp in Sources */,
 				AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */,
 				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
-				AB9155960F9B4DD6009FFEAF /* NMacLock.cpp in Sources */,
 				AB9155970F9B4DD6009FFEAF /* NMacMath.cpp in Sources */,
 				AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */,
 				ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */,

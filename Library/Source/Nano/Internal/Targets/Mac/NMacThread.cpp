@@ -163,6 +163,63 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 //============================================================================
+//		NTargetThread::ThreadIsMain : Is this the main thread?
+//----------------------------------------------------------------------------
+bool NTargetThread::ThreadIsMain(void)
+{
+
+
+	// Check our state
+	return(pthread_main_np() != 0);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadSleep : Sleep the current thread.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadSleep(NTime theTime)
+{
+
+
+	// Sleep the thread
+	usleep((useconds_t) (theTime / kNTimeMicrosecond));
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadCreate : Create a thread.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
+{	ThreadInfo		*threadInfo;
+	pthread_t		threadID;
+	int				sysErr;
+
+
+
+	// Get the state we need
+	threadInfo             = new ThreadInfo;
+	threadInfo->theFunctor = theFunctor;
+
+
+
+	// Create the thread
+	sysErr = pthread_create(&threadID, NULL, ThreadCallback, threadInfo);
+	NN_ASSERT_NOERR(sysErr);
+	
+	return(NMacTarget::ConvertSysErr(sysErr));
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::SemaphoreCreate : Create a semaphore.
 //----------------------------------------------------------------------------
 NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)
@@ -260,58 +317,280 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 
 
 //============================================================================
-//		NTargetThread::ThreadIsMain : Is this the main thread?
+//      NTargetThread::MutexCreate : Create a mutex lock.
 //----------------------------------------------------------------------------
-bool NTargetThread::ThreadIsMain(void)
-{
-
-
-	// Check our state
-	return(pthread_main_np() != 0);
-}
+NLockRef NTargetThread::MutexCreate(void)
+{	pthread_mutex_t		*mutexLock;
+	NStatus				theErr;
 
 
 
-
-
-//============================================================================
-//		NTargetThread::ThreadSleep : Sleep the current thread.
-//----------------------------------------------------------------------------
-void NTargetThread::ThreadSleep(NTime theTime)
-{
-
-
-	// Sleep the thread
-	usleep((useconds_t) (theTime / kNTimeMicrosecond));
-}
-
-
-
-
-
-//============================================================================
-//		NTargetThread::ThreadCreate : Create a thread.
-//----------------------------------------------------------------------------
-NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
-{	ThreadInfo		*threadInfo;
-	pthread_t		threadID;
-	int				sysErr;
-
-
-
-	// Get the state we need
-	threadInfo             = new ThreadInfo;
-	threadInfo->theFunctor = theFunctor;
-
-
-
-	// Create the thread
-	sysErr = pthread_create(&threadID, NULL, ThreadCallback, threadInfo);
-	NN_ASSERT_NOERR(sysErr);
+	// Validate our state
+	NN_ASSERT(sizeof(mutexLock) == sizeof(NLockRef));
 	
-	return(NMacTarget::ConvertSysErr(sysErr));
+
+
+	// Create the lock
+	mutexLock = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+	if (mutexLock != NULL)
+		{
+		theErr = pthread_mutex_init(mutexLock, NULL);
+		NN_ASSERT_NOERR(theErr);
+		}
+
+	return((NLockRef) mutexLock);
 }
 
+
+
+
+
+//============================================================================
+//      NTargetThread::MutexDestroy : Destroy a mutex lock.
+//----------------------------------------------------------------------------
+void NTargetThread::MutexDestroy(NLockRef &theLock)
+{	pthread_mutex_t		*mutexLock = (pthread_mutex_t *) theLock;
+	NStatus				theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theLock != NULL);
+
+
+
+	// Destroy the lock
+	theErr = pthread_mutex_destroy(mutexLock);
+	NN_ASSERT_NOERR(theErr);
+	
+	free(mutexLock);
+
+
+
+	// Clean up
+	theLock = NULL;
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::MutexLock : Lock a mutex lock.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::MutexLock(NLockRef &theLock, NTime waitFor)
+{	pthread_mutex_t		*mutexLock = (pthread_mutex_t *) theLock;
+	NTime				stopTime;
+	NStatus				theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theLock != NULL);
+
+
+
+	// Acquire with timeout
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		do
+			{
+			// Acquire the lock
+			theErr = pthread_mutex_trylock(mutexLock);
+
+
+			// Handle failure
+			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
+				{
+				NThread::Sleep(kNThreadSpinTime);
+				theErr = kNoErr;
+				}
+			}
+		while (theErr != kNoErr);
+		}
+
+
+
+	// Acquire the lock
+	else
+		theErr = pthread_mutex_lock(mutexLock);
+
+
+
+	// Convert the result
+	if (theErr != kNoErr)
+		theErr = kNErrTimeout;
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::MutexUnlock : Unlock a mutex lock.
+//----------------------------------------------------------------------------
+void NTargetThread::MutexUnlock(NLockRef &theLock)
+{	pthread_mutex_t		*mutexLock = (pthread_mutex_t *) theLock;
+	NStatus				theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theLock != NULL);
+
+
+
+	// Release the lock
+	theErr = pthread_mutex_unlock(mutexLock);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteCreate : Create a read-write lock.
+//----------------------------------------------------------------------------
+NLockRef NTargetThread::ReadWriteCreate(void)
+{	pthread_rwlock_t		*rwLock;
+	NStatus					theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(rwLock) == sizeof(NLockRef));
+	
+
+
+	// Create the lock
+	rwLock = (pthread_rwlock_t *) malloc(sizeof(pthread_rwlock_t));
+	if (rwLock != NULL)
+		{
+		theErr = pthread_rwlock_init(rwLock, NULL);
+		NN_ASSERT_NOERR(theErr);
+		}
+
+	return((NLockRef) rwLock);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteDestroy : Destroy a read-write lock.
+//----------------------------------------------------------------------------
+void NTargetThread::ReadWriteDestroy(NLockRef &theLock)
+{	pthread_rwlock_t		*rwLock = (pthread_rwlock_t *) theLock;
+	NStatus					theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theLock != NULL);
+
+
+
+	// Destroy the lock
+	theErr = pthread_rwlock_destroy(rwLock);
+	NN_ASSERT_NOERR(theErr);
+	
+	free(rwLock);
+
+
+
+	// Clean up
+	theLock = NULL;
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteLock : Lock a read-write lock.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWrite)
+{	pthread_rwlock_t		*rwLock = (pthread_rwlock_t *) theLock;
+	NTime					stopTime;
+	NStatus					theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theLock != NULL);
+
+
+
+	// Acquire with timeout
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		do
+			{
+			// Acquire the lock
+			if (forWrite)
+				theErr = pthread_rwlock_trywrlock(rwLock);
+			else
+				theErr = pthread_rwlock_tryrdlock(rwLock);
+
+
+			// Handle failure
+			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
+				{
+				NThread::Sleep(kNThreadSpinTime);
+				theErr = kNoErr;
+				}
+			}
+		while (theErr != kNoErr);
+		}
+
+
+
+	// Acquire the lock
+	else
+		{
+		if (forWrite)
+			theErr = pthread_rwlock_wrlock(rwLock);
+		else
+			theErr = pthread_rwlock_rdlock(rwLock);
+		}
+
+
+
+	// Convert the result
+	if (theErr != kNoErr)
+		theErr = kNErrTimeout;
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::ReadWriteUnlock : Unlock a read-write lock.
+//----------------------------------------------------------------------------
+void NTargetThread::ReadWriteUnlock(NLockRef &theLock)
+{	pthread_rwlock_t		*rwLock = (pthread_rwlock_t *) theLock;
+	NStatus					theErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theLock != NULL);
+
+
+
+	// Release the lock
+	theErr = pthread_rwlock_unlock(rwLock);
+	NN_ASSERT_NOERR(theErr);
+}
 
 
 

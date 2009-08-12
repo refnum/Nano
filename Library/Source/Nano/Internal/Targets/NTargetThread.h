@@ -41,6 +41,12 @@ public:
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
 
 
+	// Threads
+	static bool							ThreadIsMain(void);
+	static void							ThreadSleep(NTime theTime);
+	static NStatus						ThreadCreate(const NFunctor &theFunctor);
+
+
 	// Semaphores
 	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
 	static void							SemaphoreDestroy(NSemaphoreRef &theSemaphore);
@@ -48,10 +54,18 @@ public:
 	static bool							SemaphoreWait(   NSemaphoreRef  theSemaphore, NTime waitFor=kNTimeForever);
 
 
-	// Threads
-	static bool							ThreadIsMain(void);
-	static void							ThreadSleep(NTime theTime);
-	static NStatus						ThreadCreate(const NFunctor &theFunctor);
+	// Mutex lock
+	static NLockRef						MutexCreate(void);
+	static void							MutexDestroy(NLockRef &theLock);
+	static NStatus						MutexLock(   NLockRef &theLock, NTime waitFor);
+	static void							MutexUnlock( NLockRef &theLock);
+
+
+	// Read/write lock
+	static NLockRef						ReadWriteCreate(void);
+	static void							ReadWriteDestroy(NLockRef &theLock);
+	static NStatus						ReadWriteLock(   NLockRef &theLock, NTime waitFor, bool forWrite);
+	static void							ReadWriteUnlock( NLockRef &theLock);
 };
 
 
