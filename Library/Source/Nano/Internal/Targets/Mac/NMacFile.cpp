@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include <sys/stat.h>
 #include <sys/fcntl.h>
+#include <sys/mman.h>
 #include <dirent.h>
 
 #include "NCFString.h"
@@ -548,6 +549,116 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 	
 	return(theErr);
 }
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapOpen : Open a memory-mapped file.
+//----------------------------------------------------------------------------
+NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
+{	int			theFlags;
+	NString		thePath;
+	NFileRef	fileRef;
+
+
+
+	// Get the state we need
+	thePath  = theFile.GetPath();
+	theFlags = (theAccess == kNAccessReadWrite ? O_RDWR : O_RDONLY);
+
+
+
+	// Open the file
+	fileRef = (NFileRef) open(thePath.GetUTF8(), theFlags, 0);
+	
+	return(fileRef);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapClose : Close a memory-mapped file.
+//----------------------------------------------------------------------------
+void NTargetFile::MapClose(NFileRef theFile)
+{
+
+
+	// Close the file
+	close((int) theFile);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapFetch : Fetch a page from a memory-mapped file.
+//----------------------------------------------------------------------------
+void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool noCache)
+{	int			pagePerm, pageFlags;
+	void		*thePtr;
+
+
+
+	// Get the state we need
+	//
+	// Pages can only be mapped with a compatible access mode to the underlying file;
+	// a file opened as read-only can not be used to obtain read-write pages.
+	pagePerm  = PROT_READ;
+	pageFlags = MAP_FILE;
+
+	if (theAccess != kNAccessRead)
+		pagePerm |= PROT_WRITE;
+
+	if (theAccess == kNAccessReadWrite)
+		pageFlags |= MAP_SHARED;
+
+	if (theAccess == kNAccessCopyOnWrite)
+		pageFlags |= MAP_PRIVATE;
+
+	if (noCache)
+		pageFlags |= MAP_NOCACHE;
+
+
+
+	// Map the page
+	thePtr = mmap(NULL, theSize, pagePerm, pageFlags, (int) theFile, theOffset);
+	if (thePtr == MAP_FAILED)
+		thePtr = NULL;
+	
+	return(thePtr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
+//----------------------------------------------------------------------------
+void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
+{	int		sysErr;
+
+
+
+	// Flush read-write pages back to disk
+	if (theAccess == kNAccessReadWrite)
+		{
+		sysErr = msync((void *) thePtr, theSize, MS_SYNC);
+		NN_ASSERT_NOERR(sysErr);
+		}
+
+
+
+	// Unmap the page
+	sysErr = munmap((void *) thePtr, theSize);
+	NN_ASSERT_NOERR(sysErr);
+}
+
 
 
 

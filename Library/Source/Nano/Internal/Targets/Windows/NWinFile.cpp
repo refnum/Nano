@@ -264,3 +264,53 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 
 
 
+
+//============================================================================
+//      NTargetFile::MapOpen : Open a memory-mapped file.
+//----------------------------------------------------------------------------
+NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
+{
+	// dair, to do
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapClose : Close a memory-mapped file.
+//----------------------------------------------------------------------------
+void NTargetFile::MapClose(NFileRef theFile)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapFetch : Fetch a page from a memory-mapped file.
+//----------------------------------------------------------------------------
+void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool noCache)
+{
+	// dair, to do
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
+//----------------------------------------------------------------------------
+void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
+{
+	// dair, to do
+}
+
+
+
+

@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFile.h"
+#include "NFileMap.h"
 
 
 
@@ -83,6 +84,13 @@ public:
 	// Read/write from a file
 	static NStatus						Read( NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NPosition thePosition);
 	static NStatus						Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NPosition thePosition);
+
+
+	// Map/unmap a file
+	static NFileRef						MapOpen(const NFile &theFile, NMapAccess theAccess);
+	static void							MapClose(  NFileRef theFile);
+	static void						   *MapFetch(  NFileRef theFile,  NMapAccess theAccess, UInt64 theOffset,   UInt32 theSize, bool noCache);
+	static void							MapDiscard(NFileRef theFile,  NMapAccess theAccess, const void *thePtr, UInt32 theSize);
 };
 
 
