@@ -14,9 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NThreadUtilities.h"
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
+#include "NThread.h"
 #include "NDBHandle.h"
 
 
@@ -218,7 +218,7 @@ NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunc
 			case SQLITE_BUSY:
 				areDone = !waitForever && (NTimeUtilities::GetTime() >= (startTime + waitFor));
 				if (!areDone)
-					NThreadUtilities::Sleep();
+					NThread::Sleep();
 				break;
 			
 			default:
@@ -439,7 +439,7 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 		{
 		dbErr = sqlite3_prepare_v2(mDatabase, valueUTF8, strlen(valueUTF8), &sqlStatement, &sqlTail);
 		if (dbErr == SQLITE_BUSY)
-			NThreadUtilities::Sleep();
+			NThread::Sleep();
 		}
 	while (dbErr == SQLITE_BUSY);
 

@@ -22,28 +22,10 @@
 
 
 //============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-static const NTime kNThreadSleepTime								=  10.0 * kNTimeMillisecond;
-static const NTime kNThreadSpinTime									= 500.0 * kNTimeMicrosecond;
-
-
-
-
-
-//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NThreadUtilities {
 public:
-	// Is this the main thread?
-	static bool							IsMainThread(void);
-
-
-	// Sleep the current thread
-	static void							Sleep(NTime theTime=kNThreadSleepTime);
-
-
 	// Get the number of CPUs
 	static UInt32						GetCPUCount(void);
 

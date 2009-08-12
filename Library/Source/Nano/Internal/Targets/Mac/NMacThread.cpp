@@ -23,6 +23,7 @@
 #include "NThreadUtilities.h"
 #include "NTimeUtilities.h"
 #include "NMathUtilities.h"
+#include "NMacTarget.h"
 #include "NTargetThread.h"
 
 
@@ -30,40 +31,31 @@
 
 
 //============================================================================
-//		Internal constants
+//		Internal types
 //----------------------------------------------------------------------------
-static const pthread_t kMainThreadID								= pthread_self();
+typedef struct {
+	NFunctor			theFunctor;
+} ThreadInfo;
 
 
 
 
 
 //============================================================================
-//		NTargetThread::IsMainThread : Is this the main thread?
+//		Internal functions
 //----------------------------------------------------------------------------
-bool NTargetThread::IsMainThread(void)
-{
-
-
-	// Check our state
-	//
-	// This assumes that the main thread performs static initialization.
-	return(pthread_self() == kMainThreadID);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetThread::Sleep : Sleep the current thread.
+//		ThreadCallback : Thread callback.
 //----------------------------------------------------------------------------
-void NTargetThread::Sleep(NTime theTime)
-{
+static void *ThreadCallback(void *userData)
+{	ThreadInfo			*threadInfo = (ThreadInfo *) userData;
 
 
-	// Sleep the thread
-	usleep((useconds_t) (theTime / kNTimeMicrosecond));
+
+	// Invoke the thread
+	threadInfo->theFunctor();
+	delete threadInfo;
+	
+	return(NULL);
 }
 
 
@@ -248,7 +240,7 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 			sysErr = sem_trywait(&semRef);
 			if (sysErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
-				NThreadUtilities::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSpinTime);
 				sysErr = kNoErr;
 				}
 			}
@@ -262,6 +254,68 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 
 	return(sysErr == kNoErr);
 }
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadIsMain : Is this the main thread?
+//----------------------------------------------------------------------------
+bool NTargetThread::ThreadIsMain(void)
+{
+
+
+	// Check our state
+	return(pthread_main_np() != 0);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadSleep : Sleep the current thread.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadSleep(NTime theTime)
+{
+
+
+	// Sleep the thread
+	usleep((useconds_t) (theTime / kNTimeMicrosecond));
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadCreate : Create a thread.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
+{	ThreadInfo		*threadInfo;
+	pthread_t		threadID;
+	int				sysErr;
+
+
+
+	// Get the state we need
+	threadInfo             = new ThreadInfo;
+	threadInfo->theFunctor = theFunctor;
+
+
+
+	// Create the thread
+	sysErr = pthread_create(&threadID, NULL, ThreadCallback, threadInfo);
+	NN_ASSERT_NOERR(sysErr);
+	
+	return(NMacTarget::ConvertSysErr(sysErr));
+}
+
+
+
+
+
 
 
 

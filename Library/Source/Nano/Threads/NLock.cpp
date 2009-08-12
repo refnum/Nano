@@ -18,6 +18,7 @@
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NTargetLock.h"
+#include "NThread.h"
 #include "NLock.h"
 
 
@@ -343,7 +344,7 @@ bool NSpinLock::Lock(NTime waitFor)
 	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
 		while (!SpinLockTry(mSpinLock))
-			NThreadUtilities::Sleep(kNThreadSpinTime);
+			NThread::Sleep(kNThreadSpinTime);
 
 		gotLock = true;
 		}
@@ -355,7 +356,7 @@ bool NSpinLock::Lock(NTime waitFor)
 			{
 			gotLock = SpinLockTry(mSpinLock);
 			if (!gotLock)
-				NThreadUtilities::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSpinTime);
 			}
 		while (!gotLock && NTimeUtilities::GetTime() < stopTime);
 		}

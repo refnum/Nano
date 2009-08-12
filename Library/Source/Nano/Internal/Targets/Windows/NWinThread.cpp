@@ -21,31 +21,6 @@
 
 
 //============================================================================
-//		NTargetThread::IsMainThread : Is this the main thread?
-//----------------------------------------------------------------------------
-bool NTargetThread::IsMainThread(void)
-{
-	// dair, to do
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetThread::Sleep : Sleep the current thread.
-//----------------------------------------------------------------------------
-void NTargetThread::Sleep(NTime theTime)
-{
-	// dair, to do
-}
-
-
-
-
-
-//============================================================================
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
 UInt32 NTargetThread::GetCPUCount(void)
@@ -181,6 +156,43 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime theTime)
 	return(false);
 }
 
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadIsMain : Is this the main thread?
+//----------------------------------------------------------------------------
+bool NTargetThread::ThreadIsMain(void)
+{
+	// dair, to do
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadSleep : Sleep the current thread.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadSleep(NTime theTime)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadCreate : Create a thread.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
+{
+	// dair, to do
+	return(kNErrInternal);
+}
 
 
 

@@ -14,10 +14,10 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NThreadUtilities.h"
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NMacTarget.h"
+#include "NThread.h"
 #include "NTargetLock.h"
 
 
@@ -111,7 +111,7 @@ NStatus NTargetLock::MutexLock(NLockRef &theLock, NTime waitFor)
 			// Handle failure
 			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
-				NThreadUtilities::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSpinTime);
 				theErr = kNoErr;
 				}
 			}
@@ -250,7 +250,7 @@ NStatus NTargetLock::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forWri
 			// Handle failure
 			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
-				NThreadUtilities::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSpinTime);
 				theErr = kNoErr;
 				}
 			}

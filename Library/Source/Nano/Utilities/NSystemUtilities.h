@@ -25,7 +25,17 @@
 #include "NRectangle.h"
 #include "NSize.h"
 #include "NString.h"
+#include "NTimer.h"
 #include "NVariant.h"
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+static const NTime kNFunctorDelayTime								=  0.25 * kNTimeSecond;
 
 
 
@@ -96,6 +106,16 @@ public:
 	static NRectangle					GetRectangle( const NVariant &theValue, const NString &debugID="");
 	static NArray						GetArray(     const NVariant &theValue, const NString &debugID="");
 	static NDictionary					GetDictionary(const NVariant &theValue, const NString &debugID="");
+
+
+	// Delay a functor
+	//
+	// The functor can be invoked on the main thread, or a new one-shot thread.
+	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool mainThread=true);
+
+
+private:
+	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool mainThread);
 };
 
 

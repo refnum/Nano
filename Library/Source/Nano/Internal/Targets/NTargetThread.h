@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSemaphore.h"
+#include "NThread.h"
 
 
 
@@ -27,14 +28,6 @@
 //----------------------------------------------------------------------------
 class NTargetThread {
 public:
-	// Is this the main thread?
-	static bool							IsMainThread(void);
-
-
-	// Sleep the current thread
-	static void							Sleep(NTime theTime);
-
-
 	// Get the active CPU count
 	static UInt32						GetCPUCount(void);
 
@@ -53,6 +46,12 @@ public:
 	static void							SemaphoreDestroy(NSemaphoreRef &theSemaphore);
 	static void							SemaphoreSignal( NSemaphoreRef  theSemaphore);
 	static bool							SemaphoreWait(   NSemaphoreRef  theSemaphore, NTime waitFor=kNTimeForever);
+
+
+	// Threads
+	static bool							ThreadIsMain(void);
+	static void							ThreadSleep(NTime theTime);
+	static NStatus						ThreadCreate(const NFunctor &theFunctor);
 };
 
 

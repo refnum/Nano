@@ -15,6 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
+#include "NMathUtilities.h"
+#include "NTargetThread.h"
+#include "NThread.h"
 
 
 
@@ -339,5 +342,73 @@ NDictionary NSystemUtilities::GetDictionary(const NVariant &theValue, const NStr
 }
 
 
+
+
+
+//============================================================================
+//		NSystemUtilities::DelayFunctor : Delay a functor.
+//----------------------------------------------------------------------------
+void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, bool mainThread)
+{	NTimer		*theTimer;
+
+
+
+	// Invoke immediately
+	//
+	// If we're to invoke on a new thread, or are already on the main
+	// thread, we can invoke the functor directly without any delay.
+	if (NMathUtilities::IsZero(theDelay))
+		{
+		if (!mainThread)
+			{
+			NTargetThread::ThreadCreate(theFunctor);
+			return;
+			}
+		
+		else if (NThread::IsMain())
+			{
+			theFunctor();
+			return;
+			}
+		}
+
+
+
+	// Invoke with a delay
+	theTimer = new NTimer;
+	if (theTimer != NULL)
+		theTimer->AddTimer(BindFunction(NSystemUtilities::DelayedFunctor, theTimer, theFunctor, mainThread), theDelay);
+}
+
+
+
+
+
+//============================================================================
+//		NSystemUtilities::DelayedFunctor : Execute a delayed functor.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NSystemUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool mainThread)
+{
+
+
+	// Invoke the functor
+	if (mainThread)
+		theFunctor();
+	else
+		NTargetThread::ThreadCreate(theFunctor);
+
+
+
+	// Clean up
+	delete theTimer;
+}
+
+
+
+
+
+	
+	
 
 

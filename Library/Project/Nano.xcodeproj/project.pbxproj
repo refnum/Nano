@@ -23,6 +23,12 @@
 		AB1A78CE1032398000DFBA38 /* NTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78CB1032398000DFBA38 /* NTimer.cpp */; };
 		AB1A78FD103241C200DFBA38 /* NFileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78FB103241C200DFBA38 /* NFileMap.cpp */; };
 		AB1A78FE103241C200DFBA38 /* NFileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78FB103241C200DFBA38 /* NFileMap.cpp */; };
+		AB1A793A103248AF00DFBA38 /* NThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */; };
+		AB1A793B103248AF00DFBA38 /* NThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */; };
+		AB1A793C103248AF00DFBA38 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
+		AB1A793D103248AF00DFBA38 /* NThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */; };
+		AB1A793E103248AF00DFBA38 /* NThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */; };
+		AB1A793F103248AF00DFBA38 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
 		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
@@ -265,6 +271,12 @@
 		AB1A78CC1032398000DFBA38 /* NTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimer.h; sourceTree = "<group>"; };
 		AB1A78FB103241C200DFBA38 /* NFileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileMap.cpp; sourceTree = "<group>"; };
 		AB1A78FC103241C200DFBA38 /* NFileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileMap.h; sourceTree = "<group>"; };
+		AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThreadTask.cpp; sourceTree = "<group>"; };
+		AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThreadPool.cpp; sourceTree = "<group>"; };
+		AB1A7936103248AF00DFBA38 /* NThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThread.cpp; sourceTree = "<group>"; };
+		AB1A7937103248AF00DFBA38 /* NThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThread.h; sourceTree = "<group>"; };
+		AB1A7938103248AF00DFBA38 /* NThreadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadPool.h; sourceTree = "<group>"; };
+		AB1A7939103248AF00DFBA38 /* NThreadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadTask.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
@@ -835,6 +847,12 @@
 				AB91553C0F9B4DD6009FFEAF /* NLock.h */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,
 				AB23BB5D102B67DB009CA347 /* NSemaphore.h */,
+				AB1A7936103248AF00DFBA38 /* NThread.cpp */,
+				AB1A7937103248AF00DFBA38 /* NThread.h */,
+				AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */,
+				AB1A7938103248AF00DFBA38 /* NThreadPool.h */,
+				AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */,
+				AB1A7939103248AF00DFBA38 /* NThreadTask.h */,
 			);
 			path = Threads;
 			sourceTree = "<group>";
@@ -1178,6 +1196,9 @@
 				AB23BB3C102B6565009CA347 /* NAtomicList.cpp in Sources */,
 				AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */,
 				AB23BB5F102B67DB009CA347 /* NSemaphore.cpp in Sources */,
+				AB1A793C103248AF00DFBA38 /* NThread.cpp in Sources */,
+				AB1A793B103248AF00DFBA38 /* NThreadPool.cpp in Sources */,
+				AB1A793A103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
 				AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */,
 				AB28FC2D0FB5D9F000F72C61 /* NBitVector.cpp in Sources */,
 				AB28FC2E0FB5D9F000F72C61 /* NColor.cpp in Sources */,
@@ -1304,6 +1325,9 @@
 				AB23BB3B102B6565009CA347 /* NAtomicList.cpp in Sources */,
 				AB9155A50F9B4DD6009FFEAF /* NLock.cpp in Sources */,
 				AB23BB5E102B67DB009CA347 /* NSemaphore.cpp in Sources */,
+				AB1A793F103248AF00DFBA38 /* NThread.cpp in Sources */,
+				AB1A793E103248AF00DFBA38 /* NThreadPool.cpp in Sources */,
+				AB1A793D103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
 				AB9155A60F9B4DD6009FFEAF /* NArray.cpp in Sources */,
 				AB9155A70F9B4DD6009FFEAF /* NBitVector.cpp in Sources */,
 				AB9155A80F9B4DD6009FFEAF /* NColor.cpp in Sources */,

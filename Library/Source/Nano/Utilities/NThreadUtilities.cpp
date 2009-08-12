@@ -22,36 +22,6 @@
 
 
 //============================================================================
-//		NThreadUtilities::IsMainThread : Is this the main thread?
-//----------------------------------------------------------------------------
-bool NThreadUtilities::IsMainThread(void)
-{
-
-
-	// Is this the main thread
-	return(NTargetThread::IsMainThread());
-}
-
-
-
-
-
-//============================================================================
-//		NThreadUtilities::Sleep : Sleep the current thread.
-//----------------------------------------------------------------------------
-void NThreadUtilities::Sleep(NTime theTime)
-{
-
-
-	// Sleep the thread
-	NTargetThread::Sleep(theTime);
-}
-
-
-
-
-
-//============================================================================
 //		NThreadUtilities::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
 UInt32 NThreadUtilities::GetCPUCount(void)

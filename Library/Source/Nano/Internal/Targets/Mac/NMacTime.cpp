@@ -41,7 +41,7 @@ typedef struct {
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void TimerCallback(CFRunLoopTimerRef cfTimer, void *userData)
-{	TimerInfo			*timerInfo = (TimerInfo *) userData;
+{	TimerInfo	*timerInfo = (TimerInfo *) userData;
 
 
 
