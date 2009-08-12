@@ -18,6 +18,7 @@
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NTargetPOSIX.h"
+#include "NEncoder.h"
 #include "NString.h"
 #include "NDate.h"
 
@@ -29,6 +30,15 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NTime kTimeSinceEpoch19070							= 978307200.0;
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NDate);
 
 
 
@@ -281,6 +291,43 @@ NDate::operator NFormatArgument(void) const
 
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//      NDate::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NDate::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNEncoderValueKey, mTime);
+}
+
+
+
+
+
+//============================================================================
+//      NDate::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NDate::DecodeSelf(const NEncoder &theEncoder)
+{	bool	gotValue;
+
+
+
+	// Decode the object
+	gotValue = theEncoder.DecodeNumber(kNEncoderValueKey).GetValueFloat64(mTime);
+	NN_ASSERT(gotValue);
+}
+
+
+
+
 
 
 

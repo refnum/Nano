@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NContainer.h"
 
 
@@ -52,8 +53,11 @@ typedef NRangeList::reverse_iterator								NRangeListReverseIterator;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NRange :	public NContainer,
+				public NEncodable,
 				public NComparable<NRange> {
 public:
+										DECLARE_NENCODABLE(NRange);
+
 										 NRange(NIndex theLocation=0, NIndex theSize=0);
 	virtual								~NRange(void);
 
@@ -104,6 +108,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

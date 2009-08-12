@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NPoint.h"
 #include "NSize.h"
 
@@ -39,8 +40,11 @@ extern const NRectangle kNRectangleZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NRectangle : public NComparable<NRectangle> {
+class NRectangle :	public NEncodable,
+					public NComparable<NRectangle> {
 public:
+										DECLARE_NENCODABLE(NRectangle);
+
 										 NRectangle(const Float32 x, Float32 y, Float32 width, Float32 height);
 										 NRectangle(const NPoint &origin = kNPointZero,
 													const NSize  &size   = kNSizeZero);
@@ -61,6 +65,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 public:

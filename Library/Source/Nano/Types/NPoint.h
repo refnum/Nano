@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
+#include "NEncodable.h"
 #include "NComparable.h"
 
 
@@ -37,8 +38,11 @@ extern const NPoint kNPointZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NPoint : public NComparable<NPoint> {
+class NPoint :	public NEncodable,
+				public NComparable<NPoint> {
 public:
+										DECLARE_NENCODABLE(NPoint);
+
 										 NPoint(Float32 x=0.0f, Float32 y=0.0f);
 	virtual								~NPoint(void);
 
@@ -57,6 +61,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 public:

@@ -19,6 +19,7 @@
 #include "NStringFormatter.h"
 #include "NContainer.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NRange.h"
 #include "NData.h"
 
@@ -30,8 +31,11 @@
 //		Class declaration
 //----------------------------------------------------------------------------
 class NBitVector :	public NContainer,
+					public NEncodable,
 					public NComparable<NBitVector> {
 public:
+										DECLARE_NENCODABLE(NBitVector);
+
 										 NBitVector(void);
 	virtual								~NBitVector(void);
 
@@ -94,6 +98,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

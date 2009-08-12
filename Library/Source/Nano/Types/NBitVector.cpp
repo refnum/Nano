@@ -19,7 +19,17 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NString.h"
+#include "NEncoder.h"
 #include "NBitVector.h"
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NBitVector);
 
 
 
@@ -437,6 +447,37 @@ NBitVector::operator NFormatArgument(void) const
 	theResult.Format("{size=%ld}", GetSize());
 
 	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NBitVector::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NBitVector::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeData(kNEncoderValueKey, GetBits());
+}
+
+
+
+
+
+//============================================================================
+//      NBitVector::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NBitVector::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	SetBits(theEncoder.DecodeData(kNEncoderValueKey));
 }
 
 

@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
+#include "NEncodable.h"
 #include "NComparable.h"
 
 
@@ -37,8 +38,11 @@ extern const NSize kNSizeZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NSize : public NComparable<NSize> {
+class NSize :	public NEncodable,
+				public NComparable<NSize> {
 public:
+										DECLARE_NENCODABLE(NSize);
+
 										 NSize(Float32 width=0.0f, Float32 height=0.0f);
 	virtual								~NSize(void);
 
@@ -57,6 +61,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 public:

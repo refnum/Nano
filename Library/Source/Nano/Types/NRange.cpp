@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NEncoder.h"
 #include "NString.h"
 #include "NRange.h"
 
@@ -22,10 +23,29 @@
 
 
 //============================================================================
-//		Constants
+//		Public constants
 //----------------------------------------------------------------------------
 const NRange kNRangeNone(0, 0);
 const NRange kNRangeAll (0, kNIndexNone);
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNRangeLocationKey								= "location";
+static const NString kNRangeSizeKey									= "size";
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NRange);
 
 
 
@@ -324,4 +344,42 @@ NRange::operator NFormatArgument(void) const
 
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//      NRange::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NRange::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNRangeLocationKey, (SInt64) mLocation);
+	theEncoder.EncodeNumber(kNRangeSizeKey,     (SInt64) mSize);
+}
+
+
+
+
+
+//============================================================================
+//      NRange::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NRange::DecodeSelf(const NEncoder &theEncoder)
+{	bool	gotValue;
+
+
+
+	// Decode the object
+	gotValue = theEncoder.DecodeNumber(kNRangeLocationKey).GetValueSInt32(mLocation);
+	NN_ASSERT(gotValue);
+
+	gotValue = theEncoder.DecodeNumber(kNRangeSizeKey).GetValueSInt32(mSize);
+	NN_ASSERT(gotValue);
+}
+
 

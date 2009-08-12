@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
+#include "NEncodable.h"
 #include "NComparable.h"
 
 
@@ -51,8 +52,11 @@ typedef NDateList::const_iterator									NDateListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NDate : public NComparable<NDate> {
+class NDate :	public NEncodable,
+				public NComparable<NDate> {
 public:
+										DECLARE_NENCODABLE(NDate);
+
 										 NDate(const NGregorianDate &theDate);
 										 NDate(      NTime           theTime);
 
@@ -87,6 +91,12 @@ public:
 
 	// Operators
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

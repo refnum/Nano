@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NString.h"
 
 
@@ -68,8 +69,11 @@ typedef NFileList::const_iterator								NFileListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NFile : public NComparable<NFile> {
+class NFile :	public NEncodable,
+				public NComparable<NFile> {
 public:
+										DECLARE_NENCODABLE(NFile);
+
 										NFile(const NString &thePath);
 										NFile(const NFile   &theFile);
 
@@ -175,6 +179,12 @@ public:
 	// Operators
 	const NFile&						operator = (const NFile &theFile);
 										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

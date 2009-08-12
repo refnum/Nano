@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NString.h"
+#include "NEncoder.h"
 #include "NRectangle.h"
 
 
@@ -22,9 +23,30 @@
 
 
 //============================================================================
-//		Constants
+//		Public constants
 //----------------------------------------------------------------------------
 const NRectangle kNRectangleZero;
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNRectangleOriginXKey							= "x";
+static const NString kNRectangleOriginYKey							= "y";
+static const NString kNRectangleSizeWidthKey						= "width";
+static const NString kNRectangleSizeHeightKey						= "height";
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NRectangle);
 
 
 
@@ -139,6 +161,51 @@ NRectangle::operator NFormatArgument(void) const
 	theResult.Format("{x=%g, y=%g, w=%g, h=%g}", origin.x, origin.y, size.width, size.height);
 
 	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NRectangle::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NRectangle::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNRectangleOriginXKey,    origin.x);
+	theEncoder.EncodeNumber(kNRectangleOriginYKey,    origin.y);
+	theEncoder.EncodeNumber(kNRectangleSizeWidthKey,  size.width);
+	theEncoder.EncodeNumber(kNRectangleSizeHeightKey, size.height);
+}
+
+
+
+
+
+//============================================================================
+//      NRectangle::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NRectangle::DecodeSelf(const NEncoder &theEncoder)
+{	bool	gotValue;
+
+
+
+	// Decode the object
+	gotValue = theEncoder.DecodeNumber(kNRectangleOriginXKey).GetValueFloat32(origin.x);
+	NN_ASSERT(gotValue);
+
+	gotValue = theEncoder.DecodeNumber(kNRectangleOriginYKey).GetValueFloat32(origin.y);
+	NN_ASSERT(gotValue);
+
+	gotValue = theEncoder.DecodeNumber(kNRectangleSizeWidthKey).GetValueFloat32(size.width);
+	NN_ASSERT(gotValue);
+
+	gotValue = theEncoder.DecodeNumber(kNRectangleSizeHeightKey).GetValueFloat32(size.height);
+	NN_ASSERT(gotValue);
 }
 
 

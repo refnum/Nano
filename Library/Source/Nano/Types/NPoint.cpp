@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NEncoder.h"
 #include "NString.h"
 #include "NPoint.h"
 
@@ -23,9 +24,28 @@
 
 
 //============================================================================
-//		Constants
+//		Public constants
 //----------------------------------------------------------------------------
 const NPoint kNPointZero;
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNPointXKey									= "x";
+static const NString kNPointYKey									= "y";
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NPoint);
 
 
 
@@ -129,5 +149,38 @@ NPoint::operator NFormatArgument(void) const
 
 
 
+
+//============================================================================
+//      NPoint::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NPoint::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNPointXKey, x);
+	theEncoder.EncodeNumber(kNPointYKey, y);
+}
+
+
+
+
+
+//============================================================================
+//      NPoint::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NPoint::DecodeSelf(const NEncoder &theEncoder)
+{	bool	gotValue;
+
+
+
+	// Decode the object
+	gotValue = theEncoder.DecodeNumber(kNPointXKey).GetValueFloat32(x);
+	NN_ASSERT(gotValue);
+
+	gotValue = theEncoder.DecodeNumber(kNPointYKey).GetValueFloat32(y);
+	NN_ASSERT(gotValue);
+}
 
 

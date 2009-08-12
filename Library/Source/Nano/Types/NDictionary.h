@@ -62,7 +62,7 @@ class NDictionary :	public NContainer,
 					public NComparable<NDictionary>,
 					public NSharedValueDictionary {
 public:
-										DECLARE_NENCODABLE(NString);
+										DECLARE_NENCODABLE(NDictionary);
 
 										 NDictionary(void);
 	virtual								~NDictionary(void);

@@ -68,7 +68,7 @@ class NArray :	public NContainer,
 				public NComparable<NArray>,
 				public NSharedValueArray {
 public:
-										DECLARE_NENCODABLE(NString);
+										DECLARE_NENCODABLE(NArray);
 
 										NArray(const SInt32List  &theValues);
 										NArray(const SInt64List  &theValues);

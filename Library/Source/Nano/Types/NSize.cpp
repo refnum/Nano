@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NEncoder.h"
 #include "NString.h"
 #include "NSize.h"
 
@@ -23,9 +24,28 @@
 
 
 //============================================================================
-//		Constants
+//		Public onstants
 //----------------------------------------------------------------------------
 const NSize kNSizeZero;
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNSizeWidthKey									= "width";
+static const NString kNSizeHeightKey								= "height";
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NSize);
 
 
 
@@ -126,5 +146,41 @@ NSize::operator NFormatArgument(void) const
 	return(theResult);
 }
 
+
+
+
+
+//============================================================================
+//      NSize::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NSize::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNSizeWidthKey,  width);
+	theEncoder.EncodeNumber(kNSizeHeightKey, height);
+}
+
+
+
+
+
+//============================================================================
+//      NSize::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NSize::DecodeSelf(const NEncoder &theEncoder)
+{	bool	gotValue;
+
+
+
+	// Decode the object
+	gotValue = theEncoder.DecodeNumber(kNSizeWidthKey).GetValueFloat32(width);
+	NN_ASSERT(gotValue);
+
+	gotValue = theEncoder.DecodeNumber(kNSizeHeightKey).GetValueFloat32(height);
+	NN_ASSERT(gotValue);
+}
 
 

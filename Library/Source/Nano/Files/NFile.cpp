@@ -15,7 +15,17 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetFile.h"
+#include "NEncoder.h"
 #include "NFile.h"
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NFile);
 
 
 
@@ -40,7 +50,7 @@ NFile::NFile(const NString &thePath)
 //		NFile::NFile : Constructor.
 //----------------------------------------------------------------------------
 NFile::NFile(const NFile &theFile)
-		: NComparable<NFile>()
+		: NEncodable(), NComparable<NFile>()
 {
 
 
@@ -664,6 +674,37 @@ NFile::operator NFormatArgument(void) const
 
 	// Get the value
 	return(GetPath());
+}
+
+
+
+
+
+//============================================================================
+//      NFile::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NFile::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeString(kNEncoderValueKey, GetPath());
+}
+
+
+
+
+
+//============================================================================
+//      NFile::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NFile::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	SetPath(theEncoder.DecodeString(kNEncoderValueKey));
 }
 
 
