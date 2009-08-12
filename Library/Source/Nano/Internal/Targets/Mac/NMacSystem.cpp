@@ -26,7 +26,7 @@
 //============================================================================
 //      NTargetSystem::FindBundle : Find a bundle.
 //----------------------------------------------------------------------------
-NFile NTargetSystem(const NString &bundleID)
+NFile NTargetSystem::FindBundle(const NString &bundleID)
 {	NCFObject		cfBundle, cfURL;
 	NCFString		cfString;
 	NFile			theFile;
