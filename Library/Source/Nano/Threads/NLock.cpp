@@ -43,7 +43,7 @@ NLock::NLock(void)
 
 	// Initialize ourselves
 	mCount = 0;
-	mLock  = NULL;
+	mLock  = kNLockRefNone;
 }
 
 
@@ -126,7 +126,7 @@ NMutexLock::~NMutexLock(void)
 
 
 	// Validate our state
-	NN_ASSERT(mLock != NULL);
+	NN_ASSERT(mLock != kNLockRefNone);
 
 
 
@@ -147,7 +147,7 @@ bool NMutexLock::Lock(NTime theTime)
 
 
 	// Validate our state
-	NN_ASSERT(mLock != NULL);
+	NN_ASSERT(mLock != kNLockRefNone);
 
 
 
@@ -177,7 +177,7 @@ void NMutexLock::Unlock(void)
 
 	// Validate our state
 	NN_ASSERT(IsLocked());
-	NN_ASSERT(mLock != NULL);
+	NN_ASSERT(mLock != kNLockRefNone);
 	
 
 
@@ -215,7 +215,7 @@ NReadWriteLock::~NReadWriteLock(void)
 
 
 	// Validate our state
-	NN_ASSERT(mLock != NULL);
+	NN_ASSERT(mLock != kNLockRefNone);
 
 
 

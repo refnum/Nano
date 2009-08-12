@@ -194,7 +194,7 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 NFileRef NTargetFile::Open(const NString &thePath, NPermission thePermission)
 {
 	// dair, to do
-	return(NULL);
+	return(kNFileRefNone);
 }
 
 
@@ -271,7 +271,7 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 {
 	// dair, to do
-	return(NULL);
+	return(kNFileRefNone);
 }
 
 

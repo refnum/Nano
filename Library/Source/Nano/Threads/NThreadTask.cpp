@@ -29,7 +29,7 @@ NThreadTask::NThreadTask(void)
 
 
 	// Initialize ourselves
-	mName.Format("0x%8X", (UInt32) this);
+	mName.Format("0x%8lX", (UIntPtr) this);
 
 	mStopped   = false;
 	mPriority  = 0.0f;

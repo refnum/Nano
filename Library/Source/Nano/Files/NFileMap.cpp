@@ -29,7 +29,7 @@ NFileMap::NFileMap(void)
 
 
 	// Initialize ourselves
-	mFileRef = NULL;
+	mFileRef = kNFileRefNone;
 }
 
 
@@ -66,7 +66,7 @@ bool NFileMap::IsOpen(void) const
 
 
 	// Get our state
-	return(mFileRef != NULL);
+	return(mFileRef != kNFileRefNone);
 }
 
 
@@ -132,7 +132,7 @@ void NFileMap::Close(void)
 	// Close the file
 	NTargetFile::MapClose(mFileRef);
 	
-	mFileRef = NULL;
+	mFileRef = kNFileRefNone;
 }
 
 

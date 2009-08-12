@@ -152,7 +152,7 @@ bool NFile::IsOpen(void) const
 
 
 	// Check our state
-	return(mFile != NULL);
+	return(mFile != kNFileRefNone);
 }
 
 
@@ -507,7 +507,7 @@ NStatus NFile::Open(NPermission thePermission, bool canCreate)
 
 	// Open the file
 	mFile  = NTargetFile::Open(mPath, thePermission);
-	theErr = (mFile == NULL) ? kNErrPermission : kNoErr;
+	theErr = (mFile == kNFileRefNone) ? kNErrPermission : kNoErr;
 	
 	return(theErr);
 }
@@ -531,7 +531,7 @@ void NFile::Close(void)
 
 	// Close the file
 	NTargetFile::Close(mFile);
-	mFile = NULL;
+	mFile = kNFileRefNone;
 }
 
 
@@ -665,7 +665,7 @@ void NFile::InitializeSelf(const NString &thePath)
 
 	// Initialize ourselves
 	mPath = thePath;
-	mFile = NULL;
+	mFile = kNFileRefNone;
 }
 
 

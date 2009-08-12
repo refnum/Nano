@@ -72,7 +72,7 @@
 // Primitives
 //
 // These types are a consistent size on all targets and architectures. All
-// other types may change their size between releases or for each target.
+// other types may change their size between releases or targets.
 typedef unsigned NANO_INT8											UInt8;
 typedef unsigned NANO_INT16											UInt16;
 typedef unsigned NANO_INT32											UInt32;
@@ -97,6 +97,12 @@ typedef SInt32														NStatus;
 typedef UInt32														NHashCode;
 typedef UInt32														NBitfield;
 typedef Float64														NTime;
+
+#if NN_TARGET_ARCH_64
+typedef UInt64														UIntPtr;
+#else
+typedef UInt32														UIntPtr;
+#endif
 
 
 // Lists

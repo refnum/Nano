@@ -23,9 +23,11 @@
 
 
 //============================================================================
-//		Types
+//		Constants
 //----------------------------------------------------------------------------
-typedef void *NLockRef;
+typedef UIntPtr NLockRef;
+
+static const NLockRef kNLockRefNone								= 0;
 
 
 

@@ -395,7 +395,7 @@ NFileRef NTargetFile::Open(const NString &thePath, NPermission thePermission)
 		{
 		theFD = creat(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
 		if (theFD == 0)
-			return(NULL);
+			return(kNFileRefNone);
 		
 		close(theFD);
 		}
@@ -405,7 +405,7 @@ NFileRef NTargetFile::Open(const NString &thePath, NPermission thePermission)
 	// Open the file
 	theFile = fopen(thePath.GetUTF8(), NMacTarget::ConvertPermission(thePermission));
 	
-	return(theFile);
+	return((NFileRef) theFile);
 }
 
 

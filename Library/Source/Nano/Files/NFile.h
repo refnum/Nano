@@ -43,7 +43,9 @@ typedef enum {
 
 
 // File reference
-typedef void *NFileRef;
+typedef UIntPtr NFileRef;
+
+static const NFileRef kNFileRefNone								= 0;
 
 
 

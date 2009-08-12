@@ -368,7 +368,7 @@ void NTargetThread::MutexDestroy(NLockRef &theLock)
 
 
 	// Clean up
-	theLock = NULL;
+	theLock = kNLockRefNone;
 }
 
 
@@ -504,7 +504,7 @@ void NTargetThread::ReadWriteDestroy(NLockRef &theLock)
 
 
 	// Clean up
-	theLock = NULL;
+	theLock = kNLockRefNone;
 }
 
 

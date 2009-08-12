@@ -204,7 +204,7 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime theTime)
 NLockRef NTargetThread::MutexCreate(void)
 {
 	// dair,to do
-	return(NULL);
+	return(kNLockRefNone);
 }
 
 
@@ -217,7 +217,7 @@ NLockRef NTargetThread::MutexCreate(void)
 void NTargetThread::MutexDestroy(NLockRef &theLock)
 {
 	// dair,to do
-	theLock = NULL;
+	theLock = kNLockRefNone;
 }
 
 
@@ -255,7 +255,7 @@ void NTargetThread::MutexUnlock(NLockRef &theLock)
 NLockRef NTargetThread::ReadWriteCreate(void)
 {
 	// dair,to do
-	return(NULL);
+	return(kNLockRefNone);
 }
 
 
