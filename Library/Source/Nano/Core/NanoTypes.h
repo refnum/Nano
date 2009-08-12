@@ -204,7 +204,7 @@ static const NTime kNTimeMinute										= 60.0 * kNTimeSecond;
 static const NTime kNTimeHour										= 60.0 * kNTimeMinute;
 static const NTime kNTimeDay										= 24.0 * kNTimeHour;
 static const NTime kNTimeWeek										=  7.0 * kNTimeDay;
-static const NTime kNTimeMonth										= 30.0 * kNTimeDay;
+static const NTime kNTimeMonthish									= 30.0 * kNTimeDay;
 static const NTime kNTimeForever									= -1.0;
 
 
