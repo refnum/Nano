@@ -355,7 +355,7 @@ void NTargetThread::MutexDestroy(NLockRef &theLock)
 
 
 	// Validate our parameters
-	NN_ASSERT(theLock != NULL);
+	NN_ASSERT(theLock != kNLockRefNone);
 
 
 
@@ -386,7 +386,7 @@ NStatus NTargetThread::MutexLock(NLockRef &theLock, NTime waitFor)
 
 
 	// Validate our parameters
-	NN_ASSERT(theLock != NULL);
+	NN_ASSERT(theLock != kNLockRefNone);
 
 
 
@@ -439,7 +439,7 @@ void NTargetThread::MutexUnlock(NLockRef &theLock)
 
 
 	// Validate our parameters
-	NN_ASSERT(theLock != NULL);
+	NN_ASSERT(theLock != kNLockRefNone);
 
 
 
@@ -491,7 +491,7 @@ void NTargetThread::ReadWriteDestroy(NLockRef &theLock)
 
 
 	// Validate our parameters
-	NN_ASSERT(theLock != NULL);
+	NN_ASSERT(theLock != kNLockRefNone);
 
 
 
@@ -522,7 +522,7 @@ NStatus NTargetThread::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forW
 
 
 	// Validate our parameters
-	NN_ASSERT(theLock != NULL);
+	NN_ASSERT(theLock != kNLockRefNone);
 
 
 
@@ -583,7 +583,7 @@ void NTargetThread::ReadWriteUnlock(NLockRef &theLock)
 
 
 	// Validate our parameters
-	NN_ASSERT(theLock != NULL);
+	NN_ASSERT(theLock != kNLockRefNone);
 
 
 

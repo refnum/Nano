@@ -50,7 +50,7 @@ NFileMap::~NFileMap(void)
 
 
 	// Validate our state
-	NN_ASSERT(mFileRef == NULL);
+	NN_ASSERT(mFileRef == kNFileRefNone);
 	NN_ASSERT(mPages.empty());
 }
 
