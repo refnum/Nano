@@ -211,6 +211,8 @@ void TB64Encoder::Execute(void)
 	theData = NData(GET_ARRAY_SIZE(kTestDataBinary), kTestDataBinary, true);
 	theText = theEncoder.Encode(theData);
 	NN_ASSERT(theText == kTestDataBase64);
+	
+	(void) kTestDataBase64;
 
 
 
