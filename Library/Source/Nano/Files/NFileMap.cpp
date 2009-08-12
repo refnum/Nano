@@ -157,7 +157,7 @@ void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool
 	// Get the state we need
 	if (theSize == 0)
 		{
-		NN_ASSERT(mFile.GetFileSize() <= ULONG_MAX);
+		NN_ASSERT(mFile.GetSize() <= ULONG_MAX);
 		theSize = (UInt32) mFile.GetSize();
 		}
 
