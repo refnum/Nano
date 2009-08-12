@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NSharedValue.h"
 #include "NEncodable.h"
 #include "NContainer.h"
@@ -117,6 +118,10 @@ public:
 	// Operators
 	const NData&						operator += (const NData &theData);
 	const NData							operator +	(const NData &theData) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 protected:

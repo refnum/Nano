@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NString.h"
 #include "NSize.h"
 
 
@@ -106,4 +107,24 @@ NComparison NSize::Compare(const NSize &theValue) const
 	
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//		NSize::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NSize::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{w=%g, h=%g}", width, height);
+
+	return(theResult);
+}
+
+
 

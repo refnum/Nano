@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NComparable.h"
 
 
@@ -52,6 +53,10 @@ public:
 
 	// Test the point
 	bool								IsZero(void) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 public:

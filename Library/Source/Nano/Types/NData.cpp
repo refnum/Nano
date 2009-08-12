@@ -588,6 +588,24 @@ const NData NData::operator + (const NData &theData) const
 
 
 //============================================================================
+//		NData::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NData::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{size=%ld}", GetSize());
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NData::GetMutable : Get the mutable value.
 //----------------------------------------------------------------------------
 #pragma mark -

@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NComparable.h"
 
 
@@ -52,6 +53,10 @@ public:
 
 	// Compare the value
 	NComparison							Compare(const NSize &theValue) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 public:

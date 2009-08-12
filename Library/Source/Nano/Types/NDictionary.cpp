@@ -539,6 +539,24 @@ NDictionary NDictionary::GetValueDictionary(const NString &theKey) const
 
 
 //============================================================================
+//		NDictionary::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NDictionary::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{size=%ld}", GetSize());
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NDictionary::GetNullValue : Get the null value.
 //----------------------------------------------------------------------------
 #pragma mark -

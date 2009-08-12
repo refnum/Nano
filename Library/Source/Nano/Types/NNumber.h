@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NComparable.h"
 #include "NEncodable.h"
 #include "NString.h"
@@ -121,6 +122,10 @@ public:
 	// Set a value
 	bool								SetValue(const NVariant &theValue);
 	bool								SetValue(const NString  &theValue);
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 protected:

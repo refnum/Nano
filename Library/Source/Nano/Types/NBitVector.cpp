@@ -18,6 +18,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NString.h"
 #include "NBitVector.h"
 
 
@@ -418,6 +419,24 @@ NIndex NBitVector::FindLastBit(bool theValue, const NRange &theRange) const
 		}
 	
 	return(kNIndexNone);
+}
+
+
+
+
+
+//============================================================================
+//		NBitVector::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NBitVector::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{size=%ld}", GetSize());
+
+	return(theResult);
 }
 
 

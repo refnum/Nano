@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NString.h"
 #include "NRectangle.h"
 
 
@@ -121,4 +122,23 @@ NComparison NRectangle::Compare(const NRectangle &theValue) const
 
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//		NRectangle::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NRectangle::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{x=%g, y=%g, w=%g, h=%g}", origin.x, origin.y, size.width, size.height);
+
+	return(theResult);
+}
+
 

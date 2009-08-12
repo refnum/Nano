@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NSharedValue.h"
 #include "NContainer.h"
 #include "NVariant.h"
@@ -147,6 +148,10 @@ public:
 	void								SetValuesFloat32(const Float32List &theValues);
 	void								SetValuesFloat64(const Float64List &theValues);
 	void								SetValuesString( const NStringList &theValues);
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 protected:

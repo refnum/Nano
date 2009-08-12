@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NSharedValue.h"
 #include "NContainer.h"
 #include "NEncodable.h"
@@ -125,6 +126,10 @@ public:
 	NRectangle							GetValueRectangle( const NString &theKey) const;
 	NArray								GetValueArray(     const NString &theKey) const;
 	NDictionary							GetValueDictionary(const NString &theKey) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 protected:

@@ -656,6 +656,21 @@ const NFile& NFile::operator = (const NFile &theFile)
 
 
 //============================================================================
+//		NFile::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NFile::operator NFormatArgument(void) const
+{
+
+
+	// Get the value
+	return(GetPath());
+}
+
+
+
+
+
+//============================================================================
 //		NFile::InitializeSelf : Initialize the file.
 //----------------------------------------------------------------------------
 #pragma mark -

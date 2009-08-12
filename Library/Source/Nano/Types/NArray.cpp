@@ -796,6 +796,24 @@ void NArray::SetValuesString(const NStringList &theValues)
 
 
 //============================================================================
+//		NArray::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NArray::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{size=%ld}", GetSize());
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NArray::GetNullValue : Get the null value.
 //----------------------------------------------------------------------------
 #pragma mark -

@@ -16,8 +16,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NContainer.h"
+#include "NStringFormatter.h"
 #include "NComparable.h"
+#include "NContainer.h"
 
 
 
@@ -99,6 +100,10 @@ public:
 	bool								IsEmpty(void)                    const;
 	bool								Overlaps(const NRange &theRange) const;
 	bool								Contains(NIndex        theIndex) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 private:

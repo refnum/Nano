@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NString.h"
 #include "NRange.h"
 
 
@@ -306,4 +307,21 @@ bool NRange::Contains(NIndex theIndex) const
     return(theIndex >= GetFirst() && theIndex <= GetLast());
 }
 
+
+
+
+
+//============================================================================
+//		NRange::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NRange::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{l=%ld, s=%ld}", mLocation, mSize);
+
+	return(theResult);
+}
 

@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NComparable.h"
 #include "NString.h"
 
@@ -173,6 +174,7 @@ public:
 
 	// Operators
 	const NFile&						operator = (const NFile &theFile);
+										operator NFormatArgument(void) const;
 
 
 private:

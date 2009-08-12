@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NString.h"
 #include "NPoint.h"
 
 
@@ -106,4 +107,27 @@ bool NPoint::IsZero(void) const
 	// Test the point
 	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
 }
+
+
+
+
+
+//============================================================================
+//		NPoint::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NPoint::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{x=%g, y=%g}", x, y);
+
+	return(theResult);
+}
+
+
+
+
+
 

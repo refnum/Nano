@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NContainer.h"
 #include "NComparable.h"
 #include "NRange.h"
@@ -89,6 +90,10 @@ public:
 	// Find bits
 	NIndex								FindFirstBit(bool theValue, const NRange &theRange=kNRangeAll) const;
 	NIndex								FindLastBit( bool theValue, const NRange &theRange=kNRangeAll) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 private:

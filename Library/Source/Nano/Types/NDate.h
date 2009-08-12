@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NComparable.h"
 
 
@@ -82,6 +83,10 @@ public:
 
 	NTime								operator +(const NDate &theDate) const;
 	NTime								operator -(const NDate &theDate) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
 
 
 private:

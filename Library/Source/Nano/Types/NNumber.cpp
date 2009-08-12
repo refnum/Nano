@@ -831,8 +831,24 @@ bool NNumber::SetValue(const NString &theValue)
 
 
 //============================================================================
+//		NNumber::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NNumber::operator NFormatArgument(void) const
+{
+
+
+	// Get the value
+	return(GetString());
+}
+
+
+
+
+
+//============================================================================
 //      NNumber::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
+#pragma mark -
 void NNumber::EncodeSelf(NEncoder &theEncoder) const
 {
 
