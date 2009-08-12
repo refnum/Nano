@@ -61,7 +61,7 @@ int NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 
 	// Print the value
 	va_start(argList, format);
-	theResult = vsnprintf(s, n, format, argList);
+	theResult = ::vsnprintf(s, n, format, argList);
 	va_end(argList);
 	
 	return(theResult);
@@ -80,7 +80,7 @@ int NTargetPOSIX::vsnprintf(char *s, size_t n, const char *format, va_list argLi
 
 
 	// Print the value
-	theResult = vsnprintf(s, n, format, argList);
+	theResult = ::vsnprintf(s, n, format, argList);
 	
 	return(theResult);
 }
@@ -98,7 +98,7 @@ struct tm NTargetPOSIX::gmtime(time_t theTime)
 
 
 	// Get the value
-	gmtime_r(&theTime, &theResult);
+	::gmtime_r(&theTime, &theResult);
 	
 	return(theResult);
 }

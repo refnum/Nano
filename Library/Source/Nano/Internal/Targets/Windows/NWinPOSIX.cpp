@@ -30,7 +30,7 @@ int NTargetPOSIX::is_nan(double r)
 
 
 	// Get the value
-	return(_isnan(r));
+	return(::_isnan(r));
 }
 
 
@@ -45,7 +45,7 @@ int NTargetPOSIX::is_inf(double r)
 
 
 	// Get the value
-	return(!_finite(r));
+	return(!::_finite(r));
 }
 
 
@@ -63,7 +63,7 @@ int NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 
 	// Print the value
 	va_start(argList, format);
-	theResult = vsnprintf(s, n, format, argList);
+	theResult = ::vsnprintf(s, n, format, argList);
 	va_end(argList);
 	
 	return(theResult);
@@ -82,7 +82,7 @@ int NTargetPOSIX::vsnprintf(char *s, size_t n, const char *format, va_list argLi
 
 
 	// Print the value
-	theResult = vsnprintf(s, n, format, argList);
+	theResult = ::vsnprintf(s, n, format, argList);
 	
 	return(theResult);
 }
@@ -118,8 +118,9 @@ time_t NTargetPOSIX::timegm(const struct tm *tm)
 {	struct tm	localTM = *tm;
 
 
+
 	// Get the value
-	return(_mkgmtime32(&localTM));
+	return(::_mkgmtime32(&localTM));
 }
 
 
@@ -134,7 +135,7 @@ char *NTargetPOSIX::getcwd(char *buf, size_t size)
 
 
 	// Get the value
-	return(_getcwd(buf, size));
+	return(::_getcwd(buf, size));
 }
 
 
