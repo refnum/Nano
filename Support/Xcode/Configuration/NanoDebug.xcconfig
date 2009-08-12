@@ -2,7 +2,7 @@
 //		Compiler
 //----------------------------------------------------------------------------
 GCC_OPTIMIZATION_LEVEL								= 0
-GCC_PREPROCESSOR_DEFINITIONS						= NN_DEBUG=1 _GLIBCXX_DEBUG _GLIBCXX_DEBUG_PEDANTIC _GLIBCPP_CONCEPT_CHECKS
+GCC_PREPROCESSOR_DEFINITIONS						= NN_DEBUG=1
 GCC_UNROLL_LOOPS									= NO
 GCC_WARN_UNINITIALIZED_AUTOS						= NO
 NANO_DEBUG_WARNING_CFLAGS							= -Wstack-protector
