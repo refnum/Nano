@@ -35,7 +35,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NTime kNFunctorDelayTime								=  0.25 * kNTimeSecond;
+static const NTime kNFunctorDelayTime								=  250 * kNTimeMillisecond;
 
 
 
