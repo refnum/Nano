@@ -1,8 +1,8 @@
 /*	NAME:
-		NPoint.h
+		NVector.h
 
 	DESCRIPTION:
-		Point object.
+		Vector object.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,14 +11,15 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NPOINT_HDR
-#define NPOINT_HDR
+#ifndef NVECTOR_HDR
+#define NVECTOR_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
 #include "NEncodable.h"
 #include "NComparable.h"
+#include "NPoint.h"
 
 
 
@@ -27,10 +28,13 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-class NPoint;
 class NVector;
 
-extern const NPoint kNPointZero;
+extern const NVector kNVectorZero;
+extern const NVector kNVectorNorth;
+extern const NVector kNVectorSouth;
+extern const NVector kNVectorEast;
+extern const NVector kNVectorWest;
 
 
 
@@ -39,25 +43,27 @@ extern const NPoint kNPointZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NPoint :	public NEncodable,
-				public NComparable<NPoint> {
+class NVector :	public NEncodable,
+				public NComparable<NVector> {
 public:
-										DECLARE_NENCODABLE(NPoint);
+										DECLARE_NENCODABLE(NVector);
 
-										 NPoint(Float32 x=0.0f, Float32 y=0.0f);
-	virtual								~NPoint(void);
+										 NVector(const NPoint &point1, const NPoint &point2);
+										 NVector(Float32 x=0.0f, Float32 y=0.0f);
+	virtual								~NVector(void);
 
 
-	// Clear the point
+	// Clear the vector
 	void								Clear(void);
 
 
 	// Compare the value
-	NComparison							Compare(const NPoint &theValue) const;
+	NComparison							Compare(const NVector &theValue) const;
 
 
-	// Test the point
-	bool								IsZero(void) const;
+	// Test the vector
+	bool								IsZero      (void) const;
+	bool								IsNormalized(void) const;
 
 
 	// Add/subtract a vector
@@ -65,9 +71,24 @@ public:
 	void								Subtract(const NVector &theVector);
 
 
-	// Get the distance to a points
-	Float32								GetDistance( const NPoint &thePoint) const;
-	Float32								GetDistance2(const NPoint &thePoint) const;
+	// Manipulate the vector
+	void								Scale(Float32 s);
+	void								Negate(   void);
+	void								Normalize(void);
+
+
+	// Get the length
+	Float32								GetLength (void) const;
+	Float32								GetLength2(void) const;
+
+
+	// Get the dot/cross products
+	Float32								GetDot(  const NVector &theVector) const;
+	Float32								GetCross(const NVector &theVector) const;
+
+
+	// Get the angle between two vectors
+	NDegrees							GetAngle(const NVector &theVector) const;
 
 
 	// Operators
@@ -88,6 +109,6 @@ public:
 
 
 
-#endif // NPOINT_HDR
+#endif // NVECTOR_HDR
 
 

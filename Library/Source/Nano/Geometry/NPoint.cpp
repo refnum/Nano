@@ -17,6 +17,7 @@
 #include "NMathUtilities.h"
 #include "NEncoder.h"
 #include "NString.h"
+#include "NVector.h"
 #include "NPoint.h"
 
 
@@ -126,6 +127,72 @@ bool NPoint::IsZero(void) const
 
 	// Test the point
 	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
+}
+
+
+
+
+
+//============================================================================
+//		NPoint::Add : Add a vector to the point.
+//----------------------------------------------------------------------------
+void NPoint::Add(const NVector &theVector)
+{
+
+
+	// Add the vector
+	x += theVector.x;
+	y += theVector.y;
+}
+
+
+
+
+
+//============================================================================
+//		NPoint::Subtract : Subtract a vector from the point.
+//----------------------------------------------------------------------------
+void NPoint::Subtract(const NVector &theVector)
+{
+
+
+	// Subtract the vector
+	x -= theVector.x;
+	y -= theVector.y;
+}
+
+
+
+
+
+//============================================================================
+//		NPoint::GetDistance : Get the distance to a point.
+//----------------------------------------------------------------------------
+Float32 NPoint::GetDistance(const NPoint &thePoint) const
+{
+
+
+	// Get the distance
+	return(NMathUtilities::FastRoot(GetDistance2(thePoint)));
+}
+
+
+
+
+
+//============================================================================
+//		NPoint::GetDistance2 : Get the distance^2 to a point.
+//----------------------------------------------------------------------------
+Float32 NPoint::GetDistance2(const NPoint &thePoint) const
+{	Float32		deltaX, deltaY;
+
+
+
+	// Get the distance^2
+	deltaX = x - thePoint.x;
+	deltaY = y - thePoint.y;
+	
+	return((deltaX * deltaX) + (deltaY * deltaY));
 }
 
 

@@ -32,6 +32,7 @@
 #include "NFile.h"
 #include "NRectangle.h"
 #include "NSize.h"
+#include "NVector.h"
 #include "NString.h"
 #include "NVariant.h"
 
@@ -145,6 +146,9 @@ NComparison NVariant::CompareValues(const NVariant &value1, const NVariant &valu
 
 		else if (value1.IsType(typeid(NString)))
 			theResult = CompareValuesT<NString>(value1, value2);
+
+		else if (value1.IsType(typeid(NVector)))
+			theResult = CompareValuesT<NVector>(value1, value2);
 
 		else
 			NN_LOG("NVariant::CompareValues passed an unknown type (%s)", value1.GetType().name());

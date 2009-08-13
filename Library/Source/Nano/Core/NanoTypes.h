@@ -96,6 +96,8 @@ typedef SInt32														NIndex;
 typedef SInt32														NStatus;
 typedef UInt32														NHashCode;
 typedef UInt32														NBitfield;
+typedef Float64														NRadians;
+typedef Float64														NDegrees;
 typedef Float64														NTime;
 
 #if NN_TARGET_ARCH_64

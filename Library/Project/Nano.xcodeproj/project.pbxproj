@@ -110,6 +110,8 @@
 		AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E59103460CB00E5A6AD /* NPoint.cpp */; };
 		AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5B103460CB00E5A6AD /* NRectangle.cpp */; };
 		AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5D103460CB00E5A6AD /* NSize.cpp */; };
+		AB514E921034638700E5A6AD /* NVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E901034638700E5A6AD /* NVector.cpp */; };
+		AB514E931034638700E5A6AD /* NVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E901034638700E5A6AD /* NVector.cpp */; };
 		AB669B5110035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
 		AB669B5210035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -303,6 +305,8 @@
 		AB514E5C103460CB00E5A6AD /* NRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRectangle.h; sourceTree = "<group>"; };
 		AB514E5D103460CB00E5A6AD /* NSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSize.cpp; sourceTree = "<group>"; };
 		AB514E5E103460CB00E5A6AD /* NSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSize.h; sourceTree = "<group>"; };
+		AB514E901034638700E5A6AD /* NVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NVector.cpp; sourceTree = "<group>"; };
+		AB514E911034638700E5A6AD /* NVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVector.h; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -596,6 +600,8 @@
 				AB514E5C103460CB00E5A6AD /* NRectangle.h */,
 				AB514E5D103460CB00E5A6AD /* NSize.cpp */,
 				AB514E5E103460CB00E5A6AD /* NSize.h */,
+				AB514E901034638700E5A6AD /* NVector.cpp */,
+				AB514E911034638700E5A6AD /* NVector.h */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -1134,6 +1140,7 @@
 				AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
+				AB514E921034638700E5A6AD /* NVector.cpp in Sources */,
 				AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */,
 				AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */,
 				AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */,
@@ -1262,6 +1269,7 @@
 				AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
+				AB514E931034638700E5A6AD /* NVector.cpp in Sources */,
 				AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */,
 				AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */,
 				AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */,

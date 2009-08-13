@@ -172,12 +172,12 @@ UInt32 NMathUtilities::RotateRight(UInt32 theValue, UInt32 rotateBy)
 //============================================================================
 //      NMathUtilities::GetDegrees : Convert from radians to degrees.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::GetDegrees(Float64 radian)
+NDegrees NMathUtilities::GetDegrees(NRadians theValue)
 {
 
 
     // Convert to degrees
-    return(radian * (180.0 / kPi));
+    return(theValue * (180.0 / kPi));
 }
 
 
@@ -187,12 +187,12 @@ Float64 NMathUtilities::GetDegrees(Float64 radian)
 //============================================================================
 //      NMathUtilities::GetRadians : Convert from degrees to radians.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::GetRadians(Float64 degree)
+NRadians NMathUtilities::GetRadians(NDegrees theValue)
 {
 
 
     // Convert to radians
-    return(degree * (kPi / 180.0));
+    return(theValue * (kPi / 180.0));
 }
 
 

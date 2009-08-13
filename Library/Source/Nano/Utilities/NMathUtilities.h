@@ -48,44 +48,44 @@ static const Float64 k1_Sqrt2										= 0.707106781186547524401;		// 1/sqrt(2)
 class NMathUtilities {
 public:
     // Floating point equality
-    static bool                         AreEqual(Float64 a, Float64 b);
+	static bool							AreEqual(Float64 a, Float64 b);
 
 
     // Floating point tests
-    static bool                         IsZero(Float64 theValue);
+	static bool							IsZero(Float64 theValue);
 
 
     // Integer tests
-    static bool                         IsOdd(     SInt64 theValue);
-    static bool                         IsEven(    SInt64 theValue);
-    static bool                         IsPowerOf2(SInt64 theValue);
+	static bool							IsOdd(     SInt64 theValue);
+	static bool							IsEven(    SInt64 theValue);
+	static bool							IsPowerOf2(SInt64 theValue);
 
 
     // Count the number of set bits
-    static UInt32                       CountBits(UInt32 theValue);
+	static UInt32						CountBits(UInt32 theValue);
 
 
     // Rotate an integer
-    static UInt32                       RotateLeft( UInt32 theValue, UInt32 rotateBy);
-    static UInt32                       RotateRight(UInt32 theValue, UInt32 rotateBy);
+	static UInt32						RotateLeft( UInt32 theValue, UInt32 rotateBy);
+	static UInt32						RotateRight(UInt32 theValue, UInt32 rotateBy);
 
 
     // Convert between radians and degrees
-    static Float64                      GetDegrees(Float64 radian);
-    static Float64                      GetRadians(Float64 degrees);
+	static NDegrees						GetDegrees(NRadians theValue);
+	static NRadians						GetRadians(NDegrees theValue);
 
 
     // Get an absolute value
-    static Float32                      GetAbsolute(Float32 theValue);
+	static Float32						GetAbsolute(Float32 theValue);
 
 
     // Fast (and approximate) reciprocal value
-    static Float32                      FastReciprocal(Float32 theValue);
+	static Float32						FastReciprocal(Float32 theValue);
 
 
     // Fast (and approximate) square root
-    static Float32                      FastRoot(   Float32 theValue);
-    static Float32                      FastInvRoot(Float32 theValue);
+	static Float32						FastRoot(   Float32 theValue);
+	static Float32						FastInvRoot(Float32 theValue);
 };
 
 

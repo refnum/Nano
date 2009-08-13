@@ -49,6 +49,7 @@
 #include "TPoint.h"
 #include "TRectangle.h"
 #include "TSize.h"
+#include "TVector.h"
 
 #include "TB64Encoder.h"
 #include "TByteSwap.h"
@@ -160,6 +161,7 @@ int main(int argc, const char **argv)
 	TPoint::Execute();
 	TRectangle::Execute();
 	TSize::Execute();
+	TVector::Execute();
 
 
 

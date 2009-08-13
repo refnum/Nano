@@ -26,6 +26,7 @@
 #include "NPoint.h"
 #include "NSize.h"
 #include "NRectangle.h"
+#include "NVector.h"
 #include "NString.h"
 #include "NColor.h"
 #include "NDate.h"
@@ -132,6 +133,7 @@ public:
 	NPoint								GetValuePoint(     NIndex theIndex) const;
 	NSize								GetValueSize(      NIndex theIndex) const;
 	NRectangle							GetValueRectangle( NIndex theIndex) const;
+	NVector								GetValueVector(    NIndex theIndex) const;
 	NArray								GetValueArray(     NIndex theIndex) const;
 	NDictionary							GetValueDictionary(NIndex theIndex) const;
 

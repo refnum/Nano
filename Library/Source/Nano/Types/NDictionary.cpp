@@ -509,6 +509,21 @@ NRectangle NDictionary::GetValueRectangle(const NString &theKey) const
 
 
 //============================================================================
+//		NDictionary::GetValueVector : Get a vector value.
+//----------------------------------------------------------------------------
+NVector NDictionary::GetValueVector(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetVector(GetValue(theKey), GetDebugID(theKey)));
+}
+
+
+
+
+
+//============================================================================
 //		NDictionary::GetValueArray : Get an array value.
 //----------------------------------------------------------------------------
 NArray NDictionary::GetValueArray(const NString &theKey) const

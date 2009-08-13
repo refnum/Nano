@@ -559,6 +559,21 @@ NRectangle NArray::GetValueRectangle(NIndex theIndex) const
 
 
 //============================================================================
+//		NArray::GetValueVector : Get a vector value.
+//----------------------------------------------------------------------------
+NVector NArray::GetValueVector(NIndex theIndex) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetVector(GetValue(theIndex), GetDebugID(theIndex)));
+}
+
+
+
+
+
+//============================================================================
 //		NArray::GetValueArray : Get an array value.
 //----------------------------------------------------------------------------
 NArray NArray::GetValueArray(NIndex theIndex) const

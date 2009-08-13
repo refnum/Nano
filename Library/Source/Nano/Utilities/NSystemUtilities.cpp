@@ -302,6 +302,28 @@ NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NStrin
 
 
 //============================================================================
+//		NSystemUtilities::GetVector : Get a vector value.
+//----------------------------------------------------------------------------
+NVector NSystemUtilities::GetVector(const NVariant &theValue, const NString &debugID)
+{	NVector		theResult;
+
+
+
+	// Get the value
+	if (!theValue.GetValue(theResult))
+		{
+		if (NN_DEBUG && !debugID.IsEmpty())
+			NN_LOG("Unable to convert value [%@] to NVector", debugID);
+		}
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::GetArray : Get an array value.
 //----------------------------------------------------------------------------
 NArray NSystemUtilities::GetArray(const NVariant &theValue, const NString &debugID)

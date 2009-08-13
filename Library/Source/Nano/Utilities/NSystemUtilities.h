@@ -23,6 +23,7 @@
 #include "NDictionary.h"
 #include "NPoint.h"
 #include "NRectangle.h"
+#include "NVector.h"
 #include "NSize.h"
 #include "NString.h"
 #include "NTimer.h"
@@ -104,6 +105,7 @@ public:
 	static NPoint						GetPoint(     const NVariant &theValue, const NString &debugID="");
 	static NSize						GetSize(      const NVariant &theValue, const NString &debugID="");
 	static NRectangle					GetRectangle( const NVariant &theValue, const NString &debugID="");
+	static NVector						GetVector(    const NVariant &theValue, const NString &debugID="");
 	static NArray						GetArray(     const NVariant &theValue, const NString &debugID="");
 	static NDictionary					GetDictionary(const NVariant &theValue, const NString &debugID="");
 

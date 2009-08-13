@@ -124,6 +124,7 @@ public:
 	NPoint								GetValuePoint(     const NString &theKey) const;
 	NSize								GetValueSize(      const NString &theKey) const;
 	NRectangle							GetValueRectangle( const NString &theKey) const;
+	NVector								GetValueVector(    const NString &theKey) const;
 	NArray								GetValueArray(     const NString &theKey) const;
 	NDictionary							GetValueDictionary(const NString &theKey) const;
 

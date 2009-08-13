@@ -316,6 +316,21 @@ NRectangle NPreferences::GetValueRectangle(const NString &theKey) const
 
 
 //============================================================================
+//		NPreferences::GetValueVector : Get a vector value.
+//----------------------------------------------------------------------------
+NVector NPreferences::GetValueVector(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NSystemUtilities::GetVector(GetValue(theKey), theKey));
+}
+
+
+
+
+
+//============================================================================
 //		NPreferences::GetValueArray : Get an array value.
 //----------------------------------------------------------------------------
 NArray NPreferences::GetValueArray(const NString &theKey) const
