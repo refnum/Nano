@@ -26,20 +26,25 @@
 //      NMathUtilities::AreEqual : Are two floating point numbers equal?
 //----------------------------------------------------------------------------
 bool NMathUtilities::AreEqual(Float64 a, Float64 b)
-{   Float64   theDelta;
+{   Float64		theDelta;
+	bool		areEqual;
 
 
 
     // Validate our parameters
-    NN_ASSERT(!NTargetPOSIX::is_nan(a));
-    NN_ASSERT(!NTargetPOSIX::is_nan(b));
+    NN_ASSERT(!NTargetPOSIX::is_nan(a) && !NTargetPOSIX::is_inf(a));
+    NN_ASSERT(!NTargetPOSIX::is_nan(b) && !NTargetPOSIX::is_inf(b));
 
 
 
     // Check for equality
-    theDelta = fabs(a - b);
-    
-    return(theDelta < 0.000000001);
+	//
+	// Using an absolute error is not the best approach; should use relative
+	// error or re-interpret as sign-magnitude integers.
+	theDelta = fabs(a - b);
+	areEqual = (theDelta < 0.000000001);
+	
+	return(areEqual);
 }
 
 
