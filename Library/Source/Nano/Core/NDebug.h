@@ -71,10 +71,10 @@ extern     void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const cha
 		while(0)
 
 #else
-	#define NN_ASSERT(_test)
-	#define NN_ASSERT_MSG(_test, _message, ...)
-	#define NN_ASSERT_NOERR(_error)
-	#define NN_LOG(...)
+	#define NN_ASSERT(_test)									do { } while (0)
+	#define NN_ASSERT_MSG(_test, _message, ...)					do { } while (0)
+	#define NN_ASSERT_NOERR(_error)								do { } while (0)
+	#define NN_LOG(...)											do { } while (0)
 #endif
 
 #else
@@ -137,10 +137,10 @@ typedef void (*DebugOutputProc)(const char *theMsg);
 		while(0)
 
 #else
-	#define NN_ASSERT(_test)
-	#define NN_ASSERT_MSG(_test, _message, ...)
-	#define NN_ASSERT_NOERR(_error)
-	#define NN_LOG(...)
+	#define NN_ASSERT(_test)									do { } while (0)
+	#define NN_ASSERT_MSG(_test, _message, ...)					do { } while (0)
+	#define NN_ASSERT_NOERR(_error)								do { } while (0)
+	#define NN_LOG(...)											do { } while (0)
 #endif
 
 
