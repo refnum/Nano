@@ -17,6 +17,8 @@
 #include "Nano.h"
 #include "NCommandLine.h"
 
+#include "TNSSingleton.h"
+
 #include "TCFArray.h"
 #include "TCFData.h"
 #include "TCFDate.h"
@@ -27,14 +29,21 @@
 
 #include "TCommandLine.h"
 #include "TPreferences.h"
+#include "TUndoManager.h"
+#include "TUndoSource.h"
 
 #include "TDebug.h"
 
+#include "TDBHandle.h"
+#include "TDBHandlePool.h"
+
 #include "TBroadcaster.h"
 #include "TListener.h"
+#include "TTimer.h"
 
 #include "TBundle.h"
 #include "TFile.h"
+#include "TFileMap.h"
 #include "TPropertyList.h"
 
 #include "TB64Encoder.h"
@@ -47,7 +56,11 @@
 #include "TXMLNode.h"
 
 #include "TAtomicInt.h"
+#include "TAtomicList.h"
 #include "TLock.h"
+#include "TSemaphore.h"
+#include "TThread.h"
+#include "TThreadPool.h"
 
 #include "TArray.h"
 #include "TBitVector.h"
@@ -92,9 +105,28 @@ int main(int argc, const char **argv)
 
 
 
+	// Nanite - Cocoa
+	TNSSingleton::Execute();
+
+
+
+	// Nanite - CoreFoundation
+	TCFArray::Execute();
+	TCFData::Execute();
+	TCFDate::Execute();
+	TCFDictionary::Execute();
+	TCFNumber::Execute();
+	TCFObject::Execute();
+	TCFString::Execute();
+
+
+
 	// Application
 	TCommandLine::Execute();
 	TPreferences::Execute();
+	TUndoManager::Execute();
+	TUndoSource::Execute();
+
 
 
 	// Core
@@ -102,15 +134,23 @@ int main(int argc, const char **argv)
 
 
 
+	// Database
+	TDBHandle::Execute();
+	TDBHandlePool::Execute();
+
+
+
 	// Events
 	TBroadcaster::Execute();
 	TListener::Execute();
+	TTimer::Execute();
 	
 
 	
 	// Files
 	TBundle::Execute();
 	TFile::Execute();
+	TFileMap::Execute();
 	TPropertyList::Execute();
 
 
@@ -129,7 +169,11 @@ int main(int argc, const char **argv)
 
 	// Threads
 	TAtomicInt::Execute();
+	TAtomicList::Execute();
 	TLock::Execute();
+	TSemaphore::Execute();
+	TThread::Execute();
+	TThreadPool::Execute();
 
 
 
@@ -163,17 +207,6 @@ int main(int argc, const char **argv)
 	TTextUtilities::Execute();
 	TThreadUtilities::Execute();
 	TTimeUtilities::Execute();
-
-
-
-	// Nanite - CoreFoundation
-	TCFArray::Execute();
-	TCFData::Execute();
-	TCFDate::Execute();
-	TCFDictionary::Execute();
-	TCFNumber::Execute();
-	TCFObject::Execute();
-	TCFString::Execute();
 	
 	return(0);
 }
