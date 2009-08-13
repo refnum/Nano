@@ -27,6 +27,10 @@
 //----------------------------------------------------------------------------
 static const NString kEncodeIndent									= "\t";
 
+static const NString kXMLHeader										= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+static const NString kXMLDocTypePublic								= "<!DOCTYPE %@ PUBLIC \"%@\" \"%@\">";
+static const NString kXMLDocTypeSystem								= "<!DOCTYPE %@ SYSTEM \"%@\">";
+
 
 
 
@@ -202,8 +206,8 @@ NString NXMLEncoder::EncodeDocument(const NXMLNode *theNode, const NString &theI
 
 
 	// Encode the node
-	theText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
+	theText = kXMLHeader;
+	
 	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
 		{
 		theText += EncodeNode(*theIter, theIndent);
@@ -242,10 +246,10 @@ NString NXMLEncoder::EncodeDocType(const NXMLNode *theNode)
 	if (!publicID.IsEmpty())
 		{
 		NN_ASSERT(!systemID.IsEmpty());
-		theText.Format("<!DOCTYPE %@ PUBLIC \"%@\" \"%@\">", theName, publicID, systemID);
+		theText.Format(kXMLDocTypePublic, theName, publicID, systemID);
 		}
 	else
-		theText.Format("<!DOCTYPE %@ SYSTEM \"%@\">", theName, systemID);
+		theText.Format(kXMLDocTypeSystem, theName, systemID);
 	
 	return(theText);
 }
