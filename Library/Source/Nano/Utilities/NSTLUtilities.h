@@ -35,16 +35,16 @@ template <class T> std::vector<T> vector_create_n(UInt32 numValues, const T *the
 
 
 // Create a vector from a list of parameters
-#define _VECTOR1( p1)										std::vector<T> result;													result.push_back(p1);
-#define _VECTOR2( p1, p2)															_VECTOR1(p1);									result.push_back(p2);
-#define _VECTOR3( p1, p2, p3)														_VECTOR2(p1, p2);								result.push_back(p3);
-#define _VECTOR4( p1, p2, p3, p4)													_VECTOR3(p1, p2, p3);							result.push_back(p4);
-#define _VECTOR5( p1, p2, p3, p4, p5)												_VECTOR4(p1, p2, p3, p4);						result.push_back(p5);
-#define _VECTOR6( p1, p2, p3, p4, p5, p6)											_VECTOR5(p1, p2, p3, p4, p5);					result.push_back(p6);
-#define _VECTOR7( p1, p2, p3, p4, p5, p6, p7)										_VECTOR6(p1, p2, p3, p4, p5, p6);				result.push_back(p7);
-#define _VECTOR8( p1, p2, p3, p4, p5, p6, p7, p8)									_VECTOR7(p1, p2, p3, p4, p5, p6, p7);			result.push_back(p8);
-#define _VECTOR9( p1, p2, p3, p4, p5, p6, p7, p8, p9)								_VECTOR8(p1, p2, p3, p4, p5, p6, p7, p8);		result.push_back(p9);
-#define _VECTOR10(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)							_VECTOR9(p1, p2, p3, p4, p5, p6, p7, p8, p9);	result.push_back(p10);
+#define _VECTOR1( p1)											std::vector<T> result;							result.push_back(p1);
+#define _VECTOR2( p1, p2)										_VECTOR1(p1);									result.push_back(p2);
+#define _VECTOR3( p1, p2, p3)									_VECTOR2(p1, p2);								result.push_back(p3);
+#define _VECTOR4( p1, p2, p3, p4)								_VECTOR3(p1, p2, p3);							result.push_back(p4);
+#define _VECTOR5( p1, p2, p3, p4, p5)							_VECTOR4(p1, p2, p3, p4);						result.push_back(p5);
+#define _VECTOR6( p1, p2, p3, p4, p5, p6)						_VECTOR5(p1, p2, p3, p4, p5);					result.push_back(p6);
+#define _VECTOR7( p1, p2, p3, p4, p5, p6, p7)					_VECTOR6(p1, p2, p3, p4, p5, p6);				result.push_back(p7);
+#define _VECTOR8( p1, p2, p3, p4, p5, p6, p7, p8)				_VECTOR7(p1, p2, p3, p4, p5, p6, p7);			result.push_back(p8);
+#define _VECTOR9( p1, p2, p3, p4, p5, p6, p7, p8, p9)			_VECTOR8(p1, p2, p3, p4, p5, p6, p7, p8);		result.push_back(p9);
+#define _VECTOR10(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)		_VECTOR9(p1, p2, p3, p4, p5, p6, p7, p8, p9);	result.push_back(p10);
 
 template <class T> std::vector<T> vector(const T &p1)
 {

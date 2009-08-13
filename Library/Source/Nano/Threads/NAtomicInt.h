@@ -63,7 +63,7 @@ public:
 
 
 private:
-    SInt32								mValue;
+	SInt32								mValue;
 };
 
 

@@ -29,8 +29,12 @@
 //----------------------------------------------------------------------------
 // NXMLParser options
 //
-// kNXMLParserSkipWhitespace
-//		Skip all-whitespace text sections found outside of a CDATA section.
+//		kNXMLParserSkipWhitespace
+//			Skips all-whitespace text sections found outside of a CDATA section.
+//
+//		kNXMLParserDefault
+//			Default options.
+//
 typedef NBitfield NXMLParserOptions;
 
 static const NXMLParserOptions kNXMLParserNone							= 0;
@@ -98,15 +102,15 @@ public:
 
 	// Parse a fragment
 	//
-	// The final fragment must be closed by setting isFinal to true.
+	// The final fragment is indicated by setting isFinal to true.
 	NStatus								Parse(NIndex theSize, const void *thePtr, bool isFinal);
 
 
 	// Set processing functors
 	//
-	// Documents can be parsed by sub-classing and overriding ProcessXXX, or
-	// by assigning processing functors. If set, these functors are invoked
-	// by the default implementation of ProcessXXX.
+	// Documents can be parsed by sub-classing and overriding ProcessXXX, or by
+	// assigning processing functors. If set, these functors are invoked by the
+	// default implementation of ProcessXXX.
 	void								SetProcessDocumentType(const NXMLProcessDocumentTypeFunctor &theFunctor);
 	void								SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor);
 	void								SetProcessElementEnd(  const NXMLProcessElementEndFunctor   &theFunctor);

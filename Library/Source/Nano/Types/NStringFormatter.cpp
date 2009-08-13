@@ -28,8 +28,8 @@
 
 
 		This bug has been fixed in gcc 4.2, but that can only support Mac OS X
-		10.5 or higher.
-		
+		10.5 or higher and does not support the iPhone.
+
 		At some point Nano will require gcc 4.2, at which point the implementation
 		can be simplified:
 		

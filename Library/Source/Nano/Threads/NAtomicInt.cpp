@@ -65,7 +65,7 @@ NComparison NAtomicInt::Compare(const SInt32 &theValue) const
 
 	// Compare the value
 	//
-	// The value is copied to the comparison is atomic.
+	// The value is copied so the comparison is atomic.
 	myValue = mValue;
 
 	return(GetComparison(myValue, theValue));

@@ -178,17 +178,12 @@ void NThread::Sleep(NTime theTime)
 
 	// Invoke the functors
 	//
-	// By using usleep to block the thread, we can avoid running the event loop
-	// in situations where the main thread may not be in a position to do so (it
-	// may be in the middle of destroying an object which has had to block for
-	// its thread to exit).
+	// Sleeping the main thread will prevent functors due to be executed on the
+	// main thread from firing.
 	//
-	// However, not running the event loop means that the functor timers never fire
-	// so we also invoke these functors here to ensure they are eventually completed.
-	//
-	// This allows us to avoid a deadlock common to APIs such as MPRemote, where
-	// the main thread is waiting for a thread to exit and that thread is waiting
-	// inside InvokeMain for a functor to complete.
+	// To avoid deadlocks where the main thread is waiting for a thread to exit
+	// and that thread is waiting inside InvokeMain for a functor to complete,
+	// sleeping the main thread will also invoke any queued functors.
 	if (IsMain())
 		InvokeFunctors();
 }
