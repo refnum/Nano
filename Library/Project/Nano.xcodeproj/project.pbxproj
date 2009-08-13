@@ -87,12 +87,9 @@
 		AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */; };
 		AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155520F9B4DD6009FFEAF /* NHashable.cpp */; };
 		AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
-		AB28FC380FB5D9F000F72C61 /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155560F9B4DD6009FFEAF /* NPoint.cpp */; };
 		AB28FC390FB5D9F000F72C61 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
-		AB28FC3A0FB5D9F000F72C61 /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555A0F9B4DD6009FFEAF /* NRectangle.cpp */; };
 		AB28FC3B0FB5D9F000F72C61 /* NRefCounted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */; };
 		AB28FC3C0FB5D9F000F72C61 /* NSharedValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */; };
-		AB28FC3D0FB5D9F000F72C61 /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155600F9B4DD6009FFEAF /* NSize.cpp */; };
 		AB28FC3E0FB5D9F000F72C61 /* NString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155620F9B4DD6009FFEAF /* NString.cpp */; };
 		AB28FC3F0FB5D9F000F72C61 /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */; };
 		AB28FC400FB5D9F000F72C61 /* NStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */; };
@@ -107,6 +104,12 @@
 		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
 		AB4EA38F1009B17400E7B73C /* NIPhonePOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38E1009B17400E7B73C /* NIPhonePOSIX.cpp */; };
+		AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E59103460CB00E5A6AD /* NPoint.cpp */; };
+		AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5B103460CB00E5A6AD /* NRectangle.cpp */; };
+		AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5D103460CB00E5A6AD /* NSize.cpp */; };
+		AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E59103460CB00E5A6AD /* NPoint.cpp */; };
+		AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5B103460CB00E5A6AD /* NRectangle.cpp */; };
+		AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5D103460CB00E5A6AD /* NSize.cpp */; };
 		AB669B5110035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
 		AB669B5210035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -158,12 +161,9 @@
 		AB9155AF0F9B4DD6009FFEAF /* NFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */; };
 		AB9155B00F9B4DD6009FFEAF /* NHashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155520F9B4DD6009FFEAF /* NHashable.cpp */; };
 		AB9155B10F9B4DD6009FFEAF /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
-		AB9155B20F9B4DD6009FFEAF /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155560F9B4DD6009FFEAF /* NPoint.cpp */; };
 		AB9155B30F9B4DD6009FFEAF /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
-		AB9155B40F9B4DD6009FFEAF /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555A0F9B4DD6009FFEAF /* NRectangle.cpp */; };
 		AB9155B50F9B4DD6009FFEAF /* NRefCounted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */; };
 		AB9155B60F9B4DD6009FFEAF /* NSharedValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */; };
-		AB9155B70F9B4DD6009FFEAF /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155600F9B4DD6009FFEAF /* NSize.cpp */; };
 		AB9155B80F9B4DD6009FFEAF /* NString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155620F9B4DD6009FFEAF /* NString.cpp */; };
 		AB9155B90F9B4DD6009FFEAF /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */; };
 		AB9155BA0F9B4DD6009FFEAF /* NStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */; };
@@ -297,6 +297,12 @@
 		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA38E1009B17400E7B73C /* NIPhonePOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhonePOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPOSIX.cpp; sourceTree = "<group>"; };
+		AB514E59103460CB00E5A6AD /* NPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPoint.cpp; sourceTree = "<group>"; };
+		AB514E5A103460CB00E5A6AD /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
+		AB514E5B103460CB00E5A6AD /* NRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRectangle.cpp; sourceTree = "<group>"; };
+		AB514E5C103460CB00E5A6AD /* NRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRectangle.h; sourceTree = "<group>"; };
+		AB514E5D103460CB00E5A6AD /* NSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSize.cpp; sourceTree = "<group>"; };
+		AB514E5E103460CB00E5A6AD /* NSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSize.h; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -397,18 +403,12 @@
 		AB9155530F9B4DD6009FFEAF /* NHashable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NHashable.h; sourceTree = "<group>"; };
 		AB9155540F9B4DD6009FFEAF /* NNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNumber.cpp; sourceTree = "<group>"; };
 		AB9155550F9B4DD6009FFEAF /* NNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNumber.h; sourceTree = "<group>"; };
-		AB9155560F9B4DD6009FFEAF /* NPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPoint.cpp; sourceTree = "<group>"; };
-		AB9155570F9B4DD6009FFEAF /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
 		AB9155580F9B4DD6009FFEAF /* NRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRange.cpp; sourceTree = "<group>"; };
 		AB9155590F9B4DD6009FFEAF /* NRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRange.h; sourceTree = "<group>"; };
-		AB91555A0F9B4DD6009FFEAF /* NRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRectangle.cpp; sourceTree = "<group>"; };
-		AB91555B0F9B4DD6009FFEAF /* NRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRectangle.h; sourceTree = "<group>"; };
 		AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRefCounted.cpp; sourceTree = "<group>"; };
 		AB91555D0F9B4DD6009FFEAF /* NRefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRefCounted.h; sourceTree = "<group>"; };
 		AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedValue.cpp; sourceTree = "<group>"; };
 		AB91555F0F9B4DD6009FFEAF /* NSharedValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedValue.h; sourceTree = "<group>"; };
-		AB9155600F9B4DD6009FFEAF /* NSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSize.cpp; sourceTree = "<group>"; };
-		AB9155610F9B4DD6009FFEAF /* NSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSize.h; sourceTree = "<group>"; };
 		AB9155620F9B4DD6009FFEAF /* NString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NString.cpp; sourceTree = "<group>"; };
 		AB9155630F9B4DD6009FFEAF /* NString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NString.h; sourceTree = "<group>"; };
 		AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringEncoder.cpp; sourceTree = "<group>"; };
@@ -587,6 +587,19 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		AB514E58103460CB00E5A6AD /* Geometry */ = {
+			isa = PBXGroup;
+			children = (
+				AB514E59103460CB00E5A6AD /* NPoint.cpp */,
+				AB514E5A103460CB00E5A6AD /* NPoint.h */,
+				AB514E5B103460CB00E5A6AD /* NRectangle.cpp */,
+				AB514E5C103460CB00E5A6AD /* NRectangle.h */,
+				AB514E5D103460CB00E5A6AD /* NSize.cpp */,
+				AB514E5E103460CB00E5A6AD /* NSize.h */,
+			);
+			path = Geometry;
+			sourceTree = "<group>";
+		};
 		AB9154DE0F9B4DD5009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -636,6 +649,7 @@
 				AB23BAEC102B5B95009CA347 /* Database */,
 				AB9155100F9B4DD5009FFEAF /* Events */,
 				ABB95B650FB7243700C5A7FF /* Files */,
+				AB514E58103460CB00E5A6AD /* Geometry */,
 				ABB95B640FB7241B00C5A7FF /* Internal */,
 				AB9155150F9B4DD5009FFEAF /* System */,
 				AB9155380F9B4DD6009FFEAF /* Threads */,
@@ -879,18 +893,12 @@
 				AB9155530F9B4DD6009FFEAF /* NHashable.h */,
 				AB9155540F9B4DD6009FFEAF /* NNumber.cpp */,
 				AB9155550F9B4DD6009FFEAF /* NNumber.h */,
-				AB9155560F9B4DD6009FFEAF /* NPoint.cpp */,
-				AB9155570F9B4DD6009FFEAF /* NPoint.h */,
 				AB9155580F9B4DD6009FFEAF /* NRange.cpp */,
 				AB9155590F9B4DD6009FFEAF /* NRange.h */,
-				AB91555A0F9B4DD6009FFEAF /* NRectangle.cpp */,
-				AB91555B0F9B4DD6009FFEAF /* NRectangle.h */,
 				AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */,
 				AB91555D0F9B4DD6009FFEAF /* NRefCounted.h */,
 				AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */,
 				AB91555F0F9B4DD6009FFEAF /* NSharedValue.h */,
-				AB9155600F9B4DD6009FFEAF /* NSize.cpp */,
-				AB9155610F9B4DD6009FFEAF /* NSize.h */,
 				AB9155620F9B4DD6009FFEAF /* NString.cpp */,
 				AB9155630F9B4DD6009FFEAF /* NString.h */,
 				AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */,
@@ -1123,6 +1131,9 @@
 				ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */,
 				AB1A78FD103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */,
+				AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */,
+				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
+				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */,
 				AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */,
 				AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */,
@@ -1202,12 +1213,9 @@
 				AB28FC350FB5D9F000F72C61 /* NFunctor.cpp in Sources */,
 				AB28FC360FB5D9F000F72C61 /* NHashable.cpp in Sources */,
 				AB28FC370FB5D9F000F72C61 /* NNumber.cpp in Sources */,
-				AB28FC380FB5D9F000F72C61 /* NPoint.cpp in Sources */,
 				AB28FC390FB5D9F000F72C61 /* NRange.cpp in Sources */,
-				AB28FC3A0FB5D9F000F72C61 /* NRectangle.cpp in Sources */,
 				AB28FC3B0FB5D9F000F72C61 /* NRefCounted.cpp in Sources */,
 				AB28FC3C0FB5D9F000F72C61 /* NSharedValue.cpp in Sources */,
-				AB28FC3D0FB5D9F000F72C61 /* NSize.cpp in Sources */,
 				AB28FC3E0FB5D9F000F72C61 /* NString.cpp in Sources */,
 				AB28FC3F0FB5D9F000F72C61 /* NStringEncoder.cpp in Sources */,
 				AB28FC400FB5D9F000F72C61 /* NStringFormatter.cpp in Sources */,
@@ -1251,6 +1259,9 @@
 				ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */,
 				AB1A78FE103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */,
+				AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */,
+				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
+				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */,
 				AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */,
 				AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */,
@@ -1330,12 +1341,9 @@
 				AB9155AF0F9B4DD6009FFEAF /* NFunctor.cpp in Sources */,
 				AB9155B00F9B4DD6009FFEAF /* NHashable.cpp in Sources */,
 				AB9155B10F9B4DD6009FFEAF /* NNumber.cpp in Sources */,
-				AB9155B20F9B4DD6009FFEAF /* NPoint.cpp in Sources */,
 				AB9155B30F9B4DD6009FFEAF /* NRange.cpp in Sources */,
-				AB9155B40F9B4DD6009FFEAF /* NRectangle.cpp in Sources */,
 				AB9155B50F9B4DD6009FFEAF /* NRefCounted.cpp in Sources */,
 				AB9155B60F9B4DD6009FFEAF /* NSharedValue.cpp in Sources */,
-				AB9155B70F9B4DD6009FFEAF /* NSize.cpp in Sources */,
 				AB9155B80F9B4DD6009FFEAF /* NString.cpp in Sources */,
 				AB9155B90F9B4DD6009FFEAF /* NStringEncoder.cpp in Sources */,
 				AB9155BA0F9B4DD6009FFEAF /* NStringFormatter.cpp in Sources */,

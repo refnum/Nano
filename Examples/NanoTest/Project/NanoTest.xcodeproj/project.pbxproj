@@ -46,10 +46,7 @@
 		AB514E081034184B00E5A6AD /* TEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAD1034184B00E5A6AD /* TEncoder.cpp */; };
 		AB514E091034184B00E5A6AD /* TFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAF1034184B00E5A6AD /* TFunctor.cpp */; };
 		AB514E0A1034184B00E5A6AD /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
-		AB514E0B1034184B00E5A6AD /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB31034184B00E5A6AD /* TPoint.cpp */; };
 		AB514E0C1034184B00E5A6AD /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
-		AB514E0D1034184B00E5A6AD /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB71034184B00E5A6AD /* TRectangle.cpp */; };
-		AB514E0E1034184B00E5A6AD /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB91034184B00E5A6AD /* TSize.cpp */; };
 		AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
 		AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBD1034184B00E5A6AD /* TStringEncoder.cpp */; };
 		AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBF1034184B00E5A6AD /* TStringFormatter.cpp */; };
@@ -69,6 +66,9 @@
 		AB514E1F1034184B00E5A6AD /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
 		AB514E201034184B00E5A6AD /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
 		AB514E211034184B00E5A6AD /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
+		AB514E7A1034612D00E5A6AD /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E741034612D00E5A6AD /* TPoint.cpp */; };
+		AB514E7B1034612D00E5A6AD /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E761034612D00E5A6AD /* TRectangle.cpp */; };
+		AB514E7C1034612D00E5A6AD /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E781034612D00E5A6AD /* TSize.cpp */; };
 		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
 		AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
@@ -179,14 +179,8 @@
 		AB514DB01034184B00E5A6AD /* TFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFunctor.h; sourceTree = "<group>"; };
 		AB514DB11034184B00E5A6AD /* TNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNumber.cpp; sourceTree = "<group>"; };
 		AB514DB21034184B00E5A6AD /* TNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNumber.h; sourceTree = "<group>"; };
-		AB514DB31034184B00E5A6AD /* TPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPoint.cpp; sourceTree = "<group>"; };
-		AB514DB41034184B00E5A6AD /* TPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPoint.h; sourceTree = "<group>"; };
 		AB514DB51034184B00E5A6AD /* TRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRange.cpp; sourceTree = "<group>"; };
 		AB514DB61034184B00E5A6AD /* TRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRange.h; sourceTree = "<group>"; };
-		AB514DB71034184B00E5A6AD /* TRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRectangle.cpp; sourceTree = "<group>"; };
-		AB514DB81034184B00E5A6AD /* TRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRectangle.h; sourceTree = "<group>"; };
-		AB514DB91034184B00E5A6AD /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
-		AB514DBA1034184B00E5A6AD /* TSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSize.h; sourceTree = "<group>"; };
 		AB514DBB1034184B00E5A6AD /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
 		AB514DBC1034184B00E5A6AD /* TString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TString.h; sourceTree = "<group>"; };
 		AB514DBD1034184B00E5A6AD /* TStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringEncoder.cpp; sourceTree = "<group>"; };
@@ -225,6 +219,12 @@
 		AB514DE21034184B00E5A6AD /* TCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFObject.h; sourceTree = "<group>"; };
 		AB514DE31034184B00E5A6AD /* TCFString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFString.cpp; sourceTree = "<group>"; };
 		AB514DE41034184B00E5A6AD /* TCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFString.h; sourceTree = "<group>"; };
+		AB514E741034612D00E5A6AD /* TPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPoint.cpp; sourceTree = "<group>"; };
+		AB514E751034612D00E5A6AD /* TPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPoint.h; sourceTree = "<group>"; };
+		AB514E761034612D00E5A6AD /* TRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRectangle.cpp; sourceTree = "<group>"; };
+		AB514E771034612D00E5A6AD /* TRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRectangle.h; sourceTree = "<group>"; };
+		AB514E781034612D00E5A6AD /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
+		AB514E791034612D00E5A6AD /* TSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSize.h; sourceTree = "<group>"; };
 		AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -290,6 +290,7 @@
 				AB514D6B1034184B00E5A6AD /* Database */,
 				AB514D701034184B00E5A6AD /* Events */,
 				AB514D771034184B00E5A6AD /* Files */,
+				AB514E731034612D00E5A6AD /* Geometry */,
 				AB514D801034184B00E5A6AD /* System */,
 				AB514D911034184B00E5A6AD /* Threads */,
 				AB514D9E1034184B00E5A6AD /* Types */,
@@ -426,14 +427,8 @@
 				AB514DB01034184B00E5A6AD /* TFunctor.h */,
 				AB514DB11034184B00E5A6AD /* TNumber.cpp */,
 				AB514DB21034184B00E5A6AD /* TNumber.h */,
-				AB514DB31034184B00E5A6AD /* TPoint.cpp */,
-				AB514DB41034184B00E5A6AD /* TPoint.h */,
 				AB514DB51034184B00E5A6AD /* TRange.cpp */,
 				AB514DB61034184B00E5A6AD /* TRange.h */,
-				AB514DB71034184B00E5A6AD /* TRectangle.cpp */,
-				AB514DB81034184B00E5A6AD /* TRectangle.h */,
-				AB514DB91034184B00E5A6AD /* TSize.cpp */,
-				AB514DBA1034184B00E5A6AD /* TSize.h */,
 				AB514DBB1034184B00E5A6AD /* TString.cpp */,
 				AB514DBC1034184B00E5A6AD /* TString.h */,
 				AB514DBD1034184B00E5A6AD /* TStringEncoder.cpp */,
@@ -504,6 +499,19 @@
 				AB514DE41034184B00E5A6AD /* TCFString.h */,
 			);
 			path = CoreFoundation;
+			sourceTree = "<group>";
+		};
+		AB514E731034612D00E5A6AD /* Geometry */ = {
+			isa = PBXGroup;
+			children = (
+				AB514E741034612D00E5A6AD /* TPoint.cpp */,
+				AB514E751034612D00E5A6AD /* TPoint.h */,
+				AB514E761034612D00E5A6AD /* TRectangle.cpp */,
+				AB514E771034612D00E5A6AD /* TRectangle.h */,
+				AB514E781034612D00E5A6AD /* TSize.cpp */,
+				AB514E791034612D00E5A6AD /* TSize.h */,
+			);
+			path = Geometry;
 			sourceTree = "<group>";
 		};
 		AB5B29A909CAD85D008C593C /* Configuration */ = {
@@ -660,6 +668,9 @@
 				AB514DF01034184B00E5A6AD /* TFile.cpp in Sources */,
 				AB514DF11034184B00E5A6AD /* TFileMap.cpp in Sources */,
 				AB514DF21034184B00E5A6AD /* TPropertyList.cpp in Sources */,
+				AB514E7A1034612D00E5A6AD /* TPoint.cpp in Sources */,
+				AB514E7B1034612D00E5A6AD /* TRectangle.cpp in Sources */,
+				AB514E7C1034612D00E5A6AD /* TSize.cpp in Sources */,
 				AB514DF31034184B00E5A6AD /* TB64Encoder.cpp in Sources */,
 				AB514DF41034184B00E5A6AD /* TByteSwap.cpp in Sources */,
 				AB514DF51034184B00E5A6AD /* TChecksum.cpp in Sources */,
@@ -684,10 +695,7 @@
 				AB514E081034184B00E5A6AD /* TEncoder.cpp in Sources */,
 				AB514E091034184B00E5A6AD /* TFunctor.cpp in Sources */,
 				AB514E0A1034184B00E5A6AD /* TNumber.cpp in Sources */,
-				AB514E0B1034184B00E5A6AD /* TPoint.cpp in Sources */,
 				AB514E0C1034184B00E5A6AD /* TRange.cpp in Sources */,
-				AB514E0D1034184B00E5A6AD /* TRectangle.cpp in Sources */,
-				AB514E0E1034184B00E5A6AD /* TSize.cpp in Sources */,
 				AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */,
 				AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */,
 				AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */,

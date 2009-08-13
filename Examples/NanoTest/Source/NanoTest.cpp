@@ -46,6 +46,10 @@
 #include "TFileMap.h"
 #include "TPropertyList.h"
 
+#include "TPoint.h"
+#include "TRectangle.h"
+#include "TSize.h"
+
 #include "TB64Encoder.h"
 #include "TByteSwap.h"
 #include "TChecksum.h"
@@ -72,10 +76,7 @@
 #include "TEncoder.h"
 #include "TFunctor.h"
 #include "TNumber.h"
-#include "TPoint.h"
 #include "TRange.h"
-#include "TRectangle.h"
-#include "TSize.h"
 #include "TString.h"
 #include "TStringEncoder.h"
 #include "TStringFormatter.h"
@@ -155,6 +156,13 @@ int main(int argc, const char **argv)
 
 
 
+	// Geometry
+	TPoint::Execute();
+	TRectangle::Execute();
+	TSize::Execute();
+
+
+
 	// System
 	TB64Encoder::Execute();
 	TByteSwap::Execute();
@@ -188,10 +196,7 @@ int main(int argc, const char **argv)
 	TEncoder::Execute();
 	TFunctor::Execute();
 	TNumber::Execute();
-	TPoint::Execute();
 	TRange::Execute();
-	TRectangle::Execute();
-	TSize::Execute();
 	TString::Execute();
 	TStringEncoder::Execute();
 	TStringFormatter::Execute();
