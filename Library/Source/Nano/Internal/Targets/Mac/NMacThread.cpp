@@ -253,7 +253,7 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
 	sysErr = sem_destroy(&semRef);
 	NN_ASSERT_NOERR(sysErr);
 
-	theSemaphore = (NSemaphoreRef) NULL;
+	theSemaphore = kNSemaphoreRefNone;
 }
 
 
@@ -297,7 +297,7 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 			sysErr = sem_trywait(&semRef);
 			if (sysErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
-				NThread::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSleepTime);
 				sysErr = kNoErr;
 				}
 			}
@@ -403,7 +403,7 @@ NStatus NTargetThread::MutexLock(NLockRef &theLock, NTime waitFor)
 			// Handle failure
 			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
-				NThread::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSleepTime);
 				theErr = kNoErr;
 				}
 			}
@@ -542,7 +542,7 @@ NStatus NTargetThread::ReadWriteLock(NLockRef &theLock, NTime waitFor, bool forW
 			// Handle failure
 			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
 				{
-				NThread::Sleep(kNThreadSpinTime);
+				NThread::Sleep(kNThreadSleepTime);
 				theErr = kNoErr;
 				}
 			}

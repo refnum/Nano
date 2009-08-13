@@ -28,7 +28,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NTime kNThreadSleepTime								=  10.0 * kNTimeMillisecond;
+static const NTime kNThreadSleepTime								=  50.0 * kNTimeMillisecond;
 static const NTime kNThreadSpinTime									= 500.0 * kNTimeMicrosecond;
 
 
