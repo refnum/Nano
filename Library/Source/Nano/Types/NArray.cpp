@@ -14,8 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include <algorithm>
-
 #include "NSTLUtilities.h"
 #include "NDictionary.h"
 #include "NEncoder.h"
