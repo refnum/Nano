@@ -16,7 +16,20 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NString.h"
 #include "NDate.h"
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// Date formats
+typedef enum {
+	kNDateSeconds
+} NDateFormat;
 
 
 
@@ -29,6 +42,10 @@ class NDateFormatter {
 public:
 										 NDateFormatter(void);
 	virtual								~NDateFormatter(void);
+
+
+	// Format a date
+	NString								Format(const NDate &theDate, NDateFormat theFormat=kNDateSeconds);
 
 
 private:

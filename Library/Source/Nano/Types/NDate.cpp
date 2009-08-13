@@ -18,6 +18,7 @@
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NTargetPOSIX.h"
+#include "NDateFormatter.h"
 #include "NEncoder.h"
 #include "NString.h"
 #include "NDate.h"
@@ -280,14 +281,13 @@ NTime NDate::operator - (const NDate &theDate) const
 //		NDate::NFormatArgument : NFormatArgument operator.
 //----------------------------------------------------------------------------
 NDate::operator NFormatArgument(void) const
-{	NString		theResult;
+{	NDateFormatter		theFormatter;
+	NString				theResult;
 
 
 
 	// Get the value
-	//
-	// Should use NDateFormatter to produce a more readable string.
-	theResult.Format("{d=%g}", mTime);
+	theResult = theFormatter.Format(*this);
 
 	return(theResult);
 }
