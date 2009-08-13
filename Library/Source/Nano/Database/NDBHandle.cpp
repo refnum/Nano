@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "sqlite_nano.h"
+
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NThread.h"
@@ -91,7 +93,8 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 {	int				theFlags;
 	const char		*vfsName;
 	NString			thePath;
-	DBStatus		dbErr;
+	sqlite3			*sqlDB;
+	NDBStatus		dbErr;
 
 
 
@@ -108,12 +111,17 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 
 
 	// Open the database
-	dbErr = sqlite3_open_v2(thePath.GetUTF8(), &mDatabase, theFlags, vfsName);
+	dbErr = sqlite3_open_v2(thePath.GetUTF8(), &sqlDB, theFlags, vfsName);
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s", sqlite3_errmsg(mDatabase));
+		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 
 	if (dbErr == SQLITE_OK)
-		sqlite3_progress_handler(mDatabase, kProgressUpdate, SQLiteProgress, this);
+		sqlite3_progress_handler(sqlDB, kProgressUpdate, SQLiteProgress, this);
+	
+	
+	
+	// Update our state
+	mDatabase = sqlDB;
 	
 	return(SQLiteGetStatus(dbErr));
 }
@@ -126,7 +134,8 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 //		NDBHandle::Close : Close the database.
 //----------------------------------------------------------------------------
 void NDBHandle::Close(void)
-{	DBStatus	dbErr;
+{	sqlite3		*sqlDB;
+	NDBStatus	dbErr;
 
 
 
@@ -136,9 +145,11 @@ void NDBHandle::Close(void)
 
 
 	// Close the database
-	dbErr = sqlite3_close(mDatabase);
+	sqlDB = (sqlite3 *) mDatabase;
+	dbErr = sqlite3_close(sqlDB);
+
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s", sqlite3_errmsg(mDatabase));
+		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 
 
 
@@ -187,13 +198,13 @@ NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunc
 {	bool				areDone, waitForever;
 	sqlite3_stmt		*sqlStatement;
 	NTime				startTime;
-	DBStatus			dbErr;
+	NDBStatus			dbErr;
 
 
 
 	// Get the state we need
 	waitForever  = NMathUtilities::AreEqual(waitFor, kNTimeForever);
-	sqlStatement = SQLiteCreateStatement(theStatement);
+	sqlStatement = (sqlite3_stmt *) SQLiteCreateStatement(theStatement);
 
 	if (sqlStatement == NULL)
 		return(kNErrParam);
@@ -212,7 +223,7 @@ NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunc
 		switch (dbErr) {
 			case SQLITE_ROW:
 				if (theResult != NULL)
-					theResult(sqlStatement);
+					theResult((NDBStatementRef) sqlStatement);
 				break;
 			
 			case SQLITE_BUSY:
@@ -376,7 +387,7 @@ void NDBHandle::Cancel(void)
 
 
 	// Cancel the operation
-	sqlite3_interrupt(mDatabase);
+	sqlite3_interrupt((sqlite3 *) mDatabase);
 }
 
 
@@ -402,13 +413,14 @@ void *NDBHandle::GetDatabase(void)
 //		NDBHandle::SQLiteCreateStatement : Get an SQLite statement.
 //----------------------------------------------------------------------------
 #pragma mark -
-sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
+NDBStatementRef NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 {	sqlite3_stmt		*sqlStatement;
 	NDictionary			theParameters;
 	const char			*valueUTF8;
-	NString				theValue;
 	const char			*sqlTail;
-	DBStatus			dbErr;
+	NString				theValue;
+	sqlite3				*sqlDB;
+	NDBStatus			dbErr;
 
 
 
@@ -423,6 +435,7 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 	theValue      = theStatement.GetValue();
 	valueUTF8     = theValue.GetUTF8();
 	
+	sqlDB        = (sqlite3 *) mDatabase;
 	sqlStatement = NULL;
 	sqlTail      = NULL;
 
@@ -437,7 +450,7 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 	// happens rarely enough that for now we treat it as uninterruptable.
 	do
 		{
-		dbErr = sqlite3_prepare_v2(mDatabase, valueUTF8, strlen(valueUTF8), &sqlStatement, &sqlTail);
+		dbErr = sqlite3_prepare_v2(sqlDB, valueUTF8, strlen(valueUTF8), &sqlStatement, &sqlTail);
 		if (dbErr == SQLITE_BUSY)
 			NThread::Sleep();
 		}
@@ -447,7 +460,7 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 
 	// Handle failure
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s (%s)", sqlite3_errmsg(mDatabase), valueUTF8);
+		NN_LOG("SQLite: %s (%s)", sqlite3_errmsg(sqlDB), valueUTF8);
 
 	if (sqlStatement == NULL)
 		return(NULL);
@@ -468,8 +481,9 @@ sqlite3_stmt *NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
 //============================================================================
 //		NDBHandle::SQLiteBindParameters : Bind parameters to a statement.
 //----------------------------------------------------------------------------
-void NDBHandle::SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictionary &theParameters)
+void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictionary &theParameters)
 {	NString							theKey, theName;
+	sqlite3_stmt					*sqlStatement;
 	Float64							valueFloat64;
 	SInt64							valueSInt64;
 	NString							valueString;
@@ -479,13 +493,16 @@ void NDBHandle::SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictiona
 	NVariant						theValue;
 	NStringList						theKeys;
 	NStringListConstIterator		theIter;
-	DBStatus						dbErr;
+	sqlite3							*sqlDB;
+	NDBStatus						dbErr;
 
 
 
 	// Get the state we need
-	theKeys = theParameters.GetKeys();
-
+	theKeys      = theParameters.GetKeys();
+	sqlStatement = (sqlite3_stmt *) theStatement;
+	sqlDB        = (sqlite3      *) mDatabase;
+	
 
 
 	// Bind the parameters
@@ -518,14 +535,14 @@ void NDBHandle::SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictiona
 				{
 				dbErr = sqlite3_bind_double(sqlStatement, theIndex, valueFloat64);
 				if (dbErr != kNoErr)
-					NN_LOG("SQLite: %s", sqlite3_errmsg(mDatabase));
+					NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 				}
 			
 			else if (valueNumber.GetValueSInt64(valueSInt64))
 				{
 				dbErr= sqlite3_bind_int64(sqlStatement, theIndex, valueSInt64);
 				if (dbErr != kNoErr)
-					NN_LOG("SQLite: %s", sqlite3_errmsg(mDatabase));
+					NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 				}
 			
 			else
@@ -538,7 +555,7 @@ void NDBHandle::SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictiona
 			{
 			dbErr = sqlite3_bind_text(sqlStatement, theIndex, valueString.GetUTF8(), strlen(valueString.GetUTF8()), SQLITE_TRANSIENT);
 			if (dbErr != kNoErr)
-				NN_LOG("SQLite: %s", sqlite3_errmsg(mDatabase));
+				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
 		
 		
@@ -547,7 +564,7 @@ void NDBHandle::SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictiona
 			{
 			dbErr = sqlite3_bind_blob(sqlStatement, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
 			if (dbErr != kNoErr)
-				NN_LOG("SQLite: %s", sqlite3_errmsg(mDatabase));
+				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
 		
 		else
@@ -562,7 +579,7 @@ void NDBHandle::SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictiona
 //============================================================================
 //		NDBHandle::SQLiteGetStatus : Convert an SQLite status.
 //----------------------------------------------------------------------------
-NStatus NDBHandle::SQLiteGetStatus(DBStatus dbErr)
+NStatus NDBHandle::SQLiteGetStatus(NDBStatus dbErr)
 {	NStatus	theErr;
 
 

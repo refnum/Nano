@@ -16,10 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "sqlite_nano.h"
-
-#include "NString.h"
-#include "NData.h"
+#include "NDBStatement.h"
 
 
 
@@ -30,7 +27,7 @@
 //----------------------------------------------------------------------------
 class NDBResult {
 public:
-										NDBResult(sqlite3_stmt *sqResult);
+										NDBResult(NDBStatementRef theResult);
 	virtual								~NDBResult(void);
 
 
@@ -68,7 +65,7 @@ public:
 	
 
 private:
-	sqlite3_stmt						*mResult;
+	NDBStatementRef						mResult;
 };
 
 

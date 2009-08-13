@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "sqlite_nano.h"
+
 #include "NDBResult.h"
 
 
@@ -23,12 +25,12 @@
 //============================================================================
 //		NDBResult::NDBResult : Constructor.
 //----------------------------------------------------------------------------
-NDBResult::NDBResult(sqlite3_stmt *sqResult)
+NDBResult::NDBResult(NDBStatementRef theResult)
 {
 
 
 	// Initialize ourselves
-	mResult = sqResult;
+	mResult = theResult;
 }
 
 
@@ -54,7 +56,7 @@ NIndex NDBResult::GetSize(void) const
 
 
 	// Get the number of columns
-	return(sqlite3_column_count(mResult));
+	return(sqlite3_column_count((sqlite3_stmt *) mResult));
 }
 
 
@@ -74,7 +76,7 @@ NString NDBResult::GetName(NIndex theIndex) const
 
 
 	// Get the number of columns
-	return(sqlite3_column_name(mResult, theIndex));
+	return(sqlite3_column_name((sqlite3_stmt *) mResult, theIndex));
 }
 
 
@@ -94,7 +96,7 @@ SInt32 NDBResult::GetValueSInt32(NIndex theIndex) const
 
 
 	// Get the value
-	return(sqlite3_column_int(mResult, theIndex));
+	return(sqlite3_column_int((sqlite3_stmt *) mResult, theIndex));
 }
 
 
@@ -114,7 +116,7 @@ SInt64 NDBResult::GetValueSInt64(NIndex theIndex) const
 
 
 	// Get the value
-	return(sqlite3_column_int64(mResult, theIndex));
+	return(sqlite3_column_int64((sqlite3_stmt *) mResult, theIndex));
 }
 
 
@@ -154,7 +156,7 @@ Float64 NDBResult::GetValueFloat64(NIndex theIndex) const
 
 
 	// Get the value
-	return(sqlite3_column_double(mResult, theIndex));
+	return(sqlite3_column_double((sqlite3_stmt *) mResult, theIndex));
 }
 
 
@@ -177,8 +179,8 @@ NString NDBResult::GetValueString(NIndex theIndex) const
 
 
 	// Get the value
-	thePtr  = sqlite3_column_text( mResult, theIndex);
-	theSize = sqlite3_column_bytes(mResult, theIndex);
+	thePtr  = sqlite3_column_text( (sqlite3_stmt *) mResult, theIndex);
+	theSize = sqlite3_column_bytes((sqlite3_stmt *) mResult, theIndex);
 
 	if (thePtr != NULL && theSize != 0)
 		theResult = NString((const char *) thePtr, theSize, kNStringEncodingUTF8);
@@ -206,8 +208,8 @@ NData NDBResult::GetValueData(NIndex theIndex) const
 
 
 	// Get the value
-	thePtr  = sqlite3_column_blob( mResult, theIndex);
-	theSize = sqlite3_column_bytes(mResult, theIndex);
+	thePtr  = sqlite3_column_blob( (sqlite3_stmt *) mResult, theIndex);
+	theSize = sqlite3_column_bytes((sqlite3_stmt *) mResult, theIndex);
 	
 	if (thePtr != NULL && theSize != 0)
 		theResult.AppendData(theSize, thePtr);

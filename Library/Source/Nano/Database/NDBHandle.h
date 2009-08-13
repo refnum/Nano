@@ -33,10 +33,6 @@ typedef nfunctor<bool (void)>								NDBProgressFunctor;
 typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
 
 
-// Status
-typedef SInt32 DBStatus;
-
-
 
 
 
@@ -96,19 +92,18 @@ public:
 	//
 	// This method should be used as a last resort, to extend the database in ways that can not
 	// be directly exposed through NDBHandle. The reference returned is implementation-specific.
-	void								*GetDatabase(void);
+	NDBHandleRef						GetDatabase(void);
 
 
 private:
-	sqlite3_stmt						*SQLiteCreateStatement(const NDBStatement &theStatement);
-	void								SQLiteBindParameters(sqlite3_stmt *sqlStatement, const NDictionary &theParameters);
-	NStatus								SQLiteGetStatus(DBStatus dbErr);
+	NDBStatementRef						SQLiteCreateStatement(const NDBStatement &theStatement);
+	void								SQLiteBindParameters(NDBStatementRef theStatement, const NDictionary &theParameters);
+	NStatus								SQLiteGetStatus(NDBStatus dbErr);
 	static int							SQLiteProgress(void *userData);
 
 
 private:
-	sqlite3								*mDatabase;
-
+	NDBHandleRef						mDatabase;
 	NDBProgressFunctor					mProgress;
 };
 
