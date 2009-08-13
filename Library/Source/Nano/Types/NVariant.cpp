@@ -29,6 +29,7 @@
 #include "NNumber.h"
 #include "NPoint.h"
 #include "NRange.h"
+#include "NFile.h"
 #include "NRectangle.h"
 #include "NSize.h"
 #include "NString.h"
@@ -126,6 +127,9 @@ NComparison NVariant::CompareValues(const NVariant &value1, const NVariant &valu
 
 		else if (value1.IsType(typeid(NDictionary)))
 			theResult = CompareValuesT<NDictionary>(value1, value2);
+
+		else if (value1.IsType(typeid(NFile)))
+			theResult = CompareValuesT<NFile>(value1, value2);
 
 		else if (value1.IsType(typeid(NPoint)))
 			theResult = CompareValuesT<NPoint>(value1, value2);
