@@ -316,14 +316,13 @@ void NDate::EncodeSelf(NEncoder &theEncoder) const
 //      NDate::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NDate::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotValue;
-
+{
 
 
 	// Decode the object
-	gotValue = theEncoder.DecodeNumber(kNEncoderValueKey).GetValueFloat64(mTime);
-	NN_ASSERT(gotValue);
+	mTime = theEncoder.DecodeNumber(kNEncoderValueKey).GetValueFloat64();
 }
+
 
 
 

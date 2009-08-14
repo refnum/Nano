@@ -238,16 +238,12 @@ void NPoint::EncodeSelf(NEncoder &theEncoder) const
 //      NPoint::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NPoint::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotValue;
-
+{
 
 
 	// Decode the object
-	gotValue = theEncoder.DecodeNumber(kNPointXKey).GetValueFloat32(x);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNPointYKey).GetValueFloat32(y);
-	NN_ASSERT(gotValue);
+	x = theEncoder.DecodeNumber(kNPointXKey).GetValueFloat32();
+	y = theEncoder.DecodeNumber(kNPointYKey).GetValueFloat32();
 }
 
 

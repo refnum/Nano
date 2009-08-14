@@ -315,6 +315,206 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 //============================================================================
 //		NNumber::GetValueUInt8 : Get a UInt8 value.
 //----------------------------------------------------------------------------
+UInt8 NNumber::GetValueUInt8(void) const
+{	UInt8		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueUInt8(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueUInt16 : Get a UInt16 value.
+//----------------------------------------------------------------------------
+UInt16 NNumber::GetValueUInt16(void) const
+{	UInt16		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueUInt16(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueUInt32 : Get a UInt32 value.
+//----------------------------------------------------------------------------
+UInt32 NNumber::GetValueUInt32(void) const
+{	UInt32		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueUInt32(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueUInt64 : Get a UInt64 value.
+//----------------------------------------------------------------------------
+UInt64 NNumber::GetValueUInt64(void) const
+{	UInt64		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueUInt64(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueSInt8 : Get a SInt8 value.
+//----------------------------------------------------------------------------
+SInt8 NNumber::GetValueSInt8(void) const
+{	SInt8		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueSInt8(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueSInt16 : Get a SInt16 value.
+//----------------------------------------------------------------------------
+SInt16 NNumber::GetValueSInt16(void) const
+{	SInt16		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueSInt16(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueSInt32 : Get a SInt32 value.
+//----------------------------------------------------------------------------
+SInt32 NNumber::GetValueSInt32(void) const
+{	SInt32		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueSInt32(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueSInt64 : Get a SInt64 value.
+//----------------------------------------------------------------------------
+SInt64 NNumber::GetValueSInt64(void) const
+{	SInt64		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueSInt64(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueFloat32 : Get a Float32 value.
+//----------------------------------------------------------------------------
+Float32 NNumber::GetValueFloat32(void) const
+{	Float32		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueFloat32(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueFloat64 : Get a Float64 value.
+//----------------------------------------------------------------------------
+Float64 NNumber::GetValueFloat64(void) const
+{	Float64		theValue;
+	bool		canCast;
+
+
+
+	// Get the value
+	canCast = GetValueFloat64(theValue);
+	NN_ASSERT(canCast);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetValueUInt8 : Get a UInt8 value.
+//----------------------------------------------------------------------------
 bool NNumber::GetValueUInt8(UInt8 &theValue) const
 {	SInt8		valueInteger;
 	bool		canCast;

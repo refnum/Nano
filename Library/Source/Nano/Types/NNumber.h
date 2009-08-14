@@ -96,7 +96,18 @@ public:
 
 	// Get/set the value
 	//
-	// Numbers will fail to coerce if casting would lose precision.
+	// If the value can not be coerced to the specified type, 0/false is returned.
+	UInt8								GetValueUInt8(  void) const;
+	UInt16								GetValueUInt16( void) const;
+	UInt32								GetValueUInt32( void) const;
+	UInt64								GetValueUInt64( void) const;
+	SInt8								GetValueSInt8(  void) const;
+	SInt16								GetValueSInt16( void) const;
+	SInt32								GetValueSInt32( void) const;
+	SInt64								GetValueSInt64( void) const;
+	Float32								GetValueFloat32(void) const;
+	Float64								GetValueFloat64(void) const;
+
 	bool								GetValueUInt8(  UInt8   &theValue) const;
 	bool								GetValueUInt16( UInt16  &theValue) const;
 	bool								GetValueUInt32( UInt32  &theValue) const;

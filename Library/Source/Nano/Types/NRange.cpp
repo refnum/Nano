@@ -370,16 +370,12 @@ void NRange::EncodeSelf(NEncoder &theEncoder) const
 //      NRange::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NRange::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotValue;
-
+{
 
 
 	// Decode the object
-	gotValue = theEncoder.DecodeNumber(kNRangeLocationKey).GetValueSInt32(mLocation);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNRangeSizeKey).GetValueSInt32(mSize);
-	NN_ASSERT(gotValue);
+	mLocation = theEncoder.DecodeNumber(kNRangeLocationKey).GetValueSInt32();
+	mSize     = theEncoder.DecodeNumber(kNRangeSizeKey).GetValueSInt32();
 }
 
 

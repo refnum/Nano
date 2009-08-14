@@ -127,15 +127,13 @@ bool NCommandLine::HasArgument(const NString &theArgument) const
 //----------------------------------------------------------------------------
 SInt64 NCommandLine::GetFlagSInt64(const NString &theArgument) const
 {	SInt64		theResult;
-	NNumber		theNumber;
+	NString		theFlag;
 
 
 
 	// Get the value
-	theResult = 0;
-
-	if (theNumber.SetValue(GetFlagString(theArgument)))
-		theNumber.GetValueSInt64(theResult);
+	theFlag   = GetFlagString(theArgument);
+	theResult = NNumber(theFlag).GetValueSInt64();
 
 	return(theResult);
 }
@@ -149,15 +147,13 @@ SInt64 NCommandLine::GetFlagSInt64(const NString &theArgument) const
 //----------------------------------------------------------------------------
 Float64 NCommandLine::GetFlagFloat64(const NString &theArgument) const
 {	Float64		theResult;
-	NNumber		theNumber;
+	NString		theFlag;
 
 
 
 	// Get the value
-	theResult = 0.0;
-
-	if (theNumber.SetValue(GetFlagString(theArgument)))
-		theNumber.GetValueFloat64(theResult);
+	theFlag   = GetFlagString(theArgument);
+	theResult = NNumber(theFlag).GetValueFloat64();
 
 	return(theResult);
 }

@@ -190,22 +190,14 @@ void NRectangle::EncodeSelf(NEncoder &theEncoder) const
 //      NRectangle::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NRectangle::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotValue;
-
+{
 
 
 	// Decode the object
-	gotValue = theEncoder.DecodeNumber(kNRectangleOriginXKey).GetValueFloat32(origin.x);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNRectangleOriginYKey).GetValueFloat32(origin.y);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNRectangleSizeWidthKey).GetValueFloat32(size.width);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNRectangleSizeHeightKey).GetValueFloat32(size.height);
-	NN_ASSERT(gotValue);
+	origin.x    = theEncoder.DecodeNumber(kNRectangleOriginXKey).GetValueFloat32();
+	origin.y    = theEncoder.DecodeNumber(kNRectangleOriginYKey).GetValueFloat32();
+	size.width  = theEncoder.DecodeNumber(kNRectangleSizeWidthKey).GetValueFloat32();
+	size.height = theEncoder.DecodeNumber(kNRectangleSizeHeightKey).GetValueFloat32();
 }
 
 

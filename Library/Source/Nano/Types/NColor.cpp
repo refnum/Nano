@@ -482,17 +482,15 @@ void NColor::EncodeSelf(NEncoder &theEncoder) const
 //      NColor::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NColor::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotField;
-
+{
 
 
 	// Encode the object
-	gotField  = theEncoder.DecodeNumber(kNColorRedKey  ).GetValueFloat32(mRed);
-	gotField |= theEncoder.DecodeNumber(kNColorGreenKey).GetValueFloat32(mGreen);
-	gotField |= theEncoder.DecodeNumber(kNColorBlueKey ).GetValueFloat32(mBlue);
-	gotField |= theEncoder.DecodeNumber(kNColorAlphaKey).GetValueFloat32(mAlpha);
-	
-	NN_ASSERT(gotField);
+	mRed   = theEncoder.DecodeNumber(kNColorRedKey  ).GetValueFloat32();
+	mGreen = theEncoder.DecodeNumber(kNColorGreenKey).GetValueFloat32();
+	mBlue  = theEncoder.DecodeNumber(kNColorBlueKey ).GetValueFloat32();
+	mAlpha = theEncoder.DecodeNumber(kNColorAlphaKey).GetValueFloat32();
 }
+
 
 

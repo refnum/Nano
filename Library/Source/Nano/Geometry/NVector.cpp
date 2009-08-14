@@ -379,16 +379,12 @@ void NVector::EncodeSelf(NEncoder &theEncoder) const
 //      NVector::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NVector::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotValue;
-
+{
 
 
 	// Decode the object
-	gotValue = theEncoder.DecodeNumber(kNVectorXKey).GetValueFloat32(x);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNVectorYKey).GetValueFloat32(y);
-	NN_ASSERT(gotValue);
+	x = theEncoder.DecodeNumber(kNVectorXKey).GetValueFloat32();
+	y = theEncoder.DecodeNumber(kNVectorYKey).GetValueFloat32();
 }
 
 

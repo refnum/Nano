@@ -171,16 +171,13 @@ void NSize::EncodeSelf(NEncoder &theEncoder) const
 //      NSize::DecodeSelf : Decode the object.
 //----------------------------------------------------------------------------
 void NSize::DecodeSelf(const NEncoder &theEncoder)
-{	bool	gotValue;
-
+{
 
 
 	// Decode the object
-	gotValue = theEncoder.DecodeNumber(kNSizeWidthKey).GetValueFloat32(width);
-	NN_ASSERT(gotValue);
-
-	gotValue = theEncoder.DecodeNumber(kNSizeHeightKey).GetValueFloat32(height);
-	NN_ASSERT(gotValue);
+	width  = theEncoder.DecodeNumber(kNSizeWidthKey).GetValueFloat32();
+	height = theEncoder.DecodeNumber(kNSizeHeightKey).GetValueFloat32();
 }
+
 
 
