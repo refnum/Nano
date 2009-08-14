@@ -65,6 +65,7 @@ class NString;
 
 extern const NIndex  kNStringLength;
 extern const NString kNStringNewline;
+extern const NString kNStringSpace;
 extern const NString kNStringWhitespace;
 
 
@@ -181,6 +182,10 @@ public:
 	//
 	// kNStringWhitespace is always interpreted as a pattern.
 	NStringList							Split(const NString &theString, NStringFlags theFlags=kNStringNone) const;
+
+
+	// Join strings
+	static NString						Join(const NStringList &theStrings, const NString &joinWith=kNStringSpace, bool skipEmpty=true);
 
 
 	// Trim the string

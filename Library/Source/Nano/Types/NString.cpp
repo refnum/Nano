@@ -31,6 +31,7 @@
 //----------------------------------------------------------------------------
 const NIndex  kNStringLength										= kNIndexNone;
 const NString kNStringNewline										= "\n";
+const NString kNStringSpace											= " ";
 const NString kNStringWhitespace									= "\\s";
 
 
@@ -935,6 +936,34 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 			}
 		
 		offsetPrev = theRange.GetNext();
+		}
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NString::Join : Join strings.
+//----------------------------------------------------------------------------
+NString NString::Join(const NStringList &theStrings, const NString &joinWith, bool skipEmpty)
+{	NString						theResult;
+	NStringListConstIterator	theIter;
+
+
+
+	// Combine the strings
+	for (theIter = theStrings.begin(); theIter != theStrings.end(); theIter++)
+		{
+		if (skipEmpty && theIter->IsEmpty())
+			continue;
+		
+		theResult += *theIter;
+
+		if ((theIter + 1) != theStrings.end())
+			theResult += joinWith;
 		}
 	
 	return(theResult);
