@@ -531,14 +531,14 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 			{
 			valueNumber = NNumber(theValue);
 			
-			if (valueNumber.GetValueSInt64(valueSInt64))
+			if (valueNumber.GetSInt64(valueSInt64))
 				{
 				dbErr= sqlite3_bind_int64(sqlStatement, theIndex, valueSInt64);
 				if (dbErr != kNoErr)
 					NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 				}
 
-			else if (valueNumber.GetValueFloat64(valueFloat64))
+			else if (valueNumber.GetFloat64(valueFloat64))
 				{
 				dbErr = sqlite3_bind_double(sqlStatement, theIndex, valueFloat64);
 				if (dbErr != kNoErr)
