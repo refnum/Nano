@@ -93,13 +93,13 @@ NCFObject NCFNumber::GetObject(void) const
 
 
 	// Get the object
-	if (GetValueSInt64(valueSInt64))
+	if (GetSInt64(valueSInt64))
 		theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberLongLongType, &valueSInt64));
 
-	else if (GetValueFloat32(valueFloat32))
+	else if (GetFloat32(valueFloat32))
 		theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberFloatType,    &valueFloat32));
 
-	else if (GetValueFloat64(valueFloat64))
+	else if (GetFloat64(valueFloat64))
 		theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberDoubleType,   &valueFloat64));
 	
 	else
@@ -126,7 +126,7 @@ bool NCFNumber::SetObject(CFNumberRef cfObject, bool takeOwnership)
 
 	// Get the state we need
 	isValid = (cfObject != NULL);
-	SetValueSInt8(0);
+	SetSInt8(0);
 
 
 
@@ -134,13 +134,13 @@ bool NCFNumber::SetObject(CFNumberRef cfObject, bool takeOwnership)
 	if (isValid)
 		{
 		if (CFNumberGetValue(     cfObject, kCFNumberLongLongType, &valueSInt64))
-			SetValueSInt64(valueSInt64);
+			SetSInt64(valueSInt64);
 		
 		else if (CFNumberGetValue(cfObject, kCFNumberFloatType,    &valueFloat32))
-			SetValueFloat32(valueFloat32);
+			SetFloat32(valueFloat32);
 		
 		else if (CFNumberGetValue(cfObject, kCFNumberDoubleType,   &valueFloat64))
-			SetValueFloat64(valueFloat64);
+			SetFloat64(valueFloat64);
 
 		else
 			NN_LOG("Unable to convert CFNumber to NNumber");

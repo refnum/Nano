@@ -194,10 +194,10 @@ void NRectangle::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	origin.x    = theEncoder.DecodeNumber(kNRectangleOriginXKey).GetValueFloat32();
-	origin.y    = theEncoder.DecodeNumber(kNRectangleOriginYKey).GetValueFloat32();
-	size.width  = theEncoder.DecodeNumber(kNRectangleSizeWidthKey).GetValueFloat32();
-	size.height = theEncoder.DecodeNumber(kNRectangleSizeHeightKey).GetValueFloat32();
+	origin.x    = theEncoder.DecodeNumber(kNRectangleOriginXKey).GetFloat32();
+	origin.y    = theEncoder.DecodeNumber(kNRectangleOriginYKey).GetFloat32();
+	size.width  = theEncoder.DecodeNumber(kNRectangleSizeWidthKey).GetFloat32();
+	size.height = theEncoder.DecodeNumber(kNRectangleSizeHeightKey).GetFloat32();
 }
 
 

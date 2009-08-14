@@ -383,8 +383,8 @@ void NVector::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	x = theEncoder.DecodeNumber(kNVectorXKey).GetValueFloat32();
-	y = theEncoder.DecodeNumber(kNVectorYKey).GetValueFloat32();
+	x = theEncoder.DecodeNumber(kNVectorXKey).GetFloat32();
+	y = theEncoder.DecodeNumber(kNVectorYKey).GetFloat32();
 }
 
 

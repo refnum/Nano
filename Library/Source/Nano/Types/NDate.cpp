@@ -320,7 +320,7 @@ void NDate::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	mTime = theEncoder.DecodeNumber(kNEncoderValueKey).GetValueFloat64();
+	mTime = theEncoder.DecodeNumber(kNEncoderValueKey).GetFloat64();
 }
 
 

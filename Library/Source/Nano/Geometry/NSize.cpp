@@ -175,8 +175,8 @@ void NSize::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	width  = theEncoder.DecodeNumber(kNSizeWidthKey).GetValueFloat32();
-	height = theEncoder.DecodeNumber(kNSizeHeightKey).GetValueFloat32();
+	width  = theEncoder.DecodeNumber(kNSizeWidthKey).GetFloat32();
+	height = theEncoder.DecodeNumber(kNSizeHeightKey).GetFloat32();
 }
 
 

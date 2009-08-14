@@ -97,38 +97,38 @@ public:
 	// Get/set the value
 	//
 	// If the value can not be coerced to the specified type, 0/false is returned.
-	UInt8								GetValueUInt8(  void) const;
-	UInt16								GetValueUInt16( void) const;
-	UInt32								GetValueUInt32( void) const;
-	UInt64								GetValueUInt64( void) const;
-	SInt8								GetValueSInt8(  void) const;
-	SInt16								GetValueSInt16( void) const;
-	SInt32								GetValueSInt32( void) const;
-	SInt64								GetValueSInt64( void) const;
-	Float32								GetValueFloat32(void) const;
-	Float64								GetValueFloat64(void) const;
+	UInt8								GetUInt8(  void) const;
+	UInt16								GetUInt16( void) const;
+	UInt32								GetUInt32( void) const;
+	UInt64								GetUInt64( void) const;
+	SInt8								GetSInt8(  void) const;
+	SInt16								GetSInt16( void) const;
+	SInt32								GetSInt32( void) const;
+	SInt64								GetSInt64( void) const;
+	Float32								GetFloat32(void) const;
+	Float64								GetFloat64(void) const;
 
-	bool								GetValueUInt8(  UInt8   &theValue) const;
-	bool								GetValueUInt16( UInt16  &theValue) const;
-	bool								GetValueUInt32( UInt32  &theValue) const;
-	bool								GetValueUInt64( UInt64  &theValue) const;
-	bool								GetValueSInt8(  SInt8   &theValue) const;
-	bool								GetValueSInt16( SInt16  &theValue) const;
-	bool								GetValueSInt32( SInt32  &theValue) const;
-	bool								GetValueSInt64( SInt64  &theValue) const;
-	bool								GetValueFloat32(Float32 &theValue) const;
-	bool								GetValueFloat64(Float64 &theValue) const;
+	bool								GetUInt8(  UInt8   &theValue) const;
+	bool								GetUInt16( UInt16  &theValue) const;
+	bool								GetUInt32( UInt32  &theValue) const;
+	bool								GetUInt64( UInt64  &theValue) const;
+	bool								GetSInt8(  SInt8   &theValue) const;
+	bool								GetSInt16( SInt16  &theValue) const;
+	bool								GetSInt32( SInt32  &theValue) const;
+	bool								GetSInt64( SInt64  &theValue) const;
+	bool								GetFloat32(Float32 &theValue) const;
+	bool								GetFloat64(Float64 &theValue) const;
 
-	void								SetValueUInt8  (UInt8   theValue);
-	void								SetValueUInt16 (UInt16  theValue);
-	void								SetValueUInt32 (UInt32  theValue);
-	void								SetValueUInt64 (UInt64  theValue);
-	void								SetValueSInt8  (SInt8   theValue);
-	void								SetValueSInt16 (SInt16  theValue);
-	void								SetValueSInt32 (SInt32  theValue);
-	void								SetValueSInt64 (SInt64  theValue);
-	void								SetValueFloat32(Float32 theValue);
-	void								SetValueFloat64(Float64 theValue);
+	void								SetUInt8  (UInt8   theValue);
+	void								SetUInt16 (UInt16  theValue);
+	void								SetUInt32 (UInt32  theValue);
+	void								SetUInt64 (UInt64  theValue);
+	void								SetSInt8  (SInt8   theValue);
+	void								SetSInt16 (SInt16  theValue);
+	void								SetSInt32 (SInt32  theValue);
+	void								SetSInt64 (SInt64  theValue);
+	void								SetFloat32(Float32 theValue);
+	void								SetFloat64(Float64 theValue);
 
 
 	// Set a value

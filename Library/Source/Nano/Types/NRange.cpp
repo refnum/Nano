@@ -374,8 +374,8 @@ void NRange::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	mLocation = theEncoder.DecodeNumber(kNRangeLocationKey).GetValueSInt32();
-	mSize     = theEncoder.DecodeNumber(kNRangeSizeKey).GetValueSInt32();
+	mLocation = theEncoder.DecodeNumber(kNRangeLocationKey).GetSInt32();
+	mSize     = theEncoder.DecodeNumber(kNRangeSizeKey).GetSInt32();
 }
 
 

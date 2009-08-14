@@ -242,8 +242,8 @@ void NPoint::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	x = theEncoder.DecodeNumber(kNPointXKey).GetValueFloat32();
-	y = theEncoder.DecodeNumber(kNPointYKey).GetValueFloat32();
+	x = theEncoder.DecodeNumber(kNPointXKey).GetFloat32();
+	y = theEncoder.DecodeNumber(kNPointYKey).GetFloat32();
 }
 
 

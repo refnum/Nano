@@ -133,7 +133,7 @@ SInt64 NCommandLine::GetFlagSInt64(const NString &theArgument) const
 
 	// Get the value
 	theFlag   = GetFlagString(theArgument);
-	theResult = NNumber(theFlag).GetValueSInt64();
+	theResult = NNumber(theFlag).GetSInt64();
 
 	return(theResult);
 }
@@ -153,7 +153,7 @@ Float64 NCommandLine::GetFlagFloat64(const NString &theArgument) const
 
 	// Get the value
 	theFlag   = GetFlagString(theArgument);
-	theResult = NNumber(theFlag).GetValueFloat64();
+	theResult = NNumber(theFlag).GetFloat64();
 
 	return(theResult);
 }

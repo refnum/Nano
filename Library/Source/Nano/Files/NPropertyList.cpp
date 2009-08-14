@@ -712,7 +712,7 @@ SInt64 NPropertyList::DecodeMacXML_1_0_Integer(const NXMLNode *theNode)
 	// Decode the value
 	theValue = 0;
 
-	if (!rawValue.SetValue(theNode->GetElementContents()) || !rawValue.GetValueSInt64(theValue))
+	if (!rawValue.SetValue(theNode->GetElementContents()) || !rawValue.GetSInt64(theValue))
 		NN_LOG("Unable to extract integer: [%@]", theNode->GetElementContents());
 	
 	return(theValue);
@@ -739,7 +739,7 @@ Float64 NPropertyList::DecodeMacXML_1_0_Real(const NXMLNode *theNode)
 	// Decode the value
 	theValue = 0;
 
-	if (!rawValue.SetValue(theNode->GetElementContents()) || !rawValue.GetValueFloat64(theValue))
+	if (!rawValue.SetValue(theNode->GetElementContents()) || !rawValue.GetFloat64(theValue))
 		NN_LOG("Unable to extract integer: [%@]", theNode->GetElementContents());
 	
 	return(theValue);

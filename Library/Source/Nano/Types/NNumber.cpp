@@ -94,7 +94,7 @@ NNumber::NNumber(SInt64 theValue)
 
 
 	// Initialise ourselves
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -109,7 +109,7 @@ NNumber::NNumber(Float32 theValue)
 
 
 	// Initialise ourselves
-	SetValueFloat32(theValue);
+	SetFloat32(theValue);
 }
 
 
@@ -124,7 +124,7 @@ NNumber::NNumber(Float64 theValue)
 
 
 	// Initialise ourselves
-	SetValueFloat64(theValue);
+	SetFloat64(theValue);
 }
 
 
@@ -269,7 +269,7 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 		{
 		switch (mType) {
 			case kNNumberInteger:
-				if (theValue.GetValueSInt64(valueInteger))
+				if (theValue.GetSInt64(valueInteger))
 					theResult = GetComparison(mValue.integer, valueInteger);
 				else
 					NN_LOG("Unable to compare numbers across types");
@@ -313,16 +313,16 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt8 : Get a UInt8 value.
+//		NNumber::GetUInt8 : Get a UInt8 value.
 //----------------------------------------------------------------------------
-UInt8 NNumber::GetValueUInt8(void) const
+UInt8 NNumber::GetUInt8(void) const
 {	UInt8		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueUInt8(theValue);
+	canCast = GetUInt8(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -333,16 +333,16 @@ UInt8 NNumber::GetValueUInt8(void) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt16 : Get a UInt16 value.
+//		NNumber::GetUInt16 : Get a UInt16 value.
 //----------------------------------------------------------------------------
-UInt16 NNumber::GetValueUInt16(void) const
+UInt16 NNumber::GetUInt16(void) const
 {	UInt16		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueUInt16(theValue);
+	canCast = GetUInt16(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -353,16 +353,16 @@ UInt16 NNumber::GetValueUInt16(void) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt32 : Get a UInt32 value.
+//		NNumber::GetUInt32 : Get a UInt32 value.
 //----------------------------------------------------------------------------
-UInt32 NNumber::GetValueUInt32(void) const
+UInt32 NNumber::GetUInt32(void) const
 {	UInt32		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueUInt32(theValue);
+	canCast = GetUInt32(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -373,16 +373,16 @@ UInt32 NNumber::GetValueUInt32(void) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt64 : Get a UInt64 value.
+//		NNumber::GetUInt64 : Get a UInt64 value.
 //----------------------------------------------------------------------------
-UInt64 NNumber::GetValueUInt64(void) const
+UInt64 NNumber::GetUInt64(void) const
 {	UInt64		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueUInt64(theValue);
+	canCast = GetUInt64(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -393,16 +393,16 @@ UInt64 NNumber::GetValueUInt64(void) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt8 : Get a SInt8 value.
+//		NNumber::GetSInt8 : Get a SInt8 value.
 //----------------------------------------------------------------------------
-SInt8 NNumber::GetValueSInt8(void) const
+SInt8 NNumber::GetSInt8(void) const
 {	SInt8		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueSInt8(theValue);
+	canCast = GetSInt8(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -413,16 +413,16 @@ SInt8 NNumber::GetValueSInt8(void) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt16 : Get a SInt16 value.
+//		NNumber::GetSInt16 : Get a SInt16 value.
 //----------------------------------------------------------------------------
-SInt16 NNumber::GetValueSInt16(void) const
+SInt16 NNumber::GetSInt16(void) const
 {	SInt16		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueSInt16(theValue);
+	canCast = GetSInt16(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -433,16 +433,16 @@ SInt16 NNumber::GetValueSInt16(void) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt32 : Get a SInt32 value.
+//		NNumber::GetSInt32 : Get a SInt32 value.
 //----------------------------------------------------------------------------
-SInt32 NNumber::GetValueSInt32(void) const
+SInt32 NNumber::GetSInt32(void) const
 {	SInt32		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueSInt32(theValue);
+	canCast = GetSInt32(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -453,16 +453,16 @@ SInt32 NNumber::GetValueSInt32(void) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt64 : Get a SInt64 value.
+//		NNumber::GetSInt64 : Get a SInt64 value.
 //----------------------------------------------------------------------------
-SInt64 NNumber::GetValueSInt64(void) const
+SInt64 NNumber::GetSInt64(void) const
 {	SInt64		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueSInt64(theValue);
+	canCast = GetSInt64(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -473,16 +473,16 @@ SInt64 NNumber::GetValueSInt64(void) const
 
 
 //============================================================================
-//		NNumber::GetValueFloat32 : Get a Float32 value.
+//		NNumber::GetFloat32 : Get a Float32 value.
 //----------------------------------------------------------------------------
-Float32 NNumber::GetValueFloat32(void) const
+Float32 NNumber::GetFloat32(void) const
 {	Float32		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueFloat32(theValue);
+	canCast = GetFloat32(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -493,16 +493,16 @@ Float32 NNumber::GetValueFloat32(void) const
 
 
 //============================================================================
-//		NNumber::GetValueFloat64 : Get a Float64 value.
+//		NNumber::GetFloat64 : Get a Float64 value.
 //----------------------------------------------------------------------------
-Float64 NNumber::GetValueFloat64(void) const
+Float64 NNumber::GetFloat64(void) const
 {	Float64		theValue;
 	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetValueFloat64(theValue);
+	canCast = GetFloat64(theValue);
 	NN_ASSERT(canCast);
 	
 	return(theValue);
@@ -513,9 +513,9 @@ Float64 NNumber::GetValueFloat64(void) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt8 : Get a UInt8 value.
+//		NNumber::GetUInt8 : Get a UInt8 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueUInt8(UInt8 &theValue) const
+bool NNumber::GetUInt8(UInt8 &theValue) const
 {	SInt8		valueInteger;
 	bool		canCast;
 
@@ -523,7 +523,7 @@ bool NNumber::GetValueUInt8(UInt8 &theValue) const
 
 	// Get the value
 	theValue = 0;
-	canCast  = GetValueSInt8(valueInteger);
+	canCast  = GetSInt8(valueInteger);
 
 	if (canCast)
 		theValue = (UInt8) valueInteger;
@@ -536,9 +536,9 @@ bool NNumber::GetValueUInt8(UInt8 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt16 : Get a UInt16 value.
+//		NNumber::GetUInt16 : Get a UInt16 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueUInt16(UInt16 &theValue) const
+bool NNumber::GetUInt16(UInt16 &theValue) const
 {	SInt16		valueInteger;
 	bool		canCast;
 
@@ -546,7 +546,7 @@ bool NNumber::GetValueUInt16(UInt16 &theValue) const
 
 	// Get the value
 	theValue = 0;
-	canCast  = GetValueSInt16(valueInteger);
+	canCast  = GetSInt16(valueInteger);
 
 	if (canCast)
 		theValue = (UInt16) valueInteger;
@@ -559,9 +559,9 @@ bool NNumber::GetValueUInt16(UInt16 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt32 : Get a UInt32 value.
+//		NNumber::GetUInt32 : Get a UInt32 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueUInt32(UInt32 &theValue) const
+bool NNumber::GetUInt32(UInt32 &theValue) const
 {	SInt32		valueInteger;
 	bool		canCast;
 
@@ -569,7 +569,7 @@ bool NNumber::GetValueUInt32(UInt32 &theValue) const
 
 	// Get the value
 	theValue = 0;
-	canCast  = GetValueSInt32(valueInteger);
+	canCast  = GetSInt32(valueInteger);
 
 	if (canCast)
 		theValue = (UInt32) valueInteger;
@@ -582,9 +582,9 @@ bool NNumber::GetValueUInt32(UInt32 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueUInt64 : Get a UInt64 value.
+//		NNumber::GetUInt64 : Get a UInt64 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueUInt64(UInt64 &theValue) const
+bool NNumber::GetUInt64(UInt64 &theValue) const
 {	SInt64		valueInteger;
 	bool		canCast;
 
@@ -593,7 +593,7 @@ bool NNumber::GetValueUInt64(UInt64 &theValue) const
 	// Get the value
 	valueInteger = 0;
 	theValue     = 0;
-	canCast      = GetValueSInt64(valueInteger);
+	canCast      = GetSInt64(valueInteger);
 
 	if (canCast)
 		theValue = (UInt64) valueInteger;
@@ -606,9 +606,9 @@ bool NNumber::GetValueUInt64(UInt64 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt8 : Get an SInt8 value.
+//		NNumber::GetSInt8 : Get an SInt8 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueSInt8(SInt8 &theValue) const
+bool NNumber::GetSInt8(SInt8 &theValue) const
 {	SInt64		valueInteger;
 	bool		canCast;
 
@@ -617,7 +617,7 @@ bool NNumber::GetValueSInt8(SInt8 &theValue) const
 	// Get the value
 	valueInteger = 0;
 	theValue     = 0;
-	canCast      = GetValueSInt64(valueInteger);
+	canCast      = GetSInt64(valueInteger);
 
 	if (canCast && valueInteger >= kSInt8Min && valueInteger <= kSInt8Max)
 		theValue = (SInt8) valueInteger;
@@ -630,9 +630,9 @@ bool NNumber::GetValueSInt8(SInt8 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt16 : Get an SInt16 value.
+//		NNumber::GetSInt16 : Get an SInt16 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueSInt16(SInt16 &theValue) const
+bool NNumber::GetSInt16(SInt16 &theValue) const
 {	SInt64		valueInteger;
 	bool		canCast;
 
@@ -641,7 +641,7 @@ bool NNumber::GetValueSInt16(SInt16 &theValue) const
 	// Get the value
 	valueInteger = 0;
 	theValue     = 0;
-	canCast      = GetValueSInt64(valueInteger);
+	canCast      = GetSInt64(valueInteger);
 
 	if (canCast && valueInteger >= kSInt16Min && valueInteger <= kSInt16Max)
 		theValue = (SInt16) valueInteger;
@@ -654,9 +654,9 @@ bool NNumber::GetValueSInt16(SInt16 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt32 : Get an SInt32 value.
+//		NNumber::GetSInt32 : Get an SInt32 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueSInt32(SInt32 &theValue) const
+bool NNumber::GetSInt32(SInt32 &theValue) const
 {	SInt64		valueInteger;
 	bool		canCast;
 
@@ -665,7 +665,7 @@ bool NNumber::GetValueSInt32(SInt32 &theValue) const
 	// Get the value
 	valueInteger = 0;
 	theValue     = 0;
-	canCast      = GetValueSInt64(valueInteger);
+	canCast      = GetSInt64(valueInteger);
 
 	if (canCast && valueInteger >= kSInt32Min && valueInteger <= kSInt32Max)
 		theValue = (SInt32) valueInteger;
@@ -678,9 +678,9 @@ bool NNumber::GetValueSInt32(SInt32 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueSInt64 : Get an SInt64 value.
+//		NNumber::GetSInt64 : Get an SInt64 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueSInt64(SInt64 &theValue) const
+bool NNumber::GetSInt64(SInt64 &theValue) const
 {	bool	canCast;
 
 
@@ -720,9 +720,9 @@ bool NNumber::GetValueSInt64(SInt64 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueFloat32 : Get a Float32 value.
+//		NNumber::GetFloat32 : Get a Float32 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueFloat32(Float32 &theValue) const
+bool NNumber::GetFloat32(Float32 &theValue) const
 {	Float64		valueReal;
 	bool		canCast;
 
@@ -739,7 +739,7 @@ bool NNumber::GetValueFloat32(Float32 &theValue) const
 		}
 	else
 		{
-		canCast = GetValueFloat64(valueReal);
+		canCast = GetFloat64(valueReal);
 		if (canCast && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
 			theValue = (Float32) valueReal;
 		}
@@ -752,9 +752,9 @@ bool NNumber::GetValueFloat32(Float32 &theValue) const
 
 
 //============================================================================
-//		NNumber::GetValueFloat64 : Get a Float64 value.
+//		NNumber::GetFloat64 : Get a Float64 value.
 //----------------------------------------------------------------------------
-bool NNumber::GetValueFloat64(Float64 &theValue) const
+bool NNumber::GetFloat64(Float64 &theValue) const
 {	bool	canCast;
 
 
@@ -789,14 +789,14 @@ bool NNumber::GetValueFloat64(Float64 &theValue) const
 
 
 //============================================================================
-//		NNumber::SetValueUInt8 : Set a UInt8 value.
+//		NNumber::SetUInt8 : Set a UInt8 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueUInt8(UInt8 theValue)
+void NNumber::SetUInt8(UInt8 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -804,14 +804,14 @@ void NNumber::SetValueUInt8(UInt8 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueUInt16 : Set a UInt16 value.
+//		NNumber::SetUInt16 : Set a UInt16 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueUInt16(UInt16 theValue)
+void NNumber::SetUInt16(UInt16 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -819,14 +819,14 @@ void NNumber::SetValueUInt16(UInt16 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueUInt32 : Set a UInt32 value.
+//		NNumber::SetUInt32 : Set a UInt32 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueUInt32(UInt32 theValue)
+void NNumber::SetUInt32(UInt32 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -834,14 +834,14 @@ void NNumber::SetValueUInt32(UInt32 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueUInt64 : Set a UInt64 value.
+//		NNumber::SetUInt64 : Set a UInt64 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueUInt64(UInt64 theValue)
+void NNumber::SetUInt64(UInt64 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64((SInt64) theValue);
+	SetSInt64((SInt64) theValue);
 }
 
 
@@ -849,14 +849,14 @@ void NNumber::SetValueUInt64(UInt64 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueSInt8 : Set a SInt8 value.
+//		NNumber::SetSInt8 : Set a SInt8 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueSInt8(SInt8 theValue)
+void NNumber::SetSInt8(SInt8 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -864,14 +864,14 @@ void NNumber::SetValueSInt8(SInt8 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueSInt16 : Set a SInt16 value.
+//		NNumber::SetSInt16 : Set a SInt16 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueSInt16(SInt16 theValue)
+void NNumber::SetSInt16(SInt16 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -879,14 +879,14 @@ void NNumber::SetValueSInt16(SInt16 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueSInt32 : Set a SInt32 value.
+//		NNumber::SetSInt32 : Set a SInt32 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueSInt32(SInt32 theValue)
+void NNumber::SetSInt32(SInt32 theValue)
 {
 
 
 	// Set the value
-	SetValueSInt64(theValue);
+	SetSInt64(theValue);
 }
 
 
@@ -894,9 +894,9 @@ void NNumber::SetValueSInt32(SInt32 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueSInt64 : Set a SInt64 value.
+//		NNumber::SetSInt64 : Set a SInt64 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueSInt64(SInt64 theValue)
+void NNumber::SetSInt64(SInt64 theValue)
 {
 
 
@@ -910,9 +910,9 @@ void NNumber::SetValueSInt64(SInt64 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueFloat32 : Set a Float32 value.
+//		NNumber::SetFloat32 : Set a Float32 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueFloat32(Float32 theValue)
+void NNumber::SetFloat32(Float32 theValue)
 {
 
 
@@ -926,9 +926,9 @@ void NNumber::SetValueFloat32(Float32 theValue)
 
 
 //============================================================================
-//		NNumber::SetValueFloat64 : Set a Float64 value.
+//		NNumber::SetFloat64 : Set a Float64 value.
 //----------------------------------------------------------------------------
-void NNumber::SetValueFloat64(Float64 theValue)
+void NNumber::SetFloat64(Float64 theValue)
 {
 
 
@@ -967,40 +967,40 @@ bool NNumber::SetValue(const NVariant &theValue)
 		; // Assigned to this
 
 	else if (theValue.GetValue(valueUInt8))
-		SetValueUInt8(valueUInt8);
+		SetUInt8(valueUInt8);
 
 	else if (theValue.GetValue(valueUInt16))
-		SetValueUInt16(valueUInt16);
+		SetUInt16(valueUInt16);
 	
 	else if (theValue.GetValue(valueUInt32))
-		SetValueUInt32(valueUInt32);
+		SetUInt32(valueUInt32);
 	
 	else if (theValue.GetValue(valueUInt64))
-		SetValueUInt64(valueUInt64);
+		SetUInt64(valueUInt64);
 	
 	else if (theValue.GetValue(valueSInt8))
-		SetValueSInt8(valueSInt8);
+		SetSInt8(valueSInt8);
 	
 	else if (theValue.GetValue(valueSInt16))
-		SetValueSInt16(valueSInt16);
+		SetSInt16(valueSInt16);
 	
 	else if (theValue.GetValue(valueSInt32))
-		SetValueSInt32(valueSInt32);
+		SetSInt32(valueSInt32);
 	
 	else if (theValue.GetValue(valueSInt64))
-		SetValueSInt64(valueSInt64);
+		SetSInt64(valueSInt64);
 	
 	else if (theValue.GetValue(valueFloat32))
-		SetValueFloat32(valueFloat32);
+		SetFloat32(valueFloat32);
 	
 	else if (theValue.GetValue(valueFloat64))
-		SetValueFloat64(valueFloat64);
+		SetFloat64(valueFloat64);
 	
 	else if (theValue.GetValue(valueInt))
-		SetValueSInt64(valueInt);
+		SetSInt64(valueInt);
 	
 	else if (theValue.GetValue(valueLong))
-		SetValueSInt64(valueLong);
+		SetSInt64(valueLong);
 	
 	else
 		return(false);
@@ -1028,10 +1028,10 @@ bool NNumber::SetValue(const NString &theValue)
 	// types for storage in the future.
 	if (sscanf(theValue.GetUTF8(), "%lf", &valueReal) == 1)
 		{
-		SetValueFloat64(valueReal);
+		SetFloat64(valueReal);
 
-		if (GetValueSInt64(valueInteger))
-			SetValueSInt64(valueInteger);
+		if (GetSInt64(valueInteger))
+			SetSInt64(valueInteger);
 
 		return(true);
 		}
@@ -1041,7 +1041,7 @@ bool NNumber::SetValue(const NString &theValue)
 			 sscanf(theValue.GetUTF8(), "0x%llx", &valueInteger) == 1 ||
 			 sscanf(theValue.GetUTF8(), "0X%llx", &valueInteger) == 1)
 		{
-		SetValueSInt64(valueInteger);
+		SetSInt64(valueInteger);
 		return(true);
 		}
 
