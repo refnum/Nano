@@ -76,6 +76,11 @@ public:
 	NDictionary							GetValueDictionary(const NString &theKey) const;
 
 
+	// Get/set the properties
+	virtual NDictionary					GetProperties(void) const;
+	virtual void						SetProperties(const NDictionary &theProperties);
+
+
 	// Get/set the defaults
 	NDictionary							GetDefaults(void);
 	void								SetDefaults(const NDictionary &theDefaults);

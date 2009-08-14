@@ -360,6 +360,37 @@ NDictionary NPropertyStore::GetValueDictionary(const NString &theKey) const
 
 
 //============================================================================
+//		NPropertyStore::GetProperties : Get the properties.
+//----------------------------------------------------------------------------
+NDictionary NPropertyStore::GetProperties(void) const
+{
+
+
+	// Get the properties
+	return(mProperties);
+}
+
+
+
+
+
+//============================================================================
+//		NPropertyStore::SetProperties : Set the properties.
+//----------------------------------------------------------------------------
+void NPropertyStore::SetProperties(const NDictionary &theProperties)
+{
+
+
+	// Set the properties
+	mProperties = theProperties;
+	BroadcastMessage(kMsgPropertyValueChanged, &kPropertyChangedAllKey);
+}
+
+
+
+
+
+//============================================================================
 //		NPropertyStore::GetDefaults : Get the defaults.
 //----------------------------------------------------------------------------
 NDictionary NPropertyStore::GetDefaults(void)
