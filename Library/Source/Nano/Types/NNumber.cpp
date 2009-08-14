@@ -67,6 +67,28 @@ NNumber::NNumber(const NVariant &theValue)
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
+NNumber::NNumber(const NString &theValue)
+{	bool	wasOK;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theValue.IsEmpty());
+
+
+
+	// Initialise ourselves
+	wasOK = SetValue(theValue);
+	NN_ASSERT(wasOK);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::NNumber : Constructor.
+//----------------------------------------------------------------------------
 NNumber::NNumber(SInt64 theValue)
 {
 

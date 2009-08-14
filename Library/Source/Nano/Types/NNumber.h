@@ -71,6 +71,7 @@ public:
 										DECLARE_NENCODABLE(NNumber);
 
 										 NNumber(const NVariant &theValue);
+										 NNumber(const NString  &theValue);
 										 NNumber(      SInt64    theValue);
 										 NNumber(      Float32   theValue);
 										 NNumber(      Float64   theValue);
