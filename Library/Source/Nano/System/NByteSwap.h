@@ -71,7 +71,7 @@ inline Float64 SwapFloat64(Float64 theValue)				{ NByteSwap::SwapInt64((UInt64 *
 
 
 // Native to big
-#if TARGET_RT_BIG_ENDIAN
+#if NN_TARGET_ENDIAN_BIG
 	inline UInt16 SwapUInt16_NtoB(UInt16 theValue)			{ return(theValue); }
 	inline UInt32 SwapUInt32_NtoB(UInt32 theValue)			{ return(theValue); }
 	inline UInt64 SwapUInt64_NtoB(UInt64 theValue)			{ return(theValue); }
@@ -98,7 +98,7 @@ inline Float64 SwapFloat64(Float64 theValue)				{ NByteSwap::SwapInt64((UInt64 *
 
 
 // Native to little
-#if TARGET_RT_BIG_ENDIAN
+#if NN_TARGET_ENDIAN_BIG
 	inline UInt16 SwapUInt16_NtoL(UInt16 theValue)			{ return(SwapUInt16(theValue));  }
 	inline UInt32 SwapUInt32_NtoL(UInt32 theValue)			{ return(SwapUInt32(theValue)); }
 	inline UInt64 SwapUInt64_NtoL(UInt64 theValue)			{ return(SwapUInt64(theValue)); }
@@ -125,7 +125,7 @@ inline Float64 SwapFloat64(Float64 theValue)				{ NByteSwap::SwapInt64((UInt64 *
 
 
 // Big to native
-#if TARGET_RT_BIG_ENDIAN
+#if NN_TARGET_ENDIAN_BIG
 	inline UInt16 SwapUInt16_BtoN(UInt16 theValue)			{ return(theValue); }
 	inline UInt32 SwapUInt32_BtoN(UInt32 theValue)			{ return(theValue); }
 	inline UInt64 SwapUInt64_BtoN(UInt64 theValue)			{ return(theValue); }
@@ -152,7 +152,7 @@ inline Float64 SwapFloat64(Float64 theValue)				{ NByteSwap::SwapInt64((UInt64 *
 
 
 // Little to native
-#if TARGET_RT_BIG_ENDIAN
+#if NN_TARGET_ENDIAN_BIG
 	inline UInt16 SwapUInt16_LtoN(UInt16 theValue)			{ return(SwapUInt16(theValue)); }
 	inline UInt32 SwapUInt32_LtoN(UInt32 theValue)			{ return(SwapUInt32(theValue)); }
 	inline UInt64 SwapUInt64_LtoN(UInt64 theValue)			{ return(SwapUInt64(theValue)); }
