@@ -136,6 +136,30 @@ NString NTextUtilities::GetHexDump(NIndex dataSize, const void *dataPtr, char fl
 
 
 //============================================================================
+//		NTextUtilities::ConvertLineEndings : Convert line endings.
+//----------------------------------------------------------------------------
+NString NTextUtilities::ConvertLineEndings(const NString &theString, const NString &newLine)
+{	NString		theResult;
+
+
+
+	// Convert the line endings
+	theResult = theString;
+
+	theResult.ReplaceAll(kNLineEndingDOS, kNLineEndingUnix);
+	theResult.ReplaceAll(kNLineEndingMac, kNLineEndingUnix);
+
+	if (newLine != kNLineEndingUnix)
+		theResult.ReplaceAll(kNLineEndingUnix, newLine);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //      NTextUtilities::GetEntityDictionary : Get the entity dictionary.
 //----------------------------------------------------------------------------
 #pragma mark -

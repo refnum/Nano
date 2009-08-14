@@ -24,6 +24,17 @@
 
 
 //============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+static const NString kNLineEndingUnix								= "\x0A";
+static const NString kNLineEndingMac								= "\x0D";
+static const NString kNLineEndingDOS								= "\x0D\x0A";
+
+
+
+
+
+//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NTextUtilities {
@@ -43,6 +54,10 @@ public:
 
 	// Get a hex dump
 	static NString						GetHexDump(NIndex theSize, const void *thePtr, char flowSign=0x00, bool hexOnly=false);
+
+
+	// Convert line endings
+	static NString						ConvertLineEndings(const NString &theString, const NString &newLine=kNLineEndingUnix);
 
 
 private:
