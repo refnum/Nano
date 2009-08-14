@@ -20,6 +20,7 @@
 #include "NComparable.h"
 #include "NEncodable.h"
 #include "NString.h"
+#include "NUTI.h"
 
 
 
@@ -106,6 +107,10 @@ public:
 
 	// Compare the value
 	NComparison							Compare(const NFile &theValue) const;
+
+
+	// Get the UTI
+	NUTI								GetUTI(void) const;
 
 
 	// Get/set the path

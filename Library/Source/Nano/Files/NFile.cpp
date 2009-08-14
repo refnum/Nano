@@ -187,13 +187,38 @@ bool NFile::Exists(void) const
 //============================================================================
 //		NFile::Compare : Compare the value.
 //----------------------------------------------------------------------------
-#pragma mark -
 NComparison NFile::Compare(const NFile &theValue) const
 {
 
 
 	// Compare the value
 	return(mPath.Compare(theValue.mPath));
+}
+
+
+
+
+
+//============================================================================
+//		NFile::GetUTI : Get the UTI.
+//----------------------------------------------------------------------------
+NUTI NFile::GetUTI(void) const
+{	NString		theExtension;
+	NUTI		theUTI;
+
+
+
+	// Use the file extension
+	//
+	// Could also use a target-specific mechanism like LaunchServices.
+	if (!theUTI.IsValid())
+		{
+		theExtension = GetExtension();
+		if (!theExtension.IsEmpty())
+			theUTI = NUTI(kNUTITagClassFileExtension, theExtension);
+		}
+	
+	return(theUTI);
 }
 
 

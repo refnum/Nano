@@ -82,6 +82,7 @@
 #include "TString.h"
 #include "TStringEncoder.h"
 #include "TStringFormatter.h"
+#include "TUTI.h"
 #include "TVariant.h"
 
 #include "TFileUtilities.h"
@@ -204,6 +205,7 @@ int main(int argc, const char **argv)
 	TString::Execute();
 	TStringEncoder::Execute();
 	TStringFormatter::Execute();
+	TUTI::Execute();
 	TVariant::Execute();
 
 

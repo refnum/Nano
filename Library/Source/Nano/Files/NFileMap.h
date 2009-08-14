@@ -108,4 +108,4 @@ private:
 
 
 
-#endif // NFileMap_HDR
+#endif // NFILEMAP_HDR

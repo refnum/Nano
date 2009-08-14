@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC761035B65D007BC4E6 /* TUTI.cpp */; };
 		AB514DE51034184B00E5A6AD /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
 		AB514DE61034184B00E5A6AD /* TPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D621034184B00E5A6AD /* TPreferences.cpp */; };
 		AB514DE71034184B00E5A6AD /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
@@ -105,6 +106,8 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
+		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
 		AB514D611034184B00E5A6AD /* TCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCommandLine.h; sourceTree = "<group>"; };
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
@@ -443,6 +446,8 @@
 				AB514DBE1034184B00E5A6AD /* TStringEncoder.h */,
 				AB514DBF1034184B00E5A6AD /* TStringFormatter.cpp */,
 				AB514DC01034184B00E5A6AD /* TStringFormatter.h */,
+				AB2AAC761035B65D007BC4E6 /* TUTI.cpp */,
+				AB2AAC771035B65D007BC4E6 /* TUTI.h */,
 				AB514DC11034184B00E5A6AD /* TVariant.cpp */,
 				AB514DC21034184B00E5A6AD /* TVariant.h */,
 			);
@@ -711,6 +716,7 @@
 				AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */,
 				AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */,
 				AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */,
+				AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */,
 				AB514E121034184B00E5A6AD /* TVariant.cpp in Sources */,
 				AB514E131034184B00E5A6AD /* TFileUtilities.cpp in Sources */,
 				AB514E141034184B00E5A6AD /* TMathUtilities.cpp in Sources */,
