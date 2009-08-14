@@ -16,8 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NDictionary.h"
-#include "NBroadcaster.h"
+#include "NListener.h"
+#include "NPropertyStore.h"
 
 
 
@@ -37,7 +37,8 @@ static const NString kPrefChangedAllKey								= "*";
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NPreferences : public NBroadcaster {
+class NPreferences :	public NListener,
+						public NPropertyStore {
 public:
 										 NPreferences(void);
 	virtual								~NPreferences(void);
@@ -56,37 +57,18 @@ public:
 	void								SetValue(const NString &theKey, const NVariant &theValue);
 
 
-	// Get a type'd value
-	//
-	// If the value does not exist, or can not be returned as the specified type, 0/empty is returned.
-	bool								GetValueBoolean(   const NString &theKey) const;
-	SInt32								GetValueSInt32(    const NString &theKey) const;
-	SInt64								GetValueSInt64(    const NString &theKey) const;
-	Float32								GetValueFloat32(   const NString &theKey) const;
-	Float64								GetValueFloat64(   const NString &theKey) const;
-	NString								GetValueString(    const NString &theKey) const;
-	NData								GetValueData(      const NString &theKey) const;
-	NDate								GetValueDate(      const NString &theKey) const;
-	NColor								GetValueColor(     const NString &theKey) const;
-	NPoint								GetValuePoint(     const NString &theKey) const;
-	NSize								GetValueSize(      const NString &theKey) const;
-	NRectangle							GetValueRectangle( const NString &theKey) const;
-	NVector								GetValueVector(    const NString &theKey) const;
-	NArray								GetValueArray(     const NString &theKey) const;
-	NDictionary							GetValueDictionary(const NString &theKey) const;
-
-
-	// Get/set the defaults
-	NDictionary							GetDefaults(void);
-	void								SetDefaults(const NDictionary &theDefaults);
-
-
     // Get the preferences
     static NPreferences					*Get(void);
 
 
+protected:
+	// Handle messages
+	void								DoMessage(BroadcastMsg theMsg, const void *msgData);
+
+
 private:
-	NDictionary							mDefaults;
+
+
 };
 
 

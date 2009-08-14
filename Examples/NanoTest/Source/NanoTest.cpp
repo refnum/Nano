@@ -77,6 +77,7 @@
 #include "TEncoder.h"
 #include "TFunctor.h"
 #include "TNumber.h"
+#include "TPropertyStore.h"
 #include "TRange.h"
 #include "TString.h"
 #include "TStringEncoder.h"
@@ -198,6 +199,7 @@ int main(int argc, const char **argv)
 	TEncoder::Execute();
 	TFunctor::Execute();
 	TNumber::Execute();
+	TPropertyStore::Execute();
 	TRange::Execute();
 	TString::Execute();
 	TStringEncoder::Execute();
