@@ -10,6 +10,7 @@
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC761035B65D007BC4E6 /* TUTI.cpp */; };
 		AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD7D10396310007BC4E6 /* TLocale.cpp */; };
+		AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */; };
 		AB514DE51034184B00E5A6AD /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
 		AB514DE61034184B00E5A6AD /* TPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D621034184B00E5A6AD /* TPreferences.cpp */; };
 		AB514DE71034184B00E5A6AD /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
@@ -111,6 +112,8 @@
 		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
 		AB2AAD7E10396310007BC4E6 /* TLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLocale.h; sourceTree = "<group>"; };
+		AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
+		AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTIRegistry.h; sourceTree = "<group>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
 		AB514D611034184B00E5A6AD /* TCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCommandLine.h; sourceTree = "<group>"; };
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
@@ -389,6 +392,8 @@
 				AB2AAD7E10396310007BC4E6 /* TLocale.h */,
 				AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */,
 				AB514D8A1034184B00E5A6AD /* TUnicodeParser.h */,
+				AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */,
+				AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */,
 				AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */,
 				AB514D8C1034184B00E5A6AD /* TXMLEncoder.h */,
 				AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */,
@@ -698,6 +703,7 @@
 				AB514DF61034184B00E5A6AD /* TDataCompressor.cpp in Sources */,
 				AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */,
 				AB514DF71034184B00E5A6AD /* TUnicodeParser.cpp in Sources */,
+				AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */,
 				AB514DF81034184B00E5A6AD /* TXMLEncoder.cpp in Sources */,
 				AB514DF91034184B00E5A6AD /* TXMLNode.cpp in Sources */,
 				AB514DFA1034184B00E5A6AD /* TXMLParser.cpp in Sources */,

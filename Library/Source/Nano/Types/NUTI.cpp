@@ -5,14 +5,6 @@
 		Uniform Type Identifier:
 		
 			http://en.wikipedia.org/wiki/Uniform_Type_Identifier
-		
-		For now we implement a very simple model, to allow UTIs to be created
-		and passed around.
-		
-		This should be extended with some kind of registration system for
-		standard UTI types, to allow us to create a type with one class of tag
-		and obtain the equivalent value in another class (e.g., converting a
-		MIME type to a filename extension).
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -24,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSTLUtilities.h"
+#include "NUTIRegistry.h"
 #include "NUTI.h"
 
 
@@ -37,14 +31,8 @@ NUTI::NUTI(NUTITagClass theClass, const NString &theTag)
 {
 
 
-	// Validate our parameters
-	if (theClass != kNUTITagClassNone)
-		NN_ASSERT(!theTag.IsEmpty());
-
-
 	// Initialize ourselves
-	mClass = theClass;
-	mTag   = theTag;
+	mUTI = NUTIRegistry::Get()->GetUTI(theClass, theTag);
 }
 
 
@@ -54,12 +42,12 @@ NUTI::NUTI(NUTITagClass theClass, const NString &theTag)
 //============================================================================
 //		NUTI::NUTI : Constructor.
 //----------------------------------------------------------------------------
-NUTI::NUTI(void)
+NUTI::NUTI(const NString &theUTI)
 {
 
 
 	// Initialize ourselves
-	mClass = kNUTITagClassNone;
+	mUTI = theUTI;
 }
 
 
@@ -84,8 +72,43 @@ bool NUTI::IsValid(void) const
 {
 
 
+	// Validate our state
+	NN_ASSERT(kNUTTypeNone.IsEmpty());
+
+
+
 	// Check our state
-	return(mClass != kNUTITagClassNone);
+	return(mUTI.IsEmpty());
+}
+
+
+
+
+
+//============================================================================
+//		NUTI::ConformsTo : Does the UTI conform to another?
+//----------------------------------------------------------------------------
+bool NUTI::ConformsTo(void) const
+{	NStringList		conformsTo;
+	bool			theResult;
+
+
+
+
+	// Get the state we need
+	conformsTo = NUTIRegistry::Get()->GetConformsTo(mUTI);
+
+
+
+	// Check for conformance
+	//
+	// TODO - this should also check for inherited conformance rather than
+	// direct conformance, possibly by moving this to the registry so that
+	// we can do a more efficient global search.
+	NN_LOG("NUTI::ConformsTo - only supports direct conformance");
+	theResult = contains(conformsTo, mUTI);
+	
+	return(theResult);
 }
 
 
@@ -100,8 +123,7 @@ void NUTI::Clear(void)
 
 
 	// Reset our state
-	mClass = kNUTITagClassNone;
-	mTag.Clear();
+	mUTI = kNUTTypeNone;
 }
 
 
@@ -112,19 +134,11 @@ void NUTI::Clear(void)
 //		NUTI::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NUTI::Compare(const NUTI &theValue) const
-{	NComparison		theResult;
-
+{
 
 
 	// Compare the value
-	//
-	// We have no natural order, so the only real comparison is equality.
-	theResult = GetComparison(mClass, theValue.mClass);
-		
-	if (theResult == kNCompareEqualTo)
-		theResult = mTag.Compare(theValue.mTag);
-
-	return(theResult);
+	return(mUTI.Compare(theValue.mUTI));
 }
 
 
@@ -138,13 +152,8 @@ NString NUTI::GetMIMEType(void) const
 {
 
 
-	// Validate our state
-	NN_ASSERT(mClass == kNUTITagClassMIMEType);
-	
-
-
 	// Get the value
-	return(mTag);
+	return(NUTIRegistry::Get()->GetTagValue(mUTI, kNUTITagClassMIMEType));
 }
 
 
@@ -158,13 +167,8 @@ NString NUTI::GetFileExtension(void) const
 {
 
 
-	// Validate our state
-	NN_ASSERT(mClass == kNUTITagClassFileExtension);
-	
-
-
 	// Get the value
-	return(mTag);
+	return(NUTIRegistry::Get()->GetTagValue(mUTI, kNUTITagClassFileExtension));
 }
 
 

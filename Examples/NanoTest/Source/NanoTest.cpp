@@ -57,6 +57,7 @@
 #include "TDataCompressor.h"
 #include "TLocale.h"
 #include "TUnicodeParser.h"
+#include "TUTIRegistry.h"
 #include "TXMLEncoder.h"
 #include "TXMLParser.h"
 #include "TXMLNode.h"
@@ -175,6 +176,7 @@ int main(int argc, const char **argv)
 	TDataCompressor::Execute();
 	TLocale::Execute();
 	TUnicodeParser::Execute();
+	TUTIRegistry::Execute();
 	TXMLEncoder::Execute();
 	TXMLParser::Execute();
 	TXMLNode::Execute();
