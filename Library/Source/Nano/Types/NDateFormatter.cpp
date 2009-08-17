@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NDate.h"
 #include "NDateFormatter.h"
 
 
@@ -46,9 +45,15 @@ NDateFormatter::~NDateFormatter(void)
 //============================================================================
 //		NDateFormatter::Format : Format a date.
 //----------------------------------------------------------------------------
-NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat) const
+NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat, const NString &timeZone) const
 {	NString				formatStr, theResult;
 	NGregorianDate		gregDate;
+
+
+
+	// TO DO - need to support time zones
+	NN_UNUSED(timeZone);
+	NN_LOG("NDateFormatter only supports UTC");
 
 
 

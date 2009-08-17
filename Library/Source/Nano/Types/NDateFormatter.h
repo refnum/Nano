@@ -17,33 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NString.h"
-
-
-
-
-
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-// Date formats
-//
-// Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>.
-//
-// However we also support some meta-formats, whose exact representation may
-// between releases and targets (or due to the user's preferences).
-static const NString kNDateFormatDefault								= "";
-static const NString kNDateFormatShort									= "*short*";
-static const NString kNDateFormatMedium									= "*medium*";
-static const NString kNDateFormatLong									= "*long*";
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-class NDate;
+#include "NDate.h"
 
 
 
@@ -59,7 +33,9 @@ public:
 
 
 	// Format a date
-	NString								Format(const NDate &theDate, const NString &theFormat=kNDateFormatDefault) const;
+	NString								Format(	const NDate		&theDate,
+												const NString	&theFormat=kNDateFormatDefault,
+												const NString	 &timeZone=kNTimeZoneDefault) const;
 
 
 private:

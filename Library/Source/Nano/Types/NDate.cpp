@@ -18,6 +18,7 @@
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NTargetPOSIX.h"
+#include "NDateFormatter.h"
 #include "NEncoder.h"
 #include "NString.h"
 #include "NDate.h"
@@ -47,12 +48,12 @@ DEFINE_NENCODABLE(NDate);
 //============================================================================
 //		NDate::NDate : Constructor.
 //----------------------------------------------------------------------------
-NDate::NDate(const NGregorianDate &theDate)
+NDate::NDate(const NGregorianDate &theDate, const NString &timeZone)
 {
 
 
 	// Initialize ourselves
-	SetGregorianDate(theDate);
+	SetGregorianDate(theDate, timeZone);
 }
 
 
@@ -133,14 +134,14 @@ NComparison NDate::Compare(const NDate &theValue) const
 //============================================================================
 //		NDate::GetString : Get as a string.
 //----------------------------------------------------------------------------
-NString NDate::GetString(const NString &theFormat) const
+NString NDate::GetString(const NString &theFormat, const NString &timeZone) const
 {	NDateFormatter		theFormatter;
 	NString				theResult;
 
 
 
 	// Get the value
-	theResult = theFormatter.Format(*this, theFormat);
+	theResult = theFormatter.Format(*this, theFormat, timeZone);
 
 	return(theResult);
 }
@@ -152,11 +153,17 @@ NString NDate::GetString(const NString &theFormat) const
 //============================================================================
 //		NDate::GetGregorianDate : Get the Gregorian date.
 //----------------------------------------------------------------------------
-NGregorianDate NDate::GetGregorianDate(void) const
+NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
 {	NTime				secsFloor, secsFrac;
 	time_t				timeUnix;
 	struct tm			timeGreg;
 	NGregorianDate		theDate;
+
+
+
+	// TO DO - need to support time zones
+	NN_UNUSED(timeZone);
+	NN_LOG("NDate only supports UTC");
 
 
 
@@ -187,10 +194,16 @@ NGregorianDate NDate::GetGregorianDate(void) const
 //============================================================================
 //		NDate::SetGregorianDate : Set the Gregorian date.
 //----------------------------------------------------------------------------
-void NDate::SetGregorianDate(const NGregorianDate &theDate)
+void NDate::SetGregorianDate(const NGregorianDate &theDate, const NString &timeZone)
 {	NTime			secsFloor, secsFrac;
 	time_t			timeUnix;
 	struct tm		timeGreg;
+
+
+
+	// TO DO - need to support time zones
+	if (timeZone != kNTimeZoneUTC)
+		NN_LOG("NDate only supports UTC");
 
 
 
@@ -257,6 +270,27 @@ const NDate& NDate::operator += (const NTime &theDelta)
 
 	// Add the delta
 	mTime += theDelta;
+	
+	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NDate::+= : Addition operator.
+//----------------------------------------------------------------------------
+const NDate& NDate::operator += (const NGregorianUnits &theDelta)
+{
+
+	// TO DO
+	NN_UNUSED(theDelta);
+	NN_LOG("NDate does not support NGregorianUnits addition");
+
+
+
+	// Add the delta
 	
 	return(*this);
 }

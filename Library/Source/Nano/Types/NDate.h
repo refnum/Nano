@@ -17,9 +17,41 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
-#include "NDateFormatter.h"
 #include "NEncodable.h"
 #include "NComparable.h"
+#include "NString.h"
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// Time zones
+static const NString kNTimeZoneDefault								= "*default*";
+static const NString kNTimeZoneUTC									= "UTC";
+
+static const NString kNTimeZoneWET									= "WET";
+static const NString kNTimeZoneCET									= "CET";
+static const NString kNTimeZoneEET									= "EET";
+
+static const NString kNTimeZonePST									= "PST";
+static const NString kNTimeZoneMST									= "MST";
+static const NString kNTimeZoneCST									= "CST";
+static const NString kNTimeZoneEST									= "EST";
+
+
+// Date formats
+//
+// Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>.
+//
+// However we also support some meta-formats, whose exact representation may
+// between releases and targets (or due to the user's preferences).
+static const NString kNDateFormatDefault							= "";
+static const NString kNDateFormatShort								= "*short*";
+static const NString kNDateFormatMedium								= "*medium*";
+static const NString kNDateFormatLong								= "*long*";
 
 
 
@@ -69,7 +101,7 @@ class NDate :	public NEncodable,
 public:
 										DECLARE_NENCODABLE(NDate);
 
-										 NDate(const NGregorianDate &theDate);
+										 NDate(const NGregorianDate &theDate, const NString &timeZone);
 										 NDate(const NTime          &theTime);
 
 										 NDate(void);
@@ -85,12 +117,13 @@ public:
 
 
 	// Get as a string
-	NString								GetString(const NString &theFormat=kNDateFormatDefault) const;
+	NString								GetString(const NString &theFormat=kNDateFormatDefault,
+												  const NString  &timeZone=kNTimeZoneDefault) const;
 
 
 	// Get/set the Gregorian date
-	NGregorianDate						GetGregorianDate(void) const;
-	void								SetGregorianDate(const NGregorianDate &theDate);
+	NGregorianDate						GetGregorianDate(const NString &timeZone=kNTimeZoneDefault) const;
+	void								SetGregorianDate(const NGregorianDate &theDate, const NString &timeZone);
 
 
 	// Get/set the time
@@ -99,7 +132,8 @@ public:
 
 
 	// Operators
-    const NDate&                        operator += (const NTime &theDelta);
+    const NDate&                        operator += (const NTime           &theDelta);
+    const NDate&                        operator += (const NGregorianUnits &theDelta);
 
 	NTime								operator +(const NDate &theDate) const;
 	NTime								operator -(const NDate &theDate) const;
