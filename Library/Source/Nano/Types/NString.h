@@ -64,8 +64,9 @@ typedef enum {
 class NString;
 
 extern const NIndex  kNStringLength;
-extern const NString kNStringNewline;
+extern const NString kNStringEmpty;
 extern const NString kNStringSpace;
+extern const NString kNStringNewline;
 extern const NString kNStringWhitespace;
 
 

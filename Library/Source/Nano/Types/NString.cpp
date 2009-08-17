@@ -30,8 +30,9 @@
 //		Public constants
 //----------------------------------------------------------------------------
 const NIndex  kNStringLength										= kNIndexNone;
-const NString kNStringNewline										= "\n";
+const NString kNStringEmpty											= "";
 const NString kNStringSpace											= " ";
+const NString kNStringNewline										= "\n";
 const NString kNStringWhitespace									= "\\s";
 
 
