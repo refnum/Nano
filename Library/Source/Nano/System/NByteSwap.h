@@ -257,6 +257,203 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 
 
 
+//============================================================================
+//		Macros
+//----------------------------------------------------------------------------
+// Swap structures
+//
+// A structure swap can be declared with:
+//
+//		typedef struct {
+//			UInt16		numLoops;
+//			UInt16		numPoints;
+//			UInt32		sizeLoops;
+//			UInt32		sizePoints;
+//		} MyStructure;
+//
+//		NN_BYTESWAP_BEGIN(MyStructure)
+//			NN_BYTESWAP_L_UInt16	(numLoops)
+//			NN_BYTESWAP_L_UInt16	(numPoints)
+//			NN_BYTESWAP_B_UInt32	(sizeLoops)
+//			NN_BYTESWAP_B_UInt32	(sizePoints)
+//		NN_BYTESWAP_END
+//
+// The NN_BYTESWAP_xxx macros declare a function capable of swapping a MyStructure
+// from its in-memory representation (using native endian-ness) to its on-disk
+// representation (where the first two fields are little-endian, and the last
+// two are big-endian).
+//
+// A structure can be encoded to/from the on-disk representation with:
+//
+//		MyStructure		theValue;
+//
+//		// After reading from disk, swap to native
+//		NN_BYTESWAP_DECODE(1, MyStructure, &theValue);
+//
+//
+//		// Manipulate the structure
+//		theValue.numLoops  += 1;
+//		theVlaue.sizeLoops += 2;
+//
+//
+//		// Encode for saving to disk
+//		NN_BYTESWAP_ENCODE(1, MyStructure, &theValue);
+//
+#define NN_BYTESWAP_BEGIN(_type)															\
+	static void NSwap_ ## _type(NIndex _numItems, _type *_theValue, bool _toNative)			\
+	{	_type		*_valuePtr;																\
+		NIndex		_n;																		\
+																							\
+		for (_n = 0; _n < _numItems; _n++)													\
+			{																				\
+			_valuePtr = &_theValue[_n];
+
+#define NN_BYTESWAP_END																		\
+			}																				\
+	}
+
+#define NN_BYTESWAP_ENCODE(_numItems, _type, _ptr)											\
+	NSwap_ ## _type(_numItems, _ptr, false)													\
+
+#define NN_BYTESWAP_DECODE(_numItems, _type, _ptr)											\
+	NSwap_ ## _type(_numItems, _ptr, true)													\
+
+
+
+// Big endian
+#define NN_BYTESWAP_B_UInt8(_field)															\
+	if (_toNative)																			\
+		;																					\
+	else																					\
+		;
+
+#define NN_BYTESWAP_B_UInt16(_field)														\
+	if (_toNative)																			\
+		SwapUInt16_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapUInt16_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_B_UInt32(_field)														\
+	if (_toNative)																			\
+		SwapUInt32_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapUInt32_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_B_UInt64(_field)														\
+	if (_toNative)																			\
+		SwapUInt64_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapUInt64_NtoL(&_valuePtr->_field);
+
+
+
+#define NN_BYTESWAP_B_SInt8(_field)															\
+	if (_toNative)																			\
+		;																					\
+	else																					\
+		;
+
+#define NN_BYTESWAP_B_SInt16(_field)														\
+	if (_toNative)																			\
+		SwapSInt16_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapSInt16_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_B_SInt32(_field)														\
+	if (_toNative)																			\
+		SwapSInt32_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapSInt32_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_B_SInt64(_field)														\
+	if (_toNative)																			\
+		SwapSInt64_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapSInt64_NtoL(&_valuePtr->_field);
+
+
+
+#define NN_BYTESWAP_B_Float32(_field)														\
+	if (_toNative)																			\
+		SwapFloat32_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapFloat32_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_B_Float64(_field)														\
+	if (_toNative)																			\
+		SwapFloat64_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapFloat64_NtoL(&_valuePtr->_field);
+
+
+
+// Little endian
+#define NN_BYTESWAP_L_UInt8(_field)															\
+	if (_toNative)																			\
+		;																					\
+	else																					\
+		;
+
+#define NN_BYTESWAP_L_UInt16(_field)														\
+	if (_toNative)																			\
+		SwapUInt16_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapUInt16_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_L_UInt32(_field)														\
+	if (_toNative)																			\
+		SwapUInt32_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapUInt32_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_L_UInt64(_field)														\
+	if (_toNative)																			\
+		SwapUInt64_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapUInt64_NtoL(&_valuePtr->_field);
+
+
+
+#define NN_BYTESWAP_L_SInt8(_field)															\
+	if (_toNative)																			\
+		;																					\
+	else																					\
+		;
+
+#define NN_BYTESWAP_L_SInt16(_field)														\
+	if (_toNative)																			\
+		SwapSInt16_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapSInt16_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_L_SInt32(_field)														\
+	if (_toNative)																			\
+		SwapSInt32_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapSInt32_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_L_SInt64(_field)														\
+	if (_toNative)																			\
+		SwapSInt64_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapSInt64_NtoL(&_valuePtr->_field);
+
+
+
+#define NN_BYTESWAP_L_Float32(_field)														\
+	if (_toNative)																			\
+		SwapFloat32_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapFloat32_NtoL(&_valuePtr->_field);
+
+#define NN_BYTESWAP_L_Float64(_field)														\
+	if (_toNative)																			\
+		SwapFloat64_LtoN(&_valuePtr->_field);												\
+	else																					\
+		SwapFloat64_NtoL(&_valuePtr->_field);
+
+
+
 
 #endif // NBYTESWAP_HDR
 
