@@ -501,7 +501,7 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_Date(const NDate &theValue)
 
 
 	// Get the state we ned
-	gregDate = theValue.GetGregorianDate();
+	gregDate = theValue.GetGregorianDate(kNTimeZoneUTC);
 
 	valueText.Format(kFormatISO8601, gregDate.year, gregDate.month,  gregDate.day,
 									 gregDate.hour, gregDate.minute, (UInt32) gregDate.second);
@@ -826,7 +826,7 @@ NDate NPropertyList::DecodeMacXML_1_0_Date(const NXMLNode *theNode)
 	if (numItems == 6)
 		{
 		gregDate.second = numSecs;
-		theValue.SetGregorianDate(gregDate);
+		theValue.SetGregorianDate(gregDate, kNTimeZoneUTC);
 		}
 	else
 		theValue.SetTime(0.0);
