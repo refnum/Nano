@@ -71,8 +71,9 @@
 //----------------------------------------------------------------------------
 // Primitives
 //
-// These types are a consistent size on all targets and architectures. All
-// other types may change their size between releases or targets.
+// These types are a consistent size on all targets and architectures.
+//
+// All other types may change their size between releases or targets.
 typedef unsigned NANO_INT8											UInt8;
 typedef unsigned NANO_INT16											UInt16;
 typedef unsigned NANO_INT32											UInt32;
@@ -190,6 +191,9 @@ static const Float32 kFloat32Max									= FLT_MAX;
 static const Float64 kFloat64Min									= DBL_MIN;
 static const Float64 kFloat64Max									= DBL_MAX;
 
+static const NIndex kNIndexMin										= kSInt32Min;
+static const NIndex kNIndexMax										= kSInt32Max;
+
 
 // Misc
 static const NIndex    kNIndexNone									= -1;
@@ -208,11 +212,12 @@ static const NTime kNTimeNanosecond									= 1.0 / 1000000000.0;
 static const NTime kNTimeMicrosecond								= 1.0 / 1000000.0;
 static const NTime kNTimeMillisecond								= 1.0 / 1000.0;
 static const NTime kNTimeSecond										= 1.0;
-static const NTime kNTimeMinute										= 60.0 * kNTimeSecond;
-static const NTime kNTimeHour										= 60.0 * kNTimeMinute;
-static const NTime kNTimeDay										= 24.0 * kNTimeHour;
-static const NTime kNTimeWeek										=  7.0 * kNTimeDay;
-static const NTime kNTimeMonthish									= 30.0 * kNTimeDay;
+static const NTime kNTimeMinute										= 60.0  * kNTimeSecond;
+static const NTime kNTimeHour										= 60.0  * kNTimeMinute;
+static const NTime kNTimeDay										= 24.0  * kNTimeHour;
+static const NTime kNTimeWeek										=  7.0  * kNTimeDay;
+static const NTime kNTimeMonthish									= 30.0  * kNTimeDay;
+static const NTime kNTimeYearish									= 365.0 * kNTimeDay;
 static const NTime kNTimeForever									= -1.0;
 
 
