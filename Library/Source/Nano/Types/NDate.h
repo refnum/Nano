@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
+#include "NDateFormatter.h"
 #include "NEncodable.h"
 #include "NComparable.h"
 
@@ -36,6 +37,17 @@ typedef struct {
 	SInt8			minute;			// 0..59
 	NTime			second;			// 0..60
 } NGregorianDate;
+
+
+// Gregorian units
+typedef struct {
+	SInt32			years;
+	SInt32			months;
+	SInt32			days;
+	SInt32			hours;
+	SInt32			minutes;
+	NTime			seconds;
+} NGregorianUnits;
 
 
 // Lists
@@ -58,7 +70,7 @@ public:
 										DECLARE_NENCODABLE(NDate);
 
 										 NDate(const NGregorianDate &theDate);
-										 NDate(      NTime           theTime);
+										 NDate(const NTime          &theTime);
 
 										 NDate(void);
 	virtual								~NDate(void);
@@ -72,6 +84,10 @@ public:
 	NComparison							Compare(const NDate &theValue) const;
 
 
+	// Get as a string
+	NString								GetString(const NString &theFormat=kNDateFormatDefault) const;
+
+
 	// Get/set the Gregorian date
 	NGregorianDate						GetGregorianDate(void) const;
 	void								SetGregorianDate(const NGregorianDate &theDate);
@@ -79,11 +95,11 @@ public:
 
 	// Get/set the time
 	NTime								GetTime(void) const;
-	void								SetTime(NTime theTime);
+	void								SetTime(const NTime &theTime);
 
 
 	// Operators
-    const NDate&                        operator += (NTime theDelta);
+    const NDate&                        operator += (const NTime &theDelta);
 
 	NTime								operator +(const NDate &theDate) const;
 	NTime								operator -(const NDate &theDate) const;

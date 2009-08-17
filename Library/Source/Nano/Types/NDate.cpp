@@ -18,7 +18,6 @@
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NTargetPOSIX.h"
-#include "NDateFormatter.h"
 #include "NEncoder.h"
 #include "NString.h"
 #include "NDate.h"
@@ -63,7 +62,7 @@ NDate::NDate(const NGregorianDate &theDate)
 //============================================================================
 //		NDate::NDate : Constructor.
 //----------------------------------------------------------------------------
-NDate::NDate(NTime theTime)
+NDate::NDate(const NTime &theTime)
 {
 
 
@@ -125,6 +124,25 @@ NComparison NDate::Compare(const NDate &theValue) const
 
 	// Compare the value
 	return(GetComparison(mTime, theValue.mTime));
+}
+
+
+
+
+
+//============================================================================
+//		NDate::GetString : Get as a string.
+//----------------------------------------------------------------------------
+NString NDate::GetString(const NString &theFormat) const
+{	NDateFormatter		theFormatter;
+	NString				theResult;
+
+
+
+	// Get the value
+	theResult = theFormatter.Format(*this, theFormat);
+
+	return(theResult);
 }
 
 
@@ -218,7 +236,7 @@ NTime NDate::GetTime(void) const
 //============================================================================
 //		NDate::SetTime : Set the time.
 //----------------------------------------------------------------------------
-void NDate::SetTime(NTime theTime)
+void NDate::SetTime(const NTime &theTime)
 {
 
 
@@ -233,7 +251,7 @@ void NDate::SetTime(NTime theTime)
 //============================================================================
 //		NDate::+= : Addition operator.
 //----------------------------------------------------------------------------
-const NDate& NDate::operator += (NTime theDelta)
+const NDate& NDate::operator += (const NTime &theDelta)
 {
 
 
@@ -281,15 +299,11 @@ NTime NDate::operator - (const NDate &theDate) const
 //		NDate::NFormatArgument : NFormatArgument operator.
 //----------------------------------------------------------------------------
 NDate::operator NFormatArgument(void) const
-{	NDateFormatter		theFormatter;
-	NString				theResult;
-
+{
 
 
 	// Get the value
-	theResult = theFormatter.Format(*this);
-
-	return(theResult);
+	return(GetString());
 }
 
 

@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NDate.h"
 #include "NDateFormatter.h"
 
 
@@ -45,21 +46,36 @@ NDateFormatter::~NDateFormatter(void)
 //============================================================================
 //		NDateFormatter::Format : Format a date.
 //----------------------------------------------------------------------------
-NString NDateFormatter::Format(const NDate &theDate, NDateFormat theFormat)
-{	NString		theResult;
+NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat) const
+{	NString				formatStr, theResult;
+	NGregorianDate		gregDate;
+
+
+
+	// Get the state we need
+	gregDate  = theDate.GetGregorianDate();
+	formatStr = theFormat;
+	
+	
+	
+	// Convert the format
+	if (formatStr == kNDateFormatDefault)
+		;
+	
+	else if (formatStr == kNDateFormatShort)
+		;
+	
+	else if (formatStr == kNDateFormatMedium)
+		;
+	
+	else if (formatStr == kNDateFormatLong)
+		;
 
 
 
 	// Format the date
-	switch (theFormat) {
-		case kNDateSeconds:
-			theResult.Format("%g", theDate.GetTime());
-			break;
-
-		default:
-			NN_LOG("Unknown date formt: %d", theFormat);
-			break;
-		}
+	NN_LOG("NDateFormatter::Format - NOT IMPLEMENTED");
+	theResult.Format("%g", theDate.GetTime());
 	
 	return(theResult);
 }
