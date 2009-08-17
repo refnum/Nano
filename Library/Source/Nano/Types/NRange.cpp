@@ -25,7 +25,7 @@
 //============================================================================
 //		Public constants
 //----------------------------------------------------------------------------
-const NRange kNRangeNone(0, 0);
+const NRange kNRangeNone(kNIndexNone, 0);
 const NRange kNRangeAll (0, kNIndexNone);
 
 
