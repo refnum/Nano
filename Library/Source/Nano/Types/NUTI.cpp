@@ -88,7 +88,7 @@ bool NUTI::IsValid(void) const
 //============================================================================
 //		NUTI::ConformsTo : Does the UTI conform to another?
 //----------------------------------------------------------------------------
-bool NUTI::ConformsTo(void) const
+bool NUTI::ConformsTo(const NString &theUTI) const
 {	NStringList		conformsTo;
 	bool			theResult;
 
@@ -106,7 +106,7 @@ bool NUTI::ConformsTo(void) const
 	// direct conformance, possibly by moving this to the registry so that
 	// we can do a more efficient global search.
 	NN_LOG("NUTI::ConformsTo - only supports direct conformance");
-	theResult = contains(conformsTo, mUTI);
+	theResult = contains(conformsTo, theUTI);
 	
 	return(theResult);
 }

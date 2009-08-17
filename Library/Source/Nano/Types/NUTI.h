@@ -81,7 +81,7 @@ public:
 
 
 	// Does the UTI conform to another?
-	bool								ConformsTo(void) const;
+	bool								ConformsTo(const NString &theUTI) const;
 	
 
 	// Clear the value
