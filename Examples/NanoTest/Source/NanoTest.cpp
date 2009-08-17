@@ -55,6 +55,7 @@
 #include "TByteSwap.h"
 #include "TChecksum.h"
 #include "TDataCompressor.h"
+#include "TLocale.h"
 #include "TUnicodeParser.h"
 #include "TXMLEncoder.h"
 #include "TXMLParser.h"
@@ -172,6 +173,7 @@ int main(int argc, const char **argv)
 	TByteSwap::Execute();
 	TChecksum::Execute();
 	TDataCompressor::Execute();
+	TLocale::Execute();
 	TUnicodeParser::Execute();
 	TXMLEncoder::Execute();
 	TXMLParser::Execute();

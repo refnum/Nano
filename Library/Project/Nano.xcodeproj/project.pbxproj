@@ -102,6 +102,8 @@
 		AB28FC470FB5D9F000F72C61 /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB2AAC641035B621007BC4E6 /* NUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC621035B621007BC4E6 /* NUTI.cpp */; };
 		AB2AAC651035B621007BC4E6 /* NUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC621035B621007BC4E6 /* NUTI.cpp */; };
+		AB2AAD6B103962E4007BC4E6 /* NLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */; };
+		AB2AAD6C103962E4007BC4E6 /* NLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */; };
 		AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
@@ -299,6 +301,8 @@
 		AB28FBDD0FB5D36300F72C61 /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2AAC621035B621007BC4E6 /* NUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC631035B621007BC4E6 /* NUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTI.h; sourceTree = "<group>"; };
+		AB2AAD69103962E4007BC4E6 /* NLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLocale.h; sourceTree = "<group>"; };
+		AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLocale.cpp; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
@@ -791,6 +795,8 @@
 				AB9155190F9B4DD5009FFEAF /* NChecksum.h */,
 				ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */,
 				ABFAA7101018B3810060ED12 /* NDataCompressor.h */,
+				AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */,
+				AB2AAD69103962E4007BC4E6 /* NLocale.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
 				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
 				AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */,
@@ -1207,6 +1213,7 @@
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
 				AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */,
 				ABFAA7131018B3810060ED12 /* NDataCompressor.cpp in Sources */,
+				AB2AAD6B103962E4007BC4E6 /* NLocale.cpp in Sources */,
 				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
 				AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */,
 				ABB145DA0FF36B03006F178C /* NXMLNode.cpp in Sources */,
@@ -1329,6 +1336,7 @@
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
 				AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */,
 				ABFAA7121018B3810060ED12 /* NDataCompressor.cpp in Sources */,
+				AB2AAD6C103962E4007BC4E6 /* NLocale.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,
 				AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */,
 				ABB145D80FF36B03006F178C /* NXMLNode.cpp in Sources */,
