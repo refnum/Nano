@@ -16,7 +16,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NStringFormatter.h"
 #include "NComparable.h"
+#include "NEncodable.h"
 #include "NString.h"
 
 
@@ -69,8 +71,11 @@ typedef NUTITagMap::const_iterator									NUTITagMapConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NUTI : public NComparable<NUTI> {
+class NUTI :	public NEncodable,
+				public NComparable<NUTI> {
 public:
+										DECLARE_NENCODABLE(NUTI);
+
 										 NUTI(NUTITagClass theClass, const NString &theTag);
 										 NUTI(const NString &theUTI=kNUTTypeNone);
 	virtual								~NUTI(void);
@@ -95,6 +100,16 @@ public:
 	// Get a tag
 	NString								GetMIMEType(     void) const;
 	NString								GetFileExtension(void) const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
+
+
+protected:
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:

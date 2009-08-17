@@ -18,7 +18,17 @@
 //----------------------------------------------------------------------------
 #include "NSTLUtilities.h"
 #include "NUTIRegistry.h"
+#include "NEncoder.h"
 #include "NUTI.h"
+
+
+
+
+
+//============================================================================
+//		Implementation
+//----------------------------------------------------------------------------
+DEFINE_NENCODABLE(NUTI);
 
 
 
@@ -170,5 +180,52 @@ NString NUTI::GetFileExtension(void) const
 	// Get the value
 	return(NUTIRegistry::Get()->GetTagValue(mUTI, kNUTITagClassFileExtension));
 }
+
+
+
+
+
+//============================================================================
+//		NUTI::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+NUTI::operator NFormatArgument(void) const
+{
+
+
+	// Get the value
+	return(mUTI);
+}
+
+
+
+
+
+//============================================================================
+//      NUTI::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NUTI::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeString(kNEncoderValueKey, mUTI);
+}
+
+
+
+
+
+//============================================================================
+//      NUTI::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NUTI::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Encode the object
+	mUTI = theEncoder.DecodeString(kNEncoderValueKey);
+}
+
 
 
