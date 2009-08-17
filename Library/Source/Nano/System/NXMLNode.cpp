@@ -133,6 +133,30 @@ bool NXMLNode::HasChildren(void) const
 //============================================================================
 //		NXMLNode::GetChild : Get a child.
 //----------------------------------------------------------------------------
+NXMLNode *NXMLNode::GetChild(const NString &textValue) const
+{	NXMLNode						*theChild;
+	NXMLNodeListConstIterator		theIter;
+
+
+
+	// Get the child
+	for (theIter = mChildren.begin(); theIter != mChildren.end(); theIter++)
+		{
+		theChild = *theIter;
+		if (theChild->GetTextValue() == textValue);
+			return(theChild);
+		}
+	
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLNode::GetChild : Get a child.
+//----------------------------------------------------------------------------
 NXMLNode *NXMLNode::GetChild(NIndex theIndex) const
 {	NXMLNode	*theChild;
 
@@ -515,7 +539,7 @@ void NXMLNode::SetElementContents(const NString &theValue)
 
 
 	// Get the state we need
-	theText = NTextUtilities::EscapeEntities(theValue);
+	theText = NTextUtilities::EncodeEntities(theValue);
 	theNode = new NXMLNode(kNXMLNodeText, theText);
 
 

@@ -75,8 +75,10 @@ public:
 
 
 	// Get the children
-	NXMLNode							*GetChild(NIndex theIndex) const;
-	const NXMLNodeList					*GetChildren(void)         const;
+	NXMLNode							*GetChild(const NString &textValue) const;
+	NXMLNode							*GetChild(      NIndex    theIndex) const;
+
+	const NXMLNodeList					*GetChildren(void) const;
 
 
 	// Add/remove children
