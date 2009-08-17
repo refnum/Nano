@@ -387,7 +387,7 @@ NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 
 	// Encode the node
 	theText = theNode->GetTextValue();
-	theText = NTextUtilities::EscapeEntities(theText);
+	theText = NTextUtilities::EncodeEntities(theText);
 
 	return(theText);
 }

@@ -39,17 +39,17 @@ static const NString kNLineEndingDOS								= "\x0D\x0A";
 //----------------------------------------------------------------------------
 class NTextUtilities {
 public:
-	// Escape/unescape XML entities
+	// Encode/decode XML entities
 	//
-	// Replaces special characters with their entities, or the reverse.
+	// Encodes special characters into their entity form, or the reverse.
 	//
 	// The standard five entities are always replaced. Additional entities
 	// can replaced with a custom dictionary.
 	//
 	// The keys of this dictionary are the entity characters ("&"), while the
 	// values are their expansions ("&amp;"). The dictionary must be invertible.
-	static NString						EscapeEntities(  const NString &theValue, const NDictionary &extraEntities=NDictionary());
-	static NString						UnescapeEntities(const NString &theValue, const NDictionary &extraEntities=NDictionary());
+	static NString						EncodeEntities(const NString &theValue, const NDictionary &extraEntities=NDictionary());
+	static NString						DecodeEntities(const NString &theValue, const NDictionary &extraEntities=NDictionary());
 
 
 	// Get a hex dump

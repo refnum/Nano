@@ -53,9 +53,9 @@ static const NIndex kHexBufferSize										= 128;
 
 
 //============================================================================
-//      NTextUtilities::EscapeEntities : Escape XML entities.
+//      NTextUtilities::EncodeEntities : Encode XML entities.
 //----------------------------------------------------------------------------
-NString NTextUtilities::EscapeEntities(const NString &theValue, const NDictionary &extraEntities)
+NString NTextUtilities::EncodeEntities(const NString &theValue, const NDictionary &extraEntities)
 {	NDictionary		theEntities;
 	NString			theResult;
 
@@ -83,9 +83,9 @@ NString NTextUtilities::EscapeEntities(const NString &theValue, const NDictionar
 
 
 //============================================================================
-//      NTextUtilities::UnescapeEntities : Unescape XML entities.
+//      NTextUtilities::DecodeEntities : Decode XML entities.
 //----------------------------------------------------------------------------
-NString NTextUtilities::UnescapeEntities(const NString &theValue, const NDictionary &extraEntities)
+NString NTextUtilities::DecodeEntities(const NString &theValue, const NDictionary &extraEntities)
 {	NDictionary		theEntities;
 	NString			theResult;
 
@@ -163,7 +163,7 @@ NString NTextUtilities::ConvertLineEndings(const NString &theString, const NStri
 //      NTextUtilities::GetEntityDictionary : Get the entity dictionary.
 //----------------------------------------------------------------------------
 #pragma mark -
-NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities, bool forEscape)
+NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities, bool forEncode)
 {	NDictionary		theResult;
 	bool			didInvert;
 
@@ -172,7 +172,7 @@ NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities
 	// Get the state we need
 	theResult = extraEntities;
 
-	if (!forEscape)
+	if (!forEncode)
 		{
 		didInvert = theResult.Invert();
 		NN_ASSERT(didInvert);
@@ -182,8 +182,8 @@ NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities
 
 	// Add the standard entities
 	//
-	// When unescaping, we also recognise the numeric form of the standard five.
-	if (forEscape)
+	// When decoding, we also recognise the numeric form of the standard five.
+	if (forEncode)
 		{
 		theResult.SetValue(kEntityValueQuot, kEntityNameQuot);
 		theResult.SetValue(kEntityValueAmp,  kEntityNameAmp);
