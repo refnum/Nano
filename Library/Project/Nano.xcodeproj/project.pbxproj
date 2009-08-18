@@ -72,7 +72,6 @@
 		AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
-		AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */; };
 		AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
 		AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155390F9B4DD6009FFEAF /* NAtomicInt.cpp */; };
 		AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553B0F9B4DD6009FFEAF /* NLock.cpp */; };
@@ -128,6 +127,8 @@
 		AB7AB08E103AD6B5004B1F6E /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
 		AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
 		AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
+		AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
+		AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -155,7 +156,6 @@
 		AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
-		AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */; };
 		AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
 		AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */; };
 		AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */; };
@@ -337,6 +337,8 @@
 		AB7AB08C103AD6B5004B1F6E /* fm_md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fm_md5.h; sourceTree = "<group>"; };
 		AB7AB0AE103ADB17004B1F6E /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha2.c; sourceTree = "<group>"; };
 		AB7AB0AF103ADB17004B1F6E /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha2.h; sourceTree = "<group>"; };
+		AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataDigest.h; sourceTree = "<group>"; };
+		AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataDigest.cpp; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		AB9154E50F9B4DD5009FFEAF /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
 		AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_chartables.c; sourceTree = "<group>"; };
@@ -383,8 +385,6 @@
 		AB9155140F9B4DD5009FFEAF /* NListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NListener.h; sourceTree = "<group>"; };
 		AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NByteSwap.cpp; sourceTree = "<group>"; };
 		AB9155170F9B4DD5009FFEAF /* NByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NByteSwap.h; sourceTree = "<group>"; };
-		AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NChecksum.cpp; sourceTree = "<group>"; };
-		AB9155190F9B4DD5009FFEAF /* NChecksum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NChecksum.h; sourceTree = "<group>"; };
 		AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeParser.cpp; sourceTree = "<group>"; };
 		AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
 		AB91551E0F9B4DD5009FFEAF /* NMacDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacDebug.cpp; sourceTree = "<group>"; };
@@ -827,12 +827,12 @@
 				AB1694E110028CEE00F7D4B7 /* NB64Encoder.h */,
 				AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */,
 				AB9155170F9B4DD5009FFEAF /* NByteSwap.h */,
-				AB9155180F9B4DD5009FFEAF /* NChecksum.cpp */,
-				AB9155190F9B4DD5009FFEAF /* NChecksum.h */,
 				AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */,
 				AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */,
 				ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */,
 				ABFAA7101018B3810060ED12 /* NDataCompressor.h */,
+				AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */,
+				AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */,
 				AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */,
 				AB2AAD69103962E4007BC4E6 /* NLocale.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
@@ -1253,9 +1253,9 @@
 				ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */,
 				AB1694E210028CEE00F7D4B7 /* NB64Encoder.cpp in Sources */,
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
-				AB28FC200FB5D9F000F72C61 /* NChecksum.cpp in Sources */,
 				AB7AAFD7103AC4EF004B1F6E /* NDataCipher.cpp in Sources */,
 				ABFAA7131018B3810060ED12 /* NDataCompressor.cpp in Sources */,
+				AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
 				AB2AAD6B103962E4007BC4E6 /* NLocale.cpp in Sources */,
 				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
 				AB2AADB61039793F007BC4E6 /* NUTIRegistry.cpp in Sources */,
@@ -1380,9 +1380,9 @@
 				ABFAA6A51018AB360060ED12 /* zutil.c in Sources */,
 				AB1694E310028CEE00F7D4B7 /* NB64Encoder.cpp in Sources */,
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
-				AB9155920F9B4DD6009FFEAF /* NChecksum.cpp in Sources */,
 				AB7AAFD8103AC4EF004B1F6E /* NDataCipher.cpp in Sources */,
 				ABFAA7121018B3810060ED12 /* NDataCompressor.cpp in Sources */,
+				AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
 				AB2AAD6C103962E4007BC4E6 /* NLocale.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,
 				AB2AADB71039793F007BC4E6 /* NUTIRegistry.cpp in Sources */,

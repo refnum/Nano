@@ -1,8 +1,8 @@
 /*	NAME:
-		TChecksum.h
+		TDataDigest.h
 
 	DESCRIPTION:
-		NChecksum tests.
+		NDataDigest tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TCHECKSUM_HDR
-#define TCHECKSUM_HDR
+#ifndef TDATADIGEST_HDR
+#define TDATADIGEST_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -24,7 +24,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TChecksum {
+class TDataDigest {
 public:
 	// Execute the tests
 	static void							Execute(void);
@@ -34,4 +34,4 @@ public:
 
 
 
-#endif // TCHECKSUM_HDR
+#endif // TDATADIGEST_HDR
