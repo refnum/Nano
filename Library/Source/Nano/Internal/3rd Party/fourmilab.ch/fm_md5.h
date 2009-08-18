@@ -1,6 +1,28 @@
 #ifndef FM_MD5_H
 #define FM_MD5_H
 
+
+
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************
+ *		For Mac builds, suppress compiler warnings with:					*
+ *			-w																*
+ ****************************************************************************/
+#if defined(NANO_TARGET_HDR)
+
+#if NN_TARGET_ENDIAN_BIG
+	#define HIGHFIRST
+#endif
+
+#ifndef _UINT32
+	typedef UInt32 uint32;
+#endif
+
+
+
+#else // !NANO_TARGET_HDR
+
 /*  The following tests optimise behaviour on little-endian
     machines, where there is no need to reverse the byte order
     of 32 bit words in the MD5 computation.  By default,
@@ -30,6 +52,10 @@ typedef unsigned int uint32;
 #else
 typedef unsigned long uint32;
 #endif
+
+#endif // !NANO_TARGET_HDR
+
+
 
 struct MD5Context {
         uint32 buf[4];

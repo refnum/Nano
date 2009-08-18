@@ -40,7 +40,6 @@
 extern "C" {
 #endif
 
-
 /*
  * Import u_intXX_t size_t type definitions from system headers.  You
  * may need to change this, or define these things yourself in this
