@@ -40,7 +40,7 @@ void TRange::Execute(void)
 
 
 	// Execute the tests
-	NN_ASSERT(kNRangeNone.GetLocation() == 0);
+	NN_ASSERT(kNRangeNone.GetLocation() == kNIndexNone);
 	NN_ASSERT(kNRangeNone.GetSize()     == 0);
 
 	NN_ASSERT(kNRangeAll.GetLocation() == 0);
