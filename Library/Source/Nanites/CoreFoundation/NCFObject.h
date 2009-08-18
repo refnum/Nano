@@ -76,6 +76,14 @@
 	}
 
 
+// Declare an Obj-C class
+#ifdef __OBJC__
+	#define DECLARE_OBJC_CLASS(_name)				@class			_name
+#else
+	#define DECLARE_OBJC_CLASS(_name)				typedef void *	_name
+#endif
+
+
 
 
 

@@ -17,6 +17,7 @@
 #include "Nano.h"
 #include "NCommandLine.h"
 
+#include "TNSAutoReleasePool.h"
 #include "TNSSingleton.h"
 
 #include "TCFArray.h"
@@ -113,6 +114,7 @@ int main(int argc, const char **argv)
 
 
 	// Nanite - Cocoa
+	TNSAutoReleasePool::Execute();
 	TNSSingleton::Execute();
 
 
