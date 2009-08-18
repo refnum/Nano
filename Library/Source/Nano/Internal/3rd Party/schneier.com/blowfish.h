@@ -3,6 +3,12 @@
 #ifndef BLOWFISH_H_
 #define BLOWFISH_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
 typedef struct blowfish_context_t_ {
 	unsigned long pbox[256];
 	unsigned long sbox[4][256];
@@ -16,4 +22,11 @@ void blowfish_clean        (blowfish_context_t *ctx);
 extern const unsigned long ORIG_P[18];
 extern const unsigned long ORIG_S[4][256];
 
+
+
+#ifdef __cplusplus
+}
 #endif
+
+#endif
+

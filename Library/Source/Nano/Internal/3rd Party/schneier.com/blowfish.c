@@ -1,7 +1,7 @@
 // Written by Andrew Carter (2008)
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/blowfish.h"
+#include "blowfish.h"
 
 #define BLOWFISH_F(x) \
 	(((ctx->sbox[0][x >> 24] + ctx->sbox[1][(x >> 16) & 0xFF]) \
@@ -53,7 +53,7 @@ void blowfish_initiate(blowfish_context_t *ctx, void *keyparam, unsigned int key
 		for(i = 0, j = 0; i < 18; i++) {
 			for(k = 0, calc = 0; k < 4; k++) {
 				calc <<= 8, calc |= key[j++];
-				if(j == keybytes)
+				if(j == (int) keybytes)
 					j = 0;
 			}
 			ctx->pbox[i] ^= calc;
