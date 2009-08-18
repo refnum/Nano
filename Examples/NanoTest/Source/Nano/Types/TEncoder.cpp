@@ -15,8 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
+#include "NDataDigest.h"
 #include "NEncodable.h"
-#include "NChecksum.h"
 #include "NEncoder.h"
 
 #include "TEncoder.h"
@@ -54,7 +54,7 @@ static const UInt8   kValueData[]						= { 0xAA, 0xBB, 0xCC, 0xDD };
 
 
 // Results
-static const UInt32  kResultBinary						= 0xA9F99F52;
+static const UInt32  kResultBinary						= 0xa72b9872;
 static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 															"<encoder version=\"1.0\">\n"
 															"	<object class=\"TEncodable\" key=\"root\">\n"
@@ -72,9 +72,9 @@ static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\
 															"			<string key=\"2\">This is a string</string>\n"
 															"		</object>\n"
 															"		<object class=\"NDictionary\" key=\"Test Dictionary\">\n"
+															"			<string key=\"Test String\">This is a string</string>\n"
 															"			<number key=\"Test Number 1\">1234</number>\n"
 															"			<bool key=\"Test Boolean 1\">true</bool>\n"
-															"			<string key=\"Test String\">This is a string</string>\n"
 															"		</object>\n"
 															"	</object>\n"
 															"</encoder>\n";
@@ -175,7 +175,7 @@ void TEncoder::Execute(void)
 	NEncoder		theEncoder;
 	TEncodable		theObject;
 	UInt32			adlerData;
-	NChecksum		checkSum;
+	NDataDigest		theDigest;
 	NVariant		theValue;
 	NString			textXML;
 
@@ -186,7 +186,7 @@ void TEncoder::Execute(void)
 	dataBinary = theEncoder.Encode(theObject, kNEncoderBinary);
 
 	textXML   = NString(dataXML);
-	adlerData = checkSum.GetAdler32(dataBinary.GetSize(), dataBinary.GetData());
+	adlerData = theDigest.GetAdler32(dataBinary);
 
 	NN_ASSERT(textXML   == kResultXML);
 	NN_ASSERT(adlerData == kResultBinary);

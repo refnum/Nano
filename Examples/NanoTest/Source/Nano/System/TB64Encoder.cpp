@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
 #include "NB64Encoder.h"
-#include "NChecksum.h"
+#include "NDataDigest.h"
 
 #include "TB64Encoder.h"
 
@@ -199,17 +199,22 @@ static const char *kTestDataBase64						=	"iVBORw0KGgoAAAANSUhEUgAAAD4AAABACAMAA
 //		TB64Encoder::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TB64Encoder::Execute(void)
-{	UInt32			adlerData, adlerSrc;
+{	UInt32			srcAdler, dstAdler;
+	NData			srcData, dstData;
 	NB64Encoder		theEncoder;
-	NChecksum		checkSum;
+	NDataDigest		theDigest;
 	NString			theText;
-	NData			theData;
+
+
+
+	// Get the state we need
+	srcData  = NData(GET_ARRAY_SIZE(kTestDataBinary), kTestDataBinary, true);
+	srcAdler = theDigest.GetAdler32(srcData);
 
 
 
 	// Encode
-	theData = NData(GET_ARRAY_SIZE(kTestDataBinary), kTestDataBinary, true);
-	theText = theEncoder.Encode(theData);
+	theText = theEncoder.Encode(srcData);
 	NN_ASSERT(theText == kTestDataBase64);
 	
 	(void) kTestDataBase64;
@@ -217,10 +222,9 @@ void TB64Encoder::Execute(void)
 
 
 	// Decode
-	theData   = theEncoder.Decode(theText);
-	adlerData = checkSum.GetAdler32(theData.GetSize(), theData.GetData());
-	adlerSrc  = checkSum.GetAdler32(GET_ARRAY_SIZE(kTestDataBinary), kTestDataBinary);
-	NN_ASSERT(adlerData == adlerSrc);
+	dstData  = theEncoder.Decode(theText);
+	dstAdler = theDigest.GetAdler32(dstData);
+	NN_ASSERT(srcAdler == dstAdler);
 }
 
 

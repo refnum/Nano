@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
 #include "NDataCompressor.h"
-#include "NChecksum.h"
+#include "NDataDigest.h"
 
 #include "TDataCompressor.h"
 
@@ -78,7 +78,7 @@ void TDataCompressor::Execute(void)
 {	NData				dataSrc, dataDst, dataOut;
 	NDataCompressor		theCompressor;
 	UInt32				adlerValue;
-	NChecksum			checkSum;
+	NDataDigest			theDigest;
 
 
 
@@ -91,13 +91,13 @@ void TDataCompressor::Execute(void)
 	dataDst = theCompressor.Compress(dataSrc, kNCompressionNull);
 	NN_ASSERT(dataDst.GetSize() == kNullSize);
 
-	adlerValue = checkSum.GetAdler32(dataDst.GetSize(), dataDst.GetData());
+	adlerValue = theDigest.GetAdler32(dataDst);
 	NN_ASSERT(adlerValue == kNullAdler);
 
 	dataOut = theCompressor.Decompress(dataDst);
 	NN_ASSERT(dataOut.GetSize() == GET_ARRAY_SIZE(kTestData));
 
-	adlerValue = checkSum.GetAdler32(dataOut.GetSize(), dataOut.GetData());
+	adlerValue = theDigest.GetAdler32(dataOut);
 	NN_ASSERT(adlerValue == kTestAdler);
 
 
@@ -107,13 +107,13 @@ void TDataCompressor::Execute(void)
 	dataDst = theCompressor.Compress(dataSrc, kNCompressionZLib);
 	NN_ASSERT(dataDst.GetSize() == kZLibSize);
 
-	adlerValue = checkSum.GetAdler32(dataDst.GetSize(), dataDst.GetData());
+	adlerValue = theDigest.GetAdler32(dataDst);
 	NN_ASSERT(adlerValue == kZLibAdler);
 
 	dataOut = theCompressor.Decompress(dataDst);
 	NN_ASSERT(dataOut.GetSize() == GET_ARRAY_SIZE(kTestData));
 
-	adlerValue = checkSum.GetAdler32(dataOut.GetSize(), dataOut.GetData());
+	adlerValue = theDigest.GetAdler32(dataOut);
 	NN_ASSERT(adlerValue == kTestAdler);
 }
 
