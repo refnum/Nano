@@ -72,11 +72,11 @@ NData NDataCompressor::Compress(const NData &srcData, NCompression compressWith)
 	// Compress the data
 	switch (compressWith) {
 		case kNCompressionNull:
-			theErr = CompressNull(srcData, dstData);
+			theErr = Null_Compress(srcData, dstData);
 			break;
 		
 		case kNCompressionZLib:
-			theErr = CompressZLib(srcData, dstData);
+			theErr = ZLib_Compress(srcData, dstData);
 			break;
 		
 		default:
@@ -165,11 +165,11 @@ NData NDataCompressor::Decompress(const NData &srcData, const NCompressionHeader
 	// Decompress the data
 	switch (srcHeader.compression) {
 		case kNCompressionNull:
-			theErr = DecompressNull(srcHeaderless, dstData);
+			theErr = Null_Decompress(srcHeaderless, dstData);
 			break;
 		
 		case kNCompressionZLib:
-			theErr = DecompressZLib(srcHeaderless, dstData);
+			theErr = ZLib_Decompress(srcHeaderless, dstData);
 			break;
 		
 		default:
@@ -192,10 +192,10 @@ NData NDataCompressor::Decompress(const NData &srcData, const NCompressionHeader
 
 
 //============================================================================
-//		NDataCompressor::CompressNull : Compress using null compression.
+//		NDataCompressor::Null_Compress : Compress using null compression.
 //----------------------------------------------------------------------------
 #pragma mark -
-NStatus NDataCompressor::CompressNull(const NData &srcData, NData &dstData)
+NStatus NDataCompressor::Null_Compress(const NData &srcData, NData &dstData)
 {
 
 
@@ -211,9 +211,31 @@ NStatus NDataCompressor::CompressNull(const NData &srcData, NData &dstData)
 
 
 //============================================================================
-//		NDataCompressor::CompressZLib : Compress using ZLib.
+//		NDataCompressor::Null_Decompress : Decompress using null compression.
 //----------------------------------------------------------------------------
-NStatus NDataCompressor::CompressZLib(const NData &srcData, NData &dstData)
+NStatus NDataCompressor::Null_Decompress(const NData &srcData, NData &dstData)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(srcData.GetSize() == dstData.GetSize());
+
+
+
+	// Decompress the data
+	memcpy(dstData.GetData(), srcData.GetData(), dstData.GetSize());
+
+	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//		NDataCompressor::ZLib_Compress : Compress using ZLib.
+//----------------------------------------------------------------------------
+NStatus NDataCompressor::ZLib_Compress(const NData &srcData, NData &dstData)
 {	uLong			srcSize, dstSize, dstOrigSize;
 	const Bytef		*srcBuffer;
 	Bytef			*dstBuffer;
@@ -255,31 +277,9 @@ NStatus NDataCompressor::CompressZLib(const NData &srcData, NData &dstData)
 
 
 //============================================================================
-//		NDataCompressor::DecompressNull : Decompress using null compression.
+//		NDataCompressor::ZLib_Decompress : Decompress using ZLib.
 //----------------------------------------------------------------------------
-NStatus NDataCompressor::DecompressNull(const NData &srcData, NData &dstData)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(srcData.GetSize() == dstData.GetSize());
-
-
-
-	// Decompress the data
-	memcpy(dstData.GetData(), srcData.GetData(), dstData.GetSize());
-
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NDataCompressor::DecompressZLib : Decompress using ZLib.
-//----------------------------------------------------------------------------
-NStatus NDataCompressor::DecompressZLib(const NData &srcData, NData &dstData)
+NStatus NDataCompressor::ZLib_Decompress(const NData &srcData, NData &dstData)
 {	uLongf			srcSize, dstSize;
 	Bytef			*dstBuffer;
 	const Bytef		*srcBuffer;

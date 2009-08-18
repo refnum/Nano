@@ -60,7 +60,7 @@ typedef struct {
 //----------------------------------------------------------------------------
 class NDataCompressor {
 public:
-										NDataCompressor( void);
+										 NDataCompressor(void);
 	virtual								~NDataCompressor(void);
 
 
@@ -78,11 +78,11 @@ public:
 
 
 private:
-	NStatus								CompressNull(const NData &srcData, NData &dstData);
-	NStatus								CompressZLib(const NData &srcData, NData &dstData);
+	NStatus								Null_Compress(  const NData &srcData, NData &dstData);
+	NStatus								Null_Decompress(const NData &srcData, NData &dstData);
 
-	NStatus								DecompressNull(const NData &srcData, NData &dstData);
-	NStatus								DecompressZLib(const NData &srcData, NData &dstData);
+	NStatus								ZLib_Compress(  const NData &srcData, NData &dstData);
+	NStatus								ZLib_Decompress(const NData &srcData, NData &dstData);
 
 
 private:
