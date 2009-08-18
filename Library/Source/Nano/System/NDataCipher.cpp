@@ -1038,8 +1038,7 @@ NData NDataCipher::Encrypt(const NData &srcData, NEncryption theAlgorithm)
 	if (mKey.IsEmpty())
 		return(dstData);
 
-	if (dstData.AppendData(srcData.GetSize(), srcData.GetData()) == NULL)
-		return(dstData);
+	dstData = srcData;
 
 
 
@@ -1097,8 +1096,7 @@ NData NDataCipher::Decrypt(const NData &srcData, NEncryption theAlgorithm)
 	if (mKey.IsEmpty())
 		return(dstData);
 
-	if (dstData.AppendData(srcData.GetSize(), srcData.GetData()) == NULL)
-		return(dstData);
+	dstData = srcData;
 
 
 
