@@ -185,6 +185,24 @@ bool NFile::Exists(void) const
 
 
 //============================================================================
+//		NFile::Clear : Clear the value.
+//----------------------------------------------------------------------------
+void NFile::Clear(void)
+{
+
+
+	// Clear the value
+	if (IsOpen())
+		Close();
+
+	mPath.Clear();
+}
+
+
+
+
+
+//============================================================================
 //		NFile::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NFile::Compare(const NFile &theValue) const

@@ -105,6 +105,10 @@ public:
 	bool								Exists(void) const;
 
 
+	// Clear the value
+	void								Clear(void);
+
+
 	// Compare the value
 	NComparison							Compare(const NFile &theValue) const;
 
