@@ -1,6 +1,10 @@
 #ifndef FM_MD5_H
 #define FM_MD5_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 
 /****************************************************************************
@@ -64,7 +68,7 @@ struct MD5Context {
 };
 
 extern void MD5Init(struct MD5Context *ctx);
-extern void MD5Update(struct MD5Context *ctx, unsigned char *buf, unsigned len);
+extern void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len);
 extern void MD5Final(unsigned char digest[16], struct MD5Context *ctx);
 extern void MD5Transform(uint32 buf[4], uint32 in[16]);
 
@@ -76,5 +80,13 @@ typedef struct MD5Context MD5_CTX;
 /*  Define CHECK_HARDWARE_PROPERTIES to have main,c verify
     byte order and uint32 settings.  */
 #define CHECK_HARDWARE_PROPERTIES
+
+
+
+#ifdef    __cplusplus
+}
+#endif /* __cplusplus */
+
+
 
 #endif /* !FM_MD5_H */
