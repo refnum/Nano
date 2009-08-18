@@ -316,6 +316,10 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 	NN_BYTESWAP_DECLARE(_type)																\
 	NN_BYTESWAP_BEGIN_NO_DECLARE(_type)
 
+#define NN_BYTESWAP_END																		\
+			}																				\
+	}
+
 #define NN_BYTESWAP_ENCODE(_numItems, _type, _ptr)											\
 	NSwap_ ## _type(_numItems, _ptr, false)													\
 
