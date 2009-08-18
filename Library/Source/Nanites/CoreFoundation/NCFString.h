@@ -25,12 +25,22 @@
 
 
 //============================================================================
+//		Types
+//----------------------------------------------------------------------------
+DECLARE_OBJC_CLASS(NSString);
+
+
+
+
+
+//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NCFString : public NString {
 public:
 										NCFString(const NString &theString);
-										NCFString(CFStringRef cfObject, bool takeOwnership);
+										NCFString(CFStringRef  cfObject, bool takeOwnership);
+										NCFString(NSString    *nsObject, bool takeOwnership);
 										
 										NCFString( void);
 	virtual								~NCFString(void);

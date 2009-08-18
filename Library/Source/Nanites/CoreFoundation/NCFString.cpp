@@ -51,6 +51,21 @@ NCFString::NCFString(CFStringRef cfObject, bool takeOwnership)
 //============================================================================
 //		NCFString::NCFString : Constructor.
 //----------------------------------------------------------------------------
+NCFString::NCFString(NSString *nsObject, bool takeOwnership)
+{
+
+
+	// Initialize ourselves
+	SetObject((CFStringRef) nsObject, takeOwnership);
+}
+
+
+
+
+
+//============================================================================
+//		NCFString::NCFString : Constructor.
+//----------------------------------------------------------------------------
 NCFString::NCFString(void)
 {
 }
