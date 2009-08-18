@@ -2,7 +2,7 @@
 		NByteSwap.h
 
 	DESCRIPTION:
-		Nano byte-swap support.
+		Byte-swap support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -280,8 +280,8 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 //
 // The NN_BYTESWAP_xxx macros declare a function capable of swapping a MyStructure
 // from its in-memory representation (using native endian-ness) to its on-disk
-// representation (where the first two fields are little-endian, and the last
-// two are big-endian).
+// representation (e.g., where the first two fields are little-endian, but the
+// last two might be big-endian).
 //
 // A structure can be encoded to/from the on-disk representation with:
 //
@@ -299,8 +299,12 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 //		// Encode for saving to disk
 //		NN_BYTESWAP_ENCODE(1, MyStructure, &theValue);
 //
-#define NN_BYTESWAP_BEGIN(_type)															\
-	static void NSwap_ ## _type(NIndex _numItems, _type *_theValue, bool _toNative)			\
+// Packed arrays of structures can be encoded/decoded by increasing the count.
+#define NN_BYTESWAP_DECLARE(_type)															\
+	extern void NSwap_ ## _type(NIndex _numItems, _type *_theValue, bool _toNative);
+
+#define NN_BYTESWAP_BEGIN_NO_DECLARE(_type)													\
+	void NSwap_ ## _type(NIndex _numItems, _type *_theValue, bool _toNative)				\
 	{	_type		*_valuePtr;																\
 		NIndex		_n;																		\
 																							\
@@ -308,9 +312,9 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 			{																				\
 			_valuePtr = &_theValue[_n];
 
-#define NN_BYTESWAP_END																		\
-			}																				\
-	}
+#define NN_BYTESWAP_BEGIN(_type)															\
+	NN_BYTESWAP_DECLARE(_type)																\
+	NN_BYTESWAP_BEGIN_NO_DECLARE(_type)
 
 #define NN_BYTESWAP_ENCODE(_numItems, _type, _ptr)											\
 	NSwap_ ## _type(_numItems, _ptr, false)													\
