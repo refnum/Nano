@@ -26,9 +26,18 @@
 //		TFileUtilities::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TFileUtilities::Execute(void)
-{
+{	NFile		theFile;
 
 
+
+	// Get directories
+	theFile = NFileUtilities::GetDirectory(kNLocationHome);
+	theFile = NFileUtilities::GetDirectory(kNLocationDesktop);
+
+
+
+	// Get files
+	theFile = NFileUtilities::GetTemporaryFile();
 }
 
 

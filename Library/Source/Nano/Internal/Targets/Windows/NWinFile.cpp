@@ -163,6 +163,18 @@ void NTargetFile::Delete(const NString &thePath)
 
 
 //============================================================================
+//      NTargetFile::GetDirectory : Get a directory.
+//----------------------------------------------------------------------------
+NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::CreateDirectory(const NString &thePath)

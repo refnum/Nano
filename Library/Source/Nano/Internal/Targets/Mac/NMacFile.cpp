@@ -19,6 +19,7 @@
 #include <sys/mman.h>
 #include <dirent.h>
 
+#include "NNSAutoReleasePool.h"
 #include "NCFString.h"
 
 #include "NMacTarget.h"
@@ -338,6 +339,66 @@ void NTargetFile::Delete(const NString &thePath)
 		sysErr = unlink(thePath.GetUTF8());
 
 	NN_ASSERT_NOERR(sysErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetDirectory : Get a directory.
+//----------------------------------------------------------------------------
+NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
+{	StAutoReleasePool		autoRelease;
+	NSArray					*nsPaths;
+	NSString				*nsPath;
+	NCFString				thePath;
+	NFile					theFile;
+
+
+
+	// Get the path
+	switch (theLocation) {
+		case kNLocationHome:
+			if (theDomain == kNDomainUser)
+				thePath = NCFString(NSHomeDirectory(), false);
+			else
+				NN_LOG("Invalid domain - kNLocationHome requires kNDomainUser");
+			break;
+
+
+		case kNLocationDesktop:
+			if (theDomain == kNDomainUser)
+				{
+				nsPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+				nsPath  = [nsPaths objectAtIndex:0];
+				thePath = NCFString(nsPath, false);
+				}
+			else
+				NN_LOG("Invalid domain - kNLocationHome requires kNDomainUser");
+			break;
+
+
+		case kNLocationTemporaryItems:
+			if (theDomain == kNDomainUser)
+				thePath = NCFString(NSTemporaryDirectory(), false);
+			else
+				thePath = NCFString("/tmp");
+			break;
+
+
+		default:
+			NN_LOG("Unknown location: %d", theLocation);
+			break;
+		}
+	
+	
+	
+	// Get the directory
+	if (!thePath.IsEmpty())
+		theFile = NFile(thePath);
+	
+	return(theFile);
 }
 
 

@@ -16,8 +16,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NFile.h"
+#include "NFileUtilities.h"
 #include "NFileMap.h"
+#include "NFile.h"
 
 
 
@@ -61,6 +62,10 @@ public:
 
 	// Delete the file
 	static void							Delete(const NString &thePath);
+
+
+	// Get a directory
+	static NFile						GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation);
 
 
 	// Create a directory

@@ -24,20 +24,64 @@
 
 
 //============================================================================
+//      Constants
+//----------------------------------------------------------------------------
+// Directory domains
+typedef enum {
+	kNDomainUser,						// Applies to current user
+	kNDomainUsers,						// Applies to all users
+	kNDomainSystem						// Applies to the system
+} NDirectoryDomain;
+
+
+// Directory locations
+typedef enum {
+	kNLocationHome,						// User's "home"
+	kNLocationDesktop,					// User's desktop
+	kNLocationTemporaryItems,			// Deleted at startup
+} NDirectoryLocation;
+
+
+
+
+
+//============================================================================
 //      Class declaration
 //----------------------------------------------------------------------------
 class NFileUtilities {
 public:
-	// Get the current working directory
-	static NFile						GetCWD(void);
-
-
 	// Get/set the contents of a file
 	static NString						GetFileText(const NFile &theFile, NStringEncoding theEncoding=kNStringEncodingUTF8);
 	static NData						GetFileData(const NFile &theFile);
 
 	static NStatus						SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding=kNStringEncodingUTF8);
 	static NStatus						SetFileData(const NFile &theFile, const NData   &theData);
+
+
+	// Get the current working directory
+	static NFile						GetCWD(void);
+
+
+	// Get a standard directory
+	//
+	// Returns the appropriate directory within the specified domain, creating it if necessary.
+	//
+	// If fileName is non-empty, the result will be to a file of that name within the directory.
+	static NFile						GetDirectory(	NDirectoryLocation		theLocation,
+														const NString			&fileName = kNStringEmpty,
+														NDirectoryDomain		theDomain = kNDomainUser);
+
+
+	// Get a uniquely-named file
+	//
+	// If fileName is non-empty, it will be used as the base name.
+	static NFile						GetUniqueFile(const NFile &theDirectory, const NString &fileName=kNStringEmpty);
+
+
+	// Get a temporary file
+	//
+	// If fileName is non-empty, it will be used as the base name.
+	static NFile						GetTemporaryFile(const NString &fileName=kNStringEmpty);
 };
 
 
