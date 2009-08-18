@@ -129,6 +129,12 @@
 		AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
 		AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
+		AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */; };
+		AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */; };
+		AB7AB1BE103AED18004B1F6E /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BB103AED18004B1F6E /* blowfish.c */; };
+		AB7AB1BF103AED18004B1F6E /* blowfish_dat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */; };
+		AB7AB1C0103AED18004B1F6E /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BB103AED18004B1F6E /* blowfish.c */; };
+		AB7AB1C1103AED18004B1F6E /* blowfish_dat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -339,6 +345,11 @@
 		AB7AB0AF103ADB17004B1F6E /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha2.h; sourceTree = "<group>"; };
 		AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataDigest.h; sourceTree = "<group>"; };
 		AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataDigest.cpp; sourceTree = "<group>"; };
+		AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = efgh_des.cpp; sourceTree = "<group>"; };
+		AB7AB1B7103AED12004B1F6E /* efgh_des.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = efgh_des.h; sourceTree = "<group>"; };
+		AB7AB1BB103AED18004B1F6E /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
+		AB7AB1BC103AED18004B1F6E /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
+		AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish_dat.c; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		AB9154E50F9B4DD5009FFEAF /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
 		AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_chartables.c; sourceTree = "<group>"; };
@@ -652,6 +663,25 @@
 			path = sha2_1.1a;
 			sourceTree = "<group>";
 		};
+		AB7AB1B5103AED12004B1F6E /* efgh.com */ = {
+			isa = PBXGroup;
+			children = (
+				AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */,
+				AB7AB1B7103AED12004B1F6E /* efgh_des.h */,
+			);
+			path = efgh.com;
+			sourceTree = "<group>";
+		};
+		AB7AB1BA103AED18004B1F6E /* schneier.com */ = {
+			isa = PBXGroup;
+			children = (
+				AB7AB1BB103AED18004B1F6E /* blowfish.c */,
+				AB7AB1BC103AED18004B1F6E /* blowfish.h */,
+				AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */,
+			);
+			path = schneier.com;
+			sourceTree = "<group>";
+		};
 		AB9154DE0F9B4DD5009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -715,10 +745,12 @@
 			isa = PBXGroup;
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
+				AB7AB1B5103AED12004B1F6E /* efgh.com */,
 				ABB146050FF36F84006F178C /* expat_2.0.1 */,
 				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
 				AB1694D510028C8200F7D4B7 /* libb64_1.1 */,
 				AB9154E30F9B4DD5009FFEAF /* pcre_7.8 */,
+				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.12 */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
@@ -1199,6 +1231,7 @@
 				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB514E921034638700E5A6AD /* NVector.cpp in Sources */,
+				AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */,
 				ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */,
 				ABB146200FF36F84006F178C /* xmltok_impl.c in Sources */,
@@ -1227,6 +1260,8 @@
 				AB28FC160FB5D9F000F72C61 /* pcre_valid_utf8.c in Sources */,
 				AB28FC170FB5D9F000F72C61 /* pcre_version.c in Sources */,
 				AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */,
+				AB7AB1BE103AED18004B1F6E /* blowfish.c in Sources */,
+				AB7AB1BF103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */,
 				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
@@ -1335,6 +1370,7 @@
 				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB514E931034638700E5A6AD /* NVector.cpp in Sources */,
+				AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB146180FF36F84006F178C /* xmlparse.c in Sources */,
 				ABB146190FF36F84006F178C /* xmlrole.c in Sources */,
 				ABB1461B0FF36F84006F178C /* xmltok_impl.c in Sources */,
@@ -1363,6 +1399,8 @@
 				AB9155880F9B4DD6009FFEAF /* pcre_valid_utf8.c in Sources */,
 				AB9155890F9B4DD6009FFEAF /* pcre_version.c in Sources */,
 				AB91558A0F9B4DD6009FFEAF /* pcre_xclass.c in Sources */,
+				AB7AB1C0103AED18004B1F6E /* blowfish.c in Sources */,
+				AB7AB1C1103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */,
 				AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.12.c in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,

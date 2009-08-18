@@ -1,3 +1,19 @@
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
+#ifndef DES_HDR
+#define DES_HDR
+
+#define TRIPLEDES
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+
+
 // Rename this file DES.H
 // DES Encryption and Decryption
 // from efgh.com/software
@@ -29,7 +45,10 @@ class des
     {
       encrypt_decrypt(data, 0 /* false */);
     }
-    friend triple_des;
+
+#ifdef TRIPLEDES
+    friend class triple_des;
+#endif
 };
 
 #ifdef TRIPLEDES
@@ -62,4 +81,12 @@ class triple_des
 };
 
 #endif
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // DES_HDR
 
