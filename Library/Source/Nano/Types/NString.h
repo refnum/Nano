@@ -113,6 +113,7 @@ public:
 										NString(const void			*thePtr, NIndex numBytes=kNStringLength, NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NData			&theData,                                NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NStringUTF8	&theString);
+										NString(      UTF8Char       theChar);
 
 										 NString(void);
 	virtual								~NString(void);
