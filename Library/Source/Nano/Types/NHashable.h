@@ -70,7 +70,7 @@ protected:
 
 
 	// Calculate a hash code
-	NHashCode							CalculateHash(NIndex theSize, const void *thePtr) const;
+	NHashCode							CalculateHash(const NData &theData) const;
 
 
 	// Calculate the hash code

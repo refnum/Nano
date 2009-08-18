@@ -116,7 +116,7 @@ NString::NString(UTF8Char theChar)
 
 
 	// Initialize ourselves
-	SetData(NData(1, &theChar, kNStringEncodingUTF8);
+	SetData(NData(1, &theChar, kNStringEncodingUTF8));
 }
 
 
@@ -1284,7 +1284,7 @@ NHashCode NString::CalculateHash(void) const
 	if (theValue->theSize == 0)
 		theResult = kNHashCodeNone;
 	else
-		theResult = NHashable::CalculateHash(theValue->theData.GetSize(), theValue->theData.GetData());
+		theResult = NHashable::CalculateHash(theValue->theData);
 
 	return(theResult);
 }

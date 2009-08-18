@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NChecksum.h"
+#include "NDataDigest.h"
 #include "NHashable.h"
 
 
@@ -87,11 +87,11 @@ void NHashable::ClearHash(void)
 //============================================================================
 //		NHashable::CalculateHash : Calculate a hash code.
 //----------------------------------------------------------------------------
-NHashCode NHashable::CalculateHash(NIndex theSize, const void *thePtr) const
-{	NChecksum		checkSum;
+NHashCode NHashable::CalculateHash(const NData &theData) const
+{	NDataDigest		theDigest;
 
 
 
 	// Calculate the hash code
-	return((NHashCode) checkSum.GetInternet(theSize, thePtr));
+	return((NHashCode) theDigest.GetAdler32(theData));
 }
