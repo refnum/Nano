@@ -320,7 +320,7 @@ NVariant NMacTarget::ConvertCFToObject(const NCFObject &theObject)
 		theValue = NNumber(NCFNumber(theObject, false));
 
 	else if (cfType == CFStringGetTypeID())
-		theValue = NString(NCFString(theObject, false));
+		theValue = NString(NCFString((CFStringRef) theObject, false));
 
 	else if (cfType == CFDataGetTypeID())
 		{

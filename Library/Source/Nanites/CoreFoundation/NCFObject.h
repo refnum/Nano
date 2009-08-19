@@ -63,8 +63,16 @@
 #endif // CFSafeRelease
 
 
+// Declare an Obj-C class
+#ifdef __OBJC__
+	#define NN_DECLARE_OBCJ_CLASS(_name)	@class							_name
+#else
+	#define NN_DECLARE_OBCJ_CLASS(_name)	typedef struct ptr ## _name		*_name
+#endif
+
+
 // Declare a constructor/cast operator
-#define DECLARE_NCF_OPERATOR(_type)											\
+#define NCFOBJECT_OPERATOR(_type)											\
 	inline NCFObject(_type cfObject)										\
 	{																		\
 		InitializeSelf(cfObject, false);									\
@@ -76,12 +84,23 @@
 	}
 
 
-// Declare an Obj-C class
-#ifdef __OBJC__
-	#define DECLARE_OBJC_CLASS(_name)				@class			_name
-#else
-	#define DECLARE_OBJC_CLASS(_name)				typedef void *	_name
-#endif
+
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
+NN_DECLARE_OBCJ_CLASS(NSArray);
+NN_DECLARE_OBCJ_CLASS(NSAutoreleasePool);
+NN_DECLARE_OBCJ_CLASS(NSData);
+NN_DECLARE_OBCJ_CLASS(NSDate);
+NN_DECLARE_OBCJ_CLASS(NSDictionary);
+NN_DECLARE_OBCJ_CLASS(NSMutableArray);
+NN_DECLARE_OBCJ_CLASS(NSMutableData);
+NN_DECLARE_OBCJ_CLASS(NSMutableDictionary);
+NN_DECLARE_OBCJ_CLASS(NSMutableString);
+NN_DECLARE_OBCJ_CLASS(NSNumber);
+NN_DECLARE_OBCJ_CLASS(NSString);
 
 
 
@@ -110,21 +129,57 @@ public:
 	// Operators
 	const NCFObject&					operator = (const NCFObject &theObject);
 
-	DECLARE_NCF_OPERATOR(CFArrayRef);
-	DECLARE_NCF_OPERATOR(CFBooleanRef);
-	DECLARE_NCF_OPERATOR(CFBundleRef);
-	DECLARE_NCF_OPERATOR(CFDataRef);
-	DECLARE_NCF_OPERATOR(CFDateRef);
-	DECLARE_NCF_OPERATOR(CFDictionaryRef);
-	DECLARE_NCF_OPERATOR(CFMutableArrayRef);
-	DECLARE_NCF_OPERATOR(CFMutableDataRef);
-	DECLARE_NCF_OPERATOR(CFMutableDictionaryRef);
-	DECLARE_NCF_OPERATOR(CFMutableStringRef);
-	DECLARE_NCF_OPERATOR(CFNumberRef);
-	DECLARE_NCF_OPERATOR(CFStringRef);
-	DECLARE_NCF_OPERATOR(CFTypeRef);
-	DECLARE_NCF_OPERATOR(CFURLRef);
-	
+	NCFOBJECT_OPERATOR(CFArrayRef);
+	NCFOBJECT_OPERATOR(CFBitVectorRef);
+	NCFOBJECT_OPERATOR(CFBooleanRef);
+	NCFOBJECT_OPERATOR(CFBundleRef);
+	NCFOBJECT_OPERATOR(CFDataRef);
+	NCFOBJECT_OPERATOR(CFDateFormatterRef);
+	NCFOBJECT_OPERATOR(CFDateRef);
+	NCFOBJECT_OPERATOR(CFDictionaryRef);
+	NCFOBJECT_OPERATOR(CFHTTPMessageRef);
+	NCFOBJECT_OPERATOR(CFLocaleRef);
+	NCFOBJECT_OPERATOR(CFMutableArrayRef);
+	NCFOBJECT_OPERATOR(CFMutableBitVectorRef);
+	NCFOBJECT_OPERATOR(CFMutableDataRef);
+	NCFOBJECT_OPERATOR(CFMutableDictionaryRef);
+	NCFOBJECT_OPERATOR(CFMutableSetRef);
+	NCFOBJECT_OPERATOR(CFMutableStringRef);
+	NCFOBJECT_OPERATOR(CFNumberRef);
+	NCFOBJECT_OPERATOR(CFReadStreamRef);
+	NCFOBJECT_OPERATOR(CFSetRef);
+	NCFOBJECT_OPERATOR(CFStringRef);
+	NCFOBJECT_OPERATOR(CFTimeZoneRef);
+	NCFOBJECT_OPERATOR(CFTypeRef);
+	NCFOBJECT_OPERATOR(CFURLRef);
+	NCFOBJECT_OPERATOR(CFUUIDRef);
+	NCFOBJECT_OPERATOR(CFWriteStreamRef);
+	NCFOBJECT_OPERATOR(CFXMLNodeRef);
+	NCFOBJECT_OPERATOR(CFXMLTreeRef);
+	NCFOBJECT_OPERATOR(CGColorRef);
+	NCFOBJECT_OPERATOR(CGColorSpaceRef);
+	NCFOBJECT_OPERATOR(CGContextRef);
+	NCFOBJECT_OPERATOR(CGDataProviderRef);
+	NCFOBJECT_OPERATOR(CGFunctionRef);
+	NCFOBJECT_OPERATOR(CGImageDestinationRef);
+	NCFOBJECT_OPERATOR(CGImageRef);
+	NCFOBJECT_OPERATOR(CGImageSourceRef);
+	NCFOBJECT_OPERATOR(CGPDFDocumentRef);
+	NCFOBJECT_OPERATOR(CGPDFPageRef);
+	NCFOBJECT_OPERATOR(CGShadingRef);
+    NCFOBJECT_OPERATOR(FSFileOperationRef);
+	NCFOBJECT_OPERATOR(HIMutableShapeRef);
+	NCFOBJECT_OPERATOR(HIShapeRef);
+	NCFOBJECT_OPERATOR(NSArray*);
+	NCFOBJECT_OPERATOR(NSData*);
+	NCFOBJECT_OPERATOR(NSDate*);
+	NCFOBJECT_OPERATOR(NSDictionary*);
+	NCFOBJECT_OPERATOR(NSNumber*);
+	NCFOBJECT_OPERATOR(NSString*);
+	NCFOBJECT_OPERATOR(PasteboardRef);
+    NCFOBJECT_OPERATOR(SKIndexRef);
+    NCFOBJECT_OPERATOR(SKSearchRef);
+
 
 private:
 	void								InitializeSelf(CFTypeRef cfObject, bool takeOwnership);
