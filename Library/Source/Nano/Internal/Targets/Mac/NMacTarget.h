@@ -35,12 +35,9 @@ public:
 	static NStatus						ConvertSysErr(int       sysErr);
 
 
-	// Convert file permissions
-	static const char					*ConvertPermission(NPermission thePermission);
-
-
-	// Convert file positions
-	static int							ConvertPosition(NPosition thePosition);
+	// Convert file state
+	static const char				   *ConvertFilePermission(NFilePermission thePermission);
+	static int							ConvertFilePosition(  NFilePosition   thePosition);
 
 
 	// Convert between Nano/CF objects

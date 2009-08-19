@@ -192,9 +192,9 @@ NStatus NMacTarget::ConvertSysErr(int sysErr)
 
 
 //============================================================================
-//		NMacTarget::ConvertPermission : Convert file permissions.
+//		NMacTarget::ConvertFilePermission : Convert file permissions.
 //----------------------------------------------------------------------------
-const char *NMacTarget::ConvertPermission(NPermission thePermission)
+const char *NMacTarget::ConvertFilePermission(NFilePermission thePermission)
 {	const char	*theResult;
 
 
@@ -219,9 +219,9 @@ const char *NMacTarget::ConvertPermission(NPermission thePermission)
 
 
 //============================================================================
-//		NMacTarget::ConvertPosition : Convert file positions.
+//		NMacTarget::ConvertFilePosition : Convert file positions.
 //----------------------------------------------------------------------------
-int NMacTarget::ConvertPosition(NPosition thePosition)
+int NMacTarget::ConvertFilePosition(NFilePosition thePosition)
 {	int		theResult;
 
 

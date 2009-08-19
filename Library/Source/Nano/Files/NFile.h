@@ -29,12 +29,20 @@
 //============================================================================
 //      Constants
 //----------------------------------------------------------------------------
+// Flags
+typedef NBitfield NFileFlags;
+
+static const NFileFlags kNFileNone									= 0;
+static const NFileFlags kNFileCacheRequest							= (1 << 0);
+static const NFileFlags kNFileCacheSuppress							= (1 << 1);
+
+
 // Permissions
 typedef enum {
 	kNPermissionRead,
 	kNPermissionWrite,
 	kNPermissionReadWrite
-} NPermission;
+} NFilePermission;
 
 
 // Positions
@@ -42,13 +50,13 @@ typedef enum {
 	kNPositionFromStart,
 	kNPositionFromMark,
 	kNPositionFromEnd
-} NPosition;
+} NFilePosition;
 
 
 // File reference
 typedef UIntPtr NFileRef;
 
-static const NFileRef kNFileRefNone								= 0;
+static const NFileRef kNFileRefNone									= 0;
 
 
 
@@ -59,9 +67,9 @@ static const NFileRef kNFileRefNone								= 0;
 //----------------------------------------------------------------------------
 class NFile;
 
-typedef std::vector<NFile>										NFileList;
-typedef NFileList::iterator										NFileListIterator;
-typedef NFileList::const_iterator								NFileListConstIterator;
+typedef std::vector<NFile>											NFileList;
+typedef NFileList::iterator											NFileListIterator;
+typedef NFileList::const_iterator									NFileListConstIterator;
 
 
 
@@ -167,7 +175,7 @@ public:
 
 
 	// Open/close the file
-	NStatus								Open(NPermission thePermission=kNPermissionRead, bool canCreate=false);
+	NStatus								Open(NFilePermission thePermission=kNPermissionRead, bool canCreate=false);
 	void								Close(void);
 
 
@@ -175,14 +183,14 @@ public:
     //
     // The file must be opened with appropriate permissions first.
 	UInt64								GetPosition(void) const;
-	NStatus								SetPosition(SInt64 theOffset, NPosition thePosition=kNPositionFromStart);
+	NStatus								SetPosition(SInt64 theOffset, NFilePosition thePosition=kNPositionFromStart);
 
 
 	// Read/write the file
 	//
 	// The file must be opened with appropriate permissions first.
-	NStatus								Read( UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NPosition thePosition=kNPositionFromMark);
-	NStatus								Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NPosition thePosition=kNPositionFromMark);
+	NStatus								Read( UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
+	NStatus								Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
 
 
 	// Operators

@@ -446,7 +446,7 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //============================================================================
 //      NTargetFile::Open : Open a file.
 //----------------------------------------------------------------------------
-NFileRef NTargetFile::Open(const NString &thePath, NPermission thePermission)
+NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission)
 {	FILE	*theFile;
 	int		theFD;
 
@@ -465,7 +465,7 @@ NFileRef NTargetFile::Open(const NString &thePath, NPermission thePermission)
 
 
 	// Open the file
-	theFile = fopen(thePath.GetUTF8(), NMacTarget::ConvertPermission(thePermission));
+	theFile = fopen(thePath.GetUTF8(), NMacTarget::ConvertFilePermission(thePermission));
 	
 	return((NFileRef) theFile);
 }
@@ -517,7 +517,7 @@ UInt64 NTargetFile::GetPosition(NFileRef theFile)
 //============================================================================
 //      NTargetFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NPosition thePosition)
+NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
 {	int		sysErr;
 
 
@@ -528,7 +528,7 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NPosition t
 
 
 	// Set the position
-	sysErr = fseeko((FILE *) theFile, theOffset, NMacTarget::ConvertPosition(thePosition));
+	sysErr = fseeko((FILE *) theFile, theOffset, NMacTarget::ConvertFilePosition(thePosition));
 	NN_ASSERT_NOERR(sysErr);
 	
 	return(NMacTarget::ConvertSysErr(sysErr));
@@ -541,13 +541,14 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NPosition t
 //============================================================================
 //      NTargetFile::Read : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NPosition thePosition)
+NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
 {	NStatus		theErr;
 
 
 
 	// Validate our parameters and state
 	NN_ASSERT(theSize <= kUInt32Max);
+	NN_UNUSED(theFlags);
 
 
 
@@ -580,13 +581,14 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 //============================================================================
 //      NTargetFile::Write : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NPosition thePosition)
+NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
 {	NStatus		theErr;
 
 
 
 	// Validate our parameters and state
 	NN_ASSERT(theSize <= kUInt32Max);
+	NN_UNUSED(theFlags);
 
 
 
