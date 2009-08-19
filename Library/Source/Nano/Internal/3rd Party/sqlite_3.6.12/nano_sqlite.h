@@ -1,5 +1,5 @@
 /*	NAME:
-		sqlite_nano.h
+		nano_sqlite.h
 
 	DESCRIPTION:
 		SQLite wrapper.
@@ -11,14 +11,16 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef SQLITE_NANO_HDR
-#define SQLITE_NANO_HDR
+#ifndef NANO_SQLITE_HDR
+#define NANO_SQLITE_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
 #include "sqlite_3.6.12.h"
+#include "sqlite_3.6.12_fts3_tokenizer.h"
 
 
 
-#endif // SQLITE_NANO_HDR
+
+#endif // NANO_SQLITE_HDR
 

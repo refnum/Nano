@@ -381,7 +381,7 @@
 		AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.6.12.c; sourceTree = "<group>"; };
 		AB9155000F9B4DD5009FFEAF /* sqlite_3.6.12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.6.12.h; sourceTree = "<group>"; };
 		AB9155010F9B4DD5009FFEAF /* sqlite_3.6.12_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.6.12_fts3_tokenizer.h; sourceTree = "<group>"; };
-		AB9155020F9B4DD5009FFEAF /* sqlite_nano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_nano.h; sourceTree = "<group>"; };
+		AB9155020F9B4DD5009FFEAF /* nano_sqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nano_sqlite.h; sourceTree = "<group>"; };
 		AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
 		AB9155050F9B4DD5009FFEAF /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
 		AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCommandLine.cpp; sourceTree = "<group>"; };
@@ -560,7 +560,7 @@
 		ABFAA6911018AB360060ED12 /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
 		ABFAA6921018AB360060ED12 /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
 		ABFAA6931018AB360060ED12 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
-		ABFAA6951018AB360060ED12 /* zlib_nano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib_nano.h; sourceTree = "<group>"; };
+		ABFAA6951018AB360060ED12 /* nano_zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nano_zlib.h; sourceTree = "<group>"; };
 		ABFAA6961018AB360060ED12 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		ABFAA6971018AB360060ED12 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		ABFAA6E21018AF090060ED12 /* zlib_1.2.3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib_1.2.3.h; sourceTree = "<group>"; };
@@ -800,10 +800,10 @@
 		AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.12 */ = {
 			isa = PBXGroup;
 			children = (
+				AB9155020F9B4DD5009FFEAF /* nano_sqlite.h */,
 				AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */,
 				AB9155000F9B4DD5009FFEAF /* sqlite_3.6.12.h */,
 				AB9155010F9B4DD5009FFEAF /* sqlite_3.6.12_fts3_tokenizer.h */,
-				AB9155020F9B4DD5009FFEAF /* sqlite_nano.h */,
 			);
 			path = sqlite_3.6.12;
 			sourceTree = "<group>";
@@ -1139,12 +1139,12 @@
 				ABFAA68C1018AB360060ED12 /* inflate.h */,
 				ABFAA68D1018AB360060ED12 /* inftrees.c */,
 				ABFAA68E1018AB360060ED12 /* inftrees.h */,
+				ABFAA6951018AB360060ED12 /* nano_zlib.h */,
 				ABFAA6901018AB360060ED12 /* trees.c */,
 				ABFAA6911018AB360060ED12 /* trees.h */,
 				ABFAA6921018AB360060ED12 /* uncompr.c */,
 				ABFAA6931018AB360060ED12 /* zconf.h */,
 				ABFAA6E21018AF090060ED12 /* zlib_1.2.3.h */,
-				ABFAA6951018AB360060ED12 /* zlib_nano.h */,
 				ABFAA6961018AB360060ED12 /* zutil.c */,
 				ABFAA6971018AB360060ED12 /* zutil.h */,
 			);

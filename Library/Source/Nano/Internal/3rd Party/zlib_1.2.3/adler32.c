@@ -6,7 +6,7 @@
 /* @(#) $Id$ */
 
 #define ZLIB_INTERNAL
-#include "zlib_nano.h"
+#include "nano_zlib.h"
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552

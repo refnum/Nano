@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "zlib_nano.h"
+#include "nano_zlib.h"
 
 #include "NByteSwap.h"
 #include "NDataCompressor.h"

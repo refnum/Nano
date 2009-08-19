@@ -1,5 +1,5 @@
 /*	NAME:
-		zlib_nano.h
+		nano_zlib.h
 
 	DESCRIPTION:
 		ZLib wrapper.
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef ZLIB_NANO_HDR
-#define ZLIB_NANO_HDR
+#ifndef NANO_ZLIB_HDR
+#define NANO_ZLIB_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -20,5 +20,5 @@
 
 
 
-#endif // ZLIB_NANO_HDR
+#endif // NANO_ZLIB_HDR
 

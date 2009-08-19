@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "sqlite_nano.h"
+#include "nano_sqlite.h"
 
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"

@@ -6,7 +6,7 @@
 /* @(#) $Id$ */
 
 #define ZLIB_INTERNAL
-#include "zlib_nano.h"
+#include "nano_zlib.h"
 
 /* ===========================================================================
      Decompresses the source buffer into the destination buffer.  sourceLen is
