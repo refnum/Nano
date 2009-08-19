@@ -45,7 +45,7 @@ static const NString kNSizeHeightKey								= "height";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NSize);
+NENCODABLE_DEFINE(NSize);
 
 
 

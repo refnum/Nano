@@ -42,7 +42,7 @@ extern const NPoint kNPointZero;
 class NPoint :	public NEncodable,
 				public NComparable<NPoint> {
 public:
-										DECLARE_NENCODABLE(NPoint);
+										NENCODABLE_DECLARE(NPoint);
 
 										 NPoint(Float32 x=0.0f, Float32 y=0.0f);
 	virtual								~NPoint(void);

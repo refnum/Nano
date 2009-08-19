@@ -157,7 +157,7 @@ public:
 
 	// Register a class
 	//
-	// Invoked automatically by DEFINE_NENCODABLE.
+	// Invoked automatically by NENCODABLE_DEFINE.
 	static void							RegisterClass(const NString &className, const NEncoderClassInfo &classInfo);
 
 

@@ -109,7 +109,7 @@ class NString :	public NContainer,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
-										DECLARE_NENCODABLE(NString);
+										NENCODABLE_DECLARE(NString);
 
 										NString(const void			*thePtr, NIndex numBytes=kNStringLength, NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(const NData			&theData,                                NStringEncoding theEncoding=kNStringEncodingUTF8);

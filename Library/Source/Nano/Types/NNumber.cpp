@@ -36,7 +36,7 @@ static const NString kNStringZero										= "0.0";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NNumber);
+NENCODABLE_DEFINE(NNumber);
 
 
 

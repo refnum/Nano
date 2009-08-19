@@ -46,7 +46,7 @@ extern const NVector kNVectorWest;
 class NVector :	public NEncodable,
 				public NComparable<NVector> {
 public:
-										DECLARE_NENCODABLE(NVector);
+										NENCODABLE_DECLARE(NVector);
 
 										 NVector(const NPoint &point1, const NPoint &point2);
 										 NVector(Float32 x=0.0f, Float32 y=0.0f);

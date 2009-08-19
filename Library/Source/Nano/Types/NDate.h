@@ -99,7 +99,7 @@ typedef NDateList::const_iterator									NDateListConstIterator;
 class NDate :	public NEncodable,
 				public NComparable<NDate> {
 public:
-										DECLARE_NENCODABLE(NDate);
+										NENCODABLE_DECLARE(NDate);
 
 										 NDate(const NGregorianDate &theDate, const NString &timeZone);
 										 NDate(const NTime          &theTime);

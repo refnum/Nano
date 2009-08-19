@@ -89,7 +89,7 @@ static const NString kResultXML							=	"<?xml version=\"1.0\" encoding=\"UTF-8\
 class TEncodable :	public NEncodable,
 					public NComparable<TEncodable> {
 public:
-	DECLARE_NENCODABLE(TEncodable);
+	NENCODABLE_DECLARE(TEncodable);
 
 
 	// Encode the object
@@ -161,7 +161,7 @@ public:
 
 };
 
-DEFINE_NENCODABLE(TEncodable);
+NENCODABLE_DEFINE(TEncodable);
 
 
 

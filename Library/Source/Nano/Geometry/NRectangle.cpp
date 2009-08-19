@@ -46,7 +46,7 @@ static const NString kNRectangleSizeHeightKey						= "height";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NRectangle);
+NENCODABLE_DEFINE(NRectangle);
 
 
 

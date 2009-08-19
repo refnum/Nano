@@ -49,7 +49,7 @@ static const NString kNVectorYKey									= "y";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NVector);
+NENCODABLE_DEFINE(NVector);
 
 
 

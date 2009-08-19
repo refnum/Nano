@@ -56,7 +56,7 @@ class NRange :	public NContainer,
 				public NEncodable,
 				public NComparable<NRange> {
 public:
-										DECLARE_NENCODABLE(NRange);
+										NENCODABLE_DECLARE(NRange);
 
 										 NRange(NIndex theLocation=0, NIndex theSize=0);
 	virtual								~NRange(void);

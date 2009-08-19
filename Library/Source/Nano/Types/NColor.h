@@ -63,13 +63,13 @@ extern const NColor kColorYellow;
 class NColor :	public NEncodable,
 				public NComparable<NColor> {
 public:
-										DECLARE_NENCODABLE(NColor);
+										NENCODABLE_DECLARE(NColor);
 
 										NColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
 										NColor(      UInt32    theColor, NColorFormat theFormat=kNColorRGBA);
 										NColor(const NString  &hexColor, NColorFormat theFormat=kNColorRGBA);
 										
-										NColor( void);
+										 NColor(void);
 	virtual								~NColor(void);
 
 

@@ -42,16 +42,16 @@ class NVariant;
 //
 //		class NFoo : public NEncodable {
 //		public:
-//							DECLARE_NENCODABLE(NEncodable);
+//							NENCODABLE_DECLARE(NEncodable);
 //
 //							 NFoo(void);
 //			virtual			~NFoo(void);
 //			...
 //		};
 //
-// Sub-clases of NEncodable must include a DECLARE_NENCODABLE in their class
-// declaration, and a DEFINE_NENCODABLE in their class implementation.
-#define DECLARE_NENCODABLE(_class)																				\
+// Sub-clases of NEncodable must include a NENCODABLE_DECLARE in their class
+// declaration, and a NENCODABLE_DEFINE in their class implementation.
+#define NENCODABLE_DECLARE(_class)																				\
 																												\
 	private:																									\
 	static bool sEncodableRegistered;																			\
@@ -64,7 +64,7 @@ class NVariant;
 	virtual NString						EncodableGetClass(void) const
 
 
-#define DEFINE_NENCODABLE(_class)																				\
+#define NENCODABLE_DEFINE(_class)																				\
 																												\
 	bool _class::sEncodableRegistered = _class::EncodableRegister();											\
 																												\
@@ -116,7 +116,7 @@ public:
 protected:
 	// Get the encoder class name
 	//
-	// This method is implemented automatically by DECLARE_NENCODABLE. 
+	// This method is implemented automatically by NENCODABLE_DECLARE. 
 	virtual NString						EncodableGetClass(void) const;
 
 

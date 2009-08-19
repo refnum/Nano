@@ -41,7 +41,7 @@ extern const NSize kNSizeZero;
 class NSize :	public NEncodable,
 				public NComparable<NSize> {
 public:
-										DECLARE_NENCODABLE(NSize);
+										NENCODABLE_DECLARE(NSize);
 
 										 NSize(Float32 width=0.0f, Float32 height=0.0f);
 	virtual								~NSize(void);

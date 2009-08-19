@@ -42,7 +42,7 @@ const NString kNStringWhitespace									= "\\s";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NString);
+NENCODABLE_DEFINE(NString);
 
 
 

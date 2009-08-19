@@ -81,7 +81,7 @@ typedef NFileList::const_iterator									NFileListConstIterator;
 class NFile :	public NEncodable,
 				public NComparable<NFile> {
 public:
-										DECLARE_NENCODABLE(NFile);
+										NENCODABLE_DECLARE(NFile);
 
 										NFile(const NString &thePath);
 										NFile(const NFile   &theFile);

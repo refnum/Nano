@@ -53,7 +53,7 @@ class NData :	public NContainer,
 				public NComparable<NData>,
 				public NSharedValueData {
 public:
-										DECLARE_NENCODABLE(NData);
+										NENCODABLE_DECLARE(NData);
 
 										 NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
 

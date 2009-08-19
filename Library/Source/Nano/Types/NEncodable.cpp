@@ -50,7 +50,7 @@ NString NEncodable::EncodableGetClass(void) const
 
 
 	// Should never be reached
-	NN_LOG("NEncodable::EncodableGetClass should have been overriden by DECLARE_NENCODABLE!");
+	NN_LOG("NEncodable::EncodableGetClass should have been overriden by NENCODABLE_DECLARE!");
 
 	return("NEncodable");
 }

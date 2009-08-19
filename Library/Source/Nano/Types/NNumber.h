@@ -68,7 +68,7 @@ class NVariant;
 class NNumber :	public NEncodable,
 				public NComparable<NNumber> {
 public:
-										DECLARE_NENCODABLE(NNumber);
+										NENCODABLE_DECLARE(NNumber);
 
 										 NNumber(const NVariant &theValue);
 										 NNumber(const NString  &theValue);

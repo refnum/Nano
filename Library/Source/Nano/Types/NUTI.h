@@ -74,7 +74,7 @@ typedef NUTITagMap::const_iterator									NUTITagMapConstIterator;
 class NUTI :	public NEncodable,
 				public NComparable<NUTI> {
 public:
-										DECLARE_NENCODABLE(NUTI);
+										NENCODABLE_DECLARE(NUTI);
 
 										 NUTI(NUTITagClass theClass, const NString &theTag);
 										 NUTI(const NString &theUTI=kNUTTypeNone);

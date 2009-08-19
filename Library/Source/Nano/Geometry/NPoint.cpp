@@ -46,7 +46,7 @@ static const NString kNPointYKey									= "y";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NPoint);
+NENCODABLE_DEFINE(NPoint);
 
 
 

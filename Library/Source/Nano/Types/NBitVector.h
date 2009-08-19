@@ -34,7 +34,7 @@ class NBitVector :	public NContainer,
 					public NEncodable,
 					public NComparable<NBitVector> {
 public:
-										DECLARE_NENCODABLE(NBitVector);
+										NENCODABLE_DECLARE(NBitVector);
 
 										 NBitVector(void);
 	virtual								~NBitVector(void);

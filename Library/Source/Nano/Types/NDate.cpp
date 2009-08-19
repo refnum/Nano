@@ -39,7 +39,7 @@ static const NTime kTimeSinceEpoch19070							= 978307200.0;
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NDate);
+NENCODABLE_DEFINE(NDate);
 
 
 

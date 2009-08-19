@@ -43,7 +43,7 @@ extern const NRectangle kNRectangleZero;
 class NRectangle :	public NEncodable,
 					public NComparable<NRectangle> {
 public:
-										DECLARE_NENCODABLE(NRectangle);
+										NENCODABLE_DECLARE(NRectangle);
 
 										 NRectangle(const Float32 x, Float32 y, Float32 width, Float32 height);
 										 NRectangle(const NPoint &origin = kNPointZero,

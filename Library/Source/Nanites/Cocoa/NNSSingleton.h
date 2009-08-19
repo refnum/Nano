@@ -24,12 +24,12 @@
 //			...
 //		}
 //		...
-//		DECLARE_NNSSINGLETON(MyClass);
+//		NNSSINGLETON_DECLARE(MyClass);
 //		@end
 //
 //
 //		@implementation  MyClass
-//		DEFINE_NNSSINGLETON(MyClass);
+//		NNSSINGLETON_DEFINE(MyClass);
 //		...
 //		@end
 //
@@ -37,12 +37,12 @@
 //
 //		http://developer.apple.com/documentation/Cocoa/Conceptual/CocoaFundamentals/CocoaObjects/CocoaObjects.html
 //
-#define DECLARE_NNSSINGLETON(_class)										\
+#define NNSSINGLETON_DECLARE(_class)										\
 																			\
 	+ (_class *) sharedInstance
 
 
-#define DEFINE_NNSSINGLETON(_class)											\
+#define NNSSINGLETON_DEFINE(_class)											\
 																			\
 	static _class *gSharedInstance = nil;									\
 																			\

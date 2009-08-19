@@ -45,7 +45,7 @@ static const NString kNRangeSizeKey									= "size";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-DEFINE_NENCODABLE(NRange);
+NENCODABLE_DEFINE(NRange);
 
 
 

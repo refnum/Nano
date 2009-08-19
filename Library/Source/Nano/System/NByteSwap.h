@@ -271,14 +271,14 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 //			UInt32		sizePoints;
 //		} MyStructure;
 //
-//		NN_BYTESWAP_BEGIN(MyStructure)
-//			NN_BYTESWAP_L_UInt16	(numLoops)
-//			NN_BYTESWAP_L_UInt16	(numPoints)
-//			NN_BYTESWAP_B_UInt32	(sizeLoops)
-//			NN_BYTESWAP_B_UInt32	(sizePoints)
-//		NN_BYTESWAP_END
+//		NBYTESWAP_BEGIN(MyStructure)
+//			NBYTESWAP_L_UInt16		(numLoops)
+//			NBYTESWAP_L_UInt16		(numPoints)
+//			NBYTESWAP_B_UInt32		(sizeLoops)
+//			NBYTESWAP_B_UInt32		(sizePoints)
+//		NBYTESWAP_END
 //
-// The NN_BYTESWAP_xxx macros declare a function capable of swapping a MyStructure
+// The NBYTESWAP_xxx macros declare a function capable of swapping a MyStructure
 // from its in-memory representation (using native endian-ness) to its on-disk
 // representation (e.g., where the first two fields are little-endian, but the
 // last two might be big-endian).
@@ -288,7 +288,7 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 //		MyStructure		theValue;
 //
 //		// After reading from disk, swap to native
-//		NN_BYTESWAP_DECODE(1, MyStructure, &theValue);
+//		NBYTESWAP_DECODE(1, MyStructure, &theValue);
 //
 //
 //		// Manipulate the structure
@@ -297,13 +297,13 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 //
 //
 //		// Encode for saving to disk
-//		NN_BYTESWAP_ENCODE(1, MyStructure, &theValue);
+//		NBYTESWAP_ENCODE(1, MyStructure, &theValue);
 //
 // Packed arrays of structures can be encoded/decoded by increasing the count.
-#define NN_BYTESWAP_DECLARE(_type)															\
+#define NBYTESWAP_DECLARE(_type)															\
 	extern void NSwap_ ## _type(NIndex _numItems, _type *_theValue, bool _toNative);
 
-#define NN_BYTESWAP_BEGIN_NO_DECLARE(_type)													\
+#define NBYTESWAP_BEGIN_NO_DECLARE(_type)													\
 	void NSwap_ ## _type(NIndex _numItems, _type *_theValue, bool _toNative)				\
 	{	_type		*_valuePtr;																\
 		NIndex		_n;																		\
@@ -312,42 +312,42 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 			{																				\
 			_valuePtr = &_theValue[_n];
 
-#define NN_BYTESWAP_BEGIN(_type)															\
-	NN_BYTESWAP_DECLARE(_type)																\
-	NN_BYTESWAP_BEGIN_NO_DECLARE(_type)
+#define NBYTESWAP_BEGIN(_type)																\
+	NBYTESWAP_DECLARE(_type)																\
+	NBYTESWAP_BEGIN_NO_DECLARE(_type)
 
-#define NN_BYTESWAP_END																		\
+#define NBYTESWAP_END																		\
 			}																				\
 	}
 
-#define NN_BYTESWAP_ENCODE(_numItems, _type, _ptr)											\
+#define NBYTESWAP_ENCODE(_numItems, _type, _ptr)											\
 	NSwap_ ## _type(_numItems, _ptr, false)													\
 
-#define NN_BYTESWAP_DECODE(_numItems, _type, _ptr)											\
+#define NBYTESWAP_DECODE(_numItems, _type, _ptr)											\
 	NSwap_ ## _type(_numItems, _ptr, true)													\
 
 
 
 // Big endian
-#define NN_BYTESWAP_B_UInt8(_field)															\
+#define NBYTESWAP_B_UInt8(_field)															\
 	if (_toNative)																			\
 		;																					\
 	else																					\
 		;
 
-#define NN_BYTESWAP_B_UInt16(_field)														\
+#define NBYTESWAP_B_UInt16(_field)															\
 	if (_toNative)																			\
 		SwapUInt16_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapUInt16_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_B_UInt32(_field)														\
+#define NBYTESWAP_B_UInt32(_field)															\
 	if (_toNative)																			\
 		SwapUInt32_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapUInt32_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_B_UInt64(_field)														\
+#define NBYTESWAP_B_UInt64(_field)															\
 	if (_toNative)																			\
 		SwapUInt64_LtoN(&_valuePtr->_field);												\
 	else																					\
@@ -355,25 +355,25 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 
 
 
-#define NN_BYTESWAP_B_SInt8(_field)															\
+#define NBYTESWAP_B_SInt8(_field)															\
 	if (_toNative)																			\
 		;																					\
 	else																					\
 		;
 
-#define NN_BYTESWAP_B_SInt16(_field)														\
+#define NBYTESWAP_B_SInt16(_field)															\
 	if (_toNative)																			\
 		SwapSInt16_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapSInt16_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_B_SInt32(_field)														\
+#define NBYTESWAP_B_SInt32(_field)															\
 	if (_toNative)																			\
 		SwapSInt32_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapSInt32_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_B_SInt64(_field)														\
+#define NBYTESWAP_B_SInt64(_field)															\
 	if (_toNative)																			\
 		SwapSInt64_LtoN(&_valuePtr->_field);												\
 	else																					\
@@ -381,13 +381,13 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 
 
 
-#define NN_BYTESWAP_B_Float32(_field)														\
+#define NBYTESWAP_B_Float32(_field)															\
 	if (_toNative)																			\
 		SwapFloat32_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapFloat32_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_B_Float64(_field)														\
+#define NBYTESWAP_B_Float64(_field)															\
 	if (_toNative)																			\
 		SwapFloat64_LtoN(&_valuePtr->_field);												\
 	else																					\
@@ -396,25 +396,25 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 
 
 // Little endian
-#define NN_BYTESWAP_L_UInt8(_field)															\
+#define NBYTESWAP_L_UInt8(_field)															\
 	if (_toNative)																			\
 		;																					\
 	else																					\
 		;
 
-#define NN_BYTESWAP_L_UInt16(_field)														\
+#define NBYTESWAP_L_UInt16(_field)															\
 	if (_toNative)																			\
 		SwapUInt16_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapUInt16_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_L_UInt32(_field)														\
+#define NBYTESWAP_L_UInt32(_field)															\
 	if (_toNative)																			\
 		SwapUInt32_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapUInt32_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_L_UInt64(_field)														\
+#define NBYTESWAP_L_UInt64(_field)															\
 	if (_toNative)																			\
 		SwapUInt64_LtoN(&_valuePtr->_field);												\
 	else																					\
@@ -422,25 +422,25 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 
 
 
-#define NN_BYTESWAP_L_SInt8(_field)															\
+#define NBYTESWAP_L_SInt8(_field)															\
 	if (_toNative)																			\
 		;																					\
 	else																					\
 		;
 
-#define NN_BYTESWAP_L_SInt16(_field)														\
+#define NBYTESWAP_L_SInt16(_field)															\
 	if (_toNative)																			\
 		SwapSInt16_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapSInt16_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_L_SInt32(_field)														\
+#define NBYTESWAP_L_SInt32(_field)															\
 	if (_toNative)																			\
 		SwapSInt32_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapSInt32_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_L_SInt64(_field)														\
+#define NBYTESWAP_L_SInt64(_field)															\
 	if (_toNative)																			\
 		SwapSInt64_LtoN(&_valuePtr->_field);												\
 	else																					\
@@ -448,13 +448,13 @@ inline void SwapFloat64_LtoN(Float64 *theValue)				{ *theValue = SwapFloat64_Lto
 
 
 
-#define NN_BYTESWAP_L_Float32(_field)														\
+#define NBYTESWAP_L_Float32(_field)															\
 	if (_toNative)																			\
 		SwapFloat32_LtoN(&_valuePtr->_field);												\
 	else																					\
 		SwapFloat32_NtoL(&_valuePtr->_field);
 
-#define NN_BYTESWAP_L_Float64(_field)														\
+#define NBYTESWAP_L_Float64(_field)															\
 	if (_toNative)																			\
 		SwapFloat64_LtoN(&_valuePtr->_field);												\
 	else																					\
