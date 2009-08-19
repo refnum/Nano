@@ -379,6 +379,10 @@ void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 	//
 	// If we're to invoke on a new thread, or are already on the main
 	// thread, we can invoke the functor directly without any delay.
+	//
+	// If we can't (we have a delay or we're not the main thread but
+	// the functor must execute on the main thread), we fall through
+	// to the timer case.
 	if (NMathUtilities::IsZero(theDelay))
 		{
 		if (!mainThread)

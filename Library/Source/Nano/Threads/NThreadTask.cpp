@@ -173,3 +173,51 @@ void NThreadTask::SetTimeStamp(NTime theValue)
 }
 
 
+
+
+
+//============================================================================
+//		NThreadTaskFunctor::NThreadTaskFunctor : Constructor.
+//----------------------------------------------------------------------------
+#pragma mark -
+NThreadTaskFunctor::NThreadTaskFunctor(const NFunctor &theFunctor)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theFunctor != NULL);
+
+
+
+	// Initialize ourselves
+	mFunctor = theFunctor;
+}
+
+
+
+
+
+//============================================================================
+//		NThreadTaskFunctor::~NThreadTaskFunctor : Destructor.
+//----------------------------------------------------------------------------
+NThreadTaskFunctor::~NThreadTaskFunctor(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NThreadTaskFunctor::Run : Run the task.
+//----------------------------------------------------------------------------
+void NThreadTaskFunctor::Run(void)
+{
+
+
+	// Run the task
+	mFunctor();
+}
+
+
+

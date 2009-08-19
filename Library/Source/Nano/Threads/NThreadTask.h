@@ -40,7 +40,7 @@ typedef NThreadTaskList::const_iterator								NThreadTaskListConstIterator;
 //----------------------------------------------------------------------------
 class NThreadTask {
 public:
-										NThreadTask(void);
+										 NThreadTask(void);
 	virtual								~NThreadTask(void);
 
 
@@ -77,6 +77,24 @@ private:
 
 
 
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NThreadTaskFunctor {
+										 NThreadTaskFunctor(const NFunctor &theFunctor);
+	virtual								~NThreadTaskFunctor(void);
+
+
+protected:
+	// Run the task
+	void								Run(void);
+
+
+private:
+	NFunctor							mFunctor;
+};
 
 
 
