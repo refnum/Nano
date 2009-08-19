@@ -192,6 +192,44 @@ NData NDataCompressor::Decompress(const NData &srcData, const NCompressionHeader
 
 
 //============================================================================
+//		NDataCompressor::GetRequiredSize : Get the required size.
+//----------------------------------------------------------------------------
+NIndex NDataCompressor::GetRequiredSize(NIndex theSize, NCompression compressWith)
+{	NIndex		theResult;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(((UInt32) theSize) <= kUInt32Max);
+
+
+
+	// Get the size
+	theResult = sizeof(NCompressionHeader);
+
+	switch (compressWith) {
+		case kNCompressionNull:
+			theResult += Null_RequiredSize(theSize);
+			break;
+		
+		case kNCompressionZLib:
+			theResult += ZLib_RequiredSize(theSize);
+			break;
+		
+		default:
+			NN_LOG("Unknown compression: %08X", compressWith);
+			theResult = 0;
+			break;
+		}
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NDataCompressor::Null_Compress : Compress using null compression.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -226,6 +264,21 @@ NStatus NDataCompressor::Null_Decompress(const NData &srcData, NData &dstData)
 	memcpy(dstData.GetData(), srcData.GetData(), dstData.GetSize());
 
 	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//		NDataCompressor::Null_RequiredSize : Get the null required size.
+//----------------------------------------------------------------------------
+NIndex NDataCompressor::Null_RequiredSize(NIndex theSize)
+{
+
+
+	// Get the size
+	return(theSize);
 }
 
 
@@ -315,6 +368,25 @@ NStatus NDataCompressor::ZLib_Decompress(const NData &srcData, NData &dstData)
 	
 	return(kNoErr);
 }
+
+
+
+
+
+//============================================================================
+//		NDataCompressor::ZLib_RequiredSize : Get the ZLib required size.
+//----------------------------------------------------------------------------
+NIndex NDataCompressor::ZLib_RequiredSize(NIndex theSize)
+{
+
+
+	// Get the size
+	return(compressBound(theSize));
+}
+
+
+
+
 
 
 

@@ -77,12 +77,21 @@ public:
 	NData								Decompress(const NData &srcData, const NCompressionHeader *theHeader=NULL);
 
 
+	// Get the required size for compressed data
+	//
+	// Returns the maximum size required for data compressed with the specified
+	// algorithm, including a NCompressionHeader prefix.
+	NIndex								GetRequiredSize(NIndex theSize, NCompression theCompression=kNCompressionZLib);
+
+
 private:
 	NStatus								Null_Compress(  const NData &srcData, NData &dstData);
 	NStatus								Null_Decompress(const NData &srcData, NData &dstData);
-
+	NIndex								Null_RequiredSize(NIndex theSize);
+	
 	NStatus								ZLib_Compress(  const NData &srcData, NData &dstData);
 	NStatus								ZLib_Decompress(const NData &srcData, NData &dstData);
+	NIndex								ZLib_RequiredSize(NIndex theSize);
 
 
 private:
