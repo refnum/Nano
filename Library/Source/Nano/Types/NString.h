@@ -84,6 +84,7 @@ typedef struct {
 } NStringValue;
 
 typedef NSharedValue<NStringValue>									NSharedValueString;
+typedef NHashableCompare<NString>									NStringHashCompare;
 
 
 // Lists
@@ -91,7 +92,7 @@ typedef std::vector<NString>										NStringList;
 typedef NStringList::iterator										NStringListIterator;
 typedef NStringList::const_iterator									NStringListConstIterator;
 
-typedef std::map<NString, NString, NHashableCompare<NString> >		NStringMap;
+typedef std::map<NString, NString, NStringHashCompare>				NStringMap;
 typedef NStringMap::iterator										NStringMapIterator;
 typedef NStringMap::const_iterator									NStringMapConstIterator;
 

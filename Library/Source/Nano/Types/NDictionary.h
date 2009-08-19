@@ -42,7 +42,7 @@ typedef nfunctor<void (const NString &theKey, const NVariant &theValue)>	NDictio
 
 
 // Lists
-typedef std::map<NString, NVariant, NHashableCompare<NString> >		NDictionaryValue;
+typedef std::map<NString, NVariant, NStringHashCompare>				NDictionaryValue;
 typedef NDictionaryValue::iterator									NDictionaryValueIterator;
 typedef NDictionaryValue::const_iterator							NDictionaryValueConstIterator;
 

@@ -88,7 +88,7 @@ typedef struct {
 
 
 // Lists
-typedef std::map<NString, NEncoderClassInfo, NHashableCompare<NString> >		NEncoderClassInfoMap;
+typedef std::map<NString, NEncoderClassInfo, NStringHashCompare>				NEncoderClassInfoMap;
 typedef NEncoderClassInfoMap::iterator											NEncoderClassInfoMapIterator;
 typedef NEncoderClassInfoMap::const_iterator									NEncoderClassInfoMapConstIterator;
 

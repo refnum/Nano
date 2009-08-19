@@ -49,7 +49,7 @@ typedef struct {
 
 
 // Lists
-typedef std::map<NString, NBundleInfo, NHashableCompare<NString> >	NBundleInfoMap;
+typedef std::map<NString, NBundleInfo, NStringHashCompare>			NBundleInfoMap;
 typedef NBundleInfoMap::iterator									NBundleInfoMapIterator;
 typedef NBundleInfoMap::const_iterator								NBundleInfoMapConstIterator;
 

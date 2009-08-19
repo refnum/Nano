@@ -34,7 +34,7 @@ typedef struct {
 
 
 // Lists
-typedef std::map<NString, NUTIInfo, NHashableCompare<NString> >		NUTIInfoMap;
+typedef std::map<NString, NUTIInfo, NStringHashCompare>				NUTIInfoMap;
 typedef NUTIInfoMap::iterator										NUTIInfoMapIterator;
 typedef NUTIInfoMap::const_iterator									NUTIInfoMapConstIterator;
 
