@@ -341,7 +341,7 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_L
 			currentItem = &firstItem[n];
 
 #define NBYTESWAP_BEGIN(_type)																\
-	NBYTESWAP_DECLARE         (_type)														\
+	NBYTESWAP_DECLARE(_type)																\
 	NBYTESWAP_BEGIN_NO_DECLARE(_type)
 
 #define NBYTESWAP_END																		\
@@ -375,7 +375,7 @@ inline void NByteSwap_Field(NIndex numValues, void *theValue, NIndex valueSize, 
 #define NBYTESWAP_B_UInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt32), kNEndianBig);
 #define NBYTESWAP_B_UInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt64), kNEndianBig);
 
-#define NBYTESWAP_B_SInt8 (_fieldName)
+#define NBYTESWAP_B_SInt8(_fieldName)
 #define NBYTESWAP_B_SInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt16), kNEndianBig);
 #define NBYTESWAP_B_SInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt32), kNEndianBig);
 #define NBYTESWAP_B_SInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt64), kNEndianBig);
@@ -384,12 +384,12 @@ inline void NByteSwap_Field(NIndex numValues, void *theValue, NIndex valueSize, 
 #define NBYTESWAP_B_Float64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(Float64), kNEndianBig);
 
 
-#define NBYTESWAP_L_UInt8 (_fieldName)
+#define NBYTESWAP_L_UInt8(_fieldName)
 #define NBYTESWAP_L_UInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt16), kNEndianLittle);
 #define NBYTESWAP_L_UInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt32), kNEndianLittle);
 #define NBYTESWAP_L_UInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt64), kNEndianLittle);
 
-#define NBYTESWAP_L_SInt8 (_fieldName)
+#define NBYTESWAP_L_SInt8(_fieldName)
 #define NBYTESWAP_L_SInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt16), kNEndianLittle);
 #define NBYTESWAP_L_SInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt32), kNEndianLittle);
 #define NBYTESWAP_L_SInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt64), kNEndianLittle);
