@@ -334,6 +334,8 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_L
 	{	_type		*currentItem;															\
 		NIndex		n;																		\
 																							\
+		NN_UNUSED(toNative);																\
+																							\
 		for (n = 0; n < numItems; n++)														\
 			{																				\
 			currentItem = &firstItem[n];
@@ -368,7 +370,7 @@ inline void NByteSwap_Field(NIndex numValues, void *theValue, NIndex valueSize, 
 #define NBYTESWAP_Type(_fieldName)								NByteSwap_ ## _fieldType(1, &currentItem->_fieldName);
 
 
-#define NBYTESWAP_B_UInt8 (_fieldName)
+#define NBYTESWAP_B_UInt8(_fieldName)
 #define NBYTESWAP_B_UInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt16), kNEndianBig);
 #define NBYTESWAP_B_UInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt32), kNEndianBig);
 #define NBYTESWAP_B_UInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt64), kNEndianBig);
@@ -401,7 +403,7 @@ inline void NByteSwap_Field(NIndex numValues, void *theValue, NIndex valueSize, 
 #define NBYTESWAP_Type_Array(_fieldName, _fieldCount)			NByteSwap_ ## _fieldType(_fieldCount, &currentItem->_fieldName);
 
 
-#define NBYTESWAP_B_UInt8_Array (_fieldName, _fieldCount)
+#define NBYTESWAP_B_UInt8_Array(_fieldName, _fieldCount)
 #define NBYTESWAP_B_UInt16_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt16), kNEndianBig);
 #define NBYTESWAP_B_UInt32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt32), kNEndianBig);
 #define NBYTESWAP_B_UInt64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt64), kNEndianBig);
