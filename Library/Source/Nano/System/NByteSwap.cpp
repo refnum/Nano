@@ -72,3 +72,39 @@ void NByteSwap::SwapInt64(UInt64 *theValue)
 				(((UInt64) ((*theValue) & 0x00000000000000FFULL)) << 56);
 }
 
+
+
+
+
+//============================================================================
+//		NByteSwap::SwapBlock : Swap a block of values.
+//----------------------------------------------------------------------------
+void NByteSwap::SwapBlock(NIndex numValues, NIndex valueSize, void *theValues)
+{	NIndex		n;
+
+
+
+	// Swap the block
+	switch (valueSize) {
+		case 2:
+			for (n = 0; n < numValues; n++)
+				NByteSwap::SwapInt16(((UInt16 *) theValues) + n);
+			break;
+
+		case 4:
+			for (n = 0; n < numValues; n++)
+				NByteSwap::SwapInt32(((UInt32 *) theValues) + n);
+			break;
+
+		case 8:
+			for (n = 0; n < numValues; n++)
+				NByteSwap::SwapInt64(((UInt64 *) theValues) + n);
+			break;
+		
+		default:
+			NN_LOG("Unknown value size: %d", valueSize);
+			break;
+		}
+}
+
+
