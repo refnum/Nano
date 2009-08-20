@@ -639,11 +639,11 @@ void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStrin
 		{
 		switch (charSize) {
 			case 2:
-				SwapUInt16((UInt16 *) dataPtr);
+				NSwapUInt16((UInt16 *) dataPtr);
 				break;
 			
 			case 4:
-				SwapUInt32((UInt32 *) dataPtr);
+				NSwapUInt32((UInt32 *) dataPtr);
 				break;
 
 			default:

@@ -873,7 +873,7 @@ NXMLNode *NEncoder::DecodeBinary_1_0(const NData &theData)
 	
 	theHeader.compression = kNCompressionZLib;
 	theHeader.reserved    = 0;
-	theHeader.origSize    = SwapUInt32_BtoN(theHeader.origSize);
+	theHeader.origSize    = NSwapUInt32_BtoN(theHeader.origSize);
 
 	dataSize -= sizeof(theHeader);
 	dataPtr  += sizeof(theHeader);

@@ -61,9 +61,9 @@ NData NDataCompressor::Compress(const NData &srcData, NCompression compressWith)
 
 
 	// Prepare the header
-	theHeader.compression = SwapUInt32_NtoB(compressWith);
-	theHeader.reserved    = SwapUInt32_NtoB((UInt32) 0);
-	theHeader.origSize    = SwapUInt32_NtoB(srcData.GetSize());
+	theHeader.compression = NSwapUInt32_NtoB(compressWith);
+	theHeader.reserved    = NSwapUInt32_NtoB((UInt32) 0);
+	theHeader.origSize    = NSwapUInt32_NtoB(srcData.GetSize());
 
 	dstData.AppendData(sizeof(theHeader), &theHeader);
 
@@ -141,9 +141,9 @@ NData NDataCompressor::Decompress(const NData &srcData, const NCompressionHeader
 		memcpy(&srcHeader, srcData.GetData(), headerSize);
 		srcHeaderless = NData(srcData.GetSize() - headerSize, srcData.GetData(headerSize), false);
 
-		srcHeader.compression = SwapUInt32_BtoN(srcHeader.compression);
-		srcHeader.reserved    = SwapUInt32_BtoN(srcHeader.reserved);
-		srcHeader.origSize    = SwapUInt32_BtoN(srcHeader.origSize);
+		srcHeader.compression = NSwapUInt32_BtoN(srcHeader.compression);
+		srcHeader.reserved    = NSwapUInt32_BtoN(srcHeader.reserved);
+		srcHeader.origSize    = NSwapUInt32_BtoN(srcHeader.origSize);
 		}
 	else
 		{
