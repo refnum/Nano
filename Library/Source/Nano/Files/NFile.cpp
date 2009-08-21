@@ -450,6 +450,21 @@ NFile NFile::GetParent(void) const
 
 
 //============================================================================
+//        NFile::GetChildren : Get the child of a directory.
+//----------------------------------------------------------------------------
+NFileList NFile::GetChildren(void) const
+{
+
+
+	// Get the children
+	return(NTargetFile::GetChildren(mPath));
+}
+
+
+
+
+
+//============================================================================
 //        NFile::Delete : Delete the file.
 //----------------------------------------------------------------------------
 void NFile::Delete(void)

@@ -325,6 +325,53 @@ NString NTargetFile::GetParent(const NString &thePath)
 
 
 //============================================================================
+//      NTargetFile::GetChildren : Get the chilren of a path.
+//----------------------------------------------------------------------------
+NFileList NTargetFile::GetChildren(const NString &thePath)
+{	struct dirent		dirEntry, *dirResult;
+	NString				filePath;
+	NFileList			theFiles;
+	DIR					*theDir;
+	int					sysErr;
+
+
+
+	// Get the state we need
+	theDir = opendir(thePath.GetUTF8());
+	if (theDir == NULL)
+		return(theFiles);
+	
+	
+	
+	// Collect the children
+	do
+		{
+		dirResult = NULL;
+		sysErr   = readdir_r(theDir, &dirEntry, &dirResult);
+		if (sysErr == kNoErr)
+			{
+			if (strcmp(dirEntry.d_name, ".") != 0 && strcmp(dirEntry.d_name, "..") != 0)
+				{
+				filePath.Format("%@/%s", thePath, dirEntry.d_name);
+				theFiles.push_back(NFile(filePath));
+				}
+			}
+		}
+	while (sysErr == kNoErr && dirResult != NULL);
+
+
+
+	// Clean up
+	closedir(theDir);
+
+	return(theFiles);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
 void NTargetFile::Delete(const NString &thePath)

@@ -151,6 +151,18 @@ NString NTargetFile::GetParent(const NString &thePath)
 
 
 //============================================================================
+//      NTargetFile::GetChildren : Get the chilren of a path.
+//----------------------------------------------------------------------------
+NFileList NTargetFile::GetChildren(const NString &thePath)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
 void NTargetFile::Delete(const NString &thePath)

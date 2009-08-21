@@ -157,6 +157,10 @@ public:
 	NFile								GetParent(void)                   const;
 
 
+	// Get the children of a file
+	NFileList							GetChildren(void) const;
+
+
 	// Delete the file
 	//
 	// If the file is an open file, it will be unlinked.

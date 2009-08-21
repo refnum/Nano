@@ -60,6 +60,10 @@ public:
 	static NString						GetParent(const NString &thePath);
 
 
+	// Get the children of a path
+	static NFileList					GetChildren(const NString &thePath);
+	
+
 	// Delete the file
 	static void							Delete(const NString &thePath);
 
