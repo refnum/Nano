@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
+		AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1431F4103F5102002BD0D1 /* NColor.cpp */; };
+		AB1431F7103F5102002BD0D1 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1431F4103F5102002BD0D1 /* NColor.cpp */; };
 		AB1694DA10028C8200F7D4B7 /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D610028C8200F7D4B7 /* cdecode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694DB10028C8200F7D4B7 /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D810028C8200F7D4B7 /* cencode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694DC10028C8200F7D4B7 /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D610028C8200F7D4B7 /* cdecode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -79,7 +81,6 @@
 		AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553B0F9B4DD6009FFEAF /* NLock.cpp */; };
 		AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
 		AB28FC2D0FB5D9F000F72C61 /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
-		AB28FC2E0FB5D9F000F72C61 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155420F9B4DD6009FFEAF /* NColor.cpp */; };
 		AB28FC2F0FB5D9F000F72C61 /* NComparable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155440F9B4DD6009FFEAF /* NComparable.cpp */; };
 		AB28FC300FB5D9F000F72C61 /* NContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155460F9B4DD6009FFEAF /* NContainer.cpp */; };
 		AB28FC310FB5D9F000F72C61 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
@@ -176,7 +177,6 @@
 		AB9155A50F9B4DD6009FFEAF /* NLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553B0F9B4DD6009FFEAF /* NLock.cpp */; };
 		AB9155A60F9B4DD6009FFEAF /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
 		AB9155A70F9B4DD6009FFEAF /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
-		AB9155A80F9B4DD6009FFEAF /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155420F9B4DD6009FFEAF /* NColor.cpp */; };
 		AB9155A90F9B4DD6009FFEAF /* NComparable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155440F9B4DD6009FFEAF /* NComparable.cpp */; };
 		AB9155AA0F9B4DD6009FFEAF /* NContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155460F9B4DD6009FFEAF /* NContainer.cpp */; };
 		AB9155AB0F9B4DD6009FFEAF /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
@@ -280,6 +280,8 @@
 /* Begin PBXFileReference section */
 		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
 		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
+		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
+		AB1431F5103F5102002BD0D1 /* NColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NColor.h; sourceTree = "<group>"; };
 		AB1694D610028C8200F7D4B7 /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdecode.c; sourceTree = "<group>"; };
 		AB1694D710028C8200F7D4B7 /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdecode.h; sourceTree = "<group>"; };
 		AB1694D810028C8200F7D4B7 /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cencode.c; sourceTree = "<group>"; };
@@ -434,8 +436,6 @@
 		AB91553F0F9B4DD6009FFEAF /* NArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NArray.h; sourceTree = "<group>"; };
 		AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBitVector.cpp; sourceTree = "<group>"; };
 		AB9155410F9B4DD6009FFEAF /* NBitVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBitVector.h; sourceTree = "<group>"; };
-		AB9155420F9B4DD6009FFEAF /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
-		AB9155430F9B4DD6009FFEAF /* NColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NColor.h; sourceTree = "<group>"; };
 		AB9155440F9B4DD6009FFEAF /* NComparable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NComparable.cpp; sourceTree = "<group>"; };
 		AB9155450F9B4DD6009FFEAF /* NComparable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NComparable.h; sourceTree = "<group>"; };
 		AB9155460F9B4DD6009FFEAF /* NContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NContainer.cpp; sourceTree = "<group>"; };
@@ -643,6 +643,8 @@
 		AB514E58103460CB00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				AB1431F4103F5102002BD0D1 /* NColor.cpp */,
+				AB1431F5103F5102002BD0D1 /* NColor.h */,
 				AB514E59103460CB00E5A6AD /* NPoint.cpp */,
 				AB514E5A103460CB00E5A6AD /* NPoint.h */,
 				AB514E5B103460CB00E5A6AD /* NRectangle.cpp */,
@@ -971,8 +973,6 @@
 				AB91553F0F9B4DD6009FFEAF /* NArray.h */,
 				AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */,
 				AB9155410F9B4DD6009FFEAF /* NBitVector.h */,
-				AB9155420F9B4DD6009FFEAF /* NColor.cpp */,
-				AB9155430F9B4DD6009FFEAF /* NColor.h */,
 				AB9155440F9B4DD6009FFEAF /* NComparable.cpp */,
 				AB9155450F9B4DD6009FFEAF /* NComparable.h */,
 				AB9155460F9B4DD6009FFEAF /* NContainer.cpp */,
@@ -1241,6 +1241,7 @@
 				AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */,
 				AB1A78FD103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */,
+				AB1431F7103F5102002BD0D1 /* NColor.cpp in Sources */,
 				AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
@@ -1320,7 +1321,6 @@
 				AB1A793A103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
 				AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */,
 				AB28FC2D0FB5D9F000F72C61 /* NBitVector.cpp in Sources */,
-				AB28FC2E0FB5D9F000F72C61 /* NColor.cpp in Sources */,
 				AB28FC2F0FB5D9F000F72C61 /* NComparable.cpp in Sources */,
 				AB28FC300FB5D9F000F72C61 /* NContainer.cpp in Sources */,
 				AB28FC310FB5D9F000F72C61 /* NData.cpp in Sources */,
@@ -1382,6 +1382,7 @@
 				AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */,
 				AB1A78FE103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */,
+				AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */,
 				AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
@@ -1461,7 +1462,6 @@
 				AB1A793D103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
 				AB9155A60F9B4DD6009FFEAF /* NArray.cpp in Sources */,
 				AB9155A70F9B4DD6009FFEAF /* NBitVector.cpp in Sources */,
-				AB9155A80F9B4DD6009FFEAF /* NColor.cpp in Sources */,
 				AB9155A90F9B4DD6009FFEAF /* NComparable.cpp in Sources */,
 				AB9155AA0F9B4DD6009FFEAF /* NContainer.cpp in Sources */,
 				AB9155AB0F9B4DD6009FFEAF /* NData.cpp in Sources */,

@@ -48,6 +48,7 @@
 #include "TFileMap.h"
 #include "TPropertyList.h"
 
+#include "TColor.h"
 #include "TPoint.h"
 #include "TRectangle.h"
 #include "TSize.h"
@@ -74,7 +75,6 @@
 
 #include "TArray.h"
 #include "TBitVector.h"
-#include "TColor.h"
 #include "TData.h"
 #include "TDate.h"
 #include "TDateFormatter.h"
@@ -167,6 +167,7 @@ int main(int argc, const char **argv)
 
 
 	// Geometry
+	TColor::Execute();
 	TPoint::Execute();
 	TRectangle::Execute();
 	TSize::Execute();
@@ -202,7 +203,6 @@ int main(int argc, const char **argv)
 	// Types
 	TArray::Execute();
 	TBitVector::Execute();
-	TColor::Execute();
 	TData::Execute();
 	TDate::Execute();
 	TDateFormatter::Execute();

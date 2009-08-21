@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14315F103EC576002BD0D1 /* TFileIterator.cpp */; };
+		AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC761035B65D007BC4E6 /* TUTI.cpp */; };
 		AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD7D10396310007BC4E6 /* TLocale.cpp */; };
 		AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */; };
@@ -41,7 +42,6 @@
 		AB514E001034184B00E5A6AD /* TThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */; };
 		AB514E011034184B00E5A6AD /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
 		AB514E021034184B00E5A6AD /* TBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA11034184B00E5A6AD /* TBitVector.cpp */; };
-		AB514E031034184B00E5A6AD /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA31034184B00E5A6AD /* TColor.cpp */; };
 		AB514E041034184B00E5A6AD /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB514E051034184B00E5A6AD /* TDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA71034184B00E5A6AD /* TDate.cpp */; };
 		AB514E061034184B00E5A6AD /* TDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA91034184B00E5A6AD /* TDateFormatter.cpp */; };
@@ -113,6 +113,8 @@
 		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB143160103EC576002BD0D1 /* TFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFileIterator.h; sourceTree = "<group>"; };
+		AB14320C103F512C002BD0D1 /* TColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TColor.h; sourceTree = "<group>"; };
+		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
@@ -177,8 +179,6 @@
 		AB514DA01034184B00E5A6AD /* TArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TArray.h; sourceTree = "<group>"; };
 		AB514DA11034184B00E5A6AD /* TBitVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBitVector.cpp; sourceTree = "<group>"; };
 		AB514DA21034184B00E5A6AD /* TBitVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBitVector.h; sourceTree = "<group>"; };
-		AB514DA31034184B00E5A6AD /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
-		AB514DA41034184B00E5A6AD /* TColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TColor.h; sourceTree = "<group>"; };
 		AB514DA51034184B00E5A6AD /* TData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TData.cpp; sourceTree = "<group>"; };
 		AB514DA61034184B00E5A6AD /* TData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TData.h; sourceTree = "<group>"; };
 		AB514DA71034184B00E5A6AD /* TDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDate.cpp; sourceTree = "<group>"; };
@@ -443,8 +443,6 @@
 				AB514DA01034184B00E5A6AD /* TArray.h */,
 				AB514DA11034184B00E5A6AD /* TBitVector.cpp */,
 				AB514DA21034184B00E5A6AD /* TBitVector.h */,
-				AB514DA31034184B00E5A6AD /* TColor.cpp */,
-				AB514DA41034184B00E5A6AD /* TColor.h */,
 				AB514DA51034184B00E5A6AD /* TData.cpp */,
 				AB514DA61034184B00E5A6AD /* TData.h */,
 				AB514DA71034184B00E5A6AD /* TDate.cpp */,
@@ -542,6 +540,8 @@
 		AB514E731034612D00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				AB14320D103F512C002BD0D1 /* TColor.cpp */,
+				AB14320C103F512C002BD0D1 /* TColor.h */,
 				AB514E741034612D00E5A6AD /* TPoint.cpp */,
 				AB514E751034612D00E5A6AD /* TPoint.h */,
 				AB514E761034612D00E5A6AD /* TRectangle.cpp */,
@@ -710,6 +710,7 @@
 				AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */,
 				AB514DF11034184B00E5A6AD /* TFileMap.cpp in Sources */,
 				AB514DF21034184B00E5A6AD /* TPropertyList.cpp in Sources */,
+				AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */,
 				AB514E7A1034612D00E5A6AD /* TPoint.cpp in Sources */,
 				AB514E7B1034612D00E5A6AD /* TRectangle.cpp in Sources */,
 				AB514E7C1034612D00E5A6AD /* TSize.cpp in Sources */,
@@ -733,7 +734,6 @@
 				AB514E001034184B00E5A6AD /* TThreadPool.cpp in Sources */,
 				AB514E011034184B00E5A6AD /* TArray.cpp in Sources */,
 				AB514E021034184B00E5A6AD /* TBitVector.cpp in Sources */,
-				AB514E031034184B00E5A6AD /* TColor.cpp in Sources */,
 				AB514E041034184B00E5A6AD /* TData.cpp in Sources */,
 				AB514E051034184B00E5A6AD /* TDate.cpp in Sources */,
 				AB514E061034184B00E5A6AD /* TDateFormatter.cpp in Sources */,
