@@ -305,40 +305,47 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_L
 //
 //		NBYTESWAP_DECLARE(MyOtherStructure)
 //
-//		NBYTESWAP_BEGIN(MyStructure)
+//		NBYTESWAP_BEGIN(MyBigStructure)
+//			/* Primitive types */
 //			NBYTESWAP_L_UInt16			(numLoops)
 //			NBYTESWAP_L_UInt16			(numPoints)
 //			NBYTESWAP_B_UInt32			(sizeLoops)
 //			NBYTESWAP_B_UInt32			(sizePoints)
-//			NBYTESWAP_Type				(otherStruct)
-
-//			/* This array is fixed size */
+//
+//			/* Embedded structure */
+//			NBYTESWAP_Type				(otherStruct, MyOtherStructure)
+//
+//			/* Array of fixed size */
 //			NBYTESWAP_B_UInt32_Array	(fourInts, 4)
 //
-//			/* Size of this array specified by numFloats */
+//			/* Array of variable size */
 //			NBYTESWAP_L_UInt32			(numFloats)
-//			NBYTESWAP_B_Float32_Array	(someFloats, toNative ? currentItem->numFloats :
-//																NSwapUInt32_LtoN(currentItem->numFloats))
+//			NBYTESWAP_B_Float32_Array	(someFloats, NBYTESWAP_Fetch(NSwapUInt32_LtoN, numFloats))
+//
+//			/* Align to 4-byte boundary */
+//			NBYTESWAP_Skip(4 - (NBYTESWAP_Offset() % 4))
 //		NBYTESWAP_END
 //
 // Swapping proceeds from top to bottom within a structure, and can be combined
-// with custom code that processes fields within 'currentItem' directly.
+// with custom code.
 //
-// The 'numItems', 'firstItem', and 'currentItem' variables are available to
-// code within the swapping block.
+// The 'numItems', 'firstItem', 'currentItem', and 'currentField' variables are
+// available to code within the swapping block.
 #define NBYTESWAP_DECLARE(_type)															\
-	extern void NByteSwap_ ## _type(NIndex numItems, _type *firstItem);
+	extern void NByteSwap_ ## _type(NIndex numItems, _type *firstItem, bool toNative);
 
 #define NBYTESWAP_BEGIN_NO_DECLARE(_type)													\
 	void NByteSwap_ ## _type(NIndex numItems, _type *firstItem, bool toNative)				\
 	{	_type		*currentItem;															\
+		UInt8		*currentField;															\
 		NIndex		n;																		\
 																							\
 		NN_UNUSED(toNative);																\
 																							\
+		currentField = (UInt8 *) firstItem;													\
 		for (n = 0; n < numItems; n++)														\
 			{																				\
-			currentItem = &firstItem[n];
+			currentItem = (_type *) currentField;
 
 #define NBYTESWAP_BEGIN(_type)																\
 	NBYTESWAP_DECLARE(_type)																\
@@ -352,83 +359,92 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_L
 
 // Encode/decode
 #define NBYTESWAP_ENCODE(_numItems, _type, _firstItem)										\
-	NByteSwap_ ## _type(_numItems, _firstItem, true)
+	NByteSwap_ ## _type(_numItems, (_type *) _firstItem, true)
 
 #define NBYTESWAP_DECODE(_numItems, _type, _firstItem)										\
-	NByteSwap_ ## _type(_numItems, _firstItem, false)
+	NByteSwap_ ## _type(_numItems, (_type *) _firstItem, false)
 
 
 
 // Swap fields
-inline void NByteSwap_Field(NIndex numValues, void *theValue, NIndex valueSize, NEndianFormat valueFormat)
+inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize, NEndianFormat valueFormat)
 {
 	if (valueFormat != kNEndianNative)
-		NByteSwap::SwapBlock(numValues, valueSize, theValue);
+		NByteSwap::SwapBlock(numValues, valueSize, valuePtr);
+	
+	valuePtr += (numValues * valueSize);
 }
 
-
-#define NBYTESWAP_Type(_fieldName)								NByteSwap_ ## _fieldType(1, &currentItem->_fieldName);
-
-
-#define NBYTESWAP_B_UInt8(_fieldName)
-#define NBYTESWAP_B_UInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt16), kNEndianBig);
-#define NBYTESWAP_B_UInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt32), kNEndianBig);
-#define NBYTESWAP_B_UInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt64), kNEndianBig);
-
-#define NBYTESWAP_B_SInt8(_fieldName)
-#define NBYTESWAP_B_SInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt16), kNEndianBig);
-#define NBYTESWAP_B_SInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt32), kNEndianBig);
-#define NBYTESWAP_B_SInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt64), kNEndianBig);
-
-#define NBYTESWAP_B_Float32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(Float32), kNEndianBig);
-#define NBYTESWAP_B_Float64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(Float64), kNEndianBig);
+#define NBYTESWAP_Offset()										(currentField - ((UInt8 *) currentItem))
+#define NBYTESWAP_Skip(_numBytes)								currentField += _numBytes;
+#define NBYTESWAP_Fetch(_swapWith, _fieldName)					(toNative ? currentItem->_fieldName : _swapWith(currentItem->_fieldName))
 
 
-#define NBYTESWAP_L_UInt8(_fieldName)
-#define NBYTESWAP_L_UInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt16), kNEndianLittle);
-#define NBYTESWAP_L_UInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt32), kNEndianLittle);
-#define NBYTESWAP_L_UInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(UInt64), kNEndianLittle);
+// Arrays
+#define NBYTESWAP_Type_Array(_fieldName, _fieldType, _fieldCount)							\
+		NByteSwap_ ## _fieldType(_fieldCount, ( _fieldType *) currentField, toNative);		\
+		currentField += (_fieldCount * sizeof(_fieldType));
 
-#define NBYTESWAP_L_SInt8(_fieldName)
-#define NBYTESWAP_L_SInt16(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt16), kNEndianLittle);
-#define NBYTESWAP_L_SInt32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt32), kNEndianLittle);
-#define NBYTESWAP_L_SInt64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(SInt64), kNEndianLittle);
+#define NBYTESWAP_B_UInt8_Array(  _fieldName, _fieldCount)		currentField += (_fieldCount * sizeof(UInt8));
+#define NBYTESWAP_B_UInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianBig);
+#define NBYTESWAP_B_UInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianBig);
+#define NBYTESWAP_B_UInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianBig);
 
-#define NBYTESWAP_L_Float32(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(Float32), kNEndianLittle);
-#define NBYTESWAP_L_Float64(_fieldName)							NByteSwap_Field(1, &currentItem->_fieldName, sizeof(Float64), kNEndianLittle);
+#define NBYTESWAP_B_SInt8_Array(  _fieldName, _fieldCount)
+#define NBYTESWAP_B_SInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianBig);
+#define NBYTESWAP_B_SInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianBig);
+#define NBYTESWAP_B_SInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianBig);
 
-
-
-// Swap arrays
-#define NBYTESWAP_Type_Array(_fieldName, _fieldCount)			NByteSwap_ ## _fieldType(_fieldCount, &currentItem->_fieldName);
-
-
-#define NBYTESWAP_B_UInt8_Array(_fieldName, _fieldCount)
-#define NBYTESWAP_B_UInt16_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt16), kNEndianBig);
-#define NBYTESWAP_B_UInt32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt32), kNEndianBig);
-#define NBYTESWAP_B_UInt64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt64), kNEndianBig);
-
-#define NBYTESWAP_B_SInt8_Array(_fieldName, _fieldCount)
-#define NBYTESWAP_B_SInt16_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(SInt16), kNEndianBig);
-#define NBYTESWAP_B_SInt32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(SInt32), kNEndianBig);
-#define NBYTESWAP_B_SInt64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(SInt64), kNEndianBig);
-
-#define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(Float32), kNEndianBig);
-#define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(Float64), kNEndianBig);
+#define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianBig);
+#define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianBig);
 
 
-#define NBYTESWAP_L_UInt8_Array(_fieldName, _fieldCount)
-#define NBYTESWAP_L_UInt16_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt16), kNEndianLittle);
-#define NBYTESWAP_L_UInt32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt32), kNEndianLittle);
-#define NBYTESWAP_L_UInt64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(UInt64), kNEndianLittle);
+#define NBYTESWAP_L_UInt8_Array(  _fieldName, _fieldCount)
+#define NBYTESWAP_L_UInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianLittle);
+#define NBYTESWAP_L_UInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianLittle);
+#define NBYTESWAP_L_UInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianLittle);
 
-#define NBYTESWAP_L_SInt8_Array(_fieldName, _fieldCount)
-#define NBYTESWAP_L_SInt16_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(SInt16), kNEndianLittle);
-#define NBYTESWAP_L_SInt32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(SInt32), kNEndianLittle);
-#define NBYTESWAP_L_SInt64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(SInt64), kNEndianLittle);
+#define NBYTESWAP_L_SInt8_Array(  _fieldName, _fieldCount)
+#define NBYTESWAP_L_SInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianLittle);
+#define NBYTESWAP_L_SInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianLittle);
+#define NBYTESWAP_L_SInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianLittle);
 
-#define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(Float32), kNEndianLittle);
-#define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, &currentItem->_fieldName, sizeof(Float64), kNEndianLittle);
+#define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianLittle);
+#define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianLittle);
+
+
+// Fields
+#define NBYTESWAP_Type(_fieldName, _fieldType)					NBYTESWAP_Type_Array(_fieldName, _fieldType, 1)
+
+
+#define NBYTESWAP_B_UInt8(  _fieldName)							NBYTESWAP_B_UInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_B_UInt16( _fieldName)							NBYTESWAP_B_UInt16_Array( _fieldName, 1)
+#define NBYTESWAP_B_UInt32( _fieldName)							NBYTESWAP_B_UInt32_Array( _fieldName, 1)
+#define NBYTESWAP_B_UInt64( _fieldName)							NBYTESWAP_B_UInt64_Array( _fieldName, 1)
+
+#define NBYTESWAP_B_SInt8(  _fieldName)							NBYTESWAP_B_SInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_B_SInt16( _fieldName)							NBYTESWAP_B_SInt16_Array( _fieldName, 1)
+#define NBYTESWAP_B_SInt32( _fieldName)							NBYTESWAP_B_SInt32_Array( _fieldName, 1)
+#define NBYTESWAP_B_SInt64( _fieldName)							NBYTESWAP_B_SInt64_Array( _fieldName, 1)
+
+#define NBYTESWAP_B_Float32(_fieldName)							NBYTESWAP_B_Float32_Array(_fieldName, 1)
+#define NBYTESWAP_B_Float64(_fieldName)							NBYTESWAP_B_Float64_Array(_fieldName, 1)
+
+
+#define NBYTESWAP_L_UInt8(  _fieldName)							NBYTESWAP_L_UInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_L_UInt16( _fieldName)							NBYTESWAP_L_UInt16_Array( _fieldName, 1)
+#define NBYTESWAP_L_UInt32( _fieldName)							NBYTESWAP_L_UInt32_Array( _fieldName, 1)
+#define NBYTESWAP_L_UInt64( _fieldName)							NBYTESWAP_L_UInt64_Array( _fieldName, 1)
+
+#define NBYTESWAP_L_SInt8(  _fieldName)							NBYTESWAP_L_SInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_L_SInt16( _fieldName)							NBYTESWAP_L_SInt16_Array( _fieldName, 1)
+#define NBYTESWAP_L_SInt32( _fieldName)							NBYTESWAP_L_SInt32_Array( _fieldName, 1)
+#define NBYTESWAP_L_SInt64( _fieldName)							NBYTESWAP_L_SInt64_Array( _fieldName, 1)
+
+#define NBYTESWAP_L_Float32(_fieldName)							NBYTESWAP_L_Float32_Array(_fieldName, 1)
+#define NBYTESWAP_L_Float64(_fieldName)							NBYTESWAP_L_Float64_Array(_fieldName, 1)
+
+
 
 
 
