@@ -45,7 +45,7 @@ public:
 	static void							SwapInt16(UInt16 *theValue);
 	static void							SwapInt32(UInt32 *theValue);
 	static void							SwapInt64(UInt64 *theValue);
-	static void							SwapBlock(NIndex numValues, NIndex valueSize, void *theValues);
+	static void							SwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr);
 };
 
 
@@ -58,123 +58,141 @@ public:
 //		Swap and return
 //----------------------------------------------------------------------------
 // Always swap
-inline UInt16 NSwapUInt16(UInt16 theValue)						{ NByteSwap::SwapInt16(&theValue);				return(theValue); }
-inline UInt32 NSwapUInt32(UInt32 theValue)						{ NByteSwap::SwapInt32(&theValue);				return(theValue); }
-inline UInt64 NSwapUInt64(UInt64 theValue)						{ NByteSwap::SwapInt64(&theValue);				return(theValue); }
+inline UInt16 NSwapUInt16(UInt16 theValue)												{ NByteSwap::SwapInt16(&theValue);						return(theValue); }
+inline UInt32 NSwapUInt32(UInt32 theValue)												{ NByteSwap::SwapInt32(&theValue);						return(theValue); }
+inline UInt64 NSwapUInt64(UInt64 theValue)												{ NByteSwap::SwapInt64(&theValue);						return(theValue); }
 
-inline SInt16 NSwapSInt16(SInt16 theValue)						{ NByteSwap::SwapInt16((UInt16 *) &theValue);	return(theValue); }
-inline SInt32 NSwapSInt32(SInt32 theValue)						{ NByteSwap::SwapInt32((UInt32 *) &theValue);	return(theValue); }
-inline SInt64 NSwapSInt64(SInt64 theValue)						{ NByteSwap::SwapInt64((UInt64 *) &theValue);	return(theValue); }
+inline SInt16 NSwapSInt16(SInt16 theValue)												{ NByteSwap::SwapInt16((UInt16 *) &theValue);			return(theValue); }
+inline SInt32 NSwapSInt32(SInt32 theValue)												{ NByteSwap::SwapInt32((UInt32 *) &theValue);			return(theValue); }
+inline SInt64 NSwapSInt64(SInt64 theValue)												{ NByteSwap::SwapInt64((UInt64 *) &theValue);			return(theValue); }
 
-inline Float32 NSwapFloat32(Float32 theValue)					{ NByteSwap::SwapInt32((UInt32 *) &theValue);	return(theValue); }
-inline Float64 NSwapFloat64(Float64 theValue)					{ NByteSwap::SwapInt64((UInt64 *) &theValue);	return(theValue); }
+inline Float32 NSwapFloat32(Float32 theValue)											{ NByteSwap::SwapInt32((UInt32 *) &theValue);			return(theValue); }
+inline Float64 NSwapFloat64(Float64 theValue)											{ NByteSwap::SwapInt64((UInt64 *) &theValue);			return(theValue); }
+
+inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{ NByteSwap::SwapBlock(numValues, valueSize, valuePtr);	return(valuePtr); }
 
 
 
 // Native to big
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_NtoB(UInt16 theValue)				{ return(theValue); }
-	inline UInt32 NSwapUInt32_NtoB(UInt32 theValue)				{ return(theValue); }
-	inline UInt64 NSwapUInt64_NtoB(UInt64 theValue)				{ return(theValue); }
+	inline UInt16 NSwapUInt16_NtoB(UInt16 theValue)										{ return(theValue); }
+	inline UInt32 NSwapUInt32_NtoB(UInt32 theValue)										{ return(theValue); }
+	inline UInt64 NSwapUInt64_NtoB(UInt64 theValue)										{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_NtoB(SInt16 theValue)				{ return(theValue); }
-	inline SInt32 NSwapSInt32_NtoB(SInt32 theValue)				{ return(theValue); }
-	inline SInt64 NSwapSInt64_NtoB(SInt64 theValue)				{ return(theValue); }
+	inline SInt16 NSwapSInt16_NtoB(SInt16 theValue)										{ return(theValue); }
+	inline SInt32 NSwapSInt32_NtoB(SInt32 theValue)										{ return(theValue); }
+	inline SInt64 NSwapSInt64_NtoB(SInt64 theValue)										{ return(theValue); }
 
-	inline Float32 SwapFloat32_NtoB(Float32 theValue)			{ return(theValue); }
-	inline Float64 SwapFloat64_NtoB(Float64 theValue)			{ return(theValue); }
+	inline Float32 NSwapFloat32_NtoB(Float32 theValue)									{ return(theValue); }
+	inline Float64 NSwapFloat64_NtoB(Float64 theValue)									{ return(theValue); }
+	
+	inline void *NSwapBlock_NtoB(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #else
-	inline UInt16 NSwapUInt16_NtoB(UInt16 theValue)				{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_NtoB(UInt32 theValue)				{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_NtoB(UInt64 theValue)				{ return(NSwapUInt64(theValue)); }
+	inline UInt16 NSwapUInt16_NtoB(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
+	inline UInt32 NSwapUInt32_NtoB(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
+	inline UInt64 NSwapUInt64_NtoB(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_NtoB(SInt16 theValue)				{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_NtoB(SInt32 theValue)				{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_NtoB(SInt64 theValue)				{ return(NSwapSInt64(theValue)); }
+	inline SInt16 NSwapSInt16_NtoB(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
+	inline SInt32 NSwapSInt32_NtoB(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
+	inline SInt64 NSwapSInt64_NtoB(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_NtoB(Float32 theValue)			{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_NtoB(Float64 theValue)			{ return(NSwapFloat64(theValue)); }
+	inline Float32 NSwapFloat32_NtoB(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
+	inline Float64 NSwapFloat64_NtoB(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	
+	inline void *NSwapBlock_NtoB(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #endif
 
 
 
 // Native to little
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_NtoL(UInt16 theValue)				{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_NtoL(UInt32 theValue)				{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_NtoL(UInt64 theValue)				{ return(NSwapUInt64(theValue)); }
+	inline UInt16 NSwapUInt16_NtoL(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
+	inline UInt32 NSwapUInt32_NtoL(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
+	inline UInt64 NSwapUInt64_NtoL(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_NtoL(SInt16 theValue)				{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_NtoL(SInt32 theValue)				{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_NtoL(SInt64 theValue)				{ return(NSwapSInt64(theValue)); }
+	inline SInt16 NSwapSInt16_NtoL(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
+	inline SInt32 NSwapSInt32_NtoL(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
+	inline SInt64 NSwapSInt64_NtoL(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_NtoL(Float32 theValue)			{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_NtoL(Float64 theValue)			{ return(NSwapFloat64(theValue)); }
+	inline Float32 NSwapFloat32_NtoL(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
+	inline Float64 NSwapFloat64_NtoL(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	
+	inline void *NSwapBlock_NtoL(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #else
-	inline UInt16 NSwapUInt16_NtoL(UInt16 theValue)				{ return(theValue); }
-	inline UInt32 NSwapUInt32_NtoL(UInt32 theValue)				{ return(theValue); }
-	inline UInt64 NSwapUInt64_NtoL(UInt64 theValue)				{ return(theValue); }
+	inline UInt16 NSwapUInt16_NtoL(UInt16 theValue)										{ return(theValue); }
+	inline UInt32 NSwapUInt32_NtoL(UInt32 theValue)										{ return(theValue); }
+	inline UInt64 NSwapUInt64_NtoL(UInt64 theValue)										{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_NtoL(SInt16 theValue)				{ return(theValue); }
-	inline SInt32 NSwapSInt32_NtoL(SInt32 theValue)				{ return(theValue); }
-	inline SInt64 NSwapSInt64_NtoL(SInt64 theValue)				{ return(theValue); }
+	inline SInt16 NSwapSInt16_NtoL(SInt16 theValue)										{ return(theValue); }
+	inline SInt32 NSwapSInt32_NtoL(SInt32 theValue)										{ return(theValue); }
+	inline SInt64 NSwapSInt64_NtoL(SInt64 theValue)										{ return(theValue); }
 
-	inline Float32 NSwapFloat32_NtoL(Float32 theValue)			{ return(theValue); }
-	inline Float64 NSwapFloat64_NtoL(Float64 theValue)			{ return(theValue); }
+	inline Float32 NSwapFloat32_NtoL(Float32 theValue)									{ return(theValue); }
+	inline Float64 NSwapFloat64_NtoL(Float64 theValue)									{ return(theValue); }
+	
+	inline void *NSwapBlock_NtoL(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #endif
 
 
 
 // Big to native
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_BtoN(UInt16 theValue)				{ return(theValue); }
-	inline UInt32 NSwapUInt32_BtoN(UInt32 theValue)				{ return(theValue); }
-	inline UInt64 NSwapUInt64_BtoN(UInt64 theValue)				{ return(theValue); }
+	inline UInt16 NSwapUInt16_BtoN(UInt16 theValue)										{ return(theValue); }
+	inline UInt32 NSwapUInt32_BtoN(UInt32 theValue)										{ return(theValue); }
+	inline UInt64 NSwapUInt64_BtoN(UInt64 theValue)										{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_BtoN(SInt16 theValue)				{ return(theValue); }
-	inline SInt32 NSwapSInt32_BtoN(SInt32 theValue)				{ return(theValue); }
-	inline SInt64 NSwapSInt64_BtoN(SInt64 theValue)				{ return(theValue); }
+	inline SInt16 NSwapSInt16_BtoN(SInt16 theValue)										{ return(theValue); }
+	inline SInt32 NSwapSInt32_BtoN(SInt32 theValue)										{ return(theValue); }
+	inline SInt64 NSwapSInt64_BtoN(SInt64 theValue)										{ return(theValue); }
 
-	inline Float32 NSwapFloat32_BtoN(Float32 theValue)			{ return(theValue); }
-	inline Float64 NSwapFloat64_BtoN(Float64 theValue)			{ return(theValue); }
+	inline Float32 NSwapFloat32_BtoN(Float32 theValue)									{ return(theValue); }
+	inline Float64 NSwapFloat64_BtoN(Float64 theValue)									{ return(theValue); }
+	
+	inline void *NSwapBlock_BtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #else
-	inline UInt16 NSwapUInt16_BtoN(UInt16 theValue)				{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_BtoN(UInt32 theValue)				{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_BtoN(UInt64 theValue)				{ return(NSwapUInt64(theValue)); }
+	inline UInt16 NSwapUInt16_BtoN(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
+	inline UInt32 NSwapUInt32_BtoN(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
+	inline UInt64 NSwapUInt64_BtoN(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_BtoN(SInt16 theValue)				{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_BtoN(SInt32 theValue)				{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_BtoN(SInt64 theValue)				{ return(NSwapSInt64(theValue)); }
+	inline SInt16 NSwapSInt16_BtoN(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
+	inline SInt32 NSwapSInt32_BtoN(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
+	inline SInt64 NSwapSInt64_BtoN(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_BtoN(Float32 theValue)			{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_BtoN(Float64 theValue)			{ return(NSwapFloat64(theValue)); }
+	inline Float32 NSwapFloat32_BtoN(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
+	inline Float64 NSwapFloat64_BtoN(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	
+	inline void *NSwapBlock_BtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #endif
 
 
 
 // Little to native
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_LtoN(UInt16 theValue)				{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_LtoN(UInt32 theValue)				{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_LtoN(UInt64 theValue)				{ return(NSwapUInt64(theValue)); }
+	inline UInt16 NSwapUInt16_LtoN(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
+	inline UInt32 NSwapUInt32_LtoN(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
+	inline UInt64 NSwapUInt64_LtoN(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)				{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)				{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)				{ return(NSwapSInt32(theValue)); }
+	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
+	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
+	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)										{ return(NSwapSInt32(theValue)); }
 
-	inline Float32 NSwapFloat32_LtoN(Float32 theValue)			{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_LtoN(Float64 theValue)			{ return(NSwapFloat64(theValue)); }
+	inline Float32 NSwapFloat32_LtoN(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
+	inline Float64 NSwapFloat64_LtoN(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	
+	inline void *NSwapBlock_LtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #else
-	inline UInt16 NSwapUInt16_LtoN(UInt16 theValue)				{ return(theValue); }
-	inline UInt32 NSwapUInt32_LtoN(UInt32 theValue)				{ return(theValue); }
-	inline UInt64 NSwapUInt64_LtoN(UInt64 theValue)				{ return(theValue); }
+	inline UInt16 NSwapUInt16_LtoN(UInt16 theValue)										{ return(theValue); }
+	inline UInt32 NSwapUInt32_LtoN(UInt32 theValue)										{ return(theValue); }
+	inline UInt64 NSwapUInt64_LtoN(UInt64 theValue)										{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)				{ return(theValue); }
-	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)				{ return(theValue); }
-	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)				{ return(theValue); }
+	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)										{ return(theValue); }
+	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)										{ return(theValue); }
+	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)										{ return(theValue); }
 
-	inline Float32 NSwapFloat32_LtoN(Float32 theValue)			{ return(theValue); }
-	inline Float64 NSwapFloat64_LtoN(Float64 theValue)			{ return(theValue); }
+	inline Float32 NSwapFloat32_LtoN(Float32 theValue)									{ return(theValue); }
+	inline Float64 NSwapFloat64_LtoN(Float64 theValue)									{ return(theValue); }
+	
+	inline void *NSwapBlock_LtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #endif
 
 
@@ -187,72 +205,72 @@ inline Float64 NSwapFloat64(Float64 theValue)					{ NByteSwap::SwapInt64((UInt64
 //		Swap in place
 //----------------------------------------------------------------------------
 // Always swap
-inline void NSwapUInt16(UInt16 *theValue)						{ *theValue = NSwapUInt16(*theValue); }
-inline void NSwapUInt32(UInt32 *theValue)						{ *theValue = NSwapUInt32(*theValue); }
-inline void NSwapUInt64(UInt64 *theValue)						{ *theValue = NSwapUInt64(*theValue); }
+inline void NSwapUInt16(UInt16 *theValue)							{ *theValue = NSwapUInt16(*theValue); }
+inline void NSwapUInt32(UInt32 *theValue)							{ *theValue = NSwapUInt32(*theValue); }
+inline void NSwapUInt64(UInt64 *theValue)							{ *theValue = NSwapUInt64(*theValue); }
 
-inline void NSwapSInt16(SInt16 *theValue)						{ *theValue = NSwapSInt16(*theValue); }
-inline void NSwapSInt32(SInt32 *theValue)						{ *theValue = NSwapSInt32(*theValue); }
-inline void NSwapSInt64(SInt64 *theValue)						{ *theValue = NSwapSInt64(*theValue); }
+inline void NSwapSInt16(SInt16 *theValue)							{ *theValue = NSwapSInt16(*theValue); }
+inline void NSwapSInt32(SInt32 *theValue)							{ *theValue = NSwapSInt32(*theValue); }
+inline void NSwapSInt64(SInt64 *theValue)							{ *theValue = NSwapSInt64(*theValue); }
 
-inline void NSwapFloat32(Float32 *theValue)						{ *theValue = NSwapFloat32(*theValue); }
-inline void NSwapFloat64(Float64 *theValue)						{ *theValue = NSwapFloat64(*theValue); }
+inline void NSwapFloat32(Float32 *theValue)							{ *theValue = NSwapFloat32(*theValue); }
+inline void NSwapFloat64(Float64 *theValue)							{ *theValue = NSwapFloat64(*theValue); }
 
 
 
 // Native to big
-inline void NSwapUInt16_NtoB(UInt16 *theValue)					{ *theValue = NSwapUInt16_NtoB(*theValue); }
-inline void NSwapUInt32_NtoB(UInt32 *theValue)					{ *theValue = NSwapUInt32_NtoB(*theValue); }
-inline void NSwapUInt64_NtoB(UInt64 *theValue)					{ *theValue = NSwapUInt64_NtoB(*theValue); }
+inline void NSwapUInt16_NtoB(UInt16 *theValue)						{ *theValue = NSwapUInt16_NtoB(*theValue); }
+inline void NSwapUInt32_NtoB(UInt32 *theValue)						{ *theValue = NSwapUInt32_NtoB(*theValue); }
+inline void NSwapUInt64_NtoB(UInt64 *theValue)						{ *theValue = NSwapUInt64_NtoB(*theValue); }
 
-inline void NSwapSInt16_NtoB(SInt16 *theValue)					{ *theValue = NSwapSInt16_NtoB(*theValue); }
-inline void NSwapSInt32_NtoB(SInt32 *theValue)					{ *theValue = NSwapSInt32_NtoB(*theValue); }
-inline void NSwapSInt64_NtoB(SInt64 *theValue)					{ *theValue = NSwapSInt64_NtoB(*theValue); }
+inline void NSwapSInt16_NtoB(SInt16 *theValue)						{ *theValue = NSwapSInt16_NtoB(*theValue); }
+inline void NSwapSInt32_NtoB(SInt32 *theValue)						{ *theValue = NSwapSInt32_NtoB(*theValue); }
+inline void NSwapSInt64_NtoB(SInt64 *theValue)						{ *theValue = NSwapSInt64_NtoB(*theValue); }
 
-inline void NSwapFloat32_NtoB(Float32 *theValue)				{ *theValue = NSwapFloat32_NtoB(*theValue); }
-inline void NSwapFloat64_NtoB(Float64 *theValue)				{ *theValue = NSwapFloat64_NtoB(*theValue); }
+inline void NSwapFloat32_NtoB(Float32 *theValue)					{ *theValue = NSwapFloat32_NtoB(*theValue); }
+inline void NSwapFloat64_NtoB(Float64 *theValue)					{ *theValue = NSwapFloat64_NtoB(*theValue); }
 
 
 
 // Native to little
-inline void NSwapUInt16_NtoL(UInt16 *theValue)					{ *theValue = NSwapUInt16_NtoL(*theValue); }
-inline void NSwapUInt32_NtoL(UInt32 *theValue)					{ *theValue = NSwapUInt32_NtoL(*theValue); }
-inline void NSwapUInt64_NtoL(UInt64 *theValue)					{ *theValue = NSwapUInt64_NtoL(*theValue); }
+inline void NSwapUInt16_NtoL(UInt16 *theValue)						{ *theValue = NSwapUInt16_NtoL(*theValue); }
+inline void NSwapUInt32_NtoL(UInt32 *theValue)						{ *theValue = NSwapUInt32_NtoL(*theValue); }
+inline void NSwapUInt64_NtoL(UInt64 *theValue)						{ *theValue = NSwapUInt64_NtoL(*theValue); }
 
-inline void NSwapSInt16_NtoL(SInt16 *theValue)					{ *theValue = NSwapSInt16_NtoL(*theValue); }
-inline void NSwapSInt32_NtoL(SInt32 *theValue)					{ *theValue = NSwapSInt32_NtoL(*theValue); }
-inline void NSwapSInt64_NtoL(SInt64 *theValue)					{ *theValue = NSwapSInt64_NtoL(*theValue); }
+inline void NSwapSInt16_NtoL(SInt16 *theValue)						{ *theValue = NSwapSInt16_NtoL(*theValue); }
+inline void NSwapSInt32_NtoL(SInt32 *theValue)						{ *theValue = NSwapSInt32_NtoL(*theValue); }
+inline void NSwapSInt64_NtoL(SInt64 *theValue)						{ *theValue = NSwapSInt64_NtoL(*theValue); }
 
-inline void NSwapFloat32_NtoL(Float32 *theValue)				{ *theValue = NSwapFloat32_NtoL(*theValue); }
-inline void NSwapFloat64_NtoL(Float64 *theValue)				{ *theValue = NSwapFloat64_NtoL(*theValue); }
+inline void NSwapFloat32_NtoL(Float32 *theValue)					{ *theValue = NSwapFloat32_NtoL(*theValue); }
+inline void NSwapFloat64_NtoL(Float64 *theValue)					{ *theValue = NSwapFloat64_NtoL(*theValue); }
 
 
 
 // Big to native
-inline void NSwapUInt16_BtoN(UInt16 *theValue)					{ *theValue = NSwapUInt16_BtoN(*theValue); }
-inline void NSwapUInt32_BtoN(UInt32 *theValue)					{ *theValue = NSwapUInt32_BtoN(*theValue); }
-inline void NSwapUInt64_BtoN(UInt64 *theValue)					{ *theValue = NSwapUInt64_BtoN(*theValue); }
+inline void NSwapUInt16_BtoN(UInt16 *theValue)						{ *theValue = NSwapUInt16_BtoN(*theValue); }
+inline void NSwapUInt32_BtoN(UInt32 *theValue)						{ *theValue = NSwapUInt32_BtoN(*theValue); }
+inline void NSwapUInt64_BtoN(UInt64 *theValue)						{ *theValue = NSwapUInt64_BtoN(*theValue); }
 
-inline void NSwapSInt16_BtoN(SInt16 *theValue)					{ *theValue = NSwapSInt16_BtoN(*theValue); }
-inline void NSwapSInt32_BtoN(SInt32 *theValue)					{ *theValue = NSwapSInt32_BtoN(*theValue); }
-inline void NSwapSInt64_BtoN(SInt64 *theValue)					{ *theValue = NSwapSInt64_BtoN(*theValue); }
+inline void NSwapSInt16_BtoN(SInt16 *theValue)						{ *theValue = NSwapSInt16_BtoN(*theValue); }
+inline void NSwapSInt32_BtoN(SInt32 *theValue)						{ *theValue = NSwapSInt32_BtoN(*theValue); }
+inline void NSwapSInt64_BtoN(SInt64 *theValue)						{ *theValue = NSwapSInt64_BtoN(*theValue); }
 
-inline void NSwapFloat32_BtoN(Float32 *theValue)				{ *theValue = NSwapFloat32_BtoN(*theValue); }
-inline void NSwapFloat64_BtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_BtoN(*theValue); }
+inline void NSwapFloat32_BtoN(Float32 *theValue)					{ *theValue = NSwapFloat32_BtoN(*theValue); }
+inline void NSwapFloat64_BtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_BtoN(*theValue); }
 
 
 
 // Little to native
-inline void NSwapUInt16_LtoN(UInt16 *theValue)					{ *theValue = NSwapUInt16_LtoN(*theValue); }
-inline void NSwapUInt32_LtoN(UInt32 *theValue)					{ *theValue = NSwapUInt32_LtoN(*theValue); }
-inline void NSwapUInt64_LtoN(UInt64 *theValue)					{ *theValue = NSwapUInt64_LtoN(*theValue); }
+inline void NSwapUInt16_LtoN(UInt16 *theValue)						{ *theValue = NSwapUInt16_LtoN(*theValue); }
+inline void NSwapUInt32_LtoN(UInt32 *theValue)						{ *theValue = NSwapUInt32_LtoN(*theValue); }
+inline void NSwapUInt64_LtoN(UInt64 *theValue)						{ *theValue = NSwapUInt64_LtoN(*theValue); }
 
-inline void NSwapSInt16_LtoN(SInt16 *theValue)					{ *theValue = NSwapSInt16_LtoN(*theValue); }
-inline void NSwapSInt32_LtoN(SInt32 *theValue)					{ *theValue = NSwapSInt32_LtoN(*theValue); }
-inline void NSwapSInt64_LtoN(SInt64 *theValue)					{ *theValue = NSwapSInt64_LtoN(*theValue); }
+inline void NSwapSInt16_LtoN(SInt16 *theValue)						{ *theValue = NSwapSInt16_LtoN(*theValue); }
+inline void NSwapSInt32_LtoN(SInt32 *theValue)						{ *theValue = NSwapSInt32_LtoN(*theValue); }
+inline void NSwapSInt64_LtoN(SInt64 *theValue)						{ *theValue = NSwapSInt64_LtoN(*theValue); }
 
-inline void NSwapFloat32_LtoN(Float32 *theValue)				{ *theValue = NSwapFloat32_LtoN(*theValue); }
-inline void NSwapFloat64_LtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_LtoN(*theValue); }
+inline void NSwapFloat32_LtoN(Float32 *theValue)					{ *theValue = NSwapFloat32_LtoN(*theValue); }
+inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_LtoN(*theValue); }
 
 
 
@@ -359,10 +377,10 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)				{ *theValue = NSwapFloat64_L
 
 // Encode/decode
 #define NBYTESWAP_ENCODE(_numItems, _type, _firstItem)										\
-	NByteSwap_ ## _type(_numItems, (_type *) _firstItem, true)
+	NByteSwap_ ## _type(_numItems, (_type *) _firstItem, false)
 
 #define NBYTESWAP_DECODE(_numItems, _type, _firstItem)										\
-	NByteSwap_ ## _type(_numItems, (_type *) _firstItem, false)
+	NByteSwap_ ## _type(_numItems, (_type *) _firstItem, true)
 
 
 
@@ -375,9 +393,9 @@ inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize
 	valuePtr += (numValues * valueSize);
 }
 
-#define NBYTESWAP_Offset()										(currentField - ((UInt8 *) currentItem))
-#define NBYTESWAP_Skip(_numBytes)								currentField += _numBytes;
-#define NBYTESWAP_Fetch(_swapWith, _fieldName)					(toNative ? currentItem->_fieldName : _swapWith(currentItem->_fieldName))
+#define NBYTESWAP_Offset()											(currentField - ((UInt8 *) currentItem))
+#define NBYTESWAP_Skip(_numBytes)									currentField += _numBytes;
+#define NBYTESWAP_Fetch(_swapWith, _fieldName)						(toNative ? currentItem->_fieldName : _swapWith(currentItem->_fieldName))
 
 
 // Arrays
@@ -385,64 +403,64 @@ inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize
 		NByteSwap_ ## _fieldType(_fieldCount, ( _fieldType *) currentField, toNative);		\
 		currentField += (_fieldCount * sizeof(_fieldType));
 
-#define NBYTESWAP_B_UInt8_Array(  _fieldName, _fieldCount)		currentField += (_fieldCount * sizeof(UInt8));
-#define NBYTESWAP_B_UInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianBig);
-#define NBYTESWAP_B_UInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianBig);
-#define NBYTESWAP_B_UInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianBig);
+#define NBYTESWAP_B_UInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
+#define NBYTESWAP_B_UInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianBig);
+#define NBYTESWAP_B_UInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianBig);
+#define NBYTESWAP_B_UInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianBig);
 
-#define NBYTESWAP_B_SInt8_Array(  _fieldName, _fieldCount)
-#define NBYTESWAP_B_SInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianBig);
-#define NBYTESWAP_B_SInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianBig);
-#define NBYTESWAP_B_SInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianBig);
+#define NBYTESWAP_B_SInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
+#define NBYTESWAP_B_SInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianBig);
+#define NBYTESWAP_B_SInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianBig);
+#define NBYTESWAP_B_SInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianBig);
 
-#define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianBig);
-#define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianBig);
+#define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianBig);
+#define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianBig);
 
 
-#define NBYTESWAP_L_UInt8_Array(  _fieldName, _fieldCount)
-#define NBYTESWAP_L_UInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianLittle);
-#define NBYTESWAP_L_UInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianLittle);
-#define NBYTESWAP_L_UInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianLittle);
+#define NBYTESWAP_L_UInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
+#define NBYTESWAP_L_UInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianLittle);
+#define NBYTESWAP_L_UInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianLittle);
+#define NBYTESWAP_L_UInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianLittle);
 
-#define NBYTESWAP_L_SInt8_Array(  _fieldName, _fieldCount)
-#define NBYTESWAP_L_SInt16_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianLittle);
-#define NBYTESWAP_L_SInt32_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianLittle);
-#define NBYTESWAP_L_SInt64_Array( _fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianLittle);
+#define NBYTESWAP_L_SInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
+#define NBYTESWAP_L_SInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianLittle);
+#define NBYTESWAP_L_SInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianLittle);
+#define NBYTESWAP_L_SInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianLittle);
 
-#define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianLittle);
-#define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)		NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianLittle);
+#define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianLittle);
+#define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianLittle);
 
 
 // Fields
-#define NBYTESWAP_Type(_fieldName, _fieldType)					NBYTESWAP_Type_Array(_fieldName, _fieldType, 1)
+#define NBYTESWAP_Type(_fieldName, _fieldType)						NBYTESWAP_Type_Array(_fieldName, _fieldType, 1)
 
 
-#define NBYTESWAP_B_UInt8(  _fieldName)							NBYTESWAP_B_UInt8_Array(  _fieldName, 1)
-#define NBYTESWAP_B_UInt16( _fieldName)							NBYTESWAP_B_UInt16_Array( _fieldName, 1)
-#define NBYTESWAP_B_UInt32( _fieldName)							NBYTESWAP_B_UInt32_Array( _fieldName, 1)
-#define NBYTESWAP_B_UInt64( _fieldName)							NBYTESWAP_B_UInt64_Array( _fieldName, 1)
+#define NBYTESWAP_B_UInt8(  _fieldName)								NBYTESWAP_B_UInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_B_UInt16( _fieldName)								NBYTESWAP_B_UInt16_Array( _fieldName, 1)
+#define NBYTESWAP_B_UInt32( _fieldName)								NBYTESWAP_B_UInt32_Array( _fieldName, 1)
+#define NBYTESWAP_B_UInt64( _fieldName)								NBYTESWAP_B_UInt64_Array( _fieldName, 1)
 
-#define NBYTESWAP_B_SInt8(  _fieldName)							NBYTESWAP_B_SInt8_Array(  _fieldName, 1)
-#define NBYTESWAP_B_SInt16( _fieldName)							NBYTESWAP_B_SInt16_Array( _fieldName, 1)
-#define NBYTESWAP_B_SInt32( _fieldName)							NBYTESWAP_B_SInt32_Array( _fieldName, 1)
-#define NBYTESWAP_B_SInt64( _fieldName)							NBYTESWAP_B_SInt64_Array( _fieldName, 1)
+#define NBYTESWAP_B_SInt8(  _fieldName)								NBYTESWAP_B_SInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_B_SInt16( _fieldName)								NBYTESWAP_B_SInt16_Array( _fieldName, 1)
+#define NBYTESWAP_B_SInt32( _fieldName)								NBYTESWAP_B_SInt32_Array( _fieldName, 1)
+#define NBYTESWAP_B_SInt64( _fieldName)								NBYTESWAP_B_SInt64_Array( _fieldName, 1)
 
-#define NBYTESWAP_B_Float32(_fieldName)							NBYTESWAP_B_Float32_Array(_fieldName, 1)
-#define NBYTESWAP_B_Float64(_fieldName)							NBYTESWAP_B_Float64_Array(_fieldName, 1)
+#define NBYTESWAP_B_Float32(_fieldName)								NBYTESWAP_B_Float32_Array(_fieldName, 1)
+#define NBYTESWAP_B_Float64(_fieldName)								NBYTESWAP_B_Float64_Array(_fieldName, 1)
 
 
-#define NBYTESWAP_L_UInt8(  _fieldName)							NBYTESWAP_L_UInt8_Array(  _fieldName, 1)
-#define NBYTESWAP_L_UInt16( _fieldName)							NBYTESWAP_L_UInt16_Array( _fieldName, 1)
-#define NBYTESWAP_L_UInt32( _fieldName)							NBYTESWAP_L_UInt32_Array( _fieldName, 1)
-#define NBYTESWAP_L_UInt64( _fieldName)							NBYTESWAP_L_UInt64_Array( _fieldName, 1)
+#define NBYTESWAP_L_UInt8(  _fieldName)								NBYTESWAP_L_UInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_L_UInt16( _fieldName)								NBYTESWAP_L_UInt16_Array( _fieldName, 1)
+#define NBYTESWAP_L_UInt32( _fieldName)								NBYTESWAP_L_UInt32_Array( _fieldName, 1)
+#define NBYTESWAP_L_UInt64( _fieldName)								NBYTESWAP_L_UInt64_Array( _fieldName, 1)
 
-#define NBYTESWAP_L_SInt8(  _fieldName)							NBYTESWAP_L_SInt8_Array(  _fieldName, 1)
-#define NBYTESWAP_L_SInt16( _fieldName)							NBYTESWAP_L_SInt16_Array( _fieldName, 1)
-#define NBYTESWAP_L_SInt32( _fieldName)							NBYTESWAP_L_SInt32_Array( _fieldName, 1)
-#define NBYTESWAP_L_SInt64( _fieldName)							NBYTESWAP_L_SInt64_Array( _fieldName, 1)
+#define NBYTESWAP_L_SInt8(  _fieldName)								NBYTESWAP_L_SInt8_Array(  _fieldName, 1)
+#define NBYTESWAP_L_SInt16( _fieldName)								NBYTESWAP_L_SInt16_Array( _fieldName, 1)
+#define NBYTESWAP_L_SInt32( _fieldName)								NBYTESWAP_L_SInt32_Array( _fieldName, 1)
+#define NBYTESWAP_L_SInt64( _fieldName)								NBYTESWAP_L_SInt64_Array( _fieldName, 1)
 
-#define NBYTESWAP_L_Float32(_fieldName)							NBYTESWAP_L_Float32_Array(_fieldName, 1)
-#define NBYTESWAP_L_Float64(_fieldName)							NBYTESWAP_L_Float64_Array(_fieldName, 1)
+#define NBYTESWAP_L_Float32(_fieldName)								NBYTESWAP_L_Float32_Array(_fieldName, 1)
+#define NBYTESWAP_L_Float64(_fieldName)								NBYTESWAP_L_Float64_Array(_fieldName, 1)
 
 
 
