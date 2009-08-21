@@ -82,7 +82,7 @@ private:
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NThreadTaskFunctor {
+class NThreadTaskFunctor : public NThreadTask {
 										 NThreadTaskFunctor(const NFunctor &theFunctor);
 	virtual								~NThreadTaskFunctor(void);
 
