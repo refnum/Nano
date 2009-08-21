@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14315F103EC576002BD0D1 /* TFileIterator.cpp */; };
 		AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC761035B65D007BC4E6 /* TUTI.cpp */; };
 		AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD7D10396310007BC4E6 /* TLocale.cpp */; };
 		AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */; };
@@ -110,6 +111,8 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
+		AB143160103EC576002BD0D1 /* TFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFileIterator.h; sourceTree = "<group>"; };
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
@@ -375,6 +378,8 @@
 				AB514D791034184B00E5A6AD /* TBundle.h */,
 				AB514D7A1034184B00E5A6AD /* TFile.cpp */,
 				AB514D7B1034184B00E5A6AD /* TFile.h */,
+				AB14315F103EC576002BD0D1 /* TFileIterator.cpp */,
+				AB143160103EC576002BD0D1 /* TFileIterator.h */,
 				AB514D7C1034184B00E5A6AD /* TFileMap.cpp */,
 				AB514D7D1034184B00E5A6AD /* TFileMap.h */,
 				AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */,
@@ -702,6 +707,7 @@
 				AB514DEE1034184B00E5A6AD /* TTimer.cpp in Sources */,
 				AB514DEF1034184B00E5A6AD /* TBundle.cpp in Sources */,
 				AB514DF01034184B00E5A6AD /* TFile.cpp in Sources */,
+				AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */,
 				AB514DF11034184B00E5A6AD /* TFileMap.cpp in Sources */,
 				AB514DF21034184B00E5A6AD /* TPropertyList.cpp in Sources */,
 				AB514E7A1034612D00E5A6AD /* TPoint.cpp in Sources */,

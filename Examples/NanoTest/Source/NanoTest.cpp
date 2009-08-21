@@ -44,6 +44,7 @@
 
 #include "TBundle.h"
 #include "TFile.h"
+#include "TFileIterator.h"
 #include "TFileMap.h"
 #include "TPropertyList.h"
 
@@ -159,6 +160,7 @@ int main(int argc, const char **argv)
 	// Files
 	TBundle::Execute();
 	TFile::Execute();
+	TFileIterator::Execute();
 	TFileMap::Execute();
 	TPropertyList::Execute();
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
+		AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB1694DA10028C8200F7D4B7 /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D610028C8200F7D4B7 /* cdecode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694DB10028C8200F7D4B7 /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D810028C8200F7D4B7 /* cencode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694DC10028C8200F7D4B7 /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D610028C8200F7D4B7 /* cdecode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -276,6 +278,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
+		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
 		AB1694D610028C8200F7D4B7 /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdecode.c; sourceTree = "<group>"; };
 		AB1694D710028C8200F7D4B7 /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdecode.h; sourceTree = "<group>"; };
 		AB1694D810028C8200F7D4B7 /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cencode.c; sourceTree = "<group>"; };
@@ -1084,6 +1088,8 @@
 				ABB145CB0FF36A34006F178C /* NBundle.h */,
 				ABB95B660FB7243700C5A7FF /* NFile.cpp */,
 				ABB95B670FB7243700C5A7FF /* NFile.h */,
+				AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */,
+				AB143171103EC5BE002BD0D1 /* NFileIterator.h */,
 				AB1A78FB103241C200DFBA38 /* NFileMap.cpp */,
 				AB1A78FC103241C200DFBA38 /* NFileMap.h */,
 				ABB145CA0FF36A34006F178C /* NPropertyList.cpp */,
@@ -1232,6 +1238,7 @@
 				AB1A78CD1032398000DFBA38 /* NTimer.cpp in Sources */,
 				ABB145D00FF36A34006F178C /* NBundle.cpp in Sources */,
 				ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */,
+				AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */,
 				AB1A78FD103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */,
 				AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */,
@@ -1372,6 +1379,7 @@
 				AB1A78CE1032398000DFBA38 /* NTimer.cpp in Sources */,
 				ABB145CE0FF36A34006F178C /* NBundle.cpp in Sources */,
 				ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */,
+				AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */,
 				AB1A78FE103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */,
 				AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */,
