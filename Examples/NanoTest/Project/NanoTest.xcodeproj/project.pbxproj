@@ -314,7 +314,7 @@
 				AB514D6B1034184B00E5A6AD /* Database */,
 				AB514D701034184B00E5A6AD /* Events */,
 				AB514D771034184B00E5A6AD /* Files */,
-				AB514E731034612D00E5A6AD /* Geometry */,
+				AB514E731034612D00E5A6AD /* Graphics */,
 				AB514D801034184B00E5A6AD /* System */,
 				AB514D911034184B00E5A6AD /* Threads */,
 				AB514D9E1034184B00E5A6AD /* Types */,
@@ -539,7 +539,7 @@
 			path = CoreFoundation;
 			sourceTree = "<group>";
 		};
-		AB514E731034612D00E5A6AD /* Geometry */ = {
+		AB514E731034612D00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
 				AB514E741034612D00E5A6AD /* TPoint.cpp */,
@@ -551,7 +551,7 @@
 				AB514EBC1034654800E5A6AD /* TVector.cpp */,
 				AB514EBB1034654800E5A6AD /* TVector.h */,
 			);
-			path = Geometry;
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		AB5B29A909CAD85D008C593C /* Configuration */ = {

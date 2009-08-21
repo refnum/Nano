@@ -640,7 +640,7 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
-		AB514E58103460CB00E5A6AD /* Geometry */ = {
+		AB514E58103460CB00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
 				AB514E59103460CB00E5A6AD /* NPoint.cpp */,
@@ -652,7 +652,7 @@
 				AB514E901034638700E5A6AD /* NVector.cpp */,
 				AB514E911034638700E5A6AD /* NVector.h */,
 			);
-			path = Geometry;
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */ = {
@@ -741,7 +741,7 @@
 				AB23BAEC102B5B95009CA347 /* Database */,
 				AB9155100F9B4DD5009FFEAF /* Events */,
 				ABB95B650FB7243700C5A7FF /* Files */,
-				AB514E58103460CB00E5A6AD /* Geometry */,
+				AB514E58103460CB00E5A6AD /* Graphics */,
 				ABB95B640FB7241B00C5A7FF /* Internal */,
 				AB9155150F9B4DD5009FFEAF /* System */,
 				AB9155380F9B4DD6009FFEAF /* Threads */,
