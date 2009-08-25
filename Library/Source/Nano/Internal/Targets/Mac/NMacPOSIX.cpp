@@ -23,7 +23,7 @@
 //============================================================================
 //		NTargetPOSIX::is_nan : Mac isnan.
 //----------------------------------------------------------------------------
-int NTargetPOSIX::is_nan(double r)
+bool NTargetPOSIX::is_nan(Float64 r)
 {
 
 
@@ -38,7 +38,7 @@ int NTargetPOSIX::is_nan(double r)
 //============================================================================
 //		NTargetPOSIX::is_inf : Mac isinf.
 //----------------------------------------------------------------------------
-int NTargetPOSIX::is_inf(double r)
+bool NTargetPOSIX::is_inf(Float64 r)
 {
 
 
@@ -53,8 +53,8 @@ int NTargetPOSIX::is_inf(double r)
 //============================================================================
 //		NTargetPOSIX::snprintf : Mac snprintf.
 //----------------------------------------------------------------------------
-int NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
-{	int			theResult;
+NIndex NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
+{	NIndex		theResult;
 	va_list		argList;
 
 
@@ -74,8 +74,8 @@ int NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 //============================================================================
 //		NTargetPOSIX::vsnprintf : Mac vsnprintf.
 //----------------------------------------------------------------------------
-int NTargetPOSIX::vsnprintf(char *s, size_t n, const char *format, va_list argList)
-{	int		theResult;
+NIndex NTargetPOSIX::vsnprintf(char *s, size_t n, const char *format, va_list argList)
+{	NIndex		theResult;
 
 
 

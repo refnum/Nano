@@ -27,13 +27,13 @@
 class NTargetPOSIX {
 public:
 	// math.h
-	static int							is_nan(double r);
-	static int							is_inf(double r);
+	static bool							is_nan(Float64 r);
+	static bool							is_inf(Float64 r);
 
 	
 	// stdio.h
-	static int							snprintf( char *s, size_t n, const char *format, ...);
-	static int							vsnprintf(char *s, size_t n, const char *format, va_list argList);
+	static NIndex						snprintf( char *s, size_t n, const char *format, ...);
+	static NIndex						vsnprintf(char *s, size_t n, const char *format, va_list argList);
 
 
 	// time.h
