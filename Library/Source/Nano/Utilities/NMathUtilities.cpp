@@ -200,21 +200,6 @@ NRadians NMathUtilities::GetRadians(NDegrees theValue)
 
 
 //============================================================================
-//      NMathUtilities::GetAbsolute : Get an absolute value.
-//----------------------------------------------------------------------------
-Float32 NMathUtilities::GetAbsolute(Float32 theValue)
-{
-
-
-    // Get the value
-	return(NTargetMath::GetAbsolute(theValue));
-}
-
-
-
-
-
-//============================================================================
 //      NMathUtilities::FastReciprocal : Get an approximate reciprocal.
 //----------------------------------------------------------------------------
 Float32 NMathUtilities::FastReciprocal(Float32 theValue)

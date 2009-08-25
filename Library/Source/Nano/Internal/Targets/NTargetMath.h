@@ -31,10 +31,6 @@ public:
 	static UInt32						RotateRight(UInt32 theValue, UInt32 rotateBy);
 
 
-	// Get an absolute value
-	static Float32						GetAbsolute(Float32 theValue);
-
-
 	// Get an approximate value
 	static Float32						FastReciprocal(Float32 theValue);
 	static Float32						FastRoot(      Float32 theValue);

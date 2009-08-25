@@ -63,25 +63,6 @@ UInt32 NTargetMath::RotateRight(UInt32 theValue, UInt32 rotateBy)
 
 
 //============================================================================
-//      NTargetMath::GetAbsolute : Get an absolute value.
-//----------------------------------------------------------------------------
-Float32 NTargetMath::GetAbsolute(Float32 theValue)
-{
-
-
-    // Get the value
-#if TARGET_CPU_PPC
-    return((Float32) __fabs((Float64) theValue));
-#else
-    return(fabsf(theValue));
-#endif
-}
-
-
-
-
-
-//============================================================================
 //      NTargetMath::FastReciprocal : Get an approximate reciprocal.
 //----------------------------------------------------------------------------
 Float32 NTargetMath::FastReciprocal(Float32 theValue)

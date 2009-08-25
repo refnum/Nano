@@ -75,10 +75,6 @@ public:
 	static NRadians						GetRadians(NDegrees theValue);
 
 
-    // Get an absolute value
-	static Float32						GetAbsolute(Float32 theValue);
-
-
     // Fast (and approximate) reciprocal value
 	static Float32						FastReciprocal(Float32 theValue);
 

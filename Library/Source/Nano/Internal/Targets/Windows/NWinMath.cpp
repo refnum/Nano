@@ -54,21 +54,6 @@ UInt32 NTargetMath::RotateRight(UInt32 theValue, UInt32 rotateBy)
 
 
 //============================================================================
-//      NTargetMath::GetAbsolute : Get an absolute value.
-//----------------------------------------------------------------------------
-Float32 NTargetMath::GetAbsolute(Float32 theValue)
-{
-
-
-    // Get the value
-    return(fabsf(theValue));
-}
-
-
-
-
-
-//============================================================================
 //      NTargetMath::FastReciprocal : Get an approximate reciprocal.
 //----------------------------------------------------------------------------
 Float32 NTargetMath::FastReciprocal(Float32 theValue)
