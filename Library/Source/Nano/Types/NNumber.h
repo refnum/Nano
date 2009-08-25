@@ -34,12 +34,15 @@ static const NString kNStringInfinityPos								= "+infinity";
 static const NString kNStringNaN										= "nan";
 
 
-// Types
+// Numerical precision
 typedef enum {
-	kNNumberInteger,
-	kNNumberFloat32,
-	kNNumberFloat64,
-} NNumberType;
+	kNPrecisionInt8,
+	kNPrecisionInt16,
+	kNPrecisionInt32,
+	kNPrecisionInt64,
+	kNPrecisionFloat32,
+	kNPrecisionFloat64,
+} NPrecision;
 
 
 
@@ -84,9 +87,16 @@ public:
 	bool								IsInteger(void) const;
 
 
+	// Get the precision
+	//
+	// Numbers may be stored with a greater precision than an assigned
+	// value, however the internal precision will never be lossy.
+	NPrecision							GetPrecision(void) const;
+
+
 	// Get the number as a string
 	//
-	// Returns kNStringNaN or kNStringInfinityXXX as necessary.
+	// May return kNStringNaN or kNStringInfinityXXX.
 	NString								GetString(void) const;
 
 
@@ -96,7 +106,8 @@ public:
 
 	// Get/set the value
 	//
-	// If the value can not be coerced to the specified type, 0/false is returned.
+	// If the value needs to be cast from a different precision, conversion
+	// is performed using C's normal (potentially lossy) promotion rules.
 	UInt8								GetUInt8(  void) const;
 	UInt16								GetUInt16( void) const;
 	UInt32								GetUInt32( void) const;
@@ -107,17 +118,6 @@ public:
 	SInt64								GetSInt64( void) const;
 	Float32								GetFloat32(void) const;
 	Float64								GetFloat64(void) const;
-
-	bool								GetUInt8(  UInt8   &theValue) const;
-	bool								GetUInt16( UInt16  &theValue) const;
-	bool								GetUInt32( UInt32  &theValue) const;
-	bool								GetUInt64( UInt64  &theValue) const;
-	bool								GetSInt8(  SInt8   &theValue) const;
-	bool								GetSInt16( SInt16  &theValue) const;
-	bool								GetSInt32( SInt32  &theValue) const;
-	bool								GetSInt64( SInt64  &theValue) const;
-	bool								GetFloat32(Float32 &theValue) const;
-	bool								GetFloat64(Float64 &theValue) const;
 
 	void								SetUInt8  (UInt8   theValue);
 	void								SetUInt16 (UInt16  theValue);
@@ -147,7 +147,7 @@ protected:
 
 
 private:
-	NNumberType							mType;
+	NPrecision							mPrecision;
 	NNumberValue						mValue;
 };
 

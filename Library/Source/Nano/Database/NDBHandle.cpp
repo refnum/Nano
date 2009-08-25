@@ -530,23 +530,19 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 		if (theValue.IsNumeric())
 			{
 			valueNumber = NNumber(theValue);
-			
-			if (valueNumber.GetSInt64(valueSInt64))
+			if (valueNumber.IsInteger())
 				{
-				dbErr= sqlite3_bind_int64(sqlStatement, theIndex, valueSInt64);
-				if (dbErr != kNoErr)
-					NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
+				valueSInt64 = valueNumber.GetSInt64();
+				dbErr       = sqlite3_bind_int64(sqlStatement, theIndex, valueSInt64);
 				}
-
-			else if (valueNumber.GetFloat64(valueFloat64))
-				{
-				dbErr = sqlite3_bind_double(sqlStatement, theIndex, valueFloat64);
-				if (dbErr != kNoErr)
-					NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
-				}
-			
 			else
-				NN_LOG("Unable to convert '%@' to number", theKey);
+				{
+				valueFloat64 = valueNumber.GetFloat64();
+				dbErr        = sqlite3_bind_double(sqlStatement, theIndex, valueFloat64);
+				}
+			
+			if (dbErr != kNoErr)
+				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
 		
 		

@@ -926,7 +926,7 @@ void NArray::DecodeSelf(const NEncoder &theEncoder)
 		theKey  = *theIter;
 		theType = theEncoder.GetValueType(theKey);
 		
-		if (!theNumber.SetValue(theKey) || !theNumber.GetSInt32(n))
+		if (!theNumber.SetValue(theKey))
 			{
 			NN_LOG("Unknown index format (%@) - skipping", theKey);
 			return;
@@ -935,6 +935,8 @@ void NArray::DecodeSelf(const NEncoder &theEncoder)
 
 
 		// Decode the value
+		n = theNumber.GetSInt32();
+
 		switch (theType) {
 			case kNEncodedBoolean:
 				SetValue(n, theEncoder.DecodeBoolean(theKey));

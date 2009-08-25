@@ -93,17 +93,29 @@ NCFObject NCFNumber::GetObject(void) const
 
 
 	// Get the object
-	if (GetSInt64(valueSInt64))
-		theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberLongLongType, &valueSInt64));
-
-	else if (GetFloat32(valueFloat32))
-		theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberFloatType,    &valueFloat32));
-
-	else if (GetFloat64(valueFloat64))
-		theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberDoubleType,   &valueFloat64));
-	
-	else
-		NN_LOG("Unable to convert '%@' to CFNumber", GetString());
+	switch (GetPrecision()) {
+		case kNPrecisionInt8:
+		case kNPrecisionInt16:
+		case kNPrecisionInt32:
+		case kNPrecisionInt64:
+			valueSInt64 = GetSInt64();
+			theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberLongLongType, &valueSInt64));
+			break;
+		
+		case kNPrecisionFloat32:
+			valueFloat32 = GetFloat32();
+			theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberFloatType,    &valueFloat32));
+			break;
+		
+		case kNPrecisionFloat64:
+			valueFloat64 = GetFloat64();
+			theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberDoubleType,   &valueFloat64));
+			break;
+		
+		default:
+			NN_LOG("Unable to convert '%@' to CFNumber", GetString());
+			break;
+		}
 
 	return(theObject);
 }

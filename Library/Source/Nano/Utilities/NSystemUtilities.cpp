@@ -57,13 +57,13 @@ SInt32 NSystemUtilities::GetSInt32(const NVariant &theValue, const NString &debu
 
 
 	// Get the value
-	theResult = 0;
-
-	if (!theNumber.SetValue(theValue) || !theNumber.GetSInt32(theResult))
+	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to SInt32", debugID);
 		}
+	
+	theResult = theNumber.GetSInt32();
 
 	return(theResult);
 }
@@ -82,13 +82,13 @@ SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debu
 
 
 	// Get the value
-	theResult = 0;
-
-	if (!theNumber.SetValue(theValue) || !theNumber.GetSInt64(theResult))
+	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to SInt64", debugID);
 		}
+
+	theResult = theNumber.GetSInt64();
 
 	return(theResult);
 }
@@ -107,13 +107,13 @@ Float32 NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &de
 
 
 	// Get the value
-	theResult = 0.0f;
-
-	if (!theNumber.SetValue(theValue) || !theNumber.GetFloat32(theResult))
+	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to Float32", debugID);
 		}
+
+	theResult = theNumber.GetFloat32();
 
 	return(theResult);
 }
@@ -132,13 +132,13 @@ Float64 NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &de
 
 
 	// Get the value
-	theResult = 0.0;
-
-	if (!theNumber.SetValue(theValue) || !theNumber.GetFloat64(theResult))
+	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to Float64", debugID);
 		}
+
+	theResult = theNumber.GetFloat64();
 
 	return(theResult);
 }

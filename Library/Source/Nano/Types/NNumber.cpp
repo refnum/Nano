@@ -27,7 +27,13 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kNStringZero										= "0.0";
+static const NString kNStringZero										= "0";
+
+static const NIndex kDecimalsFloat32									= 7;
+static const NIndex kDecimalsFloat64									= 17;
+
+static const NString kFormatFloat32										= "%.7g";
+static const NString kFormatFloat64										= "%.17g";
 
 
 
@@ -139,7 +145,7 @@ NNumber::NNumber(void)
 
 
 	// Initialise ourselves
-	mType          = kNNumberInteger;
+	mPrecision     = kNPrecisionInt8;
 	mValue.integer = 0;
 }
 
@@ -162,11 +168,46 @@ NNumber::~NNumber(void)
 //		NNumber::IsInteger : Is the number an integer?
 //----------------------------------------------------------------------------
 bool NNumber::IsInteger(void) const
+{	bool	isInteger;
+
+
+
+	// Check the type
+	switch (mPrecision) {
+		case kNPrecisionInt8:
+		case kNPrecisionInt16:
+		case kNPrecisionInt32:
+		case kNPrecisionInt64:
+			isInteger = true;
+			break;
+		
+		case kNPrecisionFloat32:
+		case kNPrecisionFloat64:
+			isInteger = false;
+			break;
+		
+		default:
+			NN_LOG("Unknown precision: %d", mPrecision);
+			isInteger = false;
+			break;
+		}
+	
+	return(isInteger);
+}
+
+
+
+
+
+//============================================================================
+//		NNumber::GetPrecision : Get the precision.
+//----------------------------------------------------------------------------
+NPrecision NNumber::GetPrecision(void) const
 {
 
 
-	// Get the type
-	return(mType == kNNumberInteger);
+	// Get the precision
+	return(mPrecision);
 }
 
 
@@ -182,16 +223,16 @@ NString NNumber::GetString(void) const
 
 
 	// Get the string
-	//
-	// Having separate 32 and 64-bit float types allows us to ensure Float32
-	// values do not get expanded to Float64 precision due to rounding.
-	switch (mType) {
-		case kNNumberInteger:
+	switch (mPrecision) {
+		case kNPrecisionInt8:
+		case kNPrecisionInt16:
+		case kNPrecisionInt32:
+		case kNPrecisionInt64:
 			valueText.Format("%lld", mValue.integer);
 			break;
 			
-		case kNNumberFloat32:
-		case kNNumberFloat64:
+		case kNPrecisionFloat32:
+		case kNPrecisionFloat64:
 			if (NTargetPOSIX::is_nan(mValue.real))
 				valueText = kNStringNaN;
 
@@ -203,15 +244,15 @@ NString NNumber::GetString(void) const
 
 			else
 				{
-				if (mType == kNNumberFloat32)
-					valueText.Format("%.7g", (Float32) mValue.real);
+				if (mPrecision == kNPrecisionFloat32)
+					valueText.Format(kFormatFloat32, (Float32) mValue.real);
 				else
-					valueText.Format("%.17g",          mValue.real);
+					valueText.Format(kFormatFloat64,           mValue.real);
 				}
 			break;
 
 		default:
-			NN_LOG("Unknown number type: %d", mType);
+			NN_LOG("Unknown precision: %d", mPrecision);
 			valueText = kNStringZero;
 			break;
 		}
@@ -229,7 +270,7 @@ NString NNumber::GetString(void) const
 NComparison NNumber::Compare(const NNumber &theValue) const
 {	Float64				valueFloat64_1, valueFloat64_2;
 	Float32				valueFloat32_1, valueFloat32_2;
-	SInt64				valueInteger;
+	SInt64				valueInt64_1,  valueInt64_2;
 	NComparison			theResult;
 
 
@@ -240,67 +281,60 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 
 	// Compare equal types
-	if (mType == theValue.mType)
+	if (mPrecision == theValue.mPrecision || (IsInteger() && theValue.IsInteger()))
 		{
-		switch (mType) {
-			case kNNumberInteger:
+		switch (mPrecision) {
+			case kNPrecisionInt8:
+			case kNPrecisionInt16:
+			case kNPrecisionInt32:
+			case kNPrecisionInt64:
 				theResult = GetComparison(mValue.integer, theValue.mValue.integer);
 				break;
 			
-			case kNNumberFloat32:
-			case kNNumberFloat64:
-				if (NMathUtilities::AreEqual( mValue.real, theValue.mValue.real))
-					theResult = kNCompareEqualTo;
-				else
-					theResult = GetComparison(mValue.real, theValue.mValue.real);
+			case kNPrecisionFloat32:
+				valueFloat32_1 = (Float32)          mValue.real;
+				valueFloat32_2 = (Float32) theValue.mValue.real;
+				theResult      = GetComparison(valueFloat32_1, valueFloat32_2);
+				break;
+
+			case kNPrecisionFloat64:
+				theResult = GetComparison(mValue.real, theValue.mValue.real);
 				break;
 
 			default:
-				NN_LOG("Unknown number type: %d", mType);
+				NN_LOG("Unknown precision: %d", mPrecision);
 				break;
 			}
 		}
-	
-	
+
+
 	// Compare dis-similar types
-	//
-	// Floating point comparisons are truncated to the smallest precision of the two.
 	else
 		{
-		switch (mType) {
-			case kNNumberInteger:
-				if (theValue.GetSInt64(valueInteger))
-					theResult = GetComparison(mValue.integer, valueInteger);
-				else
-					NN_LOG("Unable to compare numbers across types");
+		switch (mPrecision) {
+			case kNPrecisionInt8:
+			case kNPrecisionInt16:
+			case kNPrecisionInt32:
+			case kNPrecisionInt64:
+				valueInt64_1 =          GetSInt64();
+				valueInt64_2 = theValue.GetSInt64();
+				theResult    = GetComparison(valueInt64_1, valueInt64_2);
 				break;
-			
-			case kNNumberFloat32:
-			case kNNumberFloat64:
-				if (mType == kNNumberFloat32 || theValue.mType == kNNumberFloat32)
-					{
-					valueFloat32_1 = (Float32)          mValue.real;
-					valueFloat32_2 = (Float32) theValue.mValue.real;
 
-					if (NMathUtilities::AreEqual(valueFloat32_1, valueFloat32_2))
-						theResult = kNCompareEqualTo;
-					else
-						theResult = GetComparison(valueFloat32_1, valueFloat32_2);
-					}
-				else
-					{
-					valueFloat64_1 =          mValue.real;
-					valueFloat64_2 = theValue.mValue.real;
+			case kNPrecisionFloat32:
+				valueFloat32_1 =          GetFloat32();
+				valueFloat32_2 = theValue.GetFloat32();
+				theResult      = GetComparison(valueFloat32_1, valueFloat32_2);
+				break;
 
-					if (NMathUtilities::AreEqual(valueFloat64_1, valueFloat64_2))
-						theResult = kNCompareEqualTo;
-					else
-						theResult = GetComparison(valueFloat64_1, valueFloat64_2);
-					}
+			case kNPrecisionFloat64:
+				valueFloat64_1 =          GetFloat64();
+				valueFloat64_2 = theValue.GetFloat64();
+				theResult      = GetComparison(valueFloat64_1, valueFloat64_2);
 				break;
 
 			default:
-				NN_LOG("Unknown number type: %d", mType);
+				NN_LOG("Unknown precision: %d", mPrecision);
 				break;
 			}
 		}
@@ -316,16 +350,11 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 //		NNumber::GetUInt8 : Get a UInt8 value.
 //----------------------------------------------------------------------------
 UInt8 NNumber::GetUInt8(void) const
-{	UInt8		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetUInt8(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((UInt8) GetSInt64());
 }
 
 
@@ -336,16 +365,11 @@ UInt8 NNumber::GetUInt8(void) const
 //		NNumber::GetUInt16 : Get a UInt16 value.
 //----------------------------------------------------------------------------
 UInt16 NNumber::GetUInt16(void) const
-{	UInt16		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetUInt16(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((UInt16) GetSInt64());
 }
 
 
@@ -356,16 +380,11 @@ UInt16 NNumber::GetUInt16(void) const
 //		NNumber::GetUInt32 : Get a UInt32 value.
 //----------------------------------------------------------------------------
 UInt32 NNumber::GetUInt32(void) const
-{	UInt32		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetUInt32(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((UInt32) GetSInt64());
 }
 
 
@@ -376,16 +395,11 @@ UInt32 NNumber::GetUInt32(void) const
 //		NNumber::GetUInt64 : Get a UInt64 value.
 //----------------------------------------------------------------------------
 UInt64 NNumber::GetUInt64(void) const
-{	UInt64		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetUInt64(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((UInt64) GetSInt64());
 }
 
 
@@ -396,16 +410,11 @@ UInt64 NNumber::GetUInt64(void) const
 //		NNumber::GetSInt8 : Get a SInt8 value.
 //----------------------------------------------------------------------------
 SInt8 NNumber::GetSInt8(void) const
-{	SInt8		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetSInt8(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((SInt8) GetSInt64());
 }
 
 
@@ -416,16 +425,11 @@ SInt8 NNumber::GetSInt8(void) const
 //		NNumber::GetSInt16 : Get a SInt16 value.
 //----------------------------------------------------------------------------
 SInt16 NNumber::GetSInt16(void) const
-{	SInt16		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetSInt16(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((SInt16) GetSInt64());
 }
 
 
@@ -436,16 +440,11 @@ SInt16 NNumber::GetSInt16(void) const
 //		NNumber::GetSInt32 : Get a SInt32 value.
 //----------------------------------------------------------------------------
 SInt32 NNumber::GetSInt32(void) const
-{	SInt32		theValue;
-	bool		canCast;
-
+{
 
 
 	// Get the value
-	canCast = GetSInt32(theValue);
-	NN_ASSERT(canCast);
-	
-	return(theValue);
+	return((SInt32) GetSInt64());
 }
 
 
@@ -457,13 +456,14 @@ SInt32 NNumber::GetSInt32(void) const
 //----------------------------------------------------------------------------
 SInt64 NNumber::GetSInt64(void) const
 {	SInt64		theValue;
-	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetSInt64(theValue);
-	NN_ASSERT(canCast);
+	if (IsInteger())
+		theValue = (SInt64) mValue.integer;
+	else
+		theValue = (SInt64) mValue.real;
 	
 	return(theValue);
 }
@@ -477,13 +477,14 @@ SInt64 NNumber::GetSInt64(void) const
 //----------------------------------------------------------------------------
 Float32 NNumber::GetFloat32(void) const
 {	Float32		theValue;
-	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetFloat32(theValue);
-	NN_ASSERT(canCast);
+	if (IsInteger())
+		theValue = (Float32) mValue.integer;
+	else
+		theValue = (Float32) mValue.real;
 	
 	return(theValue);
 }
@@ -497,291 +498,16 @@ Float32 NNumber::GetFloat32(void) const
 //----------------------------------------------------------------------------
 Float64 NNumber::GetFloat64(void) const
 {	Float64		theValue;
-	bool		canCast;
 
 
 
 	// Get the value
-	canCast = GetFloat64(theValue);
-	NN_ASSERT(canCast);
+	if (IsInteger())
+		theValue = (Float64) mValue.integer;
+	else
+		theValue = (Float64) mValue.real;
 	
 	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetUInt8 : Get a UInt8 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetUInt8(UInt8 &theValue) const
-{	SInt8		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	theValue = 0;
-	canCast  = GetSInt8(valueInteger);
-
-	if (canCast)
-		theValue = (UInt8) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetUInt16 : Get a UInt16 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetUInt16(UInt16 &theValue) const
-{	SInt16		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	theValue = 0;
-	canCast  = GetSInt16(valueInteger);
-
-	if (canCast)
-		theValue = (UInt16) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetUInt32 : Get a UInt32 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetUInt32(UInt32 &theValue) const
-{	SInt32		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	theValue = 0;
-	canCast  = GetSInt32(valueInteger);
-
-	if (canCast)
-		theValue = (UInt32) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetUInt64 : Get a UInt64 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetUInt64(UInt64 &theValue) const
-{	SInt64		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	valueInteger = 0;
-	theValue     = 0;
-	canCast      = GetSInt64(valueInteger);
-
-	if (canCast)
-		theValue = (UInt64) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetSInt8 : Get an SInt8 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetSInt8(SInt8 &theValue) const
-{	SInt64		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	valueInteger = 0;
-	theValue     = 0;
-	canCast      = GetSInt64(valueInteger);
-
-	if (canCast && valueInteger >= kSInt8Min && valueInteger <= kSInt8Max)
-		theValue = (SInt8) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetSInt16 : Get an SInt16 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetSInt16(SInt16 &theValue) const
-{	SInt64		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	valueInteger = 0;
-	theValue     = 0;
-	canCast      = GetSInt64(valueInteger);
-
-	if (canCast && valueInteger >= kSInt16Min && valueInteger <= kSInt16Max)
-		theValue = (SInt16) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetSInt32 : Get an SInt32 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetSInt32(SInt32 &theValue) const
-{	SInt64		valueInteger;
-	bool		canCast;
-
-
-
-	// Get the value
-	valueInteger = 0;
-	theValue     = 0;
-	canCast      = GetSInt64(valueInteger);
-
-	if (canCast && valueInteger >= kSInt32Min && valueInteger <= kSInt32Max)
-		theValue = (SInt32) valueInteger;
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetSInt64 : Get an SInt64 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetSInt64(SInt64 &theValue) const
-{	bool	canCast;
-
-
-
-	// Get the value
-	switch (mType) {
-		case kNNumberInteger:
-			canCast  = true;
-			theValue = mValue.integer;
-			break;
-
-		case kNNumberFloat32:
-			canCast = NMathUtilities::AreEqual(floorf(mValue.real), (Float32) mValue.real);
-			if (canCast && mValue.real >= kFloat32Min && mValue.real <= kFloat32Max)
-				theValue = (SInt64) mValue.real;
-			break;
-
-		case kNNumberFloat64:
-			canCast = NMathUtilities::AreEqual(floor(mValue.real), mValue.real);
-			if (canCast && mValue.real >= kSInt64Min && mValue.real <= kSInt64Max)
-				theValue = (SInt64) mValue.real;
-			break;
-
-		default:
-			NN_LOG("Unknown number type: %d", mType);
-
-			canCast  = false;
-			theValue = 0;
-			break;
-		}
-
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetFloat32 : Get a Float32 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetFloat32(Float32 &theValue) const
-{	Float64		valueReal;
-	bool		canCast;
-
-
-
-	// Get the value
-	valueReal = 0.0;
-	theValue  = 0;
-
-	if (mType == kNNumberFloat32)
-		{
-		canCast  = true;
-		theValue = (Float32) mValue.real;
-		}
-	else
-		{
-		canCast = GetFloat64(valueReal);
-		if (canCast && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
-			theValue = (Float32) valueReal;
-		}
-		
-	return(canCast);
-}
-
-
-
-
-
-//============================================================================
-//		NNumber::GetFloat64 : Get a Float64 value.
-//----------------------------------------------------------------------------
-bool NNumber::GetFloat64(Float64 &theValue) const
-{	bool	canCast;
-
-
-
-	// Get the value
-	switch (mType) {
-		case kNNumberInteger:
-			canCast = (mValue.integer >= kFloat64Min && mValue.integer <= kFloat64Max);
-			if (canCast)
-				theValue = (Float64) mValue.integer;
-			break;
-
-		case kNNumberFloat32:
-		case kNNumberFloat64:
-			canCast  = true;
-			theValue = mValue.real;
-			break;
-
-		default:
-			NN_LOG("Unknown number type: %d", mType);
-
-			canCast  = false;
-			theValue = 0.0;
-			break;
-		}
-
-	return(canCast);
 }
 
 
@@ -796,7 +522,8 @@ void NNumber::SetUInt8(UInt8 theValue)
 
 
 	// Set the value
-	SetSInt64(theValue);
+	mPrecision     = kNPrecisionInt8;
+	mValue.integer = theValue;
 }
 
 
@@ -811,7 +538,8 @@ void NNumber::SetUInt16(UInt16 theValue)
 
 
 	// Set the value
-	SetSInt64(theValue);
+	mPrecision     = kNPrecisionInt16;
+	mValue.integer = theValue;
 }
 
 
@@ -826,7 +554,8 @@ void NNumber::SetUInt32(UInt32 theValue)
 
 
 	// Set the value
-	SetSInt64(theValue);
+	mPrecision     = kNPrecisionInt32;
+	mValue.integer = theValue;
 }
 
 
@@ -841,7 +570,8 @@ void NNumber::SetUInt64(UInt64 theValue)
 
 
 	// Set the value
-	SetSInt64((SInt64) theValue);
+	mPrecision     = kNPrecisionInt64;
+	mValue.integer = theValue;
 }
 
 
@@ -856,7 +586,8 @@ void NNumber::SetSInt8(SInt8 theValue)
 
 
 	// Set the value
-	SetSInt64(theValue);
+	mPrecision     = kNPrecisionInt8;
+	mValue.integer = theValue;
 }
 
 
@@ -871,7 +602,8 @@ void NNumber::SetSInt16(SInt16 theValue)
 
 
 	// Set the value
-	SetSInt64(theValue);
+	mPrecision     = kNPrecisionInt16;
+	mValue.integer = theValue;
 }
 
 
@@ -886,7 +618,8 @@ void NNumber::SetSInt32(SInt32 theValue)
 
 
 	// Set the value
-	SetSInt64(theValue);
+	mPrecision     = kNPrecisionInt32;
+	mValue.integer = theValue;
 }
 
 
@@ -901,7 +634,7 @@ void NNumber::SetSInt64(SInt64 theValue)
 
 
 	// Set the value
-	mType          = kNNumberInteger;
+	mPrecision     = kNPrecisionInt64;
 	mValue.integer = theValue;
 }
 
@@ -917,7 +650,7 @@ void NNumber::SetFloat32(Float32 theValue)
 
 
 	// Set the value
-	mType       = kNNumberFloat32;
+	mPrecision  = kNPrecisionFloat32;
 	mValue.real = theValue;
 }
 
@@ -933,7 +666,7 @@ void NNumber::SetFloat64(Float64 theValue)
 
 
 	// Set the value
-	mType       = kNNumberFloat64;
+	mPrecision  = kNPrecisionFloat64;
 	mValue.real = theValue;
 }
 
@@ -1016,7 +749,9 @@ bool NNumber::SetValue(const NVariant &theValue)
 //		NNumber::SetValue : Set the value.
 //----------------------------------------------------------------------------
 bool NNumber::SetValue(const NString &theValue)
-{	SInt64		valueInteger;
+{	NRange		foundDot, foundE;
+	NIndex		thePrecision;
+	SInt64		valueInteger;
 	Float64		valueReal;
 
 
@@ -1028,10 +763,23 @@ bool NNumber::SetValue(const NString &theValue)
 	// types for storage in the future.
 	if (sscanf(theValue.GetUTF8(), "%lf", &valueReal) == 1)
 		{
-		SetFloat64(valueReal);
+		// Get the state we need
+		foundDot = theValue.Find(".");
+		foundE   = theValue.Find("e", kNStringNoCase);
+		
+		thePrecision = theValue.GetSize() - foundDot.GetNext();
+		if (foundDot.IsEmpty() || !foundE.IsEmpty())
+			thePrecision = kDecimalsFloat64;
 
-		if (GetSInt64(valueInteger))
-			SetSInt64(valueInteger);
+
+
+		// Cast the value
+		if (foundDot.IsEmpty() && foundE.IsEmpty() && valueReal >= kSInt64Min  && valueReal <= kSInt64Max)
+			SetSInt64((SInt64) valueReal);
+		else if (thePrecision <= kDecimalsFloat32  && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
+			SetFloat32(valueReal);
+		else
+			SetFloat64(valueReal);
 
 		return(true);
 		}
