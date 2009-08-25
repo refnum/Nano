@@ -49,8 +49,8 @@ class NVariant;
 //			...
 //		};
 //
-// Sub-clases of NEncodable must include a NENCODABLE_DECLARE in their class
-// declaration, and a NENCODABLE_DEFINE in their class implementation.
+// Sub-clases of NEncodable must include an NENCODABLE_DECLARE in their class
+// declaration, and an NENCODABLE_DEFINE in their class implementation.
 #define NENCODABLE_DECLARE(_class)																				\
 																												\
 	private:																									\
