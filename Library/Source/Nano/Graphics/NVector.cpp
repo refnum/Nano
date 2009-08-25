@@ -15,8 +15,11 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
-#include "NEncoder.h"
 #include "NString.h"
+
+#ifndef NVECTOR_CPP
+
+#include "NEncoder.h"
 #include "NVector.h"
 
 
@@ -58,13 +61,9 @@ NENCODABLE_DEFINE(NVector);
 //============================================================================
 //		NVector::NVector : Constructor.
 //----------------------------------------------------------------------------
-NVector::NVector(const NPoint &point1, const NPoint &point2)
+NVector::NVector(const NVector32 &theVector)
+		: NVector32(theVector.x, theVector.y)
 {
-
-
-	// Initialize ourselves
-	x = point2.x - point1.x;
-	y = point2.y - point1.y;
 }
 
 
@@ -74,13 +73,68 @@ NVector::NVector(const NPoint &point1, const NPoint &point2)
 //============================================================================
 //		NVector::NVector : Constructor.
 //----------------------------------------------------------------------------
-NVector::NVector(Float32 valX, Float32 valY)
+NVector::NVector(const NVector64 &theVector)
+		: NVector32(theVector.x, theVector.y)
 {
+}
 
 
-	// Initialize ourselves
-	x = valX;
-	y = valY;
+
+
+
+//============================================================================
+//		NVector::NVector : Constructor.
+//----------------------------------------------------------------------------
+NVector::NVector(Float32 x, Float32 y)
+		: NVector32(x, y)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NVector::NVector : Constructor.
+//----------------------------------------------------------------------------
+NVector::NVector(Float64 x, Float64 y)
+		: NVector32(x, y)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NVector::NVector : Constructor.
+//----------------------------------------------------------------------------
+NVector::NVector(const NPoint32 &point1, const NPoint32 &point2)
+		: NVector32(point2.x - point1.x, point2.y - point1.y)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NVector::NVector : Constructor.
+//----------------------------------------------------------------------------
+NVector::NVector(const NPoint64 &point1, const NPoint64 &point2)
+		: NVector32(point2.x - point1.x, point2.y - point1.y)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NVector::NVector : Constructor.
+//----------------------------------------------------------------------------
+NVector::NVector(void)
+{
 }
 
 
@@ -99,15 +153,18 @@ NVector::~NVector(void)
 
 
 //============================================================================
-//		NVector::Clear : Clear the Vector.
+//		NVector::NVector64 : NVector64 operator.
 //----------------------------------------------------------------------------
-void NVector::Clear(void)
-{
+NVector::operator NVector64(void) const
+{	NVector64		theResult;
 
 
-	// Clear the vector
-	x = 0.0f;
-	y = 0.0f;
+
+	// Get the value
+	theResult.x = x;
+	theResult.y = y;
+	
+	return(theResult);
 }
 
 
@@ -115,9 +172,149 @@ void NVector::Clear(void)
 
 
 //============================================================================
-//		NVector::Compare : Compare the value.
+//      NVector::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-NComparison NVector::Compare(const NVector &theValue) const
+void NVector::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNVectorXKey, x);
+	theEncoder.EncodeNumber(kNVectorYKey, y);
+}
+
+
+
+
+
+//============================================================================
+//      NVector::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NVector::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	x = theEncoder.DecodeNumber(kNVectorXKey).GetFloat32();
+	y = theEncoder.DecodeNumber(kNVectorYKey).GetFloat32();
+}
+
+
+
+
+
+#else
+
+//============================================================================
+//		NVectorT::NVectorT : Constructor.
+//----------------------------------------------------------------------------
+#pragma mark -
+template<class T> NVectorT<T>::NVectorT(T valX, T valY)
+{
+
+
+	// Initialize ourselves
+	x = valX;
+	y = valY;
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::NVectorT : Constructor.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T>::NVectorT(const NPointT<T> &point1, const NPointT<T> &point2)
+{
+
+
+	// Initialize ourselves
+	x = point2.x - point1.x;
+	y = point2.y - point1.y;
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::NVectorT : Constructor.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T>::NVectorT(void)
+{
+
+
+	// Initialize ourselves
+	x = 0;
+	y = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::~NVectorT : Destructor.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T>::~NVectorT(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::Clear : Clear the Vector.
+//----------------------------------------------------------------------------
+template<class T> void NVectorT<T>::Clear(void)
+{
+
+
+	// Clear the vector
+	x = 0;
+	y = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::IsZero : Is the vector zero?
+//----------------------------------------------------------------------------
+template<class T> bool NVectorT<T>::IsZero(void) const
+{
+
+
+	// Test the vector
+	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::IsNormalized : Is the vector normalized?
+//----------------------------------------------------------------------------
+template<class T> bool NVectorT<T>::IsNormalized(void) const
+{
+
+
+	// Test the vector
+	return(NMathUtilities::AreEqual(GetLength(), 1.0));
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::Compare : Compare the value.
+//----------------------------------------------------------------------------
+template<class T> NComparison NVectorT<T>::Compare(const NVectorT<T> &theValue) const
 {	NComparison		theResult;
 
 
@@ -138,39 +335,9 @@ NComparison NVector::Compare(const NVector &theValue) const
 
 
 //============================================================================
-//		NVector::IsZero : Is the vector zero?
+//		NVectorT::Add : Add a vector.
 //----------------------------------------------------------------------------
-bool NVector::IsZero(void) const
-{
-
-
-	// Test the vector
-	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
-}
-
-
-
-
-
-//============================================================================
-//		NVector::IsNormalized : Is the vector normalized?
-//----------------------------------------------------------------------------
-bool NVector::IsNormalized(void) const
-{
-
-
-	// Test the vector
-	return(NMathUtilities::AreEqual(GetLength(), 1.0f));
-}
-
-
-
-
-
-//============================================================================
-//		NVector::Add : Add a vector.
-//----------------------------------------------------------------------------
-void NVector::Add(const NVector &theVector)
+template<class T> void NVectorT<T>::Add(const NVectorT<T> &theVector)
 {
 
 
@@ -184,9 +351,9 @@ void NVector::Add(const NVector &theVector)
 
 
 //============================================================================
-//		NVector::Subtract : Subtract a vector.
+//		NVectorT::Subtract : Subtract a vector.
 //----------------------------------------------------------------------------
-void NVector::Subtract(const NVector &theVector)
+template<class T> void NVectorT<T>::Subtract(const NVectorT<T> &theVector)
 {
 
 
@@ -200,9 +367,9 @@ void NVector::Subtract(const NVector &theVector)
 
 
 //============================================================================
-//		NVector::Scale : Scale the vector.
+//		NVectorT::Scale : Scale the vector.
 //----------------------------------------------------------------------------
-void NVector::Scale(Float32 s)
+template<class T> void NVectorT<T>::Scale(T s)
 {
 
 
@@ -216,9 +383,9 @@ void NVector::Scale(Float32 s)
 
 
 //============================================================================
-//		NVector::Negate : Negate the vector.
+//		NVectorT::Negate : Negate the vector.
 //----------------------------------------------------------------------------
-void NVector::Negate(void)
+template<class T> void NVectorT<T>::Negate(void)
 {
 
 
@@ -232,15 +399,15 @@ void NVector::Negate(void)
 
 
 //============================================================================
-//		NVector::Normalize : Normalize the vector.
+//		NVectorT::Normalize : Normalize the vector.
 //----------------------------------------------------------------------------
-void NVector::Normalize(void)
-{	Float32		invLength;
+template<class T> void NVectorT<T>::Normalize(void)
+{	T		invLength;
 
 
 
 	// Normalize the vector
-	invLength = 1.0f / GetLength();
+	invLength = 1.0 / GetLength();
 
 	x *= invLength;
 	y *= invLength;
@@ -251,14 +418,22 @@ void NVector::Normalize(void)
 
 
 //============================================================================
-//		NVector::GetLength : Get the length.
+//		NVectorT::GetLength : Get the length.
 //----------------------------------------------------------------------------
-Float32 NVector::GetLength(void) const
-{
+template<class T> T NVectorT<T>::GetLength(bool getApprox) const
+{	T	theLength;
+
 
 
 	// Get the length
-	return(NMathUtilities::FastRoot(GetLength2()));
+	theLength = GetLength2();
+	
+	if (getApprox)
+		theLength = NMathUtilities::FastRoot(theLength);
+	else
+		theLength = sqrt(theLength);
+	
+	return(theLength);
 }
 
 
@@ -266,9 +441,9 @@ Float32 NVector::GetLength(void) const
 
 
 //============================================================================
-//		NVector::GetLength2 : Get the length^2.
+//		NVectorT::GetLength2 : Get the length^2.
 //----------------------------------------------------------------------------
-Float32 NVector::GetLength2(void) const
+template<class T> T NVectorT<T>::GetLength2(void) const
 {
 
 
@@ -281,9 +456,9 @@ Float32 NVector::GetLength2(void) const
 
 
 //============================================================================
-//		NVector::GetDot : Get the dot product.
+//		NVectorT::GetDot : Get the dot product.
 //----------------------------------------------------------------------------
-Float32 NVector::GetDot(const NVector &theVector) const
+template<class T> T NVectorT<T>::GetDot(const NVectorT<T> &theVector) const
 {
 
 
@@ -296,9 +471,9 @@ Float32 NVector::GetDot(const NVector &theVector) const
 
 
 //============================================================================
-//		NVector::GetCross : Get the cross product.
+//		NVectorT::GetCross : Get the cross product.
 //----------------------------------------------------------------------------
-Float32 NVector::GetCross(const NVector &theVector) const
+template<class T> T NVectorT<T>::GetCross(const NVectorT<T> &theVector) const
 {
 
 
@@ -311,10 +486,10 @@ Float32 NVector::GetCross(const NVector &theVector) const
 
 
 //============================================================================
-//		NVector::GetAngle : Get the angle between two vectors.
+//		NVectorT::GetAngle : Get the angle between two vectors.
 //----------------------------------------------------------------------------
-NDegrees NVector::GetAngle(const NVector &theVector) const
-{	Float32			dotProduct, crossProduct, angleRad;
+template<class T> NDegrees NVectorT<T>::GetAngle(const NVectorT<T> &theVector) const
+{	T				dotProduct, crossProduct, angleRad;
 	NVector			normal1, normal2;
 
 
@@ -341,9 +516,9 @@ NDegrees NVector::GetAngle(const NVector &theVector) const
 
 
 //============================================================================
-//		NVector::NFormatArgument : NFormatArgument operator.
+//		NVectorT::NFormatArgument : NFormatArgument operator.
 //----------------------------------------------------------------------------
-NVector::operator NFormatArgument(void) const
+template<class T> NVectorT<T>::operator NFormatArgument(void) const
 {	NString		theResult;
 
 
@@ -356,35 +531,8 @@ NVector::operator NFormatArgument(void) const
 
 
 
+#endif // NVECTOR_CPP
 
 
-//============================================================================
-//      NVector::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-#pragma mark -
-void NVector::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeNumber(kNVectorXKey, x);
-	theEncoder.EncodeNumber(kNVectorYKey, y);
-}
-
-
-
-
-
-//============================================================================
-//      NVector::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NVector::DecodeSelf(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	x = theEncoder.DecodeNumber(kNVectorXKey).GetFloat32();
-	y = theEncoder.DecodeNumber(kNVectorYKey).GetFloat32();
-}
 
 

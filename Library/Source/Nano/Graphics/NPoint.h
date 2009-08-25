@@ -17,20 +17,113 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
-#include "NEncodable.h"
 #include "NComparable.h"
+#include "NEncodable.h"
+#include "NNumber.h"
 
 
 
 
 
 //============================================================================
-//		Constants
+//		Types
 //----------------------------------------------------------------------------
-class NPoint;
-class NVector;
+// Classes
+template<class T> class NVectorT;
 
-extern const NPoint kNPointZero;
+class NPoint;
+class NPoint32;
+class NPoint64;
+
+
+// Lists
+typedef std::vector<NPoint>											NPointList;
+typedef NPointList::iterator										NPointListIterator;
+typedef NPointList::const_iterator									NPointListConstIterator;
+
+typedef std::vector<NPoint32>										NPoint32List;
+typedef NPoint32List::iterator										NPoint32ListIterator;
+typedef NPoint32List::const_iterator								NPoint32ListConstIterator;
+
+typedef std::vector<NPoint64>										NPoint64List;
+typedef NPoint64List::iterator										NPoint64ListIterator;
+typedef NPoint64List::const_iterator								NPoint64ListConstIterator;
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+template<class T> class NPointT : public NComparable< NPointT<T> > {
+public:
+										NPointT(T x, T y);
+
+										NPointT(void);
+	virtual							   ~NPointT(void);
+
+
+	// Clear the point
+	void								Clear(void);
+
+
+	// Test the point
+	bool								IsZero(void) const;
+
+
+	// Compare the value
+	NComparison							Compare(const NPointT<T> &theValue) const;
+
+
+	// Add/subtract a vector
+	void								Add(     const NVectorT<T> &theVector);
+	void								Subtract(const NVectorT<T> &theVector);
+
+
+	// Get the distance to a points
+	T									GetDistance( const NPointT<T> &thePoint, bool getApprox=true) const;
+	T									GetDistance2(const NPointT<T> &thePoint)                      const;
+
+
+	// Operators
+										operator NFormatArgument(void) const;
+
+
+public:
+	T									x;
+	T									y;
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NPoint32 : public NPointT<Float32> {
+public:
+										NPoint32(Float32 x, Float32 y) : NPointT<Float32>(x, y) { }
+
+										NPoint32(void) { }
+	virtual							   ~NPoint32(void) { }
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NPoint64 : public NPointT<Float64> {
+public:
+										NPoint64(Float64 x, Float64 y) : NPointT<Float64>(x, y) { }
+
+										NPoint64(void) { }
+	virtual							   ~NPoint64(void) { }
+};
 
 
 
@@ -40,50 +133,41 @@ extern const NPoint kNPointZero;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NPoint :	public NEncodable,
-				public NComparable<NPoint> {
+				public NPoint32 {
 public:
 										NENCODABLE_DECLARE(NPoint);
 
-										 NPoint(Float32 x=0.0f, Float32 y=0.0f);
-	virtual								~NPoint(void);
+										NPoint(const NPoint32 &thePoint);
+										NPoint(const NPoint64 &thePoint);
 
+										NPoint(Float32 x, Float32 y);
+										NPoint(Float64 x, Float64 y);
 
-	// Clear the point
-	void								Clear(void);
-
-
-	// Compare the value
-	NComparison							Compare(const NPoint &theValue) const;
-
-
-	// Test the point
-	bool								IsZero(void) const;
-
-
-	// Add/subtract a vector
-	void								Add(     const NVector &theVector);
-	void								Subtract(const NVector &theVector);
-
-
-	// Get the distance to a points
-	Float32								GetDistance( const NPoint &thePoint) const;
-	Float32								GetDistance2(const NPoint &thePoint) const;
+										NPoint(void);
+	virtual							   ~NPoint(void);
 
 
 	// Operators
-										operator NFormatArgument(void) const;
+										operator NPoint64(void) const;
 
 
 protected:
 	// Encode/decode the object
 	void								EncodeSelf(      NEncoder &theEncoder) const;
 	void								DecodeSelf(const NEncoder &theEncoder);
-
-
-public:
-	Float32								x;
-	Float32								y;
 };
+
+
+
+
+
+//============================================================================
+//		Template files
+//----------------------------------------------------------------------------
+#define   NPOINT_CPP
+#include "NPoint.cpp"
+#undef    NPOINT_CPP
+
 
 
 

@@ -25,7 +25,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NPoint kValuePoint										= NPoint(10, 10);
+static const NPoint kValuePoint										= NPoint(10.0f, 10.0f);
 static const SInt32 kValueSInt32									=  2000;
 static const SInt64 kValueSInt64									= -4000;
 

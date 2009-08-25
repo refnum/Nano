@@ -15,18 +15,12 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
-#include "NEncoder.h"
 #include "NString.h"
+
+#ifndef NSIZE_CPP
+
+#include "NEncoder.h"
 #include "NSize.h"
-
-
-
-
-
-//============================================================================
-//		Public onstants
-//----------------------------------------------------------------------------
-const NSize kNSizeZero;
 
 
 
@@ -52,15 +46,58 @@ NENCODABLE_DEFINE(NSize);
 
 
 //============================================================================
+//      NSize::NSize : Constructor.
+//----------------------------------------------------------------------------
+NSize::NSize(const NSize32 &theSize)
+		: NSize32(theSize.width, theSize.height)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NSize::NSize : Constructor.
+//----------------------------------------------------------------------------
+NSize::NSize(const NSize64 &theSize)
+		: NSize32(theSize.width, theSize.height)
+{
+}
+
+
+
+
+
+//============================================================================
 //		NSize::NSize : Constructor.
 //----------------------------------------------------------------------------
-NSize::NSize(Float32 valWidth, Float32 valHeight)
+NSize::NSize(Float32 width, Float32 height)
+	: NSize32(width, height)
 {
+}
 
 
-	// Initialize ourselves
-	width  = valWidth;
-	height = valHeight;
+
+
+
+//============================================================================
+//		NSize::NSize : Constructor.
+//----------------------------------------------------------------------------
+NSize::NSize(Float64 width, Float64 height)
+	: NSize32(width, height)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NSize::NSize : Constructor.
+//----------------------------------------------------------------------------
+NSize::NSize(void)
+{
 }
 
 
@@ -79,70 +116,17 @@ NSize::~NSize(void)
 
 
 //============================================================================
-//		NSize::Clear : Clear the size.
+//		NSize::NSize64 : NSize64 operator.
 //----------------------------------------------------------------------------
-void NSize::Clear(void)
-{
-
-
-	// Clear the size
-	width  = 0.0f;
-	height = 0.0f;
-}
-
-
-
-
-
-//============================================================================
-//		NSize::IsEmpty : Is the size empty?
-//----------------------------------------------------------------------------
-bool NSize::IsEmpty(void) const
-{
-
-
-	// Test the size
-	return(NMathUtilities::IsZero(width) && NMathUtilities::IsZero(height));
-}
-
-
-
-
-
-//============================================================================
-//		NSize::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NSize::Compare(const NSize &theValue) const
-{	NComparison		theResult;
-
-
-
-	// Compare the value
-	//
-	// We have no natural order, so the only real comparison is equality.
-	theResult = GetComparison(width, theValue.width);
-		
-	if (theResult == kNCompareEqualTo)
-		theResult = GetComparison(height, theValue.height);
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NSize::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NSize::operator NFormatArgument(void) const
-{	NString		theResult;
+NSize::operator NSize64(void) const
+{	NSize64		theResult;
 
 
 
 	// Get the value
-	theResult.Format("{w=%g, h=%g}", width, height);
-
+	theResult.width  = width;
+	theResult.height = height;
+	
 	return(theResult);
 }
 
@@ -153,7 +137,6 @@ NSize::operator NFormatArgument(void) const
 //============================================================================
 //      NSize::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NSize::EncodeSelf(NEncoder &theEncoder) const
 {
 
@@ -180,4 +163,128 @@ void NSize::DecodeSelf(const NEncoder &theEncoder)
 }
 
 
+
+
+
+#else
+
+//============================================================================
+//		NSizeT::NSizeT : Constructor.
+//----------------------------------------------------------------------------
+#pragma mark -
+template<class T> NSizeT<T>::NSizeT(T valWidth, T valHeight)
+{
+
+
+	// Initialize ourselves
+	width  = valWidth;
+	height = valHeight;
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::NSizeT : Constructor.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T>::NSizeT(void)
+{
+
+
+	// Initialize ourselves
+	width  = 0;
+	height = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::~NSizeT : Destructor.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T>::~NSizeT(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::Clear : Clear the size.
+//----------------------------------------------------------------------------
+template<class T> void NSizeT<T>::Clear(void)
+{
+
+
+	// Clear the size
+	width  = 0;
+	height = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::IsEmpty : Is the size empty?
+//----------------------------------------------------------------------------
+template<class T> bool NSizeT<T>::IsEmpty(void) const
+{
+
+
+	// Test the size
+	return(NMathUtilities::IsZero(width) && NMathUtilities::IsZero(height));
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::Compare : Compare the value.
+//----------------------------------------------------------------------------
+template<class T> NComparison NSizeT<T>::Compare(const NSizeT &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GetComparison(width, theValue.width);
+		
+	if (theResult == kNCompareEqualTo)
+		theResult = GetComparison(height, theValue.height);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T>::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{w=%g, h=%g}", width, height);
+
+	return(theResult);
+}
+
+
+
+
+
+
+
+#endif // NSIZE_CPP
 

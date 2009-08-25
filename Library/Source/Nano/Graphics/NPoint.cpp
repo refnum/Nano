@@ -15,19 +15,13 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
-#include "NEncoder.h"
 #include "NString.h"
 #include "NVector.h"
+
+#ifndef NPOINT_CPP
+
+#include "NEncoder.h"
 #include "NPoint.h"
-
-
-
-
-
-//============================================================================
-//		Public constants
-//----------------------------------------------------------------------------
-const NPoint kNPointZero;
 
 
 
@@ -53,15 +47,11 @@ NENCODABLE_DEFINE(NPoint);
 
 
 //============================================================================
-//		NPoint::NPoint : Constructor.
+//      NPoint::NPoint : Constructor.
 //----------------------------------------------------------------------------
-NPoint::NPoint(Float32 valX, Float32 valY)
+NPoint::NPoint(const NPoint32 &thePoint)
+		: NPoint32(thePoint.x, thePoint.y)
 {
-
-
-	// Initialize ourselves
-	x = valX;
-	y = valY;
 }
 
 
@@ -69,7 +59,54 @@ NPoint::NPoint(Float32 valX, Float32 valY)
 
 
 //============================================================================
-//		NPoint::~NPoint : Destructor.
+//      NPoint::NPoint : Constructor.
+//----------------------------------------------------------------------------
+NPoint::NPoint(const NPoint64 &thePoint)
+		: NPoint32(thePoint.x, thePoint.y)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NPoint::NPoint : Constructor.
+//----------------------------------------------------------------------------
+NPoint::NPoint(Float32 x, Float32 y)
+		: NPoint32(x, y)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NPoint::NPoint : Constructor.
+//----------------------------------------------------------------------------
+NPoint::NPoint(Float64 x, Float64 y)
+		: NPoint32(x, y)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NPoint::NPoint : Constructor.
+//----------------------------------------------------------------------------
+NPoint::NPoint(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NPoint::~NPoint : Destructor.
 //----------------------------------------------------------------------------
 NPoint::~NPoint(void)
 {
@@ -80,135 +117,16 @@ NPoint::~NPoint(void)
 
 
 //============================================================================
-//		NPoint::Clear : Clear the point.
+//		NPoint::NPoint64 : NPoint64 operator.
 //----------------------------------------------------------------------------
-void NPoint::Clear(void)
-{
-
-
-	// Clear the point
-	x = 0.0f;
-	y = 0.0f;
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NPoint::Compare(const NPoint &theValue) const
-{	NComparison		theResult;
-
-
-
-	// Compare the value
-	//
-	// We have no natural order, so the only real comparison is equality.
-	theResult = GetComparison(x, theValue.x);
-		
-	if (theResult == kNCompareEqualTo)
-		theResult = GetComparison(y, theValue.y);
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::IsZero : Is the point zero?
-//----------------------------------------------------------------------------
-bool NPoint::IsZero(void) const
-{
-
-
-	// Test the point
-	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::Add : Add a vector to the point.
-//----------------------------------------------------------------------------
-void NPoint::Add(const NVector &theVector)
-{
-
-
-	// Add the vector
-	x += theVector.x;
-	y += theVector.y;
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::Subtract : Subtract a vector from the point.
-//----------------------------------------------------------------------------
-void NPoint::Subtract(const NVector &theVector)
-{
-
-
-	// Subtract the vector
-	x -= theVector.x;
-	y -= theVector.y;
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::GetDistance : Get the distance to a point.
-//----------------------------------------------------------------------------
-Float32 NPoint::GetDistance(const NPoint &thePoint) const
-{
-
-
-	// Get the distance
-	return(NMathUtilities::FastRoot(GetDistance2(thePoint)));
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::GetDistance2 : Get the distance^2 to a point.
-//----------------------------------------------------------------------------
-Float32 NPoint::GetDistance2(const NPoint &thePoint) const
-{	Float32		deltaX, deltaY;
-
-
-
-	// Get the distance^2
-	deltaX = x - thePoint.x;
-	deltaY = y - thePoint.y;
-	
-	return((deltaX * deltaX) + (deltaY * deltaY));
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NPoint::operator NFormatArgument(void) const
-{	NString		theResult;
+NPoint::operator NPoint64(void) const
+{	NPoint64		theResult;
 
 
 
 	// Get the value
-	theResult.Format("{x=%g, y=%g}", x, y);
+	theResult.x = x;
+	theResult.y = y;
 
 	return(theResult);
 }
@@ -220,7 +138,6 @@ NPoint::operator NFormatArgument(void) const
 //============================================================================
 //      NPoint::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NPoint::EncodeSelf(NEncoder &theEncoder) const
 {
 
@@ -246,4 +163,201 @@ void NPoint::DecodeSelf(const NEncoder &theEncoder)
 	y = theEncoder.DecodeNumber(kNPointYKey).GetFloat32();
 }
 
+
+
+
+
+#else
+
+//============================================================================
+//		NPointT::NPointT : Constructor.
+//----------------------------------------------------------------------------
+#pragma mark -
+template<class T> NPointT<T>::NPointT(T valX, T valY)
+{
+
+
+	// Initialize ourselves
+	x = valX;
+	y = valY;
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::NPointT : Constructor.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T>::NPointT(void)
+{
+
+
+	// Initialize ourselves
+	x = 0;
+	y = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::~NPointT : Destructor.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T>::~NPointT(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::Clear : Clear the point.
+//----------------------------------------------------------------------------
+template<class T> void NPointT<T>::Clear(void)
+{
+
+
+	// Clear the point
+	x = 0;
+	y = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::IsZero : Is the point zero?
+//----------------------------------------------------------------------------
+template<class T> bool NPointT<T>::IsZero(void) const
+{
+
+
+	// Test the point
+	return(NMathUtilities::IsZero(x) && NMathUtilities::IsZero(y));
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::Compare : Compare the value.
+//----------------------------------------------------------------------------
+template<class T> NComparison NPointT<T>::Compare(const NPointT<T> &theValue) const
+{	NComparison		theResult;
+
+
+
+	// Compare the value
+	//
+	// We have no natural order, so the only real comparison is equality.
+	theResult = GetComparison(x, theValue.x);
+		
+	if (theResult == kNCompareEqualTo)
+		theResult = GetComparison(y, theValue.y);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::Add : Add a vector to the point.
+//----------------------------------------------------------------------------
+template <class T> void NPointT<T>::Add(const NVectorT<T> &theVector)
+{
+
+
+	// Add the vector
+	x += theVector.x;
+	y += theVector.y;
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::Subtract : Subtract a vector from the point.
+//----------------------------------------------------------------------------
+template <class T> void NPointT<T>::Subtract(const NVectorT<T> &theVector)
+{
+
+
+	// Subtract the vector
+	x -= theVector.x;
+	y -= theVector.y;
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::GetDistance : Get the distance to a point.
+//----------------------------------------------------------------------------
+template<class T> T NPointT<T>::GetDistance(const NPointT<T> &thePoint, bool getApprox) const
+{	T		theDistance;
+
+
+
+	// Get the distance
+	theDistance = GetDistance2(thePoint);
+	
+	if (getApprox)
+		theDistance = NMathUtilities::FastRoot(theDistance);
+	else
+		theDistance = sqrt(theDistance);
+	
+	return(theDistance);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::GetDistance2 : Get the distance^2 to a point.
+//----------------------------------------------------------------------------
+template<class T> T NPointT<T>::GetDistance2(const NPointT<T> &thePoint) const
+{	T	deltaX, deltaY;
+
+
+
+	// Get the distance^2
+	deltaX = x - thePoint.x;
+	deltaY = y - thePoint.y;
+	
+	return((deltaX * deltaX) + (deltaY * deltaY));
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::NFormatArgument : NFormatArgument operator.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T>::operator NFormatArgument(void) const
+{	NString		theResult;
+
+
+
+	// Get the value
+	theResult.Format("{x=%g, y=%g}", x, y);
+
+	return(theResult);
+}
+
+
+
+
+
+#endif // NPOINT_CPP
 

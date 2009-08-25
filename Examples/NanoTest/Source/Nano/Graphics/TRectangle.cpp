@@ -41,19 +41,19 @@ void TRectangle::Execute(void)
 
 
 	// Execute the tests
-	NN_ASSERT(kNRectangleZero.origin == kNPointZero);
-	NN_ASSERT(kNRectangleZero.size   == kNSizeZero);
+	NN_ASSERT(testRect.IsEmpty());
+	NN_ASSERT(testRect.origin.IsZero());
+	NN_ASSERT(testRect.size.IsEmpty());
 
-	NN_ASSERT( kNRectangleZero.IsEmpty());
 	NN_ASSERT(!kValueRectangle.IsEmpty());
+	NN_ASSERT(!kValueRectangle.origin.IsZero());
+	NN_ASSERT(!kValueRectangle.size.IsEmpty());
 
 	testRect = kValueRectangle;
 	NN_ASSERT(!testRect.IsEmpty());
 
 	testRect.Clear();
 	NN_ASSERT(testRect.IsEmpty());
-
-	NN_ASSERT(testRect == kNRectangleZero);
 	NN_ASSERT(testRect != kValueRectangle);
 
 	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.origin.x,     1.0f));

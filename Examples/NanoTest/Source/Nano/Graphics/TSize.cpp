@@ -41,7 +41,7 @@ void TSize::Execute(void)
 
 
 	// Execute the tests
-	NN_ASSERT(kNSizeZero.IsEmpty());
+	NN_ASSERT(testSize.IsEmpty());
 	NN_ASSERT(!kValueSize.IsEmpty());
 
 	testSize = kValueSize;
@@ -49,8 +49,6 @@ void TSize::Execute(void)
 
 	testSize.Clear();
 	NN_ASSERT(testSize.IsEmpty());
-
-	NN_ASSERT(testSize == kNSizeZero);
 	NN_ASSERT(testSize != kValueSize);
 
 	NN_ASSERT(NMathUtilities::AreEqual(kValueSize.width,   1.0f));

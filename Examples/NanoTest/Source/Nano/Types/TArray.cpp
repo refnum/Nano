@@ -32,7 +32,7 @@ static const SInt64List  kListSInt64								= vector((SInt64) 1, (SInt64) 2, (SI
 static const Float32List kListFloat32								= vector(1.0f, 2.0f, 3.0f, 4.0f);
 static const Float64List kListFloat64								= vector(1.0, 2.0, 3.0, 4.0, 5.0);
 
-static const NPoint kValuePoint										= NPoint(10, 10);
+static const NPoint kValuePoint										= NPoint(10.0f, 10.0f);
 static const SInt32 kValueSInt32									=  2000;
 static const SInt64 kValueSInt64									= -4000;
 

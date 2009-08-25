@@ -25,11 +25,26 @@
 
 
 //============================================================================
-//		Constants
+//		Types
 //----------------------------------------------------------------------------
+// Classes
 class NSize;
+class NSize32;
+class NSize64;
 
-extern const NSize kNSizeZero;
+
+// Lists
+typedef std::vector<NSize>											NSizeList;
+typedef NSizeList::iterator											NSizeListIterator;
+typedef NSizeList::const_iterator									NSizeListConstIterator;
+
+typedef std::vector<NSize32>										NSize32List;
+typedef NSize32List::iterator										NSize32ListIterator;
+typedef NSize32List::const_iterator									NSize32ListConstIterator;
+
+typedef std::vector<NSize64>										NSize64List;
+typedef NSize64List::iterator										NSize64ListIterator;
+typedef NSize64List::const_iterator									NSize64ListConstIterator;
 
 
 
@@ -38,13 +53,12 @@ extern const NSize kNSizeZero;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NSize :	public NEncodable,
-				public NComparable<NSize> {
+template<class T> class NSizeT : public NComparable< NSizeT<T> > {
 public:
-										NENCODABLE_DECLARE(NSize);
+										NSizeT(T width, T height);
 
-										 NSize(Float32 width=0.0f, Float32 height=0.0f);
-	virtual								~NSize(void);
+										NSizeT(void);
+	virtual							   ~NSizeT(void);
 
 
 	// Clear the size
@@ -56,23 +70,91 @@ public:
 
 
 	// Compare the value
-	NComparison							Compare(const NSize &theValue) const;
+	NComparison							Compare(const NSizeT<T> &theValue) const;
 
 
 	// Operators
 										operator NFormatArgument(void) const;
 
 
+public:
+	T									width;
+	T									height;
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NSize32 : public NSizeT<Float32> {
+public:
+										NSize32(Float32 width, Float32 height) : NSizeT<Float32>(width, height) { }
+
+										NSize32(void) { }
+	virtual							   ~NSize32(void) { }
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NSize64 : public NSizeT<Float64> {
+public:
+										NSize64(Float64 width, Float64 height) : NSizeT<Float64>(width, height) { }
+
+										NSize64(void) { }
+	virtual							   ~NSize64(void) { }
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NSize :	public NEncodable,
+				public NSize32 {
+public:
+										NENCODABLE_DECLARE(NSize);
+
+										NSize(const NSize32 &theSize);
+										NSize(const NSize64 &theSize);
+
+										NSize(Float32 width, Float32 height);
+										NSize(Float64 width, Float64 height);
+
+										NSize(void);
+	virtual							   ~NSize(void);
+
+
+	// Operators
+										operator NSize64(void) const;
+
+
 protected:
 	// Encode/decode the object
 	void								EncodeSelf(      NEncoder &theEncoder) const;
 	void								DecodeSelf(const NEncoder &theEncoder);
-
-
-public:
-	Float32								width;
-	Float32								height;
 };
+
+
+
+
+
+//============================================================================
+//		Template files
+//----------------------------------------------------------------------------
+#define   NSIZE_CPP
+#include "NSize.cpp"
+#undef    NSIZE_CPP
+
 
 
 

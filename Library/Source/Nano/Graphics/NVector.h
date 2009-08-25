@@ -26,10 +26,34 @@
 
 
 //============================================================================
+//		Types
+//----------------------------------------------------------------------------
+// Classes
+class NVector;
+class NVector32;
+class NVector64;
+
+
+// Lists
+typedef std::vector<NVector>										NVectorList;
+typedef NVectorList::iterator										NVectorListIterator;
+typedef NVectorList::const_iterator									NVectorListConstIterator;
+
+typedef std::vector<NVector32>										NVector32List;
+typedef NVector32List::iterator										NVector32ListIterator;
+typedef NVector32List::const_iterator								NVector32ListConstIterator;
+
+typedef std::vector<NVector64>										NVector64List;
+typedef NVector64List::iterator										NVector64ListIterator;
+typedef NVector64List::const_iterator								NVector64ListConstIterator;
+
+
+
+
+
+//============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-class NVector;
-
 extern const NVector kNVectorZero;
 extern const NVector kNVectorNorth;
 extern const NVector kNVectorSouth;
@@ -43,22 +67,17 @@ extern const NVector kNVectorWest;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NVector :	public NEncodable,
-				public NComparable<NVector> {
+template<class T> class NVectorT : public NComparable< NVectorT<T> > {
 public:
-										NENCODABLE_DECLARE(NVector);
+										NVectorT(T x, T y);
+										NVectorT(const NPointT<T> &point1, const NPointT<T> &point2);
 
-										 NVector(const NPoint &point1, const NPoint &point2);
-										 NVector(Float32 x=0.0f, Float32 y=0.0f);
-	virtual								~NVector(void);
+										NVectorT(void);
+	virtual							   ~NVectorT(void);
 
 
 	// Clear the vector
 	void								Clear(void);
-
-
-	// Compare the value
-	NComparison							Compare(const NVector &theValue) const;
 
 
 	// Test the vector
@@ -66,45 +85,126 @@ public:
 	bool								IsNormalized(void) const;
 
 
+	// Compare the value
+	NComparison							Compare(const NVectorT<T> &theValue) const;
+
+
 	// Add/subtract a vector
-	void								Add(     const NVector &theVector);
-	void								Subtract(const NVector &theVector);
+	void								Add(     const NVectorT<T> &theVector);
+	void								Subtract(const NVectorT<T> &theVector);
 
 
 	// Manipulate the vector
-	void								Scale(Float32 s);
+	void								Scale(T s);
 	void								Negate(   void);
 	void								Normalize(void);
 
 
 	// Get the length
-	Float32								GetLength (void) const;
-	Float32								GetLength2(void) const;
+	T									GetLength (bool getApprox=true) const;
+	T									GetLength2(void)                const;
 
 
 	// Get the dot/cross products
-	Float32								GetDot(  const NVector &theVector) const;
-	Float32								GetCross(const NVector &theVector) const;
+	T									GetDot(  const NVectorT<T> &theVector) const;
+	T									GetCross(const NVectorT<T> &theVector) const;
 
 
 	// Get the angle between two vectors
-	NDegrees							GetAngle(const NVector &theVector) const;
+	NDegrees							GetAngle(const NVectorT<T> &theVector) const;
 
 
 	// Operators
 										operator NFormatArgument(void) const;
 
 
+public:
+	T									x;
+	T									y;
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NVector32 : public NVectorT<Float32> {
+public:
+										NVector32(Float32 x, Float32 y)								: NVectorT<Float32>(x, y)           { }
+										NVector32(const NPoint32 &point1, const NPoint32 &point2)	: NVectorT<Float32>(point1, point2) { }
+
+										NVector32(void) { }
+	virtual							   ~NVector32(void) { }
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NVector64 : public NVectorT<Float64> {
+public:
+										NVector64(Float64 x, Float64 y)								: NVectorT<Float64>(x, y)           { }
+										NVector64(const NPoint64 &point1, const NPoint64 &point2)	: NVectorT<Float64>(point1, point2) { }
+
+										NVector64(void) { }
+	virtual							   ~NVector64(void) { }
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NVector :	public NEncodable,
+				public NVector32 {
+public:
+										NENCODABLE_DECLARE(NVector);
+
+										NVector(const NVector32 &theVector);
+										NVector(const NVector64 &theVector);
+										
+										NVector(Float32 x, Float32 y);
+										NVector(Float64 x, Float64 y);
+
+										NVector(const NPoint32 &point1, const NPoint32 &point2);
+										NVector(const NPoint64 &point1, const NPoint64 &point2);
+
+										NVector(void);
+	virtual							   ~NVector(void);
+
+
+	// Operators
+										operator NVector64(void) const;
+
+
 protected:
 	// Encode/decode the object
 	void								EncodeSelf(      NEncoder &theEncoder) const;
 	void								DecodeSelf(const NEncoder &theEncoder);
-
-
-public:
-	Float32								x;
-	Float32								y;
 };
+
+
+
+
+
+//============================================================================
+//		Template files
+//----------------------------------------------------------------------------
+#define   NVECTOR_CPP
+#include "NVector.cpp"
+#undef    NVECTOR_CPP
+
+
+
+
+
 
 
 

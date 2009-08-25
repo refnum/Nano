@@ -41,14 +41,14 @@ void TPoint::Execute(void)
 
 
 	// Execute the tests
-	NN_ASSERT(kNPointZero.IsZero());
+	NN_ASSERT(testPoint.IsZero());
+	NN_ASSERT(!kValuePoint.IsZero());
 
 	testPoint = kValuePoint;
 	NN_ASSERT(!testPoint.IsZero());
 
 	testPoint.Clear();
 	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(testPoint == kNPointZero);
 	NN_ASSERT(testPoint != kValuePoint);
 
 	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint.x,  1.0f));
