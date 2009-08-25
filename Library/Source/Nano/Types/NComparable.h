@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NMathUtilities.h"
 #include "NFunctor.h"
 
 
@@ -71,9 +72,27 @@ protected:
 //		Inline functions
 //----------------------------------------------------------------------------
 // Get an NComparison from two values using < and >
+//
+// Overrides are provided for float-float comparisons for a better equality test.
 template <class A, class B> inline NComparison GetComparison(const A &a, const B &b)
 {
 	return(a < b ? kNCompareLessThan : (a > b ? kNCompareGreaterThan : kNCompareEqualTo));
+}
+
+inline NComparison GetComparison(const Float32 &a, const Float32 &b)
+{
+	if (NMathUtilities::AreEqual(a, b))
+		return(kNCompareEqualTo);
+	else
+		return(a < b ? kNCompareLessThan : kNCompareGreaterThan);
+}
+
+inline NComparison GetComparison(const Float64 &a, const Float64 &b)
+{
+	if (NMathUtilities::AreEqual(a, b))
+		return(kNCompareEqualTo);
+	else
+		return(a < b ? kNCompareLessThan : kNCompareGreaterThan);
 }
 
 
