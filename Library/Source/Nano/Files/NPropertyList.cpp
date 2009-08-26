@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NFileUtilities.h"
 #include "NMathUtilities.h"
 #include "NXMLEncoder.h"
@@ -250,9 +249,9 @@ NPropertyListFormat NPropertyList::GetFormat(const NData &theData)
 	#define MATCH_FORMAT(_magic, _format)													\
 		do																					\
 			{																				\
-			if (theFormat == kNPropertyListInvalid && dataSize >= GET_ARRAY_SIZE(_magic))	\
+			if (theFormat == kNPropertyListInvalid && dataSize >= NN_ARRAY_SIZE(_magic))	\
 				{																			\
-				if (memcmp(dataPtr, _magic, GET_ARRAY_SIZE(_magic)) == 0)					\
+				if (memcmp(dataPtr, _magic, NN_ARRAY_SIZE(_magic)) == 0)					\
 					theFormat = _format;													\
 				}																			\
 			}																				\

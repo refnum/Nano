@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NB64Encoder.h"
 #include "NDataDigest.h"
 
@@ -208,7 +207,7 @@ void TB64Encoder::Execute(void)
 
 
 	// Get the state we need
-	srcData  = NData(GET_ARRAY_SIZE(kTestDataBinary), kTestDataBinary, true);
+	srcData  = NData(NN_ARRAY_SIZE(kTestDataBinary), kTestDataBinary, true);
 	srcAdler = theDigest.GetAdler32(srcData);
 
 

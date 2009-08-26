@@ -15,7 +15,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetPreferences.h"
-#include "NSystemUtilities.h"
 #include "NPreferences.h"
 
 

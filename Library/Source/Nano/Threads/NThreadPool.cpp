@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NThreadUtilities.h"
+#include "NSystemUtilities.h"
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NSTLUtilities.h"

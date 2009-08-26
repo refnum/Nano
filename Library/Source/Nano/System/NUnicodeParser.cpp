@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NStringEncoder.h"
 #include "NUnicodeParser.h"
 
@@ -369,12 +368,12 @@ NStringEncoding NUnicodeParser::GetBOM(const NData &theData, NRange &theRange) c
 	#define MATCH_BOM(_bom, _encoding)										\
 		do																	\
 			{																\
-			if (theRange.IsEmpty() && dataSize >= GET_ARRAY_SIZE(_bom))		\
+			if (theRange.IsEmpty() && dataSize >= NN_ARRAY_SIZE(_bom))		\
 				{															\
-				if (memcmp(dataPtr, _bom, GET_ARRAY_SIZE(_bom)) == 0)		\
+				if (memcmp(dataPtr, _bom, NN_ARRAY_SIZE(_bom)) == 0)		\
 					{														\
 					theEncoding = _encoding;								\
-					theRange    = NRange(0, GET_ARRAY_SIZE(_bom));			\
+					theRange    = NRange(0, NN_ARRAY_SIZE(_bom));			\
 					}														\
 				}															\
 			}																\
@@ -794,7 +793,7 @@ void NUnicodeParser::AddBOMToUTF8(NData &theData) const
 
 
 	// Insert the BOM
-	theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF8BOM), kUTF8BOM);
+	theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF8BOM), kUTF8BOM);
 	NN_ASSERT(theBOM == theData.GetData());
 }
 
@@ -812,9 +811,9 @@ void NUnicodeParser::AddBOMToUTF16(NData &theData, NEndianFormat theFormat) cons
 
 	// Insert the BOM
 	if (theFormat == kNEndianBig)
-		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF16BOMBE), kUTF16BOMBE);
+		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF16BOMBE), kUTF16BOMBE);
 	else
-		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF16BOMLE), kUTF16BOMLE);
+		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF16BOMLE), kUTF16BOMLE);
 	
 	NN_ASSERT(theBOM == theData.GetData());
 }
@@ -833,9 +832,9 @@ void NUnicodeParser::AddBOMToUTF32(NData &theData, NEndianFormat theFormat) cons
 
 	// Insert the BOM
 	if (theFormat == kNEndianBig)
-		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF32BOMBE), kUTF32BOMBE);
+		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF32BOMBE), kUTF32BOMBE);
 	else
-		theBOM = theData.ReplaceData(kNRangeNone, GET_ARRAY_SIZE(kUTF32BOMLE), kUTF32BOMLE);
+		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF32BOMLE), kUTF32BOMLE);
 	
 	NN_ASSERT(theBOM == theData.GetData());
 }

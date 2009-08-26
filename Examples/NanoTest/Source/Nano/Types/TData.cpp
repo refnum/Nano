@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NData.h"
 
 #include "TData.h"
@@ -32,8 +31,8 @@ static const UInt8 kBlock3[]						= { 0x1A, 0x2B, 0x3C };
 
 static const UInt8 kBlock1_and_3[]					= { 0xAA, 0xBB, 0xCC, 0xDD, 0x1A, 0x2B, 0x3C };
 
-static const NData kNDataTest1(GET_ARRAY_SIZE(kBlock1), kBlock1);
-static const NData kNDataTest2(GET_ARRAY_SIZE(kBlock2), kBlock2);
+static const NData kNDataTest1(NN_ARRAY_SIZE(kBlock1), kBlock1);
+static const NData kNDataTest2(NN_ARRAY_SIZE(kBlock2), kBlock2);
 
 
 
@@ -53,8 +52,8 @@ void TData::Execute(void)
 	NN_ASSERT(!kNDataTest1.IsEmpty());
 	NN_ASSERT(!kNDataTest2.IsEmpty());
 
-	NN_ASSERT(kNDataTest1.GetSize() == GET_ARRAY_SIZE(kBlock1));
-	NN_ASSERT(kNDataTest2.GetSize() == GET_ARRAY_SIZE(kBlock2));
+	NN_ASSERT(kNDataTest1.GetSize() == NN_ARRAY_SIZE(kBlock1));
+	NN_ASSERT(kNDataTest2.GetSize() == NN_ARRAY_SIZE(kBlock2));
 
 	NN_ASSERT(testData.IsEmpty());
 	NN_ASSERT(testData.GetSize() == 0);
@@ -68,7 +67,7 @@ void TData::Execute(void)
 	NN_ASSERT(testData.GetSize() == 0);
 
 	testData = kNDataTest1;
-	testData.SetData(GET_ARRAY_SIZE(kBlock1_and_3), kBlock1_and_3);
+	testData.SetData(NN_ARRAY_SIZE(kBlock1_and_3), kBlock1_and_3);
 
 	theSize   = testData.GetSize();
 	testConst = &testData;
@@ -85,33 +84,33 @@ void TData::Execute(void)
 	NN_ASSERT(memcmp(kBlock2, testData.GetData(), testData.GetSize()) == 0);
 
 	testData = kNDataTest1;
-	NN_ASSERT(testData.AppendData(GET_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.GetSize() == (kNDataTest1.GetSize() + GET_ARRAY_SIZE(kBlock3)));
+	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	NN_ASSERT(testData.GetSize() == (kNDataTest1.GetSize() + NN_ARRAY_SIZE(kBlock3)));
 	NN_ASSERT(memcmp(kBlock1_and_3, testData.GetData(), testData.GetSize()) == 0);
 
 	testData = kNDataTest1;
-	NN_ASSERT(testData.AppendData(GET_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.ReplaceData(NRange(0, GET_ARRAY_SIZE(kBlock1)), GET_ARRAY_SIZE(kBlock3), kBlock3));
-	NN_ASSERT(testData.GetSize() == (2 * GET_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(memcmp(kBlock3, testData.GetData(0),                       GET_ARRAY_SIZE(kBlock3)) == 0);
-	NN_ASSERT(memcmp(kBlock3, testData.GetData(GET_ARRAY_SIZE(kBlock3)), GET_ARRAY_SIZE(kBlock3)) == 0);
-	testData.RemoveData(NRange(GET_ARRAY_SIZE(kBlock3), GET_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(testData.GetSize() == (1 * GET_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(memcmp(kBlock3, testData.GetData(), GET_ARRAY_SIZE(kBlock3)) == 0);
+	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	NN_ASSERT(testData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), NN_ARRAY_SIZE(kBlock3), kBlock3));
+	NN_ASSERT(testData.GetSize() == (2 * NN_ARRAY_SIZE(kBlock3)));
+	NN_ASSERT(memcmp(kBlock3, testData.GetData(0),                       NN_ARRAY_SIZE(kBlock3)) == 0);
+	NN_ASSERT(memcmp(kBlock3, testData.GetData(NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock3)) == 0);
+	testData.RemoveData(NRange(NN_ARRAY_SIZE(kBlock3), NN_ARRAY_SIZE(kBlock3)));
+	NN_ASSERT(testData.GetSize() == (1 * NN_ARRAY_SIZE(kBlock3)));
+	NN_ASSERT(memcmp(kBlock3, testData.GetData(), NN_ARRAY_SIZE(kBlock3)) == 0);
 
 	testData.Clear();
-	NN_ASSERT(testData.AppendData(GET_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.AppendData(GET_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.ReplaceData(NRange(0, GET_ARRAY_SIZE(kBlock3)), GET_ARRAY_SIZE(kBlock1), kBlock1));
-	NN_ASSERT(testData.GetSize() == GET_ARRAY_SIZE(kBlock1_and_3));
+	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	NN_ASSERT(testData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock1), kBlock1));
+	NN_ASSERT(testData.GetSize() == NN_ARRAY_SIZE(kBlock1_and_3));
 	NN_ASSERT(memcmp(kBlock1_and_3, testData.GetData(), testData.GetSize()) == 0);
 
 	testData = kNDataTest1;
-	testData.RemoveData(GET_ARRAY_SIZE(kBlock1), true);
+	testData.RemoveData(NN_ARRAY_SIZE(kBlock1), true);
 	NN_ASSERT(testData.IsEmpty());
 
 	testData = kNDataTest1;
-	testData.RemoveData(GET_ARRAY_SIZE(kBlock1), false);
+	testData.RemoveData(NN_ARRAY_SIZE(kBlock1), false);
 	NN_ASSERT(testData.IsEmpty());
 }
 

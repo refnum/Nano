@@ -44,7 +44,7 @@ static const char *kArgList[]									= {	"app",
 //		TCommandLine::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TCommandLine::Execute(void)
-{	NCommandLine		cmdLine(GET_ARRAY_SIZE(kArgList), kArgList);
+{	NCommandLine		cmdLine(NN_ARRAY_SIZE(kArgList), kArgList);
 	NString				theValue;
 	NStringList			theArgs;
 

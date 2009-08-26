@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NMathUtilities.h"
 #include "NPropertyList.h"
 
@@ -119,8 +118,8 @@ void TPropertyList::Execute(void)
 
 
 	// Get the state we need
-	testData1 = NData(GET_ARRAY_SIZE(kValueData1), kValueData1);
-	testData2 = NData(GET_ARRAY_SIZE(kValueData2), kValueData2);
+	testData1 = NData(NN_ARRAY_SIZE(kValueData1), kValueData1);
+	testData2 = NData(NN_ARRAY_SIZE(kValueData2), kValueData2);
 
 	testDict2.SetValue(kKeyString,  kValueString2);
 	testDict2.SetValue(kKeyBoolean, kValueBoolean2);
@@ -181,8 +180,8 @@ void TPropertyList::Execute(void)
 	NN_ASSERT(testArray.GetValueColor  (4) == kValueColor1);
 
 	testData1 = testArray.GetValueData(5);
-	NN_ASSERT(testData1.GetSize() == GET_ARRAY_SIZE(kValueData1));
-	NN_ASSERT(memcmp(testData1.GetData(), kValueData1, GET_ARRAY_SIZE(kValueData1)) == 0);
+	NN_ASSERT(testData1.GetSize() == NN_ARRAY_SIZE(kValueData1));
+	NN_ASSERT(memcmp(testData1.GetData(), kValueData1, NN_ARRAY_SIZE(kValueData1)) == 0);
 
 	testDict2 = testArray.GetValueDictionary(6);
 	NN_ASSERT(testDict2.HasKey(kKeyString));
@@ -194,8 +193,8 @@ void TPropertyList::Execute(void)
 
 
 	testData2 = testDict1.GetValueData(kKeyData);
-	NN_ASSERT(testData2.GetSize() == GET_ARRAY_SIZE(kValueData2));
-	NN_ASSERT(memcmp(testData2.GetData(), kValueData2, GET_ARRAY_SIZE(kValueData2)) == 0);
+	NN_ASSERT(testData2.GetSize() == NN_ARRAY_SIZE(kValueData2));
+	NN_ASSERT(memcmp(testData2.GetData(), kValueData2, NN_ARRAY_SIZE(kValueData2)) == 0);
 
 
 	testDate = testDict1.GetValueDate(kKeyDate);

@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NDataCompressor.h"
 #include "NDataDigest.h"
 
@@ -83,7 +82,7 @@ void TDataCompressor::Execute(void)
 
 
 	// Get the state we need
-	dataSrc = NData(GET_ARRAY_SIZE(kTestData), kTestData);
+	dataSrc = NData(NN_ARRAY_SIZE(kTestData), kTestData);
 
 
 
@@ -95,7 +94,7 @@ void TDataCompressor::Execute(void)
 	NN_ASSERT(adlerValue == kNullAdler);
 
 	dataOut = theCompressor.Decompress(dataDst);
-	NN_ASSERT(dataOut.GetSize() == GET_ARRAY_SIZE(kTestData));
+	NN_ASSERT(dataOut.GetSize() == NN_ARRAY_SIZE(kTestData));
 
 	adlerValue = theDigest.GetAdler32(dataOut);
 	NN_ASSERT(adlerValue == kTestAdler);
@@ -111,7 +110,7 @@ void TDataCompressor::Execute(void)
 	NN_ASSERT(adlerValue == kZLibAdler);
 
 	dataOut = theCompressor.Decompress(dataDst);
-	NN_ASSERT(dataOut.GetSize() == GET_ARRAY_SIZE(kTestData));
+	NN_ASSERT(dataOut.GetSize() == NN_ARRAY_SIZE(kTestData));
 
 	adlerValue = theDigest.GetAdler32(dataOut);
 	NN_ASSERT(adlerValue == kTestAdler);

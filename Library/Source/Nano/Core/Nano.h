@@ -53,6 +53,7 @@
 	#include "NanoTypes.h"
 #endif
 
+#include "NanoMacros.h"
 #include "NDebug.h"
 
 

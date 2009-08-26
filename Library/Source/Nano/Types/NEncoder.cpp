@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NMathUtilities.h"
 #include "NDataCompressor.h"
 #include "NTargetPOSIX.h"
@@ -693,9 +692,9 @@ NEncoderFormat NEncoder::GetFormat(const NData &theData)
 	#define MATCH_FORMAT(_magic, _format)													\
 		do																					\
 			{																				\
-			if (theFormat == kNEncoderInvalid && dataSize >= GET_ARRAY_SIZE(_magic))		\
+			if (theFormat == kNEncoderInvalid && dataSize >= NN_ARRAY_SIZE(_magic))			\
 				{																			\
-				if (memcmp(dataPtr, _magic, GET_ARRAY_SIZE(_magic)) == 0)					\
+				if (memcmp(dataPtr, _magic, NN_ARRAY_SIZE(_magic)) == 0)					\
 					theFormat = _format;													\
 				}																			\
 			}																				\
@@ -826,7 +825,7 @@ NData NEncoder::EncodeBinary_1_0(NXMLNode *theRoot)
 	// To save space our signature is overlaid on top of the existing NCompressionHeader.
 	// If the compression header grows then a future version may need to leave that header
 	// intact and prepend our own signature to the compressed block.
-	sizeMagic = GET_ARRAY_SIZE(kMagicBinary_1_0);
+	sizeMagic = NN_ARRAY_SIZE(kMagicBinary_1_0);
 
 	NN_ASSERT(sizeMagic                  == 8);
 	NN_ASSERT(sizeof(NCompressionHeader) == 12);
@@ -861,8 +860,8 @@ NXMLNode *NEncoder::DecodeBinary_1_0(const NData &theData)
 	dataSize = theData.GetSize();
 	dataPtr  = theData.GetData();
 
-	NN_ASSERT(dataSize >= GET_ARRAY_SIZE(kMagicBinary_1_0));
-	NN_ASSERT(memcmp(dataPtr, kMagicBinary_1_0, GET_ARRAY_SIZE(kMagicBinary_1_0)) == 0);
+	NN_ASSERT(dataSize >= NN_ARRAY_SIZE(kMagicBinary_1_0));
+	NN_ASSERT(memcmp(dataPtr, kMagicBinary_1_0, NN_ARRAY_SIZE(kMagicBinary_1_0)) == 0);
 
 
 

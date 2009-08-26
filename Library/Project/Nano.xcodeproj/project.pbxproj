@@ -536,6 +536,7 @@
 		ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIPhoneTarget.h; sourceTree = "<group>"; };
 		ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneThread.cpp; sourceTree = "<group>"; };
 		ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTime.cpp; sourceTree = "<group>"; };
+		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
@@ -842,6 +843,7 @@
 			isa = PBXGroup;
 			children = (
 				AB91550A0F9B4DD5009FFEAF /* Nano.h */,
+				ABC877C5104522720047F707 /* NanoMacros.h */,
 				AB91550B0F9B4DD5009FFEAF /* NanoNotes.h */,
 				AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */,
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,

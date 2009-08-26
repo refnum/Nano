@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NSTLUtilities.h"
 #include "NUnicodeParser.h"
 
@@ -50,9 +49,9 @@ void TUnicodeParser::Execute(void)
 
 
 	// Initialise ourselves
-	dataUTF8  = NData(GET_ARRAY_SIZE(kTextUTF8),    kTextUTF8);
-	dataUTF16 = NData(GET_ARRAY_SIZE(kTextUTF16BE), kTextUTF16BE);
-	dataUTF32 = NData(GET_ARRAY_SIZE(kTextUTF32BE), kTextUTF32BE);
+	dataUTF8  = NData(NN_ARRAY_SIZE(kTextUTF8),    kTextUTF8);
+	dataUTF16 = NData(NN_ARRAY_SIZE(kTextUTF16BE), kTextUTF16BE);
+	dataUTF32 = NData(NN_ARRAY_SIZE(kTextUTF32BE), kTextUTF32BE);
 
 	parserUTF8.Parse( dataUTF8,  kNStringEncodingUTF8);
 	parserUTF16.Parse(dataUTF16, kNStringEncodingUTF16BE);

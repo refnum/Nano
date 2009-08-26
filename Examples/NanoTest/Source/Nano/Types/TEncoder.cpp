@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
 #include "NDataDigest.h"
 #include "NEncodable.h"
 #include "NEncoder.h"
@@ -98,7 +97,7 @@ public:
 		NDictionary		theDict;
 		NData			theData;
 		
-		theData = NData(GET_ARRAY_SIZE(kValueData), kValueData);
+		theData = NData(NN_ARRAY_SIZE(kValueData), kValueData);
 
 		theArray.AppendValue(kValueBoolean1);
 		theArray.AppendValue(kValueNumber1);
@@ -136,7 +135,7 @@ public:
 		NN_ASSERT(theEncoder.DecodeString( kKeyString)   == kValueString);
 
 		theData = theEncoder.DecodeData(kKeyData);
-		NN_ASSERT(theData.GetSize() == GET_ARRAY_SIZE(kValueData));
+		NN_ASSERT(theData.GetSize() == NN_ARRAY_SIZE(kValueData));
 		NN_ASSERT(memcmp(theData.GetData(), kValueData, theData.GetSize()) == 0);
 
 		NN_ASSERT(theEncoder.DecodeObject(kKeyArray).GetValue(theArray));
