@@ -490,7 +490,7 @@ template<class T> T NVectorT<T>::GetCross(const NVectorT<T> &theVector) const
 //----------------------------------------------------------------------------
 template<class T> NDegrees NVectorT<T>::GetAngle(const NVectorT<T> &theVector) const
 {	T				dotProduct, crossProduct, angleRad;
-	NVector			normal1, normal2;
+	NVectorT<T>		normal1, normal2;
 
 
 
