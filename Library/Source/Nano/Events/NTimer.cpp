@@ -51,7 +51,7 @@ NTimer::~NTimer(void)
 //		NTimer::HasTimer : Do we have a timer?
 //----------------------------------------------------------------------------
 bool NTimer::HasTimer(NTimerID theTimer) const
-{	StLock		lockMutex(mLock);
+{	StLock		acquireLock(mLock);
 	bool		hasTimer;
 
 
@@ -73,7 +73,7 @@ bool NTimer::HasTimer(NTimerID theTimer) const
 //		NTimer::AddTimer : Add a timer.
 //----------------------------------------------------------------------------
 NTimerID NTimer::AddTimer(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
-{	StLock		lockMutex(mLock);
+{	StLock		acquireLock(mLock);
 	NTimerID	theID;
 
 
@@ -97,7 +97,7 @@ NTimerID NTimer::AddTimer(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 //		NTimer::RemoveTimer : Remove a timer.
 //----------------------------------------------------------------------------
 void NTimer::RemoveTimer(NTimerID theTimer)
-{	StLock					lockMutex(mLock);
+{	StLock					acquireLock(mLock);
 	NTimerMapIterator		theIter;
 
 
@@ -135,7 +135,7 @@ void NTimer::RemoveTimer(NTimerID theTimer)
 //		NTimer::ResetTimer : Reset a timer.
 //----------------------------------------------------------------------------
 void NTimer::ResetTimer(NTime fireAfter, NTimerID theTimer)
-{	StLock					lockMutex(mLock);
+{	StLock					acquireLock(mLock);
 	NTimerMapIterator		theIter;
 
 

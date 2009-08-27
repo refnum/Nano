@@ -128,7 +128,7 @@ UInt32 NThreadPool::GetActiveTasks(void) const
 //		NThreadPool::GetPendingTasks : Get the number of pending tasks.
 //----------------------------------------------------------------------------
 UInt32 NThreadPool::GetPendingTasks(void) const
-{	StLock		lockMutex(mLock);
+{	StLock		acquireLock(mLock);
 	UInt32		numTasks;
 
 
@@ -146,7 +146,7 @@ UInt32 NThreadPool::GetPendingTasks(void) const
 //		NThreadPool::GetThreadLimit : Get the thread limit.
 //----------------------------------------------------------------------------
 UInt32 NThreadPool::GetThreadLimit(void) const
-{	StLock	lockMutex(mLock);
+{	StLock	acquireLock(mLock);
 
 
 
@@ -162,7 +162,7 @@ UInt32 NThreadPool::GetThreadLimit(void) const
 //		NThreadPool::SetThreadLimit : Set the thread limit.
 //----------------------------------------------------------------------------
 void NThreadPool::SetThreadLimit(UInt32 theValue)
-{	StLock	lockMutex(mLock);
+{	StLock	acquireLock(mLock);
 
 
 
@@ -178,7 +178,7 @@ void NThreadPool::SetThreadLimit(UInt32 theValue)
 //		NThreadPool::AddTask : Add a task to the pool.
 //----------------------------------------------------------------------------
 void NThreadPool::AddTask(NThreadTask *theTask)
-{	StLock	lockMutex(mLock);
+{	StLock	acquireLock(mLock);
 
 
 
@@ -217,7 +217,7 @@ void NThreadPool::AddTask(NThreadTask *theTask)
 //		NThreadPool::CancelTasks : Cancel the outstanding tasks.
 //----------------------------------------------------------------------------
 void NThreadPool::CancelTasks(void)
-{	StLock							lockMutex(mLock);
+{	StLock							acquireLock(mLock);
 	NThreadTaskListConstIterator	theIter;
 
 

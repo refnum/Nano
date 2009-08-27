@@ -143,7 +143,7 @@ void NFileMap::Close(void)
 //		NFileMap::Map : Map a page.
 //----------------------------------------------------------------------------
 void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool noCache)
-{	StLock			theLock(mLock);
+{	StLock			acquireLock(mLock);
 	NMapInfo		theInfo;
 	void			*thePtr;
 
@@ -182,7 +182,7 @@ void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool
 //		NFileMap::Unamp : Unmap a page.
 //----------------------------------------------------------------------------
 void NFileMap::Unmap(const void *thePtr)
-{	StLock					theLock(mLock);
+{	StLock					acquireLock(mLock);
 	NMapInfoMapIterator		theIter;
 	NMapInfo				theInfo;
 
