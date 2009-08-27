@@ -51,6 +51,7 @@
 #include "TColor.h"
 #include "TPoint.h"
 #include "TRectangle.h"
+#include "TShape.h"
 #include "TSize.h"
 #include "TVector.h"
 
@@ -170,6 +171,7 @@ int main(int argc, const char **argv)
 	TColor::Execute();
 	TPoint::Execute();
 	TRectangle::Execute();
+	TShape::Execute();
 	TSize::Execute();
 	TVector::Execute();
 

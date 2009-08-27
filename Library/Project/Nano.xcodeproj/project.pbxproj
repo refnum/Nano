@@ -108,6 +108,8 @@
 		AB2AADB71039793F007BC4E6 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */; };
 		AB3325EA1046696E00C8DF0A /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
 		AB3325EB1046696E00C8DF0A /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
+		AB3326B31046C6F000C8DF0A /* NShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326B11046C6F000C8DF0A /* NShape.cpp */; };
+		AB3326B41046C6F000C8DF0A /* NShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326B11046C6F000C8DF0A /* NShape.cpp */; };
 		AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
@@ -327,6 +329,8 @@
 		AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
 		AB3325E81046696E00C8DF0A /* NDBQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBQuery.cpp; sourceTree = "<group>"; };
 		AB3325E91046696E00C8DF0A /* NDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBQuery.h; sourceTree = "<group>"; };
+		AB3326B11046C6F000C8DF0A /* NShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NShape.cpp; sourceTree = "<group>"; };
+		AB3326B21046C6F000C8DF0A /* NShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NShape.h; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
@@ -650,6 +654,8 @@
 				AB514E5A103460CB00E5A6AD /* NPoint.h */,
 				AB514E5B103460CB00E5A6AD /* NRectangle.cpp */,
 				AB514E5C103460CB00E5A6AD /* NRectangle.h */,
+				AB3326B11046C6F000C8DF0A /* NShape.cpp */,
+				AB3326B21046C6F000C8DF0A /* NShape.h */,
 				AB514E5D103460CB00E5A6AD /* NSize.cpp */,
 				AB514E5E103460CB00E5A6AD /* NSize.h */,
 				AB514E901034638700E5A6AD /* NVector.cpp */,
@@ -1246,6 +1252,7 @@
 				AB1431F7103F5102002BD0D1 /* NColor.cpp in Sources */,
 				AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
+				AB3326B41046C6F000C8DF0A /* NShape.cpp in Sources */,
 				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB514E921034638700E5A6AD /* NVector.cpp in Sources */,
 				AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */,
@@ -1387,6 +1394,7 @@
 				AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */,
 				AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
+				AB3326B31046C6F000C8DF0A /* NShape.cpp in Sources */,
 				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB514E931034638700E5A6AD /* NVector.cpp in Sources */,
 				AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */,
