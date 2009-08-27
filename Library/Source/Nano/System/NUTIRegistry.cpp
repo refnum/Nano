@@ -288,7 +288,6 @@ void NUTIRegistry::InitializeRegistry(void)
 
 	AddUTI(kNUTTypeJPEG, kNUTTypeImage, kNUTITagClassMIMEType,      "image/jpeg");
 	AddTag(kNUTTypeJPEG,                kNUTITagClassFileExtension, ".jpg");
-	AddTag(kNUTTypeJPEG,                kNUTITagClassFileExtension, ".jpeg");
 }
 
 
