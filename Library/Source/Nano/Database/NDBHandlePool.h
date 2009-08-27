@@ -72,23 +72,23 @@ public:
 	void								ReleaseConnection(NDBHandlePtr &dbHandle);
 
 
-	// Execute a statement
+	// Execute a query
 	//
 	// If the database is busy, the current thread will be blocked until the timeout occurs.
-	NStatus								Execute(const NDBStatement		&theStatement,
+	NStatus								Execute(const NDBQuery			&theQuery,
 												const NDBResultFunctor	&theResult = NULL,
 												NTime					waitFor    = kNTimeForever);
 
 
-	// Execute a return-one-value statement
+	// Execute a return-one-value query
 	//
-	// Returns the first value of the statement result, or 0/empty on failure.
-	SInt32								ExecuteSInt32( const NDBStatement &theStatement);
-	SInt64								ExecuteSInt64( const NDBStatement &theStatement);
-	Float32								ExecuteFloat32(const NDBStatement &theStatement);
-	Float64								ExecuteFloat64(const NDBStatement &theStatement);
-	NString								ExecuteString( const NDBStatement &theStatement);
-	NData								ExecuteData(   const NDBStatement &theStatement);
+	// Returns the first value of the query result, or 0/empty on failure.
+	SInt32								ExecuteSInt32( const NDBQuery &theQuery);
+	SInt64								ExecuteSInt64( const NDBQuery &theQuery);
+	Float32								ExecuteFloat32(const NDBQuery &theQuery);
+	Float64								ExecuteFloat64(const NDBQuery &theQuery);
+	NString								ExecuteString( const NDBQuery &theQuery);
+	NData								ExecuteData(   const NDBQuery &theQuery);
 
 
 private:

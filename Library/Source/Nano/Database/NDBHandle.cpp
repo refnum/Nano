@@ -192,38 +192,38 @@ void NDBHandle::SetProgressFunctor(const NDBProgressFunctor &theFunctor)
 
 
 //============================================================================
-//		NDBHandle::Execute : Execute a statement.
+//		NDBHandle::Execute : Execute a query.
 //----------------------------------------------------------------------------
-NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunctor &theResult, NTime waitFor)
+NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
 {	bool				areDone, waitForever;
-	sqlite3_stmt		*sqlStatement;
+	sqlite3_stmt		*sqlQuery;
 	NTime				startTime;
 	NDBStatus			dbErr;
 
 
 
 	// Get the state we need
-	waitForever  = NMathUtilities::AreEqual(waitFor, kNTimeForever);
-	sqlStatement = (sqlite3_stmt *) SQLiteCreateStatement(theStatement);
+	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
+	sqlQuery    = (sqlite3_stmt *) SQLiteCreateQuery(theQuery);
 
-	if (sqlStatement == NULL)
+	if (sqlQuery == NULL)
 		return(kNErrParam);
 
 
 
-	// Execute the statement
+	// Execute the query
 	startTime = NTimeUtilities::GetTime();
 	areDone   = false;
 	
 	while (!areDone)
 		{
-		// Execute the statement
-		dbErr = sqlite3_step(sqlStatement);
+		// Execute the query
+		dbErr = sqlite3_step(sqlQuery);
 
 		switch (dbErr) {
 			case SQLITE_ROW:
 				if (theResult != NULL)
-					theResult((NDBStatementRef) sqlStatement);
+					theResult((NDBQueryRef) sqlQuery);
 				break;
 			
 			case SQLITE_BUSY:
@@ -241,7 +241,7 @@ NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunc
 
 
 	// Clean up
-	(void) sqlite3_finalize(sqlStatement);
+	(void) sqlite3_finalize(sqlQuery);
 
 	return(SQLiteGetStatus(dbErr));
 }
@@ -251,17 +251,17 @@ NStatus NDBHandle::Execute(const NDBStatement &theStatement, const NDBResultFunc
 
 
 //============================================================================
-//		NDBHandle::ExecuteSInt32 : Execute a statement to obtain an SInt32.
+//		NDBHandle::ExecuteSInt32 : Execute a query to obtain an SInt32.
 //----------------------------------------------------------------------------
-SInt32 NDBHandle::ExecuteSInt32(const NDBStatement &theStatement)
+SInt32 NDBHandle::ExecuteSInt32(const NDBQuery &theQuery)
 {	SInt32		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueSInt32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt32, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -272,17 +272,17 @@ SInt32 NDBHandle::ExecuteSInt32(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandle::ExecuteSInt64 : Execute a statement to obtain an SInt64.
+//		NDBHandle::ExecuteSInt64 : Execute a query to obtain an SInt64.
 //----------------------------------------------------------------------------
-SInt64 NDBHandle::ExecuteSInt64(const NDBStatement &theStatement)
+SInt64 NDBHandle::ExecuteSInt64(const NDBQuery &theQuery)
 {	SInt64		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueSInt64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt64, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -293,17 +293,17 @@ SInt64 NDBHandle::ExecuteSInt64(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandle::ExecuteFloat32 : Execute a statement to obtain a Float32.
+//		NDBHandle::ExecuteFloat32 : Execute a query to obtain a Float32.
 //----------------------------------------------------------------------------
-Float32 NDBHandle::ExecuteFloat32(const NDBStatement &theStatement)
+Float32 NDBHandle::ExecuteFloat32(const NDBQuery &theQuery)
 {	Float32		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0.0f;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueFloat32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat32, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -314,17 +314,17 @@ Float32 NDBHandle::ExecuteFloat32(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandle::ExecuteFloat64 : Execute a statement to obtain a Float64.
+//		NDBHandle::ExecuteFloat64 : Execute a query to obtain a Float64.
 //----------------------------------------------------------------------------
-Float64 NDBHandle::ExecuteFloat64(const NDBStatement &theStatement)
+Float64 NDBHandle::ExecuteFloat64(const NDBQuery &theQuery)
 {	Float64		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0.0;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueFloat64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat64, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -335,16 +335,16 @@ Float64 NDBHandle::ExecuteFloat64(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandle::ExecuteString : Execute a statement to obtain a string.
+//		NDBHandle::ExecuteString : Execute a query to obtain a string.
 //----------------------------------------------------------------------------
-NString NDBHandle::ExecuteString(const NDBStatement &theStatement)
+NString NDBHandle::ExecuteString(const NDBQuery &theQuery)
 {	NString		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
-	theErr = Execute(theStatement, BindFunction(NDBResult::GetRowValueString, _1, 0, &theValue));
+	// Execute the query
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueString, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -355,16 +355,16 @@ NString NDBHandle::ExecuteString(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandle::ExecuteData : Execute a statement to obtain data.
+//		NDBHandle::ExecuteData : Execute a query to obtain data.
 //----------------------------------------------------------------------------
-NData NDBHandle::ExecuteData(const NDBStatement &theStatement)
+NData NDBHandle::ExecuteData(const NDBQuery &theQuery)
 {	NData		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
-	theErr = Execute(theStatement, BindFunction(NDBResult::GetRowValueData, _1, 0, &theValue));
+	// Execute the query
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueData, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -410,13 +410,13 @@ void *NDBHandle::GetDatabase(void)
 
 
 //============================================================================
-//		NDBHandle::SQLiteCreateStatement : Get an SQLite statement.
+//		NDBHandle::SQLiteCreateQuery : Get an SQLite query.
 //----------------------------------------------------------------------------
 #pragma mark -
-NDBStatementRef NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatement)
-{	sqlite3_stmt		*sqlStatement;
-	NDictionary			theParameters;
+NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
+{	NDictionary			theParameters;
 	const char			*valueUTF8;
+	sqlite3_stmt		*sqlQuery;
 	const char			*sqlTail;
 	NString				theValue;
 	sqlite3				*sqlDB;
@@ -426,31 +426,31 @@ NDBStatementRef NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatemen
 
 	// Validate our parameters and state
 	NN_ASSERT(IsOpen());
-	NN_ASSERT(!theStatement.GetValue().IsEmpty());
+	NN_ASSERT(!theQuery.GetValue().IsEmpty());
 
 
 
 	// Get the state we need
-	theParameters = theStatement.GetParameters();
-	theValue      = theStatement.GetValue();
+	theParameters = theQuery.GetParameters();
+	theValue      = theQuery.GetValue();
 	valueUTF8     = theValue.GetUTF8();
 	
-	sqlDB        = (sqlite3 *) mDatabase;
-	sqlStatement = NULL;
-	sqlTail      = NULL;
+	sqlDB    = (sqlite3 *) mDatabase;
+	sqlQuery = NULL;
+	sqlTail  = NULL;
 
 
 
-	// Create the statement
+	// Create the query
 	//
-	// Preparing a statement may require a lock, so we may need to spin if
-	// the database is currently locked.
+	// Preparing a query may require a lock, so we may need to spin if the
+	// database is currently locked.
 	//
 	// Ideally this would also honour the timeout passed to Execute, but this
 	// happens rarely enough that for now we treat it as uninterruptable.
 	do
 		{
-		dbErr = sqlite3_prepare_v2(sqlDB, valueUTF8, strlen(valueUTF8), &sqlStatement, &sqlTail);
+		dbErr = sqlite3_prepare_v2(sqlDB, valueUTF8, strlen(valueUTF8), &sqlQuery, &sqlTail);
 		if (dbErr == SQLITE_BUSY)
 			NThread::Sleep();
 		}
@@ -462,16 +462,16 @@ NDBStatementRef NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatemen
 	if (dbErr != kNoErr)
 		NN_LOG("SQLite: %s (%s)", sqlite3_errmsg(sqlDB), valueUTF8);
 
-	if (sqlStatement == NULL)
+	if (sqlQuery == NULL)
 		return(NULL);
 
 
 
 	// Bind the parameters
 	if (!theParameters.IsEmpty())
-		SQLiteBindParameters(sqlStatement, theParameters);
+		SQLiteBindParameters(sqlQuery, theParameters);
 	
-	return(sqlStatement);
+	return(sqlQuery);
 }
 
 
@@ -479,16 +479,16 @@ NDBStatementRef NDBHandle::SQLiteCreateStatement(const NDBStatement &theStatemen
 
 
 //============================================================================
-//		NDBHandle::SQLiteBindParameters : Bind parameters to a statement.
+//		NDBHandle::SQLiteBindParameters : Bind parameters to a query.
 //----------------------------------------------------------------------------
-void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictionary &theParameters)
+void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &theParameters)
 {	NString							theKey, theName;
-	sqlite3_stmt					*sqlStatement;
 	Float64							valueFloat64;
 	SInt64							valueSInt64;
 	NString							valueString;
 	NNumber							valueNumber;
 	NData							valueData;
+	sqlite3_stmt					*sqlQuery;
 	int								theIndex;
 	NVariant						theValue;
 	NStringList						theKeys;
@@ -499,9 +499,9 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 
 
 	// Get the state we need
-	theKeys      = theParameters.GetKeys();
-	sqlStatement = (sqlite3_stmt *) theStatement;
-	sqlDB        = (sqlite3      *) mDatabase;
+	theKeys  = theParameters.GetKeys();
+	sqlQuery = (sqlite3_stmt *) theQuery;
+	sqlDB    = (sqlite3      *) mDatabase;
 	
 
 
@@ -517,9 +517,9 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 		// Get the index
 		//
 		// Unused parameters are ignored, to allow the same dictionary to be used
-		// for multiple statements (not all of which may use all of the values).
+		// for multiple queries (not all of which may use all of the values).
 		theName  = kNamePrefix + theKey;
-		theIndex = sqlite3_bind_parameter_index(sqlStatement, theName.GetUTF8());
+		theIndex = sqlite3_bind_parameter_index(sqlQuery, theName.GetUTF8());
 		
 		if (theIndex == 0)
 			continue;
@@ -533,12 +533,12 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 			if (valueNumber.IsInteger())
 				{
 				valueSInt64 = valueNumber.GetSInt64();
-				dbErr       = sqlite3_bind_int64(sqlStatement, theIndex, valueSInt64);
+				dbErr       = sqlite3_bind_int64(sqlQuery, theIndex, valueSInt64);
 				}
 			else
 				{
 				valueFloat64 = valueNumber.GetFloat64();
-				dbErr        = sqlite3_bind_double(sqlStatement, theIndex, valueFloat64);
+				dbErr        = sqlite3_bind_double(sqlQuery, theIndex, valueFloat64);
 				}
 			
 			if (dbErr != kNoErr)
@@ -549,7 +549,7 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 		// Bind a string
 		else if (theValue.GetValue(valueString))
 			{
-			dbErr = sqlite3_bind_text(sqlStatement, theIndex, valueString.GetUTF8(), strlen(valueString.GetUTF8()), SQLITE_TRANSIENT);
+			dbErr = sqlite3_bind_text(sqlQuery, theIndex, valueString.GetUTF8(), strlen(valueString.GetUTF8()), SQLITE_TRANSIENT);
 			if (dbErr != kNoErr)
 				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
@@ -558,13 +558,13 @@ void NDBHandle::SQLiteBindParameters(NDBStatementRef theStatement, const NDictio
 		// Bind some data
 		else if (theValue.GetValue(valueData))
 			{
-			dbErr = sqlite3_bind_blob(sqlStatement, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
+			dbErr = sqlite3_bind_blob(sqlQuery, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
 			if (dbErr != kNoErr)
 				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
 		
 		else
-			NN_LOG("Unable to bind '%@' to statement", theKey);
+			NN_LOG("Unable to bind '%@' to query", theKey);
 		}
 }
 

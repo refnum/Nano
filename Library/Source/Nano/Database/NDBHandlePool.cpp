@@ -265,20 +265,20 @@ void NDBHandlePool::ReleaseConnection(NDBHandlePtr &dbHandle)
 
 
 //============================================================================
-//		NDBHandlePool::Execute : Execute a statement.
+//		NDBHandlePool::Execute : Execute a query.
 //----------------------------------------------------------------------------
-NStatus NDBHandlePool::Execute(const NDBStatement &theStatement, const NDBResultFunctor &theResult, NTime waitFor)
+NStatus NDBHandlePool::Execute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
 {	NDBHandle		*dbHandle;
 	NStatus			theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theErr = kNErrMemory;
 	
 	if (AcquireConnection(dbHandle))
 		{
-		theErr = dbHandle->Execute(theStatement, theResult, waitFor);
+		theErr = dbHandle->Execute(theQuery, theResult, waitFor);
 		ReleaseConnection(dbHandle);
 		}
 	
@@ -290,17 +290,17 @@ NStatus NDBHandlePool::Execute(const NDBStatement &theStatement, const NDBResult
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteSInt32 : Execute a statement to obtain an SInt32.
+//		NDBHandlePool::ExecuteSInt32 : Execute a query to obtain an SInt32.
 //----------------------------------------------------------------------------
-SInt32 NDBHandlePool::ExecuteSInt32(const NDBStatement &theStatement)
+SInt32 NDBHandlePool::ExecuteSInt32(const NDBQuery &theQuery)
 {	SInt32		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueSInt32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt32, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -311,17 +311,17 @@ SInt32 NDBHandlePool::ExecuteSInt32(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteSInt64 : Execute a statement to obtain an SInt64.
+//		NDBHandlePool::ExecuteSInt64 : Execute a query to obtain an SInt64.
 //----------------------------------------------------------------------------
-SInt64 NDBHandlePool::ExecuteSInt64(const NDBStatement &theStatement)
+SInt64 NDBHandlePool::ExecuteSInt64(const NDBQuery &theQuery)
 {	SInt64		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueSInt64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt64, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -332,17 +332,17 @@ SInt64 NDBHandlePool::ExecuteSInt64(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteFloat32 : Execute a statement to obtain a Float32.
+//		NDBHandlePool::ExecuteFloat32 : Execute a query to obtain a Float32.
 //----------------------------------------------------------------------------
-Float32 NDBHandlePool::ExecuteFloat32(const NDBStatement &theStatement)
+Float32 NDBHandlePool::ExecuteFloat32(const NDBQuery &theQuery)
 {	Float32		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0.0f;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueFloat32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat32, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -353,17 +353,17 @@ Float32 NDBHandlePool::ExecuteFloat32(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteFloat64 : Execute a statement to obtain a Float64.
+//		NDBHandlePool::ExecuteFloat64 : Execute a query to obtain a Float64.
 //----------------------------------------------------------------------------
-Float64 NDBHandlePool::ExecuteFloat64(const NDBStatement &theStatement)
+Float64 NDBHandlePool::ExecuteFloat64(const NDBQuery &theQuery)
 {	Float64		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
+	// Execute the query
 	theValue = 0.0;
-	theErr   = Execute(theStatement, BindFunction(NDBResult::GetRowValueFloat64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat64, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -374,16 +374,16 @@ Float64 NDBHandlePool::ExecuteFloat64(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteString : Execute a statement to obtain a string.
+//		NDBHandlePool::ExecuteString : Execute a query to obtain a string.
 //----------------------------------------------------------------------------
-NString NDBHandlePool::ExecuteString(const NDBStatement &theStatement)
+NString NDBHandlePool::ExecuteString(const NDBQuery &theQuery)
 {	NString		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
-	theErr = Execute(theStatement, BindFunction(NDBResult::GetRowValueString, _1, 0, &theValue));
+	// Execute the query
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueString, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -394,16 +394,16 @@ NString NDBHandlePool::ExecuteString(const NDBStatement &theStatement)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteData : Execute a statement to obtain data.
+//		NDBHandlePool::ExecuteData : Execute a query to obtain data.
 //----------------------------------------------------------------------------
-NData NDBHandlePool::ExecuteData(const NDBStatement &theStatement)
+NData NDBHandlePool::ExecuteData(const NDBQuery &theQuery)
 {	NData		theValue;
 	NStatus		theErr;
 
 
 
-	// Execute the statement
-	theErr = Execute(theStatement, BindFunction(NDBResult::GetRowValueData, _1, 0, &theValue));
+	// Execute the query
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueData, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);

@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NDBStatement.h"
+#include "NDBQuery.h"
 
 
 
@@ -27,8 +27,8 @@
 //----------------------------------------------------------------------------
 class NDBResult {
 public:
-										NDBResult(NDBStatementRef theResult);
-	virtual								~NDBResult(void);
+										NDBResult(NDBQueryRef theResult);
+	virtual							   ~NDBResult(void);
 
 
 	// Get the number of columns
@@ -65,7 +65,7 @@ public:
 	
 
 private:
-	NDBStatementRef						mResult;
+	NDBQueryRef							mResult;
 };
 
 

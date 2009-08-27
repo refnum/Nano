@@ -18,8 +18,8 @@
 //----------------------------------------------------------------------------
 #include "NFunctor.h"
 #include "NFile.h"
+#include "NDBQuery.h"
 #include "NDBResult.h"
-#include "NDBStatement.h"
 
 
 
@@ -42,7 +42,7 @@ typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
 class NDBHandle {
 public:
 										NDBHandle(void);
-	virtual								~NDBHandle(void);
+	virtual							   ~NDBHandle(void);
 
 
 	// Is the handle open?
@@ -59,7 +59,7 @@ public:
 	void								SetProgressFunctor(const NDBProgressFunctor &theFunctor);
 
 
-	// Execute a statement
+	// Execute a query
 	//
 	// Each database connection may be used by one thread at a time. If multiple threads
 	// require access to the database, an external lock must be used to serialise access.
@@ -67,20 +67,20 @@ public:
 	// an NDBHandlePool.
 	//
 	// If the database is busy, the current thread will be blocked until the timeout occurs.
-	NStatus								Execute(const NDBStatement		&theStatement,
+	NStatus								Execute(const NDBQuery			&theQuery,
 												const NDBResultFunctor	&theResult = NULL,
 												NTime					waitFor    = kNTimeForever);
 
 
-	// Execute a return-one-value statement
+	// Execute a return-one-value query
 	//
-	// Returns the first value of the statement result, or 0/empty on failure.
-	SInt32								ExecuteSInt32( const NDBStatement &theStatement);
-	SInt64								ExecuteSInt64( const NDBStatement &theStatement);
-	Float32								ExecuteFloat32(const NDBStatement &theStatement);
-	Float64								ExecuteFloat64(const NDBStatement &theStatement);
-	NString								ExecuteString( const NDBStatement &theStatement);
-	NData								ExecuteData(   const NDBStatement &theStatement);
+	// Returns the first value of the query result, or 0/empty on failure.
+	SInt32								ExecuteSInt32( const NDBQuery &theQuery);
+	SInt64								ExecuteSInt64( const NDBQuery &theQuery);
+	Float32								ExecuteFloat32(const NDBQuery &theQuery);
+	Float64								ExecuteFloat64(const NDBQuery &theQuery);
+	NString								ExecuteString( const NDBQuery &theQuery);
+	NData								ExecuteData(   const NDBQuery &theQuery);
 
 
 	// Cancel the current operation
@@ -96,8 +96,8 @@ public:
 
 
 private:
-	NDBStatementRef						SQLiteCreateStatement(const NDBStatement &theStatement);
-	void								SQLiteBindParameters(NDBStatementRef theStatement, const NDictionary &theParameters);
+	NDBQueryRef							SQLiteCreateQuery(const NDBQuery &theQuery);
+	void								SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &theParameters);
 	NStatus								SQLiteGetStatus(NDBStatus dbErr);
 	static int							SQLiteProgress(void *userData);
 

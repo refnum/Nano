@@ -1,8 +1,8 @@
 /*	NAME:
-		NDBStatement.cpp
+		NDBQuery.cpp
 
 	DESCRIPTION:
-		Database statement.
+		Database query.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,16 +14,16 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NDBStatement.h"
+#include "NDBQuery.h"
 
 
 
 
 
 //============================================================================
-//		NDBStatement::NDBStatement : Constructor.
+//		NDBQuery::NDBQuery : Constructor.
 //----------------------------------------------------------------------------
-NDBStatement::NDBStatement(const NString &theValue)
+NDBQuery::NDBQuery(const NString &theValue)
 {
 
 
@@ -36,9 +36,9 @@ NDBStatement::NDBStatement(const NString &theValue)
 
 
 //============================================================================
-//		NDBStatement::NDBStatement : Constructor.
+//		NDBQuery::NDBQuery : Constructor.
 //----------------------------------------------------------------------------
-NDBStatement::NDBStatement(const char *theValue)
+NDBQuery::NDBQuery(const char *theValue)
 {
 
 
@@ -51,9 +51,9 @@ NDBStatement::NDBStatement(const char *theValue)
 
 
 //============================================================================
-//		NDBStatement::NDBStatement : Constructor.
+//		NDBQuery::NDBQuery : Constructor.
 //----------------------------------------------------------------------------
-NDBStatement::NDBStatement(void)
+NDBQuery::NDBQuery(void)
 {
 }
 
@@ -62,9 +62,9 @@ NDBStatement::NDBStatement(void)
 
 
 //============================================================================
-//		NDBStatement::~NDBStatement : Destructor.
+//		NDBQuery::~NDBQuery : Destructor.
 //----------------------------------------------------------------------------
-NDBStatement::~NDBStatement(void)
+NDBQuery::~NDBQuery(void)
 {
 }
 
@@ -73,9 +73,9 @@ NDBStatement::~NDBStatement(void)
 
 
 //============================================================================
-//		NDBStatement::GetValue : Get the value.
+//		NDBQuery::GetValue : Get the value.
 //----------------------------------------------------------------------------
-NString NDBStatement::GetValue(void) const
+NString NDBQuery::GetValue(void) const
 {
 
 
@@ -88,9 +88,9 @@ NString NDBStatement::GetValue(void) const
 
 
 //============================================================================
-//		NDBStatement::SetValue : Set the value.
+//		NDBQuery::SetValue : Set the value.
 //----------------------------------------------------------------------------
-void NDBStatement::SetValue(const NString &theValue)
+void NDBQuery::SetValue(const NString &theValue)
 {
 
 
@@ -108,9 +108,9 @@ void NDBStatement::SetValue(const NString &theValue)
 
 
 //============================================================================
-//		NDBStatement::GetParameters : Get the parameters.
+//		NDBQuery::GetParameters : Get the parameters.
 //----------------------------------------------------------------------------
-NDictionary NDBStatement::GetParameters(void) const
+NDictionary NDBQuery::GetParameters(void) const
 {
 
 
@@ -123,9 +123,9 @@ NDictionary NDBStatement::GetParameters(void) const
 
 
 //============================================================================
-//		NDBStatement::SetParameters : Set the parameters.
+//		NDBQuery::SetParameters : Set the parameters.
 //----------------------------------------------------------------------------
-void NDBStatement::SetParameters(const NDictionary &theValue)
+void NDBQuery::SetParameters(const NDictionary &theValue)
 {
 
 

@@ -1,8 +1,8 @@
 /*	NAME:
-		NDBStatement.h
+		NDBQuery.h
 
 	DESCRIPTION:
-		Database statement.
+		Database query.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NDBSTATEMENT_HDR
-#define NDBSTATEMENT_HDR
+#ifndef NDBQUERY_HDR
+#define NDBQUERY_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -28,7 +28,7 @@
 // Misc
 typedef SInt32  NDBStatus;
 typedef void   *NDBHandleRef;
-typedef void   *NDBStatementRef;
+typedef void   *NDBQueryRef;
 
 
 
@@ -37,16 +37,16 @@ typedef void   *NDBStatementRef;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NDBStatement {
+class NDBQuery {
 public:
-										NDBStatement(const NString &theValue);
-										NDBStatement(const char    *theValue);
+										NDBQuery(const NString &theValue);
+										NDBQuery(const char    *theValue);
 
-										NDBStatement( void);
-	virtual								~NDBStatement(void);
+										NDBQuery(void);
+	virtual							   ~NDBQuery(void);
 
 
-	// Get/set the statement
+	// Get/set the query
 	NString								GetValue(void) const;
 	void								SetValue(const NString &theValue);
 
@@ -64,6 +64,6 @@ private:
 
 
 
-#endif // NDBSTATEMENT_HDR
+#endif // NDBQUERY_HDR
 
 

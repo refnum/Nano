@@ -25,7 +25,7 @@
 //============================================================================
 //		NDBResult::NDBResult : Constructor.
 //----------------------------------------------------------------------------
-NDBResult::NDBResult(NDBStatementRef theResult)
+NDBResult::NDBResult(NDBQueryRef theResult)
 {
 
 

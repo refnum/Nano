@@ -38,11 +38,9 @@
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
 		AB23BAF6102B5B96009CA347 /* NDBHandlePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */; };
 		AB23BAF7102B5B96009CA347 /* NDBResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAF1102B5B95009CA347 /* NDBResult.cpp */; };
-		AB23BAF8102B5B96009CA347 /* NDBStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAF3102B5B95009CA347 /* NDBStatement.cpp */; };
 		AB23BAF9102B5B96009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
 		AB23BAFA102B5B96009CA347 /* NDBHandlePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */; };
 		AB23BAFB102B5B96009CA347 /* NDBResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAF1102B5B95009CA347 /* NDBResult.cpp */; };
-		AB23BAFC102B5B96009CA347 /* NDBStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAF3102B5B95009CA347 /* NDBStatement.cpp */; };
 		AB23BB3B102B6565009CA347 /* NAtomicList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB39102B6565009CA347 /* NAtomicList.cpp */; };
 		AB23BB3C102B6565009CA347 /* NAtomicList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB39102B6565009CA347 /* NAtomicList.cpp */; };
 		AB23BB5E102B67DB009CA347 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
@@ -108,6 +106,8 @@
 		AB2AAD6C103962E4007BC4E6 /* NLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */; };
 		AB2AADB61039793F007BC4E6 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */; };
 		AB2AADB71039793F007BC4E6 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */; };
+		AB3325EA1046696E00C8DF0A /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
+		AB3325EB1046696E00C8DF0A /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
 		AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
@@ -314,8 +314,6 @@
 		AB23BAF0102B5B95009CA347 /* NDBHandlePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandlePool.h; sourceTree = "<group>"; };
 		AB23BAF1102B5B95009CA347 /* NDBResult.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBResult.cpp; sourceTree = "<group>"; };
 		AB23BAF2102B5B95009CA347 /* NDBResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBResult.h; sourceTree = "<group>"; };
-		AB23BAF3102B5B95009CA347 /* NDBStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBStatement.cpp; sourceTree = "<group>"; };
-		AB23BAF4102B5B95009CA347 /* NDBStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBStatement.h; sourceTree = "<group>"; };
 		AB23BB39102B6565009CA347 /* NAtomicList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAtomicList.cpp; sourceTree = "<group>"; };
 		AB23BB3A102B6565009CA347 /* NAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAtomicList.h; sourceTree = "<group>"; };
 		AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSemaphore.cpp; sourceTree = "<group>"; };
@@ -327,6 +325,8 @@
 		AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLocale.cpp; sourceTree = "<group>"; };
 		AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTIRegistry.cpp; sourceTree = "<group>"; };
 		AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
+		AB3325E81046696E00C8DF0A /* NDBQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBQuery.cpp; sourceTree = "<group>"; };
+		AB3325E91046696E00C8DF0A /* NDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBQuery.h; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
@@ -633,10 +633,10 @@
 				AB23BAEE102B5B95009CA347 /* NDBHandle.h */,
 				AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */,
 				AB23BAF0102B5B95009CA347 /* NDBHandlePool.h */,
+				AB3325E81046696E00C8DF0A /* NDBQuery.cpp */,
+				AB3325E91046696E00C8DF0A /* NDBQuery.h */,
 				AB23BAF1102B5B95009CA347 /* NDBResult.cpp */,
 				AB23BAF2102B5B95009CA347 /* NDBResult.h */,
-				AB23BAF3102B5B95009CA347 /* NDBStatement.cpp */,
-				AB23BAF4102B5B95009CA347 /* NDBStatement.h */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -1233,8 +1233,8 @@
 				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
 				AB23BAF9102B5B96009CA347 /* NDBHandle.cpp in Sources */,
 				AB23BAFA102B5B96009CA347 /* NDBHandlePool.cpp in Sources */,
+				AB3325EB1046696E00C8DF0A /* NDBQuery.cpp in Sources */,
 				AB23BAFB102B5B96009CA347 /* NDBResult.cpp in Sources */,
-				AB23BAFC102B5B96009CA347 /* NDBStatement.cpp in Sources */,
 				AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */,
 				AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */,
 				AB1A78CD1032398000DFBA38 /* NTimer.cpp in Sources */,
@@ -1374,8 +1374,8 @@
 				AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */,
 				AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */,
 				AB23BAF6102B5B96009CA347 /* NDBHandlePool.cpp in Sources */,
+				AB3325EA1046696E00C8DF0A /* NDBQuery.cpp in Sources */,
 				AB23BAF7102B5B96009CA347 /* NDBResult.cpp in Sources */,
-				AB23BAF8102B5B96009CA347 /* NDBStatement.cpp in Sources */,
 				AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */,
 				AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */,
 				AB1A78CE1032398000DFBA38 /* NTimer.cpp in Sources */,
