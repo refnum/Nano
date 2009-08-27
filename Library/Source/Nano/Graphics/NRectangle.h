@@ -79,9 +79,9 @@ public:
 	NComparison							Compare(const NRectangleT<T> &theValue) const;
 
 
-	// Does a rectangle contain another?
-	bool								Contains(   const NRectangleT<T> &theRect) const;
-	bool								ContainedBy(const NRectangleT<T> &theRect) const;
+	// Does a rectangle contain a geometry?
+	bool								Contains(const NPointT<T>     &thePoint) const;
+	bool								Contains(const NRectangleT<T> &theRect)  const;
 
 
 	// Does a rectangle intersect another?

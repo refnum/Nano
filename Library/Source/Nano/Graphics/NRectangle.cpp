@@ -311,14 +311,15 @@ template<class T> NComparison NRectangleT<T>::Compare(const NRectangleT<T> &theV
 
 
 //============================================================================
-//		NRectangleT::Contains : Does a rectangle contain another?
+//		NRectangleT::Contains : Does a rectangle contain a point?
 //----------------------------------------------------------------------------
-template<class T> bool NRectangleT<T>::Contains(const NRectangleT<T> &theRect) const
+template<class T> bool NRectangleT<T>::Contains(const NPointT<T> &thePoint) const
 {
 
 
 	// Check our state
-	return(GetUnion(theRect) == *this);
+	return(	thePoint.x >= GetMinX() && thePoint.x <= GetMaxX() &&
+			thePoint.y >= GetMinY() && thePoint.y <= GetMaxY());
 }
 
 
@@ -326,14 +327,14 @@ template<class T> bool NRectangleT<T>::Contains(const NRectangleT<T> &theRect) c
 
 
 //============================================================================
-//		NRectangleT::ContainedBy : Is the rectangle contained by another?
+//		NRectangleT::Contains : Does a rectangle contain a rectangle?
 //----------------------------------------------------------------------------
-template<class T> bool NRectangleT<T>::ContainedBy(const NRectangleT<T> &theRect) const
+template<class T> bool NRectangleT<T>::Contains(const NRectangleT<T> &theRect) const
 {
 
 
 	// Check our state
-	return(theRect.Contains(*this));
+	return(GetUnion(theRect) == *this);
 }
 
 
