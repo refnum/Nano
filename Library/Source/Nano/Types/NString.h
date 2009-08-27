@@ -204,7 +204,7 @@ public:
 
 
 	// Format the string
-	void								Format(const NString &theFormat, FORMAT_ARGS);
+	void								Format(const NString &theFormat, NN_FORMAT_ARGS);
 
 
 	// Operators

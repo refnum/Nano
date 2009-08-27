@@ -91,7 +91,7 @@ static const NStringUTF8 kFormatTypes									= kFormatTypesInteger +
 //		Internal macros
 //----------------------------------------------------------------------------
 // Collect an argument list
-#define FORMAT_ARGS_COLLECT(_argList)			if (arg1.IsValid())		{								_argList.push_back(&arg1);	} \
+#define NN_FORMAT_ARGS_COLLECT(_argList)		if (arg1.IsValid())		{								_argList.push_back(&arg1);	} \
 												if (arg2.IsValid())		{ NN_ASSERT(arg1.IsValid());	_argList.push_back(&arg2);	} \
 												if (arg3.IsValid())		{ NN_ASSERT(arg2.IsValid());	_argList.push_back(&arg3);	} \
 												if (arg4.IsValid())		{ NN_ASSERT(arg3.IsValid());	_argList.push_back(&arg4);	} \
@@ -458,13 +458,13 @@ NStringFormatter::~NStringFormatter(void)
 //============================================================================
 //		NStringFormatter::Format : Format an argument list.
 //----------------------------------------------------------------------------
-NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, FORMAT_ARGS_PARAM)
+NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS_PARAM)
 {	NFormatArgumentList		theArguments;
 
 
 
 	// Format the arguments
-	FORMAT_ARGS_COLLECT(theArguments);
+	NN_FORMAT_ARGS_COLLECT(theArguments);
 	
 	return(Format(theFormat, theArguments));
 }

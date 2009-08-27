@@ -1139,13 +1139,13 @@ void NString::Trim(const NRange &theRange)
 //============================================================================
 //		NString::Format : Format the string.
 //----------------------------------------------------------------------------
-void NString::Format(const NString &theFormat, FORMAT_ARGS_PARAM)
+void NString::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
 {	NStringFormatter		theFormatter;
 
 
 
 	// Format the string
-	*this = theFormatter.Format(theFormat, FORMAT_ARGS_LIST);
+	*this = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
 }
 
 

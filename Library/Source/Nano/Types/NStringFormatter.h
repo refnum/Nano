@@ -26,7 +26,7 @@
 //		Macros
 //----------------------------------------------------------------------------
 // Format arguments
-#define FORMAT_ARGS						const NFormatArgument &arg1  = NFormatArgument(),	\
+#define NN_FORMAT_ARGS					const NFormatArgument &arg1  = NFormatArgument(),	\
 										const NFormatArgument &arg2  = NFormatArgument(),	\
 										const NFormatArgument &arg3  = NFormatArgument(),	\
 										const NFormatArgument &arg4  = NFormatArgument(),	\
@@ -42,7 +42,7 @@
 										const NFormatArgument &arg14 = NFormatArgument(),	\
 										const NFormatArgument &arg15 = NFormatArgument()
 
-#define FORMAT_ARGS_PARAM				const NFormatArgument &arg1,						\
+#define NN_FORMAT_ARGS_PARAM			const NFormatArgument &arg1,						\
 										const NFormatArgument &arg2, 						\
 										const NFormatArgument &arg3, 						\
 										const NFormatArgument &arg4, 						\
@@ -58,7 +58,7 @@
 										const NFormatArgument &arg14,						\
 										const NFormatArgument &arg15
 
-#define FORMAT_ARGS_LIST				arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15
+#define NN_FORMAT_ARGS_LIST				arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15
 
 
 
@@ -182,7 +182,7 @@ public:
 	//
 	// Custom objects can be printed using a '%@' specifier and providing an
 	// NFormatArgument cast operator that returns the text for the object.
-	NStringUTF8								Format(const NStringUTF8 &theFormat, FORMAT_ARGS);
+	NStringUTF8								Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
 
 
 private:
