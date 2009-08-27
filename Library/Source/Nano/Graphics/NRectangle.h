@@ -90,7 +90,7 @@ public:
 	void								UnionWith(    const NRectangleT<T> &theRect);
 	void								IntersectWith(const NRectangleT<T> &theRect);
 
-	NRectangleT<T>						GetNormalized(void)                       const;
+	NRectangleT<T>						GetNormalized(void)                            const;
 	NRectangleT<T>						GetUnion(       const NRectangleT<T> &theRect) const;
 	NRectangleT<T>						GetIntersection(const NRectangleT<T> &theRect) const;
 
