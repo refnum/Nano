@@ -222,6 +222,8 @@ static const NTime kNTimeForever									= -1.0;
 
 
 // Status
+//
+// Other than kNoErr, NStatus values may change between releases.
 static const NStatus kNoErr											= 0;
 static const NStatus kNErrParam										= -1;
 static const NStatus kNErrInternal									= -2;
@@ -233,10 +235,11 @@ static const NStatus kNErrPermission								= -7;
 static const NStatus kNErrLocked									= -8;
 static const NStatus kNErrDiskFull									= -9;
 static const NStatus kNErrMemory									= -10;
-static const NStatus kNErrNotFound									= -11;
-static const NStatus kNErrNotSupported								= -12;
-static const NStatus kNErrExhaustedSrc								= -13;
-static const NStatus kNErrExhaustedDst								= -14;
+static const NStatus kNErrDuplicate									= -11;
+static const NStatus kNErrNotFound									= -12;
+static const NStatus kNErrNotSupported								= -13;
+static const NStatus kNErrExhaustedSrc								= -14;
+static const NStatus kNErrExhaustedDst								= -15;
 
 
 
