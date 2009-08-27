@@ -220,8 +220,8 @@ protected:
 	const NStringValue					*GetNullValue(void) const;
 
 
-	// Calculate the hash code
-	NHashCode							CalculateHash(void) const;
+	// Get the hash value
+	NHashCode							GetHashValue(void) const;
 
 
 	// Encode/decode the object

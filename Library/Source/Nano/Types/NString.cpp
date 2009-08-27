@@ -1272,19 +1272,18 @@ const NStringValue *NString::GetNullValue(void) const
 
 
 //============================================================================
-//		NString::CalculateHash : Calculate the hash code.
+//		NString::GetHashValue : Get the hash value.
 //----------------------------------------------------------------------------
-NHashCode NString::CalculateHash(void) const
+NHashCode NString::GetHashValue(void) const
 {	const NStringValue		*theValue = GetImmutable();
 	NHashCode				theResult;
 
 
 
-	// Calculate the hash code
+	// Get the hash code
+	theResult = theValue->theData.GetHash();
 	if (theValue->theSize == 0)
-		theResult = kNHashCodeNone;
-	else
-		theResult = NHashable::CalculateHash(theValue->theData);
+		NN_ASSERT(theResult == kNHashCodeNone);
 
 	return(theResult);
 }

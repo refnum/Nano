@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NDataDigest.h"
 #include "NEncoder.h"
 #include "NData.h"
 
@@ -90,6 +91,7 @@ void NData::Clear(void)
 
 	// Clear the value
 	NSharedValueData::Clear();
+	ClearHash();
 
 	mExternalSize = 0;
 	mExternalPtr  = NULL;
@@ -163,6 +165,8 @@ bool NData::SetSize(NIndex theSize)
 			theValue->resize(theSize, 0x00);
 			}
 		}
+	
+	ClearHash();
 
 
 
@@ -258,6 +262,11 @@ UInt8 *NData::GetData(NIndex theOffset)
 		thePtr   = &theValue->at(theOffset);
 		}
 
+
+
+	// Update our state
+	ClearHash();
+
 	return(thePtr);
 }
 
@@ -315,6 +324,11 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 		mExternalSize = theSize;
 		mExternalPtr  = thePtr;
 		}
+
+
+
+	// Update our state
+	ClearHash();
 }
 
 
@@ -355,6 +369,11 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 	if (thePtr != NULL)
 		memcpy(dstPtr, thePtr, theSize);
 
+
+
+	// Update our state
+	ClearHash();
+
 	return(dstPtr);
 }
 
@@ -386,6 +405,11 @@ UInt8 *NData::AppendData(const NData &theData)
 		}
 	else
 		thePtr = AppendData(theData.GetSize(), theData.GetData());
+
+
+
+	// Update our state
+	ClearHash();
 	
 	return(thePtr);
 }
@@ -444,6 +468,7 @@ void NData::RemoveData(const NRange &theRange)
 
 	// Remove the data
 	theValue->erase(iterStart, iterEnd);
+	ClearHash();
 }
 
 
@@ -508,6 +533,8 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 		theValue->resize(oldSize - sizeDelta);
 		}
 
+	ClearHash();
+
 
 
 	// Get the data
@@ -526,6 +553,7 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 NComparison NData::Compare(const NData &theValue) const
 {	const void				*ourPtr, *otherPtr;
 	NIndex					ourSize, otherSize;
+	NHashCode				ourHash, otherHash;
 	NComparison				theResult;
 
 
@@ -537,12 +565,18 @@ NComparison NData::Compare(const NData &theValue) const
 	ourSize   = (         mExternalPtr != NULL) ?          mExternalSize :          GetSize();
 	otherSize = (theValue.mExternalPtr != NULL) ? theValue.mExternalSize : theValue.GetSize();
 
+	ourHash   =          GetHash();
+	otherHash = theValue.GetHash();
+
 
 
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = CompareData(ourSize, ourPtr, otherSize, otherPtr);
+	if (ourHash != otherHash)
+		theResult = GetComparison(ourHash, otherHash);
+	else
+		theResult = CompareData(ourSize, ourPtr, otherSize, otherPtr);
 
 	return(theResult);
 }
@@ -649,6 +683,22 @@ const NDataValue *NData::GetNullValue(void) const
 
 	// Get the value
 	return(&sNullValue);
+}
+
+
+
+
+
+//============================================================================
+//		NData::GetHashValue : Get the hash value.
+//----------------------------------------------------------------------------
+NHashCode NData::GetHashValue(void) const
+{	NDataDigest		theDigest;
+
+
+
+	// Get the hash code
+	return((NHashCode) theDigest.GetAdler32(*this));
 }
 
 

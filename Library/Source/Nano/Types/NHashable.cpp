@@ -48,30 +48,8 @@ NHashable::~NHashable(void)
 
 
 //============================================================================
-//		NHashable::GetHash : Get the hash code.
+//		NHashable::ClearHash : Clear the value.
 //----------------------------------------------------------------------------
-NHashCode NHashable::GetHash(void) const
-{
-
-
-	// Update the hash codde
-	if (mHashCode == kNHashCodeNone)
-		mHashCode = CalculateHash();
-
-
-
-	// Get the hash code
-	return(mHashCode);
-}
-
-
-
-
-
-//============================================================================
-//		NHashable::ClearHash : Clear the hash code.
-//----------------------------------------------------------------------------
-#pragma mark -
 void NHashable::ClearHash(void)
 {
 
@@ -85,13 +63,21 @@ void NHashable::ClearHash(void)
 
 
 //============================================================================
-//		NHashable::CalculateHash : Calculate a hash code.
+//		NHashable::GetHash : Get the hash code.
 //----------------------------------------------------------------------------
-NHashCode NHashable::CalculateHash(const NData &theData) const
-{	NDataDigest		theDigest;
+NHashCode NHashable::GetHash(void) const
+{
+
+
+	// Update the hash codde
+	if (mHashCode == kNHashCodeNone)
+		mHashCode = GetHashValue();
 
 
 
-	// Calculate the hash code
-	return((NHashCode) theDigest.GetAdler32(theData));
+	// Get the hash code
+	return(mHashCode);
 }
+
+
+

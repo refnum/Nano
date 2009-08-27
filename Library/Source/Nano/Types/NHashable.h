@@ -69,21 +69,19 @@ public:
 	virtual							   ~NHashable(void);
 
 
+	// Clear the hash value
+	//
+	// Must be called whenever the object is mutated.
+	void								ClearHash(void);
+
+
 	// Get the hash code
 	NHashCode							GetHash(void) const;
 
 
 protected:
-	// Clear the hash code
-	void								ClearHash(void);
-
-
-	// Calculate a hash code
-	NHashCode							CalculateHash(const NData &theData) const;
-
-
-	// Calculate the hash code
-	virtual NHashCode					CalculateHash(void) const = 0;
+	// Get the hash value
+	virtual NHashCode					GetHashValue(void) const = 0;
 
 
 private:

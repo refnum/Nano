@@ -20,6 +20,7 @@
 #include "NSharedValue.h"
 #include "NEncodable.h"
 #include "NContainer.h"
+#include "NHashable.h"
 #include "NRange.h"
 
 
@@ -49,6 +50,7 @@ typedef NSharedValue<NDataValue>									NSharedValueData;
 //		Class declaration
 //----------------------------------------------------------------------------
 class NData :	public NContainer,
+				public NHashable,
 				public NEncodable,
 				public NComparable<NData>,
 				public NSharedValueData {
@@ -131,6 +133,10 @@ protected:
 
 	// Get the null value
 	const NDataValue					*GetNullValue(void) const;
+
+
+	// Get the hash value
+	NHashCode							GetHashValue(void) const;
 
 
 	// Encode/decode the object
