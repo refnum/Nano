@@ -29,8 +29,11 @@
 //----------------------------------------------------------------------------
 // Classes
 class NSize;
-class NSize32;
-class NSize64;
+
+template <class T> class NSizeT;
+
+typedef NSizeT<Float32> NSize32;
+typedef NSizeT<Float64> NSize64;
 
 
 // Lists
@@ -80,36 +83,6 @@ public:
 public:
 	T									width;
 	T									height;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NSize32 : public NSizeT<Float32> {
-public:
-										NSize32(Float32 width, Float32 height) : NSizeT<Float32>(width, height) { }
-
-										NSize32(void) { }
-	virtual							   ~NSize32(void) { }
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NSize64 : public NSizeT<Float64> {
-public:
-										NSize64(Float64 width, Float64 height) : NSizeT<Float64>(width, height) { }
-
-										NSize64(void) { }
-	virtual							   ~NSize64(void) { }
 };
 
 

@@ -30,8 +30,11 @@
 //----------------------------------------------------------------------------
 // Classes
 class NVector;
-class NVector32;
-class NVector64;
+
+template <class T> class NVectorT;
+
+typedef NVectorT<Float32> NVector32;
+typedef NVectorT<Float64> NVector64;
 
 
 // Lists
@@ -121,38 +124,6 @@ public:
 public:
 	T									x;
 	T									y;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NVector32 : public NVectorT<Float32> {
-public:
-										NVector32(Float32 x, Float32 y)								: NVectorT<Float32>(x, y)           { }
-										NVector32(const NPoint32 &point1, const NPoint32 &point2)	: NVectorT<Float32>(point1, point2) { }
-
-										NVector32(void) { }
-	virtual							   ~NVector32(void) { }
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NVector64 : public NVectorT<Float64> {
-public:
-										NVector64(Float64 x, Float64 y)								: NVectorT<Float64>(x, y)           { }
-										NVector64(const NPoint64 &point1, const NPoint64 &point2)	: NVectorT<Float64>(point1, point2) { }
-
-										NVector64(void) { }
-	virtual							   ~NVector64(void) { }
 };
 
 

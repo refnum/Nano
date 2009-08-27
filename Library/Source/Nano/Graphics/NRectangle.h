@@ -31,8 +31,11 @@
 //----------------------------------------------------------------------------
 // Classes
 class NRectangle;
-class NRectangle32;
-class NRectangle64;
+
+template<class T> class NRectangleT;
+
+typedef NRectangleT<Float32> NRectangle32;
+typedef NRectangleT<Float64> NRectangle64;
 
 
 // Lists
@@ -109,38 +112,6 @@ public:
 public:
 	NPointT<T>							origin;
 	NSizeT<T>							size;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NRectangle32 : public NRectangleT<Float32> {
-public:
-										NRectangle32(Float32 x, Float32 y, Float32 width, Float32 height)	: NRectangleT<Float32>(x, y, width, height) { }
-										NRectangle32(const NPoint32 &origin, const NSize32 &size)			: NRectangleT<Float32>(origin, size)        { }
-
-										NRectangle32(void) { }
-	virtual							   ~NRectangle32(void) { }
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NRectangle64 : public NRectangleT<Float64> {
-public:
-										NRectangle64(Float64 x, Float64 y, Float64 width, Float64 height)	: NRectangleT<Float64>(x, y, width, height) { }
-										NRectangle64(const NPoint64 &origin, const NSize64 &size)			: NRectangleT<Float64>(origin, size)        { }
-
-										NRectangle64(void) { }
-	virtual							   ~NRectangle64(void) { }
 };
 
 

@@ -29,11 +29,13 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
+class NPoint;
+
+template<class T> class NPointT;
 template<class T> class NVectorT;
 
-class NPoint;
-class NPoint32;
-class NPoint64;
+typedef NPointT<Float32> NPoint32;
+typedef NPointT<Float64> NPoint64;
 
 
 // Lists
@@ -93,36 +95,6 @@ public:
 public:
 	T									x;
 	T									y;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NPoint32 : public NPointT<Float32> {
-public:
-										NPoint32(Float32 x, Float32 y) : NPointT<Float32>(x, y) { }
-
-										NPoint32(void) { }
-	virtual							   ~NPoint32(void) { }
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NPoint64 : public NPointT<Float64> {
-public:
-										NPoint64(Float64 x, Float64 y) : NPointT<Float64>(x, y) { }
-
-										NPoint64(void) { }
-	virtual							   ~NPoint64(void) { }
 };
 
 
