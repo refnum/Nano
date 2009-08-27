@@ -50,15 +50,15 @@ void TDataDigest::Execute(void)
 	// Execute the tests
 	NN_ASSERT(theDigest.GetString(theDigest.GetInternet(data1)) == "00008866");
 	NN_ASSERT(theDigest.GetString(theDigest.GetInternet(data2)) == "0000f9f6");
-	NN_ASSERT(theDigest.GetString(theDigest.GetInternet(data3)) == "0000ffff");
+	NN_ASSERT(theDigest.GetString(theDigest.GetInternet(data3)) == "00000000");
 
 	NN_ASSERT(theDigest.GetString(theDigest.GetDJB2(data1)) == "7cbd7e93");
 	NN_ASSERT(theDigest.GetString(theDigest.GetDJB2(data2)) == "07f24354");
-	NN_ASSERT(theDigest.GetString(theDigest.GetDJB2(data3)) == "00001505");
+	NN_ASSERT(theDigest.GetString(theDigest.GetDJB2(data3)) == "00000000");
 
 	NN_ASSERT(theDigest.GetString(theDigest.GetAdler32(data1)) == "074e030e");
 	NN_ASSERT(theDigest.GetString(theDigest.GetAdler32(data2)) == "0023000f");
-	NN_ASSERT(theDigest.GetString(theDigest.GetAdler32(data3)) == "00000001");
+	NN_ASSERT(theDigest.GetString(theDigest.GetAdler32(data3)) == "00000000");
 }
 
 

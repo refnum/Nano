@@ -119,6 +119,12 @@ UInt16 NDataDigest::GetInternet(const NData &theData)
 
 
 
+	// Check our parameters
+	if (theData.IsEmpty())
+		return(0);
+
+
+
 	// Get the state we need
 	dataPtr   = (const UInt8 *) theData.GetData();
 	dataSize  =                 theData.GetSize();
@@ -167,6 +173,12 @@ UInt32 NDataDigest::GetDJB2(const NData &theData)
 
 
 
+	// Check our parameters
+	if (theData.IsEmpty())
+		return(0);
+
+
+
 	// Get the state we need
 	dataPtr   = (const UInt8 *) theData.GetData();
 	dataSize  =                 theData.GetSize();
@@ -188,13 +200,19 @@ UInt32 NDataDigest::GetDJB2(const NData &theData)
 //============================================================================
 //		NDataDigest::GetAdler32 : Get an Adler32 digest.
 //----------------------------------------------------------------------------
-UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevAdler)
+UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevValue)
 {	UInt32		theDigest;
 
 
 
+	// Check our parameters
+	if (theData.IsEmpty())
+		return(prevValue);
+
+
+
 	// Get the digest
-	theDigest = adler32(prevAdler, theData.GetData(), theData.GetSize());
+	theDigest = adler32(prevValue, theData.GetData(), theData.GetSize());
 	
 	return(theDigest);
 }
@@ -207,13 +225,19 @@ UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevAdler)
 //		NDataDigest::GetMD5 : Get an MD5 digest.
 //----------------------------------------------------------------------------
 NDigestMD5 NDataDigest::GetMD5(const NData &theData)
-{	NDigestMD5		theDigest;
+{	NDigestMD5		theDigest = { 0 };
 	MD5Context		theState;
 
 
 
 	// Validate our state
 	NN_ASSERT(sizeof(theDigest.bytes) == 16);
+
+
+
+	// Check our parameters
+	if (theData.IsEmpty())
+		return(theDigest);
 
 
 
@@ -233,12 +257,18 @@ NDigestMD5 NDataDigest::GetMD5(const NData &theData)
 //		NDataDigest::GetSHA1 : Get an SHA1 digest.
 //----------------------------------------------------------------------------
 NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
-{	NDigestSHA1		theDigest;
+{	NDigestSHA1		theDigest = { 0 };
 
 
 
 	// Validate our state
 	NN_ASSERT(sizeof(theDigest.bytes) == SHA1_DIGEST_STRING_LENGTH);
+
+
+
+	// Check our parameters
+	if (theData.IsEmpty())
+		return(theDigest);
 
 
 

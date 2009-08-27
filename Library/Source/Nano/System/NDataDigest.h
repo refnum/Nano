@@ -55,6 +55,8 @@ public:
 
 
 	// Get a digest
+	//
+	// The checksum of empty data is always 0.
 	UInt16								GetInternet(const NData &theData);
 	UInt32								GetDJB2(    const NData &theData);
 	UInt32								GetAdler32( const NData &theData, UInt32 prevValue=0);
