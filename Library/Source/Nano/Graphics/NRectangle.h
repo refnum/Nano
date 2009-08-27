@@ -79,7 +79,7 @@ public:
 	NComparison							Compare(const NRectangleT<T> &theValue) const;
 
 
-	// Does a rectangle contain a geometry?
+	// Does a rectangle contain an object?
 	bool								Contains(const NPointT<T>     &thePoint) const;
 	bool								Contains(const NRectangleT<T> &theRect)  const;
 
