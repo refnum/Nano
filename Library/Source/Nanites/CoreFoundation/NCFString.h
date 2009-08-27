@@ -33,8 +33,8 @@ public:
 										NCFString(CFStringRef  cfObject, bool takeOwnership);
 										NCFString(NSString    *nsObject, bool takeOwnership);
 										
-										NCFString( void);
-	virtual								~NCFString(void);
+										NCFString(void);
+	virtual							   ~NCFString(void);
 
 
 	// Get/set the object

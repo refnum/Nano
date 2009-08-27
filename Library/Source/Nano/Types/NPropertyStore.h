@@ -39,8 +39,8 @@ static const NString kPropertyChangedAllKey							= "*";
 //----------------------------------------------------------------------------
 class NPropertyStore :	public NBroadcaster {
 public:
-										 NPropertyStore(void);
-	virtual								~NPropertyStore(void);
+										NPropertyStore(void);
+	virtual							   ~NPropertyStore(void);
 
 
 	// Does a key exist?

@@ -49,8 +49,8 @@ typedef enum {
 //----------------------------------------------------------------------------
 class NPropertyList {
 public:
-										 NPropertyList(void);
-	virtual								~NPropertyList(void);
+										NPropertyList(void);
+	virtual							   ~NPropertyList(void);
 
 
 	// Encode/decode a property list

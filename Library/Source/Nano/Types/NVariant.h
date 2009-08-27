@@ -43,11 +43,11 @@ typedef NVariantList::const_iterator								NVariantListConstIterator;
 //----------------------------------------------------------------------------
 class NVariant : public NComparable<NVariant> {
 public:
-	template <class T>					 NVariant(const T &theValue);
-	inline								 NVariant(const NVariant &theValue);
+	template <class T>					NVariant(const T &theValue);
+	inline								NVariant(const NVariant &theValue);
 
-	inline								 NVariant(void);
-	inline virtual						~NVariant(void);
+	inline								NVariant(void);
+	inline virtual					   ~NVariant(void);
 
 
 	// Is the value valid?

@@ -36,8 +36,8 @@ class NBitVector :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NBitVector);
 
-										 NBitVector(void);
-	virtual								~NBitVector(void);
+										NBitVector(void);
+	virtual							   ~NBitVector(void);
 
 
 	// Clear the vector

@@ -26,8 +26,8 @@
 //----------------------------------------------------------------------------
 class NContainer {
 public:
-										 NContainer(void);
-	virtual								~NContainer(void);
+										NContainer(void);
+	virtual							   ~NContainer(void);
 
 
 	// Is this object empty?

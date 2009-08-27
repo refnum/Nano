@@ -33,8 +33,8 @@ public:
 										NCFNumber(const NNumber  &theNumber);
 										NCFNumber(CFNumberRef cfObject, bool takeOwnership);
 										
-										NCFNumber( void);
-	virtual								~NCFNumber(void);
+										NCFNumber(void);
+	virtual							   ~NCFNumber(void);
 
 
 	// Get/set the object

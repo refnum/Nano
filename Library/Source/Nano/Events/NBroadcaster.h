@@ -56,7 +56,7 @@ public:
 										NBroadcaster(const NBroadcaster &theBroadcaster);
 
 										NBroadcaster(void);
-	virtual								~NBroadcaster(void);
+	virtual							   ~NBroadcaster(void);
 
 
 	// Get/set the broadcasting state

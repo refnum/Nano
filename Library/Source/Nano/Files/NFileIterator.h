@@ -50,8 +50,8 @@ typedef IteratorStartList::const_iterator							IteratorStartListConstIterator;
 //----------------------------------------------------------------------------
 class NFileIterator {
 public:
-										 NFileIterator(void);
-	virtual								~NFileIterator(void);
+										NFileIterator(void);
+	virtual							   ~NFileIterator(void);
 
 
 	// Get/set the recurse limit

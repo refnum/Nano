@@ -116,8 +116,8 @@ public:
 										NString(const NStringUTF8	&theString);
 										NString(      UTF8Char       theChar);
 
-										 NString(void);
-	virtual								~NString(void);
+										NString(void);
+	virtual							   ~NString(void);
 
 
 	// Get the size

@@ -76,9 +76,9 @@ class NUTI :	public NEncodable,
 public:
 										NENCODABLE_DECLARE(NUTI);
 
-										 NUTI(NUTITagClass theClass, const NString &theTag);
-										 NUTI(const NString &theUTI=kNUTTypeNone);
-	virtual								~NUTI(void);
+										NUTI(NUTITagClass theClass, const NString &theTag);
+										NUTI(const NString &theUTI=kNUTTypeNone);
+	virtual							   ~NUTI(void);
 
 
 	// Is the UTI valid?

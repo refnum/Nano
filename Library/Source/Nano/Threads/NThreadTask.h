@@ -40,8 +40,8 @@ typedef NThreadTaskList::const_iterator								NThreadTaskListConstIterator;
 //----------------------------------------------------------------------------
 class NThreadTask {
 public:
-										 NThreadTask(void);
-	virtual								~NThreadTask(void);
+										NThreadTask(void);
+	virtual							   ~NThreadTask(void);
 
 
 	// Get/set the name
@@ -84,8 +84,8 @@ private:
 //----------------------------------------------------------------------------
 class NThreadTaskFunctor : public NThreadTask {
 public:
-										 NThreadTaskFunctor(const NFunctor &theFunctor);
-	virtual								~NThreadTaskFunctor(void);
+										NThreadTaskFunctor(const NFunctor &theFunctor);
+	virtual							   ~NThreadTaskFunctor(void);
 
 
 protected:

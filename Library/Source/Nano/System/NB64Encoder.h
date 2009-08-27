@@ -28,8 +28,8 @@
 //----------------------------------------------------------------------------
 class NB64Encoder {
 public:
-										NB64Encoder( void);
-	virtual								~NB64Encoder(void);
+										NB64Encoder(void);
+	virtual							   ~NB64Encoder(void);
 
 
 	// Encode/decode to Base64

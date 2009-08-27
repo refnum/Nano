@@ -28,8 +28,8 @@
 //----------------------------------------------------------------------------
 class NXMLEncoder {
 public:
-										 NXMLEncoder(void);
-	virtual								~NXMLEncoder(void);
+										NXMLEncoder(void);
+	virtual							   ~NXMLEncoder(void);
 
 
 	// Encode/decode an XML document

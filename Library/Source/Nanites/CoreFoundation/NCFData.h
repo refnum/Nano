@@ -32,8 +32,8 @@ public:
 										NCFData(const NData &theData);
 										NCFData(CFDataRef cfObject, bool takeOwnership);
 										
-										NCFData( void);
-	virtual								~NCFData(void);
+										NCFData(void);
+	virtual							   ~NCFData(void);
 
 
 	// Get/set the object

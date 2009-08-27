@@ -32,8 +32,8 @@ public:
 										NCFDictionary(const NDictionary &theDictionary);
 										NCFDictionary(CFDictionaryRef cfObject, bool takeOwnership);
 										
-										NCFDictionary( void);
-	virtual								~NCFDictionary(void);
+										NCFDictionary(void);
+	virtual							   ~NCFDictionary(void);
 
 
 	// Get/set the object

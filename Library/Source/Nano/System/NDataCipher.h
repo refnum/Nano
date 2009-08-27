@@ -43,8 +43,8 @@ typedef enum {
 //----------------------------------------------------------------------------
 class NDataCipher {
 public:
-										 NDataCipher(void);
-	virtual								~NDataCipher(void);
+										NDataCipher(void);
+	virtual							   ~NDataCipher(void);
 
 
 	// Get/set the key

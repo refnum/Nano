@@ -32,8 +32,8 @@ public:
 										NCFDate(const NDate &theDate);
 										NCFDate(CFDateRef cfObject, bool takeOwnership);
 										
-										NCFDate( void);
-	virtual								~NCFDate(void);
+										NCFDate(void);
+	virtual							   ~NCFDate(void);
 
 
 	// Get/set the object

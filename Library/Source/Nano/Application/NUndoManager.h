@@ -57,8 +57,8 @@ typedef NUndoGroupList::const_iterator								NUndoGroupListConstIterator;
 //----------------------------------------------------------------------------
 class NUndoManager : public NBroadcaster {
 public:
-										 NUndoManager(void);
-	virtual								~NUndoManager(void);
+										NUndoManager(void);
+	virtual							   ~NUndoManager(void);
 
 
 	// Clear the undo state

@@ -51,8 +51,8 @@ friend class NBroadcaster;
 public:
 										NListener(const NListener &theListener);
 
-										 NListener(void);
-	virtual								~NListener(void);
+										NListener(void);
+	virtual							   ~NListener(void);
 
 
 	// Get/set the listening state

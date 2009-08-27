@@ -115,7 +115,7 @@ public:
 										NCFObject(const NCFObject &otherObject);
 
 										NCFObject(void);
-	virtual								~NCFObject(void);
+	virtual							   ~NCFObject(void);
 
 
 	// Is the object valid?

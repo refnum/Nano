@@ -44,8 +44,8 @@ typedef struct NDigestSHA1 {
 //----------------------------------------------------------------------------
 class NDataDigest {
 public:
-										 NDataDigest(void);
-	virtual								~NDataDigest(void);
+										NDataDigest(void);
+	virtual							   ~NDataDigest(void);
 
 
 	// Get a digest as a string

@@ -40,8 +40,8 @@ static const NString kPrefChangedAllKey								= "*";
 class NPreferences :	public NListener,
 						public NPropertyStore {
 public:
-										 NPreferences(void);
-	virtual								~NPreferences(void);
+										NPreferences(void);
+	virtual							   ~NPreferences(void);
 
 
 	// Does a key exist?

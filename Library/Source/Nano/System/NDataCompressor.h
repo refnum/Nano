@@ -60,8 +60,8 @@ typedef struct {
 //----------------------------------------------------------------------------
 class NDataCompressor {
 public:
-										 NDataCompressor(void);
-	virtual								~NDataCompressor(void);
+										NDataCompressor(void);
+	virtual							   ~NDataCompressor(void);
 
 
 	// Compress/decompress data

@@ -69,8 +69,8 @@ public:
 										NColor(      UInt32    theColor, NColorFormat theFormat=kNColorRGBA);
 										NColor(const NString  &hexColor, NColorFormat theFormat=kNColorRGBA);
 										
-										 NColor(void);
-	virtual								~NColor(void);
+										NColor(void);
+	virtual							   ~NColor(void);
 
 
 	// Compare the value

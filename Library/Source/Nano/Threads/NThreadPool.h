@@ -30,7 +30,7 @@
 class NThreadPool {
 public:
 										NThreadPool(void);
-	virtual								~NThreadPool(void);
+	virtual							   ~NThreadPool(void);
 
 
 	// Get the number of tasks

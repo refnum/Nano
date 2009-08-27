@@ -64,7 +64,7 @@ class NBundle {
 public:
 										NBundle(const NFile   &theFile);
 										NBundle(const NString &bundleID="");
-	virtual								~NBundle(void);
+	virtual							   ~NBundle(void);
 	
 
 	// Get the bundle identifier

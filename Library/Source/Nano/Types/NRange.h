@@ -58,8 +58,8 @@ class NRange :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NRange);
 
-										 NRange(NIndex theLocation=0, NIndex theSize=0);
-	virtual								~NRange(void);
+										NRange(NIndex theLocation=0, NIndex theSize=0);
+	virtual							   ~NRange(void);
 
 
 	// Compare the value

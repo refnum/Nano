@@ -41,8 +41,8 @@ typedef enum {
 //----------------------------------------------------------------------------
 template <class T> class NComparable {
 public:
-										 NComparable(void);
-	virtual								~NComparable(void);
+										NComparable(void);
+	virtual							   ~NComparable(void);
 
 
 	// Compare the value

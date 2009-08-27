@@ -27,10 +27,10 @@
 //----------------------------------------------------------------------------
 template<class T> class NSharedValue {
 public:
-										 NSharedValue(const NSharedValue<T> &theValue);
+										NSharedValue(const NSharedValue<T> &theValue);
 
-										 NSharedValue(void);
-	virtual								~NSharedValue(void);
+										NSharedValue(void);
+	virtual							   ~NSharedValue(void);
 
 
 	// Clear the value

@@ -37,8 +37,8 @@ static const NSemaphoreRef kNSemaphoreRefNone						= 0;
 //----------------------------------------------------------------------------
 class NSemaphore {
 public:
-										 NSemaphore(NIndex theValue=0);
-	virtual								~NSemaphore(void);
+										NSemaphore(NIndex theValue=0);
+	virtual							   ~NSemaphore(void);
 
 
 	// Signal the semaphore

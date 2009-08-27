@@ -44,8 +44,8 @@ typedef NAtomicList<NDBHandlePtr>								NDBHandlePoolList;
 //----------------------------------------------------------------------------
 class NDBHandlePool {
 public:
-										NDBHandlePool( void);
-	virtual								~NDBHandlePool(void);
+										NDBHandlePool(void);
+	virtual							   ~NDBHandlePool(void);
 
 
 	// Is the handle open?

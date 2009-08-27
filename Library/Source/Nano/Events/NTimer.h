@@ -64,8 +64,8 @@ typedef NTimerMap::const_iterator									NTimerMapConstIterator;
 //----------------------------------------------------------------------------
 class NTimer {
 public:
-										 NTimer(void);
-	virtual								~NTimer(void);
+										NTimer(void);
+	virtual							   ~NTimer(void);
 
 
 	// Is a timer installed?

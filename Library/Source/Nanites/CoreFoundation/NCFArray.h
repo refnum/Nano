@@ -32,8 +32,8 @@ public:
 										NCFArray(const NArray &theArray);
 										NCFArray(CFArrayRef cfObject, bool takeOwnership);
 										
-										NCFArray( void);
-	virtual								~NCFArray(void);
+										NCFArray(void);
+	virtual							   ~NCFArray(void);
 
 
 	// Get/set the object

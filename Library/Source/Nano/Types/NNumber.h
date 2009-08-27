@@ -73,14 +73,14 @@ class NNumber :	public NEncodable,
 public:
 										NENCODABLE_DECLARE(NNumber);
 
-										 NNumber(const NVariant &theValue);
-										 NNumber(const NString  &theValue);
-										 NNumber(      SInt64    theValue);
-										 NNumber(      Float32   theValue);
-										 NNumber(      Float64   theValue);
+										NNumber(const NVariant &theValue);
+										NNumber(const NString  &theValue);
+										NNumber(      SInt64    theValue);
+										NNumber(      Float32   theValue);
+										NNumber(      Float64   theValue);
 
-										 NNumber(void);
-	virtual								~NNumber(void);
+										NNumber(void);
+	virtual							   ~NNumber(void);
 
 
 	// Is the number an integer?

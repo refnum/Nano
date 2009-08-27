@@ -36,8 +36,8 @@ static const NString kNLocaleUser									= "*user*";
 //----------------------------------------------------------------------------
 class NLocale {
 public:
-										 NLocale(const NString &theID=kNLocaleUser);
-	virtual								~NLocale(void);
+										NLocale(const NString &theID=kNLocaleUser);
+	virtual							   ~NLocale(void);
 
 
 	// Is the measurement system metric?

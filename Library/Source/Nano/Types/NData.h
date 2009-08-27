@@ -57,8 +57,8 @@ public:
 
 										 NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
 
-										 NData(void);
-	virtual								~NData(void);
+										NData(void);
+	virtual							   ~NData(void);
 
 
 	// Clear the value

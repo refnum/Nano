@@ -64,8 +64,8 @@ class NDictionary :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NDictionary);
 
-										 NDictionary(void);
-	virtual								~NDictionary(void);
+										NDictionary(void);
+	virtual							   ~NDictionary(void);
 
 
 	// Get the size

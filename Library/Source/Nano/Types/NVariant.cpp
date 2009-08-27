@@ -179,8 +179,8 @@ NComparison NVariant::CompareValues(const NVariant &value1, const NVariant &valu
 //----------------------------------------------------------------------------
 class NVariantData : public NRefCounted {
 public:
-										 NVariantData(void) { }
-	virtual								~NVariantData(void) { }
+										NVariantData(void) { }
+	virtual							   ~NVariantData(void) { }
 
 	virtual const std::type_info		&GetType(void) const = 0;
 };
@@ -194,8 +194,8 @@ public:
 //----------------------------------------------------------------------------
 template <class T> class NVariantValue : public NVariantData {
 public:
-										 NVariantValue(const T &theValue) : mValue(theValue) { }
-	virtual								~NVariantValue(void)                                 { }
+										NVariantValue(const T &theValue) : mValue(theValue) { }
+	virtual							   ~NVariantValue(void)                                 { }
 
 	const std::type_info				&GetType(void) const
 	{

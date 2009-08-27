@@ -108,8 +108,8 @@ typedef struct {
 //----------------------------------------------------------------------------
 class NEncoder {
 public:
-										 NEncoder(void);
-	virtual								~NEncoder(void);
+										NEncoder(void);
+	virtual							   ~NEncoder(void);
 
 
 	// Encode/decode an object

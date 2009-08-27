@@ -28,8 +28,8 @@
 //----------------------------------------------------------------------------
 class NDateFormatter {
 public:
-										 NDateFormatter(void);
-	virtual								~NDateFormatter(void);
+										NDateFormatter(void);
+	virtual							   ~NDateFormatter(void);
 
 
 	// Format a date

@@ -61,8 +61,8 @@ typedef NMapInfoMap::const_iterator								NMapInfoMapConstIterator;
 //----------------------------------------------------------------------------
 class NFileMap {
 public:
-										 NFileMap(void);
-	virtual								~NFileMap(void);
+										NFileMap(void);
+	virtual							   ~NFileMap(void);
 
 
 	// Is the file open?

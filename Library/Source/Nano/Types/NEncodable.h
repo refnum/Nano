@@ -44,8 +44,8 @@ class NVariant;
 //		public:
 //							NENCODABLE_DECLARE(NEncodable);
 //
-//							 NFoo(void);
-//			virtual			~NFoo(void);
+//							NFoo(void);
+//			virtual		   ~NFoo(void);
 //			...
 //		};
 //
@@ -109,8 +109,8 @@ class NVariant;
 class NEncodable {
 friend class NEncoder;
 public:
-										 NEncodable(void);
-	virtual								~NEncodable(void);
+										NEncodable(void);
+	virtual							   ~NEncodable(void);
 
 
 protected:

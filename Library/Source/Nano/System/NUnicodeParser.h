@@ -38,8 +38,8 @@ static const UInt32 kASCIILimit											= 0x7F;
 //----------------------------------------------------------------------------
 class NUnicodeParser {
 public:
-										 NUnicodeParser(void);
-	virtual								~NUnicodeParser(void);
+										NUnicodeParser(void);
+	virtual							   ~NUnicodeParser(void);
 
 
 	// Parse some data

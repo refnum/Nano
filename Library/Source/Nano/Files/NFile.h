@@ -86,8 +86,8 @@ public:
 										NFile(const NString &thePath);
 										NFile(const NFile   &theFile);
 
-										 NFile(void);
-	virtual								~NFile(void);
+										NFile(void);
+	virtual							   ~NFile(void);
 
 
 	// Is the file valid?

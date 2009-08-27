@@ -81,8 +81,8 @@ typedef char						XML_Char;
 //----------------------------------------------------------------------------
 class NXMLParser {
 public:
-										 NXMLParser(void);
-	virtual								~NXMLParser(void);
+										NXMLParser(void);
+	virtual							   ~NXMLParser(void);
 
 
 	// Clear the parser state

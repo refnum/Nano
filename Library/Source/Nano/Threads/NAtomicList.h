@@ -28,8 +28,8 @@
 //----------------------------------------------------------------------------
 template<class T> class NAtomicList : public NContainer {
 public:
-										 NAtomicList(void);
-	virtual								~NAtomicList(void);
+										NAtomicList(void);
+	virtual							   ~NAtomicList(void);
 
 
 	// Get the size

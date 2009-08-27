@@ -27,8 +27,8 @@
 //----------------------------------------------------------------------------
 class NAtomicInt : public NComparable<SInt32> {
 public:
-										 NAtomicInt(SInt32 theValue=0);
-	virtual								~NAtomicInt(void);
+										NAtomicInt(SInt32 theValue=0);
+	virtual							   ~NAtomicInt(void);
 
 
 	// Compare the value

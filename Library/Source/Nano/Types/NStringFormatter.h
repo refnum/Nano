@@ -95,11 +95,11 @@ public:
 	NStringUTF8(const char *theText)					: std::string(theText)				{ }
 	NStringUTF8(const char *theText, NIndex theSize)	: std::string(theText, theSize)		{ }
 
-										 NStringUTF8(void)		{ };
-	virtual								~NStringUTF8(void)		{ };
+										NStringUTF8(void)		{ };
+	virtual							   ~NStringUTF8(void)		{ };
 
-	NIndex								 GetSize(void) const	{ return((NIndex) size()); }
-	const char							*GetUTF8(void) const	{ return(c_str()); }
+	NIndex								GetSize(void) const		{ return((NIndex) size()); }
+	const char						   *GetUTF8(void) const		{ return(c_str()); }
 };
 
 
@@ -111,21 +111,21 @@ public:
 //----------------------------------------------------------------------------
 class NFormatArgument {
 public:
-										 NFormatArgument(unsigned int theValue);
-										 NFormatArgument(  signed int theValue);
+										NFormatArgument(unsigned int theValue);
+										NFormatArgument(  signed int theValue);
 
-										 NFormatArgument(unsigned long theValue);
-										 NFormatArgument(  signed long theValue);
+										NFormatArgument(unsigned long theValue);
+										NFormatArgument(  signed long theValue);
 
-										 NFormatArgument(unsigned long long theValue);
-										 NFormatArgument(  signed long long theValue);
+										NFormatArgument(unsigned long long theValue);
+										NFormatArgument(  signed long long theValue);
 
-										 NFormatArgument(double             theValue);
-										 NFormatArgument(const void        *theValue);
-										 NFormatArgument(const NStringUTF8 &theValue);
+										NFormatArgument(double             theValue);
+										NFormatArgument(const void        *theValue);
+										NFormatArgument(const NStringUTF8 &theValue);
 
-										 NFormatArgument(void);
-	virtual								~NFormatArgument(void);
+										NFormatArgument(void);
+	virtual							   ~NFormatArgument(void);
 
 
 	// Is the argument valid?
@@ -167,8 +167,8 @@ private:
 //----------------------------------------------------------------------------
 class NStringFormatter {
 public:
-										 NStringFormatter(void);
-	virtual								~NStringFormatter(void);
+										NStringFormatter(void);
+	virtual							   ~NStringFormatter(void);
 
 
 	// Format an argument list
@@ -182,11 +182,11 @@ public:
 	//
 	// Custom objects can be printed using a '%@' specifier and providing an
 	// NFormatArgument cast operator that returns the text for the object.
-	NStringUTF8								Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
+	NStringUTF8							Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
 
 
 private:
-	NStringUTF8								Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
+	NStringUTF8							Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
 
 
 private:

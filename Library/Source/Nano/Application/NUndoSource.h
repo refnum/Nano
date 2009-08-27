@@ -27,8 +27,8 @@
 //----------------------------------------------------------------------------
 class NUndoSource {
 public:
-										 NUndoSource(void);
-	virtual								~NUndoSource(void);
+										NUndoSource(void);
+	virtual							   ~NUndoSource(void);
 
 
 	// Clear the undo stack

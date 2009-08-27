@@ -54,8 +54,8 @@ typedef enum {
 //----------------------------------------------------------------------------
 class NStringEncoder {
 public:
-										 NStringEncoder(void);
-	virtual								~NStringEncoder(void);
+										NStringEncoder(void);
+	virtual							   ~NStringEncoder(void);
 
 
 	// Convert a string

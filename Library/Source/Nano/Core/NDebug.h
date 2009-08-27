@@ -161,8 +161,8 @@ class NSpinLock;
 //----------------------------------------------------------------------------
 class NDebug {
 public:
-										 NDebug(void);
-	virtual								~NDebug(void);
+										NDebug(void);
+	virtual							   ~NDebug(void);
 
 
 	// Get/set if file paths should be shown

@@ -27,8 +27,8 @@
 //----------------------------------------------------------------------------
 class StAutoReleasePool {
 public:
-										 StAutoReleasePool(void);
-	virtual								~StAutoReleasePool(void);
+										StAutoReleasePool(void);
+	virtual							   ~StAutoReleasePool(void);
 
 
 private:

@@ -63,8 +63,8 @@ typedef NAtomicList<ThreadFunctor>									ThreadFunctorList;
 //----------------------------------------------------------------------------
 class NThread {
 public:
-										 NThread(void);
-	virtual								~NThread(void);
+										NThread(void);
+	virtual							   ~NThread(void);
 
 
 	// Is this the main thread?

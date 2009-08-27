@@ -47,8 +47,8 @@ typedef NUTIInfoMap::const_iterator									NUTIInfoMapConstIterator;
 //----------------------------------------------------------------------------
 class NUTIRegistry {
 public:
-										 NUTIRegistry(void);
-	virtual								~NUTIRegistry(void);
+										NUTIRegistry(void);
+	virtual							   ~NUTIRegistry(void);
 
 
 	// Get a UTI

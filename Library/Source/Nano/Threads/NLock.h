@@ -38,8 +38,8 @@ static const NLockRef kNLockRefNone								= 0;
 //----------------------------------------------------------------------------
 class NLock {
 public:
-										 NLock(void);
-	virtual								~NLock(void);
+										NLock(void);
+	virtual							   ~NLock(void);
 
 
 	// Acquire/release the lock
@@ -77,8 +77,8 @@ protected:
 //----------------------------------------------------------------------------
 class NMutexLock : public NLock {
 public:
-										 NMutexLock(void);
-	virtual								~NMutexLock(void);
+										NMutexLock(void);
+	virtual							   ~NMutexLock(void);
 
 
 	// Acquire/release the lock
@@ -95,8 +95,8 @@ public:
 //----------------------------------------------------------------------------
 class NReadWriteLock : public NLock {
 public:
-										 NReadWriteLock(void);
-	virtual								~NReadWriteLock(void);
+										NReadWriteLock(void);
+	virtual							   ~NReadWriteLock(void);
 
 
 	// Acquire/release the lock
@@ -125,8 +125,8 @@ private:
 //----------------------------------------------------------------------------
 class NSpinLock : public NLock {
 public:
-										 NSpinLock(void);
-	virtual								~NSpinLock(void);
+										NSpinLock(void);
+	virtual							   ~NSpinLock(void);
 
 
 	// Acquire/release the lock
@@ -152,8 +152,8 @@ private:
 //----------------------------------------------------------------------------
 class StLock {
 public:
-										 StLock(NLock &theLock);
-	virtual								~StLock(void);
+										StLock(NLock &theLock);
+	virtual							   ~StLock(void);
 
 
 private:

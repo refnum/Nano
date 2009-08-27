@@ -27,8 +27,8 @@
 //----------------------------------------------------------------------------
 class NRefCounted {
 public:
-										 NRefCounted(void);
-	virtual								~NRefCounted(void);
+										NRefCounted(void);
+	virtual							   ~NRefCounted(void);
 
 
 	// Retain/release the object

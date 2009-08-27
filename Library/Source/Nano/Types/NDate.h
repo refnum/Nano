@@ -104,8 +104,8 @@ public:
 										 NDate(const NGregorianDate &theDate, const NString &timeZone);
 										 NDate(const NTime          &theTime);
 
-										 NDate(void);
-	virtual								~NDate(void);
+										NDate(void);
+	virtual							   ~NDate(void);
 
 
 	// Is the date valid?

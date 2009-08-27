@@ -37,8 +37,8 @@ static const BroadcastMsg kTestMsgValue									= 123;
 //----------------------------------------------------------------------------
 class CTestListener : public NListener {
 public:
-										 CTestListener(void);
-	virtual								~CTestListener(void);
+										CTestListener(void);
+	virtual							   ~CTestListener(void);
 
 
 	// Set the target

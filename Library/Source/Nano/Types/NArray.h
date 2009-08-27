@@ -77,8 +77,8 @@ public:
 										NArray(const Float64List &theValues);
 										NArray(const NStringList &theValues);
 
-										 NArray(void);
-	virtual								~NArray(void);
+										NArray(void);
+	virtual							   ~NArray(void);
 
 
 	// Get the size

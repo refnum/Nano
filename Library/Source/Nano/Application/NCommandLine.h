@@ -31,8 +31,8 @@ public:
 										NCommandLine(int argc, const char **argv);
 										NCommandLine(const NStringList &theArguments);
 
-										 NCommandLine(void);
-	virtual								~NCommandLine(void);
+										NCommandLine(void);
+	virtual							   ~NCommandLine(void);
 
 
 	// Clear the command line

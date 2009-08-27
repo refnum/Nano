@@ -65,8 +65,8 @@ template <class T> struct NHashableCompare
 //----------------------------------------------------------------------------
 class NHashable {
 public:
-										 NHashable(void);
-	virtual								~NHashable(void);
+										NHashable(void);
+	virtual							   ~NHashable(void);
 
 
 	// Get the hash code

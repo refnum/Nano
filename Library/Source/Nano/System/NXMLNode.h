@@ -57,8 +57,8 @@ typedef NXMLNodeList::const_iterator								NXMLNodeListConstIterator;
 //----------------------------------------------------------------------------
 class NXMLNode {
 public:
-										 NXMLNode(NXMLNodeType theType, const NString &theValue);
-	virtual								~NXMLNode(void);
+										NXMLNode(NXMLNodeType theType, const NString &theValue);
+	virtual							   ~NXMLNode(void);
 
 
 	// Query the node state
