@@ -17,7 +17,7 @@
 #include "NMathUtilities.h"
 #include "NDataCompressor.h"
 #include "NTargetPOSIX.h"
-#include "NB64Encoder.h"
+#include "NDataEncoder.h"
 #include "NXMLEncoder.h"
 #include "NEncodable.h"
 #include "NEncoder.h"
@@ -420,7 +420,7 @@ void NEncoder::EncodeNumber(const NString &theKey, const NNumber &theValue)
 //		NEncoder::EncodeData : Encode data.
 //----------------------------------------------------------------------------
 void NEncoder::EncodeData(const NString &theKey, const NData &theValue)
-{	NB64Encoder		theEncoder;
+{	NDataEncoder	theEncoder;
 	NString			valueText;
 
 
@@ -431,7 +431,7 @@ void NEncoder::EncodeData(const NString &theKey, const NData &theValue)
 
 
 	// Encode the value
-	valueText = theEncoder.Encode(theValue);
+	valueText = theEncoder.Encode(theValue, kNDataEncodingB64);
 
 	EncodeChild(theKey, valueText, kTokenData);
 }
@@ -547,7 +547,7 @@ NNumber NEncoder::DecodeNumber(const NString &theKey) const
 //		NEncoder::DecodeData : Decode data.
 //----------------------------------------------------------------------------
 NData NEncoder::DecodeData(const NString &theKey) const
-{	NB64Encoder		theEncoder;
+{	NDataEncoder	theEncoder;
 	NString			valueText;
 	NData			theValue;
 
@@ -560,7 +560,7 @@ NData NEncoder::DecodeData(const NString &theKey) const
 	
 	// Decode the value
 	valueText = DecodeChild(theKey, kTokenData);
-	theValue  = theEncoder.Decode(valueText);
+	theValue  = theEncoder.Decode(valueText, kNDataEncodingB64);
 	
 	return(theValue);
 }

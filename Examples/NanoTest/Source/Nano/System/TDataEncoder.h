@@ -1,8 +1,8 @@
 /*	NAME:
-		TB64Encoder.h
+		TDataEncoder.h
 
 	DESCRIPTION:
-		NB64Encoder tests.
+		NDataEncoder tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TB64ENCODER_HDR
-#define TB64ENCODER_HDR
+#ifndef TDATAENCODER_HDR
+#define TDATAENCODER_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -24,7 +24,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TB64Encoder {
+class TDataEncoder {
 public:
 	// Execute the tests
 	static void							Execute(void);
@@ -34,4 +34,4 @@ public:
 
 
 
-#endif // TB64ENCODER_HDR
+#endif // TDATAENCODER_HDR

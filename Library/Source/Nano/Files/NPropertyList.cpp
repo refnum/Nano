@@ -16,8 +16,8 @@
 //----------------------------------------------------------------------------
 #include "NFileUtilities.h"
 #include "NMathUtilities.h"
+#include "NDataEncoder.h"
 #include "NXMLEncoder.h"
-#include "NB64Encoder.h"
 #include "NEncoder.h"
 #include "NPropertyList.h"
 
@@ -467,14 +467,14 @@ NXMLNode *NPropertyList::EncodeMacXML_1_0_String(const NString &theValue)
 //		NPropertyList::EncodeMacXML_1_0_Data : Encode binary data.
 //----------------------------------------------------------------------------
 NXMLNode *NPropertyList::EncodeMacXML_1_0_Data(const NData &theValue)
-{	NB64Encoder		theEncoder;
+{	NDataEncoder	theEncoder;
 	NString			valueText;
 	NXMLNode		*theNode;
 
 
 
 	// Get the state we need
-	valueText = theEncoder.Encode(theValue);
+	valueText = theEncoder.Encode(theValue, kNDataEncodingB64);
 
 
 
@@ -775,7 +775,7 @@ NString NPropertyList::DecodeMacXML_1_0_String(const NXMLNode *theNode)
 //		NPropertyList::DecodeMacXML_1_0_Data : Decode binary data.
 //----------------------------------------------------------------------------
 NData NPropertyList::DecodeMacXML_1_0_Data(const NXMLNode *theNode)
-{	NB64Encoder		theEncoder;
+{	NDataEncoder	theEncoder;
 	NData			theValue;
 
 
@@ -786,7 +786,7 @@ NData NPropertyList::DecodeMacXML_1_0_Data(const NXMLNode *theNode)
 
 
 	// Decode the value
-	theValue = theEncoder.Decode(theNode->GetElementContents());
+	theValue = theEncoder.Decode(theNode->GetElementContents(), kNDataEncodingB64);
 
 	return(theValue);
 }

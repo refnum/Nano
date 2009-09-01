@@ -55,11 +55,11 @@
 #include "TSize.h"
 #include "TVector.h"
 
-#include "TB64Encoder.h"
 #include "TByteSwap.h"
 #include "TDataCipher.h"
 #include "TDataCompressor.h"
 #include "TDataDigest.h"
+#include "TDataEncoder.h"
 #include "TLocale.h"
 #include "TUnicodeParser.h"
 #include "TUTIRegistry.h"
@@ -178,11 +178,11 @@ int main(int argc, const char **argv)
 
 
 	// System
-	TB64Encoder::Execute();
 	TByteSwap::Execute();
 	TDataCipher::Execute();
 	TDataCompressor::Execute();
 	TDataDigest::Execute();
+	TDataEncoder::Execute();
 	TLocale::Execute();
 	TUnicodeParser::Execute();
 	TUTIRegistry::Execute();
