@@ -143,7 +143,7 @@ NXMLNode *NXMLNode::GetChild(const NString &textValue) const
 	for (theIter = mChildren.begin(); theIter != mChildren.end(); theIter++)
 		{
 		theChild = *theIter;
-		if (theChild->GetTextValue() == textValue);
+		if (theChild->GetTextValue() == textValue)
 			return(theChild);
 		}
 	
