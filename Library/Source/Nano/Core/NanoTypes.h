@@ -225,21 +225,22 @@ static const NTime kNTimeForever									= -1.0;
 //
 // Other than kNoErr, NStatus values may change between releases.
 static const NStatus kNoErr											= 0;
-static const NStatus kNErrParam										= -1;
-static const NStatus kNErrInternal									= -2;
-static const NStatus kNErrBusy										= -3;
-static const NStatus kNErrTimeout									= -4;
-static const NStatus kNErrCancelled									= -5;
-static const NStatus kNErrMalformed									= -6;
-static const NStatus kNErrPermission								= -7;
-static const NStatus kNErrLocked									= -8;
-static const NStatus kNErrDiskFull									= -9;
-static const NStatus kNErrMemory									= -10;
-static const NStatus kNErrDuplicate									= -11;
+static const NStatus kNErrBusy										= -1;
+static const NStatus kNErrCancelled									= -2;
+static const NStatus kNErrChecksum									= -3;
+static const NStatus kNErrDiskFull									= -4;
+static const NStatus kNErrDuplicate									= -5;
+static const NStatus kNErrExhaustedDst								= -6;
+static const NStatus kNErrExhaustedSrc								= -7;
+static const NStatus kNErrInternal									= -8;
+static const NStatus kNErrLocked									= -9;
+static const NStatus kNErrMalformed									= -10;
+static const NStatus kNErrMemory									= -11;
 static const NStatus kNErrNotFound									= -12;
 static const NStatus kNErrNotSupported								= -13;
-static const NStatus kNErrExhaustedSrc								= -14;
-static const NStatus kNErrExhaustedDst								= -15;
+static const NStatus kNErrParam										= -14;
+static const NStatus kNErrPermission								= -15;
+static const NStatus kNErrTimeout									= -16;
 
 
 
