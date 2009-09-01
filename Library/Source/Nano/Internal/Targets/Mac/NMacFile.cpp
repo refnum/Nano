@@ -30,8 +30,47 @@
 
 
 //============================================================================
+//      Internal functions
+//----------------------------------------------------------------------------
+//      GetDirectoryForDomain
+//----------------------------------------------------------------------------
+static NString GetDirectoryForDomain(NDirectoryDomain theDomain, NSSearchPathDirectory theDirectory)
+{	StAutoReleasePool			autoRelease;
+	NSSearchPathDomainMask		nsDomain;
+	NSArray						*nsPaths;
+	NSString					*nsPath;
+	NCFString					thePath;
+
+
+
+	// Get the state we need
+	switch (theDomain) {
+		case kNDomainUser:		nsDomain = NSUserDomainMask;
+		case kNDomainUsers:		nsDomain = NSLocalDomainMask;
+		case kNDomainSystem:	nsDomain = NSSystemDomainMask;
+		default:
+			NN_LOG("Unknown domain: %d", theDomain);
+			return(kNStringEmpty);
+		}
+
+
+
+	// Get the directory
+	nsPaths = NSSearchPathForDirectoriesInDomains(theDirectory, nsDomain, YES);
+	nsPath  = [nsPaths objectAtIndex:0];
+	thePath = NCFString(nsPath, false);
+	
+	return(thePath);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
+#pragma mark -
 bool NTargetFile::IsFile(const NString &thePath)
 {	struct stat		fileInfo;
 	int				sysErr;
@@ -396,11 +435,8 @@ void NTargetFile::Delete(const NString &thePath)
 //      NTargetFile::GetDirectory : Get a directory.
 //----------------------------------------------------------------------------
 NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
-{	StAutoReleasePool		autoRelease;
-	NSArray					*nsPaths;
-	NSString				*nsPath;
-	NCFString				thePath;
-	NFile					theFile;
+{	NCFString		thePath;
+	NFile			theFile;
 
 
 
@@ -413,26 +449,24 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 				NN_LOG("Invalid domain - kNLocationHome requires kNDomainUser");
 			break;
 
-
 		case kNLocationDesktop:
-			if (theDomain == kNDomainUser)
-				{
-				nsPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-				nsPath  = [nsPaths objectAtIndex:0];
-				thePath = NCFString(nsPath, false);
-				}
-			else
-				NN_LOG("Invalid domain - kNLocationHome requires kNDomainUser");
+			thePath = GetDirectoryForDomain(theDomain, NSDesktopDirectory);
 			break;
 
+		case kNLocationCachedData:
+			thePath = GetDirectoryForDomain(theDomain, NSCachesDirectory);
+			break;
 
-		case kNLocationTemporaryItems:
+		case kNLocationTemporaryData:
 			if (theDomain == kNDomainUser)
 				thePath = NCFString(NSTemporaryDirectory(), false);
 			else
 				thePath = NCFString("/tmp");
 			break;
 
+		case kNLocationApplicationSupport:
+			thePath = GetDirectoryForDomain(theDomain, NSApplicationSupportDirectory);
+			break;
 
 		default:
 			NN_LOG("Unknown location: %d", theLocation);

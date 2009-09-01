@@ -283,7 +283,7 @@ NFile NFileUtilities::GetTemporaryFile(const NString &fileName)
 
 
 	// Get the file
-	return(GetUniqueFile(GetDirectory(kNLocationTemporaryItems), fileName));
+	return(GetUniqueFile(GetDirectory(kNLocationTemporaryData), fileName));
 }
 
 
