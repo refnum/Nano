@@ -92,15 +92,14 @@ public:
 	NComparison							Compare(const NVectorT<T> &theValue) const;
 
 
-	// Add/subtract a vector
-	void								Add(     const NVectorT<T> &theVector);
-	void								Subtract(const NVectorT<T> &theVector);
-
-
 	// Manipulate the vector
-	void								Scale(T s);
-	void								Negate(   void);
 	void								Normalize(void);
+	void								Negate(void);
+	void								Scale(T scaleBy);
+
+	NVectorT<T>							GetNormalized(void)  const;
+	NVectorT<T>							GetNegated(void)     const;
+	NVectorT<T>							GetScaled(T scaleBy) const;
 
 
 	// Get the length
@@ -118,6 +117,9 @@ public:
 
 
 	// Operators
+	const NVectorT<T>&					operator +=(const NVectorT<T> &theVector);
+	const NVectorT<T>&					operator -=(const NVectorT<T> &theVector);
+
 										operator NFormatArgument(void) const;
 
 

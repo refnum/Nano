@@ -335,47 +335,14 @@ template<class T> NComparison NVectorT<T>::Compare(const NVectorT<T> &theValue) 
 
 
 //============================================================================
-//		NVectorT::Add : Add a vector.
+//		NVectorT::Normalize : Normalize the vector.
 //----------------------------------------------------------------------------
-template<class T> void NVectorT<T>::Add(const NVectorT<T> &theVector)
+template<class T> void NVectorT<T>::Normalize(void)
 {
 
 
-	// Add the vector
-	x += theVector.x;
-	y += theVector.y;
-}
-
-
-
-
-
-//============================================================================
-//		NVectorT::Subtract : Subtract a vector.
-//----------------------------------------------------------------------------
-template<class T> void NVectorT<T>::Subtract(const NVectorT<T> &theVector)
-{
-
-
-	// Subtract the vector
-	x -= theVector.x;
-	y -= theVector.y;
-}
-
-
-
-
-
-//============================================================================
-//		NVectorT::Scale : Scale the vector.
-//----------------------------------------------------------------------------
-template<class T> void NVectorT<T>::Scale(T s)
-{
-
-
-	// Scale the vector
-	x *= s;
-	y *= s;
+	// Update our state
+	*this = GetNormalized();
 }
 
 
@@ -389,9 +356,8 @@ template<class T> void NVectorT<T>::Negate(void)
 {
 
 
-	// Negate the vector
-	x = -x;
-	y = -y;
+	// Update our state
+	*this = GetNegated();
 }
 
 
@@ -399,18 +365,74 @@ template<class T> void NVectorT<T>::Negate(void)
 
 
 //============================================================================
-//		NVectorT::Normalize : Normalize the vector.
+//		NVectorT::Scale : Scale the vector.
 //----------------------------------------------------------------------------
-template<class T> void NVectorT<T>::Normalize(void)
-{	T		invLength;
+template<class T> void NVectorT<T>::Scale(T scaleBy)
+{
+
+
+	// Update our state
+	*this = GetScaled(scaleBy);
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::GetNormalized : Get the normalized vector.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T> NVectorT<T>::GetNormalized(void) const
+{	NVectorT<T>		theResult;
+	T				invLength;
 
 
 
 	// Normalize the vector
 	invLength = 1.0 / GetLength();
 
-	x *= invLength;
-	y *= invLength;
+	theResult.x = x * invLength;
+	theResult.y = y * invLength;
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::GetNegated : Get the negated vector.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T> NVectorT<T>::GetNegated(void) const
+{	NVectorT<T>		theResult;
+
+
+
+	// Negate the vector
+	theResult.x = -x;
+	theResult.y = -y;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::GetScaled : Get the scaled vector.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T> NVectorT<T>::GetScaled(T scaleBy) const
+{	NVectorT<T>		theResult;
+
+
+
+	// Scale the vector
+	theResult.x = x * scaleBy;
+	theResult.y = y * scaleBy;
+	
+	return(theResult);
 }
 
 
@@ -509,6 +531,42 @@ template<class T> NDegrees NVectorT<T>::GetAngle(const NVectorT<T> &theVector) c
 	angleRad     = atan2(crossProduct, dotProduct);
 	
 	return(NMathUtilities::GetDegrees(angleRad));
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::+= : Addition operator.
+//----------------------------------------------------------------------------
+template<class T> const NVectorT<T>& NVectorT<T>::operator += (const NVectorT<T> &theVector)
+{
+
+
+	// Add the vector
+	x += theVector.x;
+	y += theVector.y;
+
+	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::-= : Subtraction operator.
+//----------------------------------------------------------------------------
+template<class T> const NVectorT<T>& NVectorT<T>::operator -= (const NVectorT<T> &theVector)
+{
+
+
+	// Subtract the vector
+	x -= theVector.x;
+	y -= theVector.y;
+
+	return(*this);
 }
 
 

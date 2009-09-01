@@ -78,17 +78,15 @@ public:
 	NComparison							Compare(const NPointT<T> &theValue) const;
 
 
-	// Add/subtract a vector
-	void								Add(     const NVectorT<T> &theVector);
-	void								Subtract(const NVectorT<T> &theVector);
-
-
 	// Get the distance to a points
 	T									GetDistance( const NPointT<T> &thePoint, bool getApprox=true) const;
 	T									GetDistance2(const NPointT<T> &thePoint)                      const;
 
 
 	// Operators
+	const NPointT<T>&					operator +=(const NVectorT<T> &theVector);
+	const NPointT<T>&					operator -=(const NVectorT<T> &theVector);
+
 										operator NFormatArgument(void) const;
 
 

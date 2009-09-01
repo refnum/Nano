@@ -268,38 +268,6 @@ template<class T> NComparison NPointT<T>::Compare(const NPointT<T> &theValue) co
 
 
 //============================================================================
-//		NPointT::Add : Add a vector to the point.
-//----------------------------------------------------------------------------
-template <class T> void NPointT<T>::Add(const NVectorT<T> &theVector)
-{
-
-
-	// Add the vector
-	x += theVector.x;
-	y += theVector.y;
-}
-
-
-
-
-
-//============================================================================
-//		NPointT::Subtract : Subtract a vector from the point.
-//----------------------------------------------------------------------------
-template <class T> void NPointT<T>::Subtract(const NVectorT<T> &theVector)
-{
-
-
-	// Subtract the vector
-	x -= theVector.x;
-	y -= theVector.y;
-}
-
-
-
-
-
-//============================================================================
 //		NPointT::GetDistance : Get the distance to a point.
 //----------------------------------------------------------------------------
 template<class T> T NPointT<T>::GetDistance(const NPointT<T> &thePoint, bool getApprox) const
@@ -335,6 +303,42 @@ template<class T> T NPointT<T>::GetDistance2(const NPointT<T> &thePoint) const
 	deltaY = y - thePoint.y;
 	
 	return((deltaX * deltaX) + (deltaY * deltaY));
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::+= : Addition operator.
+//----------------------------------------------------------------------------
+template<class T> const NPointT<T>& NPointT<T>::operator += (const NVectorT<T> &theVector)
+{
+
+
+	// Add the vector
+	x += theVector.x;
+	y += theVector.y;
+
+	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::-= : Subtraction operator.
+//----------------------------------------------------------------------------
+template<class T> const NPointT<T>& NPointT<T>::operator -= (const NVectorT<T> &theVector)
+{
+
+
+	// Subtract the vector
+	x -= theVector.x;
+	y -= theVector.y;
+
+	return(*this);
 }
 
 
