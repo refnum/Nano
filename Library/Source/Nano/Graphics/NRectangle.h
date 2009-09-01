@@ -92,15 +92,23 @@ public:
 	void								Normalize(void);
 	void								UnionWith(    const NRectangleT<T> &theRect);
 	void								IntersectWith(const NRectangleT<T> &theRect);
+	void								Inset( T deltaX, T deltaY);
+	void								Offset(T deltaX, T deltaY);
 
 	NRectangleT<T>						GetNormalized(void)                            const;
 	NRectangleT<T>						GetUnion(       const NRectangleT<T> &theRect) const;
 	NRectangleT<T>						GetIntersection(const NRectangleT<T> &theRect) const;
+	NRectangleT<T>						GetInset( T deltaX, T deltaY)                  const;
+	NRectangleT<T>						GetOffset(T deltaX, T deltaY)                  const;
 
 
 	// Get the bounds
 	T									GetMinX(void) const;
 	T									GetMinY(void) const;
+
+	T									GetMidX(void) const;
+	T									GetMidY(void) const;
+
 	T									GetMaxX(void) const;
 	T									GetMaxY(void) const;
 

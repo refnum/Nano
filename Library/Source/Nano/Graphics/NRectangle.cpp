@@ -402,6 +402,36 @@ template<class T> void NRectangleT<T>::IntersectWith(const NRectangleT<T> &theRe
 
 
 //============================================================================
+//		NRectangleT::Inset : Inset the rectangle.
+//----------------------------------------------------------------------------
+template<class T> void NRectangleT<T>::Inset(T deltaX, T deltaY)
+{
+
+
+	// Update our state
+	*this = GetInset(deltaX, deltaY);
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::Offset : Offset the rectangle.
+//----------------------------------------------------------------------------
+template<class T> void NRectangleT<T>::Offset(T deltaX, T deltaY)
+{
+
+
+	// Update our state
+	*this = GetOffset(deltaX, deltaY);
+}
+
+
+
+
+
+//============================================================================
 //		NRectangleT::GetNormalized : Get the normalized rectangle.
 //----------------------------------------------------------------------------
 template<class T> NRectangleT<T> NRectangleT<T>::GetNormalized(void) const
@@ -503,6 +533,56 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetIntersection(const NRectangl
 
 
 //============================================================================
+//		NRectangleT::GetInset : Inset the rectangle.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T> NRectangleT<T>::GetInset(T deltaX, T deltaY) const
+{	NRectangleT<T>		theResult;
+
+
+
+	// Check our state
+	if (IsEmpty())
+		return(theResult);
+
+
+
+	// Get the rectangle
+	theResult = GetNormalized();
+	
+	theResult.origin.x    +=  deltaX;
+	theResult.origin.y    +=  deltaY;
+	theResult.size.width  -= (deltaX * 2.0);
+	theResult.size.height -= (deltaY * 2.0);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetOffset : Offset the rectangle.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T> NRectangleT<T>::GetOffset(T deltaX, T deltaY) const
+{	NRectangleT<T>		theResult;
+
+
+
+	// Get the rectangle
+	theResult = GetNormalized();
+	
+	theResult.origin.x += deltaX;
+	theResult.origin.y += deltaY;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NRectangleT::GetMinX : Get the minimum X value.
 //----------------------------------------------------------------------------
 template<class T> T NRectangleT<T>::GetMinX(void) const
@@ -526,6 +606,36 @@ template<class T> T NRectangleT<T>::GetMinY(void) const
 
 	// Get the value
 	return(std::min(origin.y, origin.y + size.height));
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetMidX : Get the middle X value.
+//----------------------------------------------------------------------------
+template<class T> T NRectangleT<T>::GetMidX(void) const
+{
+
+
+	// Get the value
+	return(GetMinX() + ((GetMaxX() - GetMinX()) / 2.0));
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetMidY : Get the middle Y value.
+//----------------------------------------------------------------------------
+template<class T> T NRectangleT<T>::GetMidY(void) const
+{
+
+
+	// Get the value
+	return(GetMinY() + ((GetMaxY() - GetMinY()) / 2.0));
 }
 
 
