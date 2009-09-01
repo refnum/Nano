@@ -85,6 +85,21 @@ NBundle::~NBundle(void)
 
 
 //============================================================================
+//		NBundle::IsValid : Is the bundle valid?
+//----------------------------------------------------------------------------
+bool NBundle::IsValid(void) const
+{
+
+
+	// Check our state
+	return(mFile.IsDirectory());
+}
+
+
+
+
+
+//============================================================================
 //		NBundle::GetIdentifier : Get the identifier.
 //----------------------------------------------------------------------------
 NString NBundle::GetIdentifier(void) const

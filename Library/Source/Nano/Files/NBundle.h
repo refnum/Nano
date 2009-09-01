@@ -66,6 +66,10 @@ public:
 										NBundle(const NString &bundleID="");
 	virtual							   ~NBundle(void);
 	
+	
+	// Is the bundle valid?
+	bool								IsValid(void) const;
+
 
 	// Get the bundle identifier
 	NString								GetIdentifier(void) const;
