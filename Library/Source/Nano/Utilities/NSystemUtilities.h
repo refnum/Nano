@@ -73,8 +73,15 @@ public:
 	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool mainThread=true);
 
 
+	// Compare two version strings
+	static NComparison					CompareVersions(const NString &version1, const NString &version2);
+
+
 private:
 	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool mainThread);
+
+	static NStringList					GetVersionParts(const NString &theVersion);
+	static NIndex						GetPartType(    const NString &thePart);
 };
 
 

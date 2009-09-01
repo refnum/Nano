@@ -24,6 +24,17 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NIndex kPartNumber										= 100;
+static const NIndex kPartString										= 101;
+static const NIndex kPartPeriod										= 102;
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::GetBoolean : Get a boolean value.
 //----------------------------------------------------------------------------
 bool NSystemUtilities::GetBoolean(const NVariant &theValue, const NString &debugID)
@@ -411,6 +422,123 @@ void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 
 
 //============================================================================
+//		NSystemUtilities::CompareVersions : Compare two version strings.
+//----------------------------------------------------------------------------
+//		Note :	Algorithm is based on Ricardo Batista's MacPad.
+//
+//				Version numbers are broken down into an array of parts, where
+//				each part is an integer/string/period.
+//
+//				Each part is compared in turn, and their type is used to drive
+//				the overall comparison.
+//
+//				Parts are compared alphabatically or numerically based on the
+//				type, and versions with a different number of parts examine
+//				the first "extra" part to identify the oldest version.
+//----------------------------------------------------------------------------
+NComparison NSystemUtilities::CompareVersions(const NString &version1, const NString &version2)
+{	NComparison				theResult, shorterResult, longerResult;
+	NString					part1, part2, nextPart;
+	NStringList				parts1, parts2;
+	NIndex					type1, type2;
+	UInt32					n, numParts;
+
+
+
+	// Get the state we need
+	parts1 = GetVersionParts(version1);
+	parts2 = GetVersionParts(version2);
+
+
+
+	// Examine the parts
+	numParts = std::min(parts1.size(), parts2.size());
+	
+	for (n = 0; n < numParts; n++)
+		{
+		// Get the state we need
+		part1 = parts1[n];
+		part2 = parts2[n];
+		
+		type1 = GetPartType(part1);
+		type2 = GetPartType(part2);
+
+
+
+		// Compare by value
+		//
+		// If we have a string or a number part, we can compare values.
+		if (type1 == type2)
+			{
+			if (type1 != kPartPeriod)
+				{
+				theResult = part1.Compare(part2, kNStringNumeric);
+				if (theResult != kNCompareEqualTo)
+					return(theResult);
+				}
+			}
+
+
+		// Or by precedence
+		else
+			{
+			// Part 1 wins if it's a digit/period
+			if (type1 != kPartString && type2 == kPartString)
+				return(kNCompareGreaterThan);
+			
+			// Part 2 wins if it's a digit/period
+			else if (type1 == kPartString && type2 != kPartString)
+				return(kNCompareLessThan);
+
+			// Whichever part is numeric wins
+			else
+				{
+				if (type1 == kPartNumber)
+					return(kNCompareGreaterThan);
+				else
+					return(kNCompareLessThan);
+				}
+			}
+		}
+
+
+
+	// Examine the largest string
+	if (parts1.size() != parts2.size())
+		{
+		// Get its next part
+		if (parts1.size() > parts2.size())
+			{
+			nextPart      = parts1[n];
+			shorterResult = kNCompareLessThan;
+			longerResult  = kNCompareGreaterThan;
+			}
+		else
+			{
+			nextPart      = parts2[n];
+			shorterResult = kNCompareGreaterThan;
+			longerResult  = kNCompareLessThan;
+			}
+
+
+		// Compare by type
+		if (GetPartType(nextPart) == kPartString)
+			return(shorterResult);
+		else
+			return(longerResult);
+		}
+
+
+
+	// If we're still here, the versions are equal
+	return(kNCompareEqualTo);
+}
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::DelayedFunctor : Execute a delayed functor.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -434,7 +562,77 @@ void NSystemUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunct
 
 
 
+//============================================================================
+//		NSystemUtilities::GetVersionParts : Get a version's parts.
+//----------------------------------------------------------------------------
+NStringList NSystemUtilities::GetVersionParts(const NString &theVersion)
+{	NIndex			lastType, partType;
+	NString			thePart, theChar;
+	UInt32			n, numChars;
+	NStringList		theList;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theVersion.IsEmpty());
+
+
+
+	// Get the state we need
+	numChars = theVersion.GetSize();
+	lastType = GetPartType(theVersion);
+
+
+
+	// Split the version into parts
+	for (n = 0; n < numChars; n++)
+		{
+		theChar  = theVersion.GetString(NRange(n, 1));
+		partType = GetPartType(theChar);
+
+		if (partType != lastType || partType == kPartPeriod)
+			{
+			theList.push_back(thePart);
+			thePart.Clear();
+			}
+
+		thePart += theChar;
+		lastType = partType;
+		}
 	
+	theList.push_back(thePart);
 	
+	return(theList);
+}
+
+
+
+
+
+//============================================================================
+//		NSystemUtilities::GetPartType : Get the type of a part.
+//----------------------------------------------------------------------------
+NIndex NSystemUtilities::GetPartType(const NString &thePart)
+{	const char	*charPtr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!thePart.IsEmpty());
+
+
+
+	// Classify the part
+	charPtr = thePart.GetUTF8();
+	
+	if (charPtr[0] == '.')
+		return(kPartPeriod);
+
+	if (isdigit(charPtr[0]))
+		return(kPartNumber);
+	
+	return(kPartString);
+}
+
 
 
