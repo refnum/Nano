@@ -357,6 +357,112 @@ template<class T> bool NRectangleT<T>::Intersects(const NRectangleT<T> &theRect)
 
 
 //============================================================================
+//		NRectangleT::ScaleToFit : Scale to fit.
+//----------------------------------------------------------------------------
+template<class T> void NRectangleT<T>::ScaleToFit(const NRectangleT<T> &theRect)
+{	T			aspectRatio;
+	NSizeT<T>	theSize;
+
+
+
+	// Calculate the new size
+	//
+	// We expand ourselves as much as possible, up to the size of theRect.
+	aspectRatio = size.width / size.height;
+
+	theSize.width  = theRect.size.width;
+	theSize.height = theRect.size.width / aspectRatio;
+
+	if (theSize.height > theRect.size.height)
+		{
+		theSize.width  = theRect.size.height * aspectRatio;
+		theSize.height = theRect.size.height;
+		}
+
+
+
+	// Update our state
+	size     = theSize;
+	origin.x = theRect.origin.x + ((theRect.size.width  - theSize.width)  / 2.0);
+	origin.y = theRect.origin.y + ((theRect.size.height - theSize.height) / 2.0);
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::SetPosition : Set the position.
+//----------------------------------------------------------------------------
+template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect, NPosition thePosition)
+{	T	minX, midX, maxX, minY, midY, maxY;
+	T	halfWidth, halfHeight;
+
+
+
+	// Get the state we need
+	minX = theRect.origin.x;
+	maxX = theRect.origin.x + theRect.size.width;
+	midX = minX + ((maxX - minX) / 2.0);
+
+	minY = theRect.origin.y;
+	maxY = theRect.origin.y + theRect.size.height;
+	midY = minY + ((maxY - minY) / 2.0);
+
+	halfWidth  = size.width  / 2.0;
+	halfHeight = size.height / 2.0;
+
+
+
+	// Position the rectangle
+	//
+	// The alert position was defined by the Mac HIG as being a gap of "20%
+	// of the available height" above the rectangle, subject to space.
+	switch (thePosition) {
+		case kNPositionAlert:
+			origin.x = midX - halfWidth;
+			origin.y = minY;
+
+			if (size.height < theRect.size.height)
+				origin.y +=  (theRect.size.height * 0.2);
+			break;
+
+		case kNPositionCenter:
+			origin.x = midX - halfWidth;
+			origin.y = midY - halfHeight;
+			break;
+
+		case kNPositionTopLeft:
+			origin.x = minX;
+			origin.y = minY;
+			break;
+
+		case kNPositionTopRight:
+			origin.x = maxX - size.width;
+			origin.y = minY;
+			break;
+
+		case kNPositionBottomLeft:
+			origin.x = minX;
+			origin.y = maxY - size.height;
+			break;
+
+		case kNPositionBottomRight:
+			origin.x = maxX - size.width;
+			origin.y = maxY - size.height;
+			break;
+
+		default:
+			NN_LOG("Unknown position: %d", thePosition);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
 //		NRectangleT::Normalize : Normalize the rectangle.
 //----------------------------------------------------------------------------
 template<class T> void NRectangleT<T>::Normalize(void)
@@ -432,6 +538,21 @@ template<class T> void NRectangleT<T>::Offset(T deltaX, T deltaY)
 
 
 //============================================================================
+//		NRectangleT::Scale : Scale the rectangle.
+//----------------------------------------------------------------------------
+template<class T> void NRectangleT<T>::Scale(T scaleBy)
+{
+
+
+	// Update our state
+	*this = GetScaled(scaleBy);
+}
+
+
+
+
+
+//============================================================================
 //		NRectangleT::GetNormalized : Get the normalized rectangle.
 //----------------------------------------------------------------------------
 template<class T> NRectangleT<T> NRectangleT<T>::GetNormalized(void) const
@@ -440,7 +561,7 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetNormalized(void) const
 
 
 
-	// Get the rectangle
+	// Noramlize the rectangle
 	//
 	// A normalized rectangle has positive width and height.
 	minX = GetMinX();
@@ -476,7 +597,7 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetUnion(const NRectangleT<T> &
 
 
 
-	// Get the rectangle
+	// Get the union
 	minX = std::min(GetMinX(), theRect.GetMinX());
 	minY = std::min(GetMinY(), theRect.GetMinY());
 
@@ -508,7 +629,7 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetIntersection(const NRectangl
 
 
 
-	// Get the rectangle
+	// Get the intersection
 	notIntersect = (theRect.GetMinX() > GetMaxX() ||
 					theRect.GetMaxX() < GetMinX() ||
 					theRect.GetMinY() > GetMaxY() ||
@@ -546,7 +667,7 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetInset(T deltaX, T deltaY) co
 
 
 
-	// Get the rectangle
+	// Inset the rectangle
 	theResult = GetNormalized();
 	
 	theResult.origin.x    +=  deltaX;
@@ -569,11 +690,55 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetOffset(T deltaX, T deltaY) c
 
 
 
-	// Get the rectangle
+	// Offset the rectangle
 	theResult = GetNormalized();
 	
 	theResult.origin.x += deltaX;
 	theResult.origin.y += deltaY;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetScaled : Scale the rectangle.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T> NRectangleT<T>::GetScaled(T scaleBy) const
+{	NRectangleT<T>		theResult;
+	NPointT<T>			theCenter;
+
+
+
+	// Scale the rectangle
+	theCenter = GetCenter();
+	
+	theResult.size.width  *= scaleBy;
+	theResult.size.height *= scaleBy;
+
+	theResult.origin.x = theCenter.x - (theResult.size.width  / 2.0);
+	theResult.origin.y = theCenter.y - (theResult.size.height / 2.0);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetCenter : Get the center.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T> NRectangleT<T>::GetCenter(void) const
+{	NPointT<T>		theResult;
+
+
+
+	// Get the center
+	theResult.x = GetMidX();
+	theResult.y = GetMidY();
 	
 	return(theResult);
 }

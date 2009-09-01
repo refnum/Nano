@@ -27,6 +27,23 @@
 
 
 //============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// Positions
+typedef enum {
+	kNPositionAlert,
+	kNPositionCenter,
+	kNPositionTopLeft,
+	kNPositionTopRight,
+	kNPositionBottomLeft,
+	kNPositionBottomRight,
+} NPosition;
+
+
+
+
+
+//============================================================================
 //		Types
 //----------------------------------------------------------------------------
 // Classes
@@ -88,21 +105,30 @@ public:
 	bool								Intersects(const NRectangleT<T> &theRect) const;
 
 
+	// Position the rectangle
+	void								ScaleToFit( const NRectangleT<T> &theRect);
+	void								SetPosition(const NRectangleT<T> &theRect, NPosition thePosition);
+
+
 	// Manipulate the rectangle
 	void								Normalize(void);
 	void								UnionWith(    const NRectangleT<T> &theRect);
 	void								IntersectWith(const NRectangleT<T> &theRect);
 	void								Inset( T deltaX, T deltaY);
 	void								Offset(T deltaX, T deltaY);
+	void								Scale( T scaleBy);
 
 	NRectangleT<T>						GetNormalized(void)                            const;
 	NRectangleT<T>						GetUnion(       const NRectangleT<T> &theRect) const;
 	NRectangleT<T>						GetIntersection(const NRectangleT<T> &theRect) const;
 	NRectangleT<T>						GetInset( T deltaX, T deltaY)                  const;
 	NRectangleT<T>						GetOffset(T deltaX, T deltaY)                  const;
+	NRectangleT<T>						GetScaled(T scaleBy)                           const;
 
 
-	// Get the bounds
+	// Query the rectangle
+	NPointT<T>							GetCenter(void) const;
+
 	T									GetMinX(void) const;
 	T									GetMinY(void) const;
 
