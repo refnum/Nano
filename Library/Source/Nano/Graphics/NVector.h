@@ -57,7 +57,6 @@ typedef NVector64List::const_iterator								NVector64ListConstIterator;
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-extern const NVector kNVectorZero;
 extern const NVector kNVectorNorth;
 extern const NVector kNVectorSouth;
 extern const NVector kNVectorEast;

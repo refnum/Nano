@@ -29,7 +29,6 @@
 //============================================================================
 //		Public constants
 //----------------------------------------------------------------------------
-const NVector kNVectorZero;
 const NVector kNVectorNorth									= NVector( 0.0f,  1.0f);
 const NVector kNVectorSouth									= NVector( 0.0f, -1.0f);
 const NVector kNVectorEast									= NVector( 1.0f,  0.0f);
