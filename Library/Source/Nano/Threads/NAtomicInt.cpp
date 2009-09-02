@@ -31,7 +31,7 @@ NAtomicInt::NAtomicInt(SInt32 theValue)
 	// Validate our state
 	//
 	// We assume that read/writes from a 4-byte aligned 32-bit integer are atomic.
-	NN_ASSERT((((UInt32) &mValue) % 4) == 0);
+	NN_ASSERT((((UInt64) &mValue) % 4) == 0);
 
 
 
