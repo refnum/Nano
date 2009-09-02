@@ -142,6 +142,34 @@ protected:
 
 
 //============================================================================
+//		Inline functions
+//----------------------------------------------------------------------------
+inline NTransform NTransformTranslate(Float32 x, Float32 y)
+{	NTransform	theTransform;
+	
+	theTransform.SetTranslate(x, y);
+	return(theTransform);
+}
+
+inline NTransform NTransformScale(Float32 x, Float32 y)
+{	NTransform	theTransform;
+	
+	theTransform.SetScale(x, y);
+	return(theTransform);
+}
+
+inline NTransform NTransformRotate(NRadians angle)
+{	NTransform	theTransform;
+	
+	theTransform.SetRotate(angle);
+	return(theTransform);
+}
+
+
+
+
+
+//============================================================================
 //		Template files
 //----------------------------------------------------------------------------
 #define   NTRANSFORM_CPP
