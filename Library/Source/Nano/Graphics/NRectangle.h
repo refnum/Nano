@@ -127,7 +127,8 @@ public:
 
 
 	// Query the rectangle
-	NPointT<T>							GetCenter(void) const;
+	NPointT<T>							GetCenter(void)                  const;
+	NPointT<T>							GetCorner(NPosition thePosition) const;
 
 	T									GetMinX(void) const;
 	T									GetMinY(void) const;

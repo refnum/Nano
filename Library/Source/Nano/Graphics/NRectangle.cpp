@@ -732,13 +732,56 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetScaled(T scaleBy) const
 //		NRectangleT::GetCenter : Get the center.
 //----------------------------------------------------------------------------
 template<class T> NPointT<T> NRectangleT<T>::GetCenter(void) const
+{
+
+
+	// Get the center
+	return(GetCorner(kNPositionCenter));
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetCorner : Get a corner.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T> NRectangleT<T>::GetCorner(NPosition thePosition) const
 {	NPointT<T>		theResult;
 
 
 
-	// Get the center
-	theResult.x = GetMidX();
-	theResult.y = GetMidY();
+	// Get the corner
+	switch (thePosition) {
+		case kNPositionCenter:
+			theResult.x = GetMidX();
+			theResult.y = GetMidY();
+			break;
+
+		case kNPositionTopLeft:
+			theResult.x = GetMinX();
+			theResult.y = GetMinY();
+			break;
+
+		case kNPositionTopRight:
+			theResult.x = GetMaxX();
+			theResult.y = GetMinY();
+			break;
+
+		case kNPositionBottomLeft:
+			theResult.x = GetMinX();
+			theResult.y = GetMaxY();
+			break;
+
+		case kNPositionBottomRight:
+			theResult.x = GetMaxX();
+			theResult.y = GetMaxY();
+			break;
+
+		default:
+			NN_LOG("Invalid corner position: %d", thePosition);
+			break;
+		}
 	
 	return(theResult);
 }
