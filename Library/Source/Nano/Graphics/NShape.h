@@ -19,6 +19,7 @@
 #include "NStringFormatter.h"
 #include "NComparable.h"
 #include "NEncodable.h"
+#include "NRectangle.h"
 #include "NPoint.h"
 
 
@@ -59,7 +60,7 @@ typedef NShape64List::const_iterator								NShape64ListConstIterator;
 //----------------------------------------------------------------------------
 template<class T> class NShapeT : public NComparable< NShapeT<T> > {
 public:
-										NShapeT(const NIndexList &loops, const std::vector< NPointT<T> > &points);
+										NShapeT(const std::vector< NPointT<T> > &thePoints, const NIndexList &theLoops=NIndexList());
 
 										NShapeT(void);
 	virtual							   ~NShapeT(void);
@@ -77,13 +78,18 @@ public:
 	NComparison							Compare(const NShapeT<T> &theValue) const;
 
 
+	// Get the bounds
+	NRectangleT<T>						GetBounds(void) const;
+	NRectangleT<T>						GetBounds(const std::vector< NPointT<T> > &thePoints) const;
+
+
 	// Operators
 										operator NFormatArgument(void) const;
 
 
 public:
-	NIndexList							loops;
 	std::vector< NPointT<T> >			points;
+	NIndexList							loops;
 };
 
 
@@ -101,8 +107,8 @@ public:
 										NShape(const NShape32 &theShape);
 										NShape(const NShape64 &theShape);
 
-										NShape(const NIndexList &loops, const NPoint32List &points);
-										NShape(const NIndexList &loops, const NPoint64List &points);
+										NShape(const NPoint32List &thePoints, const NIndexList &theLoops=NIndexList());
+										NShape(const NPoint64List &thePoints, const NIndexList &theLoops=NIndexList());
 
 										NShape(void);
 	virtual							   ~NShape(void);

@@ -29,8 +29,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kNShapeLoopsKey								= "loops";
 static const NString kNShapePointsKey								= "points";
+static const NString kNShapeLoopsKey								= "loops";
 
 
 
@@ -49,7 +49,7 @@ NENCODABLE_DEFINE(NShape);
 //      NShape::NShape : Constructor.
 //----------------------------------------------------------------------------
 NShape::NShape(const NShape32 &theShape)
-		: NShape32(theShape.loops, theShape.points)
+		: NShape32(theShape.points, theShape.loops)
 {
 }
 
@@ -61,7 +61,7 @@ NShape::NShape(const NShape32 &theShape)
 //      NShape::NShape : Constructor.
 //----------------------------------------------------------------------------
 NShape::NShape(const NShape64 &theShape)
-		: NShape32(theShape.loops, Convert64To32(theShape.points))
+		: NShape32(Convert64To32(theShape.points), theShape.loops)
 {
 }
 
@@ -72,8 +72,8 @@ NShape::NShape(const NShape64 &theShape)
 //============================================================================
 //		NShape::NShape : Constructor.
 //----------------------------------------------------------------------------
-NShape::NShape(const NIndexList &loops, const NPoint32List &points)
-	: NShape32(loops, points)
+NShape::NShape(const NPoint32List &thePoints, const NIndexList &theLoops)
+	: NShape32(thePoints, theLoops)
 {
 }
 
@@ -84,8 +84,8 @@ NShape::NShape(const NIndexList &loops, const NPoint32List &points)
 //============================================================================
 //		NShape::NShape : Constructor.
 //----------------------------------------------------------------------------
-NShape::NShape(const NIndexList &loops, const NPoint64List &points)
-	: NShape32(loops, Convert64To32(points))
+NShape::NShape(const NPoint64List &thePoints, const NIndexList &theLoops)
+	: NShape32(Convert64To32(thePoints), theLoops)
 {
 }
 
@@ -124,8 +124,8 @@ NShape::operator NShape64(void) const
 
 
 	// Get the value
-	theResult.loops  = loops;
 	theResult.points = Convert32To64(points);
+	theResult.loops  = loops;
 	
 	return(theResult);
 }
@@ -216,13 +216,13 @@ NPoint32List NShape::Convert64To32(const NPoint64List &points64) const
 //		NShapeT::NShapeT : Constructor.
 //----------------------------------------------------------------------------
 #pragma mark -
-template<class T> NShapeT<T>::NShapeT(const NIndexList &valLoops, const std::vector< NPointT<T> > &valPoints)
+template<class T> NShapeT<T>::NShapeT(const std::vector< NPointT<T> > &thePoints, const NIndexList &theLoops)
 {
 
 
 	// Initialize ourselves
-	loops  = valLoops;
-	points = valPoints;
+	points = thePoints;
+	loops  = theLoops;
 }
 
 
@@ -259,8 +259,8 @@ template<class T> void NShapeT<T>::Clear(void)
 
 
 	// Clear the size
-	loops.clear();
 	points.clear();
+	loops.clear();
 }
 
 
@@ -275,7 +275,7 @@ template<class T> bool NShapeT<T>::IsEmpty(void) const
 
 
 	// Test the size
-	return(loops.empty() || points.empty());
+	return(points.empty() || loops.empty());
 }
 
 
@@ -293,12 +293,77 @@ template<class T> NComparison NShapeT<T>::Compare(const NShapeT &theValue) const
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	theResult = CompareData(loops.size(), &loops[0], theValue.loops.size(), &theValue.loops[0]);
+	theResult = CompareData(points.size(), &points[0], theValue.points.size(), &theValue.points[0]);
 		
 	if (theResult == kNCompareEqualTo)
-		theResult = CompareData(points.size(), &points[0], theValue.points.size(), &theValue.points[0]);
+		theResult = CompareData(loops.size(), &loops[0], theValue.loops.size(), &theValue.loops[0]);
 	
 	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NShapeT::GetBounds : Get the bounds.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T> NShapeT<T>::GetBounds(void) const
+{
+
+
+	// Get the bounds
+	//
+	// Bounds could be cached, but only if points was made immutable.
+	return(GetBounds(points));
+}
+
+
+
+
+
+//============================================================================
+//		NShapeT::GetBounds : Get the bounds.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T> NShapeT<T>::GetBounds(const std::vector< NPointT<T> > &thePoints) const
+{	T						minX, maxX, minY, maxY;
+	NIndex					n, numPoints;
+	NRectangleT<T>			theBounds;
+	NPointT<T>				thePoint;
+
+
+
+	// Get the state we need
+	minX = maxX = 0.0;
+	minY = maxY = 0.0;
+
+	numPoints = thePoints.size();
+	if (numPoints != 0)
+		{
+		minX = maxX = thePoints[0].x;
+		minY = maxY = thePoints[0].y;
+		}
+
+
+
+	// Get the bounds
+	for (n = 0; n < numPoints; n++)
+		{
+		thePoint = thePoints[n];
+		
+		minX = std::min(minX, thePoint.x);
+		maxX = std::max(maxX, thePoint.x);
+
+		minY = std::min(minY, thePoint.y);
+		maxY = std::max(maxY, thePoint.y);
+		}
+	
+	
+	
+	// Get the bounds
+	theBounds = NRectangle(minX, minY, maxX - minX, maxY - minY);
+	
+	return(theBounds);
 }
 
 
@@ -314,7 +379,7 @@ template<class T> NShapeT<T>::operator NFormatArgument(void) const
 
 
 	// Get the value
-	theResult.Format("{loops=%ld, points=%ld}", loops.size(), points.size());
+	theResult.Format("{points=%ld, loops=%ld}", points.size(), loops.size());
 
 	return(theResult);
 }
