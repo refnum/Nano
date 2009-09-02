@@ -31,6 +31,8 @@
 		AB1A793D103248AF00DFBA38 /* NThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */; };
 		AB1A793E103248AF00DFBA38 /* NThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */; };
 		AB1A793F103248AF00DFBA38 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
+		AB1BA183104E7CD300BB002B /* NTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA181104E7CD300BB002B /* NTransform.cpp */; };
+		AB1BA184104E7CD300BB002B /* NTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA181104E7CD300BB002B /* NTransform.cpp */; };
 		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
@@ -305,6 +307,8 @@
 		AB1A7937103248AF00DFBA38 /* NThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThread.h; sourceTree = "<group>"; };
 		AB1A7938103248AF00DFBA38 /* NThreadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadPool.h; sourceTree = "<group>"; };
 		AB1A7939103248AF00DFBA38 /* NThreadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadTask.h; sourceTree = "<group>"; };
+		AB1BA181104E7CD300BB002B /* NTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTransform.cpp; sourceTree = "<group>"; };
+		AB1BA182104E7CD300BB002B /* NTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTransform.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
@@ -658,6 +662,8 @@
 				AB3326B21046C6F000C8DF0A /* NShape.h */,
 				AB514E5D103460CB00E5A6AD /* NSize.cpp */,
 				AB514E5E103460CB00E5A6AD /* NSize.h */,
+				AB1BA181104E7CD300BB002B /* NTransform.cpp */,
+				AB1BA182104E7CD300BB002B /* NTransform.h */,
 				AB514E901034638700E5A6AD /* NVector.cpp */,
 				AB514E911034638700E5A6AD /* NVector.h */,
 			);
@@ -1254,6 +1260,7 @@
 				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB3326B41046C6F000C8DF0A /* NShape.cpp in Sources */,
 				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
+				AB1BA184104E7CD300BB002B /* NTransform.cpp in Sources */,
 				AB514E921034638700E5A6AD /* NVector.cpp in Sources */,
 				AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */,
@@ -1396,6 +1403,7 @@
 				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB3326B31046C6F000C8DF0A /* NShape.cpp in Sources */,
 				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
+				AB1BA183104E7CD300BB002B /* NTransform.cpp in Sources */,
 				AB514E931034638700E5A6AD /* NVector.cpp in Sources */,
 				AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB146180FF36F84006F178C /* xmlparse.c in Sources */,

@@ -53,6 +53,7 @@
 #include "TRectangle.h"
 #include "TShape.h"
 #include "TSize.h"
+#include "TTransform.h"
 #include "TVector.h"
 
 #include "TByteSwap.h"
@@ -173,6 +174,7 @@ int main(int argc, const char **argv)
 	TRectangle::Execute();
 	TShape::Execute();
 	TSize::Execute();
+	TTransform::Execute();
 	TVector::Execute();
 
 
