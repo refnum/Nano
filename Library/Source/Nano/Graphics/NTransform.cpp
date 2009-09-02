@@ -397,8 +397,7 @@ template<class T> NSizeT<T> NTransformT<T>::Apply(const NSizeT<T> &theSize)
 //		NTransformT::Apply : Apply the transform.
 //----------------------------------------------------------------------------
 template<class T> NRectangleT<T> NTransformT<T>::Apply(const NRectangleT<T> &theRectangle)
-{	T					minX, maxX, minY, maxY;
-	NPointT<T>			pTL, pTR, pBL, pBR;
+{	NPointT<T>			pTL, pTR, pBL, pBR;
 	NShapeT<T>			theShape;
 
 
