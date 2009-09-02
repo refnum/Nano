@@ -403,11 +403,6 @@ bool NSpinLock::SpinLockTry(UInt32 &theLock)
 {
 
 
-	// Validate our parameters
-	NN_ASSERT(((UInt32) &theLock) % 4U == 0U);
-	
-
-
 	// Try and acquire the lock
 	return(NThreadUtilities::AtomicCompareAndSwap32(theLock, 0, kSpinLockMask));
 }
@@ -424,7 +419,6 @@ void NSpinLock::SpinLockUnlock(UInt32 &theLock)
 
 
 	// Validate our parameters
-	NN_ASSERT(((UInt32) &theLock) % 4U == 0U);
 	NN_ASSERT(theLock == kSpinLockMask);
 	
 
