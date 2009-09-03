@@ -78,11 +78,6 @@ public:
 	NComparison							Compare(const NShapeT<T> &theValue) const;
 
 
-	// Get the bounds
-	NRectangleT<T>						GetBounds(void) const;
-	NRectangleT<T>						GetBounds(const std::vector< NPointT<T> > &thePoints) const;
-
-
 	// Operators
 										operator NFormatArgument(void) const;
 
