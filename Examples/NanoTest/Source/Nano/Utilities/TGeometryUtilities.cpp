@@ -1,8 +1,8 @@
 /*	NAME:
-		TMathUtilities.cpp
+		TGeometryUtilities.cpp
 
 	DESCRIPTION:
-		NMathUtilities tests.
+		NGeometryUtilities tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -14,18 +14,18 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NMathUtilities.h"
+#include "NGeometryUtilities.h"
 
-#include "TMathUtilities.h"
+#include "TGeometryUtilities.h"
 
 
 
 
 
 //============================================================================
-//		TMathUtilities::Execute : Execute the tests.
+//		TGeometryUtilities::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-void TMathUtilities::Execute(void)
+void TGeometryUtilities::Execute(void)
 {
 
 

@@ -1,8 +1,8 @@
 /*	NAME:
-		TMathUtilities.h
+		TGeometryUtilities.h
 
 	DESCRIPTION:
-		NMathUtilities tests.
+		NGeometryUtilities tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,8 +11,8 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TMATHUTILITIES_HDR
-#define TMATHUTILITIES_HDR
+#ifndef TGEOMETRYUTILITIES_HDR
+#define TGEOMETRYUTILITIES_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -24,7 +24,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TMathUtilities {
+class TGeometryUtilities {
 public:
 	// Execute the tests
 	static void							Execute(void);
@@ -34,4 +34,4 @@ public:
 
 
 
-#endif // TMATHUTILITIES_HDR
+#endif // TGEOMETRYUTILITIES_HDR
