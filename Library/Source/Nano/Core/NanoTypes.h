@@ -236,11 +236,12 @@ static const NStatus kNErrInternal									= -8;
 static const NStatus kNErrLocked									= -9;
 static const NStatus kNErrMalformed									= -10;
 static const NStatus kNErrMemory									= -11;
-static const NStatus kNErrNotFound									= -12;
-static const NStatus kNErrNotSupported								= -13;
-static const NStatus kNErrParam										= -14;
-static const NStatus kNErrPermission								= -15;
-static const NStatus kNErrTimeout									= -16;
+static const NStatus kNErrNotHandled								= -12;
+static const NStatus kNErrNotFound									= -13;
+static const NStatus kNErrNotSupported								= -14;
+static const NStatus kNErrParam										= -15;
+static const NStatus kNErrPermission								= -16;
+static const NStatus kNErrTimeout									= -17;
 
 
 
