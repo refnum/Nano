@@ -11,6 +11,7 @@
 		AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14315F103EC576002BD0D1 /* TFileIterator.cpp */; };
 		AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB1BA197104E7D1400BB002B /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
+		AB1BA2A5105016AF00BB002B /* TGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */; };
 		AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC761035B65D007BC4E6 /* TUTI.cpp */; };
 		AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD7D10396310007BC4E6 /* TLocale.cpp */; };
 		AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */; };
@@ -119,6 +120,8 @@
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
 		AB1BA196104E7D1400BB002B /* TTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTransform.h; sourceTree = "<group>"; };
+		AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGeometryUtilities.cpp; sourceTree = "<group>"; };
+		AB1BA2A4105016AF00BB002B /* TGeometryUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGeometryUtilities.h; sourceTree = "<group>"; };
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
@@ -486,6 +489,8 @@
 			children = (
 				AB514DC41034184B00E5A6AD /* TFileUtilities.cpp */,
 				AB514DC51034184B00E5A6AD /* TFileUtilities.h */,
+				AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */,
+				AB1BA2A4105016AF00BB002B /* TGeometryUtilities.h */,
 				AB514DC61034184B00E5A6AD /* TMathUtilities.cpp */,
 				AB514DC71034184B00E5A6AD /* TMathUtilities.h */,
 				AB514DC81034184B00E5A6AD /* TSTLUtilities.cpp */,
@@ -761,6 +766,7 @@
 				AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */,
 				AB514E121034184B00E5A6AD /* TVariant.cpp in Sources */,
 				AB514E131034184B00E5A6AD /* TFileUtilities.cpp in Sources */,
+				AB1BA2A5105016AF00BB002B /* TGeometryUtilities.cpp in Sources */,
 				AB514E141034184B00E5A6AD /* TMathUtilities.cpp in Sources */,
 				AB514E151034184B00E5A6AD /* TSTLUtilities.cpp in Sources */,
 				AB514E161034184B00E5A6AD /* TSystemUtilities.cpp in Sources */,

@@ -93,6 +93,7 @@
 #include "TVariant.h"
 
 #include "TFileUtilities.h"
+#include "TGeometryUtilities.h"
 #include "TMathUtilities.h"
 #include "TSTLUtilities.h"
 #include "TSystemUtilities.h"
@@ -226,6 +227,7 @@ int main(int argc, const char **argv)
 
 	// Utilities
 	TFileUtilities::Execute();
+	TGeometryUtilities::Execute();
 	TMathUtilities::Execute();
 	TSTLUtilities::Execute();
 	TSystemUtilities::Execute();

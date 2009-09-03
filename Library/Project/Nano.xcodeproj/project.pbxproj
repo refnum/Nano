@@ -33,6 +33,8 @@
 		AB1A793F103248AF00DFBA38 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
 		AB1BA183104E7CD300BB002B /* NTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA181104E7CD300BB002B /* NTransform.cpp */; };
 		AB1BA184104E7CD300BB002B /* NTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA181104E7CD300BB002B /* NTransform.cpp */; };
+		AB1BA2911050168900BB002B /* NGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */; };
+		AB1BA2921050168900BB002B /* NGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */; };
 		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
@@ -309,6 +311,8 @@
 		AB1A7939103248AF00DFBA38 /* NThreadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadTask.h; sourceTree = "<group>"; };
 		AB1BA181104E7CD300BB002B /* NTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTransform.cpp; sourceTree = "<group>"; };
 		AB1BA182104E7CD300BB002B /* NTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTransform.h; sourceTree = "<group>"; };
+		AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NGeometryUtilities.cpp; sourceTree = "<group>"; };
+		AB1BA2901050168900BB002B /* NGeometryUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGeometryUtilities.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
@@ -1036,6 +1040,8 @@
 			children = (
 				AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */,
 				AB91556C0F9B4DD6009FFEAF /* NFileUtilities.h */,
+				AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */,
+				AB1BA2901050168900BB002B /* NGeometryUtilities.h */,
 				AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */,
 				AB91556E0F9B4DD6009FFEAF /* NMathUtilities.h */,
 				AB91556F0F9B4DD6009FFEAF /* NSTLUtilities.cpp */,
@@ -1358,6 +1364,7 @@
 				AB2AAC641035B621007BC4E6 /* NUTI.cpp in Sources */,
 				AB28FC410FB5D9F000F72C61 /* NVariant.cpp in Sources */,
 				AB28FC420FB5D9F000F72C61 /* NFileUtilities.cpp in Sources */,
+				AB1BA2921050168900BB002B /* NGeometryUtilities.cpp in Sources */,
 				AB28FC430FB5D9F000F72C61 /* NMathUtilities.cpp in Sources */,
 				AB28FC440FB5D9F000F72C61 /* NSTLUtilities.cpp in Sources */,
 				AB28FC450FB5D9F000F72C61 /* NSystemUtilities.cpp in Sources */,
@@ -1501,6 +1508,7 @@
 				AB2AAC651035B621007BC4E6 /* NUTI.cpp in Sources */,
 				AB9155BB0F9B4DD6009FFEAF /* NVariant.cpp in Sources */,
 				AB9155BC0F9B4DD6009FFEAF /* NFileUtilities.cpp in Sources */,
+				AB1BA2911050168900BB002B /* NGeometryUtilities.cpp in Sources */,
 				AB9155BD0F9B4DD6009FFEAF /* NMathUtilities.cpp in Sources */,
 				AB9155BE0F9B4DD6009FFEAF /* NSTLUtilities.cpp in Sources */,
 				AB9155BF0F9B4DD6009FFEAF /* NSystemUtilities.cpp in Sources */,
