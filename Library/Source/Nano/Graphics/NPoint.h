@@ -78,7 +78,7 @@ public:
 	NComparison							Compare(const NPointT<T> &theValue) const;
 
 
-	// Get the distance to a points
+	// Get the distance to a point
 	T									GetDistance( const NPointT<T> &thePoint, bool getApprox=true) const;
 	T									GetDistance2(const NPointT<T> &thePoint)                      const;
 
