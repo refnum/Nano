@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NGeometryUtilities.h"
 #include "NMathUtilities.h"
 #include "NSTLUtilities.h"
 #include "NShape.h"
@@ -410,7 +411,7 @@ template<class T> NRectangleT<T> NTransformT<T>::Apply(const NRectangleT<T> &the
 
 	theShape = NShapeT<T>(vector(pTL, pTR, pBL, pBR));
 	
-	return(theShape.GetBounds());
+	return(NGeometryUtilities::GetBounds(theShape.points));
 }
 
 
