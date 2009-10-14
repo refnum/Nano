@@ -1,0 +1,21 @@
+Xcode builds can be performed with build products placed in the project
+folder, or to a shared build area.
+
+
+To allow Nano to build with a fresh install, irrespective of your build
+products preference, the Nano .xcconfig files are set up to include
+these Debug/Release folders in the library search paths.
+
+This ensures that any projects using the .xcconfig files and per-product
+build areas can find the Nano libraries automatically, without forcing
+them to add a library search path to each project.
+
+
+If you build to a shared build area then this directory would not normally
+exist. This then causes the linker will emit a warning about a non-existent
+library search path, since the .xcconfig files can not adjust their behaviour
+based on the build product preference.
+
+There does not appear to be any flag to suppress this warning, and so this
+directory has been added to ensure that it always exists even if is not used
+for builds.

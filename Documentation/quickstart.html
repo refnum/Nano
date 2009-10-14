@@ -1,0 +1,225 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Quick Start Guide</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+
+
+
+
+<script type="text/javascript" src="html/warning.js"></script>
+<a href="http://www.refnum.com/products/nano/">
+	<div id="header">
+	<div id="reflection"></div>
+	</div>
+</a>
+
+
+
+
+
+<div id="page" style="height:2750">
+
+<div id="content">
+<h1>Quick Start Guide</h1>
+<p>
+Although Nano does not require an installer, additional Xcode integration can be installed with:
+</p>
+
+<div class="box code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd /Developer/Nano<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl Support/Scripts/XcodeExtras.pl
+</div>
+
+<p>
+This script will update your Xcode installation to include a source tree to your Nano installation,
+templates for creating new Nano-based projects, and additional debugging macros for gdb.
+</p>
+
+<p>
+Running this script is strongly recommended, as it allows you to create Nano-based projects from
+within Xcode and to rebuild the demo projects.
+</p>
+
+
+
+<h2>Creating a Project</h2>
+<p>
+To create your first Nano-based project, run the XcodeExtras.pl script as above and then launch Xcode.
+</p>
+
+<p>
+Select "New Project" from the File menu, and then "Nano Document-based Application":
+</p>
+
+<div align=center>
+<img src="images/xcode_new.png" alt="Demo New" width="588" height="520">
+</div>
+
+<p>
+Call the new project "Demo App", and Xcode will create a new document-based application that
+uses the Nano framework. 
+</p>
+
+<p>
+If you are using the "Condensed" view in Xcode, the project file will look something like:
+</p>
+
+<div align=center>
+<img src="images/xcode_project.png" alt="Demo Project" width="396" height="410">
+</div>
+
+<p>
+Select "Build & Run", and Xcode will build the Nano library and the demo application. Once the
+application has been built, it will be launched:
+
+<div align=center>
+<img src="images/app_demo.png" alt="Demo App" width="442" height="546">
+</div>
+
+<p>
+Use the File menu to create multiple documents, then modify their content with the color picker
+or the Info sheet. You can undo and redo your changes, and documents can be saved, loaded, or
+printing.
+</p>
+
+<p>
+Congratulations - you have built your first Nano application!
+</p>
+
+
+
+<h2>Examining the Demo</h2>
+<p>
+The template Nano projects are designed to act as a starting point for your own projects, and to
+demonstrate the typical structure of a Nano-based application.
+</p>
+
+<p>
+The best way to familiarise yourself with them is to examine the code, which will allow you to see
+which features are provided by the framework and how applications can customise the standard
+behaviour.
+</p>
+
+<p>
+Some points of interest are discussed below, and on the <a href="features.html">features</a> page.
+</p>
+
+
+<h3>Application Features</h3>
+<p>
+The demo application sub-classes Nano's standard NApplication class with the CApplication object.
+</p>
+
+<p>
+This class inherits most of its interesting behaviour from NApplication, and is responsible for
+defining standard values and performing tasks such as instantiating a new document.
+</p>
+
+<p>
+These "standard values" are stored in a dictionary of properties, which is used by the base class to
+perform tasks such as registering a Help Book, populating the About Box, or initialising the default
+values for the preferences.
+</p>
+
+<p>
+Additional tasks handled by NApplication include creating or closing documents, handling Apple Events
+from the Finder, and creating standard windows such as the About Box.
+</p>
+
+
+
+<h3>Document Features</h3>
+<p>
+The demo application sub-classes Nano's standard NDocument class with the CWindowDocument object.
+</p>
+
+<p>
+As before, this class inherits most of its behaviour from the framework - its main responsibilities
+are to provide information to the base class and to handle application-specific commands.
+</p>
+
+<p>
+The base class manages the overall document model, and includes support for saving, loading, and
+reverting documents.
+</p>
+
+<p>
+By default, documents are saved in a cross-platform file format based on key-value encoding. This
+ensures that saved documents are always forwards and backwards compatible, and allows NDocument to
+archive its own state (such as the position of the document window) alongside the application-specific
+content added by CWindowDocument.
+</p>
+
+<p>
+NDocument, in cooperation with NApplication, also prompts the user to save (or review) changes to
+modified documents when closing documents or quitting the application. Saved documents are tracked
+with an alias, allowing the document window's title to update automatically if the document is
+renamed in the Finder.
+</p>
+
+<p>
+NDocument also provides printing support, managing the user interface and overall job control.
+Sub-classes simply need to render each page in turn, or nominate a single view that will be
+automatically scaled to fit on the printed page.
+</p>
+
+
+
+</div>
+
+
+
+
+
+<div id="navigation">
+    <ul id="navlist">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Using Nano</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+
+        <li class="subtitle">Overview</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+
+        <li class="subtitle">Reference</li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+        <li><a href="undo.html">Implementing Undo</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</div>
+
+</div>
+
+
+
+
+
+<div id="footer">
+Copyright &copy; 2006 refNum Software
+</div>
+
+</body>
+</html>
+

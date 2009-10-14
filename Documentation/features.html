@@ -1,0 +1,254 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Features</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+
+
+
+
+<script type="text/javascript" src="html/warning.js"></script>
+<a href="http://www.refnum.com/products/nano/">
+	<div id="header">
+	<div id="reflection"></div>
+	</div>
+</a>
+
+
+
+
+
+<div id="page" style="height:2410">
+
+<div id="content">
+<h1>Nano Features</h1>
+<p>
+Nano provides a wide set of features "for free", providing automatic compliance with the Human
+Interface Guidelines and allowing you to focus on the content of your application.
+</p>
+
+<p>
+Some of these features, and how to activate them, are discussed below.
+</p>
+
+
+<h2>Splash Screen</h2>
+<img src="images/window_splash.jpg" alt="Splash Screen" width="195" height="232" align=right>
+<p>
+The NApplication object contains an NWindowSplashScreen instance, that allows it to offer
+automatic splash screen support during startup.
+</p>
+
+<p>
+A splash screen can contain arbitrary content, will be displayed with a transparent content area,
+and is smoothly faded in and out of view during startup.
+</p>
+
+<p>
+NWindowSplashScreen also provides accessors to manipulate any image, text, or progress bars
+within the window to reflect progress during startup.
+</p>
+
+<p>
+This feature can be enabled by placing a "Splash" window into your application .nib file.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+<h2>Help Menu</h2>
+<p>
+Carbon applications automatically gain a standard system-defined Help menu in their menu bar.
+</p>
+
+<p>
+NApplication allows custom items to be merged into this menu, by looking for an additional
+menu within the application .nib file and appending its contents to the system-defined items.
+</p>
+
+<p>
+This feature can be enabled by placing a "Help" menu into your application .nib file.
+</p>
+
+
+
+<h2>About Box</h2>
+<p>
+Carbon applications automatically gain a standard about-box, which displays basic program
+information.
+</p>
+
+<p>
+NApplication provides a customizable version of this window, which can be configured to
+display additional strings and buttons through a properties dictionary.
+</p>
+
+<p>
+This behaviour can be suppressed, or the properties adjusted, by overriding NApplication.
+</p>
+
+
+
+<h2>Recent Items</h2>
+<p>
+Nano provides a sophisticated "Recent Items" menu implementation, allowing the user to
+easily return to a previously opened document.
+</p>
+
+<p>
+If present, this menu will be populated automatically by NApplication and NDocument as the
+user interacts with documents, and its state will be archived to the preferences.
+</p>
+
+<div align=center>
+<img src="images/menu_recentitems.jpg" alt="Recent Items" width="502" height="392">
+</div>
+
+<p>
+The NRecentItems object provides an identical appearance to the equivalent Cocoa menu,
+displaying the icon for each file (and the parent folder, if necessary).
+</p>
+
+<p>
+However it also contains several improvements that provide a richer user experience, by
+allowing items to be placed into arbitrary groups or revealing the full path to an item
+if the user hovers the mouse.
+</p>
+
+<p>
+This feature can be enabled by creating a menu item whose command ID is 'recn'. NApplication
+will locate this menu item automatically, and attach an instance of NRecentItems.
+</p>
+
+
+
+<h2>Preferences Window</h2>
+<p>
+Nano provides a standard toolbar-based preferences window, NPreferencesWindow, capable of
+displaying multiple panels of content.
+</p>
+
+<div align=center>
+<img src="images/window_preferences.jpg" alt="Preferences" width="450" height="330">
+</div>
+
+<p>
+NPreferencesWindow handles all panel loading and transitions, allowing sub-classes to simply
+identify the nib resource for each panel and to handle commands.
+</p>
+
+<p>
+This feature can be enabled by sub-classing NPreferencesWindow and overriding NApplication.
+</p>
+
+
+
+<h2>Document Model</h2>
+<p>
+Nano provides a Human Interface Guidelines-compliant document model that supports saving,
+loading, reverting, and printing document content.
+</p>
+
+<div align=center>
+<img src="images/window_documents.jpg" alt="Documents" width="302" height="239">
+</div>
+
+<p>
+By default documents are saved in a cross-platform file format that is based on key-value
+encoding, ensuring that saved documents are always forwards and backwards compatible.
+</p>
+
+<p>
+The base NDocument class also provides printing support, allowing sub-classes to simply
+render each page of the document on demand or to nominate a single view that will be
+automatically scaled to fit the printed page.
+</p>
+
+
+
+<h2>User Interface</h2>
+<p>
+Nano also provides a wide range of <a href="nanoviews.html">custom views</a>, including views
+that were previously available only to Apple's own applications.
+</p>
+
+<p>
+<a href="customcursor.html">Large cursors</a> and custom <a href="custommenus.html">menu items</a>
+are also provided, including an implementation of the Finder label menu item.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+<div id="navigation">
+    <ul id="navlist">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Using Nano</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+
+        <li class="subtitle">Overview</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+
+        <li class="subtitle">Reference</li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+        <li><a href="undo.html">Implementing Undo</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</div>
+
+</div>
+
+
+
+
+
+<div id="footer">
+Copyright &copy; 2006 refNum Software
+</div>
+
+</body>
+</html>
+

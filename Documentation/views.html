@@ -1,0 +1,260 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Using HIViews</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+
+
+
+
+<script type="text/javascript" src="html/warning.js"></script>
+<a href="http://www.refnum.com/products/nano/">
+	<div id="header">
+	<div id="reflection"></div>
+	</div>
+</a>
+
+
+
+
+
+<div id="page" style="height:1900">
+
+<div id="content">
+<h1>Using HIViews</h1>
+<p>
+HIView is Carbon's object-orientated view system, which allows developers to organise and manipulate
+the contents of a window.
+</p>
+
+<p>
+HIViews can be nested, scrolled, and can automatically adjust their layout based on changes in the
+size or location of other views. Unlike Cocoa's NSView class, sibling HIViews can also be overlapped
+to support efficient compositing.
+</p>
+
+<p>
+For more information on HIViews, see Apple's
+<a href="http://gemma.apple.com/documentation/Carbon/Conceptual/HIViewDoc/index.html?http://gemma.apple.com/documentation/Carbon/Conceptual/HIViewDoc/HIView_concept/chapter_1_section_1.html">HIView Programming Guide</a>.
+</p>
+
+
+
+<h2>NHIView</h2>
+<p>
+In Nano, an HIViewRef object is represented by the NHIView class. This class exposes basic
+functionality common to all views, such as manipulating the size or location of the view.
+</p>
+
+<p>
+An NHIView sub-class has been provided for every standard system view, to allows those views
+to be manipulated using the NHIView interface.
+</p>
+
+
+
+
+<h2>View Properties</h2>
+<p>
+Interface Builder can attach a tagged list of properties to views, which can be manipulated through
+NHIView.
+</p>
+
+<p>
+Many of Nano's view classes support properties that can be used to customise their behaviour,
+or to expose functionality not supported by Interface Builder.
+</p>
+
+<p>
+For example, NDataBrowser supports a kTagDrawRowStripes property that can be used to adjust the
+kDataBrowserAttributeListViewAlternatingRowColors attribute of the view.
+</p>
+
+<p>
+Even though Interface Builder does not expose this attribute, by assigning a property within the
+nib the attribute can be applied at run-time without any additional code.
+</p>
+
+<p>
+Supported properties can be identified by searching for kPropertyNano.
+</p>
+
+
+
+<h2>System Views</h2>
+<p>
+System views are typically placed in a .nib using Interface Builder, and communicated with through
+one of Nano's view classes.
+</p>
+
+<p>
+This is achieved with the <tt>NIB_VIEW</tt> macro, which allows you to connect a member variable to a
+view with one line of code:
+</p>
+
+<div class="box code">
+<pre>    <u>MyDocument.h</u>
+    class MyDocument : public NDocument {
+    ...
+    protected:
+        OSStatus InitializeSelf(void);
+
+    private:
+        NIB_VIEW('wavh', NSlider, WaveHeight);
+    };
+
+
+    <u>MyDocument.cpp</u>
+    OSStatus MyDocument::InitializeSelf(void)
+    {
+        // Configure the view
+        mWaveHeight->SetCurrentValue(23);
+        mWaveHeight->SetMaximumValue(42);
+
+        return(noErr);
+    }
+</pre>
+</div>
+
+<p>
+The <tt>NIB_VIEW</tt> macro will define a private constant named <tt>kViewWaveHeight</tt>
+(whose value is 'wavh'), instantiate an NSlider view named <tt>mWaveHeight</tt>, and connect
+<tt>mWaveHeight</tt> to the <tt>kViewWaveHeight</tt> view in the window.
+</p>
+
+<p>
+<tt>NIB_VIEW</tt> declarations are executed prior to <tt>InitializeSelf</tt> being called, ensuring
+that an object's member variables are automatically created and connected to the corresponding view
+as part of window initialisation.
+</p>
+
+
+<h2>Custom Views</h2>
+<p>
+To create a custom view with Nano, sub-class NHIView and declare the view as a sub-class of the
+appropriate HIView class.
+</p>
+
+<p>
+For example:
+</p>
+
+<div class="box code">
+<pre>    <u>MyView.h</u>
+    class MyView : public NHIView {
+                 DECLARE_HIVIEW_SUBCLASS(MyView);
+
+    protected:
+        void     InitializeView(void);
+    };
+
+
+    <u>MyView.cpp</u>
+    DEFINE_HIVIEW_SUBCLASS(MyView, "com.mysoftware.myview", kHIViewClassID);
+    
+    void MyView::InitializeView(void)
+    {
+        // Initialize the view
+    }
+</pre>
+</div>
+
+<p>
+The <tt>DECLARE_</tt> and <tt>DEFINE_</tt> macros declare the MyView class as a sub-class of the
+root HIView class. This allows this view to be instantiated within Interface Builder, simply by
+creating a view with a class ID of "com.mysoftware.myview".
+</p>
+
+<p>
+When this view is instantiated, the <tt>InitializeView</tt> method will be called to initialize
+the view. Typically a view would initialize itself by assigning its default state, registering for
+events, and then implementing handlers for those events.
+</p>
+
+<p>
+If the view also supports properties, it could then override its default state with any additional
+values assigned in the .nib file.
+</p>
+
+<p>
+The <tt>Library/Source/HIToolbox/Custom</tt> contains several custom view implementations, as does
+the NanoDemo example.
+</p>
+
+
+
+<h2>Scrollable Views</h2>
+<p>
+NScrollableView is an a NHIView sub-class that can itself be sub-classed to implement a custom view
+that displays scrollable content.
+</p>
+
+<p>
+This view also supports zooming, and will automatically adjust the scrollable area in order to
+reflect the current zoom level. 
+</p>
+
+<p>
+Views with scrollable content can simply sub-class this view, assign their content size to the view,
+and then draw their content when required.
+</p>
+
+
+
+</div>
+
+
+
+
+
+<div id="navigation">
+    <ul id="navlist">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Using Nano</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+
+        <li class="subtitle">Overview</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+
+        <li class="subtitle">Reference</li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+        <li><a href="undo.html">Implementing Undo</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</div>
+
+</div>
+
+
+
+
+
+<div id="footer">
+Copyright &copy; 2006 refNum Software
+</div>
+
+</body>
+</html>
+
