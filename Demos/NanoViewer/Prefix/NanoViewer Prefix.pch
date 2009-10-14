@@ -1,0 +1,27 @@
+/*	NAME:
+		NanoViewer Prefix.pch
+
+	DESCRIPTION:
+		NanoViewer prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) 2006-2007, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef NANOVIEWER_PREFIX_HDR
+#define NANOVIEWER_PREFIX_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano.h"
+
+
+
+
+
+#endif // NANOVIEWER_PREFIX_HDR
+
+

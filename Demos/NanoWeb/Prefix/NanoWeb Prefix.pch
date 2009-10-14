@@ -1,0 +1,27 @@
+/*	NAME:
+		NanoWeb Prefix.pch
+
+	DESCRIPTION:
+		NanoWeb prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) 2006-2007, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef NANOWEB_PREFIX_HDR
+#define NANOWEB_PREFIX_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano.h"
+
+
+
+
+
+#endif // NANOWEB_PREFIX_HDR
+
+

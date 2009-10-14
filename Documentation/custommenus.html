@@ -1,0 +1,145 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Custom Menu Items</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Custom Menu Items</h1>
+<p>
+Nano simplifies the process of embedding arbitrary views into menu items, allowing you to place
+user interface elements such as sliders into a menu - or to define an entirely custom view.
+</p>
+
+<div align=center>
+<img src="images/menu_custom.jpg" alt="Custom Menu Item" width="452" height="267">
+</div>
+
+<p>
+The NMenuItemView class manages integration into a menu item, and sub-classes simply need to
+implement methods to measure and draw their content.
+</p>
+
+
+
+<h2>Label Menu</h2>
+<p>
+Nano also provides an implementation of the Finder's "label color" menu item.
+
+<div align=center>
+<img src="images/menu_label.jpg" alt="Label Menu" width="277" height="232">
+</div>
+
+<p>
+The NLabelView object can be attached to an arbitrary menu item, and will replace it with a
+custom menu item that allows the user to select label colors.
+</p>
+
+<p>
+Since NLabelView uses the original menu item text as its title, it can be localized as a normal
+menu item. Color names are localized automatically, and will track the user's Finder label
+preferences.
+</p>
+
+<p>
+As with all of Nano's custom views, this view is rendered entirely with CoreGraphics to
+ensure it is fully resolution independent.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

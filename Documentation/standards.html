@@ -1,0 +1,231 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Coding Standards</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Coding Standards</h1>
+<p>
+This document describes some common coding conventions and policy decisions used
+when creating Nano.
+</p>
+
+<p>
+If you find some code within Nano that does not appear to follow these rules,
+please <a href="contact.html">let me know</a>!
+</p>
+
+
+
+<h2>Assertions</h2>
+<p>
+Nano relies heavily on assertions to detect errors, and every function will ideally assert
+something about each of its parameters or any preconditions.
+</p>
+
+<p>
+Assertions are also used within functions to identify problems as they occur, and may be used
+to validate the result (although typically results would be validated by the caller).
+</p>
+
+
+
+<h2>Warnings</h2>
+<p>
+Nano must always compile without warnings, and compiler warnings should be treated as bugs.
+</p>
+
+<p>
+Nano is built with <tt>-Wall</tt> and <tt>-Wextra</tt>, as well as several additional flags to
+catch warnings not covered by these flags.
+</p>
+
+
+
+<h2>Pointer Ownership</h2>
+<p>
+Nano follows the "<a href="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/Ownership.html#//apple_ref/doc/uid/20001148-DontLinkElementID_8">Get/Create</a>"
+naming convention used by CoreFoundation.
+</p>
+
+<p>
+<tt>GetXXX</tt> methods either return by value, or return a const pointer/reference to data that
+the caller may access (subject to the owner's lifetime) but does not own.
+</p>
+
+<p>
+<tt>CreateXXX</tt> methods will create a new instance of an object, or allocate new data. In
+either case, the caller takes ownership of the result and must dispose of it as necessary.
+</p>
+
+<p>
+<tt>SetXXX</tt> methods typically take parameters by value or perform a deep copy of any
+pointer/reference parameters, allowing the caller to assume the parameter was retained or
+copied.
+</p>
+
+<p>
+Nano does not currently use smart pointers, although these may be used in the future.
+</p>
+
+
+
+<h2>Deep Copies</h2>
+<p>
+Whenever possible, Nano objects perform a deep copy when assigning values.
+</p>
+
+<p>
+This approach helps simplify memory ownership, since objects can be passed around via
+assignment as if they were built-in scalar types such as ints or floats.
+</p>
+
+<p>
+<tt>NCFObject</tt> provides copy-on-write behaviour for all mutable CoreFoundation objects,
+performing copies by acquiring a reference until a mutable instance is required.
+</p>
+
+
+
+<h2>Error Handling</h2>
+<p>
+Errors within Nano are typically returned to the caller to handle. If no error result
+would be useful (e.g., setting the title of a window), a method may consume the error
+rather than force callers to handle failure.
+</p>
+
+<p>
+Errors returned by system APIs are either used to handle failure, or asserted on with
+<tt>NN_ASSERT_NOERR</tt>.
+</p>
+
+<p>
+Even if an error is returned to the caller, methods will frequently assert on noErr if
+an error would be unusual. Although the error would typically then be handled, this
+approach helps identify problems at the point of failure.
+</p>
+
+<p>
+The Nano library does not use exceptions, and will always return errors to the caller
+rather than throwing an exception.
+</p>
+
+
+
+<h2>Unit Tests</h2>
+<p>
+Nano does not currently use unit tests for validation, although this may be explored
+in the future.
+</p>
+
+<p>
+If you would like to propose a suitable test suite for Nano then please
+<a href="contact.html">let me know</a>.
+</p>
+
+
+
+<h2>Radar Bugs</h2>
+<p>
+All workarounds for OS bugs are commented with the appropriate
+<a href="http://www.carbondev.com/site/?page=BugReporter">Radar</a> bug entry.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

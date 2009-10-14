@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rss version="2.0">
+	<channel>
+		<title>My New Software</title>
+		<link>http://www.mynewsoftware.com/</link>
+		<description>Updates from My New Software</description>
+		<language>en-us</language>
+		<pubDate>Tue, 28 Nov 2006 00:00:00 +0100</pubDate>
+		<lastBuildDate>Tue, 28 Nov 2006 00:00:00 +0100</lastBuildDate>
+		<ttl>60</ttl>
+
+		<item>
+			<title>My New App 2.0</title>
+			<pubDate>Tue, 28 Nov 2006 00:00:00 +0100</pubDate>
+
+			<appCast:updateInfo>http://www.refnum.com/products/nano/html/su_notes.html</appCast:updateInfo>
+			<appCast:updateVersion>2.0</appCast:updateVersion>
+			<appCast:selfInstall>true</appCast:selfInstall>
+			<appCast:enclosureMD5>3adf999042fae5fae7c856e856ca3d5d</appCast:enclosureMD5>
+
+			<enclosure url="http://www.refnum.com/download/files/My New App.dmg" length="11720046" type="application/octet-stream"/>
+		</item>
+
+	</channel>
+</rss>

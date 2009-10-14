@@ -1,0 +1,27 @@
+/*	NAME:
+		NanoText Prefix.pch
+
+	DESCRIPTION:
+		NanoText prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) 2006-2007, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef NANOTEXT_PREFIX_HDR
+#define NANOTEXT_PREFIX_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano.h"
+
+
+
+
+
+#endif // NANOTEXT_PREFIX_HDR
+
+

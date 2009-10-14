@@ -1,0 +1,264 @@
+<html>
+<head>
+	<title>Nano &rsaquo; High Performance</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>High Performance</h1>
+<p>
+Nano aims to promote high-performance development, both at run-time and during the development
+process.
+</p>
+
+<p>
+To achieve this, it provides several design patterns that help simplify code while improving efficiency.
+</p>
+
+
+
+<h2>Interface Builder</h2>
+<p>
+Nano can automatically establish connections between views in a .nib file and variables within
+a class:
+</p>
+
+<div class="box code"><pre>
+    class MyWindow : public NWindowController {
+    ...
+    private:
+        NIB_VIEW('filt', NCheckBox,    FilterActive);
+        NIB_VIEW('volu', NSlider,      FilterValue);
+        NIB_VIEW('prog', NProgressBar, Progress);
+    };
+</pre></div>
+
+<p>
+When the window is constructed, each NIB_VIEW declaration is used to construct an appropriate
+object (e.g., an NCheckBox) which is then connected to the equivalent view in the window.
+</p>
+
+<p>
+Nano also supports view properties, allowing them to be configured in ways that Interface Builder
+does not yet support (e.g., an NIconView can be assigned a resource string, causing it to
+load that image from its bundle on construction).
+</p>
+
+
+
+<h2>Copy-On-Write</h2>
+<p>
+NCFObject provides automatic copy-on-write behaviour, allowing common objects such as strings
+or dictionaries to be copied extremely efficiently.
+</p>
+
+<p>
+Using this system immutable objects are "copied" by incrementing their reference count, converting
+them to their mutable form on demand.
+</p>
+
+<p>
+This allows objects to be passed around with very little overhead, as even objects passed by value
+are effectively passed as const references until they are actually modified.
+</p>
+
+
+
+<h2>Operators</h2>
+<p>
+Nano uses operator overloading to minimise the amount of code necessary for common tasks:
+</p>
+
+<div class="box code"><pre>
+    void CObject::SomeMethod(const NString &theString)
+    {   NString   otherString;
+     
+        otherString  = theString;  
+        otherString += " World!";
+        
+        if (theString == "Hello")
+            CFShowStr(otherString);
+    }
+
+
+    - (void) SomeMethod:(const NSString *) theString
+    {   NSMutableString   *otherString = nil;
+    
+        otherString = [theString mutableCopyWithZone:nil];
+        [otherString appendString:@" World!"];
+        
+        if ([theString isEqualToString:@"Hello"])
+            CFShowStr((CFStringRef) otherString);
+    
+        [otherString release];
+    }
+</pre></div>
+
+<p>
+Since Cocoa has two string classes, each variable must be explicitly declared as immutable or
+mutable depending on its role. Nano provides a single NString object, which converts between
+either type on the fly (const-ness is validated at compile-time, by the <tt>const</tt> keyword).
+</p>
+
+<p>
+Although it is overwritten in this example, otherString must be explicitly initialized in
+Objective-C to clear the otherwise invalid pointer. NString's default constructor will
+automatically initialize this variable, assigning it an empty string.
+</p>
+
+<p>
+NString provides '=' and '+=' operators, allowing a more natural syntax for string
+manipulation than explicit method calls. By inheriting from NComparable, NString also obtains
+the full set of comparison operators (case-insensitive or pattern-matching comparisons are
+also available).
+</p>
+
+<p>
+By inheriting from NCFObject, NString also obtains copy-on-write behaviour for free. This
+means otherString does not have to duplicate theString's data until it is actually modified.
+In the Objective-C example, otherString must copy the data if it could potentially be modified
+(even if that never occurs).
+</p>
+
+<p>
+Since NString provides a CFStringRef cast operator, it will automatically cast itself to
+a CFStringRef when passed to an API that expects this type. Objective-C does not provide
+cast operators, and so any type conversions must be explicit.
+</p>
+
+<p>
+In the Cocoa example, otherString is a pointer which must be explicitly released to avoid a
+memory leak. NString's destructor will automatically release its string when it goes out of scope.
+</p>
+
+
+
+<h2>Inline Functions</h2>
+<p>
+Unlike Objective-C, C++ supports inline functions. This allows performance-critical code to
+avoid function call overhead, while still preserving type safety:
+</p>
+
+<div class="box code"><pre>
+   UInt32 CountBits(const NBitVector &theBits)
+   {   UInt32    n, numBits, numSet;
+   
+       numBits = theBits.GetSize();
+       numSet  = 0;   
+   
+       for (n = 0; n < numBits; n++)
+           {
+           if (theBits.GetBit(n))
+               numSet++;
+           }
+       
+       return(numSet);
+   }
+</pre></div>
+
+<p>
+Since GetBits is an inline function, this inner loop can obtain direct access to the bits in the
+vector without going through a function call.
+</p>
+
+
+
+
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

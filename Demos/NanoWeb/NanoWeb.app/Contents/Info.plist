@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>NanoWeb</string>
+	<key>CFBundleGetInfoString</key>
+	<string>NanoWeb 1.0, Copyright refNum Software</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>NanoWeb Help</string>
+	<key>CFBundleIconFile</key>
+	<string>NanoWeb.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.refnum.nano.nanoweb</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>NanoWeb</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>NWEB</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.4</string>
+	<key>SUFeedURL</key>
+	<string>http://www.refnum.com/products/nano/html/su_feed.xml</string>
+</dict>
+</plist>

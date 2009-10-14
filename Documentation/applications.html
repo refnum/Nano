@@ -1,0 +1,213 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Building Applications</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Building Applications</h1>
+<p>
+The simplest approach to create a new Nano-based application is to install the 
+<a href="quickstart.html">Xcode Templates</a>, and allow Xcode to create a new project:
+</p>
+
+<div align=center>
+<img src="images/xcode_project.png" alt="Demo Project" width="396" height="410">
+</div>
+
+
+
+<h2>Project Structure</h2>
+<p>
+Projects created from an Xcode template link to Nano as a static library. This reduces build
+times if Nano is used in multiple projects, but is not a requirement. If you prefer, you can
+add Nano directly to your project.
+</p>
+
+<p>
+The template project contains several standard groups:
+</p>
+
+<ul>
+	<li>Configuration (the .xcconfig files used to configure the target)
+	<li>Prefix (the project prefix header, and the "build header")
+	<li>Source (the project source code, organized as <a href="http://en.wikipedia.org/wiki/Model-View-Controller">MVC</a>).
+	<li>Resources (icons, string tables, etc)
+</ul>
+
+<p>
+You may wish to use a similar grouping for your own projects, although no particular structure
+is required.
+</p>
+
+
+
+<h2>Application Model</h2>
+<p>
+Although the definitive reference is the source code, some of the basic concepts of the Nano
+application model are discussed here.
+</p>
+
+<p>
+One of the most important headers for a Nano project is the "build header". This is contained in the
+Prefix directory, and defines application properties such as the name or version number.
+</p>
+
+<p>
+These properties are used to populate the Info.plist file, and to configure the properties
+dictionaries of the NApplication and NDocument objects.
+</p>
+
+<p>
+NApplication and NDocument both maintain a properties dictionary to control their behaviour, and
+expose these dictionaries to sub-classes to allow this behaviour to be customized.
+</p>
+
+<p>
+The "build header" provides a simple way for new projects to populate these dictionaries with the
+same values used by their Info.plist file, however this approach is not required.
+</p>
+
+<p>
+The only connection between the Nano classes and the sub-classes within the application are these
+dictionaries, since the application-specific build header is not visible to the Nano library.
+</p>
+
+
+
+<h2>Additional Resources</h2>
+<p>
+Applications built with Nano must include two extra resources in their bundle:
+</p>
+
+<div class="box code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Library/Resources/English.lproj/Nano.nib<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Library/Resources/English.lproj/Nano.strings
+</div>
+
+<p>
+If your application contains multiple localizations, you may wish to consider localizing these files
+in order to localize any user interface displayed by Nano.
+</p>
+
+<p>
+If you would like to submit a localization back to Nano, please see the <a href="contributing.html">contributing</a>
+page.
+</p>
+
+
+
+<h2>System Requirements</h2>
+<p>
+Applications built with Nano require Mac OS X 10.4 or later and should link to the frameworks used
+by the stationary projects (all of which are standard frameworks such as Carbon, Cocoa, QuickTime,
+Accelerate, etc).
+</p>
+
+<p>
+Although most of Nano will function correctly on 10.3, there are some issues relating to UTI
+support that means supporting this platform would require additional code.
+</p>
+
+<p>
+If you are building an application with Nano, and require 10.3 support, please <a href="contact.html">contact</a>
+me to discuss this (if there is sufficient demand, it should be feasible to support 10.3.9).
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

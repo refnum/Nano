@@ -1,0 +1,220 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Adding Documents</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Adding Documents</h1>
+<p>
+Nano makes no distinction between document-less applications, and those which support a single
+or multiple documents.
+</p>
+
+<p>
+Document related features, such as an Open Recent menu, are automatically enabled if any
+instances of NDocument are created.
+</p>
+
+<p>
+Some important features of document objects are described below. A document-based
+<a href="quickstart.html">template</a> is available within Xcode, that provides an
+initial implementation you can adjust or replace as necessary.
+</p>
+
+
+
+<h2>Creating Documents</h2>
+<p>
+To create a document object, an application should sub-class NDocument and override
+<tt>NApplication::CreateDocument</tt>.
+</p>
+
+<p>
+When <tt>CreateDocument</tt> is called, your application should create an instance of
+your NDocument sub-class, and return it to NApplication.
+</p>
+
+<p>
+NApplication will then initialize the document (e.g., by loading its content from a file), and
+then select the new document's window.
+</p>
+
+
+
+<h2>Document Types</h2>
+<p>
+Nano's document model is based around <a href="http://developer.apple.com/documentation/Carbon/Conceptual/understanding_utis/index.html">Universal
+Type Identifiers</a> (UTIs), rather than the legacy approach of type/creator or file extensions.
+</p>
+
+<p>
+A UTI is an identifier that identifies a particular type of content, and that can be mapped to one
+or more type-systems.
+</p>
+
+<p>
+They are best thought of as an opaque reference to "a type", which can be queried to obtain a particular
+representation of that type (such as file type, extension, MIME-type, etc). For example, the UTI
+for a Windows Bitmap Image could be queried to obtain BMPf, .bmp, or image/x-ms-bmp.
+</p>
+
+<p>
+In Nano, each NDocument sub-class has an associated UTI. The UTI is the definitive "type" of the
+document, and additional meta-data such as the file type or extension are retrieved from the UTI as
+required.
+</p>
+
+<p>
+NApplication automatically uses the UTIs defined in your Info.plist to populate file open dialogs,
+allowing the user to select only those files that your application can edit or view.
+</p>
+
+<p>
+NDocument performs a similar task for save sheets, allowing the user to save documents in one of
+the available formats that your application can edit. NDocument will also set the file type or
+extension for saved files automatically, based on the UTI.
+</p>
+
+<p>
+This model can be overriden, however for most applications the default behaviour is appropriate.
+</p>
+
+
+
+<h2>Loading and Saving</h2>
+<p>
+NDocument automatically provides load/save/revert behaviour for sub-classes, as well as a default file
+format based on key-value encoding.
+</p>
+
+<p>
+This file format allows documents to be forward and backwards compatible, and allows NDocument to
+store its own state (such as window position) beside document-specific content.
+</p>
+
+<p>
+Documents that use this file format should override <tt>EncodeProperties</tt> and <tt>DecodeProperties</tt>,
+and archive or restore their state from the supplied NDictionary.
+</p>
+
+<p>
+Documents that wish to override a custom file format should override <tt>LoadSelf</tt> and <tt>SaveSelf</tt>,
+and then archive or restore their state from the supplied NFile.
+</p>
+
+
+
+<h2>Printing</h2>
+<p>
+NDocument provides both job management and page-level printing behaviour, and manages the user interface
+for configuring a print job.
+</p>
+
+<p>
+Documents that contain multi-page content should override <tt>PrintSelf</tt> for complete control over
+the printing process, while simpler documents can override <tt>GetPrintView</tt> to return a single view.
+</p>
+
+<p>
+NDocument's default implementation of <tt>PrintSelf</tt> will invoke <tt>GetPrintView</tt>, then center and
+scale the returned view to fit the printed page.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

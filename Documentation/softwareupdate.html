@@ -1,0 +1,367 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Adding Software Update</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Adding Software Update</h1>
+<p>
+Nano provides an advanced Software Update mechanism that allows users to view release notes,
+download updates, and upgrade their software - all from within the currently-running application.
+</p>
+
+<div align=center>
+<img src="images/window_softwareupdate.jpg" alt="Software Update" width="670" height="610">
+</div>
+
+<p>
+This is achieved through NSoftwareUpdate, an instance of which is contained within NApplication.
+</p>
+
+
+
+
+
+<h2>AppCasting</h2>
+<p>
+NSoftwareUpdate is built on <a href="http://connectedflow.com/appcasting">AppCasting</a>, where
+an RSS feed is used to document a list of software releases.
+</p>
+
+<p>
+The feed URL is embedded within your application, and NSoftwareUpdate fetches this URL to identify
+the available updates. An RSS feed is a simple XML text file, that can be created with any text
+editor or a dedicated tool such as <a href="http://reinventedsoftware.com/feeder/">Feeder</a>. 
+</p>
+
+<p>
+Since AppCasting feeds are standard RSS documents, users can also subscribe to this feed to be
+notified of updates in their web browser or RSS reader (for <a href="http://www.barebones.com/news.xml">example</a>).
+</p>
+
+<p>
+An example feed is:
+</p>
+
+<div class="box">
+<pre><code><font size=1>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
+&lt;rss version="2.0"&gt;
+  &lt;channel&gt;
+    &lt;title&gt;My New Software&lt;/title&gt;
+    &lt;link&gt;http://www.mynewsoftware.com/&lt;/link&gt;
+    &lt;description&gt;Updates from My New Software&lt;/description&gt;
+    &lt;language&gt;en-us&lt;/language&gt;
+    &lt;pubDate&gt;Tue, 28 Nov 2006 00:00:00 +0100&lt;/pubDate&gt;
+    &lt;lastBuildDate&gt;Tue, 28 Nov 2006 00:00:00 +0100&lt;/lastBuildDate&gt;
+    &lt;ttl&gt;60&lt;/ttl&gt;
+    &lt;item&gt;
+      &lt;title&gt;My New App 2.0&lt;/title&gt;
+      &lt;pubDate&gt;Tue, 28 Nov 2006 00:00:00 +0100&lt;/pubDate&gt;
+      <font color=red>&lt;appCast:updateInfo&gt;http://www.mynewsoftware.com/html/su_notes_2.0.html&lt;/appCast:updateInfo&gt;
+      &lt;appCast:updateVersion&gt;2.0&lt;/appCast:updateVersion&gt;
+      &lt;appCast:selfInstall&gt;true&lt;/appCast:selfInstall&gt;
+      &lt;appCast:enclosureMD5&gt;820059e5181b252d15917b15f4d4cb69&lt;/appCast:enclosureMD5&gt;</font>
+      &lt;enclosure length="11720046" type="application/octet-stream"
+                    url="http://www.mynewsoftware.com/My New App 2.0.dmg"/&gt;
+    &lt;/item&gt;
+  &lt;/channel&gt;
+&lt;/rss&gt;</font></code></pre>
+</div>
+
+<p>
+The Nano extensions to the AppCasting spec are marked in red. Each extension is an element within an
+<tt>&lt;item&gt;</tt> element, prefixed with the <tt>appCast:</tt> namespace.
+</p>
+
+<p>
+&bull; <tt>appCast:updateInfo</tt> contains the URL for the release notes, which are displayed with
+WebKit.
+</p>
+
+<p>
+&bull; <tt>appCast:updateVersion</tt> contains the version number for the update.
+</p>
+
+<p>
+&bull; <tt>appCast:selfInstall</tt> indicates if the update should be installed by the running
+application. If false, or not present, the enclosure URL will be passed to the default web browser.
+</p>
+
+<p>
+&bull; <tt>appCast:enclosureMD5</tt> contains an MD5 checksum for the download.
+</p>
+
+<p>
+Each <tt>item</tt> element must contain an <tt>enclosure</tt> element, which contains the URL for
+the download. If the feed is also intended for end users, additional tags can be included to
+describe each update.
+</p>
+
+
+
+
+
+<h2>Supporting Software Update</h2>
+<p>
+Once an RSS feed has been prepared, you must add Software Update support to your application.
+</p>
+
+<p>
+This is done by adding a new key to your Info.plist:
+</p>
+
+<div class="box code">
+    &lt;key&gt;SUFeedURL&lt;/key&gt;<br>
+    &lt;string&gt;http://www.mynewsoftware.com/html/su_feed.xml&lt;/string&gt;
+</div>
+
+<p>
+If your Info.plist is pre-processed, the "<tt>//</tt>" within your URL must be written as
+"<tt>&amp;#47;&amp;#47;</tt>" to ensure it is not interpreted as a comment.
+</p>
+
+
+
+<h3>Checking for Updates</h3>
+<p>
+At a minimum, your user interface should allow the user to invoke Software Update on demand.
+</p>
+
+<p>
+This can be done with a menu item, or button, that dispatches kCmdSoftwareUpdateCheckNow
+(<tt>'supd'</tt>). When NApplication receives this command, it invokes Software Update.
+</p>
+
+<p>
+The recommended appearance for this command is:
+</p>
+
+<div align=center>
+<img src="images/menu_softwareupdate.jpg" alt="Menu Item" width="220" height="250">
+</div>
+
+<p>
+This matches the Apple menu, where "Software Update&hellip;" immediately follows the About item.
+</p>
+
+
+
+<h3>Automatic Checks</h3>
+<p>
+NApplication can also check for updates automatically. This feature is enabled when the
+<tt>SUCheckEnabled</tt> preference key is true, and <tt>SUCheckInterval</tt> set to a
+time in seconds between each check.
+</p>
+
+<p>
+These keys, and commands that request NApplication to set the interval to typical values, can be
+found in <tt>NSoftwareUpdate.h</tt>.
+</p>
+
+<p>
+Both manual and automatic checks can be incorporated into a preference pane, using a combination of
+pop-up and push buttons:
+</p>
+
+<div align=center>
+<img src="images/window_preferences_su.jpg" alt="Preference Panel" width="450" height="330">
+</div>
+
+<p>
+Since NApplication can handle commands from the pop-up and push buttons, the only code provided
+by your application is to update the status text with the date held in the <tt>SULastCheckedKey</tt>
+preference.
+</p>
+
+
+
+
+
+<h2>User Experience</h2>
+<p>
+Nano's Software Update system is designed to be unobtrusive to normal operation.
+</p>
+
+<p>
+Automatic checks will not raise the network connection unnecessarily, and downloads are performed
+asynchronously to avoid blocking the main thread during startup.
+</p>
+
+
+<h3>Identifying Updates</h3>
+<p>
+Updates are identified by comparing the <tt>appCast:updateVersion</tt> field feed to the current
+application's <tt>kCFBundleVersionKey</tt>.
+</p>
+
+<p>
+RSS feeds can contain multiple items, and so a "smart" version compare (which knows that 1.0a3
+&lt; 1.0b2 &lt; 1.0) is used to identify the most up-to-date item in the feed.
+</p>
+
+
+<h3>Notifying the User</h3>
+<p>
+Once an update has been detected, the user can choose to skip this version entirely, take no action,
+or install the update.
+</p>
+
+<p>
+Release notes are displayed with WebKit, and can be localized through the Accept-Language HTTP 
+header or by localizing the <tt>SUFeedURL</tt> key.
+</p>
+
+<p>
+The <tt>appCast:updateInfo</tt> URL can also contain a single '%s', which will be sprintf'd with the
+current application version. If the feed is returned through a CGI script, this value could be used to
+dynamically generate release notes that are appropriate for the user's upgrade path.
+</p>
+
+
+<h3>Downloading Updates</h3>
+<p>
+If <tt>appCast:selfInstall</tt> is true, NSoftwareUpdate will download the update and validate
+the MD5 checksum.
+</p>
+
+<p>
+Downloads are performed with NClientHTTP, Nano's built-in "HTTP client" class. This uses CFNetwork
+for high-performance downloads, and constructs a standard user agent string that will be present in
+your web server logs:
+</p>
+
+<div class="box code" align=center>
+My Great App/1.5 (Mac OS 10.4.9; 2333Mhz; 1024Mb; x86)
+</div>
+
+<p>
+By default this user agent string does not include any personal or identifying information, but
+instead includes some useful attributes that can be used to collect usage statistics.
+</p>
+
+
+<h3>Installing Updates</h3>
+<p>
+NSoftwareUpdate expects updates to be packaged in the standard .dmg format, and silently mounts
+disk images to avoid cluttering the user's desktop.
+</p>
+
+<p>
+Disk images may contain background images or additional folders, and would normally be the same .dmg
+created for web-based downloads.
+</p>
+
+<p>
+The new copy of the application is found by searching the disk image for an application with the
+same bundle identifier. This allows updates to be placed anywhere on the volume, or even to
+change name between releases (e.g., if the application name contains the version number).
+</p>
+
+<p>
+Once the new application has been identified, it will be copied to the folder containing the
+existing copy of the application (authenticating the user as necessary).
+</p>
+
+<p>
+The existing application is then moved to the trash, and sent a kHICommandQuit. Once the existing
+application has exited, the new application is launched.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

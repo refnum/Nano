@@ -1,0 +1,228 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Using Controllers</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Using Controllers</h1>
+<p>
+Nano applications are built around the <a href="http://en.wikipedia.org/wiki/Model-view-controller">Model
+View Controller</a> design pattern, which separates an application's data model, user
+interface, and control logic into three distinct components.
+</p>
+
+<p>
+Models are typically represented by application-specific objects, while views are implemented
+using <a href="views.html">HIViews</a>.
+</p>
+
+<p>
+Controller objects provide the third aspect of this pattern, and are responsible for
+updating the application model and views in response to user input or other events.
+</p>
+
+<p>
+The two main classes of controller within Nano are NWindowController and NPanelController.
+</p>
+
+
+
+<h2>NWindowController</h2>
+<p>
+NWindowController is typically used as a sub-class, to provide default behaviour for
+application-specific objects such as documents or sheets.
+</p>
+
+<p>
+A NWindowController object is associated with an NHIWindow, and is responsible for
+window-related tasks such as attaching sheets or updating the status of toolbar items.
+</p>
+
+<p>
+The most common sub-class of NWindowController is NDocument. This object extends the
+default behaviour with a HIG-compliant document model, providing an extensible
+cross-platform file format as well as automatic save/load/revert/print support.
+</p>
+
+<p>
+Application windows whose state was backed by a file would typically sub-class from
+NDocument, inheriting the default document behaviour and extending it with their own model
+and views.
+</p>
+
+<p>
+Windows that are not file-based, such as sheets, can inherit directly from NWindowController.
+</p>
+
+
+<h3>Defining a Controller</h3>
+<p>
+A window controller's window is typically placed in a .nib using Interface Builder, and
+instantiated as a controller using two standard macros.
+</p>
+
+<p>
+For example, a sheet window might be defined as:
+</p>
+
+<div class="box code">
+<pre>    <u>MySheet.h</u>
+    class MySheet : public NWindowController {
+        ...
+        DECLARE_WINDOW_CONTROLLER(MySheet);
+        ...
+    };
+
+    <u>MySheet.cpp</u>
+    DEFINE_WINDOW_CONTROLLER(MySheet, "MyNib", "MyWindow");
+</pre>
+</div>
+
+<p>
+These macros will introduce two additional functions into the class:
+</p>
+
+<div class="box code">
+<pre>    class MySheet : public NWindowController {
+        ...
+        MySheet *MySheet::Create(void);
+
+        MySheet *MySheet::GetInstance(void);
+        ...
+    };
+</pre>
+</div>
+
+<p>
+The <tt>Create</tt> function will create a new instance of the controller, basing it on
+the "MyWindow" window from the "MyNib" .nib file.
+</p>
+
+<p>
+The <tt>GetInstance</tt> function can be used to create a singleton instance of the
+controller, ensuring that only a single copy of the window exists at any one time.
+</p>
+
+
+
+<h2>NPanelController</h2>
+<p>
+NPanelControler is typically used as a mix-in class with another controller, providing
+that controller with the means to set the contents of a view to one of multiple panels.
+</p>
+
+<p>
+Each panel is defined by the contents of a window within a .nib file, allowing views to be
+laid out using Interface Builder then swapped dynamically at runtime.
+</p>
+
+<p>
+Most applications will not sub-class NPanelController directly, but will sub-class from
+NWindowPanels, which combines an NWindowController with an NPanelController. This is used by
+NWindowPreferences to provide a standard toolbar-based preferences window, where each toolbar
+item selects a particular panel.
+</p>
+
+<p>
+NWindowPanels would also be a suitable parent for an Inspector palette, where the contents
+of the palette are context sensitive and vary based on the current selection.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+
