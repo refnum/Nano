@@ -1,0 +1,233 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Class Overview</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Class Overview</h1>
+<p>
+Nano is composed of around a hundred classes, organized into a dozen or so categories of related
+objects.
+</p>
+
+<p>
+This document provides an overview of the main categories, and notable objects within them; for
+more detailed documentation on each class, please consult the appropriate header file.
+</p>
+
+
+
+<h2>3rd Party</h2>
+<p>
+Third party code, which does not fall under the Nano <a href="licence.html">licence</a>. This
+code will be covered by a licence that is compatible with Nano's (i.e., public domain or BSD).
+</p>
+
+
+
+<h2>Application</h2>
+<p>
+The core application framework.
+</p>
+
+<p>
+Includes the basic application and document objects, and standard windows such as an about
+box or a preferences window.
+</p>
+
+
+
+<h2>Core</h2>
+<p>
+Contains the core library objects - primitives such as strings, arrays, dictionaries, or files.
+</p>
+
+
+
+<h2>CoreFoundation</h2>
+<p>
+Wrappers around CoreFoundation objects.
+</p>
+
+<p>
+All CF-based objects derive from NCFObject, which provides automatic copy-or-retain behaviour when
+CF-based objects are assigned to each other.
+</p>
+
+<p>
+If you have installed Nano's <a href="quickstart.html">gdb macros</a>, NCFObjects can be printed
+with the <tt>pn</tt> command in gdb.
+</p>
+
+
+
+<h2>Events</h2>
+<p>
+Objects that represent events or event handlers.
+</p>
+
+<p>
+As well as AppleEvents and Carbon Events, a broadcaster/listener pattern is also available for
+high-performance messaging within an application.
+</p>
+
+
+
+<h2>Files</h2>
+<p>
+Contains file related objects - alias files, property files, and property stores.
+</p>
+
+
+
+<h2>Graphics</h2>
+<p>
+Contains objects for manipulating or rendering graphical data - such as icons, cursors, or images.
+</p>
+
+
+
+<h2>HIToolbox</h2>
+<p>
+User-interface related objects, in three sub-categories - Core, Custom, and System.
+</p>
+
+<p>
+The Core sub-category contains the core HIToolbox objects (HIObjectRef, HIViewRef, and HIWindowRef),
+as well as automatic .nib bindings that connect views to objects when a .nib is loaded.
+</p>
+
+<p>
+The Custom sub-category contains custom views that are not provided by the system - such as a base
+class that can scroll and zoom custom content, or an OpenGL view.
+</p>
+
+<p>
+The System sub-category contains wrapper objects for system views, providing a C++ interface
+to every standard user interface control.
+</p>
+
+
+
+<h2>Network</h2>
+<p>
+Contains network-related objects, such as an HTTP client.
+</p>
+
+
+
+<h2>System</h2>
+<p>
+General objects for interacting with the system as a whole, such as manipulating the
+pasteboard or integrating Objective-C.
+</p>
+
+
+
+<h2>Threads</h2>
+<p>
+Contains thread-related objects, such as mutex, reader-writer, or spin locks.
+</p>
+
+
+
+<h2>Utilities</h2>
+<p>
+Contains a range of stand-alone utility methods, organized by purpose. These methods are typically
+one-line calls that simplify system APIs, and are described <a href="utilities.html">here</a>.
+</p>
+
+
+
+<h2>Windows</h2>
+<p>
+Contains standard print, file, and alert window objects.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

@@ -15,9 +15,6 @@ window.onload = function()
 
 	theCorners = new curvyCorners(settings, "box");
 	theCorners.applyCornersToAll();
-
-	theCorners = new curvyCorners(settings, "box notice");
-	theCorners.applyCornersToAll();
 		
 	theCorners = new curvyCorners(settings, "box code");
 	theCorners.applyCornersToAll();

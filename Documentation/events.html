@@ -1,0 +1,221 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Using Carbon Events</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Using Carbon Events</h1>
+<p>
+Carbon Events are the standard mechanism for converting user actions such as mouse input into
+application events that code can act on.
+</p>
+
+<p>
+They provide a high-performance dispatch architecture, an extensible delivery mechanism, and the
+ability to "chain" event handlers together to allow events to be modified or consumed during
+dispatch.
+</p>
+
+<p>
+For more information on Carbon Events, see Apple's
+<a href="http://developer.apple.com/documentation/Carbon/Conceptual/Carbon_Event_Manager/index.html?http://developer.apple.com/documentation/Carbon/Conceptual/Carbon_Event_Manager/Intro/chapter_1_section_1.html#//apple_ref/doc/uid/TP30000989-CH201-DontLinkElementID_33">Carbon Event Manager Programming Guide</a>.
+</p>
+
+
+
+<h2>NCarbonEvent</h2>
+<p>
+In Nano, an EventRef is represented by the NCarbonEvent class. This class exposes the basic event
+state, and allows you to get and set named parameters on the event.
+</p>
+
+<p>
+Convenience accessors are provided for common parameters, allowing you to easily retrieve commonly
+needed state from an event.
+</p>
+
+
+
+<h2>NCarbonEventHandler</h2>
+<p>
+While an NCarbonEvent object represents a single event, dispatching that event is implemented by
+NCarbonEventHandler.
+</p>
+
+<p>
+This class is sub-classed by objects that wish to receive Carbon Events, and allows them to
+register for events on a given event target.
+</p>
+
+
+
+<h2>Handling Events</h2>
+<p>
+When an event is received, NCarbonEventHandler will dispatch it to a named method based on the event
+class and kind.
+</p>
+
+<p>
+To handle events, sub-classes simply need to register for their events, and then override the
+appropriate methods:
+</p>
+
+<div class="box code">
+<pre>    <u>MyObject.h</u>
+    class MyObject : public NCarbonEventHandler {
+        ...
+        OSStatus DoEventControlDraw(      NCarbonEvent &theEvent);
+        OSStatus DoEventControlActivate(  NCarbonEvent &theEvent);
+        OSStatus DoEventControlDeactivate(NCarbonEvent &theEvent);
+    };
+
+
+    <u>MyObject.cpp</u>
+    OSStatus MyObject::DoEventControlDraw(NCarbonEvent &theEvent)
+    {
+        // Handle kEventControlDraw
+    }
+
+    OSStatus MyObject::DoEventControlActivate(NCarbonEvent &theEvent)
+    {
+        // Handle kEventControlActivate
+    }
+
+    OSStatus MyObject::DoEventControlDeactive(NCarbonEvent &theEvent)
+    {
+        // Handle kEventControlDeactivate
+    }
+</pre>
+</div>
+
+<p>
+In Nano, the name of an event and the method that implements that event are connected: a
+<b>kEvent</b>FooBar event will always be dispatched to a <b>DoEvent</b>FooBar method.
+</p>
+
+
+
+<h2>Command Status</h2>
+<p>
+One of the most common events is kEventCommandUpdateStatus; this event is sent when the state
+of a user interface component (such as a menu item) needs to be updated.
+</p>
+
+<p>
+NCarbonEventHandler provides a default handler for this event that automatically updates the
+state of the user interface component.
+</p>
+
+<p>
+Sub-classes that wish to use this feature simply need to register for kEventCommandUpdateStatus as
+normal, and then override the <tt>GetCommandStatus</tt> method to return the current status
+for that command.
+</p>
+
+
+
+<h2>Event Delegates</h2>
+<p>
+Some Carbon Events can only be dispatched to a particular type of target; for example, the
+kEventRawKeyModifiersChanged event can only be sent to the application target.
+</p>
+
+<p>
+NCarbonEventHandler includes a built-in "delegate" system, whereby objects can forward their events
+to another object for processing. One common use of this feature is to allow an object such as a
+view to receive non-view events.
+</p>
+
+<p>
+For example, a view can receive the kEventRawKeyModifiersChanged event by using a second event
+handler installed on the application that uses the view as its delegate. By using a delegate in
+this way, the view can receive events that it would not otherwise have a chance to process.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

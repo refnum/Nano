@@ -1,0 +1,535 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB03A17909E9BE0D00BC45F6 /* DocAbout.png in Resources */ = {isa = PBXBuildFile; fileRef = AB03A17809E9BE0D00BC45F6 /* DocAbout.png */; };
+		AB03A4E009E9E4F800BC45F6 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = AB03A4D809E9E4F800BC45F6 /* Help */; };
+		AB20293309F3DA6400BF4288 /* PrefsGeneral.png in Resources */ = {isa = PBXBuildFile; fileRef = AB20293109F3DA6400BF4288 /* PrefsGeneral.png */; };
+		AB20293409F3DA6400BF4288 /* PrefsAdvanced.png in Resources */ = {isa = PBXBuildFile; fileRef = AB20293209F3DA6400BF4288 /* PrefsAdvanced.png */; };
+		AB26FECA0B3CA3A9005E6081 /* Nano.nib in Resources */ = {isa = PBXBuildFile; fileRef = AB26FEC80B3CA3A9005E6081 /* Nano.nib */; };
+		AB3426D50ADAC99A003CABBF /* Demo Cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = AB3426D40ADAC99A003CABBF /* Demo Cursor.png */; };
+		AB46035F0AD6891C001A64FF /* Demo Splash.png in Resources */ = {isa = PBXBuildFile; fileRef = AB46035E0AD6891C001A64FF /* Demo Splash.png */; };
+		AB46080A0AD6BAAA001A64FF /* Demo PDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AB4608090AD6BAA9001A64FF /* Demo PDF.pdf */; };
+		AB5A12E009E8527800425D4B /* CToolbarDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5A12DF09E8527800425D4B /* CToolbarDocument.cpp */; };
+		AB5A159609E94BA700425D4B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB5A159409E94BA700425D4B /* Localizable.strings */; };
+		AB5B29BD09CAD871008C593C /* NanoDemo.nib in Resources */ = {isa = PBXBuildFile; fileRef = AB5B29B909CAD871008C593C /* NanoDemo.nib */; };
+		AB5B29BF09CAD871008C593C /* NanoDemo.icns in Resources */ = {isa = PBXBuildFile; fileRef = AB5B29BC09CAD871008C593C /* NanoDemo.icns */; };
+		AB5B29C309CAD87B008C593C /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5B29C109CAD87B008C593C /* CApplication.cpp */; };
+		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
+		AB6F72350AD648630002D2FC /* CWindowNanoViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB6F72340AD648630002D2FC /* CWindowNanoViews.cpp */; };
+		AB6F737B0AD652DA0002D2FC /* CMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB6F737A0AD652DA0002D2FC /* CMenuView.cpp */; };
+		AB6F74540AD657610002D2FC /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6F74520AD657610002D2FC /* AGL.framework */; };
+		AB6F74550AD657610002D2FC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6F74530AD657610002D2FC /* OpenGL.framework */; };
+		AB6F81320ADCF5EC00EB309F /* Button Pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = AB6F812F0ADCF5EC00EB309F /* Button Pressed.png */; };
+		AB6F81330ADCF5EC00EB309F /* Button Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AB6F81300ADCF5EC00EB309F /* Button Active.png */; };
+		AB6F81340ADCF5EC00EB309F /* Button Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AB6F81310ADCF5EC00EB309F /* Button Inactive.png */; };
+		AB8F42580B3C9DDB00E5F96A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8F42550B3C9DDB00E5F96A /* Security.framework */; };
+		AB8F42590B3C9DDB00E5F96A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8F42560B3C9DDB00E5F96A /* SystemConfiguration.framework */; };
+		AB8F425A0B3C9DDB00E5F96A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8F42570B3C9DDB00E5F96A /* WebKit.framework */; };
+		ABAB85880A10FFDF002CFA79 /* CShapeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAB85870A10FFDF002CFA79 /* CShapeView.cpp */; };
+		ABAB85950A110105002CFA79 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAB85940A110105002CFA79 /* Accelerate.framework */; };
+		ABAB863C0A110A61002CFA79 /* Width2.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB86350A110A61002CFA79 /* Width2.png */; };
+		ABAB863D0A110A61002CFA79 /* StyleDash.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB86360A110A61002CFA79 /* StyleDash.png */; };
+		ABAB863E0A110A61002CFA79 /* Width1.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB86370A110A61002CFA79 /* Width1.png */; };
+		ABAB863F0A110A61002CFA79 /* StyleSolid.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB86380A110A61002CFA79 /* StyleSolid.png */; };
+		ABAB86400A110A61002CFA79 /* Width4.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB86390A110A61002CFA79 /* Width4.png */; };
+		ABAB86410A110A61002CFA79 /* StyleDot.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB863A0A110A61002CFA79 /* StyleDot.png */; };
+		ABAB86420A110A61002CFA79 /* Width8.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAB863B0A110A61002CFA79 /* Width8.png */; };
+		ABAC627509E1A9F300710EC7 /* FileDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABAC627409E1A9F300710EC7 /* FileDocument.icns */; };
+		ABB854B909E6617A005F9BCD /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB854B809E6617A005F9BCD /* QuickTime.framework */; };
+		ABD741C10A62D136001029EB /* Nano.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABD741BF0A62D136001029EB /* Nano.strings */; };
+		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
+		ABE800140A06D092005DEFA3 /* CWindowDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE800100A06D092005DEFA3 /* CWindowDocument.cpp */; };
+		ABE800150A06D092005DEFA3 /* CWindowPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE800120A06D092005DEFA3 /* CWindowPreferences.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC06F0554671400DB518D;
+			remoteInfo = Nano;
+		};
+		ABE0709509FBBC890031D3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC06E0554671400DB518D;
+			remoteInfo = Nano;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		8D0C4E970486CD37000505A6 /* NanoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB03A17809E9BE0D00BC45F6 /* DocAbout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocAbout.png; sourceTree = "<group>"; };
+		AB03A4D909E9E4F800BC45F6 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
+		AB20293109F3DA6400BF4288 /* PrefsGeneral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrefsGeneral.png; sourceTree = "<group>"; };
+		AB20293209F3DA6400BF4288 /* PrefsAdvanced.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrefsAdvanced.png; sourceTree = "<group>"; };
+		AB26FEC90B3CA3A9005E6081 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ../../../Library/Resources/English.lproj/Nano.nib; sourceTree = SOURCE_ROOT; };
+		AB3426D40ADAC99A003CABBF /* Demo Cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Demo Cursor.png"; sourceTree = "<group>"; };
+		AB46035E0AD6891C001A64FF /* Demo Splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Demo Splash.png"; sourceTree = "<group>"; };
+		AB46079E0AD6B5D9001A64FF /* Read Me.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "Read Me.rtf"; path = "../Read Me.rtf"; sourceTree = SOURCE_ROOT; };
+		AB4608090AD6BAA9001A64FF /* Demo PDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Demo PDF.pdf"; sourceTree = "<group>"; };
+		AB5A12DE09E8527800425D4B /* CToolbarDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CToolbarDocument.h; sourceTree = "<group>"; };
+		AB5A12DF09E8527800425D4B /* CToolbarDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CToolbarDocument.cpp; sourceTree = "<group>"; };
+		AB5A159509E94BA700425D4B /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
+		AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
+		AB5B29B609CAD866008C593C /* NanoDemo Build.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NanoDemo Build.h"; sourceTree = "<group>"; };
+		AB5B29B709CAD866008C593C /* NanoDemo Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NanoDemo Prefix.pch"; sourceTree = "<group>"; };
+		AB5B29BA09CAD871008C593C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/NanoDemo.nib; sourceTree = "<group>"; };
+		AB5B29BB09CAD871008C593C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5B29BC09CAD871008C593C /* NanoDemo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = NanoDemo.icns; sourceTree = "<group>"; };
+		AB5B29C109CAD87B008C593C /* CApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CApplication.cpp; sourceTree = "<group>"; };
+		AB5B29C209CAD87B008C593C /* CApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CApplication.h; sourceTree = "<group>"; };
+		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		AB6F72330AD648630002D2FC /* CWindowNanoViews.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowNanoViews.h; sourceTree = "<group>"; };
+		AB6F72340AD648630002D2FC /* CWindowNanoViews.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowNanoViews.cpp; sourceTree = "<group>"; };
+		AB6F73790AD652DA0002D2FC /* CMenuView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CMenuView.h; sourceTree = "<group>"; };
+		AB6F737A0AD652DA0002D2FC /* CMenuView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CMenuView.cpp; sourceTree = "<group>"; };
+		AB6F74520AD657610002D2FC /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
+		AB6F74530AD657610002D2FC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		AB6F812F0ADCF5EC00EB309F /* Button Pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Button Pressed.png"; sourceTree = "<group>"; };
+		AB6F81300ADCF5EC00EB309F /* Button Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Button Active.png"; sourceTree = "<group>"; };
+		AB6F81310ADCF5EC00EB309F /* Button Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Button Inactive.png"; sourceTree = "<group>"; };
+		AB8F42550B3C9DDB00E5F96A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		AB8F42560B3C9DDB00E5F96A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		AB8F42570B3C9DDB00E5F96A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		ABAB85860A10FFDF002CFA79 /* CShapeView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CShapeView.h; sourceTree = "<group>"; };
+		ABAB85870A10FFDF002CFA79 /* CShapeView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CShapeView.cpp; sourceTree = "<group>"; };
+		ABAB85940A110105002CFA79 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
+		ABAB86350A110A61002CFA79 /* Width2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Width2.png; sourceTree = "<group>"; };
+		ABAB86360A110A61002CFA79 /* StyleDash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StyleDash.png; sourceTree = "<group>"; };
+		ABAB86370A110A61002CFA79 /* Width1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Width1.png; sourceTree = "<group>"; };
+		ABAB86380A110A61002CFA79 /* StyleSolid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StyleSolid.png; sourceTree = "<group>"; };
+		ABAB86390A110A61002CFA79 /* Width4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Width4.png; sourceTree = "<group>"; };
+		ABAB863A0A110A61002CFA79 /* StyleDot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StyleDot.png; sourceTree = "<group>"; };
+		ABAB863B0A110A61002CFA79 /* Width8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Width8.png; sourceTree = "<group>"; };
+		ABAC627409E1A9F300710EC7 /* FileDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FileDocument.icns; sourceTree = "<group>"; };
+		ABB854B809E6617A005F9BCD /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		ABD741C00A62D136001029EB /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = ../../../Library/Resources/English.lproj/Nano.strings; sourceTree = SOURCE_ROOT; };
+		ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
+		ABE800100A06D092005DEFA3 /* CWindowDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowDocument.cpp; sourceTree = "<group>"; };
+		ABE800110A06D092005DEFA3 /* CWindowDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowDocument.h; sourceTree = "<group>"; };
+		ABE800120A06D092005DEFA3 /* CWindowPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowPreferences.cpp; sourceTree = "<group>"; };
+		ABE800130A06D092005DEFA3 /* CWindowPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowPreferences.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D0C4E910486CD37000505A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */,
+				ABAB85950A110105002CFA79 /* Accelerate.framework in Frameworks */,
+				AB6F74540AD657610002D2FC /* AGL.framework in Frameworks */,
+				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
+				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
+				AB6F74550AD657610002D2FC /* OpenGL.framework in Frameworks */,
+				ABB854B909E6617A005F9BCD /* QuickTime.framework in Frameworks */,
+				AB8F42580B3C9DDB00E5F96A /* Security.framework in Frameworks */,
+				AB8F42590B3C9DDB00E5F96A /* SystemConfiguration.framework in Frameworks */,
+				AB8F425A0B3C9DDB00E5F96A /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		195DF8CFFE9D517E11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D0C4E970486CD37000505A6 /* NanoDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20286C29FDCF999611CA2CEA /* NanoDemo */ = {
+			isa = PBXGroup;
+			children = (
+				AB46079E0AD6B5D9001A64FF /* Read Me.rtf */,
+				AB5B29A909CAD85D008C593C /* Configuration */,
+				AB5B29B509CAD866008C593C /* Prefix */,
+				AB5B29C009CAD87B008C593C /* Source */,
+				AB5B29B809CAD871008C593C /* Resources */,
+				20286C32FDCF999611CA2CEA /* Frameworks */,
+				AB5B29DB09CAD8B7008C593C /* Dependencies */,
+				195DF8CFFE9D517E11CA2CBB /* Products */,
+			);
+			name = NanoDemo;
+			sourceTree = "<group>";
+		};
+		20286C32FDCF999611CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ABAB85940A110105002CFA79 /* Accelerate.framework */,
+				AB6F74520AD657610002D2FC /* AGL.framework */,
+				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				AB6E7E3609F9052300F73093 /* Cocoa.framework */,
+				AB6F74530AD657610002D2FC /* OpenGL.framework */,
+				ABB854B809E6617A005F9BCD /* QuickTime.framework */,
+				AB8F42550B3C9DDB00E5F96A /* Security.framework */,
+				AB8F42560B3C9DDB00E5F96A /* SystemConfiguration.framework */,
+				AB8F42570B3C9DDB00E5F96A /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB5B29A909CAD85D008C593C /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */,
+				AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */,
+				AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */,
+			);
+			name = Configuration;
+			path = ../../../Support/Xcode/Configuration;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29B509CAD866008C593C /* Prefix */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29B609CAD866008C593C /* NanoDemo Build.h */,
+				AB5B29B709CAD866008C593C /* NanoDemo Prefix.pch */,
+			);
+			name = Prefix;
+			path = ../Prefix;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29B809CAD871008C593C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29BB09CAD871008C593C /* Info.plist */,
+				ABD741BF0A62D136001029EB /* Nano.strings */,
+				AB5A159409E94BA700425D4B /* Localizable.strings */,
+				AB26FEC80B3CA3A9005E6081 /* Nano.nib */,
+				AB5B29B909CAD871008C593C /* NanoDemo.nib */,
+				AB03A4D809E9E4F800BC45F6 /* Help */,
+				AB6F81300ADCF5EC00EB309F /* Button Active.png */,
+				AB6F81310ADCF5EC00EB309F /* Button Inactive.png */,
+				AB6F812F0ADCF5EC00EB309F /* Button Pressed.png */,
+				AB3426D40ADAC99A003CABBF /* Demo Cursor.png */,
+				AB4608090AD6BAA9001A64FF /* Demo PDF.pdf */,
+				AB46035E0AD6891C001A64FF /* Demo Splash.png */,
+				AB03A17809E9BE0D00BC45F6 /* DocAbout.png */,
+				AB20293209F3DA6400BF4288 /* PrefsAdvanced.png */,
+				AB20293109F3DA6400BF4288 /* PrefsGeneral.png */,
+				ABAB86360A110A61002CFA79 /* StyleDash.png */,
+				ABAB863A0A110A61002CFA79 /* StyleDot.png */,
+				ABAB86380A110A61002CFA79 /* StyleSolid.png */,
+				ABAB86370A110A61002CFA79 /* Width1.png */,
+				ABAB86350A110A61002CFA79 /* Width2.png */,
+				ABAB86390A110A61002CFA79 /* Width4.png */,
+				ABAB863B0A110A61002CFA79 /* Width8.png */,
+				ABAC627409E1A9F300710EC7 /* FileDocument.icns */,
+				AB5B29BC09CAD871008C593C /* NanoDemo.icns */,
+			);
+			name = Resources;
+			path = ../Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29C009CAD87B008C593C /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29C109CAD87B008C593C /* CApplication.cpp */,
+				AB5B29C209CAD87B008C593C /* CApplication.h */,
+				ABE8000F0A06D092005DEFA3 /* Controllers */,
+				ABA3BF9A09CEF24500072AD6 /* Models */,
+				ABA3BF9609CEF24500072AD6 /* Views */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29DB09CAD8B7008C593C /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		ABA3BF9609CEF24500072AD6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB6F737A0AD652DA0002D2FC /* CMenuView.cpp */,
+				AB6F73790AD652DA0002D2FC /* CMenuView.h */,
+				ABAB85870A10FFDF002CFA79 /* CShapeView.cpp */,
+				ABAB85860A10FFDF002CFA79 /* CShapeView.h */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ABA3BF9A09CEF24500072AD6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB5A12DF09E8527800425D4B /* CToolbarDocument.cpp */,
+				AB5A12DE09E8527800425D4B /* CToolbarDocument.h */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABE0709009FBBC7A0031D3D1 /* libNano.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABE8000F0A06D092005DEFA3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ABE800100A06D092005DEFA3 /* CWindowDocument.cpp */,
+				ABE800110A06D092005DEFA3 /* CWindowDocument.h */,
+				AB6F72340AD648630002D2FC /* CWindowNanoViews.cpp */,
+				AB6F72330AD648630002D2FC /* CWindowNanoViews.h */,
+				ABE800120A06D092005DEFA3 /* CWindowPreferences.cpp */,
+				ABE800130A06D092005DEFA3 /* CWindowPreferences.h */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D0C4E890486CD37000505A6 /* NanoDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoDemo" */;
+			buildPhases = (
+				AB866D4B0A7C047A008B7017 /* ShellScript */,
+				8D0C4E8C0486CD37000505A6 /* Resources */,
+				8D0C4E8F0486CD37000505A6 /* Sources */,
+				8D0C4E910486CD37000505A6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABE0709609FBBC890031D3D1 /* PBXTargetDependency */,
+			);
+			name = NanoDemo;
+			productInstallPath = "$(HOME)/Applications";
+			productName = NanoDemo;
+			productReference = 8D0C4E970486CD37000505A6 /* NanoDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20286C28FDCF999611CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoDemo" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 20286C29FDCF999611CA2CEA /* NanoDemo */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABE0708B09FBBC7A0031D3D1 /* Products */;
+					ProjectRef = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+				},
+			);
+			targets = (
+				8D0C4E890486CD37000505A6 /* NanoDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABE0709009FBBC7A0031D3D1 /* libNano.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNano.a;
+			remoteRef = ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D0C4E8C0486CD37000505A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABD741C10A62D136001029EB /* Nano.strings in Resources */,
+				AB5A159609E94BA700425D4B /* Localizable.strings in Resources */,
+				AB26FECA0B3CA3A9005E6081 /* Nano.nib in Resources */,
+				AB5B29BD09CAD871008C593C /* NanoDemo.nib in Resources */,
+				AB03A4E009E9E4F800BC45F6 /* Help in Resources */,
+				AB6F81330ADCF5EC00EB309F /* Button Active.png in Resources */,
+				AB6F81340ADCF5EC00EB309F /* Button Inactive.png in Resources */,
+				AB6F81320ADCF5EC00EB309F /* Button Pressed.png in Resources */,
+				AB3426D50ADAC99A003CABBF /* Demo Cursor.png in Resources */,
+				AB46080A0AD6BAAA001A64FF /* Demo PDF.pdf in Resources */,
+				AB46035F0AD6891C001A64FF /* Demo Splash.png in Resources */,
+				AB03A17909E9BE0D00BC45F6 /* DocAbout.png in Resources */,
+				AB20293409F3DA6400BF4288 /* PrefsAdvanced.png in Resources */,
+				AB20293309F3DA6400BF4288 /* PrefsGeneral.png in Resources */,
+				ABAB863D0A110A61002CFA79 /* StyleDash.png in Resources */,
+				ABAB86410A110A61002CFA79 /* StyleDot.png in Resources */,
+				ABAB863F0A110A61002CFA79 /* StyleSolid.png in Resources */,
+				ABAB863E0A110A61002CFA79 /* Width1.png in Resources */,
+				ABAB863C0A110A61002CFA79 /* Width2.png in Resources */,
+				ABAB86400A110A61002CFA79 /* Width4.png in Resources */,
+				ABAB86420A110A61002CFA79 /* Width8.png in Resources */,
+				ABAC627509E1A9F300710EC7 /* FileDocument.icns in Resources */,
+				AB5B29BF09CAD871008C593C /* NanoDemo.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AB866D4B0A7C047A008B7017 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This Script Phase is only needed for the demo projects to ensure\n# that the Nano source tree has been defined prior to rebuilding.\n#\n# Since the classes in these projects need access to Nano's headers,\n# the projects rely on the Nano .xcconfig files adding suitable header\n# search paths relative to the Nano source tree.\n#\n# Nano-based projects created from the Xcode template do not contain\n# this build phase, and your own projects will not require it either.\n#\nif [ \"$Nano\" == \"\" ]; then\n\techo \"To rebuild this demo, please run XcodeExtras.pl to define the Nano source tree (see the Quick Start guide)\"\n\texit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D0C4E8F0486CD37000505A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB5B29C309CAD87B008C593C /* CApplication.cpp in Sources */,
+				ABE800140A06D092005DEFA3 /* CWindowDocument.cpp in Sources */,
+				AB6F72350AD648630002D2FC /* CWindowNanoViews.cpp in Sources */,
+				ABE800150A06D092005DEFA3 /* CWindowPreferences.cpp in Sources */,
+				AB5A12E009E8527800425D4B /* CToolbarDocument.cpp in Sources */,
+				AB6F737B0AD652DA0002D2FC /* CMenuView.cpp in Sources */,
+				ABAB85880A10FFDF002CFA79 /* CShapeView.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABE0709609FBBC890031D3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano;
+			targetProxy = ABE0709509FBBC890031D3D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AB03A4D809E9E4F800BC45F6 /* Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB03A4D909E9E4F800BC45F6 /* English */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		AB26FEC80B3CA3A9005E6081 /* Nano.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB26FEC90B3CA3A9005E6081 /* English */,
+			);
+			name = Nano.nib;
+			sourceTree = "<group>";
+		};
+		AB5A159409E94BA700425D4B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB5A159509E94BA700425D4B /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		AB5B29B909CAD871008C593C /* NanoDemo.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB5B29BA09CAD871008C593C /* English */,
+			);
+			name = NanoDemo.nib;
+			sourceTree = "<group>";
+		};
+		ABD741BF0A62D136001029EB /* Nano.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABD741C00A62D136001029EB /* English */,
+			);
+			name = Nano.strings;
+			path = ../../../Library/Resources/English.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C0E91AC608A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/NanoDemo Prefix.pch";
+				INFOPLIST_FILE = ../Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../Prefix/NanoDemo Build.h";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = NanoDemo;
+			};
+			name = Debug;
+		};
+		C0E91AC708A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/NanoDemo Prefix.pch";
+				INFOPLIST_FILE = ../Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../Prefix/NanoDemo Build.h";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = NanoDemo;
+			};
+			name = Release;
+		};
+		C0E91ACA08A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C0E91ACB08A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91AC608A95435008D54AB /* Debug */,
+				C0E91AC708A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91ACA08A95435008D54AB /* Debug */,
+				C0E91ACB08A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20286C28FDCF999611CA2CEA /* Project object */;
+}

@@ -1,0 +1,318 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Version History</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Version History</h1>
+
+<h2>Nano 1.2</h2>
+<ul>
+	<li>Released 2007/01/26
+	<li>New Classes
+		<ul>
+		<li>NAuthorization (obtains authorization for privileged operations)
+		<li>NBitVector (packed bit vector)
+		<li>NCFStream (wraps a CFStreamRef)
+		<li>NClientHTTP (CFNetwork-based HTTP client)
+		<li>NCommandDialog (command-based modal dialog)
+		<li>NDate (replaces NCFDate as a core date object)
+		<li>NFileIterator (FSIterator-based file iterator)
+		<li>NFileOperation (Authorization-aware FSCopyObject/FSMoveObject wrapper)
+		<li>NKeyboardUtilities (one-liners for keyboard tasks)
+		<li>NLock (provides mutex, reader-writer, and spin locks)
+		<li>NNetworkUtilities (one-liners for network tasks)
+		<li>NProcess (process object)
+		<li>NProcessUtilities (one-liners for process management)
+		<li>NSoftwareUpdate (Software Update engine based on AppCasting)
+		<li>NStatusBar (implements a status bar view)
+		<li>NTimeUtilities (one-liners for time tasks)
+		<li>NWindowPanels (base class for panel-based windows)
+		<li>NXMLTree (XML parser)
+		</ul>
+	<li>Existing Classes
+		<ul>
+		<li>NApplication, added support for Software Update
+		<li>NApplication, now derives from NMsgListener to allow sub-classes to filter File Open
+		<li>NApplication, now include kAppDefaultPrefsKey in default properties
+		<li>NApplication, now only register Help Book when CFBundleHelpBookName is set
+		<li>NArray, added Sort
+		<li>NCarbonEvent, added CFIndex and CFRange accessors
+		<li>NCarbonEvent, GetParameterPointer now treats typeVoidPtr and typePtr as equivalent (<a href="rdar://4852232">rdar://4852232</a>)
+		<li>NCarbonEventHandler, added more NHIWebView events
+		<li>NCFBundle, added GetInfoBoolean for accessing Info.plist flags
+		<li>NCFBundle, added more Info.plist keys and standard bundle identifiers
+		<li>NCFBundle, added NFile constructor
+		<li>NCFBundle, now search LaunchServices if identifier not found in open bundles
+		<li>NCFObject, added DoObjectChanging
+		<li>NCFObject, added GetType
+		<li>NCFPreferences, added [GS]etAlias
+		<li>NCFURL, now URL-encode strings in constructor
+		<li>NCGContext, added additional drawing operations
+		<li>NCGShading, added tags for shading modes and orientations
+		<li>NData, added IsEmpty/IsNotEmpty
+		<li>NData, AppendData now accepts NULL pointers and zero-fills new space
+		<li>NDataBrowser, fixed potential crash if GetSource called with no source
+		<li>NDebug, now strip source file path from assertions by default
+		<li>NDictionary, added GetKeys
+		<li>NEditText, added "command editor" mode to dispatch command when confirmed
+		<li>NEditText, added support for Command-Control-D dictionary lookup (<a href="rdar://4854061">rdar://4854061</a>)
+		<li>NEditText, now use CFRange for selection accessors
+		<li>NFile, added [GS]etForkPosition and [GS]etForkSize
+		<li>NFile, added [GS]etPermissions
+		<li>NFile, added IsWriteable
+		<li>NFile, now close file on destruction
+		<li>NFile, ReadFile now returns the correct size when reading to the end of a file
+		<li>NFile, WriteFile now takes a default posMode of fsFromMark rather than fsFromStart
+		<li>NFileUtilities, added FindBundle to find a bundle by identifier or name regexp
+		<li>NFileUtilities, added FindFiles to locate files with a name/path regexp
+		<li>NFileUtilities, added MountDMG and UnmountDMG
+		<li>NFileUtilities, added MoveToTrash
+		<li>NFileUtilities, added RedirectStderr to silence spurious stderr output from system calls
+		<li>NFileUtilities, GetUniqueFile now adds numeric suffix only when necessary
+		<li>NFlatButton, reduced shadow alpha to improve appearance on dark backgrounds
+		<li>NGlassButton, reduced shadow alpha to improve appearance on dark backgrounds
+		<li>NHIToolbarItem, can now set image from bundle resource, Icons.h enum, or bundle identifier
+		<li>NHIView, added GetFontStyle
+		<li>NHIView, added SendCommand
+		<li>NHIView, added SimulateClick to click the "clickable part" of a view (<a href="rdar://4836048">rdar://4836048</a>)
+		<li>NHIView, renamed [GS]etPercentageValue to [GS]etPercentValue
+		<li>NHIViewUtilities, added GetClickablePart to get the "clickable part" of a view
+		<li>NHIViewUtilities, added ReplaceTextValue to replace part of a view's text value
+		<li>NHIWebView, added kHIViewOption flag to control if links are opened externally
+		<li>NHIWebView, added kHIViewOption flags to control update of window title/proxy icon
+		<li>NHIWebView, fixed WebView bugs where HIViewRef frame not kept in sync (<a href="rdar://4698242">rdar://4698242</a> and <a href="rdar://4845721">rdar://4845721</a>)
+		<li>NIBUtilities, SendEventToViews now handles views being created during processing
+		<li>NIBWindow, added ResetViews to allow view connections to be reset
+		<li>NIcon, now treat name as a bundle identifier if .icns resource not found
+		<li>NLevelIndicator, reduced shadow alpha to improve appearance on dark backgrounds
+		<li>NLittleArrows, now increments/decrements the value when up/down parts are clicked
+		<li>NMathUtilities, added degree/radian conversion
+		<li>NMathUtilities, added fast absolute, reciprocal, square root, and inverse square root methods
+		<li>NMathUtilities, added point-point and point-line distance methods
+		<li>NMathUtilities, added RotateLeft and RotateRight
+		<li>NPanelController, now set layout of newly loaded panels to kBindAllSides
+		<li>NPopupButton, added GetMenuItem
+		<li>NPropertyFile, can now load/save file from an NString or NCFStream
+		<li>NScrollableView, now invalidate view when changing frame style or background color
+		<li>NShadingView, added Interface Builder tags for shading colors
+		<li>NShadingView, added support for drawing a frame
+		<li>NStandardAlert, fixed double-dispose when attached to an NWindowController as a sheet
+		<li>NString, added IsMatch and FindPattern that accept PCRE-based regular expressions
+		<li>NString, added OSType and NData constructors
+		<li>NString, added Split
+		<li>NSystemUtilities, added CompareVersions for smart version comparisons (1.0a3 &lt; 1.0b2 &lt; 1.0 RC1 &lt; 1.0)
+		<li>NSystemUtilities, added GetMainRunLoop
+		<li>NSystemUtilities, added vector_push_front, vector_fetch_back, and container_join helpers for STL usage
+		<li>NTask, now pass arguments as an NStringList rather than an NArray
+		<li>NTextUtilities, added CollectArguments to create an NStringList from a NULL-terminated list
+		<li>NTextUtilities, added ExpandTile to perform csh-style tilde expansion
+		<li>NTextUtilities, added GetTransferInfo to build a Safari-style progress string from bytes/throughput/ETA
+		<li>NThemeUtilities, moved ShowEffect from NSystemUtilities
+		<li>NWindowController, CreateController now resets NIBWindow on failure (or views will be mixed between windows)
+		<li>NWindowController, now don't close alert sheets if they have already closed
+		<li>NWindowPreferences, moved panel-based functionality to NWindowPanels
+		</ul>
+	<li>Miscellaneous Changes
+		<ul>
+		<li>Added kCFAllocatorNano, to allow for global allocator replacement.
+		<li>Added NStatusBar to NanoDemo view window
+		<li>Added PCRE 7.0 to distribution for Unicode-savvy regular expression support
+		<li>Added Software Update support to demos and templates
+		<li>Fixed some UK spellings
+		<li>Templates now update rather than replace NApplication's kAppDefaultPrefsKey
+		</ul>
+</ul>
+
+
+
+<h2>Nano 1.1</h2>
+<ul>
+	<li>Released 2006/10/30
+	<li>New Classes
+		<ul>
+		<li>NAppleEvent (wraps an AppleEvent)
+		<li>NBezelView (view that renders a translucent round-rect)
+		<li>NDialView (implements Cocoa's "round slider")
+		<li>NFlatButton (implements Cocoa's "small square button")
+		<li>NGlassButton (implements Cocoa's "round textured button")
+		<li>NHelpUtilities (one-liners for help tags)
+		<li>NImageButton (skinnable image-based push button)
+		<li>NLabelView (implements Finder's label color menu item)
+		<li>NLevelIndicator (implements Cocoa's NSLevelIndicator)
+		<li>NMembraneButton (implements Finder's "membrane button")
+		<li>NMenu (wraps a MenuRef)
+		<li>NMenuitem (wraps a MenuRef and specific MenuItemIndex)
+		<li>NMenuItemView (base class for custom menu item views)
+		<li>NMouseUtilities (one-liners for mouse tasks)
+		<li>NPDFView (view that displays PDF content)
+		<li>NProgressPie (implements Xcode's "build progress" view)
+		<li>NRatingBar (implements iTunes "song rating" view)
+		<li>NRecentItems (provides an advanced "Open Recent" menu)
+		<li>NReflectionView (view that renders a reflection of another view)
+		<li>NShadingView (view that renders an NCGShading)
+		<li>NThemeUtilities (one-liners for HITheme)
+		<li>NWindowSplashScreen (provides a transparent splash screen)
+		</ul>
+	<li>Existing Classes
+		<ul>
+		<li>NAlias, fixed bug where invalid FSRef used when resolving
+		<li>NApplication, added Open Recent menu support
+		<li>NApplication, automatically augments Help menu if required
+		<li>NApplication, automatically displays splash screen if required
+		<li>NArray, can now store NData objects
+		<li>NCarbonEvent, added HasParameter and menu/view accessors
+		<li>NCarbonEventHandler, now remove existing handler when installing handler
+		<li>NCFPreferences, fixed bug where wrong .plist was used
+		<li>NCGContext, added additional drawing operations
+		<li>NCGShading, now lazily-evaluate changes and minimize rebuilds
+		<li>NDictionary, added RemoveKey
+		<li>NDictionary, can now store NData objects
+		<li>NDocument, added Open Recent menu support
+		<li>NHITextView, fixed incorrect sizeof() in GetTextValue
+		<li>NHIView, added attribute and option flags
+		<li>NHIView, added automatic state-change invalidation support
+		<li>NHIView, added Get/SetHilite
+		<li>NHIView, added Get/SetPercentageValue
+		<li>NHIView, added HIViewCreate inline to make view construction a one-liner	
+		<li>NHIView, added IB properties to set the min/max/current/text values
+		<li>NHIView, added mouse tracking support
+		<li>NHIView, added Render
+		<li>NHIView, fixed memory corruption in GetControlData
+		<li>NHIWindow, added Get/SetAlpha to provide translucent windows
+		<li>NHIWindow, added Is/SetContentTransparent to provide transparent windows
+		<li>NIBUtilities, now suppress stderr output from IBCarbonRuntime (<a href="rdar://4773703">rdar://4773703</a>)
+		<li>NIBView, added const dereference operators
+		<li>NScrollableView, added "canvas mode" for embedding views (<a href="rdar://4803121">rdar://4803121</a>)
+		<li>NSlider, fixed crash during non-live slider tracking (<a href="rdar://4057871">rdar://4057871</a>)
+		<li>NSystemUtilities, added ShowEffect for displaying "poof" animation
+		<li>NTextUtilities, now use big-endian for OSType conversion
+		<li>NTextUtilities, now use system encoding for Str255 conversion
+		</ul>
+	<li>Miscellaneous Changes
+		<ul>
+		<li>Added "Demos" menu to NanoDemo to exercise new features
+		<li>Added documentation to cover new <a href="features.html">features</a> and <a href="nanoviews.html">views</a>
+		<li>Added Nano Notes.h to flag any required changes
+		<li>Added Read Me files to stationary and demo projects
+		<li>Fixed some UK spellings
+		</ul>
+</ul>
+
+
+
+<h2>Nano 1.0.1</h2>
+<ul>
+	<li>Released 2006/09/26
+	<li>New Classes
+		<ul>
+		<li>NTask (execute Unix tasks)
+		<li>NUndoManager (provides one-line undo)
+		</ul>
+	<li>Existing Classes
+		<ul>
+		<li>NCFBundle, added NBundleResource/NBundleString helpers
+		<li>NColorPicker, broadcasts mouse tracking begin/end messages
+		</ul>
+	<li>Miscellaneous Changes
+		<ul>
+		<li>Added <a href="standards.html">Coding Standards</a> and <a href="undo.html">Implementing Undo</a> documents
+		<li>Fixed link warning when building demos to a shared build area
+		<li>Fixed typo in TargetCommon.xcconfig that disabled compiler warnings
+		</ul>
+</ul>
+
+
+
+<h2>Nano 1.0</h2>
+<ul>
+	<li>Released 2006/09/06
+</ul>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+
