@@ -1,0 +1,31 @@
+/*	NAME:
+		NW Prefix.pch
+
+	DESCRIPTION:
+		NanoWeb prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) 2006, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef NW_PREFIX_HDR
+#define NW_PREFIX_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano 64.h"
+
+#include <Carbon/Carbon.h>
+
+#include "NDebug.h"
+
+
+
+
+
+#endif // NW_PREFIX_HDR
+
+

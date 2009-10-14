@@ -1,0 +1,39 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf380
+{\fonttbl\f0\fnil\fcharset77 LucidaGrande-Bold;\f1\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15540\viewh15160\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 NanoViewer Read Me\
+
+\f1\b0 NanoViewer is a simple Preview-style image viewer, which demonstrates:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\ql\qnatural\pardirnatural
+\cf0 o A document-based application with preferences\
+o A document object that uses a toolbar and can load/save/print the document content\
+o A single-paned preferences window\
+o A custom toolbar that contains "icon+text" toolbar items \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \
+Points of interest regarding CWindowDocument include:\
+\
+	o Overriding LoadSelf/SaveSelf to replace NDocument's default file handling\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\ql\qnatural\pardirnatural
+\cf0 o Using GetPrintView to obtain automatic single-page printing of its content\
+o Using DoMessage to obtain live feedback from the color picker\
+o Using NIB_VIEW to automatically create, initialize, and connect to a .nib view\
+o Using a system view, NHIImageView, to render the document content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \
+
+\f0\b NHIImageView Notes
+\f1\b0 \
+NHIImageView provides most of the functionality for the document, including:\
+\
+	o Support for drag and drop, simply by indicating the UTIs that can be dropped\
+	o Support for editing actions, such as copying the image to the clipboard\
+	o Can render the image in a variety of view-fitting styles\
+	o Can zoom and scroll the image\
+\
+NHIImageView is a subclass of the system HIImageView, with suitable overrides to customise the appearance of the image and support zooming.\
+}

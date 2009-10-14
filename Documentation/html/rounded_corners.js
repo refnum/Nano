@@ -114,8 +114,8 @@
       var boxHeight       = get_style(this.box, "height", "height");
       var boxWidth        = get_style(this.box, "width", "width");
       var borderWidth     = get_style(this.box, "borderTopWidth", "border-top-width");
-      var borderColor     = get_style(this.box, "borderTopColor", "border-top-color");
-      var boxColor        = get_style(this.box, "backgroundColor", "background-color");
+      var borderColour    = get_style(this.box, "borderTopColor", "border-top-color");
+      var boxColour       = get_style(this.box, "backgroundColor", "background-color");
       var backgroundImage = get_style(this.box, "backgroundImage", "background-image");
       var boxPosition     = get_style(this.box, "position", "position");
       var boxPadding      = get_style(this.box, "paddingTop", "padding-top");
@@ -124,10 +124,10 @@
       this.boxHeight       = parseInt(((boxHeight != "" && boxHeight != "auto" && boxHeight.indexOf("%") == -1)? boxHeight.substring(0, boxHeight.indexOf("px")) : this.box.scrollHeight));
       this.boxWidth        = parseInt(((boxWidth != "" && boxWidth != "auto" && boxWidth.indexOf("%") == -1)? boxWidth.substring(0, boxWidth.indexOf("px")) : this.box.scrollWidth));
       this.borderWidth     = parseInt(((borderWidth != "" && borderWidth.indexOf("px") !== -1)? borderWidth.slice(0, borderWidth.indexOf("px")) : 0));
-      this.boxColor        = format_color(boxColor);
+      this.boxColour       = format_colour(boxColour);
       this.boxPadding      = parseInt(((boxPadding != "" && boxPadding.indexOf("px") !== -1)? boxPadding.slice(0, boxPadding.indexOf("px")) : 0));
-      this.borderColor     = format_color(borderColor);
-      this.borderString    = this.borderWidth + "px" + " solid " + this.borderColor;
+      this.borderColour    = format_colour(borderColour);
+      this.borderString    = this.borderWidth + "px" + " solid " + this.borderColour;
       this.backgroundImage = ((backgroundImage != "none")? backgroundImage : "");
       this.boxContent      = this.box.innerHTML;
 
@@ -237,7 +237,7 @@
 
                           // Add background image?
                           if(this.backgroundImage == "")
-                            newCorner.style.backgroundColor = this.boxColor;
+                            newCorner.style.backgroundColor = this.boxColour;
                           else
                             newCorner.style.backgroundImage = this.backgroundImage;
 
@@ -340,8 +340,8 @@
                               else
                                 var y4 = Math.ceil(Math.sqrt(Math.pow(j ,2) - Math.pow(intx, 2)));
 
-                              // Draw bar on inside of the border with foreground color
-                              if(y1 > -1) this.drawPixel(intx, 0, this.boxColor, 100, (y1+1), newCorner, -1, this.settings[cc].radius);
+                              // Draw bar on inside of the border with foreground colour
+                              if(y1 > -1) this.drawPixel(intx, 0, this.boxColour, 100, (y1+1), newCorner, -1, this.settings[cc].radius);
 
                               // Only draw border/foreground antialiased pixels and border if there is a border defined
                               if(borderRadius != j)
@@ -352,24 +352,24 @@
                                       // Draw anti-alias pixels
                                       if(this.settings.antiAlias)
                                       {
-                                          // For each of the pixels that need anti aliasing between the foreground and border color draw single pixel divs
+                                          // For each of the pixels that need anti aliasing between the foreground and border colour draw single pixel divs
                                           if(this.backgroundImage != "")
                                           {
                                               var borderFract = (pixelFraction(intx, inty, borderRadius) * 100);
 
                                               if(borderFract < 30)
                                               {
-										                                        this.drawPixel(intx, inty, this.borderColor, 100, 1, newCorner, 0, this.settings[cc].radius);
+										                                        this.drawPixel(intx, inty, this.borderColour, 100, 1, newCorner, 0, this.settings[cc].radius);
                                               }
 									                                     else
                                               {
-									                                         this.drawPixel(intx, inty, this.borderColor, 100, 1, newCorner, -1, this.settings[cc].radius);
+									                                         this.drawPixel(intx, inty, this.borderColour, 100, 1, newCorner, -1, this.settings[cc].radius);
                                               }
                                           }
                                           else
                                           {
-                                              var pixelcolor = BlendColor(this.boxColor, this.borderColor, pixelFraction(intx, inty, borderRadius));
-                                              this.drawPixel(intx, inty, pixelcolor, 100, 1, newCorner, 0, this.settings[cc].radius, cc);
+                                              var pixelcolour = BlendColour(this.boxColour, this.borderColour, pixelFraction(intx, inty, borderRadius));
+                                              this.drawPixel(intx, inty, pixelcolour, 100, 1, newCorner, 0, this.settings[cc].radius, cc);
                                           }
                                       }
                                   }
@@ -380,24 +380,24 @@
                                       if(y3 >= y2)
                                       {
                                          if (y2 == -1) y2 = 0;
-                                         this.drawPixel(intx, y2, this.borderColor, 100, (y3 - y2 + 1), newCorner, 0, 0);
+                                         this.drawPixel(intx, y2, this.borderColour, 100, (y3 - y2 + 1), newCorner, 0, 0);
                                       }
                                   }
                                   else
                                   {
                                       if(y3 >= y1)
                                       {
-                                          this.drawPixel(intx, (y1 + 1), this.borderColor, 100, (y3 - y1), newCorner, 0, 0);
+                                          this.drawPixel(intx, (y1 + 1), this.borderColour, 100, (y3 - y1), newCorner, 0, 0);
                                       }
                                   }
 
-                                  // Set the color for the outside curve
-                                  var outsideColor = this.borderColor;
+                                  // Set the colour for the outside curve
+                                  var outsideColour = this.borderColour;
                               }
                               else
                               {
                                   // Set the coour for the outside curve
-                                  var outsideColor = this.boxColor;
+                                  var outsideColour = this.boxColour;
                                   var y3 = y1;
                               }
 
@@ -407,8 +407,8 @@
                                   // Cycle the y-axis and draw the anti aliased pixels on the outside of the curve
                                   for(var inty = (y3 + 1); inty < y4; inty++)
                                   {
-                                      // For each of the pixels that need anti aliasing between the foreground/border color & background draw single pixel divs
-                                      this.drawPixel(intx, inty, outsideColor, (pixelFraction(intx, inty , j) * 100), 1, newCorner, ((this.borderWidth > 0)? 0 : -1), this.settings[cc].radius);
+                                      // For each of the pixels that need anti aliasing between the foreground/border colour & background draw single pixel divs
+                                      this.drawPixel(intx, inty, outsideColour, (pixelFraction(intx, inty , j) * 100), 1, newCorner, ((this.borderWidth > 0)? 0 : -1), this.settings[cc].radius);
                                   }
                               }
                           }
@@ -524,7 +524,7 @@
                       newFiller.style.position = "absolute";
                       newFiller.style.fontSize = "1px";
                       newFiller.style.overflow = "hidden";
-                      newFiller.style.backgroundColor = this.boxColor;
+                      newFiller.style.backgroundColor = this.boxColour;
                       //newFiller.style.backgroundColor = get_random_color();
 
                       // Position filler
@@ -565,7 +565,7 @@
                   newFillerBar.style.position = "relative";
                   newFillerBar.style.fontSize = "1px";
                   newFillerBar.style.overflow = "hidden";
-                  newFillerBar.style.backgroundColor = this.boxColor;
+                  newFillerBar.style.backgroundColor = this.boxColour;
                   newFillerBar.style.backgroundImage = this.backgroundImage;
 
                   switch(z)
@@ -653,7 +653,7 @@
       /*
       This function draws the pixles
       */
-      this.drawPixel = function(intx, inty, color, transAmount, height, newCorner, image, cornerRadius)
+      this.drawPixel = function(intx, inty, colour, transAmount, height, newCorner, image, cornerRadius)
       {
           // Create pixel
           var pixel = document.createElement("DIV");
@@ -674,7 +674,7 @@
 		        }
           else
           {
-              pixel.style.backgroundColor = color;
+              pixel.style.backgroundColor = colour;
           }
 
           // Set opacity if the transparency is anything other than 100
@@ -698,10 +698,10 @@
   }
 
   /*
-  Blends the two colors by the fraction
-  returns the resulting color as a string in the format "#FFFFFF"
+  Blends the two colours by the fraction
+  returns the resulting colour as a string in the format "#FFFFFF"
   */
-  function BlendColor(Col1, Col2, Col1Fraction)
+  function BlendColour(Col1, Col2, Col1Fraction)
   {
       var red1 = parseInt(Col1.substr(1,2),16);
       var green1 = parseInt(Col1.substr(3,2),16);
@@ -854,34 +854,34 @@
 
 
   // This function converts CSS rgb(x, x, x) to hexadecimal
-  function rgb2Hex(rgbColor)
+  function rgb2Hex(rgbColour)
   {
       try{
 
           // Get array of RGB values
-          var rgbArray = rgb2Array(rgbColor);
+          var rgbArray = rgb2Array(rgbColour);
 
           // Get RGB values
           var red   = parseInt(rgbArray[0]);
           var green = parseInt(rgbArray[1]);
           var blue  = parseInt(rgbArray[2]);
 
-          // Build hex color code
-          var hexColor = "#" + IntToHex(red) + IntToHex(green) + IntToHex(blue);
+          // Build hex colour code
+          var hexColour = "#" + IntToHex(red) + IntToHex(green) + IntToHex(blue);
       }
       catch(e){
 
           alert("There was an error converting the RGB value to Hexadecimal in function rgb2Hex");
       }
 
-      return hexColor;
+      return hexColour;
   }
 
   // Returns an array of rbg values
-  function rgb2Array(rgbColor)
+  function rgb2Array(rgbColour)
   {
       // Remove rgb()
-      var rgbValues = rgbColor.substring(4, rgbColor.indexOf(")"));
+      var rgbValues = rgbColour.substring(4, rgbColour.indexOf(")"));
 
       // Split RGB into array
       var rgbArray = rgbValues.split(", ");
@@ -990,33 +990,33 @@
     }
   }
 
-  // Formats colors
-  function format_color(color)
+  // Formats colours
+  function format_colour(colour)
   {
-      var returnColor = "#ffffff";
+      var returnColour = "#ffffff";
 
-      // Make sure color is set and not transparent
-      if(color != "" && color != "transparent")
+      // Make sure colour is set and not transparent
+      if(colour != "" && colour != "transparent")
       {
           // RGB Value?
-          if(color.substr(0, 3) == "rgb")
+          if(colour.substr(0, 3) == "rgb")
           {
               // Get HEX aquiv.
-              returnColor = rgb2Hex(color);
+              returnColour = rgb2Hex(colour);
           }
-          else if(color.length == 4)
+          else if(colour.length == 4)
           {
-              // 3 chr color code add remainder
-              returnColor = "#" + color.substring(1, 2) + color.substring(1, 2) + color.substring(2, 3) + color.substring(2, 3) + color.substring(3, 4) + color.substring(3, 4);
+              // 3 chr colour code add remainder
+              returnColour = "#" + colour.substring(1, 2) + colour.substring(1, 2) + colour.substring(2, 3) + colour.substring(2, 3) + colour.substring(3, 4) + colour.substring(3, 4);
           }
           else
           {
-              // Normal valid hex color
-              returnColor = color;
+              // Normal valid hex colour
+              returnColour = colour;
           }
       }
 
-      return returnColor;
+      return returnColour;
   }
 
   // Returns the style value for the property specfied

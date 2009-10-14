@@ -1,0 +1,30 @@
+/*	NAME:
+		ÇPROJECTNAMEÈ Prefix.pch
+
+	DESCRIPTION:
+		ÇPROJECTNAMEÈ prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) ÇYEARÈ, ÇORGANIZATIONNAMEÈ
+
+		All rights reserved.
+	__________________________________________________________________________
+*/
+#ifndef ÇPROJECTNAMEASIDENTIFIERÈ_PREFIX_HDR
+#define ÇPROJECTNAMEASIDENTIFIERÈ_PREFIX_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano 64.h"
+
+#include <Carbon/Carbon.h>
+
+#include "NDebug.h"
+
+
+
+
+
+#endif // ÇPROJECTNAMEASIDENTIFIERÈ_PREFIX_HDR
+
+

@@ -1,0 +1,35 @@
+{
+	FilesToRename = {
+		"Prefix/_PROJECTNAME_ Build.h"					= "Prefix/ÇPROJECTNAMEÈ Build.h";
+		"Prefix/_PROJECTNAME_ Prefix.pch"				= "Prefix/ÇPROJECTNAMEÈ Prefix.pch";
+		"Resources/_PROJECTNAME_.icns"					= "Resources/ÇPROJECTNAMEÈ.icns";
+		"Resources/English.lproj/_PROJECTNAME_.nib"		= "Resources/English.lproj/ÇPROJECTNAMEÈ.nib";
+		};
+
+	FilesToMacroExpand = (
+		"Prefix/ÇPROJECTNAMEÈ Build.h",
+		"Prefix/ÇPROJECTNAMEÈ Prefix.pch",
+		"Resources/English.lproj/ÇPROJECTNAMEÈ.nib/objects.xib",
+		"Resources/English.lproj/Help/index.htm",
+		"Resources/Info.plist",
+		"Source/CApplication.cpp",
+		"Source/CApplication.h",
+		"Source/Controllers/",
+		"Source/Controllers/CSheetDocumentInfo.cpp",
+		"Source/Controllers/CSheetDocumentInfo.h",
+		"Source/Controllers/CWindowDocument.cpp",
+		"Source/Controllers/CWindowDocument.h",
+		"Source/Controllers/CWindowPreferences.cpp",
+		"Source/Controllers/CWindowPreferences.h",
+		"Source/Models/CToolbarDocument.cpp",
+		"Source/Models/CToolbarDocument.h",
+		"Source/Views/CExampleView.cpp",
+		"Source/Views/CExampleView.h"
+	);
+
+	Description = "This project builds a Nano-based application with a document object.";
+}
+
+
+
+

@@ -1,0 +1,77 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 LucidaGrande-Bold;\f1\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15540\viewh15160\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 NanoDemo Read Me\
+
+\f1\b0 NanoDemo is the canonical document-based Nano demo application, and demonstrates:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\ql\qnatural\pardirnatural
+\cf0 o A document-based application with preferences\
+o A document object that uses a toolbar and can load/save/print the document content\
+o A multi-paned preferences window\
+o A custom toolbar that contains a mixture of arbitrary views and "icon+text" toolbar items \
+o A custom HIView\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \
+Points of interest regarding CWindowDocument include:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\ql\qnatural\pardirnatural
+\cf0 o Using Encode/DecodeProperties to obtain a cross-platform key/value-based file format\
+o Using GetPrintView to obtain automatic single-page printing of its content\
+o Using DoMessage to obtain live feedback from the color picker\
+o Using NIB_VIEW to automatically create, initialize, and connect to a .nib view\
+o Using a custom view, CShapeView, to render the document content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \
+
+\f0\b CShapeView Notes
+\f1\b0 \
+CShapeView is a simple HIView sub-class, and demonstrates:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\ri-4580\ql\qnatural\pardirnatural
+\cf0 o Sub-classing HIView\
+
+\fs22 By using DECLARE_HIVIEW_SUBCLASS and DEFINE_HIVIEW_SUBCLASS, the view is registered as a custom HIView.\
+\
+The view's class ID can be assigned to a view in Interface Builder, and the correct object will be instantiated when the window is created.\
+
+\fs24 \
+o Procedural creation\
+
+\fs22 By providing a parameter-ised constructor, the view can also be created at runtime.\
+			\
+Since the view is an HIView subclass, it instantiates itself with HIOBjectCreate and uses NHIObjectFactory::SetNextInstance to set the C++ object as the instance for the new HIObjectRef.\
+
+\fs24 \
+o State accessors\
+
+\fs22 The view provides getters and setters for its state, allowing apps to configure the view after it has been created.\
+
+\fs24 \
+o Interface Builder properties\
+
+\fs22 The view defines several properties, allowing apps to configure the view entirely through a .nib file.\
+
+\fs24 \
+o Use of InitializeView\
+
+\fs22 InitializeView is the canonical view initialisation method, and is invoked for all views no matter how they have been created.\
+\
+Views should use this method to register for events, establish their default state, apply their properties (if any), and perform whatever other initialisation they need.\
+
+\fs24 			\
+o Property encoding\
+
+\fs22 NHIView objects derive from NPropertyStore, which allows them to encode/decode their state in an endian-agnostic manner.\
+			\
+Typically views whose state is significant enough to be recorded in a file should implement EncodeProperties and DecodeProperties, allowing their owning document to easily save/load their state.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\fs24 \cf0 \
+Note that a parameter-ised constructor, state accessors, Interface Builder property support, and property encoding are all optional.\
+\
+A minimal view simply needs to declare itself as an HIView subclass, use InitializeView to register for events, and then handle those events.\
+}

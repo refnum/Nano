@@ -1,0 +1,395 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB03A4E009E9E4F800BC45F6 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = AB03A4D809E9E4F800BC45F6 /* Help */; };
+		AB20293309F3DA6400BF4288 /* PrefsGeneral.png in Resources */ = {isa = PBXBuildFile; fileRef = AB20293109F3DA6400BF4288 /* PrefsGeneral.png */; };
+		AB20293409F3DA6400BF4288 /* PrefsAdvanced.png in Resources */ = {isa = PBXBuildFile; fileRef = AB20293209F3DA6400BF4288 /* PrefsAdvanced.png */; };
+		AB5A159609E94BA700425D4B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB5A159409E94BA700425D4B /* Localizable.strings */; };
+		AB5B29BD09CAD871008C593C /* «PROJECTNAME».nib in Resources */ = {isa = PBXBuildFile; fileRef = AB5B29B909CAD871008C593C /* «PROJECTNAME».nib */; };
+		AB5B29BF09CAD871008C593C /* «PROJECTNAME».icns in Resources */ = {isa = PBXBuildFile; fileRef = AB5B29BC09CAD871008C593C /* «PROJECTNAME».icns */; };
+		AB5B29C309CAD87B008C593C /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5B29C109CAD87B008C593C /* CApplication.cpp */; };
+		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
+		AB93942C0A61B113008F3901 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9393840A61AD04008F3901 /* libNano.a */; };
+		ABAB85950A110105002CFA79 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAB85940A110105002CFA79 /* Accelerate.framework */; };
+		ABB854B909E6617A005F9BCD /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB854B809E6617A005F9BCD /* QuickTime.framework */; };
+		ABD7425B0A62D3EF001029EB /* Nano.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABD742590A62D3EF001029EB /* Nano.strings */; };
+		ABE800140A06D092005DEFA3 /* CWindowExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE800100A06D092005DEFA3 /* CWindowExample.cpp */; };
+		ABE800150A06D092005DEFA3 /* CWindowPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE800120A06D092005DEFA3 /* CWindowPreferences.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB9393830A61AD04008F3901 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC06F0554671400DB518D;
+			remoteInfo = Nano;
+		};
+		AB93938A0A61AD1E008F3901 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC06E0554671400DB518D;
+			remoteInfo = Nano;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		8D0C4E970486CD37000505A6 /* «PROJECTNAME».app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "«PROJECTNAME».app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB03A4D909E9E4F800BC45F6 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
+		AB20293109F3DA6400BF4288 /* PrefsGeneral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrefsGeneral.png; sourceTree = "<group>"; };
+		AB20293209F3DA6400BF4288 /* PrefsAdvanced.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrefsAdvanced.png; sourceTree = "<group>"; };
+		AB5A159509E94BA700425D4B /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
+		AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
+		AB5B29B609CAD866008C593C /* «PROJECTNAME» Build.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "«PROJECTNAME» Build.h"; sourceTree = "<group>"; };
+		AB5B29B709CAD866008C593C /* «PROJECTNAME» Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "«PROJECTNAME» Prefix.pch"; sourceTree = "<group>"; };
+		AB5B29BA09CAD871008C593C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/«PROJECTNAME».nib"; sourceTree = "<group>"; };
+		AB5B29BB09CAD871008C593C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5B29BC09CAD871008C593C /* «PROJECTNAME».icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "«PROJECTNAME».icns"; sourceTree = "<group>"; };
+		AB5B29C109CAD87B008C593C /* CApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CApplication.cpp; sourceTree = "<group>"; };
+		AB5B29C209CAD87B008C593C /* CApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CApplication.h; sourceTree = "<group>"; };
+		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = Library/Project/Nano.xcodeproj; sourceTree = Nano; };
+		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		ABAB85940A110105002CFA79 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
+		ABB854B809E6617A005F9BCD /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		ABD7425A0A62D3EF001029EB /* Nano.strings */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = Nano.strings; path = Library/Resources/English.lproj/Nano.strings; sourceTree = Nano; };
+		ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
+		ABE800100A06D092005DEFA3 /* CWindowExample.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowExample.cpp; sourceTree = "<group>"; };
+		ABE800110A06D092005DEFA3 /* CWindowExample.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowExample.h; sourceTree = "<group>"; };
+		ABE800120A06D092005DEFA3 /* CWindowPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowPreferences.cpp; sourceTree = "<group>"; };
+		ABE800130A06D092005DEFA3 /* CWindowPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowPreferences.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D0C4E910486CD37000505A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
+				ABB854B909E6617A005F9BCD /* QuickTime.framework in Frameworks */,
+				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
+				ABAB85950A110105002CFA79 /* Accelerate.framework in Frameworks */,
+				AB93942C0A61B113008F3901 /* libNano.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		195DF8CFFE9D517E11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D0C4E970486CD37000505A6 /* «PROJECTNAME».app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20286C29FDCF999611CA2CEA /* «PROJECTNAME» */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29A909CAD85D008C593C /* Configuration */,
+				AB5B29B509CAD866008C593C /* Prefix */,
+				AB5B29C009CAD87B008C593C /* Source */,
+				AB5B29B809CAD871008C593C /* Resources */,
+				20286C32FDCF999611CA2CEA /* Frameworks */,
+				AB5B29DB09CAD8B7008C593C /* Dependencies */,
+				195DF8CFFE9D517E11CA2CBB /* Products */,
+			);
+			name = "«PROJECTNAME»";
+			sourceTree = "<group>";
+		};
+		20286C32FDCF999611CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ABAB85940A110105002CFA79 /* Accelerate.framework */,
+				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				AB6E7E3609F9052300F73093 /* Cocoa.framework */,
+				ABB854B809E6617A005F9BCD /* QuickTime.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB5B29A909CAD85D008C593C /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				ABE072E909FBC9F20031D3D1 /* TargetCommon.xcconfig */,
+				AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */,
+				AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */,
+			);
+			name = Configuration;
+			path = Support/Xcode/Configuration;
+			sourceTree = Nano;
+		};
+		AB5B29B509CAD866008C593C /* Prefix */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29B609CAD866008C593C /* «PROJECTNAME» Build.h */,
+				AB5B29B709CAD866008C593C /* «PROJECTNAME» Prefix.pch */,
+			);
+			path = Prefix;
+			sourceTree = "<group>";
+		};
+		AB5B29B809CAD871008C593C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29BB09CAD871008C593C /* Info.plist */,
+				ABD742590A62D3EF001029EB /* Nano.strings */,
+				AB5A159409E94BA700425D4B /* Localizable.strings */,
+				AB5B29B909CAD871008C593C /* «PROJECTNAME».nib */,
+				AB03A4D809E9E4F800BC45F6 /* Help */,
+				AB20293209F3DA6400BF4288 /* PrefsAdvanced.png */,
+				AB20293109F3DA6400BF4288 /* PrefsGeneral.png */,
+				AB5B29BC09CAD871008C593C /* «PROJECTNAME».icns */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AB5B29C009CAD87B008C593C /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29C109CAD87B008C593C /* CApplication.cpp */,
+				AB5B29C209CAD87B008C593C /* CApplication.h */,
+				ABE8000F0A06D092005DEFA3 /* Controllers */,
+				ABA3BF9A09CEF24500072AD6 /* Models */,
+				ABA3BF9609CEF24500072AD6 /* Views */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		AB5B29DB09CAD8B7008C593C /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		AB93937F0A61AD04008F3901 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB9393840A61AD04008F3901 /* libNano.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABA3BF9609CEF24500072AD6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ABA3BF9A09CEF24500072AD6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		ABE8000F0A06D092005DEFA3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ABE800100A06D092005DEFA3 /* CWindowExample.cpp */,
+				ABE800110A06D092005DEFA3 /* CWindowExample.h */,
+				ABE800120A06D092005DEFA3 /* CWindowPreferences.cpp */,
+				ABE800130A06D092005DEFA3 /* CWindowPreferences.h */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D0C4E890486CD37000505A6 /* «PROJECTNAME» */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "«PROJECTNAME»" */;
+			buildPhases = (
+				8D0C4E8C0486CD37000505A6 /* Resources */,
+				8D0C4E8F0486CD37000505A6 /* Sources */,
+				8D0C4E910486CD37000505A6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB93938B0A61AD1E008F3901 /* PBXTargetDependency */,
+			);
+			name = "«PROJECTNAME»";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "«PROJECTNAME»";
+			productReference = 8D0C4E970486CD37000505A6 /* «PROJECTNAME».app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20286C28FDCF999611CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "«PROJECTNAME»" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 20286C29FDCF999611CA2CEA /* «PROJECTNAME» */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AB93937F0A61AD04008F3901 /* Products */;
+					ProjectRef = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+				},
+			);
+			targets = (
+				8D0C4E890486CD37000505A6 /* «PROJECTNAME» */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AB9393840A61AD04008F3901 /* libNano.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNano.a;
+			remoteRef = AB9393830A61AD04008F3901 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D0C4E8C0486CD37000505A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABD7425B0A62D3EF001029EB /* Nano.strings in Resources */,
+				AB5A159609E94BA700425D4B /* Localizable.strings in Resources */,
+				AB5B29BD09CAD871008C593C /* «PROJECTNAME».nib in Resources */,
+				AB03A4E009E9E4F800BC45F6 /* Help in Resources */,
+				AB20293409F3DA6400BF4288 /* PrefsAdvanced.png in Resources */,
+				AB20293309F3DA6400BF4288 /* PrefsGeneral.png in Resources */,
+				AB5B29BF09CAD871008C593C /* «PROJECTNAME».icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D0C4E8F0486CD37000505A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB5B29C309CAD87B008C593C /* CApplication.cpp in Sources */,
+				ABE800140A06D092005DEFA3 /* CWindowExample.cpp in Sources */,
+				ABE800150A06D092005DEFA3 /* CWindowPreferences.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB93938B0A61AD1E008F3901 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano;
+			targetProxy = AB93938A0A61AD1E008F3901 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AB03A4D809E9E4F800BC45F6 /* Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB03A4D909E9E4F800BC45F6 /* English */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		AB5A159409E94BA700425D4B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB5A159509E94BA700425D4B /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		AB5B29B909CAD871008C593C /* «PROJECTNAME».nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB5B29BA09CAD871008C593C /* English */,
+			);
+			name = "«PROJECTNAME».nib";
+			sourceTree = "<group>";
+		};
+		ABD742590A62D3EF001029EB /* Nano.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABD7425A0A62D3EF001029EB /* Nano.strings */,
+			);
+			name = Nano.strings;
+			path = "Support/Xcode/Templates/Nano Document-based Application/Resources";
+			sourceTree = Nano;
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C0E91AC608A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "Prefix/«PROJECTNAME» Prefix.pch";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = "Prefix/«PROJECTNAME» Build.h";
+				PRODUCT_NAME = "«PROJECTNAME»";
+			};
+			name = Debug;
+		};
+		C0E91AC708A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "Prefix/«PROJECTNAME» Prefix.pch";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = "Prefix/«PROJECTNAME» Build.h";
+				PRODUCT_NAME = "«PROJECTNAME»";
+			};
+			name = Release;
+		};
+		C0E91ACA08A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C0E91ACB08A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "«PROJECTNAME»" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91AC608A95435008D54AB /* Debug */,
+				C0E91AC708A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "«PROJECTNAME»" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91ACA08A95435008D54AB /* Debug */,
+				C0E91ACB08A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20286C28FDCF999611CA2CEA /* Project object */;
+}
