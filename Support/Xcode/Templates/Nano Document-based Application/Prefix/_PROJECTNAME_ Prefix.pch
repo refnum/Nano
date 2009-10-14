@@ -1,0 +1,40 @@
+/*	NAME:
+		ÇPROJECTNAMEÈ Prefix.pch
+
+	DESCRIPTION:
+		ÇPROJECTNAMEÈ prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) ÇYEARÈ, ÇORGANIZATIONNAMEÈ
+
+		All rights reserved.
+	__________________________________________________________________________
+*/
+#ifndef ÇPROJECTNAMEASIDENTIFIERÈ_PREFIX_HDR
+#define ÇPROJECTNAMEASIDENTIFIERÈ_PREFIX_HDR
+//============================================================================
+//		Build Constants
+//----------------------------------------------------------------------------
+// Nano
+#define NN_SEEN_RELEASE_NOTES_FOR									0x00100300
+
+
+
+
+
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+// Nano
+#include "Nano.h"
+
+
+// ÇPROJECTNAMEÈ
+
+
+
+
+
+#endif // ÇPROJECTNAMEASIDENTIFIERÈ_PREFIX_HDR
+
+

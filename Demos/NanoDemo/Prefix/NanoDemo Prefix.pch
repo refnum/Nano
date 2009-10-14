@@ -1,0 +1,27 @@
+/*	NAME:
+		ND Prefix.pch
+
+	DESCRIPTION:
+		NanoDemo prefix header.
+	
+	COPYRIGHT:
+		Copyright (c) 2006-2007, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef ND_PREFIX_HDR
+#define ND_PREFIX_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "Nano.h"
+
+
+
+
+
+#endif // ND_PREFIX_HDR
+
+

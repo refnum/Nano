@@ -1,0 +1,68 @@
+//============================================================================
+//		Compiler
+//----------------------------------------------------------------------------
+DEBUG_INFORMATION_FORMAT							= dwarf
+GCC_DEBUGGING_SYMBOLS								= used
+GCC_DYNAMIC_NO_PIC									= NO
+GCC_ENABLE_CPP_EXCEPTIONS							= NO
+GCC_ENABLE_TRIGRAPHS								= YES
+GCC_FAST_MATH										= YES
+GCC_GENERATE_DEBUGGING_SYMBOLS						= YES
+GCC_INLINES_ARE_PRIVATE_EXTERN						= YES
+GCC_MODEL_TUNING									= G5
+GCC_NO_COMMON_BLOCKS								= YES
+GCC_PRECOMPILE_PREFIX_HEADER						= YES
+GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS					= NO
+GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO				= YES
+GCC_WARN_ABOUT_MISSING_NEWLINE						= YES
+GCC_WARN_ABOUT_MISSING_PROTOTYPES					= YES
+GCC_WARN_ABOUT_RETURN_TYPE							= YES
+GCC_WARN_CHECK_SWITCH_STATEMENTS					= YES
+GCC_WARN_FOUR_CHARACTER_CONSTANTS					= NO
+GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS					= YES
+GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED			= YES
+GCC_WARN_MISSING_PARENTHESES						= YES
+GCC_WARN_NON_VIRTUAL_DESTRUCTOR						= YES
+GCC_WARN_SHADOW										= YES
+GCC_WARN_SIGN_COMPARE								= YES
+GCC_WARN_TYPECHECK_CALLS_TO_PRINTF					= YES
+GCC_WARN_UNUSED_FUNCTION							= YES
+GCC_WARN_UNUSED_LABEL								= YES
+GCC_WARN_UNUSED_PARAMETER							= YES
+GCC_WARN_UNUSED_VALUE								= YES
+GCC_WARN_UNUSED_VARIABLE							= YES
+INFOPLIST_PREPROCESS								= YES
+INFOPLIST_PREPROCESSOR_DEFINITIONS					= INFO_PLIST
+NANO_HEADER_SEARCH_PATHS                            = "$(Nano)/Library/Prefix" "$(Nano)/Library/Source/Application" "$(Nano)/Library/Source/Core" "$(Nano)/Library/Source/CoreFoundation" "$(Nano)/Library/Source/Events" "$(Nano)/Library/Source/Files" "$(Nano)/Library/Source/Graphics" "$(Nano)/Library/Source/HIToolbox/Core" "$(Nano)/Library/Source/HIToolbox/Custom" "$(Nano)/Library/Source/HIToolbox/System" "$(Nano)/Library/Source/Network" "$(Nano)/Library/Source/System" "$(Nano)/Library/Source/Threads" "$(Nano)/Library/Source/Utilities" "$(Nano)/Library/Source/Windows"
+NANO_LIBRARY_SEARCH_PATHS							= "$(Nano)/Library/Project/build/$(BUILD_STYLE)"
+NANO_WARNING_CFLAGS									= -Wall -Wextra -fconstant-cfstrings -Wno-missing-field-initializers -Wfloat-equal -Wundef -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wredundant-decls -Wshorten-64-to-32 -Wno-shadow
+HEADER_SEARCH_PATHS                                 = $(NANO_HEADER_SEARCH_PATHS)
+LIBRARY_SEARCH_PATHS								= $(NANO_LIBRARY_SEARCH_PATHS)
+WARNING_CFLAGS										= $(NANO_WARNING_CFLAGS)
+
+
+
+
+
+//============================================================================
+//		Linker
+//----------------------------------------------------------------------------
+PREBINDING											= NO
+ZERO_LINK											= NO
+
+
+
+
+
+//============================================================================
+//		Platform
+//----------------------------------------------------------------------------
+GCC_VERSION_i386									= 4.0
+GCC_VERSION_ppc										= 4.0
+MACOSX_DEPLOYMENT_TARGET_i386						= 10.4
+MACOSX_DEPLOYMENT_TARGET_ppc						= 10.4
+SDKROOT_i386										= /Developer/SDKs/MacOSX10.4u.sdk
+SDKROOT_ppc											= /Developer/SDKs/MacOSX10.4u.sdk
+
+
+

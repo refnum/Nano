@@ -1,0 +1,433 @@
+<?xml version="1.0" standalone="yes"?>
+<object class="NSIBObjectData">
+  <string name="targetFramework">IBCarbonFramework</string>
+  <object name="rootObject" class="NSCustomObject" id="1">
+    <string name="customClass">NSApplication</string>
+  </object>
+  <array count="29" name="allObjects">
+    <object class="IBCarbonWindow" id="180">
+      <string name="windowRect">110 139 636 754 </string>
+      <string name="title">Software Update</string>
+      <object name="rootControl" class="IBCarbonRootControl" id="181">
+        <string name="bounds">0 0 526 615 </string>
+        <string name="viewFrame">0 0 615 526 </string>
+        <array count="9" name="subviews">
+          <object class="IBCarbonHIView" id="201">
+            <string name="bounds">103 105 467 595 </string>
+            <string name="viewFrame">105 103 490 364 </string>
+            <ostype name="controlSignature">rbox</ostype>
+            <dictionary count="4" name="auxiliaryDictionary">
+              <string>creators</string>
+              <array count="2">
+                <string>Nano</string>
+                <string>Nano</string>
+              </array>
+              <string>tags</string>
+              <array count="2">
+                <string>fram</string>
+                <string>col0</string>
+              </array>
+              <string>types</string>
+              <array count="2">
+                <string>5</string>
+                <string>0</string>
+              </array>
+              <string>values</string>
+              <array count="2">
+                <string>thin</string>
+                <string>FFFFFFFF</string>
+              </array>
+            </dictionary>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
+              <int name="bindingLeftKind">1</int>
+              <int name="bindingBottomKind">2</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <string name="classID">com.nano.nshadingview</string>
+          </object>
+          <object class="IBCarbonHIView" id="186">
+            <string name="bounds">104 106 466 594 </string>
+            <string name="viewFrame">106 104 488 362 </string>
+            <ostype name="controlSignature">rnot</ostype>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
+              <int name="bindingLeftKind">1</int>
+              <int name="bindingBottomKind">2</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <string name="classID">com.nano.hiwebview</string>
+          </object>
+          <object class="IBCarbonButton" id="182">
+            <string name="bounds">486 479 506 594 </string>
+            <string name="viewFrame">479 486 115 20 </string>
+            <string name="title">Install Update</string>
+            <ostype name="command">inst</ostype>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingBottomKind">2</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+          </object>
+          <object class="IBCarbonButton" id="183">
+            <string name="bounds">486 333 506 467 </string>
+            <string name="viewFrame">333 486 134 20 </string>
+            <string name="title">Remind Me Later</string>
+            <ostype name="command">late</ostype>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingBottomKind">2</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+          </object>
+          <object class="IBCarbonButton" id="184">
+            <string name="bounds">486 106 506 213 </string>
+            <string name="viewFrame">106 486 107 20 </string>
+            <string name="title">Skip Version</string>
+            <ostype name="command">skip</ostype>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingBottomKind">2</int>
+            </object>
+          </object>
+          <object class="IBCarbonStaticText" id="185">
+            <string name="bounds">20 106 36 594 </string>
+            <string name="viewFrame">106 20 488 16 </string>
+            <int name="fontStyle">4</int>
+            <string name="title">New software is available for your computer.</string>
+          </object>
+          <object class="IBCarbonIcon" id="187">
+            <string name="bounds">20 20 84 84 </string>
+            <string name="viewFrame">20 20 64 64 </string>
+            <ostype name="controlSignature">icon</ostype>
+            <int name="creator">0</int>
+          </object>
+          <object class="IBCarbonStaticText" id="188">
+            <string name="bounds">44 106 77 594 </string>
+            <string name="viewFrame">106 44 488 33 </string>
+            <ostype name="controlSignature">info</ostype>
+            <int name="fontStyle">1</int>
+            <string name="title">You are currently using APPNAME OLDVERSION, however APPNAME NEWVERSION is now available. Would you like to download this update now?</string>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingLeftKind">1</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+          </object>
+          <object class="IBCarbonStaticText" id="189">
+            <string name="bounds">85 106 101 594 </string>
+            <string name="viewFrame">106 85 488 16 </string>
+            <int name="fontStyle">2</int>
+            <string name="title">Release Notes</string>
+          </object>
+        </array>
+      </object>
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <boolean name="asyncDrag">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="scalingMode">1048576</int>
+      <boolean name="doesNotCycle">TRUE</boolean>
+      <int name="WindowMinWidth">536</int>
+      <int name="WindowMinHeight">400</int>
+    </object>
+    <reference idRef="181"/>
+    <reference idRef="182"/>
+    <reference idRef="183"/>
+    <reference idRef="184"/>
+    <reference idRef="185"/>
+    <reference idRef="186"/>
+    <reference idRef="187"/>
+    <reference idRef="188"/>
+    <reference idRef="189"/>
+    <reference idRef="201"/>
+    <object class="IBCarbonWindow" id="205">
+      <string name="windowRect">194 300 301 710 </string>
+      <string name="title"></string>
+      <object name="rootControl" class="IBCarbonRootControl" id="206">
+        <string name="bounds">0 0 107 410 </string>
+        <string name="viewFrame">0 0 410 107 </string>
+        <array count="4" name="subviews">
+          <object class="IBCarbonStaticText" id="207">
+            <string name="bounds">20 20 36 390 </string>
+            <string name="viewFrame">20 20 370 16 </string>
+            <ostype name="controlSignature">stat</ostype>
+            <string name="title">Contacting Server…</string>
+          </object>
+          <object class="IBCarbonProgressBar" id="208">
+            <string name="bounds">52 19 71 305 </string>
+            <string name="viewFrame">19 52 286 19 </string>
+            <ostype name="controlSignature">prog</ostype>
+          </object>
+          <object class="IBCarbonButton" id="209">
+            <string name="bounds">51 320 71 390 </string>
+            <string name="viewFrame">320 51 70 20 </string>
+            <string name="title">Stop</string>
+            <ostype name="command">not!</ostype>
+          </object>
+          <object class="IBCarbonStaticText" id="210">
+            <string name="bounds">80 20 96 390 </string>
+            <string name="viewFrame">20 80 370 16 </string>
+            <ostype name="controlSignature">info</ostype>
+            <boolean name="small">TRUE</boolean>
+            <int name="controlSize">3</int>
+            <string name="foreColor">32767 32767 32767 </string>
+          </object>
+        </array>
+      </object>
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <int name="carbonWindowClass">11</int>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="scalingMode">1048576</int>
+      <boolean name="doesNotCycle">TRUE</boolean>
+    </object>
+    <reference idRef="206"/>
+    <reference idRef="207"/>
+    <reference idRef="208"/>
+    <reference idRef="209"/>
+    <reference idRef="210"/>
+    <object class="IBCarbonWindow" id="211">
+      <string name="windowRect">154 566 454 1016 </string>
+      <string name="title">About APPNAME</string>
+      <object name="rootControl" class="IBCarbonRootControl" id="212">
+        <string name="bounds">0 0 300 450 </string>
+        <string name="viewFrame">0 0 450 300 </string>
+        <array count="10" name="subviews">
+          <object class="IBCarbonHIView" id="226">
+            <string name="bounds">0 -1 252 451 </string>
+            <string name="viewFrame">-1 0 452 252 </string>
+            <ostype name="controlSignature">shd2</ostype>
+            <dictionary count="4" name="auxiliaryDictionary">
+              <string>creators</string>
+              <array count="6">
+                <string>Nano</string>
+                <string>Nano</string>
+                <string>Nano</string>
+                <string>Nano</string>
+                <string>Nano</string>
+                <string>Nano</string>
+              </array>
+              <string>tags</string>
+              <array count="6">
+                <string>col0</string>
+                <string>col2</string>
+                <string>col1</string>
+                <string>col3</string>
+                <string>col4</string>
+                <string>col5</string>
+              </array>
+              <string>types</string>
+              <array count="6">
+                <string>0</string>
+                <string>0</string>
+                <string>0</string>
+                <string>0</string>
+                <string>0</string>
+                <string>0</string>
+              </array>
+              <string>values</string>
+              <array count="6">
+                <string>FFFFFFFF</string>
+                <string>FFFFFFFF</string>
+                <string>FFFFFFFF</string>
+                <string>F0F0F0FF</string>
+                <string>F0F0F0FF</string>
+                <string>F0F0F0FF</string>
+              </array>
+            </dictionary>
+            <string name="classID">com.nano.nshadingview</string>
+          </object>
+          <object class="IBCarbonHIView" id="222">
+            <string name="bounds">148 30 276 158 </string>
+            <string name="viewFrame">30 148 128 128 </string>
+            <ostype name="controlSignature">refl</ostype>
+            <dictionary count="4" name="auxiliaryDictionary">
+              <string>creators</string>
+              <array count="2">
+                <string>Nano</string>
+                <string>Nano</string>
+              </array>
+              <string>tags</string>
+              <array count="2">
+                <string>rsig</string>
+                <string>alph</string>
+              </array>
+              <string>types</string>
+              <array count="2">
+                <string>5</string>
+                <string>4</string>
+              </array>
+              <string>values</string>
+              <array count="2">
+                <string>icon</string>
+                <string>0.2</string>
+              </array>
+            </dictionary>
+            <string name="classID">com.nano.nreflectionview</string>
+          </object>
+          <object class="IBCarbonHIView" id="221">
+            <string name="bounds">246 -1 300 451 </string>
+            <string name="viewFrame">-1 246 452 54 </string>
+            <ostype name="controlSignature">shd1</ostype>
+            <dictionary count="4" name="auxiliaryDictionary">
+              <string>creators</string>
+              <array count="2">
+                <string>Nano</string>
+                <string>Nano</string>
+              </array>
+              <string>tags</string>
+              <array count="2">
+                <string>col0</string>
+                <string>fram</string>
+              </array>
+              <string>types</string>
+              <array count="2">
+                <string>0</string>
+                <string>5</string>
+              </array>
+              <string>values</string>
+              <array count="2">
+                <string>E5E5E5FF</string>
+                <string>thin</string>
+              </array>
+            </dictionary>
+            <string name="classID">com.nano.nshadingview</string>
+          </object>
+          <object class="IBCarbonIcon" id="214">
+            <string name="bounds">20 30 148 158 </string>
+            <string name="viewFrame">30 20 128 128 </string>
+            <ostype name="controlSignature">icon</ostype>
+            <int name="contentResID">0</int>
+            <int name="contentType">1</int>
+            <int name="creator">0</int>
+          </object>
+          <object class="IBCarbonStaticText" id="220">
+            <string name="bounds">82 200 208 430 </string>
+            <string name="viewFrame">200 82 230 126 </string>
+            <ostype name="controlSignature">desc</ostype>
+            <boolean name="small">TRUE</boolean>
+            <int name="controlSize">1</int>
+            <string name="title">Description of My App</string>
+            <string name="foreColor">36045 36045 36045 </string>
+            <int name="justification">-2</int>
+          </object>
+          <object class="IBCarbonStaticText" id="217">
+            <string name="bounds">61 200 77 430 </string>
+            <string name="viewFrame">200 61 230 16 </string>
+            <ostype name="controlSignature">copy</ostype>
+            <string name="title">Copyright My Software</string>
+            <string name="foreColor">36045 36045 36045 </string>
+            <int name="justification">-2</int>
+          </object>
+          <object class="IBCarbonStaticText" id="215">
+            <string name="bounds">40 200 56 430 </string>
+            <string name="viewFrame">200 40 230 16 </string>
+            <ostype name="controlSignature">prod</ostype>
+            <int name="fontStyle">4</int>
+            <string name="title">APPNAME 1.0</string>
+            <string name="foreColor">13107 13107 13107 </string>
+            <int name="justification">-2</int>
+          </object>
+          <object class="IBCarbonButton" id="223">
+            <string name="bounds">263 76 283 186 </string>
+            <string name="viewFrame">76 263 110 20 </string>
+            <ostype name="controlSignature">but3</ostype>
+            <string name="title">Button 3</string>
+            <ostype name="command">abo3</ostype>
+          </object>
+          <object class="IBCarbonButton" id="224">
+            <string name="bounds">263 198 283 308 </string>
+            <string name="viewFrame">198 263 110 20 </string>
+            <ostype name="controlSignature">but2</ostype>
+            <string name="title">Button 2</string>
+            <ostype name="command">abo2</ostype>
+          </object>
+          <object class="IBCarbonButton" id="225">
+            <string name="bounds">263 320 283 430 </string>
+            <string name="viewFrame">320 263 110 20 </string>
+            <ostype name="controlSignature">but1</ostype>
+            <string name="title">Button 1</string>
+            <ostype name="command">abo1</ostype>
+          </object>
+        </array>
+      </object>
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="hasHorizontalZoom">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="hasVerticalZoom">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <int name="themeBrush">-2</int>
+      <int name="windowPosition">7</int>
+      <boolean name="asyncDrag">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="scalingMode">1048576</int>
+      <boolean name="doesNotCycle">TRUE</boolean>
+    </object>
+    <reference idRef="212"/>
+    <reference idRef="214"/>
+    <reference idRef="215"/>
+    <reference idRef="217"/>
+    <reference idRef="220"/>
+    <reference idRef="221"/>
+    <reference idRef="222"/>
+    <reference idRef="223"/>
+    <reference idRef="224"/>
+    <reference idRef="225"/>
+    <reference idRef="226"/>
+  </array>
+  <array count="29" name="allParents">
+    <reference idRef="1"/>
+    <reference idRef="180"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="181"/>
+    <reference idRef="1"/>
+    <reference idRef="205"/>
+    <reference idRef="206"/>
+    <reference idRef="206"/>
+    <reference idRef="206"/>
+    <reference idRef="206"/>
+    <reference idRef="1"/>
+    <reference idRef="211"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+    <reference idRef="212"/>
+  </array>
+  <dictionary count="9" name="nameTable">
+    <string>About</string>
+    <reference idRef="211"/>
+    <string>File&apos;s Owner</string>
+    <reference idRef="1"/>
+    <string>SU Progress</string>
+    <reference idRef="205"/>
+    <string>SU Update</string>
+    <reference idRef="180"/>
+    <string>View1</string>
+    <reference idRef="186"/>
+    <string>View11</string>
+    <reference idRef="201"/>
+    <string>View1111</string>
+    <reference idRef="221"/>
+    <string>View11111</string>
+    <reference idRef="222"/>
+    <string>View11112</string>
+    <reference idRef="226"/>
+  </dictionary>
+  <unsigned_int name="nextObjectID">227</unsigned_int>
+</object>

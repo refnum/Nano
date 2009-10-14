@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	
+	<key>LSMinimumSystemVersion</key>
+	<string>10.4</string>
+
+
+
+
+
+	<key>CFBundleHelpBookFolder</key>
+	<string>Help</string>
+
+	<key>CFBundleHelpBookName</key>
+	<string>kAppName Help</string>
+
+	<key>CFBundleIconFile</key>
+	<string>kAppName.icns</string>
+
+	<key>CFBundleIdentifier</key>
+	<string>kAppBundleIdentifier</string>
+
+	<key>CFBundleSignature</key>
+	<string>kAppCreator</string>
+
+	<key>CFBundleVersion</key>
+	<string>kAppVersion</string>
+
+	<key>CFBundleShortVersionString</key>
+	<string>kAppVersion</string>
+
+	<key>CFBundleGetInfoString</key>
+	<string>kAppName kAppVersion, Copyright kAppCompany</string>
+
+	<key>SUFeedURL</key>
+	<string>http:&#47;&#47;www.refnum.com/products/nano/html/su_feed.xml</string>
+
+
+
+
+
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+
+			<key>CFBundleTypeName</key>
+			<string>kAppName Document</string>
+
+			<key>CFBundleTypeIconFile</key>
+			<string>FileDocument.icns</string>
+
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>kAppBundleIdentifier.document</string>
+			</array>
+		</dict>
+	</array>
+
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>kAppBundleIdentifier.document</string>
+
+			<key>UTTypeDescription</key>
+			<string>kAppName Document</string>
+
+			<key>UTTypeIconFile</key>
+			<string>FileDocument.icns</string>
+
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>Ndem</string>
+
+				<key>public.filename-extension</key>
+				<array>
+					<string>nanodemo</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+
+</dict>
+</plist>

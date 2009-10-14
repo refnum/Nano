@@ -1,0 +1,239 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Utility Code</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Utility Code</h1>
+<p>
+Although most code within Nano is packaged in a well-defined object, there are often situations where a
+stand-alone function is required.
+</p>
+
+<p>
+This type of function is typically a simplifying wrapper around a system API, and often combines multiple
+APIs into a single call that hides unnecessary complexity from the caller.
+</p>
+
+<p>
+Rather than provide these functions as static methods on a somewhat-related object, this code is
+grouped into a set of utility classes that contain related functionality.
+</p>
+
+
+
+<h2>Example</h2>
+<p>
+For example, creating a CGImageRef from a file on disk can be achieved with:
+</p>
+
+<div class="box code">
+cgImage = NCoreGraphicsUtilities::CreateImageFromFile(theFile);
+</div>
+
+<p>
+This function provides the simple "given an image file, load the image" interface that is most commonly
+needed, and hides the complexity of how that image is obtained from the caller.
+</p>
+
+<p>
+Internally, <tt>CreateImageFromFile</tt> will use a series of strategies to load the image - first by
+trying a direct JPEG or PNG data provider, then by using ImageIO, and finally using a QuickTime importer.
+</p>
+
+
+
+<h2>Utilities</h2>
+<p>
+Utility code is contained within the <tt>Library/Source/Utilities</tt> directory, and is organized as
+a set of <tt>N<b>Foo</b>Utilities</tt> classes (where each class is concerned with <b>Foo</b>-related
+functionality).
+</p>
+
+<p>
+Utility calls are typically one-liners, and include functions to:
+</p>
+
+<ul>
+	<li>NAppKitUtilities<br>
+	Stack-based auto-release pool management.
+	<br><br>
+
+	<li>NCoreFoundationUtilities<br>
+	Create immutable and mutable copies of objects, NULL-safe retain/release, inline comparison
+	operators for CF types.
+	<br><br>
+
+	<li>NCoreGraphicsUtilities<br>
+	Create an image from a file/data, scale/rotate/flip an image, create an IconRef from a CGImageRef,
+	encode an image to a particular format.
+	<br><br>
+
+	<li>NFileUtilities<br>
+	Get/set the contents of a file as a string or as data, get unique or temporary file names,
+	manipulate .dmgs, or move a file to the trash.
+	<br><br>
+
+	<li>NGeometryUtilities<br>
+	Convert between point/rect types, scale rectangles, transform between coordinate spaces, inline
+	comparison operators for CG types.
+	<br><br>
+
+	<li>NHelpUtilities<br>
+	Get/set a help string on a view, get the Help menu.
+	<br><br>
+
+	<li>NHIViewUtilities<br>
+	Get the clickable part of a view, embed a view in a scroll view, construct an HILayoutInfo.
+	<br><br>
+
+	<li>NIBUtilities<br>
+	Create an NHIView wrapper, construct an HILayoutInfo, get the "clickable part" for a view,
+	embed a view within a scroll view, replace part of view's text value.
+	<br><br>
+
+	<li>NKeyboardUtilities<br>
+	Test keyboard state.
+	<br><br>
+
+	<li>NLaunchServicesUtilities<br>
+	Open files or URLs.
+	<br><br>
+
+	<li>NMathUtilities<br>
+	Floating point equality, fast square roots, rotate left/right, radian/degree conversion.
+	<br><br>
+
+	<li>NMouseUtilities<br>
+	Get the mouse position in a given coordinate space.
+	<br><br>
+
+	<li>NNetworkUtilities<br>
+	Test for host reachability.
+	<br><br>
+	
+	<li>NProcessUtilities<br>
+	Get the list of processes, launch a replacement for the current process.
+	<br><br>
+
+	<li>NQuickTimeUtilities<br>
+	Create a Data Reference from a pointer/handle, add meta-data to a Data Reference.
+	<br><br>
+
+	<li>NSTLUtilities<br>
+	Reverse, append, combine, and uniquify containers. Extract the front/last element of a vector.
+	<br><br>
+
+	<li>NSystemUtilities<br>
+	Smart version compare, get Finder label names, get system version.
+	<br><br>
+
+	<li>NTextUtilities</br>
+	Convert to and from NStrings, URL en/decoding, tilde expansion, construct Safari-style progress
+	strings from bytes-done/throughput/ETA values.
+	<br><br>
+
+	<li>NThemeUtilities<br>
+	Show animation effects, measure text, get theme metrics.
+	<br><br>
+
+	<li>NTimeUtilities<br>
+	Get the current time, get the interval between two dates, convert between date formats.
+	<br><br>
+</ul>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

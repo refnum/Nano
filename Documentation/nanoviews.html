@@ -1,0 +1,321 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Nano Views</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.deathvalleycycle.com/">
+	<img src="images/deathvalley.png" alt="Death Valley" width="150" height="60" align=middle>
+	</a>
+
+	<!--
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	-->
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Nano Views</h1>
+<p>
+Nano provides a C++ wrapper around every standard HIToolbox view, as well as a set of custom
+views that can provide a richer user experience.
+</p>
+
+<p>
+All of Nano's custom views are rendered with CoreGraphics, giving them automatic support for
+resolution independence.
+</p>
+
+
+
+<h2>NOpenGLView</h2>
+<img src="images/view_nopenglview.jpg" alt="NOpenGLView" width="150" height="150" align=right>
+<p>
+NOpenGLView allows OpenGL content to be embedded within a window.
+</p>
+
+<p>
+The OpenGL context will be adjusted to match the bounds of the HIView, automatically
+tracking changes to the HIView frame.
+</p>
+
+<p>
+NOpenGLView views can be rendered on demand, or will render themselves automatically at
+a specified frame rate.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+
+<h2>NPDFView</h2>
+<img src="images/view_npdfview.jpg" alt="NPDFView" width="150" height="150" align=right>
+<p>
+NPDFView allows PDF content to be embedded within a window.
+</p>
+
+<p>
+Content can be loaded from a file or assigned directly, and can be paged through.
+</p>
+
+<p>
+Since NPDFView inherits from NScrollableView, it can also be placed in an NHIScrollView
+allowing the content to be scrolled or zoomed.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+<h2>NShadingView and NReflectionView</h2>
+<img src="images/view_nshadingview.jpg" alt="NShadingView" width="150" height="150" align=right>
+<p>
+An NShadingView renders an NCGShading object into an HIView, automatically tracking changes
+to the HIView frame.
+</p>
+
+<p>
+An NReflectionView renders a target view into itself, flipping and masking the target to
+obtain a smoothly-faded reflection.
+</p>
+
+<p>
+A reflection effect can be achieved by overlapping these two views, allowing an arbitrary
+view (such as this NIconView) to float over a reflective surface.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+<h2>NBezelView</h2>
+<img src="images/view_nbezelview.jpg" alt="NBezelView" width="150" height="150" align=right>
+<p>
+An NBezelView provides a translucent "round rectangle" appearance.
+</p>
+
+<p>
+This view would typically be placed within a window with a transparent content area, providing
+a backdrop to other views within the window.
+</p>
+
+<p>
+<tt>NHIWindow::SetContentTransparent</tt> can be used to make the content area of an arbitrary
+window transparent.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+<h2>NLevelIndicator</h2>
+<img src="images/view_nlevelindicator.jpg" alt="NLevelIndicator" width="200" height="150" align=right>
+<p>
+An NLevelIndicator corresponds to Cocoa's
+<a href="http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/XHIGControls/chapter_18_section_5.html#//apple_ref/doc/uid/TP30000359-DontLinkElementID_4">NSLevelIndicator</a>
+control, and provides both discrete and continuous appearances.
+</p>
+
+<p>
+Since this view is typically used to display state, rather than obtain input, it ignores
+mouse events by default.
+</p>
+
+<p>
+After clearing the kHIViewFeatureIgnoresClicks bit, the user can scrub the view with the mouse
+and change the value.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+<h2>NRatingBar</h2>
+<img src="images/view_nratingbar.jpg" alt="NRatingBar" width="150" height="150" align=right>
+
+<p>
+An NRatingBar corresponds to Cocoa's
+<a href="http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/XHIGControls/chapter_18_section_5.html#//apple_ref/doc/uid/TP30000359-DontLinkElementID_6">NSLevelIndicator</a>
+control, and is also present in iTunes.
+</p>
+
+<p>
+Since this view is typically used to obtain input, as well as display state, it tracks the mouse
+by default.
+</p>
+
+<p>
+When scrubbed with the mouse, an NRatingBar will display a series of dots in the empty portion
+of the view so that the user can see the available range.
+</p>
+
+<p>
+&nbsp;
+</p>
+
+
+
+<h2>NStatusBar</h2>
+<img src="images/view_nstatusbar.jpg" alt="NStatusBar" width="150" height="50" align=right>
+
+<p>
+An NStatusBar provides a one-line status bar, which can be placed in the bottom of a window
+to communicate status or progress to the user.
+</p>
+
+
+
+<h2>NDialView</h2>
+<img src="images/view_ndialview.jpg" alt="NDialView" width="150" height="50" align=right>
+<p>
+An NDialView corresponds to Cocoa's
+<a href="http://developer.apple.com/documentation/Cocoa/Conceptual/Slider/Tasks/SettingShape.html">round slider</a>
+control.
+</p>
+
+<p>
+Unlike the Cocoa view, NDialView can also track the thumb distance as well as the angle - allowing
+the manipulation of two-dimension properties such as a light vector.
+</p>
+
+
+
+<h2>NProgressPie</h2>
+<img src="images/view_nprogresspie.jpg" alt="NProgressPie" width="150" height="50" align=right>
+<p>
+An NProgressPie provides a compact progress indicator, currently used by Xcode when building.
+</p>
+
+<p>
+This view can provide a space-efficient alternative to a progress bar control, displaying an
+obvious progress metric in a small area.
+</p>
+
+
+<h2>NBadgeView</h2>
+<img src="images/view_nbadgeview.jpg" width=150  height=50 alt="NBadgeView" align=right>
+<p>
+An NBadgeView provides a starburst indicator, currently used by Mail to indicate new messages.
+</p>
+
+<p>
+This view can be inserted into an NDockTile, to provide a "badge" indicator in the Dock.
+</p>
+
+
+<h2>Buttons</h2>
+<img src="images/view_buttons.jpg" alt="Buttons" width="150" height="150" align=right>
+<p>
+In addition to the standard button controls, Nano provides an additional set of buttons
+that implement Apple-internal or Cocoa-specific button types.
+</p>
+
+<p>
+NMembraneButton is used in the Finder's Find window, or in the info panel in column view.
+</p>
+
+<p>
+NFlatButton and NGlassButton correspond to Cocoa's "small square button" and "round textured button"
+respectively.
+</p>
+
+<p>
+NImageButton uses an arbitrary set of images to define the button content, allowing a
+"skinnable" button to be created to match an existing theme.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+
