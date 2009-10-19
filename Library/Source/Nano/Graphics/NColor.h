@@ -30,7 +30,8 @@
 //----------------------------------------------------------------------------
 // Color formats
 typedef enum {
-	kNColorRGBA
+	kNColorARGB,
+	kNColorRGBA,
 } NColorFormat;
 
 

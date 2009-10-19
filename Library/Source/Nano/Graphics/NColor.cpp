@@ -117,6 +117,16 @@ NColor::NColor(const NString &hexColor, NColorFormat theFormat)
 	r = g = b = a = 0.0f;
 
 	switch (theFormat) {
+		case kNColorARGB:
+			if (sscanf(hexColor.GetUTF8(), "%2x%2x%2x%2x", &valueA, &valueR, &valueG, &valueB) == 4)
+				{
+				r = ((Float32) valueR) * kOneOver255;
+				g = ((Float32) valueG) * kOneOver255;
+				b = ((Float32) valueB) * kOneOver255;
+				a = ((Float32) valueA) * kOneOver255;
+				}
+			break;
+
 		case kNColorRGBA:
 			if (sscanf(hexColor.GetUTF8(), "%2x%2x%2x%2x", &valueR, &valueG, &valueB, &valueA) == 4)
 				{
@@ -233,6 +243,10 @@ UInt32 NColor::GetColor(NColorFormat theFormat) const
 
 	// Encode the color
 	switch (theFormat) {
+		case kNColorARGB:
+			theColor = (a << 24) | (r << 16) | (g << 8) | (b << 0);
+			break;
+
 		case kNColorRGBA:
 			theColor = (r << 24) | (g << 16) | (b << 8) | (a << 0);
 			break;
@@ -278,6 +292,13 @@ void NColor::SetColor(UInt32 theColor, NColorFormat theFormat)
 
 	// Break down the color
 	switch (theFormat) {
+		case kNColorARGB:
+			a = ((Float32) ((theColor >> 24) & 0xFF)) * kOneOver255;
+			r = ((Float32) ((theColor >> 16) & 0xFF)) * kOneOver255;
+			g = ((Float32) ((theColor >>  8) & 0xFF)) * kOneOver255;
+			b = ((Float32) ((theColor >>  0) & 0xFF)) * kOneOver255;
+			break;
+
 		case kNColorRGBA:
 			r = ((Float32) ((theColor >> 24) & 0xFF)) * kOneOver255;
 			g = ((Float32) ((theColor >> 16) & 0xFF)) * kOneOver255;
