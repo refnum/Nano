@@ -110,13 +110,11 @@ private:
 
 	static NBundleInfo					*AcquireInfo(const NFile &theFile);
 	static void							ReleaseInfo(void);
+	static NMutexLock					&GetLock(void);
 
 
 private:
 	NFile								mFile;
-	
-	static NMutexLock					mLock;
-	static NBundleInfoMap				mBundles;
 };
 
 

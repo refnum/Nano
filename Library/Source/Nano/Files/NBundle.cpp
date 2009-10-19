@@ -396,7 +396,9 @@ NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 //		NBundle::AcquireInfo : Acquire the info for a bundle.
 //----------------------------------------------------------------------------
 NBundleInfo *NBundle::AcquireInfo(const NFile &theFile)
-{	NBundleInfo					theInfo;
+{	static NBundleInfoMap		sBundles;
+
+	NBundleInfo					theInfo;
 	NBundleInfoMapIterator		theIter;
 	NString						thePath;
 
@@ -408,21 +410,21 @@ NBundleInfo *NBundle::AcquireInfo(const NFile &theFile)
 
 
 	// Acquire the lock
-	mLock.Lock();
+	GetLock().Lock();
 
 
 
 	// Get the state we need
 	thePath = theFile.GetPath();
-	theIter = mBundles.find(theFile.GetPath());
+	theIter = sBundles.find(theFile.GetPath());
 
 
 
 	// Populate the info
-	if (theIter == mBundles.end())
+	if (theIter == sBundles.end())
 		{
-		mBundles[thePath] = theInfo;
-		theIter           = mBundles.find(theFile.GetPath());
+		sBundles[thePath] = theInfo;
+		theIter           = sBundles.find(theFile.GetPath());
 		}
 	
 	
@@ -443,7 +445,25 @@ void NBundle::ReleaseInfo(void)
 
 
 	// Release the lock
-	mLock.Unlock();
+	GetLock().Unlock();
 }
+
+
+
+
+
+//============================================================================
+//		NBundle::GetLock : Get the lock.
+//----------------------------------------------------------------------------
+NMutexLock &NBundle::GetLock(void)
+{	static NMutexLock		sLock;
+
+
+
+	// Get the lock
+	return(sLock);
+}
+
+
 
 
