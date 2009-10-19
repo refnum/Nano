@@ -167,12 +167,12 @@ typedef u_int64_t sha_word64;	/* Exactly 8 bytes */
 #endif
 
 #ifdef SHA2_USE_MEMSET_MEMCPY
-#define MEMSET_BZERO(p,l)	memset((p), 0, (l))
-#define MEMCPY_BCOPY(d,s,l)	memcpy((d), (s), (l))
+#define MEMSET_BZERO(p,l)	memset((p), 0, (size_t) (l))
+#define MEMCPY_BCOPY(d,s,l)	memcpy((d), (s), (size_t) (l))
 #endif
 #ifdef SHA2_USE_BZERO_BCOPY
-#define MEMSET_BZERO(p,l)	bzero((p), (l))
-#define MEMCPY_BCOPY(d,s,l)	bcopy((s), (d), (l))
+#define MEMSET_BZERO(p,l)	bzero((p), (size_t) (l))
+#define MEMCPY_BCOPY(d,s,l)	bcopy((s), (d), (size_t) (l))
 #endif
 
 

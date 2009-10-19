@@ -60,7 +60,7 @@ void MD5Init(struct MD5Context *ctx)
  * Update context to reflect the concatenation of another buffer full
  * of bytes.
  */
-void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len)
+void MD5Update(struct MD5Context *ctx, const unsigned char *buf, size_t len)
 {
     uint32 t;
 
@@ -83,7 +83,7 @@ void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len)
 	    memcpy(p, buf, len);
 	    return;
 	}
-	memcpy(p, buf, t);
+	memcpy(p, buf, (size_t) t);
 	byteReverse(ctx->in, 16);
 	MD5Transform(ctx->buf, (uint32 *) ctx->in);
 	buf += t;
@@ -92,7 +92,7 @@ void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len)
     /* Process data in 64-byte chunks */
 
     while (len >= 64) {
-	memcpy(ctx->in, buf, 64);
+	memcpy(ctx->in, buf, (size_t) 64);
 	byteReverse(ctx->in, 16);
 	MD5Transform(ctx->buf, (uint32 *) ctx->in);
 	buf += 64;
@@ -110,7 +110,7 @@ void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len)
  */
 void MD5Final(unsigned char digest[16], struct MD5Context *ctx)
 {
-    unsigned count;
+    size_t count;
     unsigned char *p;
 
     /* Compute number of bytes mod 64 */
@@ -132,7 +132,7 @@ void MD5Final(unsigned char digest[16], struct MD5Context *ctx)
 	MD5Transform(ctx->buf, (uint32 *) ctx->in);
 
 	/* Now fill the next block with 56 bytes */
-	memset(ctx->in, 0, 56);
+	memset(ctx->in, 0, (size_t) 56);
     } else {
 	/* Pad block to 56 bytes */
 	memset(p, 0, count - 8);
@@ -145,7 +145,7 @@ void MD5Final(unsigned char digest[16], struct MD5Context *ctx)
 
     MD5Transform(ctx->buf, (uint32 *) ctx->in);
     byteReverse((unsigned char *) ctx->buf, 4);
-    memcpy(digest, ctx->buf, 16);
+    memcpy(digest, ctx->buf, (size_t) 16);
     memset(ctx, 0, sizeof(ctx));        /* In case it's sensitive */
 }
 

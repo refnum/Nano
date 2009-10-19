@@ -65,7 +65,7 @@ struct MD5Context {
 };
 
 extern void MD5Init(struct MD5Context *ctx);
-extern void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len);
+extern void MD5Update(struct MD5Context *ctx, const unsigned char *buf, size_t len);
 extern void MD5Final(unsigned char digest[16], struct MD5Context *ctx);
 extern void MD5Transform(uint32 buf[4], uint32 in[16]);
 
