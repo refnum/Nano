@@ -38,21 +38,21 @@ typedef enum {
 // Colors
 class NColor;
 
-extern const NColor kColorBlack;
-extern const NColor kColorBlue;
-extern const NColor kColorBrown;
-extern const NColor kColorClear;
-extern const NColor kColorCyan;
-extern const NColor kColorGray;
-extern const NColor kColorGrayDark;
-extern const NColor kColorGrayLight;
-extern const NColor kColorGreen;
-extern const NColor kColorMagenta;
-extern const NColor kColorOrange;
-extern const NColor kColorPurple;
-extern const NColor kColorRed;
-extern const NColor kColorWhite;
-extern const NColor kColorYellow;
+extern const NColor kNColorBlack;
+extern const NColor kNColorBlue;
+extern const NColor kNColorBrown;
+extern const NColor kNColorClear;
+extern const NColor kNColorCyan;
+extern const NColor kNColorGray;
+extern const NColor kNColorGrayDark;
+extern const NColor kNColorGrayLight;
+extern const NColor kNColorGreen;
+extern const NColor kNColorMagenta;
+extern const NColor kNColorOrange;
+extern const NColor kNColorPurple;
+extern const NColor kNColorRed;
+extern const NColor kNColorWhite;
+extern const NColor kNColorYellow;
 
 
 

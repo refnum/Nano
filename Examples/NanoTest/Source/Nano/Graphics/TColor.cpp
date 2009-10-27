@@ -34,22 +34,24 @@ void TColor::Execute(void)
 
 	// Execute the tests
 	testColor = NColor(1.0f, 0.0f, 0.0f, 1.0f);
-	NN_ASSERT(testColor == kColorRed);
+	NN_ASSERT(testColor == kNColorRed);
 
 	testColor = NColor(0.0f, 1.0f, 0.0f);
-	NN_ASSERT(testColor == kColorGreen);
+	NN_ASSERT(testColor == kNColorGreen);
 
 	testColor = NColor(0xFF00FFFF);
-	NN_ASSERT(testColor == kColorMagenta);
+	NN_ASSERT(testColor == kNColorMagenta);
 
 	testColor = NColor("0000FFFF");
-	NN_ASSERT(testColor == kColorBlue);
+	NN_ASSERT(testColor == kNColorBlue);
 
-	kColorCyan.GetColor(r, g, b, a);
+	kNColorCyan.GetColor(r, g, b, a);
 	NN_ASSERT(NMathUtilities::AreEqual(r, 0.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(g, 1.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(b, 1.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(a, 1.0f));
 
-	NN_ASSERT(kColorYellow.GetColor() == 0xFFFF00FF);
+	NN_ASSERT(kNColorYellow.GetColor()            == 0xFFFF00FF);
+	NN_ASSERT(kNColorYellow.GetColor(kNColorRGBA) == 0xFFFF00FF);
+	NN_ASSERT(kNColorYellow.GetColor(kNColorARGB) == 0xFFFFFF00);
 }

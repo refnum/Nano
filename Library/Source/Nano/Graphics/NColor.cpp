@@ -25,21 +25,21 @@
 //============================================================================
 //		Public constants
 //----------------------------------------------------------------------------
-const NColor kColorBlack									= NColor(0.00f, 0.00f, 0.00f, 1.0f);
-const NColor kColorBlue										= NColor(0.00f, 0.00f, 1.00f, 1.0f);
-const NColor kColorBrown									= NColor(0.60f, 0.40f, 0.20f, 1.0f);
-const NColor kColorClear									= NColor(1.00f, 1.00f, 1.00f, 0.0f);
-const NColor kColorCyan										= NColor(0.00f, 1.00f, 1.00f, 1.0f);
-const NColor kColorGray										= NColor(0.50f, 0.50f, 0.50f, 1.0f);
-const NColor kColorGrayDark									= NColor(0.33f, 0.33f, 0.33f, 1.0f);
-const NColor kColorGrayLight								= NColor(0.66f, 0.66f, 0.66f, 1.0f);
-const NColor kColorGreen									= NColor(0.00f, 1.00f, 0.00f, 1.0f);
-const NColor kColorMagenta									= NColor(1.00f, 0.00f, 1.00f, 1.0f);
-const NColor kColorOrange									= NColor(1.00f, 0.50f, 0.00f, 1.0f);
-const NColor kColorPurple									= NColor(0.50f, 0.00f, 0.50f, 1.0f);
-const NColor kColorRed										= NColor(1.00f, 0.00f, 0.00f, 1.0f);
-const NColor kColorWhite									= NColor(1.00f, 1.00f, 1.00f, 1.0f);
-const NColor kColorYellow									= NColor(1.00f, 1.00f, 0.00f, 1.0f);
+const NColor kNColorBlack									= NColor(0.00f, 0.00f, 0.00f, 1.0f);
+const NColor kNColorBlue									= NColor(0.00f, 0.00f, 1.00f, 1.0f);
+const NColor kNColorBrown									= NColor(0.60f, 0.40f, 0.20f, 1.0f);
+const NColor kNColorClear									= NColor(1.00f, 1.00f, 1.00f, 0.0f);
+const NColor kNColorCyan									= NColor(0.00f, 1.00f, 1.00f, 1.0f);
+const NColor kNColorGray									= NColor(0.50f, 0.50f, 0.50f, 1.0f);
+const NColor kNColorGrayDark								= NColor(0.33f, 0.33f, 0.33f, 1.0f);
+const NColor kNColorGrayLight								= NColor(0.66f, 0.66f, 0.66f, 1.0f);
+const NColor kNColorGreen									= NColor(0.00f, 1.00f, 0.00f, 1.0f);
+const NColor kNColorMagenta									= NColor(1.00f, 0.00f, 1.00f, 1.0f);
+const NColor kNColorOrange									= NColor(1.00f, 0.50f, 0.00f, 1.0f);
+const NColor kNColorPurple									= NColor(0.50f, 0.00f, 0.50f, 1.0f);
+const NColor kNColorRed										= NColor(1.00f, 0.00f, 0.00f, 1.0f);
+const NColor kNColorWhite									= NColor(1.00f, 1.00f, 1.00f, 1.0f);
+const NColor kNColorYellow									= NColor(1.00f, 1.00f, 0.00f, 1.0f);
 
 
 
