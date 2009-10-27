@@ -94,6 +94,7 @@ void NUnicodeParser::Parse(const NData &theData, NStringEncoding theEncoding)
 {	NRange		theRange;
 
 
+
 	// Set the value
 	mData     = theData;
 	mEncoding = theEncoding;
