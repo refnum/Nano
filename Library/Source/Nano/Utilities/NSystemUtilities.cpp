@@ -445,6 +445,12 @@ NComparison NSystemUtilities::CompareVersions(const NString &version1, const NSt
 
 
 
+	// Quick check
+	if (version1 == version2)
+		return(kNCompareEqualTo);
+
+
+
 	// Get the state we need
 	parts1 = GetVersionParts(version1);
 	parts2 = GetVersionParts(version2);
