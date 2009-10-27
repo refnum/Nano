@@ -225,12 +225,18 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 
 
 
-	// Get the resource
+	// Get an absolute "resource"
 	//
 	// We allow bundle resources to be specified with an absolute path,
-	// since this allows us to reference 'resources' outside the bundle.
+	// as this allows us to reference 'resources' outside the bundle.
 	if (theName.StartsWith("/"))
-		thePath = theName;
+		theFile = NFile(theName);
+
+
+
+	// Get an internal resource
+	//
+	// Otherwise, the path is relative to the root of the bundle.
 	else
 		{
 		if (subDir.IsEmpty())
@@ -245,9 +251,9 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 
 			thePath += theType;
 			}
+
+		theFile = mFile.GetChild(thePath);
 		}
-	
-	theFile = NFile(thePath);
 
 	return(theFile);
 }
