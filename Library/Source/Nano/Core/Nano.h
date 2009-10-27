@@ -31,7 +31,7 @@
 
 
 // Windows
-#if NN_TARGET_WIN
+#if NN_TARGET_WINDOWS
 	#define WIN32_LEAN_AND_MEAN
 	#define NOMINMAX
 	#include <Windows.h>

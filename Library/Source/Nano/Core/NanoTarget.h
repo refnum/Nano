@@ -26,7 +26,7 @@
 //----------------------------------------------------------------------------
 // Baseline
 #define NN_TARGET_MAC												0
-#define NN_TARGET_WIN												0
+#define NN_TARGET_WINDOWS											0
 #define NN_TARGET_IPHONE											0
 
 
@@ -39,8 +39,8 @@
 
 // Windows
 #if defined(_MSC_VER)
-	#undef  NN_TARGET_WIN
-	#define NN_TARGET_WIN											1
+	#undef  NN_TARGET_WINDOWS
+	#define NN_TARGET_WINDOWS										1
 #endif
 
 
@@ -52,7 +52,7 @@
 
 
 // Validate
-#if !NN_TARGET_MAC && !NN_TARGET_WIN && !NN_TARGET_IPHONE
+#if !NN_TARGET_MAC && !NN_TARGET_WINDOWS && !NN_TARGET_IPHONE
 	ERROR - Unable to determine target platform
 #endif
 
@@ -81,7 +81,7 @@
 
 
 // Windows
-#if NN_TARGET_WIN
+#if NN_TARGET_WINDOWS
 	#undef  NN_TARGET_ENDIAN_LITTLE
 	#define NN_TARGET_ENDIAN_LITTLE									1
 #endif
@@ -124,7 +124,7 @@
 
 
 // Windows
-#if NN_TARGET_WIN
+#if NN_TARGET_WINDOWS
 	#if defined(_WIN64)
 		#undef  NN_TARGET_ARCH_64
 		#define NN_TARGET_ARCH_64									1
