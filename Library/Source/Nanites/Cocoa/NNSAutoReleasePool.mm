@@ -1,5 +1,5 @@
 /*	NAME:
-		NNSAutoReleasePool.m
+		NNSAutoReleasePool.mm
 
 	DESCRIPTION:
 		Auto-release pool.

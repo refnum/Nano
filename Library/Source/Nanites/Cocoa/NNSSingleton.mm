@@ -1,5 +1,5 @@
 /*	NAME:
-		NNSSingleton.m
+		NNSSingleton.mm
 
 	DESCRIPTION:
 		Objective-C singleton.

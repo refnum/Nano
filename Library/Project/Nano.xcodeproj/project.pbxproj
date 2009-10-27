@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB003FDF1096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */; };
+		AB003FE01096FC56006029F9 /* NNSSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDE1096FC56006029F9 /* NNSSingleton.mm */; };
+		AB003FE11096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */; };
+		AB003FE21096FC56006029F9 /* NNSSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDE1096FC56006029F9 /* NNSSingleton.mm */; };
 		AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1431F4103F5102002BD0D1 /* NColor.cpp */; };
@@ -15,8 +19,6 @@
 		AB1694DB10028C8200F7D4B7 /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D810028C8200F7D4B7 /* cencode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694DC10028C8200F7D4B7 /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D610028C8200F7D4B7 /* cdecode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB1694DD10028C8200F7D4B7 /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D810028C8200F7D4B7 /* cencode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AB1A786D1031842C00DFBA38 /* NNSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1A786C1031842C00DFBA38 /* NNSSingleton.m */; };
-		AB1A786E1031842C00DFBA38 /* NNSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1A786C1031842C00DFBA38 /* NNSSingleton.m */; };
 		AB1A78A1103234BE00DFBA38 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
 		AB1A78A2103234BE00DFBA38 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
 		AB1A78A3103234BE00DFBA38 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
@@ -249,8 +251,6 @@
 		ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
 		ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
 		ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
-		ABE9623B103B001400029708 /* NNSAutoReleasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE96239103B001400029708 /* NNSAutoReleasePool.m */; };
-		ABE9623C103B001400029708 /* NNSAutoReleasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE96239103B001400029708 /* NNSAutoReleasePool.m */; };
 		ABFAA556101871460060ED12 /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
 		ABFAA557101871460060ED12 /* NEncodable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA555101871460060ED12 /* NEncodable.cpp */; };
 		ABFAA558101871460060ED12 /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
@@ -284,6 +284,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB003FDB1096FC56006029F9 /* NNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSAutoReleasePool.h; sourceTree = "<group>"; };
+		AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NNSAutoReleasePool.mm; sourceTree = "<group>"; };
+		AB003FDD1096FC56006029F9 /* NNSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSSingleton.h; sourceTree = "<group>"; };
+		AB003FDE1096FC56006029F9 /* NNSSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NNSSingleton.mm; sourceTree = "<group>"; };
 		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
 		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
 		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
@@ -293,8 +297,6 @@
 		AB1694D810028C8200F7D4B7 /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cencode.c; sourceTree = "<group>"; };
 		AB1694D910028C8200F7D4B7 /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cencode.h; sourceTree = "<group>"; };
 		AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDistribution.xcconfig; sourceTree = "<group>"; };
-		AB1A786B1031842C00DFBA38 /* NNSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSSingleton.h; sourceTree = "<group>"; };
-		AB1A786C1031842C00DFBA38 /* NNSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NNSSingleton.m; sourceTree = "<group>"; };
 		AB1A789D103234BE00DFBA38 /* NUndoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoSource.h; sourceTree = "<group>"; };
 		AB1A789E103234BE00DFBA38 /* NUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoManager.h; sourceTree = "<group>"; };
 		AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoSource.cpp; sourceTree = "<group>"; };
@@ -552,8 +554,6 @@
 		ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
-		ABE96239103B001400029708 /* NNSAutoReleasePool.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NNSAutoReleasePool.m; sourceTree = "<group>"; };
-		ABE9623A103B001400029708 /* NNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSAutoReleasePool.h; sourceTree = "<group>"; };
 		ABFAA552101871460060ED12 /* NEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncoder.h; sourceTree = "<group>"; };
 		ABFAA553101871460060ED12 /* NEncodable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncodable.h; sourceTree = "<group>"; };
 		ABFAA554101871460060ED12 /* NEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NEncoder.cpp; sourceTree = "<group>"; };
@@ -621,10 +621,10 @@
 		AB1A786A1031842C00DFBA38 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
-				ABE96239103B001400029708 /* NNSAutoReleasePool.m */,
-				ABE9623A103B001400029708 /* NNSAutoReleasePool.h */,
-				AB1A786C1031842C00DFBA38 /* NNSSingleton.m */,
-				AB1A786B1031842C00DFBA38 /* NNSSingleton.h */,
+				AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */,
+				AB003FDB1096FC56006029F9 /* NNSAutoReleasePool.h */,
+				AB003FDE1096FC56006029F9 /* NNSSingleton.mm */,
+				AB003FDD1096FC56006029F9 /* NNSSingleton.h */,
 			);
 			path = Cocoa;
 			sourceTree = "<group>";
@@ -1234,8 +1234,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE9623C103B001400029708 /* NNSAutoReleasePool.m in Sources */,
-				AB1A786D1031842C00DFBA38 /* NNSSingleton.m in Sources */,
+				AB003FE11096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
+				AB003FE21096FC56006029F9 /* NNSSingleton.mm in Sources */,
 				AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */,
 				AB9DA5E7102AF78F0062E311 /* NCFData.cpp in Sources */,
 				AB9DA5EA102AF78F0062E311 /* NCFDate.cpp in Sources */,
@@ -1378,8 +1378,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE9623B103B001400029708 /* NNSAutoReleasePool.m in Sources */,
-				AB1A786E1031842C00DFBA38 /* NNSSingleton.m in Sources */,
+				AB003FDF1096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
+				AB003FE01096FC56006029F9 /* NNSSingleton.mm in Sources */,
 				AB9DA5E4102AF78F0062E311 /* NCFArray.cpp in Sources */,
 				AB9DA5E2102AF78F0062E311 /* NCFData.cpp in Sources */,
 				AB9DA5E5102AF78F0062E311 /* NCFDate.cpp in Sources */,
