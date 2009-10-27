@@ -11,6 +11,12 @@
 		AB003FE01096FC56006029F9 /* NNSSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDE1096FC56006029F9 /* NNSSingleton.mm */; };
 		AB003FE11096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */; };
 		AB003FE21096FC56006029F9 /* NNSSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDE1096FC56006029F9 /* NNSSingleton.mm */; };
+		AB00400F1096FCFD006029F9 /* NCocoa.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB00400E1096FCFD006029F9 /* NCocoa.mm */; };
+		AB0040101096FCFD006029F9 /* NCocoa.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB00400E1096FCFD006029F9 /* NCocoa.mm */; };
+		AB00401A1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
+		AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
+		AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
+		AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
 		AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1431F4103F5102002BD0D1 /* NColor.cpp */; };
@@ -218,8 +224,6 @@
 		AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */; };
 		AB9DA5EA102AF78F0062E311 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */; };
 		AB9DA5EB102AF78F0062E311 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
-		ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
-		ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAA12400FE4F959000BDCDC /* NQObject.cpp */; };
 		ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
 		ABB145420FF2C4EF006F178C /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
 		ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CA0FF36A34006F178C /* NPropertyList.cpp */; };
@@ -288,6 +292,16 @@
 		AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		AB003FDD1096FC56006029F9 /* NNSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSSingleton.h; sourceTree = "<group>"; };
 		AB003FDE1096FC56006029F9 /* NNSSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NNSSingleton.mm; sourceTree = "<group>"; };
+		AB00400D1096FCFD006029F9 /* NCocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCocoa.h; sourceTree = "<group>"; };
+		AB00400E1096FCFD006029F9 /* NCocoa.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCocoa.mm; sourceTree = "<group>"; };
+		AB0040131096FE82006029F9 /* NQt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NQt.cpp; sourceTree = "<group>"; };
+		AB0040141096FE82006029F9 /* NQt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQt.h; sourceTree = "<group>"; };
+		AB0040161096FE97006029F9 /* NSkia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSkia.cpp; sourceTree = "<group>"; };
+		AB0040171096FE97006029F9 /* NSkia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSkia.h; sourceTree = "<group>"; };
+		AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreFoundation.cpp; sourceTree = "<group>"; };
+		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
+		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
+		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
 		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
 		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
 		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
@@ -607,6 +621,24 @@
 			name = Nano;
 			sourceTree = "<group>";
 		};
+		AB0040151096FE97006029F9 /* Skia */ = {
+			isa = PBXGroup;
+			children = (
+				AB0040161096FE97006029F9 /* NSkia.cpp */,
+				AB0040171096FE97006029F9 /* NSkia.h */,
+			);
+			path = Skia;
+			sourceTree = "<group>";
+		};
+		AB004029109700AD006029F9 /* CoreGraphics */ = {
+			isa = PBXGroup;
+			children = (
+				AB00402A109700AD006029F9 /* NCoreGraphics.cpp */,
+				AB00402B109700AD006029F9 /* NCoreGraphics.h */,
+			);
+			path = CoreGraphics;
+			sourceTree = "<group>";
+		};
 		AB1694D510028C8200F7D4B7 /* libb64_1.1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -621,6 +653,8 @@
 		AB1A786A1031842C00DFBA38 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				AB00400E1096FCFD006029F9 /* NCocoa.mm */,
+				AB00400D1096FCFD006029F9 /* NCocoa.h */,
 				AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */,
 				AB003FDB1096FC56006029F9 /* NNSAutoReleasePool.h */,
 				AB003FDE1096FC56006029F9 /* NNSSingleton.mm */,
@@ -726,7 +760,9 @@
 			children = (
 				AB1A786A1031842C00DFBA38 /* Cocoa */,
 				AB9154E00F9B4DD5009FFEAF /* CoreFoundation */,
+				AB004029109700AD006029F9 /* CoreGraphics */,
 				ABAA123F0FE4F959000BDCDC /* Qt */,
+				AB0040151096FE97006029F9 /* Skia */,
 			);
 			path = Nanites;
 			sourceTree = "<group>";
@@ -748,6 +784,8 @@
 				AB9156780F9B5328009FFEAF /* NCFObject.h */,
 				AB91567A0F9B5328009FFEAF /* NCFString.cpp */,
 				AB9156790F9B5328009FFEAF /* NCFString.h */,
+				AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */,
+				AB0040191096FEB0006029F9 /* NCoreFoundation.h */,
 			);
 			path = CoreFoundation;
 			sourceTree = "<group>";
@@ -1063,6 +1101,8 @@
 			children = (
 				ABAA12400FE4F959000BDCDC /* NQObject.cpp */,
 				ABAA12410FE4F959000BDCDC /* NQObject.h */,
+				AB0040131096FE82006029F9 /* NQt.cpp */,
+				AB0040141096FE82006029F9 /* NQt.h */,
 			);
 			path = Qt;
 			sourceTree = "<group>";
@@ -1234,6 +1274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0040101096FCFD006029F9 /* NCocoa.mm in Sources */,
 				AB003FE11096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
 				AB003FE21096FC56006029F9 /* NNSSingleton.mm in Sources */,
 				AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */,
@@ -1243,7 +1284,8 @@
 				AB9DA5EB102AF78F0062E311 /* NCFNumber.cpp in Sources */,
 				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
-				ABAA12450FE4F979000BDCDC /* NQObject.cpp in Sources */,
+				AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
+				AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
 				ABB145420FF2C4EF006F178C /* NPreferences.cpp in Sources */,
 				AB1A78A2103234BE00DFBA38 /* NUndoManager.cpp in Sources */,
@@ -1378,6 +1420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB00400F1096FCFD006029F9 /* NCocoa.mm in Sources */,
 				AB003FDF1096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
 				AB003FE01096FC56006029F9 /* NNSSingleton.mm in Sources */,
 				AB9DA5E4102AF78F0062E311 /* NCFArray.cpp in Sources */,
@@ -1387,7 +1430,8 @@
 				AB9DA5E6102AF78F0062E311 /* NCFNumber.cpp in Sources */,
 				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
-				ABAA12420FE4F959000BDCDC /* NQObject.cpp in Sources */,
+				AB00401A1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
+				AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
 				ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */,
 				AB1A78A4103234BE00DFBA38 /* NUndoManager.cpp in Sources */,
