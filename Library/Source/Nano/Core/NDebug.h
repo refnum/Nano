@@ -28,8 +28,8 @@
 //		C Wrapper
 //----------------------------------------------------------------------------
 //		Note :	Not as functional as the C++ interface, but allows basic
-//				assertions and logging from code that includes Nano.h via
-//				a precompiled header but may have to be compiled as C.
+//				assertions and logging from plain C code that includes Nano.h
+//				via a precompiled header to use Nano types/assertions.
 //----------------------------------------------------------------------------
 #if defined(__cplusplus)
 extern "C" void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...);
