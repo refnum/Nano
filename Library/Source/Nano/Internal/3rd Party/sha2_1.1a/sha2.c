@@ -58,6 +58,20 @@
  */
 
 
+
+
+
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
+// Use NN_ASSERT to avoid 64-bit warnings from assert()
+#undef  assert
+#define assert(_e)		NN_ASSERT(_e)
+
+
+
+
+
 /*** SHA-224/256/384/512 Machine Architecture Definitions *************/
 /*
  * BYTE_ORDER NOTE:
