@@ -29,6 +29,7 @@
 //		Inline functions
 //----------------------------------------------------------------------------
 // Convert to Cocoa
+#if NN_TARGET_MAC
 inline NSPoint ToNS(const NPoint &thePoint)
 {
 	return(NSMakePoint(thePoint.x, thePoint.y));
@@ -43,6 +44,7 @@ inline NSRect ToNS(const NRectangle &theRect)
 {
 	return(NSMakeRect(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
+#endif // NN_TARGET_MAC
 
 inline NSRange ToNS(const NRange &theRange)
 {
@@ -52,6 +54,7 @@ inline NSRange ToNS(const NRange &theRange)
 
 
 // Convert from Cocoa
+#if NN_TARGET_MAC
 inline NPoint ToNN(const NSPoint &thePoint)
 {
 	return(NPoint(thePoint.x, thePoint.y));
@@ -66,6 +69,7 @@ inline NRectangle ToNN(const NSRect &theRect)
 {
 	return(NRectangle(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
+#endif // NN_TARGET_MAC
 
 inline NRange ToNN(const NSRange &theRange)
 {

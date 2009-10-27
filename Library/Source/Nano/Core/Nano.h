@@ -41,6 +41,8 @@
 // iPhone
 #if NN_TARGET_IPHONE
 	#include <CoreFoundation/CoreFoundation.h>
+	#include <CoreGraphics/CoreGraphics.h>
+
 	#if defined(__OBJC__)
 		#include <Foundation/Foundation.h>
 		#include <UIKit/UIKit.h>
