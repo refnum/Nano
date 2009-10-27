@@ -248,8 +248,6 @@ UInt8 *NData::GetData(NIndex theOffset)
 		NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
 #endif
 
-	NN_ASSERT(mExternalSize == 0 && mExternalPtr == NULL);
-
 
 
 	// Get the data
