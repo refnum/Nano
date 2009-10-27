@@ -15,9 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <unistd.h>
-#include <semaphore.h>
 #include <sys/sysctl.h>
-
+#include <mach/task.h>
+#include <mach/semaphore.h>
 #include <libKern/OSAtomic.h>
 
 #include "NThreadUtilities.h"
@@ -223,14 +223,14 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 //		NTargetThread::SemaphoreCreate : Create a semaphore.
 //----------------------------------------------------------------------------
 NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)
-{	sem_t		semRef;
-	int			sysErr;
+{	semaphore_t		semRef;
+	kern_return_t	sysErr;
 
 
 
 	// Create the semaphore
 	semRef = 0;
-	sysErr = sem_init(&semRef, 0, theValue);
+	sysErr = semaphore_create(mach_task_self(), &semRef, SYNC_POLICY_FIFO, theValue);
 	NN_ASSERT_NOERR(sysErr);
 
 	return((NSemaphoreRef) semRef);
@@ -244,13 +244,13 @@ NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)
 //		NTargetThread::SemaphoreDestroy : Destroy a semaphore.
 //----------------------------------------------------------------------------
 void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
-{	sem_t		semRef = (sem_t) theSemaphore;
-	int			sysErr;
+{	semaphore_t		semRef = (semaphore_t) theSemaphore;
+	kern_return_t	sysErr;
 
 
 
 	// Destroy the semaphore
-	sysErr = sem_destroy(&semRef);
+	semaphore_destroy(mach_task_self(), semRef);
 	NN_ASSERT_NOERR(sysErr);
 
 	theSemaphore = kNSemaphoreRefNone;
@@ -264,13 +264,13 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
 //		NTargetThread::SemaphoreSignal : Signal a semaphore.
 //----------------------------------------------------------------------------
 void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
-{	sem_t		semRef = (sem_t) theSemaphore;
-	int			sysErr;
+{	semaphore_t		semRef = (semaphore_t) theSemaphore;
+	kern_return_t	sysErr;
 
 
 
 	// Signal the semaphore
-    sysErr = sem_post(&semRef);
+    sysErr = semaphore_signal(semRef);
 	NN_ASSERT_NOERR(sysErr);
 }
 
@@ -282,32 +282,29 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 //		NTargetThread::SemaphoreWait : Wait for a semaphore.
 //----------------------------------------------------------------------------
 bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
-{	sem_t		semRef = (sem_t) theSemaphore;
-	NTime		stopTime;
-	int			sysErr;
+{	semaphore_t			semRef = (semaphore_t) theSemaphore;
+	NTime				timeSecs, timeFrac;
+	mach_timespec_t		waitTime;
+	kern_return_t		sysErr;
 
 
 
 	// Wait with timeout
 	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
-		stopTime = NTimeUtilities::GetTime() + waitFor;
-		do
-			{
-			sysErr = sem_trywait(&semRef);
-			if (sysErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
-				{
-				NThread::Sleep(kNThreadSleepTime);
-				sysErr = kNoErr;
-				}
-			}
-		while (sysErr != kNoErr);
+		timeSecs = floor(waitFor);
+		timeFrac = waitFor - timeSecs;
+		
+		waitTime.tv_sec  = (unsigned int) timeSecs;
+		waitTime.tv_nsec = (clock_res_t) (timeFrac / kNTimeNanosecond);
+		
+		sysErr = semaphore_timedwait(semRef, waitTime);
 		}
 
 
 	// Wait for the semaphore
 	else
-		sysErr = sem_wait(&semRef);
+		sysErr = semaphore_wait(semRef);
 
 	return(sysErr == kNoErr);
 }
