@@ -15,3 +15,17 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NNSSingleton.h"
+
+
+
+
+
+//============================================================================
+//		Linker
+//----------------------------------------------------------------------------
+void NNSSingleton_SuppressNoCodeLinkerWarning(void);
+void NNSSingleton_SuppressNoCodeLinkerWarning(void)
+{
+}
+
+
