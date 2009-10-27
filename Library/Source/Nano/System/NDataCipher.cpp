@@ -153,7 +153,7 @@ NData NDataCipher::Decrypt(const NData &srcData, NEncryption theAlgorithm)
 	if (mKey.IsEmpty())
 		return(dstData);
 
-	dstData = srcData;
+	dstData = NData(srcData.GetSize(), srcData.GetData());
 
 
 
