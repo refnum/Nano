@@ -250,7 +250,7 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef &theSemaphore)
 
 
 	// Destroy the semaphore
-	semaphore_destroy(mach_task_self(), semRef);
+	sysErr = semaphore_destroy(mach_task_self(), semRef);
 	NN_ASSERT_NOERR(sysErr);
 
 	theSemaphore = kNSemaphoreRefNone;
