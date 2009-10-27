@@ -208,6 +208,9 @@ public:
 
 
 	// Operators
+	bool								operator == (const NString &theString) const;
+	bool								operator != (const NString &theString) const;
+
 	const NString&						operator += (const NString &theString);
 	const NString						operator +	(const NString &theString) const;
 

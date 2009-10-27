@@ -641,19 +641,28 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 //		NString::EqualTo : Compare two strings.
 //----------------------------------------------------------------------------
 bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
-{	bool	areEqual;
+{
 
 
-
-	// Check for equality
+	// Case-sensitive equality
 	//
-	// Exact comparisons can use a mis-matched hash code as a cheap test.
-	if (!(theFlags & kNStringNoCase) && GetHash() != theString.GetHash())
-		areEqual = false;
-	else
-		areEqual = (Compare(theString, theFlags) == kNCompareEqualTo);
-	
-	return(areEqual);
+	// When case is significant, we can perform a quick test for inequality
+	// by looking for different hash codes.
+	//
+	// Since two different strings may hash to the same value, if we can't
+	// prove inequality we must fall through to the general case (although
+	// this could also be extended to perform a memcmp of the string data
+	// for non-numeric comparisons).
+	if ((theFlags & kNStringNoCase) == kNStringNone)
+		{
+		if (GetHash() != theString.GetHash())
+			return(false);
+		}
+
+
+
+	// General equality
+	return(Compare(theString, theFlags) == kNCompareEqualTo);
 }
 
 
@@ -1146,6 +1155,42 @@ void NString::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
 
 	// Format the string
 	*this = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
+}
+
+
+
+
+
+//============================================================================
+//		NString::== : Equality operator
+//----------------------------------------------------------------------------
+bool NString::operator == (const NString &theString) const
+{
+
+
+	// Compare the objects
+	//
+	// Since we just need to test equality, we can use a case-sensitive
+	// EqualTo to perform a fast hash-based test before a full comparison.
+	return(EqualTo(theString, kNStringNone));
+}
+
+
+
+
+
+//============================================================================
+//		NString::!= : Inequality operator.
+//----------------------------------------------------------------------------
+bool NString::operator != (const NString &theString) const
+{
+
+
+	// Compare the objects
+	//
+	// Since we just need to test equality, we can use a case-sensitive
+	// EqualTo to perform a fast hash-based test before a full comparison.
+	return(!EqualTo(theString, kNStringNone));
 }
 
 
