@@ -16,6 +16,10 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "SkPoint.h"
+#include "SkSize.h"
+#include "SkRect.h"
+
 #include "NPoint.h"
 #include "NSize.h"
 #include "NRectangle.h"
@@ -38,7 +42,7 @@ inline SkPoint ToSk(const NPoint &thePoint)
 inline SkSize ToSk(const NSize &theSize)
 {	SkSize		theResult;
 
-	theResult.set(thePoint.width, thePoint.height);
+	theResult.set(theSize.width, theSize.height);
 	return(theResult);
 }
 
@@ -54,12 +58,12 @@ inline SkRect ToSk(const NRectangle &theRect)
 // Convert from Skia
 inline NPoint ToNN(const SkPoint &thePoint)
 {
-	return(NPoint(thePoint.x, thePoint.y));
+	return(NPoint(thePoint.fX, thePoint.fY));
 }
 
 inline NSize ToNN(const SkSize &theSize)
 {
-	return(NSize(theSize.width, theSize.height));
+	return(NSize(theSize.fWidth, theSize.fHeight));
 }
 
 inline NRectangle ToNN(const SkRect &theRect)
