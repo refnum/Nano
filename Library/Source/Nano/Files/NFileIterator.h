@@ -105,7 +105,7 @@ public:
 
 	// Get the next file
 	//
-	// Returns true if there are more files to process.
+	// Returns true if a valid file was returned.
 	bool								GetNext(NFile &theFile);
 
 

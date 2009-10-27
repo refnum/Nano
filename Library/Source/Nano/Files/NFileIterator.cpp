@@ -291,7 +291,13 @@ void NFileIterator::Close(void)
 //		NFileIterator::GetNext: Get the next file.
 //----------------------------------------------------------------------------
 bool NFileIterator::GetNext(NFile &theFile)
-{
+{	bool	gotFile;
+
+
+
+	// Reset our state
+	theFile.Clear();
+
 
 
 	// Collect some more results
@@ -304,12 +310,11 @@ bool NFileIterator::GetNext(NFile &theFile)
 
 
 	// Get the next file
-	if (!mScanResult.empty())
+	gotFile = !mScanResult.empty();
+	if (gotFile)
 		theFile = extract_front(mScanResult);
-	else
-		theFile.Clear();
 
-	return(!mScanResult.empty());
+	return(gotFile);
 }
 
 
