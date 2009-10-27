@@ -94,11 +94,12 @@ public:
 	bool								IsValid(void) const;
 
 
-	// Is this a file/directory?
+	// Is this a file/directory/link?
 	//
-	// Will always return false if the file/directory does not exist.
+	// Will always return false if the object does not exist.
 	bool								IsFile(     void) const;
 	bool								IsDirectory(void) const;
+	bool								IsLink(     void) const;
 
 
 	// Is the file writeable?
@@ -155,6 +156,11 @@ public:
 	// The child file name may include path components.
 	NFile								GetChild(const NString &fileName) const;
 	NFile								GetParent(void)                   const;
+
+
+	// Get the target of a file
+	NFile								GetTarget(    void) const;
+	bool								ResolveTarget(void);
 
 
 	// Get the children of a file

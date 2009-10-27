@@ -37,6 +37,10 @@ public:
 	static bool							IsDirectory(const NString &thePath);
 
 
+	// Is this a link?
+	static bool							IsLink(const NString &thePath);
+
+
 	// Is a file writeable?
 	static bool							IsWriteable(const NString &thePath);
 
@@ -58,6 +62,10 @@ public:
 	// Get the child/parent of a path
 	static NString						GetChild( const NString &thePath, const NString &fileName);
 	static NString						GetParent(const NString &thePath);
+
+
+	// Get the target of a path
+	static NString						GetTarget(const NString &thePath);
 
 
 	// Get the children of a path

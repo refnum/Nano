@@ -110,6 +110,44 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 
 
 //============================================================================
+//      NTargetFile::IsLink : Is this a link?
+//----------------------------------------------------------------------------
+bool NTargetFile::IsLink(const NString &thePath)
+{
+#if NN_TARGET_MAC
+	Boolean			isAlias, isFolder;
+	FSRef			theFSRef;
+	OSStatus		theErr;
+
+
+
+	// Get the FSRef
+	theErr = FSPathMakeRef((const UInt8 *) thePath.GetUTF8(), &theFSRef, NULL);
+	if (theErr != noErr)
+		return(false);
+
+
+
+	// Check the flags
+	theErr = FSIsAliasFile(&theFSRef, &isAlias, &isFolder);
+	if (theErr != noErr)
+		isAlias = false;
+
+	return(isAlias);
+
+
+#elif NN_TARGET_IPHONE
+	NN_UNUSED(thePath);
+
+	return(false);
+#endif
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::IsWriteable : Is a file writeable?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsWriteable(const NString &thePath)
@@ -211,7 +249,9 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 				theName = NCFString(cfString, true);
 			}
 		}
-#else
+
+
+#elif NN_TARGET_IPHONE
 	NN_UNUSED(displayName);
 	NN_UNUSED(cfString);
 	NN_UNUSED(theErr);
@@ -356,6 +396,52 @@ NString NTargetFile::GetParent(const NString &thePath)
 		theParent = thePath;
 	
 	return(theParent);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetTarget : Get the target of a path.
+//----------------------------------------------------------------------------
+NString NTargetFile::GetTarget(const NString &thePath)
+{
+#if NN_TARGET_MAC
+	Boolean			wasFolder, wasAlias;
+	NCFString		theResult;
+	FSRef			theFSRef;
+	OSStatus		theErr;
+	NCFObject		cfURL;
+
+
+
+	// Get the FSRef
+	theErr = FSPathMakeRef((const UInt8 *) thePath.GetUTF8(), &theFSRef, NULL);
+	if (theErr != noErr)
+		return(thePath);
+
+
+
+	// Resolve the alias
+	theErr = FSResolveAliasFile(&theFSRef, true, &wasFolder, &wasAlias);
+	if (theErr != noErr || !wasAlias)
+		return(thePath);
+	
+	
+	
+	// Get the path
+	theResult = thePath;
+	
+	if (cfURL.SetObject(CFURLCreateFromFSRef(kCFAllocatorDefault, &theFSRef)))
+		theResult.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle));
+
+	return(theResult);
+
+
+#elif NN_TARGET_IPHONE
+	return(thePath);
+#endif
 }
 
 

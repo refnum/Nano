@@ -47,6 +47,19 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 
 
 //============================================================================
+//      NTargetFile::IsLink : Is this a link?
+//----------------------------------------------------------------------------
+bool NTargetFile::IsLink(const NString &thePath)
+{
+	// dair, to do
+	return(false);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::IsWriteable : Is a file writeable?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsWriteable(const NString &thePath)
@@ -141,6 +154,19 @@ NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)
 //      NTargetFile::GetParent : Get the parent of a path.
 //----------------------------------------------------------------------------
 NString NTargetFile::GetParent(const NString &thePath)
+{
+	// dair, to do
+	return("TODO");
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetTarget : Get the target of a path.
+//----------------------------------------------------------------------------
+NString NTargetFile::GetTarget(const NString &thePath)
 {
 	// dair, to do
 	return("TODO");

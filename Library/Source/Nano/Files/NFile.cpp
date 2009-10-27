@@ -140,6 +140,21 @@ bool NFile::IsDirectory(void) const
 
 
 //============================================================================
+//        NFile::IsLink : Is this a link?
+//----------------------------------------------------------------------------
+bool NFile::IsLink(void) const
+{
+
+
+	// Check the path
+	return(Exists() && NTargetFile::IsLink(mPath));
+}
+
+
+
+
+
+//============================================================================
 //        NFile::IsWriteable : Is the file writeable?
 //----------------------------------------------------------------------------
 bool NFile::IsWriteable(void) const
@@ -308,7 +323,7 @@ NStatus NFile::SetName(const NString &theName, bool renameFile)
 	theErr  = newPath.IsEmpty() ? kNErrPermission : kNoErr;
 	
 	if (theErr == kNoErr)
-		mPath = newPath;
+		SetPath(newPath);
 	
 	return(theErr);
 }
@@ -443,6 +458,45 @@ NFile NFile::GetParent(void) const
 
 	// Get the parent
 	return(NTargetFile::GetParent(mPath));
+}
+
+
+
+
+
+//============================================================================
+//        NFile::GetTarget : Get the target of a file.
+//----------------------------------------------------------------------------
+NFile NFile::GetTarget(void) const
+{	NFile	theFile;
+
+
+
+	// Get the target
+	theFile = *this;
+	theFile.ResolveTarget();
+	
+	return(theFile);
+}
+
+
+
+
+
+//============================================================================
+//        NFile::ResolveTarget : Resolve a linked file.
+//----------------------------------------------------------------------------
+bool NFile::ResolveTarget(void)
+{	bool	wasLink;
+
+
+
+	// Resolve the link
+	wasLink = IsLink();
+	if (wasLink)
+		SetPath(NTargetFile::GetTarget(mPath));
+	
+	return(wasLink);
 }
 
 
