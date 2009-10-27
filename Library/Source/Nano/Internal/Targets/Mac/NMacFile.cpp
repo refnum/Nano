@@ -35,8 +35,7 @@
 //      GetDirectoryForDomain
 //----------------------------------------------------------------------------
 static NString GetDirectoryForDomain(NDirectoryDomain theDomain, NSSearchPathDirectory theDirectory)
-{	StAutoReleasePool			autoRelease;
-	NSSearchPathDomainMask		nsDomain;
+{	NSSearchPathDomainMask		nsDomain;
 	NSArray						*nsPaths;
 	NSString					*nsPath;
 	NCFString					thePath;
@@ -45,9 +44,9 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, NSSearchPathDir
 
 	// Get the state we need
 	switch (theDomain) {
-		case kNDomainUser:		nsDomain = NSUserDomainMask;
-		case kNDomainUsers:		nsDomain = NSLocalDomainMask;
-		case kNDomainSystem:	nsDomain = NSSystemDomainMask;
+		case kNDomainUser:		nsDomain = NSUserDomainMask;		break;
+		case kNDomainUsers:		nsDomain = NSLocalDomainMask;		break;
+		case kNDomainSystem:	nsDomain = NSSystemDomainMask;		break;
 		default:
 			NN_LOG("Unknown domain: %d", theDomain);
 			return(kNStringEmpty);
@@ -170,8 +169,8 @@ bool NTargetFile::IsWriteable(const NString &thePath)
 //      NTargetFile::Exists : Does a file exist?
 //----------------------------------------------------------------------------
 bool NTargetFile::Exists(const NString &thePath)
-{	struct stat		fileInfo;
-	bool			doesExist;
+{	bool			doesExist;
+	struct stat		fileInfo;
 	int				sysErr;
 
 
@@ -435,8 +434,9 @@ void NTargetFile::Delete(const NString &thePath)
 //      NTargetFile::GetDirectory : Get a directory.
 //----------------------------------------------------------------------------
 NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
-{	NCFString		thePath;
-	NFile			theFile;
+{	StAutoReleasePool		autoRelease;
+	NCFString				thePath;
+	NFile					theFile;
 
 
 
