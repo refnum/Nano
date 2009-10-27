@@ -180,6 +180,8 @@ void TString::Execute(void)
 	NN_ASSERT(testString1.Compare(testString2, kNStringNone)   == kNCompareGreaterThan);
 	NN_ASSERT(testString1.Compare(testString2, kNStringNoCase) == kNCompareEqualTo);
 
+	NN_ASSERT(NString("2"			).Compare("2",			kNStringNumeric) == kNCompareEqualTo);
+	NN_ASSERT(NString("2.0"			).Compare("2.0",		kNStringNumeric) == kNCompareEqualTo);
 	NN_ASSERT(NString("foo2.txt"	).Compare("foo7.txt",	kNStringNumeric) == kNCompareLessThan);
 	NN_ASSERT(NString("foo7.txt"	).Compare("foo2.txt",	kNStringNumeric) == kNCompareGreaterThan);
 	NN_ASSERT(NString("foo002.txt"	).Compare("foo007.txt",	kNStringNumeric) == kNCompareLessThan);

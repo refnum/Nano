@@ -577,46 +577,28 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 		// Get the characters
 		charA = parserA.GetChar(indexA, ignoreCase);
 		charB = parserB.GetChar(indexB, ignoreCase);
-		
-		indexA++;
-		indexB++;
 
 
 
 		// Compare numerically
 		if (isNumeric && parserA.IsDigit(charA) && parserB.IsDigit(charB))
 			{
-			// Collect the values
-			numberA = 0;
-			numberB = 0;
-			
-			do
-				{
-				NN_ASSERT(numberA <= (kUInt64Max/10));
-				numberA = (numberA * 10) + (charA - (UTF32Char) '0');
-				charA   = parserA.GetChar(indexA);
-				indexA++;
-				}
-			while (parserA.IsDigit(charA) && indexA < sizeA);
-
-			do
-				{
-				NN_ASSERT(numberB <= (kUInt64Max/10));
-				numberB = (numberB * 10) + (charB - (UTF32Char) '0');
-				charB   = parserB.GetChar(indexB);
-				indexB++;
-				}
-			while (parserB.IsDigit(charB) && indexB < sizeB);
+			// Parse the number
+			//
+			// This will advance the index to the last digit of each number.
+			numberA = GetNumber(parserA, indexA, sizeA, charA);
+			numberB = GetNumber(parserB, indexB, sizeB, charB);
 
 
-			// Compare by value
+
+			// Compare numerically
 			if (numberA != numberB)
 				{
 				theResult = GetComparison(numberA, numberB);
 				break;
 				}
 			
-			if (indexA == sizeA || indexB == sizeB)
+			if (indexA == (sizeA-1) || indexB == (sizeB-1))
 				break;
 			}
 
@@ -628,6 +610,12 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 			theResult = GetComparison(charA, charB);
 			break;
 			}
+
+
+
+		// Advance to the next character
+		indexA++;
+		indexB++;
 		}
 	
 	return(theResult);
@@ -2035,6 +2023,51 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 		theFlags &= ~kNStringPattern;
 
 	return(thePattern);
+}
+
+
+
+
+
+//============================================================================
+//      NString::GetNumber : Get a number.
+//----------------------------------------------------------------------------
+UInt64 NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const
+{	UInt64		theNumber;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theIndex < theSize);
+	NN_ASSERT(theParser.IsDigit(theChar));
+
+
+
+	// Get the number
+	theNumber = 0;
+
+	while (true)
+		{
+		NN_ASSERT(theNumber <= (kUInt64Max/10));
+		theNumber = (theNumber * 10) + (theChar - (UTF32Char) '0');
+
+		theIndex++;
+		if (theIndex == theSize)
+			break;
+		
+		theChar = theParser.GetChar(theIndex);
+		if (!theParser.IsDigit(theChar))
+			break;
+		}
+
+
+
+	// Adjust the index
+	//
+	// We leave the index at the last digit in the number.
+	theIndex--;
+
+	return(theNumber);
 }
 
 
