@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<head>
+	<title>refNum &rsaquo; Nano &rsaquo; One-Line Undo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link type="text/css"     href="src/css/refnum.css" rel="stylesheet">
+	<link type="image/x-icon" href="src/img/nano.ico"   rel="icon">
+</head>
+<body>
+
+<div id="content">
+
+<a href="http://www.refnum.com/software/nano/">
+<div id="page_strap" style="background:url('src/img/page_strap_nano.png');"></div></a>
+<div id="page_body">
+<div id="page_content">
+
+<table>
+<tr>
+<td valign=top>
+	<ul id="menu">
+	<li class="subtitle">Nano</li>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="licence.html">Licence</a></li>
+		<li><a href="list.html">Mailing List</a></li>
+		<li><a href="history.html">Version History</a></li>
+
+	<li class="subtitle">Features</li>
+		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="performance.html">High Performance</a></li>
+		<li><a href="platforms.html">Supported Platforms</a></li>
+
+	<li class="subtitle">Getting Started</li>
+		<li><a href="code.html">Getting the Code</a></li>
+		<li><a href="contributing.html">Contributing Code</a></li>
+		<li><a href="bugs.html">Reporting Bugs</a></li>
+
+	<li class="subtitle">Using Nano</li>
+		<li><a href="building.html">Building Nano</a></li>
+		<li><a href="resources.html">Nano Resources</a></li>
+		<li><a href="functors.html">Using Functors</a></li>
+		<li><a href="undo.html">One-Line Undo</a></li>
+
+	<li class="subtitle">Reference</li>
+		<li><a href="classes.html">Class Overview</a></li>
+		<li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</td>
+<td valign=top>
+<!-- ========================================================================= -->
+
+
+
+
+
+<h1>One-Line Undo</h1>
+<p>
+Nano provides an efficient type-safe undo mechanism, bringing unlimited undo/redo
+to any application with one line of code.
+</p>
+
+<p>
+This is achieved through the NUndoManager class, an instance of which can be placed
+within objects that need to manage undo (e.g., a document window, or the application
+itself).
+</p>
+
+
+
+<h2>Overview</h2>
+<p>
+The basic model for undo is that methods that can perform an undo-able action should
+first inform the undo manager how to undo it.
+</p>
+
+<p>
+Nano captures actions as <a href="functors.html">functors</a>, self-contained objects
+that represent an arbitrary function call.
+</p>
+
+<p>
+This approach allows applications to achieve "one-line undo", since methods that perform
+an action can simply record themselves with the current state in order to revert the
+action:
+</p>
+
+<div class="box_code_yellow">void CShape::SetColor(const NColor &theColor)
+{
+    RecordUndo(BindSelf(CShape::SetColor, mColor), kColorChangeKey);
+    mColor = theColor;
+}
+</div>
+
+<p>
+This model is also used by Cocoa's NSUndoManager, albeit more verbosely:
+</p>
+
+<div class="box_code_yellow">- (void) setColor:(const NSColor *) theColor
+{
+    [[[self undoManager] prepareWithInvocationTarget:self]
+                                  setColor:mColor];
+
+    [[self undoManager] setActionName:NSLocalizedString(
+                                  @kColorChangeKey,
+                                  @"Color Change")];
+
+    [mColor release];
+    mColor = [theColor copy];
+}
+</div>
+
+<p>
+In Nano, an undo action captures an object, a method, and an arbitrary list of parameters.
+The captured method does not need to be declared as static, and will be invoked dynamically
+with the specified parameters on the captured object.
+</p>
+
+<p>
+When the user selects a new color, <tt>SetColor</tt> will record an action that sets the
+color to its current value and supplies an (optional) localized string for the Edit menu.
+When the user performs an undo, this action will be invoked and the shape restored to the
+previous color.
+</p>
+
+
+
+<h2>NUndoManager</h2>
+<p>
+NUndoManager is the core undo object within Nano.
+</p>
+
+<p>
+It maintains a pair of stacks to hold undo actions, and moves actions between these stacks
+as the user performs undo or redo operations. Each stack is allowed to grow indefinitely,
+or up to some limit.
+</p>
+
+<p>
+Since NUndoManager knows when an undo or redo is being performed, it can also ensure that
+recorded actions are added to the appropriate stack. I.e., when an action is undone, it
+will typically record another action to undo the undo-ing - which is automatically placed on
+the redo stack.
+</p>
+
+
+
+
+<h2>NUndoSource</h2>
+<p>
+NUndoSource is inherited from by objects that are the source of undoable actions.
+</p>
+
+<p>
+It provides access to the appropriate undo manager for the object, allowing these to be stacked
+together in a hierarchy. For example, a view may wish to use the undo manager of its window (which
+in turn may use the undo manager of the application).
+</p>
+
+<p>
+It also provides a simplified interface for recording actions. This allows callers to capture
+both an action to undo, and a localized string to name that action, in one line of code.
+</p>
+
+
+
+<h2>Undo Groups</h2>
+<p>
+The undo manager can capture multiple actions as a single group, allowing complex operations
+to appear as a single action to the user.
+</p>
+
+<p>
+Undo groups can contain an arbitrary number of actions; each item on the undo stack is in
+fact a group of actions, and size limits imposed on the stack do not affect the number of
+actions that can be grouped.
+</p>
+
+<p>
+Groups can be opened/closed around a sequence of actions, or will be opened/closed
+automatically around individual actions as required.
+</p>
+
+
+
+<h2>Interactive Undo</h2>
+<p>
+One common problem with action-based undo is how to efficiently represent interactive
+operations, where a large number of actions may be captured due to user input.
+</p>
+
+<p>
+For example, dragging the mouse around a color picker wheel may trigger hundreds of calls
+to <tt>SetColor</tt> before the mouse is released. Each of these actions should be placed
+within one group, to ensure they appear as a single operation to the user.
+</p>
+
+<p>
+Although this is straightforward to arrange, undoing or redoing that operation will still
+need to invoke hundreds of actions each time it is performed in order to reply the
+intermediate steps recording during the action.
+</p>
+
+<p>
+To improve the efficiency of this process, <tt>NUndoSource::TrackUndo</tt> can be used to
+capture actions within a mouse tracking sequence into a single group.
+</p>
+
+<p>
+When the mouse is released, <tt>TrackUndo</tt> will consolidate the group into a single
+action, ensuring that the group placed on the undo/redo stacks is a more efficient
+representation of the operation.
+</p>
+
+
+
+
+
+<!-- ========================================================================= -->
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+<div id="page_footer"></div>
+</div>
+
+<div id="footer">
+Copyright &copy; 2006-2009 <a href="http://www.refnum.com/">refNum Software</a>
+</div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<head>
+	<title>refNum &rsaquo; Nano &rsaquo; Building Nano</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link type="text/css"     href="src/css/refnum.css" rel="stylesheet">
+	<link type="image/x-icon" href="src/img/nano.ico"   rel="icon">
+</head>
+<body>
+
+<div id="content">
+
+<a href="http://www.refnum.com/software/nano/">
+<div id="page_strap" style="background:url('src/img/page_strap_nano.png');"></div></a>
+<div id="page_body">
+<div id="page_content">
+
+<table>
+<tr>
+<td valign=top>
+	<ul id="menu">
+	<li class="subtitle">Nano</li>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="licence.html">Licence</a></li>
+		<li><a href="list.html">Mailing List</a></li>
+		<li><a href="history.html">Version History</a></li>
+
+	<li class="subtitle">Features</li>
+		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="performance.html">High Performance</a></li>
+		<li><a href="platforms.html">Supported Platforms</a></li>
+
+	<li class="subtitle">Getting Started</li>
+		<li><a href="code.html">Getting the Code</a></li>
+		<li><a href="contributing.html">Contributing Code</a></li>
+		<li><a href="bugs.html">Reporting Bugs</a></li>
+
+	<li class="subtitle">Using Nano</li>
+		<li><a href="building.html">Building Nano</a></li>
+		<li><a href="resources.html">Nano Resources</a></li>
+		<li><a href="functors.html">Using Functors</a></li>
+		<li><a href="undo.html">One-Line Undo</a></li>
+
+	<li class="subtitle">Reference</li>
+		<li><a href="classes.html">Class Overview</a></li>
+		<li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</td>
+<td valign=top>
+<!-- ========================================================================= -->
+
+
+
+
+
+<h1>Building Nano</h1>
+<p>
+Nano is typically built with Xcode 3 for Mac/iPhone, and Microsoft Visual C++ Express 2008
+for Windows.
+</p>
+
+<p>
+However the code should build with any reasonably modern C++ compiler, such as gcc 4.x or
+later.
+</p>
+
+
+
+<h2>Xcode</h2>
+<h3>Configuration</h3>
+<p>
+All Nano projects contain Debug, Release, and Distribution configurations.
+</p>
+
+<p>
+These configurations obtain their values from external .xcconfig files, contained in
+<tt>Support/Xcode/Configuration</tt>.
+</p>
+
+<p>
+These .xcconfig files maximize warnings in debug builds, and minimize the final binary size in
+release/distribution builds. The details of each configuration can be adjusted to meet your own
+needs, since Nano does not require these particular choices.
+</p>
+
+<p>
+By default, debug builds are performed for the current architecture while release builds are
+built as Universal Binaries. This behaviour can be changed by adjusting the <tt>ARCHS</tt>
+setting in the .xcconfig files.
+</p>
+
+
+<h3>Projects</h3>
+<p>
+Nano projects do not apply any settings at the project level, and are customized at the
+target level. Targets contain minimal customisations, with most configuration performed
+through .xcconfig files.
+</p>
+
+<p>
+Nano is typically built as a stand-alone static library, however this style of build is
+not required. Nano can also be built by including the relevant source code directly in
+your project, or by building it into a framework/shared library.
+</p>
+
+
+<h3>Language</h3>
+<p>
+If compiling Nano source directly in your project, you will need to apply the correct
+language settings to individual source files; all source should be built as C++, except
+those .cpp files which also contain Objective-C.
+</p>
+
+<p>
+Unfortunately a bug in Xcode (<a href="rdar://5259110">rdar://5259110</a>) means that the
+per-file language setting is ignored if the target-level language setting is set to anything
+other than "by file type".
+</p>
+
+<p>
+As such, you will need to set the language setting individually for those files who do not
+match Xcode's extension-based rules (.c files must be modified to C++, and .cpp files that
+use Objective-C must be set to Obj-C++).
+</p>
+
+
+
+<h2>Visual C++</h2>
+<p>
+Nano should build with Microsoft Visual C++ Express 2008 or later.
+</p>
+
+
+
+
+
+
+<!-- ========================================================================= -->
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+<div id="page_footer"></div>
+</div>
+
+<div id="footer">
+Copyright &copy; 2006-2009 <a href="http://www.refnum.com/">refNum Software</a>
+</div>
+
+</body>
+</html>
+
+

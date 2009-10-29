@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<head>
+	<title>refNum &rsaquo; Nano &rsaquo; High Performance</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link type="text/css"     href="src/css/refnum.css" rel="stylesheet">
+	<link type="image/x-icon" href="src/img/nano.ico"   rel="icon">
+</head>
+<body>
+
+<div id="content">
+
+<a href="http://www.refnum.com/software/nano/">
+<div id="page_strap" style="background:url('src/img/page_strap_nano.png');"></div></a>
+<div id="page_body">
+<div id="page_content">
+
+<table>
+<tr>
+<td valign=top>
+	<ul id="menu">
+	<li class="subtitle">Nano</li>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="licence.html">Licence</a></li>
+		<li><a href="list.html">Mailing List</a></li>
+		<li><a href="history.html">Version History</a></li>
+
+	<li class="subtitle">Features</li>
+		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="performance.html">High Performance</a></li>
+		<li><a href="platforms.html">Supported Platforms</a></li>
+
+	<li class="subtitle">Getting Started</li>
+		<li><a href="code.html">Getting the Code</a></li>
+		<li><a href="contributing.html">Contributing Code</a></li>
+		<li><a href="bugs.html">Reporting Bugs</a></li>
+
+	<li class="subtitle">Using Nano</li>
+		<li><a href="building.html">Building Nano</a></li>
+		<li><a href="resources.html">Nano Resources</a></li>
+		<li><a href="functors.html">Using Functors</a></li>
+		<li><a href="undo.html">One-Line Undo</a></li>
+
+	<li class="subtitle">Reference</li>
+		<li><a href="classes.html">Class Overview</a></li>
+		<li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</td>
+<td valign=top>
+<!-- ========================================================================= -->
+
+
+
+
+
+<h1>High Performance</h1>
+<p>
+Nano aims to promote high-performance development, both at run-time and during the development
+process.
+</p>
+
+<p>
+To achieve this, it provides several design patterns that help simplify code while improving efficiency.
+</p>
+
+
+
+<h2>Simpler Code</h2>
+<p>
+Nano aims to minimise and simplify the code needed for common tasks.
+</p>
+
+<p>
+This example compares some simple string manipulation with the equivalent Cocoa code:
+</p>
+
+<div class="box_code_yellow">void CObject::SomeMethod(const NString &theString)
+{   NString   otherString;
+ 
+    otherString  = theString;  
+    otherString += " World!";
+    
+    if (theString == "Hello")
+        CFShowStr(ToCF(otherString));
+}
+
+<hr width="80%">
+- (void) someMessage:(const NSString *) theString
+{   NSMutableString   *otherString = nil;
+
+    otherString = [theString mutableCopyWithZone:nil];
+    [otherString appendString:@" World!"];
+    
+    if ([theString isEqualToString:@"Hello"])
+        CFShowStr((CFStringRef) otherString);
+
+    [otherString release];
+}</div>
+
+<p>
+As well as being less verbose, notable differences are:
+</p>
+
+<ul>
+	<li>Since Cocoa has two string classes, each variable must be explicitly declared as immutable
+	or mutable. Nano provides a single NString object, which becomes mutable on-demand (allowing
+	<tt>const</tt> to enforce const-ness at compile-time).</li>
+	<br>
+
+	<li>Although it is overwritten in this example, local variables such as otherString must be
+	explicitly initialized in Objective-C. Nano objects are always initialised to a sensible default
+	(such as an empty string).</li>
+	<br>
+	
+	<li>NString provides '<tt>=</tt>' and '<tt>+=</tt>' operators, allowing a more natural syntax for
+	string manipulation.</li>
+	<br>
+	
+	<li>Objects derived from NComparable, such as NString, only need to implement one method to obtain the
+	full set of comparison operators (<tt>==</tt>, <tt>!=</tt>, <tt>&lt=</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&gt;=</tt>).</li>
+	<br>
+	
+	<li>Objects derived from NSharedValue, such as NString, use a copy-on-write model for data. This
+	allows otherString to defer copying theString's data until it is modified. In Objective-C, otherString
+	must duplicate theString if it could potentially be modified (even if that never occurs).</li>
+	<br>
+	
+	<li>A set of 'Nanite' objects provide overloaded functions to convert between Nano types and other APIs.
+	Rather than having to explicitly specify the type being cast to, ToCF automatically invokes the appropriate
+	function to convert a Nano object to the equivalent CoreFoundation object.</li>
+	<br>
+	
+	<li>Nano uses the '<a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">RAII</a>'
+	design pattern to minimise pointer management, allowing otherString to release its string when it
+	goes out of scope. This must be managed manually in Objective-C, or handled with garbage collection
+	(which can reclaim pointers, but not resources such as open files).</li>
+	<br>
+</ul>
+
+
+
+<h2>Copy-On-Write</h2>
+<p>
+Many of Nano's core types derive from NSharedValue, which provides automatic copy-on-write behaviour. This
+allows copies of objects such as strings or dictionaries to be extremely efficient.
+</p>
+
+<p>
+This allows objects to be passed around with very little overhead, as even objects passed by value
+are effectively passed as const references until they are actually modified.
+</p>
+
+<p>
+This approach also allows Nano to provide a single object of each type (e.g., NString), rather than two
+classes for the same concept (i.e., separate mutable and immutable strings).
+</p>
+
+<p>
+Immutable objects are "copied" simply by incrementing their reference count, and are automatically converted
+to a mutable form only as needed.
+</p>
+
+
+
+<h2>Inline Functions</h2>
+<p>
+By judicious use of inline functions, Nano allows performance-critical code to preserve type safety while
+removing any function call overhead:
+</p>
+
+<div class="box_code_yellow">UInt32 CountBits(const NBitVector &theBits)
+{   UInt32    n, numBits, numSet;
+
+    numBits = theBits.GetSize();
+    numSet  = 0;   
+
+    for (n = 0; n < numBits; n++)
+        {
+        if (theBits.GetBit(n))
+            numSet++;
+        }
+    
+    return(numSet);
+}</div>
+
+<p>
+Since GetBit is an inline function, the inner loop can obtain direct access to the bits in the
+vector without going through a function call or implementing GetBit as a macro.
+</p>
+
+
+
+
+
+<!-- ========================================================================= -->
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+<div id="page_footer"></div>
+</div>
+
+<div id="footer">
+Copyright &copy; 2006-2009 <a href="http://www.refnum.com/">refNum Software</a>
+</div>
+
+</body>
+</html>
+
+

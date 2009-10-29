@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<head>
+	<title>refNum &rsaquo; Nano &rsaquo; Nano Features</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link type="text/css"     href="src/css/refnum.css" rel="stylesheet">
+	<link type="image/x-icon" href="src/img/nano.ico"   rel="icon">
+</head>
+<body>
+
+<div id="content">
+
+<a href="http://www.refnum.com/software/nano/">
+<div id="page_strap" style="background:url('src/img/page_strap_nano.png');"></div></a>
+<div id="page_body">
+<div id="page_content">
+
+<table>
+<tr>
+<td valign=top>
+	<ul id="menu">
+	<li class="subtitle">Nano</li>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="licence.html">Licence</a></li>
+		<li><a href="list.html">Mailing List</a></li>
+		<li><a href="history.html">Version History</a></li>
+
+	<li class="subtitle">Features</li>
+		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="performance.html">High Performance</a></li>
+		<li><a href="platforms.html">Supported Platforms</a></li>
+
+	<li class="subtitle">Getting Started</li>
+		<li><a href="code.html">Getting the Code</a></li>
+		<li><a href="contributing.html">Contributing Code</a></li>
+		<li><a href="bugs.html">Reporting Bugs</a></li>
+
+	<li class="subtitle">Using Nano</li>
+		<li><a href="building.html">Building Nano</a></li>
+		<li><a href="resources.html">Nano Resources</a></li>
+		<li><a href="functors.html">Using Functors</a></li>
+		<li><a href="undo.html">One-Line Undo</a></li>
+
+	<li class="subtitle">Reference</li>
+		<li><a href="classes.html">Class Overview</a></li>
+		<li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</td>
+<td valign=top>
+<!-- ========================================================================= -->
+
+
+
+
+
+<h1>Nano Features</h1>
+<p>
+Nano provides a wide range of features to aid development, which are supported on all
+target platforms:
+</p>
+
+<ul>
+	<li>Core Features
+	<ul>
+		<li>Assertion and logging macros
+		<li>Build macros to identify target platform
+		<li>Fixed-size primitives for basic data types
+		<li>Lock-free copy-on-write for extremely cheap copies
+		<li>Support for arrays, bit vectors, data blobs, dates, dictionaries,<br>
+			numbers, strings, ranges, variants, and other common data types.
+	</ul>
+	<br>
+
+
+	<li>Application Development
+	<ul>
+		<li>Timers that can execute <a href="functors.html">functors</a>
+		<li>Simple and efficient <a href="undo.html">One-Line Undo</a>
+		<li>Extremely efficient Broadcaster/Listener pattern
+		<li>Preferences that use the native API but can encode custom objects
+		<li>Additional "Nanite" objects to integrate Cocoa/CoreFoundation/etc
+	</ul>
+	<br>
+
+
+	<li>Strings
+	<ul>
+		<li>All strings are Unicode-based
+		<li>Extremely fast hash-based comparisons
+		<li>String formatter prevents buffer overflows
+		<li>String formatter supports custom format specifiers
+		<li>String objects automatically select the most efficient encoding
+	</ul>
+	<br>
+
+
+	<li>Data Processing
+	<ul>
+		<li>Unicode conversion
+		<li>Expat-based XML parser
+		<li>Built-in compression (ZLib)
+		<li>Built-in encoding (Hex, B64)
+		<li>Built-in encryption (Blowfish and DES3)
+		<li>Built-in digest algorithms (Adler, MD5, SHA1)
+		<li>Structured byte-swapping including arrays and nested types
+	</ul>
+	<br>
+
+
+	<li>Files and Databases
+	<ul>
+		<li><a href="http://www.sqlite.org/">SQLite</a> wrapper
+		<li>Memory-mapped file access
+		<li>Files, UTIs, and directory iterators
+		<li>Cross-platform implementation of Mac OS X "bundle" format
+		<li>Cross-platform implementation of Mac OS X ".plist" format
+	</ul>
+	<br>
+	
+	
+	<li>Graphics
+	<ul>
+		<li>Colors, transforms, and vectors
+		<li>Points, sizes, rectangles, and polygons
+		<li>32 and 64-bit floating point coordinates
+	</ul>
+	<br>
+
+
+	<li>Threads
+	<ul>
+		<li>Native thread wrapper
+		<li>Mutex, Read/Write, and Spin locks
+		<li>Thread pool to load-balance batch jobs
+		<li>Atomic integer, list, and semaphore primitives
+	</ul>
+</ul>
+
+
+<p>
+Nano typically provides a simple wrapper around the target platform APIs to minimise any overhead when
+converting data.
+</p>
+
+<p>
+However in many cases Nano also provides a richer interface, and will automatically convert between its
+native form and the underlying platform as required.
+</p>
+
+<p>
+For example, <tt>NPreferences</tt> automatically converts dictionaries to a simpler form if the platform API
+does not support them directly. This also allows it to encode custom objects that conform to the
+appropriate interface, while using the platform API for storage.
+</p>
+
+<p>
+This is completely transparent to the caller, who can rely on a single API that works on all target platforms.
+</p>
+
+
+
+
+
+
+<!-- ========================================================================= -->
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+<div id="page_footer"></div>
+</div>
+
+<div id="footer">
+Copyright &copy; 2006-2009 <a href="http://www.refnum.com/">refNum Software</a>
+</div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<head>
+	<title>refNum &rsaquo; Nano &rsaquo; Class Overview</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link type="text/css"     href="src/css/refnum.css" rel="stylesheet">
+	<link type="image/x-icon" href="src/img/nano.ico"   rel="icon">
+</head>
+<body>
+
+<div id="content">
+
+<a href="http://www.refnum.com/software/nano/">
+<div id="page_strap" style="background:url('src/img/page_strap_nano.png');"></div></a>
+<div id="page_body">
+<div id="page_content">
+
+<table>
+<tr>
+<td valign=top>
+	<ul id="menu">
+	<li class="subtitle">Nano</li>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="licence.html">Licence</a></li>
+		<li><a href="list.html">Mailing List</a></li>
+		<li><a href="history.html">Version History</a></li>
+
+	<li class="subtitle">Features</li>
+		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="performance.html">High Performance</a></li>
+		<li><a href="platforms.html">Supported Platforms</a></li>
+
+	<li class="subtitle">Getting Started</li>
+		<li><a href="code.html">Getting the Code</a></li>
+		<li><a href="contributing.html">Contributing Code</a></li>
+		<li><a href="bugs.html">Reporting Bugs</a></li>
+
+	<li class="subtitle">Using Nano</li>
+		<li><a href="building.html">Building Nano</a></li>
+		<li><a href="resources.html">Nano Resources</a></li>
+		<li><a href="functors.html">Using Functors</a></li>
+		<li><a href="undo.html">One-Line Undo</a></li>
+
+	<li class="subtitle">Reference</li>
+		<li><a href="classes.html">Class Overview</a></li>
+		<li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+</td>
+<td valign=top>
+<!-- ========================================================================= -->
+
+
+
+
+
+<h1>Class Overview</h1>
+<p>
+Nano is composed of around a hundred classes, organized into a dozen or so categories of related
+objects.
+</p>
+
+
+<table class="table_header">
+<tr><td>Core</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>Nano.h</th>						<td>Global Nano include</td></tr>
+<tr><th>NanoMacros.h</th>				<td>Global Nano macros</td></tr>
+<tr><th>NanoTypes.h</th>				<td>Global Nano types</td></tr>
+<tr><th>NanoNotes.h</th>				<td>Release notes</td></tr>
+<tr><th>NanoTarget.h</th>				<td>OS and architecture detection</td></tr>
+<tr><th>NDebug</th>						<td>Assertion macros and logging</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Application</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NCommandLine</th>				<td>Command-line support</td></tr>
+<tr><th>NPreferences</th>				<td>Preferences support</td></tr>
+<tr><th>NUndoManager</th>				<td>Manages undo stacks</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Database</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NDBHandle</th>					<td>Database handle (SQLite)</td></tr>
+<tr><th>NDBHandlePool</th>				<td>Database connection pool</td></tr>
+<tr><th>NDBQuery</th>					<td>Database query</td></tr>
+<tr><th>NDBResult</th>					<td>Database result</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Events</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NBroadcaster</th>				<td>Message broadcaster</td></tr>
+<tr><th>NListener</th>					<td>Message listener</td></tr>
+<tr><th>NTimer</th>						<td>High-resolution timer</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Files</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NFile</th>						<td>File reference</td></tr>
+<tr><th>NFileIterator</th>				<td>Directory iterator</td></tr>
+<tr><th>NFileMap</th>					<td>Memory-mapped file</td></tr>
+<tr><th>NBundle</th>					<td>Support for Mac OS X ".bundle" format</td></tr>
+<tr><th>NPropertyList</th>				<td>Support for Mac OS X ".plist" format</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Graphics</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NColor</th>						<td>Color object</td></tr>
+<tr><th>NTransform</th>					<td>Transform object</td></tr>
+<tr><th>NPoint</th>						<td>Point geometry</td></tr>
+<tr><th>NSize</th>						<td>Size geometry</td></tr>
+<tr><th>NRectangle</th>					<td>Rectangle geometry</td></tr>
+<tr><th>NShape</th>						<td>Polygon geometry</td></tr>
+<tr><th>NVector</th>					<td>Vector geometry</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>System</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NByteSwap</th>					<td>Byte-swapping</td></tr>
+<tr><th>NDataCipher</th>				<td>Data encryption (Blowfish and DES3)</td></tr>
+<tr><th>NDataCompressor</th>			<td>Data compression (ZLib)</td></tr>
+<tr><th>NDataDigest</th>				<td>Data digest (MD5 and SHA1)</td></tr>
+<tr><th>NDataEncoder</th>				<td>Data encoding (Hex and B64)</td></tr>
+<tr><th>NLocale</th>					<td>User locale</td></tr>
+<tr><th>NUTIRegistry</th>				<td>UTI registry</td></tr>
+<tr><th>NUnicodeParser</th>				<td>Unicode parser</td></tr>
+<tr><th>NXMLEncoder</th>				<td>XML encoder</td></tr>
+<tr><th>NXMLNode</th>					<td>XML node</td></tr>
+<tr><th>NXMLParser</th>					<td>XML parser (expat)</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Threads</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NAtomicInt</th>					<td>Atomic integer</td></tr>
+<tr><th>NAtomicList</th>				<td>Atomic list</td></tr>
+<tr><th>NLock</th>						<td>Mutex, Read/Write, and Spin locks</td></tr>
+<tr><th>NSemaphore</th>					<td>Semaphore object</td></tr>
+<tr><th>NThread</th>					<td>Thread object</td></tr>
+<tr><th>NThreadPool</th>				<td>Thread pool</td></tr>
+<tr><th>NThreadTask</th>				<td>Thread pool task</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Types</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NArray</th>						<td>Array type</td></tr>
+<tr><th>NBitVector</th>					<td>Bit vector type</td></tr>
+<tr><th>NData</th>						<td>Data type</td></tr>
+<tr><th>NDate</th>						<td>Date type</td></tr>
+<tr><th>NDictionary</th>				<td>Dictionary type</td></tr>
+<tr><th>NNumber</th>					<td>Number type</td></tr>
+<tr><th>NRange</th>						<td>Range type</td></tr>
+<tr><th>NString</th>					<td>String type</td></tr>
+<tr><th>NVariant</th>					<td>Variant type</td></tr>
+<tr><th>NComparable</th>				<td>Base class for comparable objects</td></tr>
+<tr><th>NContainer</th>					<td>Base class for container objects</td></tr>
+<tr><th>NEncodable</th>					<td>Base class for encodable objects</td></tr>
+<tr><th>NHashable</th>					<td>Base class for hashable objects</td></tr>
+<tr><th>NRefCounted</th>				<td>Base class for reference-counted objects</td></tr>
+<tr><th>NSharedValue</th>				<td>Base class for copy-on-write objects</td></tr>
+<tr><th>NEncoder</th>					<td>Object encoder</td></tr>
+<tr><th>NStringEncoder</th>				<td>String encoder</td></tr>
+<tr><th>NDateFormatter</th>				<td>Date formatter</td></tr>
+<tr><th>NStringFormatter</th>			<td>String formatter</td></tr>
+<tr><th>NFunctor</th>					<td>Functor support</td></tr>
+<tr><th>NPropertyStore</th>				<td>Key-value property store</td></tr>
+<tr><th>NUTI</th>						<td>Uniform Type Identifier</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Utilities</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NFileUtilities</th>				<td>File utilities</td></tr>
+<tr><th>NGeometryUtilities</th>			<td>Geometry utilities</td></tr>
+<tr><th>NMathUtilities</th>				<td>Math utilities</td></tr>
+<tr><th>NSTLUtilities</th>				<td>STL utilities</td></tr>
+<tr><th>NSystemUtilities</th>			<td>System utilities</td></tr>
+<tr><th>NTextUtilities</th>				<td>Text utilities</td></tr>
+<tr><th>NThreadUtilities</th>			<td>Thread utilities</td></tr>
+<tr><th>NTimeUtilities</th>				<td>Time utilities</td></tr>
+</table>
+
+
+
+
+
+<h2>Nanites</h2>
+<p>
+Although not part of the core library, Nano also contains a set of "Nanite" classes to
+improve integration with other frameworks.
+</p>
+
+<p>
+Nanites always provide a "<tt>Nxxx.h</tt>" header, which defines a set of <tt>ToXX</tt>
+and <tt>ToNN</tt> functions for converting data to and from Nano types.
+</p>
+
+
+<table class="table_header">
+<tr><td>Nanites/Cocoa</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NCocoa.h</th>					<td>Cocoa integration</td></tr>
+<tr><th>NNSSingleton</th>				<td>Obj-C Singleton pattern</td></tr>
+<tr><th>NNSAutoReleasePool</th>			<td>Stack-based auto-release pool</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Nanites/CoreFoundation</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NCoreFoundation.h</th>			<td>CoreFoundation integration</td></tr>
+<tr><th>NCFObject</th>					<td>RAII for CFTypeRefs</td></tr>
+<tr><th>NCFArray</th>					<td>NArray that accepts CFArrays</td></tr>
+<tr><th>NCFData</th>					<td>NData that accepts CFDatas</td></tr>
+<tr><th>NCFDate</th>					<td>NDate that accepts CFDates</td></tr>
+<tr><th>NCFDictionary</th>				<td>NDictionary that accepts CFDictionaries</td></tr>
+<tr><th>NCFNumber</th>					<td>NNumber that accepts CFNumbers</td></tr>
+<tr><th>NCFString</th>					<td>NString that accepts CFStrings</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Nanites/CoreGraphics</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NCoreGraphics.h</th>			<td>CoreGraphics integration</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Nanites/Qt</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NQt.h</th>						<td>Qt integration</td></tr>
+<tr><th>NQObject</th>					<td>QObject helpers</td></tr>
+</table>
+
+
+<table class="table_header">
+<tr><td>Nanites/Skia</td></tr>
+</table>
+<table class="table_classes">
+<tr><th>NSkia.h</th>					<td>Skia integration</td></tr>
+</table>
+
+
+
+
+
+
+
+<!-- ========================================================================= -->
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+<div id="page_footer"></div>
+</div>
+
+<div id="footer">
+Copyright &copy; 2006-2009 <a href="http://www.refnum.com/">refNum Software</a>
+</div>
+
+</body>
+</html>
+
+
