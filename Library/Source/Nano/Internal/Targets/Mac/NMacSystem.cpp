@@ -49,7 +49,7 @@ static const SInt32 PIPE_CHILD											= 1;
 //----------------------------------------------------------------------------
 //      ExecuteTask : Execute a task.
 //----------------------------------------------------------------------------
-static void ExecuteTask(const NString &theCmd, const NStringList &theArgs)
+static void ExecuteTask(const NString &theCmd, const NString &cmdName, const NStringList &theArgs)
 {	std::vector<const char *>		argList;
 	NStringListConstIterator		theIter;
 	int								sysErr;
@@ -57,7 +57,7 @@ static void ExecuteTask(const NString &theCmd, const NStringList &theArgs)
 
 
 	// Build the argument list
-	argList.push_back(NFile(theCmd).GetName().GetUTF8());
+	argList.push_back(cmdName.GetUTF8());
 	
 	for (theIter = theArgs.begin(); theIter != theArgs.end(); theIter++)
 		argList.push_back(theIter->GetUTF8());
@@ -202,16 +202,27 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &theArgs)
 {	int				pipeStdIn[2], pipeStdOut[2], pipeStdErr[2];
 	TaskInfo		theTask;
+	NString			cmdName;
 
 
 
 	// Get the state we need
+	//
+	// Mac OS X 10.6 does not allow the use of the File Manager between a fork()
+	// and an exec(), so we need to fetch the name of the command up front.
+	//
+	//		http://www.lyx.org/trac/ticket/6168
+	//
+	//		USING_FORK_WITHOUT_EXEC_IS_NOT_SUPPORTED_BY_FILE_MANAGER
+	//
 	theTask.taskID     = kNTaskIDNone;
 	theTask.taskResult = 0;
 	
 	theTask.stdIn  = PIPE_INVALID;
 	theTask.stdOut = PIPE_INVALID;
 	theTask.stdErr = PIPE_INVALID;
+
+	cmdName = NFile(theCmd).GetName();
 
 
 
@@ -242,7 +253,7 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 			dup2(pipeStdOut[PIPE_CHILD], FD_STDOUT);
 			dup2(pipeStdErr[PIPE_CHILD], FD_STDERR);
 			
-			ExecuteTask(theCmd, theArgs);
+			ExecuteTask(theCmd, cmdName, theArgs);
 			_exit(1);
 			break;
 
