@@ -51,8 +51,9 @@ static const NString kNUTTypeData									= "public.data";
 // Image content types
 static const NString kNUTTypeImage									= "public.image";
 static const NString kNUTTypeGIF									= "public.gif";
-static const NString kNUTTypePNG									= "public.png";
 static const NString kNUTTypeJPEG									= "public.jpeg";
+static const NString kNUTTypePNG									= "public.png";
+static const NString kNUTTypeTIFF									= "public.tiff";
 
 
 
