@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NString.h"
 #include "NFile.h"
+#include "NTask.h"
 
 
 
@@ -32,6 +33,18 @@ public:
 	//
 	// Returns the application bundle if bundleID is empty.
 	static NFile						FindBundle(const NString &bundleID);
+
+
+	// Tasks
+	static TaskInfo						TaskCreate(const NString &theCmd, const NStringList &theArgs);
+	static void							TaskDestroy(    TaskInfo &theTask);
+	static void							TaskUpdate(     TaskInfo &theTask);
+	static NString						TaskRead(       TaskInfo &theTask, bool stdErr=false);
+	static void							TaskWrite(const TaskInfo &theTask, const NString &theText);
+	static void							TaskWait( const TaskInfo &theTask, NTime theDelay);
+	static void							TaskKill( const TaskInfo &theTask);
+
+
 };
 
 
