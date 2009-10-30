@@ -63,6 +63,7 @@ static void TimerCallback(CFRunLoopTimerRef cfTimer, void *userData)
 //============================================================================
 //		NTargetTime::GetTime : Get the time.
 //----------------------------------------------------------------------------
+#pragma mark -
 NTime NTargetTime::GetTime(void)
 {
 

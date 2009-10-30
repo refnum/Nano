@@ -65,6 +65,7 @@ static void *ThreadCallback(void *userData)
 //============================================================================
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
+#pragma mark -
 UInt32 NTargetThread::GetCPUCount(void)
 {	int			mibNames[2] = { CTL_HW, HW_NCPU }; 
 	int			numCPUs, sysErr;
