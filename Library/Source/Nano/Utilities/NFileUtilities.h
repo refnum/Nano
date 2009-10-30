@@ -70,20 +70,20 @@ public:
 	//
 	// If fileName is non-empty, the result will be to a file of that name within the directory.
 	static NFile						GetDirectory(	NDirectoryLocation		theLocation,
-														const NString			&fileName = kNStringEmpty,
+														const NString			&fileName = "",
 														NDirectoryDomain		theDomain = kNDomainUser);
 
 
 	// Get a uniquely-named file
 	//
 	// If fileName is non-empty, it will be used as the base name.
-	static NFile						GetUniqueFile(const NFile &theDirectory, const NString &fileName=kNStringEmpty);
+	static NFile						GetUniqueFile(const NFile &theDirectory, const NString &fileName="");
 
 
 	// Get a temporary file
 	//
 	// If fileName is non-empty, it will be used as the base name.
-	static NFile						GetTemporaryFile(const NString &fileName=kNStringEmpty);
+	static NFile						GetTemporaryFile(const NString &fileName="");
 };
 
 

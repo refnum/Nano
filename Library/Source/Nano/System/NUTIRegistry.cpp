@@ -272,12 +272,12 @@ void NUTIRegistry::InitializeRegistry(void)
 
 
 	// Initialize the registry
-	AddUTI(kNUTTypeItem,    kNUTTypeNone, kNUTITagClassNone, kNStringEmpty);
-	AddUTI(kNUTTypeContent, kNUTTypeNone, kNUTITagClassNone, kNStringEmpty);
+	AddUTI(kNUTTypeItem,    kNUTTypeNone, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeContent, kNUTTypeNone, kNUTITagClassNone, "");
 
-	AddUTI(kNUTTypeData, kNUTTypeItem, kNUTITagClassNone, kNStringEmpty);
+	AddUTI(kNUTTypeData, kNUTTypeItem, kNUTITagClassNone, "");
 
-	AddUTI(       kNUTTypeImage, kNUTTypeData, kNUTITagClassNone, kNStringEmpty);
+	AddUTI(       kNUTTypeImage, kNUTTypeData, kNUTITagClassNone, "");
 	AddConformsTo(kNUTTypeImage, kNUTTypeContent);
 
 	AddUTI(kNUTTypeGIF, kNUTTypeImage, kNUTITagClassMIMEType,      "image/gif");

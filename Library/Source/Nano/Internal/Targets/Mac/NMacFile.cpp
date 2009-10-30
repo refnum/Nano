@@ -49,7 +49,7 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, NSSearchPathDir
 		case kNDomainSystem:	nsDomain = NSSystemDomainMask;		break;
 		default:
 			NN_LOG("Unknown domain: %d", theDomain);
-			return(kNStringEmpty);
+			return("");
 		}
 
 

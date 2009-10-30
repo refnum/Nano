@@ -361,7 +361,7 @@ NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 		// Get the state we need
 		theFile  = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
 		theText  = NFileUtilities::GetFileText(theFile);
-		theLines = theText.Split(kNStringNewline);
+		theLines = theText.Split("\n");
 
 
 

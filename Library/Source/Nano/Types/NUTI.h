@@ -39,7 +39,7 @@ typedef enum {
 // UTIs
 //
 // Abstract base types
-static const NString kNUTTypeNone									= kNStringEmpty;
+static const NString kNUTTypeNone									= "";
 static const NString kNUTTypeItem									= "public.item";
 static const NString kNUTTypeContent								= "public.content";
 

@@ -211,7 +211,7 @@ NString NXMLEncoder::EncodeDocument(const NXMLNode *theNode, const NString &theI
 	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
 		{
 		theText += EncodeNode(*theIter, theIndent);
-		theText += kNStringNewline;
+		theText += "\n";
 		}
 
 	return(theText);
@@ -324,7 +324,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 		
 			if (hasChildElements)
 				{
-				theText += kNStringNewline;
+				theText += "\n";
 
 				if (!theChild->IsType(kNXMLNodeElement))
 					theText += childIndent;
@@ -334,7 +334,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 			}
 
 		if (hasChildElements)
-			theText += kNStringNewline + theIndent;
+			theText += NString("\n") + theIndent;
 
 
 		// Encode the close tag
