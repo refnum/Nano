@@ -1,0 +1,242 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Using Functors</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Using Functors</h1>
+<p>
+Several aspects of Nano make use of <a href="http://en.wikipedia.org/wiki/Function_object">functors</a>,
+self-contained objects that represent an arbitrary function call.
+</p>
+
+<p>
+A functor can represent an ordinary C function, a static method of a class, or even a member
+function of a class (capturing both the method to invoke, and the object on which to invoke it).
+</p>
+
+
+<h2>Binding a Function</h2>
+<p>
+To produce a functor, a function and a parameter list are "bound" together to produce a
+self-contained object that executes the function when invoked.
+</p>
+
+<p>
+This is performed with <tt>nbind</tt>:
+</p>
+
+<div class="box code"><pre>
+    void MyFunction(int a, int b);
+    ...
+    NFunctor myFunc = nbind(MyFunction, 50, 60);
+    ...
+    myFunc();         // Equivalent to MyFunction(50, 60)
+</pre></div>
+
+<p>
+Since myFunc is an object, it can be copied or passed elsewhere before eventually being invoked
+to perform MyFunction.
+</p>
+
+
+<h2>Functor Syntax</h2>
+<p>
+NFunctor.h provides some helpers to simplify functor syntax:
+</p>
+
+<div class="box code"><pre>
+    #define BindFunction(_function,        ...)      nbind(_function,        ...)
+    #define BindMethod(  _object, _method, ...)      nbind(_method, _object, ...)
+    #define BindSelf(    _method,          ...)      nbind(_method,    this, ...)
+
+    typedef nfunctor&lt; void (void) &gt;   NFunctor;
+</pre></div>
+
+<p>
+Although <tt>nbind</tt> or <tt>nfunctor</tt> can be used directly, these helpers allow
+functor usage to be self-documenting.
+</p>
+
+
+<h2>Binding Parameters</h2>
+<p>
+The parameters passed to <tt>nbind</tt> can be real values, or a "placeholder" value.
+Placeholders, which are named _1 to _10, are substituted with the appropriate parameter
+when the functor is invoked.
+</p>
+
+<p>
+This feature allows functors to act as type-safe adapters, which map the invocation of a function
+to its execution:
+</p>
+
+<div class="box code"><pre>
+    void MyFunction1(int a, const char *b, int c);
+    void MyFunction2(       const char *b);
+    ...
+    typedef nfunctor&lt; void (int, int) &gt;   NFunctor1;
+    typedef nfunctor&lt; void (int)      &gt;   NFunctor2;
+    ...
+    NFunctor1 myFunc1 = BindFunction(MyFunction1, _2, "50", _1);
+    NFunctor2 myFunc2 = BindFunction(MyFunction2,     "50");
+    ...
+    myFunc1(60, 40);    // Equivalent to MyFunction1(40, "50", 60)
+    myFunc2(23);        // Equivalent to MyFunction2(    "50")
+</pre></div>
+
+<p>
+myFunc1 expects two integers, while MyFunction1 expects two integers and a pointer. The functor
+maps its two parameters to the placeholders in the bound function, re-ordering them to produce the
+final parameter list of <tt>(40, "50", 60)</tt>.
+</p>
+
+<p>
+myFunc2 expects an integer, while MyFunction2 expects a pointer. Since all of the parameters
+for MyFunction2 were determined at bind-time, the supplied parameter is simply discarded when the
+functor is invoked.
+</p>
+
+<p>
+This "adapter" pattern is extremely powerful, as it allows the parameters supplied at run-time
+to be combined with the parameters supplied at bind-time.
+</p>
+
+<p>
+The <tt>nfunctor</tt> typedef effectively defines the prototype for invocation, while the
+function passed to <tt>nbind</tt> defines the prototype for execution. Both sides are fully
+type-checked, and can only be compiled if the invoked function can be mapped to the executed function.
+</p>
+
+
+
+<h2>Example Usage</h2>
+<p>
+A practical example can be found in NTimer, which invokes a functor whenever a timer fires.
+The NTimer functor is defined to take a single TimerMsg parameter:
+</p>
+
+<div class="box code"><pre>
+    typedef nfunctor&lt; void (TimerMsg theMsg) &gt;   NTimerFunctor;
+</pre></div>
+
+<p>
+Since the functor can map this parameter list to that of the target function, this allows:
+</p>
+
+<div class="box code"><pre>
+    void MyTimer1(void);
+    void MyTimer2(const char *x);
+    void MyTimer3(UInt32 a, TimerMsg theMsg);
+    ...
+    mTimer.AddTimer(BindFunction(MyTimer1           ), 1.0f);
+    mTimer.AddTimer(BindFunction(MyTimer2, "2 secs" ), 2.0f);
+    mTimer.AddTimer(BindFunction(MyTimer3, 42,    _1), 3.0f);
+    ...
+    // After 1 second,  mTimer invokes MyTimer1()
+    // After 2 seconds, mTimer invokes MyTimer2("2 secs");
+    // After 3 seconds, mTimer invokes MyTimer3(42, kMsgTimerFire);
+</pre></div>
+
+<p>
+Although NTimer invokes each functor with a single <tt>kMsgTimerFire</tt> parameter,
+<tt>nfunctor</tt> and <tt>nbind</tt> can map these calls to the bound functions as shown.
+</p>
+
+
+
+
+
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

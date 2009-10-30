@@ -1,0 +1,131 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 LucidaGrande-Bold;\f1\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\vieww14960\viewh15760\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 Read Me\
+
+\f1\b0 Xcode has created this new Nano-based application for you from the standard Nano stationary. The application is fully functional, and can be built and run with no further changes!\
+\
+As a Nano-based application it obtains a wide range of standard behaviours automatically, such as a HIG-compliant document model or unlimited one-line undo.\
+\
+This document describes the notable features of this application, and where to begin customizing the project.\
+\
+\
+
+\f0\b Prefix/ÇPROJECTNAMEÈ Build.h\
+
+\f1\b0 The project build header defines global constants useful throughout your project, such as the version number or home page of your application. These constants are used to customize your application properties (CApplication::InitializeProperties), and to configure your Info.plist file.\
+\
+This header also defines keys that identify your bundle resources, which can be passed to NCFBundle to identify files or strings within your package.\
+\
+\
+
+\f0\b Prefix/ÇPROJECTNAMEÈ Prefix.pch
+\f1\b0 \
+The project prefix header is the global prefix header for your project, and pulls in standard system and Nano headers as well as any application-specific global header files.\
+\
+\
+
+\f0\b Source/CApplication.cpp\
+
+\f1\b0 This is the main application object; it derives from NApplication, and as such inherits the standard application behaviour.\
+\
+As a sub-class of NApplication, it is responsible for providing application-specific behaviour such as instantiating new documents or creating the preferences window.\
+\
+\
+
+\f0\b CWindowDocument.cpp\
+
+\f1\b0 This is the application document window; it derives from NDocument, and as such inherits standard document behaviour.\
+\
+It uses the NIB_VIEW system to connect to the window views with a single line of code, and responds to messages or commands from its toolbar.\
+\
+It uses the standard NDocument file format, which provides key-value based storage of document properties (allowing for backwards, forwards, and cross-platform compatibility) through Encode/DecodeState.\
+\
+It also demonstrates NWindowController's sheet model, where a single call to BeginSheet will allow the sheet to run automatically until closed.\
+\
+\
+
+\f0\b CSheetDocumentInfo.cpp\
+
+\f1\b0 This is a simple sheet window, attached to the document window to allow the user to edit document properties.\
+\
+NWindowController will automatically run sheets until they are closed, at which point the sheet object will update the document properties if it was closed with the OK button.\
+\
+\
+
+\f0\b Source/Controllers/CWindowPreferences.cpp\
+
+\f1\b0 This is the application preferences window; it derives from NWindowPreferences, and as such inherits standard behaviour for a multi-pane preferences window.\
+\
+It also uses the NIB_VIEW system to connect to each panel's views with a single line of code, and is responsible for defining the list of panels for NWindowPreferences to manage (as well as responding to commands from those panels).\
+\
+\
+
+\f0\b Source/Models/CToolbarDocument.cpp\
+
+\f1\b0 This is the document toolbar object; it derives from NHIToolbar, and as such inherits standard toolbar behaviour.\
+\
+It is attached to a window by CWindowDocument, and is responsible for defining the list of toolbar items for NHIToolbar to manage (as well as instantiating the custom views embedded within the toolbar).\
+\
+\
+
+\f0\b Source/Views/CExampleView.cpp\
+
+\f1\b0 This is a simple HIView sub-class, which is embedded within the document window.\
+\
+It provides a set of property tags for controlling its appearance within Interface Builder, getter/setter methods for manipulation at run-time, and implements DoEventControlDraw to draw its content.\
+\
+It can also encode/decode its properties to an NDictionary, allowing CWindowDocument to archive the state of the view to the document.\
+\
+\
+
+\f0\b Resources/ÇPROJECTNAMEÈ.icns\
+
+\f1\b0 This file contains your application icon, in .icns format.\
+\
+\
+
+\f0\b Resources/FileDocument.icns\
+
+\f1\b0 This file contains your document icon, in .icns format.\
+\
+\
+
+\f0\b Resources/Info.plist
+\f1\b0 \
+This file defines your application property list. Many of the properties in this file are #defined by \'d2ÇPROJECTNAMEÈ Build.h\'d3, ensuring that your property list is always in sync with the application code.\
+\
+\
+
+\f0\b Resources/English.lproj/ÇPROJECTNAMEÈ.nib
+\f1\b0 \
+By default, this project has a single .nib file that defines your application menus and windows.\
+\
+You can create additional .nib files if you wish to place each window into a separate file, however note that Carbon applications do not suffer the same performance penalty as Cocoa applications when multiple windows are stored within a single nib file.\
+\
+\
+
+\f0\b Resources/English.lproj/Help\
+
+\f1\b0 This folder contains your application help book; the name of this folder must match the CFBundleHelpBookFolder key in your Info.plist.\
+\
+\
+
+\f0\b Resources/English.lproj/Localizable.strings
+\f1\b0 \
+This file contains any localized strings used by your application. Your project will also contain the Nano.strings file, which provides strings required by Nano itself.\
+\
+\
+
+\f0\b Resources/PanelInfo.png\
+Resources/PrefsAdvanced.png\
+Resources/PrefsGeneral.png
+\f1\b0 \
+These resources are used by the document window and preferences window toolbars.\
+\
+The resource names are defined in \'d2ÇPROJECTNAMEÈ Build.h\'d3, and used by CToolbarDocument and CWindowPreferences.cpp to configure the toolbar.\
+\
+}

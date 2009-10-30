@@ -1,0 +1,225 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Adding Preferences</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Adding Preferences</h1>
+<p>
+Nano provides a standard toolbar-based preferences window, NPreferencesWindow, capable of
+displaying multiple panels of content.
+</p>
+
+<div align=center>
+<img src="images/window_preferences.jpg" alt="Preferences" width="450" height="330">
+</div>
+
+<p>
+NPreferencesWindow handles all panel loading and transitions, allowing sub-classes to simply
+identify the nib resource for each panel and to handle commands.
+</p>
+
+<p>
+The mechanism used to implement a toolbar-based preference window is described below. Projects
+created from the Xcode <a href="quickstart.html">template</a> will contain an initial
+implementation, that you can adjust or replace as necessary.
+</p>
+
+
+
+<h2>Displaying Preferences</h2>
+<p>
+In response to a kHICommandPreferences event, NApplication will invoke its <tt>CommandPreferences</tt>
+method.
+</p>
+
+<p>
+To display a preferences window, your NApplication sub-class should override this method and
+select your window.
+</p>
+
+<p>
+Since preference windows are typically singleton windows, this can be done with:
+</p>
+
+<div class="box code">
+	CWindowPreferences::GetInstance()->GetWindow()->Select();
+</div>
+
+This will create the preferences window instance if necessary, get its window, and ask the window
+to select (and show) itself.
+</p>
+
+
+
+<h2>NWindowPreferences</h2>
+<p>
+Nano provides a default preferences window, NWindowPreferences, which your application should
+sub-class to display its preferences.
+</p>
+
+<p>
+This window is a sub-class of NWindowPanels, and as such contains a series of panels that can
+be transitioned between.
+</p>
+
+<p>
+During your window's <tt>InitializeSelf</tt>, you should define a <tt>PanelInfoList</tt> that
+contains your panels, and assign the panel list and .nib file to the window.
+</p>
+
+
+
+<h2>Panel Info</h2>
+<p>
+A <tt>PanelInfoList</tt> is a list of <tt>PanelInfo</tt> structures, each of which contains a view,
+icon, and string for the panel.
+</p>
+
+<p>
+Since Interface Builder does not support stand-alone views, the named window within the .nib file
+is used as a container to hold the panel contents. When a panel is selected, this window is loaded
+and its contents  copied into the preferences window (replacing any existing controls).
+</p>
+
+<p>
+NWindowPanels will re-evaluate NIB_VIEW declarations whenever the current panel is changed, allowing
+you to declare connections to all of your controls and simply test for NULL prior to use.
+</p>
+
+<p>
+The icon and string values are used to populate the window toolbar. As with any Nano toolbar, the
+icon can specify an image within the application bundle, an Icons.h constant, or a bundle identifier.
+</p>
+
+
+
+<h2>Handling Events</h2>
+<p>
+As with any window, your preferences window should listen to any controls from which it wishes to
+receive messages.
+</p>
+
+<p>
+It should then implement <tt>DoMessage</tt> or <tt>DoEventCommandProcess</tt> as required, and
+update your preferences in response to user actions.
+</p>
+
+
+
+<h2>Handling Preferences</h2>
+<p>
+Since preference windows reflect the preferences, they should also update the user interface when
+a preference is changed.
+</p>
+
+<p>
+This can be done by overriding <tt>DoPrefChanged</tt>, which will be invoked to initialize the
+user interface when a panel changes or as a result of a specific preference change.
+</p>
+
+
+
+<h2>Handling Panel Changes</h2>
+<p>
+Although most preference windows can sync their state through <tt>DoPrefChanged</tt>, windows
+that require additional synchronization can also detect when a panel is changing or has changed.
+</p>
+
+<p>
+This can be done by overriding <tt>DoPanelChanging</tt> or <tt>DoPanelChanged</tt>, and calling
+through to the base class to ensure that the default behaviour is still obtained.
+</p>
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

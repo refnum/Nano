@@ -1,0 +1,162 @@
+<html>
+<head>
+	<title>Nano &rsaquo; Building Nano</title>
+	<link rel="stylesheet" type="text/css" href="html/nano.css">
+	<link rel="icon" href="html/nano.ico" type="image/x-icon">
+	<script type="text/javascript" src="html/rounded_corners.js"></script>
+	<script type="text/javascript" src="html/nano.js"></script>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">_uacct = "UA-1732444-2";urchinTracker();</script>
+</head>
+<body>
+
+<script type="text/javascript" src="html/warning.js"></script>
+
+
+
+
+
+<div id="page">
+<div id="header">
+	<a href="http://www.refnum.com/products/nano/"><div id="logo"></div></a>
+</div>
+
+<div id="content">
+<table>
+<tr>
+<td valign=top>
+    <ul id="navigation">
+        <li class="subtitle">Nano</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="licence.html">Licence</a></li>
+        <li><a href="list.html">Mailing List</a></li>
+        <li><a href="screenshots.html">Screenshots</a></li>
+        <li><a href="history.html">Version History</a></li>
+
+        <li class="subtitle">Getting Started</li>
+        <li><a href="quickstart.html">Quick Start</a></li>
+        <li><a href="building.html">Building Nano</a></li>
+        <li><a href="getnano.html">Getting the Code</a></li>
+        <li><a href="contributing.html">Contributing Code</a></li>
+        <li><a href="reportbugs.html">Reporting Bugs</a></li>
+
+        <li class="subtitle">Nano Features</li>
+        <li><a href="performance.html">High Performance</a></li>
+        <li><a href="features.html">Nano Features</a></li>
+        <li><a href="nanoviews.html">Nano Views</a></li>
+        <li><a href="resources.html">Nano Resources</a></li>
+        <li><a href="customcursor.html">Custom Cursors</a></li>
+        <li><a href="custommenus.html">Custom Menu Items</a></li>
+
+        <li class="subtitle">Building Applications</li>
+        <li><a href="applications.html">Building Applications</a></li>
+        <li><a href="documents.html">Adding Documents</a></li>
+        <li><a href="preferences.html">Adding Preferences</a></li>
+        <li><a href="undo.html">Adding One-Line Undo</a></li>
+        <li><a href="softwareupdate.html">Adding Software Update</a></li>
+        <li><a href="controllers.html">Using Controllers</a></li>
+        <li><a href="events.html">Using Carbon Events</a></li>
+        <li><a href="views.html">Using HIViews</a></li>
+        <li><a href="functors.html">Using Functors</a></li>
+
+        <li class="subtitle">Reference Guide</li>
+        <li><a href="utilities.html">Utility Code</a></li>
+        <li><a href="classes.html">Class Overview</a></li>
+        <li><a href="standards.html">Coding Standards</a></li>
+	</ul>
+
+	<div id="button">
+	<a href="http://www.refnum.com/products/nano/">
+	<img src="html/button.png" alt="Get Nano" width="180" height="80" align=middle>
+	</a>
+	</div>
+</td>
+<td valign=top id="text">
+<!-- ========================================================================================== -->
+
+
+
+<h1>Building Nano</h1>
+<p>
+Nano expects Xcode 2.4 or higher, and is typically built with gcc 4.x.
+</p>
+
+
+
+<h2>Xcode Configuration</h2>
+<p>
+All Nano projects contain Debug and Release configurations. These configurations obtain their
+values from external .xcconfig files, contained in <tt>Support/Xcode/Configuration</tt>.
+</p>
+
+<p>
+These .xcconfig files will maximize warnings in debug builds and minimize the final binary
+size in release builds. The details of each configuration can be adjusted to meet your own
+needs, since Nano does not require these particular choices.
+</p>
+
+<p>
+By default, debug builds are performed for the current architecture while release builds are
+built as Universal Binaries. This behaviour can be changed by adjusting the <tt>ARCHS</tt>
+setting in the .xcconfig files.
+</p>
+
+
+
+<h2>Nano Projects</h2>
+<p>
+Nano projects do not apply any settings at the project level, and are customized at the
+target level. Targets contain minimal customisations, with most configuration performed
+through .xcconfig files.
+</p>
+
+<p>
+Nano is typically built as a stand-alone static library, however this style of build is
+not required. Nano can also be built by including the relevant source code directly in
+your project.
+</p>
+
+
+
+<h2>Language Settings</h2>
+<p>
+If compiling Nano source directly in your project, you will need to apply the correct
+language settings to individual source files; all source should be built as C++, except
+those .cpp files which also contain Objective-C.
+</p>
+
+<p>
+Unfortunately a bug in Xcode (<a href="rdar://5259110">rdar://5259110</a>) means that the
+per-file language setting is ignored if the target-level language setting is set to anything
+other than "by file type".
+</p>
+
+<p>
+As such, you will need to set the language setting individually for those files who do not
+match Xcode's extension-based rules (.c files must be modified to C++, and .cpp files that
+use Objective-C must be set to Obj-C++).
+</p>
+
+	
+	
+
+
+
+<!-- ========================================================================================== -->
+</td>
+</tr>
+<tr>
+	<td colspan=2 valign=bottom id="copyright">
+	Copyright &copy; 2006-2007 <a href="http://www.refnum.com/">refNum Software</a>
+	</td>
+</tr>
+
+</table>
+</div>
+
+<div id="footer"></div>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,463 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB03A4E009E9E4F800BC45F6 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = AB03A4D809E9E4F800BC45F6 /* Help */; };
+		AB25265809FBBB1100A4EC9A /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25265709FBBB1100A4EC9A /* CApplication.cpp */; };
+		AB26FDEB0B3CA29A005E6081 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB26FDE90B3CA29A005E6081 /* Security.framework */; };
+		AB26FDEC0B3CA29A005E6081 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB26FDEA0B3CA29A005E6081 /* SystemConfiguration.framework */; };
+		AB26FF350B3CA3EE005E6081 /* Nano.nib in Resources */ = {isa = PBXBuildFile; fileRef = AB26FF330B3CA3EE005E6081 /* Nano.nib */; };
+		AB4622750C14184400EBF170 /* PanelFonts.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4622730C14184400EBF170 /* PanelFonts.png */; };
+		AB4622760C14184400EBF170 /* PanelColors.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4622740C14184400EBF170 /* PanelColors.png */; };
+		AB5A12E009E8527800425D4B /* CToolbarDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5A12DF09E8527800425D4B /* CToolbarDocument.cpp */; };
+		AB5A159609E94BA700425D4B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB5A159409E94BA700425D4B /* Localizable.strings */; };
+		AB5B29BD09CAD871008C593C /* NanoText.nib in Resources */ = {isa = PBXBuildFile; fileRef = AB5B29B909CAD871008C593C /* NanoText.nib */; };
+		AB5B29BF09CAD871008C593C /* NanoText.icns in Resources */ = {isa = PBXBuildFile; fileRef = AB5B29BC09CAD871008C593C /* NanoText.icns */; };
+		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
+		AB7403D40C181EBB00F4FEDC /* Example.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AB7403D30C181EBB00F4FEDC /* Example.rtf */; };
+		ABAB87F30A11450A002CFA79 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAB87F20A11450A002CFA79 /* WebKit.framework */; };
+		ABAB882A0A114535002CFA79 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAB88290A114535002CFA79 /* Accelerate.framework */; };
+		ABB854B909E6617A005F9BCD /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB854B809E6617A005F9BCD /* QuickTime.framework */; };
+		ABBC31120C15EFED004F9DE1 /* FileDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABBC31110C15EFED004F9DE1 /* FileDocument.icns */; };
+		ABD742390A62D3B8001029EB /* Nano.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABD742370A62D3B8001029EB /* Nano.strings */; };
+		ABE070B609FBBC9C0031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE070B209FBBC960031D3D1 /* libNano.a */; };
+		ABE0719409FBBF880031D3D1 /* PrefsGeneral.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE0719309FBBF880031D3D1 /* PrefsGeneral.png */; };
+		ABE8FFF90A06D07C005DEFA3 /* CWindowDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE8FFF50A06D07C005DEFA3 /* CWindowDocument.cpp */; };
+		ABE8FFFA0A06D07C005DEFA3 /* CWindowPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE8FFF70A06D07C005DEFA3 /* CWindowPreferences.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABE070B109FBBC960031D3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC06F0554671400DB518D;
+			remoteInfo = Nano;
+		};
+		ABE070B709FBBCA30031D3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC06E0554671400DB518D;
+			remoteInfo = Nano;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		8D0C4E970486CD37000505A6 /* NanoText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoText.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB03A4D909E9E4F800BC45F6 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
+		AB25265609FBBB1100A4EC9A /* CApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CApplication.h; sourceTree = "<group>"; };
+		AB25265709FBBB1100A4EC9A /* CApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CApplication.cpp; sourceTree = "<group>"; };
+		AB26FDE90B3CA29A005E6081 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		AB26FDEA0B3CA29A005E6081 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		AB26FF340B3CA3EE005E6081 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ../../../Library/Resources/English.lproj/Nano.nib; sourceTree = SOURCE_ROOT; };
+		AB4607D30AD6B5F4001A64FF /* Read Me.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "Read Me.rtf"; path = "../Read Me.rtf"; sourceTree = SOURCE_ROOT; };
+		AB4622730C14184400EBF170 /* PanelFonts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PanelFonts.png; sourceTree = "<group>"; };
+		AB4622740C14184400EBF170 /* PanelColors.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PanelColors.png; sourceTree = "<group>"; };
+		AB5A12DE09E8527800425D4B /* CToolbarDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CToolbarDocument.h; sourceTree = "<group>"; };
+		AB5A12DF09E8527800425D4B /* CToolbarDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CToolbarDocument.cpp; sourceTree = "<group>"; };
+		AB5A159509E94BA700425D4B /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetDebug.xcconfig; sourceTree = "<group>"; };
+		AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetRelease.xcconfig; sourceTree = "<group>"; };
+		AB5B29BA09CAD871008C593C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/NanoText.nib; sourceTree = "<group>"; };
+		AB5B29BB09CAD871008C593C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5B29BC09CAD871008C593C /* NanoText.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = NanoText.icns; sourceTree = "<group>"; };
+		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		AB7403D30C181EBB00F4FEDC /* Example.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Example.rtf; sourceTree = "<group>"; };
+		ABAB87F20A11450A002CFA79 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		ABAB88290A114535002CFA79 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
+		ABB854B809E6617A005F9BCD /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		ABBC31110C15EFED004F9DE1 /* FileDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FileDocument.icns; sourceTree = "<group>"; };
+		ABD742380A62D3B8001029EB /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = ../../../Library/Resources/English.lproj/Nano.strings; sourceTree = SOURCE_ROOT; };
+		ABE0717209FBBF310031D3D1 /* NanoText Build.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NanoText Build.h"; sourceTree = "<group>"; };
+		ABE0717309FBBF310031D3D1 /* NanoText Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NanoText Prefix.pch"; sourceTree = "<group>"; };
+		ABE0719309FBBF880031D3D1 /* PrefsGeneral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrefsGeneral.png; sourceTree = "<group>"; };
+		ABE072FD09FBCA0B0031D3D1 /* TargetCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = TargetCommon.xcconfig; sourceTree = "<group>"; };
+		ABE8FFF50A06D07C005DEFA3 /* CWindowDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowDocument.cpp; sourceTree = "<group>"; };
+		ABE8FFF60A06D07C005DEFA3 /* CWindowDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowDocument.h; sourceTree = "<group>"; };
+		ABE8FFF70A06D07C005DEFA3 /* CWindowPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindowPreferences.cpp; sourceTree = "<group>"; };
+		ABE8FFF80A06D07C005DEFA3 /* CWindowPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindowPreferences.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D0C4E910486CD37000505A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
+				ABB854B909E6617A005F9BCD /* QuickTime.framework in Frameworks */,
+				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
+				ABE070B609FBBC9C0031D3D1 /* libNano.a in Frameworks */,
+				ABAB87F30A11450A002CFA79 /* WebKit.framework in Frameworks */,
+				ABAB882A0A114535002CFA79 /* Accelerate.framework in Frameworks */,
+				AB26FDEB0B3CA29A005E6081 /* Security.framework in Frameworks */,
+				AB26FDEC0B3CA29A005E6081 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		195DF8CFFE9D517E11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D0C4E970486CD37000505A6 /* NanoText.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20286C29FDCF999611CA2CEA /* NanoText */ = {
+			isa = PBXGroup;
+			children = (
+				AB4607D30AD6B5F4001A64FF /* Read Me.rtf */,
+				AB5B29A909CAD85D008C593C /* Configuration */,
+				AB5B29B509CAD866008C593C /* Prefix */,
+				AB5B29C009CAD87B008C593C /* Source */,
+				AB5B29B809CAD871008C593C /* Resources */,
+				20286C32FDCF999611CA2CEA /* Frameworks */,
+				AB5B29DB09CAD8B7008C593C /* Dependencies */,
+				195DF8CFFE9D517E11CA2CBB /* Products */,
+			);
+			name = NanoText;
+			sourceTree = "<group>";
+		};
+		20286C32FDCF999611CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ABAB88290A114535002CFA79 /* Accelerate.framework */,
+				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				AB6E7E3609F9052300F73093 /* Cocoa.framework */,
+				ABB854B809E6617A005F9BCD /* QuickTime.framework */,
+				AB26FDE90B3CA29A005E6081 /* Security.framework */,
+				AB26FDEA0B3CA29A005E6081 /* SystemConfiguration.framework */,
+				ABAB87F20A11450A002CFA79 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB5B29A909CAD85D008C593C /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				ABE072FD09FBCA0B0031D3D1 /* TargetCommon.xcconfig */,
+				AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */,
+				AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */,
+			);
+			name = Configuration;
+			path = ../../../Support/Xcode/Configuration;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29B509CAD866008C593C /* Prefix */ = {
+			isa = PBXGroup;
+			children = (
+				ABE0717209FBBF310031D3D1 /* NanoText Build.h */,
+				ABE0717309FBBF310031D3D1 /* NanoText Prefix.pch */,
+			);
+			name = Prefix;
+			path = ../Prefix;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29B809CAD871008C593C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29BB09CAD871008C593C /* Info.plist */,
+				ABD742370A62D3B8001029EB /* Nano.strings */,
+				AB5A159409E94BA700425D4B /* Localizable.strings */,
+				AB26FF330B3CA3EE005E6081 /* Nano.nib */,
+				AB5B29B909CAD871008C593C /* NanoText.nib */,
+				AB03A4D809E9E4F800BC45F6 /* Help */,
+				AB7403D30C181EBB00F4FEDC /* Example.rtf */,
+				AB4622740C14184400EBF170 /* PanelColors.png */,
+				AB4622730C14184400EBF170 /* PanelFonts.png */,
+				ABE0719309FBBF880031D3D1 /* PrefsGeneral.png */,
+				ABBC31110C15EFED004F9DE1 /* FileDocument.icns */,
+				AB5B29BC09CAD871008C593C /* NanoText.icns */,
+			);
+			name = Resources;
+			path = ../Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29C009CAD87B008C593C /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AB25265709FBBB1100A4EC9A /* CApplication.cpp */,
+				AB25265609FBBB1100A4EC9A /* CApplication.h */,
+				ABE8FFF40A06D07C005DEFA3 /* Controllers */,
+				ABA3BF9A09CEF24500072AD6 /* Models */,
+				ABA3BF9609CEF24500072AD6 /* Views */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB5B29DB09CAD8B7008C593C /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		ABA3BF9609CEF24500072AD6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ABA3BF9A09CEF24500072AD6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB5A12DF09E8527800425D4B /* CToolbarDocument.cpp */,
+				AB5A12DE09E8527800425D4B /* CToolbarDocument.h */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		ABE070AD09FBBC960031D3D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABE070B209FBBC960031D3D1 /* libNano.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABE8FFF40A06D07C005DEFA3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ABE8FFF50A06D07C005DEFA3 /* CWindowDocument.cpp */,
+				ABE8FFF60A06D07C005DEFA3 /* CWindowDocument.h */,
+				ABE8FFF70A06D07C005DEFA3 /* CWindowPreferences.cpp */,
+				ABE8FFF80A06D07C005DEFA3 /* CWindowPreferences.h */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D0C4E890486CD37000505A6 /* NanoText */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoText" */;
+			buildPhases = (
+				AB866D9D0A7C04B4008B7017 /* ShellScript */,
+				8D0C4E8C0486CD37000505A6 /* Resources */,
+				8D0C4E8F0486CD37000505A6 /* Sources */,
+				8D0C4E910486CD37000505A6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABE070B809FBBCA30031D3D1 /* PBXTargetDependency */,
+			);
+			name = NanoText;
+			productInstallPath = "$(HOME)/Applications";
+			productName = NanoText;
+			productReference = 8D0C4E970486CD37000505A6 /* NanoText.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20286C28FDCF999611CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoText" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 20286C29FDCF999611CA2CEA /* NanoText */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ABE070AD09FBBC960031D3D1 /* Products */;
+					ProjectRef = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+				},
+			);
+			projectRoot = ..;
+			targets = (
+				8D0C4E890486CD37000505A6 /* NanoText */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ABE070B209FBBC960031D3D1 /* libNano.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNano.a;
+			remoteRef = ABE070B109FBBC960031D3D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D0C4E8C0486CD37000505A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABD742390A62D3B8001029EB /* Nano.strings in Resources */,
+				AB5A159609E94BA700425D4B /* Localizable.strings in Resources */,
+				AB26FF350B3CA3EE005E6081 /* Nano.nib in Resources */,
+				AB5B29BD09CAD871008C593C /* NanoText.nib in Resources */,
+				AB03A4E009E9E4F800BC45F6 /* Help in Resources */,
+				AB7403D40C181EBB00F4FEDC /* Example.rtf in Resources */,
+				AB4622760C14184400EBF170 /* PanelColors.png in Resources */,
+				AB4622750C14184400EBF170 /* PanelFonts.png in Resources */,
+				ABE0719409FBBF880031D3D1 /* PrefsGeneral.png in Resources */,
+				ABBC31120C15EFED004F9DE1 /* FileDocument.icns in Resources */,
+				AB5B29BF09CAD871008C593C /* NanoText.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AB866D9D0A7C04B4008B7017 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This Script Phase is only needed for the demo projects to ensure\n# that the Nano source tree has been defined prior to rebuilding.\n#\n# Since the classes in these projects need access to Nano's headers,\n# the projects rely on the Nano .xcconfig files adding suitable header\n# search paths relative to the Nano source tree.\n#\n# Nano-based projects created from the Xcode template do not contain\n# this build phase, and your own projects will not require it either.\n#\nif [ \"$Nano\" == \"\" ]; then\n\techo \"To rebuild this demo, please run XcodeExtras.pl to define the Nano source tree (see the Quick Start guide)\"\n\texit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D0C4E8F0486CD37000505A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB25265809FBBB1100A4EC9A /* CApplication.cpp in Sources */,
+				ABE8FFF90A06D07C005DEFA3 /* CWindowDocument.cpp in Sources */,
+				ABE8FFFA0A06D07C005DEFA3 /* CWindowPreferences.cpp in Sources */,
+				AB5A12E009E8527800425D4B /* CToolbarDocument.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABE070B809FBBCA30031D3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano;
+			targetProxy = ABE070B709FBBCA30031D3D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AB03A4D809E9E4F800BC45F6 /* Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB03A4D909E9E4F800BC45F6 /* English */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		AB26FF330B3CA3EE005E6081 /* Nano.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB26FF340B3CA3EE005E6081 /* English */,
+			);
+			name = Nano.nib;
+			sourceTree = "<group>";
+		};
+		AB5A159409E94BA700425D4B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB5A159509E94BA700425D4B /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		AB5B29B909CAD871008C593C /* NanoText.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB5B29BA09CAD871008C593C /* English */,
+			);
+			name = NanoText.nib;
+			sourceTree = "<group>";
+		};
+		ABD742370A62D3B8001029EB /* Nano.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABD742380A62D3B8001029EB /* English */,
+			);
+			name = Nano.strings;
+			path = ../Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C0E91AC608A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* TargetDebug.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/NanoText Prefix.pch";
+				INFOPLIST_FILE = ../Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../Prefix/NanoText Build.h";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = NanoText;
+			};
+			name = Debug;
+		};
+		C0E91AC708A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* TargetRelease.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "../Prefix/NanoText Prefix.pch";
+				INFOPLIST_FILE = ../Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../Prefix/NanoText Build.h";
+				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
+				PRODUCT_NAME = NanoText;
+			};
+			name = Release;
+		};
+		C0E91ACA08A95435008D54AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C0E91ACB08A95435008D54AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoText" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91AC608A95435008D54AB /* Debug */,
+				C0E91AC708A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "NanoText" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0E91ACA08A95435008D54AB /* Debug */,
+				C0E91ACB08A95435008D54AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20286C28FDCF999611CA2CEA /* Project object */;
+}

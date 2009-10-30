@@ -1,0 +1,976 @@
+/*	NAME:
+		NMenuItem.cpp
+
+	DESCRIPTION:
+		Menu item object.
+	
+	COPYRIGHT:
+		Copyright (c) 2006-2007, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+#include "NSystemUtilities.h"
+#include "NHelpUtilities.h"
+#include "NMenuItem.h"
+
+
+
+
+
+//============================================================================
+//		NMenuItem::NMenuItem : Constructor.
+//----------------------------------------------------------------------------
+NMenuItem::NMenuItem(const NCarbonEvent &theEvent)
+{
+
+
+	// Initialize ourselves
+	mIndex = theEvent.GetParameterMenuItemIndex(kEventParamMenuItemIndex);
+	mMenu  = theEvent.GetMenu();
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::NMenuItem : Constructor.
+//----------------------------------------------------------------------------
+NMenuItem::NMenuItem(const HICommandExtended &theCmd)
+{	MenuRef		theMenu;
+
+
+
+	// Initialize ourselves
+	//
+	// If created from a menu command we can grab it directly, otherwise
+	// we search the menu bar for the first menu item with this command.
+	if (theCmd.attributes & kHICommandFromMenu)
+		{
+		mMenu   = NMenu(theCmd.source.menu.menuRef);
+		mIndex  =       theCmd.source.menu.menuItemIndex;
+		}
+	else
+		{
+		theMenu = NULL;
+		mIndex  = FindMenuItem(theMenu, theCmd.commandID, true);
+		mMenu   = NMenu(theMenu);
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::NMenuItem : Constructor.
+//----------------------------------------------------------------------------
+NMenuItem::NMenuItem(MenuRef theMenu, UInt32 theItem, bool isCmd)
+{
+
+
+	// Initialize ourselves
+	mMenu  = NULL;
+	mIndex = FindMenuItem(theMenu, theItem, isCmd);
+	mMenu  = NMenu(theMenu);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::NMenuItem : Constructor.
+//----------------------------------------------------------------------------
+NMenuItem::NMenuItem(UInt32 theCmd)
+{	MenuRef		theMenu;
+
+
+
+	// Initialize ourselves
+	theMenu = NULL;
+	mIndex  = FindMenuItem(theMenu, theCmd, true);
+	mMenu   = NMenu(theMenu);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::NMenuItem : Constructor.
+//----------------------------------------------------------------------------
+NMenuItem::NMenuItem(void)
+{
+
+
+	// Initialize ourselves
+	mIndex = 0;
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::~NMenuItem : Destructor.
+//----------------------------------------------------------------------------
+NMenuItem::~NMenuItem(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::IsValid : Is the menu item valid?
+//----------------------------------------------------------------------------
+bool NMenuItem::IsValid(void) const
+{
+
+
+	// Check our state
+	return(mMenu.IsValid() && mIndex != 0);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetMenu : Get the menu.
+//----------------------------------------------------------------------------
+NMenu NMenuItem::GetMenu(void) const
+{
+
+
+	// Get the menu
+	return(mMenu);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetIndex : Get the index.
+//----------------------------------------------------------------------------
+MenuItemIndex NMenuItem::GetIndex(void) const
+{
+
+
+	// Get the index
+	return(mIndex);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::IsEnabled : Get the enabled state.
+//----------------------------------------------------------------------------
+bool NMenuItem::IsEnabled(void) const
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+	
+
+
+	// Get the enabled state
+	return(IsMenuItemEnabled(mMenu, mIndex));
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetEnabled : Set the enabled state.
+//----------------------------------------------------------------------------
+void NMenuItem::SetEnabled(bool isEnabled)
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the enabled state
+	if (isEnabled)
+		EnableMenuItem(mMenu, mIndex);
+	else
+		DisableMenuItem(mMenu, mIndex);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetText : Get the text.
+//----------------------------------------------------------------------------
+NString NMenuItem::GetText(void) const
+{	NString			theValue;
+	CFStringRef		cfString;
+	OSStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the text
+	cfString = NULL;
+	theErr   = CopyMenuItemTextAsCFString(mMenu, mIndex, &cfString);
+	NN_ASSERT_NOERR(theErr);
+	
+	if (cfString != NULL)
+		theValue.Set(cfString);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetText : Set the text.
+//----------------------------------------------------------------------------
+void NMenuItem::SetText(const NString &theValue)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the text
+	theErr = SetMenuItemTextWithCFString(mMenu, mIndex, theValue);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetCommand : Get the command.
+//----------------------------------------------------------------------------
+MenuCommand NMenuItem::GetCommand(void) const
+{	MenuCommand		theValue;
+	OSStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the command
+	theValue = 0;
+	theErr   = GetMenuItemCommandID(mMenu, mIndex, &theValue);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetCommand : Set the command.
+//----------------------------------------------------------------------------
+void NMenuItem::SetCommand(MenuCommand theValue)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the command
+	theErr = SetMenuItemCommandID(mMenu, mIndex, theValue);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetMark : Get the mark.
+//----------------------------------------------------------------------------
+UniChar NMenuItem::GetMark(void) const
+{	CharParameter	theValue;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the mark
+	theValue = 0;
+	GetItemMark(mMenu, mIndex, &theValue);
+	
+	return((UniChar) theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetMark : Set the mark.
+//----------------------------------------------------------------------------
+void NMenuItem::SetMark(UniChar theValue)
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the mark
+	SetItemMark(mMenu, mIndex, (CharParameter) theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::IsChecked : Get the checked state.
+//----------------------------------------------------------------------------
+bool NMenuItem::IsChecked(void) const
+{
+
+
+	// Get the state
+	return(GetMark() != noMark);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetChecked : Set the checked state.
+//----------------------------------------------------------------------------
+void NMenuItem::SetChecked(bool isChecked)
+{
+
+
+	// Set the state
+	SetMark(isChecked ? (UniChar) checkMark : (UniChar) noMark);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetIndent : Get the indent.
+//----------------------------------------------------------------------------
+UInt32 NMenuItem::GetIndent(void) const
+{	UInt32		theValue;
+	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the indent
+	theValue = 0;
+	theErr   = GetMenuItemIndent(mMenu, mIndex, &theValue);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetIndent : Set the indent.
+//----------------------------------------------------------------------------
+void NMenuItem::SetIndent(UInt32 theValue)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the indent
+	theErr = SetMenuItemIndent(mMenu, mIndex, theValue);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetIcon : Get the icon.
+//----------------------------------------------------------------------------
+NIcon NMenuItem::GetIcon(void) const
+{	IconRef		theValue;
+	UInt8		theType;
+	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the icon
+	theValue = NULL;
+	theErr   = GetMenuItemIconHandle(mMenu, mIndex, &theType, (Handle *) &theValue);
+
+	NN_ASSERT_NOERR(theErr);
+	NN_ASSERT(theType == kMenuIconRefType);
+	
+	if (theErr != noErr)
+		theValue = NULL;
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetIcon : Set the icon.
+//----------------------------------------------------------------------------
+void NMenuItem::SetIcon(const NIcon &theValue)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the icon
+	theErr = SetMenuItemIconHandle(mMenu, mIndex, kMenuIconRefType, (Handle) ((IconRef) theValue));
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetImage : Get the image.
+//----------------------------------------------------------------------------
+NCGImage NMenuItem::GetImage(void) const
+{	CGImageRef		theValue;
+	UInt8			theType;
+	OSStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the image
+	theValue = NULL;
+	theErr   = GetMenuItemIconHandle(mMenu, mIndex, &theType, (Handle *) &theValue);
+
+	NN_ASSERT_NOERR(theErr);
+	NN_ASSERT(theType == kMenuCGImageRefType);
+	
+	if (theErr != noErr)
+		theValue = NULL;
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetImage : Set the image.
+//----------------------------------------------------------------------------
+void NMenuItem::SetImage(const NCGImage &theValue)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the icon
+	theErr = SetMenuItemIconHandle(mMenu, mIndex, kMenuCGImageRefType, (Handle) ((CGImageRef) theValue));
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetSubMenu : Get the sub-menu.
+//----------------------------------------------------------------------------
+NMenu NMenuItem::GetSubMenu(void) const
+{	MenuRef		theValue;
+	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the sub-menu
+	theValue = NULL;
+	theErr   = GetMenuItemHierarchicalMenu(mMenu, mIndex, &theValue);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetSubMenu : Set the sub-menu.
+//----------------------------------------------------------------------------
+void NMenuItem::SetSubMenu(const NMenu &theValue)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the sub-menu
+	theErr = SetMenuItemHierarchicalMenu(mMenu, mIndex, theValue);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetAttributes : Get the attributes.
+//----------------------------------------------------------------------------
+MenuItemAttributes NMenuItem::GetAttributes(void) const
+{	MenuItemAttributes		theValue;
+	OSStatus				theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the attributes
+	theValue = 0;
+	theErr   = GetMenuItemAttributes(mMenu, mIndex, &theValue);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetAttributes : Set the attributes.
+//----------------------------------------------------------------------------
+void NMenuItem::SetAttributes(MenuItemAttributes setThese, MenuItemAttributes clearThese)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the attributes
+	theErr = ChangeMenuItemAttributes(mMenu, mIndex, setThese, clearThese);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetHelpTag : Get the help tag.
+//----------------------------------------------------------------------------
+NHelpTag NMenuItem::GetHelpTag(void) const
+{	NHelpTag	theTag(*this);
+
+
+
+	// Get the help tag
+	return(theTag);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetHelpTag : Set the help tag.
+//----------------------------------------------------------------------------
+void NMenuItem::SetHelpTag(const NHelpTag &theTag)
+{	OSStatus	theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Set the help tag
+	theErr = HMSetMenuItemHelpContent(mMenu, mIndex, theTag);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetPropertyBoolean : Get a boolean property.
+//----------------------------------------------------------------------------
+bool NMenuItem::GetPropertyBoolean(OSType theCreator, OSType theTag) const
+{	bool		theValue;
+	NData		theData;
+
+
+
+	// Get the property
+	theValue = false;
+	theData  = GetPropertyData(theCreator, theTag);
+	
+	if (theData.GetSize() == sizeof(theValue))
+		memcpy(&theValue, theData.GetData(), theData.GetSize());
+
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetPropertyUInt32 : Get a UInt32 property.
+//----------------------------------------------------------------------------
+UInt32 NMenuItem::GetPropertyUInt32(OSType theCreator, OSType theTag) const
+{	UInt32		theValue;
+	NData		theData;
+
+
+
+	// Get the property
+	theValue = 0;
+	theData  = GetPropertyData(theCreator, theTag);
+	
+	if (theData.GetSize() == sizeof(theValue))
+		memcpy(&theValue, theData.GetData(), theData.GetSize());
+
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetPropertyUInt64 : Get a UInt64 property.
+//----------------------------------------------------------------------------
+UInt64 NMenuItem::GetPropertyUInt64(OSType theCreator, OSType theTag) const
+{	UInt64		theValue;
+	NData		theData;
+
+
+
+	// Get the property
+	theValue = 0;
+	theData  = GetPropertyData(theCreator, theTag);
+	
+	if (theData.GetSize() == sizeof(theValue))
+		memcpy(&theValue, theData.GetData(), theData.GetSize());
+
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetPropertyString : Get a string property.
+//----------------------------------------------------------------------------
+NString NMenuItem::GetPropertyString(OSType theCreator, OSType theTag) const
+{	NString		theValue;
+	NData		theData;
+
+
+
+	// Get the property
+	theData  = GetPropertyData(theCreator, theTag);
+	theValue = NString(theData);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetPropertyData : Get a data property.
+//----------------------------------------------------------------------------
+NData NMenuItem::GetPropertyData(OSType theCreator, OSType theTag) const
+{	NData		theValue;
+	UInt32		theSize;
+	OSStatus	theErr;
+
+
+
+	// Get the state we need
+	theSize = 0;
+	theErr  = GetMenuItemPropertySize(mMenu, mIndex, theCreator, theTag, &theSize);
+
+	if (theErr != noErr || theSize == 0)
+		return(theValue);
+
+
+
+	// Get the property
+	if (theValue.SetSize(theSize))
+		{
+		theErr = GetMenuItemProperty(mMenu, mIndex, theCreator, theTag, theValue.GetSize(), NULL, theValue.GetData());
+		NN_ASSERT_NOERR(theErr);
+		}
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::GetPropertyPointer : Get a pointer property.
+//----------------------------------------------------------------------------
+void *NMenuItem::GetPropertyPointer(OSType theCreator, OSType theTag) const
+{	void		*theValue;
+	NData		theData;
+
+
+
+	// Get the property
+	theValue = NULL;
+	theData  = GetPropertyData(theCreator, theTag);
+	
+	if (theData.GetSize() == sizeof(theValue))
+		memcpy(&theValue, theData.GetData(), theData.GetSize());
+
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetPropertyBoolean : Set a boolean property.
+//----------------------------------------------------------------------------
+void NMenuItem::SetPropertyBoolean(OSType theCreator, OSType theTag, bool theValue)
+{	NData		theData;
+
+
+
+	// Set the property
+	if (theData.AppendData(sizeof(theValue), &theValue) != NULL)
+		SetPropertyData(theCreator, theTag, theData);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetPropertyUInt32 : Set a UInt32 property.
+//----------------------------------------------------------------------------
+void NMenuItem::SetPropertyUInt32(OSType theCreator, OSType theTag, UInt32 theValue)
+{	NData		theData;
+
+
+
+	// Set the property
+	if (theData.AppendData(sizeof(theValue), &theValue) != NULL)
+		SetPropertyData(theCreator, theTag, theData);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetPropertyUInt64 : Set a UInt64 property.
+//----------------------------------------------------------------------------
+void NMenuItem::SetPropertyUInt64(OSType theCreator, OSType theTag, UInt64 theValue)
+{	NData		theData;
+
+
+
+	// Set the property
+	if (theData.AppendData(sizeof(theValue), &theValue) != NULL)
+		SetPropertyData(theCreator, theTag, theData);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetPropertyString : Set a string property.
+//----------------------------------------------------------------------------
+void NMenuItem::SetPropertyString(OSType theCreator, OSType theTag, const NString &theValue)
+{
+
+
+	// Set the property
+	SetPropertyData(theCreator, theTag, theValue.GetData());
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetPropertyData : Set a data property.
+//----------------------------------------------------------------------------
+void NMenuItem::SetPropertyData(OSType theCreator, OSType theTag, const NData &theValue)
+{	OSStatus	theErr;
+
+
+
+	// Set the property
+	theErr = SetMenuItemProperty(mMenu, mIndex, theCreator, theTag, theValue.GetSize(), theValue.GetData());
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::SetPropertyPointer : Set a pointer property.
+//----------------------------------------------------------------------------
+void NMenuItem::SetPropertyPointer(OSType theCreator, OSType theTag, void *theValue)
+{	NData		theData;
+
+
+
+	// Set the property
+	if (theData.AppendData(sizeof(theValue), &theValue) != NULL)
+		SetPropertyData(theCreator, theTag, theData);
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::Compare : Compare two objects.
+//----------------------------------------------------------------------------
+#pragma mark -
+CFComparisonResult NMenuItem::Compare(const NComparable &theObject) const
+{	const NMenuItem		*theItem = dynamic_cast<const NMenuItem*>(&theObject);
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theItem != NULL);
+
+
+
+	// Compare the menu items
+	//
+	// Althoughs menu items have equality, they do not have any real ordering.
+	if (mMenu == theItem->mMenu)
+		return(GET_CF_COMPARE(mIndex, theItem->mIndex));
+	else
+		return(NComparable::Compare(theObject));
+}
+
+
+
+
+
+//============================================================================
+//		NMenuItem::FindMenuItem : Find the menu item index.
+//----------------------------------------------------------------------------
+#pragma mark -
+MenuItemIndex NMenuItem::FindMenuItem(MenuRef &theMenu, UInt32 theItem, bool isCmd)
+{	MenuItemIndex	theIndex;
+	OSStatus		theErr;
+
+
+
+	// Get the index
+	theIndex = isCmd ? 0 : theItem;
+	
+	if (isCmd)
+		{
+		theErr = GetIndMenuItemWithCommandID(theMenu, theItem, 1, &theMenu, &theIndex);
+		if (theErr != noErr)
+			theIndex = 0;
+		}
+	
+	return(theIndex);
+}

@@ -1,0 +1,1809 @@
+<?xml version="1.0" standalone="yes"?>
+<object class="NSIBObjectData">
+  <object name="rootObject" class="NSCustomObject" id="1">
+  </object>
+  <array count="159" name="allObjects">
+    <object class="IBCarbonMenuItem" id="185">
+      <string name="title">NanoDemo</string>
+      <object name="submenu" class="IBCarbonMenu" id="184">
+        <string name="title">NanoDemo</string>
+        <string name="name">_NSAppleMenu</string>
+        <array count="4" name="items">
+          <object class="IBCarbonMenuItem" id="187">
+            <string name="title">About NanoDemo</string>
+            <int name="keyEquivalentModifier">0</int>
+            <ostype name="command">abou</ostype>
+          </object>
+          <object class="IBCarbonMenuItem" id="395">
+            <string name="title">Software Update…</string>
+            <int name="keyEquivalentModifier">0</int>
+            <ostype name="command">supd</ostype>
+          </object>
+          <object class="IBCarbonMenuItem" id="240">
+            <boolean name="separator">TRUE</boolean>
+          </object>
+          <object class="IBCarbonMenuItem" id="239">
+            <string name="title">Preferences…</string>
+            <string name="keyEquivalent">,</string>
+            <ostype name="command">pref</ostype>
+          </object>
+        </array>
+      </object>
+    </object>
+    <object class="IBCarbonMenuItem" id="459">
+      <string name="title">Spelling</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <object name="submenu" class="IBCarbonMenu" id="460">
+        <string name="title">Spelling</string>
+        <array count="3" name="items">
+          <object class="IBCarbonMenuItem" id="461">
+            <string name="title">Spelling…</string>
+            <string name="keyEquivalent">:</string>
+            <boolean name="updateSingleItem">TRUE</boolean>
+            <ostype name="command">shsp</ostype>
+          </object>
+          <object class="IBCarbonMenuItem" id="463">
+            <string name="title">Check Spelling</string>
+            <string name="keyEquivalent">;</string>
+            <boolean name="updateSingleItem">TRUE</boolean>
+            <ostype name="command">cksp</ostype>
+          </object>
+          <object class="IBCarbonMenuItem" id="464">
+            <string name="title">Check Spelling as You Type</string>
+            <boolean name="updateSingleItem">TRUE</boolean>
+            <ostype name="command">aspc</ostype>
+          </object>
+        </array>
+      </object>
+    </object>
+    <object class="IBCarbonPopupButton" id="288">
+      <ostype name="controlSignature">widt</ostype>
+      <ostype name="command">widt</ostype>
+      <object name="menu" class="IBCarbonMenu" id="289">
+        <string name="title">Popup</string>
+        <array count="4" name="items">
+          <object class="IBCarbonMenuItem" id="293">
+            <string name="title">1</string>
+            <boolean name="checked">TRUE</boolean>
+            <boolean name="updateSingleItem">TRUE</boolean>
+          </object>
+          <object class="IBCarbonMenuItem" id="291">
+            <string name="title">2</string>
+            <boolean name="updateSingleItem">TRUE</boolean>
+          </object>
+          <object class="IBCarbonMenuItem" id="290">
+            <string name="title">4</string>
+            <boolean name="updateSingleItem">TRUE</boolean>
+          </object>
+          <object class="IBCarbonMenuItem" id="292">
+            <string name="title">8</string>
+            <boolean name="updateSingleItem">TRUE</boolean>
+          </object>
+        </array>
+      </object>
+      <int name="titleJustification">0</int>
+      <dictionary count="4" name="auxiliaryDictionary">
+        <string>creators</string>
+        <array count="4">
+          <string>Nano</string>
+          <string>Nano</string>
+          <string>Nano</string>
+          <string>Nano</string>
+        </array>
+        <string>tags</string>
+        <array count="4">
+          <string>img0</string>
+          <string>img3</string>
+          <string>img1</string>
+          <string>img2</string>
+        </array>
+        <string>types</string>
+        <array count="4">
+          <string>0</string>
+          <string>0</string>
+          <string>0</string>
+          <string>0</string>
+        </array>
+        <string>values</string>
+        <array count="4">
+          <string>Width1.png</string>
+          <string>Width8.png</string>
+          <string>Width2.png</string>
+          <string>Width4.png</string>
+        </array>
+      </dictionary>
+      <string name="viewFrame">103 20 102 20 </string>
+      <string name="bounds">20 103 40 205 </string>
+    </object>
+    <object class="IBCarbonMenuItem" id="274">
+      <string name="title">Arrange in Front</string>
+      <boolean name="dynamic">TRUE</boolean>
+      <boolean name="autoDisable">TRUE</boolean>
+      <int name="keyEquivalentModifier">1572864</int>
+      <ostype name="command">frnt</ostype>
+    </object>
+    <object class="IBCarbonMenuItem" id="286">
+      <string name="title">Solid</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+    </object>
+    <object class="IBCarbonMenuItem" id="133">
+      <boolean name="separator">TRUE</boolean>
+    </object>
+    <object class="IBCarbonMenuItem" id="141">
+      <string name="title">Undo</string>
+      <string name="keyEquivalent">z</string>
+      <boolean name="autoDisable">TRUE</boolean>
+      <ostype name="command">undo</ostype>
+    </object>
+    <object class="IBCarbonMenuItem" id="372">
+      <string name="title">Show Poof Effect…</string>
+      <string name="keyEquivalent">2</string>
+      <boolean name="autoDisable">TRUE</boolean>
+      <ostype name="command">dpof</ostype>
+    </object>
+    <object class="IBCarbonMenuItem" id="466">
+      <boolean name="separator">TRUE</boolean>
+      <boolean name="updateSingleItem">TRUE</boolean>
+    </object>
+    <object class="IBCarbonRootControl" id="167">
+      <string name="viewFrame">0 0 400 400 </string>
+      <array count="1" name="subviews">
+        <object class="IBCarbonHIView" id="221">
+          <ostype name="controlSignature">shap</ostype>
+          <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+            <int name="bindingTopKind">1</int>
+            <int name="bindingLeftKind">1</int>
+            <int name="bindingBottomKind">2</int>
+            <int name="bindingRightKind">2</int>
+          </object>
+          <string name="classID">com.nano.cshapeview</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="3">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="3">
+              <string>shap</string>
+              <string>cstr</string>
+              <string>cfil</string>
+            </array>
+            <string>types</string>
+            <array count="3">
+              <string>5</string>
+              <string>0</string>
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="3">
+              <string>trig</string>
+              <string>000000FF</string>
+              <string>FF0000FF</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">15 15 370 370 </string>
+          <string name="bounds">15 15 385 385 </string>
+        </object>
+      </array>
+      <string name="bounds">0 0 400 400 </string>
+    </object>
+    <object class="IBCarbonWindow" id="323">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="hasHorizontalZoom">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="hasVerticalZoom">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="asyncDrag">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <boolean name="doesNotCycle">TRUE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title"></string>
+      <object name="rootControl" class="IBCarbonRootControl" id="324">
+        <string name="viewFrame">0 0 300 400 </string>
+        <array count="3" name="subviews">
+          <object class="IBCarbonImageView" id="334">
+            <ostype name="controlSignature">imag</ostype>
+            <boolean name="opaque">FALSE</boolean>
+            <dictionary count="4" name="auxiliaryDictionary">
+              <string>creators</string>
+              <array count="1">
+                <string>Nano</string>
+              </array>
+              <string>tags</string>
+              <array count="1">
+                <string>imag</string>
+              </array>
+              <string>types</string>
+              <array count="1">
+                <string>0</string>
+              </array>
+              <string>values</string>
+              <array count="1">
+                <string>Demo Splash.png</string>
+              </array>
+            </dictionary>
+            <string name="viewFrame">0 0 300 400 </string>
+            <string name="bounds">0 0 400 300 </string>
+          </object>
+          <object class="IBCarbonStaticText" id="335">
+            <ostype name="controlSignature">stat</ostype>
+            <int name="fontStyle">2</int>
+            <string name="title">Loading: %d%%</string>
+            <string name="foreColor">65535 65535 65535 </string>
+            <int name="justification">1</int>
+            <string name="viewFrame">25 363 250 16 </string>
+            <string name="bounds">363 25 379 275 </string>
+          </object>
+          <object class="IBCarbonProgressBar" id="337">
+            <ostype name="controlSignature">prog</ostype>
+            <boolean name="indeterminate">FALSE</boolean>
+            <string name="viewFrame">25 336 250 19 </string>
+            <string name="bounds">336 25 355 275 </string>
+          </object>
+        </array>
+        <string name="bounds">0 0 400 300 </string>
+      </object>
+      <string name="windowRect">98 353 498 653 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <reference idRef="461"/>
+    <object class="IBCarbonMenuItem" id="235">
+      <string name="title">Triangle</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <ostype name="command">trig</ostype>
+    </object>
+    <object class="IBCarbonHIView" id="309">
+      <ostype name="controlSignature">npie</ostype>
+      <string name="classID">com.nano.nprogresspie</string>
+      <dictionary count="4" name="auxiliaryDictionary">
+        <string>creators</string>
+        <array count="3">
+          <string>Nano</string>
+          <string>Nano</string>
+          <string>Nano</string>
+        </array>
+        <string>tags</string>
+        <array count="3">
+          <string>min </string>
+          <string>max </string>
+          <string>valu</string>
+        </array>
+        <string>types</string>
+        <array count="3">
+          <string>7</string>
+          <string>7</string>
+          <string>7</string>
+        </array>
+        <string>values</string>
+        <array count="3">
+          <string>0</string>
+          <string>100</string>
+          <string>35</string>
+        </array>
+      </dictionary>
+      <string name="viewFrame">595 227 20 20 </string>
+      <string name="bounds">227 595 247 615 </string>
+    </object>
+    <object class="IBCarbonMenu" id="131">
+      <string name="title">File</string>
+      <array count="11" name="items">
+        <object class="IBCarbonMenuItem" id="139">
+          <string name="title">New</string>
+          <string name="keyEquivalent">n</string>
+          <ostype name="command">new </ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="134">
+          <string name="title">Open…</string>
+          <string name="keyEquivalent">o</string>
+          <ostype name="command">open</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="298">
+          <string name="title">Open Recent</string>
+          <boolean name="updateSingleItem">TRUE</boolean>
+          <int name="keyEquivalentModifier">0</int>
+          <ostype name="command">recn</ostype>
+        </object>
+        <reference idRef="133"/>
+        <object class="IBCarbonMenuItem" id="130">
+          <string name="title">Close</string>
+          <string name="keyEquivalent">w</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">clos</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="138">
+          <string name="title">Save</string>
+          <string name="keyEquivalent">s</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">save</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="137">
+          <string name="title">Save As…</string>
+          <string name="keyEquivalent">S</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">svas</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="132">
+          <string name="title">Revert to Saved</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">rvrt</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="128">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem" id="135">
+          <string name="title">Page Setup…</string>
+          <string name="keyEquivalent">P</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">page</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="136">
+          <string name="title">Print…</string>
+          <string name="keyEquivalent">p</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">prnt</ostype>
+        </object>
+      </array>
+    </object>
+    <object class="IBCarbonMenu" id="147">
+      <string name="title">Edit</string>
+      <array count="12" name="items">
+        <reference idRef="141"/>
+        <object class="IBCarbonMenuItem" id="146">
+          <string name="title">Redo</string>
+          <string name="keyEquivalent">Z</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">redo</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="142">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem" id="143">
+          <string name="title">Cut</string>
+          <string name="keyEquivalent">x</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">cut </ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="149">
+          <string name="title">Copy</string>
+          <string name="keyEquivalent">c</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">copy</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="144">
+          <string name="title">Paste</string>
+          <string name="keyEquivalent">v</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">past</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="151">
+          <string name="title">Delete</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">clea</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="148">
+          <string name="title">Select All</string>
+          <string name="keyEquivalent">a</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">sall</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="199">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <reference idRef="459"/>
+        <object class="IBCarbonMenuItem" id="462">
+          <boolean name="separator">TRUE</boolean>
+          <boolean name="updateSingleItem">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem" id="198">
+          <string name="title">Special Characters…</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">chrp</ostype>
+        </object>
+      </array>
+    </object>
+    <object class="IBCarbonStaticText" id="297">
+      <string name="title">Window Background Color</string>
+      <string name="viewFrame">58 24 180 16 </string>
+      <string name="bounds">24 58 40 238 </string>
+    </object>
+    <object class="IBCarbonMenuItem" id="127">
+      <string name="title">File</string>
+      <reference name="submenu" idRef="131"/>
+    </object>
+    <object class="IBCarbonStaticText" id="412">
+      <ostype name="controlSignature">last</ostype>
+      <int name="controlSize">1</int>
+      <string name="title">Software Update has not been used.</string>
+      <string name="viewFrame">86 170 294 16 </string>
+      <string name="bounds">170 86 186 380 </string>
+    </object>
+    <reference idRef="134"/>
+    <object class="IBCarbonStaticText" id="318">
+      <int name="fontStyle">-3</int>
+      <string name="title">NOpenGLView</string>
+      <int name="justification">-2</int>
+      <string name="viewFrame">220 20 99 16 </string>
+      <string name="bounds">20 220 36 319 </string>
+    </object>
+    <reference idRef="463"/>
+    <object class="IBCarbonHIView" id="382">
+      <ostype name="controlSignature">bgla</ostype>
+      <string name="classID">com.nano.nglassbutton</string>
+      <dictionary count="4" name="auxiliaryDictionary">
+        <string>creators</string>
+        <array count="1">
+          <string>Nano</string>
+        </array>
+        <string>tags</string>
+        <array count="1">
+          <string>text</string>
+        </array>
+        <string>types</string>
+        <array count="1">
+          <string>0</string>
+        </array>
+        <string>values</string>
+        <array count="1">
+          <string>NGlassButton</string>
+        </array>
+      </dictionary>
+      <string name="viewFrame">220 287 118 25 </string>
+      <string name="bounds">287 220 312 338 </string>
+    </object>
+    <object class="IBCarbonStaticText" id="455">
+      <int name="fontStyle">-3</int>
+      <string name="title">NBadgeView</string>
+      <int name="justification">-2</int>
+      <string name="viewFrame">595 288 83 16 </string>
+      <string name="bounds">288 595 304 678 </string>
+    </object>
+    <object class="IBCarbonMenu" id="278">
+      <string name="title">View</string>
+      <array count="2" name="items">
+        <object class="IBCarbonMenuItem" id="280">
+          <string name="title">Toggle Toolbar</string>
+          <string name="keyEquivalent">t</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <int name="keyEquivalentModifier">1572864</int>
+          <ostype name="command">tbtg</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="281">
+          <string name="title">Customize Toolbar…</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <int name="keyEquivalentModifier">0</int>
+          <ostype name="command">tcfg</ostype>
+        </object>
+      </array>
+    </object>
+    <object class="IBCarbonStaticText" id="378">
+      <int name="fontStyle">-3</int>
+      <string name="title">Button Views</string>
+      <int name="justification">-2</int>
+      <string name="viewFrame">220 209 99 16 </string>
+      <string name="bounds">209 220 225 319 </string>
+    </object>
+    <reference idRef="128"/>
+    <object class="IBCarbonSeparator" id="408">
+      <string name="viewFrame">20 161 360 1 </string>
+      <string name="bounds">161 20 162 380 </string>
+    </object>
+    <reference idRef="137"/>
+    <reference idRef="138"/>
+    <reference idRef="146"/>
+    <reference idRef="239"/>
+    <reference idRef="395"/>
+    <object class="IBCarbonMenuItem" id="272">
+      <string name="title">Bring All to Front</string>
+      <boolean name="dynamic">TRUE</boolean>
+      <boolean name="autoDisable">TRUE</boolean>
+      <ostype name="command">bfrt</ostype>
+    </object>
+    <object class="IBCarbonMenu" id="270">
+      <string name="title">Window</string>
+      <string name="name">_NSWindowsMenu</string>
+      <array count="6" name="items">
+        <object class="IBCarbonMenuItem" id="275">
+          <string name="title">Minimize Window</string>
+          <string name="keyEquivalent">m</string>
+          <boolean name="dynamic">TRUE</boolean>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">mini</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="271">
+          <string name="title">Minimize All Windows</string>
+          <string name="keyEquivalent">m</string>
+          <boolean name="dynamic">TRUE</boolean>
+          <boolean name="autoDisable">TRUE</boolean>
+          <int name="keyEquivalentModifier">1572864</int>
+          <ostype name="command">mina</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="273">
+          <string name="title">Zoom</string>
+          <boolean name="dynamic">TRUE</boolean>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">zoom</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="276">
+          <boolean name="separator">TRUE</boolean>
+        </object>
+        <reference idRef="272"/>
+        <reference idRef="274"/>
+      </array>
+    </object>
+    <object class="IBCarbonHIView" id="384">
+      <ostype name="controlSignature">dial</ostype>
+      <string name="classID">com.nano.ndialview</string>
+      <dictionary count="4" name="auxiliaryDictionary">
+        <string>creators</string>
+        <array count="2">
+          <string>Nano</string>
+          <string>Nano</string>
+        </array>
+        <string>tags</string>
+        <array count="2">
+          <string>angl</string>
+          <string>dist</string>
+        </array>
+        <string>types</string>
+        <array count="2">
+          <string>4</string>
+          <string>4</string>
+        </array>
+        <string>values</string>
+        <array count="2">
+          <string>0.0</string>
+          <string>0.0</string>
+        </array>
+      </dictionary>
+      <string name="viewFrame">692 227 20 20 </string>
+      <string name="bounds">227 692 247 712 </string>
+    </object>
+    <object class="IBCarbonWindow" id="253">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="hasHorizontalZoom">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="hasVerticalZoom">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title"></string>
+      <object name="rootControl" class="IBCarbonRootControl" id="254">
+        <string name="viewFrame">0 0 400 200 </string>
+        <array count="2" name="subviews">
+          <object class="IBCarbonHIView" id="296">
+            <ostype name="controlSignature">bcol</ostype>
+            <string name="classID">com.nano.ncolorpicker</string>
+            <dictionary count="4" name="auxiliaryDictionary">
+              <string>creators</string>
+              <array count="2">
+                <string>Nano</string>
+                <string>Nano</string>
+              </array>
+              <string>tags</string>
+              <array count="2">
+                <string>colr</string>
+                <string>alph</string>
+              </array>
+              <string>types</string>
+              <array count="2">
+                <string>0</string>
+                <string>2</string>
+              </array>
+              <string>values</string>
+              <array count="2">
+                <string>FFFFFFFF</string>
+                <string>false</string>
+              </array>
+            </dictionary>
+            <string name="viewFrame">20 20 30 24 </string>
+            <string name="bounds">20 20 44 50 </string>
+          </object>
+          <reference idRef="297"/>
+        </array>
+        <string name="bounds">0 0 200 400 </string>
+      </object>
+      <string name="windowRect">194 300 394 700 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <object class="IBCarbonStaticText" id="390">
+      <int name="fontStyle">-3</int>
+      <string name="title">NBezelView</string>
+      <int name="justification">-2</int>
+      <string name="viewFrame">667 20 99 16 </string>
+      <string name="bounds">20 667 36 766 </string>
+    </object>
+    <reference idRef="273"/>
+    <object class="IBCarbonMenuItem" id="452">
+      <string name="title">Custom Badge</string>
+      <boolean name="autoDisable">TRUE</boolean>
+      <ostype name="command">dtic</ostype>
+    </object>
+    <object class="IBCarbonMenuItem" id="431">
+      <string name="title">Custom Help Item 2</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <ostype name="command">new </ostype>
+    </object>
+    <object class="IBCarbonStaticText" id="386">
+      <int name="fontStyle">-3</int>
+      <string name="title">NDialView</string>
+      <int name="justification">-2</int>
+      <string name="viewFrame">692 209 68 16 </string>
+      <string name="bounds">209 692 225 760 </string>
+    </object>
+    <object class="IBCarbonMenuItem" id="467">
+      <string name="title">Show User Notification…</string>
+      <string name="keyEquivalent">5</string>
+      <boolean name="autoDisable">TRUE</boolean>
+      <ostype name="command">dnot</ostype>
+    </object>
+    <object class="IBCarbonPlacard" id="322">
+      <string name="viewFrame">220 38 132 132 </string>
+      <string name="bounds">38 220 170 352 </string>
+    </object>
+    <object class="IBCarbonMenuItem" id="269">
+      <string name="title">Window</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <reference name="submenu" idRef="270"/>
+    </object>
+    <reference idRef="324"/>
+    <object class="IBCarbonStaticText" id="371">
+      <int name="fontStyle">-5</int>
+      <string name="title">(and NReflectionView)</string>
+      <string name="foreColor">32769 32769 32769 </string>
+      <int name="justification">1</int>
+      <string name="viewFrame">520 176 128 16 </string>
+      <string name="bounds">176 520 192 648 </string>
+    </object>
+    <reference idRef="130"/>
+    <reference idRef="148"/>
+    <reference idRef="460"/>
+    <reference idRef="291"/>
+    <object class="IBCarbonHIView" id="341">
+      <ostype name="controlSignature">npdf</ostype>
+      <string name="classID">com.nano.npdfview</string>
+      <dictionary count="4" name="auxiliaryDictionary">
+        <string>creators</string>
+        <array count="1">
+          <string>Nano</string>
+        </array>
+        <string>tags</string>
+        <array count="1">
+          <string>pdf </string>
+        </array>
+        <string>types</string>
+        <array count="1">
+          <string>0</string>
+        </array>
+        <string>values</string>
+        <array count="1">
+          <string>Demo PDF.pdf</string>
+        </array>
+      </dictionary>
+      <string name="viewFrame">371 40 128 128 </string>
+      <string name="bounds">40 371 168 499 </string>
+    </object>
+    <reference idRef="143"/>
+    <object class="IBCarbonMenuItem" id="152">
+      <string name="title">Edit</string>
+      <reference name="submenu" idRef="147"/>
+    </object>
+    <object class="IBCarbonMenu" id="300">
+      <string name="title">Demos</string>
+      <array count="12" name="items">
+        <object class="IBCarbonMenuItem" id="301">
+          <string name="title">Show Large Cursor…</string>
+          <string name="keyEquivalent">1</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">dcur</ostype>
+        </object>
+        <reference idRef="372"/>
+        <reference idRef="466"/>
+        <object class="IBCarbonMenuItem" id="331">
+          <string name="title">Show Splash Screen…</string>
+          <string name="keyEquivalent">3</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">dspl</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="422">
+          <string name="title">Show Software Update…</string>
+          <string name="keyEquivalent">4</string>
+          <ostype name="command">supd</ostype>
+        </object>
+        <reference idRef="467"/>
+        <object class="IBCarbonMenuItem" id="336">
+          <boolean name="separator">TRUE</boolean>
+          <boolean name="updateSingleItem">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem" id="305">
+          <string name="title">Show Nano Views…</string>
+          <string name="keyEquivalent">6</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <ostype name="command">dvie</ostype>
+        </object>
+        <object class="IBCarbonMenuItem" id="313">
+          <string name="title">Show Menu View</string>
+          <boolean name="updateSingleItem">TRUE</boolean>
+          <object name="submenu" class="IBCarbonMenu" id="314">
+            <string name="title">Show Menu View</string>
+            <array count="1" name="items">
+              <object class="IBCarbonMenuItem" id="315">
+                <string name="title">Example View</string>
+                <ostype name="command">dmev</ostype>
+              </object>
+            </array>
+          </object>
+        </object>
+        <object class="IBCarbonMenuItem" id="443">
+          <string name="title">Show Dock Tile</string>
+          <boolean name="updateSingleItem">TRUE</boolean>
+          <object name="submenu" class="IBCarbonMenu" id="444">
+            <string name="title">Show Dock Tile</string>
+            <array count="4" name="items">
+              <object class="IBCarbonMenuItem" id="445">
+                <string name="title">Default Icon</string>
+                <boolean name="autoDisable">TRUE</boolean>
+                <ostype name="command">dtap</ostype>
+              </object>
+              <object class="IBCarbonMenuItem" id="446">
+                <string name="title">Custom Icon</string>
+                <boolean name="autoDisable">TRUE</boolean>
+                <ostype name="command">dtim</ostype>
+              </object>
+              <reference idRef="452"/>
+              <object class="IBCarbonMenuItem" id="448">
+                <string name="title">Custom View</string>
+                <boolean name="autoDisable">TRUE</boolean>
+                <ostype name="command">dtvw</ostype>
+              </object>
+            </array>
+          </object>
+        </object>
+        <object class="IBCarbonMenuItem" id="303">
+          <boolean name="separator">TRUE</boolean>
+          <boolean name="updateSingleItem">TRUE</boolean>
+        </object>
+        <object class="IBCarbonMenuItem" id="302">
+          <string name="title">Color Label:</string>
+          <boolean name="autoDisable">TRUE</boolean>
+          <int name="keyEquivalentModifier">0</int>
+          <ostype name="command">dlab</ostype>
+        </object>
+      </array>
+    </object>
+    <object class="IBCarbonRootControl" id="244">
+      <string name="viewFrame">0 0 400 200 </string>
+      <array count="4" name="subviews">
+        <object class="IBCarbonPopupButton" id="282">
+          <ostype name="controlSignature">styl</ostype>
+          <ostype name="command">styl</ostype>
+          <int name="selectedItem">2</int>
+          <object name="menu" class="IBCarbonMenu" id="283">
+            <string name="title">Popup</string>
+            <array count="3" name="items">
+              <reference idRef="286"/>
+              <object class="IBCarbonMenuItem" id="285">
+                <string name="title">Dot</string>
+                <boolean name="checked">TRUE</boolean>
+                <boolean name="updateSingleItem">TRUE</boolean>
+              </object>
+              <object class="IBCarbonMenuItem" id="284">
+                <string name="title">Dash</string>
+                <boolean name="updateSingleItem">TRUE</boolean>
+              </object>
+            </array>
+          </object>
+          <int name="titleJustification">0</int>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="3">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="3">
+              <string>img0</string>
+              <string>img1</string>
+              <string>img2</string>
+            </array>
+            <string>types</string>
+            <array count="3">
+              <string>0</string>
+              <string>0</string>
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="3">
+              <string>StyleSolid.png</string>
+              <string>StyleDot.png</string>
+              <string>StyleDash.png</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">103 50 102 20 </string>
+          <string name="bounds">50 103 70 205 </string>
+        </object>
+        <reference idRef="288"/>
+        <object class="IBCarbonStaticText" id="294">
+          <string name="title">Edge Style:</string>
+          <string name="viewFrame">20 51 75 16 </string>
+          <string name="bounds">51 20 67 95 </string>
+        </object>
+        <object class="IBCarbonStaticText" id="295">
+          <string name="title">Edge Width:</string>
+          <string name="viewFrame">20 21 82 16 </string>
+          <string name="bounds">21 20 37 102 </string>
+        </object>
+      </array>
+      <string name="bounds">0 0 200 400 </string>
+    </object>
+    <object class="IBCarbonRootControl" id="397">
+      <string name="viewFrame">0 0 400 200 </string>
+      <array count="6" name="subviews">
+        <object class="IBCarbonButton" id="407">
+          <ostype name="command">supd</ostype>
+          <string name="title">Check Now</string>
+          <string name="viewFrame">151 113 99 20 </string>
+          <string name="bounds">113 151 133 250 </string>
+        </object>
+        <reference idRef="408"/>
+        <object class="IBCarbonStaticText" id="409">
+          <int name="controlSize">1</int>
+          <string name="title">Last check:</string>
+          <string name="viewFrame">20 170 66 16 </string>
+          <string name="bounds">170 20 186 86 </string>
+        </object>
+        <object class="IBCarbonStaticText" id="410">
+          <string name="title">Software Update checks for new and updated versions of this software automatically.</string>
+          <string name="viewFrame">20 20 360 37 </string>
+          <string name="bounds">20 20 57 380 </string>
+        </object>
+        <reference idRef="412"/>
+        <object class="IBCarbonPopupButton" id="413">
+          <ostype name="controlSignature">intv</ostype>
+          <object name="menu" class="IBCarbonMenu" id="414">
+            <string name="title">Popup</string>
+            <array count="5" name="items">
+              <object class="IBCarbonMenuItem" id="415">
+                <string name="title">Never</string>
+                <boolean name="checked">TRUE</boolean>
+                <boolean name="updateSingleItem">TRUE</boolean>
+                <ostype name="command">snev</ostype>
+              </object>
+              <object class="IBCarbonMenuItem" id="419">
+                <boolean name="separator">TRUE</boolean>
+                <boolean name="updateSingleItem">TRUE</boolean>
+              </object>
+              <object class="IBCarbonMenuItem" id="418">
+                <string name="title">Daily</string>
+                <boolean name="updateSingleItem">TRUE</boolean>
+                <ostype name="command">sday</ostype>
+              </object>
+              <object class="IBCarbonMenuItem" id="420">
+                <string name="title">Weekly</string>
+                <boolean name="updateSingleItem">TRUE</boolean>
+                <ostype name="command">swek</ostype>
+              </object>
+              <object class="IBCarbonMenuItem" id="421">
+                <string name="title">Monthly</string>
+                <boolean name="updateSingleItem">TRUE</boolean>
+                <ostype name="command">smon</ostype>
+              </object>
+            </array>
+          </object>
+          <string name="title">Check for updates:</string>
+          <int name="titleJustification">0</int>
+          <string name="viewFrame">86 73 228 20 </string>
+          <string name="bounds">73 86 93 314 </string>
+        </object>
+      </array>
+      <string name="bounds">0 0 200 400 </string>
+    </object>
+    <object class="IBCarbonStaticText" id="342">
+      <int name="fontStyle">-3</int>
+      <string name="title">NPDFView</string>
+      <int name="justification">-2</int>
+      <string name="viewFrame">369 20 99 16 </string>
+      <string name="bounds">20 369 36 468 </string>
+    </object>
+    <object class="IBCarbonMenuItem" id="299">
+      <string name="title">Demos</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <reference name="submenu" idRef="300"/>
+    </object>
+    <reference idRef="199"/>
+    <object class="IBCarbonHIView" id="391">
+      <ostype name="controlSignature">bez2</ostype>
+      <string name="classID">com.nano.nbezelview</string>
+      <dictionary count="4" name="auxiliaryDictionary">
+        <string>creators</string>
+        <array count="2">
+          <string>Nano</string>
+          <string>Nano</string>
+        </array>
+        <string>tags</string>
+        <array count="2">
+          <string>alph</string>
+          <string>corn</string>
+        </array>
+        <string>types</string>
+        <array count="2">
+          <string>4</string>
+          <string>4</string>
+        </array>
+        <string>values</string>
+        <array count="2">
+          <string>0.5</string>
+          <string>25</string>
+        </array>
+      </dictionary>
+      <string name="viewFrame">683 53 100 50 </string>
+      <string name="bounds">53 683 103 783 </string>
+    </object>
+    <object class="IBCarbonPlacard" id="353">
+      <string name="viewFrame">369 38 132 132 </string>
+      <string name="bounds">38 369 170 501 </string>
+    </object>
+    <object class="IBCarbonMenuItem" id="277">
+      <string name="title">View</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <reference name="submenu" idRef="278"/>
+    </object>
+    <reference idRef="313"/>
+    <reference idRef="149"/>
+    <reference idRef="280"/>
+    <reference idRef="410"/>
+    <reference idRef="275"/>
+    <object class="IBCarbonWindow" id="166">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="asyncDrag">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="windowPosition">4</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title">NanoDemo</string>
+      <reference name="rootControl" idRef="167"/>
+      <string name="windowRect">152 400 552 800 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <reference idRef="303"/>
+    <reference idRef="421"/>
+    <reference idRef="446"/>
+    <object class="IBCarbonMenuItem" id="438">
+      <boolean name="separator">TRUE</boolean>
+      <boolean name="updateSingleItem">TRUE</boolean>
+    </object>
+    <reference idRef="305"/>
+    <reference idRef="136"/>
+    <reference idRef="418"/>
+    <reference idRef="142"/>
+    <object class="IBCarbonRootControl" id="307">
+      <string name="viewFrame">0 0 817 386 </string>
+      <array count="34" name="subviews">
+        <reference idRef="353"/>
+        <reference idRef="322"/>
+        <reference idRef="309"/>
+        <object class="IBCarbonStaticText" id="310">
+          <int name="fontStyle">-3</int>
+          <string name="title">NProgressPie</string>
+          <int name="justification">-2</int>
+          <string name="viewFrame">595 209 83 16 </string>
+          <string name="bounds">209 595 225 678 </string>
+        </object>
+        <object class="IBCarbonHIView" id="316">
+          <ostype name="controlSignature">nogl</ostype>
+          <string name="classID">com.nano.nopenglview</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="3">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="3">
+              <string>min </string>
+              <string>max </string>
+              <string>valu</string>
+            </array>
+            <string>types</string>
+            <array count="3">
+              <string>7</string>
+              <string>7</string>
+              <string>7</string>
+            </array>
+            <string>values</string>
+            <array count="3">
+              <string>0</string>
+              <string>100</string>
+              <string>35</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">222 40 128 128 </string>
+          <string name="bounds">40 222 168 350 </string>
+        </object>
+        <reference idRef="318"/>
+        <reference idRef="341"/>
+        <reference idRef="342"/>
+        <object class="IBCarbonHIView" id="359">
+          <ostype name="controlSignature">lcon</ostype>
+          <string name="classID">com.nano.nlevelindicator</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="6">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="6">
+              <string>min </string>
+              <string>max </string>
+              <string>valu</string>
+              <string>cont</string>
+              <string>warn</string>
+              <string>crit</string>
+            </array>
+            <string>types</string>
+            <array count="6">
+              <string>7</string>
+              <string>7</string>
+              <string>7</string>
+              <string>2</string>
+              <string>7</string>
+              <string>7</string>
+            </array>
+            <string>values</string>
+            <array count="6">
+              <string>0</string>
+              <string>100</string>
+              <string>0</string>
+              <string>true</string>
+              <string>60</string>
+              <string>80</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">368 227 194 15 </string>
+          <string name="bounds">227 368 242 562 </string>
+        </object>
+        <object class="IBCarbonStaticText" id="360">
+          <int name="fontStyle">-3</int>
+          <string name="title">NLevelIndicator</string>
+          <int name="justification">-2</int>
+          <string name="viewFrame">368 209 99 16 </string>
+          <string name="bounds">209 368 225 467 </string>
+        </object>
+        <object class="IBCarbonHIView" id="362">
+          <ostype name="controlSignature">ldis</ostype>
+          <string name="classID">com.nano.nlevelindicator</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="6">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="6">
+              <string>min </string>
+              <string>max </string>
+              <string>valu</string>
+              <string>cont</string>
+              <string>warn</string>
+              <string>crit</string>
+            </array>
+            <string>types</string>
+            <array count="6">
+              <string>7</string>
+              <string>7</string>
+              <string>7</string>
+              <string>2</string>
+              <string>7</string>
+              <string>7</string>
+            </array>
+            <string>values</string>
+            <array count="6">
+              <string>0</string>
+              <string>5</string>
+              <string>0</string>
+              <string>false</string>
+              <string>3</string>
+              <string>4</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">368 250 197 18 </string>
+          <string name="bounds">250 368 268 565 </string>
+        </object>
+        <object class="IBCarbonHIView" id="363">
+          <ostype name="controlSignature">lrat</ostype>
+          <string name="classID">com.nano.nratingbar</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="3">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="3">
+              <string>min </string>
+              <string>max </string>
+              <string>valu</string>
+            </array>
+            <string>types</string>
+            <array count="3">
+              <string>7</string>
+              <string>7</string>
+              <string>7</string>
+            </array>
+            <string>values</string>
+            <array count="3">
+              <string>0</string>
+              <string>14</string>
+              <string>10</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">368 306 189 16 </string>
+          <string name="bounds">306 368 322 557 </string>
+        </object>
+        <object class="IBCarbonStaticText" id="365">
+          <int name="fontStyle">-3</int>
+          <string name="title">NRatingBar</string>
+          <int name="justification">-2</int>
+          <string name="viewFrame">368 288 99 16 </string>
+          <string name="bounds">288 368 304 467 </string>
+        </object>
+        <object class="IBCarbonPlacard" id="366">
+          <string name="viewFrame">518 38 132 132 </string>
+          <string name="bounds">38 518 170 650 </string>
+        </object>
+        <object class="IBCarbonHIView" id="367">
+          <ostype name="controlSignature">shad</ostype>
+          <string name="classID">com.nano.nshadingview</string>
+          <string name="viewFrame">520 40 128 128 </string>
+          <string name="bounds">40 520 168 648 </string>
+        </object>
+        <object class="IBCarbonStaticText" id="368">
+          <int name="fontStyle">-3</int>
+          <string name="title">NShadingView</string>
+          <int name="justification">-2</int>
+          <string name="viewFrame">518 20 99 16 </string>
+          <string name="bounds">20 518 36 617 </string>
+        </object>
+        <object class="IBCarbonHIView" id="370">
+          <ostype name="controlSignature">refl</ostype>
+          <string name="classID">com.nano.nreflectionview</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="1">
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="1">
+              <string>rsig</string>
+            </array>
+            <string>types</string>
+            <array count="1">
+              <string>5</string>
+            </array>
+            <string>values</string>
+            <array count="1">
+              <string>icon</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">553 108 64 64 </string>
+          <string name="bounds">108 553 172 617 </string>
+        </object>
+        <reference idRef="371"/>
+        <object class="IBCarbonIcon" id="369">
+          <ostype name="controlSignature">icon</ostype>
+          <int name="contentResID">2</int>
+          <int name="creator">0</int>
+          <string name="viewFrame">553 51 64 64 </string>
+          <string name="bounds">51 553 115 617 </string>
+        </object>
+        <object class="IBCarbonHIView" id="377">
+          <ostype name="controlSignature">bflt</ostype>
+          <string name="classID">com.nano.nflatbutton</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="1">
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="1">
+              <string>text</string>
+            </array>
+            <string>types</string>
+            <array count="1">
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="1">
+              <string>NFlatButton</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">220 254 118 25 </string>
+          <string name="bounds">254 220 279 338 </string>
+        </object>
+        <reference idRef="378"/>
+        <reference idRef="382"/>
+        <object class="IBCarbonHIView" id="383">
+          <ostype name="controlSignature">bimg</ostype>
+          <string name="classID">com.nano.nimagebutton</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="4">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="4">
+              <string>text</string>
+              <string>actb</string>
+              <string>inab</string>
+              <string>preb</string>
+            </array>
+            <string>types</string>
+            <array count="4">
+              <string>0</string>
+              <string>0</string>
+              <string>0</string>
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="4">
+              <string>NImageButton</string>
+              <string>Button Active.png</string>
+              <string>Button Inactive.png</string>
+              <string>Button Pressed.png</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">220 320 118 25 </string>
+          <string name="bounds">320 220 345 338 </string>
+        </object>
+        <reference idRef="384"/>
+        <reference idRef="386"/>
+        <object class="IBCarbonHIView" id="387">
+          <ostype name="controlSignature">bmem</ostype>
+          <string name="classID">com.nano.nmembranebutton</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="1">
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="1">
+              <string>text</string>
+            </array>
+            <string>types</string>
+            <array count="1">
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="1">
+              <string>NMembraneButton</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">220 227 118 19 </string>
+          <string name="bounds">227 220 246 338 </string>
+        </object>
+        <object class="IBCarbonHIView" id="388">
+          <ostype name="controlSignature">bez1</ostype>
+          <string name="classID">com.nano.nbezelview</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="2">
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="2">
+              <string>alph</string>
+              <string>corn</string>
+            </array>
+            <string>types</string>
+            <array count="2">
+              <string>4</string>
+              <string>4</string>
+            </array>
+            <string>values</string>
+            <array count="2">
+              <string>0.2</string>
+              <string>15</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">669 40 128 128 </string>
+          <string name="bounds">40 669 168 797 </string>
+        </object>
+        <reference idRef="390"/>
+        <reference idRef="391"/>
+        <object class="IBCarbonHIView" id="392">
+          <ostype name="controlSignature">bez3</ostype>
+          <string name="classID">com.nano.nbezelview</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="2">
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="2">
+              <string>alph</string>
+              <string>corn</string>
+            </array>
+            <string>types</string>
+            <array count="2">
+              <string>4</string>
+              <string>4</string>
+            </array>
+            <string>values</string>
+            <array count="2">
+              <string>0.2</string>
+              <string>5.0</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">683 115 100 40 </string>
+          <string name="bounds">115 683 155 783 </string>
+        </object>
+        <object class="IBCarbonHIView" id="394">
+          <ostype name="controlSignature">stat</ostype>
+          <string name="classID">com.nano.nstatusbar</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="1">
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="1">
+              <string>text</string>
+            </array>
+            <string>types</string>
+            <array count="1">
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="1">
+              <string>NStatusBar</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">200 370 617 16 </string>
+          <string name="bounds">370 200 386 817 </string>
+        </object>
+        <object class="IBCarbonHIView" id="454">
+          <ostype name="controlSignature">badg</ostype>
+          <string name="classID">com.nano.nbadgeview</string>
+          <dictionary count="4" name="auxiliaryDictionary">
+            <string>creators</string>
+            <array count="3">
+              <string>Nano</string>
+              <string>Nano</string>
+              <string>Nano</string>
+            </array>
+            <string>tags</string>
+            <array count="3">
+              <string>cbad</string>
+              <string>ctxt</string>
+              <string>text</string>
+            </array>
+            <string>types</string>
+            <array count="3">
+              <string>0</string>
+              <string>0</string>
+              <string>0</string>
+            </array>
+            <string>values</string>
+            <array count="3">
+              <string>FF0000FF</string>
+              <string>FFFFFFFF</string>
+              <string>12345</string>
+            </array>
+          </dictionary>
+          <string name="viewFrame">595 306 60 30 </string>
+          <string name="bounds">306 595 336 655 </string>
+        </object>
+        <reference idRef="455"/>
+        <object class="IBCarbonHIView" id="468">
+          <ostype name="controlSignature">srcl</ostype>
+          <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+            <int name="bindingTopKind">1</int>
+            <int name="bindingLeftKind">1</int>
+            <int name="bindingBottomKind">2</int>
+          </object>
+          <string name="classID">com.nano.nsourcelistview</string>
+          <string name="viewFrame">0 0 200 386 </string>
+          <string name="bounds">0 0 386 200 </string>
+        </object>
+      </array>
+      <string name="bounds">0 0 386 817 </string>
+    </object>
+    <reference idRef="377"/>
+    <reference idRef="363"/>
+    <reference idRef="144"/>
+    <reference idRef="464"/>
+    <reference idRef="367"/>
+    <reference idRef="151"/>
+    <reference idRef="445"/>
+    <reference idRef="334"/>
+    <reference idRef="335"/>
+    <reference idRef="413"/>
+    <reference idRef="310"/>
+    <reference idRef="468"/>
+    <reference idRef="365"/>
+    <reference idRef="184"/>
+    <reference idRef="284"/>
+    <reference idRef="292"/>
+    <object class="IBCarbonMenuItem" id="237">
+      <string name="title">Rectangle</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <ostype name="command">rect</ostype>
+    </object>
+    <object class="IBCarbonMenuItem" id="430">
+      <string name="title">Custom Help Item 1</string>
+      <boolean name="updateSingleItem">TRUE</boolean>
+      <ostype name="command">new </ostype>
+    </object>
+    <reference idRef="388"/>
+    <reference idRef="289"/>
+    <reference idRef="316"/>
+    <reference idRef="198"/>
+    <reference idRef="294"/>
+    <reference idRef="370"/>
+    <reference idRef="359"/>
+    <reference idRef="336"/>
+    <reference idRef="282"/>
+    <reference idRef="296"/>
+    <reference idRef="132"/>
+    <reference idRef="419"/>
+    <reference idRef="366"/>
+    <reference idRef="454"/>
+    <reference idRef="331"/>
+    <reference idRef="290"/>
+    <reference idRef="254"/>
+    <reference idRef="448"/>
+    <reference idRef="285"/>
+    <object class="IBCarbonMenu" id="234">
+      <array count="3" name="items">
+        <reference idRef="235"/>
+        <reference idRef="237"/>
+        <object class="IBCarbonMenuItem" id="236">
+          <string name="title">Circle</string>
+          <boolean name="updateSingleItem">TRUE</boolean>
+          <ostype name="command">circ</ostype>
+        </object>
+      </array>
+    </object>
+    <reference idRef="407"/>
+    <reference idRef="240"/>
+    <object class="IBCarbonMenu" id="429">
+      <string name="title">Menu</string>
+      <array count="4" name="items">
+        <reference idRef="438"/>
+        <reference idRef="430"/>
+        <reference idRef="431"/>
+        <object class="IBCarbonMenuItem" id="435">
+          <string name="title">Custom Help Item 3</string>
+          <boolean name="updateSingleItem">TRUE</boolean>
+          <ostype name="command">new </ostype>
+        </object>
+      </array>
+    </object>
+    <reference idRef="337"/>
+    <object class="IBCarbonMenu" id="29">
+      <string name="title">main</string>
+      <string name="name">_NSMainMenu</string>
+      <array count="6" name="items">
+        <reference idRef="185"/>
+        <reference idRef="127"/>
+        <reference idRef="152"/>
+        <reference idRef="277"/>
+        <reference idRef="299"/>
+        <reference idRef="269"/>
+      </array>
+    </object>
+    <reference idRef="283"/>
+    <reference idRef="420"/>
+    <reference idRef="444"/>
+    <reference idRef="135"/>
+    <reference idRef="276"/>
+    <reference idRef="236"/>
+    <object class="IBCarbonWindow" id="241">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="hasHorizontalZoom">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="hasVerticalZoom">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="asyncDrag">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title">NanoDemo Preferences</string>
+      <object name="rootControl" class="IBCarbonRootControl" id="242">
+        <string name="viewFrame">0 0 400 200 </string>
+        <string name="bounds">0 0 200 400 </string>
+      </object>
+      <string name="windowRect">194 300 394 700 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <reference idRef="443"/>
+    <reference idRef="271"/>
+    <reference idRef="221"/>
+    <reference idRef="293"/>
+    <reference idRef="414"/>
+    <reference idRef="314"/>
+    <reference idRef="187"/>
+    <reference idRef="315"/>
+    <reference idRef="369"/>
+    <reference idRef="462"/>
+    <reference idRef="415"/>
+    <object class="IBCarbonWindow" id="396">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="hasHorizontalZoom">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="hasVerticalZoom">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title"></string>
+      <reference name="rootControl" idRef="397"/>
+      <string name="windowRect">397 434 597 834 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <reference idRef="394"/>
+    <reference idRef="302"/>
+    <reference idRef="139"/>
+    <reference idRef="242"/>
+    <reference idRef="301"/>
+    <reference idRef="422"/>
+    <object class="IBCarbonWindow" id="243">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="hasHorizontalZoom">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="hasVerticalZoom">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title"></string>
+      <reference name="rootControl" idRef="244"/>
+      <string name="windowRect">161 430 361 830 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <object class="IBCarbonWindow" id="306">
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="liveResize">TRUE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <boolean name="asyncDrag">TRUE</boolean>
+      <boolean name="isConstrained">FALSE</boolean>
+      <int name="themeBrush">1</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <string name="title">Nano Views</string>
+      <reference name="rootControl" idRef="307"/>
+      <string name="windowRect">168 46 554 863 </string>
+      <string name="ScreenRectAtEncodeTime">0 0 768 1024 </string>
+    </object>
+    <reference idRef="360"/>
+    <reference idRef="387"/>
+    <reference idRef="281"/>
+    <reference idRef="409"/>
+    <reference idRef="298"/>
+    <reference idRef="362"/>
+    <reference idRef="383"/>
+    <reference idRef="392"/>
+    <reference idRef="435"/>
+    <reference idRef="295"/>
+    <reference idRef="368"/>
+  </array>
+  <array count="159" name="allParents">
+    <reference idRef="29"/>
+    <reference idRef="147"/>
+    <reference idRef="244"/>
+    <reference idRef="270"/>
+    <reference idRef="283"/>
+    <reference idRef="131"/>
+    <reference idRef="147"/>
+    <reference idRef="300"/>
+    <reference idRef="300"/>
+    <reference idRef="166"/>
+    <reference idRef="1"/>
+    <reference idRef="460"/>
+    <reference idRef="234"/>
+    <reference idRef="307"/>
+    <reference idRef="127"/>
+    <reference idRef="152"/>
+    <reference idRef="254"/>
+    <reference idRef="29"/>
+    <reference idRef="397"/>
+    <reference idRef="131"/>
+    <reference idRef="307"/>
+    <reference idRef="460"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="277"/>
+    <reference idRef="307"/>
+    <reference idRef="131"/>
+    <reference idRef="397"/>
+    <reference idRef="131"/>
+    <reference idRef="131"/>
+    <reference idRef="147"/>
+    <reference idRef="184"/>
+    <reference idRef="184"/>
+    <reference idRef="270"/>
+    <reference idRef="269"/>
+    <reference idRef="307"/>
+    <reference idRef="1"/>
+    <reference idRef="307"/>
+    <reference idRef="270"/>
+    <reference idRef="444"/>
+    <reference idRef="429"/>
+    <reference idRef="307"/>
+    <reference idRef="300"/>
+    <reference idRef="307"/>
+    <reference idRef="29"/>
+    <reference idRef="323"/>
+    <reference idRef="307"/>
+    <reference idRef="131"/>
+    <reference idRef="147"/>
+    <reference idRef="459"/>
+    <reference idRef="289"/>
+    <reference idRef="307"/>
+    <reference idRef="147"/>
+    <reference idRef="29"/>
+    <reference idRef="299"/>
+    <reference idRef="243"/>
+    <reference idRef="396"/>
+    <reference idRef="307"/>
+    <reference idRef="29"/>
+    <reference idRef="147"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="29"/>
+    <reference idRef="300"/>
+    <reference idRef="147"/>
+    <reference idRef="278"/>
+    <reference idRef="397"/>
+    <reference idRef="270"/>
+    <reference idRef="1"/>
+    <reference idRef="300"/>
+    <reference idRef="414"/>
+    <reference idRef="444"/>
+    <reference idRef="429"/>
+    <reference idRef="300"/>
+    <reference idRef="131"/>
+    <reference idRef="414"/>
+    <reference idRef="147"/>
+    <reference idRef="306"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="147"/>
+    <reference idRef="460"/>
+    <reference idRef="307"/>
+    <reference idRef="147"/>
+    <reference idRef="444"/>
+    <reference idRef="324"/>
+    <reference idRef="324"/>
+    <reference idRef="397"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="185"/>
+    <reference idRef="283"/>
+    <reference idRef="289"/>
+    <reference idRef="234"/>
+    <reference idRef="429"/>
+    <reference idRef="307"/>
+    <reference idRef="288"/>
+    <reference idRef="307"/>
+    <reference idRef="147"/>
+    <reference idRef="244"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="300"/>
+    <reference idRef="244"/>
+    <reference idRef="254"/>
+    <reference idRef="131"/>
+    <reference idRef="414"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="300"/>
+    <reference idRef="289"/>
+    <reference idRef="253"/>
+    <reference idRef="444"/>
+    <reference idRef="283"/>
+    <reference idRef="1"/>
+    <reference idRef="397"/>
+    <reference idRef="184"/>
+    <reference idRef="1"/>
+    <reference idRef="324"/>
+    <reference idRef="1"/>
+    <reference idRef="282"/>
+    <reference idRef="414"/>
+    <reference idRef="443"/>
+    <reference idRef="131"/>
+    <reference idRef="270"/>
+    <reference idRef="234"/>
+    <reference idRef="1"/>
+    <reference idRef="300"/>
+    <reference idRef="270"/>
+    <reference idRef="167"/>
+    <reference idRef="289"/>
+    <reference idRef="413"/>
+    <reference idRef="313"/>
+    <reference idRef="184"/>
+    <reference idRef="314"/>
+    <reference idRef="307"/>
+    <reference idRef="147"/>
+    <reference idRef="414"/>
+    <reference idRef="1"/>
+    <reference idRef="307"/>
+    <reference idRef="300"/>
+    <reference idRef="131"/>
+    <reference idRef="241"/>
+    <reference idRef="300"/>
+    <reference idRef="300"/>
+    <reference idRef="1"/>
+    <reference idRef="1"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="278"/>
+    <reference idRef="397"/>
+    <reference idRef="131"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="307"/>
+    <reference idRef="429"/>
+    <reference idRef="244"/>
+    <reference idRef="307"/>
+  </array>
+  <dictionary count="11" name="nameTable">
+    <string>Demo Splash</string>
+    <reference idRef="323"/>
+    <string>Document</string>
+    <reference idRef="166"/>
+    <string>File&apos;s Owner</string>
+    <reference idRef="1"/>
+    <string>Help</string>
+    <reference idRef="429"/>
+    <string>MenuBar</string>
+    <reference idRef="29"/>
+    <string>Nano Views</string>
+    <reference idRef="306"/>
+    <string>Preferences</string>
+    <reference idRef="241"/>
+    <string>PrefsAdvanced</string>
+    <reference idRef="253"/>
+    <string>PrefsGeneral</string>
+    <reference idRef="243"/>
+    <string>PrefsUpdate</string>
+    <reference idRef="396"/>
+    <string>Shape</string>
+    <reference idRef="234"/>
+  </dictionary>
+  <string name="targetFramework">IBCarbonFramework</string>
+  <unsigned_int name="nextObjectID">471</unsigned_int>
+</object>
