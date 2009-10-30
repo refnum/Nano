@@ -101,6 +101,7 @@ public:
 
 
 	// Get a tag
+	NString								GetUTI(          void) const;
 	NString								GetMIMEType(     void) const;
 	NString								GetFileExtension(void) const;
 

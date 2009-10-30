@@ -156,6 +156,21 @@ NComparison NUTI::Compare(const NUTI &theValue) const
 
 
 //============================================================================
+//		NUTI::GetUTI : Get the UTI.
+//----------------------------------------------------------------------------
+NString NUTI::GetUTI(void) const
+{
+
+
+	// Get the UTI
+	return(mUTI);
+}
+
+
+
+
+
+//============================================================================
 //		NUTI::GetMIMEType : Get the MIME type.
 //----------------------------------------------------------------------------
 NString NUTI::GetMIMEType(void) const
