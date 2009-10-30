@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NTextUtilities.h"
 #include "NTargetSystem.h"
+#include "NThread.h"
 #include "NFile.h"
 #include "NTask.h"
 
@@ -317,6 +318,77 @@ void NTask::WaitForTask(void)
 	// Wait for the task to complete
 	while (IsRunning())
 		NTargetSystem::TaskWait(mTask, kTaskSleep);
+}
+
+
+
+
+
+//============================================================================
+//		NTask::Execute : Execute a task.
+//----------------------------------------------------------------------------
+NString NTask::Execute(const char *cmd)
+{
+
+
+	// Execute the task
+	return(NTask::Execute(cmd, NULL));
+}
+
+
+
+
+
+//============================================================================
+//		NTask::Execute : Execute a task.
+//----------------------------------------------------------------------------
+NString NTask::Execute(const char *cmd, const char *arg1, ...)
+{	bool		mainThread;
+	NString		theResult;
+	va_list		argList;
+	NTask		theTask;
+	NStatus		theErr;
+
+
+
+	// Get the state we need
+	theTask.SetCommand(cmd);
+
+	if (arg1 != NULL)
+		{
+		va_start(argList, arg1);
+		theTask.SetArguments(NTextUtilities::GetArguments(argList, arg1));
+		va_end(argList);
+		}
+
+
+
+	// Execute the command
+	theErr = theTask.Launch();
+	NN_ASSERT_NOERR(theErr);
+
+
+
+	// Wait for the results
+	//
+	// If we're not the main thread then we won't be able to fire
+	// our timer, so we need to update the task status by polling.
+	mainThread = NThread::IsMain();
+
+	while (theTask.IsRunning())
+		{
+		theResult += theTask.ReadOutput();
+
+		if (mainThread)
+			NTargetSystem::TaskWait(theTask.mTask, kTaskSleep);
+		else
+			{
+			NThread::Sleep();
+			theTask.UpdateTask();
+			}
+		}
+
+	return(theResult);
 }
 
 

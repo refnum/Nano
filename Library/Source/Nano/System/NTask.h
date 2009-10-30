@@ -118,6 +118,13 @@ public:
 	void								WaitForTask(void);
 
 
+	// Execute a task
+	//
+	// Will block the current thread until the task has completed.
+	static NString						Execute(const char *cmd);
+	static NString						Execute(const char *cmd, const char *arg1, ...);
+
+
 private:
 	void								UpdateTask(void);
 
