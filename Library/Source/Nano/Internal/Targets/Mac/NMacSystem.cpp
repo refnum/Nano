@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <sys/select.h>
+#include <sys/fcntl.h>
 #include <sysexits.h>
 
 #include "NCFObject.h"

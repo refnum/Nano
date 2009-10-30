@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <sys/sysctl.h>
 #include <mach/task.h>
+#include <mach/mach_init.h>
 #include <mach/semaphore.h>
 #include <libKern/OSAtomic.h>
 
