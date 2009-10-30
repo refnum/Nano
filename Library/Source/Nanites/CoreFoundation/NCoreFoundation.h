@@ -37,6 +37,36 @@ inline CFRange ToCF(const NRange &theRange)
 	return(CFRangeMake(theRange.GetLocation(), theRange.GetSize()));
 }
 
+inline NCFObject ToCF(const NArray &theArray)
+{
+	return(NCFArray(theArray).GetObject());
+}
+
+inline NCFObject ToCF(const NData &theData)
+{
+	return(NCFData(theData).GetObject());
+}
+
+inline NCFObject ToCF(const NDate &theDate)
+{
+	return(NCFDate(theDate).GetObject());
+}
+
+inline NCFObject ToCF(const NDictionary &theDictionary)
+{
+	return(NCFDictionary(theDictionary).GetObject());
+}
+
+inline NCFObject ToCF(const NNumber &theNumber)
+{
+	return(NCFNumber(theNumber).GetObject());
+}
+
+inline NCFObject ToCF(const NString &theString)
+{
+	return(NCFString(theString).GetObject());
+}
+
 inline NCFObject ToCF(const NCFArray &theArray)
 {
 	return(theArray.GetObject());

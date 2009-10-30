@@ -57,7 +57,7 @@ class NData :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NData);
 
-										 NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
+										NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
 
 										NData(void);
 	virtual							   ~NData(void);
