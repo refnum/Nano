@@ -112,6 +112,7 @@ public:
 
 	// Manipulate the rectangle
 	void								Normalize(void);
+	void								MakeIntegral(void);
 	void								UnionWith(    const NRectangleT<T> &theRect);
 	void								IntersectWith(const NRectangleT<T> &theRect);
 	void								Inset( T deltaX, T deltaY);
@@ -119,6 +120,7 @@ public:
 	void								Scale( T scaleBy);
 
 	NRectangleT<T>						GetNormalized(void)                            const;
+	NRectangleT<T>						GetIntegral(void)                              const;
 	NRectangleT<T>						GetUnion(       const NRectangleT<T> &theRect) const;
 	NRectangleT<T>						GetIntersection(const NRectangleT<T> &theRect) const;
 	NRectangleT<T>						GetInset( T deltaX, T deltaY)                  const;

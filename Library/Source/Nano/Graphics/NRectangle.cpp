@@ -478,6 +478,21 @@ template<class T> void NRectangleT<T>::Normalize(void)
 
 
 //============================================================================
+//		NRectangleT::MakeIntegral : Make the rectangle integral.
+//----------------------------------------------------------------------------
+template<class T> void NRectangleT<T>::MakeIntegral(void)
+{
+
+
+	// Update our state
+	*this = GetIntegral();
+}
+
+
+
+
+
+//============================================================================
 //		NRectangleT::UnionWith : Union two rectangles.
 //----------------------------------------------------------------------------
 template<class T> void NRectangleT<T>::UnionWith(const NRectangleT<T> &theRect)
@@ -572,6 +587,35 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetNormalized(void) const
 
 	theResult = NRectangleT<T>(minX, minY, maxX - minX, maxY - minY);
 	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::GetIntegral : Get the integral rectangle.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T> NRectangleT<T>::GetIntegral(void) const
+{	NRectangleT<T>		theResult;
+
+
+
+	// Get the integral rectangle
+	//
+	// An integral rectangle has its origin rounded down and size rounded up,
+	// to create a (potentially larger) rectangle with integer coordinates.
+	theResult.origin.x    = floor(origin.x);
+	theResult.origin.y    = floor(origin.y);
+	theResult.size.width  = ceil(origin.x + size.width)  - theResult.origin.x;
+	theResult.size.height = ceil(origin.y + size.height) - theResult.origin.y;
+	
+	
+	
+	// Validate our state
+	NN_ASSERT(theResult.Contains(*this));
+
 	return(theResult);
 }
 
