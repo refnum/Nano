@@ -88,7 +88,7 @@ bool NUTI::IsValid(void) const
 
 
 	// Check our state
-	return(mUTI.IsEmpty());
+	return(!mUTI.IsEmpty());
 }
 
 
