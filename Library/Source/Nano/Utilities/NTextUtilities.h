@@ -60,6 +60,11 @@ public:
 	static NString						ConvertLineEndings(const NString &theString, const NString &newLine=kNLineEndingUnix);
 
 
+	// Get a NULL-terminated argument list.
+	static NStringList					GetArguments(const char *arg1, ...);
+	static NStringList					GetArguments(va_list argList, const char *arg1);
+
+
 private:
 	static NDictionary					GetEntityDictionary(const NDictionary &extraEntities, bool forEscape);
 	static void							ProcessEntities(const NString &theKey, const NVariant &theValue, NString *theResult);

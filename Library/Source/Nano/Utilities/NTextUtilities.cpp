@@ -160,6 +160,52 @@ NString NTextUtilities::ConvertLineEndings(const NString &theString, const NStri
 
 
 //============================================================================
+//		NTextUtilities::GetArguments : Get a NULL-terminated argument list.
+//----------------------------------------------------------------------------
+NStringList NTextUtilities::GetArguments(const char *arg1, ...)
+{	va_list			argList;
+	NStringList		theArgs;
+
+
+
+	// Get the arguments
+	va_start(argList, arg1);
+	theArgs = GetArguments(argList, arg1);
+	va_end(argList);
+
+	return(theArgs);
+}
+
+
+
+
+
+//============================================================================
+//		NTextUtilities::GetArguments : Get a NULL-terminated argument list.
+//----------------------------------------------------------------------------
+NStringList NTextUtilities::GetArguments(va_list argList, const char *arg1)
+{	const char		*argPtr;
+	NStringList		theArgs;
+
+
+
+	// Get the arguments
+	argPtr = arg1;
+	do
+		{
+		theArgs.push_back(NString(argPtr));
+		argPtr = va_arg(argList, const char *);
+		}
+	while (argPtr != NULL);
+
+	return(theArgs);
+}
+
+
+
+
+
+//============================================================================
 //      NTextUtilities::GetEntityDictionary : Get the entity dictionary.
 //----------------------------------------------------------------------------
 #pragma mark -
