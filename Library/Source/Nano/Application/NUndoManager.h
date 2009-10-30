@@ -27,7 +27,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const BroadcastMsg kMsgUndoManagerUpdated					= 0x756E646F;
+static const BroadcastMsg kMsgUndoManagerUpdated					= 0x756E646F;	// 'undo'
 
 
 
