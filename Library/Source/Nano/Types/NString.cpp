@@ -1198,29 +1198,33 @@ const NString& NString::operator += (const NString &theString)
 	theValue   = GetMutable();
 	otherValue = theString.GetImmutable();
 
-	theEncoder.RemoveTerminator(theValue->theData, theValue->theEncoding);
 
 
-
-	// Append the string
+	// Prepare the data
 	if (theValue->theEncoding == otherValue->theEncoding)
-		theValue->theData += otherValue->theData;
+		theData = otherValue->theData;
 	else
 		{
 		theErr = theEncoder.Convert(otherValue->theData, theData, otherValue->theEncoding, theValue->theEncoding);
 		NN_ASSERT_NOERR(theErr);
-		
-		if (theErr == kNoErr)
-			{
-			theValue->theData += theData;
-			theEncoder.AddTerminator(theValue->theData, theValue->theEncoding);
-			}
+
+		if (theErr != kNoErr)
+			return(*this);
+
+		theEncoder.AddTerminator(theData, theValue->theEncoding);
 		}
 
 
 
-	// Update our state
-	ValueChanged(theValue);
+	// Append the string
+	//
+	// To avoid re-parsing, we can update the size directly.
+	theEncoder.RemoveTerminator(theValue->theData, theValue->theEncoding);
+
+	theValue->theSize += otherValue->theSize;
+	theValue->theData += theData;
+
+	ValueChanged(theValue, false);
 	
 	return(*this);
 }
@@ -1356,12 +1360,13 @@ void NString::DecodeSelf(const NEncoder &theEncoder)
 //      NString::ValueChanged : Our value has been changed.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NString::ValueChanged(NStringValue *theValue)
+void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 {
 
 
 	// Update our value
-	theValue->theSize = GetParser().GetSize();
+	if (updateSize)
+		theValue->theSize = GetParser().GetSize();
 
 
 

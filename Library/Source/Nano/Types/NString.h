@@ -230,7 +230,7 @@ protected:
 
 
 private:
-	void								ValueChanged(NStringValue *theValue);
+	void								ValueChanged(NStringValue *theValue, bool updateSize=true);
 
 	NRangeList							FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
 	NRangeList							FindString( const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const;
