@@ -80,6 +80,18 @@ inline NRange ToNN(const NSRange &theRange)
 
 
 
+//============================================================================
+//		Macros
+//----------------------------------------------------------------------------
+// NSBundle
+#define NSBundleString(_name)								NSLocalizedString(@_name, @"")
+#define NSBundleImagePNG(_name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:@"png"]]
+#define NSBundleImageJPG(_name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:@"jpg"]]
+
+
+
+
+
 #endif // NCOCOA_HDR
 
 
