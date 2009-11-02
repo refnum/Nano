@@ -162,7 +162,7 @@ bool NData::SetSize(NIndex theSize)
 		else
 			{
 			theValue = GetMutable();
-			theValue->resize(theSize, 0x00);
+			Resize(theValue, theSize);
 			}
 		}
 	
@@ -307,7 +307,7 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 	if (makeCopy)
 		{
 		theValue = GetMutable();
-		theValue->resize(theSize);
+		Resize(theValue, theSize);
 
 		if (theSize != 0 && thePtr != NULL)
 			memcpy(&theValue->at(0), thePtr, theSize);
@@ -361,9 +361,9 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 
 
 	// Append the data
-	theValue->resize(oldSize + theSize, 0x00);
-	dstPtr = &theValue->at(oldSize);
+	Resize(theValue, theSize + oldSize);
 
+	dstPtr = &theValue->at(oldSize);
 	if (thePtr != NULL)
 		memcpy(dstPtr, thePtr, theSize);
 
@@ -500,7 +500,7 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 	if (theSize >= theRange.GetSize())
 		{
 		sizeDelta = theSize - theRange.GetSize();
-		theValue->resize(oldSize + sizeDelta);
+		Resize(theValue, oldSize + sizeDelta);
 
 		srcPtr    = &theValue->at(theRange.GetLocation() + theRange.GetSize());
 		dstPtr    = &theValue->at(theRange.GetLocation() + theSize);
@@ -528,7 +528,7 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 		memmove(dstPtr, srcPtr, blockSize);
 
 		sizeDelta = theRange.GetSize() - theSize;
-		theValue->resize(oldSize - sizeDelta);
+		Resize(theValue, oldSize - sizeDelta);
 		}
 
 	ClearHash();
@@ -657,7 +657,7 @@ NDataValue *NData::GetMutable(void)
 	// but must be copied whenever mutable access is required.
 	if (mExternalSize != 0)
 		{
-		theValue->resize(mExternalSize);
+		Resize(theValue, mExternalSize);
 		memcpy(&theValue->at(0), mExternalPtr, mExternalSize);
 
 		mExternalSize = 0;
@@ -728,3 +728,26 @@ void NData::DecodeSelf(const NEncoder &theEncoder)
 	// Decode the object
 	*this = theEncoder.DecodeData(kNEncoderValueKey);
 }
+
+
+
+
+
+//============================================================================
+//      NData::Resize : Resize the value.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NData::Resize(NDataValue *theValue, NIndex theSize)
+{
+
+
+	// Resize the value
+	//
+	// Reserving the space we need before the resize avoids excessive
+	// reallocation if resize is implemented in terms of insert().
+	theValue->reserve(theSize);
+	theValue->resize( theSize, 0x00);
+}
+
+
+

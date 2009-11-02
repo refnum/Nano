@@ -145,6 +145,10 @@ protected:
 
 
 private:
+	void								Resize(NDataValue *theValue, NIndex theSize);
+	
+
+private:
 	NIndex								mExternalSize;
 	const void							*mExternalPtr;
 };
