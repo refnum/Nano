@@ -73,6 +73,9 @@ void TStringFormatter::Execute(void)
 	theResult = testFormatter.Format("ArgUInt32 [%d]", kValueUInt32);
 	NN_ASSERT(theResult == "ArgUInt32 [32323232]");
 
+	theResult = testFormatter.Format("ArgUInt32 [%ld]", kValueUInt32);
+	NN_ASSERT(theResult == "ArgUInt32 [32323232]");
+
 	theResult = testFormatter.Format("ArgUInt64 [%lld]", kValueUInt64);
 	NN_ASSERT(theResult == "ArgUInt64 [6464646464646464]");
 
@@ -84,6 +87,9 @@ void TStringFormatter::Execute(void)
 	NN_ASSERT(theResult == "ArgSInt16 [-1616]");
 
 	theResult = testFormatter.Format("ArgSInt32 [%d]", kValueSInt32);
+	NN_ASSERT(theResult == "ArgSInt32 [-32323232]");
+
+	theResult = testFormatter.Format("ArgSInt32 [%ld]", kValueSInt32);
 	NN_ASSERT(theResult == "ArgSInt32 [-32323232]");
 
 	theResult = testFormatter.Format("ArgSInt64 [%lld]", kValueSInt64);
@@ -102,6 +108,13 @@ void TStringFormatter::Execute(void)
 
 	theResult = testFormatter.Format("ArgPtrVoid [%p]", kValuePtrVoid);
 	NN_ASSERT(theResult == "ArgPtrVoid [0xdeadbeef]");
+
+
+	theResult = testFormatter.Format("ArgHex [%x]", kValueUInt32);
+	NN_ASSERT(theResult == "ArgHex [1ed36a0]");
+
+	theResult = testFormatter.Format("ArgHEX [%X]", kValueUInt32);
+	NN_ASSERT(theResult == "ArgHEX [1ED36A0]");
 
 
 
@@ -138,5 +151,6 @@ void TStringFormatter::Execute(void)
 	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "TooManyArgs [42] [23]");
 	NN_ASSERT(theAssert.EndsWith(kResultTooManyArgs));
+
 }
 
