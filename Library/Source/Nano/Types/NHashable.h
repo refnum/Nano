@@ -76,6 +76,11 @@ public:
 
 
 	// Get the hash code
+	//
+	// The hash algorithm used by built-in Nano is subject to change and
+	// should not be archived to disk.
+	//
+	// Persistent hashes should be explicitly selected via NDataCipher.
 	NHashCode							GetHash(void) const;
 
 
