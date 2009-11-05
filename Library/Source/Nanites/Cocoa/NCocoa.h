@@ -28,7 +28,7 @@
 //============================================================================
 //		Inline functions
 //----------------------------------------------------------------------------
-// Convert to Cocoa
+// Nano to Cocoa
 #if NN_TARGET_MAC
 inline NSPoint ToNS(const NPoint &thePoint)
 {
@@ -53,7 +53,7 @@ inline NSRange ToNS(const NRange &theRange)
 
 
 
-// Convert from Cocoa
+// Cocoa to Nano
 #if NN_TARGET_MAC
 inline NPoint ToNN(const NSPoint &thePoint)
 {

@@ -27,7 +27,7 @@
 //============================================================================
 //		Inline functions
 //----------------------------------------------------------------------------
-// Convert to CoreGraphics
+// Nano to CoreGraphics
 inline CGPoint ToCG(const NPoint &thePoint)
 {
 	return(CGPointMake(thePoint.x, thePoint.y));
@@ -45,7 +45,27 @@ inline CGRect ToCG(const NRectangle &theRect)
 
 
 
-// Convert from CoreGraphics
+// Cocoa to CoreGraphics
+#if defined(__OBJC__)
+inline CGPoint ToCG(const NSPoint &thePoint)
+{
+	return(CGPointMake(thePoint.x, thePoint.y));
+}
+
+inline CGSize ToCG(const NSSize &theSize)
+{
+	return(CGSizeMake(theSize.width, theSize.height));
+}
+
+inline CGRect ToCG(const NSRect &theRect)
+{
+	return(CGRectMake(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
+}
+#endif
+
+
+
+// CoreGraphics to Nano
 inline NPoint ToNN(const CGPoint &thePoint)
 {
 	return(NPoint(thePoint.x, thePoint.y));
@@ -60,6 +80,26 @@ inline NRectangle ToNN(const CGRect &theRect)
 {
 	return(NRectangle(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
+
+
+
+// CoreGraphics to Cocoa
+#if defined(__OBJC__)
+inline NSPoint ToNS(const CGPoint &thePoint)
+{
+	return(NSMakePoint(thePoint.x, thePoint.y));
+}
+
+inline NSSize ToNS(const CGSize &theSize)
+{
+	return(NSMakeSize(theSize.width, theSize.height));
+}
+
+inline NSRect ToNS(const CGRect &theRect)
+{
+	return(NSMakeRect(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
+}
+#endif
 
 
 
