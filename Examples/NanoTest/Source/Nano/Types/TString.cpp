@@ -31,6 +31,9 @@ static const NString kValueString									= "another test string";
 static const UInt8 kValueText1_UTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
 static const UInt8 kValueText1_UTF16BE[]							= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
 
+static const char *kValueText2_UTF8									= "/";
+static const UInt8 kValueText2_UTF16BE[]							= { 0x00, 0x2F };
+
 
 
 
@@ -201,6 +204,12 @@ void TString::Execute(void)
 	
 	NN_ASSERT(testString1           == testString2);
 	NN_ASSERT(testString1.GetHash() == testString2.GetHash());
+
+
+
+	// Encoding
+	testString1 = NString(kValueText2_UTF16BE, NN_ARRAY_SIZE(kValueText2_UTF16BE), kNStringEncodingUTF16BE);
+	NN_ASSERT(strcmp(testString1.GetUTF8(), kValueText2_UTF8) == 0);
 
 
 
