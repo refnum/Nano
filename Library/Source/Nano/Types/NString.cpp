@@ -1916,9 +1916,16 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 	NUnicodeParser			theParser;
 	const UTF32Char			*chars32;
 	const UTF16Char			*chars16;
+	NRange					bomRange;
 	const UTF8Char			*chars8;
 	UTF16Char				char16;
 	UTF32Char				char32;
+
+
+
+	// Get the state we need
+	if (theParser.GetBOM(theData, bomRange) == kNStringEncodingInvalid)
+		bomRange = kNRangeNone;
 
 
 
@@ -1933,6 +1940,9 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 			
 			for (n = 0; n < theSize; n++)
 				{
+				if (bomRange.Contains(n))
+					continue;
+					
 				if (chars8[n] > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
@@ -1951,6 +1961,9 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 			
 			for (n = 0; n < theSize; n++)
 				{
+				if (bomRange.Contains(n))
+					continue;
+
 				char16 = theParser.GetNativeUTF16(chars16[n], theEncoding);
 				if (char16 > kASCIILimit)
 					{
@@ -1970,6 +1983,9 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 			
 			for (n = 0; n < theSize; n++)
 				{
+				if (bomRange.Contains(n))
+					continue;
+					
 				char32 = theParser.GetNativeUTF32(chars32[n], theEncoding);
 				if (char32 > kASCIILimit)
 					{
