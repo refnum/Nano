@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NMathUtilities.h"
 #include "NPoint.h"
 #include "NSize.h"
 #include "NRectangle.h"
@@ -74,6 +75,46 @@ inline NRectangle ToNN(const NSRect &theRect)
 inline NRange ToNN(const NSRange &theRange)
 {
 	return(NRange(theRange.location, theRange.length));
+}
+
+
+
+// Equality operators
+inline bool operator==(const NSPoint &value1, const NSPoint &value2)
+{
+	return(	NMathUtilities::AreEqual(value1.x, value2.x) &&
+			NMathUtilities::AreEqual(value1.y, value2.y));
+}
+
+inline bool operator==(const NSSize &value1, const NSSize &value2)
+{
+	return(	NMathUtilities::AreEqual(value1.width,  value2.width) &&
+			NMathUtilities::AreEqual(value1.height, value2.height));
+}
+
+inline bool operator==(const NSRect &value1, const NSRect &value2)
+{
+	return(value1.origin == value2.origin && value1.size == value2.size);
+}
+
+
+
+// Inequality operators
+inline bool operator!=(const NSPoint &value1, const NSPoint &value2)
+{
+	return(	!NMathUtilities::AreEqual(value1.x, value2.x) ||
+			!NMathUtilities::AreEqual(value1.y, value2.y));
+}
+
+inline bool operator!=(const NSSize &value1, const NSSize &value2)
+{
+	return(	!NMathUtilities::AreEqual(value1.width,  value2.width) ||
+			!NMathUtilities::AreEqual(value1.height, value2.height));
+}
+
+inline bool operator!=(const NSRect &value1, const NSRect &value2)
+{
+	return(value1.origin != value2.origin || value1.size != value2.size);
 }
 
 
