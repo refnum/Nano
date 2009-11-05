@@ -130,7 +130,7 @@ template<class T> T NAtomicList<T>::GetValue(NIndex theIndex) const
 
 
 	// Validate our parameters
-	NN_ASSERT(theIndex < mList.size());
+	NN_ASSERT(theIndex < (NIndex) mList.size());
 
 
 
