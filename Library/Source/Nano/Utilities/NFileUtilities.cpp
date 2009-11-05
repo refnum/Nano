@@ -105,7 +105,7 @@ NStatus NFileUtilities::SetFileText(const NFile &theFile, const NString &theText
 
 
 	// Set the file text
-	return(SetFileData(theFile, theText.GetData(theEncoding)));
+	return(SetFileData(theFile, theText.GetData(theEncoding, kNStringUnicodeBOM)));
 }
 
 
