@@ -478,6 +478,7 @@ void NData::RemoveData(const NRange &theRange)
 //----------------------------------------------------------------------------
 UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)
 {	NIndex			oldSize, blockSize, sizeDelta;
+	NRange			replaceRange;
 	NDataValue		*theValue;
 	UInt8			*dstPtr;
 	const UInt8		*srcPtr;
@@ -485,30 +486,34 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 
 
 	// Validate our parameters
-	NN_ASSERT(theRange.GetNext() >= 0 && theRange.GetNext() < GetSize());
-	NN_ASSERT(theSize            >= 0);
+	NN_ASSERT(theSize >= 0);
 
 
 
 	// Get the state we need
 	theValue = GetMutable();
 	oldSize  = (NIndex) theValue->size();
+	
+	if (theRange == kNRangeNone)
+		replaceRange = NRange(0, 0);
+	else
+		replaceRange = theRange.GetNormalized(GetSize());
 
 
 
 	// Insert the block into a smaller range
-	if (theSize >= theRange.GetSize())
+	if (theSize >= replaceRange.GetSize())
 		{
-		sizeDelta = theSize - theRange.GetSize();
+		sizeDelta = theSize - replaceRange.GetSize();
 		Resize(theValue, oldSize + sizeDelta);
 
-		srcPtr    = &theValue->at(theRange.GetLocation() + theRange.GetSize());
-		dstPtr    = &theValue->at(theRange.GetLocation() + theSize);
-		blockSize = oldSize - theRange.GetNext();
+		srcPtr    = &theValue->at(replaceRange.GetLocation() + replaceRange.GetSize());
+		dstPtr    = &theValue->at(replaceRange.GetLocation() + theSize);
+		blockSize = oldSize - replaceRange.GetNext();
 		memmove(dstPtr, srcPtr, blockSize);
 
 		srcPtr    = (const UInt8 *) thePtr;
-		dstPtr    = &theValue->at(theRange.GetLocation());
+		dstPtr    = &theValue->at(replaceRange.GetLocation());
 		blockSize = theSize;
 		memcpy(dstPtr, srcPtr, blockSize);
 		}
@@ -518,16 +523,16 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 	else
 		{
 		srcPtr    = (const UInt8 *) thePtr;
-		dstPtr    = &theValue->at(theRange.GetLocation());
+		dstPtr    = &theValue->at(replaceRange.GetLocation());
 		blockSize = theSize;
 		memcpy(dstPtr, srcPtr, blockSize);
 
-		srcPtr    = &theValue->at(theRange.GetLocation() + theRange.GetSize());
-		dstPtr    = &theValue->at(theRange.GetLocation() + theSize);
-		blockSize = oldSize - theRange.GetNext();
+		srcPtr    = &theValue->at(replaceRange.GetLocation() + replaceRange.GetSize());
+		dstPtr    = &theValue->at(replaceRange.GetLocation() + theSize);
+		blockSize = oldSize - replaceRange.GetNext();
 		memmove(dstPtr, srcPtr, blockSize);
 
-		sizeDelta = theRange.GetSize() - theSize;
+		sizeDelta = replaceRange.GetSize() - theSize;
 		Resize(theValue, oldSize - sizeDelta);
 		}
 
@@ -536,7 +541,7 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 
 
 	// Get the data
-	dstPtr = &theValue->at(theRange.GetLocation());
+	dstPtr = &theValue->at(replaceRange.GetLocation());
 
 	return(dstPtr);
 }
