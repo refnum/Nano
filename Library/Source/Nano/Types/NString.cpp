@@ -1309,15 +1309,15 @@ const NStringValue *NString::GetNullValue(void) const
 //		NString::GetHashValue : Get the hash value.
 //----------------------------------------------------------------------------
 NHashCode NString::GetHashValue(void) const
-{	const NStringValue		*theValue = GetImmutable();
-	NHashCode				theResult;
+{	NHashCode		theResult;
 
 
 
 	// Get the hash code
-	theResult = theValue->theData.GetHash();
-	if (theValue->theSize == 0)
-		NN_ASSERT(theResult == kNHashCodeNone);
+	theResult = kNHashCodeNone;
+
+	if (!IsEmpty())
+		theResult = GetData().GetHash();
 
 	return(theResult);
 }
