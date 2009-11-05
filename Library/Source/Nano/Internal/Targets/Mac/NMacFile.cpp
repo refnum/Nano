@@ -20,10 +20,31 @@
 #include <dirent.h>
 
 #include "NNSAutoReleasePool.h"
+#include "NSTLUtilities.h"
 #include "NCFString.h"
 
 #include "NMacTarget.h"
 #include "NTargetFile.h"
+
+
+
+
+
+//============================================================================
+//      Internal types
+//----------------------------------------------------------------------------
+// Maps
+typedef std::map<void*, void*>									PagePtrMap;
+typedef PagePtrMap::iterator									PagePtrMapIterator;
+typedef PagePtrMap::const_iterator								PagePtrMapConstIterator;
+
+
+// File map info
+typedef struct {
+	int				theFile;
+	NSpinLock		theLock;
+	PagePtrMap		pageTable;
+} FileMapInfo;
 
 
 
@@ -789,9 +810,9 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 //      NTargetFile::MapOpen : Open a memory-mapped file.
 //----------------------------------------------------------------------------
 NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
-{	int			theFlags;
-	NString		thePath;
-	NFileRef	fileRef;
+{	FileMapInfo		*theInfo;
+	int				theFlags;
+	NString			thePath;
 
 
 
@@ -801,10 +822,22 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 
 
 
+	// Create the file map state
+	theInfo = new FileMapInfo;
+	if (theInfo == NULL)
+		return(kNFileRefNone);
+
+
+
 	// Open the file
-	fileRef = (NFileRef) open(thePath.GetUTF8(), theFlags, 0);
+	theInfo->theFile = open(thePath.GetUTF8(), theFlags, 0);
+	if (theInfo->theFile == -1)
+		{
+		delete theInfo;
+		theInfo = NULL;
+		}
 	
-	return(fileRef);
+	return((NFileRef) theInfo);
 }
 
 
@@ -815,11 +848,14 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 //      NTargetFile::MapClose : Close a memory-mapped file.
 //----------------------------------------------------------------------------
 void NTargetFile::MapClose(NFileRef theFile)
-{
+{	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
+
 
 
 	// Close the file
-	close((int) theFile);
+	close(theInfo->theFile);
+	
+	delete theInfo;
 }
 
 
@@ -830,8 +866,12 @@ void NTargetFile::MapClose(NFileRef theFile)
 //      NTargetFile::MapFetch : Fetch a page from a memory-mapped file.
 //----------------------------------------------------------------------------
 void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool noCache)
-{	int			pagePerm, pageFlags;
-	void		*thePtr;
+{	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
+	StLock			acquireLock(theInfo->theLock);
+
+	off_t			pageSize, mapOffset, mapDelta;
+	int				pagePerm, pageFlags;
+	void			*pagePtr, *thePtr;
 
 
 
@@ -839,28 +879,51 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 	//
 	// Pages can only be mapped with a compatible access mode to the underlying file;
 	// a file opened as read-only can not be used to obtain read-write pages.
+	//
+	// Mac OS X 10.6 introduces two behaviour changes in 64-bit builds:
+	//
+	//		- The mapped offset must be pagesize()-aligned, and so we may need
+	//		  to adjust the offset/size to compensate.
+	//
+	//		- The pge flags must include either MAP_SHARED or MAP_PRIVATE, so
+	//		  we default to MAP_SHARED and enable MAP_PRIVATE if required.
+	//
+	// For each file we maintain a table of mapped pointers to their originating pages,
+	// allowing us to unmap the correct page when the pointer is discarded.
 	pagePerm  = PROT_READ;
-	pageFlags = MAP_FILE;
+	pageFlags = MAP_FILE | MAP_SHARED;
+	pageSize  = getpagesize();
 
 	if (theAccess != kNAccessRead)
 		pagePerm |= PROT_WRITE;
 
-	if (theAccess == kNAccessReadWrite)
-		pageFlags |= MAP_SHARED;
-
 	if (theAccess == kNAccessCopyOnWrite)
-		pageFlags |= MAP_PRIVATE;
+		{
+		pageFlags &= ~MAP_SHARED;
+		pageFlags |=  MAP_PRIVATE;
+		}
 
 	if (noCache)
 		pageFlags |= MAP_NOCACHE;
 
+	mapOffset = theOffset - (theOffset % pageSize);
+	mapDelta  = theOffset - mapOffset;
+	theSize  += mapDelta;
+
 
 
 	// Map the page
-	thePtr = mmap(NULL, theSize, pagePerm, pageFlags, (int) theFile, theOffset);
-	if (thePtr == MAP_FAILED)
-		thePtr = NULL;
+	pagePtr = mmap(NULL, theSize, pagePerm, pageFlags, theInfo->theFile, mapOffset);
+	thePtr  = NULL;
 	
+	if (pagePtr != MAP_FAILED)
+		{
+		thePtr = (void *) (((UInt8 *) pagePtr) + mapDelta);
+		
+		NN_ASSERT(theInfo->pageTable.find(thePtr) == theInfo->pageTable.end());
+		theInfo->pageTable[thePtr] = pagePtr;
+		}
+
 	return(thePtr);
 }
 
@@ -871,23 +934,43 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 //============================================================================
 //      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
-{	int		sysErr;
+void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
+{	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
+	StLock			acquireLock(theInfo->theLock);
+
+	void					*pagePtr;
+	off_t					mapDelta;
+	PagePtrMapIterator		theIter;
+	int						sysErr;
+
+
+
+	// Get the state we need
+	theIter = theInfo->pageTable.find((void *) thePtr);
+	NN_ASSERT(theIter != theInfo->pageTable.end());
+
+	pagePtr  = theIter->second;
+	mapDelta = (((UInt8 *) thePtr) - ((UInt8 *) pagePtr));
+	
+	NN_ASSERT(mapDelta >= 0);
+	theSize += mapDelta;
 
 
 
 	// Flush read-write pages back to disk
 	if (theAccess == kNAccessReadWrite)
 		{
-		sysErr = msync((void *) thePtr, theSize, MS_SYNC);
+		sysErr = msync(pagePtr, theSize, MS_SYNC);
 		NN_ASSERT_NOERR(sysErr);
 		}
 
 
 
 	// Unmap the page
-	sysErr = munmap((void *) thePtr, theSize);
+	sysErr = munmap(pagePtr, theSize);
 	NN_ASSERT_NOERR(sysErr);
+
+	theInfo->pageTable.erase(theIter);
 }
 
 
