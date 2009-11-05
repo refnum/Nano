@@ -190,6 +190,32 @@ void NStringEncoder::RemoveTerminator(NData &theData, NStringEncoding theEncodin
 
 
 //============================================================================
+//		NStringEncoder::GetEncoding : Get a string encoding.
+//----------------------------------------------------------------------------
+NStringEncoding NStringEncoder::GetEncoding(const NData &theData)
+{	NStringEncoding		theEncoding;
+	NUnicodeParser		theParser;
+	NRange				theRange;
+
+
+
+	// Determine the encoding
+	//
+	// For now we assume a BOM, or default to UTF8. This should be improved with
+	// additional heuristics (check for UTF16/32 encodings of common vowels, in
+	// both BE and LE, etc).
+	theEncoding = theParser.GetBOM(theData, theRange);
+	if (theEncoding == kNStringEncodingInvalid)
+		NN_LOG("NStringEncoder::GetEncoding unable to determine encoding");
+
+	return(theEncoding);
+}
+
+
+
+
+
+//============================================================================
 //		NStringEncoder::GetMaxCharSize : Get the maximum size of a character.
 //----------------------------------------------------------------------------
 #pragma mark -

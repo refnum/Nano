@@ -28,6 +28,9 @@
 static const char   *kValueCharPtr									= "test string";
 static const NString kValueString									= "another test string";
 
+static const UInt8 kValueText1_UTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
+static const UInt8 kValueText1_UTF16BE[]							= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
+
 
 
 
@@ -189,6 +192,15 @@ void TString::Execute(void)
 	NN_ASSERT(NString("99"			).Compare("0123",		kNStringNumeric) == kNCompareLessThan);
 	NN_ASSERT(NString("010"			).Compare("0002",		kNStringNumeric) == kNCompareGreaterThan);
 	NN_ASSERT(NString("0100"		).Compare("20",			kNStringNumeric) == kNCompareGreaterThan);
+
+
+
+	// Hashing
+	testString1 = NString(kValueText1_UTF8,    NN_ARRAY_SIZE(kValueText1_UTF8),    kNStringEncodingUTF8);
+	testString2 = NString(kValueText1_UTF16BE, NN_ARRAY_SIZE(kValueText1_UTF16BE), kNStringEncodingUTF16BE);
+	
+	NN_ASSERT(testString1           == testString2);
+	NN_ASSERT(testString1.GetHash() == testString2.GetHash());
 
 
 

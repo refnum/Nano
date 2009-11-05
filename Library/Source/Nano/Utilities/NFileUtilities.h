@@ -53,10 +53,17 @@ typedef enum {
 class NFileUtilities {
 public:
 	// Get/set the contents of a file
-	static NString						GetFileText(const NFile &theFile, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	//
+	// By default GetFileText attempts to determine text encoding automatically,
+	// however this can be disabled by selecting a specific encoding for reading.
+	//
+	// By default SetFileText will write a BOM, however this can be disabled
+	// by rendering the text as kNStringRenderNone.
+	static NString						GetFileText(const NFile &theFile, NStringEncoding theEncoding=kNStringEncodingInvalid);
 	static NData						GetFileData(const NFile &theFile);
 
-	static NStatus						SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	static NStatus						SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding=kNStringEncodingUTF8,
+																								  NStringRendering   renderAs=kNStringUnicodeBOM);
 	static NStatus						SetFileData(const NFile &theFile, const NData   &theData);
 
 

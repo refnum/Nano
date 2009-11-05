@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NTargetPOSIX.h"
 #include "NTargetFile.h"
+#include "NStringEncoder.h"
 #include "NFileUtilities.h"
 
 
@@ -26,14 +27,27 @@
 //		NFileUtilities::GetFileText : Get a file as text.
 //----------------------------------------------------------------------------
 NString NFileUtilities::GetFileText(const NFile &theFile, NStringEncoding theEncoding)
-{	NData		theData;
-	NString		theText;
+{	NStringEncoder		theEncoder;
+	NData				theData;
+	NString				theText;
 
 
 
-	// Get the file text
+	// Get the state we need
 	theData = GetFileData(theFile);
-	if (!theData.IsEmpty())
+	if (theData.IsEmpty())
+		return(theText);
+	
+	
+	
+	// Get the text
+	if (theEncoding == kNStringEncodingInvalid)
+		{
+		theEncoding = theEncoder.GetEncoding(theData);
+		NN_ASSERT(theEncoding != kNStringEncodingInvalid);
+		}
+
+	if (theEncoding != kNStringEncodingInvalid)
 		theText = NString(theData, theEncoding);
 		
 	return(theText);
@@ -100,12 +114,12 @@ NData NFileUtilities::GetFileData(const NFile &theFile)
 //============================================================================
 //		NFileUtilities::SetFileText : Set a file to text.
 //----------------------------------------------------------------------------
-NStatus NFileUtilities::SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding)
+NStatus NFileUtilities::SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding, NStringRendering renderAs)
 {
 
 
 	// Set the file text
-	return(SetFileData(theFile, theText.GetData(theEncoding, kNStringUnicodeBOM)));
+	return(SetFileData(theFile, theText.GetData(theEncoding, renderAs)));
 }
 
 

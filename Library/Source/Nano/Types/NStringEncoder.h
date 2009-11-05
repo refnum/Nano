@@ -71,6 +71,12 @@ public:
 	void								RemoveTerminator(NData &theData, NStringEncoding theEncoding);
 
 
+	// Get a string encoding
+	//
+	// Returns kNStringEncodingInvalid if the encoding is unknown.
+	NStringEncoding						GetEncoding(const NData &theData);
+
+
 private:
 	NIndex								GetMaxCharSize(NStringEncoding theEncoding);
 	
