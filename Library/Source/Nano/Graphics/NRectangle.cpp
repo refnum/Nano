@@ -121,6 +121,30 @@ NRectangle::NRectangle(const NPoint64 &origin, const NSize64 &size)
 //============================================================================
 //		NRectangle::NRectangle : Constructor.
 //----------------------------------------------------------------------------
+NRectangle::NRectangle(const NSize32 &size)
+		: NRectangle32(size)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NRectangle::NRectangle : Constructor.
+//----------------------------------------------------------------------------
+NRectangle::NRectangle(const NSize64 &size)
+		: NRectangle32(0.0f, 0.0f, size.width, size.height)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NRectangle::NRectangle : Constructor.
+//----------------------------------------------------------------------------
 NRectangle::NRectangle(void)
 {
 }
@@ -228,6 +252,21 @@ template<class T> NRectangleT<T>::NRectangleT(const NPointT<T> &valOrigin, const
 	// Initialize ourselves
 	origin = valOrigin;
 	size   = valSize;
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::NRectangleT : Constructor.
+//----------------------------------------------------------------------------
+template<class T> NRectangleT<T>::NRectangleT(const NSizeT<T> &valSize)
+{
+
+
+	// Initialize ourselves
+	size = valSize;
 }
 
 

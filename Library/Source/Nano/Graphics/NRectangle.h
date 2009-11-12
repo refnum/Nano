@@ -79,6 +79,7 @@ template<class T> class NRectangleT : public NComparable< NRectangleT<T> > {
 public:
 										NRectangleT(const T x, T y, T width, T height);
 										NRectangleT(const NPointT<T> &origin, const NSizeT<T> &size);
+										NRectangleT(                          const NSizeT<T> &size);
 
 										NRectangleT(void);
 	virtual							   ~NRectangleT(void);
@@ -171,6 +172,9 @@ public:
 
 										NRectangle(const NPoint32 &origin, const NSize32 &size);
 										NRectangle(const NPoint64 &origin, const NSize64 &size);
+
+										NRectangle(                        const NSize32 &size);
+										NRectangle(                        const NSize64 &size);
 
 										NRectangle(void);
 	virtual							   ~NRectangle(void);
