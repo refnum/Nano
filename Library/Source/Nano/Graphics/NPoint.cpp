@@ -310,6 +310,40 @@ template<class T> T NPointT<T>::GetDistance2(const NPointT<T> &thePoint) const
 
 
 //============================================================================
+//		NPointT::Offset : Offset the point.
+//----------------------------------------------------------------------------
+template<class T> void NPointT<T>::Offset(T deltaX, T deltaY)
+{
+
+
+	// Update our state
+	*this = GetOffset(deltaX, deltaY);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::GetOffset : Offset the point.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T> NPointT<T>::GetOffset(T deltaX, T deltaY) const
+{	NPointT<T>		theResult;
+
+
+
+	// Offset the point
+	theResult.x = x + deltaX;
+	theResult.y = y + deltaY;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NPointT::+= : Addition operator.
 //----------------------------------------------------------------------------
 template<class T> const NPointT<T>& NPointT<T>::operator += (const NVectorT<T> &theVector)

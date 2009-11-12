@@ -83,6 +83,11 @@ public:
 	T									GetDistance2(const NPointT<T> &thePoint)                      const;
 
 
+	// Manipulate the point
+	void								Offset(   T deltaX, T deltaY);
+	NPointT<T>							GetOffset(T deltaX, T deltaY) const;
+
+
 	// Operators
 	const NPointT<T>&					operator +=(const NVectorT<T> &theVector);
 	const NPointT<T>&					operator -=(const NVectorT<T> &theVector);
