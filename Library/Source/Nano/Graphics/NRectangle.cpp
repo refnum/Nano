@@ -646,7 +646,7 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetUnion(const NRectangleT<T> &
 	minY = std::min(GetMinY(), theRect.GetMinY());
 
 	maxX = std::max(GetMaxX(), theRect.GetMaxX());
-	maxY = std::max(GetMaxY(), theRect.GetMaxX());
+	maxY = std::max(GetMaxY(), theRect.GetMaxY());
 
 	theResult = NRectangleT<T>(minX, minY, maxX - minX, maxY - minY);
 	
@@ -685,7 +685,7 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetIntersection(const NRectangl
 		minY = std::max(GetMinY(), theRect.GetMinY());
 
 		maxX = std::min(GetMaxX(), theRect.GetMaxX());
-		maxY = std::min(GetMaxY(), theRect.GetMaxX());
+		maxY = std::min(GetMaxY(), theRect.GetMaxY());
 
 		theResult = NRectangleT<T>(minX, minY, maxX - minX, maxY - minY);
 		}
