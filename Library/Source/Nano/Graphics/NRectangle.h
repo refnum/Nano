@@ -78,6 +78,8 @@ typedef NRectangle64List::const_iterator							NRectangle64ListConstIterator;
 template<class T> class NRectangleT : public NComparable< NRectangleT<T> > {
 public:
 										NRectangleT(const T x, T y, T width, T height);
+										NRectangleT(                T width, T height);
+
 										NRectangleT(const NPointT<T> &origin, const NSizeT<T> &size);
 										NRectangleT(                          const NSizeT<T> &size);
 
@@ -169,6 +171,9 @@ public:
 
 										NRectangle(Float32 x, Float32 y, Float32 width, Float32 height);
 										NRectangle(Float64 x, Float64 y, Float64 width, Float64 height);
+
+										NRectangle(                      Float32 width, Float32 height);
+										NRectangle(                      Float64 width, Float64 height);
 
 										NRectangle(const NPoint32 &origin, const NSize32 &size);
 										NRectangle(const NPoint64 &origin, const NSize64 &size);

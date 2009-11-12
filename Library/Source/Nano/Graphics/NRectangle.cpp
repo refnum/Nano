@@ -97,6 +97,30 @@ NRectangle::NRectangle(const Float64 x, Float64 y, Float64 width, Float64 height
 //============================================================================
 //		NRectangle::NRectangle : Constructor.
 //----------------------------------------------------------------------------
+NRectangle::NRectangle(Float32 width, Float32 height)
+		: NRectangle32(0.0f, 0.0f, width, height)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NRectangle::NRectangle : Constructor.
+//----------------------------------------------------------------------------
+NRectangle::NRectangle(Float64 width, Float64 height)
+		: NRectangle32(0.0f, 0.0f, width, height)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NRectangle::NRectangle : Constructor.
+//----------------------------------------------------------------------------
 NRectangle::NRectangle(const NPoint32 &origin, const NSize32 &size)
 		: NRectangle32(origin, size)
 {
@@ -234,6 +258,23 @@ template<class T> NRectangleT<T>::NRectangleT(T x, T y, T width, T height)
 	// Initialize ourselves
 	origin.x    = x;
 	origin.y    = y;
+	size.width  = width;
+	size.height = height;
+}
+
+
+
+
+
+//============================================================================
+//		NRectangleT::NRectangleT : Constructor.
+//----------------------------------------------------------------------------
+#pragma mark -
+template<class T> NRectangleT<T>::NRectangleT(T width, T height)
+{
+
+
+	// Initialize ourselves
 	size.width  = width;
 	size.height = height;
 }
