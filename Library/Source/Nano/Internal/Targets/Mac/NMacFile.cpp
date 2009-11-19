@@ -493,8 +493,8 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 	do
 		{
 		dirResult = NULL;
-		sysErr   = readdir_r(theDir, &dirEntry, &dirResult);
-		if (sysErr == kNoErr)
+		sysErr    = readdir_r(theDir, &dirEntry, &dirResult);
+		if (sysErr == kNoErr && dirResult != NULL)
 			{
 			if (strcmp(dirEntry.d_name, ".") != 0 && strcmp(dirEntry.d_name, "..") != 0)
 				{

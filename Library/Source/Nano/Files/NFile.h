@@ -163,7 +163,7 @@ public:
 	bool								ResolveTarget(void);
 
 
-	// Get the children of a file
+	// Get the children of a directory
 	NFileList							GetChildren(void) const;
 
 

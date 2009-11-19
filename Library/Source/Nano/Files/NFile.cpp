@@ -510,6 +510,11 @@ NFileList NFile::GetChildren(void) const
 {
 
 
+	// Validate our state
+	NN_ASSERT(IsDirectory());
+
+
+
 	// Get the children
 	return(NTargetFile::GetChildren(mPath));
 }
