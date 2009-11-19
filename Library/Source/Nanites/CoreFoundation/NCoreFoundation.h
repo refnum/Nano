@@ -31,75 +31,22 @@
 //============================================================================
 //		Inline functions
 //----------------------------------------------------------------------------
-// Convert to CoreFoundation
+// Nano to CoreFoundation
 inline CFRange ToCF(const NRange &theRange)
 {
 	return(CFRangeMake(theRange.GetLocation(), theRange.GetSize()));
 }
 
-inline NCFObject ToCF(const NArray &theArray)
-{
-	return(NCFArray(theArray).GetObject());
-}
-
-inline NCFObject ToCF(const NData &theData)
-{
-	return(NCFData(theData).GetObject());
-}
-
-inline NCFObject ToCF(const NDate &theDate)
-{
-	return(NCFDate(theDate).GetObject());
-}
-
-inline NCFObject ToCF(const NDictionary &theDictionary)
-{
-	return(NCFDictionary(theDictionary).GetObject());
-}
-
-inline NCFObject ToCF(const NNumber &theNumber)
-{
-	return(NCFNumber(theNumber).GetObject());
-}
-
-inline NCFObject ToCF(const NString &theString)
-{
-	return(NCFString(theString).GetObject());
-}
-
-inline NCFObject ToCF(const NCFArray &theArray)
-{
-	return(theArray.GetObject());
-}
-
-inline NCFObject ToCF(const NCFData &theData)
-{
-	return(theData.GetObject());
-}
-
-inline NCFObject ToCF(const NCFDate &theDate)
-{
-	return(theDate.GetObject());
-}
-
-inline NCFObject ToCF(const NCFDictionary &theDictionary)
-{
-	return(theDictionary.GetObject());
-}
-
-inline NCFObject ToCF(const NCFNumber &theNumber)
-{
-	return(theNumber.GetObject());
-}
-
-inline NCFObject ToCF(const NCFString &theString)
-{
-	return(theString.GetObject());
-}
+CFArrayRef		ToCF(const NArray		&theArray);
+CFDataRef		ToCF(const NData		&theData);
+CFDateRef		ToCF(const NDate		&theDate);
+CFDictionaryRef	ToCF(const NDictionary	&theDictionary);
+CFNumberRef		ToCF(const NNumber		&theNumber);
+CFStringRef		ToCF(const NString		&theString);
 
 
 
-// Convert from CoreFoundation
+// CoreFoundation to Nano
 inline NRange ToNN(const CFRange &theRange)
 {
 	return(NRange(theRange.location, theRange.length));
@@ -134,6 +81,27 @@ inline NString ToNN(CFStringRef theString)
 {
 	return(NCFString(theString, false));
 }
+
+inline NArray ToNN(CFMutableArrayRef theArray)
+{
+	return(NCFArray(theArray, false));
+}
+
+inline NData ToNN(CFMutableDataRef theData)
+{
+	return(NCFData(theData, false));
+}
+
+inline NDictionary ToNN(CFMutableDictionaryRef theDictionary)
+{
+	return(NCFDictionary(theDictionary, false));
+}
+
+inline NString ToNN(CFMutableStringRef theString)
+{
+	return(NCFString(theString, false));
+}
+
 
 
 

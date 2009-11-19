@@ -300,7 +300,7 @@
 		AB0040141096FE82006029F9 /* NQt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQt.h; sourceTree = "<group>"; };
 		AB0040161096FE97006029F9 /* NSkia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSkia.cpp; sourceTree = "<group>"; };
 		AB0040171096FE97006029F9 /* NSkia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSkia.h; sourceTree = "<group>"; };
-		AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreFoundation.cpp; sourceTree = "<group>"; };
+		AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCoreFoundation.cpp; sourceTree = "<group>"; };
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
 		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };

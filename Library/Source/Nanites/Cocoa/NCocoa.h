@@ -21,6 +21,12 @@
 #include "NSize.h"
 #include "NRectangle.h"
 #include "NRange.h"
+#include "NCFArray.h"
+#include "NCFData.h"
+#include "NCFDate.h"
+#include "NCFDictionary.h"
+#include "NCFNumber.h"
+#include "NCFString.h"
 
 
 
@@ -52,6 +58,48 @@ inline NSRange ToNS(const NRange &theRange)
 	return(NSMakeRange(theRange.GetLocation(), theRange.GetSize()));
 }
 
+inline NSArray *ToNS(const NArray &theArray)
+{	NCFObject		cfObject  = NCFArray(theArray).GetObject();
+	NSArray			*nsObject = cfObject;
+
+	return([[nsObject retain] autorelease]);
+}
+
+inline NSData *ToNS(const NData &theData)
+{	NCFObject		cfObject  = NCFData(theData).GetObject();
+	NSData			*nsObject = cfObject;
+
+	return([[nsObject retain] autorelease]);
+}
+
+inline NSDate *ToNS(const NDate &theDate)
+{	NCFObject		cfObject  = NCFDate(theDate).GetObject();
+	NSDate			*nsObject = cfObject;
+
+	return([[nsObject retain] autorelease]);
+}
+
+inline NSDictionary *ToNS(const NDictionary &theDictionary)
+{	NCFObject		cfObject  = NCFDictionary(theDictionary).GetObject();
+	NSDictionary	*nsObject = cfObject;
+
+	return([[nsObject retain] autorelease]);
+}
+
+inline NSNumber *ToNS(const NNumber &theNumber)
+{	NCFObject		cfObject  = NCFNumber(theNumber).GetObject();
+	NSNumber		*nsObject = cfObject;
+
+	return([[nsObject retain] autorelease]);
+}
+
+inline NSString *ToNS(const NString &theString)
+{	NCFObject		cfObject  = NCFString(theString).GetObject();
+	NSString		*nsObject = cfObject;
+
+	return([[nsObject retain] autorelease]);
+}
+
 
 
 // Cocoa to Nano
@@ -77,9 +125,60 @@ inline NRange ToNN(const NSRange &theRange)
 	return(NRange(theRange.location, theRange.length));
 }
 
+inline NArray ToNN(NSArray *theArray)
+{
+	return(NCFArray((CFArrayRef) theArray, false));
+}
+
+inline NData ToNN(NSData *theData)
+{
+	return(NCFData((CFDataRef) theData, false));
+}
+
+inline NDate ToNN(NSDate *theDate)
+{
+	return(NCFDate((CFDateRef) theDate, false));
+}
+
+inline NDictionary ToNN(NSDictionary *theDictionary)
+{
+	return(NCFDictionary((CFDictionaryRef) theDictionary, false));
+}
+
+inline NNumber ToNN(NSNumber *theNumber)
+{
+	return(NCFNumber((CFNumberRef) theNumber, false));
+}
+
+inline NString ToNN(NSString *theString)
+{
+	return(NCFString((CFStringRef) theString, false));
+}
+
+inline NArray ToNN(NSMutableArray *theArray)
+{
+	return(NCFArray((CFMutableArrayRef) theArray, false));
+}
+
+inline NData ToNN(NSMutableData *theData)
+{
+	return(NCFData((CFMutableDataRef) theData, false));
+}
+
+inline NDictionary ToNN(NSMutableDictionary *theDictionary)
+{
+	return(NCFDictionary((CFMutableDictionaryRef) theDictionary, false));
+}
+
+inline NString ToNN(NSMutableString *theString)
+{
+	return(NCFString((CFMutableStringRef) theString, false));
+}
+
 
 
 // Equality operators
+#if NN_TARGET_MAC
 inline bool operator==(const NSPoint &value1, const NSPoint &value2)
 {
 	return(	NMathUtilities::AreEqual(value1.x, value2.x) &&
@@ -96,10 +195,12 @@ inline bool operator==(const NSRect &value1, const NSRect &value2)
 {
 	return(value1.origin == value2.origin && value1.size == value2.size);
 }
+#endif
 
 
 
 // Inequality operators
+#if NN_TARGET_MAC
 inline bool operator!=(const NSPoint &value1, const NSPoint &value2)
 {
 	return(	!NMathUtilities::AreEqual(value1.x, value2.x) ||
@@ -116,6 +217,8 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 {
 	return(value1.origin != value2.origin || value1.size != value2.size);
 }
+#endif
+
 
 
 
