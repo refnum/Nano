@@ -16,8 +16,8 @@
 //----------------------------------------------------------------------------
 #include "NTargetPreferences.h"
 #include "NTargetSystem.h"
+#include "NCoreFoundation.h"
 #include "NMacTarget.h"
-#include "NCFString.h"
 
 
 
@@ -39,7 +39,7 @@ bool NTargetPreferences::HasKey(const NString &theKey)
 
 
 	// Check the key
-	hasKey = cfObject.SetObject(CFPreferencesCopyAppValue(NCFString(theKey).GetObject(), kCFPreferencesCurrentApplication));
+	hasKey = cfObject.SetObject(CFPreferencesCopyAppValue(ToCF(theKey), kCFPreferencesCurrentApplication));
 	
 	return(hasKey);
 }
@@ -61,7 +61,7 @@ void NTargetPreferences::RemoveKey(const NString &theKey)
 
 
 	// Remove the key
-	CFPreferencesSetAppValue(NCFString(theKey).GetObject(), NULL, kCFPreferencesCurrentApplication);
+	CFPreferencesSetAppValue(ToCF(theKey), NULL, kCFPreferencesCurrentApplication);
 }
 
 
@@ -83,7 +83,7 @@ NVariant NTargetPreferences::GetValue(const NString &theKey)
 
 
 	// Get the value
-	if (cfValue.SetObject(CFPreferencesCopyAppValue(NCFString(theKey).GetObject(), kCFPreferencesCurrentApplication)))
+	if (cfValue.SetObject(CFPreferencesCopyAppValue(ToCF(theKey), kCFPreferencesCurrentApplication)))
 		theValue = NMacTarget::ConvertCFToObject(cfValue);
 	
 	return(theValue);
@@ -109,7 +109,7 @@ void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValu
 	// Set the value
 	theObject = NMacTarget::ConvertObjectToCF(theValue);
 	if (theObject.IsValid())
-		CFPreferencesSetAppValue(NCFString(theKey).GetObject(), theObject, kCFPreferencesCurrentApplication);
+		CFPreferencesSetAppValue(ToCF(theKey), theObject, kCFPreferencesCurrentApplication);
 }
 
 

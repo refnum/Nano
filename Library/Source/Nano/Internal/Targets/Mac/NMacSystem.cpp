@@ -18,7 +18,7 @@
 #include <sys/fcntl.h>
 #include <sysexits.h>
 
-#include "NCFObject.h"
+#include "NCoreFoundation.h"
 #include "NCFString.h"
 
 #include "NTargetSystem.h"
@@ -173,10 +173,7 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 	if (bundleID.IsEmpty())
 		cfBundle.SetObject(CFBundleGetMainBundle(), false);
 	else
-		{
-		cfString = bundleID;
-		cfBundle.SetObject(CFBundleGetBundleWithIdentifier(cfString.GetObject()), false);
-		}
+		cfBundle.SetObject(CFBundleGetBundleWithIdentifier(ToCF(bundleID)), false);
 
 	if (!cfBundle.IsValid())
 		return(theFile);

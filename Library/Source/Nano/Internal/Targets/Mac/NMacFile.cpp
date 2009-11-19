@@ -20,6 +20,7 @@
 #include <dirent.h>
 
 #include "NNSAutoReleasePool.h"
+#include "NCoreFoundation.h"
 #include "NSTLUtilities.h"
 #include "NCFString.h"
 
@@ -263,7 +264,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 #if NN_TARGET_MAC
 	if (displayName)
 		{
-		if (cfURL.SetObject(CFURLCreateWithFileSystemPath(NULL, NCFString(thePath).GetObject(), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
+		if (cfURL.SetObject(CFURLCreateWithFileSystemPath(NULL, ToCF(thePath), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
 			{
 			theErr = LSCopyDisplayNameForURL(cfURL, &cfString);
 			if (theErr == noErr)
