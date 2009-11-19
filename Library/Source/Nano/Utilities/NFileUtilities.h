@@ -57,13 +57,13 @@ public:
 	// By default GetFileText attempts to determine text encoding automatically,
 	// however this can be disabled by selecting a specific encoding for reading.
 	//
-	// By default SetFileText will write a BOM, however this can be disabled
-	// by rendering the text as kNStringRenderNone.
+	// By default SetFileText will not write a BOM, however this can be enabled
+	// by rendering the text as kNStringUnicodeBOM.
 	static NString						GetFileText(const NFile &theFile, NStringEncoding theEncoding=kNStringEncodingInvalid);
 	static NData						GetFileData(const NFile &theFile);
 
 	static NStatus						SetFileText(const NFile &theFile, const NString &theText, NStringEncoding theEncoding=kNStringEncodingUTF8,
-																								  NStringRendering   renderAs=kNStringUnicodeBOM);
+																								  NStringRendering   renderAs=kNStringRenderNone);
 	static NStatus						SetFileData(const NFile &theFile, const NData   &theData);
 
 

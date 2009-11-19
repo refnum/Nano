@@ -202,11 +202,11 @@ NStringEncoding NStringEncoder::GetEncoding(const NData &theData)
 	// Determine the encoding
 	//
 	// For now we assume a BOM, or default to UTF8. This should be improved with
-	// additional heuristics (check for UTF16/32 encodings of common vowels, in
+	// additional heuristics (check for UTF16/32 encodings of common vowels in
 	// both BE and LE, etc).
 	theEncoding = theParser.GetBOM(theData, theRange);
 	if (theEncoding == kNStringEncodingInvalid)
-		NN_LOG("NStringEncoder::GetEncoding unable to determine encoding");
+		theEncoding = kNStringEncodingUTF8;
 
 	return(theEncoding);
 }
