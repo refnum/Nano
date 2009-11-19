@@ -32,7 +32,7 @@ void TCFObject::Execute(void)
 
 
 	// Retain/release
-	cfArray = CFArrayCreateMutable(kCFAllocatorDefault, 0, NULL);
+	cfArray = CFArrayCreateMutable(kCFAllocatorDefault, 0, kCFTypeArrayCallBacks);
 	NN_ASSERT(CFGetRetainCount(cfArray) == 1);
 	
 	CFSafeRetain(cfArray);
@@ -55,7 +55,7 @@ void TCFObject::Execute(void)
 
 	// Assignment
 	NN_ASSERT(!theArray.IsValid());
-	theArray.SetObject(CFArrayCreateMutable(kCFAllocatorDefault, 0, NULL));
+	theArray.SetObject(CFArrayCreateMutable(kCFAllocatorDefault, 0, kCFTypeArrayCallBacks));
 
 	NN_ASSERT(theArray.IsValid());
 	NN_ASSERT(CFGetRetainCount(theArray) == 1);

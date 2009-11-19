@@ -82,7 +82,7 @@ NCFObject NCFArray::GetObject(void) const
 	// Get the state we need
 	numItems = GetSize();
 	
-	if (!theObject.SetObject(CFArrayCreateMutable(kCFAllocatorNano, numItems, NULL)))
+	if (!theObject.SetObject(CFArrayCreateMutable(kCFAllocatorNano, numItems, &kCFTypeArrayCallBacks)))
 		return(theObject);
 
 
