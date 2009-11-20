@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NBroadcaster.h"
+#include "NListener.h"
 #include "NString.h"
 
 
@@ -25,6 +27,14 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Messages
+static const BroadcastMsg kMsgLocaleModified						= 0x6C6D6F64;	// 'lmod'
+
+static const NString kLocaleChangedAllKey							= "*";
+static const NString kLocaleIsMetricKey								= "IsMetric";
+
+
+// Locales
 static const NString kNLocaleUser									= "*user*";
 
 
@@ -34,7 +44,8 @@ static const NString kNLocaleUser									= "*user*";
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NLocale {
+class NLocale : public NBroadcaster,
+				public NListener {
 public:
 										NLocale(const NString &theID=kNLocaleUser);
 	virtual							   ~NLocale(void);
@@ -42,6 +53,15 @@ public:
 
 	// Is the measurement system metric?
 	bool								IsMetric(void) const;
+
+
+protected:
+	// Handle messages
+	void								DoMessage(BroadcastMsg theMsg, const void *msgData);
+
+
+private:
+	NVariant							GetValue(const NString &theKey) const;
 
 
 private:

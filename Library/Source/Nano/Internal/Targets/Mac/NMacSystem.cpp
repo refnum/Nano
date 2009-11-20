@@ -20,6 +20,7 @@
 
 #include "NCoreFoundation.h"
 #include "NCFString.h"
+#include "NLock.h"
 
 #include "NTargetSystem.h"
 
@@ -152,6 +153,27 @@ static void WritePipe(SInt32 thePipe, const NString &theText)
 	
 	// Write to the pipe
 	write(thePipe, theText.GetUTF8(), theText.GetSize());
+}
+
+
+
+
+
+//============================================================================
+//		DoNotification : Handle a notification.
+//----------------------------------------------------------------------------
+static void DoNotification(CFNotificationCenterRef		/*cfCenter*/,
+							void						*theObserver,
+							CFStringRef					cfName,
+							const void					*/*theObject*/,
+							CFDictionaryRef				/*cfInfo*/)
+{	NBroadcaster		*theBroadcaster = (NBroadcaster *) theObserver;
+
+
+
+	// Handle the notification
+	if (CFStringCompare(kCFLocaleCurrentLocaleDidChangeNotification, cfName, 0) == kCFCompareEqualTo)
+		theBroadcaster->BroadcastMessage(kMsgLocaleModified, &kLocaleChangedAllKey);
 }
 
 
@@ -403,6 +425,79 @@ void NTargetSystem::TaskKill(const TaskInfo &theTask)
 }
 
 
+
+
+
+//============================================================================
+//      NTargetSystem::GetLocaleValue : Get a locale value.
+//----------------------------------------------------------------------------
+NVariant NTargetSystem::GetLocaleValue(const NString &theID, const NString &theKey)
+{	NVariant		theResult;
+	NCFObject		cfLocale;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theID == kNLocaleUser);
+	NN_UNUSED(theID);
+
+
+
+	// Get the state we need
+	if (!cfLocale.SetObject(CFLocaleCopyCurrent()))
+		return(theResult);
+
+
+
+	// Get the value
+	if (theKey == kLocaleIsMetricKey)
+		theResult = (bool) CFBooleanGetValue((CFBooleanRef) CFLocaleGetValue(cfLocale, kCFLocaleUsesMetricSystem));
+
+	else
+		NN_LOG("Unknown locale key: %@", theKey);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetSystem::GetLocaleBroadcaster : Get the locale broadcaster.
+//----------------------------------------------------------------------------
+NBroadcaster *NTargetSystem::GetLocaleBroadcaster(const NString &/*theID*/)
+{	static bool				sRegisteredNotification = false;
+	static NBroadcaster		sBroadcaster;
+	static NSpinLock		sLock;
+
+
+
+	// Register for notificatins
+	if (!sRegisteredNotification)
+		{
+		sLock.Lock();
+		
+		if (!sRegisteredNotification)
+			{
+			CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(),
+											&sBroadcaster, DoNotification,
+											kCFLocaleCurrentLocaleDidChangeNotification, NULL,
+											CFNotificationSuspensionBehaviorDeliverImmediately);
+					
+			sRegisteredNotification = true;
+			}
+		
+		sLock.Unlock();
+		}
+
+
+
+	// Get the broadcaster
+	//
+	// For now, all locales share the same broadcaster.
+	return(&sBroadcaster);
+}
 
 
 

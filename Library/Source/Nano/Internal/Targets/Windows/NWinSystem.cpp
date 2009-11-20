@@ -119,6 +119,35 @@ void NTargetSystem::TaskKill(const TaskInfo &theTask)
 
 
 
+//============================================================================
+//      NTargetSystem::GetLocaleValue : Get a locale value.
+//----------------------------------------------------------------------------
+NVariant NTargetSystem::GetLocaleValue(const NString &theID, const NString &theKey)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetSystem::GetLocaleBroadcaster : Get the locale broadcaster.
+//----------------------------------------------------------------------------
+NBroadcaster *NTargetSystem::GetLocaleBroadcaster(const NString &/*theID*/)
+{	static NBroadcaster		sBroadcaster;
+
+
+
+	// Get the broadcaster
+	//
+	// For now, all locales share the same broadcaster.
+	return(&sBroadcaster);
+}
+
+
+
+
 
 
 

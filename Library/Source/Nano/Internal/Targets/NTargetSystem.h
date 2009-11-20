@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NString.h"
+#include "NLocale.h"
 #include "NFile.h"
 #include "NTask.h"
 
@@ -45,6 +46,9 @@ public:
 	static void							TaskKill( const TaskInfo &theTask);
 
 
+	// Locale
+	static NVariant						GetLocaleValue(      const NString &theID, const NString &theKey);
+	static NBroadcaster				   *GetLocaleBroadcaster(const NString &theID);
 };
 
 

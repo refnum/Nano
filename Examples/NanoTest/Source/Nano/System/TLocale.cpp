@@ -26,7 +26,15 @@
 //		TLocale::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TLocale::Execute(void)
-{
+{	NLocale		theLocale;
+	bool		valueBool;
+
+
+
+	// Execute the tests
+	valueBool = theLocale.IsMetric();
+	NN_ASSERT(valueBool == true || valueBool == false);
+
 }
 
 

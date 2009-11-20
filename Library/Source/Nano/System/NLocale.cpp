@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSystemUtilities.h"
+#include "NTargetSystem.h"
 #include "NLocale.h"
 
 
@@ -29,6 +31,11 @@ NLocale::NLocale(const NString &theID)
 
 	// Initialise ourselves
 	mID = theID;
+	
+	
+	
+	// Register for events
+	NTargetSystem::GetLocaleBroadcaster(theID)->AddListener(this);
 }
 
 
@@ -53,8 +60,49 @@ bool NLocale::IsMetric(void) const
 {
 
 
-	// To do
-	NN_LOG("NLocale::IsMetric - NOT IMPLEMENTED");
-
-	return(true);
+	// Get the state
+	return(NSystemUtilities::GetBoolean(GetValue(kLocaleIsMetricKey)));
 }
+
+
+
+
+
+//============================================================================
+//		NLocale::DoMessage : Handle messages.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NLocale::DoMessage(BroadcastMsg theMsg, const void *msgData)
+{
+
+
+	// Handle the message
+	switch (theMsg) {
+		case kMsgLocaleModified:
+			BroadcastMessage(kMsgLocaleModified, msgData);
+			break;
+		
+		default:
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NLocale::GetValue : Get a local value.
+//----------------------------------------------------------------------------
+#pragma mark -
+NVariant NLocale::GetValue(const NString &theKey) const
+{
+
+
+	// Get the value
+	return(NTargetSystem::GetLocaleValue(mID, theKey));
+}
+
+
+
+
