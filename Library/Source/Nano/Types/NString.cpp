@@ -1306,9 +1306,9 @@ const NStringValue *NString::GetNullValue(void) const
 
 
 //============================================================================
-//		NString::GetHashValue : Get the hash value.
+//		NString::CalculateHash : Calculate the hash.
 //----------------------------------------------------------------------------
-NHashCode NString::GetHashValue(void) const
+NHashCode NString::CalculateHash(void) const
 {	NHashCode		theResult;
 
 

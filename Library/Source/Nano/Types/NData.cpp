@@ -693,9 +693,9 @@ const NDataValue *NData::GetNullValue(void) const
 
 
 //============================================================================
-//		NData::GetHashValue : Get the hash value.
+//		NData::CalculateHash : Calculate the hash.
 //----------------------------------------------------------------------------
-NHashCode NData::GetHashValue(void) const
+NHashCode NData::CalculateHash(void) const
 {	NDataDigest		theDigest;
 
 

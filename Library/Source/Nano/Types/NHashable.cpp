@@ -71,7 +71,7 @@ NHashCode NHashable::GetHash(void) const
 
 	// Update the hash codde
 	if (mHashCode == kNHashCodeNone)
-		mHashCode = GetHashValue();
+		mHashCode = CalculateHash();
 
 
 

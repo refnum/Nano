@@ -85,8 +85,8 @@ public:
 
 
 protected:
-	// Get the hash value
-	virtual NHashCode					GetHashValue(void) const = 0;
+	// Calculate the hash
+	virtual NHashCode					CalculateHash(void) const = 0;
 
 
 private:
