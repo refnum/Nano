@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "Nano.h"
+#include "NNSAutoReleasePool.h"
 #include "NCommandLine.h"
 
 #include "TNSAutoReleasePool.h"
@@ -109,7 +109,8 @@
 //		main : Program entry point.
 //----------------------------------------------------------------------------
 int main(int argc, const char **argv)
-{
+{	StAutoReleasePool		thePool;
+
 
 
 	// Initialise ourselves
