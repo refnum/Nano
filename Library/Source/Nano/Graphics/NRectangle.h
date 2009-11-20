@@ -47,26 +47,27 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NRectangle;
+class NRectangleX;
 
 template<class T> class NRectangleT;
 
-typedef NRectangleT<Float32> NRectangle32;
 typedef NRectangleT<Float64> NRectangle64;
+typedef NRectangleT<Float32> NRectangle32;
+typedef NRectangle32         NRectangle;
 
 
 // Lists
-typedef std::vector<NRectangle>										NRectangleList;
-typedef NRectangleList::iterator									NRectangleListIterator;
-typedef NRectangleList::const_iterator								NRectangleListConstIterator;
+typedef std::vector<NRectangle64>									NRectangle64List;
+typedef NRectangle64List::iterator									NRectangle64ListIterator;
+typedef NRectangle64List::const_iterator							NRectangle64ListConstIterator;
 
 typedef std::vector<NRectangle32>									NRectangle32List;
 typedef NRectangle32List::iterator									NRectangle32ListIterator;
 typedef NRectangle32List::const_iterator							NRectangle32ListConstIterator;
 
-typedef std::vector<NRectangle64>									NRectangle64List;
-typedef NRectangle64List::iterator									NRectangle64ListIterator;
-typedef NRectangle64List::const_iterator							NRectangle64ListConstIterator;
+typedef std::vector<NRectangle>										NRectangleList;
+typedef NRectangleList::iterator									NRectangleListIterator;
+typedef NRectangleList::const_iterator								NRectangleListConstIterator;
 
 
 
@@ -147,53 +148,13 @@ public:
 	// Operators
 	NCOMPARABLE_OPERATORS(NRectangleT<T>);
 
+										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;
 
 
 public:
 	NPointT<T>							origin;
 	NSizeT<T>							size;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NRectangle :	public NEncodable,
-					public NRectangle32 {
-public:
-										NENCODABLE_DECLARE(NRectangle);
-
-										NRectangle(const NRectangle32 &theRectangle);
-										NRectangle(const NRectangle64 &theRectangle);
-
-										NRectangle(Float32 x, Float32 y, Float32 width, Float32 height);
-										NRectangle(Float64 x, Float64 y, Float64 width, Float64 height);
-
-										NRectangle(                      Float32 width, Float32 height);
-										NRectangle(                      Float64 width, Float64 height);
-
-										NRectangle(const NPoint32 &origin, const NSize32 &size);
-										NRectangle(const NPoint64 &origin, const NSize64 &size);
-
-										NRectangle(                        const NSize32 &size);
-										NRectangle(                        const NSize64 &size);
-
-										NRectangle(void);
-	virtual							   ~NRectangle(void);
-
-
-	// Operators
-										operator NRectangle64(void) const;
-
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
 };
 
 

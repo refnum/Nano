@@ -38,19 +38,60 @@ static const NString kNPointYKey									= "y";
 
 
 //============================================================================
+//		Internal class declaration
+//----------------------------------------------------------------------------
+class NPointX :	public NEncodable {
+public:
+										NENCODABLE_DECLARE(NPointX);
+
+										NPointX(const NNumber &x, const NNumber &y);
+										NPointX(void);
+	virtual							   ~NPointX(void);
+
+
+protected:
+	// Encode the object
+	void								EncodeSelf(NEncoder &theEncoder) const;
+
+
+private:
+	NNumber								mX;
+	NNumber								mY;
+};
+
+
+
+
+
+//============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NPoint);
+NENCODABLE_DEFINE_NODECODE(NPointX);
 
 
 
 
 
 //============================================================================
-//      NPoint::NPoint : Constructor.
+//      NPointX::NPointX : Constructor.
 //----------------------------------------------------------------------------
-NPoint::NPoint(const NPoint32 &thePoint)
-		: NPoint32(thePoint.x, thePoint.y)
+NPointX::NPointX(const NNumber &x, const NNumber &y)
+{
+
+
+	// Initialise ourselves
+	mX = x;
+	mY = y;
+}
+
+
+
+
+
+//============================================================================
+//      NPointX::NPointX : Constructor.
+//----------------------------------------------------------------------------
+NPointX::NPointX()
 {
 }
 
@@ -59,10 +100,9 @@ NPoint::NPoint(const NPoint32 &thePoint)
 
 
 //============================================================================
-//      NPoint::NPoint : Constructor.
+//      NPointX::~NPointX : Destructor.
 //----------------------------------------------------------------------------
-NPoint::NPoint(const NPoint64 &thePoint)
-		: NPoint32(thePoint.x, thePoint.y)
+NPointX::~NPointX(void)
 {
 }
 
@@ -71,96 +111,36 @@ NPoint::NPoint(const NPoint64 &thePoint)
 
 
 //============================================================================
-//      NPoint::NPoint : Constructor.
+//      NPointX::EncodableGetDecoded : Get a decoded object.
 //----------------------------------------------------------------------------
-NPoint::NPoint(Float32 x, Float32 y)
-		: NPoint32(x, y)
-{
-}
-
-
-
-
-
-//============================================================================
-//      NPoint::NPoint : Constructor.
-//----------------------------------------------------------------------------
-NPoint::NPoint(Float64 x, Float64 y)
-		: NPoint32(x, y)
-{
-}
-
-
-
-
-
-//============================================================================
-//      NPoint::NPoint : Constructor.
-//----------------------------------------------------------------------------
-NPoint::NPoint(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//      NPoint::~NPoint : Destructor.
-//----------------------------------------------------------------------------
-NPoint::~NPoint(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NPoint::NPoint64 : NPoint64 operator.
-//----------------------------------------------------------------------------
-NPoint::operator NPoint64(void) const
-{	NPoint64		theResult;
-
-
-
-	// Get the value
-	theResult.x = x;
-	theResult.y = y;
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//      NPoint::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NPoint::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeNumber(kNPointXKey, x);
-	theEncoder.EncodeNumber(kNPointYKey, y);
-}
-
-
-
-
-
-//============================================================================
-//      NPoint::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NPoint::DecodeSelf(const NEncoder &theEncoder)
+NVariant NPointX::EncodableGetDecoded(const NEncoder &theEncoder)
 {
 
 
 	// Decode the object
-	x = theEncoder.DecodeNumber(kNPointXKey).GetFloat32();
-	y = theEncoder.DecodeNumber(kNPointYKey).GetFloat32();
+	mX = theEncoder.DecodeNumber(kNPointXKey);
+	mY = theEncoder.DecodeNumber(kNPointYKey);
+	
+	if (mX.GetPrecision() == kNPrecisionFloat64 || mY.GetPrecision() == kNPrecisionFloat64)
+		return(NPoint64(mX.GetFloat64(), mY.GetFloat64()));
+	else
+		return(NPoint32(mX.GetFloat32(), mY.GetFloat32()));
+}
+
+
+
+
+
+//============================================================================
+//      NPointX::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NPointX::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNPointXKey, mX);
+	theEncoder.EncodeNumber(kNPointYKey, mY);
 }
 
 
@@ -362,6 +342,22 @@ template<class T> const NPointT<T>& NPointT<T>::operator -= (const NVectorT<T> &
 	y -= theVector.y;
 
 	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::NEncodable : NEncodable operator.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T>::operator NEncodable(void) const
+{	NPointX		theResult(x, y);
+
+
+
+	// Get the value
+	return(theResult);
 }
 
 

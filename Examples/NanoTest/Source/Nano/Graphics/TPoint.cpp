@@ -41,6 +41,10 @@ void TPoint::Execute(void)
 
 
 	// Execute the tests
+	NN_ASSERT(sizeof(NPoint64) == 16);
+	NN_ASSERT(sizeof(NPoint32) == 8);
+	NN_ASSERT(sizeof(NPoint)   == 8);
+	
 	NN_ASSERT(testPoint.IsZero());
 	NN_ASSERT(!kValuePoint.IsZero());
 

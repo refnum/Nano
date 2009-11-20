@@ -28,26 +28,27 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NSize;
+class NSizeX;
 
 template <class T> class NSizeT;
 
-typedef NSizeT<Float32> NSize32;
 typedef NSizeT<Float64> NSize64;
+typedef NSizeT<Float32> NSize32;
+typedef NSize32         NSize;
 
 
 // Lists
-typedef std::vector<NSize>											NSizeList;
-typedef NSizeList::iterator											NSizeListIterator;
-typedef NSizeList::const_iterator									NSizeListConstIterator;
+typedef std::vector<NSize64>										NSize64List;
+typedef NSize64List::iterator										NSize64ListIterator;
+typedef NSize64List::const_iterator									NSize64ListConstIterator;
 
 typedef std::vector<NSize32>										NSize32List;
 typedef NSize32List::iterator										NSize32ListIterator;
 typedef NSize32List::const_iterator									NSize32ListConstIterator;
 
-typedef std::vector<NSize64>										NSize64List;
-typedef NSize64List::iterator										NSize64ListIterator;
-typedef NSize64List::const_iterator									NSize64ListConstIterator;
+typedef std::vector<NSize>											NSizeList;
+typedef NSizeList::iterator											NSizeListIterator;
+typedef NSizeList::const_iterator									NSizeListConstIterator;
 
 
 
@@ -77,44 +78,13 @@ public:
 	// Operators
 	NCOMPARABLE_OPERATORS(NSizeT<T>);
 
+										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;
 
 
 public:
 	T									width;
 	T									height;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NSize :	public NEncodable,
-				public NSize32 {
-public:
-										NENCODABLE_DECLARE(NSize);
-
-										NSize(const NSize32 &theSize);
-										NSize(const NSize64 &theSize);
-
-										NSize(Float32 width, Float32 height);
-										NSize(Float64 width, Float64 height);
-
-										NSize(void);
-	virtual							   ~NSize(void);
-
-
-	// Operators
-										operator NSize64(void) const;
-
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
 };
 
 

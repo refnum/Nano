@@ -41,6 +41,10 @@ void TSize::Execute(void)
 
 
 	// Execute the tests
+	NN_ASSERT(sizeof(NSize64) == 16);
+	NN_ASSERT(sizeof(NSize32) == 8);
+	NN_ASSERT(sizeof(NSize)   == 8);
+	
 	NN_ASSERT(testSize.IsEmpty());
 	NN_ASSERT(!kValueSize.IsEmpty());
 

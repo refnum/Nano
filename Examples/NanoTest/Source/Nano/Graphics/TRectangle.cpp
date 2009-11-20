@@ -41,6 +41,10 @@ void TRectangle::Execute(void)
 
 
 	// Execute the tests
+	NN_ASSERT(sizeof(NRectangle64) == 32);
+	NN_ASSERT(sizeof(NRectangle32) == 16);
+	NN_ASSERT(sizeof(NRectangle)   == 16);
+
 	NN_ASSERT(testRect.IsEmpty());
 	NN_ASSERT(testRect.origin.IsZero());
 	NN_ASSERT(testRect.size.IsEmpty());

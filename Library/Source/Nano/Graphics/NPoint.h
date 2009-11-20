@@ -29,27 +29,28 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NPoint;
+class NPointX;
 
 template<class T> class NPointT;
 template<class T> class NVectorT;
 
-typedef NPointT<Float32> NPoint32;
 typedef NPointT<Float64> NPoint64;
+typedef NPointT<Float32> NPoint32;
+typedef NPoint32         NPoint;
 
 
 // Lists
-typedef std::vector<NPoint>											NPointList;
-typedef NPointList::iterator										NPointListIterator;
-typedef NPointList::const_iterator									NPointListConstIterator;
+typedef std::vector<NPoint64>										NPoint64List;
+typedef NPoint64List::iterator										NPoint64ListIterator;
+typedef NPoint64List::const_iterator								NPoint64ListConstIterator;
 
 typedef std::vector<NPoint32>										NPoint32List;
 typedef NPoint32List::iterator										NPoint32ListIterator;
 typedef NPoint32List::const_iterator								NPoint32ListConstIterator;
 
-typedef std::vector<NPoint64>										NPoint64List;
-typedef NPoint64List::iterator										NPoint64ListIterator;
-typedef NPoint64List::const_iterator								NPoint64ListConstIterator;
+typedef std::vector<NPoint>											NPointList;
+typedef NPointList::iterator										NPointListIterator;
+typedef NPointList::const_iterator									NPointListConstIterator;
 
 
 
@@ -92,44 +93,13 @@ public:
 	const NPointT<T>&					operator +=(const NVectorT<T> &theVector);
 	const NPointT<T>&					operator -=(const NVectorT<T> &theVector);
 
+										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;
 
 
 public:
 	T									x;
 	T									y;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NPoint :	public NEncodable,
-				public NPoint32 {
-public:
-										NENCODABLE_DECLARE(NPoint);
-
-										NPoint(const NPoint32 &thePoint);
-										NPoint(const NPoint64 &thePoint);
-
-										NPoint(Float32 x, Float32 y);
-										NPoint(Float64 x, Float64 y);
-
-										NPoint(void);
-	virtual							   ~NPoint(void);
-
-
-	// Operators
-										operator NPoint64(void) const;
-
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
 };
 
 
