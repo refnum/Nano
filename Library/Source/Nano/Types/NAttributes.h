@@ -50,7 +50,7 @@ public:
 
 	// Get/set the attributes
 	NBitfield							GetAttributes(void) const;
-	void								SetAttributes(NBitfield setThese, NBitfield clearThse=kNAttributesNone);
+	virtual void						SetAttributes(NBitfield setThese, NBitfield clearThese=kNAttributesNone);
 
 
 private:
