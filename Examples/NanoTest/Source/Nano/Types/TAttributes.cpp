@@ -73,6 +73,13 @@ void TAttributes::Execute(void)
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute3));
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
 
+	theAttributes.SetAttributes(kTestAttribute1 | kTestAttribute2);
+	theAttributes.SetAttributes(kTestAttribute3 | kTestAttribute4, kNAttributesAll);
+	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute1));
+	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
+	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute3));
+	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute4));
+
 	theAttributes.SetAttributes(kNAttributesAll);
 	NN_ASSERT(theAttributes.GetAttributes() == kNAttributesAll);
 	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute1));
@@ -86,6 +93,12 @@ void TAttributes::Execute(void)
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute3));
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
+
+
+
+	
+
+
 }
 
 

@@ -99,8 +99,8 @@ void NAttributes::SetAttributes(NBitfield setThese, NBitfield clearThese)
 
 
 	// Set the attributes
-	mAttributes |=    setThese;
 	mAttributes &= ~clearThese;
+	mAttributes |=    setThese;
 }
 
 

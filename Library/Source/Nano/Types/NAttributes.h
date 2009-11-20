@@ -49,6 +49,8 @@ public:
 
 
 	// Get/set the attributes
+	//
+	// When assigning, attributes are always cleared before being set.
 	NBitfield							GetAttributes(void) const;
 	virtual void						SetAttributes(NBitfield setThese, NBitfield clearThese=kNAttributesNone);
 
