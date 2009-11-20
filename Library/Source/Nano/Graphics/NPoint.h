@@ -58,12 +58,10 @@ typedef NPoint64List::const_iterator								NPoint64ListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-template<class T> class NPointT : public NComparable< NPointT<T> > {
+template<class T> class NPointT {
 public:
 										NPointT(T x, T y);
-
 										NPointT(void);
-	virtual							   ~NPointT(void);
 
 
 	// Clear the point
@@ -89,6 +87,8 @@ public:
 
 
 	// Operators
+	NCOMPARABLE_OPERATORS(NPointT<T>);
+
 	const NPointT<T>&					operator +=(const NVectorT<T> &theVector);
 	const NPointT<T>&					operator -=(const NVectorT<T> &theVector);
 

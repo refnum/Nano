@@ -326,17 +326,6 @@ template<class T> NRectangleT<T>::NRectangleT(void)
 
 
 //============================================================================
-//		NRectangleT::~NRectangleT : Destructor.
-//----------------------------------------------------------------------------
-template<class T> NRectangleT<T>::~NRectangleT(void)
-{
-}
-
-
-
-
-
-//============================================================================
 //		NRectangleT::Clear : Clear the Rectangle.
 //----------------------------------------------------------------------------
 template<class T> void NRectangleT<T>::Clear(void)

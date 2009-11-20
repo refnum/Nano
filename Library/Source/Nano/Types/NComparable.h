@@ -37,6 +37,28 @@ typedef enum {
 
 
 //============================================================================
+//		Macros
+//----------------------------------------------------------------------------
+// NComparable operators
+//
+// Most comparable objects should simply derive from NComparable to obtain the
+// full range of comparable operators automatically.
+//
+// Objects that wish to avoid a v-table for space/performance reasons can use
+// this macro to obtain NComparable behaviour directly.
+#define NCOMPARABLE_OPERATORS(_type)																				\
+	inline bool operator == (const _type &theValue) const { return(Compare(theValue) == kNCompareEqualTo);     };	\
+	inline bool operator != (const _type &theValue) const { return(Compare(theValue) != kNCompareEqualTo);     };	\
+	inline bool operator <= (const _type &theValue) const { return(Compare(theValue) != kNCompareGreaterThan); };	\
+	inline bool operator <	(const _type &theValue) const { return(Compare(theValue) == kNCompareLessThan);    };	\
+	inline bool operator >= (const _type &theValue) const { return(Compare(theValue) != kNCompareLessThan);    };	\
+	inline bool operator >	(const _type &theValue) const { return(Compare(theValue) == kNCompareGreaterThan); }
+
+
+
+
+
+//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 template <class T> class NComparable {
@@ -50,12 +72,7 @@ public:
 
 
 	// Operators
-	inline bool							operator == (const T &theValue) const;
-	inline bool							operator != (const T &theValue) const;
-	inline bool							operator <= (const T &theValue) const;
-	inline bool							operator <	(const T &theValue) const;
-	inline bool							operator >= (const T &theValue) const;
-	inline bool							operator >	(const T &theValue) const;
+	NCOMPARABLE_OPERATORS(T);
 
 
 protected:

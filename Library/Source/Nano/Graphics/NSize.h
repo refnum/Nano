@@ -56,12 +56,10 @@ typedef NSize64List::const_iterator									NSize64ListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-template<class T> class NSizeT : public NComparable< NSizeT<T> > {
+template<class T> class NSizeT {
 public:
 										NSizeT(T width, T height);
-
 										NSizeT(void);
-	virtual							   ~NSizeT(void);
 
 
 	// Clear the size
@@ -77,6 +75,8 @@ public:
 
 
 	// Operators
+	NCOMPARABLE_OPERATORS(NSizeT<T>);
+
 										operator NFormatArgument(void) const;
 
 

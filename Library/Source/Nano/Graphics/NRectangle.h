@@ -75,7 +75,7 @@ typedef NRectangle64List::const_iterator							NRectangle64ListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-template<class T> class NRectangleT : public NComparable< NRectangleT<T> > {
+template<class T> class NRectangleT {
 public:
 										NRectangleT(const T x, T y, T width, T height);
 										NRectangleT(                T width, T height);
@@ -84,7 +84,6 @@ public:
 										NRectangleT(                          const NSizeT<T> &size);
 
 										NRectangleT(void);
-	virtual							   ~NRectangleT(void);
 
 
 	// Clear the rectangle
@@ -146,6 +145,8 @@ public:
 
 
 	// Operators
+	NCOMPARABLE_OPERATORS(NRectangleT<T>);
+
 										operator NFormatArgument(void) const;
 
 
