@@ -26,7 +26,8 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const BroadcastMsg kMsgPropertyValueChanged					= 0x70766368;	// pvch
+// Messages
+static const BroadcastMsg kMsgPropertyValueChanged					= 0x70766368;	// 'pvch'
 
 static const NString kPropertyChangedAllKey							= "*";
 

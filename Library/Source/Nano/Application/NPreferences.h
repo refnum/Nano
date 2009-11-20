@@ -26,6 +26,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Messages
 static const BroadcastMsg kMsgPreferenceValueChanged				= 0x7076616C;	// 'pval'
 
 static const NString kPrefChangedAllKey								= "*";
