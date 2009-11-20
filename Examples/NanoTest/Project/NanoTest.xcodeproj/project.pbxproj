@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB103B7C10B6B04000F425C5 /* TAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B7A10B6B04000F425C5 /* TAttributes.cpp */; };
 		AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14315F103EC576002BD0D1 /* TFileIterator.cpp */; };
 		AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB1BA197104E7D1400BB002B /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
@@ -114,6 +115,8 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB103B7A10B6B04000F425C5 /* TAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAttributes.cpp; sourceTree = "<group>"; };
+		AB103B7B10B6B04000F425C5 /* TAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAttributes.h; sourceTree = "<group>"; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB143160103EC576002BD0D1 /* TFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFileIterator.h; sourceTree = "<group>"; };
 		AB14320C103F512C002BD0D1 /* TColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TColor.h; sourceTree = "<group>"; };
@@ -450,6 +453,8 @@
 			children = (
 				AB514D9F1034184B00E5A6AD /* TArray.cpp */,
 				AB514DA01034184B00E5A6AD /* TArray.h */,
+				AB103B7A10B6B04000F425C5 /* TAttributes.cpp */,
+				AB103B7B10B6B04000F425C5 /* TAttributes.h */,
 				AB514DA11034184B00E5A6AD /* TBitVector.cpp */,
 				AB514DA21034184B00E5A6AD /* TBitVector.h */,
 				AB514DA51034184B00E5A6AD /* TData.cpp */,
@@ -750,6 +755,7 @@
 				AB514DFF1034184B00E5A6AD /* TThread.cpp in Sources */,
 				AB514E001034184B00E5A6AD /* TThreadPool.cpp in Sources */,
 				AB514E011034184B00E5A6AD /* TArray.cpp in Sources */,
+				AB103B7C10B6B04000F425C5 /* TAttributes.cpp in Sources */,
 				AB514E021034184B00E5A6AD /* TBitVector.cpp in Sources */,
 				AB514E041034184B00E5A6AD /* TData.cpp in Sources */,
 				AB514E051034184B00E5A6AD /* TDate.cpp in Sources */,

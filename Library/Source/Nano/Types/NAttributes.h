@@ -1,0 +1,64 @@
+/*	NAME:
+		NAttributes.h
+
+	DESCRIPTION:
+		Mix-in class for objects with attributes.
+
+	COPYRIGHT:
+		Copyright (c) 2006-2009, refNum Software
+		<http://www.refnum.com/>
+
+		All rights reserved. Released under the terms of licence.html.
+	__________________________________________________________________________
+*/
+#ifndef NATTRIBUTES_HDR
+#define NATTRIBUTES_HDR
+//============================================================================
+//		Include files
+//----------------------------------------------------------------------------
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+static const NBitfield kNAttributesNone								= 0;
+static const NBitfield kNAttributesAll								= (NBitfield) -1;
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NAttributes {
+public:
+										NAttributes(void);
+	virtual							   ~NAttributes(void);
+
+
+	// Is an attribute set?
+	bool								HasAttribute(NBitfield theAttribute) const;
+
+
+	// Clear attributes
+	void								ClearAttributes(NBitfield theAttributes=kNAttributesAll);
+
+
+	// Get/set the attributes
+	NBitfield							GetAttributes(void) const;
+	void								SetAttributes(NBitfield setThese, NBitfield clearThse=kNAttributesNone);
+
+
+private:
+	NBitfield							mAttributes;
+};
+
+
+
+
+
+#endif // NATTRIBUTES_HDR

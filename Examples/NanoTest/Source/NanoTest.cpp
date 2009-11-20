@@ -76,6 +76,7 @@
 #include "TThreadPool.h"
 
 #include "TArray.h"
+#include "TAttributes.h"
 #include "TBitVector.h"
 #include "TData.h"
 #include "TDate.h"
@@ -208,6 +209,7 @@ int main(int argc, const char **argv)
 
 	// Types
 	TArray::Execute();
+	TAttributes::Execute();
 	TBitVector::Execute();
 	TData::Execute();
 	TDate::Execute();

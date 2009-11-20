@@ -17,6 +17,8 @@
 		AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
 		AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
 		AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
+		AB103B6310B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
+		AB103B6410B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
 		AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB143174103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
 		AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1431F4103F5102002BD0D1 /* NColor.cpp */; };
@@ -304,6 +306,8 @@
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
 		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
+		AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAttributes.cpp; sourceTree = "<group>"; };
+		AB103B6210B6AFFD00F425C5 /* NAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAttributes.h; sourceTree = "<group>"; };
 		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
 		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
 		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
@@ -1033,6 +1037,8 @@
 			children = (
 				AB91553E0F9B4DD6009FFEAF /* NArray.cpp */,
 				AB91553F0F9B4DD6009FFEAF /* NArray.h */,
+				AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */,
+				AB103B6210B6AFFD00F425C5 /* NAttributes.h */,
 				AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */,
 				AB9155410F9B4DD6009FFEAF /* NBitVector.h */,
 				AB9155440F9B4DD6009FFEAF /* NComparable.cpp */,
@@ -1391,6 +1397,7 @@
 				AB1A793B103248AF00DFBA38 /* NThreadPool.cpp in Sources */,
 				AB1A793A103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
 				AB28FC2C0FB5D9F000F72C61 /* NArray.cpp in Sources */,
+				AB103B6410B6AFFD00F425C5 /* NAttributes.cpp in Sources */,
 				AB28FC2D0FB5D9F000F72C61 /* NBitVector.cpp in Sources */,
 				AB28FC2F0FB5D9F000F72C61 /* NComparable.cpp in Sources */,
 				AB28FC300FB5D9F000F72C61 /* NContainer.cpp in Sources */,
@@ -1538,6 +1545,7 @@
 				AB1A793E103248AF00DFBA38 /* NThreadPool.cpp in Sources */,
 				AB1A793D103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
 				AB9155A60F9B4DD6009FFEAF /* NArray.cpp in Sources */,
+				AB103B6310B6AFFD00F425C5 /* NAttributes.cpp in Sources */,
 				AB9155A70F9B4DD6009FFEAF /* NBitVector.cpp in Sources */,
 				AB9155A90F9B4DD6009FFEAF /* NComparable.cpp in Sources */,
 				AB9155AA0F9B4DD6009FFEAF /* NContainer.cpp in Sources */,
