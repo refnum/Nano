@@ -81,10 +81,10 @@ template<class T> T NGeometryUtilities::GetLength(const std::vector< NPointT<T> 
 //		NGeometryUtilities::GetBounds : Get the bounds.
 //----------------------------------------------------------------------------
 template<class T> NRectangleT<T> NGeometryUtilities::GetBounds(const std::vector< NPointT<T> > &thePoints)
-{	T						minX, maxX, minY, maxY;
-	NIndex					n, numPoints;
-	NRectangleT<T>			theBounds;
-	NPointT<T>				thePoint;
+{	T					minX, maxX, minY, maxY;
+	NIndex				n, numPoints;
+	NRectangleT<T>		theResult;
+	NPointT<T>			thePoint;
 
 
 
@@ -111,9 +111,9 @@ template<class T> NRectangleT<T> NGeometryUtilities::GetBounds(const std::vector
 	
 	
 	// Get the bounds
-	theBounds = NRectangle(minX, minY, maxX - minX, maxY - minY);
+	theResult = NRectangleT<T>(minX, minY, maxX - minX, maxY - minY);
 	
-	return(theBounds);
+	return(theResult);
 }
 
 
