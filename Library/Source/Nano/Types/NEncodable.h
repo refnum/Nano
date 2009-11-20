@@ -42,12 +42,14 @@ class NVariant;
 //
 //		class NFoo : public NEncodable {
 //		public:
-//							NENCODABLE_DECLARE(NEncodable);
+//							NENCODABLE_DECLARE(NFoo);
 //
 //							NFoo(void);
 //			virtual		   ~NFoo(void);
 //			...
 //		};
+//
+//		NENCODABLE_DEFINE(NFoo);
 //
 // Sub-clases of NEncodable must include an NENCODABLE_DECLARE in their class
 // declaration, and an NENCODABLE_DEFINE in their class implementation.
@@ -56,15 +58,16 @@ class NVariant;
 	private:																									\
 	static bool sEncodableRegistered;																			\
 																												\
-	static bool							 EncodableRegister(void);												\
-	static const NEncodable				*EncodableCast(  const NVariant &theValue);								\
-	static NVariant						 EncodableDecode(const NEncoder &theEncoder);							\
+	static bool							EncodableRegister(void);												\
+	static const NEncodable			   *EncodableCast(  const NVariant &theValue);								\
+	static NVariant						EncodableDecode(const NEncoder &theEncoder);							\
 																												\
 	public:																										\
+	virtual NVariant					EncodableGetDecoded(const NEncoder &theEncoder);						\
 	virtual NString						EncodableGetClass(void) const
 
 
-#define NENCODABLE_DEFINE(_class)																				\
+#define NENCODABLE_DEFINE_NODECODE(_class)																		\
 																												\
 	bool _class::sEncodableRegistered = _class::EncodableRegister();											\
 																												\
@@ -88,8 +91,7 @@ class NVariant;
 	NVariant _class::EncodableDecode(const NEncoder &theEncoder)												\
 	{	_class		theObject;																					\
 																												\
-		theObject.DecodeSelf(theEncoder);																		\
-		return(NVariant(theObject));																			\
+		return(theObject.EncodableGetDecoded(theEncoder));														\
 	}																											\
 																												\
 	NString _class::EncodableGetClass(void) const																\
@@ -97,7 +99,19 @@ class NVariant;
 		return(#_class);																						\
 	}																											\
 																												\
-	void *kEatLastSemiColonForPedanticWarning ## _class
+	void *kEatLastSemiColonForPedanticWarning1 ## _class
+
+
+#define NENCODABLE_DEFINE(_class)																				\
+	NENCODABLE_DEFINE_NODECODE(_class);																			\
+																												\
+	NVariant _class::EncodableGetDecoded(const NEncoder &theEncoder)											\
+	{																											\
+		DecodeSelf(theEncoder);																					\
+		return(NVariant(*this));																				\
+	}																											\
+																												\
+	void *kEatLastSemiColonForPedanticWarning2 ## _class
 
 
 
@@ -114,6 +128,12 @@ public:
 
 
 protected:
+	// Get a decoded object
+	//
+	// This method is implemented automatically by NENCODABLE_DECLARE. 
+	virtual NVariant					EncodableGetDecoded(const NEncoder &theEncoder);
+
+
 	// Get the encoder class name
 	//
 	// This method is implemented automatically by NENCODABLE_DECLARE. 
@@ -121,9 +141,10 @@ protected:
 
 
 	// Encode/decode the object
+	//
+	// Sub-classes should override to encode/decode themselves.
 	virtual void						EncodeSelf(      NEncoder &theEncoder) const;
 	virtual void						DecodeSelf(const NEncoder &theEncoder);
-
 
 private:
 

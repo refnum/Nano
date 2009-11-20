@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NEncodable.h"
+#include "NVariant.h"
 #include "NString.h"
 
 
@@ -43,15 +44,30 @@ NEncodable::~NEncodable(void)
 
 
 //============================================================================
+//		NEncodable::EncodableGetDecoded : Get a decoded object.
+//----------------------------------------------------------------------------
+NVariant NEncodable::EncodableGetDecoded(const NEncoder &/*theEncoder*/)
+{
+
+
+	// Validate our state
+	NN_LOG("NEncodable::EncodableGetDecoded should have been overriden by NENCODABLE_DEFINE!");
+	return(NVariant());
+}
+
+
+
+
+
+//============================================================================
 //		NEncodable::EncodableGetClass : Get the encoder class name.
 //----------------------------------------------------------------------------
 NString NEncodable::EncodableGetClass(void) const
 {
 
 
-	// Should never be reached
-	NN_LOG("NEncodable::EncodableGetClass should have been overriden by NENCODABLE_DECLARE!");
-
+	// Validate our state
+	NN_LOG("NEncodable::EncodableGetClass should have been overriden by NENCODABLE_DEFINE!");
 	return("NEncodable");
 }
 
@@ -64,6 +80,10 @@ NString NEncodable::EncodableGetClass(void) const
 //----------------------------------------------------------------------------
 void NEncodable::EncodeSelf(NEncoder &/*theEncoder*/) const
 {
+
+
+	// Validate our state
+	NN_LOG("NEncodable::EncodeSelf should have been overriden by sub-class");
 }
 
 
@@ -75,6 +95,10 @@ void NEncodable::EncodeSelf(NEncoder &/*theEncoder*/) const
 //----------------------------------------------------------------------------
 void NEncodable::DecodeSelf(const NEncoder &/*theEncoder*/)
 {
+
+
+	// Validate our state
+	NN_LOG("NEncodable::EncodeSelf should have been overriden by sub-class");
 }
 
 
