@@ -55,8 +55,8 @@ static const NBitfield kNGeometryClipBottom							= (1 << 3);
 //		NGeometryUtilities::GetLength : Get the length of a line.
 //----------------------------------------------------------------------------
 template<class T> T NGeometryUtilities::GetLength(const std::vector< NPointT<T> > &theLine, bool getApprox)
-{	T			theLength, dx, dy;
-	NIndex		n, numPoints;
+{	NIndex		n, numPoints;
+	T			theLength;
 
 
 
