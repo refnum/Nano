@@ -48,7 +48,8 @@ NDBHandle::NDBHandle(void)
 
 
 	// Initialize ourselves
-	mDatabase = NULL;
+	mDatabase  = NULL;
+	mIsMutable = false;
 }
 
 
@@ -87,6 +88,21 @@ bool NDBHandle::IsOpen(void) const
 
 
 //============================================================================
+//		NDBHandle::IsMutable : Is the database mutable?
+//----------------------------------------------------------------------------
+bool NDBHandle::IsMutable(void) const
+{
+
+
+	// Get our state
+	return(mIsMutable);
+}
+
+
+
+
+
+//============================================================================
 //		NDBHandle::Open : Open the database.
 //----------------------------------------------------------------------------
 NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theVFS)
@@ -107,6 +123,7 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 	vfsName  = theVFS.IsEmpty() ? NULL : theVFS.GetUTF8();
 	theFlags = readOnly ? SQLITE_OPEN_READONLY : (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 	thePath  = theFile.GetPath();
+	sqlDB    = NULL;
 
 
 
@@ -117,12 +134,16 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 
 	if (dbErr == SQLITE_OK)
 		sqlite3_progress_handler(sqlDB, kProgressUpdate, SQLiteProgress, this);
-	
-	
-	
+
+
+
 	// Update our state
-	mDatabase = sqlDB;
-	
+	if (dbErr == kNoErr)
+		{
+		mDatabase  = sqlDB;
+		mIsMutable = !readOnly;
+		}
+
 	return(SQLiteGetStatus(dbErr));
 }
 

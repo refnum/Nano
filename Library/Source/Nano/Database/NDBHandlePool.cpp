@@ -34,7 +34,7 @@ NDBHandlePool::NDBHandlePool(void)
 	mIsOpen = false;
 	
 	mConnectOnce = false;
-	mReadOnly    = false;
+	mIsMutable   = false;
 }
 
 
@@ -66,6 +66,21 @@ bool NDBHandlePool::IsOpen(void) const
 
 	// Get our state
 	return(mIsOpen);
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandlePool::IsMutable : Is the database mutable?
+//----------------------------------------------------------------------------
+bool NDBHandlePool::IsMutable(void) const
+{
+
+
+	// Get our state
+	return(mIsMutable);
 }
 
 
@@ -119,7 +134,7 @@ NStatus NDBHandlePool::Open(const NFile &theFile, bool connectOnce, bool readOnl
 
 	// Update our state
 	mConnectOnce = connectOnce;
-	mReadOnly    = readOnly;
+	mIsMutable   = !readOnly;
 	mFile        = theFile;
 	mVFS         = theVFS;
 
@@ -428,7 +443,7 @@ NStatus NDBHandlePool::CreateConnection(NDBHandlePtr &dbHandle)
 
 	if (theErr == kNoErr)
 		{
-		theErr = dbHandle->Open(mFile, mReadOnly, mVFS);
+		theErr = dbHandle->Open(mFile, !mIsMutable, mVFS);
 		NN_ASSERT_NOERR(theErr);
 		}
 

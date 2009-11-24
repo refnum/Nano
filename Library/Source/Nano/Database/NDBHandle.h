@@ -49,6 +49,10 @@ public:
 	bool								IsOpen(void) const;
 
 
+	// Is the database mutable?
+	bool								IsMutable(void) const;
+
+
 	// Open/close the database
 	OSStatus							Open(const NFile &theFile, bool readOnly=false, const NString &theVFS="");
 	void								Close(void);
@@ -103,6 +107,7 @@ private:
 
 
 private:
+	bool								mIsMutable;
 	NDBHandleRef						mDatabase;
 	NDBProgressFunctor					mProgress;
 };

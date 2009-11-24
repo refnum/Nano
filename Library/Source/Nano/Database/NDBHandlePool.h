@@ -52,6 +52,10 @@ public:
 	bool								IsOpen(void) const;
 
 
+	// Is the database mutable?
+	bool								IsMutable(void) const;
+
+
 	// Get/set the connector
 	//
 	// The connector functor is invoked once for each new database
@@ -101,7 +105,7 @@ private:
 	NDBHandleConnector					mConnector;
 
 	bool								mConnectOnce;
-	bool								mReadOnly;
+	bool								mIsMutable;
 	NFile								mFile;
 	NString								mVFS;
 };
