@@ -42,7 +42,7 @@ struct CompareFIFO
 {
 	bool operator()(const NThreadTask *a, const NThreadTask *b) const
 	{
-		return(a->GetTimeStamp() < b->GetTimeStamp());
+		return(a->GetTimeStamp() > b->GetTimeStamp());
 	}
 };
 
@@ -50,7 +50,7 @@ struct CompareLIFO
 {
 	bool operator()(const NThreadTask *a, const NThreadTask *b) const
 	{
-		return(a->GetTimeStamp() > b->GetTimeStamp());
+		return(a->GetTimeStamp() < b->GetTimeStamp());
 	}
 };
 
@@ -58,7 +58,7 @@ struct ComparePriority
 {
 	bool operator()(const NThreadTask *a, const NThreadTask *b) const
 	{
-		return(a->GetPriority() < b->GetPriority());
+		return(a->GetPriority() > b->GetPriority());
 	}
 };
 
@@ -76,9 +76,9 @@ NThreadPool::NThreadPool(void)
 
 
 	// Initialize ourselves
-	mStopThreads   = false;
-	mScheduleTasks = true;
-	mThreadLimit   = NThreadUtilities::GetCPUCount();
+	mStopThreads = false;
+	mHavePushed  = true;
+	mThreadLimit = NThreadUtilities::GetCPUCount();
 
 	mActiveTasks   = 0;
 	mActiveThreads = 0;
@@ -188,8 +188,8 @@ void NThreadPool::AddTask(NThreadTask *theTask)
 
 
 	// Add the task
-	mTasks.push_back(theTask);
-	mScheduleTasks = true;
+	PushTask(mTasks, theTask);
+	mHavePushed = true;
 
 
 
@@ -277,15 +277,33 @@ bool NThreadPool::WaitForTasks(NTime waitFor)
 
 
 //============================================================================
-//		NThreadPool::ScheduleTasks : Schedule the tasks.
+//		NThreadPool::PushTask : Push a task.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NThreadPool::ScheduleTasks(NThreadTaskList &theTasks)
+void NThreadPool::PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
 {
 
 
-	// Sort the list
-	SchedulePriority(theTasks);
+	// Push the task
+	theTasks.push_back(theTask);
+}
+
+
+
+
+
+//============================================================================
+//		NThreadPool::PopTask : Pop a task.
+//----------------------------------------------------------------------------
+NThreadTask *NThreadPool::PopTask(NThreadTaskList &theTasks, bool havePushed)
+{
+
+
+	// Pop the task
+	if (havePushed)
+		SchedulePriority(theTasks);
+
+	return(extract_back(theTasks));
 }
 
 
@@ -389,13 +407,8 @@ void NThreadPool::ExecuteTasks(void)
 		
 		if (!areDone && !mTasks.empty())
 			{
-			if (mScheduleTasks)
-				{
-				ScheduleTasks(mTasks);
-				mScheduleTasks = false;
-				}
-
-			theTask = extract_front(mTasks);
+			theTask     = PopTask(mTasks, mHavePushed);
+			mHavePushed = false;
 			}
 
 		mLock.Unlock();

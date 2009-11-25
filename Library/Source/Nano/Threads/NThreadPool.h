@@ -62,15 +62,23 @@ public:
 
 
 protected:
-	// Schedule the tasks
+	// Push/pop a task
 	//
-	// The default scheduler sorts by priority.
-	virtual void						ScheduleTasks(NThreadTaskList &theTasks);
+	// Tasks are saved to a list, and extracted in a scheduler-specific order.
+	//
+	// PopTask is passed a flag indicating if any tasks have been pushed since
+	// the last pop, allowing sorting to be deferred until needed.
+	//
+	// The default implementation sorts tasks by priority when popping, but these
+	// methods can be overridden to implement replacement schedulers.
+	virtual void						PushTask(NThreadTaskList &theTasks, NThreadTask *theTask);
+	virtual NThreadTask				   *PopTask( NThreadTaskList &theTasks, bool havePushed);
 
 
-	// Standard schedulers
+	// Sort a task list
 	//
-	// Can be used to implement replacement schedulers.
+	// Sorts are performed in reverse order, leaving the next task at the end (so
+	// that tasks can be popped off the back of the list, until a sort is required).
 	void								ScheduleFIFO(    NThreadTaskList &theTasks);
 	void								ScheduleLIFO(    NThreadTaskList &theTasks);
 	void								SchedulePriority(NThreadTaskList &theTasks);
@@ -85,7 +93,7 @@ private:
 	mutable NMutexLock					mLock;
 
 	bool								mStopThreads;
-	bool								mScheduleTasks;
+	bool								mHavePushed;
 	UInt32								mThreadLimit;
 
 	SInt32								mActiveTasks;
@@ -106,10 +114,15 @@ class NThreadPoolFIFO : public NThreadPool {
 
 
 protected:
-	// Schedule tasks
-	inline void							ScheduleTasks(NThreadTaskList &theTasks)
+	// Push/pop a task
+	inline void PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
 	{
-		ScheduleFIFO(theTasks);
+		theTasks.push_back(theTask);
+	}
+
+	inline NThreadTask *PopTask(NThreadTaskList &theTasks, bool /*havePushed*/)
+	{
+		return(extract_front(theTasks));
 	}
 };
 
@@ -124,10 +137,15 @@ class NThreadPoolLIFO : public NThreadPool {
 
 
 protected:
-	// Schedule tasks
-	inline void							ScheduleTasks(NThreadTaskList &theTasks)
+	// Push/pop a task
+	inline void PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
 	{
-		ScheduleLIFO(theTasks);
+		theTasks.push_back(theTask);
+	}
+
+	inline NThreadTask *PopTask(NThreadTaskList &theTasks, bool /*havePushed*/)
+	{
+		return(extract_back(theTasks));
 	}
 };
 
