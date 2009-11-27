@@ -34,7 +34,7 @@ template <class T> std::vector<T> vector_create_n(UInt32 numValues, const T *the
 
 
 // Create a vector from a list of parameters
-#define _NN_VECTOR1( p1)											std::vector<T> result;							result.push_back(p1);
+#define _NN_VECTOR1( p1)											std::vector<T> result;								result.push_back(p1);
 #define _NN_VECTOR2( p1, p2)										_NN_VECTOR1(p1);									result.push_back(p2);
 #define _NN_VECTOR3( p1, p2, p3)									_NN_VECTOR2(p1, p2);								result.push_back(p3);
 #define _NN_VECTOR4( p1, p2, p3, p4)								_NN_VECTOR3(p1, p2, p3);							result.push_back(p4);
