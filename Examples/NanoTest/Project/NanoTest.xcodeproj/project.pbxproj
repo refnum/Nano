@@ -86,6 +86,9 @@
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 		ABE96258103B00A300029708 /* TNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */; };
 		ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */; };
+		ABED2AFD10BBD88C00EA8ECC /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2AF910BBD88C00EA8ECC /* TCache.cpp */; };
+		ABED2AFE10BBD88C00EA8ECC /* TCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */; };
+		ABED2B9310BFE2F000EA8ECC /* TCacheValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +275,12 @@
 		ABE96257103B00A300029708 /* TNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNSAutoReleasePool.h; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
 		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
+		ABED2AF910BBD88C00EA8ECC /* TCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCache.cpp; sourceTree = "<group>"; };
+		ABED2AFA10BBD88C00EA8ECC /* TCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCache.h; sourceTree = "<group>"; };
+		ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheKey.cpp; sourceTree = "<group>"; };
+		ABED2AFC10BBD88C00EA8ECC /* TCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCacheKey.h; sourceTree = "<group>"; };
+		ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheValue.cpp; sourceTree = "<group>"; };
+		ABED2B9210BFE2F000EA8ECC /* TCacheValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCacheValue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -405,6 +414,12 @@
 			children = (
 				AB514D831034184B00E5A6AD /* TByteSwap.cpp */,
 				AB514D841034184B00E5A6AD /* TByteSwap.h */,
+				ABED2AF910BBD88C00EA8ECC /* TCache.cpp */,
+				ABED2AFA10BBD88C00EA8ECC /* TCache.h */,
+				ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */,
+				ABED2AFC10BBD88C00EA8ECC /* TCacheKey.h */,
+				ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */,
+				ABED2B9210BFE2F000EA8ECC /* TCacheValue.h */,
 				AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */,
 				AB7AAFE9103AC51C004B1F6E /* TDataCipher.h */,
 				AB514D871034184B00E5A6AD /* TDataCompressor.cpp */,
@@ -738,6 +753,9 @@
 				AB1BA197104E7D1400BB002B /* TTransform.cpp in Sources */,
 				AB514EBD1034654800E5A6AD /* TVector.cpp in Sources */,
 				AB514DF41034184B00E5A6AD /* TByteSwap.cpp in Sources */,
+				ABED2AFD10BBD88C00EA8ECC /* TCache.cpp in Sources */,
+				ABED2AFE10BBD88C00EA8ECC /* TCacheKey.cpp in Sources */,
+				ABED2B9310BFE2F000EA8ECC /* TCacheValue.cpp in Sources */,
 				AB7AAFEA103AC51C004B1F6E /* TDataCipher.cpp in Sources */,
 				AB514DF61034184B00E5A6AD /* TDataCompressor.cpp in Sources */,
 				AB7AB14B103AE59F004B1F6E /* TDataDigest.cpp in Sources */,

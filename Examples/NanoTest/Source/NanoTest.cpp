@@ -57,6 +57,9 @@
 #include "TVector.h"
 
 #include "TByteSwap.h"
+#include "TCache.h"
+#include "TCacheKey.h"
+#include "TCacheValue.h"
 #include "TDataCipher.h"
 #include "TDataCompressor.h"
 #include "TDataDigest.h"
@@ -184,6 +187,9 @@ int main(int argc, const char **argv)
 
 	// System
 	TByteSwap::Execute();
+	TCache::Execute();
+	TCacheKey::Execute();
+	TCacheValue::Execute();
 	TDataCipher::Execute();
 	TDataCompressor::Execute();
 	TDataDigest::Execute();

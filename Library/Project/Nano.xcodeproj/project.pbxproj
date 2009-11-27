@@ -259,6 +259,12 @@
 		ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
 		ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
 		ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
+		ABED2AE010BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
+		ABED2AE110BBD80D00EA8ECC /* NCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */; };
+		ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
+		ABED2AE310BBD80D00EA8ECC /* NCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */; };
+		ABED2B7C10BFE28900EA8ECC /* NCacheValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */; };
+		ABED2B7D10BFE28900EA8ECC /* NCacheValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */; };
 		ABFAA556101871460060ED12 /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
 		ABFAA557101871460060ED12 /* NEncodable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA555101871460060ED12 /* NEncodable.cpp */; };
 		ABFAA558101871460060ED12 /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
@@ -576,6 +582,12 @@
 		ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		ABE0730D09FBCA1B0031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; wrapsLines = 0; };
+		ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCache.cpp; sourceTree = "<group>"; };
+		ABED2ADD10BBD80D00EA8ECC /* NCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCache.h; sourceTree = "<group>"; };
+		ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCacheKey.cpp; sourceTree = "<group>"; };
+		ABED2ADF10BBD80D00EA8ECC /* NCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCacheKey.h; sourceTree = "<group>"; };
+		ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCacheValue.cpp; sourceTree = "<group>"; };
+		ABED2B7B10BFE28900EA8ECC /* NCacheValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCacheValue.h; sourceTree = "<group>"; };
 		ABFAA552101871460060ED12 /* NEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncoder.h; sourceTree = "<group>"; };
 		ABFAA553101871460060ED12 /* NEncodable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncodable.h; sourceTree = "<group>"; };
 		ABFAA554101871460060ED12 /* NEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NEncoder.cpp; sourceTree = "<group>"; };
@@ -933,6 +945,12 @@
 			children = (
 				AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */,
 				AB9155170F9B4DD5009FFEAF /* NByteSwap.h */,
+				ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */,
+				ABED2ADD10BBD80D00EA8ECC /* NCache.h */,
+				ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */,
+				ABED2ADF10BBD80D00EA8ECC /* NCacheKey.h */,
+				ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */,
+				ABED2B7B10BFE28900EA8ECC /* NCacheValue.h */,
 				AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */,
 				AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */,
 				ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */,
@@ -1378,6 +1396,9 @@
 				ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */,
 				ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */,
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
+				ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */,
+				ABED2AE310BBD80D00EA8ECC /* NCacheKey.cpp in Sources */,
+				ABED2B7D10BFE28900EA8ECC /* NCacheValue.cpp in Sources */,
 				AB7AAFD7103AC4EF004B1F6E /* NDataCipher.cpp in Sources */,
 				ABFAA7131018B3810060ED12 /* NDataCompressor.cpp in Sources */,
 				AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
@@ -1516,7 +1537,19 @@
 				ABFAA6A31018AB360060ED12 /* trees.c in Sources */,
 				ABFAA6A41018AB360060ED12 /* uncompr.c in Sources */,
 				ABFAA6A51018AB360060ED12 /* zutil.c in Sources */,
+				AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */,
+				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
+				AB9155970F9B4DD6009FFEAF /* NMacMath.cpp in Sources */,
+				AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */,
+				ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */,
+				AB9155980F9B4DD6009FFEAF /* NMacSystem.cpp in Sources */,
+				AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */,
+				AB91559A0F9B4DD6009FFEAF /* NMacThread.cpp in Sources */,
+				AB91559B0F9B4DD6009FFEAF /* NMacTime.cpp in Sources */,
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
+				ABED2AE010BBD80D00EA8ECC /* NCache.cpp in Sources */,
+				ABED2AE110BBD80D00EA8ECC /* NCacheKey.cpp in Sources */,
+				ABED2B7C10BFE28900EA8ECC /* NCacheValue.cpp in Sources */,
 				AB7AAFD8103AC4EF004B1F6E /* NDataCipher.cpp in Sources */,
 				ABFAA7121018B3810060ED12 /* NDataCompressor.cpp in Sources */,
 				AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
@@ -1528,15 +1561,6 @@
 				AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */,
 				ABB145D80FF36B03006F178C /* NXMLNode.cpp in Sources */,
 				ABB145D90FF36B03006F178C /* NXMLParser.cpp in Sources */,
-				AB9155940F9B4DD6009FFEAF /* NMacDebug.cpp in Sources */,
-				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
-				AB9155970F9B4DD6009FFEAF /* NMacMath.cpp in Sources */,
-				AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */,
-				ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */,
-				AB9155980F9B4DD6009FFEAF /* NMacSystem.cpp in Sources */,
-				AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */,
-				AB91559A0F9B4DD6009FFEAF /* NMacThread.cpp in Sources */,
-				AB91559B0F9B4DD6009FFEAF /* NMacTime.cpp in Sources */,
 				AB9155A40F9B4DD6009FFEAF /* NAtomicInt.cpp in Sources */,
 				AB23BB3B102B6565009CA347 /* NAtomicList.cpp in Sources */,
 				AB9155A50F9B4DD6009FFEAF /* NLock.cpp in Sources */,
