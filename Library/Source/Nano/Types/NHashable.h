@@ -27,7 +27,7 @@
 template <class T> struct NHashableCompare
 {
 	//============================================================================
-	//		NHashableCompare
+	//		NHashableCompare::Compare
 	//----------------------------------------------------------------------------
 	//		Note :	Performs a cheap comparison of hash values before performing
 	//				the more expensive comparision of values.
@@ -35,24 +35,29 @@ template <class T> struct NHashableCompare
 	//				This allows us to produce a stable ordering, suitable for use
 	//				with std::map, while minimising value comparisons.
 	//----------------------------------------------------------------------------
-	bool operator()(const T &value1, const T &value2) const
+	inline NComparison Compare(const T &value1, const T &value2) const
 	{	NHashCode		hash1, hash2;
 
 
-		// Check the hash code
+		// Fast comparison
 		//
 		// A different hash code means the objects are definitely not equal.
 		hash1 = value1.GetHash();
 		hash2 = value2.GetHash();
 		
 		if (hash1 != hash2)
-			return(hash1 < hash2);
+			return(GetComparison(hash1, hash2));
 		
 		
 		// General comparison
 		//
 		// Equal hash codes means the objects might be equal.
-		return(value1 < value2);
+		return(GetComparison(value1, value2));
+	}
+	
+	inline bool operator()(const T &value1, const T &value2) const
+	{
+		return(Compare(value1, value2) == kNCompareLessThan);
 	}
 };
 
