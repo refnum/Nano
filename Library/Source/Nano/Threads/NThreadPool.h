@@ -16,8 +16,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "NSTLUtilities.h"
 #include "NSemaphore.h"
+#include "NLock.h"
 #include "NThreadTask.h"
 
 

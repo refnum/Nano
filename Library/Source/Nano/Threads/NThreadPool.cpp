@@ -18,7 +18,6 @@
 #include "NSystemUtilities.h"
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
-#include "NSTLUtilities.h"
 #include "NThread.h"
 #include "NThreadPool.h"
 
