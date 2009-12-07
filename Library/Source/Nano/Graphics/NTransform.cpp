@@ -341,8 +341,8 @@ template<class T> void NTransformT<T>::SetRotate(NRadians angle)
 
 
 	// Get the state we need
-	cosA = cos(angle);
-	sinA = sin(angle);
+	cosA = (T) cos(angle);
+	sinA = (T) sin(angle);
 
 
 

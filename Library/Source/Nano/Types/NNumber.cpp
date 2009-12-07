@@ -777,7 +777,7 @@ bool NNumber::SetValue(const NString &theValue)
 		if (foundDot.IsEmpty() && foundE.IsEmpty() && valueReal >= kSInt64Min  && valueReal <= kSInt64Max)
 			SetSInt64((SInt64) valueReal);
 		else if (thePrecision <= kDecimalsFloat32  && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
-			SetFloat32(valueReal);
+			SetFloat32((Float32) valueReal);
 		else
 			SetFloat64(valueReal);
 

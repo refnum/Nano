@@ -30,7 +30,7 @@ bool NTargetPOSIX::is_nan(Float64 r)
 
 
 	// Get the value
-	return(::_isnan(r));
+	return(::_isnan(r) != 0);
 }
 
 
