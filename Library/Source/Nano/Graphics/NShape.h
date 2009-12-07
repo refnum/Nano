@@ -30,12 +30,13 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NShape;
+class NShapeX;
 
 template <class T> class NShapeT;
 
 typedef NShapeT<Float32> NShape32;
 typedef NShapeT<Float64> NShape64;
+typedef NShape32         NShape;
 
 
 // Lists
@@ -58,7 +59,7 @@ typedef NShape64List::const_iterator								NShape64ListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-template<class T> class NShapeT : public NComparable< NShapeT<T> > {
+template<class T> class NShapeT {
 public:
 										NShapeT(const std::vector< NPointT<T> > &thePoints, const NIndexList &theLoops=NIndexList());
 
@@ -79,49 +80,15 @@ public:
 
 
 	// Operators
+	NCOMPARABLE_OPERATORS(NPointT<T>);
+
+										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;
 
 
 public:
 	std::vector< NPointT<T> >			points;
 	NIndexList							loops;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NShape :	public NEncodable,
-				public NShape32 {
-public:
-										NENCODABLE_DECLARE(NShape);
-
-										NShape(const NShape32 &theShape);
-										NShape(const NShape64 &theShape);
-
-										NShape(const NPoint32List &thePoints, const NIndexList &theLoops=NIndexList());
-										NShape(const NPoint64List &thePoints, const NIndexList &theLoops=NIndexList());
-
-										NShape(void);
-	virtual							   ~NShape(void);
-
-
-	// Operators
-										operator NShape64(void) const;
-
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
-
-
-private:
-	NPoint64List						Convert32To64(const NPoint32List &points32) const;
-	NPoint32List						Convert64To32(const NPoint64List &points64) const;
 };
 
 

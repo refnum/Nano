@@ -49,19 +49,60 @@ static const NString kNVectorYKey									= "y";
 
 
 //============================================================================
+//		Internal class declaration
+//----------------------------------------------------------------------------
+class NVectorX :	public NEncodable {
+public:
+										NENCODABLE_DECLARE(NVectorX);
+
+										NVectorX(const NNumber &x, const NNumber &y);
+										NVectorX(void);
+	virtual							   ~NVectorX(void);
+
+
+protected:
+	// Encode the object
+	void								EncodeSelf(NEncoder &theEncoder) const;
+
+
+private:
+	NNumber								mX;
+	NNumber								mY;
+};
+
+
+
+
+
+//============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NVector);
+NENCODABLE_DEFINE_NODECODE(NVectorX);
 
 
 
 
 
 //============================================================================
-//		NVector::NVector : Constructor.
+//      NVectorX::NVectorX : Constructor.
 //----------------------------------------------------------------------------
-NVector::NVector(const NVector32 &theVector)
-		: NVector32(theVector.x, theVector.y)
+NVectorX::NVectorX(const NNumber &x, const NNumber &y)
+{
+
+
+	// Initialise ourselves
+	mX = x;
+	mY = y;
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::NVectorX : Constructor.
+//----------------------------------------------------------------------------
+NVectorX::NVectorX()
 {
 }
 
@@ -70,10 +111,9 @@ NVector::NVector(const NVector32 &theVector)
 
 
 //============================================================================
-//		NVector::NVector : Constructor.
+//      NVectorX::~NVectorX : Destructor.
 //----------------------------------------------------------------------------
-NVector::NVector(const NVector64 &theVector)
-		: NVector32(theVector.x, theVector.y)
+NVectorX::~NVectorX(void)
 {
 }
 
@@ -82,120 +122,36 @@ NVector::NVector(const NVector64 &theVector)
 
 
 //============================================================================
-//		NVector::NVector : Constructor.
+//      NVectorX::EncodableGetDecoded : Get a decoded object.
 //----------------------------------------------------------------------------
-NVector::NVector(Float32 x, Float32 y)
-		: NVector32(x, y)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVector::NVector : Constructor.
-//----------------------------------------------------------------------------
-NVector::NVector(Float64 x, Float64 y)
-		: NVector32(x, y)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVector::NVector : Constructor.
-//----------------------------------------------------------------------------
-NVector::NVector(const NPoint32 &point1, const NPoint32 &point2)
-		: NVector32(point2.x - point1.x, point2.y - point1.y)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVector::NVector : Constructor.
-//----------------------------------------------------------------------------
-NVector::NVector(const NPoint64 &point1, const NPoint64 &point2)
-		: NVector32(point2.x - point1.x, point2.y - point1.y)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVector::NVector : Constructor.
-//----------------------------------------------------------------------------
-NVector::NVector(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVector::~NVector : Destructor.
-//----------------------------------------------------------------------------
-NVector::~NVector(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVector::NVector64 : NVector64 operator.
-//----------------------------------------------------------------------------
-NVector::operator NVector64(void) const
-{	NVector64		theResult;
-
-
-
-	// Get the value
-	theResult.x = x;
-	theResult.y = y;
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//      NVector::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NVector::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeNumber(kNVectorXKey, x);
-	theEncoder.EncodeNumber(kNVectorYKey, y);
-}
-
-
-
-
-
-//============================================================================
-//      NVector::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NVector::DecodeSelf(const NEncoder &theEncoder)
+NVariant NVectorX::EncodableGetDecoded(const NEncoder &theEncoder)
 {
 
 
 	// Decode the object
-	x = theEncoder.DecodeNumber(kNVectorXKey).GetFloat32();
-	y = theEncoder.DecodeNumber(kNVectorYKey).GetFloat32();
+	mX = theEncoder.DecodeNumber(kNVectorXKey);
+	mY = theEncoder.DecodeNumber(kNVectorYKey);
+	
+	if (mX.GetPrecision() == kNPrecisionFloat64 || mY.GetPrecision() == kNPrecisionFloat64)
+		return(NVector64(mX.GetFloat64(), mY.GetFloat64()));
+	else
+		return(NVector32(mX.GetFloat32(), mY.GetFloat32()));
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NVectorX::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNVectorXKey, mX);
+	theEncoder.EncodeNumber(kNVectorYKey, mY);
 }
 
 
@@ -566,6 +522,22 @@ template<class T> const NVectorT<T>& NVectorT<T>::operator -= (const NVectorT<T>
 	y -= theVector.y;
 
 	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NVectorT::NEncodable : NEncodable operator.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T>::operator NEncodable(void) const
+{	NVectorX	theResult(x, y);
+
+
+
+	// Get the value
+	return(theResult);
 }
 
 

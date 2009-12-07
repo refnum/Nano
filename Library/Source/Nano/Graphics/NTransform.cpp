@@ -32,7 +32,38 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kNTransform2X3Key									= "2x3";
+static const NString kNTransform64Key									= "64";
+static const NString kNTransform2x3Key									= "2x3";
+
+
+
+
+
+//============================================================================
+//		Internal class declaration
+//----------------------------------------------------------------------------
+class NTransformX :	public NEncodable {
+public:
+										NENCODABLE_DECLARE(NTransformX);
+
+										NTransformX(const NNumber &a, const NNumber &b, const NNumber &c, const NNumber &d, const NNumber &tx, const NNumber &ty);
+										NTransformX(void);
+	virtual							   ~NTransformX(void);
+
+
+protected:
+	// Encode the object
+	void								EncodeSelf(NEncoder &theEncoder) const;
+
+
+private:
+	NNumber								mA;
+	NNumber								mB;
+	NNumber								mC;
+	NNumber								mD;
+	NNumber								mTX;
+	NNumber								mTY;
+};
 
 
 
@@ -41,17 +72,36 @@ static const NString kNTransform2X3Key									= "2x3";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NTransform);
+NENCODABLE_DEFINE_NODECODE(NTransformX);
 
 
 
 
 
 //============================================================================
-//		NTransform::NTransform : Constructor.
+//      NTransformX::NTransformX : Constructor.
 //----------------------------------------------------------------------------
-NTransform::NTransform(const NTransform32 &theTransform)
-		: NTransform32(theTransform.a, theTransform.b, theTransform.c, theTransform.d, theTransform.tx, theTransform.ty)
+NTransformX::NTransformX(const NNumber &a, const NNumber &b, const NNumber &c, const NNumber &d, const NNumber &tx, const NNumber &ty)
+{
+
+
+	// Initialise ourselves
+	mA  = a;
+	mB  = b;
+	mC  = c;
+	mD  = d;
+	mTX = tx;
+	mTY = ty;
+}
+
+
+
+
+
+//============================================================================
+//      NTransformX::NTransformX : Constructor.
+//----------------------------------------------------------------------------
+NTransformX::NTransformX()
 {
 }
 
@@ -60,10 +110,9 @@ NTransform::NTransform(const NTransform32 &theTransform)
 
 
 //============================================================================
-//		NTransform::NTransform : Constructor.
+//      NTransformX::~NTransformX : Destructor.
 //----------------------------------------------------------------------------
-NTransform::NTransform(const NTransform64 &theTransform)
-		: NTransform32(theTransform.a, theTransform.b, theTransform.c, theTransform.d, theTransform.tx, theTransform.ty)
+NTransformX::~NTransformX(void)
 {
 }
 
@@ -72,108 +121,59 @@ NTransform::NTransform(const NTransform64 &theTransform)
 
 
 //============================================================================
-//		NTransform::NTransform : Constructor.
+//      NTransformX::EncodableGetDecoded : Get a decoded object.
 //----------------------------------------------------------------------------
-NTransform::NTransform(Float32 a, Float32 b, Float32 c, Float32 d, Float32 tx, Float32 ty)
-		: NTransform32(a, b, c, d, tx, ty)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NTransform::NTransform : Constructor.
-//----------------------------------------------------------------------------
-NTransform::NTransform(Float64 a, Float64 b, Float64 c, Float64 d, Float64 tx, Float64 ty)
-		: NTransform32(a, b, c, d, tx, ty)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NTransform::NTransform : Constructor.
-//----------------------------------------------------------------------------
-NTransform::NTransform(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NTransform::~NTransform : Destructor.
-//----------------------------------------------------------------------------
-NTransform::~NTransform(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NTransform::NTransform64 : NTransform64 operator.
-//----------------------------------------------------------------------------
-NTransform::operator NTransform64(void) const
-{	NTransform64		theResult;
-
-
-
-	// Get the value
-	theResult.a  = a;		theResult.b  = b;
-	theResult.c  = c;		theResult.d  = d;
-	theResult.tx = tx;		theResult.ty = ty;
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//      NTransform::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NTransform::EncodeSelf(NEncoder &theEncoder) const
+NVariant NTransformX::EncodableGetDecoded(const NEncoder &theEncoder)
 {	NArray		theArray;
-
-
-
-	// Encode the object
-	theArray.SetValuesFloat32(vector(a, b, c, d, tx, ty));
-	
-	theEncoder.EncodeObject(kNTransform2X3Key, theArray);
-}
-
-
-
-
-
-//============================================================================
-//      NTransform::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NTransform::DecodeSelf(const NEncoder &theEncoder)
-{	Float32List		theMatrix;
-	NArray			theArray;
+	bool		is64;
 
 
 
 	// Decode the object
-	if (theEncoder.DecodeObject(kNTransform2X3Key).GetValue(theArray))
+	is64 = theEncoder.DecodeBoolean(kNTransform64Key);
+
+	if (theEncoder.DecodeObject(kNTransform2x3Key).GetValue(theArray))
 		{
-		theMatrix = theArray.GetValuesFloat32();
-		NN_ASSERT(theMatrix.size() == 6);
-		
-		a  = theMatrix[0];		b  = theMatrix[1];
-		c  = theMatrix[2];		d  = theMatrix[3];
-		tx = theMatrix[4];		ty = theMatrix[5];
+		if (is64)
+			return(NTransform64(theArray.GetValuesFloat64()));
+		else
+			return(NTransform32(theArray.GetValuesFloat32()));
 		}
+	
+	return(NVariant());
+}
+
+
+
+
+
+//============================================================================
+//      NTransformX::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NTransformX::EncodeSelf(NEncoder &theEncoder) const
+{	NArray		theArray;
+	bool		is64;
+
+
+
+	// Get the state we need
+	is64 = ( mA.GetPrecision() == kNPrecisionFloat64 &&
+			 mB.GetPrecision() == kNPrecisionFloat64 &&
+			 mC.GetPrecision() == kNPrecisionFloat64 &&
+			 mD.GetPrecision() == kNPrecisionFloat64 &&
+			mTX.GetPrecision() == kNPrecisionFloat64 &&
+			mTY.GetPrecision() == kNPrecisionFloat64);
+
+	if (is64)
+		theArray = NArray(vector(mA.GetFloat64(), mB.GetFloat64(), mC.GetFloat64(), mD.GetFloat64(), mTX.GetFloat64(), mTY.GetFloat64()));
+	else
+		theArray = NArray(vector(mA.GetFloat32(), mB.GetFloat32(), mC.GetFloat32(), mD.GetFloat32(), mTX.GetFloat32(), mTY.GetFloat32()));
+
+
+
+	// Encode the object
+	theEncoder.EncodeBoolean(kNTransform64Key, is64);
+	theEncoder.EncodeObject( kNTransform2x3Key, theArray);
 }
 
 
@@ -186,6 +186,28 @@ void NTransform::DecodeSelf(const NEncoder &theEncoder)
 //		NTransformT::NTransformT : Constructor.
 //----------------------------------------------------------------------------
 #pragma mark -
+template<class T> NTransformT<T>::NTransformT(const std::vector<T> &matrix23)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(matrix23.size() == 6);
+
+
+
+	// Initialize ourselves
+	a  = matrix23[0];		b  = matrix23[1];
+	c  = matrix23[2];		d  = matrix23[3];
+	tx = matrix23[4];		ty = matrix23[5];
+}
+
+
+
+
+
+//============================================================================
+//		NTransformT::NTransformT : Constructor.
+//----------------------------------------------------------------------------
 template<class T> NTransformT<T>::NTransformT(T valA, T valB, T valC, T valD, T valTX, T valTY)
 {
 
@@ -412,6 +434,22 @@ template<class T> NRectangleT<T> NTransformT<T>::Apply(const NRectangleT<T> &the
 	theShape = NShapeT<T>(vector(pTL, pTR, pBL, pBR));
 	
 	return(NGeometryUtilities::GetBounds(theShape.points));
+}
+
+
+
+
+
+//============================================================================
+//		NTransformT::NEncodable : NEncodable operator.
+//----------------------------------------------------------------------------
+template<class T> NTransformT<T>::operator NEncodable(void) const
+{	NTransformX		theResult(a, b, c, d, tx, ty);
+
+
+
+	// Get the value
+	return(theResult);
 }
 
 

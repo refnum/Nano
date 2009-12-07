@@ -29,6 +29,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
+static const NString kNShape64Key									= "64";
 static const NString kNShapePointsKey								= "points";
 static const NString kNShapeLoopsKey								= "loops";
 
@@ -37,19 +38,86 @@ static const NString kNShapeLoopsKey								= "loops";
 
 
 //============================================================================
+//		Internal class declaration
+//----------------------------------------------------------------------------
+class NShapeX :	public NEncodable {
+public:
+										NENCODABLE_DECLARE(NShapeX);
+
+										NShapeX(const NPoint32List &thePoints, const NIndexList &theLoops);
+										NShapeX(const NPoint64List &thePoints, const NIndexList &theLoops);
+
+										NShapeX(void);
+	virtual							   ~NShapeX(void);
+
+
+protected:
+	// Encode the object
+	void								EncodeSelf(NEncoder &theEncoder) const;
+
+
+private:
+	template<class T> std::vector<T>				Flatten(  const std::vector< NPointT<T> > &thePoints);
+	template<class T> std::vector< NPointT<T> >		Unflatten(const std::vector<T>            &theValues);
+
+
+private:
+	bool								mIs64;
+	NArray								mPoints;
+	NArray								mLoops;
+};
+
+
+
+
+
+//============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NShape);
+NENCODABLE_DEFINE_NODECODE(NShapeX);
 
 
 
 
 
 //============================================================================
-//      NShape::NShape : Constructor.
+//      NShapeX::NShapeX : Constructor.
 //----------------------------------------------------------------------------
-NShape::NShape(const NShape32 &theShape)
-		: NShape32(theShape.points, theShape.loops)
+NShapeX::NShapeX(const NPoint32List &thePoints, const NIndexList &theLoops)
+{
+
+
+	// Initialise ourselves
+	mIs64   = false;
+	mPoints = NArray(Flatten(thePoints));
+	mLoops  = NArray(theLoops);
+}
+
+
+
+
+
+//============================================================================
+//      NShapeX::NShapeX : Constructor.
+//----------------------------------------------------------------------------
+NShapeX::NShapeX(const NPoint64List &thePoints, const NIndexList &theLoops)
+{
+
+
+	// Initialise ourselves
+	mIs64   = true;
+	mPoints = NArray(Flatten(thePoints));
+	mLoops  = NArray(theLoops);
+}
+
+
+
+
+
+//============================================================================
+//      NShapeX::NShapeX : Constructor.
+//----------------------------------------------------------------------------
+NShapeX::NShapeX()
 {
 }
 
@@ -58,10 +126,9 @@ NShape::NShape(const NShape32 &theShape)
 
 
 //============================================================================
-//      NShape::NShape : Constructor.
+//      NShapeX::~NShapeX : Destructor.
 //----------------------------------------------------------------------------
-NShape::NShape(const NShape64 &theShape)
-		: NShape32(Convert64To32(theShape.points), theShape.loops)
+NShapeX::~NShapeX(void)
 {
 }
 
@@ -70,64 +137,27 @@ NShape::NShape(const NShape64 &theShape)
 
 
 //============================================================================
-//		NShape::NShape : Constructor.
+//      NShapeX::EncodableGetDecoded : Get a decoded object.
 //----------------------------------------------------------------------------
-NShape::NShape(const NPoint32List &thePoints, const NIndexList &theLoops)
-	: NShape32(thePoints, theLoops)
-{
-}
+NVariant NShapeX::EncodableGetDecoded(const NEncoder &theEncoder)
+{	NArray		thePoints, theLoops;
+	bool		is64;
 
 
 
-
-
-//============================================================================
-//		NShape::NShape : Constructor.
-//----------------------------------------------------------------------------
-NShape::NShape(const NPoint64List &thePoints, const NIndexList &theLoops)
-	: NShape32(Convert64To32(thePoints), theLoops)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NShape::NShape : Constructor.
-//----------------------------------------------------------------------------
-NShape::NShape(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NShape::~NShape : Destructor.
-//----------------------------------------------------------------------------
-NShape::~NShape(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NShape::NShape64 : NShape64 operator.
-//----------------------------------------------------------------------------
-NShape::operator NShape64(void) const
-{	NShape64		theResult;
-
-
-
-	// Get the value
-	theResult.points = Convert32To64(points);
-	theResult.loops  = loops;
+	// Decode the object
+	is64 = theEncoder.DecodeBoolean(kNShape64Key);
 	
-	return(theResult);
+	if (theEncoder.DecodeObject(kNShapePointsKey).GetValue(thePoints) &&
+		theEncoder.DecodeObject(kNShapeLoopsKey).GetValue(theLoops))
+		{
+		if (is64)
+			return(NShape64(Unflatten(thePoints.GetValuesFloat64()), thePoints.GetValuesSInt32()));
+		else
+			return(NShape32(Unflatten(thePoints.GetValuesFloat32()), thePoints.GetValuesSInt32()));
+		}
+	
+	return(NVariant());
 }
 
 
@@ -135,15 +165,16 @@ NShape::operator NShape64(void) const
 
 
 //============================================================================
-//      NShape::EncodeSelf : Encode the object.
+//      NShapeX::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-void NShape::EncodeSelf(NEncoder &theEncoder) const
+void NShapeX::EncodeSelf(NEncoder &theEncoder) const
 {
 
 
 	// Encode the object
-	NN_UNUSED(theEncoder);
-	NN_LOG("NShape encoded representation is TBD - skipping!");
+	theEncoder.EncodeBoolean(kNShape64Key,    mIs64);
+	theEncoder.EncodeObject(kNShapePointsKey, mPoints);
+	theEncoder.EncodeObject(kNShapeLoopsKey,  mLoops);
 }
 
 
@@ -151,15 +182,24 @@ void NShape::EncodeSelf(NEncoder &theEncoder) const
 
 
 //============================================================================
-//      NShape::DecodeSelf : Decode the object.
+//      NShapeX::Flatten : Flatten a point list.
 //----------------------------------------------------------------------------
-void NShape::DecodeSelf(const NEncoder &theEncoder)
-{
+template<class T> std::vector<T> NShapeX::Flatten(const std::vector< NPointT<T> > &thePoints)
+{	NIndex				n, numItems;
+	std::vector<T>		theValues;
 
 
-	// Decode the object
-	NN_UNUSED(theEncoder);
-	NN_LOG("NShape encoded representation is TBD - skipping!");
+
+	// Flatten the list
+	numItems = thePoints.size();
+	
+	for (n = 0; n < numItems; n++)
+		{
+		theValues.push_back(thePoints[n].x);
+		theValues.push_back(thePoints[n].y);
+		}
+	
+	return(theValues);
 }
 
 
@@ -167,43 +207,27 @@ void NShape::DecodeSelf(const NEncoder &theEncoder)
 
 
 //============================================================================
-//      NShape::Convert32To64 : Convert an NPoint32List to an NPoint64List.
+//      NShapeX::Unflatten : Unflatten a point list.
 //----------------------------------------------------------------------------
-NPoint64List NShape::Convert32To64(const NPoint32List &points32) const
-{	NPoint64List					points64;
-	NPoint32ListConstIterator		theIter;
-
-
-
-	// Convert the points
-	points64.reserve(points32.size());
+template<class T> std::vector< NPointT<T> > NShapeX::Unflatten(const std::vector<T> &theValues)
+{	NIndex							n, numItems;
+	std::vector< NPointT<T> >		thePoints;
+	NPointT<T>						thePoint;
 	
-	for (theIter = points32.begin(); theIter != points32.end(); theIter++)
-		points64.push_back(NPoint64(theIter->x, theIter->y));
+
+
+	// Unflatten the list
+	numItems = theValues.size();
 	
-	return(points64);
-}
-
-
-
-
-
-//============================================================================
-//      NShape::Convert64To32 : Convert an NPoint64List to an NPoint32List.
-//----------------------------------------------------------------------------
-NPoint32List NShape::Convert64To32(const NPoint64List &points64) const
-{	NPoint32List					points32;
-	NPoint64ListConstIterator		theIter;
-
-
-
-	// Convert the points
-	points32.reserve(points64.size());
+	for (n = 0; n < numItems; n += 2)
+		{
+		thePoint.x = theValues[n+0];
+		thePoint.y = theValues[n+1];
+		
+		thePoints.push_back(thePoint);
+		}
 	
-	for (theIter = points64.begin(); theIter != points64.end(); theIter++)
-		points32.push_back(NPoint32(theIter->x, theIter->y));
-	
-	return(points32);
+	return(thePoints);
 }
 
 
@@ -298,6 +322,22 @@ template<class T> NComparison NShapeT<T>::Compare(const NShapeT &theValue) const
 	if (theResult == kNCompareEqualTo)
 		theResult = CompareData(loops.size(), &loops[0], theValue.loops.size(), &theValue.loops[0]);
 	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NShapeT::NEncodable : NEncodable operator.
+//----------------------------------------------------------------------------
+template<class T> NShapeT<T>::operator NEncodable(void) const
+{	NShapeX		theResult(points, loops);
+
+
+
+	// Get the value
 	return(theResult);
 }
 

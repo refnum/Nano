@@ -29,12 +29,13 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NTransform;
+class NTransformX;
 
 template <class T> class NTransformT;
 
 typedef NTransformT<Float32> NTransform32;
 typedef NTransformT<Float64> NTransform64;
+typedef NTransform32         NTransform;
 
 
 // Lists
@@ -57,8 +58,9 @@ typedef NTransform64List::const_iterator							NTransform64ListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-template<class T> class NTransformT : public NComparable< NTransformT<T> > {
+template<class T> class NTransformT {
 public:
+										NTransformT(const std::vector<T> &matrix23);
 										NTransformT(T a, T b, T c, T d, T tx, T ty);
 
 										NTransformT(void);
@@ -93,6 +95,9 @@ public:
 
 
 	// Operators
+	NCOMPARABLE_OPERATORS(NPointT<T>);
+
+										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;
 
 
@@ -103,38 +108,6 @@ public:
 	T									d;
 	T									tx;
 	T									ty;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NTransform :	public NEncodable,
-					public NTransform32 {
-public:
-										NENCODABLE_DECLARE(NTransform);
-
-										NTransform(const NTransform32 &theTransform);
-										NTransform(const NTransform64 &theTransform);
-
-										NTransform(Float32 a, Float32 b, Float32 c, Float32 d, Float32 tx, Float32 ty);
-										NTransform(Float64 a, Float64 b, Float64 c, Float64 d, Float64 tx, Float64 ty);
-
-										NTransform(void);
-	virtual							   ~NTransform(void);
-
-
-	// Operators
-										operator NTransform64(void) const;
-
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
 };
 
 
