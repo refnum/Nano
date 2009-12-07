@@ -96,7 +96,7 @@ public:
 
 
 private:
-	OSStatus							CreateConnection(NDBHandlePtr &dbFile);
+	NStatus								CreateConnection(NDBHandlePtr &dbFile);
 
 
 private:

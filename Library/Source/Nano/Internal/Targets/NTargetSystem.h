@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NString.h"
 #include "NLocale.h"
+#include "NVariant.h"
 #include "NFile.h"
 #include "NTask.h"
 

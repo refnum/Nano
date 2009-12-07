@@ -40,6 +40,24 @@
 extern "C" {
 #endif
 
+
+
+
+
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
+// Defined sized-types for Windows
+#if NN_TARGET_WINDOWS
+	typedef UInt8  u_int8_t;
+	typedef UInt32 u_int32_t;
+	typedef UInt64 u_int64_t;
+#endif
+
+
+
+
+
 /*
  * Import u_intXX_t size_t type definitions from system headers.  You
  * may need to change this, or define these things yourself in this

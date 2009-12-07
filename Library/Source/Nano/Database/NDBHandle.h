@@ -54,7 +54,7 @@ public:
 
 
 	// Open/close the database
-	OSStatus							Open(const NFile &theFile, bool readOnly=false, const NString &theVFS="");
+	NStatus								Open(const NFile &theFile, bool readOnly=false, const NString &theVFS="");
 	void								Close(void);
 
 

@@ -450,7 +450,7 @@ NStatus NDBHandlePool::CreateConnection(NDBHandlePtr &dbHandle)
 
 
 	// Apply the connector
-	if (theErr == noErr && mConnector != NULL)
+	if (theErr == kNoErr && mConnector != NULL)
 		mConnector(*dbHandle);
 
 

@@ -69,6 +69,19 @@
 #define assert(_e)		NN_ASSERT(_e)
 
 
+// Define byte order for Windows
+#if NN_TARGET_WINDOWS
+	#define LITTLE_ENDIAN 1234
+	#define BIG_ENDIAN    4321
+
+	#if NN_TARGET_ENDIAN_BIG
+		#define BYTE_ORDER BIG_ENDIAN
+	#else
+		#define BYTE_ORDER LITTLE_ENDIAN
+	#endif
+#endif
+
+
 
 
 
