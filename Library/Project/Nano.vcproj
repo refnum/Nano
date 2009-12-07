@@ -523,10 +523,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NColor.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Graphics\NColor.cpp"
 				>
 			</File>
@@ -1621,10 +1617,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\System\NCacheValue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\NColor.h"
 				>
 			</File>
 			<File
