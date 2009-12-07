@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=1"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -49,8 +49,7 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="StdAfx.h"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4068"
 				ForcedIncludeFiles="StdAfx.h"
@@ -87,7 +86,7 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -110,16 +109,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=0"
 				StringPooling="true"
+				MinimalRebuild="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="StdAfx.h"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 				DisableSpecificWarnings="4068"
 				ForcedIncludeFiles="StdAfx.h"
 			/>
@@ -133,17 +131,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				GenerateDebugInformation="true"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -153,9 +144,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -171,16 +159,324 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\adler32.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\schneier.com\blowfish.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\schneier.com\blowfish_dat.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\libb64_1.1\cdecode.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\libb64_1.1\cencode.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\compress.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\unicode.org\ConvertUTF.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\crc32.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\deflate.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\efgh.com\efgh_des.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\fourmilab.ch\fm_md5.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\gzio.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\infback.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inffast.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inflate.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inftrees.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NArray.cpp"
@@ -191,7 +487,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\System\NB64Encoder.cpp"
+				RelativePath="..\Source\Nano\Threads\NAtomicList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NAttributes.cpp"
 				>
 			</File>
 			<File
@@ -211,11 +511,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\System\NChecksum.cpp"
+				RelativePath="..\Source\Nano\System\NCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NCacheKey.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NCacheValue.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NColor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NColor.cpp"
 				>
 			</File>
 			<File
@@ -235,11 +547,43 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NDataCipher.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NDataCompressor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NDataDigest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NDataEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NDate.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NDateFormatter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBHandle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBHandlePool.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBQuery.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBResult.cpp"
 				>
 			</File>
 			<File
@@ -251,7 +595,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NEncodable.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Files\NFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NFileIterator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NFileMap.cpp"
 				>
 			</File>
 			<File
@@ -263,11 +623,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Utilities\NGeometryUtilities.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NHashable.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Events\NListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NLocale.cpp"
 				>
 			</File>
 			<File
@@ -283,7 +651,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NPoint.cpp"
+				RelativePath="..\Source\Nano\Graphics\NPoint.cpp"
 				>
 			</File>
 			<File
@@ -295,11 +663,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NPropertyStore.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NRange.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NRectangle.cpp"
+				RelativePath="..\Source\Nano\Graphics\NRectangle.cpp"
 				>
 			</File>
 			<File
@@ -307,11 +679,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\NSemaphore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NShape.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NSharedValue.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NSize.cpp"
+				RelativePath="..\Source\Nano\Graphics\NSize.cpp"
 				>
 			</File>
 			<File
@@ -335,7 +715,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NTask.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NTextUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NThread.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NThreadPool.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NThreadTask.cpp"
 				>
 			</File>
 			<File
@@ -343,7 +739,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Events\NTimer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NTimeUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NTransform.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\NUndoManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\NUndoSource.cpp"
 				>
 			</File>
 			<File
@@ -351,7 +763,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NUTI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NUTIRegistry.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NVariant.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NVector.cpp"
 				>
 			</File>
 			<File
@@ -360,10 +784,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinLock.cpp"
 				>
 			</File>
 			<File
@@ -409,6 +829,22 @@
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_chartables.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_compile.c"
@@ -418,6 +854,7 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
 						WarningLevel="0"
 						DisableSpecificWarnings="4065"
 					/>
@@ -427,6 +864,7 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
 						WarningLevel="0"
 					/>
 				</FileConfiguration>
@@ -434,74 +872,382 @@
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_config.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_dfa_exec.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_exec.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_fullinfo.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_get.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_globals.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_info.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_maketables.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_newline.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_ord2utf8.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_refcount.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_study.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_tables.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_try_flipped.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_ucd.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_valid_utf8.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_version.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\pcre_7.8\pcre_xclass.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sha2_1.1a\sha2.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\sqlite_3.6.12.c"
@@ -516,6 +1262,14 @@
 						CompileAs="1"
 						DisableSpecificWarnings="4244"
 						ForcedIncludeFiles="$(NOINHERIT)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -540,24 +1294,164 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\trees.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\uncompr.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmlparse.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmlrole.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_impl.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_ns.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\zutil.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -571,6 +1465,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\asciitab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\schneier.com\blowfish.h"
 				>
 			</File>
 			<File
@@ -590,6 +1488,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\crc32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\deflate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\efgh.com\efgh_des.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\expat.h"
 				>
 			</File>
@@ -602,7 +1512,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\fourmilab.ch\fm_md5.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\iasciitab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inffast.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inffixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inflate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\inftrees.h"
 				>
 			</File>
 			<File
@@ -618,7 +1548,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Prefix\Nano Prefix.pch"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Core\Nano.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\nano_sqlite.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\nano_zlib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Core\NanoMacros.h"
 				>
 			</File>
 			<File
@@ -642,7 +1588,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\System\NB64Encoder.h"
+				RelativePath="..\Source\Nano\Threads\NAtomicList.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NAttributes.h"
 				>
 			</File>
 			<File
@@ -662,11 +1612,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\System\NChecksum.h"
+				RelativePath="..\Source\Nano\System\NCache.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NCacheKey.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NCacheValue.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NColor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NColor.h"
 				>
 			</File>
 			<File
@@ -686,11 +1648,43 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NDataCipher.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NDataCompressor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NDataDigest.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NDataEncoder.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NDate.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NDateFormatter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBHandle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBHandlePool.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBQuery.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\NDBResult.h"
 				>
 			</File>
 			<File
@@ -702,7 +1696,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NEncodable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NEncoder.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Files\NFile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NFileIterator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\NFileMap.h"
 				>
 			</File>
 			<File
@@ -714,11 +1724,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Utilities\NGeometryUtilities.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NHashable.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Events\NListener.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NLocale.h"
 				>
 			</File>
 			<File
@@ -734,7 +1752,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NPoint.h"
+				RelativePath="..\Source\Nano\Graphics\NPoint.h"
 				>
 			</File>
 			<File
@@ -746,11 +1764,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NPropertyStore.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NRange.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NRectangle.h"
+				RelativePath="..\Source\Nano\Graphics\NRectangle.h"
 				>
 			</File>
 			<File
@@ -758,11 +1780,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\NSemaphore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NShape.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NSharedValue.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\NSize.h"
+				RelativePath="..\Source\Nano\Graphics\NSize.h"
 				>
 			</File>
 			<File
@@ -794,10 +1824,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Targets\NTargetLock.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Internal\Targets\NTargetMath.h"
 				>
 			</File>
@@ -822,7 +1848,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\NTask.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NTextUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NThreadPool.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NThreadTask.h"
 				>
 			</File>
 			<File
@@ -830,7 +1872,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Events\NTimer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NTimeUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NTransform.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\NUndoManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\NUndoSource.h"
 				>
 			</File>
 			<File
@@ -838,7 +1896,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NUTI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\NUTIRegistry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NVariant.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NVector.h"
 				>
 			</File>
 			<File
@@ -866,6 +1936,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\sha2_1.1a\sha2.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\sqlite_3.6.12\sqlite_3.6.12.h"
 				>
 			</File>
@@ -879,6 +1953,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\StdAfx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\trees.h"
 				>
 			</File>
 			<File
@@ -899,6 +1977,18 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_impl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\zconf.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\zlib_1.2.3.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\zutil.h"
 				>
 			</File>
 		</Filter>
