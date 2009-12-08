@@ -38,21 +38,28 @@
 //----------------------------------------------------------------------------
 // Baseline
 //
-// gcc uses the LP64 model, however Visual C++ uses the LLP64 model.
+// To handle platform-specific requirements for some types (e.g., gcc using
+// the LP64 model and VC++ using LLP64), we define a set of meta-types that
+// are generally correct.
 //
-// We define a set of types that are the correct size in both models, then
-// adust them to suit the current platform's system headers.
+// These types are then adjusted to suit the appropriate system headers for
+// each platform, and then used to define the primitive Nano types.
 #define NANO_INT8													char
 #define NANO_INT16													short
 #define NANO_INT32													int
 #define NANO_INT64													long long
 
+#define NANO_UTF8													UInt8
+#define NANO_UTF16													UInt16
+#define NANO_UTF32													UInt32
+
 
 // Mac/iPhone
-//
-// MacTypes.h uses a different type for UInt32/SInt32 for each architecture
-// size, so to avoid a type redeclaration error we must define ours to match.
 #if NN_TARGET_MAC || NN_TARGET_IPHONE
+	// UInt32/SInt32
+	//
+	// MacTypes.h uses a different type for UInt32/SInt32 on 32-bit architectures
+	// vs 64-bit, so to avoid a type redeclaration error we must make ours match.
 	#undef NANO_INT32
 
 	#if NN_TARGET_ARCH_64
@@ -60,6 +67,17 @@
 	#else
 		#define NANO_INT32											long
 	#endif
+#endif
+
+
+// Windows
+#if NN_TARGET_WINDOWS
+	// UTF16Char
+	//
+	// To ensure NString::GetUTF16() is equivalent to a LPCWSTR, we define the
+	// UTF16 char type to match the native Win32 UTF16 type (wchar_t).
+	#undef  NANO_UTF16
+	#define NANO_UTF16												wchar_t
 #endif
 
 
@@ -87,9 +105,9 @@ typedef signed NANO_INT64											SInt64;
 typedef float														Float32;
 typedef double														Float64;
 
-typedef UInt8														UTF8Char;
-typedef UInt16														UTF16Char;
-typedef UInt32														UTF32Char;
+typedef NANO_UTF8													UTF8Char;
+typedef NANO_UTF16													UTF16Char;
+typedef NANO_UTF32													UTF32Char;
 
 
 // Misc
