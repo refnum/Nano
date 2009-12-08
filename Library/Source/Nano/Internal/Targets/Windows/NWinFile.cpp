@@ -23,10 +23,18 @@
 //============================================================================
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
+#pragma mark -
 bool NTargetFile::IsFile(const NString &thePath)
-{
-	// dair, to do
-	return(false);
+{	DWORD		fileInfo;
+	bool		isFile;
+
+
+
+	// Check the path
+	fileInfo = GetFileAttributes(thePath.GetUTF16());
+	isFile   = ((fileInfo & FILE_ATTRIBUTE_DIRECTORY) == 0);
+	
+	return(isFile);
 }
 
 
@@ -37,9 +45,16 @@ bool NTargetFile::IsFile(const NString &thePath)
 //      NTargetFile::IsDirectory : Is this a directory?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsDirectory(const NString &thePath)
-{
-	// dair, to do
-	return(false);
+{	DWORD		fileInfo;
+	bool		isDir;
+
+
+
+	// Check the path
+	fileInfo = GetFileAttributes(thePath.GetUTF16());
+	isDir    = ((fileInfo & FILE_ATTRIBUTE_DIRECTORY) != 0);
+	
+	return(isDir);
 }
 
 
@@ -50,9 +65,16 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 //      NTargetFile::IsLink : Is this a link?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsLink(const NString &thePath)
-{
-	// dair, to do
-	return(false);
+{	DWORD		fileInfo;
+	bool		isLink;
+
+
+
+	// Check the path
+	fileInfo = GetFileAttributes(thePath.GetUTF16());
+	isLink   = ((fileInfo & FILE_ATTRIBUTE_REPARSE_POINT) != 0);
+	
+	return(isLink);
 }
 
 
@@ -63,9 +85,16 @@ bool NTargetFile::IsLink(const NString &thePath)
 //      NTargetFile::IsWriteable : Is a file writeable?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsWriteable(const NString &thePath)
-{
-	// dair, to do
-	return(false);
+{	bool		isWriteable;
+	DWORD		fileInfo;
+
+
+
+	// Check the path
+	fileInfo    = GetFileAttributes(thePath.GetUTF16());
+	isWriteable = ((fileInfo & FILE_ATTRIBUTE_READONLY) == 0);
+	
+	return(isWriteable);
 }
 
 
@@ -76,9 +105,16 @@ bool NTargetFile::IsWriteable(const NString &thePath)
 //      NTargetFile::Exists : Does a file exist?
 //----------------------------------------------------------------------------
 bool NTargetFile::Exists(const NString &thePath)
-{
-	// dair, to do
-	return(false);
+{	bool		doesExist;
+	DWORD		fileInfo;
+
+
+
+	// Check the path
+	fileInfo  = GetFileAttributes(thePath.GetUTF16());
+	doesExist = (fileInfo != INVALID_FILE_ATTRIBUTES);
+
+	return(doesExist);
 }
 
 
@@ -115,9 +151,18 @@ NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 //      NTargetFile::GetSize : Get a file's size.
 //----------------------------------------------------------------------------
 UInt64 NTargetFile::GetSize(const NString &thePath)
-{
-	// dair, to do
-	return(0);
+{	WIN32_FILE_ATTRIBUTE_DATA		fileInfo;
+	UInt64							theSize;
+	
+	
+	
+	// Get the size
+	theSize = 0;
+
+	if (GetFileAttributesEx(thePath.GetUTF16(), GetFileExInfoStandard, &fileInfo))
+		theSize = ((UInt64) fileInfo.nFileSizeLow) + (((UInt64) fileInfo.nFileSizeHigh) << 32);
+
+	return(theSize);
 }
 
 
@@ -192,8 +237,13 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
 void NTargetFile::Delete(const NString &thePath)
-{
-	// dair, to do
+{	BOOL	wasOK;
+
+
+
+	// Delete the file
+	wasOK = DeleteFile(thePath.GetUTF16());
+	NN_ASSERT(wasOK);
 }
 
 
