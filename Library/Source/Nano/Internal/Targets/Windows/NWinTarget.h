@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFileMap.h"
+#include "NFile.h"
 
 
 
@@ -26,8 +28,18 @@
 //----------------------------------------------------------------------------
 class NWinTarget {
 public:
+	// Get the last error
+	static NStatus						GetLastError(void);
+
+
 	// Convert a status code
-	static NStatus						ConvertHRESULT(HRESULT theErr);
+	static NStatus						ConvertHRESULT(HRESULT winErr);
+
+
+	// Convert file state
+	static UINT							ConvertFilePermission(NFilePermission thePermission);
+	static DWORD						ConvertFilePosition(  NFilePosition   thePosition);
+	static DWORD						ConvertFileMapAccess( NMapAccess      theAccess, bool forPage);
 };
 
 
