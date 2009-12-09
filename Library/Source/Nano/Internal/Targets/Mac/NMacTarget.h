@@ -18,7 +18,6 @@
 //----------------------------------------------------------------------------
 #include "NCFObject.h"
 #include "NVariant.h"
-#include "NString.h"
 #include "NFile.h"
 
 

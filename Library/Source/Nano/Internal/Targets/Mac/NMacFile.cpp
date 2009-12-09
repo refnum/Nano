@@ -54,7 +54,7 @@ typedef struct {
 //============================================================================
 //      Internal functions
 //----------------------------------------------------------------------------
-//      GetDirectoryForDomain
+//      GetDirectoryForDomain : Get a well-known directory.
 //----------------------------------------------------------------------------
 static NString GetDirectoryForDomain(NDirectoryDomain theDomain, NSSearchPathDirectory theDirectory)
 {	NSSearchPathDomainMask		nsDomain;
@@ -471,7 +471,7 @@ NString NTargetFile::GetTarget(const NString &thePath)
 
 
 //============================================================================
-//      NTargetFile::GetChildren : Get the chilren of a path.
+//      NTargetFile::GetChildren : Get the children of a path.
 //----------------------------------------------------------------------------
 NFileList NTargetFile::GetChildren(const NString &thePath)
 {	struct dirent		dirEntry, *dirResult;
@@ -913,7 +913,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 
 
 
-	// Map the page
+	// Fetch the page
 	pagePtr = mmap(NULL, theSize, pagePerm, pageFlags, theInfo->theFile, mapOffset);
 	thePtr  = NULL;
 	
@@ -967,7 +967,7 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 
 
 
-	// Unmap the page
+	// Discard the page
 	sysErr = munmap(pagePtr, theSize);
 	NN_ASSERT_NOERR(sysErr);
 
