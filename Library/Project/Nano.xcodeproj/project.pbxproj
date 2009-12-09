@@ -361,6 +361,8 @@
 		AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLocale.cpp; sourceTree = "<group>"; };
 		AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTIRegistry.cpp; sourceTree = "<group>"; };
 		AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
+		AB2F38AE10CFD91700885DAE /* NWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWindows.cpp; sourceTree = "<group>"; };
+		AB2F38AF10CFD91700885DAE /* NWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWindows.h; sourceTree = "<group>"; };
 		AB3325E81046696E00C8DF0A /* NDBQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBQuery.cpp; sourceTree = "<group>"; };
 		AB3325E91046696E00C8DF0A /* NDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBQuery.h; sourceTree = "<group>"; };
 		AB3326B11046C6F000C8DF0A /* NShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NShape.cpp; sourceTree = "<group>"; };
@@ -707,6 +709,15 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		AB2F38AD10CFD91700885DAE /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				AB2F38AE10CFD91700885DAE /* NWindows.cpp */,
+				AB2F38AF10CFD91700885DAE /* NWindows.h */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
 		AB514E58103460CB00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -783,6 +794,7 @@
 				AB004029109700AD006029F9 /* CoreGraphics */,
 				ABAA123F0FE4F959000BDCDC /* Qt */,
 				AB0040151096FE97006029F9 /* Skia */,
+				AB2F38AD10CFD91700885DAE /* Windows */,
 			);
 			path = Nanites;
 			sourceTree = "<group>";
