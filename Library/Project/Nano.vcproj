@@ -775,10 +775,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinDebug.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nanites\Windows\NWindows.cpp"
 				>
 			</File>
@@ -1809,10 +1805,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Utilities\NSystemUtilities.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Targets\NTargetDebug.h"
 				>
 			</File>
 			<File

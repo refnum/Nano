@@ -15,7 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTimeUtilities.h"
-#include "NTargetDebug.h"
+#include "NTargetSystem.h"
 #include "NTargetPOSIX.h"
 #include "NLock.h"
 #include "NDebug.h"
@@ -65,7 +65,7 @@ NDebug::NDebug(void)
 
 	// Initialize ourselves
 	mShowPath    = false;
-	mDebugOutput = NTargetDebug::LogMessage;
+	mDebugOutput = NTargetSystem::DebugLog;
 }
 
 
@@ -137,7 +137,7 @@ void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
 
 	// Set the callback
 	if (debugOutput == NULL)
-		debugOutput = NTargetDebug::LogMessage;
+		debugOutput = NTargetSystem::DebugLog;
 	
 	mDebugOutput = debugOutput;
 }

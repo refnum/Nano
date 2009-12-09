@@ -31,6 +31,10 @@
 //----------------------------------------------------------------------------
 class NTargetSystem {
 public:
+	// Emit a debug message
+	static void							DebugLog(const char *theMsg);
+
+
 	// Find a bundle
 	//
 	// Returns the application bundle if bundleID is empty.

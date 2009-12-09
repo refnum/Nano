@@ -21,6 +21,21 @@
 
 
 //============================================================================
+//      NTargetSystem::DebugLog : Emit a debug message.
+//----------------------------------------------------------------------------
+void NTargetSystem::DebugLog(const char *theMsg)
+{
+
+
+	// Log the message
+	OutputDebugString(theMsg);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetSystem::FindBundle : Find a bundle.
 //----------------------------------------------------------------------------
 NFile NTargetSystem::FindBundle(const NString &bundleID)

@@ -181,9 +181,24 @@ static void DoNotification(CFNotificationCenterRef		/*cfCenter*/,
 
 
 //============================================================================
-//      NTargetSystem::FindBundle : Find a bundle.
+//      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
 #pragma mark -
+void NTargetSystem::DebugLog(const char *theMsg)
+{
+
+
+	// Log the message
+	fprintf(stderr, "%s", theMsg);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetSystem::FindBundle : Find a bundle.
+//----------------------------------------------------------------------------
 NFile NTargetSystem::FindBundle(const NString &bundleID)
 {	NCFObject		cfBundle, cfURL;
 	NCFString		cfString;
