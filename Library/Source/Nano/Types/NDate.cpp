@@ -28,15 +28,6 @@
 
 
 //============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NTime kTimeSinceEpoch19070							= 978307200.0;
-
-
-
-
-
-//============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
 NENCODABLE_DEFINE(NDate);
@@ -171,7 +162,7 @@ NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
 	secsFloor = floor(mTime);
 	secsFrac  = mTime - secsFloor;
 
-	timeUnix = (time_t) (secsFloor + kTimeSinceEpoch19070);
+	timeUnix = (time_t) (secsFloor + kNEpochTimeSince1970);
 	timeGreg = NTargetPOSIX::gmtime(timeUnix);
 
 
@@ -224,7 +215,7 @@ void NDate::SetGregorianDate(const NGregorianDate &theDate, const NString &timeZ
 	timeGreg.tm_sec  = (int) secsFloor;
 
 	timeUnix = NTargetPOSIX::timegm(&timeGreg);
-	mTime    = (timeUnix - kTimeSinceEpoch19070) + secsFrac;
+	mTime    = (timeUnix - kNEpochTimeSince1970) + secsFrac;
 }
 
 

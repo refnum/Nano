@@ -54,6 +54,12 @@ static const NString kNDateFormatMedium								= "*medium*";
 static const NString kNDateFormatLong								= "*long*";
 
 
+// Epochs
+static const NTime kNEpochTimeSince1970								= 978307200.0;
+static const NTime kNEpochTimeSince1904								= 3061152000.0;
+static const NTime kNEpochTimeSince1601								= kNEpochTimeSince1970 + 11644473600.0;
+
+
 
 
 
