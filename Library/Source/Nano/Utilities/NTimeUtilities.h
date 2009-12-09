@@ -28,6 +28,8 @@
 class NTimeUtilities {
 public:
 	// Get the current time
+	//
+	// Returns the time since the Nano Epoch (00:00:00 on 2001/01/01 in UTC).
 	static NTime						GetTime(void);
 
 

@@ -55,6 +55,8 @@ static const NString kNDateFormatLong								= "*long*";
 
 
 // Epochs
+//
+// The Nano Epoch starts at 00:00:00 on 2001/01/01 in UTC.
 static const NTime kNEpochTimeSince1970								= 978307200.0;
 static const NTime kNEpochTimeSince1904								= 3061152000.0;
 static const NTime kNEpochTimeSince1601								= kNEpochTimeSince1970 + 11644473600.0;

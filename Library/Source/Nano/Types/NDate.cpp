@@ -2,8 +2,9 @@
 		NDate.cpp
 
 	DESCRIPTION:
-		Dates are stored as an offset from the epoch (00:00:00 on 2001/01/01),
-		in the UTC time zone.
+		Date object.
+
+		Dates are stored as an offset from the Nano Epoch.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
