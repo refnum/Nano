@@ -31,7 +31,7 @@ UInt32 NTargetMath::RotateLeft(UInt32 theValue, UInt32 rotateBy)
 
 
     // Rotate the value
-    return((theValue << rotateBy) | (theValue >> (32 - rotateBy)));
+    return(RotateLeft32(theVAlue, rotateBy));
 }
 
 
@@ -46,7 +46,7 @@ UInt32 NTargetMath::RotateRight(UInt32 theValue, UInt32 rotateBy)
 
 
     // Rotate the value
-    return((theValue >> rotateBy) | (theValue << (32 - rotateBy)));
+    return(RotateRight32(theVAlue, rotateBy));
 }
 
 
