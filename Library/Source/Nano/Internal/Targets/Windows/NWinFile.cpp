@@ -401,7 +401,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 	// Collect the children
 	do
 		{
-		filePath.Format("%@/%@", thePath, ToNN(dirEntry.cFileName));
+		filePath.Format("%@\\%@", thePath, ToNN(dirEntry.cFileName));
 		theFiles.push_back(NFile(filePath));
 		}
 	while (FindNextFile(theDir, &dirEntry));
