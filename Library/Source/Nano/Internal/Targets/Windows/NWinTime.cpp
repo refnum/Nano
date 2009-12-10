@@ -17,7 +17,6 @@
 #include <mmsystem.h>
 
 #include "NDate.h"
-
 #include "NWindows.h"
 #include "NTargetTime.h"
 

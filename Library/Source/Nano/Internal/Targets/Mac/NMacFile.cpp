@@ -23,7 +23,6 @@
 #include "NCoreFoundation.h"
 #include "NSTLUtilities.h"
 #include "NCFString.h"
-
 #include "NMacTarget.h"
 #include "NTargetFile.h"
 

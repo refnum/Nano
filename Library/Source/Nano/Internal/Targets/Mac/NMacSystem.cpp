@@ -412,14 +412,14 @@ void NTargetSystem::TaskWrite(const TaskInfo &theTask, const NString &theText)
 //============================================================================
 //      NTargetSystem::TaskWait : Block for a task.
 //----------------------------------------------------------------------------
-void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime theDelay)
+void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime waitFor)
 {
 
 
 	// Wait for the task
 	//
 	// We must allow timers to run while waiting, since they poll the status.
-	CFRunLoopRunInMode(kCFRunLoopDefaultMode, theDelay, false);
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, waitFor, false);
 }
 
 

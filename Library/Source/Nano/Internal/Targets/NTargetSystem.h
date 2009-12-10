@@ -47,7 +47,7 @@ public:
 	static void							TaskUpdate(     TaskInfo &theTask);
 	static NString						TaskRead(       TaskInfo &theTask, bool stdErr=false);
 	static void							TaskWrite(const TaskInfo &theTask, const NString &theText);
-	static void							TaskWait( const TaskInfo &theTask, NTime theDelay);
+	static void							TaskWait( const TaskInfo &theTask, NTime waitFor);
 	static void							TaskKill( const TaskInfo &theTask);
 
 
