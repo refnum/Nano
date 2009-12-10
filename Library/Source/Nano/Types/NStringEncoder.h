@@ -77,6 +77,12 @@ public:
 	NStringEncoding						GetEncoding(const NData &theData);
 
 
+	// Get a string length
+	//
+	// Returns the number of bytes in a NULL-terminated string, not counting the terminator.
+	NIndex								GetSize(const void *thePtr, NStringEncoding theEncoding);
+
+
 private:
 	NIndex								GetMaxCharSize(NStringEncoding theEncoding);
 	

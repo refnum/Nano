@@ -49,7 +49,8 @@ NENCODABLE_DEFINE(NString);
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
 NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncoding)
-{	const char		*charPtr;
+{	NStringEncoder		theEncoder;
+	const char			*charPtr;
 
 
 
@@ -59,10 +60,7 @@ NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncodin
 		numBytes = 0;
 
 	if (numBytes == kNStringLength)
-		{
-		NN_ASSERT(theEncoding == kNStringEncodingUTF8);
-		numBytes = (NIndex) strlen(charPtr);
-		}
+		numBytes = theEncoder.GetSize(thePtr, theEncoding);
 
 
 

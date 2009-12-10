@@ -216,6 +216,55 @@ NStringEncoding NStringEncoder::GetEncoding(const NData &theData)
 
 
 //============================================================================
+//		NStringEncoder::GetSize : Get a string length.
+//----------------------------------------------------------------------------
+NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
+{	NIndex				theSize;
+	const UTF32Char		*ptr32;
+	const UTF16Char		*ptr16;
+
+
+
+	// Get the state we need
+	ptr32   = (const UTF32Char *) thePtr;
+	ptr16   = (const UTF16Char *) thePtr;
+	theSize = 0;
+
+
+
+	// Get the size
+	switch (theEncoding) {
+		case kNStringEncodingUTF8:
+			theSize = (NIndex) strlen((const char *) thePtr);
+			break;
+
+		case kNStringEncodingUTF16:
+		case kNStringEncodingUTF16BE:
+		case kNStringEncodingUTF16LE:
+			while (*ptr16++ != 0x00)
+				theSize++;
+			break;
+
+		case kNStringEncodingUTF32:
+		case kNStringEncodingUTF32BE:
+		case kNStringEncodingUTF32LE:
+			while (*ptr32++ != 0x00)
+				theSize++;
+			break;
+
+		default:
+			NN_LOG("Unknown encoding: %d", theEncoding);
+			break;
+		}
+
+	return(theSize);
+}
+
+
+
+
+
+//============================================================================
 //		NStringEncoder::GetMaxCharSize : Get the maximum size of a character.
 //----------------------------------------------------------------------------
 #pragma mark -

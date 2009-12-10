@@ -56,7 +56,7 @@ inline void ToWN(UInt64 theValue, DWORD &valueHigh, DWORD &valueLow)
 // Windows to Nano
 inline NString ToNN(const TCHAR *theString)
 {
-	return(NString(theString, wcslen(theString), kNStringEncodingUTF16));
+	return(NString(theString, kNStringLength, kNStringEncodingUTF16));
 }
 
 inline SInt64 ToNN(const LARGE_INTEGER &theValue)
