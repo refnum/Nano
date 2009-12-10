@@ -104,6 +104,7 @@ typedef void (*DebugOutputProc)(const char *theMsg);
 //============================================================================
 //		Macros
 //----------------------------------------------------------------------------
+// Primitives
 #if NN_DEBUG
 	#define NN_ASSERT(_test)																								\
 		do																													\
@@ -142,6 +143,12 @@ typedef void (*DebugOutputProc)(const char *theMsg);
 	#define NN_ASSERT_NOERR(_error)								do { } while (0)
 	#define NN_LOG(...)											do { } while (0)
 #endif
+
+
+// Alignment
+#define NN_ASSERT_ALIGNED_2(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(UInt16)))
+#define NN_ASSERT_ALIGNED_4(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(UInt32)))
+#define NN_ASSERT_ALIGNED_8(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(UInt65)))
 
 
 

@@ -36,6 +36,10 @@
 #define NN_CLAMP_VALUE(_v, _min, _max)								std::min((_max), std::max((_min), (_v)))
 
 
+// Is an address aligned?
+#define NN_ALIGNED_TO(_value, _size)								((((UIntPtr) _value) % _size) == 0)
+
+
 // Declare a binary constant
 //
 //		 B8(01010101)									= 85

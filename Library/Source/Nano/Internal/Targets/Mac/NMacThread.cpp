@@ -96,6 +96,11 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 {
 
 
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
 	// Compare and swap
 	return(OSAtomicCompareAndSwap32Barrier(oldValue, newValue, (int32_t *) &theValue));
 }
@@ -109,6 +114,11 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 //----------------------------------------------------------------------------
 void NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 {
+
+
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
 
 
 	// Add the value
@@ -126,7 +136,12 @@ void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 {
 
 
-	// Update the value
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
+	// AND the value
 	OSAtomicAnd32Barrier(theMask, (uint32_t *) &theValue);
 }
 
@@ -141,7 +156,12 @@ void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 {
 
 
-	// Update the value
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
+	// XOR the value
 	OSAtomicXor32Barrier(theMask, (uint32_t *) &theValue);
 }
 
@@ -156,7 +176,12 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 {
 
 
-	// Update the value
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
+	// OR the value
 	OSAtomicOr32Barrier(theMask, (uint32_t *) &theValue);
 }
 
