@@ -602,7 +602,7 @@ UTF16Char NUnicodeParser::GetNativeUTF16(UTF16Char theChar, NStringEncoding theE
 
 	// Get the character
 	if (GetEndianFormat(theEncoding) != kNEndianNative)
-		NSwapUInt16(&theChar);
+		NSwapUInt16((UInt16 *) &theChar);
 	
 	return(theChar);
 }
@@ -620,7 +620,7 @@ UTF32Char NUnicodeParser::GetNativeUTF32(UTF32Char theChar, NStringEncoding theE
 
 	// Get the character
 	if (GetEndianFormat(theEncoding) != kNEndianNative)
-		NSwapUInt32(&theChar);
+		NSwapUInt32((UInt32 *) &theChar);
 	
 	return(theChar);
 }
