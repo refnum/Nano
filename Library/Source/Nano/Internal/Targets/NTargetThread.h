@@ -49,23 +49,23 @@ public:
 
 	// Semaphores
 	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
-	static void							SemaphoreDestroy(NSemaphoreRef &theSemaphore);
-	static void							SemaphoreSignal( NSemaphoreRef  theSemaphore);
-	static bool							SemaphoreWait(   NSemaphoreRef  theSemaphore, NTime waitFor=kNTimeForever);
+	static void							SemaphoreDestroy(NSemaphoreRef theSemaphore);
+	static void							SemaphoreSignal( NSemaphoreRef theSemaphore);
+	static bool							SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor=kNTimeForever);
 
 
 	// Mutex lock
 	static NLockRef						MutexCreate(void);
-	static void							MutexDestroy(NLockRef &theLock);
-	static NStatus						MutexLock(   NLockRef &theLock, NTime waitFor);
-	static void							MutexUnlock( NLockRef &theLock);
+	static void							MutexDestroy(NLockRef theLock);
+	static NStatus						MutexLock(   NLockRef theLock, NTime waitFor);
+	static void							MutexUnlock( NLockRef theLock);
 
 
 	// Read/write lock
 	static NLockRef						ReadWriteCreate(void);
-	static void							ReadWriteDestroy(NLockRef &theLock);
-	static NStatus						ReadWriteLock(   NLockRef &theLock, NTime waitFor, bool forWrite);
-	static void							ReadWriteUnlock( NLockRef &theLock);
+	static void							ReadWriteDestroy(NLockRef theLock);
+	static NStatus						ReadWriteLock(   NLockRef theLock, bool forRead, NTime waitFor);
+	static void							ReadWriteUnlock( NLockRef theLock, bool forRead);
 };
 
 

@@ -228,14 +228,84 @@ NReadWriteLock::~NReadWriteLock(void)
 
 
 //============================================================================
-//		NReadWriteLock::Lock : Acquire the lock for reading.
+//		NReadWriteLock::Lock : Acquire the lock for writing.
 //----------------------------------------------------------------------------
 bool NReadWriteLock::Lock(NTime theTime)
 {
 
 
 	// Acquire the lock
-	return(AcquireLock(theTime, false));
+	return(Lock(false, theTime));
+}
+
+
+
+
+
+//============================================================================
+//		NReadWriteLock::Unlock : Release the lock for writing.
+//----------------------------------------------------------------------------
+void NReadWriteLock::Unlock(void)
+{
+
+
+	// Release the lock
+	Unlock(false);
+}
+
+
+
+
+
+//============================================================================
+//		NReadWriteLock::LockForRead : Acquire the lock for reading.
+//----------------------------------------------------------------------------
+bool NReadWriteLock::LockForRead(NTime theTime)
+{
+
+
+	// Acquire the lock
+	return(Lock(true, theTime));
+}
+
+
+
+
+
+//============================================================================
+//		NReadWriteLock::UnlockForRead : Release the lock for reading.
+//----------------------------------------------------------------------------
+void NReadWriteLock::UnlockForRead(void)
+{
+
+
+	// Release the lock
+	Unlock(true);
+}
+
+
+
+
+
+//============================================================================
+//		NReadWriteLock::Lock : Acquire the lock.
+//----------------------------------------------------------------------------
+bool NReadWriteLock::Lock(bool forRead, NTime theTime)
+{	NStatus		theErr;
+
+
+
+	// Acquire the lock
+	theErr = NTargetThread::ReadWriteLock(mLock, forRead, theTime);
+	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
+
+
+
+	// Update our state
+	if (theErr == kNoErr)
+		AdjustLock(true);
+	
+	return(theErr == kNoErr);
 }
 
 
@@ -245,7 +315,7 @@ bool NReadWriteLock::Lock(NTime theTime)
 //============================================================================
 //		NReadWriteLock::Unlock : Release the lock.
 //----------------------------------------------------------------------------
-void NReadWriteLock::Unlock(void)
+void NReadWriteLock::Unlock(bool forRead)
 {
 
 
@@ -257,47 +327,7 @@ void NReadWriteLock::Unlock(void)
 	// Release the lock
 	AdjustLock(false);
 	
-	NTargetThread::ReadWriteUnlock(mLock);
-}
-
-
-
-
-
-//============================================================================
-//		NReadWriteLock::LockForWrite : Acquire the lock for writing.
-//----------------------------------------------------------------------------
-bool NReadWriteLock::LockForWrite(NTime theTime)
-{
-
-
-	// Acquire the lock
-	return(AcquireLock(theTime, true));
-}
-
-
-
-
-
-//============================================================================
-//		NReadWriteLock::AcquireLock : Acquire the lock.
-//----------------------------------------------------------------------------
-bool NReadWriteLock::AcquireLock(NTime theTime, bool forWrite)
-{	NStatus		theErr;
-
-
-
-	// Acquire the lock
-	theErr = NTargetThread::ReadWriteLock(mLock, theTime, forWrite);
-	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
-
-
-
-	// Update our state
-	if (theErr == kNoErr)
-		AdjustLock(true);
-	
-	return(theErr == kNoErr);
+	NTargetThread::ReadWriteUnlock(mLock, forRead);
 }
 
 
@@ -343,7 +373,7 @@ bool NSpinLock::Lock(NTime waitFor)
 	// Acquire the lock
 	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		{
-		while (!SpinLockTry(mSpinLock))
+		while (!Lock(mSpinLock))
 			NThread::Sleep(kNThreadSpinTime);
 
 		gotLock = true;
@@ -354,7 +384,7 @@ bool NSpinLock::Lock(NTime waitFor)
 		gotLock  = false;
 		do
 			{
-			gotLock = SpinLockTry(mSpinLock);
+			gotLock = Lock(mSpinLock);
 			if (!gotLock)
 				NThread::Sleep(kNThreadSpinTime);
 			}
@@ -389,7 +419,7 @@ void NSpinLock::Unlock(void)
 	// Release the lock
 	AdjustLock(false);
 
-	SpinLockUnlock(mSpinLock);
+	Unlock(mSpinLock);
 }
 
 
@@ -397,13 +427,15 @@ void NSpinLock::Unlock(void)
 
 
 //============================================================================
-//		NSpinLock::SpinLockTry : Try and acquire the lock.
+//		NSpinLock::Lock : Acquire a spin lock.
 //----------------------------------------------------------------------------
-bool NSpinLock::SpinLockTry(UInt32 &theLock)
+bool NSpinLock::Lock(UInt32 &theLock)
 {
 
 
-	// Try and acquire the lock
+	// Acquire the lock
+	//
+	// Returns as the lock was acquired.
 	return(NThreadUtilities::AtomicCompareAndSwap32(theLock, 0, kSpinLockMask));
 }
 
@@ -412,9 +444,9 @@ bool NSpinLock::SpinLockTry(UInt32 &theLock)
 
 
 //============================================================================
-//		NSpinLock::SpinLockUnlock : Unlock a spin lock.
+//		NSpinLock::Unlock : Unlock a spin lock.
 //----------------------------------------------------------------------------
-void NSpinLock::SpinLockUnlock(UInt32 &theLock)
+void NSpinLock::Unlock(UInt32 &theLock)
 {
 
 

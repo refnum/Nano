@@ -99,21 +99,23 @@ public:
 	virtual							   ~NReadWriteLock(void);
 
 
-	// Acquire/release the lock
+	// Acquire/release the lock for writing
 	//
-	// Multiple threads can acquire the lock when reading.
+	// Only a single thread can acquire the lock for writing.
 	bool								Lock(NTime waitFor=kNTimeForever);
 	void								Unlock(void);
 
 
-	// Acquire the lock for writing
+	// Acquire/release the lock for reading
 	//
-	// Only one thread can acquire the lock when writing.
-	bool								LockForWrite(NTime waitFor=kNTimeForever);
+	// Multiple threads can acquire the lock for reading.
+	bool								LockForRead(NTime waitFor=kNTimeForever);
+	void								UnlockForRead(void);
 
 
 private:
-	bool								AcquireLock(NTime waitFor, bool forWrite);
+	bool								Lock(  bool forRead, NTime waitFor);
+	void								Unlock(bool forRead);
 };
 
 
@@ -135,8 +137,8 @@ public:
 
 
 private:
-	bool								SpinLockTry(   UInt32 &theLock);
-	void								SpinLockUnlock(UInt32 &theLock);
+	bool								Lock(  UInt32 &theLock);
+	void								Unlock(UInt32 &theLock);
 
 
 private:
