@@ -31,10 +31,12 @@
 static const BroadcastMsg kMsgTaskTerminated						= 0x7461736B;	// 'task'
 
 
-// IDs
-typedef SInt32 NTaskID;
+// Tasks
+typedef UIntPtr NTaskID;
+typedef UIntPtr NTaskPipeRef;
 
-static const NTaskID kNTaskIDNone									= 0;
+static const NTaskID      kNTaskIDNone								= 0;
+static const NTaskPipeRef kNTaskPipeRefNone							= (NTaskPipeRef) -1;
 
 
 
@@ -43,14 +45,14 @@ static const NTaskID kNTaskIDNone									= 0;
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-// Task Info
+// Task info
 typedef struct {
-	NTaskID		taskID;
-	SInt8		taskResult;
+	NTaskID			taskID;
+	SInt32			taskResult;
 
-	SInt32		stdIn;
-	SInt32		stdOut;
-	SInt32		stdErr;
+	NTaskPipeRef	stdIn;
+	NTaskPipeRef	stdOut;
+	NTaskPipeRef	stdErr;
 } TaskInfo;
 
 

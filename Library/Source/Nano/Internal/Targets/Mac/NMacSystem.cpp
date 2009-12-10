@@ -21,7 +21,6 @@
 #include "NCoreFoundation.h"
 #include "NCFString.h"
 #include "NLock.h"
-
 #include "NTargetSystem.h"
 
 
@@ -32,15 +31,14 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Tasks
-static const UInt32 kBufferSize											= 1024;
+static const UInt32 kBufferSize											= 2048;
 
-static const UInt32 FD_STDIN											= 0;
-static const UInt32 FD_STDOUT											= 1;
-static const UInt32 FD_STDERR											= 2;
+static const NIndex kPipeParent											= 0;
+static const NIndex kPipeChild											= 1;
 
-static const SInt32 PIPE_INVALID										= -1;
-static const SInt32 PIPE_PARENT											= 0;
-static const SInt32 PIPE_CHILD											= 1;
+static const int FD_STDIN												= 0;
+static const int FD_STDOUT												= 1;
+static const int FD_STDERR												= 2;
 
 
 
@@ -82,15 +80,15 @@ static void ExecuteTask(const NString &theCmd, const NString &cmdName, const NSt
 //============================================================================
 //		ClosePipe : Close a pipe.
 //----------------------------------------------------------------------------
-static void ClosePipe(SInt32 &thePipe)
+static void ClosePipe(NTaskPipeRef &thePipe)
 {
 
 
 	// Close the pipe
-	if (thePipe != PIPE_INVALID)
+	if (thePipe != kNTaskPipeRefNone)
 		{
 		close(thePipe);
-		thePipe = PIPE_INVALID;
+		thePipe = kNTaskPipeRefNone;
 		}
 }
 
@@ -101,7 +99,7 @@ static void ClosePipe(SInt32 &thePipe)
 //============================================================================
 //		ReadPipe : Read from a pipe.
 //----------------------------------------------------------------------------
-static NString ReadPipe(SInt32 &thePipe, bool lastRead)
+static NString ReadPipe(NTaskPipeRef &thePipe, bool lastRead)
 {	char		theBuffer[kBufferSize];
 	NString		theString;
 	int			numRead;
@@ -109,7 +107,7 @@ static NString ReadPipe(SInt32 &thePipe, bool lastRead)
 
 
 	// Check the pipe
-	if (thePipe == PIPE_INVALID)
+	if (thePipe == kNTaskPipeRefNone)
 		return(theString);
 
 
@@ -141,18 +139,20 @@ static NString ReadPipe(SInt32 &thePipe, bool lastRead)
 //============================================================================
 //		WritePipe : Write to a pipe.
 //----------------------------------------------------------------------------
-static void WritePipe(SInt32 thePipe, const NString &theText)
-{
+static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
+{	NData		theData;
+
 
 
 	// Check the pipe
-	if (thePipe == PIPE_INVALID)
+	if (thePipe == kNTaskPipeRefNone)
 		return;
 	
 	
 	
 	// Write to the pipe
-	write(thePipe, theText.GetUTF8(), theText.GetSize());
+	theData = theText.GetData();
+	write(thePipe, theData.GetData(), theData.GetSize());
 }
 
 
@@ -253,9 +253,9 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	theTask.taskID     = kNTaskIDNone;
 	theTask.taskResult = 0;
 	
-	theTask.stdIn  = PIPE_INVALID;
-	theTask.stdOut = PIPE_INVALID;
-	theTask.stdErr = PIPE_INVALID;
+	theTask.stdIn  = kNTaskPipeRefNone;
+	theTask.stdOut = kNTaskPipeRefNone;
+	theTask.stdErr = kNTaskPipeRefNone;
 
 	cmdName = NFile(theCmd).GetName();
 
@@ -284,9 +284,9 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 			close(FD_STDOUT);
 			close(FD_STDERR);
 
-			dup2(pipeStdIn [PIPE_CHILD], FD_STDIN);
-			dup2(pipeStdOut[PIPE_CHILD], FD_STDOUT);
-			dup2(pipeStdErr[PIPE_CHILD], FD_STDERR);
+			dup2(pipeStdIn [kPipeChild], FD_STDIN);
+			dup2(pipeStdOut[kPipeChild], FD_STDOUT);
+			dup2(pipeStdErr[kPipeChild], FD_STDERR);
 			
 			ExecuteTask(theCmd, cmdName, theArgs);
 			_exit(1);
@@ -294,13 +294,13 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 
 		default:
 			// We're the parent:
-			close(pipeStdIn [PIPE_CHILD]);
-			close(pipeStdOut[PIPE_CHILD]);
-			close(pipeStdErr[PIPE_CHILD]);
+			close(pipeStdIn [kPipeChild]);
+			close(pipeStdOut[kPipeChild]);
+			close(pipeStdErr[kPipeChild]);
 			
-			theTask.stdIn  = pipeStdIn [PIPE_PARENT];
-			theTask.stdOut = pipeStdOut[PIPE_PARENT];
-			theTask.stdErr = pipeStdErr[PIPE_PARENT];
+			theTask.stdIn  = (NTaskPipeRef) pipeStdIn [kPipeParent];
+			theTask.stdOut = (NTaskPipeRef) pipeStdOut[kPipeParent];
+			theTask.stdErr = (NTaskPipeRef) pipeStdErr[kPipeParent];
 			
 			fcntl(theTask.stdOut, F_SETFL, O_NONBLOCK);
 			fcntl(theTask.stdErr, F_SETFL, O_NONBLOCK);
@@ -322,6 +322,8 @@ void NTargetSystem::TaskDestroy(TaskInfo &theTask)
 
 
 	// Clean up
+	theTask.taskID = kNTaskIDNone;
+	
 	ClosePipe(theTask.stdIn);
 	ClosePipe(theTask.stdOut);
 	ClosePipe(theTask.stdErr);
@@ -360,9 +362,9 @@ void NTargetSystem::TaskUpdate(TaskInfo &theTask)
 
 	// Free our resources
 	//
-	// The stdout/err pipes are left open since they may contain buffered
-	// data that can still be read. Since the child has exited, the stdin
-	// pipe is now widowed and can be closed.
+	// The stdout/err pipes are left open since they may contain buffered data
+	// that can still be read. However since the child has exited, no more data
+	// can be written to it and so the stdin pipe can be closed.
 	ClosePipe(theTask.stdIn);
 }
 
