@@ -28,7 +28,7 @@ void NTargetSystem::DebugLog(const char *theMsg)
 
 
 	// Log the message
-	OutputDebugString(theMsg);
+	OutputDebugStringA(theMsg);
 }
 
 
@@ -56,6 +56,7 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &theArgs)
 {
 	// dair, to do
+	// http://msdn.microsoft.com/en-us/library/ms682499(VS.85).aspx
 }
 
 
