@@ -163,7 +163,7 @@ NTime NTargetTime::GetUpTime(void)
 
 
 	// Get the time
-	return(((NTime) timeGetTime()) * kNTimeMillisecond);
+	return(((NTime) GetTickCount()) * kNTimeMillisecond);
 }
 
 

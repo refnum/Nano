@@ -4,10 +4,12 @@
  *		For Mac builds, suppress compiler warnings with:					*
  *			-w																*
  ****************************************************************************/
- // PCRE
+ // PCRE features
 #define SUPPORT_UTF8											1
 #define SUPPORT_UCP												1
 
+
+// Types
 typedef int BOOL;
 
 

@@ -1,5 +1,5 @@
 /*	NAME:
-		config.h
+		expat_config.h
 
 	DESCRIPTION:
 		Nano expat config.
