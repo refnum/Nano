@@ -25,10 +25,10 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NBitfield kTestAttribute1								= (1 << 0);
-static const NBitfield kTestAttribute2								= (1 << 1);
-static const NBitfield kTestAttribute3								= (1 << 30);
-static const NBitfield kTestAttribute4								= (1 << 31);
+static const NBitfield kTestAttribute1								= (NBitfield) (1 << 0);
+static const NBitfield kTestAttribute2								= (NBitfield) (1 << 1);
+static const NBitfield kTestAttribute3								= (NBitfield) (1 << 30);
+static const NBitfield kTestAttribute4								= (NBitfield) (1 << 31);
 
 
 
