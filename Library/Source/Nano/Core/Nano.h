@@ -24,6 +24,7 @@
 // Mac
 #if NN_TARGET_MAC
 	#include <Carbon/Carbon.h>
+
 	#if defined(__OBJC__)
 		#include <Cocoa/Cocoa.h>
 	#endif
@@ -34,8 +35,14 @@
 #if NN_TARGET_WINDOWS
 	#define WIN32_LEAN_AND_MEAN
 	#define NOMINMAX
+	
+	#ifndef UNICODE
 	#define UNICODE
+	#endif
+	
+	#ifndef _UNICODE
 	#define _UNICODE
+	#endif
 
 	#include <Windows.h>
 #endif
