@@ -159,7 +159,12 @@ public:
 
 
 private:
-	NLock								&mLock;
+										StLock      (const StLock &/*theObject*/) { mLock = NULL;  }
+	StLock								&operator = (const StLock &/*theObject*/) { return(*this); }
+
+
+private:
+	NLock							   *mLock;
 };
 
 

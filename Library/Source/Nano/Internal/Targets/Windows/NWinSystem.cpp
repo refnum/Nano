@@ -210,7 +210,7 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 	wasOK   = WriteFile(theInfo->writeHnd, theData.GetData(), theData.GetSize(), &numWritten, NULL);
 
 	NN_ASSERT(wasOK);
-	NN_ASSERT(numWritten == theData.GetSize());
+	NN_ASSERT(((NIndex) numWritten) == theData.GetSize());
 }
 
 
@@ -380,7 +380,7 @@ void NTargetSystem::TaskUpdate(TaskInfo &theTask)
 
 
 	// Get the child status
-	theStatus = -1;
+	theStatus = (DWORD) -1;
 	wasOK     = GetExitCodeProcess((HANDLE) theTask.taskID, &theStatus);
 
 	if (wasOK && theStatus == STILL_ACTIVE)
@@ -485,7 +485,7 @@ void NTargetSystem::TaskKill(const TaskInfo &theTask)
 
 
 	// Kill the task
-	wasOK = TerminateProcess((HANDLE) theTask.taskID, -1);
+	wasOK = TerminateProcess((HANDLE) theTask.taskID, (UINT) -1);
 	NN_ASSERT(wasOK);
 }
 

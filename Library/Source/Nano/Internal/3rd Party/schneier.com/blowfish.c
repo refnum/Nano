@@ -39,11 +39,14 @@ void blowfish_decryptblock(blowfish_context_t *ctx, unsigned long *hi, unsigned 
 
 void blowfish_initiate(blowfish_context_t *ctx, void *keyparam, unsigned int keybytes)
 {
-	keybytes %= 57;
 	unsigned char *key = keyparam;
 	int i, j, k;
 	unsigned long calc;
 
+	unsigned long hi = 0, lo = 0;
+
+	keybytes %= 57;
+	
 	for(i = 0; i < 4; i++)
 		memcpy(ctx->sbox[i], ORIG_S[i], sizeof(ORIG_S[i]));
 
@@ -59,8 +62,6 @@ void blowfish_initiate(blowfish_context_t *ctx, void *keyparam, unsigned int key
 			ctx->pbox[i] ^= calc;
 		}
 	}
-
-	unsigned long hi = 0, lo = 0;
 
 	for(i = 0; i < 18; i += 2) {
 		blowfish_encryptblock(ctx, &hi, &lo);

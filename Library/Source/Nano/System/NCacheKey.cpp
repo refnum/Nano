@@ -78,6 +78,8 @@ NComparison NCacheKey::Compare(const NCacheKey &theKey) const
 
 
 	// Compare the key
+	theResult = kNCompareEqualTo;
+	
 	for (n = 0; n < NN_ARRAY_SIZE(mKey); n++)
 		{
 		theResult = GetComparison(mKey[n], theKey.mKey[n]);

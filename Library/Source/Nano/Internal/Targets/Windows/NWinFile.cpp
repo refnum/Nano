@@ -629,7 +629,7 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 //============================================================================
 //      NTargetFile::Read : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
+NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	DWORD		bytesRead;
 	NStatus		theErr;
 
@@ -637,7 +637,6 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 
 	// Validate our parameters
 	NN_ASSERT(theSize <= kSInt32Max);
-	NN_UNUSED(theFlags);
 
 
 
@@ -673,7 +672,7 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 //============================================================================
 //      NTargetFile::Write : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
+NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	DWORD		bytesWritten;
 	NStatus		theErr;
 
@@ -681,7 +680,6 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 
 	// Validate our parameters and state
 	NN_ASSERT(theSize <= kUInt32Max);
-	NN_UNUSED(theFlags);
 
 
 
@@ -785,15 +783,10 @@ void NTargetFile::MapClose(NFileRef theFile)
 //============================================================================
 //      NTargetFile::MapFetch : Fetch a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool noCache)
+void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool /*noCache*/)
 {	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
 	DWORD			offsetHigh, offsetLow;
 	void			*thePtr;
-
-
-
-	// Compiler warnings
-	NN_UNUSED(noCache);
 
 
 
@@ -815,15 +808,8 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 //============================================================================
 //      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
-{	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
-	BOOL			wasOK;
-
-
-
-	// Compiler warnings
-	NN_UNUSED(theAccess);
-	NN_UNUSED(theFile);
+void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const void *thePtr, UInt32 /*theSize*/)
+{	BOOL	wasOK;
 
 
 

@@ -154,7 +154,7 @@ UInt16 NDataDigest::GetInternet(const NData &theData)
 	theDigest  = ~theDigest;
 	theDigest &= 0x0000FFFF;
 
-	return(theDigest);
+	return((UInt16) theDigest);
 }
 
 

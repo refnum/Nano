@@ -234,6 +234,7 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 
 	// Execute the query
 	startTime = NTimeUtilities::GetTime();
+	dbErr     = SQLITE_OK;
 	areDone   = false;
 	
 	while (!areDone)

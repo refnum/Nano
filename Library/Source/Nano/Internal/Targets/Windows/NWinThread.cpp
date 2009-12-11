@@ -313,7 +313,7 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 
 
 	// Compare and swap
-	return(InterlockedCompareExchange((LONG *) &theValue, newValue, oldValue) == oldValue);
+	return(InterlockedCompareExchange((LONG *) &theValue, newValue, oldValue) == (LONG) oldValue);
 }
 
 

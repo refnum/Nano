@@ -81,7 +81,7 @@ public:
 	// Get the task result
 	//
 	// Returns 0 if the task has not started, or is still running.
-	SInt8								GetResult(void) const;
+	SInt32								GetResult(void) const;
 
 
 	// Launch/terminate the task

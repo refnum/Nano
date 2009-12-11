@@ -169,11 +169,11 @@ NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
 
 
 	// Convert the date
-	theDate.year   = timeGreg.tm_year + 1900;
-	theDate.month  = timeGreg.tm_mon  + 1;
-	theDate.day    = timeGreg.tm_mday;
-	theDate.hour   = timeGreg.tm_hour;
-	theDate.minute = timeGreg.tm_min;
+	theDate.year   = ((SInt32)  timeGreg.tm_year) + 1900;
+	theDate.month  = ((SInt8)   timeGreg.tm_mon)  + 1;
+	theDate.day    = ((SInt8)   timeGreg.tm_mday);
+	theDate.hour   = ((SInt8)   timeGreg.tm_hour);
+	theDate.minute = ((SInt8)   timeGreg.tm_min);
 	theDate.second = ((Float64) timeGreg.tm_sec) + secsFrac;
 
 	return(theDate);

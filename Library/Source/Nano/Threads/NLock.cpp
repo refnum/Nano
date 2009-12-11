@@ -468,12 +468,12 @@ void NSpinLock::Unlock(UInt32 &theLock)
 //----------------------------------------------------------------------------
 #pragma mark -
 StLock::StLock(NLock &theLock)
-		: mLock(theLock)
 {
 
 
 	// Acquire the lock
-	mLock.Lock();
+	mLock = &theLock;
+	mLock->Lock();
 }
 
 
@@ -488,6 +488,6 @@ StLock::~StLock(void)
 
 
 	// Release the lock
-	mLock.Unlock();
+	mLock->Unlock();
 }
 
