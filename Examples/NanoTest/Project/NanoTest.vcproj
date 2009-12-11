@@ -39,17 +39,18 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Targets\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\System&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Utilities&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=1"
 				StringPooling="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="NanoTest Prefix.h"
+				PrecompiledHeaderThrough="StdAfx.h"
 				WarningLevel="4"
 				DebugInformationFormat="3"
-				ForcedIncludeFiles="NanoTest Prefix.h"
+				DisableSpecificWarnings="4068;4127;4201"
+				ForcedIncludeFiles="StdAfx.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -118,16 +119,17 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Targets\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\System&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Utilities&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=0"
 				StringPooling="true"
 				MinimalRebuild="true"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="NanoTest Prefix.h"
+				PrecompiledHeaderThrough="StdAfx.h"
 				WarningLevel="4"
 				DebugInformationFormat="0"
-				ForcedIncludeFiles="NanoTest Prefix.h"
+				DisableSpecificWarnings="4068;4127;4201"
+				ForcedIncludeFiles="StdAfx.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -458,6 +460,26 @@
 				RelativePath="..\Source\NanoTest.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Source\Targets\Windows\StdAfx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -742,6 +764,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Utilities\TTimeUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Targets\Windows\StdAfx.h"
 				>
 			</File>
 		</Filter>

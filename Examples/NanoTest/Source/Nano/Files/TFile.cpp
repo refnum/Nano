@@ -35,20 +35,29 @@ static const UInt32 kTestSize2										= 222;
 
 // Paths
 #if NN_TARGET_MAC
-	static const NString kTestPath									= "/tmp";
-	static const NString kTestName									= "TFile";
-	static const NString kTestExtension								= "txt";
-
-	static const NString kTestName2									= "TFileRename";
-	static const NString kTestExtension2							= "txtrename";
+	static const NString kTestTmpPath								= "/tmp";
+	static const NString kTestTmpName								= "TFile";
+	static const NString kTestTmpExtension							= "txt";
+	static const NString kTestTmpName2								= "TFileRename";
+	static const NString kTestTmpExtension2							= "txtrename";
 	
 	static const NString kPathFile									= "/bin/bash";
 	static const NString kPathDirectoryRoot							= "/Library";
 	static const NString kPathDirectoryChildren						= "Application Support/Apple";
-	static const NString kPathFileTmp								= kTestPath + "/" + kTestName  + "." + kTestExtension;
-	static const NString kPathFileTmp2								= kTestPath + "/" + kTestName2 + "." + kTestExtension2;
+	static const NString kPathFileTmp								= kTestTmpPath + "/" + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kTestTmpPath + "/" + kTestTmpName2 + "." + kTestTmpExtension2;
 #else
-	#error "Unknown file test"
+	static const NString kTestTmpPath								= "c:\\windows\\temp";
+	static const NString kTestTmpName								= "TFile";
+	static const NString kTestTmpExtension							= "txt";
+	static const NString kTestTmpName2								= "TFileRename";
+	static const NString kTestTmpExtension2							= "txtrename";
+	
+	static const NString kPathFile									= "c:\\windows\\notepad.exe";
+	static const NString kPathDirectoryRoot							= "c:\\windows";
+	static const NString kPathDirectoryChildren						= "system32\\boot";
+	static const NString kPathFileTmp								= kTestTmpPath + "\\" + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kTestTmpPath + "\\" + kTestTmpName2 + "." + kTestTmpExtension2;
 #endif
 
 
@@ -63,7 +72,7 @@ void TFile::Execute(void)
 	NFile			theFile, theDir, tmpFile, tmpFile2;
 	UInt8			tmpBuffer[kBufferSize];
 	UInt64			theSize;
-	OSStatus		theErr;
+	NStatus			theErr;
 	UInt32			n;
 
 
@@ -87,8 +96,8 @@ void TFile::Execute(void)
 	NN_ASSERT(  theDir.IsDirectory());
 	NN_ASSERT(!tmpFile.IsDirectory());
 
-	NN_ASSERT(!theFile.IsWriteable());		// dair, don't want to create file
-	NN_ASSERT(  theDir.IsWriteable());		// dair, want to check if dir is writeable not openable
+	NN_ASSERT(!theFile.IsWriteable());
+	NN_ASSERT(  theDir.IsWriteable());
 	NN_ASSERT(!tmpFile.IsWriteable());
 
 	NN_ASSERT(!theFile.IsOpen());
@@ -119,9 +128,9 @@ void TFile::Execute(void)
 	theExtension = tmpFile.GetExtension();
 	
 	NN_ASSERT(thePath      == kPathFileTmp);
-	NN_ASSERT(theName      == (kTestName + "." + kTestExtension));
-	NN_ASSERT(displayName  == (kTestName + "." + kTestExtension));
-	NN_ASSERT(theExtension == kTestExtension);
+	NN_ASSERT(theName      == (kTestTmpName + "." + kTestTmpExtension));
+	NN_ASSERT(displayName  == (kTestTmpName + "." + kTestTmpExtension));
+	NN_ASSERT(theExtension == kTestTmpExtension);
 
 
 
@@ -136,11 +145,11 @@ void TFile::Execute(void)
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(tmpFile.IsFile());
 	
-	tmpFile.SetName(kTestName2 + "." + kTestExtension, true);
-	NN_ASSERT(tmpFile == tmpFile2.GetChild(kTestName2 + "." + kTestExtension));
+	tmpFile.SetName(kTestTmpName2 + "." + kTestTmpExtension, true);
+	NN_ASSERT(tmpFile == tmpFile2.GetChild(kTestTmpName2 + "." + kTestTmpExtension));
 	
-	tmpFile.SetExtension(kTestExtension2, true);
-	NN_ASSERT(tmpFile == tmpFile2.GetChild(kTestName2 + "." + kTestExtension2));
+	tmpFile.SetExtension(kTestTmpExtension2, true);
+	NN_ASSERT(tmpFile == tmpFile2.GetChild(kTestTmpName2 + "." + kTestTmpExtension2));
 
 	tmpFile.Delete();
 
@@ -260,9 +269,9 @@ void TFile::Execute(void)
 
 	// Relatives
 	tmpFile2 = tmpFile.GetParent();
-	NN_ASSERT(tmpFile2.GetPath() == kTestPath);
+	NN_ASSERT(tmpFile2.GetPath() == kTestTmpPath);
 	
-	tmpFile2 = tmpFile2.GetChild(kTestName + "." + kTestExtension);
+	tmpFile2 = tmpFile2.GetChild(kTestTmpName + "." + kTestTmpExtension);
 	NN_ASSERT(tmpFile2 == tmpFile);
 
 

@@ -14,19 +14,23 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NNSAutoReleasePool.h"
+#if NN_TARGET_MAC
+	#include "NNSAutoReleasePool.h"
+
+	#include "TNSAutoReleasePool.h"
+	#include "TNSSingleton.h"
+
+	#include "TCFArray.h"
+	#include "TCFData.h"
+	#include "TCFDate.h"
+	#include "TCFDictionary.h"
+	#include "TCFNumber.h"
+	#include "TCFObject.h"
+	#include "TCFString.h"
+#endif
+
+
 #include "NCommandLine.h"
-
-#include "TNSAutoReleasePool.h"
-#include "TNSSingleton.h"
-
-#include "TCFArray.h"
-#include "TCFData.h"
-#include "TCFDate.h"
-#include "TCFDictionary.h"
-#include "TCFNumber.h"
-#include "TCFObject.h"
-#include "TCFString.h"
 
 #include "TCommandLine.h"
 #include "TPreferences.h"
@@ -113,13 +117,17 @@
 //		main : Program entry point.
 //----------------------------------------------------------------------------
 int main(int argc, const char **argv)
-{	StAutoReleasePool		thePool;
-
+{
 
 
 	// Initialise ourselves
 	*NCommandLine::Get() = NCommandLine(argc, argv);
 
+
+
+	// Mac
+#if NN_TARGET_MAC
+	StAutoReleasePool		thePool;
 
 
 	// Nanite - Cocoa
@@ -136,6 +144,7 @@ int main(int argc, const char **argv)
 	TCFNumber::Execute();
 	TCFObject::Execute();
 	TCFString::Execute();
+#endif // NN_TARGET_MAC
 
 
 
