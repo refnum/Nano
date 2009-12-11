@@ -264,13 +264,17 @@ void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRa
 	// Get the state we need
 	theArray     = GetImmutable();
 	processRange = theRange.GetNormalized(GetSize());
-	iterFirst    = theArray->begin() + processRange.GetFirst();
-	iterLast     = theArray->begin() + processRange.GetNext();
 
 
 
 	// Process the array
-	for_each(iterFirst, iterLast, theFunctor);
+	if (!processRange.IsEmpty())
+		{
+		iterFirst = theArray->begin() + processRange.GetFirst();
+		iterLast  = theArray->begin() + processRange.GetNext();
+
+		for_each(iterFirst, iterLast, theFunctor);
+		}
 }
 
 
