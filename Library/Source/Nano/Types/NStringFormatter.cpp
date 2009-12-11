@@ -90,6 +90,19 @@ static const NStringUTF8 kFormatTypes									= kFormatTypesInteger +
 //============================================================================
 //		Internal macros
 //----------------------------------------------------------------------------
+// Log without using NStringFormatter
+#if NN_DEBUG
+	#define NN_LOG_FORMATTER(...)										\
+		do																\
+			{															\
+			NDebug_LogMessage(__FILE__, __LINE__, __VA_ARGS__);			\
+			}															\
+		while (0)
+#else
+	#define NN_LOG_FORMATTER(...)				do { } while (0)
+#endif
+
+
 // Collect an argument list
 #define NN_FORMAT_ARGS_COLLECT(_argList)		if (arg1.IsValid())		{								_argList.push_back(&arg1);	} \
 												if (arg2.IsValid())		{ NN_ASSERT(arg1.IsValid());	_argList.push_back(&arg2);	} \
@@ -527,7 +540,7 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 				formatEnd = strpbrk(textUTF8, typesUTF8);
 				if (formatEnd == NULL)
 					{
-					NN_LOG("Missing type: found '%%' without type in '%s'", theFormat.GetUTF8());
+					NN_LOG_FORMATTER("Missing type: found '%%' without type in '%s'", theFormat.GetUTF8());
 					theResult += "%";
 					areDone    = true;
 					}
@@ -563,7 +576,7 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 
 	// Log errors
 	if (numFound != theArguments.size())
-		NN_LOG("Wrong argument count: '%s' references %d arguments, but %d supplied", theFormat.GetUTF8(), numFound, theArguments.size());
+		NN_LOG_FORMATTER("Wrong argument count: '%s' references %d arguments, but %d supplied", theFormat.GetUTF8(), numFound, theArguments.size());
 
 	return(theResult);
 }
