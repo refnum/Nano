@@ -240,13 +240,9 @@
 		ABB146180FF36F84006F178C /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146100FF36F84006F178C /* xmlparse.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB146190FF36F84006F178C /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146110FF36F84006F178C /* xmlrole.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB1461A0FF36F84006F178C /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146130FF36F84006F178C /* xmltok.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		ABB1461B0FF36F84006F178C /* xmltok_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146150FF36F84006F178C /* xmltok_impl.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		ABB1461C0FF36F84006F178C /* xmltok_ns.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146170FF36F84006F178C /* xmltok_ns.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146100FF36F84006F178C /* xmlparse.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146110FF36F84006F178C /* xmlrole.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB1461F0FF36F84006F178C /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146130FF36F84006F178C /* xmltok.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		ABB146200FF36F84006F178C /* xmltok_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146150FF36F84006F178C /* xmltok_impl.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		ABB146210FF36F84006F178C /* xmltok_ns.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146170FF36F84006F178C /* xmltok_ns.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146560FF37325006F178C /* NMacPreferences.cpp */; };
 		ABB146590FF3732E006F178C /* NIPhonePreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
@@ -558,9 +554,6 @@
 		ABB146120FF36F84006F178C /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
 		ABB146130FF36F84006F178C /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
 		ABB146140FF36F84006F178C /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
-		ABB146150FF36F84006F178C /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
-		ABB146160FF36F84006F178C /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
-		ABB146170FF36F84006F178C /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
 		ABB146540FF37315006F178C /* NTargetPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPreferences.h; sourceTree = "<group>"; };
 		ABB146550FF37321006F178C /* NWinPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPreferences.cpp; sourceTree = "<group>"; };
 		ABB146560FF37325006F178C /* NMacPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPreferences.cpp; sourceTree = "<group>"; };
@@ -1158,9 +1151,6 @@
 				ABB146120FF36F84006F178C /* xmlrole.h */,
 				ABB146130FF36F84006F178C /* xmltok.c */,
 				ABB146140FF36F84006F178C /* xmltok.h */,
-				ABB146150FF36F84006F178C /* xmltok_impl.c */,
-				ABB146160FF36F84006F178C /* xmltok_impl.h */,
-				ABB146170FF36F84006F178C /* xmltok_ns.c */,
 			);
 			path = expat_2.0.1;
 			sourceTree = "<group>";
@@ -1345,8 +1335,6 @@
 				AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */,
 				ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */,
-				ABB146200FF36F84006F178C /* xmltok_impl.c in Sources */,
-				ABB146210FF36F84006F178C /* xmltok_ns.c in Sources */,
 				ABB1461F0FF36F84006F178C /* xmltok.c in Sources */,
 				AB7AB08D103AD6B5004B1F6E /* fm_md5.c in Sources */,
 				AB1694DA10028C8200F7D4B7 /* cdecode.c in Sources */,
@@ -1495,8 +1483,6 @@
 				AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB146180FF36F84006F178C /* xmlparse.c in Sources */,
 				ABB146190FF36F84006F178C /* xmlrole.c in Sources */,
-				ABB1461B0FF36F84006F178C /* xmltok_impl.c in Sources */,
-				ABB1461C0FF36F84006F178C /* xmltok_ns.c in Sources */,
 				ABB1461A0FF36F84006F178C /* xmltok.c in Sources */,
 				AB7AB08E103AD6B5004B1F6E /* fm_md5.c in Sources */,
 				AB1694DC10028C8200F7D4B7 /* cdecode.c in Sources */,
