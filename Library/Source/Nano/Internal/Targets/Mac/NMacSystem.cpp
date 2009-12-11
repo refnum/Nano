@@ -272,7 +272,7 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	// Fork the process
 	theTask.taskID = fork();
 	
-	switch (theTask.taskID) {
+	switch ((SInt32) theTask.taskID) {
 		case -1:
 			// Handle failure
 			return(theTask);
@@ -346,7 +346,7 @@ void NTargetSystem::TaskUpdate(TaskInfo &theTask)
 	if (sysErr == 0)
 		return;
 
-	else if (sysErr == theTask.taskID && WIFEXITED(theStatus))
+	else if (sysErr == (int) theTask.taskID && WIFEXITED(theStatus))
 		theStatus = WEXITSTATUS(theStatus);
 
 	else

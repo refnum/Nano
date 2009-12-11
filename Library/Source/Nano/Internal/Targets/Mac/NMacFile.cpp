@@ -729,14 +729,13 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 //============================================================================
 //      NTargetFile::Read : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
+NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	NStatus		theErr;
 
 
 
 	// Validate our parameters and state
 	NN_ASSERT(theSize <= kUInt32Max);
-	NN_UNUSED(theFlags);
 
 
 
@@ -769,14 +768,13 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 //============================================================================
 //      NTargetFile::Write : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
+NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	NStatus		theErr;
 
 
 
 	// Validate our parameters and state
 	NN_ASSERT(theSize <= kUInt32Max);
-	NN_UNUSED(theFlags);
 
 
 
