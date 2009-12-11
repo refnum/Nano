@@ -16,11 +16,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include <algorithm>
-#include <iterator>
-#include <vector>
-#include <list>
-#include <map>
+#if defined(__cplusplus)
+	#include <algorithm>
+	#include <iterator>
+	#include <vector>
+	#include <list>
+	#include <map>
+#endif
 
 #include <ctype.h>
 #include <float.h>
@@ -85,7 +87,7 @@
 
 
 //============================================================================
-//		Types
+//		Core Types
 //----------------------------------------------------------------------------
 // Primitives
 //
@@ -111,6 +113,8 @@ typedef NANO_UTF32													UTF32Char;
 
 
 // Misc
+typedef uintptr_t													UIntPtr;
+
 typedef SInt32														NIndex;
 typedef SInt32														NStatus;
 typedef UInt32														NHashCode;
@@ -119,14 +123,15 @@ typedef Float64														NRadians;
 typedef Float64														NDegrees;
 typedef Float64														NTime;
 
-#if NN_TARGET_ARCH_64
-typedef UInt64														UIntPtr;
-#else
-typedef UInt32														UIntPtr;
-#endif
 
 
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
 // Lists
+#if defined(__cplusplus)
 typedef std::vector<UInt8>											UInt8List;
 typedef UInt8List::iterator											UInt8ListIterator;
 typedef UInt8List::const_iterator									UInt8ListConstIterator;
@@ -177,6 +182,7 @@ typedef NIndexList::const_iterator									NIndexListConstIterator;
 typedef std::vector<NHashCode>										NHashCodeList;
 typedef NHashCodeList::iterator										NHashCodeListIterator;
 typedef NHashCodeList::const_iterator								NHashCodeListConstIterator;
+#endif // __cplusplus
 
 
 
@@ -209,8 +215,8 @@ static const Float32 kFloat32Max									= FLT_MAX;
 static const Float64 kFloat64Min									= DBL_MIN;
 static const Float64 kFloat64Max									= DBL_MAX;
 
-static const NIndex kNIndexMin										= kSInt32Min;
-static const NIndex kNIndexMax										= kSInt32Max;
+static const NIndex kNIndexMin										= INT_MIN;
+static const NIndex kNIndexMax										= INT_MAX;
 
 
 // Misc
@@ -220,8 +226,8 @@ static const NHashCode kNHashCodeNone								= 0;
 
 // Memory
 static const NIndex kKilobyte										= 1024;
-static const NIndex kMegabyte										= 1024 * kKilobyte;
-static const NIndex kGigabyte										= 1024 * kMegabyte;
+static const NIndex kMegabyte										= 1024 * 1024;
+static const NIndex kGigabyte										= 1024 * 1024 * 1024;
 
 
 // Times
@@ -230,12 +236,12 @@ static const NTime kNTimeNanosecond									= 1.0 / 1000000000.0;
 static const NTime kNTimeMicrosecond								= 1.0 / 1000000.0;
 static const NTime kNTimeMillisecond								= 1.0 / 1000.0;
 static const NTime kNTimeSecond										= 1.0;
-static const NTime kNTimeMinute										= 60.0  * kNTimeSecond;
-static const NTime kNTimeHour										= 60.0  * kNTimeMinute;
-static const NTime kNTimeDay										= 24.0  * kNTimeHour;
-static const NTime kNTimeWeek										=  7.0  * kNTimeDay;
-static const NTime kNTimeMonthish									= 30.0  * kNTimeDay;
-static const NTime kNTimeYearish									= 365.0 * kNTimeDay;
+static const NTime kNTimeMinute										= 60.0;
+static const NTime kNTimeHour										= 60.0 * 60.0;
+static const NTime kNTimeDay										= 60.0 * 60.0 * 24.0;
+static const NTime kNTimeWeek										= 60.0 * 60.0 * 24.0 * 7.0;
+static const NTime kNTimeMonthish									= 60.0 * 60.0 * 24.0 * 7.0 * 30.0;
+static const NTime kNTimeYearish									= 60.0 * 60.0 * 24.0 * 7.0 * 30.0 * 365.0;
 static const NTime kNTimeForever									= -1.0;
 
 

@@ -54,10 +54,7 @@
 
 
 // Nano
-#if defined(__cplusplus)
-	#include "NanoTypes.h"
-#endif
-
+#include "NanoTypes.h"
 #include "NanoMacros.h"
 #include "NDebug.h"
 
