@@ -40,18 +40,18 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=1"
 				StringPooling="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="StdAfx.h"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
-				CompileAs="2"
-				DisableSpecificWarnings="4068"
+				DisableSpecificWarnings="4068;4127;4201"
 				ForcedIncludeFiles="StdAfx.h"
 			/>
 			<Tool
@@ -107,18 +107,19 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets&quot;;&quot;$(ProjectDir)..\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=0"
 				StringPooling="true"
 				MinimalRebuild="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="StdAfx.h"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="4068"
+				DisableSpecificWarnings="4068;4127;4201"
 				ForcedIncludeFiles="StdAfx.h"
 			/>
 			<Tool
@@ -167,6 +168,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -175,6 +177,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -267,6 +270,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -275,6 +279,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -307,6 +312,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -315,6 +321,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -327,6 +334,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -335,6 +343,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -347,6 +356,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -355,6 +365,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -387,6 +398,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -395,6 +407,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -407,6 +420,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -415,6 +429,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -427,6 +442,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -435,6 +451,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -447,6 +464,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -455,6 +473,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -467,6 +486,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -475,6 +495,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -852,7 +873,6 @@
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
 						WarningLevel="0"
-						DisableSpecificWarnings="4065"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -894,6 +914,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -902,6 +923,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -914,6 +936,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -922,6 +945,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1014,6 +1038,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1022,6 +1047,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1054,6 +1080,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1062,6 +1089,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1074,6 +1102,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1082,6 +1111,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1254,10 +1284,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
-						PrecompiledHeaderThrough=""
-						CompileAs="1"
-						DisableSpecificWarnings="4244"
-						ForcedIncludeFiles="$(NOINHERIT)"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1266,6 +1293,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1298,6 +1326,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1306,6 +1335,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1318,6 +1348,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1326,6 +1357,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1338,6 +1370,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1346,6 +1379,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1358,6 +1392,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1366,6 +1401,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1378,6 +1414,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1386,46 +1423,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_impl.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\3rd Party\expat_2.0.1\xmltok_ns.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1438,6 +1436,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1446,6 +1445,7 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"
+						WarningLevel="0"
 					/>
 				</FileConfiguration>
 			</File>
