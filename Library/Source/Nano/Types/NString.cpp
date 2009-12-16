@@ -1192,6 +1192,12 @@ const NString& NString::operator += (const NString &theString)
 
 
 
+	// Check our parameters
+	if (theString.IsEmpty())
+		return(*this);
+		
+
+
 	// Get the state we need
 	theValue   = GetMutable();
 	otherValue = theString.GetImmutable();
@@ -1236,6 +1242,12 @@ const NString& NString::operator += (const NString &theString)
 //----------------------------------------------------------------------------
 const NString NString::operator + (const NString &theString) const
 {	NString		theResult;
+
+
+
+	// Check our parameters
+	if (theString.IsEmpty())
+		return(*this);
 
 
 
