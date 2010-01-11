@@ -344,7 +344,7 @@ template<class T> NVectorT<T> NVectorT<T>::GetNormalized(void) const
 
 
 	// Normalize the vector
-	invLength = 1.0 / GetLength();
+	invLength = (T) (1.0 / GetLength());
 
 	theResult.x = x * invLength;
 	theResult.y = y * invLength;

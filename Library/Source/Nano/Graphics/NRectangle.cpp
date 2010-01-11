@@ -365,8 +365,8 @@ template<class T> void NRectangleT<T>::ScaleToFit(const NRectangleT<T> &theRect)
 
 	// Update our state
 	size     = theSize;
-	origin.x = theRect.origin.x + ((theRect.size.width  - theSize.width)  / 2.0);
-	origin.y = theRect.origin.y + ((theRect.size.height - theSize.height) / 2.0);
+	origin.x = theRect.origin.x + (T) ((theRect.size.width  - theSize.width)  / 2.0);
+	origin.y = theRect.origin.y + (T) ((theRect.size.height - theSize.height) / 2.0);
 }
 
 
@@ -385,14 +385,14 @@ template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect
 	// Get the state we need
 	minX = theRect.origin.x;
 	maxX = theRect.origin.x + theRect.size.width;
-	midX = minX + ((maxX - minX) / 2.0);
+	midX = minX + (T) ((maxX - minX) / 2.0);
 
 	minY = theRect.origin.y;
 	maxY = theRect.origin.y + theRect.size.height;
-	midY = minY + ((maxY - minY) / 2.0);
+	midY = minY + (T) ((maxY - minY) / 2.0);
 
-	halfWidth  = size.width  / 2.0;
-	halfHeight = size.height / 2.0;
+	halfWidth  = (T) (size.width  / 2.0);
+	halfHeight = (T) (size.height / 2.0);
 
 
 
@@ -696,10 +696,11 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetInset(T deltaX, T deltaY) co
 	// Inset the rectangle
 	theResult = GetNormalized();
 	
-	theResult.origin.x    +=  deltaX;
-	theResult.origin.y    +=  deltaY;
-	theResult.size.width  -= (deltaX * 2.0);
-	theResult.size.height -= (deltaY * 2.0);
+	theResult.origin.x += deltaX;
+	theResult.origin.y += deltaY;
+
+	theResult.size.width  -= (T) (deltaX * 2.0);
+	theResult.size.height -= (T) (deltaY * 2.0);
 	
 	return(theResult);
 }
@@ -744,8 +745,8 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetScaled(T scaleBy) const
 	theResult.size.width  *= scaleBy;
 	theResult.size.height *= scaleBy;
 
-	theResult.origin.x = theCenter.x - (theResult.size.width  / 2.0);
-	theResult.origin.y = theCenter.y - (theResult.size.height / 2.0);
+	theResult.origin.x = theCenter.x - (T) (theResult.size.width  / 2.0);
+	theResult.origin.y = theCenter.y - (T) (theResult.size.height / 2.0);
 	
 	return(theResult);
 }
@@ -854,7 +855,7 @@ template<class T> T NRectangleT<T>::GetMidX(void) const
 
 
 	// Get the value
-	return(GetMinX() + ((GetMaxX() - GetMinX()) / 2.0));
+	return(GetMinX() + (T) ((GetMaxX() - GetMinX()) / 2.0));
 }
 
 
@@ -869,7 +870,7 @@ template<class T> T NRectangleT<T>::GetMidY(void) const
 
 
 	// Get the value
-	return(GetMinY() + ((GetMaxY() - GetMinY()) / 2.0));
+	return(GetMinY() + (T) ((GetMaxY() - GetMinY()) / 2.0));
 }
 
 
