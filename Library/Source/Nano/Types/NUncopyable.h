@@ -1,8 +1,8 @@
 /*	NAME:
-		NNSAutoReleasePool.h
+		NUncopyable.h
 
 	DESCRIPTION:
-		Auto-release pool.
+		Uncopyable object.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,13 +11,11 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NNSAUTORELEASEPOOL_HDR
-#define NNSAUTORELEASEPOOL_HDR
+#ifndef NUNCOPYABLE_HDR
+#define NUNCOPYABLE_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NUncopyable.h"
-#include "NCFObject.h"
 
 
 
@@ -26,28 +24,24 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class StAutoReleasePool : public NUncopyable {
+class NUncopyable {
 public:
-										StAutoReleasePool(void);
-	virtual							   ~StAutoReleasePool(void);
+										NUncopyable(void);
 
 
 private:
-	static bool							&InsidePool(void);
+										NUncopyable(const NUncopyable &theObject);
+	const NUncopyable&					operator = (const NUncopyable &theObject);
 
 
 private:
-	NSAutoreleasePool					*mPool;
+
+
 };
 
 
 
 
 
-
-#endif // NNSAUTORELEASEPOOL_HDR
-
-
-
-
+#endif // NUNCOPYABLE_HDR
 

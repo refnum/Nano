@@ -140,6 +140,8 @@
 		AB53A407109B237800817E89 /* NTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53A404109B237800817E89 /* NTask.cpp */; };
 		AB669B5110035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
 		AB669B5210035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
+		AB76913F10FCEA6200AD6A3F /* NUncopyable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */; };
+		AB76914010FCEA6200AD6A3F /* NUncopyable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */; };
 		AB7AAFD7103AC4EF004B1F6E /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		AB7AAFD8103AC4EF004B1F6E /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		AB7AB08D103AD6B5004B1F6E /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
@@ -381,6 +383,8 @@
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
+		AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUncopyable.cpp; sourceTree = "<group>"; };
+		AB76913E10FCEA6200AD6A3F /* NUncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUncopyable.h; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataCipher.h; sourceTree = "<group>"; };
 		AB7AB08B103AD6B5004B1F6E /* fm_md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fm_md5.c; sourceTree = "<group>"; };
@@ -1091,6 +1095,8 @@
 				AB9155650F9B4DD6009FFEAF /* NStringEncoder.h */,
 				AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */,
 				AB9155670F9B4DD6009FFEAF /* NStringFormatter.h */,
+				AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */,
+				AB76913E10FCEA6200AD6A3F /* NUncopyable.h */,
 				AB2AAC621035B621007BC4E6 /* NUTI.cpp */,
 				AB2AAC631035B621007BC4E6 /* NUTI.h */,
 				AB9155680F9B4DD6009FFEAF /* NVariant.cpp */,
@@ -1427,6 +1433,7 @@
 				AB28FC3E0FB5D9F000F72C61 /* NString.cpp in Sources */,
 				AB28FC3F0FB5D9F000F72C61 /* NStringEncoder.cpp in Sources */,
 				AB28FC400FB5D9F000F72C61 /* NStringFormatter.cpp in Sources */,
+				AB76914010FCEA6200AD6A3F /* NUncopyable.cpp in Sources */,
 				AB2AAC641035B621007BC4E6 /* NUTI.cpp in Sources */,
 				AB28FC410FB5D9F000F72C61 /* NVariant.cpp in Sources */,
 				AB28FC420FB5D9F000F72C61 /* NFileUtilities.cpp in Sources */,
@@ -1575,6 +1582,7 @@
 				AB9155B80F9B4DD6009FFEAF /* NString.cpp in Sources */,
 				AB9155B90F9B4DD6009FFEAF /* NStringEncoder.cpp in Sources */,
 				AB9155BA0F9B4DD6009FFEAF /* NStringFormatter.cpp in Sources */,
+				AB76913F10FCEA6200AD6A3F /* NUncopyable.cpp in Sources */,
 				AB2AAC651035B621007BC4E6 /* NUTI.cpp in Sources */,
 				AB9155BB0F9B4DD6009FFEAF /* NVariant.cpp in Sources */,
 				AB9155BC0F9B4DD6009FFEAF /* NFileUtilities.cpp in Sources */,

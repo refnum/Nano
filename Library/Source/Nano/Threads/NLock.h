@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NUncopyable.h"
 #include "NAtomicInt.h"
 
 
@@ -152,15 +153,10 @@ private:
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class StLock {
+class StLock : public NUncopyable {
 public:
 										StLock(NLock &theLock);
 	virtual							   ~StLock(void);
-
-
-private:
-										StLock      (const StLock &/*theObject*/) { mLock = NULL;  }
-	StLock								&operator = (const StLock &/*theObject*/) { return(*this); }
 
 
 private:

@@ -1,8 +1,11 @@
 /*	NAME:
-		NNSAutoReleasePool.h
+		NUncopyable.cpp
 
 	DESCRIPTION:
-		Auto-release pool.
+		Base class for objects that can not be copied.
+		
+		This is enforced at compile-time, by making our assignment operator
+		and copy constructor private.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -11,43 +14,18 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NNSAUTORELEASEPOOL_HDR
-#define NNSAUTORELEASEPOOL_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
 #include "NUncopyable.h"
-#include "NCFObject.h"
 
 
 
 
 
 //============================================================================
-//		Class declaration
+//		NUncopyable::NUncopyable : Constructor.
 //----------------------------------------------------------------------------
-class StAutoReleasePool : public NUncopyable {
-public:
-										StAutoReleasePool(void);
-	virtual							   ~StAutoReleasePool(void);
-
-
-private:
-	static bool							&InsidePool(void);
-
-
-private:
-	NSAutoreleasePool					*mPool;
-};
-
-
-
-
-
-
-#endif // NNSAUTORELEASEPOOL_HDR
-
-
-
-
-
+NUncopyable::NUncopyable(void)
+{
+}

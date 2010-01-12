@@ -744,6 +744,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NUncopyable.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Application\NUndoManager.cpp"
 				>
 			</File>
@@ -1845,6 +1849,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Graphics\NTransform.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NUncopyable.h"
 				>
 			</File>
 			<File
