@@ -5,6 +5,7 @@
 	Name="NanoTest"
 	ProjectGUID="{8BFDA7E0-6AC7-4ED1-913D-1EB2740D7CA2}"
 	RootNamespace="NanoTest"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -19,6 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\..\..\Support\Visual C++\Configuration\NanoCommon.vsprops;..\..\..\Support\Visual C++\Configuration\NanoDebug.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -38,19 +40,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Targets\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\System&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Utilities&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=1"
-				StringPooling="true"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="StdAfx.h"
-				WarningLevel="4"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4068;4127;4201"
-				ForcedIncludeFiles="StdAfx.h"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Targets\Windows&quot;"
+				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -64,7 +55,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -96,6 +86,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\..\..\Support\Visual C++\Configuration\NanoCommon.vsprops;..\..\..\Support\Visual C++\Configuration\NanoRelease.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -116,20 +107,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Targets\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nanites\Windows&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\System&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\..\..\Library\Source\Nano\Utilities&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF;NN_DEBUG=0"
-				StringPooling="true"
-				MinimalRebuild="true"
-				RuntimeLibrary="0"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="StdAfx.h"
-				WarningLevel="4"
-				DebugInformationFormat="0"
-				DisableSpecificWarnings="4068;4127;4201"
-				ForcedIncludeFiles="StdAfx.h"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Targets\Windows&quot;"
+				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -189,274 +168,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TCommandLine.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Application\TPreferences.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Application\TUndoManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Application\TUndoSource.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Core\TDebug.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Database\TDBHandle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Database\TDBHandlePool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Events\TBroadcaster.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Events\TListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Events\TTimer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TBundle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TFileIterator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TFileMap.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TPropertyList.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TColor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TPoint.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TRectangle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TSize.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TTransform.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TVector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TByteSwap.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TCache.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TCacheKey.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TCacheValue.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TDataCipher.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TDataCompressor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TDataDigest.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TDataEncoder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TLocale.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TUnicodeParser.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TUTIRegistry.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TXMLEncoder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TXMLNode.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TXMLParser.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TAtomicInt.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TAtomicList.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TLock.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TSemaphore.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TThread.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TThreadPool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TArray.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TAttributes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TBitVector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TDate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TDateFormatter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TDictionary.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TEncoder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TFunctor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TNumber.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TPropertyStore.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TRange.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TString.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TStringEncoder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TStringFormatter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TUTI.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TVariant.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TFileUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TGeometryUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TMathUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TSTLUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TSystemUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TTextUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TThreadUtilities.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TTimeUtilities.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\NanoTest.cpp"
 				>
 			</File>
@@ -480,16 +191,280 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TArray.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TAtomicInt.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TAtomicList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TAttributes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TBitVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\TBroadcaster.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TBundle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TByteSwap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TCacheKey.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TCacheValue.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TColor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TCommandLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TData.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TDataCipher.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TDataCompressor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TDataDigest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TDataEncoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TDate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TDateFormatter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\TDBHandle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\TDBHandlePool.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Core\TDebug.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TDictionary.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TEncoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TFileIterator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TFileMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TFileUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TFunctor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TGeometryUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\TListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TLocale.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TMathUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TNumber.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TPoint.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TPreferences.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TPropertyList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TPropertyStore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TRange.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TRectangle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TSemaphore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TSize.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TSTLUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TString.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TStringEncoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TStringFormatter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TSystemUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TTextUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TThread.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TThreadPool.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TThreadUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\TTimer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TTimeUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TTransform.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TUndoManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TUndoSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TUnicodeParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TUTI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TUTIRegistry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TVariant.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TXMLEncoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TXMLNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TXMLParser.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\Prefix\NanoTest Prefix.h"
-				>
-			</File>
 			<File
 				RelativePath="..\Source\CTestListener.h"
 				>
@@ -499,31 +474,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TCommandLine.h"
+				RelativePath="..\Prefix\NanoTest Prefix.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TPreferences.h"
+				RelativePath="..\Source\Targets\Windows\StdAfx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TUndoManager.h"
+				RelativePath="..\Source\Nano\Types\TArray.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TUndoSource.h"
+				RelativePath="..\Source\Nano\Threads\TAtomicInt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Core\TDebug.h"
+				RelativePath="..\Source\Nano\Threads\TAtomicList.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Database\TDBHandle.h"
+				RelativePath="..\Source\Nano\Types\TAttributes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Database\TDBHandlePool.h"
+				RelativePath="..\Source\Nano\Types\TBitVector.h"
 				>
 			</File>
 			<File
@@ -531,59 +506,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Events\TListener.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Events\TTimer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Files\TBundle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TFileIterator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TFileMap.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Files\TPropertyList.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TColor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TPoint.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TRectangle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TSize.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TTransform.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Graphics\TVector.h"
 				>
 			</File>
 			<File
@@ -603,6 +526,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Graphics\TColor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TCommandLine.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TData.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\System\TDataCipher.h"
 				>
 			</File>
@@ -619,75 +554,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\System\TLocale.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TUnicodeParser.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TUTIRegistry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TXMLEncoder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TXMLNode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\System\TXMLParser.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TAtomicInt.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TAtomicList.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TLock.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TSemaphore.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TThread.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Threads\TThreadPool.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TArray.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TAttributes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TBitVector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TData.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Types\TDate.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\TDateFormatter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\TDBHandle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Database\TDBHandlePool.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Core\TDebug.h"
 				>
 			</File>
 			<File
@@ -699,11 +582,59 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Files\TFile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TFileIterator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TFileMap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TFileUtilities.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\TFunctor.h"
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Utilities\TGeometryUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\TListener.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TLocale.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TLock.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TMathUtilities.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\TNumber.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TPoint.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TPreferences.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Files\TPropertyList.h"
 				>
 			</File>
 			<File
@@ -712,6 +643,26 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\TRange.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TRectangle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TSemaphore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TSize.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Utilities\TSTLUtilities.h"
 				>
 			</File>
 			<File
@@ -727,30 +678,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Types\TUTI.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Types\TVariant.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TFileUtilities.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TGeometryUtilities.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TMathUtilities.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Utilities\TSTLUtilities.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Utilities\TSystemUtilities.h"
 				>
 			</File>
@@ -759,7 +686,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\TThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TThreadPool.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\TThreadUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Events\TTimer.h"
 				>
 			</File>
 			<File
@@ -767,7 +706,47 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Targets\Windows\StdAfx.h"
+				RelativePath="..\Source\Nano\Graphics\TTransform.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TUndoManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Application\TUndoSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TUnicodeParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TUTI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TUTIRegistry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TVariant.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\TVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TXMLEncoder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TXMLNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TXMLParser.h"
 				>
 			</File>
 		</Filter>

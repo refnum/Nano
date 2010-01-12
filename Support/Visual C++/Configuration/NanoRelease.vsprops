@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="NanoRelease"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		Optimization="3"
+		FavorSizeOrSpeed="2"
+		PreprocessorDefinitions="NN_DEBUG=0"
+		RuntimeLibrary="0"
+		DebugInformationFormat="0"
+	/>
+</VisualStudioPropertySheet>
