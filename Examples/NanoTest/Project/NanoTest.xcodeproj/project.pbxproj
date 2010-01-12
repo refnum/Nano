@@ -269,7 +269,7 @@
 		AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
 		AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
-		AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.pch"; sourceTree = "<group>"; };
+		AB9E78990F27D8C50043A657 /* NanoTest Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.h"; sourceTree = "<group>"; };
 		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABE96257103B00A300029708 /* TNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNSAutoReleasePool.h; sourceTree = "<group>"; };
@@ -603,7 +603,7 @@
 		AB5B29B509CAD866008C593C /* Prefix */ = {
 			isa = PBXGroup;
 			children = (
-				AB9E78990F27D8C50043A657 /* NanoTest Prefix.pch */,
+				AB9E78990F27D8C50043A657 /* NanoTest Prefix.h */,
 			);
 			name = Prefix;
 			path = ../Prefix;
@@ -815,7 +815,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
 				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
 				PRODUCT_NAME = NanoTest;
 			};
@@ -825,7 +825,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
 				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
 				PRODUCT_NAME = NanoTest;
 			};

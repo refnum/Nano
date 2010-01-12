@@ -337,7 +337,7 @@
 		AB1BA2901050168900BB002B /* NGeometryUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGeometryUtilities.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
-		AB223D9009CA2DF700533C00 /* Nano Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.pch"; sourceTree = "<group>"; };
+		AB223D9009CA2DF700533C00 /* Nano Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.h"; sourceTree = "<group>"; };
 		AB23BAED102B5B95009CA347 /* NDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandle.cpp; sourceTree = "<group>"; };
 		AB23BAEE102B5B95009CA347 /* NDBHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandle.h; sourceTree = "<group>"; };
 		AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandlePool.cpp; sourceTree = "<group>"; };
@@ -675,7 +675,7 @@
 		AB223D8F09CA2DF700533C00 /* Prefix */ = {
 			isa = PBXGroup;
 			children = (
-				AB223D9009CA2DF700533C00 /* Nano Prefix.pch */,
+				AB223D9009CA2DF700533C00 /* Nano Prefix.h */,
 			);
 			name = Prefix;
 			path = ../Prefix;
@@ -1595,7 +1595,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
 					"$(NANO_OTHER_CFLAGS)",
@@ -1608,7 +1608,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
 					"$(NANO_OTHER_CFLAGS)",
@@ -1639,7 +1639,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
 					"$(NANO_OTHER_CFLAGS)",
@@ -1652,7 +1652,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB1A77F51030584B00DFBA38 /* NanoDistribution.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
 					"$(NANO_OTHER_CFLAGS)",
@@ -1665,7 +1665,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
 					"$(NANO_OTHER_CFLAGS)",
@@ -1678,7 +1678,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.pch";
+				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
 					"$(NANO_OTHER_CFLAGS)",

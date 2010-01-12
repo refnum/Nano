@@ -1,5 +1,5 @@
 /*	NAME:
-		Nano Prefix.pch
+		Nano Prefix.h
 
 	DESCRIPTION:
 		Nano prefix header.
