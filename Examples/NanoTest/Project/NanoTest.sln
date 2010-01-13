@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NanoTest", "NanoTest.vcproj", "{3270016C-69B5-42D7-B1D0-ABC4C8E82D35}"
+Project("{41C87194-09D9-44EC-A37A-A952993ADE67}") = "NanoTest", "NanoTest.vcproj", "{3270016C-69B5-42D7-B1D0-ABC4C8E82D35}"
 	ProjectSection(ProjectDependencies) = postProject
-		{E9CEC0CF-F7C9-43EC-A401-67F6549F9CD5} = {E9CEC0CF-F7C9-43EC-A401-67F6549F9CD5}
+		{A201FA84-49EF-4FDB-9692-0E86A85C424C} = {A201FA84-49EF-4FDB-9692-0E86A85C424C}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nano", "..\..\..\Library\Project\Nano.vcproj", "{E9CEC0CF-F7C9-43EC-A401-67F6549F9CD5}"
+Project("{41C87194-09D9-44EC-A37A-A952993ADE67}") = "Nano", "..\..\..\Library\Project\Nano.vcproj", "{A201FA84-49EF-4FDB-9692-0E86A85C424C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
