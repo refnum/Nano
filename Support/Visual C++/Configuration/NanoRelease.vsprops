@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="NanoRelease"
+	InheritedPropertySheets=".\NanoCommon.vsprops"
 	>
 	<Tool
 		Name="VCCLCompilerTool"

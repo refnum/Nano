@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\Support\Visual C++\Configuration\NanoCommon.vsprops;..\..\Support\Visual C++\Configuration\NanoDebug.vsprops;"
+			InheritedPropertySheets="..\..\Support\Visual C++\Configuration\NanoDebug.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -75,7 +75,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\Support\Visual C++\Configuration\NanoCommon.vsprops;..\..\Support\Visual C++\Configuration\NanoRelease.vsprops"
+			InheritedPropertySheets="..\..\Support\Visual C++\Configuration\NanoRelease.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
