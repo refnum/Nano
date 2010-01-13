@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="NanoTest"
-	ProjectGUID="{8BFDA7E0-6AC7-4ED1-913D-1EB2740D7CA2}"
+	ProjectGUID="{3270016C-69B5-42D7-B1D0-ABC4C8E82D35}"
 	RootNamespace="NanoTest"
 	TargetFrameworkVersion="0"
 	>

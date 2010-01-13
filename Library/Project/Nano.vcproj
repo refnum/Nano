@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="Nano"
-	ProjectGUID="{E9CEC0CF-F7C9-43EC-A401-67F6549F9CD5}"
+	ProjectGUID="{A201FA84-49EF-4FDB-9692-0E86A85C424C}"
 	RootNamespace="Nano"
 	TargetFrameworkVersion="196613"
 	>
