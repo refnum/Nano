@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="NanoRelease"
 	InheritedPropertySheets=".\NanoCommon.vsprops"
+	WholeProgramOptimization="1"
 	>
 	<Tool
 		Name="VCCLCompilerTool"

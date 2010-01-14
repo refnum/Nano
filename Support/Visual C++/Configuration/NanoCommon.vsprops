@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="NanoCommon"
+	CharacterSet="1"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
