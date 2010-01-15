@@ -16,7 +16,7 @@
 		UsePrecompiledHeader="2"
 		PrecompiledHeaderThrough="StdAfx.h"
 		WarningLevel="4"
-		DisableSpecificWarnings="4068;4127;4201"
+		DisableSpecificWarnings="4068;4127;4201;4200"
 		ForcedIncludeFiles="StdAfx.h"
 	/>
 </VisualStudioPropertySheet>
