@@ -177,6 +177,21 @@ Float64 NTargetPOSIX::atanh(Float64 x)
 
 
 //============================================================================
+//      NTargetPOSIX::rint : Round to the nearest integer.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::rint(Float64 x)
+{
+
+
+    // Get the value
+	return(floor(x + 0.5));
+}
+
+
+
+
+
+//============================================================================
 //		NTargetPOSIX::snprintf : Windows snprintf.
 //----------------------------------------------------------------------------
 NIndex NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)

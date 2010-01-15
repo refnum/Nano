@@ -592,3 +592,18 @@ Float64 NMathUtilities::Acoth(Float64 theValue)
 
 
 
+
+//============================================================================
+//      NMathUtilities::Rint : Round to the nearest integer.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Rint(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::rint(theValue));
+}
+
+
+
+

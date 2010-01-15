@@ -111,6 +111,7 @@ public:
 	static Float64						Asech(Float64 theValue);
 	static Float64						Acsch(Float64 theValue);
 	static Float64						Acoth(Float64 theValue);
+	static Float64						Rint( Float64 theValue);
 };
 
 

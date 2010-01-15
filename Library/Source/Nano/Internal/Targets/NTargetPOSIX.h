@@ -38,6 +38,7 @@ public:
 	static Float64						asinh(Float64 x);
 	static Float64						acosh(Float64 x);
 	static Float64						atanh(Float64 x);
+	static Float64						rint( Float64 x);
 
 	
 	// stdio.h
