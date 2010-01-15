@@ -53,6 +53,8 @@ public:
 
     // Floating point tests
 	static bool							IsZero(Float64 theValue);
+	static bool							IsNan( Float64 theValue);
+	static bool							IsInf( Float64 theValue);
 
 
     // Integer tests
@@ -75,6 +77,10 @@ public:
 	static NRadians						GetRadians(NDegrees theValue);
 
 
+	// Get the sign
+	static Float64						GetSign(Float64 theValue);
+	
+
     // Fast (and approximate) reciprocal value
 	static Float32						FastReciprocal(Float32 theValue);
 
@@ -82,6 +88,29 @@ public:
     // Fast (and approximate) square root
 	static Float32						FastRoot(   Float32 theValue);
 	static Float32						FastInvRoot(Float32 theValue);
+
+
+	// Math operations
+	static Float64						Sec(  Float64 theValue);
+	static Float64						Csc(  Float64 theValue);
+	static Float64						Ctan( Float64 theValue);
+	static Float64						Asin( Float64 theValue);
+	static Float64						Acos( Float64 theValue);
+	static Float64						Asec( Float64 theValue);
+	static Float64						Acsc( Float64 theValue);
+	static Float64						Acot( Float64 theValue);
+	static Float64						Sinh( Float64 theValue);
+	static Float64						Cosh( Float64 theValue);
+	static Float64						Tanh( Float64 theValue);
+	static Float64						Sech( Float64 theValue);
+	static Float64						Csch( Float64 theValue);
+	static Float64						Coth( Float64 theValue);
+	static Float64						Asinh(Float64 theValue);
+	static Float64						Acosh(Float64 theValue);
+	static Float64						Atanh(Float64 theValue);
+	static Float64						Asech(Float64 theValue);
+	static Float64						Acsch(Float64 theValue);
+	static Float64						Acoth(Float64 theValue);
 };
 
 

@@ -3,6 +3,10 @@
 
 	DESCRIPTION:
 		Windows POSIX support.
+		
+		Math functions derived from:
+		
+			http://msdn.microsoft.com/en-us/library/w3t84e33(VS.71).aspx
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
@@ -46,6 +50,126 @@ bool NTargetPOSIX::is_inf(Float64 r)
 
 	// Get the value
 	return(!::_finite(r));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::asin : Calculate the inverse sine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::asin(Float64 x)
+{
+
+
+    // Get the value
+	return(atan(x / sqrt(-x * x + 1.0)));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::acos : Calculate the inverse cosine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::acos(Float64 x)
+{
+
+
+    // Get the value
+	return(atan(-x / sqrt(-x * x + 1.0)) + 2.0 * atan(1.0));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::sinh : Calculate the hyperbolic sine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::sinh(Float64 x)
+{
+
+
+    // Get the value
+	return((exp(x) - exp(-x)) / 2.0);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::cosh : Calculate the hyperbolic cosine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::cosh(Float64 x)
+{
+
+
+    // Get the value
+	return((exp(x) + exp(-x)) / 2.0);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::tanh : Calculate the hyperbolic tangent.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::tanh(Float64 x)
+{
+
+
+    // Get the value
+	return((exp(x) - exp(-x)) / (exp(x) + exp(-x)));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::asinh : Calculate the inverse hyperbolic sine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::asinh(Float64 x)
+{
+
+
+    // Get the value
+	return(log(x + sqrt(x * x + 1.0)));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::acosh : Calculate the inverse hyperbolic cosine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::acosh(Float64 x)
+{
+
+
+    // Get the value
+	return(log(x + sqrt(x * x - 1.0)));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::atanh : Calculate the inverse hyperbolic tangent.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::atanh(Float64 x)
+{
+
+
+    // Get the value
+	return(log((1.0 + x) / (1.0 - x)) / 2.0);
 }
 
 

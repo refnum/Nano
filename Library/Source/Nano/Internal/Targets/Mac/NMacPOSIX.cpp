@@ -3,7 +3,7 @@
 
 	DESCRIPTION:
 		Mac POSIX support.
-	
+
 	COPYRIGHT:
 		Copyright (c) 2006-2009, refNum Software
 		<http://www.refnum.com/>
@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NMathUtilities.h"
 #include "NTargetPOSIX.h"
 
 
@@ -23,12 +24,12 @@
 //============================================================================
 //		NTargetPOSIX::is_nan : Mac isnan.
 //----------------------------------------------------------------------------
-bool NTargetPOSIX::is_nan(Float64 r)
+bool NTargetPOSIX::is_nan(Float64 x)
 {
 
 
 	// Get the value
-	return(isnan(r));
+	return(isnan(x));
 }
 
 
@@ -38,12 +39,132 @@ bool NTargetPOSIX::is_nan(Float64 r)
 //============================================================================
 //		NTargetPOSIX::is_inf : Mac isinf.
 //----------------------------------------------------------------------------
-bool NTargetPOSIX::is_inf(Float64 r)
+bool NTargetPOSIX::is_inf(Float64 x)
 {
 
 
 	// Get the value
-	return(isinf(r));
+	return(isinf(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::asin : Calculate the inverse sine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::asin(Float64 x)
+{
+
+
+    // Get the value
+	return(::asin(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::acos : Calculate the inverse cosine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::acos(Float64 x)
+{
+
+
+    // Get the value
+	return(::acos(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::sinh : Calculate the hyperbolic sine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::sinh(Float64 x)
+{
+
+
+    // Get the value
+	return(::sinh(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::cosh : Calculate the hyperbolic cosine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::cosh(Float64 x)
+{
+
+
+    // Get the value
+	return(::cosh(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::tanh : Calculate the hyperbolic tangent.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::tanh(Float64 x)
+{
+
+
+    // Get the value
+	return(::tanh(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::asinh : Calculate the inverse hyperbolic sine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::asinh(Float64 x)
+{
+
+
+    // Get the value
+	return(::asinh(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::acosh : Calculate the inverse hyperbolic cosine.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::acosh(Float64 x)
+{
+
+
+    // Get the value
+	return(::acosh(x));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::atanh : Calculate the inverse hyperbolic tangent.
+//----------------------------------------------------------------------------
+Float64 NTargetPOSIX::atanh(Float64 x)
+{
+
+
+    // Get the value
+	return(::atanh(x));
 }
 
 

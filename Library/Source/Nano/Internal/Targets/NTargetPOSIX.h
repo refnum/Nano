@@ -27,8 +27,17 @@
 class NTargetPOSIX {
 public:
 	// math.h
-	static bool							is_nan(Float64 r);
-	static bool							is_inf(Float64 r);
+	static bool							is_nan(Float64 x);
+	static bool							is_inf(Float64 x);
+
+	static Float64						asin( Float64 x);
+	static Float64						acos( Float64 x);
+	static Float64						sinh( Float64 x);
+	static Float64						cosh( Float64 x);
+	static Float64						tanh( Float64 x);
+	static Float64						asinh(Float64 x);
+	static Float64						acosh(Float64 x);
+	static Float64						atanh(Float64 x);
 
 	
 	// stdio.h

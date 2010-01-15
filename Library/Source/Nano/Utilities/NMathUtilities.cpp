@@ -3,6 +3,10 @@
 
     DESCRIPTION:
         Math utilities.
+
+		Non-POSIX math functions derived from:
+		
+			http://msdn.microsoft.com/en-us/library/w3t84e33(VS.71).aspx
     
     COPYRIGHT:
         Copyright (c) 2006-2009, refNum Software
@@ -58,8 +62,38 @@ bool NMathUtilities::IsZero(Float64 theValue)
 {
 
 
-    // Check for zero
+    // Test the value
     return(AreEqual(theValue, 0.0));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::IsNan : Is a floating point number NaN?
+//----------------------------------------------------------------------------
+bool NMathUtilities::IsNan(Float64 theValue)
+{
+
+
+    // Test the value
+    return(NTargetPOSIX::is_nan(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::IsInf : Is a floating point number infinite?
+//----------------------------------------------------------------------------
+bool NMathUtilities::IsInf(Float64 theValue)
+{
+
+
+    // Test the value
+    return(NTargetPOSIX::is_inf(theValue));
 }
 
 
@@ -73,7 +107,7 @@ bool NMathUtilities::IsOdd(SInt64 theValue)
 {
 
 
-    // Check the value
+    // Test the value
     return((theValue & 0x01) != 0);
 }
 
@@ -88,7 +122,7 @@ bool NMathUtilities::IsEven(SInt64 theValue)
 {
 
 
-    // Check the value
+    // Test the value
     return((theValue & 0x01) == 0);
 }
 
@@ -103,7 +137,7 @@ bool NMathUtilities::IsPowerOf2(SInt64 theValue)
 {
 
 
-    // Check the value
+    // Test the value
     return((theValue & (theValue - 1)) == 0);
 }
 
@@ -200,6 +234,21 @@ NRadians NMathUtilities::GetRadians(NDegrees theValue)
 
 
 //============================================================================
+//      NMathUtilities::GetSign : Get the sign.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::GetSign(Float64 theValue)
+{
+
+
+	// Get the sign
+	return(theValue < 0.0 ? -1.0 : 1.0);
+}
+
+
+
+
+
+//============================================================================
 //      NMathUtilities::FastReciprocal : Get an approximate reciprocal.
 //----------------------------------------------------------------------------
 Float32 NMathUtilities::FastReciprocal(Float32 theValue)
@@ -238,6 +287,306 @@ Float32 NMathUtilities::FastInvRoot(Float32 theValue)
 
     // Get the value
 	return(NTargetMath::FastInvRoot(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Sec : Calculate the secant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Sec(Float64 theValue)
+{
+
+
+    // Get the value
+	return(1.0 / cos(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Csc : Calculate the cosecant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Csc(Float64 theValue)
+{
+
+
+    // Get the value
+	return(1.0 / sin(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Ctan : Calculate the cotangent.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Ctan(Float64 theValue)
+{
+
+
+    // Get the value
+	return(1.0 / tan(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Asin : Calculate the inverse sine.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Asin(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::asin(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Acos : Calculate the inverse cosine.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Acos(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::acos(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Asec : Calculate the inverse secant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Asec(Float64 theValue)
+{
+
+
+    // Get the value
+	return(2.0 * atan(1.0) - atan(GetSign(theValue) / sqrt(theValue * theValue - 1.0)));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Acsc : Calculate the inverse cosecant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Acsc(Float64 theValue)
+{
+
+
+    // Get the value
+	return(atan(GetSign(theValue) / sqrt(theValue * theValue - 1.0)));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Acot : Calculate the inverse cotangent.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Acot(Float64 theValue)
+{
+
+
+    // Get the value
+	return(2.0 * atan(1.0) - atan(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Sinh : Calculate the hyperbolic sine.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Sinh(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::sinh(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Cosh : Calculate the hyperbolic cosine.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Cosh(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::cosh(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Tanh : Calculate the hyperbolic tangent.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Tanh(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::tanh(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Sech : Calculate the hyperbolic secant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Sech(Float64 theValue)
+{
+
+
+    // Get the value
+	return(2.0 / (exp(theValue) + exp(-theValue)));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Csch : Calculate the hyperbolic cosecant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Csch(Float64 theValue)
+{
+
+
+    // Get the value
+	return(2.0 / (exp(theValue) - exp(-theValue)));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Coth : Calculate the hyperbolic cotangent.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Coth(Float64 theValue)
+{
+
+
+    // Get the value
+	return((exp(theValue) + exp(-theValue)) / (exp(theValue) - exp(-theValue)));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Asinh : Calculate the inverse hyperbolic sine.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Asinh(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::asinh(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Acosh : Calculate the inverse hyperbolic cosine.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Acosh(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::acosh(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Atanh : Calculate the inverse hyperbolic tangent.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Atanh(Float64 theValue)
+{
+
+
+    // Get the value
+	return(NTargetPOSIX::atanh(theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Asech : Calculate the inverse hyperbolic secant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Asech(Float64 theValue)
+{
+
+
+    // Get the value
+	return(log((sqrt(-theValue * theValue + 1.0) + 1.0) / theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Acsch : Calculate the inverse hyperbolic cosecant.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Acsch(Float64 theValue)
+{
+
+
+    // Get the value
+	return(log((GetSign(theValue) * sqrt(theValue * theValue + 1.0) + 1.0) / theValue));
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::Acoth : Calculate the inverse hyperbolic cotangent.
+//----------------------------------------------------------------------------
+Float64 NMathUtilities::Acoth(Float64 theValue)
+{
+
+
+    // Get the value
+	return(log((theValue + 1.0) / (theValue - 1.0)) / 2.0);
 }
 
 
