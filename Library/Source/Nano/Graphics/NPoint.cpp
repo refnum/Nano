@@ -248,7 +248,7 @@ template<class T> T NPointT<T>::GetDistance(const NPointT<T> &thePoint, bool get
 	theDistance = GetDistance2(thePoint);
 	
 	if (getApprox)
-		theDistance = (T) NMathUtilities::FastRoot(theDistance);
+		theDistance = (T) NMathUtilities::FastRoot((Float32) theDistance);
 	else
 		theDistance = (T) sqrt(theDistance);
 	
