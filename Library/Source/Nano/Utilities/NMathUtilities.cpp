@@ -177,7 +177,7 @@ NDegrees NMathUtilities::GetDegrees(NRadians theValue)
 
 
     // Convert to degrees
-    return(theValue * (180.0 / kPi));
+    return(theValue * (180.0 / kNPi));
 }
 
 
@@ -192,7 +192,7 @@ NRadians NMathUtilities::GetRadians(NDegrees theValue)
 
 
     // Convert to radians
-    return(theValue * (kPi / 180.0));
+    return(theValue * (kNPi / 180.0));
 }
 
 

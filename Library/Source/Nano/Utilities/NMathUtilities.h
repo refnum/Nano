@@ -24,19 +24,19 @@
 //============================================================================
 //      Constants
 //----------------------------------------------------------------------------
-static const Float64 kE												= 2.718281828459045235360;		// e
-static const Float64 kLog2E											= 1.442695040888963407360;		// log2(e)
-static const Float64 kLog10E										= 0.434294481903251827651;		// log10(e)
-static const Float64 kLn2											= 0.693147180559945309417;		// ln(2)
-static const Float64 kLn10											= 2.302585092994045684020;		// ln(10)
-static const Float64 kPi											= 3.141592653589793238460;		// pi
-static const Float64 kPi_2											= 1.570796326794896619230;		// pi/2
-static const Float64 kPi_4											= 0.785398163397448309616;		// pi/4
-static const Float64 k1_Pi											= 0.318309886183790671538;		// 1/pi
-static const Float64 k2_Pi											= 0.636619772367581343076;		// 2/pi
-static const Float64 k2_SqrtPi										= 1.128379167095512573900;		// 2/sqrt(pi)
-static const Float64 kSqrt2											= 1.414213562373095048800;		// sqrt(2)
-static const Float64 k1_Sqrt2										= 0.707106781186547524401;		// 1/sqrt(2)
+static const Float64 kNE												= 2.718281828459045235360;		// e
+static const Float64 kNLog2E											= 1.442695040888963407360;		// log2(e)
+static const Float64 kNLog10E											= 0.434294481903251827651;		// log10(e)
+static const Float64 kNLn2												= 0.693147180559945309417;		// ln(2)
+static const Float64 kNLn10												= 2.302585092994045684020;		// ln(10)
+static const Float64 kNPi												= 3.141592653589793238460;		// pi
+static const Float64 kNPi_2												= 1.570796326794896619230;		// pi/2
+static const Float64 kNPi_4												= 0.785398163397448309616;		// pi/4
+static const Float64 kN1_Pi												= 0.318309886183790671538;		// 1/pi
+static const Float64 kN2_Pi												= 0.636619772367581343076;		// 2/pi
+static const Float64 kN2_SqrtPi											= 1.128379167095512573900;		// 2/sqrt(pi)
+static const Float64 kNSqrt2											= 1.414213562373095048800;		// sqrt(2)
+static const Float64 kN1_Sqrt2											= 0.707106781186547524401;		// 1/sqrt(2)
 
 
 

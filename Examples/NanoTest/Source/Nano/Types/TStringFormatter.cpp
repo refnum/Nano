@@ -37,8 +37,8 @@ static const SInt16	kValueSInt16									= -1616;
 static const SInt32	kValueSInt32									= -32323232;
 static const SInt64	kValueSInt64									= -6464646464646464LL;
 
-static const Float32 kValueFloat32									= (Float32) kPi;
-static const Float64 kValueFloat64									= (Float64) kPi;
+static const Float32 kValueFloat32									= (Float32) kNPi;
+static const Float64 kValueFloat64									= (Float64) kNPi;
 
 static const char *kValuePtrChar									= "text";
 static const void *kValuePtrVoid									= (void *) 0xDEADBEEF;
