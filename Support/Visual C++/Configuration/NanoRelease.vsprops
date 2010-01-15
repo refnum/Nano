@@ -12,6 +12,5 @@
 		FavorSizeOrSpeed="2"
 		PreprocessorDefinitions="NN_DEBUG=0"
 		RuntimeLibrary="0"
-		DebugInformationFormat="0"
 	/>
 </VisualStudioPropertySheet>
