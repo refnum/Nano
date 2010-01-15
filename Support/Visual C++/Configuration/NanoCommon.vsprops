@@ -11,13 +11,13 @@
 		AdditionalIncludeDirectories="&quot;$(NANO_ROOT)\Library\Prefix&quot;;&quot;$(NANO_ROOT)\Library\Source\Nanites\Qt&quot;;&quot;$(NANO_ROOT)\Library\Source\Nanites\Skia&quot;;&quot;$(NANO_ROOT)\Library\Source\Nanites\Windows&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Application&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Core&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Database&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Events&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Files&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Graphics&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\efgh.com&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\expat_2.0.1&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\fourmilab.ch&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\libb64_1.1&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\pcre_7.8&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\schneier.com&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\sha2_1.1a&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\sqlite_3.6.12&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\unicode.org&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\3rd Party\zlib_1.2.3&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\Targets&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Internal\Targets\Windows&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\System&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Threads&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Types&quot;;&quot;$(NANO_ROOT)\Library\Source\Nano\Utilities&quot;"
 		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1"
 		StringPooling="true"
-		MinimalRebuild="true"
 		DebugInformationFormat="3"
 		UsePrecompiledHeader="2"
 		PrecompiledHeaderThrough="StdAfx.h"
 		WarningLevel="4"
 		DisableSpecificWarnings="4068;4127;4201;4200"
 		ForcedIncludeFiles="StdAfx.h"
+		AdditionalOptions="/MP"
 	/>
 </VisualStudioPropertySheet>
 
