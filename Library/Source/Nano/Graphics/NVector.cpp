@@ -406,9 +406,9 @@ template<class T> T NVectorT<T>::GetLength(bool getApprox) const
 	theLength = GetLength2();
 	
 	if (getApprox)
-		theLength = NMathUtilities::FastRoot(theLength);
+		theLength = (T) NMathUtilities::FastRoot(theLength);
 	else
-		theLength = sqrt(theLength);
+		theLength = (T) sqrt(theLength);
 	
 	return(theLength);
 }
