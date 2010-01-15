@@ -406,7 +406,7 @@ template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect
 			origin.y = minY;
 
 			if (size.height < theRect.size.height)
-				origin.y +=  (theRect.size.height * 0.2);
+				origin.y += (T) (theRect.size.height * 0.2);
 			break;
 
 		case kNPositionCenter:
