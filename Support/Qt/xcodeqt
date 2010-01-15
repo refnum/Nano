@@ -9,7 +9,7 @@
 #		Automatically creates .moc files from headers, and compiles Qt source
 #		files (.moc, .qrc, .ui) into .cpp.
 #
-#		To use, make two additions to an Xcode project:
+#		To use, make three additions to an Xcode project:
 #
 #		1.	Create a "Qt" target.
 #
@@ -40,6 +40,11 @@
 #
 #				${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.cpp
 #
+#		3.  Define a "Qt" source tree.
+#
+#			Since shell scripts invoked by Xcode operate with a reduced path,
+#			this source tree is used to locate your Qt install.
+#
 #		The Qt target will invoke xcodeqt to update the .moc file before Xcode
 #		performs dependency checking for the main target. This must be done from
 #		a separate target, since Run Script phases are invoked after dependency
@@ -69,9 +74,10 @@ require 'getoptlong';
 #----------------------------------------------------------------------------
 # Qt
 if (RUBY_PLATFORM =~ /darwin/)
-	$moc = "/Developer/Tools/Qt/moc";
-	$uic = "/Developer/Tools/Qt/uic";
-	$rcc = "/Developer/Tools/Qt/rcc";
+	$moc = ENV['Qt'] + "/bin/moc";
+	$uic = ENV['Qt'] + "/bin/uic";
+	$rcc = ENV['Qt'] + "/bin/rcc";
+	
 	$QT_DEFINES = "-DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -D__APPLE__ -D__GNUC__";
 	$QT_INCPATH = "-I/Library/Frameworks/QtCore.framework/Headers -I/Library/Frameworks/QtGui.framework/Headers -I/System/Library/Frameworks/CarbonCore.framework/Headers -I/usr/include -I/usr/include/QtCore -I/usr/include/QtGui -I/usr/local/include -I/usr/local/Qt4.5/mkspecs/macx-xcode";
 else
