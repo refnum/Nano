@@ -9,11 +9,15 @@
 #		Automatically creates .moc files from headers, and compiles Qt source
 #		files (.moc, .qrc, .ui) into .cpp.
 #
+#		Since shell scripts invoked by Xcode operate with a reduced path, first
+#		define a source tree called "Qt" that points to your Qt install.
+#
+#
 #		To use, make three additions to an Xcode project:
 #
 #		1.	Create a "Qt" target.
 #
-#			This target must be set as a dependent of the main target, and
+#			This target must be added as a dependency of the main target, and
 #			contain a Run Script phase which performs:
 #
 #				xcodeqt --moc --in="${PROJECT_DIR}/../Source"
@@ -40,22 +44,29 @@
 #
 #				${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.cpp
 #
-#		3.  Define a "Qt" source tree.
+#		3.  Add the .moc file to the main target.
 #
-#			Since shell scripts invoked by Xcode operate with a reduced path,
-#			this source tree is used to locate your Qt install.
+#			After adding the .moc file, drag it from "Copy Bundle Resources"
+#			phase of the main target to the "Compile Sources" phase.
 #
-#		The Qt target will invoke xcodeqt to update the .moc file before Xcode
-#		performs dependency checking for the main target. This must be done from
-#		a separate target, since Run Script phases are invoked after dependency
-#		checking.
 #
-#		The build rule will invoke xcodeqt for any .moc, .qrc, or .ui files to
-#		create derived source files, which Xcode will build automatically as
-#		required.
+#		How it works:
+#
+#			1.	The Qt target will invoke xcodeqt to update the .moc file before
+#				Xcode performs dependency checking for the main target.
+#
+#				This must be done from a separate target, since Run Script phases
+#				are invoked after dependency checking.
+#
+#			2.	The build rule will invoke xcodeqt for any .moc, .qrc, or .ui
+#				files to create derived source files within the project's build
+#				folder.
+#
+#				Xcode will then build these derived source files, and include their
+#				contents in the link.
 #
 #	COPYRIGHT:
-#		Copyright (c) 2009, refNum Software
+#		Copyright (c) 2009-2010, refNum Software
 #		<http://www.refnum.com/>
 #
 #		All rights reserved.
