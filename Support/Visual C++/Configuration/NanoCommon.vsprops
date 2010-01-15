@@ -12,6 +12,7 @@
 		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1"
 		StringPooling="true"
 		MinimalRebuild="true"
+		DebugInformationFormat="3"
 		UsePrecompiledHeader="2"
 		PrecompiledHeaderThrough="StdAfx.h"
 		WarningLevel="4"
