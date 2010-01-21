@@ -50,13 +50,11 @@ NENCODABLE_DEFINE(NString);
 //----------------------------------------------------------------------------
 NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncoding)
 {	NStringEncoder		theEncoder;
-	const char			*charPtr;
 
 
 
 	// Get the state we need
-	charPtr = (const char *) thePtr;
-	if (charPtr == NULL)
+	if (thePtr == NULL)
 		numBytes = 0;
 
 	if (numBytes == kNStringLength)
