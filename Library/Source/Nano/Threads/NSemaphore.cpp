@@ -76,7 +76,7 @@ bool NSemaphore::Wait(NTime waitFor)
 
 	// Wait for the semaphore
 	theErr = NTargetThread::SemaphoreWait(mSemaphore, waitFor);
-	NN_ASSERT(theErr == kNoErr || theErr = kNErrTimeout);
+	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
 	
 	return(theErr == kNoErr);
 }
