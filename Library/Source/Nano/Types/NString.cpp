@@ -1388,9 +1388,9 @@ void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 
 #if NN_DEBUG
 	if (!mData.IsEmpty())
-		memset(theValue->theData.GetData(), 'X', theValue->theData.GetSize());
+		memset(mData.GetData(), 'X', mData.GetSize());
 #else
-	theValue->theData.Clear();
+	mData.Clear();
 #endif
 }
 
