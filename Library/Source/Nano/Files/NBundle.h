@@ -29,10 +29,19 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Info.plist
 static const NString kNBundleExecutableKey						= "CFBundleExecutable";
 static const NString kNBundleIdentifierKey						= "CFBundleIdentifier";
 static const NString kNBundleVersionKey							= "CFBundleVersion";
 static const NString kNBundleNameKey							= "CFBundleName";
+
+
+// Bundle structure
+static const NString kNBundleInfoPList							= "Info.plist";
+static const NString kNBundleContents							= "Contents";
+static const NString kNBundleResources							= "Resources";
+static const NString kNBundleMac								= "MacOS";
+static const NString kNBundleWindows							= "Windows";
 
 
 

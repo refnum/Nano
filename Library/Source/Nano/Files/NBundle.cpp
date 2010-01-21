@@ -26,8 +26,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kPathBundlePList						= "Contents/Info.plist";
-static const NString kPathBundleResources					= "Contents/Resources";
+static const NString kPathBundlePList						= "Contents" NN_DIR "Info.plist";
+static const NString kPathBundleResources					= "Contents" NN_DIR "Resources";
 
 static const NString kStringsExtension						= ".strings";
 static const NString kStringsDefaultLanguage				= "en.lproj";
@@ -240,9 +240,9 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 	else
 		{
 		if (subDir.IsEmpty())
-			thePath.Format("%@/%@",    kPathBundleResources,         theName);
+			thePath.Format("%@" NN_DIR "%@", kPathBundleResources, theName);
 		else
-			thePath.Format("%@/%@/%@", kPathBundleResources, subDir, theName);
+			thePath.Format("%@" NN_DIR "%@" NN_DIR "%@", kPathBundleResources, subDir, theName);
 
 		if (!theType.IsEmpty())
 			{

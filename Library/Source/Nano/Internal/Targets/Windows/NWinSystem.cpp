@@ -17,6 +17,7 @@
 #include "NSTLUtilities.h"
 #include "NTimeUtilities.h"
 #include "NWindows.h"
+#include "NBundle.h"
 #include "NTargetSystem.h"
 
 
@@ -238,22 +239,32 @@ void NTargetSystem::DebugLog(const char *theMsg)
 //----------------------------------------------------------------------------
 NFile NTargetSystem::FindBundle(const NString &bundleID)
 {	TCHAR		theBuffer[MAX_PATH];
-	NFile		theFile;
+	NFile		theFile, theParent;
 
 
 
-	// Find the app
+	// Locate the executable
 	if (bundleID.IsEmpty())
 		{
 		if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
-			theFile = NFile(ToNN(theBuffer)).GetParent();
+			theFile = NFile(ToNN(theBuffer));
 		}
-	
-	
-	
-	// Find an external app
 	else
 		NN_LOG("NTargetSystem::FindBundle not implemented (%@)", bundleID);
+
+
+
+	// Locate the bundle
+	//
+	// If the executable is within a bundle then we return the root bundle
+	// folder, otherwise we return the directory containing the executable.
+	theFile = theFile.GetParent();
+	if (theFile.GetName() == kNBundleWindows)
+		{
+		theParent = theFile.GetParent();
+		if (theParent.GetName() == kNBundleContents)
+			theFile = theParent.GetParent();
+		}
 
 	return(theFile);
 }
