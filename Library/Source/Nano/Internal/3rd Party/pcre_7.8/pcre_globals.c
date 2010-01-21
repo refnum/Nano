@@ -53,10 +53,23 @@ differently, and global variables are not used (see pcre.in). */
 #include "pcre_internal.h"
 
 #ifndef VPCOMPAT
-PCRE_EXP_DATA_DEFN void *(*pcre_malloc)(size_t) = malloc;
-PCRE_EXP_DATA_DEFN void  (*pcre_free)(void *) = free;
-PCRE_EXP_DATA_DEFN void *(*pcre_stack_malloc)(size_t) = malloc;
-PCRE_EXP_DATA_DEFN void  (*pcre_stack_free)(void *) = free;
+
+
+// Nano, fix http://bugs.exim.org/show_bug.cgi?id=953
+static void *glue_malloc(size_t theSize)
+{
+	return(malloc(theSize));
+}
+
+static void glue_free(void *thePtr)
+{
+	free(thePtr);
+}
+
+PCRE_EXP_DATA_DEFN void *(*pcre_malloc)(size_t) = glue_malloc;
+PCRE_EXP_DATA_DEFN void  (*pcre_free)(void *) = glue_free;
+PCRE_EXP_DATA_DEFN void *(*pcre_stack_malloc)(size_t) = glue_malloc;
+PCRE_EXP_DATA_DEFN void  (*pcre_stack_free)(void *) = glue_free;
 PCRE_EXP_DATA_DEFN int   (*pcre_callout)(pcre_callout_block *) = NULL;
 #endif
 
