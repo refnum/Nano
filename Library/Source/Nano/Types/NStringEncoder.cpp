@@ -242,14 +242,14 @@ NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
 		case kNStringEncodingUTF16BE:
 		case kNStringEncodingUTF16LE:
 			while (*ptr16++ != 0x00)
-				theSize++;
+				theSize += sizeof(UTF16Char);
 			break;
 
 		case kNStringEncodingUTF32:
 		case kNStringEncodingUTF32BE:
 		case kNStringEncodingUTF32LE:
 			while (*ptr32++ != 0x00)
-				theSize++;
+				theSize += sizeof(UTF32Char);
 			break;
 
 		default:
