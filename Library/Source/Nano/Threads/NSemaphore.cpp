@@ -70,11 +70,15 @@ void NSemaphore::Signal(void)
 //		NSemaphore::Wait : Wait for the semaphore.
 //----------------------------------------------------------------------------
 bool NSemaphore::Wait(NTime waitFor)
-{	
+{	NStatus		theErr;
+
 
 
 	// Wait for the semaphore
-	return(NTargetThread::SemaphoreWait(mSemaphore, waitFor));
+	theErr = NTargetThread::SemaphoreWait(mSemaphore, waitFor);
+	NN_ASSERT(theErr == kNoErr || theErr = kNErrTimeout);
+	
+	return(theErr == kNoErr);
 }
 
 

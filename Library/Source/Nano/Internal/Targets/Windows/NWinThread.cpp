@@ -518,7 +518,7 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 //============================================================================
 //		NTargetThread::SemaphoreWait : Wait for a semaphore.
 //----------------------------------------------------------------------------
-bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
+NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 {	HANDLE		semHnd = (HANDLE) theSemaphore;
 	DWORD		theResult;
 
@@ -528,7 +528,7 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 	theResult = WaitForSingleObject(semHnd, (DWORD) (waitFor / kNTimeMillisecond));
 	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
 
-	return(theResult == WAIT_OBJECT_0);
+	return(theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
 }
 
 

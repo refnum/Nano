@@ -51,7 +51,7 @@ public:
 	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
 	static void							SemaphoreDestroy(NSemaphoreRef theSemaphore);
 	static void							SemaphoreSignal( NSemaphoreRef theSemaphore);
-	static bool							SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor=kNTimeForever);
+	static NStatus						SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor=kNTimeForever);
 
 
 	// Mutex lock

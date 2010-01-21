@@ -306,7 +306,7 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 //============================================================================
 //		NTargetThread::SemaphoreWait : Wait for a semaphore.
 //----------------------------------------------------------------------------
-bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
+NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 {	semaphore_t			semRef = (semaphore_t) theSemaphore;
 	NTime				timeSecs, timeFrac;
 	mach_timespec_t		waitTime;
@@ -331,7 +331,7 @@ bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 	else
 		sysErr = semaphore_wait(semRef);
 
-	return(sysErr == kNoErr);
+	return(NMacTarget::ConvertSysErr(sysErr));
 }
 
 
