@@ -246,7 +246,7 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 	if (bundleID.IsEmpty())
 		{
 		if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
-			theFile = NFile(ToNN(theBuffer));
+			theFile = NFile(ToNN(theBuffer)).GetParent();
 		}
 	
 	
