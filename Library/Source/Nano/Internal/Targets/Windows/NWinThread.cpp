@@ -582,7 +582,7 @@ NStatus NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
 	theResult = WaitForSingleObject(lockHnd, (DWORD) (waitFor / kNTimeMillisecond));
 	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
 
-	return(theResult == WAIT_OBJECT_0);
+	return(theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
 }
 
 
