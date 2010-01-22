@@ -62,7 +62,7 @@ static const NFileRef kNFileRefNone									= 0;
 // Directory separator
 #if NN_TARGET_MAC
 	#define NN_DIR													"/"
-#elif NN_TARGET_WINODWS
+#elif NN_TARGET_WINDOWS
 	#define NN_DIR													"\\"
 #else
 	UNKNOWN TARGET
