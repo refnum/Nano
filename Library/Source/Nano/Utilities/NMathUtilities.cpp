@@ -9,7 +9,7 @@
 			http://msdn.microsoft.com/en-us/library/w3t84e33(VS.71).aspx
     
     COPYRIGHT:
-        Copyright (c) 2006-2009, refNum Software
+        Copyright (c) 2006-2010, refNum Software
         <http://www.refnum.com/>
 
         All rights reserved. Released under the terms of licence.html.
