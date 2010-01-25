@@ -846,46 +846,11 @@ NString NString::GetString(NIndex thePosition) const
 //		NString::GetString : Get a substring.
 //----------------------------------------------------------------------------
 NString NString::GetString(const NRange &theRange) const
-{	NIndex					offsetFirst, offsetLast;
-	NRange					subRange, byteRange;
-	const NStringValue		*theValue;
-	NString					theResult;
-	NRangeList				theRanges;
-	NData					theData;
+{
 
 
-
-	// Get the state we need
-	theValue = GetImmutable();
-	subRange = theRange.GetNormalized(GetSize());
-
-
-
-	// Check the size
-	if (subRange.IsEmpty())
-		return(theResult);
-
-
-
-	// Identify the bytes to extract
-	theRanges = GetParser().GetRanges();
-
-	NN_ASSERT(subRange.GetFirst() < (NIndex) theRanges.size());
-	NN_ASSERT(subRange.GetLast()  < (NIndex) theRanges.size());
-
-	offsetFirst = theRanges[subRange.GetFirst()].GetFirst();
-	offsetLast  = theRanges[subRange.GetLast()].GetLast();
-	
-	byteRange.SetLocation(offsetFirst);
-	byteRange.SetSize(    offsetLast - offsetFirst + 1);
-
-
-
-	// Extract the string
-	theData = theValue->theData.GetData(byteRange);
-	theResult.SetData(theData, theValue->theEncoding);
-
-	return(theResult);
+	// Get the substring
+	return(GetString(GetParser(), theRange));
 }
 
 
@@ -900,6 +865,7 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 	NRange						theRange, subRange;
 	NRangeList					theMatches;
 	NIndex						offsetPrev;
+	NUnicodeParser				theParser;
 	NRangeListConstIterator		iterMatch;
 	NStringList					theResult;
 
@@ -912,6 +878,7 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 
 	// Get the state we need
 	matchString = GetWhitespacePattern(theString, theFlags);
+	theParser   = GetParser();
 	offsetPrev  = 0;
 
 
@@ -935,7 +902,7 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 		if (theRange.GetLocation() > offsetPrev)
 			{
 			subRange  = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
-			subString = GetString(subRange);
+			subString = GetString(theParser, subRange);
 
 			NN_ASSERT(!subString.IsEmpty());
 			theResult.push_back(subString);
@@ -2096,4 +2063,53 @@ UInt64 NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIn
 	return(theNumber);
 }
 
+
+
+
+
+//============================================================================
+//		NString::GetString : Get a substring.
+//----------------------------------------------------------------------------
+NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRange) const
+{	NIndex					offsetFirst, offsetLast;
+	NRange					subRange, byteRange;
+	const NStringValue		*theValue;
+	NString					theResult;
+	NRangeList				theRanges;
+	NData					theData;
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	subRange = theRange.GetNormalized(GetSize());
+
+
+
+	// Check the size
+	if (subRange.IsEmpty())
+		return(theResult);
+
+
+
+	// Identify the bytes to extract
+	theRanges = theParser.GetRanges();
+
+	NN_ASSERT(subRange.GetFirst() < (NIndex) theRanges.size());
+	NN_ASSERT(subRange.GetLast()  < (NIndex) theRanges.size());
+
+	offsetFirst = theRanges[subRange.GetFirst()].GetFirst();
+	offsetLast  = theRanges[subRange.GetLast()].GetLast();
+	
+	byteRange.SetLocation(offsetFirst);
+	byteRange.SetSize(    offsetLast - offsetFirst + 1);
+
+
+
+	// Extract the string
+	theData = theValue->theData.GetData(byteRange);
+	theResult.SetData(theData, theValue->theEncoding);
+
+	return(theResult);
+}
 

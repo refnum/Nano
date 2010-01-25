@@ -247,6 +247,7 @@ private:
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding)                  const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)                    const;
 	UInt64								GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const;
+	NString								GetString(const NUnicodeParser &theParser, const NRange &theRange)                              const;
 
 
 private:
