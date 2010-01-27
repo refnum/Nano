@@ -5,7 +5,7 @@
 		Qt support.
 	
 	COPYRIGHT:
-		Copyright (c) 2006-2010, refNum Software
+		Copyright (c) 2006-2009, refNum Software
 		<http://www.refnum.com/>
 
 		All rights reserved. Released under the terms of licence.html.
@@ -19,6 +19,7 @@
 #include "NRectangle.h"
 #include "NPoint.h"
 #include "NSize.h"
+#include "NBundle.h"
 #include "NString.h"
 
 
@@ -86,6 +87,36 @@ inline NString ToNN(const QString &theString)
 {
 	return(NString(theString.toUtf8().data()));
 }
+
+
+
+// Bundles
+inline QString NQtBundleResource(const NString &theName, const NString &theType="", const NString &subDir="")
+{	QString		thePath;
+	NFile		theFile;
+
+	theFile = NBundleResource(theName, theType, subDir);
+	if (theFile.Exists())
+		thePath = ToQt(theFile.GetPath());
+	
+	return(thePath);
+}
+
+inline QString NQtBundleString(const NString &theKey, const NString &defaultValue="", const NString &tableName="")
+{
+	return(ToQt(NBundleString(theKey, defaultValue, tableName)));
+}
+
+inline QPixmap NQtBundlePixmap(const NString &theKey, const NString &defaultValue="", const NString &tableName="")
+{
+	return(QPixmap(NQtBundleResource(theKey, defaultValue, tableName)));
+}
+
+inline QIcon NQtBundleIcon(const NString &theKey, const NString &defaultValue="", const NString &tableName="")
+{
+	return(QIcon(NQtBundleResource(theKey, defaultValue, tableName)));
+}
+
 
 
 
