@@ -30,19 +30,26 @@
 //		Inline functions
 //----------------------------------------------------------------------------
 // Nano to Qt
-inline QSizeF ToNS(const NSize &theSize)
+inline QSizeF ToQt(const NSize &theSize)
 {
 	return(QSizeF(theSize.width, theSize.height));
 }
 
-inline QPointF ToNS(const NPoint &thePoint)
+inline QPointF ToQt(const NPoint &thePoint)
 {
 	return(QPointF(thePoint.x, thePoint.y));
 }
 
-inline QRectF ToNS(const NRectangle &theRect)
+inline QRectF ToQt(const NRectangle &theRect)
 {
 	return(QRectF(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
+}
+
+inline QColor ToQt(const NColor &theColor)
+{	QColor		theResult;
+
+	theResult.setRgbF(theColor.GetRed(), theColor.GetGreen(), theColor.GetBlue());
+	return(theResult);
 }
 
 inline QString ToQt(const NString &theString)
@@ -81,6 +88,11 @@ inline NSize ToNN(const QSizeF &theSize)
 inline NRectangle ToNN(const QRectF &theRect)
 {
 	return(NRectangle(theRect.x(), theRect.y(), theRect.width(), theRect.height()));
+}
+
+inline NColor ToNN(const QColor &theColor)
+{
+	return(NColor(theColor.redF(), theColor.greenF(), theColor.blueF()));
 }
 
 inline NString ToNN(const QString &theString)
