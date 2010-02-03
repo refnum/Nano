@@ -45,6 +45,21 @@ inline QRectF ToQt(const NRectangle &theRect)
 	return(QRectF(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
 
+inline QSize ToQtI(const NSize &theSize)
+{
+	return(QSize((int) theSize.width, (int) theSize.height));
+}
+
+inline QPoint ToQtI(const NPoint &thePoint)
+{
+	return(QPoint((int) thePoint.x, (int) thePoint.y));
+}
+
+inline QRect ToQtI(const NRectangle &theRect)
+{
+	return(QRect((int) theRect.origin.x, (int) theRect.origin.y, (int) theRect.size.width, (int) theRect.size.height));
+}
+
 inline QColor ToQt(const NColor &theColor)
 {	QColor		theResult;
 
