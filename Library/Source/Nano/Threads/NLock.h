@@ -83,6 +83,9 @@ public:
 
 
 	// Acquire/release the lock
+	//
+	// Mutexes are recursive, and can be locked N times by the same thread
+	// providing they are also unlocked N times.
 	bool								Lock(NTime waitFor=kNTimeForever);
 	void								Unlock(void);
 };

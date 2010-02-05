@@ -342,21 +342,28 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 //      NTargetThread::MutexCreate : Create a mutex lock.
 //----------------------------------------------------------------------------
 NLockRef NTargetThread::MutexCreate(void)
-{	pthread_mutex_t		*lockRef;
-	NStatus				theErr;
+{	pthread_mutexattr_t		lockAttr;
+	pthread_mutex_t			*lockRef;
+	NStatus					theErr;
 
 
 
 	// Validate our state
 	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
 	
+	
+	
+	// Get the state we need
+	pthread_mutexattr_init(   &lockAttr);
+	pthread_mutexattr_settype(&lockAttr, PTHREAD_MUTEX_RECURSIVE);
+
 
 
 	// Create the lock
 	lockRef = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
 	if (lockRef != NULL)
 		{
-		theErr = pthread_mutex_init(lockRef, NULL);
+		theErr = pthread_mutex_init(lockRef, &lockAttr);
 		NN_ASSERT_NOERR(theErr);
 		}
 
