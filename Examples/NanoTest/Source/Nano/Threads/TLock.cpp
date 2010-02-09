@@ -26,10 +26,25 @@
 //		TLock::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TLock::Execute(void)
-{
+{	NMutexLock		theMutex;
+
 
 
 	// Execute the tests
+
+
+
+	// Mutex
+	NN_ASSERT(!theMutex.IsLocked());
+	theMutex.Lock();
+
+		NN_ASSERT(theMutex.IsLocked());
+		theMutex.Lock();
+		theMutex.Unlock();
+		NN_ASSERT(theMutex.IsLocked());
+
+	theMutex.Unlock();
+	NN_ASSERT(!theMutex.IsLocked());
 }
 
 
