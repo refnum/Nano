@@ -46,7 +46,7 @@ void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, 
 
 	// Log the message
 	va_start(argList, theMsg);
-	NTargetPOSIX::snprintf(theBuffer, kPrefixBufferSize, theMsg, argList);
+	NTargetPOSIX::vsnprintf(theBuffer, kPrefixBufferSize, theMsg, argList);
 	va_end(argList);
 	
 	NDebug::Get()->LogMessage(thePath, lineNum, theBuffer);
