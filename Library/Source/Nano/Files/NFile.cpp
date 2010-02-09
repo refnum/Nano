@@ -297,12 +297,25 @@ void NFile::SetPath(const NString &thePath)
 //============================================================================
 //        NFile::GetName : Get the file name.
 //----------------------------------------------------------------------------
-NString NFile::GetName(bool displayName) const
-{
+NString NFile::GetName(NFileName theName) const
+{	bool		displayName;
+	NString		fileName;
+	NRange		theDot;
+
 
 
 	// Get the name
-	return(NTargetFile::GetName(mPath, displayName));
+	displayName = (theName == kNNameDisplay);
+	fileName    = NTargetFile::GetName(mPath, displayName);
+
+	if (theName == kNNameNoExtension)
+		{
+		theDot = fileName.Find(".", kNStringBackwards);
+		if (!theDot.IsEmpty())
+			fileName = fileName.GetLeft(theDot.GetLocation());
+		}
+
+	return(fileName);
 }
 
 

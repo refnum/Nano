@@ -37,6 +37,18 @@ static const NFileFlags kNFileCacheRequest							= (1 << 0);
 static const NFileFlags kNFileCacheSuppress							= (1 << 1);
 
 
+// Names
+//
+// The "raw" name is the name on disk, while the "display" name is
+// the user's view of that name subject to their preferences (e.g.,
+// with extension potentially suppressed).
+typedef enum {
+	kNNameRaw,
+	kNNameDisplay,
+	kNNameNoExtension
+} NFileName;
+
+
 // Permissions
 typedef enum {
 	kNPermissionRead,
@@ -142,7 +154,7 @@ public:
 
 
 	// Get/set the name
-	NString								GetName(bool displayName=false) const;
+	NString								GetName(NFileName theName=kNNameRaw) const;
 	NStatus								SetName(const NString &theName, bool renameFile=false);
 
 

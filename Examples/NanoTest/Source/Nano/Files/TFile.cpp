@@ -68,7 +68,7 @@ static const UInt32 kTestSize2										= 222;
 //		TFile::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TFile::Execute(void)
-{	NString			thePath, theName, displayName, theExtension;
+{	NString			thePath, theName, nameDisplay, nameNoExt, theExtension;
 	NFile			theFile, theDir, tmpFile, tmpFile2;
 	UInt8			tmpBuffer[kBufferSize];
 	UInt64			theSize;
@@ -124,13 +124,16 @@ void TFile::Execute(void)
 
 	thePath      = tmpFile.GetPath();
 	theName      = tmpFile.GetName();
-	displayName  = tmpFile.GetName(true);
+	nameDisplay  = tmpFile.GetName(kNNameDisplay);
+	nameNoExt    = tmpFile.GetName(kNNameNoExtension);
 	theExtension = tmpFile.GetExtension();
 	
 	NN_ASSERT(thePath      == kPathFileTmp);
 	NN_ASSERT(theName      == (kTestTmpName + "." + kTestTmpExtension));
-	NN_ASSERT(displayName  == (kTestTmpName + "." + kTestTmpExtension));
+	NN_ASSERT(nameDisplay  == (kTestTmpName + "." + kTestTmpExtension));
+	NN_ASSERT(nameNoExt    == (kTestTmpName));
 	NN_ASSERT(theExtension == kTestTmpExtension);
+	NN_ASSERT(theName      == tmpFile.GetName(kNNameRaw));
 
 
 
