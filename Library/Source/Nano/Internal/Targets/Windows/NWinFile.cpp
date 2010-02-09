@@ -384,15 +384,16 @@ NString NTargetFile::GetTarget(const NString &thePath)
 //      NTargetFile::GetChildren : Get the children of a path.
 //----------------------------------------------------------------------------
 NFileList NTargetFile::GetChildren(const NString &thePath)
-{	WIN32_FIND_DATA		dirEntry;
-	NString				filePath;
+{	NString				filePath, fileName;
+	WIN32_FIND_DATA		dirEntry;
 	NFileList			theFiles;
 	HANDLE				theDir;
 
 
 
 	// Get the state we need
-	theDir = FindFirstFile(ToWN(thePath), &dirEntry);
+	filePath.Format("%@\\*", thePath);
+	theDir = FindFirstFile(ToWN(filePath), &dirEntry);
 	if (theDir == INVALID_HANDLE_VALUE)
 		return(theFiles);
 
@@ -401,8 +402,12 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 	// Collect the children
 	do
 		{
-		filePath.Format("%@\\%@", thePath, ToNN(dirEntry.cFileName));
-		theFiles.push_back(NFile(filePath));
+		fileName = ToNN(dirEntry.cFileName);
+		if (fileName != "." && fileName != "..")
+			{
+			filePath.Format("%@\\%@", thePath, fileName);
+			theFiles.push_back(NFile(filePath));
+			}
 		}
 	while (FindNextFile(theDir, &dirEntry));
 
