@@ -16,6 +16,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NPoint.h"
+#include "NSize.h"
+#include "NRectangle.h"
 #include "NString.h"
 
 
@@ -26,6 +29,34 @@
 //		Inline functions
 //----------------------------------------------------------------------------
 // Nano to Windows
+inline POINT ToWN(const NPoint &thePoint)
+{	POINT	theResult;
+
+	theResult.x = (LONG) thePoint.x;
+	theResult.y = (LONG) thePoint.y;
+
+	return(theResult);
+}
+
+inline SIZE ToWN(const NSize &theSize)
+{	SIZE	theResult;
+
+	theResult.cx = (LONG) theSize.width;
+	theResult.cy = (LONG) theSize.height;
+
+	return(theResult);
+}
+
+inline RECT ToWN(const NRectangle &theRect)
+{	RECT	theResult;
+
+	SetRect(&theResult, (LONG) theRect.GetMinX(),
+						(LONG) theRect.GetMinY(),
+						(LONG) theRect.GetMaxX(),
+						(LONG) theRect.GetMaxY());
+	return(theResult);
+}
+
 inline const TCHAR *ToWN(const NString &theString)
 {
 	return(theString.GetUTF16());
@@ -54,6 +85,24 @@ inline void ToWN(UInt64 theValue, DWORD &valueHigh, DWORD &valueLow)
 
 
 // Windows to Nano
+inline NPoint ToNN(const POINT &thePoint)
+{
+	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
+}
+
+inline NSize ToNN(const SIZE &thePoint)
+{
+	return(NSize((Float32) thePoint.cx, (Float32) thePoint.cy));
+}
+
+inline NRectangle ToNN(const RECT &theRect)
+{
+	return(NRectangle(	(Float32)  theRect.left,
+						(Float32)  theRect.top,
+						(Float32) (theRect.right  - theRect.left),
+						(Float32) (theRect.bottom - theRect.top)));
+}
+
 inline NString ToNN(const TCHAR *theString)
 {
 	return(NString(theString, kNStringLength, kNStringEncodingUTF16));
