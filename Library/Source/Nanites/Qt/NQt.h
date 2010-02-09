@@ -30,14 +30,14 @@
 //		Inline functions
 //----------------------------------------------------------------------------
 // Nano to Qt
-inline QSizeF ToQt(const NSize &theSize)
-{
-	return(QSizeF(theSize.width, theSize.height));
-}
-
 inline QPointF ToQt(const NPoint &thePoint)
 {
 	return(QPointF(thePoint.x, thePoint.y));
+}
+
+inline QSizeF ToQt(const NSize &theSize)
+{
+	return(QSizeF(theSize.width, theSize.height));
 }
 
 inline QRectF ToQt(const NRectangle &theRect)
@@ -45,14 +45,14 @@ inline QRectF ToQt(const NRectangle &theRect)
 	return(QRectF(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
 
-inline QSize ToQtI(const NSize &theSize)
-{
-	return(QSize((int) theSize.width, (int) theSize.height));
-}
-
 inline QPoint ToQtI(const NPoint &thePoint)
 {
 	return(QPoint((int) thePoint.x, (int) thePoint.y));
+}
+
+inline QSize ToQtI(const NSize &theSize)
+{
+	return(QSize((int) theSize.width, (int) theSize.height));
 }
 
 inline QRect ToQtI(const NRectangle &theRect)
