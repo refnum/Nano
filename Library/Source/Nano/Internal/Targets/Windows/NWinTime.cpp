@@ -18,6 +18,7 @@
 
 #include "NDate.h"
 #include "NWindows.h"
+#include "NTargetThread.h"
 #include "NTargetTime.h"
 
 
@@ -43,11 +44,13 @@ typedef TimerInfoMap::iterator								TimerInfoMapIterator;
 typedef TimerInfoMapIterator::const_iterator				TimerInfoMapIteratorConstIterator;
 
 
-// Timer state
-typedef struct {
-	NSpinLock			theLock;
-	TimerInfoMap		theTimers;
-} TimerState;
+
+
+
+//============================================================================
+//		Internal globals
+//----------------------------------------------------------------------------
+static TimerInfoMap gTimers;
 
 
 
@@ -56,59 +59,25 @@ typedef struct {
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
-//		GetTimerState : Get the timer state.
-//----------------------------------------------------------------------------
-static TimerState *GetTimerState(void)
-{	static TimerState	sTimerState;
-
-
-
-	// Get the timer state
-	return(&sTimerState);
-}
-
-
-
-
-
-//============================================================================
-//		GetTimerInfo : Get a timer.
-//----------------------------------------------------------------------------
-static TimerInfo *GetTimerInfo(TimerState *timerState, UINT_PTR timerID)
-{	TimerInfoMapIterator		theIter;
-
-
-
-	// Get the timer
-	theIter = timerState->theTimers.find(timerID);
-	if (theIter != timerState->theTimers.end())
-		return(theIter->second);
-
-	return(NULL);
-}
-
-
-
-
-
-//============================================================================
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEvent, DWORD /*dwTime*/)
-{	TimerState		*timerState = GetTimerState();
-	StLock			acquireLock(timerState->theLock);
-
-	TimerInfo		*theInfo;
-	UINT_PTR		timerID;
+{	TimerInfoMapIterator	theIter;
+	TimerInfo				*theInfo;
+	UINT_PTR				timerID;
+	DWORD					timeMS;
 
 
 
 	// Get the state we need
-	theInfo = GetTimerInfo(timerState, idEvent);
+	theIter = gTimers.find(timerID);
+	NN_ASSERT(theIter != gTimers.end());
+
+	theInfo = theIter->second;
 	NN_ASSERT(theInfo != NULL);
-	
-	
-	
+
+
+
 	// Invoke the timer
 	theInfo->fireCount++;
 	theInfo->theFunctor(kNTimerFired);
@@ -121,9 +90,109 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 	// need to reschedule the timer after it has fired once.
 	if (theInfo->fireCount == 1 && !NMathUtilities::IsZero(theInfo->fireEvery))
 		{
-		timerID = SetTimer(NULL, theInfo->timerID, (UINT) (theInfo->fireEvery / kNTimeMillisecond), TimerCallback);
+		timeMS  = NWinTarget::ConvertTimeMS(theInfo->fireEvery);
+		timerID = SetTimer(NULL, theInfo->timerID, timeMS, TimerCallback);
 		NN_ASSERT(timerID == idEvent);
 		}
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theID)
+{	TimerInfo		*theInfo;
+	DWORD			timeMS;
+
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(UINT_PTR) <= sizeof(NTimerID));
+
+
+
+	// Allocate the timer info
+	*theID  = kTimerNone;
+	theInfo = new TimerInfo;
+
+	if (theInfo == NULL)
+		return;
+
+	theInfo->timerID    = 0;
+	theInfo->fireCount  = 0;
+	theInfo->theFunctor = theFunctor;
+	theInfo->fireAfter  = fireAfter;
+	theInfo->fireEvery  = fireEvery;
+
+
+
+	// Create the timer
+	timeMS = NWinTarget::ConvertTimeMS(fireAfter);
+
+	theInfo->timerID = SetTimer(NULL, 0, timeMS, TimerCallback);
+	NN_ASSERT(theInfo->timerID != 0);
+	
+	if (theInfo->timerID == 0)
+		{
+		delete theInfo;
+		return;
+		}
+
+
+
+	// Save the timer
+	gTimers[theInfo->timerID] = theInfo;
+	*theID = (NTimerID) theInfo;
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+static void DoTimerDestroy(NTimerID theTimer)
+{	TimerInfo		*theInfo = (TimerInfo *) theTimer;
+	BOOL			wasOK;
+	
+
+
+	// Remove the timer
+	wasOK = KillTimer(NULL, theInfo->timerID);
+	NN_ASSERT(wasOK);
+
+
+
+	// Forget the timer
+	gTimers.erase(theInfo->timerID);
+	
+	delete theInfo;
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
+{	TimerInfo		*theInfo = (TimerInfo *) theTimer;
+	UINT_PTR		timerID;
+	DWORD			timeMS;
+
+
+
+	// Reset the timer
+	theInfo->fireCount = 0;
+
+	timeMS  = NWinTarget::ConvertTimeMS(fireAfter);
+	timerID = SetTimer(NULL, theInfo->timerID, fireAfter, TimerCallback);
+	NN_ASSERT(timerID == theInfo->timerID);
 }
 
 
@@ -174,47 +243,18 @@ NTime NTargetTime::GetUpTime(void)
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
 NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
-{	TimerState		*timerState = GetTimerState();
-	StLock			acquireLock(timerState->theLock);
-
-	TimerInfo		*theInfo;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(UINT_PTR) <= sizeof(NTimerID));
-
-
-
-	// Allocate the timer info
-	theInfo = new TimerInfo;
-	if (theInfo == NULL)
-		return(kTimerNone);
-
-	theInfo->timerID    = 0;
-	theInfo->fireCount  = 0;
-	theInfo->theFunctor = theFunctor;
-	theInfo->fireAfter  = fireAfter;
-	theInfo->fireEvery  = fireEvery;
+{	NTimerID		theID;
 
 
 
 	// Create the timer
-	theInfo->timerID = SetTimer(NULL, 0, (UINT) (fireAfter / kNTimeMillisecond), TimerCallback);
-	NN_ASSERT(theInfo->timerID != 0);
+	//
+	// Timers are per-thread on Windows, however Nano always executes functors on
+	// the main thread and so we need to create the functor on the main thread.
+	theID = kNTimerNone;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate(theFunctor, fireAfter, fireEvery, &theID);
 	
-	if (theInfo->timerID == 0)
-		{
-		delete theInfo;
-		return(kTimerNone);
-		}
-
-
-
-	// Save the timer
-	timerState->theTimers[theInfo->timerID] = theInfo;
-	
-	return((NTimerID) theInfo);
+	return(theID);
 }
 
 
@@ -225,24 +265,11 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 //		NTargetTime::TimerDestroy : Destroy a timer.
 //----------------------------------------------------------------------------
 void NTargetTime::TimerDestroy(NTimerID theTimer)
-{	TimerState		*timerState = GetTimerState();
-	StLock			acquireLock(timerState->theLock);
-
-	TimerInfo		*theInfo = (TimerInfo *) theTimer;
-	BOOL			wasOK;
-	
+{
 
 
-	// Remove the timer
-	wasOK = KillTimer(NULL, theInfo->timerID);
-	NN_ASSERT(wasOK);
-
-
-
-	// Forget the timer
-	timerState->theTimers.erase(theInfo->timerID);
-	
-	delete theInfo;
+	// Destroy the timer
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerDestroy(theTimer));
 }
 
 
@@ -253,16 +280,11 @@ void NTargetTime::TimerDestroy(NTimerID theTimer)
 //		NTargetTime::TimerReset : Reset a timer.
 //----------------------------------------------------------------------------
 void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
-{	TimerInfo		*theInfo = (TimerInfo *) theTimer;
-	UINT_PTR		timerID;
-
+{
 
 
 	// Reset the timer
-	theInfo->fireCount = 0;
-
-	timerID = SetTimer(NULL, theInfo->timerID, (UINT) (fireAfter / kNTimeMillisecond), TimerCallback);
-	NN_ASSERT(timerID == theInfo->timerID);
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerReset(theTimer, fireAfter));
 }
 
 
