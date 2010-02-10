@@ -44,7 +44,8 @@ public:
 	// Threads
 	static bool							ThreadIsMain(void);
 	static void							ThreadSleep(NTime theTime);
-	static NStatus						ThreadCreate(const NFunctor &theFunctor);
+	static NStatus						ThreadCreate(    const NFunctor &theFunctor);
+	static void							ThreadInvokeMain(const NFunctor &theFunctor);
 
 
 	// Semaphores

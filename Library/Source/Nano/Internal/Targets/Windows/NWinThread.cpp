@@ -25,12 +25,21 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const UINT WM_NWINTHREAD_FUNCTOR						= WM_USER + 1;
+
+
+
+
+
+//============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
-// Thread info
+// Functor info
 typedef struct {
 	NFunctor			theFunctor;
-} ThreadInfo;
+} FunctorInfo;
 
 
 // R/W lock info
@@ -55,12 +64,22 @@ typedef struct {
 
 
 //============================================================================
+//		Function prototypes
+//----------------------------------------------------------------------------
+HWND CreateMainThreadWindow(void);
+
+
+
+
+
+//============================================================================
 //		Internal globals
 //----------------------------------------------------------------------------
 // Main thread
 //
 // This assumes that the main thread performs static initialisation.
-static DWORD gMainThreadID = GetCurrentThreadId();
+static DWORD gMainThreadID     = GetCurrentThreadId();
+static HWND  gMainThreadWindow = CreateMainThreadWindow();
 
 
 
@@ -69,18 +88,100 @@ static DWORD gMainThreadID = GetCurrentThreadId();
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
-//		ThreadCallback : Thread callback.
+//		InvokeFunctor : Invoke a functor.
 //----------------------------------------------------------------------------
-static DWORD WINAPI ThreadCallback(void *userData)
-{	ThreadInfo			*threadInfo = (ThreadInfo *) userData;
+static void InvokeFunctor(FunctorInfo *theInfo)
+{
 
+
+	// Invoke the functor
+	theInfo->theFunctor();
+	delete theInfo;
+}
+
+
+
+
+
+//============================================================================
+//		ThreadEntry : Thread entry point.
+//----------------------------------------------------------------------------
+static DWORD WINAPI ThreadEntry(void *userData)
+{
 
 
 	// Invoke the thread
-	threadInfo->theFunctor();
-	delete threadInfo;
+	InvokeFunctor((FunctorInfo *) userData);
 	
 	return(0);
+}
+
+
+
+
+
+//============================================================================
+//		HelperWindowProc : Helper window proc.
+//----------------------------------------------------------------------------
+static LRESULT CALLBACK HelperWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{	LRESULT		theResult;
+
+
+
+	// Handle the message
+	theResult = 0;
+
+	switch (uMsg) {
+		case WM_NWINTHREAD_CALLBACK:
+			InvokeFunctor((FunctorInfo *) lParam);
+			break;
+
+		default:
+			theResult = DefWindowProc(hWnd, uMsg, wParam, lParam);
+			break;
+		}
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		CreateMainThreadWindow : Create a window in the main thread.
+//----------------------------------------------------------------------------
+static HWND CreateMainThreadWindow(void)
+{	WNDCLASSEX		classInfo;
+	HWND			theWindow;
+	ATOM			theClass;
+
+
+
+	// Register the class
+	memset(&classInfo, 0x00, sizeof(classInfo));
+
+	classInfo.cbSize		= sizeof(WNDCLASSEX);
+	classInfo.style			= CS_GLOBALCLASS;
+	classInfo.lpfnWndProc	= HelperWindowProc;
+	classInfo.cbClsExtra	= 0;
+	classInfo.cbWndExtra	= 0;
+	classInfo.hInstance		= NULL;
+	classInfo.hIcon			= NULL;
+	classInfo.hCursor		= NULL;
+	classInfo.hbrBackground	= NULL;
+	classInfo.lpszMenuName	= NULL;
+	classInfo.lpszClassName	= L"Nano::NWinThread";
+	classInfo.hIconSm		= NULL;
+
+	theClass = RegisterClassEx(&classInfo);
+	NN_ASSERT(theClass != NULL);
+
+
+
+	// Create the window
+	theWindow = CreateWindow((LPCTSTR) theClass, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	NN_ASSERT(theWindow != NULL);
 }
 
 
@@ -97,7 +198,7 @@ static NStatus RWReadLock(RWLockInfo *lockInfo, NTime waitFor)
 
 
 	// Get the state we need
-	timeMS   = (DWORD) (waitFor / kNTimeMillisecond);
+	timeMS   = NWinTarget::ConvertTimeMS(waitFor);
 	mustWait = false;
 
 
@@ -194,7 +295,7 @@ static NStatus RWWriteLock(RWLockInfo *lockInfo, NTime waitFor)
 
 
 	// Get the state we need
-	timeMS   = (DWORD) (waitFor / kNTimeMillisecond);
+	timeMS   = NWinTarget::ConvertTimeMS(waitFor);
 	mustWait = false;
 
 
@@ -427,7 +528,7 @@ void NTargetThread::ThreadSleep(NTime theTime)
 
 
 	// Sleep the thread
-	Sleep((DWORD) (theTime / kNTimeMillisecond));
+	Sleep(NWinTarget::ConvertTimeMS(theTime));
 }
 
 
@@ -438,24 +539,53 @@ void NTargetThread::ThreadSleep(NTime theTime)
 //		NTargetThread::ThreadCreate : Create a thread.
 //----------------------------------------------------------------------------
 NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
-{	ThreadInfo		*threadInfo;
+{	FunctorInfo		*theInfo;
 	NStatus			theErr;
 
 
 
 	// Get the state we need
-	threadInfo             = new ThreadInfo;
-	threadInfo->theFunctor = theFunctor;
+	theInfo             = new FunctorInfo;
+	theInfo->theFunctor = theFunctor;
 
 
 
 	// Create the thread
 	theErr = kNoErr;
 	
-	if (CreateThread(NULL, 0, ThreadCallback, threadInfo, 0, NULL) == NULL)
+	if (CreateThread(NULL, 0, ThreadEntry, theInfo, 0, NULL) == NULL)
 		theErr = NWinTarget::GetLastError();
 	
 	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadInvokeMain : Invoke the main thread.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
+{	FunctorInfo		*theInfo;
+	BOOL			wasOK;
+
+
+
+	// Invoke the functor
+	if (ThreadIsMain())
+		theFunctor();
+	
+	
+	// Defer it to the main thread
+	else
+		{
+		theInfo             = new FunctorInfo;
+		theInfo->theFunctor = theFunctor;
+		
+		wasOK = PostMessage(CreateMainThreadWindow(), WM_NWINTHREAD_FUNCTOR, 0, (LPARAM) theInfo);
+		NN_ASSERT(wasOK);
+		}
 }
 
 
@@ -520,12 +650,17 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 //----------------------------------------------------------------------------
 NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 {	HANDLE		semHnd = (HANDLE) theSemaphore;
-	DWORD		theResult;
+	DWORD		timeMS, theResult;
+
+
+
+	// Get the state we need
+	timeMS = NWinTarget::ConvertTimeMS(waitFor);
 
 
 
 	// Wait for the semaphore
-	theResult = WaitForSingleObject(semHnd, (DWORD) (waitFor / kNTimeMillisecond));
+	theResult = WaitForSingleObject(semHnd, timeMS);
 	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
 
 	return(theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
@@ -574,12 +709,17 @@ void NTargetThread::MutexDestroy(NLockRef theLock)
 //----------------------------------------------------------------------------
 NStatus NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
 {	HANDLE		lockHnd = (HANDLE) theLock;
-	DWORD		theResult;
+	DWORD		timeMS, theResult;
+
+
+
+	// Get the state we need
+	timeMS = NWinTarget::ConvertTimeMS(waitFor);
 
 
 
 	// Wait for the semaphore
-	theResult = WaitForSingleObject(lockHnd, (DWORD) (waitFor / kNTimeMillisecond));
+	theResult = WaitForSingleObject(lockHnd, timeMS);
 	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
 
 	return(theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);

@@ -34,9 +34,11 @@
 //============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
+// Functor info
 typedef struct {
 	NFunctor			theFunctor;
-} ThreadInfo;
+	NTimer				theTimer;
+} FunctorInfo;
 
 
 
@@ -45,16 +47,30 @@ typedef struct {
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
-//		ThreadCallback : Thread callback.
+//		InvokeFunctor : Invoke a functor.
 //----------------------------------------------------------------------------
-static void *ThreadCallback(void *userData)
-{	ThreadInfo			*threadInfo = (ThreadInfo *) userData;
+static void InvokeFunctor(FunctorInfo *theInfo)
+{
 
+
+	// Invoke the functor
+	theInfo->theFunctor();
+	delete theInfo;
+}
+
+
+
+
+
+//============================================================================
+//		ThreadEntry : Thread entry point.
+//----------------------------------------------------------------------------
+static void *ThreadEntry(void *userData)
+{
 
 
 	// Invoke the thread
-	threadInfo->theFunctor();
-	delete threadInfo;
+	InvokeFunctor((FunctorInfo *) userData);
 	
 	return(NULL);
 }
@@ -223,23 +239,49 @@ void NTargetThread::ThreadSleep(NTime theTime)
 //		NTargetThread::ThreadCreate : Create a thread.
 //----------------------------------------------------------------------------
 NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
-{	ThreadInfo		*threadInfo;
+{	FunctorInfo		*theInfo;
 	pthread_t		threadID;
 	int				sysErr;
 
 
 
 	// Get the state we need
-	threadInfo             = new ThreadInfo;
-	threadInfo->theFunctor = theFunctor;
+	theInfo             = new FunctorInfo;
+	theInfo->theFunctor = theFunctor;
 
 
 
 	// Create the thread
-	sysErr = pthread_create(&threadID, NULL, ThreadCallback, threadInfo);
+	sysErr = pthread_create(&threadID, NULL, ThreadEntry, theInfo);
 	NN_ASSERT_NOERR(sysErr);
 	
 	return(NMacTarget::ConvertSysErr(sysErr));
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadInvokeMain : Invoke the main thread.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
+{	FunctorInfo		*theInfo;
+
+
+
+	// Invoke the functor
+	if (ThreadIsMain())
+		theFunctor();
+
+
+	// Defer it to the main thread
+	else
+		{
+		theInfo             = new FunctorInfo;
+		theInfo->theFunctor = theFunctor;
+		theInfo->theTimer.AddTimer(BindFunction(InvokeFunctor, theInfo), 0.0);
+		}
 }
 
 
