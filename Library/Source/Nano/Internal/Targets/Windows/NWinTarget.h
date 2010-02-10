@@ -40,6 +40,10 @@ public:
 	static UINT							ConvertFilePermission(NFilePermission thePermission);
 	static DWORD						ConvertFilePosition(  NFilePosition   thePosition);
 	static DWORD						ConvertFileMapAccess( NMapAccess      theAccess, bool forPage);
+
+
+	// Convert a timeout
+	static DWORD						ConvertTimeMS(NTime theTime);
 };
 
 
