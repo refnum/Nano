@@ -748,9 +748,10 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 
 	// Open the file
 	theInfo->theFile = CreateFile(ToWN(thePath), theFlags, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	theInfo->memFile = INVALID_HANDLE_VALUE;
 
 	if (theInfo->theFile != INVALID_HANDLE_VALUE)
-		theInfo->memFile = CreateFileMapping(theInfo->theFile, NULL, NWinTarget::ConvertFileMapAccess(theAccess, true), 0, 0, NULL);
+		theInfo->memFile = CreateFileMapping(theInfo->theFile, NULL, NWinTarget::ConvertFileMapAccess(theAccess, false), 0, 0, NULL);
 
 
 
@@ -758,7 +759,9 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 	if (theInfo->theFile == INVALID_HANDLE_VALUE || theInfo->memFile == INVALID_HANDLE_VALUE)
 		{
 		MapClose((NFileRef) theInfo);
+
 		delete theInfo;
+		theInfo = NULL;
 		}
 	
 	return((NFileRef) theInfo);
@@ -801,7 +804,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 
 
 	// Fetch the page
-	thePtr = MapViewOfFile(theInfo->memFile, NWinTarget::ConvertFileMapAccess(theAccess, false), offsetHigh, offsetLow, theSize);
+	thePtr = MapViewOfFile(theInfo->memFile, NWinTarget::ConvertFileMapAccess(theAccess, true), offsetHigh, offsetLow, theSize);
 	
 	return(thePtr);
 }
