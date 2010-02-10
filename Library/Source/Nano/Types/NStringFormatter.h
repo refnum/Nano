@@ -122,6 +122,7 @@ public:
 
 										NFormatArgument(double             theValue);
 										NFormatArgument(const void        *theValue);
+										NFormatArgument(const char        *theValue);
 										NFormatArgument(const NStringUTF8 &theValue);
 
 										NFormatArgument(void);
@@ -148,6 +149,7 @@ private:
 
 	NStringUTF8							GetValueDouble( const NStringUTF8 &theFormat, double             theValue);
 	NStringUTF8							GetValuePointer(const NStringUTF8 &theFormat, const void        *theValue);
+	NStringUTF8							GetValueCharPtr(const NStringUTF8 &theFormat, const char        *theValue);
 	NStringUTF8							GetValueString( const NStringUTF8 &theFormat, const NStringUTF8 &theValue);
 	
 	NStringUTF8							GetValue(   const NStringUTF8 &theFormat, const NStringUTF8 &validTypes, ...);

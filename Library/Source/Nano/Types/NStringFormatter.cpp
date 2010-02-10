@@ -153,6 +153,7 @@ NFormatArgument::NFormatArgument(  signed long long theValue)		{	mGetValue = new
 
 NFormatArgument::NFormatArgument(double				 theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueDouble,	_1, theValue));	}
 NFormatArgument::NFormatArgument(const void			*theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValuePointer,	_1, theValue));	}
+NFormatArgument::NFormatArgument(const char			*theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueCharPtr,	_1, theValue));	}
 NFormatArgument::NFormatArgument(const NStringUTF8	&theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueString,	_1, theValue));	}
 
 
@@ -346,6 +347,27 @@ NStringUTF8 NFormatArgument::GetValuePointer(const NStringUTF8 &theFormat, const
 
 
 //============================================================================
+//		NFormatArgument::GetValueCharPtr : Get a char* value.
+//----------------------------------------------------------------------------
+NStringUTF8 NFormatArgument::GetValueCharPtr(const NStringUTF8 &theFormat, const char *theValue)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theFormat == "%s");
+	NN_UNUSED(theFormat);
+
+
+
+	// Get the value
+	return(NStringUTF8(theValue));
+}
+
+
+
+
+
+//============================================================================
 //		NFormatArgument::GetValueString : Get a string value.
 //----------------------------------------------------------------------------
 NStringUTF8 NFormatArgument::GetValueString(const NStringUTF8 &theFormat, const NStringUTF8 &theValue)
@@ -354,7 +376,6 @@ NStringUTF8 NFormatArgument::GetValueString(const NStringUTF8 &theFormat, const 
 
 	// Validate our parameters
 	NN_ASSERT(theFormat == "%@");
-
 	NN_UNUSED(theFormat);
 
 
