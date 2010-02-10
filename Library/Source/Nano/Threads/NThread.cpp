@@ -220,7 +220,7 @@ void NThread::InvokeMain(const NFunctor &theFunctor)
 
 
 	// Wait for the result
-	NSystemUtilities::DelayFunctor(BindFunction(NThread::InvokeFunctors), 0.0);
+	NTargetThread::ThreadInvokeMain(BindFunction(NThread::InvokeFunctors));
 
 	wasDone = theSemaphore.Wait();
 	NN_ASSERT(wasDone);
