@@ -381,7 +381,7 @@ NDictionary NSystemUtilities::GetDictionary(const NVariant &theValue, const NStr
 //============================================================================
 //		NSystemUtilities::DelayFunctor : Delay a functor.
 //----------------------------------------------------------------------------
-void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, bool mainThread)
+void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, bool onMainThread)
 {	NTimer		*theTimer;
 
 
@@ -396,7 +396,7 @@ void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 	// to the timer case.
 	if (NMathUtilities::IsZero(theDelay))
 		{
-		if (!mainThread)
+		if (!onMainThread)
 			{
 			NTargetThread::ThreadCreate(theFunctor);
 			return;
@@ -414,7 +414,7 @@ void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 	// Invoke with a delay
 	theTimer = new NTimer;
 	if (theTimer != NULL)
-		theTimer->AddTimer(BindFunction(NSystemUtilities::DelayedFunctor, theTimer, theFunctor, mainThread), theDelay);
+		theTimer->AddTimer(BindFunction(NSystemUtilities::DelayedFunctor, theTimer, theFunctor, onMainThread), theDelay);
 }
 
 
@@ -548,12 +548,17 @@ NComparison NSystemUtilities::CompareVersions(const NString &version1, const NSt
 //		NSystemUtilities::DelayedFunctor : Execute a delayed functor.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NSystemUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool mainThread)
+void NSystemUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread)
 {
 
 
+	// Validate our state
+	NN_ASSERT(NThread::IsMain());
+
+
+
 	// Invoke the functor
-	if (mainThread)
+	if (onMainThread)
 		theFunctor();
 	else
 		NTargetThread::ThreadCreate(theFunctor);

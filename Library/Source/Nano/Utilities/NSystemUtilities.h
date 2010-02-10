@@ -70,7 +70,7 @@ public:
 	// Delay a functor
 	//
 	// The functor can be invoked on the main thread, or on a new one-shot thread.
-	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool mainThread=true);
+	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool onMainThread=true);
 
 
 	// Compare two version strings
@@ -78,7 +78,7 @@ public:
 
 
 private:
-	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool mainThread);
+	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread);
 
 	static NStringList					GetVersionParts(const NString &theVersion);
 	static NIndex						GetPartType(    const NString &thePart);
