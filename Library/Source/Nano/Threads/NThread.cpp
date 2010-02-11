@@ -196,34 +196,20 @@ void NThread::Sleep(NTime theTime)
 //		NThread::InvokeMain : Perform a functor on the main thread.
 //----------------------------------------------------------------------------
 void NThread::InvokeMain(const NFunctor &theFunctor)
-{	NSemaphore			theSemaphore;
-	ThreadFunctor		theInfo;
-	bool				wasDone;
+{
 
 
+	// Invoke the functor
+	//
+	// Rather than simply doing ThreadInvokeMain(theFunctor), we push functors
+	// onto a list which is then processed in the main thread.
+	//
+	// This allows us to avoid a deadlock where a thread is blocked waiting for
+	// the main thread, and the main thread is blocked in Sleep (since Sleep can
+	// call InvokeFunctors to process the list).
+	mFunctors.PushBack(theFunctor);
 
-	// Invoke the functor directly if we can
-	if (IsMain())
-		{
-		theFunctor();
-		return;
-		}
-
-
-
-	// Queue up the request
-	theInfo.theFunctor = theFunctor;
-	theInfo.isDone     = &theSemaphore;
-	
-	mFunctors.PushBack(theInfo);
-
-
-
-	// Wait for the result
 	NTargetThread::ThreadInvokeMain(BindFunction(NThread::InvokeFunctors));
-
-	wasDone = theSemaphore.Wait();
-	NN_ASSERT(wasDone);
 }
 
 
@@ -278,7 +264,7 @@ void NThread::InvokeRun(void)
 //		NThread::InvokeFunctors : Invoke the functors.
 //----------------------------------------------------------------------------
 void NThread::InvokeFunctors(void)
-{	ThreadFunctor	theInfo;
+{	NFunctor	theFunctor;
 
 
 
@@ -288,10 +274,8 @@ void NThread::InvokeFunctors(void)
 
 
 	// Invoke the functors
-	while (mFunctors.PopFront(theInfo))
-		{
-		theInfo.theFunctor();
-		theInfo.isDone->Signal();
-		}
+	while (mFunctors.PopFront(theFunctor))
+		theFunctor();
 }
+
 

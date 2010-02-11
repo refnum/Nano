@@ -38,13 +38,6 @@ static const NTime kNThreadSpinTime									= 500.0 * kNTimeMicrosecond;
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-// Deferred functors
-typedef struct {
-	NFunctor		theFunctor;
-	NSemaphore		*isDone;
-} ThreadFunctor;
-
-
 // Lists
 class NThread;
 
@@ -52,7 +45,7 @@ typedef std::vector<NThread*>										NThreadList;
 typedef NThreadList::iterator										NThreadListIterator;
 typedef NThreadList::const_iterator									NThreadListConstIterator;
 
-typedef NAtomicList<ThreadFunctor>									ThreadFunctorList;
+typedef NAtomicList<NFunctor>										ThreadFunctorList;
 
 
 
@@ -92,6 +85,8 @@ public:
 
 
 	// Invoke a functor on the main thread
+	//
+	// The thread will block until the functor has executed.
 	static void							InvokeMain(const NFunctor &theFunctor);
 
 
