@@ -57,7 +57,7 @@ bool NTimer::HasTimer(NTimerID theTimer) const
 
 
 	// Check our state
-	if (theTimer == kTimerAny)
+	if (theTimer == kNTimerAny)
 		hasTimer = !mTimers.empty();
 	else
 		hasTimer = (mTimers.find(theTimer) != mTimers.end());
@@ -80,7 +80,7 @@ NTimerID NTimer::AddTimer(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 
 	// Create th etimer
 	theID = NTargetTime::TimerCreate(theFunctor, fireAfter, fireEvery);
-	if (theID != kTimerNone)
+	if (theID != kNTimerNone)
 		{
 		NN_ASSERT(mTimers.find(theID) == mTimers.end());
 		mTimers[theID] = theFunctor;
@@ -103,7 +103,7 @@ void NTimer::RemoveTimer(NTimerID theTimer)
 
 
 	// Remove all timers
-	if (theTimer == kTimerAll)
+	if (theTimer == kNTimerAll)
 		{
 		for (theIter = mTimers.begin(); theIter != mTimers.end(); theIter++)
 			NTargetTime::TimerDestroy(theIter->first);
@@ -141,7 +141,7 @@ void NTimer::ResetTimer(NTime fireAfter, NTimerID theTimer)
 
 
 	// Adjust all timers
-	if (theTimer == kTimerAll)
+	if (theTimer == kNTimerAll)
 		{
 		for (theIter = mTimers.begin(); theIter != mTimers.end(); theIter++)
 			NTargetTime::TimerReset(theIter->first, fireAfter);

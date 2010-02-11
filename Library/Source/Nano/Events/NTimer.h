@@ -35,9 +35,9 @@ typedef enum {
 // Timer IDs
 typedef UIntPtr NTimerID;
 
-static const NTimerID kTimerNone									= (NTimerID) NULL;
-static const NTimerID kTimerAll										= (NTimerID) NULL;
-static const NTimerID kTimerAny										= (NTimerID) NULL;
+static const NTimerID kNTimerNone									= (NTimerID) NULL;
+static const NTimerID kNTimerAll									= (NTimerID) NULL;
+static const NTimerID kNTimerAny									= (NTimerID) NULL;
 
 
 
@@ -69,18 +69,18 @@ public:
 
 
 	// Is a timer installed?
-	bool								HasTimer(NTimerID theTimer=kTimerAny) const;
+	bool								HasTimer(NTimerID theTimer=kNTimerAny) const;
 
 
 	// Add/remove a timer
 	NTimerID							AddTimer(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery=kNTimeNone);
-	void								RemoveTimer(NTimerID theTimer=kTimerAll);
+	void								RemoveTimer(NTimerID theTimer=kNTimerAll);
 
 
 	// Reset a timer
 	//
 	// Defers the next fire time of the timer by the specified amount.
-	void								ResetTimer(NTime fireAfter, NTimerID theTimer=kTimerAll);
+	void								ResetTimer(NTime fireAfter, NTimerID theTimer=kNTimerAll);
 
 
 private:

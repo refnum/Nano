@@ -132,7 +132,7 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 
 
 	// Allocate the timer info
-	*theID  = kTimerNone;
+	*theID  = kNTimerNone;
 	theInfo = new TimerInfo;
 
 	if (theInfo == NULL)
@@ -264,7 +264,7 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 	//
 	// Timers are per-thread on Windows, however Nano always executes functors on
 	// the main thread and so we need to create the functor on the main thread.
-	theID = kTimerNone;
+	theID = kNTimerNone;
 	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theID));
 
 	return(theID);
