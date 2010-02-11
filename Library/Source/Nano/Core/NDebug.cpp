@@ -46,7 +46,7 @@ void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, 
 
 	// Log the message
 	va_start(argList, theMsg);
-	vsnprintf(theBuffer, kPrefixBufferSize, theMsg, argList);
+	vsnprintf(theBuffer, sizeof(theBuffer), theMsg, argList);
 	va_end(argList);
 	
 	NDebug::Get()->LogMessage(thePath, lineNum, theBuffer);
@@ -165,7 +165,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 
 	// Construct the message
-	NTargetPOSIX::snprintf(thePrefix, kPrefixBufferSize, "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
+	NTargetPOSIX::snprintf(thePrefix, sizeof(thePrefix), "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
 
 	finalMsg  = thePrefix;
 	finalMsg += theMsg;
