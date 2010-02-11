@@ -46,7 +46,8 @@ static const UInt32 kTestSize2										= 222;
 	static const NString kPathDirectoryChildren						= "Application Support/Apple";
 	static const NString kPathFileTmp								= kTestTmpPath + "/" + kTestTmpName  + "." + kTestTmpExtension;
 	static const NString kPathFileTmp2								= kTestTmpPath + "/" + kTestTmpName2 + "." + kTestTmpExtension2;
-#else
+
+#elif NN_TARGET_WINDOWS
 	static const NString kTestTmpPath								= "c:\\windows\\temp";
 	static const NString kTestTmpName								= "TFile";
 	static const NString kTestTmpExtension							= "txt";
@@ -58,6 +59,9 @@ static const UInt32 kTestSize2										= 222;
 	static const NString kPathDirectoryChildren						= "system32\\boot";
 	static const NString kPathFileTmp								= kTestTmpPath + "\\" + kTestTmpName  + "." + kTestTmpExtension;
 	static const NString kPathFileTmp2								= kTestTmpPath + "\\" + kTestTmpName2 + "." + kTestTmpExtension2;
+
+#else
+	UNKNOWN TARGET
 #endif
 
 
@@ -242,6 +246,11 @@ void TFile::Execute(void)
 	// Close
 	tmpFile.Close();
 	NN_ASSERT(!tmpFile.IsOpen());
+
+#if NN_TARGET_WINDOWS
+	#pragma message("TFile: delete-while-open not implemented");
+	tmpFile.Delete();
+#endif
 
 
 
