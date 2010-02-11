@@ -187,45 +187,6 @@ Float64 NTargetPOSIX::rint(Float64 x)
 
 
 //============================================================================
-//		NTargetPOSIX::snprintf : Mac snprintf.
-//----------------------------------------------------------------------------
-NIndex NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
-{	NIndex		theResult;
-	va_list		argList;
-
-
-
-	// Print the value
-	va_start(argList, format);
-	theResult = ::vsnprintf(s, n, format, argList);
-	va_end(argList);
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetPOSIX::vsnprintf : Mac vsnprintf.
-//----------------------------------------------------------------------------
-NIndex NTargetPOSIX::vsnprintf(char *s, size_t n, const char *format, va_list argList)
-{	NIndex		theResult;
-
-
-
-	// Print the value
-	theResult = ::vsnprintf(s, n, format, argList);
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetPOSIX::gmtime : Mac gmtime.
 //----------------------------------------------------------------------------
 struct tm NTargetPOSIX::gmtime(time_t theTime)

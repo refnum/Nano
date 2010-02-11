@@ -40,11 +40,6 @@ public:
 	static Float64						atanh(Float64 x);
 	static Float64						rint( Float64 x);
 
-	
-	// stdio.h
-	static NIndex						snprintf( char *s, size_t n, const char *format, ...);
-	static NIndex						vsnprintf(char *s, size_t n, const char *format, va_list argList);
-
 
 	// time.h
 	static struct tm					gmtime(time_t theTime);
