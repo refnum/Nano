@@ -152,6 +152,7 @@ NData NDataEncoder::Hex_Decode(const NString &theValue)
 	NData			theResult;
 	UInt8			*dataPtr;
 	const char		*textPtr;
+	unsigned int	byteVal;
 
 
 
@@ -171,10 +172,18 @@ NData NDataEncoder::Hex_Decode(const NString &theValue)
 
 
 	// Convert the string
+	//
+	// Visual Studio does not support 'hh' correctly, so we need to read byte
+	// values into a temporary variable:
+	//
+	// https://connect.microsoft.com/VisualStudio/feedback/details/416843/sscanf-cannot-not-handle-hhd-format
 	for (n = 0; n < theSize; n++)
 		{
-		sscanf(textPtr, "%2hhx", &dataPtr[n]);
-		textPtr += 2;
+		sscanf(textPtr, "%2x", &byteVal);
+		NN_ASSERT((byteVal & 0xFFFFFF00) == 0);
+
+		dataPtr[n] = (UInt8) byteVal;
+		textPtr   += 2;
 		}
 	
 	return(theResult);
