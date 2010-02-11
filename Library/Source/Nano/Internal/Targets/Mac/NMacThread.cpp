@@ -32,30 +32,68 @@
 
 
 //============================================================================
-//		Internal types
+//		Internal class declaration
 //----------------------------------------------------------------------------
-// Functor info
-typedef struct {
-	NFunctor			theFunctor;
-	NTimer				theTimer;
-} FunctorInfo;
+class NFunctorInvoker {
+public:
+										NFunctorInvoker(const NFunctor		&theFunctor,
+															  NSemaphore	*theSemaphore = NULL,
+															  bool			 onTimer      = false);
+
+
+	// Invoke the functor
+	void								Invoke(void);
+
+
+private:
+	NTimer								mTimer;
+	NFunctor							mFunctor;
+	NSemaphore						   *mSemaphore;
+};
 
 
 
 
 
 //============================================================================
-//		Internal functions
+//		NFunctorInvoker::NFunctorInvoker : Constructor
 //----------------------------------------------------------------------------
-//		InvokeFunctor : Invoke a functor.
+NFunctorInvoker::NFunctorInvoker(const NFunctor &theFunctor, NSemaphore *theSemaphore, bool onTimer)
+{
+
+
+	// Initialise ourselves
+	mFunctor   = theFunctor;
+	mSemaphore = theSemaphore;
+
+
+
+	// Install the timer
+	if (onTimer)
+		{
+		NN_ASSERT(!NTargetThread::ThreadIsMain());
+		mTimer.AddTimer(BindSelf(NFunctorInvoker::Invoke), 0.0);
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NFunctorInvoker::Invoke : Invoke the functor.
 //----------------------------------------------------------------------------
-static void InvokeFunctor(FunctorInfo *theInfo)
+void NFunctorInvoker::Invoke(void)
 {
 
 
 	// Invoke the functor
-	theInfo->theFunctor();
-	delete theInfo;
+	mFunctor();
+	
+	if (mSemaphore != NULL)
+		mSemaphore->Signal();
+
+	delete this;
 }
 
 
@@ -66,11 +104,13 @@ static void InvokeFunctor(FunctorInfo *theInfo)
 //		ThreadEntry : Thread entry point.
 //----------------------------------------------------------------------------
 static void *ThreadEntry(void *userData)
-{
+{	NFunctorInvoker		*theInvoker;
+
 
 
 	// Invoke the thread
-	InvokeFunctor((FunctorInfo *) userData);
+	theInvoker = (NFunctorInvoker *) userData;
+	theInvoker->Invoke();
 	
 	return(NULL);
 }
@@ -239,20 +279,19 @@ void NTargetThread::ThreadSleep(NTime theTime)
 //		NTargetThread::ThreadCreate : Create a thread.
 //----------------------------------------------------------------------------
 NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
-{	FunctorInfo		*theInfo;
-	pthread_t		threadID;
-	int				sysErr;
+{	NFunctorInvoker		*theInvoker;
+	pthread_t			threadID;
+	int					sysErr;
 
 
 
 	// Get the state we need
-	theInfo             = new FunctorInfo;
-	theInfo->theFunctor = theFunctor;
+	theInvoker = new NFunctorInvoker(theFunctor);
 
 
 
 	// Create the thread
-	sysErr = pthread_create(&threadID, NULL, ThreadEntry, theInfo);
+	sysErr = pthread_create(&threadID, NULL, ThreadEntry, theInvoker);
 	NN_ASSERT_NOERR(sysErr);
 	
 	return(NMacTarget::ConvertSysErr(sysErr));
@@ -266,7 +305,9 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 //		NTargetThread::ThreadInvokeMain : Invoke the main thread.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
-{	FunctorInfo		*theInfo;
+{	NSemaphore			theSemaphore;
+	NFunctorInvoker		*theInvoker;
+	bool				wasDone;
 
 
 
@@ -275,12 +316,13 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 		theFunctor();
 
 
-	// Defer it to the main thread
+	// Pass it to the main thread
 	else
 		{
-		theInfo             = new FunctorInfo;
-		theInfo->theFunctor = theFunctor;
-		theInfo->theTimer.AddTimer(BindFunction(InvokeFunctor, theInfo), 0.0);
+		theInvoker = new NFunctorInvoker(theFunctor, &theSemaphore, true);
+
+		wasDone = theSemaphore.Wait();
+		NN_ASSERT(wasDone);
 		}
 }
 

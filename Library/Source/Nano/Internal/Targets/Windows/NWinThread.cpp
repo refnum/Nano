@@ -36,12 +36,6 @@ static const UINT WM_NWINTHREAD_FUNCTOR						= WM_USER + 1;
 //============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
-// Functor info
-typedef struct {
-	NFunctor			theFunctor;
-} FunctorInfo;
-
-
 // R/W lock info
 //
 // Based on Stone Steps BSD R/W lock:
@@ -58,6 +52,28 @@ typedef struct {
 	NIndex				writersActive;
 	NIndex				writersWaiting;
 } RWLockInfo;
+
+
+
+
+
+//============================================================================
+//		Internal class declaration
+//----------------------------------------------------------------------------
+class NFunctorInvoker {
+public:
+										NFunctorInvoker(const NFunctor		&theFunctor,
+															  NSemaphore	*theSemaphore=NULL);
+
+
+	// Invoke the functor
+	void								Invoke(void);
+
+
+private:
+	NFunctor							mFunctor;
+	NSemaphore						   *mSemaphore;
+};
 
 
 
@@ -86,17 +102,15 @@ static HWND  gMainThreadWindow = CreateMainThreadWindow();
 
 
 //============================================================================
-//		Internal functions
+//		NFunctorInvoker::NFunctorInvoker : Constructor
 //----------------------------------------------------------------------------
-//		InvokeFunctor : Invoke a functor.
-//----------------------------------------------------------------------------
-static void InvokeFunctor(FunctorInfo *theInfo)
+NFunctorInvoker::NFunctorInvoker(const NFunctor &theFunctor, NSemaphore *theSemaphore)
 {
 
 
-	// Invoke the functor
-	theInfo->theFunctor();
-	delete theInfo;
+	// Initialise ourselves
+	mFunctor   = theFunctor;
+	mSemaphore = theSemaphore;
 }
 
 
@@ -104,14 +118,38 @@ static void InvokeFunctor(FunctorInfo *theInfo)
 
 
 //============================================================================
-//		ThreadEntry : Thread entry point.
+//		NFunctorInvoker::Invoke : Invoke the functor.
 //----------------------------------------------------------------------------
-static DWORD WINAPI ThreadEntry(void *userData)
+void NFunctorInvoker::Invoke(void)
 {
 
 
+	// Invoke the functor
+	mFunctor();
+	
+	if (mSemaphore != NULL)
+		mSemaphore->Signal();
+
+	delete this;
+}
+
+
+
+
+
+//============================================================================
+//		Internal functions
+//----------------------------------------------------------------------------
+//		ThreadEntry : Thread entry point.
+//----------------------------------------------------------------------------
+static DWORD WINAPI ThreadEntry(void *userData)
+{	NFunctorInvoker		*theInvoker;
+
+
+
 	// Invoke the thread
-	InvokeFunctor((FunctorInfo *) userData);
+	theInvoker = (NFunctorInvoker *) userData;
+	theInvoker->Invoke();
 	
 	return(0);
 }
@@ -124,7 +162,8 @@ static DWORD WINAPI ThreadEntry(void *userData)
 //		HelperWindowProc : Helper window proc.
 //----------------------------------------------------------------------------
 static LRESULT CALLBACK HelperWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{	LRESULT		theResult;
+{	NFunctorInvoker		*theInvoker;
+	LRESULT				theResult;
 
 
 
@@ -133,7 +172,8 @@ static LRESULT CALLBACK HelperWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 
 	switch (uMsg) {
 		case WM_NWINTHREAD_CALLBACK:
-			InvokeFunctor((FunctorInfo *) lParam);
+			theInvoker = (NFunctorInvoker *) lParam;
+			theInvoker->Invoke();
 			break;
 
 		default:
@@ -539,21 +579,19 @@ void NTargetThread::ThreadSleep(NTime theTime)
 //		NTargetThread::ThreadCreate : Create a thread.
 //----------------------------------------------------------------------------
 NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
-{	FunctorInfo		*theInfo;
-	NStatus			theErr;
+{	NFunctorInvoker		*theInvoker;
+	NStatus				theErr;
 
 
 
 	// Get the state we need
-	theInfo             = new FunctorInfo;
-	theInfo->theFunctor = theFunctor;
+	theInvoker = new NFunctorInvoker(theFunctor);
+	theErr     = kNoErr;
 
 
 
 	// Create the thread
-	theErr = kNoErr;
-	
-	if (CreateThread(NULL, 0, ThreadEntry, theInfo, 0, NULL) == NULL)
+	if (CreateThread(NULL, 0, ThreadEntry, theInvoker, 0, NULL) == NULL)
 		theErr = NWinTarget::GetLastError();
 	
 	return(theErr);
@@ -567,8 +605,9 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 //		NTargetThread::ThreadInvokeMain : Invoke the main thread.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
-{	FunctorInfo		*theInfo;
-	BOOL			wasOK;
+{	BOOL				wasOK, wasDone;
+	NSemaphore			theSemaphore;
+	NFunctorInvoker		*theInvoker;
 
 
 
@@ -577,14 +616,16 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 		theFunctor();
 	
 	
-	// Defer it to the main thread
+	// Pass it to the main thread
 	else
 		{
-		theInfo             = new FunctorInfo;
-		theInfo->theFunctor = theFunctor;
+		theInvoker = new NFunctorInvoker(theFunctor, &theSemaphore);
 		
-		wasOK = PostMessage(CreateMainThreadWindow(), WM_NWINTHREAD_FUNCTOR, 0, (LPARAM) theInfo);
+		wasOK = PostMessage(gMainThreadWindow, WM_NWINTHREAD_FUNCTOR, 0, (LPARAM) theInfo);
 		NN_ASSERT(wasOK);
+
+		wasDone = theSemaphore.Wait();
+		NN_ASSERT(wasDone);
 		}
 }
 
