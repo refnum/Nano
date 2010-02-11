@@ -72,16 +72,16 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NStringUTF8 kFormatTypesInteger							= "diouxXcC";
-static const NStringUTF8 kFormatTypesDouble								= "fFeEgGaA";
-static const NStringUTF8 kFormatTypesPointer							= "sSpn";
-static const NStringUTF8 kFormatTypesCustom								= "@";
+static const char *kFormatTypesInteger									= "diouxXcC";
+static const char *kFormatTypesDouble									= "fFeEgGaA";
+static const char *kFormatTypesPointer									= "sSpn";
+static const char *kFormatTypesCustom									= "@";
 
 static const UInt32      kFormatBufferSize								= 256;
-static const NStringUTF8 kFormatTypes									= kFormatTypesInteger +
-																		  kFormatTypesDouble  +
-																		  kFormatTypesPointer +
-																		  kFormatTypesCustom;
+static const NStringUTF8 kFormatTypes									= NStringUTF8(kFormatTypesInteger) +
+																		  NStringUTF8(kFormatTypesDouble)  +
+																		  NStringUTF8(kFormatTypesPointer) +
+																		  NStringUTF8(kFormatTypesCustom);
 
 
 
@@ -391,7 +391,7 @@ NStringUTF8 NFormatArgument::GetValueString(const NStringUTF8 &theFormat, const 
 //============================================================================
 //		NFormatArgument::GetValue : Get a formatted value.
 //----------------------------------------------------------------------------
-NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes, ...)
+NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const char *validTypes, ...)
 {	char			stackBuffer[kFormatBufferSize];
 	char			*heapBuffer;
 	NStringUTF8		theResult;
@@ -406,6 +406,10 @@ NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const NStrin
 
 
 	// Prepare to format
+	//
+	// va_list's behaviour is undefined if it is passed a reference rather than
+	// a POD, and so validTypes must always be a char* or similar POD type.
+	NN_ASSERT( typeid(validTypes) == typeid(const char *));
 	va_start(argList, validTypes);
 
 
@@ -445,7 +449,7 @@ NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const NStrin
 //============================================================================
 //		NFormatArgument::IsValidType : Is a format type valid?
 //----------------------------------------------------------------------------
-bool NFormatArgument::IsValidType(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes)
+bool NFormatArgument::IsValidType(const NStringUTF8 &theFormat, const char *validTypes)
 {	const char		*formatUTF8, *theType;
 
 
@@ -457,7 +461,7 @@ bool NFormatArgument::IsValidType(const NStringUTF8 &theFormat, const NStringUTF
 
 
 	// Find the type
-	theType = strpbrk(formatUTF8, validTypes.GetUTF8());
+	theType = strpbrk(formatUTF8, validTypes);
 
 	return(theType != NULL);
 }

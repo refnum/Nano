@@ -152,8 +152,8 @@ private:
 	NStringUTF8							GetValueCharPtr(const NStringUTF8 &theFormat, const char        *theValue);
 	NStringUTF8							GetValueString( const NStringUTF8 &theFormat, const NStringUTF8 &theValue);
 	
-	NStringUTF8							GetValue(   const NStringUTF8 &theFormat, const NStringUTF8 &validTypes, ...);
-	bool								IsValidType(const NStringUTF8 &theFormat, const NStringUTF8 &validTypes);
+	NStringUTF8							GetValue(   const NStringUTF8 &theFormat, const char *validTypes, ...);
+	bool								IsValidType(const NStringUTF8 &theFormat, const char *validTypes);
 
 
 private:
