@@ -248,7 +248,7 @@ void TFile::Execute(void)
 	NN_ASSERT(!tmpFile.IsOpen());
 
 #if NN_TARGET_WINDOWS
-	#pragma message("TFile: delete-while-open not implemented");
+	#pragma message("TFile: delete-while-open not implemented")
 	tmpFile.Delete();
 #endif
 
