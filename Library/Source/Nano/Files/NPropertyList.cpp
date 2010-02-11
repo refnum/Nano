@@ -799,7 +799,8 @@ NData NPropertyList::DecodeMacXML_1_0_Data(const NXMLNode *theNode)
 //		NPropertyList::DecodeMacXML_1_0_Date : Decode a date.
 //----------------------------------------------------------------------------
 NDate NPropertyList::DecodeMacXML_1_0_Date(const NXMLNode *theNode)
-{	SInt32				numSecs, numItems;
+{	int					valMonth, valDay,valHour, valMinute;
+	SInt32				numSecs, numItems;
 	NString				valueText;
 	NGregorianDate		gregDate;
 	NDate				theValue;
@@ -814,13 +815,18 @@ NDate NPropertyList::DecodeMacXML_1_0_Date(const NXMLNode *theNode)
 	// Get the state we need
 	valueText = theNode->GetElementContents();
 	numItems  = sscanf(valueText.GetUTF8(), kFormatISO8601.GetUTF8(),
-							&gregDate.year, &gregDate.month,  &gregDate.day,
-							&gregDate.hour, &gregDate.minute, &numSecs);
+							&gregDate.year, &valMonth,  &valDay,
+							&valHour, &valMinute, &numSecs);
 
 	NN_ASSERT(numItems == 6);
-	
-	
-	
+
+	gregDate.month  = valMonth;
+	gregDate.day    = valDay;
+	gregDate.hour   = valHour;
+	gregDate.minute = valMinute;
+
+
+
 	// Decode the value
 	if (numItems == 6)
 		{
