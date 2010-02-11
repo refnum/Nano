@@ -303,7 +303,7 @@ NString NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex li
 		if (flowSign != 0x00)
 			theLine.Format("%c ", (UInt8) flowSign);
 
-		snprintf(theBuffer, sizeof(theBuffer), "%.8lX ", lineOffset);
+		NTargetPOSIX::snprintf(theBuffer, sizeof(theBuffer), "%.8lX ", lineOffset);
 
 		theLine += theBuffer;
 		}
@@ -318,7 +318,7 @@ NString NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex li
 		
 		if (n < lineSize)
 			{
-			snprintf(theBuffer, sizeof(theBuffer), "%.2X ", theData[lineOffset + n]);
+			NTargetPOSIX::snprintf(theBuffer, sizeof(theBuffer), "%.2X ", theData[lineOffset + n]);
 			theLine += theBuffer;
 			}
 		else

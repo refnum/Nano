@@ -165,7 +165,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 
 	// Construct the message
-	snprintf(thePrefix, sizeof(thePrefix), "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
+	NTargetPOSIX::snprintf(thePrefix, sizeof(thePrefix), "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
 
 	finalMsg  = thePrefix;
 	finalMsg += theMsg;

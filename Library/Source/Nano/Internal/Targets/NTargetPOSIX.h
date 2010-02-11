@@ -41,6 +41,10 @@ public:
 	static Float64						rint( Float64 x);
 
 
+	// stdio.h
+	static NIndex						snprintf( char *s, size_t n, const char *format, ...);
+
+
 	// time.h
 	static struct tm					gmtime(time_t theTime);
 	static time_t						timegm(const struct tm *tm);
