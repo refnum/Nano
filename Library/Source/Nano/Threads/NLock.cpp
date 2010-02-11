@@ -474,6 +474,8 @@ StLock::StLock(NLock &theLock)
 	// Acquire the lock
 	mLock = &theLock;
 	mLock->Lock();
+	
+	NN_ASSERT(mLock->IsLocked());
 }
 
 
