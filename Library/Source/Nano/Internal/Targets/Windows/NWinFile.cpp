@@ -195,14 +195,17 @@ NString NTargetFile::GetName(const NString &thePath, bool /*displayName*/)
 //============================================================================
 //      NTargetFile::SetName : Set a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile)
+NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath)
 {	NString		newPath;
 	BOOL		wasOK;
 
 
 
 	// Get the new path
-	newPath = GetChild(GetParent(thePath), fileName);
+	if (isPath)
+		newPath = fileName;
+	else
+		newPath = GetChild(GetParent(thePath), fileName);
 
 
 
@@ -531,9 +534,9 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 	// This is not atomic, and needs to handle failure.
 	NN_LOG("NTargetFile::ExchangeWith is not atomic!");
 
-	SetName(dstPath, dstTmp,  true);
-	SetName(srcPath, dstPath, true);
-	SetName(dstTmp,  srcPath, true);
+	SetName(dstPath, dstTmp,  true, true);
+	SetName(srcPath, dstPath, true, true);
+	SetName(dstTmp,  srcPath, true, true);
 	
 	return(kNoErr);
 }

@@ -298,14 +298,17 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 //============================================================================
 //      NTargetFile::SetName : Set a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile)
+NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath)
 {	NString		newPath;
 	int			sysErr;
 
 
 
 	// Get the new path
-	newPath = GetChild(GetParent(thePath), fileName);
+	if (isPath)
+		newPath = fileName;
+	else
+		newPath = GetChild(GetParent(thePath), fileName);
 
 
 

@@ -51,7 +51,7 @@ public:
 
 	// Get/set a file's name
 	static NString						GetName(const NString &thePath, bool displayName);
-	static NString						SetName(const NString &thePath, const NString &fileName, bool renameFile);
+	static NString						SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath);
 
 
 	// Get/set a file's size
