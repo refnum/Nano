@@ -59,13 +59,31 @@ static TimerInfoMap gTimers;
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
+//		GetTimerMS : Get a timer time.
+//----------------------------------------------------------------------------
+static DWORD GetTimerMS(NTime theTime)
+{	DWORD		timeMS;
+
+
+
+	// Get the time
+	timeMS = NWinTarget::ConvertTimeMS(theTime);
+	timeMS = NN_CLAMP_VALUE(theTime, (UINT) USER_TIMER_MINIMUM, (UINT) USER_TIMER_MAXIMUM);
+	
+	return(timeMS);
+}
+
+
+
+
+
+//============================================================================
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEvent, DWORD /*dwTime*/)
 {	TimerInfoMapIterator	theIter;
 	TimerInfo				*theInfo;
 	UINT_PTR				timerID;
-	DWORD					timeMS;
 
 
 
@@ -90,8 +108,7 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 	// need to reschedule the timer after it has fired once.
 	if (theInfo->fireCount == 1 && !NMathUtilities::IsZero(theInfo->fireEvery))
 		{
-		timeMS  = NWinTarget::ConvertTimeMS(theInfo->fireEvery);
-		timerID = SetTimer(NULL, theInfo->timerID, timeMS, TimerCallback);
+		timerID = SetTimer(NULL, theInfo->timerID, GetTimerMS(theInfo->fireEvery), TimerCallback);
 		NN_ASSERT(timerID == idEvent);
 		}
 }
@@ -105,7 +122,6 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 //----------------------------------------------------------------------------
 static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theID)
 {	TimerInfo		*theInfo;
-	DWORD			timeMS;
 
 
 
@@ -130,9 +146,7 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 
 
 	// Create the timer
-	timeMS = NWinTarget::ConvertTimeMS(fireAfter);
-
-	theInfo->timerID = SetTimer(NULL, 0, timeMS, TimerCallback);
+	theInfo->timerID = SetTimer(NULL, 0, GetTimerMS(fireAfter), TimerCallback);
 	NN_ASSERT(theInfo->timerID != 0);
 	
 	if (theInfo->timerID == 0)
@@ -190,8 +204,7 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 	// Reset the timer
 	theInfo->fireCount = 0;
 
-	timeMS  = NWinTarget::ConvertTimeMS(fireAfter);
-	timerID = SetTimer(NULL, theInfo->timerID, fireAfter, TimerCallback);
+	timerID = SetTimer(NULL, theInfo->timerID, GetTimerMS(fireAfter), TimerCallback);
 	NN_ASSERT(timerID == theInfo->timerID);
 }
 
@@ -253,7 +266,7 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 	// the main thread and so we need to create the functor on the main thread.
 	theID = kNTimerNone;
 	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate(theFunctor, fireAfter, fireEvery, &theID);
-	
+
 	return(theID);
 }
 
