@@ -435,7 +435,11 @@ void NTargetFile::Delete(const NString &thePath)
 
 
 	// Delete the file
-	wasOK = DeleteFile(ToWN(thePath));
+	if (IsDirectory(thePath))
+		wasOK = RemoveDirectory(ToWN(thePath));
+	else
+		wasOK = DeleteFile(ToWN(thePath));
+
 	NN_ASSERT(wasOK);
 }
 
@@ -666,6 +670,9 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 
 	if (!ReadFile((HANDLE) theFile,  thePtr, (DWORD) theSize, &bytesRead, NULL))
 		theErr = NWinTarget::GetLastError();
+
+	if (theErr == kNoErr && bytesRead == 0)
+		theErr = kNErrExhaustedSrc;
 
 	if (theErr == kNoErr)
 		numRead = bytesRead;

@@ -82,7 +82,7 @@ private:
 //============================================================================
 //		Function prototypes
 //----------------------------------------------------------------------------
-HWND CreateMainThreadWindow(void);
+static HWND CreateMainThreadWindow(void);
 
 
 
@@ -171,7 +171,7 @@ static LRESULT CALLBACK HelperWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 	theResult = 0;
 
 	switch (uMsg) {
-		case WM_NWINTHREAD_CALLBACK:
+		case WM_NWINTHREAD_FUNCTOR:
 			theInvoker = (NFunctorInvoker *) lParam;
 			theInvoker->Invoke();
 			break;
@@ -222,6 +222,8 @@ static HWND CreateMainThreadWindow(void)
 	// Create the window
 	theWindow = CreateWindow((LPCTSTR) theClass, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	NN_ASSERT(theWindow != NULL);
+
+	return(theWindow);
 }
 
 
@@ -621,7 +623,7 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 		{
 		theInvoker = new NFunctorInvoker(theFunctor, &theSemaphore);
 		
-		wasOK = PostMessage(gMainThreadWindow, WM_NWINTHREAD_FUNCTOR, 0, (LPARAM) theInfo);
+		wasOK = PostMessage(gMainThreadWindow, WM_NWINTHREAD_FUNCTOR, 0, (LPARAM) theInvoker);
 		NN_ASSERT(wasOK);
 
 		wasDone = theSemaphore.Wait();

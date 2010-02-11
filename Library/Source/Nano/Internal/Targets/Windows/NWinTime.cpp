@@ -18,6 +18,7 @@
 
 #include "NDate.h"
 #include "NWindows.h"
+#include "NWinTarget.h"
 #include "NTargetThread.h"
 #include "NTargetTime.h"
 
@@ -68,7 +69,7 @@ static DWORD GetTimerMS(NTime theTime)
 
 	// Get the time
 	timeMS = NWinTarget::ConvertTimeMS(theTime);
-	timeMS = NN_CLAMP_VALUE(theTime, (UINT) USER_TIMER_MINIMUM, (UINT) USER_TIMER_MAXIMUM);
+	timeMS = NN_CLAMP_VALUE(timeMS, (DWORD) USER_TIMER_MINIMUM, (DWORD) USER_TIMER_MAXIMUM);
 	
 	return(timeMS);
 }
@@ -197,7 +198,6 @@ static void DoTimerDestroy(NTimerID theTimer)
 static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 {	TimerInfo		*theInfo = (TimerInfo *) theTimer;
 	UINT_PTR		timerID;
-	DWORD			timeMS;
 
 
 
@@ -264,8 +264,8 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 	//
 	// Timers are per-thread on Windows, however Nano always executes functors on
 	// the main thread and so we need to create the functor on the main thread.
-	theID = kNTimerNone;
-	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate(theFunctor, fireAfter, fireEvery, &theID);
+	theID = kTimerNone;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theID));
 
 	return(theID);
 }
@@ -282,7 +282,7 @@ void NTargetTime::TimerDestroy(NTimerID theTimer)
 
 
 	// Destroy the timer
-	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerDestroy(theTimer));
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerDestroy, theTimer));
 }
 
 
@@ -297,7 +297,7 @@ void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 
 
 	// Reset the timer
-	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerReset(theTimer, fireAfter));
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerReset, theTimer, fireAfter));
 }
 
 

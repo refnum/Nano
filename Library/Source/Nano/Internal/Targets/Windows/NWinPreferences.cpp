@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NEncoder.h"
+#include "NFile.h"
 #include "NWindows.h"
 #include "NTargetPreferences.h"
 
@@ -31,6 +32,7 @@ static NString GetRegAppPath(void)
 {	static NString	sAppKey;
 
 	TCHAR		theBuffer[MAX_PATH];
+	NFile		theFile;
 
 
 
@@ -42,7 +44,13 @@ static NString GetRegAppPath(void)
 	if (sAppKey.IsEmpty())
 		{
 		if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
-			sAppKey.Format("Software\\%@", ToNN(theBuffer));
+			{
+			theFile = NFile(ToNN(theBuffer));
+			if (theFile.IsFile())
+				sAppKey.Format("Software\\%@", theFile.GetName(kNNameNoExtension));
+			}
+
+		NN_ASSERT(!sAppKey.IsEmpty());
 		}
 	
 	return(sAppKey);
@@ -56,14 +64,14 @@ static NString GetRegAppPath(void)
 //		GetRegAppKey : Get the registry key for the app.
 //----------------------------------------------------------------------------
 static HKEY GetRegAppKey(bool canCreate)
-{	LPCTSTR		appPath;
+{	NString		appPath;
 	HKEY		theKey;
 	LONG		theErr;
 
 
 
 	// Get the state we need
-	appPath = ToWN(GetRegAppPath());
+	appPath = GetRegAppPath();
 	theKey  = NULL;
 
 
@@ -71,14 +79,14 @@ static HKEY GetRegAppKey(bool canCreate)
 	// Get the key
 	if (canCreate)
 		{
-		theErr = RegCreateKeyEx(HKEY_LOCAL_MACHINE, appPath, 0, NULL, REG_OPTION_NON_VOLATILE,
+		theErr = RegCreateKeyEx(HKEY_CURRENT_USER, ToWN(appPath), 0, NULL, REG_OPTION_NON_VOLATILE,
 								KEY_ALL_ACCESS, NULL, &theKey, NULL);
 		NN_ASSERT_NOERR(theErr);
 		}
 	else
 		{
-		theErr = RegOpenKeyEx(  HKEY_LOCAL_MACHINE, appPath, 0, KEY_ALL_ACCESS, &theKey);
-		NN_ASSERT_NOERR(theErr);
+		theErr = RegOpenKeyEx(  HKEY_CURRENT_USER, ToWN(appPath), 0, KEY_ALL_ACCESS, &theKey);
+		NN_ASSERT(theErr == ERROR_SUCCESS || theErr == ERROR_FILE_NOT_FOUND);
 		}
 
 	return(theKey);
@@ -141,7 +149,7 @@ void NTargetPreferences::RemoveKey(const NString &theKey)
 
 
 	// Remove the key
-	theErr = RegDeleteKey(appKey, ToWN(theKey));
+	theErr = RegDeleteValue(appKey, ToWN(theKey));
 	NN_ASSERT_NOERR(theErr);
 
 
