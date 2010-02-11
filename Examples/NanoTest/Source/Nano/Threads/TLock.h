@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NLock.h"
 
 
 
@@ -28,6 +29,10 @@ class TLock {
 public:
 	// Execute the tests
 	static void							Execute(void);
+
+
+private:
+	static void							LockUnlock(NLock *theLock, NData *theData);
 };
 
 
