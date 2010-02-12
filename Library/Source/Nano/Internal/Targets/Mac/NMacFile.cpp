@@ -33,13 +33,13 @@
 //============================================================================
 //      Internal types
 //----------------------------------------------------------------------------
-// Maps
+// Mapped pages
 typedef std::map<void*, void*>									PagePtrMap;
 typedef PagePtrMap::iterator									PagePtrMapIterator;
 typedef PagePtrMap::const_iterator								PagePtrMapConstIterator;
 
 
-// File map info
+// Mapped files
 typedef struct {
 	int				theFile;
 	NSpinLock		theLock;
@@ -834,7 +834,7 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 	theInfo->theFile = open(thePath.GetUTF8(), theFlags, 0);
 	if (theInfo->theFile == -1)
 		{
-		delete theInfo;
+		MapClose((NFileRef) theInfo);
 		theInfo = NULL;
 		}
 	
@@ -854,7 +854,8 @@ void NTargetFile::MapClose(NFileRef theFile)
 
 
 	// Close the file
-	close(theInfo->theFile);
+	if (theInfo->theFile != -1)
+		close(theInfo->theFile);
 	
 	delete theInfo;
 }
@@ -878,8 +879,8 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 
 	// Get the state we need
 	//
-	// Pages can only be mapped with a compatible access mode to the underlying file;
-	// a file opened as read-only can not be used to obtain read-write pages.
+	// Pages can only be mapped with a compatible access mode to the underlying
+	// file; a file opened as read-only can not be used to obtain read-write pages.
 	//
 	// Mac OS X 10.6 introduces two behaviour changes in 64-bit builds:
 	//
@@ -889,8 +890,8 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 	//		- The pge flags must include either MAP_SHARED or MAP_PRIVATE, so
 	//		  we default to MAP_SHARED and enable MAP_PRIVATE if required.
 	//
-	// For each file we maintain a table of mapped pointers to their originating pages,
-	// allowing us to unmap the correct page when the pointer is discarded.
+	// For each file we maintain a table of mapped pointers to their originating
+	// pages, allowing us to unmap the correct page when the pointer is discarded.
 	pagePerm  = PROT_READ;
 	pageFlags = MAP_FILE | MAP_SHARED;
 	pageSize  = getpagesize();

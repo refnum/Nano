@@ -29,10 +29,18 @@
 //============================================================================
 //      Internal types
 //----------------------------------------------------------------------------
-// File map info
+// Mapped pages
+typedef std::map<void*, void*>									PagePtrMap;
+typedef PagePtrMap::iterator									PagePtrMapIterator;
+typedef PagePtrMap::const_iterator								PagePtrMapConstIterator;
+
+
+// Mapped files
 typedef struct {
 	HANDLE			theFile;
 	HANDLE			memFile;
+	NSpinLock		theLock;
+	PagePtrMap		pageTable;
 } FileMapInfo;
 
 
@@ -759,8 +767,6 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 	if (theInfo->theFile == INVALID_HANDLE_VALUE || theInfo->memFile == INVALID_HANDLE_VALUE)
 		{
 		MapClose((NFileRef) theInfo);
-
-		delete theInfo;
 		theInfo = NULL;
 		}
 	
@@ -782,6 +788,8 @@ void NTargetFile::MapClose(NFileRef theFile)
 	// Close the file
 	WNSafeCloseHandle(theInfo->theFile);
 	WNSafeCloseHandle(theInfo->memFile);
+	
+	delete theInfo;
 }
 
 
@@ -793,19 +801,45 @@ void NTargetFile::MapClose(NFileRef theFile)
 //----------------------------------------------------------------------------
 void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool /*noCache*/)
 {	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
+	StLock			acquireLock(theInfo->theLock);
+
+	SInt64			pageSize, mapOffset, mapDelta;
 	DWORD			offsetHigh, offsetLow;
-	void			*thePtr;
+	void			*pagePtr, *thePtr;
+	SYSTEM_INFO		sysInfo;
 
 
 
 	// Get the state we need
-	ToWN(theOffset, offsetHigh, offsetLow);
+	//
+	// The mapped offset must be dwAllocationGranularity aligned, so we may need
+	// to adjust the offset/size to compensate.
+	//
+	// For each file we maintain a table of mapped pointers to their originating
+	// pages, allowing us to unmap the correct page when the pointer is discarded.
+	GetSystemInfo(&sysInfo);
+	pageSize = sysInfo.dwAllocationGranularity;
+
+	mapOffset = theOffset - (theOffset % pageSize);
+	mapDelta  = theOffset - mapOffset;
+	theSize  += mapDelta;
+
+	ToWN(mapOffset, offsetHigh, offsetLow);
 
 
 
 	// Fetch the page
-	thePtr = MapViewOfFile(theInfo->memFile, NWinTarget::ConvertFileMapAccess(theAccess, true), offsetHigh, offsetLow, theSize);
+	pagePtr = MapViewOfFile(theInfo->memFile, NWinTarget::ConvertFileMapAccess(theAccess, true), offsetHigh, offsetLow, theSize);
+	thePtr  = NULL;
 	
+	if (pagePtr != NULL)
+		{
+		thePtr = (void *) (((UInt8 *) pagePtr) + mapDelta);
+		
+		NN_ASSERT(theInfo->pageTable.find(thePtr) == theInfo->pageTable.end());
+		theInfo->pageTable[thePtr] = pagePtr;
+		}
+
 	return(thePtr);
 }
 
@@ -816,23 +850,43 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 //============================================================================
 //      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const void *thePtr, UInt32 /*theSize*/)
-{	BOOL	wasOK;
+void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
+{	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
+	StLock			acquireLock(theInfo->theLock);
+
+	void					*pagePtr;
+	SInt64					mapDelta;
+	PagePtrMapIterator		theIter;
+	BOOL					wasOK;
+
+
+
+	// Get the state we need
+	theIter = theInfo->pageTable.find((void *) thePtr);
+	NN_ASSERT(theIter != theInfo->pageTable.end());
+
+	pagePtr  = theIter->second;
+	mapDelta = (((UInt8 *) thePtr) - ((UInt8 *) pagePtr));
+	
+	NN_ASSERT(mapDelta >= 0);
+	theSize += mapDelta;
 
 
 
 	// Flush read-write pages back to disk
 	if (theAccess == kNAccessReadWrite)
 		{
-		wasOK = FlushViewOfFile(thePtr, 0);
+		wasOK = FlushViewOfFile(pagePtr, theSize);
 		NN_ASSERT(wasOK);
 		}
 
 
 
 	// Discard the page
-	wasOK = UnmapViewOfFile(thePtr);
+	wasOK = UnmapViewOfFile(pagePtr);
 	NN_ASSERT(wasOK);
+
+	theInfo->pageTable.erase(theIter);
 }
 
 
