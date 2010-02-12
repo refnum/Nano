@@ -548,6 +548,9 @@ NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission
 	theFile = CreateFile(ToWN(thePath), NWinTarget::ConvertFilePermission(thePermission),
 							0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	if (theFile == INVALID_HANDLE_VALUE)
+		theFile = kNFileRefNone;
+
 	return((NFileRef) theFile);
 }
 
