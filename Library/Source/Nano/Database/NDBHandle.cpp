@@ -571,7 +571,8 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &th
 		// Bind a string
 		else if (theValue.GetValue(valueString))
 			{
-			dbErr = sqlite3_bind_text(sqlQuery, theIndex, valueString.GetUTF8(), strlen(valueString.GetUTF8()), SQLITE_TRANSIENT);
+			valueData = valueString.GetData(kNStringEncodingUTF8);
+			dbErr     = sqlite3_bind_text(sqlQuery, theIndex, (const char *) valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
 			if (dbErr != kNoErr)
 				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}

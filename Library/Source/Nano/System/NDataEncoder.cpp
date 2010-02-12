@@ -239,24 +239,26 @@ NString NDataEncoder::B64_Encode(const NData &theValue)
 //		NDataEncoder::B64_Decode : Decode from Base64.
 //----------------------------------------------------------------------------
 NData NDataEncoder::B64_Decode(const NString &theValue)
-{	base64_decodestate		theState;
+{	NData					theData, valueData;
+	base64_decodestate		theState;
 	char					*dataPtr;
 	NIndex					dataSize;
-	NData					theData;
 
 
 
 	// Get the state we need
 	base64_init_decodestate(&theState);
 
-	if (!theData.SetSize(theValue.GetSize()))
+	valueData = theValue.GetData(kNStringEncodingUTF8);
+	
+	if (!theData.SetSize(valueData.GetSize()))
 		return(theData);
 
 
 
 	// Decode the value
 	dataPtr  = (char *) theData.GetData();
-	dataSize = base64_decode_block(theValue.GetUTF8(), theValue.GetSize(), dataPtr, &theState);
+	dataSize = base64_decode_block((const char *) valueData.GetData(), valueData.GetSize(), dataPtr, &theState);
 
 	theData.SetSize(dataSize);
 

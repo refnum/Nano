@@ -430,7 +430,7 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 		isMatch = (theSize <= GetSize());
 
 		if (isMatch)
-			isMatch = (memcmp(theString.GetUTF8(), GetUTF8(), theSize) == 0);
+			isMatch = (strcmp(theString.GetUTF8(), GetUTF8()) == 0);
 		}
 
 
@@ -457,7 +457,8 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 //		NString::EndsWith : Does the string end with a string?
 //----------------------------------------------------------------------------
 bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
-{	NString			matchString;
+{	const char		*thisUTF8, *otherUTF8;
+	NString			matchString;
 	NRange			theRange;
 	NIndex			theSize;
 	bool			isMatch;
@@ -471,7 +472,11 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 		isMatch = (theSize <= GetSize());
 
 		if (isMatch)
-			isMatch = (memcmp(GetUTF8() + GetSize() - theSize, theString.GetUTF8(), theSize) == 0);
+			{
+			thisUTF8  =           GetUTF8();
+			otherUTF8 = theString.GetUTF8();
+			isMatch   = (strcmp(thisUTF8 + strlen(thisUTF8) - strlen(otherUTF8), otherUTF8) == 0);
+			}
 		}
 
 
@@ -1232,11 +1237,13 @@ const NString NString::operator + (const NString &theString) const
 //----------------------------------------------------------------------------
 NString::operator NStringUTF8(void) const
 {	NStringUTF8		theResult;
+	NData			theData;
 
 
 
 	// Get the value
-	theResult = NStringUTF8(GetUTF8(), GetSize());
+	theData   = GetData(kNStringEncodingUTF8);
+	theResult = NStringUTF8((const char *) theData.GetData(), theData.GetSize());
 	
 	return(theResult);
 }
@@ -1254,8 +1261,8 @@ NString::operator NFormatArgument(void) const
 
 
 	// Get the value
-	theResult = NStringUTF8(GetUTF8(), GetSize());
-	
+	theResult = (NStringUTF8) *this;
+
 	return(NFormatArgument(theResult));
 }
 
