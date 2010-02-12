@@ -107,7 +107,7 @@ void TStringFormatter::Execute(void)
 	NN_ASSERT(theResult == "ArgPtrChar [text]");
 
 	theResult = testFormatter.Format("ArgPtrVoid [%p]", kValuePtrVoid);
-	NN_ASSERT(theResult == "ArgPtrVoid [0xdeadbeef]");
+	NN_ASSERT(theResult == "ArgPtrVoid [0xdeadbeef]" || theResult == "ArgPtrVoid [0XDEADBEEF]");
 
 
 	theResult = testFormatter.Format("ArgHex [%x]", kValueUInt32);
