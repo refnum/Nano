@@ -426,20 +426,35 @@ UInt64 NFile::GetSize(void) const
 //        NFile::SetSize : Set the file size.
 //----------------------------------------------------------------------------
 NStatus NFile::SetSize(UInt64 theSize)
-{	NStatus		theErr;
+{	bool		wasOpen;
+	NStatus		theErr;
 
 
 
-	// Create the file if necessary
-	if (!Exists())
-		CreateFile();
+	// Prepare the file
+	wasOpen = IsOpen();
+
+	if (!wasOpen)
+		{
+		theErr = Open(kNPermissionWrite, true);
+		NN_ASSERT_NOERR(theErr);
+
+		if (theErr != kNoErr)
+			return(theErr);
+		}
 
 
 
 	// Set the size
-	theErr = NTargetFile::SetSize(mPath, theSize);
+	theErr = NTargetFile::SetSize(mPath, mFile, theSize);
 	NN_ASSERT_NOERR(theErr);
-	
+
+
+
+	// Clean up
+	if (!wasOpen)
+		Close();
+
 	return(theErr);
 }
 

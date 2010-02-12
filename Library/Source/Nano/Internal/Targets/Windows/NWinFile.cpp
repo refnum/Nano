@@ -248,17 +248,9 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(const NString &thePath, UInt64 theSize)
-{	NFileRef	theFile;
-	NStatus		theErr;
+NStatus NTargetFile::SetSize(const NString &/*thePath*/, NFileRef theFile, UInt64 theSize)
+{	NStatus		theErr;
 	BOOL		wasOK;
-
-
-
-	// Open the file
-	theFile = Open(thePath, kNPermissionWrite);
-	if (theFile == kNFileRefNone)
-		return(kNErrPermission);
 
 
 
@@ -269,11 +261,6 @@ NStatus NTargetFile::SetSize(const NString &thePath, UInt64 theSize)
 		wasOK = SetEndOfFile((HANDLE) theFile);
 		NN_ASSERT(wasOK);
 		}
-
-
-
-	// Clean up
-	Close(theFile);
 	
 	return(theErr);
 }

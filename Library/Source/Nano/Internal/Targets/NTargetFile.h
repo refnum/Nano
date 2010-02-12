@@ -56,7 +56,7 @@ public:
 
 	// Get/set a file's size
 	static UInt64						GetSize(const NString &thePath);
-	static NStatus						SetSize(const NString &thePath, UInt64 theSize);
+	static NStatus						SetSize(const NString &thePath, NFileRef theFile, UInt64 theSize);
 
 
 	// Get the child/parent of a path
