@@ -449,17 +449,21 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 {	TCHAR		theBuffer[MAX_PATH];
 	NFile		theFile;
 	NString		thePath;
+	bool		isUser;
 
 
 
 	// Get the state we need
+	isUser = (theDomain == kNDomainUser);
+	
 	switch (theLocation) {
 		case kNLocationHome:
+			NN_ASSERT(isUser);
 			thePath = GetDirectoryForDomain(theDomain, FOLDERID_Profile);
 			break;
 		
 		case kNLocationDesktop:
-			thePath = GetDirectoryForDomain(theDomain, FOLDERID_Desktop);
+			thePath = GetDirectoryForDomain(theDomain, isUser ? FOLDERID_Desktop : FOLDERID_PublicDesktop);
 			break;
 		
 		case kNLocationCachedData:
@@ -472,7 +476,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			break;
 		
 		case kNLocationApplicationSupport:
-			thePath = GetDirectoryForDomain(theDomain, FOLDERID_ProgramData);
+			thePath = GetDirectoryForDomain(theDomain, isUser ? FOLDERID_RoamingAppData : FOLDERID_ProgramData);
 			break;
 		
 		default:
