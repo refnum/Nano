@@ -416,10 +416,11 @@ NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith,
 //		NString::StartsWith : Does the string start with a string?
 //----------------------------------------------------------------------------
 bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
-{	NString		matchString;
-	NRange		theRange;
-	NIndex		theSize;
-	bool		isMatch;
+{	const char		*thisUTF8, *prefixUTF8;
+	NString			matchString;
+	NRange			theRange;
+	NIndex			theSize;
+	bool			isMatch;
 
 
 
@@ -430,7 +431,13 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 		isMatch = (theSize <= GetSize());
 
 		if (isMatch)
-			isMatch = (strcmp(theString.GetUTF8(), GetUTF8()) == 0);
+			{
+			thisUTF8   =           GetUTF8();
+			prefixUTF8 = theString.GetUTF8();
+
+			NN_ASSERT(strlen(prefixUTF8) <= strlen(thisUTF8));
+			isMatch = (memcmp(thisUTF8, prefixUTF8, strlen(prefixUTF8)) == 0);
+			}
 		}
 
 
@@ -457,10 +464,10 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 //		NString::EndsWith : Does the string end with a string?
 //----------------------------------------------------------------------------
 bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
-{	const char		*thisUTF8, *otherUTF8;
+{	NIndex			theSize, thisLen, suffixLen;
+	const char		*thisUTF8, *suffixUTF8;
 	NString			matchString;
 	NRange			theRange;
-	NIndex			theSize;
 	bool			isMatch;
 
 
@@ -473,9 +480,14 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 
 		if (isMatch)
 			{
-			thisUTF8  =           GetUTF8();
-			otherUTF8 = theString.GetUTF8();
-			isMatch   = (strcmp(thisUTF8 + strlen(thisUTF8) - strlen(otherUTF8), otherUTF8) == 0);
+			thisUTF8   =           GetUTF8();
+			suffixUTF8 = theString.GetUTF8();
+			
+			thisLen   = strlen(thisUTF8);
+			suffixLen = strlen(suffixUTF8);
+
+			NN_ASSERT(suffixLen <= thisLen);
+			isMatch = (memcmp(thisUTF8 + thisLen - suffixLen, suffixUTF8, suffixLen) == 0);
 			}
 		}
 
@@ -1244,7 +1256,7 @@ NString::operator NStringUTF8(void) const
 	// Get the value
 	theData   = GetData(kNStringEncodingUTF8);
 	theResult = NStringUTF8((const char *) theData.GetData(), theData.GetSize());
-	
+
 	return(theResult);
 }
 
