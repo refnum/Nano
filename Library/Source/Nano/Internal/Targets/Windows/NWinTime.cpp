@@ -82,14 +82,14 @@ static DWORD GetTimerMS(NTime theTime)
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEvent, DWORD /*dwTime*/)
-{	TimerInfoMapIterator	theIter;
-	TimerInfo				*theInfo;
-	UINT_PTR				timerID;
+{	TimerInfo				*theInfo;
+	TimerInfoMapIterator	theIter;
+	NTimerID				timerID;
 
 
 
 	// Get the state we need
-	theIter = gTimers.find(timerID);
+	theIter = gTimers.find(idEvent);
 	NN_ASSERT(theIter != gTimers.end());
 
 	theInfo = theIter->second;
@@ -159,7 +159,9 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 
 
 	// Save the timer
+	NN_ASSERT(gTimers.find(theInfo->timerID) == gTimers.end());
 	gTimers[theInfo->timerID] = theInfo;
+
 	*theID = (NTimerID) theInfo;
 }
 
@@ -183,6 +185,7 @@ static void DoTimerDestroy(NTimerID theTimer)
 
 
 	// Forget the timer
+	NN_ASSERT(gTimers.find(theInfo->timerID) != gTimers.end());
 	gTimers.erase(theInfo->timerID);
 	
 	delete theInfo;
