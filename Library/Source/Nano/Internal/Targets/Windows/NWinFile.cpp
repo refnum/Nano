@@ -755,7 +755,7 @@ NFileRef NTargetFile::MapOpen(const NFile &theFile, NMapAccess theAccess)
 
 
 	// Open the file
-	theInfo->theFile = CreateFile(ToWN(thePath), theFlags, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	theInfo->theFile = CreateFile(ToWN(thePath), theFlags, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	theInfo->memFile = INVALID_HANDLE_VALUE;
 
 	if (theInfo->theFile != INVALID_HANDLE_VALUE)
@@ -822,7 +822,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 
 	mapOffset = theOffset - (theOffset % pageSize);
 	mapDelta  = theOffset - mapOffset;
-	theSize  += mapDelta;
+	theSize   = (UInt32) (theSize + mapDelta);
 
 	ToWN(mapOffset, offsetHigh, offsetLow);
 
@@ -850,7 +850,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 //============================================================================
 //      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
+void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
 {	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
 	StLock			acquireLock(theInfo->theLock);
 
@@ -869,7 +869,7 @@ void NTargetFile::MapDiscard(NFileRef /*theFile*/, NMapAccess theAccess, const v
 	mapDelta = (((UInt8 *) thePtr) - ((UInt8 *) pagePtr));
 	
 	NN_ASSERT(mapDelta >= 0);
-	theSize += mapDelta;
+	theSize = (UInt32) (theSize + mapDelta);
 
 
 
