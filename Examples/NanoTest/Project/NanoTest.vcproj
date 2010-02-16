@@ -365,6 +365,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\TSingleton.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Graphics\TSize.cpp"
 				>
 			</File>
@@ -652,6 +656,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Graphics\TShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TSingleton.h"
 				>
 			</File>
 			<File

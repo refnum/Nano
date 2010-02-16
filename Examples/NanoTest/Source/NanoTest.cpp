@@ -94,6 +94,7 @@
 #include "TNumber.h"
 #include "TPropertyStore.h"
 #include "TRange.h"
+#include "TSingleton.h"
 #include "TString.h"
 #include "TStringEncoder.h"
 #include "TStringFormatter.h"
@@ -235,6 +236,7 @@ int main(int argc, const char **argv)
 	TNumber::Execute();
 	TPropertyStore::Execute();
 	TRange::Execute();
+	TSingleton::Execute();
 	TString::Execute();
 	TStringEncoder::Execute();
 	TStringFormatter::Execute();

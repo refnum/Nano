@@ -681,6 +681,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NSingleton.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Graphics\NSize.cpp"
 				>
 			</File>
@@ -1758,6 +1762,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NSharedValue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NSingleton.h"
 				>
 			</File>
 			<File

@@ -83,6 +83,7 @@
 		AB8CE2E7104D617100306EDC /* TDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */; };
 		AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
+		ABB57D16112ADC21003D714C /* TSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57D14112ADC21003D714C /* TSingleton.cpp */; };
 		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
 		ABE96258103B00A300029708 /* TNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */; };
 		ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */; };
@@ -270,6 +271,8 @@
 		AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
 		AB9E78990F27D8C50043A657 /* NanoTest Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.h"; sourceTree = "<group>"; };
+		ABB57D14112ADC21003D714C /* TSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSingleton.cpp; sourceTree = "<group>"; };
+		ABB57D15112ADC21003D714C /* TSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSingleton.h; sourceTree = "<group>"; };
 		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABE96257103B00A300029708 /* TNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNSAutoReleasePool.h; sourceTree = "<group>"; };
@@ -490,6 +493,8 @@
 				AB514F7B1035788600E5A6AD /* TPropertyStore.h */,
 				AB514DB51034184B00E5A6AD /* TRange.cpp */,
 				AB514DB61034184B00E5A6AD /* TRange.h */,
+				ABB57D14112ADC21003D714C /* TSingleton.cpp */,
+				ABB57D15112ADC21003D714C /* TSingleton.h */,
 				AB514DBB1034184B00E5A6AD /* TString.cpp */,
 				AB514DBC1034184B00E5A6AD /* TString.h */,
 				AB514DBD1034184B00E5A6AD /* TStringEncoder.cpp */,
@@ -784,6 +789,7 @@
 				AB514E0A1034184B00E5A6AD /* TNumber.cpp in Sources */,
 				AB514F7C1035788600E5A6AD /* TPropertyStore.cpp in Sources */,
 				AB514E0C1034184B00E5A6AD /* TRange.cpp in Sources */,
+				ABB57D16112ADC21003D714C /* TSingleton.cpp in Sources */,
 				AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */,
 				AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */,
 				AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */,
