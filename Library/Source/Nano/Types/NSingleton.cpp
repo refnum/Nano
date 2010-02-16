@@ -64,21 +64,13 @@ NSingleton::~NSingleton(void)
 
 	// Validate our state
 	//
-	// Singletons must be stored in an instance pointer, which should point to us.
-	NN_ASSERT( mInstance != NULL);
-	NN_ASSERT(*mInstance == this);
+	// Singletons must hold a valid instance pointer.
+	NN_ASSERT(mInstance != NULL);
 
 
 
-	// Validate the list state
-	//
-	// Singletons should only be destroyed via DestroyObjects, so by the time
-	// our destructor is reached we should have been removed from the list.
-	NN_ASSERT(!IsKnownObject(this));
-
-
-
-	// Update the instance pointer
+	// Update our state
+	GetObjects()->RemoveValue(this);
 	*mInstance = NULL;
 }
 
@@ -113,41 +105,6 @@ void NSingleton::SetInstance(void **thePtr)
 
 	// Update our state
 	mInstance = thePtr;
-}
-
-
-
-
-
-//============================================================================
-//		NSingleton::IsKnownObject : Is this a known object?
-//----------------------------------------------------------------------------
-bool NSingleton::IsKnownObject(NSingleton *theObject)
-{	UInt32				n, numItems;
-	NSingletonList		*theList;
-	bool				isKnown;
-
-
-
-	// Lock the list
-	theList = GetObjects();
-	theList->Lock();
-
-
-
-	// Examine the contents
-	numItems = theList->GetSize();
-	isKnown  = false;
-	
-	for (n = 0; n < numItems && !isKnown; n++)
-		isKnown = (theList->GetValue(n) == theObject);
-
-
-
-	// Clean up
-	theList->Unlock();
-	
-	return(isKnown);
 }
 
 

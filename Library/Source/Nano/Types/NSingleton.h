@@ -52,7 +52,7 @@ protected:
 	// instance" method, passing in the address of the variable which holds the
 	// instance pointer:
 	//
-	//			CFoo *CFoo::GetInstance(void)
+	//			CFoo *CFoo::Get(void)
 	//			{	static CFoo		*sFoo = NULL;
 	//			
 	//				return(CreateInstance<CFoo>(&sFoo));
@@ -66,7 +66,6 @@ protected:
 private:
 	void								SetInstance(void **thePtr);
 
-	bool								IsKnownObject(NSingleton *theObject);
 	static NSingletonList			   *GetObjects(void);
 
 
@@ -86,7 +85,7 @@ private:
 //		NSingleton::CreateInstance : Instantiate a singleton.
 //----------------------------------------------------------------------------
 template <class T> T *NSingleton::CreateInstance(T **thePtr)
-{	StLock		lockMutex(mLock);
+{	StLock			lockMutex(mLock);
 
 
 
