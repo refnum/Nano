@@ -101340,7 +101340,24 @@ nodeAcquire(
   rc = sqlite3_step(pRtree->pReadNode);
   if( rc==SQLITE_ROW ){
     const u8 *zBlob = sqlite3_column_blob(pRtree->pReadNode, 0);
+
+
+
+// dair, avoid buffer over-read
+//
+// http://www.mail-archive.com/sqlite-users@sqlite.org/msg50337.html
+/*
     memcpy(pNode->zData, zBlob, pRtree->iNodeSize);
+*/
+	int blobSize = sqlite3_column_bytes(pRtree->pReadNode, 0);
+	if (blobSize != pRtree->iNodeSize)
+		memset(pNode->zData, 0x00, pRtree->iNodeSize);
+
+	assert(blobSize <= pRtree->iNodeSize);
+	memcpy(pNode->zData, zBlob, blobSize);
+
+
+
     nodeReference(pParent);
   }else{
     sqlite3_free(pNode);
