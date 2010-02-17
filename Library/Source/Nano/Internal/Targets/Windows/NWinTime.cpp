@@ -89,8 +89,12 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 
 
 	// Get the state we need
+	//
+	// Timers may still fire even after KillTimer, and so we need to
+	// check that the timer still exists before processing it.
 	theIter = gTimers.find(idEvent);
-	NN_ASSERT(theIter != gTimers.end());
+	if (theIter == gTimers.end())
+		return;
 
 	theInfo = theIter->second;
 	NN_ASSERT(theInfo != NULL);
@@ -149,7 +153,7 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 	// Create the timer
 	theInfo->timerID = SetTimer(NULL, 0, GetTimerMS(fireAfter), TimerCallback);
 	NN_ASSERT(theInfo->timerID != 0);
-	
+
 	if (theInfo->timerID == 0)
 		{
 		delete theInfo;
@@ -175,7 +179,7 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 static void DoTimerDestroy(NTimerID theTimer)
 {	TimerInfo		*theInfo = (TimerInfo *) theTimer;
 	BOOL			wasOK;
-	
+
 
 
 	// Remove the timer
