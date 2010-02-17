@@ -90,12 +90,30 @@ inline NPoint ToNN(const POINT &thePoint)
 	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
 }
 
+inline NPoint ToNN(const POINTS &thePoint)
+{
+	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
+}
+
+inline NPoint ToNN(const POINTL &thePoint)
+{
+	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
+}
+
 inline NSize ToNN(const SIZE &thePoint)
 {
 	return(NSize((Float32) thePoint.cx, (Float32) thePoint.cy));
 }
 
 inline NRectangle ToNN(const RECT &theRect)
+{
+	return(NRectangle(	(Float32)  theRect.left,
+						(Float32)  theRect.top,
+						(Float32) (theRect.right  - theRect.left),
+						(Float32) (theRect.bottom - theRect.top)));
+}
+
+inline NRectangle ToNN(const RECTL &theRect)
 {
 	return(NRectangle(	(Float32)  theRect.left,
 						(Float32)  theRect.top,
