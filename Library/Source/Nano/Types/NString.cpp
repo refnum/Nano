@@ -642,10 +642,19 @@ bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
 {
 
 
-	// Case-sensitive equality
+	// Fast size test
 	//
-	// When case is significant, we can perform a quick test for inequality
-	// by looking for different hash codes.
+	// Since we only want to know if the strings are equal/not, we can do a
+	// fast test on length before looking at the string data.
+	if (GetSize() != theString.GetSize())
+		return(false);
+
+
+
+	// Fast hash test
+	//
+	// When case is significant, we can do a fast test for inequality using
+	// the hash code.
 	//
 	// Since two different strings may hash to the same value, if we can't
 	// prove inequality we must fall through to the general case (although
