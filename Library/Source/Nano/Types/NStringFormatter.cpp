@@ -400,8 +400,12 @@ NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const char *
 
 
 
-	// Validate our parameters
-	NN_ASSERT(IsValidType(theFormat, validTypes));
+	// Check our parameters
+	//
+	// Although sprintf will convert some types automatically, we complain if we see
+	// this kind of implicit conversion since the caller should use the correct type.
+	if (NN_DEBUG && !IsValidType(theFormat, validTypes))
+		NN_LOG("Invalid type used for '%s'", theFormat.c_str());
 
 
 
