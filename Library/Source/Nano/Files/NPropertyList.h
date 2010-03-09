@@ -31,13 +31,13 @@
 typedef enum {
 	// Specific
 	kNPropertyListInvalid,
-	kNPropertyListMacXML_1_0,
-	kNPropertyListMacBinary_1_0,
+	kNPropertyListMacXML1,
+	kNPropertyListMacBinary1,
 
 
 	// Generic
-	kNPropertyListXML		= kNPropertyListMacXML_1_0,
-	kNPropertyListBinary	= kNPropertyListMacBinary_1_0,
+	kNPropertyListXML		= kNPropertyListMacXML1,
+	kNPropertyListBinary	= kNPropertyListMacBinary1,
 } NPropertyListFormat;
 
 
@@ -92,46 +92,46 @@ public:
 private:
 	NPropertyListFormat					GetFormat(const NData &theData);
 
-	NData								EncodeMacXML_1_0(const NDictionary &theState);
-	NDictionary							DecodeMacXML_1_0(const NData       &theData);
+	NData								EncodeMacXML1(const NDictionary &theState);
+	NDictionary							DecodeMacXML1(const NData       &theData);
 
-	NData								EncodeMacBinary_1_0(const NDictionary &theState);
-	NDictionary							DecodeMacBinary_1_0(const NData       &theData);
+	NData								EncodeMacBinary1(const NDictionary &theState);
+	NDictionary							DecodeMacBinary1(const NData       &theData);
 
-	NXMLNode							*EncodeMacXML_1_0_Boolean(         bool         theValue);
-	NXMLNode							*EncodeMacXML_1_0_Number(    const NNumber     &theValue);
-	NXMLNode							*EncodeMacXML_1_0_String(    const NString     &theValue);
-	NXMLNode							*EncodeMacXML_1_0_Data(      const NData       &theValue);
-	NXMLNode							*EncodeMacXML_1_0_Date(      const NDate       &theValue);
-	NXMLNode							*EncodeMacXML_1_0_Array(     const NArray      &theValue);
-	NXMLNode							*EncodeMacXML_1_0_Dictionary(const NDictionary &theValue);
+	NXMLNode							*EncodeMacXML1_Boolean(         bool         theValue);
+	NXMLNode							*EncodeMacXML1_Number(    const NNumber     &theValue);
+	NXMLNode							*EncodeMacXML1_String(    const NString     &theValue);
+	NXMLNode							*EncodeMacXML1_Data(      const NData       &theValue);
+	NXMLNode							*EncodeMacXML1_Date(      const NDate       &theValue);
+	NXMLNode							*EncodeMacXML1_Array(     const NArray      &theValue);
+	NXMLNode							*EncodeMacXML1_Dictionary(const NDictionary &theValue);
 
-	bool								DecodeMacXML_1_0_Boolean(   const NXMLNode *theNode);
-	SInt64								DecodeMacXML_1_0_Integer(   const NXMLNode *theNode);
-	Float64								DecodeMacXML_1_0_Real(      const NXMLNode *theNode);
-	NString								DecodeMacXML_1_0_String(    const NXMLNode *theNode);
-	NData								DecodeMacXML_1_0_Data(      const NXMLNode *theNode);
-	NDate								DecodeMacXML_1_0_Date(      const NXMLNode *theNode);
-	NArray								DecodeMacXML_1_0_Array(     const NXMLNode *theNode);
-	NDictionary							DecodeMacXML_1_0_Dictionary(const NXMLNode *theNode);
+	bool								DecodeMacXML1_Boolean(   const NXMLNode *theNode);
+	SInt64								DecodeMacXML1_Integer(   const NXMLNode *theNode);
+	Float64								DecodeMacXML1_Real(      const NXMLNode *theNode);
+	NString								DecodeMacXML1_String(    const NXMLNode *theNode);
+	NData								DecodeMacXML1_Data(      const NXMLNode *theNode);
+	NDate								DecodeMacXML1_Date(      const NXMLNode *theNode);
+	NArray								DecodeMacXML1_Array(     const NXMLNode *theNode);
+	NDictionary							DecodeMacXML1_Dictionary(const NXMLNode *theNode);
 
-	UInt32								DecodeMacBinary_1_0_GetUIntX(UInt32 theSize, const UInt8 *thePtr);
-	UInt32List							DecodeMacBinary_1_0_GetObjectRefs(NIndex numObjects, UInt32 offsetSize, const UInt8 *thePtr);
-	UInt32								DecodeMacBinary_1_0_GetObjectOffset(const MacBinary1_Info &theInfo, UInt32 objectRef);
+	UInt32								DecodeMacBinary1_GetUIntX(UInt32 theSize, const UInt8 *thePtr);
+	UInt32List							DecodeMacBinary1_GetObjectRefs(NIndex numObjects, UInt32 offsetSize, const UInt8 *thePtr);
+	UInt32								DecodeMacBinary1_GetObjectOffset(const MacBinary1_Info &theInfo, UInt32 objectRef);
 
-	MacBinary1_Tag						DecodeMacBinary_1_0_ReadObjectTag( const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	UInt32								DecodeMacBinary_1_0_ReadObjectSize(const MacBinary1_Info &theInfo, UInt32 &byteOffset, UInt32 theSize);
-	UInt32								DecodeMacBinary_1_0_ReadObjectRef( const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	MacBinary1_Tag						DecodeMacBinary1_ReadObjectTag( const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	UInt32								DecodeMacBinary1_ReadObjectSize(const MacBinary1_Info &theInfo, UInt32 &byteOffset, UInt32 theSize);
+	UInt32								DecodeMacBinary1_ReadObjectRef( const MacBinary1_Info &theInfo, UInt32 &byteOffset);
 
-	NVariant							DecodeMacBinary_1_0_Value(     const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	bool								DecodeMacBinary_1_0_Boolean(   const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	SInt64								DecodeMacBinary_1_0_Integer(   const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	Float64								DecodeMacBinary_1_0_Real(      const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	NString								DecodeMacBinary_1_0_String(    const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	NData								DecodeMacBinary_1_0_Data(      const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	NDate								DecodeMacBinary_1_0_Date(      const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	NArray								DecodeMacBinary_1_0_Array(     const MacBinary1_Info &theInfo, UInt32 &byteOffset);
-	NDictionary							DecodeMacBinary_1_0_Dictionary(const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	NVariant							DecodeMacBinary1_Value(     const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	bool								DecodeMacBinary1_Boolean(   const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	SInt64								DecodeMacBinary1_Integer(   const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	Float64								DecodeMacBinary1_Real(      const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	NString								DecodeMacBinary1_String(    const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	NData								DecodeMacBinary1_Data(      const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	NDate								DecodeMacBinary1_Date(      const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	NArray								DecodeMacBinary1_Array(     const MacBinary1_Info &theInfo, UInt32 &byteOffset);
+	NDictionary							DecodeMacBinary1_Dictionary(const MacBinary1_Info &theInfo, UInt32 &byteOffset);
 
 
 private:
