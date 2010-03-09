@@ -15,7 +15,10 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NFileUtilities.h"
 #include "NPropertyList.h"
+#include "NDataEncoder.h"
+#include "NTask.h"
 
 #include "TPropertyList.h"
 
@@ -52,8 +55,8 @@ static const NColor  kValueColor1							= NColor(1.0f, 0.8f, 0.4f, 0.2f);
 static const NColor  kValueColor2							= NColor(0.1f, 0.2f, 0.3f, 0.4f);
 
 
-// XML
-static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+// Property lists
+static const NString kPropertyListXML						=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 																"<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
 																"<plist version=\"1.0\">\n"
 																"<dict>\n"
@@ -100,6 +103,8 @@ static const NString kTestXML								=	"<?xml version=\"1.0\" encoding=\"UTF-8\"
 																"</dict>\n"
 																"</plist>\n";
 
+static const NString kPropertyListBinary					=	"62706C6973743030D4010203040506071059546573742044617465595465737420446174615F100F546573742044696374696F6E6172795A546573742041727261793341B002C7A0000000473CE7C732E3D852D408090A0B0C0D0E0F5A5465737420436F6C6F725C5465737420426F6F6C65616E5B5465737420537472696E675B54657374204E756D6265724F10994E654E6330303031000000F578DAB3B1AFC8CD51284B2D2ACECCCFB35532D433505248CD4BCE4FC9CC4BB7550A0D71D3B550B2B7E3B2018BA516A1AAB4E3E2B4C94FCA4A4D2E5148CE492C2EB655F273CECFC92F5252C84EADB4552ACACF2F01A9E1B4C92BCD4D026A86882AD919E819DAE843C430A4D341D24638A59340D2C638A51341D22648D236FA100702BDA00FF5831D170046B04AA6085D5365636F6E6420537472696E6723400921FB54442D18A7111213141516175C466972737420537472696E670913FFFFFFFFFFFFF6DA33C1CA6BBFF68000004F10994E654E6330303031000000F378DAB3B1AFC8CD51284B2D2ACECCCFB35532D433505248CD4BCE4FC9CC4BB7550A0D71D3B550B2B7E3B2018BA516A1AAB4E3E2B4C94FCA4A4D2E5148CE492C2EB655F273CECFC92F5252C84EADB4552ACACF2F01A9E1B4C92BCD4D026A86882AD919DAE843443024D395EC0CF42C704A2781A44D704A2782A48D90A46DF421CE037A401FEA033B2E00D0F94A4D4789504E470D0A1AD408090A0B180D0E1A4F10994E654E6330303031000000F578DAB3B1AFC8CD51284B2D2ACECCCFB35532D433505248CD4BCE4FC9CC4BB7550A0D71D3B550B2B7E3B2018BA516A1AAB4E3E2B4C94FCA4A4D2E5148CE492C2EB655F273CECFC92F5252C84EADB4552ACACF2F01A9E1B4C92BCD4D026A86882AD919E819DAE843C430A4D341D24638A59340D2C638A51341D22648D236FA100702BDA00FF5831D170046B04AA60823400921FB54442D1800080011001B002500370042004B0053005C006700740080008C0128012901370140014801550156015F01680204020C021502B102B20000000000000201000000000000001B000000000000000000000000000002BB";
+
 
 
 
@@ -114,6 +119,15 @@ void TPropertyList::Execute(void)
 	NArray				testArray;
 	NDate				testDate;
 	NPropertyList		pList;
+
+
+
+	// Maintenance
+	//
+	// DumpBinary can be used to rebuild kPropertyListBinary from kPropertyListXML.
+#if 0
+	DumpBinary();
+#endif
 
 
 
@@ -143,7 +157,7 @@ void TPropertyList::Execute(void)
 
 	// Encode to XML
 	theXML = pList.EncodeXML(testDict1);
-	NN_ASSERT(theXML == kTestXML);
+	NN_ASSERT(theXML == kPropertyListXML);
 
 	testDict1.Clear();
 	testDict2.Clear();
@@ -199,6 +213,37 @@ void TPropertyList::Execute(void)
 
 	testDate = testDict1.GetValueDate(kKeyDate);
 	NN_ASSERT(testDate == kValueDate2);
+}
+
+
+
+
+
+//============================================================================
+//		TPropertyList::DumpBinary : Dump the binary plist.
+//----------------------------------------------------------------------------
+void TPropertyList::DumpBinary(void)
+{	NDataEncoder	theEncoder;
+	NFile			theFile;
+	NString			theText;
+	NData			theData;
+
+
+
+	// Create the binary .plist
+	theFile = NFileUtilities::GetTemporaryFile("binary.plist");
+	NFileUtilities::SetFileText(theFile, kPropertyListXML);
+
+	NTask::Execute("/usr/bin/plutil", "-convert", "binary1", theFile.GetPath().GetUTF8(), NULL);
+
+
+
+	// Dump it
+	theData = NFileUtilities::GetFileData(theFile);
+	theText = theEncoder.Encode(theData, kNDataEncodingHex);
+	theFile.Delete();
+
+	NN_LOG("\nstatic const NString kPropertyListBinary					=	\"%@\";\n", theText);
 }
 
 

@@ -28,6 +28,10 @@ class TPropertyList {
 public:
 	// Execute the tests
 	static void							Execute(void);
+
+
+private:
+	static void							DumpBinary(void);
 };
 
 
