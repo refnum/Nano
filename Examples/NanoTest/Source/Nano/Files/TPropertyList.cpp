@@ -113,9 +113,10 @@ static const NString kPropertyListBinary					=	"62706C6973743030D401020304050607
 //		TPropertyList::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TPropertyList::Execute(void)
-{	NData				testData1, testData2;
+{	NData				theData, testData1, testData2;
 	NDictionary			testDict1, testDict2;
 	NString				theXML, testString;
+	NDataEncoder		theEncoder;
 	NArray				testArray;
 	NDate				testDate;
 	NPropertyList		pList;
@@ -213,6 +214,15 @@ void TPropertyList::Execute(void)
 
 	testDate = testDict1.GetValueDate(kKeyDate);
 	NN_ASSERT(testDate == kValueDate2);
+
+
+
+	// Decode from binary
+	theData   = theEncoder.Decode(kPropertyListBinary, kNDataEncodingHex);
+	testDict1 = pList.Decode(theData);
+
+	theXML = pList.EncodeXML(testDict1);
+	NN_ASSERT(theXML == kPropertyListXML);
 }
 
 
