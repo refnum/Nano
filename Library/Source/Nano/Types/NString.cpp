@@ -552,26 +552,48 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 	bool					ignoreCase, isNumeric;
 	NUnicodeParser			parserA, parserB;
 	UInt64					numberA, numberB;
+	const NStringValue		*valueA, *valueB;
 	UTF32Char				charA, charB;
 	NComparison				theResult;
 
 
 
+	// Get the state we need
+	valueA =           GetImmutable();
+	valueB = theString.GetImmutable();
+
+	ignoreCase = ((theFlags & kNStringNoCase)  != kNStringNone);
+	isNumeric  = ((theFlags & kNStringNumeric) != kNStringNone);
+
+
+
 	// Check for identity
-	if (GetImmutable() == theString.GetImmutable())
+	if (valueA == valueB)
 		return(kNCompareEqualTo);
 
 
 
-	// Get the state we need
+	// Check for literal comparison
+	//
+	// Dictionary keys are normally compared with NStringHashCompare, which
+	// uses a hash code test before trying a literal comparison.
+	//
+	// Since most keys are UTF8 strings, we special-case this comparison with
+	// a simple strcmp of the raw UTF8 characters.
+	if (theFlags == kNStringNone)
+		{
+		if (valueA->theEncoding == kNStringEncodingUTF8 && valueB->theEncoding == kNStringEncodingUTF8)
+			return(GetComparison(strcmp(GetUTF8(), theString.GetUTF8())));
+		}
+
+
+
+	// Parse the strings
 	parserA =           GetParser();
 	parserB = theString.GetParser();
 	
 	sizeA = parserA.GetSize();
 	sizeB = parserB.GetSize();
-
-	ignoreCase = ((theFlags & kNStringNoCase)  != kNStringNone);
-	isNumeric  = ((theFlags & kNStringNumeric) != kNStringNone);
 
 
 
@@ -642,7 +664,7 @@ bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
 {
 
 
-	// Fast size test
+	// Check the size
 	//
 	// Since we only want to know if the strings are equal/not, we can do a
 	// fast test on length before looking at the string data.
@@ -651,15 +673,13 @@ bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
 
 
 
-	// Fast hash test
+	// Check the hash code
 	//
 	// When case is significant, we can do a fast test for inequality using
 	// the hash code.
 	//
 	// Since two different strings may hash to the same value, if we can't
-	// prove inequality we must fall through to the general case (although
-	// this could also be extended to perform a memcmp of the string data
-	// for non-numeric comparisons).
+	// prove inequality we must fall through to the general case.
 	if ((theFlags & kNStringNoCase) == kNStringNone)
 		{
 		if (GetHash() != theString.GetHash())

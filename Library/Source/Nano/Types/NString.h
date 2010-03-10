@@ -258,6 +258,23 @@ private:
 
 
 
+//============================================================================
+//		Inline functions
+//----------------------------------------------------------------------------
+// Get an NComparison from two values using Compare
+//
+// Although NComparable.h provides a templated GetComparison, we provide
+// a specialisation to avoid a second call to Compare for the >= case.
+inline NComparison GetComparison(const NString &a, const NString &b)
+{
+	return(a.Compare(b));
+}
+
+
+
+
+
+
 #endif // NSTRING_HDR
 
 
