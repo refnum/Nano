@@ -64,6 +64,10 @@ public:
 	NStatus								Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
 
 
+	// Convert a character
+	UTF32Char							ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr);
+
+
 	// Add/remove a null terminator
 	//
 	// The null terminator is the maximum character size for the encoding.

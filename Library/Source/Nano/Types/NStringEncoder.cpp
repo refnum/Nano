@@ -120,6 +120,67 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 
 
 //============================================================================
+//		NStringEncoder::ConvertToUTF32 : Convert a character to UTF32.
+//----------------------------------------------------------------------------
+UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr)
+{	UTF32					*dstStart32, *dstEnd32;
+	const UTF16				*srcStart16, *srcEnd16;
+	const UTF8				*srcStart8, *srcEnd8;
+	ConversionResult		theResult;
+	UTF32					dstChar;
+
+
+
+	// Get the state we need
+	srcStart8 = (const UTF8 *) (((const UInt8 *) srcPtr) + 0);
+	srcEnd8   = (const UTF8 *) (((const UInt8 *) srcPtr) + srcSize);
+
+	srcStart16 = (const UTF16 *) srcStart8;
+	srcEnd16   = (const UTF16 *) srcEnd8;
+
+	dstStart32 = &dstChar;
+	dstEnd32   = &dstChar + sizeof(dstChar);
+
+
+
+	// Convert the character
+	switch (srcEncoding) {
+		case kNStringEncodingUTF8:
+			theResult = ConvertUTF8toUTF32( &srcStart8,  srcEnd8,  &dstStart32, dstEnd32, lenientConversion);
+			break;
+		
+		case kNStringEncodingUTF16:
+			theResult = ConvertUTF16toUTF32(&srcStart16, srcEnd16, &dstStart32, dstEnd32, lenientConversion);
+			break;
+		
+		case kNStringEncodingUTF32:
+			dstChar   = *dstStart32;
+			theResult = conversionOK;
+			break;
+
+		default:
+			NN_LOG("Unknown encoding: %d", srcEncoding);
+			theResult = sourceIllegal;
+			break;
+		}
+
+
+
+	// Handle failure
+	if (theResult != conversionOK)
+		{
+		NN_LOG("Unable to convert to UTF32");
+		dstChar = 0;
+		}
+	
+	return(dstChar);
+}
+
+
+
+
+
+//============================================================================
 //		NStringEncoder::AddTerminator : Add a terminating null character.
 //----------------------------------------------------------------------------
 void NStringEncoder::AddTerminator(NData &theData, NStringEncoding theEncoding)
