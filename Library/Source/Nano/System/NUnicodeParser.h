@@ -55,13 +55,14 @@ public:
 	// Get the character ranges
 	//
 	// Returns the range of each code point in the parsed data.
-	NRangeList							GetRanges(void) const;
+	const NRangeList				   *GetRanges(void) const;
 
 
 	// Get the range of a character
 	//
-	// Returns the range of a code point within the parsed data.
-	NRange								GetRange(NIndex theIndex) const;
+	// Returns the range of a code point, or range of code points, within the parsed data.
+	NRange								GetRange(      NIndex  theIndex) const;
+	NRange								GetRange(const NRange &theRange) const;
 
 
 	// Get a character

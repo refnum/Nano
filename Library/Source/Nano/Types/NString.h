@@ -243,7 +243,7 @@ private:
 	NUnicodeParser						GetParser(void)                                              const;
 	NUnicodeParser						GetParser(const NData &theData, NStringEncoding theEncoding) const;
 
-	NIndex								GetCharacterOffset(  const NRangeList &theRanges, NIndex          byteOffset)                   const;
+	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)                   const;
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding)                  const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)                    const;
 	UInt64								GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const;

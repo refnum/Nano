@@ -1099,40 +1099,25 @@ void NString::TrimRight(NIndex theSize)
 //		NString::Trim : Trim a string.
 //----------------------------------------------------------------------------
 void NString::Trim(const NRange &theRange)
-{	NIndex				offsetFirst, offsetLast;
-	NRange				trimRange, byteRange;
+{	NRange				charRange, byteRange;
 	NStringValue		*theValue;
-	NString				theResult;
-	NRangeList			theRanges;
 	NData				theData;
 
 
 
 	// Get the state we need
 	theValue  = GetMutable();
-	theRanges = GetParser().GetRanges();
-	trimRange = theRange.GetNormalized(GetSize());
+	charRange = theRange.GetNormalized(GetSize());
 
-
-
-	// Identify the bytes to remove
-	NN_ASSERT(trimRange.GetFirst() < (NIndex) theRanges.size());
-	NN_ASSERT(trimRange.GetLast()  < (NIndex) theRanges.size());
-	
-	offsetFirst = theRanges[trimRange.GetFirst()].GetFirst();
-	offsetLast  = theRanges[trimRange.GetLast()].GetLast();
-	
-	byteRange.SetLocation(offsetFirst);
-	byteRange.SetSize(    offsetLast - offsetFirst + 1);
+	if (charRange.IsEmpty())
+		return;
 
 
 
 	// Trim the string
-	if (!byteRange.IsEmpty())
-		{
-		theValue->theData.RemoveData(byteRange);
-		ValueChanged(theValue);
-		}
+	byteRange = GetParser().GetRange(charRange);
+	theValue->theData.RemoveData(byteRange);
+	ValueChanged(theValue);
 }
 
 
@@ -1598,10 +1583,11 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 {	NIndex					n, matchStart, matchEnd, offsetFirst, offsetLast, searchSize, searchOffset;
 	int						regFlags, regErr, numMatches, errorPos;
 	const char				*textUTF8, *searchUTF8, *errorMsg;
-	NRangeList				theResult, theRanges;
+	const NRangeList		*theRanges;
 	NRange					matchRange;
 	std::vector<int>		theMatches;
 	NUnicodeParser			theParser;
+	NRangeList				theResult;
 	NData					dataUTF8;
 	pcre					*regExp;
 
@@ -1628,11 +1614,11 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 
 	// Get the range to search
-	NN_ASSERT(theRange.GetFirst() < (NIndex) theRanges.size());
-	NN_ASSERT(theRange.GetLast()  < (NIndex) theRanges.size());
+	NN_ASSERT(theRange.GetFirst() < (NIndex) theRanges->size());
+	NN_ASSERT(theRange.GetLast()  < (NIndex) theRanges->size());
 
-	offsetFirst = theRanges[theRange.GetFirst()].GetFirst();
-	offsetLast  = theRanges[theRange.GetLast()].GetLast();
+	offsetFirst = theRanges->at(theRange.GetFirst()).GetFirst();
+	offsetLast  = theRanges->at(theRange.GetLast() ).GetLast();
 
 	searchUTF8   = textUTF8   + offsetFirst;
 	searchSize   = offsetLast - offsetFirst + 1;
@@ -1892,17 +1878,17 @@ NUnicodeParser NString::GetParser(const NData &theData, NStringEncoding theEncod
 //============================================================================
 //      NString::GetCharacterOffset : Get the offset of a character.
 //----------------------------------------------------------------------------
-NIndex NString::GetCharacterOffset(const NRangeList &theRanges, NIndex byteOffset) const
+NIndex NString::GetCharacterOffset(const NRangeList *theRanges, NIndex byteOffset) const
 {	NIndex		n, numItems;
 
 
 
 	// Locate the offset
-	numItems = (NIndex) theRanges.size();
+	numItems = (NIndex) theRanges->size();
 	
 	for (n = 0; n < numItems; n++)
 		{
-		if (theRanges[n].GetLocation() == byteOffset)
+		if (theRanges->at(n).GetLocation() == byteOffset)
 			return(n);
 		}
 	
@@ -1913,7 +1899,7 @@ NIndex NString::GetCharacterOffset(const NRangeList &theRanges, NIndex byteOffse
 	// We allow the byte beyond the last character to be requested, which returns
 	// a fake character one beyond the last character (so that a suitable range
 	// can be calculated which takes in the last character).
-	n = theRanges.back().GetNext();
+	n = theRanges->back().GetNext();
 	
 	if (byteOffset == n)
 		return(numItems);
@@ -2119,43 +2105,25 @@ UInt64 NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIn
 //		NString::GetString : Get a substring.
 //----------------------------------------------------------------------------
 NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRange) const
-{	NIndex					offsetFirst, offsetLast;
-	NRange					subRange, byteRange;
+{	NRange					charRange, byteRange;
 	const NStringValue		*theValue;
 	NString					theResult;
-	NRangeList				theRanges;
 	NData					theData;
 
 
 
 	// Get the state we need
 	theValue = GetImmutable();
-	subRange = theRange.GetNormalized(GetSize());
+	charRange = theRange.GetNormalized(GetSize());
 
-
-
-	// Check the size
-	if (subRange.IsEmpty())
+	if (charRange.IsEmpty())
 		return(theResult);
 
 
 
-	// Identify the bytes to extract
-	theRanges = theParser.GetRanges();
-
-	NN_ASSERT(subRange.GetFirst() < (NIndex) theRanges.size());
-	NN_ASSERT(subRange.GetLast()  < (NIndex) theRanges.size());
-
-	offsetFirst = theRanges[subRange.GetFirst()].GetFirst();
-	offsetLast  = theRanges[subRange.GetLast()].GetLast();
-	
-	byteRange.SetLocation(offsetFirst);
-	byteRange.SetSize(    offsetLast - offsetFirst + 1);
-
-
-
 	// Extract the string
-	theData = theValue->theData.GetData(byteRange);
+	byteRange = theParser.GetRange(charRange);
+	theData   = theValue->theData.GetData(byteRange);
 	theResult.SetData(theData, theValue->theEncoding);
 
 	return(theResult);

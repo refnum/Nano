@@ -149,12 +149,12 @@ NIndex NUnicodeParser::GetSize(void) const
 //============================================================================
 //		NUnicodeParser::GetRanges ; Get the character ranges.
 //----------------------------------------------------------------------------
-NRangeList NUnicodeParser::GetRanges(void) const
+const NRangeList *NUnicodeParser::GetRanges(void) const
 {
 
 
 	// Get the ranges
-	return(mCodePoints);
+	return(&mCodePoints);
 }
 
 
@@ -175,6 +175,29 @@ NRange NUnicodeParser::GetRange(NIndex theIndex) const
 	
 	// Get the range
 	return(mCodePoints[theIndex]);
+}
+
+
+
+
+
+//============================================================================
+//		NUnicodeParser::GetRange : Get the range of a character range.
+//----------------------------------------------------------------------------
+NRange NUnicodeParser::GetRange(const NRange &theRange) const
+{	NIndex		offsetFirst, offsetLast;
+	NRange		theResult;
+
+
+
+	// Get the range
+	offsetFirst = GetRange(theRange.GetFirst()).GetFirst();
+	offsetLast  = GetRange(theRange.GetLast() ).GetLast();
+
+	theResult.SetLocation(offsetFirst);
+	theResult.SetSize(    offsetLast - offsetFirst + 1);
+
+	return(theResult);
 }
 
 
