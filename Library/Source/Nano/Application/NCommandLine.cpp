@@ -14,8 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NNumber.h"
 #include "NFileUtilities.h"
+#include "NTextUtilities.h"
+#include "NNumber.h"
 #include "NCommandLine.h"
 
 
@@ -104,7 +105,7 @@ bool NCommandLine::HasArgument(const NString &theArgument) const
 	// Check the arguments
 	for (theIter = mArguments.begin(); theIter != mArguments.end(); theIter++)
 		{
-		theTokens = theIter->Split("=");
+		theTokens = theIter->Split(kNTokenEquals);
 		if (theTokens.size() == 2)
 			theArg = theTokens[0];
 		else
@@ -175,7 +176,7 @@ NString NCommandLine::GetFlagString(const NString &theArgument) const
 	// Get the value
 	for (theIter = mArguments.begin(); theIter != mArguments.end(); theIter++)
 		{
-		theTokens = theIter->Split("=");
+		theTokens = theIter->Split(kNTokenEquals);
 		if (theTokens.size() == 2)
 			{
 			theArg   = theTokens[0];

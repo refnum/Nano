@@ -26,9 +26,22 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NString kNLineEndingUnix								= "\x0A";
-static const NString kNLineEndingMac								= "\x0D";
-static const NString kNLineEndingDOS								= "\x0D\x0A";
+// Tokens
+static const NString kNTokenColon										= ":";
+static const NString kNTokenComma										= ",";
+static const NString kNTokenEquals										= "=";
+static const NString kNTokenHypen										= "-";
+static const NString kNTokenPipe										= "|";
+static const NString kNTokenQuote										= "\"";
+static const NString kNTokenQuoteSingle									= "'";
+static const NString kNTokenSemicolon									= ";";
+static const NString kNTokenSpace										= " ";
+
+
+// Line endings
+static const NString kNLineEndingUnix									= "\x0A";
+static const NString kNLineEndingMac									= "\x0D";
+static const NString kNLineEndingDOS									= "\x0D\x0A";
 
 
 

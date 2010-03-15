@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTextUtilities.h"
 #include "NFileUtilities.h"
 #include "NPropertyList.h"
 #include "NTargetSystem.h"
@@ -361,7 +362,7 @@ NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 		// Get the state we need
 		theFile  = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
 		theText  = NFileUtilities::GetFileText(theFile);
-		theLines = theText.Split("\n");
+		theLines = theText.Split(kNLineEndingUnix);
 
 
 

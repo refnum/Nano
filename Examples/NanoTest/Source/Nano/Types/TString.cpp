@@ -264,7 +264,7 @@ void TString::Execute(void)
 
 	// Split
 	testString1 = "aa,bb,cc,dd";
-	theStrings  = testString1.Split(",");
+	theStrings  = testString1.Split(kNTokenComma);
 	NN_ASSERT(theStrings.size() == 4);
 	NN_ASSERT(theStrings[0] == "aa");
 	NN_ASSERT(theStrings[1] == "bb");
