@@ -127,7 +127,9 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 	const UTF16				*srcStart16, *srcEnd16;
 	const UTF8				*srcStart8, *srcEnd8;
 	ConversionResult		theResult;
+	NData					dstData;
 	UTF32					dstChar;
+	OSStatus				theErr;
 
 
 
@@ -143,6 +145,37 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 
 
 
+	// Adjust the encoding
+	//
+	// Endian-specific types are made generic, avoiding the slower generic conversion
+	// since no swapping is required.
+	switch (srcEncoding) {
+		case kNStringEncodingUTF16BE:
+			if (kNEndianNative == kNEndianBig)
+				srcEncoding = kNStringEncodingUTF16;
+			break;
+
+		case kNStringEncodingUTF16LE:
+			if (kNEndianNative == kNEndianLittle)
+				srcEncoding = kNStringEncodingUTF16;
+			break;
+
+		case kNStringEncodingUTF32BE:
+			if (kNEndianNative == kNEndianBig)
+				srcEncoding = kNStringEncodingUTF32;
+			break;
+
+		case kNStringEncodingUTF32LE:
+			if (kNEndianNative == kNEndianLittle)
+				srcEncoding = kNStringEncodingUTF32;
+			break;
+		
+		default:
+			break;
+		}
+
+
+
 	// Convert the character
 	switch (srcEncoding) {
 		case kNStringEncodingUTF8:
@@ -152,15 +185,22 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 		case kNStringEncodingUTF16:
 			theResult = ConvertUTF16toUTF32(&srcStart16, srcEnd16, &dstStart32, dstEnd32, lenientConversion);
 			break;
-		
+
 		case kNStringEncodingUTF32:
 			dstChar   = *dstStart32;
 			theResult = conversionOK;
 			break;
-
+		
 		default:
-			NN_LOG("Unknown encoding: %d", srcEncoding);
-			theResult = sourceIllegal;
+			dstChar = 0;
+			theErr  = Convert(NData(srcSize, srcPtr), dstData, srcEncoding, kNStringEncodingUTF32);
+			theResult = (theErr == kNoErr) ? conversionOK : sourceIllegal;
+
+			if (theErr == kNoErr)
+				{
+				NN_ASSERT(dstData.GetSize() == 4);
+				memcpy(&dstChar, dstData.GetData(), sizeof(dstChar));
+				}
 			break;
 		}
 
