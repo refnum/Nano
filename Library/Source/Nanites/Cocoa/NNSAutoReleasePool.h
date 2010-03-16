@@ -33,10 +33,6 @@ public:
 
 
 private:
-	static bool							&InsidePool(void);
-
-
-private:
 	NSAutoreleasePool					*mPool;
 };
 
