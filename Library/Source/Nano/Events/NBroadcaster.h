@@ -87,7 +87,7 @@ public:
 
 
 private:
-	void								Clone(const NBroadcaster &theBroadcaster);
+	void								CloneBroadcaster(const NBroadcaster &theBroadcaster);
 
 
 private:

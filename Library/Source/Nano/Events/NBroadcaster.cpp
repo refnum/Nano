@@ -29,7 +29,7 @@ NBroadcaster::NBroadcaster(const NBroadcaster &theBroadcaster)
 
 
 	// Initialize ourselves
-	Clone(theBroadcaster);
+	CloneBroadcaster(theBroadcaster);
 }
 
 
@@ -276,7 +276,7 @@ const NBroadcaster &NBroadcaster::operator = (const NBroadcaster &theBroadcaster
 
 	// Assign the object
 	if (this != &theBroadcaster)
-		Clone(theBroadcaster);
+		CloneBroadcaster(theBroadcaster);
 
 	return(*this);
 }
@@ -286,15 +286,15 @@ const NBroadcaster &NBroadcaster::operator = (const NBroadcaster &theBroadcaster
 
 
 //=============================================================================
-//		NBroadcaster::Clone : Clone an object.
+//		NBroadcaster::CloneBroadcaster : Clone a broadcaster.
 //-----------------------------------------------------------------------------
 #pragma mark -
-void NBroadcaster::Clone(const NBroadcaster &theBroadcaster)
+void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
 {	NListenerListConstIterator	theIter;
 
 
 
-	// Clone the object
+	// Clone the broadcaster
 	//
 	// An explicit clone is necessary to ensure the pointers between listener and
 	// broadcaster are correctly established (the default copy constructor would
