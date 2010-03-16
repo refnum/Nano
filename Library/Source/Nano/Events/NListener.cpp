@@ -28,7 +28,7 @@ NListener::NListener(const NListener &theListener)
 
 
 	// Initialize ourselves
-	Clone(theListener);
+	CloneListener(theListener);
 }
 
 
@@ -151,7 +151,7 @@ const NListener &NListener::operator = (const NListener &theListener)
 
 	// Assign the object
 	if (this != &theListener)
-		Clone(theListener);
+		CloneListener(theListener);
 
 	return(*this);
 }
@@ -204,9 +204,9 @@ void NListener::RemoveBroadcaster(NBroadcaster *theBroadcaster)
 
 
 //=============================================================================
-//		NListener::Clone : Clone an object.
+//		NListener::CloneListener : Clone a listener.
 //-----------------------------------------------------------------------------
-void NListener::Clone(const NListener &theListener)
+void NListener::CloneListener(const NListener &theListener)
 {	NBroadcasterListConstIterator	theIter;
 
 

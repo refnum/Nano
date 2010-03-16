@@ -85,7 +85,7 @@ protected:
 
 
 private:
-	void								Clone(const NListener &theListener);
+	void								CloneListener(const NListener &theListener);
 
 
 private:
