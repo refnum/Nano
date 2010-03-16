@@ -397,6 +397,29 @@ NData NDBHandle::ExecuteData(const NDBQuery &theQuery)
 
 
 //============================================================================
+//		NDBHandle::HasTable : Does a table exist?
+//----------------------------------------------------------------------------
+bool NDBHandle::HasTable(const NString &theTable)
+{	SInt32		theResult;
+	NString		theSQL;
+
+
+
+	// Check for the table
+	//
+	// SQLite does not support "IF NOT EXISTS" for virtual tables, however
+	// we can identify the presence of tables by querying the master table.
+	theSQL.Format("SELECT count() FROM sqlite_master WHERE name=\"%@\";", theTable);
+	theResult = ExecuteSInt32(theSQL);
+	
+	return(theResult != 0);
+}
+
+
+
+
+
+//============================================================================
 //		NDBHandle::Cancel : Cancel the current operation.
 //----------------------------------------------------------------------------
 void NDBHandle::Cancel(void)

@@ -87,6 +87,10 @@ public:
 	NData								ExecuteData(   const NDBQuery &theQuery);
 
 
+	// Does a table exist?
+	bool								HasTable(const NString &theTable);
+	
+
 	// Cancel the current operation
 	void								Cancel(void);
 
