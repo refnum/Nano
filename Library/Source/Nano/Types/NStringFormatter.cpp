@@ -520,10 +520,11 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, NN_FORMAT_ARG
 //----------------------------------------------------------------------------
 #pragma mark -
 NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments)
-{	const char		*textUTF8, *typesUTF8, *formatStart, *formatEnd;
-	NStringUTF8		theResult, argFormat;
-	UInt32			numFound, numUsed;
-	bool			areDone;
+{	const char			*textUTF8, *typesUTF8, *tokenStart, *tokenEnd;
+	NStringUTF8			theResult, theToken;
+	NFormatContext		theContext;
+	UInt32				numFound;
+	bool				areDone;
 
 
 
@@ -531,29 +532,31 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 	textUTF8  = theFormat.GetUTF8();
 	typesUTF8 = kFormatTypes.GetUTF8();
 	
+	theContext.theArguments = theArguments;
+	theContext.nextArg      = 0;
+	
 	areDone  = false;
 	numFound = 0;
-	numUsed  = 0;
 
 
 
 	// Format the string
 	while (!areDone)
 		{
-		// Find the next format specifier
-		formatStart = strstr(textUTF8, "%");
-		if (formatStart == NULL)
+		// Find the next format token
+		tokenStart = strstr(textUTF8, "%");
+		if (tokenStart == NULL)
 			break;
 
 
 
 		// Append the text to this point
-		theResult += NStringUTF8(textUTF8, formatStart - textUTF8);
-		textUTF8   = formatStart + 1;
+		theResult += NStringUTF8(textUTF8, tokenStart - textUTF8);
+		textUTF8   = tokenStart + 1;
 
 
 
-		// Process the format specifier
+		// Process the token
 		switch (*textUTF8) {
 			case 0x00:
 				areDone = true;
@@ -566,30 +569,26 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 			
 			default:
 				// Find the type
-				formatEnd = strpbrk(textUTF8, typesUTF8);
-				if (formatEnd == NULL)
+				tokenEnd = strpbrk(textUTF8, typesUTF8);
+				if (tokenEnd == NULL)
 					{
 					NN_LOG_FORMATTER("Missing type: found '%%' without type in '%s'", theFormat.GetUTF8());
 					theResult += "%";
 					areDone    = true;
 					}
 
-				// Process the argument
+
+				// Evaluate the token
 				else
 					{
-					// Append the argument
-					if (numUsed < theArguments.size())
-						{
-						argFormat  = NStringUTF8(formatStart, formatEnd - formatStart + 1);
-						theResult += theArguments.at(numUsed)->GetValue(argFormat);
-					
-						numUsed++;
-						}
+					// Evaluate the token
+					theToken   = NStringUTF8(tokenStart, tokenEnd - tokenStart + 1);
+					theResult += Evaluate(theToken, theContext);
 
 
 					// Advance the text
 					numFound += 1;
-					textUTF8  = formatEnd + 1;
+					textUTF8  = tokenEnd + 1;
 					}
 				break;
 			}
@@ -604,11 +603,36 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 
 
 	// Log errors
-	if (numFound != theArguments.size())
-		NN_LOG_FORMATTER("Wrong argument count: '%s' references %d arguments, but %d supplied", theFormat.GetUTF8(), numFound, theArguments.size());
+	if (numFound != theContext.theArguments.size())
+		NN_LOG_FORMATTER("Wrong argument count: '%s' references %d arguments, but %d supplied",
+							theFormat.GetUTF8(), theContext.nextArg, theContext.theArguments.size());
 
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//		NStringFormatter::Evaluate : Evaluate a format token.
+//----------------------------------------------------------------------------
+NStringUTF8 NStringFormatter::Evaluate(const NStringUTF8 &theToken, NFormatContext &theContext)
+{	NStringUTF8		theResult;
+
+
+
+	// Evaluate the token
+	if (theContext.nextArg < (NIndex) theContext.theArguments.size())
+		{
+		theResult = theContext.theArguments.at(theContext.nextArg)->GetValue(theToken);
+		theContext.nextArg++;
+		}
+
+	return(theResult);
+}
+
+
 
 
 

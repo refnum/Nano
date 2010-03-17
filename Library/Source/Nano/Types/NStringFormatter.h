@@ -72,11 +72,17 @@ class NFormatArgument;
 class NFormatFunctor;
 
 
-
 // Lists
 typedef std::vector<const NFormatArgument*>							NFormatArgumentList;
 typedef NFormatArgumentList::iterator								NFormatArgumentListIterator;
 typedef NFormatArgumentList::const_iterator							NFormatArgumentListConstIterator;
+
+
+// Context
+typedef struct {
+	NFormatArgumentList		theArguments;
+	NIndex					nextArg;
+} NFormatContext;
 
 
 
@@ -188,7 +194,8 @@ public:
 
 
 private:
-	NStringUTF8							Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
+	NStringUTF8							Format(  const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
+	NStringUTF8							Evaluate(const NStringUTF8 &theToken, NFormatContext &theContext);
 
 
 private:
