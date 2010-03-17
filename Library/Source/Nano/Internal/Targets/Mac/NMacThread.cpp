@@ -21,6 +21,7 @@
 #include <mach/semaphore.h>
 #include <libKern/OSAtomic.h>
 
+#include "NNSAutoReleasePool.h"
 #include "NThreadUtilities.h"
 #include "NTimeUtilities.h"
 #include "NMathUtilities.h"
@@ -104,7 +105,8 @@ void NFunctorInvoker::Invoke(void)
 //		ThreadEntry : Thread entry point.
 //----------------------------------------------------------------------------
 static void *ThreadEntry(void *userData)
-{	NFunctorInvoker		*theInvoker;
+{	NFunctorInvoker			*theInvoker;
+	StAutoReleasePool		thePool;
 
 
 
