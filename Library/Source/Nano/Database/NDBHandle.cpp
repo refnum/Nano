@@ -533,6 +533,7 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &th
 	NString							valueString;
 	NNumber							valueNumber;
 	NData							valueData;
+	bool							valueBool;
 	sqlite3_stmt					*sqlQuery;
 	int								theIndex;
 	NVariant						theValue;
@@ -571,7 +572,9 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &th
 
 
 
-		// Bind a number
+		// Bind the parameter
+		dbErr = kNoErr;
+
 		if (theValue.IsNumeric())
 			{
 			valueNumber = NNumber(theValue);
@@ -585,32 +588,28 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &th
 				valueFloat64 = valueNumber.GetFloat64();
 				dbErr        = sqlite3_bind_double(sqlQuery, theIndex, valueFloat64);
 				}
-			
-			if (dbErr != kNoErr)
-				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
-		
-		
-		// Bind a string
+
+		else if (theValue.GetValue(valueBool))
+			dbErr = sqlite3_bind_int(sqlQuery, theIndex, valueBool ? 1 : 0);
+
 		else if (theValue.GetValue(valueString))
 			{
 			valueData = valueString.GetData(kNStringEncodingUTF8);
 			dbErr     = sqlite3_bind_text(sqlQuery, theIndex, (const char *) valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
-			if (dbErr != kNoErr)
-				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 			}
-		
-		
-		// Bind some data
+
 		else if (theValue.GetValue(valueData))
-			{
 			dbErr = sqlite3_bind_blob(sqlQuery, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
-			if (dbErr != kNoErr)
-				NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
-			}
 		
 		else
 			NN_LOG("Unable to bind '%@' to query", theKey);
+
+
+
+		// Handle failure
+		if (dbErr != kNoErr)
+			NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 		}
 }
 
