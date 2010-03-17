@@ -194,7 +194,7 @@ public:
 	// If the file is an open file, it will be unlinked.
 	//
 	// If the file is a directory, it will only be deleted if it is empty.
-	void								Delete(void);
+	void								Delete(void) const;
 
 
 	// Create a file/directory

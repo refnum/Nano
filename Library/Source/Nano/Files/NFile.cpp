@@ -554,7 +554,7 @@ NFileList NFile::GetChildren(void) const
 //============================================================================
 //        NFile::Delete : Delete the file.
 //----------------------------------------------------------------------------
-void NFile::Delete(void)
+void NFile::Delete(void) const
 {
 
 
