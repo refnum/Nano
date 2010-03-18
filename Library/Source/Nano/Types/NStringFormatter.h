@@ -68,6 +68,7 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
+class NRange;
 class NFormatArgument;
 class NFormatFunctor;
 
@@ -81,7 +82,8 @@ typedef NFormatArgumentList::const_iterator							NFormatArgumentListConstIterat
 // Context
 typedef struct {
 	NFormatArgumentList		theArguments;
-	NIndex					nextArg;
+	bool					gotError;
+	NIndex					argIndex;
 } NFormatContext;
 
 
@@ -101,11 +103,15 @@ public:
 	NStringUTF8(const char *theText)					: std::string(theText)				{ }
 	NStringUTF8(const char *theText, NIndex theSize)	: std::string(theText, theSize)		{ }
 
-										NStringUTF8(void)		{ };
-	virtual							   ~NStringUTF8(void)		{ };
+										NStringUTF8(void)		{ }
+	virtual							   ~NStringUTF8(void)		{ }
 
+	bool								IsEmpty(void) const		{ return(empty());         }
 	NIndex								GetSize(void) const		{ return((NIndex) size()); }
-	const char						   *GetUTF8(void) const		{ return(c_str()); }
+	const char						   *GetUTF8(void) const		{ return(c_str());         }
+	
+	NRange								Find(const NStringUTF8 &theString) const;
+	void								Replace(const NRange &theRange, const NStringUTF8 &replaceWith);
 };
 
 
@@ -185,17 +191,46 @@ public:
 	//
 	//		http://www.opengroup.org/onlinepubs/009695399/functions/printf.html
 	//
-	// Each argument is wrapped in an NFormatArgument object, whose GetValue
-	// method is invoked to obtain the formatted text.
+	// Example specifiers include:
 	//
-	// Custom objects can be printed using a '%@' specifier and providing an
-	// NFormatArgument cast operator that returns the text for the object.
+	//			Type				Specifier
+	//			=============================
+	//			UInt8				%d
+	//			UInt16				%d
+	//			UInt32				%ld
+	//			UInt64				%lld
+	//
+	//			SInt8				%d
+	//			SInt16				%d
+	//			SInt32				%ld
+	//			SInt64				%lld
+	//
+	//			Float32				%f
+	//			Float64				%lf
+	//
+	//			Objects				%@
+	//
+	// Arguments are printed by wrapping them in an NFormatArgument object,
+	// whose GetValue method is invoked to obtain the formatted text.
+	//
+	// This allows custom objects to be printed using the %@ specifier, by
+	// providing a suitable NFormatArgument cast operator.
 	NStringUTF8							Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
 
 
 private:
-	NStringUTF8							Format(  const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
-	NStringUTF8							Evaluate(const NStringUTF8 &theToken, NFormatContext &theContext);
+	NStringUTF8							Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
+
+	NStringUTF8							ParseToken( NFormatContext &theContext, const NStringUTF8 &theToken);
+	NStringUTF8							ParseFailed(NFormatContext &theContext, const NStringUTF8 &theToken, const NStringUTF8 &theError);
+
+	NIndex								ParseIndexRef(NFormatContext &theContext, const NStringUTF8 &theToken, const NStringUTF8 &thePrefix, NRange &theRange);
+	NIndex								ParseIndex(const char *textPtr, NRange &theRange);
+
+	bool								IsValidArg( NFormatContext &theContext, NIndex theIndex);
+	NStringUTF8							GetArgValue(NFormatContext &theContext, NIndex theIndex, const NStringUTF8 &theFormat);
+	
+	NIndex								ToDigit(char c);
 
 
 private:

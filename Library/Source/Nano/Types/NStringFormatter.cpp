@@ -62,6 +62,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NRange.h"
 #include "NFunctor.h"
 #include "NStringFormatter.h"
 
@@ -134,6 +135,54 @@ public:
 			 NFormatFunctor(const NFormatFunctorBase &theFunctor) : NFormatFunctorBase(theFunctor)	{ }
 	virtual ~NFormatFunctor(void)																	{ }
 };
+
+
+
+
+
+//============================================================================
+//		NStringUTF8::Find : Find a substring.
+//----------------------------------------------------------------------------
+NRange NStringUTF8::Find(const NStringUTF8 &theString) const
+{	size_type		theOffset;
+	NRange			theRange;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theString.IsEmpty());
+	
+	
+	
+	// Find the string
+	theOffset = find(theString);
+	theRange  = kNRangeNone;
+
+	if (theOffset != npos)
+		theRange = NRange(theOffset, theString.GetSize());
+	
+	return(theRange);
+}
+
+
+
+
+
+//============================================================================
+//		NStringUTF8::Replace : Replace a portion of a string.
+//----------------------------------------------------------------------------
+void NStringUTF8::Replace(const NRange &theRange, const NStringUTF8 &replaceWith)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(!theRange.IsEmpty());
+	
+	
+	
+	// Replace the string
+	replace(theRange.GetLocation(), theRange.GetSize(), replaceWith);
+}
 
 
 
@@ -523,20 +572,18 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 {	const char			*textUTF8, *typesUTF8, *tokenStart, *tokenEnd;
 	NStringUTF8			theResult, theToken;
 	NFormatContext		theContext;
-	UInt32				numFound;
 	bool				areDone;
 
 
 
 	// Get the state we need
+	theContext.theArguments = theArguments;
+	theContext.gotError     = false;
+	theContext.argIndex     = 0;
+
 	textUTF8  = theFormat.GetUTF8();
 	typesUTF8 = kFormatTypes.GetUTF8();
-	
-	theContext.theArguments = theArguments;
-	theContext.nextArg      = 0;
-	
-	areDone  = false;
-	numFound = 0;
+	areDone   = false;
 
 
 
@@ -583,12 +630,13 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 					{
 					// Evaluate the token
 					theToken   = NStringUTF8(tokenStart, tokenEnd - tokenStart + 1);
-					theResult += Evaluate(theToken, theContext);
+					theResult += ParseToken(theContext, theToken);
 
 
-					// Advance the text
-					numFound += 1;
-					textUTF8  = tokenEnd + 1;
+
+					// Advance the token
+					textUTF8 = tokenEnd + 1;
+					areDone  = theContext.gotError;
 					}
 				break;
 			}
@@ -600,12 +648,113 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 	if (*textUTF8 != 0x00)
 		theResult += NStringUTF8(textUTF8);
 
+	return(theResult);
+}
 
 
-	// Log errors
-	if (numFound != theContext.theArguments.size())
-		NN_LOG_FORMATTER("Wrong argument count: '%s' references %d arguments, but %d supplied",
-							theFormat.GetUTF8(), theContext.nextArg, theContext.theArguments.size());
+
+
+
+//============================================================================
+//		NStringFormatter::ParseToken : Parse a format token.
+//----------------------------------------------------------------------------
+//		Note :	Positional references are supported by evaluating references
+//				within the token substituting their value before processing.
+//
+//				This allows us to support both "next argument" and positional
+//				argument index references, even if the platform printf engine
+//				does not.
+//----------------------------------------------------------------------------
+NStringUTF8 NStringFormatter::ParseToken(NFormatContext &theContext, const NStringUTF8 &theToken)
+{	NRange			theRange, indexRange;
+	NStringUTF8		finalToken;
+	NStringUTF8		theResult;
+	NIndex			theIndex;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theToken.size() >= 2);
+
+
+
+	// Get the state we need
+	finalToken = theToken;
+
+
+
+	// Process position
+	//
+	// The leading '%' can be followed by a reference in the form '%ddd$' (indexed argument).
+	//
+	// Although parsing the index reference will advance argIndex, the position reference
+	// simply resets the next argument to that index.
+	//
+	// Although not required by POSIX, this allows us to mix both referenced and non-referenced
+	// arguments, where subsequent non-referenced arguments are processed sequentially.
+	theIndex = ParseIndexRef(theContext, finalToken, "%", theRange);
+	if (theIndex != kNIndexNone)
+		{
+		if (!IsValidArg(theContext, theIndex))
+			return(ParseFailed(theContext, theToken, "Invalid index"));
+
+		theContext.argIndex = theIndex;
+		finalToken.Replace(theRange, "%");
+		}
+
+
+
+	// Process precision
+	//
+	// The precision specifier can contain a reference in the form '.*' (next argument)
+	// or '.*ddd$' (indexed argument).
+	//
+	// Negative precision values must be discarded.
+	theIndex = ParseIndexRef(theContext, finalToken, ".*", theRange);
+	if (theIndex != kNIndexNone)
+		{
+		if (!IsValidArg(theContext, theIndex))
+			return(ParseFailed(theContext, theToken, "Invalid index"));
+
+		theResult = "." + GetArgValue(theContext, theIndex, "%ld");
+		if (theResult.Find("-") != kNRangeNone)
+			theResult = "";
+
+		finalToken.Replace(theRange, theResult);
+		}
+
+
+
+	// Processs width
+	//
+	// The width specifier can contain an reference in the form '*' (next argument)
+	// or '*ddd$' (indexed argument).
+	//
+	// Although the width specifier comes first in the token, we process the precision
+	// specifier above since it starts with a leading '.' prefix.
+	//
+	// This mean that once precision references have been replaced, any remaining
+	// references must belong to the width specifier.
+	theIndex = ParseIndexRef(theContext, finalToken, "*", theRange);
+	if (theIndex != kNIndexNone)
+		{
+		if (!IsValidArg(theContext, theIndex))
+			return(ParseFailed(theContext, theToken, "Invalid index"));
+
+		theResult = GetArgValue(theContext, theIndex, "%ld");
+		finalToken.Replace(theRange, theResult);
+		}
+
+
+
+	// Evaluate the token
+	//
+	// Once references have been replaced, the argument can be evaluated.
+	if (!IsValidArg(theContext, theContext.argIndex))
+		return(ParseFailed(theContext, theToken, "Invalid index"));
+
+	theResult = GetArgValue(theContext, theContext.argIndex, finalToken);
+	theContext.argIndex++;
 
 	return(theResult);
 }
@@ -615,24 +764,193 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 
 
 //============================================================================
-//		NStringFormatter::Evaluate : Evaluate a format token.
+//		NStringFormatter::ParseFailed : Handle failure.
 //----------------------------------------------------------------------------
-NStringUTF8 NStringFormatter::Evaluate(const NStringUTF8 &theToken, NFormatContext &theContext)
+NStringUTF8 NStringFormatter::ParseFailed(NFormatContext &theContext, const NStringUTF8 &theToken, const NStringUTF8 &theError)
+{
+
+
+	// Handle failure
+	NN_LOG("%s: '%s'", theError.c_str(), theToken.c_str());
+	theContext.gotError = true;
+
+	return("");
+}
+
+
+
+
+
+//============================================================================
+//		NStringFormatter::ParseIndexRef : Parse an index reference.
+//----------------------------------------------------------------------------
+NIndex NStringFormatter::ParseIndexRef(NFormatContext &theContext, const NStringUTF8 &theToken, const NStringUTF8 &thePrefix, NRange &theRange)
+{	NRange			indexRange;
+	const char		*textPtr;
+	NIndex			theIndex;
+	char			ch;
+
+
+
+	// Find the reference
+	theRange = theToken.Find(thePrefix);
+	if (theRange.IsEmpty())
+		return(kNIndexNone);
+
+
+
+	// Get the state we need
+	indexRange = NRange(theRange.GetLocation() + thePrefix.size(), 1);
+	if (indexRange.GetLast() >= (NIndex) theToken.size())
+		{
+		ParseFailed(theContext, theToken, "Unterminated index");
+		return(kNIndexNone);
+		}
+
+
+
+	// Index is a positional index
+	//
+	// Positional indices have a prefix, a series of digits, and a '$' terminator.
+	//
+	// Positional indices are indexed from 1, not 0, so we need to convert back to
+	// a 0-based index to locate the argument it refers to.
+	textPtr = theToken.c_str();
+	ch      = textPtr[indexRange.GetLocation()];
+
+	if (ch >= '1' && ch <= '9')
+		{
+		theIndex = ParseIndex(textPtr, indexRange);
+		if (theIndex != kNIndexNone)
+			{
+			theIndex = theIndex - 1;
+			theRange = theRange.GetUnion(indexRange);
+			}
+		}
+
+
+
+	// Index is an implicit index
+	//
+	// Implicit indices are simply the prefix, and the next argument provides the index.
+	else
+		{
+		theIndex = theContext.argIndex;
+		theContext.argIndex++;
+		}
+
+	return(theIndex);
+}
+
+
+
+
+
+//============================================================================
+//		NStringFormatter::ParseIndex : Parse a $-terminated index value.
+//----------------------------------------------------------------------------
+NIndex NStringFormatter::ParseIndex(const char *textPtr, NRange &theRange)
+{	const char		*startPtr, *charPtr;
+	char			ch;
+	NIndex			n;
+
+
+
+	// Get the state we need
+	startPtr = textPtr + theRange.GetLocation();
+	charPtr  = startPtr;
+
+	ch = *charPtr++;
+	n  = 0;
+
+	NN_ASSERT(isdigit(ch));
+	
+	
+	
+	// Parse the index
+	//
+	// The index is one or more digits, terminated with a '$'.
+	do
+		{
+		n  = (n * 10) + ToDigit(ch);
+		ch = *charPtr++;
+		}
+	while (isdigit(ch) && ch != 0);
+
+
+
+	// Parse the terminator
+	if (ch == '$')
+		theRange.SetSize(charPtr - startPtr);
+	else
+		{
+		n        = kNIndexNone;
+		theRange = kNRangeNone;
+		}
+
+	return(n);
+}
+
+
+
+
+
+//============================================================================
+//		NStringFormatter::IsValidArg : Is an argument index valid?
+//----------------------------------------------------------------------------
+bool NStringFormatter::IsValidArg(NFormatContext &theContext, NIndex theIndex)
+{	bool	isValid;
+
+
+
+	// Check the index
+	isValid = (theIndex >= 0 && theIndex < (NIndex) theContext.theArguments.size());
+	
+	return(isValid);
+}
+
+
+
+
+
+//============================================================================
+//		NStringFormatter::GetArgValue : Get an argument value.
+//----------------------------------------------------------------------------
+NStringUTF8 NStringFormatter::GetArgValue(NFormatContext &theContext, NIndex theIndex, const NStringUTF8 &theFormat)
 {	NStringUTF8		theResult;
 
 
 
-	// Evaluate the token
-	if (theContext.nextArg < (NIndex) theContext.theArguments.size())
-		{
-		theResult = theContext.theArguments.at(theContext.nextArg)->GetValue(theToken);
-		theContext.nextArg++;
-		}
-
+	// Validate our parameters
+	NN_ASSERT(IsValidArg(theContext, theIndex));
+	NN_ASSERT(!theFormat.IsEmpty());
+	
+	
+	
+	// Get the value
+	theResult = theContext.theArguments.at(theIndex)->GetValue(theFormat);
 	return(theResult);
 }
 
 
+
+
+
+//============================================================================
+//		NStringFormatter::ToDigit : Convert a numeric character.
+//----------------------------------------------------------------------------
+NIndex NStringFormatter::ToDigit(char c)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(c >= '0' && c <= '9');
+	
+	
+	
+	// Convert to an integer
+	return((NIndex) (c - '0'));
+}
 
 
 

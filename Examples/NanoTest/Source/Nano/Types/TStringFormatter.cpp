@@ -44,8 +44,7 @@ static const char *kValuePtrChar									= "text";
 static const void *kValuePtrVoid									= (void *) 0xDEADBEEF;
 
 static const NString kResultMissingType								= ": Missing type: found '%' without type in 'NoSpecifier [% 12345]'\n";
-static const NString kResultTooFewArgs								= ": Wrong argument count: 'TooFewArgs [%d] [%d]' references 2 arguments, but 1 supplied\n";
-static const NString kResultTooManyArgs								= ": Wrong argument count: 'TooManyArgs [%d] [%d]' references 2 arguments, but 3 supplied\n";
+static const NString kResultTooFewArgs								= ": Invalid index: '%d'\n";
 
 
 
@@ -57,10 +56,11 @@ static const NString kResultTooManyArgs								= ": Wrong argument count: 'TooMa
 void TStringFormatter::Execute(void)
 {	NString				theResult, theAssert;
 	NStringFormatter	testFormatter;
+	SInt32				valueInt;
 
 
 
-	// Validate types
+	// Primitives
 	theResult = testFormatter.Format("ArgChar [%c]", 'z');
 	NN_ASSERT(theResult == "ArgChar [z]");
 
@@ -118,7 +118,43 @@ void TStringFormatter::Execute(void)
 
 
 
-	// Validate counts
+	// Positional arguments
+	theResult = testFormatter.Format("ArgPos [%3$d] [%1$d] [%d]", 11, 22, 33);
+	NN_ASSERT(theResult == "ArgPos [33] [11] [22]");
+
+
+
+	// Width specifier
+	valueInt  = 10;
+	theResult = testFormatter.Format("ArgSInt16 [%*d]", valueInt, kValueSInt16);
+	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
+
+	theResult = testFormatter.Format("ArgSInt16 [%*2$d]", kValueSInt16, valueInt);
+	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
+
+	theResult = testFormatter.Format("ArgSInt16 [%10d]", kValueSInt16);
+	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
+
+
+
+	// Precision specifier
+	valueInt  = 4;
+	theResult = testFormatter.Format("ArgFloat32 [%.*f]", valueInt, kValueFloat32);
+	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
+
+	theResult = testFormatter.Format("ArgFloat32 [%.*2$f]", kValueFloat32, valueInt);
+	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
+
+	theResult = testFormatter.Format("ArgFloat32 [%.4f]", kValueFloat32);
+	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
+
+	valueInt  = -2;
+	theResult = testFormatter.Format("NegPrecisionIsDiscarded [%.*f]", valueInt, kValueFloat64);
+	NN_ASSERT(theResult == "NegPrecisionIsDiscarded [3.141593]");
+	
+
+
+	// Counts
 	theResult = testFormatter.Format("OneArg [%d]", 42);
 	NN_ASSERT(theResult == "OneArg [42]");
 
@@ -130,7 +166,7 @@ void TStringFormatter::Execute(void)
 
 
 
-	// Validate special cases
+	// Special cases
 	theResult = testFormatter.Format("PercentArg [%%]");
 	NN_ASSERT(theResult == "PercentArg [%]");
 
@@ -146,11 +182,7 @@ void TStringFormatter::Execute(void)
 	NN_ASSERT(theResult == "TooFewArgs [42] []");
 	NN_ASSERT(theAssert.EndsWith(kResultTooFewArgs));
 
-	CTestUtilities::SetDebugCapture(true);
 	theResult = testFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
-	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "TooManyArgs [42] [23]");
-	NN_ASSERT(theAssert.EndsWith(kResultTooManyArgs));
-
 }
 
