@@ -179,6 +179,10 @@ typedef std::vector<NIndex>											NIndexList;
 typedef NIndexList::iterator										NIndexListIterator;
 typedef NIndexList::const_iterator									NIndexListConstIterator;
 
+typedef std::map<NIndex, NIndex>									NIndexMap;
+typedef NIndexMap::iterator											NIndexMapIterator;
+typedef NIndexMap::const_iterator									NIndexMapConstIterator;
+
 typedef std::vector<NHashCode>										NHashCodeList;
 typedef NHashCodeList::iterator										NHashCodeListIterator;
 typedef NHashCodeList::const_iterator								NHashCodeListConstIterator;
