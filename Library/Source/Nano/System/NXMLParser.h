@@ -142,7 +142,7 @@ private:
 	static void							ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList);
 	static void							ParsedElementEnd(  void *userData, const XML_Char *itemName);
 	static void							ParsedComment(     void *userData, const XML_Char *itemText);
-	static void							ParsedText(        void *userData, const XML_Char *itemText, int itemText);
+	static void							ParsedText(        void *userData, const XML_Char *itemText, int itemSize);
 	static void							ParsedCDataStart(  void *userData);
 	static void							ParsedCDataEnd(    void *userData);
 	
