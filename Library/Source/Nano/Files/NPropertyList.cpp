@@ -1369,6 +1369,7 @@ bool NPropertyList::DecodeMacBinary1_Boolean(const MacBinary1_Info &theInfo, UIn
 			
 		default:
 			NN_LOG("Unknown boolean value: %d", theTag.objectInfo);
+			theValue = false;
 			break;
 		}
 	
@@ -1582,7 +1583,7 @@ NDate NPropertyList::DecodeMacBinary1_Date(const MacBinary1_Info &theInfo, UInt3
 
 
 	// Decode the value
-	memcpy(&value64, thePtr, sizeof(theValue));
+	memcpy(&value64, thePtr, sizeof(value64));
 	NSwapFloat64_BtoN(&value64);
 
 	theValue    =  NDate(value64);
