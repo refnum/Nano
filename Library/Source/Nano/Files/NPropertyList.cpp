@@ -453,7 +453,7 @@ NDictionary NPropertyList::DecodeMacBinary1(const NData &theData)
 
 	// Prepare to decode
 	theInfo.basePtr       = theData.GetData();
-	theInfo.theObjects    = DecodeMacBinary1_GetObjectRefs(theTrailer.numObjects, theTrailer.objectTableRefSize, theData.GetData(theTrailer.objectTableOffset));
+	theInfo.theObjects    = DecodeMacBinary1_GetObjectRefs(theTrailer.numObjects, theTrailer.objectTableRefSize, theInfo.basePtr+theTrailer.objectTableOffset);
 	theInfo.objectRefSize = theTrailer.objectRefSize;
 
 
@@ -1143,7 +1143,7 @@ UInt64List NPropertyList::DecodeMacBinary1_GetObjectRefs(UInt64 numObjects, UInt
 
 
 	// Get the state we need
-	theObjects.reserve(numObjects);
+	theObjects.reserve((size_t) numObjects);
 
 
 
@@ -1175,7 +1175,7 @@ UInt64 NPropertyList::DecodeMacBinary1_GetObjectOffset(const MacBinary1_Info &th
 	theOffset = 0;
 
 	if (objectRef < theInfo.theObjects.size())
-		theOffset = theInfo.theObjects[objectRef];
+		theOffset = theInfo.theObjects[(size_t) objectRef];
 	else
 		NN_LOG("Invalid object reference: %lld", objectRef);
 	
@@ -1495,7 +1495,7 @@ Float64 NPropertyList::DecodeMacBinary1_Real(const MacBinary1_Info &theInfo, UIn
 NString NPropertyList::DecodeMacBinary1_String(const MacBinary1_Info &theInfo, UInt64 &byteOffset)
 {	NString				theValue;
 	const UInt8			*thePtr;
-	NIndex				theSize;
+	UInt64				theSize;
 	MacBinary1_Tag		theTag;
 
 
@@ -1505,19 +1505,21 @@ NString NPropertyList::DecodeMacBinary1_String(const MacBinary1_Info &theInfo, U
 	theSize = DecodeMacBinary1_ReadObjectSize(theInfo, byteOffset, theTag);
 	thePtr  = theInfo.basePtr + byteOffset;
 
+	NN_ASSERT(theSize <= sizeof(kNIndexMax));
+
 
 
 	// Decode the value
 	switch (theTag.theToken) {
 		case kBinary1_Token_StringUTF8:
 			theSize     = theSize * sizeof(UTF8Char);
-			theValue    = NString(thePtr, theSize, kNStringEncodingUTF8);
+			theValue    = NString(thePtr, (NIndex) theSize, kNStringEncodingUTF8);
 			byteOffset += theSize;
 			break;
 
 		case kBinary1_Token_StringUTF16:
 			theSize     = theSize * sizeof(UTF16Char);
-			theValue    = NString(thePtr, theSize, kNStringEncodingUTF16BE);
+			theValue    = NString(thePtr, (NIndex) theSize, kNStringEncodingUTF16BE);
 			byteOffset += theSize;
 			break;
 		
@@ -1539,7 +1541,7 @@ NString NPropertyList::DecodeMacBinary1_String(const MacBinary1_Info &theInfo, U
 NData NPropertyList::DecodeMacBinary1_Data(const MacBinary1_Info &theInfo, UInt64 &byteOffset)
 {	NData				theValue;
 	const UInt8			*thePtr;
-	NIndex				theSize;
+	UInt64				theSize;
 	MacBinary1_Tag		theTag;
 
 
@@ -1550,11 +1552,12 @@ NData NPropertyList::DecodeMacBinary1_Data(const MacBinary1_Info &theInfo, UInt6
 	thePtr  = theInfo.basePtr + byteOffset;
 
 	NN_ASSERT(theTag.theToken == kBinary1_Token_Data);
+	NN_ASSERT(theSize         <= sizeof(kNIndexMax));
 
 
 
 	// Decode the value
-	theValue    = NData(theSize, thePtr);
+	theValue    = NData((NIndex) theSize, thePtr);
 	byteOffset += theSize;
 
 	return(theValue);
@@ -1604,7 +1607,7 @@ NDate NPropertyList::DecodeMacBinary1_Date(const MacBinary1_Info &theInfo, UInt6
 NArray NPropertyList::DecodeMacBinary1_Array(const MacBinary1_Info &theInfo, UInt64 &byteOffset)
 {	UInt64				valueOffset;
 	NVariant			valueObject;
-	NIndex				n, theSize;
+	UInt64				n, theSize;
 	UInt64List			valueRefs;
 	NArray				theValue;
 	MacBinary1_Tag		theTag;
@@ -1648,7 +1651,7 @@ NDictionary NPropertyList::DecodeMacBinary1_Dictionary(const MacBinary1_Info &th
 {	UInt64				keyOffset, valueOffset;
 	NVariant			keyObject, valueObject;
 	UInt64List			keyRefs, valueRefs;
-	NIndex				n, theSize;
+	UInt64				n, theSize;
 	NDictionary			theValue;
 	NString				theKey;
 	MacBinary1_Tag		theTag;
