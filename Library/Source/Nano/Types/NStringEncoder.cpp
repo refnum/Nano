@@ -129,7 +129,7 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 	ConversionResult		theResult;
 	NData					dstData;
 	UTF32					dstChar;
-	OSStatus				theErr;
+	NStatus					theErr;
 
 
 
