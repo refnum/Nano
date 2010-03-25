@@ -1631,7 +1631,7 @@ NArray NPropertyList::DecodeMacBinary1_Array(const MacBinary1_Info &theInfo, UIn
 	// Decode the value
 	for (n = 0; n < theSize; n++)
 		{
-		valueOffset = DecodeMacBinary1_GetObjectOffset(theInfo, valueRefs[n]);
+		valueOffset = DecodeMacBinary1_GetObjectOffset(theInfo, valueRefs[(size_t) n]);
 		valueObject = DecodeMacBinary1_Value(          theInfo, valueOffset);
 		
 		theValue.AppendValue(valueObject);
@@ -1678,8 +1678,8 @@ NDictionary NPropertyList::DecodeMacBinary1_Dictionary(const MacBinary1_Info &th
 	// Decode the value
 	for (n = 0; n < theSize; n++)
 		{
-		keyOffset   = DecodeMacBinary1_GetObjectOffset(theInfo,   keyRefs[n]);
-		valueOffset = DecodeMacBinary1_GetObjectOffset(theInfo, valueRefs[n]);
+		keyOffset   = DecodeMacBinary1_GetObjectOffset(theInfo,   keyRefs[(size_t) n]);
+		valueOffset = DecodeMacBinary1_GetObjectOffset(theInfo, valueRefs[(size_t) n]);
 
 		keyObject   = DecodeMacBinary1_Value(theInfo,   keyOffset);
 		valueObject = DecodeMacBinary1_Value(theInfo, valueOffset);
