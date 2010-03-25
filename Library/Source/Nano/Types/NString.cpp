@@ -48,23 +48,38 @@ NENCODABLE_DEFINE(NString);
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
-NString::NString(const void *thePtr, NIndex numBytes, NStringEncoding theEncoding)
+NString::NString(const char *noCopyText)
+{
+
+
+	// Initialize ourselves
+	*this = GetConstantString(noCopyText);
+}
+
+
+
+
+
+//============================================================================
+//		NString::NString : Constructor.
+//----------------------------------------------------------------------------
+NString::NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding)
 {	NStringEncoder		theEncoder;
 
 
 
 	// Get the state we need
-	if (thePtr == NULL)
+	if (copyText == NULL)
 		numBytes = 0;
 
 	if (numBytes == kNStringLength)
-		numBytes = theEncoder.GetSize(thePtr, theEncoding);
+		numBytes = theEncoder.GetSize(copyText, theEncoding);
 
 
 
 	// Initialize ourselves
 	if (numBytes != 0)
-		SetData(NData(numBytes, thePtr), theEncoding);
+		SetData(NData(numBytes, copyText), theEncoding);
 }
 
 
@@ -80,21 +95,6 @@ NString::NString(const NData &theData, NStringEncoding theEncoding)
 
 	// Initialize ourselves
 	SetData(theData, theEncoding);
-}
-
-
-
-
-
-//============================================================================
-//		NString::NString : Constructor.
-//----------------------------------------------------------------------------
-NString::NString(const NStringUTF8 &theString)
-{
-
-
-	// Initialize ourselves
-	SetData(NData(theString.GetSize(), theString.GetUTF8()), kNStringEncodingUTF8);
 }
 
 
@@ -1129,11 +1129,14 @@ void NString::Trim(const NRange &theRange)
 //----------------------------------------------------------------------------
 void NString::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
 {	NStringFormatter		theFormatter;
+	NStringUTF8				theResult;
 
 
 
 	// Format the string
-	*this = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
+	theResult = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
+
+	SetData(NData(theResult.GetSize(), theResult.GetUTF8()), kNStringEncodingUTF8);
 }
 
 
@@ -2129,3 +2132,41 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 	return(theResult);
 }
 
+
+
+
+
+//============================================================================
+//		NString::GetConstantString : Get a string constant.
+//----------------------------------------------------------------------------
+NString NString::GetConstantString(const char *theText)
+{	static NConstantStringMap		sTable;
+	static NSpinLock				sLock;
+
+	StLock								lockMutex(sLock);
+	NString								theString;
+	NConstantStringMapConstIterator		theIter;
+
+
+
+	// Get the string
+	//
+	// Constant strings are cached by their pointer, which must persist.
+	//
+	// To help detect cases where a mutable pointer was incorrectly passed to the
+	// no-copy constructor, we validate that the input pointer still matches the
+	// cached string in terms of content.
+	theIter = sTable.find(theText);
+	if (theIter != sTable.end())
+		{
+		theString = theIter->second;
+		NN_ASSERT(strcmp(theText, theString.GetUTF8()) == 0);
+		}
+	else
+		{
+		theString       = NString(theText, kNStringLength, kNStringEncodingUTF8);
+		sTable[theText] = theString;
+		}
+	
+	return(theString);
+}

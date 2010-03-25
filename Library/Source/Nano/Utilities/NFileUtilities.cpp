@@ -181,7 +181,7 @@ NFile NFileUtilities::GetCWD(void)
 	thePath = NTargetPOSIX::getcwd(NULL, 0);
 	if (thePath != NULL)
 		{
-		theFile = NFile(NString(thePath));
+		theFile = NFile(NString(thePath, kNStringLength));
 		free(thePath);
 		}
 

@@ -138,11 +138,11 @@ private:
 	bool								FlushText(  void);
 	void								StopParsing(void);
 
-	static void							ParsedDocumentType(void *userData, const XML_Char *theName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal);
-	static void							ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList);
-	static void							ParsedElementEnd(  void *userData, const XML_Char *theName);
-	static void							ParsedComment(     void *userData, const XML_Char *theText);
-	static void							ParsedText(        void *userData, const XML_Char *theText, int theSize);
+	static void							ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal);
+	static void							ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList);
+	static void							ParsedElementEnd(  void *userData, const XML_Char *itemName);
+	static void							ParsedComment(     void *userData, const XML_Char *itemText);
+	static void							ParsedText(        void *userData, const XML_Char *itemText, int itemText);
 	static void							ParsedCDataStart(  void *userData);
 	static void							ParsedCDataEnd(    void *userData);
 	

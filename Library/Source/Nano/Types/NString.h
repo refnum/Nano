@@ -24,6 +24,7 @@
 #include "NContainer.h"
 #include "NHashable.h"
 #include "NRange.h"
+#include "NLock.h"
 #include "NData.h"
 
 
@@ -93,6 +94,10 @@ typedef std::map<NString, NString, NStringHashCompare>				NStringMap;
 typedef NStringMap::iterator										NStringMapIterator;
 typedef NStringMap::const_iterator									NStringMapConstIterator;
 
+typedef std::map<const char *, NString>								NConstantStringMap;
+typedef NConstantStringMap::iterator								NConstantStringMapIterator;
+typedef NConstantStringMap::const_iterator							NConstantStringMapConstIterator;
+
 
 
 
@@ -108,10 +113,51 @@ class NString :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NString);
 
-										NString(const void			*thePtr, NIndex numBytes=kNStringLength, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(const NData			&theData,                                NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(const NStringUTF8	&theString);
-										NString(      UTF8Char       theChar);
+
+	// Pointer constructor
+	//
+	// Strings can be created from external pointers in no-copy or copy modes.
+	//
+	// No-copy mode is extremely efficient, and will only create one instance of an NString
+	// for each unique pointer. This mode requires that the pointer persist for the lifetime
+	// of the process, the text be NULL-terminated, and the text be in UTF8 encoding.
+	//
+	// Copy mode copies the text data when creating the string, allowing the supplied pointer
+	// to be disposed of or mutated without affecting the string. The number of bytes in the
+	// text must be supplied (although kNStringLength can be used for implicit length), as
+	// well as the encoding (which defaults to UTF8).
+	//
+	// No-copy behaviour is typically used for string literals, while copy behaviour is used
+	// for dynamic text data:
+	//
+	//		NString GetStringNoCopy(void)
+	//		{	NString		theString;
+	//
+	//			theString = "Hello";
+	//			return(theString);
+	//		}
+	//
+	//		NString GetStringCopy(void)
+	//		{	NString		theString;
+	//			char		*thePtr;
+	//
+	//			thePtr = malloc(12);
+	//			strcpy(thePtr, "Hello World"); 
+	//
+	//			theString = NString(thePtr, kNStringLength);
+	//			free(thePtr);
+	//
+	//			return(theString);
+	//		}
+	//
+	// The default parameters were chosen to allow NStrings to be created from string literals
+	// without copying, although this requires that text which must be copied must be created
+	// with an explicit NString().
+										NString(const char *noCopyText);
+										NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding=kNStringEncodingUTF8);
+
+										NString(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(UTF8Char     theChar);
 
 										NString(void);
 	virtual							   ~NString(void);
@@ -248,6 +294,8 @@ private:
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)                    const;
 	UInt64								GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const;
 	NString								GetString(const NUnicodeParser &theParser, const NRange &theRange)                              const;
+
+	static NString						GetConstantString(const char *theText);
 
 
 private:

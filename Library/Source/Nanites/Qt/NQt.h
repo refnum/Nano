@@ -112,7 +112,7 @@ inline NColor ToNN(const QColor &theColor)
 
 inline NString ToNN(const QString &theString)
 {
-	return(NString(theString.toUtf8().data()));
+	return(NString(theString.toUtf8().data(), kNStringLength));
 }
 
 

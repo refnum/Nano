@@ -469,15 +469,17 @@ NStatus NXMLParser::ConvertXMLStatus(SInt32 xmlErr)
 //============================================================================
 //		NXMLParser::ParsedDocumentType : Process a document type.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedDocumentType(void *userData, const XML_Char *theName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal)
+void NXMLParser::ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal)
 {	NXMLParser					*thisPtr = (NXMLParser *) userData;
+	NString						theName;
 	NXMLDocumentTypeInfo		theInfo;
-
+	
 
 
 	// Get the state we need
-	theInfo.systemID    = NString(sysID);
-	theInfo.publicID    = NString(pubID);
+	theName             = NString(itemName, kNStringLength);
+	theInfo.systemID    = NString(sysID,    kNStringLength);
+	theInfo.publicID    = NString(pubID,    kNStringLength);
 	theInfo.hasInternal = (hasInternal != 0);
 
 
@@ -494,18 +496,20 @@ void NXMLParser::ParsedDocumentType(void *userData, const XML_Char *theName, con
 //============================================================================
 //		NXMLParser::ParsedElementStart : Process an element start.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedElementStart(void *userData, const XML_Char *theName, const XML_Char **attributeList)
+void NXMLParser::ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
-	NString			theKey, theValue;
+	NString			theName, theKey, theValue;
 	NDictionary		theAttributes;
 
 
 
 	// Get the state we need
+	theName = NString(itemName, kNStringLength);
+
 	while (*attributeList != NULL)
 		{
-		theKey   = NString(*attributeList++);
-		theValue = NString(*attributeList++);
+		theKey   = NString(*attributeList++, kNStringLength);
+		theValue = NString(*attributeList++, kNStringLength);
 		
 		NN_ASSERT(!theAttributes.HasKey(theKey));
 		theAttributes.SetValue(theKey, theValue);
@@ -525,8 +529,14 @@ void NXMLParser::ParsedElementStart(void *userData, const XML_Char *theName, con
 //============================================================================
 //		NXMLParser::ParsedElementEnd : Process an element end.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedElementEnd(void *userData, const XML_Char *theName)
+void NXMLParser::ParsedElementEnd(void *userData, const XML_Char *itemName)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
+	NString			theName;
+
+
+
+	// Get the state we need
+	theName = NString(itemName, kNStringLength);
 
 
 
@@ -542,8 +552,14 @@ void NXMLParser::ParsedElementEnd(void *userData, const XML_Char *theName)
 //============================================================================
 //		NXMLParser::ParsedComment : Process a comment.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedComment(void *userData, const XML_Char *theText)
+void NXMLParser::ParsedComment(void *userData, const XML_Char *itemText)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
+	NString			theText;
+	
+	
+	
+	// Get the state we need
+	theText = NString(itemText, kNStringLength);
 
 
 
@@ -559,13 +575,19 @@ void NXMLParser::ParsedComment(void *userData, const XML_Char *theText)
 //============================================================================
 //		NXMLParser::ParsedText : Process text.
 //----------------------------------------------------------------------------
-void NXMLParser::ParsedText(void *userData, const XML_Char *theText, int theSize)
+void NXMLParser::ParsedText(void *userData, const XML_Char *itemText, int itemSize)
 {	NXMLParser		*thisPtr = (NXMLParser *) userData;
+	NString			theText;
+	
+	
+	
+	// Get the state we need
+	theText = NString(itemText, itemSize);
 
 
 
 	// Process the item
-	thisPtr->mParsedText += NString(theText, theSize);
+	thisPtr->mParsedText += theText;
 }
 
 
