@@ -104,6 +104,21 @@ NString::NString(const NData &theData, NStringEncoding theEncoding)
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
+NString::NString(const NStringUTF8 &theString)
+{
+
+
+	// Initialize ourselves
+	SetData(NData(theString.GetSize(), theString.GetUTF8()), kNStringEncodingUTF8);
+}
+
+
+
+
+
+//============================================================================
+//		NString::NString : Constructor.
+//----------------------------------------------------------------------------
 NString::NString(UTF8Char theChar)
 {
 

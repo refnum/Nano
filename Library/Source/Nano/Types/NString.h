@@ -156,8 +156,9 @@ public:
 										NString(const char *noCopyText);
 										NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
-										NString(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(UTF8Char     theChar);
+										NString(const NData        &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const NStringUTF8 &theString);
+										NString(      UTF8Char     theChar);
 
 										NString(void);
 	virtual							   ~NString(void);
