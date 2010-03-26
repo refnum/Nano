@@ -36,7 +36,31 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NTime kNFunctorDelayTime								=  250 * kNTimeMillisecond;
+static const NTime kNFunctorDelayTime								= 250 * kNTimeMillisecond;
+
+
+
+
+
+//============================================================================
+//		Macros
+//----------------------------------------------------------------------------
+// Memory pool
+//
+// Allows portable code to insert a Mac auto-release pool within some scope,
+// without needing to create a platform-specific wrapper around that scope.
+#define NN_MEMORY_POOL								\
+	do												\
+		{											\
+		}											\
+	while (0)
+
+#if NN_TARGET_MAC || NN_TARGET_IPHONE
+	#include "NNSAutoReleasePool.h"
+	
+	#undef  NN_MEMORY_POOL
+	#define NN_MEMORY_POOL							StAutoReleasePool _pool;
+#endif
 
 
 

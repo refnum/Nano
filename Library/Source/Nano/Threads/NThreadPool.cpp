@@ -66,30 +66,6 @@ struct ComparePriority
 
 
 //============================================================================
-//		Internal macros
-//----------------------------------------------------------------------------
-// Memory sink
-//
-// To allow Cocoa objects to be auto-released within the space of a task,
-// the thread pool creates an auto-release pool for each task.
-#define NN_THREADPOOL_SINK(_pool)					\
-	do												\
-		{											\
-		}											\
-	while (0)
-	
-#if NN_TARGET_MAC
-	#include "NNSAutoReleasePool.h"
-	
-	#undef  NN_THREADPOOL_SINK
-	#define NN_THREADPOOL_SINK(_pool)				StAutoReleasePool _pool;
-#endif
-
-
-
-
-
-//============================================================================
 //		NThreadPool::NThreadPool : Constructor.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -440,7 +416,7 @@ void NThreadPool::ExecuteTasks(void)
 
 		// Execute the task
 		if (theTask != NULL)
-			{	NN_THREADPOOL_SINK(thePool);
+			{	NN_MEMORY_POOL;
 
 			NThreadUtilities::AtomicAdd32(mActiveTasks, 1);
 			
