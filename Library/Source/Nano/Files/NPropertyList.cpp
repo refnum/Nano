@@ -1505,7 +1505,7 @@ NString NPropertyList::DecodeMacBinary1_String(const MacBinary1_Info &theInfo, U
 	theSize = DecodeMacBinary1_ReadObjectSize(theInfo, byteOffset, theTag);
 	thePtr  = theInfo.basePtr + byteOffset;
 
-	NN_ASSERT(theSize <= sizeof(kNIndexMax));
+	NN_ASSERT((theSize * sizeof(UTF16Char) <= kNIndexMax);
 
 
 
@@ -1552,7 +1552,7 @@ NData NPropertyList::DecodeMacBinary1_Data(const MacBinary1_Info &theInfo, UInt6
 	thePtr  = theInfo.basePtr + byteOffset;
 
 	NN_ASSERT(theTag.theToken == kBinary1_Token_Data);
-	NN_ASSERT(theSize         <= sizeof(kNIndexMax));
+	NN_ASSERT(theSize         <= kNIndexMax);
 
 
 
