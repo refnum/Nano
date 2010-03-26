@@ -59,7 +59,7 @@ static const NTime kNFunctorDelayTime								= 250 * kNTimeMillisecond;
 	#include "NNSAutoReleasePool.h"
 	
 	#undef  NN_MEMORY_POOL
-	#define NN_MEMORY_POOL							StAutoReleasePool _pool;
+	#define NN_MEMORY_POOL							StAutoReleasePool _pool
 #endif
 
 
