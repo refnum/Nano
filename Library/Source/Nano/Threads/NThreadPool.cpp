@@ -416,13 +416,13 @@ void NThreadPool::ExecuteTasks(void)
 
 		// Execute the task
 		if (theTask != NULL)
-			{	NN_MEMORY_POOL;
+			{	NN_MEMORY_POOL		thePool;
 
 			NThreadUtilities::AtomicAdd32(mActiveTasks, 1);
-			
+
 			if (!theTask->IsStopped())
 				theTask->Run();
-			
+
 			delete theTask;
 			NThreadUtilities::AtomicAdd32(mActiveTasks, -1);
 			}
