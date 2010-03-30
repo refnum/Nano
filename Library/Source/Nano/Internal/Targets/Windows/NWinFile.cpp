@@ -52,8 +52,8 @@ typedef struct {
 //----------------------------------------------------------------------------
 //      GetDirectoryForDomain : Get a well-known directory.
 //----------------------------------------------------------------------------
-static NString GetDirectoryForDomain(NDirectoryDomain theDomain, REFKNOWNFOLDERID theID)
-{	TCHAR		*pathPtr;
+static NString GetDirectoryForDomain(NDirectoryDomain theDomain, int theID)
+{	TCHAR		theBuffer[MAX_PATH];
 	NString		thePath;
 
 
@@ -65,11 +65,8 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, REFKNOWNFOLDERI
 
 
 	// Get the directory
-	if (SUCCEEDED(SHGetKnownFolderPath(theID, KF_FLAG_CREATE, NULL, &pathPtr)))
-		{
-		thePath = ToNN(pathPtr);
-		CoTaskMemFree( pathPtr);
-		}
+	if (SUCCEEDED(SHGetFolderPath(NULL, theID | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, theBuffer)))
+		thePath = ToNN(theBuffer);
 	
 	return(thePath);
 }
@@ -459,15 +456,15 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 	switch (theLocation) {
 		case kNLocationHome:
 			NN_ASSERT(isUser);
-			thePath = GetDirectoryForDomain(theDomain, FOLDERID_Profile);
+			thePath = GetDirectoryForDomain(theDomain, CSIDL_PROFILE);
 			break;
 		
 		case kNLocationDesktop:
-			thePath = GetDirectoryForDomain(theDomain, isUser ? FOLDERID_Desktop : FOLDERID_PublicDesktop);
+			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_DESKTOP : CSIDL_COMMON_DESKTOPDIRECTORY);
 			break;
 		
 		case kNLocationCachedData:
-			thePath = GetDirectoryForDomain(theDomain, FOLDERID_InternetCache);
+			thePath = GetDirectoryForDomain(theDomain, CSIDL_INTERNET_CACHE);
 			break;
 		
 		case kNLocationTemporaryData:
@@ -476,7 +473,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			break;
 		
 		case kNLocationApplicationSupport:
-			thePath = GetDirectoryForDomain(theDomain, isUser ? FOLDERID_RoamingAppData : FOLDERID_ProgramData);
+			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_APPDATA : CSIDL_COMMON_APPDATA);
 			break;
 		
 		default:
