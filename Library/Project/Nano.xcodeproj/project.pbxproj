@@ -140,6 +140,8 @@
 		AB53A407109B237800817E89 /* NTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53A404109B237800817E89 /* NTask.cpp */; };
 		AB669B5110035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
 		AB669B5210035285006CB82F /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
+		AB6B2F49116CCAB80095D5A5 /* tero_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */; };
+		AB6B2F4A116CCAB80095D5A5 /* tero_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */; };
 		AB76913F10FCEA6200AD6A3F /* NUncopyable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */; };
 		AB76914010FCEA6200AD6A3F /* NUncopyable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */; };
 		AB7AAFD7103AC4EF004B1F6E /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
@@ -150,8 +152,6 @@
 		AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
 		AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
-		AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */; };
-		AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */; };
 		AB7AB1BE103AED18004B1F6E /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BB103AED18004B1F6E /* blowfish.c */; };
 		AB7AB1BF103AED18004B1F6E /* blowfish_dat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */; };
 		AB7AB1C0103AED18004B1F6E /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BB103AED18004B1F6E /* blowfish.c */; };
@@ -385,6 +385,8 @@
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
+		AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tero_des.cpp; sourceTree = "<group>"; };
+		AB6B2F48116CCAB80095D5A5 /* tero_des.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tero_des.h; sourceTree = "<group>"; };
 		AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUncopyable.cpp; sourceTree = "<group>"; };
 		AB76913E10FCEA6200AD6A3F /* NUncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUncopyable.h; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
@@ -395,8 +397,6 @@
 		AB7AB0AF103ADB17004B1F6E /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha2.h; sourceTree = "<group>"; };
 		AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataDigest.h; sourceTree = "<group>"; };
 		AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataDigest.cpp; sourceTree = "<group>"; };
-		AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = efgh_des.cpp; sourceTree = "<group>"; };
-		AB7AB1B7103AED12004B1F6E /* efgh_des.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = efgh_des.h; sourceTree = "<group>"; };
 		AB7AB1BB103AED18004B1F6E /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
 		AB7AB1BC103AED18004B1F6E /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
 		AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish_dat.c; sourceTree = "<group>"; };
@@ -734,6 +734,15 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
+		AB6B2F46116CCAB80095D5A5 /* tero.co.uk */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */,
+				AB6B2F48116CCAB80095D5A5 /* tero_des.h */,
+			);
+			path = tero.co.uk;
+			sourceTree = "<group>";
+		};
 		AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,15 +759,6 @@
 				AB7AB0AF103ADB17004B1F6E /* sha2.h */,
 			);
 			path = sha2_1.1a;
-			sourceTree = "<group>";
-		};
-		AB7AB1B5103AED12004B1F6E /* efgh.com */ = {
-			isa = PBXGroup;
-			children = (
-				AB7AB1B6103AED12004B1F6E /* efgh_des.cpp */,
-				AB7AB1B7103AED12004B1F6E /* efgh_des.h */,
-			);
-			path = efgh.com;
 			sourceTree = "<group>";
 		};
 		AB7AB1BA103AED18004B1F6E /* schneier.com */ = {
@@ -839,7 +839,6 @@
 			isa = PBXGroup;
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
-				AB7AB1B5103AED12004B1F6E /* efgh.com */,
 				ABB146050FF36F84006F178C /* expat_2.0.1 */,
 				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
 				AB1694D510028C8200F7D4B7 /* libb64_1.1 */,
@@ -847,6 +846,7 @@
 				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.12 */,
+				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */,
 			);
@@ -1344,7 +1344,6 @@
 				AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB1BA184104E7CD300BB002B /* NTransform.cpp in Sources */,
 				AB514E921034638700E5A6AD /* NVector.cpp in Sources */,
-				AB7AB1B8103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB1461D0FF36F84006F178C /* xmlparse.c in Sources */,
 				ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */,
 				ABB1461F0FF36F84006F178C /* xmltok.c in Sources */,
@@ -1375,6 +1374,7 @@
 				AB7AB1BF103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */,
 				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */,
+				AB6B2F4A116CCAB80095D5A5 /* tero_des.cpp in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
 				ABFAA6A61018AB360060ED12 /* adler32.c in Sources */,
 				ABFAA6A71018AB360060ED12 /* compress.c in Sources */,
@@ -1494,7 +1494,6 @@
 				AB514E64103460CB00E5A6AD /* NSize.cpp in Sources */,
 				AB1BA183104E7CD300BB002B /* NTransform.cpp in Sources */,
 				AB514E931034638700E5A6AD /* NVector.cpp in Sources */,
-				AB7AB1B9103AED12004B1F6E /* efgh_des.cpp in Sources */,
 				ABB146180FF36F84006F178C /* xmlparse.c in Sources */,
 				ABB146190FF36F84006F178C /* xmlrole.c in Sources */,
 				ABB1461A0FF36F84006F178C /* xmltok.c in Sources */,
@@ -1525,6 +1524,7 @@
 				AB7AB1C1103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */,
 				AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.12.c in Sources */,
+				AB6B2F49116CCAB80095D5A5 /* tero_des.cpp in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
 				ABFAA6981018AB360060ED12 /* adler32.c in Sources */,
 				ABFAA6991018AB360060ED12 /* compress.c in Sources */,

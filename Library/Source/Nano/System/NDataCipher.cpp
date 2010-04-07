@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "efgh_des.h"
+#include "tero_des.h"
 #include "blowfish.h"
 
 #include "NDataCipher.h"
@@ -105,6 +105,10 @@ NData NDataCipher::Encrypt(const NData &srcData, NEncryption theAlgorithm)
 			theErr = Null_Encrypt(dstData);
 			break;
 
+		case kNEncryptionDES:
+			theErr = DES_Encrypt(dstData);
+			break;
+
 		case kNEncryptionDES3:
 			theErr = DES3_Encrypt(dstData);
 			break;
@@ -163,6 +167,10 @@ NData NDataCipher::Decrypt(const NData &srcData, NEncryption theAlgorithm)
 			theErr = Null_Decrypt(dstData);
 			break;
 
+		case kNEncryptionDES:
+			theErr = DES_Decrypt(dstData);
+			break;
+
 		case kNEncryptionDES3:
 			theErr = DES3_Decrypt(dstData);
 			break;
@@ -215,7 +223,41 @@ NStatus NDataCipher::Null_Decrypt(NData &/*theData*/)
 {
 
 
-	// Decompress the data
+	// Decrypt the data
+	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//		NDataCipher::DES_Encrypt : Encrypt using DES encryption.
+//----------------------------------------------------------------------------
+NStatus NDataCipher::DES_Encrypt(NData &theData)
+{
+
+
+	// Encrypt the data
+	::DES_Encrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
+	
+	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//		NDataCipher::DES_Decrypt : Decrypt using DES encryption.
+//----------------------------------------------------------------------------
+NStatus NDataCipher::DES_Decrypt(NData &theData)
+{
+
+
+	// Decrypt the data
+	::DES_Decrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
+	
 	return(kNoErr);
 }
 
@@ -227,42 +269,11 @@ NStatus NDataCipher::Null_Decrypt(NData &/*theData*/)
 //		NDataCipher::DES3_Encrypt : Encrypt using DES3 encryption.
 //----------------------------------------------------------------------------
 NStatus NDataCipher::DES3_Encrypt(NData &theData)
-{	NIndex			dataSize, bytesLeft, numBytes;
-	UInt8			desBlock[DES_DATA_SIZE];
-	triple_des		desEngine;
-	UInt8			*dataPtr;
-
-
-
-	// Get the state we need
-	desEngine.password((const char *) mKey.GetData());
-
-	dataPtr   = theData.GetData();
-	dataSize  = theData.GetSize();
-	bytesLeft = dataSize;
-
+{
 
 
 	// Encrypt the data
-	while (bytesLeft > 0)
-		{
-		// Get the next block
-		numBytes = std::min(bytesLeft, (NIndex) DES_DATA_SIZE);
-		if (numBytes < DES_DATA_SIZE)
-			memset(&desBlock, 0x00, sizeof(desBlock));
-
-		memcpy(&desBlock, dataPtr, numBytes);
-
-
-		// Encrypt it
-		desEngine.encrypt(desBlock);
-		memcpy(dataPtr, desBlock, numBytes);
-		
-		
-		// Advance the block
-		dataPtr   += numBytes;
-		bytesLeft -= numBytes;
-		}
+	::DES3_Encrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
 	
 	return(kNoErr);
 }
@@ -275,43 +286,12 @@ NStatus NDataCipher::DES3_Encrypt(NData &theData)
 //		NDataCipher::DES3_Decrypt : Decrypt using DES3 encryption.
 //----------------------------------------------------------------------------
 NStatus NDataCipher::DES3_Decrypt(NData &theData)
-{	NIndex			dataSize, bytesLeft, numBytes;
-	UInt8			desBlock[DES_DATA_SIZE];
-	triple_des		desEngine;
-	UInt8			*dataPtr;
-
-
-
-	// Get the state we need
-	desEngine.password((const char *) mKey.GetData());
-
-	dataPtr   = theData.GetData();
-	dataSize  = theData.GetSize();
-	bytesLeft = dataSize;
-
+{
 
 
 	// Decrypt the data
-	while (bytesLeft > 0)
-		{
-		// Get the next block
-		numBytes = std::min(bytesLeft, (NIndex) DES_DATA_SIZE);
-		if (numBytes < DES_DATA_SIZE)
-			memset(&desBlock, 0x00, sizeof(desBlock));
-
-		memcpy(&desBlock, dataPtr, numBytes);
-
-
-		// Decrypt it
-		desEngine.decrypt(desBlock);
-		memcpy(dataPtr, desBlock, numBytes);
-		
-		
-		// Advance the block
-		dataPtr   += numBytes;
-		bytesLeft -= numBytes;
-		}
-
+	::DES3_Decrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
+	
 	return(kNoErr);
 }
 

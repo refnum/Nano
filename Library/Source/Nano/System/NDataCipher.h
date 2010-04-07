@@ -29,9 +29,10 @@
 //
 // These values are considered to be fixed, and will never change.
 typedef enum {
-	kNEncryptionNone			= 0x6E6E756C,
-	kNEncryptionDES3			= 0x6E646573,
-	kNEncryptionBlowfish		= 0x6E626C6F
+	kNEncryptionNone			= 0x6E756C6C,	// 'null'
+	kNEncryptionDES				= 0x64657331,	// 'des1'
+	kNEncryptionDES3			= 0x64657333,	// 'des3'
+	kNEncryptionBlowfish		= 0x626C6F66	// 'blof'
 } NEncryption;
 
 
@@ -50,6 +51,14 @@ public:
 	// Get/set the key
 	//
 	// A key must be assigned before data can be encrypted/decrypted.
+	//
+	// Requirements are:
+	//
+	//		kNEncryptionNone			None
+	//		kNEncryptionDES				Only first  8 bytes of key are used
+	//		kNEncryptionDES3			Only first 24 bytes of key are used
+	//		kNEncryptionBlowfish		None
+	//
 	NData								GetKey(void) const;
 	void								SetKey(const NData &theKey);
 
@@ -59,7 +68,8 @@ public:
 	// Requirements are:
 	//
 	//		kNEncryptionNone			None
-	//		kNEncryptionDES3			None
+	//		kNEncryptionDES				Data must be multiple of 8 bytes in size
+	//		kNEncryptionDES3			Data must be multiple of 8 bytes in size
 	//		kNEncryptionBlowfish		Data must be multiple of 8 bytes in size
 	//
 	NData								Encrypt(const NData &srcData, NEncryption theAlgorithm=kNEncryptionBlowfish);
@@ -69,6 +79,9 @@ public:
 private:
 	NStatus								Null_Encrypt(NData &theData);
 	NStatus								Null_Decrypt(NData &theData);
+
+	NStatus								DES_Encrypt(NData &theData);
+	NStatus								DES_Decrypt(NData &theData);
 
 	NStatus								DES3_Encrypt(NData &theData);
 	NStatus								DES3_Decrypt(NData &theData);

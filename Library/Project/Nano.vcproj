@@ -321,28 +321,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\3rd Party\efgh.com\efgh_des.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						WarningLevel="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						WarningLevel="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\fourmilab.ch\fm_md5.c"
 				>
 				<FileConfiguration
@@ -1299,6 +1277,28 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\tero.co.uk\tero_des.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\trees.c"
 				>
 				<FileConfiguration
@@ -1470,10 +1470,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\3rd Party\zlib_1.2.3\deflate.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\3rd Party\efgh.com\efgh_des.h"
 				>
 			</File>
 			<File
@@ -1934,6 +1930,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\StdAfx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\3rd Party\tero.co.uk\tero_des.h"
 				>
 			</File>
 			<File
