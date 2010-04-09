@@ -19,10 +19,12 @@
 #include "SkPoint.h"
 #include "SkSize.h"
 #include "SkRect.h"
+#include "SkColor.h"
 
 #include "NPoint.h"
 #include "NSize.h"
 #include "NRectangle.h"
+#include "NColor.h"
 
 
 
@@ -53,6 +55,11 @@ inline SkRect ToSk(const NRectangle &theRect)
 	return(theResult);
 }
 
+inline SkColor ToSk(const NColor &theColor)
+{
+	return(theColor.GetColor(kNColorARGB));
+}
+
 
 
 // Convert from Skia
@@ -69,6 +76,11 @@ inline NSize ToNN(const SkSize &theSize)
 inline NRectangle ToNN(const SkRect &theRect)
 {
 	return(NRectangle(theRect.fLeft, theRect.fTop, theRect.width(), theRect.height()));
+}
+
+inline NColor ToNN(SkColor theColor)
+{
+	return(NColor(theColor, kNColorARGB));
 }
 
 
