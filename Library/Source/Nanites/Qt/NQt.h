@@ -63,7 +63,7 @@ inline QRect ToQtI(const NRectangle &theRect)
 inline QColor ToQt(const NColor &theColor)
 {	QColor		theResult;
 
-	theResult.setRgbF(theColor.GetRed(), theColor.GetGreen(), theColor.GetBlue());
+	theResult.setRgbF(theColor.GetRed(), theColor.GetGreen(), theColor.GetBlue(), theColor.GetAlpha());
 	return(theResult);
 }
 
@@ -107,7 +107,7 @@ inline NRectangle ToNN(const QRectF &theRect)
 
 inline NColor ToNN(const QColor &theColor)
 {
-	return(NColor(theColor.redF(), theColor.greenF(), theColor.blueF()));
+	return(NColor(theColor.redF(), theColor.greenF(), theColor.blueF(), theColor.alphaF()));
 }
 
 inline NString ToNN(const QString &theString)
