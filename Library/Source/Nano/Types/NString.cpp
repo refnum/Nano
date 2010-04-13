@@ -1455,7 +1455,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 		{
 		if (isBackwards)
 			{
-			theResults = FindString( theString, theFlags, findRange, true);
+			theResults = FindString(theString, theFlags, findRange, true);
 			if (!theResults.empty())
 				{
 				if (doAll)
@@ -1465,7 +1465,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 				}
 			}
 		else
-			theResults = FindString( theString, theFlags, findRange, doAll);
+			theResults = FindString(theString, theFlags, findRange, doAll);
 		}
 		
 	return(theResults);
