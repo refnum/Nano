@@ -1503,7 +1503,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 	charA = 0;
 	charB = 0;
 
-	limitA     = std::max((NIndex) 1, std::min(theRange.GetLast(), theRange.GetSize() - sizeB));
+	limitA     = std::max((NIndex) 1, theRange.GetLast() - sizeB);
 	ignoreCase = (theFlags & kNStringNoCase);
 
 	findRange = kNRangeNone;
@@ -1583,7 +1583,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 		//
 		// If we've found a match we need to search to the end of the range, but once we
 		// pass the final B-sized section without a match then we know it can't fit.
-		if (n >= limitA && findRange.IsEmpty())
+		if (n > limitA && findRange.IsEmpty())
 			break;
 		}
 

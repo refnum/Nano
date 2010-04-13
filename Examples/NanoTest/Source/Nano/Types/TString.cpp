@@ -112,6 +112,9 @@ void TString::Execute(void)
 	NN_ASSERT(theRanges[0] == NRange(1, 2));
 	NN_ASSERT(theRanges[1] == NRange(7, 2));
 
+	theRange = testString1.Find("n", kNStringNone, NRange(5, kNStringLength));
+	NN_ASSERT(theRange == NRange(8, 1));
+
 
 
 	// Replace
