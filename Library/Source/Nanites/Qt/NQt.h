@@ -67,6 +67,11 @@ inline QColor ToQt(const NColor &theColor)
 	return(theResult);
 }
 
+inline QByteArray ToQt(const NData &theData)
+{
+	return(QByteArray((const char *) theData.GetData(), (int) theData.GetSize()));
+}
+
 inline QString ToQt(const NString &theString)
 {
 	return(QString::fromUtf8(theString.GetUTF8()));
@@ -108,6 +113,11 @@ inline NRectangle ToNN(const QRectF &theRect)
 inline NColor ToNN(const QColor &theColor)
 {
 	return(NColor(theColor.redF(), theColor.greenF(), theColor.blueF(), theColor.alphaF()));
+}
+
+inline NData ToNN(const QByteArray &theData)
+{
+	return(NData(theData.size(), theData.data()));
 }
 
 inline NString ToNN(const QString &theString)
