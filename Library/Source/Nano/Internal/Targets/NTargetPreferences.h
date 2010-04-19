@@ -39,6 +39,10 @@ public:
 	// Get/set a value
 	static NVariant						GetValue(const NString &theKey);
 	static void							SetValue(const NString &theKey, const NVariant &theValue);
+
+
+	// Flush the preferences
+	static void							Flush(void);
 };
 
 

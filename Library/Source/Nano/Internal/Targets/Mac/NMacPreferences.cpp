@@ -115,3 +115,20 @@ void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValu
 
 
 
+
+//============================================================================
+//		NTargetPreferences::Flush : Flush the preferences.
+//----------------------------------------------------------------------------
+void NTargetPreferences::Flush(void)
+{	bool	wasOK;
+
+
+
+	// Flush the preferences
+	wasOK = CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
+	NN_ASSERT(wasOK);
+}
+
+
+
+

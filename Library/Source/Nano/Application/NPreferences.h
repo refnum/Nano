@@ -58,6 +58,10 @@ public:
 	void								SetValue(const NString &theKey, const NVariant &theValue);
 
 
+	// Flush the preferences
+	void								Flush(void);
+
+
     // Get the preferences
     static NPreferences					*Get(void);
 

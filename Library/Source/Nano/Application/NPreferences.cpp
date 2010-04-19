@@ -139,6 +139,21 @@ void NPreferences::SetValue(const NString &theKey, const NVariant &theValue)
 
 
 //============================================================================
+//		NPreferences::Flush : Flush the preferences.
+//----------------------------------------------------------------------------
+void NPreferences::Flush(void)
+{
+
+
+	// Flush the prefs
+	NTargetPreferences::Flush();
+}
+
+
+
+
+
+//============================================================================
 //		NPreferences::Get : Get the preferences.
 //----------------------------------------------------------------------------
 NPreferences *NPreferences::Get(void)

@@ -346,3 +346,29 @@ void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValu
 }
 
 
+
+
+
+//============================================================================
+//		NTargetPreferences::Flush : Flush the preferences.
+//----------------------------------------------------------------------------
+void NTargetPreferences::Flush(void)
+{	HKEY		appKey;
+	LONG		theErr;
+
+
+
+	// Get the state we need
+	appKey = GetRegAppKey(false);
+	if (appKey == NULL)
+		return;
+
+
+
+	// Flush the preferences
+	theErr = RegFlushKey(appKey);
+	NN_ASSERT_NOERR(theErr);
+}
+
+
+
