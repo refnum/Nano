@@ -911,7 +911,7 @@ template<class T> T NRectangleT<T>::GetMaxY(void) const
 //		NRectangleT::NEncodable : NEncodable operator.
 //----------------------------------------------------------------------------
 template<class T> NRectangleT<T>::operator NEncodable(void) const
-{	NRectangleX		theResult(origin.x, origin.y, size.width, size.heigh);
+{	NRectangleX		theResult(origin.x, origin.y, size.width, size.height);
 
 
 

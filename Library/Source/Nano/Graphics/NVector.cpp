@@ -51,7 +51,7 @@ static const NString kNVectorYKey									= "y";
 //============================================================================
 //		Internal class declaration
 //----------------------------------------------------------------------------
-class NVectorX :	public NEncodable {
+class NVectorX : public NEncodable {
 public:
 										NENCODABLE_DECLARE(NVectorX);
 
