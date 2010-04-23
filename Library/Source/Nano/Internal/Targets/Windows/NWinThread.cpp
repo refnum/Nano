@@ -27,7 +27,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UINT WM_NWINTHREAD_FUNCTOR						= WM_USER + 1;
+static const UINT WM_INVOKEMAINTHREADFUNCTORS						= WM_USER + 1;
 
 
 
@@ -62,8 +62,8 @@ typedef struct {
 //----------------------------------------------------------------------------
 class NFunctorInvoker {
 public:
-										NFunctorInvoker(const NFunctor		&theFunctor,
-															  NSemaphore	*theSemaphore=NULL);
+										NFunctorInvoker(const NFunctor &theFunctor, NSemaphore *theSemaphore=NULL);
+	virtual							   ~NFunctorInvoker(void) { }
 
 
 	// Invoke the functor
@@ -94,8 +94,9 @@ static HWND CreateMainThreadWindow(void);
 // Main thread
 //
 // This assumes that the main thread performs static initialisation.
-static DWORD gMainThreadID     = GetCurrentThreadId();
-static HWND  gMainThreadWindow = CreateMainThreadWindow();
+static DWORD				gMainThreadID     = GetCurrentThreadId();
+static HWND					gMainThreadWindow = CreateMainThreadWindow();
+static ThreadFunctorList	gMainThreadFunctors;
 
 
 
@@ -159,11 +160,32 @@ static DWORD WINAPI ThreadEntry(void *userData)
 
 
 //============================================================================
+//		InvokeMainThreadFunctors : Invoke the main-thread functors.
+//----------------------------------------------------------------------------
+static void InvokeMainThreadFunctors(void)
+{	NFunctor	theFunctor;
+
+
+
+	// Validate our state
+	NN_ASSERT(NTargetThread::ThreadIsMain());
+
+
+
+	// Invoke the functors
+	while (gMainThreadFunctors.PopFront(theFunctor))
+		theFunctor();
+}
+
+
+
+
+
+//============================================================================
 //		HelperWindowProc : Helper window proc.
 //----------------------------------------------------------------------------
 static LRESULT CALLBACK HelperWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{	NFunctorInvoker		*theInvoker;
-	LRESULT				theResult;
+{	LRESULT		theResult;
 
 
 
@@ -171,9 +193,8 @@ static LRESULT CALLBACK HelperWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 	theResult = 0;
 
 	switch (uMsg) {
-		case WM_NWINTHREAD_FUNCTOR:
-			theInvoker = (NFunctorInvoker *) lParam;
-			theInvoker->Invoke();
+		case WM_INVOKEMAINTHREADFUNCTORS:
+			InvokeMainThreadFunctors();
 			break;
 
 		default:
@@ -571,6 +592,19 @@ void NTargetThread::ThreadSleep(NTime theTime)
 
 	// Sleep the thread
 	Sleep(NWinTarget::ConvertTimeMS(theTime));
+
+
+
+	// Invoke the functors
+	//
+	// Sleeping the main thread will prevent functors due to be executed on the
+	// main thread from firing.
+	//
+	// To avoid deadlocks where the main thread is waiting for a thread to exit
+	// and that thread is waiting inside InvokeMain for a functor to complete,
+	// sleeping the main thread will also invoke any queued functors.
+	if (ThreadIsMain())
+		InvokeMainThreadFunctors();
 }
 
 
@@ -619,11 +653,18 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 	
 	
 	// Pass it to the main thread
+	//
+	// An invoker is used to invoke the functor then set our semaphore.
+	//
+	// The invoker is executed by the main thread, via gMainThreadFunctors,
+	// either due to the main thread being blocked in ThreadSleep or due
+	// to the event loop running as normal and processing the message.
 	else
 		{
 		theInvoker = new NFunctorInvoker(theFunctor, &theSemaphore);
+		gMainThreadFunctors.PushBack(BindMethod(theInvoker, NFunctorInvoker::Invoke));
 		
-		wasOK = PostMessage(gMainThreadWindow, WM_NWINTHREAD_FUNCTOR, 0, (LPARAM) theInvoker);
+		wasOK = PostMessage(gMainThreadWindow, WM_INVOKEMAINTHREADFUNCTORS, 0, 0);
 		NN_ASSERT(wasOK);
 
 		wasDone = theSemaphore.Wait();

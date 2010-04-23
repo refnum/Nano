@@ -23,15 +23,6 @@
 
 
 //============================================================================
-//		Static variables
-//----------------------------------------------------------------------------
-ThreadFunctorList NThread::mFunctors;
-
-
-
-
-
-//============================================================================
 //		NThread::NThread : Constructor.
 //----------------------------------------------------------------------------
 NThread::NThread(void)
@@ -172,20 +163,9 @@ void NThread::Sleep(NTime theTime)
 
 
 	// Sleep the thread
+	//
+	// Sleeping the main thread will also invoke any InvokeMain functors.
 	NTargetThread::ThreadSleep(theTime);
-
-
-
-	// Invoke the functors
-	//
-	// Sleeping the main thread will prevent functors due to be executed on the
-	// main thread from firing.
-	//
-	// To avoid deadlocks where the main thread is waiting for a thread to exit
-	// and that thread is waiting inside InvokeMain for a functor to complete,
-	// sleeping the main thread will also invoke any queued functors.
-	if (IsMain())
-		InvokeFunctors();
 }
 
 
@@ -200,16 +180,7 @@ void NThread::InvokeMain(const NFunctor &theFunctor)
 
 
 	// Invoke the functor
-	//
-	// Rather than simply doing ThreadInvokeMain(theFunctor), we push functors
-	// onto a list which is then processed in the main thread.
-	//
-	// This allows us to avoid a deadlock where a thread is blocked waiting for
-	// the main thread, and the main thread is blocked in Sleep (since Sleep can
-	// call InvokeFunctors to process the list).
-	mFunctors.PushBack(theFunctor);
-
-	NTargetThread::ThreadInvokeMain(BindFunction(NThread::InvokeFunctors));
+	NTargetThread::ThreadInvokeMain(theFunctor);
 }
 
 
@@ -255,27 +226,4 @@ void NThread::InvokeRun(void)
 	if (mAutoDelete)
 		delete this;
 }
-
-
-
-
-
-//============================================================================
-//		NThread::InvokeFunctors : Invoke the functors.
-//----------------------------------------------------------------------------
-void NThread::InvokeFunctors(void)
-{	NFunctor	theFunctor;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsMain());
-
-
-
-	// Invoke the functors
-	while (mFunctors.PopFront(theFunctor))
-		theFunctor();
-}
-
 

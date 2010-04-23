@@ -19,7 +19,6 @@
 #include "NTimer.h"
 #include "NFunctor.h"
 #include "NSemaphore.h"
-#include "NAtomicList.h"
 
 
 
@@ -44,8 +43,6 @@ class NThread;
 typedef std::vector<NThread*>										NThreadList;
 typedef NThreadList::iterator										NThreadListIterator;
 typedef NThreadList::const_iterator									NThreadListConstIterator;
-
-typedef NAtomicList<NFunctor>										ThreadFunctorList;
 
 
 
@@ -101,12 +98,9 @@ protected:
 
 private:
 	void								InvokeRun(void);
-	static void							InvokeFunctors(void);
 
 
 private:
-	static ThreadFunctorList			mFunctors;
-
 	bool								mIsRunning;
 	bool								mAutoDelete;
 	bool								mShouldStop;
