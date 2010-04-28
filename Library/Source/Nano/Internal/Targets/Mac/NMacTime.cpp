@@ -38,22 +38,80 @@ typedef struct {
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
+//		GetTimerLock : Get the timer lock.
+//----------------------------------------------------------------------------
+static NMutexLock &GetTimerLock(void)
+{	static NMutexLock		sLock;
+
+
+	// Get the lock
+	return(sLock);
+}
+
+
+
+
+
+//============================================================================
+//		Internal functions
+//----------------------------------------------------------------------------
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
-static void TimerCallback(CFRunLoopTimerRef cfTimer, void *userData)
-{	TimerInfo	*timerInfo = (TimerInfo *) userData;
+static void TimerCallback(CFRunLoopTimerRef cfTimer, void */*userData*/)
+{	StLock						acquireLock(GetTimerLock());
+	CFRunLoopTimerContext		theContext;
+	TimerInfo					*timerInfo;
 
 
 
-	// Validate our parameters
-	NN_ASSERT(cfTimer == timerInfo->cfTimer);
+	// Get the state we need
+	//
+	// Timers are always executed on the main thread, however they may be created
+	// and destroyed on a different thread.
+	//
+	// This leads to two race conditions between TimerCallback/TimerDestroy.
+	//
+	//
+	// Case 1:
+	//
+	//		Thread A:	Copy context.info as userData param for TimerCallback
+	//		Thread B:	TimerDestroy()
+	//		Thread A:	TimerCallback()
+	//
+	// Thread A copies the context.info value for use as the userData parameter
+	// for TimerCallback, however Thread B can return from TimerDestroy before
+	// TimerCallback is entered with the now-stale userData parameter.
+	//
+	// Fetching the current timerInfo state from the context allows us to sync
+	// this value between the two threads, obtaining a valid pointer or NULL.
+	//
+	// Note that a shared TimerCallback/TimerDestroy lock does not help in this
+	// case, as TimerDestroy may have completed between thread A starting to
+	// call TimerCallback and TimerCallback being entered.
+	//
+	//
+	// Case 2:
+	//
+	//		Thread A:	TimerCallback fetches timerInfo from context
+	//		Thread B:	TimerDestroy()
+	//		Thread A:	Invoke now-stale timerInfo pointer
+	//
+	// Although thread A obtains an atomic timerInfo/NULL pointer from the context,
+	// thread B can destroy that timerInfo before thread A has a chance to use it.
+	//
+	// As such we need our own lock to ensure that the timer functor can never be
+	// destroyed while we're about to execute it.
+	CFRunLoopTimerGetContext(cfTimer, &theContext);
 	
-	NN_UNUSED(cfTimer);
+	timerInfo = (TimerInfo *) theContext.info;
+	if (timerInfo != NULL)
+		NN_ASSERT(timerInfo->cfTimer == cfTimer);
 
 
 
 	// Invoke the timer
-	timerInfo->theFunctor(kNTimerFired);
+	if (timerInfo != NULL)
+		timerInfo->theFunctor(kNTimerFired);
 }
 
 
@@ -127,9 +185,13 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 	// Get the state we need
 	memset(&timerContext, 0x00, sizeof(timerContext));
 
-	fireTime          = CFAbsoluteTimeGetCurrent() + fireAfter;
 	timerInfo         = new TimerInfo;
 	timerContext.info = timerInfo;
+
+	if (fireAfter <= 0.0)
+		fireTime = CFRunLoopGetNextTimerFireDate(CFRunLoopGetMain(), kCFRunLoopCommonModes);
+	else
+		fireTime = CFAbsoluteTimeGetCurrent() + fireAfter;
 
 
 
@@ -138,7 +200,7 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 	timerInfo->theFunctor = theFunctor;
 
 	CFRunLoopAddTimer(CFRunLoopGetMain(), timerInfo->cfTimer, kCFRunLoopCommonModes);
-	
+
 	return((NTimerID) timerInfo);
 }
 
@@ -151,13 +213,16 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 //----------------------------------------------------------------------------
 void NTargetTime::TimerDestroy(NTimerID theTimer)
 {	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
+	StLock			acquireLock(GetTimerLock());
 
 
 
 	// Destroy the timer
-	CFRunLoopRemoveTimer(CFRunLoopGetMain(), timerInfo->cfTimer, kCFRunLoopCommonModes);
+	//
+	// We must acquire the timer lock to synchronise with TimerCallback().
+	CFRunLoopTimerInvalidate(timerInfo->cfTimer);
 	CFRelease(timerInfo->cfTimer);
-	
+
 	delete timerInfo;
 }
 
