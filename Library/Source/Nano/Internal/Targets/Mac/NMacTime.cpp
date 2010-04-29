@@ -41,11 +41,15 @@ typedef struct {
 //		GetTimerLock : Get the timer lock.
 //----------------------------------------------------------------------------
 static NMutexLock &GetTimerLock(void)
-{	static NMutexLock		sLock;
+{	static NMutexLock		*sLock = new NMutexLock;
+
 
 
 	// Get the lock
-	return(sLock);
+	//
+	// The lock is allowed to leak, to allow classes held in static
+	// variables to process timers during their destruction.
+	return(*sLock);
 }
 
 
