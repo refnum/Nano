@@ -29,6 +29,16 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Color formats
+//
+// Color formats define the order of components within a representation, not
+// a specific byte order.
+//
+// E.g., when represented as a UInt32, a kNColorARGB would be stored as:
+//
+//		NN_TARGET_ENDIAN_BIG		[AA] [RR] [GG] [BB]
+//		NN_TARGET_ENDIAN_LITTLE		[BB] [GG] [RR] [AA]
+//
+// In both cases, the alpha byte could be accessed by a right shift of 24.
 typedef enum {
 	kNColorARGB,
 	kNColorRGBA,
