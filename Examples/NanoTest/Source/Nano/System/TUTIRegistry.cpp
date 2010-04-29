@@ -26,8 +26,7 @@
 //		TUTIRegistry::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TUTIRegistry::Execute(void)
-{	NUTIRegistry		*theRegistry;
-	NString				theUTI;
+{	NUTIRegistry	*theRegistry;
 
 
 
@@ -37,8 +36,9 @@ void TUTIRegistry::Execute(void)
 
 
 	// Query
-	theUTI = theRegistry->Get()->GetUTI(kNUTITagClassFileExtension, ".jpg");
-	NN_ASSERT(theUTI == kNUTTypeJPEG);
+	NN_ASSERT(theRegistry->GetUTI(kNUTITagClassFileExtension, "gif") == kNUTTypeGIF);
+	NN_ASSERT(theRegistry->GetUTI(kNUTITagClassFileExtension, "png") == kNUTTypePNG);
+	NN_ASSERT(theRegistry->GetUTI(kNUTITagClassFileExtension, "jpg") == kNUTTypeJPEG);
 }
 
 

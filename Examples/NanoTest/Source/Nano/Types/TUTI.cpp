@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFile.h"
 #include "NUTI.h"
 
 #include "TUTI.h"
@@ -27,5 +28,12 @@
 //----------------------------------------------------------------------------
 void TUTI::Execute(void)
 {
+
+
+	// Execute the tests
+	NN_ASSERT(NFile("test.gif").GetUTI() == NUTI(kNUTTypeGIF));
+	NN_ASSERT(NFile("test.png").GetUTI() == NUTI(kNUTTypePNG));
+	NN_ASSERT(NFile("test.jpg").GetUTI() == NUTI(kNUTTypeJPEG));
 }
+
 

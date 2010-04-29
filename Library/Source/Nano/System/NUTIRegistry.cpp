@@ -280,14 +280,14 @@ void NUTIRegistry::InitializeRegistry(void)
 	AddUTI(       kNUTTypeImage, kNUTTypeData, kNUTITagClassNone, "");
 	AddConformsTo(kNUTTypeImage, kNUTTypeContent);
 
-	AddUTI(kNUTTypeGIF, kNUTTypeImage, kNUTITagClassMIMEType,      "image/gif");
-	AddTag(kNUTTypeGIF,                kNUTITagClassFileExtension, ".gif");
+	AddUTI(kNUTTypeGIF,  kNUTTypeImage, kNUTITagClassMIMEType,      "image/gif");
+	AddTag(kNUTTypeGIF,                 kNUTITagClassFileExtension, "gif");
 
-	AddUTI(kNUTTypePNG, kNUTTypeImage, kNUTITagClassMIMEType,      "image/png");
-	AddTag(kNUTTypePNG,                kNUTITagClassFileExtension, ".png");
+	AddUTI(kNUTTypePNG,  kNUTTypeImage, kNUTITagClassMIMEType,      "image/png");
+	AddTag(kNUTTypePNG,                 kNUTITagClassFileExtension, "png");
 
 	AddUTI(kNUTTypeJPEG, kNUTTypeImage, kNUTITagClassMIMEType,      "image/jpeg");
-	AddTag(kNUTTypeJPEG,                kNUTITagClassFileExtension, ".jpg");
+	AddTag(kNUTTypeJPEG,                kNUTITagClassFileExtension, "jpg");
 }
 
 
