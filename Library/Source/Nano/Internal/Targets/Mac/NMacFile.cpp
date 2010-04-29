@@ -284,7 +284,9 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 	if (theName.IsEmpty())
 		{
 		slashPos = thePath.Find("/", kNStringBackwards);
-		if (!slashPos.IsEmpty())
+		if (slashPos.IsEmpty())
+			theName = thePath;
+		else
 			theName = thePath.GetRight(thePath.GetSize() - slashPos.GetNext());
 		}
 

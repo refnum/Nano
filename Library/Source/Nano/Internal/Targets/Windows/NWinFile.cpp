@@ -187,7 +187,9 @@ NString NTargetFile::GetName(const NString &thePath, bool /*displayName*/)
 
 	// Get the file name
 	slashPos = thePath.Find("\\", kNStringBackwards);
-	if (!slashPos.IsEmpty())
+	if (slashPos.IsEmpty())
+		theName = thePath;
+	else
 		theName = thePath.GetRight(thePath.GetSize() - slashPos.GetNext());
 
 	return(theName);
