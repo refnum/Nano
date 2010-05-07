@@ -770,6 +770,12 @@ NStringUTF8 NStringFormatter::ParseFailed(NFormatContext &theContext, const NStr
 {
 
 
+	// Compiler warnings
+	NN_UNUSED(theToken);
+	NN_UNUSED(theError);
+
+
+
 	// Handle failure
 	NN_LOG("%s: '%s'", theError.c_str(), theToken.c_str());
 	theContext.gotError = true;
