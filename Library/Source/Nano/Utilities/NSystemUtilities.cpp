@@ -42,6 +42,11 @@ bool NSystemUtilities::GetBoolean(const NVariant &theValue, const NString &debug
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	theResult = false;
 
@@ -64,6 +69,11 @@ bool NSystemUtilities::GetBoolean(const NVariant &theValue, const NString &debug
 SInt32 NSystemUtilities::GetSInt32(const NVariant &theValue, const NString &debugID)
 {	NNumber		theNumber;
 	SInt32		theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
@@ -92,6 +102,11 @@ SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debu
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theNumber.SetValue(theValue))
 		{
@@ -114,6 +129,11 @@ SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debu
 Float32 NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &debugID)
 {	NNumber		theNumber;
 	Float32		theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
@@ -142,6 +162,11 @@ Float64 NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &de
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theNumber.SetValue(theValue))
 		{
@@ -163,6 +188,11 @@ Float64 NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &de
 //----------------------------------------------------------------------------
 NString NSystemUtilities::GetString(const NVariant &theValue, const NString &debugID)
 {	NString		theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
@@ -188,6 +218,11 @@ NData NSystemUtilities::GetData(const NVariant &theValue, const NString &debugID
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
@@ -207,6 +242,11 @@ NData NSystemUtilities::GetData(const NVariant &theValue, const NString &debugID
 //----------------------------------------------------------------------------
 NDate NSystemUtilities::GetDate(const NVariant &theValue, const NString &debugID)
 {	NDate		theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
@@ -232,6 +272,11 @@ NColor NSystemUtilities::GetColor(const NVariant &theValue, const NString &debug
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
@@ -251,6 +296,11 @@ NColor NSystemUtilities::GetColor(const NVariant &theValue, const NString &debug
 //----------------------------------------------------------------------------
 NPoint NSystemUtilities::GetPoint(const NVariant &theValue, const NString &debugID)
 {	NPoint		theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
@@ -276,6 +326,11 @@ NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
@@ -295,6 +350,11 @@ NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID
 //----------------------------------------------------------------------------
 NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NString &debugID)
 {	NRectangle	theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
@@ -320,6 +380,11 @@ NVector NSystemUtilities::GetVector(const NVariant &theValue, const NString &deb
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
@@ -342,6 +407,11 @@ NArray NSystemUtilities::GetArray(const NVariant &theValue, const NString &debug
 
 
 
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
@@ -361,6 +431,11 @@ NArray NSystemUtilities::GetArray(const NVariant &theValue, const NString &debug
 //----------------------------------------------------------------------------
 NDictionary NSystemUtilities::GetDictionary(const NVariant &theValue, const NString &debugID)
 {	NDictionary		theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
 
 
 
