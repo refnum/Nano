@@ -47,8 +47,7 @@ extern "C" {
 
 /*  On machines where "long" is 64 bits, we need to declare
     uint32 as something guaranteed to be 32 bits.  */
-
-#ifdef __alpha
+#if NN_TARGET_ARCH_64 || defined(__alpha)
 typedef unsigned int uint32;
 #else
 typedef unsigned long uint32;

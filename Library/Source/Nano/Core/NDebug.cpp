@@ -152,14 +152,14 @@ void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
 void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &theMsg)
 {	char				thePrefix[kPrefixBufferSize];
 	StLock				acquireLock(GetLock());
-	unsigned long		timeStamp;
+	UInt32				timeStamp;
 	const char			*fileName;
 	NStringUTF8			finalMsg;
 
 
 
 	// Get the state we need
-	timeStamp = (unsigned long) (NTimeUtilities::GetUpTime() / kNTimeMillisecond);
+	timeStamp = (UInt32) (NTimeUtilities::GetUpTime() / kNTimeMillisecond);
 	fileName  = mShowPath ? thePath : GetFileName(thePath);
 
 
