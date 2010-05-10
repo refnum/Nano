@@ -174,7 +174,7 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
 	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)										{ return(NSwapSInt32(theValue)); }
+	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
 
 	inline Float32 NSwapFloat32_LtoN(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
 	inline Float64 NSwapFloat64_LtoN(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
