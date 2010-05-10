@@ -52,6 +52,11 @@ void TString::Execute(void)
 
 
 
+	// Compiler warnings
+	NN_UNUSED(kValueText2_UTF8);
+
+
+
 	// Construction
 	testString1 = kValueCharPtr;
 	NN_ASSERT(testString1.GetSize() == (NIndex) strlen(kValueCharPtr));

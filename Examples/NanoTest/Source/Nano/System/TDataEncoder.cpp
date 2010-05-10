@@ -262,7 +262,8 @@ void TDataEncoder::Execute(void)
 
 
 	// Silence compiler warnings
-	(void) kTestDataB64;
+	NN_UNUSED(kTestDataB64);
+	NN_UNUSED(kTestDataHex);
 
 
 
