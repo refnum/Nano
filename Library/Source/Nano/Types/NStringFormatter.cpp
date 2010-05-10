@@ -191,8 +191,8 @@ void NStringUTF8::Replace(const NRange &theRange, const NStringUTF8 &replaceWith
 //============================================================================
 //		NFormatArgument::NFormatArgument : Constructor.
 //----------------------------------------------------------------------------
-NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueUInt,		_1, theValue));	}
-NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSInt,		_1, theValue));	}
+NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULong,		_1, (unsigned long) theValue));	}
+NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSLong,		_1, (  signed long) theValue));	}
 
 NFormatArgument::NFormatArgument(unsigned long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULong,		_1, theValue));	}
 NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSLong,		_1, theValue));	}
@@ -275,39 +275,9 @@ NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat) const
 
 
 //============================================================================
-//		NFormatArgument::GetValueUInt : Get an unsigned int value.
-//----------------------------------------------------------------------------
-#pragma mark -
-NStringUTF8 NFormatArgument::GetValueUInt(const NStringUTF8 &theFormat, unsigned int theValue)
-{
-
-
-	// Get the value
-	return(GetValue(theFormat, kFormatTypesInteger, theValue));
-}
-
-
-
-
-
-//============================================================================
-//		NFormatArgument::GetValueSInt : Get a signed int value.
-//----------------------------------------------------------------------------
-NStringUTF8 NFormatArgument::GetValueSInt(const NStringUTF8 &theFormat, signed int theValue)
-{
-
-
-	// Get the value
-	return(GetValue(theFormat, kFormatTypesInteger, theValue));
-}
-
-
-
-
-
-//============================================================================
 //		NFormatArgument::GetValueULong : Get an unsigned long value.
 //----------------------------------------------------------------------------
+#pragma mark -
 NStringUTF8 NFormatArgument::GetValueULong(const NStringUTF8 &theFormat, unsigned long theValue)
 {
 

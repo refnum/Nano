@@ -150,9 +150,6 @@ public:
 
 
 private:
-	NStringUTF8							GetValueUInt(const NStringUTF8 &theFormat, unsigned int theValue);
-	NStringUTF8							GetValueSInt(const NStringUTF8 &theFormat,   signed int theValue);
-
 	NStringUTF8							GetValueULong(const NStringUTF8 &theFormat, unsigned long theValue);
 	NStringUTF8							GetValueSLong(const NStringUTF8 &theFormat,   signed long theValue);
 
@@ -215,6 +212,17 @@ public:
 	//
 	// This allows custom objects to be printed using the %@ specifier, by
 	// providing a suitable NFormatArgument cast operator.
+	//
+	//
+	// On some platforms the UInt32/SInt32 types use a different underlying type
+	// for 64-bit vs 32-bit builds due to existing definitions in system headers.
+	//
+	// This means that a UInt32 is declared as an 'int' typedef on Mac 64-bit, vs
+	// a 'long' on Mac 32-bit.
+	//
+	// Since 'int' and 'long' strictly speaking require different format specifiers
+	// ('%d' and '%ld' respectively), NFormatArgument promotes all 'int' arguments
+	// to 'long' to allow '%ld' to be used for both.
 	NStringUTF8							Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
 
 
