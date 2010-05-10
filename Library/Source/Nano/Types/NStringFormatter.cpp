@@ -195,7 +195,7 @@ NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = new NFo
 NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSInt,		_1, theValue));	}
 
 NFormatArgument::NFormatArgument(unsigned long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULong,		_1, theValue));	}
-NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULong,		_1, theValue));	}
+NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSLong,		_1, theValue));	}
 
 NFormatArgument::NFormatArgument(unsigned long long theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueULongLong,	_1, theValue));	}
 NFormatArgument::NFormatArgument(  signed long long theValue)		{	mGetValue = new NFormatFunctor(BindSelf(NFormatArgument::GetValueSLongLong,	_1, theValue));	}
