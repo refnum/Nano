@@ -18,6 +18,7 @@
 #include "NTimeUtilities.h"
 #include "NWindows.h"
 #include "NBundle.h"
+#include "NTargetFile.h"
 #include "NTargetSystem.h"
 
 
@@ -223,11 +224,37 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 //----------------------------------------------------------------------------
 #pragma mark -
 void NTargetSystem::DebugLog(const char *theMsg)
-{
+{	static TCHAR		sLogFilePath[MAX_PATH];
+	static bool			sLogFileInited = false;
+
+	DWORD		bytesWritten;
+	HANDLE		hFile;
+
+
+
+	// Update our state
+	if (!sLogFileInited)
+		{
+		if (!GetEnvironmentVariable("NANO_LOG", sLogFilePath, MAX_PATH))
+			memset(sLogFilePath, 0x00, sizeof(sLogFilePath));
+
+		sLogFileInited = true;
+		}
+
 
 
 	// Log the message
 	OutputDebugStringA(theMsg);
+	
+	if (sLogFilePath[0])
+		{
+		hFile = CreateFile(sLogFilePath, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hFile != NULL)
+			{
+			WriteFile(hFile, theMsg, strlen(theMsg), &bytesWritten, NULL);
+			CloseHandle(hFile);
+			}
+		}
 }
 
 
