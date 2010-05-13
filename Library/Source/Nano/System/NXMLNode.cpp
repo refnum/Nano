@@ -239,7 +239,7 @@ void NXMLNode::RemoveChild(NXMLNode *theChild, bool destroyChild)
 
 	// Remove the child
 	theChild->mParent = NULL;
-	vector_erase(mChildren, theChild);
+	erase(mChildren, theChild);
 
 	if (destroyChild)
 		delete theChild;

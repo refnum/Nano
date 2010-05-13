@@ -181,6 +181,77 @@ template <class T> T combine(const T &container1, const T &container2)
 }
 
 
+// Search a container
+template <class T> bool contains(const T &container, const typename T::value_type &value) 
+{
+	return(std::find(container.begin(), container.end(), value) != container.end());
+}
+
+
+// Erase a value from a container
+template <class T> bool erase(T &container, const typename T::value_type &value)
+{	bool					hasValue;
+	typename T::iterator	iter;
+
+	do
+		{
+		iter     = find(container.begin(), container.end(), value);
+		hasValue = (iter != container.end());
+	
+		if (hasValue)
+			container.erase(iter);
+		}
+	while (hasValue);
+
+	return(hasValue);
+}
+
+
+// Extract the last item in a container
+template <class T> typename T::value_type extract_back(T &container)
+{	typename T::value_type	 value;
+
+	NN_ASSERT(!container.empty());
+
+	value = container.back();
+	container.pop_back();
+	
+	return(value);
+} 
+
+
+// Extract the first value in a container
+template <class T> typename T::value_type extract_front(T &container)
+{	typename T::value_type	 value;
+
+	NN_ASSERT(!container.empty());
+
+	value = container.front();
+	container.erase(container.begin());
+	
+	return(value);
+}
+
+
+// Reverse a container
+template <class T> void reverse(T &container) 
+{
+	std::reverse(container.begin(), container.end());
+}
+
+
+// Sort a container
+template <class T, class C> void sort(T &container, const C &comparator) 
+{
+	std::sort(container.begin(), container.end(), comparator);
+}
+
+template <class T> void sort(T &container) 
+{
+	std::sort(container.begin(), container.end());
+}
+
+
 // Remove duplicates from container
 template <class T> void uniquify(T &container, bool preserveOrder=true)
 {	T											theResult;
@@ -211,34 +282,6 @@ template <class T> void uniquify(T &container, bool preserveOrder=true)
 		}
 }
 
-
-
-
-
-// Extract the first value in a container
-template <class T> typename T::value_type extract_front(T &container)
-{	typename T::value_type	 value;
-
-	NN_ASSERT(!container.empty());
-
-	value = container.front();
-	container.erase(container.begin());
-	
-	return(value);
-} 
-
-
-// Extract the last item in a container
-template <class T> typename T::value_type extract_back(T &container)
-{	typename T::value_type	 value;
-
-	NN_ASSERT(!container.empty());
-
-	value = container.back();
-	container.pop_back();
-	
-	return(value);
-} 
 
 
 
