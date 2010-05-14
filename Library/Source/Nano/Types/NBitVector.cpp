@@ -147,7 +147,7 @@ NData NBitVector::GetBits(void) const
 	theSize = GetByteSize(GetSize());
 	if (mData.GetSize() != theSize)
 		{
-		thisPtr = (NBitVector *) this;
+		thisPtr = const_cast<NBitVector *>(this);
 
 		thisPtr->mData.SetSize(theSize);
 		thisPtr->UpdateSize(mSize);

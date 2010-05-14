@@ -109,7 +109,7 @@ bool NListener::IsListeningTo(const NBroadcaster *theBroadcaster) const
 		isListening = !mBroadcasters.empty();
 	else
 		{
-		theIter     = mBroadcasters.find((NBroadcaster *) theBroadcaster);
+		theIter     = mBroadcasters.find(const_cast<NBroadcaster*>(theBroadcaster));
 		isListening = (theIter != mBroadcasters.end());
 		}
 	

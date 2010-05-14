@@ -65,16 +65,16 @@ NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat, c
 	
 	// Convert the format
 	if (formatStr == kNDateFormatDefault)
-		;
+		{ }
 	
 	else if (formatStr == kNDateFormatShort)
-		;
+		{ }
 	
 	else if (formatStr == kNDateFormatMedium)
-		;
+		{ }
 	
 	else if (formatStr == kNDateFormatLong)
-		;
+		{ }
 
 
 

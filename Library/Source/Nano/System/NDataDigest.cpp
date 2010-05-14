@@ -225,7 +225,7 @@ UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevValue)
 //		NDataDigest::GetMD5 : Get an MD5 digest.
 //----------------------------------------------------------------------------
 NDigestMD5 NDataDigest::GetMD5(const NData &theData)
-{	NDigestMD5		theDigest = { 0 };
+{	NDigestMD5		theDigest;
 	MD5Context		theState;
 
 
@@ -236,6 +236,8 @@ NDigestMD5 NDataDigest::GetMD5(const NData &theData)
 
 
 	// Check our parameters
+	memset(&theDigest, 0x00, sizeof(theDigest));
+
 	if (theData.IsEmpty())
 		return(theDigest);
 
@@ -257,7 +259,7 @@ NDigestMD5 NDataDigest::GetMD5(const NData &theData)
 //		NDataDigest::GetSHA1 : Get an SHA1 digest.
 //----------------------------------------------------------------------------
 NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
-{	NDigestSHA1		theDigest = { 0 };
+{	NDigestSHA1		theDigest;
 
 
 
@@ -267,6 +269,8 @@ NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
 
 
 	// Check our parameters
+	memset(&theDigest, 0x00, sizeof(theDigest));
+
 	if (theData.IsEmpty())
 		return(theDigest);
 

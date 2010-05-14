@@ -110,13 +110,13 @@ private:
 	void								UpdateSize( NIndex numBits);
 	NIndex								GetByteSize(NIndex numBits) const;
 
-	inline const UInt8					*GetByteForBit(NIndex theIndex, NIndex &bitIndex) const;
+	inline UInt8					   *GetByteForBit(NIndex theIndex, NIndex &bitIndex) const;
 
 
 private:
 	NData								mData;
 	NIndex								mSize;
-	const UInt8							*mBytes;
+	mutable UInt8					   *mBytes;
 };
 
 
@@ -128,7 +128,7 @@ private:
 //----------------------------------------------------------------------------
 //		Note : Inlined for performance.
 //----------------------------------------------------------------------------
-inline const UInt8 *NBitVector::GetByteForBit(NIndex theIndex, NIndex &bitIndex) const
+inline UInt8 *NBitVector::GetByteForBit(NIndex theIndex, NIndex &bitIndex) const
 {	NIndex		byteIndex;
 
 
@@ -219,7 +219,7 @@ inline void NBitVector::SetBit(NIndex theIndex, bool theValue)
 
 
 	// Set the bit
-	bytePtr	= (UInt8 *) GetByteForBit(theIndex, bitIndex);
+	bytePtr	= GetByteForBit(theIndex, bitIndex);
 
 	if (theValue)
 		*bytePtr |=  (1 << bitIndex);

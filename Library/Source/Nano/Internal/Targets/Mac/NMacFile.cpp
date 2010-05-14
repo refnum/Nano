@@ -950,7 +950,7 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 
 
 	// Get the state we need
-	theIter = theInfo->pageTable.find((void *) thePtr);
+	theIter = theInfo->pageTable.find(const_cast<void *>(thePtr));
 	NN_ASSERT(theIter != theInfo->pageTable.end());
 
 	pagePtr  = theIter->second;

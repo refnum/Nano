@@ -1411,19 +1411,19 @@ SInt64 NPropertyList::DecodeMacBinary1_Integer(const MacBinary1_Info &theInfo, U
 
 	switch (theSize) {
 		case 1:
-			theValue =                   *((UInt8  *) thePtr);
+			theValue =                   *((const UInt8  *) thePtr);
 			break;
 
 		case 2:
-			theValue = NSwapUInt16_BtoN( *((UInt16 *) thePtr) );
+			theValue = NSwapUInt16_BtoN( *((const UInt16 *) thePtr));
 			break;
 
 		case 4:
-			theValue = NSwapUInt32_BtoN( *((UInt32 *) thePtr) );
+			theValue = NSwapUInt32_BtoN( *((const UInt32 *) thePtr));
 			break;
 
 		case 8:
-			theValue = NSwapSInt64_BtoN( *((SInt64 *) thePtr) );
+			theValue = NSwapSInt64_BtoN( *((const SInt64 *) thePtr));
 			break;
 
 		default:

@@ -698,7 +698,7 @@ template<class T> void NGeometryUtilities::ClipToEdge(const NPointT<T> &edgeStar
 			
 			// Case 2
 			else
-				;
+				{ }
 			}
 		
 		s = p;

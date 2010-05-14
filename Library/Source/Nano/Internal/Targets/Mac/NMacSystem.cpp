@@ -67,7 +67,7 @@ static void ExecuteTask(const NString &theCmd, const NString &cmdName, const NSt
 
 
 	// Execute the task
-	sysErr = execv(theCmd.GetUTF8(), (char * const *) &argList[0]);
+	sysErr = execv(theCmd.GetUTF8(), const_cast<char* const*>(&argList[0]));
 	NN_ASSERT(sysErr == 0);
 
 	_exit(EXIT_FAILURE);

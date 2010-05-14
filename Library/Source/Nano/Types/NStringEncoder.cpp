@@ -517,10 +517,11 @@ NStatus NStringEncoder::ConvertFromUTF32(const NData &srcData, NData &dstData, N
 //		NStringEncoder::ConvertUTF8ToUTF16 : Convert UTF8 to UTF16.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertUTF8ToUTF16(const NData &srcData, NData &dstData)
-{	const UInt8				*srcBase, *dstBase;
-	const UTF8				*srcStart, *srcEnd;
+{	const UTF8				*srcStart, *srcEnd;
 	UTF16					*dstStart, *dstEnd;
 	ConversionResult		theResult;
+	const UInt8				*srcBase;
+	UInt8					*dstBase;
 	NStatus					theErr;
 
 
@@ -554,10 +555,11 @@ NStatus NStringEncoder::ConvertUTF8ToUTF16(const NData &srcData, NData &dstData)
 //		NStringEncoder::ConvertUTF8ToUTF32 : Convert UTF8 to UTF32.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertUTF8ToUTF32(const NData &srcData, NData &dstData)
-{	const UInt8				*srcBase, *dstBase;
-	const UTF8				*srcStart, *srcEnd;
+{	const UTF8				*srcStart, *srcEnd;
 	UTF32					*dstStart, *dstEnd;
 	ConversionResult		theResult;
+	const UInt8				*srcBase;
+	UInt8					*dstBase;
 	NStatus					theErr;
 
 
@@ -591,10 +593,11 @@ NStatus NStringEncoder::ConvertUTF8ToUTF32(const NData &srcData, NData &dstData)
 //		NStringEncoder::ConvertUTF16ToUTF8 : Convert UTF16 to UTF8.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertUTF16ToUTF8(const NData &srcData, NData &dstData)
-{	const UInt8				*srcBase, *dstBase;
-	const UTF16				*srcStart, *srcEnd;
+{	const UTF16				*srcStart, *srcEnd;
 	UTF8					*dstStart, *dstEnd;
 	ConversionResult		theResult;
+	const UInt8				*srcBase;
+	UInt8					*dstBase;
 	NStatus					theErr;
 
 
@@ -628,10 +631,11 @@ NStatus NStringEncoder::ConvertUTF16ToUTF8(const NData &srcData, NData &dstData)
 //		NStringEncoder::ConvertUTF16ToUTF32 : Convert UTF16 to UTF32.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertUTF16ToUTF32(const NData &srcData, NData &dstData)
-{	const UInt8				*srcBase, *dstBase;
-	const UTF16				*srcStart, *srcEnd;
+{	const UTF16				*srcStart, *srcEnd;
 	UTF32					*dstStart, *dstEnd;
 	ConversionResult		theResult;
+	const UInt8				*srcBase;
+	UInt8					*dstBase;
 	NStatus					theErr;
 
 
@@ -665,10 +669,11 @@ NStatus NStringEncoder::ConvertUTF16ToUTF32(const NData &srcData, NData &dstData
 //		NStringEncoder::ConvertUTF32ToUTF8 : Convert UTF32 to UTF8.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertUTF32ToUTF8(const NData &srcData, NData &dstData)
-{	const UInt8				*srcBase, *dstBase;
-	const UTF32				*srcStart, *srcEnd;
+{	const UTF32				*srcStart, *srcEnd;
 	UTF8					*dstStart, *dstEnd;
 	ConversionResult		theResult;
+	const UInt8				*srcBase;
+	UInt8					*dstBase;
 	NStatus					theErr;
 
 
@@ -702,10 +707,11 @@ NStatus NStringEncoder::ConvertUTF32ToUTF8(const NData &srcData, NData &dstData)
 //		NStringEncoder::ConvertUTF32ToUTF16 : Convert UTF32 to UTF16.
 //----------------------------------------------------------------------------
 NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData)
-{	const UInt8				*srcBase, *dstBase;
-	const UTF32				*srcStart, *srcEnd;
+{	const UTF32				*srcStart, *srcEnd;
 	UTF16					*dstStart, *dstEnd;
 	ConversionResult		theResult;
+	const UInt8				*srcBase;
+	UInt8					*dstBase;
 	NStatus					theErr;
 
 

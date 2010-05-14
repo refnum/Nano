@@ -125,7 +125,7 @@ NCacheKeyString::~NCacheKeyString(void)
 //		NCacheKeyString::Compare : Compare the key.
 //----------------------------------------------------------------------------
 NComparison NCacheKeyString::Compare(const NCacheKey &theKey) const
-{	NCacheKeyString		*otherKey = (NCacheKeyString *) &theKey;
+{	const NCacheKeyString		*otherKey = (const NCacheKeyString *) &theKey;
 
 
 

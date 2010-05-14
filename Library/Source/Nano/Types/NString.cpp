@@ -1539,7 +1539,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 			
 			// No match found
 			else
-				;
+				{ }
 			}
 		
 		
