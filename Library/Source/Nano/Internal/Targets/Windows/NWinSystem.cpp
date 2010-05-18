@@ -235,7 +235,7 @@ void NTargetSystem::DebugLog(const char *theMsg)
 	// Update our state
 	if (!sLogFileInited)
 		{
-		if (!GetEnvironmentVariable("NANO_LOG", sLogFilePath, MAX_PATH))
+		if (!GetEnvironmentVariable(L"NANO_LOG", sLogFilePath, MAX_PATH))
 			memset(sLogFilePath, 0x00, sizeof(sLogFilePath));
 
 		sLogFileInited = true;
