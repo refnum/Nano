@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSystemUtilities.h"
 #include "NString.h"
 #include "NLocale.h"
 #include "NVariant.h"
@@ -39,6 +40,10 @@ public:
 	//
 	// Returns the application bundle if bundleID is empty.
 	static NFile						FindBundle(const NString &bundleID);
+
+
+	// Get the OS version
+	static OSVersion					GetOSVersion(void);
 
 
 	// Tasks

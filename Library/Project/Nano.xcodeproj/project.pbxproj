@@ -452,7 +452,7 @@
 		AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
 		AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacFile.cpp; sourceTree = "<group>"; };
 		AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacMath.cpp; sourceTree = "<group>"; };
-		AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacSystem.cpp; sourceTree = "<group>"; };
+		AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacSystem.cpp; sourceTree = "<group>"; };
 		AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTarget.cpp; sourceTree = "<group>"; };
 		AB9155240F9B4DD6009FFEAF /* NMacTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMacTarget.h; sourceTree = "<group>"; };
 		AB9155250F9B4DD6009FFEAF /* NMacThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacThread.cpp; sourceTree = "<group>"; };

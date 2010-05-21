@@ -26,9 +26,13 @@
 //		TSystemUtilities::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TSystemUtilities::Execute(void)
-{
+{	OSVersion	theVers;
 
 
+
+	// Version
+	theVers = NSystemUtilities::GetOSVersion();
+	NN_ASSERT(theVers != kOSUnknown);
 }
 
 

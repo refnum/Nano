@@ -301,6 +301,52 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 
 
 //============================================================================
+//      NTargetSystem::GetOSVersion : Get the OS version.
+//----------------------------------------------------------------------------
+OSVersion NTargetSystem::GetOSVersion(void)
+{	OSVERSIONINFOEX		theInfo;
+	OSVersion			theVers;
+	
+
+
+	// Get the state we need
+	memset(&theInfo, 0x00, sizeof(theInfo));
+	theInfo.dwOSVersionInfoSize = sizeof(theInfo);
+
+	if (!GetVersionEx(&theInfo))
+		return(kOSUnknown);
+
+
+
+	// Identify the OS
+	theVers = kOSUnknown;
+	
+	if (	theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 1 && theInfo.wProductType == VER_NT_WORKSTATION)
+		theVers = kOSWinSeven;
+
+	else if (theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 0 && theInfo.wProductType == VER_NT_WORKSTATION)
+		theVers = kOSWinVista;
+
+	else if (theInfo.dwMajorVersion == 5 && theInfo.dwMinorVersion == 1)
+		{
+		if (theInfo.wServicePackMajor == 3)
+			theVers = kOSWinXP_SP3;
+
+		else if (theInfo.wServicePackMajor == 2)
+			theVers = kOSWinXP_SP2;
+
+		else
+			theVers = kOSWinXP;
+		}
+	
+	return(theVers);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetSystem::TaskCreate : Create a task.
 //----------------------------------------------------------------------------
 TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &theArgs)

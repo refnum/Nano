@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
 #include "NMathUtilities.h"
+#include "NTargetSystem.h"
 #include "NTargetThread.h"
 #include "NThread.h"
 
@@ -490,6 +491,21 @@ void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 	theTimer = new NTimer;
 	if (theTimer != NULL)
 		theTimer->AddTimer(BindFunction(NSystemUtilities::DelayedFunctor, theTimer, theFunctor, onMainThread), theDelay);
+}
+
+
+
+
+
+//============================================================================
+//		NSystemUtilities::GetOSVersion : Get the OS version.
+//----------------------------------------------------------------------------
+OSVersion NSystemUtilities::GetOSVersion(void)
+{
+
+
+	// Get the version
+	return(NTargetSystem::GetOSVersion());
 }
 
 

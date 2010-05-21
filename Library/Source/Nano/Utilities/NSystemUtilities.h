@@ -36,7 +36,48 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Misc
 static const NTime kNFunctorDelayTime								= 250 * kNTimeMillisecond;
+
+
+// Operating system version
+//
+// Later releases are always numerically higher than older releases, and any
+// named version is always higher than the generic release for that platform.
+typedef enum {
+	kOSUnknown														= 0,
+
+	kOSMac															= 0x6d000000,
+	kOSMacTenFive													= 0x6d0a0500,
+	kOSMacTenFiveOne												= 0x6d0a0501,
+	kOSMacTenFiveTwo												= 0x6d0a0502,
+	kOSMacTenFiveThree												= 0x6d0a0503,
+	kOSMacTenFiveFour												= 0x6d0a0504,
+	kOSMacTenFiveFive												= 0x6d0a0505,
+	kOSMacTenFiveSix												= 0x6d0a0506,
+	kOSMacTenFiveSeven												= 0x6d0a0507,
+	kOSMacTenFiveEight												= 0x6d0a0508,
+	kOSMacTenFiveNine												= 0x6d0a0509,
+	kOSMacTenSix													= 0x6d0a0600,
+	kOSMacTenSixOne													= 0x6d0a0601,
+	kOSMacTenSixTwo													= 0x6d0a0602,
+	kOSMacTenSixThree												= 0x6d0a0603,
+
+	kOSWinXP														= 0x78000000,
+	kOSWinXP_SP2													= 0x78000200,
+	kOSWinXP_SP3													= 0x78000300,
+	kOSWinVista														= 0x76000000,
+	kOSWinSeven														= 0x37000000,
+
+	kOSIPhone														= 0x69000000,
+	kOSIPhoneTwo													= 0x69020000,
+	kOSIPhoneTwoOne													= 0x69020100,
+	kOSIPhoneTwoTwo													= 0x69020200,
+	kOSIPhoneThree													= 0x69030000,
+	kOSIPhoneThreeOne												= 0x69030100,
+	kOSIPhoneThreeTwo												= 0x69030200,
+	kOSIPhoneFour													= 0x69040000
+} OSVersion;
 
 
 
@@ -90,6 +131,10 @@ public:
 	//
 	// The functor can be invoked on the main thread, or on a new one-shot thread.
 	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool onMainThread=true);
+
+
+	// Get the system version
+	static OSVersion					GetOSVersion(void);
 
 
 	// Compare two version strings

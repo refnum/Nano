@@ -181,6 +181,29 @@ static void DoNotification(CFNotificationCenterRef		/*cfCenter*/,
 
 
 //============================================================================
+//		GestaltSInt32 : Get a gestalt value.
+//----------------------------------------------------------------------------
+#if NN_TARGET_MAC
+static SInt32 GestaltSInt32(OSType theSelector)
+{	SInt32		theValue;
+	OSStatus	theErr;
+
+
+
+	// Get the value
+	theErr = Gestalt(theSelector, &theValue);
+	if (theErr != noErr)
+		theValue = 0;
+	
+	return(theValue);
+}
+#endif // NN_TARGET_MAC
+
+
+
+
+
+//============================================================================
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -225,6 +248,58 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 		}
 	
 	return(theFile);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetSystem::GetOSVersion : Get the OS version.
+//----------------------------------------------------------------------------
+OSVersion NTargetSystem::GetOSVersion(void)
+{	SInt32		verTarget, verMajor, verMinor, verBugFix;
+	OSVersion	theVers;
+
+
+
+#if NN_TARGET_MAC
+
+	verTarget = (SInt32) kOSMac;
+	verMajor  = GestaltSInt32(gestaltSystemVersionMajor);
+	verMinor  = GestaltSInt32(gestaltSystemVersionMinor);
+	verBugFix = GestaltSInt32(gestaltSystemVersionBugFix);
+	
+	verMajor <<= 16;
+	verMinor <<=  8;
+
+	theVers = (OSVersion) (verTarget | verMajor | verMinor | verBugFix);
+
+
+
+#elif NN_TARGET_IPHONE
+
+	StAutoReleasePool		autoRelease;
+	NSArray					*theArray;
+	NIndex					numParts;
+	
+	theArray = [[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."];
+	numParts = [theArray count];
+
+	verTarget  = (SInt32) kOSIPhone;
+    verMajor   = (numParts >= 1) ? [[theArray objectAtIndex:0] intValue] : 0;
+	verMinor   = (numParts >= 2) ? [[theArray objectAtIndex:1] intValue] : 0;
+	verBugFix  = (numParts >= 3) ? [[theArray objectAtIndex:2] intValue] : 0;
+
+	theVers = (OSVersion) (verTarget | verMajor | verMinor | verBugFix);
+
+
+
+#else
+	theVers = kOSUnknown;
+#endif
+
+	return(theVers);
 }
 
 
