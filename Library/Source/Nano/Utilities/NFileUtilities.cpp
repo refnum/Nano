@@ -17,6 +17,7 @@
 #include "NTargetPOSIX.h"
 #include "NTargetFile.h"
 #include "NStringEncoder.h"
+#include "NFileIterator.h"
 #include "NFileUtilities.h"
 
 
@@ -186,6 +187,25 @@ NFile NFileUtilities::GetCWD(void)
 		}
 
 	return(theFile);
+}
+
+
+
+
+
+//============================================================================
+//		NFileUtilities::GetFiles : Get files that match a pattern.
+//----------------------------------------------------------------------------
+NFileList NFileUtilities::GetFiles(const NFile &startAt, const NString &matchName, const NString &matchPath)
+{	NFileIterator	theIter;
+
+
+
+	// Find the files
+	theIter.SetPatternName(matchName);
+	theIter.SetPatternPath(matchPath);
+
+	return(theIter.GetFiles(startAt));
 }
 
 

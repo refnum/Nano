@@ -71,6 +71,10 @@ public:
 	static NFile						GetCWD(void);
 
 
+	// Get files that match a pattern
+	static NFileList					GetFiles(const NFile &startAt, const NString &matchName="", const NString &matchPath="");
+
+
 	// Get a standard directory
 	//
 	// Returns the appropriate directory within the specified domain, creating it if necessary.
