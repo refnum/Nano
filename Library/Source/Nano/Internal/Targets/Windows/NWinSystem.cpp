@@ -313,7 +313,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 	memset(&theInfo, 0x00, sizeof(theInfo));
 	theInfo.dwOSVersionInfoSize = sizeof(theInfo);
 
-	if (!GetVersionEx(&theInfo))
+	if (!GetVersionEx((LPOSVERSIONINFO) &theInfo))
 		return(kOSUnknown);
 
 
