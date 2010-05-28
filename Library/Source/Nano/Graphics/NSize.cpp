@@ -236,6 +236,147 @@ template<class T> NComparison NSizeT<T>::Compare(const NSizeT &theValue) const
 
 
 //============================================================================
+//		NSizeT::Normalize : Normalize the size.
+//----------------------------------------------------------------------------
+template<class T> void NSizeT<T>::Normalize(void)
+{
+
+
+	// Update our state
+	*this = GetNormalized();
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::MakeIntegral : Make the size integral.
+//----------------------------------------------------------------------------
+template<class T> void NSizeT<T>::MakeIntegral(void)
+{
+
+
+	// Update our state
+	*this = GetIntegral();
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::Resize : Resize the size.
+//----------------------------------------------------------------------------
+template<class T> void NSizeT<T>::Resize(T deltaX, T deltaY)
+{
+
+
+	// Update our state
+	*this = GetResized(deltaX, deltaY);
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::Scale : Scale the size.
+//----------------------------------------------------------------------------
+template<class T> void NSizeT<T>::Scale(T scaleBy)
+{
+
+
+	// Update our state
+	*this = GetScaled(scaleBy);
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::GetNormalized : Get the normalized size.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T> NSizeT<T>::GetNormalized(void) const
+{	NSizeT<T>	theResult;
+
+
+
+	// Noramlize the size
+	//
+	// A normalized size has positive width and height.
+	theResult.width  = (width  < (T) 0) ? -width  : width;
+	theResult.height = (height < (T) 0) ? -height : height;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::GetIntegral : Get the integral size.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T> NSizeT<T>::GetIntegral(void) const
+{	NSizeT<T>		theResult;
+
+
+
+	// Get the integral size
+	//
+	// An integral size has its size rounded up, to create a (potentially
+	// larger) size with integer coordinates.
+	theResult.width  = ceil(width);
+	theResult.height = ceil(height);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::GetResized : Resize the size.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T> NSizeT<T>::GetResized(T deltaX, T deltaY) const
+{	NSizeT<T>	theResult;
+
+
+
+	// Resize the size
+	theResult.width  = width  + deltaX;
+	theResult.height = height + deltaY;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NSizeT::GetScaled : Scale the size.
+//----------------------------------------------------------------------------
+template<class T> NSizeT<T> NSizeT<T>::GetScaled(T scaleBy) const
+{	NSizeT<T>		theResult;
+
+
+
+	// Scale the size
+	theResult.width  = width  * scaleBy;
+	theResult.height = height * scaleBy;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NSizeT::NEncodable : NEncodable operator.
 //----------------------------------------------------------------------------
 template<class T> NSizeT<T>::operator NEncodable(void) const

@@ -75,6 +75,18 @@ public:
 	NComparison							Compare(const NSizeT<T> &theValue) const;
 
 
+	// Manipulate the size
+	void								Normalize(void);
+	void								MakeIntegral(void);
+	void								Resize(T deltaX, T deltaY);
+	void								Scale( T scaleBy);
+
+	NSizeT<T>							GetNormalized(void)            const;
+	NSizeT<T>							GetIntegral(void)              const;
+	NSizeT<T>							GetResized(T deltaX, T deltaY) const;
+	NSizeT<T>							GetScaled( T scaleBy)          const;
+
+
 	// Operators
 	NCOMPARABLE_OPERATORS(NSizeT<T>);
 
