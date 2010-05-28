@@ -65,22 +65,22 @@ NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat, c
 	
 	// Convert the format
 	if (formatStr == kNDateFormatDefault)
-		{ }
+		theResult.Format("%02d/%02d/%02d %02d:%02d:%02d",	gregDate.year, gregDate.month,          gregDate.day,
+															gregDate.hour, gregDate.minute, (SInt8) gregDate.second);
 	
 	else if (formatStr == kNDateFormatShort)
-		{ }
+		{ }	// "23/11/37"
 	
 	else if (formatStr == kNDateFormatMedium)
-		{ }
+		{ } // "Nov 23, 1937"
 	
 	else if (formatStr == kNDateFormatLong)
-		{ }
+		{ } // "November 23, 1937"
 
 
 
 	// Format the date
 	NN_LOG("NDateFormatter::Format - NOT IMPLEMENTED");
-	theResult.Format("%g", theDate.GetTime());
 	
 	return(theResult);
 }
