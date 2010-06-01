@@ -35,11 +35,6 @@ public:
 
 	// Get the time since boot
 	static NTime						GetUpTime(void);
-
-
-	// Get the interval between two dates
-	static NGregorianUnits				GetInterval(const NDate &theStart, const NDate &theEnd);
-	static NGregorianUnits				GetInterval(const NTime &theStart, const NTime &theEnd);
 };
 
 

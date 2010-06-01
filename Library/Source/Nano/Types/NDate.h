@@ -109,8 +109,8 @@ class NDate :	public NEncodable,
 public:
 										NENCODABLE_DECLARE(NDate);
 
-										 NDate(const NGregorianDate &theDate, const NString &timeZone);
-										 NDate(const NTime          &theTime);
+										NDate(const NGregorianDate &theDate, const NString &timeZone);
+										NDate(const NTime          &theTime);
 
 										NDate(void);
 	virtual							   ~NDate(void);
@@ -137,6 +137,10 @@ public:
 	// Get/set the time
 	NTime								GetTime(void) const;
 	void								SetTime(const NTime &theTime);
+
+
+	// Get an interval
+	NGregorianUnits						GetInterval(const NDate &theDate) const;
 
 
 	// Operators

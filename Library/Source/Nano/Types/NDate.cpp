@@ -254,6 +254,73 @@ void NDate::SetTime(const NTime &theTime)
 
 
 //============================================================================
+//		NDate::GetInterval : Get an interval.
+//----------------------------------------------------------------------------
+NGregorianUnits NDate::GetInterval(const NDate &theDate) const
+{	NGregorianUnits		gregDelta;
+	NTime				theDelta;
+
+
+
+	// Get the state we need
+	memset(&gregDelta, 0x00, sizeof(gregDelta));
+
+	theDelta = theDate.GetTime() - GetTime();
+	NN_ASSERT(theDelta >= 0.0);
+
+
+
+	// Get the interval
+	//
+	// This is an approximation, and is inaccurate for differences longer
+	// than a month (with the larger the difference, the worse the result).
+	while (theDelta > 0.0)
+		{
+		if (theDelta >= kNTimeYearish)
+			{
+			gregDelta.years += 1;
+			theDelta        -= kNTimeYearish;
+			}
+		
+		else if (theDelta >= kNTimeMonthish)
+			{
+			gregDelta.months += 1;
+			theDelta         -= kNTimeMonthish;
+			}
+
+		else if (theDelta >= kNTimeDay)
+			{
+			gregDelta.days += 1;
+			theDelta       -= kNTimeDay;
+			}
+		
+		else if (theDelta >= kNTimeHour)
+			{
+			gregDelta.hours += 1;
+			theDelta        -= kNTimeHour;
+			}
+		
+		else if (theDelta >= kNTimeMinute)
+			{
+			gregDelta.minutes += 1;
+			theDelta          -= kNTimeMinute;
+			}
+
+		else if (theDelta > 0.0)
+			{
+			gregDelta.seconds = theDelta;
+			break;
+			}
+		}
+
+	return(gregDelta);
+}
+
+
+
+
+
+//============================================================================
 //		NDate::+= : Addition operator.
 //----------------------------------------------------------------------------
 const NDate& NDate::operator += (const NTime &theDelta)
@@ -276,14 +343,18 @@ const NDate& NDate::operator += (const NTime &theDelta)
 const NDate& NDate::operator += (const NGregorianUnits &theDelta)
 {
 
-	// TO DO
-	NN_UNUSED(theDelta);
-	NN_LOG("NDate does not support NGregorianUnits addition");
-
-
 
 	// Add the delta
-	
+	//
+	// This is an approximation, and is inaccurate for differences longer
+	// than a month (with the larger the difference, the worse the result).
+	mTime += (theDelta.years   * kNTimeYearish);
+	mTime += (theDelta.months  * kNTimeMonthish);
+	mTime += (theDelta.days    * kNTimeDay);
+	mTime += (theDelta.hours   * kNTimeHour);
+	mTime += (theDelta.minutes * kNTimeMinute);
+	mTime +=  theDelta.seconds;
+
 	return(*this);
 }
 
