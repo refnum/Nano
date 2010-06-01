@@ -29,6 +29,8 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Time zones
+//
+// The default time zone is that of the current user.
 static const NString kNTimeZoneDefault								= "*default*";
 static const NString kNTimeZoneUTC									= "UTC";
 
@@ -45,21 +47,19 @@ static const NString kNTimeZoneEST									= "EST";
 // Date formats
 //
 // Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>.
-//
-// However we also support some meta-formats, whose exact representation may
-// between releases and targets (or due to the user's preferences).
-static const NString kNDateFormatDefault							= "";
-static const NString kNDateFormatShort								= "*short*";
-static const NString kNDateFormatMedium								= "*medium*";
-static const NString kNDateFormatLong								= "*long*";
+static const NString kNDateFormatDefault							= "HH:mm yy/mm/dd";
+static const NString kNDateFormatShort								= "HH:mm yy/mm/dd";
+static const NString kNDateFormatMedium								= "hh:mma dd mmm, yyyy";
+static const NString kNDateFormatLong								= "hh:mma dd mmmm, yyyy G";
 
 
 // Epochs
 //
 // The Nano Epoch starts at 00:00:00 on 2001/01/01 in UTC.
-static const NTime kNEpochTimeSince1970								= 978307200.0;
-static const NTime kNEpochTimeSince1904								= 3061152000.0;
-static const NTime kNEpochTimeSince1601								= kNEpochTimeSince1970 + 11644473600.0;
+static const NTime kNEpochTimeSince2001								= 0.0;				// CF
+static const NTime kNEpochTimeSince1970								= 978307200.0;		// Unix
+static const NTime kNEpochTimeSince1904								= 3061152000.0;		// Classic Mac
+static const NTime kNEpochTimeSince1601								= 14705625600.0;	// Windows
 
 
 
@@ -69,6 +69,8 @@ static const NTime kNEpochTimeSince1601								= kNEpochTimeSince1970 + 11644473
 //      Types
 //----------------------------------------------------------------------------
 // Gregorian date
+//
+// Gregorian dates only exist relative to a given time zone.
 typedef struct {
 	SInt32			year;			// Absolute value
 	SInt8			month;			// 1..12

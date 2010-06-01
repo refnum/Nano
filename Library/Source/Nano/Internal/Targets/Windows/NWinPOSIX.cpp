@@ -213,42 +213,6 @@ NIndex NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 
 
 //============================================================================
-//		NTargetPOSIX::gmtime : Windows gmtime.
-//----------------------------------------------------------------------------
-struct tm NTargetPOSIX::gmtime(time_t theTime)
-{	struct tm		theResult;
-
-
-
-	// Get the value
-	//
-	// gmtime uses thread-local storage on Windows, so is always thread-safe.
-	theResult = *::gmtime(&theTime);
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetPOSIX::timegm : Windows timegm.
-//----------------------------------------------------------------------------
-time_t NTargetPOSIX::timegm(const struct tm *tm)
-{	struct tm	localTM = *tm;
-
-
-
-	// Get the value
-	return(::_mkgmtime32(&localTM));
-}
-
-
-
-
-
-//============================================================================
 //		NTargetPOSIX::getcwd : Windows getcwd.
 //----------------------------------------------------------------------------
 char *NTargetPOSIX::getcwd(char *buf, size_t size)

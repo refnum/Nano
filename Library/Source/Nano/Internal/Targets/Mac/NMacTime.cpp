@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 #include <sys/sysctl.h>
 
-#include "NCFObject.h"
+#include "NCFString.h"
 #include "NTargetTime.h"
 
 
@@ -57,8 +57,33 @@ static NMutexLock &GetTimerLock(void)
 
 
 //============================================================================
-//		Internal functions
+//		GetTimeZone : Get a time zone.
 //----------------------------------------------------------------------------
+static NCFObject GetTimeZone(const NCFString &timeZone)
+{	NCFObject		cfTimeZone;
+
+
+
+	// Get the time zone
+	if (timeZone == kNTimeZoneDefault)
+		cfTimeZone.SetObject(CFTimeZoneCopyDefault());
+
+	else
+		{
+		NN_ASSERT(timeZone.GetSize() == 3);
+		cfTimeZone.SetObject(CFTimeZoneCreateWithName(kCFAllocatorNano, timeZone.GetObject(), true));
+		}
+
+	NN_ASSERT(cfTimeZone.IsValid());
+
+	return(cfTimeZone);
+}
+
+
+
+
+
+//============================================================================
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void TimerCallback(CFRunLoopTimerRef cfTimer, void */*userData*/)
@@ -250,6 +275,72 @@ void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 }
 
 
+
+
+
+//============================================================================
+//		NTargetTime::ConvertTimeToDate : Convert a UTC time to a date.
+//----------------------------------------------------------------------------
+NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &timeZone)
+{	NCFObject			cfTimeZone;
+	NGregorianDate		theDate;
+	CFGregorianDate		cfDate;
+	CFAbsoluteTime		cfTime;
+
+
+
+	// Get the state we need
+	cfTimeZone = GetTimeZone(timeZone);
+	cfTime     = theTime - kNEpochTimeSince2001;
+
+
+
+	// Convert the time
+	cfDate = CFAbsoluteTimeGetGregorianDate(cfTime, cfTimeZone);
+	
+	theDate.year   = cfDate.year;
+	theDate.month  = cfDate.month;
+	theDate.day    = cfDate.day;
+	theDate.hour   = cfDate.hour;
+	theDate.minute = cfDate.minute;
+	theDate.second = cfDate.second;
+	
+	return(theDate);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::ConvertDateToTime : Convert a date to a UTC time.
+//----------------------------------------------------------------------------
+NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate, const NString &timeZone)
+{	NCFObject			cfTimeZone;
+	NTime				theTime;
+	CFGregorianDate		cfDate;
+	CFAbsoluteTime		cfTime;
+
+
+
+	// Get the state we need
+	cfTimeZone = GetTimeZone(timeZone);
+
+	cfDate.year   = theDate.year;
+	cfDate.month  = theDate.month;
+	cfDate.day    = theDate.day;
+	cfDate.hour   = theDate.hour;
+	cfDate.minute = theDate.minute;
+	cfDate.second = theDate.second;
+
+
+
+	// Convert the date
+	cfTime  = CFGregorianDateGetAbsoluteTime(cfDate, cfTimeZone);
+	theTime = cfTime + kNEpochTimeSince2001;
+	
+	return(theTime);
+}
 
 
 

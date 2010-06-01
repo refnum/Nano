@@ -45,11 +45,6 @@ public:
 	static NIndex						snprintf( char *s, size_t n, const char *format, ...);
 
 
-	// time.h
-	static struct tm					gmtime(time_t theTime);
-	static time_t						timegm(const struct tm *tm);
-
-
 	// unistd.h
 	static char *						getcwd(char *buf, size_t size);
 };

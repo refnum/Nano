@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTimer.h"
+#include "NDate.h"
 
 
 
@@ -41,6 +42,14 @@ public:
 	static NTimerID						TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery);
 	static void							TimerDestroy(NTimerID theTimer);
 	static void							TimerReset(  NTimerID theTimer, NTime fireAfter);
+
+
+	// Date/time conversion
+	//
+	// NTime values are always in UTC, relative to the Nano epoch, while gregorian
+	// dates are always in a named time zone.
+	static NGregorianDate				ConvertTimeToDate(      NTime           theTime, const NString &timeZone);
+	static NTime						ConvertDateToTime(const NGregorianDate &theDate, const NString &timeZone);
 };
 
 

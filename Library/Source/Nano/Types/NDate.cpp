@@ -18,7 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
-#include "NTargetPOSIX.h"
+#include "NTargetTime.h"
 #include "NDateFormatter.h"
 #include "NEncoder.h"
 #include "NString.h"
@@ -132,7 +132,7 @@ NString NDate::GetString(const NString &theFormat, const NString &timeZone) cons
 
 
 
-	// Get the value
+	// Get the time
 	theResult = theFormatter.Format(*this, theFormat, timeZone);
 
 	return(theResult);
@@ -146,37 +146,11 @@ NString NDate::GetString(const NString &theFormat, const NString &timeZone) cons
 //		NDate::GetGregorianDate : Get the Gregorian date.
 //----------------------------------------------------------------------------
 NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
-{	NTime				secsFloor, secsFrac;
-	time_t				timeUnix;
-	struct tm			timeGreg;
-	NGregorianDate		theDate;
+{
 
 
-
-	// TO DO - need to support time zones
-	NN_UNUSED(timeZone);
-	NN_LOG("NDate only supports UTC");
-
-
-
-	// Get the state we need
-	secsFloor = floor(mTime);
-	secsFrac  = mTime - secsFloor;
-
-	timeUnix = (time_t) (secsFloor + kNEpochTimeSince1970);
-	timeGreg = NTargetPOSIX::gmtime(timeUnix);
-
-
-
-	// Convert the date
-	theDate.year   = ((SInt32)  timeGreg.tm_year) + 1900;
-	theDate.month  = ((SInt8)   timeGreg.tm_mon)  + 1;
-	theDate.day    = ((SInt8)   timeGreg.tm_mday);
-	theDate.hour   = ((SInt8)   timeGreg.tm_hour);
-	theDate.minute = ((SInt8)   timeGreg.tm_min);
-	theDate.second = ((Float64) timeGreg.tm_sec) + secsFrac;
-
-	return(theDate);
+	// Get the time
+	return(NTargetTime::ConvertTimeToDate(mTime, timeZone));
 }
 
 
@@ -187,36 +161,11 @@ NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
 //		NDate::SetGregorianDate : Set the Gregorian date.
 //----------------------------------------------------------------------------
 void NDate::SetGregorianDate(const NGregorianDate &theDate, const NString &timeZone)
-{	NTime			secsFloor, secsFrac;
-	time_t			timeUnix;
-	struct tm		timeGreg;
+{
 
 
-
-	// TO DO - need to support time zones
-	if (timeZone != kNTimeZoneUTC)
-		NN_LOG("NDate only supports UTC");
-
-
-
-	// Get the state we need
-	secsFloor = floor(theDate.second);
-	secsFrac  = theDate.second - secsFloor;
-	
-	memset(&timeGreg, 0x00, sizeof(timeGreg));
-
-
-
-	// Convert the date
-	timeGreg.tm_year = theDate.year  - 1900;
-	timeGreg.tm_mon  = theDate.month - 1;
-	timeGreg.tm_mday = theDate.day;
-	timeGreg.tm_hour = theDate.hour;
-	timeGreg.tm_min  = theDate.minute;
-	timeGreg.tm_sec  = (int) secsFloor;
-
-	timeUnix = NTargetPOSIX::timegm(&timeGreg);
-	mTime    = (timeUnix - kNEpochTimeSince1970) + secsFrac;
+	// Set the time
+	mTime = NTargetTime::ConvertDateToTime(theDate, timeZone);
 }
 
 

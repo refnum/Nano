@@ -310,3 +310,36 @@ void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 
 
 
+
+//============================================================================
+//		NTargetTime::ConvertTimeToDate : Convert a UTC time to a date.
+//----------------------------------------------------------------------------
+NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &timeZone)
+{	NGregorianDate		theDate;
+
+
+
+	// dair, to do
+	memset(&theDate, 0x00, sizeof(theDate));
+	return(theDate);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetTime::ConvertDateToTime : Convert a date to a UTC time.
+//----------------------------------------------------------------------------
+NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate, const NString &timeZone)
+{	NTime	theTime;
+
+
+
+	// dair, to do
+	theTime = 0.0;
+	
+	return(theTime);
+}
+
+
