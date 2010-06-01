@@ -21,6 +21,20 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+// Literals
+//
+// Must be #defines to ensure formatting can be perfored during static initialization.
+#define kFormatTypes													"GyYuQqMLwWdDFgEecahHKkmsSAzZv'"
+
+#define kSingleQuote													'\''
+
+
+
+
+
+//============================================================================
 //		NDateFormatter::NDateFormatter : Constructor.
 //----------------------------------------------------------------------------
 NDateFormatter::NDateFormatter(void)
@@ -46,44 +60,187 @@ NDateFormatter::~NDateFormatter(void)
 //		NDateFormatter::Format : Format a date.
 //----------------------------------------------------------------------------
 NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat, const NString &timeZone) const
-{	NString				formatStr, theResult;
+{	const char			*textUTF8, *tokenStart, *tokenEnd;
+	NString				theResult, theToken;
 	NGregorianDate		gregDate;
-
-
-
-	// TO DO - need to support time zones
-	NN_UNUSED(timeZone);
-	NN_LOG("NDateFormatter only supports UTC");
+	bool				areDone;
 
 
 
 	// Get the state we need
-	gregDate  = theDate.GetGregorianDate();
-	formatStr = theFormat;
-	
-	
-	
-	// Convert the format
-	if (formatStr == kNDateFormatDefault)
-		theResult.Format("%02d/%02d/%02d %02d:%02d:%02d",	gregDate.year, gregDate.month,          gregDate.day,
-															gregDate.hour, gregDate.minute, (SInt8) gregDate.second);
-	
-	else if (formatStr == kNDateFormatShort)
-		{ }	// "23/11/37"
-	
-	else if (formatStr == kNDateFormatMedium)
-		{ } // "Nov 23, 1937"
-	
-	else if (formatStr == kNDateFormatLong)
-		{ } // "November 23, 1937"
+	gregDate = theDate.GetGregorianDate(timeZone);
+	textUTF8 = theFormat.GetUTF8();
+	areDone  = false;
 
 
 
 	// Format the date
-	NN_LOG("NDateFormatter::Format - NOT IMPLEMENTED");
-	
+	while (!areDone)
+		{
+		// Find the next token
+		tokenStart = strpbrk(textUTF8, kFormatTypes);
+		if (tokenStart == NULL)
+			break;
+
+		tokenEnd = GetTokenEnd(tokenStart);
+		theToken = NString(tokenStart, tokenEnd - tokenStart + 1);
+
+
+
+		// Append the text to this point
+		theResult += NString(textUTF8, tokenStart - textUTF8);
+		textUTF8   = tokenEnd + 1;
+
+
+
+		// Append the token
+		switch (*tokenStart) {
+			case kSingleQuote:
+				theResult += GetLiteral(gregDate, theToken);
+				break;
+
+			case 'G':
+				theResult += GetEra(gregDate, theToken);
+				break;
+
+			default:
+				NN_LOG("Unknown token: %c", *tokenStart);
+				areDone = true;
+				break;
+			}
+		}
+
+
+
+	// Append any remaining text
+	if (*textUTF8 != 0x00)
+		theResult += NString(textUTF8);
+
 	return(theResult);
 }
+
+
+
+
+
+//============================================================================
+//		NDateFormatter::GetTokenEnd : Get the end of a token.
+//----------------------------------------------------------------------------
+#pragma mark -
+const char *NDateFormatter::GetTokenEnd(const char *tokenStart) const
+{	bool			isQuote, areDone;
+	const char		*tokenEnd;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(*tokenStart != 0x00);
+
+
+
+	// Get the state we need
+	tokenEnd = tokenStart;
+	isQuote  = (*tokenStart == kSingleQuote);
+	areDone  = (*tokenStart == 0x00);
+
+
+
+	// Get the end token
+	//
+	// Date tokens are a continuous run of the same character, and quoted text
+	// is zero or more arbitrary characters bracketed by a single quote.
+	//
+	// We return a pointer to the last character of the token, which may be the
+	// last character in the string.
+	while (!areDone)
+		{
+		tokenEnd++;
+
+		if (isQuote)
+			{
+			areDone = (*tokenEnd == kSingleQuote || *tokenEnd == 0x00);
+			if (*tokenEnd == 0x00)
+				tokenEnd--;
+			}
+
+		else
+			{
+			areDone = (*tokenEnd != *tokenStart);
+			if (areDone)
+				tokenEnd--;
+			}
+		}
+
+	return(tokenEnd);
+}
+
+
+
+
+
+//============================================================================
+//		NDateFormatter::GetLiteral : Get literal text.
+//----------------------------------------------------------------------------
+NString NDateFormatter::GetLiteral(const NGregorianDate &/*gregDate*/, const NString &theToken) const
+{	NString		theText;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theToken.GetSize() >= 2);
+
+
+
+	// Get the text
+	theText = theToken;
+	theText.Trim(kSingleQuote, kNStringNone);
+
+	if (theText.IsEmpty())
+		theText = NString(kSingleQuote);
+	
+	return(theText);
+}
+
+
+
+
+
+//============================================================================
+//		NDateFormatter::GetEra : Get an era.
+//----------------------------------------------------------------------------
+NString NDateFormatter::GetEra(const NGregorianDate &gregDate, const NString &theToken) const
+{	NString		theText;
+	NIndex		theSize;
+
+
+
+	// Get the state we need
+	theSize = theToken.GetSize();
+	NN_ASSERT(theSize >= 1 && theSize <= 5);
+
+
+
+	// Get the text
+	switch (theSize) {
+		case 5:
+			theText = (gregDate.year >= 0) ? "A" : "B";
+			break;
+
+		case 4:
+			theText = (gregDate.year >= 0) ? "Anno Domini" : "Before Christ";
+			break;
+		
+		default:
+			theText = (gregDate.year >= 0) ? "AD" : "BC";
+			break;
+		}
+
+	return(theText);
+}
+
+
+
+
 
 
 
