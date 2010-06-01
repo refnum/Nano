@@ -73,16 +73,19 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const char *kFormatTypesInteger									= "diouxXcC";
-static const char *kFormatTypesDouble									= "fFeEgGaA";
-static const char *kFormatTypesPointer									= "sSpn";
-static const char *kFormatTypesCustom									= "@";
+// Literals
+//
+// Must be #defines to ensure formatting can be perfored during static initialization.
+#define kFormatTypesInteger												"diouxXcC"
+#define kFormatTypesDouble												"fFeEgGaA"
+#define kFormatTypesPointer												"sSpn"
+#define kFormatTypesCustom												"@"
+#define kFormatTypes													kFormatTypesInteger		\
+																		kFormatTypesDouble		\
+																		kFormatTypesPointer		\
+																		kFormatTypesCustom
 
-static const UInt32      kFormatBufferSize								= 256;
-static const NStringUTF8 kFormatTypes									= NStringUTF8(kFormatTypesInteger) +
-																		  NStringUTF8(kFormatTypesDouble)  +
-																		  NStringUTF8(kFormatTypesPointer) +
-																		  NStringUTF8(kFormatTypesCustom);
+static const UInt32 kFormatBufferSize									= 256;
 
 
 
@@ -539,7 +542,7 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, NN_FORMAT_ARG
 //----------------------------------------------------------------------------
 #pragma mark -
 NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments)
-{	const char			*textUTF8, *typesUTF8, *tokenStart, *tokenEnd;
+{	const char			*textUTF8, *tokenStart, *tokenEnd;
 	NStringUTF8			theResult, theToken;
 	NFormatContext		theContext;
 	bool				areDone;
@@ -551,9 +554,8 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 	theContext.gotError     = false;
 	theContext.argIndex     = 0;
 
-	textUTF8  = theFormat.GetUTF8();
-	typesUTF8 = kFormatTypes.GetUTF8();
-	areDone   = false;
+	textUTF8 = theFormat.GetUTF8();
+	areDone  = false;
 
 
 
@@ -586,7 +588,7 @@ NStringUTF8 NStringFormatter::Format(const NStringUTF8 &theFormat, const NFormat
 			
 			default:
 				// Find the type
-				tokenEnd = strpbrk(textUTF8, typesUTF8);
+				tokenEnd = strpbrk(textUTF8, kFormatTypes);
 				if (tokenEnd == NULL)
 					{
 					NN_LOG_FORMATTER("Missing type: found '%%' without type in '%s'", theFormat.GetUTF8());
