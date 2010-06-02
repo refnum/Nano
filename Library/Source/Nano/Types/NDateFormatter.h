@@ -42,8 +42,9 @@ public:
 private:
 	const char						   *GetTokenEnd(const char *tokenStart) const;
 
-	NString								GetLiteral(const NGregorianDate &theDate, const NString &theToken) const;
-	NString								GetEra(    const NGregorianDate &theDate, const NString &theToken) const;
+	NString								GetLiteral(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
+	NString								GetEra(    const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
+	NString								GetYear(   const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
 
 
 private:

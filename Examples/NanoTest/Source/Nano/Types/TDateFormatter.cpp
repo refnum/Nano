@@ -36,35 +36,79 @@ static const NGregorianDate kValueDate2								= { -123, 6, 1, 18, 21, 57, kNTim
 //		TDateFormatter::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TDateFormatter::Execute(void)
-{	NDate		date1, date2;
-
-
-
-	// Get the state we need
-	date1 = NDate(kValueDate1);
-	date2 = NDate(kValueDate2);
+{	NDateFormatter		theFormatter;
+	NString				theResult;
 
 
 
 	// Quotes
-	NN_ASSERT(date1.GetString("G''G",		kNTimeZoneUTC)	== "AD'AD");
-	NN_ASSERT(date1.GetString("G'test'G",	kNTimeZoneUTC)	== "ADtestAD");
-	NN_ASSERT(date1.GetString("G'testG",	kNTimeZoneUTC)	== "ADtestG");
+	theResult = theFormatter.Format(kValueDate1, "G''G");
+	NN_ASSERT(theResult == "AD'AD");
+
+	theResult = theFormatter.Format(kValueDate1, "G'test'G");
+	NN_ASSERT(theResult == "ADtestAD");
+	
+	theResult = theFormatter.Format(kValueDate1, "G'testG");
+	NN_ASSERT(theResult == "ADtestG");
 
 
 
 	// Era
-	NN_ASSERT(date1.GetString("G",		kNTimeZoneUTC) == "AD");
-	NN_ASSERT(date1.GetString("GG",		kNTimeZoneUTC) == "AD");
-	NN_ASSERT(date1.GetString("GGG",	kNTimeZoneUTC) == "AD");
-	NN_ASSERT(date1.GetString("GGGG",	kNTimeZoneUTC) == "Anno Domini");
-	NN_ASSERT(date1.GetString("GGGGG",	kNTimeZoneUTC) == "A");
+	theResult = theFormatter.Format(kValueDate1, "G");
+	NN_ASSERT(theResult == "AD");
+	
+	theResult = theFormatter.Format(kValueDate1, "GG");
+	NN_ASSERT(theResult == "AD");
+	
+	theResult = theFormatter.Format(kValueDate1, "GGG");
+	NN_ASSERT(theResult == "AD");
+	
+	theResult = theFormatter.Format(kValueDate1, "GGGG");
+	NN_ASSERT(theResult == "Anno Domini");
+	
+	theResult = theFormatter.Format(kValueDate1, "GGGGG");
+	NN_ASSERT(theResult == "A");
 
-	NN_ASSERT(date2.GetString("G",		kNTimeZoneUTC) == "BC");
-	NN_ASSERT(date2.GetString("GG",		kNTimeZoneUTC) == "BC");
-	NN_ASSERT(date2.GetString("GGG",	kNTimeZoneUTC) == "BC");
-	NN_ASSERT(date2.GetString("GGGG",	kNTimeZoneUTC) == "Before Christ");
-	NN_ASSERT(date2.GetString("GGGGG",	kNTimeZoneUTC) == "B");
+	
+	theResult = theFormatter.Format(kValueDate2, "G");
+	NN_ASSERT(theResult == "BC");
+	
+	theResult = theFormatter.Format(kValueDate2, "GG");
+	NN_ASSERT(theResult == "BC");
+	
+	theResult = theFormatter.Format(kValueDate2, "GGG");
+	NN_ASSERT(theResult == "BC");
+	
+	theResult = theFormatter.Format(kValueDate2, "GGGG");
+	NN_ASSERT(theResult == "Before Christ");
+	
+	theResult = theFormatter.Format(kValueDate2, "GGGGG");
+	NN_ASSERT(theResult == "B");
+
+
+
+	// Year
+	theResult = theFormatter.Format(kValueDate1, "y");
+	NN_ASSERT(theResult == "2010");
+
+	theResult = theFormatter.Format(kValueDate1, "yy");
+	NN_ASSERT(theResult == "10");
+
+	theResult = theFormatter.Format(kValueDate1, "yyy");
+	NN_ASSERT(theResult == "2010");
+
+	theResult = theFormatter.Format(kValueDate1, "yyyy");
+	NN_ASSERT(theResult == "2010");
+
+	theResult = theFormatter.Format(kValueDate1, "yyyyy");
+	NN_ASSERT(theResult == "02010");
+
+
+	theResult = theFormatter.Format(kValueDate1, "YYYYY");
+	NN_ASSERT(theResult == "02010");
+
+	theResult = theFormatter.Format(kValueDate1, "uuuuu");
+	NN_ASSERT(theResult == "02010");
 }
 
 

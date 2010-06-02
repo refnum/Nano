@@ -94,11 +94,17 @@ NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &the
 		// Append the token
 		switch (*tokenStart) {
 			case kSingleQuote:
-				theResult += GetLiteral(theDate, theToken);
+				theResult += GetLiteral(	theDate, *tokenStart, theToken);
 				break;
 
 			case 'G':
-				theResult += GetEra(theDate, theToken);
+				theResult += GetEra(		theDate, *tokenStart, theToken);
+				break;
+			
+			case 'y':
+			case 'Y':
+			case 'u':
+				theResult += GetYear(		theDate, *tokenStart, theToken);
 				break;
 
 			default:
@@ -179,8 +185,8 @@ const char *NDateFormatter::GetTokenEnd(const char *tokenStart) const
 //============================================================================
 //		NDateFormatter::GetLiteral : Get literal text.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, const NString &theToken) const
-{	NString		theText;
+NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, char /*tokenChar*/, const NString &theToken) const
+{	NString		theValue;
 
 
 
@@ -190,13 +196,13 @@ NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, const NStr
 
 
 	// Get the text
-	theText = theToken;
-	theText.Trim(kSingleQuote, kNStringNone);
+	theValue = theToken;
+	theValue.Trim(kSingleQuote, kNStringNone);
 
-	if (theText.IsEmpty())
-		theText = NString(kSingleQuote);
+	if (theValue.IsEmpty())
+		theValue = NString(kSingleQuote);
 	
-	return(theText);
+	return(theValue);
 }
 
 
@@ -206,9 +212,17 @@ NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, const NStr
 //============================================================================
 //		NDateFormatter::GetEra : Get an era.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetEra(const NGregorianDate &theDate, const NString &theToken) const
-{	NString		theText;
+NString NDateFormatter::GetEra(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+{	NString		theValue;
 	NIndex		theSize;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(tokenChar == 'G');
+	NN_ASSERT(!theToken.IsEmpty());
+	
+	NN_UNUSED(tokenChar);
 
 
 
@@ -220,20 +234,81 @@ NString NDateFormatter::GetEra(const NGregorianDate &theDate, const NString &the
 
 	// Get the text
 	switch (theSize) {
-		case 5:
-			theText = (theDate.year >= 0) ? "A" : "B";
+		case 1:
+		case 2:
+		case 3:
+			theValue = (theDate.year >= 0) ? "AD" : "BC";
 			break;
 
 		case 4:
-			theText = (theDate.year >= 0) ? "Anno Domini" : "Before Christ";
+			theValue = (theDate.year >= 0) ? "Anno Domini" : "Before Christ";
 			break;
 		
+		case 5:
+			theValue = (theDate.year >= 0) ? "A" : "B";
+			break;
+
 		default:
-			theText = (theDate.year >= 0) ? "AD" : "BC";
+			NN_LOG("Unknown token: %@", theToken);
 			break;
 		}
 
-	return(theText);
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NDateFormatter::GetYear : Get a year.
+//----------------------------------------------------------------------------
+NString NDateFormatter::GetYear(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+{	NString		theValue;
+	NIndex		theSize;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theToken.IsEmpty());
+
+
+
+	// Get the state we need
+	theSize = theToken.GetSize();
+
+
+
+	// Get the text
+	switch (tokenChar) {
+		case 'y':
+			theValue.Format("%0*ld", theSize, theDate.year);
+			break;
+		
+		case 'Y':
+			// Assume same as calendar year
+			theValue.Format("%0*ld", theSize, theDate.year);
+			break;
+		
+		case 'u':
+			// Assume same as calendar year
+			theValue.Format("%0*ld", theSize, theDate.year);
+			break;
+		
+		default:
+			NN_LOG("Unknown token: %@", theToken);
+			break;
+		}
+
+
+
+	// Trim the year
+	//
+	// Normally the length specifies the padding, but a value of 2 also truncates.
+	if (theSize == 2 && theValue.GetSize() > 2)
+		theValue = theValue.GetRight(2);
+
+	return(theValue);
 }
 
 
