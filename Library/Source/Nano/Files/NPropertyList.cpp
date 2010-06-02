@@ -22,6 +22,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTargetPOSIX.h"
 #include "NFileUtilities.h"
 #include "NMathUtilities.h"
 #include "NDataEncoder.h"
@@ -915,10 +916,17 @@ NDate NPropertyList::DecodeMacXML1_Date(const NXMLNode *theNode)
 
 
 	// Decode the value
+	//
+	// Conversion from a gregorian date to an NTime can introduce rounding
+	// errors from the underlying platform (e.g., Windows gregorian conversion
+	// is only accurate to 100 nanoseconds).
+	//
+	// Since we know our seconds are integers, we round after conversion.
 	if (numItems == 6)
 		{
 		gregDate.second = numSecs;
 		theValue.SetDate(gregDate);
+		theValue.SetTime(NTargetPOSIX::rint(theValue.GetTime()));
 		}
 	else
 		theValue.SetTime(0.0);
