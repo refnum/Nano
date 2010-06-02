@@ -58,10 +58,10 @@
 // Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>.
 //
 // Declared with #define to allow use within static initializers.
-#define kNDateFormatDefault											"HH:mm yy/mm/dd"
-#define kNDateFormatShort											"HH:mm yy/mm/dd"
-#define kNDateFormatMedium											"hh:mma dd mmm, yyyy"
-#define kNDateFormatLong											"hh:mma dd mmmm, yyyy G"
+#define kNDateFormatDefault											"HH:mm yy/MM/dd"
+#define kNDateFormatShort											"HH:mm yy/MM/dd"
+#define kNDateFormatMedium											"hh:mma dd MMM, yyyy"
+#define kNDateFormatLong											"hh:mma dd MMMM, yyyy G"
 
 
 // Epochs
