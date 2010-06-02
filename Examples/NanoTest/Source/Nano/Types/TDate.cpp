@@ -39,6 +39,7 @@ static const NGregorianDate kValueDate3								= { 2010, 6, 1, 20, 21, 57, kNTim
 void TDate::Execute(void)
 {	NGregorianDate		gregDate;
 	NDate				date1;
+	NIndex				n, m;
 
 
 
@@ -56,6 +57,32 @@ void TDate::Execute(void)
 
 	gregDate = date1.GetDate(kNTimeZoneCEST);
 	NN_ASSERT(NDate(gregDate) == NDate(kValueDate3));
+
+
+
+	// Indices
+	n = date1.GetDayOfWeek();
+	NN_ASSERT(n == 2);
+
+	n = date1.GetDayOfYear();
+	NN_ASSERT(n == 152);
+
+	n = date1.GetWeekOfYear();
+	NN_ASSERT(n == 22);
+
+	gregDate       = kValueDate1;
+	gregDate.month = 1;
+
+	for (m = 1; m <= 10; m++)
+		{
+		gregDate.day = m;
+		n            = NDate(gregDate).GetWeekOfYear();
+		NN_ASSERT(n == 1);
+		}
+
+	gregDate.day = 11;
+	n            = NDate(gregDate).GetWeekOfYear();
+	NN_ASSERT(n == 2);
 }
 
 

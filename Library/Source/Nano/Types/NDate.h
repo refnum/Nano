@@ -138,25 +138,43 @@ public:
 	NComparison							Compare(const NDate &theValue) const;
 
 
-	// Get as a string
-	NString								GetString(const NString &theFormat=kNDateFormatDefault,
-												  const NString  &timeZone=kNTimeZoneDefault) const;
-
-
-	// Get/set the Gregorian date
-	NGregorianDate						GetDate(const NString &timeZone=kNTimeZoneDefault) const;
-	void								SetDate(const NGregorianDate &theDate);
-
-
 	// Get/set the time
 	NTime								GetTime(void) const;
 	void								SetTime(const NTime &theTime);
 
 
+	// Get/set the date
+	NGregorianDate						GetDate(const NString &timeZone=kNTimeZoneDefault) const;
+	void								SetDate(const NGregorianDate &theDate);
+
+
+	// Get a string
+	NString								GetString(const NString &theFormat=kNDateFormatDefault,
+												  const NString  &timeZone=kNTimeZoneDefault) const;
+
+
 	// Get an interval
-	//
-	// Returns the interval between the date and a future date.
 	NGregorianUnits						GetInterval(const NDate &theDate) const;
+
+
+	// Get the day of the week
+	//
+	// Uses ISO 8601 numbering, where Mon..Sun is numbered 1..7.
+	NIndex								GetDayOfWeek(const NString &timeZone=kNTimeZoneDefault) const;
+
+
+	// Get the day of the year
+	//
+	// Uses ISO 8601 numbering, where days are numbered from 1.
+	NIndex								GetDayOfYear(const NString &timeZone=kNTimeZoneDefault) const;
+
+
+	// Get the week of the year
+	//
+	// Uses ISO 8601 numbering, where weeks are numbered from 1.
+	//
+	// The first week is the week that contains the first Thursday of the year.
+	NIndex								GetWeekOfYear(const NString &timeZone=kNTimeZoneDefault) const;
 
 
 	// Operators
@@ -175,6 +193,10 @@ protected:
 	// Encode/decode the object
 	void								EncodeSelf(      NEncoder &theEncoder) const;
 	void								DecodeSelf(const NEncoder &theEncoder);
+
+
+private:
+	NGregorianDate						GetYearStart(const NString &timeZone, NIndex theDay=1) const;
 
 
 private:

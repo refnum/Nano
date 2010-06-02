@@ -60,7 +60,7 @@ NDate::NDate(const NTime &theTime)
 
 
 	// Initialize ourselves
-	mTime = theTime;
+	SetTime(theTime);
 }
 
 
@@ -124,57 +124,6 @@ NComparison NDate::Compare(const NDate &theValue) const
 
 
 //============================================================================
-//		NDate::GetString : Get as a string.
-//----------------------------------------------------------------------------
-NString NDate::GetString(const NString &theFormat, const NString &timeZone) const
-{	NDateFormatter		theFormatter;
-	NString				theResult;
-	NGregorianDate		theDate;
-
-
-
-	// Get the time
-	theDate   = GetDate(timeZone);
-	theResult = theFormatter.Format(theDate, theFormat);
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NDate::GetDate : Get as a Gregorian date.
-//----------------------------------------------------------------------------
-NGregorianDate NDate::GetDate(const NString &timeZone) const
-{
-
-
-	// Get the time
-	return(NTargetTime::ConvertTimeToDate(mTime, timeZone));
-}
-
-
-
-
-
-//============================================================================
-//		NDate::SetDate : Set the Gregorian date.
-//----------------------------------------------------------------------------
-void NDate::SetDate(const NGregorianDate &theDate)
-{
-
-
-	// Set the time
-	mTime = NTargetTime::ConvertDateToTime(theDate);
-}
-
-
-
-
-
-//============================================================================
 //		NDate::GetTime : Get the time.
 //----------------------------------------------------------------------------
 NTime NDate::GetTime(void) const
@@ -205,6 +154,57 @@ void NDate::SetTime(const NTime &theTime)
 
 
 //============================================================================
+//		NDate::GetDate : Get the date.
+//----------------------------------------------------------------------------
+NGregorianDate NDate::GetDate(const NString &timeZone) const
+{
+
+
+	// Get the time
+	return(NTargetTime::ConvertTimeToDate(mTime, timeZone));
+}
+
+
+
+
+
+//============================================================================
+//		NDate::SetDate : Set the date.
+//----------------------------------------------------------------------------
+void NDate::SetDate(const NGregorianDate &theDate)
+{
+
+
+	// Set the time
+	mTime = NTargetTime::ConvertDateToTime(theDate);
+}
+
+
+
+
+
+//============================================================================
+//		NDate::GetString : Get a string.
+//----------------------------------------------------------------------------
+NString NDate::GetString(const NString &theFormat, const NString &timeZone) const
+{	NDateFormatter		theFormatter;
+	NString				theResult;
+	NGregorianDate		theDate;
+
+
+
+	// Get the time
+	theDate   = GetDate(timeZone);
+	theResult = theFormatter.Format(theDate, theFormat);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NDate::GetInterval : Get an interval.
 //----------------------------------------------------------------------------
 NGregorianUnits NDate::GetInterval(const NDate &theDate) const
@@ -217,7 +217,8 @@ NGregorianUnits NDate::GetInterval(const NDate &theDate) const
 	memset(&gregDelta, 0x00, sizeof(gregDelta));
 
 	theDelta = theDate.GetTime() - GetTime();
-	NN_ASSERT(theDelta >= 0.0);
+	if (theDelta < 0.0)
+		theDelta = -theDelta;
 
 
 
@@ -265,6 +266,74 @@ NGregorianUnits NDate::GetInterval(const NDate &theDate) const
 		}
 
 	return(gregDelta);
+}
+
+
+
+
+
+//============================================================================
+//		NDate::GetDayOfWeek : Get the day of the week.
+//----------------------------------------------------------------------------
+NIndex NDate::GetDayOfWeek(const NString &timeZone) const
+{
+
+
+	// Get the day of the week
+	return(NTargetTime::GetDayOfWeek(GetDate(timeZone)));
+}
+
+
+
+
+
+//============================================================================
+//		NDate::GetDayOfYear : Get the day of the year.
+//----------------------------------------------------------------------------
+NIndex NDate::GetDayOfYear(const NString &timeZone) const
+{	NGregorianDate		yearStart;
+	NTime				theDelta;
+	NIndex				theIndex;
+
+
+
+	// Get the day
+	yearStart = GetYearStart(timeZone);
+	theDelta  = *this - NDate(yearStart);
+	theIndex  = ((NIndex) floor(theDelta / kNTimeDay)) + 1;
+	
+	return(theIndex);
+}
+
+
+
+
+
+//============================================================================
+//		NDate::GetWeekOfYear : Get the week of the year.
+//----------------------------------------------------------------------------
+NIndex NDate::GetWeekOfYear(const NString &timeZone) const
+{	NGregorianDate		yearStart, theDate;
+	NTime				theDelta;
+	NIndex				theIndex;
+
+
+
+	// Get the week
+	//
+	// The first week contains the 4th of January.
+	theDate = GetDate(timeZone);
+
+	if (theDate.month == 1 && theDate.day <= 4)
+		theIndex = 1;
+	else
+		{
+		yearStart = GetYearStart(timeZone, 4);
+		theDelta  = *this - NDate(yearStart);
+		theIndex  = ((NIndex) floor(theDelta / kNTimeWeek)) + 1;
+		}
+	
+	return(theIndex);
 }
 
 
@@ -389,6 +458,26 @@ void NDate::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+//============================================================================
+//		NDate::GetYearStart : Get the year start.
+//----------------------------------------------------------------------------
+#pragma mark -
+NGregorianDate NDate::GetYearStart(const NString &timeZone, NIndex theDay) const
+{	NGregorianDate		theDate;
 
+
+
+	// Get the date
+	theDate = GetDate(timeZone);
+
+	theDate.month    = 1;
+	theDate.day      = theDay;
+	theDate.hour     = 0;
+	theDate.month    = 0;
+	theDate.minute   = 0;
+	theDate.second   = 0;
+
+	return(theDate);
+}
 
 
