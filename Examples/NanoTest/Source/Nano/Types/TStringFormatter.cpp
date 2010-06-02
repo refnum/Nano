@@ -55,134 +55,135 @@ static const NString kResultTooFewArgs								= ": Invalid index: '%d'\n";
 //----------------------------------------------------------------------------
 void TStringFormatter::Execute(void)
 {	NString				theResult, theAssert;
-	NStringFormatter	testFormatter;
+	NStringFormatter	theFormatter;
 	SInt32				valueInt;
 
 
 
 	// Primitives
-	theResult = testFormatter.Format("ArgChar [%c]", 'z');
+	theResult = theFormatter.Format("ArgChar [%c]", 'z');
 	NN_ASSERT(theResult == "ArgChar [z]");
 
-	theResult = testFormatter.Format("ArgUInt8 [%d]", kValueUInt8);
+	theResult = theFormatter.Format("ArgUInt8 [%d]", kValueUInt8);
 	NN_ASSERT(theResult == "ArgUInt8 [8]");
 
-	theResult = testFormatter.Format("ArgUInt16 [%d]", kValueUInt16);
+	theResult = theFormatter.Format("ArgUInt16 [%d]", kValueUInt16);
 	NN_ASSERT(theResult == "ArgUInt16 [1616]");
 
-	theResult = testFormatter.Format("ArgUInt32 [%d]", kValueUInt32);
+	theResult = theFormatter.Format("ArgUInt32 [%d]", kValueUInt32);
 	NN_ASSERT(theResult == "ArgUInt32 [32323232]");
 
-	theResult = testFormatter.Format("ArgUInt32 [%ld]", kValueUInt32);
+	theResult = theFormatter.Format("ArgUInt32 [%ld]", kValueUInt32);
 	NN_ASSERT(theResult == "ArgUInt32 [32323232]");
 
-	theResult = testFormatter.Format("ArgUInt64 [%lld]", kValueUInt64);
+	theResult = theFormatter.Format("ArgUInt64 [%lld]", kValueUInt64);
 	NN_ASSERT(theResult == "ArgUInt64 [6464646464646464]");
 
 
-	theResult = testFormatter.Format("ArgSInt8 [%d]", kValueSInt8);
+	theResult = theFormatter.Format("ArgSInt8 [%d]", kValueSInt8);
 	NN_ASSERT(theResult == "ArgSInt8 [-8]");
 
-	theResult = testFormatter.Format("ArgSInt16 [%d]", kValueSInt16);
+	theResult = theFormatter.Format("ArgSInt16 [%d]", kValueSInt16);
 	NN_ASSERT(theResult == "ArgSInt16 [-1616]");
 
-	theResult = testFormatter.Format("ArgSInt32 [%d]", kValueSInt32);
+	theResult = theFormatter.Format("ArgSInt32 [%d]", kValueSInt32);
 	NN_ASSERT(theResult == "ArgSInt32 [-32323232]");
 
-	theResult = testFormatter.Format("ArgSInt32 [%ld]", kValueSInt32);
+	theResult = theFormatter.Format("ArgSInt32 [%ld]", kValueSInt32);
 	NN_ASSERT(theResult == "ArgSInt32 [-32323232]");
 
-	theResult = testFormatter.Format("ArgSInt64 [%lld]", kValueSInt64);
+	theResult = theFormatter.Format("ArgSInt64 [%lld]", kValueSInt64);
 	NN_ASSERT(theResult == "ArgSInt64 [-6464646464646464]");
 
 
-	theResult = testFormatter.Format("ArgFloat32 [%.6f]", kValueFloat32);
+	theResult = theFormatter.Format("ArgFloat32 [%.6f]", kValueFloat32);
 	NN_ASSERT(theResult == "ArgFloat32 [3.141593]");
 
-	theResult = testFormatter.Format("ArgFloat64 [%.15f]", kValueFloat64);
+	theResult = theFormatter.Format("ArgFloat64 [%.15f]", kValueFloat64);
 	NN_ASSERT(theResult == "ArgFloat64 [3.141592653589793]");
 
 
-	theResult = testFormatter.Format("ArgPtrChar [%s]", kValuePtrChar);
+	theResult = theFormatter.Format("ArgPtrChar [%s]", kValuePtrChar);
 	NN_ASSERT(theResult == "ArgPtrChar [text]");
 
-	theResult = testFormatter.Format("ArgPtrVoid [%p]", kValuePtrVoid);
-	NN_ASSERT(theResult == "ArgPtrVoid [0xdeadbeef]" || theResult == "ArgPtrVoid [0XDEADBEEF]");
+	theResult = theFormatter.Format("ArgPtrVoid [%p]", kValuePtrVoid);
+	NN_ASSERT(	theResult == "ArgPtrVoid [0xdeadbeef]" ||			// gcc
+				theResult == "ArgPtrVoid [DEADBEEF]");				// VS
 
 
-	theResult = testFormatter.Format("ArgHex [%x]", kValueUInt32);
+	theResult = theFormatter.Format("ArgHex [%x]", kValueUInt32);
 	NN_ASSERT(theResult == "ArgHex [1ed36a0]");
 
-	theResult = testFormatter.Format("ArgHEX [%X]", kValueUInt32);
+	theResult = theFormatter.Format("ArgHEX [%X]", kValueUInt32);
 	NN_ASSERT(theResult == "ArgHEX [1ED36A0]");
 
 
 
 	// Positional arguments
-	theResult = testFormatter.Format("ArgPos [%3$d] [%1$d] [%d]", 11, 22, 33);
+	theResult = theFormatter.Format("ArgPos [%3$d] [%1$d] [%d]", 11, 22, 33);
 	NN_ASSERT(theResult == "ArgPos [33] [11] [22]");
 
 
 
 	// Width specifier
 	valueInt  = 10;
-	theResult = testFormatter.Format("ArgSInt16 [%*d]", valueInt, kValueSInt16);
+	theResult = theFormatter.Format("ArgSInt16 [%*d]", valueInt, kValueSInt16);
 	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
 
-	theResult = testFormatter.Format("ArgSInt16 [%*2$d]", kValueSInt16, valueInt);
+	theResult = theFormatter.Format("ArgSInt16 [%*2$d]", kValueSInt16, valueInt);
 	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
 
-	theResult = testFormatter.Format("ArgSInt16 [%10d]", kValueSInt16);
+	theResult = theFormatter.Format("ArgSInt16 [%10d]", kValueSInt16);
 	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
 
 
 
 	// Precision specifier
 	valueInt  = 4;
-	theResult = testFormatter.Format("ArgFloat32 [%.*f]", valueInt, kValueFloat32);
+	theResult = theFormatter.Format("ArgFloat32 [%.*f]", valueInt, kValueFloat32);
 	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
 
-	theResult = testFormatter.Format("ArgFloat32 [%.*2$f]", kValueFloat32, valueInt);
+	theResult = theFormatter.Format("ArgFloat32 [%.*2$f]", kValueFloat32, valueInt);
 	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
 
-	theResult = testFormatter.Format("ArgFloat32 [%.4f]", kValueFloat32);
+	theResult = theFormatter.Format("ArgFloat32 [%.4f]", kValueFloat32);
 	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
 
 	valueInt  = -2;
-	theResult = testFormatter.Format("NegPrecisionIsDiscarded [%.*f]", valueInt, kValueFloat64);
+	theResult = theFormatter.Format("NegPrecisionIsDiscarded [%.*f]", valueInt, kValueFloat64);
 	NN_ASSERT(theResult == "NegPrecisionIsDiscarded [3.141593]");
 	
 
 
 	// Counts
-	theResult = testFormatter.Format("OneArg [%d]", 42);
+	theResult = theFormatter.Format("OneArg [%d]", 42);
 	NN_ASSERT(theResult == "OneArg [42]");
 
-	theResult = testFormatter.Format("TwoArgs [%d] [%d]", 42, 23);
+	theResult = theFormatter.Format("TwoArgs [%d] [%d]", 42, 23);
 	NN_ASSERT(theResult == "TwoArgs [42] [23]");
 
-	theResult = testFormatter.Format("ThreeArgs [%d] [%d] [%d]", 42, 23, 101);
+	theResult = theFormatter.Format("ThreeArgs [%d] [%d] [%d]", 42, 23, 101);
 	NN_ASSERT(theResult == "ThreeArgs [42] [23] [101]");
 
 
 
 	// Special cases
-	theResult = testFormatter.Format("PercentArg [%%]");
+	theResult = theFormatter.Format("PercentArg [%%]");
 	NN_ASSERT(theResult == "PercentArg [%]");
 
 	CTestUtilities::SetDebugCapture(true);
-	theResult = testFormatter.Format("NoSpecifier [% 12345]");
+	theResult = theFormatter.Format("NoSpecifier [% 12345]");
 	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "NoSpecifier [% 12345]");
 	NN_ASSERT(theAssert.EndsWith(kResultMissingType));
 
 	CTestUtilities::SetDebugCapture(true);
-	theResult = testFormatter.Format("TooFewArgs [%d] [%d]", 42);
+	theResult = theFormatter.Format("TooFewArgs [%d] [%d]", 42);
 	theAssert = CTestUtilities::SetDebugCapture(false);
 	NN_ASSERT(theResult == "TooFewArgs [42] []");
 	NN_ASSERT(theAssert.EndsWith(kResultTooFewArgs));
 
-	theResult = testFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
+	theResult = theFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
 	NN_ASSERT(theResult == "TooManyArgs [42] [23]");
 }
 
