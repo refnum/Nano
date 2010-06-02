@@ -586,3 +586,49 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 }
 
 
+
+
+
+//============================================================================
+//		NTargetTime::GetDayOfWeek : Get the day of the week.
+//----------------------------------------------------------------------------
+NIndex NTargetTime::GetDayOfWeek(const NGregorianDate &theDate)
+{	SYSTEMTIME					timeUTC, timeLocal;
+	TIME_ZONE_INFORMATION		zoneInfo;
+	double						timeSecs;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theDate.year >= 1601 && theDate.year <= 30827);
+
+
+
+	// Get the state we need
+	zoneInfo = GetTimeZone(theDate.timeZone);
+	timeSecs = floor(theDate.second);
+
+	timeLocal.wYear         = (WORD) theDate.year;
+	timeLocal.wMonth        = (WORD) theDate.month;
+	timeLocal.wDayOfWeek    = (WORD) 0;
+	timeLocal.wDay          = (WORD) theDate.day;
+	timeLocal.wHour         = (WORD) theDate.hour;
+	timeLocal.wMinute       = (WORD) theDate.minute;
+	timeLocal.wSecond       = (WORD) timeSecs;
+	timeLocal.wMilliseconds = (WORD) ((theDate.second - timeSecs) / kNTimeMillisecond);
+
+
+
+	// Convert the time
+	//
+	// SYSTEMTIME identifies days as 0..6, from Sun..Sat.
+	if (FAILED(TzSpecificLocalTimeToSystemTime(&zoneInfo, &timeLocal, &timeUTC)))
+		return(1);
+
+	if (timeUTC.wDayOfWeek == 0)
+		timeUTC.wDayOfWeek = 7;
+	
+	return(timeUTC.wDayOfWeek);
+}
+
+

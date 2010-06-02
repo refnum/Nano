@@ -48,8 +48,11 @@ public:
 	//
 	// NTime values are always in UTC, relative to the Nano epoch, while gregorian
 	// dates are always in a named time zone.
+	//
+	// Days of the week follow ISO-8601, in the range 1..7 for Mon..Sun.
 	static NGregorianDate				ConvertTimeToDate(      NTime           theTime, const NString &timeZone);
 	static NTime						ConvertDateToTime(const NGregorianDate &theDate);
+	static NIndex						GetDayOfWeek(     const NGregorianDate &theDate);
 };
 
 

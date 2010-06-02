@@ -342,3 +342,34 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 
 
 
+
+
+//============================================================================
+//		NTargetTime::GetDayOfWeek : Get the day of the week.
+//----------------------------------------------------------------------------
+NIndex NTargetTime::GetDayOfWeek(const NGregorianDate &theDate)
+{	NCFObject			cfTimeZone;
+	NIndex				theIndex;
+	NTime				theTime;
+	CFAbsoluteTime		cfTime;
+
+
+
+	// Get the state we need
+	theTime    = ConvertDateToTime(theDate);
+	cfTimeZone = GetTimeZone(theDate.timeZone);
+	cfTime     = theTime - kNEpochTimeSince2001;
+
+
+
+	// Get the day of the week
+	theIndex = CFAbsoluteTimeGetDayOfWeek(cfTime, cfTimeZone);
+	NN_ASSERT(theIndex >= 1 && theIndex <= 7);
+	
+	return(theIndex);
+}
+
+
+
+
+
