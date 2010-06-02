@@ -59,16 +59,14 @@ NDateFormatter::~NDateFormatter(void)
 //============================================================================
 //		NDateFormatter::Format : Format a date.
 //----------------------------------------------------------------------------
-NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat, const NString &timeZone) const
+NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &theFormat) const
 {	const char			*textUTF8, *tokenStart, *tokenEnd;
 	NString				theResult, theToken;
-	NGregorianDate		gregDate;
 	bool				areDone;
 
 
 
 	// Get the state we need
-	gregDate = theDate.GetGregorianDate(timeZone);
 	textUTF8 = theFormat.GetUTF8();
 	areDone  = false;
 
@@ -96,11 +94,11 @@ NString NDateFormatter::Format(const NDate &theDate, const NString &theFormat, c
 		// Append the token
 		switch (*tokenStart) {
 			case kSingleQuote:
-				theResult += GetLiteral(gregDate, theToken);
+				theResult += GetLiteral(theDate, theToken);
 				break;
 
 			case 'G':
-				theResult += GetEra(gregDate, theToken);
+				theResult += GetEra(theDate, theToken);
 				break;
 
 			default:
@@ -181,7 +179,7 @@ const char *NDateFormatter::GetTokenEnd(const char *tokenStart) const
 //============================================================================
 //		NDateFormatter::GetLiteral : Get literal text.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetLiteral(const NGregorianDate &/*gregDate*/, const NString &theToken) const
+NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, const NString &theToken) const
 {	NString		theText;
 
 
@@ -208,7 +206,7 @@ NString NDateFormatter::GetLiteral(const NGregorianDate &/*gregDate*/, const NSt
 //============================================================================
 //		NDateFormatter::GetEra : Get an era.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetEra(const NGregorianDate &gregDate, const NString &theToken) const
+NString NDateFormatter::GetEra(const NGregorianDate &theDate, const NString &theToken) const
 {	NString		theText;
 	NIndex		theSize;
 
@@ -223,15 +221,15 @@ NString NDateFormatter::GetEra(const NGregorianDate &gregDate, const NString &th
 	// Get the text
 	switch (theSize) {
 		case 5:
-			theText = (gregDate.year >= 0) ? "A" : "B";
+			theText = (theDate.year >= 0) ? "A" : "B";
 			break;
 
 		case 4:
-			theText = (gregDate.year >= 0) ? "Anno Domini" : "Before Christ";
+			theText = (theDate.year >= 0) ? "Anno Domini" : "Before Christ";
 			break;
 		
 		default:
-			theText = (gregDate.year >= 0) ? "AD" : "BC";
+			theText = (theDate.year >= 0) ? "AD" : "BC";
 			break;
 		}
 

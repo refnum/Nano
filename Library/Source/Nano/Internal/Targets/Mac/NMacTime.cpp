@@ -69,10 +69,7 @@ static NCFObject GetTimeZone(const NCFString &timeZone)
 		cfTimeZone.SetObject(CFTimeZoneCopyDefault());
 
 	else
-		{
-		NN_ASSERT(timeZone.GetSize() == 3);
 		cfTimeZone.SetObject(CFTimeZoneCreateWithName(kCFAllocatorNano, timeZone.GetObject(), true));
-		}
 
 	NN_ASSERT(cfTimeZone.IsValid());
 
@@ -298,12 +295,13 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 	// Convert the time
 	cfDate = CFAbsoluteTimeGetGregorianDate(cfTime, cfTimeZone);
 	
-	theDate.year   = cfDate.year;
-	theDate.month  = cfDate.month;
-	theDate.day    = cfDate.day;
-	theDate.hour   = cfDate.hour;
-	theDate.minute = cfDate.minute;
-	theDate.second = cfDate.second;
+	theDate.year     = cfDate.year;
+	theDate.month    = cfDate.month;
+	theDate.day      = cfDate.day;
+	theDate.hour     = cfDate.hour;
+	theDate.minute   = cfDate.minute;
+	theDate.second   = cfDate.second;
+	theDate.timeZone = NCFString(CFTimeZoneGetName(cfTimeZone), false);
 	
 	return(theDate);
 }
@@ -315,7 +313,7 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 //============================================================================
 //		NTargetTime::ConvertDateToTime : Convert a date to a UTC time.
 //----------------------------------------------------------------------------
-NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate, const NString &timeZone)
+NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 {	NCFObject			cfTimeZone;
 	NTime				theTime;
 	CFGregorianDate		cfDate;
@@ -324,7 +322,7 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate, const NStrin
 
 
 	// Get the state we need
-	cfTimeZone = GetTimeZone(timeZone);
+	cfTimeZone = GetTimeZone(theDate.timeZone);
 
 	cfDate.year   = theDate.year;
 	cfDate.month  = theDate.month;

@@ -320,7 +320,14 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 
 
 	// dair, to do
-	memset(&theDate, 0x00, sizeof(theDate));
+	theDate.year     = 0;
+	theDate.month    = 0;
+	theDate.day      = 0;
+	theDate.hour     = 0;
+	theDate.minute   = 0;
+	theDate.second   = 0;
+//	theDate.timeZone = dair, to do
+
 	return(theDate);
 }
 
@@ -331,7 +338,7 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 //============================================================================
 //		NTargetTime::ConvertDateToTime : Convert a date to a UTC time.
 //----------------------------------------------------------------------------
-NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate, const NString &timeZone)
+NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 {	NTime	theTime;
 
 

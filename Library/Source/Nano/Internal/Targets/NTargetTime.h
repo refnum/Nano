@@ -49,7 +49,7 @@ public:
 	// NTime values are always in UTC, relative to the Nano epoch, while gregorian
 	// dates are always in a named time zone.
 	static NGregorianDate				ConvertTimeToDate(      NTime           theTime, const NString &timeZone);
-	static NTime						ConvertDateToTime(const NGregorianDate &theDate, const NString &timeZone);
+	static NTime						ConvertDateToTime(const NGregorianDate &theDate);
 };
 
 

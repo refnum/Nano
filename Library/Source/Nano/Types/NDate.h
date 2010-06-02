@@ -30,27 +30,38 @@
 //----------------------------------------------------------------------------
 // Time zones
 //
-// The default time zone is that of the current user.
-static const NString kNTimeZoneDefault								= "*default*";
-static const NString kNTimeZoneUTC									= "UTC";
+// The default time zone is that of the user's current locale.
+//
+// Declared with #define to allow use within static initializers.
+#define kNTimeZoneDefault											"*default*"
+#define kNTimeZoneUTC												"UTC"
 
-static const NString kNTimeZoneWET									= "WET";
-static const NString kNTimeZoneCET									= "CET";
-static const NString kNTimeZoneEET									= "EET";
+#define kNTimeZoneWET												"WET"
+#define kNTimeZoneCET												"CET"
+#define kNTimeZoneEET												"EET"
+#define kNTimeZoneCEST												"CEST"
+#define kNTimeZoneBST												"BST"
+#define kNTimeZoneIST												"IST"
 
-static const NString kNTimeZonePST									= "PST";
-static const NString kNTimeZoneMST									= "MST";
-static const NString kNTimeZoneCST									= "CST";
-static const NString kNTimeZoneEST									= "EST";
+#define kNTimeZonePST												"PST"
+#define kNTimeZoneMST												"MST"
+#define kNTimeZoneCST												"CST"
+#define kNTimeZoneEST												"EST"
+#define kNTimeZonePDT												"PDT"
+#define kNTimeZoneMDT												"MDT"
+#define kNTimeZoneCDT												"CDT"
+#define kNTimeZoneEDT												"EDT"
 
 
 // Date formats
 //
 // Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>.
-static const NString kNDateFormatDefault							= "HH:mm yy/mm/dd";
-static const NString kNDateFormatShort								= "HH:mm yy/mm/dd";
-static const NString kNDateFormatMedium								= "hh:mma dd mmm, yyyy";
-static const NString kNDateFormatLong								= "hh:mma dd mmmm, yyyy G";
+//
+// Declared with #define to allow use within static initializers.
+#define kNDateFormatDefault											"HH:mm yy/mm/dd"
+#define kNDateFormatShort											"HH:mm yy/mm/dd"
+#define kNDateFormatMedium											"hh:mma dd mmm, yyyy"
+#define kNDateFormatLong											"hh:mma dd mmmm, yyyy G"
 
 
 // Epochs
@@ -70,7 +81,7 @@ static const NTime kNEpochTimeSince1601								= 14705625600.0;	// Windows
 //----------------------------------------------------------------------------
 // Gregorian date
 //
-// Gregorian dates only exist relative to a given time zone.
+// Gregorian dates exist within a specific time zone.
 typedef struct {
 	SInt32			year;			// Absolute value
 	SInt8			month;			// 1..12
@@ -78,6 +89,7 @@ typedef struct {
 	SInt8			hour;			// 0..23
 	SInt8			minute;			// 0..59
 	NTime			second;			// 0..60
+	NString			timeZone;		// Time zone
 } NGregorianDate;
 
 
@@ -111,7 +123,7 @@ class NDate :	public NEncodable,
 public:
 										NENCODABLE_DECLARE(NDate);
 
-										NDate(const NGregorianDate &theDate, const NString &timeZone);
+										NDate(const NGregorianDate &theDate);
 										NDate(const NTime          &theTime);
 
 										NDate(void);
@@ -132,8 +144,8 @@ public:
 
 
 	// Get/set the Gregorian date
-	NGregorianDate						GetGregorianDate(const NString &timeZone=kNTimeZoneDefault) const;
-	void								SetGregorianDate(const NGregorianDate &theDate, const NString &timeZone);
+	NGregorianDate						GetDate(const NString &timeZone=kNTimeZoneDefault) const;
+	void								SetDate(const NGregorianDate &theDate);
 
 
 	// Get/set the time
@@ -166,7 +178,6 @@ protected:
 private:
 	NTime								mTime;
 };
-
 
 
 

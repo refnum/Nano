@@ -35,16 +35,15 @@ public:
 	// Format a date
 	//
 	// Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>.
-	NString								Format(	const NDate		&theDate,
-												const NString	&theFormat=kNDateFormatDefault,
-												const NString	 &timeZone=kNTimeZoneDefault) const;
+	NString								Format(	const NGregorianDate	&theDate,
+												const NString			&theFormat=kNDateFormatDefault) const;
 
 
 private:
 	const char						   *GetTokenEnd(const char *tokenStart) const;
 
-	NString								GetLiteral(const NGregorianDate &gregDate, const NString &theToken) const;
-	NString								GetEra(    const NGregorianDate &gregDate, const NString &theToken) const;
+	NString								GetLiteral(const NGregorianDate &theDate, const NString &theToken) const;
+	NString								GetEra(    const NGregorianDate &theDate, const NString &theToken) const;
 
 
 private:

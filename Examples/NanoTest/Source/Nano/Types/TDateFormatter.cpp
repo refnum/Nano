@@ -25,8 +25,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NGregorianDate kValueDate1								= { 2010, 6, 1, 18, 21, 57 };
-static const NGregorianDate kValueDate2								= { -123, 6, 1, 18, 21, 57 };
+static const NGregorianDate kValueDate1								= { 2010, 6, 1, 18, 21, 57, kNTimeZoneUTC };
+static const NGregorianDate kValueDate2								= { -123, 6, 1, 18, 21, 57, kNTimeZoneUTC };
 
 
 
@@ -41,8 +41,8 @@ void TDateFormatter::Execute(void)
 
 
 	// Get the state we need
-	date1 = NDate(kValueDate1, kNTimeZoneUTC);
-	date2 = NDate(kValueDate2, kNTimeZoneUTC);
+	date1 = NDate(kValueDate1);
+	date2 = NDate(kValueDate2);
 
 
 

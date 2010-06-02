@@ -40,12 +40,12 @@ NENCODABLE_DEFINE(NDate);
 //============================================================================
 //		NDate::NDate : Constructor.
 //----------------------------------------------------------------------------
-NDate::NDate(const NGregorianDate &theDate, const NString &timeZone)
+NDate::NDate(const NGregorianDate &theDate)
 {
 
 
 	// Initialize ourselves
-	SetGregorianDate(theDate, timeZone);
+	SetDate(theDate);
 }
 
 
@@ -129,11 +129,13 @@ NComparison NDate::Compare(const NDate &theValue) const
 NString NDate::GetString(const NString &theFormat, const NString &timeZone) const
 {	NDateFormatter		theFormatter;
 	NString				theResult;
+	NGregorianDate		theDate;
 
 
 
 	// Get the time
-	theResult = theFormatter.Format(*this, theFormat, timeZone);
+	theDate   = GetDate(timeZone);
+	theResult = theFormatter.Format(theDate, theFormat);
 
 	return(theResult);
 }
@@ -143,9 +145,9 @@ NString NDate::GetString(const NString &theFormat, const NString &timeZone) cons
 
 
 //============================================================================
-//		NDate::GetGregorianDate : Get the Gregorian date.
+//		NDate::GetDate : Get as a Gregorian date.
 //----------------------------------------------------------------------------
-NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
+NGregorianDate NDate::GetDate(const NString &timeZone) const
 {
 
 
@@ -158,14 +160,14 @@ NGregorianDate NDate::GetGregorianDate(const NString &timeZone) const
 
 
 //============================================================================
-//		NDate::SetGregorianDate : Set the Gregorian date.
+//		NDate::SetDate : Set the Gregorian date.
 //----------------------------------------------------------------------------
-void NDate::SetGregorianDate(const NGregorianDate &theDate, const NString &timeZone)
+void NDate::SetDate(const NGregorianDate &theDate)
 {
 
 
 	// Set the time
-	mTime = NTargetTime::ConvertDateToTime(theDate, timeZone);
+	mTime = NTargetTime::ConvertDateToTime(theDate);
 }
 
 
