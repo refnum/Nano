@@ -169,34 +169,55 @@ static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
 	TIME_ZONE_INFORMATION		zoneInfo;
 	DWORD						theSize;
 	REG_TZI_FORMAT				regInfo;
+	DWORD						theErr;
 	HKEY						theKey;
 
 
 
 	// Get the state we need
-	theSize  = sizeof(regInfo);
-	zoneName = GetTimeZoneName(timeZone);
-	thePath  = NString("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\") + zoneName;
-	
 	memset(&zoneInfo, 0x00, sizeof(zoneInfo));
 
 
 
-	// Get the time zone info
-	if (FAILED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, ToWN(thePath), 0, KEY_QUERY_VALUE, &theKey)))
-		return(zoneInfo);
+	// Get the default time zone
+	if (timeZone == kNTimeZoneDefault)
+		{
+		theErr = GetTimeZoneInformation(&zoneInfo);
+		NN_ASSERT(SUCCEEDED(theErr));
+		}
+	
+	
+	// Get a named time zone
+	else
+		{
+		// Get the state we need
+		theSize  = sizeof(regInfo);
+		zoneName = GetTimeZoneName(timeZone);
+		thePath  = NString("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\") + zoneName;
 
-	if (FAILED(RegQueryValueEx(theKey, L"TZI", NULL, NULL, (LPBYTE) &regInfo, &theSize)))
-		return(zoneInfo);
 
-
-
-	// Get the time zone
-	zoneInfo.Bias         = regInfo.Bias;
-	zoneInfo.StandardDate = regInfo.StandardDate;
-	zoneInfo.StandardBias = regInfo.StandardBias;
-	zoneInfo.DaylightDate = regInfo.DaylightDate;
-	zoneInfo.DaylightBias = regInfo.DaylightBias;
+		// Get the time zone info
+		theErr = RegOpenKeyEx(HKEY_LOCAL_MACHINE, ToWN(thePath), 0, KEY_QUERY_VALUE, &theKey);
+		NN_ASSERT_NOERR(theErr);
+		
+		if (SUCCEEDED(theErr))
+			{
+			theErr = RegQueryValueEx(theKey, L"TZI", NULL, NULL, (LPBYTE) &regInfo, &theSize);
+			NN_ASSERT_NOERR(theErr);
+			
+			if (SUCCEEDED(theErr))
+				{
+				zoneInfo.Bias         = regInfo.Bias;
+				zoneInfo.StandardDate = regInfo.StandardDate;
+				zoneInfo.StandardBias = regInfo.StandardBias;
+				zoneInfo.DaylightDate = regInfo.DaylightDate;
+				zoneInfo.DaylightBias = regInfo.DaylightBias;
+				}
+			
+			theErr = RegCloseKey(theKey);
+			NN_ASSERT_NOERR(theErr);
+			}
+		}
 
 	return(zoneInfo);
 }
