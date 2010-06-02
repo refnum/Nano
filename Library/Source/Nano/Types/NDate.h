@@ -154,6 +154,8 @@ public:
 
 
 	// Get an interval
+	//
+	// Returns the interval between the date and a future date.
 	NGregorianUnits						GetInterval(const NDate &theDate) const;
 
 
