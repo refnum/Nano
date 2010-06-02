@@ -39,6 +39,18 @@ typedef struct {
 } TimerInfo;
 
 
+// Time zone info
+//
+// Documented at http://msdn.microsoft.com/en-us/library/ms725481(VS.85).aspx
+typedef struct _REG_TZI_FORMAT {
+    LONG				Bias;
+    LONG				StandardBias;
+    LONG				DaylightBias;
+    SYSTEMTIME			StandardDate;
+    SYSTEMTIME			DaylightDate;
+} REG_TZI_FORMAT;
+
+
 // Maps
 typedef std::map<UINT_PTR, TimerInfo*>						TimerInfoMap;
 typedef TimerInfoMap::iterator								TimerInfoMapIterator;
@@ -157,7 +169,6 @@ static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
 	TIME_ZONE_INFORMATION		zoneInfo;
 	DWORD						theSize;
 	REG_TZI_FORMAT				regInfo;
-	LONG						theErr;
 	HKEY						theKey;
 
 
@@ -165,7 +176,7 @@ static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
 	// Get the state we need
 	theSize  = sizeof(regInfo);
 	zoneName = GetTimeZoneName(timeZone);
-	thePath  = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\" + zoneName;
+	thePath  = NString("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\") + zoneName;
 	
 	memset(&zoneInfo, 0x00, sizeof(zoneInfo));
 
@@ -175,17 +186,15 @@ static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
 	if (FAILED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, ToWN(thePath), 0, KEY_QUERY_VALUE, &theKey)))
 		return(zoneInfo);
 
-	if (FAILED(RegQueryValueEx(theKey, L"TZI", NULL, NULL, &regInfo, &theSize)))
+	if (FAILED(RegQueryValueEx(theKey, L"TZI", NULL, NULL, (LPBYTE) &regInfo, &theSize)))
 		return(zoneInfo);
 
 
 
 	// Get the time zone
 	zoneInfo.Bias         = regInfo.Bias;
-	zoneInfo.StandardName = NULL;
 	zoneInfo.StandardDate = regInfo.StandardDate;
 	zoneInfo.StandardBias = regInfo.StandardBias;
-	zoneInfo.DaylightName = NULL;
 	zoneInfo.DaylightDate = regInfo.DaylightDate;
 	zoneInfo.DaylightBias = regInfo.DaylightBias;
 
@@ -502,8 +511,11 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 
 
 	// Get the state we need
+	//
+	// Since SYSTEMTIME uses integer milliseconds, we add 0.5 of a
+	// millisecond to ensure times are consistently rounded upwards.
 	zoneInfo = GetTimeZone(timeZone);
-	fileTime = GetFileTimeFromTime(theTime);
+	fileTime = GetFileTimeFromTime(theTime + (0.5 * kNTimeMillisecond));
 
 
 
@@ -511,14 +523,14 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 	if (!FileTimeToSystemTime(&fileTime, &timeUTC))
 		memset(&timeUTC, 0x00, sizeof(timeUTC));
 
-	if (!SystemTimeToTzSpecificLocalTime(zoneInfo, &timeUTC, &timeLocal))
+	if (!SystemTimeToTzSpecificLocalTime(&zoneInfo, &timeUTC, &timeLocal))
 		memset(&timeLocal, 0x00, sizeof(timeLocal));
 
-	theDate.year     = timeLocal.wYear;
-	theDate.month    = timeLocal.wMonth;
-	theDate.day      = timeLocal.wDay;
-	theDate.hour     = timeLocal.wHour;
-	theDate.minute   = timeLocal.wMinute;
+	theDate.year     = (SInt32) timeLocal.wYear;
+	theDate.month    = (SInt8)  timeLocal.wMonth;
+	theDate.day      = (SInt8)  timeLocal.wDay;
+	theDate.hour     = (SInt8)  timeLocal.wHour;
+	theDate.minute   = (SInt8)  timeLocal.wMinute;
 	theDate.second   = ((NTime) timeLocal.wSecond) + (((NTime) timeLocal.wMilliseconds) * kNTimeMillisecond);
 	theDate.timeZone = timeZone;
 
@@ -550,19 +562,19 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 	zoneInfo = GetTimeZone(theDate.timeZone);
 	timeSecs = floor(theDate.second);
 
-	timeLocal.wYear         = theDate.year;
-	timeLocal.wMonth        = theDate.wMonth;
-	timeLocal.wDayOfWeek    = 0;
-	timeLocal.wDay          = theDate.day;
-	timeLocal.wHour         = theDate.hour;
-	timeLocal.wMinute       = theDate.minute;
+	timeLocal.wYear         = (WORD) theDate.year;
+	timeLocal.wMonth        = (WORD) theDate.month;
+	timeLocal.wDayOfWeek    = (WORD) 0;
+	timeLocal.wDay          = (WORD) theDate.day;
+	timeLocal.wHour         = (WORD) theDate.hour;
+	timeLocal.wMinute       = (WORD) theDate.minute;
 	timeLocal.wSecond       = (WORD) timeSecs;
 	timeLocal.wMilliseconds = (WORD) ((theDate.second - timeSecs) / kNTimeMillisecond);
 
 
 
 	// Convert the time
-	if (FAILED(TzSpecificLocalTimeToSystemTime(zoneInfo, &timeLocal, &timeUTC))
+	if (FAILED(TzSpecificLocalTimeToSystemTime(&zoneInfo, &timeLocal, &timeUTC)))
 		return(0.0);
 
 	if (!SystemTimeToFileTime(&timeUTC, &fileTime))
