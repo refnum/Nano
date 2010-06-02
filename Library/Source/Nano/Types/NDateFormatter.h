@@ -26,11 +26,29 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Date widths
 typedef enum {
-	kDateWidthNarrow,
-	kDateWidthAbbrev,
-	kDateWidthFull
-} DateWidth;
+	kNDateWidthNarrow,
+	kNDateWidthAbbrev,
+	kNDateWidthFull
+} NDateWidth;
+
+
+
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
+// Date context
+typedef struct {
+	NDate				theDate;
+	NGregorianDate		gregDate;
+
+	NString				theToken;
+	char				tokenChar;
+	NIndex				tokenSize;
+} NDateContext;
 
 
 
@@ -55,28 +73,23 @@ public:
 private:
 	const char						   *GetTokenEnd(const char *tokenStart) const;
 
-	NIndex								GetDayOfWeek( const NGregorianDate &theDate) const;
-	NIndex								GetDayOfYear( const NGregorianDate &theDate) const;
-	NIndex								GetWeekOfYear(const NGregorianDate &theDate) const;
-	NGregorianDate						GetYearStart( const NGregorianDate &theDate) const;
+	NString								GetTextQuarter(NIndex theIndex, NDateWidth theWidth) const;
+	NString								GetTextMonth(  NIndex theIndex, NDateWidth theWidth) const;
+	NString								GetTextDay(    NIndex theIndex, NDateWidth theWidth) const;
 
-	NString								GetTextQuarter(NIndex theIndex, DateWidth theWidth) const;
-	NString								GetTextMonth(  NIndex theIndex, DateWidth theWidth) const;
-	NString								GetTextDay(    NIndex theIndex, DateWidth theWidth) const;
-
-	NString								GetLiteral(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetEra(    const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetYear(   const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetQuarter(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetMonth(  const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetWeek(   const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetDay(    const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetWeekDay(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetPeriod( const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetHour(   const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetMinute( const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetSecond( const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
-	NString								GetZone(   const NGregorianDate &theDate, char tokenChar, const NString &theToken) const;
+	NString								GetLiteral(const NDateContext &theContext) const;
+	NString								GetEra(    const NDateContext &theContext) const;
+	NString								GetYear(   const NDateContext &theContext) const;
+	NString								GetQuarter(const NDateContext &theContext) const;
+	NString								GetMonth(  const NDateContext &theContext) const;
+	NString								GetWeek(   const NDateContext &theContext) const;
+	NString								GetDay(    const NDateContext &theContext) const;
+	NString								GetWeekDay(const NDateContext &theContext) const;
+	NString								GetPeriod( const NDateContext &theContext) const;
+	NString								GetHour(   const NDateContext &theContext) const;
+	NString								GetMinute( const NDateContext &theContext) const;
+	NString								GetSecond( const NDateContext &theContext) const;
+	NString								GetZone(   const NDateContext &theContext) const;
 
 
 private:

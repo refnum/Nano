@@ -79,12 +79,16 @@ NDateFormatter::~NDateFormatter(void)
 //----------------------------------------------------------------------------
 NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &theFormat) const
 {	const char			*textUTF8, *tokenStart, *tokenEnd;
-	NString				theResult, theToken;
+	NString				theResult;
+	NDateContext		theContext;
 	bool				areDone;
 
 
 
 	// Get the state we need
+	theContext.theDate  = NDate(theDate);
+	theContext.gregDate = theDate;
+	
 	textUTF8 = theFormat.GetUTF8();
 	areDone  = false;
 
@@ -99,7 +103,10 @@ NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &the
 			break;
 
 		tokenEnd = GetTokenEnd(tokenStart);
-		theToken = NString(tokenStart, tokenEnd - tokenStart + 1);
+		
+		theContext.theToken  = NString(tokenStart, tokenEnd - tokenStart + 1);
+		theContext.tokenChar = *tokenStart;
+		theContext.tokenSize = theContext.theToken.GetSize();
 
 
 
@@ -110,78 +117,78 @@ NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &the
 
 
 		// Append the token
-		switch (*tokenStart) {
+		switch (theContext.tokenChar) {
 			case kSingleQuote:
-				theResult += GetLiteral(	theDate, *tokenStart, theToken);
+				theResult += GetLiteral(theContext);
 				break;
 
 			case 'G':
-				theResult += GetEra(		theDate, *tokenStart, theToken);
+				theResult += GetEra(theContext);
 				break;
 			
 			case 'y':
 			case 'Y':
 			case 'u':
-				theResult += GetYear(		theDate, *tokenStart, theToken);
+				theResult += GetYear(theContext);
 				break;
 			
 			case 'Q':
 			case 'q':
-				theResult += GetQuarter(	theDate, *tokenStart, theToken);
+				theResult += GetQuarter(theContext);
 				break;
 			
 			case 'M':
 			case 'L':
-				theResult += GetMonth(		theDate, *tokenStart, theToken);
+				theResult += GetMonth(theContext);
 				break;
 			
 			case 'w':
 			case 'W':
-				theResult += GetWeek(		theDate, *tokenStart, theToken);
+				theResult += GetWeek(theContext);
 				break;
 
 			case 'd':
 			case 'D':
 			case 'F':
 			case 'g':
-				theResult += GetDay(		theDate, *tokenStart, theToken);
+				theResult += GetDay(theContext);
 				break;
 			
 			case 'E':
 			case 'e':
 			case 'c':
-				theResult += GetWeekDay(	theDate, *tokenStart, theToken);
+				theResult += GetWeekDay(theContext);
 				break;
 			
 			case 'a':
-				theResult += GetPeriod(		theDate, *tokenStart, theToken);
+				theResult += GetPeriod(theContext);
 				break;
 			
 			case 'h':
 			case 'H':
 			case 'K':
 			case 'k':
-				theResult += GetHour(		theDate, *tokenStart, theToken);
+				theResult += GetHour(theContext);
 				break;
 
 			case 'm':
-				theResult += GetMinute(		theDate, *tokenStart, theToken);
+				theResult += GetMinute(theContext);
 				break;
 
 			case 's':
 			case 'S':
 			case 'A':
-				theResult += GetSecond(		theDate, *tokenStart, theToken);
+				theResult += GetSecond(theContext);
 				break;
 			
 			case 'z':
 			case 'Z':
 			case 'v':
-				theResult += GetZone(		theDate, *tokenStart, theToken);
+				theResult += GetZone(theContext);
 				break;
 
 			default:
-				NN_LOG("Unknown token: %c", *tokenStart);
+				NN_LOG("Unknown token: %c", theContext.tokenChar);
 				areDone = true;
 				break;
 			}
@@ -256,93 +263,9 @@ const char *NDateFormatter::GetTokenEnd(const char *tokenStart) const
 
 
 //============================================================================
-//		NDateFormatter::GetDayOfWeek : Get the day of the week.
-//----------------------------------------------------------------------------
-NIndex NDateFormatter::GetDayOfWeek(const NGregorianDate &theDate) const
-{
-
-
-	// Get the day of the week
-	return(NTargetTime::GetDayOfWeek(theDate));
-}
-
-
-
-
-
-//============================================================================
-//		NDateFormatter::GetDayOfYear : Get the day of the year.
-//----------------------------------------------------------------------------
-NIndex NDateFormatter::GetDayOfYear(const NGregorianDate &theDate) const
-{	NGregorianDate		yearStart;
-	NTime				yearDelta;
-	NIndex				theIndex;
-
-
-
-	// Get the state we need
-	yearStart = GetYearStart(theDate);
-	yearDelta = NDate(theDate) - NDate(yearStart);
-	theIndex  = ((SInt32) floor(yearDelta / kNTimeDay)) + 1;
-
-	return(theIndex);
-}
-
-
-
-
-
-//============================================================================
-//		NDateFormatter::GetWeekOfYear : Get the week of the year.
-//----------------------------------------------------------------------------
-NIndex NDateFormatter::GetWeekOfYear(const NGregorianDate &theDate) const
-{	NGregorianDate		yearStart;
-	NTime				yearDelta;
-	NIndex				theIndex;
-
-
-
-	// Get the state we need
-	yearStart = GetYearStart(theDate);
-	yearDelta = NDate(theDate) - NDate(yearStart);
-	theIndex  = ((SInt32) floor(yearDelta / kNTimeWeek)) + 1;
-
-	return(theIndex);
-}
-
-
-
-
-
-//============================================================================
-//		NDateFormatter::GetYearStart : Get the start of a year.
-//----------------------------------------------------------------------------
-NGregorianDate NDateFormatter::GetYearStart(const NGregorianDate &theDate) const
-{	NGregorianDate		yearStart;
-
-
-
-	// Get the year start
-	yearStart.year     = theDate.year;
-	yearStart.month    = 1;
-	yearStart.day      = 1;
-	yearStart.hour     = 0;
-	yearStart.month    = 0;
-	yearStart.minute   = 0;
-	yearStart.second   = 0;
-	yearStart.timeZone = theDate.timeZone;
-	
-	return(yearStart);
-}
-
-
-
-
-
-//============================================================================
 //		NDateFormatter::GetTextQuarter : Get the text for a quarter.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetTextQuarter(NIndex theIndex, DateWidth theWidth) const
+NString NDateFormatter::GetTextQuarter(NIndex theIndex, NDateWidth theWidth) const
 {	NString		theText;
 
 
@@ -356,9 +279,9 @@ NString NDateFormatter::GetTextQuarter(NIndex theIndex, DateWidth theWidth) cons
 
 	// Get the text
 	switch (theWidth) {
-		case kDateWidthNarrow:		theText = kTextQuarterNarrow[theIndex];		break;
-		case kDateWidthAbbrev:		theText = kTextQuarterAbbrev[theIndex];		break;
-		case kDateWidthFull:		theText = kTextQuarterFull  [theIndex];		break;
+		case kNDateWidthNarrow:		theText = kTextQuarterNarrow[theIndex];		break;
+		case kNDateWidthAbbrev:		theText = kTextQuarterAbbrev[theIndex];		break;
+		case kNDateWidthFull:		theText = kTextQuarterFull  [theIndex];		break;
 		default:
 			NN_LOG("Unknown width: %d", theWidth);
 			break;
@@ -374,7 +297,7 @@ NString NDateFormatter::GetTextQuarter(NIndex theIndex, DateWidth theWidth) cons
 //============================================================================
 //		NDateFormatter::GetTextMonth : Get the text for a month.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetTextMonth(NIndex theIndex, DateWidth theWidth) const
+NString NDateFormatter::GetTextMonth(NIndex theIndex, NDateWidth theWidth) const
 {	NString		theText;
 
 
@@ -388,9 +311,9 @@ NString NDateFormatter::GetTextMonth(NIndex theIndex, DateWidth theWidth) const
 
 	// Get the text
 	switch (theWidth) {
-		case kDateWidthNarrow:		theText = kTextMonthNarrow[theIndex];		break;
-		case kDateWidthAbbrev:		theText = kTextMonthAbbrev[theIndex];		break;
-		case kDateWidthFull:		theText = kTextMonthFull  [theIndex];		break;
+		case kNDateWidthNarrow:		theText = kTextMonthNarrow[theIndex];		break;
+		case kNDateWidthAbbrev:		theText = kTextMonthAbbrev[theIndex];		break;
+		case kNDateWidthFull:		theText = kTextMonthFull  [theIndex];		break;
 		default:
 			NN_LOG("Unknown width: %d", theWidth);
 			break;
@@ -406,7 +329,7 @@ NString NDateFormatter::GetTextMonth(NIndex theIndex, DateWidth theWidth) const
 //============================================================================
 //		NDateFormatter::GetTextDay : Get the text for a day.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetTextDay(NIndex theIndex, DateWidth theWidth) const
+NString NDateFormatter::GetTextDay(NIndex theIndex, NDateWidth theWidth) const
 {	NString		theText;
 
 
@@ -420,9 +343,9 @@ NString NDateFormatter::GetTextDay(NIndex theIndex, DateWidth theWidth) const
 
 	// Get the text
 	switch (theWidth) {
-		case kDateWidthNarrow:		theText = kTextDayNarrow[theIndex];		break;
-		case kDateWidthAbbrev:		theText = kTextDayAbbrev[theIndex];		break;
-		case kDateWidthFull:		theText = kTextDayFull  [theIndex];		break;
+		case kNDateWidthNarrow:		theText = kTextDayNarrow[theIndex];		break;
+		case kNDateWidthAbbrev:		theText = kTextDayAbbrev[theIndex];		break;
+		case kNDateWidthFull:		theText = kTextDayFull  [theIndex];		break;
 		default:
 			NN_LOG("Unknown width: %d", theWidth);
 			break;
@@ -438,18 +361,18 @@ NString NDateFormatter::GetTextDay(NIndex theIndex, DateWidth theWidth) const
 //============================================================================
 //		NDateFormatter::GetLiteral : Get literal text.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, char /*tokenChar*/, const NString &theToken) const
+NString NDateFormatter::GetLiteral(const NDateContext &theContext) const
 {	NString		theValue;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(theToken.GetSize() >= 2);
+	NN_ASSERT(theContext.tokenSize >= 2);
 
 
 
 	// Get the text
-	theValue = theToken;
+	theValue = theContext.theToken;
 	theValue.Trim(kSingleQuote, kNStringNone);
 
 	if (theValue.IsEmpty())
@@ -465,46 +388,36 @@ NString NDateFormatter::GetLiteral(const NGregorianDate &/*theDate*/, char /*tok
 //============================================================================
 //		NDateFormatter::GetEra : Get an era.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetEra(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetEra(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(tokenChar == 'G');
-	NN_ASSERT(!theToken.IsEmpty());
-	
-	NN_UNUSED(tokenChar);
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
-	NN_ASSERT(theSize >= 1 && theSize <= 5);
+	NN_ASSERT(theContext.tokenChar == 'G');
 
 
 
 	// Get the text
 	//
 	// It's unclear if the standard allows these values to be localised; for now we assume not.
-	switch (theSize) {
+	switch (theContext.tokenSize) {
 		case 1:
 		case 2:
 		case 3:
-			theValue = (theDate.year >= 0) ? "AD" : "BC";
+			theValue = (theContext.gregDate.year >= 0) ? "AD" : "BC";
 			break;
 
 		case 4:
-			theValue = (theDate.year >= 0) ? "Anno Domini" : "Before Christ";
+			theValue = (theContext.gregDate.year >= 0) ? "Anno Domini" : "Before Christ";
 			break;
 		
 		case 5:
-			theValue = (theDate.year >= 0) ? "A" : "B";
+			theValue = (theContext.gregDate.year >= 0) ? "A" : "B";
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -518,40 +431,29 @@ NString NDateFormatter::GetEra(const NGregorianDate &theDate, char tokenChar, co
 //============================================================================
 //		NDateFormatter::GetYear : Get a year.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetYear(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetYear(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theToken.IsEmpty());
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
 
 
 
 	// Get the text
-	switch (tokenChar) {
+	switch (theContext.tokenChar) {
 		case 'y':
-			theValue.Format("%0*ld", theSize, theDate.year);
+			theValue.Format("%0*ld", theContext.tokenSize, theContext.gregDate.year);
 			break;
 		
 		case 'Y':
 			// Assume same as calendar year
-			theValue.Format("%0*ld", theSize, theDate.year);
+			theValue.Format("%0*ld", theContext.tokenSize, theContext.gregDate.year);
 			break;
 		
 		case 'u':
 			// Assume same as calendar year
-			theValue.Format("%0*ld", theSize, theDate.year);
+			theValue.Format("%0*ld", theContext.tokenSize, theContext.gregDate.year);
 			break;
 		
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -560,7 +462,7 @@ NString NDateFormatter::GetYear(const NGregorianDate &theDate, char tokenChar, c
 	// Trim the year
 	//
 	// Normally the length specifies the padding, but a value of 2 also truncates.
-	if (theSize == 2 && theValue.GetSize() > 2)
+	if (theContext.tokenSize == 2 && theValue.GetSize() > 2)
 		theValue = theValue.GetRight(2);
 
 	return(theValue);
@@ -573,45 +475,43 @@ NString NDateFormatter::GetYear(const NGregorianDate &theDate, char tokenChar, c
 //============================================================================
 //		NDateFormatter::GetQuarter : Get a quarter.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetQuarter(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
-{	NIndex		theSize, theIndex;
-	NString		theValue;
-	
+NString NDateFormatter::GetQuarter(const NDateContext &theContext) const
+{	NString		theValue;
+	NIndex		theIndex;
+
 
 
 	// Validate our parameters
-	NN_ASSERT(tokenChar == 'Q' || tokenChar == 'q');
-	NN_ASSERT(!theToken.IsEmpty());
+	NN_ASSERT(theContext.tokenChar == 'Q' || theContext.tokenChar == 'q');
 
 
 
 	// Get the state we need
-	theSize  = theToken.GetSize();
-	theIndex = theDate.month / 4;
+	theIndex = theContext.gregDate.month / 4;
 
 
 
 	// Get the text
-	switch (theSize) {
+	switch (theContext.tokenSize) {
 		case 1:
 		case 2:
-			theValue.Format("%0*d", theSize, theIndex + 1);
+			theValue.Format("%0*d", theContext.tokenSize, theIndex + 1);
 			break;
 		
 		case 3:
-			theValue = GetTextQuarter(theIndex, kDateWidthAbbrev);
+			theValue = GetTextQuarter(theIndex, kNDateWidthAbbrev);
 			break;
 
 		case 4:
-			theValue = GetTextQuarter(theIndex, kDateWidthFull);
+			theValue = GetTextQuarter(theIndex, kNDateWidthFull);
 			break;
 
 		case 5:
-			theValue = GetTextQuarter(theIndex, kDateWidthAbbrev);
+			theValue = GetTextQuarter(theIndex, kNDateWidthAbbrev);
 			break;
 		
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -625,45 +525,43 @@ NString NDateFormatter::GetQuarter(const NGregorianDate &theDate, char tokenChar
 //============================================================================
 //		NDateFormatter::GetMonth : Get a month.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetMonth(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
-{	NIndex		theSize, theIndex;
-	NString		theValue;
-	
+NString NDateFormatter::GetMonth(const NDateContext &theContext) const
+{	NString		theValue;
+	NIndex		theIndex;
+
 
 
 	// Validate our parameters
-	NN_ASSERT(tokenChar == 'M' || tokenChar == 'L');
-	NN_ASSERT(!theToken.IsEmpty());
+	NN_ASSERT(theContext.tokenChar == 'M' || theContext.tokenChar == 'L');
 
 
 
 	// Get the state we need
-	theSize  = theToken.GetSize();
-	theIndex = theDate.month - 1;
+	theIndex = theContext.gregDate.month - 1;
 
 
 
 	// Get the text
-	switch (theSize) {
+	switch (theContext.tokenSize) {
 		case 1:
 		case 2:
-			theValue.Format("%0*d", theSize, theIndex + 1);
+			theValue.Format("%0*d", theContext.tokenSize, theIndex + 1);
 			break;
 		
 		case 3:
-			theValue = GetTextMonth(theIndex, kDateWidthAbbrev);
+			theValue = GetTextMonth(theIndex, kNDateWidthAbbrev);
 			break;
 
 		case 4:
-			theValue = GetTextMonth(theIndex, kDateWidthFull);
+			theValue = GetTextMonth(theIndex, kNDateWidthFull);
 			break;
 
 		case 5:
-			theValue = GetTextMonth(theIndex, kDateWidthNarrow);
+			theValue = GetTextMonth(theIndex, kNDateWidthNarrow);
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -677,36 +575,25 @@ NString NDateFormatter::GetMonth(const NGregorianDate &theDate, char tokenChar, 
 //============================================================================
 //		NDateFormatter::GetWeek : Get a week.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetWeek(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetWeek(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
 
-
-
-	// Validate our parameters
-	NN_ASSERT(!theToken.IsEmpty());
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
-	
 
 
 	// Get the text
-	switch (tokenChar) {
+	switch (theContext.tokenChar) {
 		case 'w':
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, GetWeekOfYear(theDate));
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, theContext.theDate.GetWeekOfYear());
 			break;
 
 		case 'W':
-			NN_ASSERT(theSize == 1);
-			theValue.Format("%d", (theDate.day / 7) + 1);
+			NN_ASSERT(theContext.tokenSize == 1);
+			theValue.Format("%d", (theContext.gregDate.day / 7) + 1);
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -720,42 +607,31 @@ NString NDateFormatter::GetWeek(const NGregorianDate &theDate, char tokenChar, c
 //============================================================================
 //		NDateFormatter::GetDay : Get a day.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetDay(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetDay(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
 
-
-
-	// Validate our parameters
-	NN_ASSERT(!theToken.IsEmpty());
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
-	
 
 
 	// Get the text
-	switch (tokenChar) {
+	switch (theContext.tokenChar) {
 		case 'd':
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, theDate.day);
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, theContext.gregDate.day);
 			break;
 
 		case 'D':
-			NN_ASSERT(theSize >= 1 && theSize <= 3);
-			theValue.Format("%0*d", theSize, GetDayOfYear(theDate));
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 3);
+			theValue.Format("%0*d", theContext.tokenSize, theContext.theDate.GetDayOfYear());
 			break;
 
 		case 'F':
 		case 'g':
-			NN_LOG("Not implemented: %@", theToken);
+			NN_LOG("Not implemented: %@", theContext.theToken);
 			theValue = kFormatUnimplemented;
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -769,48 +645,46 @@ NString NDateFormatter::GetDay(const NGregorianDate &theDate, char tokenChar, co
 //============================================================================
 //		NDateFormatter::GetWeekDay : Get a week day.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetWeekDay(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
-{	NIndex		theSize, theIndex;
-	NString		theValue;
-	
+NString NDateFormatter::GetWeekDay(const NDateContext &theContext) const
+{	NString		theValue;
+	NIndex		theIndex;
+
 
 
 	// Validate our parameters
-	NN_ASSERT(tokenChar == 'E' || tokenChar == 'e' || tokenChar == 'c');
-	NN_ASSERT(!theToken.IsEmpty());
+	NN_ASSERT(theContext.tokenChar == 'E' || theContext.tokenChar == 'e' || theContext.tokenChar == 'c');
 
 
 
 	// Get the state we need
-	theSize  = theToken.GetSize();
-	theIndex = GetDayOfWeek(theDate) - 1;
+	theIndex = theContext.theDate.GetDayOfWeek() - 1;
 
 
 
 	// Get the text
-	switch (theSize) {
+	switch (theContext.tokenSize) {
 		case 1:
 		case 2:
-			if (tokenChar == 'E')
-				theValue = GetTextDay(theIndex, kDateWidthAbbrev);
+			if (theContext.tokenChar == 'E')
+				theValue = GetTextDay(theIndex, kNDateWidthAbbrev);
 			else
-				theValue.Format("%0*d", theSize, theIndex + 1);
+				theValue.Format("%0*d", theContext.tokenSize, theIndex + 1);
 			break;
 		
 		case 3:
-			theValue = GetTextDay(theIndex, kDateWidthAbbrev);
+			theValue = GetTextDay(theIndex, kNDateWidthAbbrev);
 			break;
 
 		case 4:
-			theValue = GetTextDay(theIndex, kDateWidthFull);
+			theValue = GetTextDay(theIndex, kNDateWidthFull);
 			break;
 
 		case 5:
-			theValue = GetTextDay(theIndex, kDateWidthNarrow);
+			theValue = GetTextDay(theIndex, kNDateWidthNarrow);
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -824,23 +698,21 @@ NString NDateFormatter::GetWeekDay(const NGregorianDate &theDate, char tokenChar
 //============================================================================
 //		NDateFormatter::GetPeriod : Get a period.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetPeriod(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetPeriod(const NDateContext &theContext) const
 {	NString		theValue;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(tokenChar          == 'a');
-	NN_ASSERT(theToken.GetSize() == 1);
-	
-	NN_UNUSED(tokenChar);
+	NN_ASSERT(theContext.tokenChar == 'a');
+	NN_ASSERT(theContext.tokenSize == 1);
 
 
 
 	// Get the text
 	//
 	// It's unclear if the standard allows these values to be localised; for now we assume not.
-	if (theDate.hour >= 12)
+	if (theContext.gregDate.hour >= 12)
 		theValue = "PM";
 	else
 		theValue = "AM";
@@ -855,48 +727,38 @@ NString NDateFormatter::GetPeriod(const NGregorianDate &theDate, char tokenChar,
 //============================================================================
 //		NDateFormatter::GetHour : Get an hour.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetHour(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
-{	NIndex		theSize, theIndex;
-	NString		theValue;
+NString NDateFormatter::GetHour(const NDateContext &theContext) const
+{	NString		theValue;
+	NIndex		theIndex;
 
-
-
-	// Validate our parameters
-	NN_ASSERT(!theToken.IsEmpty());
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
-	
 
 
 	// Get the text
-	switch (tokenChar) {
+	switch (theContext.tokenChar) {
 		case 'h':
-			theIndex = (theDate.hour % 12) == 0 ? 12 : (theDate.hour % 12);
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, theIndex);
+			theIndex = (theContext.gregDate.hour % 12) == 0 ? 12 : (theContext.gregDate.hour % 12);
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, theIndex);
 			break;
 
 		case 'H':
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, theDate.hour);
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, theContext.gregDate.hour);
 			break;
 		
 		case 'K':
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, theDate.hour % 12);
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, theContext.gregDate.hour % 12);
 			break;
 
 		case 'k':
-			theIndex = (theDate.hour == 0) ? 24 : theDate.hour;
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, theIndex);
+			theIndex = (theContext.gregDate.hour == 0) ? 24 : theContext.gregDate.hour;
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, theIndex);
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -910,28 +772,19 @@ NString NDateFormatter::GetHour(const NGregorianDate &theDate, char tokenChar, c
 //============================================================================
 //		NDateFormatter::GetMinute : Get a minute.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetMinute(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetMinute(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(tokenChar == 'm');
-	NN_ASSERT(!theToken.IsEmpty());
-	
-	NN_UNUSED(tokenChar);
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
+	NN_ASSERT(theContext.tokenChar == 'm');
+	NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
 
 
 
 	// Get the text
-	NN_ASSERT(theSize >= 1 && theSize <= 2);
-	theValue.Format("%0*d", theSize, theDate.minute);
+	theValue.Format("%0*d", theContext.tokenSize, theContext.gregDate.minute);
 
 	return(theValue);
 }
@@ -943,40 +796,29 @@ NString NDateFormatter::GetMinute(const NGregorianDate &theDate, char tokenChar,
 //============================================================================
 //		NDateFormatter::GetSecond : Get a second.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetSecond(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetSecond(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
 
-
-
-	// Validate our parameters
-	NN_ASSERT(!theToken.IsEmpty());
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
-	
 
 
 	// Get the text
-	switch (tokenChar) {
+	switch (theContext.tokenChar) {
 		case 's':
-			NN_ASSERT(theSize >= 1 && theSize <= 2);
-			theValue.Format("%0*d", theSize, (SInt32) theDate.second);
+			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
+			theValue.Format("%0*d", theContext.tokenSize, (SInt32) theContext.gregDate.second);
 			break;
 
 		case 'S':
-			theValue.Format("%.*f", theSize, theDate.second);
+			theValue.Format("%.*f", theContext.tokenSize, theContext.gregDate.second);
 			break;
 
 		case 'A':
-			NN_LOG("Not implemented: %@", theToken);
+			NN_LOG("Not implemented: %@", theContext.theToken);
 			theValue = kFormatUnimplemented;
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
@@ -990,40 +832,29 @@ NString NDateFormatter::GetSecond(const NGregorianDate &theDate, char tokenChar,
 //============================================================================
 //		NDateFormatter::GetZone : Get a time zone.
 //----------------------------------------------------------------------------
-NString NDateFormatter::GetZone(const NGregorianDate &theDate, char tokenChar, const NString &theToken) const
+NString NDateFormatter::GetZone(const NDateContext &theContext) const
 {	NString		theValue;
-	NIndex		theSize;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theToken.IsEmpty());
-
-
-
-	// Get the state we need
-	theSize = theToken.GetSize();
 
 
 
 	// Get the text
-	switch (tokenChar) {
+	switch (theContext.tokenChar) {
 		case 'z':
-			theValue = theDate.timeZone;
+			theValue = theContext.gregDate.timeZone;
 			break;
 
 		case 'Z':
-			NN_LOG("Not implemented: %@", theToken);
+			NN_LOG("Not implemented: %@", theContext.theToken);
 			theValue = kFormatUnimplemented;
 			break;
 
 		case 'v':
-			NN_LOG("Not implemented: %@", theToken);
+			NN_LOG("Not implemented: %@", theContext.theToken);
 			theValue = kFormatUnimplemented;
 			break;
 
 		default:
-			NN_LOG("Unknown token: %@", theToken);
+			NN_LOG("Unknown token: %@", theContext.theToken);
 			break;
 		}
 
