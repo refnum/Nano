@@ -60,6 +60,189 @@ static TimerInfoMap gTimers;
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
+//		GetTimeZoneName : Get a time zone name.
+//----------------------------------------------------------------------------
+static NString GetTimeZoneName(const NString &timeZone)
+{	static NStringMap		sTimeZones;
+
+	NStringMapConstIterator		theIter;
+	NString						theName;
+
+
+
+	// Populate the table
+	//
+	// Time zones are stored in the registry using their full names, and do not contain
+	// an abbreviated name. This means we can't build a lookup table by scanning the
+	// registry, but need to provide our own (incomplete) list of mappings.
+	if (sTimeZones.empty())
+		{
+		sTimeZones["ADT"]	= "Atlantic Standard Time";
+		sTimeZones["AKDT"]	= "Alaskan Standard Time";
+		sTimeZones["AKST"]	= "Alaskan Standard Time";
+		sTimeZones["ART"]	= "SA Eastern Standard Time";
+		sTimeZones["AST"]	= "Atlantic Standard Time";
+		sTimeZones["BDT"]	= "Central Asia Standard Time";
+		sTimeZones["BRST"]	= "SA Eastern Standard Time";
+		sTimeZones["BRT"]	= "SA Eastern Standard Time";
+		sTimeZones["BST"]	= "GMT Standard Time";
+		sTimeZones["CAT"]	= "South Africa Standard Time";
+		sTimeZones["CDT"]	= "Central Standard Time";
+		sTimeZones["CEST"]	= "Central Europe Standard Time";
+		sTimeZones["CET"]	= "Central Europe Standard Time";
+		sTimeZones["CLST"]	= "SA Western Standard Time";
+		sTimeZones["CLT"]	= "SA Western Standard Time";
+		sTimeZones["COT"]	= "Central Standard Time";
+		sTimeZones["CST"]	= "Central Standard Time";
+		sTimeZones["EAT"]	= "E. Africa Standard Time";
+		sTimeZones["EDT"]	= "Eastern Standard Time";
+		sTimeZones["EEST"]	= "E. Europe Standard Time";
+		sTimeZones["EET"]	= "E. Europe Standard Time";
+		sTimeZones["EST"]	= "Eastern Standard Time";
+		sTimeZones["GMT"]	= "Greenwich Standard Time";
+		sTimeZones["GST"]	= "Arabian Standard Time";
+		sTimeZones["HKT"]	= "China Standard Time";
+		sTimeZones["HST"]	= "Hawaiian Standard Time";
+		sTimeZones["ICT"]	= "SE Asia Standard Time";
+		sTimeZones["IRST"]	= "Iran Standard Time";
+		sTimeZones["IST"]	= "India Standard Time";
+		sTimeZones["JST"]	= "Tokyo Standard Time";
+		sTimeZones["KST"]	= "Korea Standard Time";
+		sTimeZones["MDT"]	= "Mountain Standard Time";
+		sTimeZones["MSD"]	= "E. Europe Standard Time";
+		sTimeZones["MSK"]	= "E. Europe Standard Time";
+		sTimeZones["MST"]	= "Mountain Standard Time";
+		sTimeZones["NZDT"]	= "New Zealand Standard Time";
+		sTimeZones["NZST"]	= "New Zealand Standard Time";
+		sTimeZones["PDT"]	= "Pacific Standard Time";
+		sTimeZones["PET"]	= "SA Pacific Standard Time";
+		sTimeZones["PHT"]	= "Taipei Standard Time";
+		sTimeZones["PKT"]	= "West Asia Standard Time";
+		sTimeZones["PST"]	= "Pacific Standard Time";
+		sTimeZones["SGT"]	= "Singapore Standard Time";
+		sTimeZones["UTC"]	= "Greenwich Standard Time";
+		sTimeZones["WAT"]	= "W. Central Africa Standard Time";
+		sTimeZones["WEST"]	= "W. Europe Standard Time";
+		sTimeZones["WET"]	= "W. Europe Standard Time";
+		sTimeZones["WIT"]	= "SE Asia Standard Time";
+		}
+
+
+
+	// Get the name
+	//
+	// Unknown names should be added to the above table.
+	theIter = sTimeZones.find(timeZone);
+	if (theIter == sTimeZones.end())
+		{
+		NN_LOG("Unknown time zone: '%@'", timeZone);
+		theIter = sTimeZones.find("UTC");
+		}
+
+	NN_ASSERT(theIter != sTimeZones.end());
+	theName = theIter->second;
+	
+	return(theName);
+}
+
+
+
+
+
+//============================================================================
+//		GetTimeZone : Get a time zone.
+//----------------------------------------------------------------------------
+static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
+{	NString						zoneName, thePath;
+	TIME_ZONE_INFORMATION		zoneInfo;
+	DWORD						theSize;
+	REG_TZI_FORMAT				regInfo;
+	LONG						theErr;
+	HKEY						theKey;
+
+
+
+	// Get the state we need
+	theSize  = sizeof(regInfo);
+	zoneName = GetTimeZoneName(timeZone);
+	thePath  = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\" + zoneName;
+	
+	memset(&zoneInfo, 0x00, sizeof(zoneInfo));
+
+
+
+	// Get the time zone info
+	if (FAILED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, ToWN(thePath), 0, KEY_QUERY_VALUE, &theKey)))
+		return(zoneInfo);
+
+	if (FAILED(RegQueryValueEx(theKey, L"TZI", NULL, NULL, &regInfo, &theSize)))
+		return(zoneInfo);
+
+
+
+	// Get the time zone
+	zoneInfo.Bias         = regInfo.Bias;
+	zoneInfo.StandardName = NULL;
+	zoneInfo.StandardDate = regInfo.StandardDate;
+	zoneInfo.StandardBias = regInfo.StandardBias;
+	zoneInfo.DaylightName = NULL;
+	zoneInfo.DaylightDate = regInfo.DaylightDate;
+	zoneInfo.DaylightBias = regInfo.DaylightBias;
+
+	return(zoneInfo);
+}
+
+
+
+
+
+//============================================================================
+//		GetTimeFromFileTime : Get an NTime from a FILETIME.
+//----------------------------------------------------------------------------
+static NTime GetTimeFromFileTime(const FILETIME &fileTime)
+{	UInt64			hectoNanoSecs;
+	NTime			theTime;
+
+
+
+	// Get the time
+	hectoNanoSecs = ToNN(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+	theTime       = ((NTime) hectoNanoSecs) * (100.0 * kNTimeNanosecond);
+	theTime      -= kNEpochTimeSince1601;
+
+	return(theTime);
+}
+
+
+
+
+
+//============================================================================
+//		GetFileTimeFromTime : Get a FILETIME from an NTime.
+//----------------------------------------------------------------------------
+static FILETIME GetFileTimeFromTime(NTime theTime)
+{	ULARGE_INTEGER	hectoNanoSecs;
+	FILETIME		fileTime;
+
+
+
+	// Get the time
+	theTime += kNEpochTimeSince1601;
+	theTime /= (100.0 * kNTimeNanosecond);
+
+	hectoNanoSecs = ToWN((UInt64) theTime);
+
+	fileTime.dwLowDateTime  = hectoNanoSecs.LowPart;
+	fileTime.dwHighDateTime = hectoNanoSecs.HighPart;
+	
+	return(fileTime);
+}
+
+
+
+
+
+//============================================================================
 //		GetTimerMS : Get a timer time.
 //----------------------------------------------------------------------------
 static DWORD GetTimerMS(NTime theTime)
@@ -224,18 +407,14 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 //----------------------------------------------------------------------------
 #pragma mark -
 NTime NTargetTime::GetTime(void)
-{	UInt64			hectoNanoSecs;
-	FILETIME		winTime;
+{	FILETIME		fileTime;
 	NTime			theTime;
 
 
 
 	// Get the time
-	GetSystemTimeAsFileTime(&winTime);
-
-	hectoNanoSecs = ToNN(winTime.dwHighDateTime, winTime.dwLowDateTime);
-	theTime       = ((NTime) hectoNanoSecs / 10) * kNTimeMicrosecond;
-	theTime      -= kNEpochTimeSince1601;
+	GetSystemTimeAsFileTime(&fileTime);
+	theTime = GetTimeFromFileTime(fileTime);
 	
 	return(theTime);
 }
@@ -315,18 +494,33 @@ void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 //		NTargetTime::ConvertTimeToDate : Convert a UTC time to a date.
 //----------------------------------------------------------------------------
 NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &timeZone)
-{	NGregorianDate		theDate;
+{	SYSTEMTIME					timeUTC, timeLocal;
+	TIME_ZONE_INFORMATION		zoneInfo;
+	FILETIME					fileTime;
+	NGregorianDate				theDate;
 
 
 
-	// dair, to do
-	theDate.year     = 0;
-	theDate.month    = 0;
-	theDate.day      = 0;
-	theDate.hour     = 0;
-	theDate.minute   = 0;
-	theDate.second   = 0;
-//	theDate.timeZone = dair, to do
+	// Get the state we need
+	zoneInfo = GetTimeZone(timeZone);
+	fileTime = GetFileTimeFromTime(theTime);
+
+
+
+	// Convert the time
+	if (!FileTimeToSystemTime(&fileTime, &timeUTC))
+		memset(&timeUTC, 0x00, sizeof(timeUTC));
+
+	if (!SystemTimeToTzSpecificLocalTime(zoneInfo, &timeUTC, &timeLocal))
+		memset(&timeLocal, 0x00, sizeof(timeLocal));
+
+	theDate.year     = timeLocal.wYear;
+	theDate.month    = timeLocal.wMonth;
+	theDate.day      = timeLocal.wDay;
+	theDate.hour     = timeLocal.wHour;
+	theDate.minute   = timeLocal.wMinute;
+	theDate.second   = ((NTime) timeLocal.wSecond) + (((NTime) timeLocal.wMilliseconds) * kNTimeMillisecond);
+	theDate.timeZone = timeZone;
 
 	return(theDate);
 }
@@ -339,13 +533,43 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 //		NTargetTime::ConvertDateToTime : Convert a date to a UTC time.
 //----------------------------------------------------------------------------
 NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
-{	NTime	theTime;
+{	SYSTEMTIME					timeUTC, timeLocal;
+	TIME_ZONE_INFORMATION		zoneInfo;
+	FILETIME					fileTime;
+	double						timeSecs;
+	NTime						theTime;
 
 
 
-	// dair, to do
-	theTime = 0.0;
+	// Validate our parameters
+	NN_ASSERT(theDate.year >= 1601 && theDate.year <= 30827);
+
+
+
+	// Get the state we need
+	zoneInfo = GetTimeZone(theDate.timeZone);
+	timeSecs = floor(theDate.second);
+
+	timeLocal.wYear         = theDate.year;
+	timeLocal.wMonth        = theDate.wMonth;
+	timeLocal.wDayOfWeek    = 0;
+	timeLocal.wDay          = theDate.day;
+	timeLocal.wHour         = theDate.hour;
+	timeLocal.wMinute       = theDate.minute;
+	timeLocal.wSecond       = (WORD) timeSecs;
+	timeLocal.wMilliseconds = (WORD) ((theDate.second - timeSecs) / kNTimeMillisecond);
+
+
+
+	// Convert the time
+	if (FAILED(TzSpecificLocalTimeToSystemTime(zoneInfo, &timeLocal, &timeUTC))
+		return(0.0);
+
+	if (!SystemTimeToFileTime(&timeUTC, &fileTime))
+		return(0.0);
 	
+	theTime = GetTimeFromFileTime(fileTime);
+
 	return(theTime);
 }
 
