@@ -63,7 +63,7 @@ public:
 	//		NVariant	theValue;
 	//		SInt32		theInt;
 	//
-	//		if (theValue.IsType(typeid(theInt)))
+	//		if (theValue.IsType(typeid(float)))
 	//			foo();
 	//
 	//		if (theValue.IsType(theInt))
