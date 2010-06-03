@@ -19,6 +19,7 @@
 #include "NStringFormatter.h"
 #include "NComparable.h"
 #include "NEncodable.h"
+#include "NVariant.h"
 #include "NPoint.h"
 #include "NSize.h"
 
@@ -47,8 +48,6 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NRectangleX;
-
 template<class T> class NRectangleT;
 
 typedef NRectangleT<Float64> NRectangle64;
@@ -78,6 +77,8 @@ typedef NRectangleList::const_iterator								NRectangleListConstIterator;
 //----------------------------------------------------------------------------
 template<class T> class NRectangleT {
 public:
+										NRectangleT(const NVariant &theValue);
+
 										NRectangleT(const T x, T y, T width, T height);
 										NRectangleT(                T width, T height);
 

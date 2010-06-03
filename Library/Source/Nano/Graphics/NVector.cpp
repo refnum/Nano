@@ -3,6 +3,8 @@
 
 	DESCRIPTION:
 		Vector object.
+		
+		NEncodable support uses a helper class to avoid a v-table.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -18,31 +20,11 @@
 #include "NString.h"
 
 #ifndef NVECTOR_CPP
+	#include "NEncoder.h"
+	#include "NVector.h"
+#endif
 
-#include "NEncoder.h"
-#include "NVector.h"
-
-
-
-
-
-//============================================================================
-//		Public constants
-//----------------------------------------------------------------------------
-const NVector kNVectorNorth									= NVector( 0.0f,  1.0f);
-const NVector kNVectorSouth									= NVector( 0.0f, -1.0f);
-const NVector kNVectorEast									= NVector( 1.0f,  0.0f);
-const NVector kNVectorWest									= NVector(-1.0f,  0.0f);
-
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NString kNVectorXKey									= "x";
-static const NString kNVectorYKey									= "y";
+#ifdef NVECTOR_CPP
 
 
 
@@ -61,8 +43,9 @@ public:
 
 
 protected:
-	// Encode the object
-	void								EncodeSelf(NEncoder &theEncoder) const;
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:
@@ -75,100 +58,54 @@ private:
 
 
 //============================================================================
-//		Implementation
+//		NVectorT::NVectorT : Constructor.
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE_NODECODE(NVectorX);
+template<class T> NVectorT<T>::NVectorT(const NVariant &theValue)
+{	NVector64	vector64;
+	NVector32	vector32;
+	NVector		vector;
 
 
 
-
-
-//============================================================================
-//      NVectorX::NVectorX : Constructor.
-//----------------------------------------------------------------------------
-NVectorX::NVectorX(const NNumber &x, const NNumber &y)
-{
-
-
-	// Initialise ourselves
-	mX = x;
-	mY = y;
-}
-
-
-
-
-
-//============================================================================
-//      NVectorX::NVectorX : Constructor.
-//----------------------------------------------------------------------------
-NVectorX::NVectorX()
-{
-}
-
-
-
-
-
-//============================================================================
-//      NVectorX::~NVectorX : Destructor.
-//----------------------------------------------------------------------------
-NVectorX::~NVectorX(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//      NVectorX::EncodableGetDecoded : Get a decoded object.
-//----------------------------------------------------------------------------
-NVariant NVectorX::EncodableGetDecoded(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	mX = theEncoder.DecodeNumber(kNVectorXKey);
-	mY = theEncoder.DecodeNumber(kNVectorYKey);
+	// Initialize ourselves
+	NVectorX::EncodableRegister();
 	
-	if (mX.GetPrecision() == kNPrecisionFloat64 || mY.GetPrecision() == kNPrecisionFloat64)
-		return(NVector64(mX.GetFloat64(), mY.GetFloat64()));
+	if (theValue.GetValue(vector64))
+		{
+		x = (T) vector64.x;
+		y = (T) vector64.y;
+		}
+
+	else if (theValue.GetValue(vector32))
+		{
+		x = (T) vector32.x;
+		y = (T) vector32.y;
+		}
+
+	else if (theValue.GetValue(vector))
+		{
+		x = (T) vector.x;
+		y = (T) vector.y;
+		}
+
 	else
-		return(NVector32(mX.GetFloat32(), mY.GetFloat32()));
+		NN_LOG("Unknown type!");
 }
 
 
 
 
-
-//============================================================================
-//      NVectorX::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NVectorX::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeNumber(kNVectorXKey, mX);
-	theEncoder.EncodeNumber(kNVectorYKey, mY);
-}
-
-
-
-
-
-#else
 
 //============================================================================
 //		NVectorT::NVectorT : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 template<class T> NVectorT<T>::NVectorT(T valX, T valY)
 {
 
 
 	// Initialize ourselves
+	NVectorX::EncodableRegister();
+	
 	x = valX;
 	y = valY;
 }
@@ -185,6 +122,8 @@ template<class T> NVectorT<T>::NVectorT(const NPointT<T> &point1, const NPointT<
 
 
 	// Initialize ourselves
+	NVectorX::EncodableRegister();
+	
 	x = point2.x - point1.x;
 	y = point2.y - point1.y;
 }
@@ -201,6 +140,8 @@ template<class T> NVectorT<T>::NVectorT(void)
 
 
 	// Initialize ourselves
+	NVectorX::EncodableRegister();
+	
 	x = 0;
 	y = 0;
 }
@@ -210,18 +151,7 @@ template<class T> NVectorT<T>::NVectorT(void)
 
 
 //============================================================================
-//		NVectorT::~NVectorT : Destructor.
-//----------------------------------------------------------------------------
-template<class T> NVectorT<T>::~NVectorT(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NVectorT::Clear : Clear the Vector.
+//		NVectorT::Clear : Clear the vector.
 //----------------------------------------------------------------------------
 template<class T> void NVectorT<T>::Clear(void)
 {
@@ -560,8 +490,151 @@ template<class T> NVectorT<T>::operator NFormatArgument(void) const
 
 
 
+
+
+#else // NVECTOR_CPP
+#pragma mark -
+//============================================================================
+//		Public constants
+//----------------------------------------------------------------------------
+const NVector kNVectorNorth											= NVector( 0.0f,  1.0f);
+const NVector kNVectorSouth											= NVector( 0.0f, -1.0f);
+const NVector kNVectorEast											= NVector( 1.0f,  0.0f);
+const NVector kNVectorWest											= NVector(-1.0f,  0.0f);
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNVectorXKey									= "x";
+static const NString kNVectorYKey									= "y";
+
+
+
+
+
+//============================================================================
+//		NEncodable
+//----------------------------------------------------------------------------
+NENCODABLE_DEFINE_REGISTER(NVectorX, NVector);
+
+bool NVectorX::EncodableCanEncode(const NVariant &theValue)
+{	bool	canEncode;
+
+	canEncode  = theValue.IsType(typeid(NVector64));
+	canEncode |= theValue.IsType(typeid(NVector32));
+	canEncode |= theValue.IsType(typeid(NVector));
+
+	return(canEncode);
+}
+
+void NVectorX::EncodableEncodeObject(NEncoder &theEncoder, const NVariant &theValue)
+{	NVectorX	theObject;
+	NVector64	vector64;
+	NVector32	vector32;
+	NVector		vector;
+
+	if (theValue.GetValue(vector64))
+		theObject = NVectorX(vector64.x, vector64.y);
+
+	else if (theValue.GetValue(vector32))
+		theObject = NVectorX(vector32.x, vector32.y);
+
+	else if (theValue.GetValue(vector))
+		theObject = NVectorX(vector.x, vector.y);
+
+	else
+		NN_LOG("Unknown type!");
+
+	theObject.EncodeSelf(theEncoder);
+}
+
+NVariant NVectorX::EncodableDecodeObject(const NEncoder &theEncoder)
+{	NVectorX	theObject;
+
+	theObject.DecodeSelf(theEncoder);
+
+	if (theObject.mX.GetPrecision() == kNPrecisionFloat64 || theObject.mY.GetPrecision() == kNPrecisionFloat64)
+		return(NVector64(theObject.mX.GetFloat64(), theObject.mY.GetFloat64()));
+	else
+		return(NVector32(theObject.mX.GetFloat32(), theObject.mY.GetFloat32()));
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::NVectorX : Constructor.
+//----------------------------------------------------------------------------
+NVectorX::NVectorX(const NNumber &x, const NNumber &y)
+{
+
+
+	// Initialise ourselves
+	mX = x;
+	mY = y;
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::NVectorX : Constructor.
+//----------------------------------------------------------------------------
+NVectorX::NVectorX()
+{
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::~NVectorX : Destructor.
+//----------------------------------------------------------------------------
+NVectorX::~NVectorX(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NVectorX::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNVectorXKey, mX);
+	theEncoder.EncodeNumber(kNVectorYKey, mY);
+}
+
+
+
+
+
+//============================================================================
+//      NVectorX::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NVectorX::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	mX = theEncoder.DecodeNumber(kNVectorXKey);
+	mY = theEncoder.DecodeNumber(kNVectorYKey);
+}
+
+
+
 #endif // NVECTOR_CPP
-
-
 
 

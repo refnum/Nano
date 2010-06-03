@@ -64,77 +64,79 @@ class NVariant;
 //
 // Older versions of gcc would incorrectly strip static initializers, unless
 // PRESERVE_DEAD_CODE_INITS_AND_TERMS was enabled. However this flag has no
-// effect unless DEAD_CODE_STRIPPING is also enabled, however this flag will
+// effect unless DEAD_CODE_STRIPPING is also enabled, however that flag will
 // increase link time so is off by default in debug builds.
 //
 // By calling EncodableRegister from a constructor or other reachable code,
 // the class will be registered once on first use.
-#define NENCODABLE_DECLARE(_class)																				\
-																												\
-	private:																									\
-	static bool sEncodableRegistered;																			\
-																												\
-	static bool							EncodableRegister(void);												\
-	static const NEncodable			   *EncodableCast(  const NVariant &theValue);								\
-	static NVariant						EncodableDecode(const NEncoder &theEncoder);							\
-																												\
-	public:																										\
-	virtual NVariant					EncodableGetDecoded(const NEncoder &theEncoder);						\
-	virtual NString						EncodableGetClass(void) const
+#define NENCODABLE_DECLARE(_class)																						\
+																														\
+	private:																											\
+	static bool sEncodableRegistered;																					\
+																														\
+	public:																												\
+	static bool							EncodableRegister(void);														\
+	static bool							EncodableCanEncode(                               const NVariant &theValue);	\
+	static void							EncodableEncodeObject(      NEncoder &theEncoder, const NVariant &theValue);	\
+	static NVariant						EncodableDecodeObject(const NEncoder &theEncoder)
 
 
-#define NENCODABLE_DEFINE_NODECODE(_class)																		\
-																												\
-	bool _class::sEncodableRegistered = _class::EncodableRegister();											\
-																												\
-	bool _class::EncodableRegister(void)																		\
-	{	static bool				sIsRegistered;																	\
-																												\
-		NEncoderClassInfo		classInfo;																		\
-																												\
-		if (!sIsRegistered)																						\
-			{																									\
-			classInfo.castObject   = BindFunction(_class::EncodableCast,   _1);									\
-			classInfo.decodeObject = BindFunction(_class::EncodableDecode, _1);									\
-																												\
-			NEncoder::RegisterClass(#_class, classInfo);														\
-			sIsRegistered = true;																				\
-			}																									\
-																												\
-		return(sIsRegistered);																					\
-	}																											\
-																												\
-	const NEncodable *_class::EncodableCast(const NVariant &theValue)											\
-	{	const _class	*theObject;																				\
-																												\
-		theObject = theValue.GetValue<_class>();																\
-		return(theObject);																						\
-	}																											\
-																												\
-	NVariant _class::EncodableDecode(const NEncoder &theEncoder)												\
-	{	_class		theObject;																					\
-																												\
-		return(theObject.EncodableGetDecoded(theEncoder));														\
-	}																											\
-																												\
-	NString _class::EncodableGetClass(void) const																\
-	{																											\
-		return(#_class);																						\
-	}																											\
-																												\
+#define NENCODABLE_DEFINE_REGISTER(_class, _forClass)																	\
+																														\
+	bool _class::sEncodableRegistered = _class::EncodableRegister();													\
+																														\
+	bool _class::EncodableRegister(void)																				\
+	{	static bool				sIsRegistered;																			\
+																														\
+		NEncoderClassInfo		classInfo;																				\
+																														\
+		if (!sIsRegistered)																								\
+			{																											\
+			classInfo.canEncode    = BindFunction(_class::EncodableCanEncode,    _1);									\
+			classInfo.encodeObject = BindFunction(_class::EncodableEncodeObject, _1, _2);								\
+			classInfo.decodeObject = BindFunction(_class::EncodableDecodeObject, _1);									\
+																														\
+			NEncoder::RegisterClass(#_forClass, classInfo);																\
+			sIsRegistered = true;																						\
+			}																											\
+																														\
+		return(sIsRegistered);																							\
+	}																													\
+																														\
 	void *kEatLastSemiColonForPedanticWarning1 ## _class
 
 
-#define NENCODABLE_DEFINE(_class)																				\
-	NENCODABLE_DEFINE_NODECODE(_class);																			\
-																												\
-	NVariant _class::EncodableGetDecoded(const NEncoder &theEncoder)											\
-	{																											\
-		DecodeSelf(theEncoder);																					\
-		return(NVariant(*this));																				\
-	}																											\
-																												\
+#define NENCODABLE_DEFINE_CODER(_class)																					\
+																														\
+	bool _class::EncodableCanEncode(const NVariant &theValue)															\
+	{	const _class	*theObject;																						\
+																														\
+		theObject = theValue.GetValue<_class>();																		\
+		return(theObject != NULL);																						\
+	}																													\
+																														\
+	void _class::EncodableEncodeObject(NEncoder &theEncoder, const NVariant &theValue)									\
+	{	const _class	*theObject;																						\
+																														\
+		theObject = theValue.GetValue<_class>();																		\
+		theObject->EncodeSelf(theEncoder);																				\
+	}																													\
+																														\
+	NVariant _class::EncodableDecodeObject(const NEncoder &theEncoder)													\
+	{	_class		theObject;																							\
+																														\
+		theObject.DecodeSelf(theEncoder);																				\
+		return(theObject);																								\
+	}																													\
+																														\
 	void *kEatLastSemiColonForPedanticWarning2 ## _class
+
+
+#define NENCODABLE_DEFINE(_class)																						\
+	NENCODABLE_DEFINE_REGISTER(_class, _class);																			\
+	NENCODABLE_DEFINE_CODER(   _class);																					\
+																														\
+	void *kEatLastSemiColonForPedanticWarning3 ## _class
 
 
 
@@ -151,23 +153,12 @@ public:
 
 
 protected:
-	// Get a decoded object
-	//
-	// This method is implemented automatically by NENCODABLE_DECLARE. 
-	virtual NVariant					EncodableGetDecoded(const NEncoder &theEncoder);
-
-
-	// Get the encoder class name
-	//
-	// This method is implemented automatically by NENCODABLE_DECLARE. 
-	virtual NString						EncodableGetClass(void) const;
-
-
 	// Encode/decode the object
 	//
-	// Sub-classes should override to encode/decode themselves.
+	// Sub-classes must implement to encode/decode themselves.
 	virtual void						EncodeSelf(      NEncoder &theEncoder) const;
 	virtual void						DecodeSelf(const NEncoder &theEncoder);
+
 
 private:
 

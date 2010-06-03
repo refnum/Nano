@@ -93,13 +93,14 @@ NEncoder::~NEncoder(void)
 //============================================================================
 //		NEncoder::Encode : Encode an object.
 //----------------------------------------------------------------------------
-NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
+NData NEncoder::Encode(const NVariant &theObject, NEncoderFormat theFormat)
 {	NXMLNode		*theRoot;
 	NData			theData;
 
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_ASSERT(CanEncode(theObject));
 	NN_ASSERT(mState == kNEncoderIdle);
 
 
@@ -112,6 +113,9 @@ NData NEncoder::Encode(const NEncodable &theObject, NEncoderFormat theFormat)
 
 
 	// Encode the object
+	if (!CanEncode(theObject))
+		goto cleanup;
+
 	EncodeObject(kTokenRoot, theObject);
 
 	if (mNodeRoot->GetChildren()->size() == 1)
@@ -154,27 +158,6 @@ cleanup:
 	mNodeRoot = NULL;
 	mState    = kNEncoderIdle;
 
-	return(theData);
-}
-
-
-
-
-
-//============================================================================
-//		NEncoder::Encode : Encode an object.
-//----------------------------------------------------------------------------
-NData NEncoder::Encode(const NVariant &theObject, NEncoderFormat theFormat)
-{	const NEncodable		*theEncodable;
-	NData					theData;
-
-
-
-	// Encode the object
-	theEncodable = GetEncodable(theObject);
-	if (theEncodable != NULL)
-		theData = Encode(*theEncodable, theFormat);
-	
 	return(theData);
 }
 
@@ -245,11 +228,10 @@ NVariant NEncoder::Decode(const NData &theData)
 
 
 //============================================================================
-//		NEncoder::GetEncodable : Get an encodable object.
+//		NEncoder::CanEncode : Can an object be encoded?
 //----------------------------------------------------------------------------
-const NEncodable *NEncoder::GetEncodable(const NVariant &theValue)
-{	const NEncodable					*theObject;
-	NEncoderClassInfoMapConstIterator	theIter;
+bool NEncoder::CanEncode(const NVariant &theValue)
+{	NEncoderClassInfoMapConstIterator	theIter;
 	NEncoderClassInfoMap				theInfo;
 
 
@@ -260,24 +242,25 @@ const NEncodable *NEncoder::GetEncodable(const NVariant &theValue)
 
 
 	// Get the state we need
-	theInfo   = GetClassesInfo();
-	theObject = NULL;
-	
+	theInfo = GetClassesInfo();
 
 
-	// Cast the object
+
+	// Check the classes
 	//
-	// Since we can't cast an NVariant back to an NEncodable, only to its leaf type,
-	// we need to iterate through the registered classes to find the class which can
-	// retrieve the NEncodable object from the variant.
+	// NVariants can't be cast back to an NEncodable, only to their leaf type, which
+	// means we can't simply cast to see if the object is an NEncodable.
+	//
+	// In addition, encoders are registered as a set of functors rather than a class
+	// instance (to allow encoders to encode other classes; see NPoint/etc), and so
+	// we need to query the registered classes rather than theValue.
 	for (theIter = theInfo.begin(); theIter != theInfo.end(); theIter++)
 		{
-		theObject = theIter->second.castObject(theValue);
-		if (theObject != NULL)
-			break;
+		if (theIter->second.canEncode(theValue))
+			return(true);
 		}
 	
-	return(theObject);
+	return(false);
 }
 
 
@@ -463,30 +446,54 @@ void NEncoder::EncodeString(const NString &theKey, const NString &theValue)
 //============================================================================
 //		NEncoder::EncodeObject : Encode an object.
 //----------------------------------------------------------------------------
-void NEncoder::EncodeObject(const NString &theKey, const NEncodable &theValue)
-{	NString			className;
-	NXMLNode		*theNode;
+void NEncoder::EncodeObject(const NString &theKey, const NVariant &theValue)
+{	NEncoderClassInfo					classInfo;
+	NString								className;
+	NXMLNode							*theNode;
+	NEncoderClassInfoMapConstIterator	theIter;
+	NEncoderClassInfoMap				theInfo;
 
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_ASSERT(CanEncode(theValue));
+
 	NN_ASSERT(mState == kNEncoderEncoding);
 
 
 
 	// Get the state we need
-	className = theValue.EncodableGetClass();
-	NN_ASSERT(IsKnownClass(className));
+	theInfo = GetClassesInfo();
 
 
 
-	// Encode the value
-	theNode = EncodeChild(theKey, "", kTokenObject);
-	theNode->SetElementAttribute(kTokenClass, className);
+	// Encode the object
+	//
+	// As per CanEncode, we need to iterate to find the class that can encode ths object.
+	//
+	// If this proves a bottleneck then we could try to cast the object to an NEncodable,
+	// and provide a method in NEncodable which could return the NEncoderClassInfo (and
+	// have NEncodable::EncodableRegister use that method during initialisation).
+	//
+	// This would work for NEncodable objects, but a linear search would be required as a
+	// fall-back to support classes-that-encode-other-classes (e.g., NPoint). 
+	//
+	// For now the list of encodable classes is small enough that a linear search is fine.
+	for (theIter = theInfo.begin(); theIter != theInfo.end(); theIter++)
+		{
+		className = theIter->first;
+		classInfo = theIter->second;
+		
+		if (classInfo.canEncode(theValue))
+			{
+			theNode = EncodeChild(theKey, "", kTokenObject);
+			theNode->SetElementAttribute(kTokenClass, className);
 
-	mNodeStack.push_back(theNode);
-	theValue.EncodeSelf(*this);
-	mNodeStack.pop_back();
+			mNodeStack.push_back(theNode);
+			classInfo.encodeObject(*this, theValue);
+			mNodeStack.pop_back();
+			}
+		}
 }
 
 
@@ -652,7 +659,8 @@ void NEncoder::RegisterClass(const NString &className, const NEncoderClassInfo &
 
 	// Validate our parameters
 	NN_ASSERT(!IsKnownClass(className));
-	NN_ASSERT(classInfo.castObject   != NULL);
+	NN_ASSERT(classInfo.canEncode    != NULL);
+	NN_ASSERT(classInfo.encodeObject != NULL);
 	NN_ASSERT(classInfo.decodeObject != NULL);
 	
 	

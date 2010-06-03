@@ -19,7 +19,7 @@
 #include "NStringFormatter.h"
 #include "NComparable.h"
 #include "NEncodable.h"
-#include "NNumber.h"
+#include "NVariant.h"
 
 
 
@@ -29,8 +29,6 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NPointX;
-
 template<class T> class NPointT;
 template<class T> class NVectorT;
 
@@ -61,6 +59,8 @@ typedef NPointList::const_iterator									NPointListConstIterator;
 //----------------------------------------------------------------------------
 template<class T> class NPointT {
 public:
+										NPointT(const NVariant &theValue);
+
 										NPointT(T x, T y);
 										NPointT(void);
 

@@ -19,8 +19,10 @@
 #include "NStringFormatter.h"
 #include "NComparable.h"
 #include "NEncodable.h"
+#include "NVariant.h"
 #include "NRectangle.h"
 #include "NPoint.h"
+#include "NArray.h"
 
 
 
@@ -30,27 +32,25 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NShapeX;
-
 template <class T> class NShapeT;
 
-typedef NShapeT<Float32> NShape32;
 typedef NShapeT<Float64> NShape64;
+typedef NShapeT<Float32> NShape32;
 typedef NShape32         NShape;
 
 
 // Lists
-typedef std::vector<NShape>											NShapeList;
-typedef NShapeList::iterator										NShapeListIterator;
-typedef NShapeList::const_iterator									NShapeListConstIterator;
+typedef std::vector<NShape64>										NShape64List;
+typedef NShape64List::iterator										NShape64ListIterator;
+typedef NShape64List::const_iterator								NShape64ListConstIterator;
 
 typedef std::vector<NShape32>										NShape32List;
 typedef NShape32List::iterator										NShape32ListIterator;
 typedef NShape32List::const_iterator								NShape32ListConstIterator;
 
-typedef std::vector<NShape64>										NShape64List;
-typedef NShape64List::iterator										NShape64ListIterator;
-typedef NShape64List::const_iterator								NShape64ListConstIterator;
+typedef std::vector<NShape>											NShapeList;
+typedef NShapeList::iterator										NShapeListIterator;
+typedef NShapeList::const_iterator									NShapeListConstIterator;
 
 
 
@@ -61,10 +61,10 @@ typedef NShape64List::const_iterator								NShape64ListConstIterator;
 //----------------------------------------------------------------------------
 template<class T> class NShapeT {
 public:
-										NShapeT(const std::vector< NPointT<T> > &thePoints, const NIndexList &theLoops=NIndexList());
+										NShapeT(const NVariant &theValue);
 
+										NShapeT(const std::vector< NPointT<T> > &thePoints, const NIndexList &theLoops=NIndexList());
 										NShapeT(void);
-	virtual							   ~NShapeT(void);
 
 
 	// Clear the shape

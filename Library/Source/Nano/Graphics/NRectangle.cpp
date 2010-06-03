@@ -3,6 +3,8 @@
 
 	DESCRIPTION:
 		Rectangle object.
+		
+		NEncodable support uses a helper class to avoid a v-table.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -17,21 +19,11 @@
 #include "NString.h"
 
 #ifndef NRECTANGLE_CPP
+	#include "NEncoder.h"
+	#include "NRectangle.h"
+#endif
 
-#include "NEncoder.h"
-#include "NRectangle.h"
-
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NString kNRectangleOriginXKey							= "x";
-static const NString kNRectangleOriginYKey							= "y";
-static const NString kNRectangleSizeWidthKey						= "width";
-static const NString kNRectangleSizeHeightKey						= "height";
+#ifdef NRECTANGLE_CPP
 
 
 
@@ -50,8 +42,9 @@ public:
 
 
 protected:
-	// Encode the object
-	void								EncodeSelf(NEncoder &theEncoder) const;
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:
@@ -66,109 +59,60 @@ private:
 
 
 //============================================================================
-//		Implementation
+//		NRectangleT::NRectangleT : Constructor.
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE_NODECODE(NRectangleX);
+template<class T> NRectangleT<T>::NRectangleT(const NVariant &theValue)
+{	NRectangle64	rectangle64;
+	NRectangle32	rectangle32;
+	NRectangle		rectangle;
 
 
 
-
-
-//============================================================================
-//      NRectangleX::NRectangleX : Constructor.
-//----------------------------------------------------------------------------
-NRectangleX::NRectangleX(const NNumber &x, const NNumber &y, const NNumber &width, const NNumber &height)
-{
-
-
-	// Initialise ourselves
-	mX      = x;
-	mY      = y;
-	mWidth  = width;
-	mHeight = height;
-}
-
-
-
-
-
-//============================================================================
-//      NRectangleX::NRectangleX : Constructor.
-//----------------------------------------------------------------------------
-NRectangleX::NRectangleX()
-{
-}
-
-
-
-
-
-//============================================================================
-//      NRectangleX::~NRectangleX : Destructor.
-//----------------------------------------------------------------------------
-NRectangleX::~NRectangleX(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//      NRectangleX::EncodableGetDecoded : Get a decoded object.
-//----------------------------------------------------------------------------
-NVariant NRectangleX::EncodableGetDecoded(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	mX      = theEncoder.DecodeNumber(kNRectangleOriginXKey);
-	mY      = theEncoder.DecodeNumber(kNRectangleOriginYKey);
-	mWidth  = theEncoder.DecodeNumber(kNRectangleSizeWidthKey);
-	mHeight = theEncoder.DecodeNumber(kNRectangleSizeHeightKey);
+	// Initialize ourselves
+	NRectangleX::EncodableRegister();
 	
-	if (mX.GetPrecision()     == kNPrecisionFloat64 ||
-		mY.GetPrecision()     == kNPrecisionFloat64 ||
-		mWidth.GetPrecision() == kNPrecisionFloat64 ||
-		mHeight.GetPrecision() == kNPrecisionFloat64)
-		return(NRectangle64(mX.GetFloat64(), mY.GetFloat64(), mWidth.GetFloat64(), mHeight.GetFloat64()));
+	if (theValue.GetValue(rectangle64))
+		{
+		origin.x    = (T) rectangle64.origin.x;
+		origin.y    = (T) rectangle64.origin.y;
+		size.width  = (T) rectangle64.size.width;
+		size.height = (T) rectangle64.size.height;
+		}
+
+	else if (theValue.GetValue(rectangle32))
+		{
+		origin.x    = (T) rectangle32.origin.x;
+		origin.y    = (T) rectangle32.origin.y;
+		size.width  = (T) rectangle32.size.width;
+		size.height = (T) rectangle32.size.height;
+		}
+
+	else if (theValue.GetValue(rectangle))
+		{
+		origin.x    = (T) rectangle.origin.x;
+		origin.y    = (T) rectangle.origin.y;
+		size.width  = (T) rectangle.size.width;
+		size.height = (T) rectangle.size.height;
+		}
+	
 	else
-		return(NRectangle32(mX.GetFloat32(), mY.GetFloat32(), mWidth.GetFloat32(), mHeight.GetFloat32()));
+		NN_LOG("Unknown type!");
 }
 
 
 
 
-
-//============================================================================
-//      NRectangleX::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NRectangleX::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeNumber(kNRectangleOriginXKey,   mX);
-	theEncoder.EncodeNumber(kNRectangleOriginYKey,   mY);
-	theEncoder.EncodeNumber(kNRectangleSizeWidthKey, mWidth);
-	theEncoder.EncodeNumber(kNRectangleSizeWidthKey, mHeight);
-}
-
-
-
-
-
-#else
 
 //============================================================================
 //		NRectangleT::NRectangleT : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 template<class T> NRectangleT<T>::NRectangleT(T x, T y, T width, T height)
 {
 
 
 	// Initialize ourselves
+	NRectangleX::EncodableRegister();
+	
 	origin.x    = x;
 	origin.y    = y;
 	size.width  = width;
@@ -182,12 +126,13 @@ template<class T> NRectangleT<T>::NRectangleT(T x, T y, T width, T height)
 //============================================================================
 //		NRectangleT::NRectangleT : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 template<class T> NRectangleT<T>::NRectangleT(T width, T height)
 {
 
 
 	// Initialize ourselves
+	NRectangleX::EncodableRegister();
+	
 	size.width  = width;
 	size.height = height;
 }
@@ -204,6 +149,8 @@ template<class T> NRectangleT<T>::NRectangleT(const NPointT<T> &valOrigin, const
 
 
 	// Initialize ourselves
+	NRectangleX::EncodableRegister();
+	
 	origin = valOrigin;
 	size   = valSize;
 }
@@ -220,6 +167,8 @@ template<class T> NRectangleT<T>::NRectangleT(const NSizeT<T> &valSize)
 
 
 	// Initialize ourselves
+	NRectangleX::EncodableRegister();
+	
 	size = valSize;
 }
 
@@ -232,6 +181,10 @@ template<class T> NRectangleT<T>::NRectangleT(const NSizeT<T> &valSize)
 //----------------------------------------------------------------------------
 template<class T> NRectangleT<T>::NRectangleT(void)
 {
+
+
+	// Initialize ourselves
+	NRectangleX::EncodableRegister();
 }
 
 
@@ -239,7 +192,7 @@ template<class T> NRectangleT<T>::NRectangleT(void)
 
 
 //============================================================================
-//		NRectangleT::Clear : Clear the Rectangle.
+//		NRectangleT::Clear : Clear the rectangle.
 //----------------------------------------------------------------------------
 template<class T> void NRectangleT<T>::Clear(void)
 {
@@ -935,6 +888,150 @@ template<class T> NRectangleT<T>::operator NFormatArgument(void) const
 	theResult.Format("{x=%g, y=%g, w=%g, h=%g}", origin.x, origin.y, size.width, size.height);
 
 	return(theResult);
+}
+
+
+
+
+
+#else // NRECTANGLE_CPP
+#pragma mark -
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNRectangleOriginXKey							= "x";
+static const NString kNRectangleOriginYKey							= "y";
+static const NString kNRectangleSizeWidthKey						= "width";
+static const NString kNRectangleSizeHeightKey						= "height";
+
+
+
+
+
+//============================================================================
+//		NEncodable
+//----------------------------------------------------------------------------
+NENCODABLE_DEFINE_REGISTER(NRectangleX, NRectangle);
+
+bool NRectangleX::EncodableCanEncode(const NVariant &theValue)
+{	bool	canEncode;
+
+	canEncode  = theValue.IsType(typeid(NRectangle64));
+	canEncode |= theValue.IsType(typeid(NRectangle32));
+	canEncode |= theValue.IsType(typeid(NRectangle));
+
+	return(canEncode);
+}
+
+void NRectangleX::EncodableEncodeObject(NEncoder &theEncoder, const NVariant &theValue)
+{	NRectangle64	rectangle64;
+	NRectangle32	rectangle32;
+	NRectangle		rectangle;
+	NRectangleX		theObject;
+
+	if (theValue.GetValue(rectangle64))
+		theObject = NRectangleX(rectangle64.origin.x, rectangle64.origin.y, rectangle64.size.width, rectangle64.size.height);
+
+	else if (theValue.GetValue(rectangle32))
+		theObject = NRectangleX(rectangle32.origin.x, rectangle32.origin.y, rectangle32.size.width, rectangle32.size.height);
+
+	else if (theValue.GetValue(rectangle))
+		theObject = NRectangleX(rectangle.origin.x, rectangle.origin.y, rectangle.size.width, rectangle.size.height);
+
+	else
+		NN_LOG("Unknown type!");
+
+	theObject.EncodeSelf(theEncoder);
+}
+
+NVariant NRectangleX::EncodableDecodeObject(const NEncoder &theEncoder)
+{	NRectangleX		theObject;
+
+	theObject.DecodeSelf(theEncoder);
+
+	if (theObject.mX.GetPrecision()      == kNPrecisionFloat64 ||
+		theObject.mY.GetPrecision()      == kNPrecisionFloat64 ||
+		theObject.mWidth.GetPrecision()  == kNPrecisionFloat64 ||
+		theObject.mHeight.GetPrecision() == kNPrecisionFloat64)
+		return(NRectangle64(theObject.mX.GetFloat64(), theObject.mY.GetFloat64(), theObject.mWidth.GetFloat64(), theObject.mHeight.GetFloat64()));
+	else
+		return(NRectangle32(theObject.mX.GetFloat32(), theObject.mY.GetFloat32(), theObject.mWidth.GetFloat32(), theObject.mHeight.GetFloat32()));
+}
+
+
+
+
+
+//============================================================================
+//      NRectangleX::NRectangleX : Constructor.
+//----------------------------------------------------------------------------
+NRectangleX::NRectangleX(const NNumber &x, const NNumber &y, const NNumber &width, const NNumber &height)
+{
+
+
+	// Initialise ourselves
+	mX      = x;
+	mY      = y;
+	mWidth  = width;
+	mHeight = height;
+}
+
+
+
+
+
+//============================================================================
+//      NRectangleX::NRectangleX : Constructor.
+//----------------------------------------------------------------------------
+NRectangleX::NRectangleX()
+{
+}
+
+
+
+
+
+//============================================================================
+//      NRectangleX::~NRectangleX : Destructor.
+//----------------------------------------------------------------------------
+NRectangleX::~NRectangleX(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NRectangleX::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NRectangleX::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNRectangleOriginXKey,    mX);
+	theEncoder.EncodeNumber(kNRectangleOriginYKey,    mY);
+	theEncoder.EncodeNumber(kNRectangleSizeWidthKey,  mWidth);
+	theEncoder.EncodeNumber(kNRectangleSizeHeightKey, mHeight);
+}
+
+
+
+
+
+//============================================================================
+//      NRectangleX::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NRectangleX::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	mX      = theEncoder.DecodeNumber(kNRectangleOriginXKey);
+	mY      = theEncoder.DecodeNumber(kNRectangleOriginYKey);
+	mWidth  = theEncoder.DecodeNumber(kNRectangleSizeWidthKey);
+	mHeight = theEncoder.DecodeNumber(kNRectangleSizeHeightKey);
 }
 
 

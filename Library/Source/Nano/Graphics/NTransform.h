@@ -17,8 +17,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
-#include "NEncodable.h"
 #include "NComparable.h"
+#include "NEncodable.h"
+#include "NVariant.h"
 #include "NRectangle.h"
 
 
@@ -29,27 +30,25 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NTransformX;
-
 template <class T> class NTransformT;
 
-typedef NTransformT<Float32> NTransform32;
 typedef NTransformT<Float64> NTransform64;
+typedef NTransformT<Float32> NTransform32;
 typedef NTransform32         NTransform;
 
 
 // Lists
-typedef std::vector<NTransform>										NTransformList;
-typedef NTransformList::iterator									NTransformListIterator;
-typedef NTransformList::const_iterator								NTransformListConstIterator;
+typedef std::vector<NTransform64>									NTransform64List;
+typedef NTransform64List::iterator									NTransform64ListIterator;
+typedef NTransform64List::const_iterator							NTransform64ListConstIterator;
 
 typedef std::vector<NTransform32>									NTransform32List;
 typedef NTransform32List::iterator									NTransform32ListIterator;
 typedef NTransform32List::const_iterator							NTransform32ListConstIterator;
 
-typedef std::vector<NTransform64>									NTransform64List;
-typedef NTransform64List::iterator									NTransform64ListIterator;
-typedef NTransform64List::const_iterator							NTransform64ListConstIterator;
+typedef std::vector<NTransform>										NTransformList;
+typedef NTransformList::iterator									NTransformListIterator;
+typedef NTransformList::const_iterator								NTransformListConstIterator;
 
 
 
@@ -60,11 +59,12 @@ typedef NTransform64List::const_iterator							NTransform64ListConstIterator;
 //----------------------------------------------------------------------------
 template<class T> class NTransformT {
 public:
+										NTransformT(const NVariant &theValue);
+
 										NTransformT(const std::vector<T> &matrix23);
 										NTransformT(T a, T b, T c, T d, T tx, T ty);
 
 										NTransformT(void);
-	virtual							   ~NTransformT(void);
 
 
 	// Clear to the identity transform

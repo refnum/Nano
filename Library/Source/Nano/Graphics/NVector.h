@@ -17,8 +17,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
-#include "NEncodable.h"
 #include "NComparable.h"
+#include "NEncodable.h"
+#include "NVariant.h"
 #include "NPoint.h"
 
 
@@ -29,27 +30,25 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NVectorX;
-
 template <class T> class NVectorT;
 
-typedef NVectorT<Float32> NVector32;
 typedef NVectorT<Float64> NVector64;
+typedef NVectorT<Float32> NVector32;
 typedef NVector32         NVector;
 
 
 // Lists
-typedef std::vector<NVector>										NVectorList;
-typedef NVectorList::iterator										NVectorListIterator;
-typedef NVectorList::const_iterator									NVectorListConstIterator;
+typedef std::vector<NVector64>										NVector64List;
+typedef NVector64List::iterator										NVector64ListIterator;
+typedef NVector64List::const_iterator								NVector64ListConstIterator;
 
 typedef std::vector<NVector32>										NVector32List;
 typedef NVector32List::iterator										NVector32ListIterator;
 typedef NVector32List::const_iterator								NVector32ListConstIterator;
 
-typedef std::vector<NVector64>										NVector64List;
-typedef NVector64List::iterator										NVector64ListIterator;
-typedef NVector64List::const_iterator								NVector64ListConstIterator;
+typedef std::vector<NVector>										NVectorList;
+typedef NVectorList::iterator										NVectorListIterator;
+typedef NVectorList::const_iterator									NVectorListConstIterator;
 
 
 
@@ -72,11 +71,11 @@ extern const NVector kNVectorWest;
 //----------------------------------------------------------------------------
 template<class T> class NVectorT {
 public:
-										NVectorT(T x, T y);
-										NVectorT(const NPointT<T> &point1, const NPointT<T> &point2);
+										NVectorT(const NVariant &theValue);
 
+										NVectorT(const NPointT<T> &point1, const NPointT<T> &point2);
+										NVectorT(T x, T y);
 										NVectorT(void);
-	virtual							   ~NVectorT(void);
 
 
 	// Clear the vector

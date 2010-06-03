@@ -3,6 +3,8 @@
 
 	DESCRIPTION:
 		Size object.
+		
+		NEncodable support uses a helper class to avoid a v-table.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -18,19 +20,11 @@
 #include "NString.h"
 
 #ifndef NSIZE_CPP
+	#include "NEncoder.h"
+	#include "NSize.h"
+#endif
 
-#include "NEncoder.h"
-#include "NSize.h"
-
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NString kNSizeWidthKey									= "width";
-static const NString kNSizeHeightKey								= "height";
+#ifdef NSIZE_CPP
 
 
 
@@ -39,7 +33,7 @@ static const NString kNSizeHeightKey								= "height";
 //============================================================================
 //		Internal class declaration
 //----------------------------------------------------------------------------
-class NSizeX :	public NEncodable {
+class NSizeX : public NEncodable {
 public:
 										NENCODABLE_DECLARE(NSizeX);
 
@@ -49,8 +43,9 @@ public:
 
 
 protected:
-	// Encode the object
-	void								EncodeSelf(NEncoder &theEncoder) const;
+	// Encode/decode the object
+	void								EncodeSelf(      NEncoder &theEncoder) const;
+	void								DecodeSelf(const NEncoder &theEncoder);
 
 
 private:
@@ -63,100 +58,54 @@ private:
 
 
 //============================================================================
-//		Implementation
+//		NSizeT::NSizeT : Constructor.
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE_NODECODE(NSizeX);
+template<class T> NSizeT<T>::NSizeT(const NVariant &theValue)
+{	NSize64		size64;
+	NSize32		size32;
+	NSize		size;
 
 
 
-
-
-//============================================================================
-//      NSizeX::NSizeX : Constructor.
-//----------------------------------------------------------------------------
-NSizeX::NSizeX(const NNumber &width, const NNumber &height)
-{
-
-
-	// Initialise ourselves
-	mWidth  = width;
-	mHeight = height;
-}
-
-
-
-
-
-//============================================================================
-//      NSizeX::NSizeX : Constructor.
-//----------------------------------------------------------------------------
-NSizeX::NSizeX()
-{
-}
-
-
-
-
-
-//============================================================================
-//      NSizeX::~NSizeX : Destructor.
-//----------------------------------------------------------------------------
-NSizeX::~NSizeX(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//      NSizeX::EncodableGetDecoded : Get a decoded object.
-//----------------------------------------------------------------------------
-NVariant NSizeX::EncodableGetDecoded(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	mWidth = theEncoder.DecodeNumber(kNSizeWidthKey);
-	mHeight = theEncoder.DecodeNumber(kNSizeHeightKey);
+	// Initialize ourselves
+	NSizeX::EncodableRegister();
 	
-	if (mWidth.GetPrecision() == kNPrecisionFloat64 || mHeight.GetPrecision() == kNPrecisionFloat64)
-		return(NSize64(mWidth.GetFloat64(), mHeight.GetFloat64()));
+	if (theValue.GetValue(size64))
+		{
+		width  = (T) size64.width;
+		height = (T) size64.height;
+		}
+
+	else if (theValue.GetValue(size32))
+		{
+		width  = (T) size32.width;
+		height = (T) size32.height;
+		}
+
+	else if (theValue.GetValue(size))
+		{
+		width  = (T) size.width;
+		height = (T) size.height;
+		}
+
 	else
-		return(NSize32(mWidth.GetFloat32(), mHeight.GetFloat32()));
+		NN_LOG("Unknown type!");
 }
 
 
 
 
-
-//============================================================================
-//      NSizeX::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NSizeX::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeNumber(kNSizeWidthKey,  mWidth);
-	theEncoder.EncodeNumber(kNSizeHeightKey, mHeight);
-}
-
-
-
-
-
-#else
 
 //============================================================================
 //		NSizeT::NSizeT : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 template<class T> NSizeT<T>::NSizeT(T valWidth, T valHeight)
 {
 
 
 	// Initialize ourselves
+	NSizeX::EncodableRegister();
+	
 	width  = valWidth;
 	height = valHeight;
 }
@@ -173,6 +122,8 @@ template<class T> NSizeT<T>::NSizeT(void)
 
 
 	// Initialize ourselves
+	NSizeX::EncodableRegister();
+	
 	width  = 0;
 	height = 0;
 }
@@ -410,7 +361,138 @@ template<class T> NSizeT<T>::operator NFormatArgument(void) const
 
 
 
+#else // NSIZE_CPP
+#pragma mark -
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NString kNSizeWidthKey									= "width";
+static const NString kNSizeHeightKey								= "height";
+
+
+
+
+
+//============================================================================
+//		NEncodable
+//----------------------------------------------------------------------------
+NENCODABLE_DEFINE_REGISTER(NSizeX, NSize);
+
+bool NSizeX::EncodableCanEncode(const NVariant &theValue)
+{	bool	canEncode;
+
+	canEncode  = theValue.IsType(typeid(NSize64));
+	canEncode |= theValue.IsType(typeid(NSize32));
+	canEncode |= theValue.IsType(typeid(NSize));
+
+	return(canEncode);
+}
+
+void NSizeX::EncodableEncodeObject(NEncoder &theEncoder, const NVariant &theValue)
+{	NSizeX		theObject;
+	NSize64		size64;
+	NSize32		size32;
+	NSize		size;
+
+	if (theValue.GetValue(size64))
+		theObject = NSizeX(size64.width, size64.height);
+
+	else if (theValue.GetValue(size32))
+		theObject = NSizeX(size32.width, size32.height);
+
+	else if (theValue.GetValue(size))
+		theObject = NSizeX(size.width, size.height);
+
+	else
+		NN_LOG("Unknown type!");
+
+	theObject.EncodeSelf(theEncoder);
+}
+
+NVariant NSizeX::EncodableDecodeObject(const NEncoder &theEncoder)
+{	NSizeX		theObject;
+
+	theObject.DecodeSelf(theEncoder);
+
+	if (theObject.mWidth.GetPrecision() == kNPrecisionFloat64 || theObject.mHeight.GetPrecision() == kNPrecisionFloat64)
+		return(NSize64(theObject.mWidth.GetFloat64(), theObject.mHeight.GetFloat64()));
+	else
+		return(NSize32(theObject.mWidth.GetFloat32(), theObject.mHeight.GetFloat32()));
+}
+
+
+
+
+
+//============================================================================
+//      NSizeX::NSizeX : Constructor.
+//----------------------------------------------------------------------------
+NSizeX::NSizeX(const NNumber &width, const NNumber &height)
+{
+
+
+	// Initialise ourselves
+	mWidth  = width;
+	mHeight = height;
+}
+
+
+
+
+
+//============================================================================
+//      NSizeX::NSizeX : Constructor.
+//----------------------------------------------------------------------------
+NSizeX::NSizeX()
+{
+}
+
+
+
+
+
+//============================================================================
+//      NSizeX::~NSizeX : Destructor.
+//----------------------------------------------------------------------------
+NSizeX::~NSizeX(void)
+{
+}
+
+
+
+
+
+//============================================================================
+//      NSizeX::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+void NSizeX::EncodeSelf(NEncoder &theEncoder) const
+{
+
+
+	// Encode the object
+	theEncoder.EncodeNumber(kNSizeWidthKey,  mWidth);
+	theEncoder.EncodeNumber(kNSizeHeightKey, mHeight);
+}
+
+
+
+
+
+//============================================================================
+//      NSizeX::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+void NSizeX::DecodeSelf(const NEncoder &theEncoder)
+{
+
+
+	// Decode the object
+	mWidth  = theEncoder.DecodeNumber(kNSizeWidthKey);
+	mHeight = theEncoder.DecodeNumber(kNSizeHeightKey);
+}
+
 
 
 #endif // NSIZE_CPP
+
+
 

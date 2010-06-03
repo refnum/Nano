@@ -17,8 +17,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
-#include "NEncodable.h"
 #include "NComparable.h"
+#include "NEncodable.h"
+#include "NVariant.h"
 
 
 
@@ -28,8 +29,6 @@
 //		Types
 //----------------------------------------------------------------------------
 // Classes
-class NSizeX;
-
 template <class T> class NSizeT;
 
 typedef NSizeT<Float64> NSize64;
@@ -59,6 +58,8 @@ typedef NSizeList::const_iterator									NSizeListConstIterator;
 //----------------------------------------------------------------------------
 template<class T> class NSizeT {
 public:
+										NSizeT(const NVariant &theValue);
+
 										NSizeT(T width, T height);
 										NSizeT(void);
 

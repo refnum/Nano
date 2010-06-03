@@ -76,14 +76,16 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<const NEncodable *(const NVariant &theValue)>					NEncodableCastFunctor;
-typedef nfunctor<NVariant          (const NEncoder &theEncoder)>				NEncodableDecodeFunctor;
+typedef nfunctor<bool     (                            const NVariant &theValue)>	NEncodableCanEncodeFunctor;
+typedef nfunctor<void     (      NEncoder &theEncoder, const NVariant &theValue)>	NEncodableEncodeFunctor;
+typedef nfunctor<NVariant (const NEncoder &theEncoder)>								NEncodableDecodeFunctor;
 
 
 // Info
 typedef struct {
-	NEncodableCastFunctor		castObject;
-	NEncodableDecodeFunctor		decodeObject;
+	NEncodableCanEncodeFunctor		canEncode;
+	NEncodableEncodeFunctor			encodeObject;
+	NEncodableDecodeFunctor			decodeObject;
 } NEncoderClassInfo;
 
 
@@ -113,15 +115,12 @@ public:
 
 
 	// Encode/decode an object
-	NData								Encode(const NEncodable &theObject, NEncoderFormat theFormat=kNEncoderBinary);
-	NData								Encode(const NVariant   &theObject, NEncoderFormat theFormat=kNEncoderBinary);
-	NVariant							Decode(const NData      &theData);
+	NData								Encode(const NVariant &theObject, NEncoderFormat theFormat=kNEncoderBinary);
+	NVariant							Decode(const NData    &theData);
 
 
-	// Get an encodable object
-	//
-	// Returns NULL if theObject is not encodable.
-	static const NEncodable				*GetEncodable(const NVariant &theObject);
+	// Can an object be encoded?
+	static bool							CanEncode(const NVariant &theObject);
 
 
 public:
@@ -142,11 +141,11 @@ public:
 	// If the value can not be returned as the specified type, 0/empty is returned.
 	//
 	// Can be invoked by NEncodable::EncodeSelf/DecodeSelf.
-	void								EncodeBoolean(const NString &theKey,       bool       theValue);
-	void								EncodeNumber( const NString &theKey, const NNumber    &theValue);
-	void								EncodeString( const NString &theKey, const NString    &theValue);
-	void								EncodeData(   const NString &theKey, const NData      &theValue);
-	void								EncodeObject( const NString &theKey, const NEncodable &theValue);
+	void								EncodeBoolean(const NString &theKey,       bool      theValue);
+	void								EncodeNumber( const NString &theKey, const NNumber  &theValue);
+	void								EncodeString( const NString &theKey, const NString  &theValue);
+	void								EncodeData(   const NString &theKey, const NData    &theValue);
+	void								EncodeObject( const NString &theKey, const NVariant &theValue);
 
 	bool								DecodeBoolean(const NString &theKey) const;
 	NNumber								DecodeNumber( const NString &theKey) const;

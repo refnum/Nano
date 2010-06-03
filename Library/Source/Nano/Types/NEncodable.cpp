@@ -44,39 +44,9 @@ NEncodable::~NEncodable(void)
 
 
 //============================================================================
-//		NEncodable::EncodableGetDecoded : Get a decoded object.
-//----------------------------------------------------------------------------
-NVariant NEncodable::EncodableGetDecoded(const NEncoder &/*theEncoder*/)
-{
-
-
-	// Validate our state
-	NN_LOG("NEncodable::EncodableGetDecoded should have been overriden by NENCODABLE_DEFINE!");
-	return(NVariant());
-}
-
-
-
-
-
-//============================================================================
-//		NEncodable::EncodableGetClass : Get the encoder class name.
-//----------------------------------------------------------------------------
-NString NEncodable::EncodableGetClass(void) const
-{
-
-
-	// Validate our state
-	NN_LOG("NEncodable::EncodableGetClass should have been overriden by NENCODABLE_DEFINE!");
-	return("NEncodable");
-}
-
-
-
-
-
-//============================================================================
 //		NEncodable::EncodeSelf : Encode the object.
+//----------------------------------------------------------------------------
+//		Note : Can't be pure virtual, as we need an NEncodable cast-operator.
 //----------------------------------------------------------------------------
 void NEncodable::EncodeSelf(NEncoder &/*theEncoder*/) const
 {
@@ -92,6 +62,8 @@ void NEncodable::EncodeSelf(NEncoder &/*theEncoder*/) const
 
 //============================================================================
 //		NEncodable::DecodeSelf : Decode the object.
+//----------------------------------------------------------------------------
+//		Note : Can't be pure virtual, as we need an NEncodable cast-operator.
 //----------------------------------------------------------------------------
 void NEncodable::DecodeSelf(const NEncoder &/*theEncoder*/)
 {

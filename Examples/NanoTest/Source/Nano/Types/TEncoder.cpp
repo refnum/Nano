@@ -38,6 +38,8 @@ static const NString kKeyString										= "Test String";
 static const NString kKeyData										= "Test Data";
 static const NString kKeyArray										= "Test Array";
 static const NString kKeyDictionary									= "Test Dictionary";
+static const NString kKeyPoint										= "Test Point";
+static const NString kKeySize										= "Test Size";
 static const NString kKeyRectangle									= "Test Rectangle";
 
 
@@ -51,11 +53,13 @@ static const NNumber    kValueNumber3								=  1234.12f;
 static const NNumber    kValueNumber4								= -5678.5678765000102;
 static const NString    kValueString								= "This is a string";
 static const UInt8      kValueData[]								= { 0xAA, 0xBB, 0xCC, 0xDD };
+static const NPoint		kValuePoint									= NPoint(10, 20);
+static const NSize		kValueSize									= NSize(30, 40);
 static const NRectangle kValueRectangle								= NRectangle(10, 20, 30, 40);
 
 
 // Results
-static const UInt32  kResultBinary									= 0xa72b9872;
+static const UInt32  kResultBinary									= 0xe486bced;
 static const NString kResultXML										=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 																		"<encoder version=\"1.0\">\n"
 																		"	<object class=\"TEncodable\" key=\"root\">\n"
@@ -73,9 +77,23 @@ static const NString kResultXML										=	"<?xml version=\"1.0\" encoding=\"UTF
 																		"			<string key=\"2\">This is a string</string>\n"
 																		"		</object>\n"
 																		"		<object class=\"NDictionary\" key=\"Test Dictionary\">\n"
+																		"			<object class=\"NSize\" key=\"Test Size\">\n"
+																		"				<number key=\"width\">30</number>\n"
+																		"				<number key=\"height\">40</number>\n"
+																		"			</object>\n"
+																		"			<object class=\"NPoint\" key=\"Test Point\">\n"
+																		"				<number key=\"x\">10</number>\n"
+																		"				<number key=\"y\">20</number>\n"
+																		"			</object>\n"
 																		"			<string key=\"Test String\">This is a string</string>\n"
 																		"			<number key=\"Test Number 1\">1234</number>\n"
 																		"			<bool key=\"Test Boolean 1\">true</bool>\n"
+																		"			<object class=\"NRectangle\" key=\"Test Rectangle\">\n"
+																		"				<number key=\"x\">10</number>\n"
+																		"				<number key=\"y\">20</number>\n"
+																		"				<number key=\"width\">30</number>\n"
+																		"				<number key=\"height\">40</number>\n"
+																		"			</object>\n"
 																		"		</object>\n"
 																		"	</object>\n"
 																		"</encoder>\n";
@@ -108,6 +126,8 @@ public:
 		theDict.SetValue(kKeyBoolean1,  kValueBoolean1);
 		theDict.SetValue(kKeyNumber1,   kValueNumber1);
 		theDict.SetValue(kKeyString,    kValueString);
+		theDict.SetValue(kKeyPoint,     kValuePoint);
+		theDict.SetValue(kKeySize,      kValueSize);
 		theDict.SetValue(kKeyRectangle, kValueRectangle);
 	
 		theEncoder.EncodeBoolean(kKeyBoolean1,   kValueBoolean1);
@@ -148,10 +168,12 @@ public:
 		NN_ASSERT(theArray.GetValueString (2) == kValueString);
 
 		NN_ASSERT(theEncoder.DecodeObject(kKeyDictionary).GetValue(theDict));
-		NN_ASSERT(theDict.GetSize() == 4);
+		NN_ASSERT(theDict.GetSize() == 6);
 		NN_ASSERT(theDict.GetValueBoolean  (kKeyBoolean1)  == kValueBoolean1);
 		NN_ASSERT(theDict.GetValue         (kKeyNumber1)   == kValueNumber1);
 		NN_ASSERT(theDict.GetValueString   (kKeyString)    == kValueString);
+		NN_ASSERT(theDict.GetValuePoint    (kKeyPoint)     == kValuePoint);
+		NN_ASSERT(theDict.GetValueSize     (kKeySize)      == kValueSize);
 		NN_ASSERT(theDict.GetValueRectangle(kKeyRectangle) == kValueRectangle);
 	}
 	
