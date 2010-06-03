@@ -570,7 +570,7 @@
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIPhoneFile.cpp; sourceTree = "<group>"; };
 		ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneMath.cpp; sourceTree = "<group>"; };
-		ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneSystem.cpp; sourceTree = "<group>"; };
+		ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIPhoneSystem.cpp; sourceTree = "<group>"; };
 		ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTarget.cpp; sourceTree = "<group>"; };
 		ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIPhoneTarget.h; sourceTree = "<group>"; };
 		ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneThread.cpp; sourceTree = "<group>"; };
