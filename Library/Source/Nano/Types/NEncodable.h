@@ -53,6 +53,22 @@ class NVariant;
 //
 // Sub-clases of NEncodable must include an NENCODABLE_DECLARE in their class
 // declaration, and an NENCODABLE_DEFINE in their class implementation.
+//
+//
+// NENCODABLE_DEFINE automatically registers the class as encodable, however
+// EncodableRegister can also be invoked explicitly to register classes whose
+// static initializer has been discarded by the linker.
+//
+// This is necessary to support gcc pre-4.2, where __attribute__((used)) is
+// not available.
+//
+// Older versions of gcc would incorrectly strip static initializers, unless
+// PRESERVE_DEAD_CODE_INITS_AND_TERMS was enabled. However this flag has no
+// effect unless DEAD_CODE_STRIPPING is also enabled, however this flag will
+// increase link time so is off by default in debug builds.
+//
+// By calling EncodableRegister from a constructor or other reachable code,
+// the class will be registered once on first use.
 #define NENCODABLE_DECLARE(_class)																				\
 																												\
 	private:																									\
@@ -72,13 +88,20 @@ class NVariant;
 	bool _class::sEncodableRegistered = _class::EncodableRegister();											\
 																												\
 	bool _class::EncodableRegister(void)																		\
-	{	NEncoderClassInfo		classInfo;																		\
+	{	static bool				sIsRegistered;																	\
 																												\
-		classInfo.castObject   = BindFunction(_class::EncodableCast,   _1);										\
-		classInfo.decodeObject = BindFunction(_class::EncodableDecode, _1);										\
+		NEncoderClassInfo		classInfo;																		\
 																												\
-		NEncoder::RegisterClass(#_class, classInfo);															\
-		return(true);																							\
+		if (!sIsRegistered)																						\
+			{																									\
+			classInfo.castObject   = BindFunction(_class::EncodableCast,   _1);									\
+			classInfo.decodeObject = BindFunction(_class::EncodableDecode, _1);									\
+																												\
+			NEncoder::RegisterClass(#_class, classInfo);														\
+			sIsRegistered = true;																				\
+			}																									\
+																												\
+		return(sIsRegistered);																					\
 	}																											\
 																												\
 	const NEncodable *_class::EncodableCast(const NVariant &theValue)											\
