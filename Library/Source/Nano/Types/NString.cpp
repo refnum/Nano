@@ -945,17 +945,20 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 
 
 	// Find the split points
-	//
-	// If we find anything, a final range is added to ensure we include
-	// any text beyond the last split point into the result.
 	theMatches = FindAll(matchString, theFlags);
-
-	if (!theMatches.empty())
-		theMatches.push_back(NRange(GetSize(), 1));
+	
+	if (theMatches.empty())
+		theResult.push_back(*this);
 
 
 
 	// Split the string
+	//
+	// If we found anything, we add a final range to the matches to ensure we
+	// include any text beyond the last split point into the result.
+	if (!theMatches.empty())
+		theMatches.push_back(NRange(GetSize(), 1));
+
 	for (iterMatch = theMatches.begin(); iterMatch != theMatches.end(); iterMatch++)
 		{
 		theRange = *iterMatch;

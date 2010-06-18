@@ -301,6 +301,11 @@ void TString::Execute(void)
 	NN_ASSERT(theStrings[1] == "c");
 	NN_ASSERT(theStrings[2] == "d");
 
+	testString1 = "aa";
+	theStrings  = testString1.Split(kNTokenComma);
+	NN_ASSERT(theStrings.size() == 1);
+	NN_ASSERT(theStrings[0] == "aa");
+
 
 
 	// Trim
