@@ -36,6 +36,8 @@ class NBitVector :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NBitVector);
 
+										NBitVector(const NBitVector &theValue);
+
 										NBitVector(void);
 	virtual							   ~NBitVector(void);
 
@@ -97,6 +99,7 @@ public:
 
 
 	// Operators
+	const NBitVector&					operator = (const NBitVector &theObject);
 										operator NFormatArgument(void) const;
 
 

@@ -25,6 +25,21 @@
 //============================================================================
 //		NDBResult::NDBResult : Constructor.
 //----------------------------------------------------------------------------
+NDBResult::NDBResult(const NDBResult &theValue)
+{
+
+
+	// Initialize ourselves
+	mResult = theValue.mResult;
+}
+
+
+
+
+
+//============================================================================
+//		NDBResult::NDBResult : Constructor.
+//----------------------------------------------------------------------------
 NDBResult::NDBResult(NDBQueryRef theResult)
 {
 
@@ -395,5 +410,23 @@ void NDBResult::GetRowValuesData(const NDBResult &theRow, NIndex theIndex, NData
 
 	// Get the value
 	theValues->push_back(theRow.GetValueData(theIndex));
+}
+
+
+
+
+
+//============================================================================
+//		NDBResult::= : Assignment operator.
+//----------------------------------------------------------------------------
+const NDBResult& NDBResult::operator = (const NDBResult &theValue)
+{
+
+
+	// Assign the object
+	if (this != &theValue)
+		mResult = theValue.mResult;
+
+	return(*this);
 }
 

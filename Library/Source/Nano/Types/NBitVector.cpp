@@ -38,6 +38,23 @@ NENCODABLE_DEFINE(NBitVector);
 //============================================================================
 //		NBitVector::NBitVector : Constructor.
 //----------------------------------------------------------------------------
+NBitVector::NBitVector(const NBitVector &theValue)
+			: NContainer(), NEncodable(), NComparable<NBitVector>()
+{
+
+
+	// Initialize ourselves
+	mData =    theValue.mData;
+	UpdateSize(theValue.mSize);
+}
+
+
+
+
+
+//============================================================================
+//		NBitVector::NBitVector : Constructor.
+//----------------------------------------------------------------------------
 NBitVector::NBitVector(void)
 {
 
@@ -429,6 +446,27 @@ NIndex NBitVector::FindLastBit(bool theValue, const NRange &theRange) const
 		}
 	
 	return(kNIndexNone);
+}
+
+
+
+
+
+//============================================================================
+//		NBitVector::= : Assignment operator.
+//----------------------------------------------------------------------------
+const NBitVector& NBitVector::operator = (const NBitVector &theValue)
+{
+
+
+	// Assign the object
+	if (this != &theValue)
+		{
+		mData =    theValue.mData;
+		UpdateSize(theValue.mSize);
+		}
+
+	return(*this);
 }
 
 

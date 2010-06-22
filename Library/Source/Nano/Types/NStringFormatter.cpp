@@ -136,6 +136,7 @@ typedef nfunctor<NStringUTF8 (const NStringUTF8 &theFormat)>		NFormatFunctorBase
 class NFormatFunctor : public NFormatFunctorBase {
 public:
 			 NFormatFunctor(const NFormatFunctorBase &theFunctor) : NFormatFunctorBase(theFunctor)	{ }
+			 NFormatFunctor(const NFormatFunctor     &theFunctor) : NFormatFunctorBase(theFunctor)	{ }
 	virtual ~NFormatFunctor(void)																	{ }
 };
 
@@ -215,6 +216,21 @@ NFormatArgument::NFormatArgument(const NStringUTF8	&theValue)		{	mGetValue = new
 //============================================================================
 //		NFormatArgument::NFormatArgument : Constructor.
 //----------------------------------------------------------------------------
+NFormatArgument::NFormatArgument(const NFormatArgument &theValue)
+{
+
+
+	// Initialize ourselves
+	mGetValue = new NFormatFunctor(*(theValue.mGetValue));
+}
+
+
+
+
+
+//============================================================================
+//		NFormatArgument::NFormatArgument : Constructor.
+//----------------------------------------------------------------------------
 NFormatArgument::NFormatArgument(void)
 {
 
@@ -271,6 +287,33 @@ NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat) const
 
 	// Get the value
 	return((*mGetValue)(theFormat));
+}
+
+
+
+
+
+//============================================================================
+//		NFormatArgument::= : Assignment operator.
+//----------------------------------------------------------------------------
+const NFormatArgument& NFormatArgument::operator = (const NFormatArgument &theValue)
+{
+
+
+	// Assign the object
+	if (this != &theValue)
+		{
+		if (mGetValue != NULL)
+			{
+			delete mGetValue;
+			mGetValue = NULL;
+			}
+
+		if (theValue.mGetValue != NULL)
+			mGetValue = new NFormatFunctor(*(theValue.mGetValue));
+		}
+
+	return(*this);
 }
 
 

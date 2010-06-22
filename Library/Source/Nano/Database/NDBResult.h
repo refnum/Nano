@@ -27,6 +27,8 @@
 //----------------------------------------------------------------------------
 class NDBResult {
 public:
+										NDBResult(const NDBResult &theValue);
+
 										NDBResult(NDBQueryRef theResult);
 	virtual							   ~NDBResult(void);
 
@@ -62,7 +64,11 @@ public:
 	static void							GetRowValuesFloat64(const NDBResult &theRow, NIndex theIndex, Float64List *theValues);
 	static void							GetRowValuesString( const NDBResult &theRow, NIndex theIndex, NStringList *theValues);
 	static void							GetRowValuesData(   const NDBResult &theRow, NIndex theIndex, NDataList   *theValues);
-	
+
+
+	// Operators
+	const NDBResult&					operator = (const NDBResult &theObject);
+
 
 private:
 	NDBQueryRef							mResult;

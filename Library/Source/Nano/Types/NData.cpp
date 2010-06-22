@@ -58,6 +58,23 @@ NData::NData(NIndex theSize, const void *thePtr, bool makeCopy)
 //============================================================================
 //		NData::NData : Constructor.
 //----------------------------------------------------------------------------
+NData::NData(const NData &theValue)
+		: NContainer(), NHashable(), NEncodable(), NComparable<NData>(), NSharedValueData(theValue)
+{
+
+
+	// Initialize ourselves
+	mExternalSize = theValue.mExternalSize;
+	mExternalPtr  = theValue.mExternalPtr;
+}
+
+
+
+
+
+//============================================================================
+//		NData::NData : Constructor.
+//----------------------------------------------------------------------------
 NData::NData(void)
 {
 
@@ -589,14 +606,37 @@ NComparison NData::Compare(const NData &theValue) const
 
 
 //============================================================================
-//		NData::+= : Append data.
+//		NData::= : Assignment operator.
 //----------------------------------------------------------------------------
-const NData& NData::operator += (const NData &theData)
+const NData& NData::operator = (const NData &theValue)
+{
+
+
+	// Assign the object
+	if (this != &theValue)
+		{
+		NSharedValueData::operator=(theValue);
+
+		mExternalSize = theValue.mExternalSize;
+		mExternalPtr  = theValue.mExternalPtr;
+		}
+
+	return(*this);
+}
+
+
+
+
+
+//============================================================================
+//		NData::+= : Concatenate operator.
+//----------------------------------------------------------------------------
+const NData& NData::operator += (const NData &theValue)
 {
 
 
 	// Append the data
-	AppendData(theData);
+	AppendData(theValue);
 	
 	return(*this);
 }
@@ -606,16 +646,16 @@ const NData& NData::operator += (const NData &theData)
 
 
 //============================================================================
-//		NData::+ : Append data.
+//		NData::+ : Catenate operator.
 //----------------------------------------------------------------------------
-const NData NData::operator + (const NData &theData) const
+const NData NData::operator + (const NData &theValue) const
 {	NData	theResult;
 
 
 
 	// Append the data
 	theResult  = *this;
-	theResult += theData;
+	theResult += theValue;
 	
 	return(theResult);
 }

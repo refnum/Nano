@@ -137,6 +137,8 @@ public:
 										NFormatArgument(const char        *theValue);
 										NFormatArgument(const NStringUTF8 &theValue);
 
+										NFormatArgument(const NFormatArgument &theValue);
+
 										NFormatArgument(void);
 	virtual							   ~NFormatArgument(void);
 
@@ -148,6 +150,10 @@ public:
 	// Get the value
 	NStringUTF8							GetValue(const NStringUTF8 &theFormat) const;
 
+
+	// Operators
+	const NFormatArgument&				operator = (const NFormatArgument &theValue);
+	
 
 private:
 	NStringUTF8							GetValueULong(const NStringUTF8 &theFormat, unsigned long theValue);

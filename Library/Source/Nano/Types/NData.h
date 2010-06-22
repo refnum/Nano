@@ -58,6 +58,7 @@ public:
 										NENCODABLE_DECLARE(NData);
 
 										NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
+										NData(const NData &theValue);
 
 										NData(void);
 	virtual							   ~NData(void);
@@ -118,8 +119,9 @@ public:
 
 
 	// Operators
-	const NData&						operator += (const NData &theData);
-	const NData							operator +	(const NData &theData) const;
+	const NData&						operator =  (const NData &theValue);
+	const NData&						operator += (const NData &theValue);
+	const NData							operator +	(const NData &theValue) const;
 
 
 	// Operators
