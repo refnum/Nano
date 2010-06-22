@@ -124,7 +124,7 @@ NString::NString(UTF8Char theChar)
 
 
 	// Initialize ourselves
-	SetData(NData(1, &theChar, kNStringEncodingUTF8));
+	SetData(NData(1, &theChar), kNStringEncodingUTF8);
 }
 
 
