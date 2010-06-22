@@ -174,9 +174,9 @@ template<class T> void NTransformT<T>::Clear(void)
 
 
 	// Clear the transform
-	a  = 1.0;	b  = 0.0;
-	c  = 0.0;	d  = 1.0;
-	tx = 0.0;	ty = 0.0;
+	a  = (T) 1.0;	b  = (T) 0.0;
+	c  = (T) 0.0;	d  = (T) 1.0;
+	tx = (T) 0.0;	ty = (T) 0.0;
 }
 
 
@@ -246,9 +246,9 @@ template<class T> void NTransformT<T>::SetTranslate(T x, T y)
 
 
 	// Set the transform
-	a  = 1.0;	b  = 0.0;
-	c  = 0.0;	d  = 1.0;
-	tx = x;		ty = y;
+	a  = (T) 1.0;	b  = (T) 0.0;
+	c  = (T) 0.0;	d  = (T) 1.0;
+	tx = (T) x;		ty = (T) y;
 }
 
 
@@ -263,9 +263,9 @@ template<class T> void NTransformT<T>::SetScale(T x, T y)
 
 
 	// Set the transform
-	a  = x;		b  = 0.0;
-	c  = 0.0;	d  = y;
-	tx = 0.0;	ty = 0.0;
+	a  = (T) x;		b  = (T) 0.0;
+	c  = (T) 0.0;	d  = (T) y;
+	tx = (T) 0.0;	ty = (T) 0.0;
 }
 
 
@@ -289,7 +289,7 @@ template<class T> void NTransformT<T>::SetRotate(NRadians angle)
 	// Set the transform
 	a  =  cosA;		b  = sinA;
 	c  = -sinA;		d  = cosA;
-	tx =  0.0;		ty = 0.0;
+	tx = (T) 0.0;	ty = (T) 0.0;
 }
 
 

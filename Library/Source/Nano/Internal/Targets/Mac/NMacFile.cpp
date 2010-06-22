@@ -757,7 +757,7 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 
 
 	// Perform the read
-	numRead = fread(thePtr, 1, theSize, (FILE *) theFile);
+	numRead = fread(thePtr, 1, (size_t) theSize, (FILE *) theFile);
 	theErr  = kNoErr;
 
 	if (feof((FILE *) theFile))
@@ -796,7 +796,7 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 
 
 	// Perform the write
-	numWritten = fwrite(thePtr, 1, theSize, (FILE *) theFile);
+	numWritten = fwrite(thePtr, 1, (size_t) theSize, (FILE *) theFile);
 	theErr     = noErr;
 	
 	 if (numWritten != theSize)
@@ -876,6 +876,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 	off_t			pageSize, mapOffset, mapDelta;
 	int				pagePerm, pageFlags;
 	void			*pagePtr, *thePtr;
+	size_t			mapSize;
 
 
 
@@ -912,12 +913,12 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 
 	mapOffset = theOffset - (theOffset % pageSize);
 	mapDelta  = theOffset - mapOffset;
-	theSize  += mapDelta;
+	mapSize   = theSize   + (size_t) mapDelta;
 
 
 
 	// Fetch the page
-	pagePtr = mmap(NULL, theSize, pagePerm, pageFlags, theInfo->theFile, mapOffset);
+	pagePtr = mmap(NULL, mapSize, pagePerm, pageFlags, theInfo->theFile, mapOffset);
 	thePtr  = NULL;
 	
 	if (pagePtr != MAP_FAILED)
@@ -944,6 +945,7 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 
 	void					*pagePtr;
 	off_t					mapDelta;
+	size_t					mapSize;
 	PagePtrMapIterator		theIter;
 	int						sysErr;
 
@@ -957,21 +959,21 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 	mapDelta = (((UInt8 *) thePtr) - ((UInt8 *) pagePtr));
 	
 	NN_ASSERT(mapDelta >= 0);
-	theSize += mapDelta;
+	mapSize = theSize + (size_t) mapDelta;
 
 
 
 	// Flush read-write pages back to disk
 	if (theAccess == kNAccessReadWrite)
 		{
-		sysErr = msync(pagePtr, theSize, MS_SYNC);
+		sysErr = msync(pagePtr, mapSize, MS_SYNC);
 		NN_ASSERT_NOERR(sysErr);
 		}
 
 
 
 	// Discard the page
-	sysErr = munmap(pagePtr, theSize);
+	sysErr = munmap(pagePtr, mapSize);
 	NN_ASSERT_NOERR(sysErr);
 
 	theInfo->pageTable.erase(theIter);
