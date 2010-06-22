@@ -9,6 +9,39 @@
 		
 		The template value stores the actual value, while the NVariant wrapper
 		provides assignment, comparisons, and casting to that value's type.
+		
+		
+		Note that prior to invoking dynamic_cast, we must call FixDynamicCast
+		on the template.
+		
+		This is due to a (probable) bug in gcc 4.2's 32-bit x86 implementation
+		of RTTI, possibly due to the use of dynamic_cast on templated types
+		which fall in different translation units.
+		
+		There is a known issue with this compiler (std::type_info compares by
+		pointer, not value) with dynamic_cast across shared library boundaries,
+		which may be related.
+		
+		
+		The behavior seen was that an instance of an NData placed in an NVariant
+		could not be fetched back out again via the bool-GetValue() in a
+		specific app.
+		
+		If this app called T*-GetValue(), it got a valid pointer. If it then
+		called bool-GetValue(), this returned false due to the internal call
+		to T*-GetValue() returning NULL.
+		
+		Calling typeid() on the type was sufficient to resolve the problem.
+		
+		
+		The problem was only seen with one specific data type (NData), and an
+		exact duplicate of that class with a different name did not fail.
+
+		The problem was only observed on 32-bit x86 systems in release builds;
+		debug builds, PowerPC builds, or 64-bit x86 builds were unaffected.
+		
+		The problem was not observed with gcc 4.0.1, and valgrind did not detect
+		any memory corruption in the host application.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -44,16 +77,23 @@
 //		NVariant::CompareValuesT : Compare two values.
 //----------------------------------------------------------------------------
 template <class T> NComparison NVariant::CompareValuesT(const NVariant &value1, const NVariant &value2)
-{	const NVariantValue<T>		*valuePtr1;
-	const NVariantValue<T>		*valuePtr2;
-	NComparison					theResult;
+{	const T			*valuePtr1;
+	const T			*valuePtr2;
+	NComparison		theResult;
+
+
+
+	// Get the state we need
+	value1.mData->FixDynamicCast(typeid(T));
+	value2.mData->FixDynamicCast(typeid(T));
+
+	valuePtr1 = dynamic_cast<NVariantValue<T>*>(value1.mData)->GetValue();
+	valuePtr2 = dynamic_cast<NVariantValue<T>*>(value2.mData)->GetValue();
 
 
 
 	// Compare the values
-	valuePtr1 = dynamic_cast<NVariantValue<T>*>(value1.mData);
-	valuePtr2 = dynamic_cast<NVariantValue<T>*>(value2.mData);
-	theResult = (valuePtr1->GetValue()->Compare(*valuePtr2->GetValue()));
+	theResult = valuePtr1->Compare(*valuePtr2);
 
 	return(theResult);
 }
@@ -182,7 +222,9 @@ public:
 										NVariantData(void) { }
 	virtual							   ~NVariantData(void) { }
 
-	virtual const std::type_info		&GetType(void) const = 0;
+	virtual void						FixDynamicCast(const std::type_info &theType) const = 0;
+
+	virtual const std::type_info	   &GetType(void) const = 0;
 };
 
 
@@ -197,12 +239,17 @@ public:
 										NVariantValue(const T &theValue) : mValue(theValue) { }
 	virtual							   ~NVariantValue(void)                                 { }
 
-	const std::type_info				&GetType(void) const
+	void FixDynamicCast(const std::type_info &/*theType*/) const
+	{
+		// Work around gcc 4.2 bug
+	}
+
+	const std::type_info			   &GetType(void) const
 	{
 		return(typeid(mValue));
 	}
 
-	const T								*GetValue(void) const
+	const T							   *GetValue(void) const
 	{
 		return(&mValue);
 	}
@@ -395,22 +442,24 @@ const std::type_info &NVariant::GetType(void) const
 //		NVariant::GetValue : Get the value.
 //----------------------------------------------------------------------------
 template <class T> const T *NVariant::GetValue(void) const
-{	const T				*theValue;
-	NVariantValue<T>	*valuePtr;
-
-
-
-	// Check our state
-	if (mData == NULL)
-		return(NULL);
+{	const T				*valuePtr;
+	NVariantValue<T>	*dataPtr;
 
 
 
 	// Get the value
-	valuePtr = dynamic_cast<NVariantValue<T>*>(mData);
-	theValue = (valuePtr == NULL) ? NULL : valuePtr->GetValue();
+	valuePtr = NULL;
 
-	return(theValue);
+	if (mData != NULL)
+		{
+		mData->FixDynamicCast(typeid(T));
+
+		dataPtr = dynamic_cast<NVariantValue<T>*>(mData);
+		if (dataPtr != NULL)
+			valuePtr = dataPtr->GetValue();
+		}
+
+	return(valuePtr);
 }
 
 

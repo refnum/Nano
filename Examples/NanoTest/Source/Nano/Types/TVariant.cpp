@@ -26,5 +26,22 @@
 //		TVariant::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TVariant::Execute(void)
-{
+{	NData			dataValue;
+	const NData		*dataPtr;
+	NVariant		theValue;
+	bool			gotValue;
+
+
+
+	// NData
+	dataValue.AppendData(4, "test");
+	theValue = dataValue;
+	
+	dataPtr = theValue.GetValue<NData>();
+	NN_ASSERT(dataPtr != NULL);
+	
+	gotValue = theValue.GetValue(dataValue);
+	NN_ASSERT(gotValue);
 }
+
+
