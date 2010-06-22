@@ -27,6 +27,7 @@
 class NUncopyable {
 public:
 										NUncopyable(void);
+	virtual							   ~NUncopyable(void);
 
 
 private:
