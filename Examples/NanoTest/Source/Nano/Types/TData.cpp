@@ -94,7 +94,7 @@ void TData::Execute(void)
 	NN_ASSERT(testData.GetSize() == (2 * NN_ARRAY_SIZE(kBlock3)));
 	NN_ASSERT(memcmp(kBlock3, testData.GetData(0),                       NN_ARRAY_SIZE(kBlock3)) == 0);
 	NN_ASSERT(memcmp(kBlock3, testData.GetData(NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock3)) == 0);
-	testData.RemoveData(NRange(NN_ARRAY_SIZE(kBlock3), NN_ARRAY_SIZE(kBlock3)));
+	testData.RemoveData(NRange(0, NN_ARRAY_SIZE(kBlock3)));
 	NN_ASSERT(testData.GetSize() == (1 * NN_ARRAY_SIZE(kBlock3)));
 	NN_ASSERT(memcmp(kBlock3, testData.GetData(), NN_ARRAY_SIZE(kBlock3)) == 0);
 
