@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NUncopyable.h"
 #include "NFunctor.h"
 #include "NFile.h"
 #include "NDBQuery.h"
@@ -39,7 +40,7 @@ typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NDBHandle {
+class NDBHandle : public NUncopyable {
 public:
 										NDBHandle(void);
 	virtual							   ~NDBHandle(void);

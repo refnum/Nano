@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NUncopyable.h"
 #include "NXMLNode.h"
 #include "NXMLParser.h"
 
@@ -26,7 +27,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NXMLEncoder {
+class NXMLEncoder : public NUncopyable {
 public:
 										NXMLEncoder(void);
 	virtual							   ~NXMLEncoder(void);

@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NUncopyable.h"
 #include "NDictionary.h"
 #include "NFile.h"
 #include "NData.h"
@@ -79,7 +80,7 @@ typedef char						XML_Char;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NXMLParser {
+class NXMLParser : public NUncopyable {
 public:
 										NXMLParser(void);
 	virtual							   ~NXMLParser(void);

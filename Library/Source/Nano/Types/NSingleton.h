@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NUncopyable.h"
 #include "NAtomicList.h"
 #include "NLock.h"
 
@@ -35,7 +36,7 @@ typedef NAtomicList<class NSingleton*>							NSingletonList;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NSingleton {
+class NSingleton : public NUncopyable {
 public:	
 										NSingleton(void);
 	virtual							   ~NSingleton(void);

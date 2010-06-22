@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NUncopyable.h"
 #include "NEncodable.h"
 #include "NNumber.h"
 #include "NString.h"
@@ -108,7 +109,7 @@ typedef struct {
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NEncoder {
+class NEncoder : public NUncopyable {
 public:
 										NEncoder(void);
 	virtual							   ~NEncoder(void);

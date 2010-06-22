@@ -55,7 +55,7 @@ typedef NXMLNodeList::const_iterator								NXMLNodeListConstIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NXMLNode {
+class NXMLNode : public NUncopyable {
 public:
 										NXMLNode(NXMLNodeType theType, const NString &theValue);
 	virtual							   ~NXMLNode(void);

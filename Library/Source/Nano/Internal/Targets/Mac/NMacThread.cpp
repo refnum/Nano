@@ -25,6 +25,7 @@
 #include "NThreadUtilities.h"
 #include "NTimeUtilities.h"
 #include "NMathUtilities.h"
+#include "NUncopyable.h"
 #include "NMacTarget.h"
 #include "NTargetThread.h"
 
@@ -35,7 +36,7 @@
 //============================================================================
 //		Internal class declaration
 //----------------------------------------------------------------------------
-class NFunctorInvoker {
+class NFunctorInvoker : public NUncopyable {
 public:
 										NFunctorInvoker(const NFunctor &theFunctor, NSemaphore *theSemaphore=NULL);
 	virtual							   ~NFunctorInvoker(void) { }
