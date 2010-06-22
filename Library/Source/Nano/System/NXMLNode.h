@@ -67,7 +67,7 @@ public:
 
 
 	// Get the parent
-	NXMLNode							*GetParent(void) const;
+	NXMLNode						   *GetParent(void) const;
 
 
 	// Does the node have any children?
@@ -75,10 +75,10 @@ public:
 
 
 	// Get the children
-	NXMLNode							*GetChild(const NString &textValue) const;
-	NXMLNode							*GetChild(      NIndex    theIndex) const;
+	NXMLNode						   *GetChild(const NString &textValue) const;
+	NXMLNode						   *GetChild(      NIndex    theIndex) const;
 
-	const NXMLNodeList					*GetChildren(void) const;
+	const NXMLNodeList				   *GetChildren(void) const;
 
 
 	// Add/remove children
@@ -126,7 +126,7 @@ public:
 
 
 private:
-	NXMLNode							*mParent;
+	NXMLNode						   *mParent;
 	NXMLNodeList						mChildren;
 
 	NXMLNodeType						mType;

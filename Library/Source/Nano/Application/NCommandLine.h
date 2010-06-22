@@ -60,7 +60,7 @@ public:
 
 
 	// Get the comand line
-	static NCommandLine					*Get(void);
+	static NCommandLine				   *Get(void);
 
 
 private:

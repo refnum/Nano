@@ -33,8 +33,8 @@ public:
 
 
 	// Encode/decode an XML document
-	NString								Encode( const NXMLNode *theNode);
-	NXMLNode							*Decode(const NString  &theXML);
+	NString								Encode(const NXMLNode *theNode);
+	NXMLNode						   *Decode(const NString  &theXML);
 
 
 private:
@@ -55,11 +55,11 @@ private:
 	void								EncodeElementAttribute(const NDictionary &theAttributes, const NVariant &attributeKey, NString *theResult);
 	bool								ContainsElements(const NXMLNodeList *theNodes); 
 
-	NXMLNode							*GetDecodeParent(void);
+	NXMLNode						   *GetDecodeParent(void);
 	
 
 private:
-	NXMLNode							*mDecodeRoot;
+	NXMLNode						   *mDecodeRoot;
 	NXMLNodeList						mDecodeElements;
 };
 

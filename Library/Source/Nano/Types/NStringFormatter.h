@@ -166,7 +166,7 @@ private:
 
 
 private:
-	NFormatFunctor						*mGetValue;
+	NFormatFunctor					   *mGetValue;
 };
 
 

@@ -84,8 +84,8 @@ public:
 	// GetData will return a NULL pointer if the data object is empty.
 	//
 	// SetData(xxx, NULL) is equivalent to Clear+AppendData(xxx);
-	const UInt8							*GetData(NIndex theOffset=0) const;
-	UInt8								*GetData(NIndex theOffset=0);
+	const UInt8						   *GetData(NIndex theOffset=0) const;
+	UInt8							   *GetData(NIndex theOffset=0);
 
 	NData								GetData(const NRange &theRange) const;
 	
@@ -98,8 +98,8 @@ public:
 	// supplied, the new space is zero-filled.
 	//
 	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
-	UInt8								*AppendData(NIndex theSize, const void *thePtr=NULL);
-	UInt8								*AppendData(const NData &theData);
+	UInt8							   *AppendData(NIndex theSize, const void *thePtr=NULL);
+	UInt8							   *AppendData(const NData &theData);
 
 
 	// Remove data
@@ -110,7 +110,7 @@ public:
 	// Replace data
 	//
 	// Returns a pointer to the modified data.
-	UInt8								*ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr);
+	UInt8							   *ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr);
 
 
 	// Compare the value
@@ -128,11 +128,11 @@ public:
 
 protected:
 	// Get the value
-	NDataValue							*GetMutable(void);
+	NDataValue						   *GetMutable(void);
 
 
 	// Get the null value
-	const NDataValue					*GetNullValue(void) const;
+	const NDataValue				   *GetNullValue(void) const;
 
 
 	// Calculate the hash
@@ -150,7 +150,7 @@ private:
 
 private:
 	NIndex								mExternalSize;
-	const void							*mExternalPtr;
+	const void						   *mExternalPtr;
 };
 
 

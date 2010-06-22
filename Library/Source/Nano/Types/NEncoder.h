@@ -163,26 +163,26 @@ public:
 private:
 	NEncoderFormat						GetFormat(const NData &theData);
 
-	const NXMLNode						*GetParentNode(void)                 const;
-	const NXMLNode						*GetChildNode(const NString &theKey) const;
+	const NXMLNode					   *GetParentNode(void)                 const;
+	const NXMLNode					   *GetChildNode(const NString &theKey) const;
 
-	NXMLNode							*EncodeChild(const NString &theKey, const NString &theValue, const NString &theType);
-	NString								 DecodeChild(const NString &theKey,                          const NString &theType) const;
+	NXMLNode						   *EncodeChild(const NString &theKey, const NString &theValue, const NString &theType);
+	NString								DecodeChild(const NString &theKey,                          const NString &theType) const;
 
-	NData								 EncodeXML_1_0(      NXMLNode *theRoot);
-	NXMLNode							*DecodeXML_1_0(const NData    &theData);
+	NData								EncodeXML_1_0(      NXMLNode *theRoot);
+	NXMLNode						   *DecodeXML_1_0(const NData    &theData);
 
-	NData								 EncodeBinary_1_0(      NXMLNode *theRoot);
-	NXMLNode							*DecodeBinary_1_0(const NData    &theData);
+	NData								EncodeBinary_1_0(      NXMLNode *theRoot);
+	NXMLNode						   *DecodeBinary_1_0(const NData    &theData);
 
 	static bool							IsKnownClass(const NString &className);
-	static NEncoderClasses				*GetClasses(void);
+	static NEncoderClasses			   *GetClasses(void);
 	static NEncoderClassInfoMap			GetClassesInfo(void);
 
 
 private:
 	NEncoderState						mState;
-	NXMLNode							*mNodeRoot;
+	NXMLNode						   *mNodeRoot;
 	mutable NXMLNodeList				mNodeStack;
 };
 
