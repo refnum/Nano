@@ -46,7 +46,7 @@ inline CGRect ToCG(const NRectangle &theRect)
 
 
 // Cocoa to CoreGraphics
-#if defined(__OBJC__)
+#if NN_TARGET_MAC && defined(__OBJC__)
 inline CGPoint ToCG(const NSPoint &thePoint)
 {
 	return(CGPointMake(thePoint.x, thePoint.y));
@@ -61,7 +61,7 @@ inline CGRect ToCG(const NSRect &theRect)
 {
 	return(CGRectMake(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
-#endif
+#endif // NN_TARGET_MAC
 
 
 
@@ -84,7 +84,7 @@ inline NRectangle ToNN(const CGRect &theRect)
 
 
 // CoreGraphics to Cocoa
-#if defined(__OBJC__)
+#if NN_TARGET_MAC && defined(__OBJC__)
 inline NSPoint ToNS(const CGPoint &thePoint)
 {
 	return(NSMakePoint(thePoint.x, thePoint.y));
@@ -99,7 +99,7 @@ inline NSRect ToNS(const CGRect &theRect)
 {
 	return(NSMakeRect(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
-#endif
+#endif // NN_TARGET_MAC
 
 
 

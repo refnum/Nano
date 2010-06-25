@@ -195,7 +195,7 @@ inline bool operator==(const NSRect &value1, const NSRect &value2)
 {
 	return(value1.origin == value2.origin && value1.size == value2.size);
 }
-#endif
+#endif // NN_TARGET_MAC
 
 
 
@@ -217,7 +217,7 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 {
 	return(value1.origin != value2.origin || value1.size != value2.size);
 }
-#endif
+#endif // NN_TARGET_MAC
 
 
 
