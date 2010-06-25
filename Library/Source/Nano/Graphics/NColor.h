@@ -92,7 +92,7 @@ public:
 	void								GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const;
 	UInt32								GetColor(NColorFormat theFormat=kNColorRGBA)             const;
 
-	void								SetColor(Float32 r, Float32 g, Float32 b, Float32 a);
+	void								SetColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
 	void								SetColor(UInt32 theColor, NColorFormat theFormat=kNColorRGBA);
 	
 
