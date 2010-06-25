@@ -17,6 +17,7 @@
 		AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
 		AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
 		AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
+		AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB078D2811D4A988006C9347 /* NUIKit.mm */; };
 		AB103B6310B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
 		AB103B6410B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
 		AB143173103EC5BE002BD0D1 /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
@@ -310,6 +311,8 @@
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
 		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
+		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
+		AB078D2811D4A988006C9347 /* NUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NUIKit.mm; sourceTree = "<group>"; };
 		AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAttributes.cpp; sourceTree = "<group>"; };
 		AB103B6210B6AFFD00F425C5 /* NAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAttributes.h; sourceTree = "<group>"; };
 		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
@@ -656,6 +659,15 @@
 			path = CoreGraphics;
 			sourceTree = "<group>";
 		};
+		AB078D2611D4A988006C9347 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				AB078D2811D4A988006C9347 /* NUIKit.mm */,
+				AB078D2711D4A988006C9347 /* NUIKit.h */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
 		AB1694D510028C8200F7D4B7 /* libb64_1.1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -789,6 +801,7 @@
 				AB004029109700AD006029F9 /* CoreGraphics */,
 				ABAA123F0FE4F959000BDCDC /* Qt */,
 				AB0040151096FE97006029F9 /* Skia */,
+				AB078D2611D4A988006C9347 /* UIKit */,
 				AB2F38AD10CFD91700885DAE /* Windows */,
 			);
 			path = Nanites;
@@ -1320,6 +1333,7 @@
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
 				AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
 				AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
+				AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */,
 				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
 				ABB145420FF2C4EF006F178C /* NPreferences.cpp in Sources */,
 				AB1A78A2103234BE00DFBA38 /* NUndoManager.cpp in Sources */,
