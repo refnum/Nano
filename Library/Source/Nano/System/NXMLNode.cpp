@@ -176,6 +176,41 @@ NXMLNode *NXMLNode::GetChild(NIndex theIndex) const
 
 
 //============================================================================
+//		NXMLNode::GetChildAtPath : Get a child.
+//----------------------------------------------------------------------------
+NXMLNode *NXMLNode::GetChildAtPath(const NString &thePath) const
+{	const NXMLNode					*theParent;
+	NXMLNode						*theChild;
+	NStringList						theValues;
+	NStringListConstIterator		theIter;
+
+
+
+	// Get the state we need
+	theValues = thePath.Split("/");
+	theParent = this;
+	theChild  = NULL;
+
+
+
+	// Get the child
+	for (theIter = theValues.begin(); theIter != theValues.end(); theIter++)
+		{
+		theChild  = theParent->GetChild(*theIter);
+		theParent = theChild;
+
+		if (theChild == NULL)
+			break;
+		}
+	
+	return(theChild);
+}
+
+
+
+
+
+//============================================================================
 //		NXMLNode::GetChildren : Get the children.
 //----------------------------------------------------------------------------
 const NXMLNodeList *NXMLNode::GetChildren(void) const
