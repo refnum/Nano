@@ -28,7 +28,7 @@
 //		@end
 //
 //
-//		@implementation  MyClass
+//		@implementation MyClass
 //		NNSSINGLETON_DEFINE(MyClass);
 //		...
 //		@end
