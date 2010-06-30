@@ -647,6 +647,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nanites\Windows\NRegistry.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Threads\NSemaphore.cpp"
 				>
 			</File>
@@ -1746,6 +1750,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NRefCounted.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nanites\Windows\NRegistry.h"
 				>
 			</File>
 			<File

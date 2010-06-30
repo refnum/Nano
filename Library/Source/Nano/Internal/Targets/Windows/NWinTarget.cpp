@@ -48,6 +48,7 @@ NStatus NWinTarget::ConvertHRESULT(HRESULT winErr)
 		case ERROR_SUCCESS:				theErr = kNoErr;				break;
 		case ERROR_ALREADY_EXISTS:		theErr = kNErrDuplicate;		break;
 		case ERROR_PATH_NOT_FOUND:		theErr = kNErrNotFound;			break;
+		case ERROR_FILE_NOT_FOUND:		theErr = kNErrNotFound;			break;
 		case ERROR_HANDLE_EOF:			theErr = kNErrExhaustedSrc;		break;
 		case ERROR_INVALID_HANDLE:		theErr = kNErrParam;			break;
 

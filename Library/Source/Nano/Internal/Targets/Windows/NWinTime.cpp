@@ -18,6 +18,7 @@
 
 #include "NDate.h"
 #include "NWindows.h"
+#include "NRegistry.h"
 #include "NWinTarget.h"
 #include "NTargetThread.h"
 #include "NTargetTime.h"
@@ -165,12 +166,12 @@ static NString GetTimeZoneName(const NString &timeZone)
 //		GetTimeZone : Get a time zone.
 //----------------------------------------------------------------------------
 static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
-{	NString						zoneName, thePath;
+{	NString						zoneName, subKey;
+	NRegistry					theRegistry;
 	TIME_ZONE_INFORMATION		zoneInfo;
-	DWORD						theSize;
 	REG_TZI_FORMAT				regInfo;
-	DWORD						theErr;
-	HKEY						theKey;
+	NData						theData;
+	NStatus						theErr;
 
 
 
@@ -191,31 +192,27 @@ static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
 	else
 		{
 		// Get the state we need
-		theSize  = sizeof(regInfo);
 		zoneName = GetTimeZoneName(timeZone);
-		thePath  = NString("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\") + zoneName;
+		subKey   = NString("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\") + zoneName;
 
 
 		// Get the time zone info
-		theErr = RegOpenKeyEx(HKEY_LOCAL_MACHINE, ToWN(thePath), 0, KEY_QUERY_VALUE, &theKey);
+		theErr = theRegistry.Open(HKEY_LOCAL_MACHINE, subKey);
 		NN_ASSERT_NOERR(theErr);
 		
-		if (SUCCEEDED(theErr))
+		if (theErr == kNoErr)
 			{
-			theErr = RegQueryValueEx(theKey, L"TZI", NULL, NULL, (LPBYTE) &regInfo, &theSize);
-			NN_ASSERT_NOERR(theErr);
-			
-			if (SUCCEEDED(theErr))
+			theData = theRegistry.GetValueData("TZI");
+			if (theData.GetSize() == sizeof(regInfo))
 				{
+				memcpy(&regInfo, theData.GetData(), sizeof(regInfo));
+				
 				zoneInfo.Bias         = regInfo.Bias;
 				zoneInfo.StandardDate = regInfo.StandardDate;
 				zoneInfo.StandardBias = regInfo.StandardBias;
 				zoneInfo.DaylightDate = regInfo.DaylightDate;
 				zoneInfo.DaylightBias = regInfo.DaylightBias;
 				}
-			
-			theErr = RegCloseKey(theKey);
-			NN_ASSERT_NOERR(theErr);
 			}
 		}
 
