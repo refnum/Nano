@@ -191,12 +191,12 @@ NStringList NTextUtilities::GetArguments(va_list argList, const char *arg1)
 
 	// Get the arguments
 	argPtr = arg1;
-	do
+	
+	while (argPtr != NULL)
 		{
 		theArgs.push_back(NString(argPtr, kNStringLength));
 		argPtr = va_arg(argList, const char *);
 		}
-	while (argPtr != NULL);
 
 	return(theArgs);
 }
