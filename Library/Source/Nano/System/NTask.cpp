@@ -331,46 +331,17 @@ void NTask::WaitForTask(void)
 
 
 //============================================================================
-//		NTask::Execute : Execute a task.
+//		NTask::Execute : Execute the task.
 //----------------------------------------------------------------------------
-NString NTask::Execute(const char *cmd)
-{
-
-
-	// Execute the task
-	return(NTask::Execute(cmd, NULL));
-}
-
-
-
-
-
-//============================================================================
-//		NTask::Execute : Execute a task.
-//----------------------------------------------------------------------------
-NString NTask::Execute(const char *cmd, const char *arg1, ...)
+NString NTask::Execute(void)
 {	bool		mainThread;
 	NString		theResult;
-	va_list		argList;
-	NTask		theTask;
 	NStatus		theErr;
 
 
 
-	// Get the state we need
-	theTask.SetCommand(cmd);
-
-	if (arg1 != NULL)
-		{
-		va_start(argList, arg1);
-		theTask.SetArguments(NTextUtilities::GetArguments(argList, arg1));
-		va_end(argList);
-		}
-
-
-
 	// Execute the command
-	theErr = theTask.Launch();
+	theErr = Launch();
 	NN_ASSERT_NOERR(theErr);
 
 
@@ -381,18 +352,58 @@ NString NTask::Execute(const char *cmd, const char *arg1, ...)
 	// our timer, so we need to update the task status by polling.
 	mainThread = NThread::IsMain();
 
-	while (theTask.IsRunning())
+	while (IsRunning())
 		{
-		theResult += theTask.ReadOutput();
+		theResult += ReadOutput();
 
 		if (mainThread)
-			NTargetSystem::TaskWait(theTask.mTask, kTaskSleep);
+			NTargetSystem::TaskWait(mTask, kTaskSleep);
 		else
 			{
 			NThread::Sleep();
-			theTask.UpdateTask();
+			UpdateTask();
 			}
 		}
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTask::Execute : Execute a task.
+//----------------------------------------------------------------------------
+NString NTask::Execute(	const char *cmd,
+						const char *arg1,
+						const char *arg2,
+						const char *arg3,
+						const char *arg4,
+						const char *arg5,
+						const char *arg6,
+						const char *arg7,
+						const char *arg8,
+						const char *arg9,
+						const char *arg10)
+{	NString		theResult;
+	NTask		theTask;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(cmd != NULL);
+
+
+
+	// Get the state we need
+	theTask.SetCommand(cmd);
+	theTask.SetArguments(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+
+
+
+	// Execute the command
+	theResult = theTask.Execute();
 
 	return(theResult);
 }
