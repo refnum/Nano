@@ -243,15 +243,21 @@ void NTask::SetArguments(const NStringList &theArgs)
 //============================================================================
 //		NTask::SetArguments : Set the arguments.
 //----------------------------------------------------------------------------
-void NTask::SetArguments(const char *arg1, ...)
-{	va_list		argList;
-
+void NTask::SetArguments(	const char *arg1,
+							const char *arg2,
+							const char *arg3,
+							const char *arg4,
+							const char *arg5,
+							const char *arg6,
+							const char *arg7,
+							const char *arg8,
+							const char *arg9,
+							const char *arg10)
+{
 
 
 	// Set the arguments
-	va_start(argList, arg1);
-	SetArguments(NTextUtilities::GetArguments(argList, arg1));
-	va_end(argList);
+	SetArguments(NTextUtilities::GetArguments(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10));
 }
 
 

@@ -102,7 +102,17 @@ public:
 	// Arguments may be set as a NULL-terminated list of UTF8-encoded strings.
 	NStringList							GetArguments(void) const;
 	void								SetArguments(const NStringList &theArgs);
-	void								SetArguments(const char *arg1, ...);
+
+	void								SetArguments(	const char *arg1,
+														const char *arg2  = NULL,
+														const char *arg3  = NULL,
+														const char *arg4  = NULL,
+														const char *arg5  = NULL,
+														const char *arg6  = NULL,
+														const char *arg7  = NULL,
+														const char *arg8  = NULL,
+														const char *arg9  = NULL,
+														const char *arg10 = NULL);
 
 
 	// Read/write the task
