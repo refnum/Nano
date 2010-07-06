@@ -9,8 +9,13 @@
 //			-w -fno-fast-math
 //----------------------------------------------------------------------------
 // Mac OS
+//
+// gethostuuid is available on 10.5 or later (and possibly earlier?),
+// but is only declared in 10.6.
 #define Cursor														SQLite_Cursor
 #define cType														SQLite_cType
+
+int gethostuuid(uuid_t, const struct timespec *);
 
 
 // SQLite
