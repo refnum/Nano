@@ -244,7 +244,7 @@ void TPropertyList::DumpBinary(void)
 	theFile = NFileUtilities::GetTemporaryFile("binary.plist");
 	NFileUtilities::SetFileText(theFile, kPropertyListXML);
 
-	NTask::Execute("/usr/bin/plutil", "-convert", "binary1", theFile.GetPath().GetUTF8(), NULL);
+	NTask::Execute("/usr/bin/plutil", "-convert", "binary1", theFile.GetPath().GetUTF8());
 
 
 
