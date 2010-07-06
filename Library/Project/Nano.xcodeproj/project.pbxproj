@@ -80,7 +80,7 @@
 		AB28FC160FB5D9F000F72C61 /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F90F9B4DD5009FFEAF /* pcre_valid_utf8.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC170FB5D9F000F72C61 /* pcre_version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FA0F9B4DD5009FFEAF /* pcre_version.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
+		AB28FC190FB5D9F000F72C61 /* sqlite_3.6.23.1.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.23.1.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
 		AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */; };
 		AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
 		AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
@@ -179,7 +179,7 @@
 		AB9155880F9B4DD6009FFEAF /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F90F9B4DD5009FFEAF /* pcre_valid_utf8.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155890F9B4DD6009FFEAF /* pcre_version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FA0F9B4DD5009FFEAF /* pcre_version.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB91558A0F9B4DD6009FFEAF /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.12.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
+		AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.23.1.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.23.1.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
 		AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */; };
 		AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
 		AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
@@ -431,9 +431,9 @@
 		AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_xclass.c; sourceTree = "<group>"; };
 		AB9154FC0F9B4DD5009FFEAF /* ucp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ucp.h; sourceTree = "<group>"; };
 		AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
-		AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.6.12.c; sourceTree = "<group>"; };
-		AB9155000F9B4DD5009FFEAF /* sqlite_3.6.12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.6.12.h; sourceTree = "<group>"; };
-		AB9155010F9B4DD5009FFEAF /* sqlite_3.6.12_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.6.12_fts3_tokenizer.h; sourceTree = "<group>"; };
+		AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.23.1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.6.23.1.c; sourceTree = "<group>"; };
+		AB9155000F9B4DD5009FFEAF /* sqlite_3.6.23.1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.6.23.1.h; sourceTree = "<group>"; };
+		AB9155010F9B4DD5009FFEAF /* sqlite_3.6.23.1_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.6.23.1_fts3_tokenizer.h; sourceTree = "<group>"; };
 		AB9155020F9B4DD5009FFEAF /* nano_sqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nano_sqlite.h; sourceTree = "<group>"; };
 		AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
 		AB9155050F9B4DD5009FFEAF /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
@@ -858,7 +858,7 @@
 				AB9154E30F9B4DD5009FFEAF /* pcre_7.8 */,
 				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
-				AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.12 */,
+				AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.23.1 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */,
@@ -898,15 +898,15 @@
 			path = pcre_7.8;
 			sourceTree = "<group>";
 		};
-		AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.12 */ = {
+		AB9154FE0F9B4DD5009FFEAF /* sqlite_3.6.23.1 */ = {
 			isa = PBXGroup;
 			children = (
 				AB9155020F9B4DD5009FFEAF /* nano_sqlite.h */,
-				AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.12.c */,
-				AB9155000F9B4DD5009FFEAF /* sqlite_3.6.12.h */,
-				AB9155010F9B4DD5009FFEAF /* sqlite_3.6.12_fts3_tokenizer.h */,
+				AB9154FF0F9B4DD5009FFEAF /* sqlite_3.6.23.1.c */,
+				AB9155000F9B4DD5009FFEAF /* sqlite_3.6.23.1.h */,
+				AB9155010F9B4DD5009FFEAF /* sqlite_3.6.23.1_fts3_tokenizer.h */,
 			);
-			path = sqlite_3.6.12;
+			path = sqlite_3.6.23.1;
 			sourceTree = "<group>";
 		};
 		AB9155030F9B4DD5009FFEAF /* unicode.org */ = {
@@ -1387,7 +1387,7 @@
 				AB7AB1BE103AED18004B1F6E /* blowfish.c in Sources */,
 				AB7AB1BF103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */,
-				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.12.c in Sources */,
+				AB28FC190FB5D9F000F72C61 /* sqlite_3.6.23.1.c in Sources */,
 				AB6B2F4A116CCAB80095D5A5 /* tero_des.cpp in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
 				ABFAA6A61018AB360060ED12 /* adler32.c in Sources */,
@@ -1537,7 +1537,7 @@
 				AB7AB1C0103AED18004B1F6E /* blowfish.c in Sources */,
 				AB7AB1C1103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */,
-				AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.12.c in Sources */,
+				AB91558B0F9B4DD6009FFEAF /* sqlite_3.6.23.1.c in Sources */,
 				AB6B2F49116CCAB80095D5A5 /* tero_des.cpp in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
 				ABFAA6981018AB360060ED12 /* adler32.c in Sources */,
