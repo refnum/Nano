@@ -365,6 +365,15 @@ NString NTask::Execute(void)
 			}
 		}
 
+
+
+	// Collect the output
+	//
+	// Some output may have been emitted between the last time we read
+	// from the task and the point we noticed that the task had finished,
+	// so we need to poll again to read any outstanding data.
+	theResult += ReadOutput();
+
 	return(theResult);
 }
 
