@@ -42,7 +42,12 @@ NTask::NTask(void)
 
 
 	// Initialize ourselves
-	memset(&mTask, 0x00, sizeof(mTask));
+	mTask.taskID     = kNTaskIDNone;
+	mTask.taskResult = 0;
+	
+	mTask.stdIn  = kNTaskPipeRefNone;
+	mTask.stdOut = kNTaskPipeRefNone;
+	mTask.stdErr = kNTaskPipeRefNone;
 }
 
 

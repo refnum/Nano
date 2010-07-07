@@ -120,11 +120,14 @@ static void ClosePipe(NTaskPipeRef &thePipe)
 
 
 	// Destroy the pipe
-	WNSafeCloseHandle(theInfo->readHnd);
-	WNSafeCloseHandle(theInfo->writeHnd);
+	if (thePipe != kNTaskPipeRefNone)
+		{
+		WNSafeCloseHandle(theInfo->readHnd);
+		WNSafeCloseHandle(theInfo->writeHnd);
 	
-	delete theInfo;
-	thePipe = kNTaskPipeRefNone;
+		delete theInfo;
+		thePipe = kNTaskPipeRefNone;
+		}
 }
 
 
