@@ -396,16 +396,16 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	//
 	// The Unicode version of CreateProcess may modify the command
 	// line argument, so we pass a mutable copy of the string.
-	wasOK = CreateProcess(	NULL,			// App name passed in cmd line
-							cmdLinePtr,		// Mutable command line
-							NULL,			// Process security attributes 
-							NULL,			// Primary thread security attributes 
-							TRUE,			// Handles are inherited 
-							0,				// Creation flags 
-							NULL,			// Use parent's environment 
-							NULL,			// Use parent's current directory 
-							&startInfo,		// Startup info
-							&procInfo);		// Receives process info
+	wasOK = CreateProcess(	NULL,					// App name passed in cmd line
+							cmdLinePtr,				// Mutable command line
+							NULL,					// Process security attributes 
+							NULL,					// Primary thread security attributes 
+							TRUE,					// Handles are inherited 
+							CREATE_NO_WINDOW,		// Creation flags 
+							NULL,					// Use parent's environment 
+							NULL,					// Use parent's current directory 
+							&startInfo,				// Startup info
+							&procInfo);				// Receives process info
 
 
 
