@@ -156,8 +156,8 @@ static HANDLE GetPipeHandle(NTaskPipeRef thePipe, bool forRead)
 static NString ReadPipe(NTaskPipeRef &thePipe, bool lastRead)
 {	PipeInfo		*theInfo = (PipeInfo *) thePipe;
 	char			theBuffer[kTaskBufferSize];
+	DWORD			numAvail, numRead;
 	NString			theString;
-	DWORD			numRead;
 
 
 
@@ -170,9 +170,25 @@ static NString ReadPipe(NTaskPipeRef &thePipe, bool lastRead)
 	// Read from the pipe
 	do
 		{
-		if (!ReadFile(theInfo->readHnd, theBuffer, kTaskBufferSize, &numRead, NULL))
-			numRead = 0;
+		// Prepare to read
+		numAvail = 0;
+		numRead  = 0;
+
+
+
+		// Get the size
+		if (!PeekNamedPipe(theInfo->readHnd, NULL, 0, NULL, &numAvail, NULL))
+			numAvail = 0;
 		
+		if (numAvail > kTaskBufferSize)
+			numAvail = kTaskBufferSize;
+
+
+
+		// Read the data
+		if (numAvail != 0 && !ReadFile(theInfo->readHnd, theBuffer, numAvail, &numRead, NULL))
+			numRead = 0;
+
 		if (numRead >= 1)
 			theString += NString(theBuffer, numRead);
 		}
@@ -373,8 +389,8 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	memset(&startInfo, 0x00, sizeof(startInfo));
 	memset(&procInfo,  0x00, sizeof(procInfo));
 
-	startInfo.cb         = sizeof(STARTUPINFO); 
-	startInfo.dwFlags   |= STARTF_USESTDHANDLES;
+	startInfo.cb       = sizeof(STARTUPINFO); 
+	startInfo.dwFlags |= STARTF_USESTDHANDLES;
 
 	cmdLine.Format("\"%@\" \"%@\"", theCmd, NString::Join(theArgs, "\" \""));
 	cmdLinePtr = _wcsdup(ToWN(cmdLine));
