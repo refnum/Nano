@@ -136,7 +136,6 @@ typedef nfunctor<NStringUTF8 (const NStringUTF8 &theFormat)>		NFormatFunctorBase
 class NFormatFunctor : public NFormatFunctorBase {
 public:
 			 NFormatFunctor(const NFormatFunctorBase &theFunctor) : NFormatFunctorBase(theFunctor)	{ }
-			 NFormatFunctor(const NFormatFunctor     &theFunctor) : NFormatFunctorBase(theFunctor)	{ }
 	virtual ~NFormatFunctor(void)																	{ }
 };
 

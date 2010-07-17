@@ -471,7 +471,7 @@ NGregorianDate NDate::GetYearStart(const NString &timeZone, NIndex theDay) const
 	theDate = GetDate(timeZone);
 
 	theDate.month    = 1;
-	theDate.day      = theDay;
+	theDate.day      = (SInt8) theDay;
 	theDate.hour     = 0;
 	theDate.month    = 0;
 	theDate.minute   = 0;
