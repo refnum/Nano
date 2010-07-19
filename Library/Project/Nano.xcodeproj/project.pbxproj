@@ -1650,21 +1650,18 @@
 		1DEB920608733DBB0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
 		};
 		1DEB920708733DBB0010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = iphoneos3.0;
 			};
 			name = Release;
 		};
 		AB1A77F61030585E00DFBA38 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = iphoneos3.0;
 			};
 			name = Distribution;
 		};
