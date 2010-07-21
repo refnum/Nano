@@ -65,7 +65,7 @@ void TListener::Execute(void)
 
 	// Listen
 	theValue = kTestMsgNone;
-	theListener.SetTarget(&theValue);
+	theListener.SetTargetUInt32(&theValue);
 
 	theBroadcaster.AddListener(&theListener);
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
@@ -76,7 +76,7 @@ void TListener::Execute(void)
 
 	// No listen
 	theValue = kTestMsgNone;
-	theListener.SetTarget(&theValue);
+	theListener.SetTargetUInt32(&theValue);
 
 	theListener.SetListening(false);
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
@@ -88,7 +88,7 @@ void TListener::Execute(void)
 
 	// Copy broadcasters
 	theValue = kTestMsgNone;
-	theListener.SetTarget(&theValue);
+	theListener.SetTargetUInt32(&theValue);
 
 	theListener.RemoveFromBroadcasters();
 	theBroadcaster.AddListener(&theListener);

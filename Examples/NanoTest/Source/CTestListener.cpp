@@ -28,7 +28,8 @@ CTestListener::CTestListener(void)
 
 
 	// Initialise ourselves
-	mTarget = NULL;
+	mTargetUInt32   = NULL;
+	mTargetListener = NULL;
 }
 
 
@@ -47,14 +48,31 @@ CTestListener::~CTestListener(void)
 
 
 //============================================================================
-//		CTestListener::SetTarget : Set the target.
+//		CTestListener::SetTargetUInt32 : Set the UInt32 target.
 //----------------------------------------------------------------------------
-void CTestListener::SetTarget(void *theTarget)
+void CTestListener::SetTargetUInt32(UInt32 *theTarget)
 {
 
 
 	// Set the target
-	mTarget = theTarget;
+	mTargetUInt32   = theTarget;
+	mTargetListener = NULL;
+}
+
+
+
+
+
+//============================================================================
+//		CTestListener::SetTargetListener : Set the NListener target.
+//----------------------------------------------------------------------------
+void CTestListener::SetTargetListener(NListener *theTarget)
+{
+
+
+	// Set the target
+	mTargetUInt32   = NULL;
+	mTargetListener = theTarget;
 }
 
 
@@ -71,7 +89,13 @@ void CTestListener::DoMessage(BroadcastMsg theMsg, const void * /*msgData*/)
 	// Handle the message
 	switch (theMsg) {
 		case kTestMsgSetUInt32:
-			*((UInt32 *) mTarget) = kTestMsgSetUInt32;
+			if (mTargetUInt32 != NULL)
+				*mTargetUInt32 = kTestMsgSetUInt32;
+			break;
+		
+		case kTestMsgRemoveListener:
+			if (mTargetListener != NULL)
+				mTargetListener->RemoveFromBroadcasters();
 			break;
 
 		default:

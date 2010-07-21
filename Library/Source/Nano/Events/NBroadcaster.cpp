@@ -165,8 +165,9 @@ void NBroadcaster::RemoveListener(NListener *theListener)
 
 
 	// Remove the listener
-	mListeners.erase(theListener);
-	
+	mListeners.erase( theListener);
+	mRecipients.erase(theListener);
+
 	theListener->RemoveBroadcaster(this);
 }
 
@@ -201,8 +202,7 @@ void NBroadcaster::RemoveListeners(void)
 void NBroadcaster::BroadcastMessage(BroadcastMsg theMsg, const void *msgData)
 {	NListener						*theListener;
 	bool							*oldFlag;
-	NListenerList					theList;
-	NListenerListConstIterator		theIter;
+	NListenerListIterator			theIter;
 	bool							isDead;
 
 
@@ -233,24 +233,26 @@ void NBroadcaster::BroadcastMessage(BroadcastMsg theMsg, const void *msgData)
 
 	// Broadcast the message
 	//
-	// Since broadcasting a message may cause listeners to remove themselves
-	// from our list, we need to take a copy and iterate through that.
-	theList = mListeners;
+	// Since broadcasting a message may cause listeners to remove themselves (or even
+	// other listeners) from our list, we need to work from a copy of the list which
+	// we prune rather than iterate.
+	//
+	// RemoveListener will update this list if any listeners are removed due to sending
+	// the message, which ensures we won't contact a dead listener.
+	mRecipients = mListeners;
 	
-	for (theIter = theList.begin(); theIter != theList.end(); theIter++)
+	while (!isDead && !mRecipients.empty())
 		{
-		// Send the message
+		// Get the state we need
+		theIter     = mRecipients.begin();
 		theListener = theIter->first;
+		
+		mRecipients.erase(theIter);
 
+
+		// Send the message
 		if (theListener->IsListening())
 			theListener->DoMessage(theMsg, msgData);
-
-
-		// Stop if we die
-		//
-		// If broadcasting the message killed the broadcaster, we're done
-		if (isDead)
-			break;
 		}
 
 

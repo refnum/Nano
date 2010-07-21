@@ -27,7 +27,8 @@
 //----------------------------------------------------------------------------
 // Messages
 static const BroadcastMsg kTestMsgNone									= 0;
-static const BroadcastMsg kTestMsgSetUInt32								= 123;
+static const BroadcastMsg kTestMsgSetUInt32								= 1;
+static const BroadcastMsg kTestMsgRemoveListener						= 2;
 
 
 
@@ -43,7 +44,8 @@ public:
 
 
 	// Set the target
-	void								SetTarget(void *theValue);
+	void								SetTargetUInt32(  UInt32    *theTarget);
+	void								SetTargetListener(NListener *theTarget);
 
 
 	// Handle messages
@@ -51,7 +53,8 @@ public:
 
 
 private:
-	void							   *mTarget;
+	UInt32							   *mTargetUInt32;
+	NListener						   *mTargetListener;
 };
 
 

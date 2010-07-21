@@ -93,6 +93,7 @@ private:
 private:
 	bool								mIsBroadcasting;
 	NListenerList						mListeners;
+	NListenerList						mRecipients;
 
 	bool								*mIsDead;
 };
