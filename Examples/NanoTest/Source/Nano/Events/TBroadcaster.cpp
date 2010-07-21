@@ -59,7 +59,7 @@ void TBroadcaster::Execute(void)
 
 
 	// Broadcast
-	theValue = 0;
+	theValue = kTestMsgNone;
 	theListener.SetTarget(&theValue);
 
 	theBroadcaster.AddListener(&theListener);
@@ -70,30 +70,30 @@ void TBroadcaster::Execute(void)
 
 
 	// No broadcast
-	theValue = 0;
+	theValue = kTestMsgNone;
 	theListener.SetTarget(&theValue);
 
 	theBroadcaster.SetBroadcasting(false);
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 	theBroadcaster.SetBroadcasting(true);
 
-	NN_ASSERT(theValue == 0);
+	NN_ASSERT(theValue == kTestMsgNone);
 
 
 
 	// No listeners
-	theValue = 0;
+	theValue = kTestMsgNone;
 	theListener.SetTarget(&theValue);
 
 	theBroadcaster.RemoveListeners();
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 
-	NN_ASSERT(theValue == 0);
+	NN_ASSERT(theValue == kTestMsgNone);
 
 
 
 	// Copy listeners
-	theValue = 0;
+	theValue = kTestMsgNone;
 	theListener.SetTarget(&theValue);
 	theBroadcaster.AddListener(&theListener);
 	
