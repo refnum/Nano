@@ -29,13 +29,7 @@
 void TBroadcaster::Execute(void)
 {	NBroadcaster		theBroadcaster, theBroadcaster2;
 	CTestListener		theListener, theListener2;
-	BroadcastMsg		theMsg;
-
-
-
-	// Initialise ourselves
-	theMsg = kTestMsgNone;
-	theListener.SetTarget(&theMsg);
+	UInt32				theValue;
 
 
 
@@ -65,44 +59,50 @@ void TBroadcaster::Execute(void)
 
 
 	// Broadcast
-	theBroadcaster.AddListener(&theListener);
-	theBroadcaster.BroadcastMessage(kTestMsgValue);
+	theValue = 0;
+	theListener.SetTarget(&theValue);
 
-	NN_ASSERT(theMsg == kTestMsgValue);
+	theBroadcaster.AddListener(&theListener);
+	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
+
+	NN_ASSERT(theValue == kTestMsgSetUInt32);
 
 
 
 	// No broadcast
-	theMsg = kTestMsgNone;
+	theValue = 0;
+	theListener.SetTarget(&theValue);
 
 	theBroadcaster.SetBroadcasting(false);
-	theBroadcaster.BroadcastMessage(kTestMsgValue);
+	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 	theBroadcaster.SetBroadcasting(true);
 
-	NN_ASSERT(theMsg == kTestMsgNone);
+	NN_ASSERT(theValue == 0);
 
 
 
 	// No listeners
-	theMsg = kTestMsgNone;
+	theValue = 0;
+	theListener.SetTarget(&theValue);
 
 	theBroadcaster.RemoveListeners();
-	theBroadcaster.BroadcastMessage(kTestMsgValue);
+	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 
-	NN_ASSERT(theMsg == kTestMsgNone);
+	NN_ASSERT(theValue == 0);
 
 
 
 	// Copy listeners
-	theMsg = kTestMsgNone;
+	theValue = 0;
+	theListener.SetTarget(&theValue);
 	theBroadcaster.AddListener(&theListener);
 	
 	theBroadcaster2 = theBroadcaster;
 	theBroadcaster.RemoveListeners();
 	
-	theBroadcaster2.BroadcastMessage(kTestMsgValue);
+	theBroadcaster2.BroadcastMessage(kTestMsgSetUInt32);
 
-	NN_ASSERT(theMsg == kTestMsgValue);
+	NN_ASSERT(theValue == kTestMsgSetUInt32);
 }
 
 

@@ -25,8 +25,9 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Messages
 static const BroadcastMsg kTestMsgNone									= 0;
-static const BroadcastMsg kTestMsgValue									= 123;
+static const BroadcastMsg kTestMsgSetUInt32								= 123;
 
 
 
@@ -42,7 +43,7 @@ public:
 
 
 	// Set the target
-	void								SetTarget(BroadcastMsg *theTarget);
+	void								SetTarget(void *theValue);
 
 
 	// Handle messages
@@ -50,7 +51,7 @@ public:
 
 
 private:
-	BroadcastMsg						*mTarget;
+	void							   *mTarget;
 };
 
 

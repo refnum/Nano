@@ -49,7 +49,7 @@ CTestListener::~CTestListener(void)
 //============================================================================
 //		CTestListener::SetTarget : Set the target.
 //----------------------------------------------------------------------------
-void CTestListener::SetTarget(BroadcastMsg *theTarget)
+void CTestListener::SetTarget(void *theTarget)
 {
 
 
@@ -68,7 +68,16 @@ void CTestListener::DoMessage(BroadcastMsg theMsg, const void * /*msgData*/)
 {
 
 
-	// Update the target
-	if (mTarget != NULL)
-		*mTarget = theMsg;
+	// Handle the message
+	switch (theMsg) {
+		case kTestMsgSetUInt32:
+			*((UInt32 *) mTarget) = kTestMsgSetUInt32;
+			break;
+
+		default:
+			NN_LOG("Unknown messge: %d", theMsg);
+			break;
+		}
 }
+
+
