@@ -87,7 +87,8 @@ using namespace std::tr1::placeholders;
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<void (void)>										NFunctor;
+typedef nfunctor<void    (void)>									NFunctor;
+typedef nfunctor<NStatus (float theProgress)>						NProgressFunctor;
 
 
 // Lists
