@@ -104,19 +104,18 @@ bool NUTI::ConformsTo(const NUTI &theUTI) const
 
 
 
-
-	// Get the state we need
-	conformsTo = NUTIRegistry::Get()->GetConformsTo(mUTI);
-
-
-
 	// Check for conformance
 	//
 	// TODO - this should also check for inherited conformance rather than
 	// direct conformance, possibly by moving this to the registry so that
 	// we can do a more efficient global search.
-	NN_LOG("NUTI::ConformsTo - only supports direct conformance");
-	theResult = contains(conformsTo, theUTI.mUTI);
+	theResult = (mUTI == theUTI.mUTI);
+
+	if (!theResult)
+		{
+		conformsTo = NUTIRegistry::Get()->GetConformsTo(mUTI);
+		theResult  = contains(conformsTo, theUTI.mUTI);
+		}
 	
 	return(theResult);
 }
