@@ -16,6 +16,17 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFunctor.h"
+#include "NTimer.h"
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+static const NTime kNFunctorDelayTime								= 250 * kNTimeMillisecond;
 
 
 
@@ -30,6 +41,12 @@ public:
 	static UInt32						GetCPUCount(void);
 
 
+	// Delay a functor
+	//
+	// The functor can be invoked on the main thread, or on a new one-shot thread.
+	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool onMainThread=true);
+
+
 	// Atomic operations
 	static bool							AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UInt32 newValue);
 	static void							AtomicAdd32(           SInt32 &theValue, SInt32 theDelta);
@@ -37,6 +54,10 @@ public:
 	static void							AtomicAnd32(UInt32 &theValue, UInt32 theMask);
 	static void							AtomicOr32( UInt32 &theValue, UInt32 theMask);
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
+
+
+private:
+	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread);
 };
 
 

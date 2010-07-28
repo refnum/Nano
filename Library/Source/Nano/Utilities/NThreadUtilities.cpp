@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetThread.h"
+#include "NMathUtilities.h"
 #include "NThreadUtilities.h"
 
 
@@ -30,6 +31,49 @@ UInt32 NThreadUtilities::GetCPUCount(void)
 
 	// Get the CPU count
 	return(NTargetThread::GetCPUCount());
+}
+
+
+
+
+
+//============================================================================
+//		NThreadUtilities::DelayFunctor : Delay a functor.
+//----------------------------------------------------------------------------
+void NThreadUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, bool onMainThread)
+{	NTimer		*theTimer;
+
+
+
+	// Invoke immediately
+	//
+	// If we're to invoke on a new thread, or are already on the main
+	// thread, we can invoke the functor directly without any delay.
+	//
+	// If we can't (we have a delay or we're not the main thread but
+	// the functor must execute on the main thread), we fall through
+	// to the timer case.
+	if (NMathUtilities::IsZero(theDelay))
+		{
+		if (!onMainThread)
+			{
+			NTargetThread::ThreadCreate(theFunctor);
+			return;
+			}
+		
+		else if (NThread::IsMain())
+			{
+			theFunctor();
+			return;
+			}
+		}
+
+
+
+	// Invoke with a delay
+	theTimer = new NTimer;
+	if (theTimer != NULL)
+		theTimer->AddTimer(BindFunction(NThreadUtilities::DelayedFunctor, theTimer, theFunctor, onMainThread), theDelay);
 }
 
 
@@ -108,3 +152,30 @@ void NThreadUtilities::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 }
 
 
+
+
+
+//============================================================================
+//		NThreadUtilities::DelayedFunctor : Execute a delayed functor.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NThreadUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread)
+{
+
+
+	// Validate our state
+	NN_ASSERT(NThread::IsMain());
+
+
+
+	// Invoke the functor
+	if (onMainThread)
+		theFunctor();
+	else
+		NTargetThread::ThreadCreate(theFunctor);
+
+
+
+	// Clean up
+	delete theTimer;
+}

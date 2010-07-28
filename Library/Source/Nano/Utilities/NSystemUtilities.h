@@ -26,7 +26,6 @@
 #include "NVector.h"
 #include "NSize.h"
 #include "NString.h"
-#include "NTimer.h"
 #include "NVariant.h"
 
 
@@ -36,10 +35,6 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-// Misc
-static const NTime kNFunctorDelayTime								= 250 * kNTimeMillisecond;
-
-
 // Operating system version
 //
 // Later releases are always numerically higher than older releases, and any
@@ -127,12 +122,6 @@ public:
 	static NDictionary					GetDictionary(const NVariant &theValue, const NString &debugID="");
 
 
-	// Delay a functor
-	//
-	// The functor can be invoked on the main thread, or on a new one-shot thread.
-	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool onMainThread=true);
-
-
 	// Get the system version
 	static OSVersion					GetOSVersion(void);
 
@@ -142,8 +131,6 @@ public:
 
 
 private:
-	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread);
-
 	static NStringList					GetVersionParts(const NString &theVersion);
 	static NIndex						GetPartType(    const NString &thePart);
 };

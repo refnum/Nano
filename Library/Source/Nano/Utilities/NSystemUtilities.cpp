@@ -14,11 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
-#include "NMathUtilities.h"
 #include "NTargetSystem.h"
-#include "NTargetThread.h"
-#include "NThread.h"
+#include "NSystemUtilities.h"
 
 
 
@@ -455,49 +452,6 @@ NDictionary NSystemUtilities::GetDictionary(const NVariant &theValue, const NStr
 
 
 //============================================================================
-//		NSystemUtilities::DelayFunctor : Delay a functor.
-//----------------------------------------------------------------------------
-void NSystemUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, bool onMainThread)
-{	NTimer		*theTimer;
-
-
-
-	// Invoke immediately
-	//
-	// If we're to invoke on a new thread, or are already on the main
-	// thread, we can invoke the functor directly without any delay.
-	//
-	// If we can't (we have a delay or we're not the main thread but
-	// the functor must execute on the main thread), we fall through
-	// to the timer case.
-	if (NMathUtilities::IsZero(theDelay))
-		{
-		if (!onMainThread)
-			{
-			NTargetThread::ThreadCreate(theFunctor);
-			return;
-			}
-		
-		else if (NThread::IsMain())
-			{
-			theFunctor();
-			return;
-			}
-		}
-
-
-
-	// Invoke with a delay
-	theTimer = new NTimer;
-	if (theTimer != NULL)
-		theTimer->AddTimer(BindFunction(NSystemUtilities::DelayedFunctor, theTimer, theFunctor, onMainThread), theDelay);
-}
-
-
-
-
-
-//============================================================================
 //		NSystemUtilities::GetOSVersion : Get the OS version.
 //----------------------------------------------------------------------------
 OSVersion NSystemUtilities::GetOSVersion(void)
@@ -636,37 +590,9 @@ NComparison NSystemUtilities::CompareVersions(const NString &version1, const NSt
 
 
 //============================================================================
-//		NSystemUtilities::DelayedFunctor : Execute a delayed functor.
-//----------------------------------------------------------------------------
-#pragma mark -
-void NSystemUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread)
-{
-
-
-	// Validate our state
-	NN_ASSERT(NThread::IsMain());
-
-
-
-	// Invoke the functor
-	if (onMainThread)
-		theFunctor();
-	else
-		NTargetThread::ThreadCreate(theFunctor);
-
-
-
-	// Clean up
-	delete theTimer;
-}
-
-
-
-
-
-//============================================================================
 //		NSystemUtilities::GetVersionParts : Get a version's parts.
 //----------------------------------------------------------------------------
+#pragma mark -
 NStringList NSystemUtilities::GetVersionParts(const NString &theVersion)
 {	NIndex			lastType, partType;
 	NString			thePart, theChar;

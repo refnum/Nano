@@ -202,7 +202,7 @@ void NThreadPool::AddTask(NThreadTask *theTask)
 	if ((UInt32) mActiveThreads < mThreadLimit)
 		{
 		NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
-		NSystemUtilities::DelayFunctor(BindSelf(NThreadPool::ExecuteTasks), 0.0, false);
+		NThreadUtilities::DelayFunctor(BindSelf(NThreadPool::ExecuteTasks), 0.0, false);
 		}
 	else
 		mSemaphore.Signal();
