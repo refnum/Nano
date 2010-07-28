@@ -55,10 +55,15 @@ NUTIRegistry::~NUTIRegistry(void)
 //----------------------------------------------------------------------------
 NString NUTIRegistry::GetUTI(NUTITagClass theClass, const NString &theTag)
 {	StLock							acquireLock(mLock);
+	NString							theUTI, lowerTag;
 	NUTIInfoMapConstIterator		iterInfo;
 	NUTITagMapConstIterator			iterTag;
 	NUTIInfo						theInfo;
-	NString							theUTI;
+
+
+
+	// Get the state we need
+	lowerTag = theTag.GetLower();
 
 
 
@@ -75,7 +80,7 @@ NString NUTIRegistry::GetUTI(NUTITagClass theClass, const NString &theTag)
 			
 		if (iterTag != theInfo.theTags.end())
 			{
-			if (iterTag->second == theTag)
+			if (iterTag->second == lowerTag)
 				{
 				theUTI = iterInfo->first;
 				break;
@@ -187,7 +192,7 @@ void NUTIRegistry::AddUTI(const NString &theUTI, const NString &conformsTo, NUTI
 
 
 	// Add the UTI
-	theInfo.theTags[theClass] = theTag;
+	theInfo.theTags[theClass] = theTag.GetLower();
 	theInfo.conformsTo.push_back(conformsTo);
 		
 	NN_ASSERT(mInfo.find(theUTI) == mInfo.end());
@@ -212,7 +217,7 @@ void NUTIRegistry::AddTag(const NString &theUTI, NUTITagClass theClass, const NS
 	NN_ASSERT(theIter != mInfo.end());
 		
 	if (theIter != mInfo.end())
-		theIter->second.theTags[theClass] = theTag;
+		theIter->second.theTags[theClass] = theTag.GetLower();
 }
 
 
