@@ -46,6 +46,7 @@ static const NString kNUTTypeContent								= "public.content";
 
 // Concrete base types
 static const NString kNUTTypeData									= "public.data";
+static const NString kNUTTypeText									= "public.text";
 
 
 // Image content types
@@ -54,6 +55,18 @@ static const NString kNUTTypeGIF									= "public.gif";
 static const NString kNUTTypeJPEG									= "public.jpeg";
 static const NString kNUTTypePNG									= "public.png";
 static const NString kNUTTypeTIFF									= "public.tiff";
+static const NString kNUTTypeSVG									= "public.svg";
+
+
+// XML content types
+static const NString kNUTTypeXML									= "public.xml";
+static const NString kNUTTypeGPX									= "public.gpx";
+static const NString kNUTTypeKML									= "public.kml";
+
+
+// Misc content types
+static const NString kNUTTypeKMZ									= "public.kmz";
+static const NString kNUTTypeCSV									= "public.csv";
 
 
 

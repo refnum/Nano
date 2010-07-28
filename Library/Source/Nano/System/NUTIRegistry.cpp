@@ -281,9 +281,13 @@ void NUTIRegistry::InitializeRegistry(void)
 	AddUTI(kNUTTypeContent, kNUTTypeNone, kNUTITagClassNone, "");
 
 	AddUTI(kNUTTypeData, kNUTTypeItem, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeText, kNUTTypeItem, kNUTITagClassNone, "");
 
 	AddUTI(       kNUTTypeImage, kNUTTypeData, kNUTITagClassNone, "");
 	AddConformsTo(kNUTTypeImage, kNUTTypeContent);
+
+	AddUTI(       kNUTTypeXML, kNUTTypeText, kNUTITagClassNone, "");
+	AddConformsTo(kNUTTypeXML, kNUTTypeContent);
 
 	AddUTI(kNUTTypeGIF,  kNUTTypeImage, kNUTITagClassMIMEType,      "image/gif");
 	AddTag(kNUTTypeGIF,                 kNUTITagClassFileExtension, "gif");
@@ -293,6 +297,18 @@ void NUTIRegistry::InitializeRegistry(void)
 
 	AddUTI(kNUTTypeJPEG, kNUTTypeImage, kNUTITagClassMIMEType,      "image/jpeg");
 	AddTag(kNUTTypeJPEG,                kNUTITagClassFileExtension, "jpg");
+
+	AddUTI(kNUTTypeGPX, kNUTTypeXML,    kNUTITagClassMIMEType,      "application/gpx+xml");
+	AddTag(kNUTTypeGPX,                 kNUTITagClassFileExtension, "gpx");
+
+	AddUTI(kNUTTypeKML, kNUTTypeXML,    kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
+	AddTag(kNUTTypeKML,                 kNUTITagClassFileExtension, "kml");
+
+	AddUTI(kNUTTypeKMZ, kNUTTypeData,   kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
+	AddTag(kNUTTypeKMZ,                 kNUTITagClassFileExtension, "kmz");
+
+	AddUTI(kNUTTypeCSV, kNUTTypeText,   kNUTITagClassMIMEType,      "text/csv");
+	AddTag(kNUTTypeCSV,                 kNUTITagClassFileExtension, "csv");
 }
 
 
