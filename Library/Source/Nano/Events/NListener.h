@@ -35,9 +35,9 @@ static const NBroadcaster *kBroadcasterAny							= NULL;
 //		Types
 //----------------------------------------------------------------------------
 // Lists	
-typedef std::map<NBroadcaster*, UInt8>								NBroadcasterList;
-typedef NBroadcasterList::iterator									NBroadcasterListIterator;
-typedef NBroadcasterList::const_iterator							NBroadcasterListConstIterator;
+typedef std::map<NBroadcaster*, UInt8>								NBroadcasterMap;
+typedef NBroadcasterMap::iterator									NBroadcasterMapIterator;
+typedef NBroadcasterMap::const_iterator								NBroadcasterMapConstIterator;
 
 
 
@@ -90,7 +90,7 @@ private:
 
 private:
 	bool								mIsListening;
-	NBroadcasterList					mBroadcasters;
+	NBroadcasterMap						mBroadcasters;
 };
 
 

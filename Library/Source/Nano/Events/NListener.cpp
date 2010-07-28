@@ -100,7 +100,7 @@ void NListener::SetListening(bool isListening)
 //----------------------------------------------------------------------------
 bool NListener::IsListeningTo(const NBroadcaster *theBroadcaster) const
 {	bool								isListening;
-	NBroadcasterListConstIterator		theIter;
+	NBroadcasterMapConstIterator		theIter;
 
 
 
@@ -126,7 +126,7 @@ bool NListener::IsListeningTo(const NBroadcaster *theBroadcaster) const
 #pragma mark -
 void NListener::RemoveFromBroadcasters(void)
 {	NBroadcaster			*theBroadcaster;
-	NBroadcasterList		theList;
+	NBroadcasterMap			theList;
 
 
 
@@ -207,7 +207,7 @@ void NListener::RemoveBroadcaster(NBroadcaster *theBroadcaster)
 //		NListener::CloneListener : Clone a listener.
 //-----------------------------------------------------------------------------
 void NListener::CloneListener(const NListener &theListener)
-{	NBroadcasterListConstIterator	theIter;
+{	NBroadcasterMapConstIterator	theIter;
 
 
 

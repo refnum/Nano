@@ -31,9 +31,9 @@ typedef UInt32 BroadcastMsg;
 // Lists
 class NListener;
 
-typedef std::map<NListener*, UInt8>									NListenerList;
-typedef NListenerList::iterator										NListenerListIterator;
-typedef NListenerList::const_iterator								NListenerListConstIterator;
+typedef std::map<NListener*, UInt8>									NListenerMap;
+typedef NListenerMap::iterator										NListenerMapIterator;
+typedef NListenerMap::const_iterator								NListenerMapConstIterator;
 
 
 
@@ -92,8 +92,8 @@ private:
 
 private:
 	bool								mIsBroadcasting;
-	NListenerList						mListeners;
-	NListenerList						mRecipients;
+	NListenerMap						mListeners;
+	NListenerMap						mRecipients;
 
 	bool								*mIsDead;
 };

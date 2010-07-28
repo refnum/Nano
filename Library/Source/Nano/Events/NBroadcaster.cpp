@@ -180,7 +180,7 @@ void NBroadcaster::RemoveListener(NListener *theListener)
 //----------------------------------------------------------------------------
 void NBroadcaster::RemoveListeners(void)
 {	NListener		*theListener;
-	NListenerList	theList;
+	NListenerMap	theList;
 
 
 
@@ -202,7 +202,7 @@ void NBroadcaster::RemoveListeners(void)
 void NBroadcaster::BroadcastMessage(BroadcastMsg theMsg, const void *msgData)
 {	NListener						*theListener;
 	bool							*oldFlag;
-	NListenerListIterator			theIter;
+	NListenerMapIterator			theIter;
 	bool							isDead;
 
 
@@ -292,7 +292,7 @@ const NBroadcaster &NBroadcaster::operator = (const NBroadcaster &theBroadcaster
 //-----------------------------------------------------------------------------
 #pragma mark -
 void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
-{	NListenerListConstIterator	theIter;
+{	NListenerMapConstIterator	theIter;
 
 
 
