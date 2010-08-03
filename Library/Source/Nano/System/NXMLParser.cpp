@@ -229,7 +229,9 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 
 
 	// Get the state we need
-	chunkPtr = (const char *) thePtr;
+	chunkPtr   = (const char *) thePtr;
+	finalChunk = false;
+
 	sizeDone = 0;
 	sizeLeft = theSize;
 	theErr   = kNoErr;
@@ -263,11 +265,11 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 
 
 	// Parse the fragment
-	while (theErr == kNoErr)
+	while (theErr == kNoErr && !finalChunk)
 		{
 		// Parse the chunk
 		chunkSize  = std::min(kChunkSize, sizeLeft);
-		finalChunk = (isFinal && chunkSize <= sizeLeft);
+		finalChunk = (isFinal && chunkSize == sizeLeft);
 
 		xmlErr = XML_Parse(mParser, chunkPtr, chunkSize, finalChunk);
 		theErr = ConvertXMLStatus(xmlErr);
