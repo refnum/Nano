@@ -57,6 +57,7 @@ typedef enum {
 	kOSMacTenSixOne													= 0x6d0a0601,
 	kOSMacTenSixTwo													= 0x6d0a0602,
 	kOSMacTenSixThree												= 0x6d0a0603,
+	kOSMacTenSixFour												= 0x6d0a0604,
 
 	kOSWinXP														= 0x78000000,
 	kOSWinXP_SP2													= 0x78000200,
