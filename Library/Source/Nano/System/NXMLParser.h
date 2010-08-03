@@ -95,6 +95,11 @@ public:
 	void								SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese=kNXMLParserNone);
 
 
+	// Get/set the progress functor
+	NProgressFunctor					GetProgress(void) const;
+	void								SetProgress(const NProgressFunctor &theFunctor);
+
+
 	// Parse a document
 	NStatus								Parse(const NFile   &theFile);
 	NStatus								Parse(const NString &theText);
@@ -138,6 +143,7 @@ private:
 	
 	bool								FlushText(  void);
 	void								StopParsing(void);
+	NStatus								UpdateProgress(float theProgress);
 
 	static void							ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal);
 	static void							ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList);
@@ -151,8 +157,10 @@ private:
 private:
 	XML_Parser							mParser;
 	NXMLParserOptions					mOptions;
+	NProgressFunctor					mProgress;
 
 	bool								mInsideCData;
+	bool								mIsParsing;
 	NString								mParsedText;
 
 	NXMLProcessDocumentTypeFunctor		mProcessDocumentType;

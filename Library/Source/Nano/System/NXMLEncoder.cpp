@@ -87,7 +87,7 @@ NString NXMLEncoder::Encode(const NXMLNode *theNode)
 //============================================================================
 //		NXMLEncoder::Decode : Decode an XML document to a node.
 //----------------------------------------------------------------------------
-NXMLNode *NXMLEncoder::Decode(const NString &theXML)
+NXMLNode *NXMLEncoder::Decode(const NString &theXML, const NProgressFunctor &theProgress)
 {	NXMLParser		theParser;
 	NXMLNode		*theNode;
 	NStatus			theErr;
@@ -97,10 +97,11 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML)
 	// Validate our state
 	NN_ASSERT(mDecodeRoot == NULL);
 	NN_ASSERT(mDecodeElements.empty());
-	
+
 
 
 	// Prepare the parser
+	theParser.SetProgress(theProgress);
 	theParser.SetProcessDocumentType(BindSelf(NXMLEncoder::DecodeDocType,      _1, _2));
 	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, _1, _2));
 	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   _1));

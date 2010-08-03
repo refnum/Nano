@@ -35,7 +35,7 @@ public:
 
 	// Encode/decode an XML document
 	NString								Encode(const NXMLNode *theNode);
-	NXMLNode						   *Decode(const NString  &theXML);
+	NXMLNode						   *Decode(const NString  &theXML, const NProgressFunctor &theProgress=NULL);
 
 
 private:

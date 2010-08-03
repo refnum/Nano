@@ -24,6 +24,15 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NIndex kChunkSize									= 10 * kKilobyte;
+
+
+
+
+
+//============================================================================
 //		NXMLParser::NXMLParser : Constructor.
 //----------------------------------------------------------------------------
 NXMLParser::NXMLParser(void)
@@ -35,6 +44,7 @@ NXMLParser::NXMLParser(void)
 	mOptions = kNXMLParserDefault;
 	
 	mInsideCData = false;
+	mIsParsing   = false;
 
 	mProcessDocumentType = NULL;
 	mProcessElementStart = NULL;
@@ -91,6 +101,7 @@ void NXMLParser::Clear(void)
 
 	// Reset our state
 	mInsideCData = false;
+	mIsParsing   = false;
 
 	mParsedText.Clear();
 }
@@ -124,6 +135,36 @@ void NXMLParser::SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearT
 	// Set the options
 	mOptions |=    setThese;
 	mOptions &= ~clearThese;
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::GetProgress : Get the progress functor.
+//----------------------------------------------------------------------------
+NProgressFunctor NXMLParser::GetProgress(void) const
+{
+
+
+	// Get the functor
+	return(mProgress);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::SetProgress : Set the progress functor.
+//----------------------------------------------------------------------------
+void NXMLParser::SetProgress(const NProgressFunctor &theFunctor)
+{
+
+
+	// Set the functor
+	mProgress = theFunctor;
 }
 
 
@@ -176,11 +217,22 @@ NStatus NXMLParser::Parse(const NData &theData)
 
 
 //============================================================================
-//		NXMLParser::Parse : Parse a document.
+//		NXMLParser::Parse : Parse a fragment.
 //----------------------------------------------------------------------------
 NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
-{	XML_Status		xmlErr;
+{	NIndex			sizeLeft, sizeDone, chunkSize;
+	bool			finalChunk;
+	const char		*chunkPtr;
+	XML_Status		xmlErr;
 	NStatus			theErr;
+
+
+
+	// Get the state we need
+	chunkPtr = (const char *) thePtr;
+	sizeDone = 0;
+	sizeLeft = theSize;
+	theErr   = kNoErr;
 
 
 
@@ -194,16 +246,54 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 
 
 
-	// Parse the document
-	xmlErr = XML_Parse(mParser, (const char *) thePtr, theSize, isFinal);
-	theErr = ConvertXMLStatus(xmlErr);
+	// Prepare the progress
+	//
+	// If we're passed a single fragment then we can report a percentage progress as
+	// we parse it. If the data is split over several fragments then we need to report
+	// an indeterminate progress until we receive the final fragment, since we don't
+	// know how much data there will be.
+	if (!mIsParsing)
+		{
+		if (isFinal)
+			UpdateProgress( 0.0f);
+		else
+			UpdateProgress(-1.0f);
+		}
+
+
+
+	// Parse the fragment
+	while (theErr == kNoErr)
+		{
+		// Parse the chunk
+		chunkSize  = std::min(kChunkSize, sizeLeft);
+		finalChunk = (isFinal && chunkSize <= sizeLeft);
+
+		xmlErr = XML_Parse(mParser, chunkPtr, chunkSize, finalChunk);
+		theErr = ConvertXMLStatus(xmlErr);
+		
+		
+
+		// Update our state
+		if (theErr == kNoErr)
+			{
+			sizeDone += chunkSize;
+			sizeLeft -= chunkSize;
+			chunkPtr += chunkSize;
+
+			if (isFinal)
+				UpdateProgress((float) sizeDone / (float) theSize);
+			}
+		}
 
 	if (theErr != kNoErr)
 		NN_LOG("NXMLParser failed: %s", XML_ErrorString(XML_GetErrorCode(mParser)));
 
 
 
-	// Clean up
+	// Update our state
+	mIsParsing = true;
+
 	if (theErr != kNoErr || isFinal)
 		Clear();
 	
@@ -467,6 +557,88 @@ NStatus NXMLParser::ConvertXMLStatus(SInt32 xmlErr)
 
 
 //============================================================================
+//		NXMLParser::FlushText : Flush any parsed text.
+//----------------------------------------------------------------------------
+bool NXMLParser::FlushText(void)
+{	bool		keepParsing;
+	NString		trimmedText;
+
+
+
+	// Check our state
+	if (mParsedText.IsEmpty())
+		return(true);
+
+
+
+	// Check for whitespace
+	//
+	// Whitespace within a CDATA is always preserved, as is any whitespace
+	// surrounding a non-whitespace text section.
+	if (!mInsideCData && (mOptions & kNXMLParserSkipWhitespace))
+		{
+		trimmedText = mParsedText;
+		trimmedText.Trim();
+
+		if (trimmedText.IsEmpty())
+			{
+			mParsedText.Clear();
+			return(true);
+			}
+		}
+
+
+
+	// Flush the text
+	keepParsing = ProcessText(mParsedText, mInsideCData);
+	mParsedText.Clear();
+
+	return(keepParsing);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::StopParsing : Stop the parser.
+//----------------------------------------------------------------------------
+void NXMLParser::StopParsing(void)
+{	XML_Status		xmlErr;
+
+
+
+	// Stop parsing
+	xmlErr = XML_StopParser(mParser, false);
+	NN_ASSERT(xmlErr == XML_STATUS_OK);
+}
+
+
+
+
+
+//============================================================================
+//		NXMLParser::UpdateProgress : Update the progress.
+//----------------------------------------------------------------------------
+NStatus NXMLParser::UpdateProgress(float theProgress)
+{	NStatus		theErr;
+
+
+
+	// Update the progress
+	if (mProgress != NULL)
+		theErr = mProgress(theProgress);
+	else
+		theErr = kNoErr;
+	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
 //		NXMLParser::ParsedDocumentType : Process a document type.
 //----------------------------------------------------------------------------
 void NXMLParser::ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal)
@@ -638,65 +810,5 @@ void NXMLParser::ParsedCDataEnd(void *userData)
 	thisPtr->mInsideCData = false;
 }
 
-
-
-
-
-//============================================================================
-//		NXMLParser::FlushText : Flush any parsed text.
-//----------------------------------------------------------------------------
-bool NXMLParser::FlushText(void)
-{	bool		keepParsing;
-	NString		trimmedText;
-
-
-
-	// Check our state
-	if (mParsedText.IsEmpty())
-		return(true);
-
-
-
-	// Check for whitespace
-	//
-	// Whitespace within a CDATA is always preserved, as is any whitespace
-	// surrounding a non-whitespace text section.
-	if (!mInsideCData && (mOptions & kNXMLParserSkipWhitespace))
-		{
-		trimmedText = mParsedText;
-		trimmedText.Trim();
-
-		if (trimmedText.IsEmpty())
-			{
-			mParsedText.Clear();
-			return(true);
-			}
-		}
-
-
-
-	// Flush the text
-	keepParsing = ProcessText(mParsedText, mInsideCData);
-	mParsedText.Clear();
-
-	return(keepParsing);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::StopParsing : Stop the parser.
-//----------------------------------------------------------------------------
-void NXMLParser::StopParsing(void)
-{	XML_Status		xmlErr;
-
-
-
-	// Stop parsing
-	xmlErr = XML_StopParser(mParser, false);
-	NN_ASSERT(xmlErr == XML_STATUS_OK);
-}
 
 
