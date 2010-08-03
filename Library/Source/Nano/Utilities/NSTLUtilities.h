@@ -190,20 +190,22 @@ template <class T> bool contains(const T &container, const typename T::value_typ
 
 // Erase a value from a container
 template <class T> bool erase(T &container, const typename T::value_type &value)
-{	bool					hasValue;
+{	bool					hadValue;
 	typename T::iterator	iter;
 
-	do
-		{
-		iter     = find(container.begin(), container.end(), value);
-		hasValue = (iter != container.end());
-	
-		if (hasValue)
-			container.erase(iter);
-		}
-	while (hasValue);
+	hadValue = false;
 
-	return(hasValue);
+	while (true)
+		{
+		iter = find(container.begin(), container.end(), value);
+		if (iter == container.end())
+			break;
+
+		container.erase(iter);
+		hadValue = true;
+		}
+
+	return(hadValue);
 }
 
 
