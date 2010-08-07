@@ -195,6 +195,7 @@ table.icons {
 }
 
 table.icons td {
+	vertical-align:			top;
 	text-align:				center;
 	width:					128px;
 }
