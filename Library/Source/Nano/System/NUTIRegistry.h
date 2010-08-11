@@ -28,8 +28,9 @@
 //----------------------------------------------------------------------------
 // UTI info
 typedef struct {
-	NUTITagMap		theTags;
+	NString			theDescription;
 	NStringList		conformsTo;
+	NUTITagMap		theTags;
 } NUTIInfo;
 
 
@@ -56,13 +57,15 @@ public:
 
 
 	// Get a UTI's state
-	NUTITagMap							GetTags(      const NString &theUTI);
-	NString								GetTagValue(  const NString &theUTI, NUTITagClass theClass);
+	NString								GetDescription(const NString &theUTI);
 	NStringList							GetConformsTo(const NString &theUTI);
+	NUTITagMap							GetTags(       const NString &theUTI);
+	NString								GetTag(        const NString &theUTI, NUTITagClass theClass);
 
 
 	// Add a UTI
 	void								AddUTI(	const NString		&theUTI,
+												const NString		&theDescription,
 												const NString		&conformsTo,
 												      NUTITagClass	 theClass,
 												const NString		&theTag);

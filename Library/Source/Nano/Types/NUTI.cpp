@@ -170,6 +170,36 @@ NString NUTI::GetUTI(void) const
 
 
 //============================================================================
+//		NUTI::GetDescription : Get the description.
+//----------------------------------------------------------------------------
+NString NUTI::GetDescription(void) const
+{
+
+
+	// Get the value
+	return(NUTIRegistry::Get()->GetDescription(mUTI));
+}
+
+
+
+
+
+//============================================================================
+//		NUTI::GetTag : Get a tag.
+//----------------------------------------------------------------------------
+NString NUTI::GetTag(NUTITagClass theClass) const
+{
+
+
+	// Get the value
+	return(NUTIRegistry::Get()->GetTag(mUTI, theClass));
+}
+
+
+
+
+
+//============================================================================
 //		NUTI::GetMIMEType : Get the MIME type.
 //----------------------------------------------------------------------------
 NString NUTI::GetMIMEType(void) const
@@ -177,7 +207,7 @@ NString NUTI::GetMIMEType(void) const
 
 
 	// Get the value
-	return(NUTIRegistry::Get()->GetTagValue(mUTI, kNUTITagClassMIMEType));
+	return(GetTag(kNUTITagClassMIMEType));
 }
 
 
@@ -192,7 +222,7 @@ NString NUTI::GetFileExtension(void) const
 
 
 	// Get the value
-	return(NUTIRegistry::Get()->GetTagValue(mUTI, kNUTITagClassFileExtension));
+	return(GetTag(kNUTITagClassFileExtension));
 }
 
 

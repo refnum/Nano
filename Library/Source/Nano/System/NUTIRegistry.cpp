@@ -18,6 +18,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSTLUtilities.h"
 #include "NUTIRegistry.h"
 
 
@@ -96,11 +97,11 @@ NString NUTIRegistry::GetUTI(NUTITagClass theClass, const NString &theTag)
 
 
 //============================================================================
-//		NUTIRegistry::GetTags : Get a UTI's tags.
+//		NUTIRegistry::GetDescription : Get a UTI's description.
 //----------------------------------------------------------------------------
-NUTITagMap NUTIRegistry::GetTags(const NString &theUTI)
+NString NUTIRegistry::GetDescription(const NString &theUTI)
 {	StLock							acquireLock(mLock);
-	NUTITagMap						theResult;
+	NString							theResult;
 	NUTIInfoMapConstIterator		theIter;
 
 
@@ -110,45 +111,12 @@ NUTITagMap NUTIRegistry::GetTags(const NString &theUTI)
 
 
 
-	// Get the tags
+	// Get the description
 	theIter = mInfo.find(theUTI);
 	if (theIter != mInfo.end())
-		theResult = theIter->second.theTags;
-	
+		theResult = theIter->second.theDescription;
+
 	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NUTIRegistry::GetTagValue : Get a UTI tag value.
-//----------------------------------------------------------------------------
-NString NUTIRegistry::GetTagValue(const NString &theUTI, NUTITagClass theClass)
-{	StLock							acquireLock(mLock);
-	NString							theValue;
-	NUTITagMapConstIterator			iterTags;
-	NUTIInfoMapConstIterator		iterInfo;
-	NUTITagMap						theTags;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theUTI.IsEmpty());
-
-
-
-	// Get the tag value
-	iterInfo = mInfo.find(theUTI);
-	if (iterInfo != mInfo.end())
-		{
-		iterTags = iterInfo->second.theTags.find(theClass);
-		if (iterTags != iterInfo->second.theTags.end())
-			theValue = iterTags->second;
-		}
-	
-	return(theValue);
 }
 
 
@@ -183,18 +151,83 @@ NStringList NUTIRegistry::GetConformsTo(const NString &theUTI)
 
 
 //============================================================================
+//		NUTIRegistry::GetTags : Get a UTI's tags.
+//----------------------------------------------------------------------------
+NUTITagMap NUTIRegistry::GetTags(const NString &theUTI)
+{	StLock							acquireLock(mLock);
+	NUTITagMap						theResult;
+	NUTIInfoMapConstIterator		theIter;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theUTI.IsEmpty());
+
+
+
+	// Get the tags
+	theIter = mInfo.find(theUTI);
+	if (theIter != mInfo.end())
+		theResult = theIter->second.theTags;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NUTIRegistry::GetTag : Get a UTI tag.
+//----------------------------------------------------------------------------
+NString NUTIRegistry::GetTag(const NString &theUTI, NUTITagClass theClass)
+{	StLock							acquireLock(mLock);
+	NUTITagMapConstIterator			iterTags;
+	NUTIInfoMapConstIterator		iterInfo;
+	NUTITagMap						theTags;
+	NString							theTag;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theUTI.IsEmpty());
+
+
+
+	// Get the tag value
+	iterInfo = mInfo.find(theUTI);
+	if (iterInfo != mInfo.end())
+		{
+		iterTags = iterInfo->second.theTags.find(theClass);
+		if (iterTags != iterInfo->second.theTags.end())
+			theTag = iterTags->second;
+		}
+	
+	return(theTag);
+}
+
+
+
+
+
+//============================================================================
 //		NUTIRegistry::AddUTI : Add a UTI.
 //----------------------------------------------------------------------------
-void NUTIRegistry::AddUTI(const NString &theUTI, const NString &conformsTo, NUTITagClass theClass, const NString &theTag)
+void NUTIRegistry::AddUTI(	const NString		&theUTI,
+							const NString		&theDescription,
+							const NString		&conformsTo,
+								  NUTITagClass	 theClass,
+							const NString		&theTag)
 {	StLock			acquireLock(mLock);
 	NUTIInfo		theInfo;
 
 
 
 	// Add the UTI
+	theInfo.theDescription    = theDescription;
+	theInfo.conformsTo        = vector(conformsTo);
 	theInfo.theTags[theClass] = theTag.GetLower();
-	theInfo.conformsTo.push_back(conformsTo);
-		
+
 	NN_ASSERT(mInfo.find(theUTI) == mInfo.end());
 	mInfo[theUTI] = theInfo;
 }
@@ -277,41 +310,39 @@ void NUTIRegistry::InitializeRegistry(void)
 
 
 	// Initialize the registry
-	AddUTI(kNUTTypeItem,    kNUTTypeNone, kNUTITagClassNone, "");
-	AddUTI(kNUTTypeContent, kNUTTypeNone, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeItem,    "", kNUTTypeNone, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeContent, "", kNUTTypeNone, kNUTITagClassNone, "");
 
-	AddUTI(kNUTTypeData, kNUTTypeItem, kNUTITagClassNone, "");
-	AddUTI(kNUTTypeText, kNUTTypeItem, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeData, "", kNUTTypeItem, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeText, "", kNUTTypeItem, kNUTITagClassNone, "");
 
-	AddUTI(       kNUTTypeImage, kNUTTypeData, kNUTITagClassNone, "");
-	AddConformsTo(kNUTTypeImage, kNUTTypeContent);
+	AddUTI(       kNUTTypeImage, "Image", kNUTTypeData, kNUTITagClassNone, "");
+	AddConformsTo(kNUTTypeImage,          kNUTTypeContent);
 
-	AddUTI(       kNUTTypeXML, kNUTTypeText, kNUTITagClassNone, "");
-	AddConformsTo(kNUTTypeXML, kNUTTypeContent);
+	AddUTI(       kNUTTypeXML, "XML", kNUTTypeText, kNUTITagClassNone, "");
+	AddConformsTo(kNUTTypeXML,        kNUTTypeContent);
 
-	AddUTI(kNUTTypeGIF,  kNUTTypeImage, kNUTITagClassMIMEType,      "image/gif");
-	AddTag(kNUTTypeGIF,                 kNUTITagClassFileExtension, "gif");
+	AddUTI(kNUTTypeGIF, "GIF Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/gif");
+	AddTag(kNUTTypeGIF,									kNUTITagClassFileExtension, "gif");
 
-	AddUTI(kNUTTypePNG,  kNUTTypeImage, kNUTITagClassMIMEType,      "image/png");
-	AddTag(kNUTTypePNG,                 kNUTITagClassFileExtension, "png");
+	AddUTI(kNUTTypePNG, "PNG Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/png");
+	AddTag(kNUTTypePNG,									kNUTITagClassFileExtension, "png");
 
-	AddUTI(kNUTTypeJPEG, kNUTTypeImage, kNUTITagClassMIMEType,      "image/jpeg");
-	AddTag(kNUTTypeJPEG,                kNUTITagClassFileExtension, "jpg");
+	AddUTI(kNUTTypeJPEG, "JPEG Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/jpeg");
+	AddTag(kNUTTypeJPEG,								kNUTITagClassFileExtension, "jpg");
 
-	AddUTI(kNUTTypeGPX, kNUTTypeXML,    kNUTITagClassMIMEType,      "application/gpx+xml");
-	AddTag(kNUTTypeGPX,                 kNUTITagClassFileExtension, "gpx");
+	AddUTI(kNUTTypeKML, "Google KMZ",	kNUTTypeXML,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
+	AddTag(kNUTTypeKML,									kNUTITagClassFileExtension, "kml");
 
-	AddUTI(kNUTTypeKML, kNUTTypeXML,    kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
-	AddTag(kNUTTypeKML,                 kNUTITagClassFileExtension, "kml");
+	AddUTI(kNUTTypeKMZ, "Google KML",	kNUTTypeData,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
+	AddTag(kNUTTypeKMZ,									kNUTITagClassFileExtension, "kmz");
 
-	AddUTI(kNUTTypeKMZ, kNUTTypeData,   kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
-	AddTag(kNUTTypeKMZ,                 kNUTITagClassFileExtension, "kmz");
+	AddUTI(kNUTTypeGPX, "GPX",			kNUTTypeXML,	kNUTITagClassMIMEType,      "application/gpx+xml");
+	AddTag(kNUTTypeGPX,									kNUTITagClassFileExtension, "gpx");
 
-	AddUTI(kNUTTypeCSV, kNUTTypeText,   kNUTITagClassMIMEType,      "text/csv");
-	AddTag(kNUTTypeCSV,                 kNUTITagClassFileExtension, "csv");
+	AddUTI(kNUTTypeCSV, "CSV",			kNUTTypeText,	kNUTITagClassMIMEType,      "text/csv");
+	AddTag(kNUTTypeCSV,									kNUTITagClassFileExtension, "csv");
 }
-
-
 
 
 

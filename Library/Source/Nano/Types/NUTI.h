@@ -113,8 +113,17 @@ public:
 	NComparison							Compare(const NUTI &theValue) const;
 
 
+	// Get the UTI
+	NString								GetUTI(void) const;
+
+
+	// Get the description
+	NString								GetDescription(void) const;
+
+
 	// Get a tag
-	NString								GetUTI(          void) const;
+	NString								GetTag(NUTITagClass theClass) const;
+
 	NString								GetMIMEType(     void) const;
 	NString								GetFileExtension(void) const;
 
