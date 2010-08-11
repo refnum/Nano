@@ -183,13 +183,13 @@ void NDBHandle::Close(void)
 
 
 //============================================================================
-//		NDBHandle::GetProgressFunctor : Get the progress functor.
+//		NDBHandle::GetProgress : Get the progress functor.
 //----------------------------------------------------------------------------
-NDBProgressFunctor NDBHandle::GetProgressFunctor(void) const
+NDBProgressFunctor NDBHandle::GetProgress(void) const
 {
 
 
-	// Get the progress functor
+	// Get the functor
 	return(mProgress);
 }
 
@@ -198,13 +198,13 @@ NDBProgressFunctor NDBHandle::GetProgressFunctor(void) const
 
 
 //============================================================================
-//		NDBHandle::SetProgressFunctor : Set the progress functor.
+//		NDBHandle::SetProgress : Set the progress functor.
 //----------------------------------------------------------------------------
-void NDBHandle::SetProgressFunctor(const NDBProgressFunctor &theFunctor)
+void NDBHandle::SetProgress(const NDBProgressFunctor &theFunctor)
 {
 
 
-	// Set the progress functor
+	// Set the functor
 	mProgress = theFunctor;
 }
 

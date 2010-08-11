@@ -60,8 +60,8 @@ public:
 
 
 	// Get/set the progress functor
-	NDBProgressFunctor					GetProgressFunctor(void) const;
-	void								SetProgressFunctor(const NDBProgressFunctor &theFunctor);
+	NDBProgressFunctor					GetProgress(void) const;
+	void								SetProgress(const NDBProgressFunctor &theFunctor);
 
 
 	// Execute a query
