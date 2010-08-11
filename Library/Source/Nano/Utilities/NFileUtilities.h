@@ -38,6 +38,7 @@ typedef enum {
 typedef enum {
 	kNLocationHome,						// User's "home"
 	kNLocationDesktop,					// User's desktop
+	kNLocationDocuments,				// User's documents
 	kNLocationCachedData,				// For persistent cache files
 	kNLocationTemporaryData,			// For deleted-at-startup files
 	kNLocationApplicationSupport,		// For application support files

@@ -565,6 +565,10 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			thePath = GetDirectoryForDomain(theDomain, NSDesktopDirectory);
 			break;
 
+		case kNLocationDocuments:
+			thePath = GetDirectoryForDomain(theDomain, NSDocumentDirectory);
+			break;
+
 		case kNLocationCachedData:
 			thePath = GetDirectoryForDomain(theDomain, NSCachesDirectory);
 			break;

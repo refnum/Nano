@@ -462,7 +462,11 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			break;
 		
 		case kNLocationDesktop:
-			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_DESKTOP : CSIDL_COMMON_DESKTOPDIRECTORY);
+			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_DESKTOPDIRECTORY : CSIDL_COMMON_DESKTOPDIRECTORY);
+			break;
+		
+		case kNLocationDocuments:
+			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_MYDOCUMENTS : CSIDL_COMMON_DOCUMENTS);
 			break;
 		
 		case kNLocationCachedData:
