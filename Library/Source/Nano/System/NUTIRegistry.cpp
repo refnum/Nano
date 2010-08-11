@@ -331,10 +331,10 @@ void NUTIRegistry::InitializeRegistry(void)
 	AddUTI(kNUTTypeJPEG, "JPEG Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/jpeg");
 	AddTag(kNUTTypeJPEG,								kNUTITagClassFileExtension, "jpg");
 
-	AddUTI(kNUTTypeKML, "Google KMZ",	kNUTTypeXML,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
+	AddUTI(kNUTTypeKML, "Google KML",	kNUTTypeXML,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
 	AddTag(kNUTTypeKML,									kNUTITagClassFileExtension, "kml");
 
-	AddUTI(kNUTTypeKMZ, "Google KML",	kNUTTypeData,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
+	AddUTI(kNUTTypeKMZ, "Google KMZ",	kNUTTypeData,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
 	AddTag(kNUTTypeKMZ,									kNUTITagClassFileExtension, "kmz");
 
 	AddUTI(kNUTTypeGPX, "GPX",			kNUTTypeXML,	kNUTITagClassMIMEType,      "application/gpx+xml");
