@@ -41,8 +41,8 @@
 
 	<li class="subtitle">Features</li>
 		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="platform.html">Cross Platform</a></li>
 		<li><a href="performance.html">High Performance</a></li>
-		<li><a href="platforms.html">Supported Platforms</a></li>
 
 	<li class="subtitle">Getting Started</li>
 		<li><a href="code.html">Getting the Code</a></li>
@@ -70,12 +70,12 @@
 <h1>Version History</h1>
 <h2>Nano 2.0</h2>
 <ul>
-	<li>Released 2010/01/01
-	<li>Removed all user interface code
+	<li>Released 2010/08/20
 	<li>Major rewrite to support:
 	<ul>
-		<li>Mac OS X, iPhone OS, and Windows
 		<li>32-bit and 64-bit builds
+		<li>Mac OS X, iPhone OS, and Windows
+		<li>Removed user interface classes
 	</ul>
 </ul>
 
@@ -117,7 +117,7 @@
 		<li>NCFPreferences, now derived from NPropertyStore
 		<li>NCFStream, now uses main runloop to avoid crash (<a href="rdar://5916811">rdar://5916811</a>)
 		<li>NCGContext, added ClipToMask, SetBlendMode, SetShadow, and AddPolyline
-		<li>NCGShading, now reset shading evaluation state to work around 10.5 bug (<a href="rdar://5604593">rdar://5604593</a>)
+		<li>NCGShading, work around 10.5 evaluation bug (<a href="rdar://5604593">rdar://5604593</a>)
 		<li>NClockView, use user's time zone rather than UTC
 		<li>NCoreFoundationUtilities, added PurgeValues
 		<li>NCoreGraphicsUtilities, added alpha pre/de-multiply and masking functions
@@ -137,7 +137,7 @@
 		<li>NFunctor, added FunctorNull and FunctorList
 		<li>NGeometryUtilities, added UnionRect
 		<li>NGeometryUtilities, ScaleRect now preserves the precious centre
-		<li>NHIImageView, work around HIImageViewCopyImage returning NULL on 10.5 (<a href="rdar://5570580">rdar://5570580</a>)
+		<li>NHIImageView, work 10.5 HIImageViewCopyImage bug (<a href="rdar://5570580">rdar://5570580</a>)
 		<li>NHISearchField, added GetSize and Clear
 		<li>NHITextView, correctly handle UTF16 text
 		<li>NHIView, added GetFocus
@@ -149,12 +149,12 @@
 		<li>NImageButton, now draw in inactive state rather than pressed when inactive
 		<li>NKeyboardUtilities, added Mac extended keyboard scan codes
 		<li>NLaunchServicesUtilities, OpenFile now takes an optional app identifier
-		<li>NMathUtilities, added GetPointPointDistance2, GetPointLineDistance, GetPointLineIntersection
+		<li>NMathUtilities, added point-point and point-line geometry methods
 		<li>NMenu, added InsertItem and RemoveItem
 		<li>NMenuItem, added [GS]etPropertyXXXX
 		<li>NMenuItem, added HICommandExtended constructor
 		<li>NMouseUtilities, added GetDoubleClickSlop
-		<li>NMsgBroadcaster/NMsgListener, fixed bug where pointers weren't preserved on assignment
+		<li>NMsgBroadcaster/NMsgListener, fixed bug in assignment operator
 		<li>NPasteboard, correctly handle UTF16 text
 		<li>NPasteboard, fixed memory leak when adding images to pasteboard
 		<li>NPopupButton, now reset to first item if menu size is changed
@@ -164,13 +164,13 @@
 		<li>NScrollableView, allow content to float within the view when smaller
 		<li>NSoftwareUpdate, fix bug where wrong version was returned as latest
 		<li>NSpellableView, support spell-as-you-type
-		<li>NStandardAlert, improved defaults after GetStandardAlertDefaultParams changed on 10.5
+		<li>NStandardAlert, improved defaults after 10.5 behaviour change
 		<li>NStaticText, added GetSize and [GS]etShadow
 		<li>NSTLUtilities, added vector(), sort(), and vector_erase()
 		<li>NString, added GetSizeBytes and NData-based GetData
 		<li>NSystemUtilities, added IsMetric and DispatchCurrentEventLoop
 		<li>NTask, added Execute to block until task complete
-		<li>NTextUtilities, added EncodeEntities, DecodeEntities, NormalizeLineEndings, and GetHexDump
+		<li>NTextUtilities, added entity parsing, line normalizing, and hex dump
 		<li>NTimer, now thread-safe
 		<li>NWindowController, added HasSheet
 		<li>NWindowPanels, now handle toolbar command status updates
@@ -208,36 +208,35 @@
 		<li>NCFBundle, now allow "none" or "shell" UTIs to be extracted from Info.plist
 		<li>NCFObject, added NSArray/NSData/NSDictionary/NSString operators
 		<li>NCGContext, added context interpolation and text mode support
-		<li>NCoreFoundationUtilities, provide CFRange limit/union/intersection/containing functions
-		<li>NCoreGraphicsUtilities, fixed memory leak when returning color spaces
+		<li>NCoreFoundationUtilities, added CFRange limit/union/intersection/containing
 		<li>NCoreGraphicsUtilities, CreateImageFromData now auto-calculates rowBytes
+		<li>NCoreGraphicsUtilities, fixed memory leak when returning color spaces
 		<li>NDataBrowser, fixed typo in AddItem method name
-		<li>NDataBrowserSource, fixed SetDataBrowserItemDataText truncation bug (<a href="rdar://5213064">rdar://5213064</a>)
+		<li>NDataBrowserSource, work around DataBrowser truncation bug (<a href="rdar://5213064">rdar://5213064</a>)
 		<li>NDebug, NN_DEBUG now defaults to 1 if not defined
 		<li>NEditText, added spell checking support
 		<li>NHIObject, added IsValid
 		<li>NHITextView, enabled command/color/font support
 		<li>NHIView, added tracking area support
 		<li>NHIViewUtilities, added GetChildren to flatten a view hierarchy
-		<li>NHIWindow, added NHelpTag accessors
 		<li>NHIWindow, added Default and Cancel button support
+		<li>NHIWindow, added NHelpTag accessors
 		<li>NIBView, added NIB_VIEW_ID to bind views with a signature and an ID
 		<li>NIcon, added Clear
 		<li>NLevelIndicator, default to continuous mode to match implicit parameters
 		<li>NMathUtilities, GetPointLineDistance now handles empty line segments
 		<li>NMenuItem, added IsChecked and SetChecked
 		<li>NString, improved performance of equality comparisons by caching string hash
-		<li>NSystemUtilities, added SearchDictionary/SearchSpotlight/SearchGoogle
-		<li>NSystemUtilities, added ExecuteScript for one-line AppleScript execution
 		<li>NSystemUtilities, added DelayFunctor for delaying a function call
-		<li>NTextUtilities, added StringCompare for hash-based string comparison for std::map
-		<li>NUndoManager, expose GetCommandString to obtain a localized undo/redo string
-		<li>
+		<li>NSystemUtilities, added ExecuteScript for one-line AppleScript execution
+		<li>NSystemUtilities, added SearchDictionary/SearchSpotlight/SearchGoogle
+		<li>NTextUtilities, added StringCompare for hash-based string comparison
+		<li>NUndoManager, expose GetCommandString for localized undo/redo strings
 		</ul>
 	<li>Miscellaneous Changes
 		<ul>
-		<li>Added NanoText demo
 		<li>Added documentation to cover <a href="reportbugs">bug reporting</a>
+		<li>Added NanoText demo
 		</ul>
 </ul>
 
@@ -308,25 +307,25 @@
 		<li>NPasteboard, now use a local StAutoReleasePool
 		<li>NProcess, inherits from NComparable for standard comparison operators
 		<li>NProgressPie, fix hairline within interior when set to exactly 0%
-		<li>NRecentItems, inherits from NContainer for standard container operations
 		<li>NRecentItems, fix bug where deleted items weren't filtered from menu
+		<li>NRecentItems, inherits from NContainer for standard container operations
 		<li>NReflectionView, added property to control alpha
 		<li>NString, added GetData to obtain data in arbitrary encodings
 		<li>NString, consolidated case transformation methods
 		<li>NString, consolidated whitespace trimming methods
 		<li>NString, expanded regexp support with kCFComparePattern
-		<li>NString, fixed bug where pattern matching returned wrong offset when searching in a range
+		<li>NString, fixed bug where pattern matching returned wrong offset for range search
 		<li>NString, Format now supports %@ for printing NCFObjects
 		<li>NString, improved performance when accessing character data
 		<li>NString, inherits from NComparable for standard comparison operators
 		<li>NString, inherits from NContainer for standard container operations
 		<li>NString, now incorporate user locale when transforming case
 		<li>NTextUtilities, added CombineStrings
-		<li>NTextUtilities, fixed bug where EncodeURL/DecodeURL couldn't perform all transformations
+		<li>NTextUtilities, fixed bug where URL encoding was incomplete
 		<li>NTextUtilities, GetSInt64 now supports hex-encoded text
 		<li>NThemeUtilities, added GetThemeID and GetTextHilight
 		<li>NTUI, inherits from NComparable for standard comparison operators
-		<li>NWindowPanels, fixed bug where kHIToolbarItemBehaviourIsSelectable was requested incorrectly
+		<li>NWindowPanels, fixed bug with kHIToolbarItemBehaviourIsSelectable usage
 		</ul>
 	<li>Miscellaneous Changes
 		<ul>
@@ -370,7 +369,7 @@
 		<li>NApplication, now only register Help Book when CFBundleHelpBookName is set
 		<li>NArray, added Sort
 		<li>NCarbonEvent, added CFIndex and CFRange accessors
-		<li>NCarbonEvent, GetParameterPointer now treats typeVoidPtr and typePtr as equivalent (<a href="rdar://4852232">rdar://4852232</a>)
+		<li>NCarbonEvent, treat typeVoidPtr/typePtr as equivalent (<a href="rdar://4852232">rdar://4852232</a>)
 		<li>NCarbonEventHandler, added more NHIWebView events
 		<li>NCFBundle, added GetInfoBoolean for accessing Info.plist flags
 		<li>NCFBundle, added more Info.plist keys and standard bundle identifiers
@@ -388,7 +387,7 @@
 		<li>NDebug, now strip source file path from assertions by default
 		<li>NDictionary, added GetKeys
 		<li>NEditText, added "command editor" mode to dispatch command when confirmed
-		<li>NEditText, added support for Command-Control-D dictionary lookup (<a href="rdar://4854061">rdar://4854061</a>)
+		<li>NEditText, added support for Cmd-Ctrl-D dictionary (<a href="rdar://4854061">rdar://4854061</a>)
 		<li>NEditText, now use CFRange for selection accessors
 		<li>NFile, added [GS]etForkPosition and [GS]etForkSize
 		<li>NFile, added [GS]etPermissions
@@ -404,7 +403,7 @@
 		<li>NFileUtilities, GetUniqueFile now adds numeric suffix only when necessary
 		<li>NFlatButton, reduced shadow alpha to improve appearance on dark backgrounds
 		<li>NGlassButton, reduced shadow alpha to improve appearance on dark backgrounds
-		<li>NHIToolbarItem, can now set image from bundle resource, Icons.h enum, or bundle identifier
+		<li>NHIToolbarItem, can now set image from bundle resource/ID or Icons.h enum
 		<li>NHIView, added GetFontStyle
 		<li>NHIView, added SendCommand
 		<li>NHIView, added SimulateClick to click the "clickable part" of a view (<a href="rdar://4836048">rdar://4836048</a>)
@@ -413,14 +412,14 @@
 		<li>NHIViewUtilities, added ReplaceTextValue to replace part of a view's text value
 		<li>NHIWebView, added kHIViewOption flag to control if links are opened externally
 		<li>NHIWebView, added kHIViewOption flags to control update of window title/proxy icon
-		<li>NHIWebView, fixed WebView bugs where HIViewRef frame not kept in sync (<a href="rdar://4698242">rdar://4698242</a> and <a href="rdar://4845721">rdar://4845721</a>)
+		<li>NHIWebView, fixed WebView frame sync bugs (<a href="rdar://4698242">rdar://4698242</a> and <a href="rdar://4845721">rdar://4845721</a>)
 		<li>NIBUtilities, SendEventToViews now handles views being created during processing
 		<li>NIBWindow, added ResetViews to allow view connections to be reset
 		<li>NIcon, now treat name as a bundle identifier if .icns resource not found
 		<li>NLevelIndicator, reduced shadow alpha to improve appearance on dark backgrounds
 		<li>NLittleArrows, now increments/decrements the value when up/down parts are clicked
 		<li>NMathUtilities, added degree/radian conversion
-		<li>NMathUtilities, added fast absolute, reciprocal, square root, and inverse square root methods
+		<li>NMathUtilities, added fast abs, recip, root, and inverse root methods
 		<li>NMathUtilities, added point-point and point-line distance methods
 		<li>NMathUtilities, added RotateLeft and RotateRight
 		<li>NPanelController, now set layout of newly loaded panels to kBindAllSides
@@ -429,19 +428,19 @@
 		<li>NScrollableView, now invalidate view when changing frame style or background color
 		<li>NShadingView, added Interface Builder tags for shading colors
 		<li>NShadingView, added support for drawing a frame
-		<li>NStandardAlert, fixed double-dispose when attached to an NWindowController as a sheet
+		<li>NStandardAlert, fixed double-dispose when displayed as a sheet
 		<li>NString, added IsMatch and FindPattern that accept PCRE-based regular expressions
 		<li>NString, added OSType and NData constructors
 		<li>NString, added Split
-		<li>NSystemUtilities, added CompareVersions for smart version comparisons (1.0a3 &lt; 1.0b2 &lt; 1.0 RC1 &lt; 1.0)
+		<li>NSystemUtilities, added CompareVersions for smart version comparisons
 		<li>NSystemUtilities, added GetMainRunLoop
-		<li>NSystemUtilities, added vector_push_front, vector_fetch_back, and container_join helpers for STL usage
+		<li>NSystemUtilities, added vector_push_front, vector_fetch_back, and container_join
 		<li>NTask, now pass arguments as an NStringList rather than an NArray
-		<li>NTextUtilities, added CollectArguments to create an NStringList from a NULL-terminated list
+		<li>NTextUtilities, added CollectArguments to make an NStringList from argv[]
 		<li>NTextUtilities, added ExpandTile to perform csh-style tilde expansion
-		<li>NTextUtilities, added GetTransferInfo to build a Safari-style progress string from bytes/throughput/ETA
+		<li>NTextUtilities, added GetTransferInfo to build a Safari-style progress string
 		<li>NThemeUtilities, moved ShowEffect from NSystemUtilities
-		<li>NWindowController, CreateController now resets NIBWindow on failure (or views will be mixed between windows)
+		<li>NWindowController, CreateController now resets NIBWindow on failure
 		<li>NWindowController, now don't close alert sheets if they have already closed
 		<li>NWindowPreferences, moved panel-based functionality to NWindowPanels
 		</ul>

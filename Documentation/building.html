@@ -41,8 +41,8 @@
 
 	<li class="subtitle">Features</li>
 		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="platform.html">Cross Platform</a></li>
 		<li><a href="performance.html">High Performance</a></li>
-		<li><a href="platforms.html">Supported Platforms</a></li>
 
 	<li class="subtitle">Getting Started</li>
 		<li><a href="code.html">Getting the Code</a></li>
@@ -78,29 +78,29 @@ However the code should build with any reasonably modern C++ compiler, such as g
 later.
 </p>
 
+<p>
+Nano is typically built as a stand-alone static library, however this style of build is
+not required. Nano can also be built by including the relevant source code directly in
+your project, or by building it as a shared library.
+</p>
+
+<p>
+Nano's default settings maximize warnings in debug builds, and minimize the final binary
+size in release builds.
+</p>
+
 
 
 <h2>Xcode</h2>
 <h3>Configuration</h3>
 <p>
-All Nano projects contain Debug, Release, and Distribution configurations.
+Nano projects contain Debug, Release, and Distribution configurations. These configurations are
+managed by external <tt>.xcconfig</tt> files, contained in <tt>Support/Xcode/Configuration</tt>.
 </p>
 
 <p>
-These configurations obtain their values from external .xcconfig files, contained in
-<tt>Support/Xcode/Configuration</tt>.
-</p>
-
-<p>
-These .xcconfig files maximize warnings in debug builds, and minimize the final binary size in
-release/distribution builds. The details of each configuration can be adjusted to meet your own
-needs, since Nano does not require these particular choices.
-</p>
-
-<p>
-By default, debug builds are performed for the current architecture while release builds are
-built as Universal Binaries. This behaviour can be changed by adjusting the <tt>ARCHS</tt>
-setting in the .xcconfig files.
+Debug builds are performed for the current architecture while release builds are built as Universal
+Binaries. This behaviour can be changed by adjusting the <tt>ARCHS</tt> setting.
 </p>
 
 
@@ -109,12 +109,6 @@ setting in the .xcconfig files.
 Nano projects do not apply any settings at the project level, and are customized at the
 target level. Targets contain minimal customisations, with most configuration performed
 through .xcconfig files.
-</p>
-
-<p>
-Nano is typically built as a stand-alone static library, however this style of build is
-not required. Nano can also be built by including the relevant source code directly in
-your project, or by building it into a framework/shared library.
 </p>
 
 
@@ -140,9 +134,22 @@ use Objective-C must be set to Obj-C++).
 
 
 <h2>Visual C++</h2>
+<h3>Configuration</h3>
 <p>
-Nano should build with Microsoft Visual C++ Express 2008 or later.
+Nano projects contain Debug and Release configurations. These configurations are managed by
+external <tt>.vsprops</tt> files, contained in <tt>Support/Visual C++/Configuration</tt>.
 </p>
+
+
+<h3>Language</h3>
+<p>
+Visual Studio must be updated to the Visual C++ 2008 Feature Pack, since <tt>NFunctor.h</tt>
+requires an implementation of TR1.
+</p>
+
+
+
+
 
 
 

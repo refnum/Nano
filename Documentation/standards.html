@@ -41,8 +41,8 @@
 
 	<li class="subtitle">Features</li>
 		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="platform.html">Cross Platform</a></li>
 		<li><a href="performance.html">High Performance</a></li>
-		<li><a href="platforms.html">Supported Platforms</a></li>
 
 	<li class="subtitle">Getting Started</li>
 		<li><a href="code.html">Getting the Code</a></li>
@@ -143,7 +143,9 @@ retained or copied.
 </p>
 
 <p>
-Nano does not currently use smart pointers, although these may be used in the future.
+However, Nano typically uses a RAII pattern with copy-on-write rather than returning
+pointers. This allows objects to be copied with very low overhead, and treated as
+simple scalars.
 </p>
 
 

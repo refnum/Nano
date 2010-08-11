@@ -41,8 +41,8 @@
 
 	<li class="subtitle">Features</li>
 		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="platform.html">Cross Platform</a></li>
 		<li><a href="performance.html">High Performance</a></li>
-		<li><a href="platforms.html">Supported Platforms</a></li>
 
 	<li class="subtitle">Getting Started</li>
 		<li><a href="code.html">Getting the Code</a></li>
@@ -69,8 +69,7 @@
 
 <h1>Nano Features</h1>
 <p>
-Nano provides a wide range of features to aid development, which are supported on all
-target platforms:
+Nano provides a wide range of features to aid development, which are completely cross-platform:
 </p>
 
 <ul>
@@ -79,7 +78,7 @@ target platforms:
 		<li>Assertion and logging macros
 		<li>Build macros to identify target platform
 		<li>Fixed-size primitives for basic data types
-		<li>Lock-free copy-on-write for extremely cheap copies
+		<li>Lock-free copy-on-write for extremely fast copies
 		<li>Support for arrays, bit vectors, data blobs, dates, dictionaries,<br>
 			numbers, strings, ranges, variants, and other common data types.
 	</ul>
@@ -90,9 +89,10 @@ target platforms:
 	<ul>
 		<li>Timers that can execute <a href="functors.html">functors</a>
 		<li>Simple and efficient <a href="undo.html">One-Line Undo</a>
-		<li>Extremely efficient Broadcaster/Listener pattern
+		<li>Efficient key-value cache for arbitrary objects
+		<li>High-performance Broadcaster/Listener pattern
 		<li>Preferences that use the native API but can encode custom objects
-		<li>Additional "Nanite" objects to integrate Cocoa/CoreFoundation/etc
+		<li>Additional "Nanite" objects to integrate Cocoa/UIKit/Qt/Win32/etc
 	</ul>
 	<br>
 
@@ -100,6 +100,7 @@ target platforms:
 	<li>Strings
 	<ul>
 		<li>All strings are Unicode-based
+		<li>PCRE-based regular expressions
 		<li>Extremely fast hash-based comparisons
 		<li>String formatter prevents buffer overflows
 		<li>String formatter supports custom format specifiers
@@ -114,8 +115,8 @@ target platforms:
 		<li>Expat-based XML parser
 		<li>Built-in compression (ZLib)
 		<li>Built-in encoding (Hex, B64)
-		<li>Built-in encryption (Blowfish and DES3)
-		<li>Built-in digest algorithms (Adler, MD5, SHA1)
+		<li>Built-in encryption (DES, DES3, and Blowfish)
+		<li>Built-in digest algorithms (DJB2, Adler32, MD5, SHA1)
 		<li>Structured byte-swapping including arrays and nested types
 	</ul>
 	<br>
@@ -124,8 +125,9 @@ target platforms:
 	<li>Files and Databases
 	<ul>
 		<li><a href="http://www.sqlite.org/">SQLite</a> wrapper
+		<li>File and directory iterators
 		<li>Memory-mapped file access
-		<li>Files, UTIs, and directory iterators
+		<li>Cross-platform implementation of Mac OS X "UTI" system
 		<li>Cross-platform implementation of Mac OS X "bundle" format
 		<li>Cross-platform implementation of Mac OS X ".plist" format
 	</ul>
@@ -147,29 +149,9 @@ target platforms:
 		<li>Mutex, Read/Write, and Spin locks
 		<li>Thread pool to load-balance batch jobs
 		<li>Atomic integer, list, and semaphore primitives
+		<li>Task object to drive command-line sub-processes
 	</ul>
 </ul>
-
-
-<p>
-Nano typically provides a simple wrapper around the target platform APIs to minimise any overhead when
-converting data.
-</p>
-
-<p>
-However in many cases Nano also provides a richer interface, and will automatically convert between its
-native form and the underlying platform as required.
-</p>
-
-<p>
-For example, <tt>NPreferences</tt> automatically converts dictionaries to a simpler form if the platform API
-does not support them directly. This also allows it to encode custom objects that conform to the
-appropriate interface, while using the platform API for storage.
-</p>
-
-<p>
-This is completely transparent to the caller, who can rely on a single API that works on all target platforms.
-</p>
 
 
 

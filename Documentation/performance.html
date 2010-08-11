@@ -41,8 +41,8 @@
 
 	<li class="subtitle">Features</li>
 		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="platform.html">Cross Platform</a></li>
 		<li><a href="performance.html">High Performance</a></li>
-		<li><a href="platforms.html">Supported Platforms</a></li>
 
 	<li class="subtitle">Getting Started</li>
 		<li><a href="code.html">Getting the Code</a></li>
@@ -69,12 +69,11 @@
 
 <h1>High Performance</h1>
 <p>
-Nano aims to promote high-performance development, both at run-time and during the development
-process.
+Nano aims to promote high-performance development, both at run-time and during the development process.
 </p>
 
 <p>
-To achieve this, it provides several design patterns that help simplify code while improving efficiency.
+It does this by making it easy to write simple, yet powerful, code.
 </p>
 
 
@@ -85,7 +84,7 @@ Nano aims to minimise and simplify the code needed for common tasks.
 </p>
 
 <p>
-This example compares some simple string manipulation with the equivalent Cocoa code:
+This example compares some simple string manipulation with the equivalent Objective-C:
 </p>
 
 <div class="box_code_yellow">void CObject::SomeMethod(const NString &theString)
@@ -139,7 +138,7 @@ As well as being less verbose, notable differences are:
 	must duplicate theString if it could potentially be modified (even if that never occurs).</li>
 	<br>
 	
-	<li>A set of 'Nanite' objects provide overloaded functions to convert between Nano types and other APIs.
+	<li>A set of 'Nanite' headers provide overloaded functions to convert between Nano types and other APIs.
 	Rather than having to explicitly specify the type being cast to, ToCF automatically invokes the appropriate
 	function to convert a Nano object to the equivalent CoreFoundation object.</li>
 	<br>
@@ -160,7 +159,7 @@ allows copies of objects such as strings or dictionaries to be extremely efficie
 </p>
 
 <p>
-This allows objects to be passed around with very little overhead, as even objects passed by value
+NSharedValue allows objects to be passed around with very little overhead, as even objects passed by value
 are effectively passed as const references until they are actually modified.
 </p>
 
@@ -170,8 +169,8 @@ classes for the same concept (i.e., separate mutable and immutable strings).
 </p>
 
 <p>
-Immutable objects are "copied" simply by incrementing their reference count, and are automatically converted
-to a mutable form only as needed.
+Immutable objects are "copied" simply by incrementing their reference count, and are converted to a mutable
+form automatically as required.
 </p>
 
 

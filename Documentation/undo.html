@@ -41,8 +41,8 @@
 
 	<li class="subtitle">Features</li>
 		<li><a href="features.html">Nano Features</a></li>
+		<li><a href="platform.html">Cross Platform</a></li>
 		<li><a href="performance.html">High Performance</a></li>
-		<li><a href="platforms.html">Supported Platforms</a></li>
 
 	<li class="subtitle">Getting Started</li>
 		<li><a href="code.html">Getting the Code</a></li>
@@ -112,7 +112,7 @@ This model is also used by Cocoa's NSUndoManager, albeit more verbosely:
 <div class="box_code_yellow">- (void) setColor:(const NSColor *) theColor
 {
     [[[self undoManager] prepareWithInvocationTarget:self]
-                                  setColor:mColor];
+                                            setColor:mColor];
 
     [[self undoManager] setActionName:NSLocalizedString(
                                   @kColorChangeKey,
