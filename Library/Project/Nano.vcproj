@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\Support\Visual C++\Configuration\NanoDebug.vsprops"
+			InheritedPropertySheets="..\..\Support\Visual Studio\Configuration\NanoDebug.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -74,7 +74,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\Support\Visual C++\Configuration\NanoRelease.vsprops"
+			InheritedPropertySheets="..\..\Support\Visual Studio\Configuration\NanoRelease.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
