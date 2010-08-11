@@ -257,9 +257,9 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 	if (!mIsParsing)
 		{
 		if (isFinal)
-			UpdateProgress( 0.0f);
+			theErr = UpdateProgress( 0.0f);
 		else
-			UpdateProgress(-1.0f);
+			theErr = UpdateProgress(-1.0f);
 		}
 
 
@@ -284,7 +284,7 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 			chunkPtr += chunkSize;
 
 			if (isFinal)
-				UpdateProgress((float) sizeDone / (float) theSize);
+				theErr = UpdateProgress((float) sizeDone / (float) theSize);
 			}
 		}
 
