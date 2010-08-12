@@ -536,8 +536,6 @@
 		AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFNumber.cpp; sourceTree = "<group>"; };
 		AB9DA5E0102AF78F0062E311 /* NCFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFArray.h; sourceTree = "<group>"; };
 		AB9DA5E1102AF78F0062E311 /* NCFDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDate.h; sourceTree = "<group>"; };
-		ABAA12400FE4F959000BDCDC /* NQObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NQObject.cpp; sourceTree = "<group>"; };
-		ABAA12410FE4F959000BDCDC /* NQObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQObject.h; sourceTree = "<group>"; };
 		ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferences.cpp; sourceTree = "<group>"; };
 		ABB1453D0FF2C4DA006F178C /* NPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPreferences.h; sourceTree = "<group>"; };
 		ABB145C90FF36A34006F178C /* NPropertyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPropertyList.h; sourceTree = "<group>"; };
@@ -1150,8 +1148,6 @@
 		ABAA123F0FE4F959000BDCDC /* Qt */ = {
 			isa = PBXGroup;
 			children = (
-				ABAA12400FE4F959000BDCDC /* NQObject.cpp */,
-				ABAA12410FE4F959000BDCDC /* NQObject.h */,
 				AB0040131096FE82006029F9 /* NQt.cpp */,
 				AB0040141096FE82006029F9 /* NQt.h */,
 			);
