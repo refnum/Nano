@@ -153,10 +153,29 @@ As well as being less verbose, notable differences are:
 
 
 
+<h2>Simpler Multithreading</h2>
+<p>
+Nano provides a cross-platform interface to the native thread API, and a set of synchronization primitives
+such as locks (mutex, read-write, and spin) and atomic operations (integers, lists, or arithmetic).
+</p>
+
+<p>
+<tt>NThreadPool</tt> allows objects derived from <tt>NThreadTask</tt> to be scheduled in a thread pool, and
+will automatically distribute tasks across the available CPUs. Tasks are normally scheduled by priority, but
+<tt>NThreadPool</tt> also supports FIFO, LIFO, or custom schedulers.
+</p>
+
+<p>
+Individual functors can be spun off onto threads, and threads can invoke functors on the main thread if
+they need to access to non-thread-safe APIs.
+</p>
+
+
+
 <h2>Copy-On-Write</h2>
 <p>
-Many of Nano's core types derive from NSharedValue, which provides automatic copy-on-write behaviour. This
-allows copies of objects such as strings or dictionaries to be extremely efficient.
+Many of Nano's core types derive from NSharedValue, which provides lock-free copy-on-write behaviour. This
+allows objects such as strings or dictionaries to be copied extremely efficiently.
 </p>
 
 <p>
@@ -199,8 +218,10 @@ removing any function call overhead:
 
 <p>
 Since GetBit is an inline function, the inner loop can obtain direct access to the bits in the
-vector without going through a function call or implementing GetBit as a macro.
+vector without going through a real function call or implementing GetBit as a macro.
 </p>
+
+
 
 
 

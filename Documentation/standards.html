@@ -86,8 +86,8 @@ The NanoTest application contains a set of unit tests for validating Nano.
 </p>
 
 <p>
-Each class should have complete coverage of its public methods, and additional tests
-are added when new bugs are found.
+Ideally each class should have complete coverage of its public methods, and a new
+test is added whenever a bug is found.
 </p>
 
 
@@ -100,8 +100,7 @@ ideally assert something about each of its parameters or any preconditions.
 
 <p>
 Assertions are also used within functions to identify problems as they occur,
-and may be used to validate the result (although typically results would be
-validated by the caller).
+and may be used to validate the result prior to returning any error.
 </p>
 
 
@@ -162,8 +161,8 @@ via assignment as if they were a simple type such as an int or a float.
 
 <p>
 <tt>NSharedValue</tt> provides copy-on-write behaviour for objects that manipulate
-potentially large amounts of data, allowing them to obtain deep-copy behaviour while
-deferring the actual copy.
+potentially large amounts of data, allowing them to obtain deep-copy behaviour without
+actually performing a copy.
 </p>
 
 
@@ -179,7 +178,7 @@ Errors returned by system APIs are either used to return failure, or asserted on
 </p>
 
 <p>
-Even if an error is returned to the caller, methods will frequently assert on kNoErr
+Even if an error is returned to the caller, methods will frequently assert on <tt>kNoErr</tt>
 if an error would be unusual. Although the error would still need to be handled, this
 approach helps identify problems at the point of failure.
 </p>
