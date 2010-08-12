@@ -73,7 +73,7 @@ Nano aims to promote high-performance development, both at run-time and during t
 </p>
 
 <p>
-It does this by making it easy to write simple, yet powerful, code.
+It does this by making it easy to write simple, yet efficient, code.
 </p>
 
 
@@ -134,8 +134,9 @@ As well as being less verbose, notable differences are:
 	<br>
 	
 	<li>Objects derived from NSharedValue, such as NString, use a copy-on-write model for data. This
-	allows otherString to defer copying theString's data until it is modified. In Objective-C, otherString
-	must duplicate theString if it could potentially be modified (even if that never occurs).</li>
+	allows otherString to be assigned theString, yet defer copying theString's data until otherString
+	is modified. In Objective-C, otherString must duplicate theString if it could potentially be
+	modified (even if that modification is inside a branch which never occurs).</li>
 	<br>
 	
 	<li>A set of 'Nanite' headers provide overloaded functions to convert between Nano types and other APIs.
@@ -200,7 +201,6 @@ removing any function call overhead:
 Since GetBit is an inline function, the inner loop can obtain direct access to the bits in the
 vector without going through a function call or implementing GetBit as a macro.
 </p>
-
 
 
 

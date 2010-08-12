@@ -100,7 +100,8 @@ managed by external <tt>.xcconfig</tt> files, contained in <tt>Support/Xcode/Con
 
 <p>
 Debug builds are performed for the current architecture while release builds are built as Universal
-Binaries. This behaviour can be changed by adjusting the <tt>ARCHS</tt> setting.
+Binaries (32/64-bit Intel and 32-bit PowerPC for Mac OS X, iPhone/iPad for iOS). This behaviour
+can be adjusting with the <tt>ARCHS</tt> setting in <tt>NanoCommon.xcconfig</tt>.
 </p>
 
 
@@ -133,11 +134,11 @@ use Objective-C must be set to Obj-C++).
 
 
 
-<h2>Visual C++</h2>
+<h2>Visual Studio</h2>
 <h3>Configuration</h3>
 <p>
 Nano projects contain Debug and Release configurations. These configurations are managed by
-external <tt>.vsprops</tt> files, contained in <tt>Support/Visual C++/Configuration</tt>.
+external <tt>.vsprops</tt> files, contained in <tt>Support/Visual Studio/Configuration</tt>.
 </p>
 
 

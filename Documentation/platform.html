@@ -79,20 +79,14 @@ Nano supports the following platforms:
 </ul>
 
 <p>
-Nano provides a single API on all supported platforms, while maintaining a thin wrapper around the
-underlying platform-specific API.
+Nano provides a single API on all supported platforms, and provides its own implementation if
+the underlying platform-specific API is lacking.
 </p>
 
 <p>
-In main cases Nano can provide a richer interface, or a more efficient implementation, and will
-automatically convert between its native data types and the underlying platform as required.
-</p>
-
-<p>
-For example, <tt>NPreferences</tt> automatically converts dictionaries to a simpler form on platforms
-that do not support key-value stores. This also allows it to encode custom objects that can archive
-themselves to a key-value representation, while using the native platform API (CFPreferences or the
-Registry) for storage.
+For example, <tt>NPreferences</tt> will automatically convert dictionaries to a simpler representation
+on platforms whose preference API does not support dictionary objects. This allows dictionary objects
+to be read from, or written to, the preferences without any conditional code.
 </p>
 
 
@@ -104,7 +98,7 @@ make it easy to integrate with platform-specific APIs.
 </p>
 
 <p>
-This currently includes:
+These currently include:
 </p>
 
 <ul>
@@ -118,8 +112,8 @@ This currently includes:
 </ul>
 
 <p>
-Each Nanite typically includes helper functions to convert data types, or to simplify usage
-of the native API.
+Each Nanite typically includes helper functions to convert data types to and from their Nano equivalent,
+and may also simplify common tasks involving the native API.
 </p>
 
 
@@ -184,7 +178,7 @@ Some APIs do not perform error checking, and require the caller test for NULL or
 sentinel. This requires more code, and forgetting this test can lead to a crash:
 </p>
 
-<div class="box_code_yellow">    #include "NCocoa.h"
+<div class="box_code_yellow">    #include "NCoreFoundation.h"
     ...
     CFStringRef    cfString;
     
