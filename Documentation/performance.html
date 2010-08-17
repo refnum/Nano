@@ -116,7 +116,7 @@ As well as being less verbose, notable differences are:
 
 <ul>
 	<li>Since Cocoa has two string classes, each variable must be explicitly declared as immutable
-	or mutable. Nano provides a single NString object, which becomes mutable on-demand (allowing
+	or mutable. Nano provides a single NString object, which becomes mutable as needed (allowing
 	<tt>const</tt> to enforce const-ness at compile-time).</li>
 	<br>
 
@@ -160,13 +160,13 @@ such as locks (mutex, read-write, and spin) and atomic operations (integers, lis
 </p>
 
 <p>
-<tt>NThreadPool</tt> allows objects derived from <tt>NThreadTask</tt> to be scheduled in a thread pool, and
-will automatically distribute tasks across the available CPUs. Tasks are normally scheduled by priority, but
-<tt>NThreadPool</tt> also supports FIFO, LIFO, or custom schedulers.
+<tt>NThreadPool</tt> manages a thread pool for <tt>NThreadTask</tt> objects, and automatically distributes
+tasks across the available CPUs. Tasks are normally scheduled by priority, but <tt>NThreadPool</tt> can also
+use FIFO, LIFO, or custom schedulers.
 </p>
 
 <p>
-Individual functors can be spun off onto threads, and threads can invoke functors on the main thread if
+Individual functors can be spun off onto threads, and threads can pass functors back to the main thread if
 they need to access to non-thread-safe APIs.
 </p>
 
@@ -201,8 +201,8 @@ By judicious use of inline functions, Nano allows performance-critical code to p
 removing any function call overhead:
 </p>
 
-<div class="box_code_yellow">UInt32 CountBits(const NBitVector &theBits)
-{   UInt32    n, numBits, numSet;
+<div class="box_code_yellow">NIndex CountBits(const NBitVector &theBits)
+{   NIndex    n, numBits, numSet;
 
     numBits = theBits.GetSize();
     numSet  = 0;   
@@ -218,7 +218,11 @@ removing any function call overhead:
 
 <p>
 Since GetBit is an inline function, the inner loop can obtain direct access to the bits in the
-vector without going through a real function call or implementing GetBit as a macro.
+vector without going through a real function call.
+</p>
+
+<p>
+As a function, GetBits can also ensure const-correctness and be stepped into for debugging.
 </p>
 
 
