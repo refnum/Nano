@@ -77,6 +77,9 @@ public:
 
 
 	// Reserve additional space
+	//
+	// The current size remains the same, however internal storage may be
+	// pre-allocated to help amortize the cost of future growth.
 	void								Reserve(NIndex theSize);
 
 

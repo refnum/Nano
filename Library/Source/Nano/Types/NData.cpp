@@ -400,7 +400,10 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 //		NData::AppendData : Append data.
 //----------------------------------------------------------------------------
 UInt8 *NData::AppendData(const NData &theData)
-{	UInt8		*thePtr;
+{	NDataValue			*dstValue;
+	const NDataValue	*srcValue;
+	NIndex				oldSize;
+	UInt8				*thePtr;
 
 
 
@@ -410,7 +413,7 @@ UInt8 *NData::AppendData(const NData &theData)
 
 
 
-	// Append the data
+	// Append to empty
 	//
 	// If we're empty then we can share the value, rather than appending bytes.
 	if (IsEmpty())
@@ -418,8 +421,22 @@ UInt8 *NData::AppendData(const NData &theData)
 		*this  = theData;
 		thePtr = GetData();
 		}
+	
+	
+	// Append to existing
+	//
+	// Since we're working with two NDataValues, we can insert the new values
+	// directly into the end of our vector to avoid resizing and initialising
+	// the new space (and then overwriting it with the new data).
 	else
-		thePtr = AppendData(theData.GetSize(), theData.GetData());
+		{
+		srcValue = theData.GetImmutable();
+		dstValue = GetMutable();
+		oldSize  = GetSize();
+
+		dstValue->insert(dstValue->end(), srcValue->begin(), srcValue->end());
+		thePtr = &dstValue->at(oldSize);
+		}
 
 
 
@@ -446,13 +463,22 @@ void NData::RemoveData(NIndex theSize, bool fromFront)
 
 
 
-    // Remove the data
-	if (fromFront)
-		theRange = NRange(0, theSize);
-	else
-		theRange = NRange(GetSize() - theSize, theSize);
+	// Remove all data
+	if (theSize == GetSize())
+		Clear();
 
-	RemoveData(theRange);
+
+
+	// Remove a range
+	else
+		{
+		if (fromFront)
+			theRange = NRange(0, theSize);
+		else
+			theRange = NRange(GetSize() - theSize, theSize);
+
+		RemoveData(theRange);
+		}
 }
 
 
@@ -790,8 +816,10 @@ void NData::Resize(NDataValue *theValue, NIndex theSize)
 	//
 	// Reserving the space we need before the resize avoids excessive
 	// reallocation if resize is implemented in terms of insert().
-	theValue->reserve(theSize);
-	theValue->resize( theSize, 0x00);
+	if (theSize >= (NIndex) theValue->capacity())
+		theValue->reserve(theSize);
+
+	theValue->resize(theSize, 0x00);
 }
 
 
