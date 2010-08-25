@@ -28,6 +28,18 @@
 
 
 //============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+typedef enum {
+	kTaskKill,
+	kTaskInterrupt
+} NTaskSignal;
+
+
+
+
+
+//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NTargetSystem {
@@ -48,12 +60,12 @@ public:
 
 	// Tasks
 	static TaskInfo						TaskCreate(const NString &theCmd, const NStringList &theArgs);
-	static void							TaskDestroy(    TaskInfo &theTask);
-	static void							TaskUpdate(     TaskInfo &theTask);
-	static NString						TaskRead(       TaskInfo &theTask, bool stdErr=false);
-	static void							TaskWrite(const TaskInfo &theTask, const NString &theText);
-	static void							TaskWait( const TaskInfo &theTask, NTime waitFor);
-	static void							TaskKill( const TaskInfo &theTask);
+	static void							TaskDestroy(     TaskInfo &theTask);
+	static void							TaskUpdate(      TaskInfo &theTask);
+	static NString						TaskRead(        TaskInfo &theTask, bool stdErr=false);
+	static void							TaskWrite( const TaskInfo &theTask, const NString &theText);
+	static void							TaskWait(  const TaskInfo &theTask, NTime waitFor);
+	static void							TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal);
 
 
 	// Locale

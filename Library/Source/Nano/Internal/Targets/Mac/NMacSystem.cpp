@@ -504,15 +504,33 @@ void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime waitFor)
 
 
 //============================================================================
-//      NTargetSystem::TaskKill : Kill a task.
+//      NTargetSystem::TaskSignal : Signal a task.
 //----------------------------------------------------------------------------
-void NTargetSystem::TaskKill(const TaskInfo &theTask)
+void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 {	int		sysErr;
 
 
 
-	// Kill the task
-	sysErr = kill(theTask.taskID, SIGTERM);
+	// Signal the task
+	sysErr = 0;
+	
+	switch (theSignal) {
+		case kTaskKill:
+			sysErr = kill(theTask.taskID, SIGTERM);
+			break;
+
+		case kTaskInterrupt:
+			sysErr = kill(theTask.taskID, SIGINT);
+			break;
+		
+		default:
+			NN_LOG("Unknown signal: %d", theSignal);
+			break;
+		}
+
+
+
+	// Validate our state
 	NN_ASSERT(sysErr == 0);
 }
 

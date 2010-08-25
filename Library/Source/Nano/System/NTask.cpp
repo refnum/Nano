@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTextUtilities.h"
+#include "NTimeUtilities.h"
 #include "NTargetSystem.h"
 #include "NThread.h"
 #include "NFile.h"
@@ -166,7 +167,28 @@ void NTask::Terminate(void)
 
 
 	// Terminate the task
-	NTargetSystem::TaskKill(mTask);
+	NTargetSystem::TaskSignal(mTask, kTaskKill);
+	UpdateTask();
+}
+
+
+
+
+
+//============================================================================
+//		NTask::Interrupt : Interrupt the task.
+//----------------------------------------------------------------------------
+void NTask::Interrupt(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsRunning());
+
+
+
+	// Interrupt the task
+	NTargetSystem::TaskSignal(mTask, kTaskInterrupt);
 	UpdateTask();
 }
 
@@ -248,21 +270,12 @@ void NTask::SetArguments(const NStringList &theArgs)
 //============================================================================
 //		NTask::SetArguments : Set the arguments.
 //----------------------------------------------------------------------------
-void NTask::SetArguments(	const char *arg1,
-							const char *arg2,
-							const char *arg3,
-							const char *arg4,
-							const char *arg5,
-							const char *arg6,
-							const char *arg7,
-							const char *arg8,
-							const char *arg9,
-							const char *arg10)
+void NTask::SetArguments(NN_TASK_ARGS_PARAM)
 {
 
 
 	// Set the arguments
-	SetArguments(NTextUtilities::GetArguments(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10));
+	SetArguments(NTextUtilities::GetArguments(NN_TASK_ARGS_LIST, NULL));
 }
 
 
@@ -322,12 +335,18 @@ void NTask::WriteInput(const NString &theValue)
 //============================================================================
 //		NTask::WaitForTask : Wait for the task to complete.
 //----------------------------------------------------------------------------
-void NTask::WaitForTask(void)
-{
+void NTask::WaitForTask(NTime waitFor)
+{	NTime		endTime;
+
+
+
+	// Get the state we need
+	endTime = NTimeUtilities::GetTime() + waitFor;
+
 
 
 	// Wait for the task to complete
-	while (IsRunning())
+	while (IsRunning() && NTimeUtilities::GetTime() < endTime)
 		NTargetSystem::TaskWait(mTask, kTaskSleep);
 }
 
@@ -338,10 +357,16 @@ void NTask::WaitForTask(void)
 //============================================================================
 //		NTask::Execute : Execute the task.
 //----------------------------------------------------------------------------
-NString NTask::Execute(void)
+NString NTask::Execute(NTime waitFor)
 {	bool		mainThread;
 	NString		theResult;
 	NStatus		theErr;
+	NTime		endTime;
+
+
+
+	// Get the state we need
+	endTime = NTimeUtilities::GetTime() + waitFor;
 
 
 
@@ -357,7 +382,7 @@ NString NTask::Execute(void)
 	// our timer, so we need to update the task status by polling.
 	mainThread = NThread::IsMain();
 
-	while (IsRunning())
+	while (IsRunning() && NTimeUtilities::GetTime() < endTime)
 		{
 		theResult += ReadOutput();
 
@@ -376,7 +401,7 @@ NString NTask::Execute(void)
 	//
 	// Some output may have been emitted between the last time we read
 	// from the task and the point we noticed that the task had finished,
-	// so we need to poll again to read any outstanding data.
+	// so we need to poll again to consume any outstanding data.
 	theResult += ReadOutput();
 
 	return(theResult);
@@ -389,17 +414,7 @@ NString NTask::Execute(void)
 //============================================================================
 //		NTask::Execute : Execute a task.
 //----------------------------------------------------------------------------
-NString NTask::Execute(	const char *cmd,
-						const char *arg1,
-						const char *arg2,
-						const char *arg3,
-						const char *arg4,
-						const char *arg5,
-						const char *arg6,
-						const char *arg7,
-						const char *arg8,
-						const char *arg9,
-						const char *arg10)
+NString NTask::Execute(const char *cmd, NN_TASK_ARGS_PARAM)
 {	NString		theResult;
 	NTask		theTask;
 
@@ -412,7 +427,7 @@ NString NTask::Execute(	const char *cmd,
 
 	// Get the state we need
 	theTask.SetCommand(cmd);
-	theTask.SetArguments(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+	theTask.SetArguments(NN_TASK_ARGS_LIST);
 
 
 

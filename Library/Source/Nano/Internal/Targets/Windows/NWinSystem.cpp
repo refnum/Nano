@@ -412,16 +412,17 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	//
 	// The Unicode version of CreateProcess may modify the command
 	// line argument, so we pass a mutable copy of the string.
-	wasOK = CreateProcess(	NULL,					// App name passed in cmd line
-							cmdLinePtr,				// Mutable command line
-							NULL,					// Process security attributes 
-							NULL,					// Primary thread security attributes 
-							TRUE,					// Handles are inherited 
-							CREATE_NO_WINDOW,		// Creation flags 
-							NULL,					// Use parent's environment 
-							NULL,					// Use parent's current directory 
-							&startInfo,				// Startup info
-							&procInfo);				// Receives process info
+	wasOK = CreateProcess(	NULL,							// App name passed in cmd line
+							cmdLinePtr,						// Mutable command line
+							NULL,							// Process security attributes 
+							NULL,							// Primary thread security attributes 
+							TRUE,							// Handles are inherited 
+							CREATE_NEW_PROCESS_GROUP |		// Support Ctrl-C interrupt signal
+							CREATE_NO_WINDOW,				// Background by default 
+							NULL,							// Use parent's environment 
+							NULL,							// Use parent's current directory 
+							&startInfo,						// Startup info
+							&procInfo);						// Receives process info
 
 
 
@@ -580,15 +581,33 @@ void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime waitFor)
 
 
 //============================================================================
-//      NTargetSystem::TaskKill : Kill a task.
+//      NTargetSystem::TaskSignal : Signal a task.
 //----------------------------------------------------------------------------
-void NTargetSystem::TaskKill(const TaskInfo &theTask)
+void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 {	BOOL	wasOK;
 
 
 
-	// Kill the task
-	wasOK = TerminateProcess((HANDLE) theTask.taskID, (UINT) -1);
+	// Signal the task
+	wasOK = TRUE;
+	
+	switch (theSignal) {
+		case kTaskKill:
+			wasOK = TerminateProcess((HANDLE) theTask.taskID, (UINT) -1);
+			break;
+
+		case kTaskInterrupt:
+			wasOK = GenerateConsoleCtrlEvent(CTRL_C_EVENT, theTask.taskID);
+			break;
+		
+		default:
+			NN_LOG("Unknown signal: %d", theSignal);
+			break;
+		}
+
+
+
+	// Validate our state
 	NN_ASSERT(wasOK);
 }
 
