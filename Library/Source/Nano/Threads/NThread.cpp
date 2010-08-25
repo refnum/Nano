@@ -46,8 +46,12 @@ NThread::~NThread(void)
 {
 
 
-	// Clean up
-	Stop();
+	// Validate our state
+	//
+	// Sub-classes must call Stop() in their destructor; if we call it here
+	// then the sub-class has already been destroyed, even though its Run()
+	// method may still be executing.
+	NN_ASSERT(!IsRunning());
 }
 
 
@@ -216,9 +220,15 @@ void NThread::InvokeRun(void)
 
 
 
-	// Invoke the thread
+	// Run the thread
+	mIsRunning = true;
 	Run();
-	mIsRunning = false;
+
+
+
+	// Reset our state
+	mIsRunning  = false;
+	mShouldStop = false;
 
 
 
