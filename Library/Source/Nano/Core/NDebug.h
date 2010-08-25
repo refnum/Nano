@@ -187,12 +187,12 @@ public:
 
 
     // Get the debug instance
-    static NDebug						*Get(void);
+    static NDebug					   *Get(void);
 
 
 private:
-	const char							*GetFileName(const char *thePath);
-	NSpinLock							&GetLock(void);
+	const char						   *GetFileName(const char *thePath);
+	NSpinLock						   &GetLock(void);
 
 
 private:
