@@ -37,6 +37,15 @@ const NString kNStringWhitespace									= "\\s";
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+const float kAppendGrowth											= 1.5f;
+
+
+
+
+
+//============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
 NENCODABLE_DEFINE(NString);
@@ -1242,14 +1251,19 @@ const NString& NString::operator += (const NString &theString)
 
 	// Append the string
 	//
-	// To avoid re-parsing, we can update the size directly.
+	// To avoid re-parsing, we update the size directly.
+	//
+	// Strings that are appended to are often appended to multiple times, e.g., while
+	// concatenating output to a buffer. To help amortize the cost of growing the data,
+	// we reserve some additional space when appending to the string.
 	theEncoder.RemoveTerminator(theValue->theData, theValue->theEncoding);
 
 	theValue->theSize += otherValue->theSize;
 	theValue->theData += theData;
+	theValue->theData.Reserve((NIndex) (theValue->theSize * kAppendGrowth));
 
 	ValueChanged(theValue, false);
-	
+
 	return(*this);
 }
 
