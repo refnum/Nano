@@ -377,15 +377,16 @@ NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 				theKey   = theLine.GetString(theRanges[1]);
 				theValue = theLine.GetString(theRanges[2]);
 
-				theValue.ReplaceAll("\\\n", "\n");
-				theValue.ReplaceAll("\\\"", "\"");
+				theValue.ReplaceAll("\\n",  "\n");		/* '\n' becomes \n */
+				theValue.ReplaceAll("\\\"", "\"");		/* '\"' becomes "  */
+				theValue.ReplaceAll("\\\\", "\\");		/* '\\' becomes \  */
 
 				theResult.SetValue(theKey, theValue);
 				}
 			}
-		
-		
-		
+
+
+
 		// Update the info
 		bundleInfo->theStrings.SetValue(theTable, theResult);
 		}
