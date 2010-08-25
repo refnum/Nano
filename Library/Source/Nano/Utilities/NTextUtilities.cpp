@@ -46,7 +46,7 @@ static const NString kEntityNumberGt									= "&#62;";
 
 // Hex
 static const NIndex kHexLineWidth										= 16;
-static const NIndex kHexBufferSize										= 128;
+static const NIndex kHexBufferReserve									= 6;
 
 
 
@@ -111,14 +111,18 @@ NString NTextUtilities::DecodeEntities(const NString &theValue, const NDictionar
 //      NTextUtilities::GetHexDump : Get a hex dump.
 //----------------------------------------------------------------------------
 NString NTextUtilities::GetHexDump(NIndex dataSize, const void *dataPtr, char flowSign, bool hexOnly)
-{	NIndex			lineOffset, lineSize, linePad;
-	NString			theResult;
+{	NIndex		lineOffset, lineSize, linePad;
+	NData		theResult;
+
+
+
+	// Get the state we need
+	lineOffset = 0;
+	theResult.Reserve(dataSize * kHexBufferReserve);
 
 
 
 	// Generate a hex dump
-	lineOffset = 0;
-
 	while (lineOffset < dataSize)
 		{
 		lineSize = std::min(dataSize - lineOffset, kHexLineWidth);
@@ -128,7 +132,7 @@ NString NTextUtilities::GetHexDump(NIndex dataSize, const void *dataPtr, char fl
 		lineOffset += lineSize;
 		}
 
-	return(theResult);
+	return(NString(theResult));
 }
 
 
@@ -284,16 +288,20 @@ void NTextUtilities::ProcessEntities(const NString &theKey, const NVariant &theV
 //============================================================================
 //      NTextUtilities::GetHexLine : Get a line for a hex dump.
 //----------------------------------------------------------------------------
-NString NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const UInt8 *theData, char flowSign, bool hexOnly)
-{	char		theBuffer[kHexBufferSize];
-	NIndex		n, numBytes;
-	NString		theLine;
+NData NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const UInt8 *theData, char flowSign, bool hexOnly)
+{	NIndex		n, m, p, numBytes;
+	char		*linePtr;
+	NData		theLine;
 	char		theByte;
 
 
 
 	// Get the state we need
 	numBytes = lineSize + linePad;
+	theLine.SetSize(numBytes * kHexBufferReserve);
+	
+	linePtr = (char *) theLine.GetData();
+	m       = 0;
 
 
 
@@ -301,40 +309,60 @@ NString NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex li
 	if (!hexOnly)
 		{
 		if (flowSign != 0x00)
-			theLine.Format("%c ", (UInt8) flowSign);
+			{
+			linePtr[m++] = flowSign;
+			linePtr[m++] = ' ';
+			}
 
-		NTargetPOSIX::snprintf(theBuffer, sizeof(theBuffer), "%.8lX ", lineOffset);
-
-		theLine += theBuffer;
+		p = NTargetPOSIX::snprintf(&linePtr[m], 10, "%.8lX ", lineOffset);
+		if (p > 0)
+			m += p;
 		}
 
 
 
 	// Add the hex data
-	for (n = 0; n < numBytes; n++)
-		{
-		if ((n % 4) == 0)
-			theLine += " ";
-		
-		if (n < lineSize)
-			{
-			NTargetPOSIX::snprintf(theBuffer, sizeof(theBuffer), "%.2X ", theData[lineOffset + n]);
-			theLine += theBuffer;
-			}
-		else
-			theLine += "   ";
-		}
-	
 	if (hexOnly)
-		theLine.ReplaceAll(" ", "");
+		{
+		for (n = 0; n < numBytes; n++)
+			{
+			if (n < lineSize)
+				{
+				p = NTargetPOSIX::snprintf(&linePtr[m], 3, "%.2X", theData[lineOffset + n]);
+				if (p > 0)
+					m += p;
+				}
+			}
+		}
+	else
+		{
+		for (n = 0; n < numBytes; n++)
+			{
+			if ((n % 4) == 0)
+				linePtr[m++] = ' ';
+		
+			if (n < lineSize)
+				{
+				p = NTargetPOSIX::snprintf(&linePtr[m], 4, "%.2X ", theData[lineOffset + n]);
+				if (p > 0)
+					m += p;
+				}
+			else
+				{
+				linePtr[m++] = ' ';
+				linePtr[m++] = ' ';
+				linePtr[m++] = ' ';
+				}
+			}
+		}
 
 
 
 	// Add the trailer
 	if (!hexOnly)
 		{
-		theLine += " ";
-		
+		linePtr[m++] = ' ';
+
 		for (n = 0; n < numBytes; n++)
 			{
 			if (n < lineSize)
@@ -347,11 +375,17 @@ NString NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex li
 			else
 				theByte = ' ';
 
-			theLine += NString(&theByte, 1);
+			linePtr[m++] = theByte;
 			}
 
-		theLine += "\n";
+		linePtr[m++] = '\n';
 		}
+
+
+
+	// Truncate the line
+	NN_ASSERT(m < theLine.GetSize());
+	theLine.SetSize(m);
 
 	return(theLine);
 }

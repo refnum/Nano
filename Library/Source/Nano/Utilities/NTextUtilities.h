@@ -83,7 +83,7 @@ private:
 	static void							ProcessEntities(const NString &theKey, const NVariant &theValue, NString *theResult);
 	
 
-	static NString						GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const UInt8 *theData, char flowSign, bool hexOnly);
+	static NData						GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const UInt8 *theData, char flowSign, bool hexOnly);
 };
 
 
