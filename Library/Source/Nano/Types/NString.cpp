@@ -962,18 +962,21 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 	for (iterMatch = theMatches.begin(); iterMatch != theMatches.end(); iterMatch++)
 		{
 		theRange = *iterMatch;
-		
-		if (theRange.GetLocation() > offsetPrev)
-			{
-			subRange  = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
-			subString = GetString(theParser, subRange);
+		subRange  = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
+		subString = GetString(theParser, subRange);
 
-			NN_ASSERT(!subString.IsEmpty());
-			theResult.push_back(subString);
-			}
-		
+		theResult.push_back(subString);
 		offsetPrev = theRange.GetNext();
 		}
+
+
+
+	// Discard leading/trailing dividers
+	if (!theResult.empty() && theResult.front().IsEmpty())
+		vector_pop_front(theResult);
+
+	if (!theResult.empty() && theResult.back().IsEmpty())
+		theResult.pop_back();
 	
 	return(theResult);
 }

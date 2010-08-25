@@ -280,6 +280,29 @@ void TString::Execute(void)
 	NN_ASSERT(theStrings[2] == "cc");
 	NN_ASSERT(theStrings[3] == "dd");
 
+	testString1 = "aa,,,dd";
+	theStrings  = testString1.Split(kNTokenComma);
+	NN_ASSERT(theStrings.size() == 4);
+	NN_ASSERT(theStrings[0] == "aa");
+	NN_ASSERT(theStrings[1] == "");
+	NN_ASSERT(theStrings[2] == "");
+	NN_ASSERT(theStrings[3] == "dd");
+
+	testString1 = ",aa,bb,";
+	theStrings  = testString1.Split(kNTokenComma);
+	NN_ASSERT(theStrings.size() == 2);
+	NN_ASSERT(theStrings[0] == "aa");
+	NN_ASSERT(theStrings[1] == "bb");
+
+	testString1 = ",,";
+	theStrings  = testString1.Split(kNTokenComma);
+	NN_ASSERT(theStrings.size() == 1);
+	NN_ASSERT(theStrings[0] == "");
+
+	testString1 = ",";
+	theStrings  = testString1.Split(kNTokenComma);
+	NN_ASSERT(theStrings.empty());
+
 	testString1 = "a,b,c,d";
 	theStrings  = testString1.Split("b,");
 	NN_ASSERT(theStrings.size() == 2);
@@ -296,10 +319,12 @@ void TString::Execute(void)
 
 	testString1 = "a,b,c,d";
 	theStrings  = testString1.Split("[b,]", kNStringPattern);
-	NN_ASSERT(theStrings.size() == 3);
+	NN_ASSERT(theStrings.size() == 5);
 	NN_ASSERT(theStrings[0] == "a");
-	NN_ASSERT(theStrings[1] == "c");
-	NN_ASSERT(theStrings[2] == "d");
+	NN_ASSERT(theStrings[1] == "");
+	NN_ASSERT(theStrings[2] == "");
+	NN_ASSERT(theStrings[3] == "c");
+	NN_ASSERT(theStrings[4] == "d");
 
 	testString1 = "aa";
 	theStrings  = testString1.Split(kNTokenComma);

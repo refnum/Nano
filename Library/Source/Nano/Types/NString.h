@@ -227,6 +227,14 @@ public:
 
 	// Split the string
 	//
+	// Two consecutive dividers produce an empty string:
+	//
+	//		split "a,,b"  with "," produces {"a", "", "b"}
+	//
+	// Leading/trailing dividers do not produce an empty string:
+	//
+	//		split ",a,b," with "," produces {"a", "b"}
+	//
 	// kNStringWhitespace is always interpreted as a pattern.
 	NStringList							Split(const NString &theString, NStringFlags theFlags=kNStringNone) const;
 
