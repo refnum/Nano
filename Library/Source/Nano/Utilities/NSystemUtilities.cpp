@@ -51,7 +51,7 @@ bool NSystemUtilities::GetBoolean(const NVariant &theValue, const NString &debug
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to bool", debugID);
+			NN_LOG("Unable to convert value [%@] to bool from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -79,7 +79,7 @@ SInt32 NSystemUtilities::GetSInt32(const NVariant &theValue, const NString &debu
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to SInt32", debugID);
+			NN_LOG("Unable to convert value [%@] to SInt32 from %s", debugID, theValue.GetType().name());
 		}
 	
 	theResult = theNumber.GetSInt32();
@@ -109,7 +109,7 @@ SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debu
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to SInt64", debugID);
+			NN_LOG("Unable to convert value [%@] to SInt64 from %s", debugID, theValue.GetType().name());
 		}
 
 	theResult = theNumber.GetSInt64();
@@ -139,7 +139,7 @@ Float32 NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &de
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to Float32", debugID);
+			NN_LOG("Unable to convert value [%@] to Float32 from %s", debugID, theValue.GetType().name());
 		}
 
 	theResult = theNumber.GetFloat32();
@@ -169,7 +169,7 @@ Float64 NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &de
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to Float64", debugID);
+			NN_LOG("Unable to convert value [%@] to Float64 from %s", debugID, theValue.GetType().name());
 		}
 
 	theResult = theNumber.GetFloat64();
@@ -198,7 +198,7 @@ NString NSystemUtilities::GetString(const NVariant &theValue, const NString &deb
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NString", debugID);
+			NN_LOG("Unable to convert value [%@] to NString from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -225,7 +225,7 @@ NData NSystemUtilities::GetData(const NVariant &theValue, const NString &debugID
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NData", debugID);
+			NN_LOG("Unable to convert value [%@] to NData from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -252,7 +252,7 @@ NDate NSystemUtilities::GetDate(const NVariant &theValue, const NString &debugID
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NDate", debugID);
+			NN_LOG("Unable to convert value [%@] to NDate from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -279,7 +279,7 @@ NColor NSystemUtilities::GetColor(const NVariant &theValue, const NString &debug
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NColor", debugID);
+			NN_LOG("Unable to convert value [%@] to NColor from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -306,7 +306,7 @@ NPoint NSystemUtilities::GetPoint(const NVariant &theValue, const NString &debug
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NPoint", debugID);
+			NN_LOG("Unable to convert value [%@] to NPoint from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -333,7 +333,7 @@ NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NSize", debugID);
+			NN_LOG("Unable to convert value [%@] to NSize from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -360,7 +360,7 @@ NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NStrin
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NRectangle", debugID);
+			NN_LOG("Unable to convert value [%@] to NRectangle from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -387,7 +387,7 @@ NVector NSystemUtilities::GetVector(const NVariant &theValue, const NString &deb
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NVector", debugID);
+			NN_LOG("Unable to convert value [%@] to NVector from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -414,7 +414,7 @@ NArray NSystemUtilities::GetArray(const NVariant &theValue, const NString &debug
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NArray", debugID);
+			NN_LOG("Unable to convert value [%@] to NArray from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
@@ -441,7 +441,7 @@ NDictionary NSystemUtilities::GetDictionary(const NVariant &theValue, const NStr
 	if (!theValue.GetValue(theResult))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to NDictionary", debugID);
+			NN_LOG("Unable to convert value [%@] to NDictionary from %s", debugID, theValue.GetType().name());
 		}
 
 	return(theResult);
