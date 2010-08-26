@@ -15,12 +15,23 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <shellapi.h>
+#include <winioctl.h>
 #include <objidl.h>
 #include <shlobj.h>
 
 #include "NWindows.h"
 #include "NWinTarget.h"
 #include "NTargetFile.h"
+
+
+
+
+
+//============================================================================
+//      Internal constants
+//----------------------------------------------------------------------------
+static const NIndex kUnmountLockAttempts						= 20;
+static const DWORD  kUnmountLockTimeout							= 10000;
 
 
 
@@ -69,6 +80,27 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, int theID)
 		thePath = ToNN(theBuffer);
 	
 	return(thePath);
+}
+
+
+
+
+
+//============================================================================
+//      DeviceControl : Send a device control code.
+//----------------------------------------------------------------------------
+static NStatus DeviceControl(HANDLE hVolume, DWORD ioCode, NIndex inSize, const void *inData)
+{	DWORD		returnedSize;
+	NStatus		theErr;
+	BOOL		wasOK;
+
+
+
+	// Send the control code
+	wasOK  = DeviceIoControl(hVolume, ioCode, (LPVOID) inData, inSize, NULL, 0, &returnedSize, NULL);
+	theErr = wasOK ? kNoErr : kNErrPermission;
+
+	return(theErr);
 }
 
 
@@ -545,6 +577,101 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 	SetName(dstTmp,  srcPath, true, true);
 	
 	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::UnmountVolume : Unmount a volume.
+//----------------------------------------------------------------------------
+//		Note : http://support.microsoft.com/default.aspx?scid=kb;en-us;165721
+//----------------------------------------------------------------------------
+NStatus NTargetFile::UnmountVolume(const NString &thePath)
+{	NString						driveLetter, pathRoot, pathVolume;
+	DWORD						accessFlags;
+	UINT						driveType;
+	HANDLE						hVolume;
+	PREVENT_MEDIA_REMOVAL		pmrInfo;
+	NStatus						theErr;
+	NIndex						n;
+
+
+
+	// Check our parameters
+	if (!thePath.IsEmpty())
+		return(kNErrNotFound);
+
+
+
+	// Get the state we need
+	driveLetter = thePath.GetLeft(1);
+
+	pathRoot.Format("%@:\\",        driveLetter);
+	pathVolume.Format("\\\\.\\%@:", driveLetter);
+
+	pmrInfo.PreventMediaRemoval = FALSE;
+
+
+
+	// Get the drive type
+	driveType = GetDriveType(ToWN(pathRoot));
+
+	switch(driveType) {
+		case DRIVE_REMOVABLE:
+			accessFlags = GENERIC_READ | GENERIC_WRITE;
+			break;
+		
+		case DRIVE_CDROM:
+			accessFlags = GENERIC_READ;
+			break;
+		
+		default:
+			NN_LOG("Unknown drive type (%d) for (%@)", driveType, thePath);
+			return(kNErrNotSupported);
+			break;
+		}
+
+
+
+	// Open the volume
+	hVolume = CreateFile(ToWN(pathVolume), accessFlags, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	theErr  = (hVolume == INVALID_HANDLE_VALUE) ? kNErrPermission : kNoErr;
+
+
+
+	// Lock the volume
+	if (theErr == kNoErr)
+		{
+		for (n = 0; n < kUnmountLockAttempts; n++)
+			{
+			theErr = DeviceControl(hVolume, FSCTL_LOCK_VOLUME, 0, NULL);
+			if (theErr == kNoErr)
+				break;
+
+			Sleep(kUnmountLockTimeout / kUnmountLockAttempts);
+			}
+		}
+
+
+
+	// Unmount the volume
+	if (theErr == kNoErr)
+		theErr = DeviceControl(hVolume, FSCTL_DISMOUNT_VOLUME, 0, NULL);
+
+	if (theErr == kNoErr)
+		theErr = DeviceControl(hVolume, IOCTL_STORAGE_MEDIA_REMOVAL, sizeof(pmrInfo), &pmrInfo);
+
+	if (theErr == kNoErr)
+		theErr = DeviceControl(hVolume, IOCTL_STORAGE_EJECT_MEDIA, 0, NULL);
+
+
+
+	// Close the volume
+	WNSafeCloseHandle(hVolume);
+
+	return(theErr);
 }
 
 

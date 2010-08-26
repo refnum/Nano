@@ -23,6 +23,7 @@
 #include "NCoreFoundation.h"
 #include "NSTLUtilities.h"
 #include "NCFString.h"
+#include "NCocoa.h"
 #include "NMacTarget.h"
 #include "NTargetFile.h"
 
@@ -634,6 +635,25 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 	NN_ASSERT_NOERR(sysErr);
 	
 	return(NMacTarget::ConvertSysErr(sysErr));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::UnmountVolume : Unmount a volume.
+//----------------------------------------------------------------------------
+NStatus NTargetFile::UnmountVolume(const NString &thePath)
+{	BOOL	wasOK;
+
+
+
+	// Unmount the volume
+	wasOK = [[NSWorkspace sharedWorkspace] unmountAndEjectDeviceAtPath:ToNS(thePath)];
+	NN_ASSERT(wasOK);
+	
+	return(wasOK ? kNoErr : kNErrPermission);
 }
 
 

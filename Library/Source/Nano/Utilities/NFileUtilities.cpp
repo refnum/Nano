@@ -321,3 +321,25 @@ NFile NFileUtilities::GetTemporaryFile(const NString &fileName)
 }
 
 
+
+
+
+//============================================================================
+//		NFileUtilities::UnmountVolume : Unmount a volume.
+//----------------------------------------------------------------------------
+NStatus NFileUtilities::UnmountVolume(const NFile &theFile)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theFile.IsDirectory());
+
+
+
+	// Unmount the volume
+	return(NTargetFile::UnmountVolume(theFile.GetPath()));
+}
+
+
+
+

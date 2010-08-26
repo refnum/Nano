@@ -88,6 +88,10 @@ public:
 	static NStatus						ExchangeWith(const NString &srcPath, const NString &dstPath);
 
 
+	// Unmount a volume
+	static NStatus						UnmountVolume(const NString &thePath);
+
+
 	// Open/close a file
 	static NFileRef						Open(const NString &thePath, NFilePermission thePermission);
 	static void							Close(NFileRef theFile);

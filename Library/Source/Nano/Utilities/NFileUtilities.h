@@ -96,6 +96,10 @@ public:
 	//
 	// If fileName is non-empty, it will be used as the base name.
 	static NFile						GetTemporaryFile(const NString &fileName="");
+
+
+	// Unmount a volume
+	static NStatus						UnmountVolume(const NFile &theFIle);
 };
 
 
