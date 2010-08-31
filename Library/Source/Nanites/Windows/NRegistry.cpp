@@ -237,7 +237,7 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 
 	// Decode the value
 	//
-	// Strings and integers are stored directly, everything else is NEncoded.
+	// Strings, integers, and data are stored directly - everything else is NEncoded.
 	switch (theType) {
 		case REG_SZ:
 			valueString.SetData(theData, kNStringEncodingUTF16);
@@ -264,6 +264,8 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 		
 		case REG_BINARY:
 			theValue = theEncoder.Decode(theData);
+			if (!theValue.IsValid())
+				theValue = theData;
 			break;
 		
 		case REG_NONE:
@@ -286,12 +288,12 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 //		NRegistry::SetValue : Set a value.
 //----------------------------------------------------------------------------
 void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
-{	NString		valueString;
+{	NData		theData, valueData;
+	NString		valueString;
 	NNumber		valueNumber;
 	SInt32		valueInt32;
 	SInt64		valueInt64;
 	NEncoder	theEncoder;
-	NData		theData;
 	DWORD		theType;
 	LONG		theErr;
 
@@ -310,7 +312,7 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 
 	// Encode the value
 	//
-	// Strings and integers are stored directly, everything else is NEncoded.
+	// Strings, integers, and data are stored directly - everything else is NEncoded.
 	if (theValue.GetValue(valueString))
 		{
 		theType = REG_SZ;
@@ -341,6 +343,12 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 			default:
 				break;
 			}
+		}
+	
+	else if (theValue.GetValue(valueData))
+		{
+		theType = REG_BINARY;
+		theData = valueData;
 		}
 
 	if (theType == REG_NONE)
