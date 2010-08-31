@@ -175,6 +175,15 @@ void NDate::SetDate(const NGregorianDate &theDate)
 {
 
 
+	// Validate our parameters
+	NN_ASSERT(theDate.month  >= 1   && theDate.month  <= 12);
+	NN_ASSERT(theDate.day    >= 1   && theDate.day    <= 31);
+	NN_ASSERT(theDate.hour   >= 0   && theDate.hour   <= 23);
+	NN_ASSERT(theDate.minute >= 0   && theDate.minute <= 59);
+	NN_ASSERT(theDate.second >= 0.0 && theDate.second <= 60.0);
+
+
+
 	// Set the time
 	mTime = NTargetTime::ConvertDateToTime(theDate);
 }
@@ -473,7 +482,6 @@ NGregorianDate NDate::GetYearStart(const NString &timeZone, NIndex theDay) const
 	theDate.month    = 1;
 	theDate.day      = (SInt8) theDay;
 	theDate.hour     = 0;
-	theDate.month    = 0;
 	theDate.minute   = 0;
 	theDate.second   = 0;
 

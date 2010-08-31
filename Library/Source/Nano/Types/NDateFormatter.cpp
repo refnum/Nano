@@ -87,7 +87,7 @@ NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &the
 
 	// Get the state we need
 	theContext.theDate  = NDate(theDate);
-	theContext.gregDate = theDate;
+	theContext.gregDate =       theDate;
 	
 	textUTF8 = theFormat.GetUTF8();
 	areDone  = false;
