@@ -81,12 +81,12 @@ void TSize::Execute(void)
 	NN_ASSERT(testSize == kValueSize2.GetIntegral());
 	NN_ASSERT(testSize == kValueSize2_Integral);
 
-	testSize = kValueSize2;     testSize.Resize( 1.2, -3.4);
-	NN_ASSERT(testSize == kValueSize2.GetResized(1.2, -3.4));
+	testSize = kValueSize2;     testSize.Resize( 1.2f, -3.4f);
+	NN_ASSERT(testSize == kValueSize2.GetResized(1.2f, -3.4f));
 	NN_ASSERT(testSize == kValueSize2_Resized);
 
-	testSize = kValueSize2;     testSize.Scale( 10.0);
-	NN_ASSERT(testSize == kValueSize2.GetScaled(10.0));
+	testSize = kValueSize2;     testSize.Scale( 10.0f);
+	NN_ASSERT(testSize == kValueSize2.GetScaled(10.0f));
 	NN_ASSERT(testSize == kValueSize2_Scaled);
 }
 

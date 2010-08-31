@@ -75,7 +75,7 @@ void TDate::Execute(void)
 
 	for (m = 1; m <= 10; m++)
 		{
-		gregDate.day = m;
+		gregDate.day = (SInt8) m;
 		n            = NDate(gregDate).GetWeekOfYear();
 		NN_ASSERT(n == 1);
 		}
