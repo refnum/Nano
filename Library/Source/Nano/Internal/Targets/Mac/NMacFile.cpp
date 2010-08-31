@@ -645,15 +645,24 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //      NTargetFile::UnmountVolume : Unmount a volume.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::UnmountVolume(const NString &thePath)
-{	BOOL	wasOK;
+{
+#if NN_TARGET_MAC
+	BOOL	wasOK;
 
 
 
 	// Unmount the volume
 	wasOK = [[NSWorkspace sharedWorkspace] unmountAndEjectDeviceAtPath:ToNS(thePath)];
 	NN_ASSERT(wasOK);
-	
+
 	return(wasOK ? kNoErr : kNErrPermission);
+
+
+#elif NN_TARGET_IPHONE
+	NN_UNUSED(thePath);
+
+	return(kNErrNotSupported);
+#endif
 }
 
 
