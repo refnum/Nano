@@ -600,7 +600,7 @@ NStatus NTargetFile::UnmountVolume(const NString &thePath)
 
 
 	// Check our parameters
-	if (!thePath.IsEmpty())
+	if (thePath.IsEmpty())
 		return(kNErrNotFound);
 
 
