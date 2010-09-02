@@ -693,7 +693,8 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetScaled(T scaleBy) const
 
 
 	// Scale the rectangle
-	theCenter = GetCenter();
+	theResult = GetNormalized();
+	theCenter = theResult.GetCenter();
 	
 	theResult.size.width  *= scaleBy;
 	theResult.size.height *= scaleBy;
