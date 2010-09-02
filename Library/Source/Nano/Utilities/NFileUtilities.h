@@ -99,7 +99,7 @@ public:
 
 
 	// Unmount a volume
-	static NStatus						UnmountVolume(const NFile &theFIle);
+	static NStatus						UnmountVolume(const NFile &theFile);
 };
 
 
