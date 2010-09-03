@@ -295,13 +295,14 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 {	TimerInfo				*theInfo;
 	TimerInfoMapIterator	theIter;
 	NTimerID				timerID;
+	UINT					newTime;
 
 
 
 	// Get the state we need
 	//
-	// Timers may still fire even after KillTimer, and so we need to
-	// check that the timer still exists before processing it.
+	// Timers have been seen to fire ever after KillTimer, so
+	// we need to check it still exists before we process it.
 	theIter = gTimers.find(idEvent);
 	if (theIter == gTimers.end())
 		return;
@@ -312,18 +313,50 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 
 
 	// Invoke the timer
+	//
+	// Since Windows timers only have a single fire time, even one-shot
+	// NTimers must fire forever.
+	//
+	// To minimise overhead we adjust one-shot timers to have the maximum
+	// fire time (currently about 25 days) after their initial pass, but
+	// for correct behaviour we can only ever fire them once.
+	//
+	// Repeating NTimers can fire every time their Windows timer is invoked.
 	theInfo->fireCount++;
-	theInfo->theFunctor(kNTimerFired);
+
+	if (theInfo->fireCount == 1 || !NMathUtilities::IsZero(theInfo->fireEvery))
+		theInfo->theFunctor(kNTimerFired);
+
+
+
+	// Check our state
+	//
+	// The functor may have destroyed the timer, so we need to check it still exists.
+	theIter = gTimers.find(idEvent);
+	if (theIter == gTimers.end())
+		return;
 
 
 
 	// Reschedule the timer
 	//
-	// Since Windows timers only have a single fire time, we may
-	// need to reschedule the timer after it has fired once.
-	if (theInfo->fireCount == 1 && !NMathUtilities::IsZero(theInfo->fireEvery))
+	// If we're a one-shot NTimer then we're done; we will never invoke
+	// the functor again. However, the Windows timer will keep firing so
+	// we increase the timeout to the maximum to reduce overhead.
+	//
+	// If we're a repeating NTimer then we need to adjust our Windows
+	// fire time to match the NTimer interval.
+	//
+	// In both cases we only need to adjust the timer once, after it has
+	// fired the first time.
+	if (theInfo->fireCount == 1)
 		{
-		timerID = SetTimer(NULL, theInfo->timerID, GetTimerMS(theInfo->fireEvery), TimerCallback);
+		if (NMathUtilities::IsZero(theInfo->fireEvery))
+			newTime = USER_TIMER_MAXIMUM;
+		else
+			newTime = GetTimerMS(theInfo->fireEvery);
+
+		timerID = SetTimer(NULL, theInfo->timerID, newTime, TimerCallback);
 		NN_ASSERT(timerID == idEvent);
 		}
 }
