@@ -511,7 +511,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			break;
 		
 		case kNLocationApplicationSupport:
-			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_APPDATA : CSIDL_COMMON_APPDATA);
+			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA);
 			break;
 		
 		default:
