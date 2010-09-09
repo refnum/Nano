@@ -501,11 +501,11 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_MYDOCUMENTS : CSIDL_COMMON_DOCUMENTS);
 			break;
 		
-		case kNLocationCachedData:
+		case kNLocationCache:
 			thePath = GetDirectoryForDomain(theDomain, CSIDL_INTERNET_CACHE);
 			break;
 		
-		case kNLocationTemporaryData:
+		case kNLocationTemporary:
 			if (SUCCEEDED(GetTempPath(NN_ARRAY_SIZE(theBuffer), theBuffer)))
 				thePath = ToNN(theBuffer);
 			break;

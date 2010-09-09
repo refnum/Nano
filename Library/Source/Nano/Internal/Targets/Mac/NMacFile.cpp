@@ -570,11 +570,11 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			thePath = GetDirectoryForDomain(theDomain, NSDocumentDirectory);
 			break;
 
-		case kNLocationCachedData:
+		case kNLocationCache:
 			thePath = GetDirectoryForDomain(theDomain, NSCachesDirectory);
 			break;
 
-		case kNLocationTemporaryData:
+		case kNLocationTemporary:
 			if (theDomain == kNDomainUser)
 				thePath = NCFString(NSTemporaryDirectory(), false);
 			else
