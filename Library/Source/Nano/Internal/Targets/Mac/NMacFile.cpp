@@ -570,6 +570,13 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			thePath = GetDirectoryForDomain(theDomain, NSDocumentDirectory);
 			break;
 
+		case kNLocationLogs:
+			if (theDomain == kNDomainUser)
+				thePath = NCFString(NSHomeDirectory(), false);
+
+			thePath += "/Library/Logs";
+			break;
+
 		case kNLocationCache:
 			thePath = GetDirectoryForDomain(theDomain, NSCachesDirectory);
 			break;

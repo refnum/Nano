@@ -500,7 +500,11 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 		case kNLocationDocuments:
 			thePath = GetDirectoryForDomain(theDomain, isUser ? CSIDL_MYDOCUMENTS : CSIDL_COMMON_DOCUMENTS);
 			break;
-		
+
+		case kNLocationLogs:
+			thePath = GetDirectoryForDomain(theDomain, CSIDL_COMMON_APPDATA);
+			break;
+
 		case kNLocationCache:
 			thePath = GetDirectoryForDomain(theDomain, CSIDL_INTERNET_CACHE);
 			break;
