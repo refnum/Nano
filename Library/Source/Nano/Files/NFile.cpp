@@ -554,7 +554,7 @@ NFileList NFile::GetChildren(void) const
 //============================================================================
 //        NFile::Delete : Delete the file.
 //----------------------------------------------------------------------------
-void NFile::Delete(void) const
+void NFile::Delete(bool moveToTrash) const
 {
 
 
@@ -564,7 +564,7 @@ void NFile::Delete(void) const
 
 
 	// Delete the file
-	NTargetFile::Delete(mPath);
+	NTargetFile::Delete(mPath, moveToTrash);
 }
 
 

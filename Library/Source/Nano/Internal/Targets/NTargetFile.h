@@ -73,7 +73,7 @@ public:
 	
 
 	// Delete the file
-	static void							Delete(const NString &thePath);
+	static void							Delete(const NString &thePath, bool moveToTrash);
 
 
 	// Get a directory

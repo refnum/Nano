@@ -525,16 +525,31 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 //============================================================================
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
-void NTargetFile::Delete(const NString &thePath)
+void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 {	int		sysErr;
 
 
 
-	// Delete the file
-	if (IsDirectory(thePath))
-		sysErr = rmdir( thePath.GetUTF8());
+	// Move to the trash
+	if (moveToTrash)
+		{
+#if NN_TARGET_MAC
+		sysErr = FSPathMoveObjectToTrashSync(thePath.GetUTF8(), NULL, kFSFileOperationDefaultOptions);
+#else
+		NN_LOG("iOS does not support a trash");
+#endif
+		}
+
+
+
+	// Or delete
 	else
-		sysErr = unlink(thePath.GetUTF8());
+		{
+		if (IsDirectory(thePath))
+			sysErr = rmdir( thePath.GetUTF8());
+		else
+			sysErr = unlink(thePath.GetUTF8());
+		}
 
 	NN_ASSERT_NOERR(sysErr);
 }

@@ -191,10 +191,11 @@ public:
 
 	// Delete the file
 	//
-	// If the file is an open file, it will be unlinked.
+	// Deleting a file, rather than moving it to the trash, is permanent.
 	//
-	// If the file is a directory, it will only be deleted if it is empty.
-	void								Delete(void) const;
+	// If the file is open, it will be unlinked. If it is a directory, it
+	// can only be deleted if it is empty.
+	void								Delete(bool moveToTrash=false) const;
 
 
 	// Create a file/directory

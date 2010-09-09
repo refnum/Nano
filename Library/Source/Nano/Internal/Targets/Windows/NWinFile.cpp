@@ -455,16 +455,37 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 //============================================================================
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
-void NTargetFile::Delete(const NString &thePath)
-{	BOOL	wasOK;
+void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
+{	NData				pathList;
+	SHFILEOPSTRUCT		fileOp;
+	BOOL				wasOK;
 
 
 
-	// Delete the file
-	if (IsDirectory(thePath))
-		wasOK = RemoveDirectory(ToWN(thePath));
+	// Move to the trash
+	if (moveToTrash)
+		{
+		pathList = thePath.GetData(kNStringEncodingUTF16);
+		pathList.SetSize(pathList.GetSize() + (sizeof(TCHAR) * 2));
+
+		memset(&fileOp, 0x00, sizeof(fileOp));
+		fileOp.wFunc  = FO_DELETE; 
+		fileOp.pFrom  = (LPCTSTR) pathList.GetData();
+		fileOp.fFlags = FOF_ALLOWUNDO | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
+
+		wasOK = SHFileOperation(&fileOp);
+		}
+
+
+
+	// Or delete
 	else
-		wasOK = DeleteFile(ToWN(thePath));
+		{
+		if (IsDirectory(thePath))
+			wasOK = RemoveDirectory(ToWN(thePath));
+		else
+			wasOK = DeleteFile(ToWN(thePath));
+		}
 
 	NN_ASSERT(wasOK);
 }
