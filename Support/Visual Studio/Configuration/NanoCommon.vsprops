@@ -18,6 +18,7 @@
 		DisableSpecificWarnings="4068;4127;4201;4200"
 		ForcedIncludeFiles="StdAfx.h"
 		AdditionalOptions="/MP"
+		FloatingPointExceptions="true"
 	/>
 </VisualStudioPropertySheet>
 
