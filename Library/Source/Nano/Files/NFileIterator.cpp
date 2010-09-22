@@ -301,11 +301,8 @@ bool NFileIterator::GetNext(NFile &theFile)
 
 
 	// Collect some more results
-	if (mScanResult.empty())
+	if (mScanResult.empty() && !mStopScan)
 		ContinueScan();
-
-	if (mStopScan)
-		return(false);
 
 
 
