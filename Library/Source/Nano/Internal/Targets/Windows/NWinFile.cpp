@@ -455,7 +455,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 //============================================================================
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
-void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
+NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 {	NData				pathList;
 	SHFILEOPSTRUCT		fileOp;
 	BOOL				wasOK;
@@ -487,7 +487,7 @@ void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 			wasOK = DeleteFile(ToWN(thePath));
 		}
 
-	NN_ASSERT(wasOK);
+	return(wasOK ? kNoErr : kNErrPermission);
 }
 
 

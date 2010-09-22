@@ -525,7 +525,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 //============================================================================
 //      NTargetFile::Delete : Delete a file.
 //----------------------------------------------------------------------------
-void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
+NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 {	int		sysErr;
 
 
@@ -537,6 +537,7 @@ void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 		sysErr = FSPathMoveObjectToTrashSync(thePath.GetUTF8(), NULL, kFSFileOperationDefaultOptions);
 #else
 		NN_LOG("iOS does not support a trash");
+		sysErr = -1;
 #endif
 		}
 
@@ -551,7 +552,7 @@ void NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 			sysErr = unlink(thePath.GetUTF8());
 		}
 
-	NN_ASSERT_NOERR(sysErr);
+	return(sysErr == 0 ? kNoErr : kNErrPermission);
 }
 
 

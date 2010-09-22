@@ -554,8 +554,9 @@ NFileList NFile::GetChildren(void) const
 //============================================================================
 //        NFile::Delete : Delete the file.
 //----------------------------------------------------------------------------
-void NFile::Delete(bool moveToTrash) const
-{
+NStatus NFile::Delete(bool moveToTrash) const
+{	NStatus		theErr;
+
 
 
 	// Validate our state
@@ -564,7 +565,10 @@ void NFile::Delete(bool moveToTrash) const
 
 
 	// Delete the file
-	NTargetFile::Delete(mPath, moveToTrash);
+	theErr = NTargetFile::Delete(mPath, moveToTrash);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 

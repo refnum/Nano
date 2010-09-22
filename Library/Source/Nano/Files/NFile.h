@@ -195,7 +195,7 @@ public:
 	//
 	// If the file is open, it will be unlinked. If it is a directory, it
 	// can only be deleted if it is empty.
-	void								Delete(bool moveToTrash=false) const;
+	NStatus								Delete(bool moveToTrash=false) const;
 
 
 	// Create a file/directory
