@@ -346,8 +346,13 @@ void NTask::WaitForTask(NTime waitFor)
 
 
 	// Wait for the task to complete
-	while (IsRunning() && NTimeUtilities::GetTime() < endTime)
+	while (IsRunning())
+		{
+		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() < endTime)
+			break;
+
 		NTargetSystem::TaskWait(mTask, kTaskSleep);
+		}
 }
 
 
@@ -382,8 +387,11 @@ NString NTask::Execute(NTime waitFor)
 	// our timer, so we need to update the task status by polling.
 	mainThread = NThread::IsMain();
 
-	while (IsRunning() && NTimeUtilities::GetTime() < endTime)
+	while (IsRunning())
 		{
+		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() < endTime)
+			break;
+
 		theResult += ReadOutput();
 
 		if (mainThread)
