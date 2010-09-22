@@ -757,7 +757,8 @@ NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 
 
 	// Read the file
-	theErr = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, thePosition, theFlags);
+	numRead = 0;
+	theErr  = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, thePosition, theFlags);
 	NN_ASSERT(theErr == kNoErr || theErr == kNErrExhaustedSrc);
 	
 	return(theErr);
@@ -782,7 +783,8 @@ NStatus NFile::Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SIn
 
 
 	// Write the file
-	theErr = NTargetFile::Write(mFile, theSize, thePtr, numWritten, theOffset, thePosition, theFlags);
+	numWritten = 0;
+	theErr     = NTargetFile::Write(mFile, theSize, thePtr, numWritten, theOffset, thePosition, theFlags);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);
