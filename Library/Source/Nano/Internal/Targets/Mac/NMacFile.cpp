@@ -158,7 +158,7 @@ bool NTargetFile::IsLink(const NString &thePath)
 	return(isAlias);
 
 
-#elif NN_TARGET_IPHONE
+#elif NN_TARGET_IOS
 	NN_UNUSED(thePath);
 
 	return(false);
@@ -273,7 +273,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 		}
 
 
-#elif NN_TARGET_IPHONE
+#elif NN_TARGET_IOS
 	NN_UNUSED(displayName);
 	NN_UNUSED(cfString);
 	NN_UNUSED(theErr);
@@ -466,7 +466,7 @@ NString NTargetFile::GetTarget(const NString &thePath)
 	return(theResult);
 
 
-#elif NN_TARGET_IPHONE
+#elif NN_TARGET_IOS
 	return(thePath);
 #endif
 }
@@ -681,7 +681,7 @@ NStatus NTargetFile::UnmountVolume(const NString &thePath)
 	return(wasOK ? kNoErr : kNErrPermission);
 
 
-#elif NN_TARGET_IPHONE
+#elif NN_TARGET_IOS
 	NN_UNUSED(thePath);
 
 	return(kNErrNotSupported);

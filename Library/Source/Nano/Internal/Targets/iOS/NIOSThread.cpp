@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhonePOSIX.cpp
+		NIOSThread.cpp
 
 	DESCRIPTION:
-		iPhone POSIX support.
+		iOS thread support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,13 +14,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetPOSIX.h"
+#include "NTargetThread.h"
 
 
 
 
 
 //============================================================================
-//      NTargetPOSIX : Shares implementation with Mac.
+//      NTargetThread : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-#include "../Mac/NMacPOSIX.cpp"
+#include "../Mac/NMacThread.cpp"

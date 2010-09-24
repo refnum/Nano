@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneTarget.h
+		NIOSTime.cpp
 
 	DESCRIPTION:
-		iPhone target support.
+		iOS time support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -11,15 +11,16 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef NIPHONE_TARGET_HDR
-#define NIPHONE_TARGET_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "../Mac/NMacTarget.h"
+#include "NTargetTime.h"
 
 
 
 
 
-#endif // NIPHONE_TARGET_HDR
+//============================================================================
+//      NTargetTime : Shares implementation with Mac.
+//----------------------------------------------------------------------------
+#include "../Mac/NMacTime.cpp"

@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneFile.cpp
+		NIOSTarget.cpp
 
 	DESCRIPTION:
-		iPhone file support.
+		iOS target support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,13 +14,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetFile.h"
+#include "NIOSTarget.h"
 
 
 
 
 
 //============================================================================
-//      NTargetFile : Shares implementation with Mac.
+//      NIOSTarget : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-#include "../Mac/NMacFile.cpp"
+#include "../Mac/NMacTarget.cpp"

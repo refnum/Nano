@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneThread.cpp
+		NIOSMath.cpp
 
 	DESCRIPTION:
-		iPhone thread support.
+		iOS math support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,13 +14,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetThread.h"
+#include "NTargetMath.h"
 
 
 
 
 
 //============================================================================
-//      NTargetThread : Shares implementation with Mac.
+//      NTargetMath : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-#include "../Mac/NMacThread.cpp"
+#include "../Mac/NMacMath.cpp"

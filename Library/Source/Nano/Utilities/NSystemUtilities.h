@@ -65,14 +65,14 @@ typedef enum {
 	kOSWinVista														= 0x76000000,
 	kOSWinSeven														= 0x37000000,
 
-	kOSIPhone														= 0x69000000,
-	kOSIPhoneTwo													= 0x69020000,
-	kOSIPhoneTwoOne													= 0x69020100,
-	kOSIPhoneTwoTwo													= 0x69020200,
-	kOSIPhoneThree													= 0x69030000,
-	kOSIPhoneThreeOne												= 0x69030100,
-	kOSIPhoneThreeTwo												= 0x69030200,
-	kOSIPhoneFour													= 0x69040000
+	kOSiOS															= 0x69000000,
+	kOSiOSTwo														= 0x69020000,
+	kOSiOSTwoOne													= 0x69020100,
+	kOSiOSTwoTwo													= 0x69020200,
+	kOSiOSThree														= 0x69030000,
+	kOSiOSThreeOne													= 0x69030100,
+	kOSiOSThreeTwo													= 0x69030200,
+	kOSiOSFour														= 0x69040000
 } OSVersion;
 
 
@@ -86,7 +86,7 @@ typedef enum {
 //
 // Allows portable code to insert a Mac auto-release pool within some scope,
 // without needing to create a platform-specific wrapper around that scope.
-#if NN_TARGET_MAC || NN_TARGET_IPHONE
+#if NN_TARGET_MAC || NN_TARGET_IOS
 	#include "NNSAutoReleasePool.h"
 	
 	#define NN_MEMORY_POOL							StAutoReleasePool

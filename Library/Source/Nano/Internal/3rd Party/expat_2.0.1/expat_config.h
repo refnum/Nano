@@ -36,7 +36,7 @@
 
 
 // Target features
-#if NN_TARGET_MAC || NN_TARGET_IPHONE
+#if NN_TARGET_MAC || NN_TARGET_IOS
 	#define HAVE_BCOPY													1
 	#define HAVE_GETPAGESIZE											1
 	#define HAVE_MEMMOVE												1

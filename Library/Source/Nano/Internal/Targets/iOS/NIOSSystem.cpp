@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneSystem.cpp
+		NIOSSystem.cpp
 
 	DESCRIPTION:
-		iPhone system support.
+		iOS system support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software

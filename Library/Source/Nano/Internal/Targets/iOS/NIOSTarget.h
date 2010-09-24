@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhonePreferences.cpp
+		NIOSTarget.h
 
 	DESCRIPTION:
-		iPhone preferences support.
+		iOS target support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -11,16 +11,15 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
+#ifndef NIOS_TARGET_HDR
+#define NIOS_TARGET_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetPreferences.h"
+#include "../Mac/NMacTarget.h"
 
 
 
 
 
-//============================================================================
-//      NTargetPreferences : Shares implementation with Mac.
-//----------------------------------------------------------------------------
-#include "../Mac/NMacPreferences.cpp"
+#endif // NIOS_TARGET_HDR

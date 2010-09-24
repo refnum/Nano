@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneTime.cpp
+		NIOSFile.cpp
 
 	DESCRIPTION:
-		iPhone time support.
+		iOS file support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,13 +14,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetTime.h"
+#include "NTargetFile.h"
 
 
 
 
 
 //============================================================================
-//      NTargetTime : Shares implementation with Mac.
+//      NTargetFile : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-#include "../Mac/NMacTime.cpp"
+#include "../Mac/NMacFile.cpp"

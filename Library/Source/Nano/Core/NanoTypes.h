@@ -56,8 +56,8 @@
 #define NANO_UTF32													UInt32
 
 
-// Mac/iPhone
-#if NN_TARGET_MAC || NN_TARGET_IPHONE
+// Mac/iOS
+#if NN_TARGET_MAC || NN_TARGET_IOS
 	// UInt32/SInt32
 	//
 	// MacTypes.h uses a different type for UInt32/SInt32 on 32-bit architectures

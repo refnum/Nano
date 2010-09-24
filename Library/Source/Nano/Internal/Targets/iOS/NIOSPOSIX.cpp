@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneTarget.cpp
+		NIOSPOSIX.cpp
 
 	DESCRIPTION:
-		iPhone target support.
+		iOS POSIX support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,13 +14,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NIPhoneTarget.h"
+#include "NTargetPOSIX.h"
 
 
 
 
 
 //============================================================================
-//      NIPhoneTarget : Shares implementation with Mac.
+//      NTargetPOSIX : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-#include "../Mac/NMacTarget.cpp"
+#include "../Mac/NMacPOSIX.cpp"

@@ -48,8 +48,8 @@
 #endif
 
 
-// iPhone
-#if NN_TARGET_IPHONE
+// iOS
+#if NN_TARGET_IOS
 	#include <CoreFoundation/CoreFoundation.h>
 	#include <CoreGraphics/CoreGraphics.h>
 

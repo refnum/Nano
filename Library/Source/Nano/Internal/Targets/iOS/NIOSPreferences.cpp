@@ -1,8 +1,8 @@
 /*	NAME:
-		NIPhoneMath.cpp
+		NIOSPreferences.cpp
 
 	DESCRIPTION:
-		iPhone math support.
+		iOS preferences support.
 	
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,13 +14,13 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetMath.h"
+#include "NTargetPreferences.h"
 
 
 
 
 
 //============================================================================
-//      NTargetMath : Shares implementation with Mac.
+//      NTargetPreferences : Shares implementation with Mac.
 //----------------------------------------------------------------------------
-#include "../Mac/NMacMath.cpp"
+#include "../Mac/NMacPreferences.cpp"

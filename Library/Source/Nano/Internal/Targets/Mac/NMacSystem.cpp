@@ -277,7 +277,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 
 
 
-#elif NN_TARGET_IPHONE
+#elif NN_TARGET_IOS
 
 	StAutoReleasePool		autoRelease;
 	NSArray					*theArray;
@@ -286,7 +286,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 	theArray = [[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."];
 	numParts = [theArray count];
 
-	verTarget  = (SInt32) kOSIPhone;
+	verTarget  = (SInt32) kOSiOS;
     verMajor   = (numParts >= 1) ? [[theArray objectAtIndex:0] intValue] : 0;
 	verMinor   = (numParts >= 2) ? [[theArray objectAtIndex:1] intValue] : 0;
 	verBugFix  = (numParts >= 3) ? [[theArray objectAtIndex:2] intValue] : 0;

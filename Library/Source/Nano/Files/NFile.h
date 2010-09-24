@@ -72,7 +72,7 @@ static const NFileRef kNFileRefNone									= 0;
 
 
 // Directory separator
-#if NN_TARGET_MAC || NN_TARGET_IPHONE
+#if NN_TARGET_MAC || NN_TARGET_IOS
 	#define NN_DIR													"/"
 #elif NN_TARGET_WINDOWS
 	#define NN_DIR													"\\"

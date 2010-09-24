@@ -126,7 +126,7 @@
 		AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
-		AB4EA38F1009B17400E7B73C /* NIPhonePOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38E1009B17400E7B73C /* NIPhonePOSIX.cpp */; };
+		AB4EA38F1009B17400E7B73C /* NIOSPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */; };
 		AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E59103460CB00E5A6AD /* NPoint.cpp */; };
 		AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5B103460CB00E5A6AD /* NRectangle.cpp */; };
 		AB514E61103460CB00E5A6AD /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5D103460CB00E5A6AD /* NSize.cpp */; };
@@ -247,17 +247,17 @@
 		ABB1461E0FF36F84006F178C /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146110FF36F84006F178C /* xmlrole.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB1461F0FF36F84006F178C /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146130FF36F84006F178C /* xmltok.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146560FF37325006F178C /* NMacPreferences.cpp */; };
-		ABB146590FF3732E006F178C /* NIPhonePreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */; };
+		ABB146590FF3732E006F178C /* NIOSPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146580FF3732E006F178C /* NIOSPreferences.cpp */; };
 		ABB57CFF112ADBFA003D714C /* NSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57CFD112ADBFA003D714C /* NSingleton.cpp */; };
 		ABB57D00112ADBFA003D714C /* NSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57CFD112ADBFA003D714C /* NSingleton.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
-		ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */; };
-		ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */; };
-		ABB95B890FB7250600C5A7FF /* NIPhoneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */; };
-		ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */; };
-		ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */; };
-		ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */; };
+		ABB95B860FB7250500C5A7FF /* NIOSFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */; };
+		ABB95B880FB7250500C5A7FF /* NIOSMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */; };
+		ABB95B890FB7250600C5A7FF /* NIOSSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */; };
+		ABB95B8A0FB7250600C5A7FF /* NIOSTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */; };
+		ABB95B8B0FB7250700C5A7FF /* NIOSThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIOSThread.cpp */; };
+		ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */; };
 		ABED2AE010BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
 		ABED2AE110BBD80D00EA8ECC /* NCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */; };
 		ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
@@ -372,7 +372,7 @@
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
 		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
-		AB4EA38E1009B17400E7B73C /* NIPhonePOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhonePOSIX.cpp; sourceTree = "<group>"; };
+		AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPOSIX.cpp; sourceTree = "<group>"; };
 		AB514E59103460CB00E5A6AD /* NPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPoint.cpp; sourceTree = "<group>"; };
 		AB514E5A103460CB00E5A6AD /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
@@ -564,18 +564,18 @@
 		ABB146540FF37315006F178C /* NTargetPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPreferences.h; sourceTree = "<group>"; };
 		ABB146550FF37321006F178C /* NWinPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPreferences.cpp; sourceTree = "<group>"; };
 		ABB146560FF37325006F178C /* NMacPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPreferences.cpp; sourceTree = "<group>"; };
-		ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhonePreferences.cpp; sourceTree = "<group>"; };
+		ABB146580FF3732E006F178C /* NIOSPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPreferences.cpp; sourceTree = "<group>"; };
 		ABB57CFD112ADBFA003D714C /* NSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSingleton.cpp; sourceTree = "<group>"; };
 		ABB57CFE112ADBFA003D714C /* NSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSingleton.h; sourceTree = "<group>"; };
 		ABB95B660FB7243700C5A7FF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
-		ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIPhoneFile.cpp; sourceTree = "<group>"; };
-		ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneMath.cpp; sourceTree = "<group>"; };
-		ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIPhoneSystem.cpp; sourceTree = "<group>"; };
-		ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTarget.cpp; sourceTree = "<group>"; };
-		ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIPhoneTarget.h; sourceTree = "<group>"; };
-		ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneThread.cpp; sourceTree = "<group>"; };
-		ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIPhoneTime.cpp; sourceTree = "<group>"; };
+		ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSFile.cpp; sourceTree = "<group>"; };
+		ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSMath.cpp; sourceTree = "<group>"; };
+		ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSSystem.cpp; sourceTree = "<group>"; };
+		ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTarget.cpp; sourceTree = "<group>"; };
+		ABB95B7A0FB7250100C5A7FF /* NIOSTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIOSTarget.h; sourceTree = "<group>"; };
+		ABB95B7B0FB7250100C5A7FF /* NIOSThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSThread.cpp; sourceTree = "<group>"; };
+		ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTime.cpp; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
 		ABCE52F809C8ABF5007B718A /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		ABCE52F909C8ABF5007B718A /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
@@ -1005,7 +1005,7 @@
 				AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */,
 				AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */,
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
-				ABB95B730FB7250100C5A7FF /* iPhone */,
+				ABB95B730FB7250100C5A7FF /* iOS */,
 				AB91551D0F9B4DD5009FFEAF /* Mac */,
 				AB91552E0F9B4DD6009FFEAF /* Windows */,
 			);
@@ -1202,20 +1202,20 @@
 			path = Files;
 			sourceTree = "<group>";
 		};
-		ABB95B730FB7250100C5A7FF /* iPhone */ = {
+		ABB95B730FB7250100C5A7FF /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				ABB95B750FB7250100C5A7FF /* NIPhoneFile.cpp */,
-				ABB95B770FB7250100C5A7FF /* NIPhoneMath.cpp */,
-				AB4EA38E1009B17400E7B73C /* NIPhonePOSIX.cpp */,
-				ABB146580FF3732E006F178C /* NIPhonePreferences.cpp */,
-				ABB95B780FB7250100C5A7FF /* NIPhoneSystem.cpp */,
-				ABB95B790FB7250100C5A7FF /* NIPhoneTarget.cpp */,
-				ABB95B7A0FB7250100C5A7FF /* NIPhoneTarget.h */,
-				ABB95B7B0FB7250100C5A7FF /* NIPhoneThread.cpp */,
-				ABB95B7C0FB7250100C5A7FF /* NIPhoneTime.cpp */,
+				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
+				ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */,
+				AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */,
+				ABB146580FF3732E006F178C /* NIOSPreferences.cpp */,
+				ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */,
+				ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */,
+				ABB95B7A0FB7250100C5A7FF /* NIOSTarget.h */,
+				ABB95B7B0FB7250100C5A7FF /* NIOSThread.cpp */,
+				ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */,
 			);
-			path = iPhone;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		ABCE52F009C8ABC8007B718A /* Configuration */ = {
@@ -1398,14 +1398,14 @@
 				ABFAA6B11018AB360060ED12 /* trees.c in Sources */,
 				ABFAA6B21018AB360060ED12 /* uncompr.c in Sources */,
 				ABFAA6B31018AB360060ED12 /* zutil.c in Sources */,
-				ABB95B860FB7250500C5A7FF /* NIPhoneFile.cpp in Sources */,
-				ABB95B880FB7250500C5A7FF /* NIPhoneMath.cpp in Sources */,
-				AB4EA38F1009B17400E7B73C /* NIPhonePOSIX.cpp in Sources */,
-				ABB146590FF3732E006F178C /* NIPhonePreferences.cpp in Sources */,
-				ABB95B890FB7250600C5A7FF /* NIPhoneSystem.cpp in Sources */,
-				ABB95B8A0FB7250600C5A7FF /* NIPhoneTarget.cpp in Sources */,
-				ABB95B8B0FB7250700C5A7FF /* NIPhoneThread.cpp in Sources */,
-				ABB95B8C0FB7250800C5A7FF /* NIPhoneTime.cpp in Sources */,
+				ABB95B860FB7250500C5A7FF /* NIOSFile.cpp in Sources */,
+				ABB95B880FB7250500C5A7FF /* NIOSMath.cpp in Sources */,
+				AB4EA38F1009B17400E7B73C /* NIOSPOSIX.cpp in Sources */,
+				ABB146590FF3732E006F178C /* NIOSPreferences.cpp in Sources */,
+				ABB95B890FB7250600C5A7FF /* NIOSSystem.cpp in Sources */,
+				ABB95B8A0FB7250600C5A7FF /* NIOSTarget.cpp in Sources */,
+				ABB95B8B0FB7250700C5A7FF /* NIOSThread.cpp in Sources */,
+				ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */,
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
 				ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */,
 				ABED2AE310BBD80D00EA8ECC /* NCacheKey.cpp in Sources */,
