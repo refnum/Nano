@@ -418,17 +418,49 @@ bool NString::Replace(const NString &theString, const NString &replaceWith, NStr
 //		NString::ReplaceAll : Replace every instance of a substring.
 //----------------------------------------------------------------------------
 NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
-{	NRangeList						foundRanges;
-	NRangeListReverseIterator		theIter;
+{	NString					newString, thePrefix;
+	NRangeList				foundRanges;
+	NRange					foundRange;
+	NUnicodeParser			theParser;
+	NIndex					theIndex;
+	NRangeListIterator		theIter;
+
+
+
+	// Get the state we need
+	foundRanges = FindAll(theString, theFlags, theRange);
+	if (foundRanges.empty())
+		return(0);
+
+
+
+	// Add the prefix
+	//
+	// To perform well when replacing a large number of small items (e.g., converting
+	// line endings) we parse the string once then rebuild it using the original text
+	// and the replaced ranges.
+	theParser = GetParser();
+	theIndex  = 0;
+	
+	for (theIter = foundRanges.begin(); theIter != foundRanges.end(); theIter++)
+		{
+		foundRange = *theIter;
+
+		if (foundRange.GetFirst() != theIndex)
+			newString += GetString(theParser, NRange(theIndex, foundRange.GetFirst() - theIndex));
+
+		newString += replaceWith;
+		theIndex   = foundRange.GetNext();
+		}
+	
+	if (theIndex < GetSize())
+		newString += GetString(theParser, NRange(theIndex, kNStringLength));
 
 
 
 	// Replace the string
-	foundRanges = FindAll(theString, theFlags, theRange);
+	*this = newString;
 
-	for (theIter = foundRanges.rbegin(); theIter != foundRanges.rend(); theIter++)
-		Replace(*theIter, replaceWith);
-	
 	return((NIndex) foundRanges.size());
 }
 

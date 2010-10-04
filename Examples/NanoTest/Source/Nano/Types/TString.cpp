@@ -164,9 +164,34 @@ void TString::Execute(void)
 	NN_ASSERT(testString1 == "FindReplaceString");
 
 	testString1 = "FindReplaceString";
+	theIndex    = testString1.ReplaceAll("notpresent", "notfound");
+	NN_ASSERT(theIndex    == 0);
+	NN_ASSERT(testString1 == "FindReplaceString");
+
+	testString1 = "FindReplaceString";
 	theIndex    = testString1.ReplaceAll("in", "out");
 	NN_ASSERT(theIndex    == 2);
 	NN_ASSERT(testString1 == "FoutdReplaceStroutg");
+
+	testString1 = "FindReplaceString";
+	theIndex    = testString1.ReplaceAll("Find", "Found");
+	NN_ASSERT(theIndex    == 1);
+	NN_ASSERT(testString1 == "FoundReplaceString");
+
+	testString1 = "FindReplaceString";
+	theIndex    = testString1.ReplaceAll("String", "Strung");
+	NN_ASSERT(theIndex    == 1);
+	NN_ASSERT(testString1 == "FindReplaceStrung");
+
+	testString1 = "FindReplaceString";
+	theIndex    = testString1.ReplaceAll("Find", "Found");
+	NN_ASSERT(theIndex    == 1);
+	NN_ASSERT(testString1 == "FoundReplaceString");
+
+	testString1 = "OneTwoOneThreeOne";
+	theIndex    = testString1.ReplaceAll("One", "Zero");
+	NN_ASSERT(theIndex    == 3);
+	NN_ASSERT(testString1 == "ZeroTwoZeroThreeZero");
 
 	testString1 = "FindReplaceString";
 	theIndex    = testString1.ReplaceAll("IN", "out", kNStringNoCase, NRange(0, 5));
