@@ -348,7 +348,7 @@ void NTask::WaitForTask(NTime waitFor)
 	// Wait for the task to complete
 	while (IsRunning())
 		{
-		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() < endTime)
+		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() >= endTime)
 			break;
 
 		NTargetSystem::TaskWait(mTask, kTaskSleep);
@@ -365,8 +365,8 @@ void NTask::WaitForTask(NTime waitFor)
 NString NTask::Execute(NTime waitFor)
 {	bool		mainThread;
 	NString		theResult;
-	NStatus		theErr;
 	NTime		endTime;
+	NStatus		theErr;
 
 
 
@@ -389,7 +389,7 @@ NString NTask::Execute(NTime waitFor)
 
 	while (IsRunning())
 		{
-		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() < endTime)
+		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() >= endTime)
 			break;
 
 		theResult += ReadOutput();
