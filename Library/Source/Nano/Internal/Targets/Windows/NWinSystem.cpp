@@ -239,6 +239,36 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 
 
 //============================================================================
+//      WinCtrlHandler : Handle console ctrl events.
+//----------------------------------------------------------------------------
+static BOOL WINAPI WinCtrlHandler(DWORD ctrlType) 
+{	BOOL	didHandle;
+
+
+
+	// Handle the event
+	//
+	// Ctrl-C/break events are consumed, since sending them to a
+	// child process will also send them to us (see TaskSignal).
+	switch (ctrlType) {
+		case CTRL_C_EVENT:
+		case CTRL_BREAK_EVENT:
+			didHandle = TRUE;
+			break;
+
+		default:
+			didHandle = FALSE;
+			break;
+		}
+
+	return(didHandle);
+} 
+
+
+
+
+
+//============================================================================
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -389,8 +419,9 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	memset(&startInfo, 0x00, sizeof(startInfo));
 	memset(&procInfo,  0x00, sizeof(procInfo));
 
-	startInfo.cb       = sizeof(STARTUPINFO); 
-	startInfo.dwFlags |= STARTF_USESTDHANDLES;
+	startInfo.cb          = sizeof(STARTUPINFO); 
+	startInfo.dwFlags    |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+	startInfo.wShowWindow = SW_HIDE;
 
 	cmdLine.Format("\"%@\" \"%@\"", theCmd, NString::Join(theArgs, "\" \""));
 	cmdLinePtr = _wcsdup(ToWN(cmdLine));
@@ -417,8 +448,7 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 							NULL,							// Process security attributes 
 							NULL,							// Primary thread security attributes 
 							TRUE,							// Handles are inherited 
-							CREATE_NEW_PROCESS_GROUP |		// Support Ctrl-C interrupt signal
-							CREATE_NO_WINDOW,				// Background by default 
+							CREATE_NEW_CONSOLE,				// Create (hidden) console for TaskSignal
 							NULL,							// Use parent's environment 
 							NULL,							// Use parent's current directory 
 							&startInfo,						// Startup info
@@ -584,31 +614,84 @@ void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime waitFor)
 //      NTargetSystem::TaskSignal : Signal a task.
 //----------------------------------------------------------------------------
 void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
-{	BOOL	wasOK;
+{	HANDLE	processHnd;
+	DWORD	processID;
+	BOOL	wasOK;
+
+
+
+	// Get the state we need
+	processHnd = (HANDLE) theTask.taskID;
+	processID  = GetProcessId(processHnd);
 
 
 
 	// Signal the task
-	wasOK = TRUE;
-	
+	//
+	// Windows does not have a true IPC signal mechanism, and the closest approach is the
+	// console "Ctrl Event" system.
+	//
+	// This allows us to send an event to all processes that share a console, but since we
+	// only want to send an event to one process this requires some special handling.
+	//
+	// The approach we take is:
+	//
+	//		- TaskCreate gives each child has its own console (with CREATE_NEW_CONSOLE),
+	//		  and hides these by default (with SW_HIDE).
+	//
+	//		- We attach to the child's console (we can only send a Ctrl-C to a console,
+	//		  not a process). We may not have a console ourselves, but we know that the
+	//		  child does, and that only the child uses that console.
+	//
+	//		- We register a dummy handler, so that we can ignore the event when we receive
+	//		  it (since we share the child's console, we both receive it).
+	//
+	//		- We send the event to all processes using our console, which sends it to this
+	//		  process (ignored by our dummy handler) and the child (handled by the child).
+	//
+	//		- We unregister our dummy handler, since a future Ctrl-C sent to this process
+	//		  should be handled as normal (this does mean that Ctrl-Cs sent to this process
+	//		  will be ignored while we're sending them to a child, but this is unavoidable).
+	//
+	//		- We attach back to our parent's console (if it had one), or just detach from
+	//		  the child's console.
+	//
+	// The only snag is that the VC++ debugger will break on these exceptions prior to
+	// delivering them to our dummy handler. Selecting "Continue" in this dialog will
+	// allow the program to continue, or this can be disabled via Debug->Exceptions.
 	switch (theSignal) {
 		case kTaskKill:
-			wasOK = TerminateProcess((HANDLE) theTask.taskID, (UINT) -1);
+			wasOK = TerminateProcess(processHnd, (UINT) -1);
+			NN_ASSERT(wasOK);
 			break;
 
 		case kTaskInterrupt:
-			wasOK = GenerateConsoleCtrlEvent(CTRL_C_EVENT, theTask.taskID);
+			wasOK = AttachConsole(processID);
+			NN_ASSERT(wasOK);
+			
+			if (wasOK)
+				{
+				wasOK = SetConsoleCtrlHandler(WinCtrlHandler, TRUE);
+				NN_ASSERT(wasOK);
+
+				wasOK = GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
+				NN_ASSERT(wasOK);
+
+				wasOK = SetConsoleCtrlHandler(WinCtrlHandler, FALSE);
+				NN_ASSERT(wasOK);
+
+				if (!AttachConsole(ATTACH_PARENT_PROCESS))
+					{
+					wasOK = FreeConsole();
+					NN_ASSERT(wasOK);
+					}
+				}
 			break;
 		
 		default:
 			NN_LOG("Unknown signal: %d", theSignal);
 			break;
 		}
-
-
-
-	// Validate our state
-	NN_ASSERT(wasOK);
 }
 
 
