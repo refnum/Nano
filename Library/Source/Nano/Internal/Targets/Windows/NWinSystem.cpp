@@ -239,36 +239,6 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 
 
 //============================================================================
-//      WinCtrlHandler : Handle console ctrl events.
-//----------------------------------------------------------------------------
-static BOOL WINAPI WinCtrlHandler(DWORD ctrlType) 
-{	BOOL	didHandle;
-
-
-
-	// Handle the event
-	//
-	// Ctrl-C/break events are consumed, since sending them to a
-	// child process will also send them to us (see TaskSignal).
-	switch (ctrlType) {
-		case CTRL_C_EVENT:
-		case CTRL_BREAK_EVENT:
-			didHandle = TRUE;
-			break;
-
-		default:
-			didHandle = FALSE;
-			break;
-		}
-
-	return(didHandle);
-} 
-
-
-
-
-
-//============================================================================
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -448,7 +418,8 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 							NULL,							// Process security attributes 
 							NULL,							// Primary thread security attributes 
 							TRUE,							// Handles are inherited 
-							CREATE_NEW_CONSOLE,				// Create (hidden) console for TaskSignal
+							CREATE_NEW_CONSOLE |			// Create (hidden) console  for TaskSignal
+							CREATE_NEW_PROCESS_GROUP,		// Create new process group for TaskSignal
 							NULL,							// Use parent's environment 
 							NULL,							// Use parent's current directory 
 							&startInfo,						// Startup info
@@ -631,34 +602,37 @@ void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 	// Windows does not have a true IPC signal mechanism, and the closest approach is the
 	// console "Ctrl Event" system.
 	//
-	// This allows us to send an event to all processes that share a console, but since we
-	// only want to send an event to one process this requires some special handling.
+	// The dispatch for these events is quite complex, and requires some special handling.
 	//
-	// The approach we take is:
 	//
-	//		- TaskCreate gives each child has its own console (with CREATE_NEW_CONSOLE),
-	//		  and hides these by default (with SW_HIDE).
+	// TaskCreate gives each child has its own console (with CREATE_NEW_CONSOLE), hides
+	// these by default (with SW_HIDE), and puts each child into its own process group
+	// (CREATE_NEW_PROCESS_GROUP).
 	//
-	//		- We attach to the child's console (we can only send a Ctrl-C to a console,
-	//		  not a process). We may not have a console ourselves, but we know that the
-	//		  child does, and that only the child uses that console.
+	// The parent can then use GenerateConsoleCtrlEvent to send a CTRL_BREAK_EVENT to a
+	// specific process group, i.e., to the child being signalled.
 	//
-	//		- We register a dummy handler, so that we can ignore the event when we receive
-	//		  it (since we share the child's console, we both receive it).
+	// However GenerateConsoleCtrlEvent only sends CTRL_BREAK_EVENTs to members of the
+	// group that share the same console as the process sending the event, which means
+	// the parent must temporarily attach to the child's console.
 	//
-	//		- We send the event to all processes using our console, which sends it to this
-	//		  process (ignored by our dummy handler) and the child (handled by the child).
+	// This allows the parent to send CTRL_BREAK_EVENT to only the child being signalled.
 	//
-	//		- We unregister our dummy handler, since a future Ctrl-C sent to this process
-	//		  should be handled as normal (this does mean that Ctrl-Cs sent to this process
-	//		  will be ignored while we're sending them to a child, but this is unavoidable).
 	//
-	//		- We attach back to our parent's console (if it had one), or just detach from
-	//		  the child's console.
+	// We could have used CTRL_C_EVENT, but this can't be sent to process groups. This
+	// event is sent to all processes that share the same console.
 	//
-	// The only snag is that the VC++ debugger will break on these exceptions prior to
-	// delivering them to our dummy handler. Selecting "Continue" in this dialog will
-	// allow the program to continue, or this can be disabled via Debug->Exceptions.
+	// We could have used the same attach-to-child-console approach as above to ensure
+	// the event was sent to the child, but would need some way to ignore the event in
+	// the parent.
+	//
+	// In theory having the parent install a NULL event handler, or a handler which just
+	// returns TRUE, should prevent the the event from reaching the parent's default event
+	// handler (which calls ExitProcess).
+	//
+	// In practice, Windows 7 systems would sometimes (about 20% of the time) send the
+	// event to the parent's default handler (calling ExitProcess) even if a NULL/dummy
+	// handler had been set in the parent.
 	switch (theSignal) {
 		case kTaskKill:
 			wasOK = TerminateProcess(processHnd, (UINT) -1);
@@ -668,16 +642,10 @@ void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 		case kTaskInterrupt:
 			wasOK = AttachConsole(processID);
 			NN_ASSERT(wasOK);
-			
+
 			if (wasOK)
 				{
-				wasOK = SetConsoleCtrlHandler(WinCtrlHandler, TRUE);
-				NN_ASSERT(wasOK);
-
-				wasOK = GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
-				NN_ASSERT(wasOK);
-
-				wasOK = SetConsoleCtrlHandler(WinCtrlHandler, FALSE);
+				wasOK = GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, processID);
 				NN_ASSERT(wasOK);
 
 				if (!AttachConsole(ATTACH_PARENT_PROCESS))
