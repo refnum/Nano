@@ -598,7 +598,7 @@ void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime waitFor)
 	// We must allow timers to run while waiting, since they poll the status.
 	while (NTimeUtilities::GetTime() < endTime)
 		{
-		if (GetMessage(&theMsg, NULL, 0, 0))
+		if (PeekMessage(&theMsg, NULL, 0, 0, PM_REMOVE))
 			{
 			TranslateMessage(&theMsg);
 			DispatchMessage( &theMsg);
