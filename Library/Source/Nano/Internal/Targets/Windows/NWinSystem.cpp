@@ -338,24 +338,27 @@ OSVersion NTargetSystem::GetOSVersion(void)
 
 
 	// Identify the OS
-	theVers = kOSUnknown;
+	theVers = kOSWindows;
 	
 	if (	theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 1 && theInfo.wProductType == VER_NT_WORKSTATION)
-		theVers = kOSWinSeven;
+		theVers = kOSWindowsSeven;
 
 	else if (theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 0 && theInfo.wProductType == VER_NT_WORKSTATION)
-		theVers = kOSWinVista;
+		theVers = kOSWindowsVista;
 
 	else if (theInfo.dwMajorVersion == 5 && theInfo.dwMinorVersion == 1)
 		{
 		if (theInfo.wServicePackMajor == 3)
-			theVers = kOSWinXP_SP3;
+			theVers = kOSWindowsXP_SP3;
 
 		else if (theInfo.wServicePackMajor == 2)
-			theVers = kOSWinXP_SP2;
+			theVers = kOSWindowsXP_SP2;
+
+		else if (theInfo.wServicePackMajor == 1)
+			theVers = kOSWindowsXP_SP1;
 
 		else
-			theVers = kOSWinXP;
+			theVers = kOSWindowsXP;
 		}
 	
 	return(theVers);

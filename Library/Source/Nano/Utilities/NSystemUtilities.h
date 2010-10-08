@@ -37,42 +37,47 @@
 //----------------------------------------------------------------------------
 // Operating system version
 //
-// Later releases are always numerically higher than older releases, and any
-// named version is always higher than the generic release for that platform.
+// OS version identifiers are arbitrary, and may change in future releases.
+//
+// However, later releases will always be numerically higher than older
+// releases. In addition the specific numbered versions will always be
+// higher than the generic platform version.
 typedef enum {
 	kOSUnknown														= 0,
 
-	kOSMac															= 0x6d000000,
-	kOSMacTenFive													= 0x6d0a0500,
-	kOSMacTenFiveOne												= 0x6d0a0501,
-	kOSMacTenFiveTwo												= 0x6d0a0502,
-	kOSMacTenFiveThree												= 0x6d0a0503,
-	kOSMacTenFiveFour												= 0x6d0a0504,
-	kOSMacTenFiveFive												= 0x6d0a0505,
-	kOSMacTenFiveSix												= 0x6d0a0506,
-	kOSMacTenFiveSeven												= 0x6d0a0507,
-	kOSMacTenFiveEight												= 0x6d0a0508,
-	kOSMacTenFiveNine												= 0x6d0a0509,
-	kOSMacTenSix													= 0x6d0a0600,
-	kOSMacTenSixOne													= 0x6d0a0601,
-	kOSMacTenSixTwo													= 0x6d0a0602,
-	kOSMacTenSixThree												= 0x6d0a0603,
-	kOSMacTenSixFour												= 0x6d0a0604,
+	kOSMac															= 0x10000000,
+	kOSMacTenFive													= 0x100a0500,
+	kOSMacTenFiveOne												= 0x100a0501,
+	kOSMacTenFiveTwo												= 0x100a0502,
+	kOSMacTenFiveThree												= 0x100a0503,
+	kOSMacTenFiveFour												= 0x100a0504,
+	kOSMacTenFiveFive												= 0x100a0505,
+	kOSMacTenFiveSix												= 0x100a0506,
+	kOSMacTenFiveSeven												= 0x100a0507,
+	kOSMacTenFiveEight												= 0x100a0508,
+	kOSMacTenFiveNine												= 0x100a0509,
+	kOSMacTenSix													= 0x100a0600,
+	kOSMacTenSixOne													= 0x100a0601,
+	kOSMacTenSixTwo													= 0x100a0602,
+	kOSMacTenSixThree												= 0x100a0603,
+	kOSMacTenSixFour												= 0x100a0604,
 
-	kOSWinXP														= 0x78000000,
-	kOSWinXP_SP2													= 0x78000200,
-	kOSWinXP_SP3													= 0x78000300,
-	kOSWinVista														= 0x76000000,
-	kOSWinSeven														= 0x37000000,
+	kOSWindows														= 0x20050000,
+	kOSWindowsXP													= 0x20050000,
+	kOSWindowsXP_SP1												= 0x20050100,
+	kOSWindowsXP_SP2												= 0x20050200,
+	kOSWindowsXP_SP3												= 0x20050300,
+	kOSWindowsVista													= 0x20060000,
+	kOSWindowsSeven													= 0x20070000,
 
-	kOSiOS															= 0x69000000,
-	kOSiOSTwo														= 0x69020000,
-	kOSiOSTwoOne													= 0x69020100,
-	kOSiOSTwoTwo													= 0x69020200,
-	kOSiOSThree														= 0x69030000,
-	kOSiOSThreeOne													= 0x69030100,
-	kOSiOSThreeTwo													= 0x69030200,
-	kOSiOSFour														= 0x69040000
+	kOSiOS															= 0x30000000,
+	kOSiOSTwo														= 0x30020000,
+	kOSiOSTwoOne													= 0x30020100,
+	kOSiOSTwoTwo													= 0x30020200,
+	kOSiOSThree														= 0x30030000,
+	kOSiOSThreeOne													= 0x30030100,
+	kOSiOSThreeTwo													= 0x30030200,
+	kOSiOSFour														= 0x30040000
 } OSVersion;
 
 
