@@ -293,7 +293,8 @@ NColor NSystemUtilities::GetColor(const NVariant &theValue, const NString &debug
 //		NSystemUtilities::GetPoint : Get a point value.
 //----------------------------------------------------------------------------
 NPoint NSystemUtilities::GetPoint(const NVariant &theValue, const NString &debugID)
-{	NPoint		theResult;
+{	NPoint64	theResult64;
+	NPoint		theResult;
 
 
 
@@ -305,7 +306,15 @@ NPoint NSystemUtilities::GetPoint(const NVariant &theValue, const NString &debug
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
-		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
+		if (theValue.GetValue(theResult64))
+			{
+			NN_ASSERT(theResult64.x >= kFloat32Min && theResult64.x <= kFloat32Max);
+			NN_ASSERT(theResult64.y >= kFloat32Min && theResult64.y <= kFloat32Max);
+			
+			theResult = NPoint((Float32) theResult64.x, (Float32) theResult64.y);
+			}
+
+		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to NPoint from %s", debugID, theValue.GetType().name());
 		}
 
@@ -320,7 +329,8 @@ NPoint NSystemUtilities::GetPoint(const NVariant &theValue, const NString &debug
 //		NSystemUtilities::GetSize : Get a size value.
 //----------------------------------------------------------------------------
 NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID)
-{	NSize		theResult;
+{	NSize64		theResult64;
+	NSize		theResult;
 
 
 
@@ -332,7 +342,15 @@ NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
-		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
+		if (theValue.GetValue(theResult64))
+			{
+			NN_ASSERT(theResult64.width  >= kFloat32Min && theResult64.width  <= kFloat32Max);
+			NN_ASSERT(theResult64.height >= kFloat32Min && theResult64.height <= kFloat32Max);
+			
+			theResult = NSize((Float32) theResult64.width, (Float32) theResult64.height);
+			}
+
+		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to NSize from %s", debugID, theValue.GetType().name());
 		}
 
@@ -347,7 +365,8 @@ NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID
 //		NSystemUtilities::GetRectangle : Get a rectangle value.
 //----------------------------------------------------------------------------
 NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NString &debugID)
-{	NRectangle	theResult;
+{	NRectangle64	theResult64;
+	NRectangle		theResult;
 
 
 
@@ -359,7 +378,20 @@ NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NStrin
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
-		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
+		if (theValue.GetValue(theResult64))
+			{
+			NN_ASSERT(theResult64.origin.x    >= kFloat32Min && theResult64.origin.x    <= kFloat32Max);
+			NN_ASSERT(theResult64.origin.y    >= kFloat32Min && theResult64.origin.y    <= kFloat32Max);
+			NN_ASSERT(theResult64.size.width  >= kFloat32Min && theResult64.size.width  <= kFloat32Max);
+			NN_ASSERT(theResult64.size.height >= kFloat32Min && theResult64.size.height <= kFloat32Max);
+			
+			theResult = NRectangle(	(Float32) theResult64.origin.x,
+									(Float32) theResult64.origin.y,
+									(Float32) theResult64.size.width,
+									(Float32) theResult64.size.height);
+			}
+
+		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to NRectangle from %s", debugID, theValue.GetType().name());
 		}
 
@@ -374,7 +406,8 @@ NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NStrin
 //		NSystemUtilities::GetVector : Get a vector value.
 //----------------------------------------------------------------------------
 NVector NSystemUtilities::GetVector(const NVariant &theValue, const NString &debugID)
-{	NVector		theResult;
+{	NVector64	theResult64;
+	NVector		theResult;
 
 
 
@@ -386,7 +419,15 @@ NVector NSystemUtilities::GetVector(const NVariant &theValue, const NString &deb
 	// Get the value
 	if (!theValue.GetValue(theResult))
 		{
-		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
+		if (theValue.GetValue(theResult64))
+			{
+			NN_ASSERT(theResult64.x >= kFloat32Min && theResult64.x <= kFloat32Max);
+			NN_ASSERT(theResult64.y >= kFloat32Min && theResult64.y <= kFloat32Max);
+			
+			theResult = NVector((Float32) theResult64.x, (Float32) theResult64.y);
+			}
+
+		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
 			NN_LOG("Unable to convert value [%@] to NVector from %s", debugID, theValue.GetType().name());
 		}
 
