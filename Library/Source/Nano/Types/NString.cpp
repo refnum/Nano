@@ -2013,6 +2013,9 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 	// We use UTF8 by default, switching to UTF16 for non-ASCII content.
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
+		case kNStringEncodingMacRoman:
+		case kNStringEncodingISOLatin1:
+		case kNStringEncodingWindowsLatin1:
 			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF8Char));
 			chars8       = (const UTF8Char *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;

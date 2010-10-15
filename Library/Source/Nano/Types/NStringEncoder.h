@@ -34,15 +34,23 @@ typedef enum {
 
 	// Unicode
 	//
-	// Generic UTF16 and UTF32 encodings store data in the byte order of the
-	// BOM, or kEndianNative order if no BOM is present.
+	// Generic UTF16 and UTF32 encodings store data in the byte order
+	// of the BOM, or kEndianNative order if no BOM is present.
 	kNStringEncodingUTF8,
 	kNStringEncodingUTF16,
 	kNStringEncodingUTF16BE,
 	kNStringEncodingUTF16LE,
 	kNStringEncodingUTF32,
 	kNStringEncodingUTF32BE,
-	kNStringEncodingUTF32LE
+	kNStringEncodingUTF32LE,
+	
+	
+	// Legacy
+	//
+	// Legacy encodings are only supported for conversion to Unicode.
+	kNStringEncodingMacRoman,
+	kNStringEncodingISOLatin1,				// ISO 8859-1
+	kNStringEncodingWindowsLatin1			// ANSI 1252
 } NStringEncoding;
 
 
@@ -89,6 +97,8 @@ public:
 
 private:
 	NIndex								GetMaxCharSize(NStringEncoding theEncoding);
+
+	NData								ConvertFromLegacy(const NData &theData, NStringEncoding &theEncoding);
 	
 	NStatus								ConvertFromUTF8( const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 	NStatus								ConvertFromUTF16(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
