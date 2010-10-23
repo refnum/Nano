@@ -229,8 +229,7 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 //----------------------------------------------------------------------------
 // NSBundle
 #define NSBundleString(_name)								NSLocalizedString(@_name, @"")
-#define NSBundleImagePNG(_name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:@"png"]]
-#define NSBundleImageJPG(_name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:@"jpg"]]
+#define NSBundleImage( _name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
 
 
 
