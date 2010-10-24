@@ -227,6 +227,16 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 //============================================================================
 //		Macros
 //----------------------------------------------------------------------------
+// NSObject
+#define NSInitSuper(...)													\
+		do																	\
+			{																\
+			if ((self = [super __VA_ARGS__]) == NULL)						\
+				return(NULL);												\
+			}																\
+		while(0)
+
+
 // NSBundle
 #define NSBundleString(_name)								NSLocalizedString(@_name, @"")
 #define NSBundleImage( _name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
