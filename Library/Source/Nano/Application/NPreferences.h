@@ -27,7 +27,7 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgNPreferenceValueChanged				= 0x7076616C;	// 'pval'
+static const NBroadcastMsg kMsgNPreferenceValueChanged				= 0x7076616C;	// 'pval'
 
 extern const NString kNPrefChangedAllKey;
 
@@ -68,7 +68,7 @@ public:
 
 protected:
 	// Handle messages
-	void								DoMessage(BroadcastMsg theMsg, const void *msgData);
+	void								DoMessage(NBroadcastMsg theMsg, const void *msgData);
 
 
 private:

@@ -25,7 +25,7 @@
 //		Types
 //----------------------------------------------------------------------------
 // Messages
-typedef UInt32 BroadcastMsg;
+typedef UInt32 NBroadcastMsg;
 
 
 // Lists
@@ -43,7 +43,7 @@ typedef NListenerMap::const_iterator								NListenerMapConstIterator;
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgNBroadcasterDestroyed					= 0xDEADDEAD;
+static const NBroadcastMsg kMsgNBroadcasterDestroyed				= 0xDEADDEAD;
 
 
 
@@ -79,7 +79,7 @@ public:
 	
 
 	// Broadcast a message
-	void								BroadcastMessage(BroadcastMsg theMsg, const void *msgData=NULL);
+	void								BroadcastMessage(NBroadcastMsg theMsg, const void *msgData=NULL);
 
 
 	// Operators

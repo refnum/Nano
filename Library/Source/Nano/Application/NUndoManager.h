@@ -28,7 +28,7 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgNUndoManagerUpdated					= 0x756E646F;	// 'undo'
+static const NBroadcastMsg kMsgNUndoManagerUpdated					= 0x756E646F;	// 'undo'
 
 
 

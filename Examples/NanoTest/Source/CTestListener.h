@@ -26,9 +26,9 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kTestMsgNone									= 0;
-static const BroadcastMsg kTestMsgSetUInt32								= 1;
-static const BroadcastMsg kTestMsgRemoveListener						= 2;
+static const NBroadcastMsg kTestMsgNone									= 0;
+static const NBroadcastMsg kTestMsgSetUInt32								= 1;
+static const NBroadcastMsg kTestMsgRemoveListener						= 2;
 
 
 
@@ -49,7 +49,7 @@ public:
 
 
 	// Handle messages
-	void								DoMessage(BroadcastMsg theMsg, const void *msgData);
+	void								DoMessage(NBroadcastMsg theMsg, const void *msgData);
 
 
 private:

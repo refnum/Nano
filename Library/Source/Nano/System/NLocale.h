@@ -28,7 +28,7 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgNLocaleModified						= 0x6C6D6F64;	// 'lmod'
+static const NBroadcastMsg kMsgNLocaleModified						= 0x6C6D6F64;	// 'lmod'
 
 extenr const NString kNLocaleChangedAllKey;
 extenr const NString kMLocaleIsMetricKey;
@@ -57,7 +57,7 @@ public:
 
 protected:
 	// Handle messages
-	void								DoMessage(BroadcastMsg theMsg, const void *msgData);
+	void								DoMessage(NBroadcastMsg theMsg, const void *msgData);
 
 
 private:

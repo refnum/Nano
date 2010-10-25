@@ -82,7 +82,7 @@ bool NLocale::IsMetric(void) const
 //		NLocale::DoMessage : Handle messages.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NLocale::DoMessage(BroadcastMsg theMsg, const void *msgData)
+void NLocale::DoMessage(NBroadcastMsg theMsg, const void *msgData)
 {
 
 

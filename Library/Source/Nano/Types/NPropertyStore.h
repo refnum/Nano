@@ -27,7 +27,7 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgNPropertyStoreValueChanged			= 0x70766368;	// 'pvch'
+static const NBroadcastMsg kMsgNPropertyStoreValueChanged			= 0x70766368;	// 'pvch'
 
 extern const NString kNPropertyStoreChangedAllKey;
 

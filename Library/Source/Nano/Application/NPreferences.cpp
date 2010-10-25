@@ -182,7 +182,7 @@ NPreferences *NPreferences::Get(void)
 //		NPreferences::DoMessage : Handle messages.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NPreferences::DoMessage(BroadcastMsg theMsg, const void *msgData)
+void NPreferences::DoMessage(NBroadcastMsg theMsg, const void *msgData)
 {	const NString		*theKey = (const NString *) msgData;
 
 

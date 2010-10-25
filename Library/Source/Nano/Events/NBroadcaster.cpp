@@ -199,7 +199,7 @@ void NBroadcaster::RemoveListeners(void)
 //============================================================================
 //		NBroadcaster::BroadcastMessage : Broadcast a message.
 //----------------------------------------------------------------------------
-void NBroadcaster::BroadcastMessage(BroadcastMsg theMsg, const void *msgData)
+void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
 {	NListener						*theListener;
 	bool							*oldFlag;
 	NListenerMapIterator			theIter;
