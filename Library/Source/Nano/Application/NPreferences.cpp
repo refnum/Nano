@@ -22,6 +22,15 @@
 
 
 //============================================================================
+//		Public constants
+//----------------------------------------------------------------------------
+const NString kNPrefChangedAllKey									= "*";
+
+
+
+
+
+//============================================================================
 //		NPreferences::NPreferences : Constructor.
 //----------------------------------------------------------------------------
 NPreferences::NPreferences(void)
@@ -131,7 +140,7 @@ void NPreferences::SetValue(const NString &theKey, const NVariant &theValue)
 
 	// Set the value
 	NTargetPreferences::SetValue(theKey, theValue);
-	BroadcastMessage(kMsgPreferenceValueChanged, &theKey);
+	BroadcastMessage(kMsgNPreferenceValueChanged, &theKey);
 }
 
 
@@ -180,9 +189,9 @@ void NPreferences::DoMessage(BroadcastMsg theMsg, const void *msgData)
 
 	// Handle the message
 	switch (theMsg) {
-		case kMsgPropertyValueChanged:
-			if (*theKey == kPropertyChangedAllKey)
-				BroadcastMessage(kMsgPreferenceValueChanged, &kPrefChangedAllKey);
+		case kMsgNPropertyStoreValueChanged:
+			if (*theKey == kNPropertyStoreChangedAllKey)
+				BroadcastMessage(kMsgNPreferenceValueChanged, &kNPrefChangedAllKey);
 			break;
 		
 		default:

@@ -28,10 +28,10 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgLocaleModified						= 0x6C6D6F64;	// 'lmod'
+static const BroadcastMsg kMsgNLocaleModified						= 0x6C6D6F64;	// 'lmod'
 
-static const NString kLocaleChangedAllKey							= "*";
-static const NString kLocaleIsMetricKey								= "IsMetric";
+extenr const NString kNLocaleChangedAllKey;
+extenr const NString kMLocaleIsMetricKey;
 
 
 // Locales

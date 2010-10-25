@@ -70,7 +70,7 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgTaskTerminated						= 0x7461736B;	// 'task'
+static const BroadcastMsg kMsgNTaskTerminated						= 0x7461736B;	// 'task'
 
 
 // Tasks

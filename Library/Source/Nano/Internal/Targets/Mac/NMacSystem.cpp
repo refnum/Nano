@@ -173,7 +173,7 @@ static void DoNotification(CFNotificationCenterRef		/*cfCenter*/,
 
 	// Handle the notification
 	if (CFStringCompare(kCFLocaleCurrentLocaleDidChangeNotification, cfName, 0) == kCFCompareEqualTo)
-		theBroadcaster->BroadcastMessage(kMsgLocaleModified, &kLocaleChangedAllKey);
+		theBroadcaster->BroadcastMessage(kMsgNLocaleModified, &kNLocaleChangedAllKey);
 }
 
 
@@ -560,7 +560,7 @@ NVariant NTargetSystem::GetLocaleValue(const NString &theID, const NString &theK
 
 
 	// Get the value
-	if (theKey == kLocaleIsMetricKey)
+	if (theKey == kNLocaleIsMetricKey)
 		theResult = (bool) CFBooleanGetValue((CFBooleanRef) CFLocaleGetValue(cfLocale, kCFLocaleUsesMetricSystem));
 
 	else

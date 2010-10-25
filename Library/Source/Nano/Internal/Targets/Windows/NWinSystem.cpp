@@ -685,7 +685,7 @@ NVariant NTargetSystem::GetLocaleValue(const NString &theID, const NString &theK
 
 
 	// Get the value
-	if (theKey == kLocaleIsMetricKey)
+	if (theKey == kNLocaleIsMetricKey)
 		{
 		if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, theValue, kLocaleBufferSize))
 			theResult = (bool) (theValue[0] == '0');

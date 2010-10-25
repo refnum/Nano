@@ -60,7 +60,7 @@ NBroadcaster::~NBroadcaster(void)
 
 
 	// Let everyone know
-	BroadcastMessage(kMsgBroadcasterDestroyed, this);
+	BroadcastMessage(kMsgNBroadcasterDestroyed, this);
 
 
 

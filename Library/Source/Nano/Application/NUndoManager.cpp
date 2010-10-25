@@ -483,7 +483,7 @@ void NUndoManager::UpdatedStacks(void)
 
 
 	// Let everyone know
-	BroadcastMessage(kMsgUndoManagerUpdated, this);
+	BroadcastMessage(kMsgNUndoManagerUpdated, this);
 }
 
 

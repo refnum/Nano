@@ -22,6 +22,15 @@
 
 
 //============================================================================
+//		Public constants
+//----------------------------------------------------------------------------
+const NString kNPropertyStoreChangedAllKey							= "*";
+
+
+
+
+
+//============================================================================
 //		NPropertyStore::NPropertyStore : Constructor.
 //----------------------------------------------------------------------------
 NPropertyStore::NPropertyStore(void)
@@ -127,7 +136,7 @@ void NPropertyStore::SetValue(const NString &theKey, const NVariant &theValue)
 
 	// Set the value
 	mProperties.SetValue(theKey, theValue);
-	BroadcastMessage(kMsgPropertyValueChanged, &theKey);
+	BroadcastMessage(kMsgNPropertyStoreValueChanged, &theKey);
 }
 
 
@@ -383,7 +392,7 @@ void NPropertyStore::SetProperties(const NDictionary &theProperties)
 
 	// Set the properties
 	mProperties = theProperties;
-	BroadcastMessage(kMsgPropertyValueChanged, &kPropertyChangedAllKey);
+	BroadcastMessage(kMsgNPropertyStoreValueChanged, &kNPropertyStoreChangedAllKey);
 }
 
 
@@ -414,6 +423,6 @@ void NPropertyStore::SetDefaults(const NDictionary &theDefaults)
 
 	// Set the defaults
 	mDefaults = theDefaults;
-	BroadcastMessage(kMsgPropertyValueChanged, &kPropertyChangedAllKey);
+	BroadcastMessage(kMsgNPropertyStoreValueChanged, &kNPropertyStoreChangedAllKey);
 }
 

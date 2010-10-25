@@ -467,7 +467,7 @@ void NTask::UpdateTask(void)
 	if (mTask.taskID == kNTaskIDNone)
 		{
 		mTimer.RemoveTimer();
-		BroadcastMessage(kMsgTaskTerminated, this);
+		BroadcastMessage(kMsgNTaskTerminated, this);
 		}
 }
 

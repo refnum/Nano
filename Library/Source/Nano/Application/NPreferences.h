@@ -16,8 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NListener.h"
 #include "NPropertyStore.h"
+#include "NListener.h"
 
 
 
@@ -27,9 +27,9 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Messages
-static const BroadcastMsg kMsgPreferenceValueChanged				= 0x7076616C;	// 'pval'
+static const BroadcastMsg kMsgNPreferenceValueChanged				= 0x7076616C;	// 'pval'
 
-static const NString kPrefChangedAllKey								= "*";
+extern const NString kNPrefChangedAllKey;
 
 
 

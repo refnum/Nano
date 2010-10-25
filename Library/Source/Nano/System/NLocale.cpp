@@ -23,6 +23,16 @@
 
 
 //============================================================================
+//		Public constants
+//----------------------------------------------------------------------------
+const NString kNLocaleChangedAllKey									= "*";
+const NString kNLocaleIsMetricKey									= "IsMetric";
+
+
+
+
+
+//============================================================================
 //		NLocale::NLocale : Constructor.
 //----------------------------------------------------------------------------
 NLocale::NLocale(const NString &theID)
@@ -61,7 +71,7 @@ bool NLocale::IsMetric(void) const
 
 
 	// Get the state
-	return(NSystemUtilities::GetBoolean(GetValue(kLocaleIsMetricKey)));
+	return(NSystemUtilities::GetBoolean(GetValue(kNLocaleIsMetricKey)));
 }
 
 
@@ -78,8 +88,8 @@ void NLocale::DoMessage(BroadcastMsg theMsg, const void *msgData)
 
 	// Handle the message
 	switch (theMsg) {
-		case kMsgLocaleModified:
-			BroadcastMessage(kMsgLocaleModified, msgData);
+		case kMsgNLocaleModified:
+			BroadcastMessage(kMsgNLocaleModified, msgData);
 			break;
 		
 		default:
