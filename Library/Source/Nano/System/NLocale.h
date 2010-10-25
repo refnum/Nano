@@ -30,8 +30,8 @@
 // Messages
 static const NBroadcastMsg kMsgNLocaleModified						= 0x6C6D6F64;	// 'lmod'
 
-extenr const NString kNLocaleChangedAllKey;
-extenr const NString kMLocaleIsMetricKey;
+extern const NString kNLocaleChangedAllKey;
+extern const NString kNLocaleIsMetricKey;
 
 
 // Locales
