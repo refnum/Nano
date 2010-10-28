@@ -52,6 +52,7 @@
 #if NN_TARGET_IOS
 	#include <CoreFoundation/CoreFoundation.h>
 	#include <CoreGraphics/CoreGraphics.h>
+	#include <QuartzCore/QuartzCore.h>
 
 	#if defined(__OBJC__)
 		#include <Foundation/Foundation.h>
