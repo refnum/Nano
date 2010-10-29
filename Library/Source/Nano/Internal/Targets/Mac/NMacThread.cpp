@@ -103,6 +103,29 @@ void NFunctorInvoker::Invoke(void)
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
+//		InvokeMainThreadFunctors : Invoke the main-thread functors.
+//----------------------------------------------------------------------------
+#pragma mark -
+static void InvokeMainThreadFunctors(void)
+{	NFunctor	theFunctor;
+
+
+
+	// Validate our state
+	NN_ASSERT(NTargetThread::ThreadIsMain());
+
+
+
+	// Invoke the functors
+	while (gMainThreadFunctors.PopFront(theFunctor))
+		theFunctor();
+}
+
+
+
+
+
+//============================================================================
 //		ThreadEntry : Thread entry point.
 //----------------------------------------------------------------------------
 static void *ThreadEntry(void *userData)
@@ -123,26 +146,14 @@ static void *ThreadEntry(void *userData)
 
 
 //============================================================================
-//		InvokeMainThreadFunctors : Invoke the main-thread functors.
+//		MainThreadFunctorsTimer : CFTimer callback.
 //----------------------------------------------------------------------------
-static void InvokeMainThreadFunctors(bool unused=true)
-{	NFunctor	theFunctor;
-
-
-
-	// Compiler warning
-	NN_UNUSED(unused);
-
-
-
-	// Validate our state
-	NN_ASSERT(NTargetThread::ThreadIsMain());
-
+static void MainThreadFunctorsTimer(CFRunLoopTimerRef /*cfTimer*/, void */*userData*/)
+{
 
 
 	// Invoke the functors
-	while (gMainThreadFunctors.PopFront(theFunctor))
-		theFunctor();
+	InvokeMainThreadFunctors();
 }
 
 
@@ -348,11 +359,12 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 //		NTargetThread::ThreadInvokeMain : Invoke the main thread.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
-{	NFunctor			invokeFunctor;
-	NSemaphore			theSemaphore;
-	NFunctorInvoker		*theInvoker;
-	NTimer				theTimer;
-	bool				wasDone;
+{	NFunctor				invokeFunctor;
+	NSemaphore				theSemaphore;
+	NFunctorInvoker			*theInvoker;
+	CFAbsoluteTime			fireTime;
+	CFRunLoopTimerRef		cfTimer;
+	bool					wasDone;
 
 
 
@@ -365,16 +377,25 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 	//
 	// An invoker is used to invoke the functor then set our semaphore.
 	//
-	// The invoker is executed by the main thread, via gMainThreadFunctors,
-	// either due to the main thread being blocked in ThreadSleep or due
-	// to the event loop running as normal and executing the timer.
+	// The invoker is executed by the main thread, via InvokeMainThreadFunctors, either
+	// due to the main thread being blocked in ThreadSleep or due to the event loop
+	// running as normal and executing our timer.
 	else
 		{
+		// Save the functor
 		theInvoker = new NFunctorInvoker(theFunctor, &theSemaphore);
 		gMainThreadFunctors.PushBack(BindMethod(theInvoker, NFunctorInvoker::Invoke));
 
-		theTimer.AddTimer(BindFunction(InvokeMainThreadFunctors, true), 0.0);
 
+		// Schedule the timer
+		fireTime = CFRunLoopGetNextTimerFireDate(CFRunLoopGetMain(), kCFRunLoopCommonModes);
+		cfTimer  = CFRunLoopTimerCreate(kCFAllocatorNano, fireTime, 0.0f, 0, 0, MainThreadFunctorsTimer, NULL);
+
+		CFRunLoopAddTimer(CFRunLoopGetMain(), cfTimer, kCFRunLoopCommonModes);
+		CFSafeRelease(cfTimer);
+
+
+		// Wait for the functor to be processed
 		wasDone = theSemaphore.Wait();
 		NN_ASSERT(wasDone);
 		}
