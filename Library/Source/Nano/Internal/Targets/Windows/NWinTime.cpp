@@ -511,7 +511,7 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 	theTimer = kNTimerNone;
 	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theTimer));
 
-	return(theID);
+	return(theTimer);
 }
 
 
