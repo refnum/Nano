@@ -17,6 +17,7 @@
 #include <sys/sysctl.h>
 
 #include "NCFString.h"
+#include "NTargetThread.h"
 #include "NTargetTime.h"
 
 
@@ -38,25 +39,6 @@ typedef struct {
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
-//		GetTimerLock : Get the timer lock.
-//----------------------------------------------------------------------------
-static NMutexLock &GetTimerLock(void)
-{	static NMutexLock		*sLock = new NMutexLock;
-
-
-
-	// Get the lock
-	//
-	// The lock is allowed to leak, to allow classes held in static
-	// variables to process timers during their destruction.
-	return(*sLock);
-}
-
-
-
-
-
-//============================================================================
 //		GetTimeZone : Get a time zone.
 //----------------------------------------------------------------------------
 static NCFObject GetTimeZone(const NCFString &timeZone)
@@ -84,49 +66,12 @@ static NCFObject GetTimeZone(const NCFString &timeZone)
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void TimerCallback(CFRunLoopTimerRef cfTimer, void */*userData*/)
-{	StLock						acquireLock(GetTimerLock());
-	CFRunLoopTimerContext		theContext;
+{	CFRunLoopTimerContext		theContext;
 	TimerInfo					*timerInfo;
 
 
 
 	// Get the state we need
-	//
-	// Timers are always executed on the main thread, however they may be created
-	// and destroyed on a different thread.
-	//
-	// This leads to two race conditions between TimerCallback/TimerDestroy.
-	//
-	//
-	// Case 1:
-	//
-	//		Thread A:	Copy context.info as userData param for TimerCallback
-	//		Thread B:	TimerDestroy()
-	//		Thread A:	TimerCallback()
-	//
-	// Thread A copies the context.info value for use as the userData parameter
-	// for TimerCallback, however Thread B can return from TimerDestroy before
-	// TimerCallback is entered with the now-stale userData parameter.
-	//
-	// Fetching the current timerInfo state from the context allows us to sync
-	// this value between the two threads, obtaining a valid pointer or NULL.
-	//
-	// Note that a shared TimerCallback/TimerDestroy lock does not help in this
-	// case, as TimerDestroy may have completed between thread A starting to
-	// call TimerCallback and TimerCallback being entered.
-	//
-	//
-	// Case 2:
-	//
-	//		Thread A:	TimerCallback fetches timerInfo from context
-	//		Thread B:	TimerDestroy()
-	//		Thread A:	Invoke now-stale timerInfo pointer
-	//
-	// Although thread A obtains an atomic timerInfo/NULL pointer from the context,
-	// thread B can destroy that timerInfo before thread A has a chance to use it.
-	//
-	// As such we need our own lock to ensure that the timer functor can never be
-	// destroyed while we're about to execute it.
 	CFRunLoopTimerGetContext(cfTimer, &theContext);
 	
 	timerInfo = (TimerInfo *) theContext.info;
@@ -138,6 +83,86 @@ static void TimerCallback(CFRunLoopTimerRef cfTimer, void */*userData*/)
 	// Invoke the timer
 	if (timerInfo != NULL)
 		timerInfo->theFunctor(kNTimerFired);
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theTimer)
+{	CFRunLoopTimerContext		timerContext;
+	TimerInfo					*timerInfo;
+	CFAbsoluteTime				fireTime;
+
+
+
+	// Get the state we need
+	if (fireAfter <= 0.0)
+		fireTime = CFRunLoopGetNextTimerFireDate(CFRunLoopGetMain(), kCFRunLoopCommonModes);
+	else
+		fireTime = CFAbsoluteTimeGetCurrent() + fireAfter;
+
+
+
+	// Allocate the timer info
+	timerInfo = new TimerInfo;
+	*theTimer = (timerInfo == NULL) ? kNTimerNone : (NTimerID) timerInfo;
+
+	if (timerInfo == NULL)
+		return;
+
+	memset(&timerContext, 0x00, sizeof(timerContext));
+
+	timerContext.info = timerInfo;
+
+
+
+	// Create the timer
+	timerInfo->cfTimer    = CFRunLoopTimerCreate(kCFAllocatorNano, fireTime, fireEvery, 0, 0, TimerCallback, &timerContext);
+	timerInfo->theFunctor = theFunctor;
+
+	CFRunLoopAddTimer(CFRunLoopGetMain(), timerInfo->cfTimer, kCFRunLoopCommonModes);
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+static void DoTimerDestroy(NTimerID theTimer)
+{	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
+
+
+
+	// Destroy the timer
+	CFRunLoopTimerInvalidate(timerInfo->cfTimer);
+	CFRelease(timerInfo->cfTimer);
+
+	delete timerInfo;
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
+{	TimerInfo			*timerInfo = (TimerInfo *) theTimer;
+	CFAbsoluteTime		fireTime;
+
+
+
+	// Reset the timer
+	fireTime = CFAbsoluteTimeGetCurrent() + fireAfter;
+	
+	CFRunLoopTimerSetNextFireDate(timerInfo->cfTimer, fireTime);
 }
 
 
@@ -202,32 +227,29 @@ NTime NTargetTime::GetUpTime(void)
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
 NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
-{	CFRunLoopTimerContext		timerContext;
-	TimerInfo					*timerInfo;
-	CFAbsoluteTime				fireTime;
-
-
-
-	// Get the state we need
-	memset(&timerContext, 0x00, sizeof(timerContext));
-
-	timerInfo         = new TimerInfo;
-	timerContext.info = timerInfo;
-
-	if (fireAfter <= 0.0)
-		fireTime = CFRunLoopGetNextTimerFireDate(CFRunLoopGetMain(), kCFRunLoopCommonModes);
-	else
-		fireTime = CFAbsoluteTimeGetCurrent() + fireAfter;
+{	NTimerID	theTimer;
 
 
 
 	// Create the timer
-	timerInfo->cfTimer    = CFRunLoopTimerCreate(kCFAllocatorNano, fireTime, fireEvery, 0, 0, TimerCallback, &timerContext);
-	timerInfo->theFunctor = theFunctor;
+	//
+	// Nano allows timers to be created/manipulated on any thread, however they
+	// always execute on the main thread.
+	//
+	// Although this could be achieved by creating CFTimers on the main run loop,
+	// it would require synchronisation between the timer manipulation calls and
+	// the timer execution.
+	//
+	// This would then require a shared lock (thread A is executing a timer while
+	// thread B tries to destroy it), and can be difficult to synchronise without
+	// deadlock (thread A is executing a timer which requests that thread B destroy
+	// a different timer, thread B now blocks waiting for thread A).
+	//
+	// Instead we always execute and manipulate timers via the main thread.
+	theTimer = kNTimerNone;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theTimer));
 
-	CFRunLoopAddTimer(CFRunLoopGetMain(), timerInfo->cfTimer, kCFRunLoopCommonModes);
-
-	return((NTimerID) timerInfo);
+	return(theTimer);
 }
 
 
@@ -238,18 +260,11 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 //		NTargetTime::TimerDestroy : Destroy a timer.
 //----------------------------------------------------------------------------
 void NTargetTime::TimerDestroy(NTimerID theTimer)
-{	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
-	StLock			acquireLock(GetTimerLock());
-
+{
 
 
 	// Destroy the timer
-	//
-	// We must acquire the timer lock to synchronise with TimerCallback().
-	CFRunLoopTimerInvalidate(timerInfo->cfTimer);
-	CFRelease(timerInfo->cfTimer);
-
-	delete timerInfo;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerDestroy, theTimer));
 }
 
 
@@ -260,15 +275,11 @@ void NTargetTime::TimerDestroy(NTimerID theTimer)
 //		NTargetTime::TimerReset : Reset a timer.
 //----------------------------------------------------------------------------
 void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
-{	TimerInfo			*timerInfo = (TimerInfo *) theTimer;
-	CFAbsoluteTime		fireTime;
-
+{
 
 
 	// Reset the timer
-	fireTime = CFAbsoluteTimeGetCurrent() + fireAfter;
-	
-	CFRunLoopTimerSetNextFireDate(timerInfo->cfTimer, fireTime);
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerReset, theTimer, fireAfter));
 }
 
 
