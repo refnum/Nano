@@ -223,7 +223,6 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 
 
 
-
 //============================================================================
 //		Macros
 //----------------------------------------------------------------------------
@@ -241,6 +240,24 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 #define NSBundleString(_name)								NSLocalizedString(@_name, @"")
 #define NSBundleImage( _name)								[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
 
+
+// Category
+//
+// Nano's default build configuration includes -ObjC, which ensures that
+// categories defined in static libraries are linked in to the executable.
+//
+// However a linker bug prevents this from having an effect on 64-bit/iOS
+// builds if the category file only contains a category.
+//
+//		http://developer.apple.com/library/mac/#qa/qa2006/qa1490.html
+//
+// This macro can be used to declare a dummy class to work around this bug.
+#define NSInitCategory(_category)											\
+	@interface		NWorkaround_QA1490_ ## _category						\
+	@end																	\
+																			\
+	@implementation	NWorkaround_QA1490_ ## _category						\
+	@end
 
 
 
