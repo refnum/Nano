@@ -292,7 +292,7 @@ static DWORD GetTimerMS(NTime theTime)
 //		TimerCallback : Timer callback.
 //----------------------------------------------------------------------------
 static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEvent, DWORD /*dwTime*/)
-{	TimerInfo				*theInfo;
+{	TimerInfo				*timerInfo;
 	TimerInfoMapIterator	theIter;
 	NTimerID				timerID;
 	UINT					newTime;
@@ -307,8 +307,8 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 	if (theIter == gTimers.end())
 		return;
 
-	theInfo = theIter->second;
-	NN_ASSERT(theInfo != NULL);
+	timerInfo = theIter->second;
+	NN_ASSERT(timerInfo != NULL);
 
 
 
@@ -322,10 +322,10 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 	// for correct behaviour we can only ever fire them once.
 	//
 	// Repeating NTimers can fire every time their Windows timer is invoked.
-	theInfo->fireCount++;
+	timerInfo->fireCount++;
 
-	if (theInfo->fireCount == 1 || !NMathUtilities::IsZero(theInfo->fireEvery))
-		theInfo->theFunctor(kNTimerFired);
+	if (timerInfo->fireCount == 1 || !NMathUtilities::IsZero(timerInfo->fireEvery))
+		timerInfo->theFunctor(kNTimerFired);
 
 
 
@@ -349,14 +349,14 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 	//
 	// In both cases we only need to adjust the timer once, after it has
 	// fired the first time.
-	if (theInfo->fireCount == 1)
+	if (timerInfo->fireCount == 1)
 		{
-		if (NMathUtilities::IsZero(theInfo->fireEvery))
+		if (NMathUtilities::IsZero(timerInfo->fireEvery))
 			newTime = USER_TIMER_MAXIMUM;
 		else
-			newTime = GetTimerMS(theInfo->fireEvery);
+			newTime = GetTimerMS(timerInfo->fireEvery);
 
-		timerID = SetTimer(NULL, theInfo->timerID, newTime, TimerCallback);
+		timerID = SetTimer(NULL, timerInfo->timerID, newTime, TimerCallback);
 		NN_ASSERT(timerID == idEvent);
 		}
 }
@@ -368,8 +368,8 @@ static void CALLBACK TimerCallback(HWND /*hwnd*/, UINT /*uMsg*/, UINT_PTR idEven
 //============================================================================
 //		DoTimerCreate : Create a timer.
 //----------------------------------------------------------------------------
-static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theID)
-{	TimerInfo		*theInfo;
+static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theTimer)
+{	TimerInfo		*timerInfo;
 
 
 
@@ -379,37 +379,35 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 
 
 	// Allocate the timer info
-	*theID  = kNTimerNone;
-	theInfo = new TimerInfo;
+	timerInfo = new TimerInfo;
+	*theTimer = (timerInfo == NULL) ? kNTimerNone : (NTimerID) timerInfo;
 
-	if (theInfo == NULL)
+	if (timerInfo == NULL)
 		return;
 
-	theInfo->timerID    = 0;
-	theInfo->fireCount  = 0;
-	theInfo->theFunctor = theFunctor;
-	theInfo->fireAfter  = fireAfter;
-	theInfo->fireEvery  = fireEvery;
+	timerInfo->timerID    = 0;
+	timerInfo->fireCount  = 0;
+	timerInfo->theFunctor = theFunctor;
+	timerInfo->fireAfter  = fireAfter;
+	timerInfo->fireEvery  = fireEvery;
 
 
 
 	// Create the timer
-	theInfo->timerID = SetTimer(NULL, 0, GetTimerMS(fireAfter), TimerCallback);
-	NN_ASSERT(theInfo->timerID != 0);
+	timerInfo->timerID = SetTimer(NULL, 0, GetTimerMS(fireAfter), TimerCallback);
+	NN_ASSERT(timerInfo->timerID != 0);
 
-	if (theInfo->timerID == 0)
+	if (timerInfo->timerID == 0)
 		{
-		delete theInfo;
+		delete timerInfo;
 		return;
 		}
 
 
 
 	// Save the timer
-	NN_ASSERT(gTimers.find(theInfo->timerID) == gTimers.end());
-	gTimers[theInfo->timerID] = theInfo;
-
-	*theID = (NTimerID) theInfo;
+	NN_ASSERT(gTimers.find(timerInfo->timerID) == gTimers.end());
+	gTimers[timerInfo->timerID] = timerInfo;
 }
 
 
@@ -420,22 +418,22 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 //		DoTimerDestroy : Destroy a timer.
 //----------------------------------------------------------------------------
 static void DoTimerDestroy(NTimerID theTimer)
-{	TimerInfo		*theInfo = (TimerInfo *) theTimer;
+{	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
 	BOOL			wasOK;
 
 
 
 	// Remove the timer
-	wasOK = KillTimer(NULL, theInfo->timerID);
+	wasOK = KillTimer(NULL, timerInfo->timerID);
 	NN_ASSERT(wasOK);
 
 
 
 	// Forget the timer
-	NN_ASSERT(gTimers.find(theInfo->timerID) != gTimers.end());
-	gTimers.erase(theInfo->timerID);
+	NN_ASSERT(gTimers.find(timerInfo->timerID) != gTimers.end());
+	gTimers.erase(timerInfo->timerID);
 	
-	delete theInfo;
+	delete timerInfo;
 }
 
 
@@ -446,16 +444,16 @@ static void DoTimerDestroy(NTimerID theTimer)
 //		DoTimerReset : Reset a timer.
 //----------------------------------------------------------------------------
 static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
-{	TimerInfo		*theInfo = (TimerInfo *) theTimer;
+{	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
 	UINT_PTR		timerID;
 
 
 
 	// Reset the timer
-	theInfo->fireCount = 0;
+	timerInfo->fireCount = 0;
 
-	timerID = SetTimer(NULL, theInfo->timerID, GetTimerMS(fireAfter), TimerCallback);
-	NN_ASSERT(timerID == theInfo->timerID);
+	timerID = SetTimer(NULL, timerInfo->timerID, GetTimerMS(fireAfter), TimerCallback);
+	NN_ASSERT(timerID == timerInfo->timerID);
 }
 
 
@@ -502,16 +500,16 @@ NTime NTargetTime::GetUpTime(void)
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
 NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
-{	NTimerID		theID;
+{	NTimerID	theTimer;
 
 
 
 	// Create the timer
 	//
-	// Timers are per-thread on Windows, however Nano always executes functors on
+	// Timers are per-thread on Windows, however Nano always executes timers on
 	// the main thread and so we need to create the functor on the main thread.
-	theID = kNTimerNone;
-	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theID));
+	theTimer = kNTimerNone;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theTimer));
 
 	return(theID);
 }
