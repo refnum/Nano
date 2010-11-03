@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFileIterator.h"
 #include "NTargetFile.h"
 #include "NEncoder.h"
 #include "NFile.h"
@@ -567,6 +568,48 @@ NStatus NFile::Delete(bool moveToTrash) const
 	// Delete the file
 	theErr = NTargetFile::Delete(mPath, moveToTrash);
 	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//        NFile::DeleteContents : Delete the contents if a directory.
+//----------------------------------------------------------------------------
+NStatus NFile::DeleteContents(void) const
+{	NFileIterator				fileIterator;
+	NFileList					theFiles;
+	NFile						theFile;
+	NFileListConstIterator		theIter;
+	NStatus						theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsDirectory());
+
+
+
+	// Get the state we need
+	theFiles = fileIterator.GetFiles(*this);
+	theErr   = kNoErr;
+
+
+
+	// Delete the contents
+	for (theIter = theFiles.begin(); theIter != theFiles.end() && theErr == kNoErr; theIter++)
+		{
+		theFile = *theIter;
+		
+		if (theFile.IsDirectory())
+			theErr = theFile.DeleteContents();
+
+		if (theErr == kNoErr)
+			theErr = theFile.Delete();
+		}
 	
 	return(theErr);
 }

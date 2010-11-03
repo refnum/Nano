@@ -198,6 +198,12 @@ public:
 	NStatus								Delete(bool moveToTrash=false) const;
 
 
+	// Delete the contents of a directory
+	//
+	// Recursively deletes the contents of a directory.
+	NStatus								DeleteContents(void) const;
+
+
 	// Create a file/directory
 	NStatus								CreateFile(     void);
 	NStatus								CreateDirectory(void);
