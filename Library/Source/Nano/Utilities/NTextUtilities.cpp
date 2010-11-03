@@ -214,48 +214,57 @@ NStringList NTextUtilities::GetArguments(va_list argList, const char *arg1)
 //----------------------------------------------------------------------------
 #pragma mark -
 NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities, bool forEncode)
-{	NDictionary		theResult;
+{	static NDictionary		sStandardEncode;
+	static NDictionary		sStandardDecode;
+
+	NDictionary		theResult, theExtra;
 	bool			didInvert;
 
 
 
-	// Get the state we need
-	theResult = extraEntities;
+	// Populate the standard entities
+	//
+	// When decoding, we also recognise the numeric form of the standard five.
+	if (sStandardEncode.IsEmpty())
+		{
+		sStandardEncode.SetValue(kEntityValueQuot,  kEntityNameQuot);
+		sStandardEncode.SetValue(kEntityValueAmp,   kEntityNameAmp);
+		sStandardEncode.SetValue(kEntityValueApos,  kEntityNameApos);
+		sStandardEncode.SetValue(kEntityValueLt,    kEntityNameLt);
+		sStandardEncode.SetValue(kEntityValueGt,    kEntityNameGt);
+		}
+	
+	if (sStandardDecode.IsEmpty())
+		{
+		sStandardDecode.SetValue(kEntityNameQuot,   kEntityValueQuot);
+		sStandardDecode.SetValue(kEntityNameAmp,    kEntityValueAmp);
+		sStandardDecode.SetValue(kEntityNameApos,   kEntityValueApos);
+		sStandardDecode.SetValue(kEntityNameLt,     kEntityValueLt);
+		sStandardDecode.SetValue(kEntityNameGt,     kEntityValueGt);
 
+		sStandardDecode.SetValue(kEntityNumberQuot, kEntityValueQuot);
+		sStandardDecode.SetValue(kEntityNumberAmp,  kEntityValueAmp);
+		sStandardDecode.SetValue(kEntityNumberApos, kEntityValueApos);
+		sStandardDecode.SetValue(kEntityNumberLt,   kEntityValueLt);
+		sStandardDecode.SetValue(kEntityNumberGt,   kEntityValueGt);
+		}
+
+
+
+	// Get the state we need
+	theExtra = extraEntities;
 	if (!forEncode)
 		{
-		didInvert = theResult.Invert();
+		didInvert = theExtra.Invert();
 		NN_ASSERT(didInvert);
 		}
 
 
 
-	// Add the standard entities
-	//
-	// When decoding, we also recognise the numeric form of the standard five.
-	if (forEncode)
-		{
-		theResult.SetValue(kEntityValueQuot, kEntityNameQuot);
-		theResult.SetValue(kEntityValueAmp,  kEntityNameAmp);
-		theResult.SetValue(kEntityValueApos, kEntityNameApos);
-		theResult.SetValue(kEntityValueLt,   kEntityNameLt);
-		theResult.SetValue(kEntityValueGt,   kEntityNameGt);
-		}
-	else
-		{
-		theResult.SetValue(kEntityNameQuot, kEntityValueQuot);
-		theResult.SetValue(kEntityNameAmp,  kEntityValueAmp);
-		theResult.SetValue(kEntityNameApos, kEntityValueApos);
-		theResult.SetValue(kEntityNameLt,   kEntityValueLt);
-		theResult.SetValue(kEntityNameGt,   kEntityValueGt);
+	// Get the entities
+	theResult = forEncode ? sStandardEncode : sStandardDecode;
+	theResult.Join(theExtra);
 
-		theResult.SetValue(kEntityNumberQuot, kEntityValueQuot);
-		theResult.SetValue(kEntityNumberAmp,  kEntityValueAmp);
-		theResult.SetValue(kEntityNumberApos, kEntityValueApos);
-		theResult.SetValue(kEntityNumberLt,   kEntityValueLt);
-		theResult.SetValue(kEntityNumberGt,   kEntityValueGt);
-		}
-	
 	return(theResult);
 }
 
