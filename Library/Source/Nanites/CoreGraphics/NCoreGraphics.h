@@ -106,19 +106,17 @@ inline NSRect ToNS(const CGRect &theRect)
 // Equality operators
 inline bool operator==(const CGPoint &value1, const CGPoint &value2)
 {
-	return(	NMathUtilities::AreEqual(value1.x, value2.x) &&
-			NMathUtilities::AreEqual(value1.y, value2.y));
+	return(CGPointEqualToPoint(value1, value2));
 }
 
 inline bool operator==(const CGSize &value1, const CGSize &value2)
 {
-	return(	NMathUtilities::AreEqual(value1.width,  value2.width) &&
-			NMathUtilities::AreEqual(value1.height, value2.height));
+	return(CGSizeEqualToSize(value1, value2));
 }
 
 inline bool operator==(const CGRect &value1, const CGRect &value2)
 {
-	return(value1.origin == value2.origin && value1.size == value2.size);
+	return(CGRectEqualToRect(value1, value2));
 }
 
 
@@ -126,19 +124,17 @@ inline bool operator==(const CGRect &value1, const CGRect &value2)
 // Inequality operators
 inline bool operator!=(const CGPoint &value1, const CGPoint &value2)
 {
-	return(	!NMathUtilities::AreEqual(value1.x, value2.x) ||
-			!NMathUtilities::AreEqual(value1.y, value2.y));
+	return(!CGPointEqualToPoint(value1, value2));
 }
 
 inline bool operator!=(const CGSize &value1, const CGSize &value2)
 {
-	return(	!NMathUtilities::AreEqual(value1.width,  value2.width) ||
-			!NMathUtilities::AreEqual(value1.height, value2.height));
+	return(!CGSizeEqualToSize(value1, value2));
 }
 
 inline bool operator!=(const CGRect &value1, const CGRect &value2)
 {
-	return(value1.origin != value2.origin || value1.size != value2.size);
+	return(!CGRectEqualToRect(value1, value2));
 }
 
 
