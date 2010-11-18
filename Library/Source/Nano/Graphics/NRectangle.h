@@ -34,8 +34,12 @@
 typedef enum {
 	kNPositionAlert,
 	kNPositionCenter,
+	kNPositionLeft,
+	kNPositionRight,
+	kNPositionTop,
 	kNPositionTopLeft,
 	kNPositionTopRight,
+	kNPositionBottom,
 	kNPositionBottomLeft,
 	kNPositionBottomRight,
 } NPosition;

@@ -367,6 +367,22 @@ template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect
 			origin.y = midY - halfHeight;
 			break;
 
+
+		case kNPositionLeft:
+			origin.x = minX;
+			origin.y = midY - halfHeight;
+			break;
+
+		case kNPositionRight:
+			origin.x = maxX - size.width;
+			origin.y = midY - halfHeight;
+			break;
+
+		case kNPositionTop:
+			origin.x = midX - halfWidth;
+			origin.y = minY;
+			break;
+
 		case kNPositionTopLeft:
 			origin.x = minX;
 			origin.y = minY;
@@ -375,6 +391,11 @@ template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect
 		case kNPositionTopRight:
 			origin.x = maxX - size.width;
 			origin.y = minY;
+			break;
+
+		case kNPositionBottom:
+			origin.x = midX - halfWidth;
+			origin.y = maxY - size.height;
 			break;
 
 		case kNPositionBottomLeft:
