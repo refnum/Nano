@@ -62,8 +62,8 @@ public:
 	void								Flush(void);
 
 
-    // Get the preferences
-    static NPreferences					*Get(void);
+    // Get the instance
+    static NPreferences				   *Get(void);
 
 
 protected:

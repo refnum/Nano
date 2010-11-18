@@ -163,15 +163,15 @@ void NPreferences::Flush(void)
 
 
 //============================================================================
-//		NPreferences::Get : Get the preferences.
+//		NPreferences::Get : Get the instance.
 //----------------------------------------------------------------------------
 NPreferences *NPreferences::Get(void)
-{	static NPreferences		sPreferences;
+{	static NPreferences		sInstance;
 
 
 
-	// Get the preferences
-	return(&sPreferences);
+	// Get the instance
+	return(&sInstance);
 }
 
 
