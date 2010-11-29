@@ -178,6 +178,33 @@ inline UInt64 ToNN(DWORD valueHigh, DWORD valueLow)
 	while (false)
 
 
+// Nano
+#if NN_DEBUG
+	#define NN_LOG_LASTERR()												\
+		do																	\
+			{	LPTSTR		theStr;											\
+				DWORD		theErr;											\
+																			\
+			theErr = GetLastError();										\
+																			\
+			if (!FormatMessage(	FORMAT_MESSAGE_ALLOCATE_BUFFER |			\
+								FORMAT_MESSAGE_FROM_SYSTEM,					\
+								NULL, theErr, 0,							\
+								(LPTSTR) &theStr, 0, NULL))					\
+				NN_LOG("Windows Error: %d", theErr);						\
+			else															\
+				{															\
+				NN_LOG("Windows Error: %@", ToNN(theStr));					\
+				LocalFree(theStr);											\
+				}															\
+			}																\
+		while (0)
+
+#else
+	#define NN_LOG_LASTERR()									do { } while (0)
+#endif
+
+
 
 
 
