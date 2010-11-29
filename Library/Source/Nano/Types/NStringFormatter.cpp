@@ -71,6 +71,22 @@
 
 
 //============================================================================
+//		Windows
+//----------------------------------------------------------------------------
+// Work around Visual Studio warning bug:
+//
+//		http://connect.microsoft.com/VisualStudio/feedback/details/522094/warning-c4717-recursive-on-all-control-paths-error-erroneous
+//
+// Warning incorrectly emitted for NFormatFunctor::NFormatFunctor.
+#if NN_TARGET_WINDOWS
+	#pragma warning(disable: 4717)
+#endif
+
+
+
+
+
+//============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
 // Literals
