@@ -313,10 +313,12 @@ NDictionary NBundle::GetBundleInfo(void) const
 	// Load the info
 	if (theResult.IsEmpty())
 		{
-		theFile   = mFile.GetChild(kPathBundlePList);
-		theResult = pList.Load(theFile);
-
-		bundleInfo->theInfo = theResult;
+		theFile = mFile.GetChild(kPathBundlePList);
+		if (theFile.IsFile())
+			{
+			theResult = pList.Load(theFile);
+			bundleInfo->theInfo = theResult;
+			}
 		}
 	
 	
