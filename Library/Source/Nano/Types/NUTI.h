@@ -139,7 +139,7 @@ protected:
 
 
 private:
-	NString								mUTI;
+	NString								mValue;
 };
 
 

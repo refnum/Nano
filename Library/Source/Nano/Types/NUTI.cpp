@@ -42,7 +42,7 @@ NUTI::NUTI(NUTITagClass theClass, const NString &theTag)
 
 
 	// Initialize ourselves
-	mUTI = NUTIRegistry::Get()->GetUTI(theClass, theTag);
+	mValue = NUTIRegistry::Get()->GetUTI(theClass, theTag);
 }
 
 
@@ -57,7 +57,7 @@ NUTI::NUTI(const NString &theUTI)
 
 
 	// Initialize ourselves
-	mUTI = theUTI;
+	mValue = theUTI;
 }
 
 
@@ -88,7 +88,7 @@ bool NUTI::IsValid(void) const
 
 
 	// Check our state
-	return(!mUTI.IsEmpty());
+	return(!mValue.IsEmpty());
 }
 
 
@@ -109,12 +109,12 @@ bool NUTI::ConformsTo(const NUTI &theUTI) const
 	// TODO - this should also check for inherited conformance rather than
 	// direct conformance, possibly by moving this to the registry so that
 	// we can do a more efficient global search.
-	theResult = (mUTI == theUTI.mUTI);
+	theResult = (mValue == theUTI.mValue);
 
 	if (!theResult)
 		{
-		conformsTo = NUTIRegistry::Get()->GetConformsTo(mUTI);
-		theResult  = contains(conformsTo, theUTI.mUTI);
+		conformsTo = NUTIRegistry::Get()->GetConformsTo(mValue);
+		theResult  = contains(conformsTo, theUTI.mValue);
 		}
 	
 	return(theResult);
@@ -132,7 +132,7 @@ void NUTI::Clear(void)
 
 
 	// Reset our state
-	mUTI = kNUTTypeNone;
+	mValue = kNUTTypeNone;
 }
 
 
@@ -147,7 +147,7 @@ NComparison NUTI::Compare(const NUTI &theValue) const
 
 
 	// Compare the value
-	return(mUTI.Compare(theValue.mUTI));
+	return(mValue.Compare(theValue.mValue));
 }
 
 
@@ -162,7 +162,7 @@ NString NUTI::GetUTI(void) const
 
 
 	// Get the UTI
-	return(mUTI);
+	return(mValue);
 }
 
 
@@ -177,7 +177,7 @@ NString NUTI::GetDescription(void) const
 
 
 	// Get the value
-	return(NUTIRegistry::Get()->GetDescription(mUTI));
+	return(NUTIRegistry::Get()->GetDescription(mValue));
 }
 
 
@@ -192,7 +192,7 @@ NString NUTI::GetTag(NUTITagClass theClass) const
 
 
 	// Get the value
-	return(NUTIRegistry::Get()->GetTag(mUTI, theClass));
+	return(NUTIRegistry::Get()->GetTag(mValue, theClass));
 }
 
 
@@ -237,7 +237,7 @@ NUTI::operator NFormatArgument(void) const
 
 
 	// Get the value
-	return(mUTI);
+	return(mValue);
 }
 
 
@@ -253,7 +253,7 @@ void NUTI::EncodeSelf(NEncoder &theEncoder) const
 
 
 	// Encode the object
-	theEncoder.EncodeString(kNEncoderValueKey, mUTI);
+	theEncoder.EncodeString(kNEncoderValueKey, mValue);
 }
 
 
@@ -268,7 +268,7 @@ void NUTI::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Encode the object
-	mUTI = theEncoder.DecodeString(kNEncoderValueKey);
+	mValue = theEncoder.DecodeString(kNEncoderValueKey);
 }
 
 
