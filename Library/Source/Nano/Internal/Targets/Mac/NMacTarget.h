@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <sys/sysctl.h>
+
 #include "NCFObject.h"
 #include "NVariant.h"
 #include "NFile.h"
@@ -42,7 +44,40 @@ public:
 	// Convert between Nano/CF objects
 	static NCFObject					ConvertObjectToCF(const NVariant  &theValue);
 	static NVariant						ConvertCFToObject(const NCFObject &theValue);
+
+
+	// Invoke sysctl
+	template <class T> static T			GetSysctl(int nameMajor, int nameMinor);
 };
+
+
+
+
+
+//============================================================================
+//		Inline functions
+//----------------------------------------------------------------------------
+//		NMacTarget::GetSysctl : Invoke sysctl.
+//----------------------------------------------------------------------------
+template <class T> T NMacTarget::GetSysctl(int nameMajor, int nameMinor)
+{	int			mibNames[2] = { nameMajor, nameMinor }; 
+	T			theResult   = { 0 };
+	size_t		theSize;
+	int			sysErr;
+
+
+
+	// Invoke sysctl
+	theSize = sizeof(theResult);
+	sysErr  = sysctl(mibNames, 2, &theResult, &theSize, NULL, 0);
+	NN_ASSERT_NOERR(sysErr);
+
+	return(theResult);
+}
+
+
+
+
 
 
 

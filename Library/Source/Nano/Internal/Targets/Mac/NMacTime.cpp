@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include <sys/sysctl.h>
-
 #include "NCFString.h"
+#include "NMacTarget.h"
 #include "NTargetThread.h"
 #include "NTargetTime.h"
 
@@ -189,20 +188,15 @@ NTime NTargetTime::GetTime(void)
 //		NTargetTime::GetUpTime : Get the time since boot.
 //----------------------------------------------------------------------------
 NTime NTargetTime::GetUpTime(void)
-{	int					mibNames[2] = { CTL_KERN, KERN_BOOTTIME }; 
-	struct timeval		timeBoot, timeNow, theDelta;
-	size_t				theSize;
+{	struct timeval		timeBoot, timeNow, theDelta;
 	NTime				theTime;
 	int					sysErr;
 
 
 
 	// Get the state we need
-	theSize = sizeof(timeBoot);
-	sysErr  = sysctl(mibNames, 2, &timeBoot, &theSize, NULL, 0);
-	NN_ASSERT_NOERR(sysErr);
-
-	sysErr |= gettimeofday(&timeNow, NULL);
+	timeBoot = NMacTarget::GetSysctl<struct timeval>(CTL_KERN, KERN_BOOTTIME);
+	sysErr   = gettimeofday(&timeNow, NULL);
 	NN_ASSERT_NOERR(sysErr);
 
 

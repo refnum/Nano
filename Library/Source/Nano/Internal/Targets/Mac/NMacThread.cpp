@@ -15,7 +15,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <unistd.h>
-#include <sys/sysctl.h>
 #include <mach/task.h>
 #include <mach/mach_init.h>
 #include <mach/semaphore.h>
@@ -165,21 +164,18 @@ static void MainThreadFunctorsTimer(CFRunLoopTimerRef /*cfTimer*/, void */*userD
 //----------------------------------------------------------------------------
 #pragma mark -
 UInt32 NTargetThread::GetCPUCount(void)
-{	int			mibNames[2] = { CTL_HW, HW_NCPU }; 
-	int			numCPUs, sysErr;
-	size_t		theSize;
+{	UInt32		theResult;
 
 
 
 	// Get the CPU count
-	theSize = sizeof(numCPUs);
-	sysErr  = sysctl(mibNames, 2, &numCPUs, &theSize, NULL, 0);
-	NN_ASSERT_NOERR(sysErr);
+	theResult = NMacTarget::GetSysctl<UInt32>(CTL_HW, HW_NCPU);
+	NN_ASSERT(theResult > 0);
+
+	if (theResult == 0)
+		theResult = 1;
 	
-	if (sysErr != 0)
-		numCPUs = 1;
-	
-	return(numCPUs);
+	return(theResult);
 }
 
 
