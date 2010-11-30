@@ -60,6 +60,10 @@
 #include "TTransform.h"
 #include "TVector.h"
 
+#include "TNetworkManager.h"
+#include "TURLRequest.h"
+#include "TURLResponse.h"
+
 #include "TByteSwap.h"
 #include "TCache.h"
 #include "TCacheKey.h"
@@ -98,6 +102,7 @@
 #include "TString.h"
 #include "TStringEncoder.h"
 #include "TStringFormatter.h"
+#include "TURL.h"
 #include "TUTI.h"
 #include "TVariant.h"
 
@@ -195,6 +200,13 @@ int main(int argc, const char **argv)
 
 
 
+	// Network
+	TNetworkManager::Execute();
+	TURLRequest::Execute();
+	TURLResponse::Execute();
+
+
+
 	// System
 	TByteSwap::Execute();
 	TCache::Execute();
@@ -240,6 +252,7 @@ int main(int argc, const char **argv)
 	TString::Execute();
 	TStringEncoder::Execute();
 	TStringFormatter::Execute();
+	TURL::Execute();
 	TUTI::Execute();
 	TVariant::Execute();
 

@@ -125,6 +125,16 @@
 		AB3326B41046C6F000C8DF0A /* NShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326B11046C6F000C8DF0A /* NShape.cpp */; };
 		AB35B34410011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
 		AB35B34510011269009B75EF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
+		AB481C2C12A531220052C55F /* NIOSNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2112A531220052C55F /* NIOSNetwork.cpp */; };
+		AB481C2F12A531220052C55F /* NNetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2612A531220052C55F /* NNetworkManager.cpp */; };
+		AB481C3012A531220052C55F /* NURLRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2812A531220052C55F /* NURLRequest.cpp */; };
+		AB481C3112A531220052C55F /* NURLResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2A12A531220052C55F /* NURLResponse.cpp */; };
+		AB481C3312A531220052C55F /* NMacNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2212A531220052C55F /* NMacNetwork.cpp */; };
+		AB481C3512A531220052C55F /* NNetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2612A531220052C55F /* NNetworkManager.cpp */; };
+		AB481C3612A531220052C55F /* NURLRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2812A531220052C55F /* NURLRequest.cpp */; };
+		AB481C3712A531220052C55F /* NURLResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2A12A531220052C55F /* NURLResponse.cpp */; };
+		AB481C4212A5327B0052C55F /* NURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C4012A5327B0052C55F /* NURL.cpp */; };
+		AB481C4312A5327B0052C55F /* NURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C4012A5327B0052C55F /* NURL.cpp */; };
 		AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
 		AB4EA38F1009B17400E7B73C /* NIOSPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */; };
 		AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E59103460CB00E5A6AD /* NPoint.cpp */; };
@@ -370,6 +380,18 @@
 		AB3326B21046C6F000C8DF0A /* NShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NShape.h; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
+		AB481C2112A531220052C55F /* NIOSNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NIOSNetwork.cpp; path = ../../../Nano/Library/Source/Nano/Internal/Targets/iOS/NIOSNetwork.cpp; sourceTree = SOURCE_ROOT; };
+		AB481C2212A531220052C55F /* NMacNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NMacNetwork.cpp; path = ../../../Nano/Library/Source/Nano/Internal/Targets/Mac/NMacNetwork.cpp; sourceTree = SOURCE_ROOT; };
+		AB481C2312A531220052C55F /* NTargetNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NTargetNetwork.h; path = ../../../Nano/Library/Source/Nano/Internal/Targets/NTargetNetwork.h; sourceTree = SOURCE_ROOT; };
+		AB481C2612A531220052C55F /* NNetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkManager.cpp; sourceTree = "<group>"; };
+		AB481C2712A531220052C55F /* NNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkManager.h; sourceTree = "<group>"; };
+		AB481C2812A531220052C55F /* NURLRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NURLRequest.cpp; sourceTree = "<group>"; };
+		AB481C2912A531220052C55F /* NURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NURLRequest.h; sourceTree = "<group>"; };
+		AB481C2A12A531220052C55F /* NURLResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NURLResponse.cpp; sourceTree = "<group>"; };
+		AB481C2B12A531220052C55F /* NURLResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NURLResponse.h; sourceTree = "<group>"; };
+		AB481C3912A5315E0052C55F /* NWinNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NWinNetwork.cpp; path = ../../../Nano/Library/Source/Nano/Internal/Targets/Windows/NWinNetwork.cpp; sourceTree = SOURCE_ROOT; };
+		AB481C4012A5327B0052C55F /* NURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NURL.cpp; path = ../../../Nano/Library/Source/Nano/Types/NURL.cpp; sourceTree = SOURCE_ROOT; };
+		AB481C4112A5327B0052C55F /* NURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURL.h; path = ../../../Nano/Library/Source/Nano/Types/NURL.h; sourceTree = SOURCE_ROOT; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
 		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPOSIX.cpp; sourceTree = "<group>"; };
@@ -723,6 +745,20 @@
 			path = Windows;
 			sourceTree = "<group>";
 		};
+		AB481C2512A531220052C55F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AB481C2612A531220052C55F /* NNetworkManager.cpp */,
+				AB481C2712A531220052C55F /* NNetworkManager.h */,
+				AB481C2812A531220052C55F /* NURLRequest.cpp */,
+				AB481C2912A531220052C55F /* NURLRequest.h */,
+				AB481C2A12A531220052C55F /* NURLResponse.cpp */,
+				AB481C2B12A531220052C55F /* NURLResponse.h */,
+			);
+			name = Network;
+			path = ../../../Nano/Library/Source/Nano/Network;
+			sourceTree = SOURCE_ROOT;
+		};
 		AB514E58103460CB00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -838,6 +874,8 @@
 				ABB95B650FB7243700C5A7FF /* Files */,
 				AB514E58103460CB00E5A6AD /* Graphics */,
 				ABB95B640FB7241B00C5A7FF /* Internal */,
+				AB481C2312A531220052C55F /* NTargetNetwork.h */,
+				AB481C2512A531220052C55F /* Network */,
 				AB9155150F9B4DD5009FFEAF /* System */,
 				AB9155380F9B4DD6009FFEAF /* Threads */,
 				AB91553D0F9B4DD6009FFEAF /* Types */,
@@ -1017,6 +1055,7 @@
 			children = (
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
 				AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */,
+				AB481C2212A531220052C55F /* NMacNetwork.cpp */,
 				AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */,
 				ABB146560FF37325006F178C /* NMacPreferences.cpp */,
 				AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */,
@@ -1033,6 +1072,7 @@
 			children = (
 				AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */,
 				AB9155320F9B4DD6009FFEAF /* NWinMath.cpp */,
+				AB481C3912A5315E0052C55F /* NWinNetwork.cpp */,
 				AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */,
 				ABB146550FF37321006F178C /* NWinPreferences.cpp */,
 				AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */,
@@ -1114,6 +1154,8 @@
 				AB9155670F9B4DD6009FFEAF /* NStringFormatter.h */,
 				AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */,
 				AB76913E10FCEA6200AD6A3F /* NUncopyable.h */,
+				AB481C4012A5327B0052C55F /* NURL.cpp */,
+				AB481C4112A5327B0052C55F /* NURL.h */,
 				AB2AAC621035B621007BC4E6 /* NUTI.cpp */,
 				AB2AAC631035B621007BC4E6 /* NUTI.h */,
 				AB9155680F9B4DD6009FFEAF /* NVariant.cpp */,
@@ -1207,6 +1249,7 @@
 			children = (
 				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
 				ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */,
+				AB481C2112A531220052C55F /* NIOSNetwork.cpp */,
 				AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */,
 				ABB146580FF3732E006F178C /* NIOSPreferences.cpp */,
 				ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */,
@@ -1407,12 +1450,16 @@
 				ABFAA6B31018AB360060ED12 /* zutil.c in Sources */,
 				ABB95B860FB7250500C5A7FF /* NIOSFile.cpp in Sources */,
 				ABB95B880FB7250500C5A7FF /* NIOSMath.cpp in Sources */,
+				AB481C2C12A531220052C55F /* NIOSNetwork.cpp in Sources */,
 				AB4EA38F1009B17400E7B73C /* NIOSPOSIX.cpp in Sources */,
 				ABB146590FF3732E006F178C /* NIOSPreferences.cpp in Sources */,
 				ABB95B890FB7250600C5A7FF /* NIOSSystem.cpp in Sources */,
 				ABB95B8A0FB7250600C5A7FF /* NIOSTarget.cpp in Sources */,
 				ABB95B8B0FB7250700C5A7FF /* NIOSThread.cpp in Sources */,
 				ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */,
+				AB481C2F12A531220052C55F /* NNetworkManager.cpp in Sources */,
+				AB481C3012A531220052C55F /* NURLRequest.cpp in Sources */,
+				AB481C3112A531220052C55F /* NURLResponse.cpp in Sources */,
 				AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */,
 				ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */,
 				ABED2AE310BBD80D00EA8ECC /* NCacheKey.cpp in Sources */,
@@ -1458,6 +1505,7 @@
 				AB28FC3F0FB5D9F000F72C61 /* NStringEncoder.cpp in Sources */,
 				AB28FC400FB5D9F000F72C61 /* NStringFormatter.cpp in Sources */,
 				AB76914010FCEA6200AD6A3F /* NUncopyable.cpp in Sources */,
+				AB481C4312A5327B0052C55F /* NURL.cpp in Sources */,
 				AB2AAC641035B621007BC4E6 /* NUTI.cpp in Sources */,
 				AB28FC410FB5D9F000F72C61 /* NVariant.cpp in Sources */,
 				AB28FC420FB5D9F000F72C61 /* NFileUtilities.cpp in Sources */,
@@ -1557,12 +1605,16 @@
 				ABFAA6A51018AB360060ED12 /* zutil.c in Sources */,
 				AB9155950F9B4DD6009FFEAF /* NMacFile.cpp in Sources */,
 				AB9155970F9B4DD6009FFEAF /* NMacMath.cpp in Sources */,
+				AB481C3312A531220052C55F /* NMacNetwork.cpp in Sources */,
 				AB4EA38D1009B16D00E7B73C /* NMacPOSIX.cpp in Sources */,
 				ABB146570FF37325006F178C /* NMacPreferences.cpp in Sources */,
 				AB9155980F9B4DD6009FFEAF /* NMacSystem.cpp in Sources */,
 				AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */,
 				AB91559A0F9B4DD6009FFEAF /* NMacThread.cpp in Sources */,
 				AB91559B0F9B4DD6009FFEAF /* NMacTime.cpp in Sources */,
+				AB481C3512A531220052C55F /* NNetworkManager.cpp in Sources */,
+				AB481C3612A531220052C55F /* NURLRequest.cpp in Sources */,
+				AB481C3712A531220052C55F /* NURLResponse.cpp in Sources */,
 				AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */,
 				ABED2AE010BBD80D00EA8ECC /* NCache.cpp in Sources */,
 				ABED2AE110BBD80D00EA8ECC /* NCacheKey.cpp in Sources */,
@@ -1608,6 +1660,7 @@
 				AB9155B90F9B4DD6009FFEAF /* NStringEncoder.cpp in Sources */,
 				AB9155BA0F9B4DD6009FFEAF /* NStringFormatter.cpp in Sources */,
 				AB76913F10FCEA6200AD6A3F /* NUncopyable.cpp in Sources */,
+				AB481C4212A5327B0052C55F /* NURL.cpp in Sources */,
 				AB2AAC651035B621007BC4E6 /* NUTI.cpp in Sources */,
 				AB9155BB0F9B4DD6009FFEAF /* NVariant.cpp in Sources */,
 				AB9155BC0F9B4DD6009FFEAF /* NFileUtilities.cpp in Sources */,

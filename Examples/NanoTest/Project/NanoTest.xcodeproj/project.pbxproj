@@ -17,6 +17,11 @@
 		AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD7D10396310007BC4E6 /* TLocale.cpp */; };
 		AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */; };
 		AB3326D31046C9B100C8DF0A /* TShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326D11046C9B100C8DF0A /* TShape.cpp */; };
+		AB481C7412A539690052C55F /* TNetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C6E12A539690052C55F /* TNetworkManager.cpp */; };
+		AB481C7512A539690052C55F /* TURLRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7012A539690052C55F /* TURLRequest.cpp */; };
+		AB481C7612A539690052C55F /* TURLResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7212A539690052C55F /* TURLResponse.cpp */; };
+		AB481C7D12A539830052C55F /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
+		AB481CAE12A57EF40052C55F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
 		AB514DE51034184B00E5A6AD /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
 		AB514DE61034184B00E5A6AD /* TPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D621034184B00E5A6AD /* TPreferences.cpp */; };
 		AB514DE71034184B00E5A6AD /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
@@ -137,6 +142,15 @@
 		AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTIRegistry.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
 		AB3326D21046C9B100C8DF0A /* TShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TShape.h; sourceTree = "<group>"; };
+		AB481C6E12A539690052C55F /* TNetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkManager.cpp; sourceTree = "<group>"; };
+		AB481C6F12A539690052C55F /* TNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNetworkManager.h; sourceTree = "<group>"; };
+		AB481C7012A539690052C55F /* TURLRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLRequest.cpp; sourceTree = "<group>"; };
+		AB481C7112A539690052C55F /* TURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TURLRequest.h; sourceTree = "<group>"; };
+		AB481C7212A539690052C55F /* TURLResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLResponse.cpp; sourceTree = "<group>"; };
+		AB481C7312A539690052C55F /* TURLResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TURLResponse.h; sourceTree = "<group>"; };
+		AB481C7B12A539830052C55F /* TURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TURL.cpp; path = ../../../../Nano/Examples/NanoTest/Source/Nano/Types/TURL.cpp; sourceTree = SOURCE_ROOT; };
+		AB481C7C12A539830052C55F /* TURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TURL.h; path = ../../../../Nano/Examples/NanoTest/Source/Nano/Types/TURL.h; sourceTree = SOURCE_ROOT; };
+		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
 		AB514D611034184B00E5A6AD /* TCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCommandLine.h; sourceTree = "<group>"; };
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
@@ -291,9 +305,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */,
+				AB481CAE12A57EF40052C55F /* SystemConfiguration.framework in Frameworks */,
 				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
 				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
+				ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,9 +341,24 @@
 			children = (
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
 				AB6E7E3609F9052300F73093 /* Cocoa.framework */,
+				AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		AB481C6D12A539690052C55F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AB481C6E12A539690052C55F /* TNetworkManager.cpp */,
+				AB481C6F12A539690052C55F /* TNetworkManager.h */,
+				AB481C7012A539690052C55F /* TURLRequest.cpp */,
+				AB481C7112A539690052C55F /* TURLRequest.h */,
+				AB481C7212A539690052C55F /* TURLResponse.cpp */,
+				AB481C7312A539690052C55F /* TURLResponse.h */,
+			);
+			name = Network;
+			path = ../../../../Nano/Examples/NanoTest/Source/Nano/Network;
+			sourceTree = SOURCE_ROOT;
 		};
 		AB514D5E1034184A00E5A6AD /* Nano */ = {
 			isa = PBXGroup;
@@ -339,6 +369,7 @@
 				AB514D701034184B00E5A6AD /* Events */,
 				AB514D771034184B00E5A6AD /* Files */,
 				AB514E731034612D00E5A6AD /* Graphics */,
+				AB481C6D12A539690052C55F /* Network */,
 				AB514D801034184B00E5A6AD /* System */,
 				AB514D911034184B00E5A6AD /* Threads */,
 				AB514D9E1034184B00E5A6AD /* Types */,
@@ -501,6 +532,8 @@
 				AB514DBE1034184B00E5A6AD /* TStringEncoder.h */,
 				AB514DBF1034184B00E5A6AD /* TStringFormatter.cpp */,
 				AB514DC01034184B00E5A6AD /* TStringFormatter.h */,
+				AB481C7B12A539830052C55F /* TURL.cpp */,
+				AB481C7C12A539830052C55F /* TURL.h */,
 				AB2AAC761035B65D007BC4E6 /* TUTI.cpp */,
 				AB2AAC771035B65D007BC4E6 /* TUTI.h */,
 				AB514DC11034184B00E5A6AD /* TVariant.cpp */,
@@ -764,6 +797,9 @@
 				AB514E7C1034612D00E5A6AD /* TSize.cpp in Sources */,
 				AB1BA197104E7D1400BB002B /* TTransform.cpp in Sources */,
 				AB514EBD1034654800E5A6AD /* TVector.cpp in Sources */,
+				AB481C7412A539690052C55F /* TNetworkManager.cpp in Sources */,
+				AB481C7512A539690052C55F /* TURLRequest.cpp in Sources */,
+				AB481C7612A539690052C55F /* TURLResponse.cpp in Sources */,
 				AB514DF41034184B00E5A6AD /* TByteSwap.cpp in Sources */,
 				ABED2AFD10BBD88C00EA8ECC /* TCache.cpp in Sources */,
 				ABED2AFE10BBD88C00EA8ECC /* TCacheKey.cpp in Sources */,
@@ -800,6 +836,7 @@
 				AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */,
 				AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */,
 				AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */,
+				AB481C7D12A539830052C55F /* TURL.cpp in Sources */,
 				AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */,
 				AB514E121034184B00E5A6AD /* TVariant.cpp in Sources */,
 				AB514E131034184B00E5A6AD /* TFileUtilities.cpp in Sources */,

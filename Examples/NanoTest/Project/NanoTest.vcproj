@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TNetworkManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\TNumber.cpp"
 				>
 			</File>
@@ -430,6 +434,18 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\System\TUnicodeParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TURL.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TURLRequest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TURLResponse.cpp"
 				>
 			</File>
 			<File
@@ -623,6 +639,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TNetworkManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\TNumber.h"
 				>
 			</File>
@@ -724,6 +744,18 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\System\TUnicodeParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\TURL.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TURLRequest.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TURLResponse.h"
 				>
 			</File>
 			<File

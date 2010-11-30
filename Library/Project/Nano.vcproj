@@ -615,6 +615,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\NNetworkManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NNumber.cpp"
 				>
 			</File>
@@ -743,6 +747,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NURL.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NURLRequest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NURLResponse.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NUTI.cpp"
 				>
 			</File>
@@ -768,6 +784,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinMath.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Internal\Targets\Windows\NWinNetwork.cpp"
 				>
 			</File>
 			<File
@@ -1721,6 +1741,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\NNetworkManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Types\NNumber.h"
 				>
 			</File>
@@ -1805,6 +1829,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Internal\Targets\NTargetNetwork.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\Targets\NTargetPOSIX.h"
 				>
 			</File>
@@ -1874,6 +1902,18 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\System\NUnicodeParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NURL.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NURLRequest.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NURLResponse.h"
 				>
 			</File>
 			<File
