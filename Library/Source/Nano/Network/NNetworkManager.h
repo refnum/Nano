@@ -37,13 +37,21 @@ public:
 	bool								IsReachable(const NURL &theURL);
 
 
+	// Get/set the user agent
+	NString								GetUserAgent(void) const;
+	void								SetUserAgent(const NString &userAgent);
+
+
     // Get the instance
     static NNetworkManager			   *Get(void);
 
 
 private:
+	NString								GetDefaultUserAgent(void);
 
 
+private:
+	NString								mUserAgent;
 };
 
 

@@ -27,6 +27,7 @@
 //----------------------------------------------------------------------------
 void TNetworkManager::Execute(void)
 {	NNetworkManager		*netManager;
+	NString				theResult;
 
 
 
@@ -37,6 +38,9 @@ void TNetworkManager::Execute(void)
 
 	// Execute the tests
 	NN_ASSERT(netManager->IsReachable("http://www.apple.com/"));
+	
+	theResult = netManager->GetUserAgent();
+	NN_ASSERT(!theResult.IsEmpty());
 }
 
 
