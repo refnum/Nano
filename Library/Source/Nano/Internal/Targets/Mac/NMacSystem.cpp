@@ -21,6 +21,7 @@
 #include "NCoreFoundation.h"
 #include "NCFString.h"
 #include "NLock.h"
+#include "NMacTarget.h"
 #include "NTargetSystem.h"
 
 
@@ -263,8 +264,8 @@ OSVersion NTargetSystem::GetOSVersion(void)
 
 
 
+	// Get the version
 #if NN_TARGET_MAC
-
 	verTarget = (SInt32) kOSMac;
 	verMajor  = GestaltSInt32(gestaltSystemVersionMajor);
 	verMinor  = GestaltSInt32(gestaltSystemVersionMinor);
@@ -276,9 +277,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 	theVers = (OSVersion) (verTarget | verMajor | verMinor | verBugFix);
 
 
-
 #elif NN_TARGET_IOS
-
 	StAutoReleasePool		autoRelease;
 	NSArray					*theArray;
 	NIndex					numParts;
@@ -294,12 +293,133 @@ OSVersion NTargetSystem::GetOSVersion(void)
 	theVers = (OSVersion) (verTarget | verMajor | verMinor | verBugFix);
 
 
-
 #else
-	theVers = kOSUnknown;
+	UNKNOWN TARGET
+
 #endif
 
 	return(theVers);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetOSName : Get the OS name.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetOSName(void)
+{	SInt32			verMajor, verMinor, verBugFix;
+	OSVersion		theVersion;
+	NString			theResult;
+
+
+
+	// Get the state we need
+	theVersion = GetOSVersion();
+
+	verMajor  = ((theVersion >> 16) & 0xFF);
+	verMinor  = ((theVersion >>  8) & 0xFF);
+	verBugFix = ((theVersion >>  0) & 0xFF);
+
+
+
+	// Get the name
+	if (verBugFix == 0)
+		theResult.Format("%d.%d",    verMajor, verMinor);
+	else
+		theResult.Format("%d.%d.%d", verMajor, verMinor, verBugFix);
+
+
+
+	// Get the name
+#if NN_TARGET_MAC
+	theResult.Format("Mac OS %@", theResult);
+
+#elif NN_TARGET_IOS
+	theResult.Format("iOS %@", theResult);
+
+#else
+	UNKNOWN TARGET
+#endif
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetSystemCPU : Get the clock speed.
+//----------------------------------------------------------------------------
+UInt64 NTargetSystem::GetSystemCPU(void)
+{	UInt32		theResult;
+
+
+
+	// Get the clock speed
+	theResult = NMacTarget::GetSysctl<UInt32>(CTL_HW, HW_CPU_FREQ);
+	NN_ASSERT(theResult > 0);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetSystemRAM : Get the physical memory.
+//----------------------------------------------------------------------------
+UInt64 NTargetSystem::GetSystemRAM(void)
+{	uint64_t	theResult;
+
+
+
+	// Get the physical memory
+	theResult = NMacTarget::GetSysctl<UInt64>(CTL_HW, HW_MEMSIZE);
+	NN_ASSERT(theResult > 0);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetSystemArch : Get the system architecture.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetSystemArch(void)
+{	NString		theArch;
+
+
+
+	// Get the architecture
+#if NN_TARGET_MAC
+	#if defined(__ppc__) || defined(__ppc64__)
+		theArch = "PPC";
+	#elif defined(__i386__) || defined(__x86_64__)
+		theArch = "x86";
+	#else
+		UNKNOWN ARCH
+	#endif
+
+#elif NN_TARGET_IOS
+	#if defined(__arm__)
+		theArch = "ARM";
+	#elif defined(__i386__)
+		theArch = "x86";
+	#else
+		UNKNOWN ARCH
+	#endif
+	
+#else
+	UNKNOWN TARGET
+#endif
+
+	return(theArch);
 }
 
 

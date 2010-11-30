@@ -132,6 +132,26 @@ public:
 	static OSVersion					GetOSVersion(void);
 
 
+	// Get the OS name
+	static NString						GetOSName(void);
+
+
+	// Get the clock speed
+	//
+	// The result is in hertz.
+	static UInt64						GetSystemCPU(void);
+
+
+	// Get the physical memory
+	//
+	// The result is in bytes.
+	static UInt64						GetSystemRAM(void);
+
+
+	// Get the architecture name
+	static NString						GetSystemArch(void);
+
+
 	// Compare two version strings
 	static NComparison					CompareVersions(const NString &version1, const NString &version2);
 

@@ -18,6 +18,7 @@
 #include "NTimeUtilities.h"
 #include "NWindows.h"
 #include "NBundle.h"
+#include "NRegistry.h"
 #include "NTargetFile.h"
 #include "NTargetSystem.h"
 
@@ -362,6 +363,110 @@ OSVersion NTargetSystem::GetOSVersion(void)
 		}
 	
 	return(theVers);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetOSName : Get the OS name.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetOSName(void)
+{	NString				theResult;
+	OSVERSIONINFOEX		versInfo;
+
+
+
+	// Get the state we need
+	memset(&versInfo, 0x00, sizeof(versInfo));
+	versInfo.dwOSVersionInfoSize = sizeof(versInfo);
+
+
+
+	// Get the OS name
+	if (GetVersionEx((LPOSVERSIONINFO) &versInfo))
+		theResult.Format("Windows %d.%d.%d-%d.%d-%d",
+							versInfo.dwMajorVersion,
+							versInfo.dwMinorVersion,
+							versInfo.dwBuildNumber,
+							versInfo.wServicePackMajor,
+							versInfo.wServicePackMinor,
+							versInfo.wProductType);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetSystemCPU : Get the clock speed.
+//----------------------------------------------------------------------------
+UInt64 NTargetSystem::GetSystemCPU(void)
+{	NRegistry		theRegistry;
+	UInt32			theResult;
+	NStatus			theErr;
+	
+
+
+	// Get the speed
+	theResult = 0;
+	theErr    = theRegistry.Open(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0");
+
+	if (theErr == kNoErr)
+		theResult = theRegistry.GetValueSInt32("~MHz") * 1000000;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetSystemRAM : Get the physical memory.
+//----------------------------------------------------------------------------
+UInt64 NTargetSystem::GetSystemRAM(void)
+{	MEMORYSTATUSEX		memInfo;
+
+
+
+	// Get the state we need
+	memset(&memInfo, 0x00, sizeof(memInfo));
+	memInfo.dwLength = sizeof(memInfo);
+
+
+
+	// Get the memory
+	if (!GlobalMemoryStatusEx(&memInfo))
+		memInfo.ullTotalPhys = 0;
+
+	return(memInfo.ullTotalPhys);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetSystemArch : Get the system architecture.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetSystemArch(void)
+{	NString		theArch;
+
+
+
+	// Get the architecture
+#if defined(_M_IX86)
+	theArch = "x86";
+	
+#else
+	UNKNOWN ARCH
+#endif
+
+	return(theArch);
 }
 
 

@@ -508,6 +508,73 @@ OSVersion NSystemUtilities::GetOSVersion(void)
 
 
 //============================================================================
+//		NSystemUtilities::GetOSName : Get the OS name.
+//----------------------------------------------------------------------------
+NString NSystemUtilities::GetOSName(void)
+{
+
+
+	// Get the name
+	return(NTargetSystem::GetOSName());
+}
+
+
+
+
+
+//============================================================================
+//		NSystemUtilities::GetSystemCPU : Get the clock speed.
+//----------------------------------------------------------------------------
+UInt64 NSystemUtilities::GetSystemCPU(void)
+{
+
+
+	// Get the clock speed
+	return(NTargetSystem::GetSystemCPU());
+}
+
+
+
+
+
+//============================================================================
+//		NSystemUtilities::GetSystemRAM : Get the physical memory.
+//----------------------------------------------------------------------------
+UInt64 NSystemUtilities::GetSystemRAM(void)
+{
+
+
+	// Get the physical memory
+	return(NTargetSystem::GetSystemRAM());
+}
+
+
+
+
+
+//============================================================================
+//		NSystemUtilities::GetSystemArch : Get the system architecture.
+//----------------------------------------------------------------------------
+NString NSystemUtilities::GetSystemArch(void)
+{	NString		theResult;
+
+
+
+	// Get the architecture
+	theResult = NTargetSystem::GetSystemArch();
+
+	#if NN_TARGET_ARCH_64
+		theResult += "-64";
+	#endif
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::CompareVersions : Compare two version strings.
 //----------------------------------------------------------------------------
 //		Note :	Algorithm is based on Ricardo Batista's MacPad.
