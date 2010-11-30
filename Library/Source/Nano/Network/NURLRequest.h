@@ -31,9 +31,13 @@ public:
 	virtual							   ~NURLRequest(void);
 
 
+	// Get/set the URL
+	NURL								GetURL(void) const;
+	void								SetURL(const NURL &theURL);
+
+
 private:
-
-
+	NURL								mURL;
 };
 
 

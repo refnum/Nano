@@ -40,3 +40,35 @@ NURLRequest::~NURLRequest(void)
 
 
 
+
+
+//============================================================================
+//		NURLRequest::GetURL : Get the URL.
+//----------------------------------------------------------------------------
+NURL NURLRequest::GetURL(void) const
+{
+
+
+	// Get the URL
+	return(mURL);
+}
+
+
+
+
+
+//============================================================================
+//		NURLRequest::SetURL : Set the URL.
+//----------------------------------------------------------------------------
+void NURLRequest::SetURL(const NURL &theURL)
+{
+
+
+	// Set the URL
+	mURL = theURL;
+}
+
+
+
+
+
