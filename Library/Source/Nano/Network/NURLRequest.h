@@ -16,7 +16,27 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NPropertyStore.h"
 #include "NURL.h"
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// Keys
+static const NString kNURLRequestUserAgentKey						= "User-Agent";
+static const NString kNURLRequestBodyKey							= "http*body";
+
+
+// Commands
+typedef enum {
+	kURLGet,
+	kURLPut,
+	kURLHead
+} NURLCommand;
 
 
 
@@ -25,7 +45,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NURLRequest {
+class NURLRequest : public NPropertyStore {
 public:
 										NURLRequest(void);
 	virtual							   ~NURLRequest(void);
@@ -36,8 +56,14 @@ public:
 	void								SetURL(const NURL &theURL);
 
 
+	// Get/set the command
+	NURLCommand							GetCommand(void) const;
+	void								SetCommand(NURLCommand theCmd);
+
+
 private:
 	NURL								mURL;
+	NURLCommand							mCmd;
 };
 
 

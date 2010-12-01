@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NNetworkManager.h"
 #include "NURLRequest.h"
 
 
@@ -25,6 +26,11 @@
 //----------------------------------------------------------------------------
 NURLRequest::NURLRequest(void)
 {
+
+
+	// Initialise ourselves
+	mCmd = kURLGet;
+	SetValue(kNURLRequestUserAgentKey, NNetworkManager::Get()->GetUserAgent());
 }
 
 
@@ -69,6 +75,34 @@ void NURLRequest::SetURL(const NURL &theURL)
 }
 
 
+
+
+
+//============================================================================
+//		NURLRequest::GetCommand : Get the command.
+//----------------------------------------------------------------------------
+NURLCommand NURLRequest::GetCommand(void) const
+{
+
+
+	// Get the command
+	return(mCmd);
+}
+
+
+
+
+
+//============================================================================
+//		NURLRequest::SetCommand : Set the command.
+//----------------------------------------------------------------------------
+void NURLRequest::SetCommand(NURLCommand theCmd)
+{
+
+
+	// Set the command
+	mCmd = theCmd;
+}
 
 
 
