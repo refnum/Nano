@@ -38,4 +38,48 @@ bool NTargetNetwork::IsReachable(const NURL &/*theURL*/)
 
 
 
+//============================================================================
+//      NTargetNetwork::URLResponseCreate : Create a URL response.
+//----------------------------------------------------------------------------
+NURLResponseRef NTargetNetwork::URLResponseCreate(NURLResponse *theResponse)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::URLResponseDestroy : Destroy a URL response.
+//----------------------------------------------------------------------------
+void NTargetNetwork::URLResponseDestroy(NURLResponseRef theResponse)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::URLResponseStart : Start a URL response.
+//----------------------------------------------------------------------------
+void NTargetNetwork::URLResponseStart(NURLResponseRef theResponse)
+{
+	// dair, to do
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::URLResponseCancel : Cancel a URL response.
+//----------------------------------------------------------------------------
+void NTargetNetwork::URLResponseCancel(NURLResponseRef theResponse)
+{
+	// dair, to do
+}
+
 

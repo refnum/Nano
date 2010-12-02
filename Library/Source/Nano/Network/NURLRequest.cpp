@@ -24,12 +24,14 @@
 //============================================================================
 //		NURLRequest::NURLRequest : Constructor.
 //----------------------------------------------------------------------------
-NURLRequest::NURLRequest(void)
+NURLRequest::NURLRequest(const NURL &theURL)
 {
 
 
 	// Initialise ourselves
+	mURL = theURL;
 	mCmd = kURLGet;
+
 	SetValue(kNURLRequestUserAgentKey, NNetworkManager::Get()->GetUserAgent());
 }
 
@@ -42,6 +44,21 @@ NURLRequest::NURLRequest(void)
 //----------------------------------------------------------------------------
 NURLRequest::~NURLRequest(void)
 {
+}
+
+
+
+
+
+//============================================================================
+//		NURLRequest::IsValid : Is the request valid?
+//----------------------------------------------------------------------------
+bool NURLRequest::IsValid(void) const
+{
+
+
+	// Check our state
+	return(mURL.IsValid());
 }
 
 

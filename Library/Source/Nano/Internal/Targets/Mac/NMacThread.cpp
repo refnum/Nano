@@ -311,14 +311,20 @@ void NTargetThread::ThreadSleep(NTime theTime)
 
 	// Invoke the functors
 	//
-	// Sleeping the main thread will prevent functors due to be executed on the
-	// main thread from firing.
+	// Sleeping the main thread will prevent functors due to be executed on the main
+	// thread from firing.
 	//
-	// To avoid deadlocks where the main thread is waiting for a thread to exit
-	// and that thread is waiting inside InvokeMain for a functor to complete,
-	// sleeping the main thread will also invoke any queued functors.
+	// To avoid deadlocks where the main thread is waiting for a thread to exit and
+	// that thread is waiting inside InvokeMain for a functor to complete, sleeping
+	// the main thread will also invoke any queued functors.
+	//
+	// We also run the run loop, since Foundation/AppKit have several services that
+	// require the main run loop to be running to function (e.g., NSURLConnection).
 	if (ThreadIsMain())
+		{
 		InvokeMainThreadFunctors();
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
+		}
 }
 
 

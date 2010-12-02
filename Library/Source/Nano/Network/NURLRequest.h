@@ -47,8 +47,12 @@ typedef enum {
 //----------------------------------------------------------------------------
 class NURLRequest : public NPropertyStore {
 public:
-										NURLRequest(void);
+										NURLRequest(const NURL &theURL="");
 	virtual							   ~NURLRequest(void);
+
+
+	// Is the request valid?
+	bool								IsValid(void) const;
 
 
 	// Get/set the URL

@@ -16,7 +16,29 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NURL.h"
+#include "NURLRequest.h"
+
+
+
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
+typedef UIntPtr NURLResponseRef;
+
+static const NURLResponseRef kNURLResponseRefNone					= 0;
+
+
+
+
+
+//============================================================================
+//		Types
+//----------------------------------------------------------------------------
+// Functors
+typedef nfunctor<void (const NData &theData)>						NURLDelegateDataFunctor;
+typedef nfunctor<void (NStatus theErr)>								NURLDelegateFinishedFunctor;
 
 
 
@@ -27,13 +49,50 @@
 //----------------------------------------------------------------------------
 class NURLResponse {
 public:
-										NURLResponse(void);
+										NURLResponse(const NURLRequest &theRequest);
 	virtual							   ~NURLResponse(void);
 
 
+	// Start/stop the connection
+	void								Start( void);
+	void								Cancel(void);
+
+
+	// Get the request
+	NURLRequest							GetRequest(void) const;
+
+
+	// Get/set the delegate methods
+	NURLDelegateDataFunctor				GetDelegateDataFunctor(    void) const;
+	NURLDelegateFinishedFunctor			GetDelegateFinishedFunctor(void) const;
+	
+	void								SetDelegateDataFunctor(    const NURLDelegateDataFunctor     &theFunctor);
+	void								SetDelegateFinishedFunctor(const NURLDelegateFinishedFunctor &theFunctor);
+
+
+	// Wait for the reply
+	//
+	// Starts the response, and blocks the current thread until it has completed.
+	NStatus								WaitForReply(NData &theData);
+
+
+public:
+	// Invoke the delegate
+	void								DelegateData(const NData &theData);
+	void								DelegateFinished(NStatus theErr);
+
+
 private:
+	void								WaitData(    NData   *theResult, const NData &theData);
+	void								WaitFinished(NStatus *theResult, bool *areDone, NStatus theErr);
 
 
+protected:
+	NURLRequest							mRequest;
+	NURLResponseRef						mResponse;
+	
+	NURLDelegateDataFunctor				mDelegateData;
+	NURLDelegateFinishedFunctor			mDelegateFinished;
 };
 
 

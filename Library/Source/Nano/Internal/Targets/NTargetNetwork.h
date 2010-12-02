@@ -17,6 +17,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NURL.h"
+#include "NURLRequest.h"
+#include "NURLResponse.h"
 
 
 
@@ -29,6 +31,13 @@ class NTargetNetwork {
 public:
 	// Is a URL reachable?
 	static bool							IsReachable(const NURL &theURL);
+
+
+	// URL response
+	static NURLResponseRef				URLResponseCreate( NURLResponse   *theResponse);
+	static void							URLResponseDestroy(NURLResponseRef theResponse);
+	static void							URLResponseStart(  NURLResponseRef theResponse);
+	static void							URLResponseCancel( NURLResponseRef theResponse);
 };
 
 
