@@ -37,7 +37,7 @@ static const NURLResponseRef kNURLResponseRefNone					= 0;
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<void (const NData &theData)>						NURLDelegateDataFunctor;
+typedef nfunctor<void (NIndex theSize, const void *thePtr)>			NURLDelegateDataFunctor;
 typedef nfunctor<void (NStatus theErr)>								NURLDelegateFinishedFunctor;
 
 
@@ -78,12 +78,12 @@ public:
 
 public:
 	// Invoke the delegate
-	void								DelegateData(const NData &theData);
+	void								DelegateData(NIndex theSize, const void *thePtr);
 	void								DelegateFinished(NStatus theErr);
 
 
 private:
-	void								WaitData(    NData   *theResult, const NData &theData);
+	void								WaitData(    NData   *theResult, NIndex theSize, const void *thePtr);
 	void								WaitFinished(NStatus *theResult, bool *areDone, NStatus theErr);
 
 

@@ -27,7 +27,7 @@
 //============================================================================
 //      Internal class declaration
 //----------------------------------------------------------------------------
-@interface URLResponse : NSObject {
+@interface MacURLResponse : NSObject {
 @private
 	NURLResponse				*mResponse;
 	NSURLConnection				*mConnection;
@@ -40,9 +40,9 @@
 
 
 //============================================================================
-//      URLResponse::initWithResponse : Initialiser
+//      MacURLResponse::initWithResponse : Initialiser
 //----------------------------------------------------------------------------
-@implementation URLResponse
+@implementation MacURLResponse
 
 - (id) initWithResponse:(NURLResponse *)theResponse
 {	NSMutableURLRequest		*nsRequest;
@@ -80,7 +80,7 @@
 
 
 //============================================================================
-//      URLResponse::dealloc : Deallocator
+//      MacURLResponse::dealloc : Deallocator
 //----------------------------------------------------------------------------
 - (void) dealloc
 {
@@ -97,7 +97,7 @@
 
 
 //============================================================================
-//      URLResponse::start : Start the connection.
+//      MacURLResponse::start : Start the connection.
 //----------------------------------------------------------------------------
 - (void) start
 {
@@ -112,7 +112,7 @@
 
 
 //============================================================================
-//      URLResponse::cancel : Cancel the connection.
+//      MacURLResponse::cancel : Cancel the connection.
 //----------------------------------------------------------------------------
 - (void) cancel
 {
@@ -127,7 +127,7 @@
 
 
 //============================================================================
-//      URLResponse::didReceiveData : Receive data.
+//      MacURLResponse::didReceiveData : Receive data.
 //----------------------------------------------------------------------------
 - (void) connection:(NSURLConnection *)nsConnection didReceiveData:(NSData *)nsData
 {
@@ -139,7 +139,7 @@
 
 
 	// Update the delegate
-	mResponse->DelegateData(ToNN(nsData));
+	mResponse->DelegateData([nsData length], [nsData bytes]);
 }
 
 
@@ -147,7 +147,7 @@
 
 
 //============================================================================
-//      URLResponse::connectionDidFinishLoading : Handle completion.
+//      MacURLResponse::connectionDidFinishLoading : Handle completion.
 //----------------------------------------------------------------------------
 - (void) connectionDidFinishLoading:(NSURLConnection *)nsConnection
 {
@@ -167,7 +167,7 @@
 
 
 //============================================================================
-//      URLResponse::didFailWithError : Handle failure.
+//      MacURLResponse::didFailWithError : Handle failure.
 //----------------------------------------------------------------------------
 - (void) connection:(NSURLConnection *)nsConnection didFailWithError:(NSError *)nsError
 {
@@ -236,14 +236,14 @@ bool NTargetNetwork::IsReachable(const NURL &theURL)
 //      NTargetNetwork::URLResponseCreate : Create a URL response.
 //----------------------------------------------------------------------------
 NURLResponseRef NTargetNetwork::URLResponseCreate(NURLResponse *theResponse)
-{	URLResponse			*urlResponse;
+{	MacURLResponse			*macResponse;
 
 
 
 	// Create the response
-	urlResponse = [[URLResponse alloc] initWithResponse:theResponse];
+	macResponse = [[MacURLResponse alloc] initWithResponse:theResponse];
 	
-	return((NURLResponseRef) urlResponse);
+	return((NURLResponseRef) macResponse);
 }
 
 
@@ -254,12 +254,12 @@ NURLResponseRef NTargetNetwork::URLResponseCreate(NURLResponse *theResponse)
 //      NTargetNetwork::URLResponseDestroy : Destroy a URL response.
 //----------------------------------------------------------------------------
 void NTargetNetwork::URLResponseDestroy(NURLResponseRef theResponse)
-{	URLResponse			*urlResponse = (URLResponse *) theResponse;
+{	MacURLResponse			*macResponse = (MacURLResponse *) theResponse;
 
 
 
 	// Destroy the response
-	[urlResponse release];
+	[macResponse release];
 }
 
 
@@ -270,12 +270,12 @@ void NTargetNetwork::URLResponseDestroy(NURLResponseRef theResponse)
 //      NTargetNetwork::URLResponseStart : Start a URL response.
 //----------------------------------------------------------------------------
 void NTargetNetwork::URLResponseStart(NURLResponseRef theResponse)
-{	URLResponse			*urlResponse = (URLResponse *) theResponse;
+{	MacURLResponse			*macResponse = (MacURLResponse *) theResponse;
 
 
 
 	// Start the response
-	[urlResponse start];
+	[macResponse start];
 }
 
 
@@ -286,12 +286,12 @@ void NTargetNetwork::URLResponseStart(NURLResponseRef theResponse)
 //      NTargetNetwork::URLResponseCancel : Cancel a URL response.
 //----------------------------------------------------------------------------
 void NTargetNetwork::URLResponseCancel(NURLResponseRef theResponse)
-{	URLResponse			*urlResponse = (URLResponse *) theResponse;
+{	MacURLResponse			*macResponse = (MacURLResponse *) theResponse;
 
 
 
 	// Cancel the response
-	[urlResponse cancel];
+	[macResponse cancel];
 }
 
 

@@ -171,7 +171,7 @@ NStatus NURLResponse::WaitForReply(NData &theData)
 
 
 	// Get the state we need
-	SetDelegateDataFunctor(    BindSelf(NURLResponse::WaitData,     &theData, _1));
+	SetDelegateDataFunctor(    BindSelf(NURLResponse::WaitData,     &theData, _1, _2));
 	SetDelegateFinishedFunctor(BindSelf(NURLResponse::WaitFinished, &theErr, &areDone, _1));
 
 	areDone = false;
@@ -196,13 +196,13 @@ NStatus NURLResponse::WaitForReply(NData &theData)
 //		NURLResponse::DelegateData : Invoke the delegate.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NURLResponse::DelegateData(const NData &theData)
+void NURLResponse::DelegateData(NIndex theSize, const void *thePtr)
 {
 
 
 	// Invoke the delegate
 	if (mDelegateData != NULL)
-		mDelegateData(theData);
+		mDelegateData(theSize, thePtr);
 }
 
 
@@ -229,12 +229,12 @@ void NURLResponse::DelegateFinished(NStatus theErr)
 //		NURLResponse::WaitData : Wait data delegate method.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NURLResponse::WaitData(NData *theResult, const NData &theData)
+void NURLResponse::WaitData(NData *theResult, NIndex theSize, const void *thePtr)
 {
 
 
 	// Update the result
-	theResult->AppendData(theData);
+	theResult->AppendData(theSize, thePtr);
 }
 
 

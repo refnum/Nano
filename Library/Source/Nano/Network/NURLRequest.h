@@ -34,8 +34,8 @@ static const NString kNURLRequestBodyKey							= "http*body";
 // Commands
 typedef enum {
 	kURLGet,
-	kURLPut,
-	kURLHead
+	kURLHead,
+	kURLPost
 } NURLCommand;
 
 
