@@ -21,6 +21,7 @@
 #include "NSize.h"
 #include "NRectangle.h"
 #include "NRange.h"
+#include "NURL.h"
 #include "NCFArray.h"
 #include "NCFData.h"
 #include "NCFDate.h"
@@ -100,6 +101,12 @@ inline NSString *ToNS(const NString &theString)
 	return([[nsObject retain] autorelease]);
 }
 
+inline NSURL *ToNS(const NURL &theURL)
+{	NString		theString = theURL;
+
+	return([NSURL URLWithString:ToNS(theString)]);
+}
+
 
 
 // Cocoa to Nano
@@ -173,6 +180,12 @@ inline NDictionary ToNN(NSMutableDictionary *theDictionary)
 inline NString ToNN(NSMutableString *theString)
 {
 	return(NCFString((CFMutableStringRef) theString, false));
+}
+
+inline NURL ToNN(NSURL *theURL)
+{	NString		theString = ToNN([theURL absoluteString]);
+
+	return(NURL(theString));
 }
 
 
