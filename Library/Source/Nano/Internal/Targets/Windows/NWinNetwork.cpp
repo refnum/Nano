@@ -154,12 +154,16 @@ static void CALLBACK WinURLResponseCallback(HINTERNET /*hInternet*/, DWORD_PTR t
 
 		case WINHTTP_CALLBACK_STATUS_HANDLE_CLOSING:
 			// Cancel the response
+			//
+			// The handle must be cleared first, since invoking the delegate may
+			// destroy the response.
 			if (winResponse->didCancel)
 				{
-				winResponse->theResponse->DelegateFinished(kNErrCancelled);
 				winResponse->hRequest = NULL;
+				winResponse->theResponse->DelegateFinished(kNErrCancelled);
 				}
 			break;
+
 
 		default:
 			break;
