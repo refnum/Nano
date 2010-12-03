@@ -106,7 +106,9 @@ void NFunctorInvoker::Invoke(void)
 //----------------------------------------------------------------------------
 #pragma mark -
 static void InvokeMainThreadFunctors(void)
-{	NFunctor	theFunctor;
+{	static bool			sIsInvoking = false;
+
+	NFunctor			theFunctor;
 
 
 
@@ -116,8 +118,25 @@ static void InvokeMainThreadFunctors(void)
 
 
 	// Invoke the functors
-	while (gMainThreadFunctors.PopFront(theFunctor))
-		theFunctor();
+	//
+	// If a main thread functor invokes NThread::Sleep (perhaps by waiting for
+	// a lock) then we can be called recursively.
+	//
+	// This can lead to deadlocks, as we can try and call a functor which needs
+	// to acquire a lock while executing another functor which also needs to
+	// acquire the same lock.
+	//
+	// If the lock is meant to synchronise the main thread with a worker thread,
+	// this can mean the main thread deadlocks itself.
+	if (!sIsInvoking)
+		{
+		sIsInvoking = true;
+		
+		while (gMainThreadFunctors.PopFront(theFunctor))
+			theFunctor();
+		
+		sIsInvoking = false;
+		}
 }
 
 
