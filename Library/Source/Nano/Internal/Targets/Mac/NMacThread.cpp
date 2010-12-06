@@ -324,7 +324,12 @@ void NTargetThread::ThreadSleep(NTime theTime)
 
 
 	// Sleep the thread
+	//
+	// We also run the run loop once, since Foundation/AppKit have several services
+	// that require the main run loop to be running to function (e.g., NSURLConnection).
 	usleep((useconds_t) (theTime / kNTimeMicrosecond));
+
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
 
 
 
@@ -336,14 +341,8 @@ void NTargetThread::ThreadSleep(NTime theTime)
 	// To avoid deadlocks where the main thread is waiting for a thread to exit and
 	// that thread is waiting inside InvokeMain for a functor to complete, sleeping
 	// the main thread will also invoke any queued functors.
-	//
-	// We also run the run loop, since Foundation/AppKit have several services that
-	// require the main run loop to be running to function (e.g., NSURLConnection).
 	if (ThreadIsMain())
-		{
 		InvokeMainThreadFunctors();
-		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
-		}
 }
 
 
