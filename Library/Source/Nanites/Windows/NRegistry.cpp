@@ -25,6 +25,24 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+// Values
+static const char kValueTrue										= 'T';
+static const char kValueFalse										= 'F';
+
+
+// Headers
+static const NIndex kHeaderSize										= 5;
+static const char  *kHeaderBool										= "bool:";
+static const char  *kHeaderData										= "data:";
+static const char  *kHeaderNEncoder									= "nenc:";
+
+
+
+
+
+//============================================================================
 //		NRegistry::NRegistry : Constructor.
 //----------------------------------------------------------------------------
 NRegistry::NRegistry(void)
@@ -202,13 +220,15 @@ void NRegistry::RemoveKey(const NString &theKey)
 //		NRegistry::GetValue : Get a value.
 //----------------------------------------------------------------------------
 NVariant NRegistry::GetValue(const NString &theKey) const
-{	DWORD		theType, theSize;
-	NString		valueString;
-	SInt32		valueInt32;
-	SInt64		valueInt64;
-	NEncoder	theEncoder;
-	NVariant	theValue;
-	NData		theData;
+{	DWORD			theType, theSize;
+	NString			valueString;
+	SInt32			valueInt32;
+	SInt64			valueInt64;
+	const char		*theHeader;
+	NEncoder		theEncoder;
+	NData			valueData;
+	NVariant		theValue;
+	NData			theData;
 
 
 
@@ -237,7 +257,7 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 
 	// Decode the value
 	//
-	// Strings, integers, and data are stored directly - everything else is NEncoded.
+	// Strings and integers are stored directly, everything else is stored as data.
 	switch (theType) {
 		case REG_SZ:
 			valueString.SetData(theData, kNStringEncodingUTF16);
@@ -263,9 +283,46 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 			break;
 		
 		case REG_BINARY:
-			theValue = theEncoder.Decode(theData);
+			// Decode the value
+			if (theData.GetSize() >= kHeaderSize)
+				{
+				theHeader = (const char *) theData.GetData();
+				valueData = NData(theData.GetSize() - kHeaderSize, theHeader + kHeaderSize);
+				
+				if (memcmp(theHeader, kHeaderBool, kHeaderSize) == 0)
+					{
+					if (valueData.GetSize() == 1)
+						theValue = (bool) (valueData.GetData()[0] == kValueTrue);
+					}
+
+				else if (memcmp(theHeader, kHeaderBool, kHeaderSize) == 0)
+					theValue = valueData;
+
+				else if (memcmp(theHeader, kHeaderBool, kHeaderSize) == 0)
+					{
+					theValue = theEncoder.Decode(theData);
+					NN_ASSERT(theValue.IsValid());
+					}
+				}
+
+
+			// Legacy: decode header-less content via NEncoder
+			//
+			// Prior to introducing headers, binary data and NEncoder data were stored directly.
+			//
+			// Using a header allows us to avoid passing invalid data to NEncoder, and to encode
+			// non-NEncoder types such as bool.
 			if (!theValue.IsValid())
-				theValue = theData;
+				{
+				theValue = theEncoder.Decode(theData);
+				if (!theValue.IsValid())
+					theValue = theData;
+				}
+
+
+			// Handle failure
+			if (!theValue.IsValid())
+				NN_LOG("Unable to decode: %@", theKey);
 			break;
 		
 		case REG_NONE:
@@ -294,6 +351,7 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 	SInt32		valueInt32;
 	SInt64		valueInt64;
 	NEncoder	theEncoder;
+	bool		valueBool;
 	DWORD		theType;
 	LONG		theErr;
 
@@ -312,7 +370,7 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 
 	// Encode the value
 	//
-	// Strings, integers, and data are stored directly - everything else is NEncoded.
+	// Strings and integers are stored directly, everything else is stored as data.
 	if (theValue.GetValue(valueString))
 		{
 		theType = REG_SZ;
@@ -341,22 +399,36 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 				break;
 
 			default:
+				// Fall through to NEncoder
 				break;
 			}
 		}
 	
+	else if (theValue.GetValue(valueBool))
+		{
+		valueData.SetData(1, valueBool ? &kValueTrue : &kValueFalse);
+		
+		theType = REG_BINARY;
+		theData = NData(kHeaderSize, kHeaderBool);
+		theData.AppendData(valueData);
+		}
+		
 	else if (theValue.GetValue(valueData))
 		{
 		theType = REG_BINARY;
-		theData = valueData;
+		theData = NData(kHeaderSize, kHeaderData);
+		theData.AppendData(valueData);
 		}
 
 	if (theType == REG_NONE)
 		{
-		theType = REG_BINARY;
-		theData = theEncoder.Encode(theValue);
+		valueData = theEncoder.Encode(theValue);
 
-		if (theData.IsEmpty())
+		theType = REG_BINARY;
+		theData = NData(kHeaderSize, kHeaderNEncoder);
+		theData.AppendData(valueData);
+
+		if (valueData.IsEmpty())
 			NN_LOG("Unable to encode '%@'", theKey);
 		}
 
