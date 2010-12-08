@@ -306,10 +306,10 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 	// If the executable is within a bundle then we return the root bundle
 	// folder, otherwise we return the directory containing the executable.
 	theFile = theFile.GetParent();
-	if (theFile.GetName() == kNBundleWindows)
+	if (theFile.GetName() == "Windows")
 		{
 		theParent = theFile.GetParent();
-		if (theParent.GetName() == kNBundleContents)
+		if (theParent.GetName() == "Contents")
 			theFile = theParent.GetParent();
 		}
 

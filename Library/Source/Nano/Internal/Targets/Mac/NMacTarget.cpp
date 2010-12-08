@@ -21,6 +21,7 @@
 #include "NCFDate.h"
 #include "NCFArray.h"
 #include "NCFDictionary.h"
+#include "NCFURL.h"
 #include "NEncoder.h"
 #include "NMacTarget.h"
 
@@ -276,6 +277,9 @@ NCFObject NMacTarget::ConvertObjectToCF(const NVariant &theValue)
 	
 	else if (theValue.IsType(typeid(NDictionary)))
 		theObject = NCFDictionary(NSystemUtilities::GetDictionary(theValue)).GetObject();
+	
+	else if (theValue.IsType(typeid(NURL)))
+		theObject = NCFURL(NSystemUtilities::GetURL(theValue)).GetObject();
 
 	else
 		{
@@ -339,6 +343,9 @@ NVariant NMacTarget::ConvertCFToObject(const NCFObject &theObject)
 
 	else if (cfType == CFDictionaryGetTypeID())
 		theValue = NDictionary(NCFDictionary(theObject, false));
+
+	else if (cfType == CFURLGetTypeID())
+		theValue = NURL(NCFURL(theObject, false));
 		
 	else
 		NN_LOG("Unable to convert CF object to Nano!");

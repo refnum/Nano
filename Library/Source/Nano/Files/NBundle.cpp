@@ -2,8 +2,12 @@
 		NBundle.cpp
 
 	DESCRIPTION:
-		Resource bundle.
-	
+		Resource bundles come in two forms - traditional (Mac/Windows) or
+		flattened (iOS).
+		
+		NBundle hides these differences in structure, and provides a single
+		view onto the bundle contents.
+
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
 		<http://www.refnum.com/>
@@ -18,6 +22,7 @@
 #include "NFileUtilities.h"
 #include "NPropertyList.h"
 #include "NTargetSystem.h"
+#include "NTargetFile.h"
 #include "NBundle.h"
 
 
@@ -27,9 +32,6 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kPathBundlePList						= "Contents" NN_DIR "Info.plist";
-static const NString kPathBundleResources					= "Contents" NN_DIR "Resources";
-
 static const NString kStringsExtension						= ".strings";
 static const NString kStringsDefaultLanguage				= "en.lproj";
 static const NString kStringsDefaultTable					= "Localizable";
@@ -138,7 +140,10 @@ NFile NBundle::GetResources(void) const
 
 
 	// Get the resources
-	return(mFile.GetChild(kPathBundleResources));
+	if (!mResources.IsValid())
+		mResources = NTargetFile::BundleGetResources(mFile);
+	
+	return(mResources);
 }
 
 
@@ -212,6 +217,21 @@ NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
 
 
 //============================================================================
+//		NBundle::GetExecutable : Get an executable.
+//----------------------------------------------------------------------------
+NFile NBundle::GetExecutable(const NString &theName) const
+{
+
+
+	// Get the executable
+	return(NTargetFile::BundleGetExecutable(mFile, theName));
+}
+
+
+
+
+
+//============================================================================
 //		NBundle::GetResource : Get a resource from the bundle.
 //----------------------------------------------------------------------------
 NFile NBundle::GetResource(const NString &theName, const NString &theType, const NString &subDir) const
@@ -237,13 +257,14 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 
 	// Get an internal resource
 	//
-	// Otherwise, the path is relative to the root of the bundle.
+	// Otherwise, the path is relative to the bundle resources directory.
 	else
 		{
+		thePath = GetResources().GetPath();
 		if (subDir.IsEmpty())
-			thePath.Format("%@" NN_DIR "%@", kPathBundleResources, theName);
+			thePath.Format("%@" NN_DIR "%@", thePath, theName);
 		else
-			thePath.Format("%@" NN_DIR "%@" NN_DIR "%@", kPathBundleResources, subDir, theName);
+			thePath.Format("%@" NN_DIR "%@" NN_DIR "%@", thePath, subDir, theName);
 
 		if (!theType.IsEmpty())
 			{
@@ -253,7 +274,7 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 			thePath += theType;
 			}
 
-		theFile = mFile.GetChild(thePath);
+		theFile = NFile(thePath);
 		}
 
 	return(theFile);
@@ -298,9 +319,6 @@ NString NBundle::GetString(const NString &theKey, const NString &defaultValue, c
 NDictionary NBundle::GetBundleInfo(void) const
 {	NBundleInfo			*bundleInfo;
 	NDictionary			theResult;
-	NString				thePath;
-	NFile				theFile;
-	NPropertyList		pList;
 
 
 
@@ -313,16 +331,12 @@ NDictionary NBundle::GetBundleInfo(void) const
 	// Load the info
 	if (theResult.IsEmpty())
 		{
-		theFile = mFile.GetChild(kPathBundlePList);
-		if (theFile.IsFile())
-			{
-			theResult = pList.Load(theFile);
-			bundleInfo->theInfo = theResult;
-			}
+		theResult           = NTargetFile::BundleGetInfo(mFile);
+		bundleInfo->theInfo = theResult;
 		}
-	
-	
-	
+
+
+
 	// Clean up
 	ReleaseInfo();
 	

@@ -89,6 +89,34 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, NSSearchPathDir
 
 
 //============================================================================
+//      GetCFBundle : Get a CFBundleRef.
+//----------------------------------------------------------------------------
+static NCFObject GetCFBundle(const NFile &theBundle)
+{	NCFObject		cfURL, cfBundle;
+
+
+
+	// Check our parameters
+	if (!theBundle.IsDirectory())
+		return(cfBundle);
+
+
+
+	// Get the bundle
+	if (!cfURL.SetObject(CFURLCreateWithFileSystemPath(kCFAllocatorNano, ToCF(theBundle.GetPath()), kCFURLPOSIXPathStyle, true)))
+		return(cfBundle);
+
+	cfBundle.SetObject(CFBundleCreate(kCFAllocatorNano, cfURL));
+	NN_ASSERT(cfBundle.IsValid());
+
+	return(cfBundle);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -1038,5 +1066,98 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 
 
 
+
+//============================================================================
+//      NTargetFile::BundleGetInfo : Get a bundle's Info.plist.
+//----------------------------------------------------------------------------
+NDictionary NTargetFile::BundleGetInfo(const NFile &theBundle)
+{	NCFDictionary	theResult;
+	NCFObject		cfBundle;
+
+
+
+	// Get the state we need
+	cfBundle = GetCFBundle(theBundle);
+	NN_ASSERT(cfBundle.IsValid());
+	
+	if (!cfBundle.IsValid())
+		return(theResult);
+	
+	
+	
+	// Get the info
+	theResult.SetObject(CFBundleGetInfoDictionary(cfBundle), false);
+	NN_ASSERT(!theResult.IsEmpty());
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::BundleGetExecutable : Get a bundle executable.
+//----------------------------------------------------------------------------
+NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &theName)
+{	NFile			theResult;
+	NCFObject		cfBundle;
+	NCFURL			cfURL;
+
+
+
+	// Get the state we need
+	cfBundle = GetCFBundle(theBundle);
+	NN_ASSERT(cfBundle.IsValid());
+	
+	if (!cfBundle.IsValid())
+		return(theResult);
+	
+	
+	
+	// Get the executable
+	if (theName.IsEmpty())
+		cfURL.SetObject(CFBundleCopyExecutableURL(cfBundle));
+	else
+		cfURL.SetObject(CFBundleCopyAuxiliaryExecutableURL(cfBundle, ToCF(theName)));
+
+	if (cfURL.IsValid())
+		theResult = NString(cfURL.GetValue());
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::BundleGetResources : Get a bundle's Resources directory.
+//----------------------------------------------------------------------------
+NFile NTargetFile::BundleGetResources(const NFile &theBundle)
+{	NCFObject		cfBundle, cfURL;
+	NFile			theResult;
+	NCFString		cfString;
+
+
+
+	// Get the state we need
+	cfBundle = GetCFBundle(theBundle);
+	NN_ASSERT(cfBundle.IsValid());
+	
+	if (!cfBundle.IsValid())
+		return(theResult);
+
+
+
+	// Get the resources
+	if (cfURL.SetObject(CFBundleCopyResourcesDirectoryURL(cfBundle)))
+		{
+		if (cfString.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
+			theResult = NFile(cfString);
+		}
+	
+	return(theResult);
+}
 
 

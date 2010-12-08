@@ -36,14 +36,6 @@ static const NString kNBundleVersionKey							= "CFBundleVersion";
 static const NString kNBundleNameKey							= "CFBundleName";
 
 
-// Bundle structure
-static const NString kNBundleInfoPList							= "Info.plist";
-static const NString kNBundleContents							= "Contents";
-static const NString kNBundleResources							= "Resources";
-static const NString kNBundleMac								= "MacOS";
-static const NString kNBundleWindows							= "Windows";
-
-
 
 
 
@@ -94,11 +86,17 @@ public:
 
 	// Get an Info.plist value
 	//
-	// GetInfoDictionary returns the entire Info.plist dictionary if theKey is empty.
+	// If no key is supplied, GetInfoDictionary returns the Info.plist dictionary.
     bool								GetInfoBoolean(   const NString &theKey)    const;
 	NString								GetInfoString(    const NString &theKey)    const;
 	NArray								GetInfoArray(     const NString &theKey)    const;
 	NDictionary							GetInfoDictionary(const NString &theKey="") const;
+
+
+	// Get an executable
+	//
+	// If no name is supplied, returns the active executable.
+	NFile								GetExecutable(const NString &theName="") const;
 
 
 	// Get a resource
@@ -124,6 +122,7 @@ private:
 
 private:
 	NFile								mFile;
+	mutable NFile						mResources;
 };
 
 

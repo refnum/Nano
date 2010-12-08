@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFileUtilities.h"
+#include "NDictionary.h"
 #include "NFileMap.h"
 #include "NFile.h"
 
@@ -112,6 +113,12 @@ public:
 	static void							MapClose(  NFileRef theFile);
 	static void						   *MapFetch(  NFileRef theFile,  NMapAccess theAccess, UInt64 theOffset,   UInt32 theSize, bool noCache);
 	static void							MapDiscard(NFileRef theFile,  NMapAccess theAccess, const void *thePtr, UInt32 theSize);
+
+
+	// Bundles
+	static NDictionary					BundleGetInfo(      const NFile &theBundle);
+	static NFile						BundleGetExecutable(const NFile &theBundle, const NString &theName);
+	static NFile						BundleGetResources( const NFile &theBundle);
 };
 
 

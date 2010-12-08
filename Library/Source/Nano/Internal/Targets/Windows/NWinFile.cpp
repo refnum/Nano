@@ -21,6 +21,7 @@
 
 #include "NWindows.h"
 #include "NWinTarget.h"
+#include "NPropertyList.h"
 #include "NTargetFile.h"
 
 
@@ -1046,6 +1047,78 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 	NN_ASSERT(wasOK);
 
 	theInfo->pageTable.erase(theIter);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::BundleGetInfo : Get a bundle's Info.plist.
+//----------------------------------------------------------------------------
+NDictionary NTargetFile::BundleGetInfo(const NFile &theBundle)
+{	NDictionary			theResult;
+	NFile				fileInfo;
+	NPropertyList		pList;
+
+
+
+	// Get the info
+	fileInfo = theBundle.GetChild("Contents\\Info.plist");
+	if (fileInfo.IsFile())
+		theResult = pList.Load(fileInfo);
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::BundleGetExecutable : Get a bundle executable.
+//----------------------------------------------------------------------------
+NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &theName)
+{	NFile		theResult, theParent;
+	TCHAR		theBuffer[MAX_PATH];
+	NString		thePath;
+
+
+
+	// Get the executable
+	if (theName.IsEmpty())
+		{
+		if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
+			{
+			theResult = NFile(ToNN(theBuffer));
+			NN_ASSERT(theBundle == theResult.GetParent().GetParent());
+			}
+		}
+	else
+		{
+		thePath   = NString("Contents\\Windows\\") + theName;
+		theResult = theBundle.GetChild(thePath);
+		}
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::BundleGetResources : Get a bundle's Resources directory.
+//----------------------------------------------------------------------------
+NFile NTargetFile::BundleGetResources(const NFile &theBundle)
+{	NFile		theResult;
+
+
+
+	// Get the resources
+	theResult = theBundle.GetChild("Contents\\Resources");
+	
+	return(theResult);
 }
 
 
