@@ -51,6 +51,11 @@ public:
 	NComparison							Compare(const NURL &theValue) const;
 
 
+	// Get/set the value
+	NString								GetValue(void) const;
+	void								SetValue(const NString &theValue);
+
+
 	// Get the components
 	NString								GetScheme(void) const;
 	NString								GetHost(  void) const;
@@ -59,7 +64,6 @@ public:
 
 
 	// Operators
-										operator NString        (void) const;
 										operator NFormatArgument(void) const;
 
 

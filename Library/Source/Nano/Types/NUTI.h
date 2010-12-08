@@ -113,8 +113,9 @@ public:
 	NComparison							Compare(const NUTI &theValue) const;
 
 
-	// Get the UTI
-	NString								GetUTI(void) const;
+	// Get/set the value
+	NString								GetValue(void) const;
+	void								SetValue(const NString &theValue);
 
 
 	// Get the description

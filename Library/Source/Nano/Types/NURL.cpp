@@ -128,6 +128,36 @@ NComparison NURL::Compare(const NURL &theValue) const
 
 
 //============================================================================
+//		NURL::GetValue : Get the value.
+//----------------------------------------------------------------------------
+NString NURL::GetValue(void) const
+{
+
+
+	// Get the value
+	return(mValue);
+}
+
+
+
+
+
+//============================================================================
+//		NURL::SetValue : Set the value.
+//----------------------------------------------------------------------------
+void NURL::SetValue(const NString &theValue)
+{
+
+
+	// Set the value
+	mValue = theValue;
+}
+
+
+
+
+
+//============================================================================
 //		NURL::GetScheme : Get the scheme.
 //----------------------------------------------------------------------------
 NString NURL::GetScheme(void) const
@@ -216,21 +246,6 @@ NString NURL::GetPath(void) const
 	theResult = GetToken("\\w+://.*?(/.*)");
 	
 	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NURL::NString : NString operator.
-//----------------------------------------------------------------------------
-NURL::operator NString(void) const
-{
-
-
-	// Get the value
-	return(mValue);
 }
 
 

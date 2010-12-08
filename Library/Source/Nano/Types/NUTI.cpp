@@ -155,14 +155,29 @@ NComparison NUTI::Compare(const NUTI &theValue) const
 
 
 //============================================================================
-//		NUTI::GetUTI : Get the UTI.
+//		NUTI::GetValue : Get the value.
 //----------------------------------------------------------------------------
-NString NUTI::GetUTI(void) const
+NString NUTI::GetValue(void) const
 {
 
 
-	// Get the UTI
+	// Get the value
 	return(mValue);
+}
+
+
+
+
+
+//============================================================================
+//		NUTI::SetValue : Set the value.
+//----------------------------------------------------------------------------
+void NUTI::SetValue(const NString &theValue)
+{
+
+
+	// Set the value
+	mValue = theValue;
 }
 
 
