@@ -28,6 +28,7 @@
 #include "NCFDictionary.h"
 #include "NCFNumber.h"
 #include "NCFString.h"
+#include "NCFURL.h"
 
 
 
@@ -102,9 +103,8 @@ inline NSString *ToNS(const NString &theString)
 }
 
 inline NSURL *ToNS(const NURL &theURL)
-{	NString		theString = theURL;
-
-	return([NSURL URLWithString:ToNS(theString)]);
+{
+	return([NSURL URLWithString:ToNS(theURL.GetValue())]);
 }
 
 
@@ -162,6 +162,12 @@ inline NString ToNN(NSString *theString)
 	return(NCFString((CFStringRef) theString, false));
 }
 
+inline NURL ToNN(NSURL *theURL)
+{	NString		theString = ToNN([theURL absoluteString]);
+
+	return(NURL(theString));
+}
+
 inline NArray ToNN(NSMutableArray *theArray)
 {
 	return(NCFArray((CFMutableArrayRef) theArray, false));
@@ -180,12 +186,6 @@ inline NDictionary ToNN(NSMutableDictionary *theDictionary)
 inline NString ToNN(NSMutableString *theString)
 {
 	return(NCFString((CFMutableStringRef) theString, false));
-}
-
-inline NURL ToNN(NSURL *theURL)
-{	NString		theString = ToNN([theURL absoluteString]);
-
-	return(NURL(theString));
 }
 
 

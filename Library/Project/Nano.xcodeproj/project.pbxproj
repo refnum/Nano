@@ -260,6 +260,8 @@
 		ABB146590FF3732E006F178C /* NIOSPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146580FF3732E006F178C /* NIOSPreferences.cpp */; };
 		ABB57CFF112ADBFA003D714C /* NSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57CFD112ADBFA003D714C /* NSingleton.cpp */; };
 		ABB57D00112ADBFA003D714C /* NSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57CFD112ADBFA003D714C /* NSingleton.cpp */; };
+		ABB6781912AE55AA0077D64E /* NCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6781712AE55AA0077D64E /* NCFURL.cpp */; };
+		ABB6781A12AE55AA0077D64E /* NCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6781712AE55AA0077D64E /* NCFURL.cpp */; };
 		ABB95B680FB7243700C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B700FB724BC00C5A7FF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
 		ABB95B860FB7250500C5A7FF /* NIOSFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */; };
@@ -558,6 +560,8 @@
 		AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFNumber.cpp; sourceTree = "<group>"; };
 		AB9DA5E0102AF78F0062E311 /* NCFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFArray.h; sourceTree = "<group>"; };
 		AB9DA5E1102AF78F0062E311 /* NCFDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDate.h; sourceTree = "<group>"; };
+		ABAB539412AF8E800061AD01 /* NRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRegistry.cpp; sourceTree = "<group>"; };
+		ABAB539512AF8E800061AD01 /* NRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRegistry.h; sourceTree = "<group>"; };
 		ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferences.cpp; sourceTree = "<group>"; };
 		ABB1453D0FF2C4DA006F178C /* NPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPreferences.h; sourceTree = "<group>"; };
 		ABB145C90FF36A34006F178C /* NPropertyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPropertyList.h; sourceTree = "<group>"; };
@@ -589,6 +593,8 @@
 		ABB146580FF3732E006F178C /* NIOSPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPreferences.cpp; sourceTree = "<group>"; };
 		ABB57CFD112ADBFA003D714C /* NSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSingleton.cpp; sourceTree = "<group>"; };
 		ABB57CFE112ADBFA003D714C /* NSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSingleton.h; sourceTree = "<group>"; };
+		ABB6781712AE55AA0077D64E /* NCFURL.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFURL.cpp; sourceTree = "<group>"; };
+		ABB6781812AE55AA0077D64E /* NCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFURL.h; sourceTree = "<group>"; };
 		ABB95B660FB7243700C5A7FF /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABB95B670FB7243700C5A7FF /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSFile.cpp; sourceTree = "<group>"; };
@@ -739,6 +745,8 @@
 		AB2F38AD10CFD91700885DAE /* Windows */ = {
 			isa = PBXGroup;
 			children = (
+				ABAB539412AF8E800061AD01 /* NRegistry.cpp */,
+				ABAB539512AF8E800061AD01 /* NRegistry.h */,
 				AB2F38AE10CFD91700885DAE /* NWindows.cpp */,
 				AB2F38AF10CFD91700885DAE /* NWindows.h */,
 			);
@@ -858,6 +866,8 @@
 				AB9156780F9B5328009FFEAF /* NCFObject.h */,
 				AB91567A0F9B5328009FFEAF /* NCFString.cpp */,
 				AB9156790F9B5328009FFEAF /* NCFString.h */,
+				ABB6781712AE55AA0077D64E /* NCFURL.cpp */,
+				ABB6781812AE55AA0077D64E /* NCFURL.h */,
 				AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */,
 				AB0040191096FEB0006029F9 /* NCoreFoundation.h */,
 			);
@@ -1377,6 +1387,7 @@
 				AB9DA5EB102AF78F0062E311 /* NCFNumber.cpp in Sources */,
 				AB28FC030FB5D9EF00F72C61 /* NCFObject.cpp in Sources */,
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
+				ABB6781A12AE55AA0077D64E /* NCFURL.cpp in Sources */,
 				AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
 				AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */,
@@ -1533,6 +1544,7 @@
 				AB9DA5E6102AF78F0062E311 /* NCFNumber.cpp in Sources */,
 				AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */,
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
+				ABB6781912AE55AA0077D64E /* NCFURL.cpp in Sources */,
 				AB00401A1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
 				AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,

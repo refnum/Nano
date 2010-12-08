@@ -26,6 +26,7 @@
 #include "NVector.h"
 #include "NSize.h"
 #include "NString.h"
+#include "NURL.h"
 #include "NVariant.h"
 
 
@@ -126,6 +127,7 @@ public:
 	static NVector						GetVector(    const NVariant &theValue, const NString &debugID="");
 	static NArray						GetArray(     const NVariant &theValue, const NString &debugID="");
 	static NDictionary					GetDictionary(const NVariant &theValue, const NString &debugID="");
+	static NURL							GetURL(       const NVariant &theValue, const NString &debugID="");
 
 
 	// Get the system version

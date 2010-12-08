@@ -23,6 +23,7 @@
 #include "NCFDictionary.h"
 #include "NCFNumber.h"
 #include "NCFString.h"
+#include "NCFURL.h"
 
 
 
@@ -43,6 +44,7 @@ CFDateRef		ToCF(const NDate		&theDate);
 CFDictionaryRef	ToCF(const NDictionary	&theDictionary);
 CFNumberRef		ToCF(const NNumber		&theNumber);
 CFStringRef		ToCF(const NString		&theString);
+CFURLRef		ToCF(const NURL			&theURL);
 
 
 
@@ -80,6 +82,11 @@ inline NNumber ToNN(CFNumberRef theNumber)
 inline NString ToNN(CFStringRef theString)
 {
 	return(NCFString(theString, false));
+}
+
+inline NURL ToNN(CFURLRef theURL)
+{
+	return(NCFURL(theURL, false));
 }
 
 inline NArray ToNN(CFMutableArrayRef theArray)

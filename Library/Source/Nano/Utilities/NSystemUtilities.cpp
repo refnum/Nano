@@ -493,6 +493,33 @@ NDictionary NSystemUtilities::GetDictionary(const NVariant &theValue, const NStr
 
 
 //============================================================================
+//		NSystemUtilities::GetURL : Get a URL value.
+//----------------------------------------------------------------------------
+NURL NSystemUtilities::GetURL(const NVariant &theValue, const NString &debugID)
+{	NURL	theResult;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(debugID);
+
+
+
+	// Get the value
+	if (!theValue.GetValue(theResult))
+		{
+		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
+			NN_LOG("Unable to convert value [%@] to NURL from %s", debugID, theValue.GetType().name());
+		}
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::GetOSVersion : Get the OS version.
 //----------------------------------------------------------------------------
 OSVersion NSystemUtilities::GetOSVersion(void)

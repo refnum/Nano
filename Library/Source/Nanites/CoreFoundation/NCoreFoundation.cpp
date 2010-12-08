@@ -66,3 +66,8 @@ CFStringRef ToCF(const NString &theString)
 	return((CFStringRef) ToNS(theString));
 }
 
+CFURLRef ToCF(const NURL &theURL)
+{
+	return((CFURLRef) ToNS(theURL));
+}
+

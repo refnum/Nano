@@ -27,6 +27,7 @@
 	#include "TCFNumber.h"
 	#include "TCFObject.h"
 	#include "TCFString.h"
+	#include "TCFURL.h"
 #endif
 
 
@@ -150,6 +151,7 @@ int main(int argc, const char **argv)
 	TCFNumber::Execute();
 	TCFObject::Execute();
 	TCFString::Execute();
+	TCFURL::Execute();
 #endif // NN_TARGET_MAC
 
 
