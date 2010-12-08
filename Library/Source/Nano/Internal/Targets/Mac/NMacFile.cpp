@@ -1153,8 +1153,11 @@ NFile NTargetFile::BundleGetResources(const NFile &theBundle)
 	// Get the resources
 	if (cfURL.SetObject(CFBundleCopyResourcesDirectoryURL(cfBundle)))
 		{
-		if (cfString.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
-			theResult = NFile(cfString);
+		if (cfURL.SetObject(CFURLCopyAbsoluteURL(cfURL)))
+			{
+			if (cfString.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
+				theResult = NFile(cfString);
+			}
 		}
 	
 	return(theResult);
