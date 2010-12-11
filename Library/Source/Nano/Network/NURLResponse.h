@@ -63,6 +63,8 @@ public:
 
 
 	// Get/set the delegate methods
+	//
+	// The delegate methods may be invoked from an arbitrary thread.
 	NURLDelegateDataFunctor				GetDelegateDataFunctor(    void) const;
 	NURLDelegateFinishedFunctor			GetDelegateFinishedFunctor(void) const;
 	
