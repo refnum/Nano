@@ -661,12 +661,6 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetInset(T deltaX, T deltaY) co
 
 
 
-	// Check our state
-	if (IsEmpty())
-		return(theResult);
-
-
-
 	// Inset the rectangle
 	theResult = GetNormalized();
 	
