@@ -234,8 +234,8 @@ const char *NDebug::GetFileName(const char *thePath)
 //============================================================================
 //      NDebug::GetLock : Get the lock.
 //----------------------------------------------------------------------------
-NSpinLock &NDebug::GetLock(void)
-{	static NSpinLock	sLock;
+NMutexLock &NDebug::GetLock(void)
+{	static NMutexLock	sLock;
 
 
 	// Get the lock
