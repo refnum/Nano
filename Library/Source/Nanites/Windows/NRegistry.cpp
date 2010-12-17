@@ -300,7 +300,7 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 
 				else if (memcmp(theHeader, kHeaderNEncoder, kHeaderSize) == 0)
 					{
-					theValue = theEncoder.Decode(theData);
+					theValue = theEncoder.Decode(valueData);
 					NN_ASSERT(theValue.IsValid());
 					}
 				}
