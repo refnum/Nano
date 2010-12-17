@@ -295,10 +295,10 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 						theValue = (bool) (valueData.GetData()[0] == kValueTrue);
 					}
 
-				else if (memcmp(theHeader, kHeaderBool, kHeaderSize) == 0)
+				else if (memcmp(theHeader, kHeaderData, kHeaderSize) == 0)
 					theValue = valueData;
 
-				else if (memcmp(theHeader, kHeaderBool, kHeaderSize) == 0)
+				else if (memcmp(theHeader, kHeaderNEncoder, kHeaderSize) == 0)
 					{
 					theValue = theEncoder.Decode(theData);
 					NN_ASSERT(theValue.IsValid());
