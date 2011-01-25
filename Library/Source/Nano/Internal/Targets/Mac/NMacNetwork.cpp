@@ -16,9 +16,20 @@
 //----------------------------------------------------------------------------
 #include <SystemConfiguration/SystemConfiguration.h>
 
+#include "NTimer.h"
+#include "NCoreFoundation.h"
 #include "NCocoa.h"
 #include "NCFObject.h"
 #include "NTargetNetwork.h"
+
+
+
+
+
+//============================================================================
+//      Internal constants
+//----------------------------------------------------------------------------
+static const NTime kHeartbeatTime									= 0.1f;
 
 
 
@@ -30,6 +41,7 @@
 @interface MacURLResponse : NSObject {
 @private
 	NURLResponse				*mResponse;
+	NTimer						*mHeartbeat;
 	NSURLConnection				*mConnection;
 }
 
@@ -68,9 +80,28 @@
 	NSInitSuper(init);
 	
 	mResponse   = theResponse;
+	mHeartbeat  = new NTimer;
 	mConnection = [[NSURLConnection alloc] initWithRequest:nsRequest delegate:self startImmediately:NO];
 
-	[mConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+
+	// Schedule the connection
+	//
+	// See NTargetThread::ThreadSleep; the response is driven by a private mode on
+	// the main run looop, allowing us to run it even if the main thread is slept.
+	//
+	// However since the main thread may not be slept, we also need a timer to ensure
+	// our private mode is executed regularly.
+	//
+	//
+	// This is a little klunky, but the alternatives are equally so.
+	//
+	// E.g., creating an extra thread to run the NSURLConnection (which creates its
+	// own internal thrad anyway, since it's designed to hide threading via the use
+	// of a runloop), then spinning that thread or using the synchronous API and not
+	// being able to deliver updates as data arrives.
+	[mConnection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:(NSString *)kNanoRunLoopMode];
+	mHeartbeat->AddTimer(BindFunction(CFRunLoopRunInMode, kNanoRunLoopMode, 0.0, true), kHeartbeatTime, kHeartbeatTime);
 
 	return(self);
 }
@@ -88,7 +119,8 @@
 
 	// Clean up
 	[mConnection release];
-	
+	delete mHeartbeat;
+
 	[super dealloc];
 }
 

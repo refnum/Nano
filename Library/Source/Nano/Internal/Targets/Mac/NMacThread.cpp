@@ -21,6 +21,7 @@
 #include <libKern/OSAtomic.h>
 
 #include "NNSAutoReleasePool.h"
+#include "NCoreFoundation.h"
 #include "NThreadUtilities.h"
 #include "NTimeUtilities.h"
 #include "NMathUtilities.h"
@@ -324,12 +325,7 @@ void NTargetThread::ThreadSleep(NTime theTime)
 
 
 	// Sleep the thread
-	//
-	// We also run the run loop once, since Foundation/AppKit have several services
-	// that require the main run loop to be running to function (e.g., NSURLConnection).
 	usleep((useconds_t) (theTime / kNTimeMicrosecond));
-
-	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
 
 
 
@@ -341,8 +337,26 @@ void NTargetThread::ThreadSleep(NTime theTime)
 	// To avoid deadlocks where the main thread is waiting for a thread to exit and
 	// that thread is waiting inside InvokeMain for a functor to complete, sleeping
 	// the main thread will also invoke any queued functors.
+	//
+	//
+	// We also run maintain an internal Nano run-loop for tasks which must be driven
+	// by the main run loop (e.g., NSURLConnection) but where we may not want to
+	// run the run loop when the main thread is sleeping.
+	//
+	// E.g., the main thread may need to sleep to acquire a lock, which would block
+	// tasks that are scheduled on the main run loop. We can't run the main run loop
+	// at this point, as this may cause unwanted recursion (e.g., if called while
+	// handling drawRect, AppKit will send drawRect recursively).
+	//
+	// Scheduling these tasks on our private Nano mode means they can be run even
+	// if the main thread has had to block. Tasks that use this special mode will
+	// probably also need to arrange for the run loop to be dispatched regularly
+	// from the main thread, typically by using a repeating timer.
 	if (ThreadIsMain())
+		{
 		InvokeMainThreadFunctors();
+		CFRunLoopRunInMode(kNanoRunLoopMode, 0.0, true);
+		}
 }
 
 
