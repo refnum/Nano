@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NLock.h"
 #include "NTargetPOSIX.h"
 #include "NTextUtilities.h"
 
@@ -214,8 +215,10 @@ NStringList NTextUtilities::GetArguments(va_list argList, const char *arg1)
 //----------------------------------------------------------------------------
 #pragma mark -
 NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities, bool forEncode)
-{	static NDictionary		sStandardEncode;
+{	static bool				sStandardInited = false;
+	static NDictionary		sStandardEncode;
 	static NDictionary		sStandardDecode;
+	static NMutexLock		sStandardLock;
 
 	NDictionary		theResult, theExtra;
 	bool			didInvert;
@@ -225,28 +228,34 @@ NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities
 	// Populate the standard entities
 	//
 	// When decoding, we also recognise the numeric form of the standard five.
-	if (sStandardEncode.IsEmpty())
+	if (!sStandardInited)
 		{
-		sStandardEncode.SetValue(kEntityValueQuot,  kEntityNameQuot);
-		sStandardEncode.SetValue(kEntityValueAmp,   kEntityNameAmp);
-		sStandardEncode.SetValue(kEntityValueApos,  kEntityNameApos);
-		sStandardEncode.SetValue(kEntityValueLt,    kEntityNameLt);
-		sStandardEncode.SetValue(kEntityValueGt,    kEntityNameGt);
-		}
-	
-	if (sStandardDecode.IsEmpty())
-		{
-		sStandardDecode.SetValue(kEntityNameQuot,   kEntityValueQuot);
-		sStandardDecode.SetValue(kEntityNameAmp,    kEntityValueAmp);
-		sStandardDecode.SetValue(kEntityNameApos,   kEntityValueApos);
-		sStandardDecode.SetValue(kEntityNameLt,     kEntityValueLt);
-		sStandardDecode.SetValue(kEntityNameGt,     kEntityValueGt);
+		sStandardLock.Lock();
+		
+		if (!sStandardInited)
+			{
+			sStandardEncode.SetValue(kEntityValueQuot,  kEntityNameQuot);
+			sStandardEncode.SetValue(kEntityValueAmp,   kEntityNameAmp);
+			sStandardEncode.SetValue(kEntityValueApos,  kEntityNameApos);
+			sStandardEncode.SetValue(kEntityValueLt,    kEntityNameLt);
+			sStandardEncode.SetValue(kEntityValueGt,    kEntityNameGt);
+		
+			sStandardDecode.SetValue(kEntityNameQuot,   kEntityValueQuot);
+			sStandardDecode.SetValue(kEntityNameAmp,    kEntityValueAmp);
+			sStandardDecode.SetValue(kEntityNameApos,   kEntityValueApos);
+			sStandardDecode.SetValue(kEntityNameLt,     kEntityValueLt);
+			sStandardDecode.SetValue(kEntityNameGt,     kEntityValueGt);
 
-		sStandardDecode.SetValue(kEntityNumberQuot, kEntityValueQuot);
-		sStandardDecode.SetValue(kEntityNumberAmp,  kEntityValueAmp);
-		sStandardDecode.SetValue(kEntityNumberApos, kEntityValueApos);
-		sStandardDecode.SetValue(kEntityNumberLt,   kEntityValueLt);
-		sStandardDecode.SetValue(kEntityNumberGt,   kEntityValueGt);
+			sStandardDecode.SetValue(kEntityNumberQuot, kEntityValueQuot);
+			sStandardDecode.SetValue(kEntityNumberAmp,  kEntityValueAmp);
+			sStandardDecode.SetValue(kEntityNumberApos, kEntityValueApos);
+			sStandardDecode.SetValue(kEntityNumberLt,   kEntityValueLt);
+			sStandardDecode.SetValue(kEntityNumberGt,   kEntityValueGt);
+			
+			sStandardInited = true;
+			}
+		
+		sStandardLock.Unlock();
 		}
 
 
