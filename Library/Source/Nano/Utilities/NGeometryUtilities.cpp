@@ -332,10 +332,10 @@ template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipPolygon(cons
 
 
 	// Get the state we need
-	pTL = theRectangle.GetCorner(kNPositionTopLeft);
-	pTR = theRectangle.GetCorner(kNPositionTopRight);
-	pBL = theRectangle.GetCorner(kNPositionBottomLeft);
-	pBR = theRectangle.GetCorner(kNPositionBottomRight);
+	pTL = theRectangle.GetPoint(kNPositionTopLeft);
+	pTR = theRectangle.GetPoint(kNPositionTopRight);
+	pBL = theRectangle.GetPoint(kNPositionBottomLeft);
+	pBR = theRectangle.GetPoint(kNPositionBottomRight);
 
 
 

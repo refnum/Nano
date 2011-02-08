@@ -344,10 +344,10 @@ template<class T> NRectangleT<T> NTransformT<T>::Apply(const NRectangleT<T> &the
 
 
 	// Apply the transform
-	pTL = Apply(theRectangle.GetCorner(kNPositionTopLeft));
-	pTR = Apply(theRectangle.GetCorner(kNPositionTopRight));
-	pBL = Apply(theRectangle.GetCorner(kNPositionBottomLeft));
-	pBR = Apply(theRectangle.GetCorner(kNPositionBottomRight));
+	pTL = Apply(theRectangle.GetPoint(kNPositionTopLeft));
+	pTR = Apply(theRectangle.GetPoint(kNPositionTopRight));
+	pBL = Apply(theRectangle.GetPoint(kNPositionBottomLeft));
+	pBR = Apply(theRectangle.GetPoint(kNPositionBottomRight));
 
 	theShape = NShapeT<T>(vector(pTL, pTR, pBL, pBR));
 	

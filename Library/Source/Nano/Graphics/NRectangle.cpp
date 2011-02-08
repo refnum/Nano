@@ -367,7 +367,6 @@ template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect
 			origin.y = midY - halfHeight;
 			break;
 
-
 		case kNPositionLeft:
 			origin.x = minX;
 			origin.y = midY - halfHeight;
@@ -732,7 +731,7 @@ template<class T> NPointT<T> NRectangleT<T>::GetCenter(void) const
 
 
 	// Get the center
-	return(GetCorner(kNPositionCenter));
+	return(GetPoint(kNPositionCenter));
 }
 
 
@@ -740,18 +739,38 @@ template<class T> NPointT<T> NRectangleT<T>::GetCenter(void) const
 
 
 //============================================================================
-//		NRectangleT::GetCorner : Get a corner.
+//		NRectangleT::GetPoint : Get a point.
 //----------------------------------------------------------------------------
-template<class T> NPointT<T> NRectangleT<T>::GetCorner(NPosition thePosition) const
+template<class T> NPointT<T> NRectangleT<T>::GetPoint(NPosition thePosition) const
 {	NPointT<T>		theResult;
 
 
 
 	// Get the corner
 	switch (thePosition) {
+		case kNPositionAlert:
+			theResult.x = GetMidX();
+			theResult.y = GetMinY() + (mSize.height * 0.2);
+			break;
+
 		case kNPositionCenter:
 			theResult.x = GetMidX();
 			theResult.y = GetMidY();
+			break;
+		
+		case kNPositionLeft:
+			theResult.x = GetMinX();
+			theResult.y = GetMidY();
+			break;
+		
+		case kNPositionRight:
+			theResult.x = GetMaxX();
+			theResult.y = GetMidY();
+			break;
+		
+		case kNPositionTop:
+			theResult.x = GetMidX();
+			theResult.y = GetMinY();
 			break;
 
 		case kNPositionTopLeft:
@@ -762,6 +781,11 @@ template<class T> NPointT<T> NRectangleT<T>::GetCorner(NPosition thePosition) co
 		case kNPositionTopRight:
 			theResult.x = GetMaxX();
 			theResult.y = GetMinY();
+			break;
+		
+		case kNPositionBottom:
+			theResult.x = GetMidX();
+			theResult.y = GetMaxY();
 			break;
 
 		case kNPositionBottomLeft:
