@@ -750,7 +750,7 @@ template<class T> NPointT<T> NRectangleT<T>::GetPoint(NPosition thePosition) con
 	switch (thePosition) {
 		case kNPositionAlert:
 			theResult.x = GetMidX();
-			theResult.y = GetMinY() + (mSize.height * 0.2);
+			theResult.y = GetMinY() + (size.height * 0.2);
 			break;
 
 		case kNPositionCenter:
