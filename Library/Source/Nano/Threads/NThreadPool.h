@@ -44,6 +44,28 @@ public:
 	void								SetThreadLimit(UInt32 theValue);
 
 
+	// Pause/resume the pool
+	//
+	// Tasks may be added to the pool while it is paused, however neither
+	// existing or new tasks will be scheduled until the pool is resumed.
+	//
+	// This allows tasks to be added in batches that can take into account
+	// the pool's scheduling algorithm.
+	//
+	//
+	// E.g., a LIFO pool may contain {A,B,C}. Pausing that pool while adding
+	// {1,2,3} will ensure that pool contains {A,B,C,1,2,3} when the next
+	// task is executed.
+	//
+	// If the tasks in this pool are driven by user actions, this ensures that
+	// the last user action (3) is always executed first.
+	//
+	// If the pool was not paused, one or more of {A,B,C} may be dispatched
+	// while {1,2,3} are being added - which can cause (3) to have to wait.
+	void								Pause( void);
+	void								Resume(void);
+
+
 	// Add a task to the pool
 	//
 	// The pool takes ownership of the task, and will release it when done.
@@ -87,12 +109,15 @@ protected:
 
 private:
 	void								StopThreads(void);
+
+	void								ScheduleTask(NThreadTask *theTask);
 	void								ExecuteTasks(void);
 
 
 private:
 	mutable NMutexLock					mLock;
 
+	bool								mIsPaused;
 	bool								mStopThreads;
 	bool								mHavePushed;
 	UInt32								mThreadLimit;
@@ -101,6 +126,7 @@ private:
 	SInt32								mActiveThreads;
 
 	NThreadTaskList						mTasks;
+	NThreadTaskList						mTasksPending;
 	NSemaphore							mSemaphore;
 };
 

@@ -75,6 +75,7 @@ NThreadPool::NThreadPool(void)
 
 
 	// Initialize ourselves
+	mIsPaused    = false;
 	mStopThreads = false;
 	mHavePushed  = true;
 	mThreadLimit = NThreadUtilities::GetCPUCount();
@@ -174,6 +175,61 @@ void NThreadPool::SetThreadLimit(UInt32 theValue)
 
 
 //============================================================================
+//		NThreadPool::Pause : Pause the pool.
+//----------------------------------------------------------------------------
+void NThreadPool::Pause(void)
+{	StLock	acquireLock(mLock);
+
+
+
+	// Validate our state
+	NN_ASSERT(!mIsPaused);
+	NN_ASSERT(mTasksPending.empty());
+
+
+
+	// Update our state
+	mIsPaused = true;
+}
+
+
+
+
+
+//============================================================================
+//		NThreadPool::Resume : Resume the pool.
+//----------------------------------------------------------------------------
+void NThreadPool::Resume(void)
+{	StLock						acquireLock(mLock);
+	NThreadTaskListIterator		theIter;
+
+
+
+	// Validate our state
+	NN_ASSERT(mIsPaused);
+
+
+
+	// Schedule the tasks
+	//
+	// The threads are blocked until we release the lock, so any sorting
+	// of the task list will be deferred until the first thread can run.
+	for (theIter = mTasksPending.begin(); theIter != mTasksPending.end(); theIter++)
+		ScheduleTask(*theIter);
+
+
+
+	// Update our state
+	mIsPaused = false;
+	
+	mTasksPending.clear();
+}
+
+
+
+
+
+//============================================================================
 //		NThreadPool::AddTask : Add a task to the pool.
 //----------------------------------------------------------------------------
 void NThreadPool::AddTask(NThreadTask *theTask)
@@ -181,31 +237,11 @@ void NThreadPool::AddTask(NThreadTask *theTask)
 
 
 
-	// Validate our state
-	NN_ASSERT(mTasks.size() < kMaxTasks);
-	
-
-
 	// Add the task
-	PushTask(mTasks, theTask);
-	mHavePushed = true;
-
-
-
-	// Update the workers
-	//
-	// If we've reached the thread limit then the existing threads will need to
-	// process this task, so we signal to let them know there's more work to do.
-	//
-	// Incrementing the thread count must be done by the main thread, since a large
-	// number of tasks may be queued up before any worker thread gets a chance to run. 
-	if ((UInt32) mActiveThreads < mThreadLimit)
-		{
-		NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
-		NThreadUtilities::DelayFunctor(BindSelf(NThreadPool::ExecuteTasks), 0.0, false);
-		}
+	if (mIsPaused)
+		mTasksPending.push_back(theTask);
 	else
-		mSemaphore.Signal();
+		ScheduleTask(theTask);
 }
 
 
@@ -380,6 +416,45 @@ void NThreadPool::StopThreads(void)
 		NThread::Sleep();
 	
 	mStopThreads = false;
+}
+
+
+
+
+
+//============================================================================
+//		NThreadPool::ScheduleTask : Schedule a task for execution.
+//----------------------------------------------------------------------------
+void NThreadPool::ScheduleTask(NThreadTask *theTask)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mLock.IsLocked());
+	NN_ASSERT(mTasks.size() < kMaxTasks);
+	
+
+
+	// Add the task
+	PushTask(mTasks, theTask);
+	mHavePushed = true;
+
+
+
+	// Update the workers
+	//
+	// If we've reached the thread limit then the existing threads will need to
+	// process this task, so we signal to let them know there's more work to do.
+	//
+	// Incrementing the thread count must be done by the main thread, since a large
+	// number of tasks may be queued up before any worker thread gets a chance to run. 
+	if ((UInt32) mActiveThreads < mThreadLimit)
+		{
+		NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
+		NThreadUtilities::DelayFunctor(BindSelf(NThreadPool::ExecuteTasks), 0.0, false);
+		}
+	else
+		mSemaphore.Signal();
 }
 
 
