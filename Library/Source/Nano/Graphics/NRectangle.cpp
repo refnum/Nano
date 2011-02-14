@@ -343,58 +343,58 @@ template<class T> void NRectangleT<T>::SetPosition(const NRectangleT<T> &theRect
 	// Position the rectangle
 	switch (thePosition) {
 		case kNPositionAlert:
-			// The alert position was defined by the Mac HIG as being a gap of
-			// "20% of the available height" above the rectangle, subject to space.
-			origin.x = GetMidX() - halfWidth;
-			origin.y = GetMinY();
+			// The alert position is horizontally centred, with 1/3 of the
+			// available vertical space above the rectangle and 2/3 below it.
+			origin.x = theRect.GetMidX() - halfWidth;
+			origin.y = theRect.GetMinY();
 
 			if (theRect.size.height > size.height)
-				origin.y += (T) ((theRect.size.height - size.height) * 0.2);
+				origin.y += (T) ((theRect.size.height - size.height) / 3.0);
 			break;
 
 		case kNPositionCenter:
-			origin.x = GetMidX() - halfWidth;
-			origin.y = GetMidY() - halfHeight;
+			origin.x = theRect.GetMidX() - halfWidth;
+			origin.y = theRect.GetMidY() - halfHeight;
 			break;
 
 		case kNPositionLeft:
-			origin.x = GetMinX();
-			origin.y = GetMidY() - halfHeight;
+			origin.x = theRect.GetMinX();
+			origin.y = theRect.GetMidY() - halfHeight;
 			break;
 
 		case kNPositionRight:
-			origin.x = GetMaxX() - size.width;
-			origin.y = GetMidY() - halfHeight;
+			origin.x = theRect.GetMaxX() - size.width;
+			origin.y = theRect.GetMidY() - halfHeight;
 			break;
 
 		case kNPositionTop:
-			origin.x = GetMidX() - halfWidth;
-			origin.y = GetMinY();
+			origin.x = theRect.GetMidX() - halfWidth;
+			origin.y = theRect.GetMinY();
 			break;
 
 		case kNPositionTopLeft:
-			origin.x = GetMinX();
-			origin.y = GetMinY();
+			origin.x = theRect.GetMinX();
+			origin.y = theRect.GetMinY();
 			break;
 
 		case kNPositionTopRight:
-			origin.x = GetMaxX() - size.width;
-			origin.y = GetMinY();
+			origin.x = theRect.GetMaxX() - size.width;
+			origin.y = theRect.GetMinY();
 			break;
 
 		case kNPositionBottom:
-			origin.x = GetMidX() - halfWidth;
-			origin.y = GetMaxY() - size.height;
+			origin.x = theRect.GetMidX() - halfWidth;
+			origin.y = theRect.GetMaxY() - size.height;
 			break;
 
 		case kNPositionBottomLeft:
-			origin.x = GetMinX();
-			origin.y = GetMaxY() - size.height;
+			origin.x = theRect.GetMinX();
+			origin.y = theRect.GetMaxY() - size.height;
 			break;
 
 		case kNPositionBottomRight:
-			origin.x = GetMaxX() - size.width;
-			origin.y = GetMaxY() - size.height;
+			origin.x = theRect.GetMaxX() - size.width;
+			origin.y = theRect.GetMaxY() - size.height;
 			break;
 
 		default:
@@ -739,11 +739,10 @@ template<class T> NPointT<T> NRectangleT<T>::GetPoint(NPosition thePosition) con
 	// Get the point
 	switch (thePosition) {
 		case kNPositionAlert:
-			// The alert position only really makes sense when placing
-			// a rectangle within another rectangle, so we return a point
-			// at the top edge of an empty rectangle.
+			// The alert position is used to place rectangles, so we return
+			// a point consistent with the top edge of an empty rectangle.
 			theResult.x = GetMidX();
-			theResult.y = GetMinY() + (T) (size.height * 0.2);
+			theResult.y = GetMinY() + (T) (size.height / 3.0);
 			break;
 
 		case kNPositionCenter:
