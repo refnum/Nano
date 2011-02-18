@@ -47,6 +47,45 @@ NCacheKey::~NCacheKey(void)
 
 
 
+//=============================================================================
+//		NCacheKey::IsValid : Is the key valid?
+//-----------------------------------------------------------------------------
+bool NCacheKey::IsValid(void) const
+{	NIndex		n;
+
+
+
+	// Check the key
+	for (n = 0; n < NN_ARRAY_SIZE(mValue); n++)
+		{
+		if (mValue[n] != kNCacheKeyInvalid)
+			return(true);
+		}
+	
+	return(false);
+}
+
+
+
+
+
+//=============================================================================
+//		NCacheKey::Clear : Clear the key.
+//-----------------------------------------------------------------------------
+void NCacheKey::Clear(void)
+{	NIndex		n;
+
+
+
+	// Clear the key
+	for (n = 0; n < NN_ARRAY_SIZE(mValue); n++)
+		mValue[n] = kNCacheKeyInvalid;
+}
+
+
+
+
+
 //============================================================================
 //		NCacheKey::SetValue : Set the value.
 //----------------------------------------------------------------------------

@@ -47,6 +47,14 @@ public:
 	virtual							   ~NCacheKey(void);
 
 
+	// Is the key valid?
+	bool								IsValid(void) const;
+
+
+	// Clear the key
+	void								Clear(void);
+
+
 	// Set the value
 	void								SetValue(NIndex key0,
 												 NIndex key1=kNCacheKeyInvalid,
