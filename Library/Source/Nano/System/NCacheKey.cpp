@@ -56,9 +56,9 @@ bool NCacheKey::IsValid(void) const
 
 
 	// Check the key
-	for (n = 0; n < NN_ARRAY_SIZE(mValue); n++)
+	for (n = 0; n < NN_ARRAY_SIZE(mKey); n++)
 		{
-		if (mValue[n] != kNCacheKeyInvalid)
+		if (mKey[n] != kNCacheKeyInvalid)
 			return(true);
 		}
 	
@@ -78,8 +78,8 @@ void NCacheKey::Clear(void)
 
 
 	// Clear the key
-	for (n = 0; n < NN_ARRAY_SIZE(mValue); n++)
-		mValue[n] = kNCacheKeyInvalid;
+	for (n = 0; n < NN_ARRAY_SIZE(mKey); n++)
+		mKey[n] = kNCacheKeyInvalid;
 }
 
 
