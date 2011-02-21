@@ -56,14 +56,14 @@ NNumber::NNumber(const NVariant &theValue)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theValue.IsNumeric());
-
-
-
 	// Initialise ourselves
-	wasOK = SetValue(theValue);
-	NN_ASSERT(wasOK);
+	if (theValue.IsNumeric())
+		{
+		wasOK = SetValue(theValue);
+		NN_ASSERT(wasOK);
+		}
+	else
+		SetUInt8(0);
 }
 
 
@@ -78,14 +78,14 @@ NNumber::NNumber(const NString &theValue)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(!theValue.IsEmpty());
-
-
-
 	// Initialise ourselves
-	wasOK = SetValue(theValue);
-	NN_ASSERT(wasOK);
+	if (!theValue.IsEmpty())
+		{
+		wasOK = SetValue(theValue);
+		NN_ASSERT(wasOK);
+		}
+	else
+		SetUInt8(0);
 }
 
 
