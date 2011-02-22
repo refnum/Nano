@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NComparable.h"
+#include "NDataDigest.h"
 #include "NString.h"
 
 
@@ -37,6 +38,9 @@ static const NIndex kNCacheKeyInvalid								= (NIndex) -1;
 //----------------------------------------------------------------------------
 class NCacheKey {
 public:
+										NCacheKey(const NDigestMD5  &theDigest);
+										NCacheKey(const NDigestSHA1 &theDigest);
+										
 										NCacheKey(NIndex key0=kNCacheKeyInvalid,
 												  NIndex key1=kNCacheKeyInvalid,
 												  NIndex key2=kNCacheKeyInvalid,

@@ -15,7 +15,65 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSTLUtilities.h"
+#include "NByteSwap.h"
 #include "NCacheKey.h"
+
+
+
+
+
+//============================================================================
+//		NCacheKey::NCacheKey : Constructor.
+//----------------------------------------------------------------------------
+NCacheKey::NCacheKey(const NDigestMD5 &theDigest)
+{	const UInt32	*theKeys;
+
+
+
+	// Get the state we need
+	theKeys = (const UInt32 *) &theDigest;
+	NN_ASSERT(sizeof(theDigest) == (sizeof(UInt32) * 4));
+
+
+
+	// Initialise ourselves
+	//
+	// The digest is just a stream of bytes, but to ensure the cache key has
+	// consistent ordering we interpret them as a set of big-endian values.
+	SetValue(	NSwapUInt32_BtoN(theKeys[0]),
+				NSwapUInt32_BtoN(theKeys[1]), 
+				NSwapUInt32_BtoN(theKeys[2]), 
+				NSwapUInt32_BtoN(theKeys[3])); 
+}
+
+
+
+
+
+//============================================================================
+//		NCacheKey::NCacheKey : Constructor.
+//----------------------------------------------------------------------------
+NCacheKey::NCacheKey(const NDigestSHA1 &theDigest)
+{	const UInt32	*theKeys;
+
+
+
+	// Get the state we need
+	theKeys = (const UInt32 *) &theDigest;
+	NN_ASSERT(sizeof(theDigest) == (sizeof(UInt32) * 5));
+
+
+
+	// Initialise ourselves
+	//
+	// The digest is just a stream of bytes, but to ensure the cache key has
+	// consistent ordering we interpret them as a set of big-endian values.
+	SetValue(	NSwapUInt32_BtoN(theKeys[0]),
+				NSwapUInt32_BtoN(theKeys[1]), 
+				NSwapUInt32_BtoN(theKeys[2]), 
+				NSwapUInt32_BtoN(theKeys[3]), 
+				NSwapUInt32_BtoN(theKeys[4])); 
+}
 
 
 
