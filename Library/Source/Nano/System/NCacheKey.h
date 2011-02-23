@@ -17,8 +17,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NComparable.h"
-#include "NDataDigest.h"
 #include "NString.h"
+#include "NData.h"
 
 
 
@@ -38,13 +38,13 @@ static const NIndex kNCacheKeyInvalid								= (NIndex) -1;
 //----------------------------------------------------------------------------
 class NCacheKey {
 public:
-										NCacheKey(const NDigestMD5  &theDigest);
-										NCacheKey(const NDigestSHA1 &theDigest);
-										
-										NCacheKey(void *key0,
-												  void *key1=(void *) kNCacheKeyInvalid,
-												  void *key2=(void *) kNCacheKeyInvalid,
-												  void *key3=(void *) kNCacheKeyInvalid);
+										NCacheKey(const NString &theValue);
+										NCacheKey(const NData   &theValue);
+
+										NCacheKey(const void *key0,
+												  const void *key1=(const void *) kNCacheKeyInvalid,
+												  const void *key2=(const void *) kNCacheKeyInvalid,
+												  const void *key3=(const void *) kNCacheKeyInvalid);
 
 										NCacheKey(NIndex key0,
 												  NIndex key1=kNCacheKeyInvalid,
@@ -68,22 +68,35 @@ public:
 
 
 	// Set the value
-	void								SetValue(NIndex key0,
-												 NIndex key1=kNCacheKeyInvalid,
-												 NIndex key2=kNCacheKeyInvalid,
-												 NIndex key3=kNCacheKeyInvalid,
-												 NIndex key4=kNCacheKeyInvalid,
-												 NIndex key5=kNCacheKeyInvalid,
-												 NIndex key6=kNCacheKeyInvalid,
-												 NIndex key7=kNCacheKeyInvalid);
+	void								SetValue(const NString &theValue);
+	void								SetValue(const NData   &theValue);
+	
+	void								SetValue(	const void *key0,
+													const void *key1=(const void *) kNCacheKeyInvalid,
+													const void *key2=(const void *) kNCacheKeyInvalid,
+													const void *key3=(const void *) kNCacheKeyInvalid);
+
+	void								SetValue(	NIndex key0,
+													NIndex key1=kNCacheKeyInvalid,
+													NIndex key2=kNCacheKeyInvalid,
+													NIndex key3=kNCacheKeyInvalid,
+													NIndex key4=kNCacheKeyInvalid,
+													NIndex key5=kNCacheKeyInvalid,
+													NIndex key6=kNCacheKeyInvalid,
+													NIndex key7=kNCacheKeyInvalid);
 
 
 	// Compare the key
-	virtual NComparison					Compare(const NCacheKey &theKey) const;
+	NComparison							Compare(const NCacheKey &theKey) const;
 
 
 	// Operators
 	NCOMPARABLE_OPERATORS(NCacheKey);
+
+
+	// Split a pointer
+	static NIndex						SplitHi(const void *theValue);
+	static NIndex						SplitLo(const void *theValue);
 
 
 private:
