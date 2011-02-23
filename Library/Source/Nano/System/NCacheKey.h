@@ -47,7 +47,8 @@ public:
 												  NIndex key3=kNCacheKeyInvalid,
 												  NIndex key4=kNCacheKeyInvalid,
 												  NIndex key5=kNCacheKeyInvalid,
-												  NIndex key6=kNCacheKeyInvalid);
+												  NIndex key6=kNCacheKeyInvalid,
+												  NIndex key7=kNCacheKeyInvalid);
 	virtual							   ~NCacheKey(void);
 
 
@@ -66,7 +67,8 @@ public:
 												 NIndex key3=kNCacheKeyInvalid,
 												 NIndex key4=kNCacheKeyInvalid,
 												 NIndex key5=kNCacheKeyInvalid,
-												 NIndex key6=kNCacheKeyInvalid);
+												 NIndex key6=kNCacheKeyInvalid,
+												 NIndex key7=kNCacheKeyInvalid);
 
 
 	// Compare the key
@@ -78,7 +80,7 @@ public:
 
 
 private:
-	NIndex								mKey[7];
+	NIndex								mKey[8];
 };
 
 

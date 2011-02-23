@@ -82,12 +82,12 @@ NCacheKey::NCacheKey(const NDigestSHA1 &theDigest)
 //============================================================================
 //		NCacheKey::NCacheKey : Constructor.
 //----------------------------------------------------------------------------
-NCacheKey::NCacheKey(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6)
+NCacheKey::NCacheKey(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6, NIndex key7)
 {
 
 
 	// Initialise ourselves
-	SetValue(key0, key1, key2, key3, key4, key5, key6);
+	SetValue(key0, key1, key2, key3, key4, key5, key6, key7);
 }
 
 
@@ -147,7 +147,7 @@ void NCacheKey::Clear(void)
 //============================================================================
 //		NCacheKey::SetValue : Set the value.
 //----------------------------------------------------------------------------
-void NCacheKey::SetValue(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6)
+void NCacheKey::SetValue(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6, NIndex key7)
 {
 
 
@@ -159,6 +159,7 @@ void NCacheKey::SetValue(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIn
 	mKey[4] = key4;
 	mKey[5] = key5;
 	mKey[6] = key6;
+	mKey[7] = key7;
 }
 
 
