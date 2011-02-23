@@ -264,7 +264,7 @@ NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(theDigest.bytes) == SHA1_DIGEST_STRING_LENGTH);
+	NN_ASSERT(sizeof(theDigest.bytes) == SHA1_DIGEST_LENGTH);
 
 
 
