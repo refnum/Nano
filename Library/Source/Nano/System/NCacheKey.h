@@ -95,6 +95,14 @@ public:
 
 
 	// Split a pointer
+	//
+	// Cache comparisons are performed by key order, so typically the low bits
+	// of a pointer should be added before the high bits:
+	//
+	//		SetValue(123, 456, NCacheKey::SplitLo(thePtr), NCacheKey::SplitHi(thePtr));
+	//
+	// This ensures that the low bits, which are typically more unique on 64-bit (and
+	// always more unique on 32-bit), are compared first.
 	static NIndex						SplitHi(const void *theValue);
 	static NIndex						SplitLo(const void *theValue);
 

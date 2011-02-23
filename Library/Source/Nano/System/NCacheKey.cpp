@@ -207,10 +207,10 @@ void NCacheKey::SetValue(const void *key0, const void *key1, const void *key2, c
 
 
 	// Set the value
-	SetValue(	SplitHi(key0), SplitLo(key0),
-				SplitHi(key1), SplitLo(key1),
-				SplitHi(key2), SplitLo(key2),
-				SplitHi(key3), SplitLo(key3));
+	SetValue(	SplitLo(key0), SplitHi(key0),
+				SplitLo(key1), SplitHi(key1),
+				SplitLo(key2), SplitHi(key2),
+				SplitLo(key3), SplitHi(key3));
 }
 
 
