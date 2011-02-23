@@ -82,12 +82,59 @@ NCacheKey::NCacheKey(const NDigestSHA1 &theDigest)
 //============================================================================
 //		NCacheKey::NCacheKey : Constructor.
 //----------------------------------------------------------------------------
+NCacheKey::NCacheKey(void *key0, void *key1, void *key2, void *key3)
+{
+
+
+	// Initialise ourselves
+	//
+	// gcc emits a warning when shifting a 32-bit UIntPtr by
+	// 32 bits, so we handle each architecture separately.
+#if NN_TARGET_ARCH_64
+	SetValue(	(( ((UIntPtr) key0) >>  0) & 0xFFFFFFFF),
+				(( ((UIntPtr) key0) >> 32) & 0xFFFFFFFF),
+				(( ((UIntPtr) key1) >>  0) & 0xFFFFFFFF),
+				(( ((UIntPtr) key1) >> 32) & 0xFFFFFFFF),
+				(( ((UIntPtr) key2) >>  0) & 0xFFFFFFFF),
+				(( ((UIntPtr) key2) >> 32) & 0xFFFFFFFF),
+				(( ((UIntPtr) key3) >>  0) & 0xFFFFFFFF),
+				(( ((UIntPtr) key3) >> 32) & 0xFFFFFFFF));
+#else
+	NN_ASSERT(sizeof(UIntPtr) == sizeof(NIndex));
+	SetValue((NIndex) key0, (NIndex) key1, (NIndex) key2, (NIndex) key3);
+#endif
+}
+
+
+
+
+
+//============================================================================
+//		NCacheKey::NCacheKey : Constructor.
+//----------------------------------------------------------------------------
 NCacheKey::NCacheKey(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6, NIndex key7)
 {
 
 
 	// Initialise ourselves
 	SetValue(key0, key1, key2, key3, key4, key5, key6, key7);
+}
+
+
+
+
+
+//============================================================================
+//		NCacheKey::NCacheKey : Constructor.
+//----------------------------------------------------------------------------
+NCacheKey::NCacheKey(void)
+{	NIndex		n;
+
+
+
+	// Initialise ourselves
+	for (n = 0; n < NN_ARRAY_SIZE(mKey); n++)
+		mKey[n] = kNCacheKeyInvalid;
 }
 
 

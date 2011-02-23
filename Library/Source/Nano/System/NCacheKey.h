@@ -41,7 +41,12 @@ public:
 										NCacheKey(const NDigestMD5  &theDigest);
 										NCacheKey(const NDigestSHA1 &theDigest);
 										
-										NCacheKey(NIndex key0=kNCacheKeyInvalid,
+										NCacheKey(void *key0,
+												  void *key1=(void *) kNCacheKeyInvalid,
+												  void *key2=(void *) kNCacheKeyInvalid,
+												  void *key3=(void *) kNCacheKeyInvalid);
+
+										NCacheKey(NIndex key0,
 												  NIndex key1=kNCacheKeyInvalid,
 												  NIndex key2=kNCacheKeyInvalid,
 												  NIndex key3=kNCacheKeyInvalid,
@@ -49,6 +54,8 @@ public:
 												  NIndex key5=kNCacheKeyInvalid,
 												  NIndex key6=kNCacheKeyInvalid,
 												  NIndex key7=kNCacheKeyInvalid);
+
+										NCacheKey(void);
 	virtual							   ~NCacheKey(void);
 
 
