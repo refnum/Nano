@@ -87,28 +87,6 @@ private:
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NCacheKeyString : public NCacheKey {
-public:
-										NCacheKeyString(const NString &theKey);
-	virtual							   ~NCacheKeyString(void);
-
-
-	// Compare the key
-	NComparison							Compare(const NCacheKey &theKey) const;
-
-
-private:
-	NString								mKey;
-};
-
-
-
-
-
-
 
 
 #endif // NNCACHEKEY_HDR
