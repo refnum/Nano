@@ -1812,7 +1812,7 @@ void NString::CapitalizeCharacters(bool toUpper)
 
 
 
-	// Convert to upper case
+	// Capitalize characters
 	for (n = 0; n < theSize; n++)
 		{
 		theChar = theParser.GetChar(n);
