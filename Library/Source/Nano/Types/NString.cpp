@@ -960,6 +960,26 @@ NString NString::GetString(const NRange &theRange) const
 
 
 //============================================================================
+//		NString::GetParser : Get a parser.
+//----------------------------------------------------------------------------
+NUnicodeParser NString::GetParser(void) const
+{	const NStringValue		*theValue;
+	NUnicodeParser			theParser;
+
+
+
+	// Get the parser
+	theValue = GetImmutable();
+	theParser.Parse(theValue->theData, theValue->theEncoding);
+	
+	return(theParser);
+}
+
+
+
+
+
+//============================================================================
 //		NString::Split : Split a string.
 //----------------------------------------------------------------------------
 NStringList NString::Split(const NString &theString, NStringFlags theFlags) const
@@ -1678,7 +1698,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	dataUTF8 = GetData(kNStringEncodingUTF8);
 	textUTF8 = (const char *) dataUTF8.GetData();
 
-	theParser = GetParser(dataUTF8, kNStringEncodingUTF8);
+	theParser.Parse(dataUTF8, kNStringEncodingUTF8);
 	theRanges = theParser.GetRanges();
 
 
@@ -1903,42 +1923,6 @@ void NString::CapitalizeSentences(void)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
-}
-
-
-
-
-
-//============================================================================
-//		NString::GetParser : Get a parser.
-//----------------------------------------------------------------------------
-NUnicodeParser NString::GetParser(void) const
-{	const NStringValue		*theValue;
-
-
-
-	// Get the parser
-	theValue = GetImmutable();
-	
-	return(GetParser(theValue->theData, theValue->theEncoding));
-}
-
-
-
-
-
-//============================================================================
-//		NString::GetParser : Get a parser.
-//----------------------------------------------------------------------------
-NUnicodeParser NString::GetParser(const NData &theData, NStringEncoding theEncoding) const
-{	NUnicodeParser			theParser;
-
-
-
-	// Get the parser
-	theParser.Parse(theData, theEncoding);
-
-	return(theParser);
 }
 
 
