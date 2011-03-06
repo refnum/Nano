@@ -469,6 +469,94 @@ NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith,
 
 
 //============================================================================
+//		NString::Transform : Transform the string.
+//----------------------------------------------------------------------------
+void NString::Transform(NStringTransform theTransform, const NRange &theRange)
+{	NString		newString;
+
+
+
+	// Validate our parameters
+	if (theTransform & kNStringToLowerCase)
+		NN_ASSERT(!(theTransform & kNStringToUpperCase));
+
+	if (theTransform & kNStringToUpperCase)
+		NN_ASSERT(!(theTransform & kNStringToLowerCase));
+
+	if (theTransform & kNStringCapitalizeWords)
+		NN_ASSERT(!(theTransform & kNStringCapitalizeSentences));
+
+	if (theTransform & kNStringCapitalizeSentences)
+		NN_ASSERT(!(theTransform & kNStringCapitalizeWords));
+
+
+
+	// Get the state we need
+	newString = GetString(theRange);
+	if (newString.IsEmpty())
+		return;
+
+
+
+	// Apply the transforms
+	if (theTransform & kNStringToLowerCase)
+		newString.CapitalizeCharacters(false);
+
+	if (theTransform & kNStringToUpperCase)
+		newString.CapitalizeCharacters(true);
+
+	if (theTransform & kNStringCapitalizeWords)
+		newString.CapitalizeWords();
+
+	if (theTransform & kNStringCapitalizeSentences)
+		newString.CapitalizeSentences();
+		
+	Replace(theRange, newString);
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetUpper : Get as upper case.
+//----------------------------------------------------------------------------
+NString NString::GetUpper(void) const
+{	NString		theString;
+
+
+
+	// Get the string
+	theString = *this;
+	theString.Transform(kNStringToUpperCase);
+	
+	return(theString);
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetLower : Get as lower case.
+//----------------------------------------------------------------------------
+NString NString::GetLower(void) const
+{	NString		theString;
+
+
+
+	// Get the string
+	theString = *this;
+	theString.Transform(kNStringToLowerCase);
+	
+	return(theString);
+}
+
+
+
+
+
+//============================================================================
 //		NString::StartsWith : Does the string start with a string?
 //----------------------------------------------------------------------------
 bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
@@ -746,120 +834,6 @@ bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
 
 	// General equality
 	return(Compare(theString, theFlags) == kNCompareEqualTo);
-}
-
-
-
-
-
-//============================================================================
-//		NString::GetUpper : Get as upper case.
-//----------------------------------------------------------------------------
-NString NString::GetUpper(void) const
-{	NString		theString;
-
-
-
-	// Get the string
-	theString = *this;
-	theString.MakeUpper();
-	
-	return(theString);
-}
-
-
-
-
-
-//============================================================================
-//		NString::GetLower : Get as lower case.
-//----------------------------------------------------------------------------
-NString NString::GetLower(void) const
-{	NString		theString;
-
-
-
-	// Get the string
-	theString = *this;
-	theString.MakeLower();
-	
-	return(theString);
-}
-
-
-
-
-
-//============================================================================
-//      NString::GetCapitals : Get as capitalized.
-//----------------------------------------------------------------------------
-NString NString::GetCapitals(NStringCapitalization theStyle) const
-{	NString		theString;
-
-
-
-	// Get the string
-	theString = *this;
-	theString.MakeCapitals(theStyle);
-    
-	return(theString);
-}
-
-
-
-
-
-//============================================================================
-//		NString::MakeUpper : Convert to upper case.
-//----------------------------------------------------------------------------
-void NString::MakeUpper(void)
-{
-
-
-	// Update the string
-	CapitalizeCharacters(true);
-}
-
-
-
-
-
-//============================================================================
-//		NString::MakeLower : Convert to lower case.
-//----------------------------------------------------------------------------
-void NString::MakeLower(void)
-{
-
-
-	// Update the string
-	CapitalizeCharacters(false);
-}
-
-
-
-
-
-//============================================================================
-//      NString::MakeCapitals : Convert to capitalized form.
-//----------------------------------------------------------------------------
-void NString::MakeCapitals(NStringCapitalization theStyle)
-{
-
-
-	// Update the string
-	switch (theStyle) {
-		case kNCapitalizeWords:
-			CapitalizeWords();
-			break;
-		
-		case kNCapitalizeSentences:
-			CapitalizeSentences();
-			break;
-		
-		default:
-			NN_LOG("Unknown capitalization style: %d", theStyle);
-			break;
-		}
 }
 
 

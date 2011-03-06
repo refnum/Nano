@@ -54,11 +54,14 @@ static const NStringRendering kNStringNullTerminate					= (1 << 0);
 static const NStringRendering kNStringUnicodeBOM					= (1 << 1);
 
 
-// Capitalization
-typedef enum {
-	kNCapitalizeWords,
-	kNCapitalizeSentences
-} NStringCapitalization;
+// Transforms
+typedef NBitfield NStringTransform;
+
+static const NStringTransform kNStringTransformNone					= 0;
+static const NStringTransform kNStringToLowerCase					= (1 << 0);
+static const NStringTransform kNStringToUpperCase					= (1 << 1);
+static const NStringTransform kNStringCapitalizeWords				= (1 << 2);
+static const NStringTransform kNStringCapitalizeSentences			= (1 << 3);
 
 
 // Misc
@@ -194,6 +197,17 @@ public:
     NIndex								ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags=kNStringNone, const NRange &theRange=kNRangeAll);
 
 
+	// Transform the contents
+	//
+	// Multiple tranformations may be applied at once, however their order is undefined.
+	void								Transform(NStringTransform theTransform, const NRange &theRange=kNRangeAll);
+
+
+	// Convert to upper/lower case
+	NString								GetUpper(void) const;
+	NString								GetLower(void) const;
+
+
 	// Test the contents
 	bool								StartsWith(const NString &theString, NStringFlags theFlags=kNStringNone) const;
 	bool								EndsWith(  const NString &theString, NStringFlags theFlags=kNStringNone) const;
@@ -206,16 +220,6 @@ public:
 	NComparison							Compare(const NString &theValue)                                        const;
 	NComparison							Compare(const NString &theString, NStringFlags theFlags)                const;
 	bool								EqualTo(const NString &theString, NStringFlags theFlags=kNStringNoCase) const;
-
-
-	// Change the case
-	NString								GetUpper(void)                                                const;
-	NString								GetLower(void)                                                const;
-    NString                             GetCapitals(NStringCapitalization theStyle=kNCapitalizeWords) const;
-
-	void								MakeUpper(void);
-	void								MakeLower(void);
-    void								MakeCapitals(NStringCapitalization theStyle=kNCapitalizeWords);
 
 
 	// Extract a substring
@@ -295,9 +299,9 @@ private:
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
 	
-	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)                   const;
-	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding)                  const;
-	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)                    const;
+	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;
+	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
+	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;
 
 	NUnicodeParser						GetParser(void)                                                                                 const;
 	UInt64								GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const;
