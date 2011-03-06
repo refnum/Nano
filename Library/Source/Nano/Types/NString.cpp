@@ -374,17 +374,23 @@ void NString::Replace(const NRange &theRange, const NString &replaceWith)
 
 
 
-	// Get the state we need
-	if (theRange.GetFirst() != 0)
-		thePrefix = GetString(NRange(0, theRange.GetFirst()));
-
-	if (theRange.GetNext() < GetSize())
-		theSuffix = GetString(NRange(theRange.GetNext(), kNStringLength));
-
-
-
 	// Replace the string
-	*this = thePrefix + replaceWith + theSuffix;
+	if (IsFullRange(theRange))
+		*this = replaceWith;
+
+
+
+	// Replace a substring
+	else
+		{
+		if (theRange.GetFirst() != 0)
+			thePrefix = GetString(NRange(0, theRange.GetFirst()));
+
+		if (theRange.GetNext() < GetSize())
+			theSuffix = GetString(NRange(theRange.GetNext(), kNStringLength));
+
+		*this = thePrefix + replaceWith + theSuffix;
+		}
 }
 
 
@@ -925,8 +931,14 @@ NString NString::GetString(const NRange &theRange) const
 {
 
 
-	// Get the substring
-	return(GetString(GetParser(), theRange));
+	// Get the string
+	if (IsFullRange(theRange))
+		return(*this);
+	
+	
+	// Get a substring
+	else
+		return(GetString(GetParser(), theRange));
 }
 
 
@@ -1877,6 +1889,27 @@ void NString::CapitalizeSentences(void)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
+}
+
+
+
+
+
+//============================================================================
+//      NString::IsFullRange : Does a range match the full string?
+//----------------------------------------------------------------------------
+bool NString::IsFullRange(const NRange &theRange) const
+{	bool	isFull;
+
+
+
+	// Check the range
+	isFull = (theRange == kNRangeAll);
+	
+	if (!isFull)
+		isFull = (theRange.GetLocation() == 0 && theRange.GetSize() == GetSize());
+	
+	return(isFull);
 }
 
 

@@ -298,7 +298,8 @@ private:
 	void								CapitalizeCharacters(bool toUpper);
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
-	
+
+	bool								IsFullRange(         const NRange     &theRange)                               const;           
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;
