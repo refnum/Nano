@@ -225,10 +225,6 @@ public:
 	NString								GetString(const NRange &theRange) const;
 
 
-	// Get a parser
-	NUnicodeParser						GetParser(void) const;
-
-
 	// Split the string
 	//
 	// Two consecutive dividers produce an empty string:
@@ -302,6 +298,8 @@ private:
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)                   const;
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding)                  const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)                    const;
+
+	NUnicodeParser						GetParser(void)                                                                                 const;
 	UInt64								GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const;
 	NString								GetString(const NUnicodeParser &theParser, const NRange &theRange)                              const;
 

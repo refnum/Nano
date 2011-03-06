@@ -960,26 +960,6 @@ NString NString::GetString(const NRange &theRange) const
 
 
 //============================================================================
-//		NString::GetParser : Get a parser.
-//----------------------------------------------------------------------------
-NUnicodeParser NString::GetParser(void) const
-{	const NStringValue		*theValue;
-	NUnicodeParser			theParser;
-
-
-
-	// Get the parser
-	theValue = GetImmutable();
-	theParser.Parse(theValue->theData, theValue->theEncoding);
-	
-	return(theParser);
-}
-
-
-
-
-
-//============================================================================
 //		NString::Split : Split a string.
 //----------------------------------------------------------------------------
 NStringList NString::Split(const NString &theString, NStringFlags theFlags) const
@@ -2107,6 +2087,24 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 		theFlags &= ~kNStringPattern;
 
 	return(thePattern);
+}
+
+
+
+
+
+//============================================================================
+//        NString::GetParser : Get a parser.
+//----------------------------------------------------------------------------
+NUnicodeParser NString::GetParser(void) const
+{    const NStringValue        *theValue;
+
+
+
+    // Get the parser
+    theValue = GetImmutable();
+    
+    return(GetParser(theValue->theData, theValue->theEncoding));
 }
 
 
