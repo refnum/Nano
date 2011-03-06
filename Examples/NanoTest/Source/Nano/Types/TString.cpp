@@ -250,23 +250,13 @@ void TString::Execute(void)
 	// Case
 	NN_ASSERT(NString("getupper").GetUpper() == "GETUPPER");
 	NN_ASSERT(NString("GetLower").GetLower() == "getlower");
-	NN_ASSERT(NString("get words in caps").GetCapitals       (kNCapitalizeWords)     == "Get Words In Caps");
-	NN_ASSERT(NString("get, sentences! in.caps?").GetCapitals(kNCapitalizeSentences) == "Get, sentences! In.Caps?");
-
-	testString1 = "makeupper";
-	testString1.MakeUpper();
-	NN_ASSERT(testString1 == "MAKEUPPER");
-
-	testString1 = "MakeLower";
-	testString1.MakeLower();
-	NN_ASSERT(testString1 == "makelower");
-
+	
 	testString1 = "get words in caps";
-	testString1.MakeCapitals(kNCapitalizeWords);
+	testString1.Transform(kNStringCapitalizeWords);
 	NN_ASSERT(testString1 == "Get Words In Caps");
 
 	testString1 = "get, sentences! in.caps?";
-	testString1.MakeCapitals(kNCapitalizeSentences);
+	testString1.Transform(kNStringCapitalizeSentences);
 	NN_ASSERT(testString1 == "Get, sentences! In.Caps?");
 
 
