@@ -35,6 +35,11 @@ static const UInt8 kValueText1_UTF16BE[]							= { 0xFE, 0xFF, 0x00, 0x74, 0x00,
 static const char *kValueText2_UTF8									= "/";
 static const UInt8 kValueText2_UTF16BE[]							= { 0x00, 0x2F };
 
+static const NString kValueDiacritics_String						= "Testing Text Diacritic";
+static const UInt8   kValueDiacritics_UTF8[]						= { 0x54, 0xC3, 0xA9, 0x73, 0x74, 0xC3, 0xAF, 0x6E, 0x67,
+																		0x20, 0x54, 0xC3, 0xA8, 0x78, 0x74, 0x20, 0x44, 0x69,
+																		0x61, 0xC3, 0xA7, 0x72, 0x69, 0x74, 0x69, 0x63, 0x00 }; 
+
 
 
 
@@ -247,7 +252,7 @@ void TString::Execute(void)
 
 
 
-	// Case
+	// Transforms
 	NN_ASSERT(NString("getupper").GetUpper() == "GETUPPER");
 	NN_ASSERT(NString("GetLower").GetLower() == "getlower");
 	
@@ -258,6 +263,11 @@ void TString::Execute(void)
 	testString1 = "get, sentences! in.caps?";
 	testString1.Transform(kNStringCapitalizeSentences);
 	NN_ASSERT(testString1 == "Get, sentences! In.Caps?");
+
+	testString1 = kValueDiacritics_String;
+	testString2 = NString(kValueDiacritics_UTF8, kNStringLength, kNStringEncodingUTF8);
+	testString2.Transform(kNStringStripDiacritics);
+	NN_ASSERT(testString2 == testString1);
 
 
 

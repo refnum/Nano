@@ -78,6 +78,10 @@ public:
 	// Locale
 	static NVariant						GetLocaleValue(      const NString &theID, const NString &theKey);
 	static NBroadcaster				   *GetLocaleBroadcaster(const NString &theID);
+
+
+	// Strings
+	static NString						TransformString(const NString &theString, NStringTransform theTransform);
 };
 
 

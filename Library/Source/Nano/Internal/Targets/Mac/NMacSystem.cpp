@@ -733,4 +733,44 @@ NBroadcaster *NTargetSystem::GetLocaleBroadcaster(const NString &/*theID*/)
 
 
 
+//============================================================================
+//      NTargetSystem::TransformString : Transform a string.
+//----------------------------------------------------------------------------
+NString NTargetSystem::TransformString(const NString &theString, NStringTransform theTransform)
+{	NString			theResult;
+	CFStringRef		cfString;
+	NCFObject		cfResult;
+	bool			wasOK;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theString.IsEmpty());
+	NN_ASSERT(theTransform & kNStringStripDiacritics);
+
+
+
+	// Get the state we need
+	theResult = theString;
+	cfString  = ToCF(theString);
+
+	if (!cfResult.SetObject(CFStringCreateMutableCopy(kCFAllocatorNano, 0, cfString)))
+		return(theResult);
+
+
+
+	// Transform the string
+	if (theTransform & kNStringStripDiacritics)
+		{
+		wasOK = CFStringTransform(cfResult, NULL, kCFStringTransformStripDiacritics, false);
+		NN_ASSERT(wasOK);
+		
+		if (wasOK)
+			theResult = ToNN((CFStringRef) cfResult);
+		}
+	
+	return(theResult);
+}
+
+
 

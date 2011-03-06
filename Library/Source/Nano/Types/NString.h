@@ -62,6 +62,7 @@ static const NStringTransform kNStringToLowerCase					= (1 << 0);
 static const NStringTransform kNStringToUpperCase					= (1 << 1);
 static const NStringTransform kNStringCapitalizeWords				= (1 << 2);
 static const NStringTransform kNStringCapitalizeSentences			= (1 << 3);
+static const NStringTransform kNStringStripDiacritics				= (1 << 4);
 
 
 // Misc

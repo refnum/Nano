@@ -821,3 +821,61 @@ NBroadcaster *NTargetSystem::GetLocaleBroadcaster(const NString &/*theID*/)
 }
 
 
+
+
+
+//============================================================================
+//      NTargetSystem::TransformString : Transform a string.
+//----------------------------------------------------------------------------
+NString NTargetSystem::TransformString(const NString &theString, NStringTransform theTransform)
+{	std::vector<TCHAR>		resultChars;
+	NIndex					n, numChars;
+	const TCHAR				*srcChars;
+	NString					theResult;
+	std::vector<TCHAR>		dstChars;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theString.IsEmpty());
+	NN_ASSERT(theTransform & kNStringStripDiacritics);
+
+
+
+	// Get the state we need
+	theResult = theString;
+
+
+
+	// Transform the string
+	if (theTransform & kNStringStripDiacritics)
+		{
+		// Get the state we need
+		srcChars = ToWN(theResult);
+		numChars = FoldString(MAP_COMPOSITE, &srcChars[0], theResult.GetSize(), NULL, 0);
+	
+		dstChars.resize(numChars);
+		numChars = FoldString(MAP_COMPOSITE, &srcChars[0], theResult.GetSize(), &dstChars[0], numChars);
+		NN_ASSERT(numChars == (NIndex) dstChars.size());
+
+
+		// Extract the characters
+		//
+		// This is only correct for Roman-style languages; may need to invoke FoldString
+		// on each character in turn, to determine which ones MAP_COMPOSITE expanded.
+		for (n = 0; n < numChars; n++)
+			{
+			if (isascii(dstChars[n]))
+				resultChars.push_back(dstChars[n]);
+			}
+
+		resultChars.push_back(0x0000);
+		theResult = ToNN(&resultChars[0]);
+		}
+
+	return(theResult);
+}
+
+
+
+

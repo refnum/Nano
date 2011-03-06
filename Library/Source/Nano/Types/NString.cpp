@@ -19,6 +19,7 @@
 
 #include "NTextUtilities.h"
 #include "NSTLUtilities.h"
+#include "NTargetSystem.h"
 #include "NEncoder.h"
 #include "NString.h"
 
@@ -516,7 +517,10 @@ void NString::Transform(NStringTransform theTransform, const NRange &theRange)
 
 	if (theTransform & kNStringCapitalizeSentences)
 		newString.CapitalizeSentences();
-		
+	
+	if (theTransform & kNStringStripDiacritics)
+		newString = NTargetSystem::TransformString(newString, theTransform);
+
 	Replace(theRange, newString);
 }
 
