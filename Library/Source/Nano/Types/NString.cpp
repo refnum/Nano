@@ -2097,14 +2097,17 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 //        NString::GetParser : Get a parser.
 //----------------------------------------------------------------------------
 NUnicodeParser NString::GetParser(void) const
-{    const NStringValue        *theValue;
+{	const NStringValue		*theValue;
+	NUnicodeParser			theParser;
 
 
 
-    // Get the parser
-    theValue = GetImmutable();
-    
-    return(GetParser(theValue->theData, theValue->theEncoding));
+	// Get the parser
+	theValue = GetImmutable();
+
+	theParser.Parse(theValue->theData, theValue->theEncoding);
+
+	return(theParser);
 }
 
 
