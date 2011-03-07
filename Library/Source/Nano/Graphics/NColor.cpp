@@ -481,6 +481,32 @@ NColor::operator NFormatArgument(void) const
 
 
 //============================================================================
+//      NColor::Interpolate : Interpolate between two colors.
+//----------------------------------------------------------------------------
+NColor NColor::Interpolate(const NColor &startColor, const NColor &endColor, float theProgress)
+{	NColor		theResult;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theProgress >= 0.0f && theProgress <= 1.0f);
+
+
+
+	// Interpolate the colors
+	theResult.mRed   = NN_LERP_VALUE(startColor.mRed,   endColor.mRed,   theProgress);
+	theResult.mGreen = NN_LERP_VALUE(startColor.mGreen, endColor.mGreen, theProgress);
+	theResult.mBlue  = NN_LERP_VALUE(startColor.mBlue,  endColor.mBlue,  theProgress);
+	theResult.mAlpha = NN_LERP_VALUE(startColor.mAlpha, endColor.mAlpha, theProgress);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //      NColor::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
 #pragma mark -

@@ -112,6 +112,10 @@ public:
 										operator NFormatArgument(void) const;
 
 
+	// Interpolate between two colors
+	static NColor						Interpolate(const NColor &startColor, const NColor &endColor, float theProgress);
+
+
 protected:
 	// Encode/decode the object
 	void								EncodeSelf(      NEncoder &theEncoder) const;

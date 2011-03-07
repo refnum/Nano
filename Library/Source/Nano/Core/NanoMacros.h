@@ -36,6 +36,10 @@
 #define NN_CLAMP_VALUE(_v, _min, _max)								std::min((_max), std::max((_min), (_v)))
 
 
+// Interpolate between values
+#define NN_LERP_VALUE(_start, _end, _progress)						( ((_start) * (1.0 - (_progress))) + ((_end) * (_progress)) )
+
+
 // Is an address aligned?
 #define NN_ALIGNED_TO(_value, _size)								((((UIntPtr) _value) % _size) == 0)
 
