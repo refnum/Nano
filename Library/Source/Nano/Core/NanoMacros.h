@@ -37,7 +37,7 @@
 
 
 // Interpolate between values
-#define NN_LERP_VALUE(_start, _end, _progress)						( ((_start) * (1.0 - (_progress))) + ((_end) * (_progress)) )
+#define NN_LERP_VALUE(_start, _end, _progress)						( ((_start) * (1.0f - (_progress))) + ((_end) * (_progress)) )
 
 
 // Is an address aligned?
