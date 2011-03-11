@@ -118,8 +118,6 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML, const NProgressFunctor &the
 
 	// Decode the XML
 	theErr = theParser.Parse(theXML);
-	NN_ASSERT_NOERR(theErr);
-
 	if (theErr != kNoErr)
 		{
 		delete mDecodeRoot;

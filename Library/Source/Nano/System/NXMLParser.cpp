@@ -288,9 +288,6 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 			}
 		}
 
-	if (theErr != kNoErr)
-		NN_LOG("NXMLParser failed: %s", XML_ErrorString(XML_GetErrorCode(mParser)));
-
 
 
 	// Update our state
