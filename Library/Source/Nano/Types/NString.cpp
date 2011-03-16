@@ -1487,27 +1487,37 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 
 
 
-	// Find the string
+	// Reverse search
 	//
-	// Backwards searching is only supported for non-pattern searches, and with
-	// a forwards search which is then reversed - this should be improved.
-	if (isPattern)
-		theResults = FindPattern(theString, theFlags, findRange, doAll);
+	// Reverse searches are very inefficient, since we do a forwards search for
+	// every instance which we then need to reverse. This should be improved.
+	if (isBackwards)
+		{
+		// Find everything
+		if (isPattern)
+			theResults = FindPattern(theString, theFlags, findRange, true);
+		else
+			theResults = FindString( theString, theFlags, findRange, true);
+
+
+		// Adjust the result
+		if (!theResults.empty())
+			{
+			if (doAll)
+				reverse(theResults);
+			else
+				theResults = vector(theResults.back());
+			}
+		}
+
+
+	// Forward search
 	else
 		{
-		if (isBackwards)
-			{
-			theResults = FindString(theString, theFlags, findRange, true);
-			if (!theResults.empty())
-				{
-				if (doAll)
-					reverse(theResults);
-				else
-					theResults = vector(theResults.back());
-				}
-			}
+		if (isPattern)
+			theResults = FindPattern(theString, theFlags, findRange, doAll);
 		else
-			theResults = FindString(theString, theFlags, findRange, doAll);
+			theResults = FindString( theString, theFlags, findRange, doAll);
 		}
 		
 	return(theResults);
