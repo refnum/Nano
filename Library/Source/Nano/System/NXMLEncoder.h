@@ -34,8 +34,10 @@ public:
 
 
 	// Encode/decode an XML document
-	NString								Encode(const NXMLNode *theNode);
-	NXMLNode						   *Decode(const NString  &theXML, const NProgressFunctor &theProgress=NULL);
+	//
+	// If an error occurs during parsing, an empty string/NULL node is returned.
+	NString								Encode(const NXMLNode *theNode, NStatus *parseErr=NULL);
+	NXMLNode						   *Decode(const NString  &theXML,  NStatus *parseErr=NULL, const NProgressFunctor &theProgress=NULL);
 
 
 private:

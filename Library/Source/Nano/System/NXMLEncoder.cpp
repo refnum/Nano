@@ -64,7 +64,7 @@ NXMLEncoder::~NXMLEncoder(void)
 //============================================================================
 //		NXMLEncoder::Encode : Encode a node to an XML document.
 //----------------------------------------------------------------------------
-NString NXMLEncoder::Encode(const NXMLNode *theNode)
+NString NXMLEncoder::Encode(const NXMLNode *theNode, NStatus *parseErr)
 {	NString		theXML;
 
 
@@ -76,6 +76,14 @@ NString NXMLEncoder::Encode(const NXMLNode *theNode)
 
 	// Encode the XML
 	theXML = EncodeNode(theNode, "");
+	
+	if (parseErr != NULL)
+		{
+		if (theNode != NULL && theXML.IsEmpty())
+			*parseErr = kNErrInternal;
+		else
+			*parseErr = kNoErr;
+		}
 
 	return(theXML);
 }
@@ -87,7 +95,7 @@ NString NXMLEncoder::Encode(const NXMLNode *theNode)
 //============================================================================
 //		NXMLEncoder::Decode : Decode an XML document to a node.
 //----------------------------------------------------------------------------
-NXMLNode *NXMLEncoder::Decode(const NString &theXML, const NProgressFunctor &theProgress)
+NXMLNode *NXMLEncoder::Decode(const NString &theXML, NStatus *parseErr, const NProgressFunctor &theProgress)
 {	NXMLParser		theParser;
 	NXMLNode		*theNode;
 	NStatus			theErr;
@@ -129,6 +137,9 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML, const NProgressFunctor &the
 	// Clean up
 	mDecodeRoot = NULL;
 	mDecodeElements.clear();
+	
+	if (parseErr != NULL)
+		*parseErr = theErr;
 	
 	return(theNode);
 }
