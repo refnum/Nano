@@ -20,6 +20,7 @@
 #include <shlobj.h>
 
 #include "NWindows.h"
+#include "NRegistry.h"
 #include "NWinTarget.h"
 #include "NPropertyList.h"
 #include "NTargetFile.h"
@@ -212,18 +213,40 @@ bool NTargetFile::Exists(const NString &thePath)
 //============================================================================
 //      NTargetFile::GetName : Get a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::GetName(const NString &thePath, bool /*displayName*/)
-{	NRange			slashPos;
+NString NTargetFile::GetName(const NString &thePath, bool displayName)
+{	NRange			slashPos, dotPos;
+	NRegistry		theRegistry;
 	NString			theName;
+	NStatus			theErr;
 
 
 
-	// Get the file name
-	slashPos = thePath.Find("\\", kNStringBackwards);
-	if (slashPos.IsEmpty())
-		theName = thePath;
-	else
-		theName = thePath.GetRight(thePath.GetSize() - slashPos.GetNext());
+	// Get the state we need
+	theName = thePath;
+
+
+
+	// Extract the file name
+	slashPos = theName.Find("\\", kNStringBackwards);
+	if (!slashPos.IsEmpty())
+		theName = theName.GetRight(theName.GetSize() - slashPos.GetNext());
+
+
+
+	// Extract the display name
+	if (displayName)
+		{
+		theErr = theRegistry.Open(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced");
+		if (theErr == kNoErr)
+			{
+			if (theRegistry.GetValueBoolean("HideFileExt"))
+				{
+				dotPos = theName.Find(".", kNStringBackwards);
+				if (!dotPos.IsEmpty())
+					theName = theName.GetLeft(dotPos.GetLocation());
+				}
+			}
+		}
 
 	return(theName);
 }
