@@ -450,11 +450,26 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 //		NRegistry::GetValueBoolean : Get a boolean value.
 //----------------------------------------------------------------------------
 bool NRegistry::GetValueBoolean(const NString &theKey) const
-{
+{	NNumber		theNumber, numberZero;
+	bool		theResult;
+	NVariant	theValue;
+
 
 
 	// Get the value
-	return(NSystemUtilities::GetBoolean(GetValue(theKey), theKey));
+	//
+	// Many system registry keys store DWORD values of 0 or 1 to represent bools.
+	//
+	// We use a dedicated type to store bools, but to allow a more natural access
+	// to these system values we convert numeric types automatically.
+	theValue = GetValue(theKey);
+	
+	if (theNumber.SetValue(theValue))
+		theResult = (theNumber != numberZero);
+	else
+		theResult = NSystemUtilities::GetBoolean(theValue);
+	
+	return(theResult);
 }
 
 
