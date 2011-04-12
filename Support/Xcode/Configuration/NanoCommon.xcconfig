@@ -98,9 +98,10 @@ ARCHS[sdk=iphonesimulator*]							= i386
 CODE_SIGN_IDENTITY[sdk=iphoneos*]					= iPhone Developer
 CODE_SIGN_IDENTITY[sdk=iphonesimulator*]			= iPhone Developer
 
-TARGETED_DEVICE_FAMILY								= 1,2			// iPhone=1, iPad=2
+TARGETED_DEVICE_FAMILY								= 1,2		// iPhone=1, iPad=2
 VALIDATE_PRODUCT									= YES
 
+GCC_FAST_MATH[sdk=iphonesimulator*]					= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
 
 
 
