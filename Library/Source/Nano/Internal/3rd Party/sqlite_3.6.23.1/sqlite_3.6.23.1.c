@@ -15,8 +15,9 @@
 #define Cursor														SQLite_Cursor
 #define cType														SQLite_cType
 
-#ifdef __APPLE__
-int gethostuuid(uuid_t, const struct timespec *);
+#if defined(__APPLE__)
+	#include <unistd.h>
+	int gethostuuid(uuid_t, const struct timespec *);
 #endif
 
 
