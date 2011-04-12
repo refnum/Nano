@@ -179,6 +179,36 @@ NColor::~NColor(void)
 
 
 //============================================================================
+//		NColor::IsOpaque : Is the color opaque?
+//----------------------------------------------------------------------------
+bool NColor::IsOpaque(void) const
+{
+
+
+	// Test the alpha
+	return(mAlpha >= 1.0f);
+}
+
+
+
+
+
+//============================================================================
+//		NColor::IsTransparent : Is the color transparent?
+//----------------------------------------------------------------------------
+bool NColor::IsTransparent(void) const
+{
+
+
+	// Test the alpha
+	return(mAlpha <= 0.0f);
+}
+
+
+
+
+
+//============================================================================
 //		NColor::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NColor::Compare(const NColor &theValue) const

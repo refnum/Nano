@@ -32,7 +32,16 @@ void TColor::Execute(void)
 
 
 
-	// Execute the tests
+	// Opacity
+	NN_ASSERT( kNColorBlack.IsOpaque());
+	NN_ASSERT(!kNColorBlack.IsTransparent());
+
+	NN_ASSERT(!kNColorClear.IsOpaque());
+	NN_ASSERT( kNColorClear.IsTransparent());
+
+
+
+	// Construction
 	testColor = NColor(1.0f, 0.0f, 0.0f, 1.0f);
 	NN_ASSERT(testColor == kNColorRed);
 
@@ -45,6 +54,9 @@ void TColor::Execute(void)
 	testColor = NColor("0000FFFF");
 	NN_ASSERT(testColor == kNColorBlue);
 
+
+
+	// Getters
 	kNColorCyan.GetColor(r, g, b, a);
 	NN_ASSERT(NMathUtilities::AreEqual(r, 0.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(g, 1.0f));

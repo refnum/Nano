@@ -84,6 +84,11 @@ public:
 	virtual							   ~NColor(void);
 
 
+	// Test the alpha
+	bool								IsOpaque(     void) const;
+	bool								IsTransparent(void) const;
+
+
 	// Compare the value
 	NComparison							Compare(const NColor &theValue) const;
 
