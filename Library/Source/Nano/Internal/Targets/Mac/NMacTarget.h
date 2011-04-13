@@ -61,13 +61,15 @@ public:
 //----------------------------------------------------------------------------
 template <class T> T NMacTarget::GetSysctl(int nameMajor, int nameMinor)
 {	int			mibNames[2] = { nameMajor, nameMinor }; 
-	T			theResult   = { 0 };
+	T			theResult;
 	size_t		theSize;
 	int			sysErr;
 
 
 
 	// Invoke sysctl
+	memset(&theResult, 0x00, sizeof(theResult));
+
 	theSize = sizeof(theResult);
 	sysErr  = sysctl(mibNames, 2, &theResult, &theSize, NULL, 0);
 	NN_ASSERT_NOERR(sysErr);
