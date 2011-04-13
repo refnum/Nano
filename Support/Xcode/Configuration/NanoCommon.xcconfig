@@ -1,6 +1,25 @@
 //============================================================================
 //		Compiler
 //----------------------------------------------------------------------------
+// GCC_WARN_64_TO_32_BIT_CONVERSION is useful to review periodically, but
+// too noisy for normal builds (Visual Studio's 64->32 bit warnings are
+// better for picking out the important cases).
+//
+// GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS isn't useful when global constants
+// are declared as static const objects.
+//
+// GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS has some useful aspects, but
+// too much is style-specific and gcc emits some incorrectly (e.g., lack
+// of copy constructor even if class derives from an uncopyable base class).
+//
+// GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR emits warnings from
+// system headers.
+//
+// GCC_WARN_PEDANTIC warns about features in C99 even when building as
+// C99 (e.g., anonymous variadic macros).
+//
+// GCC_WARN_SHADOW emits warnings from system headers.
+//----------------------------------------------------------------------------
 ALWAYS_SEARCH_USER_PATHS							= NO
 DEBUG_INFORMATION_FORMAT							= dwarf
 INFOPLIST_PREPROCESS								= YES
@@ -51,7 +70,7 @@ GCC_WARN_UNUSED_VARIABLE							= YES
 
 NANO_HEADER_SEARCH_PATHS                            = "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
 NANO_LIBRARY_SEARCH_PATHS							= "$(Nano)/Library/Project/build/$(BUILD_STYLE)"
-NANO_WARNING_CFLAGS									= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wconversion -Wdisabled-optimization -Wfloat-equal -Wfour-char-constants -Winit-self -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wredundant-decls -Wsign-compare -Wundef -Wwrite-strings
+NANO_WARNING_CFLAGS									= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
 NANO_OTHER_CFLAGS									= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_CFLAGS)   -fconstant-cfstrings
 
 HEADER_SEARCH_PATHS                                 = $(NANO_HEADER_SEARCH_PATHS)
