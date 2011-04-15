@@ -269,19 +269,20 @@ NComparison NCacheKey::Compare(const NCacheKey &theKey) const
 //		NCacheKey::SplitHi : Split a pointer.
 //----------------------------------------------------------------------------
 NIndex NCacheKey::SplitHi(const void *theValue)
-{	NIndex		partPtr, shiftBy;
+{	NIndex		partPtr;
 	UIntPtr		intPtr;
 
 
 
 	// Split the pointer
-	//
-	// gcc emits a warning if you shift by the width of the type, so
-	// we put the shift into a variable to suppress this warning.
-	shiftBy = 32;
-	intPtr  = (UIntPtr) theValue;
-	partPtr = ((intPtr >> shiftBy) & 0xFFFFFFFF);
-	
+	intPtr = (UIntPtr) theValue;
+
+#if NN_TARGET_ARCH_32
+	partPtr = 0;
+#else
+	partPtr = ((intPtr >> 32) & 0xFFFFFFFF);
+#endif
+
 	return(partPtr);
 }
 
@@ -293,16 +294,15 @@ NIndex NCacheKey::SplitHi(const void *theValue)
 //		NCacheKey::SplitLo : Split a pointer.
 //----------------------------------------------------------------------------
 NIndex NCacheKey::SplitLo(const void *theValue)
-{	NIndex		partPtr, shiftBy;
+{	NIndex		partPtr;
 	UIntPtr		intPtr;
 
 
 
 	// Split the pointer
-	shiftBy = 0;
 	intPtr  = (UIntPtr) theValue;
-	partPtr = ((intPtr >> shiftBy) & 0xFFFFFFFF);
-	
+	partPtr = ((intPtr >> 0) & 0xFFFFFFFF);
+
 	return(partPtr);
 }
 
