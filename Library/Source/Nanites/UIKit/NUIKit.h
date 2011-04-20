@@ -78,15 +78,6 @@ inline NColor ToNN(UIColor *theColor)
 
 
 
-//============================================================================
-//		Macros
-//----------------------------------------------------------------------------
-// NSBundle
-#define UIBundleImage(_name)								[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
-
-
-
-
 #endif // NUIKIT_HDR
 
 
