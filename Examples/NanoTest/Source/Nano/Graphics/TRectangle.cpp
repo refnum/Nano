@@ -26,7 +26,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NRectangle kValueRectangle								= NRectangle(1.0f, 2.0f, 10.0f, 20.0f);
+static const NRectangle kValueRectangle1							= NRectangle(1.0f,   2.0f, 10.0f, -20.0f);
+static const NRectangle kValueRectangle1_Normalized					= NRectangle(1.0f, -18.0f, 10.0f,  20.0f);
+
+static const NRectangle kValueRectangle2							= NRectangle(3.4f, 4.8f, 1.2f, 7.8f);
+static const NRectangle kValueRectangle2_Integral					= NRectangle(3.0f, 4.0f, 2.0f, 9.0f);
 
 
 
@@ -40,30 +44,49 @@ void TRectangle::Execute(void)
 
 
 
-	// Execute the tests
+	// Sizes
 	NN_ASSERT(sizeof(NRectangle64) == 32);
 	NN_ASSERT(sizeof(NRectangle32) == 16);
 	NN_ASSERT(sizeof(NRectangle)   == 16);
 
+
+
+	// Contents
 	NN_ASSERT(testRect.IsEmpty());
 	NN_ASSERT(testRect.origin.IsZero());
 	NN_ASSERT(testRect.size.IsEmpty());
 
-	NN_ASSERT(!kValueRectangle.IsEmpty());
-	NN_ASSERT(!kValueRectangle.origin.IsZero());
-	NN_ASSERT(!kValueRectangle.size.IsEmpty());
+	NN_ASSERT(!kValueRectangle1.IsEmpty());
+	NN_ASSERT(!kValueRectangle1.origin.IsZero());
+	NN_ASSERT(!kValueRectangle1.size.IsEmpty());
 
-	testRect = kValueRectangle;
+	testRect = kValueRectangle1;
 	NN_ASSERT(!testRect.IsEmpty());
 
 	testRect.Clear();
 	NN_ASSERT(testRect.IsEmpty());
-	NN_ASSERT(testRect != kValueRectangle);
+	NN_ASSERT(testRect != kValueRectangle1);
 
-	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.origin.x,     1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.origin.y,     2.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.size.width,  10.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle.size.height, 20.0f));
+
+
+	// Comparisons
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle1.origin.x,      1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle1.origin.y,      2.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle1.size.width,   10.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle1.size.height, -20.0f));
+
+
+
+	// Manipulations
+	testRect = kValueRectangle1;     testRect.Normalize();
+	NN_ASSERT(testRect == kValueRectangle1.GetNormalized());
+	NN_ASSERT(testRect == kValueRectangle1_Normalized);
+
+	testRect = kValueRectangle2; testRect.MakeIntegral();
+	NN_ASSERT(testRect == kValueRectangle2.GetIntegral());
+	NN_ASSERT(testRect == kValueRectangle2_Integral);
 }
+
+
 
 

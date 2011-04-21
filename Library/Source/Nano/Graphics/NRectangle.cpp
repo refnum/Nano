@@ -551,6 +551,10 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetIntegral(void) const
 	//
 	// An integral rectangle has its origin rounded down and size rounded up,
 	// to create a (potentially larger) rectangle with integer coordinates.
+	//
+	// We floor() the origin, rather than using NPoint::GetIntegral, since an
+	// integral rectangle should always be larger than the rectangle we start
+	// from (so the origin must always round down, and the size up).
 	theResult.origin.x    = floor(origin.x);
 	theResult.origin.y    = floor(origin.y);
 	theResult.size.width  = ceil(origin.x + size.width)  - theResult.origin.x;
