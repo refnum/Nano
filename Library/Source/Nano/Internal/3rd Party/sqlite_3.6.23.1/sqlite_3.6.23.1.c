@@ -22,6 +22,7 @@
 
 
 // SQLite
+#define SQLITE_ENABLE_MEMORY_MANAGEMENT								1
 #define SQLITE_THREADSAFE											1
 #define SQLITE_THREAD_OVERRIDE_LOCK									1
 #define SQLITE_ENABLE_FTS3											1
