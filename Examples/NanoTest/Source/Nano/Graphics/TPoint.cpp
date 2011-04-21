@@ -26,7 +26,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NPoint kValuePoint										= NPoint(1.0f, -1.0f);
+static const NPoint kValuePoint1									= NPoint(1.0f, -1.0f);
+
+static const NPoint kValuePoint2									= NPoint(1.3f, 1.9f);
+static const NPoint kValuePoint2_Integral							= NPoint(1.0f, 2.0f);
+static const NPoint kValuePoint2_Offset								= NPoint(5.3f, 5.9f);
 
 
 
@@ -40,24 +44,42 @@ void TPoint::Execute(void)
 
 
 
-	// Execute the tests
+	// Sizes
 	NN_ASSERT(sizeof(NPoint64) == 16);
 	NN_ASSERT(sizeof(NPoint32) == 8);
 	NN_ASSERT(sizeof(NPoint)   == 8);
-	
-	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(!kValuePoint.IsZero());
 
-	testPoint = kValuePoint;
+
+
+	// Contents
+	NN_ASSERT(testPoint.IsZero());
+	NN_ASSERT(!kValuePoint1.IsZero());
+
+	testPoint = kValuePoint1;
 	NN_ASSERT(!testPoint.IsZero());
 
 	testPoint.Clear();
 	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(testPoint != kValuePoint);
+	NN_ASSERT(testPoint != kValuePoint1);
 
-	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint.x,  1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint.y, -1.0f));
+
+
+	// Comparisons
+	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint1.x,  1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint1.y, -1.0f));
+
+
+
+	// Manipulations
+	testPoint = kValuePoint2; testPoint.MakeIntegral();
+	NN_ASSERT(testPoint == kValuePoint2.GetIntegral());
+	NN_ASSERT(testPoint == kValuePoint2_Integral);
+
+	testPoint = kValuePoint2;    testPoint.Offset(4.0f, 4.0f);
+	NN_ASSERT(testPoint == kValuePoint2.GetOffset(4.0f, 4.0f));
+	NN_ASSERT(testPoint == kValuePoint2_Offset);
 }
+
 
 
 

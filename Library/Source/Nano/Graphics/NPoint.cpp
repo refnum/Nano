@@ -230,6 +230,21 @@ template<class T> T NPointT<T>::GetDistance2(const NPointT<T> &thePoint) const
 
 
 //============================================================================
+//		NPointT::MakeIntegral : Make the point integral.
+//----------------------------------------------------------------------------
+template<class T> void NPointT<T>::MakeIntegral(void)
+{
+
+
+	// Update our state
+	*this = GetIntegral();
+}
+
+
+
+
+
+//============================================================================
 //		NPointT::Offset : Offset the point.
 //----------------------------------------------------------------------------
 template<class T> void NPointT<T>::Offset(T deltaX, T deltaY)
@@ -238,6 +253,27 @@ template<class T> void NPointT<T>::Offset(T deltaX, T deltaY)
 
 	// Update our state
 	*this = GetOffset(deltaX, deltaY);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::GetIntegral : Make the point integral.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T> NPointT<T>::GetIntegral(void) const
+{	NPointT<T>		theResult;
+
+
+
+	// Get the integral point
+	//
+	// An integral point has its position rounded to the nearest integer.
+	theResult.x = NMathUtilities::Rint(x);
+	theResult.y = NMathUtilities::Rint(y);
+
+	return(theResult);
 }
 
 

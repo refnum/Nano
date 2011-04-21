@@ -83,7 +83,9 @@ public:
 
 
 	// Manipulate the point
+	void								MakeIntegral(void);
 	void								Offset(   T deltaX, T deltaY);
+	NPointT<T>							GetIntegral(void)             const;
 	NPointT<T>							GetOffset(T deltaX, T deltaY) const;
 
 
