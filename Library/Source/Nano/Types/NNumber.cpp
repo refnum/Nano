@@ -52,18 +52,14 @@ NENCODABLE_DEFINE(NNumber);
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
 NNumber::NNumber(const NVariant &theValue)
-{	bool	wasOK;
-
+{
 
 
 	// Initialise ourselves
+	SetUInt8(0);
+
 	if (theValue.IsNumeric())
-		{
-		wasOK = SetValue(theValue);
-		NN_ASSERT(wasOK);
-		}
-	else
-		SetUInt8(0);
+		SetValue(theValue);
 }
 
 
@@ -74,18 +70,14 @@ NNumber::NNumber(const NVariant &theValue)
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
 NNumber::NNumber(const NString &theValue)
-{	bool	wasOK;
-
+{
 
 
 	// Initialise ourselves
+	SetUInt8(0);
+
 	if (!theValue.IsEmpty())
-		{
-		wasOK = SetValue(theValue);
-		NN_ASSERT(wasOK);
-		}
-	else
-		SetUInt8(0);
+		SetValue(theValue);
 }
 
 
