@@ -270,8 +270,8 @@ template<class T> NPointT<T> NPointT<T>::GetIntegral(void) const
 	// Get the integral point
 	//
 	// An integral point has its position rounded to the nearest integer.
-	theResult.x = NMathUtilities::Rint(x);
-	theResult.y = NMathUtilities::Rint(y);
+	theResult.x = (T) NMathUtilities::Rint(x);
+	theResult.y = (T) NMathUtilities::Rint(y);
 
 	return(theResult);
 }
