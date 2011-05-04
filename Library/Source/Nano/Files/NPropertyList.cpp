@@ -1237,8 +1237,8 @@ UInt64 NPropertyList::DecodeMacBinary1_ReadObjectSize(const MacBinary1_Info &the
 
 	// Get the size
 	//
-	// Variable-sized fields store their size in their objectInfo, which requires a
-	// subsequent integer if more than 4 bits are required.
+	// Variable-sized fields store their size in their objectInfo, which
+	// requires a subsequent integer if more than 4 bits are required.
 	if (theTag.objectInfo == kBinary1_Value_IntegerSize)
 		theSize = DecodeMacBinary1_Integer(theInfo, byteOffset);
 	else
