@@ -72,6 +72,10 @@ public:
 	virtual							   ~NPropertyList(void);
 
 
+	// Identify a property list format
+	NPropertyListFormat					GetFormat(const NData &theData);
+
+
 	// Encode/decode a property list
 	NData								Encode(const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListBinary);
 	NDictionary							Decode(const NData       &theData);
@@ -90,8 +94,6 @@ public:
 
 
 private:
-	NPropertyListFormat					GetFormat(const NData &theData);
-
 	NData								EncodeMacXML1(const NDictionary &theState);
 	NDictionary							DecodeMacXML1(const NData       &theData);
 

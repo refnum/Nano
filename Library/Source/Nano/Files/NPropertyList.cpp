@@ -135,6 +135,47 @@ NPropertyList::~NPropertyList(void)
 
 
 //============================================================================
+//		NPropertyList::GetFormat : Identify a property list format.
+//----------------------------------------------------------------------------
+NPropertyListFormat NPropertyList::GetFormat(const NData &theData)
+{	NPropertyListFormat		theFormat;
+	const UInt8				*dataPtr;
+	NIndex					dataSize;
+
+
+
+	// Get the state we need
+	theFormat = kNPropertyListInvalid;
+	dataSize  = theData.GetSize();
+	dataPtr   = theData.GetData();
+
+
+
+	// Identify the format
+	#define MATCH_FORMAT(_magic, _format)													\
+		do																					\
+			{																				\
+			if (theFormat == kNPropertyListInvalid && dataSize >= NN_ARRAY_SIZE(_magic))	\
+				{																			\
+				if (memcmp(dataPtr, _magic, NN_ARRAY_SIZE(_magic)) == 0)					\
+					theFormat = _format;													\
+				}																			\
+			}																				\
+		while (0)
+
+	MATCH_FORMAT(kMagicMacXML1,    kNPropertyListMacXML1);
+	MATCH_FORMAT(kMagicMacBinary1, kNPropertyListMacBinary1);
+	
+	#undef MATCH_FORMAT
+	
+	return(theFormat);
+}
+
+
+
+
+
+//============================================================================
 //		NPropertyList::Encode : Encode a property list.
 //----------------------------------------------------------------------------
 NData NPropertyList::Encode(const NDictionary &theState, NPropertyListFormat theFormat)
@@ -281,50 +322,9 @@ NStatus NPropertyList::Save(const NFile &theFile, const NDictionary &theState, N
 
 
 //============================================================================
-//		NPropertyList::GetFormat : Get the format of an encoded property list.
-//----------------------------------------------------------------------------
-#pragma mark -
-NPropertyListFormat NPropertyList::GetFormat(const NData &theData)
-{	NPropertyListFormat		theFormat;
-	const UInt8				*dataPtr;
-	NIndex					dataSize;
-
-
-
-	// Get the state we need
-	theFormat = kNPropertyListInvalid;
-	dataSize  = theData.GetSize();
-	dataPtr   = theData.GetData();
-
-
-
-	// Identify the format
-	#define MATCH_FORMAT(_magic, _format)													\
-		do																					\
-			{																				\
-			if (theFormat == kNPropertyListInvalid && dataSize >= NN_ARRAY_SIZE(_magic))	\
-				{																			\
-				if (memcmp(dataPtr, _magic, NN_ARRAY_SIZE(_magic)) == 0)					\
-					theFormat = _format;													\
-				}																			\
-			}																				\
-		while (0)
-
-	MATCH_FORMAT(kMagicMacXML1,    kNPropertyListMacXML1);
-	MATCH_FORMAT(kMagicMacBinary1, kNPropertyListMacBinary1);
-	
-	#undef MATCH_FORMAT
-	
-	return(theFormat);
-}
-
-
-
-
-
-//============================================================================
 //		NPropertyList::EncodeMacXML1 : Encode kNPropertyListMacXML1.
 //----------------------------------------------------------------------------
+#pragma mark -
 NData NPropertyList::EncodeMacXML1(const NDictionary &theState)
 {	NXMLNode		*nodeDoc, *nodeDocType, *nodePList, *nodeDict;
 	NXMLEncoder		theEncoder;
