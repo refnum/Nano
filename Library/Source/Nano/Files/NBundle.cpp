@@ -352,11 +352,14 @@ NDictionary NBundle::GetBundleInfo(void) const
 //----------------------------------------------------------------------------
 NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 {	NString							theText, theLine, theKey, theValue;
+	NPropertyList					propertyList;
 	NBundleInfo						*bundleInfo;
 	NDictionary						theResult;
 	NRangeList						theRanges;
+	NPropertyListFormat				theFormat;
 	NStringList						theLines;
 	NStringListConstIterator		theIter;
+	NData							theData;
 	NFile							theFile;
 
 
@@ -376,28 +379,44 @@ NDictionary NBundle::GetBundleStrings(const NString &theTable) const
 	if (theResult.IsEmpty())
 		{
 		// Get the state we need
-		theFile  = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
-		theText  = NFileUtilities::GetFileText(theFile);
-		theLines = theText.Split(kNLineEndingUnix);
+		theFile   = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
+		theData   = NFileUtilities::GetFileData(theFile);
+		theFormat = propertyList.GetFormat(theData);
 
 
 
-		// Parse the strings
-		for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
+		// Parse the strings file
+		//
+		// Strings files are a text file, where each line defines a key/value pair.
+		//
+		// In traditional bundles these files are copied directly into the bundle,
+		// without changing their format.
+		//
+		// In flattened bundles these files are converted into a property list,
+		// although they retain theyir ".strings" extension.
+		if (theFormat != kNPropertyListInvalid)
+			theResult = propertyList.Decode(theData);
+		else
 			{
-			theLine   = *theIter;
-			theRanges = theLine.FindAll("(.*?)\\s*=\\s*\"(.*)\";", kNStringPattern);
+			theText  = NFileUtilities::GetFileText(theFile);
+			theLines = theText.Split(kNLineEndingUnix);
 
-			if (theRanges.size() == 3)
+			for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
 				{
-				theKey   = theLine.GetString(theRanges[1]);
-				theValue = theLine.GetString(theRanges[2]);
+				theLine   = *theIter;
+				theRanges = theLine.FindAll("(.*?)\\s*=\\s*\"(.*)\";", kNStringPattern);
 
-				theValue.ReplaceAll("\\n",  "\n");		/* '\n' becomes \n */
-				theValue.ReplaceAll("\\\"", "\"");		/* '\"' becomes "  */
-				theValue.ReplaceAll("\\\\", "\\");		/* '\\' becomes \  */
+				if (theRanges.size() == 3)
+					{
+					theKey   = theLine.GetString(theRanges[1]);
+					theValue = theLine.GetString(theRanges[2]);
 
-				theResult.SetValue(theKey, theValue);
+					theValue.ReplaceAll("\\n",  "\n");		/* '\n' becomes \n */
+					theValue.ReplaceAll("\\\"", "\"");		/* '\"' becomes "  */
+					theValue.ReplaceAll("\\\\", "\\");		/* '\\' becomes \  */
+	
+					theResult.SetValue(theKey, theValue);
+					}
 				}
 			}
 
