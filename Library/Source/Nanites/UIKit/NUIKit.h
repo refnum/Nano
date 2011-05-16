@@ -35,11 +35,13 @@ inline UIColor *ToUI(const NColor &theColor)
 
 // UIKit to Nano
 inline NColor ToNN(UIColor *theColor)
-{	CGColorSpaceModel	colorModel  = CGColorSpaceGetModel(CGColorGetColorSpace(theColor.CGColor));
+{
+#if NN_DEBUG
+	CGColorSpaceModel	colorModel  = CGColorSpaceGetModel(CGColorGetColorSpace(theColor.CGColor));
+#endif
 	const CGFloat		*colorComps = CGColorGetComponents(        theColor.CGColor);
 	NIndex				numComps    = CGColorGetNumberOfComponents(theColor.CGColor);
 	NColor				nnColor;
-
 
 	switch (numComps) {
 		case 1:
