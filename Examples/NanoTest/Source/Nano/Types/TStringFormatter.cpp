@@ -46,6 +46,9 @@ static const void *kValuePtrVoid									= (void *) 0xDEADBEEF;
 static const NString kResultMissingType								= ": Missing type: found '%' without type in 'NoSpecifier [% 12345]'\n";
 static const NString kResultTooFewArgs								= ": Invalid index: '%d'\n";
 
+static const NString kResultFormat64Value32							= "32-bit value with 64-bit length modifier";
+static const NString kResultFormat32Value64							= "64-bit value with 32-bit length modifier";
+
 
 
 
@@ -185,5 +188,15 @@ void TStringFormatter::Execute(void)
 
 	theResult = theFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
 	NN_ASSERT(theResult == "TooManyArgs [42] [23]");
+
+	CTestUtilities::SetDebugCapture(true);
+	theResult = theFormatter.Format("Format64Value32 [%lld]", kValueUInt32);
+	theAssert = CTestUtilities::SetDebugCapture(false);
+	NN_ASSERT(theAssert.Contains(kResultFormat64Value32));
+
+	CTestUtilities::SetDebugCapture(true);
+	theResult = theFormatter.Format("Format32Value64 [%ld]", kValueUInt64);
+	theAssert = CTestUtilities::SetDebugCapture(false);
+	NN_ASSERT(theAssert.Contains(kResultFormat32Value64));
 }
 

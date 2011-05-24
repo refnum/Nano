@@ -368,6 +368,14 @@ NStringUTF8 NFormatArgument::GetValueULong(const NStringUTF8 &theFormat, unsigne
 {
 
 
+	// Validate our parameters
+	//
+	// See NStringFormatter::Format declaration.
+	if (NN_DEBUG && theFormat.Contains("ll"))
+		NN_LOG_FORMATTER("Formatting a 32-bit value with 64-bit length modifier, use 'l' in '%s'", theFormat.GetUTF8());
+
+
+
 	// Get the value
 	return(GetValue(theFormat, kFormatTypesInteger, theValue));
 }
@@ -381,6 +389,14 @@ NStringUTF8 NFormatArgument::GetValueULong(const NStringUTF8 &theFormat, unsigne
 //----------------------------------------------------------------------------
 NStringUTF8 NFormatArgument::GetValueSLong(const NStringUTF8 &theFormat, signed long theValue)
 {
+
+
+	// Validate our parameters
+	//
+	// See NStringFormatter::Format declaration.
+	if (NN_DEBUG && theFormat.Contains("ll"))
+		NN_LOG_FORMATTER("Formatting a 32-bit value with 64-bit length modifier, use 'l' in '%s'", theFormat.GetUTF8());
+
 
 
 	// Get the value
@@ -398,6 +414,14 @@ NStringUTF8 NFormatArgument::GetValueULongLong(const NStringUTF8 &theFormat, uns
 {
 
 
+	// Validate our parameters
+	//
+	// See NStringFormatter::Format declaration.
+	if (NN_DEBUG && !theFormat.Contains("ll"))
+		NN_LOG_FORMATTER("Formatting a 64-bit value with 32-bit length modifier, use 'll' in '%s'", theFormat.GetUTF8());
+
+
+
 	// Get the value
 	return(GetValue(theFormat, kFormatTypesInteger, theValue));
 }
@@ -411,6 +435,14 @@ NStringUTF8 NFormatArgument::GetValueULongLong(const NStringUTF8 &theFormat, uns
 //----------------------------------------------------------------------------
 NStringUTF8 NFormatArgument::GetValueSLongLong(const NStringUTF8 &theFormat, signed long long theValue)
 {
+
+
+	// Validate our parameters
+	//
+	// See NStringFormatter::Format declaration.
+	if (NN_DEBUG && !theFormat.Contains("ll"))
+		NN_LOG_FORMATTER("Formatting a 64-bit value with 32-bit length modifier, use 'll' in '%s'", theFormat.GetUTF8());
+
 
 
 	// Get the value

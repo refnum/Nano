@@ -230,6 +230,21 @@ public:
 	// Since 'int' and 'long' strictly speaking require different format specifiers
 	// ('%d' and '%ld' respectively), NFormatArgument promotes all 'int' arguments
 	// to 'long' to allow '%ld' to be used for both.
+	//
+	//
+	// On some platforms (32-bit PowerPC) the following behaviour is undefined:
+	//
+	//		UInt32		value32 = 1234;
+	//		UInt64		value64 = 1234;
+	//
+	//		Format("%lld", value32);	// Use a 64-bit length modifier, and 32-bit value
+	//		Format("%ld",  value64);	// Use a 32-bit length modifier, and 64-bit value
+	//
+	// The former case is promoted correctly on x86/x86_64, however the latter case
+	// is a potential bug on all platforms (PPC produces 0 in both cases).
+	//
+	// As such, a warning will be issued if a 32-bit length modifier is used for a
+	// 64-bit value, or a 64-bit length modifier used for a 32-bit value.
 	NStringUTF8							Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
 
 
