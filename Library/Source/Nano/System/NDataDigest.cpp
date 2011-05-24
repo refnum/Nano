@@ -55,7 +55,7 @@ NString NDataDigest::GetString(UInt32 theValue) const
 
 
 	// Get the string
-	theResult.Format("%08x", theValue);
+	theResult.Format("%08lx", theValue);
 	
 	return(theResult);
 }

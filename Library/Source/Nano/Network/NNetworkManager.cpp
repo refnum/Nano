@@ -136,7 +136,7 @@ NString NNetworkManager::GetDefaultUserAgent(void)
 
 
 	// Get the user agent
-	theResult.Format("%@/%@ (%@; %dx%ldMhz; %ldMb; %@)",
+	theResult.Format("%@/%@ (%@; %lldx%lldMhz; %lldMb; %@)",
 						appName, appVers,
 						osName,
 						numCPUs, sysCPU,

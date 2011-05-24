@@ -269,7 +269,7 @@ int main(int argc, const char **argv)
 	TTextUtilities::Execute();
 	TThreadUtilities::Execute();
 	TTimeUtilities::Execute();
-	
+
 	return(0);
 }
 

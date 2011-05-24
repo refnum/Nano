@@ -326,9 +326,9 @@ NString NTargetSystem::GetOSName(void)
 
 	// Get the name
 	if (verBugFix == 0)
-		theResult.Format("%d.%d",    verMajor, verMinor);
+		theResult.Format("%ld.%ld",     verMajor, verMinor);
 	else
-		theResult.Format("%d.%d.%d", verMajor, verMinor, verBugFix);
+		theResult.Format("%ld.%ld.%ld", verMajor, verMinor, verBugFix);
 
 
 

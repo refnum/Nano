@@ -386,7 +386,7 @@ NString NTargetSystem::GetOSName(void)
 
 	// Get the OS name
 	if (GetVersionEx((LPOSVERSIONINFO) &versInfo))
-		theResult.Format("Windows %d.%d.%d-%d.%d-%d",
+		theResult.Format("Windows %ld.%ld.%ld-%ld.%ld-%ld",
 							versInfo.dwMajorVersion,
 							versInfo.dwMinorVersion,
 							versInfo.dwBuildNumber,
