@@ -61,6 +61,6 @@ void CTestUtilities::DebugOutputHook(const char *theMsg)
 
 
 	// Capture the output
-	mDebugOutput += theMsg;
+	mDebugOutput += NString(theMsg, kNStringLength);
 }
 
