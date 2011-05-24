@@ -110,7 +110,8 @@ public:
 	NIndex								GetSize(void) const		{ return((NIndex) size()); }
 	const char						   *GetUTF8(void) const		{ return(c_str());         }
 	
-	NRange								Find(const NStringUTF8 &theString) const;
+	NRange								Find(    const NStringUTF8 &theString) const;
+	bool								Contains(const NStringUTF8 &theString) const;
 	void								Replace(const NRange &theRange, const NStringUTF8 &replaceWith);
 };
 

@@ -163,8 +163,8 @@ public:
 //		NStringUTF8::Find : Find a substring.
 //----------------------------------------------------------------------------
 NRange NStringUTF8::Find(const NStringUTF8 &theString) const
-{	size_type		theOffset;
-	NRange			theRange;
+{	size_type	theOffset;
+	NRange		theRange;
 
 
 
@@ -181,6 +181,31 @@ NRange NStringUTF8::Find(const NStringUTF8 &theString) const
 		theRange = NRange(theOffset, theString.GetSize());
 	
 	return(theRange);
+}
+
+
+
+
+
+//============================================================================
+//		NStringUTF8::Contains : Test for a substring.
+//----------------------------------------------------------------------------
+bool NStringUTF8::Contains(const NStringUTF8 &theString) const
+{	size_type	theOffset;
+	bool		wasFound;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theString.IsEmpty());
+
+
+
+	// Find the string
+	theOffset = find(theString);
+	wasFound  = (theOffset != npos);
+	
+	return(wasFound);
 }
 
 
@@ -747,7 +772,7 @@ NStringUTF8 NStringFormatter::ParseToken(NFormatContext &theContext, const NStri
 			return(ParseFailed(theContext, theToken, "Invalid index"));
 
 		theResult = "." + GetArgValue(theContext, theIndex, "%ld");
-		if (theResult.Find("-") != kNRangeNone)
+		if (theResult.Contains("-"))
 			theResult = "";
 
 		finalToken.Replace(theRange, theResult);
