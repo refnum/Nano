@@ -185,6 +185,7 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 //----------------------------------------------------------------------------
 UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr)
 {	UTF32					*dstStart32, *dstEnd32;
+	const UTF32				*srcStart32, *srcEnd32;
 	const UTF16				*srcStart16, *srcEnd16;
 	const UTF8				*srcStart8, *srcEnd8;
 	ConversionResult		theResult;
@@ -200,6 +201,9 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 
 	srcStart16 = (const UTF16 *) srcStart8;
 	srcEnd16   = (const UTF16 *) srcEnd8;
+
+	srcStart32 = (const UTF32 *) srcStart8;
+	srcEnd32   = (const UTF32 *) srcEnd8;
 
 	dstStart32 = &dstChar;
 	dstEnd32   = &dstChar + sizeof(dstChar);
@@ -248,10 +252,11 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 			break;
 
 		case kNStringEncodingUTF32:
-			dstChar   = *dstStart32;
+			NN_UNUSED(srcEnd32);
+			dstChar   = *srcStart32;
 			theResult = conversionOK;
 			break;
-		
+
 		default:
 			dstChar = 0;
 			theErr  = Convert(NData(srcSize, srcPtr), dstData, srcEncoding, kNStringEncodingUTF32);
