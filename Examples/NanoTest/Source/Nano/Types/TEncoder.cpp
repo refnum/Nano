@@ -50,7 +50,7 @@ static const NNumber    kValueNumber1								=  1234LL;
 static const NNumber    kValueNumber2								= -5678LL;
 static const NNumber    kValueNumber3								=  1234.12f;
 static const NNumber    kValueNumber4								= -5678.5678765000102;
-static const NString    kValueString								= "This is a string";
+static const NString    kValueString								= "This \" is & a ' test < text > string";
 static const UInt8      kValueData[]								= { 0xAA, 0xBB, 0xCC, 0xDD };
 static const NPoint		kValuePoint									= NPoint(10, 20);
 static const NSize		kValueSize									= NSize(30, 40);
@@ -58,7 +58,7 @@ static const NRectangle kValueRectangle								= NRectangle(10, 20, 30, 40);
 
 
 // Results
-static const UInt32  kResultBinary									= 0xe486bced;
+static const UInt32  kResultBinary									= 0x0F48C7C8;
 static const NString kResultXML										=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 																		"<encoder version=\"1.0\">\n"
 																		"	<object class=\"TEncodable\" key=\"root\">\n"
@@ -68,12 +68,12 @@ static const NString kResultXML										=	"<?xml version=\"1.0\" encoding=\"UTF
 																		"		<number key=\"Test Number 2\">-5678</number>\n"
 																		"		<number key=\"Test Number 3\">1234.12</number>\n"
 																		"		<number key=\"Test Number 4\">-5678.5678765000102</number>\n"
-																		"		<string key=\"Test String\">This is a string</string>\n"
+																		"		<string key=\"Test String\">This &quot; is &amp; a &apos; test &lt; text &gt; string</string>\n"
 																		"		<data key=\"Test Data\">qrvM3Q==</data>\n"
 																		"		<object class=\"NArray\" key=\"Test Array\">\n"
 																		"			<bool key=\"0\">true</bool>\n"
 																		"			<number key=\"1\">1234</number>\n"
-																		"			<string key=\"2\">This is a string</string>\n"
+																		"			<string key=\"2\">This &quot; is &amp; a &apos; test &lt; text &gt; string</string>\n"
 																		"		</object>\n"
 																		"		<object class=\"NDictionary\" key=\"Test Dictionary\">\n"
 																		"			<object class=\"NSize\" key=\"Test Size\">\n"
@@ -84,7 +84,7 @@ static const NString kResultXML										=	"<?xml version=\"1.0\" encoding=\"UTF
 																		"				<number key=\"x\">10</number>\n"
 																		"				<number key=\"y\">20</number>\n"
 																		"			</object>\n"
-																		"			<string key=\"Test String\">This is a string</string>\n"
+																		"			<string key=\"Test String\">This &quot; is &amp; a &apos; test &lt; text &gt; string</string>\n"
 																		"			<number key=\"Test Number 1\">1234</number>\n"
 																		"			<bool key=\"Test Boolean 1\">true</bool>\n"
 																		"			<object class=\"NRectangle\" key=\"Test Rectangle\">\n"
