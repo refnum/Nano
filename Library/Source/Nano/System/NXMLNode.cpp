@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTextUtilities.h"
 #include "NSTLUtilities.h"
 #include "NXMLNode.h"
 
@@ -563,8 +562,7 @@ void NXMLNode::SetElementUnpaired(bool theValue)
 //		NXMLNode::SetElementContents : Set an element's contents.
 //----------------------------------------------------------------------------
 void NXMLNode::SetElementContents(const NString &theValue)
-{	NXMLNode		*theNode;
-	NString			theText;
+{	NXMLNode	*theNode;
 
 
 
@@ -574,8 +572,7 @@ void NXMLNode::SetElementContents(const NString &theValue)
 
 
 	// Get the state we need
-	theText = NTextUtilities::EncodeEntities(theValue);
-	theNode = new NXMLNode(kNXMLNodeText, theText);
+	theNode = new NXMLNode(kNXMLNodeText, theValue);
 
 
 

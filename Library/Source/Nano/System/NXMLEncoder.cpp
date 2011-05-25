@@ -383,7 +383,7 @@ NString NXMLEncoder::EncodeComment(const NXMLNode *theNode)
 
 
 //============================================================================
-//		NXMLEncoder::EncodeText : Encode an text node.
+//		NXMLEncoder::EncodeText : Encode a text node.
 //----------------------------------------------------------------------------
 NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
 {	NString		theText;

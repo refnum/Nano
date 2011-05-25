@@ -96,8 +96,12 @@ public:
 
 	// Get/set the value
 	//
-	// The text value is the text associated with the node (for document
-	// type or element nodes, the text value is the name of the node).
+	// The text value is the text associated with the node (for document type or
+	// element nodes, the text value is the name of the node).
+	//
+	// Nodes always store raw text; encoders must encode entities when fetching
+	// the text for encoding, and decoders should decode entities before assigning
+	// the text after decoding.
 	NString								GetTextValue(void) const;
 	void								SetTextValue(const NString &theValue);
 
@@ -115,6 +119,9 @@ public:
 	// The contents of an element node are the concatenation of any text or CData nodes
 	// under the node. Assigning new contents to an element will replace any existing
 	// children with a single text node.
+	//
+	// As with [GS]etTextValue, nodes always store raw text and encoders/decoders are
+	// responsible for performing entity substitution.
 	bool								 IsElementUnpaired(  void) const;
 	NString								GetElementContents(  void) const;
 	NDictionary							GetElementAttributes(void) const;
