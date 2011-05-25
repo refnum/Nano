@@ -469,7 +469,7 @@ void NEncoder::EncodeObject(const NString &theKey, const NVariant &theValue)
 
 	// Encode the object
 	//
-	// As per CanEncode, we need to iterate to find the class that can encode ths object.
+	// As per CanEncode, we need to iterate to find the class that can encode this object.
 	//
 	// If this proves a bottleneck then we could try to cast the object to an NEncodable,
 	// and provide a method in NEncodable which could return the NEncoderClassInfo (and
