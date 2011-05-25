@@ -34,7 +34,7 @@ static const NString kKeyNumber1									= "Test Number 1";
 static const NString kKeyNumber2									= "Test Number 2";
 static const NString kKeyNumber3									= "Test Number 3";
 static const NString kKeyNumber4									= "Test Number 4";
-static const NString kKeyString1									= "Test String";
+static const NString kKeyString										= "Test String";
 static const NString kKeyData										= "Test Data";
 static const NString kKeyArray										= "Test Array";
 static const NString kKeyDictionary									= "Test Dictionary";
@@ -50,7 +50,7 @@ static const NNumber    kValueNumber1								=  1234LL;
 static const NNumber    kValueNumber2								= -5678LL;
 static const NNumber    kValueNumber3								=  1234.12f;
 static const NNumber    kValueNumber4								= -5678.5678765000102;
-static const NString    kValueString1								= "This is a string";
+static const NString    kValueString								= "This is a string";
 static const UInt8      kValueData[]								= { 0xAA, 0xBB, 0xCC, 0xDD };
 static const NPoint		kValuePoint									= NPoint(10, 20);
 static const NSize		kValueSize									= NSize(30, 40);
@@ -120,11 +120,11 @@ public:
 
 		theArray.AppendValue(kValueBoolean1);
 		theArray.AppendValue(kValueNumber1);
-		theArray.AppendValue(kValueString1);
+		theArray.AppendValue(kValueString);
 
 		theDict.SetValue(kKeyBoolean1,  kValueBoolean1);
 		theDict.SetValue(kKeyNumber1,   kValueNumber1);
-		theDict.SetValue(kKeyString1,   kValueString1);
+		theDict.SetValue(kKeyString,    kValueString);
 		theDict.SetValue(kKeyPoint,     kValuePoint);
 		theDict.SetValue(kKeySize,      kValueSize);
 		theDict.SetValue(kKeyRectangle, kValueRectangle);
@@ -135,7 +135,7 @@ public:
 		theEncoder.EncodeNumber( kKeyNumber2,    kValueNumber2);
 		theEncoder.EncodeNumber( kKeyNumber3,    kValueNumber3);
 		theEncoder.EncodeNumber( kKeyNumber4,    kValueNumber4);
-		theEncoder.EncodeString( kKeyString1,    kValueString1);
+		theEncoder.EncodeString( kKeyString,     kValueString);
 		theEncoder.EncodeData(   kKeyData,       theData);
 		theEncoder.EncodeObject( kKeyArray,      theArray);
 		theEncoder.EncodeObject( kKeyDictionary, theDict);
@@ -154,7 +154,7 @@ public:
 		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber2)  == kValueNumber2);
 		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber3)  == kValueNumber3);
 		NN_ASSERT(theEncoder.DecodeNumber( kKeyNumber4)  == kValueNumber4);
-		NN_ASSERT(theEncoder.DecodeString( kKeyString1)  == kValueString1);
+		NN_ASSERT(theEncoder.DecodeString( kKeyString)   == kValueString);
 
 		theData = theEncoder.DecodeData(kKeyData);
 		NN_ASSERT(theData.GetSize() == NN_ARRAY_SIZE(kValueData));
@@ -164,13 +164,13 @@ public:
 		NN_ASSERT(theArray.GetSize() == 3);
 		NN_ASSERT(theArray.GetValueBoolean(0) == kValueBoolean1);
 		NN_ASSERT(theArray.GetValue       (1) == kValueNumber1);
-		NN_ASSERT(theArray.GetValueString (2) == kValueString1);
+		NN_ASSERT(theArray.GetValueString (2) == kValueString);
 
 		NN_ASSERT(theEncoder.DecodeObject(kKeyDictionary).GetValue(theDict));
 		NN_ASSERT(theDict.GetSize() == 6);
 		NN_ASSERT(theDict.GetValueBoolean  (kKeyBoolean1)  == kValueBoolean1);
 		NN_ASSERT(theDict.GetValue         (kKeyNumber1)   == kValueNumber1);
-		NN_ASSERT(theDict.GetValueString   (kKeyString1)   == kValueString1);
+		NN_ASSERT(theDict.GetValueString   (kKeyString)    == kValueString);
 		NN_ASSERT(theDict.GetValuePoint    (kKeyPoint)     == kValuePoint);
 		NN_ASSERT(theDict.GetValueSize     (kKeySize)      == kValueSize);
 		NN_ASSERT(theDict.GetValueRectangle(kKeyRectangle) == kValueRectangle);
