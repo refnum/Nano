@@ -138,6 +138,17 @@ inline bool operator!=(const CGRect &value1, const CGRect &value2)
 }
 
 
+// CoreGraphics constructors
+inline CGRect CGRectMake(const CGSize &theSize)
+{
+	return(CGRectMake(0.0, 0.0, theSize.width, theSize.height));
+}
+
+inline CGRect CGRectMake(CGFloat theWidth, CGFloat theHeight)
+{
+	return(CGRectMake(0.0, 0.0, theWidth, theHeight));
+}
+
 
 
 
