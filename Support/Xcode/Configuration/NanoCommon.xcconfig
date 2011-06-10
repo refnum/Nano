@@ -107,8 +107,8 @@ GCC_VERSION[sdk=iphoneos*]							= 4.2
 GCC_VERSION[sdk=iphonesimulator*]					= 4.2
 
 MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]				= 10.5
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]			= 3.2
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]	= 3.2
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]			= 4.1
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]	= 4.1
 
 ARCHS[sdk=macosx*]									= i386 x86_64 ppc
 ARCHS[sdk=iphoneos*]								= armv6 armv7
