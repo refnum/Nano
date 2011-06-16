@@ -669,7 +669,10 @@ NLockRef NTargetThread::ReadWriteCreate(void)
 
 
 	// Create the lock
-	lockRef = (pthread_rwlock_t *) malloc(sizeof(pthread_rwlock_t));
+	//
+	// We use calloc rather than malloc to avoid an uninitialised read
+	// warning from valgrind against Darwin's pthread implementation.
+	lockRef = (pthread_rwlock_t *) calloc(1, sizeof(pthread_rwlock_t));
 	if (lockRef != NULL)
 		{
 		theErr = pthread_rwlock_init(lockRef, NULL);
