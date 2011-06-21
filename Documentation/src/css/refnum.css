@@ -11,7 +11,6 @@ body {
 	width:					820px;
 	min-height:				500px;
 	margin:					75px auto 10px auto;
-//border: 1px solid red;
 }
 
 #footer {
@@ -33,16 +32,9 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-	text-shadow:			2px 2px 4px rgba(0, 0, 0, 0.05);
+	text-shadow:			0px 1px 2px rgba(0, 0, 0, 0.2);
+	font-weight:			normal;
 }
-
-a img						{ border:  none;									}
-a:focus						{ outline: none;									}
-a:link						{ border-bottom: 1px dotted; text-decoration: none;	}
-a:visited					{ border-bottom: 1px dotted; text-decoration: none;	}
-a:active					{ border-bottom: 1px dotted; text-decoration: none;	}
-a:hover						{ border-bottom: 1px dotted; text-decoration: none;	}
-a.plain						{ border-bottom: none;								}
 
 h1							{ font-size: x-large;	}
 h2							{ font-size: large;		}
@@ -50,6 +42,28 @@ h3							{ font-size: medium;	}
 h4							{ font-size: small;		}
 h5							{ font-size: x-small;	}
 h6							{ font-size: xx-small;	}
+
+a {
+	color:					#0088CC;
+	border-bottom:			none;
+	text-decoration:		none;
+}
+
+a:visited {
+	color:					#0077AA;
+}
+
+a:hover {
+	border-bottom:			1px solid;
+}
+
+a img {
+	border:					none;
+}
+
+a.plain {
+	border-bottom:			none;
+}
 
 
 
@@ -61,13 +75,11 @@ h6							{ font-size: xx-small;	}
 	height:					45px;
 	margin-top:				20px;
 	margin-bottom:			10px;
-//border: 1px solid red;
 }
 
 #nav_bar {
 	float:					right;
 	padding-right:			15px;
-//border: 1px solid cyan;
 }
 
 #nav a						{
@@ -75,28 +87,24 @@ h6							{ font-size: xx-small;	}
 	display:				inline-block;
 	height:					45px;
 	border-bottom:			none;
-//border: 1px solid red;
+	background:				url("../img/button_navigation.png") no-repeat;
 }
 
-#nav a#apps					{ width:78px;														}
-#nav a#apps					{ background-image:url("../img/nav_apps_normal.png");				}
-#nav a#apps:hover			{ background-image:url("../img/nav_apps_hover.png");				}
-#nav a#apps.selected		{ background-image:url("../img/nav_apps_selected.png");			}
+#nav a#apps					{ background-position: 0px   0px;		width:78px;		}
+#nav a#apps:hover			{ background-position: 0px -45px;						}
+#nav a#apps.selected		{ background-position: 0px -90px;						}
 
-#nav a#projects				{ width:90px;														}
-#nav a#projects				{ background-image:url("../img/nav_projects_normal.png");			}
-#nav a#projects:hover		{ background-image:url("../img/nav_projects_hover.png");			}
-#nav a#projects.selected	{ background-image:url("../img/nav_projects_selected.png");		}
+#nav a#projects				{ background-position: -78px   0px;		width:90px;		}
+#nav a#projects:hover		{ background-position: -78px -45px;						}
+#nav a#projects.selected	{ background-position: -78px -90px;						}
 
-#nav a#contact				{ width:86px;														}
-#nav a#contact				{ background-image:url("../img/nav_contact_normal.png");			}
-#nav a#contact:hover		{ background-image:url("../img/nav_contact_hover.png");			}
-#nav a#contact.selected		{ background-image:url("../img/nav_contact_selected.png");		}
+#nav a#support				{ background-position: -168px   0px;	width: 86px;	}
+#nav a#support:hover		{ background-position: -168px -45px;					}
+#nav a#support.selected		{ background-position: -168px -90px;					}
 
-#nav a#dev					{ width:78px;														}
-#nav a#dev					{ background-image:url("../img/nav_dev_normal.png");				}
-#nav a#dev:hover			{ background-image:url("../img/nav_dev_hover.png");				}
-#nav a#dev.selected			{ background-image:url("../img/nav_dev_selected.png");			}
+#nav a#dev					{ background-position: -254px   0px;	width: 78px;	}
+#nav a#dev:hover			{ background-position: -254px -45px;					}
+#nav a#dev.selected			{ background-position: -254px -90px;					}
 
 
 
@@ -116,7 +124,6 @@ h6							{ font-size: xx-small;	}
     margin-top:				10px;
 	font-weight:			bold;
 	color:					#222222;
-	text-shadow:			2px 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 #menu a {
@@ -139,49 +146,27 @@ h6							{ font-size: xx-small;	}
 #page_strap_frame {
 	width:					820px;
 	height:					215px;
-//border: 1px solid green;
 }
 
 #page_strap_content {
 	width:					820px;
 	height:					215px;
-//border: 1px solid green;
 }
 
 #page_body {
 	background:				url("../img/page_body.png") repeat-y;
 	width:					820px;
 	min-height:				190px;
-//border: 1px solid yellow;
 }
 
 #page_content {
 	padding:				5px 40px; 
-//border: 1px solid red;
 }
 
 #page_footer {
 	background:				url("../img/page_footer.png");
 	width:					820px;
 	height:					30px;
-//border: 1px solid cyan;
-}
-
-
-
-
-
-/* Home */
-#logo {
-	width:					440px;
-	height:					620px;
-	margin:					auto;
-//border: 1px solid blue;
-}
-
-#logo_offset {
-	height:					120px;
-//border: 1px solid red;
 }
 
 
@@ -191,7 +176,6 @@ h6							{ font-size: xx-small;	}
 /* Tables */
 table.icons {
 	border-spacing:			40px 5px;
-//border: 1px solid red;
 }
 
 table.icons td {
@@ -208,7 +192,6 @@ table.icons img {
 table.badges {
 	margin:					40px auto 20px auto;
 	width:					80%;
-//border: 1px solid blue;
 }
 
 table.list_header {
@@ -217,7 +200,6 @@ table.list_header {
 	line-height:			200%;
 	margin:					20px 10px 0px 10px;
 	padding-left:			10px;
-	text-shadow:			1px 1px 1px rgba(0, 0, 0, 0.1);
 	width:					95%;
 
 	-moz-border-radius-topright:			5px;
@@ -245,6 +227,40 @@ table.list th {
 	font-weight:			normal;
 	text-align:				left;
 	width:					150px;
+}
+
+
+
+
+
+/* Info block */
+div.info_block {
+	display:				inline-block;
+	margin:					32px 18px 64px 18px;
+	vertical-align:			text-top;
+	width:					200px;
+}
+
+a.info_title {
+	border:					none;
+	color:					#000000;
+	font:					24px "Lucida Grande", "Arial", sans-serif;
+	line-height:			60px;
+	text-align:				left;
+}
+
+img.info_title {
+	float:					left;
+	margin-right:			16px;
+	vertical-align:			middle;
+	width:					64px;
+	height:					auto;
+}
+
+div.info_text {
+	font:					14px "Lucida Grande", "Arial", sans-serif;
+	color:					#444444;
+	text-align:				left;
 }
 
 
@@ -380,6 +396,55 @@ a.icon_github .icon {
 a.icon_github:hover .icon,
 a.icon_github:focus .icon {
 	background-position:	-20px -25px;
+}
+
+
+
+
+
+/* Springboard */
+.springboard {
+	display:		block;
+}
+
+
+.iphone_horiz {
+	position:		relative;
+	width:			430px;
+	height:			280px;
+	background:		url("/src/img/iphone_horiz_frame.png") no-repeat;
+} 
+
+.iphone_horiz_app {
+	position:		absolute;
+	top:			44px;
+	left:			95px;
+}
+
+.iphone_horiz_app img {
+	display:		none;
+	width:			240px;
+	height:			160px;
+}
+
+
+.iphone_vert {
+	position:		relative;
+	width:			250px;
+	height:			450px;
+	background:		url("/src/img/iphone_vert_frame.png") no-repeat;
+}
+
+.iphone_vert_app {
+	position:		absolute;
+	top:			92px;
+	left:			45px;
+}
+
+.iphone_vert_app img {
+	display:		none;
+	width:			160px;
+	height:			240px;
 }
 
 
