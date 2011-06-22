@@ -167,6 +167,7 @@ a.plain {
 	background:				url("../img/page_footer.png");
 	width:					820px;
 	height:					30px;
+	margin-top:				-1px;
 }
 
 
@@ -310,6 +311,12 @@ div.info_text {
 
 
 /* Layout */
+.centered {
+	margin:					0px auto;
+	text-align:				center;
+	width:					100%;
+}
+
 .padding20 {
 	padding:				20px;
 }
