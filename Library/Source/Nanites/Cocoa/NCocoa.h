@@ -249,16 +249,6 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 		while(0)
 
 
-// NSBundle
-#define NSBundleString(_name)								NSLocalizedString(@_name, @"")
-
-#if NN_TARGET_MAC
-	#define NSBundleImage( _name)							[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
-#else
-	#define NSBundleImage( _name)							[UIImage imageNamed:@_name]
-#endif
-
-
 // Category
 //
 // Nano's default build configuration includes -ObjC, which ensures that
@@ -276,6 +266,16 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 																			\
 	@implementation	NWorkaround_QA1490_ ## _category						\
 	@end
+
+
+// NSBundle
+#define NSBundleString(_name)								NSLocalizedString(@_name, @"")
+
+#if NN_TARGET_MAC
+	#define NSBundleImage( _name)							[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
+#else
+	#define NSBundleImage( _name)							[UIImage imageNamed:@_name]
+#endif
 
 
 
