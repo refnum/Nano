@@ -108,6 +108,26 @@
 #endif
 
 
+// App Store workaround
+//
+// Since Apple consider ICU an internal system library, their App Store
+// symbol scanner considers ICU symbols as a "private API".
+//
+// Unfortunately the scanner does not distinguish between symbols present
+// in the app binary, and symbols accessed from system libraries.
+//
+// This means that even though Nano includes its own copy of the ICU code,
+// apps using it may be rejected for accessing private APIs. To work around
+// this, we mangle the symbol names to ensure they do not clash.
+#define ConvertUTF8toUTF16				nano_ConvertUTF8toUTF16
+#define ConvertUTF16toUTF8				nano_ConvertUTF16toUTF8
+#define ConvertUTF8toUTF32				nano_ConvertUTF8toUTF32
+#define ConvertUTF32toUTF8				nano_ConvertUTF32toUTF8
+#define ConvertUTF16toUTF32				nano_ConvertUTF16toUTF32
+#define ConvertUTF32toUTF16				nano_ConvertUTF32toUTF16
+#define isLegalUTF8Sequence				nano_isLegalUTF8Sequence
+
+
 
 
 
