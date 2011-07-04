@@ -19,8 +19,10 @@
 #include <sysexits.h>
 
 #include "NCoreFoundation.h"
-#include "NCFString.h"
+#include "NTimeUtilities.h"
+#include "NThread.h"
 #include "NLock.h"
+#include "NCFString.h"
 #include "NMacTarget.h"
 #include "NTargetSystem.h"
 
@@ -610,13 +612,27 @@ void NTargetSystem::TaskWrite(const TaskInfo &theTask, const NString &theText)
 //      NTargetSystem::TaskWait : Block for a task.
 //----------------------------------------------------------------------------
 void NTargetSystem::TaskWait(const TaskInfo &/*theTask*/, NTime waitFor)
-{
+{	NTime		startTime, endTime, timeLeft;
+
+
+
+	// Get the state we need
+	startTime = NTimeUtilities::GetTime();
+	endTime   = startTime + waitFor;
+
 
 
 	// Wait for the task
 	//
 	// We must allow timers to run while waiting, since they poll the status.
+	//
+	// Despite passing CFRunLoopRunInMode a non-zero time, on 10.6 it will
+	// typically much sooner (forcing us to sleep for the remaining time).
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, waitFor, false);
+
+	timeLeft = endTime - NTimeUtilities::GetTime();
+	if (timeLeft > 0.0)
+		NThread::Sleep(timeLeft);
 }
 
 

@@ -16,9 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NBroadcaster.h"
 #include "NString.h"
-#include "NTimer.h"
 
 
 
@@ -69,10 +67,6 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-// Messages
-static const NBroadcastMsg kMsgNTaskTerminated						= 0x7461736B;	// 'task'
-
-
 // Tasks
 typedef UIntPtr NTaskID;
 typedef UIntPtr NTaskPipeRef;
@@ -104,7 +98,7 @@ typedef struct {
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NTask : public NBroadcaster {
+class NTask {
 public:
 										NTask(void);
 	virtual							   ~NTask(void);
@@ -176,12 +170,11 @@ public:
 
 
 private:
-	void								UpdateTask(void);
+	void								UpdateTask(NTime waitFor=kNTimeNone) const;
 
 
 private:
-	TaskInfo							mTask;
-	NTimer								mTimer;
+	mutable TaskInfo					mTask;
 
 	NString								mCommand;
 	NStringList							mArguments;

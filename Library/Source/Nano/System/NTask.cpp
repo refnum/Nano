@@ -28,8 +28,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NTime kTaskSleep										= 0.250f;
-static const NTime kTaskStatus										= 0.500f;
+static const NTime kTaskSleep										= 0.75f;
 
 
 
@@ -93,6 +92,8 @@ NTaskID NTask::GetID(void) const
 
 
 	// Get the task ID
+	UpdateTask();
+	
 	return(mTask.taskID);
 }
 
@@ -108,6 +109,8 @@ SInt32 NTask::GetResult(void) const
 
 
 	// Get the task result
+	UpdateTask();
+	
 	return(mTask.taskResult);
 }
 
@@ -143,9 +146,6 @@ NStatus NTask::Launch(void)
 	// Launch the task
 	mTask  = NTargetSystem::TaskCreate(mCommand, mArguments);
 	theErr = IsRunning() ? kNoErr : kNErrNotSupported;
-
-	if (theErr == kNoErr)
-		mTimer.AddTimer(BindSelf(NTask::UpdateTask), kTaskStatus, kTaskStatus);
 
 	return(kNoErr);
 }
@@ -351,7 +351,7 @@ void NTask::WaitForTask(NTime waitFor)
 		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() >= endTime)
 			break;
 
-		NTargetSystem::TaskWait(mTask, kTaskSleep);
+		UpdateTask(kTaskSleep);
 		}
 }
 
@@ -363,9 +363,9 @@ void NTask::WaitForTask(NTime waitFor)
 //		NTask::Execute : Execute the task.
 //----------------------------------------------------------------------------
 NString NTask::Execute(NTime waitFor)
-{	bool		mainThread;
+{	NTime		endTime, sleepTime;
+	bool		mainThread;
 	NString		theResult;
-	NTime		endTime;
 	NStatus		theErr;
 
 
@@ -382,25 +382,16 @@ NString NTask::Execute(NTime waitFor)
 
 
 	// Wait for the results
-	//
-	// If we're not the main thread then we won't be able to fire
-	// our timer, so we need to update the task status by polling.
 	mainThread = NThread::IsMain();
+	sleepTime  = kTaskSleep;
 
 	while (IsRunning())
 		{
 		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() >= endTime)
 			break;
 
+		UpdateTask(kTaskSleep);
 		theResult += ReadOutput();
-
-		if (mainThread)
-			NTargetSystem::TaskWait(mTask, kTaskSleep);
-		else
-			{
-			NThread::Sleep();
-			UpdateTask();
-			}
 		}
 
 
@@ -453,23 +444,27 @@ NString NTask::Execute(const char *cmd, NN_TASK_ARGS_PARAM)
 //		NTask::UpdateTask : Update the task status.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NTask::UpdateTask(void)
+void NTask::UpdateTask(NTime waitFor) const
 {
 
 
-	// Update the status
+	// Update the task
 	//
-	// If the task is still running then we update it, and once it has
-	// exited we perform our one-time cleanup work for the task.
+	// If the task is still running then we update its status from the target
+	// layer, which monitors the underlying OS task status.
+	//
+	// If we're to sleep, we need to do so using the target layer rather than
+	// NThread. This allows the target layer to do any book-keeping it needs
+	// to monitor the underlying OS task (e.g., fire timers).
 	if (mTask.taskID != kNTaskIDNone)
-		NTargetSystem::TaskUpdate(mTask);
-
-	if (mTask.taskID == kNTaskIDNone)
 		{
-		mTimer.RemoveTimer();
-		BroadcastMessage(kMsgNTaskTerminated, this);
+		if (waitFor > kNTimeNone)
+			NTargetSystem::TaskWait(mTask, waitFor);
+
+		NTargetSystem::TaskUpdate(mTask);
 		}
 }
+
 
 
 
