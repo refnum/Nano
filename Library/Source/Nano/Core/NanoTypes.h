@@ -270,6 +270,8 @@ static const NStatus kNErrNotSupported								= -14;
 static const NStatus kNErrParam										= -15;
 static const NStatus kNErrPermission								= -16;
 static const NStatus kNErrTimeout									= -17;
+static const NStatus kNErrVersionTooOld								= -18;
+static const NStatus kNErrVersionTooNew								= -19;
 
 
 
