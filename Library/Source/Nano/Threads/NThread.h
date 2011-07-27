@@ -37,6 +37,12 @@ static const NTime kNThreadSpinTime									= 500.0 * kNTimeMicrosecond;
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Thread local value
+typedef UIntPtr NThreadLocalRef;
+
+static const NThreadLocalRef kNThreadLocalRefNone					= 0;
+
+
 // Lists
 class NThread;
 
@@ -79,6 +85,16 @@ public:
 
 	// Sleep the current thread
 	static void							Sleep(NTime theTime=kNThreadSleepTime);
+
+
+	// Create/destroy a thread-local value
+	static NThreadLocalRef				CreateLocal(void);
+	static void							DestroyLocal(NThreadLocalRef theKey);
+
+
+	// Get/set a thread-local value
+	static void						   *GetLocalValue(NThreadLocalRef theKey);
+	static void							SetLocalValue(NThreadLocalRef theKey, void *theValue);
 
 
 	// Invoke a functor on the main thread

@@ -696,6 +696,84 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 
 
 //============================================================================
+//		NTargetThread::LocalCreate : Create a thread-local value.
+//----------------------------------------------------------------------------
+NThreadLocalRef NTargetThread::LocalCreate(void)
+{	DWORD	keyRef;
+
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(DWORD) <= sizeof(NThreadLocalRef));
+
+
+
+	// Create the key
+	keyRef = TlsAlloc();
+	
+	return((NThreadLocalRef) keyRef);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::LocalDestroy : Destroy a thread-local value.
+//----------------------------------------------------------------------------
+void NTargetThread::LocalDestroy(NThreadLocalRef theKey)
+{	DWORD		keyRef = (DWORD) theKey;
+	BOOL		wasOK;
+
+
+
+	// Destroy the key
+	wasOK = TlsFree(keyRef);
+	NN_ASSERT(wasOK);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::LocalGetValue : Get a thread-local value.
+//----------------------------------------------------------------------------
+void *NTargetThread::LocalGetValue(NThreadLocalRef theKey)
+{	DWORD		keyRef = (DWORD) theKey;
+	void		*theValue;
+
+
+
+	// Get the value
+	theValue = TlsGetValue(keyRef);
+
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::LocalSetValue : Set a thread-local value.
+//----------------------------------------------------------------------------
+void NTargetThread::LocalSetValue(NThreadLocalRef theKey, void *theValue)
+{	DWORD		keyRef = (DWORD) theKey;
+	BOOL		wasOK;
+
+
+
+	// Set the value
+	wasOK = TlsSetValue(keyRef, theValue);
+	NN_ASSERT(wasOK);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::SemaphoreCreate : Create a semaphore.
 //----------------------------------------------------------------------------
 NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)

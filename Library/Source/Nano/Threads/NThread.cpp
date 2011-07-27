@@ -177,6 +177,66 @@ void NThread::Sleep(NTime theTime)
 
 
 //============================================================================
+//		NThread::CreateLocal : Create a thread-local value.
+//----------------------------------------------------------------------------
+NThreadLocalRef NThread::CreateLocal(void)
+{
+
+
+	// Create the value
+	return(NTargetThread::LocalCreate());
+}
+
+
+
+
+
+//============================================================================
+//		NThread::DestroyLocal : Destroy a thread-local value.
+//----------------------------------------------------------------------------
+void NThread::DestroyLocal(NThreadLocalRef theKey)
+{
+
+
+	// Destroy the value
+	NTargetThread::LocalDestroy(theKey);
+}
+
+
+
+
+
+//============================================================================
+//		NThread::GetLocalValue : Get a thread-local value.
+//----------------------------------------------------------------------------
+void *NThread::GetLocalValue(NThreadLocalRef theKey)
+{
+
+
+	// Get the value
+	return(NTargetThread::LocalGetValue(theKey));
+}
+
+
+
+
+
+//============================================================================
+//		NThread::SetLocalValue : Set a thread-local value.
+//----------------------------------------------------------------------------
+void NThread::SetLocalValue(NThreadLocalRef theKey, void *theValue)
+{
+
+
+	// Set the value
+	NTargetThread::LocalSetValue(theKey, theValue);
+}
+
+
+
+
+
+//============================================================================
 //		NThread::InvokeMain : Perform a functor on the main thread.
 //----------------------------------------------------------------------------
 void NThread::InvokeMain(const NFunctor &theFunctor)

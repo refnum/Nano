@@ -440,6 +440,87 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 
 
 //============================================================================
+//		NTargetThread::LocalCreate : Create a thread-local value.
+//----------------------------------------------------------------------------
+NThreadLocalRef NTargetThread::LocalCreate(void)
+{	pthread_key_t	keyRef;
+	int				sysErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(pthread_key_t) <= sizeof(NThreadLocalRef));
+
+
+
+	// Create the key
+	keyRef = 0;
+	sysErr = pthread_key_create(&keyRef, NULL);
+	NN_ASSERT_NOERR(sysErr);
+	
+	return((NThreadLocalRef) keyRef);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::LocalDestroy : Destroy a thread-local value.
+//----------------------------------------------------------------------------
+void NTargetThread::LocalDestroy(NThreadLocalRef theKey)
+{	pthread_key_t	keyRef = (pthread_key_t) theKey;
+	int				sysErr;
+
+
+
+	// Destroy the key
+	sysErr = pthread_key_delete(keyRef);
+	NN_ASSERT_NOERR(sysErr);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::LocalGetValue : Get a thread-local value.
+//----------------------------------------------------------------------------
+void *NTargetThread::LocalGetValue(NThreadLocalRef theKey)
+{	pthread_key_t	keyRef = (pthread_key_t) theKey;
+	void			*theValue;
+
+
+
+	// Get the value
+	theValue = pthread_getspecific(keyRef);
+
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::LocalSetValue : Set a thread-local value.
+//----------------------------------------------------------------------------
+void NTargetThread::LocalSetValue(NThreadLocalRef theKey, void *theValue)
+{	pthread_key_t	keyRef = (pthread_key_t) theKey;
+	kern_return_t	sysErr;
+
+
+
+	// Set the value
+	sysErr = pthread_setspecific(keyRef, theValue);
+	NN_ASSERT_NOERR(sysErr);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::SemaphoreCreate : Create a semaphore.
 //----------------------------------------------------------------------------
 NSemaphoreRef NTargetThread::SemaphoreCreate(NIndex theValue)

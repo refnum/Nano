@@ -59,6 +59,13 @@ public:
 	static void							ThreadInvokeMain(const NFunctor &theFunctor);
 
 
+	// Thread-local values
+	static NThreadLocalRef				LocalCreate(void);
+	static void							LocalDestroy( NThreadLocalRef theKey);
+	static void						   *LocalGetValue(NThreadLocalRef theKey);
+	static void							LocalSetValue(NThreadLocalRef theKey, void *theValue);
+
+
 	// Semaphores
 	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
 	static void							SemaphoreDestroy(NSemaphoreRef theSemaphore);
