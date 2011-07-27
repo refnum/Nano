@@ -974,7 +974,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 	//		- The mapped offset must be pagesize()-aligned, and so we may need
 	//		  to adjust the offset/size to compensate.
 	//
-	//		- The pge flags must include either MAP_SHARED or MAP_PRIVATE, so
+	//		- The page flags must include either MAP_SHARED or MAP_PRIVATE, so
 	//		  we default to MAP_SHARED and enable MAP_PRIVATE if required.
 	//
 	// For each file we maintain a table of mapped pointers to their originating
