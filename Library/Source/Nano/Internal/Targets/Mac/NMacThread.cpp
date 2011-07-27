@@ -608,10 +608,12 @@ NStatus NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
 
 
 			// Handle failure
-			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
+			if (theErr != kNoErr)
 				{
 				NThread::Sleep(kNThreadSleepTime);
-				theErr = kNoErr;
+
+				if (NTimeUtilities::GetTime() >= stopTime)
+					break;
 				}
 			}
 		while (theErr != kNoErr);
@@ -730,10 +732,12 @@ NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, NTime waitF
 
 
 			// Handle failure
-			if (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime)
+			if (theErr != kNoErr)
 				{
 				NThread::Sleep(kNThreadSleepTime);
-				theErr = kNoErr;
+
+				if (NTimeUtilities::GetTime() >= stopTime)
+					break;
 				}
 			}
 		while (theErr != kNoErr);
