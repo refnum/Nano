@@ -142,16 +142,30 @@ void NThread::Start(void)
 //		NThread::Stop : Stop the thread.
 //----------------------------------------------------------------------------
 void NThread::Stop(bool shouldWait)
-{
+{	bool	autoDelete;
+
 
 
 	// Stop the thread
 	mShouldStop = true;
 
+
+
+	// Wait if necessary
+	//
+	// If we're to wait for the thread to stop, we also need to handle deletion
+	// for the thread (otherwise the thread will delete itself when it stops,
+	// and we'll call IsRunning on a dead object).
 	if (shouldWait)
 		{
+		autoDelete  = mAutoDelete;
+		mAutoDelete = false;
+
 		while (IsRunning())
 			Sleep();
+
+		if (autoDelete)
+			delete this;
 		}
 }
 
