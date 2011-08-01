@@ -118,6 +118,7 @@ public:
 
 
 private:
+	NDBStatus							SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor);
 	NDBQueryRef							SQLiteCreateQuery(const NDBQuery &theQuery);
 	void								SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &theParameters);
 	NStatus								SQLiteGetStatus(NDBStatus dbErr);

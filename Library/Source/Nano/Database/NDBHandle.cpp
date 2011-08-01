@@ -29,6 +29,7 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const UInt32  kProgressUpdate								= 1000;
+static const NIndex  kMaxLockedTries								= 10;
 static const NString kNamePrefix									= ":";
 
 
@@ -221,57 +222,35 @@ void NDBHandle::SetProgress(const NDBProgressFunctor &theFunctor)
 //		NDBHandle::Execute : Execute a query.
 //----------------------------------------------------------------------------
 NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
-{	bool				areDone, waitForever;
-	sqlite3_stmt		*sqlQuery;
-	NTime				startTime;
-	NDBStatus			dbErr;
-
-
-
-	// Get the state we need
-	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
-	sqlQuery    = (sqlite3_stmt *) SQLiteCreateQuery(theQuery);
-
-	if (sqlQuery == NULL)
-		return(kNErrParam);
+{	NStatus			theErr;
+	NDBStatus		dbErr;
+	NIndex			n;
 
 
 
 	// Execute the query
-	startTime = NTimeUtilities::GetTime();
-	dbErr     = SQLITE_OK;
-	areDone   = false;
-	
-	while (!areDone)
+	//
+	// SQLITE_LOCKED may be returned when using a shared page cache; unlike SQLITE_BUSY
+	// we need to retry the entire query, rather than the current statement.
+	//
+	// Since sqlite3_unlock_notify only supports a single pending unlock notification, each
+	// Execute() performs its own try-sleep-try loop until it succeeds or hits some limit to
+	// allow multiple threads to be retry in parallel.
+	for (n = 0; n < kMaxLockedTries; n++)
 		{
-		// Execute the query
-		dbErr = sqlite3_step(sqlQuery);
+		dbErr = SQLiteExecute(theQuery, theResult, waitFor);
+		if (dbErr != SQLITE_LOCKED)
+			break;
 
-		switch (dbErr) {
-			case SQLITE_ROW:
-				if (theResult != NULL)
-					theResult((NDBQueryRef) sqlQuery);
-				break;
-			
-			case SQLITE_BUSY:
-			case SQLITE_LOCKED:
-				areDone = !waitForever && (NTimeUtilities::GetTime() >= (startTime + waitFor));
-				if (!areDone)
-					NThread::Sleep();
-				break;
-			
-			default:
-				areDone = true;
-				break;
-			}
+		NThread::Sleep();
 		}
 
 
 
-	// Clean up
-	(void) sqlite3_finalize(sqlQuery);
-
-	return(SQLiteGetStatus(dbErr));
+	// Get the result
+	theErr = SQLiteGetStatus(dbErr);
+	
+	return(theErr);
 }
 
 
@@ -461,9 +440,69 @@ void *NDBHandle::GetDatabase(void)
 
 
 //============================================================================
-//		NDBHandle::SQLiteCreateQuery : Get an SQLite query.
+//		NDBHandle::SQLiteExecute : Execute a query.
 //----------------------------------------------------------------------------
 #pragma mark -
+NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
+{	bool				areDone, waitForever;
+	sqlite3_stmt		*sqlQuery;
+	NTime				startTime;
+	NDBStatus			dbErr;
+
+
+
+	// Get the state we need
+	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
+	sqlQuery    = (sqlite3_stmt *) SQLiteCreateQuery(theQuery);
+
+	if (sqlQuery == NULL)
+		return(SQLITE_INTERNAL);
+
+
+
+	// Execute the query
+	startTime = NTimeUtilities::GetTime();
+	dbErr     = SQLITE_OK;
+	areDone   = false;
+	
+	while (!areDone)
+		{
+		// Execute the query
+		dbErr = sqlite3_step(sqlQuery);
+
+		switch (dbErr) {
+			case SQLITE_ROW:
+				if (theResult != NULL)
+					theResult((NDBQueryRef) sqlQuery);
+				break;
+			
+			case SQLITE_BUSY:
+				areDone = !waitForever && (NTimeUtilities::GetTime() >= (startTime + waitFor));
+				if (!areDone)
+					NThread::Sleep();
+				break;
+			
+			default:
+				areDone = true;
+				break;
+			}
+		}
+
+
+
+	// Clean up
+	(void) sqlite3_finalize(sqlQuery);
+
+	return(dbErr);
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteCreateQuery : Get an SQLite query.
+//----------------------------------------------------------------------------
 NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 {	NDictionary			theParameters;
 	const char			*valueUTF8;
