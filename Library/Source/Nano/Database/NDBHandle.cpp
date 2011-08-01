@@ -95,7 +95,7 @@ bool NDBHandle::IsMutable(void) const
 
 
 	// Get our state
-	return((mFlags & kNDBReadOnly) != kNDBNone);
+	return((mFlags & kNDBReadOnly) == kNDBNone);
 }
 
 
