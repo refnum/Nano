@@ -254,6 +254,7 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 				break;
 			
 			case SQLITE_BUSY:
+			case SQLITE_LOCKED:
 				areDone = !waitForever && (NTimeUtilities::GetTime() >= (startTime + waitFor));
 				if (!areDone)
 					NThread::Sleep();
