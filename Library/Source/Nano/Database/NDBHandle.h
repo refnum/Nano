@@ -27,6 +27,19 @@
 
 
 //============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+typedef NBitfield NDBFlags;
+
+static const NDBFlags kNDBNone										= 0;
+static const NDBFlags kNDBReadOnly									= (1 << 0);
+static const NDBFlags kNDBPoolConnectOnce							= (1 << 1);
+
+
+
+
+
+//============================================================================
 //		Types
 //----------------------------------------------------------------------------
 // Functors
@@ -55,7 +68,7 @@ public:
 
 
 	// Open/close the database
-	NStatus								Open(const NFile &theFile, bool readOnly=false, const NString &theVFS="");
+	NStatus								Open(const NFile &theFile, NDBFlags theFlags=kNDBNone, const NString &theVFS="");
 	void								Close(void);
 
 
@@ -112,7 +125,7 @@ private:
 
 
 private:
-	bool								mIsMutable;
+	NDBFlags							mFlags;
 	NDBHandleRef						mDatabase;
 	NDBProgressFunctor					mProgress;
 };

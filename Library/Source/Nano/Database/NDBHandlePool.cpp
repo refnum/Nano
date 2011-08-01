@@ -32,9 +32,7 @@ NDBHandlePool::NDBHandlePool(void)
 
 	// Initialise ourselves
 	mIsOpen = false;
-	
-	mConnectOnce = false;
-	mIsMutable   = false;
+	mFlags  = kNDBNone;
 }
 
 
@@ -80,7 +78,7 @@ bool NDBHandlePool::IsMutable(void) const
 
 
 	// Get our state
-	return(mIsMutable);
+	return((mFlags & kNDBReadOnly) != kNDBNone);
 }
 
 
@@ -120,7 +118,7 @@ void NDBHandlePool::SetConnector(const NDBHandleConnector &theConnector)
 //============================================================================
 //		NDBHandlePool::Open : Open the database.
 //----------------------------------------------------------------------------
-NStatus NDBHandlePool::Open(const NFile &theFile, bool connectOnce, bool readOnly, const NString &theVFS)
+NStatus NDBHandlePool::Open(const NFile &theFile, NDBFlags theFlags, const NString &theVFS)
 {	NDBHandlePtr		dbHandle;
 	NStatus				theErr;
 
@@ -133,10 +131,9 @@ NStatus NDBHandlePool::Open(const NFile &theFile, bool connectOnce, bool readOnl
 
 
 	// Update our state
-	mConnectOnce = connectOnce;
-	mIsMutable   = !readOnly;
-	mFile        = theFile;
-	mVFS         = theVFS;
+	mFile  = theFile;
+	mFlags = theFlags;
+	mVFS   = theVFS;
 
 
 
@@ -209,7 +206,7 @@ bool NDBHandlePool::AcquireConnection(NDBHandlePtr &dbHandle)
 	//
 	// The list will be unlocked when we release the connection, allowing
 	// one of any of the threads then blocked on the lock to continue.
-	if (mConnectOnce)
+	if (mFlags & kNDBPoolConnectOnce)
 		{
 		mPool.Lock();
 
@@ -257,7 +254,7 @@ void NDBHandlePool::ReleaseConnection(NDBHandlePtr &dbHandle)
 
 
 	// Release a single connection
-	if (mConnectOnce)
+	if (mFlags & kNDBPoolConnectOnce)
 		{
 		NN_ASSERT(dbHandle == mPool.GetValue(0));
 		mPool.Unlock();
@@ -443,7 +440,7 @@ NStatus NDBHandlePool::CreateConnection(NDBHandlePtr &dbHandle)
 
 	if (theErr == kNoErr)
 		{
-		theErr = dbHandle->Open(mFile, !mIsMutable, mVFS);
+		theErr = dbHandle->Open(mFile, mFlags, mVFS);
 		NN_ASSERT_NOERR(theErr);
 		}
 

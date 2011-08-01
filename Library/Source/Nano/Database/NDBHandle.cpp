@@ -48,8 +48,8 @@ NDBHandle::NDBHandle(void)
 
 
 	// Initialize ourselves
+	mFlags     = kNDBNone;
 	mDatabase  = NULL;
-	mIsMutable = false;
 }
 
 
@@ -95,7 +95,7 @@ bool NDBHandle::IsMutable(void) const
 
 
 	// Get our state
-	return(mIsMutable);
+	return((mFlags & kNDBReadOnly) != kNDBNone);
 }
 
 
@@ -105,8 +105,8 @@ bool NDBHandle::IsMutable(void) const
 //============================================================================
 //		NDBHandle::Open : Open the database.
 //----------------------------------------------------------------------------
-NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theVFS)
-{	int				theFlags;
+NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &theVFS)
+{	int				sqlFlags;
 	const char		*vfsName;
 	NString			thePath;
 	sqlite3			*sqlDB;
@@ -121,14 +121,19 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 
 	// Get the state we need
 	vfsName  = theVFS.IsEmpty() ? NULL : theVFS.GetUTF8();
-	theFlags = readOnly ? SQLITE_OPEN_READONLY : (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 	thePath  = theFile.GetPath();
 	sqlDB    = NULL;
+	sqlFlags = 0;
+
+	if (theFlags & kNDBReadOnly)
+		sqlFlags |= SQLITE_OPEN_READONLY;
+	else
+		sqlFlags |= SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 
 
 
 	// Open the database
-	dbErr = sqlite3_open_v2(thePath.GetUTF8(), &sqlDB, theFlags, vfsName);
+	dbErr = sqlite3_open_v2(thePath.GetUTF8(), &sqlDB, sqlFlags, vfsName);
 	if (dbErr != kNoErr)
 		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 
@@ -140,8 +145,8 @@ NStatus NDBHandle::Open(const NFile &theFile, bool readOnly, const NString &theV
 	// Update our state
 	if (dbErr == kNoErr)
 		{
+		mFlags     = theFlags;
 		mDatabase  = sqlDB;
-		mIsMutable = !readOnly;
 		}
 
 	return(SQLiteGetStatus(dbErr));

@@ -65,7 +65,7 @@ public:
 	
 
 	// Open/close the database
-	NStatus								Open(const NFile &theFile, bool connectOnce=false, bool readOnly=false, const NString &theVFS="");
+	NStatus								Open(const NFile &theFile, NDBFlags theFlags=kNDBNone, const NString &theVFS="");
 	void								Close(void);
 
 
@@ -104,9 +104,8 @@ private:
 	NDBHandlePoolList					mPool;
 	NDBHandleConnector					mConnector;
 
-	bool								mConnectOnce;
-	bool								mIsMutable;
 	NFile								mFile;
+	NDBFlags							mFlags;
 	NString								mVFS;
 };
 
