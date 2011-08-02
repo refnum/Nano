@@ -228,6 +228,11 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 
 
 
+	// Compiler warning
+	dbErr = SQLITE_ERROR;
+
+
+
 	// Execute the query
 	//
 	// SQLITE_LOCKED may be returned when using a shared page cache; unlike SQLITE_BUSY
