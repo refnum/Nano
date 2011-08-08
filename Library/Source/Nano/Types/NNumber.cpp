@@ -42,7 +42,70 @@ static const NString kFormatFloat64										= "%.17g";
 //============================================================================
 //		Implementation
 //----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NNumber);
+// NEncodable
+//
+// NNumber uses an explicit NEncodable implementation rather than
+// NENCODABLE_DEFINE, to allow it to register for POD numeric types.
+//
+// This allows NEncoder to encode NVariants that contain POD numeric
+// types just as if they were an NVariant that held an NNumber object.
+//
+// On decoding, these POD values will then be extracted as NNumbers.
+bool NNumber::sEncodableRegistered = NNumber::EncodableRegister();
+
+bool NNumber::EncodableRegister(void)
+{	static bool				sIsRegistered;
+
+	NEncoderClassInfo		classInfo;
+	
+	if (!sIsRegistered)
+		{
+		classInfo.canEncode    = BindFunction(NNumber::EncodableCanEncode,    _1);
+		classInfo.encodeObject = BindFunction(NNumber::EncodableEncodeObject, _1, _2);
+		classInfo.decodeObject = BindFunction(NNumber::EncodableDecodeObject, _1);
+		
+		NEncoder::RegisterClass("NNumber", classInfo);
+		sIsRegistered = true;
+		}
+		
+	return(sIsRegistered);
+}
+
+bool NNumber::EncodableCanEncode(const NVariant &theValue)
+{	const NNumber	*theObject;
+
+	if (theValue.IsNumeric())
+		return(true);
+
+	theObject = theValue.GetValue<NNumber>();
+	return(theObject != NULL);
+}
+
+void NNumber::EncodableEncodeObject(NEncoder &theEncoder, const NVariant &theValue)
+{	const NNumber		*theObject;
+	const NVariant		*srcValue;
+	NNumber				tmpNumber;
+	NVariant			tmpValue;
+
+	if (theValue.IsNumeric())
+		{
+		tmpNumber = NNumber(theValue);
+		tmpValue  = NVariant(tmpNumber);
+		srcValue  = &tmpValue;
+		}
+	else
+		srcValue = &theValue;
+		
+	theObject = srcValue->GetValue<NNumber>();
+	theObject->EncodeSelf(theEncoder);
+}
+
+NVariant NNumber::EncodableDecodeObject(const NEncoder &theEncoder)
+{	NNumber		theObject;
+
+	theObject.DecodeSelf(theEncoder);
+	return(theObject);
+}
 
 
 
@@ -51,6 +114,7 @@ NENCODABLE_DEFINE(NNumber);
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
+#pragma mark -
 NNumber::NNumber(const NVariant &theValue)
 {
 
