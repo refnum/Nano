@@ -62,6 +62,12 @@ public:
 	void								RemoveKey(const NString &theKey);
 
 
+	// Get a value size
+	//
+	// If the value does not exist, 0 is returned.
+	UInt32								GetSize(const NString &theKey) const;
+
+
 	// Get/set a value
 	NVariant							GetValue(const NString &theKey) const;
 	void								SetValue(const NString &theKey, const NVariant &theValue);

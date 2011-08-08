@@ -171,9 +171,7 @@ void NRegistry::Flush(void)
 //		NRegistry::HasKey : Does a key exist?
 //----------------------------------------------------------------------------
 bool NRegistry::HasKey(const NString &theKey) const
-{	DWORD		theSize;
-	LSTATUS		theErr;
-	bool		hasKey;
+{	bool	hasKey;
 
 
 
@@ -182,10 +180,8 @@ bool NRegistry::HasKey(const NString &theKey) const
 
 
 
-	// Query the registry
-	theSize = 0;
-	theErr  = RegQueryValueEx(mKey, ToWN(theKey), NULL, NULL, NULL, &theSize);
-	hasKey  = (theErr == ERROR_SUCCESS && theSize != 0);
+	// Check the size
+	hasKey = (GetSize(theKey) != 0);
 
 	return(hasKey);
 }
@@ -210,6 +206,34 @@ void NRegistry::RemoveKey(const NString &theKey)
 	// Remove the key
 	theErr = RegDeleteValue(mKey, ToWN(theKey));
 	NN_ASSERT_NOERR(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NRegistry::GetSize : Get a value's size.
+//----------------------------------------------------------------------------
+UInt32 NRegistry::GetSize(const NString &theKey) const
+{	DWORD		theSize;
+	LSTATUS		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsOpen());
+
+
+
+	// Query the registry
+	theSize = 0;
+	theErr  = RegQueryValueEx(mKey, ToWN(theKey), NULL, NULL, NULL, &theSize);
+	
+	if (theErr == ERROR_SUCCESS)
+		NN_ASSERT(theSize != 0);
+
+	return(theSize);
 }
 
 
@@ -423,13 +447,15 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 	if (theType == REG_NONE)
 		{
 		valueData = theEncoder.Encode(theValue);
+		if (valueData.IsEmpty())
+			{
+			NN_LOG("Unable to encode '%@', dropping since can't store empty payload!", theKey);
+			return;
+			}
 
 		theType = REG_BINARY;
 		theData = NData(kHeaderSize, kHeaderNEncoder);
 		theData.AppendData(valueData);
-
-		if (valueData.IsEmpty())
-			NN_LOG("Unable to encode '%@'", theKey);
 		}
 
 
