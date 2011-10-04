@@ -1056,9 +1056,9 @@ void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
 	trimString = GetWhitespacePattern(theString, theFlags);
 
 	if (theFlags & kNStringPattern)
-		trimString.Format("^%@",       trimString);
+		trimString.Format("(?-m)^%@",       trimString);
 	else
-		trimString.Format("^\\Q%@\\E", trimString);
+		trimString.Format("(?-m)^\\Q%@\\E", trimString);
 
 
 
@@ -1082,9 +1082,9 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 	trimString = GetWhitespacePattern(theString, theFlags);
 
 	if (theFlags & kNStringPattern)
-		trimString.Format("%@$",       trimString);
+		trimString.Format("(?-m)%@$",       trimString);
 	else
-		trimString.Format("\\Q%@\\E$", trimString);
+		trimString.Format("(?-m)\\Q%@\\E$", trimString);
 
 
 
