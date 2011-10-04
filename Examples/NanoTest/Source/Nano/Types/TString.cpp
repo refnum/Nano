@@ -372,6 +372,23 @@ void TString::Execute(void)
 	NN_ASSERT(testString1 == "Trim");
 
 
+	testString1 = "Trim\n \t";
+	testString1.TrimLeft();
+	NN_ASSERT(testString1 == "Trim\n \t");
+
+	testString1 = "\n \tTrim";
+	testString1.TrimRight();
+	NN_ASSERT(testString1 == "\n \tTrim");
+
+	testString1 = "Trim";
+	testString1.Trim();
+	NN_ASSERT(testString1 == "Trim");
+
+	testString1 = "\n \t\t \n";
+	testString1.Trim();
+	NN_ASSERT(testString1 == "");
+
+
 	testString1 = "TrimLeft";
 	testString1.TrimLeft(4);
 	NN_ASSERT(testString1 == "Left");
