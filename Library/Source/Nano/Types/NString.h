@@ -299,6 +299,8 @@ private:
 	void								CapitalizeCharacters(bool toUpper);
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
+	
+	void								TrimWhitespace(bool fromLeft, bool fromRight);
 
 	bool								IsFullRange(         const NRange     &theRange)                               const;           
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;

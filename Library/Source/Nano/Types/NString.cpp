@@ -1048,22 +1048,41 @@ NString NString::Join(const NStringList &theStrings, const NString &joinWith, bo
 //		NString::TrimLeft : Trim a string on the left.
 //----------------------------------------------------------------------------
 void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
-{	NString		trimString;
+{	bool		isWhitespace;
+	NString		trimString;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theString.IsEmpty());
+
+
+
+	// Check our state
+	if (IsEmpty())
+		return;
 
 
 
 	// Get the state we need
-	trimString = GetWhitespacePattern(theString, theFlags);
+	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
+	if (!isWhitespace)
+		{
+		trimString = GetWhitespacePattern(theString, theFlags);
 
-	if (theFlags & kNStringPattern)
-		trimString.Format("(?-m)^%@",       trimString);
-	else
-		trimString.Format("(?-m)^\\Q%@\\E", trimString);
+		if (theFlags & kNStringPattern)
+			trimString.Format("(?-m)^%@",       trimString);
+		else
+			trimString.Format("(?-m)^\\Q%@\\E", trimString);
+		}
 
 
 
 	// Trim the string
-	Replace(trimString, "", theFlags | kNStringPattern);
+	if (isWhitespace)
+		TrimWhitespace(true, false);
+	else
+		Replace(trimString, "", theFlags | kNStringPattern);
 }
 
 
@@ -1074,22 +1093,41 @@ void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
 //		NString::TrimRight : Trim a string on the right.
 //----------------------------------------------------------------------------
 void NString::TrimRight(const NString &theString, NStringFlags theFlags)
-{	NString		trimString;
+{	bool		isWhitespace;
+	NString		trimString;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theString.IsEmpty());
+
+
+
+	// Check our state
+	if (IsEmpty())
+		return;
 
 
 
 	// Get the state we need
-	trimString = GetWhitespacePattern(theString, theFlags);
+	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
+	if (!isWhitespace)
+		{
+		trimString = GetWhitespacePattern(theString, theFlags);
 
-	if (theFlags & kNStringPattern)
-		trimString.Format("(?-m)%@$",       trimString);
-	else
-		trimString.Format("(?-m)\\Q%@\\E$", trimString);
+		if (theFlags & kNStringPattern)
+			trimString.Format("(?-m)%@$",       trimString);
+		else
+			trimString.Format("(?-m)\\Q%@\\E$", trimString);
+		}
 
 
 
 	// Trim the string
-	Replace(trimString, "", theFlags | kNStringPattern);
+	if (isWhitespace)
+		TrimWhitespace(false, true);
+	else
+		Replace(trimString, "", theFlags | kNStringPattern);
 }
 
 
@@ -1100,7 +1138,8 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 //		NString::Trim : Trim a string at both ends.
 //----------------------------------------------------------------------------
 void NString::Trim(const NString &theString, NStringFlags theFlags)
-{
+{	bool	isWhitespace;
+
 
 
 	// Validate our parameters
@@ -1108,9 +1147,25 @@ void NString::Trim(const NString &theString, NStringFlags theFlags)
 
 
 
+	// Check our state
+	if (IsEmpty())
+		return;
+
+
+
+	// Get the state we need
+	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
+
+
+
 	// Trim the string
-	TrimLeft( theString, theFlags);
-	TrimRight(theString, theFlags);
+	if (isWhitespace)
+		TrimWhitespace(true, true);
+	else
+		{
+		TrimLeft( theString, theFlags);
+		TrimRight(theString, theFlags);
+		}
 }
 
 
@@ -1903,6 +1958,62 @@ void NString::CapitalizeSentences(void)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
+}
+
+
+
+
+
+//============================================================================
+//		NString::TrimWhitespace : Trim whitespace from the string.
+//----------------------------------------------------------------------------
+void NString::TrimWhitespace(bool fromLeft, bool fromRight)
+{	NIndex				theSize, indexStart, indexEnd;
+	NUnicodeParser		theParser;
+
+
+
+	// Validate our state
+	NN_ASSERT(!IsEmpty());
+
+
+
+	// Get the state we need
+	theParser = GetParser();
+	theSize   = theParser.GetSize();
+
+	indexStart = 0;
+	indexEnd   = theSize - 1;
+
+
+
+	// Trim the left
+	if (fromLeft)
+		{
+		while (indexStart <= indexEnd && theParser.IsSpace(theParser.GetChar(indexStart)))
+			indexStart++;
+		}
+	
+	
+	
+	// Trim the right
+	if (fromRight)
+		{
+		while (indexEnd >= indexStart && theParser.IsSpace(theParser.GetChar(indexEnd)))
+			indexEnd--;
+		}
+	
+	
+	
+	// Update our state
+	if (indexStart != 0 || indexEnd != (theSize-1))
+		{
+		theSize = indexEnd - indexStart + 1;
+		if (theSize <= 0)
+			Clear();
+		else
+			*this = GetString(theParser, NRange(indexStart, theSize));
+		}
 }
 
 
