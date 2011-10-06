@@ -2339,19 +2339,27 @@ NString NString::GetConstantString(const char *theText)
 	// Get the string
 	//
 	// Constant strings are cached by their pointer, which must persist.
-	//
-	// To help detect cases where a mutable pointer was incorrectly passed to the
-	// no-copy constructor, we validate that the input pointer still matches the
-	// cached string in terms of content.
 	theIter = sTable.find(theText);
 	if (theIter != sTable.end())
 		{
+		// Use the cache
+		//
+		// To help detect bugs where a mutable pointer was incorrectly passed to
+		// the no-copy constructor, we validate that the input pointer still
+		// matches the cached string in terms of content.
 		theString = theIter->second;
 		NN_ASSERT(strcmp(theText, theString.GetUTF8()) == 0);
 		}
 	else
 		{
-		theString       = NString(theText, kNStringLength, kNStringEncodingUTF8);
+		// Populate the cache
+		//
+		// Before inserting into the cache we calculate the string's hash code,
+		// ensuring that the cached string won't need to become mutable if its
+		// hash code is ever needed for a comparison.
+		theString = NString(theText, kNStringLength, kNStringEncodingUTF8);
+		theString.GetHash();
+
 		sTable[theText] = theString;
 		}
 	
