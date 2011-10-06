@@ -704,7 +704,6 @@ NComparison NString::Compare(const NString &theValue) const
 NComparison NString::Compare(const NString &theString, NStringFlags theFlags) const
 {	NIndex					indexA, indexB, sizeA, sizeB;
 	bool					ignoreCase, isNumeric;
-	NUnicodeParser			parserA, parserB;
 	UInt64					numberA, numberB;
 	const NStringValue		*valueA, *valueB;
 	UTF32Char				charA, charB;
@@ -743,6 +742,12 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 
 
 	// Parse the strings
+	//
+	// Parsers are declared here to avoid creating them until we know we need
+	// to do a slow compare (to ensure the common fast case above doesn't have
+	// to create/destroy objects it doesn't need).
+	NUnicodeParser			parserA, parserB;
+
 	parserA =           GetParser();
 	parserB = theString.GetParser();
 	
