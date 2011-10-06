@@ -51,6 +51,8 @@ NDBHandle::NDBHandle(void)
 	// Initialize ourselves
 	mFlags     = kNDBNone;
 	mDatabase  = NULL;
+	
+	mCacheQuery = NULL;
 }
 
 
@@ -171,6 +173,11 @@ void NDBHandle::Close(void)
 
 
 
+	// Clean up
+	SQLiteDestroyQuery(mCacheQuery);
+
+
+
 	// Close the database
 	sqlDB = (sqlite3 *) mDatabase;
 	dbErr = sqlite3_close(sqlDB);
@@ -181,7 +188,9 @@ void NDBHandle::Close(void)
 
 
 	// Reset our state
-	mDatabase = NULL;
+	mDatabase   = NULL;
+	mCacheQuery = NULL;
+	mCacheSQL.Clear();
 }
 
 
@@ -458,10 +467,31 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 
 	// Get the state we need
 	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
-	sqlQuery    = (sqlite3_stmt *) SQLiteCreateQuery(theQuery);
 
-	if (sqlQuery == NULL)
-		return(SQLITE_INTERNAL);
+
+
+	// Create the query
+	//
+	// We cache the last query performed, allowing us to reuse the SQLite
+	// statement if the SQL is the same.
+	//
+	// This can be a significant optimisation when performing large numbers
+	// of identical statements (e.g., populating a DB where only the bound
+	// parameters are changed on each execution).
+	if (mCacheQuery != NULL && mCacheSQL == theQuery.GetValue())
+		sqlite3_reset((sqlite3_stmt *) mCacheQuery);
+	else
+		{
+		SQLiteDestroyQuery(mCacheQuery);
+
+		mCacheQuery = SQLiteCreateQuery(theQuery);
+		mCacheSQL   = theQuery.GetValue();
+
+		if (mCacheQuery == NULL)
+			return(SQLITE_INTERNAL);
+		}
+
+	sqlQuery = (sqlite3_stmt *) mCacheQuery;
 
 
 
@@ -492,11 +522,6 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 				break;
 			}
 		}
-
-
-
-	// Clean up
-	(void) sqlite3_finalize(sqlQuery);
 
 	return(dbErr);
 }
@@ -567,6 +592,32 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 		SQLiteBindParameters(sqlQuery, theParameters);
 	
 	return(sqlQuery);
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteDestroyQuery : Destroy an SQLite query.
+//----------------------------------------------------------------------------
+void NDBHandle::SQLiteDestroyQuery(NDBQueryRef theQuery)
+{	sqlite3_stmt	*sqlQuery;
+	NDBStatus		dbErr;
+
+
+
+	// Get the state we need
+	sqlQuery = (sqlite3_stmt *) theQuery;
+
+
+
+	// Destroy the query
+	if (sqlQuery != NULL)
+		{
+		dbErr = sqlite3_finalize(sqlQuery);
+		NN_ASSERT(dbErr == SQLITE_OK);
+		}
 }
 
 

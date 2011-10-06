@@ -120,6 +120,7 @@ public:
 private:
 	NDBStatus							SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor);
 	NDBQueryRef							SQLiteCreateQuery(const NDBQuery &theQuery);
+	void								SQLiteDestroyQuery(  NDBQueryRef theQuery);
 	void								SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &theParameters);
 	NStatus								SQLiteGetStatus(NDBStatus dbErr);
 	static int							SQLiteProgress(void *userData);
@@ -129,6 +130,9 @@ private:
 	NDBFlags							mFlags;
 	NDBHandleRef						mDatabase;
 	NDBProgressFunctor					mProgress;
+	
+	NDBQueryRef							mCacheQuery;
+	NString								mCacheSQL;
 };
 
 
