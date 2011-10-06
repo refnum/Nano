@@ -300,7 +300,9 @@ private:
 	void								CapitalizeWords(void);
 	void								CapitalizeSentences(void);
 	
-	void								TrimWhitespace(bool fromLeft, bool fromRight);
+	void								TrimWhitespace(       bool fromLeft, bool fromRight);
+	void								TrimWhitespaceUTF8(   bool fromLeft, bool fromRight);
+	void								TrimWhitespaceGeneric(bool fromLeft, bool fromRight);
 
 	bool								IsFullRange(         const NRange     &theRange)                               const;           
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;

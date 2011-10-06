@@ -359,47 +359,11 @@ void TString::Execute(void)
 
 
 	// Trim
-	testString1 = "\n \tTrim";
-	testString1.TrimLeft();
-	NN_ASSERT(testString1 == "Trim");
-
-	testString1 = "Trim\n \t";
-	testString1.TrimRight();
-	NN_ASSERT(testString1 == "Trim");
-
-	testString1 = "\n \tTrim\t \n";
-	testString1.Trim();
-	NN_ASSERT(testString1 == "Trim");
-
-
-	testString1 = "Trim\n \t";
-	testString1.TrimLeft();
-	NN_ASSERT(testString1 == "Trim\n \t");
-
-	testString1 = "\n \tTrim";
-	testString1.TrimRight();
-	NN_ASSERT(testString1 == "\n \tTrim");
-
-	testString1 = "Trim";
-	testString1.Trim();
-	NN_ASSERT(testString1 == "Trim");
-
-	testString1 = "\n \t\t \n";
-	testString1.Trim();
-	NN_ASSERT(testString1 == "");
-
-
-	testString1 = "TrimLeft";
-	testString1.TrimLeft(4);
-	NN_ASSERT(testString1 == "Left");
-
-	testString1 = "TrimRight";
-	testString1.TrimRight(5);
-	NN_ASSERT(testString1 == "Trim");
-
-	testString1 = "TrimTrim";
-	testString1.Trim(NRange(2, 4));
-	NN_ASSERT(testString1 == "Trim");
+	//
+	// Trimming has encoding-specific optimisation paths.
+	TestTrim(kNStringEncodingUTF8);
+	TestTrim(kNStringEncodingUTF16);
+	TestTrim(kNStringEncodingUTF32);
 
 
 
@@ -414,7 +378,82 @@ void TString::Execute(void)
 
 	testString1 += testString2;
 	NN_ASSERT(testString1 == "hello world");
-	
-
-
 }
+
+
+
+
+
+//============================================================================
+//		TString::Encode : Encode a string in a specific encoding.
+//----------------------------------------------------------------------------
+#pragma mark -
+NString TString::Encode(const NString &theValue, NStringEncoding theEncoding)
+{	NString		newString;
+
+
+
+	// Encode the string
+	newString = NString(theValue.GetData(theEncoding), theEncoding);
+
+	return(newString);
+}
+
+
+
+
+
+//============================================================================
+//		TString::TestTrim : Trim tests.
+//----------------------------------------------------------------------------
+void TString::TestTrim(NStringEncoding theEncoding)
+{	NString		testString1;
+
+
+
+	// Execute the tests
+	testString1 = Encode("\n \tTrim", theEncoding);
+	testString1.TrimLeft();
+	NN_ASSERT(testString1 == "Trim");
+
+	testString1 = Encode("Trim\n \t", theEncoding);
+	testString1.TrimRight();
+	NN_ASSERT(testString1 == "Trim");
+
+	testString1 = Encode("\n \tTrim\t \n", theEncoding);
+	testString1.Trim();
+	NN_ASSERT(testString1 == "Trim");
+
+
+	testString1 = Encode("Trim\n \t", theEncoding);
+	testString1.TrimLeft();
+	NN_ASSERT(testString1 == "Trim\n \t");
+
+	testString1 = Encode("\n \tTrim", theEncoding);
+	testString1.TrimRight();
+	NN_ASSERT(testString1 == "\n \tTrim");
+
+	testString1 = Encode("Trim", theEncoding);
+	testString1.Trim();
+	NN_ASSERT(testString1 == "Trim");
+
+	testString1 = Encode("\n \t\t \n", theEncoding);
+	testString1.Trim();
+	NN_ASSERT(testString1 == "");
+
+
+	testString1 = Encode("TrimLeft", theEncoding);
+	testString1.TrimLeft(4);
+	NN_ASSERT(testString1 == "Left");
+
+	testString1 = Encode("TrimRight", theEncoding);
+	testString1.TrimRight(5);
+	NN_ASSERT(testString1 == "Trim");
+
+	testString1 = Encode("TrimTrim", theEncoding);
+	testString1.Trim(NRange(2, 4));
+	NN_ASSERT(testString1 == "Trim");
+}
+
+
+

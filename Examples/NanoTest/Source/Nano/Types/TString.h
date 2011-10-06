@@ -28,6 +28,12 @@ class TString {
 public:
 	// Execute the tests
 	static void							Execute(void);
+
+
+private:
+	static NString						Encode(const NString &theValue, NStringEncoding theEncoding);
+
+	static void							TestTrim(NStringEncoding theEncoding);
 };
 
 

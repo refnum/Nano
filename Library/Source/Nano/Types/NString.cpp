@@ -1973,6 +1973,102 @@ void NString::CapitalizeSentences(void)
 //		NString::TrimWhitespace : Trim whitespace from the string.
 //----------------------------------------------------------------------------
 void NString::TrimWhitespace(bool fromLeft, bool fromRight)
+{	const NStringValue		*theValue;
+
+
+
+	// Validate our state
+	NN_ASSERT(!IsEmpty());
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+
+
+
+	// Trim the whitespace
+	//
+	// Trimming whitespace from a UTF8 string is a very common operation
+	// when parsing XML, so we special-case that encoding for performance.
+	if (theValue->theEncoding == kNStringEncodingUTF8)
+		TrimWhitespaceUTF8(   fromLeft, fromRight);
+	else
+		TrimWhitespaceGeneric(fromLeft, fromRight);
+}
+
+
+
+
+
+//============================================================================
+//		NString::TrimWhitespaceUTF8 : Trim whitespace from a UTF8 string.
+//----------------------------------------------------------------------------
+void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
+{	NIndex					theSize, indexStart, indexEnd;
+	const UTF8Char			*textUTF8;
+	const NStringValue		*theValue;
+
+
+
+	// Validate our state
+	NN_ASSERT(!IsEmpty());
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	theSize  = theValue->theSize;
+	textUTF8 = (const UTF8Char *) theValue->theData.GetData();
+
+	indexStart = 0;
+	indexEnd   = theSize - 1;
+
+
+
+	// Trim the left
+	if (fromLeft)
+		{
+		while (indexStart <= indexEnd && isspace(textUTF8[indexStart]))
+			indexStart++;
+		}
+	
+	
+	
+	// Trim the right
+	//
+	// In UTF8, a multi-byte sequence always has the high bit set in every
+	// byte in the sequence.
+	//
+	// This means that we can just walk back a byte at a time, since any
+	// byte within a multi-byte sequence will fail the isspace test.
+	if (fromRight)
+		{
+		while (indexEnd >= indexStart && isspace(textUTF8[indexEnd]))
+			indexEnd--;
+		}
+	
+	
+	
+	// Update our state
+	if (indexStart != 0 || indexEnd != (theSize-1))
+		{
+		theSize = indexEnd - indexStart + 1;
+		if (theSize <= 0)
+			Clear();
+		else
+			*this = NString(&textUTF8[indexStart], theSize);
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NString::TrimWhitespaceGeneric : Trim whitespace from a generic string.
+//----------------------------------------------------------------------------
+void NString::TrimWhitespaceGeneric(bool fromLeft, bool fromRight)
 {	NIndex				theSize, indexStart, indexEnd;
 	NUnicodeParser		theParser;
 
