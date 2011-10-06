@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NProgressable.h"
 #include "NUncopyable.h"
 #include "NDictionary.h"
 #include "NFile.h"
@@ -80,7 +81,8 @@ typedef char						XML_Char;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NXMLParser : public NUncopyable {
+class NXMLParser :	public NProgressable,
+					public NUncopyable {
 public:
 										NXMLParser(void);
 	virtual							   ~NXMLParser(void);
@@ -93,11 +95,6 @@ public:
 	// Get/set the options
 	NXMLParserOptions					GetOptions(void) const;
 	void								SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese=kNXMLParserNone);
-
-
-	// Get/set the progress functor
-	NProgressFunctor					GetProgress(void) const;
-	void								SetProgress(const NProgressFunctor &theFunctor);
 
 
 	// Parse a document
@@ -143,7 +140,6 @@ private:
 	
 	bool								FlushText(  void);
 	void								StopParsing(void);
-	NStatus								UpdateProgress(float theProgress);
 
 	static void							ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal);
 	static void							ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList);
@@ -157,7 +153,6 @@ private:
 private:
 	XML_Parser							mParser;
 	NXMLParserOptions					mOptions;
-	NProgressFunctor					mProgress;
 
 	bool								mInsideCData;
 	bool								mIsParsing;

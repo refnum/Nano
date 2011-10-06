@@ -631,6 +631,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Types\NProgressable.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Files\NPropertyList.cpp"
 				>
 			</File>
@@ -1754,6 +1758,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Application\NPreferences.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Types\NProgressable.h"
 				>
 			</File>
 			<File

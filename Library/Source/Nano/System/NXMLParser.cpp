@@ -142,36 +142,6 @@ void NXMLParser::SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearT
 
 
 //============================================================================
-//		NXMLParser::GetProgress : Get the progress functor.
-//----------------------------------------------------------------------------
-NProgressFunctor NXMLParser::GetProgress(void) const
-{
-
-
-	// Get the functor
-	return(mProgress);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::SetProgress : Set the progress functor.
-//----------------------------------------------------------------------------
-void NXMLParser::SetProgress(const NProgressFunctor &theFunctor)
-{
-
-
-	// Set the functor
-	mProgress = theFunctor;
-}
-
-
-
-
-
-//============================================================================
 //		NXMLParser::Parse : Parse a document.
 //----------------------------------------------------------------------------
 NStatus NXMLParser::Parse(const NFile &theFile)
@@ -257,9 +227,9 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 	if (!mIsParsing)
 		{
 		if (isFinal)
-			theErr = UpdateProgress( 0.0f);
+			theErr = BeginProgress();
 		else
-			theErr = UpdateProgress(-1.0f);
+			theErr = UpdateProgress(kNProgressUnknown);
 		}
 
 
@@ -284,9 +254,12 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 			chunkPtr += chunkSize;
 
 			if (isFinal)
-				theErr = UpdateProgress((float) sizeDone / (float) theSize);
+				theErr = UpdateProgress(sizeDone, theSize);
 			}
 		}
+	
+	if (theErr == kNoErr && isFinal)
+		EndProgress();
 
 
 
@@ -610,27 +583,6 @@ void NXMLParser::StopParsing(void)
 	// Stop parsing
 	xmlErr = XML_StopParser(mParser, false);
 	NN_ASSERT(xmlErr == XML_STATUS_OK);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::UpdateProgress : Update the progress.
-//----------------------------------------------------------------------------
-NStatus NXMLParser::UpdateProgress(float theProgress)
-{	NStatus		theErr;
-
-
-
-	// Update the progress
-	if (mProgress != NULL)
-		theErr = mProgress(theProgress);
-	else
-		theErr = kNoErr;
-	
-	return(theErr);
 }
 
 
