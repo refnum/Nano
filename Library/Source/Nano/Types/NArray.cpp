@@ -255,7 +255,7 @@ void NArray::Sort(const NArrayCompareFunctor &theFunctor, const NRange &theRange
 //		NArray::ForEach : Process each item.
 //----------------------------------------------------------------------------
 void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange) const
-{	NArrayValueConstIterator	iterFirst, iterLast;
+{	NIndex						n, minIndex, maxIndex;
 	NRange						processRange;
 	const NArrayValue			*theArray;
 
@@ -270,10 +270,11 @@ void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRa
 	// Process the array
 	if (!processRange.IsEmpty())
 		{
-		iterFirst = theArray->begin() + processRange.GetFirst();
-		iterLast  = theArray->begin() + processRange.GetNext();
-
-		for_each(iterFirst, iterLast, theFunctor);
+		minIndex = processRange.GetFirst();
+		maxIndex = processRange.GetNext();
+		
+		for (n = minIndex; n < maxIndex; n++)
+			theFunctor(n, theArray->at(n));
 		}
 }
 

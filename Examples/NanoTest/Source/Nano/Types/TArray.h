@@ -32,7 +32,7 @@ public:
 
 
 private:
-	static void							ForEach(const NVariant &theValue, NIndex *theCount);
+	static void							ForEach(NIndex theIndex, const NVariant &theValue, NIndex *theCount);
 };
 
 

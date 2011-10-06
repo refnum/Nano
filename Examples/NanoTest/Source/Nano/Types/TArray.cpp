@@ -61,7 +61,7 @@ void TArray::Execute(void)
 	NN_ASSERT(testArray.GetValueSInt64(2) == kValueSInt64);
 	
 	theCount = 0;
-	testArray.ForEach(BindFunction(TArray::ForEach, _1, &theCount));
+	testArray.ForEach(BindFunction(TArray::ForEach, _1, _2, &theCount));
 	NN_ASSERT(theCount == 3);
 
 	testArray = NArray(kListSInt32);
@@ -126,11 +126,12 @@ void TArray::Execute(void)
 //		TArray::ForEach : ForEach functor.
 //----------------------------------------------------------------------------
 #pragma mark -
-void TArray::ForEach(const NVariant &/*theValue*/, NIndex *theCount)
+void TArray::ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount)
 {
 
 
 	// Update the count
+	NN_ASSERT(theIndex == *theCount);
 	*theCount = *theCount + 1;
 }
 

@@ -45,7 +45,7 @@ class NDictionary;
 
 // Functors
 typedef nfunctor<NComparison (const NVariant &value1, const NVariant &value2)>	NArrayCompareFunctor;
-typedef nfunctor<void        (const NVariant &theValue)>						NArrayForEachFunctor;
+typedef nfunctor<void        (NIndex theIndex, const NVariant &theValue)>		NArrayForEachFunctor;
 
 
 // Lists

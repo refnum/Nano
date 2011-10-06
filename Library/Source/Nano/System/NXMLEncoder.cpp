@@ -300,7 +300,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 
 
 	// Collect the attributes
-	theKeys.ForEach(BindSelf(NXMLEncoder::EncodeElementAttribute, theAttributes, _1, &textAttributes));
+	theKeys.ForEach(BindSelf(NXMLEncoder::EncodeElementAttribute, theAttributes, _2, &textAttributes));
 	textAttributes.TrimRight();
 
 
