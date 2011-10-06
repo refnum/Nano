@@ -89,7 +89,7 @@ public:
 
 
 	// Process each item
-	void								ForEach(const NDictionaryForEachFunctor &theFunctor);
+	void								ForEach(const NDictionaryForEachFunctor &theFunctor) const;
 
 
 	// Does a key exist?

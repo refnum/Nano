@@ -254,7 +254,7 @@ void NArray::Sort(const NArrayCompareFunctor &theFunctor, const NRange &theRange
 //============================================================================
 //		NArray::ForEach : Process each item.
 //----------------------------------------------------------------------------
-void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange)
+void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange) const
 {	NArrayValueConstIterator	iterFirst, iterLast;
 	NRange						processRange;
 	const NArrayValue			*theArray;

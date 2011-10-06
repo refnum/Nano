@@ -172,7 +172,7 @@ bool NDictionary::Invert(void)
 //============================================================================
 //		NDictionary::ForEach : Process each item.
 //----------------------------------------------------------------------------
-void NDictionary::ForEach(const NDictionaryForEachFunctor &theFunctor)
+void NDictionary::ForEach(const NDictionaryForEachFunctor &theFunctor) const
 {	const	NDictionaryValue			*theDict;
 	NDictionaryValueConstIterator		theIter;
 

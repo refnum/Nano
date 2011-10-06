@@ -100,7 +100,7 @@ public:
 
 
 	// Process each item
-	void								ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange=kNRangeAll);
+	void								ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange=kNRangeAll) const;
 
 
 	// Does a value exist?
