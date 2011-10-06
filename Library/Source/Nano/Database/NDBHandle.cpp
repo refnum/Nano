@@ -28,9 +28,9 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32  kProgressUpdate								= 1000;
-static const NIndex  kMaxLockedTries								= 10;
-static const NString kNamePrefix									= ":";
+static const UInt32 kProgressUpdate									= 1000;
+static const NIndex kMaxLockedTries									= 10;
+static const char   kNamePrefix										= ':';
 
 
 
@@ -492,6 +492,7 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 		}
 
 	sqlQuery = (sqlite3_stmt *) mCacheQuery;
+	SQLiteBindParameters(mCacheQuery, theQuery.GetParameters());
 
 
 
@@ -534,8 +535,7 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 //		NDBHandle::SQLiteCreateQuery : Get an SQLite query.
 //----------------------------------------------------------------------------
 NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
-{	NDictionary			theParameters;
-	const char			*valueUTF8;
+{	const char			*textUTF8;
 	sqlite3_stmt		*sqlQuery;
 	const char			*sqlTail;
 	NString				theValue;
@@ -551,9 +551,8 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 
 
 	// Get the state we need
-	theParameters = theQuery.GetParameters();
-	theValue      = theQuery.GetValue();
-	valueUTF8     = theValue.GetUTF8();
+	theValue = theQuery.GetValue();
+	textUTF8 = theValue.GetUTF8();
 	
 	sqlDB    = (sqlite3 *) mDatabase;
 	sqlQuery = NULL;
@@ -570,7 +569,7 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 	// happens rarely enough that for now we treat it as uninterruptable.
 	do
 		{
-		dbErr = sqlite3_prepare_v2(sqlDB, valueUTF8, strlen(valueUTF8), &sqlQuery, &sqlTail);
+		dbErr = sqlite3_prepare_v2(sqlDB, textUTF8, strlen(textUTF8), &sqlQuery, &sqlTail);
 		if (dbErr == SQLITE_BUSY)
 			NThread::Sleep();
 		}
@@ -580,17 +579,11 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 
 	// Handle failure
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s (%s)", sqlite3_errmsg(sqlDB), valueUTF8);
+		NN_LOG("SQLite: %s (%s)", sqlite3_errmsg(sqlDB), textUTF8);
 
 	if (sqlQuery == NULL)
 		return(NULL);
 
-
-
-	// Bind the parameters
-	if (!theParameters.IsEmpty())
-		SQLiteBindParameters(sqlQuery, theParameters);
-	
 	return(sqlQuery);
 }
 
@@ -625,93 +618,158 @@ void NDBHandle::SQLiteDestroyQuery(NDBQueryRef theQuery)
 
 
 //============================================================================
-//		NDBHandle::SQLiteBindParameters : Bind parameters to a query.
+//		NDBHandle::SQLiteBindParameters : Bind the query parameters.
 //----------------------------------------------------------------------------
-void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NDictionary &theParameters)
-{	NString							theKey, theName;
-	Float64							valueFloat64;
-	SInt64							valueSInt64;
-	NString							valueString;
-	NNumber							valueNumber;
-	NData							valueData;
-	bool							valueBool;
-	sqlite3_stmt					*sqlQuery;
-	int								theIndex;
-	NVariant						theValue;
-	NStringList						theKeys;
-	NStringListConstIterator		theIter;
-	sqlite3							*sqlDB;
-	NDBStatus						dbErr;
+void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NVariant &theParameters)
+{	NArray			paramsArray;
+	NDictionary		paramsDict;
+	sqlite3_stmt	*sqlQuery;
 
 
 
 	// Get the state we need
-	theKeys  = theParameters.GetKeys();
 	sqlQuery = (sqlite3_stmt *) theQuery;
-	sqlDB    = (sqlite3      *) mDatabase;
-	
+
 
 
 	// Bind the parameters
-	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
+	sqlite3_clear_bindings(sqlQuery);
+	
+	if (theParameters.IsValid())
 		{
-		// Get the state we need
-		theKey   = *theIter;
-		theValue = theParameters.GetValue(theKey);
+		if (theParameters.GetValue(paramsArray))
+			paramsArray.ForEach(BindSelf(NDBHandle::SQLiteBindParameterByIndex, sqlQuery, _1, _2));
 
-
-
-		// Get the index
-		//
-		// Unused parameters are ignored, to allow the same dictionary to be used
-		// for multiple queries (not all of which may use all of the values).
-		theName  = kNamePrefix + theKey;
-		theIndex = sqlite3_bind_parameter_index(sqlQuery, theName.GetUTF8());
-		
-		if (theIndex == 0)
-			continue;
-
-
-
-		// Bind the parameter
-		dbErr = kNoErr;
-
-		if (theValue.IsNumeric())
-			{
-			valueNumber = NNumber(theValue);
-			if (valueNumber.IsInteger())
-				{
-				valueSInt64 = valueNumber.GetSInt64();
-				dbErr       = sqlite3_bind_int64(sqlQuery, theIndex, valueSInt64);
-				}
-			else
-				{
-				valueFloat64 = valueNumber.GetFloat64();
-				dbErr        = sqlite3_bind_double(sqlQuery, theIndex, valueFloat64);
-				}
-			}
-
-		else if (theValue.GetValue(valueBool))
-			dbErr = sqlite3_bind_int(sqlQuery, theIndex, valueBool ? 1 : 0);
-
-		else if (theValue.GetValue(valueString))
-			{
-			valueData = valueString.GetData(kNStringEncodingUTF8);
-			dbErr     = sqlite3_bind_text(sqlQuery, theIndex, (const char *) valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
-			}
-
-		else if (theValue.GetValue(valueData))
-			dbErr = sqlite3_bind_blob(sqlQuery, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
-		
-		else
-			NN_LOG("Unable to bind '%@' to query", theKey);
-
-
-
-		// Handle failure
-		if (dbErr != kNoErr)
-			NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
+		else if (theParameters.GetValue(paramsDict))
+			paramsDict.ForEach(BindSelf(NDBHandle::SQLiteBindParameterByKey,    sqlQuery, _1, _2));
 		}
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteBindParameterByIndex : Bind a parameter to a query.
+//----------------------------------------------------------------------------
+void NDBHandle::SQLiteBindParameterByIndex(NDBQueryRef theQuery, NIndex theIndex, const NVariant &theValue)
+{	Float64				valueFloat64;
+	SInt64				valueSInt64;
+	NString				valueString;
+	NNumber				valueNumber;
+	NData				valueData;
+	bool				valueBool;
+	sqlite3_stmt		*sqlQuery;
+	sqlite3				*sqlDB;
+	NDBStatus			dbErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theIndex >= 0);
+
+
+
+	// Get the state we need
+	sqlQuery = (sqlite3_stmt *) theQuery;
+	sqlDB    = (sqlite3      *) mDatabase;
+	dbErr    = kNoErr;
+	
+	theIndex += 1;
+
+
+
+	// Bind the parameter
+	if (theValue.IsNumeric())
+		{
+		valueNumber = NNumber(theValue);
+		if (valueNumber.IsInteger())
+			{
+			valueSInt64 = valueNumber.GetSInt64();
+			dbErr       = sqlite3_bind_int64(sqlQuery, theIndex, valueSInt64);
+			}
+		else
+			{
+			valueFloat64 = valueNumber.GetFloat64();
+			dbErr        = sqlite3_bind_double(sqlQuery, theIndex, valueFloat64);
+			}
+		}
+
+	else if (theValue.GetValue(valueBool))
+		dbErr = sqlite3_bind_int(sqlQuery, theIndex, valueBool ? 1 : 0);
+
+	else if (theValue.GetValue(valueString))
+		{
+		valueData = valueString.GetData(kNStringEncodingUTF8);
+		dbErr     = sqlite3_bind_text(sqlQuery, theIndex, (const char *) valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
+		}
+
+	else if (theValue.GetValue(valueData))
+		dbErr = sqlite3_bind_blob(sqlQuery, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
+	
+	else
+		NN_LOG("Unable to bind index '%ld' to query", theIndex);
+
+
+
+	// Handle failure
+	if (dbErr != kNoErr)
+		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteBindParameterByKey : Bind a parameter to a query.
+//----------------------------------------------------------------------------
+void NDBHandle::SQLiteBindParameterByKey(NDBQueryRef theQuery, const NString &theKey, const NVariant &theValue)
+{	UTF8List			textBuffer;
+	const char			*textUTF8;
+	sqlite3_stmt		*sqlQuery;
+	NIndex				theIndex;
+	sqlite3				*sqlDB;
+
+
+
+	// Get the state we need
+	sqlQuery = (sqlite3_stmt *) theQuery;
+	sqlDB    = (sqlite3      *) mDatabase;
+
+
+
+	// Construct the name
+	//
+	// Using an NString to construct the name can be a performance bottleneck
+	// when performing a very large number of queries (e.g., storing a GPS
+	// track's points into a database).
+	//
+	// As such we use a simple UTF8Char array to do the append, since we know
+	// we need the string encoded to UTF8 anyway.
+	textUTF8 = theKey.GetUTF8();
+	textBuffer.resize(strlen(textUTF8) + 2);
+
+	textBuffer[0] = kNamePrefix;
+	strcpy((char *) &textBuffer[1], textUTF8);
+
+
+
+	// Get the index
+	//
+	// Unused parameters are ignored, to allow the same dictionary to be used
+	// for multiple queries (not all of which may use all of the values).
+	theIndex = sqlite3_bind_parameter_index(sqlQuery, (const char *) &textBuffer[0]);
+	if (theIndex == 0)
+		return;
+
+
+
+	// Bind the parameter
+	//
+	// SQLite parameters are 1-based, but as SQLiteBindParameterByIndex is also
+	// called with 0-based indices from NArray::ForEach we need to adjust.
+	SQLiteBindParameterByIndex(theQuery, theIndex-1, theValue);
 }
 
 

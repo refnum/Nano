@@ -110,7 +110,7 @@ void NDBQuery::SetValue(const NString &theValue)
 //============================================================================
 //		NDBQuery::GetParameters : Get the parameters.
 //----------------------------------------------------------------------------
-NDictionary NDBQuery::GetParameters(void) const
+NVariant NDBQuery::GetParameters(void) const
 {
 
 
@@ -125,11 +125,18 @@ NDictionary NDBQuery::GetParameters(void) const
 //============================================================================
 //		NDBQuery::SetParameters : Set the parameters.
 //----------------------------------------------------------------------------
-void NDBQuery::SetParameters(const NDictionary &theValue)
+void NDBQuery::SetParameters(const NVariant &theValue)
 {
+
+
+	// Validate our parameters
+	if (NN_DEBUG && theValue.IsValid())
+		NN_ASSERT(theValue.IsType(typeid(NArray)) || theValue.IsType(typeid(NDictionary)));
+
 
 
 	// Set the parameters
 	mParameters = theValue;
 }
+
 
