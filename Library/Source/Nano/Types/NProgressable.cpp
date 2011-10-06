@@ -24,7 +24,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const float kProgressUpdateTime								= 0.33f;
+static const float kProgressUpdateTime								= 0.2f;
 
 
 
