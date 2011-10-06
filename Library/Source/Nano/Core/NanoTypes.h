@@ -175,6 +175,19 @@ typedef Float64List::iterator										Float64ListIterator;
 typedef Float64List::const_iterator									Float64ListConstIterator;
 
 
+typedef std::vector<UTF8Char>										UTF8List;
+typedef UTF8List::iterator											UTF8ListIterator;
+typedef UTF8List::const_iterator									UTF8ListConstIterator;
+
+typedef std::vector<UTF16Char>										UTF16List;
+typedef UTF16List::iterator											UTF16ListIterator;
+typedef UTF16List::const_iterator									UTF16ListConstIterator;
+
+typedef std::vector<UTF32Char>										UTF32List;
+typedef UTF32List::iterator											UTF32ListIterator;
+typedef UTF32List::const_iterator									UTF32ListConstIterator;
+
+
 typedef std::vector<NIndex>											NIndexList;
 typedef NIndexList::iterator										NIndexListIterator;
 typedef NIndexList::const_iterator									NIndexListConstIterator;
