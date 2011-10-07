@@ -198,36 +198,6 @@ void NDBHandle::Close(void)
 
 
 //============================================================================
-//		NDBHandle::GetProgress : Get the progress functor.
-//----------------------------------------------------------------------------
-NDBProgressFunctor NDBHandle::GetProgress(void) const
-{
-
-
-	// Get the functor
-	return(mProgress);
-}
-
-
-
-
-
-//============================================================================
-//		NDBHandle::SetProgress : Set the progress functor.
-//----------------------------------------------------------------------------
-void NDBHandle::SetProgress(const NDBProgressFunctor &theFunctor)
-{
-
-
-	// Set the functor
-	mProgress = theFunctor;
-}
-
-
-
-
-
-//============================================================================
 //		NDBHandle::Execute : Execute a query.
 //----------------------------------------------------------------------------
 NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
@@ -845,22 +815,16 @@ NStatus NDBHandle::SQLiteGetStatus(NDBStatus dbErr)
 //		NDBHandle::SQLiteProgress : SQLite progress callback.
 //----------------------------------------------------------------------------
 int NDBHandle::SQLiteProgress(void *userData)
-{	bool			canContinue;
-	NDBHandle		*thisPtr;
+{	NDBHandle		*thisPtr;
+	NStatus			theErr;
 
 
 
-	// Get the state we need
-	thisPtr     = (NDBHandle *) userData;
-	canContinue = true;
+	// Update the progress
+	thisPtr = (NDBHandle *) userData;
+	theErr  = thisPtr->UpdateProgress(kNProgressUnknown);
 
-
-
-	// Invoke the functor
-	if (thisPtr->mProgress != NULL)
-		canContinue = thisPtr->mProgress();
-
-	return(canContinue ? SQLITE_OK : SQLITE_ABORT);
+	return((theErr == kNoErr) ? SQLITE_OK : SQLITE_ABORT);
 }
 
 

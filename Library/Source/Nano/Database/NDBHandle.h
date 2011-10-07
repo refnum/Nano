@@ -16,6 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NProgressable.h"
 #include "NUncopyable.h"
 #include "NFunctor.h"
 #include "NFile.h"
@@ -43,7 +44,6 @@ static const NDBFlags kNDBPoolConnectOnce							= (1 << 1);
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<bool (void)>								NDBProgressFunctor;
 typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
 
 
@@ -53,7 +53,8 @@ typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NDBHandle : public NUncopyable {
+class NDBHandle :	public NProgressable,
+					public NUncopyable {
 public:
 										NDBHandle(void);
 	virtual							   ~NDBHandle(void);
@@ -70,11 +71,6 @@ public:
 	// Open/close the database
 	NStatus								Open(const NFile &theFile, NDBFlags theFlags=kNDBNone, const NString &theVFS="");
 	void								Close(void);
-
-
-	// Get/set the progress functor
-	NDBProgressFunctor					GetProgress(void) const;
-	void								SetProgress(const NDBProgressFunctor &theFunctor);
 
 
 	// Execute a query
@@ -131,7 +127,6 @@ private:
 private:
 	NDBFlags							mFlags;
 	NDBHandleRef						mDatabase;
-	NDBProgressFunctor					mProgress;
 	
 	NDBQueryRef							mCacheQuery;
 	NString								mCacheSQL;
