@@ -58,7 +58,6 @@ public:
 	void								SetProgress(const NProgressFunctor &theFunctor);
 
 
-protected:
 	// Get/set the progress range
 	//
 	// Progress values range from 0.0 to 1.0 by default.

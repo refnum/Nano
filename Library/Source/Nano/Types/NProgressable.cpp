@@ -93,7 +93,6 @@ void NProgressable::SetProgress(const NProgressFunctor &theFunctor)
 //============================================================================
 //		NProgressable::GetProgressRange : Get the progress range.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NProgressable::GetProgressRange(float &theOffset, float &theScale) const
 {
 
@@ -126,7 +125,6 @@ void NProgressable::SetProgressRange(float theOffset, float theScale)
 //============================================================================
 //		NProgressable::BeginProgress : Begin the progress.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NProgressable::BeginProgress(float theValue)
 {
 
