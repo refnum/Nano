@@ -140,9 +140,6 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 	if (dbErr != kNoErr)
 		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
 
-	if (dbErr == SQLITE_OK)
-		sqlite3_progress_handler(sqlDB, kProgressUpdate, SQLiteProgress, this);
-
 
 
 	// Update our state
@@ -220,6 +217,8 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 	// Since sqlite3_unlock_notify only supports a single pending unlock notification, each
 	// Execute() performs its own try-sleep-try loop until it succeeds or hits some limit to
 	// allow multiple threads to be retry in parallel.
+	SQLiteProgressBegin();
+	
 	for (n = 0; n < kMaxLockedTries; n++)
 		{
 		dbErr = SQLiteExecute(theQuery, theResult, waitFor);
@@ -228,6 +227,8 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 
 		NThread::Sleep();
 		}
+	
+	SQLiteProgressEnd();
 
 
 
@@ -812,9 +813,55 @@ NStatus NDBHandle::SQLiteGetStatus(NDBStatus dbErr)
 
 
 //============================================================================
-//		NDBHandle::SQLiteProgress : SQLite progress callback.
+//		NDBHandle::SQLiteProgressBegin : Begin an SQLite operation.
 //----------------------------------------------------------------------------
-int NDBHandle::SQLiteProgress(void *userData)
+void NDBHandle::SQLiteProgressBegin(void)
+{	sqlite3		*sqlDB;
+
+
+
+	// Get the state we need
+	sqlDB = (sqlite3 *) mDatabase;
+
+
+
+	// Begin the operation
+	sqlite3_progress_handler(sqlDB, kProgressUpdate, SQLiteProgressContinue, this);
+	
+	BeginProgress(kNProgressUnknown);
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteProgressEnd : End an SQLite operation.
+//----------------------------------------------------------------------------
+void NDBHandle::SQLiteProgressEnd(void)
+{	sqlite3		*sqlDB;
+
+
+
+	// Get the state we need
+	sqlDB = (sqlite3 *) mDatabase;
+
+
+
+	// End the operation
+	sqlite3_progress_handler(sqlDB, 0, NULL, NULL);
+	
+	EndProgress();
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteProgressContinue : SQLite progress callback.
+//----------------------------------------------------------------------------
+int NDBHandle::SQLiteProgressContinue(void *userData)
 {	NDBHandle		*thisPtr;
 	NStatus			theErr;
 
@@ -822,7 +869,7 @@ int NDBHandle::SQLiteProgress(void *userData)
 
 	// Update the progress
 	thisPtr = (NDBHandle *) userData;
-	theErr  = thisPtr->UpdateProgress(kNProgressUnknown);
+	theErr  = thisPtr->ContinueProgress(kNProgressUnknown);
 
 	return((theErr == kNoErr) ? SQLITE_OK : SQLITE_ABORT);
 }

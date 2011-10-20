@@ -25,9 +25,24 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Progress values
 static const float kNProgressNone									=  0.0f;
 static const float kNProgressDone									=  1.0f;
 static const float kNProgressUnknown								= -1.0f;
+
+
+// Progress state
+//
+// Progress functors take both a state and a value, to ensure that the
+// begin/end points are invoked exactly once for each operation.
+//
+// The continuation value may be invoked zero or more times, depending
+// on the time taken by the operation.
+typedef enum {
+	kNProgressBegin,
+	kNProgressContinue,
+	kNProgressEnd
+} NProgressState;
 
 
 
@@ -36,7 +51,7 @@ static const float kNProgressUnknown								= -1.0f;
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-typedef nfunctor<NStatus (float theProgress)>						NProgressFunctor;
+typedef nfunctor<NStatus (NProgressState theState, float theValue)>	NProgressFunctor;
 
 
 
@@ -49,6 +64,10 @@ class NProgressable {
 public:
 										NProgressable(void);
 	virtual							   ~NProgressable(void);
+
+
+	// Is a progress operation active?
+	bool								IsProgressActive(void) const;
 
 
 	// Get/set the progress functor
@@ -68,22 +87,27 @@ public:
 	void								SetProgressRange(float  theOffset, float  theScale);
 
 
-	// Begin/end the progress
+	// Begin/end a progress operation
 	//
-	// Progress updates are throttled to a sensible interval for UI updates (a few
-	// times per second).
-	//
-	// Explicit begin/end updates are always dispatched, irrespective of the time.
+	// All progress operations must be bracketed with a begin/end pair.
 	NStatus								BeginProgress(float theValue=kNProgressNone);
-	void								EndProgress(  float theValue=kNProgressDone);
+	NStatus								EndProgress(  float theValue=kNProgressDone);
 
 
-	// Update the progress
-	NStatus								UpdateProgress(float  theValue);
-	NStatus								UpdateProgress(NIndex theValue, NIndex maxValue);
+	// Continue a progress operation
+	//
+	// Progress updates are throttled to a sensible interval for UI updates,
+	// and may never be dispatched if the operation completes quickly enough.
+	NStatus								ContinueProgress(float  theValue);
+	NStatus								ContinueProgress(NIndex theValue, NIndex maxValue);
 
 
 private:
+	NStatus								UpdateProgress(NProgressState theState, float theValue);
+
+
+private:
+	bool								mIsActive;
 	NProgressFunctor					mProgress;
 	NTime								mLastTime;
 	float								mLastValue;

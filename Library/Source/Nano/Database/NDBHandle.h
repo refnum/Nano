@@ -114,14 +114,19 @@ public:
 
 
 private:
-	NDBStatus							SQLiteExecute(    const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor);
-	NDBQueryRef							SQLiteCreateQuery(const NDBQuery &theQuery);
-	void								SQLiteDestroyQuery(        NDBQueryRef theQuery);
+	NDBStatus							SQLiteExecute(    const NDBQuery   &theQuery, const NDBResultFunctor &theResult, NTime waitFor);
+	NDBQueryRef							SQLiteCreateQuery(const NDBQuery   &theQuery);
+	void								SQLiteDestroyQuery(     NDBQueryRef theQuery);
+
 	void								SQLiteBindParameters(      NDBQueryRef theQuery, const NVariant &theParameters);
 	void								SQLiteBindParameterByIndex(NDBQueryRef theQuery,       NIndex   theIndex, const NVariant &theValue);
 	void								SQLiteBindParameterByKey(  NDBQueryRef theQuery, const NString &theKey,   const NVariant &theValue);
+
 	NStatus								SQLiteGetStatus(NDBStatus dbErr);
-	static int							SQLiteProgress(void *userData);
+
+	void								SQLiteProgressBegin(void);
+	void								SQLiteProgressEnd(  void);
+	static int							SQLiteProgressContinue(void *userData);
 
 
 private:

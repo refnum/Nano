@@ -38,6 +38,8 @@ NProgressable::NProgressable(void)
 
 
 	// Initialise ourselves
+	mIsActive = false;
+	
 	mLastTime  = 0.0;
 	mLastValue = 0.0;
 	
@@ -54,6 +56,21 @@ NProgressable::NProgressable(void)
 //----------------------------------------------------------------------------
 NProgressable::~NProgressable(void)
 {
+}
+
+
+
+
+
+//============================================================================
+//		NProgressable::IsProgressActive : Is a progress operation active?
+//----------------------------------------------------------------------------
+bool NProgressable::IsProgressActive(void) const
+{
+
+
+	// Get the state
+	return(mIsActive);
 }
 
 
@@ -126,81 +143,18 @@ void NProgressable::SetProgressRange(float theOffset, float theScale)
 //		NProgressable::BeginProgress : Begin the progress.
 //----------------------------------------------------------------------------
 NStatus NProgressable::BeginProgress(float theValue)
-{
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(!mIsActive);
+
 
 
 	// Begin the progress
-	//
-	// Resetting the time ensures we always perform the update.
-	mLastTime = 0.0;
-	
-	return(UpdateProgress(theValue));
-}
-
-
-
-
-
-//============================================================================
-//		NProgressable::EndProgress : End the progress.
-//----------------------------------------------------------------------------
-void NProgressable::EndProgress(float theValue)
-{
-
-
-	// Begin the progress
-	//
-	// Resetting the time ensures we always perform the update.
-	mLastTime = 0.0;
-	
-	UpdateProgress(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NProgressable::UpdateProgress : Update the progress.
-//----------------------------------------------------------------------------
-NStatus NProgressable::UpdateProgress(float theValue)
-{	bool		didExpire, didChange;
-	NTime		timeNow;
-	NStatus		theErr;
-
-
-
-	// Get the state we need
-	timeNow = NTimeUtilities::GetTime();
-	theErr  = kNoErr;
-	
-	didExpire = ((timeNow - mLastTime) >= kProgressUpdateTime);
-	didChange = (mLastValue <  0.0f && theValue >= 0.0f) ||
-				(mLastValue >= 0.0f && theValue <  0.0f);
-
-
-
-	// Update the progress
-	//
-	// We throttle progress to avoid over-updating any UI attached to the progress,
-	// but must force an update if we've changed between determinate/indeterminate.
-	if (didExpire || didChange)
-		{
-		// Update our state
-		mLastTime  = timeNow;
-		mLastValue = theValue;
-
-
-
-		// Update the progress
-		if (mProgress != NULL)
-			{
-			if (theValue >= 0.0f)
-				theValue = mRangeOffset + (mRangeScale * theValue);
-			
-			theErr = mProgress(theValue);
-			}
-		}
+	mIsActive = true;
+	theErr    = UpdateProgress(kNProgressBegin, theValue);
 	
 	return(theErr);
 }
@@ -210,14 +164,115 @@ NStatus NProgressable::UpdateProgress(float theValue)
 
 
 //============================================================================
-//		NProgressable::UpdateProgress : Update the progress.
+//		NProgressable::EndProgress : End the progress.
 //----------------------------------------------------------------------------
-NStatus NProgressable::UpdateProgress(NIndex theValue, NIndex maxValue)
+NStatus NProgressable::EndProgress(float theValue)
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(mIsActive);
+
+
+
+	// End the progress
+	theErr    = UpdateProgress(kNProgressEnd, theValue);
+	mIsActive = false;
+	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NProgressable::ContinueProgress : Continue the progress.
+//----------------------------------------------------------------------------
+NStatus NProgressable::ContinueProgress(float theValue)
 {
 
 
-	// Update the progress
-	return(UpdateProgress( ((float) theValue) / ((float) maxValue) ));
+	// Continue the progress
+	return(UpdateProgress(kNProgressContinue, theValue));
 }
+
+
+
+
+
+//============================================================================
+//		NProgressable::ContinueProgress : Continue the progress.
+//----------------------------------------------------------------------------
+NStatus NProgressable::ContinueProgress(NIndex theValue, NIndex maxValue)
+{
+
+
+	// Continue the progress
+	return(UpdateProgress(kNProgressContinue, ((float) theValue) / ((float) maxValue) ));
+}
+
+
+
+
+
+//============================================================================
+//		NProgressable::UpdateProgress : Update the progress.
+//----------------------------------------------------------------------------
+#pragma mark -
+NStatus NProgressable::UpdateProgress(NProgressState theState, float theValue)
+{	bool		isSentinel, didExpire, didChange;
+	NTime		timeNow;
+	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(mIsActive);
+
+
+
+	// Get the state we need
+	timeNow = NTimeUtilities::GetTime();
+	theErr  = kNoErr;
+	
+	isSentinel = (theState != kNProgressContinue);
+	didExpire  = ((timeNow - mLastTime) >= kProgressUpdateTime);
+	didChange  = (mLastValue <  0.0f && theValue >= 0.0f) ||
+				 (mLastValue >= 0.0f && theValue <  0.0f);
+
+
+
+	// Update the progress
+	//
+	// We throttle progress to avoid over-updating any UI attached to the progress,
+	// but must force an update if we've changed between determinate/indeterminate.
+	//
+	// Similarly, the begin/end points are always dispatched.
+	if (isSentinel || didExpire || didChange)
+		{
+		// Update our state
+		mLastTime  = timeNow;
+		mLastValue = theValue;
+
+
+
+		// Update the progress
+		//
+		// Indeterminate progress doesn't need to be offset and scaled.
+		if (mProgress != NULL)
+			{
+			if (theValue >= 0.0f)
+				theValue = mRangeOffset + (mRangeScale * theValue);
+			
+			theErr = mProgress(theState, theValue);
+			}
+		}
+	
+	return(theErr);
+}
+
+
 
 

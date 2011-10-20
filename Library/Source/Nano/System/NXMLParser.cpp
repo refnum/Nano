@@ -218,19 +218,17 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 
 
 
-	// Prepare the progress
+	// Update the progress
 	//
-	// If we're passed a single fragment then we can report a percentage progress as
-	// we parse it. If the data is split over several fragments then we need to report
-	// an indeterminate progress until we receive the final fragment, since we don't
-	// know how much data there will be.
+	// If we're parsing a single chunk then we can emit a percentage progress
+	// from the start since we know the total chunk size.
+	//
+	// Otherwise we need to start with indeterminate progress, and wait until we
+	// receive the final chunk before we can display a percentage progress (for
+	// that case the percentage progress will be that of the final chunk, which
+	// will probably be quite small, but this is the best we can do).
 	if (!mIsParsing)
-		{
-		if (isFinal)
-			theErr = BeginProgress();
-		else
-			theErr = UpdateProgress(kNProgressUnknown);
-		}
+		theErr = BeginProgress(isFinal ? kNProgressNone : kNProgressUnknown);
 
 
 
@@ -254,21 +252,23 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 			chunkPtr += chunkSize;
 
 			if (isFinal)
-				theErr = UpdateProgress(sizeDone, theSize);
+				theErr = ContinueProgress(sizeDone, theSize);
+			else
+				theErr = ContinueProgress(kNProgressUnknown);
 			}
 		}
-	
-	if (theErr == kNoErr && isFinal)
-		EndProgress();
 
 
 
 	// Update our state
 	mIsParsing = true;
 
+	if (isFinal)
+		EndProgress();
+
 	if (theErr != kNoErr || isFinal)
 		Clear();
-	
+
 	return(theErr);
 }
 
