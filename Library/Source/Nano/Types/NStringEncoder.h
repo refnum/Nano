@@ -48,6 +48,7 @@ typedef enum {
 	// Legacy
 	//
 	// Legacy encodings are only supported for conversion to Unicode.
+	kNStringEncodingASCII,
 	kNStringEncodingMacRoman,
 	kNStringEncodingISOLatin1,				// ISO 8859-1
 	kNStringEncodingWindowsLatin1			// ANSI 1252
