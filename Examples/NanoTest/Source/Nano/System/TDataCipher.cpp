@@ -26,8 +26,14 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt8 kTestKey[]							= { 0x70, 0x61, 0x73, 0x73, 0x77, 0x6F, 0x72, 0x64 };
-static const UInt8 kTestData[]							= { 0x6E, 0x6F, 0x20, 0x6D, 0x6F, 0x72, 0x65, 0x20, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x21 };
+static const UInt8 kTestKey[]							= { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
+static const UInt8 kTestData[]							= { 0x68, 0x65, 0x6C, 0x6C, 0x6F, 0x77, 0x6F, 0x72, 0x6C, 0x64, 0x68, 0x6F, 0x77, 0x61, 0x72, 0x65, 0x79, 0x6F, 0x75, 0x74, 0x6F, 0x64, 0x61, 0x79 };
+
+static const UInt32 kAdlerTest							= 0x7F7D0A40;
+static const UInt32 kAdlerNull							= 0x7F7D0A40;
+static const UInt32 kAdlerDES							= 0x9C260C01;
+static const UInt32 kAdlerDES3							= 0x8E1D0AD4;
+static const UInt32 kAdlerBlowfish						= 0x8B360A2B;
 
 
 
@@ -38,7 +44,6 @@ static const UInt8 kTestData[]							= { 0x6E, 0x6F, 0x20, 0x6D, 0x6F, 0x72, 0x6
 //----------------------------------------------------------------------------
 void TDataCipher::Execute(void)
 {	NData			dataKey, dataTest, dataEnc, dataRaw;
-	UInt32			adlterValue;
 	NDataDigest		theDigest;
 	NDataCipher		theCipher;
 
@@ -48,7 +53,7 @@ void TDataCipher::Execute(void)
 	dataKey  = NData(NN_ARRAY_SIZE(kTestKey),  kTestKey);
 	dataTest = NData(NN_ARRAY_SIZE(kTestData), kTestData);
 
-	adlterValue = theDigest.GetAdler32(dataTest);
+	NN_ASSERT(theDigest.GetAdler32(dataTest) == kAdlerTest);
 	theCipher.SetKey(dataKey);
 
 
@@ -57,31 +62,35 @@ void TDataCipher::Execute(void)
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionNone);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionNone);
 	
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == adlterValue);
+	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerNull);
+	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
 
 
 
 	// DES
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionDES);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionDES);
-	
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == adlterValue);
+
+	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerDES);
+	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
 
 
 
 	// DES3
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionDES3);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionDES3);
-	
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == adlterValue);
+
+	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerDES3);
+	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
 
 
 
 	// Blowfish
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionBlowfish);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionBlowfish);
-	
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == adlterValue);
+
+	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerBlowfish);
+	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
 }
 
 
