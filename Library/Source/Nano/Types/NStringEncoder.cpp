@@ -498,15 +498,17 @@ NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
 //		NStringEncoder::ConvertFromLegacy : Convert a legacy encoding.
 //----------------------------------------------------------------------------
 NData NStringEncoder::ConvertFromLegacy(const NData &srcData, NStringEncoding &theEncoding)
-{	const UTF16Char		*srcTable;
-	const UInt8			*srcChar;
+{	NIndex				n, numChars;
+	const UTF16Char		*srcTable;
+	const UInt8			*srcChars;
 	UTF16Char			dstChar;
 	NData				dstData;
 
 
 
 	// Get the state we need
-	srcChar  = (const UInt8 *) srcData.GetData();
+	numChars = srcData.GetSize();
+	srcChars = (const UInt8 *) srcData.GetData();
 	srcTable = NULL;
 
 	switch (theEncoding) {
@@ -525,14 +527,13 @@ NData NStringEncoder::ConvertFromLegacy(const NData &srcData, NStringEncoding &t
 	theEncoding = kNStringEncodingUTF16;
 	dstData.Reserve(srcData.GetSize() * 2);
 	
-	while (*srcChar != 0x00)
+	for (n = 0; n < numChars; n++)
 		{
-		dstChar = srcTable[*srcChar];
+		dstChar = srcTable[srcChars[n]];
 		if (dstChar == 0x0000)
 			dstChar = kStringInvalid;
 		
 		dstData.AppendData(sizeof(dstChar), &dstChar);
-		srcChar++;
 		}
 	
 	return(dstData);
