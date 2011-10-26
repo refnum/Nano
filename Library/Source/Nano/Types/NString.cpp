@@ -1356,7 +1356,7 @@ const NString& NString::operator += (const NString &theString)
 //============================================================================
 //		NString::+ : Append a string.
 //----------------------------------------------------------------------------
-const NString NString::operator + (const NString &theString) const
+NString NString::operator + (const NString &theString) const
 {	NString		theResult;
 
 
@@ -2210,7 +2210,6 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 	// We use UTF8 by default, switching to UTF16 for non-ASCII content.
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
-		case kNStringEncodingASCII:
 		case kNStringEncodingMacRoman:
 		case kNStringEncodingISOLatin1:
 		case kNStringEncodingWindowsLatin1:

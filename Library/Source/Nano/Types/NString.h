@@ -269,7 +269,7 @@ public:
 	bool								operator != (const NString &theString) const;
 
 	const NString&						operator += (const NString &theString);
-	const NString						operator +	(const NString &theString) const;
+		  NString						operator +	(const NString &theString) const;
 
 										operator NStringUTF8(    void) const;
 										operator NFormatArgument(void) const;
