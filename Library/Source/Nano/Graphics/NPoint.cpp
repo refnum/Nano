@@ -336,6 +336,44 @@ template<class T> const NPointT<T>& NPointT<T>::operator -= (const NVectorT<T> &
 
 
 //============================================================================
+//		NPointT::+ : Addition operator.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T> NPointT<T>::operator + (const NVectorT<T> &theVector) const
+{	NPointT<T>	theResult;
+
+
+
+	// Add the vector
+	theResult.x = x + theVector.x;
+	theResult.y = y + theVector.y;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NPointT::- : Subtraction operator.
+//----------------------------------------------------------------------------
+template<class T> NPointT<T> NPointT<T>::operator - (const NVectorT<T> &theVector) const
+{	NPointT<T>	theResult;
+
+
+
+	// Subtract the vector
+	theResult.x = x - theVector.x;
+	theResult.y = y - theVector.y;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NPointT::NEncodable : NEncodable operator.
 //----------------------------------------------------------------------------
 template<class T> NPointT<T>::operator NEncodable(void) const
