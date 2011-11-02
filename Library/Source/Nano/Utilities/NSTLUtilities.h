@@ -163,7 +163,14 @@ template <class T> void vector_push_front(std::vector<T> &vector, const T &value
 //============================================================================
 //		Containers
 //----------------------------------------------------------------------------
-// Append container2 to the end of container 1
+// Insert container2 at the front of container 1
+template <class T> void prepend(T &container1, const T &container2) 
+{
+	container1.insert(container1.begin(), container2.begin(), container2.end());
+}
+
+
+// Insert container2 at the end of container 1
 template <class T> void append(T &container1, const T &container2) 
 {
 	container1.insert(container1.end(), container2.begin(), container2.end());
