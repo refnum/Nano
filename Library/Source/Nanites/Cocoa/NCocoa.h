@@ -272,9 +272,9 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 #define NSBundleString(_name)								NSLocalizedString(@_name, @"")
 
 #if NN_TARGET_MAC
-	#define NSBundleImage( _name)							[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
+	#define NSBundleImage(_name)							[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@_name ofType:NULL]]
 #else
-	#define NSBundleImage( _name)							[UIImage imageNamed:@_name]
+	#define NSBundleImage(_name)							[UIImage imageNamed:@_name]
 #endif
 
 
