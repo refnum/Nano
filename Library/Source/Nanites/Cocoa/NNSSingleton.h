@@ -44,13 +44,13 @@
 
 #define NNSSINGLETON_DEFINE(_class)											\
 																			\
-	static _class *gSharedInstance = nil;									\
+	static _class *gSharedInstance = NULL;									\
 																			\
 	+ (_class *) sharedInstance												\
 	{																		\
 		@synchronized(self)													\
 		{																	\
-			if (gSharedInstance == nil)										\
+			if (gSharedInstance == NULL)									\
 				[[self alloc] init];										\
 		}																	\
 																			\
@@ -61,14 +61,14 @@
 	{																		\
 		@synchronized(self)													\
 		{																	\
-			if (gSharedInstance == nil)										\
+			if (gSharedInstance == NULL)									\
 				{															\
 				gSharedInstance = [super allocWithZone:zone];				\
 				return(gSharedInstance);									\
 				}															\
 		}																	\
 																			\
-		return(nil);														\
+		return(NULL);														\
 	}																		\
 																			\
 	- (id) copyWithZone:(NSZone *)zone										\

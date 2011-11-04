@@ -185,6 +185,7 @@ inline UInt32 NBitVector::GetBits(NIndex theIndex, NIndex numBits) const
 	NIndex		n;
 
 
+
 	// Validate our parameters
 	NN_ASSERT((theIndex + numBits) <= GetSize());
 	NN_ASSERT(numBits >= 1 && numBits <= 32);
