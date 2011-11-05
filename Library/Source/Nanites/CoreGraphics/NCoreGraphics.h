@@ -45,26 +45,6 @@ inline CGRect ToCG(const NRectangle &theRect)
 
 
 
-// Cocoa to CoreGraphics
-#if NN_TARGET_MAC && defined(__OBJC__)
-inline CGPoint ToCG(const NSPoint &thePoint)
-{
-	return(CGPointMake(thePoint.x, thePoint.y));
-}
-
-inline CGSize ToCG(const NSSize &theSize)
-{
-	return(CGSizeMake(theSize.width, theSize.height));
-}
-
-inline CGRect ToCG(const NSRect &theRect)
-{
-	return(CGRectMake(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
-}
-#endif // NN_TARGET_MAC
-
-
-
 // CoreGraphics to Nano
 inline NPoint ToNN(const CGPoint &thePoint)
 {
@@ -80,26 +60,6 @@ inline NRectangle ToNN(const CGRect &theRect)
 {
 	return(NRectangle(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
-
-
-
-// CoreGraphics to Cocoa
-#if NN_TARGET_MAC && defined(__OBJC__)
-inline NSPoint ToNS(const CGPoint &thePoint)
-{
-	return(NSMakePoint(thePoint.x, thePoint.y));
-}
-
-inline NSSize ToNS(const CGSize &theSize)
-{
-	return(NSMakeSize(theSize.width, theSize.height));
-}
-
-inline NSRect ToNS(const CGRect &theRect)
-{
-	return(NSMakeRect(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
-}
-#endif // NN_TARGET_MAC
 
 
 
@@ -136,6 +96,7 @@ inline bool operator!=(const CGRect &value1, const CGRect &value2)
 {
 	return(!CGRectEqualToRect(value1, value2));
 }
+
 
 
 // CoreGraphics constructors

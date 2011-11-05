@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NCoreGraphics.h"
 #include "NPoint.h"
 #include "NSize.h"
 #include "NRectangle.h"
@@ -35,10 +36,37 @@
 
 
 //============================================================================
+//		Build macros
+//----------------------------------------------------------------------------
+// NSGeometry
+//
+// The NSPoint/NSSize/NSRect geometry types are only available in Mac SDKs, so
+// we need to avoid references to them on iOS.
+//
+// In addition some Mac builds (e.g., 64-bit) typedef these types to their CG
+// equivalents, so we need to avoid duplicating functions that were already
+// provided by NCoreGraphics.h.
+#ifdef _APPKITDEFINES_H
+	#define NN_NSGEOM_IS_AVAILABLE									1
+#else
+	#define NN_NSGEOM_IS_AVAILABLE									0
+#endif
+
+#if defined(NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES) && NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES
+	#define NN_NSGEOM_IS_CGGEOM										1
+#else
+	#define NN_NSGEOM_IS_CGGEOM										0
+#endif
+
+
+
+
+
+//============================================================================
 //		Inline functions
 //----------------------------------------------------------------------------
 // Nano to Cocoa
-#if NN_TARGET_MAC
+#if NN_NSGEOM_IS_AVAILABLE
 inline NSPoint ToNS(const NPoint &thePoint)
 {
 	return(NSMakePoint(thePoint.x, thePoint.y));
@@ -53,7 +81,7 @@ inline NSRect ToNS(const NRectangle &theRect)
 {
 	return(NSMakeRect(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
-#endif // NN_TARGET_MAC
+#endif // NN_NSGEOM_IS_AVAILABLE
 
 inline NSRange ToNS(const NRange &theRange)
 {
@@ -109,8 +137,28 @@ inline NSURL *ToNS(const NURL &theURL)
 
 
 
+// CoreGraphics to Cocoa
+#if NN_NSGEOM_IS_AVAILABLE
+inline NSPoint ToNS(const CGPoint &thePoint)
+{
+	return(NSMakePoint(thePoint.x, thePoint.y));
+}
+
+inline NSSize ToNS(const CGSize &theSize)
+{
+	return(NSMakeSize(theSize.width, theSize.height));
+}
+
+inline NSRect ToNS(const CGRect &theRect)
+{
+	return(NSMakeRect(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
+}
+#endif // !NN_NSGEOM_IS_AVAILABLE
+
+
+
 // Cocoa to Nano
-#if NN_TARGET_MAC
+#if NN_NSGEOM_IS_AVAILABLE && !NN_NSGEOM_IS_CGGEOM
 inline NPoint ToNN(const NSPoint &thePoint)
 {
 	return(NPoint(thePoint.x, thePoint.y));
@@ -125,7 +173,7 @@ inline NRectangle ToNN(const NSRect &theRect)
 {
 	return(NRectangle(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
 }
-#endif // NN_TARGET_MAC
+#endif // NN_NSGEOM_IS_AVAILABLE && !NN_NSGEOM_IS_CGGEOM
 
 inline NRange ToNN(const NSRange &theRange)
 {
@@ -190,8 +238,28 @@ inline NString ToNN(NSMutableString *theString)
 
 
 
+// Cocoa to CoreGraphics
+#if NN_NSGEOM_IS_AVAILABLE
+inline CGPoint ToCG(const NSPoint &thePoint)
+{
+	return(CGPointMake(thePoint.x, thePoint.y));
+}
+
+inline CGSize ToCG(const NSSize &theSize)
+{
+	return(CGSizeMake(theSize.width, theSize.height));
+}
+
+inline CGRect ToCG(const NSRect &theRect)
+{
+	return(CGRectMake(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
+}
+#endif // NN_NSGEOM_IS_AVAILABLE
+
+
+
 // Equality operators
-#if NN_TARGET_MAC
+#if NN_NSGEOM_IS_AVAILABLE && !NN_NSGEOM_IS_CGGEOM
 inline bool operator==(const NSPoint &value1, const NSPoint &value2)
 {
 	return(	NMathUtilities::AreEqual(value1.x, value2.x) &&
@@ -208,12 +276,12 @@ inline bool operator==(const NSRect &value1, const NSRect &value2)
 {
 	return(value1.origin == value2.origin && value1.size == value2.size);
 }
-#endif // NN_TARGET_MAC
+#endif // NN_NSGEOM_IS_AVAILABLE && !NN_NSGEOM_IS_CGGEOM
 
 
 
 // Inequality operators
-#if NN_TARGET_MAC
+#if NN_NSGEOM_IS_AVAILABLE && !NN_NSGEOM_IS_CGGEOM
 inline bool operator!=(const NSPoint &value1, const NSPoint &value2)
 {
 	return(	!NMathUtilities::AreEqual(value1.x, value2.x) ||
@@ -230,7 +298,7 @@ inline bool operator!=(const NSRect &value1, const NSRect &value2)
 {
 	return(value1.origin != value2.origin || value1.size != value2.size);
 }
-#endif // NN_TARGET_MAC
+#endif // NN_NSGEOM_IS_AVAILABLE && !NN_NSGEOM_IS_CGGEOM
 
 
 
