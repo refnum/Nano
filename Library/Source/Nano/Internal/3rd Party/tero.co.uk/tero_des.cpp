@@ -11,7 +11,7 @@
 		That web site no longer exists, however it appears to have been derived
 		from the JavaScript implementation at:
 
-			http://tero.co.uk/des/
+			http://www.tero.co.uk/des/
 
 		Which was itself derived from an SSL implementation by Eric Young. As such,
 		Eric Young's original copyright notice is reproduced below.
@@ -66,6 +66,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NByteSwap.h"
 #include "tero_des.h"
 
 
@@ -110,8 +111,8 @@ static void des_gen_keys(size_t keySize, const void *keyPtr, bool tripleDES, UIn
 	
 
 	// now define the left shifts which need to be done
-	UInt8	shifts[] = {0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0};
-	UInt32	shiftCount = sizeof(shifts);
+	#define shiftCount 16
+	UInt8	shifts[shiftCount] = {0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0};
 
 
 	m = n = lefttemp = righttemp = left = right = temp = 0;
@@ -119,9 +120,9 @@ static void des_gen_keys(size_t keySize, const void *keyPtr, bool tripleDES, UIn
 	for (UInt32 j=0; j < iterations; j++)
 	{
 		// either 1 or 3 iterations
-		left	= (key[m]);
-		right	= (key[m+1]);
-		
+		left  = NSwapUInt32_BtoN(key[m]);
+		right = NSwapUInt32_BtoN(key[m+1]);
+
 		m+=2;
 
 		temp = ((left >> 4) ^  right) & 0x0f0f0f0f; right ^= temp; left  ^= (temp << 4);
@@ -201,9 +202,11 @@ static void des_convert(size_t keySize, const void *keyPtr, size_t dataSize, voi
 
 	// theData must be a multiple of 64 bits long
 	NN_ASSERT((dataSize % 8) == 0);
-	
-	
+
+
+
 	// Generate the DES keys
+	memset(keys, 0x00, sizeof(keys));
 	des_gen_keys(keySize, keyPtr, tripleDES, keys);
 	
 	
@@ -225,10 +228,10 @@ static void des_convert(size_t keySize, const void *keyPtr, size_t dataSize, voi
 	// loop through each 64 bit chunk of the message
 	while (m < (dataSize / sizeof(UInt32)))
 	{
-		left = message[m];
-		right = message[m+1];
+		left  = NSwapUInt32_BtoN(message[m]);
+		right = NSwapUInt32_BtoN(message[m+1]);
 
-		// first each 64 but chunk of the message must be permuted according to IP
+		// first each 64 bit chunk of the message must be permuted according to IP
 		temp = ((left >> 4) ^ right) & 0x0f0f0f0f; right ^= temp; left ^= (temp << 4);
 		temp = ((left >> 16) ^ right) & 0x0000ffff; right ^= temp; left ^= (temp << 16);
 		temp = ((right >> 2) ^ left) & 0x33333333; left ^= temp; right ^= (temp << 2);
@@ -269,8 +272,8 @@ static void des_convert(size_t keySize, const void *keyPtr, size_t dataSize, voi
 		temp = ((left >> 16) ^ right) & 0x0000ffff; right ^= temp; left ^= (temp << 16);
 		temp = ((left >> 4) ^ right) & 0x0f0f0f0f; right ^= temp; left ^= (temp << 4);
 		
-		message[m] = left;
-		message[m+1] = right;
+		message[m]   = NSwapUInt32_NtoB(left);
+		message[m+1] = NSwapUInt32_NtoB(right);
 		
 		m+=2;
 	}

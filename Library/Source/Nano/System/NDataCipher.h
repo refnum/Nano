@@ -72,6 +72,16 @@ public:
 	//		kNEncryptionDES3			Data must be multiple of 8 bytes in size
 	//		kNEncryptionBlowfish		Data must be multiple of 8 bytes in size
 	//
+	// Additional notes:
+	//
+	//		DES/DES3 encryption treats the key, input data, and output data as
+	//		an array of big-endian 32-bit words.
+	//
+	//		These are swapped to native-endian internally for processing, then
+	//		back to big-endian for the result.
+	//
+	//		This behaviour was chosen to match the openssl command-line tool.
+	//
 	NData								Encrypt(const NData &srcData, NEncryption theAlgorithm=kNEncryptionBlowfish);
 	NData								Decrypt(const NData &srcData, NEncryption theAlgorithm=kNEncryptionBlowfish);
 
