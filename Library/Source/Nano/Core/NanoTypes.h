@@ -199,6 +199,10 @@ typedef NIndexMap::const_iterator									NIndexMapConstIterator;
 typedef std::vector<NHashCode>										NHashCodeList;
 typedef NHashCodeList::iterator										NHashCodeListIterator;
 typedef NHashCodeList::const_iterator								NHashCodeListConstIterator;
+
+typedef std::vector<NBitfield>										NBitfieldList;
+typedef NBitfieldList::iterator										NBitfieldListIterator;
+typedef NBitfieldList::const_iterator								NBitfieldListConstIterator;
 #endif // __cplusplus
 
 
