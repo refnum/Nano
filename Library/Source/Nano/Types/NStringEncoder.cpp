@@ -225,7 +225,7 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 	srcEnd32   = (const UTF32 *) srcEnd8;
 
 	dstStart32 = &dstChar;
-	dstEnd32   = &dstChar + sizeof(dstChar);
+	dstEnd32   =  dstStart32 + 1;
 
 
 
