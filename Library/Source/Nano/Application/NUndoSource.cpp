@@ -2,15 +2,24 @@
 		NUndoSource.cpp
 
 	DESCRIPTION:
-		Objects that generate undos should derive from this class and provide
-		an implementation of GetUndoManager.
+		Objects that generate undos should derive from this class and record or
+		track undos based on their state.
 		
-		This may involve walking up a hierarchy of objects, e.g., so that views
-		can return the undo manager of their window (which may in turn query
-		the application to obtain a global undo manager).
+		The sub-class can either be assigned an NundoManager from some external
+		source, or it can override GetUndoManager to dynamically determine the
+		undo manager to use.
+
+
+		The former approach is useful for objects that have no direct connection
+		with a view hierarchy, and are owned by some other object which controls
+		where undo commands are sent.
 		
-		Window-specific undo managers are also supported, where a suitable parent
-		(e.g., a document) can provide an undo manager for their context.
+		The former approach is useful for objects that are part of some kind of
+		hierarchy (such as views), where an object may query some kind of chain
+		of parents/grand-parents to determine the undo manager.
+		
+		E.g., a view may return the window's undo manager, which in turn may
+		return the application's undo manager.
 		
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -34,6 +43,10 @@
 //----------------------------------------------------------------------------
 NUndoSource::NUndoSource(void)
 {
+
+
+	// Initialise ourselves
+	mUndoManager = NULL;
 }
 
 
@@ -141,6 +154,22 @@ NUndoManager *NUndoSource::GetUndoManager(void) const
 
 
 	// Get the undo manager
-	return(NULL);
+	return(mUndoManager);
 }
+
+
+
+
+
+//============================================================================
+//		NUndoSource::SetUndoManager : Set the undo manager.
+//----------------------------------------------------------------------------
+void NUndoSource::SetUndoManager(NUndoManager *undoManager)
+{
+
+
+	// Set the undo manager
+	mUndoManager = undoManager;
+}
+
 

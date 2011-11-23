@@ -53,16 +53,15 @@ public:
 	void								TrackUndo(bool beginTrack, bool canFlush=true);
 
 
-protected:
-	// Get the undo manager
+	// Get/set the undo manager
 	//
-	// Sub-classes should overide to identify the current undo manager.
-	virtual NUndoManager				*GetUndoManager(void) const;
-	
+	// Sub-classes can override to determine the current undo manager dynamically.
+	virtual NUndoManager			   *GetUndoManager(void) const;
+	void								SetUndoManager(NUndoManager *undoManager);
+
 
 private:
-
-
+	NUndoManager					   *mUndoManager;
 };
 
 
