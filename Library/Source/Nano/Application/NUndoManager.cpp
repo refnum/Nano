@@ -118,6 +118,7 @@ void NUndoManager::PerformUndo(void)
 
 	// Validate our state
 	NN_ASSERT(!mIsUndoing && !mIsRedoing);
+	NN_ASSERT(!mStackUndo.empty());
 
 
 
@@ -151,6 +152,8 @@ void NUndoManager::PerformUndo(void)
 
 
 	// Update our state
+	NN_ASSERT(mStackRedo.size() == (mStackUndo.size()+1));
+	
 	mIsUndoing = false;
 	UpdatedStacks();
 }
@@ -170,6 +173,7 @@ void NUndoManager::PerformRedo(void)
 
 	// Validate our state
 	NN_ASSERT(!mIsUndoing && !mIsRedoing);
+	NN_ASSERT(!mStackRedo.empty());
 
 
 
@@ -203,6 +207,8 @@ void NUndoManager::PerformRedo(void)
 
 
 	// Update our state
+	NN_ASSERT(mStackUndo.size() == (mStackRedo.size()+1));
+
 	mIsRedoing = false;
 	UpdatedStacks();
 }
