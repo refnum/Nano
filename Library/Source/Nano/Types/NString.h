@@ -337,6 +337,21 @@ inline NComparison GetComparison(const NString &a, const NString &b)
 }
 
 
+// Format a string
+//
+// An NString can not be constructed directly from a list of formatting
+// parameters, to avoid ambiguity with construction from char* strings.
+//
+// This function can be used to simplify situations where a local is
+// created purely to receive a format which is then passed elsewhere.
+inline NString NFormatString(const NString &theFormat, NN_FORMAT_ARGS)
+{	NString		theResult;
+
+	theResult.Format(theFormat, NN_FORMAT_ARGS_LIST);
+	return(theResult);
+}
+
+
 
 
 
