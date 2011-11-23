@@ -108,7 +108,7 @@ void NUndoSource::RecordUndo(const NFunctor	&theAction, const NString &theName, 
 	if (undoManager != NULL)
 		{
 		if (!theValue.IsEmpty())
-			undoManager->SetActionName(theValue);
+			undoManager->SetGroupName(theValue);
 
 		undoManager->RecordAction(theAction);
 		}

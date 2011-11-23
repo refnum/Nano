@@ -96,6 +96,25 @@ public:
 	void								SetUndoLimit(UInt32 theLimit);
 
 
+	// Get/set the empty name
+	//
+	// This name defaults to an obviously incorrect string, to ensure that
+	// any display of the undo state in the UI is correctly localised.
+	NString								GetEmptyUndoName(void) const;
+	NString								GetEmptyRedoName(void) const;
+
+	void								SetEmptyUndoName(const NString &theName);
+	void								SetEmptyRedoName(const NString &theName);
+
+
+	// Get the current name
+	//
+	// Returns the current name of the most recent undo/redo group, or
+	// the empty name if the undo/redo stack is empty.
+	NString								GetCurrentUndoName(void) const;
+	NString								GetCurrentRedoName(void) const;
+
+
 	// Begin/end an undo group
 	//
 	// The undo/redo stacks contain a list of groups, where each group contains
@@ -115,21 +134,14 @@ public:
 	void								EndGroup(bool flushGroup=false);
 
 
-	// Set the action name
+	// Set the group name
 	//
 	// Each undo group has an associated name, used to adjust the appearance of
 	// "Undo XXX" or "Redo XXX" menu commands.
 	//
-	// When a group is closed, the current action name is used to name the group
-	// before the name is cleared for future groups.
-	void								SetActionName(const NString &theName);
-
-
-	// Get the action names
-	//
-	// Returns the current name of the most recent undo/redo actions.
-	NString								GetUndoName(void) const;
-	NString								GetRedoName(void) const;
+	// When a group is closed, the current value is used to name the group before
+	// the value is cleared for future groups.
+	void								SetGroupName(const NString &theName);
 
 
 	// Record an undo action
@@ -170,6 +182,9 @@ private:
 	bool								mIsUndoing;
 	bool								mIsRedoing;
 	bool								mIsRecording;
+	
+	NString								mEmptyUndoName;
+	NString								mEmptyRedoName;
 
 	bool								mGroupOpen;
 	UInt32								mUndoLimit;

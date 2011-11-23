@@ -31,6 +31,9 @@ NUndoManager::NUndoManager(void)
 	mIsUndoing   = false;
 	mIsRedoing   = false;
 	mIsRecording = true;
+	
+	mEmptyUndoName = "*MISSING UNDO NAME*";
+	mEmptyRedoName = "*MISSING REDO NAME*";
 
 	mGroupOpen = false;
 	mUndoLimit = 0;
@@ -142,7 +145,7 @@ void NUndoManager::PerformUndo(void)
 	for (theIter = theGroup.theActions.rbegin(); theIter != theGroup.theActions.rend(); theIter++)
 		(*theIter)();
 	
-	SetActionName(theGroup.theName);
+	SetGroupName(theGroup.theName);
 	EndGroup();
 
 
@@ -194,7 +197,7 @@ void NUndoManager::PerformRedo(void)
 	for (theIter = theGroup.theActions.rbegin(); theIter != theGroup.theActions.rend(); theIter++)
 		(*theIter)();
 	
-	SetActionName(theGroup.theName);
+	SetGroupName(theGroup.theName);
 	EndGroup();
 
 
@@ -299,6 +302,108 @@ void NUndoManager::SetUndoLimit(UInt32 theLimit)
 
 
 //============================================================================
+//		NUndoManager::GetEmptyUndoName : Get the empty undo name.
+//----------------------------------------------------------------------------
+NString NUndoManager::GetEmptyUndoName(void) const
+{
+
+
+	// Get the name
+	return(mEmptyUndoName);
+}
+
+
+
+
+
+//============================================================================
+//		NUndoManager::SetEmptyUndoName : Set the empty undo name.
+//----------------------------------------------------------------------------
+void NUndoManager::SetEmptyUndoName(const NString &theName)
+{
+
+
+	// Set the name
+	mEmptyUndoName = theName;
+}
+
+
+
+
+
+//============================================================================
+//		NUndoManager::GetEmptyRedoName : Get the empty redo name.
+//----------------------------------------------------------------------------
+NString NUndoManager::GetEmptyRedoName(void) const
+{
+
+
+	// Get the name
+	return(mEmptyRedoName);
+}
+
+
+
+
+
+//============================================================================
+//		NUndoManager::SetEmptyRedoName : Set the empty redo name.
+//----------------------------------------------------------------------------
+void NUndoManager::SetEmptyRedoName(const NString &theName)
+{
+
+
+	// Set the name
+	mEmptyRedoName = theName;
+}
+
+
+
+
+
+//============================================================================
+//		NUndoManager::GetCurrentUndoName : Get the current undo name.
+//----------------------------------------------------------------------------
+NString NUndoManager::GetCurrentUndoName(void) const
+{	NString		theName;
+
+
+
+	// Get the name
+	if (mStackUndo.empty())
+		theName = mEmptyUndoName;
+	else
+		theName = mStackUndo.back().theName;
+
+	return(theName);
+}
+
+
+
+
+
+//============================================================================
+//		NUndoManager::GetCurrentRedoName : Get the current redo name.
+//----------------------------------------------------------------------------
+NString NUndoManager::GetCurrentRedoName(void) const
+{	NString		theName;
+
+
+
+	// Get the name
+	if (mStackRedo.empty())
+		theName = mEmptyRedoName;
+	else
+		theName = mStackRedo.back().theName;
+
+	return(theName);
+}
+
+
+
+
+
+//============================================================================
 //		NUndoManager::BeginGroup : Begin an undo group.
 //----------------------------------------------------------------------------
 void NUndoManager::BeginGroup(void)
@@ -389,52 +494,14 @@ void NUndoManager::EndGroup(bool flushGroup)
 
 
 //============================================================================
-//		NUndoManager::SetActionName : Set the action name.
+//		NUndoManager::SetGroupName : Set the group name.
 //----------------------------------------------------------------------------
-void NUndoManager::SetActionName(const NString &theName)
+void NUndoManager::SetGroupName(const NString &theName)
 {
 
 
-	// Set the action name
+	// Set the group name
 	mCurrentGroup.theName = theName;
-}
-
-
-
-
-
-//============================================================================
-//		NUndoManager::GetUndoName : Get the current undo name.
-//----------------------------------------------------------------------------
-NString NUndoManager::GetUndoName(void) const
-{	NString		theName;
-
-
-
-	// Get the name
-	if (!mStackUndo.empty())
-		theName = mStackUndo.back().theName;
-	
-	return(theName);
-}
-
-
-
-
-
-//============================================================================
-//		NUndoManager::GetRedoName : Get the current redo name.
-//----------------------------------------------------------------------------
-NString NUndoManager::GetRedoName(void) const
-{	NString		theName;
-
-
-
-	// Get the name
-	if (!mStackRedo.empty())
-		theName = mStackRedo.back().theName;
-	
-	return(theName);
 }
 
 
