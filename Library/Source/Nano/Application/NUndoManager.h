@@ -96,23 +96,33 @@ public:
 	void								SetUndoLimit(UInt32 theLimit);
 
 
-	// Get/set the empty name
+	// Get the current undo/redo name
 	//
-	// This name defaults to an obviously incorrect string, to ensure that
-	// any display of the undo state in the UI is correctly localised.
-	NString								GetEmptyUndoName(void) const;
-	NString								GetEmptyRedoName(void) const;
-
-	void								SetEmptyUndoName(const NString &theName);
-	void								SetEmptyRedoName(const NString &theName);
-
-
-	// Get the current name
+	// Returns the name of the most recent undo/redo group, if any.
 	//
-	// Returns the current name of the most recent undo/redo group, or
-	// the empty name if the undo/redo stack is empty.
-	NString								GetCurrentUndoName(void) const;
-	NString								GetCurrentRedoName(void) const;
+	// For some languages the name may be sufficient to localise the UI by simple
+	// text substitution:
+	//
+	//		NString		menuText;
+	//
+	//		menuText.Format("Undo %@", GetUndoName());
+	//
+	// Other languages may require a more complex substitution, where the 'name'
+	// is used to construct an action-specific key that identifies an undo/redo
+	// string:
+	//
+	//		NString		menuText, theKey;
+	//
+	//		theKey   = "Undo_" + GetUndoName();
+	//		menuText = NBundleString(theKey);
+	//
+	//			"Undo_Rename"  => "Undoify Renamen"
+	//			"Undo_Archive" => "Archivius Maximums"
+	//
+	// In this fictional language an undo command is written as 'verb noun', but
+	// a redo command is written as 'noun verb'.
+	NString								GetUndoName(void) const;
+	NString								GetRedoName(void) const;
 
 
 	// Begin/end an undo group
@@ -183,9 +193,6 @@ private:
 	bool								mIsRedoing;
 	bool								mIsRecording;
 	
-	NString								mEmptyUndoName;
-	NString								mEmptyRedoName;
-
 	bool								mGroupOpen;
 	UInt32								mUndoLimit;
 	NUndoGroup							mCurrentGroup;
