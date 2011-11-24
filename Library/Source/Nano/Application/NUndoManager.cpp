@@ -109,6 +109,7 @@ bool NUndoManager::CanRedo(void) const
 //----------------------------------------------------------------------------
 void NUndoManager::PerformUndo(void)
 {	NUndoGroup						theGroup;
+	NIndex							oldSize;
 	NFunctorListReverseIterator		theIter;
 
 
@@ -138,6 +139,8 @@ void NUndoManager::PerformUndo(void)
 	// Although the group actions may also set an undo name, the name of
 	// the group overrides them (so that the user sees a consistent name
 	// as a group is moved between the undo/redo menu items).
+	oldSize = mStackRedo.size();
+	
 	BeginGroup();
 	
 	for (theIter = theGroup.theActions.rbegin(); theIter != theGroup.theActions.rend(); theIter++)
@@ -145,12 +148,12 @@ void NUndoManager::PerformUndo(void)
 	
 	SetGroupName(theGroup.theName);
 	EndGroup();
+	
+	NN_ASSERT(mStackRedo.size() == (oldSize+1));
 
 
 
 	// Update our state
-	NN_ASSERT(mStackRedo.size() == (mStackUndo.size()+1));
-	
 	mIsUndoing = false;
 	UpdatedStacks();
 }
@@ -164,6 +167,7 @@ void NUndoManager::PerformUndo(void)
 //----------------------------------------------------------------------------
 void NUndoManager::PerformRedo(void)
 {	NUndoGroup						theGroup;
+	NIndex							oldSize;
 	NFunctorListReverseIterator		theIter;
 
 
@@ -193,6 +197,8 @@ void NUndoManager::PerformRedo(void)
 	// Although the group actions may also set an undo name, the name of
 	// the group overrides them (so that the user sees a consistent name
 	// as a group is moved between the undo/redo menu items).
+	oldSize = mStackUndo.size();
+	
 	BeginGroup();
 	
 	for (theIter = theGroup.theActions.rbegin(); theIter != theGroup.theActions.rend(); theIter++)
@@ -200,12 +206,12 @@ void NUndoManager::PerformRedo(void)
 	
 	SetGroupName(theGroup.theName);
 	EndGroup();
+	
+	NN_ASSERT(mStackUndo.size() == (oldSize+1));
 
 
 
 	// Update our state
-	NN_ASSERT(mStackUndo.size() == (mStackRedo.size()+1));
-
 	mIsRedoing = false;
 	UpdatedStacks();
 }
