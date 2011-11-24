@@ -149,7 +149,7 @@ void NUndoManager::PerformUndo(void)
 	SetGroupName(theGroup.theName);
 	EndGroup();
 	
-	NN_ASSERT(mStackRedo.size() == (oldSize+1));
+	NN_ASSERT(mStackRedo.size() == (size_t) (oldSize+1));
 
 
 
@@ -207,7 +207,7 @@ void NUndoManager::PerformRedo(void)
 	SetGroupName(theGroup.theName);
 	EndGroup();
 	
-	NN_ASSERT(mStackUndo.size() == (oldSize+1));
+	NN_ASSERT(mStackUndo.size() == (size_t) (oldSize+1));
 
 
 
