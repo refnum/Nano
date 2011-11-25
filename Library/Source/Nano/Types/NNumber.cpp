@@ -746,6 +746,7 @@ bool NNumber::SetValue(const NVariant &theValue)
 	Float64					valueFloat64;
 	int						valueInt;
 	long					valueLong;
+	NString					valueString;
 
 
 
@@ -791,6 +792,9 @@ bool NNumber::SetValue(const NVariant &theValue)
 	else if (theValue.GetValue(valueLong))
 		SetSInt64(valueLong);
 	
+	else if (theValue.GetValue(valueString))
+		return(SetValue(valueString));
+
 	else
 		return(false);
 
