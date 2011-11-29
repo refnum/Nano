@@ -234,6 +234,9 @@ void TString::Execute(void)
 	NN_ASSERT(NString("99"			).Compare("0123",		kNStringNumeric) == kNCompareLessThan);
 	NN_ASSERT(NString("010"			).Compare("0002",		kNStringNumeric) == kNCompareGreaterThan);
 	NN_ASSERT(NString("0100"		).Compare("20",			kNStringNumeric) == kNCompareGreaterThan);
+	NN_ASSERT(NString("1"			).Compare("10",			kNStringNumeric) == kNCompareLessThan);
+	NN_ASSERT(NString("2"			).Compare("11",			kNStringNumeric) == kNCompareLessThan);
+	NN_ASSERT(NString("3"			).Compare("12",			kNStringNumeric) == kNCompareLessThan);
 
 
 
