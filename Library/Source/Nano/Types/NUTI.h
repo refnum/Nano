@@ -42,6 +42,7 @@ typedef enum {
 static const NString kNUTTypeNone									= "";
 static const NString kNUTTypeItem									= "public.item";
 static const NString kNUTTypeContent								= "public.content";
+static const NString kNUTTypeDiskImage								= "public.disk-image";
 
 
 // Concrete base types
@@ -67,6 +68,11 @@ static const NString kNUTTypeKML									= "public.kml";
 // Misc content types
 static const NString kNUTTypeKMZ									= "public.kmz";
 static const NString kNUTTypeCSV									= "public.csv";
+
+
+// Disk image types
+static const NString kNUTTypeDMG									= "com.apple.disk-image-udif";
+static const NString kNUTTypeISO									= "public.iso-image";
 
 
 

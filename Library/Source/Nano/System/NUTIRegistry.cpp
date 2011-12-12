@@ -310,38 +310,47 @@ void NUTIRegistry::InitializeRegistry(void)
 
 
 	// Initialize the registry
-	AddUTI(kNUTTypeItem,    "", kNUTTypeNone, kNUTITagClassNone, "");
-	AddUTI(kNUTTypeContent, "", kNUTTypeNone, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeItem,		"", kNUTTypeNone, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeContent,		"", kNUTTypeNone, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeDiskImage,	"", kNUTTypeNone, kNUTITagClassNone, "");
 
-	AddUTI(kNUTTypeData, "", kNUTTypeItem, kNUTITagClassNone, "");
-	AddUTI(kNUTTypeText, "", kNUTTypeItem, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeData,		"", kNUTTypeItem, kNUTITagClassNone, "");
+	AddUTI(kNUTTypeText,		"", kNUTTypeItem, kNUTITagClassNone, "");
 
-	AddUTI(       kNUTTypeImage, "Image", kNUTTypeData, kNUTITagClassNone, "");
-	AddConformsTo(kNUTTypeImage,          kNUTTypeContent);
 
-	AddUTI(       kNUTTypeXML, "XML", kNUTTypeText, kNUTITagClassNone, "");
-	AddConformsTo(kNUTTypeXML,        kNUTTypeContent);
+	AddUTI(       kNUTTypeImage,	"Image",	kNUTTypeData, kNUTITagClassNone, "");
+	AddConformsTo(kNUTTypeImage,				kNUTTypeContent);
 
-	AddUTI(kNUTTypeGIF, "GIF Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/gif");
-	AddTag(kNUTTypeGIF,									kNUTITagClassFileExtension, "gif");
+	AddUTI(       kNUTTypeXML,		"XML",		kNUTTypeText, kNUTITagClassNone, "");
+	AddConformsTo(kNUTTypeXML,					kNUTTypeContent);
 
-	AddUTI(kNUTTypePNG, "PNG Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/png");
-	AddTag(kNUTTypePNG,									kNUTITagClassFileExtension, "png");
 
-	AddUTI(kNUTTypeJPEG, "JPEG Image",	kNUTTypeImage,	kNUTITagClassMIMEType,      "image/jpeg");
-	AddTag(kNUTTypeJPEG,								kNUTITagClassFileExtension, "jpg");
+	AddUTI(kNUTTypeGIF, "GIF Image",		kNUTTypeImage,		kNUTITagClassMIMEType,      "image/gif");
+	AddTag(kNUTTypeGIF,											kNUTITagClassFileExtension, "gif");
 
-	AddUTI(kNUTTypeKML, "Google KML",	kNUTTypeXML,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
-	AddTag(kNUTTypeKML,									kNUTITagClassFileExtension, "kml");
+	AddUTI(kNUTTypePNG, "PNG Image",		kNUTTypeImage,		kNUTITagClassMIMEType,      "image/png");
+	AddTag(kNUTTypePNG,											kNUTITagClassFileExtension, "png");
 
-	AddUTI(kNUTTypeKMZ, "Google KMZ",	kNUTTypeData,	kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
-	AddTag(kNUTTypeKMZ,									kNUTITagClassFileExtension, "kmz");
+	AddUTI(kNUTTypeJPEG, "JPEG Image",		kNUTTypeImage,		kNUTITagClassMIMEType,      "image/jpeg");
+	AddTag(kNUTTypeJPEG,										kNUTITagClassFileExtension, "jpg");
 
-	AddUTI(kNUTTypeGPX, "GPX",			kNUTTypeXML,	kNUTITagClassMIMEType,      "application/gpx+xml");
-	AddTag(kNUTTypeGPX,									kNUTITagClassFileExtension, "gpx");
+	AddUTI(kNUTTypeKML, "Google KML",		kNUTTypeXML,		kNUTITagClassMIMEType,      "application/vnd.google-earth.kml+xml");
+	AddTag(kNUTTypeKML,											kNUTITagClassFileExtension, "kml");
 
-	AddUTI(kNUTTypeCSV, "CSV",			kNUTTypeText,	kNUTITagClassMIMEType,      "text/csv");
-	AddTag(kNUTTypeCSV,									kNUTITagClassFileExtension, "csv");
+	AddUTI(kNUTTypeKMZ, "Google KMZ",		kNUTTypeData,		kNUTITagClassMIMEType,      "application/vnd.google-earth.kmz");
+	AddTag(kNUTTypeKMZ,											kNUTITagClassFileExtension, "kmz");
+
+	AddUTI(kNUTTypeGPX, "GPX",				kNUTTypeXML,		kNUTITagClassMIMEType,      "application/gpx+xml");
+	AddTag(kNUTTypeGPX,											kNUTITagClassFileExtension, "gpx");
+
+	AddUTI(kNUTTypeCSV, "CSV",				kNUTTypeText,		kNUTITagClassMIMEType,      "text/csv");
+	AddTag(kNUTTypeCSV,											kNUTITagClassFileExtension, "csv");
+
+	AddUTI(kNUTTypeDMG, "Disk Image",		kNUTTypeDiskImage,	kNUTITagClassMIMEType,      "application/x-apple-diskimage");
+	AddTag(kNUTTypeDMG,											kNUTITagClassFileExtension, "dmg");
+
+	AddUTI(kNUTTypeISO, "ISO Disk Image",	kNUTTypeDiskImage,	kNUTITagClassMIMEType,      "application/x-iso-image");
+	AddTag(kNUTTypeISO,											kNUTITagClassFileExtension, "iso");
 }
 
 
