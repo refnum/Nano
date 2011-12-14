@@ -56,7 +56,7 @@ public:
 
 	// Get/set the recurse limit
 	//
-	// A limit of 0, the default, implies no limit to recursion.
+	// A limit of kNIndexNone, the default, implies no limit to recursion.
 	NIndex								GetRecurseLimit(void) const;
 	void								SetRecurseLimit(NIndex theLimit);
 

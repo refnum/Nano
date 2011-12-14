@@ -29,7 +29,7 @@ NFileIterator::NFileIterator(void)
 
 
 	// Initialize ourselves
-	mRecurseLimit = 0;
+	mRecurseLimit = kNIndexNone;
 
 	mIsOpen    = false;
 	mStopScan  = false;
@@ -79,7 +79,7 @@ void NFileIterator::SetRecurseLimit(NIndex theLimit)
 
 
 	// Validate our parameters
-	NN_ASSERT(theLimit >= 0);
+	NN_ASSERT(theLimit == kNIndexNone || theLimit >= 0);
 
 
 
@@ -420,8 +420,8 @@ void NFileIterator::ContinueScan(void)
 				theStart.theFile  = theFile;
 				theStart.theDepth = mScanDepth + 1;
 			
-				if (canRecurse && mRecurseLimit != 0)
-					canRecurse = (theStart.theDepth >= mRecurseLimit);
+				if (canRecurse && mRecurseLimit != kNIndexNone)
+					canRecurse = (theStart.theDepth < mRecurseLimit);
 			
 				if (canRecurse && mRecurseFilter != NULL)
 					canRecurse = mRecurseFilter(theFile, &mStopScan);
