@@ -594,6 +594,7 @@ NStatus NFile::DeleteContents(void) const
 
 
 	// Get the state we need
+	fileIterator.SetRecurseLimit(0);
 	theFiles = fileIterator.GetFiles(*this);
 	theErr   = kNoErr;
 
