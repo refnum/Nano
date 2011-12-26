@@ -700,13 +700,11 @@ void NDBHandle::SQLiteBindParameterByKey(NDBQueryRef theQuery, const NString &th
 	const char			*textUTF8;
 	sqlite3_stmt		*sqlQuery;
 	NIndex				theIndex;
-	sqlite3				*sqlDB;
 
 
 
 	// Get the state we need
 	sqlQuery = (sqlite3_stmt *) theQuery;
-	sqlDB    = (sqlite3      *) mDatabase;
 
 
 

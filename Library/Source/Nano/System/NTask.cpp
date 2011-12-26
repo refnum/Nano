@@ -364,7 +364,6 @@ void NTask::WaitForTask(NTime waitFor)
 //----------------------------------------------------------------------------
 NString NTask::Execute(NTime waitFor)
 {	NTime		endTime, sleepTime;
-	bool		mainThread;
 	NString		theResult;
 	NStatus		theErr;
 
@@ -382,8 +381,7 @@ NString NTask::Execute(NTime waitFor)
 
 
 	// Wait for the results
-	mainThread = NThread::IsMain();
-	sleepTime  = kTaskSleep;
+	sleepTime = kTaskSleep;
 
 	while (IsRunning())
 		{

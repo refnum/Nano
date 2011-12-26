@@ -29,7 +29,8 @@ NFileMap::NFileMap(void)
 
 
 	// Initialize ourselves
-	mFileRef = kNFileRefNone;
+	mFileRef    = kNFileRefNone;
+	mFileAccess = kNAccessRead;
 }
 
 

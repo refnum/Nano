@@ -132,7 +132,6 @@ void NCache::Clear(void)
 void NCache::Purge(void)
 {	NCacheItemList					theItems;
 	NCacheItemListConstIterator		theIter;
-	NCacheItem						theItem;
 
 
 
