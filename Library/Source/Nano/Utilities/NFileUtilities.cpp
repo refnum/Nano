@@ -215,16 +215,26 @@ NFileList NFileUtilities::GetFiles(const NFile &startAt, const NString &matchNam
 //============================================================================
 //		NFileUtilities::GetDirectory : Get a standard directory.
 //----------------------------------------------------------------------------
-NFile NFileUtilities::GetDirectory(NDirectoryLocation theLocation, const NString &fileName, NDirectoryDomain theDomain)
+NFile NFileUtilities::GetDirectory(NDirectoryLocation theLocation, const NString &fileName, NDirectoryDomain theDomain, bool canCreate)
 {	NFile		theFile;
 
 
 
 	// Get the directory
 	theFile = NTargetFile::GetDirectory(theDomain, theLocation);
+	theFile.ResolveTarget();
 
 	if (!fileName.IsEmpty() && theFile.IsValid())
+		{
 		theFile = theFile.GetChild(fileName);
+		theFile.ResolveTarget();
+		}
+
+
+
+	// Create it if necessary
+	if (!theFile.Exists() && canCreate)
+		theFile.CreateDirectory();
 
 	return(theFile);
 }

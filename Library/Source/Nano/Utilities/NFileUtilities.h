@@ -79,12 +79,13 @@ public:
 
 	// Get a standard directory
 	//
-	// Returns the appropriate directory within the specified domain, creating it if necessary.
+	// Returns the appropriate directory within the specified domain, creating it if required.
 	//
 	// If fileName is non-empty, the result will be to a file of that name within the directory.
 	static NFile						GetDirectory(	NDirectoryLocation		theLocation,
-														const NString			&fileName = "",
-														NDirectoryDomain		theDomain = kNDomainUser);
+														const NString			&fileName  = "",
+														NDirectoryDomain		theDomain  = kNDomainUser,
+														bool					canCreate  = true);
 
 
 	// Get a uniquely-named file
