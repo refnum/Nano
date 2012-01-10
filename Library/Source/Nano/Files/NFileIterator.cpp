@@ -358,7 +358,7 @@ void NFileIterator::ContinueScan(void)
 {	bool						isMatch, canRecurse, matchFile, matchPath;
 	IteratorStart				theStart;
 	NFileList					theFiles;
-	NString						theName;
+	NString						theValue;
 	NFileListConstIterator		theIter;
 	NFile						theFile;
 
@@ -394,17 +394,20 @@ void NFileIterator::ContinueScan(void)
 			isMatch    = true;
 			canRecurse = true;
 
-			if (matchFile || matchPath)
-				theName = theFile.GetName();
-
 
 
 			// Collect the matches
 			if (isMatch && matchFile)
-				isMatch = theName.Contains(mItemPatternName, kNStringPatternNoCase);
+				{
+				theValue = theFile.GetName();
+				isMatch  = theValue.Contains(mItemPatternName, kNStringPatternNoCase);
+				}
 
 			if (isMatch && matchPath)
-				isMatch = theName.Contains(mItemPatternPath, kNStringPatternNoCase);
+				{
+				theValue = theFile.GetPath();
+				isMatch  = theValue.Contains(mItemPatternPath, kNStringPatternNoCase);
+				}
 		
 			if (isMatch && mItemFilter != NULL)
 				isMatch = mItemFilter(theFile, &mStopScan);
