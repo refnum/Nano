@@ -85,7 +85,7 @@ public:
 	static NFile						GetDirectory(	NDirectoryLocation		theLocation,
 														const NString			&fileName  = "",
 														NDirectoryDomain		theDomain  = kNDomainUser,
-														bool					canCreate  = true);
+														bool					canCreate  = false);
 
 
 	// Get a uniquely-named file
