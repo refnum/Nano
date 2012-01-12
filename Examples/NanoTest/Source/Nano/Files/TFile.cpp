@@ -177,7 +177,7 @@ void TFile::Execute(void)
 
 
 	// Open
-	theErr = tmpFile.Open(kNPermissionReadWrite);
+	theErr = tmpFile.Open(kNPermissionUpdate);
 	NN_ASSERT_NOERR(theErr);
 
 	NN_ASSERT(tmpFile.IsOpen());

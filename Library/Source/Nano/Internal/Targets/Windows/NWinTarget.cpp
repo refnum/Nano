@@ -80,7 +80,7 @@ UINT NWinTarget::ConvertFilePermission(NFilePermission thePermission)
 	switch (thePermission) {
 		case kNPermissionRead:			theResult = FILE_READ_DATA;							break;
 		case kNPermissionWrite:			theResult = FILE_APPEND_DATA;						break;
-		case kNPermissionReadWrite:		theResult = FILE_READ_DATA | FILE_APPEND_DATA;		break;
+		case kNPermissionUpdate:		theResult = FILE_READ_DATA | FILE_APPEND_DATA;		break;
 
 		default:
 			NN_LOG("Unable to convert %ld", thePermission);

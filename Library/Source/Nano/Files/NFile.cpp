@@ -709,9 +709,15 @@ NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
 
 
 	// Open the file
+	theErr = kNErrPermission;
 	mFile  = NTargetFile::Open(mPath, thePermission);
-	theErr = (mFile == kNFileRefNone) ? kNErrPermission : kNoErr;
 	
+	if (mFile != kNFileRefNone)
+		{
+		theErr      = kNoErr;
+		mPermission = thePermission;
+		}
+
 	return(theErr);
 }
 
@@ -734,7 +740,9 @@ void NFile::Close(void)
 
 	// Close the file
 	NTargetFile::Close(mFile);
-	mFile = kNFileRefNone;
+
+	mFile       = kNFileRefNone;
+	mPermission = kNPermissionRead;
 }
 
 
@@ -776,6 +784,7 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
 	// Validate our state
 	NN_ASSERT(IsFile());
 	NN_ASSERT(IsOpen());
+	NN_ASSERT(mPermission != kNPermissionWrite);
 
 
 
@@ -801,6 +810,7 @@ NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 	// Validate our state
 	NN_ASSERT(IsFile());
 	NN_ASSERT(IsOpen());
+	NN_ASSERT(mPermission != kNPermissionWrite);
 
 
 
@@ -827,6 +837,7 @@ NStatus NFile::Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SIn
 	// Validate our state
 	NN_ASSERT(IsFile());
 	NN_ASSERT(IsOpen());
+	NN_ASSERT(mPermission != kNPermissionRead);
 
 
 
@@ -915,8 +926,9 @@ void NFile::InitializeSelf(const NString &thePath)
 
 
 	// Initialize ourselves
-	mPath = thePath;
-	mFile = kNFileRefNone;
+	mPath       = thePath;
+	mFile       = kNFileRefNone;
+	mPermission = kNPermissionRead;
 }
 
 

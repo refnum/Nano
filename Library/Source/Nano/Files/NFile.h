@@ -53,7 +53,7 @@ typedef enum {
 typedef enum {
 	kNPermissionRead,
 	kNPermissionWrite,
-	kNPermissionReadWrite
+	kNPermissionUpdate
 } NFilePermission;
 
 
@@ -214,13 +214,17 @@ public:
 
 
 	// Open/close the file
+	//
+	// Files opened for writing are always appended to.
+	//
+	// Files opened for updating can be read to/written from the current position.
 	NStatus								Open(NFilePermission thePermission=kNPermissionRead, bool canCreate=false);
 	void								Close(void);
 
 
 	// Get/set the read/write position
-    //
-    // The file must be opened with appropriate permissions first.
+	//
+	// SetPosition is only available for files opened for reading or updating.
 	UInt64								GetPosition(void) const;
 	NStatus								SetPosition(SInt64 theOffset, NFilePosition thePosition=kNPositionFromStart);
 
@@ -251,6 +255,7 @@ private:
 private:
 	NString								mPath;
 	NFileRef							mFile;
+	NFilePermission						mPermission;
 };
 
 

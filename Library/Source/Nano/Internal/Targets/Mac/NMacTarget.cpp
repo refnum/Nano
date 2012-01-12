@@ -204,7 +204,7 @@ const char *NMacTarget::ConvertFilePermission(NFilePermission thePermission)
 	switch (thePermission) {
 		case kNPermissionRead:			theResult = "r";		break;
 		case kNPermissionWrite:			theResult = "a";		break;
-		case kNPermissionReadWrite:		theResult = "r+";		break;
+		case kNPermissionUpdate:		theResult = "r+";		break;
 
 		default:
 			NN_LOG("Unable to convert %ld", thePermission);
