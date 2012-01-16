@@ -1591,7 +1591,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 //      NString::FindString : Find a string.
 //----------------------------------------------------------------------------
 NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	NIndex				sizeA, sizeB, n, offsetB, limitA;
+{	NIndex				sizeA, sizeB, n, offsetB, limitA, rangeFirst, rangeLast;
 	bool				ignoreCase, updateB;
 	NUnicodeParser		parserA, parserB;
 	UTF32Char			charA, charB;
@@ -1614,8 +1614,11 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 	
 	charA = 0;
 	charB = 0;
+	
+	rangeFirst = theRange.GetFirst();
+	rangeLast  = theRange.GetLast();
 
-	limitA     = std::max((NIndex) 1, theRange.GetLast() - sizeB);
+	limitA     = std::max((NIndex) 1, rangeLast - sizeB);
 	ignoreCase = (theFlags & kNStringNoCase);
 
 	findRange = kNRangeNone;
@@ -1625,7 +1628,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 
 
 	// Find the string
-	for (n = theRange.GetFirst(); n <= theRange.GetLast(); n++)
+	for (n = rangeFirst; n <= rangeLast; n++)
 		{
 		// Get the state we need
 		charA = parserA.GetChar(n, ignoreCase);
@@ -1667,11 +1670,19 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 				}
 			
 			// Cancel the match
+			//
+			// Since we're inside a match we need to keep charA at the same position
+			// so that it can be re-tested against the first character in B.
+			//
+			// As the loop counter is an NIndex, and so signed, we can just decrement
+			// it now so that the loop advances it back to the current position.
 			else
 				{
 				findRange = kNRangeNone;
 				updateB   = true;
 				offsetB   = 0;
+
+				n--;
 				}
 			}
 

@@ -124,6 +124,10 @@ void TString::Execute(void)
 
 	theRange = testString1.Find("n", kNStringNone, NRange(5, kNStringLength));
 	NN_ASSERT(theRange == NRange(8, 1));
+	
+	testString1 = "1123";
+	theRange    = testString1.Find("123");
+	NN_ASSERT(theRange != kNRangeNone);
 
 
 
