@@ -13,12 +13,12 @@ xcuserdata/
 
 
 # Visual Studio
-*.obj
+*.idb
 *.ncb
+*.obj
+*.pdb
 *.suo
 *.user
-*.idb
-*.pdb
 
 
 # Python
