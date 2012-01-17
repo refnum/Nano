@@ -1,9 +1,26 @@
-.DS_Store
+# Mac OS X
+*.DS_Store
+
+
+# Xcode
+*.mode1v3
 *.mode2v3
 *.pbxuser
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+
+
+# Visual Studio
 *.obj
 *.ncb
 *.suo
 *.user
 *.idb
 *.pdb
+
+
+# Python
+*.pyc
+
