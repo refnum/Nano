@@ -147,7 +147,7 @@ NStatus NTask::Launch(void)
 	mTask  = NTargetSystem::TaskCreate(mCommand, mArguments);
 	theErr = IsRunning() ? kNoErr : kNErrNotSupported;
 
-	return(kNoErr);
+	return(theErr);
 }
 
 
@@ -363,8 +363,8 @@ void NTask::WaitForTask(NTime waitFor)
 //		NTask::Execute : Execute the task.
 //----------------------------------------------------------------------------
 NString NTask::Execute(NTime waitFor)
-{	NTime		endTime, sleepTime;
-	NString		theResult;
+{	NString		theResult;
+	NTime		endTime;
 	NStatus		theErr;
 
 
@@ -381,8 +381,6 @@ NString NTask::Execute(NTime waitFor)
 
 
 	// Wait for the results
-	sleepTime = kTaskSleep;
-
 	while (IsRunning())
 		{
 		if (waitFor >= kNTimeNone && NTimeUtilities::GetTime() >= endTime)

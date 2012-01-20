@@ -278,6 +278,7 @@ NIndex NCacheKey::SplitHi(const void *theValue)
 	intPtr = (UIntPtr) theValue;
 
 #if NN_TARGET_ARCH_32
+	(void) intPtr;
 	partPtr = 0;
 #else
 	partPtr = ((intPtr >> 32) & 0xFFFFFFFF);
