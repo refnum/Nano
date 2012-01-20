@@ -98,12 +98,12 @@ public:
 	//
 	// Progress updates are throttled to a sensible interval for UI updates,
 	// and may never be dispatched if the operation completes quickly enough.
-	NStatus								ContinueProgress(float  theValue);
-	NStatus								ContinueProgress(NIndex theValue, NIndex maxValue);
+	NStatus								ContinueProgress(float  theValue, bool forceUpdate=false);
+	NStatus								ContinueProgress(NIndex theValue, NIndex maxValue, bool forceUpdate=false);
 
 
 private:
-	NStatus								UpdateProgress(NProgressState theState, float theValue);
+	NStatus								UpdateProgress(NProgressState theState, float theValue, bool forceUpdate);
 
 
 private:
