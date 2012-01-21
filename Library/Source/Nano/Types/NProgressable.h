@@ -87,6 +87,17 @@ public:
 	void								SetProgressRange(float  theOffset, float  theScale);
 
 
+	// Get/set the update time
+	//
+	// Progress updates are throttled to occur at most once per update time,
+	// and may never be dispatched if the operation completes quickly enough.
+	//
+	// Begin/end updates, and updates that change to/from indeterminate progress,
+	// are always dispatched.
+	NTime								GetProgressTime(void) const;
+	void								SetProgressTime(NTime theTime);
+
+
 	// Begin/end a progress operation
 	//
 	// All progress operations must be bracketed with a begin/end pair.
@@ -98,17 +109,19 @@ public:
 	//
 	// Progress updates are throttled to a sensible interval for UI updates,
 	// and may never be dispatched if the operation completes quickly enough.
-	NStatus								ContinueProgress(float  theValue, bool forceUpdate=false);
-	NStatus								ContinueProgress(NIndex theValue, NIndex maxValue, bool forceUpdate=false);
+	NStatus								ContinueProgress(float  theValue);
+	NStatus								ContinueProgress(NIndex theValue, NIndex maxValue);
 
 
 private:
-	NStatus								UpdateProgress(NProgressState theState, float theValue, bool forceUpdate);
+	NStatus								UpdateProgress(NProgressState theState, float theValue);
 
 
 private:
 	bool								mIsActive;
 	NProgressFunctor					mProgress;
+	NTime								mUpdateTime;
+
 	NTime								mLastTime;
 	float								mLastValue;
 	float								mRangeOffset;
