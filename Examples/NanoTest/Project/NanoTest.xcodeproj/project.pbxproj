@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB069E1F14CC2331006E6DF8 /* NanoCommon.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AB069E1A14CC2331006E6DF8 /* NanoCommon.xcconfig */; };
+		AB069E2014CC2331006E6DF8 /* NanoDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AB069E1B14CC2331006E6DF8 /* NanoDebug.xcconfig */; };
+		AB069E2114CC2331006E6DF8 /* NanoDebugMac.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */; };
+		AB069E2214CC2331006E6DF8 /* NanoRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AB069E1D14CC2331006E6DF8 /* NanoRelease.xcconfig */; };
+		AB069E2314CC2331006E6DF8 /* NanoReleaseMac.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */; };
 		AB103B7C10B6B04000F425C5 /* TAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B7A10B6B04000F425C5 /* TAttributes.cpp */; };
 		AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14315F103EC576002BD0D1 /* TFileIterator.cpp */; };
 		AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
@@ -125,6 +130,11 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB069E1A14CC2331006E6DF8 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
+		AB069E1B14CC2331006E6DF8 /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
+		AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebugMac.xcconfig; sourceTree = "<group>"; };
+		AB069E1D14CC2331006E6DF8 /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
+		AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoReleaseMac.xcconfig; sourceTree = "<group>"; };
 		AB103B7A10B6B04000F425C5 /* TAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAttributes.cpp; sourceTree = "<group>"; };
 		AB103B7B10B6B04000F425C5 /* TAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAttributes.h; sourceTree = "<group>"; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
@@ -272,8 +282,6 @@
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
 		AB514F7B1035788600E5A6AD /* TPropertyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPropertyStore.h; sourceTree = "<group>"; };
-		AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
-		AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCipher.cpp; sourceTree = "<group>"; };
@@ -290,7 +298,6 @@
 		ABB57D15112ADC21003D714C /* TSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSingleton.h; sourceTree = "<group>"; };
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
 		ABB6782F12AE56EF0077D64E /* TCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFURL.h; sourceTree = "<group>"; };
-		ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABE96257103B00A300029708 /* TNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNSAutoReleasePool.h; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
@@ -635,9 +642,11 @@
 		AB5B29A909CAD85D008C593C /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				ABE072E909FBC9F20031D3D1 /* NanoCommon.xcconfig */,
-				AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */,
-				AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */,
+				AB069E1A14CC2331006E6DF8 /* NanoCommon.xcconfig */,
+				AB069E1B14CC2331006E6DF8 /* NanoDebug.xcconfig */,
+				AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */,
+				AB069E1D14CC2331006E6DF8 /* NanoRelease.xcconfig */,
+				AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */,
 			);
 			name = Configuration;
 			path = ../../../Support/Xcode/Configuration;
@@ -758,6 +767,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB069E1F14CC2331006E6DF8 /* NanoCommon.xcconfig in Resources */,
+				AB069E2014CC2331006E6DF8 /* NanoDebug.xcconfig in Resources */,
+				AB069E2114CC2331006E6DF8 /* NanoDebugMac.xcconfig in Resources */,
+				AB069E2214CC2331006E6DF8 /* NanoRelease.xcconfig in Resources */,
+				AB069E2314CC2331006E6DF8 /* NanoReleaseMac.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,7 +883,7 @@
 /* Begin XCBuildConfiguration section */
 		C0E91AC608A95435008D54AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB5B29AA09CAD85D008C593C /* NanoDebug.xcconfig */;
+			baseConfigurationReference = AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
 				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
@@ -879,7 +893,7 @@
 		};
 		C0E91AC708A95435008D54AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB5B29AB09CAD85D008C593C /* NanoRelease.xcconfig */;
+			baseConfigurationReference = AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
 				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
