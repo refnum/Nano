@@ -542,7 +542,7 @@ NStringUTF8 NFormatArgument::GetValue(const NStringUTF8 &theFormat, const char *
 	// Although sprintf will convert some types automatically, we complain if we see
 	// this kind of implicit conversion since the caller should use the correct type.
 	if (NN_DEBUG && !IsValidType(theFormat, validTypes))
-		NN_LOG("Invalid type used for '%s'", theFormat.c_str());
+		NN_LOG("Invalid type used for '%s'", theFormat.GetUTF8());
 
 
 
@@ -761,7 +761,7 @@ NStringUTF8 NStringFormatter::ParseToken(NFormatContext &theContext, const NStri
 
 
 	// Validate our parameters
-	NN_ASSERT(theToken.size() >= 2);
+	NN_ASSERT(theToken.GetSize() >= 2);
 
 
 
@@ -803,7 +803,7 @@ NStringUTF8 NStringFormatter::ParseToken(NFormatContext &theContext, const NStri
 		if (!IsValidArg(theContext, theIndex))
 			return(ParseFailed(theContext, theToken, "Invalid index"));
 
-		theResult = "." + GetArgValue(theContext, theIndex, "%ld");
+		theResult = NStringUTF8(".") + GetArgValue(theContext, theIndex, "%ld");
 		if (theResult.Contains("-"))
 			theResult = "";
 
@@ -864,7 +864,7 @@ NStringUTF8 NStringFormatter::ParseFailed(NFormatContext &theContext, const NStr
 
 
 	// Handle failure
-	NN_LOG("%s: '%s'", theError.c_str(), theToken.c_str());
+	NN_LOG("%s: '%s'", theError.GetUTF8(), theToken.GetUTF8());
 	theContext.gotError = true;
 
 	return("");
@@ -893,8 +893,8 @@ NIndex NStringFormatter::ParseIndexRef(NFormatContext &theContext, const NString
 
 
 	// Get the state we need
-	indexRange = NRange(theRange.GetLocation() + thePrefix.size(), 1);
-	if (indexRange.GetLast() >= (NIndex) theToken.size())
+	indexRange = NRange(theRange.GetLocation() + thePrefix.GetSize(), 1);
+	if (indexRange.GetLast() >= (NIndex) theToken.GetSize())
 		{
 		ParseFailed(theContext, theToken, "Unterminated index");
 		return(kNIndexNone);
@@ -908,7 +908,7 @@ NIndex NStringFormatter::ParseIndexRef(NFormatContext &theContext, const NString
 	//
 	// Positional indices are indexed from 1, not 0, so we need to convert back to
 	// a 0-based index to locate the argument it refers to.
-	textPtr = theToken.c_str();
+	textPtr = theToken.GetUTF8();
 	ch      = textPtr[indexRange.GetLocation()];
 
 	if (ch >= '1' && ch <= '9')
