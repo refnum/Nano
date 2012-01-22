@@ -114,21 +114,6 @@ NString::NString(const NData &theData, NStringEncoding theEncoding)
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
-NString::NString(const NStringUTF8 &theString)
-{
-
-
-	// Initialize ourselves
-	SetData(NData(theString.GetSize(), theString.GetUTF8()), kNStringEncodingUTF8);
-}
-
-
-
-
-
-//============================================================================
-//		NString::NString : Constructor.
-//----------------------------------------------------------------------------
 NString::NString(UTF8Char theChar)
 {
 
@@ -1240,15 +1225,12 @@ void NString::Trim(const NRange &theRange)
 //		NString::Format : Format the string.
 //----------------------------------------------------------------------------
 void NString::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
-{	NStringFormatter		theFormatter;
-	NStringUTF8				theResult;
+{	NStringFormatter	theFormatter;
 
 
 
 	// Format the string
-	theResult = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
-
-	SetData(NData(theResult.GetSize(), theResult.GetUTF8()), kNStringEncodingUTF8);
+	*this = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
 }
 
 
@@ -1372,44 +1354,6 @@ NString NString::operator + (const NString &theString) const
 	theResult += theString;
 	
 	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NString::NStringUTF8 : NStringUTF8 operator.
-//----------------------------------------------------------------------------
-NString::operator NStringUTF8(void) const
-{	NStringUTF8		theResult;
-	NData			theData;
-
-
-
-	// Get the value
-	theData   = GetData(kNStringEncodingUTF8);
-	theResult = NStringUTF8((const char *) theData.GetData(), theData.GetSize());
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NString::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NString::operator NFormatArgument(void) const
-{	NStringUTF8		theResult;
-
-
-
-	// Get the value
-	theResult = (NStringUTF8) *this;
-
-	return(NFormatArgument(theResult));
 }
 
 

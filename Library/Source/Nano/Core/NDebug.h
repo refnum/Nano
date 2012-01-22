@@ -183,7 +183,7 @@ public:
 
 
 	// Log a message
-	void								LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &theMsg);
+	void								LogMessage(const char *thePath, UInt32 lineNum, const NString &theMsg);
 
 
     // Get the debug instance

@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include <string>
+#include "NFunctor.h"
 
 
 
@@ -69,8 +69,8 @@
 //----------------------------------------------------------------------------
 // Classes
 class NRange;
+class NString;
 class NFormatArgument;
-class NFormatFunctor;
 
 
 // Lists
@@ -87,33 +87,8 @@ typedef struct {
 } NFormatContext;
 
 
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-//		Note :	See NFormatter.cpp for background - this class is needed to
-//				work around a gcc 4.0 bug, but user code should always use
-//				NString rather than this class.
-//----------------------------------------------------------------------------
-class NStringUTF8 : public std::string {
-public:
-	NStringUTF8(const std::string &theString)			: std::string(theString)			{ }
-	NStringUTF8(const char *theText)					: std::string(theText)				{ }
-	NStringUTF8(const char *theText, NIndex theSize)	: std::string(theText, theSize)		{ }
-
-										NStringUTF8(void)		{ }
-	virtual							   ~NStringUTF8(void)		{ }
-
-	bool								IsEmpty(void) const		{ return(empty());         }
-	NIndex								GetSize(void) const		{ return((NIndex) size()); }
-	const char						   *GetUTF8(void) const		{ return(c_str());         }
-	
-	NRange								Find(    const NStringUTF8 &theString) const;
-	bool								Contains(const NStringUTF8 &theString) const;
-	void								Replace(const NRange &theRange, const NStringUTF8 &replaceWith);
-};
+// Functors
+typedef nfunctor<NString (const NString &theFormat)>				NFormatFunctor;
 
 
 
@@ -133,12 +108,12 @@ public:
 										NFormatArgument(unsigned long long theValue);
 										NFormatArgument(  signed long long theValue);
 
-										NFormatArgument(double             theValue);
-										NFormatArgument(const void        *theValue);
-										NFormatArgument(const char        *theValue);
-										NFormatArgument(const NStringUTF8 &theValue);
+										NFormatArgument(double         theValue);
+										NFormatArgument(const void    *theValue);
+										NFormatArgument(const char    *theValue);
+										NFormatArgument(const NString &theValue);
 
-										NFormatArgument(const NFormatArgument &theValue);
+										NFormatArgument(const NFormatFunctor &getValue);
 
 										NFormatArgument(void);
 	virtual							   ~NFormatArgument(void);
@@ -149,31 +124,27 @@ public:
 	
 
 	// Get the value
-	NStringUTF8							GetValue(const NStringUTF8 &theFormat) const;
-
-
-	// Operators
-	const NFormatArgument&				operator = (const NFormatArgument &theValue);
-	
-
-private:
-	NStringUTF8							GetValueULong(const NStringUTF8 &theFormat, unsigned long theValue);
-	NStringUTF8							GetValueSLong(const NStringUTF8 &theFormat,   signed long theValue);
-
-	NStringUTF8							GetValueULongLong(const NStringUTF8 &theFormat, unsigned long long theValue);
-	NStringUTF8							GetValueSLongLong(const NStringUTF8 &theFormat,   signed long long theValue);
-
-	NStringUTF8							GetValueDouble( const NStringUTF8 &theFormat, double             theValue);
-	NStringUTF8							GetValuePointer(const NStringUTF8 &theFormat, const void        *theValue);
-	NStringUTF8							GetValueCharPtr(const NStringUTF8 &theFormat, const char        *theValue);
-	NStringUTF8							GetValueString( const NStringUTF8 &theFormat, const NStringUTF8 &theValue);
-	
-	NStringUTF8							GetValue(   const NStringUTF8 &theFormat, const char *validTypes, ...);
-	bool								IsValidType(const NStringUTF8 &theFormat, const char *validTypes);
+	NString								GetValue(const NString &theFormat) const;
 
 
 private:
-	NFormatFunctor					   *mGetValue;
+	NString								GetValueULong(const NString &theFormat, unsigned long theValue);
+	NString								GetValueSLong(const NString &theFormat,   signed long theValue);
+
+	NString								GetValueULongLong(const NString &theFormat, unsigned long long theValue);
+	NString								GetValueSLongLong(const NString &theFormat,   signed long long theValue);
+
+	NString								GetValueDouble( const NString &theFormat, double         theValue);
+	NString								GetValuePointer(const NString &theFormat, const void    *theValue);
+	NString								GetValueCharPtr(const NString &theFormat, const char    *theValue);
+	NString								GetValueString( const NString &theFormat, const NString &theValue);
+	
+	NString								GetValue(   const NString &theFormat, const char *validTypes, ...);
+	bool								IsValidType(const NString &theFormat, const char *validTypes);
+
+
+private:
+	NFormatFunctor						mGetValue;
 };
 
 
@@ -245,20 +216,20 @@ public:
 	//
 	// As such, a warning will be issued if a 32-bit length modifier is used for a
 	// 64-bit value, or a 64-bit length modifier used for a 32-bit value.
-	NStringUTF8							Format(const NStringUTF8 &theFormat, NN_FORMAT_ARGS);
+	NString								Format(const NString &theFormat, NN_FORMAT_ARGS);
 
 
 private:
-	NStringUTF8							Format(const NStringUTF8 &theFormat, const NFormatArgumentList &theArguments);
+	NString								Format(const NString &theFormat, const NFormatArgumentList &theArguments);
 
-	NStringUTF8							ParseToken( NFormatContext &theContext, const NStringUTF8 &theToken);
-	NStringUTF8							ParseFailed(NFormatContext &theContext, const NStringUTF8 &theToken, const NStringUTF8 &theError);
+	NString								ParseToken( NFormatContext &theContext, const NString &theToken);
+	NString								ParseFailed(NFormatContext &theContext, const NString &theToken, const NString &theError);
 
-	NIndex								ParseIndexRef(NFormatContext &theContext, const NStringUTF8 &theToken, const NStringUTF8 &thePrefix, NRange &theRange);
+	NIndex								ParseIndexRef(NFormatContext &theContext, const NString &theToken, const NString &thePrefix, NRange &theRange);
 	NIndex								ParseIndex(const char *textPtr, NRange &theRange);
 
 	bool								IsValidArg( NFormatContext &theContext, NIndex theIndex);
-	NStringUTF8							GetArgValue(NFormatContext &theContext, NIndex theIndex, const NStringUTF8 &theFormat);
+	NString								GetArgValue(NFormatContext &theContext, NIndex theIndex, const NString &theFormat);
 	
 	NIndex								ToDigit(char c);
 

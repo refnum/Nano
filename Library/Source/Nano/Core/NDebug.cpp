@@ -17,6 +17,7 @@
 #include "NTimeUtilities.h"
 #include "NTargetSystem.h"
 #include "NTargetPOSIX.h"
+#include "NString.h"
 #include "NLock.h"
 #include "NDebug.h"
 
@@ -40,16 +41,24 @@ static const NIndex kPrefixBufferSize									= 1024;
 //----------------------------------------------------------------------------
 void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...)
 {	char		theBuffer[kPrefixBufferSize];
+	NString		finalMsg;
 	va_list		argList;
 
 
 
-	// Log the message
+	// Construct the message
+	//
+	// We must use a copy-data string, since our buffer is local.
 	va_start(argList, theMsg);
 	vsnprintf(theBuffer, sizeof(theBuffer), theMsg, argList);
 	va_end(argList);
-	
-	NDebug::Get()->LogMessage(thePath, lineNum, theBuffer);
+
+	finalMsg = NString(theBuffer, kNStringLength);
+
+
+
+	// Log the message
+	NDebug::Get()->LogMessage(thePath, lineNum, finalMsg);
 }
 
 
@@ -149,12 +158,12 @@ void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
 //============================================================================
 //      NDebug::LogMessage : Log a message.
 //----------------------------------------------------------------------------
-void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &theMsg)
+void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NString &theMsg)
 {	char				thePrefix[kPrefixBufferSize];
 	StLock				acquireLock(GetLock());
 	UInt32				timeStamp;
 	const char			*fileName;
-	NStringUTF8			finalMsg;
+	NString				finalMsg;
 
 
 
@@ -165,9 +174,11 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NStringUTF8 &
 
 
 	// Construct the message
+	//
+	// We must use a copy-data string, since our buffer is local.
 	NTargetPOSIX::snprintf(thePrefix, sizeof(thePrefix), "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
 
-	finalMsg  = thePrefix;
+	finalMsg  = NString(thePrefix, kNStringLength);
 	finalMsg += theMsg;
 	finalMsg += "\n";
 

@@ -29,7 +29,7 @@ bool NTargetPOSIX::is_nan(Float64 x)
 
 
 	// Get the value
-	return(isnan(x));
+	return(std::isnan(x));
 }
 
 
@@ -44,7 +44,7 @@ bool NTargetPOSIX::is_inf(Float64 x)
 
 
 	// Get the value
-	return(isinf(x));
+	return(std::isinf(x));
 }
 
 
