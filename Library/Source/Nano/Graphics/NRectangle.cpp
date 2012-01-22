@@ -555,10 +555,10 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetIntegral(void) const
 	// We floor() the origin, rather than using NPoint::GetIntegral, since an
 	// integral rectangle should always be larger than the rectangle we start
 	// from (so the origin must always round down, and the size up).
-	theResult.origin.x    = floor(origin.x);
-	theResult.origin.y    = floor(origin.y);
-	theResult.size.width  = ceil(origin.x + size.width)  - theResult.origin.x;
-	theResult.size.height = ceil(origin.y + size.height) - theResult.origin.y;
+	theResult.origin.x    = (T) floor(origin.x);
+	theResult.origin.y    = (T) floor(origin.y);
+	theResult.size.width  = (T) ceil(origin.x + size.width)  - theResult.origin.x;
+	theResult.size.height = (T) ceil(origin.y + size.height) - theResult.origin.y;
 	
 	
 	
