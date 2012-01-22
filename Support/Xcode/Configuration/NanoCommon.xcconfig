@@ -38,6 +38,7 @@ GCC_OBJC_CALL_CXX_CDTORS							= YES
 GCC_PRECOMPILE_PREFIX_HEADER						= YES
 GCC_SYMBOLS_PRIVATE_EXTERN                          = YES
 GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS	= YES
+GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS	= YES
 GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS		= YES
 GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS					= YES
 GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO				= YES
@@ -68,13 +69,17 @@ GCC_WARN_UNUSED_VARIABLE							= YES
 //GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS			= YES
 //GCC_WARN_64_TO_32_BIT_CONVERSION					= YES
 
+CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS			= YES
+CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES			= YES
+CLANG_WARN_OBJCPP_ARC_ABI							= YES
+//CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION			= YES
+
+
 NANO_HEADER_SEARCH_PATHS                            = "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
-NANO_LIBRARY_SEARCH_PATHS							= "$(Nano)/Library/Project/build/$(BUILD_STYLE)"
 NANO_WARNING_CFLAGS									= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
 NANO_OTHER_CFLAGS									= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_CFLAGS)   -fconstant-cfstrings
 
 HEADER_SEARCH_PATHS                                 = $(NANO_HEADER_SEARCH_PATHS)
-LIBRARY_SEARCH_PATHS								= $(NANO_LIBRARY_SEARCH_PATHS)
 WARNING_CFLAGS										= $(NANO_WARNING_CFLAGS)
 OTHER_CFLAGS										= $(NANO_OTHER_CFLAGS)
 
@@ -85,11 +90,7 @@ OTHER_CFLAGS										= $(NANO_OTHER_CFLAGS)
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
-PREBINDING											= NO
-ZERO_LINK											= NO
-
-REMOVE_CVS_FROM_RESOURCES							= YES
-REMOVE_SVN_FROM_RESOURCES							= YES
+PRODUCT_NAME										= $(TARGET_NAME)
 
 NANO_OTHER_LDFLAGS									= -ObjC
 
