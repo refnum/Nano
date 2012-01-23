@@ -90,8 +90,6 @@ OTHER_CFLAGS										= $(NANO_OTHER_CFLAGS)
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
-PRODUCT_NAME										= $(TARGET_NAME)
-
 NANO_OTHER_LDFLAGS									= -ObjC
 
 OTHER_LDFLAGS										= $(NANO_OTHER_LDFLAGS)
