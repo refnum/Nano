@@ -34,31 +34,26 @@ static const UInt32 kTestSize2										= 222;
 
 
 // Paths
+static const NString kTestTmpName									= "TFile";
+static const NString kTestTmpExtension								= "txt";
+static const NString kTestTmpName2									= "TFileRename";
+static const NString kTestTmpExtension2								= "txtrename";
+
 #if NN_TARGET_MAC
-	static const NString kTestTmpPath								= "/tmp";
-	static const NString kTestTmpName								= "TFile";
-	static const NString kTestTmpExtension							= "txt";
-	static const NString kTestTmpName2								= "TFileRename";
-	static const NString kTestTmpExtension2							= "txtrename";
-	
+	static const NString kPathTmp									= "/tmp";
 	static const NString kPathFile									= "/bin/bash";
 	static const NString kPathDirectoryRoot							= "/Library";
 	static const NString kPathDirectoryChildren						= "Application Support/Apple";
-	static const NString kPathFileTmp								= kTestTmpPath + "/" + kTestTmpName  + "." + kTestTmpExtension;
-	static const NString kPathFileTmp2								= kTestTmpPath + "/" + kTestTmpName2 + "." + kTestTmpExtension2;
-
-#elif NN_TARGET_WINDOWS
-	static const NString kTestTmpPath								= "c:\\windows\\temp";
-	static const NString kTestTmpName								= "TFile";
-	static const NString kTestTmpExtension							= "txt";
-	static const NString kTestTmpName2								= "TFileRename";
-	static const NString kTestTmpExtension2							= "txtrename";
+	static const NString kPathFileTmp								= kPathTmp + "/" + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kPathTmp + "/" + kTestTmpName2 + "." + kTestTmpExtension2;
 	
+#elif NN_TARGET_WINDOWS
+	static const NString kPathTmp									= "c:\\windows\\temp";
 	static const NString kPathFile									= "c:\\windows\\notepad.exe";
 	static const NString kPathDirectoryRoot							= "c:\\windows";
 	static const NString kPathDirectoryChildren						= "system32\\boot";
-	static const NString kPathFileTmp								= kTestTmpPath + "\\" + kTestTmpName  + "." + kTestTmpExtension;
-	static const NString kPathFileTmp2								= kTestTmpPath + "\\" + kTestTmpName2 + "." + kTestTmpExtension2;
+	static const NString kPathFileTmp								= kPathTmp + "\\" + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kPathTmp + "\\" + kTestTmpName2 + "." + kTestTmpExtension2;
 
 #else
 	UNKNOWN TARGET
@@ -281,7 +276,7 @@ void TFile::Execute(void)
 
 	// Relatives
 	tmpFile2 = tmpFile.GetParent();
-	NN_ASSERT(tmpFile2.GetPath() == kTestTmpPath);
+	NN_ASSERT(tmpFile2.GetPath() == kPathTmp);
 	
 	tmpFile2 = tmpFile2.GetChild(kTestTmpName + "." + kTestTmpExtension);
 	NN_ASSERT(tmpFile2 == tmpFile);
