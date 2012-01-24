@@ -327,19 +327,11 @@ NString NFile::GetName(NFileName theName) const
 //        NFile::SetName : Set the file name.
 //----------------------------------------------------------------------------
 NStatus NFile::SetName(const NString &theName, bool renameFile)
-{	NString		newPath;
-	NStatus		theErr;
-
+{
 
 
 	// Set the name
-	newPath = NTargetFile::SetName(mPath, theName, renameFile, false);
-	theErr  = newPath.IsEmpty() ? kNErrPermission : kNoErr;
-	
-	if (theErr == kNoErr)
-		SetPath(newPath);
-	
-	return(theErr);
+	return(SetName(theName, renameFile, false));
 }
 
 
@@ -690,6 +682,33 @@ NStatus NFile::ExchangeWith(const NFile &theTarget)
 
 
 //============================================================================
+//        NFile::MoveTo : Move a file to a directory.
+//----------------------------------------------------------------------------
+NStatus NFile::MoveTo(const NFile &theTarget)
+{	NFile		newFile;
+	NStatus		theErr;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(theTarget.IsDirectory());
+	NN_ASSERT(Exists());
+
+
+
+	// Move the file
+	newFile = theTarget.GetChild(GetName());
+	theErr  = SetName(newFile.GetPath(), true, true);
+	NN_ASSERT_NOERR(theErr);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
 //        NFile::Open : Open the file.
 //----------------------------------------------------------------------------
 NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
@@ -957,4 +976,24 @@ void NFile::CloneFile(const NFile &theFile)
 
 
 
+
+
+//============================================================================
+//        NFile::SetName : Set the file name.
+//----------------------------------------------------------------------------
+NStatus NFile::SetName(const NString &theName, bool renameFile, bool isPath)
+{	NString		newPath;
+	NStatus		theErr;
+
+
+
+	// Set the name
+	newPath = NTargetFile::SetName(mPath, theName, renameFile, isPath);
+	theErr  = newPath.IsEmpty() ? kNErrPermission : kNoErr;
+	
+	if (theErr == kNoErr)
+		SetPath(newPath);
+	
+	return(theErr);
+}
 

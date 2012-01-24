@@ -210,7 +210,15 @@ public:
 
 
 	// Exchange two files
+	//
+	// Both files must be on the same volume.
 	NStatus								ExchangeWith(const NFile &theTarget);
+
+
+	// Move a file
+	//
+	// Both file and target directory must be on the same volume.
+	NStatus								MoveTo(const NFile &theTarget);
 
 
 	// Open/close the file
@@ -249,7 +257,9 @@ protected:
 
 private:
 	void								InitializeSelf(const NString &thePath="");
-	void								CloneFile(     const NFile   &theFile);
+
+	void								CloneFile(const NFile   &theFile);
+	NStatus								SetName(  const NString &theName, bool renameFile, bool isPath);
 
 
 private:

@@ -38,6 +38,7 @@ static const NString kTestTmpName									= "TFile";
 static const NString kTestTmpExtension								= "txt";
 static const NString kTestTmpName2									= "TFileRename";
 static const NString kTestTmpExtension2								= "txtrename";
+static const NString kTestTmpName3									= "TFileMove";
 
 #if NN_TARGET_MAC
 	static const NString kPathTmp									= "/tmp";
@@ -46,7 +47,8 @@ static const NString kTestTmpExtension2								= "txtrename";
 	static const NString kPathDirectoryChildren						= "Application Support/Apple";
 	static const NString kPathFileTmp								= kPathTmp + "/" + kTestTmpName  + "." + kTestTmpExtension;
 	static const NString kPathFileTmp2								= kPathTmp + "/" + kTestTmpName2 + "." + kTestTmpExtension2;
-	
+	static const NString kPathDirTmp								= kPathTmp + "/" + kTestTmpName3;
+
 #elif NN_TARGET_WINDOWS
 	static const NString kPathTmp									= "c:\\windows\\temp";
 	static const NString kPathFile									= "c:\\windows\\notepad.exe";
@@ -54,6 +56,7 @@ static const NString kTestTmpExtension2								= "txtrename";
 	static const NString kPathDirectoryChildren						= "system32\\boot";
 	static const NString kPathFileTmp								= kPathTmp + "\\" + kTestTmpName  + "." + kTestTmpExtension;
 	static const NString kPathFileTmp2								= kPathTmp + "\\" + kTestTmpName2 + "." + kTestTmpExtension2;
+	static const NString kPathDirTmp								= kPathTmp + "\\" + kTestTmpName3;
 
 #else
 	UNKNOWN TARGET
@@ -302,6 +305,29 @@ void TFile::Execute(void)
 	
 	tmpFile.Delete();
 	tmpFile2.Delete();
+
+
+
+	// Move
+	tmpFile = kPathFileTmp;
+	theDir  = kPathDirTmp;
+	
+	tmpFile.CreateFile();
+	theDir.CreateDirectory();
+	
+	NN_ASSERT(tmpFile.GetParent() == theDir.GetParent());
+	NN_ASSERT(!theDir.GetChild(tmpFile.GetName()).Exists());
+
+	tmpFile.MoveTo(theDir);
+	NN_ASSERT(tmpFile.GetParent() == theDir);
+	NN_ASSERT(theDir.GetChild(tmpFile.GetName()).Exists());
+
+	tmpFile.MoveTo(theDir.GetParent());
+	NN_ASSERT(tmpFile.GetParent() == theDir.GetParent());
+	NN_ASSERT(!theDir.GetChild(tmpFile.GetName()).Exists());
+
+	tmpFile.Delete();
+	theDir.Delete();
 }
 
 
