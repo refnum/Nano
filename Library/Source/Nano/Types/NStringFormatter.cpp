@@ -551,8 +551,11 @@ NString NStringFormatter::Format(const NString &theFormat, const NFormatArgument
 
 
 	// Append any remaining text
+	//
+	// We must use the no-copy constructor since our char pointer
+	// is to a temporary string and not a true const string.
 	if (*textUTF8 != 0x00)
-		theResult += NString(textUTF8);
+		theResult += NString(textUTF8, kNStringLength);
 
 	return(theResult);
 }
