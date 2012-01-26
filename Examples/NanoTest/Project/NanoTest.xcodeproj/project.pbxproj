@@ -682,8 +682,8 @@
 		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ABE0709009FBBC7A0031D3D1 /* libNano.a */,
 				ABF81BD70FB5F9D50040A020 /* libNano.a */,
+				ABE0709009FBBC7A0031D3D1 /* libNano.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";

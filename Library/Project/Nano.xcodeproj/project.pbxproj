@@ -1328,9 +1328,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AB28FBDC0FB5D36300F72C61 /* iPhone */ = {
+		AB28FBDC0FB5D36300F72C61 /* iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iPhone" */;
+			buildConfigurationList = AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iOS" */;
 			buildPhases = (
 				AB28FBDA0FB5D36300F72C61 /* Sources */,
 			);
@@ -1338,7 +1338,7 @@
 			);
 			dependencies = (
 			);
-			name = iPhone;
+			name = iOS;
 			productName = iPhone;
 			productReference = AB28FBDD0FB5D36300F72C61 /* libNano.a */;
 			productType = "com.apple.product-type.library.static";
@@ -1381,8 +1381,8 @@
 			projectDirPath = "";
 			projectRoot = ..;
 			targets = (
+				AB28FBDC0FB5D36300F72C61 /* iOS */,
 				D2AAC06E0554671400DB518D /* Mac */,
-				AB28FBDC0FB5D36300F72C61 /* iPhone */,
 			);
 		};
 /* End PBXProject section */
@@ -1791,7 +1791,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iPhone" */ = {
+		AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB28FBDE0FB5D36300F72C61 /* Debug */,
