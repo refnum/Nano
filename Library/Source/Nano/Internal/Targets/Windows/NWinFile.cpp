@@ -311,9 +311,17 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(const NString &/*thePath*/, NFileRef theFile, UInt64 theSize)
+NStatus NTargetFile::SetSize(const NString &thePath, NFileRef theFile, UInt64 theSize)
 {	NStatus		theErr;
-	BOOL		wasOK;
+
+
+
+	// Check the size
+	//
+	// SetEndOfFile returns ERROR_ACCESS_DENIED when trying to set
+	// the size of an empty file to zero.
+	if (GetSize(thePath) == theSize)
+		return(kNoErr);
 
 
 
@@ -321,8 +329,8 @@ NStatus NTargetFile::SetSize(const NString &/*thePath*/, NFileRef theFile, UInt6
 	theErr = SetPosition(theFile, theSize, kNPositionFromStart);
 	if (theErr == kNoErr)
 		{
-		wasOK = SetEndOfFile((HANDLE) theFile);
-		NN_ASSERT(wasOK);
+		if (!SetEndOfFile((HANDLE) theFile))
+			theErr = NWinTarget::GetLastError();
 		}
 	
 	return(theErr);
