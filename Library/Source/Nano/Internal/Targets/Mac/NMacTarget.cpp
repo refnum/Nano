@@ -141,7 +141,7 @@ NStatus NMacTarget::ConvertSysErr(int sysErr)
 		case ENAMETOOLONG:			theErr = kNErrParam;				break;		// File name too long
 		case EHOSTDOWN:				theErr = kNErrParam;				break;		// Host is down
 		case EHOSTUNREACH:			theErr = kNErrParam;				break;		// No route to host
-		case ENOTEMPTY:				theErr = kNErrParam;				break;		// Directory not empty
+		case ENOTEMPTY:				theErr = kNErrDuplicate;			break;		// Directory not empty
 		case EPROCLIM:				theErr = kNErrParam;				break;		// Too many processes
 		case EUSERS:				theErr = kNErrParam;				break;		// Too many users
 		case EDQUOT:				theErr = kNErrDiskFull;				break;		// Disc quota exceeded

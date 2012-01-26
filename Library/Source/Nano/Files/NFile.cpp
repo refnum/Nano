@@ -699,7 +699,6 @@ NStatus NFile::MoveTo(const NFile &theTarget)
 	// Move the file
 	newFile = theTarget.GetChild(GetName());
 	theErr  = SetName(newFile.GetPath(), true, true);
-	NN_ASSERT_NOERR(theErr);
 
 	return(theErr);
 }
