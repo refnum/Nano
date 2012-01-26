@@ -988,9 +988,7 @@ NStatus NFile::SetName(const NString &theName, bool renameFile, bool isPath)
 
 
 	// Set the name
-	newPath = NTargetFile::SetName(mPath, theName, renameFile, isPath);
-	theErr  = newPath.IsEmpty() ? kNErrPermission : kNoErr;
-	
+	theErr = NTargetFile::SetName(mPath, theName, renameFile, isPath, newPath);
 	if (theErr == kNoErr)
 		SetPath(newPath);
 	

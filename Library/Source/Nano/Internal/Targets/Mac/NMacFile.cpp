@@ -329,13 +329,14 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 //============================================================================
 //      NTargetFile::SetName : Set a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath)
-{	NString		newPath;
-	int			sysErr;
+NStatus NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath, NString &newPath)
+{	NStatus		theErr;
 
 
 
 	// Get the new path
+	theErr = kNoErr;
+
 	if (isPath)
 		newPath = fileName;
 	else
@@ -345,12 +346,9 @@ NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 
 	// Rename the file
 	if (renameFile)
-		{
-		sysErr = rename(thePath.GetUTF8(), newPath.GetUTF8());
-		NN_ASSERT_NOERR(sysErr);
-		}
-	
-	return(newPath);
+		theErr = NMacTarget::ConvertSysErr(rename(thePath.GetUTF8(), newPath.GetUTF8()));
+
+	return(theErr);
 }
 
 

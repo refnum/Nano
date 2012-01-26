@@ -258,13 +258,14 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 //============================================================================
 //      NTargetFile::SetName : Set a file's name.
 //----------------------------------------------------------------------------
-NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath)
-{	NString		newPath;
-	BOOL		wasOK;
+NStatus NTargetFile::SetName(const NString &thePath, const NString &fileName, bool renameFile, bool isPath, NString &newPath)
+{	NStatus		theErr;
 
 
 
 	// Get the new path
+	theErr = kNoErr;
+
 	if (isPath)
 		newPath = fileName;
 	else
@@ -275,11 +276,11 @@ NString NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 	// Rename the file
 	if (renameFile)
 		{
-		wasOK = MoveFileEx(ToWN(thePath), ToWN(newPath), MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH);
-		NN_ASSERT(wasOK);
+		if (!MoveFileEx(ToWN(thePath), ToWN(newPath), MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH))
+			theErr = NWinTarget::GetLastError();
 		}
-	
-	return(newPath);
+
+	return(theErr);
 }
 
 
@@ -614,7 +615,8 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 //      NTargetFile::ExchangeWith : Exchange two files.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath)
-{	NString		dstTmp;
+{	NString		dstTmp, newPath;
+	NStatus		theErr;
 
 
 
@@ -629,11 +631,16 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 	// This is not atomic, and needs to handle failure.
 	NN_LOG("NTargetFile::ExchangeWith is not atomic!");
 
-	SetName(dstPath, dstTmp,  true, true);
-	SetName(srcPath, dstPath, true, true);
-	SetName(dstTmp,  srcPath, true, true);
+	theErr = SetName(dstPath, dstTmp,  true, true, newPath);
+	NN_ASSERT_NOERR(theErr);
 	
-	return(kNoErr);
+	theErr = SetName(srcPath, dstPath, true, true, newPath);
+	NN_ASSERT_NOERR(theErr);
+	
+	theErr = SetName(dstTmp,  srcPath, true, true, newPath);
+	NN_ASSERT_NOERR(theErr);
+	
+	return(theErr);
 }
 
 
