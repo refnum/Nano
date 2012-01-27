@@ -28,12 +28,24 @@
 typedef UInt32 NBroadcastMsg;
 
 
-// Lists
+// Listeners
 class NListener;
 
 typedef std::map<NListener*, UInt8>									NListenerMap;
 typedef NListenerMap::iterator										NListenerMapIterator;
 typedef NListenerMap::const_iterator								NListenerMapConstIterator;
+
+
+// State
+typedef struct {
+	bool				isDead;
+	NListenerMap		theRecipients;
+} NBroadcastState;
+
+
+typedef std::vector<NBroadcastState *>								NBroadcastStateList;
+typedef NBroadcastStateList::iterator								NBroadcastStateListIterator;
+typedef NBroadcastStateList::const_iterator							NBroadcastStateListConstIterator;
 
 
 
@@ -92,10 +104,8 @@ private:
 
 private:
 	bool								mIsBroadcasting;
+	NBroadcastStateList					mBroadcasts;
 	NListenerMap						mListeners;
-	NListenerMap						mRecipients;
-
-	bool								*mIsDead;
 };
 
 

@@ -45,7 +45,6 @@ NBroadcaster::NBroadcaster(void)
 
 	// Initialize ourselves
 	mIsBroadcasting = true;
-	mIsDead         = NULL;
 }
 
 
@@ -56,7 +55,8 @@ NBroadcaster::NBroadcaster(void)
 //		NBroadcaster::~NBroadcaster : Destructor.
 //----------------------------------------------------------------------------
 NBroadcaster::~NBroadcaster(void)
-{
+{	NBroadcastStateListIterator		theIter;
+
 
 
 	// Let everyone know
@@ -69,9 +69,9 @@ NBroadcaster::~NBroadcaster(void)
 
 
 
-	// Set our flag
-	if (mIsDead != NULL)
-		*mIsDead = true;
+	// Update our state
+	for (theIter = mBroadcasts.begin(); theIter != mBroadcasts.end(); theIter++)
+		(*theIter)->isDead = true;
 }
 
 
@@ -153,7 +153,8 @@ void NBroadcaster::AddListener(NListener *theListener)
 //		NBroadcaster::RemoveListener : Remove a listener.
 //----------------------------------------------------------------------------
 void NBroadcaster::RemoveListener(NListener *theListener)
-{
+{	NBroadcastStateListIterator		theIter;
+
 
 
 	// Validate our parameters
@@ -165,10 +166,15 @@ void NBroadcaster::RemoveListener(NListener *theListener)
 
 
 	// Remove the listener
-	mListeners.erase( theListener);
-	mRecipients.erase(theListener);
+	mListeners.erase(theListener);
 
 	theListener->RemoveBroadcaster(this);
+
+
+
+	// Update our state
+	for (theIter = mBroadcasts.begin(); theIter != mBroadcasts.end(); theIter++)
+		(*theIter)->theRecipients.erase(theListener);
 }
 
 
@@ -201,9 +207,8 @@ void NBroadcaster::RemoveListeners(void)
 //----------------------------------------------------------------------------
 void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
 {	NListener						*theListener;
-	bool							*oldFlag;
+	NBroadcastState					theState;
 	NListenerMapIterator			theIter;
-	bool							isDead;
 
 
 
@@ -211,43 +216,58 @@ void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
 	if (!mIsBroadcasting)
 		return;
 
+// dair
+NIndex numActive = mBroadcasts.size();
+
+if (numActive > 1)
+	NN_LOG("found it!");
 
 
-	// Set our flag
+	// Update our state
 	//
-	// To allow broadcasting a message to trigger the destruction of the NBroadcaster
-	// that is broadcsting the message, we need to watch for our destructor being called
-	// while we are broadcasting.
+	// Since a broadcast invokes a function, it can trigger arbitrary events
+	// including:
 	//
-	// We do this with a member that points to data on our stack. If we see the flag
-	// being set, we know the message has triggered our destruction.
+	//		- Destruction of the broadcaster
+	//		- Destruction of a listener
+	//		- Removal     of a listener
+	//		- Broadcast of additional messages (by this object)
 	//
-	// To make ourselves re-entrant, we must save the previous flag before sending the
-	// message then restore it (subject to us still being alive) after.
-	isDead = false;
-
-	oldFlag = mIsDead;
-	mIsDead = &isDead;
+	// To allow us to perform a broadcast without interference, we maintain a
+	// list of the state for the broadcasts being performed by this object.
+	//
+	// Each broadcast requires a flag to indicate if the broadcaster has been
+	// destroyed, and a list of recipients for the broadcast (the listeners
+	// that were present when the broadcast was requested).
+	//
+	//
+	// This state is stored on our stack, and a pointer to it placed in the
+	// list of broadcasts being performed by this object.
+	//
+	// This list is updated if the broadcaster itself is destroyed, or if a
+	// listener is removed during the broadcast.
+	theState.isDead        = false;
+	theState.theRecipients = mListeners;
+	
+	mBroadcasts.push_back(&theState);
 
 
 
 	// Broadcast the message
 	//
-	// Since broadcasting a message may cause listeners to remove themselves (or even
-	// other listeners) from our list, we need to work from a copy of the list which
-	// we prune rather than iterate.
+	// Since recipients might be removed or destroyed while we're broadcasting,
+	// we need to prune the list as we go rather than iterate through it.
 	//
-	// RemoveListener will update this list if any listeners are removed due to sending
-	// the message, which ensures we won't contact a dead listener.
-	mRecipients = mListeners;
+	// If the broadcaster itself is destroyed, our stack-based state will have
+	// its flag set letting us know we need to stop the broadcast.
 	
-	while (!isDead && !mRecipients.empty())
+	while (!theState.isDead && !theState.theRecipients.empty())
 		{
 		// Get the state we need
-		theIter     = mRecipients.begin();
+		theIter     = theState.theRecipients.begin();
 		theListener = theIter->first;
 		
-		mRecipients.erase(theIter);
+		theState.theRecipients.erase(theIter);
 
 
 		// Send the message
@@ -257,12 +277,9 @@ void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
 
 
 
-	// Reset our state
-	//
-	// Note that we only reset if we were not destroyed. If we were destroyed,
-	// we can not touch any member variables once we see the flag is set.
-	if (!isDead)
-		mIsDead = oldFlag;
+	// Update our state
+	if (!theState.isDead)
+		erase(mBroadcasts, &theState);
 }
 
 
@@ -296,14 +313,19 @@ void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
 
 
 
+	// Validate our parameters
+	NN_ASSERT(theBroadcaster.mBroadcasts.empty());
+
+
+
 	// Clone the broadcaster
 	//
 	// An explicit clone is necessary to ensure the pointers between listener and
 	// broadcaster are correctly established (the default copy constructor would
 	// copy the pointers in this object, but wouldn't update the other).
 	mIsBroadcasting = theBroadcaster.mIsBroadcasting;
-	mIsDead         = NULL;
-	
+	mBroadcasts.clear();
+
 	for (theIter = theBroadcaster.mListeners.begin(); theIter != theBroadcaster.mListeners.end(); theIter++)
 		AddListener(theIter->first);
 }
