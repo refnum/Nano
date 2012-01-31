@@ -216,11 +216,6 @@ void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
 	if (!mIsBroadcasting)
 		return;
 
-// dair
-NIndex numActive = mBroadcasts.size();
-
-if (numActive > 1)
-	NN_LOG("found it!");
 
 
 	// Update our state
@@ -313,8 +308,8 @@ void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theBroadcaster.mBroadcasts.empty());
+	// Validate our state
+	NN_ASSERT(mBroadcasts.empty());
 
 
 
@@ -323,6 +318,10 @@ void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
 	// An explicit clone is necessary to ensure the pointers between listener and
 	// broadcaster are correctly established (the default copy constructor would
 	// copy the pointers in this object, but wouldn't update the other).
+	//
+	// Cloning a broadcaster that's currently broadcasting will clone the listeners
+	// so that future broadcasts go to the same place - however we don't clone the
+	// list of active broadcasts, since we're not ourselves broadcasting.
 	mIsBroadcasting = theBroadcaster.mIsBroadcasting;
 	mBroadcasts.clear();
 
