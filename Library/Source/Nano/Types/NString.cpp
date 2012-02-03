@@ -2385,7 +2385,7 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 //----------------------------------------------------------------------------
 NString NString::GetConstantString(const char *theText)
 {	static NConstantStringMap		sTable;
-	static NSpinLock				sLock;
+	static NMutexLock				sLock;
 
 	StLock								lockMutex(sLock);
 	NString								theString;
