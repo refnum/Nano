@@ -28,7 +28,7 @@
 static const NGregorianDate kValueDate1								= { 2010, 6, 1, 18, 21, 57,       kNTimeZoneUTC };
 static const NGregorianDate kValueDate2								= { -123, 6, 1, 18, 21, 57,       kNTimeZoneUTC };
 static const NGregorianDate kValueDate3								= { 2010, 6, 1,  3, 21, 57,       kNTimeZoneUTC };
-static const NGregorianDate kValueDate4								= { 2010, 6, 1,  0,  7,  5.12343, kNTimeZoneUTC };
+static const NGregorianDate kValueDate4								= { 2010, 6, 1,  0,  7,  5.12345, kNTimeZoneUTC };
 
 
 
@@ -373,28 +373,29 @@ void TDateFormatter::Execute(void)
 
 
 	theResult = theFormatter.Format(kValueDate4, "S");
-	NN_ASSERT(theResult == "5.1");
+	NN_ASSERT(theResult == "1");
 
 	theResult = theFormatter.Format(kValueDate4, "SS");
-	NN_ASSERT(theResult == "5.12");
+	NN_ASSERT(theResult == "12");
 
 	theResult = theFormatter.Format(kValueDate4, "SSS");
-	NN_ASSERT(theResult == "5.123");
+	NN_ASSERT(theResult == "123");
 
 	theResult = theFormatter.Format(kValueDate4, "SSSS");
-	NN_ASSERT(theResult == "5.1234");
+	NN_ASSERT(theResult == "1235");
 
 	theResult = theFormatter.Format(kValueDate4, "SSSSS");
-	NN_ASSERT(theResult == "5.12343");
+	NN_ASSERT(theResult == "12345");
+
+
+	theResult = theFormatter.Format(kValueDate4, "ss.SSS");
+	NN_ASSERT(theResult == "05.123");
 
 
 /*
 	theResult = theFormatter.Format(kValueDate1, "A");
 	NN_ASSERT(theResult == "TODO");
 */
-
-	
-
 }
 
 

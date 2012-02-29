@@ -797,7 +797,14 @@ NString NDateFormatter::GetMinute(const NDateContext &theContext) const
 //		NDateFormatter::GetSecond : Get a second.
 //----------------------------------------------------------------------------
 NString NDateFormatter::GetSecond(const NDateContext &theContext) const
-{	NString		theValue;
+{	NTime		secondInt, secondFrac;
+	NString		theValue;
+
+
+
+	// Get the state we need
+	secondInt  = floor(theContext.gregDate.second);
+	secondFrac = theContext.gregDate.second - secondInt;
 
 
 
@@ -805,11 +812,13 @@ NString NDateFormatter::GetSecond(const NDateContext &theContext) const
 	switch (theContext.tokenChar) {
 		case 's':
 			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
-			theValue.Format("%0*d", theContext.tokenSize, (SInt32) theContext.gregDate.second);
+			theValue.Format("%0*d", theContext.tokenSize, (SInt32) secondInt);
 			break;
 
 		case 'S':
-			theValue.Format("%.*f", theContext.tokenSize, theContext.gregDate.second);
+			theValue.Format("%.*f", theContext.tokenSize, secondFrac);
+			NN_ASSERT(theValue.GetLeft(2) == "0.");
+			theValue.TrimLeft(2);
 			break;
 
 		case 'A':
