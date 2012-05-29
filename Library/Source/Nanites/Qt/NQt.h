@@ -74,7 +74,7 @@ inline QByteArray ToQt(const NData &theData)
 
 inline QString ToQt(const NString &theString)
 {
-	return(QString::fromUtf8(theString.GetUTF8()));
+	return(QString::fromUtf8(theString.GetUTF8()).normalized(QString::NormalizationForm_C));
 }
 
 
