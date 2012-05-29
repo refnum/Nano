@@ -175,6 +175,8 @@ private:
 
 private:
 	mutable TaskInfo					mTask;
+	mutable NString						mBufferOutput;
+	mutable NString						mBufferError;
 
 	NString								mCommand;
 	NStringList							mArguments;

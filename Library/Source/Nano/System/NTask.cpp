@@ -286,11 +286,15 @@ void NTask::SetArguments(NN_TASK_ARGS_PARAM)
 //		NTask::ReadOutput : Read the output stream.
 //----------------------------------------------------------------------------
 NString NTask::ReadOutput(void)
-{
+{	NString		theResult;
+
 
 
 	// Read from the task
-	return(NTargetSystem::TaskRead(mTask, false));
+	theResult = mBufferOutput + NTargetSystem::TaskRead(mTask, false);
+	mBufferOutput.Clear();
+	
+	return(theResult);
 }
 
 
@@ -301,11 +305,15 @@ NString NTask::ReadOutput(void)
 //		NTask::ReadError : Read the error stream.
 //----------------------------------------------------------------------------
 NString NTask::ReadError(void)
-{
+{	NString		theResult;
+
 
 
 	// Read from the task
-	return(NTargetSystem::TaskRead(mTask, true));
+	theResult = mBufferError + NTargetSystem::TaskRead(mTask, true);
+	mBufferError.Clear();
+
+	return(theResult);
 }
 
 
@@ -387,17 +395,9 @@ NString NTask::Execute(NTime waitFor)
 			break;
 
 		UpdateTask(kTaskSleep);
-		theResult += ReadOutput();
 		}
 
-
-
-	// Collect the output
-	//
-	// Some output may have been emitted between the last time we read
-	// from the task and the point we noticed that the task had finished,
-	// so we need to poll again to consume any outstanding data.
-	theResult += ReadOutput();
+	theResult = ReadOutput();
 
 	return(theResult);
 }
@@ -454,10 +454,22 @@ void NTask::UpdateTask(NTime waitFor) const
 	// to monitor the underlying OS task (e.g., fire timers).
 	if (mTask.taskID != kNTaskIDNone)
 		{
+		// Update the task
 		if (waitFor > kNTimeNone)
 			NTargetSystem::TaskWait(mTask, waitFor);
 
 		NTargetSystem::TaskUpdate(mTask);
+
+
+		// Update the buffers
+		//
+		// The output streams must also be polled periodically, or the OS may
+		// block the task until its output is consumed.
+		//
+		// To allow callers to run a task to completion before running, we need
+		// to drain the OS buffers into our own.
+		mBufferOutput += NTargetSystem::TaskRead(mTask, false);
+		mBufferError  += NTargetSystem::TaskRead(mTask, true);
 		}
 }
 
