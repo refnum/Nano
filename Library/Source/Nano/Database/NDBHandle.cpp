@@ -30,6 +30,7 @@
 //----------------------------------------------------------------------------
 static const UInt32 kProgressUpdate									= 1000;
 static const NIndex kMaxLockedTries									= 10;
+static const UInt32 kBackupPageCount								= 100;
 static const char   kNamePrefix										= ':';
 
 
@@ -207,6 +208,83 @@ void NDBHandle::Close(void)
 
 	mCacheQuery = NULL;
 	mCacheSQL.Clear();
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::CreateBackup : Create a backup.
+//----------------------------------------------------------------------------
+NStatus NDBHandle::CreateBackup(const NFile &dstFile)
+{	int					sqlFlags, pagesTotal, pagesLeft, pagesDone;
+	sqlite3				*srcDB, *dstDB;
+	sqlite3_backup		*sqlBackup;
+	NString				thePath;
+	NDBStatus			dbErr;
+
+
+
+	// Get the state we need
+	srcDB = (sqlite3 *) mDatabase;
+	dstDB = NULL;
+	
+	thePath   = dstFile.GetPath();
+	sqlFlags  = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+	sqlBackup = NULL;
+
+
+
+	// Open the destination database
+	dbErr = sqlite3_open_v2(thePath.GetUTF8(), &dstDB, sqlFlags, NULL);
+
+	if (dbErr == kNoErr)
+		sqlBackup = sqlite3_backup_init(dstDB, "main", srcDB, "main");
+
+	if (dbErr != kNoErr || sqlBackup == NULL)
+		NN_LOG("SQLite: %s", sqlite3_errmsg(dstDB));
+
+
+
+	// Perform the backup
+	if (sqlBackup != NULL)
+		{
+		BeginProgress();
+
+		do
+			{
+			// Copy some pages
+			dbErr = sqlite3_backup_step(sqlBackup, kBackupPageCount);
+
+			pagesTotal = sqlite3_backup_pagecount(sqlBackup);
+			pagesLeft  = sqlite3_backup_remaining(sqlBackup);
+			pagesDone  = pagesTotal - pagesLeft;
+
+			ContinueProgress(pagesDone, pagesTotal);
+			
+			
+			// Give up some time
+			if (dbErr == SQLITE_BUSY || dbErr== SQLITE_LOCKED)
+				NThread::Sleep();
+			}
+		while (dbErr == SQLITE_OK || dbErr == SQLITE_BUSY || dbErr == SQLITE_LOCKED);
+		
+		(void) sqlite3_backup_finish(sqlBackup);
+		EndProgress();
+		}
+
+
+
+	// Clean up
+	if (dstDB != NULL)
+		{
+		dbErr = sqlite3_close(dstDB);
+		if (dbErr != kNoErr)
+			NN_LOG("SQLite: %s", sqlite3_errmsg(dstDB));
+		}
+
+	return(SQLiteGetStatus(dbErr));
 }
 
 

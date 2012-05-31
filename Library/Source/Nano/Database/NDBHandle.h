@@ -77,6 +77,12 @@ public:
 	void								Close(void);
 
 
+	// Create a backup of the database
+	//
+	// The database will be locked for the duration of the backup.
+	NStatus								CreateBackup(const NFile &dstFile);
+
+
 	// Execute a query
 	//
 	// Each database connection may be used by one thread at a time. If multiple threads
