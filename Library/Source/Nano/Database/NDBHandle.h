@@ -68,6 +68,10 @@ public:
 	bool								IsMutable(void) const;
 
 
+	// Get the database file
+	NFile								GetFile(void) const;
+
+
 	// Open/close the database
 	NStatus								Open(const NFile &theFile, NDBFlags theFlags=kNDBNone, const NString &theVFS="");
 	void								Close(void);
@@ -130,6 +134,7 @@ private:
 
 
 private:
+	NFile								mFile;
 	NDBFlags							mFlags;
 	NDBHandleRef						mDatabase;
 	

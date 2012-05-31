@@ -106,6 +106,21 @@ bool NDBHandle::IsMutable(void) const
 
 
 //============================================================================
+//		NDBHandle::GetFile : Get the file.
+//----------------------------------------------------------------------------
+NFile NDBHandle::GetFile(void) const
+{
+
+
+	// Get the file
+	return(mFile);
+}
+
+
+
+
+
+//============================================================================
 //		NDBHandle::Open : Open the database.
 //----------------------------------------------------------------------------
 NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &theVFS)
@@ -145,6 +160,7 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 	// Update our state
 	if (dbErr == kNoErr)
 		{
+		mFile      = theFile;
 		mFlags     = theFlags;
 		mDatabase  = sqlDB;
 		}
@@ -185,7 +201,10 @@ void NDBHandle::Close(void)
 
 
 	// Reset our state
-	mDatabase   = NULL;
+	mFile.Clear();
+	mFlags    = kNDBNone;
+	mDatabase = NULL;
+
 	mCacheQuery = NULL;
 	mCacheSQL.Clear();
 }
