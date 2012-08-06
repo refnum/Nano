@@ -1364,7 +1364,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 1DEB920508733DBB0010E9CD /* Build configuration list for PBXProject "Nano" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1710,6 +1710,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB069DF114CC1FAE006E6DF8 /* NanoDebugMac.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
@@ -1723,6 +1724,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB069DF414CC1FAE006E6DF8 /* NanoReleaseMac.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
