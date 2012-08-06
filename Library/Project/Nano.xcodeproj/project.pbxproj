@@ -1710,7 +1710,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB069DF114CC1FAE006E6DF8 /* NanoDebugMac.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
@@ -1724,7 +1723,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB069DF414CC1FAE006E6DF8 /* NanoReleaseMac.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
 				OTHER_CFLAGS = (
 					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
