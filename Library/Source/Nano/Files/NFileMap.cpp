@@ -111,7 +111,7 @@ NStatus NFileMap::Open(const NFile &theFile, NMapAccess theAccess)
 //		NFileMap::Close : Close the file.
 //----------------------------------------------------------------------------
 void NFileMap::Close(void)
-{	NMapInfoMap		thePages;
+{	StLock		acquireLock(mLock);
 
 
 
@@ -121,12 +121,8 @@ void NFileMap::Close(void)
 
 
 	// Unmap any pages
-	mLock.Lock();
-	thePages = mPages;
-	mLock.Unlock();
-	
-	while (!thePages.empty())
-		Unmap(thePages.begin()->first);
+	while (!mPages.empty())
+		Unmap(mPages.begin()->first);
 
 
 
@@ -170,7 +166,10 @@ void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool
 	// Map the page
 	thePtr = NTargetFile::MapFetch(mFileRef, theAccess, theOffset, theSize, noCache);
 	if (thePtr != NULL)
+		{
+		NN_ASSERT(mPages.find(thePtr) == mPages.end());
 		mPages[thePtr] = theInfo;
+		}
 
 	return(thePtr);
 }
@@ -180,7 +179,7 @@ void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool
 
 
 //============================================================================
-//		NFileMap::Unamp : Unmap a page.
+//		NFileMap::Unmap : Unmap a page.
 //----------------------------------------------------------------------------
 void NFileMap::Unmap(const void *thePtr)
 {	StLock					acquireLock(mLock);
