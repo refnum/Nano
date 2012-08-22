@@ -506,7 +506,7 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 //============================================================================
 //		NTargetThread::AtomicAdd32 : Atomic 32-bit add.
 //----------------------------------------------------------------------------
-void NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
+SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 {
 
 
@@ -517,7 +517,21 @@ void NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 
 
 	// Add the value
-	InterlockedExchangeAdd((LONG *) &theValue, theDelta);
+	//
+	// InterlockedAdd produces the return value we want, namely the new value
+	// of 'theValue' as a result of the add (without any further reads from
+	// memory).
+	//
+	// However InterlockedAdd is only available on Windows 8, so we need to use
+	// the older InterlockedExchangeAdd.
+	//
+	// This returns the original value before the add, and so we need to apply
+	// the delta obtain the correct result.
+	//
+	// This gives us the new value of 'theValue' after the atomic add, without
+	// performing an extra read of 'theValue' (as this may have been changed by
+	// another thread in the mean time).
+	return(InterlockedExchangeAdd((LONG *) &theValue, theDelta) + theDelta);
 }
 
 

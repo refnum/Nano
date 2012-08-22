@@ -83,9 +83,7 @@ SInt32 NAtomicInt::Increment(SInt32 theDelta)
 
 
 	// Adjust the value
-	NThreadUtilities::AtomicAdd32(mValue, theDelta);
-
-	return(mValue);
+	return(NThreadUtilities::AtomicAdd32(mValue, theDelta));
 }
 
 
@@ -100,9 +98,7 @@ SInt32 NAtomicInt::Decrement(SInt32 theDelta)
 
 
 	// Adjust the value
-	NThreadUtilities::AtomicAdd32(mValue, -theDelta);
-
-	return(mValue);
+	return(NThreadUtilities::AtomicAdd32(mValue, -theDelta));
 }
 
 

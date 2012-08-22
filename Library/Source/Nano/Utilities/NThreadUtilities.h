@@ -47,10 +47,19 @@ public:
 	static void							DelayFunctor(const NFunctor &theFunctor, NTime theDelay=kNFunctorDelayTime, bool onMainThread=true);
 
 
-	// Atomic operations
+	// Atomic compare and swap
+	//
+	// Returns as theValue was updated from oldValue to newValue.
 	static bool							AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UInt32 newValue);
-	static void							AtomicAdd32(           SInt32 &theValue, SInt32 theDelta);
 
+
+	// Atomic addition
+	//
+	// Returns the new value stored in theValue after the addition.
+	static SInt32						AtomicAdd32(SInt32 &theValue, SInt32 theDelta);
+
+
+	// Atomic bit operations
 	static void							AtomicAnd32(UInt32 &theValue, UInt32 theMask);
 	static void							AtomicOr32( UInt32 &theValue, UInt32 theMask);
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);

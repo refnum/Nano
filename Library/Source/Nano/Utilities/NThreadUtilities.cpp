@@ -98,12 +98,12 @@ bool NThreadUtilities::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue,
 //============================================================================
 //		NThreadUtilities::AtomicAdd32 : Atomic 32-bit add.
 //----------------------------------------------------------------------------
-void NThreadUtilities::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
+SInt32 NThreadUtilities::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 {
 
 
 	// Add the value
-	NTargetThread::AtomicAdd32(theValue, theDelta);
+	return(NTargetThread::AtomicAdd32(theValue, theDelta));
 }
 
 

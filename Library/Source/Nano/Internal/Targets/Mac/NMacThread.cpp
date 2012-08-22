@@ -225,7 +225,7 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 //============================================================================
 //		NTargetThread::AtomicAdd32 : Atomic 32-bit add.
 //----------------------------------------------------------------------------
-void NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
+SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 {
 
 
@@ -235,7 +235,7 @@ void NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 
 
 	// Add the value
-	OSAtomicAdd32Barrier(theDelta, (int32_t *) &theValue);
+	return(OSAtomicAdd32Barrier(theDelta, (int32_t *) &theValue));
 }
 
 

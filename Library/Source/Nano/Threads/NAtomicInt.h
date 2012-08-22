@@ -36,6 +36,8 @@ public:
 
 
 	// Increment/decrement the value
+	//
+	// Returns the new value after the increment/decrement operation.
 	SInt32								Increment(SInt32 theDelta=1);
 	SInt32								Decrement(SInt32 theDelta=1);
 

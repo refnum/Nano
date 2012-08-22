@@ -63,8 +63,8 @@ private:
 
 
 private:
-	T									*mValue;
-	NAtomicInt							*mRefCount;
+	T								   *mValue;
+	NAtomicInt						   *mRefCount;
 };
 
 
