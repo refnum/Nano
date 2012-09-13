@@ -69,12 +69,12 @@ GCC_WARN_UNUSED_VARIABLE							= YES
 //GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS			= YES
 //GCC_WARN_64_TO_32_BIT_CONVERSION					= YES
 
+GCC_FAST_MATH[sdk=iphonesimulator*]					= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
+
 CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS			= YES
 CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES			= YES
 CLANG_WARN_OBJCPP_ARC_ABI							= YES
 //CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION			= YES
-
-COMBINE_HIDPI_IMAGES								= YES
 
 NANO_HEADER_SEARCH_PATHS                            = "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
 NANO_WARNING_CFLAGS									= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
@@ -116,7 +116,8 @@ CODE_SIGN_IDENTITY[sdk=iphonesimulator*]			= iPhone Developer
 TARGETED_DEVICE_FAMILY								= 1,2		// iPhone=1, iPad=2
 VALIDATE_PRODUCT									= YES
 
-GCC_FAST_MATH[sdk=iphonesimulator*]					= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
+COMBINE_HIDPI_IMAGES[sdk=macosx*]					= YES
+
 
 
 
