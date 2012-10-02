@@ -31,7 +31,7 @@
 
 
 // Mac
-#if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && !defined(__arm__) && !defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+#if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && !defined(__arm__) && !defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__)
 	#undef  NN_TARGET_MAC
 	#define NN_TARGET_MAC											1
 #endif
@@ -45,7 +45,7 @@
 
 
 // iOS
-#if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && (defined(__arm__) || defined(__IPHONE_OS_VERSION_MIN_REQUIRED))
+#if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && (defined(__arm__) || defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
 	#undef  NN_TARGET_IOS
 	#define NN_TARGET_IOS											1
 #endif

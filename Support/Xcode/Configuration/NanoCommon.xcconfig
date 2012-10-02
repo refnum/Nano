@@ -102,12 +102,12 @@ OTHER_LDFLAGS										= $(NANO_OTHER_LDFLAGS)
 //============================================================================
 //		Target
 //----------------------------------------------------------------------------
-MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]				= 10.5
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]			= 4.2
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]	= 4.2
+MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]				= 10.6
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]			= 5.1
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]	= 5.1
 
 ARCHS[sdk=macosx*]									= i386 x86_64 ppc
-ARCHS[sdk=iphoneos*]								= armv6 armv7
+ARCHS[sdk=iphoneos*]								= armv7 armv7s
 ARCHS[sdk=iphonesimulator*]							= i386
 
 CODE_SIGN_IDENTITY[sdk=iphoneos*]					= iPhone Developer
