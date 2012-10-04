@@ -97,6 +97,7 @@ public:
 
 	NPointT<T>							operator +(const NVectorT<T> &theVector) const;
 	NPointT<T>							operator -(const NVectorT<T> &theVector) const;
+	NVectorT<T>							operator -(const NPointT<T>  &thePoint)  const;
 
 										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;

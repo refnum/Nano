@@ -374,6 +374,25 @@ template<class T> NPointT<T> NPointT<T>::operator - (const NVectorT<T> &theVecto
 
 
 //============================================================================
+//		NPointT::- : Subtraction operator.
+//----------------------------------------------------------------------------
+template<class T> NVectorT<T> NPointT<T>::operator - (const NPointT<T> &thePoint) const
+{	NVectorT<T>	theResult;
+
+
+
+	// Subtract the vector
+	theResult.x = x - thePoint.x;
+	theResult.y = y - thePoint.y;
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NPointT::NEncodable : NEncodable operator.
 //----------------------------------------------------------------------------
 template<class T> NPointT<T>::operator NEncodable(void) const
