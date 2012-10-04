@@ -326,9 +326,10 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToShap
 //		NGeometryUtilities::CompareRectangleToPoly : Compare a rectangle to a polygon.
 //-----------------------------------------------------------------------------
 template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPolygon(const NRectangleT<T> &theRect, NIndex numPoints, const NPointT<T> *thePoints)
-{	NGeometryComparison		theResult, prevResult;
-	NPointT<T>				p0, p1;
-	NIndex					n;
+{	NGeometryComparison				theResult, prevResult;
+	std::vector< NPointT<T> >		theSegment;
+	NPointT<T>						p0, p1;
+	NIndex							n;
 	
 
 
@@ -341,7 +342,7 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPoly
 	//
 	// To simplify the loop, we test the final segment first.
 	p0         = thePoints[numPoints - 1];
-	prevResult = CompareLineToRectangle(theRect, p0, thePoints[0]);
+	prevResult = ClipLineToRectangle(theRect, vector(p0, thePoints[0]), theSegment);
 
 	if (prevResult == kNGeometryIntersects)
 		return(kNGeometryIntersects);
@@ -355,9 +356,9 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPoly
 		{
 		// Check the segment
 		//
-		// Any change in type, or an intersection, and we can stop.
+		// Any change in type implies an intersection, so we can stop.
 		p1        = thePoints[n];
-		theResult = CompareLineToRectangle(theRect, p0, p1);
+		theResult = ClipLineToRectangle(theRect, vector(p0, p1), theSegment);
 		
 		if (theResult != prevResult)
 			return(kNGeometryIntersects);
@@ -465,11 +466,11 @@ template<class T> NGeometryComparison NGeometryUtilities::ComparePointToPolygon(
 
 
 //=============================================================================
-//		NGeometryUtilities::ClipLine : Clip a line to a rectangle.
+//		NGeometryUtilities::ClipPolygonToRectangle : Clip a polygon to a rectangle.
 //-----------------------------------------------------------------------------
-template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipLine(const std::vector< NPointT<T> > &theLine, const NRectangleT<T> &theRectangle)
-{	NPointT<T>						pTL, pTR, pBL, pBR;
-	std::vector< NPointT<T> >		tmpLine1, tmpLine2;
+template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipPolygonToRectangle(const std::vector< NPointT<T> > &thePolygon, const NRectangleT<T> &theRectangle)
+{	std::vector< NPointT<T> >		tmpPolygon1, tmpPolygon2;
+	NPointT<T>						pTL, pTR, pBL, pBR;
 
 
 
@@ -481,13 +482,13 @@ template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipLine(const s
 
 
 
-	// Clip the line against each edge
-	ClipToEdge(pTL, pBL, theLine,  tmpLine1);
-	ClipToEdge(pBL, pBR, tmpLine1, tmpLine2);
-	ClipToEdge(pBR, pTR, tmpLine2, tmpLine1);
-	ClipToEdge(pTR, pTL, tmpLine1, tmpLine2);
+	// Clip using Sutherland-Hodgman
+	ClipPolygonToEdge(pTL, pBL, thePolygon,  tmpPolygon1);
+	ClipPolygonToEdge(pBL, pBR, tmpPolygon1, tmpPolygon2);
+	ClipPolygonToEdge(pBR, pTR, tmpPolygon2, tmpPolygon1);
+	ClipPolygonToEdge(pTR, pTL, tmpPolygon1, tmpPolygon2);
 	
-	return(tmpLine2);
+	return(tmpPolygon2);
 }
 
 
@@ -495,17 +496,23 @@ template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipLine(const s
 
 
 //=============================================================================
-//		NGeometryUtilities::CompareLineToRectangle : Compare a line to a rectangle.
+//		NGeometryUtilities::ClipLineToRectangle : Clip a line to a rectangle.
 //-----------------------------------------------------------------------------
-#pragma mark -
-template<class T> NGeometryComparison NGeometryUtilities::CompareLineToRectangle(const NRectangleT<T> &theRect, const NPointT<T> &p0, const NPointT<T> &p1)
+//		Note : Clips using Cohen-Sutherland.
+//-----------------------------------------------------------------------------
+template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	const              NRectangleT<T> &theRect,
+																				const std::vector< NPointT<T> >   &theInput,
+																					  std::vector< NPointT<T> >   &theOutput)
 {	T				dx, dy, minX, maxX, minY, maxY;
 	NBitfield		code0, code1, codeOut;
-	NPointT<T>		pointOut;
+	NPointT<T>		p0, p1, pointOut;
 
 
 
 	// Get the state we need
+	p0 = theInput[0];
+	p1 = theInput[1];
+
 	code0 = GetClipCode(theRect, p0);
 	code1 = GetClipCode(theRect, p1);
 
@@ -513,23 +520,25 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareLineToRectangle
 
 	// Both points are outside
 	if ((code0 & code1) != 0)
+		{
+		theOutput.clear();
 		return(kNGeometryOutside);
+		}
 	
 	
 	// Both points are inside
 	else if ((code0 | code1) == 0)
+		{
+		theOutput = theInput;
 		return(kNGeometryInside);
+		}
 
 
-	// One point is outside and one is inside
-	else if (code0 == 0 || code1 == 0)
-		return(kNGeometryIntersects);
 
-
-	// Possible intersection
+	// Intersection
 	else
 		{
-		// Pick an exterior point
+		// Pick the exterior point
 		if (code0 != 0)
 			{
 			codeOut  = code0;
@@ -547,26 +556,26 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareLineToRectangle
 		dx = p1.x - p0.x;
 		dy = p1.y - p0.y;
 		
-		minX = theRect.origin.x;
-		maxX = theRect.origin.x + theRect.size.width;
-
-		minY = theRect.origin.y;
-		maxY = theRect.origin.y + theRect.size.height;
-
+		minX = theRect.GetMinX();
+		maxX = theRect.GetMaxX();
+		
+		minY = theRect.GetMinY();
+		maxY = theRect.GetMaxY();
+		
 
 
 		// Clip the segment to the rectangle edge
 		if (codeOut & kNGeometryClipTop)
 			{
 			// Split line at top of rectangle
-			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
-			pointOut.y = maxY;
+			pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
+			pointOut.y = minY;
 			}
 			
 		else if (codeOut & kNGeometryClipBottom)
 			{
 			// Split line at bottom of rectangle
-			pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
+			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
 			pointOut.y = maxY;
 			}
 			
@@ -587,11 +596,13 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareLineToRectangle
 
 
 
-		// Test the new segment
+		// Clip the new segment
 		if (codeOut == code0)
-			return(CompareLineToRectangle(theRect, pointOut, p1));
+			ClipLineToRectangle(theRect, vector(pointOut, p1), theOutput);
 		else
-			return(CompareLineToRectangle(theRect, p0, pointOut));
+			ClipLineToRectangle(theRect, vector(p0, pointOut), theOutput);
+			
+		return(kNGeometryIntersects);
 		}
 
 
@@ -600,6 +611,89 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareLineToRectangle
 	NN_ASSERT(false);
 
 	return(kNGeometryIntersects);
+}
+
+
+
+
+
+//============================================================================
+//		NGeometryUtilities::ClipPolygonToEdge : Clip a polygon to an edge.
+//----------------------------------------------------------------------------
+#pragma mark -
+template<class T> void NGeometryUtilities::ClipPolygonToEdge(	const              NPointT<T>   &edgeStart,
+																const              NPointT<T>   &edgeEnd,
+																const std::vector< NPointT<T> > &theInput,
+																	  std::vector< NPointT<T> > &theOutput)
+{	NIndex			n, numPoints;
+	NPointT<T>		s, p, i;
+
+
+
+	// Get the state we need
+	//
+	// Since most polygons produce a similar size of output, we reserve space up front.
+	theOutput.clear();
+
+	numPoints = theInput.size();
+	if (numPoints == 0)
+		return;
+
+	theOutput.reserve(numPoints);
+
+
+
+	// Perform the clip
+	//
+	// Each segment is compared to the clipping edge, which gives four cases:
+	//
+	//	1) Both endpoints (s and p) are inside the clipping edge, so p is added.
+	//	2) Both endpoints (s and p) are outside the clipping edge, so nothing is added.
+	//	3) Vertex s is inside and p is outside, so the intersection (i) is added.
+	//	4) Vertex p is inside and s is outside, so the intersection (i) and p are added.
+	//
+	s = theInput[numPoints - 1];
+	for (n = 0; n < numPoints; n++)
+		{
+		p = theInput[n];
+
+
+		// Cases 1 or 4
+		if (IsInside(edgeStart, edgeEnd, p))
+			{
+			// Case 1
+			if (IsInside(edgeStart, edgeEnd, s))
+				theOutput.push_back(p);
+			
+			// Case 4
+			else
+				{
+				i = GetIntersection(edgeStart, edgeEnd, s, p);
+				
+				theOutput.push_back(i);
+				theOutput.push_back(p);
+				}
+			}
+
+
+		// Cases 2 or 3
+		else
+			{
+			// Case 3
+			if (IsInside(edgeStart, edgeEnd, s))
+				{
+				i = GetIntersection(edgeStart, edgeEnd, s, p);
+				theOutput.push_back(i);
+				}
+			
+			
+			// Case 2
+			else
+				{ }
+			}
+		
+		s = p;
+		}
 }
 
 
@@ -617,96 +711,19 @@ template<class T> NBitfield NGeometryUtilities::GetClipCode(const NRectangleT<T>
 	// Calculate the clp code
 	theCode = kNGeometryClipNone;
 
-	if (thePoint.y > (theRect.origin.y + theRect.size.height))
+	if (thePoint.y > theRect.GetMaxY())
+		theCode |= kNGeometryClipBottom;
+	
+	else if (thePoint.y < theRect.GetMinY())
 		theCode |= kNGeometryClipTop;
 
-	else if (thePoint.y < theRect.origin.y)
-		theCode |= kNGeometryClipBottom;
-
-	if (thePoint.x > (theRect.origin.x + theRect.size.width))
+	if (thePoint.x > theRect.GetMaxX())
 		theCode |= kNGeometryClipRight;
 
-	else if (thePoint.x < theRect.origin.x)
+	else if (thePoint.x < theRect.GetMinX())
 		theCode |= kNGeometryClipLeft;
 	
 	return(theCode);
-}
-
-
-
-
-
-//============================================================================
-//		NGeometryUtilities::ClipToEdge : Clip a line to an edge.
-//----------------------------------------------------------------------------
-template<class T> void NGeometryUtilities::ClipToEdge(const NPointT<T> &edgeStart, const NPointT<T> &edgeEnd, const std::vector< NPointT<T> > &theLine, NPointT<T> &theResult)
-{	NIndex			n, numPoints;
-	NPointT<T>		s, p, i;
-
-
-
-	// Get the state we need
-	numPoints = theLine.size();
-	if (numPoints == 0)
-		return;
-
-
-
-	// Cip the line
-	//
-	// Each segment is compared to the clipping edge, which gives four cases:
-	//
-	//	1) Both endpoints (s and p) are inside the clipping edge, so p is added.
-	//	2) Both endpoints (s and p) are outside the clipping edge, so nothing is added.
-	//	3) Vertex s is inside and p is outside, so the intersection (i) is added.
-	//	4) Vertex p is inside and s is outside, so the intersection (i) and p are added.
-	//
-	// Since most lines end up about the same size, space is reserved prior to adding.
-	theResult.clear();
-	theResult.reserve(numPoints);
-
-	s = theLine[numPoints - 1];
-	for (n = 0; n < numPoints; n++)
-		{
-		p = theLine[n];
-
-
-		// Cases 1 or 4
-		if (IsInside(edgeStart, edgeEnd, p))
-			{
-			// Case 1
-			if (IsInside(edgeStart, edgeEnd, s))
-				theResult.push_back(p);
-			
-			// Case 4
-			else
-				{
-				i = GetIntersection(edgeStart, edgeEnd, s, p);
-				
-				theResult.push_back(i);
-				theResult.push_back(p);
-				}
-			}
-
-
-		// Cases 2 or 3
-		else
-			{
-			// Case 3
-			if (IsInside(edgeStart, edgeEnd, s))
-				{
-				i = GetIntersection(edgeStart, edgeEnd, s, p);
-				theResult.push_back(i);
-				}
-			
-			
-			// Case 2
-			else
-				{ }
-			}
-		
-		s = p;
-		}
 }
 
 
@@ -723,21 +740,21 @@ template<class T> bool NGeometryUtilities::IsInside(const NPointT<T> &edgeStart,
 	// Bottom edge
 	if (edgeEnd.x > edgeStart.x)
 		{
-		if (thePoint.y >= edgeStart.y)
-			return(true);
-		}
-
-
-	// Top edge
-	if (edgeEnd.x < edgeEnd.x)
-		{
 		if (thePoint.y <= edgeStart.y)
 			return(true);
 		}
 
 
+	// Top edge
+	if (edgeStart.x < edgeEnd.x)
+		{
+		if (thePoint.y >= edgeStart.y)
+			return(true);
+		}
+
+
 	// Right edge
-	if (edgeEnd.y > edgeStart.y)
+	if (edgeEnd.y < edgeStart.y)
 		{
 		if (thePoint.x <= edgeEnd.x)
 			return(true);
@@ -745,7 +762,7 @@ template<class T> bool NGeometryUtilities::IsInside(const NPointT<T> &edgeStart,
 
 
 	// Left edge
-	if (edgeEnd.y < edgeStart.y)
+	if (edgeEnd.y > edgeStart.y)
 		{
 		if (thePoint.x >= edgeEnd.x)
 			return(true);

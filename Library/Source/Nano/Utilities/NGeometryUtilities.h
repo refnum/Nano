@@ -79,20 +79,27 @@ public:
 	static NGeometryComparison			ComparePointToPolygon(const NPointT<T> &thePoint, NIndex numPoints, const NPointT<T> *thePoints);
 
 
+	// Clip a polygon
+	template<class T>
+	static std::vector< NPointT<T> >	ClipPolygonToRectangle(const std::vector< NPointT<T> > &thePolygon, const NRectangleT<T> &theRectangle);
+
+
 	// Clip a line
 	template<class T>
-	static std::vector< NPointT<T> >	ClipLine(const std::vector< NPointT<T> > &theLine, const NRectangleT<T> &theRectangle);
+	static NGeometryComparison			ClipLineToRectangle(const              NRectangleT<T> &theRect,
+															const std::vector< NPointT<T> >   &theInput,
+																  std::vector< NPointT<T> >   &theOutput);
 
 
 private:
 	template<class T>
-	static NGeometryComparison			CompareLineToRectangle( const NRectangleT<T> &theRect, const NPointT<T> &p0, const NPointT<T> &p1);
+	static void							ClipPolygonToEdge(	const              NPointT<T>   &edgeStart,
+															const              NPointT<T>   &edgeEnd,
+															const std::vector< NPointT<T> > &theInput,
+																  std::vector< NPointT<T> > &theOutput);
 
 	template<class T>
 	static NBitfield					GetClipCode(const NRectangleT<T> &theRect, const NPointT<T> &thePoint);
-
-	template<class T>
-	static void							ClipToEdge(const NPointT<T> &edgeStart, const NPointT<T> &edgeEnd, const std::vector< NPointT<T> > &theLine, NPointT<T> &theResult);
 
 	template<class T>
 	static bool							IsInside(const NPointT<T> &edgeStart, const NPointT<T> &edgeEnd, const NPointT<T> &thePoint);
