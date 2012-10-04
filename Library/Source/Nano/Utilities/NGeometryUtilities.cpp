@@ -323,101 +323,8 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToShap
 
 
 //=============================================================================
-//		NGeometryUtilities::ClipPolygon : Clip a polygon to a rectangle.
-//-----------------------------------------------------------------------------
-template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipPolygon(const std::vector< NPointT<T> > &thePolygon, const NRectangleT<T> &theRectangle)
-{	NPointT<T>						pTL, pTR, pBL, pBR;
-	std::vector< NPointT<T> >		tmpPoly1, tmpPoly2;
-
-
-
-	// Get the state we need
-	pTL = theRectangle.GetPoint(kNPositionTopLeft);
-	pTR = theRectangle.GetPoint(kNPositionTopRight);
-	pBL = theRectangle.GetPoint(kNPositionBottomLeft);
-	pBR = theRectangle.GetPoint(kNPositionBottomRight);
-
-
-
-	// Clip the polygon against each edge
-	ClipToEdge(pTL, pBL, thePolygon, tmpPoly1);
-	ClipToEdge(pBL, pBR, tmpPoly1,   tmpPoly2);
-	ClipToEdge(pBR, pTR, tmpPoly2,   tmpPoly1);
-	ClipToEdge(pTR, pTL, tmpPoly1,   tmpPoly2);
-	
-	return(tmpPoly2);
-}
-
-
-
-
-
-//=============================================================================
-//		NGeometryUtilities::HitPolygon : Hit-test a polygon.
-//-----------------------------------------------------------------------------
-template<class T> bool NGeometryUtilities::HitPolygon(const std::vector< NPointT<T> > &thePolygon, const NPointT<T> &thePoint)
-{	bool			p1Above, p2Above;
-	SInt32			crossNum;
-	NPointT<T>		p1, p2;
- 	T				c, w;
-    NIndex			n;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(thePolygon.size() >= 3);
-
-
-
-	// Test the polygon
-	crossNum = 0;
-	p1       = thePolygon[thePolygon.size()-1];
-	p1Above  = (p1.y > thePoint.y);
-	
-	for (n = 0; n < thePolygon.size(); n++)
-		{
-		// Look for a crossing in y
-		p2      = thePolygon[n];
-		p2Above = (p2.y > thePoint.y);
-
-		if (p1Above != p2Above)
-			{
-			// If the segment is entirely to the left in x, it can't cross
-			if (std::max(p1.x, p2.x) < thePoint.x)
-				;
-			
-			
-			// If the segment is entirely to the right in x, it must cross
-			else if (std::min(p1.x, p2.x) > thePoint.x)
-				crossNum++;
-			
-			
-			// Otherwise we need to check the intersection
-			else
-				{
-				w = (thePoint.y - p1.y) / (p2.y - p1.y);
-				c = p1.x + (w * (p2.x - p1.x));
-				
-				if (thePoint.x < c)
-					crossNum++;
-				}
-			}
-		
-		p1      = p2;
-		p1Above = p2Above;
-		}
-	
-    return(NMathUtilities::IsOdd(crossNum));
-}
-
-
-
-
-
-//=============================================================================
 //		NGeometryUtilities::CompareRectangleToPoly : Compare a rectangle to a polygon.
 //-----------------------------------------------------------------------------
-#pragma mark -
 template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPolygon(const NRectangleT<T> &theRect, NIndex numPoints, const NPointT<T> *thePoints)
 {	NGeometryComparison		theResult, prevResult;
 	NPointT<T>				p0, p1;
@@ -479,12 +386,108 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPoly
 	// Classify the result
 	//
 	// If all lines are outside the rectangle, the rectangle may be outside the
-	// polygon or may be entirely contained by the polygon. We can determine
-	// which case we have by testing a rectangle corner against the polgyon.
-	if (HitPolygon(theRect.origin, numPoints, thePoints))
-		return(kNGeometryInside);
+	// polygon or may be entirely contained by the polygon.
+	//
+	// Testing a rectangle corner against the polgyon lets us see which we have.
+	return(ComparePointToPolygon(theRect.origin, numPoints, thePoints));
+}
+
+
+
+
+
+//=============================================================================
+//		NGeometryUtilities::ComparePointToPolygon : Compare a point to a polygon.
+//-----------------------------------------------------------------------------
+template<class T> NGeometryComparison NGeometryUtilities::ComparePointToPolygon(const NPointT<T> &thePoint, NIndex numPoints, const NPointT<T> *thePoints)
+{	bool			p1Above, p2Above;
+	SInt32			crossNum;
+	NPointT<T>		p1, p2;
+ 	T				c, w;
+    NIndex			n;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(numPoints >= 3);
+
+
+
+	// Test the polygon
+	crossNum = 0;
+	p1       = thePoints[numPoints-1];
+	p1Above  = (p1.y > thePoint.y);
 	
-	return(kNGeometryOutside);
+	for (n = 0; n < numPoints; n++)
+		{
+		// Look for a crossing in y
+		p2      = thePoints[n];
+		p2Above = (p2.y > thePoint.y);
+
+		if (p1Above != p2Above)
+			{
+			// If the segment is entirely to the left in x, it can't cross
+			if (std::max(p1.x, p2.x) < thePoint.x)
+				;
+			
+			
+			// If the segment is entirely to the right in x, it must cross
+			else if (std::min(p1.x, p2.x) > thePoint.x)
+				crossNum++;
+			
+			
+			// Otherwise we need to check the intersection
+			else
+				{
+				w = (thePoint.y - p1.y) / (p2.y - p1.y);
+				c = p1.x + (w * (p2.x - p1.x));
+				
+				if (thePoint.x < c)
+					crossNum++;
+				}
+			}
+		
+		p1      = p2;
+		p1Above = p2Above;
+		}
+
+
+
+	// Process the result
+    if (NMathUtilities::IsOdd(crossNum))
+		return(kNGeometryInside);
+	else
+		return(kNGeometryOutside);
+}
+
+
+
+
+
+//=============================================================================
+//		NGeometryUtilities::ClipLine : Clip a line to a rectangle.
+//-----------------------------------------------------------------------------
+template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipLine(const std::vector< NPointT<T> > &theLine, const NRectangleT<T> &theRectangle)
+{	NPointT<T>						pTL, pTR, pBL, pBR;
+	std::vector< NPointT<T> >		tmpLine1, tmpLine2;
+
+
+
+	// Get the state we need
+	pTL = theRectangle.GetPoint(kNPositionTopLeft);
+	pTR = theRectangle.GetPoint(kNPositionTopRight);
+	pBL = theRectangle.GetPoint(kNPositionBottomLeft);
+	pBR = theRectangle.GetPoint(kNPositionBottomRight);
+
+
+
+	// Clip the line against each edge
+	ClipToEdge(pTL, pBL, theLine,  tmpLine1);
+	ClipToEdge(pBL, pBR, tmpLine1, tmpLine2);
+	ClipToEdge(pBR, pTR, tmpLine2, tmpLine1);
+	ClipToEdge(pTR, pTL, tmpLine1, tmpLine2);
+	
+	return(tmpLine2);
 }
 
 
@@ -494,6 +497,7 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPoly
 //=============================================================================
 //		NGeometryUtilities::CompareLineToRectangle : Compare a line to a rectangle.
 //-----------------------------------------------------------------------------
+#pragma mark -
 template<class T> NGeometryComparison NGeometryUtilities::CompareLineToRectangle(const NRectangleT<T> &theRect, const NPointT<T> &p0, const NPointT<T> &p1)
 {	T				dx, dy, minX, maxX, minY, maxY;
 	NBitfield		code0, code1, codeOut;
@@ -633,22 +637,22 @@ template<class T> NBitfield NGeometryUtilities::GetClipCode(const NRectangleT<T>
 
 
 //============================================================================
-//		NGeometryUtilities::ClipToEdge : Clip a polygon to an edge.
+//		NGeometryUtilities::ClipToEdge : Clip a line to an edge.
 //----------------------------------------------------------------------------
-template<class T> void NGeometryUtilities::ClipToEdge(const NPointT<T> &edgeStart, const NPointT<T> &edgeEnd, const std::vector< NPointT<T> > &thePoly, NPointT<T> &theResult)
+template<class T> void NGeometryUtilities::ClipToEdge(const NPointT<T> &edgeStart, const NPointT<T> &edgeEnd, const std::vector< NPointT<T> > &theLine, NPointT<T> &theResult)
 {	NIndex			n, numPoints;
 	NPointT<T>		s, p, i;
 
 
 
 	// Get the state we need
-	numPoints = thePoly.size();
+	numPoints = theLine.size();
 	if (numPoints == 0)
 		return;
 
 
 
-	// Cip the polygon
+	// Cip the line
 	//
 	// Each segment is compared to the clipping edge, which gives four cases:
 	//
@@ -657,14 +661,14 @@ template<class T> void NGeometryUtilities::ClipToEdge(const NPointT<T> &edgeStar
 	//	3) Vertex s is inside and p is outside, so the intersection (i) is added.
 	//	4) Vertex p is inside and s is outside, so the intersection (i) and p are added.
 	//
-	// Since most polygons end up about the same size, space is reserved prior to adding.
+	// Since most lines end up about the same size, space is reserved prior to adding.
 	theResult.clear();
 	theResult.reserve(numPoints);
 
-	s = thePoly[numPoints - 1];
+	s = theLine[numPoints - 1];
 	for (n = 0; n < numPoints; n++)
 		{
-		p = thePoly[n];
+		p = theLine[n];
 
 
 		// Cases 1 or 4
