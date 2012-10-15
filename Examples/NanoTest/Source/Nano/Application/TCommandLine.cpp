@@ -62,7 +62,7 @@ void TCommandLine::Execute(void)
 
 	// Flags
 	NN_ASSERT(cmdLine.GetFlagSInt64("arg2") == -2);
-	NN_ASSERT(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
 	NN_ASSERT(cmdLine.GetFlagString("arg4") == "\"" kValueString "\"");
 	NN_ASSERT(cmdLine.GetFlagString("arg5") ==      kValueString);
 

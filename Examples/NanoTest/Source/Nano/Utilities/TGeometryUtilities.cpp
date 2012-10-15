@@ -45,10 +45,10 @@ void TGeometryUtilities::Execute(void)
 	theBounds32 = NGeometryUtilities::GetBounds(thePoints32);
 	theBounds   = NGeometryUtilities::GetBounds(thePoints);
 
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.origin.x,    theBounds32.origin.x));
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.origin.y,    theBounds32.origin.y));
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.size.width,  theBounds32.size.width));
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.size.height, theBounds32.size.height));
+	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.origin.x,    (Float64) theBounds32.origin.x));
+	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.origin.y,    (Float64) theBounds32.origin.y));
+	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.size.width,  (Float64) theBounds32.size.width));
+	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.size.height, (Float64) theBounds32.size.height));
 	NN_ASSERT(theBounds == theBounds32);
 }
 
