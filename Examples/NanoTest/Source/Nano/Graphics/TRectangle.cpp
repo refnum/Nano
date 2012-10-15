@@ -32,6 +32,8 @@ static const NRectangle kValueRectangle1_Normalized					= NRectangle(1.0f, -18.0
 static const NRectangle kValueRectangle2							= NRectangle(3.4f, 4.8f, 1.2f, 7.8f);
 static const NRectangle kValueRectangle2_Integral					= NRectangle(3.0f, 4.0f, 2.0f, 9.0f);
 
+static const NRectangle kValueRectangle3							= NRectangle(3.7f, 5.2f, 0.1f, 1.1f);
+
 
 
 
@@ -75,6 +77,10 @@ void TRectangle::Execute(void)
 	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle1.size.width,   10.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(kValueRectangle1.size.height, -20.0f));
 
+	testRect = kValueRectangle3.GetScaled(1.0f);
+	NN_ASSERT(kValueRectangle3 != kValueRectangle2);
+	NN_ASSERT(kValueRectangle3 == testRect);
+
 
 
 	// Manipulations
@@ -85,6 +91,22 @@ void TRectangle::Execute(void)
 	testRect = kValueRectangle2; testRect.MakeIntegral();
 	NN_ASSERT(testRect == kValueRectangle2.GetIntegral());
 	NN_ASSERT(testRect == kValueRectangle2_Integral);
+
+	NN_ASSERT(kValueRectangle2.GetScaled(1.0f) == kValueRectangle2);
+	NN_ASSERT(kValueRectangle2.GetScaled(0.0f).IsEmpty());
+
+
+
+	// Geometry
+	NN_ASSERT(kValueRectangle2.Contains(kValueRectangle3.origin));
+	NN_ASSERT(kValueRectangle2.Contains(kValueRectangle3));
+
+	NN_ASSERT(!kValueRectangle2.Contains(kValueRectangle1.origin));
+	NN_ASSERT(!kValueRectangle2.Contains(kValueRectangle1));
+
+	NN_ASSERT(kValueRectangle2.Intersects(kValueRectangle3));
+
+	NN_ASSERT(kValueRectangle2.GetUnion(kValueRectangle3) == kValueRectangle2);
 }
 
 
