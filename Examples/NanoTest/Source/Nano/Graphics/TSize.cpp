@@ -34,6 +34,8 @@ static const NSize kValueSize2_Integral								= NSize(2.00f, 8.00f);
 static const NSize kValueSize2_Resized								= NSize(2.40f, 4.40f);
 static const NSize kValueSize2_Scaled								= NSize(12.0f, 78.0f);
 
+static const NSize kValueSize3										= NSize(1.20f, 7.80f);
+
 
 
 
@@ -69,6 +71,9 @@ void TSize::Execute(void)
 	// Comparisons
 	NN_ASSERT(NMathUtilities::AreEqual(kValueSize1.width,   1.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(kValueSize1.height, -1.0f));
+
+	NN_ASSERT(kValueSize2 != kValueSize1);
+	NN_ASSERT(kValueSize2 == kValueSize3);
 
 
 
