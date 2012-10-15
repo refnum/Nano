@@ -232,9 +232,10 @@ template<class T> NComparison NRectangleT<T>::Compare(const NRectangleT<T> &theV
 
 	// Compare the value
 	//
-	// We have no natural order, so the only real comparison is equality.
+	// We have no natural order, so after a comparison by size (area) the only
+	// real comparison is equality.
 	theResult = size.Compare(theValue.size);
-		
+
 	if (theResult == kNCompareEqualTo)
 		theResult = origin.Compare(theValue.origin);
 

@@ -176,10 +176,10 @@ template<class T> NComparison NPointT<T>::Compare(const NPointT<T> &theValue) co
 	//
 	// We have no natural order, so the only real comparison is equality.
 	theResult = GetComparison(x, theValue.x);
-		
+
 	if (theResult == kNCompareEqualTo)
 		theResult = GetComparison(y, theValue.y);
-	
+
 	return(theResult);
 }
 
