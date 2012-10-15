@@ -269,7 +269,8 @@ template<class T> bool NRectangleT<T>::Contains(const NRectangleT<T> &theRect) c
 
 
 	// Check our state
-	return(GetUnion(theRect) == *this);
+	return(	theRect.GetMinX() >= GetMinX() && theRect.GetMaxX() <= GetMaxX() &&
+			theRect.GetMinY() >= GetMinY() && theRect.GetMaxY() <= GetMaxY());
 }
 
 
