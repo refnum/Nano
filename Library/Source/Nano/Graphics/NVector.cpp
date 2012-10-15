@@ -200,18 +200,31 @@ template<class T> bool NVectorT<T>::IsNormalized(void) const
 //		NVectorT::Compare : Compare the value.
 //----------------------------------------------------------------------------
 template<class T> NComparison NVectorT<T>::Compare(const NVectorT<T> &theValue) const
-{	NComparison		theResult;
+{	T				length1, length2;
+	NComparison		theResult;
 
 
 
 	// Compare the value
 	//
-	// We have no natural order, so the only real comparison is equality.
+	// Equality is detected with direct comparisons, but once inequality has
+	// been established we compare by (relative) length to provide a magnitude
+	// comparison.
+	//
+	// The magnitude comparison requires multiplication, which will reduce
+	// precision slightly, so can't be our only test.
 	theResult = GetComparison(x, theValue.x);
-		
+
 	if (theResult == kNCompareEqualTo)
 		theResult = GetComparison(y, theValue.y);
-	
+
+	if (theResult != kNCompareEqualTo)
+		{
+		length1   =          GetLength2();
+		length2   = theValue.GetLength2();
+		theResult = GetComparison(length1, length2);
+		}
+
 	return(theResult);
 }
 

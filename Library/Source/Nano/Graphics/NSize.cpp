@@ -167,18 +167,30 @@ template<class T> bool NSizeT<T>::IsEmpty(void) const
 //		NSizeT::Compare : Compare the value.
 //----------------------------------------------------------------------------
 template<class T> NComparison NSizeT<T>::Compare(const NSizeT &theValue) const
-{	NComparison		theResult;
+{	T				area1, area2;
+	NComparison		theResult;
 
 
 
 	// Compare the value
 	//
-	// We have no natural order, so the only real comparison is equality.
+	// Equality is detected with direct comparisons, but once inequality has
+	// been established we compare by area to provide a magnitude comparison.
+	//
+	// The magnitude comparison requires multiplication, which will reduce
+	// precision slightly, so can't be our only test.
 	theResult = GetComparison(width, theValue.width);
-		
+
 	if (theResult == kNCompareEqualTo)
 		theResult = GetComparison(height, theValue.height);
-	
+
+	if (theResult != kNCompareEqualTo)
+		{
+		area1     = fabs(         width *          height);
+		area2     = fabs(theValue.width * theValue.height);
+		theResult = GetComparison(area1, area2);
+		}
+
 	return(theResult);
 }
 
