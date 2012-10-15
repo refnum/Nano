@@ -48,13 +48,16 @@ static const Float64 kN1_Sqrt2											= 0.707106781186547524401;		// 1/sqrt(2
 class NMathUtilities {
 public:
     // Floating point equality
-	static bool							AreEqual(Float64 a, Float64 b);
+	static bool							AreEqual(Float32 a, Float32 b, NIndex maxUlps=15);
+	static bool							AreEqual(Float64 a, Float64 b, NIndex maxUlps=15);
 
 
     // Floating point tests
+	static bool							IsZero(Float32 theValue);
 	static bool							IsZero(Float64 theValue);
-	static bool							IsNan( Float64 theValue);
-	static bool							IsInf( Float64 theValue);
+
+	static bool							IsNan(Float64 theValue);
+	static bool							IsInf(Float64 theValue);
 
 
     // Integer tests

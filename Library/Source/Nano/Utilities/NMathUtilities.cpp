@@ -29,26 +29,100 @@
 //============================================================================
 //      NMathUtilities::AreEqual : Are two floating point numbers equal?
 //----------------------------------------------------------------------------
-bool NMathUtilities::AreEqual(Float64 a, Float64 b)
-{   Float64		theDelta;
+bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
+{	SInt32		intA, intB, theDelta;
 	bool		areEqual;
 
 
 
-    // Validate our parameters
+	// Validate our parameters
     NN_ASSERT(!NTargetPOSIX::is_nan(a) && !NTargetPOSIX::is_inf(a));
     NN_ASSERT(!NTargetPOSIX::is_nan(b) && !NTargetPOSIX::is_inf(b));
+	NN_ASSERT(maxUlps > 0 && maxUlps < (4 * 1024 * 1024));
 
 
 
-    // Check for equality
+	// Compare as two's complement integers
 	//
-	// Using an absolute error is not the best approach; should use relative
-	// error or re-interpret as sign-magnitude integers.
-	theDelta = fabs(a - b);
-	areEqual = (theDelta < 0.000000001);
+	// This uses the 'almost equal' technique of comparing IEEE floats by the
+	// number of possible representations between the two values:
+	//
+	// http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm
+	//
+	// As noted there are situations where this is not perfect, but numbers that
+	// are a few 'steps' (ulps) away from each other are essentially equal.
+	intA = *(SInt32 *) &a;
+	intB = *(SInt32 *) &b;
+
+    if (intA < 0)
+        intA = 0x80000000 - intA;
+
+    if (intB < 0)
+        intB = 0x80000000 - intB;
+
+	theDelta = labs(intA - intB);
+	areEqual = (theDelta <= maxUlps);
+
+	return(areEqual);
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::AreEqual : Are two floating point numbers equal?
+//----------------------------------------------------------------------------
+bool NMathUtilities::AreEqual(Float64 a, Float64 b, NIndex maxUlps)
+{	SInt64		intA, intB, theDelta;
+	bool		areEqual;
+
+
+
+	// Validate our parameters
+    NN_ASSERT(!NTargetPOSIX::is_nan(a) && !NTargetPOSIX::is_inf(a));
+    NN_ASSERT(!NTargetPOSIX::is_nan(b) && !NTargetPOSIX::is_inf(b));
+	NN_ASSERT(maxUlps > 0 && maxUlps < (4 * 1024 * 1024));
+
+
+
+	// Compare as two's complement integers
+	//
+	// This uses the 'almost equal' technique of comparing IEEE floats by the
+	// number of possible representations between the two values:
+	//
+	// http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm
+	//
+	// As noted there are situations where this is not perfect, but numbers that
+	// are a few 'steps' (ulps) away from each other are essentially equal.
+	intA = *(SInt64 *) &a;
+	intB = *(SInt64 *) &b;
+
+    if (intA < 0)
+        intA = 0x8000000000000000 - intA;
+
+    if (intB < 0)
+        intB = 0x8000000000000000 - intB;
+	
+	theDelta = llabs(intA - intB);
+	areEqual = (theDelta <= maxUlps);
 	
 	return(areEqual);
+}
+
+
+
+
+
+//============================================================================
+//      NMathUtilities::IsZero : Is a floating point number zero?
+//----------------------------------------------------------------------------
+bool NMathUtilities::IsZero(Float32 theValue)
+{
+
+
+    // Test the value
+    return(AreEqual(theValue, 0.0f));
 }
 
 
