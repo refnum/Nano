@@ -55,10 +55,10 @@ bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
 	intB = *(SInt32 *) &b;
 
     if (intA < 0)
-        intA = 0x80000000 - intA;
+        intA = 0x80000000L - intA;
 
     if (intB < 0)
-        intB = 0x80000000 - intB;
+        intB = 0x80000000L - intB;
 
 	theDelta = labs(intA - intB);
 	areEqual = (theDelta <= maxUlps);
@@ -99,10 +99,10 @@ bool NMathUtilities::AreEqual(Float64 a, Float64 b, NIndex maxUlps)
 	intB = *(SInt64 *) &b;
 
     if (intA < 0)
-        intA = 0x8000000000000000 - intA;
+        intA = 0x8000000000000000LL - intA;
 
     if (intB < 0)
-        intB = 0x8000000000000000 - intB;
+        intB = 0x8000000000000000LL - intB;
 	
 	theDelta = NTargetPOSIX::llabs(intA - intB);
 	areEqual = (theDelta <= maxUlps);
