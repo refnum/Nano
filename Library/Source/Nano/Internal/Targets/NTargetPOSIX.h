@@ -45,6 +45,10 @@ public:
 	static NIndex						snprintf( char *s, size_t n, const char *format, ...);
 
 
+	// stdlib.h
+	static SInt64						llabs(SInt64 x);
+
+
 	// unistd.h
 	static char *						getcwd(char *buf, size_t size);
 };

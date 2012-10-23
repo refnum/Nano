@@ -104,7 +104,7 @@ bool NMathUtilities::AreEqual(Float64 a, Float64 b, NIndex maxUlps)
     if (intB < 0)
         intB = 0x8000000000000000 - intB;
 	
-	theDelta = llabs(intA - intB);
+	theDelta = NTargetPOSIX::llabs(intA - intB);
 	areEqual = (theDelta <= maxUlps);
 	
 	return(areEqual);

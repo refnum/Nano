@@ -208,6 +208,21 @@ NIndex NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 
 
 //============================================================================
+//      NTargetPOSIX::llabs : Absolute value of an integer.
+//----------------------------------------------------------------------------
+SInt64 NTargetPOSIX::llabs(SInt64 x)
+{
+
+
+    // Get the value
+	return(::llabs(x));
+}
+
+
+
+
+
+//============================================================================
 //		NTargetPOSIX::getcwd : Mac getcwd.
 //----------------------------------------------------------------------------
 char *NTargetPOSIX::getcwd(char *buf, size_t size)
