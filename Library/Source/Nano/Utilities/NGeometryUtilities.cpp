@@ -564,7 +564,7 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 		
 
 
-		// Clip the segment to the rectangle edge
+		// Clip the segment to an edge
 		if (codeOut & kNGeometryClipTop)
 			{
 			// Split line at top of rectangle
@@ -578,9 +578,8 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
 			pointOut.y = maxY;
 			}
-			
-			
-		if (codeOut & kNGeometryClipRight)
+		
+		else if (codeOut & kNGeometryClipRight)
 			{
 			// Split line at right edge of rectangle
 			pointOut.y = p0.y + (dy * ((maxX - p0.x) / dx));
@@ -593,6 +592,9 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 			pointOut.y = p0.y + (dy * ((minX - p0.x) / dx));
 			pointOut.x = minX;
 			}
+		
+		else
+			NN_LOG("Invalid codeOut: %d", codeOut);
 
 
 
