@@ -538,7 +538,7 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 	// Intersection
 	else
 		{
-		// Pick the exterior point
+		// Pick an exterior point
 		if (code0 != 0)
 			{
 			codeOut  = code0;
@@ -568,14 +568,14 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 		if (codeOut & kNGeometryClipTop)
 			{
 			// Split line at top of rectangle
-			pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
+			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
 			pointOut.y = minY;
 			}
 			
 		else if (codeOut & kNGeometryClipBottom)
 			{
 			// Split line at bottom of rectangle
-			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
+			pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
 			pointOut.y = maxY;
 			}
 		
