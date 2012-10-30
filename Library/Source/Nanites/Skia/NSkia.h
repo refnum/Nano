@@ -55,6 +55,27 @@ inline SkRect ToSk(const NRectangle &theRect)
 	return(theResult);
 }
 
+inline SkIPoint ToSkI(const NPoint &thePoint)
+{	SkIPoint		theResult;
+
+	theResult.set((int) thePoint.x, (int) thePoint.y);
+	return(theResult);
+}
+
+inline SkISize ToSkI(const NSize &theSize)
+{	SkISize		theResult;
+
+	theResult.set((int) theSize.width, (int) theSize.height);
+	return(theResult);
+}
+
+inline SkIRect ToSkI(const NRectangle &theRect)
+{	SkIRect		theResult;
+
+	theResult.set((int) theRect.GetMinX(), (int) theRect.GetMinY(), (int) theRect.GetMaxX(), (int) theRect.GetMaxY());
+	return(theResult);
+}
+
 inline SkColor ToSk(const NColor &theColor)
 {
 	return(theColor.GetColor(kNColorARGB));
@@ -74,6 +95,21 @@ inline NSize ToNN(const SkSize &theSize)
 }
 
 inline NRectangle ToNN(const SkRect &theRect)
+{
+	return(NRectangle(theRect.fLeft, theRect.fTop, theRect.width(), theRect.height()));
+}
+
+inline NPoint ToNN(const SkIPoint &thePoint)
+{
+	return(NPoint(thePoint.fX, thePoint.fY));
+}
+
+inline NSize ToNN(const SkISize &theSize)
+{
+	return(NSize(theSize.fWidth, theSize.fHeight));
+}
+
+inline NRectangle ToNN(const SkIRect &theRect)
 {
 	return(NRectangle(theRect.fLeft, theRect.fTop, theRect.width(), theRect.height()));
 }
