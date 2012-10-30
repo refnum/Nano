@@ -44,8 +44,8 @@ void NGeometryUtilities_SuppressNoCodeLinkerWarning(void)
 static const NBitfield kNGeometryClipNone							= 0;
 static const NBitfield kNGeometryClipLeft							= (1 << 0);
 static const NBitfield kNGeometryClipRight							= (1 << 1);
-static const NBitfield kNGeometryClipTop							= (1 << 2);
-static const NBitfield kNGeometryClipBottom							= (1 << 3);
+static const NBitfield kNGeometryClipBottom							= (1 << 2);
+static const NBitfield kNGeometryClipTop							= (1 << 3);
 
 
 
@@ -503,9 +503,10 @@ template<class T> std::vector< NPointT<T> >	NGeometryUtilities::ClipPolygonToRec
 template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	const              NRectangleT<T> &theRect,
 																				const std::vector< NPointT<T> >   &theInput,
 																					  std::vector< NPointT<T> >   &theOutput)
-{	T				dx, dy, minX, maxX, minY, maxY;
-	NBitfield		code0, code1, codeOut;
-	NPointT<T>		p0, p1, pointOut;
+{	T						dx, dy, minX, maxX, minY, maxY;
+	NBitfield				code0, code1, codeOut;
+	NPointT<T>				p0, p1, pointOut;
+	NGeometryComparison		theResult;
 
 
 
@@ -569,28 +570,28 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 			{
 			// Split line at top of rectangle
 			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
-			pointOut.y = minY;
+			pointOut.y = maxY;
 			}
 			
 		else if (codeOut & kNGeometryClipBottom)
 			{
 			// Split line at bottom of rectangle
 			pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
-			pointOut.y = maxY;
+			pointOut.y = minY;
 			}
 		
 		else if (codeOut & kNGeometryClipRight)
 			{
 			// Split line at right edge of rectangle
-			pointOut.y = p0.y + (dy * ((maxX - p0.x) / dx));
 			pointOut.x = maxX;
+			pointOut.y = p0.y + (dy * ((maxX - p0.x) / dx));
 			}
 			
 		else if (codeOut & kNGeometryClipLeft)
 			{
 			// Split line at left edge of rectangle
-			pointOut.y = p0.y + (dy * ((minX - p0.x) / dx));
 			pointOut.x = minX;
+			pointOut.y = p0.y + (dy * ((minX - p0.x) / dx));
 			}
 		
 		else
@@ -600,17 +601,29 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 
 		// Clip the new segment
 		if (codeOut == code0)
-			ClipLineToRectangle(theRect, vector(pointOut, p1), theOutput);
+			theResult = ClipLineToRectangle(theRect, vector(pointOut, p1), theOutput);
 		else
-			ClipLineToRectangle(theRect, vector(p0, pointOut), theOutput);
-			
-		return(kNGeometryIntersects);
+			theResult = ClipLineToRectangle(theRect, vector(p0, pointOut), theOutput);
+
+
+
+		// Update the result
+		//
+		// Since we know we had an intersection with one of the rectangle edges,
+		// a result of inside is actually an intersection.
+		//
+		// A result of outside indicates the line intersected an edge but didn't
+		// encroach on the rectangle itself so that result remains.
+		if (theResult == kNGeometryInside)
+			theResult = kNGeometryIntersects;
+
+		return(theResult);
 		}
 
 
 
 	// Never reached
-	NN_ASSERT(false);
+	NN_LOG("Invalid clipping state!");
 
 	return(kNGeometryIntersects);
 }
@@ -710,15 +723,21 @@ template<class T> NBitfield NGeometryUtilities::GetClipCode(const NRectangleT<T>
 
 
 
-	// Calculate the clp code
+	// Get the state we need
 	theCode = kNGeometryClipNone;
 
+
+
+	// Test top/bottom edges
 	if (thePoint.y > theRect.GetMaxY())
-		theCode |= kNGeometryClipBottom;
+		theCode |= kNGeometryClipTop;
 	
 	else if (thePoint.y < theRect.GetMinY())
-		theCode |= kNGeometryClipTop;
+		theCode |= kNGeometryClipBottom;
 
+
+
+	// Test left/right edges
 	if (thePoint.x > theRect.GetMaxX())
 		theCode |= kNGeometryClipRight;
 
