@@ -559,8 +559,8 @@ template<class T> NRectangleT<T> NRectangleT<T>::GetIntegral(void) const
 	// from (so the origin must always round down, and the size up).
 	theResult.origin.x    = (T) floor(origin.x);
 	theResult.origin.y    = (T) floor(origin.y);
-	theResult.size.width  = (T) ceil(origin.x + size.width)  - theResult.origin.x;
-	theResult.size.height = (T) ceil(origin.y + size.height) - theResult.origin.y;
+	theResult.size.width  = (T) ceil( origin.x + size.width)  - theResult.origin.x;
+	theResult.size.height = (T) ceil( origin.y + size.height) - theResult.origin.y;
 	
 	
 	
