@@ -26,6 +26,16 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
+// Clip codes
+static const NBitfield kNGeometryClipNone							= 0;
+static const NBitfield kNGeometryClipLeft							= (1 << 0);
+static const NBitfield kNGeometryClipRight							= (1 << 1);
+static const NBitfield kNGeometryClipBottom							= (1 << 2);
+static const NBitfield kNGeometryClipTop							= (1 << 3);
+
+
+
+// Comparisons
 typedef enum {
 	kNGeometryInside,
 	kNGeometryOutside,
@@ -91,15 +101,17 @@ public:
 																  std::vector< NPointT<T> >   &theOutput);
 
 
+	// Get a Cohen-Sutherland clipping code
+	template<class T>
+	static NBitfield					GetClipCode(const NRectangleT<T> &theRect, const NPointT<T> &thePoint);
+
+
 private:
 	template<class T>
 	static void							ClipPolygonToEdge(	const              NPointT<T>   &edgeStart,
 															const              NPointT<T>   &edgeEnd,
 															const std::vector< NPointT<T> > &theInput,
 																  std::vector< NPointT<T> > &theOutput);
-
-	template<class T>
-	static NBitfield					GetClipCode(const NRectangleT<T> &theRect, const NPointT<T> &thePoint);
 
 	template<class T>
 	static bool							IsInside(const NPointT<T> &edgeStart, const NPointT<T> &edgeEnd, const NPointT<T> &thePoint);

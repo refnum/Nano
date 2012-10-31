@@ -39,19 +39,6 @@ void NGeometryUtilities_SuppressNoCodeLinkerWarning(void)
 
 
 //============================================================================
-//      Internal constants
-//----------------------------------------------------------------------------
-static const NBitfield kNGeometryClipNone							= 0;
-static const NBitfield kNGeometryClipLeft							= (1 << 0);
-static const NBitfield kNGeometryClipRight							= (1 << 1);
-static const NBitfield kNGeometryClipBottom							= (1 << 2);
-static const NBitfield kNGeometryClipTop							= (1 << 3);
-
-
-
-
-
-//============================================================================
 //		NGeometryUtilities::GetLength : Get the length of a line.
 //----------------------------------------------------------------------------
 template<class T> T NGeometryUtilities::GetLength(const std::vector< NPointT<T> > &theLine, bool getApprox)
@@ -632,6 +619,42 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 
 
 
+//=============================================================================
+//		NGeometryUtilities::GetClipCode : Get a Sutherland-Cohen clip code.
+//-----------------------------------------------------------------------------
+template<class T> NBitfield NGeometryUtilities::GetClipCode(const NRectangleT<T> &theRect, const NPointT<T> &thePoint)
+{	NBitfield	theCode;
+
+
+
+	// Get the state we need
+	theCode = kNGeometryClipNone;
+
+
+
+	// Test top/bottom edges
+	if (thePoint.y > theRect.GetMaxY())
+		theCode |= kNGeometryClipTop;
+	
+	else if (thePoint.y < theRect.GetMinY())
+		theCode |= kNGeometryClipBottom;
+
+
+
+	// Test left/right edges
+	if (thePoint.x > theRect.GetMaxX())
+		theCode |= kNGeometryClipRight;
+
+	else if (thePoint.x < theRect.GetMinX())
+		theCode |= kNGeometryClipLeft;
+	
+	return(theCode);
+}
+
+
+
+
+
 //============================================================================
 //		NGeometryUtilities::ClipPolygonToEdge : Clip a polygon to an edge.
 //----------------------------------------------------------------------------
@@ -709,42 +732,6 @@ template<class T> void NGeometryUtilities::ClipPolygonToEdge(	const             
 		
 		s = p;
 		}
-}
-
-
-
-
-
-//=============================================================================
-//		NGeometryUtilities::GetClipCode : Get a Sutherland-Cohen clip code.
-//-----------------------------------------------------------------------------
-template<class T> NBitfield NGeometryUtilities::GetClipCode(const NRectangleT<T> &theRect, const NPointT<T> &thePoint)
-{	NBitfield	theCode;
-
-
-
-	// Get the state we need
-	theCode = kNGeometryClipNone;
-
-
-
-	// Test top/bottom edges
-	if (thePoint.y > theRect.GetMaxY())
-		theCode |= kNGeometryClipTop;
-	
-	else if (thePoint.y < theRect.GetMinY())
-		theCode |= kNGeometryClipBottom;
-
-
-
-	// Test left/right edges
-	if (thePoint.x > theRect.GetMaxX())
-		theCode |= kNGeometryClipRight;
-
-	else if (thePoint.x < theRect.GetMinX())
-		theCode |= kNGeometryClipLeft;
-	
-	return(theCode);
 }
 
 
