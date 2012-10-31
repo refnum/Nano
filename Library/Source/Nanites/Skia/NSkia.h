@@ -101,17 +101,17 @@ inline NRectangle ToNN(const SkRect &theRect)
 
 inline NPoint ToNN(const SkIPoint &thePoint)
 {
-	return(NPoint(thePoint.fX, thePoint.fY));
+	return(NPoint((Float32) thePoint.fX, (Float32) thePoint.fY));
 }
 
 inline NSize ToNN(const SkISize &theSize)
 {
-	return(NSize(theSize.fWidth, theSize.fHeight));
+	return(NSize((Float32) theSize.fWidth, (Float32) theSize.fHeight));
 }
 
 inline NRectangle ToNN(const SkIRect &theRect)
 {
-	return(NRectangle(theRect.fLeft, theRect.fTop, theRect.width(), theRect.height()));
+	return(NRectangle((Float32) theRect.fLeft, (Float32) theRect.fTop, (Float32) theRect.width(), (Float32) theRect.height()));
 }
 
 inline NColor ToNN(SkColor theColor)
