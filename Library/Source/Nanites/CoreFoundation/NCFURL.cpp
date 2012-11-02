@@ -25,6 +25,24 @@
 //============================================================================
 //		NCFURL::NCFURL : Constructor.
 //----------------------------------------------------------------------------
+NCFURL::NCFURL(const NFile &theFile)
+{	CFURLRef	cfURL;
+
+
+
+	// Initialise ourselves
+	cfURL = CFURLCreateWithFileSystemPath(kCFAllocatorNano, ToCF(theFile.GetPath()), kCFURLPOSIXPathStyle, theFile.IsDirectory());
+
+	SetObject(cfURL);
+}
+
+
+
+
+
+//============================================================================
+//		NCFURL::NCFURL : Constructor.
+//----------------------------------------------------------------------------
 NCFURL::NCFURL(const NURL &theURL)
 			: NURL(theURL)
 {
@@ -123,7 +141,7 @@ bool NCFURL::SetObject(CFURLRef cfObject, bool takeOwnership)
 	// Set the object
 	if (isValid)
 		{
-		if (theString.SetObject(CFURLGetString(cfObject)))
+		if (theString.SetObject(CFURLGetString(cfObject), false))
 			SetValue(theString);
 		}
 

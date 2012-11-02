@@ -29,7 +29,9 @@
 //----------------------------------------------------------------------------
 class NCFURL : public NURL {
 public:
-										NCFURL(const NURL &theURL);
+										NCFURL(const NFile &theFile);
+										NCFURL(const NURL  &theURL);
+
 										NCFURL(CFURLRef  cfObject, bool takeOwnership);
 										NCFURL(NSURL    *nsObject, bool takeOwnership);
 										
