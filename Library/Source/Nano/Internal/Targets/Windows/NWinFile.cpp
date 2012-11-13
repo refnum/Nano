@@ -751,8 +751,10 @@ NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission
 
 
 	// Open the file
-	theFile = CreateFile(ToWN(thePath), NWinTarget::ConvertFilePermission(thePermission),
-							0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	theFile = CreateFile(ToWN(thePath),
+						 NWinTarget::ConvertFilePermission(thePermission),
+						 FILE_SHARE_READ | FILE_SHARE_WRITE,
+						 NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (theFile == INVALID_HANDLE_VALUE)
 		theFile = kNFileRefNone;
