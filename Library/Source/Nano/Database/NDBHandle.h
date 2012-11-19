@@ -18,7 +18,9 @@
 //----------------------------------------------------------------------------
 #include "NProgressable.h"
 #include "NUncopyable.h"
+#include "NAtomicList.h"
 #include "NFunctor.h"
+#include "NThread.h"
 #include "NFile.h"
 #include "NDBQuery.h"
 #include "NDBResult.h"
@@ -43,6 +45,13 @@ static const NDBFlags kNDBPoolConnectOnce							= (1 << 1);
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Cache
+typedef struct {
+	NString			theSQL;
+	NDBQueryRef		theQuery;
+} NDBCachedQuery;
+
+
 // Functors
 typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
 
@@ -125,6 +134,7 @@ public:
 
 private:
 	NDBStatus							SQLiteExecute(    const NDBQuery   &theQuery, const NDBResultFunctor &theResult, NTime waitFor);
+	NDBQueryRef							SQLiteFetchQuery( const NDBQuery   &theQuery);
 	NDBQueryRef							SQLiteCreateQuery(const NDBQuery   &theQuery);
 	void								SQLiteDestroyQuery(     NDBQueryRef theQuery);
 
@@ -144,8 +154,8 @@ private:
 	NDBFlags							mFlags;
 	NDBHandleRef						mDatabase;
 	
-	NDBQueryRef							mCacheQuery;
-	NString								mCacheSQL;
+	NThreadLocalRef						mCacheKey;
+	NAtomicList<NDBCachedQuery*>		mCachedQueries;
 };
 
 

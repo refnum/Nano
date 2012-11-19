@@ -18,7 +18,6 @@
 
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
-#include "NThread.h"
 #include "NDBHandle.h"
 
 
@@ -50,10 +49,9 @@ NDBHandle::NDBHandle(void)
 
 
 	// Initialize ourselves
-	mFlags     = kNDBNone;
-	mDatabase  = NULL;
-	
-	mCacheQuery = NULL;
+	mFlags    = kNDBNone;
+	mDatabase = NULL;
+	mCacheKey = kNThreadLocalRefNone;
 }
 
 
@@ -161,9 +159,12 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 	// Update our state
 	if (dbErr == kNoErr)
 		{
-		mFile      = theFile;
-		mFlags     = theFlags;
-		mDatabase  = sqlDB;
+		mFile     = theFile;
+		mFlags    = theFlags;
+		mDatabase = sqlDB;
+
+		mCacheKey = NThread::CreateLocal();
+		NN_ASSERT(mCacheKey != kNThreadLocalRefNone);
 		}
 
 	return(SQLiteGetStatus(dbErr));
@@ -177,8 +178,9 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 //		NDBHandle::Close : Close the database.
 //----------------------------------------------------------------------------
 void NDBHandle::Close(void)
-{	sqlite3		*sqlDB;
-	NDBStatus	dbErr;
+{	NDBCachedQuery		*cachedQuery;
+	sqlite3				*sqlDB;
+	NDBStatus			dbErr;
 
 
 
@@ -188,7 +190,16 @@ void NDBHandle::Close(void)
 
 
 	// Clean up
-	SQLiteDestroyQuery(mCacheQuery);
+	if (mCacheKey != kNThreadLocalRefNone)
+		{
+		while (mCachedQueries.PopFront(cachedQuery))
+			{
+			SQLiteDestroyQuery(cachedQuery->theQuery);
+			delete cachedQuery;
+			}
+
+		NThread::DestroyLocal(mCacheKey);
+		}
 
 
 
@@ -205,9 +216,7 @@ void NDBHandle::Close(void)
 	mFile.Clear();
 	mFlags    = kNDBNone;
 	mDatabase = NULL;
-
-	mCacheQuery = NULL;
-	mCacheSQL.Clear();
+	mCacheKey = kNThreadLocalRefNone;
 }
 
 
@@ -535,32 +544,9 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 
 	// Get the state we need
 	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
+	sqlQuery    = (sqlite3_stmt *) SQLiteFetchQuery(theQuery);
 
-
-
-	// Create the query
-	//
-	// We cache the last query performed, allowing us to reuse the SQLite
-	// statement if the SQL is the same.
-	//
-	// This can be a significant optimisation when performing large numbers
-	// of identical statements (e.g., populating a DB where only the bound
-	// parameters are changed on each execution).
-	if (mCacheQuery != NULL && mCacheSQL == theQuery.GetValue())
-		sqlite3_reset((sqlite3_stmt *) mCacheQuery);
-	else
-		{
-		SQLiteDestroyQuery(mCacheQuery);
-
-		mCacheQuery = SQLiteCreateQuery(theQuery);
-		mCacheSQL   = theQuery.GetValue();
-
-		if (mCacheQuery == NULL)
-			return(SQLITE_INTERNAL);
-		}
-
-	sqlQuery = (sqlite3_stmt *) mCacheQuery;
-	SQLiteBindParameters(mCacheQuery, theQuery.GetParameters());
+	SQLiteBindParameters(sqlQuery, theQuery.GetParameters());
 
 
 
@@ -593,6 +579,70 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 		}
 
 	return(dbErr);
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteFetchQuery : Fetch the query.
+//----------------------------------------------------------------------------
+NDBQueryRef NDBHandle::SQLiteFetchQuery(const NDBQuery &theQuery)
+{	NDBCachedQuery		*cachedQuery;
+	NString				theSQL;
+
+
+
+	// Get the state we need
+	theSQL      = theQuery.GetValue();
+	cachedQuery = (NDBCachedQuery *) NThread::GetLocalValue(mCacheKey);
+
+
+
+	// Create the query
+	if (cachedQuery == NULL)
+		{
+		cachedQuery           = new NDBCachedQuery;
+		cachedQuery->theSQL   = theSQL;
+		cachedQuery->theQuery = SQLiteCreateQuery(theQuery);
+
+		NThread::SetLocalValue(mCacheKey, cachedQuery);
+		mCachedQueries.PushBack(cachedQuery);
+		}
+	
+	
+	
+	// Update the cached query
+	//
+	// We cache the last query performed, allowing us to reuse the SQLite
+	// statement if the SQL is the same.
+	//
+	// This can be a significant optimisation when performing large numbers
+	// of identical statements (e.g., populating a DB where only the bound
+	// parameters are changed on each execution).
+	//
+	//
+	// Since multiple threads may be querying the database we need to use a
+	// per-thread cache or one thread may reset a query being used by another.
+	//
+	// The cached values are stored in a thread-local variable keyed off this
+	// object, and archived in a list that can be flushed by the thread which
+	// finally closes the database.
+	else
+		{
+		if (cachedQuery->theSQL == theSQL)
+			sqlite3_reset((sqlite3_stmt *) cachedQuery->theQuery);
+		else
+			{
+			SQLiteDestroyQuery(cachedQuery->theQuery);
+
+			cachedQuery->theSQL   = theSQL;
+			cachedQuery->theQuery = SQLiteCreateQuery(theQuery);
+			}
+		}
+
+	return(cachedQuery->theQuery);
 }
 
 
