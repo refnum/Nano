@@ -19,6 +19,7 @@
 #include "NURL.h"
 #include "NURLRequest.h"
 #include "NURLResponse.h"
+#include "NSingleton.h"
 
 
 
@@ -27,7 +28,7 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NNetworkManager {
+class NNetworkManager : public NSingleton {
 public:
 										NNetworkManager(void);
 	virtual							   ~NNetworkManager(void);

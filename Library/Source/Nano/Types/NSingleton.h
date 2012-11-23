@@ -54,9 +54,9 @@ protected:
 	// instance pointer:
 	//
 	//			CFoo *CFoo::Get(void)
-	//			{	static CFoo		*sFoo = NULL;
+	//			{	static CFoo		*sInstance = NULL;
 	//			
-	//				return(CreateInstance<CFoo>(&sFoo));
+	//				return(CreateInstance<CFoo>(&sInstance));
 	//			}
 	//
 	// CreateInstance will instantiate the singleton if necessary, and arrange for

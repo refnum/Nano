@@ -99,12 +99,12 @@ void NNetworkManager::SetUserAgent(const NString &userAgent)
 //		NNetworkManager::Get : Get the instance.
 //----------------------------------------------------------------------------
 NNetworkManager *NNetworkManager::Get(void)
-{	static NNetworkManager		sInstance;
+{	static NNetworkManager		*sInstance = NULL;
 
 
 
 	// Get the instance
-	return(&sInstance);
+	return(CreateInstance<NNetworkManager>(&sInstance));
 }
 
 
