@@ -272,6 +272,8 @@
 		ABB95B8A0FB7250600C5A7FF /* NIOSTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */; };
 		ABB95B8B0FB7250700C5A7FF /* NIOSThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7B0FB7250100C5A7FF /* NIOSThread.cpp */; };
 		ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */; };
+		ABD2448C165F93D8006CA66E /* NNetworkService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD24488165F93D8006CA66E /* NNetworkService.cpp */; };
+		ABD2448D165F93D8006CA66E /* NNetworkService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD24488165F93D8006CA66E /* NNetworkService.cpp */; };
 		ABED2AE010BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
 		ABED2AE110BBD80D00EA8ECC /* NCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */; };
 		ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
@@ -615,6 +617,8 @@
 		ABB95B7B0FB7250100C5A7FF /* NIOSThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSThread.cpp; sourceTree = "<group>"; };
 		ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTime.cpp; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
+		ABD24488165F93D8006CA66E /* NNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkService.cpp; sourceTree = "<group>"; };
+		ABD24489165F93D8006CA66E /* NNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkService.h; sourceTree = "<group>"; };
 		ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCache.cpp; sourceTree = "<group>"; };
 		ABED2ADD10BBD80D00EA8ECC /* NCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCache.h; sourceTree = "<group>"; };
 		ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCacheKey.cpp; sourceTree = "<group>"; };
@@ -845,6 +849,7 @@
 		AB9154DF0F9B4DD5009FFEAF /* Nanites */ = {
 			isa = PBXGroup;
 			children = (
+				ABD24485165F93D8006CA66E /* Bonjour */,
 				AB1A786A1031842C00DFBA38 /* Cocoa */,
 				AB9154E00F9B4DD5009FFEAF /* CoreFoundation */,
 				AB004029109700AD006029F9 /* CoreGraphics */,
@@ -1295,6 +1300,15 @@
 			path = ../../Support/Xcode/Configuration;
 			sourceTree = SOURCE_ROOT;
 		};
+		ABD24485165F93D8006CA66E /* Bonjour */ = {
+			isa = PBXGroup;
+			children = (
+				ABD24488165F93D8006CA66E /* NNetworkService.cpp */,
+				ABD24489165F93D8006CA66E /* NNetworkService.h */,
+			);
+			path = Bonjour;
+			sourceTree = "<group>";
+		};
 		ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1392,6 +1406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD2448C165F93D8006CA66E /* NNetworkService.cpp in Sources */,
 				AB0040101096FCFD006029F9 /* NCocoa.mm in Sources */,
 				AB003FE11096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
 				AB003FE21096FC56006029F9 /* NNSSingleton.mm in Sources */,
@@ -1550,6 +1565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD2448D165F93D8006CA66E /* NNetworkService.cpp in Sources */,
 				AB00400F1096FCFD006029F9 /* NCocoa.mm in Sources */,
 				AB003FDF1096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
 				AB003FE01096FC56006029F9 /* NNSSingleton.mm in Sources */,

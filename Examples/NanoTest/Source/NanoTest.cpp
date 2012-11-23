@@ -15,8 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #if NN_TARGET_MAC
-	#include "NNSAutoReleasePool.h"
+	#include "TNetworkService.h"
 
+	#include "NNSAutoReleasePool.h"
 	#include "TNSAutoReleasePool.h"
 	#include "TNSSingleton.h"
 
@@ -135,6 +136,11 @@ int main(int argc, const char **argv)
 	// Mac
 #if NN_TARGET_MAC
 	StAutoReleasePool		thePool;
+
+
+	// Nanite - Bonjour
+	TNetworkService::Execute();
+
 
 
 	// Nanite - Cocoa
