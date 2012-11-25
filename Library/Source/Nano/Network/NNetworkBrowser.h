@@ -79,7 +79,7 @@ public:
 
 
 	// Start/stop browsing
-	void								StartBrowsing(void);
+	NStatus								StartBrowsing(void);
 	void								StopBrowsing( void);
 
 

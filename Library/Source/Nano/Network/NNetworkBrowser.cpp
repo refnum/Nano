@@ -65,7 +65,7 @@ bool NNetworkBrowser::IsActive(void) const
 //============================================================================
 //		NNetworkBrowser::StartBrowsing : Start browsing.
 //----------------------------------------------------------------------------
-void NNetworkBrowser::StartBrowsing(void)
+NStatus NNetworkBrowser::StartBrowsing(void)
 {	NNetworkBrowserEventFunctor		theFunctor;
 	NServiceBrowserRef				theBrowser;
 	NStringListConstIterator		theIter;
@@ -74,6 +74,12 @@ void NNetworkBrowser::StartBrowsing(void)
 
 	// Validate our state
 	NN_ASSERT(!IsActive());
+
+
+
+	// Check our state
+	if (!NTargetNetwork::ServicesAvailable())
+		return(kNErrNotSupported);
 
 
 
@@ -88,6 +94,8 @@ void NNetworkBrowser::StartBrowsing(void)
 		theBrowser = NTargetNetwork::ServiceBrowserCreate(*theIter, theFunctor);
 		mBrowsers.push_back(theBrowser);
 		}
+	
+	return(kNoErr);
 }
 
 
