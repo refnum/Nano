@@ -42,6 +42,107 @@ EXTERN_C DECLSPEC_IMPORT BOOL STDAPICALLTYPE InternetGetConnectedState(LPDWORD l
 
 
 
+//============================================================================
+//		DNS-SD
+//----------------------------------------------------------------------------
+typedef struct _DNSServiceRef_t	*DNSServiceRef;
+typedef uint32_t				 DNSServiceFlags;
+typedef int32_t					 DNSServiceErrorType;
+
+#define DNSSD_API													__stdcall
+#define kDNSServiceErr_NoError										0
+#define kDNSServiceInterfaceIndexAny								0
+
+typedef void (DNSSD_API *DNSServiceRegisterReply)
+(
+	DNSServiceRef						sdRef,
+	DNSServiceFlags						flags,
+	DNSServiceErrorType					errorCode,
+	const char							*name,
+	const char							*regtype,
+	const char							*domain,
+	void								*context
+);
+
+typedef void (DNSSD_API *DNSServiceBrowseReply)
+(
+	DNSServiceRef						sdRef,
+	DNSServiceFlags						flags,
+	uint32_t							interfaceIndex,
+	DNSServiceErrorType					errorCode,
+	const char							*serviceName,
+	const char							*regtype,
+	const char							*replyDomain,
+	void								*context
+);
+
+typedef void (DNSSD_API *DNSServiceResolveReply)
+(
+	DNSServiceRef						sdRef,
+	DNSServiceFlags						flags,
+	uint32_t							interfaceIndex,
+	DNSServiceErrorType					errorCode,
+	const char							*fullname,
+	const char							*hosttarget,
+	uint16_t							port,
+	uint16_t							txtLen,
+	const unsigned char					*txtRecord,
+	void								*context
+);
+
+typdef DNSServiceErrorType (DNSSD_API *DNSServiceRegisterProc)
+(
+	DNSServiceRef						*sdRef,
+	DNSServiceFlags						flags,
+	uint32_t							interfaceIndex,
+	const char							*name,
+	const char							*regtype,
+	const char							*domain,
+	const char							*host,
+	uint16_t							port,
+	uint16_t							txtLen,
+	const void							*txtRecord,
+	DNSServiceRegisterReply				callBack,
+	void								*context
+);
+
+typedef DNSServiceErrorType (DNSSD_API *DNSServiceBrowseProc)
+(
+	DNSServiceRef						*sdRef,
+	DNSServiceFlags						flags,
+	uint32_t							interfaceIndex,
+	const char							*regtype,
+	const char							*domain,
+	DNSServiceBrowseReply				callBack,
+	void								*context
+);
+
+typedef DNSServiceErrorType (DNSSD_API *DNSServiceResolveproc)
+(
+	DNSServiceRef						*sdRef,
+	DNSServiceFlags						flags,
+	uint32_t							interfaceIndex,
+	const char							*name,
+	const char							*regtype,
+	const char							*domain,
+	DNSServiceResolveReply				callBack,
+	void								*context
+);
+
+typedef DNSServiceErrorType (DNSSD_API *DNSServiceProcessResultProc)
+(
+	DNSServiceRef						sdRef
+);
+
+typedef void (DNSSD_API *DNSServiceRefDeallocateProc)
+(
+	DNSServiceRef						sdRef
+);
+
+
+
+
+
 //=============================================================================
 //		Internal constants
 //-----------------------------------------------------------------------------
@@ -60,27 +161,41 @@ static const TCHAR *kHTTP_POST											= L"POST";
 //----------------------------------------------------------------------------
 // URL Response
 typedef struct {
-	NURLResponse				*theResponse;
+	NURLResponse				   *theResponse;
 
-	HINTERNET					hSession;
-	HINTERNET					hConnect;
-	HINTERNET					hRequest;
+	HINTERNET						hSession;
+	HINTERNET						hConnect;
+	HINTERNET						hRequest;
 
-	bool						didCancel;
-	UInt8						theBuffer[kHTTP_BufferSize];
+	bool							didCancel;
+	UInt8							theBuffer[kHTTP_BufferSize];
 } WinURLResponse;
 
 
 // Network services
 typedef struct NServiceAdvertiser {
-	void						   *theService;
+	DNSServiceRef					theService;
 } NServiceAdvertiser;
 
 
 typedef struct NServiceBrowser {
-	void						   *theService;
+	DNSServiceRef					theService;
 	NNetworkBrowserEventFunctor		theFunctor;
 } NServiceBrowser;
+
+
+
+
+
+//============================================================================
+//      Internal globals
+//----------------------------------------------------------------------------
+bool						gDNSServiceInitialised					= false;
+DNSServiceRegisterProc		gDNSServiceRegister						= NULL;
+DNSServiceBrowseProc		gDNSServiceBrowse						= NULL;
+DNSServiceResolveProc		gDNSServiceResolve						= NULL;
+DNSServiceProcessResultProc	gDNSServiceProcessResult				= NULL;
+DNSServiceRefDeallocateProc	gDNSServiceRefDeallocate				= NULL;
 
 
 
@@ -181,6 +296,115 @@ static void CALLBACK WinURLResponseCallback(HINTERNET /*hInternet*/, DWORD_PTR t
 		default:
 			break;
 		}
+}
+
+
+
+
+
+
+//============================================================================
+//		NetworkServiceRegisterReply : Handle a register reply.
+//----------------------------------------------------------------------------
+static void NetworkServiceRegisterReply(DNSServiceRef			/*theService*/,
+										DNSServiceFlags			/*theFlags*/,
+										DNSServiceErrorType		/*dnsErr*/,
+										const char				* /*serviceName*/,
+										const char				* /*regType*/,
+										const char				* /*replyDomain*/,
+										void					* /*userData*/)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NetworkServiceResolveReply : Handle a resolve reply.
+//----------------------------------------------------------------------------
+static void NetworkServiceResolveReply(	DNSServiceRef			/*theService*/,
+										DNSServiceFlags			/*theFlags*/,
+										uint32_t				/*interfaceIndex*/,
+										DNSServiceErrorType		dnsErr,
+										const char				* /*fullName*/,
+										const char				*hostName,
+										uint16_t				thePort,
+										uint16_t				/*textSize*/,
+										const unsigned char		* /*textRecord*/,
+										void					*userData)
+{	NNetworkBrowserEvent	*theEvent = (NNetworkBrowserEvent *) userData;
+
+
+
+	// Check our parameters
+	if (dnsErr != kDNSServiceErr_NoError)
+		return;
+
+
+
+	// Update the event
+	theEvent->hostName = NString(hostName, kNStringLength);
+	theEvent->hostPort = NSwapUInt16_BtoN(thePort);
+}
+
+
+
+
+
+//============================================================================
+//		NetworkServiceBrowseReply : Handle a browse reply.
+//----------------------------------------------------------------------------
+static void NetworkServiceBrowseReply(	DNSServiceRef			/*theService*/,
+										DNSServiceFlags			theFlags,
+										uint32_t				interfaceIndex,
+										DNSServiceErrorType		dnsErr,
+										const char              *serviceName,
+										const char              *regType,
+										const char              *replyDomain,
+										void                    *userData)
+{	NServiceBrowserRef			theBrowser = (NServiceBrowserRef) userData;
+	DNSServiceRef				theResolver;
+	NNetworkBrowserEvent		theEvent;
+
+
+
+	// Check our parameters
+	if (dnsErr != kDNSServiceErr_NoError)
+		return;
+
+
+
+	// Prepare the event
+	theEvent.eventKind = (theFlags & kDNSServiceFlagsAdd) ? kNServiceWasAdded : kNServiceWasRemoved;
+
+	theEvent.serviceType   = NString(regType,     kNStringLength);
+	theEvent.serviceName   = NString(serviceName, kNStringLength);
+	theEvent.serviceDomain = NString(replyDomain, kNStringLength);
+	theEvent.hostName      = "";
+	theEvent.hostPort      = 0;
+
+
+
+	// Resolve the name
+	dnsErr = gDNSServiceResolve(&theResolver,
+								0, interfaceIndex,
+								serviceName, regType, replyDomain,
+								NetworkServiceResolveReply,
+								&theEvent);
+
+	if (dnsErr == kDNSServiceErr_NoError)
+		{
+		dnsErr = gDNSServiceProcessResult(theResolver);
+		gDNSServiceRefDeallocate(         theResolver);
+
+		NN_ASSERT_NOERR(dnsErr);
+		}
+
+
+
+	// Dispatch the event
+	theBrowser->theFunctor(theEvent);
 }
 
 
@@ -369,11 +593,37 @@ void NTargetNetwork::URLResponseCancel(NURLResponseRef theResponse)
 //      NTargetNetwork::ServicesAvailable : Are network services available?
 //----------------------------------------------------------------------------
 bool NTargetNetwork::ServicesAvailable(void)
-{
+{	bool		isAvailable;
+	HMODULE		hModule;
+
+
+
+	// Load the library
+	if (!gDNSServiceInitialised)
+		{
+		hModule = LoadLibrary("dns-sd.dll");
+		if (hModule != NULL)
+			{
+			gDNSServiceRegister      = (DNSServiceRegisterProc)      GetProcAddress(hModule, "DNSServiceRegister");
+			gDNSServiceBrowse        = (DNSServiceBrowseProc)        GetProcAddress(hModule, "DNSServiceBrowse");
+			gDNSServiceResolve       = (DNSServiceResolveProc)       GetProcAddress(hModule, "DNSServiceResolve");
+			gDNSServiceprocessResult = (DNSServiceProcessResultProc) GetProcAddress(hModule, "DNSServiceProcessResult");
+			gDNSServiceRefDeallocate = (DNSServiceRefDeallocateProc) GetProcAddress(hModule, "DNSServiceRefDeallocate");
+			}
+
+		gDNSServiceInitialised = true;
+		}
+
 
 
 	// Check our state
-	return(false);
+	isAvailable = (	gDNSServiceRegister      != NULL &&
+					gDNSServiceBrowse        != NULL &&
+					gDNSServiceResolve       != NULL &&
+					gDNSServiceProcessResult != NULL &&
+					gDNSServiceRefDeallocate != NULL);
+
+	return(isAvailable);
 }
 
 
@@ -384,13 +634,39 @@ bool NTargetNetwork::ServicesAvailable(void)
 //      NTargetNetwork::ServiceAdvertiserCreate : Create a service advertiser.
 //----------------------------------------------------------------------------
 NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName)
-{
+{	NServiceAdvertiserRef	theAdvertiser;
+	DNSServiceErrorType		dnsErr;
 
 
-	// TO DO
-	NN_LOG("NTargetNetwork::ServiceAdvertiserCreate not implemented");
+
+	// Create the advertiser
+	theAdvertiser = new NServiceAdvertiser;
+
+
+
+	// Register the service
+	dnsErr = gDNSServiceRegister(	&theAdvertiser->theService,
+									0, 0,
+									theName.IsEmpty() ? NULL : theName.GetUTF8(),
+									serviceType.GetUTF8(),
+									NULL, NULL,
+									NSwapUInt16_NtoB(thePort),
+									0, NULL,
+									NetworkServiceRegisterReply, theAdvertiser);
+
+	if (dnsErr == kDNSServiceErr_NoError)
+		dnsErr = gDNSServiceProcessResult(theAdvertiser->theService);
+
+
+
+	// Handle failure
+	if (dnsErr != kDNSServiceErr_NoError)
+		{
+		delete theAdvertiser;
+		theAdvertiser = NULL;
+		}
 	
-	return(NULL);
+	return(theAdvertiser);
 }
 
 
@@ -404,8 +680,10 @@ void NTargetNetwork::ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertise
 {
 
 
-	// TO DO
-	NN_LOG("NTargetNetwork::ServiceAdvertiserDestroy not implemented");
+	// Destroy the advertiser
+	gDNSServiceRefDeallocate(theAdvertiser->theService);
+
+	delete theAdvertiser;
 }
 
 
@@ -416,13 +694,44 @@ void NTargetNetwork::ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertise
 //      NTargetNetwork::ServiceBrowserCreate : Create a service browser.
 //----------------------------------------------------------------------------
 NServiceBrowserRef NTargetNetwork::ServiceBrowserCreate(const NString &serviceType, const NNetworkBrowserEventFunctor &theFunctor)
-{
+{	CFSocketContext			socketContext;
+	CFOptionFlags			socketFlags;
+	NServiceBrowserRef		theBrowser;
+	DNSServiceErrorType		dnsErr;
 
 
-	// TO DO
-	NN_LOG("NTargetNetwork::ServiceBrowserCreate not implemented");
+
+	// Create the browser
+	theBrowser             = new NServiceBrowser;
+	theBrowser->theService = NULL;
+	theBrowser->theFunctor = theFunctor;
 	
-	return(NULL);
+	memset(&socketContext, 0x00, sizeof(socketContext));
+	socketContext.info = theBrowser;
+
+
+
+	// Register the browser
+	dnsErr = gDNSServiceBrowse(	&theBrowser->theService,
+								0, kDNSServiceInterfaceIndexAny,
+								serviceType.GetUTF8(), NULL,
+								NetworkServiceBrowseReply, theBrowser);
+
+
+
+	// TODO, register for events
+	NN_LOG("NTargetNetwork::ServiceBrowserCreate requires event source");
+
+
+
+	// Handle failure
+	if (dnsErr != kDNSServiceErr_NoError)
+		{
+		delete theBrowser;
+		theBrowser = NULL;
+		}
+	
+	return(theBrowser);
 }
 
 
@@ -436,9 +745,10 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 {
 
 
-	// TO DO
-	NN_LOG("NTargetNetwork::ServiceBrowserDestroy not implemented");
-}
+	// Destroy the browser
+	gDNSServiceRefDeallocate(theBrowser->theService);
 
+	delete theBrowser;
+}
 
 
