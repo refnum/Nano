@@ -58,6 +58,7 @@ static const TCHAR *kHTTP_POST											= L"POST";
 //============================================================================
 //      Internal types
 //----------------------------------------------------------------------------
+// URL Response
 typedef struct {
 	NURLResponse				*theResponse;
 
@@ -68,6 +69,18 @@ typedef struct {
 	bool						didCancel;
 	UInt8						theBuffer[kHTTP_BufferSize];
 } WinURLResponse;
+
+
+// Network services
+typedef struct NServiceAdvertiser {
+	void						   *theService;
+} NServiceAdvertiser;
+
+
+typedef struct NServiceBrowser {
+	void						   *theService;
+	NNetworkBrowserEventFunctor		theFunctor;
+} NServiceBrowser;
 
 
 
@@ -348,6 +361,84 @@ void NTargetNetwork::URLResponseCancel(NURLResponseRef theResponse)
 		}
 }
 
+
+
+
+
+//============================================================================
+//      NTargetNetwork::ServicesAvailable : Are network services available?
+//----------------------------------------------------------------------------
+bool NTargetNetwork::ServicesAvailable(void)
+{
+
+
+	// Check our state
+	return(false);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::ServiceAdvertiserCreate : Create a service advertiser.
+//----------------------------------------------------------------------------
+NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName)
+{
+
+
+	// TO DO
+	NN_LOG("NTargetNetwork::ServiceAdvertiserCreate not implemented");
+	
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::ServiceAdvertiserDestroy : Destroy a service advertiser.
+//----------------------------------------------------------------------------
+void NTargetNetwork::ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertiser)
+{
+
+
+	// TO DO
+	NN_LOG("NTargetNetwork::ServiceAdvertiserDestroy not implemented");
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::ServiceBrowserCreate : Create a service browser.
+//----------------------------------------------------------------------------
+NServiceBrowserRef NTargetNetwork::ServiceBrowserCreate(const NString &serviceType, const NNetworkBrowserEventFunctor &theFunctor)
+{
+
+
+	// TO DO
+	NN_LOG("NTargetNetwork::ServiceBrowserCreate not implemented");
+	
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::ServiceBrowserDestroy : Destroy a service browser.
+//----------------------------------------------------------------------------
+void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
+{
+
+
+	// TO DO
+	NN_LOG("NTargetNetwork::ServiceBrowserDestroy not implemented");
+}
 
 
 

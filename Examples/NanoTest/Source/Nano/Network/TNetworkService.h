@@ -29,10 +29,6 @@ class TNetworkService {
 public:
 	// Execute the tests
 	static void							Execute(void);
-
-
-private:
-	static void							BrowseEvent(const NServiceInfo &theInfo, NServiceEvent theEvent, NString *theResult);
 };
 
 

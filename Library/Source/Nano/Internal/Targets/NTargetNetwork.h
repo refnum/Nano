@@ -19,6 +19,8 @@
 #include "NURL.h"
 #include "NURLRequest.h"
 #include "NURLResponse.h"
+#include "NNetworkBrowser.h"
+#include "NNetworkService.h"
 
 
 
@@ -38,6 +40,14 @@ public:
 	static void							URLResponseDestroy(NURLResponseRef theResponse);
 	static void							URLResponseStart(  NURLResponseRef theResponse);
 	static void							URLResponseCancel( NURLResponseRef theResponse);
+
+
+	// Services
+	static bool							ServicesAvailable(void);
+	static NServiceAdvertiserRef		ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName);
+	static void							ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertiser);
+	static NServiceBrowserRef			ServiceBrowserCreate(const NString &serviceType, const NNetworkBrowserEventFunctor &theFunctor);
+	static void							ServiceBrowserDestroy(NServiceBrowserRef theBrowser);
 };
 
 

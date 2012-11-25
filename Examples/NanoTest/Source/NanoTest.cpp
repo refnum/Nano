@@ -15,8 +15,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #if NN_TARGET_MAC
-	#include "TNetworkService.h"
-
 	#include "NNSAutoReleasePool.h"
 	#include "TNSAutoReleasePool.h"
 	#include "TNSSingleton.h"
@@ -62,7 +60,9 @@
 #include "TTransform.h"
 #include "TVector.h"
 
+#include "TNetworkBrowser.h"
 #include "TNetworkManager.h"
+#include "TNetworkService.h"
 #include "TURLRequest.h"
 #include "TURLResponse.h"
 
@@ -138,11 +138,6 @@ int main(int argc, const char **argv)
 	StAutoReleasePool		thePool;
 
 
-	// Nanite - Bonjour
-	TNetworkService::Execute();
-
-
-
 	// Nanite - Cocoa
 	TNSAutoReleasePool::Execute();
 	TNSSingleton::Execute();
@@ -209,7 +204,9 @@ int main(int argc, const char **argv)
 
 
 	// Network
+	TNetworkBrowser::Execute();
 	TNetworkManager::Execute();
+	TNetworkService::Execute();
 	TURLRequest::Execute();
 	TURLResponse::Execute();
 

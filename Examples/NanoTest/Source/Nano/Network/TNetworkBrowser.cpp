@@ -1,8 +1,8 @@
 /*	NAME:
-		TNetworkService.cpp
+		TNetworkBrowser.cpp
 
 	DESCRIPTION:
-		NNetworkService tests.
+		NNetworkBrowser tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2010, refNum Software
@@ -14,7 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TNetworkService.h"
+#include "NNetworkService.h"
+
+#include "TNetworkBrowser.h"
 
 
 
@@ -34,39 +36,26 @@ static const NString kTestResult2									= ".local.', port='666'";
 
 
 //============================================================================
-//		TNetworkService::Execute : Execute the tests.
+//		TNetworkBrowser::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-void TNetworkService::Execute(void)
-{	NNetworkService				*theService;
-	NServiceRef					theBrowser;
-	NServiceBrowserFunctor		theFunctor;
-	NString						theResult;
-	NStatus						theErr;
-	NIndex						n;
+void TNetworkBrowser::Execute(void)
+{	NNetworkBrowser		theBrowser;
+	NNetworkService		theService;
+	NString				theResult;
 
 
 
-	// Get the state we need
-	theService = NNetworkService::Get();
-	theFunctor = BindFunction(TNetworkService::BrowseEvent, _1, _2, &theResult);
+	// Prepare the test
+	theService.AddService(kTestService, kTestPort);
 
-
-
-	// Add a service
-	theErr = theService->RegisterService(kTestService, kTestPort);
-	NN_ASSERT_NOERR(theErr);
+	theBrowser.SetServices(vector(kTestService));
+	theBrowser.SetEventHandler(BindFunction(TNetworkBrowser::BrowseEvent, _1, &theResult));
 
 
 
 	// Browse for services
-	theBrowser = theService->AddBrowser(kTestService, theFunctor);
-	NN_ASSERT(theBrowser != NULL);
-
-	for (n = 0; n < 10; n++)
-		{
-		theService->UpdateBrowsers();
-		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, true);
-		}
+	theBrowser.StartBrowsing();
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
 
 	if (0)
 		NN_LOG(theResult);
@@ -77,8 +66,8 @@ void TNetworkService::Execute(void)
 
 
 	// Clean up
-	theService->RemoveBrowser(theBrowser);
-	theService->UnregisterService(kTestService, kTestPort);
+	theBrowser.StopBrowsing();
+	theService.RemoveServices();
 }
 
 
@@ -86,21 +75,21 @@ void TNetworkService::Execute(void)
 
 
 //============================================================================
-//		TNetworkService::BrowseEvent : Handle a browse event.
+//		TNetworkBrowser::BrowseEvent : Handle a browse event.
 //----------------------------------------------------------------------------
-void TNetworkService::BrowseEvent(const NServiceInfo &theInfo, NServiceEvent theEvent, NString *theResult)
+void TNetworkBrowser::BrowseEvent(const NNetworkBrowserEvent &theEvent, NString *theResult)
 {	NString		theLine;
 
 
 
 	// Get the state we need
 	theLine.Format("%s: type='%@', name='%@', domain='%@', host='%@', port='%d'\n",
-						(theEvent == kNServiceAdded) ? "added" : "removed",
-						theInfo.serviceType,
-						theInfo.serviceName,
-						theInfo.serviceDomain,
-						theInfo.hostName,
-						theInfo.hostPort);
+						(theEvent.eventKind == kNServiceWasAdded) ? "added" : "removed",
+						theEvent.serviceType,
+						theEvent.serviceName,
+						theEvent.serviceDomain,
+						theEvent.hostName,
+						theEvent.hostPort);
 
 
 
