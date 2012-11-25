@@ -30,10 +30,10 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Info.plist
-static const NString kNBundleExecutableKey						= "CFBundleExecutable";
-static const NString kNBundleIdentifierKey						= "CFBundleIdentifier";
-static const NString kNBundleVersionKey							= "CFBundleVersion";
-static const NString kNBundleNameKey							= "CFBundleName";
+static const NString kNBundleExecutableKey							= "CFBundleExecutable";
+static const NString kNBundleIdentifierKey							= "CFBundleIdentifier";
+static const NString kNBundleVersionKey								= "CFBundleVersion";
+static const NString kNBundleNameKey								= "CFBundleName";
 
 
 
