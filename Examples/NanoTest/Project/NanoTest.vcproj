@@ -329,7 +329,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TNetworkBrowser.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TNetworkManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TNetworkService.cpp"
 				>
 			</File>
 			<File
@@ -639,7 +647,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TNetworkBrowser.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TNetworkManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TNetworkService.h"
 				>
 			</File>
 			<File
