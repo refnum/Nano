@@ -18,6 +18,7 @@
 
 #include "NThread.h"
 #include "NWindows.h"
+#include "NAtomicList.h"
 #include "NTargetNetwork.h"
 
 
@@ -129,6 +130,11 @@ typedef DNSServiceErrorType (DNSSD_API *DNSServiceResolveproc)
 	void								*context
 );
 
+typedef int (DNSSD_API *DNSServiceRefSockFDProc)
+(
+	DNSServiceRef						sdRef
+);
+
 typedef DNSServiceErrorType (DNSSD_API *DNSServiceProcessResultProc)
 (
 	DNSServiceRef						sdRef
@@ -146,11 +152,16 @@ typedef void (DNSSD_API *DNSServiceRefDeallocateProc)
 //=============================================================================
 //		Internal constants
 //-----------------------------------------------------------------------------
-static const NIndex kHTTP_BufferSize									= 16 * kKilobyte;
-static const TCHAR *kHTTP_AllTypes[]									= { L"*/*", NULL };
-static const TCHAR *kHTTP_GET											= L"GET";
-static const TCHAR *kHTTP_HEAD											= L"HEAD";
-static const TCHAR *kHTTP_POST											= L"POST";
+// URL Response
+static const NIndex kHTTP_BufferSize								= 16 * kKilobyte;
+static const TCHAR *kHTTP_AllTypes[]								= { L"*/*", NULL };
+static const TCHAR *kHTTP_GET										= L"GET";
+static const TCHAR *kHTTP_HEAD										= L"HEAD";
+static const TCHAR *kHTTP_POST										= L"POST";
+
+
+// Network services
+static const NTime kNServiceBrowseUpdateTime						= 1.1;
 
 
 
@@ -183,6 +194,34 @@ typedef struct NServiceBrowser {
 	NNetworkBrowserEventFunctor		theFunctor;
 } NServiceBrowser;
 
+typedef std::vector<DNSServiceRef>									DNSServiceRefList;
+typedef DNSServiceRefList::iterator									DNSServiceRefListIterator;
+typedef DNSServiceRefList::const_iterator							DNSServiceRefListConstIterator;
+
+
+
+
+
+//============================================================================
+//      Globals
+//----------------------------------------------------------------------------
+// Network services
+//
+// Semi-public to allow for embedded Bonjour usage.
+//
+// This may be removed in future, in favour of linking a glue version of
+// Bonjour into Nano (which would load the DLL if present, or invoke an
+// embedded version if not).
+//
+// The standard Bonjour SDK is difficult to use, due to its requirements of
+// MFC and a particular flavour of VC++ runtime library.
+DNSServiceRegisterProc		gDNSServiceRegister						= NULL;
+DNSServiceBrowseProc		gDNSServiceBrowse						= NULL;
+DNSServiceResolveProc		gDNSServiceResolve						= NULL;
+DNSServiceRefSockFDProc		gDNSServiceRefSockFD					= NULL;
+DNSServiceProcessResultProc	gDNSServiceProcessResult				= NULL;
+DNSServiceRefDeallocateProc	gDNSServiceRefDeallocate				= NULL;
+
 
 
 
@@ -190,12 +229,11 @@ typedef struct NServiceBrowser {
 //============================================================================
 //      Internal globals
 //----------------------------------------------------------------------------
-bool						gDNSServiceInitialised					= false;
-DNSServiceRegisterProc		gDNSServiceRegister						= NULL;
-DNSServiceBrowseProc		gDNSServiceBrowse						= NULL;
-DNSServiceResolveProc		gDNSServiceResolve						= NULL;
-DNSServiceProcessResultProc	gDNSServiceProcessResult				= NULL;
-DNSServiceRefDeallocateProc	gDNSServiceRefDeallocate				= NULL;
+// Network services
+static NSpinLock			gDNSServiceLock;
+static DNSServiceRefList	gDNSServiceBrowsers;
+static bool					gDNSServiceInitialised					= false;
+static NTimer			   *gDNSServiceTimer						= NULL;
 
 
 
@@ -298,6 +336,76 @@ static void CALLBACK WinURLResponseCallback(HINTERNET /*hInternet*/, DWORD_PTR t
 		}
 }
 
+
+
+
+
+//============================================================================
+//		NetworkServiceUpdateBrowsers : Update the browsers.
+//----------------------------------------------------------------------------
+//		Note :	The Windows Bonjour API does not provide a run-loop style
+//				mechanism for handling events, so we need to either poll or
+//				use a blocking window/thread.
+//
+//				For now we poll, as this allows us to handle multiple browsers
+//				without having a window/thread per browser.
+//----------------------------------------------------------------------------
+static void NetworkServiceUpdateBrowsers(void)
+{	int									numFDs, sysErr, theFD;
+	struct timeval						theTimeout;
+	DNSServiceRefListConstIterator		theIter;
+	fd_set								readFDs;
+	DNSServiceErrorType					dnsErr;
+
+
+
+	// Get the state we need
+	memset(&theTimeout, 0x00, sizeof(theTimeout));
+
+	FD_ZERO(&readFDs);
+	numFDs = 0;
+
+
+
+	// Prepare the file descriptors
+	for (theIter = gDNSServiceBrowsers.begin(); theIter != gDNSServiceBrowsers.end(); theIter++)
+		{
+		// Get the state we need
+		theFD = gDNSServiceRefSockFD(*theIter);
+		NN_ASSERT(theFD != -1);
+
+
+		// Set the FD
+		FD_SET(theFD, &readFDs);
+		numFDs = std::max(numFDs, theFD+1);
+		}
+
+
+
+	// Check for events
+	sysErr = select(numFDs, &readFDs, NULL, NULL, &theTimeout);
+	
+	if (sysErr <= 0)
+		return;
+
+
+
+	// Process the results
+	for (theIter = gDNSServiceBrowsers.begin(); theIter != gDNSServiceBrowsers.end(); theIter++)
+		{
+		// Get the state we need
+		theFD = gDNSServiceRefSockFD(*theIter);
+		NN_ASSERT(theFD != -1);
+		
+		
+		// Process the result
+		if (FD_ISSET(theFD, &readFDs))
+			{
+			dnsErr = gDNSServiceProcessResult(*theIter);
+			NN_ASSERT_NOERR(dnsErr);
+			}
+		}
+}
 
 
 
@@ -593,7 +701,8 @@ void NTargetNetwork::URLResponseCancel(NURLResponseRef theResponse)
 //      NTargetNetwork::ServicesAvailable : Are network services available?
 //----------------------------------------------------------------------------
 bool NTargetNetwork::ServicesAvailable(void)
-{	bool		isAvailable;
+{	StLock		acquireLock(gDNSServiceLock);
+	bool		isAvailable;
 	HMODULE		hModule;
 
 
@@ -607,11 +716,13 @@ bool NTargetNetwork::ServicesAvailable(void)
 			gDNSServiceRegister      = (DNSServiceRegisterProc)      GetProcAddress(hModule, "DNSServiceRegister");
 			gDNSServiceBrowse        = (DNSServiceBrowseProc)        GetProcAddress(hModule, "DNSServiceBrowse");
 			gDNSServiceResolve       = (DNSServiceResolveProc)       GetProcAddress(hModule, "DNSServiceResolve");
+			gDNSServiceRefSockFD     = (DNSServiceProcessResultProc) GetProcAddress(hModule, "DNSServiceRefSockFD");
 			gDNSServiceprocessResult = (DNSServiceProcessResultProc) GetProcAddress(hModule, "DNSServiceProcessResult");
 			gDNSServiceRefDeallocate = (DNSServiceRefDeallocateProc) GetProcAddress(hModule, "DNSServiceRefDeallocate");
 			}
 
 		gDNSServiceInitialised = true;
+		gDNSServiceTimer       = new NTimer;
 		}
 
 
@@ -620,6 +731,7 @@ bool NTargetNetwork::ServicesAvailable(void)
 	isAvailable = (	gDNSServiceRegister      != NULL &&
 					gDNSServiceBrowse        != NULL &&
 					gDNSServiceResolve       != NULL &&
+					gDNSServiceRefSockFD     != NULL &&
 					gDNSServiceProcessResult != NULL &&
 					gDNSServiceRefDeallocate != NULL);
 
@@ -636,6 +748,11 @@ bool NTargetNetwork::ServicesAvailable(void)
 NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName)
 {	NServiceAdvertiserRef	theAdvertiser;
 	DNSServiceErrorType		dnsErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(gDNSServiceInitialised);
 
 
 
@@ -680,6 +797,11 @@ void NTargetNetwork::ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertise
 {
 
 
+	// Validate our state
+	NN_ASSERT(gDNSServiceInitialised);
+
+
+
 	// Destroy the advertiser
 	gDNSServiceRefDeallocate(theAdvertiser->theService);
 
@@ -694,10 +816,16 @@ void NTargetNetwork::ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertise
 //      NTargetNetwork::ServiceBrowserCreate : Create a service browser.
 //----------------------------------------------------------------------------
 NServiceBrowserRef NTargetNetwork::ServiceBrowserCreate(const NString &serviceType, const NNetworkBrowserEventFunctor &theFunctor)
-{	CFSocketContext			socketContext;
+{	StLock					acquireLock(gDNSServiceLock);
+	CFSocketContext			socketContext;
 	CFOptionFlags			socketFlags;
 	NServiceBrowserRef		theBrowser;
 	DNSServiceErrorType		dnsErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(gDNSServiceInitialised);
 
 
 
@@ -719,8 +847,16 @@ NServiceBrowserRef NTargetNetwork::ServiceBrowserCreate(const NString &serviceTy
 
 
 
-	// TODO, register for events
-	NN_LOG("NTargetNetwork::ServiceBrowserCreate requires event source");
+	// Register for events
+	if (dnsErr == kDNSServiceErr_NoError)
+		{
+		gDNSServiceBrowsers.push_back(theBrowser);
+		if (gDNSServiceBrowsers.size() == 1)
+			{
+			NN_ASSERT(!gDNSServiceTimer->HasTimer());
+			gDNSServiceTimer->AddTimer(BindFunction(NetworkServiceUpdateBrowsers), kNServiceBrowseUpdateTime);
+			}
+		}
 
 
 
@@ -742,7 +878,22 @@ NServiceBrowserRef NTargetNetwork::ServiceBrowserCreate(const NString &serviceTy
 //      NTargetNetwork::ServiceBrowserDestroy : Destroy a service browser.
 //----------------------------------------------------------------------------
 void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
-{
+{	StLock		acquireLock(gDNSServiceLock);
+
+
+
+	// Validate our state
+	NN_ASSERT( gDNSServiceInitialised);
+	NN_ASSERT(!gDNSServiceBrowsers.empty());
+
+
+
+	// Update our state
+	erase(gDNSServiceBrowsers, theBrowser);
+	
+	if (gDNSServiceBrowsers.empty())
+		gDNSServiceTimer->RemoveTimers();
+
 
 
 	// Destroy the browser
