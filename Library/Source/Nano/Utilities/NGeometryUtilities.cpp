@@ -512,8 +512,9 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 		theOutput.clear();
 		return(kNGeometryOutside);
 		}
-	
-	
+
+
+
 	// Both points are inside
 	else if ((code0 | code1) == 0)
 		{
@@ -524,95 +525,82 @@ template<class T> NGeometryComparison NGeometryUtilities::ClipLineToRectangle(	c
 
 
 	// Intersection
+	//
+	// We pick an exterior point, then clip the segment to an edge.
+	if (code0 != 0)
+		{
+		codeOut  = code0;
+		pointOut = p0;
+		}
 	else
 		{
-		// Pick an exterior point
-		if (code0 != 0)
-			{
-			codeOut  = code0;
-			pointOut = p0;
-			}
-		else
-			{
-			codeOut  = code1;
-			pointOut = p1;
-			}
-		
-		
-		
-		// Get the state we need
-		dx = p1.x - p0.x;
-		dy = p1.y - p0.y;
-		
-		minX = theRect.GetMinX();
-		maxX = theRect.GetMaxX();
-		
-		minY = theRect.GetMinY();
-		maxY = theRect.GetMaxY();
-		
-
-
-		// Clip the segment to an edge
-		if (codeOut & kNGeometryClipTop)
-			{
-			// Split line at top of rectangle
-			pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
-			pointOut.y = maxY;
-			}
-			
-		else if (codeOut & kNGeometryClipBottom)
-			{
-			// Split line at bottom of rectangle
-			pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
-			pointOut.y = minY;
-			}
-		
-		else if (codeOut & kNGeometryClipRight)
-			{
-			// Split line at right edge of rectangle
-			pointOut.x = maxX;
-			pointOut.y = p0.y + (dy * ((maxX - p0.x) / dx));
-			}
-			
-		else if (codeOut & kNGeometryClipLeft)
-			{
-			// Split line at left edge of rectangle
-			pointOut.x = minX;
-			pointOut.y = p0.y + (dy * ((minX - p0.x) / dx));
-			}
-		
-		else
-			NN_LOG("Invalid codeOut: %d", codeOut);
-
-
-
-		// Clip the new segment
-		if (codeOut == code0)
-			theResult = ClipLineToRectangle(theRect, vector(pointOut, p1), theOutput);
-		else
-			theResult = ClipLineToRectangle(theRect, vector(p0, pointOut), theOutput);
-
-
-
-		// Update the result
-		//
-		// Since we know we had an intersection with one of the rectangle edges,
-		// a result of inside is actually an intersection.
-		//
-		// A result of outside indicates the line intersected an edge but didn't
-		// encroach on the rectangle itself so that result remains.
-		if (theResult == kNGeometryInside)
-			theResult = kNGeometryIntersects;
-
-		return(theResult);
+		codeOut  = code1;
+		pointOut = p1;
 		}
 
+	dx = p1.x - p0.x;
+	dy = p1.y - p0.y;
+		
+	minX = theRect.GetMinX();
+	maxX = theRect.GetMaxX();
+		
+	minY = theRect.GetMinY();
+	maxY = theRect.GetMaxY();
 
 
-	// Never reached
-	NN_LOG("Invalid clipping state!");
 
-	return(kNGeometryIntersects);
+	// Split line at top of rectangle
+	if (codeOut & kNGeometryClipTop)
+		{
+		pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
+		pointOut.y = maxY;
+		}
+			
+	// Split line at bottom of rectangle
+	else if (codeOut & kNGeometryClipBottom)
+		{
+		pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
+		pointOut.y = minY;
+		}
+		
+	// Split line at right edge of rectangle
+	else if (codeOut & kNGeometryClipRight)
+		{
+		pointOut.x = maxX;
+		pointOut.y = p0.y + (dy * ((maxX - p0.x) / dx));
+		}
+			
+	// Split line at left edge of rectangle
+	else if (codeOut & kNGeometryClipLeft)
+		{
+		pointOut.x = minX;
+		pointOut.y = p0.y + (dy * ((minX - p0.x) / dx));
+		}
+		
+	else
+		NN_LOG("Invalid codeOut: %d", codeOut);
+
+
+
+	// Clip the new segment
+	if (codeOut == code0)
+		theResult = ClipLineToRectangle(theRect, vector(pointOut, p1), theOutput);
+	else
+		theResult = ClipLineToRectangle(theRect, vector(p0, pointOut), theOutput);
+
+
+
+	// Update the result
+	//
+	// Since we know we had an intersection with one of the rectangle edges,
+	// a result of inside is actually an intersection.
+	//
+		// A result of outside indicates the line intersected an edge but didn't
+	// encroach on the rectangle itself so that result remains.
+	if (theResult == kNGeometryInside)
+		theResult = kNGeometryIntersects;
+
+	return(theResult);
 }
 
 
