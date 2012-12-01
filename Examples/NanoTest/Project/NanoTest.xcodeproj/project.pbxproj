@@ -98,6 +98,7 @@
 		ABED2AFD10BBD88C00EA8ECC /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2AF910BBD88C00EA8ECC /* TCache.cpp */; };
 		ABED2AFE10BBD88C00EA8ECC /* TCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */; };
 		ABED2B9310BFE2F000EA8ECC /* TCacheValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */; };
+		ABFD973E1663951500EE07B7 /* TSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD973C1663951500EE07B7 /* TSocket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -309,6 +310,8 @@
 		ABED2AFC10BBD88C00EA8ECC /* TCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCacheKey.h; sourceTree = "<group>"; };
 		ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheValue.cpp; sourceTree = "<group>"; };
 		ABED2B9210BFE2F000EA8ECC /* TCacheValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCacheValue.h; sourceTree = "<group>"; };
+		ABFD973C1663951500EE07B7 /* TSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocket.cpp; sourceTree = "<group>"; };
+		ABFD973D1663951500EE07B7 /* TSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSocket.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +369,8 @@
 				AB481C6F12A539690052C55F /* TNetworkManager.h */,
 				ABA529CE16626BFA000C695B /* TNetworkService.cpp */,
 				ABA529CF16626BFA000C695B /* TNetworkService.h */,
+				ABFD973C1663951500EE07B7 /* TSocket.cpp */,
+				ABFD973D1663951500EE07B7 /* TSocket.h */,
 				AB481C7012A539690052C55F /* TURLRequest.cpp */,
 				AB481C7112A539690052C55F /* TURLRequest.h */,
 				AB481C7212A539690052C55F /* TURLResponse.cpp */,
@@ -812,6 +817,7 @@
 				ABA529D016626BFA000C695B /* TNetworkBrowser.cpp in Sources */,
 				AB481C7412A539690052C55F /* TNetworkManager.cpp in Sources */,
 				ABA529D116626BFA000C695B /* TNetworkService.cpp in Sources */,
+				ABFD973E1663951500EE07B7 /* TSocket.cpp in Sources */,
 				AB481C7512A539690052C55F /* TURLRequest.cpp in Sources */,
 				AB481C7612A539690052C55F /* TURLResponse.cpp in Sources */,
 				AB514DF41034184B00E5A6AD /* TByteSwap.cpp in Sources */,

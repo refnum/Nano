@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+tsize<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
@@ -385,6 +385,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TSocket.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\TSTLUtilities.cpp"
 				>
 			</File>
@@ -700,6 +704,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Graphics\TSize.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TSocket.h"
 				>
 			</File>
 			<File

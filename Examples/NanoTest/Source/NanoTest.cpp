@@ -63,6 +63,7 @@
 #include "TNetworkBrowser.h"
 #include "TNetworkManager.h"
 #include "TNetworkService.h"
+#include "TSocket.h"
 #include "TURLRequest.h"
 #include "TURLResponse.h"
 
@@ -207,6 +208,7 @@ int main(int argc, const char **argv)
 	TNetworkBrowser::Execute();
 	TNetworkManager::Execute();
 	TNetworkService::Execute();
+	TSocket::Execute();
 	TURLRequest::Execute();
 	TURLResponse::Execute();
 

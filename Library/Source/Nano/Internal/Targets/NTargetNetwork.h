@@ -21,6 +21,7 @@
 #include "NURLResponse.h"
 #include "NNetworkBrowser.h"
 #include "NNetworkService.h"
+#include "NSocket.h"
 
 
 
@@ -48,6 +49,17 @@ public:
 	static void							ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertiser);
 	static NServiceBrowserRef			ServiceBrowserCreate(const NString &serviceType, const NNetworkBrowserEventFunctor &theFunctor);
 	static void							ServiceBrowserDestroy(NServiceBrowserRef theBrowser);
+
+
+	// Sockets
+	static NSocketRef					SocketOpen(     NSocket   *theSocket, const NString &theHost, UInt16 thePort);
+	static void							SocketClose(    NSocketRef theSocket);
+	static bool							SocketCanRead(  NSocketRef theSocket);
+	static bool							SocketCanWrite( NSocketRef theSocket);
+	static NIndex						SocketRead(     NSocketRef theSocket, NIndex theSize,       void *thePtr);
+	static NIndex						SocketWrite(    NSocketRef theSocket, NIndex theSize, const void *thePtr);
+	static SInt32						SocketGetOption(NSocketRef theSocket, NSocketOption theOption);
+	static NStatus						SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue);
 };
 
 

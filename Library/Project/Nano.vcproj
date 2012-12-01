@@ -679,6 +679,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\NSocket.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NSocketRequest.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NSTLUtilities.cpp"
 				>
 			</File>
@@ -1806,6 +1814,14 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Graphics\NSize.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NSocket.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NSocketRequest.h"
 				>
 			</File>
 			<File

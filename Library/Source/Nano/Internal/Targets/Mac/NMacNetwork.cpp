@@ -15,6 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <SystemConfiguration/SystemConfiguration.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <dns_sd.h>
 
 #include "NTimer.h"
@@ -22,6 +24,7 @@
 #include "NCocoa.h"
 #include "NCFObject.h"
 #include "NByteSwap.h"
+#include "NTargetThread.h"
 #include "NTargetNetwork.h"
 
 
@@ -31,7 +34,15 @@
 //============================================================================
 //      Internal constants
 //----------------------------------------------------------------------------
-static const NTime kHeartbeatTime									= 0.1f;
+static const NTime kNetworkSleepTime								= 0.1f;
+
+static const int kSocketInvalidFD									= -1;
+
+static const CFOptionFlags kSocketStreamEvents						= kCFStreamEventOpenCompleted		|
+																	  kCFStreamEventEndEncountered		|
+																	  kCFStreamEventErrorOccurred		|
+																	  kCFStreamEventHasBytesAvailable	|
+																	  kCFStreamEventCanAcceptBytes;
 
 
 
@@ -52,6 +63,26 @@ typedef struct NServiceBrowser {
 	CFSocketRef						cfSocket;
 	CFRunLoopSourceRef				cfSource;
 } NServiceBrowser;
+
+
+// Sockets
+typedef struct NSocketInfo {
+	NSocket						   *theSocket;
+	bool							hasOpened;
+	CFReadStreamRef					cfStreamRead;
+	CFWriteStreamRef				cfStreamWrite;
+} NSocketInfo;
+
+
+
+
+
+//============================================================================
+//      Internal globals
+//----------------------------------------------------------------------------
+static NSpinLock    gSocketLock;
+static NIndex       gSocketCount									= 0;
+static CFRunLoopRef gSocketRunLoop									= NULL;
 
 
 
@@ -123,7 +154,7 @@ typedef struct NServiceBrowser {
 	// of a runloop), then spinning that thread or using the synchronous API and not
 	// being able to deliver updates as data arrives.
 	[mConnection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:(NSString *)kNanoRunLoopMode];
-	mHeartbeat->AddTimer(BindFunction(CFRunLoopRunInMode, kNanoRunLoopMode, 0.0, true), kHeartbeatTime, kHeartbeatTime);
+	mHeartbeat->AddTimer(BindFunction(CFRunLoopRunInMode, kNanoRunLoopMode, 0.0, true), kNetworkSleepTime, kNetworkSleepTime);
 
 	return(self);
 }
@@ -369,6 +400,323 @@ static void NetworkServiceSocketEvent(	CFSocketRef				/*cfSocket*/,
 	// Process the event
 	dnsErr = DNSServiceProcessResult(theBrowser->theService);
 	NN_ASSERT_NOERR(dnsErr);
+}
+
+
+
+
+
+//============================================================================
+///		SocketThread : Socket thread.
+//----------------------------------------------------------------------------
+static void SocketThread(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(gSocketRunLoop == NULL);
+
+
+
+	// Run the thread
+	gSocketRunLoop = CFRunLoopGetCurrent();
+
+	while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, kNTimeHour, false) != kCFRunLoopRunStopped)
+		NThread::Sleep(kNetworkSleepTime);
+
+	gSocketRunLoop = NULL;
+}
+
+
+
+
+
+//============================================================================
+///		SocketThreadAdd : Add the socket thread.
+//----------------------------------------------------------------------------
+static NStatus SocketThreadAdd(void)
+{	StLock		acquireLock(gSocketLock);
+	NStatus		theErr;
+
+
+
+	// Increment the instance count
+	gSocketCount++;
+	theErr = kNoErr;
+
+
+
+	// Start the thread
+	if (gSocketCount == 1)
+		{
+		NN_ASSERT(gSocketRunLoop == NULL);
+		theErr = NTargetThread::ThreadCreate(BindFunction(SocketThread));
+
+		while (gSocketRunLoop == NULL && theErr == kNoErr)
+			NTargetThread::ThreadSleep(kNetworkSleepTime);
+		}
+	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+///		SocketThreadRemove : Remove the socket thread.
+//----------------------------------------------------------------------------
+static void SocketThreadRemove(void)
+{	StLock		acquireLock(gSocketLock);
+
+
+
+	// Validate our state
+	NN_ASSERT(gSocketCount   >= 1);
+	NN_ASSERT(gSocketRunLoop != NULL);
+
+
+
+	// Decrement the instance count
+	gSocketCount--;
+
+
+
+	// Stop the thread
+	if (gSocketCount == 0)
+		{
+		CFRunLoopStop(gSocketRunLoop);
+
+		while (gSocketRunLoop != NULL)
+			NTargetThread::ThreadSleep(kNetworkSleepTime);
+		}
+}
+
+
+
+
+
+//============================================================================
+//		SocketGetError : Get an error.
+//----------------------------------------------------------------------------
+static NStatus SocketGetError(const CFStreamError &theError)
+{	NStatus		theErr;
+
+
+
+	// Get the error
+	theErr = kNErrInternal;
+
+	switch (theError.domain) {
+		case kCFStreamErrorDomainPOSIX:
+			switch (theError.error) {
+				case ETIMEDOUT:		theErr = kNErrTimeout;		break;
+				case ECONNREFUSED:	theErr = kNErrNotFound;		break;
+				default:
+					break;
+				}
+			break;
+
+		default:
+			break;
+		}
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+///		SocketStreamEvent : Handle a socket stream event.
+//----------------------------------------------------------------------------
+static void SocketStreamEvent(CFTypeRef cfStream, CFStreamEventType theEvent, void *userData)
+{	NSocketRef		theSocket = (NSocketRef) userData;
+	CFStreamError	theError;
+
+
+
+	// Handle the event
+	switch (theEvent) {
+		case kCFStreamEventOpenCompleted:
+			if (!theSocket->hasOpened)
+				{
+				theSocket->hasOpened =  (CFReadStreamGetStatus( theSocket->cfStreamRead)  == kCFStreamStatusOpen) &&
+										(CFWriteStreamGetStatus(theSocket->cfStreamWrite) == kCFStreamStatusOpen);
+
+				if (theSocket->hasOpened)
+					theSocket->theSocket->SocketEvent(kNSocketDidOpen);
+				}
+			break;
+
+
+		case kCFStreamEventEndEncountered:
+			theSocket->theSocket->SocketEvent(kNSocketDidClose);
+			break;
+
+
+		case kCFStreamEventErrorOccurred:
+			if (cfStream == theSocket->cfStreamRead)
+				theError = CFReadStreamGetError( theSocket->cfStreamRead);
+			else
+				theError = CFWriteStreamGetError(theSocket->cfStreamWrite);
+
+			theSocket->theSocket->SocketEvent(kNSocketGotError, SocketGetError(theError));
+			break;
+
+
+		case kCFStreamEventHasBytesAvailable:
+			theSocket->theSocket->SocketEvent(kNSocketCanRead);
+			break;
+
+
+		case kCFStreamEventCanAcceptBytes:
+			theSocket->theSocket->SocketEvent(kNSocketCanWrite);
+			break;
+
+
+		default:
+			NN_LOG("Unknown stream event: %d", theEvent);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+///		SocketStreamsOpen : Open the socket streams.
+//----------------------------------------------------------------------------
+static bool SocketStreamsOpen(NSocketRef theSocket)
+{	bool					readOK, writeOK;
+	CFStreamClientContext	clientContext;
+
+
+
+	// Validate our state
+	NN_ASSERT(gSocketRunLoop != NULL);
+
+
+
+	// Get the state we need
+	memset(&clientContext, 0x00, sizeof(clientContext));
+	clientContext.info = theSocket;
+
+	readOK  = (theSocket->cfStreamRead  != NULL);
+	writeOK = (theSocket->cfStreamWrite != NULL);
+
+
+
+	// Register for events
+	if (readOK)
+		readOK = CFReadStreamSetClient(  theSocket->cfStreamRead,  kSocketStreamEvents, (CFReadStreamClientCallBack)  SocketStreamEvent, &clientContext);
+
+	if (writeOK)
+		writeOK = CFWriteStreamSetClient(theSocket->cfStreamWrite, kSocketStreamEvents, (CFWriteStreamClientCallBack) SocketStreamEvent, &clientContext);
+
+
+
+	// Schedule the streams
+	if (readOK)
+		CFReadStreamScheduleWithRunLoop(theSocket->cfStreamRead,   gSocketRunLoop, kCFRunLoopDefaultMode);
+
+	if (readOK)
+		CFWriteStreamScheduleWithRunLoop(theSocket->cfStreamWrite, gSocketRunLoop, kCFRunLoopDefaultMode);
+
+
+
+	// Open the streams
+	if (readOK)
+		readOK = CFReadStreamOpen(  theSocket->cfStreamRead);
+
+	if (writeOK)
+		writeOK = CFWriteStreamOpen(theSocket->cfStreamWrite);
+
+	return(readOK && writeOK);
+}
+
+
+
+
+
+//============================================================================
+///		SocketStreamsClose : Close the socket streams.
+//----------------------------------------------------------------------------
+static void SocketStreamsClose(NSocketRef theSocket)
+{	bool	readOK, writeOK;
+
+
+
+	// Validate our state
+	NN_ASSERT(gSocketRunLoop != NULL);
+
+
+
+	// Get the state we need
+	readOK  = (theSocket->cfStreamRead  != NULL);
+	writeOK = (theSocket->cfStreamWrite != NULL);
+
+
+
+	// Unschedule the streams
+	if (readOK)
+		CFReadStreamUnscheduleFromRunLoop( theSocket->cfStreamRead,  gSocketRunLoop, kCFRunLoopDefaultMode);
+
+	if (writeOK)
+		CFWriteStreamUnscheduleFromRunLoop(theSocket->cfStreamWrite, gSocketRunLoop, kCFRunLoopDefaultMode);
+
+
+
+	// Unregister from events
+	if (readOK)
+		CFReadStreamSetClient( theSocket->cfStreamRead,  kCFStreamEventNone, NULL, NULL);
+
+	if (writeOK)
+		CFWriteStreamSetClient(theSocket->cfStreamWrite, kCFStreamEventNone, NULL, NULL);
+
+
+
+	// Close the streams
+	if (readOK)
+		CFReadStreamClose( theSocket->cfStreamRead);
+
+	if (writeOK)
+		CFWriteStreamClose(theSocket->cfStreamWrite);
+
+	CFSafeRelease(theSocket->cfStreamRead);
+	CFSafeRelease(theSocket->cfStreamWrite);
+}
+
+
+
+
+
+//============================================================================
+///		SocketGetNativeFD : Get the native socket for a handle.
+//----------------------------------------------------------------------------
+static int SocketGetNativeFD(NSocketRef theSocket)
+{	CFSocketNativeHandle	socketFD;
+	NCFData					cfData;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(sizeof(CFSocketNativeHandle) == sizeof(socketFD));
+
+
+
+	// Get the socket
+	socketFD = kSocketInvalidFD;
+
+	if (cfData.SetObject((CFDataRef) CFReadStreamCopyProperty(theSocket->cfStreamRead, kCFStreamPropertySocketNativeHandle)))
+		{
+		if (cfData.GetSize() == (NIndex) sizeof(CFSocketNativeHandle))
+			socketFD = *((CFSocketNativeHandle *) cfData.GetData());
+		}
+
+	return(socketFD);
 }
 
 
@@ -670,6 +1018,232 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 	CFSafeRelease(theBrowser->cfSource);
 
 	delete theBrowser;
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketOpen : Open a socket.
+//----------------------------------------------------------------------------
+NSocketRef NTargetNetwork::SocketOpen(NSocket *socketObject, const NString &theHost, UInt16 thePort)
+{	NSocketRef		theSocket;
+	bool			isOK;
+
+
+
+	// Add the thread
+	SocketThreadAdd();
+	
+	if (gSocketRunLoop == NULL)
+		return(NULL);
+
+
+
+	// Create the socket
+	theSocket                = new NSocketInfo;
+	theSocket->theSocket     = socketObject;
+	theSocket->hasOpened     = false;
+	theSocket->cfStreamRead  = NULL;
+	theSocket->cfStreamWrite = NULL;
+
+
+
+	// Create the streams
+	if (theHost.IsEmpty())
+		NN_LOG("Listening sockets not implemented!");
+	else
+		CFStreamCreatePairWithSocketToHost(NULL, ToCF(theHost), thePort, &theSocket->cfStreamRead, &theSocket->cfStreamWrite);
+
+	isOK = (theSocket->cfStreamRead  != NULL &&
+			theSocket->cfStreamWrite != NULL);
+
+
+
+	// Open the streams
+	if (isOK)
+		isOK = SocketStreamsOpen(theSocket);
+
+
+
+	// Handle failure
+	if (!isOK)
+		{
+		SocketClose(theSocket);
+		theSocket = NULL;
+		}
+	
+	return(theSocket);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketClose : Close a socket.
+//----------------------------------------------------------------------------
+void NTargetNetwork::SocketClose(NSocketRef theSocket)
+{
+
+
+	// Close the socket
+	SocketStreamsClose(theSocket);
+
+	delete theSocket;
+
+
+
+	// Remove the thread
+	SocketThreadRemove();
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketCanRead : Can a socket be read from?
+//----------------------------------------------------------------------------
+bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
+{	bool	canRead;
+
+
+
+	// Check the stream
+	canRead = CFReadStreamHasBytesAvailable(theSocket->cfStreamRead);
+	
+	return(canRead);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketCanWrite : Can a socket be written to?
+//----------------------------------------------------------------------------
+bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
+{	bool	canWrite;
+
+
+
+	// Check the stream
+	canWrite = CFWriteStreamCanAcceptBytes(theSocket->cfStreamWrite);
+	
+	return(canWrite);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketRead : Read from a socket.
+//----------------------------------------------------------------------------
+NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *thePtr)
+{	NIndex	numRead;
+
+
+
+	// Read from the stream
+	numRead = CFReadStreamRead(theSocket->cfStreamRead, (UInt8 *) thePtr, theSize);
+	if (numRead < 0)
+		numRead = 0;
+
+	return(numRead);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketWrite : Write to a socket.
+//----------------------------------------------------------------------------
+NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const void *thePtr)
+{	NIndex	numWritten;
+
+
+
+	// Write to the stream
+	numWritten = CFWriteStreamWrite(theSocket->cfStreamWrite, (const UInt8 *) thePtr, theSize);
+	if (numWritten < 0)
+		numWritten = 0;
+
+	return(numWritten);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketGetOption : Get a socket option.
+//----------------------------------------------------------------------------
+SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
+{	int				socketFD, valueInt;
+	socklen_t		valueSize;
+	SInt32			theValue;
+
+
+
+	// Get the state we need
+	socketFD = SocketGetNativeFD(theSocket);
+	theValue = 0;
+
+
+
+	// Get the option
+	switch (theOption) {
+		case kNSocketNoDelay:
+			valueSize = sizeof(valueInt);
+			if (getsockopt(socketFD, IPPROTO_TCP, TCP_NODELAY, &valueInt, &valueSize) == 0)
+				theValue = (valueSize ? true : false);
+			break;
+
+		default:
+			NN_LOG("Unknown option: %d", theOption);
+			break;
+		}
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketSetOption : Set a socket option.
+//----------------------------------------------------------------------------
+NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue)
+{	int			socketFD, valueInt;
+	NStatus		theErr;
+
+
+
+	// Get the state we need
+	socketFD = SocketGetNativeFD(theSocket);
+	theErr   = kNErrNotSupported;
+
+
+
+	// Set the option
+	switch (theOption) {
+		case kNSocketNoDelay:
+			valueInt = (theValue ? 1 : 0);
+			if (setsockopt(socketFD, IPPROTO_TCP, TCP_NODELAY, &valueInt, sizeof(valueInt)) == 0)
+				theErr = kNoErr;
+			break;
+
+		default:
+			NN_LOG("Unknown option: %d", theOption);
+			break;
+		}
+	
+	return(theErr);
 }
 
 

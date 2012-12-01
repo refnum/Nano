@@ -200,6 +200,13 @@ typedef DNSServiceRefList::const_iterator							DNSServiceRefListConstIterator;
 
 
 
+// Sockets
+typedef struct NSocketInfo {
+	NSocket						   *theSocket;
+} NSocketInfo;
+
+
+
 
 
 //============================================================================
@@ -901,5 +908,141 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 
 	delete theBrowser;
 }
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketOpen : Open a socket.
+//----------------------------------------------------------------------------
+NSocketRef NTargetNetwork::SocketOpen(NSocket *socketObject, const NString &theHost, UInt16 thePort)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketOpen not implemented!");
+	
+	return(NULL);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketClose : Close a socket.
+//----------------------------------------------------------------------------
+void NTargetNetwork::SocketClose(NSocketRef theSocket)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketClose not implemented!");
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketCanRead : Can a socket be read from?
+//----------------------------------------------------------------------------
+bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketCanRead not implemented!");
+	
+	return(false);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketCanWrite : Can a socket be written to?
+//----------------------------------------------------------------------------
+bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketCanWrite not implemented!");
+	
+	return(false);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketRead : Read from a socket.
+//----------------------------------------------------------------------------
+NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *thePtr)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketRead not implemented!");
+	
+	return(0);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketWrite : Write to a socket.
+//----------------------------------------------------------------------------
+NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const void *thePtr)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketWrite not implemented!");
+	
+	return(0);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketGetOption : Get a socket option.
+//----------------------------------------------------------------------------
+SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketGetOption not implemented!");
+	
+	return(0);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetNetwork::SocketSetOption : Set a socket option.
+//----------------------------------------------------------------------------
+NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetNetwork::SocketSetOption not implemented!");
+	
+	return(kNErrNotSupported);
+}
+
+
 
 
