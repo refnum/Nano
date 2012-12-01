@@ -73,11 +73,13 @@ void NRefCounted::Release(void)
 {
 
 
-	// Release the object
+	// Validate our state
 	NN_ASSERT(mRefCount >= 1);
-	mRefCount--;
 
-	if (mRefCount == 0)
+
+
+	// Release the object
+	if (mRefCount.Decrement() == 0)
 		delete this;
 }
 
