@@ -30,34 +30,29 @@
 
 
 //============================================================================
-//		NMacTarget::ConvertOSStatus : Convert an OSStatus code.
+//		NMacTarget::ConvertCFStreamError : Convert a CFStreamError.
 //----------------------------------------------------------------------------
-NStatus NMacTarget::ConvertOSStatus(OSStatus osErr)
+NStatus NMacTarget::ConvertCFStreamError(const CFStreamError &streamErr)
 {	NStatus		theErr;
 
 
 
-	// Convert the value
-	switch (osErr) {
-		case noErr:					theErr = kNoErr;					break;
+	// Get the error
+	switch (streamErr.domain) {
+		case kCFStreamErrorDomainPOSIX:
+			theErr = NMacTarget::ConvertSysErr(  streamErr.error);
+			break;
 
-#if NN_TARGET_MAC
-		case paramErr:				theErr = kNErrParam;				break;
-		case kMPTimeoutErr:			theErr = kNErrTimeout;				break;
-		case memFullErr:			theErr = kNErrMemory;				break;
-		case badFormat:				theErr = kNErrMalformed;			break;
-		case permErr:				theErr = kNErrPermission;			break;
-		case eofErr:				theErr = kNErrExhaustedSrc;			break;
-		case fnfErr:				theErr = kNErrNotFound;				break;
-		case dskFulErr:				theErr = kNErrDiskFull;				break;
-#endif
+		case kCFStreamErrorDomainMacOSStatus:
+			theErr = NMacTarget::ConvertOSStatus(streamErr.error);
+			break;
 
 		default:
-			NN_LOG("Unable to convert %ld", osErr);
+			NN_LOG("Unable to convert %d:%d", streamErr.domain, streamErr.error);
 			theErr = kNErrParam;
 			break;
 		}
-	
+
 	return(theErr);
 }
 
@@ -181,6 +176,42 @@ NStatus NMacTarget::ConvertSysErr(int sysErr)
 
 		default:
 			NN_LOG("Unable to convert %ld", sysErr);
+			theErr = kNErrParam;
+			break;
+		}
+	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NMacTarget::ConvertOSStatus : Convert an OSStatus code.
+//----------------------------------------------------------------------------
+NStatus NMacTarget::ConvertOSStatus(OSStatus osErr)
+{	NStatus		theErr;
+
+
+
+	// Convert the value
+	switch (osErr) {
+		case noErr:					theErr = kNoErr;					break;
+
+#if NN_TARGET_MAC
+		case paramErr:				theErr = kNErrParam;				break;
+		case kMPTimeoutErr:			theErr = kNErrTimeout;				break;
+		case memFullErr:			theErr = kNErrMemory;				break;
+		case badFormat:				theErr = kNErrMalformed;			break;
+		case permErr:				theErr = kNErrPermission;			break;
+		case eofErr:				theErr = kNErrExhaustedSrc;			break;
+		case fnfErr:				theErr = kNErrNotFound;				break;
+		case dskFulErr:				theErr = kNErrDiskFull;				break;
+#endif
+
+		default:
+			NN_LOG("Unable to convert %ld", osErr);
 			theErr = kNErrParam;
 			break;
 		}

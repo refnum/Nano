@@ -32,8 +32,9 @@
 class NMacTarget {
 public:
 	// Convert a status code
-	static NStatus						ConvertOSStatus(OSStatus osErr);
-	static NStatus						ConvertSysErr(int       sysErr);
+	static NStatus						ConvertCFStreamError(const CFStreamError &streamErr);
+	static NStatus						ConvertSysErr(  int      sysErr);
+	static NStatus						ConvertOSStatus(OSStatus  osErr);
 
 
 	// Convert file state
