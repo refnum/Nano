@@ -37,6 +37,16 @@ static const char   kNamePrefix										= ':';
 
 
 //============================================================================
+//		Internal statics
+//----------------------------------------------------------------------------
+NThreadLocalRef				NDBHandle::sThreadKey					= NThread::CreateLocal();
+NDBHandleThreadCacheList	NDBHandle::sThreadCaches;
+
+
+
+
+
+//============================================================================
 //		NDBHandle::NDBHandle : Constructor.
 //----------------------------------------------------------------------------
 NDBHandle::NDBHandle(void)
@@ -51,7 +61,6 @@ NDBHandle::NDBHandle(void)
 	// Initialize ourselves
 	mFlags    = kNDBNone;
 	mDatabase = NULL;
-	mCacheKey = kNThreadLocalRefNone;
 }
 
 
@@ -162,9 +171,6 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 		mFile     = theFile;
 		mFlags    = theFlags;
 		mDatabase = sqlDB;
-
-		mCacheKey = NThread::CreateLocal();
-		NN_ASSERT(mCacheKey != kNThreadLocalRefNone);
 		}
 
 	return(SQLiteGetStatus(dbErr));
@@ -178,8 +184,7 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 //		NDBHandle::Close : Close the database.
 //----------------------------------------------------------------------------
 void NDBHandle::Close(void)
-{	NDBCachedQuery		*cachedQuery;
-	sqlite3				*sqlDB;
+{	sqlite3				*sqlDB;
 	NDBStatus			dbErr;
 
 
@@ -190,16 +195,7 @@ void NDBHandle::Close(void)
 
 
 	// Clean up
-	if (mCacheKey != kNThreadLocalRefNone)
-		{
-		while (mCachedQueries.PopFront(cachedQuery))
-			{
-			SQLiteDestroyQuery(cachedQuery->theQuery);
-			delete cachedQuery;
-			}
-
-		NThread::DestroyLocal(mCacheKey);
-		}
+	SQLiteDestroyQueries();
 
 
 
@@ -216,7 +212,6 @@ void NDBHandle::Close(void)
 	mFile.Clear();
 	mFlags    = kNDBNone;
 	mDatabase = NULL;
-	mCacheKey = kNThreadLocalRefNone;
 }
 
 
@@ -589,31 +584,20 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 //		NDBHandle::SQLiteFetchQuery : Fetch the query.
 //----------------------------------------------------------------------------
 NDBQueryRef NDBHandle::SQLiteFetchQuery(const NDBQuery &theQuery)
-{	NDBCachedQuery		*cachedQuery;
-	NString				theSQL;
+{	NDBHandleThreadCacheMap				*threadCache;
+	NDBCachedQuery						cachedQuery;
+	NDBHandleThreadCacheMapIterator		theIter;
+	NString								theSQL;
 
 
 
 	// Get the state we need
 	theSQL      = theQuery.GetValue();
-	cachedQuery = (NDBCachedQuery *) NThread::GetLocalValue(mCacheKey);
+	threadCache = (NDBHandleThreadCacheMap *) NThread::GetLocalValue(sThreadKey);
 
 
 
-	// Create the query
-	if (cachedQuery == NULL)
-		{
-		cachedQuery           = new NDBCachedQuery;
-		cachedQuery->theSQL   = theSQL;
-		cachedQuery->theQuery = SQLiteCreateQuery(theQuery);
-
-		NThread::SetLocalValue(mCacheKey, cachedQuery);
-		mCachedQueries.PushBack(cachedQuery);
-		}
-	
-	
-	
-	// Update the cached query
+	// Create the cache
 	//
 	// We cache the last query performed, allowing us to reuse the SQLite
 	// statement if the SQL is the same.
@@ -626,23 +610,48 @@ NDBQueryRef NDBHandle::SQLiteFetchQuery(const NDBQuery &theQuery)
 	// Since multiple threads may be querying the database we need to use a
 	// per-thread cache or one thread may reset a query being used by another.
 	//
-	// The cached values are stored in a thread-local variable keyed off this
-	// object, and archived in a list that can be flushed by the thread which
-	// finally closes the database.
+	// Each thread maintains a per-thread list of file->cache state, with a
+	// lock around the overall cache but lock-less access from within a thread
+	// due to the use of a thread-local value to hold this thread's cache.
+	if (threadCache == NULL)
+		{
+		threadCache = new NDBHandleThreadCacheMap;
+
+		sThreadCaches.PushBack(threadCache);
+		NThread::SetLocalValue(sThreadKey, threadCache);
+		}
+
+
+
+	// Populate the cache
+	theIter = threadCache->find(this);
+
+	if (theIter == threadCache->end())
+		{
+		cachedQuery.theSQL   = theSQL;
+		cachedQuery.theQuery = SQLiteCreateQuery(theQuery);
+		(*threadCache)[this] = cachedQuery;
+		}
+
+
+	// Update the cache
 	else
 		{
-		if (cachedQuery->theSQL == theSQL)
-			sqlite3_reset((sqlite3_stmt *) cachedQuery->theQuery);
+		cachedQuery = theIter->second;
+		
+		if (cachedQuery.theSQL == theSQL)
+			sqlite3_reset((sqlite3_stmt *) cachedQuery.theQuery);
 		else
 			{
-			SQLiteDestroyQuery(cachedQuery->theQuery);
+			SQLiteDestroyQuery(cachedQuery.theQuery);
 
-			cachedQuery->theSQL   = theSQL;
-			cachedQuery->theQuery = SQLiteCreateQuery(theQuery);
+			cachedQuery.theSQL   = theSQL;
+			cachedQuery.theQuery = SQLiteCreateQuery(theQuery);
+			(*threadCache)[this] = cachedQuery;
 			}
 		}
 
-	return(cachedQuery->theQuery);
+	return(cachedQuery.theQuery);
 }
 
 
@@ -729,6 +738,74 @@ void NDBHandle::SQLiteDestroyQuery(NDBQueryRef theQuery)
 		dbErr = sqlite3_finalize(sqlQuery);
 		NN_ASSERT(dbErr == SQLITE_OK);
 		}
+}
+
+
+
+
+
+//============================================================================
+//		NDBHandle::SQLiteDestroyQueries : Destroy any cached queries.
+//----------------------------------------------------------------------------
+void NDBHandle::SQLiteDestroyQueries(void)
+{	NDBHandleThreadCacheMap				*threadCache;
+	NIndex								n, numItems;
+	NDBHandleThreadCacheMapIterator		theIter;
+
+
+
+	// Prepare to update
+	sThreadCaches.Lock();
+
+
+
+	// Update the table
+	//
+	// The cache table contains a list of per-thread state, where each thread
+	// maintains a per-file cache that it can update without locks.
+	//
+	// When a file is closed, all of the references to that file must be purged
+	// from any thread that has acessed it (and once all references from a thread
+	// have been removed, the thread's entry can be purged).
+	numItems = sThreadCaches.GetSize();
+	n        = 0;
+
+	while (n < numItems)
+		{
+		// Get the state we need
+		threadCache = sThreadCaches.GetValue(n);
+		theIter     = threadCache->find(this);
+
+
+		// Purge this file
+		//
+		// If a thread has accessed this file, the entry must be removed.
+		if (theIter != threadCache->end())
+			{
+			SQLiteDestroyQuery(theIter->second.theQuery);
+			threadCache->erase(theIter);
+			}
+
+
+		// Purge the thread
+		//
+		// If the thread hasn't referenced any other files, it can be removed.
+		if (threadCache->empty())
+			{
+			sThreadCaches.RemoveValue(threadCache);
+			NThread::SetLocalValue(sThreadKey, NULL);
+
+			delete threadCache;
+			numItems--;
+			}
+		else
+			n++;
+		}
+
+
+
+	// Finish the update
+	sThreadCaches.Unlock();
 }
 
 

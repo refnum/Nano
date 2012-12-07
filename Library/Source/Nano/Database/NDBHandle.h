@@ -45,6 +45,10 @@ static const NDBFlags kNDBPoolConnectOnce							= (1 << 1);
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Classes
+class NDBHandle;
+
+
 // Cache
 typedef struct {
 	NString			theSQL;
@@ -53,7 +57,15 @@ typedef struct {
 
 
 // Functors
-typedef nfunctor<void (const NDBResult &theRow)>			NDBResultFunctor;
+typedef nfunctor<void (const NDBResult &theRow)>					NDBResultFunctor;
+
+
+// Lists
+typedef std::map<NDBHandle*, NDBCachedQuery>						NDBHandleThreadCacheMap;
+typedef NDBHandleThreadCacheMap::iterator							NDBHandleThreadCacheMapIterator;
+typedef NDBHandleThreadCacheMap::const_iterator						NDBHandleThreadCacheMapConstIterator;
+
+typedef NAtomicList<NDBHandleThreadCacheMap*>						NDBHandleThreadCacheList;
 
 
 
@@ -137,6 +149,7 @@ private:
 	NDBQueryRef							SQLiteFetchQuery( const NDBQuery   &theQuery);
 	NDBQueryRef							SQLiteCreateQuery(const NDBQuery   &theQuery);
 	void								SQLiteDestroyQuery(     NDBQueryRef theQuery);
+	void								SQLiteDestroyQueries(void);
 
 	void								SQLiteBindParameters(      NDBQueryRef theQuery, const NVariant &theParameters);
 	void								SQLiteBindParameterByIndex(NDBQueryRef theQuery,       NIndex   theIndex, const NVariant &theValue);
@@ -154,8 +167,8 @@ private:
 	NDBFlags							mFlags;
 	NDBHandleRef						mDatabase;
 	
-	NThreadLocalRef						mCacheKey;
-	NAtomicList<NDBCachedQuery*>		mCachedQueries;
+	static NThreadLocalRef				sThreadKey;
+	static NDBHandleThreadCacheList		sThreadCaches;
 };
 
 
