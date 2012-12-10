@@ -22,6 +22,48 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const UInt32 kServerTestCount								= 100;
+static const UInt16 kServerTestPort									= 6025;
+
+
+
+
+
+//============================================================================
+//		Internal class declaration
+//----------------------------------------------------------------------------
+class TSocketServer : public NSocketDelegate {
+public:
+										TSocketServer(void);
+	virtual							   ~TSocketServer(void);
+
+
+	// Start/stop the server
+	void								Start(void);
+	void								Stop( void);
+
+
+protected:
+	// Handle events
+	NSocketConnectionFunctor			SocketReceivedConnection(NSocket *theSocket, NSocket *newSocket);
+	void								SocketReceivedError(     NSocket *theSocket, NStatus theErr);
+
+
+private:
+	void								HandleConnection(NSocket *theSocket);
+
+
+private:
+	NSocket							   *mSocket;
+};
+
+
+
+
+
+//============================================================================
 //		Internal class declaration
 //----------------------------------------------------------------------------
 class TSocketClient : public NSocketDelegate {
@@ -31,7 +73,8 @@ public:
 
 
 	// Execute the tests
-	void								Execute(bool *isDone);
+	void								ExecuteWeb(   bool *isDone);
+	void								ExecuteCustom(bool *isDone);
 
 
 protected:
@@ -49,8 +92,153 @@ private:
 
 
 //============================================================================
+//		TSocketServer::TSocketServer : Constructor.
+//----------------------------------------------------------------------------
+TSocketServer::TSocketServer(void)
+{
+
+
+	// Initialise ourselves
+	mSocket = NULL;
+}
+
+
+
+
+
+//============================================================================
+//		TSocketServer::~TSocketServer : Destructor.
+//----------------------------------------------------------------------------
+TSocketServer::~TSocketServer(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mSocket == NULL);
+}
+
+
+
+
+
+//============================================================================
+//		TSocketServer::Start : Start the server.
+//----------------------------------------------------------------------------
+void TSocketServer::Start(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mSocket == NULL);
+
+
+
+	// Start the server
+	mSocket = new NSocket(this);
+	mSocket->Open(kServerTestPort);
+
+	while (mSocket->GetStatus() != kNSocketOpened)
+		NThread::Sleep();
+}
+
+
+
+
+
+//============================================================================
+//		TSocketServer::Stop : Stop the server.
+//----------------------------------------------------------------------------
+void TSocketServer::Stop(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mSocket != NULL);
+	
+	
+	
+	// Stop the server
+	mSocket->Close();
+
+	while (mSocket->GetStatus() != kNSocketClosed)
+		NThread::Sleep();
+
+
+
+	// Clean up
+	delete mSocket;
+	mSocket = NULL;
+}
+
+
+
+
+
+//============================================================================
+//		TSocketServer::SocketReceivedConnection : The socket has received a connection.
+//----------------------------------------------------------------------------
+NSocketConnectionFunctor TSocketServer::SocketReceivedConnection(NSocket * /*theSocket*/, NSocket * /*newSocket*/)
+{
+
+
+	// Get the functor
+	return(BindSelf(TSocketServer::HandleConnection, _1));
+}
+
+
+
+
+
+//============================================================================
+//		TSocketServer::SocketReceivedError : The socket has received an error.
+//----------------------------------------------------------------------------
+void TSocketServer::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
+{
+
+
+	// Log the event
+	NN_LOG("Socket received error: %d", theErr);
+}
+
+
+
+
+
+//============================================================================
+//		TSocketServer::HandleConnection : Handle a connection.
+//----------------------------------------------------------------------------
+void TSocketServer::HandleConnection(NSocket *theSocket)
+{	UInt32		n, theValue;
+	NStatus		theErr;
+
+
+
+	// Read the incoming data
+	for (n = 0; n < kServerTestCount; n++)
+		{
+		theErr = theSocket->ReadUInt32(theValue);
+		NN_ASSERT_NOERR(theErr);
+		NN_ASSERT(theValue == n);
+		}
+
+
+
+	// Send a response
+	for (n = 0; n < kServerTestCount; n++)
+		{
+		theErr = theSocket->WriteUInt32(n * n);
+		NN_ASSERT_NOERR(theErr);
+		}
+}
+
+
+
+
+
+//============================================================================
 //		TSocketClient::TSocketClient : Constructor.
 //----------------------------------------------------------------------------
+#pragma mark -
 TSocketClient::TSocketClient(void)
 {
 }
@@ -71,9 +259,9 @@ TSocketClient::~TSocketClient(void)
 
 
 //============================================================================
-//		TSocketClient::Execute : Execute the tests.
+//		TSocketClient::ExecuteWeb : Execute a web client test.
 //----------------------------------------------------------------------------
-void TSocketClient::Execute(bool *isDone)
+void TSocketClient::ExecuteWeb(bool *isDone)
 {	NSocket		*theSocket;
 	NData		theData;
 	NString		theText;
@@ -125,6 +313,62 @@ void TSocketClient::Execute(bool *isDone)
 
 
 //============================================================================
+//		TSocketClient::ExecuteCustom : Execute a custom client test.
+//----------------------------------------------------------------------------
+void TSocketClient::ExecuteCustom(bool *isDone)
+{	UInt32		n, theValue;
+	NSocket		*theSocket;
+	NStatus		theErr;
+
+
+
+	// Open the socket
+	theSocket = new NSocket(this);
+	theSocket->Open("127.0.0.1", kServerTestPort);
+	
+	while (theSocket->GetStatus() != kNSocketOpened)
+		NThread::Sleep();
+
+
+
+	// Write some data
+	for (n = 0; n < kServerTestCount; n++)
+		{
+		theErr = theSocket->WriteUInt32(n);
+		NN_ASSERT_NOERR(theErr);
+		}
+
+
+
+	// Read the response
+	for (n = 0; n < kServerTestCount; n++)
+		{
+		theErr = theSocket->ReadUInt32(theValue);
+		NN_ASSERT_NOERR(theErr);
+		NN_ASSERT(theValue == (n * n));
+		}
+
+
+
+	// Clean up
+	theSocket->Close();
+
+	while (theSocket->GetStatus() != kNSocketClosed)
+		NThread::Sleep();
+	
+	delete theSocket;
+
+
+
+	// Finish off
+	*isDone = true;
+}
+
+
+
+
+
+//============================================================================
 //		TSocketClient::SocketReceivedError : The socket has received an error.
 //----------------------------------------------------------------------------
 void TSocketClient::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
@@ -144,27 +388,44 @@ void TSocketClient::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
 //----------------------------------------------------------------------------
 #pragma mark -
 void TSocket::Execute(void)
-{	TSocketClient		*theClient;
+{	TSocketServer		*theServer;
+	TSocketClient		*theClient;
 	bool				isDone;
 
 
 
 	// Get the state we need
+	theServer = new TSocketServer;
 	theClient = new TSocketClient;
-	isDone    = false;
 
 
 
-	// Execute the tests
-	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::Execute, &isDone), 0.0, false);
+	// Execute a web test
+	isDone = false;
+	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::ExecuteWeb, &isDone), 0.0, false);
 
 	while (!isDone)
-		usleep(100);
-	
-	
-	
+		NThread::Sleep();
+
+
+
+	// Execute a custom test
+	theServer->Start();
+
+	isDone = false;
+	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::ExecuteCustom, &isDone), 0.0, false);
+
+	while (!isDone)
+		NThread::Sleep();
+
+	theServer->Stop();
+
+
+
 	// Clean up
+	delete theServer;
 	delete theClient;
 }
+
 
 

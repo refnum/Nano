@@ -41,7 +41,8 @@ typedef enum {
 typedef enum {
 	kNSocketDidOpen,
 	kNSocketDidClose,
-	kNSocketGotError,
+	kNSocketReceivedConnection,
+	kNSocketReceivedError,
 	kNSocketCanRead,
 	kNSocketCanWrite
 } NSocketEvent;
@@ -49,7 +50,7 @@ typedef enum {
 
 // Options
 typedef enum {
-	kNSocketNoDelay						// bool, Disable Nagle's algorithm
+	kNSocketNoDelay													// bool, Disable Nagle's algorithm
 } NSocketOption;
 
 
@@ -60,7 +61,12 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Classes
+class NSocket;
 class NSocketDelegate;
+
+
+// Functors
+typedef nfunctor<void (NSocket *theSocket)>							NSocketConnectionFunctor;
 
 
 // Internal
@@ -76,6 +82,7 @@ typedef struct NSocketInfo *NSocketRef;
 class NSocket : public NUncopyable {
 public:
 										NSocket(NSocketDelegate *theDelegate);
+										NSocket(NSocketRef theSocket, NSocket *parentSocket);
 	virtual							   ~NSocket(void);
 
 
@@ -85,8 +92,12 @@ public:
 
 	// Open the socket
 	//
-	// Opens a socket on a local port for listening, or connects
-	// to the specified port on a remote host.
+	// Opening a socket with a local port creates a listening socket. A listening
+	// socket can not be read from/written to, and creates a new connecting socket
+	// to handle each connection it receives.
+	//
+	// Opening a socket to a remote host and port creates a connecting socket.
+	// A connecting socket can be read from/written to.
 	//
 	// The delegate will be informed when the operation is complete.
 	//
@@ -97,9 +108,8 @@ public:
 
 	// Close the socket
 	//
-	// The current read/write request, if any, will be stopped with a kNErrCancelled.
-	//
-	// Queued read/write requests will be discarded, and future read/writes refused.
+	// Closing the socket will stop the current read/write request with kNErrCancelled.
+	// Queued read/write requests will be discarded, and future read/writes denied.
 	//
 	// The delegate will be informed when the operation is complete.
 	//
@@ -118,18 +128,19 @@ public:
 
 	// Perform a read/write operation
 	//
-	// The delegate is not informed of the operation.
+	// The current thread is blocked until the operation has completed.
 	//
-	// May  not be called from the main thread - the current thread will
-	// be blocked until the operation has completed.
+	// The delegate will not be informed of the operation.
+	//
+	// May be called from any thread, except the main thread.
 	NStatus								ReadUInt8( UInt8  &theValue);
 	NStatus								ReadUInt16(UInt16 &theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								ReadUInt32(UInt32 &theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								ReadUInt64(UInt64 &theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								ReadSInt8( SInt8  &theValue);
-	NStatus								ReadSInt16(SInt16 &theValue,  NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadSInt32(SInt32 &theValue,  NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadSInt64(SInt64 &theValue,  NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadSInt16(SInt16 &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadSInt32(SInt32 &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadSInt64(SInt64 &theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								ReadData(  NIndex  theSize, void  *theData);
 	NStatus								ReadData(  NIndex  theSize, NData &theData);
 
@@ -138,16 +149,16 @@ public:
 	NStatus								WriteUInt32(UInt32 theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								WriteUInt64(UInt64 theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								WriteSInt8( SInt8  theValue);
-	NStatus								WriteSInt16(SInt16 theValue,  NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteSInt32(SInt32 theValue,  NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteSInt64(SInt64 theValue,  NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteSInt16(SInt16 theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteSInt32(SInt32 theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteSInt64(SInt64 theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								WriteData(  NIndex theSize, const void  *theData);
 	NStatus								WriteData(                  const NData &theData);
 
 
 	// Get/set the delegate
 	//
-	// The delegate is invoked on an internal thread.
+	// The delegate is invoked on an internal thread, which must not be blocked.
 	NSocketDelegate					   *GetDelegate(void) const;
 	void								SetDelegate(NSocketDelegate *theDelegate);
 
@@ -161,13 +172,16 @@ public:
 
 public:
 	// Handle events
-	void								SocketEvent(NSocketEvent theEvent, UInt32 theValue=0);
+	void								SocketEvent(NSocketEvent theEvent, UIntPtr theValue=0);
 
 
 private:
-	void								SocketOpened(void);
-	void								SocketClosed(void);
-	void								SocketError(NStatus theErr);
+	void								InitialiseSelf(NSocketDelegate *theDelegate);
+
+	void								SocketDidOpen(void);
+	void								SocketDidClose(void);
+	void								SocketReceivedConnection(NSocket *newSocket);
+	void								SocketReceivedError(     NStatus  theErr);
 
 	void								RemoveRequests( NStatus theErr);
 	void								AddReadRequest( NSocketRequest *theRequest);
@@ -178,10 +192,12 @@ private:
 
 	void								FinishedReading(void);
 	void								FinishedWriting(void);
+	
+	static void							ConnectionThread(const NSocketConnectionFunctor &theFunctor, NSocket *theSocket);
 
 
 private:
-	mutable NSpinLock					mLock;
+	mutable NMutexLock					mLock;
 
 	NSocketStatus						mStatus;
 	NSocketRef							mSocket;
@@ -213,11 +229,39 @@ public:
 
 
 	// The socket has been opened/closed
-	virtual void						SocketOpened(NSocket *theSocket);
-	virtual void						SocketClosed(NSocket *theSocket);
+	//
+	// Once opened, a listening socket is able to receive connections and a
+	// connecting socket can be used to read/write data.
+	virtual void						SocketDidOpen( NSocket *theSocket);
+	virtual void						SocketDidClose(NSocket *theSocket);
 
 
-	// The socket has reported an error
+	// The socket has received a connection
+	//
+	// Invoked with the new socket that has connected to the listening socket.
+	//
+	// Returns a functor to handle the connection, or NULL to refuse the connection.
+	//
+	//
+	// The new socket starts with the same delegate as the listening socket, but
+	// this can be changed before the connection is accepted and passed to the
+	// connection functor.
+	//
+	// The new socket's delegate will receive a SocketDidOpen before the functor
+	// is invoked, and a SocketDidClose once the functor returns.
+	//
+	//
+	// Once the new socket has opened, the connection functor will be invoked on
+	// a new thread to handle the connection.
+	//
+	// Once the functor returns, the new socket will be be closed (if necessary)
+	// and disposed of automatically.
+	virtual NSocketConnectionFunctor	SocketReceivedConnection(NSocket *theSocket, NSocket *newSocket);
+
+
+	// The socket has received an error
+	//
+	// The socket will be closed automatically after the error is handled.
 	virtual void						SocketReceivedError(NSocket *theSocket, NStatus theErr);
 
 
