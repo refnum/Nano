@@ -1,5 +1,5 @@
 /*	NAME:
-		NNetworkBrowser
+		NNetworkBrowser.cpp
 
 	DESCRIPTION:
 		Network service browser.

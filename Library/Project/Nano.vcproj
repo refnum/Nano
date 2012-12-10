@@ -615,7 +615,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\NMessageServer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NNetworkBrowser.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\NNetworkManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NNetworkMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NNetworkService.cpp"
 				>
 			</File>
 			<File
@@ -1753,7 +1769,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\NMessageServer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NNetworkBrowser.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\NNetworkManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NNetworkMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NNetworkService.h"
 				>
 			</File>
 			<File

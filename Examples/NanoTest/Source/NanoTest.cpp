@@ -60,6 +60,7 @@
 #include "TTransform.h"
 #include "TVector.h"
 
+#include "TMessageServer.h"
 #include "TNetworkBrowser.h"
 #include "TNetworkManager.h"
 #include "TNetworkService.h"
@@ -205,6 +206,7 @@ int main(int argc, const char **argv)
 
 
 	// Network
+	TMessageServer::Execute();
 	TNetworkBrowser::Execute();
 	TNetworkManager::Execute();
 	TNetworkService::Execute();

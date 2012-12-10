@@ -1,5 +1,5 @@
 /*	NAME:
-		NNetworkService
+		NNetworkService.cpp
 
 	DESCRIPTION:
 		Network service advertiser.

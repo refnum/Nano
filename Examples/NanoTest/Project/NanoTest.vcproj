@@ -329,6 +329,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TMessageServer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TNetworkBrowser.cpp"
 				>
 			</File>
@@ -648,6 +652,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Utilities\TMathUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TMessageServer.h"
 				>
 			</File>
 			<File

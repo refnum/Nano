@@ -278,6 +278,10 @@
 		ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */; };
 		ABBBB56D16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
 		ABBBB56E16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
+		ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
+		ABEB0BFA16760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
+		ABEB0BFB16760BDF00B74B71 /* NNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */; };
+		ABEB0BFC16760BDF00B74B71 /* NNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */; };
 		ABED2AE010BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
 		ABED2AE110BBD80D00EA8ECC /* NCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */; };
 		ABED2AE210BBD80D00EA8ECC /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
@@ -629,6 +633,10 @@
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
+		ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageServer.cpp; sourceTree = "<group>"; };
+		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
+		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
+		ABEB0BF816760BDF00B74B71 /* NNetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkMessage.h; sourceTree = "<group>"; };
 		ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCache.cpp; sourceTree = "<group>"; };
 		ABED2ADD10BBD80D00EA8ECC /* NCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCache.h; sourceTree = "<group>"; };
 		ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCacheKey.cpp; sourceTree = "<group>"; };
@@ -779,10 +787,14 @@
 		AB481C2512A531220052C55F /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */,
+				ABEB0BF616760BDF00B74B71 /* NMessageServer.h */,
 				ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */,
 				ABA529D416626C4E000C695B /* NNetworkBrowser.h */,
 				AB481C2612A531220052C55F /* NNetworkManager.cpp */,
 				AB481C2712A531220052C55F /* NNetworkManager.h */,
+				ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */,
+				ABEB0BF816760BDF00B74B71 /* NNetworkMessage.h */,
 				ABA529D516626C4E000C695B /* NNetworkService.cpp */,
 				ABA529D616626C4E000C695B /* NNetworkService.h */,
 				ABFD973F1663958F00EE07B7 /* NSocket.cpp */,
@@ -1507,8 +1519,10 @@
 				ABB95B8A0FB7250600C5A7FF /* NIOSTarget.cpp in Sources */,
 				ABB95B8B0FB7250700C5A7FF /* NIOSThread.cpp in Sources */,
 				ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */,
+				ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */,
 				ABA529D716626C4E000C695B /* NNetworkBrowser.cpp in Sources */,
 				AB481C2F12A531220052C55F /* NNetworkManager.cpp in Sources */,
+				ABEB0BFB16760BDF00B74B71 /* NNetworkMessage.cpp in Sources */,
 				ABA529D916626C4E000C695B /* NNetworkService.cpp in Sources */,
 				ABFD97411663958F00EE07B7 /* NSocket.cpp in Sources */,
 				ABBBB56D16664A80003DEB1D /* NSocketRequest.cpp in Sources */,
@@ -1668,8 +1682,10 @@
 				AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */,
 				AB91559A0F9B4DD6009FFEAF /* NMacThread.cpp in Sources */,
 				AB91559B0F9B4DD6009FFEAF /* NMacTime.cpp in Sources */,
+				ABEB0BFA16760BDF00B74B71 /* NMessageServer.cpp in Sources */,
 				ABA529D816626C4E000C695B /* NNetworkBrowser.cpp in Sources */,
 				AB481C3512A531220052C55F /* NNetworkManager.cpp in Sources */,
+				ABEB0BFC16760BDF00B74B71 /* NNetworkMessage.cpp in Sources */,
 				ABA529DA16626C4E000C695B /* NNetworkService.cpp in Sources */,
 				ABFD97421663958F00EE07B7 /* NSocket.cpp in Sources */,
 				ABBBB56E16664A80003DEB1D /* NSocketRequest.cpp in Sources */,
