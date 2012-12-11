@@ -363,7 +363,7 @@ static void NetworkServiceBrowseReply(	DNSServiceRef			/*theService*/,
 
 
 	// Prepare the event
-	theEvent.eventKind = (theFlags & kDNSServiceFlagsAdd) ? kNServiceWasAdded : kNServiceWasRemoved;
+	theEvent.eventType = (theFlags & kDNSServiceFlagsAdd) ? kNServiceWasAdded : kNServiceWasRemoved;
 
 	theEvent.serviceType   = NString(regType,     kNStringLength);
 	theEvent.serviceName   = NString(serviceName, kNStringLength);

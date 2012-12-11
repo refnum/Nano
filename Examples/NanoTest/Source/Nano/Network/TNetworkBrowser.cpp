@@ -84,7 +84,7 @@ void TNetworkBrowser::BrowseEvent(const NNetworkBrowserEvent &theEvent, NString 
 
 	// Get the state we need
 	theLine.Format("%s: type='%@', name='%@', domain='%@', host='%@', port='%d'\n",
-						(theEvent.eventKind == kNServiceWasAdded) ? "added" : "removed",
+						(theEvent.eventType == kNServiceWasAdded) ? "added" : "removed",
 						theEvent.serviceType,
 						theEvent.serviceName,
 						theEvent.serviceDomain,

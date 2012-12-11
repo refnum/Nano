@@ -28,7 +28,7 @@
 typedef enum {
 	kNServiceWasAdded,
 	kNServiceWasRemoved
-} NBrowserEventKind;
+} NBrowserEventType;
 
 
 
@@ -39,7 +39,7 @@ typedef enum {
 //----------------------------------------------------------------------------
 // Events
 typedef struct {
-	NBrowserEventKind	eventKind;
+	NBrowserEventType	eventType;
 	NString				serviceType;
 	NString				serviceName;
 	NString				serviceDomain;
