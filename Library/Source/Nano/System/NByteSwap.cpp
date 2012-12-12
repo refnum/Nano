@@ -86,6 +86,9 @@ void NByteSwap::SwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)
 
 	// Swap the block
 	switch (valueSize) {
+		case 1:
+			break;
+
 		case 2:
 			for (n = 0; n < numValues; n++)
 				NByteSwap::SwapInt16(((UInt16 *) valuePtr) + n);
