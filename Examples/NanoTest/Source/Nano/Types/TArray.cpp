@@ -130,6 +130,11 @@ void TArray::ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theC
 {
 
 
+	// Compiler warning
+	NN_UNUSED(theIndex);
+
+
+
 	// Update the count
 	NN_ASSERT(theIndex == *theCount);
 	*theCount = *theCount + 1;

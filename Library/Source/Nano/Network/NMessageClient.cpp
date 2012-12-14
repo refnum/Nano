@@ -206,6 +206,8 @@ void NMessageClient::SocketDidClose(NSocket *theSocket)
 	// Validate our parameters
 	NN_ASSERT(theSocket == &mSocket);
 
+	NN_UNUSED(theSocket);
+
 
 
 	// Close the session
@@ -241,7 +243,8 @@ void NMessageClient::SocketReceivedError(NSocket *theSocket, NStatus theErr)
 
 	// Validate our parameters
 	NN_ASSERT(theSocket == &mSocket);
-	
+
+	NN_UNUSED(theSocket);
 	
 	
 

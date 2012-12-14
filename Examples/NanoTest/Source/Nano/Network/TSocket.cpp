@@ -197,6 +197,11 @@ void TSocketServer::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
 {
 
 
+	// Compiler warnings
+	NN_UNUSED(theErr);
+
+
+
 	// Log the event
 	NN_LOG("Socket received error: %d", theErr);
 }
@@ -374,6 +379,11 @@ void TSocketClient::ExecuteCustom(bool *isDone)
 //----------------------------------------------------------------------------
 void TSocketClient::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
 {
+
+
+	// Compiler warnings
+	NN_UNUSED(theErr);
+
 
 
 	// Log the event

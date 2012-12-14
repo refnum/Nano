@@ -296,8 +296,10 @@ NSocketConnectionFunctor NMessageServer::SocketReceivedConnection(NSocket *theSo
 	// Validate our parameters and state
 	NN_ASSERT(theSocket == &mSocket);
 	
-	
-	
+	NN_UNUSED(theSocket);
+
+
+
 	// Get the functor
 	if (mStatus == kNServerStarted)
 		theFunctor = BindSelf(NMessageServer::ServerThread, newSocket);
