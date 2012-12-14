@@ -571,7 +571,7 @@ static void SocketStreamEvent(CFTypeRef cfStream, CFStreamEventType theEvent, vo
 					if (isOK)
 						theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
 					else
-						theSocket->nanoSocket->SocketEvent(kNSocketReceivedError, kNErrInternal);
+						theSocket->nanoSocket->SocketEvent(kNSocketReceivedError, (UIntPtr) kNErrInternal);
 					}
 				}
 			break;
@@ -873,8 +873,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 ///		SocketCreateConnecting : Create a connecting socket.
 //----------------------------------------------------------------------------
 static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, UInt16 thePort)
-{	NCFData		cfData;
-	bool		isOK;
+{	bool	isOK;
 
 
 
