@@ -90,7 +90,7 @@ public:
 
 	// Load/save a property list
 	NDictionary							Load(const NFile &theFile);
-	NStatus								Save(const NFile &theFile, const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListBinary);
+	NStatus								Save(const NFile &theFile, const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListXML);
 
 
 private:
