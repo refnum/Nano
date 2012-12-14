@@ -26,6 +26,7 @@
 #include "NFileUtilities.h"
 #include "NMathUtilities.h"
 #include "NDataEncoder.h"
+#include "NJSONEncoder.h"
 #include "NXMLEncoder.h"
 #include "NEncoder.h"
 #include "NByteSwap.h"
@@ -192,6 +193,10 @@ NData NPropertyList::Encode(const NDictionary &theState, NPropertyListFormat the
 		case kNPropertyListMacBinary1:
 			theData = EncodeMacBinary1(theState);
 			break;
+
+		case kNPropertyListJSON:
+			theData = EncodeJSON(theState).GetData();
+			break;
 		
 		default:
 			NN_LOG("Unknown property list format: %d", theFormat);
@@ -227,6 +232,10 @@ NDictionary NPropertyList::Decode(const NData &theData)
 
 		case kNPropertyListMacBinary1:
 			theState = DecodeMacBinary1(theData);
+			break;
+
+		case kNPropertyListJSON:
+			theState = DecodeJSON(theData);
 			break;
 		
 		default:
@@ -273,6 +282,48 @@ NDictionary NPropertyList::DecodeXML(const NString &theXML)
 	// Decode from XML
 	theState = Decode(theXML.GetData());
 	
+	return(theState);
+}
+
+
+
+
+
+//============================================================================
+//		NPropertyList::EncodeJSON : Encode to JSON.
+//----------------------------------------------------------------------------
+NString NPropertyList::EncodeJSON(const NDictionary &theState)
+{	NJSONEncoder		theEncoder;
+	NString				theJSON;
+
+
+
+	// Encode to JSON
+	theJSON = theEncoder.Encode(theState);
+
+	return(theJSON);
+}
+
+
+
+
+
+//============================================================================
+//		NPropertyList::DecodeJSON : Decode from JSON.
+//----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeJSON(const NString &theJSON)
+{	NJSONEncoder		theEncoder;
+	NDictionary			theState;
+	NVariant			theValue;
+
+
+
+	// Decode from JSON
+	theValue = theEncoder.Decode(theJSON);
+	
+	if (!theValue.GetValue(theState))
+		NN_LOG("Unable to convert JSON to dictionary: [%@]", theJSON);
+
 	return(theState);
 }
 
@@ -405,6 +456,7 @@ NDictionary NPropertyList::DecodeMacXML1(const NData &theData)
 
 	return(theState);
 }
+
 
 
 

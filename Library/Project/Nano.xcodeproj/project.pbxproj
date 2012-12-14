@@ -282,6 +282,10 @@
 		ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
 		ABD6816B1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
+		ABD68177167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers"; }; };
+		ABD68178167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers"; }; };
+		ABD6817B167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
+		ABD6817C167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
 		ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
 		ABEB0BFA16760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
 		ABEB0BFB16760BDF00B74B71 /* NNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */; };
@@ -641,6 +645,10 @@
 		ABD681651679DEC400CB2E04 /* NMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageClient.h; sourceTree = "<group>"; };
 		ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageEntity.cpp; sourceTree = "<group>"; };
 		ABD681671679DEC400CB2E04 /* NMessageEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageEntity.h; sourceTree = "<group>"; };
+		ABD68174167AAB9900CB2E04 /* json.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
+		ABD68175167AAB9900CB2E04 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NJSONEncoder.cpp; sourceTree = "<group>"; };
+		ABD6817A167AB1FE00CB2E04 /* NJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJSONEncoder.h; sourceTree = "<group>"; };
 		ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageServer.cpp; sourceTree = "<group>"; };
 		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
 		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
@@ -960,6 +968,7 @@
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB9A652114EEE04100D0DAA1 /* sqlite_3.7.10 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
+				ABD68173167AAB9800CB2E04 /* udp.github.com */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */,
 			);
@@ -1068,6 +1077,8 @@
 				AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */,
 				AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */,
 				AB8CE2B4104D5F7000306EDC /* NDataEncoder.h */,
+				ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */,
+				ABD6817A167AB1FE00CB2E04 /* NJSONEncoder.h */,
 				AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */,
 				AB2AAD69103962E4007BC4E6 /* NLocale.h */,
 				AB53A404109B237800817E89 /* NTask.cpp */,
@@ -1343,6 +1354,15 @@
 			path = ../../Support/Xcode/Configuration;
 			sourceTree = SOURCE_ROOT;
 		};
+		ABD68173167AAB9800CB2E04 /* udp.github.com */ = {
+			isa = PBXGroup;
+			children = (
+				ABD68174167AAB9900CB2E04 /* json.c */,
+				ABD68175167AAB9900CB2E04 /* json.h */,
+			);
+			path = udp.github.com;
+			sourceTree = "<group>";
+		};
 		ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1509,6 +1529,7 @@
 				AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */,
 				AB9A652614EEE04100D0DAA1 /* sqlite_3.7.10.c in Sources */,
 				AB6B2F4A116CCAB80095D5A5 /* tero_des.cpp in Sources */,
+				ABD68177167AAB9900CB2E04 /* json.c in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
 				ABFAA6A61018AB360060ED12 /* adler32.c in Sources */,
 				ABFAA6A71018AB360060ED12 /* compress.c in Sources */,
@@ -1550,6 +1571,7 @@
 				ABFAA7131018B3810060ED12 /* NDataCompressor.cpp in Sources */,
 				AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
 				AB8CE2B6104D5F7000306EDC /* NDataEncoder.cpp in Sources */,
+				ABD6817B167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */,
 				AB2AAD6B103962E4007BC4E6 /* NLocale.cpp in Sources */,
 				AB53A407109B237800817E89 /* NTask.cpp in Sources */,
 				AB28FC210FB5D9F000F72C61 /* NUnicodeParser.cpp in Sources */,
@@ -1674,6 +1696,7 @@
 				AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */,
 				AB9A652714EEE04100D0DAA1 /* sqlite_3.7.10.c in Sources */,
 				AB6B2F49116CCAB80095D5A5 /* tero_des.cpp in Sources */,
+				ABD68178167AAB9900CB2E04 /* json.c in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
 				ABFAA6981018AB360060ED12 /* adler32.c in Sources */,
 				ABFAA6991018AB360060ED12 /* compress.c in Sources */,
@@ -1715,6 +1738,7 @@
 				ABFAA7121018B3810060ED12 /* NDataCompressor.cpp in Sources */,
 				AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
 				AB8CE2B5104D5F7000306EDC /* NDataEncoder.cpp in Sources */,
+				ABD6817C167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */,
 				AB2AAD6C103962E4007BC4E6 /* NLocale.cpp in Sources */,
 				AB53A406109B237800817E89 /* NTask.cpp in Sources */,
 				AB9155930F9B4DD6009FFEAF /* NUnicodeParser.cpp in Sources */,

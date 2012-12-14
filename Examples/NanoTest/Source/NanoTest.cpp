@@ -78,6 +78,7 @@
 #include "TDataCompressor.h"
 #include "TDataDigest.h"
 #include "TDataEncoder.h"
+#include "TJSONEncoder.h"
 #include "TLocale.h"
 #include "TUnicodeParser.h"
 #include "TUTIRegistry.h"
@@ -229,6 +230,7 @@ int main(int argc, const char **argv)
 	TDataCompressor::Execute();
 	TDataDigest::Execute();
 	TDataEncoder::Execute();
+	TJSONEncoder::Execute();
 	TLocale::Execute();
 	TUnicodeParser::Execute();
 	TUTIRegistry::Execute();

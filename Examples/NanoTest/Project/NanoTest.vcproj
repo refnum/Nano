@@ -313,6 +313,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\TJSONEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Events\TListener.cpp"
 				>
 			</File>
@@ -644,6 +648,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Utilities\TGeometryUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TJSONEncoder.h"
 				>
 			</File>
 			<File

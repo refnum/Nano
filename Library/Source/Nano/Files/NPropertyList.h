@@ -38,6 +38,7 @@ typedef enum {
 	// Generic
 	kNPropertyListXML		= kNPropertyListMacXML1,
 	kNPropertyListBinary	= kNPropertyListMacBinary1,
+	kNPropertyListJSON,
 } NPropertyListFormat;
 
 
@@ -86,6 +87,13 @@ public:
 	// The encoded form uses the kNPropertyListXML format.
 	NString								EncodeXML(const NDictionary &theState);
 	NDictionary							DecodeXML(const NString     &theXML);
+
+
+	// Encode/decode a property list to JSON
+	//
+	// The encoded form uses the kNPropertyListJSON format.
+	NString								EncodeJSON(const NDictionary &theState);
+	NDictionary							DecodeJSON(const NString     &theJSON);
 
 
 	// Load/save a property list
