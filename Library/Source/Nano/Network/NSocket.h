@@ -99,7 +99,7 @@ public:
 	// Opening a socket to a remote host and port creates a connecting socket.
 	// A connecting socket can be read from/written to.
 	//
-	// The delegate will be informed when the operation is complete.
+	// The delegate will be informed when the operation completes, or an error occurrs.
 	//
 	// May be called from any thread.
 	void								Open(                        UInt16 thePort);
@@ -119,7 +119,7 @@ public:
 
 	// Submit a read/write request
 	//
-	// The delegate will be informed when the operation is complete.
+	// The delegate will be informed when the operation completes, or an error occurrs.
 	//
 	// May be called from any thread.
 	void								Read( NIndex theSize);
