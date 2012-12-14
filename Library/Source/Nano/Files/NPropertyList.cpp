@@ -735,7 +735,7 @@ NXMLNode *NPropertyList::EncodeMacXML1_Dictionary(const NDictionary &theValue)
 				nodeValue = EncodeMacXML1_Data(theData);
 			else
 				{
-				NN_LOG("Unknown property list value!");
+				NN_LOG("Unknown property list value [%s]!", theItem.GetType().name());
 				nodeValue = new NXMLNode(kNXMLNodeElement, kTokenUnknown);
 				}
 			}
