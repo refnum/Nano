@@ -134,7 +134,7 @@ int main(int argc, const char **argv)
 
 
 	// Initialise ourselves
-	*NCommandLine::Get() = NCommandLine(argc, argv);
+	NCommandLine::Get()->SetArguments(argc, argv);
 
 
 
