@@ -329,6 +329,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TMessageClient.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TMessageServer.cpp"
 				>
 			</File>
@@ -338,6 +342,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Network\TNetworkManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TNetworkMessage.cpp"
 				>
 			</File>
 			<File
@@ -655,6 +663,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\TMessageClient.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TMessageServer.h"
 				>
 			</File>
@@ -664,6 +676,10 @@ tsize<?xml version="1.0" encoding="Windows-1252"?>
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Network\TNetworkManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\TNetworkMessage.h"
 				>
 			</File>
 			<File

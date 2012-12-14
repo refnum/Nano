@@ -60,9 +60,11 @@
 #include "TTransform.h"
 #include "TVector.h"
 
+#include "TMessageClient.h"
 #include "TMessageServer.h"
 #include "TNetworkBrowser.h"
 #include "TNetworkManager.h"
+#include "TNetworkMessage.h"
 #include "TNetworkService.h"
 #include "TSocket.h"
 #include "TURLRequest.h"
@@ -206,9 +208,11 @@ int main(int argc, const char **argv)
 
 
 	// Network
+	TMessageClient::Execute();
 	TMessageServer::Execute();
 	TNetworkBrowser::Execute();
 	TNetworkManager::Execute();
+	TNetworkMessage::Execute();
 	TNetworkService::Execute();
 	TSocket::Execute();
 	TURLRequest::Execute();
