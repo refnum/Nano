@@ -146,7 +146,7 @@ void NSocket::Open(const NString &theHost, UInt16 thePort)
 //		NSocket::Close : Close the socket.
 //----------------------------------------------------------------------------
 void NSocket::Close(void)
-{	StLock		acquireLock(mLock);
+{	NSocketRef		theSocket;
 
 
 
@@ -155,14 +155,24 @@ void NSocket::Close(void)
 
 
 
-	// Cancel the requests
+	// Update our state
+	//
+	// To avoid a deadlock if the socket calls us back while it is being closed,
+	// we reset our state inside the lock then dispose of the socket outside.
+	mLock.Lock();
+
 	RemoveRequests(kNErrCancelled);
+
+	theSocket = mSocket;
+	mStatus   = kNSocketClosing;
+	mSocket   = NULL;
+
+	mLock.Unlock();
 
 
 
 	// Close the socket
-	mStatus = kNSocketClosing;
-	NTargetNetwork::SocketClose(mSocket);
+	NTargetNetwork::SocketClose(theSocket);
 }
 
 
@@ -850,7 +860,7 @@ void NSocket::SocketDidClose(void)
 
 
 	// Validate our state
-	NN_ASSERT(mStatus == kNSocketClosing);
+	NN_ASSERT(mStatus == kNSocketOpened || mStatus == kNSocketClosing);
 
 
 
