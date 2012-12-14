@@ -56,6 +56,7 @@ public:
 
 	// Get/set the arguments
 	NStringList							GetArguments(void) const;
+	void								SetArguments(int argc, const char **argv);
 	void								SetArguments(const NStringList &theArguments);
 
 

@@ -27,13 +27,11 @@
 //		NCommandLine::NCommandLine : Constructor.
 //----------------------------------------------------------------------------
 NCommandLine::NCommandLine(int argc, const char **argv)
-{	NIndex		n;
-
+{
 
 
 	// Initialize ourselves
-	for (n = 0; n < argc; n++)
-		mArguments.push_back(argv[n]);
+	SetArguments(argc, argv);
 }
 
 
@@ -48,7 +46,7 @@ NCommandLine::NCommandLine(const NStringList &theArguments)
 
 
 	// Initialize ourselves
-	mArguments = theArguments;
+	SetArguments(theArguments);
 }
 
 
@@ -229,6 +227,25 @@ NStringList NCommandLine::GetArguments(void) const
 
 	// Get the arguments
 	return(mArguments);
+}
+
+
+
+
+
+//============================================================================
+//		NCommandLine::SetArguments : Set the arguments.
+//----------------------------------------------------------------------------
+void NCommandLine::SetArguments(int argc, const char **argv)
+{	NIndex		n;
+
+
+
+	// Set the arguments
+	mArguments.clear();
+
+	for (n = 0; n < argc; n++)
+		mArguments.push_back(argv[n]);
 }
 
 
