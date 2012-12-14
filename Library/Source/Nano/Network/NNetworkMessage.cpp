@@ -123,7 +123,7 @@ NData NNetworkMessage::GetPayload(void) const
 
 	// Prepare the header
 	theHeader.theType       = mType;
-	theHeader.theAttributes = theAttributes;
+	theHeader.theAttributes = (UInt16) theAttributes;
 	theHeader.bodySize      = theBody.GetSize();
 
 

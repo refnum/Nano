@@ -389,8 +389,10 @@ static void NetworkServiceUpdateBrowsers(void)
 
 
 		// Set the FD
-		FD_SET(theFD, &readFDs);
-		numFDs = std::max(numFDs, theFD+1);
+		#pragma warning(disable: 4389)
+			FD_SET(theFD, &readFDs);
+			numFDs = std::max(numFDs, theFD+1);
+		#pragma warning(default: 4389)
 		}
 
 
@@ -497,7 +499,7 @@ static void DNSSD_API NetworkServiceBrowseReply(	DNSServiceRef			/*theService*/,
 
 
 	// Prepare the event
-	theEvent.eventKind = (theFlags & kDNSServiceFlagsAdd) ? kNServiceWasAdded : kNServiceWasRemoved;
+	theEvent.eventType = (theFlags & kDNSServiceFlagsAdd) ? kNServiceWasAdded : kNServiceWasRemoved;
 
 	theEvent.serviceType   = NString(regType,     kNStringLength);
 	theEvent.serviceName   = NString(serviceName, kNStringLength);
