@@ -807,7 +807,7 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, CFSocketNativeHandle nativeS
 static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 {	NCFObject				cfSocket, cfSource;
 	CFSocketSignature		theSignature;
-	NCFData					addressData;
+	NCFObject				addressData;
 	CFSocketContext			theContext;
 	struct sockaddr_in		theAddress;
 	int						theValue;
@@ -818,23 +818,30 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	// Get the state we need
 	memset(&theContext, 0x00, sizeof(theContext));
 	theContext.info = theSocket;
-		
+
+
+
+	// Create the address
 	theAddress.sin_len         = sizeof(theAddress);
 	theAddress.sin_family      = AF_INET;
 	theAddress.sin_addr.s_addr = INADDR_ANY;
 	theAddress.sin_port        = htons(thePort);
 
-	addressData.SetData(sizeof(theAddress), &theAddress);
+	isOK = addressData.SetObject(CFDataCreate(kCFAllocatorNano,  (const UInt8 *) &theAddress, sizeof(theAddress)));
 
-	theSignature.protocolFamily = AF_INET;
-	theSignature.socketType     = SOCK_STREAM;
-	theSignature.protocol       = IPPROTO_TCP;
-	theSignature.address        = addressData.GetObject();
+	if (isOK)
+		{
+		theSignature.protocolFamily = AF_INET;
+		theSignature.socketType     = SOCK_STREAM;
+		theSignature.protocol       = IPPROTO_TCP;
+		theSignature.address        = addressData;
+		}
 
 
 
 	// Create the socket
-	isOK = cfSocket.SetObject(CFSocketCreateWithSocketSignature(kCFAllocatorNano, &theSignature, kCFSocketAcceptCallBack, SocketEvent, &theContext));
+	if (isOK)
+		isOK = cfSocket.SetObject(CFSocketCreateWithSocketSignature(kCFAllocatorNano, &theSignature, kCFSocketAcceptCallBack, SocketEvent, &theContext));
 
 	if (isOK)
 		{
