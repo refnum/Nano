@@ -77,7 +77,7 @@ public:
 
 
 	// Encode/decode a property list
-	NData								Encode(const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListBinary);
+	NData								Encode(const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListXML);
 	NDictionary							Decode(const NData       &theData);
 
 
