@@ -84,6 +84,8 @@ public:
 
 
 	// Get/set the event handler
+	//
+	// The event handler is invoked on the main thread.
 	NNetworkBrowserEventFunctor			GetEventHandler(void);
 	void								SetEventHandler(const NNetworkBrowserEventFunctor &theFunctor);
 
