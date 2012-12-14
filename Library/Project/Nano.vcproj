@@ -615,6 +615,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Network\NMessageClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NMessageEntity.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\NMessageServer.cpp"
 				>
 			</File>
@@ -1766,6 +1774,14 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Utilities\NMathUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NMessageClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Network\NMessageEntity.cpp"
 				>
 			</File>
 			<File

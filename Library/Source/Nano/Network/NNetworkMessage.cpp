@@ -24,31 +24,10 @@
 //		Internal types
 //----------------------------------------------------------------------------
 NBYTESWAP_BEGIN(NMessageHeader)
-	NBYTESWAP_L_SInt16		(msgType)
-	NBYTESWAP_L_UInt16		(msgFlags)
-	NBYTESWAP_L_UInt32		(bodySize)
+	NBYTESWAP_B_SInt16		(theType)
+	NBYTESWAP_B_UInt16		(theAttributes)
+	NBYTESWAP_B_UInt32		(bodySize)
 NBYTESWAP_END
-
-
-
-
-
-//============================================================================
-//		NNetworkMessage::NNetworkMessage : Constructor.
-//----------------------------------------------------------------------------
-NNetworkMessage::NNetworkMessage(const NMessageHeader &theHeader, const NData &theBody)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(theHeader.bodySize == (UInt32) theBody.GetSize());
-
-
-
-	// Initialise ourselves
-	mHeader = theHeader;
-	mBody   = theBody;
-}
 
 
 
@@ -62,7 +41,7 @@ NNetworkMessage::NNetworkMessage(void)
 
 
 	// Initialise ourselves
-	memset(&mHeader, 0x00, sizeof(mHeader));
+	mType = kNMessageInvalid;
 }
 
 
@@ -88,7 +67,7 @@ NMessageType NNetworkMessage::GetType(void) const
 
 
 	// Get the type
-	return(mHeader.msgType);
+	return(mType);
 }
 
 
@@ -103,7 +82,7 @@ void NNetworkMessage::SetType(NMessageType theType)
 
 
 	// Set the type
-	mHeader.msgType = theType;
+	mType = theType;
 }
 
 
@@ -111,58 +90,51 @@ void NNetworkMessage::SetType(NMessageType theType)
 
 
 //============================================================================
-//		NNetworkMessage::GetFlags : Get the flags.
+//		NNetworkMessage::GetPayload : Get the payload.
 //----------------------------------------------------------------------------
-NMessageFlags NNetworkMessage::GetFlags(void) const
-{
-
-
-	// Get the flags
-	return(mHeader.msgFlags);
-}
-
-
-
-
-
-//============================================================================
-//		NNetworkMessage::SetFlags : Set the flags.
-//----------------------------------------------------------------------------
-void NNetworkMessage::SetFlags(NMessageFlags setThese, NMessageFlags clearThese)
-{
-
-
-	// Set the flags
-	mHeader.msgFlags |=    setThese;
-	mHeader.msgFlags &= ~clearThese;
-}
-
-
-
-
-
-//============================================================================
-//		NNetworkMessage::GetMessage : Get the message.
-//----------------------------------------------------------------------------
-NData NNetworkMessage::GetMessage(void) const
-{	NMessageHeader		theHeader;
-	NData				theMsg;
+NData NNetworkMessage::GetPayload(void) const
+{	NData				theBody, theMsg;
+	NDictionary			theProperties;
+	NBitfield			theAttributes;
+	NPropertyList		propertyList;
+	NMessageHeader		theHeader;
 
 
 
 	// Get the state we need
-	theHeader = mHeader;
+	theAttributes = GetAttributes();
 
-	NBYTESWAP_ENCODE(1, NMessageHeader, &theHeader);
+	NN_ASSERT((theAttributes & kNMessageAttributeMask) == theAttributes);
 
 
 
-	// Build the message
-	theMsg.Reserve(sizeof(theHeader) + mBody.GetSize());
+	// Prepare the body
+	theProperties = GetProperties();
 
-	theMsg.AppendData(sizeof(mHeader), &mHeader);
-	theMsg.AppendData(mBody);
-	
+	if (theProperties.GetSize() == 1 && theProperties.HasKey(kNMessageDataKey))
+		theBody = theProperties.GetValueData(kNMessageDataKey);
+	else
+		{
+		theBody        = propertyList.Encode(theProperties);
+		theAttributes |= kNMessageHasProperties;
+		}
+
+
+
+	// Prepare the header
+	theHeader.theType       = mType;
+	theHeader.theAttributes = theAttributes;
+	theHeader.bodySize      = theBody.GetSize();
+
+
+
+	// Build the payload
+	theMsg.Reserve(   sizeof(theHeader) + theHeader.bodySize);
+	theMsg.AppendData(sizeof(theHeader), &theHeader);
+	theMsg.AppendData(theBody);
+
+	NBYTESWAP_ENCODE(1, NMessageHeader, theMsg.GetData());
+
 	return(theMsg);
 }
 
@@ -171,65 +143,31 @@ NData NNetworkMessage::GetMessage(void) const
 
 
 //============================================================================
-//		NNetworkMessage::GetMessageData : Get the message data.
+//		NNetworkMessage::SetPayload : Set the payload.
 //----------------------------------------------------------------------------
-NData NNetworkMessage::GetMessageData(void) const
-{
-
-
-	// Get the data
-	return(mBody);
-}
+void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &theBody)
+{	NDictionary			theProperties;
+	NPropertyList		propertyList;
 
 
 
-
-
-//============================================================================
-//		NNetworkMessage::GetMessageProperties : Get the message properties.
-//----------------------------------------------------------------------------
-NDictionary NNetworkMessage::GetMessageProperties(void) const
-{	NPropertyList	propertyList;
+	// Validate our parameters
+	NN_ASSERT(theHeader.bodySize == (UInt32) theBody.GetSize());
 
 
 
-	// Get the properties
-	return(propertyList.Decode(mBody));
-}
+	// Get the state we need
+	if (theHeader.theAttributes & kNMessageHasProperties)
+		theProperties = propertyList.Decode(theBody);
+	else
+		theProperties.SetValue(kNMessageDataKey, theBody);
 
 
 
-
-
-//============================================================================
-//		NNetworkMessage::SetMessageData : Set the message data.
-//----------------------------------------------------------------------------
-void NNetworkMessage::SetMessageData(const NData &theData)
-{
-
-
-	// Set the data
-	mBody = theData;
-
-	SetFlags(kNMessageNone, kNMessageHasProperties);
-}
-
-
-
-
-
-//============================================================================
-//		NNetworkMessage::SetMessageProperties : Set the message properties.
-//----------------------------------------------------------------------------
-void NNetworkMessage::SetMessageProperties(const NDictionary &theProperties)
-{	NPropertyList	propertyList;
-
-
-
-	// Set the properties
-	mBody = propertyList.Encode(theProperties);
-
-	SetFlags(kNMessageHasProperties);
+	// Set the message
+	SetType(      theHeader.theType);
+	SetAttributes(theHeader.theAttributes);
+	SetProperties(theProperties);
 }
 
 

@@ -16,6 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NPropertyStore.h"
+#include "NAttributes.h"
 #include "NEncodable.h"
 #include "NByteswap.h"
 #include "NData.h"
@@ -27,16 +29,33 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-// Messages
+// Message types
+//
+// Negative message types are reserved.
 typedef SInt16 NMessageType;
-typedef UInt16 NMessageFlags;
-typedef UInt8  NMessageField;
 
-static const NMessageType  kNMessageInvalid							= 0;
-static const NMessageType  kNMessagePrivateStart					= 1000;
+static const NMessageType kNMessageInvalid							= -1;
+static const NMessageType kNMessageServerInfo						= -2;
+static const NMessageType kNMessageJoinRequest						= -3;
+static const NMessageType kNMessageJoinResponse						= -4;
 
-static const NMessageFlags kNMessageNone							= 0;
-static const NMessageFlags kNMessageHasProperties					= (1 << 0);
+
+// Message attributes
+//
+// To conserve space, messages only support 16 bits of attribute data.
+static const NBitfield kNMessageAttributeMask						= 0xFFFF;
+static const NBitfield kNMessageHasProperties						= (1 << 0);
+
+
+// Message keys
+//
+// Messages that contain a single data property will be transmitted in
+// a more efficient form than those requiring an arbitrary dictionary.
+static const NString kNMessageServerMaxClientsKey					= "MaxClients";
+static const NString kNMessageServerNumClientsKey					= "NumClients";
+static const NString kNMessageClientPasswordKey						= "Password";
+static const NString kNMessageStatusKey								= "Status";
+static const NString kNMessageDataKey								= "Data";
 
 
 
@@ -51,8 +70,8 @@ class NNetworkMessage;
 
 // Message header
 typedef struct {
-	NMessageType			msgType;
-	NMessageFlags			msgFlags;
+	NMessageType			theType;
+	UInt16					theAttributes;
 	UInt32					bodySize;
 } NMessageHeader;
 
@@ -71,10 +90,9 @@ typedef NNetworkMessageList::const_iterator							NNetworkMessageListConstIterat
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NNetworkMessage {
+class NNetworkMessage : public NPropertyStore,
+						public NAttributes {
 public:
-										NNetworkMessage(const NMessageHeader &theHeader, const NData &theBody);
-
 										NNetworkMessage(void);
 	virtual							   ~NNetworkMessage(void);
 
@@ -84,28 +102,13 @@ public:
 	void								SetType(NMessageType theType);
 
 
-	// Get/set the flags
-	NMessageFlags						GetFlags(void) const;
-	void								SetFlags(NMessageFlags setThese, NMessageFlags clearThese=kNMessageNone);
-
-
-	// Get the message
-	NData								GetMessage(void) const;
-
-
-	// Get/set the message body
-	//
-	// Messages can carry either raw data or a set of properties.
-	NData								GetMessageData(      void) const;
-	NDictionary							GetMessageProperties(void) const;
-
-	void								SetMessageData(      const NData       &theData);
-	void								SetMessageProperties(const NDictionary &theProperties);
+	// Get/set the payload
+	NData								GetPayload(void) const;
+	void								SetPayload(const NMessageHeader &theHeader, const NData &theBody);
 
 
 private:
-	NMessageHeader						mHeader;
-	NData								mBody;
+	NMessageType						mType;
 };
 
 

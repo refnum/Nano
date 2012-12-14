@@ -278,6 +278,10 @@
 		ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */; };
 		ABBBB56D16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
 		ABBBB56E16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
+		ABD681681679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
+		ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
+		ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
+		ABD6816B1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
 		ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
 		ABEB0BFA16760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
 		ABEB0BFB16760BDF00B74B71 /* NNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */; };
@@ -633,6 +637,10 @@
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
+		ABD681641679DEC400CB2E04 /* NMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageClient.cpp; sourceTree = "<group>"; };
+		ABD681651679DEC400CB2E04 /* NMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageClient.h; sourceTree = "<group>"; };
+		ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageEntity.cpp; sourceTree = "<group>"; };
+		ABD681671679DEC400CB2E04 /* NMessageEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageEntity.h; sourceTree = "<group>"; };
 		ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageServer.cpp; sourceTree = "<group>"; };
 		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
 		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
@@ -787,6 +795,10 @@
 		AB481C2512A531220052C55F /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				ABD681641679DEC400CB2E04 /* NMessageClient.cpp */,
+				ABD681651679DEC400CB2E04 /* NMessageClient.h */,
+				ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */,
+				ABD681671679DEC400CB2E04 /* NMessageEntity.h */,
 				ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */,
 				ABEB0BF616760BDF00B74B71 /* NMessageServer.h */,
 				ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */,
@@ -1519,6 +1531,8 @@
 				ABB95B8A0FB7250600C5A7FF /* NIOSTarget.cpp in Sources */,
 				ABB95B8B0FB7250700C5A7FF /* NIOSThread.cpp in Sources */,
 				ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */,
+				ABD681681679DEC500CB2E04 /* NMessageClient.cpp in Sources */,
+				ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */,
 				ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */,
 				ABA529D716626C4E000C695B /* NNetworkBrowser.cpp in Sources */,
 				AB481C2F12A531220052C55F /* NNetworkManager.cpp in Sources */,
@@ -1682,6 +1696,8 @@
 				AB9155990F9B4DD6009FFEAF /* NMacTarget.cpp in Sources */,
 				AB91559A0F9B4DD6009FFEAF /* NMacThread.cpp in Sources */,
 				AB91559B0F9B4DD6009FFEAF /* NMacTime.cpp in Sources */,
+				ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */,
+				ABD6816B1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */,
 				ABEB0BFA16760BDF00B74B71 /* NMessageServer.cpp in Sources */,
 				ABA529D816626C4E000C695B /* NNetworkBrowser.cpp in Sources */,
 				AB481C3512A531220052C55F /* NNetworkManager.cpp in Sources */,
