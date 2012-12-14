@@ -24,8 +24,9 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32 kServerTestCount								= 100;
-static const UInt16 kServerTestPort									= 6025;
+// Values
+static const UInt32 kValueNumItems									= 100;
+static const UInt16 kValueServerPort								= 6025;
 
 
 
@@ -135,7 +136,7 @@ void TSocketServer::Start(void)
 
 	// Start the server
 	mSocket = new NSocket(this);
-	mSocket->Open(kServerTestPort);
+	mSocket->Open(kValueServerPort);
 
 	while (mSocket->GetStatus() != kNSocketOpened)
 		NThread::Sleep();
@@ -214,7 +215,7 @@ void TSocketServer::HandleConnection(NSocket *theSocket)
 
 
 	// Read the incoming data
-	for (n = 0; n < kServerTestCount; n++)
+	for (n = 0; n < kValueNumItems; n++)
 		{
 		theErr = theSocket->ReadUInt32(theValue);
 		NN_ASSERT_NOERR(theErr);
@@ -224,7 +225,7 @@ void TSocketServer::HandleConnection(NSocket *theSocket)
 
 
 	// Send a response
-	for (n = 0; n < kServerTestCount; n++)
+	for (n = 0; n < kValueNumItems; n++)
 		{
 		theErr = theSocket->WriteUInt32(n * n);
 		NN_ASSERT_NOERR(theErr);
@@ -324,7 +325,7 @@ void TSocketClient::ExecuteCustom(bool *isDone)
 
 	// Open the socket
 	theSocket = new NSocket(this);
-	theSocket->Open("127.0.0.1", kServerTestPort);
+	theSocket->Open("127.0.0.1", kValueServerPort);
 	
 	while (theSocket->GetStatus() != kNSocketOpened)
 		NThread::Sleep();
@@ -332,7 +333,7 @@ void TSocketClient::ExecuteCustom(bool *isDone)
 
 
 	// Write some data
-	for (n = 0; n < kServerTestCount; n++)
+	for (n = 0; n < kValueNumItems; n++)
 		{
 		theErr = theSocket->WriteUInt32(n);
 		NN_ASSERT_NOERR(theErr);
@@ -341,7 +342,7 @@ void TSocketClient::ExecuteCustom(bool *isDone)
 
 
 	// Read the response
-	for (n = 0; n < kServerTestCount; n++)
+	for (n = 0; n < kValueNumItems; n++)
 		{
 		theErr = theSocket->ReadUInt32(theValue);
 		NN_ASSERT_NOERR(theErr);
