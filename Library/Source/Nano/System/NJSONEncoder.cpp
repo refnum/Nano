@@ -393,7 +393,7 @@ bool NJSONEncoder::DecodeBoolean(const json_value_ptr jsonValue)
 
 
 	// Decode the value
-	return(jsonValue->u.boolean);
+	return(jsonValue->u.boolean != 0);
 }
 
 
