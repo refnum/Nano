@@ -501,15 +501,24 @@ static void SocketThreadRemove(void)
 
 
 	// Stop the thread
-	//
-	// Since the runloop may be between loops due to a timeout,
-	// we need to repeatedly ask it to stop until it goes away).
 	if (gSocketCount == 0)
 		{
-		while (gSocketRunLoop != NULL)
-			{
+		// Stop when we're the thread
+		if (CFRunLoopGetCurrent() == gSocketRunLoop)
 			CFRunLoopStop(gSocketRunLoop);
-			NTargetThread::ThreadSleep(kNetworkSleepTime);
+		
+		
+		// Stop when we're not the thread
+		//
+		// Since the runloop may be between loops due to a timeout,
+		// we need to repeatedly ask it to stop until it goes away.
+		else
+			{
+			while (gSocketRunLoop != NULL)
+				{
+				CFRunLoopStop(gSocketRunLoop);
+				NTargetThread::ThreadSleep(kNetworkSleepTime);
+				}
 			}
 		}
 }
