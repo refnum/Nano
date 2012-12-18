@@ -82,10 +82,6 @@ static const NString kNMessageDataKey								= "Data";
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-// Classes
-class NNetworkMessage;
-
-
 // Message header
 #pragma pack(push, 1)
 
@@ -103,12 +99,6 @@ typedef struct {
 #pragma pack(pop)
 
 NBYTESWAP_DECLARE(NMessageHeader);
-
-
-// Lists
-typedef std::vector<NNetworkMessage>								NNetworkMessageList;
-typedef NNetworkMessageList::iterator								NNetworkMessageListIterator;
-typedef NNetworkMessageList::const_iterator							NNetworkMessageListConstIterator;
 
 
 
