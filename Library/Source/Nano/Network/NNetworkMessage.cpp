@@ -21,6 +21,26 @@
 
 
 //============================================================================
+//		Build constants
+//----------------------------------------------------------------------------
+#define DEBUG_COMPRESSION											0
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NCompression kCompressionType							= kNCompressionZLib;
+static const NIndex       kCompressionSizeLimit						= 32 * kKilobyte;
+static const NIndex       kCompressionHeaderTrim					= sizeof(UInt32) + sizeof(UInt32);
+
+
+
+
+
+//============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
 NBYTESWAP_BEGIN(NMessageHeader)
@@ -173,7 +193,6 @@ NData NNetworkMessage::GetPayload(void) const
 	// Validate our state
 	NN_ASSERT(mHeader.msgSrcID != kNEntityEveryone);
 	NN_ASSERT(mHeader.msgDstID != kNEntityInvalid);
-	NN_ASSERT(!HasAttribute(~kNMessageAttributeMask));
 
 
 
@@ -182,7 +201,7 @@ NData NNetworkMessage::GetPayload(void) const
 
 
 
-	// Prepare the body
+	// Encode the body
 	theProperties = GetProperties();
 
 	if (!theProperties.IsEmpty())
@@ -197,6 +216,12 @@ NData NNetworkMessage::GetPayload(void) const
 			theBody        = propertyList.Encode(theProperties);
 			theAttributes |=  kNMessageHasProperties;
 			}
+		}
+
+	if (!HasAttribute(kNMessageNeverCompress))
+		{
+		if (CompressBody(theBody))
+			theAttributes |= kNMessageIsCompressed;
 		}
 
 
@@ -228,6 +253,7 @@ NData NNetworkMessage::GetPayload(void) const
 void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &theBody)
 {	NDictionary			theProperties;
 	NPropertyList		propertyList;
+	NData				bodyData;
 
 
 
@@ -238,13 +264,18 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 
 
 
-	// Get the state we need
-	if (!theBody.IsEmpty())
+	// Decode the body
+	bodyData = theBody;
+	
+	if (theHeader.msgAttributes & kNMessageIsCompressed)
+		bodyData = DecompressBody(bodyData);
+
+	if (!bodyData.IsEmpty())
 		{
 		if (theHeader.msgAttributes & kNMessageHasProperties)
-			theProperties = propertyList.Decode(theBody);
+			theProperties = propertyList.Decode(     bodyData);
 		else
-			theProperties.SetValue(kNMessageDataKey, theBody);
+			theProperties.SetValue(kNMessageDataKey, bodyData);
 		}
 
 
@@ -252,9 +283,117 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 	// Set the message
 	mHeader = theHeader;
 
-	SetAttributes(theHeader.msgAttributes);
+	SetAttributes(theHeader.msgAttributes, kNAttributesAll);
 	SetProperties(theProperties);
 }
+
+
+
+
+
+//============================================================================
+//		NNetworkMessage::CompressBody : Compress the body.
+//----------------------------------------------------------------------------
+#pragma mark -
+bool NNetworkMessage::CompressBody(NData &theBody) const
+{	NIndex					compressedSize, bodySize;
+	NData					compressedBody;
+	NDataCompressor			theCompressor;
+	bool					didCompress;
+
+
+
+	// Get the state we need
+	bodySize    = theBody.GetSize();
+	didCompress = false;
+
+
+
+	// Compress the body
+	//
+	// To conserve space, the fixed parts of the header are trimmed.
+	if (bodySize > 0 && bodySize <= kCompressionSizeLimit)
+		{
+		// Compress the body
+		//
+		// The header is trimmed to save space during transmit.
+		compressedBody = theCompressor.Compress(theBody, kCompressionType);
+		compressedSize = compressedBody.GetSize() - kCompressionHeaderTrim;
+		
+		if (!compressedBody.IsEmpty() && compressedSize < bodySize)
+			{
+			theBody     = NData(compressedSize, compressedBody.GetData(kCompressionHeaderTrim));
+			didCompress = true;
+			}
+
+
+		// Debug hook
+		#if DEBUG_COMPRESSION
+		if (didCompress)
+			NN_LOG("NNetworkMessage compressing body from %ld to %ld", bodySize, compressedSize);
+		#endif
+		}
+	
+	return(didCompress);
+}
+
+
+
+
+
+//============================================================================
+//		NNetworkMessage::DecompressBody : Decompress the body.
+//----------------------------------------------------------------------------
+NData NNetworkMessage::DecompressBody(const NData &theBody) const
+{	NData					finalBody, compressedData;
+	NCompressionHeader		compressedHeader;
+	NDataCompressor			theCompressor;
+	NIndex					theOffset;
+
+
+
+	// Get the state we need
+	finalBody = theBody;
+	theOffset = sizeof(compressedHeader) - kCompressionHeaderTrim;
+
+
+
+	// Decompress the body
+	//
+	// To handle tainted data, we check as well as assert.
+	NN_ASSERT(theBody.GetSize() >= theOffset);
+
+	if (theBody.GetSize() >= theOffset)
+		{
+		// Get the state we need
+		//
+		// The header is trimmed to save space during transmit.
+		memset(&compressedHeader, 0x00, sizeof(compressedHeader));
+
+		compressedHeader.compression = kCompressionType;
+		compressedHeader.origSize    = NSwapUInt32_BtoN( *((const UInt32 *) theBody.GetData()) );
+
+
+
+		// Decompress the body
+		compressedData = NData(theBody.GetSize() - theOffset, theBody.GetData(theOffset), false);
+		finalBody      = theCompressor.Decompress(compressedData, &compressedHeader);
+
+
+
+		// Debug hook
+		#if DEBUG_COMPRESSION
+		NN_LOG("NNetworkMessage decompressed body from %ld to %ld", theBody.GetSize(), finalBody.GetSize());
+		#endif
+		}
+	
+	return(finalBody);
+}
+
+
+
+
+
 
 
 

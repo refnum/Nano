@@ -56,9 +56,13 @@ static const NEntityID kNEntityClientsMax							= kNEntityClientsLast - kNEntity
 
 // Message attributes
 //
-// To conserve space, messages only support 8 bits of attribute data.
+// Only the lower 8 bits of attribute data are put onto the network.
+//
+// Higher bits may be used locally, but will be discarded before sending.
 static const NBitfield kNMessageAttributeMask						= 0x000000FF;
 static const NBitfield kNMessageHasProperties						= (1 << 0);
+static const NBitfield kNMessageIsCompressed						= (1 << 1);
+static const NBitfield kNMessageNeverCompress						= (1 << 8);
 
 
 // Message keys
@@ -138,6 +142,11 @@ public:
 	// Get/set the payload
 	NData								GetPayload(void) const;
 	void								SetPayload(const NMessageHeader &theHeader, const NData &theBody);
+
+
+private:
+	bool								CompressBody(        NData &theBody) const;
+	NData								DecompressBody(const NData &theBody) const;
 
 
 private:
