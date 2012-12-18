@@ -185,15 +185,18 @@ NData NNetworkMessage::GetPayload(void) const
 	// Prepare the body
 	theProperties = GetProperties();
 
-	if (theProperties.GetSize() == 1 && theProperties.HasKey(kNMessageDataKey))
+	if (!theProperties.IsEmpty())
 		{
-		theBody        = theProperties.GetValueData(kNMessageDataKey);
-		theAttributes &= ~kNMessageHasProperties;
-		}
-	else
-		{
-		theBody        = propertyList.Encode(theProperties);
-		theAttributes |=  kNMessageHasProperties;
+		if (theProperties.GetSize() == 1 && theProperties.HasKey(kNMessageDataKey))
+			{
+			theBody        = theProperties.GetValueData(kNMessageDataKey);
+			theAttributes &= ~kNMessageHasProperties;
+			}
+		else
+			{
+			theBody        = propertyList.Encode(theProperties);
+			theAttributes |=  kNMessageHasProperties;
+			}
 		}
 
 
@@ -236,10 +239,13 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 
 
 	// Get the state we need
-	if (theHeader.msgAttributes & kNMessageHasProperties)
-		theProperties = propertyList.Decode(theBody);
-	else
-		theProperties.SetValue(kNMessageDataKey, theBody);
+	if (!theBody.IsEmpty())
+		{
+		if (theHeader.msgAttributes & kNMessageHasProperties)
+			theProperties = propertyList.Decode(theBody);
+		else
+			theProperties.SetValue(kNMessageDataKey, theBody);
+		}
 
 
 
@@ -249,7 +255,6 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 	SetAttributes(theHeader.msgAttributes);
 	SetProperties(theProperties);
 }
-
 
 
 
