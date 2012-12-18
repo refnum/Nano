@@ -91,6 +91,10 @@ protected:
 
 
 private:
+	void								DumpMessage(NStatus theErr, bool isRead, const NMessageHeader *rawHeader);
+	
+
+private:
 	NEntityID							mID;
 };
 

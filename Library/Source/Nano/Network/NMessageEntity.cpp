@@ -22,6 +22,15 @@
 
 
 //============================================================================
+//		Build constants
+//----------------------------------------------------------------------------
+#define DEBUG_MESSAGES												0
+
+
+
+
+
+//============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
 NBYTESWAP_BEGIN(NMessageHandshake)
@@ -166,6 +175,7 @@ NStatus NMessageEntity::ReadMessage(NSocket *theSocket, NNetworkMessage &theMsg)
 	NStatus				theErr;
 
 
+
 	// Read the header
 	theErr = theSocket->ReadData(sizeof(theHeader), &theHeader);
 	if (theErr == kNoErr)
@@ -182,7 +192,14 @@ NStatus NMessageEntity::ReadMessage(NSocket *theSocket, NNetworkMessage &theMsg)
 	// Construct the message
 	if (theErr == kNoErr)
 		theMsg.SetPayload(theHeader, theBody);
-	
+
+
+
+	// Debug hook
+#if DEBUG_MESSAGES
+	DumpMessage(theErr, true, &theHeader);
+#endif
+
 	return(theErr);
 }
 
@@ -210,6 +227,13 @@ NStatus NMessageEntity::WriteMessage(NSocket *theSocket, const NNetworkMessage &
 		theErr = theSocket->WriteData(theData);
 	else
 		theSocket->Write(theData.GetSize(), theData.GetData());
+
+
+
+	// Debug hook
+#if DEBUG_MESSAGES
+	DumpMessage(theErr, false, (const NMessageHeader *) theData.GetData());
+#endif
 
 	return(theErr);
 }
@@ -293,6 +317,45 @@ void NMessageEntity::DispatchMessage(const NNetworkMessage &theMsg)
 }
 
 
+
+
+
+//============================================================================
+//		NMessageEntity::DumpMessage : Dump a message.
+//----------------------------------------------------------------------------
+void NMessageEntity::DumpMessage(NStatus theErr, bool isRead, const NMessageHeader *rawHeader)
+{	NMessageHeader		theHeader;
+
+
+
+	// Get the state we need
+	//
+	// Read data has been decoded, but gets cleared if the read failed.
+	//
+	// Written data has been encoded, so must be decoded back.
+	memcpy(&theHeader, rawHeader, sizeof(theHeader));
+
+	if (isRead)
+		{
+		if (theErr != kNoErr)
+			memset(&theHeader, 0x00, sizeof(theHeader));
+		}
+	else
+		NBYTESWAP_DECODE(1, NMessageHeader, &theHeader);
+
+
+
+	// Dump the message
+	NN_LOG("[%02d] %s msg: err=%-3d type=%-3d src=%-2d dst=%-4d attr=0x%02X  size=%d",
+				mID,
+				isRead ? "read " : "wrote",
+				theErr,
+				theHeader.msgType,
+				theHeader.msgSrcID,
+				theHeader.msgDstID,
+				theHeader.msgAttributes,
+				theHeader.bodySize);
+}
 
 
 
