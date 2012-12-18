@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NMathUtilities.h"
 #include "NMessageClient.h"
 
 #include "TMessageServer.h"
@@ -424,7 +425,7 @@ void TMessageServer::Execute(void)
 
 
 	// Execute the tests
-	thePort = kValueServerPort + (random() % 1000);
+	thePort = NMathUtilities::GetRandomUInt16(kValueServerPort, kValueServerPort + 1000);
 
 	testServer.Start(               thePort);
 	testClient.Connect("127.0.0.1", thePort);

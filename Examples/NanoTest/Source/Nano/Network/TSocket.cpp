@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NThreadUtilities.h"
+#include "NMathUtilities.h"
 #include "TSocket.h"
 
 
@@ -407,7 +408,7 @@ void TSocket::Execute(void)
 
 
 	// Get the state we need
-	thePort = kValueServerPort + (random() % 1000);
+	thePort = NMathUtilities::GetRandomUInt16(kValueServerPort, kValueServerPort + 1000);
 
 	theServer = new TSocketServer;
 	theClient = new TSocketClient;
