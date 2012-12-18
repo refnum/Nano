@@ -134,8 +134,15 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 //		NMessageClient::ReceivedMessage : Handle a message.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NMessageClient::ReceivedMessage(const NNetworkMessage &/*theMsg*/)
+void NMessageClient::ReceivedMessage(const NNetworkMessage &theMsg)
 {
+
+
+	// Validate our parameters
+	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
+				theMsg.GetDestination() == kNEntityEveryone);
+
+	NN_UNUSED(theMsg);
 }
 
 
@@ -328,7 +335,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	
 	if (theErr == kNoErr)
 		{
-		msgJoinRequest.SetType(kNMessageJoinRequest);
+		msgJoinRequest = PrepareMessage(kNMessageJoinRequest, kNEntityServer);
 
 		if (!mPassword.IsEmpty())
 			msgJoinRequest.SetValue(kNMessageClientPasswordKey, mPassword);
@@ -343,6 +350,12 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 		if (theErr == kNoErr)
 			theErr = msgJoinResponse.GetValueSInt32(kNMessageStatusKey);
+
+		if (theErr == kNoErr)
+			{
+			SetID(msgJoinResponse.GetDestination());
+			NN_ASSERT(GetID() != kNEntityInvalid);
+			}
 		}
 
 	if (theErr != kNoErr)
@@ -358,7 +371,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	mStatus = kNClientConnected;
 	SessionDidOpen();
 
-	ReceiveMessages(theSocket);
+	ProcessMessages(theSocket);
 }
 
 

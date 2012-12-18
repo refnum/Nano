@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NSTLUtilities.h"
+
 #include "NMessageServer.h"
 
 
@@ -29,8 +31,9 @@ NMessageServer::NMessageServer(void)
 
 
 	// Initialise ourselves
-	mStatus = kNServerStopped;
+	SetID(kNEntityServer);
 
+	mStatus     = kNServerStopped;
 	mMaxClients = 1;
 }
 
@@ -74,14 +77,16 @@ void NMessageServer::Start(UInt16 thePort, NIndex maxClients, const NString &the
 
 	// Validate our parameters and state
 	NN_ASSERT(thePort    != 0);
-	NN_ASSERT(maxClients >= 1);
+	NN_ASSERT(maxClients >= 1 && maxClients <= kNEntityClientsMax);
 
 	NN_ASSERT(mStatus == kNServerStopped);
 
 
 
 	// Start the server
-	mMaxClients = maxClients;
+	//
+	// To handle tainted data, we clamp as well as assert.
+	mMaxClients = std::min(maxClients, (NIndex) kNEntityClientsMax);
 	mPassword   = thePassword;
 
 	mStatus = kNServerStarting;
@@ -96,8 +101,8 @@ void NMessageServer::Start(UInt16 thePort, NIndex maxClients, const NString &the
 //		NMessageServer::Stop : Stop the server.
 //----------------------------------------------------------------------------
 void NMessageServer::Stop(void)
-{NClientInfoList				theClients;
-	NClientInfoListIterator		theIter;
+{	NClientInfoMap				theClients;
+	NClientInfoMapIterator		theIter;
 
 
 
@@ -108,9 +113,10 @@ void NMessageServer::Stop(void)
 
 	// Update our state
 	//
-	// The clients list needs to be copied to allow us to close those sockets
-	// outside of our lock, to avoid a deadlock whereby the client sockets call
-	// us back as their delegate to inform us that they're closed.
+	// The clients list needs to be copied to allow us to close their sockets
+	// outside of our lock, otherwise we will deadlock when the client sockets
+	// call us back (as their delegate, on their thread) to inform us that
+	// they are closed.
 	mLock.Lock();
 	
 	mStatus    = kNServerStopping;
@@ -131,7 +137,7 @@ void NMessageServer::Stop(void)
 	else
 		{
 		for (theIter = theClients.begin(); theIter != theClients.end(); theIter++)
-			theIter->theSocket->Close();
+			theIter->second.theSocket->Close();
 		}
 }
 
@@ -143,8 +149,10 @@ void NMessageServer::Stop(void)
 //		NMessageServer::SendMessage : Send a message.
 //----------------------------------------------------------------------------
 void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
-{	StLock		acquireLock(mLock);
-	NStatus		theErr;
+{	StLock							acquireLock(mLock);
+	NClientInfoMapConstIterator		theIter;
+	NStatus							theErr;
+	NEntityID						dstID;
 
 
 
@@ -153,9 +161,65 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 
 
 
-	// Send the message
-	theErr = WriteMessage(mClients.front().theSocket, theMsg, false);
-	NN_ASSERT_NOERR(theErr);
+	// Get the state we need
+	dstID = theMsg.GetDestination();
+
+
+
+	// Send to everyone
+	if (dstID == kNEntityEveryone)
+		{
+		for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
+			{
+			theErr = WriteMessage(theIter->second.theSocket, theMsg, false);
+			NN_ASSERT_NOERR(theErr);
+			}
+		}
+
+
+
+	// Send to someone
+	//
+	// To handle tainted data, we check as well as assert.
+	else
+		{
+		theIter = mClients.find(dstID);
+		NN_ASSERT(theIter != mClients.end());
+
+		if (theIter != mClients.end())
+			{
+			theErr = WriteMessage(theIter->second.theSocket, theMsg, false);
+			NN_ASSERT_NOERR(theErr);
+			}
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::DispatchMessage : Dispatch a message.
+//----------------------------------------------------------------------------
+#pragma mark -
+void NMessageServer::DispatchMessage(const NNetworkMessage &theMsg)
+{	NEntityID		dstID;
+
+
+
+	// Get the state we need
+	dstID = theMsg.GetDestination();
+
+
+
+	// Dispatch the message
+	//
+	// The server acts as a central hub for messages, so dispatches messages
+	// both to itself and the connected clients.
+	NMessageEntity::DispatchMessage(theMsg);
+
+	if (dstID != GetID())
+		SendMessage(theMsg);
 }
 
 
@@ -165,7 +229,6 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 //============================================================================
 //		NMessageServer::ReceivedMessage : Handle a message.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NMessageServer::ReceivedMessage(const NNetworkMessage &/*theMsg*/)
 {
 }
@@ -199,7 +262,18 @@ void NMessageServer::ServerDidStop(void)
 //============================================================================
 //		NMessageServer::ServerAddedClient : The server has added a client.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerAddedClient(void)
+void NMessageServer::ServerAddedClient(NEntityID /*clientID*/)
+{
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::ServerRemovedClient : The server has removed a client.
+//----------------------------------------------------------------------------
+void NMessageServer::ServerRemovedClient(NEntityID /*clientID*/)
 {
 }
 
@@ -245,7 +319,7 @@ void NMessageServer::SocketDidOpen(NSocket *theSocket)
 //----------------------------------------------------------------------------
 void NMessageServer::SocketDidClose(NSocket *theSocket)
 {	StLock						acquireLock(mLock);
-	NClientInfoListIterator		theIter;
+	NClientInfoMapIterator		theIter;
 
 
 
@@ -266,9 +340,10 @@ void NMessageServer::SocketDidClose(NSocket *theSocket)
 		// Remove the client
 		for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
 			{
-			if (theIter->theSocket == theSocket)
+			if (theIter->second.theSocket == theSocket)
 				{
-				mClients.erase(theIter);
+				ServerRemovedClient(theIter->first);
+				RemoveClient(       theIter->first);
 				break;
 				}
 			}
@@ -353,7 +428,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
 	NMessageHandshake		serverHandshake, clientHandshake;
 	NString					thePassword;
-	NClientInfo				clientInfo;
+	NEntityID				clientID;
 	NStatus					theErr;
 
 
@@ -399,7 +474,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 	// Send the server info
 	mLock.Lock();
-	msgServerInfo.SetType( kNMessageServerInfo);
+	msgServerInfo = PrepareMessage(kNMessageServerInfo, kNEntityEveryone);
 	msgServerInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
 	msgServerInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
 	mLock.Unlock();
@@ -414,7 +489,6 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 		}
 
 
-
 	// Wait for the client
 	//
 	// If the client was only interested in the current server state then they
@@ -427,15 +501,21 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 		theSocket->Close();
 		return;
 		}
+	
+	NN_ASSERT(msgJoinRequest.GetSource() == kNEntityInvalid);
 
 
 
 	// Accept the client
 	mLock.Lock();
 	
-	theErr = kNoErr;
+	theErr   = kNoErr;
+	clientID = GetNextClientID();
+	
+	if (msgJoinRequest.GetSource() != kNEntityInvalid)
+		theErr = kNErrParam;
 
-	if ((NIndex) mClients.size() >= mMaxClients)
+	else if ((NIndex) mClients.size() >= mMaxClients || clientID == kNEntityInvalid)
 		theErr = kNErrBusy;
 
 	else if (!mPassword.IsEmpty())
@@ -446,16 +526,13 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 			theErr = kNErrPermission;
 		}
 
-	msgJoinResponse.SetType( kNMessageJoinResponse);
+	msgJoinResponse = PrepareMessage(kNMessageJoinResponse, clientID);
 	msgJoinResponse.SetValue(kNMessageStatusKey, theErr);
 
 	theErr = WriteMessage(theSocket, msgJoinResponse);
-	
+
 	if (theErr == kNoErr)
-		{
-		clientInfo.theSocket = theSocket;
-		mClients.push_back(clientInfo);
-		}
+		AddClient(clientID, theSocket);
 
 	mLock.Unlock();
 	
@@ -468,10 +545,93 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 
 	// Open the session
-	ServerAddedClient();
+	ServerAddedClient(clientID);
 
-	ReceiveMessages(theSocket);
+	ProcessMessages(theSocket);
 }
+
+
+
+
+
+//============================================================================
+//		NMessageServer::GetNextClientID : Get the next client ID.
+//----------------------------------------------------------------------------
+NEntityID NMessageServer::GetNextClientID(void)
+{	NEntityID	n;
+
+
+
+	// Get the next available ID
+	for (n = kNEntityClientsFirst; n <= kNEntityClientsLast; n++)
+		{
+		if (mClients.find(n) == mClients.end())
+			return(n);
+		}
+
+	return(kNEntityInvalid);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::AddClient : Add a client.
+//----------------------------------------------------------------------------
+void NMessageServer::AddClient(NEntityID clientID, NSocket *theSocket)
+{	NClientInfo		clientInfo;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(clientID >= kNEntityClientsFirst && clientID <= kNEntityClientsLast);
+
+	NN_ASSERT(mLock.IsLocked());
+	NN_ASSERT(mClients.find(clientID) == mClients.end());
+
+
+
+	// Add the client
+	//
+	// To handle tainted data, we check as well as assert.
+	if (clientID != kNEntityInvalid)
+		{
+		clientInfo.theSocket = theSocket;
+		mClients[clientID]   = clientInfo;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::RemoveClient : Remove a client.
+//----------------------------------------------------------------------------
+void NMessageServer::RemoveClient(NEntityID clientID)
+{	NClientInfoMapIterator		theIter;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(clientID >= kNEntityClientsFirst && clientID <= kNEntityClientsLast);
+
+	NN_ASSERT(mLock.IsLocked());
+	NN_ASSERT(mClients.find(clientID) != mClients.end());
+
+
+
+	// Remove the client
+	//
+	// To handle tainted data, we check as well as assert.
+	theIter = mClients.find(clientID);
+
+	if (theIter != mClients.end())
+		mClients.erase(theIter);
+}
+
+
 
 
 

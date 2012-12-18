@@ -57,6 +57,11 @@ public:
 	virtual							   ~NMessageEntity(void);
 
 
+	// Get/set the ID
+	NEntityID							GetID(void) const;
+	void								SetID(NEntityID theID);
+
+
 protected:
 	// Get a handshake
 	NMessageHandshake					GetHandshake(void) const;
@@ -72,17 +77,21 @@ protected:
 	NStatus								WriteMessage(   NSocket *theSocket, const NNetworkMessage &theMsg, bool sendSync=true);
 
 
-	// Receive messages
-	void								ReceiveMessages(NSocket *theSocket);
+	// Prepare a message
+	NNetworkMessage						PrepareMessage(NMessageType theType, NEntityID dstID);
+
+
+	// Process messages
+	void								ProcessMessages(NSocket *theSocket);
 
 
 	// Handle a message
+	virtual void						DispatchMessage(const NNetworkMessage &theMsg);
 	virtual void						ReceivedMessage(const NNetworkMessage &theMsg) = 0;
 
 
 private:
-
-
+	NEntityID							mID;
 };
 
 

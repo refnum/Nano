@@ -24,8 +24,13 @@
 //		Internal types
 //----------------------------------------------------------------------------
 NBYTESWAP_BEGIN(NMessageHeader)
-	NBYTESWAP_B_SInt16		(theType)
-	NBYTESWAP_B_UInt16		(theAttributes)
+	NBYTESWAP_B_SInt16		(msgType)
+	NBYTESWAP_B_UInt8		(msgSrcID)
+	NBYTESWAP_B_UInt8		(msgDstID)
+	NBYTESWAP_B_UInt8		(msgAttributes)
+	NBYTESWAP_B_UInt8		(reserved1)
+	NBYTESWAP_B_UInt8		(reserved2)
+	NBYTESWAP_B_UInt8		(reserved3)
 	NBYTESWAP_B_UInt32		(bodySize)
 NBYTESWAP_END
 
@@ -41,7 +46,11 @@ NNetworkMessage::NNetworkMessage(void)
 
 
 	// Initialise ourselves
-	mType = kNMessageInvalid;
+	memset(&mHeader, 0x00, sizeof(mHeader));
+
+	mHeader.msgType  = kNMessageInvalid;
+	mHeader.msgSrcID = kNEntityInvalid;
+	mHeader.msgDstID = kNEntityInvalid;
 }
 
 
@@ -67,7 +76,7 @@ NMessageType NNetworkMessage::GetType(void) const
 
 
 	// Get the type
-	return(mType);
+	return(mHeader.msgType);
 }
 
 
@@ -82,7 +91,67 @@ void NNetworkMessage::SetType(NMessageType theType)
 
 
 	// Set the type
-	mType = theType;
+	mHeader.msgType = theType;
+}
+
+
+
+
+
+//============================================================================
+//		NNetworkMessage::GetSource : Get the source.
+//----------------------------------------------------------------------------
+NEntityID NNetworkMessage::GetSource(void) const
+{
+
+
+	// Get the source
+	return(mHeader.msgSrcID);
+}
+
+
+
+
+
+//============================================================================
+//		NNetworkMessage::SetSource : Set the source.
+//----------------------------------------------------------------------------
+void NNetworkMessage::SetSource(NEntityID theID)
+{
+
+
+	// Set the source
+	mHeader.msgSrcID = theID;
+}
+
+
+
+
+
+//============================================================================
+//		NNetworkMessage::GetDestination : Get the destination.
+//----------------------------------------------------------------------------
+NEntityID NNetworkMessage::GetDestination(void) const
+{
+
+
+	// Get the destination
+	return(mHeader.msgDstID);
+}
+
+
+
+
+
+//============================================================================
+//		NNetworkMessage::SetDestination : Set the destination.
+//----------------------------------------------------------------------------
+void NNetworkMessage::SetDestination(NEntityID theID)
+{
+
+
+	// Set the destination
+	mHeader.msgDstID = theID;
 }
 
 
@@ -101,10 +170,15 @@ NData NNetworkMessage::GetPayload(void) const
 
 
 
+	// Validate our state
+	NN_ASSERT(mHeader.msgSrcID != kNEntityEveryone);
+	NN_ASSERT(mHeader.msgDstID != kNEntityInvalid);
+	NN_ASSERT(!HasAttribute(~kNMessageAttributeMask));
+
+
+
 	// Get the state we need
 	theAttributes = GetAttributes();
-
-	NN_ASSERT((theAttributes & kNMessageAttributeMask) == theAttributes);
 
 
 
@@ -112,18 +186,21 @@ NData NNetworkMessage::GetPayload(void) const
 	theProperties = GetProperties();
 
 	if (theProperties.GetSize() == 1 && theProperties.HasKey(kNMessageDataKey))
-		theBody = theProperties.GetValueData(kNMessageDataKey);
+		{
+		theBody        = theProperties.GetValueData(kNMessageDataKey);
+		theAttributes &= ~kNMessageHasProperties;
+		}
 	else
 		{
 		theBody        = propertyList.Encode(theProperties);
-		theAttributes |= kNMessageHasProperties;
+		theAttributes |=  kNMessageHasProperties;
 		}
 
 
 
 	// Prepare the header
-	theHeader.theType       = mType;
-	theHeader.theAttributes = (UInt16) theAttributes;
+	theHeader               = mHeader;
+	theHeader.msgAttributes = (UInt8) (theAttributes & kNMessageAttributeMask);
 	theHeader.bodySize      = theBody.GetSize();
 
 
@@ -152,12 +229,14 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 
 
 	// Validate our parameters
+	NN_ASSERT(theHeader.msgSrcID != kNEntityEveryone);
+	NN_ASSERT(theHeader.msgDstID != kNEntityInvalid);
 	NN_ASSERT(theHeader.bodySize == (UInt32) theBody.GetSize());
 
 
 
 	// Get the state we need
-	if (theHeader.theAttributes & kNMessageHasProperties)
+	if (theHeader.msgAttributes & kNMessageHasProperties)
 		theProperties = propertyList.Decode(theBody);
 	else
 		theProperties.SetValue(kNMessageDataKey, theBody);
@@ -165,8 +244,9 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 
 
 	// Set the message
-	SetType(      theHeader.theType);
-	SetAttributes(theHeader.theAttributes);
+	mHeader = theHeader;
+
+	SetAttributes(theHeader.msgAttributes);
 	SetProperties(theProperties);
 }
 

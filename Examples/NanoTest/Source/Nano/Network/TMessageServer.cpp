@@ -59,7 +59,8 @@ protected:
 	// Handle server events
 	void								ServerDidStart(   void);
 	void								ServerDidStop(    void);
-	void								ServerAddedClient(void);
+	void								ServerAddedClient(  NEntityID clientID);
+	void								ServerRemovedClient(NEntityID clientID);
 	void								ServerReceivedError(NStatus theErr);
 
 
@@ -177,7 +178,7 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 			
 			
 			// Send a reply
-			replyMsg.SetType( kTestMessageAnswer);
+			replyMsg = PrepareMessage(kTestMessageAnswer, theMsg.GetSource());
 			replyMsg.SetValue(kTestMessageValueKey, kTestValueAnswer);
 			
 			SendMessage(replyMsg);
@@ -227,12 +228,23 @@ void TTestServer::ServerDidStop(void)
 //============================================================================
 //		TTestServer::ServerAddedClient : The server has added a client.
 //----------------------------------------------------------------------------
-void TTestServer::ServerAddedClient(void)
+void TTestServer::ServerAddedClient(NEntityID /*clientID*/)
 {
 
 
 	// Update our state
 	mStateNumClients++;
+}
+
+
+
+
+
+//============================================================================
+//		TTestServer::ServerRemovedClient : The server has removed a client.
+//----------------------------------------------------------------------------
+void TTestServer::ServerRemovedClient(NEntityID /*clientID*/)
+{
 }
 
 
@@ -361,7 +373,7 @@ void TTestClient::SessionDidOpen(void)
 
 
 	// Send the question
-	theMsg.SetType( kTestMessageQuestion);
+	theMsg = PrepareMessage(kTestMessageQuestion, kNEntityServer);
 	theMsg.SetValue(kTestMessageValueKey, kTestValueQuestion);
 
 	SendMessage(theMsg);

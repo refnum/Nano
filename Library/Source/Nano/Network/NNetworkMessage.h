@@ -40,10 +40,24 @@ static const NMessageType kNMessageJoinRequest						= -3;
 static const NMessageType kNMessageJoinResponse						= -4;
 
 
+// Entity IDs
+//
+// Messages are exchanged between entities, which have a fixed ID.
+typedef UInt8 NEntityID;
+
+static const NEntityID kNEntityInvalid								= 0;
+static const NEntityID kNEntityServer								= 1;
+static const NEntityID kNEntityEveryone								= 255;
+
+static const NEntityID kNEntityClientsFirst							= 2;
+static const NEntityID kNEntityClientsLast							= 254;
+static const NEntityID kNEntityClientsMax							= kNEntityClientsLast - kNEntityClientsFirst + 1;
+
+
 // Message attributes
 //
-// To conserve space, messages only support 16 bits of attribute data.
-static const NBitfield kNMessageAttributeMask						= 0xFFFF;
+// To conserve space, messages only support 8 bits of attribute data.
+static const NBitfield kNMessageAttributeMask						= 0x000000FF;
 static const NBitfield kNMessageHasProperties						= (1 << 0);
 
 
@@ -69,11 +83,20 @@ class NNetworkMessage;
 
 
 // Message header
+#pragma pack(push, 1)
+
 typedef struct {
-	NMessageType			theType;
-	UInt16					theAttributes;
+	NMessageType			msgType;
+	NEntityID				msgSrcID;
+	NEntityID				msgDstID;
+	UInt8					msgAttributes;
+	UInt8					reserved1;
+	UInt8					reserved2;
+	UInt8					reserved3;
 	UInt32					bodySize;
 } NMessageHeader;
+
+#pragma pack(pop)
 
 NBYTESWAP_DECLARE(NMessageHeader);
 
@@ -102,13 +125,23 @@ public:
 	void								SetType(NMessageType theType);
 
 
+	// Get/set the source
+	NEntityID							GetSource(void) const;
+	void								SetSource(NEntityID theID);
+
+
+	// Get/set the destination
+	NEntityID							GetDestination(void) const;
+	void								SetDestination(NEntityID theID);
+
+
 	// Get/set the payload
 	NData								GetPayload(void) const;
 	void								SetPayload(const NMessageHeader &theHeader, const NData &theBody);
 
 
 private:
-	NMessageType						mType;
+	NMessageHeader						mHeader;
 };
 
 

@@ -47,9 +47,9 @@ typedef struct {
 
 
 // Lists
-typedef std::vector<NClientInfo>									NClientInfoList;
-typedef NClientInfoList::iterator									NClientInfoListIterator;
-typedef NClientInfoList::const_iterator								NClientInfoListConstIterator;
+typedef std::map<NEntityID, NClientInfo>							NClientInfoMap;
+typedef NClientInfoMap::iterator									NClientInfoMapIterator;
+typedef NClientInfoMap::const_iterator								NClientInfoMapConstIterator;
 
 
 
@@ -84,6 +84,7 @@ protected:
 	// Unknown messages must be passed to the base class for processing.
 	//
 	// Invoked on an internal thread.
+	void								DispatchMessage(const NNetworkMessage &theMsg);
 	virtual void						ReceivedMessage(const NNetworkMessage &theMsg);
 
 
@@ -92,7 +93,8 @@ protected:
 	// Invoked on an internal thread.
 	virtual void						ServerDidStart(   void);
 	virtual void						ServerDidStop(    void);
-	virtual void						ServerAddedClient(void);
+	virtual void						ServerAddedClient(  NEntityID clientID);
+	virtual void						ServerRemovedClient(NEntityID clientID);
 	virtual void						ServerReceivedError(NStatus theErr);
 
 
@@ -106,6 +108,10 @@ protected:
 private:
 	void								ServerThread(NSocket *theSocket);
 
+	NEntityID							GetNextClientID(void);
+	void								AddClient(   NEntityID clientID, NSocket *theSocket);
+	void								RemoveClient(NEntityID clientID);
+
 
 private:
 	mutable NMutexLock					mLock;
@@ -115,7 +121,7 @@ private:
 
 	NIndex								mMaxClients;
 	NString								mPassword;
-	NClientInfoList						mClients;
+	NClientInfoMap						mClients;
 };
 
 

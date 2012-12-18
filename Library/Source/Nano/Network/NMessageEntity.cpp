@@ -38,6 +38,10 @@ NBYTESWAP_END
 //----------------------------------------------------------------------------
 NMessageEntity::NMessageEntity(void)
 {
+
+
+	// Initialise ourselves
+	mID = kNEntityInvalid;
 }
 
 
@@ -49,6 +53,36 @@ NMessageEntity::NMessageEntity(void)
 //----------------------------------------------------------------------------
 NMessageEntity::~NMessageEntity(void)
 {
+}
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::GetID : Get the ID.
+//----------------------------------------------------------------------------
+NEntityID NMessageEntity::GetID(void) const
+{
+
+
+	// Get the ID
+	return(mID);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::SetID : Set the ID.
+//----------------------------------------------------------------------------
+void NMessageEntity::SetID(NEntityID theID)
+{
+
+
+	// Set the ID
+	mID = theID;
 }
 
 
@@ -132,7 +166,6 @@ NStatus NMessageEntity::ReadMessage(NSocket *theSocket, NNetworkMessage &theMsg)
 	NStatus				theErr;
 
 
-
 	// Read the header
 	theErr = theSocket->ReadData(sizeof(theHeader), &theHeader);
 	if (theErr == kNoErr)
@@ -186,23 +219,81 @@ NStatus NMessageEntity::WriteMessage(NSocket *theSocket, const NNetworkMessage &
 
 
 //============================================================================
-//		NMessageEntity::ReceiveMessages : Receive messages.
+//		NMessageEntity::PrepareMessage : Prepare a message.
 //----------------------------------------------------------------------------
-void NMessageEntity::ReceiveMessages(NSocket *theSocket)
+NNetworkMessage NMessageEntity::PrepareMessage(NMessageType theType, NEntityID dstID)
+{	NNetworkMessage		theMsg;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theType != kNMessageInvalid);
+	NN_ASSERT(dstID   != kNEntityInvalid);
+
+
+
+	// Prepare the message
+	theMsg.SetType(theType);
+	theMsg.SetSource(     GetID());
+	theMsg.SetDestination(dstID);
+
+	return(theMsg);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::ProcessMessages : Process messages.
+//----------------------------------------------------------------------------
+void NMessageEntity::ProcessMessages(NSocket *theSocket)
 {	NNetworkMessage		theMsg;
 	NStatus				theErr;
 
 
 
-	// Receive messages
+	// Process messages
 	do
 		{
 		theErr = ReadMessage(theSocket, theMsg);
 		if (theErr == kNoErr)
-			ReceivedMessage(theMsg);
+			DispatchMessage(theMsg);
 		}
 	while (theErr == kNoErr);
 }
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::DispatchMessage : Dispatch a message.
+//----------------------------------------------------------------------------
+void NMessageEntity::DispatchMessage(const NNetworkMessage &theMsg)
+{	NEntityID		dstID;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(theMsg.GetSource()      != kNEntityEveryone);
+	NN_ASSERT(theMsg.GetSource()      != kNEntityInvalid);
+	NN_ASSERT(theMsg.GetDestination() != kNEntityInvalid);
+
+
+
+	// Get the state we need
+	dstID = theMsg.GetDestination();
+
+
+
+	// Dispatch the message
+	if (dstID == GetID() || dstID == kNEntityEveryone)
+		ReceivedMessage(theMsg);
+}
+
+
+
 
 
 
