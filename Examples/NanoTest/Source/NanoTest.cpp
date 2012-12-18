@@ -136,6 +136,8 @@ int main(int argc, const char **argv)
 	// Initialise ourselves
 	NCommandLine::Get()->SetArguments(argc, argv);
 
+	srandomdev();
+
 
 
 	// Mac

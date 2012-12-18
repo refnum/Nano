@@ -26,7 +26,7 @@
 //----------------------------------------------------------------------------
 // Values
 static const UInt32 kValueNumItems									= 100;
-static const UInt16 kValueServerPort								= 6025;
+static const UInt16 kValueServerPort								= 7000;
 
 
 
@@ -42,7 +42,7 @@ public:
 
 
 	// Start/stop the server
-	void								Start(void);
+	void								Start(UInt16 thePort);
 	void								Stop( void);
 
 
@@ -75,7 +75,7 @@ public:
 
 	// Execute the tests
 	void								ExecuteWeb(   bool *isDone);
-	void								ExecuteCustom(bool *isDone);
+	void								ExecuteCustom(bool *isDone, UInt16 thePort);
 
 
 protected:
@@ -125,7 +125,7 @@ TSocketServer::~TSocketServer(void)
 //============================================================================
 //		TSocketServer::Start : Start the server.
 //----------------------------------------------------------------------------
-void TSocketServer::Start(void)
+void TSocketServer::Start(UInt16 thePort)
 {
 
 
@@ -136,7 +136,7 @@ void TSocketServer::Start(void)
 
 	// Start the server
 	mSocket = new NSocket(this);
-	mSocket->Open(kValueServerPort);
+	mSocket->Open(thePort);
 
 	while (mSocket->GetStatus() != kNSocketOpened)
 		NThread::Sleep();
@@ -321,7 +321,7 @@ void TSocketClient::ExecuteWeb(bool *isDone)
 //============================================================================
 //		TSocketClient::ExecuteCustom : Execute a custom client test.
 //----------------------------------------------------------------------------
-void TSocketClient::ExecuteCustom(bool *isDone)
+void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
 {	UInt32		n, theValue;
 	NSocket		*theSocket;
 	NStatus		theErr;
@@ -330,7 +330,7 @@ void TSocketClient::ExecuteCustom(bool *isDone)
 
 	// Open the socket
 	theSocket = new NSocket(this);
-	theSocket->Open("127.0.0.1", kValueServerPort);
+	theSocket->Open("127.0.0.1", thePort);
 	
 	while (theSocket->GetStatus() != kNSocketOpened)
 		NThread::Sleep();
@@ -401,11 +401,14 @@ void TSocketClient::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
 void TSocket::Execute(void)
 {	TSocketServer		*theServer;
 	TSocketClient		*theClient;
+	UInt16				thePort;
 	bool				isDone;
 
 
 
 	// Get the state we need
+	thePort = kValueServerPort + (random() % 1000);
+
 	theServer = new TSocketServer;
 	theClient = new TSocketClient;
 
@@ -421,10 +424,10 @@ void TSocket::Execute(void)
 
 
 	// Execute a custom test
-	theServer->Start();
+	theServer->Start(thePort);
 
 	isDone = false;
-	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::ExecuteCustom, &isDone), 0.0, false);
+	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::ExecuteCustom, &isDone, thePort), 0.0, false);
 
 	while (!isDone)
 		NThread::Sleep();

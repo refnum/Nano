@@ -33,7 +33,7 @@ static const NString kTestMessageValueKey							= "TestValue";
 
 
 // Values
-static const UInt16 kValueServerPort								= 6027;
+static const UInt16 kValueServerPort								= 6000;
 
 static const NString kTestValueQuestion								= "Why did the chicken cross the road?";
 static const NString kTestValueAnswer								= "To get to the other side.";
@@ -407,13 +407,16 @@ void TTestClient::SessionReceivedError(NStatus theErr)
 void TMessageServer::Execute(void)
 {	TTestServer		testServer;
 	TTestClient		testClient;
+	UInt16			thePort;
 
 
 
 	// Execute the tests
-	testServer.Start(kValueServerPort);
-	testClient.Connect("127.0.0.1", kValueServerPort);
-	
+	thePort = kValueServerPort + (random() % 1000);
+
+	testServer.Start(               thePort);
+	testClient.Connect("127.0.0.1", thePort);
+
 	while (!testClient.IsDone())
 		NThread::Sleep();
 
