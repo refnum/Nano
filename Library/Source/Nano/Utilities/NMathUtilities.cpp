@@ -20,7 +20,17 @@
 //----------------------------------------------------------------------------
 #include "NTargetMath.h"
 #include "NTargetPOSIX.h"
+#include "NTargetTime.h"
 #include "NMathUtilities.h"
+
+
+
+
+
+//============================================================================
+//      Global variables
+//----------------------------------------------------------------------------
+UInt32 gNMathUtilitiesRandomSeed = NMathUtilities::SetRandomSeed();
 
 
 
@@ -211,8 +221,8 @@ bool NMathUtilities::IsPowerOf2(SInt64 theValue)
 {
 
 
-    // Test the value
-    return((theValue & (theValue - 1)) == 0);
+	// Test the value
+	return(theValue != 0 && (theValue & (theValue - 1)) == 0);
 }
 
 
@@ -678,6 +688,150 @@ Float64 NMathUtilities::Rint(Float64 theValue)
 	return(NTargetPOSIX::rint(theValue));
 }
 
+
+
+
+
+//============================================================================
+//		NMathUtilities::SetRandomSeed : Set the random seed.
+//----------------------------------------------------------------------------
+UInt32 NMathUtilities::SetRandomSeed(UInt32 theSeed)
+{	UInt32		pidSeed, timeSeed;
+
+
+
+	// Generate a seed
+	if (theSeed == 0)
+		{
+		pidSeed  = (UInt16) (NTargetPOSIX::getpid()                                  & 0xFFFF);
+		timeSeed = (UInt16) (((UInt64) (NTargetTime::GetTime() / kNTimeMillisecond)) & 0xFFFF);
+		theSeed  = (pidSeed << 16) | timeSeed;
+		}
+
+
+
+	// Set the seed
+	NTargetPOSIX::srandom(theSeed);
+
+	return(theSeed);
+}
+
+
+
+
+
+//============================================================================
+//		NMathUtilities::GetRandomBoolean : Get a random bool.
+//----------------------------------------------------------------------------
+bool NMathUtilities::GetRandomBoolean(void)
+{
+
+
+	// Get the value
+	return(GetRandomValue(0, 1) != 0);
+}
+
+
+
+
+
+//============================================================================
+//		NMathUtilities::GetRandomUInt8 : Get a random UInt8.
+//----------------------------------------------------------------------------
+UInt8 NMathUtilities::GetRandomUInt8(UInt8 valueMin, UInt8 valueMax)
+{
+
+
+	// Get the value
+	return((UInt8) GetRandomValue(valueMin, valueMax));
+}
+
+
+
+
+
+//============================================================================
+//		NMathUtilities::GetRandomUInt16 : Get a random UInt16.
+//----------------------------------------------------------------------------
+UInt16 NMathUtilities::GetRandomUInt16(UInt16 valueMin, UInt16 valueMax)
+{
+
+
+	// Get the value
+	return((UInt16) GetRandomValue(valueMin, valueMax));
+}
+
+
+
+
+
+//============================================================================
+//		NMathUtilities::GetRandomUInt32 : Get a random UInt32.
+//----------------------------------------------------------------------------
+UInt32 NMathUtilities::GetRandomUInt32(UInt32 valueMin, UInt32 valueMax)
+{
+
+
+	// Get the value
+	return((UInt32) GetRandomValue(valueMin, valueMax));
+}
+
+
+
+
+
+//============================================================================
+//		NMathUtilities::GetRandomUInt64 : Get a random UInt64.
+//----------------------------------------------------------------------------
+UInt64 NMathUtilities::GetRandomUInt64(UInt64 valueMin, UInt64 valueMax)
+{	UInt64		theValue, theRange;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(valueMax > valueMin);
+
+
+
+	// Get the value
+	theRange = valueMax - valueMin;
+	theValue = (((UInt64) GetRandomUInt32()) << 32) |
+				((UInt64) GetRandomUInt32());
+
+	theValue = valueMin + (theValue % theRange);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NMathUtilities::GetRandomValue : Get a random value.
+//----------------------------------------------------------------------------
+#pragma mark -
+UInt32 NMathUtilities::GetRandomValue(UInt32 valueMin, UInt32 valueMax)
+{	UInt32		theValue, theRange;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(valueMax > valueMin);
+
+
+
+	// Get the value
+	theRange = valueMax - valueMin;
+	theValue = valueMin + (NTargetPOSIX::random() % theRange);
+
+
+
+	// Check our state
+	NN_ASSERT(theValue >= valueMin && theValue <= valueMax);
+
+	return(theValue);
+}
 
 
 

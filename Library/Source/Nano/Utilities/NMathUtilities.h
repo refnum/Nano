@@ -115,6 +115,22 @@ public:
 	static Float64						Acsch(Float64 theValue);
 	static Float64						Acoth(Float64 theValue);
 	static Float64						Rint( Float64 theValue);
+
+
+	// Random numbers
+	//
+	// Assigning a zero value for the seed will generate a random seed.
+	static UInt32						SetRandomSeed(UInt32 theSeed=0);
+	
+	static bool							GetRandomBoolean(void);
+	static UInt8						GetRandomUInt8( UInt8  valueMin=kUInt8Min,  UInt8  valueMax=kUInt8Max);
+	static UInt16						GetRandomUInt16(UInt16 valueMin=kUInt16Min, UInt16 valueMax=kUInt16Max);
+	static UInt32						GetRandomUInt32(UInt32 valueMin=kUInt32Min, UInt32 valueMax=kUInt32Max);
+	static UInt64						GetRandomUInt64(UInt64 valueMin=kUInt64Min, UInt64 valueMax=kUInt64Max);
+
+
+private:
+	static UInt32						GetRandomValue(UInt32 valueMin, UInt32 valueMax);
 };
 
 
