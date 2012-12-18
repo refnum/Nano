@@ -428,7 +428,7 @@ NStatus NSocket::ReadData(NIndex theSize, void *thePtr)
 		memcpy(thePtr, theData.GetData(), theSize);
 		}
 	
-	return(kNoErr);
+	return(theErr);
 }
 
 
