@@ -46,7 +46,13 @@ public:
 
 
 	// stdlib.h
-	static SInt64						llabs(SInt64 x);
+	static SInt64						llabs(  SInt64 x);
+	static void							srandom(UInt32 s);
+	static UInt32						random(void);
+
+
+	// process.h
+	static int							getpid(void);
 
 
 	// unistd.h

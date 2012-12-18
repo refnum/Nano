@@ -228,6 +228,51 @@ SInt64 NTargetPOSIX::llabs(SInt64 x)
 
 
 //============================================================================
+//      NTargetPOSIX::srandom : Seed the random number generator.
+//----------------------------------------------------------------------------
+void NTargetPOSIX::srandom(UInt32 s)
+{
+
+
+	// Set the seed
+	::srand(s);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::random : Generate a random number.
+//----------------------------------------------------------------------------
+UInt32 NTargetPOSIX::random(void)
+{
+
+
+	// Get the value
+	return(::rand());
+}
+
+
+
+
+
+//============================================================================
+//      NTargetPOSIX::getpid : Get the process ID.
+//----------------------------------------------------------------------------
+int NTargetPOSIX::getpid(void)
+{
+
+
+    // Get the pid
+	return(::_getpid());
+}
+
+
+
+
+
+//============================================================================
 //		NTargetPOSIX::getcwd : Windows getcwd.
 //----------------------------------------------------------------------------
 char *NTargetPOSIX::getcwd(char *buf, size_t size)
