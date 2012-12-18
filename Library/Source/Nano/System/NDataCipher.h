@@ -108,6 +108,6 @@ private:
 
 
 
-#endif // NDATACOMPRESSOR_HDR
+#endif // NDATACIPHER_HDR
 
 
