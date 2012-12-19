@@ -723,20 +723,35 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 //----------------------------------------------------------------------------
 void NDBHandle::SQLiteDestroyQuery(NDBQueryRef theQuery)
 {	sqlite3_stmt	*sqlQuery;
+	bool			areDone;
 	NDBStatus		dbErr;
 
 
 
 	// Get the state we need
 	sqlQuery = (sqlite3_stmt *) theQuery;
+	areDone  = false;
+	
+	if (sqlQuery == NULL)
+		return;
 
 
 
 	// Destroy the query
-	if (sqlQuery != NULL)
+	while (!areDone)
 		{
 		dbErr = sqlite3_finalize(sqlQuery);
-		NN_ASSERT(dbErr == SQLITE_OK);
+		switch (dbErr) {
+			case SQLITE_BUSY:
+			case SQLITE_LOCKED:
+				NThread::Sleep();
+				break;
+			
+			default:
+				NN_ASSERT(dbErr == SQLITE_OK);
+				areDone = true;
+				break;
+			}
 		}
 }
 
