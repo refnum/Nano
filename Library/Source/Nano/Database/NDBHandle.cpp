@@ -671,9 +671,8 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 
 
 
-	// Validate our parameters and state
+	// Validate our state
 	NN_ASSERT(IsOpen());
-	NN_ASSERT(!theQuery.GetValue().IsEmpty());
 
 
 
@@ -684,6 +683,19 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 	sqlDB    = (sqlite3 *) mDatabase;
 	sqlQuery = NULL;
 	sqlTail  = NULL;
+
+
+
+	// Validate the query
+	//
+	// Since we use prepared statements, queries can only contain a single SQL
+	// statement - any subsequent statements would be ignored by sqlite.
+	NN_ASSERT(!theValue.IsEmpty());
+
+#if NN_DEBUG
+	if (theValue.FindAll(";").size() > 1 || (!theValue.EndsWith(";") && theValue.Find(";") != kNRangeNone))
+		NN_LOG("NDBHandle: multiple SQL statements are ignored! [%@]", theValue);
+#endif
 
 
 
