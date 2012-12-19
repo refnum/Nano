@@ -161,7 +161,7 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 	// Open the database
 	dbErr = sqlite3_open_v2(thePath.GetUTF8(), &sqlDB, sqlFlags, vfsName);
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
+		NN_LOG("NDBHandle: %s", sqlite3_errmsg(sqlDB));
 
 
 
