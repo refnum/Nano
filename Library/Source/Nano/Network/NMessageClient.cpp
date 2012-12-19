@@ -118,13 +118,11 @@ void NMessageClient::Disconnect(void)
 //		NMessageClient::SendMessage : Send a message.
 //----------------------------------------------------------------------------
 void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
-{	NStatus		theErr;
-
+{
 
 
 	// Send the message
-	theErr = WriteMessage(&mSocket, theMsg, false);
-	NN_ASSERT_NOERR(theErr);
+	(void) WriteMessage(&mSocket, theMsg, false);
 }
 
 
@@ -319,7 +317,6 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 		else if (serverHandshake.theVersion < clientHandshake.theVersion)
 			theErr = kNErrVersionTooOld;
 		}
-	
 	
 	if (theErr != kNoErr)
 		{

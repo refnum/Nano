@@ -152,7 +152,6 @@ void NMessageServer::Stop(void)
 void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 {	StLock							acquireLock(mLock);
 	NClientInfoMapConstIterator		theIter;
-	NStatus							theErr;
 	NEntityID						dstID;
 
 
@@ -171,10 +170,7 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 	if (dstID == kNEntityEveryone)
 		{
 		for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
-			{
-			theErr = WriteMessage(theIter->second.theSocket, theMsg, false);
-			NN_ASSERT_NOERR(theErr);
-			}
+			(void) WriteMessage(theIter->second.theSocket, theMsg, false);
 		}
 
 
@@ -188,10 +184,7 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 		NN_ASSERT(theIter != mClients.end());
 
 		if (theIter != mClients.end())
-			{
-			theErr = WriteMessage(theIter->second.theSocket, theMsg, false);
-			NN_ASSERT_NOERR(theErr);
-			}
+			(void) WriteMessage(theIter->second.theSocket, theMsg, false);
 		}
 }
 

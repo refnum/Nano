@@ -58,6 +58,8 @@ public:
 
 
 	// Send a message
+	//
+	// Messages are sent asynchronously.
 	void								SendMessage(const NNetworkMessage &theMsg);
 
 
