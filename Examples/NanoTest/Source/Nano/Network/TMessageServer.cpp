@@ -41,6 +41,34 @@ static const NString kTokenRequest									= "Why did the chicken cross the road
 static const NString kTokenResponse									= "To get to the other side.";
 
 
+// State
+static const NString kStateServerDidStart							= "ServerDidStart/";
+static const NString kStateServerDidStop							= "ServerDidStop/";
+static const NString kStateServerAddedClient						= "ServerAddedClient/";
+static const NString kStateServerRemovedClient						= "ServerRemovedClient/";
+static const NString kStateServerReceivedMessage					= "ServerReceivedMessage/";
+static const NString kStateServerSentMessage						= "ServerSentMessage/";
+static const NString kStateServerReceivedError						= "ServerReceivedError/";
+
+static const NString kStateClientDidOpen							= "ClientDidOpen/";
+static const NString kStateClientDidClose							= "ClientDidClose/";
+static const NString kStateClientReceivedMessage					= "ClientReceivedMessage/";
+static const NString kStateClientSentMessage						= "ClientSentMessage/";
+static const NString kStateClientReceivedError						= "ClientReceivedError/";
+
+static const NString kStateServer									= kStateServerDidStart			+
+																	  kStateServerAddedClient		+
+																	  kStateServerReceivedMessage	+
+																	  kStateServerSentMessage		+
+																	  kStateServerRemovedClient		+
+																	  kStateServerDidStop;
+
+static const NString kStateClient									= kStateClientDidOpen			+
+																	  kStateClientSentMessage		+
+																	  kStateClientReceivedMessage	+
+																	  kStateClientDidClose;
+
+
 
 
 
@@ -51,6 +79,10 @@ class TTestServer : public NMessageServer {
 public:
 										TTestServer(void);
 	virtual							   ~TTestServer(void);
+
+
+	// Get the state
+	NString								GetState(void) const { return(mState); }
 
 
 protected:
@@ -67,11 +99,7 @@ protected:
 
 
 private:
-	NIndex								mStateNumStarts;
-	NIndex								mStateNumStops;
-	NIndex								mStateNumMsgs;
-	NIndex								mStateNumClients;
-	NStatus								mStateError;
+	NString								mState;
 };
 
 
@@ -88,7 +116,11 @@ public:
 
 
 	// Are we finished?
-	bool								IsDone(void) const;
+	bool								IsDone(void) const { return(mIsDone); }
+
+
+	// Get the state
+	NString								GetState(void) const { return(mState); }
 
 
 protected:
@@ -104,11 +136,7 @@ protected:
 
 private:
 	bool								mIsDone;
-
-	NIndex								mStateNumOpens;
-	NIndex								mStateNumCloses;
-	NIndex								mStateNumMsgs;
-	NStatus								mStateError;
+	NString								mState;
 };
 
 
@@ -121,14 +149,6 @@ private:
 #pragma mark -
 TTestServer::TTestServer(void)
 {
-
-
-	// Initialise ourselves
-	mStateNumStarts  = 0;
-	mStateNumStops   = 0;
-	mStateNumMsgs    = 0;
-	mStateNumClients = 0;
-	mStateError      = kNoErr;
 }
 
 
@@ -144,12 +164,6 @@ TTestServer::~TTestServer(void)
 
 	// Validate our state
 	NN_ASSERT(GetStatus() == kNServerStopped);
-	
-	NN_ASSERT(mStateNumStarts  == 1);
-	NN_ASSERT(mStateNumStops   == 1);
-	NN_ASSERT(mStateNumMsgs    == 1);
-	NN_ASSERT(mStateNumClients == 1);
-	NN_ASSERT_NOERR(mStateError);
 }
 
 
@@ -166,7 +180,7 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 	// Update our state
-	mStateNumMsgs++;
+	mState += kStateServerReceivedMessage;
 
 
 
@@ -184,6 +198,7 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 			replyMsg.SetValue(kTestTokenKey, kTokenResponse);
 			
 			SendMessage(replyMsg);
+			mState += kStateServerSentMessage;
 			break;
 
 
@@ -205,7 +220,7 @@ void TTestServer::ServerDidStart(void)
 
 
 	// Update our state
-	mStateNumStarts++;
+	mState += kStateServerDidStart;
 }
 
 
@@ -220,7 +235,7 @@ void TTestServer::ServerDidStop(void)
 
 
 	// Update our state
-	mStateNumStops++;
+	mState += kStateServerDidStop;
 }
 
 
@@ -235,7 +250,7 @@ void TTestServer::ServerAddedClient(NEntityID /*clientID*/)
 
 
 	// Update our state
-	mStateNumClients++;
+	mState += kStateServerAddedClient;
 }
 
 
@@ -247,6 +262,10 @@ void TTestServer::ServerAddedClient(NEntityID /*clientID*/)
 //----------------------------------------------------------------------------
 void TTestServer::ServerRemovedClient(NEntityID /*clientID*/)
 {
+
+
+	// Update our state
+	mState += kStateServerRemovedClient;
 }
 
 
@@ -261,7 +280,9 @@ void TTestServer::ServerReceivedError(NStatus theErr)
 
 
 	// Update our state
-	mStateError = theErr;
+	NN_ASSERT_NOERR(theErr);
+
+	mState += kStateServerReceivedError;
 }
 
 
@@ -278,11 +299,6 @@ TTestClient::TTestClient(void)
 
 	// Initialise ourselves
 	mIsDone = false;
-
-	mStateNumOpens  = 0;
-	mStateNumCloses = 0;
-	mStateNumMsgs   = 0;
-	mStateError     = kNoErr;
 }
 
 
@@ -298,26 +314,6 @@ TTestClient::~TTestClient(void)
 
 	// Validate our state
 	NN_ASSERT(GetStatus() == kNClientDisconnected);
-	
-	NN_ASSERT(mStateNumOpens  == 1);
-	NN_ASSERT(mStateNumCloses == 1);
-	NN_ASSERT(mStateNumMsgs   == 1);
-	NN_ASSERT_NOERR(mStateError);
-}
-
-
-
-
-
-//============================================================================
-//		TTestClient::IsDone : Is the client done?
-//----------------------------------------------------------------------------
-bool TTestClient::IsDone(void) const
-{
-
-
-	// Check our state
-	return(mIsDone);
 }
 
 
@@ -333,7 +329,7 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 	// Update our state
-	mStateNumMsgs++;
+	mState += kStateClientReceivedMessage;
 
 
 
@@ -370,7 +366,7 @@ void TTestClient::SessionDidOpen(void)
 
 
 	// Update our state
-	mStateNumOpens++;
+	mState += kStateClientDidOpen;
 
 
 
@@ -379,6 +375,7 @@ void TTestClient::SessionDidOpen(void)
 	theMsg.SetValue(kTestTokenKey, kTokenRequest);
 
 	SendMessage(theMsg);
+	mState += kStateClientSentMessage;
 }
 
 
@@ -393,7 +390,7 @@ void TTestClient::SessionDidClose(void)
 
 
 	// Update our state
-	mStateNumCloses++;
+	mState += kStateClientDidClose;
 }
 
 
@@ -408,7 +405,9 @@ void TTestClient::SessionReceivedError(NStatus theErr)
 
 
 	// Update our state
-	mStateError = theErr;
+	NN_ASSERT_NOERR(theErr);
+
+	mState += kStateClientReceivedError;
 }
 
 
@@ -425,10 +424,20 @@ void TMessageServer::Execute(void)
 
 
 
-	// Execute the tests
+	// Get the state we need
 	thePort = NMathUtilities::GetRandomUInt16(kServerPortMin, kServerPortMax);
 
-	testServer.Start(               thePort);
+
+
+	// Start the server
+	testServer.Start(thePort);
+
+	while (testServer.GetStatus() != kNServerStarted)
+		NThread::Sleep();
+
+
+
+	// Connect the client
 	testClient.Connect("127.0.0.1", thePort);
 
 	while (!testClient.IsDone())
@@ -449,7 +458,15 @@ void TMessageServer::Execute(void)
 
 	while (testServer.GetStatus() != kNServerStopped)
 		NThread::Sleep();
+
+
+
+	// Validate our state
+	NN_ASSERT(testServer.GetState() == kStateServer);
+	NN_ASSERT(testClient.GetState() == kStateClient);
 }
+
+
 
 
 
