@@ -282,8 +282,8 @@
 		ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
 		ABD6816B1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
-		ABD68177167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers"; }; };
-		ABD68178167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers"; }; };
+		ABD68177167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers -Wno-sign-conversion"; }; };
+		ABD68178167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers -Wno-sign-conversion"; }; };
 		ABD6817B167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
 		ABD6817C167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
 		ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
