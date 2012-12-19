@@ -81,8 +81,9 @@ typedef struct NSocketInfo *NSocketRef;
 //----------------------------------------------------------------------------
 class NSocket : public NUncopyable {
 public:
-										NSocket(NSocketDelegate *theDelegate);
 										NSocket(NSocketRef theSocket, NSocket *parentSocket);
+
+										NSocket(NSocketDelegate *theDelegate=NULL);
 	virtual							   ~NSocket(void);
 
 

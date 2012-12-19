@@ -34,21 +34,6 @@ static const NIndex kReadBufferSize									= 8 * kNKilobyte;
 //============================================================================
 //		NSocket::NSocket : Constructor.
 //----------------------------------------------------------------------------
-NSocket::NSocket(NSocketDelegate *theDelegate)
-{
-
-
-	// Initialise ourselves
-	InitialiseSelf(theDelegate);
-}
-
-
-
-
-
-//============================================================================
-//		NSocket::NSocket : Constructor.
-//----------------------------------------------------------------------------
 NSocket::NSocket(NSocketRef theSocket, NSocket *parentSocket)
 {
 
@@ -58,6 +43,21 @@ NSocket::NSocket(NSocketRef theSocket, NSocket *parentSocket)
 	
 	mStatus = kNSocketOpening;
 	mSocket = theSocket;
+}
+
+
+
+
+
+//============================================================================
+//		NSocket::NSocket : Constructor.
+//----------------------------------------------------------------------------
+NSocket::NSocket(NSocketDelegate *theDelegate)
+{
+
+
+	// Initialise ourselves
+	InitialiseSelf(theDelegate);
 }
 
 
