@@ -26,7 +26,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kDebugMessage							= "Hello World";
+static const NString kTestMessage									= "Hello World";
 
 
 
@@ -61,13 +61,13 @@ void TDebug::Execute(void)
 	// Log output
 	CTestUtilities::SetDebugCapture(true);
 
-	nDebug->LogMessage(__FILE__, __LINE__, kDebugMessage);
+	nDebug->LogMessage(__FILE__, __LINE__, kTestMessage);
 	
 	theValue = CTestUtilities::SetDebugCapture(false);
 	theValue.Trim();
 
 	NN_ASSERT(theValue.Contains("TDebug.cpp"));
-	NN_ASSERT(theValue.EndsWith(kDebugMessage));
+	NN_ASSERT(theValue.EndsWith(kTestMessage));
 }
 
 

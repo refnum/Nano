@@ -25,10 +25,10 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kValueText								= "test";
-static const UInt8   kValueTextUTF8[]						= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
-static const UInt8   kValueTextUTF16BE[]					= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
-static const UInt8   kValueTextUTF16LE[]					= { 0xFF, 0xFE, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74, 0x00 };
+static const NString kTestText										= "test";
+static const UInt8   kTestTextUTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
+static const UInt8   kTestTextUTF16BE[]								= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
+static const UInt8   kTestTextUTF16LE[]								= { 0xFF, 0xFE, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74, 0x00 };
 
 
 
@@ -58,7 +58,7 @@ void TFileUtilities::Execute(void)
 
 	// Data files
 	theFile  = NFileUtilities::GetTemporaryFile();
-	theData1 = NData(NN_ARRAY_SIZE(kValueTextUTF16BE), kValueTextUTF16BE);
+	theData1 = NData(NN_ARRAY_SIZE(kTestTextUTF16BE), kTestTextUTF16BE);
 	
 	theErr   = NFileUtilities::SetFileData(theFile, theData1);
 	theData2 = NFileUtilities::GetFileData(theFile);
@@ -68,20 +68,20 @@ void TFileUtilities::Execute(void)
 
 
 	// Text file encodings
-	theErr   = NFileUtilities::SetFileText(theFile, kValueText, kNStringEncodingUTF8, kNStringUnicodeBOM);
-	theData1 = NData(NN_ARRAY_SIZE(kValueTextUTF8), kValueTextUTF8);
+	theErr   = NFileUtilities::SetFileText(theFile, kTestText, kNStringEncodingUTF8, kNStringUnicodeBOM);
+	theData1 = NData(NN_ARRAY_SIZE(kTestTextUTF8), kTestTextUTF8);
 	theData2 = NFileUtilities::GetFileData(theFile);
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(theData1.GetHash() == theData2.GetHash());
 
-	theErr   = NFileUtilities::SetFileText(theFile, kValueText, kNStringEncodingUTF16BE, kNStringUnicodeBOM);
-	theData1 = NData(NN_ARRAY_SIZE(kValueTextUTF16BE), kValueTextUTF16BE);
+	theErr   = NFileUtilities::SetFileText(theFile, kTestText, kNStringEncodingUTF16BE, kNStringUnicodeBOM);
+	theData1 = NData(NN_ARRAY_SIZE(kTestTextUTF16BE), kTestTextUTF16BE);
 	theData2 = NFileUtilities::GetFileData(theFile);
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(theData1.GetHash() == theData2.GetHash());
 
-	theErr   = NFileUtilities::SetFileText(theFile, kValueText, kNStringEncodingUTF16LE, kNStringUnicodeBOM);
-	theData1 = NData(NN_ARRAY_SIZE(kValueTextUTF16LE), kValueTextUTF16LE);
+	theErr   = NFileUtilities::SetFileText(theFile, kTestText, kNStringEncodingUTF16LE, kNStringUnicodeBOM);
+	theData1 = NData(NN_ARRAY_SIZE(kTestTextUTF16LE), kTestTextUTF16LE);
 	theData2 = NFileUtilities::GetFileData(theFile);
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(theData1.GetHash() == theData2.GetHash());
@@ -89,10 +89,10 @@ void TFileUtilities::Execute(void)
 
 
 	// Text file encoding detection
-	theErr   = NFileUtilities::SetFileText(theFile, kValueText, kNStringEncodingUTF16BE, kNStringUnicodeBOM);
+	theErr   = NFileUtilities::SetFileText(theFile, kTestText, kNStringEncodingUTF16BE, kNStringUnicodeBOM);
 	theText  = NFileUtilities::GetFileText(theFile);
-	NN_ASSERT(theText                                         == kValueText);		// Compare as UTF16
-	NN_ASSERT(strcmp(theText.GetUTF8(), kValueText.GetUTF8()) == 0);				// Compare as UTF8
+	NN_ASSERT(theText                                        == kTestText);		// Compare as UTF16
+	NN_ASSERT(strcmp(theText.GetUTF8(), kTestText.GetUTF8()) == 0);				// Compare as UTF8
 }
 
 

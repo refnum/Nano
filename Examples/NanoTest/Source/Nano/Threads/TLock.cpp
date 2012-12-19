@@ -26,12 +26,12 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NIndex kThreadCount										= 10;
-static const NIndex kLockCount											= 100;
-static const NIndex kDataSize											= 5000;
+static const NIndex kThreadCount									= 10;
+static const NIndex kLockCount										= 100;
 
-static const UInt8  kDataActive											= 0x23;
-static const UInt8  kDataInactive										= 0x42;
+static const UInt8  kDataActive										= 0x23;
+static const UInt8  kDataInactive									= 0x42;
+static const NIndex kDataSize										= 5000;
 
 
 

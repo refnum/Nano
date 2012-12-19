@@ -25,10 +25,10 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NGregorianDate kValueDate1								= { 2010, 6, 1, 18, 21, 57,       kNTimeZoneUTC };
-static const NGregorianDate kValueDate2								= { -123, 6, 1, 18, 21, 57,       kNTimeZoneUTC };
-static const NGregorianDate kValueDate3								= { 2010, 6, 1,  3, 21, 57,       kNTimeZoneUTC };
-static const NGregorianDate kValueDate4								= { 2010, 6, 1,  0,  7,  5.12345, kNTimeZoneUTC };
+static const NGregorianDate kTestDate1								= { 2010, 6, 1, 18, 21, 57,       kNTimeZoneUTC };
+static const NGregorianDate kTestDate2								= { -123, 6, 1, 18, 21, 57,       kNTimeZoneUTC };
+static const NGregorianDate kTestDate3								= { 2010, 6, 1,  3, 21, 57,       kNTimeZoneUTC };
+static const NGregorianDate kTestDate4								= { 2010, 6, 1,  0,  7,  5.12345, kNTimeZoneUTC };
 
 
 
@@ -44,31 +44,31 @@ void TDateFormatter::Execute(void)
 
 
 	// Quotes
-	theResult = theFormatter.Format(kValueDate1, "G''G");
+	theResult = theFormatter.Format(kTestDate1, "G''G");
 	NN_ASSERT(theResult == "AD'AD");
 
-	theResult = theFormatter.Format(kValueDate1, "G'test'G");
+	theResult = theFormatter.Format(kTestDate1, "G'test'G");
 	NN_ASSERT(theResult == "ADtestAD");
 	
-	theResult = theFormatter.Format(kValueDate1, "G'testG");
+	theResult = theFormatter.Format(kTestDate1, "G'testG");
 	NN_ASSERT(theResult == "ADtestG");
 
 
 
 	// Era
-	theResult = theFormatter.Format(kValueDate1, "G");
+	theResult = theFormatter.Format(kTestDate1, "G");
 	NN_ASSERT(theResult == "AD");
 	
-	theResult = theFormatter.Format(kValueDate1, "GG");
+	theResult = theFormatter.Format(kTestDate1, "GG");
 	NN_ASSERT(theResult == "AD");
 	
-	theResult = theFormatter.Format(kValueDate1, "GGG");
+	theResult = theFormatter.Format(kTestDate1, "GGG");
 	NN_ASSERT(theResult == "AD");
 	
-	theResult = theFormatter.Format(kValueDate1, "GGGG");
+	theResult = theFormatter.Format(kTestDate1, "GGGG");
 	NN_ASSERT(theResult == "Anno Domini");
 	
-	theResult = theFormatter.Format(kValueDate1, "GGGGG");
+	theResult = theFormatter.Format(kTestDate1, "GGGGG");
 	NN_ASSERT(theResult == "A");
 
 
@@ -76,326 +76,325 @@ void TDateFormatter::Execute(void)
 	NN_LOG("Ignore next 5 asserts: NWinTime requires dates >= 1601");
 #endif
 
-	theResult = theFormatter.Format(kValueDate2, "G");
+	theResult = theFormatter.Format(kTestDate2, "G");
 	NN_ASSERT(theResult == "BC");
 	
-	theResult = theFormatter.Format(kValueDate2, "GG");
+	theResult = theFormatter.Format(kTestDate2, "GG");
 	NN_ASSERT(theResult == "BC");
 	
-	theResult = theFormatter.Format(kValueDate2, "GGG");
+	theResult = theFormatter.Format(kTestDate2, "GGG");
 	NN_ASSERT(theResult == "BC");
 	
-	theResult = theFormatter.Format(kValueDate2, "GGGG");
+	theResult = theFormatter.Format(kTestDate2, "GGGG");
 	NN_ASSERT(theResult == "Before Christ");
 	
-	theResult = theFormatter.Format(kValueDate2, "GGGGG");
+	theResult = theFormatter.Format(kTestDate2, "GGGGG");
 	NN_ASSERT(theResult == "B");
 
 
 
 	// Year
-	theResult = theFormatter.Format(kValueDate1, "y");
+	theResult = theFormatter.Format(kTestDate1, "y");
 	NN_ASSERT(theResult == "2010");
 
-	theResult = theFormatter.Format(kValueDate1, "yy");
+	theResult = theFormatter.Format(kTestDate1, "yy");
 	NN_ASSERT(theResult == "10");
 
-	theResult = theFormatter.Format(kValueDate1, "yyy");
+	theResult = theFormatter.Format(kTestDate1, "yyy");
 	NN_ASSERT(theResult == "2010");
 
-	theResult = theFormatter.Format(kValueDate1, "yyyy");
+	theResult = theFormatter.Format(kTestDate1, "yyyy");
 	NN_ASSERT(theResult == "2010");
 
-	theResult = theFormatter.Format(kValueDate1, "yyyyy");
+	theResult = theFormatter.Format(kTestDate1, "yyyyy");
 	NN_ASSERT(theResult == "02010");
 
 
-	theResult = theFormatter.Format(kValueDate1, "YYYYY");
+	theResult = theFormatter.Format(kTestDate1, "YYYYY");
 	NN_ASSERT(theResult == "02010");
 
-	theResult = theFormatter.Format(kValueDate1, "uuuuu");
+	theResult = theFormatter.Format(kTestDate1, "uuuuu");
 	NN_ASSERT(theResult == "02010");
 
 
 
 	// Quarter
-	theResult = theFormatter.Format(kValueDate1, "Q");
+	theResult = theFormatter.Format(kTestDate1, "Q");
 	NN_ASSERT(theResult == "2");
 
-	theResult = theFormatter.Format(kValueDate1, "QQ");
+	theResult = theFormatter.Format(kTestDate1, "QQ");
 	NN_ASSERT(theResult == "02");
 
-	theResult = theFormatter.Format(kValueDate1, "QQQ");
+	theResult = theFormatter.Format(kTestDate1, "QQQ");
 	NN_ASSERT(theResult == "Q2");
 
-	theResult = theFormatter.Format(kValueDate1, "QQQQ");
+	theResult = theFormatter.Format(kTestDate1, "QQQQ");
 	NN_ASSERT(theResult == "2nd Quarter");
 
 
-	theResult = theFormatter.Format(kValueDate1, "q");
+	theResult = theFormatter.Format(kTestDate1, "q");
 	NN_ASSERT(theResult == "2");
 
-	theResult = theFormatter.Format(kValueDate1, "qq");
+	theResult = theFormatter.Format(kTestDate1, "qq");
 	NN_ASSERT(theResult == "02");
 
-	theResult = theFormatter.Format(kValueDate1, "qqq");
+	theResult = theFormatter.Format(kTestDate1, "qqq");
 	NN_ASSERT(theResult == "Q2");
 
-	theResult = theFormatter.Format(kValueDate1, "qqqq");
+	theResult = theFormatter.Format(kTestDate1, "qqqq");
 	NN_ASSERT(theResult == "2nd Quarter");
 
 
 
 	// Month
-	theResult = theFormatter.Format(kValueDate1, "M");
+	theResult = theFormatter.Format(kTestDate1, "M");
 	NN_ASSERT(theResult == "6");
 
-	theResult = theFormatter.Format(kValueDate1, "MM");
+	theResult = theFormatter.Format(kTestDate1, "MM");
 	NN_ASSERT(theResult == "06");
 
-	theResult = theFormatter.Format(kValueDate1, "MMM");
+	theResult = theFormatter.Format(kTestDate1, "MMM");
 	NN_ASSERT(theResult == "Jun");
 
-	theResult = theFormatter.Format(kValueDate1, "MMMM");
+	theResult = theFormatter.Format(kTestDate1, "MMMM");
 	NN_ASSERT(theResult == "June");
 
-	theResult = theFormatter.Format(kValueDate1, "MMMMM");
+	theResult = theFormatter.Format(kTestDate1, "MMMMM");
 	NN_ASSERT(theResult == "J");
 
 
-	theResult = theFormatter.Format(kValueDate1, "L");
+	theResult = theFormatter.Format(kTestDate1, "L");
 	NN_ASSERT(theResult == "6");
 
-	theResult = theFormatter.Format(kValueDate1, "LL");
+	theResult = theFormatter.Format(kTestDate1, "LL");
 	NN_ASSERT(theResult == "06");
 
-	theResult = theFormatter.Format(kValueDate1, "LLL");
+	theResult = theFormatter.Format(kTestDate1, "LLL");
 	NN_ASSERT(theResult == "Jun");
 
-	theResult = theFormatter.Format(kValueDate1, "LLLL");
+	theResult = theFormatter.Format(kTestDate1, "LLLL");
 	NN_ASSERT(theResult == "June");
 
-	theResult = theFormatter.Format(kValueDate1, "LLLLL");
+	theResult = theFormatter.Format(kTestDate1, "LLLLL");
 	NN_ASSERT(theResult == "J");
 
 
 
 	// Week
-	theResult = theFormatter.Format(kValueDate1, "w");
+	theResult = theFormatter.Format(kTestDate1, "w");
 	NN_ASSERT(theResult == "22");
 
-	theResult = theFormatter.Format(kValueDate1, "W");
+	theResult = theFormatter.Format(kTestDate1, "W");
 	NN_ASSERT(theResult == "1");
 
 
 
 	// Day
-	theResult = theFormatter.Format(kValueDate1, "d");
+	theResult = theFormatter.Format(kTestDate1, "d");
 	NN_ASSERT(theResult == "1");
 
-	theResult = theFormatter.Format(kValueDate1, "D");
+	theResult = theFormatter.Format(kTestDate1, "D");
 	NN_ASSERT(theResult == "152");
 
 /*
-	theResult = theFormatter.Format(kValueDate1, "F");
+	theResult = theFormatter.Format(kTestDate1, "F");
 	NN_ASSERT(theResult == "TODO");
 
-	theResult = theFormatter.Format(kValueDate1, "g");
+	theResult = theFormatter.Format(kTestDate1, "g");
 	NN_ASSERT(theResult == "TODO");
 */
 
 
 
 	// Week day
-	theResult = theFormatter.Format(kValueDate1, "E");
+	theResult = theFormatter.Format(kTestDate1, "E");
 	NN_ASSERT(theResult == "Tue");
 
-	theResult = theFormatter.Format(kValueDate1, "EE");
+	theResult = theFormatter.Format(kTestDate1, "EE");
 	NN_ASSERT(theResult == "Tue");
 
-	theResult = theFormatter.Format(kValueDate1, "EEE");
+	theResult = theFormatter.Format(kTestDate1, "EEE");
 	NN_ASSERT(theResult == "Tue");
 
-	theResult = theFormatter.Format(kValueDate1, "EEEE");
+	theResult = theFormatter.Format(kTestDate1, "EEEE");
 	NN_ASSERT(theResult == "Tuesday");
 
-	theResult = theFormatter.Format(kValueDate1, "EEEEE");
+	theResult = theFormatter.Format(kTestDate1, "EEEEE");
 	NN_ASSERT(theResult == "T");
 
 
-	theResult = theFormatter.Format(kValueDate1, "e");
+	theResult = theFormatter.Format(kTestDate1, "e");
 	NN_ASSERT(theResult == "2");
 
-	theResult = theFormatter.Format(kValueDate1, "ee");
+	theResult = theFormatter.Format(kTestDate1, "ee");
 	NN_ASSERT(theResult == "02");
 
-	theResult = theFormatter.Format(kValueDate1, "eee");
+	theResult = theFormatter.Format(kTestDate1, "eee");
 	NN_ASSERT(theResult == "Tue");
 
-	theResult = theFormatter.Format(kValueDate1, "eeee");
+	theResult = theFormatter.Format(kTestDate1, "eeee");
 	NN_ASSERT(theResult == "Tuesday");
 
-	theResult = theFormatter.Format(kValueDate1, "eeeee");
+	theResult = theFormatter.Format(kTestDate1, "eeeee");
 	NN_ASSERT(theResult == "T");
 
 
-	theResult = theFormatter.Format(kValueDate1, "c");
+	theResult = theFormatter.Format(kTestDate1, "c");
 	NN_ASSERT(theResult == "2");
 
-	theResult = theFormatter.Format(kValueDate1, "cc");
+	theResult = theFormatter.Format(kTestDate1, "cc");
 	NN_ASSERT(theResult == "02");
 
-	theResult = theFormatter.Format(kValueDate1, "ccc");
+	theResult = theFormatter.Format(kTestDate1, "ccc");
 	NN_ASSERT(theResult == "Tue");
 
-	theResult = theFormatter.Format(kValueDate1, "cccc");
+	theResult = theFormatter.Format(kTestDate1, "cccc");
 	NN_ASSERT(theResult == "Tuesday");
 
-	theResult = theFormatter.Format(kValueDate1, "ccccc");
+	theResult = theFormatter.Format(kTestDate1, "ccccc");
 	NN_ASSERT(theResult == "T");
 
 
 
 	// Period
-	theResult = theFormatter.Format(kValueDate1, "a");
+	theResult = theFormatter.Format(kTestDate1, "a");
 	NN_ASSERT(theResult == "PM");
 
-	theResult = theFormatter.Format(kValueDate3, "a");
+	theResult = theFormatter.Format(kTestDate3, "a");
 	NN_ASSERT(theResult == "AM");
 
 
 
 	// Hour
-	theResult = theFormatter.Format(kValueDate1, "h");
+	theResult = theFormatter.Format(kTestDate1, "h");
 	NN_ASSERT(theResult == "6");
 
-	theResult = theFormatter.Format(kValueDate3, "h");
+	theResult = theFormatter.Format(kTestDate3, "h");
 	NN_ASSERT(theResult == "3");
 
-	theResult = theFormatter.Format(kValueDate4, "h");
+	theResult = theFormatter.Format(kTestDate4, "h");
 	NN_ASSERT(theResult == "12");
 
-	theResult = theFormatter.Format(kValueDate1, "hh");
+	theResult = theFormatter.Format(kTestDate1, "hh");
 	NN_ASSERT(theResult == "06");
 
-	theResult = theFormatter.Format(kValueDate3, "hh");
+	theResult = theFormatter.Format(kTestDate3, "hh");
 	NN_ASSERT(theResult == "03");
 
-	theResult = theFormatter.Format(kValueDate4, "hh");
+	theResult = theFormatter.Format(kTestDate4, "hh");
 	NN_ASSERT(theResult == "12");
 
 
-	theResult = theFormatter.Format(kValueDate1, "H");
+	theResult = theFormatter.Format(kTestDate1, "H");
 	NN_ASSERT(theResult == "18");
 
-	theResult = theFormatter.Format(kValueDate3, "H");
+	theResult = theFormatter.Format(kTestDate3, "H");
 	NN_ASSERT(theResult == "3");
 
-	theResult = theFormatter.Format(kValueDate4, "H");
+	theResult = theFormatter.Format(kTestDate4, "H");
 	NN_ASSERT(theResult == "0");
 
-	theResult = theFormatter.Format(kValueDate1, "HH");
+	theResult = theFormatter.Format(kTestDate1, "HH");
 	NN_ASSERT(theResult == "18");
 
-	theResult = theFormatter.Format(kValueDate3, "HH");
+	theResult = theFormatter.Format(kTestDate3, "HH");
 	NN_ASSERT(theResult == "03");
 
-	theResult = theFormatter.Format(kValueDate4, "HH");
+	theResult = theFormatter.Format(kTestDate4, "HH");
 	NN_ASSERT(theResult == "00");
 
 
-	theResult = theFormatter.Format(kValueDate1, "K");
+	theResult = theFormatter.Format(kTestDate1, "K");
 	NN_ASSERT(theResult == "6");
 
-	theResult = theFormatter.Format(kValueDate3, "K");
+	theResult = theFormatter.Format(kTestDate3, "K");
 	NN_ASSERT(theResult == "3");
 
-	theResult = theFormatter.Format(kValueDate4, "K");
+	theResult = theFormatter.Format(kTestDate4, "K");
 	NN_ASSERT(theResult == "0");
 
-	theResult = theFormatter.Format(kValueDate1, "KK");
+	theResult = theFormatter.Format(kTestDate1, "KK");
 	NN_ASSERT(theResult == "06");
 
-	theResult = theFormatter.Format(kValueDate3, "KK");
+	theResult = theFormatter.Format(kTestDate3, "KK");
 	NN_ASSERT(theResult == "03");
 
-	theResult = theFormatter.Format(kValueDate4, "KK");
+	theResult = theFormatter.Format(kTestDate4, "KK");
 	NN_ASSERT(theResult == "00");
 
 
-	theResult = theFormatter.Format(kValueDate1, "k");
+	theResult = theFormatter.Format(kTestDate1, "k");
 	NN_ASSERT(theResult == "18");
 
-	theResult = theFormatter.Format(kValueDate3, "k");
+	theResult = theFormatter.Format(kTestDate3, "k");
 	NN_ASSERT(theResult == "3");
 
-	theResult = theFormatter.Format(kValueDate4, "k");
+	theResult = theFormatter.Format(kTestDate4, "k");
 	NN_ASSERT(theResult == "24");
 
-	theResult = theFormatter.Format(kValueDate1, "kk");
+	theResult = theFormatter.Format(kTestDate1, "kk");
 	NN_ASSERT(theResult == "18");
 
-	theResult = theFormatter.Format(kValueDate3, "kk");
+	theResult = theFormatter.Format(kTestDate3, "kk");
 	NN_ASSERT(theResult == "03");
 
-	theResult = theFormatter.Format(kValueDate4, "kk");
+	theResult = theFormatter.Format(kTestDate4, "kk");
 	NN_ASSERT(theResult == "24");
 
 
 
 	// Minute
-	theResult = theFormatter.Format(kValueDate1, "m");
+	theResult = theFormatter.Format(kTestDate1, "m");
 	NN_ASSERT(theResult == "21");
 
-	theResult = theFormatter.Format(kValueDate4, "m");
+	theResult = theFormatter.Format(kTestDate4, "m");
 	NN_ASSERT(theResult == "7");
 
-	theResult = theFormatter.Format(kValueDate1, "mm");
+	theResult = theFormatter.Format(kTestDate1, "mm");
 	NN_ASSERT(theResult == "21");
 
-	theResult = theFormatter.Format(kValueDate4, "mm");
+	theResult = theFormatter.Format(kTestDate4, "mm");
 	NN_ASSERT(theResult == "07");
 
 
 
 	// Second
-	theResult = theFormatter.Format(kValueDate1, "s");
+	theResult = theFormatter.Format(kTestDate1, "s");
 	NN_ASSERT(theResult == "57");
 
-	theResult = theFormatter.Format(kValueDate4, "s");
+	theResult = theFormatter.Format(kTestDate4, "s");
 	NN_ASSERT(theResult == "5");
 
-	theResult = theFormatter.Format(kValueDate1, "s");
+	theResult = theFormatter.Format(kTestDate1, "s");
 	NN_ASSERT(theResult == "57");
 
-	theResult = theFormatter.Format(kValueDate4, "ss");
+	theResult = theFormatter.Format(kTestDate4, "ss");
 	NN_ASSERT(theResult == "05");
 
 
-	theResult = theFormatter.Format(kValueDate4, "S");
+	theResult = theFormatter.Format(kTestDate4, "S");
 	NN_ASSERT(theResult == "1");
 
-	theResult = theFormatter.Format(kValueDate4, "SS");
+	theResult = theFormatter.Format(kTestDate4, "SS");
 	NN_ASSERT(theResult == "12");
 
-	theResult = theFormatter.Format(kValueDate4, "SSS");
+	theResult = theFormatter.Format(kTestDate4, "SSS");
 	NN_ASSERT(theResult == "123");
 
-	theResult = theFormatter.Format(kValueDate4, "SSSS");
+	theResult = theFormatter.Format(kTestDate4, "SSSS");
 	NN_ASSERT(theResult == "1235");
 
-	theResult = theFormatter.Format(kValueDate4, "SSSSS");
+	theResult = theFormatter.Format(kTestDate4, "SSSSS");
 	NN_ASSERT(theResult == "12345");
 
 
-	theResult = theFormatter.Format(kValueDate4, "ss.SSS");
+	theResult = theFormatter.Format(kTestDate4, "ss.SSS");
 	NN_ASSERT(theResult == "05.123");
 
 
 /*
-	theResult = theFormatter.Format(kValueDate1, "A");
+	theResult = theFormatter.Format(kTestDate1, "A");
 	NN_ASSERT(theResult == "TODO");
 */
 }
-
 

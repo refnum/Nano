@@ -26,17 +26,17 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const char   *kValueCharPtr									= "test string";
-static const NString kValueString									= "another test string";
+static const char   *kTestCharPtr									= "test string";
+static const NString kTestString									= "another test string";
 
-static const UInt8 kValueText1_UTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
-static const UInt8 kValueText1_UTF16BE[]							= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
+static const UInt8 kTestText1_UTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
+static const UInt8 kTestText1_UTF16BE[]								= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
 
-static const char *kValueText2_UTF8									= "/";
-static const UInt8 kValueText2_UTF16BE[]							= { 0x00, 0x2F };
+static const char *kTestText2_UTF8									= "/";
+static const UInt8 kTestText2_UTF16BE[]								= { 0x00, 0x2F };
 
-static const NString kValueDiacritics_String						= "Testing Text Diacritic";
-static const UInt8   kValueDiacritics_UTF8[]						= { 0x54, 0xC3, 0xA9, 0x73, 0x74, 0xC3, 0xAF, 0x6E, 0x67,
+static const NString kTestDiacritics_String							= "Testing Text Diacritic";
+static const UInt8   kTestDiacritics_UTF8[]							= { 0x54, 0xC3, 0xA9, 0x73, 0x74, 0xC3, 0xAF, 0x6E, 0x67,
 																		0x20, 0x54, 0xC3, 0xA8, 0x78, 0x74, 0x20, 0x44, 0x69,
 																		0x61, 0xC3, 0xA7, 0x72, 0x69, 0x74, 0x69, 0x63, 0x00 }; 
 
@@ -58,18 +58,18 @@ void TString::Execute(void)
 
 
 	// Compiler warnings
-	NN_UNUSED(kValueText2_UTF8);
+	NN_UNUSED(kTestText2_UTF8);
 
 
 
 	// Construction
-	testString1 = kValueCharPtr;
-	NN_ASSERT(testString1.GetSize() == (NIndex) strlen(kValueCharPtr));
-	NN_ASSERT(strcmp(testString1.GetUTF8(), kValueCharPtr) == 0);
+	testString1 = kTestCharPtr;
+	NN_ASSERT(testString1.GetSize() == (NIndex) strlen(kTestCharPtr));
+	NN_ASSERT(strcmp(testString1.GetUTF8(), kTestCharPtr) == 0);
 
-	testString1 = kValueString;
-	NN_ASSERT(testString1.GetSize() == (NIndex) strlen(kValueString.GetUTF8()));
-	NN_ASSERT(strcmp(testString1.GetUTF8(), kValueString.GetUTF8()) == 0);
+	testString1 = kTestString;
+	NN_ASSERT(testString1.GetSize() == (NIndex) strlen(kTestString.GetUTF8()));
+	NN_ASSERT(strcmp(testString1.GetUTF8(), kTestString.GetUTF8()) == 0);
 
 
 
@@ -245,8 +245,8 @@ void TString::Execute(void)
 
 
 	// Hashing
-	testString1 = NString(kValueText1_UTF8,    NN_ARRAY_SIZE(kValueText1_UTF8),    kNStringEncodingUTF8);
-	testString2 = NString(kValueText1_UTF16BE, NN_ARRAY_SIZE(kValueText1_UTF16BE), kNStringEncodingUTF16BE);
+	testString1 = NString(kTestText1_UTF8,    NN_ARRAY_SIZE(kTestText1_UTF8),    kNStringEncodingUTF8);
+	testString2 = NString(kTestText1_UTF16BE, NN_ARRAY_SIZE(kTestText1_UTF16BE), kNStringEncodingUTF16BE);
 	
 	NN_ASSERT(testString1           == testString2);
 	NN_ASSERT(testString1.GetHash() == testString2.GetHash());
@@ -254,8 +254,8 @@ void TString::Execute(void)
 
 
 	// Encoding
-	testString1 = NString(kValueText2_UTF16BE, NN_ARRAY_SIZE(kValueText2_UTF16BE), kNStringEncodingUTF16BE);
-	NN_ASSERT(strcmp(testString1.GetUTF8(), kValueText2_UTF8) == 0);
+	testString1 = NString(kTestText2_UTF16BE, NN_ARRAY_SIZE(kTestText2_UTF16BE), kNStringEncodingUTF16BE);
+	NN_ASSERT(strcmp(testString1.GetUTF8(), kTestText2_UTF8) == 0);
 
 
 
@@ -271,8 +271,8 @@ void TString::Execute(void)
 	testString1.Transform(kNStringCapitalizeSentences);
 	NN_ASSERT(testString1 == "Get, sentences! In.Caps?");
 
-	testString1 = kValueDiacritics_String;
-	testString2 = NString(kValueDiacritics_UTF8, kNStringLength, kNStringEncodingUTF8);
+	testString1 = kTestDiacritics_String;
+	testString2 = NString(kTestDiacritics_UTF8, kNStringLength, kNStringEncodingUTF8);
 	testString2.Transform(kNStringStripDiacritics);
 	NN_ASSERT(testString2 == testString1);
 
@@ -461,6 +461,5 @@ void TString::TestTrim(NStringEncoding theEncoding)
 	testString1.Trim(NRange(2, 4));
 	NN_ASSERT(testString1 == "Trim");
 }
-
 
 

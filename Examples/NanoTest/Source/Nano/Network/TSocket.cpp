@@ -25,9 +25,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-// Values
-static const UInt32 kValueNumItems									= 100;
-static const UInt16 kValueServerPort								= 7000;
+// Server
+static const UInt16 kServerPortMin									= 7000;
+static const UInt16 kServerPortMax									= 7999;
+
+static const UInt32 kTestNumItems									= 100;
 
 
 
@@ -221,7 +223,7 @@ void TSocketServer::HandleConnection(NSocket *theSocket)
 
 
 	// Read the incoming data
-	for (n = 0; n < kValueNumItems; n++)
+	for (n = 0; n < kTestNumItems; n++)
 		{
 		theErr = theSocket->ReadUInt32(theValue);
 		NN_ASSERT_NOERR(theErr);
@@ -231,7 +233,7 @@ void TSocketServer::HandleConnection(NSocket *theSocket)
 
 
 	// Send a response
-	for (n = 0; n < kValueNumItems; n++)
+	for (n = 0; n < kTestNumItems; n++)
 		{
 		theErr = theSocket->WriteUInt32(n * n);
 		NN_ASSERT_NOERR(theErr);
@@ -339,7 +341,7 @@ void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
 
 
 	// Write some data
-	for (n = 0; n < kValueNumItems; n++)
+	for (n = 0; n < kTestNumItems; n++)
 		{
 		theErr = theSocket->WriteUInt32(n);
 		NN_ASSERT_NOERR(theErr);
@@ -348,7 +350,7 @@ void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
 
 
 	// Read the response
-	for (n = 0; n < kValueNumItems; n++)
+	for (n = 0; n < kTestNumItems; n++)
 		{
 		theErr = theSocket->ReadUInt32(theValue);
 		NN_ASSERT_NOERR(theErr);
@@ -408,7 +410,7 @@ void TSocket::Execute(void)
 
 
 	// Get the state we need
-	thePort = NMathUtilities::GetRandomUInt16(kValueServerPort, kValueServerPort + 1000);
+	thePort = NMathUtilities::GetRandomUInt16(kServerPortMin, kServerPortMax);
 
 	theServer = new TSocketServer;
 	theClient = new TSocketClient;
@@ -441,6 +443,5 @@ void TSocket::Execute(void)
 	delete theServer;
 	delete theClient;
 }
-
 
 

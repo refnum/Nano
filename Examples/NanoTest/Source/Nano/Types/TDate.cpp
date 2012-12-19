@@ -25,9 +25,9 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NGregorianDate kValueDate1								= { 2010, 6, 1, 18, 21, 57, kNTimeZoneUTC  };
-static const NGregorianDate kValueDate2								= { 2010, 6, 1, 11, 21, 57, kNTimeZonePDT  };
-static const NGregorianDate kValueDate3								= { 2010, 6, 1, 20, 21, 57, kNTimeZoneCEST };
+static const NGregorianDate kTestDate1								= { 2010, 6, 1, 18, 21, 57, kNTimeZoneUTC  };
+static const NGregorianDate kTestDate2								= { 2010, 6, 1, 11, 21, 57, kNTimeZonePDT  };
+static const NGregorianDate kTestDate3								= { 2010, 6, 1, 20, 21, 57, kNTimeZoneCEST };
 
 
 
@@ -44,19 +44,19 @@ void TDate::Execute(void)
 
 
 	// Get the state we need
-	date1 = NDate(kValueDate1);
+	date1 = NDate(kTestDate1);
 
 
 
 	// Conversion
 	gregDate = date1.GetDate(kNTimeZoneUTC);
-	NN_ASSERT(NDate(gregDate) == NDate(kValueDate1));
+	NN_ASSERT(NDate(gregDate) == NDate(kTestDate1));
 
 	gregDate = date1.GetDate(kNTimeZonePDT);
-	NN_ASSERT(NDate(gregDate) == NDate(kValueDate2));
+	NN_ASSERT(NDate(gregDate) == NDate(kTestDate2));
 
 	gregDate = date1.GetDate(kNTimeZoneCEST);
-	NN_ASSERT(NDate(gregDate) == NDate(kValueDate3));
+	NN_ASSERT(NDate(gregDate) == NDate(kTestDate3));
 
 
 
@@ -70,7 +70,7 @@ void TDate::Execute(void)
 	n = date1.GetWeekOfYear();
 	NN_ASSERT(n == 22);
 
-	gregDate       = kValueDate1;
+	gregDate       = kTestDate1;
 	gregDate.month = 1;
 
 	for (m = 1; m <= 10; m++)
@@ -84,5 +84,4 @@ void TDate::Execute(void)
 	n            = NDate(gregDate).GetWeekOfYear();
 	NN_ASSERT(n == 2);
 }
-
 

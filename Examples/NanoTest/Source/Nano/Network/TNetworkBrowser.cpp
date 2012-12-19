@@ -98,6 +98,3 @@ void TNetworkBrowser::BrowseEvent(const NNetworkBrowserEvent &theEvent, NString 
 }
 
 
-
-
-

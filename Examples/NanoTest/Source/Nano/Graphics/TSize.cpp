@@ -26,15 +26,15 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NSize kValueSize1										= NSize(1.0f, -1.0f);
-static const NSize kValueSize1_Normalized							= NSize(1.0f,  1.0f);
+static const NSize kTestSize1										= NSize(1.0f, -1.0f);
+static const NSize kTestSize1_Normalized							= NSize(1.0f,  1.0f);
 
-static const NSize kValueSize2										= NSize(1.20f, 7.80f);
-static const NSize kValueSize2_Integral								= NSize(2.00f, 8.00f);
-static const NSize kValueSize2_Resized								= NSize(2.40f, 4.40f);
-static const NSize kValueSize2_Scaled								= NSize(12.0f, 78.0f);
+static const NSize kTestSize2										= NSize(1.20f, 7.80f);
+static const NSize kTestSize2_Integral								= NSize(2.00f, 8.00f);
+static const NSize kTestSize2_Resized								= NSize(2.40f, 4.40f);
+static const NSize kTestSize2_Scaled								= NSize(12.0f, 78.0f);
 
-static const NSize kValueSize3										= NSize(1.20f, 7.80f);
+static const NSize kTestSize3										= NSize(1.20f, 7.80f);
 
 
 
@@ -57,42 +57,41 @@ void TSize::Execute(void)
 
 	// Contents
 	NN_ASSERT(testSize.IsEmpty());
-	NN_ASSERT(!kValueSize1.IsEmpty());
+	NN_ASSERT(!kTestSize1.IsEmpty());
 
-	testSize = kValueSize1;
+	testSize = kTestSize1;
 	NN_ASSERT(!testSize.IsEmpty());
 
 	testSize.Clear();
 	NN_ASSERT(testSize.IsEmpty());
-	NN_ASSERT(testSize != kValueSize1);
+	NN_ASSERT(testSize != kTestSize1);
 
 
 
 	// Comparisons
-	NN_ASSERT(NMathUtilities::AreEqual(kValueSize1.width,   1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kValueSize1.height, -1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kTestSize1.width,   1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kTestSize1.height, -1.0f));
 
-	NN_ASSERT(kValueSize2 != kValueSize1);
-	NN_ASSERT(kValueSize2 == kValueSize3);
+	NN_ASSERT(kTestSize2 != kTestSize1);
+	NN_ASSERT(kTestSize2 == kTestSize3);
 
 
 
 	// Manipulations
-	testSize = kValueSize1;     testSize.Normalize();
-	NN_ASSERT(testSize == kValueSize1.GetNormalized());
-	NN_ASSERT(testSize == kValueSize1_Normalized);
+	testSize = kTestSize1;     testSize.Normalize();
+	NN_ASSERT(testSize == kTestSize1.GetNormalized());
+	NN_ASSERT(testSize == kTestSize1_Normalized);
 
-	testSize = kValueSize2; testSize.MakeIntegral();
-	NN_ASSERT(testSize == kValueSize2.GetIntegral());
-	NN_ASSERT(testSize == kValueSize2_Integral);
+	testSize = kTestSize2; testSize.MakeIntegral();
+	NN_ASSERT(testSize == kTestSize2.GetIntegral());
+	NN_ASSERT(testSize == kTestSize2_Integral);
 
-	testSize = kValueSize2;     testSize.Resize( 1.2f, -3.4f);
-	NN_ASSERT(testSize == kValueSize2.GetResized(1.2f, -3.4f));
-	NN_ASSERT(testSize == kValueSize2_Resized);
+	testSize = kTestSize2;     testSize.Resize( 1.2f, -3.4f);
+	NN_ASSERT(testSize == kTestSize2.GetResized(1.2f, -3.4f));
+	NN_ASSERT(testSize == kTestSize2_Resized);
 
-	testSize = kValueSize2;     testSize.Scale( 10.0f);
-	NN_ASSERT(testSize == kValueSize2.GetScaled(10.0f));
-	NN_ASSERT(testSize == kValueSize2_Scaled);
+	testSize = kTestSize2;     testSize.Scale( 10.0f);
+	NN_ASSERT(testSize == kTestSize2.GetScaled(10.0f));
+	NN_ASSERT(testSize == kTestSize2_Scaled);
 }
-
 

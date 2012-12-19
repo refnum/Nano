@@ -25,11 +25,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt64 kValueRangeSmallMin							= 100;
-static const UInt64 kValueRangeSmallMax							= 101;
+static const UInt64 kTestRangeSmallMin								= 100;
+static const UInt64 kTestRangeSmallMax								= 101;
 
-static const UInt64 kValueRangeLargeMin							= 100;
-static const UInt64 kValueRangeLargeMax							= 120;
+static const UInt64 kTestRangeLargeMin								= 100;
+static const UInt64 kTestRangeLargeMax								= 120;
 
 
 
@@ -131,27 +131,27 @@ void TMathUtilities::Execute(void)
 
 
 		// Small range
-		valueUInt8  = NMathUtilities::GetRandomUInt8(kValueRangeSmallMin, kValueRangeSmallMax);
-		valueUInt16 = NMathUtilities::GetRandomUInt8(kValueRangeSmallMin, kValueRangeSmallMax);
-		valueUInt32 = NMathUtilities::GetRandomUInt8(kValueRangeSmallMin, kValueRangeSmallMax);
-		valueUInt64 = NMathUtilities::GetRandomUInt8(kValueRangeSmallMin, kValueRangeSmallMax);
+		valueUInt8  = NMathUtilities::GetRandomUInt8(kTestRangeSmallMin, kTestRangeSmallMax);
+		valueUInt16 = NMathUtilities::GetRandomUInt8(kTestRangeSmallMin, kTestRangeSmallMax);
+		valueUInt32 = NMathUtilities::GetRandomUInt8(kTestRangeSmallMin, kTestRangeSmallMax);
+		valueUInt64 = NMathUtilities::GetRandomUInt8(kTestRangeSmallMin, kTestRangeSmallMax);
 		
-		NN_ASSERT(valueUInt8  >= kValueRangeSmallMin && valueUInt8  <= kValueRangeSmallMax);
-		NN_ASSERT(valueUInt16 >= kValueRangeSmallMin && valueUInt16 <= kValueRangeSmallMax);
-		NN_ASSERT(valueUInt32 >= kValueRangeSmallMin && valueUInt32 <= kValueRangeSmallMax);
-		NN_ASSERT(valueUInt64 >= kValueRangeSmallMin && valueUInt64 <= kValueRangeSmallMax);
+		NN_ASSERT(valueUInt8  >= kTestRangeSmallMin && valueUInt8  <= kTestRangeSmallMax);
+		NN_ASSERT(valueUInt16 >= kTestRangeSmallMin && valueUInt16 <= kTestRangeSmallMax);
+		NN_ASSERT(valueUInt32 >= kTestRangeSmallMin && valueUInt32 <= kTestRangeSmallMax);
+		NN_ASSERT(valueUInt64 >= kTestRangeSmallMin && valueUInt64 <= kTestRangeSmallMax);
 
 
 		// Large range
-		valueUInt8  = NMathUtilities::GetRandomUInt8(kValueRangeLargeMin, kValueRangeLargeMax);
-		valueUInt16 = NMathUtilities::GetRandomUInt8(kValueRangeLargeMin, kValueRangeLargeMax);
-		valueUInt32 = NMathUtilities::GetRandomUInt8(kValueRangeLargeMin, kValueRangeLargeMax);
-		valueUInt64 = NMathUtilities::GetRandomUInt8(kValueRangeLargeMin, kValueRangeLargeMax);
+		valueUInt8  = NMathUtilities::GetRandomUInt8(kTestRangeLargeMin, kTestRangeLargeMax);
+		valueUInt16 = NMathUtilities::GetRandomUInt8(kTestRangeLargeMin, kTestRangeLargeMax);
+		valueUInt32 = NMathUtilities::GetRandomUInt8(kTestRangeLargeMin, kTestRangeLargeMax);
+		valueUInt64 = NMathUtilities::GetRandomUInt8(kTestRangeLargeMin, kTestRangeLargeMax);
 		
-		NN_ASSERT(valueUInt8  >= kValueRangeLargeMin && valueUInt8  <= kValueRangeLargeMax);
-		NN_ASSERT(valueUInt16 >= kValueRangeLargeMin && valueUInt16 <= kValueRangeLargeMax);
-		NN_ASSERT(valueUInt32 >= kValueRangeLargeMin && valueUInt32 <= kValueRangeLargeMax);
-		NN_ASSERT(valueUInt64 >= kValueRangeLargeMin && valueUInt64 <= kValueRangeLargeMax);
+		NN_ASSERT(valueUInt8  >= kTestRangeLargeMin && valueUInt8  <= kTestRangeLargeMax);
+		NN_ASSERT(valueUInt16 >= kTestRangeLargeMin && valueUInt16 <= kTestRangeLargeMax);
+		NN_ASSERT(valueUInt32 >= kTestRangeLargeMin && valueUInt32 <= kTestRangeLargeMax);
+		NN_ASSERT(valueUInt64 >= kTestRangeLargeMin && valueUInt64 <= kTestRangeLargeMax);
 		}
 }
 

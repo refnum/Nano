@@ -25,8 +25,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32List kValueList1									= vector((UInt32) 11, (UInt32) 12, (UInt32) 13);
-static const UInt32List kValueList2									= vector((UInt32) 24, (UInt32) 25, (UInt32) 26);
+static const UInt32List kTestList1									= vector((UInt32) 11, (UInt32) 12, (UInt32) 13);
+static const UInt32List kTestList2									= vector((UInt32) 24, (UInt32) 25, (UInt32) 26);
 
 
 
@@ -41,32 +41,31 @@ void TSTLUtilities::Execute(void)
 
 
 	// Append
-	theList = kValueList1;
-	append(theList, kValueList2);
+	theList = kTestList1;
+	append(theList, kTestList2);
 	
-	NN_ASSERT(theList.size() == (kValueList1.size() + kValueList2.size()));
-	NN_ASSERT(theList[0] == kValueList1[0]);
-	NN_ASSERT(theList[1] == kValueList1[1]);
-	NN_ASSERT(theList[2] == kValueList1[2]);
-	NN_ASSERT(theList[3] == kValueList2[0]);
-	NN_ASSERT(theList[4] == kValueList2[1]);
-	NN_ASSERT(theList[5] == kValueList2[2]);
+	NN_ASSERT(theList.size() == (kTestList1.size() + kTestList2.size()));
+	NN_ASSERT(theList[0] == kTestList1[0]);
+	NN_ASSERT(theList[1] == kTestList1[1]);
+	NN_ASSERT(theList[2] == kTestList1[2]);
+	NN_ASSERT(theList[3] == kTestList2[0]);
+	NN_ASSERT(theList[4] == kTestList2[1]);
+	NN_ASSERT(theList[5] == kTestList2[2]);
 
 
 
 	// Prepend
-	theList = kValueList1;
-	prepend(theList, kValueList2);
+	theList = kTestList1;
+	prepend(theList, kTestList2);
 	
-	NN_ASSERT(theList.size() == (kValueList1.size() + kValueList2.size()));
-	NN_ASSERT(theList[0] == kValueList2[0]);
-	NN_ASSERT(theList[1] == kValueList2[1]);
-	NN_ASSERT(theList[2] == kValueList2[2]);
-	NN_ASSERT(theList[3] == kValueList1[0]);
-	NN_ASSERT(theList[4] == kValueList1[1]);
-	NN_ASSERT(theList[5] == kValueList1[2]);
+	NN_ASSERT(theList.size() == (kTestList1.size() + kTestList2.size()));
+	NN_ASSERT(theList[0] == kTestList2[0]);
+	NN_ASSERT(theList[1] == kTestList2[1]);
+	NN_ASSERT(theList[2] == kTestList2[2]);
+	NN_ASSERT(theList[3] == kTestList1[0]);
+	NN_ASSERT(theList[4] == kTestList1[1]);
+	NN_ASSERT(theList[5] == kTestList1[2]);
 }
-
 
 
 

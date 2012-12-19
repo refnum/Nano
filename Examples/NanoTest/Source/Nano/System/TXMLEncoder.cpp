@@ -185,6 +185,3 @@ void TXMLEncoder::Execute(void)
 }
 
 
-
-
-

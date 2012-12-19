@@ -32,9 +32,9 @@ static const SInt64List  kListSInt64								= vector((SInt64) 1, (SInt64) 2, (SI
 static const Float32List kListFloat32								= vector(1.0f, 2.0f, 3.0f, 4.0f);
 static const Float64List kListFloat64								= vector(1.0, 2.0, 3.0, 4.0, 5.0);
 
-static const NPoint kValuePoint										= NPoint(10.0f, 10.0f);
-static const SInt32 kValueSInt32									=  2000;
-static const SInt64 kValueSInt64									= -4000;
+static const NPoint kTestPoint										= NPoint(10.0f, 10.0f);
+static const SInt32 kTestSInt32										=  2000;
+static const SInt64 kTestSInt64										= -4000;
 
 
 
@@ -52,13 +52,13 @@ void TArray::Execute(void)
 
 
 	// Execute the tests
-	testArray.AppendValue(kValuePoint);
-	testArray.AppendValue(kValueSInt32);
-	testArray.AppendValue(kValueSInt64);
+	testArray.AppendValue(kTestPoint);
+	testArray.AppendValue(kTestSInt32);
+	testArray.AppendValue(kTestSInt64);
 	NN_ASSERT(testArray.GetSize() == 3);
-	NN_ASSERT(testArray.GetValuePoint(0)  == kValuePoint);
-	NN_ASSERT(testArray.GetValueSInt32(1) == kValueSInt32);
-	NN_ASSERT(testArray.GetValueSInt64(2) == kValueSInt64);
+	NN_ASSERT(testArray.GetValuePoint(0)  == kTestPoint);
+	NN_ASSERT(testArray.GetValueSInt32(1) == kTestSInt32);
+	NN_ASSERT(testArray.GetValueSInt64(2) == kTestSInt64);
 	
 	theCount = 0;
 	testArray.ForEach(BindFunction(TArray::ForEach, _1, _2, &theCount));
@@ -113,9 +113,9 @@ void TArray::Execute(void)
 
 	testArray = NArray(kListSInt32);
 	testArray.Clear();
-	testArray.AppendValue(kValueSInt32);
-	testArray.SetValue(0, kValueSInt64);
-	NN_ASSERT(testArray.GetValueSInt64(0) == kValueSInt64);
+	testArray.AppendValue(kTestSInt32);
+	testArray.SetValue(0, kTestSInt64);
+	NN_ASSERT(testArray.GetValueSInt64(0) == kTestSInt64);
 }
 
 
@@ -139,4 +139,5 @@ void TArray::ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theC
 	NN_ASSERT(theIndex == *theCount);
 	*theCount = *theCount + 1;
 }
+
 

@@ -29,8 +29,8 @@
 static const UInt32 kBufferSize										= 9;
 static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
 
-static const UInt32 kTestSize1										= 111;
-static const UInt32 kTestSize2										= 222;
+static const UInt32 kFileSizeTmp1									= 111;
+static const UInt32 kFileSizeTmp2									= 222;
 
 
 // Paths
@@ -290,18 +290,18 @@ void TFile::Execute(void)
 	tmpFile  = kPathFileTmp;
 	tmpFile2 = kPathFileTmp2;
 	
-	theErr  =  tmpFile.SetSize(kTestSize1);
-	theErr |= tmpFile2.SetSize(kTestSize2);
+	theErr  =  tmpFile.SetSize(kFileSizeTmp1);
+	theErr |= tmpFile2.SetSize(kFileSizeTmp2);
 	NN_ASSERT_NOERR(theErr);
 
-	NN_ASSERT( tmpFile.GetSize() == kTestSize1);
-	NN_ASSERT(tmpFile2.GetSize() == kTestSize2);
+	NN_ASSERT( tmpFile.GetSize() == kFileSizeTmp1);
+	NN_ASSERT(tmpFile2.GetSize() == kFileSizeTmp2);
 
 	theErr = tmpFile.ExchangeWith(tmpFile2);
 	NN_ASSERT_NOERR(theErr);
 
-	NN_ASSERT( tmpFile.GetSize() == kTestSize2);
-	NN_ASSERT(tmpFile2.GetSize() == kTestSize1);
+	NN_ASSERT( tmpFile.GetSize() == kFileSizeTmp2);
+	NN_ASSERT(tmpFile2.GetSize() == kFileSizeTmp1);
 	
 	tmpFile.Delete();
 	tmpFile2.Delete();

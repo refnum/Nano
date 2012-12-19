@@ -26,11 +26,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NPoint kValuePoint1									= NPoint(1.0f, -1.0f);
+static const NPoint kTestPoint1										= NPoint(1.0f, -1.0f);
 
-static const NPoint kValuePoint2									= NPoint(1.3f, 1.9f);
-static const NPoint kValuePoint2_Integral							= NPoint(1.0f, 2.0f);
-static const NPoint kValuePoint2_Offset								= NPoint(5.3f, 5.9f);
+static const NPoint kTestPoint2										= NPoint(1.3f, 1.9f);
+static const NPoint kTestPoint2_Integral							= NPoint(1.0f, 2.0f);
+static const NPoint kTestPoint2_Offset								= NPoint(5.3f, 5.9f);
 
 
 
@@ -53,33 +53,32 @@ void TPoint::Execute(void)
 
 	// Contents
 	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(!kValuePoint1.IsZero());
+	NN_ASSERT(!kTestPoint1.IsZero());
 
-	testPoint = kValuePoint1;
+	testPoint = kTestPoint1;
 	NN_ASSERT(!testPoint.IsZero());
 
 	testPoint.Clear();
 	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(testPoint != kValuePoint1);
+	NN_ASSERT(testPoint != kTestPoint1);
 
 
 
 	// Comparisons
-	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint1.x,  1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kValuePoint1.y, -1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kTestPoint1.x,  1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual(kTestPoint1.y, -1.0f));
 
 
 
 	// Manipulations
-	testPoint = kValuePoint2; testPoint.MakeIntegral();
-	NN_ASSERT(testPoint == kValuePoint2.GetIntegral());
-	NN_ASSERT(testPoint == kValuePoint2_Integral);
+	testPoint = kTestPoint2; testPoint.MakeIntegral();
+	NN_ASSERT(testPoint == kTestPoint2.GetIntegral());
+	NN_ASSERT(testPoint == kTestPoint2_Integral);
 
-	testPoint = kValuePoint2;    testPoint.Offset(4.0f, 4.0f);
-	NN_ASSERT(testPoint == kValuePoint2.GetOffset(4.0f, 4.0f));
-	NN_ASSERT(testPoint == kValuePoint2_Offset);
+	testPoint = kTestPoint2;    testPoint.Offset(4.0f, 4.0f);
+	NN_ASSERT(testPoint == kTestPoint2.GetOffset(4.0f, 4.0f));
+	NN_ASSERT(testPoint == kTestPoint2_Offset);
 }
-
 
 
 

@@ -26,18 +26,19 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-// Messages
-static const NMessageType kTestMessageQuestion						= 1;
-static const NMessageType kTestMessageAnswer						= 2;
+// Server
+static const UInt16 kServerPortMin									= 6000;
+static const UInt16 kServerPortMax									= 6999;
 
-static const NString kTestMessageValueKey							= "TestValue";
+static const NMessageType kTestQuestionMsg							= 1;
+static const NMessageType kTestAnswerMsg							= 2;
 
 
-// Values
-static const UInt16 kValueServerPort								= 6000;
+// Properties
+static const NString kTestTokenKey									= "TestToken";
 
-static const NString kTestValueQuestion								= "Why did the chicken cross the road?";
-static const NString kTestValueAnswer								= "To get to the other side.";
+static const NString kTokenRequest									= "Why did the chicken cross the road?";
+static const NString kTokenResponse									= "To get to the other side.";
 
 
 
@@ -171,16 +172,16 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 
 	// Handle the message
 	switch (theMsg.GetType()) {
-		case kTestMessageQuestion:
+		case kTestQuestionMsg:
 			// Check the question
-			theValue = theMsg.GetValueString(kTestMessageValueKey);
-			NN_ASSERT(theValue == kTestValueQuestion);
+			theValue = theMsg.GetValueString(kTestTokenKey);
+			NN_ASSERT(theValue == kTokenRequest);
 			
 			
 			
 			// Send a reply
-			replyMsg = PrepareMessage(kTestMessageAnswer, theMsg.GetSource());
-			replyMsg.SetValue(kTestMessageValueKey, kTestValueAnswer);
+			replyMsg = PrepareMessage(kTestAnswerMsg, theMsg.GetSource());
+			replyMsg.SetValue(kTestTokenKey, kTokenResponse);
 			
 			SendMessage(replyMsg);
 			break;
@@ -338,10 +339,10 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 	// Handle the message
 	switch (theMsg.GetType()) {
-		case kTestMessageAnswer:
+		case kTestAnswerMsg:
 			// Check the answer
-			theValue = theMsg.GetValueString(kTestMessageValueKey);
-			NN_ASSERT(theValue == kTestValueAnswer);
+			theValue = theMsg.GetValueString(kTestTokenKey);
+			NN_ASSERT(theValue == kTokenResponse);
 			
 			
 			// Update our state
@@ -374,8 +375,8 @@ void TTestClient::SessionDidOpen(void)
 
 
 	// Send the question
-	theMsg = PrepareMessage(kTestMessageQuestion, kNEntityServer);
-	theMsg.SetValue(kTestMessageValueKey, kTestValueQuestion);
+	theMsg = PrepareMessage(kTestQuestionMsg, kNEntityServer);
+	theMsg.SetValue(kTestTokenKey, kTokenRequest);
 
 	SendMessage(theMsg);
 }
@@ -425,7 +426,7 @@ void TMessageServer::Execute(void)
 
 
 	// Execute the tests
-	thePort = NMathUtilities::GetRandomUInt16(kValueServerPort, kValueServerPort + 1000);
+	thePort = NMathUtilities::GetRandomUInt16(kServerPortMin, kServerPortMax);
 
 	testServer.Start(               thePort);
 	testClient.Connect("127.0.0.1", thePort);
@@ -449,10 +450,6 @@ void TMessageServer::Execute(void)
 	while (testServer.GetStatus() != kNServerStopped)
 		NThread::Sleep();
 }
-
-
-
-
 
 
 

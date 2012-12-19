@@ -25,17 +25,17 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kValueString1									= "first test string";
-static const NString kValueString2									= "another test string";
+static const NString kTestString1									= "first test string";
+static const NString kTestString2									= "another test string";
 
-static const NData kValueData1										= kValueString1.GetData();
-static const NData kValueData2										= kValueString2.GetData();
+static const NData kTestData1										= kTestString1.GetData();
+static const NData kTestData2										= kTestString2.GetData();
 
-static void *kValuePointer1											= NN_TARGET_ARCH_64 ? ((void *) 0xDEADBEEFDEADBEEFLL) : ((void *) 0xDEADBEEF);
-static void *kValuePointer2											= NN_TARGET_ARCH_64 ? ((void *) 0xFEEDFACEFEEDFACELL) : ((void *) 0xFEEDFACE);
+static void *kTestPointer1											= NN_TARGET_ARCH_64 ? ((void *) 0xDEADBEEFDEADBEEFLL) : ((void *) 0xDEADBEEF);
+static void *kTestPointer2											= NN_TARGET_ARCH_64 ? ((void *) 0xFEEDFACEFEEDFACELL) : ((void *) 0xFEEDFACE);
 
-static NIndex kValueIndex1											= 12345;
-static NIndex kValueIndex2											= 67890;
+static NIndex kTestIndex1											= 12345;
+static NIndex kTestIndex2											= 67890;
 
 
 
@@ -50,8 +50,8 @@ void TCacheKey::Execute(void)
 
 
 	// Strings
-	testKey1 = NCacheKey(kValueString1);
-	testKey2 = NCacheKey(kValueString2);
+	testKey1 = NCacheKey(kTestString1);
+	testKey2 = NCacheKey(kTestString2);
 
 	NN_ASSERT(testKey1 != testKey2);
 	NN_ASSERT(testKey1.IsValid());
@@ -60,8 +60,8 @@ void TCacheKey::Execute(void)
 
 
 	// Data
-	testKey1 = NCacheKey(kValueData1);
-	testKey2 = NCacheKey(kValueData2);
+	testKey1 = NCacheKey(kTestData1);
+	testKey2 = NCacheKey(kTestData2);
 
 	NN_ASSERT(testKey1 != testKey2);
 	NN_ASSERT(testKey1.IsValid());
@@ -70,8 +70,8 @@ void TCacheKey::Execute(void)
 
 
 	// Pointers
-	testKey1 = NCacheKey(kValuePointer1);
-	testKey2 = NCacheKey(kValuePointer2);
+	testKey1 = NCacheKey(kTestPointer1);
+	testKey2 = NCacheKey(kTestPointer2);
 
 	NN_ASSERT(testKey1 != testKey2);
 	NN_ASSERT(testKey1.IsValid());
@@ -80,8 +80,8 @@ void TCacheKey::Execute(void)
 
 
 	// Indices
-	testKey1 = NCacheKey(kValueIndex1);
-	testKey2 = NCacheKey(kValueIndex2);
+	testKey1 = NCacheKey(kTestIndex1);
+	testKey2 = NCacheKey(kTestIndex2);
 
 	NN_ASSERT(testKey1 != testKey2);
 	NN_ASSERT(testKey1.IsValid());
@@ -100,8 +100,8 @@ void TCacheKey::Execute(void)
 
 
 	// Clear
-	testKey1 = NCacheKey(kValueIndex1);
-	testKey2 = NCacheKey(kValueIndex2);
+	testKey1 = NCacheKey(kTestIndex1);
+	testKey2 = NCacheKey(kTestIndex2);
 
 	NN_ASSERT(testKey1 != testKey2);
 	NN_ASSERT(testKey1.IsValid());
@@ -118,14 +118,13 @@ void TCacheKey::Execute(void)
 
 
 	// Set
-	testKey1 = NCacheKey(kValueIndex1);
-	testKey2 = NCacheKey(kValueIndex2);
+	testKey1 = NCacheKey(kTestIndex1);
+	testKey2 = NCacheKey(kTestIndex2);
 	NN_ASSERT(testKey1 != testKey2);
 
-	testKey1.SetValue(kValueIndex2);
+	testKey1.SetValue(kTestIndex2);
 	NN_ASSERT(testKey1 == testKey2);
 }
-
 
 
 

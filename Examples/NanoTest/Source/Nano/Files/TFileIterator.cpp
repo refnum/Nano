@@ -27,10 +27,10 @@
 //----------------------------------------------------------------------------
 // Paths
 #if NN_TARGET_MAC
-	static const NString kTestTmpPath								= "/tmp";
+	static const NString kTestPath									= "/tmp";
 
 #elif NN_TARGET_WINDOWS
-	static const NString kTestTmpPath								= "c:\\windows\\temp";
+	static const NString kTestPath									= "c:\\windows\\temp";
 
 #else
 	UNKNOWN TARGET
@@ -38,7 +38,7 @@
 
 		
 		
-		
+
 		
 //============================================================================
 //		TFileIterator::Execute : Execute the tests.
@@ -50,10 +50,9 @@ void TFileIterator::Execute(void)
 
 
 	// Iterate
-	theFiles = fileIter.GetFiles(NFile(kTestTmpPath));
+	theFiles = fileIter.GetFiles(NFile(kTestPath));
 	NN_ASSERT(!theFiles.empty());
 }
-
 
 
 

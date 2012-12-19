@@ -25,8 +25,8 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const UInt8 kData1[]											= { 0xAA, 0xBB, 0xCC, 0xDD };
-static const UInt8 kData2[]											= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
+static const UInt8 kTestData1[]										= { 0xAA, 0xBB, 0xCC, 0xDD };
+static const UInt8 kTestData2[]										= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
 
 
 
@@ -42,8 +42,8 @@ void TDataDigest::Execute(void)
 
 
 	// Get the state we need
-	data1 = NData(NN_ARRAY_SIZE(kData1), kData1);
-	data2 = NData(NN_ARRAY_SIZE(kData2), kData2);
+	data1 = NData(NN_ARRAY_SIZE(kTestData1), kTestData1);
+	data2 = NData(NN_ARRAY_SIZE(kTestData2), kTestData2);
 
 
 
@@ -60,7 +60,5 @@ void TDataDigest::Execute(void)
 	NN_ASSERT(theDigest.GetString(theDigest.GetAdler32(data2)) == "0023000f");
 	NN_ASSERT(theDigest.GetString(theDigest.GetAdler32(data3)) == "00000000");
 }
-
-
 
 

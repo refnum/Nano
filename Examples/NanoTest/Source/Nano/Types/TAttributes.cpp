@@ -93,12 +93,6 @@ void TAttributes::Execute(void)
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute3));
 	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
-
-
-
-	
-
-
 }
 
 

@@ -27,14 +27,14 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-#define kValueString											"s t r i n g"
+#define kTestString													"s t r i n g"
 
-static const char *kArgList[]									= {	"app",
-																	"-arg1",
-																	"-arg2=-2",
-																	"--arg3=3.0",
-																	"--arg4=\"" kValueString "\"",
-																	"--arg5="   kValueString };
+static const char *kTestArgList[]									= {	"app",
+																		"-arg1",
+																		"-arg2=-2",
+																		"--arg3=3.0",
+																		"--arg4=\"" kTestString "\"",
+																		"--arg5="   kTestString };
 
 
 
@@ -44,7 +44,7 @@ static const char *kArgList[]									= {	"app",
 //		TCommandLine::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TCommandLine::Execute(void)
-{	NCommandLine		cmdLine(NN_ARRAY_SIZE(kArgList), kArgList);
+{	NCommandLine		cmdLine(NN_ARRAY_SIZE(kTestArgList), kTestArgList);
 	NString				theValue;
 	NStringList			theArgs;
 
@@ -63,20 +63,20 @@ void TCommandLine::Execute(void)
 	// Flags
 	NN_ASSERT(cmdLine.GetFlagSInt64("arg2") == -2);
 	NN_ASSERT(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
-	NN_ASSERT(cmdLine.GetFlagString("arg4") == "\"" kValueString "\"");
-	NN_ASSERT(cmdLine.GetFlagString("arg5") ==      kValueString);
+	NN_ASSERT(cmdLine.GetFlagString("arg4") == "\"" kTestString "\"");
+	NN_ASSERT(cmdLine.GetFlagString("arg5") ==      kTestString);
 
 
 
 	// Manipulation
 	theArgs = cmdLine.GetArguments();
 	NN_ASSERT(theArgs.size() == 6);
-	NN_ASSERT(theArgs[0] == kArgList[0]);
-	NN_ASSERT(theArgs[1] == kArgList[1]);
-	NN_ASSERT(theArgs[2] == kArgList[2]);
-	NN_ASSERT(theArgs[3] == kArgList[3]);
-	NN_ASSERT(theArgs[4] == kArgList[4]);
-	NN_ASSERT(theArgs[5] == kArgList[5]);
+	NN_ASSERT(theArgs[0] == kTestArgList[0]);
+	NN_ASSERT(theArgs[1] == kTestArgList[1]);
+	NN_ASSERT(theArgs[2] == kTestArgList[2]);
+	NN_ASSERT(theArgs[3] == kTestArgList[3]);
+	NN_ASSERT(theArgs[4] == kTestArgList[4]);
+	NN_ASSERT(theArgs[5] == kTestArgList[5]);
 	
 	cmdLine.Clear();
 	NN_ASSERT(cmdLine.GetArguments().empty());
@@ -85,12 +85,12 @@ void TCommandLine::Execute(void)
 	cmdLine.SetArguments(theArgs);
 	theArgs = cmdLine.GetArguments();
 	NN_ASSERT(theArgs.size() == 6);
-	NN_ASSERT(theArgs[0] == kArgList[5]);
-	NN_ASSERT(theArgs[1] == kArgList[4]);
-	NN_ASSERT(theArgs[2] == kArgList[3]);
-	NN_ASSERT(theArgs[3] == kArgList[2]);
-	NN_ASSERT(theArgs[4] == kArgList[1]);
-	NN_ASSERT(theArgs[5] == kArgList[0]);
+	NN_ASSERT(theArgs[0] == kTestArgList[5]);
+	NN_ASSERT(theArgs[1] == kTestArgList[4]);
+	NN_ASSERT(theArgs[2] == kTestArgList[3]);
+	NN_ASSERT(theArgs[3] == kTestArgList[2]);
+	NN_ASSERT(theArgs[4] == kTestArgList[1]);
+	NN_ASSERT(theArgs[5] == kTestArgList[0]);
 
 
 

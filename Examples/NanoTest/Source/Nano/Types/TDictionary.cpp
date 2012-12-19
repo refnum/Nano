@@ -25,9 +25,9 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NPoint kValuePoint										= NPoint(10.0f, 10.0f);
-static const SInt32 kValueSInt32									=  2000;
-static const SInt64 kValueSInt64									= -4000;
+static const NPoint kTestPoint										= NPoint(10.0f, 10.0f);
+static const SInt32 kTestSInt32										=  2000;
+static const SInt64 kTestSInt64										= -4000;
 
 
 
@@ -42,9 +42,9 @@ void TDictionary::Execute(void)
 
 
 	// Execute the tests
-	testDict.SetValue("point",   kValuePoint);
-	testDict.SetValue("sint32",  kValueSInt32);
-	testDict2.SetValue("sint64", kValueSInt64);
+	testDict.SetValue("point",   kTestPoint);
+	testDict.SetValue("sint32",  kTestSInt32);
+	testDict2.SetValue("sint64", kTestSInt64);
 	NN_ASSERT(testDict.GetSize()  == 2);
 	NN_ASSERT(testDict2.GetSize() == 1);
 
@@ -53,9 +53,9 @@ void TDictionary::Execute(void)
 	NN_ASSERT(testDict.GetKeys().size() == 3);
 
 	NN_ASSERT(!testDict.HasKey("fail"));
-	NN_ASSERT(testDict.GetValuePoint("point")   == kValuePoint);
-	NN_ASSERT(testDict.GetValueSInt32("sint32") == kValueSInt32);
-	NN_ASSERT(testDict.GetValueSInt64("sint64") == kValueSInt64);
+	NN_ASSERT(testDict.GetValuePoint("point")   == kTestPoint);
+	NN_ASSERT(testDict.GetValueSInt32("sint32") == kTestSInt32);
+	NN_ASSERT(testDict.GetValueSInt64("sint64") == kTestSInt64);
 
 	testDict.SetValue("remove", 3.1415);
 	NN_ASSERT(testDict.HasKey("remove"));
@@ -63,3 +63,4 @@ void TDictionary::Execute(void)
 	testDict.RemoveKey("remove");
 	NN_ASSERT(!testDict.HasKey("remove"));
 }
+

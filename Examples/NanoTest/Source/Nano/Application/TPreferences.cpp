@@ -26,21 +26,21 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Keys
-static const NString kKeyBoolean							= "Test Boolean";
-static const NString kKeyNumber								= "Test Number";
-static const NString kKeyString								= "Test String";
-static const NString kKeyData								= "Test Data";
-static const NString kKeyDate								= "Test Date";
-static const NString kKeyColor								= "Test Color";
-static const NString kKeyArray								= "Test Array";
-static const NString kKeyDictionary							= "Test Dictionary";
+static const NString kKeyBoolean									= "Test Boolean";
+static const NString kKeyNumber										= "Test Number";
+static const NString kKeyString										= "Test String";
+static const NString kKeyData										= "Test Data";
+static const NString kKeyDate										= "Test Date";
+static const NString kKeyColor										= "Test Color";
+static const NString kKeyArray										= "Test Array";
+static const NString kKeyDictionary									= "Test Dictionary";
 
 
 // Values
-static const bool    kValueBoolean1							= true;
-static const bool    kValueBoolean2							= false;
-static const NString kValueString1							= "First String";
-static const NString kValueString2							= "Second String";
+static const bool    kValueBoolean1									= true;
+static const bool    kValueBoolean2									= false;
+static const NString kValueString1									= "First String";
+static const NString kValueString2									= "Second String";
 
 
 

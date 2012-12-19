@@ -25,8 +25,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString     kNStringValue						= "Hello World";
-static const CFStringRef kCFStringValue						= CFSTR("Hello World");
+static const NString     kTestNString								= "Hello World";
+static const CFStringRef kTestCFString								= CFSTR("Hello World");
 
 
 
@@ -42,17 +42,17 @@ void TCFString::Execute(void)
 
 
 	// Execute the tests
-	theString = kNStringValue;
+	theString = kTestNString;
 	cfString  = theString.GetObject();
-	NN_ASSERT(CFStringCompare(cfString, kCFStringValue, 0) == kCFCompareEqualTo);
+	NN_ASSERT(CFStringCompare(cfString, kTestCFString, 0) == kCFCompareEqualTo);
 
-	theString = NCFString(kCFStringValue, false);
-	NN_ASSERT(theString == kNStringValue);
+	theString = NCFString(kTestCFString, false);
+	NN_ASSERT(theString == kTestNString);
 
-	theString.SetObject(kCFStringValue, false);
-	NN_ASSERT(theString == kNStringValue);
+	theString.SetObject(kTestCFString, false);
+	NN_ASSERT(theString == kTestNString);
 
-	theString.SetObject(CFStringCreateCopy(kCFAllocatorDefault, kCFStringValue), true);
-	NN_ASSERT(theString == kNStringValue);
+	theString.SetObject(CFStringCreateCopy(kCFAllocatorDefault, kTestCFString), true);
+	NN_ASSERT(theString == kTestNString);
 }
 
