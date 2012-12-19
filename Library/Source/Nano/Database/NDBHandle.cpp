@@ -204,7 +204,7 @@ void NDBHandle::Close(void)
 	dbErr = sqlite3_close(sqlDB);
 
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
+		NN_LOG("NDBHandle: %s", sqlite3_errmsg(sqlDB));
 
 
 
@@ -247,7 +247,7 @@ NStatus NDBHandle::CreateBackup(const NFile &dstFile)
 		sqlBackup = sqlite3_backup_init(dstDB, "main", srcDB, "main");
 
 	if (dbErr != kNoErr || sqlBackup == NULL)
-		NN_LOG("SQLite: %s", sqlite3_errmsg(dstDB));
+		NN_LOG("NDBHandle: %s", sqlite3_errmsg(dstDB));
 
 
 
@@ -285,7 +285,7 @@ NStatus NDBHandle::CreateBackup(const NFile &dstFile)
 		{
 		dbErr = sqlite3_close(dstDB);
 		if (dbErr != kNoErr)
-			NN_LOG("SQLite: %s", sqlite3_errmsg(dstDB));
+			NN_LOG("NDBHandle: %s", sqlite3_errmsg(dstDB));
 		}
 
 	return(SQLiteGetStatus(dbErr));
@@ -706,7 +706,7 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 
 	// Handle failure
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s (%s)", sqlite3_errmsg(sqlDB), textUTF8);
+		NN_LOG("NDBHandle: %s (%s)", sqlite3_errmsg(sqlDB), textUTF8);
 
 	if (sqlQuery == NULL)
 		return(NULL);
@@ -903,13 +903,13 @@ void NDBHandle::SQLiteBindParameterByIndex(NDBQueryRef theQuery, NIndex theIndex
 		dbErr = sqlite3_bind_blob(sqlQuery, theIndex, valueData.GetData(), valueData.GetSize(), SQLITE_TRANSIENT);
 	
 	else
-		NN_LOG("Unable to bind index '%ld' to query", theIndex);
+		NN_LOG("NDBHandle: Unable to bind index '%ld' to query", theIndex);
 
 
 
 	// Handle failure
 	if (dbErr != kNoErr)
-		NN_LOG("SQLite: %s", sqlite3_errmsg(sqlDB));
+		NN_LOG("NDBHandle: %s", sqlite3_errmsg(sqlDB));
 }
 
 
@@ -1022,7 +1022,7 @@ NStatus NDBHandle::SQLiteGetStatus(NDBStatus dbErr)
 			break;
 		
 		default:
-			NN_LOG("NDBHandle unable to map error %d", dbErr);
+			NN_LOG("NDBHandle: unable to map error %d", dbErr);
 			theErr = kNErrInternal;
 			break;
 		}
