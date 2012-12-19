@@ -539,8 +539,15 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 
 	// Get the state we need
 	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
-	sqlQuery    = (sqlite3_stmt *) SQLiteFetchQuery(theQuery);
 	endTime     = NTimeUtilities::GetTime() + waitFor;
+
+
+
+	// Get the query
+	sqlQuery = (sqlite3_stmt *) SQLiteFetchQuery(theQuery);
+
+	if (sqlQuery == NULL)
+		return(SQLITE_INTERNAL);
 
 	SQLiteBindParameters(sqlQuery, theQuery.GetParameters());
 
