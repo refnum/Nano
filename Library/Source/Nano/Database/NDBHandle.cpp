@@ -28,7 +28,6 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const UInt32 kProgressUpdate									= 1000;
-static const NIndex kMaxLockedTries									= 10;
 static const UInt32 kBackupPageCount								= 100;
 static const char   kNamePrefix										= ':';
 
@@ -299,14 +298,17 @@ NStatus NDBHandle::CreateBackup(const NFile &dstFile)
 //		NDBHandle::Execute : Execute a query.
 //----------------------------------------------------------------------------
 NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
-{	NStatus			theErr;
+{	bool			waitForever;
+	bool			areDone;
+	NTime			endTime;
+	NStatus			theErr;
 	NDBStatus		dbErr;
-	NIndex			n;
 
 
 
-	// Compiler warning
-	dbErr = SQLITE_ERROR;
+	// Get the state we need
+	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
+	endTime     = NTimeUtilities::GetTime() + waitFor;
 
 
 
@@ -317,18 +319,28 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 	//
 	// Since sqlite3_unlock_notify only supports a single pending unlock notification, each
 	// Execute() performs its own try-sleep-try loop until it succeeds or hits some limit to
-	// allow multiple threads to be retry in parallel.
+	// allow multiple threads to retry in parallel.
 	SQLiteProgressBegin();
-	
-	for (n = 0; n < kMaxLockedTries; n++)
+
+	dbErr     = SQLITE_OK;
+	areDone   = false;
+
+	while (!areDone)
 		{
 		dbErr = SQLiteExecute(theQuery, theResult, waitFor);
-		if (dbErr != SQLITE_LOCKED)
-			break;
+		switch (dbErr) {
+			case SQLITE_LOCKED:
+				areDone = !waitForever && (NTimeUtilities::GetTime() >= endTime);
+				if (!areDone)
+					NThread::Sleep();
+				break;
 
-		NThread::Sleep();
+			default:
+				areDone = true;
+				break;
+			}
 		}
-	
+
 	SQLiteProgressEnd();
 
 
