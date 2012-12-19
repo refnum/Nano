@@ -43,7 +43,7 @@ static const NIndex       kCompressionHeaderTrim					= sizeof(UInt32) + sizeof(U
 //============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
-NBYTESWAP_BEGIN(NMessageHeader)
+NBYTESWAP_BEGIN_NO_DECLARE(NMessageHeader)
 	NBYTESWAP_B_SInt16		(msgType)
 	NBYTESWAP_B_UInt8		(msgSrcID)
 	NBYTESWAP_B_UInt8		(msgDstID)
