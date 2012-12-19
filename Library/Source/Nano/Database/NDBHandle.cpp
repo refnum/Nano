@@ -532,7 +532,7 @@ void *NDBHandle::GetDatabase(void)
 NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
 {	bool				areDone, waitForever;
 	sqlite3_stmt		*sqlQuery;
-	NTime				startTime;
+	NTime				endTime;
 	NDBStatus			dbErr;
 
 
@@ -540,13 +540,13 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 	// Get the state we need
 	waitForever = NMathUtilities::AreEqual(waitFor, kNTimeForever);
 	sqlQuery    = (sqlite3_stmt *) SQLiteFetchQuery(theQuery);
+	endTime     = NTimeUtilities::GetTime() + waitFor;
 
 	SQLiteBindParameters(sqlQuery, theQuery.GetParameters());
 
 
 
 	// Execute the query
-	startTime = NTimeUtilities::GetTime();
 	dbErr     = SQLITE_OK;
 	areDone   = false;
 	
@@ -562,7 +562,7 @@ NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunc
 				break;
 			
 			case SQLITE_BUSY:
-				areDone = !waitForever && (NTimeUtilities::GetTime() >= (startTime + waitFor));
+				areDone = !waitForever && (NTimeUtilities::GetTime() >= endTime);
 				if (!areDone)
 					NThread::Sleep();
 				break;
