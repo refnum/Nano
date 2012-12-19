@@ -481,7 +481,6 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	mLock.Unlock();
 
 	theErr = WriteMessage(theSocket, msgServerInfo);
-	
 	if (theErr != kNoErr)
 		{
 		ServerReceivedError(theErr);
@@ -495,14 +494,13 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	// If the client was only interested in the current server state then they
 	// will disconnect rather than send a join request.
 	theErr = ReadMessage(theSocket, msgJoinRequest);
-	NN_ASSERT(msgJoinRequest.GetType() == kNMessageJoinRequest);
-
 	if (theErr != kNoErr)
 		{
 		theSocket->Close();
 		return;
 		}
 	
+	NN_ASSERT(msgJoinRequest.GetType()   == kNMessageJoinRequest);
 	NN_ASSERT(msgJoinRequest.GetSource() == kNEntityInvalid);
 
 
@@ -531,7 +529,6 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	msgJoinResponse.SetValue(kNMessageStatusKey, theErr);
 
 	theErr = WriteMessage(theSocket, msgJoinResponse);
-
 	if (theErr == kNoErr)
 		AddClient(clientID, theSocket);
 
