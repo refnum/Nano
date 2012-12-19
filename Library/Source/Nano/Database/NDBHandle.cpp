@@ -623,32 +623,36 @@ NDBQueryRef NDBHandle::SQLiteFetchQuery(const NDBQuery &theQuery)
 
 
 
-	// Populate the cache
+	// Query the cache
 	theIter = threadCache->find(this);
 
-	if (theIter == threadCache->end())
+	if (theIter != threadCache->end())
+		cachedQuery = theIter->second;
+	else
+		cachedQuery.theQuery = NULL;
+
+
+
+	// Re-use the query
+	if (cachedQuery.theSQL == theSQL)
+		sqlite3_reset((sqlite3_stmt *) cachedQuery.theQuery);
+
+
+	// Create the query
+	//
+	// We destroy any existing query first, which requires us to update the
+	// cache even the new query can't be created (to ensure we reset the
+	// now-stale query pointer).
+	else
 		{
+		SQLiteDestroyQuery(cachedQuery.theQuery);
+
 		cachedQuery.theSQL   = theSQL;
 		cachedQuery.theQuery = SQLiteCreateQuery(theQuery);
 		(*threadCache)[this] = cachedQuery;
-		}
 
-
-	// Update the cache
-	else
-		{
-		cachedQuery = theIter->second;
-		
-		if (cachedQuery.theSQL == theSQL)
-			sqlite3_reset((sqlite3_stmt *) cachedQuery.theQuery);
-		else
-			{
-			SQLiteDestroyQuery(cachedQuery.theQuery);
-
-			cachedQuery.theSQL   = theSQL;
-			cachedQuery.theQuery = SQLiteCreateQuery(theQuery);
-			(*threadCache)[this] = cachedQuery;
-			}
+		if (cachedQuery.theQuery == NULL)
+			NN_LOG("NDBHandle: Unable to create query from '%@'", theSQL);
 		}
 
 	return(cachedQuery.theQuery);
