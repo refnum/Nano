@@ -92,10 +92,9 @@ private:
 
 private:
 	mutable NMutexLock					mLock;
-
-	NMessageClientStatus				mStatus;
 	NSocket								mSocket;
 
+	NMessageClientStatus				mStatus;
 	NString								mPassword;
 };
 

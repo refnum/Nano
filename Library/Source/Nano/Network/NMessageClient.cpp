@@ -25,11 +25,12 @@
 //		NMessageClient::NMessageClient : Constructor.
 //----------------------------------------------------------------------------
 NMessageClient::NMessageClient(void)
-				: mSocket(this)
 {
 
 
 	// Initialise ourselves
+	mSocket.SetDelegate(this);
+
 	mStatus = kNClientDisconnected;
 }
 

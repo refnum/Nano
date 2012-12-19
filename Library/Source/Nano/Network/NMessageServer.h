@@ -115,12 +115,11 @@ private:
 
 private:
 	mutable NMutexLock					mLock;
-
-	NMessageServerStatus				mStatus;
 	NSocket								mSocket;
 
-	NIndex								mMaxClients;
+	NMessageServerStatus				mStatus;
 	NString								mPassword;
+	NIndex								mMaxClients;
 	NClientInfoMap						mClients;
 };
 

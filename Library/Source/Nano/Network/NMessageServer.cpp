@@ -26,12 +26,13 @@
 //		NMessageServer::NMessageServer : Constructor.
 //----------------------------------------------------------------------------
 NMessageServer::NMessageServer(void)
-				: mSocket(this)
 {
 
 
 	// Initialise ourselves
 	SetID(kNEntityServer);
+
+	mSocket.SetDelegate(this);
 
 	mStatus     = kNServerStopped;
 	mMaxClients = 1;
