@@ -184,8 +184,8 @@ NStatus NDBHandle::Open(const NFile &theFile, NDBFlags theFlags, const NString &
 //		NDBHandle::Close : Close the database.
 //----------------------------------------------------------------------------
 void NDBHandle::Close(void)
-{	sqlite3				*sqlDB;
-	NDBStatus			dbErr;
+{	sqlite3			*sqlDB;
+	NDBStatus		dbErr;
 
 
 
