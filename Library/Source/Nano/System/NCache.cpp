@@ -26,7 +26,7 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NIndex kDefaultMaxSize									= 100;
-static const NIndex kDefaultMaxCost									= 30 * kMegabyte;
+static const NIndex kDefaultMaxCost									= 30 * kNMegabyte;
 
 
 

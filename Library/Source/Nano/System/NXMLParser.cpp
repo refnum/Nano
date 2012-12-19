@@ -26,7 +26,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NIndex kChunkSize									= 10 * kKilobyte;
+static const NIndex kChunkSize									= 10 * kNKilobyte;
 
 
 

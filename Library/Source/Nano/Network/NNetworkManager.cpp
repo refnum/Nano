@@ -130,7 +130,7 @@ NString NNetworkManager::GetDefaultUserAgent(void)
 	numCPUs = NThreadUtilities::GetCPUCount();
 	osName  = NSystemUtilities::GetOSName();
 	sysCPU  = NSystemUtilities::GetSystemCPU() / 1000000;
-	sysRAM  = NSystemUtilities::GetSystemRAM() / kMegabyte;
+	sysRAM  = NSystemUtilities::GetSystemRAM() / kNMegabyte;
 	sysArch = NSystemUtilities::GetSystemArch();
 
 

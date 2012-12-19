@@ -25,7 +25,7 @@
 //============================================================================
 //      Internal constants
 //----------------------------------------------------------------------------
-static const NIndex kReadBufferSize									= 8 * kKilobyte;
+static const NIndex kReadBufferSize									= 8 * kNKilobyte;
 
 
 

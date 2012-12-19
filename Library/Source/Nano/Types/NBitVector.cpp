@@ -250,7 +250,7 @@ void NBitVector::AppendBits(UInt32 theValue, NIndex numBits)
 	//
 	// To reduce the cost of repeatedly growing the buffer, we
 	// pre-allocate to ensure most appends do not need to grow.
-	SetSize(theSize + numBits, kKilobyte * 8);
+	SetSize(theSize + numBits, kNKilobyte * 8);
 
 
 

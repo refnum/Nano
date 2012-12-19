@@ -33,7 +33,7 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NCompression kCompressionType							= kNCompressionZLib;
-static const NIndex       kCompressionSizeLimit						= 32 * kKilobyte;
+static const NIndex       kCompressionSizeLimit						= 32 * kNKilobyte;
 static const NIndex       kCompressionHeaderTrim					= sizeof(UInt32) + sizeof(UInt32);
 
 

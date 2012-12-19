@@ -246,9 +246,9 @@ static const NHashCode kNHashCodeNone								= 0;
 
 
 // Memory
-static const NIndex kKilobyte										= 1024;
-static const NIndex kMegabyte										= 1024 * 1024;
-static const NIndex kGigabyte										= 1024 * 1024 * 1024;
+static const NIndex kNKilobyte										= 1024;
+static const NIndex kNMegabyte										= 1024 * 1024;
+static const NIndex kNGigabyte										= 1024 * 1024 * 1024;
 
 
 // Times
