@@ -93,12 +93,13 @@ protected:
 	// Handle server events
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerDidStart(   void);
-	virtual void						ServerDidStop(    void);
+	virtual void						ServerDidStart(     void);
+	virtual void						ServerDidStop(      void);
+	virtual NDictionary					ServerGetProperties(void);
 	virtual void						ServerAddedClient(  NEntityID clientID);
 	virtual void						ServerRemovedClient(NEntityID clientID);
 	virtual void						ServerReceivedError(NStatus theErr);
-
+	
 
 	// Handle socket events
 	void								SocketDidOpen(           NSocket *theSocket);

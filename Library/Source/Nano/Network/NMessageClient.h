@@ -74,12 +74,11 @@ protected:
 
 	// Handle client events
 	//
-	// Once connected, the session will be closed if an error is received.
-	//
 	// Invoked on an internal thread.
-	virtual void						SessionDidOpen( void);
-	virtual void						SessionDidClose(void);
-	virtual void						SessionReceivedError(NStatus theErr);
+	virtual bool						ClientWillConnect(const NDictionary &serverInfo);
+	virtual void						ClientDidConnect(   void);
+	virtual void						ClientDidDisconnect(void);
+	virtual void						ClientReceivedError(NStatus theErr);
 
 
 	// Handle socket events

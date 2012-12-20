@@ -149,9 +149,24 @@ void NMessageClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		NMessageClient::SessionDidOpen : The session has opened.
+//		NMessageClient::ClientWillConnect : The client will connect to the server.
 //----------------------------------------------------------------------------
-void NMessageClient::SessionDidOpen(void)
+bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/)
+{
+
+
+	// Continue connecting
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageClient::ClientDidConnect : The client did connect to the server.
+//----------------------------------------------------------------------------
+void NMessageClient::ClientDidConnect(void)
 {
 }
 
@@ -160,9 +175,9 @@ void NMessageClient::SessionDidOpen(void)
 
 
 //============================================================================
-//		NMessageClient::SessionDidClose : The session has closed.
+//		NMessageClient::ClientDidDisconnect : The client was disconnected.
 //----------------------------------------------------------------------------
-void NMessageClient::SessionDidClose(void)
+void NMessageClient::ClientDidDisconnect(void)
 {
 }
 
@@ -171,9 +186,9 @@ void NMessageClient::SessionDidClose(void)
 
 
 //============================================================================
-//		NMessageClient::SessionReceivedError : The session received an error.
+//		NMessageClient::ClientReceivedError : The client received an error.
 //----------------------------------------------------------------------------
-void NMessageClient::SessionReceivedError(NStatus /*theErr*/)
+void NMessageClient::ClientReceivedError(NStatus /*theErr*/)
 {
 }
 
@@ -221,8 +236,8 @@ void NMessageClient::SocketDidClose(NSocket *theSocket)
 		case kNClientConnected:
 		case kNClientConnecting:
 		case kNClientDisconnecting:
-			SessionDidClose();
 			mStatus = kNClientDisconnected;
+			ClientDidDisconnect();
 			break;
 
 		case kNClientDisconnected:
@@ -258,8 +273,8 @@ void NMessageClient::SocketReceivedError(NSocket *theSocket, NStatus theErr)
 	switch (mStatus) {
 		case kNClientConnected:
 		case kNClientConnecting:
-			SessionReceivedError(theErr);
 			mStatus = kNClientDisconnecting;
+			ClientReceivedError(theErr);
 			break;
 
 		case kNClientDisconnected:
@@ -320,27 +335,39 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	
 	if (theErr != kNoErr)
 		{
-		SessionReceivedError(theErr);
+		ClientReceivedError(theErr);
 		theSocket->Close();
 		return;
 		}
 
 
 
-	// Join the server
+	// Read the server info
 	theErr = ReadMessage(theSocket, msgServerInfo);
 	NN_ASSERT(msgServerInfo.GetType() == kNMessageServerInfo);
-	
-	if (theErr == kNoErr)
+
+	if (theErr != kNoErr)
 		{
-		msgJoinRequest = PrepareMessage(kNMessageJoinRequest, kNEntityServer);
-
-		if (!mPassword.IsEmpty())
-			msgJoinRequest.SetValue(kNMessageClientPasswordKey, mPassword);
-
-		theErr = WriteMessage(theSocket, msgJoinRequest);
+		ClientReceivedError(theErr);
+		theSocket->Close();
+		return;
 		}
-	
+
+
+
+	// Connect to the server
+	if (!ClientWillConnect(msgServerInfo.GetProperties()))
+		{
+		theSocket->Close();
+		return;
+		}
+
+	msgJoinRequest = PrepareMessage(kNMessageJoinRequest, kNEntityServer);
+
+	if (!mPassword.IsEmpty())
+		msgJoinRequest.SetValue(kNMessageClientPasswordKey, mPassword);
+
+	theErr = WriteMessage(theSocket, msgJoinRequest);
 	if (theErr == kNoErr)
 		{
 		theErr = ReadMessage(theSocket, msgJoinResponse);
@@ -358,7 +385,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		SessionReceivedError(theErr);
+		ClientReceivedError(theErr);
 		theSocket->Close();
 		return;
 		}
@@ -367,7 +394,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	// Open the session
 	mStatus = kNClientConnected;
-	SessionDidOpen();
+	ClientDidConnect();
 
 	ProcessMessages(theSocket);
 }

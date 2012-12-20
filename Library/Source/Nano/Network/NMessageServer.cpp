@@ -254,6 +254,22 @@ void NMessageServer::ServerDidStop(void)
 
 
 //============================================================================
+//		NMessageServer::ServerGetProperties : Get the server properties.
+//----------------------------------------------------------------------------
+NDictionary NMessageServer::ServerGetProperties(void)
+{	NDictionary		theProperties;
+
+
+
+	// Get the properties
+	return(theProperties);
+}
+
+
+
+
+
+//============================================================================
 //		NMessageServer::ServerAddedClient : The server has added a client.
 //----------------------------------------------------------------------------
 void NMessageServer::ServerAddedClient(NEntityID /*clientID*/)
@@ -469,6 +485,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	// Send the server info
 	mLock.Lock();
 	msgServerInfo = PrepareMessage(kNMessageServerInfo, kNEntityEveryone);
+	msgServerInfo.SetProperties(ServerGetProperties());
 	msgServerInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
 	msgServerInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
 	mLock.Unlock();
