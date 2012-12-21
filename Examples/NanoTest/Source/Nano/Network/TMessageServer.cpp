@@ -95,15 +95,12 @@ public:
 
 
 protected:
-	// Handle a message
-	void								ReceivedMessage(const NNetworkMessage &theMsg);
-
-
 	// Handle server events
-	void								ServerDidStart(   void);
-	void								ServerDidStop(    void);
+	void								ServerDidStart(void);
+	void								ServerDidStop( void);
 	void								ServerAddedClient(  NEntityID clientID);
 	void								ServerRemovedClient(NEntityID clientID);
+	void								ServerReceivedMessage(const NNetworkMessage &theMsg);
 	void								ServerReceivedError(NStatus theErr);
 
 
@@ -133,14 +130,11 @@ public:
 
 
 protected:
-	// Handle a message
-	void								ReceivedMessage(const NNetworkMessage &theMsg);
-
-
 	// Handle client events
-	void								SessionDidOpen( void);
-	void								SessionDidClose(void);
-	void								SessionReceivedError(NStatus theErr);
+	void								ClientDidConnect(   void);
+	void								ClientDidDisconnect(void);
+	void								ClientReceivedMessage(const NNetworkMessage &theMsg);
+	void								ClientReceivedError(NStatus theErr);
 
 
 private:
@@ -173,54 +167,6 @@ TTestServer::~TTestServer(void)
 
 	// Validate our state
 	NN_ASSERT(GetStatus() == kNServerStopped);
-}
-
-
-
-
-
-//============================================================================
-//		TTestServer::ReceivedMessage : Handle a message.
-//----------------------------------------------------------------------------
-void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
-{	NString				theValue;
-	NNetworkMessage		replyMsg;
-
-
-
-	// Update our state
-	mState += kStateServerReceivedMessage;
-
-
-
-	// Handle the message
-	switch (theMsg.GetType()) {
-		case kTestClientBroadcastMsg:
-			// Validate the message
-			theValue = theMsg.GetValueString(kTestTokenKey);
-			NN_ASSERT(theValue == kTokenClientBroadcast);
-			break;
-
-
-		case kTestClientServerMsg:
-			// Validate the message
-			theValue = theMsg.GetValueString(kTestTokenKey);
-			NN_ASSERT(theValue == kTokenClientServer);
-
-
-			// Send a response
-			replyMsg = CreateMessage(kTestServerClientMsg, theMsg.GetSource());
-			replyMsg.SetValue(kTestTokenKey, kTokenServerClient);
-			
-			SendMessage(replyMsg);
-			mState += kStateServerSentMessage;
-			break;
-
-
-		default:
-			NMessageServer::ReceivedMessage(theMsg);
-			break;
-		}
 }
 
 
@@ -281,6 +227,54 @@ void TTestServer::ServerRemovedClient(NEntityID /*clientID*/)
 
 	// Update our state
 	mState += kStateServerRemovedClient;
+}
+
+
+
+
+
+//============================================================================
+//		TTestServer::ServerReceivedMessage : The server has received a message.
+//----------------------------------------------------------------------------
+void TTestServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
+{	NString				theValue;
+	NNetworkMessage		replyMsg;
+
+
+
+	// Update our state
+	mState += kStateServerReceivedMessage;
+
+
+
+	// Handle the message
+	switch (theMsg.GetType()) {
+		case kTestClientBroadcastMsg:
+			// Validate the message
+			theValue = theMsg.GetValueString(kTestTokenKey);
+			NN_ASSERT(theValue == kTokenClientBroadcast);
+			break;
+
+
+		case kTestClientServerMsg:
+			// Validate the message
+			theValue = theMsg.GetValueString(kTestTokenKey);
+			NN_ASSERT(theValue == kTokenClientServer);
+
+
+			// Send a response
+			replyMsg = CreateMessage(kTestServerClientMsg, theMsg.GetSource());
+			replyMsg.SetValue(kTestTokenKey, kTokenServerClient);
+			
+			SendMessage(replyMsg);
+			mState += kStateServerSentMessage;
+			break;
+
+
+		default:
+			NMessageServer::ServerReceivedMessage(theMsg);
+			break;
+		}
 }
 
 
@@ -372,9 +366,39 @@ void TTestClient::Execute(void)
 
 
 //============================================================================
-//		TTestClient::ReceivedMessage : Handle a message.
+//		TTestClient::ClientDidConnect : The client has connected.
 //----------------------------------------------------------------------------
-void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
+void TTestClient::ClientDidConnect(void)
+{
+
+
+	// Update our state
+	mState += kStateClientDidOpen;
+}
+
+
+
+
+
+//============================================================================
+//		TTestClient::ClientDidDisconnect : The client was disconnected.
+//----------------------------------------------------------------------------
+void TTestClient::ClientDidDisconnect(void)
+{
+
+
+	// Update our state
+	mState += kStateClientDidClose;
+}
+
+
+
+
+
+//============================================================================
+//		TTestClient::ClientReceivedMessage : The client has received a message.
+//----------------------------------------------------------------------------
+void TTestClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
 {	NString		theValue;
 
 
@@ -404,7 +428,7 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 		default:
-			NMessageClient::ReceivedMessage(theMsg);
+			NMessageClient::ClientReceivedMessage(theMsg);
 			break;
 		}
 }
@@ -414,39 +438,9 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		TTestClient::SessionDidOpen : The session has opened.
+//		TTestClient::ClientReceivedError : The client has received an error.
 //----------------------------------------------------------------------------
-void TTestClient::SessionDidOpen(void)
-{
-
-
-	// Update our state
-	mState += kStateClientDidOpen;
-}
-
-
-
-
-
-//============================================================================
-//		TTestClient::SessionDidClose : The session has closed.
-//----------------------------------------------------------------------------
-void TTestClient::SessionDidClose(void)
-{
-
-
-	// Update our state
-	mState += kStateClientDidClose;
-}
-
-
-
-
-
-//============================================================================
-//		TTestClient::SessionReceivedError : The session has received an error.
-//----------------------------------------------------------------------------
-void TTestClient::SessionReceivedError(NStatus theErr)
+void TTestClient::ClientReceivedError(NStatus theErr)
 {
 
 

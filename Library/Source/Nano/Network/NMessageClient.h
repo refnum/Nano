@@ -64,21 +64,18 @@ public:
 
 
 protected:
-	// Handle messages
-	//
-	// Unknown messages must be passed to the base class for processing.
-	//
-	// Invoked on an internal thread.
-	virtual void						ReceivedMessage(const NNetworkMessage &theMsg);
-
-
 	// Handle client events
 	//
 	// Invoked on an internal thread.
 	virtual bool						ClientWillConnect(const NDictionary &serverInfo);
 	virtual void						ClientDidConnect(   void);
 	virtual void						ClientDidDisconnect(void);
+	virtual void						ClientReceivedMessage(const NNetworkMessage &theMsg);
 	virtual void						ClientReceivedError(NStatus theErr);
+
+
+	// Handle message events
+	void								ProcessMessage(const NNetworkMessage &theMsg);
 
 
 	// Handle socket events

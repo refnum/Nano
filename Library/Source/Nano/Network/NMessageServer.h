@@ -81,15 +81,6 @@ public:
 
 
 protected:
-	// Handle messages
-	//
-	// Unknown messages must be passed to the base class for processing.
-	//
-	// Invoked on an internal thread.
-	void								DispatchMessage(const NNetworkMessage &theMsg);
-	virtual void						ReceivedMessage(const NNetworkMessage &theMsg);
-
-
 	// Handle server events
 	//
 	// Invoked on an internal thread.
@@ -98,8 +89,13 @@ protected:
 	virtual NDictionary					ServerGetProperties(void);
 	virtual void						ServerAddedClient(  NEntityID clientID);
 	virtual void						ServerRemovedClient(NEntityID clientID);
+	virtual void						ServerReceivedMessage(const NNetworkMessage &theMsg);
 	virtual void						ServerReceivedError(NStatus theErr);
-	
+
+
+	// Handle message events
+	void								ProcessMessage(const NNetworkMessage &theMsg);
+
 
 	// Handle socket events
 	void								SocketDidOpen(           NSocket *theSocket);

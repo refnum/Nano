@@ -118,11 +118,23 @@ void NMessageClient::Disconnect(void)
 //		NMessageClient::SendMessage : Send a message.
 //----------------------------------------------------------------------------
 void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
-{
+{	NEntityID						dstID;
 
 
-	// Send the message
-	(void) WriteMessage(&mSocket, theMsg, false);
+
+	// Get the state we need
+	dstID = theMsg.GetDestination();
+
+
+
+	// Send to self
+	if (dstID == GetID())
+		ClientReceivedMessage(theMsg);
+	
+	
+	// Send via the server
+	else
+		(void) WriteMessage(&mSocket, theMsg, false);
 }
 
 
@@ -130,27 +142,9 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		NMessageClient::ReceivedMessage : Handle a message.
+//		NMessageClient::ClientWillConnect : The client will connect.
 //----------------------------------------------------------------------------
 #pragma mark -
-void NMessageClient::ReceivedMessage(const NNetworkMessage &theMsg)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
-				theMsg.GetDestination() == kNEntityEveryone);
-
-	NN_UNUSED(theMsg);
-}
-
-
-
-
-
-//============================================================================
-//		NMessageClient::ClientWillConnect : The client will connect to the server.
-//----------------------------------------------------------------------------
 bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/)
 {
 
@@ -164,7 +158,7 @@ bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/)
 
 
 //============================================================================
-//		NMessageClient::ClientDidConnect : The client did connect to the server.
+//		NMessageClient::ClientDidConnect : The client has connected.
 //----------------------------------------------------------------------------
 void NMessageClient::ClientDidConnect(void)
 {
@@ -186,10 +180,61 @@ void NMessageClient::ClientDidDisconnect(void)
 
 
 //============================================================================
+//		NMessageClient::ClientReceivedMessage : The client received a message.
+//----------------------------------------------------------------------------
+void NMessageClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
+				theMsg.GetDestination() == kNEntityEveryone);
+
+	NN_UNUSED(theMsg);
+}
+
+
+
+
+
+//============================================================================
 //		NMessageClient::ClientReceivedError : The client received an error.
 //----------------------------------------------------------------------------
 void NMessageClient::ClientReceivedError(NStatus /*theErr*/)
 {
+}
+
+
+
+
+
+
+//============================================================================
+//		NMessageClient::ProcessMessage : Process a message.
+//----------------------------------------------------------------------------
+void NMessageClient::ProcessMessage(const NNetworkMessage &theMsg)
+{	NEntityID		dstID;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(theMsg.GetSource() != kNEntityEveryone);
+	NN_ASSERT(theMsg.GetSource() != kNEntityInvalid);
+
+
+
+	// Get the state we need
+	dstID = theMsg.GetDestination();
+
+	NN_ASSERT(dstID == GetID() || dstID == kNEntityEveryone);
+
+
+
+	// Process the message
+	//
+	// To handle tainted data, we check as well as assert.
+	if (dstID == GetID() || dstID == kNEntityEveryone)
+		ClientReceivedMessage(theMsg);
 }
 
 

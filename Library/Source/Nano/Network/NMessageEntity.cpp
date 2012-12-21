@@ -99,9 +99,54 @@ void NMessageEntity::SetID(NEntityID theID)
 
 
 //============================================================================
-//		NMessageEntity::ReadHandshake : Read a handshake.
+//		NMessageEntity::CreateMessage : Create a message.
+//----------------------------------------------------------------------------
+NNetworkMessage NMessageEntity::CreateMessage(NMessageType theType, NEntityID dstID)
+{	NNetworkMessage		theMsg;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theType != kNMessageInvalid);
+	NN_ASSERT(dstID   != kNEntityInvalid);
+
+
+
+	// Create the message
+	theMsg.SetType(theType);
+	theMsg.SetSource(     GetID());
+	theMsg.SetDestination(dstID);
+
+	return(theMsg);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::CreateHandshake : Create a handshake.
 //----------------------------------------------------------------------------
 #pragma mark -
+NMessageHandshake NMessageEntity::CreateHandshake(void) const
+{	NMessageHandshake		theHandshake;
+
+
+
+	// Create the handshake
+	theHandshake.theMagic   = kNMessageHandshakeMagic;
+	theHandshake.theVersion = kNMessageHandshakeVersionCurrent;
+
+	return(theHandshake);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::ReadHandshake : Read a handshake.
+//----------------------------------------------------------------------------
 NStatus NMessageEntity::ReadHandshake(NSocket *theSocket, NMessageHandshake &theHandshake)
 {	NStatus		theErr;
 
@@ -224,51 +269,6 @@ NStatus NMessageEntity::WriteMessage(NSocket *theSocket, const NNetworkMessage &
 
 
 //============================================================================
-//		NMessageEntity::CreateHandshake : Create a handshake.
-//----------------------------------------------------------------------------
-NMessageHandshake NMessageEntity::CreateHandshake(void) const
-{	NMessageHandshake		theHandshake;
-
-
-
-	// Create the handshake
-	theHandshake.theMagic   = kNMessageHandshakeMagic;
-	theHandshake.theVersion = kNMessageHandshakeVersionCurrent;
-
-	return(theHandshake);
-}
-
-
-
-
-
-//============================================================================
-//		NMessageEntity::CreateMessage : Create a message.
-//----------------------------------------------------------------------------
-NNetworkMessage NMessageEntity::CreateMessage(NMessageType theType, NEntityID dstID)
-{	NNetworkMessage		theMsg;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theType != kNMessageInvalid);
-	NN_ASSERT(dstID   != kNEntityInvalid);
-
-
-
-	// Create the message
-	theMsg.SetType(theType);
-	theMsg.SetSource(     GetID());
-	theMsg.SetDestination(dstID);
-
-	return(theMsg);
-}
-
-
-
-
-
-//============================================================================
 //		NMessageEntity::ProcessMessages : Process messages.
 //----------------------------------------------------------------------------
 void NMessageEntity::ProcessMessages(NSocket *theSocket)
@@ -282,38 +282,9 @@ void NMessageEntity::ProcessMessages(NSocket *theSocket)
 		{
 		theErr = ReadMessage(theSocket, theMsg);
 		if (theErr == kNoErr)
-			DispatchMessage(theMsg);
+			ProcessMessage(theMsg);
 		}
 	while (theErr == kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NMessageEntity::DispatchMessage : Dispatch a message.
-//----------------------------------------------------------------------------
-void NMessageEntity::DispatchMessage(const NNetworkMessage &theMsg)
-{	NEntityID		dstID;
-
-
-
-	// Validate our parameters and state
-	NN_ASSERT(theMsg.GetSource()      != kNEntityEveryone);
-	NN_ASSERT(theMsg.GetSource()      != kNEntityInvalid);
-	NN_ASSERT(theMsg.GetDestination() != kNEntityInvalid);
-
-
-
-	// Get the state we need
-	dstID = theMsg.GetDestination();
-
-
-
-	// Dispatch the message
-	if (dstID == GetID() || dstID == kNEntityEveryone)
-		ReceivedMessage(theMsg);
 }
 
 

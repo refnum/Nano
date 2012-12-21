@@ -166,16 +166,22 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 
 
 
+	// Send to self
+	if (dstID == GetID())
+		ServerReceivedMessage(theMsg);
+
+
 	// Send to everyone
-	if (dstID == kNEntityEveryone)
+	else if (dstID == kNEntityEveryone)
 		{
+		ServerReceivedMessage(theMsg);
+
 		for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
 			(void) WriteMessage(theIter->second.theSocket, theMsg, false);
 		}
 
 
-
-	// Send to someone
+	// Send to a client
 	//
 	// To handle tainted data, we check as well as assert.
 	else
@@ -186,45 +192,6 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 		if (theIter != mClients.end())
 			(void) WriteMessage(theIter->second.theSocket, theMsg, false);
 		}
-}
-
-
-
-
-
-//============================================================================
-//		NMessageServer::DispatchMessage : Dispatch a message.
-//----------------------------------------------------------------------------
-#pragma mark -
-void NMessageServer::DispatchMessage(const NNetworkMessage &theMsg)
-{	NEntityID		dstID;
-
-
-
-	// Get the state we need
-	dstID = theMsg.GetDestination();
-
-
-
-	// Dispatch the message
-	//
-	// The server acts as a central hub for messages, so dispatches messages
-	// both to itself and the connected clients.
-	NMessageEntity::DispatchMessage(theMsg);
-
-	if (dstID != GetID())
-		SendMessage(theMsg);
-}
-
-
-
-
-
-//============================================================================
-//		NMessageServer::ReceivedMessage : Handle a message.
-//----------------------------------------------------------------------------
-void NMessageServer::ReceivedMessage(const NNetworkMessage &/*theMsg*/)
-{
 }
 
 
@@ -292,10 +259,52 @@ void NMessageServer::ServerRemovedClient(NEntityID /*clientID*/)
 
 
 //============================================================================
+//		NMessageServer::ServerReceivedMessage : The server received a message.
+//----------------------------------------------------------------------------
+void NMessageServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
+				theMsg.GetDestination() == kNEntityEveryone);
+
+	NN_UNUSED(theMsg);
+}
+
+
+
+
+
+//============================================================================
 //		NMessageServer::ServerReceivedError : The server received an error.
 //----------------------------------------------------------------------------
 void NMessageServer::ServerReceivedError(NStatus /*theErr*/)
 {
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::ProcessMessage : Process a message.
+//----------------------------------------------------------------------------
+void NMessageServer::ProcessMessage(const NNetworkMessage &theMsg)
+{	NEntityID		dstID;
+
+
+
+	// Get the state we need
+	dstID = theMsg.GetDestination();
+
+
+
+	// Process the message
+	if (dstID == GetID())
+		ServerReceivedMessage(theMsg);
+	else
+		SendMessage(theMsg);
 }
 
 

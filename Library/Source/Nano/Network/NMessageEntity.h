@@ -62,7 +62,15 @@ public:
 	void								SetID(NEntityID theID);
 
 
+	// Create a message
+	NNetworkMessage						CreateMessage(NMessageType theType, NEntityID dstID);
+
+
 protected:
+	// Create a handshake
+	NMessageHandshake					CreateHandshake(void) const;
+
+
 	// Read/write a handshake
 	NStatus								ReadHandshake( NSocket *theSocket, NMessageHandshake &theHandshake);
 	NStatus								WriteHandshake(NSocket *theSocket, NMessageHandshake &theHandshake);
@@ -73,21 +81,9 @@ protected:
 	NStatus								WriteMessage(NSocket *theSocket, const NNetworkMessage &theMsg, bool sendSync=true);
 
 
-	// Create a handshake
-	NMessageHandshake					CreateHandshake(void) const;
-
-
-	// Create a message
-	NNetworkMessage						CreateMessage(NMessageType theType, NEntityID dstID);
-
-
 	// Process messages
 	void								ProcessMessages(NSocket *theSocket);
-
-
-	// Handle a message
-	virtual void						DispatchMessage(const NNetworkMessage &theMsg);
-	virtual void						ReceivedMessage(const NNetworkMessage &theMsg) = 0;
+	virtual void						ProcessMessage(const NNetworkMessage &theMsg) = 0;
 
 
 private:
