@@ -209,7 +209,7 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 			// Send a response
-			replyMsg = PrepareMessage(kTestServerClientMsg, theMsg.GetSource());
+			replyMsg = CreateMessage(kTestServerClientMsg, theMsg.GetSource());
 			replyMsg.SetValue(kTestTokenKey, kTokenServerClient);
 			
 			SendMessage(replyMsg);
@@ -345,7 +345,7 @@ void TTestClient::Execute(void)
 
 
 	// Send a message to everyone
-	theMsg = PrepareMessage(kTestClientBroadcastMsg, kNEntityEveryone);
+	theMsg = CreateMessage(kTestClientBroadcastMsg, kNEntityEveryone);
 	theMsg.SetValue(kTestTokenKey, kTokenClientBroadcast);
 
 	SendMessage(theMsg);
@@ -354,7 +354,7 @@ void TTestClient::Execute(void)
 
 
 	// Send a message to the server
-	theMsg = PrepareMessage(kTestClientServerMsg, kNEntityServer);
+	theMsg = CreateMessage(kTestClientServerMsg, kNEntityServer);
 	theMsg.SetValue(kTestTokenKey, kTokenClientServer);
 
 	SendMessage(theMsg);

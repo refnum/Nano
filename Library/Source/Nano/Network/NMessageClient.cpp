@@ -309,7 +309,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 	// Get the state we need
-	clientHandshake = GetHandshake();
+	clientHandshake = CreateHandshake();
 	
 	memset(&serverHandshake, 0x00, sizeof(serverHandshake));
 
@@ -362,7 +362,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 		return;
 		}
 
-	msgJoinRequest = PrepareMessage(kNMessageJoinRequest, kNEntityServer);
+	msgJoinRequest = CreateMessage(kNMessageJoinRequest, kNEntityServer);
 
 	if (!mPassword.IsEmpty())
 		msgJoinRequest.SetValue(kNMessageClientPasswordKey, mPassword);

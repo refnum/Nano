@@ -99,28 +99,9 @@ void NMessageEntity::SetID(NEntityID theID)
 
 
 //============================================================================
-//		NMessageEntity::GetHandshake : Get a handshake.
-//----------------------------------------------------------------------------
-#pragma mark -
-NMessageHandshake NMessageEntity::GetHandshake(void) const
-{	NMessageHandshake		theHandshake;
-
-
-
-	// Get the handshake
-	theHandshake.theMagic   = kNMessageHandshakeMagic;
-	theHandshake.theVersion = kNMessageHandshakeVersionCurrent;
-
-	return(theHandshake);
-}
-
-
-
-
-
-//============================================================================
 //		NMessageEntity::ReadHandshake : Read a handshake.
 //----------------------------------------------------------------------------
+#pragma mark -
 NStatus NMessageEntity::ReadHandshake(NSocket *theSocket, NMessageHandshake &theHandshake)
 {	NStatus		theErr;
 
@@ -243,9 +224,28 @@ NStatus NMessageEntity::WriteMessage(NSocket *theSocket, const NNetworkMessage &
 
 
 //============================================================================
-//		NMessageEntity::PrepareMessage : Prepare a message.
+//		NMessageEntity::CreateHandshake : Create a handshake.
 //----------------------------------------------------------------------------
-NNetworkMessage NMessageEntity::PrepareMessage(NMessageType theType, NEntityID dstID)
+NMessageHandshake NMessageEntity::CreateHandshake(void) const
+{	NMessageHandshake		theHandshake;
+
+
+
+	// Create the handshake
+	theHandshake.theMagic   = kNMessageHandshakeMagic;
+	theHandshake.theVersion = kNMessageHandshakeVersionCurrent;
+
+	return(theHandshake);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageEntity::CreateMessage : Create a message.
+//----------------------------------------------------------------------------
+NNetworkMessage NMessageEntity::CreateMessage(NMessageType theType, NEntityID dstID)
 {	NNetworkMessage		theMsg;
 
 
@@ -256,7 +256,7 @@ NNetworkMessage NMessageEntity::PrepareMessage(NMessageType theType, NEntityID d
 
 
 
-	// Prepare the message
+	// Create the message
 	theMsg.SetType(theType);
 	theMsg.SetSource(     GetID());
 	theMsg.SetDestination(dstID);

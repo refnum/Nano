@@ -444,7 +444,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 
 	// Get the state we need
-	serverHandshake = GetHandshake();
+	serverHandshake = CreateHandshake();
 	
 	memset(&clientHandshake, 0x00, sizeof(clientHandshake));
 
@@ -484,7 +484,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 	// Send the server info
 	mLock.Lock();
-	msgServerInfo = PrepareMessage(kNMessageServerInfo, kNEntityEveryone);
+	msgServerInfo = CreateMessage(kNMessageServerInfo, kNEntityEveryone);
 	msgServerInfo.SetProperties(ServerGetProperties());
 	msgServerInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
 	msgServerInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
@@ -535,7 +535,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 			theErr = kNErrPermission;
 		}
 
-	msgJoinResponse = PrepareMessage(kNMessageJoinResponse, clientID);
+	msgJoinResponse = CreateMessage(kNMessageJoinResponse, clientID);
 	msgJoinResponse.SetValue(kNMessageStatusKey, theErr);
 
 	theErr = WriteMessage(theSocket, msgJoinResponse);

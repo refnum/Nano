@@ -63,22 +63,22 @@ public:
 
 
 protected:
-	// Get a handshake
-	NMessageHandshake					GetHandshake(void) const;
-
-
 	// Read/write a handshake
-	NStatus								ReadHandshake(  NSocket *theSocket, NMessageHandshake &theHandshake);
-	NStatus								WriteHandshake( NSocket *theSocket, NMessageHandshake &theHandshake);
+	NStatus								ReadHandshake( NSocket *theSocket, NMessageHandshake &theHandshake);
+	NStatus								WriteHandshake(NSocket *theSocket, NMessageHandshake &theHandshake);
 
 
 	// Read/write a message
-	NStatus								ReadMessage(    NSocket *theSocket,       NNetworkMessage &theMsg);
-	NStatus								WriteMessage(   NSocket *theSocket, const NNetworkMessage &theMsg, bool sendSync=true);
+	NStatus								ReadMessage( NSocket *theSocket,       NNetworkMessage &theMsg);
+	NStatus								WriteMessage(NSocket *theSocket, const NNetworkMessage &theMsg, bool sendSync=true);
 
 
-	// Prepare a message
-	NNetworkMessage						PrepareMessage(NMessageType theType, NEntityID dstID);
+	// Create a handshake
+	NMessageHandshake					CreateHandshake(void) const;
+
+
+	// Create a message
+	NNetworkMessage						CreateMessage(NMessageType theType, NEntityID dstID);
 
 
 	// Process messages
