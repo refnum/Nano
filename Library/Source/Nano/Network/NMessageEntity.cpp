@@ -145,6 +145,34 @@ NMessageHandshake NMessageEntity::CreateHandshake(void) const
 
 
 //============================================================================
+//		NMessageEntity::ValidateHandshake : Validate a handshake.
+//----------------------------------------------------------------------------
+NStatus NMessageEntity::ValidateHandshake(const NMessageHandshake &theHandshake)
+{	NStatus		theErr;
+
+
+
+	// Validate the handshake
+	if (theHandshake.theMagic != kNMessageHandshakeMagic)
+		theErr = kNErrMalformed;
+
+	else if (theHandshake.theVersion > kNMessageHandshakeVersionCurrent)
+		theErr = kNErrVersionTooNew;
+
+	else if (theHandshake.theVersion < kNMessageHandshakeVersionCurrent)
+		theErr = kNErrVersionTooOld;
+
+	else
+		theErr = kNoErr;
+	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
 //		NMessageEntity::ReadHandshake : Read a handshake.
 //----------------------------------------------------------------------------
 NStatus NMessageEntity::ReadHandshake(NSocket *theSocket, NMessageHandshake &theHandshake)
@@ -169,7 +197,7 @@ NStatus NMessageEntity::ReadHandshake(NSocket *theSocket, NMessageHandshake &the
 //============================================================================
 //		NMessageEntity::WriteHandshake : Write a handshake.
 //----------------------------------------------------------------------------
-NStatus NMessageEntity::WriteHandshake(NSocket *theSocket, NMessageHandshake &theHandshake)
+NStatus NMessageEntity::WriteHandshake(NSocket *theSocket, const NMessageHandshake &theHandshake)
 {	NMessageHandshake		wireHandshake;
 	NStatus					theErr;
 

@@ -392,17 +392,10 @@ NSocketConnectionFunctor NMessageServer::SocketHasConnection(NSocket *theSocket,
 #pragma mark -
 void NMessageServer::ServerThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
-	NMessageHandshake		serverHandshake, clientHandshake;
+	NMessageHandshake		clientHandshake;
 	NString					thePassword;
 	NEntityID				clientID;
 	NStatus					theErr;
-
-
-
-	// Get the state we need
-	serverHandshake = CreateHandshake();
-	
-	memset(&clientHandshake, 0x00, sizeof(clientHandshake));
 
 
 
@@ -415,19 +408,10 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	theErr = ReadHandshake(theSocket, clientHandshake);
 
 	if (theErr == kNoErr)
-		theErr = WriteHandshake(theSocket, serverHandshake);
+		theErr = WriteHandshake(theSocket, CreateHandshake());
 
 	if (theErr == kNoErr)
-		{
-		if (clientHandshake.theMagic != kNMessageHandshakeMagic)
-			theErr = kNErrMalformed;
-
-		else if (clientHandshake.theVersion > serverHandshake.theVersion)
-			theErr = kNErrVersionTooNew;
-
-		else if (clientHandshake.theVersion < serverHandshake.theVersion)
-			theErr = kNErrVersionTooOld;
-		}
+		theErr = ValidateHandshake(clientHandshake);
 
 	if (theErr != kNoErr)
 		{

@@ -280,7 +280,7 @@ void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 #pragma mark -
 void NMessageClient::ClientThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
-	NMessageHandshake		clientHandshake, serverHandshake;
+	NMessageHandshake		serverHandshake;
 	NDictionary				clientInfo;
 	NStatus					theErr;
 
@@ -291,31 +291,15 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 
-	// Get the state we need
-	clientHandshake = CreateHandshake();
-	
-	memset(&serverHandshake, 0x00, sizeof(serverHandshake));
-
-
-
 	// Do the handshake
-	theErr = WriteHandshake(theSocket, clientHandshake);
+	theErr = WriteHandshake(theSocket, CreateHandshake());
 
 	if (theErr == kNoErr)
 		theErr = ReadHandshake(theSocket, serverHandshake);
 
 	if (theErr == kNoErr)
-		{
-		if (serverHandshake.theMagic != kNMessageHandshakeMagic)
-			theErr = kNErrMalformed;
+		theErr = ValidateHandshake(serverHandshake);
 
-		else if (serverHandshake.theVersion > clientHandshake.theVersion)
-			theErr = kNErrVersionTooNew;
-
-		else if (serverHandshake.theVersion < clientHandshake.theVersion)
-			theErr = kNErrVersionTooOld;
-		}
-	
 	if (theErr != kNoErr)
 		{
 		theSocket->Close(theErr);

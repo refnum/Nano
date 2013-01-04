@@ -29,7 +29,7 @@
 // Handshake
 static const UInt32 kNMessageHandshakeMagic							= 0x4d655376;	// 'MeSv'
 static const UInt32 kNMessageHandshakeVersionInvalid				= kUInt32Max;
-static const UInt32 kNMessageHandshakeVersionCurrent				= 0;
+static const UInt32 kNMessageHandshakeVersionCurrent				= 1;
 
 
 
@@ -71,9 +71,13 @@ protected:
 	NMessageHandshake					CreateHandshake(void) const;
 
 
+	// Validate a handshake
+	NStatus								ValidateHandshake(const NMessageHandshake &theHandshake);
+
+
 	// Read/write a handshake
-	NStatus								ReadHandshake( NSocket *theSocket, NMessageHandshake &theHandshake);
-	NStatus								WriteHandshake(NSocket *theSocket, NMessageHandshake &theHandshake);
+	NStatus								ReadHandshake( NSocket *theSocket,       NMessageHandshake &theHandshake);
+	NStatus								WriteHandshake(NSocket *theSocket, const NMessageHandshake &theHandshake);
 
 
 	// Read/write a message
