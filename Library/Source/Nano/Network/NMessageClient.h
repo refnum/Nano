@@ -65,27 +65,35 @@ public:
 protected:
 	// The client will connect to the server
 	//
-	// Servers respond to a connection request with a dictionary that describes
-	// their state; clients can provide a corresponding dictionary which the
-	// server may use to perform its own acceptance/rejection.
+	// Servers respond to a connection request with a dictionary of their state.
 	//
-	// Returns true as the connection should continue.
+	// Clients which wish to proceed with the connection should return true and
+	// can provide their own state dictionary that the server may use to accept
+	// or reject the client.
+	//
+	// Invoked on an internal thread.
 	virtual bool						ClientWillConnect(const NDictionary &serverInfo, NDictionary &clientInfo);
 
 
 	// The client has connected to the server
+	//
+	// Invoked on an internal thread.
 	virtual void						ClientDidConnect(void);
 
 
 	// The client has disconnected from the server
 	//
 	// Clients which fail to connect will return their error through this method.
+	//
+	// Invoked on an internal thread.
 	virtual void						ClientDidDisconnect(NStatus theErr);
 
 
 	// The client has received a message
 	//
 	// Unknown messages should be passed to the base class for processing.
+	//
+	// Invoked on an internal thread.
 	virtual void						ClientReceivedMessage(const NNetworkMessage &theMsg);
 
 
