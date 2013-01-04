@@ -237,8 +237,7 @@ public:
 	//
 	// A socket may be closed programmatically, or may close due to an error.
 	//
-	// Sockets in the kNSocketOpening state will also report any failure to
-	// open through this method.
+	// Sockets which fail to open will return their error through this method.
 	virtual void						SocketDidClose(NSocket *theSocket, NStatus theErr);
 
 
