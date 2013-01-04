@@ -235,9 +235,9 @@ public:
 
 	// The socket has closed
 	//
-	// A socket may be closed programmatically, or may close due to an error.
+	// Sockets are automatically closed if they experience an error.
 	//
-	// Sockets which fail to open will return their error through this method.
+	// Sockets which fail to open will also return their error through this method.
 	virtual void						SocketDidClose(NSocket *theSocket, NStatus theErr);
 
 
