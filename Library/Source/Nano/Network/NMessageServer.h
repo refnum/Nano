@@ -93,7 +93,7 @@ protected:
 	virtual void						ServerReceivedError(NStatus theErr);
 
 
-	// Handle message events
+	// Process messages
 	void								ProcessMessage(const NNetworkMessage &theMsg);
 
 

@@ -74,7 +74,7 @@ protected:
 	virtual void						ClientReceivedError(NStatus theErr);
 
 
-	// Handle message events
+	// Process messages
 	void								ProcessMessage(const NNetworkMessage &theMsg);
 
 
