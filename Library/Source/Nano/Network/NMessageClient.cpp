@@ -143,7 +143,7 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 //		NMessageClient::ClientWillConnect : The client will connect.
 //----------------------------------------------------------------------------
 #pragma mark -
-bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/)
+bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/, NDictionary &/*clientInfo*/)
 {
 
 
@@ -198,6 +198,7 @@ void NMessageClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
 //============================================================================
 //		NMessageClient::ProcessMessage : Process a message.
 //----------------------------------------------------------------------------
+#pragma mark -
 void NMessageClient::ProcessMessage(const NNetworkMessage &theMsg)
 {	NEntityID		dstID;
 
@@ -280,6 +281,7 @@ void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 void NMessageClient::ClientThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
 	NMessageHandshake		clientHandshake, serverHandshake;
+	NDictionary				clientInfo;
 	NStatus					theErr;
 
 
@@ -334,15 +336,18 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 
-	// Connect to the server
-	if (!ClientWillConnect(msgServerInfo.GetProperties()))
+	// See if we should connect
+	if (!ClientWillConnect(msgServerInfo.GetProperties(), clientInfo))
 		{
 		theSocket->Close();
 		return;
 		}
 
-	msgJoinRequest = CreateMessage(kNMessageJoinRequest, kNEntityServer);
 
+
+	// Connect to the server
+	msgJoinRequest = CreateMessage(kNMessageJoinRequest, kNEntityServer);
+	msgJoinRequest.SetProperties(clientInfo);
 	if (!mPassword.IsEmpty())
 		msgJoinRequest.SetValue(kNMessageClientPasswordKey, mPassword);
 
