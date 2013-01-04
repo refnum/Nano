@@ -370,7 +370,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 
-	// Open the session
+	// Process messages
 	mStatus = kNClientConnected;
 	ClientDidConnect();
 

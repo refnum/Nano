@@ -506,7 +506,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 
 
-	// Open the session
+	// Process messages
 	ServerAddedClient(clientID);
 
 	ProcessMessages(theSocket);
