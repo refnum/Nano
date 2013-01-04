@@ -193,15 +193,50 @@ void NMessageServer::ServerDidStop(NStatus /*theErr*/)
 
 
 //============================================================================
-//		NMessageServer::ServerGetProperties : Get the server properties.
+//		NMessageServer::ServerConnectionState : Get the server state.
 //----------------------------------------------------------------------------
-NDictionary NMessageServer::ServerGetProperties(void)
-{	NDictionary		theProperties;
+NDictionary NMessageServer::ServerConnectionState(void)
+{	NDictionary		theState;
 
 
 
-	// Get the properties
-	return(theProperties);
+	// Get the state
+	return(theState);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::ServerConnectionRequest : The server has a connection request.
+//----------------------------------------------------------------------------
+NStatus NMessageServer::ServerConnectionRequest(const NDictionary &/*serverInfo*/, const NDictionary &clientInfo, NEntityID clientID)
+{	NString		thePassword;
+	NStatus		theErr;
+
+
+
+	// Get the state we need
+	theErr = kNoErr;
+
+
+
+	// Check the clients
+	if ((NIndex) mClients.size() >= mMaxClients || clientID == kNEntityInvalid)
+		theErr = kNErrBusy;
+
+
+	// Check the password
+	else if (!mPassword.IsEmpty())
+		{
+		thePassword = clientInfo.GetValueString(kNMessageClientPasswordKey);
+
+		if (mPassword != thePassword)
+			theErr = kNErrPermission;
+		}
+	
+	return(theErr);
 }
 
 
@@ -394,6 +429,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
 	NMessageHandshake		clientHandshake;
 	NString					thePassword;
+	NDictionary				serverInfo;
 	NEntityID				clientID;
 	NStatus					theErr;
 
@@ -421,10 +457,13 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 
 
+
+
 	// Send the server info
 	mLock.Lock();
+	serverInfo    = ServerConnectionState();
 	msgServerInfo = CreateMessage(kNMessageServerInfo, kNEntityEveryone);
-	msgServerInfo.SetProperties(ServerGetProperties());
+	msgServerInfo.SetProperties(serverInfo);
 	msgServerInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
 	msgServerInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
 	mLock.Unlock();
@@ -437,7 +476,8 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 		}
 
 
-	// Wait for the client
+
+	// Wait for the request
 	//
 	// If the client was only interested in the current server state then they
 	// will disconnect rather than send a join request.
@@ -455,23 +495,12 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 	// Accept the client
 	mLock.Lock();
-	
-	theErr   = kNoErr;
+
 	clientID = GetNextClientID();
-	
-	if (msgJoinRequest.GetSource() != kNEntityInvalid)
-		theErr = kNErrParam;
+	theErr   = kNErrParam;
 
-	else if ((NIndex) mClients.size() >= mMaxClients || clientID == kNEntityInvalid)
-		theErr = kNErrBusy;
-
-	else if (!mPassword.IsEmpty())
-		{
-		thePassword = msgJoinRequest.GetValueString(kNMessageClientPasswordKey);
-	
-		if (mPassword != thePassword)
-			theErr = kNErrPermission;
-		}
+	if (msgJoinRequest.GetSource() == kNEntityInvalid)
+		theErr = ServerConnectionRequest(serverInfo, msgJoinRequest.GetProperties(), clientID);
 
 	msgJoinResponse = CreateMessage(kNMessageJoinResponse, clientID);
 	msgJoinResponse.SetValue(kNMessageStatusKey, theErr);

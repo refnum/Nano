@@ -80,17 +80,55 @@ public:
 
 
 protected:
-	// Handle server events
+	// The server has started
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerDidStart(     void);
+	virtual void						ServerDidStart(void);
+
+
+	// The server has stopped
+	//
+	// Invoked on an internal thread.
 	virtual void						ServerDidStop(NStatus theErr);
-	virtual NDictionary					ServerGetProperties(void);
-	virtual void						ServerAddedClient(  NEntityID clientID);
+
+
+	// Get the server connection state
+	//
+	// Servers respond to a connection request with a dictionary of their state.
+	//
+	// Invoked on an internal thread.
+	virtual NDictionary					ServerConnectionState(void);
+
+
+	// The server has a connection request
+	//
+	// Clients provide a dictionary of their state as part of the connection.
+	//
+	// Invoked on an internal thread.
+	virtual NStatus						ServerConnectionRequest(const NDictionary &serverInfo, const NDictionary &clientInfo, NEntityID clientID);
+
+
+	// The server has added a client.
+	//
+	// Invoked on an internal thread.
+	virtual void						ServerAddedClient(NEntityID clientID);
+
+
+	// The server has removed a client.
+	//
+	// Invoked on an internal thread.
 	virtual void						ServerRemovedClient(NEntityID clientID);
+
+
+	// The server has received a message
+	//
+	// Unknown messages should be passed to the base class for processing.
+	//
+	// Invoked on an internal thread.
 	virtual void						ServerReceivedMessage(const NNetworkMessage &theMsg);
 
 
+protected:
 	// Process messages
 	void								ProcessMessage(const NNetworkMessage &theMsg);
 
