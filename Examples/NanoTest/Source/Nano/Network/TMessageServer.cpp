@@ -45,18 +45,16 @@ static const NString kTokenServerClient								= "To get to the other side.";
 
 // State
 static const NString kStateServerDidStart							= "ServerDidStart/";
-static const NString kStateServerDidStop							= "ServerDidStop/";
+static const NString kStateServerDidStop							= "ServerDidStop:%ld/";
 static const NString kStateServerAddedClient						= "ServerAddedClient/";
 static const NString kStateServerRemovedClient						= "ServerRemovedClient/";
 static const NString kStateServerReceivedMessage					= "ServerReceivedMessage/";
 static const NString kStateServerSentMessage						= "ServerSentMessage/";
-static const NString kStateServerReceivedError						= "ServerReceivedError/";
 
 static const NString kStateClientDidOpen							= "ClientDidOpen/";
-static const NString kStateClientDidClose							= "ClientDidClose/";
+static const NString kStateClientDidClose							= "ClientDidClose:%ld/";
 static const NString kStateClientReceivedMessage					= "ClientReceivedMessage/";
 static const NString kStateClientSentMessage						= "ClientSentMessage/";
-static const NString kStateClientReceivedError						= "ClientReceivedError/";
 
 static const NString kStateServer									= kStateServerDidStart			+
 																	  kStateServerAddedClient		+
@@ -66,18 +64,18 @@ static const NString kStateServer									= kStateServerDidStart			+
 																	  kStateServerSentMessage		+
 																	  kStateServerRemovedClient		+
 																	  kStateServerRemovedClient		+
-																	  kStateServerDidStop;
+																	  NFormatString(kStateServerDidStop, kNoErr);
 
 static const NString kStateClient1									= kStateClientDidOpen			+
 																	  kStateClientSentMessage		+
 																	  kStateClientSentMessage		+
 																	  kStateClientReceivedMessage	+
 																	  kStateClientReceivedMessage	+
-																	  kStateClientDidClose;
+																	  NFormatString(kStateClientDidClose, kNoErr);
 
 static const NString kStateClient2									= kStateClientDidOpen			+
 																	  kStateClientReceivedMessage	+
-																	  kStateClientDidClose;
+																	  NFormatString(kStateClientDidClose, kNoErr);
 
 
 
@@ -97,11 +95,10 @@ public:
 protected:
 	// Handle server events
 	void								ServerDidStart(void);
-	void								ServerDidStop( void);
+	void								ServerDidStop(NStatus theErr);
 	void								ServerAddedClient(  NEntityID clientID);
 	void								ServerRemovedClient(NEntityID clientID);
 	void								ServerReceivedMessage(const NNetworkMessage &theMsg);
-	void								ServerReceivedError(NStatus theErr);
 
 
 private:
@@ -131,10 +128,9 @@ public:
 
 protected:
 	// Handle client events
-	void								ClientDidConnect(   void);
-	void								ClientDidDisconnect(void);
+	void								ClientDidConnect(void);
+	void								ClientDidDisconnect(NStatus theERr);
 	void								ClientReceivedMessage(const NNetworkMessage &theMsg);
-	void								ClientReceivedError(NStatus theErr);
 
 
 private:
@@ -191,12 +187,12 @@ void TTestServer::ServerDidStart(void)
 //============================================================================
 //		TTestServer::ServerDidStop : The server has stopped.
 //----------------------------------------------------------------------------
-void TTestServer::ServerDidStop(void)
+void TTestServer::ServerDidStop(NStatus theErr)
 {
 
 
 	// Update our state
-	mState += kStateServerDidStop;
+	mState += NFormatString(kStateServerDidStop, theErr);
 }
 
 
@@ -275,23 +271,6 @@ void TTestServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
 			NMessageServer::ServerReceivedMessage(theMsg);
 			break;
 		}
-}
-
-
-
-
-
-//============================================================================
-//		TTestServer::ServerReceivedError : The server has received an error.
-//----------------------------------------------------------------------------
-void TTestServer::ServerReceivedError(NStatus theErr)
-{
-
-
-	// Update our state
-	NN_ASSERT_NOERR(theErr);
-
-	mState += kStateServerReceivedError;
 }
 
 
@@ -383,12 +362,12 @@ void TTestClient::ClientDidConnect(void)
 //============================================================================
 //		TTestClient::ClientDidDisconnect : The client was disconnected.
 //----------------------------------------------------------------------------
-void TTestClient::ClientDidDisconnect(void)
+void TTestClient::ClientDidDisconnect(NStatus theErr)
 {
 
 
 	// Update our state
-	mState += kStateClientDidClose;
+	mState += NFormatString(kStateClientDidClose, theErr);
 }
 
 
@@ -431,23 +410,6 @@ void TTestClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
 			NMessageClient::ClientReceivedMessage(theMsg);
 			break;
 		}
-}
-
-
-
-
-
-//============================================================================
-//		TTestClient::ClientReceivedError : The client has received an error.
-//----------------------------------------------------------------------------
-void TTestClient::ClientReceivedError(NStatus theErr)
-{
-
-
-	// Update our state
-	NN_ASSERT_NOERR(theErr);
-
-	mState += kStateClientReceivedError;
 }
 
 

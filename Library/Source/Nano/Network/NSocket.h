@@ -30,10 +30,9 @@
 //----------------------------------------------------------------------------
 // Status
 typedef enum {
+	kNSocketOpening,
 	kNSocketOpened,
 	kNSocketClosed,
-	kNSocketOpening,
-	kNSocketClosing
 } NSocketStatus;
 
 
@@ -41,8 +40,7 @@ typedef enum {
 typedef enum {
 	kNSocketDidOpen,
 	kNSocketDidClose,
-	kNSocketReceivedConnection,
-	kNSocketReceivedError,
+	kNSocketHasConnection,
 	kNSocketCanRead,
 	kNSocketCanWrite
 } NSocketEvent;
@@ -97,8 +95,8 @@ public:
 	// socket can not be read from/written to, and creates a new connecting socket
 	// to handle each connection it receives.
 	//
-	// Opening a socket to a remote host and port creates a connecting socket.
-	// A connecting socket can be read from/written to.
+	// Opening a socket to a remote host and port creates a connecting socket. A
+	// connecting socket can be read from/written to.
 	//
 	// The delegate will be informed when the operation completes, or an error occurrs.
 	//
@@ -109,13 +107,16 @@ public:
 
 	// Close the socket
 	//
-	// Closing the socket will stop the current read/write request with kNErrCancelled.
-	// Queued read/write requests will be discarded, and future read/writes denied.
+	// On closing the socket any active read/write requests will be stopped with
+	// kNErrCancelled, queued read/write requests will be discarded, and future
+	// read/writes will be denied.
 	//
-	// The delegate will be informed when the operation is complete.
+	// The current thread is blocked until the operation has completed.
+	//
+	// The delegate will be informed when the operation completes.
 	//
 	// May be called from any thread.
-	void								Close(void);
+	void								Close(NStatus theErr=kNoErr);
 
 
 	// Submit a read/write request
@@ -180,9 +181,8 @@ private:
 	void								InitialiseSelf(NSocketDelegate *theDelegate);
 
 	void								SocketDidOpen(void);
-	void								SocketDidClose(void);
-	void								SocketReceivedConnection(NSocket *newSocket);
-	void								SocketReceivedError(     NStatus  theErr);
+	void								SocketDidClose(NStatus theErr);
+	void								SocketHasConnection(NSocket *newSocket);
 
 	void								RemoveRequests( NStatus theErr);
 	void								AddReadRequest( NSocketRequest *theRequest);
@@ -229,41 +229,38 @@ public:
 	virtual							   ~NSocketDelegate(void);
 
 
-	// The socket has been opened/closed
-	//
-	// Once opened, a listening socket is able to receive connections and a
-	// connecting socket can be used to read/write data.
-	virtual void						SocketDidOpen( NSocket *theSocket);
-	virtual void						SocketDidClose(NSocket *theSocket);
+	// The socket has opened
+	virtual void						SocketDidOpen(NSocket *theSocket);
 
 
-	// The socket has received a connection
+	// The socket has closed
 	//
-	// Invoked with the new socket that has connected to the listening socket.
+	// A socket may be closed programmatically, or may close due to an error.
 	//
-	// Returns a functor to handle the connection, or NULL to refuse the connection.
-	//
-	//
-	// The new socket starts with the same delegate as the listening socket, but
-	// this can be changed before the connection is accepted and passed to the
-	// connection functor.
-	//
-	// The new socket's delegate will receive a SocketDidOpen before the functor
-	// is invoked, and a SocketDidClose once the functor returns.
-	//
-	//
-	// Once the new socket has opened, the connection functor will be invoked on
-	// a new thread to handle the connection.
-	//
-	// Once the functor returns, the new socket will be be closed (if necessary)
-	// and disposed of automatically.
-	virtual NSocketConnectionFunctor	SocketReceivedConnection(NSocket *theSocket, NSocket *newSocket);
+	// Sockets in the kNSocketOpening state will also report any failure to
+	// open through this method.
+	virtual void						SocketDidClose(NSocket *theSocket, NStatus theErr);
 
 
-	// The socket has received an error
+	// The socket has a connection
 	//
-	// The socket will be closed automatically after the error is handled.
-	virtual void						SocketReceivedError(NSocket *theSocket, NStatus theErr);
+	// A listening socket's delegate can return a functor to handle the new
+	// connection, or NULL to refuse the connection.
+	//
+	//
+	// The new socket starts with the same delegate as the listening socket.
+	//
+	// If a different delegate is to be used, the new delegate should be
+	// assigned before the functor is returned.
+	//
+	//
+	// If a functor is returned, the new socket is opened. Once the new socket
+	// has finished opening, the functor is invoked on a new thread to handle
+	// the connection.
+	//
+	// The new socket will be closed (if necessary) and disposed of once the
+	// functor has returned.
+	virtual NSocketConnectionFunctor	SocketHasConnection(NSocket *theSocket, NSocket *newSocket);
 
 
 	// The socket has finished a read/write

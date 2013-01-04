@@ -27,10 +27,9 @@
 //----------------------------------------------------------------------------
 // Status
 typedef enum {
+	kNServerStarting,
 	kNServerStarted,
 	kNServerStopped,
-	kNServerStarting,
-	kNServerStopping
 } NMessageServerStatus;
 
 
@@ -85,12 +84,11 @@ protected:
 	//
 	// Invoked on an internal thread.
 	virtual void						ServerDidStart(     void);
-	virtual void						ServerDidStop(      void);
+	virtual void						ServerDidStop(NStatus theErr);
 	virtual NDictionary					ServerGetProperties(void);
 	virtual void						ServerAddedClient(  NEntityID clientID);
 	virtual void						ServerRemovedClient(NEntityID clientID);
 	virtual void						ServerReceivedMessage(const NNetworkMessage &theMsg);
-	virtual void						ServerReceivedError(NStatus theErr);
 
 
 	// Process messages
@@ -98,10 +96,9 @@ protected:
 
 
 	// Handle socket events
-	void								SocketDidOpen(           NSocket *theSocket);
-	void								SocketDidClose(          NSocket *theSocket);
-	NSocketConnectionFunctor			SocketReceivedConnection(NSocket *theSocket, NSocket *newSocket);
-	void								SocketReceivedError(     NSocket *theSocket, NStatus theErr);
+	void								SocketDidOpen(      NSocket *theSocket);
+	void								SocketDidClose(     NSocket *theSocket, NStatus theErr);
+	NSocketConnectionFunctor			SocketHasConnection(NSocket *theSocket, NSocket *newSocket);
 
 
 private:

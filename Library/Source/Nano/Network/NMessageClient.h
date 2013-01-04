@@ -28,10 +28,9 @@
 //----------------------------------------------------------------------------
 // Status
 typedef enum {
+	kNClientConnecting,
 	kNClientConnected,
 	kNClientDisconnected,
-	kNClientConnecting,
-	kNClientDisconnecting
 } NMessageClientStatus;
 
 
@@ -68,10 +67,9 @@ protected:
 	//
 	// Invoked on an internal thread.
 	virtual bool						ClientWillConnect(const NDictionary &serverInfo);
-	virtual void						ClientDidConnect(   void);
-	virtual void						ClientDidDisconnect(void);
+	virtual void						ClientDidConnect(void);
+	virtual void						ClientDidDisconnect(NStatus theErr);
 	virtual void						ClientReceivedMessage(const NNetworkMessage &theMsg);
-	virtual void						ClientReceivedError(NStatus theErr);
 
 
 	// Process messages
@@ -79,9 +77,8 @@ protected:
 
 
 	// Handle socket events
-	void								SocketDidOpen(      NSocket *theSocket);
-	void								SocketDidClose(     NSocket *theSocket);
-	void								SocketReceivedError(NSocket *theSocket, NStatus theErr);
+	void								SocketDidOpen( NSocket *theSocket);
+	void								SocketDidClose(NSocket *theSocket, NStatus theErr);
 
 
 private:

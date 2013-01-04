@@ -72,7 +72,8 @@ typedef struct NSocketInfo {
 	CFSocketNativeHandle			nativeSocket;
 	NSocketRef						parentSocket;
 
-	bool							hasOpened;
+	NStatus							streamErr;
+	bool							streamsOpen;
 	CFReadStreamRef					cfStreamRead;
 	CFWriteStreamRef				cfStreamWrite;
 } NSocketInfo;
@@ -534,7 +535,6 @@ static void SocketStreamEvent(CFTypeRef cfStream, CFStreamEventType theEvent, vo
 {	NSocketRef		theSocket = (NSocketRef) userData;
 	CFStreamError	theError;
 	NCFData			cfData;
-	bool			isOK;
 
 
 
@@ -545,59 +545,59 @@ static void SocketStreamEvent(CFTypeRef cfStream, CFStreamEventType theEvent, vo
 			//
 			// We will get two open events, even if both streams are already open, so we need
 			// to check the state to consolidate these into a socket open event for NSocket.
-			if (!theSocket->hasOpened)
+			if (!theSocket->streamsOpen)
 				{
 				// Wait for both streams to open
-				isOK                 = true;
-				theSocket->hasOpened = (CFReadStreamGetStatus( theSocket->cfStreamRead)  == kCFStreamStatusOpen) &&
-									   (CFWriteStreamGetStatus(theSocket->cfStreamWrite) == kCFStreamStatusOpen);
+				theSocket->streamsOpen = (CFReadStreamGetStatus( theSocket->cfStreamRead)  == kCFStreamStatusOpen) &&
+									     (CFWriteStreamGetStatus(theSocket->cfStreamWrite) == kCFStreamStatusOpen);
 
-				if (theSocket->hasOpened)
+				if (theSocket->streamsOpen)
 					{
 					// Finish a connecting socket
 					//
 					// Connecting sockets don't have a native socket until their streams are open.
 					if (theSocket->nativeSocket == kSocketHandleInvalid)
 						{
-						isOK = cfData.SetObject((CFDataRef) CFReadStreamCopyProperty(theSocket->cfStreamRead, kCFStreamPropertySocketNativeHandle));
+						cfData.SetObject((CFDataRef) CFReadStreamCopyProperty(theSocket->cfStreamRead, kCFStreamPropertySocketNativeHandle));
+						NN_ASSERT(cfData.GetSize() == (NIndex) sizeof(CFSocketNativeHandle));
 
-						if (isOK)
-							isOK = (cfData.GetSize() == (NIndex) sizeof(CFSocketNativeHandle));
-		
-						if (isOK)
-							theSocket->nativeSocket = *((CFSocketNativeHandle *) cfData.GetData());
+						theSocket->nativeSocket = *((CFSocketNativeHandle *) cfData.GetData());
+						NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
 						}
 
 
 					// Finish a listening socket
 					//
-					// Listening sockets receive connections once the connection's streams have opened.
+					// Sockets with a parent were spawned by a parent socket to handle a new connection.
 					if (theSocket->parentSocket != NULL)
-						theSocket->parentSocket->nanoSocket->SocketEvent(kNSocketReceivedConnection, (UIntPtr) theSocket->nanoSocket);
+						theSocket->parentSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (UIntPtr) theSocket->nanoSocket);
 
 
 					// Finish off
-					if (isOK)
-						theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
-					else
-						theSocket->nanoSocket->SocketEvent(kNSocketReceivedError, (UIntPtr) kNErrInternal);
+					theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
 					}
 				}
 			break;
 
 
 		case kCFStreamEventEndEncountered:
-			theSocket->nanoSocket->SocketEvent(kNSocketDidClose);
+			theSocket->nanoSocket->SocketEvent(kNSocketDidClose, theSocket->streamErr);
 			break;
 
 
 		case kCFStreamEventErrorOccurred:
-			if (cfStream == theSocket->cfStreamRead)
-				theError = CFReadStreamGetError( theSocket->cfStreamRead);
-			else
-				theError = CFWriteStreamGetError(theSocket->cfStreamWrite);
+			// Update our state
+			//
+			// Errors may occur on either stream, but the first one we encounter wins.
+			if (theSocket->streamErr == kNoErr)
+				{
+				if (cfStream == theSocket->cfStreamRead)
+					theError = CFReadStreamGetError( theSocket->cfStreamRead);
+				else
+					theError = CFWriteStreamGetError(theSocket->cfStreamWrite);
 
-			theSocket->nanoSocket->SocketEvent(kNSocketReceivedError, NMacTarget::ConvertCFStreamError(theError));
+				theSocket->streamErr = NMacTarget::ConvertCFStreamError(theError);
+				}
 			break;
 
 
@@ -799,7 +799,8 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, CFSocketNativeHandle nativeS
 	theSocket->nanoSocket    = nanoSocket;
 	theSocket->nativeSocket  = nativeSocket;
 	theSocket->parentSocket  = parentSocket;
-	theSocket->hasOpened     = false;
+	theSocket->streamErr     = kNoErr;
+	theSocket->streamsOpen   = false;
 	theSocket->cfStreamRead  = NULL;
 	theSocket->cfStreamWrite = NULL;
 
@@ -1281,9 +1282,6 @@ void NTargetNetwork::SocketClose(NSocketRef theSocket)
 
 
 	// Close the socket
-	if (theSocket->nanoSocket != NULL)
-		theSocket->nanoSocket->SocketEvent(kNSocketDidClose);
-
 	SocketDestroy(theSocket);
 }
 

@@ -132,10 +132,7 @@ void NSocket::Open(const NString &theHost, UInt16 thePort)
 
 	// Handle failure
 	if (mSocket == NULL)
-		{
-		mDelegate->SocketReceivedError(this, kNErrInternal);
-		mStatus = kNSocketClosed;
-		}
+		SocketDidClose(kNErrInternal);
 }
 
 
@@ -145,8 +142,8 @@ void NSocket::Open(const NString &theHost, UInt16 thePort)
 //============================================================================
 //		NSocket::Close : Close the socket.
 //----------------------------------------------------------------------------
-void NSocket::Close(void)
-{	NSocketRef		theSocket;
+void NSocket::Close(NStatus theErr)
+{	StLock		acquireLock(mLock);
 
 
 
@@ -155,24 +152,8 @@ void NSocket::Close(void)
 
 
 
-	// Update our state
-	//
-	// To avoid a deadlock if the socket calls us back while it is being closed,
-	// we reset our state inside the lock then dispose of the socket outside.
-	mLock.Lock();
-
-	RemoveRequests(kNErrCancelled);
-
-	theSocket = mSocket;
-	mStatus   = kNSocketClosing;
-	mSocket   = NULL;
-
-	mLock.Unlock();
-
-
-
 	// Close the socket
-	NTargetNetwork::SocketClose(theSocket);
+	SocketDidClose(theErr);
 }
 
 
@@ -776,15 +757,11 @@ void NSocket::SocketEvent(NSocketEvent theEvent, UIntPtr theValue)
 			break;
 
 		case kNSocketDidClose:
-			SocketDidClose();
+			SocketDidClose((NStatus) theValue);
 			break;
 		
-		case kNSocketReceivedConnection:
-			SocketReceivedConnection((NSocket *) theValue);
-			break;
-
-		case kNSocketReceivedError:
-			SocketReceivedError((NStatus) theValue);
+		case kNSocketHasConnection:
+			SocketHasConnection((NSocket *) theValue);
 			break;
 
 		case kNSocketCanRead:
@@ -831,7 +808,7 @@ void NSocket::InitialiseSelf(NSocketDelegate *theDelegate)
 
 
 //============================================================================
-//		NSocket::SocketDidOpen : The socket has been opened.
+//		NSocket::SocketDidOpen : The socket has opened.
 //----------------------------------------------------------------------------
 void NSocket::SocketDidOpen(void)
 {
@@ -853,22 +830,34 @@ void NSocket::SocketDidOpen(void)
 
 
 //============================================================================
-//		NSocket::SocketDidClose : The socket has been closed.
+//		NSocket::SocketDidClose : The socket has closed.
 //----------------------------------------------------------------------------
-void NSocket::SocketDidClose(void)
-{
+void NSocket::SocketDidClose(NStatus theErr)
+{	NSocketRef		theSocket;
+
 
 
 	// Validate our state
-	NN_ASSERT(mStatus == kNSocketOpened || mStatus == kNSocketClosing);
+	NN_ASSERT(mStatus != kNSocketClosed);
 
 
 
 	// Update our state
-	mStatus = kNSocketClosed;
-	mSocket = NULL;
+	theSocket = mSocket;
+	mStatus   = kNSocketClosed;
+	mSocket   = NULL;
 
-	mDelegate->SocketDidClose(this);
+
+
+	// Cancel any requests
+	RemoveRequests(kNErrCancelled);
+
+
+
+	// Close the socket
+	mDelegate->SocketDidClose(this, theErr);
+
+	NTargetNetwork::SocketClose(theSocket);
 }
 
 
@@ -876,9 +865,9 @@ void NSocket::SocketDidClose(void)
 
 
 //============================================================================
-//		NSocket::SocketReceivedConnection : The socket has received a connection.
+//		NSocket::SocketHasConnection : The socket has a connection.
 //----------------------------------------------------------------------------
-void NSocket::SocketReceivedConnection(NSocket *newSocket)
+void NSocket::SocketHasConnection(NSocket *newSocket)
 {	NSocketConnectionFunctor	theFunctor;
 
 
@@ -889,47 +878,9 @@ void NSocket::SocketReceivedConnection(NSocket *newSocket)
 
 
 	// Handle the connection
-	theFunctor = mDelegate->SocketReceivedConnection(this, newSocket);
+	theFunctor = mDelegate->SocketHasConnection(this, newSocket);
 
 	NThreadUtilities::DelayFunctor(BindFunction(NSocket::ConnectionThread, theFunctor, newSocket), 0.0, false);
-}
-
-
-
-
-
-//============================================================================
-//		NSocket::SocketReceivedError : The socket has received an error.
-//----------------------------------------------------------------------------
-void NSocket::SocketReceivedError(NStatus theErr)
-{
-
-
-	// Check our state
-	//
-	// We may receive multiple errors from the native socket (e.g., due to an
-	// error on each of the underlying streams), but we only want to report a
-	// single error to the caller.
-	//
-	// After an error occurs the socket is closed, and so any further errors
-	// are discarded.
-	if (mStatus != kNSocketOpening && mStatus != kNSocketOpened)
-		return;
-
-
-
-	// Update our state
-	RemoveRequests(theErr);
-
-	mDelegate->SocketReceivedError(this, theErr);
-
-
-
-	// Close the socket
-	Close();
-	
-	while (mStatus == kNSocketClosing)
-		NThread::Sleep();
 }
 
 
@@ -1028,16 +979,16 @@ void NSocket::ContinueReading(void)
 	//	- Read data into the request from the network
 	//	- Read data into the buffer  from the network
 	//
-	// After reading from the network into the request we read again into the buffer,
+	// After reading from the network into the request we read again into the buffer
 	// since the request may have been be smaller than the data currently held by the
-	// OS so there may be more data available to read.
+	// OS (so there may be more data available to read).
 	//
 	// This then requires us to loop, since the final read into the buffer may also
-	// be the last part of the response (and thus no further calls to ContinueReading
-	// may be made).
+	// be the last part of the response (which means no further kNSocketCanRead events
+	// would be seen, and ContinueReading not re-called).
 	//
 	//
-	// However this looping also helps us to reduce notification overhead, as on fast
+	// However this looping also helps us to reduce notification overhead - on fast
 	// networks the OS may have more data available to read by the time we finish
 	// updating the request from the buffer.
 	//
@@ -1230,20 +1181,17 @@ void NSocket::ConnectionThread(const NSocketConnectionFunctor &theFunctor, NSock
 
 
 	// Handle the connection
-	if (theFunctor != NULL)
-		theFunctor(theSocket);
+	if (theSocket->GetStatus() == kNSocketOpened)
+		{
+		if (theFunctor != NULL)
+			theFunctor(theSocket);
+		}
 
 
 
 	// Close the socket
 	if (theSocket->GetStatus() == kNSocketOpened)
 		theSocket->Close();
-
-	if (theSocket->GetStatus() == kNSocketClosing)
-		{
-		while (theSocket->GetStatus() != kNSocketClosed)
-			NThread::Sleep();
-		}
 
 
 
@@ -1279,7 +1227,7 @@ NSocketDelegate::~NSocketDelegate(void)
 
 
 //============================================================================
-//		NSocketDelegate::SocketDidOpen : The socket has been opened.
+//		NSocketDelegate::SocketDidOpen : The socket has opened.
 //----------------------------------------------------------------------------
 void NSocketDelegate::SocketDidOpen(NSocket * /*theSocket*/)
 {
@@ -1290,9 +1238,9 @@ void NSocketDelegate::SocketDidOpen(NSocket * /*theSocket*/)
 
 
 //============================================================================
-//		NSocketDelegate::SocketDidClose : The socket has been closed.
+//		NSocketDelegate::SocketDidClose : The socket has closed.
 //----------------------------------------------------------------------------
-void NSocketDelegate::SocketDidClose(NSocket * /*theSocket*/)
+void NSocketDelegate::SocketDidClose(NSocket * /*theSocket*/, NStatus /*theErr*/)
 {
 }
 
@@ -1301,22 +1249,11 @@ void NSocketDelegate::SocketDidClose(NSocket * /*theSocket*/)
 
 
 //============================================================================
-//		NSocketDelegate::SocketReceivedConnection : The socket received a connection.
+//		NSocketDelegate::SocketHasConnection : The socket has a connection.
 //----------------------------------------------------------------------------
-NSocketConnectionFunctor NSocketDelegate::SocketReceivedConnection(NSocket * /*theSocket*/, NSocket * /*newSocket*/)
+NSocketConnectionFunctor NSocketDelegate::SocketHasConnection(NSocket * /*theSocket*/, NSocket * /*newSocket*/)
 {
 	return(NULL);
-}
-
-
-
-
-
-//============================================================================
-//		NSocketDelegate::SocketReceivedError : The socket received an error.
-//----------------------------------------------------------------------------
-void NSocketDelegate::SocketReceivedError(NSocket * /*theSocket*/, NStatus /*theErr*/)
-{
 }
 
 

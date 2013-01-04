@@ -96,8 +96,7 @@ void NMessageClient::Connect(const NString &theHost, UInt16 thePort, const NStri
 //		NMessageClient::Disconnect : Disconnect from a server.
 //----------------------------------------------------------------------------
 void NMessageClient::Disconnect(void)
-{	StLock		acquireLock(mLock);
-
+{
 
 
 	// Validate our state
@@ -106,7 +105,6 @@ void NMessageClient::Disconnect(void)
 
 
 	// Disconnect from the server
-	mStatus = kNClientDisconnecting;
 	mSocket.Close();
 }
 
@@ -171,7 +169,7 @@ void NMessageClient::ClientDidConnect(void)
 //============================================================================
 //		NMessageClient::ClientDidDisconnect : The client was disconnected.
 //----------------------------------------------------------------------------
-void NMessageClient::ClientDidDisconnect(void)
+void NMessageClient::ClientDidDisconnect(NStatus /*theErr*/)
 {
 }
 
@@ -192,18 +190,6 @@ void NMessageClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
 
 	NN_UNUSED(theMsg);
 }
-
-
-
-
-
-//============================================================================
-//		NMessageClient::ClientReceivedError : The client received an error.
-//----------------------------------------------------------------------------
-void NMessageClient::ClientReceivedError(NStatus /*theErr*/)
-{
-}
-
 
 
 
@@ -242,7 +228,7 @@ void NMessageClient::ProcessMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		NMessageClient::SocketDidOpen : The socket has been opened.
+//		NMessageClient::SocketDidOpen : The socket has opened.
 //----------------------------------------------------------------------------
 void NMessageClient::SocketDidOpen(NSocket *theSocket)
 {
@@ -262,75 +248,25 @@ void NMessageClient::SocketDidOpen(NSocket *theSocket)
 
 
 //============================================================================
-//		NMessageClient::SocketDidClose : The socket has been closed.
+//		NMessageClient::SocketDidClose : The socket has closed.
 //----------------------------------------------------------------------------
-void NMessageClient::SocketDidClose(NSocket *theSocket)
+void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 {	StLock		acquireLock(mLock);
 
 
 
-	// Validate our parameters
+	// Validate our parameters and state
 	NN_ASSERT(theSocket == &mSocket);
+	NN_ASSERT(mStatus  != kNClientDisconnected);
 
 	NN_UNUSED(theSocket);
 
 
 
 	// Close the session
-	switch (mStatus) {
-		case kNClientConnected:
-		case kNClientConnecting:
-		case kNClientDisconnecting:
-			mStatus = kNClientDisconnected;
-			ClientDidDisconnect();
-			break;
+	mStatus = kNClientDisconnected;
 
-		case kNClientDisconnected:
-			NN_ASSERT("Client socket disconnected twice!");
-			break;
-		
-		default:
-			NN_LOG("Unknown status: %d", mStatus);
-			break;
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NMessageClient::SocketReceivedError : The socket received an error.
-//----------------------------------------------------------------------------
-void NMessageClient::SocketReceivedError(NSocket *theSocket, NStatus theErr)
-{	StLock		acquireLock(mLock);
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theSocket == &mSocket);
-
-	NN_UNUSED(theSocket);
-	
-	
-
-	// Close the session
-	switch (mStatus) {
-		case kNClientConnected:
-		case kNClientConnecting:
-			mStatus = kNClientDisconnecting;
-			ClientReceivedError(theErr);
-			break;
-
-		case kNClientDisconnected:
-		case kNClientDisconnecting:
-			// Ignore
-			break;
-
-		default:
-			NN_LOG("Unknown status: %d", mStatus);
-			break;
-		}
+	ClientDidDisconnect(theErr);
 }
 
 
@@ -380,8 +316,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	
 	if (theErr != kNoErr)
 		{
-		ClientReceivedError(theErr);
-		theSocket->Close();
+		theSocket->Close(theErr);
 		return;
 		}
 
@@ -393,8 +328,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		ClientReceivedError(theErr);
-		theSocket->Close();
+		theSocket->Close(theErr);
 		return;
 		}
 
@@ -430,8 +364,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		ClientReceivedError(theErr);
-		theSocket->Close();
+		theSocket->Close(theErr);
 		return;
 		}
 

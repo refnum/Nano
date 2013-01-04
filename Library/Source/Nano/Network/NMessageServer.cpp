@@ -102,9 +102,7 @@ void NMessageServer::Start(UInt16 thePort, NIndex maxClients, const NString &the
 //		NMessageServer::Stop : Stop the server.
 //----------------------------------------------------------------------------
 void NMessageServer::Stop(void)
-{	NClientInfoMap				theClients;
-	NClientInfoMapIterator		theIter;
-
+{
 
 
 	// Validate our state
@@ -112,34 +110,8 @@ void NMessageServer::Stop(void)
 
 
 
-	// Update our state
-	//
-	// The clients list needs to be copied to allow us to close their sockets
-	// outside of our lock, otherwise we will deadlock when the client sockets
-	// call us back (as their delegate, on their thread) to inform us that
-	// they are closed.
-	mLock.Lock();
-	
-	mStatus    = kNServerStopping;
-	theClients = mClients;
-
-	mLock.Unlock();
-
-
-
 	// Stop the server
-	//
-	// If we have no clients we can close our socket now, otherwise we close the
-	// clients first - once the last client has closed, we close our socket.
-	//
-	// Once our socket has closed, the server has stopped.
-	if (theClients.empty())
-		mSocket.Close();
-	else
-		{
-		for (theIter = theClients.begin(); theIter != theClients.end(); theIter++)
-			theIter->second.theSocket->Close();
-		}
+	mSocket.Close(kNoErr);
 }
 
 
@@ -212,7 +184,7 @@ void NMessageServer::ServerDidStart(void)
 //============================================================================
 //		NMessageServer::ServerDidStop : The server has stopped.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerDidStop(void)
+void NMessageServer::ServerDidStop(NStatus /*theErr*/)
 {
 }
 
@@ -277,17 +249,6 @@ void NMessageServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		NMessageServer::ServerReceivedError : The server received an error.
-//----------------------------------------------------------------------------
-void NMessageServer::ServerReceivedError(NStatus /*theErr*/)
-{
-}
-
-
-
-
-
-//============================================================================
 //		NMessageServer::ProcessMessage : Process a message.
 //----------------------------------------------------------------------------
 void NMessageServer::ProcessMessage(const NNetworkMessage &theMsg)
@@ -336,8 +297,8 @@ void NMessageServer::SocketDidOpen(NSocket *theSocket)
 //============================================================================
 //		NMessageServer::SocketDidClose : A socket has been closed.
 //----------------------------------------------------------------------------
-void NMessageServer::SocketDidClose(NSocket *theSocket)
-{	StLock						acquireLock(mLock);
+void NMessageServer::SocketDidClose(NSocket *theSocket, NStatus theErr)
+{	NSocket						*clientSocket;
 	NClientInfoMapIterator		theIter;
 
 
@@ -345,18 +306,41 @@ void NMessageServer::SocketDidClose(NSocket *theSocket)
 	// Stop the server
 	if (theSocket == &mSocket)
 		{
-		NN_ASSERT(mStatus == kNServerStopping);
+		// Remove the clients
+		//
+		// Closing the client sockets will cause them to call us back (as we are
+		// the socket delegate), which will cause us to remove them from the client
+		// list).
+		do
+			{
+			// Get the state we need
+			mLock.Lock();
+				if (mClients.empty())
+					clientSocket = NULL;
+				else
+					clientSocket = mClients.begin()->second.theSocket;
+			mLock.Unlock();
 
+
+			// Remove the client
+			if (clientSocket != NULL)
+				clientSocket->Close();
+			}
+		while (clientSocket != NULL);
+
+
+		// Stop the server
 		mStatus = kNServerStopped;
-		ServerDidStop();
+		ServerDidStop(theErr);
 		}
-	
-	
-	
+
+
+
 	// Remove a client
 	else
 		{
-		// Remove the client
+		mLock.Lock();
+
 		for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
 			{
 			if (theIter->second.theSocket == theSocket)
@@ -367,10 +351,7 @@ void NMessageServer::SocketDidClose(NSocket *theSocket)
 				}
 			}
 
-
-		// Stop the server
-		if (mStatus == kNServerStopping && mClients.empty())
-			mSocket.Close();
+		mLock.Unlock();
 		}
 }
 
@@ -379,9 +360,9 @@ void NMessageServer::SocketDidClose(NSocket *theSocket)
 
 
 //============================================================================
-//		NMessageServer::SocketReceivedConnection : The socket received a connection.
+//		NMessageServer::SocketHasConnection : The socket has a connection.
 //----------------------------------------------------------------------------
-NSocketConnectionFunctor NMessageServer::SocketReceivedConnection(NSocket *theSocket, NSocket *newSocket)
+NSocketConnectionFunctor NMessageServer::SocketHasConnection(NSocket *theSocket, NSocket *newSocket)
 {	StLock							acquireLock(mLock);
 	NSocketConnectionFunctor		theFunctor;
 
@@ -399,40 +380,6 @@ NSocketConnectionFunctor NMessageServer::SocketReceivedConnection(NSocket *theSo
 		theFunctor = BindSelf(NMessageServer::ServerThread, newSocket);
 	
 	return(theFunctor);
-}
-
-
-
-
-
-//============================================================================
-//		NMessageServer::SocketReceivedError : A socket received an error.
-//----------------------------------------------------------------------------
-void NMessageServer::SocketReceivedError(NSocket *theSocket, NStatus theErr)
-{	StLock		acquireLock(mLock);
-
-
-
-	// Stop the server
-	if (theSocket == &mSocket)
-		{
-		switch (mStatus) {
-			case kNServerStarted:
-			case kNServerStarting:
-				ServerReceivedError(theErr);
-				mStatus = kNServerStopping;
-				break;
-
-			case kNServerStopped:
-			case kNServerStopping:
-				// Ignore
-				break;
-
-			default:
-				NN_LOG("Unknown status: %d", mStatus);
-				break;
-			}
-		}
 }
 
 
@@ -484,8 +431,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		ServerReceivedError(theErr);
-		theSocket->Close();
+		theSocket->Close(theErr);
 		return;
 		}
 
@@ -502,8 +448,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	theErr = WriteMessage(theSocket, msgServerInfo);
 	if (theErr != kNoErr)
 		{
-		ServerReceivedError(theErr);
-		theSocket->Close();
+		theSocket->Close(theErr);
 		return;
 		}
 
@@ -515,7 +460,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	theErr = ReadMessage(theSocket, msgJoinRequest);
 	if (theErr != kNoErr)
 		{
-		theSocket->Close();
+		theSocket->Close(theErr);
 		return;
 		}
 	

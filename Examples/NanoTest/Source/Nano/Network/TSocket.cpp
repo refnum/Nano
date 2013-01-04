@@ -51,8 +51,8 @@ public:
 
 protected:
 	// Handle events
-	NSocketConnectionFunctor			SocketReceivedConnection(NSocket *theSocket, NSocket *newSocket);
-	void								SocketReceivedError(     NSocket *theSocket, NStatus theErr);
+	void								SocketDidClose(     NSocket *theSocket, NStatus theErr);
+	NSocketConnectionFunctor			SocketHasConnection(NSocket *theSocket, NSocket *newSocket);
 
 
 private:
@@ -83,7 +83,7 @@ public:
 
 protected:
 	// Handle events
-	void								SocketReceivedError(NSocket *theSocket, NStatus theErr);
+	void								SocketDidClose(NSocket *theSocket, NStatus theErr);
 
 
 private:
@@ -179,14 +179,15 @@ void TSocketServer::Stop(void)
 
 
 //============================================================================
-//		TSocketServer::SocketReceivedConnection : The socket has received a connection.
+//		TSocketServer::SocketDidClose : The socket has closed.
 //----------------------------------------------------------------------------
-NSocketConnectionFunctor TSocketServer::SocketReceivedConnection(NSocket * /*theSocket*/, NSocket * /*newSocket*/)
+void TSocketServer::SocketDidClose(NSocket * /*theSocket*/, NStatus theErr)
 {
 
 
-	// Get the functor
-	return(BindSelf(TSocketServer::HandleConnection, _1));
+	// Log the event
+	if (theErr != kNoErr)
+		NN_LOG("TSocketServer closed with error: %d", theErr);
 }
 
 
@@ -194,19 +195,14 @@ NSocketConnectionFunctor TSocketServer::SocketReceivedConnection(NSocket * /*the
 
 
 //============================================================================
-//		TSocketServer::SocketReceivedError : The socket has received an error.
+//		TSocketServer::SocketHasConnection : The socket has a connection.
 //----------------------------------------------------------------------------
-void TSocketServer::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
+NSocketConnectionFunctor TSocketServer::SocketHasConnection(NSocket * /*theSocket*/, NSocket * /*newSocket*/)
 {
 
 
-	// Compiler warnings
-	NN_UNUSED(theErr);
-
-
-
-	// Log the event
-	NN_LOG("Socket received error: %d", theErr);
+	// Get the functor
+	return(BindSelf(TSocketServer::HandleConnection, _1));
 }
 
 
@@ -378,19 +374,15 @@ void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
 
 
 //============================================================================
-//		TSocketClient::SocketReceivedError : The socket has received an error.
+//		TSocketClient::SocketDidClose : The socket has closed.
 //----------------------------------------------------------------------------
-void TSocketClient::SocketReceivedError(NSocket * /*theSocket*/, NStatus theErr)
+void TSocketClient::SocketDidClose(NSocket * /*theSocket*/, NStatus theErr)
 {
 
 
-	// Compiler warnings
-	NN_UNUSED(theErr);
-
-
-
 	// Log the event
-	NN_LOG("Socket received error: %d", theErr);
+	if (theErr != kNoErr)
+		NN_LOG("TSocketClient closed with error: %d", theErr);
 }
 
 
