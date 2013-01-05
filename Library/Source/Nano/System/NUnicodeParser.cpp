@@ -662,6 +662,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(const NRange &theBOM) const
 
 
 	// Get the code points
+	theResult.reserve(theSize / sizeof(UTF8Char));
 	n = (theBOM.IsEmpty() ? 0 : theBOM.GetNext());
 
 	while (n < theSize)
@@ -712,6 +713,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(const NRange &theBOM) const
 
 
 	// Get the code points
+	theResult.reserve(theSize / sizeof(UTF16Char));
 	n = (theBOM.IsEmpty() ? 0 : theBOM.GetNext());
 
 	while (n < theSize)
@@ -764,12 +766,13 @@ NRangeList NUnicodeParser::GetCodePointsUTF32(const NRange &theBOM) const
 	// Get the state we need
 	theSize = mData.GetSize();
 	theData = mData.GetData();
-	
+
 	NN_ASSERT((theSize % sizeof(UTF32Char)) == 0);
 
 
 
 	// Get the code points
+	theResult.reserve(theSize / sizeof(UTF32Char));
 	n = (theBOM.IsEmpty() ? 0 : theBOM.GetNext());
 	
 	while (n < theSize)
