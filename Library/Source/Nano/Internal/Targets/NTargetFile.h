@@ -93,22 +93,16 @@ public:
 	static NStatus						UnmountVolume(const NString &thePath);
 
 
-	// Open/close a file
-	static NFileRef						Open(const NString &thePath, NFilePermission thePermission);
-	static void							Close(NFileRef theFile);
+	// File I/O
+	static NFileRef						FileOpen(const NString &thePath, NFilePermission thePermission);
+	static void							FileClose(      NFileRef theFile);
+	static UInt64						FileGetPosition(NFileRef theFile);
+	static NStatus						FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition);
+	static NStatus						FileRead(       NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags);
+	static NStatus						FileWrite(      NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags);
 
 
-	// Get/set the read/write position
-	static UInt64						GetPosition(NFileRef theFile);
-	static NStatus						SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition);
-
-
-	// Read/write from a file
-	static NStatus						Read( NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags);
-	static NStatus						Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags);
-
-
-	// Map/unmap a file
+	// File mapping
 	static NFileRef						MapOpen(const NFile &theFile, NMapAccess theAccess);
 	static void							MapClose(  NFileRef theFile);
 	static void						   *MapFetch(  NFileRef theFile,  NMapAccess theAccess, UInt64 theOffset,   UInt32 theSize, bool noCache);

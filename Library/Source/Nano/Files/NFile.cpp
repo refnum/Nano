@@ -728,7 +728,7 @@ NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
 
 	// Open the file
 	theErr = kNErrPermission;
-	mFile  = NTargetFile::Open(mPath, thePermission);
+	mFile  = NTargetFile::FileOpen(mPath, thePermission);
 	
 	if (mFile != kNFileRefNone)
 		{
@@ -757,7 +757,7 @@ void NFile::Close(void)
 
 
 	// Close the file
-	NTargetFile::Close(mFile);
+	NTargetFile::FileClose(mFile);
 
 	mFile       = kNFileRefNone;
 	mPermission = kNPermissionRead;
@@ -782,7 +782,7 @@ UInt64 NFile::GetPosition(void) const
 
 
 	// Get the position
-	thePosition = NTargetFile::GetPosition(mFile);
+	thePosition = NTargetFile::FileGetPosition(mFile);
 	
 	return(thePosition);
 }
@@ -807,7 +807,7 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
 
 
 	// Set the position
-	theErr = NTargetFile::SetPosition(mFile, theOffset, thePosition);
+	theErr = NTargetFile::FileSetPosition(mFile, theOffset, thePosition);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);
@@ -834,7 +834,7 @@ NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 
 	// Read the file
 	numRead = 0;
-	theErr  = NTargetFile::Read(mFile, theSize, thePtr, numRead, theOffset, thePosition, theFlags);
+	theErr  = NTargetFile::FileRead(mFile, theSize, thePtr, numRead, theOffset, thePosition, theFlags);
 	NN_ASSERT(theErr == kNoErr || theErr == kNErrExhaustedSrc);
 	
 	return(theErr);
@@ -861,7 +861,7 @@ NStatus NFile::Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SIn
 
 	// Write the file
 	numWritten = 0;
-	theErr     = NTargetFile::Write(mFile, theSize, thePtr, numWritten, theOffset, thePosition, theFlags);
+	theErr     = NTargetFile::FileWrite(mFile, theSize, thePtr, numWritten, theOffset, thePosition, theFlags);
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theErr);

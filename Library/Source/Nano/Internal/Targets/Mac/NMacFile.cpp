@@ -727,9 +727,9 @@ NStatus NTargetFile::UnmountVolume(const NString &thePath)
 
 
 //============================================================================
-//      NTargetFile::Open : Open a file.
+//      NTargetFile::FileOpen : Open a file.
 //----------------------------------------------------------------------------
-NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission)
+NFileRef NTargetFile::FileOpen(const NString &thePath, NFilePermission thePermission)
 {	FILE	*theFile;
 	int		theFD;
 
@@ -758,9 +758,9 @@ NFileRef NTargetFile::Open(const NString &thePath, NFilePermission thePermission
 
 
 //============================================================================
-//      NTargetFile::Close : Close a file.
+//      NTargetFile::FileClose : Close a file.
 //----------------------------------------------------------------------------
-void NTargetFile::Close(NFileRef theFile)
+void NTargetFile::FileClose(NFileRef theFile)
 {	int		sysErr;
 
 
@@ -775,9 +775,9 @@ void NTargetFile::Close(NFileRef theFile)
 
 
 //============================================================================
-//      NTargetFile::GetPosition : Get the read/write position.
+//      NTargetFile::FileGetPosition : Get the read/write position.
 //----------------------------------------------------------------------------
-UInt64 NTargetFile::GetPosition(NFileRef theFile)
+UInt64 NTargetFile::FileGetPosition(NFileRef theFile)
 {	off_t		thePos;
 
 
@@ -798,9 +798,9 @@ UInt64 NTargetFile::GetPosition(NFileRef theFile)
 
 
 //============================================================================
-//      NTargetFile::SetPosition : Set the read/write position.
+//      NTargetFile::FileSetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
+NStatus NTargetFile::FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
 {	int		sysErr;
 
 
@@ -822,9 +822,9 @@ NStatus NTargetFile::SetPosition(NFileRef theFile, SInt64 theOffset, NFilePositi
 
 
 //============================================================================
-//      NTargetFile::Read : Read from a file.
+//      NTargetFile::FileRead : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
+NStatus NTargetFile::FileRead(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	NStatus		theErr;
 
 
@@ -837,7 +837,7 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 	// Adjust the position
 	if (thePosition != kNPositionFromMark || theOffset != 0)
 		{
-		theErr = SetPosition(theFile, theOffset, thePosition);
+		theErr = FileSetPosition(theFile, theOffset, thePosition);
 		NN_ASSERT_NOERR(theErr);
 		
 		if (theErr != kNoErr)
@@ -861,9 +861,9 @@ NStatus NTargetFile::Read(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64
 
 
 //============================================================================
-//      NTargetFile::Write : Write to a file.
+//      NTargetFile::FileWrite : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
+NStatus NTargetFile::FileWrite(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	NStatus		theErr;
 
 
@@ -876,7 +876,7 @@ NStatus NTargetFile::Write(NFileRef theFile, UInt64 theSize, const void *thePtr,
 	// Adjust the position
 	if (thePosition != kNPositionFromMark || theOffset != 0)
 		{
-		theErr = SetPosition(theFile, theOffset, thePosition);
+		theErr = FileSetPosition(theFile, theOffset, thePosition);
 		NN_ASSERT_NOERR(theErr);
 		
 		if (theErr != kNoErr)
