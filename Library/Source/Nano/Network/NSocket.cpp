@@ -837,27 +837,32 @@ void NSocket::SocketDidClose(NStatus theErr)
 
 
 
-	// Validate our state
-	NN_ASSERT(mStatus != kNSocketClosed);
-
-
-
-	// Update our state
-	theSocket = mSocket;
-	mStatus   = kNSocketClosed;
-	mSocket   = NULL;
-
-
-
-	// Cancel any requests
-	RemoveRequests(kNErrCancelled);
-
-
-
 	// Close the socket
-	mDelegate->SocketDidClose(this, theErr);
+	//
+	// The socket can be closed via Close(), or due to a kNSocketDidClose event.
+	//
+	// In both cases we are inside our lock, however the use of a lock means that
+	// the socket may be closed by Close() on one thread which triggers a close
+	// event on another.
+	//
+	// As such we need to check to see if the socket is already closed, and can
+	// ignore the second notification.
+	if (mStatus != kNSocketClosed)
+		{
+		// Update our state
+		theSocket = mSocket;
+		mStatus   = kNSocketClosed;
+		mSocket   = NULL;
 
-	NTargetNetwork::SocketClose(theSocket);
+		RemoveRequests(kNErrCancelled);
+
+
+
+		// Close the socket
+		mDelegate->SocketDidClose(this, theErr);
+
+		NTargetNetwork::SocketClose(theSocket);
+		}
 }
 
 
