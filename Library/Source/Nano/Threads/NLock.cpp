@@ -381,7 +381,6 @@ bool NSpinLock::Lock(NTime waitFor)
 	else
 		{
 		stopTime = NTimeUtilities::GetTime() + waitFor;
-		gotLock  = false;
 		do
 			{
 			gotLock = Lock(mSpinLock);

@@ -903,7 +903,10 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 
 	// Open the socket
 	if (isOK)
+		{
 		isOK = SocketStreamsOpen(theSocket);
+		NN_ASSERT(isOK);
+		}
 
 	return(theSocket);
 }

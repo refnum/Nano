@@ -151,8 +151,8 @@ NStatus NFileUtilities::SetFileData(const NFile &theFile, const NData &theData)
 
 
 	// Write the data
-	theErr = mutableFile.SetSize(0);
-	theErr = mutableFile.Write(theSize, theData.GetData(), numWritten);
+	theErr  = mutableFile.SetSize(0);
+	theErr |= mutableFile.Write(theSize, theData.GetData(), numWritten);
 
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(numWritten == theSize);

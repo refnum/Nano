@@ -648,26 +648,21 @@ void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 
 
 	// Signal the task
-	sysErr = 0;
-	
 	switch (theSignal) {
 		case kTaskKill:
 			sysErr = kill(theTask.taskID, SIGTERM);
+			NN_ASSERT_NOERR(sysErr);
 			break;
 
 		case kTaskInterrupt:
 			sysErr = kill(theTask.taskID, SIGINT);
+			NN_ASSERT_NOERR(sysErr);
 			break;
 		
 		default:
 			NN_LOG("Unknown signal: %d", theSignal);
 			break;
 		}
-
-
-
-	// Validate our state
-	NN_ASSERT(sysErr == 0);
 }
 
 
