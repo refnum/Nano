@@ -333,7 +333,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	msgConnectRequest = CreateMessage(kNMessageConnectRequest, kNEntityServer);
 	msgConnectRequest.SetProperties(clientInfo);
 	if (!mPassword.IsEmpty())
-		msgConnectRequest.SetValue(kNMessagePasswordKey, mPassword);
+		msgConnectRequest.SetValue(kNMessagePasswordKey, EncryptPassword(mPassword));
 
 	theErr = WriteMessage(theSocket, msgConnectRequest);
 	if (theErr == kNoErr)

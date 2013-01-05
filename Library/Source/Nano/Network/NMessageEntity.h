@@ -75,6 +75,10 @@ protected:
 	NStatus								ValidateHandshake(const NMessageHandshake &theHandshake);
 
 
+	// Encrypt/decrypt a password
+	NString								EncryptPassword(const NString &thePassword);
+
+
 	// Read/write a handshake
 	NStatus								ReadHandshake( NSocket *theSocket,       NMessageHandshake &theHandshake);
 	NStatus								WriteHandshake(NSocket *theSocket, const NMessageHandshake &theHandshake);

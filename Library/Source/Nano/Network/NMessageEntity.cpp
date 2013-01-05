@@ -173,6 +173,29 @@ NStatus NMessageEntity::ValidateHandshake(const NMessageHandshake &theHandshake)
 
 
 //============================================================================
+//		NMessageEntity::EncryptPassword : Encrypt a password.
+//----------------------------------------------------------------------------
+NString NMessageEntity::EncryptPassword(const NString &thePassword)
+{	NDataDigest		dataDigest;
+	NString			theResult;
+	NDigestSHA1		theHash;
+
+
+
+	// Encrypt the password
+	//
+	// Passwords are not salted, since the password is shared by all clients.
+	theHash   = dataDigest.GetSHA1(thePassword.GetData());
+	theResult = dataDigest.GetString(theHash);
+
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
 //		NMessageEntity::ReadHandshake : Read a handshake.
 //----------------------------------------------------------------------------
 NStatus NMessageEntity::ReadHandshake(NSocket *theSocket, NMessageHandshake &theHandshake)

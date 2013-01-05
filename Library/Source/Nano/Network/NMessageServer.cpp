@@ -220,7 +220,7 @@ NDictionary NMessageServer::GetConnectionInfo(void)
 //		NMessageServer::AcceptConnection : Accept a connection.
 //----------------------------------------------------------------------------
 NStatus NMessageServer::AcceptConnection(const NDictionary &/*serverInfo*/, const NDictionary &clientInfo, NEntityID clientID)
-{	NString		thePassword;
+{	NString		serverPassword, clientPassword;
 
 
 
@@ -233,10 +233,11 @@ NStatus NMessageServer::AcceptConnection(const NDictionary &/*serverInfo*/, cons
 	// Check the password
 	if (!mPassword.IsEmpty())
 		{
-		thePassword = clientInfo.GetValueString(kNMessagePasswordKey);
+		clientPassword = clientInfo.GetValueString(kNMessagePasswordKey);
+		serverPassword = EncryptPassword(mPassword);
 
-		if (mPassword != thePassword)
-			return(kNErrPermission);
+		if (clientPassword != serverPassword)
+			return(kNErrLocked);
 		}
 
 	return(kNoErr);
