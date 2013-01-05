@@ -163,6 +163,8 @@ public:
 
 	// Execute the task
 	//
+	// Executes the task and returns the combined output+error.
+	//
 	// Blocks the current thread until the task has completed or the timeout reached.
 	NString								Execute(NTime waitFor=kNTimeForever);
 

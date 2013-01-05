@@ -397,7 +397,7 @@ NString NTask::Execute(NTime waitFor)
 		UpdateTask(kTaskSleep);
 		}
 
-	theResult = ReadOutput();
+	theResult = ReadOutput() + ReadError();
 
 	return(theResult);
 }
