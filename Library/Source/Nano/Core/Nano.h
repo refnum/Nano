@@ -95,7 +95,13 @@
 	#include "NTransform.h"
 	#include "NVector.h"
 
+	#include "NMessageClient.h"
+	#include "NMessageServer.h"
+	#include "NNetworkBrowser.h"
 	#include "NNetworkManager.h"
+	#include "NNetworkMessage.h"
+	#include "NNetworkService.h"
+	#include "NSocket.h"
 	#include "NURLRequest.h"
 	#include "NURLResponse.h"
 
@@ -107,6 +113,7 @@
 	#include "NDataCompressor.h"
 	#include "NDataDigest.h"
 	#include "NDataEncoder.h"
+	#include "NJSONEncoder.h"
 	#include "NLocale.h"
 	#include "NTask.h"
 	#include "NUnicodeParser.h"
