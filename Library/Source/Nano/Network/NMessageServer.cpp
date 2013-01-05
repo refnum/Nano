@@ -69,9 +69,9 @@ NMessageServerStatus NMessageServer::GetStatus(void) const
 
 
 //============================================================================
-//		NMessageServer::Start : Start the server.
+//		NMessageServer::StartServer : Start the server.
 //----------------------------------------------------------------------------
-void NMessageServer::Start(UInt16 thePort, NIndex maxClients, const NString &thePassword)
+void NMessageServer::StartServer(UInt16 thePort, NIndex maxClients, const NString &thePassword)
 {	StLock		acquireLock(mLock);
 
 
@@ -99,9 +99,9 @@ void NMessageServer::Start(UInt16 thePort, NIndex maxClients, const NString &the
 
 
 //============================================================================
-//		NMessageServer::Stop : Stop the server.
+//		NMessageServer::StopServer : Stop the server.
 //----------------------------------------------------------------------------
-void NMessageServer::Stop(void)
+void NMessageServer::StopServer(void)
 {
 
 
@@ -140,13 +140,13 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 
 	// Send to self
 	if (dstID == GetID())
-		ServerReceivedMessage(theMsg);
+		ReceivedMessage(theMsg);
 
 
 	// Send to everyone
 	else if (dstID == kNEntityEveryone)
 		{
-		ServerReceivedMessage(theMsg);
+		ReceivedMessage(theMsg);
 
 		for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
 			(void) WriteMessage(theIter->second.theSocket, theMsg, false);
@@ -171,9 +171,9 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		NMessageServer::ServerDidStart : The server has started.
+//		NMessageServer::ServerStarted : The server has started.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerDidStart(void)
+void NMessageServer::ServerStarted(void)
 {
 }
 
@@ -182,9 +182,9 @@ void NMessageServer::ServerDidStart(void)
 
 
 //============================================================================
-//		NMessageServer::ServerDidStop : The server has stopped.
+//		NMessageServer::ServerStopped : The server has stopped.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerDidStop(NStatus /*theErr*/)
+void NMessageServer::ServerStopped(NStatus /*theErr*/)
 {
 }
 
@@ -193,15 +193,23 @@ void NMessageServer::ServerDidStop(NStatus /*theErr*/)
 
 
 //============================================================================
-//		NMessageServer::ServerConnectionState : Get the server state.
+//		NMessageServer::GetConnectionInfo : Get the connection info.
 //----------------------------------------------------------------------------
-NDictionary NMessageServer::ServerConnectionState(void)
-{	NDictionary		theState;
+NDictionary NMessageServer::GetConnectionInfo(void)
+{	NDictionary		theInfo;
 
 
 
-	// Get the state
-	return(theState);
+	// Validate our state
+	NN_ASSERT(mLock.IsLocked());
+
+
+
+	// Get the info
+	theInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
+	theInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
+
+	return(theInfo);
 }
 
 
@@ -209,34 +217,29 @@ NDictionary NMessageServer::ServerConnectionState(void)
 
 
 //============================================================================
-//		NMessageServer::ServerConnectionRequest : The server has a connection request.
+//		NMessageServer::AcceptConnection : Accept a connection.
 //----------------------------------------------------------------------------
-NStatus NMessageServer::ServerConnectionRequest(const NDictionary &/*serverInfo*/, const NDictionary &clientInfo, NEntityID clientID)
+NStatus NMessageServer::AcceptConnection(const NDictionary &/*serverInfo*/, const NDictionary &clientInfo, NEntityID clientID)
 {	NString		thePassword;
-	NStatus		theErr;
 
 
 
-	// Get the state we need
-	theErr = kNoErr;
-
-
-
-	// Check the clients
+	// Check we can accept another client
 	if ((NIndex) mClients.size() >= mMaxClients || clientID == kNEntityInvalid)
-		theErr = kNErrBusy;
+		return(kNErrBusy);
+
 
 
 	// Check the password
-	else if (!mPassword.IsEmpty())
+	if (!mPassword.IsEmpty())
 		{
 		thePassword = clientInfo.GetValueString(kNMessageClientPasswordKey);
 
 		if (mPassword != thePassword)
-			theErr = kNErrPermission;
+			return(kNErrPermission);
 		}
-	
-	return(theErr);
+
+	return(kNoErr);
 }
 
 
@@ -244,9 +247,9 @@ NStatus NMessageServer::ServerConnectionRequest(const NDictionary &/*serverInfo*
 
 
 //============================================================================
-//		NMessageServer::ServerAddedClient : The server has added a client.
+//		NMessageServer::ClientConnected : A client has connected.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerAddedClient(NEntityID /*clientID*/)
+void NMessageServer::ClientConnected(NEntityID /*clientID*/)
 {
 }
 
@@ -255,9 +258,9 @@ void NMessageServer::ServerAddedClient(NEntityID /*clientID*/)
 
 
 //============================================================================
-//		NMessageServer::ServerRemovedClient : The server has removed a client.
+//		NMessageServer::ClientDisconnected : A client has disconnected.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerRemovedClient(NEntityID /*clientID*/)
+void NMessageServer::ClientDisconnected(NEntityID /*clientID*/)
 {
 }
 
@@ -266,9 +269,9 @@ void NMessageServer::ServerRemovedClient(NEntityID /*clientID*/)
 
 
 //============================================================================
-//		NMessageServer::ServerReceivedMessage : The server received a message.
+//		NMessageServer::ReceivedMessage : The server received a message.
 //----------------------------------------------------------------------------
-void NMessageServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
+void NMessageServer::ReceivedMessage(const NNetworkMessage &theMsg)
 {
 
 
@@ -298,7 +301,7 @@ void NMessageServer::ProcessMessage(const NNetworkMessage &theMsg)
 
 	// Process the message
 	if (dstID == GetID())
-		ServerReceivedMessage(theMsg);
+		ReceivedMessage(theMsg);
 	else
 		SendMessage(theMsg);
 }
@@ -321,7 +324,7 @@ void NMessageServer::SocketDidOpen(NSocket *theSocket)
 		NN_ASSERT(mStatus == kNServerStarting);
 
 		mStatus = kNServerStarted;
-		ServerDidStart();
+		ServerStarted();
 		}
 }
 
@@ -366,12 +369,15 @@ void NMessageServer::SocketDidClose(NSocket *theSocket, NStatus theErr)
 
 		// Stop the server
 		mStatus = kNServerStopped;
-		ServerDidStop(theErr);
+		ServerStopped(theErr);
 		}
 
 
 
 	// Remove a client
+	//
+	// The client may not have been accepted by the server, so we may not actually
+	// find its socket in the client list.
 	else
 		{
 		mLock.Lock();
@@ -380,8 +386,8 @@ void NMessageServer::SocketDidClose(NSocket *theSocket, NStatus theErr)
 			{
 			if (theIter->second.theSocket == theSocket)
 				{
-				ServerRemovedClient(theIter->first);
-				RemoveClient(       theIter->first);
+				ClientDisconnected(theIter->first);
+				RemoveClient(      theIter->first);
 				break;
 				}
 			}
@@ -427,11 +433,12 @@ NSocketConnectionFunctor NMessageServer::SocketHasConnection(NSocket *theSocket,
 #pragma mark -
 void NMessageServer::ServerThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
+	NStatus					theErr, acceptErr;
 	NMessageHandshake		clientHandshake;
 	NString					thePassword;
 	NDictionary				serverInfo;
+	bool					addClient;
 	NEntityID				clientID;
-	NStatus					theErr;
 
 
 
@@ -457,15 +464,11 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 
 
-
-
 	// Send the server info
 	mLock.Lock();
-	serverInfo    = ServerConnectionState();
+	serverInfo    = GetConnectionInfo();
 	msgServerInfo = CreateMessage(kNMessageServerInfo, kNEntityEveryone);
 	msgServerInfo.SetProperties(serverInfo);
-	msgServerInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
-	msgServerInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
 	mLock.Unlock();
 
 	theErr = WriteMessage(theSocket, msgServerInfo);
@@ -477,50 +480,48 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 
 
 
-	// Wait for the request
+	// Read the connection request
 	//
-	// If the client was only interested in the current server state then they
-	// will disconnect rather than send a join request.
+	// If the client does not wish to continue connecting, they will disconnect.
 	theErr = ReadMessage(theSocket, msgJoinRequest);
-	if (theErr != kNoErr)
-		{
-		theSocket->Close(theErr);
-		return;
-		}
-	
-	NN_ASSERT(msgJoinRequest.GetType()   == kNMessageJoinRequest);
-	NN_ASSERT(msgJoinRequest.GetSource() == kNEntityInvalid);
-
-
-
-	// Accept the client
-	mLock.Lock();
-
-	clientID = GetNextClientID();
-	theErr   = kNErrParam;
-
-	if (msgJoinRequest.GetSource() == kNEntityInvalid)
-		theErr = ServerConnectionRequest(serverInfo, msgJoinRequest.GetProperties(), clientID);
-
-	msgJoinResponse = CreateMessage(kNMessageJoinResponse, clientID);
-	msgJoinResponse.SetValue(kNMessageStatusKey, theErr);
-
-	theErr = WriteMessage(theSocket, msgJoinResponse);
-	if (theErr == kNoErr)
-		AddClient(clientID, theSocket);
-
-	mLock.Unlock();
-	
 	if (theErr != kNoErr)
 		{
 		theSocket->Close();
 		return;
 		}
 
+	NN_ASSERT(msgJoinRequest.GetType()   == kNMessageJoinRequest);
+	NN_ASSERT(msgJoinRequest.GetSource() == kNEntityInvalid);
+
+
+
+	// Accept the connection
+	mLock.Lock();
+
+	clientID  = GetNextClientID();
+	acceptErr = AcceptConnection(serverInfo, msgJoinRequest.GetProperties(), clientID);
+
+	msgJoinResponse = CreateMessage(kNMessageJoinResponse, clientID);
+	msgJoinResponse.SetValue(kNMessageStatusKey, acceptErr);
+
+	theErr    = WriteMessage(theSocket, msgJoinResponse);
+	addClient = (theErr == kNoErr && acceptErr == kNoErr);
+	
+	if (addClient)
+		AddClient(clientID, theSocket);
+
+	mLock.Unlock();
+
+	if (!addClient)
+		{
+		theSocket->Close(theErr);
+		return;
+		}
+
 
 
 	// Process messages
-	ServerAddedClient(clientID);
+	ClientConnected(clientID);
 
 	ProcessMessages(theSocket);
 }

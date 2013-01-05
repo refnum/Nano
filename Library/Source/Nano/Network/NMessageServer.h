@@ -69,8 +69,8 @@ public:
 
 
 	// Start/stop the server
-	void								Start(UInt16 thePort, NIndex maxClients=1, const NString &thePassword="");
-	void								Stop( void);
+	void								StartServer(UInt16 thePort, NIndex maxClients=1, const NString &thePassword="");
+	void								StopServer(void);
 
 
 	// Send a message
@@ -83,49 +83,51 @@ protected:
 	// The server has started
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerDidStart(void);
+	virtual void						ServerStarted(void);
 
 
 	// The server has stopped
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerDidStop(NStatus theErr);
+	virtual void						ServerStopped(NStatus theErr);
 
 
-	// Get the server connection state
+	// Get the connection info
 	//
-	// Servers respond to a connection request with a dictionary of their state.
-	//
-	// Invoked on an internal thread.
-	virtual NDictionary					ServerConnectionState(void);
-
-
-	// The server has a connection request
-	//
-	// Clients provide a dictionary of their state as part of the connection.
+	// Servers respond to connection requests with a dictionary of their state.
 	//
 	// Invoked on an internal thread.
-	virtual NStatus						ServerConnectionRequest(const NDictionary &serverInfo, const NDictionary &clientInfo, NEntityID clientID);
+	virtual NDictionary					GetConnectionInfo(void);
 
 
-	// The server has added a client.
+	// Accept a connection
+	//
+	// After accepting the server's connection info, clients which wish to continue
+	// connecting provide their own dictionary that the server may use to accept or
+	// reject the client in turn.
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerAddedClient(NEntityID clientID);
+	virtual NStatus						AcceptConnection(const NDictionary &serverInfo, const NDictionary &clientInfo, NEntityID clientID);
 
 
-	// The server has removed a client.
+	// A client has connected
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerRemovedClient(NEntityID clientID);
+	virtual void						ClientConnected(NEntityID clientID);
 
 
-	// The server has received a message
+	// A client has disconnected
+	//
+	// Invoked on an internal thread.
+	virtual void						ClientDisconnected(NEntityID clientID);
+
+
+	// The server received a message
 	//
 	// Unknown messages should be passed to the base class for processing.
 	//
 	// Invoked on an internal thread.
-	virtual void						ServerReceivedMessage(const NNetworkMessage &theMsg);
+	virtual void						ReceivedMessage(const NNetworkMessage &theMsg);
 
 
 protected:

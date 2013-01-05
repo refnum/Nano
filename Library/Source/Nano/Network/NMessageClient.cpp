@@ -127,7 +127,7 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 
 	// Send to self
 	if (dstID == GetID())
-		ClientReceivedMessage(theMsg);
+		ReceivedMessage(theMsg);
 	
 	
 	// Send via the server
@@ -140,14 +140,14 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
-//		NMessageClient::ClientWillConnect : The client will connect.
+//		NMessageClient::AcceptConnection : Accept the connection.
 //----------------------------------------------------------------------------
 #pragma mark -
-bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/, NDictionary &/*clientInfo*/)
+bool NMessageClient::AcceptConnection(const NDictionary &/*serverInfo*/, NDictionary &/*clientInfo*/)
 {
 
 
-	// Continue connecting
+	// Accept connecting
 	return(true);
 }
 
@@ -156,9 +156,9 @@ bool NMessageClient::ClientWillConnect(const NDictionary &/*serverInfo*/, NDicti
 
 
 //============================================================================
-//		NMessageClient::ClientDidConnect : The client has connected.
+//		NMessageClient::ClientConnected : The client has connected.
 //----------------------------------------------------------------------------
-void NMessageClient::ClientDidConnect(void)
+void NMessageClient::ClientConnected(void)
 {
 }
 
@@ -167,9 +167,9 @@ void NMessageClient::ClientDidConnect(void)
 
 
 //============================================================================
-//		NMessageClient::ClientDidDisconnect : The client was disconnected.
+//		NMessageClient::ClientDisconnected : The client has disconnected.
 //----------------------------------------------------------------------------
-void NMessageClient::ClientDidDisconnect(NStatus /*theErr*/)
+void NMessageClient::ClientDisconnected(NStatus /*theErr*/)
 {
 }
 
@@ -178,9 +178,9 @@ void NMessageClient::ClientDidDisconnect(NStatus /*theErr*/)
 
 
 //============================================================================
-//		NMessageClient::ClientReceivedMessage : The client received a message.
+//		NMessageClient::ReceivedMessage : The client received a message.
 //----------------------------------------------------------------------------
-void NMessageClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
+void NMessageClient::ReceivedMessage(const NNetworkMessage &theMsg)
 {
 
 
@@ -221,7 +221,7 @@ void NMessageClient::ProcessMessage(const NNetworkMessage &theMsg)
 	//
 	// To handle tainted data, we check as well as assert.
 	if (dstID == GetID() || dstID == kNEntityEveryone)
-		ClientReceivedMessage(theMsg);
+		ReceivedMessage(theMsg);
 }
 
 
@@ -267,7 +267,7 @@ void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 	// Close the session
 	mStatus = kNClientDisconnected;
 
-	ClientDidDisconnect(theErr);
+	ClientDisconnected(theErr);
 }
 
 
@@ -320,16 +320,16 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 
-	// See if we should connect
-	if (!ClientWillConnect(msgServerInfo.GetProperties(), clientInfo))
+	// Accept the connection
+	if (!AcceptConnection(msgServerInfo.GetProperties(), clientInfo))
 		{
-		theSocket->Close();
+		theSocket->Close(kNoErr);
 		return;
 		}
 
 
 
-	// Connect to the server
+	// Open the connection
 	msgJoinRequest = CreateMessage(kNMessageJoinRequest, kNEntityServer);
 	msgJoinRequest.SetProperties(clientInfo);
 	if (!mPassword.IsEmpty())
@@ -361,7 +361,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	// Process messages
 	mStatus = kNClientConnected;
-	ClientDidConnect();
+	ClientConnected();
 
 	ProcessMessages(theSocket);
 }

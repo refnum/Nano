@@ -44,38 +44,40 @@ static const NString kTokenServerClient								= "To get to the other side.";
 
 
 // State
-static const NString kStateServerDidStart							= "ServerDidStart/";
-static const NString kStateServerDidStop							= "ServerDidStop:%ld/";
-static const NString kStateServerAddedClient						= "ServerAddedClient/";
-static const NString kStateServerRemovedClient						= "ServerRemovedClient/";
+static const NString kStateServerStarted							= "ServerStarted/";
+static const NString kStateServerStopped							= "ServerStopped:%ld/";
+static const NString kStateServerClientConnected					= "ServerClientConnected/";
+static const NString kStateServerClientDisconnected					= "ServerClientDisconnected/";
 static const NString kStateServerReceivedMessage					= "ServerReceivedMessage/";
 static const NString kStateServerSentMessage						= "ServerSentMessage/";
 
-static const NString kStateClientDidOpen							= "ClientDidOpen/";
-static const NString kStateClientDidClose							= "ClientDidClose:%ld/";
+static const NString kStateClientConnected							= "ClientConnected/";
+static const NString kStateClientDisconnected						= "ClientDisconnected:%ld/";
 static const NString kStateClientReceivedMessage					= "ClientReceivedMessage/";
 static const NString kStateClientSentMessage						= "ClientSentMessage/";
 
-static const NString kStateServer									= kStateServerDidStart			+
-																	  kStateServerAddedClient		+
-																	  kStateServerAddedClient		+
-																	  kStateServerReceivedMessage	+
-																	  kStateServerReceivedMessage	+
-																	  kStateServerSentMessage		+
-																	  kStateServerRemovedClient		+
-																	  kStateServerRemovedClient		+
-																	  NFormatString(kStateServerDidStop, kNoErr);
+static const NString kStateServer									= kStateServerStarted				+
+																	  kStateServerClientConnected		+
+																	  kStateServerClientConnected		+
+																	  kStateServerReceivedMessage		+
+																	  kStateServerReceivedMessage		+
+																	  kStateServerSentMessage			+
+																	  kStateServerClientDisconnected	+
+																	  kStateServerClientDisconnected	+
+																	  NFormatString(kStateServerStopped, kNoErr);
 
-static const NString kStateClient1									= kStateClientDidOpen			+
-																	  kStateClientSentMessage		+
-																	  kStateClientSentMessage		+
-																	  kStateClientReceivedMessage	+
-																	  kStateClientReceivedMessage	+
-																	  NFormatString(kStateClientDidClose, kNoErr);
+static const NString kStateClient1									= kStateClientConnected				+
+																	  kStateClientSentMessage			+
+																	  kStateClientSentMessage			+
+																	  kStateClientReceivedMessage		+
+																	  kStateClientReceivedMessage		+
+																	  NFormatString(kStateClientDisconnected, kNoErr);
 
-static const NString kStateClient2									= kStateClientDidOpen			+
-																	  kStateClientReceivedMessage	+
-																	  NFormatString(kStateClientDidClose, kNoErr);
+static const NString kStateClient2									= kStateClientConnected				+
+																	  kStateClientReceivedMessage		+
+																	  NFormatString(kStateClientDisconnected, kNoErr);
+
+
 
 
 
@@ -94,11 +96,11 @@ public:
 
 protected:
 	// Handle server events
-	void								ServerDidStart(void);
-	void								ServerDidStop(NStatus theErr);
-	void								ServerAddedClient(  NEntityID clientID);
-	void								ServerRemovedClient(NEntityID clientID);
-	void								ServerReceivedMessage(const NNetworkMessage &theMsg);
+	void								ServerStarted(void);
+	void								ServerStopped(NStatus theErr);
+	void								ClientConnected(   NEntityID clientID);
+	void								ClientDisconnected(NEntityID clientID);
+	void								ReceivedMessage(const NNetworkMessage &theMsg);
 
 
 private:
@@ -128,9 +130,9 @@ public:
 
 protected:
 	// Handle client events
-	void								ClientDidConnect(void);
-	void								ClientDidDisconnect(NStatus theERr);
-	void								ClientReceivedMessage(const NNetworkMessage &theMsg);
+	void								ClientConnected(void);
+	void								ClientDisconnected(NStatus theErr);
+	void								ReceivedMessage(const NNetworkMessage &theMsg);
 
 
 private:
@@ -170,14 +172,14 @@ TTestServer::~TTestServer(void)
 
 
 //============================================================================
-//		TTestServer::ServerDidStart : The server has started.
+//		TTestServer::ServerStarted : The server has started.
 //----------------------------------------------------------------------------
-void TTestServer::ServerDidStart(void)
+void TTestServer::ServerStarted(void)
 {
 
 
 	// Update our state
-	mState += kStateServerDidStart;
+	mState += kStateServerStarted;
 }
 
 
@@ -185,14 +187,14 @@ void TTestServer::ServerDidStart(void)
 
 
 //============================================================================
-//		TTestServer::ServerDidStop : The server has stopped.
+//		TTestServer::ServerStopped : The server has stopped.
 //----------------------------------------------------------------------------
-void TTestServer::ServerDidStop(NStatus theErr)
+void TTestServer::ServerStopped(NStatus theErr)
 {
 
 
 	// Update our state
-	mState += NFormatString(kStateServerDidStop, theErr);
+	mState += NFormatString(kStateServerStopped, theErr);
 }
 
 
@@ -200,14 +202,14 @@ void TTestServer::ServerDidStop(NStatus theErr)
 
 
 //============================================================================
-//		TTestServer::ServerAddedClient : The server has added a client.
+//		TTestServer::ClientConnected : A client has connected.
 //----------------------------------------------------------------------------
-void TTestServer::ServerAddedClient(NEntityID /*clientID*/)
+void TTestServer::ClientConnected(NEntityID /*clientID*/)
 {
 
 
 	// Update our state
-	mState += kStateServerAddedClient;
+	mState += kStateServerClientConnected;
 }
 
 
@@ -215,14 +217,14 @@ void TTestServer::ServerAddedClient(NEntityID /*clientID*/)
 
 
 //============================================================================
-//		TTestServer::ServerRemovedClient : The server has removed a client.
+//		TTestServer::ClientDisconnected : A client has disconnected.
 //----------------------------------------------------------------------------
-void TTestServer::ServerRemovedClient(NEntityID /*clientID*/)
+void TTestServer::ClientDisconnected(NEntityID /*clientID*/)
 {
 
 
 	// Update our state
-	mState += kStateServerRemovedClient;
+	mState += kStateServerClientDisconnected;
 }
 
 
@@ -230,9 +232,9 @@ void TTestServer::ServerRemovedClient(NEntityID /*clientID*/)
 
 
 //============================================================================
-//		TTestServer::ServerReceivedMessage : The server has received a message.
+//		TTestServer::ReceivedMessage : The server received a message.
 //----------------------------------------------------------------------------
-void TTestServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
+void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 {	NString				theValue;
 	NNetworkMessage		replyMsg;
 
@@ -268,7 +270,7 @@ void TTestServer::ServerReceivedMessage(const NNetworkMessage &theMsg)
 
 
 		default:
-			NMessageServer::ServerReceivedMessage(theMsg);
+			NMessageServer::ReceivedMessage(theMsg);
 			break;
 		}
 }
@@ -345,14 +347,14 @@ void TTestClient::Execute(void)
 
 
 //============================================================================
-//		TTestClient::ClientDidConnect : The client has connected.
+//		TTestClient::ClientConnected : The client has connected.
 //----------------------------------------------------------------------------
-void TTestClient::ClientDidConnect(void)
+void TTestClient::ClientConnected(void)
 {
 
 
 	// Update our state
-	mState += kStateClientDidOpen;
+	mState += kStateClientConnected;
 }
 
 
@@ -360,14 +362,14 @@ void TTestClient::ClientDidConnect(void)
 
 
 //============================================================================
-//		TTestClient::ClientDidDisconnect : The client was disconnected.
+//		TTestClient::ClientDisconnected : The client was disconnected.
 //----------------------------------------------------------------------------
-void TTestClient::ClientDidDisconnect(NStatus theErr)
+void TTestClient::ClientDisconnected(NStatus theErr)
 {
 
 
 	// Update our state
-	mState += NFormatString(kStateClientDidClose, theErr);
+	mState += NFormatString(kStateClientDisconnected, theErr);
 }
 
 
@@ -375,9 +377,9 @@ void TTestClient::ClientDidDisconnect(NStatus theErr)
 
 
 //============================================================================
-//		TTestClient::ClientReceivedMessage : The client has received a message.
+//		TTestClient::ReceivedMessage : The client has received a message.
 //----------------------------------------------------------------------------
-void TTestClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
+void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 {	NString		theValue;
 
 
@@ -407,7 +409,7 @@ void TTestClient::ClientReceivedMessage(const NNetworkMessage &theMsg)
 
 
 		default:
-			NMessageClient::ClientReceivedMessage(theMsg);
+			NMessageClient::ReceivedMessage(theMsg);
 			break;
 		}
 }
@@ -432,7 +434,7 @@ void TMessageServer::Execute(void)
 
 
 	// Start the server
-	testServer.Start(thePort, 2);
+	testServer.StartServer(thePort, 2);
 
 	while (testServer.GetStatus() != kNServerStarted)
 		NThread::Sleep();
@@ -462,7 +464,7 @@ void TMessageServer::Execute(void)
 
 
 	// Stop the server
-	testServer.Stop();
+	testServer.StopServer();
 
 	while (testServer.GetStatus() != kNServerStopped)
 		NThread::Sleep();
