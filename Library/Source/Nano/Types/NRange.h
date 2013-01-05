@@ -52,9 +52,7 @@ typedef NRangeList::reverse_iterator								NRangeListReverseIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NRange :	public NContainer,
-				public NEncodable,
-				public NComparable<NRange> {
+class NRange :	public NEncodable {
 public:
 										NENCODABLE_DECLARE(NRange);
 
@@ -107,6 +105,8 @@ public:
 
 
 	// Operators
+	NCOMPARABLE_OPERATORS(NRange);
+
 										operator NFormatArgument(void) const;
 
 
