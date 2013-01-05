@@ -206,8 +206,8 @@ NDictionary NMessageServer::GetConnectionInfo(void)
 
 
 	// Get the info
-	theInfo.SetValue(kNMessageServerMaxClientsKey, mMaxClients);
-	theInfo.SetValue(kNMessageServerNumClientsKey, (NIndex) mClients.size());
+	theInfo.SetValue(kNMessageMaxClientsKey, mMaxClients);
+	theInfo.SetValue(kNMessageNumClientsKey, (NIndex) mClients.size());
 
 	return(theInfo);
 }
@@ -233,7 +233,7 @@ NStatus NMessageServer::AcceptConnection(const NDictionary &/*serverInfo*/, cons
 	// Check the password
 	if (!mPassword.IsEmpty())
 		{
-		thePassword = clientInfo.GetValueString(kNMessageClientPasswordKey);
+		thePassword = clientInfo.GetValueString(kNMessagePasswordKey);
 
 		if (mPassword != thePassword)
 			return(kNErrPermission);
@@ -432,7 +432,7 @@ NSocketConnectionFunctor NMessageServer::SocketHasConnection(NSocket *theSocket,
 //----------------------------------------------------------------------------
 #pragma mark -
 void NMessageServer::ServerThread(NSocket *theSocket)
-{	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
+{	NNetworkMessage			msgServerInfo, msgConnectRequest, msgConnectResponse;
 	NStatus					theErr, acceptErr;
 	NMessageHandshake		clientHandshake;
 	NString					thePassword;
@@ -483,15 +483,15 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	// Read the connection request
 	//
 	// If the client does not wish to continue connecting, they will disconnect.
-	theErr = ReadMessage(theSocket, msgJoinRequest);
+	theErr = ReadMessage(theSocket, msgConnectRequest);
 	if (theErr != kNoErr)
 		{
 		theSocket->Close();
 		return;
 		}
 
-	NN_ASSERT(msgJoinRequest.GetType()   == kNMessageJoinRequest);
-	NN_ASSERT(msgJoinRequest.GetSource() == kNEntityInvalid);
+	NN_ASSERT(msgConnectRequest.GetType()   == kNMessageConnectRequest);
+	NN_ASSERT(msgConnectRequest.GetSource() == kNEntityInvalid);
 
 
 
@@ -499,12 +499,12 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	mLock.Lock();
 
 	clientID  = GetNextClientID();
-	acceptErr = AcceptConnection(serverInfo, msgJoinRequest.GetProperties(), clientID);
+	acceptErr = AcceptConnection(serverInfo, msgConnectRequest.GetProperties(), clientID);
 
-	msgJoinResponse = CreateMessage(kNMessageJoinResponse, clientID);
-	msgJoinResponse.SetValue(kNMessageStatusKey, acceptErr);
+	msgConnectResponse = CreateMessage(kNMessageConnectResponse, clientID);
+	msgConnectResponse.SetValue(kNMessageStatusKey, acceptErr);
 
-	theErr    = WriteMessage(theSocket, msgJoinResponse);
+	theErr    = WriteMessage(theSocket, msgConnectResponse);
 	addClient = (theErr == kNoErr && acceptErr == kNoErr);
 	
 	if (addClient)

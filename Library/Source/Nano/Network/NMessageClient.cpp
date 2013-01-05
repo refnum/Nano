@@ -279,7 +279,7 @@ void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 //----------------------------------------------------------------------------
 #pragma mark -
 void NMessageClient::ClientThread(NSocket *theSocket)
-{	NNetworkMessage			msgServerInfo, msgJoinRequest, msgJoinResponse;
+{	NNetworkMessage			msgServerInfo, msgConnectRequest, msgConnectResponse;
 	NMessageHandshake		serverHandshake;
 	NDictionary				clientInfo;
 	NStatus					theErr;
@@ -330,23 +330,23 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 	// Open the connection
-	msgJoinRequest = CreateMessage(kNMessageJoinRequest, kNEntityServer);
-	msgJoinRequest.SetProperties(clientInfo);
+	msgConnectRequest = CreateMessage(kNMessageConnectRequest, kNEntityServer);
+	msgConnectRequest.SetProperties(clientInfo);
 	if (!mPassword.IsEmpty())
-		msgJoinRequest.SetValue(kNMessageClientPasswordKey, mPassword);
+		msgConnectRequest.SetValue(kNMessagePasswordKey, mPassword);
 
-	theErr = WriteMessage(theSocket, msgJoinRequest);
+	theErr = WriteMessage(theSocket, msgConnectRequest);
 	if (theErr == kNoErr)
 		{
-		theErr = ReadMessage(theSocket, msgJoinResponse);
-		NN_ASSERT(msgJoinResponse.GetType() == kNMessageJoinResponse);
+		theErr = ReadMessage(theSocket, msgConnectResponse);
+		NN_ASSERT(msgConnectResponse.GetType() == kNMessageConnectResponse);
 
 		if (theErr == kNoErr)
-			theErr = msgJoinResponse.GetValueSInt32(kNMessageStatusKey);
+			theErr = msgConnectResponse.GetValueSInt32(kNMessageStatusKey);
 
 		if (theErr == kNoErr)
 			{
-			SetID(msgJoinResponse.GetDestination());
+			SetID(msgConnectResponse.GetDestination());
 			NN_ASSERT(GetID() != kNEntityInvalid);
 			}
 		}
