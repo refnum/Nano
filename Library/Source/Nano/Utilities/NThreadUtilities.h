@@ -41,6 +41,12 @@ public:
 	static UInt32						GetCPUCount(void);
 
 
+	// Detach a functor
+	//
+	// Invokes the functor on a new thread.
+	static void							DetachFunctor(const NFunctor &theFunctor);
+
+
 	// Delay a functor
 	//
 	// The functor can be invoked on the main thread, or on a new one-shot thread.

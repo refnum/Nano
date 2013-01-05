@@ -451,7 +451,7 @@ void NThreadPool::ScheduleTask(NThreadTask *theTask)
 	if ((UInt32) mActiveThreads < mThreadLimit)
 		{
 		NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
-		NThreadUtilities::DelayFunctor(BindSelf(NThreadPool::ExecuteTasks), 0.0, false);
+		NThreadUtilities::DetachFunctor(BindSelf(NThreadPool::ExecuteTasks));
 		}
 	else
 		mSemaphore.Signal();

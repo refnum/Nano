@@ -411,7 +411,7 @@ void TSocket::Execute(void)
 
 	// Execute a web test
 	isDone = false;
-	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::ExecuteWeb, &isDone), 0.0, false);
+	NThreadUtilities::DetachFunctor(BindMethod(theClient, TSocketClient::ExecuteWeb, &isDone));
 
 	while (!isDone)
 		NThread::Sleep();
@@ -422,7 +422,7 @@ void TSocket::Execute(void)
 	theServer->Start(thePort);
 
 	isDone = false;
-	NThreadUtilities::DelayFunctor(BindMethod(theClient, TSocketClient::ExecuteCustom, &isDone, thePort), 0.0, false);
+	NThreadUtilities::DetachFunctor(BindMethod(theClient, TSocketClient::ExecuteCustom, &isDone, thePort));
 
 	while (!isDone)
 		NThread::Sleep();

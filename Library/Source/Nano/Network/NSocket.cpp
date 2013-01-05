@@ -885,7 +885,7 @@ void NSocket::SocketHasConnection(NSocket *newSocket)
 	// Handle the connection
 	theFunctor = mDelegate->SocketHasConnection(this, newSocket);
 
-	NThreadUtilities::DelayFunctor(BindFunction(NSocket::ConnectionThread, theFunctor, newSocket), 0.0, false);
+	NThreadUtilities::DetachFunctor(BindFunction(NSocket::ConnectionThread, theFunctor, newSocket));
 }
 
 

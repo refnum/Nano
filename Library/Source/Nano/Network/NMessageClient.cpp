@@ -241,7 +241,7 @@ void NMessageClient::SocketDidOpen(NSocket *theSocket)
 
 
 	// Start the client
-	NThreadUtilities::DelayFunctor(BindSelf(NMessageClient::ClientThread, theSocket), 0.0, false);
+	NThreadUtilities::DetachFunctor(BindSelf(NMessageClient::ClientThread, theSocket));
 }
 
 

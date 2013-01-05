@@ -38,6 +38,21 @@ UInt32 NThreadUtilities::GetCPUCount(void)
 
 
 //============================================================================
+//		NThreadUtilities::DetachFunctor : Detach a functor.
+//----------------------------------------------------------------------------
+void NThreadUtilities::DetachFunctor(const NFunctor &theFunctor)
+{
+
+
+	// Detach the functor
+	NTargetThread::ThreadCreate(theFunctor);
+}
+
+
+
+
+
+//============================================================================
 //		NThreadUtilities::DelayFunctor : Delay a functor.
 //----------------------------------------------------------------------------
 void NThreadUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, bool onMainThread)
@@ -57,7 +72,7 @@ void NThreadUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 		{
 		if (!onMainThread)
 			{
-			NTargetThread::ThreadCreate(theFunctor);
+			DetachFunctor(theFunctor);
 			return;
 			}
 		
