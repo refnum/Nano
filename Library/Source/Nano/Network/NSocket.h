@@ -89,6 +89,12 @@ public:
 	NSocketStatus						GetStatus(void) const;
 
 
+	// Get the result
+	//
+	// Returns the final error that the socket was closed with.
+	NStatus								GetResult(void) const;
+
+
 	// Open the socket
 	//
 	// Opening a socket with a local port creates a listening socket. A listening
@@ -201,6 +207,7 @@ private:
 	mutable NMutexLock					mLock;
 
 	NSocketStatus						mStatus;
+	NStatus								mResult;
 	NSocketRef							mSocket;
 	NSocketDelegate					   *mDelegate;
 

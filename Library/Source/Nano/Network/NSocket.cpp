@@ -96,6 +96,22 @@ NSocketStatus NSocket::GetStatus(void) const
 
 
 //============================================================================
+//		NSocket::GetResult : Get the result.
+//----------------------------------------------------------------------------
+NStatus NSocket::GetResult(void) const
+{	StLock	acquireLock(mLock);
+
+
+
+	// Get the result
+	return(mResult);
+}
+
+
+
+
+
+//============================================================================
 //		NSocket::Open : Open the socket.
 //----------------------------------------------------------------------------
 void NSocket::Open(UInt16 thePort)
@@ -792,6 +808,7 @@ void NSocket::InitialiseSelf(NSocketDelegate *theDelegate)
 
 	// Initialise ourselves
 	mStatus   = kNSocketClosed;
+	mResult   = kNoErr;
 	mSocket   = NULL;
 	mDelegate = theDelegate;
 	
@@ -852,6 +869,7 @@ void NSocket::SocketDidClose(NStatus theErr)
 		// Update our state
 		theSocket = mSocket;
 		mStatus   = kNSocketClosed;
+		mResult   = theErr;
 		mSocket   = NULL;
 
 		RemoveRequests(kNErrCancelled);
