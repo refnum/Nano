@@ -71,6 +71,8 @@ protected:
 	// this server, and can provide their own dictionary that the server may use
 	// to accept or reject the client in turn.
 	//
+	// Sub-classes should call through before performing their own validation.
+	//
 	// Invoked on an internal thread.
 	virtual bool						AcceptConnection(const NDictionary &serverInfo, NDictionary &clientInfo);
 
@@ -84,7 +86,7 @@ protected:
 
 	// The client received a message
 	//
-	// Unknown messages should be passed to the base class for processing.
+	// Sub-classes should call through with unknown messages.
 	//
 	// Invoked on an internal thread.
 	virtual void						ReceivedMessage(const NNetworkMessage &theMsg);

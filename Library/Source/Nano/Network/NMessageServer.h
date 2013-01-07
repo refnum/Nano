@@ -91,6 +91,8 @@ protected:
 	//
 	// Servers respond to connection requests with a dictionary of their state.
 	//
+	// Sub-classes should call through before adding custom values.
+	//
 	// Invoked on an internal thread.
 	virtual NDictionary					GetConnectionInfo(void);
 
@@ -100,6 +102,8 @@ protected:
 	// After accepting the server's connection info, clients which wish to continue
 	// connecting provide their own dictionary that the server may use to accept or
 	// reject the client in turn.
+	//
+	// Sub-classes should call through before performing their own validation.
 	//
 	// Invoked on an internal thread.
 	virtual NStatus						AcceptConnection(const NDictionary &serverInfo, const NDictionary &clientInfo, NEntityID clientID);
@@ -114,7 +118,7 @@ protected:
 
 	// The server received a message
 	//
-	// Unknown messages should be passed to the base class for processing.
+	// Sub-classes should call through with unknown messages.
 	//
 	// Invoked on an internal thread.
 	virtual void						ReceivedMessage(const NNetworkMessage &theMsg);
