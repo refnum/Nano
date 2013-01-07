@@ -135,8 +135,7 @@ void NSocket::Open(const NString &theHost, UInt16 thePort)
 
 
 	// Validate our state
-	NN_ASSERT(mStatus   == kNSocketClosed);
-	NN_ASSERT(mDelegate != NULL);
+	NN_ASSERT(mStatus == kNSocketClosed);
 	
 	
 	
@@ -184,8 +183,9 @@ void NSocket::Read(NIndex theSize)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theSize >= 1);
+	// Validate our parameters and state
+	NN_ASSERT(theSize   >= 1);
+	NN_ASSERT(mDelegate != NULL);
 
 
 
@@ -221,9 +221,10 @@ void NSocket::Write(NIndex theSize, const void *thePtr)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theSize >= 1);
-	NN_ASSERT(thePtr  != NULL);
+	// Validate our parameters and state
+	NN_ASSERT(theSize   >= 1);
+	NN_ASSERT(thePtr    != NULL);
+	NN_ASSERT(mDelegate != NULL);
 
 
 
@@ -839,7 +840,8 @@ void NSocket::SocketDidOpen(void)
 	// Update our state
 	mStatus = kNSocketOpened;
 
-	mDelegate->SocketDidOpen(this);
+	if (mDelegate != NULL)
+		mDelegate->SocketDidOpen(this);
 }
 
 
@@ -877,7 +879,8 @@ void NSocket::SocketDidClose(NStatus theErr)
 
 
 		// Close the socket
-		mDelegate->SocketDidClose(this, theErr);
+		if (mDelegate != NULL)
+			mDelegate->SocketDidClose(this, theErr);
 
 		NTargetNetwork::SocketClose(theSocket);
 		}
@@ -901,7 +904,8 @@ void NSocket::SocketHasConnection(NSocket *newSocket)
 
 
 	// Handle the connection
-	theFunctor = mDelegate->SocketHasConnection(this, newSocket);
+	if (mDelegate)
+		theFunctor = mDelegate->SocketHasConnection(this, newSocket);
 
 	NThreadUtilities::DetachFunctor(BindFunction(NSocket::ConnectionThread, theFunctor, newSocket));
 }
@@ -1144,6 +1148,8 @@ void NSocket::FinishedReading(void)
 
 
 	// Inform the source
+	//
+	// Non-blocking reads require a delegate.
 	if (theSemaphore != NULL)
 		theSemaphore->Signal();
 	else
@@ -1174,6 +1180,8 @@ void NSocket::FinishedWriting(void)
 
 
 	// Inform the source
+	//
+	// Non-blocking writes require a delegate.
 	if (theSemaphore != NULL)
 		theSemaphore->Signal();
 	else
