@@ -80,15 +80,10 @@ public:
 
 
 protected:
-	// The server has started
+	// The server has started/stopped
 	//
 	// Invoked on an internal thread.
 	virtual void						ServerStarted(void);
-
-
-	// The server has stopped
-	//
-	// Invoked on an internal thread.
 	virtual void						ServerStopped(NStatus theErr);
 
 
@@ -110,15 +105,10 @@ protected:
 	virtual NStatus						AcceptConnection(const NDictionary &serverInfo, const NDictionary &clientInfo, NEntityID clientID);
 
 
-	// A client has connected
+	// A client has connected/disconnected
 	//
 	// Invoked on an internal thread.
-	virtual void						ClientConnected(NEntityID clientID);
-
-
-	// A client has disconnected
-	//
-	// Invoked on an internal thread.
+	virtual void						ClientConnected(   NEntityID clientID);
 	virtual void						ClientDisconnected(NEntityID clientID);
 
 

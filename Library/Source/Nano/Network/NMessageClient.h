@@ -75,17 +75,10 @@ protected:
 	virtual bool						AcceptConnection(const NDictionary &serverInfo, NDictionary &clientInfo);
 
 
-	// The client has connected
+	// The client has connected/disconnected
 	//
 	// Invoked on an internal thread.
 	virtual void						ClientConnected(void);
-
-
-	// The client has disconnected
-	//
-	// Clients which fail to connect will return their error through this method.
-	//
-	// Invoked on an internal thread.
 	virtual void						ClientDisconnected(NStatus theErr);
 
 
