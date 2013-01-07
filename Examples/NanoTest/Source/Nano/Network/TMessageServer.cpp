@@ -434,7 +434,9 @@ void TMessageServer::Execute(void)
 
 
 	// Start the server
-	testServer.StartServer(thePort, 2);
+	testServer.SetPort(thePort);
+	testServer.SetMaxClients(2);
+	testServer.Start();
 
 	while (testServer.GetStatus() != kNServerStarted)
 		NThread::Sleep();
@@ -464,7 +466,7 @@ void TMessageServer::Execute(void)
 
 
 	// Stop the server
-	testServer.StopServer();
+	testServer.Stop();
 
 	while (testServer.GetStatus() != kNServerStopped)
 		NThread::Sleep();

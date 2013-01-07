@@ -31,10 +31,10 @@ NMessageServer::NMessageServer(void)
 
 	// Initialise ourselves
 	SetID(kNEntityServer);
-
 	mSocket.SetDelegate(this);
 
 	mStatus     = kNServerStopped;
+	mPort       = 0;
 	mMaxClients = 1;
 }
 
@@ -48,6 +48,7 @@ NMessageServer::NMessageServer(void)
 NMessageServer::~NMessageServer(void)
 {
 }
+
 
 
 
@@ -69,29 +70,14 @@ NMessageServerStatus NMessageServer::GetStatus(void) const
 
 
 //============================================================================
-//		NMessageServer::StartServer : Start the server.
+//		NMessageServer::GetPort : Get the port.
 //----------------------------------------------------------------------------
-void NMessageServer::StartServer(UInt16 thePort, NIndex maxClients, const NString &thePassword)
-{	StLock		acquireLock(mLock);
+UInt16 NMessageServer::GetPort(void) const
+{
 
 
-
-	// Validate our parameters and state
-	NN_ASSERT(thePort    != 0);
-	NN_ASSERT(maxClients >= 1 && maxClients <= kNEntityClientsMax);
-
-	NN_ASSERT(mStatus == kNServerStopped);
-
-
-
-	// Start the server
-	//
-	// To handle tainted data, we clamp as well as assert.
-	mMaxClients = std::min(maxClients, (NIndex) kNEntityClientsMax);
-	mPassword   = thePassword;
-
-	mStatus = kNServerStarting;
-	mSocket.Open(thePort);
+	// Get the port
+	return(mPort);
 }
 
 
@@ -99,9 +85,127 @@ void NMessageServer::StartServer(UInt16 thePort, NIndex maxClients, const NStrin
 
 
 //============================================================================
-//		NMessageServer::StopServer : Stop the server.
+//		NMessageServer::SetPort : Set the port.
 //----------------------------------------------------------------------------
-void NMessageServer::StopServer(void)
+void NMessageServer::SetPort(UInt16 thePort)
+{
+
+
+	// Validate our state
+	NN_ASSERT(GetStatus() == kNServerStopped);
+
+
+
+	// Set the port
+	mPort = thePort;
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::GetMaxClients : Get the max clients.
+//----------------------------------------------------------------------------
+NIndex NMessageServer::GetMaxClients(void) const
+{
+
+
+	// Get the max clients
+	return(mMaxClients);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::SetMaxClients : Set the max clients.
+//----------------------------------------------------------------------------
+void NMessageServer::SetMaxClients(NIndex maxClients)
+{
+
+
+	// Validate our parameters and state
+	NN_ASSERT(maxClients >= 1 && maxClients <= kNEntityClientsMax);
+
+	NN_ASSERT(GetStatus() == kNServerStopped);
+
+
+
+	// Set the max clients
+	mMaxClients = maxClients;
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::GetPassword : Get the password.
+//----------------------------------------------------------------------------
+NString NMessageServer::GetPassword(void) const
+{
+
+
+	// Get the password
+	return(mPassword);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::SetPassword : Set the password.
+//----------------------------------------------------------------------------
+void NMessageServer::SetPassword(const NString &thePassword)
+{
+
+
+	// Validate our state
+	NN_ASSERT(GetStatus() == kNServerStopped);
+
+
+
+	// Set the password
+	mPassword = thePassword;
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::Start : Start the server.
+//----------------------------------------------------------------------------
+void NMessageServer::Start(void)
+{	StLock		acquireLock(mLock);
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(mPort       != 0);
+	NN_ASSERT(mMaxClients >= 1 && mMaxClients <= kNEntityClientsMax);
+
+	NN_ASSERT(mStatus == kNServerStopped);
+
+
+
+	// Start the server
+	mStatus = kNServerStarting;
+
+	mSocket.Open(mPort);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::Stop : Stop the server.
+//----------------------------------------------------------------------------
+void NMessageServer::Stop(void)
 {
 
 

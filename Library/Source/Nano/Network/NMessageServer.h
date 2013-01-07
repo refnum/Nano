@@ -68,9 +68,26 @@ public:
 	NMessageServerStatus				GetStatus(void) const;
 
 
+	// Get/set the port
+	UInt16								GetPort(void) const;
+	void								SetPort(UInt16 thePort);
+	
+	
+	// Get/set the max clients
+	//
+	// Servers can support between 1 and kNEntityClientsMax clients.
+	NIndex								GetMaxClients(void) const;
+	void								SetMaxClients(NIndex maxClients);
+
+
+	// Get/set the password
+	NString								GetPassword(void) const;
+	void								SetPassword(const NString &thePassword);
+
+
 	// Start/stop the server
-	void								StartServer(UInt16 thePort, NIndex maxClients=1, const NString &thePassword="");
-	void								StopServer(void);
+	void								Start(void);
+	void								Stop( void);
 
 
 	// Send a message
@@ -145,11 +162,13 @@ private:
 
 private:
 	mutable NMutexLock					mLock;
-	NSocket								mSocket;
 
 	NMessageServerStatus				mStatus;
-	NString								mPassword;
+	UInt16								mPort;
 	NIndex								mMaxClients;
+	NString								mPassword;
+
+	NSocket								mSocket;
 	NClientInfoMap						mClients;
 };
 
