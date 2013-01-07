@@ -147,7 +147,7 @@ bool NMessageClient::AcceptConnection(const NDictionary &/*serverInfo*/, NDictio
 {
 
 
-	// Accept connecting
+	// Accept the connection
 	return(true);
 }
 

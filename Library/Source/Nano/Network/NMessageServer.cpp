@@ -224,7 +224,7 @@ NStatus NMessageServer::AcceptConnection(const NDictionary &/*serverInfo*/, cons
 
 
 
-	// Check we can accept another client
+	// Check the client state
 	if ((NIndex) mClients.size() >= mMaxClients || clientID == kNEntityInvalid)
 		return(kNErrBusy);
 
