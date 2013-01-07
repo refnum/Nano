@@ -448,7 +448,7 @@ NStatus NSocket::ReadData(NIndex theSize, NData &theData)
 
 	// Check our state
 	if (NN_DEBUG && NThread::IsMain())
-		NN_LOG("NSocket performing blocking read of %ld bytes from network on main thread!", theSize);
+		NN_LOG("NSocket performing blocking read of %ld bytes on main thread!", theSize);
 
 	if (GetStatus() != kNSocketOpened)
 		return(kNErrPermission);
@@ -655,7 +655,7 @@ NStatus NSocket::WriteData(const NData &theData)
 
 	// Check our state
 	if (NN_DEBUG && NThread::IsMain())
-		NN_LOG("NSocket performing blocking write of %ld bytes to network on main thread!", theData.GetSize());
+		NN_LOG("NSocket performing blocking write of %ld bytes on main thread!", theData.GetSize());
 
 	if (GetStatus() != kNSocketOpened)
 		return(kNErrPermission);
