@@ -104,8 +104,8 @@ void NMessageClient::Disconnect(void)
 
 
 
-	// Disconnect from the server
-	mSocket.Close();
+	// Disconnect the client
+	DisconnectClient(kNoErr);
 }
 
 
@@ -116,7 +116,7 @@ void NMessageClient::Disconnect(void)
 //		NMessageClient::SendMessage : Send a message.
 //----------------------------------------------------------------------------
 void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
-{	NEntityID						dstID;
+{	NEntityID		dstID;
 
 
 
@@ -258,16 +258,20 @@ void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 
 	// Validate our parameters and state
 	NN_ASSERT(theSocket == &mSocket);
-	NN_ASSERT(mStatus  != kNClientDisconnected);
-
 	NN_UNUSED(theSocket);
 
 
 
-	// Close the session
-	mStatus = kNClientDisconnected;
-
-	ClientDisconnected(theErr);
+	// Disconnect the client
+	//
+	// A socket error indicates disconnection, but only once the connection has
+	// been established.
+	//
+	/// Our socket may be closed during connection due to the server rejecting
+	// this client, but the reply message from the server carries the final error
+	// for our delegate (not the socket, which will just have closed without error).
+	if (mStatus == kNClientConnected)
+		DisconnectClient(theErr);
 }
 
 
@@ -286,8 +290,9 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 
-	// Validate our state
-	NN_ASSERT(mStatus == kNClientConnecting);
+	// Validate our parameters and state
+	NN_ASSERT(theSocket == &mSocket);
+	NN_ASSERT(mStatus   == kNClientConnecting);
 
 
 
@@ -302,7 +307,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		theSocket->Close(theErr);
+		DisconnectClient(theErr);
 		return;
 		}
 
@@ -314,7 +319,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		theSocket->Close(theErr);
+		DisconnectClient(theErr);
 		return;
 		}
 
@@ -326,7 +331,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	theErr = AcceptConnection(msgServerInfo.GetProperties(), clientInfo);
 	if (theErr != kNoErr)
 		{
-		theSocket->Close(kNoErr);
+		DisconnectClient(kNoErr);
 		return;
 		}
 
@@ -356,7 +361,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	if (theErr != kNoErr)
 		{
-		theSocket->Close(theErr);
+		DisconnectClient(theErr);
 		return;
 		}
 
@@ -369,6 +374,31 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	ProcessMessages(theSocket);
 }
 
+
+
+
+
+//============================================================================
+//		NMessageClient::DisconnectClient : Disconnect the client.
+//----------------------------------------------------------------------------
+void NMessageClient::DisconnectClient(NStatus theErr)
+{	StLock		acquireLock(mLock);
+
+
+
+	// Disconnect the client
+	if (mStatus != kNClientDisconnected)
+		{
+		mStatus = kNClientDisconnected;
+		ClientDisconnected(theErr);
+		}
+
+
+
+	// Close the socket
+	if (mSocket.GetStatus() != kNSocketClosed)
+		mSocket.Close();
+}
 
 
 

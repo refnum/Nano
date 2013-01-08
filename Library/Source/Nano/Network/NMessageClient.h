@@ -104,6 +104,7 @@ protected:
 
 private:
 	void								ClientThread(NSocket *theSocket);
+	void								DisconnectClient(NStatus theErr);
 
 
 private:

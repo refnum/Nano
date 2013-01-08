@@ -482,7 +482,8 @@ void NMessageServer::SocketDidClose(NSocket *theSocket, NStatus theErr)
 	// Remove a client
 	//
 	// The client may not have been accepted by the server, so we may not actually
-	// find its socket in the client list.
+	// find its socket in the client list. Clients which never reached the connected
+	// state can just be ignored when their socket is closed.
 	else
 		{
 		mLock.Lock();
