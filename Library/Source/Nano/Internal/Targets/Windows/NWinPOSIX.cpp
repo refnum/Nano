@@ -19,6 +19,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <direct.h>
+#include <process.h>
 
 #include "NTargetPOSIX.h"
 
