@@ -170,6 +170,10 @@ static const TCHAR *kHTTP_POST										= L"POST";
 static const NTime kNServiceBrowseUpdateTime						= 1.1;
 
 
+// Sockets
+static const SOCKET kSocketHandleInvalid							= NULL;
+
+
 
 
 
@@ -208,7 +212,16 @@ typedef NServiceBrowserList::const_iterator							NServiceBrowserListConstIterat
 
 // Sockets
 typedef struct NSocketInfo {
-	NSocket						   *theSocket;
+	NSocket						   *nanoSocket;
+	SOCKET							nativeSocket;
+// dair
+//	NSocketRef						parentSocket;
+//
+//	NStatus							streamErr;
+//	bool							streamsOpen;
+//	CFReadStreamRef					cfStreamRead;
+//	CFWriteStreamRef				cfStreamWrite;
+
 } NSocketInfo;
 
 
@@ -952,13 +965,31 @@ void NTargetNetwork::SocketClose(NSocketRef theSocket)
 //      NTargetNetwork::SocketCanRead : Can a socket be read from?
 //----------------------------------------------------------------------------
 bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
-{
+{	struct timeval		theTimeout;
+	bool				canRead;
+	int					sysErr;
+	fd_set				fdSet;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketCanRead not implemented!");
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Get the state we need
+	FD_ZERO(&fdSet);
+	FD_SET(theSocket->nativeSocket, &fdSet);
 	
-	return(false);
+	memset(&theTimeout, 0x00, sizeof(theTimeout));
+
+
+
+	// Check the socket
+	sysErr  = select(theSocket->nativeSocket+1, &fdSet, NULL, NULL, &theTimeout);
+	canRead = (sysErr == 0 && FD_ISSET(theSocket->nativeSocket, &fdSet));
+	
+	return(canRead);
 }
 
 
@@ -969,13 +1000,31 @@ bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
 //      NTargetNetwork::SocketCanWrite : Can a socket be written to?
 //----------------------------------------------------------------------------
 bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
-{
+{	struct timeval		theTimeout;
+	bool				canWrite;
+	int					sysErr;
+	fd_set				fdSet;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketCanWrite not implemented!");
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Get the state we need
+	FD_ZERO(&fdSet);
+	FD_SET(theSocket->nativeSocket, &fdSet);
 	
-	return(false);
+	memset(&theTimeout, 0x00, sizeof(theTimeout));
+
+
+
+	// Check the socket
+	sysErr   = select(theSocket->nativeSocket+1, NULL, &fdSet, NULL, &theTimeout);
+	canWrite = (sysErr == 0 && FD_ISSET(theSocket->nativeSocket, &fdSet));
+
+	return(canWrite);
 }
 
 
@@ -986,13 +1035,21 @@ bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
 //      NTargetNetwork::SocketRead : Read from a socket.
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *thePtr)
-{
+{	NIndex	numRead;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketRead not implemented!");
-	
-	return(0);
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Read from the socket
+	numRead = recv(theSocket->nativeSocket, (char *) thePtr, theSize, 0);
+	if (numRead == SOCKET_ERROR)
+		numRead = 0;
+
+	return(numRead);
 }
 
 
@@ -1003,13 +1060,21 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 //      NTargetNetwork::SocketWrite : Write to a socket.
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const void *thePtr)
-{
+{	NIndex	numWritten;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketWrite not implemented!");
-	
-	return(0);
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Write to the socket
+	numWritten = send(theSocket->nativeSocket, (const char *) thePtr, theSize, 0);
+	if (numWritten == SOCKET_ERROR)
+		numWritten = 0;
+
+	return(numWritten);
 }
 
 
@@ -1020,13 +1085,38 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 //      NTargetNetwork::SocketGetOption : Get a socket option.
 //----------------------------------------------------------------------------
 SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
-{
+{	int			valueSize;
+	BOOL		valueBool;
+	SInt32		theValue;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketGetOption not implemented!");
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Get the state we need
+	theValue = 0;
+
+
+
+	// Get the option
+	switch (theOption) {
+		case kNSocketNoDelay:
+			valueBool = false;
+			valueSize = sizeof(valueBool);
+
+			if (getsockopt(theSocket->nativeSocket, IPPROTO_TCP, TCP_NODELAY, (char *) &valueBool, &valueSize) == 0)
+				theValue = (bool) (valueBool != FALSE);
+			break;
+
+		default:
+			NN_LOG("Unknown option: %d", theOption);
+			break;
+		}
 	
-	return(0);
+	return(theValue);
 }
 
 
@@ -1037,15 +1127,36 @@ SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOp
 //      NTargetNetwork::SocketSetOption : Set a socket option.
 //----------------------------------------------------------------------------
 NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue)
-{
+{	BOOL		valueBool;
+	NStatus		theErr;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketSetOption not implemented!");
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Get the state we need
+	theErr = kNErrNotSupported;
+
+
+
+	// Set the option
+	switch (theOption) {
+		case kNSocketNoDelay:
+			valueBool = (theValue != 0);
+
+			if (setsockopt(theSocket->nativeSocket, IPPROTO_TCP, TCP_NODELAY, (const char *) &valueBool, sizeof(valueBool)) == 0)
+				theErr = kNoErr;
+			break;
+
+		default:
+			NN_LOG("Unknown option: %d", theOption);
+			break;
+		}
 	
-	return(kNErrNotSupported);
+	return(theErr);
 }
-
-
 
 
