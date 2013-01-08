@@ -67,14 +67,14 @@ protected:
 	//
 	// Servers respond to connection requests with a dictionary of their state.
 	//
-	// Clients should return true/false as they wish to continue connecting to
-	// this server, and can provide their own dictionary that the server may use
-	// to accept or reject the client in turn.
+	// Clients should return as they wish to continue connecting to this server,
+	// and can provide their own dictionary that the server may use to accept or
+	// reject the client in turn.
 	//
 	// Sub-classes should call through before performing their own validation.
 	//
 	// Invoked on an internal thread.
-	virtual bool						AcceptConnection(const NDictionary &serverInfo, NDictionary &clientInfo);
+	virtual NStatus						AcceptConnection(const NDictionary &serverInfo, NDictionary &clientInfo);
 
 
 	// The client has connected/disconnected

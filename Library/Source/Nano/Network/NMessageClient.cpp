@@ -143,12 +143,12 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 //		NMessageClient::AcceptConnection : Accept the connection.
 //----------------------------------------------------------------------------
 #pragma mark -
-bool NMessageClient::AcceptConnection(const NDictionary &/*serverInfo*/, NDictionary &/*clientInfo*/)
+NStatus NMessageClient::AcceptConnection(const NDictionary &/*serverInfo*/, NDictionary &/*clientInfo*/)
 {
 
 
 	// Accept the connection
-	return(true);
+	return(kNoErr);
 }
 
 
@@ -321,7 +321,10 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 	// Accept the connection
-	if (!AcceptConnection(msgServerInfo.GetProperties(), clientInfo))
+	//
+	// Clients which do not wish to proceed may disconnect at this point.
+	theErr = AcceptConnection(msgServerInfo.GetProperties(), clientInfo);
+	if (theErr != kNoErr)
 		{
 		theSocket->Close(kNoErr);
 		return;
