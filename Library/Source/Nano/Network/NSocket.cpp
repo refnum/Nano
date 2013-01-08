@@ -162,11 +162,6 @@ void NSocket::Close(NStatus theErr)
 
 
 
-	// Validate our state
-	NN_ASSERT(mStatus == kNSocketOpened);
-
-
-
 	// Close the socket
 	SocketDidClose(theErr);
 }
