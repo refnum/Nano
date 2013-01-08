@@ -159,7 +159,7 @@ typedef void (DNSSD_API *DNSServiceRefDeallocateProc)
 //		Internal constants
 //-----------------------------------------------------------------------------
 // URL Response
-static const NIndex kHTTP_BufferSize								= 16 * kKilobyte;
+static const NIndex kHTTP_BufferSize								= 16 * kNKilobyte;
 static const TCHAR *kHTTP_AllTypes[]								= { L"*/*", NULL };
 static const TCHAR *kHTTP_GET										= L"GET";
 static const TCHAR *kHTTP_HEAD										= L"HEAD";
