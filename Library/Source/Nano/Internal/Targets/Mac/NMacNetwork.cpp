@@ -1452,7 +1452,7 @@ NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theO
 	// Set the option
 	switch (theOption) {
 		case kNSocketNoDelay:
-			valueInt = (theValue ? 1 : 0);
+			valueInt = (theValue != 0) ? 1 : 0;
 
 			if (setsockopt(theSocket->nativeSocket, IPPROTO_TCP, TCP_NODELAY, &valueInt, sizeof(valueInt)) == 0)
 				theErr = kNoErr;
