@@ -77,13 +77,10 @@ UINT NWinTarget::ConvertFilePermission(NFilePermission thePermission)
 
 
 	// Convert the value
-	//
-	// To obtain append-rather-than-overwrite behaviour when writing,
-	// we need to request FILE_APPEND_DATA rather than FILE_WRITE_DATA.
 	switch (thePermission) {
-		case kNPermissionRead:			theResult = FILE_READ_DATA;							break;
-		case kNPermissionWrite:			theResult = FILE_APPEND_DATA;						break;
-		case kNPermissionUpdate:		theResult = FILE_READ_DATA | FILE_APPEND_DATA;		break;
+		case kNPermissionRead:		theResult = FILE_GENERIC_READ;							break;
+		case kNPermissionWrite:		theResult = FILE_GENERIC_WRITE;							break;
+		case kNPermissionUpdate:	theResult = FILE_GENERIC_READ | FILE_GENERIC_WRITE;		break;
 
 		default:
 			NN_LOG("Unable to convert %ld", thePermission);
