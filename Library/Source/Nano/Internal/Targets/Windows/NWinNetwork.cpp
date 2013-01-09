@@ -170,10 +170,6 @@ static const TCHAR *kHTTP_POST										= L"POST";
 static const NTime kNServiceBrowseUpdateTime						= 1.1;
 
 
-// Sockets
-static const SOCKET kSocketHandleInvalid							= NULL;
-
-
 
 
 
@@ -973,7 +969,7 @@ bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
 
 
 
@@ -1008,7 +1004,7 @@ bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
 
 
 
@@ -1040,7 +1036,7 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
 
 
 
@@ -1065,7 +1061,7 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
 
 
 
@@ -1092,7 +1088,7 @@ SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOp
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
 
 
 
@@ -1133,7 +1129,7 @@ NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theO
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
 
 
 
