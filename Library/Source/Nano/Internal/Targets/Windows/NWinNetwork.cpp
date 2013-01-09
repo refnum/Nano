@@ -16,10 +16,12 @@
 //----------------------------------------------------------------------------
 #include <Winhttp.h>
 #include <Winsock2.h>
+#include <Mswsock.h>
 
 #include "NThread.h"
 #include "NWindows.h"
 #include "NAtomicList.h"
+#include "NTargetThread.h"
 #include "NTargetNetwork.h"
 
 
@@ -30,7 +32,6 @@
 //		Windows
 //----------------------------------------------------------------------------
 // Work around Visual Studio header bug:
-//
 //
 //	http://social.msdn.microsoft.com/Forums/en/windowssdk/thread/8f468d9f-3f15-452c-803d-fc63ab3f684e
 //
@@ -158,6 +159,10 @@ typedef void (DNSSD_API *DNSServiceRefDeallocateProc)
 //=============================================================================
 //		Internal constants
 //-----------------------------------------------------------------------------
+// Misc
+static const NTime kNetworkSleepTime								= 0.1f;
+
+
 // URL Response
 static const NIndex kHTTP_BufferSize								= 16 * kNKilobyte;
 static const TCHAR *kHTTP_AllTypes[]								= { L"*/*", NULL };
@@ -218,6 +223,7 @@ typedef struct NSocketInfo {
 //	CFReadStreamRef					cfStreamRead;
 //	CFWriteStreamRef				cfStreamWrite;
 
+	OVERLAPPED						eventOpen;
 } NSocketInfo;
 
 
@@ -239,6 +245,26 @@ static DNSServiceResolveProc		gDNSServiceResolve				= NULL;
 static DNSServiceRefSockFDProc		gDNSServiceRefSockFD			= NULL;
 static DNSServiceProcessResultProc	gDNSServiceProcessResult		= NULL;
 static DNSServiceRefDeallocateProc	gDNSServiceRefDeallocate		= NULL;
+
+
+// Sockets
+static LPFN_ACCEPTEX	gAcceptEx									= NULL;
+static LPFN_CONNECTEX	gConnectEx									= NULL;
+
+static NSpinLock    gSocketLock;
+static NIndex       gSocketCount									= 0;
+static SOCKET       gSocketFuncs                                    = INVALID_SOCKET;
+static HANDLE       gSocketIOCP										= NULL;
+static bool			gSocketRunning									= false;
+
+
+
+
+
+//============================================================================
+//      Internal functions
+//----------------------------------------------------------------------------
+static void SocketTerminate(void);
 
 
 
@@ -519,6 +545,424 @@ static void DNSSD_API NetworkServiceBrowseReply(	DNSServiceRef			/*theService*/,
 
 	// Dispatch the event
 	theBrowser->theFunctor(theEvent);
+}
+
+
+
+
+
+//============================================================================
+///		SocketInitialise : Initialise socket support.
+//----------------------------------------------------------------------------
+static bool SocketInitialise(void)
+{	GUID		guidAcceptEx  = WSAID_ACCEPTEX;
+	GUID		guidConnectEx = WSAID_CONNECTEX;
+	WSADATA		winSockInfo;
+	DWORD		theSize;
+	int			winErr;
+
+
+
+	// Initialise WinSock
+	winErr = WSAStartup(MAKEWORD(2, 2), &winSockInfo);
+	if (winErr != ERROR_SUCCESS)
+		return(false);
+
+
+
+	// Load the extension functions
+	//
+	// We assume that extension functions can be shared between sockets; as
+	// all of our sockets use the same version of WinSock, this should be OK.
+	gSocketFuncs = socket(AF_INET, SOCK_STREAM, 0);
+	winErr       = (gSocketFuncs != INVALID_SOCKET) ? ERROR_SUCCESS : WSAGetLastError();
+
+	winErr |= WSAIoctl(gSocketFuncs, SIO_GET_EXTENSION_FUNCTION_POINTER, &guidAcceptEx,  sizeof(guidAcceptEx),  &gAcceptEx,  sizeof(gAcceptEx),  &theSize, NULL, NULL);
+	winErr |= WSAIoctl(gSocketFuncs, SIO_GET_EXTENSION_FUNCTION_POINTER, &guidConnectEx, sizeof(guidConnectEx), &gConnectEx, sizeof(gConnectEx), &theSize, NULL, NULL);
+
+	if (winErr != ERROR_SUCCESS)
+		{
+		SocketTerminate();
+		return(false);
+		}
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+///		SocketTerminate : Terminate socket support.
+//----------------------------------------------------------------------------
+static void SocketTerminate(void)
+{	int		winErr;
+
+
+
+	// Clean up
+	if (gSocketFuncs != INVALID_SOCKET)
+		{
+		winErr = closesocket(gSocketFuncs);
+		NN_ASSERT_NOERR(gSocketFuncs);
+		}
+
+	winErr = WSACleanup();
+	NN_ASSERT_NOERR(winErr);
+
+
+
+	// Update our state
+	gAcceptEx    = NULL;
+	gConnectEx   = NULL;
+	gSocketFuncs = INVALID_SOCKET;
+}
+
+
+
+
+
+//============================================================================
+///		SocketThread : Socket thread.
+//----------------------------------------------------------------------------
+static void SocketThread(void)
+{	NSocketRef			theSocket;
+	LPOVERLAPPED		theEvent;
+	DWORD				numBytes;
+	BOOL				wasOK;
+
+
+
+	// Validate our state
+	NN_ASSERT(gSocketIOCP != NULL);
+
+
+
+	// Update our state
+	gSocketRunning = true;
+
+
+
+	// Run the thread
+	while (true)
+		{
+		// Wait for an event
+		wasOK = GetQueuedCompletionStatus(gSocketIOCP, &numBytes, (PULONG_PTR) &theSocket, &theEvent, INFINITE);
+		if (!wasOK || theSocket == NULL)
+			break;
+
+
+
+		// Handle the event
+		if (theEvent == &theSocket->eventOpen)
+			{
+			NN_LOG("got open event");
+			}
+		
+		else
+			NN_LOG("Unknown event on socket!");
+		}
+
+
+
+	// Update our state
+	gSocketRunning = false;
+}
+
+
+
+
+
+//============================================================================
+///		SocketThreadAdd : Add the socket thread.
+//----------------------------------------------------------------------------
+static bool SocketThreadAdd(void)
+{	StLock		acquireLock(gSocketLock);
+	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(gSocketCount >= 0);
+
+
+
+	// Increment the instance count
+	gSocketCount++;
+
+
+
+	// Start the thread
+	if (gSocketCount == 1)
+		{
+		// Initialise WinSock
+		if (!SocketInitialise())
+			{
+			gSocketCount = 0;
+			return(false);
+			}
+
+
+
+		// Initialise the port			
+		NN_ASSERT(gSocketIOCP == NULL);
+
+		gSocketIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
+		if (gSocketIOCP == NULL)
+			{
+			SocketTerminate();
+
+			gSocketCount = 0;
+			return(false);
+			}
+
+
+
+		// Start the thread
+		if (gSocketIOCP != NULL)
+			{
+			theErr = NTargetThread::ThreadCreate(BindFunction(SocketThread));
+
+			while (theErr == kNoErr && !gSocketRunning)
+				NTargetThread::ThreadSleep(kNetworkSleepTime);
+			}
+		}
+
+	return(gSocketRunning);
+}
+
+
+
+
+
+//============================================================================
+///		SocketThreadRemove : Remove the socket thread.
+//----------------------------------------------------------------------------
+static void SocketThreadRemove(void)
+{	StLock		acquireLock(gSocketLock);
+	bool		wasOK;
+
+
+
+	// Validate our state
+	NN_ASSERT(gSocketCount >= 1);
+	NN_ASSERT(gSocketIOCP  != NULL);
+
+
+
+	// Decrement the instance count
+	gSocketCount--;
+
+
+
+	// Stop the thread
+	if (gSocketCount == 0)
+		{
+		// Stop the thread
+		PostQueuedCompletionStatus(gSocketIOCP, 0, NULL, NULL);
+
+		while (gSocketRunning)
+			NTargetThread::ThreadSleep(kNetworkSleepTime);
+
+
+
+		// Clean up
+		wasOK = (CloseHandle(gSocketIOCP) == TRUE);
+		NN_ASSERT(wasOK);
+
+		SocketTerminate();
+		}
+}
+
+
+
+
+
+//============================================================================
+///		SocketCreate : Create a socket reference.
+//----------------------------------------------------------------------------
+static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocketRef parentSocket)
+{	NSocketRef		theSocket;
+
+
+
+	// Create the socket
+	theSocket                = new NSocketInfo;
+	theSocket->nanoSocket    = nanoSocket;
+	theSocket->nativeSocket  = nativeSocket;
+// dair
+//	theSocket->parentSocket  = parentSocket;
+//	theSocket->streamErr     = kNoErr;
+//	theSocket->streamsOpen   = false;
+//	theSocket->cfStreamRead  = NULL;
+//	theSocket->cfStreamWrite = NULL;
+
+	memset(&theSocket->eventOpen, 0x00, sizeof(theSocket->eventOpen));
+
+	return(theSocket);
+}
+
+
+
+
+
+//============================================================================
+///		SocketCreateListening : Create a listening socket.
+//----------------------------------------------------------------------------
+static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
+{
+// dair, to do
+return(false);
+/*
+	NCFObject				cfSocket, cfSource;
+	CFSocketSignature		theSignature;
+	NCFObject				addressData;
+	CFSocketContext			theContext;
+	struct sockaddr_in		theAddress;
+	int						theValue;
+	bool					isOK;
+
+
+
+	// Get the state we need
+	memset(&theContext, 0x00, sizeof(theContext));
+	theContext.info = theSocket;
+
+
+
+	// Create the address
+	theAddress.sin_len         = sizeof(theAddress);
+	theAddress.sin_family      = AF_INET;
+	theAddress.sin_addr.s_addr = INADDR_ANY;
+	theAddress.sin_port        = htons(thePort);
+
+	isOK = addressData.SetObject(CFDataCreate(kCFAllocatorNano,  (const UInt8 *) &theAddress, sizeof(theAddress)));
+
+	if (isOK)
+		{
+		theSignature.protocolFamily = AF_INET;
+		theSignature.socketType     = SOCK_STREAM;
+		theSignature.protocol       = IPPROTO_TCP;
+		theSignature.address        = addressData;
+		}
+
+
+
+	// Create the socket
+	if (isOK)
+		isOK = cfSocket.SetObject(CFSocketCreateWithSocketSignature(kCFAllocatorNano, &theSignature, kCFSocketAcceptCallBack, SocketEvent, &theContext));
+
+	if (isOK)
+		{
+		theSocket->nativeSocket = CFSocketGetNative(cfSocket);
+		theValue                = 1;
+
+		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &theValue, sizeof(theValue));
+		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &theValue, sizeof(theValue));
+		}
+	else
+		NN_LOG("Failed to create listening socket on port %d!", thePort);
+
+
+
+	// Register for events
+	if (isOK)
+		isOK = cfSource.SetObject(CFSocketCreateRunLoopSource(kCFAllocatorNano, cfSocket, 0));
+
+	if (isOK)
+		CFRunLoopAddSource(gSocketRunLoop, cfSource, kCFRunLoopDefaultMode);
+
+
+
+	// Open the socket
+	if (isOK)
+		theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
+
+	return(isOK);
+*/
+}
+
+
+
+
+
+//============================================================================
+///		SocketCreateConnecting : Create a connecting socket.
+//----------------------------------------------------------------------------
+static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, UInt16 thePort)
+{	struct sockaddr_in		localAddress, remoteAddress;
+	struct hostent			*hostInfo;
+
+
+
+	// Resolve the address
+	hostInfo = gethostbyname(theHost.GetUTF8());
+	if (hostInfo == NULL)
+		return(false);
+
+	memset(&remoteAddress, 0x00, sizeof(remoteAddress));
+	memcpy(&remoteAddress.sin_addr.s_addr, hostInfo->h_addr, hostInfo->h_length);
+
+	remoteAddress.sin_family = AF_INET;
+	remoteAddress.sin_port   = htons(thePort);
+
+
+
+	// Create the socket
+	theSocket->nativeSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
+	if (theSocket->nativeSocket == INVALID_SOCKET)
+		return(false);
+
+	if (CreateIoCompletionPort((HANDLE) theSocket->nativeSocket, gSocketIOCP, (ULONG_PTR) theSocket, 0) == NULL)
+		return(false);
+
+
+
+	// Bind the socket
+	//
+	// Unlike connect(), ConnectEx() requires that the local socket be bound.
+	memset(&localAddress, 0x00, sizeof(localAddress));
+
+	localAddress.sin_family      = AF_INET;
+	localAddress.sin_addr.s_addr = INADDR_ANY;
+
+	if (bind(theSocket->nativeSocket, (sockaddr *) &localAddress, sizeof(localAddress)) != 0)
+		return(false);
+
+
+
+	// Open the socket
+	if (!gConnectEx(theSocket->nativeSocket, (sockaddr *) &remoteAddress, sizeof(remoteAddress), NULL, 0, NULL, &theSocket->eventOpen))
+		{
+		if (WSAGetLastError() != ERROR_IO_PENDING)
+			return(false);
+		}
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//      SocketDestroy : Destroy a socket.
+//----------------------------------------------------------------------------
+static void SocketDestroy(NSocketRef theSocket)
+{
+
+
+	// Destroy the socket
+	if (theSocket->nativeSocket != INVALID_SOCKET)
+		closesocket(theSocket->nativeSocket);
+
+	delete theSocket;
+
+
+
+	// Remove the thread
+	SocketThreadRemove();
 }
 
 
@@ -923,14 +1367,36 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 //============================================================================
 //      NTargetNetwork::SocketOpen : Open a socket.
 //----------------------------------------------------------------------------
-NSocketRef NTargetNetwork::SocketOpen(NSocket *socketObject, const NString &theHost, UInt16 thePort)
-{
+NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, UInt16 thePort)
+{	NSocketRef		theSocket;
+	bool			isOK;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketOpen not implemented!");
+
+	// Create the thread
+	if (!SocketThreadAdd())
+		return(NULL);
+
+
+
+	// Create the socket
+	theSocket = SocketCreate(nanoSocket, INVALID_SOCKET, NULL);
+
+	if (theHost.IsEmpty())
+		isOK = SocketCreateListening( theSocket, thePort);
+	else
+		isOK = SocketCreateConnecting(theSocket, theHost, thePort);
+
+
+
+	// Handle failure
+	if (!isOK)
+		{
+		SocketDestroy(theSocket);
+		theSocket = NULL;
+		}
 	
-	return(NULL);
+	return(theSocket);
 }
 
 
@@ -944,8 +1410,8 @@ void NTargetNetwork::SocketClose(NSocketRef theSocket)
 {
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketClose not implemented!");
+	// Close the socket
+	SocketDestroy(theSocket);
 }
 
 
