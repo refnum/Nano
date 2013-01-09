@@ -35,8 +35,11 @@
 //============================================================================
 //      Internal constants
 //----------------------------------------------------------------------------
+// Misc
 static const NTime kNetworkSleepTime								= 0.1f;
 
+
+// Sockets
 static const CFSocketNativeHandle kSocketHandleInvalid				= -1;
 
 static const CFOptionFlags kSocketStreamEvents						= kCFStreamEventOpenCompleted		|
@@ -85,6 +88,7 @@ typedef struct NSocketInfo {
 //============================================================================
 //      Internal globals
 //----------------------------------------------------------------------------
+// Sockets
 static NSpinLock    gSocketLock;
 static NIndex       gSocketCount									= 0;
 static CFRunLoopRef gSocketRunLoop									= NULL;
@@ -908,7 +912,7 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 		NN_ASSERT(isOK);
 		}
 
-	return(theSocket);
+	return(isOK);
 }
 
 
