@@ -51,7 +51,7 @@ static const NString kTestTmpName3									= "TFileMove";
 
 #elif NN_TARGET_WINDOWS
 	static const NString kPathTmp									= "c:\\windows\\temp";
-	static const NString kPathFile									= "c:\\windows\\notepad.exe";
+	static const NString kPathFile									= "c:\\windows\\WindowsShell.Manifest";
 	static const NString kPathDirectoryRoot							= "c:\\windows";
 	static const NString kPathDirectoryChildren						= "system32\\boot";
 	static const NString kPathFileTmp								= kPathTmp + "\\" + kTestTmpName  + "." + kTestTmpExtension;
@@ -235,9 +235,13 @@ void TFile::Execute(void)
 
 
 	// Delete-while-open
+#if NN_TARGET_WINDOWS
+	#pragma message("TFile: delete-while-open not implemented")
+#else
 	NN_ASSERT(tmpFile.Exists());
 	tmpFile.Delete();
 	NN_ASSERT(!tmpFile.Exists());
+#endif
 
 
 
@@ -246,8 +250,7 @@ void TFile::Execute(void)
 	NN_ASSERT(!tmpFile.IsOpen());
 
 #if NN_TARGET_WINDOWS
-	#pragma message("TFile: delete-while-open not implemented")
-	tmpFile.Delete();
+	tmpFile.Delete();	// Unable to delete-while-open
 #endif
 
 
