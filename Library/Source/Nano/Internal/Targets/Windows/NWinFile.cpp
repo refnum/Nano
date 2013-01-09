@@ -491,6 +491,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 {	NData				pathList;
 	SHFILEOPSTRUCT		fileOp;
+	NStatus				theErr;
 	BOOL				wasOK;
 
 
@@ -520,7 +521,12 @@ NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 			wasOK = DeleteFile(ToWN(thePath));
 		}
 
-	return(wasOK ? kNoErr : kNErrPermission);
+
+
+	// Get the result
+	theErr = wasOK ? kNoErr : NWinTarget::GetLastError();
+
+	return(theErr);
 }
 
 
