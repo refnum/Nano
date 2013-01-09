@@ -167,7 +167,7 @@ static const TCHAR *kHTTP_POST										= L"POST";
 
 
 // Network services
-static const NTime kNServiceBrowseUpdateTime						= 1.1;
+static const NTime kNServiceBrowseUpdateTime						= 1.3;
 
 
 
@@ -391,7 +391,6 @@ static void NetworkServiceUpdateBrowsers(void)
 
 	// Check for events
 	sysErr = select(numFDs, &readFDs, NULL, NULL, &theTimeout);
-	
 	if (sysErr <= 0)
 		return;
 
@@ -869,7 +868,7 @@ NServiceBrowserRef NTargetNetwork::ServiceBrowserCreate(const NString &serviceTy
 		if (gDNSServiceBrowsers.size() == 1)
 			{
 			NN_ASSERT(!gDNSServiceTimer->HasTimer());
-			gDNSServiceTimer->AddTimer(BindFunction(NetworkServiceUpdateBrowsers), kNServiceBrowseUpdateTime);
+			gDNSServiceTimer->AddTimer(BindFunction(NetworkServiceUpdateBrowsers), kNServiceBrowseUpdateTime, kNServiceBrowseUpdateTime);
 			}
 		}
 
