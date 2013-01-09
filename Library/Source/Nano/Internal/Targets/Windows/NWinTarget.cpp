@@ -46,8 +46,10 @@ NStatus NWinTarget::ConvertHRESULT(HRESULT winErr)
 	// Convert the value
 	switch (winErr) {
 		case ERROR_SUCCESS:				theErr = kNoErr;				break;
+		case ERROR_SHARING_VIOLATION:	theErr = kNErrBusy;				break;
 		case ERROR_FILE_NOT_FOUND:		theErr = kNErrNotFound;			break;
 		case ERROR_PATH_NOT_FOUND:		theErr = kNErrNotFound;			break;
+		case ERROR_ENVVAR_NOT_FOUND:	theErr = kNErrNotFound;			break;
 		case ERROR_ACCESS_DENIED:		theErr = kNErrPermission;		break;
 		case ERROR_HANDLE_EOF:			theErr = kNErrExhaustedSrc;		break;
 		case ERROR_ALREADY_EXISTS:		theErr = kNErrDuplicate;		break;
