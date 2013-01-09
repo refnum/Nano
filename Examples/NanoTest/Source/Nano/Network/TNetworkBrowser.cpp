@@ -55,7 +55,14 @@ void TNetworkBrowser::Execute(void)
 
 	// Browse for services
 	theBrowser.StartBrowsing();
+
+#if NN_TARGET_MAC
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
+#elif NN_TARGET_WINDOWS
+	NThread::Sleep(1);
+#else
+	UNKNOWN TARGET
+#endif
 
 	if (0)
 		NN_LOG(theResult);
