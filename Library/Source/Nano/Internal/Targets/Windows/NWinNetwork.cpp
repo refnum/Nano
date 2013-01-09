@@ -225,30 +225,6 @@ typedef struct NSocketInfo {
 
 
 //============================================================================
-//      Globals
-//----------------------------------------------------------------------------
-// Network services
-//
-// Semi-public to allow for embedded Bonjour usage.
-//
-// This may be removed in future, in favour of linking a glue version of
-// Bonjour into Nano (which would load the DLL if present, or invoke an
-// embedded version if not).
-//
-// The standard Bonjour SDK is difficult to use, due to its requirements of
-// MFC and a particular flavour of VC++ runtime library.
-DNSServiceRegisterProc		gDNSServiceRegister						= NULL;
-DNSServiceBrowseProc		gDNSServiceBrowse						= NULL;
-DNSServiceResolveProc		gDNSServiceResolve						= NULL;
-DNSServiceRefSockFDProc		gDNSServiceRefSockFD					= NULL;
-DNSServiceProcessResultProc	gDNSServiceProcessResult				= NULL;
-DNSServiceRefDeallocateProc	gDNSServiceRefDeallocate				= NULL;
-
-
-
-
-
-//============================================================================
 //      Internal globals
 //----------------------------------------------------------------------------
 // Network services
@@ -256,6 +232,13 @@ static NSpinLock			gDNSServiceLock;
 static NServiceBrowserList	gDNSServiceBrowsers;
 static bool					gDNSServiceInitialised					= false;
 static NTimer			   *gDNSServiceTimer						= NULL;
+
+static DNSServiceRegisterProc		gDNSServiceRegister				= NULL;
+static DNSServiceBrowseProc			gDNSServiceBrowse				= NULL;
+static DNSServiceResolveProc		gDNSServiceResolve				= NULL;
+static DNSServiceRefSockFDProc		gDNSServiceRefSockFD			= NULL;
+static DNSServiceProcessResultProc	gDNSServiceProcessResult		= NULL;
+static DNSServiceRefDeallocateProc	gDNSServiceRefDeallocate		= NULL;
 
 
 
@@ -734,7 +717,18 @@ bool NTargetNetwork::ServicesAvailable(void)
 	// Load the library
 	if (!gDNSServiceInitialised)
 		{
-		hModule = LoadLibrary(L"dns-sd.dll");
+		// Load the library
+		//
+		// If we can't find the real library, we fall back to the application exe
+		// to allow apps to include their own copy of Bonjour within themselves.
+		//
+		// Note that since the dll uses __stdcall, any application hosted version
+		// of Bonjour must use a pragma (or a .def) to export the symbols without
+		// any __stdcall decoration.
+		hModule = LoadLibrary(L"dnssd.dll");
+		if (hModule == NULL)
+			hModule = GetModuleHandle(NULL);
+
 		if (hModule != NULL)
 			{
 			gDNSServiceRegister      = (DNSServiceRegisterProc)      GetProcAddress(hModule, "DNSServiceRegister");
@@ -745,6 +739,8 @@ bool NTargetNetwork::ServicesAvailable(void)
 			gDNSServiceRefDeallocate = (DNSServiceRefDeallocateProc) GetProcAddress(hModule, "DNSServiceRefDeallocate");
 			}
 
+
+		// Update our state
 		gDNSServiceInitialised = true;
 		gDNSServiceTimer       = new NTimer;
 		}
