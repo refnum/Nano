@@ -73,9 +73,8 @@ void TDateFormatter::Execute(void)
 
 
 #if NN_TARGET_WINDOWS
-	NN_LOG("Ignore next 5 asserts: NWinTime requires dates >= 1601");
-#endif
-
+	NN_LOG("Skipping BC tests: NWinTime requires dates >= 1601");
+#else
 	theResult = theFormatter.Format(kTestDate2, "G");
 	NN_ASSERT(theResult == "BC");
 	
@@ -90,6 +89,7 @@ void TDateFormatter::Execute(void)
 	
 	theResult = theFormatter.Format(kTestDate2, "GGGGG");
 	NN_ASSERT(theResult == "B");
+#endif
 
 
 
