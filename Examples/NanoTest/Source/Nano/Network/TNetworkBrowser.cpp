@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NNetworkService.h"
 
+#include "CTestUtilities.h"
 #include "TNetworkBrowser.h"
 
 
@@ -55,14 +56,7 @@ void TNetworkBrowser::Execute(void)
 
 	// Browse for services
 	theBrowser.StartBrowsing();
-
-#if NN_TARGET_MAC
-	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
-#elif NN_TARGET_WINDOWS
-	NThread::Sleep(1);
-#else
-	UNKNOWN TARGET
-#endif
+	CTestUtilities::ExecuteRunloop(2);
 
 	if (0)
 		NN_LOG(theResult);

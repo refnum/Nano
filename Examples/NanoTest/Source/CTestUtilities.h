@@ -31,6 +31,10 @@ public:
 	static NString						SetDebugCapture(bool captureDebug);
 
 
+	// Execute the runloop
+	static void							ExecuteRunloop(NTime waitFor);
+
+
 private:
 	static void							DebugOutputHook(const char *theMsg);
 

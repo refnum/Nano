@@ -53,6 +53,40 @@ NString CTestUtilities::SetDebugCapture(bool captureDebug)
 
 
 //============================================================================
+//		CTestUtilities::ExecuteRunloop : Execute the runloop.
+//----------------------------------------------------------------------------
+void CTestUtilities::ExecuteRunloop(NTime waitFor)
+{
+
+
+#if NN_TARGET_MAC
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, waitFor, false);
+
+
+#elif NN_TARGET_WINDOWS
+	NTime	endTime = NTimeUtilities::GetTime() + waitFor;
+	MSG		theMsg;
+	
+	while (GetMessage(&theMsg, NULL, 0, 0) && NTimeUtilities::GetTime() < endTime)
+		{
+		TranslateMessage(&theMsg);
+
+		DispatchMessage( &theMsg);
+
+		}
+
+
+
+#else
+	UNKNOWN RUNTIME
+#endif
+}
+
+
+
+
+
+//============================================================================
 //		CTestUtilities::DebugOutputHook : Debug output hook.
 //----------------------------------------------------------------------------
 #pragma mark -
