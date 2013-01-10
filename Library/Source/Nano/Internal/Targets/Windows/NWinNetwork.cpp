@@ -175,6 +175,10 @@ static const TCHAR *kHTTP_POST										= L"POST";
 static const NTime kNServiceBrowseUpdateTime						= 1.3;
 
 
+// Sockets
+static const NIndex kNSocketMaxBufferSize							= 64 * kNKilobyte;
+
+
 
 
 
@@ -224,6 +228,14 @@ typedef struct NSocketInfo {
 //	CFWriteStreamRef				cfStreamWrite;
 
 	OVERLAPPED						eventOpen;
+	OVERLAPPED						eventRead;
+	OVERLAPPED						eventWrite;
+	
+	LONG							canRead;
+	LONG							canWrite;
+	
+	WSABUF							bufferZero;
+	NData							bufferWrite;
 } NSocketInfo;
 
 
@@ -255,7 +267,7 @@ static NSpinLock    gSocketLock;
 static NIndex       gSocketCount									= 0;
 static SOCKET       gSocketFuncs                                    = INVALID_SOCKET;
 static HANDLE       gSocketIOCP										= NULL;
-static bool			gSocketRunning									= false;
+static LONG			gSocketRunning									= false;
 
 
 
@@ -552,7 +564,25 @@ static void DNSSD_API NetworkServiceBrowseReply(	DNSServiceRef			/*theService*/,
 
 
 //============================================================================
-///		SocketInitialise : Initialise socket support.
+//		SocketErr : Process a socket error.
+//----------------------------------------------------------------------------
+int SocketErr(int winErr)
+{
+
+
+	// Process the error
+	if (winErr == SOCKET_ERROR)
+		winErr = WSAGetLastError();
+
+	return(winErr);
+}
+
+
+
+
+
+//============================================================================
+//		SocketInitialise : Initialise socket support.
 //----------------------------------------------------------------------------
 static bool SocketInitialise(void)
 {	GUID		guidAcceptEx  = WSAID_ACCEPTEX;
@@ -594,7 +624,7 @@ static bool SocketInitialise(void)
 
 
 //============================================================================
-///		SocketTerminate : Terminate socket support.
+//		SocketTerminate : Terminate socket support.
 //----------------------------------------------------------------------------
 static void SocketTerminate(void)
 {	int		winErr;
@@ -604,11 +634,11 @@ static void SocketTerminate(void)
 	// Clean up
 	if (gSocketFuncs != INVALID_SOCKET)
 		{
-		winErr = closesocket(gSocketFuncs);
-		NN_ASSERT_NOERR(gSocketFuncs);
+		winErr = SocketErr(closesocket(gSocketFuncs));
+		NN_ASSERT_NOERR(winErr);
 		}
 
-	winErr = WSACleanup();
+	winErr = SocketErr(WSACleanup());
 	NN_ASSERT_NOERR(winErr);
 
 
@@ -624,7 +654,75 @@ static void SocketTerminate(void)
 
 
 //============================================================================
-///		SocketThread : Socket thread.
+//		SocketTriggerRead : Trigger a read.
+//----------------------------------------------------------------------------
+static void SocketTriggerRead(NSocketRef theSocket)
+{	DWORD	theFlags;
+	int		winErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(!theSocket->canRead);
+
+
+
+	// Trigger the read
+	//
+	// A zero-byte read will trigger a completion when the socket can return data.
+	theFlags = 0;
+	winErr   = SocketErr(WSARecv(theSocket->nativeSocket, &theSocket->bufferZero, 1, NULL, &theFlags, &theSocket->eventRead, NULL));
+
+	switch (winErr) {
+		case ERROR_SUCCESS:
+		case WSA_IO_PENDING:
+			break;
+
+		default:
+			NN_LOG("Unable to trigger read: %d", winErr);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		SocketTriggerWrite : Trigger a write.
+//----------------------------------------------------------------------------
+static void SocketTriggerWrite(NSocketRef theSocket)
+{	int		winErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(!theSocket->canWrite);
+
+
+
+	// Trigger the write
+	//
+	// A zero-byte write will trigger a completion when the socket can accept data.
+	winErr = SocketErr(WSASend(theSocket->nativeSocket, &theSocket->bufferZero, 1, NULL, 0, &theSocket->eventWrite, NULL));
+
+	switch (winErr) {
+		case ERROR_SUCCESS:
+		case WSA_IO_PENDING:
+			break;
+
+		default:
+			NN_LOG("Unable to trigger write: %d", winErr);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		SocketThread : Socket thread.
 //----------------------------------------------------------------------------
 static void SocketThread(void)
 {	NSocketRef			theSocket;
@@ -640,11 +738,40 @@ static void SocketThread(void)
 
 
 	// Update our state
-	gSocketRunning = true;
+	InterlockedExchange(&gSocketRunning, TRUE);
 
 
 
 	// Run the thread
+	//
+	// NSocket is a 'reactor' model (notifications indicate when an operation can be
+	// performed), whereas IOCP is a 'proactor' model (notifications indicate when an
+	// operation has completed).
+	//
+	// To convert IOCP to a reactor model we use a zero-byte read/write after opening,
+	// which lets us know when a socket is ready to read/write data.
+	//
+	// Data reads are always performed synchronously, and once the available data has
+	// been drained we generate a final zero-byte read. Once that 'read' completes we
+	// know that the socket has more data and is ready for reading again.
+	//
+	// Data writes are always performed asynchronously, via a per-socket write buffer
+	// that holds the user's data while the write is active. Once the write has completed
+	// we can mark the socket as ready for writing again.
+	//
+	//
+	// The per-socket write buffer grows on demand to hold the largest write seen, but
+	// is flushed after a write if it becomes "too large" to ensure a 50Mb write doesn't
+	// keep a 50Mb buffer until the socket is closed.
+	//
+	// Since the IOCP operations run on a separate thread, we use a memory-barrier bool
+	// to change the socket state. This is primarily needed to drive writes, to ensure
+	// that the socket is put into the "can't accept writes" state before SocketWrite()
+	// calls WSASend().
+	//
+	// The call to WSASend may complete (on the IOCP thread) before WASend returns to
+	// SocketWrite, and so we need to ensure that SocketWrite's clearing of the canWrite
+	// flag happens behind a memory barrier and is never re-ordered.
 	while (true)
 		{
 		// Wait for an event
@@ -657,9 +784,30 @@ static void SocketThread(void)
 		// Handle the event
 		if (theEvent == &theSocket->eventOpen)
 			{
-			NN_LOG("got open event");
+			theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
+			SocketTriggerRead( theSocket);
+			SocketTriggerWrite(theSocket);
 			}
-		
+
+		else if (theEvent == &theSocket->eventRead)
+			{
+			NN_ASSERT(!theSocket->canRead);
+			InterlockedExchange(&theSocket->canRead, TRUE);
+
+			theSocket->nanoSocket->SocketEvent(kNSocketCanRead);
+			}
+
+		else if (theEvent == &theSocket->eventWrite)
+			{
+			if (theSocket->bufferWrite.GetSize() > kNSocketMaxBufferSize)
+				theSocket->bufferWrite.SetSize(kNSocketMaxBufferSize);
+
+			NN_ASSERT(!theSocket->canWrite);
+			InterlockedExchange(&theSocket->canWrite, TRUE);
+
+			theSocket->nanoSocket->SocketEvent(kNSocketCanWrite);
+			}
+
 		else
 			NN_LOG("Unknown event on socket!");
 		}
@@ -667,7 +815,7 @@ static void SocketThread(void)
 
 
 	// Update our state
-	gSocketRunning = false;
+	InterlockedExchange(&gSocketRunning, FALSE);
 }
 
 
@@ -675,7 +823,7 @@ static void SocketThread(void)
 
 
 //============================================================================
-///		SocketThreadAdd : Add the socket thread.
+//		SocketThreadAdd : Add the socket thread.
 //----------------------------------------------------------------------------
 static bool SocketThreadAdd(void)
 {	StLock		acquireLock(gSocketLock);
@@ -729,7 +877,7 @@ static bool SocketThreadAdd(void)
 			}
 		}
 
-	return(gSocketRunning);
+	return(gSocketRunning == TRUE);
 }
 
 
@@ -737,7 +885,7 @@ static bool SocketThreadAdd(void)
 
 
 //============================================================================
-///		SocketThreadRemove : Remove the socket thread.
+//		SocketThreadRemove : Remove the socket thread.
 //----------------------------------------------------------------------------
 static void SocketThreadRemove(void)
 {	StLock		acquireLock(gSocketLock);
@@ -780,7 +928,7 @@ static void SocketThreadRemove(void)
 
 
 //============================================================================
-///		SocketCreate : Create a socket reference.
+//		SocketCreate : Create a socket reference.
 //----------------------------------------------------------------------------
 static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocketRef parentSocket)
 {	NSocketRef		theSocket;
@@ -798,7 +946,15 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocket
 //	theSocket->cfStreamRead  = NULL;
 //	theSocket->cfStreamWrite = NULL;
 
-	memset(&theSocket->eventOpen, 0x00, sizeof(theSocket->eventOpen));
+	theSocket->canRead  = FALSE;
+	theSocket->canWrite = FALSE;
+
+	theSocket->bufferZero.len = 0;
+	theSocket->bufferZero.buf = (CHAR *) &theSocket->bufferZero;
+
+	memset(&theSocket->eventOpen,  0x00, sizeof(theSocket->eventOpen));
+	memset(&theSocket->eventRead,  0x00, sizeof(theSocket->eventRead));
+	memset(&theSocket->eventWrite, 0x00, sizeof(theSocket->eventWrite));
 
 	return(theSocket);
 }
@@ -808,7 +964,7 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocket
 
 
 //============================================================================
-///		SocketCreateListening : Create a listening socket.
+//		SocketCreateListening : Create a listening socket.
 //----------------------------------------------------------------------------
 static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 {
@@ -888,11 +1044,12 @@ return(false);
 
 
 //============================================================================
-///		SocketCreateConnecting : Create a connecting socket.
+//		SocketCreateConnecting : Create a connecting socket.
 //----------------------------------------------------------------------------
 static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, UInt16 thePort)
 {	struct sockaddr_in		localAddress, remoteAddress;
 	struct hostent			*hostInfo;
+	int						winErr;
 
 
 
@@ -935,7 +1092,8 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 	// Open the socket
 	if (!gConnectEx(theSocket->nativeSocket, (sockaddr *) &remoteAddress, sizeof(remoteAddress), NULL, 0, NULL, &theSocket->eventOpen))
 		{
-		if (WSAGetLastError() != ERROR_IO_PENDING)
+		winErr = WSAGetLastError();
+		if (winErr != ERROR_IO_PENDING)
 			return(false);
 		}
 
@@ -950,12 +1108,16 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 //      SocketDestroy : Destroy a socket.
 //----------------------------------------------------------------------------
 static void SocketDestroy(NSocketRef theSocket)
-{
+{	int		winErr;
+
 
 
 	// Destroy the socket
 	if (theSocket->nativeSocket != INVALID_SOCKET)
-		closesocket(theSocket->nativeSocket);
+		{
+		winErr = SocketErr(closesocket(theSocket->nativeSocket));
+		NN_ASSERT_NOERR(winErr);
+		}
 
 	delete theSocket;
 
@@ -1422,31 +1584,11 @@ void NTargetNetwork::SocketClose(NSocketRef theSocket)
 //      NTargetNetwork::SocketCanRead : Can a socket be read from?
 //----------------------------------------------------------------------------
 bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
-{	struct timeval		theTimeout;
-	bool				canRead;
-	int					sysErr;
-	fd_set				fdSet;
+{
 
 
-
-	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
-
-
-
-	// Get the state we need
-	FD_ZERO(&fdSet);
-	FD_SET(theSocket->nativeSocket, &fdSet);
-	
-	memset(&theTimeout, 0x00, sizeof(theTimeout));
-
-
-
-	// Check the socket
-	sysErr  = select(theSocket->nativeSocket+1, &fdSet, NULL, NULL, &theTimeout);
-	canRead = (sysErr == 0 && FD_ISSET(theSocket->nativeSocket, &fdSet));
-	
-	return(canRead);
+	// Check our state
+	return(theSocket->canRead == TRUE);
 }
 
 
@@ -1457,31 +1599,11 @@ bool NTargetNetwork::SocketCanRead(NSocketRef theSocket)
 //      NTargetNetwork::SocketCanWrite : Can a socket be written to?
 //----------------------------------------------------------------------------
 bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
-{	struct timeval		theTimeout;
-	bool				canWrite;
-	int					sysErr;
-	fd_set				fdSet;
+{
 
 
-
-	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
-
-
-
-	// Get the state we need
-	FD_ZERO(&fdSet);
-	FD_SET(theSocket->nativeSocket, &fdSet);
-	
-	memset(&theTimeout, 0x00, sizeof(theTimeout));
-
-
-
-	// Check the socket
-	sysErr   = select(theSocket->nativeSocket+1, NULL, &fdSet, NULL, &theTimeout);
-	canWrite = (sysErr == 0 && FD_ISSET(theSocket->nativeSocket, &fdSet));
-
-	return(canWrite);
+	// Check our state
+	return(theSocket->canWrite == TRUE);
 }
 
 
@@ -1492,19 +1614,50 @@ bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
 //      NTargetNetwork::SocketRead : Read from a socket.
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *thePtr)
-{	NIndex	numRead;
+{	DWORD		numRead, theFlags;
+	WSABUF		theBuffer;
+	int			winErr;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
+	NN_ASSERT(theSocket->canRead);
+
+
+
+	// Get the state we need
+	theBuffer.len = theSize;
+	theBuffer.buf = (CHAR *) thePtr;
 
 
 
 	// Read from the socket
-	numRead = recv(theSocket->nativeSocket, (char *) thePtr, theSize, 0);
-	if (numRead == SOCKET_ERROR)
-		numRead = 0;
+	//
+	// Reads are always blocking; once the socket returns less data than we
+	// want, or reports that it would have to block, we use a zero-byte read
+	// to generate an event when more data has arrived.
+	//
+	// In practice reads always seem to return ERROR_SUCCESS+numRead=0 when
+	// the socket has been drained, but WSAEWOULDBLOCK is equivalent.
+	numRead  = 0;
+	theFlags = 0;
+	winErr   = SocketErr(WSARecv(theSocket->nativeSocket, &theBuffer, 1, &numRead, &theFlags, NULL, NULL));
+
+	switch (winErr) {
+		case ERROR_SUCCESS:
+		case WSAEWOULDBLOCK:
+			if (winErr == WSAEWOULDBLOCK || (NIndex) numRead < theSize)
+				{
+				InterlockedExchange(&theSocket->canRead, FALSE);
+				SocketTriggerRead(theSocket);
+				}
+			break;
+
+		default:
+			NN_LOG("Unable to read from socket: %d", winErr);
+			break;
+		}
 
 	return(numRead);
 }
@@ -1517,20 +1670,53 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 //      NTargetNetwork::SocketWrite : Write to a socket.
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const void *thePtr)
-{	NIndex	numWritten;
+{	NIndex		numWritten;
+	WSABUF		theBuffer;
+	int			winErr;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(theSocket->nativeSocket != INVALID_SOCKET);
+	NN_ASSERT(theSocket->canWrite);
+
+
+
+	// Get the state we need
+	if (theSize > theSocket->bufferWrite.GetSize())
+		theSocket->bufferWrite.SetSize(theSize);
+	
+	theBuffer.len = theSize;
+	theBuffer.buf = (CHAR *) theSocket->bufferWrite.GetData();
+
+	memcpy(theBuffer.buf, thePtr, theSize);
 
 
 
 	// Write to the socket
-	numWritten = send(theSocket->nativeSocket, (const char *) thePtr, theSize, 0);
-	if (numWritten == SOCKET_ERROR)
-		numWritten = 0;
+	//
+	// Writes are always non-blocking; the data to write is copied to a per-socket
+	// buffer, allowing the socket to write out of that buffer on its own thread.
+	//
+	// The socket must be marked as non-writeable (using a memory barrier) before
+	// the write is performed to ensure that no more writes will be made until the
+	// current write has completed and the write buffer can be re-used.
+	InterlockedExchange(&theSocket->canWrite, FALSE);
 
+	numWritten = 0;
+	winErr     = SocketErr(WSASend(theSocket->nativeSocket, &theBuffer, 1, NULL, 0, &theSocket->eventWrite, NULL));
+	
+	switch (winErr) {
+		case ERROR_SUCCESS:
+		case WSA_IO_PENDING:
+			numWritten = theSize;
+			break;
+
+		default:
+			NN_LOG("Unable to write to socket: %ld", winErr);
+			break;
+		}
+	
 	return(numWritten);
 }
 
