@@ -158,12 +158,52 @@ void NSocket::Open(const NString &theHost, UInt16 thePort)
 //		NSocket::Close : Close the socket.
 //----------------------------------------------------------------------------
 void NSocket::Close(NStatus theErr)
-{	StLock		acquireLock(mLock);
+{
+
+
+	// Update our state
+	//
+	// SocketDidClose() will destroy the underlying target socket, which will
+	// cause the target layer to stop dispatching events into this object.
+	//
+	// However since dispatching an event into this object must also acquire
+	// our lock, this can lead to a deadlock if an event is dispatched between
+	// Close() acquiring the lock and SocketDidClose() destroying the socket.
+	//
+	// If an event arrives on the target layer at that point, the target layer
+	// will be blocked in SocketEvent() until Close() releases the lock.
+	//
+	// Since closing a socket may be a precursor to deleting the NSocket, the
+	// target layer must both destroy the native socket and ensure its internal
+	// thread is outside SocketEvent() before it can return.
+	//
+	//
+	// To avoid this we maintain a (non-atomic) flag which is tested by the
+	// target thread before it acquires our lock.
+	//
+	// Setting this flag ensures that no further attempts are made to acquire
+	// our lock, making any further calls to SocketEvent() no-ops.
+	//
+	// The target layer can then turn off event dispatch for the target socket,
+	// wait for its thread to exit SocketEvent(), then destroy the socket.
+	mSocketClosing = true;
 
 
 
 	// Close the socket
-	SocketDidClose(theErr);
+	//
+	// The flag must be reset by us, not SocketDidClose(), since the native socket
+	// may have dispatched a close event before we even set the flag (thus making
+	// our call  a no-op).
+	mLock.Lock();
+		// Close the socket
+		SocketDidClose(theErr);
+
+
+		// Reset our state
+		NN_ASSERT(mStatus == kNSocketClosed);
+		mSocketClosing = false;
+	mLock.Unlock();
 }
 
 
@@ -758,11 +798,20 @@ NStatus NSocket::SetOption(NSocketOption theOption, SInt32 theValue)
 //----------------------------------------------------------------------------
 #pragma mark -
 void NSocket::SocketEvent(NSocketEvent theEvent, UIntPtr theValue)
-{	StLock		acquireLock(mLock);
+{
+
+
+	// Check our state
+	//
+	// See NSocket::Close().
+	if (mSocketClosing)
+		return;
 
 
 
 	// Handle the event
+	StLock	acquireLock(mLock);
+
 	switch (theEvent) {
 		case kNSocketDidOpen:
 			SocketDidOpen();
@@ -805,8 +854,10 @@ void NSocket::InitialiseSelf(NSocketDelegate *theDelegate)
 	// Initialise ourselves
 	mStatus   = kNSocketClosed;
 	mResult   = kNoErr;
-	mSocket   = NULL;
 	mDelegate = theDelegate;
+
+	mSocket        = NULL;
+	mSocketClosing = false;
 	
 	mReadRequest         = NULL;
 	mReadBufferOffset    = 0;
@@ -864,9 +915,10 @@ void NSocket::SocketDidClose(NStatus theErr)
 	if (mStatus != kNSocketClosed)
 		{
 		// Update our state
+		mStatus = kNSocketClosed;
+		mResult = theErr;
+
 		theSocket = mSocket;
-		mStatus   = kNSocketClosed;
-		mResult   = theErr;
 		mSocket   = NULL;
 
 		RemoveRequests(kNErrCancelled);

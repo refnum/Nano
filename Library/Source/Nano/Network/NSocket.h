@@ -208,8 +208,10 @@ private:
 
 	NSocketStatus						mStatus;
 	NStatus								mResult;
-	NSocketRef							mSocket;
 	NSocketDelegate					   *mDelegate;
+
+	NSocketRef							mSocket;
+	bool								mSocketClosing;
 
 	NSocketRequest					   *mReadRequest;
 	NSocketRequestList					mReadRequests;
