@@ -176,6 +176,7 @@ static const NTime kNServiceBrowseUpdateTime						= 1.3;
 
 
 // Sockets
+static const NIndex kNSocketAcceptAddressSize						= sizeof(SOCKADDR_IN) + 16;
 static const NIndex kNSocketMaxBufferSize							= 64 * kNKilobyte;
 
 
@@ -219,23 +220,19 @@ typedef NServiceBrowserList::const_iterator							NServiceBrowserListConstIterat
 typedef struct NSocketInfo {
 	NSocket						   *nanoSocket;
 	SOCKET							nativeSocket;
-// dair
-//	NSocketRef						parentSocket;
-//
-//	NStatus							streamErr;
-//	bool							streamsOpen;
-//	CFReadStreamRef					cfStreamRead;
-//	CFWriteStreamRef				cfStreamWrite;
+	SOCKET							acceptSocket;
+	NSocketRef						parentSocket;
 
+	OVERLAPPED						eventAccept;
 	OVERLAPPED						eventOpen;
 	OVERLAPPED						eventRead;
 	OVERLAPPED						eventWrite;
 	
 	LONG							canRead;
 	LONG							canWrite;
-	
 	WSABUF							bufferZero;
 	NData							bufferWrite;
+	char							bufferAccept[kNSocketAcceptAddressSize * 2];
 } NSocketInfo;
 
 
@@ -276,7 +273,8 @@ static LONG			gSocketRunning									= false;
 //============================================================================
 //      Internal functions
 //----------------------------------------------------------------------------
-static void SocketTerminate(void);
+static void       SocketTerminate(void);
+static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocketRef parentSocket);
 
 
 
@@ -654,6 +652,59 @@ static void SocketTerminate(void)
 
 
 //============================================================================
+//		SocketAccept : Accept new requests on a socket.
+//----------------------------------------------------------------------------
+static int SocketAccept(NSocketRef theSocket)
+{	int		winErr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->acceptSocket == INVALID_SOCKET);
+
+
+
+	// Create a new socket
+	theSocket->acceptSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
+
+	if (theSocket->acceptSocket == INVALID_SOCKET)
+		return(WSAGetLastError());
+
+
+
+	// Perform the accept
+	winErr = ERROR_SUCCESS;
+	memset(&theSocket->eventAccept, 0x00, sizeof(theSocket->eventAccept));
+
+	if (!gAcceptEx(	theSocket->nativeSocket,
+					theSocket->acceptSocket,
+					&theSocket->bufferAccept, 0,
+					kNSocketAcceptAddressSize,
+					kNSocketAcceptAddressSize,
+					NULL, &theSocket->eventAccept))
+		{
+		winErr = WSAGetLastError();
+		if (winErr == ERROR_IO_PENDING)
+			winErr = ERROR_SUCCESS;
+		}
+
+
+
+	// Handle failure
+	if (winErr != ERROR_SUCCESS)
+		{
+		closesocket(theSocket->acceptSocket);
+		theSocket->acceptSocket = INVALID_SOCKET;
+		}
+
+	return(winErr);
+}
+
+
+
+
+
+//============================================================================
 //		SocketTriggerRead : Trigger a read.
 //----------------------------------------------------------------------------
 static void SocketTriggerRead(NSocketRef theSocket)
@@ -670,6 +721,8 @@ static void SocketTriggerRead(NSocketRef theSocket)
 	// Trigger the read
 	//
 	// A zero-byte read will trigger a completion when the socket can return data.
+	memset(&theSocket->eventRead, 0x00, sizeof(theSocket->eventRead));
+	
 	theFlags = 0;
 	winErr   = SocketErr(WSARecv(theSocket->nativeSocket, &theSocket->bufferZero, 1, NULL, &theFlags, &theSocket->eventRead, NULL));
 
@@ -704,6 +757,8 @@ static void SocketTriggerWrite(NSocketRef theSocket)
 	// Trigger the write
 	//
 	// A zero-byte write will trigger a completion when the socket can accept data.
+	memset(&theSocket->eventWrite, 0x00, sizeof(theSocket->eventWrite));
+
 	winErr = SocketErr(WSASend(theSocket->nativeSocket, &theSocket->bufferZero, 1, NULL, 0, &theSocket->eventWrite, NULL));
 
 	switch (winErr) {
@@ -725,9 +780,10 @@ static void SocketTriggerWrite(NSocketRef theSocket)
 //		SocketThread : Socket thread.
 //----------------------------------------------------------------------------
 static void SocketThread(void)
-{	NSocketRef			theSocket;
+{	NSocketRef			theSocket, newSocket;
+	DWORD				numBytes, theFlags;
 	LPOVERLAPPED		theEvent;
-	DWORD				numBytes;
+	int					winErr;
 	BOOL				wasOK;
 
 
@@ -781,14 +837,57 @@ static void SocketThread(void)
 
 
 
+		// Check for cancelled events
+		if (!WSAGetOverlappedResult(theSocket->nativeSocket, theEvent, &numBytes, TRUE, &theFlags))
+			continue;
+
+
+
+		// Accept a connection
 		// Handle the event
-		if (theEvent == &theSocket->eventOpen)
+		if (theEvent == &theSocket->eventAccept)
+			{
+			// Create a new socket
+			//
+			// The accept socket represents the connection which was just accepted.
+			winErr = setsockopt(theSocket->acceptSocket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char *) &theSocket->nativeSocket, sizeof(theSocket->nativeSocket));
+			NN_ASSERT_NOERR(winErr);
+
+			newSocket             = SocketCreate(NULL, theSocket->acceptSocket, theSocket);
+			newSocket->nanoSocket = new NSocket(newSocket, theSocket->nanoSocket);
+
+			if (CreateIoCompletionPort((HANDLE) newSocket->nativeSocket, gSocketIOCP, (ULONG_PTR) newSocket, 0) == NULL)
+				NN_LOG("Unable to re-attach accepte socket to IOCP!");
+
+			theSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (UIntPtr) newSocket->nanoSocket);
+
+
+			// Accept further connections
+			//
+			// A new acceptance socket is needed to accept subsequent connections.
+			theSocket->acceptSocket = INVALID_SOCKET;
+			winErr = SocketAccept(theSocket);
+			NN_ASSERT_NOERR(winErr);
+
+
+			// Open the new socket
+			newSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
+			SocketTriggerRead( newSocket);
+			SocketTriggerWrite(newSocket);
+			}
+		
+		
+		// The socket has opened
+		else if (theEvent == &theSocket->eventOpen)
 			{
 			theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
 			SocketTriggerRead( theSocket);
 			SocketTriggerWrite(theSocket);
 			}
 
+
+
+		// The socket can read
 		else if (theEvent == &theSocket->eventRead)
 			{
 			NN_ASSERT(!theSocket->canRead);
@@ -797,6 +896,9 @@ static void SocketThread(void)
 			theSocket->nanoSocket->SocketEvent(kNSocketCanRead);
 			}
 
+
+
+		// The socket can write
 		else if (theEvent == &theSocket->eventWrite)
 			{
 			if (theSocket->bufferWrite.GetSize() > kNSocketMaxBufferSize)
@@ -852,7 +954,6 @@ static bool SocketThreadAdd(void)
 			}
 
 
-
 		// Initialise the port			
 		NN_ASSERT(gSocketIOCP == NULL);
 
@@ -864,7 +965,6 @@ static bool SocketThreadAdd(void)
 			gSocketCount = 0;
 			return(false);
 			}
-
 
 
 		// Start the thread
@@ -914,11 +1014,11 @@ static void SocketThreadRemove(void)
 			NTargetThread::ThreadSleep(kNetworkSleepTime);
 
 
-
 		// Clean up
 		wasOK = (CloseHandle(gSocketIOCP) == TRUE);
 		NN_ASSERT(wasOK);
-
+		
+		gSocketIOCP = NULL;
 		SocketTerminate();
 		}
 }
@@ -936,15 +1036,16 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocket
 
 
 	// Create the socket
-	theSocket                = new NSocketInfo;
-	theSocket->nanoSocket    = nanoSocket;
-	theSocket->nativeSocket  = nativeSocket;
-// dair
-//	theSocket->parentSocket  = parentSocket;
-//	theSocket->streamErr     = kNoErr;
-//	theSocket->streamsOpen   = false;
-//	theSocket->cfStreamRead  = NULL;
-//	theSocket->cfStreamWrite = NULL;
+	theSocket               = new NSocketInfo;
+	theSocket->nanoSocket   = nanoSocket;
+	theSocket->nativeSocket = nativeSocket;
+	theSocket->acceptSocket = INVALID_SOCKET;
+	theSocket->parentSocket = parentSocket;
+
+	memset(&theSocket->eventAccept, 0x00, sizeof(theSocket->eventAccept));
+	memset(&theSocket->eventOpen,   0x00, sizeof(theSocket->eventOpen));
+	memset(&theSocket->eventRead,   0x00, sizeof(theSocket->eventRead));
+	memset(&theSocket->eventWrite,  0x00, sizeof(theSocket->eventWrite));
 
 	theSocket->canRead  = FALSE;
 	theSocket->canWrite = FALSE;
@@ -952,11 +1053,39 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocket
 	theSocket->bufferZero.len = 0;
 	theSocket->bufferZero.buf = (CHAR *) &theSocket->bufferZero;
 
-	memset(&theSocket->eventOpen,  0x00, sizeof(theSocket->eventOpen));
-	memset(&theSocket->eventRead,  0x00, sizeof(theSocket->eventRead));
-	memset(&theSocket->eventWrite, 0x00, sizeof(theSocket->eventWrite));
+	memset(&theSocket->bufferAccept, 0x00, sizeof(theSocket->bufferAccept));
 
 	return(theSocket);
+}
+
+
+
+
+
+//============================================================================
+//		SocketCreateSocket : Create a socket.
+//----------------------------------------------------------------------------
+static int SocketCreateSocket(NSocketRef theSocket)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket == INVALID_SOCKET);
+
+
+
+	// Create the socket
+	theSocket->nativeSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
+	if (theSocket->nativeSocket == INVALID_SOCKET)
+		return(WSAGetLastError());
+
+
+
+	// Register for events
+	if (CreateIoCompletionPort((HANDLE) theSocket->nativeSocket, gSocketIOCP, (ULONG_PTR) theSocket, 0) == NULL)
+		return(GetLastError())
+
+	return(ERROR_SUCCESS);
 }
 
 
@@ -967,76 +1096,45 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocket
 //		SocketCreateListening : Create a listening socket.
 //----------------------------------------------------------------------------
 static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
-{
-// dair, to do
-return(false);
-/*
-	NCFObject				cfSocket, cfSource;
-	CFSocketSignature		theSignature;
-	NCFObject				addressData;
-	CFSocketContext			theContext;
-	struct sockaddr_in		theAddress;
-	int						theValue;
-	bool					isOK;
-
-
-
-	// Get the state we need
-	memset(&theContext, 0x00, sizeof(theContext));
-	theContext.info = theSocket;
-
-
-
-	// Create the address
-	theAddress.sin_len         = sizeof(theAddress);
-	theAddress.sin_family      = AF_INET;
-	theAddress.sin_addr.s_addr = INADDR_ANY;
-	theAddress.sin_port        = htons(thePort);
-
-	isOK = addressData.SetObject(CFDataCreate(kCFAllocatorNano,  (const UInt8 *) &theAddress, sizeof(theAddress)));
-
-	if (isOK)
-		{
-		theSignature.protocolFamily = AF_INET;
-		theSignature.socketType     = SOCK_STREAM;
-		theSignature.protocol       = IPPROTO_TCP;
-		theSignature.address        = addressData;
-		}
+{	SOCKADDR_IN		localAddress;
+	BOOL			valueBOOL;
 
 
 
 	// Create the socket
-	if (isOK)
-		isOK = cfSocket.SetObject(CFSocketCreateWithSocketSignature(kCFAllocatorNano, &theSignature, kCFSocketAcceptCallBack, SocketEvent, &theContext));
+	if (SocketCreateSocket(theSocket) != ERROR_SUCCESS)
+		return(false);
 
-	if (isOK)
-		{
-		theSocket->nativeSocket = CFSocketGetNative(cfSocket);
-		theValue                = 1;
-
-		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &theValue, sizeof(theValue));
-		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &theValue, sizeof(theValue));
-		}
-	else
-		NN_LOG("Failed to create listening socket on port %d!", thePort);
+	valueBOOL = TRUE;
+	setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, (char *) &valueBOOL, sizeof(valueBOOL));
 
 
 
-	// Register for events
-	if (isOK)
-		isOK = cfSource.SetObject(CFSocketCreateRunLoopSource(kCFAllocatorNano, cfSocket, 0));
+	// Bind the socket
+	memset(&localAddress, 0x00, sizeof(localAddress));
 
-	if (isOK)
-		CFRunLoopAddSource(gSocketRunLoop, cfSource, kCFRunLoopDefaultMode);
+	localAddress.sin_family      = AF_INET;
+	localAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+	localAddress.sin_port        = htons(thePort);
+
+	if (bind(theSocket->nativeSocket, (sockaddr *) &localAddress, sizeof(localAddress)) != 0)
+		return(false);
+
+
+
+	// Listen for connections
+	if (listen(theSocket->nativeSocket, SOMAXCONN) != 0)
+		return(false);
+
+	if (SocketAccept(theSocket) != ERROR_SUCCESS)
+		return(false);
 
 
 
 	// Open the socket
-	if (isOK)
-		theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
+	theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
 
-	return(isOK);
-*/
+	return(true);
 }
 
 
@@ -1047,9 +1145,9 @@ return(false);
 //		SocketCreateConnecting : Create a connecting socket.
 //----------------------------------------------------------------------------
 static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, UInt16 thePort)
-{	struct sockaddr_in		localAddress, remoteAddress;
-	struct hostent			*hostInfo;
-	int						winErr;
+{	SOCKADDR_IN			localAddress, remoteAddress;
+	struct hostent		*hostInfo;
+	int					winErr;
 
 
 
@@ -1067,11 +1165,7 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 
 
 	// Create the socket
-	theSocket->nativeSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
-	if (theSocket->nativeSocket == INVALID_SOCKET)
-		return(false);
-
-	if (CreateIoCompletionPort((HANDLE) theSocket->nativeSocket, gSocketIOCP, (ULONG_PTR) theSocket, 0) == NULL)
+	if (SocketCreateSocket(theSocket) != ERROR_SUCCESS)
 		return(false);
 
 
@@ -1082,7 +1176,8 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 	memset(&localAddress, 0x00, sizeof(localAddress));
 
 	localAddress.sin_family      = AF_INET;
-	localAddress.sin_addr.s_addr = INADDR_ANY;
+	localAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+	localAddress.sin_port        = htons(0);
 
 	if (bind(theSocket->nativeSocket, (sockaddr *) &localAddress, sizeof(localAddress)) != 0)
 		return(false);
@@ -1090,6 +1185,8 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 
 
 	// Open the socket
+	memset(&theSocket->eventOpen, 0x00, sizeof(theSocket->eventOpen));
+
 	if (!gConnectEx(theSocket->nativeSocket, (sockaddr *) &remoteAddress, sizeof(remoteAddress), NULL, 0, NULL, &theSocket->eventOpen))
 		{
 		winErr = WSAGetLastError();
@@ -1116,6 +1213,12 @@ static void SocketDestroy(NSocketRef theSocket)
 	if (theSocket->nativeSocket != INVALID_SOCKET)
 		{
 		winErr = SocketErr(closesocket(theSocket->nativeSocket));
+		NN_ASSERT_NOERR(winErr);
+		}
+
+	if (theSocket->acceptSocket != INVALID_SOCKET)
+		{
+		winErr = SocketErr(closesocket(theSocket->acceptSocket));
 		NN_ASSERT_NOERR(winErr);
 		}
 
@@ -1702,6 +1805,8 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 	// the write is performed to ensure that no more writes will be made until the
 	// current write has completed and the write buffer can be re-used.
 	InterlockedExchange(&theSocket->canWrite, FALSE);
+
+	memset(&theSocket->eventWrite, 0x00, sizeof(theSocket->eventWrite));
 
 	numWritten = 0;
 	winErr     = SocketErr(WSASend(theSocket->nativeSocket, &theBuffer, 1, NULL, 0, &theSocket->eventWrite, NULL));
