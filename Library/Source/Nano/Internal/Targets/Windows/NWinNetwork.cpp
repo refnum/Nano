@@ -177,7 +177,7 @@ static const NTime kNServiceBrowseUpdateTime						= 1.3;
 
 // Sockets
 static const NIndex kNSocketAcceptAddressSize						= sizeof(SOCKADDR_IN) + 16;
-static const NIndex kNSocketMaxBufferSize							= 64 * kNKilobyte;
+static const NIndex kNSocketWriteBufferSize							= 64 * kNKilobyte;
 
 
 
@@ -222,15 +222,18 @@ typedef struct NSocketInfo {
 	SOCKET							nativeSocket;
 	SOCKET							acceptSocket;
 	NSocketRef						parentSocket;
+	
+	LONG							isClosing;
+	LONG							canRead;
+	LONG							canWrite;
 
 	OVERLAPPED						eventAccept;
 	OVERLAPPED						eventOpen;
 	OVERLAPPED						eventRead;
 	OVERLAPPED						eventWrite;
-	
-	LONG							canRead;
-	LONG							canWrite;
-	WSABUF							bufferZero;
+
+	WSABUF							bufferReadZero;
+	WSABUF							bufferWriteZero;
 	NData							bufferWrite;
 	char							bufferAccept[kNSocketAcceptAddressSize * 2];
 } NSocketInfo;
@@ -273,8 +276,9 @@ static LONG			gSocketRunning									= false;
 //============================================================================
 //      Internal functions
 //----------------------------------------------------------------------------
-static void       SocketTerminate(void);
 static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocketRef parentSocket);
+static void       SocketTerminate(void);
+static bool       SocketThreadAdd(void);
 
 
 
@@ -715,6 +719,13 @@ static void SocketTriggerRead(NSocketRef theSocket)
 
 	// Validate our state
 	NN_ASSERT(!theSocket->canRead);
+	NN_ASSERT(HasOverlappedIoCompleted(&theSocket->eventRead));
+
+
+
+	// Check our state
+	if (theSocket->isClosing)
+		return;
 
 
 
@@ -722,9 +733,9 @@ static void SocketTriggerRead(NSocketRef theSocket)
 	//
 	// A zero-byte read will trigger a completion when the socket can return data.
 	memset(&theSocket->eventRead, 0x00, sizeof(theSocket->eventRead));
-	
+
 	theFlags = 0;
-	winErr   = SocketErr(WSARecv(theSocket->nativeSocket, &theSocket->bufferZero, 1, NULL, &theFlags, &theSocket->eventRead, NULL));
+	winErr   = SocketErr(WSARecv(theSocket->nativeSocket, &theSocket->bufferReadZero, 1, NULL, &theFlags, &theSocket->eventRead, NULL));
 
 	switch (winErr) {
 		case ERROR_SUCCESS:
@@ -751,6 +762,13 @@ static void SocketTriggerWrite(NSocketRef theSocket)
 
 	// Validate our state
 	NN_ASSERT(!theSocket->canWrite);
+	NN_ASSERT(HasOverlappedIoCompleted(&theSocket->eventWrite));
+
+
+
+	// Check our state
+	if (theSocket->isClosing)
+		return;
 
 
 
@@ -759,7 +777,7 @@ static void SocketTriggerWrite(NSocketRef theSocket)
 	// A zero-byte write will trigger a completion when the socket can accept data.
 	memset(&theSocket->eventWrite, 0x00, sizeof(theSocket->eventWrite));
 
-	winErr = SocketErr(WSASend(theSocket->nativeSocket, &theSocket->bufferZero, 1, NULL, 0, &theSocket->eventWrite, NULL));
+	winErr = SocketErr(WSASend(theSocket->nativeSocket, &theSocket->bufferWriteZero, 1, NULL, 0, &theSocket->eventWrite, NULL));
 
 	switch (winErr) {
 		case ERROR_SUCCESS:
@@ -807,7 +825,7 @@ static void SocketThread(void)
 	// To convert IOCP to a reactor model we use a zero-byte read/write after opening,
 	// which lets us know when a socket is ready to read/write data.
 	//
-	// Data reads are always performed synchronously, and once the available data has
+	// Data reads are always performed synchronously, and after the available data has
 	// been drained we generate a final zero-byte read. Once that 'read' completes we
 	// know that the socket has more data and is ready for reading again.
 	//
@@ -817,33 +835,52 @@ static void SocketThread(void)
 	//
 	//
 	// The per-socket write buffer grows on demand to hold the largest write seen, but
-	// is flushed after a write if it becomes "too large" to ensure a 50Mb write doesn't
-	// keep a 50Mb buffer until the socket is closed.
+	// is flushed after a write if it becomes "too large" (to ensure a 50Mb write doesn't
+	// keep a 50Mb buffer around until the socket is closed).
 	//
 	// Since the IOCP operations run on a separate thread, we use a memory-barrier bool
-	// to change the socket state. This is primarily needed to drive writes, to ensure
-	// that the socket is put into the "can't accept writes" state before SocketWrite()
-	// calls WSASend().
+	// to change the socket state. This is ensures the socket is put into the "can't
+	// accept writes" state before SocketWrite() calls WSASend() (similarly for reads).
 	//
 	// The call to WSASend may complete (on the IOCP thread) before WASend returns to
-	// SocketWrite, and so we need to ensure that SocketWrite's clearing of the canWrite
+	// SocketWrite, so we need to ensure that SocketWrite's clearing of the canWrite
 	// flag happens behind a memory barrier and is never re-ordered.
 	while (true)
 		{
 		// Wait for an event
+		//
+		// GQCS returns four different results:
+		//
+		//		wasOK == false, theEvent == NULL		=> 1. Failed to dequeue a completion packet
+		//		wasOK == false, theEvent != NULL		=> 2. Dequeued a failed   completion packet
+		//		wasOK == true,	theEvent != NULL		=> 3. Dequeued a valid    completion packet
+		//		wasOK == true,	theEvent == NULL		=> 4. SocketThreadRemove() is stopping us
+		//
+		// The docs are not clear if a further test on valid packets using WSAGetOverlappedResult
+		// is really necessary (or if these are indicated via the second case), but for now we
+		// assume we must test twice.
 		wasOK = GetQueuedCompletionStatus(gSocketIOCP, &numBytes, (PULONG_PTR) &theSocket, &theEvent, INFINITE);
-		if (!wasOK || theSocket == NULL)
+
+
+
+		// Stop the thread
+		//
+		// 1. Failed to dequeue a completion packet
+		// 4. SocketThreadRemove() is stopping us
+		if (theEvent == NULL)
 			break;
 
 
 
-		// Check for cancelled events
-		if (!WSAGetOverlappedResult(theSocket->nativeSocket, theEvent, &numBytes, TRUE, &theFlags))
+		// Ignore the event
+		//
+		// 2. Dequeued a failed   completion packet
+		// 3. Dequeued a valid    completion packet
+		if (!wasOK || !WSAGetOverlappedResult(theSocket->nativeSocket, theEvent, &numBytes, TRUE, &theFlags))
 			continue;
 
 
 
-		// Accept a connection
 		// Handle the event
 		if (theEvent == &theSocket->eventAccept)
 			{
@@ -859,6 +896,7 @@ static void SocketThread(void)
 			if (CreateIoCompletionPort((HANDLE) newSocket->nativeSocket, gSocketIOCP, (ULONG_PTR) newSocket, 0) == NULL)
 				NN_LOG("Unable to re-attach accepte socket to IOCP!");
 
+			SocketThreadAdd();
 			theSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (UIntPtr) newSocket->nanoSocket);
 
 
@@ -875,21 +913,20 @@ static void SocketThread(void)
 			SocketTriggerRead( newSocket);
 			SocketTriggerWrite(newSocket);
 			}
-		
-		
-		// The socket has opened
+
+
 		else if (theEvent == &theSocket->eventOpen)
 			{
+			// Open the socket
 			theSocket->nanoSocket->SocketEvent(kNSocketDidOpen);
 			SocketTriggerRead( theSocket);
 			SocketTriggerWrite(theSocket);
 			}
 
 
-
-		// The socket can read
 		else if (theEvent == &theSocket->eventRead)
 			{
+			// The socket can be read from
 			NN_ASSERT(!theSocket->canRead);
 			InterlockedExchange(&theSocket->canRead, TRUE);
 
@@ -897,13 +934,14 @@ static void SocketThread(void)
 			}
 
 
-
-		// The socket can write
 		else if (theEvent == &theSocket->eventWrite)
 			{
-			if (theSocket->bufferWrite.GetSize() > kNSocketMaxBufferSize)
-				theSocket->bufferWrite.SetSize(kNSocketMaxBufferSize);
+			// Limit the buffer
+			if (theSocket->bufferWrite.GetSize() > kNSocketWriteBufferSize)
+				theSocket->bufferWrite.SetSize(kNSocketWriteBufferSize);
 
+
+			// The socket can be written to
 			NN_ASSERT(!theSocket->canWrite);
 			InterlockedExchange(&theSocket->canWrite, TRUE);
 
@@ -911,7 +949,7 @@ static void SocketThread(void)
 			}
 
 		else
-			NN_LOG("Unknown event on socket!");
+			NN_LOG("Unknown socket event!");
 		}
 
 
@@ -954,6 +992,7 @@ static bool SocketThreadAdd(void)
 			}
 
 
+
 		// Initialise the port			
 		NN_ASSERT(gSocketIOCP == NULL);
 
@@ -965,6 +1004,7 @@ static bool SocketThreadAdd(void)
 			gSocketCount = 0;
 			return(false);
 			}
+
 
 
 		// Start the thread
@@ -1014,6 +1054,7 @@ static void SocketThreadRemove(void)
 			NTargetThread::ThreadSleep(kNetworkSleepTime);
 
 
+
 		// Clean up
 		wasOK = (CloseHandle(gSocketIOCP) == TRUE);
 		NN_ASSERT(wasOK);
@@ -1042,18 +1083,21 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, SOCKET nativeSocket, NSocket
 	theSocket->acceptSocket = INVALID_SOCKET;
 	theSocket->parentSocket = parentSocket;
 
+	theSocket->isClosing = FALSE;
+	theSocket->canRead   = FALSE;
+	theSocket->canWrite  = FALSE;
+
 	memset(&theSocket->eventAccept, 0x00, sizeof(theSocket->eventAccept));
 	memset(&theSocket->eventOpen,   0x00, sizeof(theSocket->eventOpen));
 	memset(&theSocket->eventRead,   0x00, sizeof(theSocket->eventRead));
 	memset(&theSocket->eventWrite,  0x00, sizeof(theSocket->eventWrite));
 
-	theSocket->canRead  = FALSE;
-	theSocket->canWrite = FALSE;
+	memset(&theSocket->bufferReadZero,  0x00, sizeof(theSocket->bufferReadZero));
+	memset(&theSocket->bufferWriteZero, 0x00, sizeof(theSocket->bufferWriteZero));
+	memset(&theSocket->bufferAccept,    0x00, sizeof(theSocket->bufferAccept));
 
-	theSocket->bufferZero.len = 0;
-	theSocket->bufferZero.buf = (CHAR *) &theSocket->bufferZero;
-
-	memset(&theSocket->bufferAccept, 0x00, sizeof(theSocket->bufferAccept));
+	theSocket->bufferReadZero.buf  = (CHAR *) &theSocket->bufferReadZero;
+	theSocket->bufferWriteZero.buf = (CHAR *) &theSocket->bufferWriteZero;
 
 	return(theSocket);
 }
@@ -1083,7 +1127,7 @@ static int SocketCreateSocket(NSocketRef theSocket)
 
 	// Register for events
 	if (CreateIoCompletionPort((HANDLE) theSocket->nativeSocket, gSocketIOCP, (ULONG_PTR) theSocket, 0) == NULL)
-		return(GetLastError())
+		return(GetLastError());
 
 	return(ERROR_SUCCESS);
 }
@@ -1209,7 +1253,12 @@ static void SocketDestroy(NSocketRef theSocket)
 
 
 
-	// Destroy the socket
+	// Close the socket
+	InterlockedExchange(&theSocket->isClosing, TRUE);
+
+	winErr = SocketErr(shutdown(theSocket->nativeSocket, SD_BOTH));
+	NN_ASSERT(winErr == ERROR_SUCCESS || winErr == WSAENOTCONN);
+
 	if (theSocket->nativeSocket != INVALID_SOCKET)
 		{
 		winErr = SocketErr(closesocket(theSocket->nativeSocket));
@@ -1222,11 +1271,29 @@ static void SocketDestroy(NSocketRef theSocket)
 		NN_ASSERT_NOERR(winErr);
 		}
 
+
+
+	// Wait for I/O to finish
+	//
+	// Although closesocket will cancel any scheduled or active IO operations,
+	// the OVERLAPPED structures that those operations are using must continue
+	// to exist until the operations have completed.
+	//
+	// Only once we know they finished can we dispose of their state.
+	while (!HasOverlappedIoCompleted(&theSocket->eventAccept))
+		NThread::Sleep();
+
+	while (!HasOverlappedIoCompleted(&theSocket->eventRead))
+		NThread::Sleep();
+
+	while (!HasOverlappedIoCompleted(&theSocket->eventWrite))
+		NThread::Sleep();
+
+
+
+	// Delete the socket
 	delete theSocket;
 
-
-
-	// Remove the thread
 	SocketThreadRemove();
 }
 
@@ -1733,34 +1800,20 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 	theBuffer.len = theSize;
 	theBuffer.buf = (CHAR *) thePtr;
 
+	numRead  = 0;
+	theFlags = 0;
+
 
 
 	// Read from the socket
 	//
-	// Reads are always blocking; once the socket returns less data than we
-	// want, or reports that it would have to block, we use a zero-byte read
-	// to generate an event when more data has arrived.
-	//
-	// In practice reads always seem to return ERROR_SUCCESS+numRead=0 when
-	// the socket has been drained, but WSAEWOULDBLOCK is equivalent.
-	numRead  = 0;
-	theFlags = 0;
-	winErr   = SocketErr(WSARecv(theSocket->nativeSocket, &theBuffer, 1, &numRead, &theFlags, NULL, NULL));
+	// Reads are always blocking; once the socket has returned whatever data it
+	// can, we use a zero-byte read to generate an event when more data arrives.
+	winErr = SocketErr(WSARecv(theSocket->nativeSocket, &theBuffer, 1, &numRead, &theFlags, NULL, NULL));
+	NN_ASSERT(winErr == ERROR_SUCCESS || winErr == WSAEWOULDBLOCK);
 
-	switch (winErr) {
-		case ERROR_SUCCESS:
-		case WSAEWOULDBLOCK:
-			if (winErr == WSAEWOULDBLOCK || (NIndex) numRead < theSize)
-				{
-				InterlockedExchange(&theSocket->canRead, FALSE);
-				SocketTriggerRead(theSocket);
-				}
-			break;
-
-		default:
-			NN_LOG("Unable to read from socket: %d", winErr);
-			break;
-		}
+	InterlockedExchange(&theSocket->canRead, FALSE);
+	SocketTriggerRead(theSocket);
 
 	return(numRead);
 }
@@ -1803,7 +1856,7 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 	//
 	// The socket must be marked as non-writeable (using a memory barrier) before
 	// the write is performed to ensure that no more writes will be made until the
-	// current write has completed and the write buffer can be re-used.
+	// current write has completed (and the write buffer can be re-used).
 	InterlockedExchange(&theSocket->canWrite, FALSE);
 
 	memset(&theSocket->eventWrite, 0x00, sizeof(theSocket->eventWrite));
