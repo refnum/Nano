@@ -824,7 +824,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	NCFObject				addressData;
 	CFSocketContext			theContext;
 	struct sockaddr_in		theAddress;
-	int						theValue;
+	int						valueInt;
 	bool					isOK;
 
 
@@ -860,10 +860,10 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	if (isOK)
 		{
 		theSocket->nativeSocket = CFSocketGetNative(cfSocket);
-		theValue                = 1;
+		valueInt                = 1;
 
-		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &theValue, sizeof(theValue));
-		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &theValue, sizeof(theValue));
+		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &valueInt, sizeof(valueInt));
+		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &valueInt, sizeof(valueInt));
 		}
 	else
 		NN_LOG("Failed to create listening socket on port %d!", thePort);
