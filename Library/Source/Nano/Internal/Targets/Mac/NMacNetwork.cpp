@@ -708,21 +708,21 @@ static void SocketStreamsClose(NSocketRef theSocket)
 
 
 
-	// Unschedule the streams
-	if (hasRead)
-		CFReadStreamUnscheduleFromRunLoop( theSocket->cfStreamRead,  gSocketRunLoop, kCFRunLoopDefaultMode);
-
-	if (hasWrite)
-		CFWriteStreamUnscheduleFromRunLoop(theSocket->cfStreamWrite, gSocketRunLoop, kCFRunLoopDefaultMode);
-
-
-
 	// Unregister from events
 	if (hasRead)
 		CFReadStreamSetClient( theSocket->cfStreamRead,  kCFStreamEventNone, NULL, NULL);
 
 	if (hasWrite)
 		CFWriteStreamSetClient(theSocket->cfStreamWrite, kCFStreamEventNone, NULL, NULL);
+
+
+
+	// Unschedule the streams
+	if (hasRead)
+		CFReadStreamUnscheduleFromRunLoop( theSocket->cfStreamRead,  gSocketRunLoop, kCFRunLoopDefaultMode);
+
+	if (hasWrite)
+		CFWriteStreamUnscheduleFromRunLoop(theSocket->cfStreamWrite, gSocketRunLoop, kCFRunLoopDefaultMode);
 
 
 
