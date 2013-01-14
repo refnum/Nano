@@ -27,7 +27,8 @@
 //----------------------------------------------------------------------------
 // Misc
 static const UInt32 kBufferSize										= 9;
-static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
+static const UInt8  kBufferData1[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
+static const UInt8  kBufferData2[kBufferSize]						= { 'A', 'l', 's', 'o', ' ', 't', 'h', 'i', 's' };
 
 static const UInt32 kFileSizeTmp1									= 111;
 static const UInt32 kFileSizeTmp2									= 222;
@@ -217,7 +218,7 @@ void TFile::Execute(void)
 	NN_ASSERT(theSize == 0);
 	
 	theSize = 123456;
-	theErr  = tmpFile.Write(kBufferSize, kBufferData, theSize);
+	theErr  = tmpFile.Write(kBufferSize, kBufferData1, theSize);
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(theSize == kBufferSize);
 
@@ -230,7 +231,7 @@ void TFile::Execute(void)
 	NN_ASSERT(theSize == kBufferSize);
 
 	for (n = 0; n < theSize; n++)
-		NN_ASSERT(tmpBuffer[n] == kBufferData[n]);	
+		NN_ASSERT(tmpBuffer[n] == kBufferData1[n]);	
 
 
 
@@ -289,7 +290,7 @@ void TFile::Execute(void)
 
 
 
-	// Exchange
+	// Resize/exchange
 	tmpFile  = kPathFileTmp;
 	tmpFile2 = kPathFileTmp2;
 	
@@ -331,6 +332,43 @@ void TFile::Execute(void)
 
 	tmpFile.Delete();
 	theDir.Delete();
+
+
+
+	// Append-on-write
+	//
+	// Opening a file with write permission should append to the end, not overwrite.
+	tmpFile = kPathFileTmp;
+	theErr  = tmpFile.Open(kNPermissionWrite, true);
+	NN_ASSERT_NOERR(theErr);
+
+	theErr = tmpFile.Write(kBufferSize, kBufferData1, theSize);
+	NN_ASSERT_NOERR(theErr);
+	
+	tmpFile.Close();
+
+
+	theErr = tmpFile.Open(kNPermissionWrite);
+	NN_ASSERT_NOERR(theErr);
+
+	theErr = tmpFile.Write(kBufferSize, kBufferData2, theSize);
+	NN_ASSERT_NOERR(theErr);
+
+	tmpFile.Close();
+
+
+	theErr = tmpFile.Open(kNPermissionRead);
+	NN_ASSERT_NOERR(theErr);
+
+	memset(tmpBuffer, 0x00, kBufferSize);
+	theErr = tmpFile.Read(kBufferSize, tmpBuffer, theSize, 0, kNPositionFromStart);
+	NN_ASSERT_NOERR(theErr);
+
+	tmpFile.Close();
+	tmpFile.Delete();
+
+	for (n = 0; n < theSize; n++)
+		NN_ASSERT(tmpBuffer[n] == kBufferData1[n]);
 }
 
 

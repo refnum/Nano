@@ -753,6 +753,7 @@ NStatus NTargetFile::UnmountVolume(const NString &thePath)
 //----------------------------------------------------------------------------
 NFileRef NTargetFile::FileOpen(const NString &thePath, NFilePermission thePermission)
 {	HANDLE		theFile;
+	NStatus		theErr;
 
 
 
@@ -764,6 +765,23 @@ NFileRef NTargetFile::FileOpen(const NString &thePath, NFilePermission thePermis
 
 	if (theFile == INVALID_HANDLE_VALUE)
 		theFile = kNFileRefNone;
+
+
+
+	// Adjust the position
+	//
+	// Files opened for writing always append to the file.
+	if (thePermission == kNPermissionWrite)
+		{
+		theErr = FileSetPosition((NFileRef) theFile, 0, kNPositionFromEnd);
+		NN_ASSERT_NOERR(theErr);
+
+		if (theErr != kNoErr)
+			{
+			FileClose((NFileRef) theFile);
+			theFile = kNFileRefNone;
+			}
+		}
 
 	return((NFileRef) theFile);
 }
