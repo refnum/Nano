@@ -29,17 +29,6 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-// Message types
-//
-// Negative message types are reserved.
-typedef SInt16 NMessageType;
-
-static const NMessageType kNMessageInvalid							= -1;
-static const NMessageType kNMessageServerInfo						= -2;
-static const NMessageType kNMessageConnectRequest					= -3;
-static const NMessageType kNMessageConnectResponse					= -4;
-
-
 // Entity IDs
 //
 // Messages are exchanged between entities, which have a fixed ID.
@@ -52,6 +41,17 @@ static const NEntityID kNEntityEveryone								= 255;
 static const NEntityID kNEntityClientsFirst							= 2;
 static const NEntityID kNEntityClientsLast							= 254;
 static const NEntityID kNEntityClientsMax							= kNEntityClientsLast - kNEntityClientsFirst + 1;
+
+
+// Messages
+//
+// Negative message types are reserved.
+typedef SInt16 NMessageType;
+
+static const NMessageType kNMessageInvalidMsg						= -1;
+static const NMessageType kNMessageServerInfoMsg					= -2;
+static const NMessageType kNMessageConnectRequestMsg				= -3;
+static const NMessageType kNMessageConnectResponseMsg				= -4;
 
 
 // Message attributes

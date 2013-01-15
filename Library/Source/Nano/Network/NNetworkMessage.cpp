@@ -68,7 +68,7 @@ NNetworkMessage::NNetworkMessage(void)
 	// Initialise ourselves
 	memset(&mHeader, 0x00, sizeof(mHeader));
 
-	mHeader.msgType  = kNMessageInvalid;
+	mHeader.msgType  = kNMessageInvalidMsg;
 	mHeader.msgSrcID = kNEntityInvalid;
 	mHeader.msgDstID = kNEntityInvalid;
 }

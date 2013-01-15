@@ -573,7 +573,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	// Send the server info
 	mLock.Lock();
 	serverInfo    = GetConnectionInfo();
-	msgServerInfo = CreateMessage(kNMessageServerInfo, kNEntityEveryone);
+	msgServerInfo = CreateMessage(kNMessageServerInfoMsg, kNEntityEveryone);
 	msgServerInfo.SetProperties(serverInfo);
 	mLock.Unlock();
 
@@ -596,7 +596,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 		return;
 		}
 
-	NN_ASSERT(msgConnectRequest.GetType()   == kNMessageConnectRequest);
+	NN_ASSERT(msgConnectRequest.GetType()   == kNMessageConnectRequestMsg);
 	NN_ASSERT(msgConnectRequest.GetSource() == kNEntityInvalid);
 
 
@@ -607,7 +607,7 @@ void NMessageServer::ServerThread(NSocket *theSocket)
 	clientID  = GetNextClientID();
 	acceptErr = AcceptConnection(serverInfo, msgConnectRequest.GetProperties(), clientID);
 
-	msgConnectResponse = CreateMessage(kNMessageConnectResponse, clientID);
+	msgConnectResponse = CreateMessage(kNMessageConnectResponseMsg, clientID);
 	msgConnectResponse.SetValue(kNMessageStatusKey, acceptErr);
 
 	theErr    = WriteMessage(theSocket, msgConnectResponse);

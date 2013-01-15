@@ -315,7 +315,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 	// Read the server info
 	theErr = ReadMessage(theSocket, msgServerInfo);
-	NN_ASSERT(msgServerInfo.GetType() == kNMessageServerInfo);
+	NN_ASSERT(msgServerInfo.GetType() == kNMessageServerInfoMsg);
 
 	if (theErr != kNoErr)
 		{
@@ -338,7 +338,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 
 
 	// Open the connection
-	msgConnectRequest = CreateMessage(kNMessageConnectRequest, kNEntityServer);
+	msgConnectRequest = CreateMessage(kNMessageConnectRequestMsg, kNEntityServer);
 	msgConnectRequest.SetProperties(clientInfo);
 	if (!mPassword.IsEmpty())
 		msgConnectRequest.SetValue(kNMessagePasswordKey, EncryptPassword(mPassword));
@@ -347,7 +347,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 	if (theErr == kNoErr)
 		{
 		theErr = ReadMessage(theSocket, msgConnectResponse);
-		NN_ASSERT(msgConnectResponse.GetType() == kNMessageConnectResponse);
+		NN_ASSERT(msgConnectResponse.GetType() == kNMessageConnectResponseMsg);
 
 		if (theErr == kNoErr)
 			theErr = msgConnectResponse.GetValueSInt32(kNMessageStatusKey);

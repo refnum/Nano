@@ -107,7 +107,7 @@ NNetworkMessage NMessageEntity::CreateMessage(NMessageType theType, NEntityID ds
 
 
 	// Validate our parameters
-	NN_ASSERT(theType != kNMessageInvalid);
+	NN_ASSERT(theType != kNMessageInvalidMsg);
 	NN_ASSERT(dstID   != kNEntityInvalid);
 
 
