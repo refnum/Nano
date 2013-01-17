@@ -88,6 +88,10 @@ public:
 														bool					canCreate  = false);
 
 
+	// Get a directory size
+	static UInt64						GetDirectorySize(const NFile &theDirectory);
+
+
 	// Get a uniquely-named file
 	//
 	// If fileName is non-empty, it will be used as the base name.

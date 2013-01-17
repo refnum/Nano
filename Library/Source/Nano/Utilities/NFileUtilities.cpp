@@ -244,6 +244,45 @@ NFile NFileUtilities::GetDirectory(NDirectoryLocation theLocation, const NString
 
 
 //============================================================================
+//		NFileUtilities::GetDirectorySize : Get a directory size.
+//----------------------------------------------------------------------------
+UInt64 NFileUtilities::GetDirectorySize(const NFile &theDirectory)
+{	NFileIterator				fileIterator;
+	NFileList					theFiles;
+	NFile						theFile;
+	UInt64						theSize;
+	NFileListConstIterator		theIter;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theDirectory.IsDirectory());
+
+
+
+	// Get the state we need
+	theFiles = fileIterator.GetFiles(theDirectory);
+	theSize  = 0;
+
+
+
+	// Get the size
+	for (theIter = theFiles.begin(); theIter != theFiles.end(); theIter++)
+		{
+		theFile = *theIter;
+
+		if (theFile.IsFile())
+			theSize += theFile.GetSize();
+		}
+
+	return(theSize);
+}
+
+
+
+
+
+//============================================================================
 //		NFileUtilities::GetUniqueFile : Get a uniquely-named file.
 //----------------------------------------------------------------------------
 NFile NFileUtilities::GetUniqueFile(const NFile &theDirectory, const NString &fileName)

@@ -40,6 +40,7 @@ static const UInt8   kTestTextUTF16LE[]								= { 0xFF, 0xFE, 0x74, 0x00, 0x65,
 void TFileUtilities::Execute(void)
 {	NData		theData1, theData2;
 	NString		theText;
+	UInt64		theSize;
 	NFile		theFile;
 	NStatus		theErr;
 
@@ -51,6 +52,13 @@ void TFileUtilities::Execute(void)
 	
 	theFile = NFileUtilities::GetDirectory(kNLocationDesktop);
 	NN_ASSERT(theFile.IsDirectory());
+
+
+
+	// Get directory size
+	theFile = NFileUtilities::GetDirectory(kNLocationLogs);
+	theSize = NFileUtilities::GetDirectorySize(theFile);
+	NN_ASSERT(theSize > 0);
 
 
 
