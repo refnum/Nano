@@ -47,7 +47,10 @@ void TFileUtilities::Execute(void)
 
 	// Get directories
 	theFile = NFileUtilities::GetDirectory(kNLocationHome);
+	NN_ASSERT(theFile.IsDirectory());
+	
 	theFile = NFileUtilities::GetDirectory(kNLocationDesktop);
+	NN_ASSERT(theFile.IsDirectory());
 
 
 
