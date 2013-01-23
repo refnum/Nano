@@ -59,14 +59,14 @@ NAtomicInt::~NAtomicInt(void)
 //----------------------------------------------------------------------------
 #pragma mark -
 NComparison NAtomicInt::Compare(const SInt32 &theValue) const
-{	volatile SInt32		myValue;
+{	SInt32		myValue;
 
 
 
 	// Compare the value
 	//
 	// The value is copied so the comparison is atomic.
-	myValue = mValue;
+	myValue = NThreadUtilities::AtomicAdd32(mValue, 0);
 
 	return(GetComparison(myValue, theValue));
 }

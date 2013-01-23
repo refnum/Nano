@@ -65,7 +65,7 @@ public:
 
 
 private:
-	SInt32								mValue;
+	mutable SInt32						mValue;
 };
 
 
