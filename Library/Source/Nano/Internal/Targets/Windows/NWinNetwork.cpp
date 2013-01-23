@@ -1493,17 +1493,7 @@ bool NTargetNetwork::ServicesAvailable(void)
 	if (!gDNSServiceInitialised)
 		{
 		// Load the library
-		//
-		// If we can't find the real library, we fall back to the application exe
-		// to allow apps to include their own copy of Bonjour within themselves.
-		//
-		// Note that since the dll uses __stdcall, any application hosted version
-		// of Bonjour must use a pragma (or a .def) to export the symbols without
-		// any __stdcall decoration.
 		hModule = LoadLibrary(L"dnssd.dll");
-		if (hModule == NULL)
-			hModule = GetModuleHandle(NULL);
-
 		if (hModule != NULL)
 			{
 			gDNSServiceRegister      = (DNSServiceRegisterProc)      GetProcAddress(hModule, "DNSServiceRegister");
