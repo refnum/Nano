@@ -904,14 +904,15 @@ void NSocket::SocketDidClose(NStatus theErr)
 
 	// Close the socket
 	//
-	// The socket can be closed via Close(), or due to a kNSocketDidClose event.
+	// The socket can be closed via Open(), Close(), or due to a kNSocketDidClose event.
 	//
-	// In both cases we are inside our lock, however the use of a lock means that
-	// the socket may be closed by Close() on one thread which triggers a close
-	// event on another.
+	// In all cases we are inside our lock, however the use of a lock means that the socket
+	// may be closed by Close() on one thread which triggers a close event on another. As
+	// such we need to check to see if the socket is already closed, and can ignore the
+	// second notification.
 	//
-	// As such we need to check to see if the socket is already closed, and can
-	// ignore the second notification.
+	// Similarly we need to check to see if we actually have a socket before destroying it,
+	// as a failure in Open() simply means we should inform the delegate.
 	if (mStatus != kNSocketClosed)
 		{
 		// Update our state
@@ -929,7 +930,8 @@ void NSocket::SocketDidClose(NStatus theErr)
 		if (mDelegate != NULL)
 			mDelegate->SocketDidClose(this, theErr);
 
-		NTargetNetwork::SocketClose(theSocket);
+		if (theSocket != NULL)
+			NTargetNetwork::SocketClose(theSocket);
 		}
 }
 
