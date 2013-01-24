@@ -134,7 +134,7 @@ void NNetworkService::RemoveService(const NString &serviceType, UInt16 thePort)
 
 
 	// Validate our parameters
-	NN_ASSERT(!HasService(serviceType, thePort));
+	NN_ASSERT(HasService(serviceType, thePort));
 
 
 
