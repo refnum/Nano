@@ -60,20 +60,20 @@ static const NMessageType kNMessageConnectResponseMsg				= -4;
 //
 // Higher bits may be used locally, but will be discarded before sending.
 static const NBitfield kNMessageAttributeMask						= 0x000000FF;
-static const NBitfield kNMessageHasProperties						= (1 << 0);		// On wire
-static const NBitfield kNMessageIsCompressed						= (1 << 1);		// On wire
-static const NBitfield kNMessageNeverCompress						= (1 << 8);		// Local
+static const NBitfield kNMessageHasProperties						= (1 << 0);			// On wire
+static const NBitfield kNMessageIsCompressed						= (1 << 1);			// On wire
+static const NBitfield kNMessageNeverCompress						= (1 << 8);			// Local
 
 
 // Message keys
 //
 // Messages that contain a single kNMessageDataKey property will be transmitted
 // in a more efficient form than those requiring an arbitrary dictionary.
-static const NString kNMessageMaxClientsKey							= "MaxClients";
-static const NString kNMessageNumClientsKey							= "NumClients";
-static const NString kNMessagePasswordKey							= "Password";
-static const NString kNMessageStatusKey								= "Status";
-static const NString kNMessageDataKey								= "Data";
+static const NString kNMessageMaxClientsKey							= "MaxClients";		// SInt32, NIndex
+static const NString kNMessageNumClientsKey							= "NumClients";		// SInt32, NIndex
+static const NString kNMessagePasswordKey							= "Password";		// NString
+static const NString kNMessageStatusKey								= "Status";			// SInt32, NStatus
+static const NString kNMessageDataKey								= "Data";			// NData
 
 
 
