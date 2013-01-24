@@ -48,12 +48,44 @@ NNetworkService::~NNetworkService(void)
 
 
 //============================================================================
+//		NNetworkService::HasService : Has a service been registered?
+//----------------------------------------------------------------------------
+bool NNetworkService::HasService(const NString &serviceType, UInt16 thePort) const
+{	bool									hasService;
+	NServiceAdvertiserMapConstIterator		theIter;
+	NString									theID;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!serviceType.IsEmpty());
+	NN_ASSERT(thePort != 0);
+
+
+
+	// Get the state we need
+	theID = GetServiceID(serviceType, thePort);
+
+
+
+	// Find the service
+	theIter    = mServices.find(theID);
+	hasService = (theIter != mServices.end());
+
+	return(hasService);
+}
+
+
+
+
+
+//============================================================================
 //		NNetworkService::AddService : Add a service.
 //----------------------------------------------------------------------------
 NStatus NNetworkService::AddService(const NString &serviceType, UInt16 thePort, const NString &theName)
-{	NServiceAdvertiserRef	theAdvertiser;
-	NStatus					theErr;
-	NString					theID;
+{	NServiceAdvertiserRef		theAdvertiser;
+	NStatus						theErr;
+	NString						theID;
 
 
 
@@ -73,7 +105,7 @@ NStatus NNetworkService::AddService(const NString &serviceType, UInt16 thePort, 
 	if (!NTargetNetwork::ServicesAvailable())
 		return(kNErrNotSupported);
 
-	if (mServices.find(theID) != mServices.end())
+	if (HasService(serviceType, thePort))
 		return(kNErrDuplicate);
 
 
@@ -102,8 +134,7 @@ void NNetworkService::RemoveService(const NString &serviceType, UInt16 thePort)
 
 
 	// Validate our parameters
-	NN_ASSERT(!serviceType.IsEmpty());
-	NN_ASSERT(thePort != 0);
+	NN_ASSERT(!HasService(serviceType, thePort));
 
 
 
@@ -115,9 +146,7 @@ void NNetworkService::RemoveService(const NString &serviceType, UInt16 thePort)
 
 
 	// Remove the service
-	if (theIter != mServices.end())
-		NTargetNetwork::ServiceAdvertiserDestroy(theIter->second);
-
+	NTargetNetwork::ServiceAdvertiserDestroy(theIter->second);
 	mServices.erase(theIter);
 }
 
@@ -148,7 +177,7 @@ void NNetworkService::RemoveServices(void)
 //		NNetworkService::GetServiceID : Get a service ID.
 //----------------------------------------------------------------------------
 #pragma mark -
-NString NNetworkService::GetServiceID(const NString &serviceType, UInt16 thePort)
+NString NNetworkService::GetServiceID(const NString &serviceType, UInt16 thePort) const
 {	NString		theID;
 
 

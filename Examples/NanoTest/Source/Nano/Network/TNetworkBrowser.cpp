@@ -43,12 +43,18 @@ void TNetworkBrowser::Execute(void)
 {	NNetworkBrowser		theBrowser;
 	NNetworkService		theService;
 	NString				theResult;
+	NStatus				theErr;
 
 
 
-	// Prepare the test
-	theService.AddService(kTestService, kTestPort);
+	// Prepare the service
+	theErr = theService.AddService( kTestService, kTestPort);
+	NN_ASSERT(theService.HasService(kTestService, kTestPort));
+	NN_ASSERT_NOERR(theErr);
 
+
+
+	// Prepare the browser
 	theBrowser.SetServices(vector(kTestService));
 	theBrowser.SetEventHandler(BindFunction(TNetworkBrowser::BrowseEvent, _1, &theResult));
 

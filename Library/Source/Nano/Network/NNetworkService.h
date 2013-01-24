@@ -72,6 +72,10 @@ public:
 	virtual							   ~NNetworkService(void);
 
 
+	// Has a service been registered?
+	bool								HasService(const NString &serviceType, UInt16 thePort) const;
+
+
 	// Add/remove a service
 	NStatus								AddService(   const NString &serviceType, UInt16 thePort, const NString &theName="");
 	void								RemoveService(const NString &serviceType, UInt16 thePort);
@@ -82,7 +86,7 @@ public:
 
 
 private:
-	NString								GetServiceID(const NString &serviceType, UInt16 thePort);
+	NString								GetServiceID(const NString &serviceType, UInt16 thePort) const;
 
 
 private:
