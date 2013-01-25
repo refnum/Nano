@@ -27,14 +27,16 @@
 //----------------------------------------------------------------------------
 // Paths
 #if NN_TARGET_MAC
-	static const NString kTestPath									= "/tmp";
+	static const NString kTestParent								= "/tmp/TFileIterator";
 
 #elif NN_TARGET_WINDOWS
-	static const NString kTestPath									= "c:\\windows\\temp";
+	static const NString kTestPath									= "c:\\windows\\temp\\TFileIterator";
 
 #else
 	UNKNOWN TARGET
 #endif
+
+static const NString kTestChild										= kTestParent + NN_DIR + "Child1" + NN_DIR + "Child2" + NN_DIR + "Child3";
 
 		
 		
@@ -46,12 +48,21 @@
 void TFileIterator::Execute(void)
 {	NFileIterator		fileIter;
 	NFileList			theFiles;
+	NFile				theFile;
 
 
 
 	// Iterate
-	theFiles = fileIter.GetFiles(NFile(kTestPath));
-	NN_ASSERT(!theFiles.empty());
+	theFile = kTestChild;
+	theFile.CreateFile();
+	NN_ASSERT(theFile.Exists());
+
+	theFile  = kTestParent;
+	theFiles = fileIter.GetFiles(theFile);
+	NN_ASSERT(theFiles.size() == 3);
+
+	theFile = kTestParent;
+	theFile.Delete();
 }
 
 
