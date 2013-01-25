@@ -205,6 +205,8 @@ public:
 
 
 	// Create a file/directory
+	//
+	// Non-existent parent directories will be created as necessary.
 	NStatus								CreateFile(     void);
 	NStatus								CreateDirectory(void);
 

@@ -627,12 +627,21 @@ NStatus NFile::DeleteContents(void) const
 //        NFile::CreateFile : Create a file.
 //----------------------------------------------------------------------------
 NStatus NFile::CreateFile(void)
-{	NStatus		theErr;
+{	NFile		theParent;
+	NStatus		theErr;
 
 
 
 	// Validate our state
 	NN_ASSERT(!Exists());
+
+
+
+	// Create the parent directory
+	theParent = GetParent();
+	
+	if (!theParent.Exists())
+		theParent.CreateDirectory();
 
 
 
@@ -654,12 +663,21 @@ NStatus NFile::CreateFile(void)
 //        NFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NFile::CreateDirectory(void)
-{	NStatus		theErr;
+{	NFile		theParent;
+	NStatus		theErr;
 
 
 
 	// Validate our state
 	NN_ASSERT(!Exists());
+
+
+
+	// Create the parent directory
+	theParent = GetParent();
+
+	if (!theParent.Exists())
+		theParent.CreateDirectory();
 
 
 
