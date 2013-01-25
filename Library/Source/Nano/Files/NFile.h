@@ -193,8 +193,8 @@ public:
 	//
 	// Deleting a file, rather than moving it to the trash, is permanent.
 	//
-	// If the file is open, it will be unlinked. If it is a directory, it
-	// can only be deleted if it is empty.
+	// If the file is open, it will be unlinked. If it is a directory, the
+	// contents will be deleted before the directory itself.
 	NStatus								Delete(bool moveToTrash=false) const;
 
 

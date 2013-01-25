@@ -557,6 +557,18 @@ NStatus NFile::Delete(bool moveToTrash) const
 
 
 
+	// Empty directories
+	if (IsDirectory() && !moveToTrash)
+		{
+		theErr = DeleteContents();
+		NN_ASSERT_NOERR(theErr);
+		
+		if (theErr != kNoErr)
+			return(theErr);
+		}
+
+
+
 	// Delete the file
 	theErr = NTargetFile::Delete(mPath, moveToTrash);
 	NN_ASSERT_NOERR(theErr);
