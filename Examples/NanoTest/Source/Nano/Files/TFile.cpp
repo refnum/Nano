@@ -40,24 +40,27 @@ static const NString kTestTmpExtension								= "txt";
 static const NString kTestTmpName2									= "TFileRename";
 static const NString kTestTmpExtension2								= "txtrename";
 static const NString kTestTmpName3									= "TFileMove";
+static const NString kTestTmpPathParent								= "TFileParent";
+static const NString kTestTmpPathChild								= kTestTmpPathParent + NN_DIR + "TFileChild1" + NN_DIR + "TFileChild2";
+static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TFileFileInChildInChildInParent.txt";
 
 #if NN_TARGET_MAC
 	static const NString kPathTmp									= "/tmp";
 	static const NString kPathFile									= "/bin/bash";
 	static const NString kPathDirectoryRoot							= "/Library";
 	static const NString kPathDirectoryChildren						= "Application Support/Apple";
-	static const NString kPathFileTmp								= kPathTmp + "/" + kTestTmpName  + "." + kTestTmpExtension;
-	static const NString kPathFileTmp2								= kPathTmp + "/" + kTestTmpName2 + "." + kTestTmpExtension2;
-	static const NString kPathDirTmp								= kPathTmp + "/" + kTestTmpName3;
+	static const NString kPathFileTmp								= kPathTmp + NN_DIR + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kPathTmp + NN_DIR + kTestTmpName2 + "." + kTestTmpExtension2;
+	static const NString kPathDirTmp								= kPathTmp + NN_DIR + kTestTmpName3;
 
 #elif NN_TARGET_WINDOWS
 	static const NString kPathTmp									= "c:\\windows\\temp";
 	static const NString kPathFile									= "c:\\windows\\WindowsShell.Manifest";
 	static const NString kPathDirectoryRoot							= "c:\\windows";
 	static const NString kPathDirectoryChildren						= "system32\\boot";
-	static const NString kPathFileTmp								= kPathTmp + "\\" + kTestTmpName  + "." + kTestTmpExtension;
-	static const NString kPathFileTmp2								= kPathTmp + "\\" + kTestTmpName2 + "." + kTestTmpExtension2;
-	static const NString kPathDirTmp								= kPathTmp + "\\" + kTestTmpName3;
+	static const NString kPathFileTmp								= kPathTmp + NN_DIR + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kPathTmp + NN_DIR + kTestTmpName2 + "." + kTestTmpExtension2;
+	static const NString kPathDirTmp								= kPathTmp + NN_DIR + kTestTmpName3;
 
 #else
 	UNKNOWN TARGET
@@ -74,6 +77,7 @@ void TFile::Execute(void)
 {	NString			thePath, theName, nameDisplay, nameNoExt, theExtension;
 	NFile			theFile, theDir, tmpFile, tmpFile2;
 	UInt8			tmpBuffer[kBufferSize];
+	NFileIterator	fileIter;
 	UInt64			theSize;
 	NStatus			theErr;
 	UInt32			n;
@@ -281,11 +285,58 @@ void TFile::Execute(void)
 
 
 
+	// Creation of file with parents
+	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathFile;
+	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
+
+	tmpFile.CreateFile();
+	NN_ASSERT(tmpFile.Exists());
+	NN_ASSERT(tmpFile2.Exists());
+	NN_ASSERT(tmpFile2.IsDirectory());
+
+	tmpFile2.Delete();
+	NN_ASSERT(!tmpFile.Exists());
+	NN_ASSERT(!tmpFile2.Exists());
+
+
+
+	// Creation of directory with parents
+	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathChild;
+	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
+
+	tmpFile.CreateDirectory();
+	NN_ASSERT(tmpFile.Exists());
+	NN_ASSERT(tmpFile2.Exists());
+	NN_ASSERT(tmpFile2.IsDirectory());
+
+	tmpFile2.Delete();
+	NN_ASSERT(!tmpFile.Exists());
+	NN_ASSERT(!tmpFile2.Exists());
+
+
+
+	// Delete contents
+	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathFile;
+	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
+	
+	tmpFile.CreateFile();
+	NN_ASSERT(tmpFile.Exists());
+	NN_ASSERT(fileIter.GetFiles(tmpFile2).size() == 3);
+
+	tmpFile2.DeleteContents();
+	NN_ASSERT(tmpFile2.IsDirectory());
+	NN_ASSERT(fileIter.GetFiles(tmpFile2).empty());
+
+	tmpFile2.Delete();
+
+
+
 	// Relatives
+	tmpFile  = kPathFileTmp;
 	tmpFile2 = tmpFile.GetParent();
 	NN_ASSERT(tmpFile2.GetPath() == kPathTmp);
 	
-	tmpFile2 = tmpFile2.GetChild(kTestTmpName + "." + kTestTmpExtension);
+	tmpFile2 = tmpFile2.GetChild(tmpFile.GetName());
 	NN_ASSERT(tmpFile2 == tmpFile);
 
 
