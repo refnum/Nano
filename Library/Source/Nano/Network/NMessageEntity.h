@@ -66,10 +66,6 @@ public:
 	NNetworkMessage						CreateMessage(NMessageType theType, NEntityID dstID);
 
 
-	// Send a message
-	virtual void						SendMessage(const NNetworkMessage &theMsg) = 0;
-
-
 protected:
 	// Create a handshake
 	NMessageHandshake					CreateHandshake(void) const;
