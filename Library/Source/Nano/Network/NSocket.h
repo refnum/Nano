@@ -18,6 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NSocketRequest.h"
 #include "NUncopyable.h"
+#include "NAtomicInt.h"
 #include "NByteSwap.h"
 #include "NLock.h"
 
@@ -93,6 +94,12 @@ public:
 	//
 	// Returns the final error that the socket was closed with.
 	NStatus								GetResult(void) const;
+
+
+	// Get the amount of pending data
+	//
+	// Returns the number of bytes written to, but not yet dispatched by, the socket.
+	NIndex								GetPendingWrites(void) const;
 
 
 	// Open the socket
@@ -223,6 +230,7 @@ private:
 	NSocketRequest					   *mWriteRequest;
 	NSocketRequestList					mWriteRequests;
 	NSemaphore							mWriteSemaphore;
+	NAtomicInt							mWritesPending;
 };
 
 

@@ -55,6 +55,10 @@ public:
 	bool								IsFinished(void) const;
 
 
+	// Get the total size
+	NIndex								GetSize(void) const;
+
+
 	// Get the finished data
 	//
 	// Returns the final data for the request.
@@ -62,14 +66,20 @@ public:
 
 
 	// Mark data as having been processed
+	//
+	// Data is processed sequentially, from start to finish.
 	void								ProcessedData(NIndex theSize);
 
 
 	// Get the remaining size
+	//
+	// The 'remaining' data is the unprocessed section of the request.
 	NIndex								GetRemainingSize(void) const;
 
 
 	// Get the remaining data
+	//
+	// The 'remaining' data is the unprocessed section of the request.
 	const UInt8						   *GetRemainingData(void) const;
 	UInt8							   *GetRemainingData(void);
 

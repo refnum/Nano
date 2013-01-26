@@ -74,6 +74,21 @@ bool NSocketRequest::IsFinished(void) const
 
 
 //============================================================================
+//		NSocketRequest::GetSize : Get the size.
+//----------------------------------------------------------------------------
+NIndex NSocketRequest::GetSize(void) const
+{
+
+
+	// Get the size
+	return(mData.GetSize());
+}
+
+
+
+
+
+//============================================================================
 //		NSocketRequest::GetFinishedData : Get the finished data.
 //----------------------------------------------------------------------------
 NData NSocketRequest::GetFinishedData(void) const

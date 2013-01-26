@@ -112,6 +112,21 @@ NStatus NSocket::GetResult(void) const
 
 
 //============================================================================
+//		NSocket::GetPendingWrites : Get the pending writes.
+//----------------------------------------------------------------------------
+NIndex NSocket::GetPendingWrites(void) const
+{
+
+
+	// Get the state
+	return(mWritesPending);
+}
+
+
+
+
+
+//============================================================================
 //		NSocket::Open : Open the socket.
 //----------------------------------------------------------------------------
 void NSocket::Open(UInt16 thePort)
@@ -864,7 +879,8 @@ void NSocket::InitialiseSelf(NSocketDelegate *theDelegate)
 	mReadBufferAvailable = 0;
 	mReadBuffer.SetSize(kReadBufferSize);
 	
-	mWriteRequest = NULL;
+	mWriteRequest  = NULL;
+	mWritesPending = 0;
 }
 
 
@@ -978,9 +994,6 @@ void NSocket::RemoveRequests(NStatus theErr)
 	for (theIter = mWriteRequests.begin(); theIter != mWriteRequests.end(); theIter++)
 		(*theIter)->Release();
 
-	mReadRequests.clear();
-	mWriteRequests.clear();
-
 
 
 	// Stop the active requests
@@ -995,6 +1008,14 @@ void NSocket::RemoveRequests(NStatus theErr)
 		mWriteRequest->SetStatus(theErr);
 		FinishedWriting();
 		}
+	
+	
+	
+	// Reset our state
+	mReadRequests.clear();
+	mWriteRequests.clear();
+
+	mWritesPending = 0;
 }
 
 
@@ -1030,7 +1051,9 @@ void NSocket::AddWriteRequest(NSocketRequest *theRequest)
 
 	// Add the request
 	theRequest->Retain();
+
 	mWriteRequests.push_back(theRequest);
+	mWritesPending += theRequest->GetSize();
 
 	ContinueWriting();
 }
@@ -1223,6 +1246,11 @@ void NSocket::FinishedWriting(void)
 
 
 
+	// Validate our state
+	NN_ASSERT(mWritesPending >= mWriteRequest->GetSize());
+
+
+
 	// Get the state we need
 	theSemaphore = mWriteRequest->GetSemaphore();
 
@@ -1239,6 +1267,8 @@ void NSocket::FinishedWriting(void)
 
 
 	// Finish the request
+	mWritesPending -= mWriteRequest->GetSize();
+
 	mWriteRequest->Release();
 	mWriteRequest = NULL;
 }
