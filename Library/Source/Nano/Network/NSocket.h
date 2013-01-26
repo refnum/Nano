@@ -96,7 +96,7 @@ public:
 	NStatus								GetResult(void) const;
 
 
-	// Get the amount of pending data
+	// Get the amount of pending write data
 	//
 	// Returns the number of bytes written to, but not yet dispatched by, the socket.
 	NIndex								GetPendingWrites(void) const;

@@ -112,7 +112,7 @@ NStatus NSocket::GetResult(void) const
 
 
 //============================================================================
-//		NSocket::GetPendingWrites : Get the pending writes.
+//		NSocket::GetPendingWrites : Get the amount of pending write data.
 //----------------------------------------------------------------------------
 NIndex NSocket::GetPendingWrites(void) const
 {
