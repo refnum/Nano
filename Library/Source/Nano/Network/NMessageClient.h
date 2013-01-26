@@ -62,6 +62,12 @@ public:
 	void								SendMessage(const NNetworkMessage &theMsg);
 
 
+	// Get the amount of pending write data
+	//
+	// Returns the number of bytes written, but not yet dispatched.
+	NIndex								GetPendingWrites(void) const;
+	
+
 protected:
 	// Accept the connection
 	//

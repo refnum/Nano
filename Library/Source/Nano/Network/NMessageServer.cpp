@@ -275,6 +275,29 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
+//		NMessageServer::GetPendingWrites : Get the amount of pending write data.
+//----------------------------------------------------------------------------
+NIndex NMessageServer::GetPendingWrites(void) const
+{	StLock							acquireLock(mLock);
+	NClientInfoMapConstIterator		theIter;
+	NIndex							theSize;
+
+
+
+	// Check the sockets
+	theSize = 0;
+
+	for (theIter = mClients.begin(); theIter != mClients.end(); theIter++)
+		theSize += theIter->second.theSocket->GetPendingWrites();
+	
+	return(theSize);
+}
+
+
+
+
+
+//============================================================================
 //		NMessageServer::ServerStarted : The server has started.
 //----------------------------------------------------------------------------
 void NMessageServer::ServerStarted(void)

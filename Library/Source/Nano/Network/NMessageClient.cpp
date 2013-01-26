@@ -140,6 +140,21 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 
 
 //============================================================================
+//		NMessageClient::GetPendingWrites : Get the amount of pending write data.
+//----------------------------------------------------------------------------
+NIndex NMessageClient::GetPendingWrites(void) const
+{
+
+
+	// Check the socket
+	return(mSocket.GetPendingWrites());
+}
+
+
+
+
+
+//============================================================================
 //		NMessageClient::AcceptConnection : Accept the connection.
 //----------------------------------------------------------------------------
 #pragma mark -
