@@ -55,14 +55,14 @@ public:
 	bool								IsFinished(void) const;
 
 
-	// Get the total size
+	// Get the request size
 	NIndex								GetSize(void) const;
 
 
-	// Get the finished data
+	// Get the request data
 	//
-	// Returns the final data for the request.
-	NData								GetFinishedData(void) const;
+	// The data should only be retrieved when the request is finished.
+	NData								GetData(void) const;
 
 
 	// Mark data as having been processed
@@ -71,17 +71,13 @@ public:
 	void								ProcessedData(NIndex theSize);
 
 
-	// Get the remaining size
-	//
-	// The 'remaining' data is the unprocessed section of the request.
-	NIndex								GetRemainingSize(void) const;
+	// Get the unprocessed size
+	NIndex								GetUnprocessedSize(void) const;
 
 
-	// Get the remaining data
-	//
-	// The 'remaining' data is the unprocessed section of the request.
-	const UInt8						   *GetRemainingData(void) const;
-	UInt8							   *GetRemainingData(void);
+	// Get the unprocessed data
+	const UInt8						   *GetUnprocessedData(void) const;
+	UInt8							   *GetUnprocessedData(void);
 
 
 	// Get/set the status

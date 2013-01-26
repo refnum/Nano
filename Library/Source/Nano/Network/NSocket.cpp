@@ -521,7 +521,7 @@ NStatus NSocket::ReadData(NIndex theSize, NData &theData)
 	
 	if (theErr == kNoErr)
 		{
-		theData = theRequest->GetFinishedData();
+		theData = theRequest->GetData();
 		NN_ASSERT(theData.GetSize() == theSize);
 		}
 
@@ -1113,8 +1113,8 @@ void NSocket::ContinueReading(void)
 		if (mReadBufferAvailable != 0)
 			{
 			// Read into the request
-			readSize = std::min(mReadBufferAvailable, mReadRequest->GetRemainingSize());
-			memcpy(mReadRequest->GetRemainingData(), mReadBuffer.GetData(mReadBufferOffset), readSize);
+			readSize = std::min(mReadBufferAvailable, mReadRequest->GetUnprocessedSize());
+			memcpy(mReadRequest->GetUnprocessedData(), mReadBuffer.GetData(mReadBufferOffset), readSize);
 			mReadRequest->ProcessedData(readSize);
 
 
@@ -1134,7 +1134,7 @@ void NSocket::ContinueReading(void)
 			if (!NTargetNetwork::SocketCanRead(mSocket))
 				break;
 
-			readSize = NTargetNetwork::SocketRead(mSocket, mReadRequest->GetRemainingSize(), mReadRequest->GetRemainingData());
+			readSize = NTargetNetwork::SocketRead(mSocket, mReadRequest->GetUnprocessedSize(), mReadRequest->GetUnprocessedData());
 			mReadRequest->ProcessedData(readSize);
 			}
 
@@ -1191,7 +1191,7 @@ void NSocket::ContinueWriting(void)
 		if (!NTargetNetwork::SocketCanWrite(mSocket))
 			break;
 		
-		writeSize = NTargetNetwork::SocketWrite(mSocket, mWriteRequest->GetRemainingSize(), mWriteRequest->GetRemainingData());
+		writeSize = NTargetNetwork::SocketWrite(mSocket, mWriteRequest->GetUnprocessedSize(), mWriteRequest->GetUnprocessedData());
 		mWriteRequest->ProcessedData(writeSize);
 
 
@@ -1225,7 +1225,7 @@ void NSocket::FinishedReading(void)
 	if (theSemaphore != NULL)
 		theSemaphore->Signal();
 	else
-		mDelegate->SocketFinishedRead(this, mReadRequest->GetFinishedData(), mReadRequest->GetStatus());
+		mDelegate->SocketFinishedRead(this, mReadRequest->GetData(), mReadRequest->GetStatus());
 
 
 
@@ -1262,7 +1262,7 @@ void NSocket::FinishedWriting(void)
 	if (theSemaphore != NULL)
 		theSemaphore->Signal();
 	else
-		mDelegate->SocketFinishedWrite(this, mWriteRequest->GetFinishedData(), mWriteRequest->GetStatus());
+		mDelegate->SocketFinishedWrite(this, mWriteRequest->GetData(), mWriteRequest->GetStatus());
 
 
 

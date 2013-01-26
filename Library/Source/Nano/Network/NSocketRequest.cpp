@@ -89,9 +89,9 @@ NIndex NSocketRequest::GetSize(void) const
 
 
 //============================================================================
-//		NSocketRequest::GetFinishedData : Get the finished data.
+//		NSocketRequest::GetData : Get the data.
 //----------------------------------------------------------------------------
-NData NSocketRequest::GetFinishedData(void) const
+NData NSocketRequest::GetData(void) const
 {
 
 
@@ -130,9 +130,9 @@ void NSocketRequest::ProcessedData(NIndex theSize)
 
 
 //============================================================================
-//		NSocketRequest::GetRemainingSize : Get the remaining size.
+//		NSocketRequest::GetUnprocessedSize : Get the unprocessed size.
 //----------------------------------------------------------------------------
-NIndex NSocketRequest::GetRemainingSize(void) const
+NIndex NSocketRequest::GetUnprocessedSize(void) const
 {	NIndex	theSize;
 
 
@@ -154,9 +154,9 @@ NIndex NSocketRequest::GetRemainingSize(void) const
 
 
 //============================================================================
-//		NSocketRequest::GetRemainingData : Get the remaining data.
+//		NSocketRequest::GetUnprocessedData : Get the unprocessed data.
 //----------------------------------------------------------------------------
-const UInt8 *NSocketRequest::GetRemainingData(void) const
+const UInt8 *NSocketRequest::GetUnprocessedData(void) const
 {
 
 
@@ -174,9 +174,9 @@ const UInt8 *NSocketRequest::GetRemainingData(void) const
 
 
 //============================================================================
-//		NSocketRequest::GetRemainingData : Get the remaining data.
+//		NSocketRequest::GetUnprocessedData : Get the unprocessed data.
 //----------------------------------------------------------------------------
-UInt8 *NSocketRequest::GetRemainingData(void)
+UInt8 *NSocketRequest::GetUnprocessedData(void)
 {
 
 
