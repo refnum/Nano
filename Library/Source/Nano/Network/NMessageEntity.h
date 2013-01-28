@@ -66,6 +66,18 @@ public:
 	NNetworkMessage						CreateMessage(NMessageType theType, NEntityID dstID);
 
 
+	// Send a message
+	//
+	// Messages are sent asynchronously.
+	virtual void						SendMessage(const NNetworkMessage &theMsg) = 0;
+
+
+	// Get the amount of pending write data
+	//
+	// Returns the number of bytes written, but not yet dispatched.
+	virtual NIndex						GetPendingWrites(void) const = 0;
+	
+
 protected:
 	// Create a handshake
 	NMessageHandshake					CreateHandshake(void) const;
