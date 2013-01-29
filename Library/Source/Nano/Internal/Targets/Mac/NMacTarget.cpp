@@ -87,8 +87,8 @@ NStatus NMacTarget::ConvertSysErr(int sysErr)
 		case EFAULT:				theErr = kNErrParam;				break;		// Bad address
 		case ENOTBLK:				theErr = kNErrParam;				break;		// Block device required
 		case EBUSY:					theErr = kNErrBusy;					break;		// Device / Resource busy
-		case EEXIST:				theErr = kNErrParam;				break;		// File exists
-		case EXDEV:					theErr = kNErrParam;				break;		// Cross-device link
+		case EEXIST:				theErr = kNErrPermission;			break;		// File exists
+		case EXDEV:					theErr = kNErrPermission;			break;		// Cross-device link
 		case ENODEV:				theErr = kNErrNotSupported;			break;		// Operation not supported by device
 		case ENOTDIR:				theErr = kNErrParam;				break;		// Not a directory
 		case EISDIR:				theErr = kNErrParam;				break;		// Is a directory
