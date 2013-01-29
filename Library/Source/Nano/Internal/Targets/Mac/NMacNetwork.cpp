@@ -820,11 +820,11 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, CFSocketNativeHandle nativeS
 //----------------------------------------------------------------------------
 static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 {	NCFObject				cfSocket, cfSource;
+	int						valueInt, sysErr;
 	CFSocketSignature		theSignature;
 	NCFObject				addressData;
 	CFSocketContext			theContext;
 	struct sockaddr_in		theAddress;
-	int						valueInt;
 	bool					isOK;
 
 
@@ -862,8 +862,9 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 		theSocket->nativeSocket = CFSocketGetNative(cfSocket);
 		valueInt                = 1;
 
-		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &valueInt, sizeof(valueInt));
-		setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &valueInt, sizeof(valueInt));
+		sysErr  = setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &valueInt, sizeof(valueInt));
+		sysErr |= setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &valueInt, sizeof(valueInt));
+		NN_ASSERT_NOERR(sysErr);
 		}
 	else
 		NN_LOG("Failed to create listening socket on port %d!", thePort);
