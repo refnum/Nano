@@ -825,6 +825,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	NCFObject				addressData;
 	CFSocketContext			theContext;
 	struct sockaddr_in		theAddress;
+	CFSocketError			sockErr;
 	bool					isOK;
 
 
@@ -842,6 +843,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	theAddress.sin_port        = htons(thePort);
 
 	isOK = addressData.SetObject(CFDataCreate(kCFAllocatorNano,  (const UInt8 *) &theAddress, sizeof(theAddress)));
+	NN_ASSERT(isOK);
 
 	if (isOK)
 		{
@@ -854,8 +856,24 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 
 
 	// Create the socket
+	//
+	// Although CFSocketCreateWithSocketSignature is a simpler interface, it is
+	// incompatible with SO_REUSEADDR/SO_REUSEPORT.
+	//
+	// CFSocketCreateWithSocketSignature calls CFSocketCreate+CFSocketSetAddress,
+	// and CFSocketSetAddress calls bind to bind the socket.
+	//
+	// The SO_REUSEADDR/SO_REUSEPORT options must be set before the socket is
+	// bound, so we need to set these before CFSocketSetAddress is called.
 	if (isOK)
-		isOK = cfSocket.SetObject(CFSocketCreateWithSocketSignature(kCFAllocatorNano, &theSignature, kCFSocketAcceptCallBack, SocketEvent, &theContext));
+		{
+		isOK = cfSocket.SetObject(CFSocketCreate(kCFAllocatorNano, theSignature.protocolFamily,
+																   theSignature.socketType,
+																   theSignature.protocol,
+																   kCFSocketAcceptCallBack,
+																   SocketEvent, &theContext));
+		NN_ASSERT(isOK);
+		}
 
 	if (isOK)
 		{
@@ -866,14 +884,30 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 		sysErr |= setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEPORT, &valueInt, sizeof(valueInt));
 		NN_ASSERT_NOERR(sysErr);
 		}
-	else
+
+	if (isOK)
+		{
+		sockErr = CFSocketSetAddress(cfSocket, theSignature.address);
+		isOK    = (sockErr == kCFSocketSuccess);
+		NN_ASSERT(isOK);
+		}
+
+	if (!isOK && cfSocket.IsValid())
+		{
+		theSocket->nativeSocket = NULL;
+		CFSocketInvalidate(cfSocket);
+
 		NN_LOG("Failed to create listening socket on port %d!", thePort);
+		}
 
 
 
 	// Register for events
 	if (isOK)
+		{
 		isOK = cfSource.SetObject(CFSocketCreateRunLoopSource(kCFAllocatorNano, cfSocket, 0));
+		NN_ASSERT(isOK);
+		}
 
 	if (isOK)
 		CFRunLoopAddSource(gSocketRunLoop, cfSource, kCFRunLoopDefaultMode);
@@ -903,6 +937,7 @@ static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost,
 	CFStreamCreatePairWithSocketToHost(kCFAllocatorNano, ToCF(theHost), thePort, &theSocket->cfStreamRead, &theSocket->cfStreamWrite);
 
 	isOK = (theSocket->cfStreamRead != NULL && theSocket->cfStreamWrite != NULL);
+	NN_ASSERT(isOK);
 
 
 
