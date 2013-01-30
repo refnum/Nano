@@ -894,7 +894,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 
 	if (!isOK && cfSocket.IsValid())
 		{
-		theSocket->nativeSocket = NULL;
+		theSocket->nativeSocket = kSocketHandleInvalid;
 		CFSocketInvalidate(cfSocket);
 
 		NN_LOG("Failed to create listening socket on port %d!", thePort);
