@@ -202,6 +202,13 @@ json_value * json_parse_ex (json_settings * settings, const json_char * json, ch
 
    error[0] = '\0';
 
+
+   // Nano, fix compiler warning
+   num_e        = 0;
+   num_fraction = 0;
+   num_digits   = 0;
+
+
    memset (&state, 0, sizeof (json_state));
    memcpy (&state.settings, settings, sizeof (json_settings));
 
@@ -217,6 +224,12 @@ json_value * json_parse_ex (json_settings * settings, const json_char * json, ch
       unsigned char uc_b1, uc_b2, uc_b3, uc_b4;
       json_char * string;
       unsigned int string_length;
+
+
+      // Nano, fix compiler warning
+	  string        = NULL;
+	  string_length = 0;
+
 
       top = root = 0;
       flags = flag_seek_value;
