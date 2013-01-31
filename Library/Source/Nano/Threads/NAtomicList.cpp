@@ -61,7 +61,7 @@ template<class T> NAtomicList<T>::~NAtomicList(void)
 //		NAtomicList::GetSize : Get the size.
 //----------------------------------------------------------------------------
 template<class T> NIndex NAtomicList<T>::GetSize(void) const
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 
 
 
@@ -77,7 +77,7 @@ template<class T> NIndex NAtomicList<T>::GetSize(void) const
 //		NAtomicList::Clear : Clear the list.
 //----------------------------------------------------------------------------
 template<class T> void NAtomicList<T>::Clear(void)
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 
 
 
@@ -97,7 +97,7 @@ template<class T> bool NAtomicList<T>::Lock(NTime theTime)
 
 
 	// Lock the list
-	return(mMutex.Lock(theTime));
+	return(mLock.Lock(theTime));
 }
 
 
@@ -112,7 +112,7 @@ template<class T> void NAtomicList<T>::Unlock(void)
 
 
 	// Unlock the list
-	mMutex.Unlock();
+	mLock.Unlock();
 }
 
 
@@ -123,7 +123,7 @@ template<class T> void NAtomicList<T>::Unlock(void)
 //		NAtomicList::GetValue : Get a value from the list.
 //----------------------------------------------------------------------------
 template<class T> T NAtomicList<T>::GetValue(NIndex theIndex) const
-{	StLock					acquireLock(mMutex);
+{	StLock					acquireLock(mLock);
 	TListConstIterator		theIter;
 	NIndex					n;
 
@@ -151,7 +151,7 @@ template<class T> T NAtomicList<T>::GetValue(NIndex theIndex) const
 //		NAtomicList::RemoveValue : Remove a value from the list.
 //----------------------------------------------------------------------------
 template<class T> void NAtomicList<T>::RemoveValue(T theValue)
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 
 
 
@@ -167,7 +167,7 @@ template<class T> void NAtomicList<T>::RemoveValue(T theValue)
 //		NAtomicList::PushFront : Push a value to the front of the list.
 //----------------------------------------------------------------------------
 template<class T> void NAtomicList<T>::PushFront(T theValue)
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 
 
 
@@ -183,7 +183,7 @@ template<class T> void NAtomicList<T>::PushFront(T theValue)
 //		NAtomicList::PushBack : Push a value to the back of the list.
 //----------------------------------------------------------------------------
 template<class T> void NAtomicList<T>::PushBack(T theValue)
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 
 
 
@@ -199,7 +199,7 @@ template<class T> void NAtomicList<T>::PushBack(T theValue)
 //		NAtomicList::PopFront : Remove a value to the front of the list.
 //----------------------------------------------------------------------------
 template<class T> bool NAtomicList<T>::PopFront(T &theValue)
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 	bool		didPop;
 
 
@@ -224,7 +224,7 @@ template<class T> bool NAtomicList<T>::PopFront(T &theValue)
 //		NAtomicList::PopBack : Remove a value to the back of the list.
 //----------------------------------------------------------------------------
 template<class T> bool NAtomicList<T>::PopBack(T &theValue)
-{	StLock		acquireLock(mMutex);
+{	StLock		acquireLock(mLock);
 	bool		didPop;
 
 

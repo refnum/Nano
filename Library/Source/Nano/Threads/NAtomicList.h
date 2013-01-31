@@ -73,7 +73,7 @@ private:
 	typedef typename TList::iterator		TListIterator;
 	typedef typename TList::const_iterator	TListConstIterator;
 
-	mutable NMutexLock					mMutex;
+	mutable NMutexLock					mLock;
 	TList								mList;
 };
 
