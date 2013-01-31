@@ -455,7 +455,7 @@ void TMessageServer::Execute(void)
 
 
 
-	// Disconnect the client1
+	// Disconnect the clients
 	testClient1.Disconnect();
 	testClient2.Disconnect();
 
