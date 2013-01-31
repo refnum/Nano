@@ -403,11 +403,17 @@ void NMessageServer::ReceivedMessage(const NNetworkMessage &theMsg)
 {
 
 
-	// Validate our parameters
-	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
-				theMsg.GetDestination() == kNEntityEveryone);
+	// Handle the message
+	switch (theMsg.GetType()) {
+		case kNMessageClientDisconnectedMsg:
+			NN_ASSERT(theMsg.GetDestination() == GetID());
+			DisconnectClient(theMsg.GetSource());
+			break;
 
-	NN_UNUSED(theMsg);
+		default:
+			NN_ASSERT(theMsg.GetDestination() == kNEntityEveryone);
+			break;
+		}
 }
 
 

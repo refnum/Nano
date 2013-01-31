@@ -62,7 +62,9 @@ static const NString kStateServer									= kStateServerStarted				+
 																	  kStateServerReceivedMessage		+
 																	  kStateServerReceivedMessage		+
 																	  kStateServerSentMessage			+
+																	  kStateServerReceivedMessage		+
 																	  kStateServerClientDisconnected	+
+																	  kStateServerReceivedMessage		+
 																	  kStateServerClientDisconnected	+
 																	  NFormatString(kStateServerStopped, kNoErr);
 

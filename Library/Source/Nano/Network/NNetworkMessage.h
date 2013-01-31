@@ -52,6 +52,7 @@ static const NMessageType kNMessageInvalidMsg						= -1;
 static const NMessageType kNMessageServerInfoMsg					= -2;
 static const NMessageType kNMessageConnectRequestMsg				= -3;
 static const NMessageType kNMessageConnectResponseMsg				= -4;
+static const NMessageType kNMessageClientDisconnectedMsg			= -5;
 
 
 // Message attributes

@@ -96,11 +96,21 @@ void NMessageClient::Connect(const NString &theHost, UInt16 thePort, const NStri
 //		NMessageClient::Disconnect : Disconnect from a server.
 //----------------------------------------------------------------------------
 void NMessageClient::Disconnect(void)
-{
+{	NNetworkMessage		theMsg;
+
 
 
 	// Validate our state
 	NN_ASSERT(mStatus == kNClientConnected);
+
+
+
+	// Let the server know
+	theMsg = CreateMessage(kNMessageClientDisconnectedMsg, kNEntityServer);
+	SendMessage(theMsg);
+
+	while (GetPendingWrites() != 0)
+		NThread::Sleep();
 
 
 
