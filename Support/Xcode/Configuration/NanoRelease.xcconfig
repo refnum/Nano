@@ -1,13 +1,13 @@
 //============================================================================
 //		Compiler
 //----------------------------------------------------------------------------
-GCC_OPTIMIZATION_LEVEL								= s
-GCC_PREPROCESSOR_DEFINITIONS						= NN_DEBUG=0
-GCC_UNROLL_LOOPS									= YES
-GCC_WARN_UNINITIALIZED_AUTOS						= YES
+GCC_OPTIMIZATION_LEVEL										= s
+GCC_PREPROCESSOR_DEFINITIONS								= NN_DEBUG=0
+GCC_UNROLL_LOOPS											= YES
+GCC_WARN_UNINITIALIZED_AUTOS								= YES
 
-NANO_RELEASE_WARNING_CFLAGS							= 
-NANO_RELEASE_OTHER_CFLAGS							= 
+NANO_RELEASE_WARNING_CFLAGS									= 
+NANO_RELEASE_OTHER_CFLAGS									= 
 
 
 
@@ -16,12 +16,12 @@ NANO_RELEASE_OTHER_CFLAGS							=
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
-COPY_PHASE_STRIP									= YES
-DEAD_CODE_STRIPPING									= YES
-DEPLOYMENT_POSTPROCESSING							= YES
-PRESERVE_DEAD_CODE_INITS_AND_TERMS					= YES
-SEPARATE_STRIP										= YES
-STRIPFLAGS											= -S
+COPY_PHASE_STRIP											= YES
+DEAD_CODE_STRIPPING											= YES
+DEPLOYMENT_POSTPROCESSING									= YES
+PRESERVE_DEAD_CODE_INITS_AND_TERMS							= YES
+SEPARATE_STRIP												= YES
+STRIPFLAGS													= -S
 
 
 

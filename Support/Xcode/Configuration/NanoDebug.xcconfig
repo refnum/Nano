@@ -1,13 +1,13 @@
 //============================================================================
 //		Compiler
 //----------------------------------------------------------------------------
-GCC_OPTIMIZATION_LEVEL								= 0
-GCC_PREPROCESSOR_DEFINITIONS						= NN_DEBUG=1
-GCC_UNROLL_LOOPS									= NO
-GCC_WARN_UNINITIALIZED_AUTOS						= NO
+GCC_OPTIMIZATION_LEVEL										= 0
+GCC_PREPROCESSOR_DEFINITIONS								= NN_DEBUG=1
+GCC_UNROLL_LOOPS											= NO
+GCC_WARN_UNINITIALIZED_AUTOS								= NO
 
-NANO_DEBUG_WARNING_CFLAGS							= -Wstack-protector
-NANO_DEBUG_OTHER_CFLAGS								= -fstack-protector-all
+NANO_DEBUG_WARNING_CFLAGS									= -Wstack-protector
+NANO_DEBUG_OTHER_CFLAGS										= -fstack-protector-all
 
 
 
@@ -16,12 +16,12 @@ NANO_DEBUG_OTHER_CFLAGS								= -fstack-protector-all
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
-COPY_PHASE_STRIP									= NO
-DEAD_CODE_STRIPPING									= NO
-DEPLOYMENT_POSTPROCESSING							= NO
-PRESERVE_DEAD_CODE_INITS_AND_TERMS					= NO
-SEPARATE_STRIP										= NO
-STRIPFLAGS											= 
+COPY_PHASE_STRIP											= NO
+DEAD_CODE_STRIPPING											= NO
+DEPLOYMENT_POSTPROCESSING									= NO
+PRESERVE_DEAD_CODE_INITS_AND_TERMS							= NO
+SEPARATE_STRIP												= NO
+STRIPFLAGS													= 
 
 
 
@@ -30,7 +30,7 @@ STRIPFLAGS											=
 //============================================================================
 //		Target
 //----------------------------------------------------------------------------
-ONLY_ACTIVE_ARCH									= YES
+ONLY_ACTIVE_ARCH											= YES
 
 
 

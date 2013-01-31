@@ -20,69 +20,69 @@
 //
 // GCC_WARN_SHADOW emits warnings from system headers.
 //----------------------------------------------------------------------------
-ALWAYS_SEARCH_USER_PATHS							= NO
-DEBUG_INFORMATION_FORMAT							= dwarf
-INFOPLIST_PREPROCESS								= YES
-INFOPLIST_PREPROCESSOR_DEFINITIONS					= INFO_PLIST
+ALWAYS_SEARCH_USER_PATHS									= NO
+DEBUG_INFORMATION_FORMAT									= dwarf
+INFOPLIST_PREPROCESS										= YES
+INFOPLIST_PREPROCESSOR_DEFINITIONS							= INFO_PLIST
 
-GCC_C_LANGUAGE_STANDARD								= c99
-GCC_DEBUGGING_SYMBOLS								= used
-GCC_DYNAMIC_NO_PIC									= NO
-GCC_ENABLE_CPP_EXCEPTIONS							= NO
-GCC_ENABLE_TRIGRAPHS								= YES
-GCC_FAST_MATH										= YES
-GCC_GENERATE_DEBUGGING_SYMBOLS						= YES
-GCC_INLINES_ARE_PRIVATE_EXTERN						= YES
-GCC_NO_COMMON_BLOCKS								= YES
-GCC_OBJC_CALL_CXX_CDTORS							= YES
-GCC_PRECOMPILE_PREFIX_HEADER						= YES
-GCC_SYMBOLS_PRIVATE_EXTERN                          = YES
-GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS	= YES
-GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS	= YES
-GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS		= YES
-GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS					= YES
-GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO				= YES
-GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS			= YES
-GCC_WARN_ABOUT_MISSING_NEWLINE						= YES
-GCC_WARN_ABOUT_MISSING_PROTOTYPES					= YES
-GCC_WARN_ABOUT_POINTER_SIGNEDNESS					= YES
-GCC_WARN_ABOUT_RETURN_TYPE							= YES
-GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL					= YES
-GCC_WARN_CHECK_SWITCH_STATEMENTS					= YES
-GCC_WARN_FOUR_CHARACTER_CONSTANTS					= YES
-GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS					= YES
-GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED			= YES
-GCC_WARN_MISSING_PARENTHESES						= YES
-GCC_WARN_NON_VIRTUAL_DESTRUCTOR						= YES
-GCC_WARN_PROTOTYPE_CONVERSION						= YES
-GCC_WARN_SIGN_COMPARE								= YES
-GCC_WARN_STRICT_SELECTOR_MATCH						= YES
-GCC_WARN_TYPECHECK_CALLS_TO_PRINTF					= YES
-GCC_WARN_UNDECLARED_SELECTOR						= YES
-GCC_WARN_UNKNOWN_PRAGMAS							= YES
-GCC_WARN_UNUSED_FUNCTION							= YES
-GCC_WARN_UNUSED_LABEL								= YES
-GCC_WARN_UNUSED_PARAMETER							= YES
-GCC_WARN_UNUSED_VALUE								= YES
-GCC_WARN_UNUSED_VARIABLE							= YES
+GCC_C_LANGUAGE_STANDARD										= c99
+GCC_DEBUGGING_SYMBOLS										= used
+GCC_DYNAMIC_NO_PIC											= NO
+GCC_ENABLE_CPP_EXCEPTIONS									= NO
+GCC_ENABLE_TRIGRAPHS										= YES
+GCC_FAST_MATH												= YES
+GCC_GENERATE_DEBUGGING_SYMBOLS								= YES
+GCC_INLINES_ARE_PRIVATE_EXTERN								= YES
+GCC_NO_COMMON_BLOCKS										= YES
+GCC_OBJC_CALL_CXX_CDTORS									= YES
+GCC_PRECOMPILE_PREFIX_HEADER								= YES
+GCC_SYMBOLS_PRIVATE_EXTERN                          		= YES
+GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS			= YES
+GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS		= YES
+GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS				= YES
+GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS							= YES
+GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO						= YES
+GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS					= YES
+GCC_WARN_ABOUT_MISSING_NEWLINE								= YES
+GCC_WARN_ABOUT_MISSING_PROTOTYPES							= YES
+GCC_WARN_ABOUT_POINTER_SIGNEDNESS							= YES
+GCC_WARN_ABOUT_RETURN_TYPE									= YES
+GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL							= YES
+GCC_WARN_CHECK_SWITCH_STATEMENTS							= YES
+GCC_WARN_FOUR_CHARACTER_CONSTANTS							= YES
+GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS							= YES
+GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED					= YES
+GCC_WARN_MISSING_PARENTHESES								= YES
+GCC_WARN_NON_VIRTUAL_DESTRUCTOR								= YES
+GCC_WARN_PROTOTYPE_CONVERSION								= YES
+GCC_WARN_SIGN_COMPARE										= YES
+GCC_WARN_STRICT_SELECTOR_MATCH								= YES
+GCC_WARN_TYPECHECK_CALLS_TO_PRINTF							= YES
+GCC_WARN_UNDECLARED_SELECTOR								= YES
+GCC_WARN_UNKNOWN_PRAGMAS									= YES
+GCC_WARN_UNUSED_FUNCTION									= YES
+GCC_WARN_UNUSED_LABEL										= YES
+GCC_WARN_UNUSED_PARAMETER									= YES
+GCC_WARN_UNUSED_VALUE										= YES
+GCC_WARN_UNUSED_VARIABLE									= YES
 
-//GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS			= YES
-//GCC_WARN_64_TO_32_BIT_CONVERSION					= YES
+//GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS					= YES
+//GCC_WARN_64_TO_32_BIT_CONVERSION							= YES
 
-GCC_FAST_MATH[sdk=iphonesimulator*]					= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
+GCC_FAST_MATH[sdk=iphonesimulator*]							= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
 
-CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS			= YES
-CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES			= YES
-CLANG_WARN_OBJCPP_ARC_ABI							= YES
-//CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION			= YES
+CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS					= YES
+CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES					= YES
+CLANG_WARN_OBJCPP_ARC_ABI									= YES
+//CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION					= YES
 
-NANO_HEADER_SEARCH_PATHS                            = "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
-NANO_WARNING_CFLAGS									= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
-NANO_OTHER_CFLAGS									= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_CFLAGS)   -fconstant-cfstrings
+NANO_HEADER_SEARCH_PATHS                            		= "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
+NANO_WARNING_CFLAGS											= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
+NANO_OTHER_CFLAGS											= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_CFLAGS)   -fconstant-cfstrings
 
-HEADER_SEARCH_PATHS                                 = $(NANO_HEADER_SEARCH_PATHS)
-WARNING_CFLAGS										= $(NANO_WARNING_CFLAGS)
-OTHER_CFLAGS										= $(NANO_OTHER_CFLAGS)
+HEADER_SEARCH_PATHS                                 		= $(NANO_HEADER_SEARCH_PATHS)
+WARNING_CFLAGS												= $(NANO_WARNING_CFLAGS)
+OTHER_CFLAGS												= $(NANO_OTHER_CFLAGS)
 
 
 
@@ -91,9 +91,9 @@ OTHER_CFLAGS										= $(NANO_OTHER_CFLAGS)
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
-NANO_OTHER_LDFLAGS									= -ObjC
+NANO_OTHER_LDFLAGS											= -ObjC
 
-OTHER_LDFLAGS										= $(NANO_OTHER_LDFLAGS)
+OTHER_LDFLAGS												= $(NANO_OTHER_LDFLAGS)
 
 
 
@@ -102,21 +102,21 @@ OTHER_LDFLAGS										= $(NANO_OTHER_LDFLAGS)
 //============================================================================
 //		Target
 //----------------------------------------------------------------------------
-MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]				= 10.6
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]			= 5.1
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]	= 5.1
+MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]						= 10.6
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]					= 5.1
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]			= 5.1
 
-ARCHS[sdk=macosx*]									= i386 x86_64 ppc
-ARCHS[sdk=iphoneos*]								= armv7 armv7s
-ARCHS[sdk=iphonesimulator*]							= i386
+ARCHS[sdk=macosx*]											= i386 x86_64 ppc
+ARCHS[sdk=iphoneos*]										= armv7 armv7s
+ARCHS[sdk=iphonesimulator*]									= i386
 
-CODE_SIGN_IDENTITY[sdk=iphoneos*]					= iPhone Developer
-CODE_SIGN_IDENTITY[sdk=iphonesimulator*]			= iPhone Developer
+CODE_SIGN_IDENTITY[sdk=iphoneos*]							= iPhone Developer
+CODE_SIGN_IDENTITY[sdk=iphonesimulator*]					= iPhone Developer
 
-TARGETED_DEVICE_FAMILY								= 1,2		// iPhone=1, iPad=2
-VALIDATE_PRODUCT									= YES
+TARGETED_DEVICE_FAMILY										= 1,2		// iPhone=1, iPad=2
+VALIDATE_PRODUCT											= YES
 
-COMBINE_HIDPI_IMAGES[sdk=macosx*]					= YES
+COMBINE_HIDPI_IMAGES[sdk=macosx*]							= YES
 
 
 
