@@ -17,6 +17,8 @@
 		AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
 		AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
 		AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
+		AB01819516BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math -Wno-error=incompatible-pointer-types"; }; };
+		AB01819616BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math -Wno-error=incompatible-pointer-types"; }; };
 		AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB078D2811D4A988006C9347 /* NUIKit.mm */; };
 		AB103B6310B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
 		AB103B6410B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
@@ -230,8 +232,6 @@
 		AB9155C10F9B4DD6009FFEAF /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB91567B0F9B5328009FFEAF /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
 		AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
-		AB9A652614EEE04100D0DAA1 /* sqlite_3.7.10.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9A652314EEE04100D0DAA1 /* sqlite_3.7.10.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math -Wno-error=incompatible-pointer-types"; }; };
-		AB9A652714EEE04100D0DAA1 /* sqlite_3.7.10.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9A652314EEE04100D0DAA1 /* sqlite_3.7.10.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math -Wno-error=incompatible-pointer-types"; }; };
 		AB9DA5E2102AF78F0062E311 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5D8102AF78F0062E311 /* NCFData.cpp */; };
 		AB9DA5E3102AF78F0062E311 /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
 		AB9DA5E4102AF78F0062E311 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */; };
@@ -345,6 +345,10 @@
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
 		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
+		AB01819116BAA03C0033152D /* nano_sqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nano_sqlite.h; sourceTree = "<group>"; };
+		AB01819216BAA03C0033152D /* sqlite_3.7.15.2_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.15.2_fts3_tokenizer.h; sourceTree = "<group>"; };
+		AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.7.15.2.c; sourceTree = "<group>"; };
+		AB01819416BAA03C0033152D /* sqlite_3.7.15.2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.15.2.h; sourceTree = "<group>"; };
 		AB069DEE14CC1FAE006E6DF8 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
 		AB069DEF14CC1FAE006E6DF8 /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
 		AB069DF014CC1FAE006E6DF8 /* NanoDebugiOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebugiOS.xcconfig; sourceTree = "<group>"; };
@@ -576,10 +580,6 @@
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFString.cpp; sourceTree = "<group>"; };
-		AB9A652214EEE04100D0DAA1 /* nano_sqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nano_sqlite.h; sourceTree = "<group>"; };
-		AB9A652314EEE04100D0DAA1 /* sqlite_3.7.10.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.7.10.c; sourceTree = "<group>"; };
-		AB9A652414EEE04100D0DAA1 /* sqlite_3.7.10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.10.h; sourceTree = "<group>"; };
-		AB9A652514EEE04100D0DAA1 /* sqlite_3.7.10_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.10_fts3_tokenizer.h; sourceTree = "<group>"; };
 		AB9DA5D8102AF78F0062E311 /* NCFData.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFData.cpp; sourceTree = "<group>"; };
 		AB9DA5D9102AF78F0062E311 /* NCFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFData.h; sourceTree = "<group>"; };
 		AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFDictionary.cpp; sourceTree = "<group>"; };
@@ -730,6 +730,17 @@
 				AB00402B109700AD006029F9 /* NCoreGraphics.h */,
 			);
 			path = CoreGraphics;
+			sourceTree = "<group>";
+		};
+		AB01819016BAA03C0033152D /* sqlite_3.7.15.2 */ = {
+			isa = PBXGroup;
+			children = (
+				AB01819116BAA03C0033152D /* nano_sqlite.h */,
+				AB01819216BAA03C0033152D /* sqlite_3.7.15.2_fts3_tokenizer.h */,
+				AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */,
+				AB01819416BAA03C0033152D /* sqlite_3.7.15.2.h */,
+			);
+			path = sqlite_3.7.15.2;
 			sourceTree = "<group>";
 		};
 		AB078D2611D4A988006C9347 /* UIKit */ = {
@@ -966,7 +977,7 @@
 				AB9154E30F9B4DD5009FFEAF /* pcre_7.8 */,
 				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
-				AB9A652114EEE04100D0DAA1 /* sqlite_3.7.10 */,
+				AB01819016BAA03C0033152D /* sqlite_3.7.15.2 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				ABD68173167AAB9800CB2E04 /* udp.github.com */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
@@ -1254,17 +1265,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		AB9A652114EEE04100D0DAA1 /* sqlite_3.7.10 */ = {
-			isa = PBXGroup;
-			children = (
-				AB9A652214EEE04100D0DAA1 /* nano_sqlite.h */,
-				AB9A652314EEE04100D0DAA1 /* sqlite_3.7.10.c */,
-				AB9A652414EEE04100D0DAA1 /* sqlite_3.7.10.h */,
-				AB9A652514EEE04100D0DAA1 /* sqlite_3.7.10_fts3_tokenizer.h */,
-			);
-			path = sqlite_3.7.10;
-			sourceTree = "<group>";
-		};
 		ABAA123F0FE4F959000BDCDC /* Qt */ = {
 			isa = PBXGroup;
 			children = (
@@ -1527,7 +1527,7 @@
 				AB7AB1BE103AED18004B1F6E /* blowfish.c in Sources */,
 				AB7AB1BF103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */,
-				AB9A652614EEE04100D0DAA1 /* sqlite_3.7.10.c in Sources */,
+				AB01819516BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */,
 				AB6B2F4A116CCAB80095D5A5 /* tero_des.cpp in Sources */,
 				ABD68177167AAB9900CB2E04 /* json.c in Sources */,
 				AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */,
@@ -1694,7 +1694,7 @@
 				AB7AB1C0103AED18004B1F6E /* blowfish.c in Sources */,
 				AB7AB1C1103AED18004B1F6E /* blowfish_dat.c in Sources */,
 				AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */,
-				AB9A652714EEE04100D0DAA1 /* sqlite_3.7.10.c in Sources */,
+				AB01819616BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */,
 				AB6B2F49116CCAB80095D5A5 /* tero_des.cpp in Sources */,
 				ABD68178167AAB9900CB2E04 /* json.c in Sources */,
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
