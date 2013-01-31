@@ -1247,7 +1247,7 @@ void NSocket::FinishedWriting(void)
 
 
 	// Validate our state
-	NN_ASSERT(mWritesPending >= mWriteRequest->GetSize());
+	NN_ASSERT(mWritesPending >= (int) mWriteRequest->GetSize());
 
 
 
