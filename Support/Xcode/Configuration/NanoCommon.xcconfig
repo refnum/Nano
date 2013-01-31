@@ -51,7 +51,17 @@ GCC_FAST_MATH[sdk=iphonesimulator*]							= NO		// Work around rdar://9241512 (b
 CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS					= YES
 CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES					= YES
 CLANG_WARN_OBJCPP_ARC_ABI									= YES
-//CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION					= YES
+CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER					= YES
+CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND					= YES
+CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY					= YES
+CLANG_WARN__ARC_BRIDGE_CAST_NONARC							= YES
+CLANG_WARN__DUPLICATE_METHOD_MATCH							= YES
+CLANG_WARN_CXX0X_EXTENSIONS									= YES
+CLANG_WARN_EMPTY_BODY										= YES
+CLANG_WARN_IMPLICIT_SIGN_CONVERSION							= YES
+CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS					= YES
+CLANG_WARN_OBJC_RECEIVER_WEAK								= YES
+CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION					= YES
 
 NANO_HEADER_SEARCH_PATHS                            		= "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
 NANO_WARNING_CFLAGS											= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
