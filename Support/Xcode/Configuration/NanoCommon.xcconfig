@@ -1,25 +1,6 @@
 //============================================================================
 //		Compiler
 //----------------------------------------------------------------------------
-// GCC_WARN_64_TO_32_BIT_CONVERSION is useful to review periodically, but
-// too noisy for normal builds (Visual Studio's 64->32 bit warnings are
-// better for picking out the important cases).
-//
-// GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS isn't useful when global constants
-// are declared as static const objects.
-//
-// GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS has some useful aspects, but
-// too much is style-specific and gcc emits some incorrectly (e.g., lack
-// of copy constructor even if class derives from an uncopyable base class).
-//
-// GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR emits warnings from
-// system headers.
-//
-// GCC_WARN_PEDANTIC warns about features in C99 even when building as
-// C99 (e.g., anonymous variadic macros).
-//
-// GCC_WARN_SHADOW emits warnings from system headers.
-//----------------------------------------------------------------------------
 ALWAYS_SEARCH_USER_PATHS									= NO
 DEBUG_INFORMATION_FORMAT									= dwarf
 INFOPLIST_PREPROCESS										= YES
@@ -66,9 +47,6 @@ GCC_WARN_UNUSED_PARAMETER									= YES
 GCC_WARN_UNUSED_VALUE										= YES
 GCC_WARN_UNUSED_VARIABLE									= YES
 
-//GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS					= YES
-//GCC_WARN_64_TO_32_BIT_CONVERSION							= YES
-
 GCC_FAST_MATH[sdk=iphonesimulator*]							= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
 
 CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS					= YES
@@ -83,6 +61,40 @@ NANO_OTHER_CFLAGS											= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_
 HEADER_SEARCH_PATHS                                 		= $(NANO_HEADER_SEARCH_PATHS)
 WARNING_CFLAGS												= $(NANO_WARNING_CFLAGS)
 OTHER_CFLAGS												= $(NANO_OTHER_CFLAGS)
+
+
+
+
+
+//============================================================================
+//		Compiler - optional
+//----------------------------------------------------------------------------
+// Review periodically, but too noisy for normal builds.
+//
+//GCC_WARN_64_TO_32_BIT_CONVERSION							= YES
+
+
+// Not useful when static const objects used as global constants.
+//
+//GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS						= YES
+
+
+// Quite style-specific, and gcc has bugs (warns about lack of copy
+// constructor even if class derives from uncopyable base class).
+//
+//GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS					= YES
+
+
+// Emits warnings from system headers
+//
+//GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR			= YES
+//GCC_WARN_SHADOW											= YES
+
+
+// Warns about features in C99 even when building as C99 (e.g., use
+// of anonymous variadic macros).
+//
+//GCC_WARN_PEDANTIC											= YES
 
 
 
