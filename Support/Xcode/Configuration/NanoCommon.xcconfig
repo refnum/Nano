@@ -8,18 +8,18 @@ INFOPLIST_PREPROCESSOR_DEFINITIONS							= INFO_PLIST
 
 GCC_C_LANGUAGE_STANDARD										= c99
 GCC_DEBUGGING_SYMBOLS										= used
-GCC_DYNAMIC_NO_PIC											= NO
 GCC_ENABLE_CPP_EXCEPTIONS									= NO
 GCC_FAST_MATH												= YES
-GCC_GENERATE_DEBUGGING_SYMBOLS								= YES
+GCC_FAST_MATH[sdk=iphonesimulator*]							= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
 GCC_INLINES_ARE_PRIVATE_EXTERN								= YES
 GCC_NO_COMMON_BLOCKS										= YES
 GCC_OBJC_CALL_CXX_CDTORS									= YES
 GCC_PRECOMPILE_PREFIX_HEADER								= YES
-GCC_SYMBOLS_PRIVATE_EXTERN                          		= YES
+GCC_SYMBOLS_PRIVATE_EXTERN									= YES
 GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS			= YES
 GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS		= YES
 GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS				= YES
+
 GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS							= YES
 GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO						= YES
 GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS					= YES
@@ -46,21 +46,19 @@ GCC_WARN_UNUSED_PARAMETER									= YES
 GCC_WARN_UNUSED_VALUE										= YES
 GCC_WARN_UNUSED_VARIABLE									= YES
 
-GCC_FAST_MATH[sdk=iphonesimulator*]							= NO		// Work around rdar://9241512 (bug in Xcode 3.2.6 Simulator)
-
-CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS					= YES
-CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES					= YES
-CLANG_WARN_OBJCPP_ARC_ABI									= YES
 CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER					= YES
 CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND					= YES
 CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY					= YES
+
 CLANG_WARN__ARC_BRIDGE_CAST_NONARC							= YES
 CLANG_WARN__DUPLICATE_METHOD_MATCH							= YES
 CLANG_WARN_CXX0X_EXTENSIONS									= YES
+CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS					= YES
 CLANG_WARN_EMPTY_BODY										= YES
-CLANG_WARN_IMPLICIT_SIGN_CONVERSION							= YES
+CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES					= YES
 CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS					= YES
 CLANG_WARN_OBJC_RECEIVER_WEAK								= YES
+CLANG_WARN_OBJCPP_ARC_ABI									= YES
 CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION					= YES
 
 NANO_HEADER_SEARCH_PATHS                            		= "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
@@ -81,6 +79,7 @@ OTHER_CFLAGS												= $(NANO_OTHER_CFLAGS)
 // Review periodically, but too noisy for normal builds.
 //
 //GCC_WARN_64_TO_32_BIT_CONVERSION							= YES
+//CLANG_WARN_IMPLICIT_SIGN_CONVERSION						= YES
 
 
 // Not useful when static const objects used as global constants.
