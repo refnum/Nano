@@ -116,7 +116,8 @@ void NMessageClient::Disconnect(void)
 //		NMessageClient::SendMessage : Send a message.
 //----------------------------------------------------------------------------
 void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
-{	NEntityID		dstID;
+{	NStatus			theErr;
+	NEntityID		dstID;
 
 
 
@@ -132,7 +133,10 @@ void NMessageClient::SendMessage(const NNetworkMessage &theMsg)
 	
 	// Send via the server
 	else
-		(void) WriteMessage(&mSocket, theMsg, false);
+		{
+		theErr = WriteMessage(&mSocket, theMsg, false);
+		NN_ASSERT_NOERR(theErr);
+		}
 }
 
 
