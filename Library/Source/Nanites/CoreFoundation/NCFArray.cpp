@@ -107,7 +107,7 @@ NCFObject NCFArray::GetObject(void) const
 //----------------------------------------------------------------------------
 bool NCFArray::SetObject(CFArrayRef cfObject, bool takeOwnership)
 {	NCFObject		theObject(cfObject, takeOwnership);
-	NIndex			n, numItems;
+	CFIndex			n, numItems;
 	NVariant		theValue;
 	bool			isValid;
 

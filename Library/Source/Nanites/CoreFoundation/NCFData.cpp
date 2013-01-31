@@ -104,7 +104,7 @@ bool NCFData::SetObject(CFDataRef cfObject, bool takeOwnership)
 
 	// Set the object
 	if (isValid)
-		*this = NData(CFDataGetLength(cfObject), CFDataGetBytePtr(cfObject));
+		*this = NData((NIndex) CFDataGetLength(cfObject), CFDataGetBytePtr(cfObject));
 
 	return(isValid);
 }

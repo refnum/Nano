@@ -302,7 +302,7 @@ NStatus NDataCompressor::ZLib_Compress(const NData &srcData, NData &dstData)
 	
 	dstOrigSize = dstData.GetSize();
 	dstSize     = compressBound(srcSize);
-	dstBuffer   = (Bytef *) dstData.AppendData(dstSize);
+	dstBuffer   = (Bytef *) dstData.AppendData((NIndex) dstSize);
 
 	if (dstBuffer == NULL)
 		return(kNErrMemory);
@@ -320,7 +320,7 @@ NStatus NDataCompressor::ZLib_Compress(const NData &srcData, NData &dstData)
 
 	// Adjust the buffer size
 	NN_ASSERT(dstData.GetSize() >= (NIndex) (dstOrigSize + dstSize));
-	dstData.SetSize(dstOrigSize + dstSize);
+	dstData.SetSize((NIndex) (dstOrigSize + dstSize));
 	
 	return(kNoErr);
 }
@@ -381,7 +381,7 @@ NIndex NDataCompressor::ZLib_RequiredSize(NIndex theSize)
 
 
 	// Get the size
-	return(compressBound(theSize));
+	return((NIndex) compressBound(theSize));
 }
 
 

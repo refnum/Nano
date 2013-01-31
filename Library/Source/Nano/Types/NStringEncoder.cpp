@@ -890,7 +890,7 @@ NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, UInt32 t
 	// Process the result
 	switch ((ConversionResult) theResult) {
 		case conversionOK:
-			theData.SetSize(((const UInt8 *) dataEnd) - theData.GetData());
+			theData.SetSize((NIndex) (((const UInt8 *) dataEnd) - theData.GetData()) );
 			theErr = kNoErr;
 			break;
 			

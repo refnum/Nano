@@ -60,7 +60,7 @@ CFURLRef		ToCF(const NURL			&theURL);
 // CoreFoundation to Nano
 inline NRange ToNN(const CFRange &theRange)
 {
-	return(NRange(theRange.location, theRange.length));
+	return(NRange((NIndex) theRange.location, (NIndex) theRange.length));
 }
 
 inline NArray ToNN(CFArrayRef theArray)

@@ -245,7 +245,10 @@ UInt32 NTargetPOSIX::random(void)
 
 
 	// Get the value
-	return(::random());
+	//
+	// Random returns a long in 64-bit, so we need to cast to UInt32 (and
+	// mod, to ensure we don't remain random).
+	return((UInt32) (::random() % kUInt32Max));
 }
 
 

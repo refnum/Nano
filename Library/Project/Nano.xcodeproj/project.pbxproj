@@ -162,8 +162,8 @@
 		AB7AAFD8103AC4EF004B1F6E /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		AB7AB08D103AD6B5004B1F6E /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
 		AB7AB08E103AD6B5004B1F6E /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
-		AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
-		AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
+		AB7AB0B0103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB7AB0B1103ADB17004B1F6E /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		AB7AB0DC103ADEDD004B1F6E /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		AB7AB1BE103AED18004B1F6E /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BB103AED18004B1F6E /* blowfish.c */; };
@@ -282,8 +282,8 @@
 		ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
 		ABD6816B1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
-		ABD68177167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers -Wno-sign-conversion"; }; };
-		ABD68178167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-Wno-missing-field-initializers -Wno-sign-conversion"; }; };
+		ABD68177167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		ABD68178167AAB9900CB2E04 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABD6817B167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
 		ABD6817C167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
 		ABEB0BF916760BDF00B74B71 /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
@@ -302,7 +302,7 @@
 		ABFAA559101871460060ED12 /* NEncodable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA555101871460060ED12 /* NEncodable.cpp */; };
 		ABFAA6981018AB360060ED12 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA67F1018AB360060ED12 /* adler32.c */; };
 		ABFAA6991018AB360060ED12 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6801018AB360060ED12 /* compress.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		ABFAA69A1018AB360060ED12 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; };
+		ABFAA69A1018AB360060ED12 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABFAA69B1018AB360060ED12 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6831018AB360060ED12 /* deflate.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABFAA69D1018AB360060ED12 /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6861018AB360060ED12 /* gzio.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABFAA69E1018AB360060ED12 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6871018AB360060ED12 /* infback.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -314,7 +314,7 @@
 		ABFAA6A51018AB360060ED12 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6961018AB360060ED12 /* zutil.c */; };
 		ABFAA6A61018AB360060ED12 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA67F1018AB360060ED12 /* adler32.c */; };
 		ABFAA6A71018AB360060ED12 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6801018AB360060ED12 /* compress.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		ABFAA6A81018AB360060ED12 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; };
+		ABFAA6A81018AB360060ED12 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABFAA6A91018AB360060ED12 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6831018AB360060ED12 /* deflate.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABFAA6AB1018AB360060ED12 /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6861018AB360060ED12 /* gzio.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABFAA6AC1018AB360060ED12 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6871018AB360060ED12 /* infback.c */; settings = {COMPILER_FLAGS = "-w"; }; };

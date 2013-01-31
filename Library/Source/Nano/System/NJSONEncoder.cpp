@@ -403,7 +403,7 @@ bool NJSONEncoder::DecodeBoolean(const json_value_ptr jsonValue)
 //============================================================================
 //		NJSONEncoder::DecodeInteger : Decode an integer.
 //----------------------------------------------------------------------------
-SInt32 NJSONEncoder::DecodeInteger(const json_value_ptr jsonValue)
+SInt64 NJSONEncoder::DecodeInteger(const json_value_ptr jsonValue)
 {
 
 

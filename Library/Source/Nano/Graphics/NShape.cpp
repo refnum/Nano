@@ -421,7 +421,7 @@ template<class T> std::vector<T> NShapeX::Flatten(const std::vector< NPointT<T> 
 
 
 	// Flatten the list
-	numItems = thePoints.size();
+	numItems = (NIndex) thePoints.size();
 	
 	for (n = 0; n < numItems; n++)
 		{
@@ -447,7 +447,7 @@ template<class T> std::vector< NPointT<T> > NShapeX::Unflatten(const std::vector
 
 
 	// Unflatten the list
-	numItems = theValues.size();
+	numItems = (NIndex) theValues.size();
 	
 	for (n = 0; n < numItems; n += 2)
 		{

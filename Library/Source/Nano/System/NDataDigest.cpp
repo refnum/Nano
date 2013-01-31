@@ -212,7 +212,7 @@ UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevValue)
 
 
 	// Get the digest
-	theDigest = adler32(prevValue, theData.GetData(), theData.GetSize());
+	theDigest = (UInt32) adler32(prevValue, theData.GetData(), theData.GetSize());
 	
 	return(theDigest);
 }

@@ -139,7 +139,7 @@ void NUndoManager::PerformUndo(void)
 	// Although the group actions may also set an undo name, the name of
 	// the group overrides them (so that the user sees a consistent name
 	// as a group is moved between the undo/redo menu items).
-	oldSize = mStackRedo.size();
+	oldSize = (NIndex) mStackRedo.size();
 	
 	BeginGroup();
 	
@@ -197,7 +197,7 @@ void NUndoManager::PerformRedo(void)
 	// Although the group actions may also set an undo name, the name of
 	// the group overrides them (so that the user sees a consistent name
 	// as a group is moved between the undo/redo menu items).
-	oldSize = mStackUndo.size();
+	oldSize = (NIndex) mStackUndo.size();
 	
 	BeginGroup();
 	

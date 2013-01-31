@@ -104,14 +104,14 @@ NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &the
 
 		tokenEnd = GetTokenEnd(tokenStart);
 		
-		theContext.theToken  = NString(tokenStart, tokenEnd - tokenStart + 1);
+		theContext.theToken  = NString(tokenStart, (NIndex) (tokenEnd - tokenStart + 1));
 		theContext.tokenChar = *tokenStart;
 		theContext.tokenSize = theContext.theToken.GetSize();
 
 
 
 		// Append the text to this point
-		theResult += NString(textUTF8, tokenStart - textUTF8);
+		theResult += NString(textUTF8, (NIndex) (tokenStart - textUTF8));
 		textUTF8   = tokenEnd + 1;
 
 

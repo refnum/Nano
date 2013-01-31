@@ -504,7 +504,7 @@ NString NStringFormatter::Format(const NString &theFormat, const NFormatArgument
 
 
 		// Append the text to this point
-		theResult += NString(textUTF8, tokenStart - textUTF8);
+		theResult += NString(textUTF8, (NIndex) (tokenStart - textUTF8));
 		textUTF8   = tokenStart + 1;
 
 
@@ -535,7 +535,7 @@ NString NStringFormatter::Format(const NString &theFormat, const NFormatArgument
 				else
 					{
 					// Evaluate the token
-					theToken   = NString(tokenStart, tokenEnd - tokenStart + 1);
+					theToken   = NString(tokenStart, (NIndex) (tokenEnd - tokenStart + 1));
 					theResult += ParseToken(theContext, theToken);
 
 
@@ -795,7 +795,7 @@ NIndex NStringFormatter::ParseIndex(const char *textPtr, NRange &theRange)
 
 	// Parse the terminator
 	if (ch == '$')
-		theRange.SetSize(charPtr - startPtr);
+		theRange.SetSize((NIndex) (charPtr - startPtr));
 	else
 		{
 		n        = kNIndexNone;

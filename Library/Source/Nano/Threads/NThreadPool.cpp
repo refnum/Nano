@@ -28,7 +28,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32 kMaxTasks										= 1000000;
+static const NIndex kMaxTasks										= 1000000;
 
 
 
@@ -112,7 +112,7 @@ NThreadPool::~NThreadPool(void)
 //============================================================================
 //		NThreadPool::GetActiveTasks : Get the number of active tasks.
 //----------------------------------------------------------------------------
-UInt32 NThreadPool::GetActiveTasks(void) const
+NIndex NThreadPool::GetActiveTasks(void) const
 {
 
 
@@ -127,13 +127,14 @@ UInt32 NThreadPool::GetActiveTasks(void) const
 //============================================================================
 //		NThreadPool::GetPendingTasks : Get the number of pending tasks.
 //----------------------------------------------------------------------------
-UInt32 NThreadPool::GetPendingTasks(void) const
+NIndex NThreadPool::GetPendingTasks(void) const
 {	StLock		acquireLock(mLock);
-	UInt32		numTasks;
+	NIndex		numTasks;
+
 
 
 	// Get the size
-	numTasks = mTasks.size();
+	numTasks = (NIndex) mTasks.size();
 
 	return(numTasks);
 }
@@ -145,7 +146,7 @@ UInt32 NThreadPool::GetPendingTasks(void) const
 //============================================================================
 //		NThreadPool::GetThreadLimit : Get the thread limit.
 //----------------------------------------------------------------------------
-UInt32 NThreadPool::GetThreadLimit(void) const
+NIndex NThreadPool::GetThreadLimit(void) const
 {	StLock	acquireLock(mLock);
 
 
@@ -161,7 +162,7 @@ UInt32 NThreadPool::GetThreadLimit(void) const
 //============================================================================
 //		NThreadPool::SetThreadLimit : Set the thread limit.
 //----------------------------------------------------------------------------
-void NThreadPool::SetThreadLimit(UInt32 theValue)
+void NThreadPool::SetThreadLimit(NIndex theValue)
 {	StLock	acquireLock(mLock);
 
 
@@ -395,7 +396,7 @@ void NThreadPool::SchedulePriority(NThreadTaskList &theTasks)
 //----------------------------------------------------------------------------
 #pragma mark -
 void NThreadPool::StopThreads(void)
-{	UInt32		n;
+{	NIndex		n;
 
 
 
@@ -404,7 +405,7 @@ void NThreadPool::StopThreads(void)
 
 	mStopThreads = true;
 	
-	for (n = 0; n < (UInt32) mActiveThreads; n++)
+	for (n = 0; n < mActiveThreads; n++)
 		mSemaphore.Signal();
 	
 	mLock.Unlock();
@@ -448,7 +449,7 @@ void NThreadPool::ScheduleTask(NThreadTask *theTask)
 	//
 	// Incrementing the thread count must be done by the main thread, since a large
 	// number of tasks may be queued up before any worker thread gets a chance to run. 
-	if ((UInt32) mActiveThreads < mThreadLimit)
+	if (mActiveThreads < mThreadLimit)
 		{
 		NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
 		NThreadUtilities::DetachFunctor(BindSelf(NThreadPool::ExecuteTasks));

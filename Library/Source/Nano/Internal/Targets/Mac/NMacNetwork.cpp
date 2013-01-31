@@ -243,7 +243,7 @@ static void       SocketDestroy(NSocketRef theSocket);
 
 
 	// Update the delegate
-	mResponse->DelegateData([nsData length], [nsData bytes]);
+	mResponse->DelegateData((NIndex) [nsData length], [nsData bytes]);
 }
 
 
@@ -283,7 +283,7 @@ static void       SocketDestroy(NSocketRef theSocket);
 
 
 	// Update the delegate
-	mResponse->DelegateFinished([nsError code]);
+	mResponse->DelegateFinished((NStatus) [nsError code]);
 }
 
 @end
@@ -1392,7 +1392,7 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 
 
 	// Read from the stream
-	numRead = CFReadStreamRead(theSocket->cfStreamRead, (UInt8 *) thePtr, theSize);
+	numRead = (NIndex) CFReadStreamRead(theSocket->cfStreamRead, (UInt8 *) thePtr, theSize);
 	if (numRead < 0)
 		numRead = 0;
 
@@ -1417,7 +1417,7 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 
 
 	// Write to the stream
-	numWritten = CFWriteStreamWrite(theSocket->cfStreamWrite, (const UInt8 *) thePtr, theSize);
+	numWritten = (NIndex) CFWriteStreamWrite(theSocket->cfStreamWrite, (const UInt8 *) thePtr, theSize);
 	if (numWritten < 0)
 		numWritten = 0;
 

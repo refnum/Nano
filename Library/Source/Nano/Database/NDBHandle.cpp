@@ -731,7 +731,7 @@ NDBQueryRef NDBHandle::SQLiteCreateQuery(const NDBQuery &theQuery)
 	// happens rarely enough that for now we treat it as uninterruptable.
 	do
 		{
-		dbErr = sqlite3_prepare_v2(sqlDB, textUTF8, strlen(textUTF8), &sqlQuery, &sqlTail);
+		dbErr = sqlite3_prepare_v2(sqlDB, textUTF8, (int) strlen(textUTF8), &sqlQuery, &sqlTail);
 		if (dbErr == SQLITE_BUSY)
 			NThread::Sleep();
 		}

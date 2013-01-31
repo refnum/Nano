@@ -35,13 +35,13 @@ public:
 
 
 	// Get the number of tasks
-	UInt32								GetActiveTasks( void) const;
-	UInt32								GetPendingTasks(void) const;
+	NIndex								GetActiveTasks( void) const;
+	NIndex								GetPendingTasks(void) const;
 	
 
 	// Get/set the thread limit
-	UInt32								GetThreadLimit(void) const;
-	void								SetThreadLimit(UInt32 theValue);
+	NIndex								GetThreadLimit(void) const;
+	void								SetThreadLimit(NIndex theValue);
 
 
 	// Pause/resume the pool
@@ -120,10 +120,10 @@ private:
 	bool								mIsPaused;
 	bool								mStopThreads;
 	bool								mHavePushed;
-	UInt32								mThreadLimit;
+	NIndex								mThreadLimit;
 
-	SInt32								mActiveTasks;
-	SInt32								mActiveThreads;
+	NIndex								mActiveTasks;
+	NIndex								mActiveThreads;
 
 	NThreadTaskList						mTasks;
 	NThreadTaskList						mTasksPending;

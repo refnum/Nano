@@ -865,7 +865,7 @@ void NArray::EncodeSelf(NEncoder &theEncoder) const
 
 	// Get the state we need
 	theArray = GetImmutable();
-	numItems = theArray->size();
+	numItems = (NIndex) theArray->size();
 
 
 
@@ -916,7 +916,7 @@ void NArray::DecodeSelf(const NEncoder &theEncoder)
 
 	// Get the state we need
 	theKeys = theEncoder.GetKeys();
-	numItems = theKeys.size();
+	numItems = (NIndex) theKeys.size();
 	
 	for (n = 0; n < numItems; n++)
 		AppendValue(0);

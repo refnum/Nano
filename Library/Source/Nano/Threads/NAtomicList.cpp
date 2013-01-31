@@ -66,7 +66,7 @@ template<class T> NIndex NAtomicList<T>::GetSize(void) const
 
 
 	// Get the size
-	return(mList.size());
+	return((NIndex) mList.size());
 }
 
 

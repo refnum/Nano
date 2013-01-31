@@ -618,10 +618,9 @@ NString NSystemUtilities::GetSystemArch(void)
 //----------------------------------------------------------------------------
 NComparison NSystemUtilities::CompareVersions(const NString &version1, const NString &version2)
 {	NComparison				theResult, shorterResult, longerResult;
+	NIndex					n, numParts, type1, type2;
 	NString					part1, part2, nextPart;
 	NStringList				parts1, parts2;
-	NIndex					type1, type2;
-	UInt32					n, numParts;
 
 
 
@@ -638,7 +637,7 @@ NComparison NSystemUtilities::CompareVersions(const NString &version1, const NSt
 
 
 	// Examine the parts
-	numParts = std::min(parts1.size(), parts2.size());
+	numParts = (NIndex) std::min(parts1.size(), parts2.size());
 	
 	for (n = 0; n < numParts; n++)
 		{

@@ -70,7 +70,7 @@ bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
     if (intB < 0)
         intB = 0x80000000L - intB;
 
-	theDelta = labs(intA - intB);
+	theDelta = (SInt32) labs(intA - intB);
 	areEqual = (theDelta <= maxUlps);
 
 	return(areEqual);

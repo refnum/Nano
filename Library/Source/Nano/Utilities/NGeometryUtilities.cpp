@@ -76,10 +76,10 @@ template<class T> NRectangleT<T> NGeometryUtilities::GetBounds(const std::vector
 
 
 	// Get the state we need
-	numPoints = thePoints.size();
+	numPoints = (NIndex) thePoints.size();
 
-	minX = maxX = (numPoints != 0) ? thePoints[0].x : ((T) 0.0);
-	minY = maxY = (numPoints != 0) ? thePoints[0].y : ((T) 0.0);
+	minX = maxX = (numPoints != 0) ? thePoints[0].x : 0;
+	minY = maxY = (numPoints != 0) ? thePoints[0].y : 0;
 
 
 
@@ -125,7 +125,7 @@ template<class T> NPointT<T> NGeometryUtilities::GetPointOnLine(const std::vecto
 
 
 	// Get the state we need
-	numPoints   = thePoints.size();
+	numPoints   = (NIndex) thePoints.size();
 	theLength   = GetLength(thePoints);
 	intersectAt = theLength * theOffset;
 

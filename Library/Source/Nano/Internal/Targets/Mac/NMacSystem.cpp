@@ -34,7 +34,7 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Tasks
-static const UInt32 kBufferSize											= 2048;
+static const size_t kBufferSize											= 2 * kNKilobyte;
 
 static const NIndex kPipeParent											= 0;
 static const NIndex kPipeChild											= 1;
@@ -90,7 +90,7 @@ static void ClosePipe(NTaskPipeRef &thePipe)
 	// Close the pipe
 	if (thePipe != kNTaskPipeRefNone)
 		{
-		close(thePipe);
+		close((int) thePipe);
 		thePipe = kNTaskPipeRefNone;
 		}
 }
@@ -105,7 +105,7 @@ static void ClosePipe(NTaskPipeRef &thePipe)
 static NString ReadPipe(NTaskPipeRef &thePipe, bool lastRead)
 {	char		theBuffer[kBufferSize];
 	NString		theString;
-	int			numRead;
+	NIndex		numRead;
 
 
 
@@ -118,7 +118,7 @@ static NString ReadPipe(NTaskPipeRef &thePipe, bool lastRead)
 	// Read from the pipe
 	do
 		{
-		numRead = read(thePipe, theBuffer, kBufferSize);
+		numRead = (NIndex) read((int) thePipe, theBuffer, kBufferSize);
 		if (numRead >= 1)
 			theString += NString(theBuffer, numRead);
 		}
@@ -155,7 +155,7 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 	
 	// Write to the pipe
 	theData = theText.GetData();
-	write(thePipe, theData.GetData(), theData.GetSize());
+	write((int) thePipe, theData.GetData(), theData.GetSize());
 }
 
 
@@ -438,6 +438,12 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 
 
 
+	// Validate our state
+	NN_ASSERT(sizeof(NTaskID)      >= sizeof(pid_t));
+	NN_ASSERT(sizeof(NTaskPipeRef) >= sizeof(int));
+
+
+
 	// Get the state we need
 	//
 	// Mac OS X 10.6 does not allow the use of the File Manager between a fork()
@@ -499,8 +505,8 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 			theTask.stdOut = (NTaskPipeRef) pipeStdOut[kPipeParent];
 			theTask.stdErr = (NTaskPipeRef) pipeStdErr[kPipeParent];
 			
-			fcntl(theTask.stdOut, F_SETFL, O_NONBLOCK);
-			fcntl(theTask.stdErr, F_SETFL, O_NONBLOCK);
+			fcntl((int) theTask.stdOut, F_SETFL, O_NONBLOCK);
+			fcntl((int) theTask.stdErr, F_SETFL, O_NONBLOCK);
 			break;
 		}
 	
@@ -539,7 +545,7 @@ void NTargetSystem::TaskUpdate(TaskInfo &theTask)
 
 
 	// Get the child status
-	sysErr = wait4(theTask.taskID, &theStatus, WNOHANG, NULL);
+	sysErr = wait4((pid_t) theTask.taskID, &theStatus, WNOHANG, NULL);
 	if (sysErr == 0)
 		return;
 
@@ -650,12 +656,12 @@ void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 	// Signal the task
 	switch (theSignal) {
 		case kTaskKill:
-			sysErr = kill(theTask.taskID, SIGTERM);
+			sysErr = kill((pid_t) theTask.taskID, SIGTERM);
 			NN_ASSERT_NOERR(sysErr);
 			break;
 
 		case kTaskInterrupt:
-			sysErr = kill(theTask.taskID, SIGINT);
+			sysErr = kill((pid_t) theTask.taskID, SIGINT);
 			NN_ASSERT_NOERR(sysErr);
 			break;
 		

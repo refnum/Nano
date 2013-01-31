@@ -88,7 +88,7 @@ NIndex NCache::GetSize(void) const
 
 
 	// Get the size
-	return(mCache.size());
+	return((NIndex) mCache.size());
 }
 
 

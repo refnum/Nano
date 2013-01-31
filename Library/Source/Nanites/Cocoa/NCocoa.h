@@ -177,7 +177,7 @@ inline NRectangle ToNN(const NSRect &theRect)
 
 inline NRange ToNN(const NSRange &theRange)
 {
-	return(NRange(theRange.location, theRange.length));
+	return(NRange((NIndex) theRange.location, (NIndex) theRange.length));
 }
 
 inline NArray ToNN(NSArray *theArray)

@@ -57,7 +57,7 @@ private:
 
 	NVariant							DecodeValue(     const json_value_ptr jsonValue);
 	bool								DecodeBoolean(   const json_value_ptr jsonValue);
-	SInt32								DecodeInteger(   const json_value_ptr jsonValue);
+	SInt64								DecodeInteger(   const json_value_ptr jsonValue);
 	Float64								DecodeReal(      const json_value_ptr jsonValue);
 	NString								DecodeString(    const json_value_ptr jsonValue);
 	NArray								DecodeArray(     const json_value_ptr jsonValue);

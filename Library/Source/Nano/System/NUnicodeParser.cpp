@@ -139,7 +139,7 @@ NIndex NUnicodeParser::GetSize(void) const
 
 
 	// Get the size
-	return(mCodePoints.size());
+	return((NIndex) mCodePoints.size());
 }
 
 

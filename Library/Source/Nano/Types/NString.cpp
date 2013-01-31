@@ -622,8 +622,8 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 			thisUTF8   =           GetUTF8();
 			suffixUTF8 = theString.GetUTF8();
 			
-			thisLen   = strlen(thisUTF8);
-			suffixLen = strlen(suffixUTF8);
+			thisLen   = (NIndex) strlen(thisUTF8);
+			suffixLen = (NIndex) strlen(suffixUTF8);
 
 			NN_ASSERT(suffixLen <= thisLen);
 			isMatch = (memcmp(thisUTF8 + thisLen - suffixLen, suffixUTF8, suffixLen) == 0);
