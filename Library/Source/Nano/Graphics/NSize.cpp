@@ -186,8 +186,8 @@ template<class T> NComparison NSizeT<T>::Compare(const NSizeT &theValue) const
 
 	if (theResult != kNCompareEqualTo)
 		{
-		area1     = fabs(         width *          height);
-		area2     = fabs(theValue.width * theValue.height);
+		area1     = (T) fabs(         width *          height);
+		area2     = (T) fabs(theValue.width * theValue.height);
 		theResult = GetComparison(area1, area2);
 		}
 
@@ -291,8 +291,8 @@ template<class T> NSizeT<T> NSizeT<T>::GetIntegral(void) const
 	//
 	// An integral size has its size rounded up, to create a (potentially
 	// larger) size with integer coordinates.
-	theResult.width  = ceil(width);
-	theResult.height = ceil(height);
+	theResult.width  = (T) ceil(width);
+	theResult.height = (T) ceil(height);
 
 	return(theResult);
 }

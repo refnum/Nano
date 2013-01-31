@@ -48,17 +48,22 @@ inline CGRect ToCG(const NRectangle &theRect)
 // CoreGraphics to Nano
 inline NPoint ToNN(const CGPoint &thePoint)
 {
-	return(NPoint(thePoint.x, thePoint.y));
+	return(NPoint(	(Float32) thePoint.x,
+					(Float32) thePoint.y));
 }
 
 inline NSize ToNN(const CGSize &theSize)
 {
-	return(NSize(theSize.width, theSize.height));
+	return(NSize(	(Float32) theSize.width,
+					(Float32) theSize.height));
 }
 
 inline NRectangle ToNN(const CGRect &theRect)
 {
-	return(NRectangle(theRect.origin.x, theRect.origin.y, theRect.size.width, theRect.size.height));
+	return(NRectangle(	(Float32) theRect.origin.x,
+						(Float32) theRect.origin.y,
+						(Float32) theRect.size.width,
+						(Float32) theRect.size.height));
 }
 
 

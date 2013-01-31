@@ -303,8 +303,8 @@ json_value * json_parse_ex (json_settings * settings, const json_char * json, ch
                         if (state.first_pass)
                            string_length += 2;
                         else
-                        {  string [string_length ++] = 0xC0 | ((uc_b2 & 0xC0) >> 6) | ((uc_b1 & 0x7) << 2);
-                           string [string_length ++] = 0x80 | (uc_b2 & 0x3F);
+                        {  string [string_length ++] = (json_char) (0xC0 | ((uc_b2 & 0xC0) >> 6) | ((uc_b1 & 0x7) << 2));
+                           string [string_length ++] = (json_char) (0x80 | (uc_b2 & 0x3F));
                         }
 
                         break;
@@ -313,9 +313,9 @@ json_value * json_parse_ex (json_settings * settings, const json_char * json, ch
                     if (state.first_pass)
                        string_length += 3;
                     else
-                    {  string [string_length ++] = 0xE0 | ((uc_b1 & 0xF0) >> 4);
-                       string [string_length ++] = 0x80 | ((uc_b1 & 0xF) << 2) | ((uc_b2 & 0xC0) >> 6);
-                       string [string_length ++] = 0x80 | (uc_b2 & 0x3F);
+                    {  string [string_length ++] = (json_char) (0xE0 | ((uc_b1 & 0xF0) >> 4));
+                       string [string_length ++] = (json_char) (0x80 | ((uc_b1 & 0xF) << 2) | ((uc_b2 & 0xC0) >> 6));
+                       string [string_length ++] = (json_char) (0x80 | (uc_b2 & 0x3F));
                     }
 
                     break;
