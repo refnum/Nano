@@ -162,6 +162,8 @@ private:
 	void								ServerThread(NSocket *theSocket);
 
 	NEntityID							GetNextClientID(void);
+	void								DisconnectClient(NEntityID clientID);
+	
 	void								AddClient(   NEntityID clientID, NSocket *theSocket);
 	void								RemoveClient(NEntityID clientID);
 

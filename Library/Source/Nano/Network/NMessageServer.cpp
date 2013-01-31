@@ -515,8 +515,7 @@ void NMessageServer::SocketDidClose(NSocket *theSocket, NStatus theErr)
 			{
 			if (theIter->second.theSocket == theSocket)
 				{
-				ClientDisconnected(theIter->first);
-				RemoveClient(      theIter->first);
+				DisconnectClient(theIter->first);
 				break;
 				}
 			}
@@ -675,6 +674,23 @@ NEntityID NMessageServer::GetNextClientID(void)
 		}
 
 	return(kNEntityInvalid);
+}
+
+
+
+
+
+//============================================================================
+//		NMessageServer::DisconnectClient : Disconnect a client.
+//----------------------------------------------------------------------------
+void NMessageServer::DisconnectClient(NEntityID clientID)
+{	StLock		acquireLock(mLock);
+
+
+
+	// Disconnect the client
+	ClientDisconnected(clientID);
+	RemoveClient(      clientID);
 }
 
 
