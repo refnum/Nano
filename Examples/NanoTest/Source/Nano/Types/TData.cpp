@@ -42,7 +42,7 @@ static const NData kTestData2(NN_ARRAY_SIZE(kBlock2), kBlock2);
 //		TData::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TData::Execute(void)
-{	UInt32			n, theSize;
+{	NIndex			n, theSize;
 	const NData		*testConst;
 	NData			testData;
 

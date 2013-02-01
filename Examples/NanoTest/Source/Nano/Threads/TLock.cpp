@@ -120,12 +120,12 @@ void TLock::LockUnlock(NLock *theLock, NData *theData)
 
 
 		// Use the data
-		memset(dataPtr, kDataActive, dataSize);
+		memset(dataPtr, kDataActive, (size_t) dataSize);
 		
 		for (m = 0; m < dataSize; m++)
 			NN_ASSERT(dataPtr[m] == kDataActive);
 		
-		memset(dataPtr, kDataInactive, dataSize);
+		memset(dataPtr, kDataInactive, (size_t) dataSize);
 		}
 }
 
