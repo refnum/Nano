@@ -16,10 +16,34 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "SkPoint.h"
-#include "SkSize.h"
-#include "SkRect.h"
+#if NN_TARGET_MAC
+	#pragma GCC diagnostic ignored "-Wshadow"
+#endif
+
+#include "SkBitmap.h"
+#include "SkBlurDrawLooper.h"
+#include "SkCanvas.h"
 #include "SkColor.h"
+#include "SkColorPriv.h"
+#include "SkDashPathEffect.h"
+#include "SkGeometry.h"
+#include "SkGradientShader.h"
+#include "SkImageDecoder.h"
+#include "SkImageEncoder.h"
+#include "SkLineClipper.h"
+#include "SkMatrix.h"
+#include "SkPaint.h"
+#include "SkPath.h"
+#include "SkPoint.h"
+#include "SkRect.h"
+#include "SkSize.h"
+#include "SkStream.h"
+#include "SkStroke.h"
+#include "SkTypeface.h"
+
+#if NN_TARGET_MAC
+	#pragma GCC diagnostic warning "-Wshadow"
+#endif
 
 #include "NPoint.h"
 #include "NSize.h"
