@@ -95,8 +95,8 @@ OTHER_CFLAGS												= $(NANO_OTHER_CFLAGS)
 //GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS					= YES
 
 
-// Warns about features in C99 even when building as C99 (e.g., use
-// of anonymous variadic macros).
+// Warns about use of C99 features in C++ (variadic macros), and missing
+// varargs arguments.
 //
 //GCC_WARN_PEDANTIC											= YES
 
