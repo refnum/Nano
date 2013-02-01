@@ -42,7 +42,7 @@ typedef enum {
 	kNLocationLogs,						// For log files
 	kNLocationCache,					// For persistent cache files
 	kNLocationTemporary,				// For deleted-at-startup files
-	kNLocationApplicationSupport,		// For application support files
+	kNLocationApplicationSupport		// For application support files
 } NDirectoryLocation;
 
 

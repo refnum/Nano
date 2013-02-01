@@ -79,7 +79,7 @@ template<typename T> NComparison NComparable<T>::CompareData(NIndex theSize1, co
 		if (thePtr1 == thePtr2)
 			theResult = kNCompareEqualTo;
 		else
-			theResult = GetComparison(memcmp(thePtr1, thePtr2, theSize1));
+			theResult = GetComparison(memcmp(thePtr1, thePtr2, (size_t) theSize1));
 		}
 	
 	return(theResult);

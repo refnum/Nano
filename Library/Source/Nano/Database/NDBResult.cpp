@@ -182,9 +182,9 @@ Float64 NDBResult::GetValueFloat64(NIndex theIndex) const
 //		NDBResult::GetValueString : Get a string value.
 //----------------------------------------------------------------------------
 NString NDBResult::GetValueString(NIndex theIndex) const
-{	NString					theResult;
-	const unsigned char		*thePtr;
-	UInt32					theSize;
+{	NString			theResult;
+	const void		*thePtr;
+	NIndex			theSize;
 
 
 
@@ -194,11 +194,11 @@ NString NDBResult::GetValueString(NIndex theIndex) const
 
 
 	// Get the value
-	thePtr  = sqlite3_column_text( (sqlite3_stmt *) mResult, theIndex);
-	theSize = sqlite3_column_bytes((sqlite3_stmt *) mResult, theIndex);
+	thePtr  = (const void *) sqlite3_column_text( (sqlite3_stmt *) mResult, theIndex);
+	theSize = (NIndex      ) sqlite3_column_bytes((sqlite3_stmt *) mResult, theIndex);
 
 	if (thePtr != NULL && theSize != 0)
-		theResult = NString((const char *) thePtr, theSize, kNStringEncodingUTF8);
+		theResult = NString(thePtr, theSize, kNStringEncodingUTF8);
 
 	return(theResult);
 }
@@ -213,7 +213,7 @@ NString NDBResult::GetValueString(NIndex theIndex) const
 NData NDBResult::GetValueData(NIndex theIndex) const
 {	NData			theResult;
 	const void		*thePtr;
-	UInt32			theSize;
+	NIndex			theSize;
 
 
 
@@ -223,8 +223,8 @@ NData NDBResult::GetValueData(NIndex theIndex) const
 
 
 	// Get the value
-	thePtr  = sqlite3_column_blob( (sqlite3_stmt *) mResult, theIndex);
-	theSize = sqlite3_column_bytes((sqlite3_stmt *) mResult, theIndex);
+	thePtr  = (const void *) sqlite3_column_blob( (sqlite3_stmt *) mResult, theIndex);
+	theSize = (NIndex      ) sqlite3_column_bytes((sqlite3_stmt *) mResult, theIndex);
 	
 	if (thePtr != NULL && theSize != 0)
 		theResult.AppendData(theSize, thePtr);

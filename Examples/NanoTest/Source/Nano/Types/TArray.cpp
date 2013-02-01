@@ -89,14 +89,14 @@ void TArray::Execute(void)
 	NN_ASSERT(testArray.GetSize() == (NIndex) kListFloat32.size());
 	NN_ASSERT(listFloat32.size()  ==          kListFloat32.size());
 	for (n = 0; n < testArray.GetSize(); n++)
-		NN_ASSERT(NMathUtilities::AreEqual(listFloat32[n], kListFloat32[n]));
+		NN_ASSERT(NMathUtilities::AreEqual(listFloat32[(size_t) n], kListFloat32[(size_t) n]));
 
 	testArray.SetValuesFloat64(kListFloat64);
 	listFloat64 = testArray.GetValuesFloat64();
 	NN_ASSERT(testArray.GetSize() == (NIndex) kListFloat64.size());
 	NN_ASSERT(listFloat64.size()  ==          kListFloat64.size());
 	for (n = 0; n < testArray.GetSize(); n++)
-		NN_ASSERT(NMathUtilities::AreEqual(listFloat64[n], kListFloat64[n]));
+		NN_ASSERT(NMathUtilities::AreEqual(listFloat64[(size_t) n], kListFloat64[(size_t) n]));
 
 	testArray  = NArray(kListSInt32);
 	testArray2 = NArray(kListSInt64);

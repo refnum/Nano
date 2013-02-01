@@ -41,7 +41,7 @@ typedef enum {
 	kNPositionTopRight,
 	kNPositionBottom,
 	kNPositionBottomLeft,
-	kNPositionBottomRight,
+	kNPositionBottomRight
 } NPosition;
 
 

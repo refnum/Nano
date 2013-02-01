@@ -86,7 +86,11 @@ NCFObject NCFDictionary::GetObject(void) const
 	// Get the state we need
 	theKeys = GetKeys();
 	
-	if (!theObject.SetObject(CFDictionaryCreateMutable(kCFAllocatorNano, theKeys.size(), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks)))
+	if (!theObject.SetObject(CFDictionaryCreateMutable(
+										kCFAllocatorNano,
+										(CFIndex) theKeys.size(),
+										&kCFTypeDictionaryKeyCallBacks,
+										&kCFTypeDictionaryValueCallBacks)))
 		return(theObject);
 
 

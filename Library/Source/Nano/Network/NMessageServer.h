@@ -29,7 +29,7 @@
 typedef enum {
 	kNServerStarting,
 	kNServerStarted,
-	kNServerStopped,
+	kNServerStopped
 } NMessageServerStatus;
 
 

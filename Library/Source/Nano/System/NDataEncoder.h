@@ -29,7 +29,7 @@
 // Data encodings
 typedef enum {
 	kNDataEncodingHex,
-	kNDataEncodingB64,
+	kNDataEncodingB64
 } NDataEncoding;
 
 

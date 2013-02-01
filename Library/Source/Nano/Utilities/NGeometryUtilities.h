@@ -39,7 +39,7 @@ static const NBitfield kNGeometryClipTop							= (1 << 3);
 typedef enum {
 	kNGeometryInside,
 	kNGeometryOutside,
-	kNGeometryIntersects,
+	kNGeometryIntersects
 } NGeometryComparison;
 
 

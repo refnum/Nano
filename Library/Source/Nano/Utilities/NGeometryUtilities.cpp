@@ -48,8 +48,8 @@ template<class T> T NGeometryUtilities::GetLength(const std::vector< NPointT<T> 
 
 
 	// Measure the line
+	numPoints = (NIndex) theLine.size();
 	theLength = 0.0;
-	numPoints = theLine.size();
 
 	if (numPoints >= 2)
 		{
@@ -86,7 +86,7 @@ template<class T> NRectangleT<T> NGeometryUtilities::GetBounds(const std::vector
 	// Get the bounds
 	for (n = 0; n < numPoints; n++)
 		{
-		thePoint = thePoints[n];
+		thePoint = thePoints[(size_t) n];
 		
 		minX = std::min(minX, thePoint.x);
 		maxX = std::max(maxX, thePoint.x);

@@ -41,7 +41,7 @@ typedef enum {
 	kNPrecisionInt32,
 	kNPrecisionInt64,
 	kNPrecisionFloat32,
-	kNPrecisionFloat64,
+	kNPrecisionFloat64
 } NPrecision;
 
 

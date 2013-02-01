@@ -33,7 +33,7 @@
 typedef enum {
 	kNSocketOpening,
 	kNSocketOpened,
-	kNSocketClosed,
+	kNSocketClosed
 } NSocketStatus;
 
 

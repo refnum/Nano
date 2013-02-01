@@ -158,7 +158,7 @@ public:
 
 		theData = theEncoder.DecodeData(kKeyData);
 		NN_ASSERT(theData.GetSize() == NN_ARRAY_SIZE(kValueData));
-		NN_ASSERT(memcmp(theData.GetData(), kValueData, theData.GetSize()) == 0);
+		NN_ASSERT(memcmp(theData.GetData(), kValueData, (size_t) theData.GetSize()) == 0);
 
 		NN_ASSERT(theEncoder.DecodeObject(kKeyArray).GetValue(theArray));
 		NN_ASSERT(theArray.GetSize() == 3);

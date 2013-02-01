@@ -85,7 +85,7 @@ inline NSRect ToNS(const NRectangle &theRect)
 
 inline NSRange ToNS(const NRange &theRange)
 {
-	return(NSMakeRange(theRange.GetLocation(), theRange.GetSize()));
+	return(NSMakeRange((NSUInteger) theRange.GetLocation(), (NSUInteger) theRange.GetSize()));
 }
 
 inline NSArray *ToNS(const NArray &theArray)

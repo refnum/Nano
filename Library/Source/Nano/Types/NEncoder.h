@@ -52,7 +52,7 @@ typedef enum {
 typedef enum {
 	kNEncoderIdle,
 	kNEncoderEncoding,
-	kNEncoderDecoding,
+	kNEncoderDecoding
 } NEncoderState;
 
 
@@ -66,7 +66,7 @@ typedef enum {
 
 	// Generic
 	kNEncoderXML		= kNEncoderXML_1_0,
-	kNEncoderBinary		= kNEncoderBinary_1_0,
+	kNEncoderBinary		= kNEncoderBinary_1_0
 } NEncoderFormat;
 
 

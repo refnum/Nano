@@ -32,7 +32,7 @@
 typedef enum {
 	kNUTITagClassNone,
 	kNUTITagClassMIMEType,
-	kNUTITagClassFileExtension,
+	kNUTITagClassFileExtension
 } NUTITagClass;
 
 

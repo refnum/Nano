@@ -30,7 +30,7 @@
 typedef enum {
 	kNClientConnecting,
 	kNClientConnected,
-	kNClientDisconnected,
+	kNClientDisconnected
 } NMessageClientStatus;
 
 

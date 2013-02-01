@@ -99,7 +99,7 @@ typedef struct {
 
 #pragma pack(pop)
 
-NBYTESWAP_DECLARE(NMessageHeader);
+NBYTESWAP_DECLARE(NMessageHeader)
 
 
 

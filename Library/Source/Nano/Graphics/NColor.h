@@ -41,7 +41,7 @@
 // In both cases, the alpha byte could be accessed by a right shift of 24.
 typedef enum {
 	kNColorARGB,
-	kNColorRGBA,
+	kNColorRGBA
 } NColorFormat;
 
 

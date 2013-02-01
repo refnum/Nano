@@ -38,7 +38,7 @@ typedef enum {
 	// Generic
 	kNPropertyListXML		= kNPropertyListMacXML1,
 	kNPropertyListBinary	= kNPropertyListMacBinary1,
-	kNPropertyListJSON,
+	kNPropertyListJSON
 } NPropertyListFormat;
 
 
