@@ -17,8 +17,8 @@
 		AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
 		AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
 		AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
-		AB01819516BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math -Wno-error=incompatible-pointer-types"; }; };
-		AB01819616BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math -Wno-error=incompatible-pointer-types"; }; };
+		AB01819516BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
+		AB01819616BAA03C0033152D /* sqlite_3.7.15.2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.15.2.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
 		AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB078D2811D4A988006C9347 /* NUIKit.mm */; };
 		AB103B6310B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
 		AB103B6410B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
