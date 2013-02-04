@@ -89,6 +89,43 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, int theID)
 
 
 //============================================================================
+//      GetValue64 : Get a 64-bit value.
+//----------------------------------------------------------------------------
+static UInt64 GetValue64(UInt32 lowPart, UInt32 highPart)
+{	UInt64	theValue;
+
+
+
+	// Get the value
+	theValue = ((UInt64) lowPart) + (((UInt64) highPart) << 32);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
+//      GetFileTime : Get a file time.
+//----------------------------------------------------------------------------
+static NTime GetFileTime(const FILETIME &fileTime)
+{	NTime	theTime;
+
+
+
+	// Get the time
+	theTime = (NTime) GetValue64(fileTime.dwLowDateTime, fileTime.dwHighDateTime);
+	theTime  = kNEpochTimeSince1601 + ((theTime / 100.0) * kNTimeNanosecond);
+	
+	return(theTime);
+}
+
+
+
+
+
+//============================================================================
 //      DeviceControl : Send a device control code.
 //----------------------------------------------------------------------------
 static NStatus DeviceControl(HANDLE hVolume, DWORD ioCode, NIndex inSize, const void *inData)
@@ -300,7 +337,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 	theSize = 0;
 
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
-		theSize = ((UInt64) fileInfo.nFileSizeLow) + (((UInt64) fileInfo.nFileSizeHigh) << 32);
+		theSize = GetValue64(fileInfo.nFileSizeLow, fileInfo.nFileSizeHigh);
 
 	return(theSize);
 }
@@ -335,6 +372,60 @@ NStatus NTargetFile::SetSize(const NString &thePath, NFileRef theFile, UInt64 th
 		}
 	
 	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetCreationTime : Get the creation time.
+//----------------------------------------------------------------------------
+NDate NTargetFile::GetCreationTime(const NString &thePath)
+{	WIN32_FILE_ATTRIBUTE_DATA		fileInfo;
+	NDate							theDate;
+
+
+
+	// Get the time
+	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
+		theDate = GetFileTime(fileInfo.ftCreationTime);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetAccessTime : Get the access time.
+//----------------------------------------------------------------------------
+NDate NTargetFile::GetAccessTime(const NString &thePath)
+{	WIN32_FILE_ATTRIBUTE_DATA		fileInfo;
+	NDate							theDate;
+
+
+
+	// Get the time
+	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
+		theDate = GetFileTime(fileInfo.ftLastAccessTime);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetModificationTime : Get the modification time.
+//----------------------------------------------------------------------------
+NDate NTargetFile::GetModificationTime(const NString &thePath)
+{	WIN32_FILE_ATTRIBUTE_DATA		fileInfo;
+	NDate							theDate;
+
+
+
+	// Get the time
+	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
+		theDate = GetFileTime(fileInfo.ftLastWriteTime);
 }
 
 

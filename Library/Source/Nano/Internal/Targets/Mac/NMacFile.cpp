@@ -413,6 +413,75 @@ NStatus NTargetFile::SetSize(const NString &thePath, NFileRef /*theFile*/, UInt6
 
 
 //============================================================================
+//      NTargetFile::GetCreationTime : Get the creation time.
+//----------------------------------------------------------------------------
+NDate NTargetFile::GetCreationTime(const NString &thePath)
+{	struct stat		fileInfo;
+	NDate			theDate;
+	int				sysErr;
+
+
+
+	// Get the time
+	sysErr = stat(thePath.GetUTF8(), &fileInfo);
+	if (sysErr == kNoErr)
+		theDate.SetTime((fileInfo.st_birthtimespec.tv_sec  - kNEpochTimeSince1970) +
+						(fileInfo.st_birthtimespec.tv_nsec * kNTimeNanosecond));
+
+	return(theDate);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetAccessTime : Get the access time.
+//----------------------------------------------------------------------------
+NDate NTargetFile::GetAccessTime(const NString &thePath)
+{	struct stat		fileInfo;
+	NDate			theDate;
+	int				sysErr;
+
+
+
+	// Get the time
+	sysErr = stat(thePath.GetUTF8(), &fileInfo);
+	if (sysErr == kNoErr)
+		theDate.SetTime((fileInfo.st_atimespec.tv_sec  - kNEpochTimeSince1970) +
+						(fileInfo.st_atimespec.tv_nsec * kNTimeNanosecond));
+
+	return(theDate);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::GetModificationTime : Get the modification time.
+//----------------------------------------------------------------------------
+NDate NTargetFile::GetModificationTime(const NString &thePath)
+{	struct stat		fileInfo;
+	NDate			theDate;
+	int				sysErr;
+
+
+
+	// Get the time
+	sysErr = stat(thePath.GetUTF8(), &fileInfo);
+	if (sysErr == kNoErr)
+		theDate.SetTime((fileInfo.st_mtimespec.tv_sec  - kNEpochTimeSince1970) +
+						(fileInfo.st_mtimespec.tv_nsec * kNTimeNanosecond));
+
+	return(theDate);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::GetChild : Get the child of a path.
 //----------------------------------------------------------------------------
 NString NTargetFile::GetChild(const NString &thePath, const NString &fileName)

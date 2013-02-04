@@ -60,6 +60,12 @@ public:
 	static NStatus						SetSize(const NString &thePath, NFileRef theFile, UInt64 theSize);
 
 
+	// Get a file's timestamps
+	static NDate						GetCreationTime(    const NString &thePath);
+	static NDate						GetAccessTime(      const NString &thePath);
+	static NDate						GetModificationTime(const NString &thePath);
+
+
 	// Get the child/parent of a path
 	static NString						GetChild( const NString &thePath, const NString &fileName);
 	static NString						GetParent(const NString &thePath);

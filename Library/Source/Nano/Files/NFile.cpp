@@ -456,6 +456,51 @@ NStatus NFile::SetSize(UInt64 theSize)
 
 
 //============================================================================
+//        NFile::GetCreationTime : Get the creation time.
+//----------------------------------------------------------------------------
+NDate NFile::GetCreationTime(void) const
+{
+
+
+	// Get the time
+	return(NTargetFile::GetCreationTime(mPath));
+}
+
+
+
+
+
+//============================================================================
+//        NFile::GetAccessTime : Get the access time.
+//----------------------------------------------------------------------------
+NDate NFile::GetAccessTime(void) const
+{
+
+
+	// Get the time
+	return(NTargetFile::GetAccessTime(mPath));
+}
+
+
+
+
+
+//============================================================================
+//        NFile::GetModificationTime : Get the modification time.
+//----------------------------------------------------------------------------
+NDate NFile::GetModificationTime(void) const
+{
+
+
+	// Get the time
+	return(NTargetFile::GetModificationTime(mPath));
+}
+
+
+
+
+
+//============================================================================
 //        NFile::GetChild : Get the child of a directory.
 //----------------------------------------------------------------------------
 NFile NFile::GetChild(const NString &fileName) const

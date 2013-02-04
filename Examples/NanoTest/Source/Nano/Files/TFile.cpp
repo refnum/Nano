@@ -179,6 +179,16 @@ void TFile::Execute(void)
 
 
 
+	// Timestamps
+	NN_ASSERT(tmpFile.GetCreationTime().IsValid());
+	NN_ASSERT(tmpFile.GetAccessTime().IsValid());
+	NN_ASSERT(tmpFile.GetModificationTime().IsValid());
+
+	NN_ASSERT(tmpFile.GetCreationTime() <= tmpFile.GetAccessTime());
+	NN_ASSERT(tmpFile.GetCreationTime() <= tmpFile.GetModificationTime());
+
+
+
 	// Open
 	theErr = tmpFile.Open(kNPermissionUpdate);
 	NN_ASSERT_NOERR(theErr);

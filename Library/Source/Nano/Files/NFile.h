@@ -20,6 +20,7 @@
 #include "NComparable.h"
 #include "NEncodable.h"
 #include "NString.h"
+#include "NDate.h"
 #include "NUTI.h"
 
 
@@ -168,6 +169,12 @@ public:
 	// Growing the file will zero-fill any new space.
 	UInt64								GetSize(void) const;
 	NStatus								SetSize(UInt64 theSize);
+
+
+	// Get the timestamp
+	NDate								GetCreationTime(    void) const;
+	NDate								GetAccessTime(      void) const;
+	NDate								GetModificationTime(void) const;
 
 
 	// Get the child/parent of a file
