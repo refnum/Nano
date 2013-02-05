@@ -232,11 +232,6 @@ void NMessageServer::SendMessage(const NNetworkMessage &theMsg)
 
 
 
-	// Validate our state
-	NN_ASSERT(!mClients.empty());
-
-
-
 	// Get the state we need
 	dstID = theMsg.GetDestination();
 
