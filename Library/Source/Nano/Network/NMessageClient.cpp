@@ -106,7 +106,7 @@ void NMessageClient::Disconnect(void)
 
 
 	// Let the server know
-	theMsg = CreateMessage(kNMessageClientDisconnectedMsg, kNEntityServer);
+	theMsg = CreateMessage(kNMessageDisconnectedMsg, kNEntityServer);
 	SendMessage(theMsg);
 
 	while (GetPendingWrites() != 0)

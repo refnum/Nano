@@ -405,7 +405,7 @@ void NMessageServer::ReceivedMessage(const NNetworkMessage &theMsg)
 
 	// Handle the message
 	switch (theMsg.GetType()) {
-		case kNMessageClientDisconnectedMsg:
+		case kNMessageDisconnectedMsg:
 			NN_ASSERT(theMsg.GetDestination() == GetID());
 			DisconnectClient(theMsg.GetSource());
 			break;
