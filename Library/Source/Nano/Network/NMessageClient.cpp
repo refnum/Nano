@@ -217,7 +217,17 @@ void NMessageClient::ReceivedMessage(const NNetworkMessage &theMsg)
 	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
 				theMsg.GetDestination() == kNEntityEveryone);
 
-	NN_UNUSED(theMsg);
+
+
+	// Handle the message
+	switch (theMsg.GetType()) {
+		case kNMessageDisconnectedMsg:
+			DisconnectClient(kNoErr);
+			break;
+
+		default:
+			break;
+		}
 }
 
 

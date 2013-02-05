@@ -66,6 +66,7 @@ static const NString kStateServer									= kStateServerStarted				+
 																	  kStateServerClientDisconnected	+
 																	  kStateServerReceivedMessage		+
 																	  kStateServerClientDisconnected	+
+																	  kStateServerReceivedMessage		+
 																	  NFormatString(kStateServerStopped, kNoErr);
 
 static const NString kStateClient1									= kStateClientConnected				+

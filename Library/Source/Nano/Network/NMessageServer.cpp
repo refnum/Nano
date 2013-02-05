@@ -206,11 +206,21 @@ void NMessageServer::Start(void)
 //		NMessageServer::Stop : Stop the server.
 //----------------------------------------------------------------------------
 void NMessageServer::Stop(void)
-{
+{	NNetworkMessage		theMsg;
+
 
 
 	// Validate our state
 	NN_ASSERT(mStatus == kNServerStarted);
+
+
+
+	// Let everyone know
+	theMsg = CreateMessage(kNMessageDisconnectedMsg, kNEntityEveryone);
+	SendMessage(theMsg);
+
+	while (GetPendingWrites() != 0)
+		NThread::Sleep();
 
 
 
@@ -398,15 +408,20 @@ void NMessageServer::ReceivedMessage(const NNetworkMessage &theMsg)
 {
 
 
+	// Validate our parameters
+	NN_ASSERT(	theMsg.GetDestination() == GetID() ||
+				theMsg.GetDestination() == kNEntityEveryone);
+
+
+
 	// Handle the message
 	switch (theMsg.GetType()) {
 		case kNMessageDisconnectedMsg:
-			NN_ASSERT(theMsg.GetDestination() == GetID());
-			DisconnectClient(theMsg.GetSource());
+			if (theMsg.GetSource() != GetID())
+				DisconnectClient(theMsg.GetSource());
 			break;
 
 		default:
-			NN_ASSERT(theMsg.GetDestination() == kNEntityEveryone);
 			break;
 		}
 }
