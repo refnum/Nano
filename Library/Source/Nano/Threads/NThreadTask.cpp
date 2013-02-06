@@ -97,7 +97,7 @@ bool NThreadTask::IsStopped(void) const
 
 
 //============================================================================
-//		NThreadTask::SetStopped : Set the stopped state.
+//		NThreadTask::Stop : Set the stopped state.
 //----------------------------------------------------------------------------
 void NThreadTask::Stop(void)
 {
