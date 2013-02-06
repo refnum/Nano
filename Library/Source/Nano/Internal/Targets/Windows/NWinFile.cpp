@@ -390,6 +390,8 @@ NDate NTargetFile::GetCreationTime(const NString &thePath)
 	// Get the time
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
 		theDate = GetFileTime(fileInfo.ftCreationTime);
+
+	return(theDate);
 }
 
 
@@ -408,6 +410,8 @@ NDate NTargetFile::GetAccessTime(const NString &thePath)
 	// Get the time
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
 		theDate = GetFileTime(fileInfo.ftLastAccessTime);
+
+	return(theDate);
 }
 
 
@@ -426,6 +430,8 @@ NDate NTargetFile::GetModificationTime(const NString &thePath)
 	// Get the time
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
 		theDate = GetFileTime(fileInfo.ftLastWriteTime);
+
+	return(theDate);
 }
 
 
