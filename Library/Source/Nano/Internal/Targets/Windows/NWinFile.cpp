@@ -89,25 +89,6 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, int theID)
 
 
 //============================================================================
-//      GetFileTime : Get a file time.
-//----------------------------------------------------------------------------
-static NTime GetFileTime(const FILETIME &fileTime)
-{	NTime	theTime;
-
-
-
-	// Get the time
-	theTime = (NTime) GetValue64(fileTime.dwLowDateTime, fileTime.dwHighDateTime);
-	theTime  = kNEpochTimeSince1601 + ((theTime / 100.0) * kNTimeNanosecond);
-	
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
 //      DeviceControl : Send a device control code.
 //----------------------------------------------------------------------------
 static NStatus DeviceControl(HANDLE hVolume, DWORD ioCode, NIndex inSize, const void *inData)
@@ -371,7 +352,7 @@ NDate NTargetFile::GetCreationTime(const NString &thePath)
 
 	// Get the time
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
-		theDate = GetFileTime(fileInfo.ftCreationTime);
+		theDate = NWinTarget::ConvertFILETIME(fileInfo.ftCreationTime);
 
 	return(theDate);
 }
@@ -391,7 +372,7 @@ NDate NTargetFile::GetAccessTime(const NString &thePath)
 
 	// Get the time
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
-		theDate = GetFileTime(fileInfo.ftLastAccessTime);
+		theDate = NWinTarget::ConvertFILETIME(fileInfo.ftLastAccessTime);
 
 	return(theDate);
 }
@@ -411,7 +392,7 @@ NDate NTargetFile::GetModificationTime(const NString &thePath)
 
 	// Get the time
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
-		theDate = GetFileTime(fileInfo.ftLastWriteTime);
+		theDate = NWinTarget::ConvertFILETIME(fileInfo.ftLastWriteTime);
 
 	return(theDate);
 }
