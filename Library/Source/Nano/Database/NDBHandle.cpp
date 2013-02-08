@@ -994,7 +994,7 @@ void NDBHandle::SQLiteBindParameterByKey(NDBQueryRef theQuery, const NString &th
 	textBuffer.resize(strlen(textUTF8) + 2);
 
 	textBuffer[0] = kNamePrefix;
-	strcpy((char *) &textBuffer[1], textUTF8);
+	strncpy((char *) &textBuffer[1], textUTF8, textBuffer.size()-1);
 
 
 

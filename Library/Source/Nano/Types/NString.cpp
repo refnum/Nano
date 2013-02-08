@@ -1535,7 +1535,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 //      NString::FindString : Find a string.
 //----------------------------------------------------------------------------
 NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	NIndex				sizeA, sizeB, n, offsetB, limitA, rangeFirst, rangeLast;
+{	NIndex				sizeB, n, offsetB, limitA, rangeFirst, rangeLast;
 	bool				ignoreCase, updateB;
 	NUnicodeParser		parserA, parserB;
 	UTF32Char			charA, charB;
@@ -1553,10 +1553,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 	parserA =           GetParser();
 	parserB = theString.GetParser();
 	
-	sizeA = parserA.GetSize();
 	sizeB = parserB.GetSize();
-	
-	charA = 0;
 	charB = 0;
 	
 	rangeFirst = theRange.GetFirst();

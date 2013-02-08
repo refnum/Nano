@@ -331,11 +331,6 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 
 
-	// Get the state we need
-	theResult = kNCompareLessThan;
-
-
-
 	// Compare equal types
 	if (mPrecision == theValue.mPrecision || (IsInteger() && theValue.IsInteger()))
 		{
@@ -359,6 +354,7 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 			default:
 				NN_LOG("Unknown precision: %d", mPrecision);
+				theResult = kNCompareLessThan;
 				break;
 			}
 		}
@@ -391,6 +387,7 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 			default:
 				NN_LOG("Unknown precision: %d", mPrecision);
+				theResult = kNCompareLessThan;
 				break;
 			}
 		}
