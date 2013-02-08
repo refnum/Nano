@@ -224,52 +224,6 @@ static TIME_ZONE_INFORMATION GetTimeZone(const NString &timeZone)
 
 
 //============================================================================
-//		GetTimeFromFileTime : Get an NTime from a FILETIME.
-//----------------------------------------------------------------------------
-static NTime GetTimeFromFileTime(const FILETIME &fileTime)
-{	UInt64			hectoNanoSecs;
-	NTime			theTime;
-
-
-
-	// Get the time
-	hectoNanoSecs = ToNN(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
-	theTime       = ((NTime) hectoNanoSecs) * (100.0 * kNTimeNanosecond);
-	theTime      -= kNEpochTimeSince1601;
-
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
-//		GetFileTimeFromTime : Get a FILETIME from an NTime.
-//----------------------------------------------------------------------------
-static FILETIME GetFileTimeFromTime(NTime theTime)
-{	ULARGE_INTEGER	hectoNanoSecs;
-	FILETIME		fileTime;
-
-
-
-	// Get the time
-	theTime += kNEpochTimeSince1601;
-	theTime /= (100.0 * kNTimeNanosecond);
-
-	hectoNanoSecs = ToWN((UInt64) theTime);
-
-	fileTime.dwLowDateTime  = hectoNanoSecs.LowPart;
-	fileTime.dwHighDateTime = hectoNanoSecs.HighPart;
-	
-	return(fileTime);
-}
-
-
-
-
-
-//============================================================================
 //		GetTimerMS : Get a timer time.
 //----------------------------------------------------------------------------
 static DWORD GetTimerMS(NTime theTime)
@@ -472,7 +426,7 @@ NTime NTargetTime::GetTime(void)
 
 	// Get the time
 	GetSystemTimeAsFileTime(&fileTime);
-	theTime = GetTimeFromFileTime(fileTime);
+	theTime = NWinTarget::ConvertFILETIME(fileTime);
 	
 	return(theTime);
 }
@@ -564,7 +518,7 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 	// Since SYSTEMTIME uses integer milliseconds, we add 0.5 of a
 	// millisecond to ensure times are consistently rounded upwards.
 	zoneInfo = GetTimeZone(timeZone);
-	fileTime = GetFileTimeFromTime(theTime + (0.5 * kNTimeMillisecond));
+	fileTime = NWinTarget::ConvertTimeFile(theTime + (0.5 * kNTimeMillisecond));
 
 
 
@@ -629,7 +583,7 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 	if (!SystemTimeToFileTime(&timeUTC, &fileTime))
 		return(0.0);
 	
-	theTime = GetTimeFromFileTime(fileTime);
+	theTime = NWinTarget::ConvertFILETIME(fileTime);
 
 	return(theTime);
 }

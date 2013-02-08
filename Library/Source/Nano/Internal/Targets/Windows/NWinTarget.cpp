@@ -179,3 +179,46 @@ DWORD NWinTarget::ConvertTimeMS(NTime theTime)
 
 
 
+//============================================================================
+//		NWinTarget::ConvertTimeFile : Convert to a FILETIME.
+//----------------------------------------------------------------------------
+FILETIME NWinTarget::ConvertTimeFile(NTime theTime)
+{	ULARGE_INTEGER	hectoNanoSecs;
+	FILETIME		fileTime;
+
+
+
+	// Get the time
+	theTime += kNEpochTimeSince1601;
+	theTime /= (100.0 * kNTimeNanosecond);
+
+	hectoNanoSecs = ToWN((UInt64) theTime);
+
+	fileTime.dwLowDateTime  = hectoNanoSecs.LowPart;
+	fileTime.dwHighDateTime = hectoNanoSecs.HighPart;
+	
+	return(fileTime);
+}
+
+
+
+
+
+//============================================================================
+//		NWinTarget::ConvertFILETIME : Convert from a FILETIME.
+//----------------------------------------------------------------------------
+NTime NWinTarget::ConvertFILETIME(const FILETIME &fileTime)
+{	UInt64			hectoNanoSecs;
+	NTime			theTime;
+
+
+
+	// Get the time
+	hectoNanoSecs = ToNN(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+	theTime       = ((NTime) hectoNanoSecs) * (100.0 * kNTimeNanosecond);
+	theTime      -= kNEpochTimeSince1601;
+
+	return(theTime);
+}
+
+

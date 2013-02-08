@@ -42,8 +42,10 @@ public:
 	static DWORD						ConvertFileMapAccess( NMapAccess      theAccess, bool forPage);
 
 
-	// Convert a timeout
-	static DWORD						ConvertTimeMS(NTime theTime);
+	// Convert times
+	static DWORD						ConvertTimeMS(        NTime      theTime);
+	static FILETIME						ConvertTimeFile(      NTime      theTime);
+	static NTime						ConvertFILETIME(const FILETIME &fileTime);
 };
 
 
