@@ -89,24 +89,6 @@ static NString GetDirectoryForDomain(NDirectoryDomain theDomain, int theID)
 
 
 //============================================================================
-//      GetValue64 : Get a 64-bit value.
-//----------------------------------------------------------------------------
-static UInt64 GetValue64(UInt32 lowPart, UInt32 highPart)
-{	UInt64	theValue;
-
-
-
-	// Get the value
-	theValue = ((UInt64) lowPart) + (((UInt64) highPart) << 32);
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
 //      GetFileTime : Get a file time.
 //----------------------------------------------------------------------------
 static NTime GetFileTime(const FILETIME &fileTime)
@@ -337,7 +319,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 	theSize = 0;
 
 	if (GetFileAttributesEx(ToWN(thePath), GetFileExInfoStandard, &fileInfo))
-		theSize = GetValue64(fileInfo.nFileSizeLow, fileInfo.nFileSizeHigh);
+		theSize = ToNN(fileInfo.nFileSizeHigh, fileInfo.nFileSizeLow);
 
 	return(theSize);
 }
