@@ -30,7 +30,7 @@
 	static const NString kTestParent								= "/tmp/TFileIterator";
 
 #elif NN_TARGET_WINDOWS
-	static const NString kTestPath									= "c:\\windows\\temp\\TFileIterator";
+	static const NString kTestParent								= "c:\\windows\\temp\\TFileIterator";
 
 #else
 	UNKNOWN TARGET
