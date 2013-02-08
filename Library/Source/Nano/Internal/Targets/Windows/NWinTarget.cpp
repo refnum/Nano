@@ -159,7 +159,7 @@ DWORD NWinTarget::ConvertFilePosition(NFilePosition thePosition)
 
 
 //============================================================================
-//		NWinTarget::ConvertTimeMS : Convert a timeout to milliseconds.
+//		NWinTarget::ConvertTimeMS : Convert a time to milliseconds.
 //----------------------------------------------------------------------------
 DWORD NWinTarget::ConvertTimeMS(NTime theTime)
 {	DWORD		timeMS;
