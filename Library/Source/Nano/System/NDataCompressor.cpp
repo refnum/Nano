@@ -94,10 +94,7 @@ NData NDataCompressor::Compress(const NData &srcData, NCompression compressWith)
 	if (compressWith != kNCompressionNull)
 		{
 		if (dstData.GetSize() >= (NIndex) (srcData.GetSize()+sizeof(theHeader)))
-			{
-			NN_LOG("Unable to compress using %08X, switching to null", compressWith);
 			return(Compress(srcData, kNCompressionNull));
-			}
 		}
 
 
