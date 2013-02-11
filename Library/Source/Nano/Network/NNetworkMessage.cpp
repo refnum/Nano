@@ -33,7 +33,6 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NCompression kCompressionType							= kNCompressionZLib;
-static const NIndex       kCompressionSizeLimit						= 32 * kNKilobyte;
 static const NIndex       kCompressionHeaderTrim					= sizeof(UInt32) + sizeof(UInt32);
 
 
@@ -304,36 +303,33 @@ bool NNetworkMessage::CompressBody(NData &theBody) const
 
 
 	// Get the state we need
-	bodySize    = theBody.GetSize();
-	didCompress = false;
+	bodySize = theBody.GetSize();
+	
+	if (bodySize == 0)
+		return(false);
 
 
 
 	// Compress the body
 	//
-	// To conserve space, the fixed parts of the header are trimmed.
-	if (bodySize > 0 && bodySize <= kCompressionSizeLimit)
-		{
-		// Compress the body
-		//
-		// The header is trimmed to save space during transmit.
-		compressedBody = theCompressor.Compress(theBody, kCompressionType);
-		compressedSize = compressedBody.GetSize() - kCompressionHeaderTrim;
-		
-		if (!compressedBody.IsEmpty() && compressedSize < bodySize)
-			{
-			theBody     = NData(compressedSize, compressedBody.GetData(kCompressionHeaderTrim));
-			didCompress = true;
-			}
+	// The fixed parts of the header are trimmed to save space during transmit.
+	compressedBody = theCompressor.Compress(theBody, kCompressionType);
+	compressedSize = compressedBody.GetSize() - kCompressionHeaderTrim;
+	didCompress    = (!compressedBody.IsEmpty() && compressedSize < bodySize);
+
+	if (didCompress)
+		theBody = NData(compressedSize, compressedBody.GetData(kCompressionHeaderTrim));
 
 
-		// Debug hook
-		#if DEBUG_COMPRESSION
-		if (didCompress)
-			NN_LOG("NNetworkMessage compressing body from %ld to %ld", bodySize, compressedSize);
-		#endif
-		}
-	
+
+	// Debug hook
+	#if DEBUG_COMPRESSION
+	if (didCompress)
+		NN_LOG("NNetworkMessage compressing body from %ld to %ld", bodySize, compressedSize);
+	else
+		NN_LOG("NNetworkMessage unable to compress body from %ld, set kNMessageNeverCompress?", bodySize, compressedSize);
+	#endif
+
 	return(didCompress);
 }
 
