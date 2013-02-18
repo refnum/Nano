@@ -25,7 +25,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const NBroadcaster *kBroadcasterAny							= NULL;
+static NBroadcaster * const kBroadcasterAny							= NULL;
 
 
 
