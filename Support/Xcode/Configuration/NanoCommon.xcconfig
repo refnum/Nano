@@ -108,6 +108,8 @@ OTHER_CFLAGS												= $(NANO_OTHER_CFLAGS)
 //============================================================================
 //		Linker
 //----------------------------------------------------------------------------
+SKIP_INSTALL												= YES
+
 NANO_OTHER_LDFLAGS											= -ObjC
 
 OTHER_LDFLAGS												= $(NANO_OTHER_LDFLAGS)
