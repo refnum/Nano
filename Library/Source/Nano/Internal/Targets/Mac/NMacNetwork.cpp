@@ -72,8 +72,9 @@ typedef struct NServiceBrowser {
 // Sockets
 typedef struct NSocketInfo {
 	NSocket						   *nanoSocket;
-	CFSocketNativeHandle			nativeSocket;
 	NSocketRef						parentSocket;
+	CFSocketNativeHandle			nativeSocket;
+	CFSocketRef						cfSocket;
 
 	NStatus							streamErr;
 	bool							streamsOpen;
@@ -646,6 +647,8 @@ static bool SocketStreamsOpen(NSocketRef theSocket)
 	hasRead  = (theSocket->cfStreamRead  != NULL);
 	hasWrite = (theSocket->cfStreamWrite != NULL);
 
+	NN_ASSERT(hasRead && hasWrite);
+
 
 
 	// Register for events
@@ -706,6 +709,8 @@ static void SocketStreamsClose(NSocketRef theSocket)
 	hasRead  = (theSocket->cfStreamRead  != NULL);
 	hasWrite = (theSocket->cfStreamWrite != NULL);
 
+	NN_ASSERT((hasRead && hasWrite) || (!hasRead && !hasWrite));
+
 
 
 	// Unregister from events
@@ -735,6 +740,40 @@ static void SocketStreamsClose(NSocketRef theSocket)
 
 	CFSafeRelease(theSocket->cfStreamRead);
 	CFSafeRelease(theSocket->cfStreamWrite);
+}
+
+
+
+
+
+//============================================================================
+//      SocketInvalidate : Invalidate a socket.
+//----------------------------------------------------------------------------
+static void SocketInvalidate(NSocketRef theSocket)
+{
+
+
+	// Invalidate the socket
+	//
+	// Connecting sockets, or sockets spawned by listening sockets, only maintain a
+	// a stream reference and a native socket.
+	//
+	// Both the native socket and the associated CFSocket will be invalidated and
+	// closed automatically when the streams are closed.
+	//
+	//
+	// Listening sockets do not have streams, and so their CFSocket must be closed
+	// explicitly by us.
+	if (theSocket->cfSocket != NULL)
+		{
+		NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+		NN_ASSERT(theSocket->parentSocket == NULL);
+		
+		theSocket->nativeSocket = kSocketHandleInvalid;
+
+		CFSocketInvalidate(theSocket->cfSocket);
+		CFSafeRelease(     theSocket->cfSocket);
+		}
 }
 
 
@@ -799,10 +838,13 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, CFSocketNativeHandle nativeS
 
 
 	// Create the socket
-	theSocket                = new NSocketInfo;
-	theSocket->nanoSocket    = nanoSocket;
-	theSocket->nativeSocket  = nativeSocket;
-	theSocket->parentSocket  = parentSocket;
+	theSocket = new NSocketInfo;
+
+	theSocket->nanoSocket   = nanoSocket;
+	theSocket->parentSocket = parentSocket;
+	theSocket->nativeSocket = nativeSocket;
+	theSocket->cfSocket     = NULL;
+
 	theSocket->streamErr     = kNoErr;
 	theSocket->streamsOpen   = false;
 	theSocket->cfStreamRead  = NULL;
@@ -819,12 +861,12 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, CFSocketNativeHandle nativeS
 ///		SocketCreateListening : Create a listening socket.
 //----------------------------------------------------------------------------
 static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
-{	NCFObject				cfSocket, cfSource;
-	int						valueInt, sysErr;
+{	int						valueInt, sysErr;
 	CFSocketSignature		theSignature;
 	NCFObject				addressData;
 	CFSocketContext			theContext;
 	struct sockaddr_in		theAddress;
+	NCFObject				cfSource;
 	CFSocketError			sockErr;
 	bool					isOK;
 
@@ -867,17 +909,19 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	// bound, so we need to set these before CFSocketSetAddress is called.
 	if (isOK)
 		{
-		isOK = cfSocket.SetObject(CFSocketCreate(kCFAllocatorNano, theSignature.protocolFamily,
-																   theSignature.socketType,
-																   theSignature.protocol,
-																   kCFSocketAcceptCallBack,
-																   SocketEvent, &theContext));
+		theSocket->cfSocket = CFSocketCreate(kCFAllocatorNano,	theSignature.protocolFamily,
+																theSignature.socketType,
+																theSignature.protocol,
+																kCFSocketAcceptCallBack,
+																SocketEvent, &theContext);
+
+		isOK = (theSocket->cfSocket != NULL);
 		NN_ASSERT(isOK);
 		}
 
 	if (isOK)
 		{
-		theSocket->nativeSocket = CFSocketGetNative(cfSocket);
+		theSocket->nativeSocket = CFSocketGetNative(theSocket->cfSocket);
 		valueInt                = 1;
 
 		sysErr  = setsockopt(theSocket->nativeSocket, SOL_SOCKET, SO_REUSEADDR, &valueInt, sizeof(valueInt));
@@ -887,17 +931,15 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 
 	if (isOK)
 		{
-		sockErr = CFSocketSetAddress(cfSocket, theSignature.address);
+		sockErr = CFSocketSetAddress(theSocket->cfSocket, theSignature.address);
 		isOK    = (sockErr == kCFSocketSuccess);
 		NN_ASSERT(isOK);
 		}
 
-	if (!isOK && cfSocket.IsValid())
+	if (!isOK && theSocket->cfSocket != NULL)
 		{
-		theSocket->nativeSocket = kSocketHandleInvalid;
-		CFSocketInvalidate(cfSocket);
-
 		NN_LOG("Failed to create listening socket on port %d!", thePort);
+		SocketInvalidate(theSocket);
 		}
 
 
@@ -905,7 +947,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	// Register for events
 	if (isOK)
 		{
-		isOK = cfSource.SetObject(CFSocketCreateRunLoopSource(kCFAllocatorNano, cfSocket, 0));
+		isOK = cfSource.SetObject(CFSocketCreateRunLoopSource(kCFAllocatorNano, theSocket->cfSocket, 0));
 		NN_ASSERT(isOK);
 		}
 
@@ -964,6 +1006,7 @@ static void SocketDestroy(NSocketRef theSocket)
 
 	// Destroy the socket
 	SocketStreamsClose(theSocket);
+	SocketInvalidate(  theSocket);
 
 	delete theSocket;
 
