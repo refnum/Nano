@@ -251,6 +251,11 @@ NStatus NMessageEntity::ReadMessage(NSocket *theSocket, NNetworkMessage &theMsg)
 	NData				theBody;
 	NStatus				theErr;
 
+#if DEBUG_MESSAGES
+	NDate				startTime;
+	NTime				theTime;
+#endif
+
 
 
 	// Read the header
@@ -274,7 +279,8 @@ NStatus NMessageEntity::ReadMessage(NSocket *theSocket, NNetworkMessage &theMsg)
 
 	// Debug hook
 #if DEBUG_MESSAGES
-	DumpMessage(theErr, true, &theHeader);
+	theTime = NDate() - startTime;
+	DumpMessage(theErr, theTime, true, &theHeader);
 #endif
 
 	return(theErr);
@@ -290,6 +296,11 @@ NStatus NMessageEntity::ReadMessage(NSocket *theSocket, NNetworkMessage &theMsg)
 NStatus NMessageEntity::WriteMessage(NSocket *theSocket, const NNetworkMessage &theMsg, bool sendSync)
 {	NData		theData;
 	NStatus		theErr;
+
+#if DEBUG_MESSAGES
+	NDate		startTime;
+	NTime		theTime;
+#endif
 
 
 
@@ -309,7 +320,8 @@ NStatus NMessageEntity::WriteMessage(NSocket *theSocket, const NNetworkMessage &
 
 	// Debug hook
 #if DEBUG_MESSAGES
-	DumpMessage(theErr, false, (const NMessageHeader *) theData.GetData());
+	theTime = NDate() - startTime;
+	DumpMessage(theErr, theTime, false, (const NMessageHeader *) theData.GetData());
 #endif
 
 	return(theErr);
@@ -345,7 +357,7 @@ void NMessageEntity::ProcessMessages(NSocket *theSocket)
 //============================================================================
 //		NMessageEntity::DumpMessage : Dump a message.
 //----------------------------------------------------------------------------
-void NMessageEntity::DumpMessage(NStatus theErr, bool isRead, const NMessageHeader *rawHeader)
+void NMessageEntity::DumpMessage(NStatus theErr, NTime theTime, bool isRead, const NMessageHeader *rawHeader)
 {	NMessageHeader		theHeader;
 
 
@@ -368,10 +380,11 @@ void NMessageEntity::DumpMessage(NStatus theErr, bool isRead, const NMessageHead
 
 
 	// Dump the message
-	NN_LOG("[%02d] %s msg: err=%-3d type=%-3d src=%-2d dst=%-4d attr=0x%02X  size=%d",
+	NN_LOG("[%02d] %s msg: err=%-3d time=%.3f type=%-3d src=%-2d dst=%-4d attr=0x%02X size=%d",
 				mID,
 				isRead ? "read " : "wrote",
 				theErr,
+				theTime,
 				theHeader.msgType,
 				theHeader.msgSrcID,
 				theHeader.msgDstID,

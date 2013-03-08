@@ -107,7 +107,7 @@ protected:
 
 
 private:
-	void								DumpMessage(NStatus theErr, bool isRead, const NMessageHeader *rawHeader);
+	void								DumpMessage(NStatus theErr, NTime theTime, bool isRead, const NMessageHeader *rawHeader);
 	
 
 private:
