@@ -300,6 +300,11 @@ bool NNetworkMessage::CompressBody(NData &theBody) const
 	NDataCompressor			theCompressor;
 	bool					didCompress;
 
+#if DEBUG_COMPRESSION
+	NDate	startTime;
+	NTime	theTime;
+#endif
+
 
 
 	// Get the state we need
@@ -323,12 +328,14 @@ bool NNetworkMessage::CompressBody(NData &theBody) const
 
 
 	// Debug hook
-	#if DEBUG_COMPRESSION
+#if DEBUG_COMPRESSION
+	theTime = NDate() - startTime;
+	
 	if (didCompress)
-		NN_LOG("NNetworkMessage compressing body from %ld to %ld", bodySize, compressedSize);
+		NN_LOG("NNetworkMessage compressing body from %ld to %ld in %.3f", bodySize, compressedSize, theTime);
 	else
-		NN_LOG("NNetworkMessage unable to compress body from %ld, set kNMessageNeverCompress?", bodySize, compressedSize);
-	#endif
+		NN_LOG("NNetworkMessage unable to compress body from %ld in %.3f, set kNMessageNeverCompress?", bodySize, theTime);
+#endif
 
 	return(didCompress);
 }
@@ -345,6 +352,11 @@ NData NNetworkMessage::DecompressBody(const NData &theBody) const
 	NCompressionHeader		compressedHeader;
 	NDataCompressor			theCompressor;
 	NIndex					theOffset;
+
+#if DEBUG_COMPRESSION
+	NDate	startTime;
+	NTime	theTime;
+#endif
 
 
 
@@ -378,9 +390,11 @@ NData NNetworkMessage::DecompressBody(const NData &theBody) const
 
 
 		// Debug hook
-		#if DEBUG_COMPRESSION
-		NN_LOG("NNetworkMessage decompressed body from %ld to %ld", theBody.GetSize(), finalBody.GetSize());
-		#endif
+#if DEBUG_COMPRESSION
+		theTime = NDate() - startTime;
+	
+		NN_LOG("NNetworkMessage decompressed body from %ld to %ld in %.3f", theBody.GetSize(), finalBody.GetSize(), theTime);
+#endif
 		}
 	
 	return(finalBody);
