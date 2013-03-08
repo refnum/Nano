@@ -398,7 +398,8 @@ void NShapeX::DecodeSelf(const NEncoder &theEncoder)
 {	bool	wasOK;
 
 
-	// Encode the object
+
+	// Decode the object
 	mIs64 = theEncoder.DecodeBoolean(kNShape64Key);
 
 	wasOK  = theEncoder.DecodeObject(kNShapePointsKey).GetValue(mPoints);

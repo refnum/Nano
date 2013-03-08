@@ -282,7 +282,7 @@ void NUTI::DecodeSelf(const NEncoder &theEncoder)
 {
 
 
-	// Encode the object
+	// Decode the object
 	mValue = theEncoder.DecodeString(kNEncoderValueKey);
 }
 

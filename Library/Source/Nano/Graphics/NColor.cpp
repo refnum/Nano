@@ -562,7 +562,7 @@ void NColor::DecodeSelf(const NEncoder &theEncoder)
 {
 
 
-	// Encode the object
+	// Decode the object
 	mRed   = theEncoder.DecodeNumber(kNColorRedKey  ).GetFloat32();
 	mGreen = theEncoder.DecodeNumber(kNColorGreenKey).GetFloat32();
 	mBlue  = theEncoder.DecodeNumber(kNColorBlueKey ).GetFloat32();
