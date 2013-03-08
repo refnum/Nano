@@ -1219,13 +1219,21 @@ void NPropertyList::EncodeMacBinary1_GetObjectCount(const NVariant &theValue, UI
 
 
 	// Count the objects
-	*numObjects = *numObjects + 1;
-	
+	//
+	// Each value generates one object.
+	//
+	// Arrays and dictionaries also generate an object for each of their values,
+	// with dictionaries also generating objects for each of their keys.
+	*numObjects += 1;
+
 	if (theValue.GetValue(valueArray))
 		valueArray.ForEach(     BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, _2, numObjects));
 
 	else if (theValue.GetValue(valueDictionary))
+		{
+		*numObjects += valueDictionary.GetSize();
 		valueDictionary.ForEach(BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, _2, numObjects));
+		}
 }
 
 
