@@ -217,6 +217,16 @@ void TPropertyList::Execute(void)
 
 
 
+	// Encode to binary
+	testDict1 = propertyList.DecodeXML(kPropertyListXML);
+	theData   = propertyList.Encode(testDict1, kNPropertyListBinary);
+
+	testDict2 = propertyList.Decode(theData);
+	theXML    = propertyList.EncodeXML(testDict2);
+	NN_ASSERT(theXML == kPropertyListXML);
+
+
+
 	// Decode from binary
 	theData   = theEncoder.Decode(kPropertyListBinary, kNDataEncodingHex);
 	testDict1 = propertyList.Decode(theData);
