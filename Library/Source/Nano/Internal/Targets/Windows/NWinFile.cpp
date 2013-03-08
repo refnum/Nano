@@ -1181,16 +1181,16 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 //      NTargetFile::BundleGetInfo : Get a bundle's Info.plist.
 //----------------------------------------------------------------------------
 NDictionary NTargetFile::BundleGetInfo(const NFile &theBundle)
-{	NDictionary			theResult;
+{	NPropertyList		propertyList;
+	NDictionary			theResult;
 	NFile				fileInfo;
-	NPropertyList		pList;
 
 
 
 	// Get the info
 	fileInfo = theBundle.GetChild("Contents\\Info.plist");
 	if (fileInfo.IsFile())
-		theResult = pList.Load(fileInfo);
+		theResult = propertyList.Load(fileInfo);
 	
 	return(theResult);
 }

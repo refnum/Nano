@@ -116,10 +116,10 @@ void TPropertyList::Execute(void)
 {	NData				theData, testData1, testData2;
 	NDictionary			testDict1, testDict2;
 	NString				theXML, testString;
+	NPropertyList		propertyList;
 	NDataEncoder		theEncoder;
 	NArray				testArray;
 	NDate				testDate;
-	NPropertyList		pList;
 
 
 
@@ -157,7 +157,7 @@ void TPropertyList::Execute(void)
 
 
 	// Encode to XML
-	theXML = pList.EncodeXML(testDict1);
+	theXML = propertyList.EncodeXML(testDict1);
 	NN_ASSERT(theXML == kPropertyListXML);
 
 	testDict1.Clear();
@@ -169,7 +169,7 @@ void TPropertyList::Execute(void)
 
 
 	// Decode from XML
-	testDict1 = pList.DecodeXML(theXML);
+	testDict1 = propertyList.DecodeXML(theXML);
 	NN_ASSERT(testDict1.HasKey(kKeyDictionary));
 	NN_ASSERT(testDict1.HasKey(kKeyArray));
 	NN_ASSERT(testDict1.HasKey(kKeyData));
@@ -219,9 +219,9 @@ void TPropertyList::Execute(void)
 
 	// Decode from binary
 	theData   = theEncoder.Decode(kPropertyListBinary, kNDataEncodingHex);
-	testDict1 = pList.Decode(theData);
+	testDict1 = propertyList.Decode(theData);
 
-	theXML = pList.EncodeXML(testDict1);
+	theXML = propertyList.EncodeXML(testDict1);
 	NN_ASSERT(theXML == kPropertyListXML);
 }
 
