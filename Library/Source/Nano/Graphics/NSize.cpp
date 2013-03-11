@@ -156,7 +156,7 @@ template<class T> bool NSizeT<T>::IsEmpty(void) const
 
 
 	// Test the size
-	return(NMathUtilities::IsZero(width) && NMathUtilities::IsZero(height));
+	return(NMathUtilities::IsZero(width) || NMathUtilities::IsZero(height));
 }
 
 

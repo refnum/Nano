@@ -36,6 +36,10 @@ static const NSize kTestSize2_Scaled								= NSize(12.0f, 78.0f);
 
 static const NSize kTestSize3										= NSize(1.20f, 7.80f);
 
+static const NSize kTestSize4										= NSize(1.0f, 1.0f);
+static const NSize kTestSize4_Width									= NSize(0.0f, 1.0f);
+static const NSize kTestSize4_Height								= NSize(1.0f, 0.0f);
+
 
 
 
@@ -65,6 +69,10 @@ void TSize::Execute(void)
 	testSize.Clear();
 	NN_ASSERT(testSize.IsEmpty());
 	NN_ASSERT(testSize != kTestSize1);
+
+	NN_ASSERT(!kTestSize4.IsEmpty());
+	NN_ASSERT( kTestSize4_Width.IsEmpty());
+	NN_ASSERT( kTestSize4_Height.IsEmpty());
 
 
 
