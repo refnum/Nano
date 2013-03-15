@@ -362,6 +362,11 @@ void NMessageEntity::DumpMessage(NStatus theErr, NTime theTime, bool isRead, con
 
 
 
+	// Compiler warnings
+	NN_UNUSED(theTime);
+
+
+
 	// Get the state we need
 	//
 	// Read data has been decoded, but gets cleared if the read failed.

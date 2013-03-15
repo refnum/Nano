@@ -133,7 +133,7 @@ private:
 	NArray								DecodeMacXML1_Array(     const NXMLNode *theNode);
 	NDictionary							DecodeMacXML1_Dictionary(const NXMLNode *theNode);
 
-	void								EncodeMacBinary1_GetObjectCount(const NVariant &theValue, UInt64 *numObjects);
+	void								EncodeMacBinary1_GetObjectCount(const NVariant &theValue, UInt32 *numObjects);
 	UInt32								EncodeMacBinary1_GetIntegerSize(UInt64 theSize);
 	NData								EncodeMacBinary1_GetIntegerList(const UInt64List &theValues, UInt32 byteSize);
 

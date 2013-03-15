@@ -474,9 +474,9 @@ NDictionary NPropertyList::DecodeMacXML1(const NData &theData)
 //		NPropertyList::EncodeMacBinary1 : Encode kNPropertyListMacBinary1.
 //----------------------------------------------------------------------------
 NData NPropertyList::EncodeMacBinary1(const NDictionary &theState)
-{	UInt64						rootObject, objectsTableSize, offsetsSize;
+{	UInt32						numObjects, objectsTableSize, offsetsSize;
 	NData						theData, offsetTable;
-	UInt64						numObjects;
+	UInt64						rootObject;
 	MacBinary1_Trailer			theTrailer;
 	MacBinary1_EncodeInfo		theInfo;
 
@@ -564,7 +564,8 @@ NDictionary NPropertyList::DecodeMacBinary1(const NData &theData)
 
 
 	// Prepare to decode
-	offsetsTable = theData.GetData(theTrailer.offsetsTableOffset);
+	NN_ASSERT(theTrailer.offsetsTableOffset < kNIndexMax);
+	offsetsTable = theData.GetData((NIndex) theTrailer.offsetsTableOffset);
 
 	theInfo.theOffsets   = DecodeMacBinary1_GetObjectOffsets(theTrailer.numObjects, theTrailer.offsetsSize, offsetsTable);
 	theInfo.objectsSize  = theTrailer.objectsSize;
@@ -1212,7 +1213,7 @@ NDictionary NPropertyList::DecodeMacXML1_Dictionary(const NXMLNode *theNode)
 //============================================================================
 //		NPropertyList::EncodeMacBinary1_GetObjectCount : Count the objects.
 //----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_GetObjectCount(const NVariant &theValue, UInt64 *numObjects)
+void NPropertyList::EncodeMacBinary1_GetObjectCount(const NVariant &theValue, UInt32 *numObjects)
 {	NDictionary		valueDictionary;
 	NArray			valueArray;
 
