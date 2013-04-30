@@ -162,7 +162,7 @@ public:
 
 	// Format an argument list
 	//
-	// NFormatter accepts the standard IEEE format specifiers:
+	// NStringFormatter accepts the standard IEEE format specifiers:
 	//
 	//		http://www.opengroup.org/onlinepubs/009695399/functions/printf.html
 	//
