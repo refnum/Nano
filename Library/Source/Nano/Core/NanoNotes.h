@@ -14,7 +14,7 @@
 		
 		For example:
 		
-		    #define NN_SEEN_RELEASE_NOTES_FOR			0x00200000
+		    #define NN_SEEN_RELEASE_NOTES_FOR			0x00300000
 	
 		By defining this prior to including Nano.h, the warnings related to
 		this (or older) versions of Nano can be suppressed while warnings
@@ -32,6 +32,7 @@
 //============================================================================
 //		Build Constants
 //----------------------------------------------------------------------------
+#define NN_RELEASE_NOTES_3_0									0x00300000
 #define NN_RELEASE_NOTES_2_0									0x00200000
 #define NN_RELEASE_NOTES_1_5									0x00100500
 #define NN_RELEASE_NOTES_1_4									0x00100400
@@ -53,6 +54,15 @@
 //============================================================================
 //		Release Notes
 //----------------------------------------------------------------------------
+#if NN_SEEN_RELEASE_NOTES_FOR < NN_RELEASE_NOTES_3_0
+
+	// Misc
+	#pragma message("3.0: Review all source - not backwards compatible with 2.x")
+
+#endif
+
+
+
 #if NN_SEEN_RELEASE_NOTES_FOR < NN_RELEASE_NOTES_2_0
 
 	// Misc
