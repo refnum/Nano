@@ -68,6 +68,95 @@
 
 
 <h1>Version History</h1>
+<h2>Nano 3.0</h2>
+<ul>
+	<li>Released 2013/05/01
+	<li>New Classes
+		<ul>
+		<li>NCFURL (wrapper around CFURLRef)
+		<li>NJSONEncoder (JSON encoder)
+		<li>NMessageClient (message-based client)
+		<li>NMessageServer (message-based server)
+		<li>NMessageMessage (key-value compressed message)
+		<li>NNetworkBrowser (ZeroConf service browser)
+		<li>NNetworkService (ZeroConf service advertiser)
+		<li>NNetworkManager (network services)
+		<li>NProgressable (base class for objects that emit progress)
+		<li>NSocket (wrapper around CFSocket/IOCP socket interfaces)
+		<li>NURL (URL object)
+		<li>NURLRequest (http request object)
+		<li>NURLResponse (http response object)
+		</ul>
+	<li>Existing Classes
+		<ul>
+		<li>NArray, NArrayForEachFunctor now provides the NIndex for items
+		<li>NAtomicInt, fixed bug where increment/decrement returned stale value
+		<li>NBroadcaster, allow listeners to be removed during a broadcast
+		<li>NBundle, support iOS-style "flattened bundles"
+		<li>NCacheKey, added setters
+		<li>NCacheKey, now support string/pointer/NData-based keys
+		<li>NCFObject, added CFNumberFormatter/CFSocket/CGGradient operators
+		<li>NCocoa, added CGPoint/Size/Rect to NSPoint/Size/Rect
+		<li>NColor, added opacity test/interpolation
+		<li>NCommandLine, added argc/argv setter
+		<li>NCoreFoundation, added NURL converters
+		<li>NCoreGraphics, added NSPoint/Size/Rect to CGPoint/Size/Rect
+		<li>NCoreGraphics, added overloaded CGRectMake methods
+		<li>NDataDigest, fix conversion to string on Windows
+		<li>NDateFormatter, fix fractional second formatting
+		<li>NDBHandle, added GetFile/CreateBackup and query caching
+		<li>NDBHandlePool, replace bool params with general NDBFlags
+		<li>NDBQuery, now support indexed parameters via an NArray
+		<li>NFile, added DeleteContents to delete a directory's contents
+		<li>NFile, added GetCreationTime/GetAccessTime/GetModificationTime
+		<li>NFile, added MoveTo to move files
+		<li>NFile, now support moving files to trash with Delete
+		<li>NFileUtilities, added GetDirectorySize
+		<li>NFunctor, added NProgressFunctor type
+		<li>NGeometryUtilities, added polygon/line clip and intersection methods
+		<li>NMathUtilities, added GetRandomXXX for random numbers
+		<li>NMathUtilities, AreEqual now uses ULP-based comparison
+		<li>NNumber, now support NStrings wrapped in NVariants
+		<li>NPoint, added MakeIntegral/GetIntegral and +/- NVector operators
+		<li>NPropertyList, added support for JSON and binary-plist formats
+		<li>NQt, now use QString::NormalizationForm_C when converting to QString
+		<li>NRange, now inline NComparable operators to ensure size is 64-bits
+		<li>NRectangle, now have general GetPoint rather than GetCorner
+		<li>NRefCounted, fixed race condition when releasing objects
+		<li>NRegistry, added GetSize
+		<li>NSize, IsEmpty now returns as either dimension is zero
+		<li>NSize, now compare by area if unequal
+		<li>NSkia, added NPoint/NSize/NRectangle to SkIPoint/SkISize/SkIRect
+		<li>NSTLUtilities, added prepend
+		<li>NString, added Transform for generalised transformations
+		<li>NStringEncoder, now support ASCII/MacRoman/ISO Latin1/Windows Latin1
+		<li>NStringFormatter, added support for custom object formatters
+		<li>NSystemUtilities, added accessors for OS name/system spec
+		<li>NTask, now drain stdout/stderr pipes to avoid blocking child
+		<li>NTextUtilities, now cache HTML entity lookup dictionaries
+		<li>NThread, added support for thread-local values
+		<li>NThreadPool, added Pause/Resume
+		<li>NThreadUtilities, added DetachFunctor
+		<li>NUndoManager, added SetGroupName
+		<li>NUndoSource, added SetUndoManager
+		<li>NUnicodeParser, now pre-allocate buffers for faster conversion
+		<li>NUTI, added GetValue/SetValue
+		<li>NUTIRegistry, added additional UTI types (KML, KMZ, DMG, ISO)
+		<li>NVector, now compare by length if unequal
+		<li>NWindows, added NN_LOG_LASTERR to call and format GetLastError()
+		<li>NXMLEncoder, now return error status on failure
+		<li>NXMLParser, now inherits from NProgressable
+		</ul>
+	<li>Miscellaneous Changes
+		<ul>
+		<li>Numerous bug fixes and performance improvements
+		<li>Renamed NN_TARGET_IPHONE to NN_TARGET_IOS
+		<li>Updated to SQLite 3.7.15
+		</ul>
+</ul>
+
+
+
 <h2>Nano 2.0</h2>
 <ul>
 	<li>Released 2010/09/01

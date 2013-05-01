@@ -147,7 +147,8 @@ As well as being less verbose, notable differences are:
 	<li>Nano uses the '<a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">RAII</a>'
 	design pattern to minimise pointer management, allowing otherString to release its string when it
 	goes out of scope. This must be managed manually in Objective-C, or handled with garbage collection
-	(which can reclaim pointers, but not resources such as open files).</li>
+	(which can reclaim pointers, but not resources such as open files) or ARC (which can require special
+	casts to inform the compiler about object lifetimes).</li>
 	<br>
 </ul>
 
@@ -168,6 +169,24 @@ use FIFO, LIFO, or custom schedulers.
 <p>
 Individual functors can be spun off onto threads, and threads can pass functors back to the main thread if
 they need to access to non-thread-safe APIs.
+</p>
+
+
+
+<h2>Simpler Sockets</h2>
+<p>
+Nano provides a cross-platform interface to the native sockets API, and a set of tools for building network
+applications (such as a key-value based message system, or ZeroConf discovery).
+</p>
+
+<p>
+<tt>NSocket</tt> is a thin wrapper around the most efficient network layer for each platform, and abstracts
+the differences in behaviour between a notify-on-ready (CFSocket) and notify-on-completion (IOCP) API.
+</p>
+
+<p>
+<tt>NMessageClient</tt> and <tt>NMessageServer</tt> allow multiple clients to connect to a server, and
+communicate using compressed key-value messages (with comparable performance to Protocol Buffers).
 </p>
 
 

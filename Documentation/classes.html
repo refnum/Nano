@@ -69,7 +69,7 @@
 
 <h1>Class Overview</h1>
 <p>
-Nano is composed of around a hundred classes, organized into a dozen or so categories of related
+Nano is composed of around a hundred classes, organized into a dozen categories of related
 objects.
 </p>
 
@@ -85,9 +85,9 @@ to specific implementation choices, are contained at the top of each source file
 </table>
 <table class="list">
 <tr><th>Nano.h</th>						<td>Global Nano include</td></tr>
+<tr><th>NanoNotes.h</th>				<td>Release notes</td></tr>
 <tr><th>NanoMacros.h</th>				<td>Global Nano macros</td></tr>
 <tr><th>NanoTypes.h</th>				<td>Global Nano types</td></tr>
-<tr><th>NanoNotes.h</th>				<td>Release notes</td></tr>
 <tr><th>NanoTarget.h</th>				<td>OS and architecture detection</td></tr>
 <tr><th>NDebug</th>						<td>Assertion macros and logging</td></tr>
 </table>
@@ -155,7 +155,15 @@ to specific implementation choices, are contained at the top of each source file
 <tr><td>Network</td></tr>
 </table>
 <table class="list">
+<tr><th>NMessageClient</th>				<td>Message-based client</td></tr>
+<tr><th>NMessageEntity</th>				<td>Message-based entity</td></tr>
+<tr><th>NMessageServer</th>				<td>Message-based server</td></tr>
+<tr><th>NNetworkMessage</th>			<td>Key-value network message</td></tr>
+<tr><th>NNetworkBrowser</th>			<td>Bonjour browser</td></tr>
+<tr><th>NNetworkService</th>			<td>Bonjour advertiser</td></tr>
 <tr><th>NNetworkManager</th>			<td>Network manager</td></tr>
+<tr><th>NSocket</th>					<td>Socket object</td></tr>
+<tr><th>NSocketRequest</th>				<td>Socket request</td></tr>
 <tr><th>NURLRequest</th>				<td>URL request</td></tr>
 <tr><th>NURLResponse</th>				<td>URL downloader</td></tr>
 </table>
@@ -173,6 +181,7 @@ to specific implementation choices, are contained at the top of each source file
 <tr><th>NDataCompressor</th>			<td>Data compression (ZLib)</td></tr>
 <tr><th>NDataDigest</th>				<td>Data digest (MD5 and SHA1)</td></tr>
 <tr><th>NDataEncoder</th>				<td>Data encoding (Hex and B64)</td></tr>
+<tr><th>NJSONEncoder</th>				<td>JSON encoder</td></tr>
 <tr><th>NLocale</th>					<td>User locale</td></tr>
 <tr><th>NTask</th>						<td>Command line tool</td></tr>
 <tr><th>NUnicodeParser</th>				<td>Unicode parser</td></tr>

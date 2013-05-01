@@ -69,23 +69,22 @@
 
 <h1>Building Nano</h1>
 <p>
-Nano is typically built with Xcode 3 for Mac OS X/iOS, and Microsoft Visual C++ Express 2008
+Nano is typically built with Xcode 4 for Mac OS X/iOS, and Microsoft Visual C++ Express 2008
 for Windows.
 </p>
 
 <p>
-However the code should build with any reasonably modern C++ compiler, such as gcc 4.x or
-later.
+However the code should build with any reasonably modern C++ compiler, such as gcc 4.x or clang.
 </p>
 
 <p>
 Nano is typically built as a stand-alone static library, however this is not required. Nano
-can also be built by including the relevant source code directly in your project, or by building
+can also be built by including the relevant source code directly in your project or by building
 it as a shared library.
 </p>
 
 <p>
-Nano's default settings maximize warnings in debug builds, and minimize the final binary
+Nano's default settings maximize warnings in debug builds and minimize the final binary
 size in release builds.
 </p>
 
@@ -94,7 +93,7 @@ size in release builds.
 <h2>Xcode</h2>
 <h3>Configuration</h3>
 <p>
-Nano projects contain Debug, Release, and Distribution configurations. These configurations are
+Nano projects contain Debug and Release configurations. These configurations are
 managed by external <tt>.xcconfig</tt> files, contained in <tt>Support/Xcode/Configuration</tt>.
 </p>
 
