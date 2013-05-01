@@ -5,7 +5,7 @@
 		NEncoder tests.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2010, refNum Software
+		Copyright (c) 2006-2013, refNum Software
 		<http://www.refnum.com/>
 
 		All rights reserved. Released under the terms of licence.html.
