@@ -67,6 +67,15 @@ typedef enum {
 	kOSMacTenSixSeven												= 0x100a0607,
 	kOSMacTenSixEight												= 0x100a0608,
 	kOSMacTenSeven													= 0x100a0700,
+	kOSMacTenSevenOne												= 0x100a0701,
+	kOSMacTenSevenTwo												= 0x100a0702,
+	kOSMacTenSevenThree												= 0x100a0703,
+	kOSMacTenSevenFour												= 0x100a0704,
+	kOSMacTenSevenFive												= 0x100a0705,
+	kOSMacTenEight													= 0x100a0800,
+	kOSMacTenEightOne												= 0x100a0801,
+	kOSMacTenEightTwo												= 0x100a0802,
+	kOSMacTenEightThree												= 0x100a0803,
 
 	kOSWindows														= 0x20050000,
 	kOSWindowsXP													= 0x20050000,
@@ -75,6 +84,7 @@ typedef enum {
 	kOSWindowsXP_SP3												= 0x20050300,
 	kOSWindowsVista													= 0x20060000,
 	kOSWindowsSeven													= 0x20070000,
+	kOSWindowsEight													= 0x20080000,
 
 	kOSiOS															= 0x30000000,
 	kOSiOSTwo														= 0x30020000,
@@ -83,7 +93,14 @@ typedef enum {
 	kOSiOSThree														= 0x30030000,
 	kOSiOSThreeOne													= 0x30030100,
 	kOSiOSThreeTwo													= 0x30030200,
-	kOSiOSFour														= 0x30040000
+	kOSiOSFour														= 0x30040000,
+	kOSiOSFourOne													= 0x30040100,
+	kOSiOSFourTwo													= 0x30040200,
+	kOSiOSFourThree													= 0x30040300,
+	kOSiOSFive														= 0x30050000,
+	kOSiOSFiveOne													= 0x30050100,
+	kOSiOSSix														= 0x30060000,
+	kOSiOSSixOne													= 0x30060100
 } OSVersion;
 
 

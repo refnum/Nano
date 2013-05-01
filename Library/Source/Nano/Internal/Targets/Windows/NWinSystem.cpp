@@ -341,7 +341,10 @@ OSVersion NTargetSystem::GetOSVersion(void)
 	// Identify the OS
 	theVers = kOSWindows;
 	
-	if (	theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 1 && theInfo.wProductType == VER_NT_WORKSTATION)
+	if (	theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 2 && theInfo.wProductType == VER_NT_WORKSTATION)
+		theVers = kOSWindowsEight;
+
+	else if (theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 1 && theInfo.wProductType == VER_NT_WORKSTATION)
 		theVers = kOSWindowsSeven;
 
 	else if (theInfo.dwMajorVersion == 6 && theInfo.dwMinorVersion == 0 && theInfo.wProductType == VER_NT_WORKSTATION)
