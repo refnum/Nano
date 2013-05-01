@@ -52,7 +52,7 @@ typedef NRangeList::reverse_iterator								NRangeListReverseIterator;
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NRange :	public NEncodable {
+class NRange : public NEncodable {
 public:
 										NENCODABLE_DECLARE(NRange);
 
