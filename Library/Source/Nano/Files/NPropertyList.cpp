@@ -564,7 +564,7 @@ NDictionary NPropertyList::DecodeMacBinary1(const NData &theData)
 
 
 	// Prepare to decode
-	NN_ASSERT(theTrailer.offsetsTableOffset < kNIndexMax);
+	NN_ASSERT((NIndex) theTrailer.offsetsTableOffset < kNIndexMax);
 	offsetsTable = theData.GetData((NIndex) theTrailer.offsetsTableOffset);
 
 	theInfo.theOffsets   = DecodeMacBinary1_GetObjectOffsets(theTrailer.numObjects, theTrailer.offsetsSize, offsetsTable);
