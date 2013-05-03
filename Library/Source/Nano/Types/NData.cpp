@@ -642,6 +642,7 @@ const NData& NData::operator = (const NData &theValue)
 	if (this != &theValue)
 		{
 		NSharedValueData::operator=(theValue);
+		ClearHash();
 
 		mExternalSize = theValue.mExternalSize;
 		mExternalPtr  = theValue.mExternalPtr;
