@@ -26,12 +26,47 @@
 //		TStringEncoder::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TStringEncoder::Execute(void)
-{	NStringEncoder		testEncoder;
+{
+
+
+	// Terminators
+	TestTerminator("Hello World", kNStringEncodingUTF8);
+	TestTerminator("Hello World", kNStringEncodingUTF16);
+	TestTerminator("Hello World", kNStringEncodingUTF32);
+}
 
 
 
-	// Execute the tests
-		// dair: validate that null bytes are always stripped off by encoding
-		// dair: validate that adding/removing terminators works correctly
+
+
+//============================================================================
+//		TStringEncoder::TestTerminator : Test string terminators.
+//----------------------------------------------------------------------------
+void TStringEncoder::TestTerminator(const NString &theString, NStringEncoding theEncoding)
+{	NData				data1, data2;
+	NStringEncoder		testEncoder;
+
+
+
+	// Add terminator
+	data1 = theString.GetData(theEncoding, kNStringRenderNone);
+	data2 = data1;
+
+	testEncoder.AddTerminator(data2, theEncoding);
+	NN_ASSERT(data1 != data2);
+
+	testEncoder.RemoveTerminator(data2, theEncoding);
+	NN_ASSERT(data1 == data2);
+
+
+
+	// Remove terminator
+	data1 = theString.GetData(theEncoding, kNStringNullTerminate);
+	data2 = data1;
+
+	testEncoder.RemoveTerminator(data2, theEncoding);
+	NN_ASSERT(data1 != data2);
+
+	testEncoder.AddTerminator(data2, theEncoding);
 }
 

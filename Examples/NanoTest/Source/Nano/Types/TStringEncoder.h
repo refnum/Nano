@@ -28,6 +28,10 @@ class TStringEncoder {
 public:
 	// Execute the tests
 	static void							Execute(void);
+
+
+private:
+	static void							TestTerminator(const NString &theString, NStringEncoding theEncoding);
 };
 
 
