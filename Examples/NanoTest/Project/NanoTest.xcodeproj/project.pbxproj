@@ -161,8 +161,8 @@
 		AB481C7112A539690052C55F /* TURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TURLRequest.h; sourceTree = "<group>"; };
 		AB481C7212A539690052C55F /* TURLResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLResponse.cpp; sourceTree = "<group>"; };
 		AB481C7312A539690052C55F /* TURLResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TURLResponse.h; sourceTree = "<group>"; };
-		AB481C7B12A539830052C55F /* TURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TURL.cpp; path = ../../../../Nano/Examples/NanoTest/Source/Nano/Types/TURL.cpp; sourceTree = SOURCE_ROOT; };
-		AB481C7C12A539830052C55F /* TURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TURL.h; path = ../../../../Nano/Examples/NanoTest/Source/Nano/Types/TURL.h; sourceTree = SOURCE_ROOT; };
+		AB481C7B12A539830052C55F /* TURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURL.cpp; sourceTree = "<group>"; };
+		AB481C7C12A539830052C55F /* TURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TURL.h; sourceTree = "<group>"; };
 		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
 		AB514D611034184B00E5A6AD /* TCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCommandLine.h; sourceTree = "<group>"; };
@@ -394,9 +394,8 @@
 				AB481C7212A539690052C55F /* TURLResponse.cpp */,
 				AB481C7312A539690052C55F /* TURLResponse.h */,
 			);
-			name = Network;
-			path = ../../../../Nano/Examples/NanoTest/Source/Nano/Network;
-			sourceTree = SOURCE_ROOT;
+			path = Network;
+			sourceTree = "<group>";
 		};
 		AB514D5E1034184A00E5A6AD /* Nano */ = {
 			isa = PBXGroup;
