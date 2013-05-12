@@ -100,7 +100,16 @@ typedef enum {
 	kOSiOSFive														= 0x30050000,
 	kOSiOSFiveOne													= 0x30050100,
 	kOSiOSSix														= 0x30060000,
-	kOSiOSSixOne													= 0x30060100
+	kOSiOSSixOne													= 0x30060100,
+	
+	kOSLinux														= 0x40000000,
+	kOSLinuxTwo														= 0x40020000,
+	kOSLinuxTwoTwo													= 0x40020200,
+	kOSLinuxTwoFour													= 0x40020400,
+	kOSLinuxTwoSix													= 0x40020600,
+	kOSLinuxThree													= 0x40030000,
+	kOSLinuxThreeTwo												= 0x40030200,
+	kOSLinuxThreeFour												= 0x40030400,
 } OSVersion;
 
 

@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <sys/utsname.h>
+
 #include "NTargetSystem.h"
 
 
@@ -56,12 +58,52 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 //      NTargetSystem::GetOSVersion : Get the OS version.
 //----------------------------------------------------------------------------
 OSVersion NTargetSystem::GetOSVersion(void)
-{
+{	int					sysErr, versMajor, versMinor;
+	struct utsname		theInfo;
+	OSVersion			theVers;
 
 
-	// dair, to do
-	NN_LOG("NTargetSystem::GetOSVersion not implemented!");
-	return(kOSUnknown);
+
+	// Get the state we need
+	sysErr = uname(&theInfo);
+	NN_ASSERT_NOERR(sysErr);
+
+	if (sysErr == 0)
+		{
+		if (!sscanf(theInfo.release, "%d.%d", &versMajor, &versMinor))
+			sysErr = -1;
+		}
+
+
+
+	// Get the version
+	theVers = kOSLinux;
+	
+	if (sysErr == 0)
+		{
+		if (versMajor == 3 && versMinor == 4)
+			theVers = kOSLinuxThreeFour;
+
+		else if (versMajor == 3 && versMinor == 2)
+			theVers = kOSLinuxThreeTwo;
+
+		else if (versMajor == 3 && versMinor == 0)
+			theVers = kOSLinuxThree;
+
+		else if (versMajor == 2 && versMinor == 6)
+			theVers = kOSLinuxTwoSix;
+
+		else if (versMajor == 2 && versMinor == 4)
+			theVers = kOSLinuxTwoFour;
+
+		else if (versMajor == 2 && versMinor == 2)
+			theVers = kOSLinuxTwoTwo;
+
+		else if (versMajor == 2 && versMinor == 0)
+			theVers = kOSLinuxTwo;
+		}
+	
+	return(theVers);
 }
 
 
@@ -72,12 +114,23 @@ OSVersion NTargetSystem::GetOSVersion(void)
 //		NTargetSystem::GetOSName : Get the OS name.
 //----------------------------------------------------------------------------
 NString NTargetSystem::GetOSName(void)
-{
+{	NString				theResult;
+	struct utsname		theInfo;
+	int					sysErr;
 
 
-	// dair, to do
-	NN_LOG("NTargetSystem::GetOSName not implemented!");
-	return("");
+
+	// Get the state we need
+	sysErr = uname(&theInfo);
+	NN_ASSERT_NOERR(sysErr);
+
+
+
+	// Get the OS name
+	if (sysErr == 0)
+		theResult.Format("%s %s/%s", theInfo.sysname, theInfo.release, theInfo.version);
+
+	return(theResult);
 }
 
 

@@ -1,5 +1,5 @@
 CXX     = gcc
-LDFLAGS = -lstdc++
+LDFLAGS = -lstdc++ -lpthread -lrt
 AR      = ar
 ARFLAGS = rcs
 
@@ -97,7 +97,7 @@ DEPENDENCIES = $(patsubst %.c,%.depends, $(patsubst %.cpp,%.depends, $(SRCS) ))
 
 FLAGS_NANO =                                                                         \
         -include "../Prefix/NanoTest Prefix.h"                                       \
-        -DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF                                       \
+        -DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF -DNN_DEBUG=1 -g                       \
 
 FLAGS_INCLUDE =                                                                      \
         -I"../Prefix"                                                                \

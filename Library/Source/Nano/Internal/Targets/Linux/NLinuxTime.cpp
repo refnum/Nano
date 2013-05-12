@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <sys/time.h>
+
 #include "NTargetTime.h"
 
 
@@ -25,12 +27,16 @@
 //----------------------------------------------------------------------------
 #pragma mark -
 NTime NTargetTime::GetTime(void)
-{
+{	struct timeval		timeVal;
+	NTime				theTime;
 
 
-	// dair, to do
-	NN_LOG("NTargetTime::GetTime not implemented!");
-	return(0.0);
+
+	// Get the time
+	gettimeofday(&timeVal, NULL);
+	theTime = ((NTime) timeVal.tv_sec) + (((NTime) timeVal.tv_usec) * kNTimeMicrosecond);
+	
+	return(theTime);
 }
 
 
@@ -41,12 +47,25 @@ NTime NTargetTime::GetTime(void)
 //		NTargetTime::GetUpTime : Get the time since boot.
 //----------------------------------------------------------------------------
 NTime NTargetTime::GetUpTime(void)
-{
+{	struct timespec		timeSpec;
+	NTime				theTime;
+	int					sysErr;
 
 
-	// dair, to do
-	NN_LOG("NTargetTime::GetUpTime not implemented!");
-	return(0.0);
+
+	// Get the state we need
+	sysErr = clock_gettime(CLOCK_MONOTONIC, &timeSpec);
+	NN_ASSERT_NOERR(sysErr);
+	
+	
+	
+	// Get the time since boot
+	theTime = 0.0;
+	
+	if (sysErr == 0)
+		theTime = ((NTime) timeSpec.tv_sec) + (((NTime) timeSpec.tv_nsec) * kNTimeNanosecond);
+
+	return(theTime);
 }
 
 
