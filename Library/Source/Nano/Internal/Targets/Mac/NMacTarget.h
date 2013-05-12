@@ -81,9 +81,4 @@ template <class T> T NMacTarget::GetSysctl(int nameMajor, int nameMinor)
 
 
 
-
-
-
-
-
 #endif // NMAC_TARGET_HDR

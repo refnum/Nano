@@ -14,7 +14,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NMathUtilities.h"
 #include "NTargetPOSIX.h"
 
 
@@ -58,7 +57,7 @@ Float64 NTargetPOSIX::asin(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::asin(x));
 }
 
@@ -73,7 +72,7 @@ Float64 NTargetPOSIX::acos(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::acos(x));
 }
 
@@ -88,7 +87,7 @@ Float64 NTargetPOSIX::sinh(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::sinh(x));
 }
 
@@ -103,7 +102,7 @@ Float64 NTargetPOSIX::cosh(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::cosh(x));
 }
 
@@ -118,7 +117,7 @@ Float64 NTargetPOSIX::tanh(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::tanh(x));
 }
 
@@ -133,7 +132,7 @@ Float64 NTargetPOSIX::asinh(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::asinh(x));
 }
 
@@ -148,7 +147,7 @@ Float64 NTargetPOSIX::acosh(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::acosh(x));
 }
 
@@ -163,7 +162,7 @@ Float64 NTargetPOSIX::atanh(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::atanh(x));
 }
 
@@ -178,7 +177,7 @@ Float64 NTargetPOSIX::rint(Float64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::rint(x));
 }
 
@@ -214,7 +213,7 @@ SInt64 NTargetPOSIX::llabs(SInt64 x)
 {
 
 
-    // Get the value
+	// Get the value
 	return(::llabs(x));
 }
 
@@ -246,8 +245,8 @@ UInt32 NTargetPOSIX::random(void)
 
 	// Get the value
 	//
-	// Random returns a long in 64-bit, so we need to cast to UInt32 (and
-	// mod, to ensure we don't remain random).
+	// Random returns a long in 64-bit, so we need to mod the result to obtain
+	// a 32-bit value that remains random.
 	return((UInt32) (::random() % kUInt32Max));
 }
 
@@ -262,7 +261,7 @@ int NTargetPOSIX::getpid(void)
 {
 
 
-    // Get the pid
+	// Get the pid
 	return(::getpid());
 }
 
