@@ -28,6 +28,7 @@
 #define NN_TARGET_MAC												0
 #define NN_TARGET_WINDOWS											0
 #define NN_TARGET_IOS												0
+#define NN_TARGET_LINUX												0
 
 
 // Mac
@@ -51,8 +52,15 @@
 #endif
 
 
+// Linux
+#if defined(__linux__)
+	#undef  NN_TARGET_LINUX
+	#define NN_TARGET_LINUX											1
+#endif
+
+
 // Validate
-#if !NN_TARGET_MAC && !NN_TARGET_WINDOWS && !NN_TARGET_IOS
+#if !NN_TARGET_MAC && !NN_TARGET_WINDOWS && !NN_TARGET_IOS && !NN_TARGET_LINUX
 	ERROR - Unable to determine target platform
 #endif
 
@@ -87,10 +95,22 @@
 #endif
 
 
-// Windows
+// iOS
 #if NN_TARGET_IOS
 	#undef  NN_TARGET_ENDIAN_LITTLE
 	#define NN_TARGET_ENDIAN_LITTLE									1
+#endif
+
+
+// Linux
+#if NN_TARGET_LINUX
+	#if __BYTE_ORDER == __BIG_ENDIAN
+		#undef  NN_TARGET_ENDIAN_BIG
+		#define NN_TARGET_ENDIAN_BIG								1
+	#else
+		#undef  NN_TARGET_ENDIAN_LITTLE
+		#define NN_TARGET_ENDIAN_LITTLE								1
+	#endif
 #endif
 
 
@@ -139,6 +159,18 @@
 #if NN_TARGET_IOS
 	#undef  NN_TARGET_ARCH_32
 	#define NN_TARGET_ARCH_32										1
+#endif
+
+
+// Linux
+#if NN_TARGET_LINUX
+	#if defined(__x86_64__) || defined(__amd64__)
+		#undef  NN_TARGET_ARCH_64
+		#define NN_TARGET_ARCH_64									1
+	#else
+		#undef  NN_TARGET_ARCH_32
+		#define NN_TARGET_ARCH_32									1
+	#endif
 #endif
 
 
