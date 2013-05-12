@@ -70,9 +70,7 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 	while (GetMessage(&theMsg, NULL, 0, 0) && NTimeUtilities::GetTime() < endTime)
 		{
 		TranslateMessage(&theMsg);
-
 		DispatchMessage( &theMsg);
-
 		}
 
 
