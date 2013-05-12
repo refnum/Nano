@@ -46,7 +46,7 @@ NURLResponseRef NTargetNetwork::URLResponseCreate(NURLResponse *theResponse)
 
 	// dair, to do
 	NN_LOG("NTargetNetwork::URLResponseCreate not implemented!");
-	return(NULL);
+	return(0);
 }
 
 
