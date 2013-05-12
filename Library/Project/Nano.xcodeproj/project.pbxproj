@@ -966,7 +966,7 @@
 			path = Nano;
 			sourceTree = "<group>";
 		};
-		AB9154E20F9B4DD5009FFEAF /* 3rd Party */ = {
+		AB9154E20F9B4DD5009FFEAF /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
@@ -982,7 +982,7 @@
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */,
 			);
-			path = "3rd Party";
+			path = "Components";
 			sourceTree = "<group>";
 		};
 		AB9154E30F9B4DD5009FFEAF /* pcre_7.8 */ = {
@@ -1298,7 +1298,7 @@
 		ABB95B640FB7241B00C5A7FF /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				AB9154E20F9B4DD5009FFEAF /* 3rd Party */,
+				AB9154E20F9B4DD5009FFEAF /* Components */,
 				AB91551C0F9B4DD5009FFEAF /* Targets */,
 			);
 			path = Internal;

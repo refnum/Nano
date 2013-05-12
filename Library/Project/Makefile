@@ -13,17 +13,17 @@ INC = -I"../Prefix"                                           \
       -I"../Source/Nano/Files"                                \
       -I"../Source/Nano/Graphics"                             \
       -I"../Source/Nano/Internal"                             \
-      -I"../Source/Nano/Internal/3rd_Party/expat_2.0.1"       \
-      -I"../Source/Nano/Internal/3rd_Party/fourmilab.ch"      \
-      -I"../Source/Nano/Internal/3rd_Party/libb64_1.1"        \
-      -I"../Source/Nano/Internal/3rd_Party/pcre_7.8"          \
-      -I"../Source/Nano/Internal/3rd_Party/schneier.com"      \
-      -I"../Source/Nano/Internal/3rd_Party/sha2_1.1a"         \
-      -I"../Source/Nano/Internal/3rd_Party/sqlite_3.7.15.2"   \
-      -I"../Source/Nano/Internal/3rd_Party/tero.co.uk"        \
-      -I"../Source/Nano/Internal/3rd_Party/udp.github.com"    \
-      -I"../Source/Nano/Internal/3rd_Party/unicode.org"       \
-      -I"../Source/Nano/Internal/3rd_Party/zlib_1.2.3"        \
+      -I"../Source/Nano/Internal/Components/expat_2.0.1"      \
+      -I"../Source/Nano/Internal/Components/fourmilab.ch"     \
+      -I"../Source/Nano/Internal/Components/libb64_1.1"       \
+      -I"../Source/Nano/Internal/Components/pcre_7.8"         \
+      -I"../Source/Nano/Internal/Components/schneier.com"     \
+      -I"../Source/Nano/Internal/Components/sha2_1.1a"        \
+      -I"../Source/Nano/Internal/Components/sqlite_3.7.15.2"  \
+      -I"../Source/Nano/Internal/Components/tero.co.uk"       \
+      -I"../Source/Nano/Internal/Components/udp.github.com"   \
+      -I"../Source/Nano/Internal/Components/unicode.org"      \
+      -I"../Source/Nano/Internal/Components/zlib_1.2.3"       \
       -I"../Source/Nano/Internal/Targets"                     \
       -I"../Source/Nano/Internal/Targets/Linux"               \
       -I"../Source/Nano/Network"                              \
@@ -57,52 +57,52 @@ SRCS = ../Source/Nano/Application/NCommandLine.cpp                              
        ../Source/Nano/Graphics/NSize.cpp                                            \
        ../Source/Nano/Graphics/NTransform.cpp                                       \
        ../Source/Nano/Graphics/NVector.cpp                                          \
-       ../Source/Nano/Internal/3rd_Party/expat_2.0.1/xmlrole.c                      \
-       ../Source/Nano/Internal/3rd_Party/expat_2.0.1/xmltok_impl.c                  \
-       ../Source/Nano/Internal/3rd_Party/expat_2.0.1/xmltok_ns.c                    \
-       ../Source/Nano/Internal/3rd_Party/expat_2.0.1/xmltok.c                       \
-       ../Source/Nano/Internal/3rd_Party/fourmilab.ch/fm_md5.c                      \
-       ../Source/Nano/Internal/3rd_Party/libb64_1.1/cdecode.c                       \
-       ../Source/Nano/Internal/3rd_Party/libb64_1.1/cencode.c                       \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_chartables.c                 \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_compile.c                    \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_config.c                     \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_dfa_exec.c                   \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_exec.c                       \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_fullinfo.c                   \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_get.c                        \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_globals.c                    \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_info.c                       \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_maketables.c                 \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_newline.c                    \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_ord2utf8.c                   \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_refcount.c                   \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_study.c                      \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_tables.c                     \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_try_flipped.c                \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_ucd.c                        \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_valid_utf8.c                 \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_version.c                    \
-       ../Source/Nano/Internal/3rd_Party/pcre_7.8/pcre_xclass.c                     \
-       ../Source/Nano/Internal/3rd_Party/schneier.com/blowfish_dat.c                \
-       ../Source/Nano/Internal/3rd_Party/schneier.com/blowfish.c                    \
-       ../Source/Nano/Internal/3rd_Party/sha2_1.1a/sha2.c                           \
-       ../Source/Nano/Internal/3rd_Party/sqlite_3.7.15.2/sqlite_3.7.15.2.c          \
-       ../Source/Nano/Internal/3rd_Party/tero.co.uk/tero_des.cpp                    \
-       ../Source/Nano/Internal/3rd_Party/udp.github.com/json.c                      \
-       ../Source/Nano/Internal/3rd_Party/unicode.org/ConvertUTF.c                   \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/adler32.c                       \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/compress.c                      \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/crc32.c                         \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/deflate.c                       \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/gzio.c                          \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/infback.c                       \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/inffast.c                       \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/inflate.c                       \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/inftrees.c                      \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/trees.c                         \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/uncompr.c                       \
-       ../Source/Nano/Internal/3rd_Party/zlib_1.2.3/zutil.c                         \
+       ../Source/Nano/Internal/Components/expat_2.0.1/xmlrole.c                     \
+       ../Source/Nano/Internal/Components/expat_2.0.1/xmltok_impl.c                 \
+       ../Source/Nano/Internal/Components/expat_2.0.1/xmltok_ns.c                   \
+       ../Source/Nano/Internal/Components/expat_2.0.1/xmltok.c                      \
+       ../Source/Nano/Internal/Components/fourmilab.ch/fm_md5.c                     \
+       ../Source/Nano/Internal/Components/libb64_1.1/cdecode.c                      \
+       ../Source/Nano/Internal/Components/libb64_1.1/cencode.c                      \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_chartables.c                \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_compile.c                   \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_config.c                    \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_dfa_exec.c                  \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_exec.c                      \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_fullinfo.c                  \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_get.c                       \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_globals.c                   \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_info.c                      \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_maketables.c                \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_newline.c                   \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_ord2utf8.c                  \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_refcount.c                  \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_study.c                     \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_tables.c                    \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_try_flipped.c               \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_ucd.c                       \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_valid_utf8.c                \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_version.c                   \
+       ../Source/Nano/Internal/Components/pcre_7.8/pcre_xclass.c                    \
+       ../Source/Nano/Internal/Components/schneier.com/blowfish_dat.c               \
+       ../Source/Nano/Internal/Components/schneier.com/blowfish.c                   \
+       ../Source/Nano/Internal/Components/sha2_1.1a/sha2.c                          \
+       ../Source/Nano/Internal/Components/sqlite_3.7.15.2/sqlite_3.7.15.2.c         \
+       ../Source/Nano/Internal/Components/tero.co.uk/tero_des.cpp                   \
+       ../Source/Nano/Internal/Components/udp.github.com/json.c                     \
+       ../Source/Nano/Internal/Components/unicode.org/ConvertUTF.c                  \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/adler32.c                      \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/compress.c                     \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/crc32.c                        \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/deflate.c                      \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/gzio.c                         \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/infback.c                      \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/inffast.c                      \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/inflate.c                      \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/inftrees.c                     \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/trees.c                        \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/uncompr.c                      \
+       ../Source/Nano/Internal/Components/zlib_1.2.3/zutil.c                        \
        ../Source/Nano/Internal/Targets/Linux/NLinuxFile.cpp                         \
        ../Source/Nano/Internal/Targets/Linux/NLinuxMath.cpp                         \
        ../Source/Nano/Internal/Targets/Linux/NLinuxNetwork.cpp                      \
