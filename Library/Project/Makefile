@@ -4,7 +4,6 @@ ARFLAGS = rcs
 
 
 TARGET    = nano.a
-
 SRCS_NANO =                                                                          \
         ../Source/Nano/Application/NCommandLine.cpp                                  \
         ../Source/Nano/Application/NPreferences.cpp                                  \
@@ -110,9 +109,8 @@ SRCS_NANO =                                                                     
         ../Source/Nano/Utilities/NTimeUtilities.cpp
 
 SRCS_COMPONENTS =                                                                    \
+        ../Source/Nano/Internal/Components/expat_2.0.1/xmlparse.c                    \
         ../Source/Nano/Internal/Components/expat_2.0.1/xmlrole.c                     \
-        ../Source/Nano/Internal/Components/expat_2.0.1/xmltok_impl.c                 \
-        ../Source/Nano/Internal/Components/expat_2.0.1/xmltok_ns.c                   \
         ../Source/Nano/Internal/Components/expat_2.0.1/xmltok.c                      \
         ../Source/Nano/Internal/Components/fourmilab.ch/fm_md5.c                     \
         ../Source/Nano/Internal/Components/libb64_1.1/cdecode.c                      \
@@ -205,8 +203,11 @@ $(OBJS_COMPONENTS): FLAGS_WARN := $(FLAGS_WARN) -Wno-unused-value
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS_NANO)  $(OBJS_COMPONENTS)
+$(TARGET): $(OBJS_NANO) $(OBJS_COMPONENTS)
 	$(AR) $(ARFLAGS) $(TARGET) $(OBJS_NANO) $(OBJS_COMPONENTS)
+
+clean:
+	rm -f $(OBJS_NANO) $(OBJS_COMPONENTS) $(DEPENDENCIES) $(TARGET)
 
 
 .cpp.o:
@@ -215,16 +216,11 @@ $(TARGET): $(OBJS_NANO)  $(OBJS_COMPONENTS)
 .c.o:
 	$(CXX) $(FLAGS_NANO) $(FLAGS_INCLUDE) $(FLAGS_WARN) -c $< -o $@
 
-
 %.depends: %.cpp
 	$(CXX) $(FLAGS_NANO) $(FLAGS_INCLUDE) $(FLAGS_WARN) -M -c $< > $@
 
 %.depends: %.c
 	$(CXX) $(FLAGS_NANO) $(FLAGS_INCLUDE) $(FLAGS_WARN) -M -c $< > $@
-
-
-clean:
-	rm -f $(OBJS_NANO) $(OBJS_COMPONENTS) $(DEPENDENCIES) $(TARGET)
 
 -include $(DEPENDENCIES)
 
