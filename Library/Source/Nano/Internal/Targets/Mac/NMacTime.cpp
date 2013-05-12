@@ -207,7 +207,7 @@ NTime NTargetTime::GetUpTime(void)
 	if (sysErr == 0)
 		{
 		timersub(&timeNow, &timeBoot, &theDelta);
-		theTime = ((NTime) theDelta.tv_sec) + (((NTime) theDelta.tv_usec) / 1000000.0);
+		theTime = ((NTime) theDelta.tv_sec) + (((NTime) theDelta.tv_usec) * kNTimeMicrosecond);
 		}
 	
 	return(theTime);
