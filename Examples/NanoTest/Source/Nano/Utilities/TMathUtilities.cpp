@@ -129,6 +129,12 @@ void TMathUtilities::Execute(void)
 		valueUInt32 = NMathUtilities::GetRandomUInt32();
 		valueUInt64 = NMathUtilities::GetRandomUInt64();
 
+		NN_ASSERT(valueBool == true || valueBool == false);
+		NN_ASSERT(valueUInt8  >= kUInt8Min  && valueUInt8  <= kUInt8Max);
+                NN_ASSERT(valueUInt16 >= kUInt16Min && valueUInt16 <= kUInt16Max);
+                NN_ASSERT(valueUInt32 >= kUInt32Min && valueUInt32 <= kUInt32Max);
+                NN_ASSERT(valueUInt64 >= kUInt64Min && valueUInt64 <= kUInt64Max);
+
 
 		// Small range
 		valueUInt8  = NMathUtilities::GetRandomUInt8(kTestRangeSmallMin, kTestRangeSmallMax);

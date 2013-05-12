@@ -59,7 +59,7 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 {
 
 
-#if NN_TARGET_MAC
+#if NN_TARGET_MAC || NN_TARGET_IOS
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, waitFor, false);
 
 
@@ -75,6 +75,9 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 
 		}
 
+
+#elif NN_TARGET_LINUX
+	NN_LOG("CTestUtilities::ExecuteRunloop not implemented!");
 
 
 #else

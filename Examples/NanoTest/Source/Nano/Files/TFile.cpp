@@ -62,6 +62,15 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 	static const NString kPathFileTmp2								= kPathTmp + NN_DIR + kTestTmpName2 + "." + kTestTmpExtension2;
 	static const NString kPathDirTmp								= kPathTmp + NN_DIR + kTestTmpName3;
 
+#elif NN_TARGET_LINUX
+	static const NString kPathTmp									= "/tmp";
+	static const NString kPathFile									= "/bin/bash";
+	static const NString kPathDirectoryRoot							= "/boot";
+	static const NString kPathDirectoryChildren						= "grub";
+	static const NString kPathFileTmp								= kPathTmp + NN_DIR + kTestTmpName  + "." + kTestTmpExtension;
+	static const NString kPathFileTmp2								= kPathTmp + NN_DIR + kTestTmpName2 + "." + kTestTmpExtension2;
+	static const NString kPathDirTmp								= kPathTmp + NN_DIR + kTestTmpName3;
+
 #else
 	UNKNOWN TARGET
 #endif
