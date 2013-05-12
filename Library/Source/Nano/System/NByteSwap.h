@@ -354,11 +354,9 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_
 
 #define NBYTESWAP_BEGIN_NO_DECLARE(_type)													\
 	void NByteSwap_ ## _type(NIndex numItems, _type *firstItem, bool toNative)				\
-	{	_type		*currentItem;															\
-		UInt8		*currentField;															\
+	{	UInt8       *currentField;                                                          \
+		_type		*currentItem;															\
 		NIndex		n;																		\
-																							\
-		NN_UNUSED(toNative);																\
 																							\
 		currentField = (UInt8 *) firstItem;													\
 		for (n = 0; n < numItems; n++)														\
@@ -371,6 +369,9 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_
 
 #define NBYTESWAP_END																		\
 			}																				\
+																							\
+        NN_UNUSED(toNative);                                                                \
+		NN_UNUSED(currentItem);																\
 	}
 
 
