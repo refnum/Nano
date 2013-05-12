@@ -507,7 +507,7 @@ void *NTargetThread::LocalGetValue(NThreadLocalRef theKey)
 //----------------------------------------------------------------------------
 void NTargetThread::LocalSetValue(NThreadLocalRef theKey, void *theValue)
 {	pthread_key_t	keyRef = (pthread_key_t) theKey;
-	kern_return_t	sysErr;
+	int				sysErr;
 
 
 
