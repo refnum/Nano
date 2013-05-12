@@ -25,7 +25,6 @@
 //============================================================================
 //		NTargetTime::GetTime : Get the time.
 //----------------------------------------------------------------------------
-#pragma mark -
 NTime NTargetTime::GetTime(void)
 {	struct timeval		timeVal;
 	NTime				theTime;

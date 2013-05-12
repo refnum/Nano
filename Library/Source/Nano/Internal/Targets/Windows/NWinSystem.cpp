@@ -240,6 +240,8 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 
 
 //============================================================================
+//      Public functions
+//----------------------------------------------------------------------------
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
 #pragma mark -

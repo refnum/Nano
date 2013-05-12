@@ -23,7 +23,6 @@
 //============================================================================
 //      NTargetNetwork::IsReachable : Is a URL reachable?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NTargetNetwork::IsReachable(const NURL &theURL)
 {
 

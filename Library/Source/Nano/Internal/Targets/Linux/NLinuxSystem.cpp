@@ -25,7 +25,6 @@
 //============================================================================
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NTargetSystem::DebugLog(const char *theMsg)
 {
 

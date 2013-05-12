@@ -110,6 +110,8 @@ static NStatus DeviceControl(HANDLE hVolume, DWORD ioCode, NIndex inSize, const 
 
 
 //============================================================================
+//      Public functions
+//----------------------------------------------------------------------------
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
 #pragma mark -

@@ -84,6 +84,8 @@ static bool GetAppRegistry(NRegistry &theRegistry, bool canCreate)
 
 
 //============================================================================
+//      Public functions
+//----------------------------------------------------------------------------
 //		NTargetPreferences::HasKey : Does a key exist?
 //----------------------------------------------------------------------------
 #pragma mark -
