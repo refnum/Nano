@@ -326,6 +326,22 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 
 
 //============================================================================
+//      NTargetFile::CreateLink : Create a link.
+//----------------------------------------------------------------------------
+NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPath, NFileLink theType)
+{
+
+
+	// dair, to do
+	NN_LOG("NTargetFile::CreateLink not implemented!");
+	return(kNErrPermission);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetFile::ExchangeWith : Exchange two files.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath)

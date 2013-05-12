@@ -117,6 +117,104 @@ static NCFObject GetCFBundle(const NFile &theBundle)
 
 
 //============================================================================
+//      NTargetFile::CreateAlias : Create an alias.
+//----------------------------------------------------------------------------
+//		Note :	Based on PD code by Daniel Reese.
+//
+//				http://www.danandcheryl.com/2009/08/how-create-alias-programmatically
+//----------------------------------------------------------------------------
+static NStatus CreateAlias(const NString &thePath, const NString &targetPath)
+{
+#if NN_TARGET_MAC
+	FSRef				parentRef, aliasRef, targetRef;
+	NString				theParent, theName;
+	FSCatalogInfo		catalogInfo;
+	FileInfo			*finderInfo;
+	ResFileRefNum		resForkRef;
+    HFSUniStr255		aliasName;
+    AliasHandle			aliasHnd;
+	NStatus				theErr;
+
+
+
+	// Get the state we need
+	theParent = NTargetFile::GetParent(thePath);
+	theName   = NTargetFile::GetName(  thePath, false);
+	aliasHnd  = NULL;
+
+
+
+	// Create the alias file
+	theErr = FSPathMakeRef((const UInt8 *) theParent.GetUTF8(), &parentRef, NULL);
+	NN_ASSERT_NOERR(theErr);
+
+	if (theErr == kNoErr)
+		{
+	    theErr = FSGetHFSUniStrFromString(ToCF(theName), &aliasName);
+		NN_ASSERT_NOERR(theErr);
+		}
+
+	if (theErr == kNoErr)
+	    FSCreateResFile(&parentRef, aliasName.length, aliasName.unicode, 0, NULL, &aliasRef, NULL);
+
+	if (theErr != kNoErr)
+		return(theErr);
+
+
+
+	// Add the alias resource
+	theErr = FSPathMakeRef((const UInt8 *) targetPath.GetUTF8(), &targetRef, NULL);
+	NN_ASSERT_NOERR(theErr);
+
+	if (theErr == kNoErr)
+		{
+	    theErr = FSNewAlias(NULL, &targetRef, &aliasHnd);
+		NN_ASSERT_NOERR(theErr);
+		NN_ASSERT(aliasHnd != NULL);
+		}
+
+	if (theErr == kNoErr)
+		{
+	    resForkRef = FSOpenResFile(&aliasRef, fsRdWrPerm);
+	    UseResFile(resForkRef);
+
+	    AddResource((Handle) aliasHnd, rAliasType, 0, NULL);
+	    CloseResFile(resForkRef);
+		}
+
+
+
+	// Update the Finder info
+	//
+	// Clearing the Finder's 'inited' bit forces it to refresh.
+    theErr = FSGetCatalogInfo(&aliasRef, kFSCatInfoFinderInfo, &catalogInfo, NULL, NULL, NULL);
+	NN_ASSERT_NOERR(theErr);
+
+	if (theErr == kNoErr)
+		{
+		finderInfo = (FileInfo *) &catalogInfo.finderInfo;
+	    finderInfo->finderFlags |= kIsAlias;
+	    finderInfo->finderFlags &= ~kHasBeenInited;
+	    finderInfo->fileType     = kContainerFolderAliasType;
+
+	    theErr = FSSetCatalogInfo(&aliasRef, kFSCatInfoFinderInfo, &catalogInfo);
+		NN_ASSERT_NOERR(theErr);
+		}
+
+	return(theErr);
+
+#else
+	return(kNErrNotSupported);
+#endif
+}
+
+
+
+
+
+//============================================================================
+//      Public functions
+//----------------------------------------------------------------------------
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
 #pragma mark -
@@ -168,29 +266,40 @@ bool NTargetFile::IsLink(const NString &thePath)
 	Boolean			isAlias, isFolder;
 	FSRef			theFSRef;
 	OSStatus		theErr;
-
-
-
-	// Get the FSRef
-	theErr = FSPathMakeRef((const UInt8 *) thePath.GetUTF8(), &theFSRef, NULL);
-	if (theErr != noErr)
-		return(false);
-
-
-
-	// Check the flags
-	theErr = FSIsAliasFile(&theFSRef, &isAlias, &isFolder);
-	if (theErr != noErr)
-		isAlias = false;
-
-	return(isAlias);
-
-
-#elif NN_TARGET_IOS
-	NN_UNUSED(thePath);
-
-	return(false);
 #endif
+
+	struct stat		fileInfo;
+	int				sysErr;
+	bool			isLink;
+
+
+
+	// Check for soft links
+	sysErr = lstat(thePath.GetUTF8(), &fileInfo);
+	isLink = (sysErr == kNoErr && S_ISLNK(fileInfo.st_mode));
+
+
+
+	// Check for user links
+#if NN_TARGET_MAC
+	if (!isLink)
+		{
+		theErr = FSPathMakeRef((const UInt8 *) thePath.GetUTF8(), &theFSRef, NULL);
+		NN_ASSERT_NOERR(theErr);
+		
+		if (theErr == kNoErr)
+			{
+			isAlias = false;
+			theErr  = FSIsAliasFile(&theFSRef, &isAlias, &isFolder);
+			NN_ASSERT_NOERR(theErr);
+
+			if (theErr == kNoErr)
+				isLink = (bool) isAlias;
+			}
+		}
+#endif
+
+	return(isLink);
 }
 
 
@@ -295,7 +404,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 		if (cfURL.SetObject(CFURLCreateWithFileSystemPath(NULL, ToCF(thePath), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
 			{
 			theErr = LSCopyDisplayNameForURL(cfURL, &cfString);
-			if (theErr == noErr)
+			if (theErr == kNoErr)
 				theName = NCFString(cfString, true);
 			}
 		}
@@ -539,39 +648,52 @@ NString NTargetFile::GetTarget(const NString &thePath)
 {
 #if NN_TARGET_MAC
 	Boolean			wasFolder, wasAlias;
-	NCFString		theResult;
+	NCFString		cfString;
 	FSRef			theFSRef;
 	OSStatus		theErr;
 	NCFObject		cfURL;
+#endif
+
+	NString			theResult;
+	char			*realPath;
 
 
 
-	// Get the FSRef
-	theErr = FSPathMakeRef((const UInt8 *) thePath.GetUTF8(), &theFSRef, NULL);
-	if (theErr != noErr)
-		return(thePath);
-
-
-
-	// Resolve the alias
-	theErr = FSResolveAliasFile(&theFSRef, true, &wasFolder, &wasAlias);
-	if (theErr != noErr || !wasAlias)
-		return(thePath);
-	
-	
-	
-	// Get the path
+	// Get the state we need
 	theResult = thePath;
-	
-	if (cfURL.SetObject(CFURLCreateFromFSRef(kCFAllocatorDefault, &theFSRef)))
-		theResult.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle));
+
+
+
+	// Resolve soft links
+	realPath = realpath(thePath.GetUTF8(), NULL);
+	if (realPath != NULL)
+		{
+		theResult = NString(realPath, kNStringLength);
+		free(realPath);
+		}
+
+
+
+	// Resolve user links
+#if NN_TARGET_MAC
+	theErr = FSPathMakeRef((const UInt8 *) theResult.GetUTF8(), &theFSRef, NULL);
+	if (theErr == kNoErr)
+		{
+		theErr = FSResolveAliasFile(&theFSRef, true, &wasFolder, &wasAlias);
+		NN_ASSERT_NOERR(theErr);
+
+		if (theErr == kNoErr && wasAlias)
+			{
+			if (cfURL.SetObject(CFURLCreateFromFSRef(kCFAllocatorDefault, &theFSRef)))
+				{
+				cfString.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle));
+				theResult = cfString;
+				}
+			}
+		}
+#endif
 
 	return(theResult);
-
-
-#elif NN_TARGET_IOS
-	return(thePath);
-#endif
 }
 
 
@@ -742,6 +864,45 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 	NN_ASSERT_NOERR(sysErr);
 	
 	return(NMacTarget::ConvertSysErr(sysErr));
+}
+
+
+
+
+
+//============================================================================
+//      NTargetFile::CreateLink : Create a link.
+//----------------------------------------------------------------------------
+NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPath, NFileLink theType)
+{	NStatus		theErr;
+
+
+
+	// Create the link
+	theErr = kNoErr;
+
+	switch (theType) {
+		case kNLinkSoft:
+			if (symlink(targetPath.GetUTF8(), thePath.GetUTF8()) != 0)
+				theErr = NMacTarget::ConvertSysErr(errno);
+			break;
+
+		case kNLinkHard:
+			if (link(targetPath.GetUTF8(), thePath.GetUTF8()) != 0)
+				theErr = NMacTarget::ConvertSysErr(errno);
+			break;
+
+		case kNLinkUser:
+			theErr = CreateAlias(thePath, targetPath);
+			break;
+
+		default:
+			NN_LOG("Unknown link type: %d", theType);
+			theErr = kNErrNotSupported;
+			break;
+		}
+	
+	return(theErr);
 }
 
 
@@ -956,7 +1117,7 @@ NStatus NTargetFile::FileWrite(NFileRef theFile, UInt64 theSize, const void *the
 
 	// Perform the write
 	numWritten = fwrite(thePtr, 1, (size_t) theSize, (FILE *) theFile);
-	theErr     = noErr;
+	theErr     = kNoErr;
 	
 	 if (numWritten != theSize)
 		theErr = kNErrDiskFull;

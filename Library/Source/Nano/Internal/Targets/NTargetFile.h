@@ -91,6 +91,10 @@ public:
 	static NStatus						CreateDirectory(const NString &thePath);
 
 
+	// Create a link
+	static NStatus						CreateLink(const NString &thePath, const NString &targetPath, NFileLink theType);
+
+
 	// Exchange two files
 	static NStatus						ExchangeWith(const NString &srcPath, const NString &dstPath);
 

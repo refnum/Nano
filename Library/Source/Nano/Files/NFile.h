@@ -50,6 +50,23 @@ typedef enum {
 } NFileName;
 
 
+// Links
+//
+// A soft link can be detected with IsLink but does not need to be resolved
+// before use, as it will be resolved automatically by the filesystem.
+//
+// A hard link can not be detected by IsLink, or resolved by the application,
+// as it exists entirely within the filesystem.
+//
+// A user link can be detected with IsLink and must be resolved before use,
+// as these typically exist above the filesystem (e.g., a Finder alias).
+typedef enum {
+	kNLinkSoft,
+	kNLinkHard,
+	kNLinkUser
+} NFileLink;
+
+
 // Permissions
 typedef enum {
 	kNPermissionRead,
@@ -187,9 +204,11 @@ public:
 	NFile								GetParent(void)                   const;
 
 
-	// Get the target of a file
+	// Get the target of file
+	//
+	// Resolves any links in the file's path to obtain the final file.
 	NFile								GetTarget(    void) const;
-	bool								ResolveTarget(void);
+	void								ResolveTarget(void);
 
 
 	// Get the children of a directory
@@ -211,11 +230,12 @@ public:
 	NStatus								DeleteContents(void) const;
 
 
-	// Create a file/directory
+	// Create a file/directory/link
 	//
 	// Non-existent parent directories will be created as necessary.
 	NStatus								CreateFile(     void);
 	NStatus								CreateDirectory(void);
+	NStatus								CreateLink(const NFile &theTarget, NFileLink theType);
 
 
 	// Exchange two files
@@ -267,8 +287,10 @@ protected:
 private:
 	void								InitializeSelf(const NString &thePath="");
 
-	void								CloneFile(const NFile   &theFile);
-	NStatus								SetName(  const NString &theName, bool renameFile, bool isPath);
+	void								CloneFile(const NFile &theFile);
+
+	void								CreateParent(void);
+	NStatus								SetName(const NString &theName, bool renameFile, bool isPath);
 
 
 private:

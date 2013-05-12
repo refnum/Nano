@@ -552,17 +552,12 @@ NFile NFile::GetTarget(void) const
 //============================================================================
 //        NFile::ResolveTarget : Resolve a linked file.
 //----------------------------------------------------------------------------
-bool NFile::ResolveTarget(void)
-{	bool	wasLink;
-
+void NFile::ResolveTarget(void)
+{
 
 
 	// Resolve the link
-	wasLink = IsLink();
-	if (wasLink)
-		SetPath(NTargetFile::GetTarget(mPath));
-	
-	return(wasLink);
+	SetPath(NTargetFile::GetTarget(mPath));
 }
 
 
@@ -672,8 +667,7 @@ NStatus NFile::DeleteContents(void) const
 //        NFile::CreateFile : Create a file.
 //----------------------------------------------------------------------------
 NStatus NFile::CreateFile(void)
-{	NFile		theParent;
-	NStatus		theErr;
+{	NStatus		theErr;
 
 
 
@@ -682,11 +676,8 @@ NStatus NFile::CreateFile(void)
 
 
 
-	// Create the parent directory
-	theParent = GetParent();
-	
-	if (!theParent.Exists())
-		theParent.CreateDirectory();
+	// Create the parent
+	CreateParent();
 
 
 
@@ -708,8 +699,7 @@ NStatus NFile::CreateFile(void)
 //        NFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NFile::CreateDirectory(void)
-{	NFile		theParent;
-	NStatus		theErr;
+{	NStatus		theErr;
 
 
 
@@ -718,11 +708,8 @@ NStatus NFile::CreateDirectory(void)
 
 
 
-	// Create the parent directory
-	theParent = GetParent();
-
-	if (!theParent.Exists())
-		theParent.CreateDirectory();
+	// Create the parent
+	CreateParent();
 
 
 
@@ -730,6 +717,35 @@ NStatus NFile::CreateDirectory(void)
 	theErr = NTargetFile::CreateDirectory(mPath);
 	NN_ASSERT_NOERR(theErr);
 	
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//        NFile::CreateLink : Create a link.
+//----------------------------------------------------------------------------
+NStatus NFile::CreateLink(const NFile &theTarget, NFileLink theType)
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(!Exists());
+
+
+
+	// Create the parent
+	CreateParent();
+
+
+
+	// Create a directory
+	theErr = NTargetFile::CreateLink(mPath, theTarget.mPath, theType);
+	NN_ASSERT_NOERR(theErr);
+
 	return(theErr);
 }
 
@@ -1046,6 +1062,25 @@ void NFile::CloneFile(const NFile &theFile)
 	// File references are not copied between files; a file reference
 	// is owned by the file object which opened it.
 	mPath = theFile.mPath;
+}
+
+
+
+
+
+//============================================================================
+//        NFile::CreateParent : Create the parent directory.
+//----------------------------------------------------------------------------
+void NFile::CreateParent(void)
+{	NFile	theParent;
+
+
+
+	// Create the parent directory
+	theParent = GetParent();
+	
+	if (!theParent.Exists())
+		theParent.CreateDirectory();
 }
 
 

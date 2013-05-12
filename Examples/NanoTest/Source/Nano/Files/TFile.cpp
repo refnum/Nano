@@ -47,6 +47,8 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 #if NN_TARGET_MAC
 	static const NString kPathTmp									= "/tmp";
 	static const NString kPathFile									= "/bin/bash";
+	static const NString kPathLinkTarget							= "/tmp/link.target";
+	static const NString kPathLinkFile								= "/tmp/link.start";
 	static const NString kPathDirectoryRoot							= "/Library";
 	static const NString kPathDirectoryChildren						= "Application Support/Apple";
 	static const NString kPathFileTmp								= kPathTmp + NN_DIR + kTestTmpName  + "." + kTestTmpExtension;
@@ -56,6 +58,8 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 #elif NN_TARGET_WINDOWS
 	static const NString kPathTmp									= "c:\\windows\\temp";
 	static const NString kPathFile									= "c:\\windows\\WindowsShell.Manifest";
+	static const NString kPathLinkTarget							= "c:\\windows\\temp\\link.target";
+	static const NString kPathLinkFile								= "c:\\windows\\temp\\link.start";
 	static const NString kPathDirectoryRoot							= "c:\\windows";
 	static const NString kPathDirectoryChildren						= "system32\\boot";
 	static const NString kPathFileTmp								= kPathTmp + NN_DIR + kTestTmpName  + "." + kTestTmpExtension;
@@ -65,6 +69,8 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 #elif NN_TARGET_LINUX
 	static const NString kPathTmp									= "/tmp";
 	static const NString kPathFile									= "/bin/bash";
+	static const NString kPathLinkTarget							= "/tmp/link.target";
+	static const NString kPathLinkFile								= "/tmp/link.start";
 	static const NString kPathDirectoryRoot							= "/boot";
 	static const NString kPathDirectoryChildren						= "grub";
 	static const NString kPathFileTmp								= kPathTmp + NN_DIR + kTestTmpName  + "." + kTestTmpExtension;
@@ -132,6 +138,50 @@ void TFile::Execute(void)
 
 	tmpFile = kPathFileTmp;
 	NN_ASSERT(tmpFile != theFile);
+
+
+
+	// Links
+	tmpFile = NFile(kPathLinkTarget);
+	tmpFile.CreateFile();
+	tmpFile.ResolveTarget();
+
+
+	tmpFile2 = kPathLinkFile;
+	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkSoft);
+	NN_ASSERT_NOERR(theErr);
+	NN_ASSERT(tmpFile2.IsLink());
+	NN_ASSERT(tmpFile2             != tmpFile);
+	NN_ASSERT(tmpFile2.GetTarget() == tmpFile);
+
+	theErr = tmpFile2.Delete();
+	NN_ASSERT_NOERR(theErr);
+
+
+	tmpFile2 = kPathLinkFile;
+	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkHard);
+	NN_ASSERT_NOERR(theErr);
+	NN_ASSERT(!tmpFile2.IsLink());
+	NN_ASSERT(tmpFile2             != tmpFile);
+	NN_ASSERT(tmpFile2.GetTarget() != tmpFile);
+
+	theErr = tmpFile2.Delete();
+	NN_ASSERT_NOERR(theErr);
+
+
+	tmpFile2 = kPathLinkFile;
+	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkUser);
+	NN_ASSERT_NOERR(theErr);
+	NN_ASSERT(tmpFile2.IsLink());
+	NN_ASSERT(tmpFile2             != tmpFile);
+	NN_ASSERT(tmpFile2.GetTarget() == tmpFile);
+
+	theErr = tmpFile2.Delete();
+	NN_ASSERT_NOERR(theErr);
+
+
+	theErr = tmpFile.Delete();
+	NN_ASSERT_NOERR(theErr);
 
 
 
