@@ -53,6 +53,9 @@ void TFileUtilities::Execute(void)
 	theFile = NFileUtilities::GetDirectory(kNLocationDesktop);
 	NN_ASSERT(theFile.IsDirectory());
 
+	theFile = NFileUtilities::GetCWD();
+	NN_ASSERT(theFile.IsDirectory());
+
 
 
 	// Get directory size

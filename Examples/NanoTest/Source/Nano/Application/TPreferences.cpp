@@ -82,6 +82,8 @@ void TPreferences::Execute(void)
 
 	// Set
 	thePrefs->SetValue(kKeyString, kValueString2);
+	thePrefs->Flush();
+
 	NN_ASSERT(thePrefs->HasKey(kKeyString));
 	NN_ASSERT(thePrefs->GetValueString(kKeyString) == kValueString2);
 
@@ -89,6 +91,8 @@ void TPreferences::Execute(void)
 
 	// Remove
 	thePrefs->RemoveKey(kKeyString);
+	thePrefs->Flush();
+
 	NN_ASSERT( thePrefs->HasKey(kKeyString, true));
 	NN_ASSERT(!thePrefs->HasKey(kKeyString, false));
 	NN_ASSERT( thePrefs->GetValueString(kKeyString) == kValueString1);

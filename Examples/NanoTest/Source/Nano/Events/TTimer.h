@@ -28,6 +28,10 @@ class TTimer {
 public:
 	// Execute the tests
 	static void							Execute(void);
+
+
+private:
+	static void							IncrementValue(UInt32 *theValue);
 };
 
 

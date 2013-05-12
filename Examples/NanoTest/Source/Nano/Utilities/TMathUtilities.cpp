@@ -115,6 +115,29 @@ void TMathUtilities::Execute(void)
 	NN_ASSERT(NMathUtilities::AreEqual(NMathUtilities::FastRoot(   4.0f),        2.0f));
 	NN_ASSERT(NMathUtilities::AreEqual(NMathUtilities::FastInvRoot(4.0f), 1.0f / 2.0f));
 
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Sec(  1.0), 1.850816f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Csc(  1.0), 1.188395f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Ctan( 1.0), 0.642093f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Asin( 1.0), 1.570796f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Acos( 1.0), 0.000000f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Asec( 1.0), 0.000000f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Acsc( 1.0), 1.570796f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Acot( 1.0), 0.785398f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Sinh( 1.0), 1.175201f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Cosh( 1.0), 1.543081f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Tanh( 1.0), 0.761594f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Sech( 1.0), 0.648054f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Csch( 1.0), 0.850918f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Coth( 1.0), 1.313035f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Asinh(1.0), 0.881374f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Acosh(1.0), 0.000000f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Atanh(0.5), 0.549306f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Asech(1.0), 0.000000f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Acsch(1.0), 0.881374f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Acoth(8.0), 0.125657f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Rint(1.0), 1.0f));
+	NN_ASSERT(NMathUtilities::AreEqual((Float32) NMathUtilities::Rint(1.0), 1.0f));
+
 
 
 	// Random
