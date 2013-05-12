@@ -109,7 +109,7 @@ typedef enum {
 	kOSLinuxTwoSix													= 0x40020600,
 	kOSLinuxThree													= 0x40030000,
 	kOSLinuxThreeTwo												= 0x40030200,
-	kOSLinuxThreeFour												= 0x40030400,
+	kOSLinuxThreeFour												= 0x40030400
 } OSVersion;
 
 
