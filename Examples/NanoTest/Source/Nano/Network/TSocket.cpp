@@ -336,6 +336,15 @@ void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
 
 
 
+	// Get/set optins
+	theErr = theSocket->SetOption(kNSocketNoDelay, (SInt32) true);
+	NN_ASSERT_NOERR(theErr);
+	
+	theValue = theSocket->GetOption(kNSocketNoDelay);
+	NN_ASSERT(theValue == (SInt32) true);
+
+
+
 	// Write some data
 	for (n = 0; n < kTestNumItems; n++)
 		{
