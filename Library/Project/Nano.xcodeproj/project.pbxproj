@@ -444,6 +444,16 @@
 		AB514F641035784000E5A6AD /* NPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53A404109B237800817E89 /* NTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTask.cpp; sourceTree = "<group>"; };
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
+		AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxFile.cpp; sourceTree = "<group>"; };
+		AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxMath.cpp; sourceTree = "<group>"; };
+		AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxNetwork.cpp; sourceTree = "<group>"; };
+		AB555164173FF8D8008D8AF6 /* NLinuxPOSIX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxPOSIX.cpp; sourceTree = "<group>"; };
+		AB555165173FF8D8008D8AF6 /* NLinuxPreferences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxPreferences.cpp; sourceTree = "<group>"; };
+		AB555166173FF8D8008D8AF6 /* NLinuxSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxSystem.cpp; sourceTree = "<group>"; };
+		AB555167173FF8D8008D8AF6 /* NLinuxTarget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxTarget.cpp; sourceTree = "<group>"; };
+		AB555168173FF8D8008D8AF6 /* NLinuxTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NLinuxTarget.h; sourceTree = "<group>"; };
+		AB555169173FF8D8008D8AF6 /* NLinuxThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxThread.cpp; sourceTree = "<group>"; };
+		AB55516A173FF8D8008D8AF6 /* NLinuxTime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxTime.cpp; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tero_des.cpp; sourceTree = "<group>"; };
@@ -861,6 +871,23 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
+		AB555160173FF8D8008D8AF6 /* Linux */ = {
+			isa = PBXGroup;
+			children = (
+				AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */,
+				AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */,
+				AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */,
+				AB555164173FF8D8008D8AF6 /* NLinuxPOSIX.cpp */,
+				AB555165173FF8D8008D8AF6 /* NLinuxPreferences.cpp */,
+				AB555166173FF8D8008D8AF6 /* NLinuxSystem.cpp */,
+				AB555167173FF8D8008D8AF6 /* NLinuxTarget.cpp */,
+				AB555168173FF8D8008D8AF6 /* NLinuxTarget.h */,
+				AB555169173FF8D8008D8AF6 /* NLinuxThread.cpp */,
+				AB55516A173FF8D8008D8AF6 /* NLinuxTime.cpp */,
+			);
+			path = Linux;
+			sourceTree = "<group>";
+		};
 		AB6B2F46116CCAB80095D5A5 /* tero.co.uk */ = {
 			isa = PBXGroup;
 			children = (
@@ -982,7 +1009,7 @@
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */,
 			);
-			path = "Components";
+			path = Components;
 			sourceTree = "<group>";
 		};
 		AB9154E30F9B4DD5009FFEAF /* pcre_7.8 */ = {
@@ -1119,6 +1146,7 @@
 				AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */,
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
 				ABB95B730FB7250100C5A7FF /* iOS */,
+				AB555160173FF8D8008D8AF6 /* Linux */,
 				AB91551D0F9B4DD5009FFEAF /* Mac */,
 				AB91552E0F9B4DD6009FFEAF /* Windows */,
 			);
