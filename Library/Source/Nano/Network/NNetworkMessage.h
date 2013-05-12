@@ -19,7 +19,7 @@
 #include "NPropertyStore.h"
 #include "NAttributes.h"
 #include "NEncodable.h"
-#include "NByteswap.h"
+#include "NByteSwap.h"
 #include "NData.h"
 
 
