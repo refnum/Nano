@@ -207,10 +207,10 @@ $(TARGET): $(OBJS)
 
 
 %.depends: %.cpp
-	$(CXX) $(CXXFLAGS) $(INC) -c $< > $@
+	$(CXX) $(CXXFLAGS) $(INC) -M -c $< > $@
 
 %.depends: %.c
-	$(CXX) $(CXXFLAGS) $(INC) -c $< > $@
+	$(CXX) $(CXXFLAGS) $(INC) -M -c $< > $@
 
 
 clean:
