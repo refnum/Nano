@@ -333,51 +333,6 @@ Float64 NMathUtilities::GetSign(Float64 theValue)
 
 
 //============================================================================
-//      NMathUtilities::FastReciprocal : Get an approximate reciprocal.
-//----------------------------------------------------------------------------
-Float32 NMathUtilities::FastReciprocal(Float32 theValue)
-{
-
-
-    // Get the value
-	return(NTargetMath::FastReciprocal(theValue));
-}
-
-
-
-
-
-//============================================================================
-//      NMathUtilities::FastRoot : Get an approximate square root.
-//----------------------------------------------------------------------------
-Float32 NMathUtilities::FastRoot(Float32 theValue)
-{
-
-
-    // Get the value
-	return(NTargetMath::FastRoot(theValue));
-}
-
-
-
-
-
-//============================================================================
-//      NMathUtilities::FastInvRoot : Get an approximate inverse square root.
-//----------------------------------------------------------------------------
-Float32 NMathUtilities::FastInvRoot(Float32 theValue)
-{
-
-
-    // Get the value
-	return(NTargetMath::FastInvRoot(theValue));
-}
-
-
-
-
-
-//============================================================================
 //      NMathUtilities::Sec : Calculate the secant.
 //----------------------------------------------------------------------------
 Float64 NMathUtilities::Sec(Float64 theValue)

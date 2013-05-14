@@ -82,15 +82,6 @@ public:
 
 	// Get the sign
 	static Float64						GetSign(Float64 theValue);
-	
-
-    // Fast (and approximate) reciprocal value
-	static Float32						FastReciprocal(Float32 theValue);
-
-
-    // Fast (and approximate) square root
-	static Float32						FastRoot(   Float32 theValue);
-	static Float32						FastInvRoot(Float32 theValue);
 
 
 	// Math operations

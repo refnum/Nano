@@ -78,8 +78,8 @@ public:
 
 
 	// Get the distance to a point
-	T									GetDistance( const NPointT<T> &thePoint, bool getApprox=true) const;
-	T									GetDistance2(const NPointT<T> &thePoint)                      const;
+	T									GetDistance( const NPointT<T> &thePoint) const;
+	T									GetDistance2(const NPointT<T> &thePoint) const;
 
 
 	// Manipulate the point

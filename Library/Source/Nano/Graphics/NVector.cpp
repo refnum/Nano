@@ -340,18 +340,13 @@ template<class T> NVectorT<T> NVectorT<T>::GetScaled(T scaleBy) const
 //============================================================================
 //		NVectorT::GetLength : Get the length.
 //----------------------------------------------------------------------------
-template<class T> T NVectorT<T>::GetLength(bool getApprox) const
+template<class T> T NVectorT<T>::GetLength(void) const
 {	T	theLength;
 
 
 
 	// Get the length
-	theLength = GetLength2();
-	
-	if (getApprox)
-		theLength = (T) NMathUtilities::FastRoot((Float32) theLength);
-	else
-		theLength = (T) sqrt(theLength);
+	theLength = (T) sqrt(GetLength2());
 	
 	return(theLength);
 }

@@ -190,18 +190,13 @@ template<class T> NComparison NPointT<T>::Compare(const NPointT<T> &theValue) co
 //============================================================================
 //		NPointT::GetDistance : Get the distance to a point.
 //----------------------------------------------------------------------------
-template<class T> T NPointT<T>::GetDistance(const NPointT<T> &thePoint, bool getApprox) const
+template<class T> T NPointT<T>::GetDistance(const NPointT<T> &thePoint) const
 {	T		theDistance;
 
 
 
 	// Get the distance
-	theDistance = GetDistance2(thePoint);
-	
-	if (getApprox)
-		theDistance = (T) NMathUtilities::FastRoot((Float32) theDistance);
-	else
-		theDistance = (T) sqrt(theDistance);
+	theDistance = (T) sqrt(GetDistance2(thePoint));
 	
 	return(theDistance);
 }

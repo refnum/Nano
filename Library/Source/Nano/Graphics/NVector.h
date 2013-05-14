@@ -102,8 +102,8 @@ public:
 
 
 	// Get the length
-	T									GetLength (bool getApprox=true) const;
-	T									GetLength2(void)                const;
+	T									GetLength (void) const;
+	T									GetLength2(void) const;
 
 
 	// Get the dot/cross products
