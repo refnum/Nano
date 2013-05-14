@@ -427,6 +427,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\System\TTask.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\TTextUtilities.cpp"
 				>
 			</File>
@@ -762,6 +766,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Utilities\TSystemUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\System\TTask.h"
 				>
 			</File>
 			<File

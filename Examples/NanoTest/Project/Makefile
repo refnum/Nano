@@ -49,6 +49,7 @@ SRCS   =                                                                        
         ../Source/Nano/System/TDataEncoder.cpp                                       \
         ../Source/Nano/System/TJSONEncoder.cpp                                       \
         ../Source/Nano/System/TLocale.cpp                                            \
+        ../Source/Nano/System/TTask.cpp                                              \
         ../Source/Nano/System/TUnicodeParser.cpp                                     \
         ../Source/Nano/System/TUTIRegistry.cpp                                       \
         ../Source/Nano/System/TXMLEncoder.cpp                                        \
