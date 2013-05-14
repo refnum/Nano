@@ -1336,9 +1336,9 @@ NDictionary NTargetFile::BundleGetInfo(const NFile &theBundle)
 //      NTargetFile::BundleGetExecutable : Get a bundle executable.
 //----------------------------------------------------------------------------
 NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &theName)
-{	NFile			theResult;
-	NCFObject		cfBundle;
-	NCFURL			cfURL;
+{	NCFObject		cfBundle, cfURL;
+	NFile			theResult;
+	NCFString		thePath;
 
 
 
@@ -1348,18 +1348,27 @@ NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &th
 	
 	if (!cfBundle.IsValid())
 		return(theResult);
-	
-	
-	
+
+
+
 	// Get the executable
 	if (theName.IsEmpty())
 		cfURL.SetObject(CFBundleCopyExecutableURL(cfBundle));
 	else
 		cfURL.SetObject(CFBundleCopyAuxiliaryExecutableURL(cfBundle, ToCF(theName)));
 
-	if (cfURL.IsValid())
-		theResult = NString(cfURL.GetValue());
 
+
+	// Get the absolute path
+	if (cfURL.IsValid())
+		cfURL.SetObject(CFURLCopyAbsoluteURL(cfURL));
+		
+	if (cfURL.IsValid())
+		{
+		if (thePath.SetObject(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
+			theResult = thePath;
+		}
+			
 	return(theResult);
 }
 
