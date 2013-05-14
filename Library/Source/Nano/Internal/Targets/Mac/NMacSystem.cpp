@@ -36,12 +36,8 @@
 // Tasks
 static const size_t kBufferSize											= 2 * kNKilobyte;
 
-static const NIndex kPipeParent											= 0;
-static const NIndex kPipeChild											= 1;
-
-static const int FD_STDIN												= 0;
-static const int FD_STDOUT												= 1;
-static const int FD_STDERR												= 2;
+static const NIndex kPipeRead											= 0;
+static const NIndex kPipeWrite											= 1;
 
 
 
@@ -143,7 +139,7 @@ static NString ReadPipe(NTaskPipeRef &thePipe, bool lastRead)
 //		WritePipe : Write to a pipe.
 //----------------------------------------------------------------------------
 static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
-{	NData		theData;
+{	NData	theData;
 
 
 
@@ -483,27 +479,31 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 
 		case 0:
 			// We're the child
-			close(FD_STDIN);
-			close(FD_STDOUT);
-			close(FD_STDERR);
+			//
+			// We read from the stdin pipe and write to the stdout/stderr pipes.
+			close(pipeStdIn [kPipeWrite]);
+			close(pipeStdOut[kPipeRead]);
+			close(pipeStdErr[kPipeRead]);
 
-			dup2(pipeStdIn [kPipeChild], FD_STDIN);
-			dup2(pipeStdOut[kPipeChild], FD_STDOUT);
-			dup2(pipeStdErr[kPipeChild], FD_STDERR);
-			
+			dup2(pipeStdIn [kPipeRead],  STDIN_FILENO);
+			dup2(pipeStdOut[kPipeWrite], STDOUT_FILENO);
+			dup2(pipeStdErr[kPipeWrite], STDERR_FILENO);
+
 			ExecuteTask(theCmd, cmdName, theArgs);
 			_exit(1);
 			break;
 
 		default:
-			// We're the parent:
-			close(pipeStdIn [kPipeChild]);
-			close(pipeStdOut[kPipeChild]);
-			close(pipeStdErr[kPipeChild]);
+			// We're the parent
+			//
+			// We write to the stdin pipe and read from the stdout/stderr pipes.
+			close(pipeStdIn [kPipeRead]);
+			close(pipeStdOut[kPipeWrite]);
+			close(pipeStdErr[kPipeWrite]);
 			
-			theTask.stdIn  = (NTaskPipeRef) pipeStdIn [kPipeParent];
-			theTask.stdOut = (NTaskPipeRef) pipeStdOut[kPipeParent];
-			theTask.stdErr = (NTaskPipeRef) pipeStdErr[kPipeParent];
+			theTask.stdIn  = (NTaskPipeRef) pipeStdIn [kPipeWrite];
+			theTask.stdOut = (NTaskPipeRef) pipeStdOut[kPipeRead];
+			theTask.stdErr = (NTaskPipeRef) pipeStdErr[kPipeRead];
 			
 			fcntl((int) theTask.stdOut, F_SETFL, O_NONBLOCK);
 			fcntl((int) theTask.stdErr, F_SETFL, O_NONBLOCK);
