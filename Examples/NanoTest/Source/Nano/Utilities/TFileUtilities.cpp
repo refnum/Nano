@@ -105,6 +105,7 @@ void TFileUtilities::Execute(void)
 	// Text file encoding detection
 	theErr   = NFileUtilities::SetFileText(theFile, kTestText, kNStringEncodingUTF16BE, kNStringUnicodeBOM);
 	theText  = NFileUtilities::GetFileText(theFile);
+	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(theText                                        == kTestText);		// Compare as UTF16
 	NN_ASSERT(strcmp(theText.GetUTF8(), kTestText.GetUTF8()) == 0);				// Compare as UTF8
 }

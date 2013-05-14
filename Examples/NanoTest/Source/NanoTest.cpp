@@ -80,6 +80,7 @@
 #include "TDataEncoder.h"
 #include "TJSONEncoder.h"
 #include "TLocale.h"
+#include "TTask.h"
 #include "TUnicodeParser.h"
 #include "TUTIRegistry.h"
 #include "TXMLEncoder.h"
@@ -232,6 +233,7 @@ int main(int argc, const char **argv)
 	TDataEncoder::Execute();
 	TJSONEncoder::Execute();
 	TLocale::Execute();
+	TTask::Execute();
 	TUnicodeParser::Execute();
 	TUTIRegistry::Execute();
 	TXMLEncoder::Execute();

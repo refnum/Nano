@@ -33,13 +33,24 @@ void TURLResponse::Execute(void)
 
 
 
-	// Execute the tests
+	// Wait for results
 	theRequest  = NURLRequest("http://www.refnum.com/");
 	theResponse = new NURLResponse(theRequest);
-	theErr      = theResponse->WaitForReply(theData);
 
+	theErr = theResponse->WaitForReply(theData);
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(NString(theData).Contains("refNum Software"));
+
+	delete theResponse;
+
+
+
+	// Cancel results
+	theRequest  = NURLRequest("http://www.google.com/");
+	theResponse = new NURLResponse(theRequest);
+
+	theResponse->Start();
+	theResponse->Cancel();
 
 	delete theResponse;
 }
