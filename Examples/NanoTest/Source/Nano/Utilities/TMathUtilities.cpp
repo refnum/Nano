@@ -95,11 +95,11 @@ void TMathUtilities::Execute(void)
 	NN_ASSERT(NMathUtilities::CountBits(6) == 2);
 	NN_ASSERT(NMathUtilities::CountBits(7) == 3);
 
-	NN_ASSERT(NMathUtilities::RotateLeft(1024, 1) == 2048);
-	NN_ASSERT(NMathUtilities::RotateLeft(1024, 2) == 4096);
+	NN_ASSERT(NMathUtilities::RotateLeft(NN_B32(11001100, 11001100, 11001100, 11001100), 1) == NN_B32(10011001, 10011001, 10011001, 10011001));
+	NN_ASSERT(NMathUtilities::RotateLeft(NN_B32(11001100, 11001100, 11001100, 11001100), 2) == NN_B32(00110011, 00110011, 00110011, 00110011));
 
-	NN_ASSERT(NMathUtilities::RotateRight(4096, 1) == 2048);
-	NN_ASSERT(NMathUtilities::RotateRight(4096, 2) == 1024);
+	NN_ASSERT(NMathUtilities::RotateRight(NN_B32(11001100, 11001100, 11001100, 11001100), 1) == NN_B32(01100110, 01100110, 01100110, 01100110));
+	NN_ASSERT(NMathUtilities::RotateRight(NN_B32(11001100, 11001100, 11001100, 11001100), 2) == NN_B32(00110011, 00110011, 00110011, 00110011));
 
 
 
