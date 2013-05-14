@@ -436,13 +436,8 @@ NStatus NDBHandlePool::CreateConnection(NDBHandlePtr &dbHandle)
 
 	// Create the connection
 	dbHandle = new NDBHandle;
-	theErr   = (dbHandle == NULL) ? kNErrMemory : kNoErr;
-
-	if (theErr == kNoErr)
-		{
-		theErr = dbHandle->Open(mFile, mFlags, mVFS);
-		NN_ASSERT_NOERR(theErr);
-		}
+	theErr   = dbHandle->Open(mFile, mFlags, mVFS);
+	NN_ASSERT_NOERR(theErr);
 
 
 
