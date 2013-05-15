@@ -293,7 +293,7 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 
 	// Get the state we need
 	cfTimeZone = GetTimeZone(timeZone);
-	cfTime     = theTime - kNEpochTimeSince2001;
+	cfTime     = theTime + kNEpochTimeSince2001;
 
 
 
@@ -340,7 +340,7 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 
 	// Convert the date
 	cfTime  = CFGregorianDateGetAbsoluteTime(cfDate, cfTimeZone);
-	theTime = cfTime + kNEpochTimeSince2001;
+	theTime = -kNEpochTimeSince2001 + cfTime;
 	
 	return(theTime);
 }
