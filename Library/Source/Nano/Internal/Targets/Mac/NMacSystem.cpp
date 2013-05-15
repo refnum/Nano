@@ -34,10 +34,11 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Tasks
-static const size_t kBufferSize											= 2 * kNKilobyte;
-
 static const NIndex kPipeRead											= 0;
 static const NIndex kPipeWrite											= 1;
+
+// Misc
+static const size_t kBufferSize											= 2 * kNKilobyte;
 
 
 
@@ -553,7 +554,7 @@ void NTargetSystem::TaskUpdate(TaskInfo &theTask)
 		theStatus = WEXITSTATUS(theStatus);
 
 	else
-		theStatus = EX_SOFTWARE;
+		theStatus = ECHILD;
 
 
 
