@@ -67,9 +67,9 @@
 // Epochs
 //
 // The Nano Epoch starts at 00:00:00 on 2001/01/01 in UTC.
-static const NTime kNEpochTimeSince2001								= 0.0;				// CF
+static const NTime kNEpochTimeSince2001								= 0.0;				// Mac OS X
 static const NTime kNEpochTimeSince1970								= 978307200.0;		// Unix
-static const NTime kNEpochTimeSince1904								= 3061152000.0;		// Classic Mac
+static const NTime kNEpochTimeSince1904								= 3061152000.0;		// Mac OS 9
 static const NTime kNEpochTimeSince1601								= 12622780800.0;	// Windows
 
 
