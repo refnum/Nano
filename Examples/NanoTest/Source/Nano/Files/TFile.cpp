@@ -158,6 +158,7 @@ void TFile::Execute(void)
 	NN_ASSERT_NOERR(theErr);
 
 
+	#if NN_TARGET_MAC || NN_TARGET_LINUX
 	tmpFile2 = kPathLinkFile;
 	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkHard);
 	NN_ASSERT_NOERR(theErr);
@@ -167,8 +168,10 @@ void TFile::Execute(void)
 
 	theErr = tmpFile2.Delete();
 	NN_ASSERT_NOERR(theErr);
+	#endif
 
 
+	#if NN_TARGET_MAC || NN_TARGET_WINDOWS
 	tmpFile2 = kPathLinkFile;
 	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkUser);
 	NN_ASSERT_NOERR(theErr);
@@ -178,6 +181,7 @@ void TFile::Execute(void)
 
 	theErr = tmpFile2.Delete();
 	NN_ASSERT_NOERR(theErr);
+	#endif
 
 
 	theErr = tmpFile.Delete();

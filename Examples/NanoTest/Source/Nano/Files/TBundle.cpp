@@ -68,8 +68,9 @@ void TBundle::Execute(void)
 	NN_ASSERT(theFile.IsDirectory());
 
 	theFile = theBundle.GetResources();
-	NN_ASSERT(theFile.IsDirectory());
-	
+	if (!kPathBundle.IsEmpty())
+		NN_ASSERT(theFile.IsDirectory());
+
 	theFile = theBundle.GetExecutable();
 	if (!kPathBundle.IsEmpty())
 		NN_ASSERT(theFile.IsFile());
@@ -78,6 +79,7 @@ void TBundle::Execute(void)
 
 	// Info.plist
 	theInfo = theBundle.GetInfoDictionary();
-	NN_ASSERT(!theInfo.IsEmpty());
+	if (!kPathBundle.IsEmpty())
+		NN_ASSERT(!theInfo.IsEmpty());
 }
 

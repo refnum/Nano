@@ -30,21 +30,6 @@ static const UInt32 kBufferSize										= 9;
 static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
 
 
-// Paths
-#if NN_TARGET_MAC
-	static const NString kPathFile									= "/tmp/nfilemap.txt";
-
-#elif NN_TARGET_WINDOWS
-	static const NString kPathFile									= "c:\\windows\\temp\\nfilemap.txt";
-
-#elif NN_TARGET_LINUX
-	static const NString kPathFile									= "/tmp/nfilemap.txt";
-
-#else
-	UNKNOWN TARGET
-#endif
-
-
 
 
 

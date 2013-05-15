@@ -147,3 +147,56 @@ NStatus NLinuxTarget::ConvertSysErr(int sysErr)
 
 
 
+
+
+//============================================================================
+//		NLinuxTarget::ConvertFilePermission : Convert file permissions.
+//----------------------------------------------------------------------------
+const char *NLinuxTarget::ConvertFilePermission(NFilePermission thePermission)
+{	const char	*theResult;
+
+
+
+	// Convert the value
+	switch (thePermission) {
+		case kNPermissionRead:			theResult = "r";		break;
+		case kNPermissionWrite:			theResult = "a";		break;
+		case kNPermissionUpdate:		theResult = "r+";		break;
+
+		default:
+			NN_LOG("Unable to convert %ld", thePermission);
+			theResult = "r+";
+			break;
+		}
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NLinuxTarget::ConvertFilePosition : Convert file positions.
+//----------------------------------------------------------------------------
+int NLinuxTarget::ConvertFilePosition(NFilePosition thePosition)
+{	int		theResult;
+
+
+
+	// Convert the value
+	switch (thePosition) {
+		case kNPositionFromStart:		theResult = SEEK_SET;	break;
+		case kNPositionFromMark:		theResult = SEEK_CUR;	break;
+		case kNPositionFromEnd:			theResult = SEEK_END;	break;
+
+		default:
+			NN_LOG("Unable to convert %ld", thePosition);
+			theResult = SEEK_SET;
+			break;
+		}
+	
+	return(theResult);
+}
+
+

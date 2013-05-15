@@ -80,7 +80,6 @@
 #include "TDataEncoder.h"
 #include "TJSONEncoder.h"
 #include "TLocale.h"
-#include "TTask.h"
 #include "TUnicodeParser.h"
 #include "TUTIRegistry.h"
 #include "TXMLEncoder.h"
@@ -165,7 +164,7 @@ int main(int argc, const char **argv)
 
 	// Application
 	TCommandLine::Execute();
-	TPreferences::Execute();
+//	TPreferences::Execute();
 	TUndoManager::Execute();
 	TUndoSource::Execute();
 
@@ -185,7 +184,7 @@ int main(int argc, const char **argv)
 	// Events
 	TBroadcaster::Execute();
 	TListener::Execute();
-	TTimer::Execute();
+//	TTimer::Execute();
 	
 
 	
@@ -210,15 +209,15 @@ int main(int argc, const char **argv)
 
 
 	// Network
-	TMessageClient::Execute();
-	TMessageServer::Execute();
-	TNetworkBrowser::Execute();
-	TNetworkManager::Execute();
-	TNetworkMessage::Execute();
-	TNetworkService::Execute();
-	TSocket::Execute();
-	TURLRequest::Execute();
-	TURLResponse::Execute();
+//	TMessageClient::Execute();
+//	TMessageServer::Execute();
+//	TNetworkBrowser::Execute();
+//	TNetworkManager::Execute();
+//	TNetworkMessage::Execute();
+//	TNetworkService::Execute();
+//	TSocket::Execute();
+//	TURLRequest::Execute();
+//	TURLResponse::Execute();
 
 
 
@@ -232,9 +231,8 @@ int main(int argc, const char **argv)
 	TDataDigest::Execute();
 	TDataEncoder::Execute();
 	TJSONEncoder::Execute();
-	TLocale::Execute();
-	TTask::Execute();
-	TUnicodeParser::Execute();
+//	TLocale::Execute();
+//	TUnicodeParser::Execute();
 	TUTIRegistry::Execute();
 	TXMLEncoder::Execute();
 	TXMLParser::Execute();
@@ -257,8 +255,8 @@ int main(int argc, const char **argv)
 	TAttributes::Execute();
 	TBitVector::Execute();
 	TData::Execute();
-	TDate::Execute();
-	TDateFormatter::Execute();
+//	TDate::Execute();
+//	TDateFormatter::Execute();
 	TDictionary::Execute();
 	TEncoder::Execute();
 	TFunctor::Execute();

@@ -921,7 +921,8 @@ NStatus NTargetFile::FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePo
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(LARGE_INTEGER) >= sizeof(UInt64));
+	NN_ASSERT(sizeof(LARGE_INTEGER) == sizeof(UInt32));
+	NN_ASSERT(theOffset <= (SInt64) kUInt32Max);
 
 
 

@@ -41,12 +41,37 @@ void NTargetSystem::DebugLog(const char *theMsg)
 //      NTargetSystem::FindBundle : Find a bundle.
 //----------------------------------------------------------------------------
 NFile NTargetSystem::FindBundle(const NString &bundleID)
-{
+{	char		theBuffer[PATH_MAX];
+	NFile		theFile, theParent;
+	int			theLen;
 
 
-	// dair, to do
-	NN_LOG("NTargetSystem::FindBundle not implemented!");
-	return(NFile());
+
+	// Locate the executable
+	if (bundleID.IsEmpty())
+		{
+		theLen = readlink("/proc/self/exe", theBuffer, sizeof(theBuffer)-1);
+		if (theLen > 0)
+			theFile = NFile(NString(theBuffer, theLen));
+		}
+	else
+		NN_LOG("NTargetSystem::FindBundle not implemented (%@)", bundleID);
+
+
+
+	// Locate the bundle
+	//
+	// If the executable is within a bundle then we return the root bundle
+	// folder, otherwise we return the directory containing the executable.
+	theFile = theFile.GetParent();
+	if (theFile.GetName() == "Linux")
+		{
+		theParent = theFile.GetParent();
+		if (theParent.GetName() == "Contents")
+			theFile = theParent.GetParent();
+		}
+
+	return(theFile);
 }
 
 

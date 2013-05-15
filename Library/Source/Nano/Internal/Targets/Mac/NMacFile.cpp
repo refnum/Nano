@@ -483,7 +483,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(fileInfo.st_size) >= sizeof(UInt64));
+	NN_ASSERT(sizeof(fileInfo.st_size) <= sizeof(UInt64));
 
 
 
@@ -1013,7 +1013,7 @@ UInt64 NTargetFile::FileGetPosition(NFileRef theFile)
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(off_t) >= sizeof(UInt64));
+	NN_ASSERT(sizeof(off_t) <= sizeof(UInt64));
 
 
 

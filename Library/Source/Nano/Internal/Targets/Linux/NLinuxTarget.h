@@ -31,6 +31,11 @@ public:
 	static NStatus						ConvertSysErr(int sysErr);
 
 
+	// Convert file state
+	static const char				   *ConvertFilePermission(NFilePermission thePermission);
+	static int							ConvertFilePosition(  NFilePosition   thePosition);
+
+
 	// Invoke sysctl
 	template <class T> static T			GetSysctl(int nameMajor, int nameMinor);
 };

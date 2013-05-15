@@ -136,7 +136,7 @@ FLAGS_WARN = -Wall -Wno-unknown-pragmas
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS) $(LIBS)
+$(TARGET): $(LIBS) $(OBJS)
 	$(CXX) $(OBJS) $(LIBS) $(LDFLAGS) -o $(TARGET)
 
 clean:
