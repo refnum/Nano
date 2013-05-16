@@ -76,6 +76,7 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 
 #elif NN_TARGET_LINUX
 	NN_LOG("CTestUtilities::ExecuteRunloop not implemented!");
+	exit(-1);
 
 
 #else
