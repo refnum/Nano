@@ -40,7 +40,7 @@ static const NTime kNThreadSpinTime									= 500.0 * kNTimeMicrosecond;
 // Thread local value
 typedef UIntPtr NThreadLocalRef;
 
-static const NThreadLocalRef kNThreadLocalRefNone					= 0;
+static const NThreadLocalRef kNThreadLocalRefNone					= (NThreadLocalRef) -1;
 
 
 // Lists
