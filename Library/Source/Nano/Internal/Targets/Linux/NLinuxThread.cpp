@@ -396,7 +396,7 @@ NThreadLocalRef NTargetThread::LocalCreate(void)
 	keyRef = 0;
 	sysErr = pthread_key_create(&keyRef, NULL);
 	NN_ASSERT_NOERR(sysErr);
-	
+
 	return((NThreadLocalRef) keyRef);
 }
 

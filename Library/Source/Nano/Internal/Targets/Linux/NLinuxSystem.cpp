@@ -18,6 +18,7 @@
 #include <sys/fcntl.h>
 #include <sys/utsname.h>
 #include <sys/wait.h>
+#include <locale.h>
 #include <errno.h>
 
 #include "NFileUtilities.h"
@@ -656,12 +657,27 @@ void NTargetSystem::TaskSignal(const TaskInfo &theTask, NTaskSignal theSignal)
 //      NTargetSystem::GetLocaleValue : Get a locale value.
 //----------------------------------------------------------------------------
 NVariant NTargetSystem::GetLocaleValue(const NString &theID, const NString &theKey)
-{
+{	NVariant		theResult;
+	
 
 
-	// dair, to do
-	NN_LOG("NTargetSystem::GetLocaleValue not implemented!");
-	return(0);
+	// Validate our parameters
+	NN_ASSERT(theID == kNLocaleUser);
+	NN_UNUSED(theID);
+
+
+
+	// Get the value
+	if (theKey == kNLocaleIsMetricKey)
+		{
+		NN_LOG("NTargetSystem::GetLocaleValue not implemented - returning kNLocaleIsMetricKey=true");
+		theResult = true;
+		}
+
+	else
+		NN_LOG("Unknown locale key: %@", theKey);
+
+	return(theResult);
 }
 
 
@@ -672,12 +688,14 @@ NVariant NTargetSystem::GetLocaleValue(const NString &theID, const NString &theK
 //      NTargetSystem::GetLocaleBroadcaster : Get the locale broadcaster.
 //----------------------------------------------------------------------------
 NBroadcaster *NTargetSystem::GetLocaleBroadcaster(const NString &/*theID*/)
-{
+{	static NBroadcaster		sBroadcaster;
 
 
-	// dair, to do
-	NN_LOG("NTargetSystem::GetLocaleBroadcaster not implemented!");
-	return(NULL);
+
+	// Get the broadcaster
+	//
+	// For now, all locales share the same broadcaster.
+	return(&sBroadcaster);
 }
 
 

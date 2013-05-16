@@ -36,6 +36,51 @@ static char		*gTimeZoneOld;
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
+//		GetTZName : Get a time zone name.
+//----------------------------------------------------------------------------
+static const char *GetTZName(const NString &timeZone)
+{	const char		*tzName;
+
+
+
+	// Get the name
+	//
+	// The tz database has its own set of  time zone names:
+	//
+	//		http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+	//
+		 if (timeZone == kNTimeZoneUTC)		tzName = "UTC";
+
+	else if (timeZone == kNTimeZoneWET)		tzName = "WET";
+	else if (timeZone == kNTimeZoneCET)		tzName = "CET";
+	else if (timeZone == kNTimeZoneEET)		tzName = "EET";
+	else if (timeZone == kNTimeZoneCEST)	tzName = "CET";
+	else if (timeZone == kNTimeZoneBST)		tzName = "Europe/London";
+	else if (timeZone == kNTimeZoneIST)		tzName = "Asia/Calcutta";
+
+	else if (timeZone == kNTimeZonePST)		tzName = "PST8PDT";
+	else if (timeZone == kNTimeZoneMST)		tzName = "MST";
+	else if (timeZone == kNTimeZoneCST)		tzName = "CST6CDT";
+	else if (timeZone == kNTimeZoneEST)		tzName = "EST";
+	else if (timeZone == kNTimeZonePDT)		tzName = "PST8PDT";
+	else if (timeZone == kNTimeZoneMDT)		tzName = "MST7MDT";
+	else if (timeZone == kNTimeZoneCDT)		tzName = "CST6CDT";
+	else if (timeZone == kNTimeZoneEDT)		tzName = "EST5EDT";
+
+	else
+		{
+		NN_LOG("Unknown time zone: [%@]", timeZone);
+		tzName = NULL;
+		}
+
+	return(tzName);
+}
+
+
+
+
+
+//============================================================================
 //		LockTimeZone : Lock the time zone.
 //----------------------------------------------------------------------------
 static void LockTimeZone(const NString &timeZone)
@@ -56,7 +101,7 @@ static void LockTimeZone(const NString &timeZone)
 	if (timeZone == kNTimeZoneDefault)
 		unsetenv("TZ");
 	else
-		setenv("TZ", timeZone.GetUTF8(), 1);
+		setenv("TZ", GetTZName(timeZone), 1);
 
 	tzset();
 
@@ -202,16 +247,15 @@ void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 //		NTargetTime::ConvertTimeToDate : Convert a UTC time to a date.
 //----------------------------------------------------------------------------
 NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &timeZone)
-{	struct tm			zoneTime, queryTime;
-	NTime				intSec, fracSec;
+{	NTime				intSec, fracSec;
+	struct tm			zoneTime;
 	time_t				sysTime;
 	NGregorianDate		theDate;
 
 
 
 	// Get the state we need
-	memset(&zoneTime,  0x00, sizeof(zoneTime));
-	memset(&queryTime, 0x00, sizeof(queryTime));
+	memset(&zoneTime, 0x00, sizeof(zoneTime));
 
 	intSec  = floor(theTime);
 	fracSec = theTime - intSec;
@@ -221,31 +265,8 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 	// Convert the time
 	LockTimeZone(timeZone);
 
-		// Get the offset
-		//
-		// Converting the UTC time to the equivalent date in the target time zone gives us,
-		// via a Linux/BSD extension to struct tm, the offset of that time at that date in
-		// the target time zone.
 		sysTime = (time_t) (intSec + kNEpochTimeSince1970);
 		localtime_r(&sysTime, &zoneTime);
-
-		queryTime.tm_year  = zoneTime.tm_year;
-		queryTime.tm_mon   = zoneTime.tm_mon;
-		queryTime.tm_mday  = zoneTime.tm_mday;
-		queryTime.tm_hour  = zoneTime.tm_hour;
-		queryTime.tm_min   = zoneTime.tm_min;
-		queryTime.tm_sec   = zoneTime.tm_sec;
-		queryTime.tm_isdst = -1;
-		
-		mktime(&queryTime);
-
-
-		// Convert the time
-		//
-		// We can then adjust the UTC time by that offset to obtain the equivalent date to
-		// that UTC time in the target time zone.
-		sysTime += queryTime.tm_gmtoff;
-		gmtime_r(&sysTime, &zoneTime);
 
 		theDate.year     = zoneTime.tm_year + 1900;
 		theDate.month    = zoneTime.tm_mon  + 1;
@@ -284,13 +305,10 @@ NTime NTargetTime::ConvertDateToTime(const NGregorianDate &theDate)
 
 
 	// Convert the date
-	//
-	// mktime gives us the UTC time for the specified date in the target time zone,
-	// which we can then adjust by the required epoch to obtain an NTime.
 	LockTimeZone(theDate.timeZone);
 
-		zoneTime.tm_year  = theDate.year - 1900;
-		zoneTime.tm_mon   = theDate.month;
+		zoneTime.tm_year  = theDate.year  - 1900;
+		zoneTime.tm_mon   = theDate.month - 1;
 		zoneTime.tm_mday  = theDate.day;
 		zoneTime.tm_hour  = theDate.hour;
 		zoneTime.tm_min   = theDate.minute;
@@ -324,21 +342,19 @@ NIndex NTargetTime::GetDayOfWeek(const NGregorianDate &theDate)
 
 
 	// Get the day of the week
-	//
-	// mktime gives us the UTC time for the specified date in the target time zone.
 	LockTimeZone(theDate.timeZone);
 
-		zoneTime.tm_year  = theDate.year - 1900;
-		zoneTime.tm_mon   = theDate.month;
+		zoneTime.tm_year  = theDate.year  - 1900;
+		zoneTime.tm_mon   = theDate.month - 1;
 		zoneTime.tm_mday  = theDate.day;
 		zoneTime.tm_hour  = theDate.hour;
 		zoneTime.tm_min   = theDate.minute;
 		zoneTime.tm_sec   = (int) theDate.second;
 		zoneTime.tm_isdst = -1;
 
-		mktime(&zoneTime);
+		(void) mktime(&zoneTime);
 
-		theIndex = zoneTime.tm_wday + 1;
+		theIndex = (zoneTime.tm_wday == 0) ? 7 : zoneTime.tm_wday;
 		NN_ASSERT(theIndex >= 1 && theIndex <= 7);
 
 	UnlockTimeZone();
