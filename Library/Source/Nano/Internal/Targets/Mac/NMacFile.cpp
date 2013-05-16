@@ -1352,14 +1352,8 @@ NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &th
 
 
 	// Get the executable
-	if (theName.IsEmpty())
-		cfURL.SetObject(CFBundleCopyExecutableURL(cfBundle));
-	else
-		cfURL.SetObject(CFBundleCopyAuxiliaryExecutableURL(cfBundle, ToCF(theName)));
+	cfURL.SetObject(CFBundleCopyAuxiliaryExecutableURL(cfBundle, ToCF(theName)));
 
-
-
-	// Get the absolute path
 	if (cfURL.IsValid())
 		cfURL.SetObject(CFURLCopyAbsoluteURL(cfURL));
 		

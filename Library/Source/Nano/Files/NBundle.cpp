@@ -220,11 +220,20 @@ NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
 //		NBundle::GetExecutable : Get an executable.
 //----------------------------------------------------------------------------
 NFile NBundle::GetExecutable(const NString &theName) const
-{
+{	NString		exeName;
+
+
+
+	// Get the state we need
+	if (theName.IsEmpty())
+		exeName = GetInfoString(kNBundleExecutableKey);
+	else
+		exeName = theName;
+
 
 
 	// Get the executable
-	return(NTargetFile::BundleGetExecutable(mFile, theName));
+	return(NTargetFile::BundleGetExecutable(mFile, exeName));
 }
 
 

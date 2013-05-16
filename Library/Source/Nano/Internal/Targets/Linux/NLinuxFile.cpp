@@ -1085,28 +1085,12 @@ NDictionary NTargetFile::BundleGetInfo(const NFile &theBundle)
 //      NTargetFile::BundleGetExecutable : Get a bundle executable.
 //----------------------------------------------------------------------------
 NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &theName)
-{	NFile		theResult, theParent;
-	char		theBuffer[PATH_MAX];
-	NString		thePath;
-	int			theLen;
+{	NFile		theResult;
 
 
 
 	// Get the executable
-	if (theName.IsEmpty())
-		{
-		theLen = readlink("/proc/self/exe", theBuffer, sizeof(theBuffer)-1);
-		if (theLen > 0)
-			{
-			theResult = NFile(NString(theBuffer, theLen));
-			NN_ASSERT(theBundle == theResult.GetParent().GetParent());
-			}
-		}
-	else
-		{
-		thePath   = NString("Contents/Linux/") + theName;
-		theResult = theBundle.GetChild(thePath);
-		}
+	theResult = theBundle.GetChild("Contents/Linux").GetChild(theName);
 
 	return(theResult);
 }

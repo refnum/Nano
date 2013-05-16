@@ -1222,26 +1222,12 @@ NDictionary NTargetFile::BundleGetInfo(const NFile &theBundle)
 //      NTargetFile::BundleGetExecutable : Get a bundle executable.
 //----------------------------------------------------------------------------
 NFile NTargetFile::BundleGetExecutable(const NFile &theBundle, const NString &theName)
-{	NFile		theResult, theParent;
-	TCHAR		theBuffer[MAX_PATH];
-	NString		thePath;
+{	NFile		theResult;
 
 
 
 	// Get the executable
-	if (theName.IsEmpty())
-		{
-		if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
-			{
-			theResult = NFile(ToNN(theBuffer));
-			NN_ASSERT(theBundle == theResult.GetParent().GetParent());
-			}
-		}
-	else
-		{
-		thePath   = NString("Contents\\Windows\\") + theName;
-		theResult = theBundle.GetChild(thePath);
-		}
+	theResult = theBundle.GetChild("Contents\\Windows").GetChild(theName);
 
 	return(theResult);
 }
