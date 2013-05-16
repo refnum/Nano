@@ -135,8 +135,10 @@ FLAGS_WARN = -Wall -Wno-unknown-pragmas
 .PHONY: clean all
 
 all: $(TARGET)
+	cd ../../../Library/Project;                                                     \
+        $(MAKE)
 
-$(TARGET): $(LIBS) $(OBJS)
+$(TARGET): $(OBJS) $(LIBS)
 	$(CXX) $(OBJS) $(LIBS) $(LDFLAGS) -o $(TARGET)
 
 clean:
