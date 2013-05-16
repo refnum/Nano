@@ -104,7 +104,7 @@
 
 // Linux
 #if NN_TARGET_LINUX
-	#if __BYTE_ORDER == __BIG_ENDIAN
+	#if defined(__ppc__) || defined(__ppc64__)
 		#undef  NN_TARGET_ENDIAN_BIG
 		#define NN_TARGET_ENDIAN_BIG								1
 	#else
