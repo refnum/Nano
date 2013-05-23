@@ -807,6 +807,107 @@ void NTargetThread::ReadWriteUnlock(NLockRef theLock, bool /*forRead*/)
 
 
 
+//============================================================================
+//      NTargetThread::SpinCreate : Create a spin lock.
+//----------------------------------------------------------------------------
+NLockRef NTargetThread::SpinCreate(void)
+{	spinlock_t		*lockRef;
 
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
+
+
+
+	// Create the lock
+	lockRef = (spinlock_t *) malloc(sizeof(spinlock_t));
+	if (lockRef != NULL)
+		spin_lock_init(lockRef);
+
+	return((NLockRef) lockRef);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinDestroy : Destroy a spin lock.
+//----------------------------------------------------------------------------
+void NTargetThread::SpinDestroy(NLockRef theLock)
+{	spinlock_t		*lockRef = (spinlock_t *) theLock;
+
+
+
+	// Destroy the lock
+	free(lockRef);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinLock : Lock a spin lock.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::SpinLock(NLockRef theLock, NTime waitFor)
+{	spinlock_t		*lockRef = (spinlock_t *) theLock;
+	NTime			stopTime;
+	NStatus			theErr;
+
+
+
+	// Acquire with timeout
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		theErr   = kNErrTimeout;
+		do
+			{
+			// Acquire the lock
+			if (spin_trylock(lockRef))
+				theErr = kNoErr;
+
+
+			// Handle failure
+			if (theErr != kNoErr)
+				{
+				NThread::Sleep(kNThreadSleepTime);
+
+				if (NTimeUtilities::GetTime() >= stopTime)
+					break;
+				}
+			}
+		while (theErr != kNoErr);
+		}
+
+
+
+	// Acquire the lock
+	else
+		{
+		spin_lock(lockRef);
+		theErr = kNoErr;
+		}
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinUnlock : Unlock a spin lock.
+//----------------------------------------------------------------------------
+void NTargetThread::SpinUnlock(NLockRef theLock)
+{	spinlock_t		*lockRef = (spinlock_t *) theLock;
+
+
+
+	// Release the lock
+	spin_unlock(lockRef);
+}
 
 

@@ -138,15 +138,6 @@ public:
 	// Acquire/release the lock
 	bool								Lock(NTime waitFor=kNTimeForever);
 	void								Unlock(void);
-
-
-private:
-	bool								Lock(  UInt32 &theLock);
-	void								Unlock(UInt32 &theLock);
-
-
-private:
-    UInt32								mSpinLock;
 };
 
 

@@ -85,6 +85,13 @@ public:
 	static void							ReadWriteDestroy(NLockRef theLock);
 	static NStatus						ReadWriteLock(   NLockRef theLock, bool forRead, NTime waitFor);
 	static void							ReadWriteUnlock( NLockRef theLock, bool forRead);
+
+
+	// Spin lock
+	static NLockRef						SpinCreate(void);
+	static void							SpinDestroy(NLockRef theLock);
+	static NStatus						SpinLock(   NLockRef theLock, NTime waitFor);
+	static void							SpinUnlock( NLockRef theLock);
 };
 
 

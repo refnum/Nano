@@ -1043,7 +1043,112 @@ void NTargetThread::ReadWriteUnlock(NLockRef theLock, bool forRead)
 	else
 		RWWriteUnlock(lockRef);
 }
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinCreate : Create a spin lock.
+//----------------------------------------------------------------------------
+NLockRef NTargetThread::SpinCreate(void)
+{	CRITICAL_SECTION	*lockRef;
+
+
+
+	// Validate our state
+	ZL_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
+
+
+
+	// Create the lock
+	lockRef = (CRITICAL_SECTION *) malloc(sizeof(CRITICAL_SECTION));
+	if (lockRef != NULL)
+		InitializeCriticalSection(lockRef);
+	
+	return((NLockRef) lockRef);
 }
 
 
+
+
+
+//============================================================================
+//      NTargetThread::SpinDestroy : Destroy a spin lock.
+//----------------------------------------------------------------------------
+void NTargetThread::SpinDestroy(NLockRef theLock)
+{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
+
+
+
+	// Destroy the lock
+	DeleteCriticalSection(lockRef);
+	free(lockRef);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinLock : Lock a spin lock.
+//----------------------------------------------------------------------------
+NStatus NTargetThread::SpinLock(NLockRef theLock, NTime waitFor)
+{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
+	NTime			stopTime;
+	NStatus			theErr;
+
+
+
+	// Acquire with timeout
+	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		theErr   = kNErrTimeout;
+		do
+			{
+			// Acquire the lock
+			if (TryEnterCriticalSection(lockRef))
+				theErr = kNoErr;
+
+
+			// Handle failure
+			if (theErr != kNoErr)
+				{
+				NThread::Sleep(kNThreadSleepTime);
+
+				if (NTimeUtilities::GetTime() >= stopTime)
+					break;
+				}
+			}
+		while (theErr != kNoErr);
+		}
+
+
+
+	// Acquire the lock
+	else
+		{
+		EnterCriticalSection(lockRef);
+		theErr = kNoErr;
+		}
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinUnlock : Unlock a spin lock.
+//----------------------------------------------------------------------------
+void NTargetThread::SpinUnlock(NLockRef theLock)
+{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
+
+
+
+	// Release the lock
+	LeaveCriticalSection(lockRef);
+}
 

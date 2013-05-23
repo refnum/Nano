@@ -103,7 +103,7 @@ void NLock::AdjustLock(bool didLock)
 
 
 //============================================================================
-//		NMutexLock::NMutexLock : Constructor.
+//		NSpinLock::NMutexLock : Constructor.
 //----------------------------------------------------------------------------
 #pragma mark -
 NMutexLock::NMutexLock(void)
@@ -343,7 +343,7 @@ NSpinLock::NSpinLock(void)
 
 
 	// Initialize ourselves
-	mSpinLock = 0;
+	mLock = NTargetThread::SpinCreate();
 }
 
 
@@ -355,6 +355,15 @@ NSpinLock::NSpinLock(void)
 //----------------------------------------------------------------------------
 NSpinLock::~NSpinLock(void)
 {
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
+
+
+
+	// Clean up
+	NTargetThread::SpinDestroy(mLock);
 }
 
 
@@ -364,39 +373,27 @@ NSpinLock::~NSpinLock(void)
 //============================================================================
 //		NSpinLock::Lock : Acquire the lock.
 //----------------------------------------------------------------------------
-bool NSpinLock::Lock(NTime waitFor)
-{	NTime		stopTime;
-	bool		gotLock;
+bool NSpinLock::Lock(NTime theTime)
+{	NStatus		theErr;
+
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
 
 
 
 	// Acquire the lock
-	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		while (!Lock(mSpinLock))
-			NThread::Sleep(kNThreadSpinTime);
-
-		gotLock = true;
-		}
-	else
-		{
-		stopTime = NTimeUtilities::GetTime() + waitFor;
-		do
-			{
-			gotLock = Lock(mSpinLock);
-			if (!gotLock)
-				NThread::Sleep(kNThreadSpinTime);
-			}
-		while (!gotLock && NTimeUtilities::GetTime() < stopTime);
-		}
+	theErr = NTargetThread::SpinLock(mLock, theTime);
+	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
 
 
 
 	// Update our state
-	if (gotLock)
+	if (theErr == kNoErr)
 		AdjustLock(true);
 	
-	return(gotLock);
+	return(theErr == kNoErr);
 }
 
 
@@ -412,50 +409,14 @@ void NSpinLock::Unlock(void)
 
 	// Validate our state
 	NN_ASSERT(IsLocked());
+	NN_ASSERT(mLock != kNLockRefNone);
 	
 
 
 	// Release the lock
 	AdjustLock(false);
-
-	Unlock(mSpinLock);
-}
-
-
-
-
-
-//============================================================================
-//		NSpinLock::Lock : Acquire a spin lock.
-//----------------------------------------------------------------------------
-bool NSpinLock::Lock(UInt32 &theLock)
-{
-
-
-	// Acquire the lock
-	//
-	// Returns as the lock was acquired.
-	return(NThreadUtilities::AtomicCompareAndSwap32(theLock, 0, kSpinLockMask));
-}
-
-
-
-
-
-//============================================================================
-//		NSpinLock::Unlock : Unlock a spin lock.
-//----------------------------------------------------------------------------
-void NSpinLock::Unlock(UInt32 &theLock)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(theLock == kSpinLockMask);
 	
-
-
-	// Release the lock
-	NThreadUtilities::AtomicAnd32(theLock, ~kSpinLockMask);
+	NTargetThread::SpinUnlock(mLock);
 }
 
 
