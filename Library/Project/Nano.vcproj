@@ -1811,15 +1811,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Network\NMessageClient.cpp"
+				RelativePath="..\Source\Nano\Network\NMessageClient.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Network\NMessageEntity.cpp"
+				RelativePath="..\Source\Nano\Network\NMessageEntity.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Network\NMessageServer.cpp"
+				RelativePath="..\Source\Nano\Network\NMessageServer.h"
 				>
 			</File>
 			<File
