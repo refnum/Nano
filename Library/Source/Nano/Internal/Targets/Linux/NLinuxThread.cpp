@@ -186,6 +186,11 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 {
 
 
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
 	// Compare and swap
 	return(__sync_bool_compare_and_swap(&theValue, oldValue, newValue));
 }
@@ -199,6 +204,11 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 //----------------------------------------------------------------------------
 SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 {
+
+
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
 
 
 	// Add the value
@@ -216,6 +226,11 @@ void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 {
 
 
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
 	// AND the value
 	__sync_fetch_and_and(&theValue, theMask);
 }
@@ -231,6 +246,11 @@ void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 {
 
 
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
 	// XOR the value
 	__sync_fetch_and_xor(&theValue, theMask);
 }
@@ -244,6 +264,11 @@ void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 //----------------------------------------------------------------------------
 void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 {
+
+
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
 
 
 	// OR the value
