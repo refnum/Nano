@@ -391,9 +391,9 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 	// Validate our parameters and state
-	NN_ASSERT(NN_ALIGNED_TO(theValue, sizeof(UInt32)));
+	NN_ASSERT_ALIGNED_4(&theValue);
 	NN_ASSERT(sizeof(UInt32) == sizeof(LONG));
-	
+
 
 
 	// OR the value
@@ -884,7 +884,7 @@ NLockRef NTargetThread::SpinCreate(void)
 
 
 	// Validate our state
-	ZL_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
+	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
 
 
 
@@ -904,7 +904,7 @@ NLockRef NTargetThread::SpinCreate(void)
 //      NTargetThread::SpinDestroy : Destroy a spin lock.
 //----------------------------------------------------------------------------
 void NTargetThread::SpinDestroy(NLockRef theLock)
-{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
+{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) theLock;
 
 
 
@@ -921,7 +921,7 @@ void NTargetThread::SpinDestroy(NLockRef theLock)
 //      NTargetThread::SpinLock : Lock a spin lock.
 //----------------------------------------------------------------------------
 NStatus NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
-{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
+{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) theLock;
 	NStatus				theErr;
 
 
@@ -948,7 +948,7 @@ NStatus NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
 //      NTargetThread::SpinUnlock : Unlock a spin lock.
 //----------------------------------------------------------------------------
 void NTargetThread::SpinUnlock(NLockRef theLock)
-{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
+{	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) theLock;
 
 
 
