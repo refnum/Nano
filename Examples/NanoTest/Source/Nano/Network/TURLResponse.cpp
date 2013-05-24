@@ -50,7 +50,11 @@ void TURLResponse::Execute(void)
 	theResponse = new NURLResponse(theRequest);
 
 	theResponse->Start();
+#if NN_TARGET_WINDOWS
+	NN_LOG("NURLRequest::Cancel not supported from console apps");
+#else
 	theResponse->Cancel();
+#endif
 
 	delete theResponse;
 }

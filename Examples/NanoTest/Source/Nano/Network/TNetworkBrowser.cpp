@@ -48,7 +48,15 @@ void TNetworkBrowser::Execute(void)
 
 
 	// Prepare the service
+	//
+	// Bonjour may not be available, in which case the tests are skipped.
 	theErr = theService.AddService( kTestService, kTestPort);
+	if (theErr == kNErrNotSupported)
+		{
+		NN_LOG("TNetworkBrowser not supported on this platform");
+		return;
+		}
+
 	NN_ASSERT(theService.HasService(kTestService, kTestPort));
 	NN_ASSERT_NOERR(theErr);
 

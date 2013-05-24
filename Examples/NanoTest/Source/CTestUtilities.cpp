@@ -66,17 +66,20 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 #elif NN_TARGET_WINDOWS
 	NTime	endTime = NTimeUtilities::GetTime() + waitFor;
 	MSG		theMsg;
-	
+
 	while (GetMessage(&theMsg, NULL, 0, 0) && NTimeUtilities::GetTime() < endTime)
 		{
 		TranslateMessage(&theMsg);
 		DispatchMessage( &theMsg);
 		}
 
+	NThread::Sleep();
 
 #elif NN_TARGET_LINUX
-	NN_LOG("CTestUtilities::ExecuteRunloop not implemented!");
-	exit(-1);
+	NTime	endTime = NTimeUtilities::GetTime() + waitFor;
+
+	while (NTimeUtilities::GetTime() < endTime)
+		NThread::Sleep();
 
 
 #else

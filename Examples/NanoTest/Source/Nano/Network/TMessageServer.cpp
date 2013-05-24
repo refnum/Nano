@@ -69,13 +69,20 @@ static const NString kStateServer									= kStateServerStarted				+
 																	  kStateServerReceivedMessage		+
 																	  NFormatString(kStateServerStopped, kNoErr);
 
-static const NString kStateClient1									= kStateClientConnected				+
+static const NString kStateClient1_Order1							= kStateClientConnected				+
 																	  kStateClientSentMessage			+
 																	  kStateClientSentMessage			+
 																	  kStateClientReceivedMessage		+
 																	  kStateClientReceivedMessage		+
 																	  NFormatString(kStateClientDisconnected, kNoErr);
 
+
+static const NString kStateClient1_Order2							= kStateClientConnected				+
+																	  kStateClientSentMessage			+
+																	  kStateClientReceivedMessage		+
+																	  kStateClientSentMessage			+
+																	  kStateClientReceivedMessage		+
+																	  NFormatString(kStateClientDisconnected, kNoErr);
 static const NString kStateClient2									= kStateClientConnected				+
 																	  kStateClientReceivedMessage		+
 																	  NFormatString(kStateClientDisconnected, kNoErr);
@@ -267,8 +274,8 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 			replyMsg = CreateMessage(kTestServerClientMsg, theMsg.GetSource());
 			replyMsg.SetValue(kTestTokenKey, kTokenServerClient);
 			
-			SendMessage(replyMsg);
 			mState += kStateServerSentMessage;
+			SendMessage(replyMsg);
 			break;
 
 
@@ -326,8 +333,8 @@ void TTestClient::Execute(void)
 	theMsg = CreateMessage(kTestClientBroadcastMsg, kNEntityEveryone);
 	theMsg.SetValue(kTestTokenKey, kTokenClientBroadcast);
 
-	SendMessage(theMsg);
 	mState += kStateClientSentMessage;
+	SendMessage(theMsg);
 
 
 
@@ -335,8 +342,8 @@ void TTestClient::Execute(void)
 	theMsg = CreateMessage(kTestClientServerMsg, kNEntityServer);
 	theMsg.SetValue(kTestTokenKey, kTokenClientServer);
 
-	SendMessage(theMsg);
 	mState += kStateClientSentMessage;
+	SendMessage(theMsg);
 
 
 
@@ -477,8 +484,15 @@ void TMessageServer::Execute(void)
 
 
 	// Validate our state
+	//
+	// Since client 1 both sends and receives messages it may receive a reply
+	// to its first message before it has finished sending its second message.
+	//
+	// As such we need to accept either order, as which we see will depend on
+	// exactly when the socket threads are rescheduled.
 	NN_ASSERT( testServer.GetState() == kStateServer);
-	NN_ASSERT(testClient1.GetState() == kStateClient1);
+	NN_ASSERT(testClient1.GetState() == kStateClient1_Order1 ||
+			  testClient1.GetState() == kStateClient1_Order2);
 	NN_ASSERT(testClient2.GetState() == kStateClient2);
 }
 
