@@ -34,6 +34,10 @@
 #include <string.h>
 #include <time.h>
 
+#if !defined(_MSC_VER) || (_MSC_VER >= 1600)
+	#include <stdint.h>
+#endif
+
 
 
 
@@ -48,11 +52,12 @@
 // are generally correct.
 //
 // These types are then adjusted to suit the appropriate system headers for
-// each platform, and then used to define the primitive Nano types.
+// each platform, then used to define the primitive Nano types.
 #define NANO_INT8													char
 #define NANO_INT16													short
 #define NANO_INT32													int
 #define NANO_INT64													long long
+#define NANO_INTPTR													uintptr_t
 
 #define NANO_UTF8													UInt8
 #define NANO_UTF16													UInt16
@@ -83,6 +88,21 @@
 	// UTF16 char type to match the native Win32 UTF16 type (wchar_t).
 	#undef  NANO_UTF16
 	#define NANO_UTF16												wchar_t
+
+
+	// UIntPtr
+	//
+	// Visual Studio does not provide C99's stdint.h until VS 2010, so for older
+	// compilers we need to provide our own version.
+	#if !defined(INTPTR_MAX)
+	#if NN_TARGET_ARCH_32
+		#undef  NANO_INTPTR
+		#define NANO_INTPTR											unsigned NANO_INT32
+	#else
+		#undef  NANO_INTPTR
+		#define NANO_INTPTR											unsigned NANO_INT64
+	#endif
+	#endif
 #endif
 
 
@@ -116,7 +136,7 @@ typedef NANO_UTF32													UTF32Char;
 
 
 // Misc
-typedef uintptr_t													UIntPtr;
+typedef NANO_INTPTR													UIntPtr;
 
 typedef SInt32														NIndex;
 typedef SInt32														NStatus;
