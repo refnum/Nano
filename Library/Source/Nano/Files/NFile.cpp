@@ -226,7 +226,9 @@ NComparison NFile::Compare(const NFile &theValue) const
 
 
 	// Compare the value
-	return(mPath.Compare(theValue.mPath));
+	//
+	// File paths are considered to be case-insensitive but case-preserving.
+	return(mPath.Compare(theValue.mPath, kNStringNoCase));
 }
 
 
