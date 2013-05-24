@@ -156,15 +156,31 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 //      NTargetFile::IsLink : Is this a link?
 //----------------------------------------------------------------------------
 bool NTargetFile::IsLink(const NString &thePath)
-{	DWORD		fileInfo;
-	bool		isLink;
+{	SHFILEINFO		shellInfo;
+	DWORD			fileInfo;
+	bool			isLink;
 
 
 
-	// Check the path
+	// Check for soft links
 	fileInfo = GetFileAttributes(ToWN(thePath));
 	isLink   = ((fileInfo & FILE_ATTRIBUTE_REPARSE_POINT) != 0);
-	
+
+
+
+	// Check for user links
+	//
+	// SHGetFileInfo will only return SFGAO_LINK if the file has a .lnk extension,
+	// even if IPersistFile would have been able to load the data.
+	//
+	// Since shortcuts are only usable in Explorer if they have a .lnk extension
+	// we assume that, like ResolveTarget, we can ignore 'raw' shortcuts.
+	if (!isLink)
+		{
+	    if ((SHGetFileInfo(ToWN(thePath), 0, &shellInfo, sizeof(shellInfo), SHGFI_ATTRIBUTES) != 0))
+			isLink = (shellInfo.dwAttributes & SFGAO_LINK);
+		}
+
 	return(isLink);
 }
 
@@ -456,8 +472,8 @@ NString NTargetFile::GetTarget(const NString &thePath)
 {	TCHAR			theBuffer[MAX_PATH];
 	IPersistFile	*persistFile;
 	IShellLink		*shellLink;
+	SHFILEINFO		shellInfo;
 	NString			theTarget;
-	SHFILEINFO		theInfo;
 
 
 
@@ -467,13 +483,15 @@ NString NTargetFile::GetTarget(const NString &thePath)
 	shellLink   = NULL;
 	persistFile = NULL;
 
-    if ((SHGetFileInfo(ToWN(thePath), 0, &theInfo, sizeof(theInfo), SHGFI_ATTRIBUTES) == 0))
+    if ((SHGetFileInfo(ToWN(thePath), 0, &shellInfo, sizeof(shellInfo), SHGFI_ATTRIBUTES) == 0))
 		return(theTarget);
 
-    if (!(theInfo.dwAttributes & SFGAO_LINK))
+    if (!(shellInfo.dwAttributes & SFGAO_LINK))
 		return(theTarget);
 
-    if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &shellLink)))
+	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+
+	if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &shellLink)))
 		shellLink->QueryInterface(IID_IPersistFile, (LPVOID *) &persistFile);
 
 
@@ -497,6 +515,8 @@ NString NTargetFile::GetTarget(const NString &thePath)
 	WNSafeRelease(persistFile);
 	WNSafeRelease(shellLink);
 
+	CoUninitialize();
+
 	return(theTarget);
 }
 
@@ -518,6 +538,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 	// Get the state we need
 	filePath.Format("%@\\*", thePath);
 	theDir = FindFirstFile(ToWN(filePath), &dirEntry);
+
 	if (theDir == INVALID_HANDLE_VALUE)
 		return(theFiles);
 
@@ -682,13 +703,46 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 //============================================================================
 //      NTargetFile::CreateLink : Create a link.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPath, NFileLink theType)
-{
+NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPath, NFileLink /*theType*/)
+{	IPersistFile	*persistFile;
+	IShellLink		*shellLink;
+	HRESULT			winErr;
 
 
-	// dair, to do
-	NN_LOG("NTargetFile::CreateLink not implemented!");
-	return(kNErrPermission);
+
+	// Get the state we need
+	winErr = ERROR_INVALID_HANDLE;
+
+	shellLink   = NULL;
+	persistFile = NULL;
+
+	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+
+    if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &shellLink)))
+		shellLink->QueryInterface(IID_IPersistFile, (LPVOID *) &persistFile);
+
+
+
+	// Create the link
+	//
+	// For now we always create shortcuts.
+	if (persistFile != NULL)
+		{
+		winErr = shellLink->SetPath(ToWN(targetPath));
+
+		if (SUCCEEDED(winErr))
+			winErr = persistFile->Save(ToWN(thePath), TRUE);
+		}
+
+
+
+	// Clean up
+	WNSafeRelease(persistFile);
+	WNSafeRelease(shellLink);
+
+	CoUninitialize();
+
+	return(NWinTarget::ConvertHRESULT(winErr));
 }
 
 
