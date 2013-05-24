@@ -612,46 +612,20 @@ void NTargetThread::MutexDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::MutexLock : Lock a mutex lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
+NStatus NTargetThread::MutexLock(NLockRef theLock, bool canBlock)
 {	pthread_mutex_t		*lockRef = (pthread_mutex_t *) theLock;
-	NTime				stopTime;
+	int					sysErr;
 	NStatus				theErr;
 
 
 
-	// Acquire with timeout
-	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		stopTime = NTimeUtilities::GetTime() + waitFor;
-		do
-			{
-			// Acquire the lock
-			theErr = pthread_mutex_trylock(lockRef);
-
-
-			// Handle failure
-			if (theErr != kNoErr)
-				{
-				NThread::Sleep(kNThreadSleepTime);
-
-				if (NTimeUtilities::GetTime() >= stopTime)
-					break;
-				}
-			}
-		while (theErr != kNoErr);
-		}
-
-
-
 	// Acquire the lock
+	if (canBlock)
+		sysErr = pthread_mutex_lock(   lockRef);
 	else
-		theErr = pthread_mutex_lock(lockRef);
-
-
-
-	// Convert the result
-	if (theErr != kNoErr)
-		theErr = kNErrTimeout;
+		sysErr = pthread_mutex_trylock(lockRef);
+	
+	theErr = (sysErr == 0) ? kNoErr : kNErrTimeout;
 
 	return(theErr);
 }
@@ -693,10 +667,7 @@ NLockRef NTargetThread::ReadWriteCreate(void)
 
 
 	// Create the lock
-	//
-	// We use calloc rather than malloc to avoid an uninitialised read
-	// warning from valgrind against Darwin's pthread implementation.
-	lockRef = (pthread_rwlock_t *) calloc(1, sizeof(pthread_rwlock_t));
+	lockRef = (pthread_rwlock_t *) malloc(sizeof(pthread_rwlock_t));
 	if (lockRef != NULL)
 		{
 		theErr = pthread_rwlock_init(lockRef, NULL);
@@ -733,54 +704,30 @@ void NTargetThread::ReadWriteDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::ReadWriteLock : Lock a read-write lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, NTime waitFor)
-{	pthread_rwlock_t		*lockRef = (pthread_rwlock_t *) theLock;
-	NTime					stopTime;
-	NStatus					theErr;
-
-
-
-	// Acquire with timeout
-	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		stopTime = NTimeUtilities::GetTime() + waitFor;
-		do
-			{
-			// Acquire the lock
-			if (forRead)
-				theErr = pthread_rwlock_tryrdlock(lockRef);
-			else
-				theErr = pthread_rwlock_trywrlock(lockRef);
-
-
-			// Handle failure
-			if (theErr != kNoErr)
-				{
-				NThread::Sleep(kNThreadSleepTime);
-
-				if (NTimeUtilities::GetTime() >= stopTime)
-					break;
-				}
-			}
-		while (theErr != kNoErr);
-		}
+NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, bool canBlock)
+{	pthread_rwlock_t	*lockRef = (pthread_rwlock_t *) theLock;
+	int					sysErr;
+	NStatus				theErr;
 
 
 
 	// Acquire the lock
+	if (canBlock)
+		{
+		if (forRead)
+			sysErr = pthread_rwlock_rdlock(lockRef);
+		else
+			sysErr = pthread_rwlock_wrlock(lockRef);
+		}
 	else
 		{
 		if (forRead)
-			theErr = pthread_rwlock_rdlock(lockRef);
+			sysErr = pthread_rwlock_tryrdlock(lockRef);
 		else
-			theErr = pthread_rwlock_wrlock(lockRef);
+			sysErr = pthread_rwlock_trywrlock(lockRef);
 		}
-
-
-
-	// Convert the result
-	if (theErr != kNoErr)
-		theErr = kNErrTimeout;
+	
+	theErr = (sysErr == 0) ? kNoErr : kNErrTimeout;
 
 	return(theErr);
 }
@@ -851,44 +798,21 @@ void NTargetThread::SpinDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::SpinLock : Lock a spin lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::SpinLock(NLockRef theLock, NTime waitFor)
+NStatus NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
 {	spinlock_t		*lockRef = (spinlock_t *) theLock;
-	NTime			stopTime;
 	NStatus			theErr;
 
 
 
-	// Acquire with timeout
-	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		stopTime = NTimeUtilities::GetTime() + waitFor;
-		theErr   = kNErrTimeout;
-		do
-			{
-			// Acquire the lock
-			if (spin_trylock(lockRef))
-				theErr = kNoErr;
-
-
-			// Handle failure
-			if (theErr != kNoErr)
-				{
-				NThread::Sleep(kNThreadSleepTime);
-
-				if (NTimeUtilities::GetTime() >= stopTime)
-					break;
-				}
-			}
-		while (theErr != kNoErr);
-		}
-
-
-
 	// Acquire the lock
+	theErr = kNoErr;
+	
+	if (canBlock)
+		spin_lock(lockRef);
 	else
 		{
-		spin_lock(lockRef);
-		theErr = kNoErr;
+		if (!spin_trylock(lockRef))
+			theErr = kNErrTimeout;
 		}
 
 	return(theErr);

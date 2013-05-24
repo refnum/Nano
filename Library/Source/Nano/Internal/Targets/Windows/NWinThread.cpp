@@ -43,14 +43,8 @@ static const UINT WM_INVOKEMAINTHREADFUNCTORS						= WM_USER + 1;
 //	http://forums.stonesteps.ca/thread.asp?t=105
 typedef struct {
 	CRITICAL_SECTION	theLock;
-	HANDLE				eventRead;
-	HANDLE				eventWrite;
-
-	NIndex				readersActive;
-	NIndex				readersWaiting;
-
-	NIndex				writersActive;
-	NIndex				writersWaiting;
+	NIndex				numReaders;
+	NIndex				numWriters;
 } RWLockRef;
 
 
@@ -264,199 +258,6 @@ static HWND CreateMainThreadWindow(void)
 	NN_ASSERT(theWindow != NULL);
 
 	return(theWindow);
-}
-
-
-
-
-
-//============================================================================
-//		RWReadLock : Acquire a read lock on a RW lock.
-//----------------------------------------------------------------------------
-static NStatus RWReadLock(RWLockRef *lockRef, NTime waitFor)
-{	bool		mustWait;
-	DWORD		timeMS;
-
-
-
-	// Get the state we need
-	timeMS   = NWinTarget::ConvertTimeMS(waitFor);
-	mustWait = false;
-
-
-
-	// Acquire the lock
-	do
-		{
-		// Try and acquire the lock
-		EnterCriticalSection(&lockRef->theLock);
-
-		if (lockRef->writersActive == 0 && lockRef->writersWaiting == 0)
-			{
-			if (mustWait)
-				{
-				lockRef->readersWaiting--;
-				mustWait = false;
-				}
-
-			lockRef->readersActive++;
-			}
-
-		else
-			{
-			if (!mustWait)
-				{
-				lockRef->readersWaiting++;
-				mustWait = true;
-				}
-			
-			ResetEvent(lockRef->eventRead);
-			}
-
-		LeaveCriticalSection(&lockRef->theLock);
-
-
-
-		// Wait for the lock
-		if (mustWait)
-			{
-			if (WaitForSingleObject(lockRef->eventRead, timeMS) != WAIT_OBJECT_0)
-				{
-				EnterCriticalSection(&lockRef->theLock);
-
-				lockRef->readersWaiting--;
-				SetEvent(lockRef->eventRead);
-				SetEvent(lockRef->eventWrite);
-
-				LeaveCriticalSection(&lockRef->theLock);
-				return(kNErrTimeout);
-				}
-			}
-		}
-	while (mustWait);
-	
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		RWReadUnlock : Release a read lock on a RW lock.
-//----------------------------------------------------------------------------
-static void RWReadUnlock(RWLockRef *lockRef)
-{
-
-
-	// Release the lock
-	EnterCriticalSection(&lockRef->theLock);
-
-	lockRef->readersActive--;
-
-	if (lockRef->writersWaiting != 0)
-		SetEvent(lockRef->eventWrite);
-
-	else if (lockRef->readersWaiting != 0)
-		SetEvent(lockRef->eventRead);
-
-	LeaveCriticalSection(&lockRef->theLock);
-}
-
-
-
-
-
-//============================================================================
-//		RWWriteLock : Acquire a write lock on a RW lock.
-//----------------------------------------------------------------------------
-static NStatus RWWriteLock(RWLockRef *lockRef, NTime waitFor)
-{	bool		mustWait;
-	DWORD		timeMS;
-
-
-
-	// Get the state we need
-	timeMS   = NWinTarget::ConvertTimeMS(waitFor);
-	mustWait = false;
-
-
-
-	// Acquire the lock
-	do
-		{
-		// Try and acquire the lock
-		EnterCriticalSection(&lockRef->theLock);
-
-		if (lockRef->readersActive == 0 && lockRef->writersActive == 0)
-			{
-			if (mustWait)
-				{
-				lockRef->writersWaiting--;
-				mustWait = false;
-				}
-
-			lockRef->writersActive++;
-			}
-		else
-			{
-			if (!mustWait)
-				{
-				lockRef->writersWaiting++;
-				mustWait = true;
-				}
-
-			ResetEvent(lockRef->eventWrite);
-			}
-
-		LeaveCriticalSection(&lockRef->theLock);
-
-
-
-		// Wait for the lock
-		if (mustWait)
-			{
-			if (WaitForSingleObject(lockRef->eventWrite, timeMS) != WAIT_OBJECT_0)
-				{
-				EnterCriticalSection(&lockRef->theLock);
-				
-				lockRef->writersWaiting--;
-				SetEvent(lockRef->eventRead);
-				SetEvent(lockRef->eventWrite);
-				
-				LeaveCriticalSection(&lockRef->theLock);
-				return(kNErrTimeout);
-				}
-			}
-		}
-	while (mustWait);
-
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		RWWriteUnlock : Release a write lock on a RW lock.
-//----------------------------------------------------------------------------
-static void RWWriteUnlock(RWLockRef *lockRef)
-{
-
-
-	// Release the lock
-	EnterCriticalSection(&lockRef->theLock);
-
-	lockRef->writersActive--;
-
-	if (lockRef->writersWaiting != 0)
-		SetEvent(lockRef->eventWrite);
-
-	else if (lockRef->readersWaiting != 0)
-		SetEvent(lockRef->eventRead);
-
-	LeaveCriticalSection(&lockRef->theLock);
 }
 
 
@@ -904,22 +705,18 @@ void NTargetThread::MutexDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::MutexLock : Lock a mutex lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
+NStatus NTargetThread::MutexLock(NLockRef theLock, bool canBlock)
 {	HANDLE		lockHnd = (HANDLE) theLock;
-	DWORD		timeMS, theResult;
+	DWORD		theResult;
+	NStatus		theErr;
 
 
 
-	// Get the state we need
-	timeMS = NWinTarget::ConvertTimeMS(waitFor);
+	// Acquire the lock
+	theResult = WaitForSingleObject(lockHnd, canBlock ? INFINITE : 0);
+	theErr    = (theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
 
-
-
-	// Wait for the semaphore
-	theResult = WaitForSingleObject(lockHnd, timeMS);
-	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
-
-	return(theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
+	return(theErr);
 }
 
 
@@ -962,14 +759,8 @@ NLockRef NTargetThread::ReadWriteCreate(void)
 	// Initialize the lock
 	InitializeCriticalSection(&lockRef->theLock);
 	
-	lockRef->eventRead  = CreateEvent(NULL, false, true, NULL);
-	lockRef->eventWrite = CreateEvent(NULL, false, true, NULL);
-	
-	lockRef->readersActive  = 0;
-	lockRef->readersWaiting = 0;
-
-	lockRef->writersActive  = 0;
-	lockRef->writersWaiting = 0;
+	lockRef->numReaders = 0;
+	lockRef->numWriters = 0;
 
 	return((NLockRef) lockRef);
 }
@@ -987,17 +778,12 @@ void NTargetThread::ReadWriteDestroy(NLockRef theLock)
 
 
 	// Validate our parameters
-	NN_ASSERT(lockRef->readersActive  == 0);
-	NN_ASSERT(lockRef->readersWaiting == 0);
-
-	NN_ASSERT(lockRef->writersActive  == 0);
-	NN_ASSERT(lockRef->writersWaiting == 0);
+	NN_ASSERT(lockRef->numReaders == 0);
+	NN_ASSERT(lockRef->numWriters == 0);
 
 
 
 	// Destroy the lock
-	WNSafeCloseHandle(lockRef->eventRead);
-	WNSafeCloseHandle(lockRef->eventWrite);
 	DeleteCriticalSection(&lockRef->theLock);
 	
 	delete lockRef;
@@ -1010,19 +796,48 @@ void NTargetThread::ReadWriteDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::ReadWriteLock : Lock a read-write lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, NTime waitFor)
+NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, bool canBlock)
 {	RWLockRef		*lockRef = (RWLockRef *) theLock;
-	NStatus			theErr;
+	bool			gotLock, areDone;
 
 
 
 	// Acquire the lock
-	if (forRead)
-		theErr = RWReadLock( lockRef, waitFor);
-	else
-		theErr = RWWriteLock(lockRef, waitFor);
-	
-	return(theErr);
+	do
+		{
+		// Try and acquire the lock
+		EnterCriticalSection(&lockRef->theLock);
+
+		if (forRead)
+			{
+			gotLock = (lockRef->numWriters == 0);
+			if (gotLock)
+				lockRef->numReaders++;
+			}
+		else
+			{
+			gotLock = (lockRef->numWriters == 0 && lockRef->numReaders == 0);
+			if (gotLock)
+				lockRef->numWriters++;
+			}
+
+		LeaveCriticalSection(&lockRef->theLock);
+
+
+
+		// Update our state
+		if (canBlock)
+			{
+			areDone = gotLock;
+			if (!areDone)
+				NThread::Sleep();
+			}
+		else
+			areDone = true;
+		}
+	while (!areDone);
+
+	return(gotLock ? kNoErr : kNErrTimeout);
 }
 
 
@@ -1038,10 +853,22 @@ void NTargetThread::ReadWriteUnlock(NLockRef theLock, bool forRead)
 
 
 	// Release the lock
+	EnterCriticalSection(&lockRef->theLock);
+
 	if (forRead)
-		RWReadUnlock( lockRef);
+		{
+		NN_ASSERT(lockRef->numReaders >= 1);
+		lockRef->numReaders--;
+		}
 	else
-		RWWriteUnlock(lockRef);
+		{
+		NN_ASSERT(lockRef->numReaders == 0);
+		NN_ASSERT(lockRef->numWriters == 1);
+	
+		lockRef->numWriters--;
+		}
+
+	LeaveCriticalSection(&lockRef->theLock);
 }
 
 
@@ -1093,46 +920,23 @@ void NTargetThread::SpinDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::SpinLock : Lock a spin lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::SpinLock(NLockRef theLock, NTime waitFor)
+NStatus NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
 {	CRITICAL_SECTION	*lockRef = (CRITICAL_SECTION *) lockRef;
-	NTime			stopTime;
-	NStatus			theErr;
-
-
-
-	// Acquire with timeout
-	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		stopTime = NTimeUtilities::GetTime() + waitFor;
-		theErr   = kNErrTimeout;
-		do
-			{
-			// Acquire the lock
-			if (TryEnterCriticalSection(lockRef))
-				theErr = kNoErr;
-
-
-			// Handle failure
-			if (theErr != kNoErr)
-				{
-				NThread::Sleep(kNThreadSleepTime);
-
-				if (NTimeUtilities::GetTime() >= stopTime)
-					break;
-				}
-			}
-		while (theErr != kNoErr);
-		}
+	NStatus				theErr;
 
 
 
 	// Acquire the lock
+	theErr = kNoErr;
+	
+	if (canBlock)
+		EnterCriticalSection(lockRef);
 	else
 		{
-		EnterCriticalSection(lockRef);
-		theErr = kNoErr;
+		if (!TryEnterCriticalSection(lockRef))
+			theErr = kNErrTimeout;
 		}
-
+	
 	return(theErr);
 }
 

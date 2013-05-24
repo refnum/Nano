@@ -14,21 +14,11 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NThreadUtilities.h"
 #include "NMathUtilities.h"
 #include "NTimeUtilities.h"
 #include "NTargetThread.h"
 #include "NThread.h"
 #include "NLock.h"
-
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const UInt32 kSpinLockMask										= (1 << 0);
 
 
 
@@ -42,8 +32,8 @@ NLock::NLock(void)
 
 
 	// Initialize ourselves
-	mCount = 0;
-	mLock  = kNLockRefNone;
+	mLock      = kNLockRefNone;
+	mLockCount = 0;
 }
 
 
@@ -62,6 +52,36 @@ NLock::~NLock(void)
 
 
 //============================================================================
+//		NLock::Lock : Acquire the lock.
+//----------------------------------------------------------------------------
+bool NLock::Lock(NTime waitFor)
+{
+
+
+	// Acquire the lock
+	return(Lock(mActionLock, waitFor));
+}
+
+
+
+
+
+//============================================================================
+//		NLock::Unlock : Release the lock.
+//----------------------------------------------------------------------------
+void NLock::Unlock(void)
+{
+
+
+	// Release the lock
+	Unlock(mActionUnlock);
+}
+
+
+
+
+
+//============================================================================
 //		NLock::IsLocked : Is the lock acquired?
 //----------------------------------------------------------------------------
 bool NLock::IsLocked(void) const
@@ -69,10 +89,7 @@ bool NLock::IsLocked(void) const
 
 
 	// Check our state
-	//
-	// We do not need to protect against a write happening while
-	// we read, since we do not offer any synchronisation.
-	return(mCount != 0);
+	return(mLockCount != 0);
 }
 
 
@@ -80,22 +97,43 @@ bool NLock::IsLocked(void) const
 
 
 //============================================================================
-//		NLock::AdjustLock : Adjust the lock.
+//		NLock::Lock : Acquire the lock.
 //----------------------------------------------------------------------------
-void NLock::AdjustLock(bool didLock)
-{
+bool NLock::Lock(const NLockFunctor &actionLock, NTime waitFor)
+{	NTime		stopTime;
+	NStatus		theErr;
+
 
 
 	// Validate our state
-	NN_ASSERT(mCount >= 0);
+	NN_ASSERT(mLockCount  >= 0);
+	NN_ASSERT(mLock       != kNLockRefNone);
+	NN_ASSERT(mActionLock != NULL);
+
+
+
+	// Acquire the lock
+	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		theErr = actionLock(mLock, true);
+	else
+		{
+		stopTime = NTimeUtilities::GetTime() + waitFor;
+		do
+			{
+			theErr = actionLock(mLock, false);
+			if (theErr == kNErrTimeout)
+				NThread::Sleep();
+			}
+		while (theErr != kNoErr && NTimeUtilities::GetTime() < stopTime);
+		}
 
 
 
 	// Update our state
-	if (didLock)
-		mCount++;
-	else
-		mCount--;
+	if (theErr == kNoErr)
+		mLockCount++;
+	
+	return(theErr == kNoErr);
 }
 
 
@@ -103,15 +141,42 @@ void NLock::AdjustLock(bool didLock)
 
 
 //============================================================================
+//		NLock::Unlock : Release the lock.
+//----------------------------------------------------------------------------
+void NLock::Unlock(const NUnlockFunctor &actionUnlock)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mLockCount    >= 1);
+	NN_ASSERT(mLock         != kNLockRefNone);
+	NN_ASSERT(mActionUnlock != NULL);
+	
+
+
+	// Release the lock
+	mLockCount--;
+
+	actionUnlock(mLock);
+}
+
+
+
+
+
+#pragma mark NMutexLock
+//============================================================================
 //		NSpinLock::NMutexLock : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NMutexLock::NMutexLock(void)
 {
 
 
 	// Initialize ourselves
 	mLock = NTargetThread::MutexCreate();
+
+	mActionLock   = BindFunction(NTargetThread::MutexLock,   _1, _2);
+	mActionUnlock = BindFunction(NTargetThread::MutexUnlock, _1);
 }
 
 
@@ -138,69 +203,22 @@ NMutexLock::~NMutexLock(void)
 
 
 
-//============================================================================
-//		NMutexLock::Lock : Acquire the lock.
-//----------------------------------------------------------------------------
-bool NMutexLock::Lock(NTime theTime)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(mLock != kNLockRefNone);
-
-
-
-	// Acquire the lock
-	theErr = NTargetThread::MutexLock(mLock, theTime);
-	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
-
-
-
-	// Update our state
-	if (theErr == kNoErr)
-		AdjustLock(true);
-	
-	return(theErr == kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NMutexLock::Unlock : Release the lock.
-//----------------------------------------------------------------------------
-void NMutexLock::Unlock(void)
-{
-
-
-	// Validate our state
-	NN_ASSERT(IsLocked());
-	NN_ASSERT(mLock != kNLockRefNone);
-	
-
-
-	// Release the lock
-	AdjustLock(false);
-	
-	NTargetThread::MutexUnlock(mLock);
-}
-
-
-
-
-
+#pragma mark NReadWriteLock
 //============================================================================
 //		NReadWriteLock::NReadWriteLock : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NReadWriteLock::NReadWriteLock(void)
 {
 
 
 	// Initialize ourselves
 	mLock = NTargetThread::ReadWriteCreate();
+
+	mActionLock       = BindFunction(NTargetThread::ReadWriteLock,   _1, false, _2);
+	mActionUnlock     = BindFunction(NTargetThread::ReadWriteUnlock, _1, false);
+
+	mActionLockRead   = BindFunction(NTargetThread::ReadWriteLock,   _1, true, _2);
+	mActionUnlockRead = BindFunction(NTargetThread::ReadWriteUnlock, _1, true);
 }
 
 
@@ -228,44 +246,14 @@ NReadWriteLock::~NReadWriteLock(void)
 
 
 //============================================================================
-//		NReadWriteLock::Lock : Acquire the lock for writing.
-//----------------------------------------------------------------------------
-bool NReadWriteLock::Lock(NTime theTime)
-{
-
-
-	// Acquire the lock
-	return(Lock(false, theTime));
-}
-
-
-
-
-
-//============================================================================
-//		NReadWriteLock::Unlock : Release the lock for writing.
-//----------------------------------------------------------------------------
-void NReadWriteLock::Unlock(void)
-{
-
-
-	// Release the lock
-	Unlock(false);
-}
-
-
-
-
-
-//============================================================================
 //		NReadWriteLock::LockForRead : Acquire the lock for reading.
 //----------------------------------------------------------------------------
-bool NReadWriteLock::LockForRead(NTime theTime)
+bool NReadWriteLock::LockForRead(NTime waitFor)
 {
 
 
 	// Acquire the lock
-	return(Lock(true, theTime));
+	return(Lock(mActionLockRead, waitFor));
 }
 
 
@@ -280,70 +268,26 @@ void NReadWriteLock::UnlockForRead(void)
 
 
 	// Release the lock
-	Unlock(true);
+	Unlock(mActionUnlockRead);
 }
 
 
 
 
 
-//============================================================================
-//		NReadWriteLock::Lock : Acquire the lock.
-//----------------------------------------------------------------------------
-bool NReadWriteLock::Lock(bool forRead, NTime theTime)
-{	NStatus		theErr;
-
-
-
-	// Acquire the lock
-	theErr = NTargetThread::ReadWriteLock(mLock, forRead, theTime);
-	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
-
-
-
-	// Update our state
-	if (theErr == kNoErr)
-		AdjustLock(true);
-	
-	return(theErr == kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NReadWriteLock::Unlock : Release the lock.
-//----------------------------------------------------------------------------
-void NReadWriteLock::Unlock(bool forRead)
-{
-
-
-	// Validate our state
-	NN_ASSERT(IsLocked());
-
-
-
-	// Release the lock
-	AdjustLock(false);
-	
-	NTargetThread::ReadWriteUnlock(mLock, forRead);
-}
-
-
-
-
-
+#pragma mark NSpinLock
 //============================================================================
 //		NSpinLock::NSpinLock : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NSpinLock::NSpinLock(void)
 {
 
 
 	// Initialize ourselves
 	mLock = NTargetThread::SpinCreate();
+
+	mActionLock   = BindFunction(NTargetThread::SpinLock,   _1, _2);
+	mActionUnlock = BindFunction(NTargetThread::SpinUnlock, _1);
 }
 
 
@@ -370,63 +314,10 @@ NSpinLock::~NSpinLock(void)
 
 
 
-//============================================================================
-//		NSpinLock::Lock : Acquire the lock.
-//----------------------------------------------------------------------------
-bool NSpinLock::Lock(NTime theTime)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(mLock != kNLockRefNone);
-
-
-
-	// Acquire the lock
-	theErr = NTargetThread::SpinLock(mLock, theTime);
-	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
-
-
-
-	// Update our state
-	if (theErr == kNoErr)
-		AdjustLock(true);
-	
-	return(theErr == kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NSpinLock::Unlock : Release the lock.
-//----------------------------------------------------------------------------
-void NSpinLock::Unlock(void)
-{
-
-
-	// Validate our state
-	NN_ASSERT(IsLocked());
-	NN_ASSERT(mLock != kNLockRefNone);
-	
-
-
-	// Release the lock
-	AdjustLock(false);
-	
-	NTargetThread::SpinUnlock(mLock);
-}
-
-
-
-
-
+#pragma mark StLock
 //============================================================================
 //		StLock::StLock : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 StLock::StLock(NLock &theLock)
 {
 

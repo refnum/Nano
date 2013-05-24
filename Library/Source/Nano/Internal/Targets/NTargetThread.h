@@ -76,21 +76,21 @@ public:
 	// Mutex lock
 	static NLockRef						MutexCreate(void);
 	static void							MutexDestroy(NLockRef theLock);
-	static NStatus						MutexLock(   NLockRef theLock, NTime waitFor);
+	static NStatus						MutexLock(   NLockRef theLock, bool canBlock);
 	static void							MutexUnlock( NLockRef theLock);
 
 
 	// Read/write lock
 	static NLockRef						ReadWriteCreate(void);
 	static void							ReadWriteDestroy(NLockRef theLock);
-	static NStatus						ReadWriteLock(   NLockRef theLock, bool forRead, NTime waitFor);
+	static NStatus						ReadWriteLock(   NLockRef theLock, bool forRead, bool canBlock);
 	static void							ReadWriteUnlock( NLockRef theLock, bool forRead);
 
 
 	// Spin lock
 	static NLockRef						SpinCreate(void);
 	static void							SpinDestroy(NLockRef theLock);
-	static NStatus						SpinLock(   NLockRef theLock, NTime waitFor);
+	static NStatus						SpinLock(   NLockRef theLock, bool canBlock);
 	static void							SpinUnlock( NLockRef theLock);
 };
 
