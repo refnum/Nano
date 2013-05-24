@@ -55,7 +55,7 @@ typedef struct _REG_TZI_FORMAT {
 // Maps
 typedef std::map<UINT_PTR, TimerInfo*>						TimerInfoMap;
 typedef TimerInfoMap::iterator								TimerInfoMapIterator;
-typedef TimerInfoMapIterator::const_iterator				TimerInfoMapIteratorConstIterator;
+typedef TimerInfoMap::const_iterator						TimerInfoMapIteratorConstIterator;
 
 
 
