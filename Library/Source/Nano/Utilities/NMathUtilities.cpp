@@ -762,10 +762,10 @@ UInt64 NMathUtilities::GetRandomUInt64(UInt64 valueMin, UInt64 valueMax)
 
 
 
+#pragma mark private
 //============================================================================
 //		NMathUtilities::GetRandomValue : Get a random value.
 //----------------------------------------------------------------------------
-#pragma mark -
 UInt32 NMathUtilities::GetRandomValue(UInt32 valueMin, UInt32 valueMax)
 {	UInt32		theValue, theRange;
 

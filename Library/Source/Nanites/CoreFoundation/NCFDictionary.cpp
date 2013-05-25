@@ -143,10 +143,10 @@ bool NCFDictionary::SetObject(CFDictionaryRef cfObject, bool takeOwnership)
 
 
 
+#pragma mark private
 //============================================================================
 //		NCFDictionary::InsertValue : Insert a value.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NCFDictionary::InsertValue(const void *keyPtr, const void *valuePtr, void *userData)
 {	NCFDictionary		*thisPtr = (NCFDictionary *) userData;
 	CFTypeRef			cfValue  = (CFTypeRef)       valuePtr;

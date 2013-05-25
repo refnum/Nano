@@ -178,10 +178,10 @@ NPreferences *NPreferences::Get(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		NPreferences::DoMessage : Handle messages.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NPreferences::DoMessage(NBroadcastMsg theMsg, const void *msgData)
 {	const NString		*theKey = (const NString *) msgData;
 

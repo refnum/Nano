@@ -374,7 +374,7 @@ template<class T> NSizeT<T>::operator NFormatArgument(void) const
 
 
 #else // NSIZE_CPP
-#pragma mark -
+#pragma mark NSizeX
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------

@@ -709,10 +709,10 @@ NData::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //		NData::GetMutable : Get the mutable value.
 //----------------------------------------------------------------------------
-#pragma mark -
 NDataValue *NData::GetMutable(void)
 {	NDataValue		*theValue;
 
@@ -805,10 +805,10 @@ void NData::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //      NData::Resize : Resize the value.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NData::Resize(NDataValue *theValue, NIndex theSize)
 {
 

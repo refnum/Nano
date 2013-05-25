@@ -111,10 +111,10 @@ NVariant NNumber::EncodableDecodeObject(const NEncoder &theEncoder)
 
 
 
+#pragma mark NNumber
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NNumber::NNumber(const NVariant &theValue)
 {
 
@@ -872,10 +872,10 @@ NNumber::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NNumber::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NNumber::EncodeSelf(NEncoder &theEncoder) const
 {
 

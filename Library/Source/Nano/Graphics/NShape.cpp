@@ -135,7 +135,6 @@ template<class T> NShapeT<T>::NShapeT(const NVariant &theValue)
 //============================================================================
 //		NShapeT::NShapeT : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 template<class T> NShapeT<T>::NShapeT(const std::vector< NPointT<T> > &thePoints, const NIndexList &theLoops)
 {
 
@@ -255,7 +254,7 @@ template<class T> NShapeT<T>::operator NFormatArgument(void) const
 
 
 #else // NSHAPE_CPP
-#pragma mark -
+#pragma mark NShapeX
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------

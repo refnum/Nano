@@ -80,10 +80,10 @@ void TTimer::Execute(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		TTimer::IncrementValue : Increment a value.
 //----------------------------------------------------------------------------
-#pragma mark -
 void TTimer::IncrementValue(UInt32 *theValue)
 {
 

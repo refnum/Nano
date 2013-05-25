@@ -536,10 +536,10 @@ NColor NColor::Interpolate(const NColor &startColor, const NColor &endColor, flo
 
 
 
+#pragma mark private
 //============================================================================
 //      NColor::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NColor::EncodeSelf(NEncoder &theEncoder) const
 {
 

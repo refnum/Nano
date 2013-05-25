@@ -157,7 +157,7 @@ private:
 //============================================================================
 //		TTestServer::TTestServer : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
+#pragma mark TTestServer
 TTestServer::TTestServer(void)
 {
 }
@@ -289,10 +289,10 @@ void TTestServer::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 
+#pragma mark TTestClient
 //============================================================================
 //		TTestClient::TTestClient : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 TTestClient::TTestClient(void)
 {
 
@@ -428,6 +428,7 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 
+#pragma mark TMessageServer
 //============================================================================
 //		TMessageServer::Execute : Execute the tests.
 //----------------------------------------------------------------------------

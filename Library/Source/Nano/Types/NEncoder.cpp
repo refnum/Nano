@@ -267,10 +267,10 @@ bool NEncoder::CanEncode(const NVariant &theValue)
 
 
 
+#pragma mark protected
 //============================================================================
 //		NEncoder::GetKeys : Get the current object's keys.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStringList NEncoder::GetKeys(void) const
 {	const NXMLNodeList				*theChildren;
 	const NXMLNode					*theParent;
@@ -678,10 +678,10 @@ void NEncoder::RegisterClass(const NString &className, const NEncoderClassInfo &
 
 
 
+#pragma mark private
 //============================================================================
 //		NEncoder::GetFormat : Get the format of encoded data.
 //----------------------------------------------------------------------------
-#pragma mark -
 NEncoderFormat NEncoder::GetFormat(const NData &theData)
 {	NEncoderFormat		theFormat;
 	const UInt8			*dataPtr;

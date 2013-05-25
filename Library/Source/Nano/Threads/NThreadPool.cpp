@@ -68,7 +68,6 @@ struct ComparePriority
 //============================================================================
 //		NThreadPool::NThreadPool : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NThreadPool::NThreadPool(void)
 			: mSemaphore(kMaxTasks)
 {
@@ -312,10 +311,10 @@ bool NThreadPool::WaitForTasks(NTime waitFor)
 
 
 
+#pragma mark protected
 //============================================================================
 //		NThreadPool::PushTask : Push a task.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NThreadPool::PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
 {
 
@@ -391,10 +390,10 @@ void NThreadPool::SchedulePriority(NThreadTaskList &theTasks)
 
 
 
+#pragma mark private
 //============================================================================
 //		NThreadPool::StopThreads : Stop the threads.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NThreadPool::StopThreads(void)
 {	NIndex		n;
 

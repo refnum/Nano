@@ -109,12 +109,10 @@ static NStatus DeviceControl(HANDLE hVolume, DWORD ioCode, NIndex inSize, const 
 
 
 
+#pragma mark NTargetFile
 //============================================================================
-//      Public functions
-//----------------------------------------------------------------------------
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NTargetFile::IsFile(const NString &thePath)
 {	DWORD		fileInfo;
 	bool		isFile;

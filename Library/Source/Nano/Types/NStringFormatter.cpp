@@ -179,7 +179,6 @@ NString NFormatArgument::GetValue(const NString &theFormat) const
 //============================================================================
 //		NFormatArgument::GetValueULong : Get an unsigned long value.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NFormatArgument::GetValueULong(const NString &theFormat, unsigned long theValue)
 {
 
@@ -430,10 +429,10 @@ bool NFormatArgument::IsValidType(const NString &theFormat, const char *validTyp
 
 
 
+#pragma mark NStringFormatter
 //============================================================================
 //		NStringFormatter::NStringFormatter : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStringFormatter::NStringFormatter(void)
 {
 }
@@ -471,10 +470,10 @@ NString NStringFormatter::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
 
 
 
+#pragma mark private
 //============================================================================
 //		NStringFormatter::Format : Format an argument list.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NStringFormatter::Format(const NString &theFormat, const NFormatArgumentList &theArguments)
 {	const char			*textUTF8, *tokenStart, *tokenEnd;
 	NString				theResult, theToken;

@@ -170,10 +170,10 @@ void NThreadUtilities::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 
+#pragma mark private
 //============================================================================
 //		NThreadUtilities::DelayedFunctor : Execute a delayed functor.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NThreadUtilities::DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread)
 {
 

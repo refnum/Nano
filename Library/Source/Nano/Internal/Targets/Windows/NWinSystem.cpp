@@ -239,12 +239,10 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 
 
 
+#pragma mark NTargetSystem
 //============================================================================
-//      Public functions
-//----------------------------------------------------------------------------
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NTargetSystem::DebugLog(const char *theMsg)
 {	static TCHAR		sLogFilePath[MAX_PATH];
 	static bool			sLogFileInited = false;

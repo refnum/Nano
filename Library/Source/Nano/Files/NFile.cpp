@@ -997,10 +997,10 @@ NFile::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NFile::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NFile::EncodeSelf(NEncoder &theEncoder) const
 {
 
@@ -1028,10 +1028,10 @@ void NFile::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //		NFile::InitializeSelf : Initialize the file.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NFile::InitializeSelf(const NString &thePath)
 {
 

@@ -111,10 +111,10 @@ NNetworkManager *NNetworkManager::Get(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		NNetworkManager::GetDefaultUserAgent : Get the default user agent.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NNetworkManager::GetDefaultUserAgent(void)
 {	NString		appName, appVers, osName, sysArch;
 	UInt64		numCPUs, sysCPU, sysRAM;

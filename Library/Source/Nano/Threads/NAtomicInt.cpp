@@ -54,10 +54,10 @@ NAtomicInt::~NAtomicInt(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		NAtomicInt::Compare : Compare the value.
 //----------------------------------------------------------------------------
-#pragma mark -
 NComparison NAtomicInt::Compare(const SInt32 &theValue) const
 {	SInt32		myValue;
 

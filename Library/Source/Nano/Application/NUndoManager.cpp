@@ -486,10 +486,10 @@ void NUndoManager::RecordAction(const NFunctor &theAction)
 
 
 
+#pragma mark private
 //============================================================================
 //		NUndoManager::UpdatedStacks : The undo stacks have been modified.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NUndoManager::UpdatedStacks(void)
 {
 

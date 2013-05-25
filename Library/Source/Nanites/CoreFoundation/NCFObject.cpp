@@ -150,10 +150,10 @@ const NCFObject& NCFObject::operator = (const NCFObject &theObject)
 
 
 
+#pragma mark private
 //============================================================================
 //		NCFObject::InitializeSelf : Initialize ourselves.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NCFObject::InitializeSelf(CFTypeRef cfObject, bool takeOwnership)
 {
 

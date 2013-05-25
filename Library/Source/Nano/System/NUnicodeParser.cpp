@@ -642,10 +642,10 @@ UTF32Char NUnicodeParser::GetNativeUTF32(UTF32Char theChar, NStringEncoding theE
 
 
 
+#pragma mark private
 //============================================================================
 //		NUnicodeParser::GetCodePointsUTF8 : Get the code points from a UTF8 string.
 //----------------------------------------------------------------------------
-#pragma mark -
 NRangeList NUnicodeParser::GetCodePointsUTF8(const NRange &theBOM) const
 {	NIndex			n, theSize, charSize;
 	NRangeList		theResult;

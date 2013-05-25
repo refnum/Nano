@@ -168,10 +168,10 @@ NIndex NMessageClient::GetPendingWrites(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //		NMessageClient::AcceptConnection : Accept the connection.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NMessageClient::AcceptConnection(const NDictionary &/*serverInfo*/, NDictionary &/*clientInfo*/)
 {
 
@@ -234,10 +234,10 @@ void NMessageClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 
+#pragma mark protected (private)
 //============================================================================
 //		NMessageClient::ProcessMessage : Process a message.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NMessageClient::ProcessMessage(const NNetworkMessage &theMsg)
 {	NEntityID		dstID;
 
@@ -317,10 +317,10 @@ void NMessageClient::SocketDidClose(NSocket *theSocket, NStatus theErr)
 
 
 
+#pragma mark private
 //============================================================================
 //		NMessageClient::ClientThread : Client thread.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NMessageClient::ClientThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgConnectRequest, msgConnectResponse;
 	NMessageHandshake		serverHandshake;

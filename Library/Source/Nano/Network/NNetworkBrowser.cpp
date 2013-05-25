@@ -196,10 +196,10 @@ void NNetworkBrowser::SetServices(const NStringList &theServices)
 
 
 
+#pragma mark private
 //============================================================================
 //		NNetworkBrowser::DispatchEvent : Dispatch an event.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NNetworkBrowser::DispatchEvent(const NNetworkBrowserEvent &theEvent)
 {
 

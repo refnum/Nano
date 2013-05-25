@@ -571,10 +571,10 @@ NSocketConnectionFunctor NMessageServer::SocketHasConnection(NSocket *theSocket,
 
 
 
+#pragma mark private
 //============================================================================
 //		NMessageServer::ServerThread : Server thread.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NMessageServer::ServerThread(NSocket *theSocket)
 {	NNetworkMessage			msgServerInfo, msgConnectRequest, msgConnectResponse;
 	NStatus					theErr, acceptErr;

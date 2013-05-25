@@ -148,10 +148,10 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML, NStatus *parseErr, const NP
 
 
 
+#pragma mark private
 //============================================================================
 //		NXMLEncoder::EncodeNode : Encode a node to XML.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theIndent)
 {	NString			theText;
 

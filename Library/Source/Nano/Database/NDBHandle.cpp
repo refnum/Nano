@@ -537,10 +537,10 @@ void *NDBHandle::GetDatabase(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		NDBHandle::SQLiteExecute : Execute a query.
 //----------------------------------------------------------------------------
-#pragma mark -
 NDBStatus NDBHandle::SQLiteExecute(const NDBQuery &theQuery, const NDBResultFunctor &theResult, NTime waitFor)
 {	bool				areDone, waitForever;
 	sqlite3_stmt		*sqlQuery;

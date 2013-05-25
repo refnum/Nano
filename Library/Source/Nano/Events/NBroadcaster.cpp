@@ -126,7 +126,6 @@ bool NBroadcaster::HasListeners(void) const
 //============================================================================
 //		NBroadcaster::AddListener : Add a listener.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NBroadcaster::AddListener(NListener *theListener)
 {
 
@@ -299,10 +298,10 @@ const NBroadcaster &NBroadcaster::operator = (const NBroadcaster &theBroadcaster
 
 
 
+#pragma mark private
 //=============================================================================
 //		NBroadcaster::CloneBroadcaster : Clone a broadcaster.
 //-----------------------------------------------------------------------------
-#pragma mark -
 void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
 {	NListenerMapConstIterator	theIter;
 

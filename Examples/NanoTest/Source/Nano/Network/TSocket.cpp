@@ -240,10 +240,10 @@ void TSocketServer::HandleConnection(NSocket *theSocket)
 
 
 
+#pragma mark TSocketClient
 //============================================================================
 //		TSocketClient::TSocketClient : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 TSocketClient::TSocketClient(void)
 {
 }
@@ -398,10 +398,10 @@ void TSocketClient::SocketDidClose(NSocket * /*theSocket*/, NStatus theErr)
 
 
 
+#pragma mark TSocket
 //============================================================================
 //		TSocket::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-#pragma mark -
 void TSocket::Execute(void)
 {	TSocketServer		*theServer;
 	TSocketClient		*theClient;

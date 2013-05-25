@@ -391,10 +391,10 @@ void TString::Execute(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		TString::Encode : Encode a string in a specific encoding.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString TString::Encode(const NString &theValue, NStringEncoding theEncoding)
 {	NString		newString;
 

@@ -211,10 +211,10 @@ NDebug *NDebug::Get(void)
 
 
 
+#pragma mark private
 //============================================================================
 //      NDebug::GetFileName : Get the file name.
 //----------------------------------------------------------------------------
-#pragma mark -
 const char *NDebug::GetFileName(const char *thePath)
 {	const char		*fileName;
 

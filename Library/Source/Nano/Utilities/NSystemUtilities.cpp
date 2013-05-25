@@ -723,10 +723,10 @@ NComparison NSystemUtilities::CompareVersions(const NString &version1, const NSt
 
 
 
+#pragma mark private
 //============================================================================
 //		NSystemUtilities::GetVersionParts : Get a version's parts.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStringList NSystemUtilities::GetVersionParts(const NString &theVersion)
 {	NIndex			lastType, partType;
 	NString			thePart, theChar;

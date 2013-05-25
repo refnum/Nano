@@ -808,10 +808,10 @@ NStatus NSocket::SetOption(NSocketOption theOption, SInt32 theValue)
 
 
 
+#pragma mark public (private)
 //============================================================================
 //		NSocket::SocketEvent : Handle events.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NSocket::SocketEvent(NSocketEvent theEvent, UIntPtr theValue)
 {
 
@@ -858,10 +858,10 @@ void NSocket::SocketEvent(NSocketEvent theEvent, UIntPtr theValue)
 
 
 
+#pragma mark private
 //============================================================================
 //		NSocket::InitialiseSelf : Initialise ourselves.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NSocket::InitialiseSelf(NSocketDelegate *theDelegate)
 {
 
@@ -1313,10 +1313,10 @@ void NSocket::ConnectionThread(const NSocketConnectionFunctor &theFunctor, NSock
 
 
 
+#pragma mark NSocketDelegate
 //============================================================================
 //		NSocketDelegate::NSocketDelegate : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NSocketDelegate::NSocketDelegate(void)
 {
 }

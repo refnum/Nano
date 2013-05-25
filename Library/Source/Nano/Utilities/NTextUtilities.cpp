@@ -210,10 +210,10 @@ NStringList NTextUtilities::GetArguments(va_list argList, const char *arg1)
 
 
 
+#pragma mark private
 //============================================================================
 //      NTextUtilities::GetEntityDictionary : Get the entity dictionary.
 //----------------------------------------------------------------------------
-#pragma mark -
 NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities, bool forEncode)
 {	static bool				sStandardInited = false;
 	static NDictionary		sStandardEncode;

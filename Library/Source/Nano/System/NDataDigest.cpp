@@ -286,10 +286,10 @@ NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
 
 
 
+#pragma mark private
 //============================================================================
 //		NDataDigest::GetQuad : Get a byte quad string.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NDataDigest::GetQuad(const UInt8 *theBytes) const
 {	NString		theResult;
 

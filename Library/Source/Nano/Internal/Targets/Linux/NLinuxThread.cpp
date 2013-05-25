@@ -91,12 +91,12 @@ void NFunctorInvoker::Invoke(void)
 
 
 
+#pragma mark internal
 //============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
 //		InvokeMainThreadFunctors : Invoke the main-thread functors.
 //----------------------------------------------------------------------------
-#pragma mark -
 static void InvokeMainThreadFunctors(void)
 {	static bool			sIsInvoking = false;
 
@@ -154,12 +154,12 @@ static void *ThreadEntry(void *userData)
 
 
 
+#pragma mark NTargetThread
 //============================================================================
 //		Public functions
 //----------------------------------------------------------------------------
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
-#pragma mark -
 UInt32 NTargetThread::GetCPUCount(void)
 {	UInt32		theResult;
 

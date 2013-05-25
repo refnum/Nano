@@ -436,10 +436,10 @@ NString NTask::Execute(const char *cmd, NN_TASK_ARGS_PARAM)
 
 
 
+#pragma mark private
 //============================================================================
 //		NTask::UpdateTask : Update the task status.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NTask::UpdateTask(NTime waitFor) const
 {
 

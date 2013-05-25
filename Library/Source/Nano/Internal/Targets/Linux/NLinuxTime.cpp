@@ -145,12 +145,12 @@ static void UnlockTimeZone(void)
 
 
 
+#pragma mark NTargetTime
 //============================================================================
 //		Public functions
 //----------------------------------------------------------------------------
 //		NTargetTime::GetTime : Get the time.
 //----------------------------------------------------------------------------
-#pragma mark -
 NTime NTargetTime::GetTime(void)
 {	struct timeval		timeVal;
 	NTime				theTime;

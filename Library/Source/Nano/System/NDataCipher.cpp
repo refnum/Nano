@@ -199,10 +199,10 @@ NData NDataCipher::Decrypt(const NData &srcData, NEncryption theAlgorithm)
 
 
 
+#pragma mark private
 //============================================================================
 //		NDataCipher::Null_Encrypt : Encrypt using null encryption.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NDataCipher::Null_Encrypt(NData &/*theData*/)
 {
 

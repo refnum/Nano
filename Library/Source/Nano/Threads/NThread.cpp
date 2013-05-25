@@ -265,10 +265,10 @@ void NThread::InvokeMain(const NFunctor &theFunctor)
 
 
 
+#pragma mark protected
 //============================================================================
 //		NThread::ShouldStop : Should the thread stop?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NThread::ShouldStop(void) const
 {
 
@@ -281,10 +281,10 @@ bool NThread::ShouldStop(void) const
 
 
 
+#pragma mark private
 //============================================================================
 //		NThread::InvokeRun : Invoke a thread.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NThread::InvokeRun(void)
 {
 

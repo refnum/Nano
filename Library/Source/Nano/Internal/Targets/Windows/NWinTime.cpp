@@ -414,12 +414,10 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 
 
 
+#pragma mark NTargetTime
 //============================================================================
-//      Public functions
-//----------------------------------------------------------------------------
 //		NTargetTime::GetTime : Get the time.
 //----------------------------------------------------------------------------
-#pragma mark -
 NTime NTargetTime::GetTime(void)
 {	FILETIME		fileTime;
 	NTime			theTime;

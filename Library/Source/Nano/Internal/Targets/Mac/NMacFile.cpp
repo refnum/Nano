@@ -212,12 +212,12 @@ static NStatus CreateAlias(const NString &thePath, const NString &targetPath)
 
 
 
+#pragma mark NTargetFile
 //============================================================================
 //      Public functions
 //----------------------------------------------------------------------------
 //      NTargetFile::IsFile : Is this a file?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NTargetFile::IsFile(const NString &thePath)
 {	struct stat		fileInfo;
 	int				sysErr;

@@ -832,10 +832,10 @@ NArray::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //		NArray::GetNullValue : Get the null value.
 //----------------------------------------------------------------------------
-#pragma mark -
 const NArrayValue *NArray::GetNullValue(void) const
 {	static NArrayValue		sNullValue;
 
@@ -974,10 +974,10 @@ void NArray::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //		NArray::GetCompareFunctor : Get a comparison functor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NArrayCompareFunctor NArray::GetCompareFunctor(const NArrayCompareFunctor &theFunctor) const
 {	NArrayCompareFunctor	compareWith;
 

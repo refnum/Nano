@@ -124,10 +124,10 @@ NNetworkMessage NMessageEntity::CreateMessage(NMessageType theType, NEntityID ds
 
 
 
+#pragma mark protected
 //============================================================================
 //		NMessageEntity::CreateHandshake : Create a handshake.
 //----------------------------------------------------------------------------
-#pragma mark -
 NMessageHandshake NMessageEntity::CreateHandshake(void) const
 {	NMessageHandshake		theHandshake;
 

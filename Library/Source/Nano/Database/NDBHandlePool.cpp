@@ -425,10 +425,10 @@ NData NDBHandlePool::ExecuteData(const NDBQuery &theQuery)
 
 
 
+#pragma mark private
 //============================================================================
 //		NDBHandlePool::CreateConnection : Create a connection.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NDBHandlePool::CreateConnection(NDBHandlePtr &dbHandle)
 {	NStatus		theErr;
 

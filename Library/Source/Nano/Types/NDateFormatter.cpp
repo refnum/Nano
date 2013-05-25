@@ -207,10 +207,10 @@ NString NDateFormatter::Format(const NGregorianDate &theDate, const NString &the
 
 
 
+#pragma mark protected
 //============================================================================
 //		NDateFormatter::GetTokenEnd : Get the end of a token.
 //----------------------------------------------------------------------------
-#pragma mark -
 const char *NDateFormatter::GetTokenEnd(const char *tokenStart) const
 {	bool			isQuote, areDone;
 	const char		*tokenEnd;

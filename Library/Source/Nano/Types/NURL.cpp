@@ -267,10 +267,10 @@ NURL::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NURL::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NURL::EncodeSelf(NEncoder &theEncoder) const
 {
 
@@ -298,10 +298,10 @@ void NURL::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //		NURL::GetToken : Get a token.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NURL::GetToken(const NString &thePattern) const
 {	NString			theResult;
 	NRangeList		theRanges;

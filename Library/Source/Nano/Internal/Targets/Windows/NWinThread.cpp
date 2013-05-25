@@ -264,12 +264,10 @@ static HWND CreateMainThreadWindow(void)
 
 
 
+#pragma mark NTargetThread
 //============================================================================
-//      Public functions
-//----------------------------------------------------------------------------
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
-#pragma mark -
 UInt32 NTargetThread::GetCPUCount(void)
 {	SYSTEM_INFO		sysInfo;
 

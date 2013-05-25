@@ -173,10 +173,10 @@ void NNetworkService::RemoveServices(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		NNetworkService::GetServiceID : Get a service ID.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NNetworkService::GetServiceID(const NString &serviceType, UInt16 thePort) const
 {	NString		theID;
 

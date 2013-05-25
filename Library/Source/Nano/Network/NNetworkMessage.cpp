@@ -290,10 +290,10 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 
 
 
+#pragma mark private
 //============================================================================
 //		NNetworkMessage::CompressBody : Compress the body.
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NNetworkMessage::CompressBody(NData &theBody) const
 {	NIndex					compressedSize, bodySize;
 	NData					compressedBody;

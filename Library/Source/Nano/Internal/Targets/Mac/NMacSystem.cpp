@@ -203,10 +203,10 @@ static SInt32 GestaltSInt32(OSType theSelector)
 
 
 
+#pragma mark NTargetSystem
 //============================================================================
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NTargetSystem::DebugLog(const char *theMsg)
 {
 

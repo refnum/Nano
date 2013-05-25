@@ -321,10 +321,10 @@ NString NBundle::GetString(const NString &theKey, const NString &defaultValue, c
 
 
 
+#pragma mark private
 //============================================================================
 //		NBundle::GetBundleInfo : Get a bundle's info dictionary.
 //----------------------------------------------------------------------------
-#pragma mark -
 NDictionary NBundle::GetBundleInfo(void) const
 {	NBundleInfo			*bundleInfo;
 	NDictionary			theResult;

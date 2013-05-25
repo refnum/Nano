@@ -122,10 +122,10 @@ void TArray::Execute(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		TArray::ForEach : ForEach functor.
 //----------------------------------------------------------------------------
-#pragma mark -
 void TArray::ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount)
 {
 

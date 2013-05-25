@@ -145,10 +145,10 @@ void NUndoSource::TrackUndo(bool beginTrack, bool canFlush)
 
 
 
+#pragma mark private
 //============================================================================
 //		NUndoSource::GetUndoManager : Get the undo manager.
 //----------------------------------------------------------------------------
-#pragma mark -
 NUndoManager *NUndoSource::GetUndoManager(void) const
 {
 

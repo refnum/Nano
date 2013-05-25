@@ -933,7 +933,7 @@ template<class T> NRectangleT<T>::operator NFormatArgument(void) const
 
 
 #else // NRECTANGLE_CPP
-#pragma mark -
+#pragma mark NRectangleX
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------

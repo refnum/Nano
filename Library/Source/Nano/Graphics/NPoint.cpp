@@ -422,7 +422,7 @@ template<class T> NPointT<T>::operator NFormatArgument(void) const
 
 
 #else // NPOINT_CPP
-#pragma mark -
+#pragma mark NPointX
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------

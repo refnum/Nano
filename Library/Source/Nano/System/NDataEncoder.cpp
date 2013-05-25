@@ -105,10 +105,10 @@ NData NDataEncoder::Decode(const NString &theValue, NDataEncoding theEncoding)
 
 
 
+#pragma mark private
 //============================================================================
 //		NDataEncoder::Hex_Encode : Encode to hex.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NDataEncoder::Hex_Encode(const NData &theValue)
 {	NIndex			n, theSize;
 	NData			tmpBuffer;

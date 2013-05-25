@@ -98,10 +98,10 @@ NVariant NJSONEncoder::Decode(const NString &theJSON)
 
 
 
+#pragma mark private
 //============================================================================
 //		NJSONEncoder::EncodeValue : Encode an NVariant.
 //----------------------------------------------------------------------------
-#pragma mark -
 NString NJSONEncoder::EncodeValue(const NVariant &theValue, const NString &theIndent)
 {	NDictionary		valueDictionary;
 	NString			valueString;

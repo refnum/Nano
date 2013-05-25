@@ -491,10 +491,10 @@ NBitVector::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NBitVector::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NBitVector::EncodeSelf(NEncoder &theEncoder) const
 {
 
@@ -522,10 +522,10 @@ void NBitVector::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //		NBitVector::UpdateSize : Update the size.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NBitVector::UpdateSize(NIndex numBits)
 {
 

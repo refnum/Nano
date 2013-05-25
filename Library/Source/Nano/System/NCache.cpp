@@ -366,10 +366,10 @@ void NCache::SetMaxCost(NIndex theValue)
 
 
 
+#pragma mark private
 //============================================================================
 //		NCache::NeedsPurge : Does the cache need to purge?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NCache::NeedsPurge(void)
 {	bool		needsPurge;
 

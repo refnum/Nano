@@ -259,10 +259,10 @@ NUTI::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NUTI::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NUTI::EncodeSelf(NEncoder &theEncoder) const
 {
 

@@ -572,10 +572,10 @@ NDictionary::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //		NDictionary::GetNullValue : Get the null value.
 //----------------------------------------------------------------------------
-#pragma mark -
 const NDictionaryValue *NDictionary::GetNullValue(void) const
 {	static NDictionaryValue		sNullValue;
 

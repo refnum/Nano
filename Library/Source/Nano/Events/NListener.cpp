@@ -123,7 +123,6 @@ bool NListener::IsListeningTo(const NBroadcaster *theBroadcaster) const
 //============================================================================
 //		NListener::RemoveFromBroadcasters : Remove all broadcasters.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NListener::RemoveFromBroadcasters(void)
 {	NBroadcaster			*theBroadcaster;
 	NBroadcasterMap			theList;
@@ -160,10 +159,10 @@ const NListener &NListener::operator = (const NListener &theListener)
 
 
 
+#pragma mark protected
 //============================================================================
 //		NListener::AddBroadcaster : Add a broadcaster.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NListener::AddBroadcaster(NBroadcaster *theBroadcaster)
 {
 
@@ -203,6 +202,7 @@ void NListener::RemoveBroadcaster(NBroadcaster *theBroadcaster)
 
 
 
+#pragma mark private
 //=============================================================================
 //		NListener::CloneListener : Clone a listener.
 //-----------------------------------------------------------------------------

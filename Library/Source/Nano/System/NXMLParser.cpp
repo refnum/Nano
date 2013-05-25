@@ -351,10 +351,10 @@ void NXMLParser::SetProcessText(const NXMLProcessTextFunctor &theFunctor)
 
 
 
+#pragma mark protected
 //============================================================================
 //		NXMLParser::ProcessDocumentType : Process a document type.
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NXMLParser::ProcessDocumentType(const NString &theName, const NXMLDocumentTypeInfo &theInfo)
 {
 
@@ -442,10 +442,10 @@ bool NXMLParser::ProcessText(const NString &theValue, bool isCData)
 
 
 
+#pragma mark private
 //============================================================================
 //		NXMLParser::CreateParser : Create the parser.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NXMLParser::CreateParser(void)
 {
 

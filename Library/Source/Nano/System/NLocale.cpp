@@ -78,10 +78,10 @@ bool NLocale::IsMetric(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //		NLocale::DoMessage : Handle messages.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NLocale::DoMessage(NBroadcastMsg theMsg, const void *msgData)
 {
 
@@ -101,10 +101,10 @@ void NLocale::DoMessage(NBroadcastMsg theMsg, const void *msgData)
 
 
 
+#pragma mark private
 //============================================================================
 //		NLocale::GetValue : Get a local value.
 //----------------------------------------------------------------------------
-#pragma mark -
 NVariant NLocale::GetValue(const NString &theKey) const
 {
 

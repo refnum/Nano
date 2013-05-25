@@ -192,10 +192,10 @@ NStatus NURLResponse::WaitForReply(NData &theData)
 
 
 
+#pragma mark public (private)
 //============================================================================
 //		NURLResponse::DelegateData : Invoke the delegate.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NURLResponse::DelegateData(NIndex theSize, const void *thePtr)
 {
 
@@ -225,10 +225,10 @@ void NURLResponse::DelegateFinished(NStatus theErr)
 
 
 
+#pragma mark private
 //============================================================================
 //		NURLResponse::WaitData : Wait data delegate method.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NURLResponse::WaitData(NData *theResult, NIndex theSize, const void *thePtr)
 {
 

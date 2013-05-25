@@ -501,7 +501,7 @@ template<class T> NVectorT<T>::operator NFormatArgument(void) const
 
 
 #else // NVECTOR_CPP
-#pragma mark -
+#pragma mark NVectorX
 //============================================================================
 //		Public constants
 //----------------------------------------------------------------------------

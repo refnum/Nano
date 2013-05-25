@@ -454,10 +454,10 @@ NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
 
 
 
+#pragma mark protected
 //============================================================================
 //		NStringEncoder::GetMaxCharSize : Get the maximum size of a character.
 //----------------------------------------------------------------------------
-#pragma mark -
 NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
 {	NIndex		theSize;
 

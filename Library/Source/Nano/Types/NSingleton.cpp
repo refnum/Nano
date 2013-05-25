@@ -95,10 +95,10 @@ void NSingleton::DestroyObjects(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		NSingleton::SetInstance : Set the instance pointer.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NSingleton::SetInstance(void **thePtr)
 {
 

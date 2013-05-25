@@ -186,12 +186,10 @@ static NString GetProcInfoFile(const NString &thePath)
 
 
 
+#pragma mark NTargetSystem
 //============================================================================
-//      Public functions
-//----------------------------------------------------------------------------
 //      NTargetSystem::DebugLog : Emit a debug message.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NTargetSystem::DebugLog(const char *theMsg)
 {
 

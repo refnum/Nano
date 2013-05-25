@@ -168,10 +168,10 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 
 
 
+#pragma mark NTargetTime
 //============================================================================
 //		NTargetTime::GetTime : Get the time.
 //----------------------------------------------------------------------------
-#pragma mark -
 NTime NTargetTime::GetTime(void)
 {
 

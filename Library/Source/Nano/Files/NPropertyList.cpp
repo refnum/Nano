@@ -381,10 +381,10 @@ NStatus NPropertyList::Save(const NFile &theFile, const NDictionary &theState, N
 
 
 
+#pragma mark private
 //============================================================================
 //		NPropertyList::EncodeMacXML1 : Encode kNPropertyListMacXML1.
 //----------------------------------------------------------------------------
-#pragma mark -
 NData NPropertyList::EncodeMacXML1(const NDictionary &theState)
 {	NXMLNode		*nodeDoc, *nodeDocType, *nodePList, *nodeDict;
 	NXMLEncoder		theEncoder;

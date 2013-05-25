@@ -91,10 +91,10 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 
 
 
+#pragma mark private
 //============================================================================
 //		CTestUtilities::DebugOutputHook : Debug output hook.
 //----------------------------------------------------------------------------
-#pragma mark -
 void CTestUtilities::DebugOutputHook(const char *theMsg)
 {
 

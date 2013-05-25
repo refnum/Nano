@@ -226,10 +226,10 @@ NIndex NDataCompressor::GetRequiredSize(NIndex theSize, NCompression compressWit
 
 
 
+#pragma mark private
 //============================================================================
 //		NDataCompressor::Null_Compress : Compress using null compression.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NDataCompressor::Null_Compress(const NData &srcData, NData &dstData)
 {
 

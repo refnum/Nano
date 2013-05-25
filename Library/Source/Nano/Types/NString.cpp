@@ -1360,10 +1360,10 @@ NString NString::operator + (const NString &theString) const
 
 
 
+#pragma mark protected
 //============================================================================
 //		NString::GetNullValue : Get the null value.
 //----------------------------------------------------------------------------
-#pragma mark -
 const NStringValue *NString::GetNullValue(void) const
 {	static NStringValue		sNullValue = { 0, kNStringEncodingUTF8, NData(1) };
 
@@ -1428,10 +1428,10 @@ void NString::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //      NString::ValueChanged : Our value has been changed.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 {
 

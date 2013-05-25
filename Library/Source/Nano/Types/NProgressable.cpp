@@ -244,10 +244,10 @@ NStatus NProgressable::ContinueProgress(NIndex theValue, NIndex maxValue)
 
 
 
+#pragma mark private
 //============================================================================
 //		NProgressable::UpdateProgress : Update the progress.
 //----------------------------------------------------------------------------
-#pragma mark -
 NStatus NProgressable::UpdateProgress(NProgressState theState, float theValue)
 {	bool		isSentinel, didExpire, didChange;
 	NTime		timeNow;

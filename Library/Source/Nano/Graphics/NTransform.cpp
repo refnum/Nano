@@ -393,7 +393,7 @@ template<class T> NTransformT<T>::operator NFormatArgument(void) const
 
 
 #else // NTRANSFORM_CPP
-#pragma mark -
+#pragma mark NTransformX
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------

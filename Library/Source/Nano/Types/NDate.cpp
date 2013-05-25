@@ -436,10 +436,10 @@ NDate::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NDate::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NDate::EncodeSelf(NEncoder &theEncoder) const
 {
 
@@ -467,10 +467,10 @@ void NDate::DecodeSelf(const NEncoder &theEncoder)
 
 
 
+#pragma mark private
 //============================================================================
 //		NDate::GetYearStart : Get the year start.
 //----------------------------------------------------------------------------
-#pragma mark -
 NGregorianDate NDate::GetYearStart(const NString &timeZone, NIndex theDay) const
 {	NGregorianDate		theDate;
 

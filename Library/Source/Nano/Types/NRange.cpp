@@ -349,10 +349,10 @@ NRange::operator NFormatArgument(void) const
 
 
 
+#pragma mark protected
 //============================================================================
 //      NRange::EncodeSelf : Encode the object.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NRange::EncodeSelf(NEncoder &theEncoder) const
 {
 

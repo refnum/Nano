@@ -176,10 +176,10 @@ void NThreadTask::SetTimeStamp(NTime theValue)
 
 
 
+#pragma mark NThreadTaskFunctor
 //============================================================================
 //		NThreadTaskFunctor::NThreadTaskFunctor : Constructor.
 //----------------------------------------------------------------------------
-#pragma mark -
 NThreadTaskFunctor::NThreadTaskFunctor(const NFunctor &theFunctor)
 {
 

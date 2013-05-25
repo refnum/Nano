@@ -643,10 +643,10 @@ template<class T> NBitfield NGeometryUtilities::GetClipCode(const NRectangleT<T>
 
 
 
+#pragma mark private
 //============================================================================
 //		NGeometryUtilities::ClipPolygonToEdge : Clip a polygon to an edge.
 //----------------------------------------------------------------------------
-#pragma mark -
 template<class T> void NGeometryUtilities::ClipPolygonToEdge(	const              NPointT<T>   &edgeStart,
 																const              NPointT<T>   &edgeEnd,
 																const std::vector< NPointT<T> > &theInput,

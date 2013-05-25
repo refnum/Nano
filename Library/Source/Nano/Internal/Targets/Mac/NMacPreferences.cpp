@@ -26,7 +26,6 @@
 //============================================================================
 //		NTargetPreferences::HasKey : Does a key exist?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NTargetPreferences::HasKey(const NString &theKey)
 {	NCFObject		cfObject;
 	bool			hasKey;

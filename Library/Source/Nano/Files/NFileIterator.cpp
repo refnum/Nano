@@ -350,10 +350,10 @@ NFileList NFileIterator::GetFiles(const NFile &startDir)
 
 
 
+#pragma mark private
 //============================================================================
 //		NFileIterator::ContinueScan : Continue the scan.
 //----------------------------------------------------------------------------
-#pragma mark -
 void NFileIterator::ContinueScan(void)
 {	bool						isMatch, canRecurse, matchFile, matchPath;
 	IteratorStart				theStart;

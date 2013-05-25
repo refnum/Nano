@@ -293,12 +293,12 @@ static void       SocketDestroy(NSocketRef theSocket);
 
 
 
+#pragma mark internal
 //============================================================================
 //      Internal functions
 //----------------------------------------------------------------------------
 //		NetworkServiceRegisterReply : Handle a register reply.
 //----------------------------------------------------------------------------
-#pragma mark -
 static void NetworkServiceRegisterReply(DNSServiceRef			/*theService*/,
 										DNSServiceFlags			/*theFlags*/,
 										DNSServiceErrorType		/*dnsErr*/,
@@ -1020,10 +1020,10 @@ static void SocketDestroy(NSocketRef theSocket)
 
 
 
+#pragma mark NTargetNetwork
 //============================================================================
 //      NTargetNetwork::IsReachable : Is a URL reachable?
 //----------------------------------------------------------------------------
-#pragma mark -
 bool NTargetNetwork::IsReachable(const NURL &theURL)
 {	bool						isReachable;
 	SCNetworkReachabilityRef	scTarget;
