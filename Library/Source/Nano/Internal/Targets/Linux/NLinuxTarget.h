@@ -34,38 +34,10 @@ public:
 	// Convert file state
 	static const char				   *ConvertFilePermission(NFilePermission thePermission);
 	static int							ConvertFilePosition(  NFilePosition   thePosition);
-
-
-	// Invoke sysctl
-	template <class T> static T			GetSysctl(int nameMajor, int nameMinor);
 };
 
 
 
-
-
-//============================================================================
-//		Inline functions
-//----------------------------------------------------------------------------
-//		NLinuxTarget::GetSysctl : Invoke sysctl.
-//----------------------------------------------------------------------------
-template <class T> T NLinuxTarget::GetSysctl(int nameMajor, int nameMinor)
-{	int			mibNames[2] = { nameMajor, nameMinor }; 
-	T			theResult;
-	size_t		theSize;
-	int			sysErr;
-
-
-
-	// Invoke sysctl
-	memset(&theResult, 0x00, sizeof(theResult));
-
-	theSize = sizeof(theResult);
-	sysErr  = sysctl(mibNames, 2, &theResult, &theSize, NULL, 0);
-	NN_ASSERT_NOERR(sysErr);
-
-	return(theResult);
-}
 
 
 
