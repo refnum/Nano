@@ -52,6 +52,10 @@ public:
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
 
 
+	// Barriers
+	static void							MemoryBarrier(void);
+
+
 	// Threads
 	static bool							ThreadIsMain(void);
 	static void							ThreadSleep(NTime theTime);

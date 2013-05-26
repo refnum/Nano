@@ -248,6 +248,21 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 //============================================================================
+//		NTargetThread::MemoryBarrier : Insert a memory barrier.
+//----------------------------------------------------------------------------
+void NTargetThread::MemoryBarrier(void)
+{
+
+
+	// Insert the barrier
+	__sync_synchronize();
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::ThreadIsMain : Is this the main thread?
 //----------------------------------------------------------------------------
 bool NTargetThread::ThreadIsMain(void)

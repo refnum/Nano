@@ -71,6 +71,12 @@ public:
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
 
 
+	// Insert a memory barrier
+	//
+	// Inserts a read/write memory barrier.
+	static void							MemoryBarrier(void);
+
+
 private:
 	static void							DelayedFunctor(NTimer *theTimer, const NFunctor &theFunctor, bool onMainThread);
 };

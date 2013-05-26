@@ -170,6 +170,21 @@ void NThreadUtilities::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 
+//============================================================================
+//		NThreadUtilities::MemoryBarrier : Insert a memory barrier.
+//----------------------------------------------------------------------------
+void NThreadUtilities::MemoryBarrier(void)
+{
+
+
+	// Insert the barrier
+	NTargetThread::MemoryBarrier();
+}
+
+
+
+
+
 #pragma mark private
 //============================================================================
 //		NThreadUtilities::DelayedFunctor : Execute a delayed functor.
