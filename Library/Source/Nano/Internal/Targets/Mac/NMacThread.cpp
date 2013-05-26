@@ -593,6 +593,103 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 
 
 //============================================================================
+//      NTargetThread::SpinCreate : Create a spin lock.
+//----------------------------------------------------------------------------
+NLockRef NTargetThread::SpinCreate(void)
+{	OSSpinLock		*lockRef;
+
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
+
+
+
+	// Create the lock
+	lockRef = (OSSpinLock *) malloc(sizeof(OSSpinLock));
+	if (lockRef != NULL)
+		{
+		NN_ASSERT_ALIGNED_4(lockRef);
+		*lockRef = OS_SPINLOCK_INIT;
+		}
+
+	return((NLockRef) lockRef);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinDestroy : Destroy a spin lock.
+//----------------------------------------------------------------------------
+void NTargetThread::SpinDestroy(NLockRef theLock)
+{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
+
+
+
+	// Validate our state
+	NN_ASSERT(*lockRef == 0);
+
+
+
+	// Destroy the lock
+	free(lockRef);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinLock : Lock a spin lock.
+//----------------------------------------------------------------------------
+bool NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
+{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
+	bool			gotLock;
+
+
+
+	// Acquire the lock
+	//
+	// Blocking in the OS is preferrable to looping in NSpinLock, so we do it.
+	if (canBlock)
+		{
+		OSSpinLockLock(lockRef);
+		gotLock = true;
+		}
+	else
+		gotLock = OSSpinLockTry(lockRef);
+
+	return(gotLock);
+}
+
+
+
+
+
+//============================================================================
+//      NTargetThread::SpinUnlock : Unlock a spin lock.
+//----------------------------------------------------------------------------
+void NTargetThread::SpinUnlock(NLockRef theLock)
+{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
+
+
+
+	// Validate our state
+	NN_ASSERT(*lockRef != 0);
+
+
+
+	// Release the lock
+	OSSpinLockUnlock(lockRef);
+}
+
+
+
+
+
+//============================================================================
 //      NTargetThread::MutexCreate : Create a mutex lock.
 //----------------------------------------------------------------------------
 NLockRef NTargetThread::MutexCreate(void)
@@ -792,88 +889,5 @@ void NTargetThread::ReadWriteUnlock(NLockRef theLock, bool /*forRead*/)
 	NN_ASSERT_NOERR(theErr);
 }
 
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinCreate : Create a spin lock.
-//----------------------------------------------------------------------------
-NLockRef NTargetThread::SpinCreate(void)
-{	OSSpinLock		*lockRef;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-
-
-
-	// Create the lock
-	lockRef = (OSSpinLock *) malloc(sizeof(OSSpinLock));
-	if (lockRef != NULL)
-		*lockRef = OS_SPINLOCK_INIT;
-
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinDestroy : Destroy a spin lock.
-//----------------------------------------------------------------------------
-void NTargetThread::SpinDestroy(NLockRef theLock)
-{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
-
-
-
-	// Destroy the lock
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinLock : Lock a spin lock.
-//----------------------------------------------------------------------------
-NStatus NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
-{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
-	NStatus			theErr;
-
-
-
-	// Acquire the lock
-	theErr = kNoErr;
-	
-	if (canBlock)
-		OSSpinLockLock(lockRef);
-	else
-		{
-		if (!OSSpinLockTry(lockRef))
-			theErr = kNErrTimeout;
-		}
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinUnlock : Unlock a spin lock.
-//----------------------------------------------------------------------------
-void NTargetThread::SpinUnlock(NLockRef theLock)
-{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
-
-
-
-	// Release the lock
-	OSSpinLockUnlock(lockRef);
-}
 
 

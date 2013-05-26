@@ -25,6 +25,15 @@
 
 
 //============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NIndex kSpinLockLoopsPerYield							= 1000;
+
+
+
+
+
+//============================================================================
 //		NLock::NLock : Constructor.
 //----------------------------------------------------------------------------
 NLock::NLock(void)
@@ -164,6 +173,146 @@ void NLock::Unlock(const NUnlockFunctor &actionUnlock)
 
 
 
+//============================================================================
+//		NLock::UpdateLock : Update the locked state.
+//----------------------------------------------------------------------------
+void NLock::UpdateLock(bool didLock)
+{
+
+
+	// Update our state
+	if (didLock)
+		mLockCount++;
+	else
+		{
+		NN_ASSERT(mLockCount >= 1);
+		mLockCount--;
+		}
+
+	NThreadUtilities::MemoryBarrier();
+}
+
+
+
+
+
+#pragma mark NSpinLock
+//============================================================================
+//		NSpinLock::NSpinLock : Constructor.
+//----------------------------------------------------------------------------
+NSpinLock::NSpinLock(void)
+{
+
+
+	// Initialize ourselves
+	mLock = NTargetThread::SpinCreate();
+}
+
+
+
+
+
+//============================================================================
+//		NSpinLock::~NSpinLock : Destructor.
+//----------------------------------------------------------------------------
+NSpinLock::~NSpinLock(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
+
+
+
+	// Clean up
+	NTargetThread::SpinDestroy(mLock);
+}
+
+
+
+
+
+//============================================================================
+//		NSpinLock::Lock : Acquire the lock.
+//----------------------------------------------------------------------------
+bool NSpinLock::Lock(NTime waitFor)
+{	bool		canBlock, gotLock;
+	NTime		stopTime;
+	NIndex		n;
+
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
+
+
+
+	// Get the state we need
+	canBlock = NMathUtilities::AreEqual(waitFor, kNTimeForever);
+	stopTime = NTimeUtilities::GetTime() + waitFor;
+
+
+
+	// Acquire the lock
+	//
+	// Mac OS X provides a blocking implementation of a spinlock which will back off
+	// if the lock can't be acquired to avoid priority inversion issues.
+	//
+	// Windows does not provide a spinlock API and so never blocks, however they will
+	// randomise thread priorities to avoid inversion.
+	//
+	// Linux does not provide a spinlock API and so never blocks; unclear if yielding
+	// the current thread will be sufficient on that platform.
+	do
+		{
+		gotLock =  NTargetThread::SpinLock(mLock, canBlock);
+		if (!gotLock)
+			{
+			n++;
+			if (n == kSpinLockLoopsPerYield)
+				{
+				NThread::Sleep(kNTimeNone);
+				n = 0;
+				}
+			}
+		}
+	while (!gotLock && NTimeUtilities::GetTime() < stopTime);
+
+
+
+	// Update our state
+	if (gotLock)
+		UpdateLock(true);
+	
+	return(gotLock);
+}
+
+
+
+
+
+//============================================================================
+//		NSpinLock::Unlock : Release the lock.
+//----------------------------------------------------------------------------
+void NSpinLock::Unlock(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
+	NN_ASSERT(IsLocked());
+
+
+
+	// Release the lock
+	UpdateLock(false);
+	NTargetThread::SpinUnlock(mLock);
+}
+
+
+
+
+
 #pragma mark NMutexLock
 //============================================================================
 //		NSpinLock::NMutexLock : Constructor.
@@ -269,45 +418,6 @@ void NReadWriteLock::UnlockForRead(void)
 
 	// Release the lock
 	Unlock(mActionUnlockRead);
-}
-
-
-
-
-
-#pragma mark NSpinLock
-//============================================================================
-//		NSpinLock::NSpinLock : Constructor.
-//----------------------------------------------------------------------------
-NSpinLock::NSpinLock(void)
-{
-
-
-	// Initialize ourselves
-	mLock = NTargetThread::SpinCreate();
-
-	mActionLock   = BindFunction(NTargetThread::SpinLock,   _1, _2);
-	mActionUnlock = BindFunction(NTargetThread::SpinUnlock, _1);
-}
-
-
-
-
-
-//============================================================================
-//		NSpinLock::~NSpinLock : Destructor.
-//----------------------------------------------------------------------------
-NSpinLock::~NSpinLock(void)
-{
-
-
-	// Validate our state
-	NN_ASSERT(mLock != kNLockRefNone);
-
-
-
-	// Clean up
-	NTargetThread::SpinDestroy(mLock);
 }
 
 

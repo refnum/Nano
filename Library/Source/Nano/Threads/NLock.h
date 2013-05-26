@@ -55,8 +55,8 @@ public:
 
 
 	// Acquire/release the lock
-	bool								Lock(NTime waitFor=kNTimeForever);
-	void								Unlock(void);
+	virtual bool						Lock(NTime waitFor=kNTimeForever);
+	virtual void						Unlock(void);
 
 
 	// Is the lock acquired?
@@ -76,12 +76,34 @@ protected:
 	void								Unlock(const NUnlockFunctor &actionUnlock);
 
 
+	// Update the lock state
+	void								UpdateLock(bool didLock);
+
+
 protected:
 	NLockRef							mLock;
     NAtomicInt							mLockCount;
 
 	NLockFunctor						mActionLock;
 	NUnlockFunctor						mActionUnlock;
+};
+
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class NSpinLock : public NLock {
+public:
+										NSpinLock(void);
+	virtual							   ~NSpinLock(void);
+
+
+	// Acquire/release the lock
+	bool								Lock(NTime waitFor=kNTimeForever);
+	void								Unlock(void);
 };
 
 
@@ -125,19 +147,6 @@ public:
 private:
 	NLockFunctor						mActionLockRead;
 	NUnlockFunctor						mActionUnlockRead;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NSpinLock : public NLock {
-public:
-										NSpinLock(void);
-	virtual							   ~NSpinLock(void);
 };
 
 

@@ -74,7 +74,14 @@ public:
 	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
 	static void							SemaphoreDestroy(NSemaphoreRef theSemaphore);
 	static void							SemaphoreSignal( NSemaphoreRef theSemaphore);
-	static NStatus						SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor=kNTimeForever);
+	static NStatus						SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor);
+
+
+	// Spin lock
+	static NLockRef						SpinCreate(void);
+	static void							SpinDestroy(NLockRef theLock);
+	static bool							SpinLock(   NLockRef theLock, bool canBlock);
+	static void							SpinUnlock( NLockRef theLock);
 
 
 	// Mutex lock
@@ -89,13 +96,6 @@ public:
 	static void							ReadWriteDestroy(NLockRef theLock);
 	static NStatus						ReadWriteLock(   NLockRef theLock, bool forRead, bool canBlock);
 	static void							ReadWriteUnlock( NLockRef theLock, bool forRead);
-
-
-	// Spin lock
-	static NLockRef						SpinCreate(void);
-	static void							SpinDestroy(NLockRef theLock);
-	static NStatus						SpinLock(   NLockRef theLock, bool canBlock);
-	static void							SpinUnlock( NLockRef theLock);
 };
 
 
