@@ -34,28 +34,6 @@
 
 
 //============================================================================
-//		Internal class declaration
-//----------------------------------------------------------------------------
-class NFunctorInvoker : public NUncopyable {
-public:
-										NFunctorInvoker(const NFunctor &theFunctor, NSemaphore *theSemaphore=NULL);
-	virtual							   ~NFunctorInvoker(void) { }
-
-
-	// Invoke the functor
-	void								Invoke(void);
-
-
-private:
-	NFunctor							mFunctor;
-	NSemaphore						   *mSemaphore;
-};
-
-
-
-
-
-//============================================================================
 //		Internal globals
 //----------------------------------------------------------------------------
 static ThreadFunctorList gMainThreadFunctors;
@@ -65,45 +43,29 @@ static ThreadFunctorList gMainThreadFunctors;
 
 
 //============================================================================
-//		NFunctorInvoker::NFunctorInvoker : Constructor
+//		Internal functions
 //----------------------------------------------------------------------------
-NFunctorInvoker::NFunctorInvoker(const NFunctor &theFunctor, NSemaphore *theSemaphore)
+//		InvokeMainThreadFunctor : Invoke a main-thread functor.
+//----------------------------------------------------------------------------
+static void InvokeMainThreadFunctor(const NFunctor &theFunctor, NSemaphore *theSemaphore)
 {
 
 
-	// Initialise ourselves
-	mFunctor   = theFunctor;
-	mSemaphore = theSemaphore;
-}
+	// Validate our state
+	NN_ASSERT(NTargetThread::ThreadIsMain());
 
-
-
-
-
-//============================================================================
-//		NFunctorInvoker::Invoke : Invoke the functor.
-//----------------------------------------------------------------------------
-void NFunctorInvoker::Invoke(void)
-{
 
 
 	// Invoke the functor
-	mFunctor();
-	
-	if (mSemaphore != NULL)
-		mSemaphore->Signal();
-
-	delete this;
+	theFunctor();
+	theSemaphore->Signal();
 }
 
 
 
 
 
-#pragma mark internal
 //============================================================================
-//		Internal functions
-//----------------------------------------------------------------------------
 //		InvokeMainThreadFunctors : Invoke the main-thread functors.
 //----------------------------------------------------------------------------
 static void InvokeMainThreadFunctors(void)
@@ -148,15 +110,20 @@ static void InvokeMainThreadFunctors(void)
 //		ThreadEntry : Thread entry point.
 //----------------------------------------------------------------------------
 static void *ThreadEntry(void *userData)
-{	NFunctorInvoker			*theInvoker;
-	StAutoReleasePool		thePool;
+{	NFunctor			*theFunctor;
+	StAutoReleasePool	thePool;
+
+
+
+	// Get the state we need
+	theFunctor = (NFunctor *) userData;
 
 
 
 	// Invoke the thread
-	theInvoker = (NFunctorInvoker *) userData;
-	theInvoker->Invoke();
-	
+	(*theFunctor)();
+	delete theFunctor;
+
 	return(NULL);
 }
 
@@ -194,7 +161,7 @@ UInt32 NTargetThread::GetCPUCount(void)
 
 	if (theResult == 0)
 		theResult = 1;
-	
+
 	return(theResult);
 }
 
@@ -367,19 +334,19 @@ void NTargetThread::ThreadSleep(NTime theTime)
 //		NTargetThread::ThreadCreate : Create a thread.
 //----------------------------------------------------------------------------
 NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
-{	NFunctorInvoker		*theInvoker;
-	pthread_t			threadID;
-	int					sysErr;
+{	NFunctor		*tmpFunctor;
+	pthread_t		threadID;
+	int				sysErr;
 
 
 
 	// Get the state we need
-	theInvoker = new NFunctorInvoker(theFunctor);
+	tmpFunctor = new NFunctor(theFunctor);
 
 
 
 	// Create the thread
-	sysErr = pthread_create(&threadID, NULL, ThreadEntry, theInvoker);
+	sysErr = pthread_create(&threadID, NULL, ThreadEntry, tmpFunctor);
 	NN_ASSERT_NOERR(sysErr);
 	
 	return(NMacTarget::ConvertSysErr(sysErr));
@@ -395,7 +362,6 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 {	NFunctor				invokeFunctor;
 	NSemaphore				theSemaphore;
-	NFunctorInvoker			*theInvoker;
 	CFAbsoluteTime			fireTime;
 	CFRunLoopTimerRef		cfTimer;
 	bool					wasDone;
@@ -417,8 +383,7 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 	else
 		{
 		// Save the functor
-		theInvoker = new NFunctorInvoker(theFunctor, &theSemaphore);
-		gMainThreadFunctors.PushBack(BindMethod(theInvoker, NFunctorInvoker::Invoke));
+		gMainThreadFunctors.PushBack(BindFunction(InvokeMainThreadFunctor, theFunctor, &theSemaphore));
 
 
 		// Schedule the timer
@@ -457,7 +422,7 @@ NThreadLocalRef NTargetThread::LocalCreate(void)
 	keyRef = 0;
 	sysErr = pthread_key_create(&keyRef, NULL);
 	NN_ASSERT_NOERR(sysErr);
-	
+
 	return((NThreadLocalRef) keyRef);
 }
 
