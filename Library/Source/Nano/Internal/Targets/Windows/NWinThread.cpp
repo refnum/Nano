@@ -297,7 +297,7 @@ bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UI
 
 
 	// Compare and swap
-	return(InterlockedCompareExchange((LONG *) &theValue, newValue, oldValue) == (LONG) oldValue);
+	return(_InterlockedCompareExchange((LONG *) &theValue, newValue, oldValue) == (LONG) oldValue);
 }
 
 
@@ -332,7 +332,7 @@ SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 	// This gives us the new value of 'theValue' after the atomic add, without
 	// performing an extra read of 'theValue' (as this may have been changed by
 	// another thread in the mean time).
-	return(InterlockedExchangeAdd((LONG *) &theValue, theDelta) + theDelta);
+	return(_InterlockedExchangeAdd((LONG *) &theValue, theDelta) + theDelta);
 }
 
 
