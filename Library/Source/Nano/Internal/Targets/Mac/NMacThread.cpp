@@ -230,26 +230,6 @@ void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 
 
 //============================================================================
-//		NTargetThread::AtomicXor32 : Atomic 32-bit xor.
-//----------------------------------------------------------------------------
-void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT_ALIGNED_4(&theValue);
-
-
-
-	// XOR the value
-	OSAtomicXor32Barrier(theMask, (uint32_t *) &theValue);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetThread::AtomicOr32 : Atomic 32-bit or.
 //----------------------------------------------------------------------------
 void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
@@ -263,6 +243,26 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 	// OR the value
 	OSAtomicOr32Barrier(theMask, (uint32_t *) &theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::AtomicXor32 : Atomic 32-bit xor.
+//----------------------------------------------------------------------------
+void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT_ALIGNED_4(&theValue);
+
+
+
+	// XOR the value
+	OSAtomicXor32Barrier(theMask, (uint32_t *) &theValue);
 }
 
 
