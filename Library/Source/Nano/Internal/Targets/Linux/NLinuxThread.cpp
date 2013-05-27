@@ -150,7 +150,7 @@ UInt32 NTargetThread::GetCPUCount(void)
 //============================================================================
 //		NTargetThread::AtomicCompareAndSwap32 : Atomic 32-bit compare-and-swap.
 //----------------------------------------------------------------------------
-bool NTargetThread::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UInt32 newValue)
+bool NTargetThread::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue)
 {
 
 

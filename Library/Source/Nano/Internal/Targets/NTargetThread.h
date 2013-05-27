@@ -44,7 +44,7 @@ public:
 
 
 	// Atomic operations
-	static bool							AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UInt32 newValue);
+	static bool							AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue);
 	static SInt32						AtomicAdd32(           SInt32 &theValue, SInt32 theDelta);
 
 	static void							AtomicAnd32(UInt32 &theValue, UInt32 theMask);
