@@ -16,11 +16,11 @@
 			Mac NMutex						0.17s
 			Mac pthread_mutex			   15.31s
 	
-			Windows NMutex					0.12s
+			Windows NMutex					0.11s
 			Windows Critical Section		0.10s
 			Windows Semaphore				3.74s
 	
-			Linux NMutex					0.12s
+			Linux NMutex					0.21s
 			Linux pthread_mutex				0.23s
 		
 		A Windows critical section uses the same technique as an NMutex (atomic spin
