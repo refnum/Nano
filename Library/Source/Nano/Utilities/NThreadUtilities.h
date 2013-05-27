@@ -55,17 +55,23 @@ public:
 
 	// Atomic compare and swap
 	//
+	// Inserts a read/write memory barrier.
+	//
 	// Returns as theValue was updated from oldValue to newValue.
 	static bool							AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue);
 
 
 	// Atomic addition
 	//
+	// Inserts a read/write memory barrier.
+	//
 	// Returns the new value stored in theValue after the addition.
 	static SInt32						AtomicAdd32(SInt32 &theValue, SInt32 theDelta);
 
 
 	// Atomic bit operations
+	//
+	// Inserts a read/write memory barrier.
 	static void							AtomicAnd32(UInt32 &theValue, UInt32 theMask);
 	static void							AtomicOr32( UInt32 &theValue, UInt32 theMask);
 	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
