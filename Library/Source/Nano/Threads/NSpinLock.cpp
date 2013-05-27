@@ -71,12 +71,12 @@ bool NSpinLock::Lock(NTime waitFor)
 	// Acquire the lock
 	//
 	// In general a spinlock simply loops until it acquires the lock, performing an
-	// atomic compare-and-swap to try and set it from 0 to 1.
+	// atomic compare-and-swap to try and set it from 0 to non-zero.
 	//
 	// On some platforms this can lead to priority inversion - Windows attempts to
 	// deal with this by randomising thread priorities.
 	//
-	// Mac oS X provides a blocking implementation of a spinlock which will back off
+	// Mac OS X provides a blocking implementation of a spinlock which will back off
 	// if the lock can't be acquired, so we provide a canBlock hint that allows an
 	// infinite wait for a spinlock to use this path.
 	do
@@ -109,7 +109,7 @@ void NSpinLock::Unlock(void)
 
 
 	// Validate our state
-	NN_ASSERT(mLockCount == 1);
+	NN_ASSERT(mLockCount != 0);
 
 
 
