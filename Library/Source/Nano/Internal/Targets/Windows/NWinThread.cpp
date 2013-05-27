@@ -809,18 +809,22 @@ void NTargetThread::MutexDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::MutexLock : Lock a mutex lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::MutexLock(NLockRef theLock, bool canBlock)
+bool NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
 {	HANDLE		lockHnd = (HANDLE) theLock;
-	DWORD		theResult;
-	NStatus		theErr;
+	DWORD		timeMS, theResult;
 
 
 
-	// Acquire the lock
-	theResult = WaitForSingleObject(lockHnd, canBlock ? INFINITE : 0);
-	theErr    = (theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
+	// Get the state we need
+	timeMS = NWinTarget::ConvertTimeMS(waitFor);
 
-	return(theErr);
+
+
+	// Wait for the semaphore
+	theResult = WaitForSingleObject(lockHnd, timeMS);
+	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
+
+	return(theResult == WAIT_OBJECT_0);
 }
 
 

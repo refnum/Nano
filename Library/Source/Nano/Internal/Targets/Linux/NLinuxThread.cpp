@@ -529,28 +529,19 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 //----------------------------------------------------------------------------
 NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 {	sem_t				*semRef = (sem_t *) theSemaphore;
-	NTime				timeSecs, timeFrac;
 	struct timespec		waitTime;
 	int					sysErr;
 
 
 
-	// Wait with timeout
-	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		timeSecs = floor(waitFor);
-		timeFrac = waitFor - timeSecs;
-		
-		waitTime.tv_sec  = (time_t) timeSecs;
-		waitTime.tv_nsec = (long) (timeFrac / kNTimeNanosecond);
-		
-		sysErr = sem_timedwait(semRef, &waitTime);
-		}
-
-
 	// Wait for the semaphore
-	else
+	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
 		sysErr = sem_wait(semRef);
+	else
+		{
+		waitTime = NTargetLinux::ConvertTimeSpec(waitFor);
+		sysErr   = sem_timedwait(semRef, &waitTime);
+		}
 
 	return(NLinuxTarget::ConvertSysErr(sysErr));
 }
@@ -709,22 +700,23 @@ void NTargetThread::MutexDestroy(NLockRef theLock)
 //============================================================================
 //      NTargetThread::MutexLock : Lock a mutex lock.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::MutexLock(NLockRef theLock, bool canBlock)
+bool NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
 {	pthread_mutex_t		*lockRef = (pthread_mutex_t *) theLock;
+	struct timespec		waitTime;
 	int					sysErr;
-	NStatus				theErr;
 
 
 
-	// Acquire the lock
-	if (canBlock)
-		sysErr = pthread_mutex_lock(   lockRef);
+	// Wait for the lock
+	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		sysErr = pthread_mutex_lock(lockRef);
 	else
-		sysErr = pthread_mutex_trylock(lockRef);
+		{
+		waitTime = NTargetLinux::ConvertTimeSpec(waitFor);
+		sysErr   = pthread_mutex_timedlock(lockRef, &waitTime);
+		}
 	
-	theErr = (sysErr == 0) ? kNoErr : kNErrTimeout;
-
-	return(theErr);
+	return(sysErr == 0);
 }
 
 

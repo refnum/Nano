@@ -323,9 +323,6 @@ NMutexLock::NMutexLock(void)
 
 	// Initialize ourselves
 	mLock = NTargetThread::MutexCreate();
-
-	mActionLock   = BindFunction(NTargetThread::MutexLock,   _1, _2);
-	mActionUnlock = BindFunction(NTargetThread::MutexUnlock, _1);
 }
 
 
@@ -346,6 +343,53 @@ NMutexLock::~NMutexLock(void)
 
 	// Clean up
 	NTargetThread::MutexDestroy(mLock);
+}
+
+
+
+
+
+//============================================================================
+//		NMutexLock::Lock : Acquire the lock.
+//----------------------------------------------------------------------------
+bool NMutexLock::Lock(NTime waitFor)
+{	bool	gotLock;
+
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
+
+
+
+	// Acquire the lock
+	gotLock = NTargetThread::MutexLock(mLock, waitFor);
+	if (gotLock)
+		UpdateLock(true);
+
+	return(gotLock);
+}
+
+
+
+
+
+//============================================================================
+//		NMutexLock::Unlock : Release the lock.
+//----------------------------------------------------------------------------
+void NMutexLock::Unlock(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(mLock != kNLockRefNone);
+	NN_ASSERT(IsLocked());
+
+
+
+	// Release the lock
+	UpdateLock(false);
+	NTargetThread::MutexUnlock(mLock);
 }
 
 

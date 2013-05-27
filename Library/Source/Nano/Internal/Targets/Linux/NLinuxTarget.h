@@ -34,6 +34,10 @@ public:
 	// Convert file state
 	static const char				   *ConvertFilePermission(NFilePermission thePermission);
 	static int							ConvertFilePosition(  NFilePosition   thePosition);
+
+
+	// Convert times
+	static struct timespec				ConvertTimeSpec(NTime theTime);
 };
 
 

@@ -87,7 +87,7 @@ public:
 	// Mutex lock
 	static NLockRef						MutexCreate(void);
 	static void							MutexDestroy(NLockRef theLock);
-	static NStatus						MutexLock(   NLockRef theLock, bool canBlock);
+	static bool							MutexLock(   NLockRef theLock, NTime waitFor);
 	static void							MutexUnlock( NLockRef theLock);
 
 

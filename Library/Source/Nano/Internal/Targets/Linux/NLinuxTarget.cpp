@@ -200,3 +200,31 @@ int NLinuxTarget::ConvertFilePosition(NFilePosition thePosition)
 }
 
 
+
+
+
+//============================================================================
+//		NLinuxTarget::ConvertTimeSpec : Convert a time.
+//----------------------------------------------------------------------------
+struct timespec NLinuxTarget::ConvertTimeSpec(NTime theTime)
+{	NTime				timeSecs, timeFrac;
+	struct timespec		timeSpec;
+
+
+
+	// Convert the time
+	timeSecs = floor(waitFor);
+	timeFrac = waitFor - timeSecs;
+		
+	timeSpec.tv_sec  = (time_t) timeSecs;
+	timeSpec.tv_nsec = (long) (timeFrac / kNTimeNanosecond);
+	
+	return(timeSpec);
+}
+
+
+
+
+
+
+

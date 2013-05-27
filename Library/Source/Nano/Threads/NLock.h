@@ -113,12 +113,17 @@ public:
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-//		Note : NMutexLock is a recursive mutex.
-//----------------------------------------------------------------------------
 class NMutexLock : public NLock {
 public:
 										NMutexLock(void);
 	virtual							   ~NMutexLock(void);
+
+
+	// Acquire/release the lock
+	//
+	// Mutexes can be locked multiple times by the same thread.
+	bool								Lock(NTime waitFor=kNTimeForever);
+	void								Unlock(void);
 };
 
 
