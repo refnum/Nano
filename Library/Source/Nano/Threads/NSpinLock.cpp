@@ -65,6 +65,7 @@ bool NSpinLock::Lock(NTime waitFor)
 	// Get the state we need
 	canBlock = NMathUtilities::AreEqual(waitFor, kNTimeForever);
 	stopTime = NTimeUtilities::GetTime() + waitFor;
+	n        = 0;
 
 
 
