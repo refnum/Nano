@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NThreadUtilities.h"
+#include "NTargetThread.h"
 #include "NAtomicInt.h"
 
 
@@ -59,14 +59,14 @@ NAtomicInt::~NAtomicInt(void)
 //		NAtomicInt::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NAtomicInt::Compare(const SInt32 &theValue) const
-{	SInt32		myValue;
+{	volatile SInt32		myValue;
 
 
 
 	// Compare the value
 	//
 	// The value is copied so the comparison is atomic.
-	myValue = NThreadUtilities::AtomicAdd32(mValue, 0);
+	myValue = NTargetThread::AtomicAdd32(mValue, 0);
 
 	return(GetComparison(myValue, theValue));
 }
@@ -83,7 +83,7 @@ SInt32 NAtomicInt::Increment(SInt32 theDelta)
 
 
 	// Adjust the value
-	return(NThreadUtilities::AtomicAdd32(mValue, theDelta));
+	return(NTargetThread::AtomicAdd32(mValue, theDelta));
 }
 
 
@@ -98,7 +98,7 @@ SInt32 NAtomicInt::Decrement(SInt32 theDelta)
 
 
 	// Adjust the value
-	return(NThreadUtilities::AtomicAdd32(mValue, -theDelta));
+	return(NTargetThread::AtomicAdd32(mValue, -theDelta));
 }
 
 
