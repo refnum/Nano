@@ -23,6 +23,7 @@
 #include <pwd.h>
 
 #include "NSTLUtilities.h"
+#include "NSpinLock.h"
 #include "NLinuxTarget.h"
 #include "NTargetFile.h"
 
