@@ -653,6 +653,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\NMutex.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\NNetworkBrowser.cpp"
 				>
 			</File>
@@ -697,6 +701,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\NReadWriteLock.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Graphics\NRectangle.cpp"
 				>
 			</File>
@@ -734,6 +742,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Network\NSocketRequest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NSpinLock.cpp"
 				>
 			</File>
 			<File
@@ -1823,6 +1835,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\NMutex.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\NNetworkBrowser.h"
 				>
 			</File>
@@ -1867,6 +1883,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\NReadWriteLock.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Graphics\NRectangle.h"
 				>
 			</File>
@@ -1904,6 +1924,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Network\NSocketRequest.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\NSpinLock.h"
 				>
 			</File>
 			<File

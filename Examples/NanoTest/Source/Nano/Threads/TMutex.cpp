@@ -1,8 +1,8 @@
 /*	NAME:
-		TLock.h
+		TMutex.cpp
 
 	DESCRIPTION:
-		NLock tests.
+		NMutex tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2013, refNum Software
@@ -11,36 +11,40 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TLOCK_HDR
-#define TLOCK_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "TLock.h"
+#include "TMutex.h"
 
 
 
 
 
 //============================================================================
-//		Class declaration
+//		TMutex::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-class TLock {
-public:
-	// Execute the tests
-	static void							Execute(void);
-
-
-	// Test a lock
-	static void							TestLock(NLock *theLock);
-
-
-private:
-	static void							LockUnlock(NLock *theLock, NData *theData);
-};
+void TMutex::Execute(void)
+{	NMutex		theLock;
 
 
 
+	// Test the lock
+	TLock::TestLock(&theLock);
 
 
-#endif // TLOCK_HDR
+
+	// Recursion
+	NN_ASSERT(!theLock.IsLocked());
+	theLock.Lock();
+
+		NN_ASSERT(theLock.IsLocked());
+		theLock.Lock();
+		theLock.Unlock();
+		NN_ASSERT(theLock.IsLocked());
+
+	theLock.Unlock();
+	NN_ASSERT(!theLock.IsLocked());
+}
+
+

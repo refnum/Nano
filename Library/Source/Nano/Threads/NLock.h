@@ -2,7 +2,7 @@
 		NLock.h
 
 	DESCRIPTION:
-		Lock objects.
+		Lock object.
 	
 	COPYRIGHT:
         Copyright (c) 2006-2013, refNum Software
@@ -17,29 +17,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NUncopyable.h"
-#include "NAtomicInt.h"
-
-
-
-
-
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-typedef UIntPtr NLockRef;
-
-static const NLockRef kNLockRefNone								= 0;
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Timers
-typedef nfunctor<NStatus (NLockRef theLock, bool canBlock)>			NLockFunctor;
-typedef nfunctor<void    (NLockRef theLock)>						NUnlockFunctor;
 
 
 
@@ -55,8 +32,8 @@ public:
 
 
 	// Acquire/release the lock
-	virtual bool						Lock(NTime waitFor=kNTimeForever);
-	virtual void						Unlock(void);
+	virtual bool						Lock(NTime waitFor=kNTimeForever) = 0;
+	virtual void						Unlock(void)                      = 0;
 
 
 	// Is the lock acquired?
@@ -71,87 +48,7 @@ public:
 
 
 protected:
-	// Acquire/release the lock
-	bool								Lock(  const NLockFunctor   &actionLock, NTime waitFor);
-	void								Unlock(const NUnlockFunctor &actionUnlock);
-
-
-	// Update the lock state
-	void								UpdateLock(bool didLock);
-
-
-protected:
-	NLockRef							mLock;
-    NAtomicInt							mLockCount;
-
-	NLockFunctor						mActionLock;
-	NUnlockFunctor						mActionUnlock;
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NSpinLock : public NLock {
-public:
-										NSpinLock(void);
-	virtual							   ~NSpinLock(void);
-
-
-	// Acquire/release the lock
-	bool								Lock(NTime waitFor=kNTimeForever);
-	void								Unlock(void);
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NMutexLock : public NLock {
-public:
-										NMutexLock(void);
-	virtual							   ~NMutexLock(void);
-
-
-	// Acquire/release the lock
-	//
-	// Mutexes can be locked multiple times by the same thread.
-	bool								Lock(NTime waitFor=kNTimeForever);
-	void								Unlock(void);
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NReadWriteLock : public NLock {
-public:
-										NReadWriteLock(void);
-	virtual							   ~NReadWriteLock(void);
-
-
-	// Acquire/release the lock for reading
-	//
-	// The standard NLock interface allows a single thread to acquire the
-	// lock for writing.
-	//
-	// Multiple threads can use LockForRead to acquire the lock for reading.
-	bool								LockForRead(NTime waitFor=kNTimeForever);
-	void								UnlockForRead(void);
-
-
-private:
-	NLockFunctor						mActionLockRead;
-	NUnlockFunctor						mActionUnlockRead;
+    SInt32								mLockCount;
 };
 
 

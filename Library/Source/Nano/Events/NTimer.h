@@ -16,8 +16,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
 #include "NFunctor.h"
+#include "NMutex.h"
 
 
 
@@ -84,7 +84,7 @@ public:
 
 
 private:
-	mutable NMutexLock					mLock;
+	mutable NMutex						mLock;
 	NTimerMap							mTimers;
 };
 

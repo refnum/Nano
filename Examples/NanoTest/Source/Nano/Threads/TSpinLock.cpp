@@ -1,8 +1,8 @@
 /*	NAME:
-		TLock.h
+		TSpinLock.cpp
 
 	DESCRIPTION:
-		NLock tests.
+		NSpinLock tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2013, refNum Software
@@ -11,36 +11,25 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TLOCK_HDR
-#define TLOCK_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "TLock.h"
+#include "TSpinLock.h"
 
 
 
 
 
 //============================================================================
-//		Class declaration
+//		TSpinLock::Execute : Execute the tests.
 //----------------------------------------------------------------------------
-class TLock {
-public:
-	// Execute the tests
-	static void							Execute(void);
-
-
-	// Test a lock
-	static void							TestLock(NLock *theLock);
-
-
-private:
-	static void							LockUnlock(NLock *theLock, NData *theData);
-};
+void TSpinLock::Execute(void)
+{	NSpinLock		theLock;
 
 
 
+	// Test the lock
+	TLock::TestLock(&theLock);
+}
 
-
-#endif // TLOCK_HDR

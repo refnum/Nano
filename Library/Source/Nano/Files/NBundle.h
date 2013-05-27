@@ -19,7 +19,7 @@
 #include "NDictionary.h"
 #include "NString.h"
 #include "NArray.h"
-#include "NLock.h"
+#include "NMutex.h"
 #include "NFile.h"
 
 
@@ -117,7 +117,7 @@ private:
 
 	static NBundleInfo					*AcquireInfo(const NFile &theFile);
 	static void							ReleaseInfo(void);
-	static NMutexLock					&GetLock(void);
+	static NMutex						&GetLock(void);
 
 
 private:

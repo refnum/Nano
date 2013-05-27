@@ -343,6 +343,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\TMutex.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TNetworkBrowser.cpp"
 				>
 			</File>
@@ -383,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\TReadWriteLock.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Graphics\TRectangle.cpp"
 				>
 			</File>
@@ -404,6 +412,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Network\TSocket.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TSpinLock.cpp"
 				>
 			</File>
 			<File
@@ -685,6 +697,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\TMutex.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Network\TNetworkBrowser.h"
 				>
 			</File>
@@ -725,6 +741,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Threads\TReadWriteLock.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Graphics\TRectangle.h"
 				>
 			</File>
@@ -746,6 +766,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Network\TSocket.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Threads\TSpinLock.h"
 				>
 			</File>
 			<File

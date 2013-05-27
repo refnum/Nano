@@ -25,6 +25,7 @@
 #include "NCFObject.h"
 #include "NByteSwap.h"
 #include "NMacTarget.h"
+#include "NMutex.h"
 #include "NTargetThread.h"
 #include "NTargetNetwork.h"
 
@@ -90,7 +91,7 @@ typedef struct NSocketInfo {
 //      Internal globals
 //----------------------------------------------------------------------------
 // Sockets
-static NSpinLock    gSocketLock;
+static NMutex       gSocketLock;
 static NIndex       gSocketCount									= 0;
 static CFRunLoopRef gSocketRunLoop									= NULL;
 

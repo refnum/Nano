@@ -18,7 +18,7 @@
 #include "NTargetSystem.h"
 #include "NTargetPOSIX.h"
 #include "NString.h"
-#include "NLock.h"
+#include "NMutex.h"
 #include "NDebug.h"
 
 
@@ -245,8 +245,8 @@ const char *NDebug::GetFileName(const char *thePath)
 //============================================================================
 //      NDebug::GetLock : Get the lock.
 //----------------------------------------------------------------------------
-NMutexLock &NDebug::GetLock(void)
-{	static NMutexLock	sLock;
+NMutex &NDebug::GetLock(void)
+{	static NMutex	sLock;
 
 
 	// Get the lock

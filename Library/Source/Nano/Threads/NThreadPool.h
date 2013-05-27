@@ -115,7 +115,7 @@ private:
 
 
 private:
-	mutable NMutexLock					mLock;
+	mutable NMutex						mLock;
 
 	bool								mIsPaused;
 	bool								mStopThreads;
@@ -137,7 +137,10 @@ private:
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NThreadPoolFIFO : public NThreadPool {
+class NThreadPoolFIFO : NThreadPool {
+public:
+										NThreadPoolFIFO(void) { }
+	virtual							   ~NThreadPoolFIFO(void) { }
 
 
 protected:
@@ -160,7 +163,10 @@ protected:
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NThreadPoolLIFO : public NThreadPool {
+class NThreadPoolLIFO : NThreadPool {
+public:
+										NThreadPoolLIFO(void) { }
+	virtual							   ~NThreadPoolLIFO(void) { }
 
 
 protected:

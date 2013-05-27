@@ -20,7 +20,7 @@
 #include "NUncopyable.h"
 #include "NAtomicInt.h"
 #include "NByteSwap.h"
-#include "NLock.h"
+#include "NMutex.h"
 
 
 
@@ -211,7 +211,7 @@ private:
 
 
 private:
-	mutable NMutexLock					mLock;
+	mutable NMutex						mLock;
 
 	NSocketStatus						mStatus;
 	NStatus								mResult;

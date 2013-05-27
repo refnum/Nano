@@ -157,7 +157,7 @@ typedef void (*DebugOutputProc)(const char *theMsg);
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-class NMutexLock;
+class NMutex;
 
 
 
@@ -192,7 +192,7 @@ public:
 
 private:
 	const char						   *GetFileName(const char *thePath);
-	NMutexLock						   &GetLock(void);
+	NMutex							   &GetLock(void);
 
 
 private:

@@ -1,8 +1,8 @@
 /*	NAME:
-		TLock.h
+		TReadWriteLock.h
 
 	DESCRIPTION:
-		NLock tests.
+		NReadWriteLock tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2013, refNum Software
@@ -11,12 +11,12 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TLOCK_HDR
-#define TLOCK_HDR
+#ifndef TREADWRITELOCK_HDR
+#define TREADWRITELOCK_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "NReadWriteLock.h"
 
 
 
@@ -25,22 +25,18 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TLock {
+class TReadWriteLock {
 public:
 	// Execute the tests
 	static void							Execute(void);
 
 
-	// Test a lock
-	static void							TestLock(NLock *theLock);
-
-
 private:
-	static void							LockUnlock(NLock *theLock, NData *theData);
+
 };
 
 
 
 
 
-#endif // TLOCK_HDR
+#endif // TREADWRITELOCK_HDR

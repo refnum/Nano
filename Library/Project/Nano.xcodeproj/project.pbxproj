@@ -278,6 +278,12 @@
 		ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */; };
 		ABBBB56D16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
 		ABBBB56E16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
+		ABC75E631753910200BB5983 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
+		ABC75E641753910200BB5983 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
+		ABC75E651753910200BB5983 /* NReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */; };
+		ABC75E661753910200BB5983 /* NReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */; };
+		ABC75E671753910200BB5983 /* NSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E611753910100BB5983 /* NSpinLock.cpp */; };
+		ABC75E681753910200BB5983 /* NSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E611753910100BB5983 /* NSpinLock.cpp */; };
 		ABD681681679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
@@ -650,6 +656,12 @@
 		ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTime.cpp; sourceTree = "<group>"; };
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
+		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
+		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
+		ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReadWriteLock.cpp; sourceTree = "<group>"; };
+		ABC75E601753910100BB5983 /* NReadWriteLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NReadWriteLock.h; sourceTree = "<group>"; };
+		ABC75E611753910100BB5983 /* NSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSpinLock.cpp; sourceTree = "<group>"; };
+		ABC75E621753910100BB5983 /* NSpinLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSpinLock.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
 		ABD681641679DEC400CB2E04 /* NMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageClient.cpp; sourceTree = "<group>"; };
 		ABD681651679DEC400CB2E04 /* NMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageClient.h; sourceTree = "<group>"; };
@@ -1196,8 +1208,14 @@
 				AB23BB3A102B6565009CA347 /* NAtomicList.h */,
 				AB91553B0F9B4DD6009FFEAF /* NLock.cpp */,
 				AB91553C0F9B4DD6009FFEAF /* NLock.h */,
+				ABC75E5D1753910100BB5983 /* NMutex.cpp */,
+				ABC75E5E1753910100BB5983 /* NMutex.h */,
+				ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */,
+				ABC75E601753910100BB5983 /* NReadWriteLock.h */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,
 				AB23BB5D102B67DB009CA347 /* NSemaphore.h */,
+				ABC75E611753910100BB5983 /* NSpinLock.cpp */,
+				ABC75E621753910100BB5983 /* NSpinLock.h */,
 				AB1A7936103248AF00DFBA38 /* NThread.cpp */,
 				AB1A7937103248AF00DFBA38 /* NThread.h */,
 				AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */,
@@ -1609,7 +1627,10 @@
 				AB28FC2A0FB5D9F000F72C61 /* NAtomicInt.cpp in Sources */,
 				AB23BB3C102B6565009CA347 /* NAtomicList.cpp in Sources */,
 				AB28FC2B0FB5D9F000F72C61 /* NLock.cpp in Sources */,
+				ABC75E631753910200BB5983 /* NMutex.cpp in Sources */,
+				ABC75E651753910200BB5983 /* NReadWriteLock.cpp in Sources */,
 				AB23BB5F102B67DB009CA347 /* NSemaphore.cpp in Sources */,
+				ABC75E671753910200BB5983 /* NSpinLock.cpp in Sources */,
 				AB1A793C103248AF00DFBA38 /* NThread.cpp in Sources */,
 				AB1A793B103248AF00DFBA38 /* NThreadPool.cpp in Sources */,
 				AB1A793A103248AF00DFBA38 /* NThreadTask.cpp in Sources */,
@@ -1776,7 +1797,10 @@
 				AB9155A40F9B4DD6009FFEAF /* NAtomicInt.cpp in Sources */,
 				AB23BB3B102B6565009CA347 /* NAtomicList.cpp in Sources */,
 				AB9155A50F9B4DD6009FFEAF /* NLock.cpp in Sources */,
+				ABC75E641753910200BB5983 /* NMutex.cpp in Sources */,
+				ABC75E661753910200BB5983 /* NReadWriteLock.cpp in Sources */,
 				AB23BB5E102B67DB009CA347 /* NSemaphore.cpp in Sources */,
+				ABC75E681753910200BB5983 /* NSpinLock.cpp in Sources */,
 				AB1A793F103248AF00DFBA38 /* NThread.cpp in Sources */,
 				AB1A793E103248AF00DFBA38 /* NThreadPool.cpp in Sources */,
 				AB1A793D103248AF00DFBA38 /* NThreadTask.cpp in Sources */,

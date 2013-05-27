@@ -17,7 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFile.h"
-#include "NLock.h"
+#include "NMutex.h"
 
 
 
@@ -95,7 +95,7 @@ public:
 
 
 private:
-	NMutexLock							mLock;
+	NMutex								mLock;
 
 	NFile								mFile;
 	NFileRef							mFileRef;

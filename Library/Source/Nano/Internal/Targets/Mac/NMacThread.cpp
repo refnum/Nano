@@ -34,29 +34,6 @@
 
 
 //============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NIndex kMutexLoopsUntilBlock							= 5000;
-
-
-
-
-
-//============================================================================
-//		Internal types
-//----------------------------------------------------------------------------
-typedef struct {
-	SInt32					theCount;
-	dispatch_semaphore_t	theSemaphore;
-	pthread_t				ownerThread;
-	SInt32					ownerRecursion;
-} MutexInfo;
-
-
-
-
-
-//============================================================================
 //		Internal globals
 //----------------------------------------------------------------------------
 static ThreadFunctorList gMainThreadFunctors;
@@ -205,7 +182,7 @@ bool NTargetThread::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SI
 
 
 	// Compare and swap
-	return(OSAtomicCompareAndSwap32Barrier(oldValue, newValue, &theValue));
+	return(OSAtomicCompareAndSwap32Barrier(oldValue, newValue, (int32_t *) &theValue));
 }
 
 
@@ -656,60 +633,15 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 
 
 //============================================================================
-//      NTargetThread::SpinCreate : Create a spin lock.
+//      NTargetThread::SpinLock : Acquire a spin lock.
 //----------------------------------------------------------------------------
-NLockRef NTargetThread::SpinCreate(void)
-{	OSSpinLock		*lockRef;
+bool NTargetThread::SpinLock(SInt32 &theLock, bool canBlock)
+{	bool	gotLock;
 
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-
-
-
-	// Create the lock
-	lockRef = (OSSpinLock *) malloc(sizeof(OSSpinLock));
-	if (lockRef != NULL)
-		{
-		NN_ASSERT_ALIGNED_4(lockRef);
-		*lockRef = OS_SPINLOCK_INIT;
-		}
-
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinDestroy : Destroy a spin lock.
-//----------------------------------------------------------------------------
-void NTargetThread::SpinDestroy(NLockRef theLock)
-{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
-
-
-
-	// Validate our state
-	NN_ASSERT(*lockRef == 0);
-
-
-
-	// Destroy the lock
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinLock : Lock a spin lock.
-//----------------------------------------------------------------------------
-bool NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
-{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
-	bool			gotLock;
+	NN_ASSERT(sizeof(OSSpinLock) == sizeof(SInt32));
 
 
 
@@ -718,11 +650,11 @@ bool NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
 	// Blocking in the OS is preferrable to looping in NSpinLock, so we do it.
 	if (canBlock)
 		{
-		OSSpinLockLock(lockRef);
+		OSSpinLockLock((OSSpinLock *) &theLock);
 		gotLock = true;
 		}
 	else
-		gotLock = OSSpinLockTry(lockRef);
+		gotLock = OSSpinLockTry((OSSpinLock *) &theLock);
 
 	return(gotLock);
 }
@@ -732,311 +664,19 @@ bool NTargetThread::SpinLock(NLockRef theLock, bool canBlock)
 
 
 //============================================================================
-//      NTargetThread::SpinUnlock : Unlock a spin lock.
+//      NTargetThread::SpinUnlock : Release a spin lock.
 //----------------------------------------------------------------------------
-void NTargetThread::SpinUnlock(NLockRef theLock)
-{	OSSpinLock		*lockRef = (OSSpinLock *) theLock;
-
+void NTargetThread::SpinUnlock(SInt32 &theLock)
+{
 
 
 	// Validate our state
-	NN_ASSERT(*lockRef != 0);
+	NN_ASSERT(sizeof(OSSpinLock) == sizeof(SInt32));
 
 
 
 	// Release the lock
-	OSSpinLockUnlock(lockRef);
+	OSSpinLockUnlock((OSSpinLock *) &theLock);
 }
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexCreate : Create a mutex lock.
-//----------------------------------------------------------------------------
-NLockRef NTargetThread::MutexCreate(void)
-{	MutexInfo		*lockRef;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-
-
-
-	// Create the lock
-	lockRef = (MutexInfo *) malloc(sizeof(MutexInfo));
-	if (lockRef != NULL)
-		{
-		NN_ASSERT_ALIGNED_4(&lockRef->theCount);
-		lockRef->theCount       = 0;
-		lockRef->theSemaphore   = dispatch_semaphore_create(0);
-		lockRef->ownerThread    = NULL;
-		lockRef->ownerRecursion = 0;
-		}
-
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexDestroy : Destroy a mutex lock.
-//----------------------------------------------------------------------------
-void NTargetThread::MutexDestroy(NLockRef theLock)
-{	MutexInfo		*lockRef = (MutexInfo *) theLock;
-
-
-
-	// Validate our state
-	NN_ASSERT(lockRef->theCount == 0);
-
-
-
-	// Destroy the lock
-	dispatch_release(lockRef->theSemaphore);
-
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexLock : Lock a mutex lock.
-//----------------------------------------------------------------------------
-bool NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
-{	MutexInfo			*lockRef = (MutexInfo *) theLock;
-	pthread_t			thisThread;
-	dispatch_time_t		stopTime;
-	bool				gotLock;
-	NIndex				n;
-
-
-
-	// Get the state we need
-	thisThread = pthread_self();
-	gotLock    = false;
-
-
-
-	// Attempt to acquire the lock
-	//
-	// If the thread is unlocked then we will be the first to swap the counter from
-	// 0 to 1 - and so obtain ownership.
-	//
-	// If the thread is locked then we will obtain ownership if another thread drops
-	// the count to 0 while we're waiting (allowing us to raise it to 1).
-	for (n = 0; n < kMutexLoopsUntilBlock; n++)
-		{
-		gotLock = OSAtomicCompareAndSwap32Barrier(0, 1, &lockRef->theCount);
-		if (gotLock)
-			break;
-
-		sched_yield();
-		}
-
-
-
-	// Acquire the lock
-	//
-	// If we didn't receive the lock above then we have a more complex path to ownership,
-	// although potentially with some shortcuts.
-	if (!gotLock)
-		{
-		// Raise the count
-		//
-		// If raising the count takes it to exactly 1 then we've just acquired the lock.
-		//
-		// We have to raise the count to indicate our interest in the lock, and if it's
-		// now exactly 1 then it was just unlocked between our spinlock attempt and now.
-		gotLock = (OSAtomicIncrement32Barrier(&lockRef->theCount) == 1);
-		if (!gotLock)
-			{
-			// Check the owner
-			//
-			// If the count is now 2+, but we're the owning thread, we already have the lock.
-			gotLock = pthread_equal(thisThread, lockRef->ownerThread);
-			if (!gotLock)
-				{
-				// Wait for the semaphore
-				//
-				// Otherwise we have to wait - the current owner will set it when they're
-				// done, allowing us to wake and take ownership.
-				if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
-					stopTime = DISPATCH_TIME_FOREVER;
-				else
-					stopTime = dispatch_time(DISPATCH_TIME_NOW, (dispatch_time_t) (waitFor / kNTimeNanosecond));
-
-				gotLock = (dispatch_semaphore_wait(lockRef->theSemaphore, stopTime) == 0);
-				}
-			}
-		}
-
-
-
-	// Update our state
-	if (gotLock)
-		{
-		lockRef->ownerThread = thisThread;
-		lockRef->ownerRecursion++;
-		}
-
-	return(gotLock);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexUnlock : Unlock a mutex lock.
-//----------------------------------------------------------------------------
-void NTargetThread::MutexUnlock(NLockRef theLock)
-{	MutexInfo		*lockRef = (MutexInfo *) theLock;
-	NIndex			newRecursion;
-	pthread_t		thisThread;
-
-
-
-	// Get the state we need
-	thisThread = pthread_self();
-
-	NN_ASSERT(pthread_equal(lockRef->ownerThread, thisThread));
-	NN_ASSERT(lockRef->ownerRecursion >= 1);
-
-
-
-	// Update the lock
-	//
-	// The lock state must be reset before decrementing the count; once the count
-	// falls to 0 the lock will be open for other threads.
-	newRecursion = --lockRef->ownerRecursion;
-	
-	if (newRecursion == 0)
-		lockRef->ownerThread = NULL;
-
-
-
-	// Release the lock
-	//
-	// If there are 1+ threads waiting on the lock after we decrement the count then,
-	// provided none of them are us, we can wake one by setting the semaphore.
-	if (OSAtomicDecrement32Barrier(&lockRef->theCount) > 0)
-		{
-		if (newRecursion == 0)
-			dispatch_semaphore_signal(lockRef->theSemaphore);
-		}
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteCreate : Create a read-write lock.
-//----------------------------------------------------------------------------
-NLockRef NTargetThread::ReadWriteCreate(void)
-{	pthread_rwlock_t		*lockRef;
-	NStatus					theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-	
-
-
-	// Create the lock
-	//
-	// We use calloc rather than malloc to avoid an uninitialised read
-	// warning from valgrind against Darwin's pthread implementation.
-	lockRef = (pthread_rwlock_t *) calloc(1, sizeof(pthread_rwlock_t));
-	if (lockRef != NULL)
-		{
-		theErr = pthread_rwlock_init(lockRef, NULL);
-		NN_ASSERT_NOERR(theErr);
-		}
-
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteDestroy : Destroy a read-write lock.
-//----------------------------------------------------------------------------
-void NTargetThread::ReadWriteDestroy(NLockRef theLock)
-{	pthread_rwlock_t		*lockRef = (pthread_rwlock_t *) theLock;
-	NStatus					theErr;
-
-
-
-	// Destroy the lock
-	theErr = pthread_rwlock_destroy(lockRef);
-	NN_ASSERT_NOERR(theErr);
-	
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteLock : Lock a read-write lock.
-//----------------------------------------------------------------------------
-NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, bool canBlock)
-{	pthread_rwlock_t	*lockRef = (pthread_rwlock_t *) theLock;
-	int					sysErr;
-	NStatus				theErr;
-
-
-
-	// Acquire the lock
-	if (canBlock)
-		{
-		if (forRead)
-			sysErr = pthread_rwlock_rdlock(lockRef);
-		else
-			sysErr = pthread_rwlock_wrlock(lockRef);
-		}
-	else
-		{
-		if (forRead)
-			sysErr = pthread_rwlock_tryrdlock(lockRef);
-		else
-			sysErr = pthread_rwlock_trywrlock(lockRef);
-		}
-	
-	theErr = (sysErr == 0) ? kNoErr : kNErrTimeout;
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteUnlock : Unlock a read-write lock.
-//----------------------------------------------------------------------------
-void NTargetThread::ReadWriteUnlock(NLockRef theLock, bool /*forRead*/)
-{	pthread_rwlock_t		*lockRef = (pthread_rwlock_t *) theLock;
-	NStatus					theErr;
-
-
-
-	// Release the lock
-	theErr = pthread_rwlock_unlock(lockRef);
-	NN_ASSERT_NOERR(theErr);
-}
-
 
 

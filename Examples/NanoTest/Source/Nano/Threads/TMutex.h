@@ -1,8 +1,8 @@
 /*	NAME:
-		TLock.h
+		TMutex.h
 
 	DESCRIPTION:
-		NLock tests.
+		NMutex tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2013, refNum Software
@@ -11,12 +11,12 @@
 		All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TLOCK_HDR
-#define TLOCK_HDR
+#ifndef TMUTEX_HDR
+#define TMUTEX_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "NMutex.h"
 
 
 
@@ -25,22 +25,18 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TLock {
+class TMutex {
 public:
 	// Execute the tests
 	static void							Execute(void);
 
 
-	// Test a lock
-	static void							TestLock(NLock *theLock);
-
-
 private:
-	static void							LockUnlock(NLock *theLock, NData *theData);
+
 };
 
 
 
 
 
-#endif // TLOCK_HDR
+#endif // TMUTEX_HDR

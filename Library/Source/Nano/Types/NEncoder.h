@@ -98,7 +98,7 @@ typedef NEncoderClassInfoMap::const_iterator									NEncoderClassInfoMapConstIt
 
 // Classes
 typedef struct {
-	NMutexLock				theLock;
+	NMutex					theLock;
 	NEncoderClassInfoMap	theInfo;
 } NEncoderClasses;
 

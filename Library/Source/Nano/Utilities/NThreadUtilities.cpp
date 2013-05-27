@@ -98,7 +98,7 @@ void NThreadUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 //============================================================================
 //		NThreadUtilities::AtomicCompareAndSwap32 : Atomic 32-bit compare-and-swap.
 //----------------------------------------------------------------------------
-bool NThreadUtilities::AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UInt32 newValue)
+bool NThreadUtilities::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue)
 {
 
 

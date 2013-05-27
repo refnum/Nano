@@ -85,7 +85,7 @@ private:
 
 
 private:
-	NMutexLock							mLock;
+	NMutex								mLock;
 	NUTIInfoMap							mInfo;
 };
 

@@ -1,18 +1,18 @@
 /*	NAME:
-		TLock.h
+		NSpinLock.h
 
 	DESCRIPTION:
-		NLock tests.
-
+		Spin lock.
+	
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+        Copyright (c) 2006-2013, refNum Software
+        <http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
+        All rights reserved. Released under the terms of licence.html.
 	__________________________________________________________________________
 */
-#ifndef TLOCK_HDR
-#define TLOCK_HDR
+#ifndef NSPINLOCK_HDR
+#define NSPINLOCK_HDR
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
@@ -25,22 +25,25 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class TLock {
+class NSpinLock : public NLock {
 public:
-	// Execute the tests
-	static void							Execute(void);
+										NSpinLock(void);
+	virtual							   ~NSpinLock(void);
 
 
-	// Test a lock
-	static void							TestLock(NLock *theLock);
+	// Acquire/release the lock
+	bool								Lock(NTime waitFor=kNTimeForever);
+	void								Unlock(void);
 
 
 private:
-	static void							LockUnlock(NLock *theLock, NData *theData);
+
+
 };
 
 
 
 
+#endif // NSPINLOCK_HDR
 
-#endif // TLOCK_HDR
+

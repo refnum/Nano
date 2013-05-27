@@ -17,7 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NContainer.h"
-#include "NLock.h"
+#include "NMutex.h"
 
 
 
@@ -73,7 +73,7 @@ private:
 	typedef typename TList::iterator		TListIterator;
 	typedef typename TList::const_iterator	TListConstIterator;
 
-	mutable NMutexLock					mLock;
+	mutable NMutex						mLock;
 	TList								mList;
 };
 

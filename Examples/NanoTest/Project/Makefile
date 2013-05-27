@@ -58,7 +58,10 @@ SRCS   =                                                                        
         ../Source/Nano/Threads/TAtomicInt.cpp                                        \
         ../Source/Nano/Threads/TAtomicList.cpp                                       \
         ../Source/Nano/Threads/TLock.cpp                                             \
+        ../Source/Nano/Threads/TMutex.cpp                                            \
+        ../Source/Nano/Threads/TReadWriteLock.cpp                                    \
         ../Source/Nano/Threads/TSemaphore.cpp                                        \
+        ../Source/Nano/Threads/TSpinLock.cpp                                         \
         ../Source/Nano/Threads/TThread.cpp                                           \
         ../Source/Nano/Threads/TThreadPool.cpp                                       \
         ../Source/Nano/Types/TArray.cpp                                              \

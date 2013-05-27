@@ -89,7 +89,10 @@
 #include "TAtomicInt.h"
 #include "TAtomicList.h"
 #include "TLock.h"
+#include "TMutex.h"
+#include "TReadWriteLock.h"
 #include "TSemaphore.h"
+#include "TSpinLock.h"
 #include "TThread.h"
 #include "TThreadPool.h"
 
@@ -244,7 +247,10 @@ int main(int argc, const char **argv)
 	TAtomicInt::Execute();
 	TAtomicList::Execute();
 	TLock::Execute();
+	TMutex::Execute();
+	TReadWriteLock::Execute();
 	TSemaphore::Execute();
+	TSpinLock::Execute();
 	TThread::Execute();
 	TThreadPool::Execute();
 
@@ -282,6 +288,9 @@ int main(int argc, const char **argv)
 	TTextUtilities::Execute();
 	TThreadUtilities::Execute();
 	TTimeUtilities::Execute();
+
+
+
 
 	return(0);
 }

@@ -15,7 +15,6 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NThreadPool.h"
-#include "NLock.h"
 
 #include "TLock.h"
 
@@ -41,12 +40,20 @@ static const NIndex kDataSize										= 5000;
 //		TLock::Execute : Execute the tests.
 //----------------------------------------------------------------------------
 void TLock::Execute(void)
-{	NReadWriteLock		lockReadWrite;
-	NMutexLock			lockMutex;
-	NSpinLock			lockSpin;
-	NThreadPool			thePool;
-	NData				theData;
-	NIndex				n;
+{
+}
+
+
+
+
+
+//============================================================================
+//		TLock::TestLock : Test a lock.
+//----------------------------------------------------------------------------
+void TLock::TestLock(NLock *theLock)
+{	NThreadPool		thePool;
+	NData			theData;
+	NIndex			n;
 
 
 
@@ -55,47 +62,18 @@ void TLock::Execute(void)
 
 
 
-	// Spin lock - contention
+	// Test the lock
 	for (n = 0; n < kThreadCount; n++)
-		thePool.AddTask(new NThreadTaskFunctor(BindFunction(TLock::LockUnlock, &lockSpin, &theData)));
+		thePool.AddTask(new NThreadTaskFunctor(BindFunction(TLock::LockUnlock, theLock, &theData)));
 	
 	thePool.WaitForTasks();
-
-
-
-	// Mutex - contention
-	for (n = 0; n < kThreadCount; n++)
-		thePool.AddTask(new NThreadTaskFunctor(BindFunction(TLock::LockUnlock, &lockMutex, &theData)));
-	
-	thePool.WaitForTasks();
-
-
-
-	// Read/Write lock - contention
-	for (n = 0; n < kThreadCount; n++)
-		thePool.AddTask(new NThreadTaskFunctor(BindFunction(TLock::LockUnlock, &lockReadWrite, &theData)));
-	
-	thePool.WaitForTasks();
-
-
-
-	// Mutex - must be recursive
-	NN_ASSERT(!lockMutex.IsLocked());
-	lockMutex.Lock();
-
-		NN_ASSERT(lockMutex.IsLocked());
-		lockMutex.Lock();
-		lockMutex.Unlock();
-		NN_ASSERT(lockMutex.IsLocked());
-
-	lockMutex.Unlock();
-	NN_ASSERT(!lockMutex.IsLocked());
 }
 
 
 
 
 
+#pragma mark private
 //============================================================================
 //		TLock::LockUnlock : Lock and unlock a lock.
 //----------------------------------------------------------------------------

@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "NMutex.h"
 #include "NTargetPOSIX.h"
 #include "NTextUtilities.h"
 
@@ -218,7 +218,7 @@ NDictionary NTextUtilities::GetEntityDictionary(const NDictionary &extraEntities
 {	static bool				sStandardInited = false;
 	static NDictionary		sStandardEncode;
 	static NDictionary		sStandardDecode;
-	static NMutexLock		sStandardLock;
+	static NMutex			sStandardLock;
 
 	NDictionary		theResult, theExtra;
 	bool			didInvert;

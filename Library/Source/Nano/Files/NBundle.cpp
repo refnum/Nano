@@ -510,8 +510,8 @@ void NBundle::ReleaseInfo(void)
 //============================================================================
 //		NBundle::GetLock : Get the lock.
 //----------------------------------------------------------------------------
-NMutexLock &NBundle::GetLock(void)
-{	static NMutexLock		sLock;
+NMutex &NBundle::GetLock(void)
+{	static NMutex	sLock;
 
 
 

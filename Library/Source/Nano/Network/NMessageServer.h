@@ -169,7 +169,7 @@ private:
 
 
 private:
-	mutable NMutexLock					mLock;
+	mutable NMutex						mLock;
 
 	NMessageServerStatus				mStatus;
 	UInt16								mPort;

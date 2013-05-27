@@ -73,7 +73,7 @@ private:
 private:
 	void							  **mInstance;
 
-	static NMutexLock					mLock;
+	static NMutex						mLock;
 };
 
 

@@ -37,6 +37,14 @@ static void * const kValueLocal										= (void *) 0x12345678;
 void TThread::Execute(void)
 {	void				*theValue;
 	NThreadLocalRef		localRef;
+	NThreadID			theID;
+
+
+
+	// Thread IDs
+	theID = NThread::GetID();
+	NN_ASSERT( NThread::AreEqual(theID, theID));
+	NN_ASSERT(!NThread::AreEqual(theID, kNThreadIDNone));
 
 
 

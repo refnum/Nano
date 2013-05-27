@@ -93,6 +93,9 @@
 		ABB57D16112ADC21003D714C /* TSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57D14112ADC21003D714C /* TSingleton.cpp */; };
 		ABB6783012AE56EF0077D64E /* TCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6782E12AE56EF0077D64E /* TCFURL.cpp */; };
 		ABC66E7D17411D52005B9357 /* TTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC66E7B17411D52005B9357 /* TTask.cpp */; };
+		ABCAFC5D17539B3500BAE1A7 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
+		ABCAFC5E17539B3500BAE1A7 /* TReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */; };
+		ABCAFC5F17539B3500BAE1A7 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
 		ABD68171167A481C00CB2E04 /* TMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */; };
 		ABD68172167A481C00CB2E04 /* TNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */; };
 		ABD6817F167AB8AA00CB2E04 /* TJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */; };
@@ -307,6 +310,12 @@
 		ABB6782F12AE56EF0077D64E /* TCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFURL.h; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
 		ABC66E7C17411D52005B9357 /* TTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTask.h; sourceTree = "<group>"; };
+		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
+		ABCAFC5817539B3500BAE1A7 /* TMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMutex.h; sourceTree = "<group>"; };
+		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
+		ABCAFC5A17539B3500BAE1A7 /* TReadWriteLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TReadWriteLock.h; sourceTree = "<group>"; };
+		ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSpinLock.cpp; sourceTree = "<group>"; };
+		ABCAFC5C17539B3500BAE1A7 /* TSpinLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSpinLock.h; sourceTree = "<group>"; };
 		ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageClient.cpp; sourceTree = "<group>"; };
 		ABD6816E167A481C00CB2E04 /* TMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMessageClient.h; sourceTree = "<group>"; };
 		ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkMessage.cpp; sourceTree = "<group>"; };
@@ -531,8 +540,14 @@
 				AB514D951034184B00E5A6AD /* TAtomicList.h */,
 				AB514D961034184B00E5A6AD /* TLock.cpp */,
 				AB514D971034184B00E5A6AD /* TLock.h */,
+				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
+				ABCAFC5817539B3500BAE1A7 /* TMutex.h */,
+				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
+				ABCAFC5A17539B3500BAE1A7 /* TReadWriteLock.h */,
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
 				AB514D991034184B00E5A6AD /* TSemaphore.h */,
+				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
+				ABCAFC5C17539B3500BAE1A7 /* TSpinLock.h */,
 				AB514D9A1034184B00E5A6AD /* TThread.cpp */,
 				AB514D9B1034184B00E5A6AD /* TThread.h */,
 				AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */,
@@ -866,7 +881,10 @@
 				AB514DFB1034184B00E5A6AD /* TAtomicInt.cpp in Sources */,
 				AB514DFC1034184B00E5A6AD /* TAtomicList.cpp in Sources */,
 				AB514DFD1034184B00E5A6AD /* TLock.cpp in Sources */,
+				ABCAFC5D17539B3500BAE1A7 /* TMutex.cpp in Sources */,
+				ABCAFC5E17539B3500BAE1A7 /* TReadWriteLock.cpp in Sources */,
 				AB514DFE1034184B00E5A6AD /* TSemaphore.cpp in Sources */,
+				ABCAFC5F17539B3500BAE1A7 /* TSpinLock.cpp in Sources */,
 				AB514DFF1034184B00E5A6AD /* TThread.cpp in Sources */,
 				AB514E001034184B00E5A6AD /* TThreadPool.cpp in Sources */,
 				AB514E011034184B00E5A6AD /* TArray.cpp in Sources */,

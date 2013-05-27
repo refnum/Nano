@@ -377,7 +377,7 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 {	NFunctor				invokeFunctor;
 	NSemaphore				theSemaphore;
-// dair
+// dair, to do
 //	CFAbsoluteTime			fireTime;
 //	CFRunLoopTimerRef		cfTimer;
 	bool					wasDone;
@@ -402,7 +402,7 @@ void NTargetThread::ThreadInvokeMain(const NFunctor &theFunctor)
 		gMainThreadFunctors.PushBack(BindFunction(InvokeMainThreadFunctor, theFunctor, &theSemaphore));
 
 
-// dair, todo
+// dair, to do
 NN_LOG("NTargetThread::ThreadInvokeMain skipping runloop!");
 /*
 		// Schedule the timer
@@ -591,67 +591,17 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 
 
 //============================================================================
-//      NTargetThread::SpinCreate : Create a spin lock.
+//      NTargetThread::SpinLock : Acquire the a spin lock.
 //----------------------------------------------------------------------------
-NLockRef NTargetThread::SpinCreate(void)
-{	SInt32		*lockRef;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-
-
-
-	// Create the lock
-	lockRef = (SInt32 *) malloc(sizeof(SInt32));
-	if (lockRef != NULL)
-		{
-		NN_ASSERT_ALIGNED_4(lockRef);
-		*lockRef = 0;
-		}
-	
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinDestroy : Destroy a spin lock.
-//----------------------------------------------------------------------------
-void NTargetThread::SpinDestroy(NLockRef theLock)
-{	SInt32		*lockRef = (SInt32 *) theLock;
-
-
-
-	// Validate our state
-	NN_ASSERT(*lockRef == 0);
-
-
-
-	// Destroy the lock
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::SpinLock : Lock a spin lock.
-//----------------------------------------------------------------------------
-bool NTargetThread::SpinLock(NLockRef theLock, bool /*canBlock*/)
-{	SInt32		*lockRef = (LONG *) theLock;
-	bool		gotLock;
+bool NTargetThread::SpinLock(SInt32 &theLock, bool /*canBlock*/)
+{	bool	gotLock;
 
 
 
 	// Acquire the lock
 	//
-	// We don't have a blocking spinlock API, so NSpinlock will loop for us.
-	gotLock = __sync_bool_compare_and_swap(lockRef, 0, 1);
+	// We don't have a blocking spinlock API, so NSpinlock must loop for us.
+	gotLock = __sync_bool_compare_and_swap(&theLock, 0, 1);
 
 	return(gotLock);
 }
@@ -661,222 +611,14 @@ bool NTargetThread::SpinLock(NLockRef theLock, bool /*canBlock*/)
 
 
 //============================================================================
-//      NTargetThread::SpinUnlock : Unlock a spin lock.
+//      NTargetThread::SpinUnlock : Release a spin lock.
 //----------------------------------------------------------------------------
-void NTargetThread::SpinUnlock(NLockRef theLock)
-{	SInt32		*lockRef = (SInt32 *) theLock;
-
-
-
-	// Validate our state
-	NN_ASSERT(*lockRef == 1);
-
+void NTargetThread::SpinUnlock(SInt32 &theLock)
+{
 
 
 	// Release the lock
-	__sync_add_and_fetch(&theValue, -1);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexCreate : Create a mutex lock.
-//----------------------------------------------------------------------------
-NLockRef NTargetThread::MutexCreate(void)
-{	pthread_mutexattr_t		lockAttr;
-	pthread_mutex_t			*lockRef;
-	NStatus					theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-	
-	
-	
-	// Get the state we need
-	pthread_mutexattr_init(   &lockAttr);
-	pthread_mutexattr_settype(&lockAttr, PTHREAD_MUTEX_RECURSIVE);
-
-
-
-	// Create the lock
-	lockRef = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
-	if (lockRef != NULL)
-		{
-		theErr = pthread_mutex_init(lockRef, &lockAttr);
-		NN_ASSERT_NOERR(theErr);
-		}
-
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexDestroy : Destroy a mutex lock.
-//----------------------------------------------------------------------------
-void NTargetThread::MutexDestroy(NLockRef theLock)
-{	pthread_mutex_t		*lockRef = (pthread_mutex_t *) theLock;
-	NStatus				theErr;
-
-
-
-	// Destroy the lock
-	theErr = pthread_mutex_destroy(lockRef);
-	NN_ASSERT_NOERR(theErr);
-	
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexLock : Lock a mutex lock.
-//----------------------------------------------------------------------------
-bool NTargetThread::MutexLock(NLockRef theLock, NTime waitFor)
-{	pthread_mutex_t		*lockRef = (pthread_mutex_t *) theLock;
-	struct timespec		waitTime;
-	int					sysErr;
-
-
-
-	// Wait for the lock
-	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		sysErr = pthread_mutex_lock(lockRef);
-	else
-		{
-		waitTime = NTargetLinux::ConvertTimeSpec(waitFor);
-		sysErr   = pthread_mutex_timedlock(lockRef, &waitTime);
-		}
-	
-	return(sysErr == 0);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::MutexUnlock : Unlock a mutex lock.
-//----------------------------------------------------------------------------
-void NTargetThread::MutexUnlock(NLockRef theLock)
-{	pthread_mutex_t		*lockRef = (pthread_mutex_t *) theLock;
-	NStatus				theErr;
-
-
-
-	// Release the lock
-	theErr = pthread_mutex_unlock(lockRef);
-	NN_ASSERT_NOERR(theErr);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteCreate : Create a read-write lock.
-//----------------------------------------------------------------------------
-NLockRef NTargetThread::ReadWriteCreate(void)
-{	pthread_rwlock_t		*lockRef;
-	NStatus					theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(lockRef) == sizeof(NLockRef));
-	
-
-
-	// Create the lock
-	lockRef = (pthread_rwlock_t *) malloc(sizeof(pthread_rwlock_t));
-	if (lockRef != NULL)
-		{
-		theErr = pthread_rwlock_init(lockRef, NULL);
-		NN_ASSERT_NOERR(theErr);
-		}
-
-	return((NLockRef) lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteDestroy : Destroy a read-write lock.
-//----------------------------------------------------------------------------
-void NTargetThread::ReadWriteDestroy(NLockRef theLock)
-{	pthread_rwlock_t		*lockRef = (pthread_rwlock_t *) theLock;
-	NStatus					theErr;
-
-
-
-	// Destroy the lock
-	theErr = pthread_rwlock_destroy(lockRef);
-	NN_ASSERT_NOERR(theErr);
-	
-	free(lockRef);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteLock : Lock a read-write lock.
-//----------------------------------------------------------------------------
-NStatus NTargetThread::ReadWriteLock(NLockRef theLock, bool forRead, bool canBlock)
-{	pthread_rwlock_t	*lockRef = (pthread_rwlock_t *) theLock;
-	int					sysErr;
-	NStatus				theErr;
-
-
-
-	// Acquire the lock
-	if (canBlock)
-		{
-		if (forRead)
-			sysErr = pthread_rwlock_rdlock(lockRef);
-		else
-			sysErr = pthread_rwlock_wrlock(lockRef);
-		}
-	else
-		{
-		if (forRead)
-			sysErr = pthread_rwlock_tryrdlock(lockRef);
-		else
-			sysErr = pthread_rwlock_trywrlock(lockRef);
-		}
-	
-	theErr = (sysErr == 0) ? kNoErr : kNErrTimeout;
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//      NTargetThread::ReadWriteUnlock : Unlock a read-write lock.
-//----------------------------------------------------------------------------
-void NTargetThread::ReadWriteUnlock(NLockRef theLock, bool /*forRead*/)
-{	pthread_rwlock_t		*lockRef = (pthread_rwlock_t *) theLock;
-	NStatus					theErr;
-
-
-
-	// Release the lock
-	theErr = pthread_rwlock_unlock(lockRef);
-	NN_ASSERT_NOERR(theErr);
+	__sync_add_and_fetch(&theLock, -1);
 }
 
 

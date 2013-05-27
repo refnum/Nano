@@ -21,7 +21,7 @@
 #include "NCoreFoundation.h"
 #include "NTimeUtilities.h"
 #include "NThread.h"
-#include "NLock.h"
+#include "NSpinLock.h"
 #include "NCFString.h"
 #include "NMacTarget.h"
 #include "NTargetSystem.h"

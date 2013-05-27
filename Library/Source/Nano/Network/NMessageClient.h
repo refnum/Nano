@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NLock.h"
+#include "NMutex.h"
 #include "NMessageEntity.h"
 
 
@@ -114,7 +114,7 @@ private:
 
 
 private:
-	mutable NMutexLock					mLock;
+	mutable NMutex						mLock;
 	NSocket								mSocket;
 
 	NMessageClientStatus				mStatus;

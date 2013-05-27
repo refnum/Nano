@@ -26,6 +26,7 @@
 #include "NCocoa.h"
 #include "NMacTarget.h"
 #include "NTargetFile.h"
+#include "NSpinLock.h"
 
 
 

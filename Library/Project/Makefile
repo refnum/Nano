@@ -68,7 +68,10 @@ SRCS_NANO =                                                                     
         ../Source/Nano/Threads/NAtomicInt.cpp                                        \
         ../Source/Nano/Threads/NAtomicList.cpp                                       \
         ../Source/Nano/Threads/NLock.cpp                                             \
+        ../Source/Nano/Threads/NMutex.cpp                                            \
+        ../Source/Nano/Threads/NReadWriteLock.cpp                                    \
         ../Source/Nano/Threads/NSemaphore.cpp                                        \
+        ../Source/Nano/Threads/NSpinLock.cpp                                         \
         ../Source/Nano/Threads/NThread.cpp                                           \
         ../Source/Nano/Threads/NThreadPool.cpp                                       \
         ../Source/Nano/Threads/NThreadTask.cpp                                       \

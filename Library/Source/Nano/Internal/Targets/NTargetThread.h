@@ -80,24 +80,8 @@ public:
 
 
 	// Spin lock
-	static NLockRef						SpinCreate(void);
-	static void							SpinDestroy(NLockRef theLock);
-	static bool							SpinLock(   NLockRef theLock, bool canBlock);
-	static void							SpinUnlock( NLockRef theLock);
-
-
-	// Mutex lock
-	static NLockRef						MutexCreate(void);
-	static void							MutexDestroy(NLockRef theLock);
-	static bool							MutexLock(   NLockRef theLock, NTime waitFor);
-	static void							MutexUnlock( NLockRef theLock);
-
-
-	// Read/write lock
-	static NLockRef						ReadWriteCreate(void);
-	static void							ReadWriteDestroy(NLockRef theLock);
-	static NStatus						ReadWriteLock(   NLockRef theLock, bool forRead, bool canBlock);
-	static void							ReadWriteUnlock( NLockRef theLock, bool forRead);
+	static bool							SpinLock(  SInt32 &theLock, bool canBlock);
+	static void							SpinUnlock(SInt32 &theLock);
 };
 
 
