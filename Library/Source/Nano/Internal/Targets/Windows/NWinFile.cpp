@@ -21,6 +21,7 @@
 
 #include "NWindows.h"
 #include "NRegistry.h"
+#include "NSpinLock.h"
 #include "NWinTarget.h"
 #include "NPropertyList.h"
 #include "NTargetFile.h"
@@ -176,7 +177,7 @@ bool NTargetFile::IsLink(const NString &thePath)
 	if (!isLink)
 		{
 	    if ((SHGetFileInfo(ToWN(thePath), 0, &shellInfo, sizeof(shellInfo), SHGFI_ATTRIBUTES) != 0))
-			isLink = (shellInfo.dwAttributes & SFGAO_LINK);
+			isLink = ((shellInfo.dwAttributes & SFGAO_LINK) == SFGAO_LINK);
 		}
 
 	return(isLink);
