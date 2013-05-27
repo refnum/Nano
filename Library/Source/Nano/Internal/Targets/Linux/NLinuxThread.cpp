@@ -101,8 +101,7 @@ static void InvokeMainThreadFunctors(void)
 //		ThreadEntry : Thread entry point.
 //----------------------------------------------------------------------------
 static void *ThreadEntry(void *userData)
-{	NFunctor			*theFunctor;
-	StAutoReleasePool	thePool;
+{	NFunctor	*theFunctor;
 
 
 
@@ -579,7 +578,7 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 		sysErr = sem_wait(semRef);
 	else
 		{
-		waitTime = NTargetLinux::ConvertTimeSpec(waitFor);
+		waitTime = NLinuxTarget::ConvertTimeSpec(waitFor);
 		sysErr   = sem_timedwait(semRef, &waitTime);
 		}
 

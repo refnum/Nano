@@ -213,8 +213,8 @@ struct timespec NLinuxTarget::ConvertTimeSpec(NTime theTime)
 
 
 	// Convert the time
-	timeSecs = floor(waitFor);
-	timeFrac = waitFor - timeSecs;
+	timeSecs = floor(theTime);
+	timeFrac = theTime - timeSecs;
 		
 	timeSpec.tv_sec  = (time_t) timeSecs;
 	timeSpec.tv_nsec = (long) (timeFrac / kNTimeNanosecond);

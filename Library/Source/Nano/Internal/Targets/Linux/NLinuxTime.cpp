@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 #include <sys/time.h>
 
-#include "NLock.h"
+#include "NSpinLock.h"
 #include "NTargetTime.h"
 
 
