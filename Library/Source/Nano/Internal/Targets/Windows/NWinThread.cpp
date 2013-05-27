@@ -433,6 +433,46 @@ bool NTargetThread::ThreadIsMain(void)
 
 
 //============================================================================
+//		NTargetThread::ThreadGetID : Get the current thread ID.
+//----------------------------------------------------------------------------
+NThreadID NTargetThread::ThreadGetID(void)
+{
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(NThreadID) >= sizeof(DWORD));
+
+
+
+	// Get the thread ID
+	return((NThreadID) GetCurrentThreadId());
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadAreEqual : Are two thread IDs equal?
+//----------------------------------------------------------------------------
+bool NTargetThread::ThreadAreEqual(NThreadID thread1, NThreadID thread2)
+{
+
+
+	// Validate our state
+	NN_ASSERT(sizeof(NThreadID) >= sizeof(DWORD));
+
+
+
+	// Compare the IDs
+	return(thread1 == thread2);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::ThreadSleep : Sleep the current thread.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadSleep(NTime theTime)

@@ -16,7 +16,6 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTimer.h"
 #include "NFunctor.h"
 #include "NSemaphore.h"
 
@@ -38,8 +37,10 @@ static const NTime kNThreadSleepTime								= 10.0 * kNTimeMillisecond;
 //----------------------------------------------------------------------------
 // Thread local value
 typedef UIntPtr NThreadLocalRef;
+typedef UIntPtr NThreadID;
 
 static const NThreadLocalRef kNThreadLocalRefNone					= (NThreadLocalRef) -1;
+static const NThreadID       kNThreadIDNone							= (NThreadID) NULL;
 
 
 // Lists
@@ -65,9 +66,16 @@ public:
 	// Is this the main thread?
 	static bool							IsMain(void);
 
-
 	// Is the thread running?
 	bool								IsRunning(void) const;
+
+
+	// Get the current thread
+	static NThreadID					GetID(void);
+
+
+	// Are two thread IDs equal?
+	static bool							AreEqual(NThreadID thread1, NThreadID thread2);
 
 
 	// Get/set the auto-delete state

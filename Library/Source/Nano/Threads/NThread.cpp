@@ -89,6 +89,48 @@ bool NThread::IsRunning(void) const
 
 
 //============================================================================
+//		NThread::GetID : Get the current thread ID.
+//----------------------------------------------------------------------------
+NThreadID NThread::GetID(void)
+{	NThreadID	theID;
+
+
+
+	// Get the ID
+	theID = NTargetThread::ThreadGetID();
+	NN_ASSERT(theID != kNThreadIDNone);
+
+	return(theID);
+}
+
+
+
+
+
+//============================================================================
+//		NThread::AreEqual : Are two thread IDs equal?
+//----------------------------------------------------------------------------
+bool NThread::AreEqual(NThreadID thread1, NThreadID thread2)
+{	bool	areEqual;
+
+
+
+	// Check the IDs
+	//
+	// An invalid ID can only be compared to another invalid ID.
+	if (thread1 == kNThreadIDNone || thread2 == kNThreadIDNone)
+		areEqual = (thread1 == thread2);
+	else
+		areEqual = NTargetThread::ThreadAreEqual(thread1, thread2);
+	
+	return(areEqual);
+}
+
+
+
+
+
+//============================================================================
 //		NThread::IsAutoDelete : Is this an auto-delete thread?
 //----------------------------------------------------------------------------
 bool NThread::IsAutoDelete(void) const

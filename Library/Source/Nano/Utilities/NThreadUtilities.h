@@ -56,7 +56,7 @@ public:
 	// Atomic compare and swap
 	//
 	// Returns as theValue was updated from oldValue to newValue.
-	static bool							AtomicCompareAndSwap32(UInt32 &theValue, UInt32 oldValue, UInt32 newValue);
+	static bool							AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue);
 
 
 	// Atomic addition
