@@ -20,6 +20,7 @@
 
 #include "NThread.h"
 #include "NWindows.h"
+#include "NSpinLock.h"
 #include "NAtomicList.h"
 #include "NTargetThread.h"
 #include "NTargetNetwork.h"

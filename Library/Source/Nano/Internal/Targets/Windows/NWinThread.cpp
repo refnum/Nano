@@ -410,7 +410,7 @@ void NTargetThread::MemoryBarrier(void)
 
 
 	// Insert the barrier
-	MemoryBarrier();
+	::MemoryBarrier();
 }
 
 
@@ -732,7 +732,7 @@ bool NTargetThread::SpinLock(SInt32 &theLock, bool /*canBlock*/)
 	// Acquire the lock
 	//
 	// We don't have a blocking spinlock API, so NSpinlock must loop for us.
-	gotLock = (_InterlockedCompareExchange(&theLock, 1, 0) == 0);
+	gotLock = (_InterlockedCompareExchange((LONG *) &theLock, 1, 0) == 0);
 
 	return(gotLock);
 }
@@ -749,7 +749,7 @@ void NTargetThread::SpinUnlock(SInt32 &theLock)
 
 
 	// Release the lock
-	_InterlockedDecrement(&theLock);
+	_InterlockedDecrement((LONG *) &theLock);
 }
 
 
