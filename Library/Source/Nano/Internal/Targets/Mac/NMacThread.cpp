@@ -15,9 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <unistd.h>
-#include <mach/task.h>
-#include <mach/mach_init.h>
-#include <mach/semaphore.h>
+#include <dispatch/semaphore.h>
 #include <libKern/OSAtomic.h>
 
 #include "NNSAutoReleasePool.h"
