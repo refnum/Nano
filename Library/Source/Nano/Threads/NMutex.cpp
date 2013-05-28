@@ -13,14 +13,14 @@
 		work within the lock) were seen, on a 2.2Ghz Core i7 running 10.8, to produce
 		times of:
 	
-			Mac NMutex						0.17s
+			Mac NMutex						0.12s
 			Mac pthread_mutex			   15.31s
 	
 			Windows NMutex					0.11s
 			Windows Critical Section		0.10s
 			Windows Semaphore				3.74s
 	
-			Linux NMutex					0.21s
+			Linux NMutex					0.14s
 			Linux pthread_mutex				0.23s
 		
 		A Windows critical section uses the same technique as an NMutex (atomic spin
@@ -118,13 +118,16 @@ bool NMutex::Lock(NTime waitFor)
 	//
 	// If the thread is locked then we will obtain ownership if another thread drops
 	// the count to 0 while we're waiting (allowing us to raise it to 1).
+	//
+	// We employ a simple back-off strategy, starting with a yield (0) then using an
+	// extra microsecond on subsequent loops.
 	for (n = 0; n < kMutexSpinUntilBlock; n++)
 		{
 		gotLock = NTargetThread::AtomicCompareAndSwap32(mLockCount, 0, 1);
 		if (gotLock)
 			break;
 
-		NThread::Sleep(kNTimeNone);
+		NThread::Sleep(n * kNTimeMicrosecond);
 		}
 
 
