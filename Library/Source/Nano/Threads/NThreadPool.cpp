@@ -421,7 +421,6 @@ void NThreadPool::ScheduleTask(NThreadTask *theTask)
 
 	// Validate our state
 	NN_ASSERT(mLock.IsLocked());
-	NN_ASSERT(mTasks.size() < (size_t) kMaxTasks);
 	
 
 
