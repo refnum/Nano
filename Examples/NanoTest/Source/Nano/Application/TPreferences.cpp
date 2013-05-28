@@ -96,5 +96,7 @@ void TPreferences::Execute(void)
 	NN_ASSERT( thePrefs->HasKey(kKeyString, true));
 	NN_ASSERT(!thePrefs->HasKey(kKeyString, false));
 	NN_ASSERT( thePrefs->GetValueString(kKeyString) == kValueString1);
+
+	thePrefs->SetDefaults(NDictionary());
 }
 
