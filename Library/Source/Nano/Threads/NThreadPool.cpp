@@ -26,15 +26,6 @@
 
 
 //============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NIndex kMaxTasks										= 1000000;
-
-
-
-
-
-//============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
 struct CompareFIFO
@@ -69,7 +60,6 @@ struct ComparePriority
 //		NThreadPool::NThreadPool : Constructor.
 //----------------------------------------------------------------------------
 NThreadPool::NThreadPool(void)
-			: mSemaphore(kMaxTasks)
 {
 
 
@@ -449,12 +439,9 @@ void NThreadPool::ScheduleTask(NThreadTask *theTask)
 	// Incrementing the thread count must be done by the main thread, since a large
 	// number of tasks may be queued up before any worker thread gets a chance to run. 
 	if (mActiveThreads < mThreadLimit)
-		{
-		NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
 		NThreadUtilities::DetachFunctor(BindSelf(NThreadPool::ExecuteTasks));
-		}
-	else
-		mSemaphore.Signal();
+
+	mSemaphore.Signal();
 }
 
 
@@ -470,9 +457,19 @@ void NThreadPool::ExecuteTasks(void)
 
 
 
+	// Update the pool
+	NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
+
+
+
 	// Execute the tasks
 	do
 		{
+		// Wait for the semaphore
+		mSemaphore.Wait();
+
+
+
 		// Get the next task
 		mLock.Lock();
 		
@@ -501,11 +498,6 @@ void NThreadPool::ExecuteTasks(void)
 			delete theTask;
 			NThreadUtilities::AtomicAdd32(mActiveTasks, -1);
 			}
-		
-		
-		// Or wait for more tasks
-		else if (!areDone)
-			mSemaphore.Wait();
 		}
 	while (!areDone);
 
