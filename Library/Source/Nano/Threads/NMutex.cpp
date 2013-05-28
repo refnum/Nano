@@ -123,7 +123,7 @@ bool NMutex::Lock(NTime waitFor)
 		if (gotLock)
 			break;
 
-		NThread::Sleep(0.0);
+		NThread::Sleep(kNTimeNone);
 		}
 
 

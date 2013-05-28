@@ -340,11 +340,19 @@ bool NTargetThread::ThreadAreEqual(NThreadID thread1, NThreadID thread2)
 //		NTargetThread::ThreadSleep : Sleep the current thread.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadSleep(NTime theTime)
-{
+{	useconds_t		sleepTime;
+
 
 
 	// Sleep the thread
-	usleep((useconds_t) (theTime / kNTimeMicrosecond));
+	//
+	// A sleep of 0 is a yield.
+	sleepTime = (useconds_t) (theTime / kNTimeMicrosecond);
+	
+	if (sleepTime == 0)
+		sched_yield();
+	else
+		usleep(0.0);
 
 
 

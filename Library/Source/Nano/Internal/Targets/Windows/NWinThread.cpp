@@ -496,11 +496,19 @@ bool NTargetThread::ThreadAreEqual(NThreadID thread1, NThreadID thread2)
 //		NTargetThread::ThreadSleep : Sleep the current thread.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadSleep(NTime theTime)
-{
+{	DWORD		sleepTime;
+
 
 
 	// Sleep the thread
-	Sleep(NWinTarget::ConvertTimeMS(theTime));
+	//
+	// A sleep of 0 is a yield.
+	sleepTime = NWinTarget::ConvertTimeMS(theTime);
+	
+	if (sleepTime == 0)
+		YieldProcessor();
+	else
+		Sleep(sleepTime);
 
 
 

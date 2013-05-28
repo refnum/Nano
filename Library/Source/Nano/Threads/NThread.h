@@ -91,6 +91,9 @@ public:
 
 
 	// Sleep the current thread
+	//
+	// A sleep time of kNTimeNone indicates a request to yield the processor
+	// if desireable, rather than actually sleeping the thread.
 	static void							Sleep(NTime theTime=kNThreadSleepTime);
 
 

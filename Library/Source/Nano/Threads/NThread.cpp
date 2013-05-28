@@ -222,9 +222,12 @@ void NThread::Sleep(NTime theTime)
 {
 
 
+	// Validate our parameters
+	NN_ASSERT(theTime >= 0);
+
+
+
 	// Sleep the thread
-	//
-	// Sleeping the main thread will also invoke any InvokeMain functors.
 	NTargetThread::ThreadSleep(theTime);
 }
 
