@@ -150,8 +150,7 @@ bool NMutex::Lock(NTime waitFor)
 				//
 				// Otherwise we have to wait - the current owner will set it when they're
 				// done, allowing us to wake and take ownership.
-				theErr  = NTargetThread::SemaphoreWait(mSemaphore, waitFor);
-				gotLock = (theErr == kNoErr);
+				gotLock = NTargetThread::SemaphoreWait(mSemaphore, waitFor);
 				}
 			}
 		}
