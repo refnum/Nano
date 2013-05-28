@@ -580,6 +580,38 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 
 
 //============================================================================
+//		NTargetThread::SemaphoreWait : Wait for a semaphore.
+//----------------------------------------------------------------------------
+bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
+{	semaphore_t			semRef = (semaphore_t) theSemaphore;
+	NTime				timeSecs, timeFrac;
+	mach_timespec_t		waitTime;
+	kern_return_t		sysErr;
+
+
+
+	// Wait with timeout
+	if (NMathUtilities::AreEqual(waitFor, kNTimeForever))
+		sysErr = semaphore_wait(semRef);
+	else
+		{
+		timeSecs = floor(waitFor);
+		timeFrac = waitFor - timeSecs;
+		
+		waitTime.tv_sec  = (unsigned int) timeSecs;
+		waitTime.tv_nsec = (clock_res_t) (timeFrac / kNTimeNanosecond);
+		
+		sysErr = semaphore_timedwait(semRef, waitTime);
+		}
+
+	return(sysErr == 0);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::SemaphoreSignal : Signal a semaphore.
 //----------------------------------------------------------------------------
 void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
@@ -591,41 +623,6 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 	// Signal the semaphore
     sysErr = semaphore_signal(semRef);
 	NN_ASSERT_NOERR(sysErr);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetThread::SemaphoreWait : Wait for a semaphore.
-//----------------------------------------------------------------------------
-NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
-{	semaphore_t			semRef = (semaphore_t) theSemaphore;
-	NTime				timeSecs, timeFrac;
-	mach_timespec_t		waitTime;
-	kern_return_t		sysErr;
-
-
-
-	// Wait with timeout
-	if (!NMathUtilities::AreEqual(waitFor, kNTimeForever))
-		{
-		timeSecs = floor(waitFor);
-		timeFrac = waitFor - timeSecs;
-		
-		waitTime.tv_sec  = (unsigned int) timeSecs;
-		waitTime.tv_nsec = (clock_res_t) (timeFrac / kNTimeNanosecond);
-		
-		sysErr = semaphore_timedwait(semRef, waitTime);
-		}
-
-
-	// Wait for the semaphore
-	else
-		sysErr = semaphore_wait(semRef);
-
-	return(NMacTarget::ConvertSysErr(sysErr));
 }
 
 

@@ -75,8 +75,8 @@ public:
 	// Semaphores
 	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
 	static void							SemaphoreDestroy(NSemaphoreRef theSemaphore);
+	static bool							SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor);
 	static void							SemaphoreSignal( NSemaphoreRef theSemaphore);
-	static NStatus						SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor);
 
 
 	// Spin lock

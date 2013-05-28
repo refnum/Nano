@@ -679,27 +679,9 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 
 
 //============================================================================
-//		NTargetThread::SemaphoreSignal : Signal a semaphore.
-//----------------------------------------------------------------------------
-void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
-{	HANDLE		semHnd = (HANDLE) theSemaphore;
-	BOOL		wasOK;
-
-
-
-	// Signal the semaphore
-	wasOK = ReleaseSemaphore(semHnd, 1, NULL);
-	NN_ASSERT(wasOK);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetThread::SemaphoreWait : Wait for a semaphore.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
+bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 {	HANDLE		semHnd = (HANDLE) theSemaphore;
 	DWORD		timeMS, theResult;
 
@@ -714,7 +696,25 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 	theResult = WaitForSingleObject(semHnd, timeMS);
 	NN_ASSERT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
 
-	return(theResult == WAIT_OBJECT_0 ? kNoErr : kNErrTimeout);
+	return(theResult == WAIT_OBJECT_0);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreSignal : Signal a semaphore.
+//----------------------------------------------------------------------------
+void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
+{	HANDLE		semHnd = (HANDLE) theSemaphore;
+	BOOL		wasOK;
+
+
+
+	// Signal the semaphore
+	wasOK = ReleaseSemaphore(semHnd, 1, NULL);
+	NN_ASSERT(wasOK);
 }
 
 

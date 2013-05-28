@@ -52,7 +52,22 @@ NSemaphore::~NSemaphore(void)
 
 
 //============================================================================
-//		NSemaphore::Signal : SIgnal the semaphore.
+//		NSemaphore::Wait : Wait for the semaphore.
+//----------------------------------------------------------------------------
+bool NSemaphore::Wait(NTime waitFor)
+{
+
+
+	// Wait for the semaphore
+	return(NTargetThread::SemaphoreWait(mSemaphore, waitFor));
+}
+
+
+
+
+
+//============================================================================
+//		NSemaphore::Signal : Signal the semaphore.
 //----------------------------------------------------------------------------
 void NSemaphore::Signal(void)
 {
@@ -61,28 +76,6 @@ void NSemaphore::Signal(void)
 	// Signal the semaphore
 	NTargetThread::SemaphoreSignal(mSemaphore);
 }
-
-
-
-
-
-//============================================================================
-//		NSemaphore::Wait : Wait for the semaphore.
-//----------------------------------------------------------------------------
-bool NSemaphore::Wait(NTime waitFor)
-{	NStatus		theErr;
-
-
-
-	// Wait for the semaphore
-	theErr = NTargetThread::SemaphoreWait(mSemaphore, waitFor);
-	NN_ASSERT(theErr == kNoErr || theErr == kNErrTimeout);
-	
-	return(theErr == kNoErr);
-}
-
-
-
 
 
 

@@ -546,27 +546,9 @@ void NTargetThread::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 
 
 //============================================================================
-//		NTargetThread::SemaphoreSignal : Signal a semaphore.
-//----------------------------------------------------------------------------
-void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
-{	sem_t		*semRef = (sem_t *) theSemaphore;
-	int			sysErr;
-
-
-
-	// Signal the semaphore
-    sysErr = sem_post(semRef);
-	NN_ASSERT_NOERR(sysErr);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetThread::SemaphoreWait : Wait for a semaphore.
 //----------------------------------------------------------------------------
-NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
+bool NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 {	sem_t				*semRef = (sem_t *) theSemaphore;
 	struct timespec		waitTime;
 	int					sysErr;
@@ -582,7 +564,25 @@ NStatus NTargetThread::SemaphoreWait(NSemaphoreRef theSemaphore, NTime waitFor)
 		sysErr   = sem_timedwait(semRef, &waitTime);
 		}
 
-	return(NLinuxTarget::ConvertSysErr(sysErr));
+	return(sysErr == 0);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::SemaphoreSignal : Signal a semaphore.
+//----------------------------------------------------------------------------
+void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
+{	sem_t		*semRef = (sem_t *) theSemaphore;
+	int			sysErr;
+
+
+
+	// Signal the semaphore
+    sysErr = sem_post(semRef);
+	NN_ASSERT_NOERR(sysErr);
 }
 
 

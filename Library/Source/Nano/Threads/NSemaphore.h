@@ -41,13 +41,6 @@ public:
 	virtual							   ~NSemaphore(void);
 
 
-	// Signal the semaphore
-	//
-	// Wakes the thread which has been waiting the longest for the semaphore
-	// or, if no threads are waiting, increments the value of the semaphore.
-	void								Signal(void);
-
-
 	// Wait for the semaphore
 	//
 	// If the value of the semaphore is greater than zero, decrements the value
@@ -56,6 +49,13 @@ public:
 	// Otherwise, the calling thread is blocked until the timeout occurs or the
 	// semaphore is finally set.
 	bool								Wait(NTime waitFor=kNTimeForever);
+
+
+	// Signal the semaphore
+	//
+	// Wakes the thread which has been waiting the longest for the semaphore
+	// or, if no threads are waiting, increments the value of the semaphore.
+	void								Signal(void);
 
 
 private:
