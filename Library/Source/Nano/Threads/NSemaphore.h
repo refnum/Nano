@@ -24,9 +24,9 @@
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-typedef UIntPtr NSemaphoreRef;
+typedef void *NSemaphoreRef;
 
-static const NSemaphoreRef kNSemaphoreRefNone						= 0;
+static const NSemaphoreRef kNSemaphoreRefNone						= NULL;
 
 
 

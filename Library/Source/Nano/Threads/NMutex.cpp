@@ -71,7 +71,7 @@ NMutex::NMutex(void)
 	// Initialize ourselves
 	mOwnerID   = kNThreadIDNone;
 	mRecursion = 0;
-	mSemaphore = NTargetThread::SemaphoreCreate(0);
+	mSemaphore = kNSemaphoreRefNone;
 }
 
 
@@ -86,7 +86,8 @@ NMutex::~NMutex(void)
 
 
 	// Clean up
-	NTargetThread::SemaphoreDestroy(mSemaphore);
+	if (mSemaphore != kNSemaphoreRefNone)
+		NTargetThread::SemaphoreDestroy(mSemaphore);
 }
 
 
@@ -97,9 +98,9 @@ NMutex::~NMutex(void)
 //		NMutex::Lock : Acquire the lock.
 //----------------------------------------------------------------------------
 bool NMutex::Lock(NTime waitFor)
-{	NThreadID		thisThread;
+{	NSemaphoreRef	theSemaphore;
+	NThreadID		thisThread;
 	bool			gotLock;
-	NStatus			theErr;
 	NIndex			n;
 
 
@@ -131,6 +132,26 @@ bool NMutex::Lock(NTime waitFor)
 	// Acquire the lock
 	if (!gotLock)
 		{
+		// Create the semaphore
+		//
+		// Once we raise the count beyond 1 then whatever thread currently has the lock will
+		// need to be able to set the semaphore to wake us after it decrements the count.
+		//
+		// Although deferring creation like this means that potentially we might create a
+		// redundant semaphore, in practice this happens very rarely.
+		//
+		// It is also safe - even if two threads create a semaphore, only one of them will
+		// assign it (the other will just release theirs).
+		if (mSemaphore == kNSemaphoreRefNone)
+			{
+			theSemaphore = NTargetThread::SemaphoreCreate(0);
+
+			if (!NTargetThread::AtomicCompareAndSwapPtr(mSemaphore, kNSemaphoreRefNone, theSemaphore))
+				NTargetThread::SemaphoreDestroy(theSemaphore);
+			}
+
+
+
 		// Raise the count
 		//
 		// If raising the count takes it to exactly 1 then we've just acquired the lock.
