@@ -180,7 +180,7 @@ bool NTargetThread::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SI
 
 
 	// Compare and swap
-	return(OSAtomicCompareAndSwap32Barrier(oldValue, newValue, (int32_t *) &theValue));
+	return(__sync_bool_compare_and_swap(&theValue, oldValue, newValue));
 }
 
 
@@ -200,7 +200,7 @@ SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 
 
 	// Add the value
-	return(OSAtomicAdd32Barrier(theDelta, (int32_t *) &theValue));
+	return(__sync_add_and_fetch(&theValue, theDelta));
 }
 
 
@@ -220,7 +220,7 @@ void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 
 
 	// AND the value
-	OSAtomicAnd32Barrier(theMask, (uint32_t *) &theValue);
+	__sync_fetch_and_and(&theValue, theMask);
 }
 
 
@@ -240,7 +240,7 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 
 
 	// OR the value
-	OSAtomicOr32Barrier(theMask, (uint32_t *) &theValue);
+	__sync_fetch_and_or(&theValue, theMask);
 }
 
 
@@ -260,7 +260,7 @@ void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 
 
 	// XOR the value
-	OSAtomicXor32Barrier(theMask, (uint32_t *) &theValue);
+	__sync_fetch_and_xor(&theValue, theMask);
 }
 
 
@@ -275,7 +275,7 @@ void NTargetThread::MemoryBarrier(void)
 
 
 	// Insert the barrier
-	OSMemoryBarrier();
+	__sync_synchronize();
 }
 
 
