@@ -111,6 +111,21 @@ bool NThreadUtilities::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue,
 
 
 //============================================================================
+//		NThreadUtilities::AtomicCompareAndSwapPtr : Atomic pointer compare-and-swap.
+//----------------------------------------------------------------------------
+bool NThreadUtilities::AtomicCompareAndSwapPtr(void *&theValue, void *oldValue, void *newValue)
+{
+
+
+	// Compare and swap
+	return(NTargetThread::AtomicCompareAndSwapPtr(theValue, oldValue, newValue));
+}
+
+
+
+
+
+//============================================================================
 //		NThreadUtilities::AtomicAdd32 : Atomic 32-bit add.
 //----------------------------------------------------------------------------
 SInt32 NThreadUtilities::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)

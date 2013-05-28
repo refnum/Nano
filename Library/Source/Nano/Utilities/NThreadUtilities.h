@@ -58,7 +58,8 @@ public:
 	// Inserts a read/write memory barrier.
 	//
 	// Returns as theValue was updated from oldValue to newValue.
-	static bool							AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue);
+	static bool							AtomicCompareAndSwap32 (SInt32 &theValue, SInt32 oldValue, SInt32 newValue);
+	static bool							AtomicCompareAndSwapPtr(void  *&theValue, void  *oldValue, void  *newValue);
 
 
 	// Atomic addition
