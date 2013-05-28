@@ -373,7 +373,7 @@ void NTargetThread::ThreadSleep(NTime theTime)
 	if (sleepTime == 0)
 		sched_yield();
 	else
-		usleep(0.0);
+		usleep(sleepTime);
 
 
 
