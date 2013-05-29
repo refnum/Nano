@@ -151,7 +151,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NRectangleT<T>);
+	NCOMPARABLE_OPERATORS(NRectangleT<T>)
 
 										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;

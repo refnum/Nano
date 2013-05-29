@@ -116,7 +116,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NVectorT<T>);
+	NCOMPARABLE_OPERATORS(NVectorT<T>)
 
 	const NVectorT<T>&					operator +=(const NVectorT<T> &theVector);
 	const NVectorT<T>&					operator -=(const NVectorT<T> &theVector);

@@ -90,7 +90,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NPointT<T>);
+	NCOMPARABLE_OPERATORS(NPointT<T>)
 
 	const NPointT<T>&					operator +=(const NVectorT<T> &theVector);
 	const NPointT<T>&					operator -=(const NVectorT<T> &theVector);

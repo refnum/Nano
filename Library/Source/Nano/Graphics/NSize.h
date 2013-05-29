@@ -89,7 +89,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NSizeT<T>);
+	NCOMPARABLE_OPERATORS(NSizeT<T>)
 
 										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;

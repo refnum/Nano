@@ -91,7 +91,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NCacheKey);
+	NCOMPARABLE_OPERATORS(NCacheKey)
 
 
 	// Split a pointer

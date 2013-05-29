@@ -105,7 +105,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NRange);
+	NCOMPARABLE_OPERATORS(NRange)
 
 										operator NFormatArgument(void) const;
 

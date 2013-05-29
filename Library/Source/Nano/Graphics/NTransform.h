@@ -95,7 +95,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NPointT<T>);
+	NCOMPARABLE_OPERATORS(NPointT<T>)
 
 										operator NEncodable(     void) const;
 										operator NFormatArgument(void) const;

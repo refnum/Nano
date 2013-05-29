@@ -47,11 +47,11 @@ typedef enum {
 // Objects that wish to avoid a v-table for space/performance reasons can use
 // this macro to obtain NComparable behaviour directly.
 #define NCOMPARABLE_OPERATORS(_type)																				\
-	inline bool operator == (const _type &theValue) const { return(Compare(theValue) == kNCompareEqualTo);     };	\
-	inline bool operator != (const _type &theValue) const { return(Compare(theValue) != kNCompareEqualTo);     };	\
-	inline bool operator <= (const _type &theValue) const { return(Compare(theValue) != kNCompareGreaterThan); };	\
-	inline bool operator <	(const _type &theValue) const { return(Compare(theValue) == kNCompareLessThan);    };	\
-	inline bool operator >= (const _type &theValue) const { return(Compare(theValue) != kNCompareLessThan);    };	\
+	inline bool operator == (const _type &theValue) const { return(Compare(theValue) == kNCompareEqualTo);     }	\
+	inline bool operator != (const _type &theValue) const { return(Compare(theValue) != kNCompareEqualTo);     }	\
+	inline bool operator <= (const _type &theValue) const { return(Compare(theValue) != kNCompareGreaterThan); }	\
+	inline bool operator <	(const _type &theValue) const { return(Compare(theValue) == kNCompareLessThan);    }	\
+	inline bool operator >= (const _type &theValue) const { return(Compare(theValue) != kNCompareLessThan);    }	\
 	inline bool operator >	(const _type &theValue) const { return(Compare(theValue) == kNCompareGreaterThan); }
 
 
@@ -72,7 +72,7 @@ public:
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(T);
+	NCOMPARABLE_OPERATORS(T)
 
 
 protected:
