@@ -113,21 +113,30 @@ bool NMutex::Lock(NTime waitFor)
 
 	// Attempt to acquire the lock
 	//
-	// If the thread is unlocked then we will be the first to swap the counter from
-	// 0 to 1 - and so obtain ownership.
+	// If we appear to own the lock then we don't bother spinning.
 	//
-	// If the thread is locked then we will obtain ownership if another thread drops
-	// the count to 0 while we're waiting (allowing us to raise it to 1).
+	// We still need to increment the counter before we can be sure this thread really
+	// has it, but if we are being called recursively spinning would just waste time.
+	//
+	//
+	// If we don't appear to own the lock then we'll lock it if we're the first thread
+	// to swap the counter from 0 to 1.
+	//
+	// If the mutex is locked then we'll obtain ownership if another thread drops the
+	// counter to 0 while we're spinning (allowing us to raise it to 1).
 	//
 	// We employ a simple back-off strategy, starting with a yield (0) then using an
 	// extra microsecond on subsequent loops.
-	for (n = 0; n < kMutexSpinUntilBlock; n++)
+	if (!NThread::AreEqual(thisThread, mOwnerID))
 		{
-		gotLock = NTargetThread::AtomicCompareAndSwap32(mLockCount, 0, 1);
-		if (gotLock)
-			break;
+		for (n = 0; n < kMutexSpinUntilBlock; n++)
+			{
+			gotLock = NTargetThread::AtomicCompareAndSwap32(mLockCount, 0, 1);
+			if (gotLock)
+				break;
 
-		NThread::Sleep(n * kNTimeMicrosecond);
+			NThread::Sleep(n * kNTimeMicrosecond);
+			}
 		}
 
 
