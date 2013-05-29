@@ -65,8 +65,8 @@ CLANG_WARN_OBJCPP_ARC_ABI									= YES
 CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION					= YES
 
 NANO_HEADER_SEARCH_PATHS                            		= "$(Nano)/Library/Source/Nanites/Cocoa" "$(Nano)/Library/Source/Nanites/CoreFoundation" "$(Nano)/Library/Source/Nanites/CoreGraphics" "$(Nano)/Library/Source/Nanites/Qt" "$(Nano)/Library/Source/Nanites/Skia" "$(Nano)/Library/Source/Nanites/UIKit" "$(Nano)/Library/Source/Nano/Application" "$(Nano)/Library/Source/Nano/Core" "$(Nano)/Library/Source/Nano/Database" "$(Nano)/Library/Source/Nano/Events" "$(Nano)/Library/Source/Nano/Files" "$(Nano)/Library/Source/Nano/Graphics" "$(Nano)/Library/Source/Nano/Internal/Targets" "$(Nano)/Library/Source/Nano/Network" "$(Nano)/Library/Source/Nano/System" "$(Nano)/Library/Source/Nano/Threads" "$(Nano)/Library/Source/Nano/Types" "$(Nano)/Library/Source/Nano/Utilities"
-NANO_WARNING_CFLAGS											= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings
-NANO_OTHER_CFLAGS											= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_CFLAGS)   -fconstant-cfstrings
+NANO_WARNING_CFLAGS											= $(NANO_DEBUG_WARNING_CFLAGS) $(NANO_RELEASE_WARNING_CFLAGS) -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wfloat-equal -Winit-self -Wno-long-long -Wpointer-arith -Wredundant-decls -Wundef -Wwrite-strings -Wstrict-prototypes -Wstrict-overflow
+NANO_OTHER_CFLAGS											= $(NANO_DEBUG_OTHER_CFLAGS)   $(NANO_RELEASE_OTHER_CFLAGS) -fconstant-cfstrings -fno-common
 
 HEADER_SEARCH_PATHS                                 		= $(NANO_HEADER_SEARCH_PATHS)
 WARNING_CFLAGS												= $(NANO_WARNING_CFLAGS)
