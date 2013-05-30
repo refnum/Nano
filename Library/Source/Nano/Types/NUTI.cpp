@@ -114,7 +114,7 @@ bool NUTI::ConformsTo(const NUTI &theUTI) const
 	if (!theResult)
 		{
 		conformsTo = NUTIRegistry::Get()->GetConformsTo(mValue);
-		theResult  = contains(conformsTo, theUTI.mValue);
+		theResult  = find(conformsTo, theUTI.mValue);
 		}
 	
 	return(theResult);

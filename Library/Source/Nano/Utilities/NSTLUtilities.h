@@ -188,13 +188,6 @@ template <class T> T combine(const T &container1, const T &container2)
 }
 
 
-// Search a container
-template <class T> bool contains(const T &container, const typename T::value_type &value) 
-{
-	return(std::find(container.begin(), container.end(), value) != container.end());
-}
-
-
 // Erase a value from a container
 template <class T> bool erase(T &container, const typename T::value_type &value)
 {	bool					hadValue;
@@ -239,6 +232,13 @@ template <class T> typename T::value_type extract_front(T &container)
 	container.erase(container.begin());
 	
 	return(value);
+}
+
+
+// Search a container
+template <class T> bool find(const T &container, const typename T::value_type &value)
+{
+	return(std::find(container.begin(), container.end(), value) != container.end());
 }
 
 

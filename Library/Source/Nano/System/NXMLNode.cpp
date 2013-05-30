@@ -235,7 +235,7 @@ void NXMLNode::AddChild(NXMLNode *theChild, NIndex insertBefore)
 	// Validate our parameters
 	NN_ASSERT(theChild != NULL);
 	NN_ASSERT(theChild->GetParent() == NULL);
-	NN_ASSERT(!contains(mChildren, theChild));
+	NN_ASSERT(!find(mChildren, theChild));
 
 
 
@@ -267,7 +267,7 @@ void NXMLNode::RemoveChild(NXMLNode *theChild, bool destroyChild)
 	// Validate our parameters
 	NN_ASSERT(theChild != NULL);
 	NN_ASSERT(theChild->GetParent() == this);
-	NN_ASSERT(contains(mChildren, theChild));
+	NN_ASSERT(find(mChildren, theChild));
 
 
 
