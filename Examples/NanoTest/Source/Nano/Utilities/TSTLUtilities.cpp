@@ -25,8 +25,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32List kTestList1									= vector((UInt32) 11, (UInt32) 12, (UInt32) 13);
-static const UInt32List kTestList2									= vector((UInt32) 24, (UInt32) 25, (UInt32) 26);
+static const UInt32List kTestList1									= mkvector((UInt32) 11, (UInt32) 12, (UInt32) 13);
+static const UInt32List kTestList2									= mkvector((UInt32) 24, (UInt32) 25, (UInt32) 26);
 
 
 

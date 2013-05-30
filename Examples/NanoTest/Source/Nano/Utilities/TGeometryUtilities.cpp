@@ -37,9 +37,9 @@ void TGeometryUtilities::Execute(void)
 
 
 	// Prepare the data
-	thePoints64 = vector(NPoint64(1.0f, 1.1f), NPoint64(2.0f, 2.2f), NPoint64(-3.0f, -3.3f));
-	thePoints32 = vector(NPoint32(1.0f, 1.1f), NPoint32(2.0f, 2.2f), NPoint32(-3.0f, -3.3f));
-	thePoints   = vector(NPoint  (1.0f, 1.1f), NPoint  (2.0f, 2.2f), NPoint  (-3.0f, -3.3f));
+	thePoints64 = mkvector(NPoint64(1.0f, 1.1f), NPoint64(2.0f, 2.2f), NPoint64(-3.0f, -3.3f));
+	thePoints32 = mkvector(NPoint32(1.0f, 1.1f), NPoint32(2.0f, 2.2f), NPoint32(-3.0f, -3.3f));
+	thePoints   = mkvector(NPoint  (1.0f, 1.1f), NPoint  (2.0f, 2.2f), NPoint  (-3.0f, -3.3f));
 
 	theBounds64 = NGeometryUtilities::GetBounds(thePoints64);
 	theBounds32 = NGeometryUtilities::GetBounds(thePoints32);

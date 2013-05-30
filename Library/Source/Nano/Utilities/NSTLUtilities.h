@@ -50,91 +50,91 @@ template <class T> std::vector<T> vector_create_n(UInt32 numValues, const T *the
 #define _NN_VECTOR14(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14)			_NN_VECTOR13(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13);		result.push_back(p14);
 #define _NN_VECTOR15(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15)		_NN_VECTOR14(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14);	result.push_back(p15);
 
-template <class T> std::vector<T> vector(const T &p1)
+template <class T> std::vector<T> mkvector(const T &p1)
 {
 	_NN_VECTOR1(p1);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2)
 {
 	_NN_VECTOR2(p1, p2);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3)
 {
 	_NN_VECTOR3(p1, p2, p3);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4)
 {
 	_NN_VECTOR4(p1, p2, p3, p4);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5)
 {
 	_NN_VECTOR5(p1, p2, p3, p4, p5);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6)
 {
 	_NN_VECTOR6(p1, p2, p3, p4, p5, p6);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7)
 {
 	_NN_VECTOR7(p1, p2, p3, p4, p5, p6, p7);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8)
 {
 	_NN_VECTOR8(p1, p2, p3, p4, p5, p6, p7, p8);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9)
 {
 	_NN_VECTOR9(p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10)
 {
 	_NN_VECTOR10(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11)
 {
 	_NN_VECTOR11(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12)
 {
 	_NN_VECTOR12(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12, const T &p13)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12, const T &p13)
 {
 	_NN_VECTOR13(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12, const T &p13, const T &p14)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12, const T &p13, const T &p14)
 {
 	_NN_VECTOR14(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14);
 	return(result);
 }
 
-template <class T> std::vector<T> vector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12, const T &p13, const T &p14, const T &p15)
+template <class T> std::vector<T> mkvector(const T &p1, const T &p2, const T &p3, const T &p4, const T &p5, const T &p6, const T &p7, const T &p8, const T &p9, const T &p10, const T &p11, const T &p12, const T &p13, const T &p14, const T &p15)
 {
 	_NN_VECTOR15(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15);
 	return(result);

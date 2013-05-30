@@ -1510,7 +1510,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 			if (doAll)
 				reverse(theResults);
 			else
-				theResults = vector(theResults.back());
+				theResults = mkvector(theResults.back());
 			}
 		}
 

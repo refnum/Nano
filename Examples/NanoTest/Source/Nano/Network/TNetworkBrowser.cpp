@@ -63,7 +63,7 @@ void TNetworkBrowser::Execute(void)
 
 
 	// Prepare the browser
-	theBrowser.SetServices(vector(kTestService));
+	theBrowser.SetServices(mkvector(kTestService));
 	theBrowser.SetEventHandler(BindFunction(TNetworkBrowser::BrowseEvent, _1, &theResult));
 
 

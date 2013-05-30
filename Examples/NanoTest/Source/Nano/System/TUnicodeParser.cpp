@@ -71,9 +71,9 @@ void TUnicodeParser::Execute(void)
 	rangesUTF16 = *(parserUTF16.GetRanges());
 	rangesUTF32 = *(parserUTF32.GetRanges());
 
-	NN_ASSERT(rangesUTF8  == vector(NRange(0,3), NRange(3,3), NRange(6,3)));
-	NN_ASSERT(rangesUTF16 == vector(NRange(0,2), NRange(2,2), NRange(4,2)));
-	NN_ASSERT(rangesUTF32 == vector(NRange(0,4), NRange(4,4), NRange(8,4)));
+	NN_ASSERT(rangesUTF8  == mkvector(NRange(0,3), NRange(3,3), NRange(6,3)));
+	NN_ASSERT(rangesUTF16 == mkvector(NRange(0,2), NRange(2,2), NRange(4,2)));
+	NN_ASSERT(rangesUTF32 == mkvector(NRange(0,4), NRange(4,4), NRange(8,4)));
 
 	NN_ASSERT(parserUTF8.GetRange(0) == NRange(0,3));
 	NN_ASSERT(parserUTF8.GetRange(1) == NRange(3,3));

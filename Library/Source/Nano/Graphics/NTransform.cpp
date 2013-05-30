@@ -524,9 +524,9 @@ void NTransformX::EncodeSelf(NEncoder &theEncoder) const
 			mTY.GetPrecision() == kNPrecisionFloat64);
 
 	if (is64)
-		theArray = NArray(vector(mA.GetFloat64(), mB.GetFloat64(), mC.GetFloat64(), mD.GetFloat64(), mTX.GetFloat64(), mTY.GetFloat64()));
+		theArray = NArray(mkvector(mA.GetFloat64(), mB.GetFloat64(), mC.GetFloat64(), mD.GetFloat64(), mTX.GetFloat64(), mTY.GetFloat64()));
 	else
-		theArray = NArray(vector(mA.GetFloat32(), mB.GetFloat32(), mC.GetFloat32(), mD.GetFloat32(), mTX.GetFloat32(), mTY.GetFloat32()));
+		theArray = NArray(mkvector(mA.GetFloat32(), mB.GetFloat32(), mC.GetFloat32(), mD.GetFloat32(), mTX.GetFloat32(), mTY.GetFloat32()));
 
 
 
