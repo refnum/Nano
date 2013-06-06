@@ -15,17 +15,39 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NUndoManager.h"
-
-#include "TUndoManager.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TUndoManager::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TUndoManager::Execute(void)
+#define TEST_NUNDOMANAGER(_name, _desc)								NANO_TEST(TUndoManager, _name, _desc)
+
+NANO_FIXTURE(TUndoManager)
 {
+	NUndoManager	undoManager;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NUNDOMANAGER("Empty", "Empty undo manager")
+{
+
+
+	// Perform the test
+	REQUIRE(!undoManager.CanUndo());
+	REQUIRE(!undoManager.CanRedo());
 }
+
+
+
+
 

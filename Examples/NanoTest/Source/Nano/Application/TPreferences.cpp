@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NPreferences.h"
-
-#include "TPreferences.h"
+#include "NTestFixture.h"
 
 
 
@@ -47,45 +46,81 @@ static const NString kValueString2									= "Second String";
 
 
 //============================================================================
-//		TPreferences::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TPreferences::Execute(void)
-{	NDictionary			theDefaults;
-	NPreferences		*thePrefs;
+#define TEST_NPREFERENCES(_name, _desc)								NANO_TEST(TPreferences, _name, _desc)
+
+NANO_FIXTURE(TPreferences)
+{
+	SETUP
+	{
+		thePrefs = NPreferences::Get();
+	}
+
+	NPreferences	*thePrefs;
+};
 
 
 
-	// Empty
-	thePrefs = NPreferences::Get();
-	
-	NN_ASSERT( thePrefs->GetDefaults().IsEmpty());
-	NN_ASSERT(!thePrefs->HasKey(kValueString1));
-	NN_ASSERT(!thePrefs->HasKey(kValueString2));
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPREFERENCES("Empty", "Empty preferences")
+{
+
+
+	// Perform the test
+	REQUIRE( thePrefs->GetDefaults().IsEmpty());
+	REQUIRE(!thePrefs->HasKey(kValueString1));
+	REQUIRE(!thePrefs->HasKey(kValueString2));
+}
 
 
 
-	// Defaults
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPREFERENCES("Defaults", "Default preferences")
+{	NDictionary		theDefaults;
+
+
+
+	// Perform the test
 	theDefaults.SetValue(kKeyBoolean, kValueBoolean1);
 	theDefaults.SetValue(kKeyString,  kValueString1);
 	thePrefs->SetDefaults(theDefaults);
 	
-	NN_ASSERT(thePrefs->HasKey(kKeyBoolean));
-	NN_ASSERT(thePrefs->HasKey(kKeyString));
+	REQUIRE(thePrefs->HasKey(kKeyBoolean));
+	REQUIRE(thePrefs->HasKey(kKeyString));
 
-	NN_ASSERT(!thePrefs->HasKey(kKeyBoolean, false));
-	NN_ASSERT(!thePrefs->HasKey(kKeyString,  false));
+	REQUIRE(!thePrefs->HasKey(kKeyBoolean, false));
+	REQUIRE(!thePrefs->HasKey(kKeyString,  false));
 
-	NN_ASSERT(thePrefs->GetValueBoolean(kKeyBoolean) == kValueBoolean1);
-	NN_ASSERT(thePrefs->GetValueString (kKeyString)  == kValueString1);
+	REQUIRE(thePrefs->GetValueBoolean(kKeyBoolean) == kValueBoolean1);
+	REQUIRE(thePrefs->GetValueString (kKeyString)  == kValueString1);
+}
 
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPREFERENCES("Modify", "Modify the preferences")
+{
 
 
 	// Set
 	thePrefs->SetValue(kKeyString, kValueString2);
 	thePrefs->Flush();
 
-	NN_ASSERT(thePrefs->HasKey(kKeyString));
-	NN_ASSERT(thePrefs->GetValueString(kKeyString) == kValueString2);
+	REQUIRE(thePrefs->HasKey(kKeyString));
+	REQUIRE(thePrefs->GetValueString(kKeyString) == kValueString2);
 
 
 
@@ -93,10 +128,11 @@ void TPreferences::Execute(void)
 	thePrefs->RemoveKey(kKeyString);
 	thePrefs->Flush();
 
-	NN_ASSERT( thePrefs->HasKey(kKeyString, true));
-	NN_ASSERT(!thePrefs->HasKey(kKeyString, false));
-	NN_ASSERT( thePrefs->GetValueString(kKeyString) == kValueString1);
+	REQUIRE( thePrefs->HasKey(kKeyString, true));
+	REQUIRE(!thePrefs->HasKey(kKeyString, false));
+	REQUIRE( thePrefs->GetValueString(kKeyString) == kValueString1);
 
 	thePrefs->SetDefaults(NDictionary());
 }
+
 

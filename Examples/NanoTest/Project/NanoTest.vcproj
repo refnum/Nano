@@ -39,7 +39,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Network&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Internal\Targets\Windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nanites\Catch&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Network&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Internal\Targets\Windows&quot;"
 				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
 			/>
 			<Tool
@@ -105,7 +105,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Network&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Internal\Targets\Windows&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Prefix&quot;;&quot;$(ProjectDir)..\Source&quot;;&quot;$(ProjectDir)..\Source\Nanites\Catch&quot;;&quot;$(ProjectDir)..\Source\Nano\Application&quot;;&quot;$(ProjectDir)..\Source\Nano\Core&quot;;&quot;$(ProjectDir)..\Source\Nano\Database&quot;;&quot;$(ProjectDir)..\Source\Nano\Events&quot;;&quot;$(ProjectDir)..\Source\Nano\Files&quot;;&quot;$(ProjectDir)..\Source\Nano\Graphics&quot;;&quot;$(ProjectDir)..\Source\Nano\Network&quot;;&quot;$(ProjectDir)..\Source\Nano\System&quot;;&quot;$(ProjectDir)..\Source\Nano\Threads&quot;;&quot;$(ProjectDir)..\Source\Nano\Types&quot;;&quot;$(ProjectDir)..\Source\Nano\Utilities&quot;;&quot;$(ProjectDir)..\Source\Internal\Targets\Windows&quot;"
 				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
 			/>
 			<Tool
@@ -593,10 +593,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TCommandLine.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Types\TData.h"
 				>
 			</File>
@@ -725,10 +721,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Application\TPreferences.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Files\TPropertyList.h"
 				>
 			</File>
@@ -822,14 +814,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Graphics\TTransform.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Application\TUndoManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Application\TUndoSource.h"
 				>
 			</File>
 			<File

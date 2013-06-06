@@ -118,6 +118,7 @@ FLAGS_INCLUDE =                                                                 
         -I"../Source/Nano/Events"                                                    \
         -I"../Source/Nano/Threads"                                                   \
         -I"../Source/Targets/Linux"                                                  \
+        -I"../../../Library/Source/Nanites/Catch"                                    \
         -I"../../../Library/Source/Nano/Application"                                 \
         -I"../../../Library/Source/Nano/Core"                                        \
         -I"../../../Library/Source/Nano/Database"                                    \

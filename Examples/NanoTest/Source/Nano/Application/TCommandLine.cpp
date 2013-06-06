@@ -14,11 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NMathUtilities.h"
-#include "NSTLUtilities.h"
 #include "NCommandLine.h"
-
-#include "TCommandLine.h"
+#include "NTestFixture.h"
 
 
 
@@ -41,34 +38,71 @@ static const char *kTestArgList[]									= {	"app",
 
 
 //============================================================================
-//		TCommandLine::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCommandLine::Execute(void)
-{	NCommandLine		cmdLine(NN_ARRAY_SIZE(kTestArgList), kTestArgList);
-	NString				theValue;
-	NStringList			theArgs;
+#define TEST_NCOMMANDLINE(_name, _desc)								NANO_TEST(TCommandLine, _name, _desc)
+
+NANO_FIXTURE(TCommandLine)
+{
+	SETUP
+	{
+		cmdLine.SetArguments(NN_ARRAY_SIZE(kTestArgList), kTestArgList);
+	}
+
+	NCommandLine		cmdLine;
+};
 
 
 
-	// Presence
-	NN_ASSERT( cmdLine.HasArgument("arg1"));
-	NN_ASSERT( cmdLine.HasArgument("arg2"));
-	NN_ASSERT( cmdLine.HasArgument("arg3"));
-	NN_ASSERT( cmdLine.HasArgument("arg4"));
-	NN_ASSERT( cmdLine.HasArgument("arg5"));
-	NN_ASSERT(!cmdLine.HasArgument("arg99"));
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOMMANDLINE("Presence", "Check for arguments")
+{
+
+
+	// Perform the test
+	REQUIRE( cmdLine.HasArgument("arg1"));
+	REQUIRE( cmdLine.HasArgument("arg2"));
+	REQUIRE( cmdLine.HasArgument("arg3"));
+	REQUIRE( cmdLine.HasArgument("arg4"));
+	REQUIRE( cmdLine.HasArgument("arg5"));
+	REQUIRE(!cmdLine.HasArgument("arg99"));
+}
 
 
 
-	// Flags
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOMMANDLINE("Flags", "Test flag arguments")
+{
+
+
+	// Perform the test
 	NN_ASSERT(cmdLine.GetFlagSInt64("arg2") == -2);
 	NN_ASSERT(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
 	NN_ASSERT(cmdLine.GetFlagString("arg4") == "\"" kTestString "\"");
 	NN_ASSERT(cmdLine.GetFlagString("arg5") ==      kTestString);
+}
 
 
 
-	// Manipulation
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOMMANDLINE("Manipulation", "Manipulate the command line")
+{	NStringList		theArgs;
+
+
+
+	// Perform the test
 	theArgs = cmdLine.GetArguments();
 	NN_ASSERT(theArgs.size() == 6);
 	NN_ASSERT(theArgs[0] == kTestArgList[0]);
@@ -91,14 +125,28 @@ void TCommandLine::Execute(void)
 	NN_ASSERT(theArgs[3] == kTestArgList[2]);
 	NN_ASSERT(theArgs[4] == kTestArgList[1]);
 	NN_ASSERT(theArgs[5] == kTestArgList[0]);
+}
 
 
 
-	// Application
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOMMANDLINE("Application", "Verify the application name")
+{	NString			theValue;
+	NStringList		theArgs;
+
+
+
+	// Perform the test
 	theArgs = NCommandLine::Get()->GetArguments();
 	NN_ASSERT(theArgs.size() >= 1);
 	
 	theValue = theArgs[0];
 	NN_ASSERT(theValue.GetLower().Contains("nanotest"));
 }
+
+
 

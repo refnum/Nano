@@ -15,17 +15,38 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NUndoSource.h"
-
-#include "TUndoSource.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TUndoSource::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TUndoSource::Execute(void)
+#define TEST_NUNDOSOURCE(_name, _desc)								NANO_TEST(TUndoSource, _name, _desc)
+
+NANO_FIXTURE(TUndoSource)
 {
+	NUndoSource	undoSource;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NUNDOSOURCE("Empty", "Empty undo source")
+{
+
+
+	// Perform the test
+	REQUIRE(undoSource.GetUndoManager() == NULL);
 }
+
+
+
+
 

@@ -157,6 +157,8 @@
 		AB2AAD7E10396310007BC4E6 /* TLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLocale.h; sourceTree = "<group>"; };
 		AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
 		AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTIRegistry.h; sourceTree = "<group>"; };
+		AB328C8517612CBF00782F40 /* StdAfx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StdAfx.cpp; sourceTree = "<group>"; };
+		AB328C8617612CBF00782F40 /* StdAfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StdAfx.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
 		AB3326D21046C9B100C8DF0A /* TShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TShape.h; sourceTree = "<group>"; };
 		AB481C6E12A539690052C55F /* TNetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkManager.cpp; sourceTree = "<group>"; };
@@ -169,13 +171,9 @@
 		AB481C7C12A539830052C55F /* TURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TURL.h; sourceTree = "<group>"; };
 		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
-		AB514D611034184B00E5A6AD /* TCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCommandLine.h; sourceTree = "<group>"; };
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
-		AB514D631034184B00E5A6AD /* TPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPreferences.h; sourceTree = "<group>"; };
 		AB514D641034184B00E5A6AD /* TUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoManager.cpp; sourceTree = "<group>"; };
-		AB514D651034184B00E5A6AD /* TUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUndoManager.h; sourceTree = "<group>"; };
 		AB514D661034184B00E5A6AD /* TUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoSource.cpp; sourceTree = "<group>"; };
-		AB514D671034184B00E5A6AD /* TUndoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUndoSource.h; sourceTree = "<group>"; };
 		AB514D691034184B00E5A6AD /* TDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebug.cpp; sourceTree = "<group>"; };
 		AB514D6A1034184B00E5A6AD /* TDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDebug.h; sourceTree = "<group>"; };
 		AB514D6C1034184B00E5A6AD /* TDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDBHandle.cpp; sourceTree = "<group>"; };
@@ -384,6 +382,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AB328C8217612CBF00782F40 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				AB328C8317612CBF00782F40 /* Targets */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		AB328C8317612CBF00782F40 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				AB328C8417612CBF00782F40 /* Windows */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		AB328C8417612CBF00782F40 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				AB328C8517612CBF00782F40 /* StdAfx.cpp */,
+				AB328C8617612CBF00782F40 /* StdAfx.h */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
 		AB481C6D12A539690052C55F /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,13 +454,9 @@
 			isa = PBXGroup;
 			children = (
 				AB514D601034184B00E5A6AD /* TCommandLine.cpp */,
-				AB514D611034184B00E5A6AD /* TCommandLine.h */,
 				AB514D621034184B00E5A6AD /* TPreferences.cpp */,
-				AB514D631034184B00E5A6AD /* TPreferences.h */,
 				AB514D641034184B00E5A6AD /* TUndoManager.cpp */,
-				AB514D651034184B00E5A6AD /* TUndoManager.h */,
 				AB514D661034184B00E5A6AD /* TUndoSource.cpp */,
-				AB514D671034184B00E5A6AD /* TUndoSource.h */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -726,6 +745,7 @@
 				AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */,
 				AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */,
 				AB9156350F9B4F37009FFEAF /* NanoTest.cpp */,
+				AB328C8217612CBF00782F40 /* Internal */,
 				AB514DD21034184B00E5A6AD /* Nanites */,
 				AB514D5E1034184A00E5A6AD /* Nano */,
 			);
