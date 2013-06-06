@@ -5,6 +5,7 @@ ARFLAGS = rcs
 
 TARGET    = nano.a
 SRCS_NANO =                                                                          \
+        ../Source/Nanites/Catch/NTestFixture.cpp                                     \
         ../Source/Nano/Application/NCommandLine.cpp                                  \
         ../Source/Nano/Application/NPreferences.cpp                                  \
         ../Source/Nano/Application/NUndoManager.cpp                                  \
@@ -170,6 +171,7 @@ FLAGS_NANO =                                                                    
 
 FLAGS_INCLUDE =                                                                      \
         -I"../Prefix"                                                                \
+        -I"../Source/Nanites/Catch"                                                  \
         -I"../Source/Nano/Application"                                               \
         -I"../Source/Nano/Core"                                                      \
         -I"../Source/Nano/Database"                                                  \

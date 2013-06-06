@@ -773,6 +773,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nanites\Catch\NTestFixture.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Utilities\NTextUtilities.cpp"
 				>
 			</File>
@@ -1547,6 +1551,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nanites\Catch\catch.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\Internal\Components\libb64_1.1\cdecode.h"
 				>
 			</File>
@@ -1984,6 +1992,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\System\NTask.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nanites\Catch\NTestFixture.h"
 				>
 			</File>
 			<File

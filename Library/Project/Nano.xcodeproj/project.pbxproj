@@ -120,6 +120,8 @@
 		AB2AAD6C103962E4007BC4E6 /* NLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */; };
 		AB2AADB61039793F007BC4E6 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */; };
 		AB2AADB71039793F007BC4E6 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */; };
+		AB328C8F17612F8100782F40 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
+		AB328C9017612F8200782F40 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		AB3325EA1046696E00C8DF0A /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
 		AB3325EB1046696E00C8DF0A /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
 		AB3326B31046C6F000C8DF0A /* NShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326B11046C6F000C8DF0A /* NShape.cpp */; };
@@ -414,6 +416,9 @@
 		AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
 		AB2F38AE10CFD91700885DAE /* NWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWindows.cpp; sourceTree = "<group>"; };
 		AB2F38AF10CFD91700885DAE /* NWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWindows.h; sourceTree = "<group>"; };
+		AB328C8A17612D8400782F40 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
+		AB328C8B17612D8400782F40 /* NTestFixture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTestFixture.cpp; sourceTree = "<group>"; };
+		AB328C8C17612D8400782F40 /* NTestFixture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTestFixture.h; sourceTree = "<group>"; };
 		AB3325E81046696E00C8DF0A /* NDBQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBQuery.cpp; sourceTree = "<group>"; };
 		AB3325E91046696E00C8DF0A /* NDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBQuery.h; sourceTree = "<group>"; };
 		AB3326B11046C6F000C8DF0A /* NShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NShape.cpp; sourceTree = "<group>"; };
@@ -833,6 +838,16 @@
 			path = Windows;
 			sourceTree = "<group>";
 		};
+		AB328C8917612D8400782F40 /* Catch */ = {
+			isa = PBXGroup;
+			children = (
+				AB328C8A17612D8400782F40 /* catch.hpp */,
+				AB328C8B17612D8400782F40 /* NTestFixture.cpp */,
+				AB328C8C17612D8400782F40 /* NTestFixture.h */,
+			);
+			path = Catch;
+			sourceTree = "<group>";
+		};
 		AB481C2512A531220052C55F /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -950,6 +965,7 @@
 		AB9154DF0F9B4DD5009FFEAF /* Nanites */ = {
 			isa = PBXGroup;
 			children = (
+				AB328C8917612D8400782F40 /* Catch */,
 				AB1A786A1031842C00DFBA38 /* Cocoa */,
 				AB9154E00F9B4DD5009FFEAF /* CoreFoundation */,
 				AB004029109700AD006029F9 /* CoreGraphics */,
@@ -1505,6 +1521,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB328C9017612F8200782F40 /* NTestFixture.cpp in Sources */,
 				AB0040101096FCFD006029F9 /* NCocoa.mm in Sources */,
 				AB003FE11096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
 				AB003FE21096FC56006029F9 /* NNSSingleton.mm in Sources */,
@@ -1676,6 +1693,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB328C8F17612F8100782F40 /* NTestFixture.cpp in Sources */,
 				AB00400F1096FCFD006029F9 /* NCocoa.mm in Sources */,
 				AB003FDF1096FC56006029F9 /* NNSAutoReleasePool.mm in Sources */,
 				AB003FE01096FC56006029F9 /* NNSSingleton.mm in Sources */,
