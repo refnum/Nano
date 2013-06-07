@@ -687,9 +687,9 @@ namespace Catch {
         return static_cast<ResultDisposition::Flags>( static_cast<int>( lhs ) | static_cast<int>( rhs ) );
     }
 
-    inline bool shouldContinueOnFailure( int flags ) { return flags & ResultDisposition::ContinueOnFailure; }
-    inline bool shouldNegate( int flags ) { return flags & ResultDisposition::NegateResult; }
-    inline bool shouldSuppressFailure( int flags ) { return flags & ResultDisposition::SuppressFail; }
+    inline bool shouldContinueOnFailure( int flags ) { return ((flags & ResultDisposition::ContinueOnFailure) == ResultDisposition::ContinueOnFailure); }
+    inline bool shouldNegate(            int flags ) { return ((flags & ResultDisposition::NegateResult)      == ResultDisposition::NegateResult);      }
+    inline bool shouldSuppressFailure(   int flags ) { return ((flags & ResultDisposition::SuppressFail)      == ResultDisposition::SuppressFail);      }
 
 } // end namespace Catch
 
@@ -4862,9 +4862,7 @@ namespace Catch {
         ~TextColour();
 
     private:
-#if defined( CATCH_CONFIG_USE_ANSI_COLOUR_CODES )
         ConsoleColourImpl* m_impl;
-#endif
     };
 
 } // end namespace Catch
@@ -4997,7 +4995,7 @@ namespace Catch {
 
 namespace Catch {
 
-    TextColour::TextColour( Colours ){}
+	TextColour::TextColour( Colours ){ m_impl = NULL; }
     TextColour::~TextColour(){}
     void TextColour::set( Colours ){}
 
