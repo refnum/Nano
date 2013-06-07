@@ -38,7 +38,7 @@ NANO_FIXTURE(TUndoSource)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNDOSOURCE("Empty", "Empty undo source")
+TEST_NUNDOSOURCE("Default", "Default state")
 {
 
 

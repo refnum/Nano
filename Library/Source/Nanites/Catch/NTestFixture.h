@@ -108,6 +108,10 @@ namespace Catch {
 #define NANO_TEST(_class, _name, _desc)								TEST_CASE_FIXTURE(_class, "Nano/" #_class "/" _name, _desc)
 
 
+// Assertions
+#define REQUIRE_NOERR(_err)											REQUIRE((_err) == kNoErr)
+
+
 
 
 

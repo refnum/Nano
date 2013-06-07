@@ -15,9 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NDebug.h"
+#include "NTestFixture.h"
 
 #include "CTestUtilities.h"
-#include "TDebug.h"
 
 
 
@@ -33,32 +33,54 @@ static const NString kTestMessage									= "Hello World";
 
 
 //============================================================================
-//		TDebug::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDebug::Execute(void)
-{	NString		theValue;
+#define TEST_NDEBUG(_name, _desc)									NANO_TEST(TDebug, _name, _desc)
+
+NANO_FIXTURE(TDebug)
+{
 	NDebug		*nDebug;
 
+	SETUP
+	{
+		nDebug = NDebug::Get();
+	}
+};
 
 
-	// Accessor
-	nDebug = NDebug::Get();
-	NN_ASSERT(nDebug != NULL);
 
 
 
-	// Path logging
-	NN_ASSERT(!nDebug->ShowPath());
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDEBUG("Paths", "Path logging")
+{
+
+
+	// Perform the test
+	REQUIRE(!nDebug->ShowPath());
 
 	nDebug->SetShowPath(true);
-	NN_ASSERT(nDebug->ShowPath());
+	REQUIRE(nDebug->ShowPath());
 
 	nDebug->SetShowPath(false);
-	NN_ASSERT(!nDebug->ShowPath());
+	REQUIRE(!nDebug->ShowPath());
+}
 
 
 
-	// Log output
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDEBUG("Output", "Log output")
+{	NString	theValue;
+
+
+
+	// Perform the test
 	CTestUtilities::SetDebugCapture(true);
 
 	nDebug->LogMessage(__FILE__, __LINE__, kTestMessage);
@@ -66,8 +88,8 @@ void TDebug::Execute(void)
 	theValue = CTestUtilities::SetDebugCapture(false);
 	theValue.Trim();
 
-	NN_ASSERT(theValue.Contains("TDebug.cpp"));
-	NN_ASSERT(theValue.EndsWith(kTestMessage));
+	REQUIRE(theValue.Contains("TDebug.cpp"));
+	REQUIRE(theValue.EndsWith(kTestMessage));
 }
 
 

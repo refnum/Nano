@@ -38,7 +38,7 @@ NANO_FIXTURE(TUndoManager)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNDOMANAGER("Empty", "Empty undo manager")
+TEST_NUNDOMANAGER("Default", "Default state")
 {
 
 

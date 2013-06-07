@@ -52,12 +52,12 @@ static const NString kValueString2									= "Second String";
 
 NANO_FIXTURE(TPreferences)
 {
+	NPreferences	*thePrefs;
+
 	SETUP
 	{
 		thePrefs = NPreferences::Get();
 	}
-
-	NPreferences	*thePrefs;
 };
 
 

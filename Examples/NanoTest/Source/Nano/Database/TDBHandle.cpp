@@ -15,17 +15,38 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NDBHandle.h"
-
-#include "TDBHandle.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TDBHandle::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDBHandle::Execute(void)
+#define TEST_NDBHANDLE(_name, _desc)								NANO_TEST(TDBHandle, _name, _desc)
+
+NANO_FIXTURE(TDBHandle)
 {
+	NDBHandle	dbHandle;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDBHANDLE("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(!dbHandle.IsOpen());
 }
+
+
+
+
 

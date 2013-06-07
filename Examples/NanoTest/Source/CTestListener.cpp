@@ -97,6 +97,9 @@ void CTestListener::DoMessage(NBroadcastMsg theMsg, const void * /*msgData*/)
 			if (mTargetListener != NULL)
 				mTargetListener->RemoveFromBroadcasters();
 			break;
+		
+		case kMsgNBroadcasterDestroyed:
+			break;
 
 		default:
 			NN_LOG("Unknown messge: %d", theMsg);

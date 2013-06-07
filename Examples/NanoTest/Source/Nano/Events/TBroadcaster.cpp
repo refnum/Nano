@@ -15,61 +15,116 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NListener.h"
+#include "NTestFixture.h"
 
 #include "CTestListener.h"
-#include "TBroadcaster.h"
 
 
 
 
 
 //============================================================================
-//		TBroadcaster::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TBroadcaster::Execute(void)
-{	NBroadcaster		theBroadcaster, theBroadcaster2;
-	CTestListener		theListener, theListener2;
-	UInt32				theValue;
+#define TEST_NBROADCASTER(_name, _desc)								NANO_TEST(TBroadcaster, _name, _desc)
+
+NANO_FIXTURE(TBroadcaster)
+{
+	NBroadcaster	theBroadcaster;
+	CTestListener	theListener;
+};
 
 
 
-	// State
-	NN_ASSERT( theBroadcaster.IsBroadcasting());
-	NN_ASSERT(!theBroadcaster.HasListeners());
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE( theBroadcaster.IsBroadcasting());
+	REQUIRE(!theBroadcaster.HasListeners());
+}
 
 
 
-	// Add/remove listener
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Single", "Single listener")
+{
+
+
+	// Perform the test
 	theBroadcaster.AddListener(&theListener);
-	NN_ASSERT(theBroadcaster.HasListeners());
+	REQUIRE(theBroadcaster.HasListeners());
 
 	theBroadcaster.RemoveListener(&theListener);
-	NN_ASSERT(!theBroadcaster.HasListeners());
+	REQUIRE(!theBroadcaster.HasListeners());
+}
 
 
 
-	// Remove all listeners
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Multiple", "Multiple listeners")
+{	CTestListener	theListener2;
+
+
+
+	// Perform the test
 	theBroadcaster.AddListener(&theListener);
 	theBroadcaster.AddListener(&theListener2);
-	NN_ASSERT(theBroadcaster.HasListeners());
+	REQUIRE(theBroadcaster.HasListeners());
 
 	theBroadcaster.RemoveListeners();
-	NN_ASSERT(!theBroadcaster.HasListeners());
+	REQUIRE(!theBroadcaster.HasListeners());
+}
 
 
 
-	// Broadcast
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Active", "Active broadcast")
+{	UInt32		theValue;
+
+
+
+	// Perform the test
 	theValue = kTestMsgNone;
 	theListener.SetTargetUInt32(&theValue);
 
 	theBroadcaster.AddListener(&theListener);
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 
-	NN_ASSERT(theValue == kTestMsgSetUInt32);
+	REQUIRE(theValue == kTestMsgSetUInt32);
+}
 
 
 
-	// No broadcast
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Inactive", "Inactive broadcast")
+{	UInt32		theValue;
+
+
+
+	// Perform the test
 	theValue = kTestMsgNone;
 	theListener.SetTargetUInt32(&theValue);
 
@@ -77,24 +132,47 @@ void TBroadcaster::Execute(void)
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 	theBroadcaster.SetBroadcasting(true);
 
-	NN_ASSERT(theValue == kTestMsgNone);
+	REQUIRE(theValue == kTestMsgNone);
+}
 
 
 
-	// No listeners
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Ignored", "Ignored broadcast")
+{	UInt32		theValue;
+
+
+
+	// Perform the test
 	theValue = kTestMsgNone;
 	theListener.SetTargetUInt32(&theValue);
 
-	theBroadcaster.RemoveListeners();
 	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
 
-	NN_ASSERT(theValue == kTestMsgNone);
+	REQUIRE(theValue == kTestMsgNone);
+}
 
 
 
-	// Copy listeners
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Copy", "Copy listeners")
+{	NBroadcaster	theBroadcaster2;
+	UInt32			theValue;
+
+
+
+	// Perform the test
 	theValue = kTestMsgNone;
 	theListener.SetTargetUInt32(&theValue);
+
 	theBroadcaster.AddListener(&theListener);
 	
 	theBroadcaster2 = theBroadcaster;
@@ -102,24 +180,43 @@ void TBroadcaster::Execute(void)
 	
 	theBroadcaster2.BroadcastMessage(kTestMsgSetUInt32);
 
-	NN_ASSERT(theValue == kTestMsgSetUInt32);
+	REQUIRE(theValue == kTestMsgSetUInt32);
+}
 
 
 
-	// Remove the listener that's broadcasting, while broadcasting
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Remove Active", "Remove the listener that's broadcasting, while broadcasting")
+{
+
+
+	// Perform the test
 	theListener.SetTargetListener(&theListener);
 
-	theBroadcaster.RemoveListeners();
 	theBroadcaster.AddListener(&theListener);
-
 	theBroadcaster.BroadcastMessage(kTestMsgRemoveListener);
 	
 	NN_ASSERT(!theBroadcaster.HasListeners());
 	NN_ASSERT(!theListener.IsListeningTo());
+}
 
 
 
-	// Remove a different listener from the same broadcaster, while broadcasting
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBROADCASTER("Remove Different", "Remove a different listener from the same broadcaster, while broadcasting")
+{	CTestListener	theListener2;
+
+
+
+	// Perform the test
 	//
 	// We can't control which order the broadcaster visits its listeners in, but
 	// since each listener removes the other we should be left with a broadcaster
@@ -139,10 +236,8 @@ void TBroadcaster::Execute(void)
 	theListener.SetTargetListener( &theListener2);
 	theListener2.SetTargetListener(&theListener);
 
-	theBroadcaster.RemoveListeners();
 	theBroadcaster.AddListener(&theListener);
 	theBroadcaster.AddListener(&theListener2);
-
 	theBroadcaster.BroadcastMessage(kTestMsgRemoveListener);
 
 	NN_ASSERT(theBroadcaster.HasListeners());

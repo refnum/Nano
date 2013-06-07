@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NBundle.h"
-
-#include "TBundle.h"
+#include "NTestFixture.h"
 
 
 
@@ -38,48 +37,83 @@
 
 
 //============================================================================
-//		TBundle::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TBundle::Execute(void)
-{	NBundle			theBundle;
-	NString			theString;
-	NDictionary		theInfo;
-	NFile			theFile;
+#define TEST_NBUNDLE(_name, _desc)									NANO_TEST(TBundle, _name, _desc)
+
+NANO_FIXTURE(TBundle)
+{
+	NBundle		theBundle;
+
+	SETUP
+	{
+		// Mac-specific setup
+		if (!kPathBundle.IsEmpty())
+			theBundle = NBundle(NFile(kPathBundle));
+	}
+};
 
 
 
-	// Mac-specific setup
-	if (!kPathBundle.IsEmpty())
-		theBundle = NBundle(NFile(kPathBundle));
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBUNDLE("Default", "Default state")
+{	NString		theString;
 
 
 
-	// Validity
-	NN_ASSERT(theBundle.IsValid());
+	// Perform the test
+	REQUIRE(theBundle.IsValid());
 	
 	theString = theBundle.GetIdentifier();
 	if (!kPathBundle.IsEmpty())
-		NN_ASSERT(!theString.IsEmpty());
+		REQUIRE(!theString.IsEmpty());
+}
 
 
 
-	// Files
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBUNDLE("Files", "File access")
+{	NFile		theFile;
+
+
+
+	// Perform the test
 	theFile = theBundle.GetFile();
-	NN_ASSERT(theFile.IsDirectory());
+	REQUIRE(theFile.IsDirectory());
 
 	theFile = theBundle.GetResources();
 	if (!kPathBundle.IsEmpty())
-		NN_ASSERT(theFile.IsDirectory());
+		REQUIRE(theFile.IsDirectory());
 
 	theFile = theBundle.GetExecutable();
 	if (!kPathBundle.IsEmpty())
-		NN_ASSERT(theFile.IsFile());
+		REQUIRE(theFile.IsFile());
+}
 
 
 
-	// Info.plist
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NBUNDLE("Info.plist", "Info.plist access")
+{	NDictionary		theInfo;
+
+
+
+	// Perform the test
 	theInfo = theBundle.GetInfoDictionary();
 	if (!kPathBundle.IsEmpty())
-		NN_ASSERT(!theInfo.IsEmpty());
+		REQUIRE(!theInfo.IsEmpty());
 }
+
 

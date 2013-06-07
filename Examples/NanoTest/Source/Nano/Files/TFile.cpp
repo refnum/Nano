@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFile.h"
-
-#include "TFile.h"
+#include "NTestFixture.h"
 
 
 
@@ -85,63 +84,120 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 
 
 
+
 //============================================================================
-//		TFile::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TFile::Execute(void)
-{	NString			thePath, theName, nameDisplay, nameNoExt, theExtension;
-	NFile			theFile, theDir, tmpFile, tmpFile2;
-	UInt8			tmpBuffer[kBufferSize];
-	NFileIterator	fileIter;
-	UInt64			theSize;
-	NStatus			theErr;
-	UInt32			n;
+#define TEST_NFILE(_name, _desc)									NANO_TEST(TFile, _name, _desc)
+
+NANO_FIXTURE(TFile)
+{
+	NFile		tmpFile, tmpFile2;
+	NFile		theFile;
+	NFile		theDir;
+	NStatus		theErr;
+	
+	SETUP
+	{
+		tmpFile  = kPathFileTmp;
+		tmpFile2 = kPathFileTmp2;
+		
+		theFile = kPathFile;
+		theDir  = NFile(kPathDirectoryRoot).GetChild(kPathDirectoryChildren);
+		theErr  = kNoErr;
+	}
+	
+	TEARDOWN
+	{
+		if (tmpFile.IsOpen())
+			tmpFile.Close();
+
+		if (tmpFile2.IsOpen())
+			tmpFile2.Close();
+			
+		if (tmpFile.Exists())
+			{
+			theErr = tmpFile.Delete();
+			NN_ASSERT_NOERR(theErr);
+			}
+
+		if (tmpFile2.Exists())
+			{
+			theErr = tmpFile2.Delete();
+			NN_ASSERT_NOERR(theErr);
+			}
+	}
+};
 
 
 
-	// Initialize ourselves
-	theFile = kPathFile;
-	theDir  = NFile(kPathDirectoryRoot).GetChild(kPathDirectoryChildren);
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Default", "Default state")
+{	NFile	newFile;
 
 
 
-	// State
-	NN_ASSERT( theFile.IsValid());
-	NN_ASSERT(  theDir.IsValid());
-	NN_ASSERT(!tmpFile.IsValid());
+	// Perform the test
+	REQUIRE( theFile.IsValid());
+	REQUIRE(  theDir.IsValid());
+	REQUIRE(!newFile.IsValid());
 
-	NN_ASSERT( theFile.IsFile());
-	NN_ASSERT( !theDir.IsFile());
-	NN_ASSERT(!tmpFile.IsFile());
+	REQUIRE( theFile.IsFile());
+	REQUIRE( !theDir.IsFile());
+	REQUIRE(!newFile.IsFile());
 
-	NN_ASSERT(!theFile.IsDirectory());
-	NN_ASSERT(  theDir.IsDirectory());
-	NN_ASSERT(!tmpFile.IsDirectory());
+	REQUIRE(!theFile.IsDirectory());
+	REQUIRE(  theDir.IsDirectory());
+	REQUIRE(!newFile.IsDirectory());
 
-	NN_ASSERT(!theFile.IsWriteable());
-	NN_ASSERT(  theDir.IsWriteable());
-	NN_ASSERT(!tmpFile.IsWriteable());
+	REQUIRE(!theFile.IsWriteable());
+	REQUIRE(  theDir.IsWriteable());
+	REQUIRE(!newFile.IsWriteable());
 
-	NN_ASSERT(!theFile.IsOpen());
-	NN_ASSERT( !theDir.IsOpen());
-	NN_ASSERT(!tmpFile.IsOpen());
+	REQUIRE(!theFile.IsOpen());
+	REQUIRE( !theDir.IsOpen());
+	REQUIRE(!newFile.IsOpen());
 
-	NN_ASSERT( theFile.Exists());
-	NN_ASSERT(  theDir.Exists());
-	NN_ASSERT(!tmpFile.Exists());
-
-
-
-	// Comparisons
-	tmpFile = theFile;
-	NN_ASSERT(tmpFile == theFile);
-
-	tmpFile = kPathFileTmp;
-	NN_ASSERT(tmpFile != theFile);
+	REQUIRE( theFile.Exists());
+	REQUIRE(  theDir.Exists());
+	REQUIRE(!newFile.Exists());
+}
 
 
 
-	// Links
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Comparisons", "Comparisons")
+{	NFile		newFile;
+
+
+
+	// Perform the test
+	newFile = theFile;
+
+	REQUIRE(newFile == theFile);
+	REQUIRE(newFile != tmpFile);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Links", "Links")
+{
+
+
+	// Perform the test
 	tmpFile = NFile(kPathLinkTarget);
 	tmpFile.CreateFile();
 	tmpFile.ResolveTarget();
@@ -149,350 +205,475 @@ void TFile::Execute(void)
 
 	tmpFile2 = kPathLinkFile;
 	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkSoft);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(tmpFile2.IsLink());
-	NN_ASSERT(tmpFile2             != tmpFile);
-	NN_ASSERT(tmpFile2.GetTarget() == tmpFile);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(tmpFile2.IsLink());
+	REQUIRE(tmpFile2             != tmpFile);
+	REQUIRE(tmpFile2.GetTarget() == tmpFile);
 
 	theErr = tmpFile2.Delete();
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 
 	#if NN_TARGET_MAC || NN_TARGET_LINUX
 	tmpFile2 = kPathLinkFile;
 	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkHard);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(!tmpFile2.IsLink());
-	NN_ASSERT(tmpFile2             != tmpFile);
-	NN_ASSERT(tmpFile2.GetTarget() != tmpFile);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(!tmpFile2.IsLink());
+	REQUIRE(tmpFile2             != tmpFile);
+	REQUIRE(tmpFile2.GetTarget() != tmpFile);
 
 	theErr = tmpFile2.Delete();
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 	#endif
 
 
 	#if NN_TARGET_MAC || NN_TARGET_WINDOWS
 	tmpFile2 = kPathLinkFile;
 	theErr   = tmpFile2.CreateLink(tmpFile, kNLinkUser);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(tmpFile2.IsLink());
-	NN_ASSERT(tmpFile2             != tmpFile);
-	NN_ASSERT(tmpFile2.GetTarget() == tmpFile);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(tmpFile2.IsLink());
+	REQUIRE(tmpFile2             != tmpFile);
+	REQUIRE(tmpFile2.GetTarget() == tmpFile);
 
 	theErr = tmpFile2.Delete();
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 	#endif
-
-
-	theErr = tmpFile.Delete();
-	NN_ASSERT_NOERR(theErr);
+}
 
 
 
-	// Get components
-	tmpFile = kPathFileTmp;
 
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Get components", "Get components")
+{	NString		thePath, theName, nameDisplay, nameNoExt, theExtension;
+
+
+
+	// Perform the test
 	thePath      = tmpFile.GetPath();
 	theName      = tmpFile.GetName();
 	nameDisplay  = tmpFile.GetName(kNNameDisplay);
 	nameNoExt    = tmpFile.GetName(kNNameNoExtension);
 	theExtension = tmpFile.GetExtension();
 	
-	NN_ASSERT(thePath      == kPathFileTmp);
-	NN_ASSERT(theName      == (kTestTmpName + "." + kTestTmpExtension));
-	NN_ASSERT(nameDisplay  == (kTestTmpName + "." + kTestTmpExtension));
-	NN_ASSERT(nameNoExt    == (kTestTmpName));
-	NN_ASSERT(theExtension == kTestTmpExtension);
-	NN_ASSERT(theName      == tmpFile.GetName(kNNameRaw));
+	REQUIRE(thePath      == kPathFileTmp);
+	REQUIRE(theName      == (kTestTmpName + "." + kTestTmpExtension));
+	REQUIRE(nameDisplay  == (kTestTmpName + "." + kTestTmpExtension));
+	REQUIRE(nameNoExt    == (kTestTmpName));
+	REQUIRE(theExtension == kTestTmpExtension);
+	REQUIRE(theName      == tmpFile.GetName(kNNameRaw));
+}
 
 
 
-	// Set components
-	tmpFile.SetPath(kPathFile);
-	NN_ASSERT(tmpFile == theFile);
 
-	tmpFile  = kPathFileTmp;
-	tmpFile2 = tmpFile.GetParent();
 
-	theErr = tmpFile.CreateFile();
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(tmpFile.IsFile());
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Set components", "Set components")
+{	NFile	newFile;
+
+
+
+	// Perform the test
+	newFile.SetPath(kPathFile);
+	REQUIRE(newFile == theFile);
+
+	newFile = tmpFile.GetParent();
+	theErr  = tmpFile.CreateFile();
+	REQUIRE_NOERR(theErr);
+	REQUIRE(tmpFile.IsFile());
 	
 	tmpFile.SetName(kTestTmpName2 + "." + kTestTmpExtension, true);
-	NN_ASSERT(tmpFile == tmpFile2.GetChild(kTestTmpName2 + "." + kTestTmpExtension));
+	REQUIRE(tmpFile == newFile.GetChild(kTestTmpName2 + "." + kTestTmpExtension));
 	
 	tmpFile.SetExtension(kTestTmpExtension2, true);
-	NN_ASSERT(tmpFile == tmpFile2.GetChild(kTestTmpName2 + "." + kTestTmpExtension2));
-
-	tmpFile.Delete();
-
+	REQUIRE(tmpFile == newFile.GetChild(kTestTmpName2 + "." + kTestTmpExtension2));
+}
 
 
-	// Size
-	tmpFile = kPathFileTmp;
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Size", "File size")
+{	UInt64		theSize;
+
+
+
+	// Perform the test
 	theSize = tmpFile.GetSize();
-	NN_ASSERT(theSize == 0);
+	REQUIRE(theSize == 0);
 	
 	theErr = tmpFile.SetSize(kBufferSize);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
-	NN_ASSERT(tmpFile.GetSize() == kBufferSize);
-	NN_ASSERT(tmpFile.Exists());
-	NN_ASSERT(tmpFile.IsFile());
-
-
-
-	// Timestamps
-	NN_ASSERT(tmpFile.GetCreationTime().IsValid());
-	NN_ASSERT(tmpFile.GetAccessTime().IsValid());
-	NN_ASSERT(tmpFile.GetModificationTime().IsValid());
-
-	NN_ASSERT(tmpFile.GetCreationTime() <= tmpFile.GetAccessTime());
-	NN_ASSERT(tmpFile.GetCreationTime() <= tmpFile.GetModificationTime());
+	REQUIRE(tmpFile.GetSize() == kBufferSize);
+	REQUIRE(tmpFile.Exists());
+	REQUIRE(tmpFile.IsFile());
+}
 
 
 
-	// Open
-	theErr = tmpFile.Open(kNPermissionUpdate);
-	NN_ASSERT_NOERR(theErr);
 
-	NN_ASSERT(tmpFile.IsOpen());
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Timestamps", "File timestamps")
+{
+
+
+	// Perform the test
+	theErr = tmpFile.SetSize(kBufferSize);
+	REQUIRE_NOERR(theErr);
+
+	REQUIRE(tmpFile.GetCreationTime().IsValid());
+	REQUIRE(tmpFile.GetAccessTime().IsValid());
+	REQUIRE(tmpFile.GetModificationTime().IsValid());
+
+	REQUIRE(tmpFile.GetCreationTime() <= tmpFile.GetAccessTime());
+	REQUIRE(tmpFile.GetCreationTime() <= tmpFile.GetModificationTime());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Open and Close", "File opening/closing")
+{
+
+
+	// Perform the test
+	theErr = tmpFile.Open(kNPermissionUpdate, true);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(tmpFile.IsOpen());
+
 	tmpFile2 = tmpFile;
-	NN_ASSERT(!tmpFile2.IsOpen());
+	REQUIRE(!tmpFile2.IsOpen());
+
+	tmpFile.Close();
+	REQUIRE(!tmpFile.IsOpen());
+}
 
 
 
-	// Read
-	theSize = tmpFile.GetPosition();
-	NN_ASSERT(theSize == 0);
-
-	theSize = 123456;
-	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(theSize == kBufferSize);
-
-	for (n = 0; n < theSize; n++)
-		NN_ASSERT(tmpBuffer[n] == 0x00);
-
-	theSize = tmpFile.GetPosition();
-	NN_ASSERT(theSize == kBufferSize);
-
-	theSize = 123456;
-	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize);
-	NN_ASSERT(theErr  == kNErrExhaustedSrc);
-	NN_ASSERT(theSize == 0);
 
 
-
-	// Position
-	theErr = tmpFile.SetPosition(0);
-	NN_ASSERT_NOERR(theErr);
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Reading/Writing", "File reading/writing")
+{	UInt8		tmpBuffer[kBufferSize];
+	UInt64		n, theSize;
 
 
 
 	// Write
+	theErr = tmpFile.Open(kNPermissionUpdate, true);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(tmpFile.IsOpen());
+
 	theSize = tmpFile.GetPosition();
-	NN_ASSERT(theSize == 0);
+	REQUIRE(theSize == 0);
 	
 	theSize = 123456;
 	theErr  = tmpFile.Write(kBufferSize, kBufferData1, theSize);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(theSize == kBufferSize);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(theSize == kBufferSize);
 
 
 
-	// Verify
+	// Read
 	theSize = 123456;
 	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize, 0, kNPositionFromStart);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(theSize == kBufferSize);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(theSize == kBufferSize);
 
 	for (n = 0; n < theSize; n++)
-		NN_ASSERT(tmpBuffer[n] == kBufferData1[n]);	
+		REQUIRE(tmpBuffer[n] == kBufferData1[n]);
+
+	theSize = tmpFile.GetPosition();
+	REQUIRE(theSize == kBufferSize);
+
+	theSize = 123456;
+	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize);
+	REQUIRE(theErr  == kNErrExhaustedSrc);
+	REQUIRE(theSize == 0);
 
 
 
-	// Delete-while-open
-#if NN_TARGET_WINDOWS
-	#pragma message("TFile: delete-while-open not implemented")
-#else
-	NN_ASSERT(tmpFile.Exists());
-	tmpFile.Delete();
-	NN_ASSERT(!tmpFile.Exists());
-#endif
+	// Rewind
+	theErr = tmpFile.SetPosition(0);
+	REQUIRE_NOERR(theErr);
+
+	theSize = tmpFile.GetPosition();
+	REQUIRE(theSize == 0);
+}
 
 
 
-	// Close
-	tmpFile.Close();
-	NN_ASSERT(!tmpFile.IsOpen());
-
-#if NN_TARGET_WINDOWS
-	tmpFile.Delete();	// Unable to delete-while-open
-#endif
 
 
-
-	// Creation/deletion
-	NN_ASSERT(!tmpFile.Exists());
-
-	tmpFile.CreateFile();
-	NN_ASSERT( tmpFile.Exists());
-	NN_ASSERT( tmpFile.IsFile());
-	NN_ASSERT(!tmpFile.IsDirectory());
-	
-	tmpFile.Delete();
-	NN_ASSERT(!tmpFile.Exists());
-	NN_ASSERT(!tmpFile.IsFile());
-	NN_ASSERT(!tmpFile.IsDirectory());
-
-	tmpFile.CreateDirectory();
-	NN_ASSERT( tmpFile.Exists());
-	NN_ASSERT(!tmpFile.IsFile());
-	NN_ASSERT( tmpFile.IsDirectory());
-
-	tmpFile.Delete();
-	NN_ASSERT(!tmpFile.Exists());
-	NN_ASSERT(!tmpFile.IsFile());
-	NN_ASSERT(!tmpFile.IsDirectory());
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Append", "Opening a file with write permission should append, not overwrite.")
+{	UInt8		tmpBuffer[kBufferSize];
+	UInt64		n, theSize;
 
 
 
-	// Creation of file with parents
-	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathFile;
-	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
-
-	tmpFile.CreateFile();
-	NN_ASSERT(tmpFile.Exists());
-	NN_ASSERT(tmpFile2.Exists());
-	NN_ASSERT(tmpFile2.IsDirectory());
-
-	tmpFile2.Delete();
-	NN_ASSERT(!tmpFile.Exists());
-	NN_ASSERT(!tmpFile2.Exists());
-
-
-
-	// Creation of directory with parents
-	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathChild;
-	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
-
-	tmpFile.CreateDirectory();
-	NN_ASSERT(tmpFile.Exists());
-	NN_ASSERT(tmpFile2.Exists());
-	NN_ASSERT(tmpFile2.IsDirectory());
-
-	tmpFile2.Delete();
-	NN_ASSERT(!tmpFile.Exists());
-	NN_ASSERT(!tmpFile2.Exists());
-
-
-
-	// Delete contents
-	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathFile;
-	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
-	
-	tmpFile.CreateFile();
-	NN_ASSERT(tmpFile.Exists());
-	NN_ASSERT(fileIter.GetFiles(tmpFile2).size() == 3);
-
-	tmpFile2.DeleteContents();
-	NN_ASSERT(tmpFile2.IsDirectory());
-	NN_ASSERT(fileIter.GetFiles(tmpFile2).empty());
-
-	tmpFile2.Delete();
-
-
-
-	// Relatives
-	tmpFile  = kPathFileTmp;
-	tmpFile2 = tmpFile.GetParent();
-	NN_ASSERT(tmpFile2.GetPath() == kPathTmp);
-	
-	tmpFile2 = tmpFile2.GetChild(tmpFile.GetName());
-	NN_ASSERT(tmpFile2 == tmpFile);
-
-
-
-	// Resize/exchange
-	tmpFile  = kPathFileTmp;
-	tmpFile2 = kPathFileTmp2;
-	
-	theErr  =  tmpFile.SetSize(kFileSizeTmp1);
-	theErr |= tmpFile2.SetSize(kFileSizeTmp2);
-	NN_ASSERT_NOERR(theErr);
-
-	NN_ASSERT( tmpFile.GetSize() == kFileSizeTmp1);
-	NN_ASSERT(tmpFile2.GetSize() == kFileSizeTmp2);
-
-	theErr = tmpFile.ExchangeWith(tmpFile2);
-	NN_ASSERT_NOERR(theErr);
-
-	NN_ASSERT( tmpFile.GetSize() == kFileSizeTmp2);
-	NN_ASSERT(tmpFile2.GetSize() == kFileSizeTmp1);
-	
-	tmpFile.Delete();
-	tmpFile2.Delete();
-
-
-
-	// Move
-	tmpFile = kPathFileTmp;
-	theDir  = kPathDirTmp;
-	
-	tmpFile.CreateFile();
-	theDir.CreateDirectory();
-	
-	NN_ASSERT(tmpFile.GetParent() == theDir.GetParent());
-	NN_ASSERT(!theDir.GetChild(tmpFile.GetName()).Exists());
-
-	tmpFile.MoveTo(theDir);
-	NN_ASSERT(tmpFile.GetParent() == theDir);
-	NN_ASSERT(theDir.GetChild(tmpFile.GetName()).Exists());
-
-	tmpFile.MoveTo(theDir.GetParent());
-	NN_ASSERT(tmpFile.GetParent() == theDir.GetParent());
-	NN_ASSERT(!theDir.GetChild(tmpFile.GetName()).Exists());
-
-	tmpFile.Delete();
-	theDir.Delete();
-
-
-
-	// Append-on-write
-	//
-	// Opening a file with write permission should append to the end, not overwrite.
-	tmpFile = kPathFileTmp;
+	// Perform the test
 	theErr  = tmpFile.Open(kNPermissionWrite, true);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 	theErr = tmpFile.Write(kBufferSize, kBufferData1, theSize);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 	
 	tmpFile.Close();
 
 
 	theErr = tmpFile.Open(kNPermissionWrite);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 	theErr = tmpFile.Write(kBufferSize, kBufferData2, theSize);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 	tmpFile.Close();
 
 
 	theErr = tmpFile.Open(kNPermissionRead);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 	memset(tmpBuffer, 0x00, kBufferSize);
 	theErr = tmpFile.Read(kBufferSize, tmpBuffer, theSize, 0, kNPositionFromStart);
-	NN_ASSERT_NOERR(theErr);
-
-	tmpFile.Close();
-	tmpFile.Delete();
+	REQUIRE_NOERR(theErr);
 
 	for (n = 0; n < theSize; n++)
-		NN_ASSERT(tmpBuffer[n] == kBufferData1[n]);
+		REQUIRE(tmpBuffer[n] == kBufferData1[n]);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Create and Delete", "Creating and deleting a file")
+{
+
+
+	// Perform the test
+	REQUIRE(!tmpFile.Exists());
+
+	tmpFile.CreateFile();
+	REQUIRE( tmpFile.Exists());
+	REQUIRE( tmpFile.IsFile());
+	REQUIRE(!tmpFile.IsDirectory());
+	
+	tmpFile.Delete();
+	REQUIRE(!tmpFile.Exists());
+	REQUIRE(!tmpFile.IsFile());
+	REQUIRE(!tmpFile.IsDirectory());
+
+	tmpFile.CreateDirectory();
+	REQUIRE( tmpFile.Exists());
+	REQUIRE(!tmpFile.IsFile());
+	REQUIRE( tmpFile.IsDirectory());
+
+	tmpFile.Delete();
+	REQUIRE(!tmpFile.Exists());
+	REQUIRE(!tmpFile.IsFile());
+	REQUIRE(!tmpFile.IsDirectory());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Open and Delete", "Deleting an open file")
+{
+
+
+	// Perform the test
+	theErr = tmpFile.Open(kNPermissionUpdate, true);
+	REQUIRE_NOERR(theErr);
+	REQUIRE(tmpFile.IsOpen());
+
+#if NN_TARGET_WINDOWS
+	#pragma message("TFile: delete-while-open not implemented")
+#else
+	REQUIRE(tmpFile.Exists());
+	tmpFile.Delete();
+	REQUIRE(!tmpFile.Exists());
+#endif
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("File Parents", "Creating a file with parents")
+{
+
+
+	// Perform the test
+	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathFile;
+	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
+
+	tmpFile.CreateFile();
+	REQUIRE(tmpFile.Exists());
+	REQUIRE(tmpFile2.Exists());
+	REQUIRE(tmpFile2.IsDirectory());
+
+	tmpFile2.Delete();
+	REQUIRE(!tmpFile.Exists());
+	REQUIRE(!tmpFile2.Exists());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Dir Parents", "Creating a directory with parents")
+{
+
+
+	// Perform the test
+	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathChild;
+	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
+
+	tmpFile.CreateDirectory();
+	REQUIRE(tmpFile.Exists());
+	REQUIRE(tmpFile2.Exists());
+	REQUIRE(tmpFile2.IsDirectory());
+
+	tmpFile2.Delete();
+	REQUIRE(!tmpFile.Exists());
+	REQUIRE(!tmpFile2.Exists());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Delete Contents", "Delete the contents of a directory")
+{	NFileIterator	fileIter;
+
+
+
+	// Perform the test
+	tmpFile  = kPathTmp + NN_DIR + kTestTmpPathFile;
+	tmpFile2 = kPathTmp + NN_DIR + kTestTmpPathParent;
+	
+	tmpFile.CreateFile();
+	REQUIRE(tmpFile.Exists());
+	REQUIRE(fileIter.GetFiles(tmpFile2).size() == 3);
+
+	tmpFile2.DeleteContents();
+	REQUIRE(tmpFile2.IsDirectory());
+	REQUIRE(fileIter.GetFiles(tmpFile2).empty());
+
+	tmpFile2.Delete();
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Relatives", "Parent/child relationships")
+{
+
+
+	// Perform the test
+	tmpFile2 = tmpFile.GetParent();
+	REQUIRE(tmpFile2.GetPath() == kPathTmp);
+	
+	tmpFile2 = tmpFile2.GetChild(tmpFile.GetName());
+	REQUIRE(tmpFile2 == tmpFile);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Exchange", "Exchange files")
+{
+
+
+	// Perform the test
+	theErr  =  tmpFile.SetSize(kFileSizeTmp1);
+	theErr |= tmpFile2.SetSize(kFileSizeTmp2);
+	REQUIRE_NOERR(theErr);
+
+	REQUIRE( tmpFile.GetSize() == kFileSizeTmp1);
+	REQUIRE(tmpFile2.GetSize() == kFileSizeTmp2);
+
+	theErr = tmpFile.ExchangeWith(tmpFile2);
+	REQUIRE_NOERR(theErr);
+
+	REQUIRE( tmpFile.GetSize() == kFileSizeTmp2);
+	REQUIRE(tmpFile2.GetSize() == kFileSizeTmp1);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILE("Move", "Move files")
+{
+
+
+	// Perform the test
+	theDir = kPathDirTmp;
+	
+	tmpFile.CreateFile();
+	theDir.CreateDirectory();
+	
+	REQUIRE(tmpFile.GetParent() == theDir.GetParent());
+	REQUIRE(!theDir.GetChild(tmpFile.GetName()).Exists());
+
+	tmpFile.MoveTo(theDir);
+	REQUIRE(tmpFile.GetParent() == theDir);
+	REQUIRE(theDir.GetChild(tmpFile.GetName()).Exists());
+
+	tmpFile.MoveTo(theDir.GetParent());
+	REQUIRE(tmpFile.GetParent() == theDir.GetParent());
+	REQUIRE(!theDir.GetChild(tmpFile.GetName()).Exists());
+
+	theDir.Delete();
 }
 
 

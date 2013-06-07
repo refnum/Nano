@@ -15,9 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTimer.h"
+#include "NTestFixture.h"
 
 #include "CTestUtilities.h"
-#include "TTimer.h"
 
 
 
@@ -34,31 +34,84 @@ static const NTime kTestRepeat										= 0.0006;
 
 
 //============================================================================
-//		TTimer::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TTimer::Execute(void)
-{	NTimer		theTimer;
-	UInt32		theValue;
+#define TEST_NTIMER(_name, _desc)									NANO_TEST(TTimer, _name, _desc)
+
+NANO_FIXTURE(TTimer)
+{
+	NTimer	theTimer;
+};
+
+
+
+
+
+//============================================================================
+//		IncrementValue : Increment a value.
+//----------------------------------------------------------------------------
+static void IncrementValue(UInt32 *theValue)
+{
+
+
+	// Update the value
+	*theValue = *theValue + 1;
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTIMER("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(!theTimer.HasTimer());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTIMER("Active", "Active timer")
+{	UInt32		theValue;
 	NTimerID	theID;
 
 
 
-	// Empty
-	NN_ASSERT(!theTimer.HasTimer());
-
-
-
-	// Active
+	// Perform the test
 	theValue = 0;
-	theID    = theTimer.AddTimer(BindFunction(TTimer::IncrementValue, &theValue), kTestDelay, kTestRepeat);
+	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
 
-	NN_ASSERT(theID != kNTimerNone);
-	NN_ASSERT(theTimer.HasTimer());
-	NN_ASSERT(theTimer.HasTimer(theID));
+	REQUIRE(theID != kNTimerNone);
+	REQUIRE(theTimer.HasTimer());
+	REQUIRE(theTimer.HasTimer(theID));
+}
 
 
 
-	// Running
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTIMER("Reset", "Reset timer")
+{	UInt32		theValue;
+	NTimerID	theID;
+
+
+
+	// Perform the test
+	theValue = 0;
+	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
+
 	while (theValue < 3)
 		CTestUtilities::ExecuteRunloop(kTestRepeat);
 
@@ -66,30 +119,32 @@ void TTimer::Execute(void)
 
 	while (theValue < 5)
 		CTestUtilities::ExecuteRunloop(kTestRepeat);
-
-
-
-	// Removal
-	theTimer.RemoveTimer(theID);
-
-	NN_ASSERT(!theTimer.HasTimer());
-	NN_ASSERT(!theTimer.HasTimer(theID));
 }
 
 
 
 
 
-#pragma mark private
 //============================================================================
-//		TTimer::IncrementValue : Increment a value.
+//		Test case
 //----------------------------------------------------------------------------
-void TTimer::IncrementValue(UInt32 *theValue)
-{
+TEST_NTIMER("Removal", "Removal of timer")
+{	UInt32		theValue;
+	NTimerID	theID;
 
 
-	// Update the value
-	*theValue = *theValue + 1;
+
+	// Perform the test
+	theValue = 0;
+	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
+
+	REQUIRE(theTimer.HasTimer());
+	REQUIRE(theTimer.HasTimer(theID));
+
+	theTimer.RemoveTimer(theID);
+
+	REQUIRE(!theTimer.HasTimer());
+	REQUIRE(!theTimer.HasTimer(theID));
 }
 
 

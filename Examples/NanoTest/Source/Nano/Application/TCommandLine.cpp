@@ -44,12 +44,12 @@ static const char *kTestArgList[]									= {	"app",
 
 NANO_FIXTURE(TCommandLine)
 {
+	NCommandLine	cmdLine;
+
 	SETUP
 	{
 		cmdLine.SetArguments(NN_ARRAY_SIZE(kTestArgList), kTestArgList);
 	}
-
-	NCommandLine		cmdLine;
 };
 
 
