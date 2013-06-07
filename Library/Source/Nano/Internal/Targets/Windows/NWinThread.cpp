@@ -317,7 +317,7 @@ bool NTargetThread::AtomicCompareAndSwapPtr(void *&theValue, void *oldValue, voi
 
 
 	// Compare and swap
-	return(_InterlockedCompareExchangePointer(&theValue, oldValue, newValue));
+	return(InterlockedCompareExchangePointer(&theValue, oldValue, newValue) == oldValue);
 }
 
 
