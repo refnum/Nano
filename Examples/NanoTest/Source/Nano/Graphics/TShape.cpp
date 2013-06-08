@@ -45,3 +45,5 @@ TEST_NSHAPE("Default", "Default state")
 	// Perform the test
 	REQUIRE(theShape.IsEmpty());
 }
+
+
