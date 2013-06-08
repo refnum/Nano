@@ -14,23 +14,33 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TMessageClient.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TMessageClient::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TMessageClient::Execute(void)
+#define TEST_NMESSAGECLIENT(_name, _desc)							NANO_TEST(TMessageClient, _name, _desc)
+
+NANO_FIXTURE(TMessageClient)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NMESSAGECLIENT("Default", "Default state")
 {
 
 
-	// Tested by TMessageServer
+	// Perform the test
+		// Test by TMessageServer
 }
-
-
-
-
 

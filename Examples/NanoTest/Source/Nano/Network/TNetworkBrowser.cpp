@@ -15,9 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NNetworkService.h"
+#include "NTestFixture.h"
 
 #include "CTestUtilities.h"
-#include "TNetworkBrowser.h"
 
 
 
@@ -37,62 +37,22 @@ static const NString kTestResult2									= ".local.', port='666'";
 
 
 //============================================================================
-//		TNetworkBrowser::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNetworkBrowser::Execute(void)
-{	NNetworkBrowser		theBrowser;
-	NNetworkService		theService;
-	NString				theResult;
-	NStatus				theErr;
+#define TEST_NNETWORKBROWSER(_name, _desc)							NANO_TEST(TNetworkBrowser, _name, _desc)
 
-
-
-	// Prepare the service
-	//
-	// Bonjour may not be available, in which case the tests are skipped.
-	theErr = theService.AddService( kTestService, kTestPort);
-	if (theErr == kNErrNotSupported)
-		{
-		NN_LOG("TNetworkBrowser not supported on this platform");
-		return;
-		}
-
-	NN_ASSERT(theService.HasService(kTestService, kTestPort));
-	NN_ASSERT_NOERR(theErr);
-
-
-
-	// Prepare the browser
-	theBrowser.SetServices(mkvector(kTestService));
-	theBrowser.SetEventHandler(BindFunction(TNetworkBrowser::BrowseEvent, _1, &theResult));
-
-
-
-	// Browse for services
-	theBrowser.StartBrowsing();
-	CTestUtilities::ExecuteRunloop(2);
-
-	if (0)
-		NN_LOG(theResult);
-
-	NN_ASSERT(theResult.Contains(kTestResult1));
-	NN_ASSERT(theResult.Contains(kTestResult2));
-
-
-
-	// Clean up
-	theBrowser.StopBrowsing();
-	theService.RemoveServices();
-}
+NANO_FIXTURE(TNetworkBrowser)
+{
+};
 
 
 
 
 
 //============================================================================
-//		TNetworkBrowser::BrowseEvent : Handle a browse event.
+//		BrowseEvent : Handle a browse event.
 //----------------------------------------------------------------------------
-void TNetworkBrowser::BrowseEvent(const NNetworkBrowserEvent &theEvent, NString *theResult)
+static void BrowseEvent(const NNetworkBrowserEvent &theEvent, NString *theResult)
 {	NString		theLine;
 
 
@@ -111,5 +71,60 @@ void TNetworkBrowser::BrowseEvent(const NNetworkBrowserEvent &theEvent, NString 
 	// Update the result
 	*theResult += theLine;
 }
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNETWORKBROWSER("State", "State tests")
+{	NNetworkBrowser		theBrowser;
+	NNetworkService		theService;
+	NString				theResult;
+	NStatus				theErr;
+
+
+
+	// Prepare the service
+	//
+	// Bonjour may not be available, in which case the tests are skipped.
+	theErr = theService.AddService( kTestService, kTestPort);
+	if (theErr == kNErrNotSupported)
+		{
+		NN_LOG("TNetworkBrowser not supported on this platform");
+		return;
+		}
+
+	REQUIRE(theService.HasService(kTestService, kTestPort));
+	REQUIRE_NOERR(theErr);
+
+
+
+	// Prepare the browser
+	theBrowser.SetServices(mkvector(kTestService));
+	theBrowser.SetEventHandler(BindFunction(BrowseEvent, _1, &theResult));
+
+
+
+	// Browse for services
+	theBrowser.StartBrowsing();
+	CTestUtilities::ExecuteRunloop(2);
+
+	if (0)
+		NN_LOG(theResult);
+
+	REQUIRE(theResult.Contains(kTestResult1));
+	REQUIRE(theResult.Contains(kTestResult2));
+
+
+
+	// Clean up
+	theBrowser.StopBrowsing();
+	theService.RemoveServices();
+}
+
+
 
 

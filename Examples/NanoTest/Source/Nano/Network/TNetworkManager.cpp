@@ -15,33 +15,46 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NNetworkManager.h"
-
-#include "TNetworkManager.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TNetworkManager::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNetworkManager::Execute(void)
-{	NNetworkManager		*netManager;
-	NString				theResult;
+#define TEST_NNETWORKMANAGER(_name, _desc)							NANO_TEST(TNetworkManager, _name, _desc)
+
+NANO_FIXTURE(TNetworkManager)
+{
+	NNetworkManager		*netManager;
+	
+	SETUP
+	{
+		netManager = NNetworkManager::Get();
+	}
+};
 
 
 
-	// Get the state we need
-	netManager = NNetworkManager::Get();
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNETWORKMANAGER("Connection", "Connection test")
+{	NString				theResult;
 
 
 
-	// Execute the tests
-	NN_ASSERT(netManager->IsReachable("http://www.apple.com/"));
+	// Perform the test
+	REQUIRE(netManager->IsReachable("http://www.apple.com/"));
 	
 	theResult = netManager->GetUserAgent();
-	NN_ASSERT(!theResult.IsEmpty());
+	REQUIRE(!theResult.IsEmpty());
 }
+
 
 
 

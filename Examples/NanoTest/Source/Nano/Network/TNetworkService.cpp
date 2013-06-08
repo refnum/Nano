@@ -14,20 +14,33 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TNetworkService.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TNetworkService::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNetworkService::Execute(void)
+#define TEST_NNETWORKSERVICE(_name, _desc)							NANO_TEST(TNetworkService, _name, _desc)
+
+NANO_FIXTURE(TNetworkService)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNETWORKSERVICE("Default", "Default state")
 {
 
 
-	// Tested via TNetworkBrowser
+	// Perform the test
+		// Test by TNetworkBrowser
 }
-
 

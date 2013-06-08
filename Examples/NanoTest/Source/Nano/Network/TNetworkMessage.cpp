@@ -14,20 +14,33 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TNetworkMessage.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TNetworkMessage::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNetworkMessage::Execute(void)
+#define TEST_NNETWORKMESSAGE(_name, _desc)							NANO_TEST(TNetworkMessage, _name, _desc)
+
+NANO_FIXTURE(TNetworkMessage)
 {
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNETWORKMESSAGE("Default", "Default state")
+{
+
+
+	// Perform the test
+		// Test by TMessageServer
 }
-
-
-
-
 

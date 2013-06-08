@@ -15,21 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NURLRequest.h"
-
-#include "TURLRequest.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TURLRequest::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TURLRequest::Execute(void)
+#define TEST_NURLREQUEST(_name, _desc)								NANO_TEST(TURLRequest, _name, _desc)
+
+NANO_FIXTURE(TURLRequest)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NURLREQUEST("Default", "Default state")
 {
 
 
-	// Execute the tests
+	// Perform the test
+		// Test by TURLResponse
 }
-
 

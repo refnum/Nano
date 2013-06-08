@@ -16,8 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NMessageClient.h"
-
-#include "TMessageServer.h"
+#include "NTestFixture.h"
 
 
 
@@ -428,11 +427,23 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 
 
 
-#pragma mark TMessageServer
 //============================================================================
-//		TMessageServer::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TMessageServer::Execute(void)
+#define TEST_NMESSAGESERVER(_name, _desc)							NANO_TEST(TMessageServer, _name, _desc)
+
+NANO_FIXTURE(TMessageServer)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NMESSAGESERVER("State", "State tests")
 {	TTestClient		testClient1, testClient2;
 	TTestServer		testServer;
 	UInt16			thePort;
@@ -491,10 +502,12 @@ void TMessageServer::Execute(void)
 	//
 	// As such we need to accept either order, as which we see will depend on
 	// exactly when the socket threads are rescheduled.
-	NN_ASSERT( testServer.GetState() == kStateServer);
-	NN_ASSERT(testClient1.GetState() == kStateClient1_Order1 ||
-			  testClient1.GetState() == kStateClient1_Order2);
-	NN_ASSERT(testClient2.GetState() == kStateClient2);
+	REQUIRE( testServer.GetState() == kStateServer);
+
+	REQUIRE((testClient1.GetState() == kStateClient1_Order1 ||
+			 testClient1.GetState() == kStateClient1_Order2));
+
+	REQUIRE( testClient2.GetState() == kStateClient2);
 }
 
 

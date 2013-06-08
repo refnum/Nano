@@ -15,48 +15,71 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NURLResponse.h"
-
-#include "TURLResponse.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TURLResponse::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TURLResponse::Execute(void)
-{	NURLResponse		*theResponse;
-	NURLRequest			theRequest;
-	NData				theData;
-	NStatus				theErr;
+#define TEST_NURLRESPONSE(_name, _desc)								NANO_TEST(TURLResponse, _name, _desc)
+
+NANO_FIXTURE(TURLResponse)
+{
+	NURLResponse	*theResponse;
+	NURLRequest		theRequest;
+
+	SETUP
+	{
+		theRequest  = NURLRequest("http://www.refnum.com/");
+		theResponse = new NURLResponse(theRequest);
+	}
+
+	TEARDOWN
+	{
+		delete theResponse;
+	}
+};
 
 
 
-	// Wait for results
-	theRequest  = NURLRequest("http://www.refnum.com/");
-	theResponse = new NURLResponse(theRequest);
 
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NURLRESPONSE("Normal", "Normal request")
+{	NData		theData;
+	NStatus		theErr;
+
+
+
+	// Perform the test
 	theErr = theResponse->WaitForReply(theData);
-	NN_ASSERT_NOERR(theErr);
-	NN_ASSERT(NString(theData).Contains("refNum Software"));
-
-	delete theResponse;
-
+	REQUIRE_NOERR(theErr);
+	REQUIRE(NString(theData).Contains("refNum Software"));
+}
 
 
-	// Cancel results
-	theRequest  = NURLRequest("http://www.google.com/");
-	theResponse = new NURLResponse(theRequest);
 
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NURLRESPONSE("Cancel", "Cancel a request")
+{
+
+
+	// Perform the test
 	theResponse->Start();
 #if NN_TARGET_WINDOWS
 	NN_LOG("NURLRequest::Cancel not supported from console apps");
 #else
 	theResponse->Cancel();
 #endif
-
-	delete theResponse;
 }
 
 

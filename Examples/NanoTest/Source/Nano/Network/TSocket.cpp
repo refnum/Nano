@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NThreadUtilities.h"
 #include "NMathUtilities.h"
-#include "TSocket.h"
+#include "NTestFixture.h"
 
 
 
@@ -77,7 +77,7 @@ public:
 
 
 	// Execute the tests
-	void								ExecuteWeb(   bool *isDone);
+	void								ExecuteWeb(   bool *isDone, NData *theData);
 	void								ExecuteCustom(bool *isDone, UInt16 thePort);
 
 
@@ -266,9 +266,8 @@ TSocketClient::~TSocketClient(void)
 //============================================================================
 //		TSocketClient::ExecuteWeb : Execute a web client test.
 //----------------------------------------------------------------------------
-void TSocketClient::ExecuteWeb(bool *isDone)
+void TSocketClient::ExecuteWeb(bool *isDone, NData *theData)
 {	NSocket		*theSocket;
-	NData		theData;
 	NString		theText;
 	NStatus		theErr;
 
@@ -291,11 +290,8 @@ void TSocketClient::ExecuteWeb(bool *isDone)
 
 
 	// Read some data
-	theErr = theSocket->ReadData(400, theData);
+	theErr = theSocket->ReadData(400, *theData);
 	NN_ASSERT_NOERR(theErr);
-	
-	theText.SetData(theData);
-	NN_ASSERT(theText.Contains("text/html"));
 
 
 
@@ -398,51 +394,79 @@ void TSocketClient::SocketDidClose(NSocket * /*theSocket*/, NStatus theErr)
 
 
 
-#pragma mark TSocket
 //============================================================================
-//		TSocket::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSocket::Execute(void)
-{	TSocketServer		*theServer;
+#define TEST_NSOCKET(_name, _desc)									NANO_TEST(TSocket, _name, _desc)
+
+NANO_FIXTURE(TSocket)
+{
+	TSocketServer		*theServer;
 	TSocketClient		*theClient;
 	UInt16				thePort;
 	bool				isDone;
 
+	SETUP
+	{
+		theServer = new TSocketServer;
+		theClient = new TSocketClient;
+
+		thePort = NMathUtilities::GetRandomUInt16(kServerPortMin, kServerPortMax);
+		isDone  = false;
+	}
+	
+	TEARDOWN
+	{
+		delete theServer;
+		delete theClient;
+	}
+};
 
 
-	// Get the state we need
-	thePort = NMathUtilities::GetRandomUInt16(kServerPortMin, kServerPortMax);
-
-	theServer = new TSocketServer;
-	theClient = new TSocketClient;
 
 
 
-	// Execute a web test
-	isDone = false;
-	NThreadUtilities::DetachFunctor(BindMethod(theClient, TSocketClient::ExecuteWeb, &isDone));
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSOCKET("Client", "Client test")
+{	NData		theData;
+	NString		theText;
+
+
+
+	// Perform the test
+	NThreadUtilities::DetachFunctor(BindMethod(theClient, TSocketClient::ExecuteWeb, &isDone, &theData));
 
 	while (!isDone)
 		NThread::Sleep();
 
+	theText.SetData(theData);
+	REQUIRE(theText.Contains("text/html"));
+}
 
 
-	// Execute a custom test
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSOCKET("Server", "Server test")
+{
+
+
+	// Perform the test
 	theServer->Start(thePort);
 
-	isDone = false;
 	NThreadUtilities::DetachFunctor(BindMethod(theClient, TSocketClient::ExecuteCustom, &isDone, thePort));
 
 	while (!isDone)
 		NThread::Sleep();
 
 	theServer->Stop();
-
-
-
-	// Clean up
-	delete theServer;
-	delete theClient;
 }
+
+
 
 
