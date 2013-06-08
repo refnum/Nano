@@ -18,7 +18,6 @@
 //----------------------------------------------------------------------------
 // Bootstrap
 #include "NanoTarget.h"
-#include "NanoNotes.h"
 
 
 // Mac

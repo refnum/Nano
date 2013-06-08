@@ -167,7 +167,7 @@ DEPENDENCIES    = $(patsubst %.c,%.depends, $(patsubst %.cpp,%.depends, $(SRCS_N
 
 FLAGS_NANO =                                                                         \
         -include "../Prefix/Nano Prefix.h"                                           \
-        -DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF -DNN_DEBUG=1 -g                       \
+        -DNN_DEBUG=1 -g                                                              \
 
 FLAGS_INCLUDE =                                                                      \
         -I"../Prefix"                                                                \

@@ -515,7 +515,6 @@
 		AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCommandLine.cpp; sourceTree = "<group>"; };
 		AB9155080F9B4DD5009FFEAF /* NCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCommandLine.h; sourceTree = "<group>"; };
 		AB91550A0F9B4DD5009FFEAF /* Nano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano.h; sourceTree = "<group>"; };
-		AB91550B0F9B4DD5009FFEAF /* NanoNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoNotes.h; sourceTree = "<group>"; };
 		AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTarget.h; sourceTree = "<group>"; };
 		AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTypes.h; sourceTree = "<group>"; };
 		AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
@@ -1101,7 +1100,6 @@
 			children = (
 				AB91550A0F9B4DD5009FFEAF /* Nano.h */,
 				ABC877C5104522720047F707 /* NanoMacros.h */,
-				AB91550B0F9B4DD5009FFEAF /* NanoNotes.h */,
 				AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */,
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,
 				AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */,
@@ -1868,10 +1866,7 @@
 			baseConfigurationReference = AB069DF114CC1FAE006E6DF8 /* NanoDebugMac.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = (
-					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
-					"$(NANO_OTHER_CFLAGS)",
-				);
+				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
 				PRODUCT_NAME = Nano;
 			};
 			name = Debug;
@@ -1881,10 +1876,7 @@
 			baseConfigurationReference = AB069DF414CC1FAE006E6DF8 /* NanoReleaseMac.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = (
-					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
-					"$(NANO_OTHER_CFLAGS)",
-				);
+				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
 				PRODUCT_NAME = Nano;
 			};
 			name = Release;
@@ -1906,10 +1898,7 @@
 			baseConfigurationReference = AB069DF014CC1FAE006E6DF8 /* NanoDebugiOS.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = (
-					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
-					"$(NANO_OTHER_CFLAGS)",
-				);
+				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
 				PRODUCT_NAME = Nano;
 			};
 			name = Debug;
@@ -1919,10 +1908,7 @@
 			baseConfigurationReference = AB069DF314CC1FAE006E6DF8 /* NanoReleaseiOS.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = (
-					"-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF",
-					"$(NANO_OTHER_CFLAGS)",
-				);
+				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
 				PRODUCT_NAME = Nano;
 			};
 			name = Release;

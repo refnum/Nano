@@ -39,7 +39,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -93,7 +92,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="NN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -1648,10 +1646,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Core\NanoMacros.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Core\NanoNotes.h"
 				>
 			</File>
 			<File

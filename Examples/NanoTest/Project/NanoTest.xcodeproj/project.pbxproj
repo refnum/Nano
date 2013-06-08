@@ -917,7 +917,6 @@
 			baseConfigurationReference = AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
-				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
 				PRODUCT_NAME = NanoTest;
 			};
 			name = Debug;
@@ -927,7 +926,6 @@
 			baseConfigurationReference = AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
-				OTHER_CFLAGS = "-DNN_SEEN_RELEASE_NOTES_FOR=0xFFFFFFFF";
 				PRODUCT_NAME = NanoTest;
 			};
 			name = Release;
