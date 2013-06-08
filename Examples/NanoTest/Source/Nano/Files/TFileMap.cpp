@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFileMap.h"
-
-#include "TFileMap.h"
+#include "NTestFixture.h"
 
 
 
@@ -34,48 +33,91 @@ static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', '
 
 
 //============================================================================
-//		TFileMap::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TFileMap::Execute(void)
-{	NFile			theFile;
-	NFileMap		fileMap;
-	void			*thePtr;
-	NStatus			theErr;
+#define TEST_NFILEMAP(_name, _desc)									NANO_TEST(TFileMap, _name, _desc)
 
-
-
-	// Prepare the file
-	theFile = NFileUtilities::GetTemporaryFile();
-	theErr  = NFileUtilities::SetFileData(theFile, NData(kBufferSize, kBufferData));
-	NN_ASSERT_NOERR(theErr);
-
-
-
-	// Open
-	NN_ASSERT(!fileMap.IsOpen());
+NANO_FIXTURE(TFileMap)
+{
+	NFileMap	fileMap;
+	NFile		theFile;
+	NStatus		theErr;
 	
+	SETUP
+	{
+		theFile = NFileUtilities::GetTemporaryFile();
+		theErr  = NFileUtilities::SetFileData(theFile, NData(kBufferSize, kBufferData));
+		NN_ASSERT_NOERR(theErr);
+	}
+	
+	TEARDOWN
+	{
+		if (theFile.Exists())
+			{
+			theErr = theFile.Delete();
+			NN_ASSERT_NOERR(theErr);
+			}
+	}
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILEMAP("Default", "Default state")
+{
+
+
+	// Perform the test
+	NN_ASSERT(!fileMap.IsOpen());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILEMAP("Open", "Open and close")
+{
+
+
+	// Perform the test
 	theErr = fileMap.Open(theFile);
 	NN_ASSERT_NOERR(theErr);
 
 	NN_ASSERT(fileMap.IsOpen());
 
+	fileMap.Close();
+	NN_ASSERT(!fileMap.IsOpen());
+}
 
 
-	// Access
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILEMAP("Map", "Map and unmap")
+{	void	*thePtr;
+
+
+
+	// Perform the test
+	theErr = fileMap.Open(theFile);
+	NN_ASSERT_NOERR(theErr);
+
 	thePtr = fileMap.Map(0, kBufferSize);
 	NN_ASSERT(memcmp(thePtr, kBufferData, kBufferSize) == 0);
 
 	fileMap.Unmap(thePtr);
-	
-	
-	
-	// Close
-	fileMap.Close();
-	NN_ASSERT(!fileMap.IsOpen());
-
-	theErr = theFile.Delete();
-	NN_ASSERT_NOERR(theErr);
 }
+
 
 
 

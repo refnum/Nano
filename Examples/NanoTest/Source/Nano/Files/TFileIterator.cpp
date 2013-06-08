@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NFileIterator.h"
-
-#include "TFileIterator.h"
+#include "NTestFixture.h"
 
 
 
@@ -41,21 +40,34 @@
 
 static const NString kTestChild										= kTestParent + NN_DIR + "Child1" + NN_DIR + "Child2" + NN_DIR + "Child3";
 
-		
-		
 
-		
+
+
+
 //============================================================================
-//		TFileIterator::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TFileIterator::Execute(void)
-{	NFileIterator		fileIter;
-	NFileList			theFiles;
-	NFile				theFile;
+#define TEST_NFILEITERATOR(_name, _desc)							NANO_TEST(TFileIterator, _name, _desc)
+
+NANO_FIXTURE(TFileIterator)
+{
+	NFileIterator	fileIter;
+};
 
 
 
-	// Iterate
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFILEITERATOR("Iterate", "File iterator")
+{	NFileList		theFiles;
+	NFile			theFile;
+
+
+
+	// Perform the test
 	theFile = kTestChild;
 	theFile.CreateFile();
 	NN_ASSERT(theFile.Exists());

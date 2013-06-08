@@ -309,8 +309,8 @@ TEST_NFILE("Size", "File size")
 
 	// Perform the test
 	theSize = tmpFile.GetSize();
-	REQUIRE(theSize == 0);
-	
+	REQUIRE(theSize == (UInt64) 0);
+
 	theErr = tmpFile.SetSize(kBufferSize);
 	REQUIRE_NOERR(theErr);
 
@@ -384,7 +384,7 @@ TEST_NFILE("Reading/Writing", "File reading/writing")
 	REQUIRE(tmpFile.IsOpen());
 
 	theSize = tmpFile.GetPosition();
-	REQUIRE(theSize == 0);
+	REQUIRE(theSize == (UInt64) 0);
 	
 	theSize = 123456;
 	theErr  = tmpFile.Write(kBufferSize, kBufferData1, theSize);
@@ -408,7 +408,7 @@ TEST_NFILE("Reading/Writing", "File reading/writing")
 	theSize = 123456;
 	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize);
 	REQUIRE(theErr  == kNErrExhaustedSrc);
-	REQUIRE(theSize == 0);
+	REQUIRE(theSize == (UInt64) 0);
 
 
 
@@ -417,7 +417,7 @@ TEST_NFILE("Reading/Writing", "File reading/writing")
 	REQUIRE_NOERR(theErr);
 
 	theSize = tmpFile.GetPosition();
-	REQUIRE(theSize == 0);
+	REQUIRE(theSize == (UInt64) 0);
 }
 
 
@@ -675,6 +675,7 @@ TEST_NFILE("Move", "Move files")
 
 	theDir.Delete();
 }
+
 
 
 

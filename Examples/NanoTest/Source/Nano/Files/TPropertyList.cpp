@@ -18,9 +18,17 @@
 #include "NFileUtilities.h"
 #include "NPropertyList.h"
 #include "NDataEncoder.h"
+#include "NTestFixture.h"
 #include "NTask.h"
 
-#include "TPropertyList.h"
+
+
+
+
+//============================================================================
+//		Build constants
+//----------------------------------------------------------------------------
+#define DUMP_BINARY													0
 
 
 
@@ -110,66 +118,121 @@ static const NString kPropertyListBinary							=	"62706C6973743030D4010203040506
 
 
 //============================================================================
-//		TPropertyList::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TPropertyList::Execute(void)
-{	NData				theData, testData1, testData2;
-	NDictionary			testDict1, testDict2;
-	NString				theXML, testString;
+#define TEST_NPROPERTYLIST(_name, _desc)							NANO_TEST(TPropertyList, _name, _desc)
+
+NANO_FIXTURE(TPropertyList)
+{
+	NDictionary			propertyDict, testDict1, testDict2;
+	NData				testData1, testData2;
 	NPropertyList		propertyList;
-	NDataEncoder		theEncoder;
 	NArray				testArray;
 	NDate				testDate;
+	NString				theXML;
+
+	SETUP
+	{
+		testData1 = NData(NN_ARRAY_SIZE(kValueData1), kValueData1);
+		testData2 = NData(NN_ARRAY_SIZE(kValueData2), kValueData2);
+
+		testDict2.SetValue(kKeyString,  kValueString2);
+		testDict2.SetValue(kKeyBoolean, kValueBoolean2);
+		testDict2.SetValue(kKeyColor,   kValueColor2);
+		testDict2.SetValue(kKeyNumber,  kValueNumber2);
+
+		testArray.AppendValue(kValueString1);
+		testArray.AppendValue(kValueBoolean1);
+		testArray.AppendValue(kValueNumber1);
+		testArray.AppendValue(kValueDate1);
+		testArray.AppendValue(kValueColor1);
+		testArray.AppendValue(testData1);
+		testArray.AppendValue(testDict2);
+
+		propertyDict.SetValue(kKeyDictionary, testDict2);
+		propertyDict.SetValue(kKeyArray,      testArray);
+		propertyDict.SetValue(kKeyData,       testData2);
+		propertyDict.SetValue(kKeyDate,       kValueDate2);
+
+		testDict1.Clear();
+		testDict2.Clear();
+		testData1.Clear();
+		testData2.Clear();
+		testArray.Clear();
+	}
+};
 
 
 
-	// Maintenance
-	//
-	// DumpBinary can be used to rebuild kPropertyListBinary from kPropertyListXML.
-#if 0
-	DumpBinary();
-#endif
+
+
+//============================================================================
+//		DumpBinary : Dump the binary plist.
+//----------------------------------------------------------------------------
+#if DUMP_BINARY
+static void DumpBinary(void)
+{	NDataEncoder	theEncoder;
+	NFile			theFile;
+	NString			theText;
+	NData			theData;
 
 
 
-	// Get the state we need
-	testData1 = NData(NN_ARRAY_SIZE(kValueData1), kValueData1);
-	testData2 = NData(NN_ARRAY_SIZE(kValueData2), kValueData2);
+	// Create the binary .plist
+	theFile = NFileUtilities::GetTemporaryFile("binary.plist");
+	NFileUtilities::SetFileText(theFile, kPropertyListXML);
 
-	testDict2.SetValue(kKeyString,  kValueString2);
-	testDict2.SetValue(kKeyBoolean, kValueBoolean2);
-	testDict2.SetValue(kKeyColor,   kValueColor2);
-	testDict2.SetValue(kKeyNumber,  kValueNumber2);
-
-	testArray.AppendValue(kValueString1);
-	testArray.AppendValue(kValueBoolean1);
-	testArray.AppendValue(kValueNumber1);
-	testArray.AppendValue(kValueDate1);
-	testArray.AppendValue(kValueColor1);
-	testArray.AppendValue(testData1);
-	testArray.AppendValue(testDict2);
-
-	testDict1.SetValue(kKeyDictionary, testDict2);
-	testDict1.SetValue(kKeyArray,      testArray);
-	testDict1.SetValue(kKeyData,       testData2);
-	testDict1.SetValue(kKeyDate,       kValueDate2);
+	NTask::Execute("/usr/bin/plutil", "-convert", "binary1", theFile.GetPath().GetUTF8());
 
 
 
-	// Encode to XML
-	theXML = propertyList.EncodeXML(testDict1);
+	// Dump it
+	theData = NFileUtilities::GetFileData(theFile);
+	theText = theEncoder.Encode(theData, kNDataEncodingHex);
+	theFile.Delete();
+
+	NN_LOG("\nstatic const NString kPropertyListBinary					=	\"%@\";\n", theText);
+}
+#endif // DUMP_BINARY
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPROPERTYLIST("XMLEncode", "XML encoding")
+{
+
+
+	// Perform the test
+	theXML = propertyList.EncodeXML(propertyDict);
 	NN_ASSERT(theXML == kPropertyListXML);
 
-	testDict1.Clear();
-	testDict2.Clear();
-	testData1.Clear();
-	testData2.Clear();
-	testArray.Clear();
+
+
+	// Debugging
+	//
+	// For rebuilding kPropertyListBinary from kPropertyListXML.
+#if DUMP_BINARY
+	DumpBinary();
+#endif
+}
 
 
 
-	// Decode from XML
-	testDict1 = propertyList.DecodeXML(theXML);
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPROPERTYLIST("XMLDecode", "XML decoding")
+{
+
+
+	// Perform the test
+	testDict1 = propertyList.DecodeXML(kPropertyListXML);
 	NN_ASSERT(testDict1.HasKey(kKeyDictionary));
 	NN_ASSERT(testDict1.HasKey(kKeyArray));
 	NN_ASSERT(testDict1.HasKey(kKeyData));
@@ -214,24 +277,25 @@ void TPropertyList::Execute(void)
 
 	testDate = testDict1.GetValueDate(kKeyDate);
 	NN_ASSERT(testDate == kValueDate2);
+}
 
 
 
-	// Encode to binary
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPROPERTYLIST("BinaryEncode", "Binary encoding")
+{
+
+
+	// Perform the test
 	testDict1 = propertyList.DecodeXML(kPropertyListXML);
-	theData   = propertyList.Encode(testDict1, kNPropertyListBinary);
+	testData1 = propertyList.Encode(testDict1, kNPropertyListBinary);
 
-	testDict2 = propertyList.Decode(theData);
+	testDict2 = propertyList.Decode(testData1);
 	theXML    = propertyList.EncodeXML(testDict2);
-	NN_ASSERT(theXML == kPropertyListXML);
-
-
-
-	// Decode from binary
-	theData   = theEncoder.Decode(kPropertyListBinary, kNDataEncodingHex);
-	testDict1 = propertyList.Decode(theData);
-
-	theXML = propertyList.EncodeXML(testDict1);
 	NN_ASSERT(theXML == kPropertyListXML);
 }
 
@@ -240,33 +304,20 @@ void TPropertyList::Execute(void)
 
 
 //============================================================================
-//		TPropertyList::DumpBinary : Dump the binary plist.
+//		Test case
 //----------------------------------------------------------------------------
-void TPropertyList::DumpBinary(void)
+TEST_NPROPERTYLIST("BinaryDecode", "Binary decoding")
 {	NDataEncoder	theEncoder;
-	NFile			theFile;
-	NString			theText;
-	NData			theData;
 
 
 
-	// Create the binary .plist
-	theFile = NFileUtilities::GetTemporaryFile("binary.plist");
-	NFileUtilities::SetFileText(theFile, kPropertyListXML);
+	// Perform the test
+	testData1 = theEncoder.Decode(kPropertyListBinary, kNDataEncodingHex);
+	testDict1 = propertyList.Decode(testData1);
 
-	NTask::Execute("/usr/bin/plutil", "-convert", "binary1", theFile.GetPath().GetUTF8());
-
-
-
-	// Dump it
-	theData = NFileUtilities::GetFileData(theFile);
-	theText = theEncoder.Encode(theData, kNDataEncodingHex);
-	theFile.Delete();
-
-	NN_LOG("\nstatic const NString kPropertyListBinary					=	\"%@\";\n", theText);
+	theXML = propertyList.EncodeXML(testDict1);
+	NN_ASSERT(theXML == kPropertyListXML);
 }
-
-
 
 
 
