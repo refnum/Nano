@@ -29,7 +29,7 @@ NCacheValue::NCacheValue(NIndex theCost)
 
 
 	// Validate our parameters
-	NN_ASSERT(mCost >= 0);
+	NN_ASSERT(theCost >= 0);
 
 
 
