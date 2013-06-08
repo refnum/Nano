@@ -80,17 +80,18 @@ namespace Catch {
 //
 //		NANO_FIXTURE(SomeFixture)
 //		{
+//			UInt8 *someData;
+//
 //			SETUP
 //			{
-//				someData = (UInt8 *) malloc(10);
+//				someData = NULL;
 //			}
 //
 //			TEARDOWN
 //			{
-//				free(someData);
+//				if (someData != NULL)
+//					free(someData);
 //			}
-//
-//			UInt8 *someData;
 //		}
 //
 // Both SETUP and TEARDOWN sections are optional.
@@ -100,6 +101,7 @@ namespace Catch {
 //
 //		NANO_TEST(SomeFixture, "Malloc", "Testing malloc")
 //		{
+//			someData = (UInt8 *) malloc(10);
 //			REQUIRE(someData != NULL);
 //		}
 //
