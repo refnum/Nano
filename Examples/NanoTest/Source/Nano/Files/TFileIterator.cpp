@@ -70,11 +70,11 @@ TEST_NFILEITERATOR("Iterate", "File iterator")
 	// Perform the test
 	theFile = kTestChild;
 	theFile.CreateFile();
-	NN_ASSERT(theFile.Exists());
+	REQUIRE(theFile.Exists());
 
 	theFile  = kTestParent;
 	theFiles = fileIter.GetFiles(theFile);
-	NN_ASSERT(theFiles.size() == 3);
+	REQUIRE(theFiles.size() == 3);
 
 	theFile = kTestParent;
 	theFile.Delete();

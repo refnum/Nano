@@ -208,7 +208,7 @@ TEST_NPROPERTYLIST("XMLEncode", "XML encoding")
 
 	// Perform the test
 	theXML = propertyList.EncodeXML(propertyDict);
-	NN_ASSERT(theXML == kPropertyListXML);
+	REQUIRE(theXML == kPropertyListXML);
 
 
 
@@ -233,50 +233,50 @@ TEST_NPROPERTYLIST("XMLDecode", "XML decoding")
 
 	// Perform the test
 	testDict1 = propertyList.DecodeXML(kPropertyListXML);
-	NN_ASSERT(testDict1.HasKey(kKeyDictionary));
-	NN_ASSERT(testDict1.HasKey(kKeyArray));
-	NN_ASSERT(testDict1.HasKey(kKeyData));
-	NN_ASSERT(testDict1.HasKey(kKeyDate));
+	REQUIRE(testDict1.HasKey(kKeyDictionary));
+	REQUIRE(testDict1.HasKey(kKeyArray));
+	REQUIRE(testDict1.HasKey(kKeyData));
+	REQUIRE(testDict1.HasKey(kKeyDate));
 
 
 	testDict2 = testDict1.GetValueDictionary(kKeyDictionary);
-	NN_ASSERT(testDict2.HasKey(kKeyString));
-	NN_ASSERT(testDict2.HasKey(kKeyBoolean));
-	NN_ASSERT(testDict2.HasKey(kKeyNumber));
-	NN_ASSERT(testDict2.GetValueString( kKeyString)  == kValueString2);
-	NN_ASSERT(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
-	NN_ASSERT(testDict2.GetValueColor(  kKeyColor)   == kValueColor2);
-	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
+	REQUIRE(testDict2.HasKey(kKeyString));
+	REQUIRE(testDict2.HasKey(kKeyBoolean));
+	REQUIRE(testDict2.HasKey(kKeyNumber));
+	REQUIRE(testDict2.GetValueString( kKeyString)  == kValueString2);
+	REQUIRE(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
+	REQUIRE(testDict2.GetValueColor(  kKeyColor)   == kValueColor2);
+	REQUIRE(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
 
 
 	testArray = testDict1.GetValueArray(kKeyArray);
-	NN_ASSERT(testArray.GetSize() == 7);
-	NN_ASSERT(testArray.GetValueString (0) == kValueString1);
-	NN_ASSERT(testArray.GetValueBoolean(1) == kValueBoolean1);
-	NN_ASSERT(testArray.GetValueSInt64 (2) == kValueNumber1);
-	NN_ASSERT(testArray.GetValueDate   (3) == kValueDate1);
-	NN_ASSERT(testArray.GetValueColor  (4) == kValueColor1);
+	REQUIRE(testArray.GetSize() == 7);
+	REQUIRE(testArray.GetValueString (0) == kValueString1);
+	REQUIRE(testArray.GetValueBoolean(1) == kValueBoolean1);
+	REQUIRE(testArray.GetValueSInt64 (2) == kValueNumber1);
+	REQUIRE(testArray.GetValueDate   (3) == kValueDate1);
+	REQUIRE(testArray.GetValueColor  (4) == kValueColor1);
 
 	testData1 = testArray.GetValueData(5);
-	NN_ASSERT(testData1.GetSize() == NN_ARRAY_SIZE(kValueData1));
-	NN_ASSERT(memcmp(testData1.GetData(), kValueData1, NN_ARRAY_SIZE(kValueData1)) == 0);
+	REQUIRE(testData1.GetSize() == NN_ARRAY_SIZE(kValueData1));
+	REQUIRE(memcmp(testData1.GetData(), kValueData1, NN_ARRAY_SIZE(kValueData1)) == 0);
 
 	testDict2 = testArray.GetValueDictionary(6);
-	NN_ASSERT(testDict2.HasKey(kKeyString));
-	NN_ASSERT(testDict2.HasKey(kKeyBoolean));
-	NN_ASSERT(testDict2.HasKey(kKeyNumber));
-	NN_ASSERT(testDict2.GetValueString( kKeyString)  == kValueString2);
-	NN_ASSERT(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
-	NN_ASSERT(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
+	REQUIRE(testDict2.HasKey(kKeyString));
+	REQUIRE(testDict2.HasKey(kKeyBoolean));
+	REQUIRE(testDict2.HasKey(kKeyNumber));
+	REQUIRE(testDict2.GetValueString( kKeyString)  == kValueString2);
+	REQUIRE(testDict2.GetValueBoolean(kKeyBoolean) == kValueBoolean2);
+	REQUIRE(NMathUtilities::AreEqual(testDict2.GetValueFloat64(kKeyNumber), kValueNumber2));
 
 
 	testData2 = testDict1.GetValueData(kKeyData);
-	NN_ASSERT(testData2.GetSize() == NN_ARRAY_SIZE(kValueData2));
-	NN_ASSERT(memcmp(testData2.GetData(), kValueData2, NN_ARRAY_SIZE(kValueData2)) == 0);
+	REQUIRE(testData2.GetSize() == NN_ARRAY_SIZE(kValueData2));
+	REQUIRE(memcmp(testData2.GetData(), kValueData2, NN_ARRAY_SIZE(kValueData2)) == 0);
 
 
 	testDate = testDict1.GetValueDate(kKeyDate);
-	NN_ASSERT(testDate == kValueDate2);
+	REQUIRE(testDate == kValueDate2);
 }
 
 
@@ -296,7 +296,7 @@ TEST_NPROPERTYLIST("BinaryEncode", "Binary encoding")
 
 	testDict2 = propertyList.Decode(testData1);
 	theXML    = propertyList.EncodeXML(testDict2);
-	NN_ASSERT(theXML == kPropertyListXML);
+	REQUIRE(theXML == kPropertyListXML);
 }
 
 
@@ -316,7 +316,7 @@ TEST_NPROPERTYLIST("BinaryDecode", "Binary decoding")
 	testDict1 = propertyList.Decode(testData1);
 
 	theXML = propertyList.EncodeXML(testDict1);
-	NN_ASSERT(theXML == kPropertyListXML);
+	REQUIRE(theXML == kPropertyListXML);
 }
 
 

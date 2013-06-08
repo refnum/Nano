@@ -15,19 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NVector.h"
-
-#include "TVector.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TVector::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TVector::Execute(void)
+#define TEST_NVECTOR(_name, _desc)									NANO_TEST(TVector, _name, _desc)
+
+NANO_FIXTURE(TVector)
 {
+	NVector	theVector;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NVECTOR("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theVector.IsZero());
 }
-
-
-

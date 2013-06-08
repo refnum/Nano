@@ -16,8 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NPoint.h"
-
-#include "TPoint.h"
+#include "NTestFixture.h"
 
 
 
@@ -37,47 +36,94 @@ static const NPoint kTestPoint2_Offset								= NPoint(5.3f, 5.9f);
 
 
 //============================================================================
-//		TPoint::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TPoint::Execute(void)
-{	NPoint		testPoint;
+#define TEST_NPOINT(_name, _desc)									NANO_TEST(TPoint, _name, _desc)
+
+NANO_FIXTURE(TPoint)
+{
+	NPoint		thePoint;
+};
 
 
 
-	// Sizes
-	NN_ASSERT(sizeof(NPoint64) == 16);
-	NN_ASSERT(sizeof(NPoint32) == 8);
-	NN_ASSERT(sizeof(NPoint)   == 8);
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPOINT("Size", "Sizes")
+{
+
+
+	// Perform the test
+	REQUIRE(sizeof(NPoint64) == 16);
+	REQUIRE(sizeof(NPoint32) == 8);
+	REQUIRE(sizeof(NPoint)   == 8);
+}
 
 
 
-	// Contents
-	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(!kTestPoint1.IsZero());
-
-	testPoint = kTestPoint1;
-	NN_ASSERT(!testPoint.IsZero());
-
-	testPoint.Clear();
-	NN_ASSERT(testPoint.IsZero());
-	NN_ASSERT(testPoint != kTestPoint1);
 
 
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPOINT("Values", "Values")
+{
 
-	// Comparisons
-	NN_ASSERT(NMathUtilities::AreEqual(kTestPoint1.x,  1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kTestPoint1.y, -1.0f));
+
+	// Perform the test
+	REQUIRE(    thePoint.IsZero());
+	REQUIRE(!kTestPoint1.IsZero());
+
+	thePoint = kTestPoint1;
+	REQUIRE(!thePoint.IsZero());
+
+	thePoint.Clear();
+	REQUIRE(thePoint.IsZero());
+	REQUIRE(thePoint != kTestPoint1);
+}
 
 
 
-	// Manipulations
-	testPoint = kTestPoint2; testPoint.MakeIntegral();
-	NN_ASSERT(testPoint == kTestPoint2.GetIntegral());
-	NN_ASSERT(testPoint == kTestPoint2_Integral);
 
-	testPoint = kTestPoint2;    testPoint.Offset(4.0f, 4.0f);
-	NN_ASSERT(testPoint == kTestPoint2.GetOffset(4.0f, 4.0f));
-	NN_ASSERT(testPoint == kTestPoint2_Offset);
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPOINT("Comparisons", "Comparisons")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtilities::AreEqual(kTestPoint1.x,  1.0f));
+	REQUIRE(NMathUtilities::AreEqual(kTestPoint1.y, -1.0f));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPOINT("Manipulations", "Manipulations")
+{
+
+
+	// Perform the test
+	thePoint = kTestPoint2;
+	thePoint.MakeIntegral();
+
+	REQUIRE(thePoint == kTestPoint2.GetIntegral());
+	REQUIRE(thePoint == kTestPoint2_Integral);
+
+	thePoint = kTestPoint2;
+	thePoint.Offset(4.0f, 4.0f);
+
+	REQUIRE(thePoint == kTestPoint2.GetOffset(4.0f, 4.0f));
+	REQUIRE(thePoint == kTestPoint2_Offset);
 }
 
 

@@ -72,7 +72,7 @@ TEST_NFILEMAP("Default", "Default state")
 
 
 	// Perform the test
-	NN_ASSERT(!fileMap.IsOpen());
+	REQUIRE(!fileMap.IsOpen());
 }
 
 
@@ -88,12 +88,12 @@ TEST_NFILEMAP("Open", "Open and close")
 
 	// Perform the test
 	theErr = fileMap.Open(theFile);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
-	NN_ASSERT(fileMap.IsOpen());
+	REQUIRE(fileMap.IsOpen());
 
 	fileMap.Close();
-	NN_ASSERT(!fileMap.IsOpen());
+	REQUIRE(!fileMap.IsOpen());
 }
 
 
@@ -110,10 +110,10 @@ TEST_NFILEMAP("Map", "Map and unmap")
 
 	// Perform the test
 	theErr = fileMap.Open(theFile);
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 	thePtr = fileMap.Map(0, kBufferSize);
-	NN_ASSERT(memcmp(thePtr, kBufferData, kBufferSize) == 0);
+	REQUIRE(memcmp(thePtr, kBufferData, kBufferSize) == 0);
 
 	fileMap.Unmap(thePtr);
 }

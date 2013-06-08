@@ -16,8 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NRectangle.h"
-
-#include "TRectangle.h"
+#include "NTestFixture.h"
 
 
 
@@ -39,74 +38,130 @@ static const NRectangle kTestRectangle3								= NRectangle(3.7f, 5.2f, 0.1f, 1.
 
 
 //============================================================================
-//		TRectangle::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TRectangle::Execute(void)
-{	NRectangle		testRect;
+#define TEST_NRECTANGLE(_name, _desc)								NANO_TEST(TRectangle, _name, _desc)
+
+NANO_FIXTURE(TRectangle)
+{
+	NRectangle		theRect;
+};
 
 
 
-	// Sizes
-	NN_ASSERT(sizeof(NRectangle64) == 32);
-	NN_ASSERT(sizeof(NRectangle32) == 16);
-	NN_ASSERT(sizeof(NRectangle)   == 16);
 
 
-
-	// Contents
-	NN_ASSERT(testRect.IsEmpty());
-	NN_ASSERT(testRect.origin.IsZero());
-	NN_ASSERT(testRect.size.IsEmpty());
-
-	NN_ASSERT(!kTestRectangle1.IsEmpty());
-	NN_ASSERT(!kTestRectangle1.origin.IsZero());
-	NN_ASSERT(!kTestRectangle1.size.IsEmpty());
-
-	testRect = kTestRectangle1;
-	NN_ASSERT(!testRect.IsEmpty());
-
-	testRect.Clear();
-	NN_ASSERT(testRect.IsEmpty());
-	NN_ASSERT(testRect != kTestRectangle1);
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRECTANGLE("Size", "Sizes")
+{
 
 
-
-	// Comparisons
-	NN_ASSERT(NMathUtilities::AreEqual(kTestRectangle1.origin.x,      1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kTestRectangle1.origin.y,      2.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kTestRectangle1.size.width,   10.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kTestRectangle1.size.height, -20.0f));
-
-	testRect = kTestRectangle3.GetScaled(1.0f);
-	NN_ASSERT(kTestRectangle3 != kTestRectangle2);
-	NN_ASSERT(kTestRectangle3 == testRect);
-
-
-
-	// Manipulations
-	testRect = kTestRectangle1;     testRect.Normalize();
-	NN_ASSERT(testRect == kTestRectangle1.GetNormalized());
-	NN_ASSERT(testRect == kTestRectangle1_Normalized);
-
-	testRect = kTestRectangle2; testRect.MakeIntegral();
-	NN_ASSERT(testRect == kTestRectangle2.GetIntegral());
-	NN_ASSERT(testRect == kTestRectangle2_Integral);
-
-	NN_ASSERT(kTestRectangle2.GetScaled(1.0f) == kTestRectangle2);
-	NN_ASSERT(kTestRectangle2.GetScaled(0.0f).IsEmpty());
-
-
-
-	// Geometry
-	NN_ASSERT(kTestRectangle2.Contains(kTestRectangle3.origin));
-	NN_ASSERT(kTestRectangle2.Contains(kTestRectangle3));
-
-	NN_ASSERT(!kTestRectangle2.Contains(kTestRectangle1.origin));
-	NN_ASSERT(!kTestRectangle2.Contains(kTestRectangle1));
-
-	NN_ASSERT(kTestRectangle2.Intersects(kTestRectangle3));
-
-	NN_ASSERT(kTestRectangle2.GetUnion(kTestRectangle3) == kTestRectangle2);
+	// Perform the test
+	REQUIRE(sizeof(NRectangle64) == 32);
+	REQUIRE(sizeof(NRectangle32) == 16);
+	REQUIRE(sizeof(NRectangle)   == 16);
 }
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRECTANGLE("Contents", "Contents")
+{
+
+
+	// Perform the test
+	REQUIRE(theRect.IsEmpty());
+	REQUIRE(theRect.origin.IsZero());
+	REQUIRE(theRect.size.IsEmpty());
+
+	REQUIRE(!kTestRectangle1.IsEmpty());
+	REQUIRE(!kTestRectangle1.origin.IsZero());
+	REQUIRE(!kTestRectangle1.size.IsEmpty());
+
+	theRect = kTestRectangle1;
+	REQUIRE(!theRect.IsEmpty());
+
+	theRect.Clear();
+	REQUIRE(theRect.IsEmpty());
+	REQUIRE(theRect != kTestRectangle1);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRECTANGLE("Comparisons", "Comparisons")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtilities::AreEqual(kTestRectangle1.origin.x,      1.0f));
+	REQUIRE(NMathUtilities::AreEqual(kTestRectangle1.origin.y,      2.0f));
+	REQUIRE(NMathUtilities::AreEqual(kTestRectangle1.size.width,   10.0f));
+	REQUIRE(NMathUtilities::AreEqual(kTestRectangle1.size.height, -20.0f));
+
+	theRect = kTestRectangle3.GetScaled(1.0f);
+	REQUIRE(kTestRectangle3 != kTestRectangle2);
+	REQUIRE(kTestRectangle3 == theRect);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRECTANGLE("Manipulation", "Manipulations")
+{
+
+
+	// Perform the test
+	theRect = kTestRectangle1;
+	theRect.Normalize();
+	REQUIRE(theRect == kTestRectangle1.GetNormalized());
+	REQUIRE(theRect == kTestRectangle1_Normalized);
+
+	theRect = kTestRectangle2;
+	theRect.MakeIntegral();
+	REQUIRE(theRect == kTestRectangle2.GetIntegral());
+	REQUIRE(theRect == kTestRectangle2_Integral);
+
+	REQUIRE(kTestRectangle2.GetScaled(1.0f) == kTestRectangle2);
+	REQUIRE(kTestRectangle2.GetScaled(0.0f).IsEmpty());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRECTANGLE("Geometry", "Geometry")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestRectangle2.Contains(kTestRectangle3.origin));
+	REQUIRE(kTestRectangle2.Contains(kTestRectangle3));
+
+	REQUIRE(!kTestRectangle2.Contains(kTestRectangle1.origin));
+	REQUIRE(!kTestRectangle2.Contains(kTestRectangle1));
+
+	REQUIRE(kTestRectangle2.Intersects(kTestRectangle3));
+
+	REQUIRE(kTestRectangle2.GetUnion(kTestRectangle3) == kTestRectangle2);
+}
+
 
 

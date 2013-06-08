@@ -24,8 +24,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NCommandLine.h"
-
-#include "catch.hpp"
+#include "NTestFixture.h"
 
 
 

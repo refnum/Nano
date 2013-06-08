@@ -15,55 +15,88 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NTestFixture.h"
 #include "NColor.h"
-
-#include "TColor.h"
 
 
 
 
 
 //============================================================================
-//		TColor::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TColor::Execute(void)
-{	Float32		r, g, b, a;
-	NColor		testColor;
+#define TEST_NCOLOR(_name, _desc)									NANO_TEST(TColor, _name, _desc)
+
+NANO_FIXTURE(TColor)
+{
+	NColor		theColor;
+};
 
 
 
-	// Opacity
-	NN_ASSERT( kNColorBlack.IsOpaque());
-	NN_ASSERT(!kNColorBlack.IsTransparent());
-
-	NN_ASSERT(!kNColorClear.IsOpaque());
-	NN_ASSERT( kNColorClear.IsTransparent());
 
 
-
-	// Construction
-	testColor = NColor(1.0f, 0.0f, 0.0f, 1.0f);
-	NN_ASSERT(testColor == kNColorRed);
-
-	testColor = NColor(0.0f, 1.0f, 0.0f);
-	NN_ASSERT(testColor == kNColorGreen);
-
-	testColor = NColor(0xFF00FFFF);
-	NN_ASSERT(testColor == kNColorMagenta);
-
-	testColor = NColor("0000FFFF");
-	NN_ASSERT(testColor == kNColorBlue);
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOLOR("Opacity", "Opacity")
+{
 
 
+	// Perform the test
+	REQUIRE( kNColorBlack.IsOpaque());
+	REQUIRE(!kNColorBlack.IsTransparent());
 
-	// Getters
-	kNColorCyan.GetColor(r, g, b, a);
-	NN_ASSERT(NMathUtilities::AreEqual(r, 0.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(g, 1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(b, 1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(a, 1.0f));
-
-	NN_ASSERT(kNColorYellow.GetColor()            == 0xFFFF00FF);
-	NN_ASSERT(kNColorYellow.GetColor(kNColorRGBA) == 0xFFFF00FF);
-	NN_ASSERT(kNColorYellow.GetColor(kNColorARGB) == 0xFFFFFF00);
+	REQUIRE(!kNColorClear.IsOpaque());
+	REQUIRE( kNColorClear.IsTransparent());
 }
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOLOR("Components", "Components")
+{
+
+
+	// Perform the test
+	theColor = NColor(1.0f, 0.0f, 0.0f, 1.0f);
+	REQUIRE(theColor == kNColorRed);
+
+	theColor = NColor(0.0f, 1.0f, 0.0f);
+	REQUIRE(theColor == kNColorGreen);
+
+	theColor = NColor(0xFF00FFFF);
+	REQUIRE(theColor == kNColorMagenta);
+
+	theColor = NColor("0000FFFF");
+	REQUIRE(theColor == kNColorBlue);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCOLOR("Getters", "Getters")
+{	Float32		r, g, b, a;
+
+
+
+	// Perform the test
+	kNColorCyan.GetColor(r, g, b, a);
+	REQUIRE(NMathUtilities::AreEqual(r, 0.0f));
+	REQUIRE(NMathUtilities::AreEqual(g, 1.0f));
+	REQUIRE(NMathUtilities::AreEqual(b, 1.0f));
+	REQUIRE(NMathUtilities::AreEqual(a, 1.0f));
+
+	REQUIRE(kNColorYellow.GetColor()            == 0xFFFF00FF);
+	REQUIRE(kNColorYellow.GetColor(kNColorRGBA) == 0xFFFF00FF);
+	REQUIRE(kNColorYellow.GetColor(kNColorARGB) == 0xFFFFFF00);
+}
+

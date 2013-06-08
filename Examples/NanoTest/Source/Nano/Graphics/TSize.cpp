@@ -16,8 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NSize.h"
-
-#include "TSize.h"
+#include "NTestFixture.h"
 
 
 
@@ -45,61 +44,109 @@ static const NSize kTestSize4_Height								= NSize(1.0f, 0.0f);
 
 
 //============================================================================
-//		TSize::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSize::Execute(void)
-{	NSize	testSize;
+#define TEST_NSIZE(_name, _desc)								NANO_TEST(TSize, _name, _desc)
+
+NANO_FIXTURE(TSize)
+{
+	NSize	theSize;
+};
 
 
 
-	// Sizes
-	NN_ASSERT(sizeof(NSize64) == 16);
-	NN_ASSERT(sizeof(NSize32) == 8);
-	NN_ASSERT(sizeof(NSize)   == 8);
 
 
-
-	// Contents
-	NN_ASSERT(testSize.IsEmpty());
-	NN_ASSERT(!kTestSize1.IsEmpty());
-
-	testSize = kTestSize1;
-	NN_ASSERT(!testSize.IsEmpty());
-
-	testSize.Clear();
-	NN_ASSERT(testSize.IsEmpty());
-	NN_ASSERT(testSize != kTestSize1);
-
-	NN_ASSERT(!kTestSize4.IsEmpty());
-	NN_ASSERT( kTestSize4_Width.IsEmpty());
-	NN_ASSERT( kTestSize4_Height.IsEmpty());
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSIZE("Size", "Sizes")
+{
 
 
-
-	// Comparisons
-	NN_ASSERT(NMathUtilities::AreEqual(kTestSize1.width,   1.0f));
-	NN_ASSERT(NMathUtilities::AreEqual(kTestSize1.height, -1.0f));
-
-	NN_ASSERT(kTestSize2 != kTestSize1);
-	NN_ASSERT(kTestSize2 == kTestSize3);
-
-
-
-	// Manipulations
-	testSize = kTestSize1;     testSize.Normalize();
-	NN_ASSERT(testSize == kTestSize1.GetNormalized());
-	NN_ASSERT(testSize == kTestSize1_Normalized);
-
-	testSize = kTestSize2; testSize.MakeIntegral();
-	NN_ASSERT(testSize == kTestSize2.GetIntegral());
-	NN_ASSERT(testSize == kTestSize2_Integral);
-
-	testSize = kTestSize2;     testSize.Resize( 1.2f, -3.4f);
-	NN_ASSERT(testSize == kTestSize2.GetResized(1.2f, -3.4f));
-	NN_ASSERT(testSize == kTestSize2_Resized);
-
-	testSize = kTestSize2;     testSize.Scale( 10.0f);
-	NN_ASSERT(testSize == kTestSize2.GetScaled(10.0f));
-	NN_ASSERT(testSize == kTestSize2_Scaled);
+	// Perform the test
+	REQUIRE(sizeof(NSize64) == 16);
+	REQUIRE(sizeof(NSize32) == 8);
+	REQUIRE(sizeof(NSize)   == 8);
 }
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSIZE("Contents", "Contents")
+{
+
+
+	// Perform the test
+	REQUIRE(theSize.IsEmpty());
+	REQUIRE(!kTestSize1.IsEmpty());
+
+	theSize = kTestSize1;
+	REQUIRE(!theSize.IsEmpty());
+
+	theSize.Clear();
+	REQUIRE(theSize.IsEmpty());
+	REQUIRE(theSize != kTestSize1);
+
+	REQUIRE(!kTestSize4.IsEmpty());
+	REQUIRE( kTestSize4_Width.IsEmpty());
+	REQUIRE( kTestSize4_Height.IsEmpty());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSIZE("Comparisons", "Comparisons")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtilities::AreEqual(kTestSize1.width,   1.0f));
+	REQUIRE(NMathUtilities::AreEqual(kTestSize1.height, -1.0f));
+
+	REQUIRE(kTestSize2 != kTestSize1);
+	REQUIRE(kTestSize2 == kTestSize3);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSIZE("Manipulations", "Manipulations")
+{
+
+
+	// Perform the test
+	theSize = kTestSize1;
+	theSize.Normalize();
+	REQUIRE(theSize == kTestSize1.GetNormalized());
+	REQUIRE(theSize == kTestSize1_Normalized);
+
+	theSize = kTestSize2;
+	theSize.MakeIntegral();
+	REQUIRE(theSize == kTestSize2.GetIntegral());
+	REQUIRE(theSize == kTestSize2_Integral);
+
+	theSize = kTestSize2;
+	theSize.Resize( 1.2f, -3.4f);
+	REQUIRE(theSize == kTestSize2.GetResized(1.2f, -3.4f));
+	REQUIRE(theSize == kTestSize2_Resized);
+
+	theSize = kTestSize2;
+	theSize.Scale( 10.0f);
+	REQUIRE(theSize == kTestSize2.GetScaled(10.0f));
+	REQUIRE(theSize == kTestSize2_Scaled);
+}
+
 

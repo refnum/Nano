@@ -15,18 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NShape.h"
-
-#include "TShape.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TShape::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TShape::Execute(void)
+#define TEST_NSHAPE(_name, _desc)									NANO_TEST(TShape, _name, _desc)
+
+NANO_FIXTURE(TShape)
 {
+	NShape	theShape;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSHAPE("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theShape.IsEmpty());
 }
-
-

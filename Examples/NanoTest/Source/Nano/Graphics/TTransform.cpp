@@ -15,19 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTransform.h"
-
-#include "TTransform.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TTransform::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TTransform::Execute(void)
+#define TEST_NTRANSFORM(_name, _desc)								NANO_TEST(TTransform, _name, _desc)
+
+NANO_FIXTURE(TTransform)
 {
+	NTransform	theTransform;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTRANSFORM("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theTransform.IsIdentity());
 }
-
-
-
