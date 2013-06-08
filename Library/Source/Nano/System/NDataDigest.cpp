@@ -97,7 +97,7 @@ NString NDataDigest::GetString(const NDigestSHA1 &theValue) const
 	theResult = GetQuad(&theValue.bytes[ 0]) + 
 				GetQuad(&theValue.bytes[ 4]) + 
 				GetQuad(&theValue.bytes[ 8]) + 
-				GetQuad(&theValue.bytes[12]);
+				GetQuad(&theValue.bytes[12]) +
 				GetQuad(&theValue.bytes[16]);
 
 	return(theResult);
