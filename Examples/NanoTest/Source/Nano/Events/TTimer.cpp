@@ -14,8 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTimer.h"
 #include "NTestFixture.h"
+#include "NTimer.h"
 
 #include "CTestUtilities.h"
 

@@ -151,7 +151,6 @@
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
-		AB2AAD7E10396310007BC4E6 /* TLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLocale.h; sourceTree = "<group>"; };
 		AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
 		AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTIRegistry.h; sourceTree = "<group>"; };
 		AB328C8517612CBF00782F40 /* StdAfx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StdAfx.cpp; sourceTree = "<group>"; };
@@ -179,7 +178,6 @@
 		AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyList.cpp; sourceTree = "<group>"; };
 		AB514D831034184B00E5A6AD /* TByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TByteSwap.cpp; sourceTree = "<group>"; };
 		AB514D871034184B00E5A6AD /* TDataCompressor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCompressor.cpp; sourceTree = "<group>"; };
-		AB514D881034184B00E5A6AD /* TDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDataCompressor.h; sourceTree = "<group>"; };
 		AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeParser.cpp; sourceTree = "<group>"; };
 		AB514D8A1034184B00E5A6AD /* TUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUnicodeParser.h; sourceTree = "<group>"; };
 		AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLEncoder.cpp; sourceTree = "<group>"; };
@@ -267,11 +265,8 @@
 		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCipher.cpp; sourceTree = "<group>"; };
-		AB7AAFE9103AC51C004B1F6E /* TDataCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDataCipher.h; sourceTree = "<group>"; };
-		AB7AB149103AE59F004B1F6E /* TDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDataDigest.h; sourceTree = "<group>"; };
 		AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataDigest.cpp; sourceTree = "<group>"; };
 		AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataEncoder.cpp; sourceTree = "<group>"; };
-		AB8CE2E6104D617100306EDC /* TDataEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDataEncoder.h; sourceTree = "<group>"; };
 		AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
 		AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
@@ -293,18 +288,14 @@
 		ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageClient.cpp; sourceTree = "<group>"; };
 		ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkMessage.cpp; sourceTree = "<group>"; };
 		ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONEncoder.cpp; sourceTree = "<group>"; };
-		ABD6817E167AB8AA00CB2E04 /* TJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJSONEncoder.h; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABE96257103B00A300029708 /* TNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNSAutoReleasePool.h; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
 		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
 		ABED2AF910BBD88C00EA8ECC /* TCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCache.cpp; sourceTree = "<group>"; };
-		ABED2AFA10BBD88C00EA8ECC /* TCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCache.h; sourceTree = "<group>"; };
 		ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheKey.cpp; sourceTree = "<group>"; };
-		ABED2AFC10BBD88C00EA8ECC /* TCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCacheKey.h; sourceTree = "<group>"; };
 		ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheValue.cpp; sourceTree = "<group>"; };
-		ABED2B9210BFE2F000EA8ECC /* TCacheValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCacheValue.h; sourceTree = "<group>"; };
 		ABFD973C1663951500EE07B7 /* TSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocket.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -468,23 +459,14 @@
 			children = (
 				AB514D831034184B00E5A6AD /* TByteSwap.cpp */,
 				ABED2AF910BBD88C00EA8ECC /* TCache.cpp */,
-				ABED2AFA10BBD88C00EA8ECC /* TCache.h */,
 				ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */,
-				ABED2AFC10BBD88C00EA8ECC /* TCacheKey.h */,
 				ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */,
-				ABED2B9210BFE2F000EA8ECC /* TCacheValue.h */,
 				AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */,
-				AB7AAFE9103AC51C004B1F6E /* TDataCipher.h */,
 				AB514D871034184B00E5A6AD /* TDataCompressor.cpp */,
-				AB514D881034184B00E5A6AD /* TDataCompressor.h */,
 				AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */,
-				AB7AB149103AE59F004B1F6E /* TDataDigest.h */,
 				AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */,
-				AB8CE2E6104D617100306EDC /* TDataEncoder.h */,
 				ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */,
-				ABD6817E167AB8AA00CB2E04 /* TJSONEncoder.h */,
 				AB2AAD7D10396310007BC4E6 /* TLocale.cpp */,
-				AB2AAD7E10396310007BC4E6 /* TLocale.h */,
 				ABC66E7B17411D52005B9357 /* TTask.cpp */,
 				ABC66E7C17411D52005B9357 /* TTask.h */,
 				AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */,

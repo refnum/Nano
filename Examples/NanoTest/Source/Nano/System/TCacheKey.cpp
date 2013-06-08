@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NCacheKey.h"
-
-#include "TCacheKey.h"
 
 
 
@@ -42,89 +41,158 @@ static NIndex kTestIndex2											= 67890;
 
 
 //============================================================================
-//		TCacheKey::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCacheKey::Execute(void)
-{	NCacheKey		testKey1, testKey2;
+#define TEST_NCACHEKEY(_name, _desc)								NANO_TEST(TCacheKey, _name, _desc)
+
+NANO_FIXTURE(TCacheKey)
+{
+	NCacheKey		testKey1, testKey2;
+};
 
 
 
-	// Strings
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Default", "Default state test")
+{
+
+
+	// Perform the test
+	REQUIRE(testKey1 == testKey2);
+	REQUIRE(!testKey1.IsValid());
+	REQUIRE(!testKey2.IsValid());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Strings", "String cache keys")
+{
+
+
+	// Perform the test
 	testKey1 = NCacheKey(kTestString1);
 	testKey2 = NCacheKey(kTestString2);
 
-	NN_ASSERT(testKey1 != testKey2);
-	NN_ASSERT(testKey1.IsValid());
-	NN_ASSERT(testKey2.IsValid());
+	REQUIRE(testKey1 != testKey2);
+	REQUIRE(testKey1.IsValid());
+	REQUIRE(testKey2.IsValid());
+}
 
 
 
-	// Data
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Data", "Data cache keys")
+{
+
+
+	// Perform the test
 	testKey1 = NCacheKey(kTestData1);
 	testKey2 = NCacheKey(kTestData2);
 
-	NN_ASSERT(testKey1 != testKey2);
-	NN_ASSERT(testKey1.IsValid());
-	NN_ASSERT(testKey2.IsValid());
+	REQUIRE(testKey1 != testKey2);
+	REQUIRE(testKey1.IsValid());
+	REQUIRE(testKey2.IsValid());
+}
 
 
 
-	// Pointers
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Pointers", "Pointer cache keys")
+{
+
+
+	// Perform the test
 	testKey1 = NCacheKey(kTestPointer1);
 	testKey2 = NCacheKey(kTestPointer2);
 
-	NN_ASSERT(testKey1 != testKey2);
-	NN_ASSERT(testKey1.IsValid());
-	NN_ASSERT(testKey2.IsValid());
-
-
-
-	// Indices
-	testKey1 = NCacheKey(kTestIndex1);
-	testKey2 = NCacheKey(kTestIndex2);
-
-	NN_ASSERT(testKey1 != testKey2);
-	NN_ASSERT(testKey1.IsValid());
-	NN_ASSERT(testKey2.IsValid());
-
-
-
-	// Null
-	testKey1 = NCacheKey();
-	testKey2 = NCacheKey();
-	
-	NN_ASSERT(testKey1 == testKey2);
-	NN_ASSERT(!testKey1.IsValid());
-	NN_ASSERT(!testKey2.IsValid());
-
-
-
-	// Clear
-	testKey1 = NCacheKey(kTestIndex1);
-	testKey2 = NCacheKey(kTestIndex2);
-
-	NN_ASSERT(testKey1 != testKey2);
-	NN_ASSERT(testKey1.IsValid());
-	NN_ASSERT(testKey2.IsValid());
-
-	testKey1.Clear();
-	NN_ASSERT(testKey1 != testKey2);
-	NN_ASSERT(!testKey1.IsValid());
-
-	testKey2.Clear();
-	NN_ASSERT(testKey1 == testKey2);
-	NN_ASSERT(!testKey2.IsValid());
-
-
-
-	// Set
-	testKey1 = NCacheKey(kTestIndex1);
-	testKey2 = NCacheKey(kTestIndex2);
-	NN_ASSERT(testKey1 != testKey2);
-
-	testKey1.SetValue(kTestIndex2);
-	NN_ASSERT(testKey1 == testKey2);
+	REQUIRE(testKey1 != testKey2);
+	REQUIRE(testKey1.IsValid());
+	REQUIRE(testKey2.IsValid());
 }
 
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Indices", "NIndex cache keys")
+{
+
+
+	// Perform the test
+	testKey1 = NCacheKey(kTestIndex1);
+	testKey2 = NCacheKey(kTestIndex2);
+
+	REQUIRE(testKey1 != testKey2);
+	REQUIRE(testKey1.IsValid());
+	REQUIRE(testKey2.IsValid());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Set", "Set cache key")
+{
+
+
+	// Perform the test
+	testKey1 = NCacheKey(kTestIndex1);
+	testKey2 = NCacheKey(kTestIndex2);
+	REQUIRE(testKey1 != testKey2);
+
+	testKey1.SetValue(kTestIndex2);
+	REQUIRE(testKey1 == testKey2);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHEKEY("Clear", "Clear cache key")
+{
+
+
+	// Perform the test
+	testKey1 = NCacheKey(kTestIndex1);
+	testKey2 = NCacheKey(kTestIndex2);
+
+	REQUIRE(testKey1 != testKey2);
+	REQUIRE(testKey1.IsValid());
+	REQUIRE(testKey2.IsValid());
+
+	testKey1.Clear();
+	REQUIRE(testKey1 != testKey2);
+	REQUIRE(!testKey1.IsValid());
+
+	testKey2.Clear();
+	REQUIRE(testKey1 == testKey2);
+	REQUIRE(!testKey2.IsValid());
+}
 
 

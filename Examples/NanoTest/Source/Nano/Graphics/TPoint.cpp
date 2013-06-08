@@ -15,8 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
-#include "NPoint.h"
 #include "NTestFixture.h"
+#include "NPoint.h"
 
 
 

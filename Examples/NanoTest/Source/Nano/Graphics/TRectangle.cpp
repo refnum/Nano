@@ -15,8 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
-#include "NRectangle.h"
 #include "NTestFixture.h"
+#include "NRectangle.h"
 
 
 

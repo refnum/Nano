@@ -14,8 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NListener.h"
 #include "NTestFixture.h"
+#include "NListener.h"
 
 #include "CTestListener.h"
 

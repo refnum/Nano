@@ -15,9 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NDataCompressor.h"
+#include "NTestFixture.h"
 #include "NDataDigest.h"
-
-#include "TDataCompressor.h"
 
 
 
@@ -71,49 +70,71 @@ static const UInt8  kTestData[]										= { 0x4C, 0x6F, 0x72, 0x65, 0x6D, 0x20,
 
 
 //============================================================================
-//		TDataCompressor::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDataCompressor::Execute(void)
-{	NData				dataSrc, dataDst, dataOut;
+#define TEST_NDATACOMPRESSOR(_name, _desc)							NANO_TEST(TDataCompressor, _name, _desc)
+
+NANO_FIXTURE(TDataCompressor)
+{
+	NData				dataSrc, dataDst, dataOut;
 	NDataCompressor		theCompressor;
 	UInt32				adlerValue;
 	NDataDigest			theDigest;
+	
+	SETUP
+	{
+		dataSrc = NData(NN_ARRAY_SIZE(kTestData), kTestData);
+	}
+};
 
 
 
-	// Get the state we need
-	dataSrc = NData(NN_ARRAY_SIZE(kTestData), kTestData);
 
 
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATACOMPRESSOR("Null", "Null compression")
+{
 
-	// Null
+
+	// Perform the test
 	dataDst = theCompressor.Compress(dataSrc, kNCompressionNull);
-	NN_ASSERT(dataDst.GetSize() == kNullSize);
+	REQUIRE(dataDst.GetSize() == kNullSize);
 
 	adlerValue = theDigest.GetAdler32(dataDst);
-	NN_ASSERT(adlerValue == kNullAdler);
+	REQUIRE(adlerValue == kNullAdler);
 
 	dataOut = theCompressor.Decompress(dataDst);
-	NN_ASSERT(dataOut.GetSize() == NN_ARRAY_SIZE(kTestData));
+	REQUIRE(dataOut.GetSize() == NN_ARRAY_SIZE(kTestData));
 
 	adlerValue = theDigest.GetAdler32(dataOut);
-	NN_ASSERT(adlerValue == kTestAdler);
+	REQUIRE(adlerValue == kTestAdler);
+}
 
 
 
 
-	// ZLib
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATACOMPRESSOR("ZLib", "ZLib compression")
+{
+
+
+	// Perform the test
 	dataDst = theCompressor.Compress(dataSrc, kNCompressionZLib);
-	NN_ASSERT(dataDst.GetSize() == kZLibSize);
+	REQUIRE(dataDst.GetSize() == kZLibSize);
 
 	adlerValue = theDigest.GetAdler32(dataDst);
-	NN_ASSERT(adlerValue == kZLibAdler);
+	REQUIRE(adlerValue == kZLibAdler);
 
 	dataOut = theCompressor.Decompress(dataDst);
-	NN_ASSERT(dataOut.GetSize() == NN_ARRAY_SIZE(kTestData));
+	REQUIRE(dataOut.GetSize() == NN_ARRAY_SIZE(kTestData));
 
 	adlerValue = theDigest.GetAdler32(dataOut);
-	NN_ASSERT(adlerValue == kTestAdler);
+	REQUIRE(adlerValue == kTestAdler);
 }
 
 

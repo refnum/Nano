@@ -14,10 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NDataCipher.h"
 #include "NDataDigest.h"
-
-#include "TDataCipher.h"
 
 
 
@@ -40,57 +39,100 @@ static const UInt32 kAdlerBlowfish									= 0x8B360A2B;
 
 
 //============================================================================
-//		TDataCipher::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDataCipher::Execute(void)
-{	NData			dataKey, dataTest, dataEnc, dataRaw;
+#define TEST_NDATACIPHER(_name, _desc)								NANO_TEST(TDataCipher, _name, _desc)
+
+NANO_FIXTURE(TDataCipher)
+{
+	NData			dataKey, dataTest, dataEnc, dataRaw;
 	NDataDigest		theDigest;
 	NDataCipher		theCipher;
+	
+	SETUP
+	{
+		dataKey  = NData(NN_ARRAY_SIZE(kTestKey),  kTestKey);
+		dataTest = NData(NN_ARRAY_SIZE(kTestData), kTestData);
+
+		NN_ASSERT(theDigest.GetAdler32(dataTest) == kAdlerTest);
+		theCipher.SetKey(dataKey);
+	}
+};
 
 
 
-	// Get the state we need
-	dataKey  = NData(NN_ARRAY_SIZE(kTestKey),  kTestKey);
-	dataTest = NData(NN_ARRAY_SIZE(kTestData), kTestData);
-
-	NN_ASSERT(theDigest.GetAdler32(dataTest) == kAdlerTest);
-	theCipher.SetKey(dataKey);
 
 
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATACIPHER("Null", "Null encryption")
+{
 
-	// Null
+
+	// Perform the test
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionNone);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionNone);
 	
-	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerNull);
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+	REQUIRE(theDigest.GetAdler32(dataEnc) == kAdlerNull);
+	REQUIRE(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+}
 
 
 
-	// DES
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATACIPHER("DES", "DES encryption")
+{
+
+
+	// Perform the test
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionDES);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionDES);
 
-	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerDES);
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+	REQUIRE(theDigest.GetAdler32(dataEnc) == kAdlerDES);
+	REQUIRE(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+}
 
 
 
-	// DES3
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATACIPHER("DES3", "DES3 encryption")
+{
+
+
+	// Perform the test
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionDES3);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionDES3);
 
-	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerDES3);
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+	REQUIRE(theDigest.GetAdler32(dataEnc) == kAdlerDES3);
+	REQUIRE(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+}
 
 
 
-	// Blowfish
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATACIPHER("Blowfish", "Blowfish encryption")
+{
+
+
+	// Perform the test
 	dataEnc = theCipher.Encrypt(dataTest, kNEncryptionBlowfish);
 	dataRaw = theCipher.Decrypt(dataEnc,  kNEncryptionBlowfish);
 
-	NN_ASSERT(theDigest.GetAdler32(dataEnc) == kAdlerBlowfish);
-	NN_ASSERT(theDigest.GetAdler32(dataRaw) == kAdlerTest);
+	REQUIRE(theDigest.GetAdler32(dataEnc) == kAdlerBlowfish);
+	REQUIRE(theDigest.GetAdler32(dataRaw) == kAdlerTest);
 }
 
 

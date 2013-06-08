@@ -14,21 +14,34 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NCache.h"
-
-#include "TCache.h"
 
 
 
 
 
 //============================================================================
-//		TCache::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCache::Execute(void)
+#define TEST_NCACHE(_name, _desc)									NANO_TEST(TCache, _name, _desc)
+
+NANO_FIXTURE(TCache)
 {
+	NCache	theCache;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCACHE("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theCache.GetSize() == 0);
 }
-
-
-
-

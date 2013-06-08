@@ -14,8 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NDebug.h"
 #include "NTestFixture.h"
+#include "NDebug.h"
 
 #include "CTestUtilities.h"
 

@@ -14,34 +14,38 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NLocale.h"
-
-#include "TLocale.h"
 
 
 
 
 
 //============================================================================
-//		TLocale::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TLocale::Execute(void)
-{	NLocale		theLocale;
-	bool		valueBool;
+#define TEST_NLOCALE(_name, _desc)								NANO_TEST(TLocale, _name, _desc)
+
+NANO_FIXTURE(TLocale)
+{
+	NLocale		theLocale;
+};
 
 
 
-	// Execute the tests
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NLOCALE("Default", "Default state")
+{	bool	valueBool;
+
+
+
+	// Perform the test
 	valueBool = theLocale.IsMetric();
-	NN_ASSERT(valueBool == true || valueBool == false);
-
+	REQUIRE((valueBool == true || valueBool == false));
 }
-
-
-
-
-
-
-
 
 
