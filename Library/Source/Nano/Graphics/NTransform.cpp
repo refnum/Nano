@@ -192,9 +192,9 @@ template<class T> bool NTransformT<T>::IsIdentity(void) const
 
 
 	// Check our state
-	isIdentity = NMathUtilities::AreEqual( a, 1.0) && NMathUtilities::AreEqual( b, 0.0) &&
-				 NMathUtilities::AreEqual( c, 0.0) && NMathUtilities::AreEqual( d, 1.0) &&
-				 NMathUtilities::AreEqual(tx, 0.0) && NMathUtilities::AreEqual(ty, 0.0);
+	isIdentity = NMathUtilities::AreEqual( a, (T) 1.0) && NMathUtilities::AreEqual( b, (T) 0.0) &&
+				 NMathUtilities::AreEqual( c, (T) 0.0) && NMathUtilities::AreEqual( d, (T) 1.0) &&
+				 NMathUtilities::AreEqual(tx, (T) 0.0) && NMathUtilities::AreEqual(ty, (T) 0.0);
 
 	return(isIdentity);
 }
