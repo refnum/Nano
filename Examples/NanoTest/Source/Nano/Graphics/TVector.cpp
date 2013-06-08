@@ -45,3 +45,4 @@ TEST_NVECTOR("Default", "Default state")
 	// Perform the test
 	REQUIRE(theVector.IsZero());
 }
+

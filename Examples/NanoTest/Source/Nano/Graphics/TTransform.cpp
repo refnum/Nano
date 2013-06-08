@@ -45,3 +45,4 @@ TEST_NTRANSFORM("Default", "Default state")
 	// Perform the test
 	REQUIRE(theTransform.IsIdentity());
 }
+
