@@ -152,7 +152,6 @@
 		AB2AAC771035B65D007BC4E6 /* TUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTI.h; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
 		AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
-		AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUTIRegistry.h; sourceTree = "<group>"; };
 		AB328C8517612CBF00782F40 /* StdAfx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StdAfx.cpp; sourceTree = "<group>"; };
 		AB328C8617612CBF00782F40 /* StdAfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StdAfx.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
@@ -179,13 +178,9 @@
 		AB514D831034184B00E5A6AD /* TByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TByteSwap.cpp; sourceTree = "<group>"; };
 		AB514D871034184B00E5A6AD /* TDataCompressor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCompressor.cpp; sourceTree = "<group>"; };
 		AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeParser.cpp; sourceTree = "<group>"; };
-		AB514D8A1034184B00E5A6AD /* TUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUnicodeParser.h; sourceTree = "<group>"; };
 		AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLEncoder.cpp; sourceTree = "<group>"; };
-		AB514D8C1034184B00E5A6AD /* TXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXMLEncoder.h; sourceTree = "<group>"; };
 		AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLNode.cpp; sourceTree = "<group>"; };
-		AB514D8E1034184B00E5A6AD /* TXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXMLNode.h; sourceTree = "<group>"; };
 		AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLParser.cpp; sourceTree = "<group>"; };
-		AB514D901034184B00E5A6AD /* TXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXMLParser.h; sourceTree = "<group>"; };
 		AB514D921034184B00E5A6AD /* TAtomicInt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomicInt.cpp; sourceTree = "<group>"; };
 		AB514D931034184B00E5A6AD /* TAtomicInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAtomicInt.h; sourceTree = "<group>"; };
 		AB514D941034184B00E5A6AD /* TAtomicList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomicList.cpp; sourceTree = "<group>"; };
@@ -278,7 +273,6 @@
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
 		ABB6782F12AE56EF0077D64E /* TCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFURL.h; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
-		ABC66E7C17411D52005B9357 /* TTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTask.h; sourceTree = "<group>"; };
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
 		ABCAFC5817539B3500BAE1A7 /* TMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMutex.h; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -468,17 +462,11 @@
 				ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */,
 				AB2AAD7D10396310007BC4E6 /* TLocale.cpp */,
 				ABC66E7B17411D52005B9357 /* TTask.cpp */,
-				ABC66E7C17411D52005B9357 /* TTask.h */,
 				AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */,
-				AB514D8A1034184B00E5A6AD /* TUnicodeParser.h */,
 				AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */,
-				AB2AADC91039797F007BC4E6 /* TUTIRegistry.h */,
 				AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */,
-				AB514D8C1034184B00E5A6AD /* TXMLEncoder.h */,
 				AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */,
-				AB514D8E1034184B00E5A6AD /* TXMLNode.h */,
 				AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */,
-				AB514D901034184B00E5A6AD /* TXMLParser.h */,
 			);
 			path = System;
 			sourceTree = "<group>";

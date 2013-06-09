@@ -14,25 +14,48 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NXMLNode.h"
-
-#include "TXMLNode.h"
 
 
 
 
 
 //============================================================================
-//		TXMLNode::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TXMLNode::Execute(void)
+#define TEST_NXMLNODE(_name, _desc)									NANO_TEST(TXMLNode, _name, _desc)
+
+NANO_FIXTURE(TXMLNode)
 {
+	NXMLNode	*theNode;
+	
+	SETUP
+	{
+		theNode = NULL;
+	}
+	
+	TEARDOWN
+	{
+		delete theNode;
+	}
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NXMLNODE("Default", "Default state")
+{
+
+
+	// Perform the test
+	theNode = new NXMLNode(kNXMLNodeDocument, "");
+	REQUIRE(theNode->GetParent() == NULL);
+	REQUIRE(!theNode->HasChildren());
 }
-
-
-
-
-
-
 
 

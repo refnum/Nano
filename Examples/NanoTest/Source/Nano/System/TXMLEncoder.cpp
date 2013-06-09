@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NXMLEncoder.h"
-
-#include "TXMLEncoder.h"
 
 
 
@@ -59,19 +58,42 @@ static const NString kTestXML										=	"<?xml version=\"1.0\" encoding=\"UTF-8
 
 
 //============================================================================
-//		TXMLEncoder::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TXMLEncoder::Execute(void)
-{	NXMLNode						*nodeDoc, *nodeDocType, *nodeContents;
-	NXMLNode						*nodeChild1, *nodeChild2, *nodeChild3;
-	NXMLNode						*nodeText, *nodeComment, *nodeCData;
-	NXMLNodeList					theChildren;
-	NXMLEncoder						theEncoder;
-	NString							theText;
+#define TEST_NXMLENCODER(_name, _desc)								NANO_TEST(TXMLEncoder, _name, _desc)
+
+NANO_FIXTURE(TXMLEncoder)
+{
+	NXMLEncoder			theEncoder;
+	NXMLNode			*nodeDoc;
+	
+	SETUP
+	{
+		nodeDoc = NULL;
+	}
+	
+	TEARDOWN
+	{
+		delete nodeDoc;
+	}
+};
 
 
 
-	// Encoding
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NXMLENCODER("Encoding", "XML Encoding")
+{	NXMLNode	*nodeChild1, *nodeChild2, *nodeChild3;
+	NXMLNode	*nodeText, *nodeComment, *nodeCData;
+	NXMLNode	*nodeDocType, *nodeContents;
+	NString		theText;
+
+
+
+	// Perform the test
 	nodeDoc      = new NXMLNode(kNXMLNodeDocument, "");
 	nodeDocType  = new NXMLNode(kNXMLNodeDocType,  kValueDocType);
 	nodeContents = new NXMLNode(kNXMLNodeElement,  kValueContents);
@@ -101,87 +123,107 @@ void TXMLEncoder::Execute(void)
 
 
 	theText = theEncoder.Encode(nodeDoc);
-	NN_ASSERT(theText == kTestXML);
-
-	delete nodeDoc;
-
+	REQUIRE(theText == kTestXML);
+}
 
 
-	// Decoding
-	nodeDoc = theEncoder.Decode(theText);
-	NN_ASSERT(nodeDoc->IsType(kNXMLNodeDocument));
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NXMLENCODER("Decoding", "XML Decoding")
+{	NXMLNode		*nodeChild1, *nodeChild2, *nodeChild3;
+	NXMLNode		*nodeText, *nodeComment, *nodeCData;
+	NXMLNodeList	theChildren;
+
+
+
+	// Perform the test
+	nodeDoc = theEncoder.Decode(kTestXML);
+	REQUIRE(nodeDoc->IsType(kNXMLNodeDocument));
 
 
 	theChildren = *(nodeDoc->GetChildren());
-	NN_ASSERT(theChildren.size() == 2);
+	REQUIRE(theChildren.size() == 2);
 	
 	nodeChild1 = theChildren[0];
-	NN_ASSERT(nodeChild1->IsType(kNXMLNodeDocType));
-	NN_ASSERT(nodeChild1->GetTextValue() == kValueDocType);
-	NN_ASSERT(nodeChild1->GetDocTypeSystemID() == kValueDocTypeSystemID);
-	NN_ASSERT(nodeChild1->GetDocTypePublicID() == kValueDocTypePublicID);
+	REQUIRE(nodeChild1->IsType(kNXMLNodeDocType));
+	REQUIRE(nodeChild1->GetTextValue() == kValueDocType);
+	REQUIRE(nodeChild1->GetDocTypeSystemID() == kValueDocTypeSystemID);
+	REQUIRE(nodeChild1->GetDocTypePublicID() == kValueDocTypePublicID);
 
 	nodeChild2 = theChildren[1];
-	NN_ASSERT(nodeChild2->IsType(kNXMLNodeElement));
-	NN_ASSERT(nodeChild2->GetTextValue() == kValueContents);
-	NN_ASSERT(nodeChild2->GetElementAttributes().IsEmpty());
+	REQUIRE(nodeChild2->IsType(kNXMLNodeElement));
+	REQUIRE(nodeChild2->GetTextValue() == kValueContents);
+	REQUIRE(nodeChild2->GetElementAttributes().IsEmpty());
 
 
 	theChildren = *(nodeChild2->GetChildren());
-	NN_ASSERT(theChildren.size() == 2);
+	REQUIRE(theChildren.size() == 2);
 
 	nodeChild1 = theChildren[0];
-	NN_ASSERT(nodeChild1->IsType(kNXMLNodeElement));
-	NN_ASSERT(nodeChild1->GetTextValue() == kValueNodeChild1);
-	NN_ASSERT(nodeChild1->GetElementAttribute(kAttribute1Name) == kAttribute1Value);
-	NN_ASSERT(nodeChild1->GetElementAttribute(kAttribute2Name).IsEmpty());
-	NN_ASSERT(nodeChild1->GetElementAttributes().GetSize() == 1);
+	REQUIRE(nodeChild1->IsType(kNXMLNodeElement));
+	REQUIRE(nodeChild1->GetTextValue() == kValueNodeChild1);
+	REQUIRE(nodeChild1->GetElementAttribute(kAttribute1Name) == kAttribute1Value);
+	REQUIRE(nodeChild1->GetElementAttribute(kAttribute2Name).IsEmpty());
+	REQUIRE(nodeChild1->GetElementAttributes().GetSize() == 1);
 
 	nodeChild2 = theChildren[1];
-	NN_ASSERT(nodeChild2->IsType(kNXMLNodeElement));
-	NN_ASSERT(nodeChild2->GetTextValue() == kValueNodeChild2);
-	NN_ASSERT(nodeChild2->GetElementAttribute(kAttribute2Name) == kAttribute2Value);
-	NN_ASSERT(nodeChild2->GetElementAttribute(kAttribute1Name).IsEmpty());
-	NN_ASSERT(nodeChild2->GetElementAttributes().GetSize() == 1);
+	REQUIRE(nodeChild2->IsType(kNXMLNodeElement));
+	REQUIRE(nodeChild2->GetTextValue() == kValueNodeChild2);
+	REQUIRE(nodeChild2->GetElementAttribute(kAttribute2Name) == kAttribute2Value);
+	REQUIRE(nodeChild2->GetElementAttribute(kAttribute1Name).IsEmpty());
+	REQUIRE(nodeChild2->GetElementAttributes().GetSize() == 1);
 
 
 	theChildren = *(nodeChild1->GetChildren());
-	NN_ASSERT(theChildren.size() == 1);
+	REQUIRE(theChildren.size() == 1);
 	
 	nodeText = theChildren[0];
-	NN_ASSERT(nodeText->IsType(kNXMLNodeText));
-	NN_ASSERT(nodeText->GetTextValue() == kValueNodeText);
+	REQUIRE(nodeText->IsType(kNXMLNodeText));
+	REQUIRE(nodeText->GetTextValue() == kValueNodeText);
 
 
 	theChildren = *(nodeChild2->GetChildren());
-	NN_ASSERT(theChildren.size() == 2);
+	REQUIRE(theChildren.size() == 2);
 	
 	nodeComment = theChildren[0];
-	NN_ASSERT(nodeComment->IsType(kNXMLNodeComment));
-	NN_ASSERT(nodeComment->GetTextValue() == kValueNodeComment);
+	REQUIRE(nodeComment->IsType(kNXMLNodeComment));
+	REQUIRE(nodeComment->GetTextValue() == kValueNodeComment);
 
 	nodeChild3 = theChildren[1];
-	NN_ASSERT(nodeChild3->IsType(kNXMLNodeElement));
-	NN_ASSERT(nodeChild3->GetTextValue() == kValueNodeChild3);
-	NN_ASSERT(nodeChild3->GetElementAttribute(kAttribute1Name).IsEmpty());
-	NN_ASSERT(nodeChild3->GetElementAttribute(kAttribute2Name).IsEmpty());
-	NN_ASSERT(nodeChild3->GetElementAttributes().IsEmpty());
+	REQUIRE(nodeChild3->IsType(kNXMLNodeElement));
+	REQUIRE(nodeChild3->GetTextValue() == kValueNodeChild3);
+	REQUIRE(nodeChild3->GetElementAttribute(kAttribute1Name).IsEmpty());
+	REQUIRE(nodeChild3->GetElementAttribute(kAttribute2Name).IsEmpty());
+	REQUIRE(nodeChild3->GetElementAttributes().IsEmpty());
 
 
 	theChildren = *(nodeChild3->GetChildren());
-	NN_ASSERT(theChildren.size() == 1);
+	REQUIRE(theChildren.size() == 1);
 	
 	nodeCData = theChildren[0];
-	NN_ASSERT(nodeCData->IsType(kNXMLNodeCData));
-	NN_ASSERT(nodeCData->GetTextValue() == kValueNodeCData);
+	REQUIRE(nodeCData->IsType(kNXMLNodeCData));
+	REQUIRE(nodeCData->GetTextValue() == kValueNodeCData);
+}
 
 
 
-	// Round-trip
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NXMLENCODER("Recoding", "XML decoding then encoding")
+{	NString		theText;
+
+
+
+	// Perform the test
+	nodeDoc = theEncoder.Decode(kTestXML);
 	theText = theEncoder.Encode(nodeDoc);
-	NN_ASSERT(theText == kTestXML);
 
-	delete nodeDoc;
+	REQUIRE(theText == kTestXML);
 }
 
 

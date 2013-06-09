@@ -14,25 +14,37 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NXMLParser.h"
-
-#include "TXMLParser.h"
 
 
 
 
 
 //============================================================================
-//		TXMLParser::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TXMLParser::Execute(void)
+#define TEST_NXMLPARSER(_name, _desc)								NANO_TEST(TXMLParser, _name, _desc)
+
+NANO_FIXTURE(TXMLParser)
 {
+	NXMLParser	theParser;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NXMLPARSER("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theParser.GetOptions() == kNXMLParserDefault);
 }
-
-
-
-
-
 
 
 

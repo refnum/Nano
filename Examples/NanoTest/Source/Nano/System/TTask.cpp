@@ -14,9 +14,10 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NTask.h"
 
-#include "TTask.h"
+
 
 
 
@@ -48,22 +49,38 @@
 
 
 //============================================================================
-//		TTask::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TTask::Execute(void)
-{	NString		theInput, theOutput;
+#define TEST_NTASK(_name, _desc)									NANO_TEST(TTask, _name, _desc)
+
+NANO_FIXTURE(TTask)
+{
 	NTask		theTask;
+
+	SETUP
+	{
+		theTask.SetCommand(  kTaskCmd);
+		theTask.SetArguments(kTaskArgs.Split(kNStringWhitespace));
+	}
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTASK("Task", "Task test")
+{	NString		theInput, theOutput;
 	NStatus		theErr;
 	NIndex		n;
 
 
 
-	// Launch
-	theTask.SetCommand(  kTaskCmd);
-	theTask.SetArguments(kTaskArgs.Split(kNStringWhitespace));
-	
+	// Perform the test
 	theErr = theTask.Launch();
-	NN_ASSERT_NOERR(theErr);
+	REQUIRE_NOERR(theErr);
 
 
 
@@ -86,12 +103,12 @@ void TTask::Execute(void)
 		theTask.WaitForTask(1);
 		}
 
-	NN_ASSERT(theOutput == theInput);
+	REQUIRE(theOutput == theInput);
 
 
 
 	// Terminate
-	NN_ASSERT(theTask.IsRunning());
+	REQUIRE(theTask.IsRunning());
 	theTask.Terminate();
 
 	for (n = 0; n < 5; n++)
@@ -102,7 +119,7 @@ void TTask::Execute(void)
 		theTask.WaitForTask(1);
 		}
 
-	NN_ASSERT(!theTask.IsRunning());
+	REQUIRE(!theTask.IsRunning());
 }
 
 

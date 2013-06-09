@@ -15,30 +15,42 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NUTIRegistry.h"
-
-#include "TUTIRegistry.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TUTIRegistry::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TUTIRegistry::Execute(void)
-{	NUTIRegistry	*theRegistry;
+#define TEST_NUTIREGISTRY(_name, _desc)								NANO_TEST(TUTIRegistry, _name, _desc)
+
+NANO_FIXTURE(TUTIRegistry)
+{
+	NUTIRegistry	*utiRegistry;
+
+	SETUP
+	{
+		utiRegistry = NUTIRegistry::Get();
+	}
+};
 
 
 
-	// Get the state we need
-	theRegistry = NUTIRegistry::Get();
 
 
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NUTIREGISTRY("Default", "Default state")
+{
 
-	// Query
-	NN_ASSERT(theRegistry->GetUTI(kNUTITagClassFileExtension, "gif") == kNUTTypeGIF);
-	NN_ASSERT(theRegistry->GetUTI(kNUTITagClassFileExtension, "png") == kNUTTypePNG);
-	NN_ASSERT(theRegistry->GetUTI(kNUTITagClassFileExtension, "jpg") == kNUTTypeJPEG);
+
+	// Perform the test
+	REQUIRE(utiRegistry->GetUTI(kNUTITagClassFileExtension, "gif") == kNUTTypeGIF);
+	REQUIRE(utiRegistry->GetUTI(kNUTITagClassFileExtension, "png") == kNUTTypePNG);
+	REQUIRE(utiRegistry->GetUTI(kNUTITagClassFileExtension, "jpg") == kNUTTypeJPEG);
 }
 
 
