@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NData.h"
-
-#include "TData.h"
 
 
 
@@ -39,79 +38,172 @@ static const NData kTestData2(NN_ARRAY_SIZE(kBlock2), kBlock2);
 
 
 //============================================================================
-//		TData::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TData::Execute(void)
-{	NIndex			n, theSize;
-	const NData		*testConst;
-	NData			testData;
+#define TEST_NDATA(_name, _desc)									NANO_TEST(TData, _name, _desc)
+
+NANO_FIXTURE(TData)
+{
+	NData		theData;
+};
 
 
 
-	// Execute the tests
-	NN_ASSERT(!kTestData1.IsEmpty());
-	NN_ASSERT(!kTestData2.IsEmpty());
 
-	NN_ASSERT(kTestData1.GetSize() == NN_ARRAY_SIZE(kBlock1));
-	NN_ASSERT(kTestData2.GetSize() == NN_ARRAY_SIZE(kBlock2));
 
-	NN_ASSERT(testData.IsEmpty());
-	NN_ASSERT(testData.GetSize() == 0);
-	NN_ASSERT(testData.GetData() == NULL);
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Default", "Default state")
+{	NData	emptyData;
 
-	testData = kTestData1;
-	NN_ASSERT(!testData.IsEmpty());
 
-	testData.Clear();
-	NN_ASSERT(testData.IsEmpty());
-	NN_ASSERT(testData.GetSize() == 0);
 
-	testData = kTestData1;
-	testData.SetData(NN_ARRAY_SIZE(kBlock1_and_3), kBlock1_and_3);
+	// Perform the test
+	REQUIRE(!kTestData1.IsEmpty());
+	REQUIRE(!kTestData2.IsEmpty());
 
-	theSize   = testData.GetSize();
-	testConst = &testData;
+	REQUIRE(kTestData1.GetSize() == NN_ARRAY_SIZE(kBlock1));
+	REQUIRE(kTestData2.GetSize() == NN_ARRAY_SIZE(kBlock2));
+
+	REQUIRE(theData.IsEmpty());
+	REQUIRE(theData.GetSize() == 0);
+	REQUIRE(theData.GetData() == NULL);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Clear", "Clear the value")
+{
+
+
+	// Perform the test
+	theData = kTestData1;
+	REQUIRE(!theData.IsEmpty());
+
+	theData.Clear();
+	REQUIRE(theData.IsEmpty());
+	REQUIRE(theData.GetSize() == 0);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Assign", "Assign data")
+{	const NData		*constData;
+	NIndex			n, theSize;
+
+
+
+	// Perform the test
+	theData = kTestData1;
+	theData.SetData(NN_ARRAY_SIZE(kBlock1_and_3), kBlock1_and_3);
+
+	theSize   = theData.GetSize();
+	constData = &theData;
 
 	for (n = 0; n < theSize; n++)
-		NN_ASSERT(*(testConst->GetData(n)) == kBlock1_and_3[n]);
+		REQUIRE(*(constData->GetData(n)) == kBlock1_and_3[n]);
 
-	*(testData.GetData(2)) = *(testData.GetData(2)) + 1;
-	testConst = &testData;
-	NN_ASSERT(*(testConst->GetData(2)) != kBlock1_and_3[2]);
+	*(theData.GetData(2)) = *(theData.GetData(2)) + 1;
+	constData = &theData;
+	REQUIRE(*(constData->GetData(2)) != kBlock1_and_3[2]);
+}
 
-	testData = kTestData1;
-	testData.SetData(kTestData2.GetSize(), kTestData2.GetData());
-	NN_ASSERT(memcmp(kBlock2, testData.GetData(), (size_t) testData.GetSize()) == 0);
 
-	testData = kTestData1;
-	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.GetSize() == (kTestData1.GetSize() + NN_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(memcmp(kBlock1_and_3, testData.GetData(), (size_t) testData.GetSize()) == 0);
 
-	testData = kTestData1;
-	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), NN_ARRAY_SIZE(kBlock3), kBlock3));
-	NN_ASSERT(testData.GetSize() == (2 * NN_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(memcmp(kBlock3, testData.GetData(0),                       NN_ARRAY_SIZE(kBlock3)) == 0);
-	NN_ASSERT(memcmp(kBlock3, testData.GetData(NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock3)) == 0);
-	testData.RemoveData(NRange(0, NN_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(testData.GetSize() == (1 * NN_ARRAY_SIZE(kBlock3)));
-	NN_ASSERT(memcmp(kBlock3, testData.GetData(), (size_t) NN_ARRAY_SIZE(kBlock3)) == 0);
 
-	testData.Clear();
-	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	NN_ASSERT(testData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock1), kBlock1));
-	NN_ASSERT(testData.GetSize() == NN_ARRAY_SIZE(kBlock1_and_3));
-	NN_ASSERT(memcmp(kBlock1_and_3, testData.GetData(), (size_t) testData.GetSize()) == 0);
 
-	testData = kTestData1;
-	testData.RemoveData(NN_ARRAY_SIZE(kBlock1), true);
-	NN_ASSERT(testData.IsEmpty());
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Append", "Append data")
+{
 
-	testData = kTestData1;
-	testData.RemoveData(NN_ARRAY_SIZE(kBlock1), false);
-	NN_ASSERT(testData.IsEmpty());
+
+	// Perform the test
+	theData = kTestData1;
+	theData.SetData(kTestData2.GetSize(), kTestData2.GetData());
+	REQUIRE(memcmp(kBlock2, theData.GetData(), (size_t) theData.GetSize()) == 0);
+
+	theData = kTestData1;
+	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	REQUIRE(theData.GetSize() == (kTestData1.GetSize() + NN_ARRAY_SIZE(kBlock3)));
+	REQUIRE(memcmp(kBlock1_and_3, theData.GetData(), (size_t) theData.GetSize()) == 0);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Replace", "Replace data")
+{
+
+
+	// Perform the test
+	theData = kTestData1;
+	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), NN_ARRAY_SIZE(kBlock3), kBlock3));
+	REQUIRE(theData.GetSize() == (2 * NN_ARRAY_SIZE(kBlock3)));
+	REQUIRE(memcmp(kBlock3, theData.GetData(0),                       NN_ARRAY_SIZE(kBlock3)) == 0);
+	REQUIRE(memcmp(kBlock3, theData.GetData(NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock3)) == 0);
+
+	theData.RemoveData(NRange(0, NN_ARRAY_SIZE(kBlock3)));
+	REQUIRE(theData.GetSize() == (1 * NN_ARRAY_SIZE(kBlock3)));
+	REQUIRE(memcmp(kBlock3, theData.GetData(), (size_t) NN_ARRAY_SIZE(kBlock3)) == 0);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Append+Replace", "Append and replace")
+{
+
+
+	// Perform the test
+	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
+	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock1), kBlock1));
+
+	REQUIRE(theData.GetSize() == NN_ARRAY_SIZE(kBlock1_and_3));
+	REQUIRE(memcmp(kBlock1_and_3, theData.GetData(), (size_t) theData.GetSize()) == 0);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATA("Remove", "Remove data")
+{
+
+
+	// Perform the test
+	theData = kTestData1;
+	theData.RemoveData(NN_ARRAY_SIZE(kBlock1), true);
+	REQUIRE(theData.IsEmpty());
+
+	theData = kTestData1;
+	theData.RemoveData(NN_ARRAY_SIZE(kBlock1), false);
+	REQUIRE(theData.IsEmpty());
 }
 
 

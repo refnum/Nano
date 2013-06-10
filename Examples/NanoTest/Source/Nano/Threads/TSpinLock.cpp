@@ -14,22 +14,38 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TLock.h"
-#include "TSpinLock.h"
+#include "NTestFixture.h"
+#include "NSpinLock.h"
+
+#include "CTestUtilities.h"
 
 
 
 
 
 //============================================================================
-//		TSpinLock::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSpinLock::Execute(void)
-{	NSpinLock		theLock;
+#define TEST_NSPINLOCK(_name, _desc)								NANO_TEST(TSpinLock, _name, _desc)
+
+NANO_FIXTURE(TSpinLock)
+{
+	NSpinLock	theLock;
+};
 
 
 
-	// Test the lock
-	TLock::TestLock(&theLock);
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSPINLOCK("Basic", "Basic locking")
+{
+
+
+	// Perform the test
+	REQUIRE(CTestUtilities::TestLock(&theLock));
 }
+
 

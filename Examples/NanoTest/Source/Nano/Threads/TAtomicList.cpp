@@ -14,18 +14,38 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NAtomicList.h"
-
-#include "TAtomicList.h"
 
 
 
 
 
 //============================================================================
-//		TAtomicList::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TAtomicList::Execute(void)
+#define TEST_NATOMICLIST(_name, _desc)								NANO_TEST(TAtomicList, _name, _desc)
+
+NANO_FIXTURE(TAtomicList)
 {
+	NAtomicList<UInt32>		theList;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NATOMICLIST("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theList.IsEmpty());
 }
+
+
+
 

@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NDate.h"
-
-#include "TDate.h"
 
 
 
@@ -34,42 +33,80 @@ static const NGregorianDate kTestDate3								= { 2010, 6, 1, 20, 21, 57, kNTime
 
 
 //============================================================================
-//		TDate::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDate::Execute(void)
+#define TEST_NDATE(_name, _desc)									NANO_TEST(TDate, _name, _desc)
+
+NANO_FIXTURE(TDate)
+{
+	NDate		theDate;
+
+	SETUP
+	{
+		theDate = NDate(kTestDate1);
+	}
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATE("Conversion", "Date conversion")
 {	NGregorianDate		gregDate;
-	NDate				date1;
-	NIndex				n, m;
 
 
 
-	// Get the state we need
-	date1 = NDate(kTestDate1);
+	// Perform the test
+	gregDate = theDate.GetDate(kNTimeZoneUTC);
+	REQUIRE(NDate(gregDate) == NDate(kTestDate1));
+
+	gregDate = theDate.GetDate(kNTimeZonePDT);
+	REQUIRE(NDate(gregDate) == NDate(kTestDate2));
+
+	gregDate = theDate.GetDate(kNTimeZoneCEST);
+	REQUIRE(NDate(gregDate) == NDate(kTestDate3));
+}
 
 
 
-	// Conversion
-	gregDate = date1.GetDate(kNTimeZoneUTC);
-	NN_ASSERT(NDate(gregDate) == NDate(kTestDate1));
 
-	gregDate = date1.GetDate(kNTimeZonePDT);
-	NN_ASSERT(NDate(gregDate) == NDate(kTestDate2));
 
-	gregDate = date1.GetDate(kNTimeZoneCEST);
-	NN_ASSERT(NDate(gregDate) == NDate(kTestDate3));
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATE("Indices", "Date indices")
+{	NIndex		n;
 
 
 
 	// Indices
-	n = date1.GetDayOfWeek();
-	NN_ASSERT(n == 2);
+	n = theDate.GetDayOfWeek();
+	REQUIRE(n == 2);
 
-	n = date1.GetDayOfYear();
-	NN_ASSERT(n == 152);
+	n = theDate.GetDayOfYear();
+	REQUIRE(n == 152);
 
-	n = date1.GetWeekOfYear();
-	NN_ASSERT(n == 22);
+	n = theDate.GetWeekOfYear();
+	REQUIRE(n == 22);
+}
 
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATE("Weeks", "Weeks of year")
+{	NGregorianDate		gregDate;
+	NIndex				n, m;
+
+
+
+	// Perform the test
 	gregDate       = kTestDate1;
 	gregDate.month = 1;
 
@@ -77,11 +114,12 @@ void TDate::Execute(void)
 		{
 		gregDate.day = (SInt8) m;
 		n            = NDate(gregDate).GetWeekOfYear();
-		NN_ASSERT(n == 1);
+		REQUIRE(n == 1);
 		}
 
 	gregDate.day = 11;
 	n            = NDate(gregDate).GetWeekOfYear();
-	NN_ASSERT(n == 2);
+	REQUIRE(n == 2);
 }
+
 

@@ -14,37 +14,63 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TLock.h"
-#include "TMutex.h"
+#include "NTestFixture.h"
+#include "NMutex.h"
+
+#include "CTestUtilities.h"
 
 
 
 
 
 //============================================================================
-//		TMutex::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TMutex::Execute(void)
-{	NMutex		theLock;
+#define TEST_NMUTEX(_name, _desc)									NANO_TEST(TMutex, _name, _desc)
+
+NANO_FIXTURE(TMutex)
+{
+	NMutex	theLock;
+};
 
 
 
-	// Test the lock
-	TLock::TestLock(&theLock);
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NMUTEX("Basic", "Basic locking")
+{
+
+
+	// Perform the test
+	REQUIRE(CTestUtilities::TestLock(&theLock));
+}
 
 
 
-	// Recursion
-	NN_ASSERT(!theLock.IsLocked());
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NMUTEX("Recursion", "Recursive locking")
+{
+
+
+	// Perform the test
+	REQUIRE(!theLock.IsLocked());
 	theLock.Lock();
 
-		NN_ASSERT(theLock.IsLocked());
+		REQUIRE(theLock.IsLocked());
 		theLock.Lock();
 		theLock.Unlock();
-		NN_ASSERT(theLock.IsLocked());
+		REQUIRE(theLock.IsLocked());
 
 	theLock.Unlock();
-	NN_ASSERT(!theLock.IsLocked());
+	REQUIRE(!theLock.IsLocked());
 }
+
 
 

@@ -14,7 +14,23 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NThreadPool.h"
+
 #include "CTestUtilities.h"
+
+
+
+
+
+//============================================================================
+//		Internal constants
+//----------------------------------------------------------------------------
+static const NIndex kThreadCount									= 10;
+static const NIndex kLockCount										= 100;
+
+static const UInt8  kDataActive										= 0x23;
+static const UInt8  kDataInactive									= 0x42;
+static const NIndex kDataSize										= 5000;
 
 
 
@@ -91,6 +107,36 @@ void CTestUtilities::ExecuteRunloop(NTime waitFor)
 
 
 
+//============================================================================
+//		CTestUtilities::TestLock : Test a lock.
+//----------------------------------------------------------------------------
+bool CTestUtilities::TestLock(NLock *theLock)
+{	NThreadPool		thePool;
+	NData			theData;
+	bool			wasOK;
+	NIndex			n;
+
+
+
+	// Get the state we need
+	theData.SetSize(kDataSize);
+	wasOK = true;
+
+
+
+	// Test the lock
+	for (n = 0; n < kThreadCount; n++)
+		thePool.AddTask(new NThreadTaskFunctor(BindFunction(CTestUtilities::LockUnlock, theLock, &theData, &wasOK)));
+	
+	thePool.WaitForTasks();
+	
+	return(wasOK);
+}
+
+
+
+
+
 #pragma mark private
 //============================================================================
 //		CTestUtilities::DebugOutputHook : Debug output hook.
@@ -102,4 +148,45 @@ void CTestUtilities::DebugOutputHook(const char *theMsg)
 	// Capture the output
 	mDebugOutput += NString(theMsg, kNStringLength);
 }
+
+
+
+
+
+//============================================================================
+//		CTestUtilities::LockUnlock : Lock and unlock a lock.
+//----------------------------------------------------------------------------
+void CTestUtilities::LockUnlock(NLock *theLock, NData *theData, bool *wasOK)
+{	NIndex		n, m, dataSize;
+	UInt8		*dataPtr;
+
+
+
+	// Get the state we need
+	dataSize = theData->GetSize();
+	dataPtr  = theData->GetData();
+
+
+
+	// Lock/unlock the lock
+	for (n = 0; n < kLockCount; n++)
+		{
+		// Acquire the lock
+		StLock	acquireLock(*theLock);
+
+
+
+		// Use the data
+		memset(dataPtr, kDataActive, (size_t) dataSize);
+		
+		for (m = 0; m < dataSize; m++)
+			{
+			if (dataPtr[m] != kDataActive)
+				*wasOK = false;
+			}
+		
+		memset(dataPtr, kDataInactive, (size_t) dataSize);
+		}
+}
+
 

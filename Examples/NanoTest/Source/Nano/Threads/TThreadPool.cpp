@@ -14,18 +14,39 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NThreadPool.h"
-
-#include "TThreadPool.h"
 
 
 
 
 
 //============================================================================
-//		TThreadPool::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TThreadPool::Execute(void)
+#define TEST_NTHREADPOOL(_name, _desc)								NANO_TEST(TThreadPool, _name, _desc)
+
+NANO_FIXTURE(TThreadPool)
 {
+	NThreadPool		thePool;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTHREADPOOL("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(thePool.GetActiveTasks()  == 0);
+	REQUIRE(thePool.GetPendingTasks() == 0);
+	REQUIRE(thePool.GetThreadLimit()  != 0);
 }
+
+
 

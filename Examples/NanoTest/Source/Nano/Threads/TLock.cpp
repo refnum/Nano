@@ -14,97 +14,44 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NThreadPool.h"
-
-#include "TLock.h"
-
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NIndex kThreadCount									= 10;
-static const NIndex kLockCount										= 100;
-
-static const UInt8  kDataActive										= 0x23;
-static const UInt8  kDataInactive									= 0x42;
-static const NIndex kDataSize										= 5000;
+#include "NTestFixture.h"
+#include "NMutex.h"
 
 
 
 
 
 //============================================================================
-//		TLock::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TLock::Execute(void)
+#define TEST_NLOCK(_name, _desc)									NANO_TEST(TLock, _name, _desc)
+
+NANO_FIXTURE(TLock)
 {
-}
+};
 
 
 
 
 
 //============================================================================
-//		TLock::TestLock : Test a lock.
+//		Test case
 //----------------------------------------------------------------------------
-void TLock::TestLock(NLock *theLock)
-{	NThreadPool		thePool;
-	NData			theData;
-	NIndex			n;
+TEST_NLOCK("StLock", "Stack locker")
+{	NMutex	theLock;
 
 
 
-	// Get the state we need
-	theData.SetSize(kDataSize);
-
-
-
-	// Test the lock
-	for (n = 0; n < kThreadCount; n++)
-		thePool.AddTask(new NThreadTaskFunctor(BindFunction(TLock::LockUnlock, theLock, &theData)));
+	// Perform the test
+	REQUIRE(!theLock.IsLocked());
 	
-	thePool.WaitForTasks();
-}
+	{
+		StLock	acquireLock(theLock);
 
+		REQUIRE(theLock.IsLocked());
+	}
 
-
-
-
-#pragma mark private
-//============================================================================
-//		TLock::LockUnlock : Lock and unlock a lock.
-//----------------------------------------------------------------------------
-void TLock::LockUnlock(NLock *theLock, NData *theData)
-{	NIndex		n, m, dataSize;
-	UInt8		*dataPtr;
-
-
-
-	// Get the state we need
-	dataSize = theData->GetSize();
-	dataPtr  = theData->GetData();
-
-
-
-	// Lock/unlock the lock
-	for (n = 0; n < kLockCount; n++)
-		{
-		// Acquire the lock
-		StLock	acquireLock(*theLock);
-
-
-
-		// Use the data
-		memset(dataPtr, kDataActive, (size_t) dataSize);
-		
-		for (m = 0; m < dataSize; m++)
-			NN_ASSERT(dataPtr[m] == kDataActive);
-		
-		memset(dataPtr, kDataInactive, (size_t) dataSize);
-		}
+	REQUIRE(!theLock.IsLocked());
 }
 
 

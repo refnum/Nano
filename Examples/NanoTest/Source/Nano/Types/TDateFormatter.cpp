@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NDateFormatter.h"
-
-#include "TDateFormatter.h"
+#include "NTestFixture.h"
 
 
 
@@ -35,366 +34,491 @@ static const NGregorianDate kTestDate4								= { 2010, 6, 1,  0,  7,  5.12345, 
 
 
 //============================================================================
-//		TDateFormatter::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDateFormatter::Execute(void)
-{	NDateFormatter		theFormatter;
+#define TEST_NDATEFORMATTER(_name, _desc)							NANO_TEST(TDateFormatter, _name, _desc)
+
+NANO_FIXTURE(TDateFormatter)
+{
+	NDateFormatter		theFormatter;
 	NString				theResult;
+};
 
 
 
-	// Quotes
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Quotes", "Quotes")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "G''G");
-	NN_ASSERT(theResult == "AD'AD");
+	REQUIRE(theResult == "AD'AD");
 
 	theResult = theFormatter.Format(kTestDate1, "G'test'G");
-	NN_ASSERT(theResult == "ADtestAD");
+	REQUIRE(theResult == "ADtestAD");
 	
 	theResult = theFormatter.Format(kTestDate1, "G'testG");
-	NN_ASSERT(theResult == "ADtestG");
+	REQUIRE(theResult == "ADtestG");
+}
 
 
 
-	// Era
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Era", "Era")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "G");
-	NN_ASSERT(theResult == "AD");
+	REQUIRE(theResult == "AD");
 	
 	theResult = theFormatter.Format(kTestDate1, "GG");
-	NN_ASSERT(theResult == "AD");
+	REQUIRE(theResult == "AD");
 	
 	theResult = theFormatter.Format(kTestDate1, "GGG");
-	NN_ASSERT(theResult == "AD");
+	REQUIRE(theResult == "AD");
 	
 	theResult = theFormatter.Format(kTestDate1, "GGGG");
-	NN_ASSERT(theResult == "Anno Domini");
+	REQUIRE(theResult == "Anno Domini");
 	
 	theResult = theFormatter.Format(kTestDate1, "GGGGG");
-	NN_ASSERT(theResult == "A");
+	REQUIRE(theResult == "A");
 
 
 #if NN_TARGET_WINDOWS
 	NN_LOG("Skipping BC tests: NWinTime requires dates >= 1601");
 #else
 	theResult = theFormatter.Format(kTestDate2, "G");
-	NN_ASSERT(theResult == "BC");
+	REQUIRE(theResult == "BC");
 	
 	theResult = theFormatter.Format(kTestDate2, "GG");
-	NN_ASSERT(theResult == "BC");
+	REQUIRE(theResult == "BC");
 	
 	theResult = theFormatter.Format(kTestDate2, "GGG");
-	NN_ASSERT(theResult == "BC");
+	REQUIRE(theResult == "BC");
 	
 	theResult = theFormatter.Format(kTestDate2, "GGGG");
-	NN_ASSERT(theResult == "Before Christ");
+	REQUIRE(theResult == "Before Christ");
 	
 	theResult = theFormatter.Format(kTestDate2, "GGGGG");
-	NN_ASSERT(theResult == "B");
+	REQUIRE(theResult == "B");
 #endif
+}
 
 
 
-	// Year
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Year", "Year")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "y");
-	NN_ASSERT(theResult == "2010");
+	REQUIRE(theResult == "2010");
 
 	theResult = theFormatter.Format(kTestDate1, "yy");
-	NN_ASSERT(theResult == "10");
+	REQUIRE(theResult == "10");
 
 	theResult = theFormatter.Format(kTestDate1, "yyy");
-	NN_ASSERT(theResult == "2010");
+	REQUIRE(theResult == "2010");
 
 	theResult = theFormatter.Format(kTestDate1, "yyyy");
-	NN_ASSERT(theResult == "2010");
+	REQUIRE(theResult == "2010");
 
 	theResult = theFormatter.Format(kTestDate1, "yyyyy");
-	NN_ASSERT(theResult == "02010");
+	REQUIRE(theResult == "02010");
 
 
 	theResult = theFormatter.Format(kTestDate1, "YYYYY");
-	NN_ASSERT(theResult == "02010");
+	REQUIRE(theResult == "02010");
 
 	theResult = theFormatter.Format(kTestDate1, "uuuuu");
-	NN_ASSERT(theResult == "02010");
+	REQUIRE(theResult == "02010");
+}
 
 
 
-	// Quarter
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Quarter", "Quarter")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "Q");
-	NN_ASSERT(theResult == "2");
+	REQUIRE(theResult == "2");
 
 	theResult = theFormatter.Format(kTestDate1, "QQ");
-	NN_ASSERT(theResult == "02");
+	REQUIRE(theResult == "02");
 
 	theResult = theFormatter.Format(kTestDate1, "QQQ");
-	NN_ASSERT(theResult == "Q2");
+	REQUIRE(theResult == "Q2");
 
 	theResult = theFormatter.Format(kTestDate1, "QQQQ");
-	NN_ASSERT(theResult == "2nd Quarter");
+	REQUIRE(theResult == "2nd Quarter");
 
 
 	theResult = theFormatter.Format(kTestDate1, "q");
-	NN_ASSERT(theResult == "2");
+	REQUIRE(theResult == "2");
 
 	theResult = theFormatter.Format(kTestDate1, "qq");
-	NN_ASSERT(theResult == "02");
+	REQUIRE(theResult == "02");
 
 	theResult = theFormatter.Format(kTestDate1, "qqq");
-	NN_ASSERT(theResult == "Q2");
+	REQUIRE(theResult == "Q2");
 
 	theResult = theFormatter.Format(kTestDate1, "qqqq");
-	NN_ASSERT(theResult == "2nd Quarter");
+	REQUIRE(theResult == "2nd Quarter");
+}
 
 
 
-	// Month
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Month", "Month")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "M");
-	NN_ASSERT(theResult == "6");
+	REQUIRE(theResult == "6");
 
 	theResult = theFormatter.Format(kTestDate1, "MM");
-	NN_ASSERT(theResult == "06");
+	REQUIRE(theResult == "06");
 
 	theResult = theFormatter.Format(kTestDate1, "MMM");
-	NN_ASSERT(theResult == "Jun");
+	REQUIRE(theResult == "Jun");
 
 	theResult = theFormatter.Format(kTestDate1, "MMMM");
-	NN_ASSERT(theResult == "June");
+	REQUIRE(theResult == "June");
 
 	theResult = theFormatter.Format(kTestDate1, "MMMMM");
-	NN_ASSERT(theResult == "J");
+	REQUIRE(theResult == "J");
 
 
 	theResult = theFormatter.Format(kTestDate1, "L");
-	NN_ASSERT(theResult == "6");
+	REQUIRE(theResult == "6");
 
 	theResult = theFormatter.Format(kTestDate1, "LL");
-	NN_ASSERT(theResult == "06");
+	REQUIRE(theResult == "06");
 
 	theResult = theFormatter.Format(kTestDate1, "LLL");
-	NN_ASSERT(theResult == "Jun");
+	REQUIRE(theResult == "Jun");
 
 	theResult = theFormatter.Format(kTestDate1, "LLLL");
-	NN_ASSERT(theResult == "June");
+	REQUIRE(theResult == "June");
 
 	theResult = theFormatter.Format(kTestDate1, "LLLLL");
-	NN_ASSERT(theResult == "J");
+	REQUIRE(theResult == "J");
+}
 
 
 
-	// Week
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Week", "Week")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "w");
-	NN_ASSERT(theResult == "22");
+	REQUIRE(theResult == "22");
 
 	theResult = theFormatter.Format(kTestDate1, "W");
-	NN_ASSERT(theResult == "1");
+	REQUIRE(theResult == "1");
+}
 
 
 
-	// Day
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Day", "Day")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "d");
-	NN_ASSERT(theResult == "1");
+	REQUIRE(theResult == "1");
 
 	theResult = theFormatter.Format(kTestDate1, "D");
-	NN_ASSERT(theResult == "152");
+	REQUIRE(theResult == "152");
 
 /*
 	theResult = theFormatter.Format(kTestDate1, "F");
-	NN_ASSERT(theResult == "TODO");
+	REQUIRE(theResult == "TODO");
 
 	theResult = theFormatter.Format(kTestDate1, "g");
-	NN_ASSERT(theResult == "TODO");
+	REQUIRE(theResult == "TODO");
 */
+}
 
 
 
-	// Week day
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Week day", "Week day")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "E");
-	NN_ASSERT(theResult == "Tue");
+	REQUIRE(theResult == "Tue");
 
 	theResult = theFormatter.Format(kTestDate1, "EE");
-	NN_ASSERT(theResult == "Tue");
+	REQUIRE(theResult == "Tue");
 
 	theResult = theFormatter.Format(kTestDate1, "EEE");
-	NN_ASSERT(theResult == "Tue");
+	REQUIRE(theResult == "Tue");
 
 	theResult = theFormatter.Format(kTestDate1, "EEEE");
-	NN_ASSERT(theResult == "Tuesday");
+	REQUIRE(theResult == "Tuesday");
 
 	theResult = theFormatter.Format(kTestDate1, "EEEEE");
-	NN_ASSERT(theResult == "T");
+	REQUIRE(theResult == "T");
 
 
 	theResult = theFormatter.Format(kTestDate1, "e");
-	NN_ASSERT(theResult == "2");
+	REQUIRE(theResult == "2");
 
 	theResult = theFormatter.Format(kTestDate1, "ee");
-	NN_ASSERT(theResult == "02");
+	REQUIRE(theResult == "02");
 
 	theResult = theFormatter.Format(kTestDate1, "eee");
-	NN_ASSERT(theResult == "Tue");
+	REQUIRE(theResult == "Tue");
 
 	theResult = theFormatter.Format(kTestDate1, "eeee");
-	NN_ASSERT(theResult == "Tuesday");
+	REQUIRE(theResult == "Tuesday");
 
 	theResult = theFormatter.Format(kTestDate1, "eeeee");
-	NN_ASSERT(theResult == "T");
+	REQUIRE(theResult == "T");
 
 
 	theResult = theFormatter.Format(kTestDate1, "c");
-	NN_ASSERT(theResult == "2");
+	REQUIRE(theResult == "2");
 
 	theResult = theFormatter.Format(kTestDate1, "cc");
-	NN_ASSERT(theResult == "02");
+	REQUIRE(theResult == "02");
 
 	theResult = theFormatter.Format(kTestDate1, "ccc");
-	NN_ASSERT(theResult == "Tue");
+	REQUIRE(theResult == "Tue");
 
 	theResult = theFormatter.Format(kTestDate1, "cccc");
-	NN_ASSERT(theResult == "Tuesday");
+	REQUIRE(theResult == "Tuesday");
 
 	theResult = theFormatter.Format(kTestDate1, "ccccc");
-	NN_ASSERT(theResult == "T");
+	REQUIRE(theResult == "T");
+}
 
 
 
-	// Period
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Period", "Period")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "a");
-	NN_ASSERT(theResult == "PM");
+	REQUIRE(theResult == "PM");
 
 	theResult = theFormatter.Format(kTestDate3, "a");
-	NN_ASSERT(theResult == "AM");
+	REQUIRE(theResult == "AM");
+}
 
 
 
-	// Hour
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Hour", "Hour")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "h");
-	NN_ASSERT(theResult == "6");
+	REQUIRE(theResult == "6");
 
 	theResult = theFormatter.Format(kTestDate3, "h");
-	NN_ASSERT(theResult == "3");
+	REQUIRE(theResult == "3");
 
 	theResult = theFormatter.Format(kTestDate4, "h");
-	NN_ASSERT(theResult == "12");
+	REQUIRE(theResult == "12");
 
 	theResult = theFormatter.Format(kTestDate1, "hh");
-	NN_ASSERT(theResult == "06");
+	REQUIRE(theResult == "06");
 
 	theResult = theFormatter.Format(kTestDate3, "hh");
-	NN_ASSERT(theResult == "03");
+	REQUIRE(theResult == "03");
 
 	theResult = theFormatter.Format(kTestDate4, "hh");
-	NN_ASSERT(theResult == "12");
+	REQUIRE(theResult == "12");
 
 
 	theResult = theFormatter.Format(kTestDate1, "H");
-	NN_ASSERT(theResult == "18");
+	REQUIRE(theResult == "18");
 
 	theResult = theFormatter.Format(kTestDate3, "H");
-	NN_ASSERT(theResult == "3");
+	REQUIRE(theResult == "3");
 
 	theResult = theFormatter.Format(kTestDate4, "H");
-	NN_ASSERT(theResult == "0");
+	REQUIRE(theResult == "0");
 
 	theResult = theFormatter.Format(kTestDate1, "HH");
-	NN_ASSERT(theResult == "18");
+	REQUIRE(theResult == "18");
 
 	theResult = theFormatter.Format(kTestDate3, "HH");
-	NN_ASSERT(theResult == "03");
+	REQUIRE(theResult == "03");
 
 	theResult = theFormatter.Format(kTestDate4, "HH");
-	NN_ASSERT(theResult == "00");
+	REQUIRE(theResult == "00");
 
 
 	theResult = theFormatter.Format(kTestDate1, "K");
-	NN_ASSERT(theResult == "6");
+	REQUIRE(theResult == "6");
 
 	theResult = theFormatter.Format(kTestDate3, "K");
-	NN_ASSERT(theResult == "3");
+	REQUIRE(theResult == "3");
 
 	theResult = theFormatter.Format(kTestDate4, "K");
-	NN_ASSERT(theResult == "0");
+	REQUIRE(theResult == "0");
 
 	theResult = theFormatter.Format(kTestDate1, "KK");
-	NN_ASSERT(theResult == "06");
+	REQUIRE(theResult == "06");
 
 	theResult = theFormatter.Format(kTestDate3, "KK");
-	NN_ASSERT(theResult == "03");
+	REQUIRE(theResult == "03");
 
 	theResult = theFormatter.Format(kTestDate4, "KK");
-	NN_ASSERT(theResult == "00");
+	REQUIRE(theResult == "00");
 
 
 	theResult = theFormatter.Format(kTestDate1, "k");
-	NN_ASSERT(theResult == "18");
+	REQUIRE(theResult == "18");
 
 	theResult = theFormatter.Format(kTestDate3, "k");
-	NN_ASSERT(theResult == "3");
+	REQUIRE(theResult == "3");
 
 	theResult = theFormatter.Format(kTestDate4, "k");
-	NN_ASSERT(theResult == "24");
+	REQUIRE(theResult == "24");
 
 	theResult = theFormatter.Format(kTestDate1, "kk");
-	NN_ASSERT(theResult == "18");
+	REQUIRE(theResult == "18");
 
 	theResult = theFormatter.Format(kTestDate3, "kk");
-	NN_ASSERT(theResult == "03");
+	REQUIRE(theResult == "03");
 
 	theResult = theFormatter.Format(kTestDate4, "kk");
-	NN_ASSERT(theResult == "24");
+	REQUIRE(theResult == "24");
+}
 
 
 
-	// Minute
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Minute", "Minute")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "m");
-	NN_ASSERT(theResult == "21");
+	REQUIRE(theResult == "21");
 
 	theResult = theFormatter.Format(kTestDate4, "m");
-	NN_ASSERT(theResult == "7");
+	REQUIRE(theResult == "7");
 
 	theResult = theFormatter.Format(kTestDate1, "mm");
-	NN_ASSERT(theResult == "21");
+	REQUIRE(theResult == "21");
 
 	theResult = theFormatter.Format(kTestDate4, "mm");
-	NN_ASSERT(theResult == "07");
+	REQUIRE(theResult == "07");
+}
 
 
 
-	// Second
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDATEFORMATTER("Second", "Second")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format(kTestDate1, "s");
-	NN_ASSERT(theResult == "57");
+	REQUIRE(theResult == "57");
 
 	theResult = theFormatter.Format(kTestDate4, "s");
-	NN_ASSERT(theResult == "5");
+	REQUIRE(theResult == "5");
 
 	theResult = theFormatter.Format(kTestDate1, "s");
-	NN_ASSERT(theResult == "57");
+	REQUIRE(theResult == "57");
 
 	theResult = theFormatter.Format(kTestDate4, "ss");
-	NN_ASSERT(theResult == "05");
+	REQUIRE(theResult == "05");
 
 
 	theResult = theFormatter.Format(kTestDate4, "S");
-	NN_ASSERT(theResult == "1");
+	REQUIRE(theResult == "1");
 
 	theResult = theFormatter.Format(kTestDate4, "SS");
-	NN_ASSERT(theResult == "12");
+	REQUIRE(theResult == "12");
 
 	theResult = theFormatter.Format(kTestDate4, "SSS");
-	NN_ASSERT(theResult == "123");
+	REQUIRE(theResult == "123");
 
 	theResult = theFormatter.Format(kTestDate4, "SSSS");
-	NN_ASSERT(theResult == "1235");
+	REQUIRE(theResult == "1235");
 
 	theResult = theFormatter.Format(kTestDate4, "SSSSS");
-	NN_ASSERT(theResult == "12345");
+	REQUIRE(theResult == "12345");
 
 
 	theResult = theFormatter.Format(kTestDate4, "ss.SSS");
-	NN_ASSERT(theResult == "05.123");
+	REQUIRE(theResult == "05.123");
 
 
 /*
 	theResult = theFormatter.Format(kTestDate1, "A");
-	NN_ASSERT(theResult == "TODO");
+	REQUIRE(theResult == "TODO");
 */
 }
+
+
 

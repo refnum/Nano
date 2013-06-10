@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NAttributes.h"
-
-#include "TAttributes.h"
 
 
 
@@ -35,64 +34,104 @@ static const NBitfield kTestAttribute4								= (NBitfield) (1 << 31);
 
 
 //============================================================================
-//		TAttributes::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TAttributes::Execute(void)
-{	NAttributes		theAttributes;
+#define TEST_NATTRIBUTES(_name, _desc)								NANO_TEST(TAttributes, _name, _desc)
+
+NANO_FIXTURE(TAttributes)
+{
+	NAttributes		theAttributes;
+};
 
 
 
-	// Execute the tests
-	NN_ASSERT(theAttributes.GetAttributes() == kNAttributesNone);
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
 
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NATTRIBUTES("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(theAttributes.GetAttributes() == kNAttributesNone);
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute4));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NATTRIBUTES("Set", "Set attributes")
+{
+
+
+	// Perform the test
 	theAttributes.SetAttributes(kTestAttribute1 | kTestAttribute3);
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute4));
 
 	theAttributes.SetAttributes(kTestAttribute2 | kTestAttribute4);
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute4));
+}
 
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NATTRIBUTES("Clear", "Clear attributes")
+{
+
+
+	// Perform the test
+	theAttributes.SetAttributes(kTestAttribute1 | kTestAttribute2 | kTestAttribute3 | kTestAttribute4);
 	theAttributes.SetAttributes(kNAttributesNone, kTestAttribute1 | kTestAttribute4);
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute4));
 
 	theAttributes.ClearAttributes(kTestAttribute2 | kTestAttribute3);
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute4));
 
 	theAttributes.SetAttributes(kTestAttribute1 | kTestAttribute2);
 	theAttributes.SetAttributes(kTestAttribute3 | kTestAttribute4, kNAttributesAll);
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute4));
 
 	theAttributes.SetAttributes(kNAttributesAll);
-	NN_ASSERT(theAttributes.GetAttributes() == kNAttributesAll);
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT( theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE(theAttributes.GetAttributes() == kNAttributesAll);
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE( theAttributes.HasAttribute(kTestAttribute4));
 
 	theAttributes.ClearAttributes();
-	NN_ASSERT(theAttributes.GetAttributes() == kNAttributesNone);
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute1));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute2));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute3));
-	NN_ASSERT(!theAttributes.HasAttribute(kTestAttribute4));
+	REQUIRE(theAttributes.GetAttributes() == kNAttributesNone);
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute1));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute2));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute3));
+	REQUIRE(!theAttributes.HasAttribute(kTestAttribute4));
 }
 
 

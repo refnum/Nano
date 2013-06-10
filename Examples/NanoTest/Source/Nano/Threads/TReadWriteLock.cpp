@@ -14,44 +14,70 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "TLock.h"
-#include "TReadWriteLock.h"
+#include "NReadWriteLock.h"
+#include "NTestFixture.h"
+
+#include "CTestUtilities.h"
 
 
 
 
 
 //============================================================================
-//		TReadWriteLock::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TReadWriteLock::Execute(void)
-{	NReadWriteLock		theLock;
+#define TEST_NREADWRITELOCK(_name, _desc)							NANO_TEST(TReadWriteLock, _name, _desc)
+
+NANO_FIXTURE(TReadWriteLock)
+{
+	NReadWriteLock	theLock;
+};
 
 
 
-	// Test the lock
-	TLock::TestLock(&theLock);
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NREADWRITELOCK("Basic", "Basic locking")
+{
+
+
+	// Perform the test
+	REQUIRE(CTestUtilities::TestLock(&theLock));
+}
 
 
 
-	// Readers/writers
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NREADWRITELOCK("Readers", "Readers and Writers")
+{
+
+
+	// Perform the test
 	theLock.LockForRead();
-	NN_ASSERT(theLock.IsLocked());
+	REQUIRE(theLock.IsLocked());
 
 	theLock.LockForRead();
-	NN_ASSERT(theLock.IsLocked());
+	REQUIRE(theLock.IsLocked());
 
 		theLock.Lock();
-		NN_ASSERT(theLock.IsLocked());
+		REQUIRE(theLock.IsLocked());
 
 		theLock.Unlock();
-		NN_ASSERT(theLock.IsLocked());
+		REQUIRE(theLock.IsLocked());
 
 	theLock.UnlockForRead();
-	NN_ASSERT(theLock.IsLocked());
+	REQUIRE(theLock.IsLocked());
 
 	theLock.UnlockForRead();
-	NN_ASSERT(!theLock.IsLocked());
+	REQUIRE(!theLock.IsLocked());
 }
+
 
 

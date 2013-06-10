@@ -14,38 +14,50 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NAtomicInt.h"
-
-#include "TAtomicInt.h"
 
 
 
 
 
 //============================================================================
-//		TAtomicInt::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TAtomicInt::Execute(void)
-{	NAtomicInt		testInt;
+#define TEST_NATOMICINT(_name, _desc)								NANO_TEST(TAtomicInt, _name, _desc)
+
+NANO_FIXTURE(TAtomicInt)
+{
+	NAtomicInt	theValue;
+};
 
 
 
-	// Execute the tests
-	testInt = 1;
-	NN_ASSERT(testInt == 1);
-	NN_ASSERT(testInt != 0);
 
-	testInt++;
-	NN_ASSERT(testInt == 2);
 
-	testInt--;
-	NN_ASSERT(testInt == 1);
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NATOMICINT("Arithmetic", "Arithmetic operations")
+{
 
-	testInt += 3;
-	NN_ASSERT(testInt == 4);
 
-	testInt -= 4;
-	NN_ASSERT(testInt == 0);
+	// Perform the test
+	theValue = 1;
+	REQUIRE((theValue == 1));
+	REQUIRE((theValue != 0));
+
+	theValue++;
+	REQUIRE((theValue == 2));
+
+	theValue--;
+	REQUIRE((theValue == 1));
+
+	theValue += 3;
+	REQUIRE((theValue == 4));
+
+	theValue -= 4;
+	REQUIRE((theValue == 0));
 }
 
 

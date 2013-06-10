@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NThread.h"
-
-#include "TThread.h"
 
 
 
@@ -32,37 +31,61 @@ static void * const kValueLocal										= (void *) 0x12345678;
 
 
 //============================================================================
-//		TThread::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TThread::Execute(void)
+#define TEST_NTHREAD(_name, _desc)									NANO_TEST(TThread, _name, _desc)
+
+NANO_FIXTURE(TThread)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTHREAD("ID", "Thread IDs")
+{	NThreadID			theID;
+
+
+
+	// Perform the test
+	theID = NThread::GetID();
+	REQUIRE( NThread::AreEqual(theID, theID));
+	REQUIRE(!NThread::AreEqual(theID, kNThreadIDNone));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTHREAD("TLS", "Thread-local storage")
 {	void				*theValue;
 	NThreadLocalRef		localRef;
-	NThreadID			theID;
 
 
 
-	// Thread IDs
-	theID = NThread::GetID();
-	NN_ASSERT( NThread::AreEqual(theID, theID));
-	NN_ASSERT(!NThread::AreEqual(theID, kNThreadIDNone));
-
-
-
-	// Thread-local storage
+	// Perform the test
 	localRef = NThread::CreateLocal();
-	NN_ASSERT(localRef != kNThreadLocalRefNone);
+	REQUIRE(localRef != kNThreadLocalRefNone);
 
 	theValue = NThread::GetLocalValue(localRef);
-	NN_ASSERT(theValue == NULL);
+	REQUIRE(theValue == NULL);
 
 	NThread::SetLocalValue(localRef, kValueLocal);
 	theValue = NThread::GetLocalValue(localRef);
-	NN_ASSERT(theValue == kValueLocal);
+	REQUIRE(theValue == kValueLocal);
 
 	NThread::SetLocalValue(localRef, NULL);
 	theValue = NThread::GetLocalValue(localRef);
-	NN_ASSERT(theValue == NULL);
+	REQUIRE(theValue == NULL);
 	
 	NThread::DestroyLocal(localRef);
 }
+
 

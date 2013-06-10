@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NString.h"
+#include "NLock.h"
 
 
 
@@ -35,8 +36,13 @@ public:
 	static void							ExecuteRunloop(NTime waitFor);
 
 
+	// Test a lock
+	static bool							TestLock(NLock *theLock);
+
+
 private:
 	static void							DebugOutputHook(const char *theMsg);
+	static void							LockUnlock(NLock *theLock, NData *theData, bool *theResult);
 
 
 private:

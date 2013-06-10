@@ -14,21 +14,35 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NFunctor.h"
-
-#include "TFunctor.h"
 
 
 
 
 
 //============================================================================
-//		TFunctor::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TFunctor::Execute(void)
+#define TEST_NFUNCTOR(_name, _desc)									NANO_TEST(TFunctor, _name, _desc)
+
+NANO_FIXTURE(TFunctor)
+{
+	NFunctor	theFunctor;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NFUNCTOR("Default", "Default state")
 {
 
 
-	// Execute the tests
+	// Perform the test
+	REQUIRE((theFunctor == NULL));
 }
 

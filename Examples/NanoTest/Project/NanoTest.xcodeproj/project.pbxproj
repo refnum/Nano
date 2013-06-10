@@ -142,7 +142,6 @@
 		AB069E1D14CC2331006E6DF8 /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
 		AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoReleaseMac.xcconfig; sourceTree = "<group>"; };
 		AB103B7A10B6B04000F425C5 /* TAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAttributes.cpp; sourceTree = "<group>"; };
-		AB103B7B10B6B04000F425C5 /* TAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAttributes.h; sourceTree = "<group>"; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
@@ -182,35 +181,20 @@
 		AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLNode.cpp; sourceTree = "<group>"; };
 		AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLParser.cpp; sourceTree = "<group>"; };
 		AB514D921034184B00E5A6AD /* TAtomicInt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomicInt.cpp; sourceTree = "<group>"; };
-		AB514D931034184B00E5A6AD /* TAtomicInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAtomicInt.h; sourceTree = "<group>"; };
 		AB514D941034184B00E5A6AD /* TAtomicList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomicList.cpp; sourceTree = "<group>"; };
-		AB514D951034184B00E5A6AD /* TAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAtomicList.h; sourceTree = "<group>"; };
 		AB514D961034184B00E5A6AD /* TLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLock.cpp; sourceTree = "<group>"; };
-		AB514D971034184B00E5A6AD /* TLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLock.h; sourceTree = "<group>"; };
 		AB514D981034184B00E5A6AD /* TSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSemaphore.cpp; sourceTree = "<group>"; };
-		AB514D991034184B00E5A6AD /* TSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSemaphore.h; sourceTree = "<group>"; };
 		AB514D9A1034184B00E5A6AD /* TThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThread.cpp; sourceTree = "<group>"; };
-		AB514D9B1034184B00E5A6AD /* TThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TThread.h; sourceTree = "<group>"; };
 		AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadPool.cpp; sourceTree = "<group>"; };
-		AB514D9D1034184B00E5A6AD /* TThreadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TThreadPool.h; sourceTree = "<group>"; };
 		AB514D9F1034184B00E5A6AD /* TArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TArray.cpp; sourceTree = "<group>"; };
-		AB514DA01034184B00E5A6AD /* TArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TArray.h; sourceTree = "<group>"; };
 		AB514DA11034184B00E5A6AD /* TBitVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBitVector.cpp; sourceTree = "<group>"; };
-		AB514DA21034184B00E5A6AD /* TBitVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBitVector.h; sourceTree = "<group>"; };
 		AB514DA51034184B00E5A6AD /* TData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TData.cpp; sourceTree = "<group>"; };
-		AB514DA61034184B00E5A6AD /* TData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TData.h; sourceTree = "<group>"; };
 		AB514DA71034184B00E5A6AD /* TDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDate.cpp; sourceTree = "<group>"; };
-		AB514DA81034184B00E5A6AD /* TDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDate.h; sourceTree = "<group>"; };
 		AB514DA91034184B00E5A6AD /* TDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDateFormatter.cpp; sourceTree = "<group>"; };
-		AB514DAA1034184B00E5A6AD /* TDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDateFormatter.h; sourceTree = "<group>"; };
 		AB514DAB1034184B00E5A6AD /* TDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDictionary.cpp; sourceTree = "<group>"; };
-		AB514DAC1034184B00E5A6AD /* TDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDictionary.h; sourceTree = "<group>"; };
 		AB514DAD1034184B00E5A6AD /* TEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TEncoder.cpp; sourceTree = "<group>"; };
-		AB514DAE1034184B00E5A6AD /* TEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TEncoder.h; sourceTree = "<group>"; };
 		AB514DAF1034184B00E5A6AD /* TFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunctor.cpp; sourceTree = "<group>"; };
-		AB514DB01034184B00E5A6AD /* TFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFunctor.h; sourceTree = "<group>"; };
 		AB514DB11034184B00E5A6AD /* TNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNumber.cpp; sourceTree = "<group>"; };
-		AB514DB21034184B00E5A6AD /* TNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNumber.h; sourceTree = "<group>"; };
 		AB514DB51034184B00E5A6AD /* TRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRange.cpp; sourceTree = "<group>"; };
 		AB514DB61034184B00E5A6AD /* TRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRange.h; sourceTree = "<group>"; };
 		AB514DBB1034184B00E5A6AD /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
@@ -274,11 +258,8 @@
 		ABB6782F12AE56EF0077D64E /* TCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCFURL.h; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
-		ABCAFC5817539B3500BAE1A7 /* TMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMutex.h; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
-		ABCAFC5A17539B3500BAE1A7 /* TReadWriteLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TReadWriteLock.h; sourceTree = "<group>"; };
 		ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSpinLock.cpp; sourceTree = "<group>"; };
-		ABCAFC5C17539B3500BAE1A7 /* TSpinLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSpinLock.h; sourceTree = "<group>"; };
 		ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageClient.cpp; sourceTree = "<group>"; };
 		ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkMessage.cpp; sourceTree = "<group>"; };
 		ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONEncoder.cpp; sourceTree = "<group>"; };
@@ -475,23 +456,14 @@
 			isa = PBXGroup;
 			children = (
 				AB514D921034184B00E5A6AD /* TAtomicInt.cpp */,
-				AB514D931034184B00E5A6AD /* TAtomicInt.h */,
 				AB514D941034184B00E5A6AD /* TAtomicList.cpp */,
-				AB514D951034184B00E5A6AD /* TAtomicList.h */,
 				AB514D961034184B00E5A6AD /* TLock.cpp */,
-				AB514D971034184B00E5A6AD /* TLock.h */,
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
-				ABCAFC5817539B3500BAE1A7 /* TMutex.h */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
-				ABCAFC5A17539B3500BAE1A7 /* TReadWriteLock.h */,
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
-				AB514D991034184B00E5A6AD /* TSemaphore.h */,
 				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
-				ABCAFC5C17539B3500BAE1A7 /* TSpinLock.h */,
 				AB514D9A1034184B00E5A6AD /* TThread.cpp */,
-				AB514D9B1034184B00E5A6AD /* TThread.h */,
 				AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */,
-				AB514D9D1034184B00E5A6AD /* TThreadPool.h */,
 			);
 			path = Threads;
 			sourceTree = "<group>";
@@ -500,25 +472,15 @@
 			isa = PBXGroup;
 			children = (
 				AB514D9F1034184B00E5A6AD /* TArray.cpp */,
-				AB514DA01034184B00E5A6AD /* TArray.h */,
 				AB103B7A10B6B04000F425C5 /* TAttributes.cpp */,
-				AB103B7B10B6B04000F425C5 /* TAttributes.h */,
 				AB514DA11034184B00E5A6AD /* TBitVector.cpp */,
-				AB514DA21034184B00E5A6AD /* TBitVector.h */,
 				AB514DA51034184B00E5A6AD /* TData.cpp */,
-				AB514DA61034184B00E5A6AD /* TData.h */,
 				AB514DA71034184B00E5A6AD /* TDate.cpp */,
-				AB514DA81034184B00E5A6AD /* TDate.h */,
 				AB514DA91034184B00E5A6AD /* TDateFormatter.cpp */,
-				AB514DAA1034184B00E5A6AD /* TDateFormatter.h */,
 				AB514DAB1034184B00E5A6AD /* TDictionary.cpp */,
-				AB514DAC1034184B00E5A6AD /* TDictionary.h */,
 				AB514DAD1034184B00E5A6AD /* TEncoder.cpp */,
-				AB514DAE1034184B00E5A6AD /* TEncoder.h */,
 				AB514DAF1034184B00E5A6AD /* TFunctor.cpp */,
-				AB514DB01034184B00E5A6AD /* TFunctor.h */,
 				AB514DB11034184B00E5A6AD /* TNumber.cpp */,
-				AB514DB21034184B00E5A6AD /* TNumber.h */,
 				AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */,
 				AB514F7B1035788600E5A6AD /* TPropertyStore.h */,
 				AB514DB51034184B00E5A6AD /* TRange.cpp */,

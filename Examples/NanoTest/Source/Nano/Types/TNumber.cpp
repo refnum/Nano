@@ -14,21 +14,36 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NNumber.h"
-
-#include "TNumber.h"
 
 
 
 
 
 //============================================================================
-//		TNumber::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNumber::Execute(void)
+#define TEST_NNUMBER(_name, _desc)									NANO_TEST(TNumber, _name, _desc)
+
+NANO_FIXTURE(TNumber)
+{
+	NNumber		theNumber;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNUMBER("Default", "Default state")
 {
 
 
+	// Perform the test
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(theNumber.GetUInt8() == 0);
 }
-
 

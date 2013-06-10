@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NDictionary.h"
-
-#include "TDictionary.h"
 
 
 
@@ -34,33 +33,77 @@ static const SInt64 kTestSInt64										= -4000;
 
 
 //============================================================================
-//		TDictionary::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TDictionary::Execute(void)
-{	NDictionary		testDict, testDict2;
+#define TEST_NDICTIONARY(_name, _desc)								NANO_TEST(TDictionary, _name, _desc)
+
+NANO_FIXTURE(TDictionary)
+{
+	NDictionary		theDict, theDict2;
+};
 
 
 
-	// Execute the tests
-	testDict.SetValue("point",   kTestPoint);
-	testDict.SetValue("sint32",  kTestSInt32);
-	testDict2.SetValue("sint64", kTestSInt64);
-	NN_ASSERT(testDict.GetSize()  == 2);
-	NN_ASSERT(testDict2.GetSize() == 1);
 
-	testDict.Join(testDict2);
-	NN_ASSERT(testDict.GetSize()        == 3);
-	NN_ASSERT(testDict.GetKeys().size() == 3);
 
-	NN_ASSERT(!testDict.HasKey("fail"));
-	NN_ASSERT(testDict.GetValuePoint("point")   == kTestPoint);
-	NN_ASSERT(testDict.GetValueSInt32("sint32") == kTestSInt32);
-	NN_ASSERT(testDict.GetValueSInt64("sint64") == kTestSInt64);
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDICTIONARY("Set", "Set value")
+{
 
-	testDict.SetValue("remove", 3.1415);
-	NN_ASSERT(testDict.HasKey("remove"));
 
-	testDict.RemoveKey("remove");
-	NN_ASSERT(!testDict.HasKey("remove"));
+	// Perform the test
+	theDict.SetValue("point",   kTestPoint);
+	theDict.SetValue("sint32",  kTestSInt32);
+	theDict2.SetValue("sint64", kTestSInt64);
+
+	NN_ASSERT(theDict.GetSize()  == 2);
+	NN_ASSERT(theDict2.GetSize() == 1);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDICTIONARY("Join", "Join dictionaries")
+{
+
+
+	// Perform the test
+	theDict.SetValue("point",   kTestPoint);
+	theDict.SetValue("sint32",  kTestSInt32);
+	theDict2.SetValue("sint64", kTestSInt64);
+
+	theDict.Join(theDict2);
+	NN_ASSERT(theDict.GetSize()        == 3);
+	NN_ASSERT(theDict.GetKeys().size() == 3);
+
+	NN_ASSERT(!theDict.HasKey("fail"));
+	NN_ASSERT(theDict.GetValuePoint("point")   == kTestPoint);
+	NN_ASSERT(theDict.GetValueSInt32("sint32") == kTestSInt32);
+	NN_ASSERT(theDict.GetValueSInt64("sint64") == kTestSInt64);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NDICTIONARY("Remove", "Remove value")
+{
+
+
+	// Perform the test
+	theDict.SetValue("remove", 3.1415);
+	NN_ASSERT(theDict.HasKey("remove"));
+
+	theDict.RemoveKey("remove");
+	NN_ASSERT(!theDict.HasKey("remove"));
 }
 

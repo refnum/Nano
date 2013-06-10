@@ -15,10 +15,9 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NDataDigest.h"
+#include "NTestFixture.h"
 #include "NEncodable.h"
 #include "NEncoder.h"
-
-#include "TEncoder.h"
 
 
 
@@ -182,7 +181,6 @@ public:
 	{
 		return(GetComparison(this, &theValue));
 	}
-
 };
 
 NENCODABLE_DEFINE(TEncodable);
@@ -192,12 +190,25 @@ NENCODABLE_DEFINE(TEncodable);
 
 
 //============================================================================
-//		TEncoder::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TEncoder::Execute(void)
-{	NData			dataXML, dataBinary;
+#define TEST_NENCODER(_name, _desc)									NANO_TEST(TEncoder, _name, _desc)
+
+NANO_FIXTURE(TEncoder)
+{
 	NEncoder		theEncoder;
 	TEncodable		theObject;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NENCODER("Encoding", "Encoding")
+{	NData			dataXML, dataBinary;
 	UInt32			adlerData;
 	NDataDigest		theDigest;
 	NVariant		theValue;
@@ -205,24 +216,39 @@ void TEncoder::Execute(void)
 
 
 
-	// Encoding
+	// Perform the test
 	dataXML    = theEncoder.Encode(theObject, kNEncoderXML);
 	dataBinary = theEncoder.Encode(theObject, kNEncoderBinary);
 
 	textXML   = NString(dataXML);
 	adlerData = theDigest.GetAdler32(dataBinary);
 
-	NN_ASSERT(textXML   == kResultXML);
-	NN_ASSERT(adlerData == kResultBinary);
+	REQUIRE(textXML   == kResultXML);
+	REQUIRE(adlerData == kResultBinary);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NENCODER("Decoding", "Decoding")
+{	NData		dataXML, dataBinary;
+	NVariant	theValue;
 
 
 
 	// Decoding
+	dataXML    = theEncoder.Encode(theObject, kNEncoderXML);
+	dataBinary = theEncoder.Encode(theObject, kNEncoderBinary);
+
 	theValue = theEncoder.Decode(dataXML);
-	NN_ASSERT(theValue.GetValue(theObject));
+	REQUIRE(theValue.GetValue(theObject));
 	
 	theValue = theEncoder.Decode(dataBinary);
-	NN_ASSERT(theValue.GetValue(theObject));
+	REQUIRE(theValue.GetValue(theObject));
 }
 
 

@@ -14,18 +14,39 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NSemaphore.h"
-
-#include "TSemaphore.h"
 
 
 
 
 
 //============================================================================
-//		TSemaphore::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSemaphore::Execute(void)
+#define TEST_NSEMPAHORE(_name, _desc)								NANO_TEST(TSemaphore, _name, _desc)
+
+NANO_FIXTURE(TSemaphore)
 {
+	NSemaphore	theSemaphore;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSEMPAHORE("Default", "Default state")
+{
+
+
+	// Perform the test
+	theSemaphore.Signal();
+
+	REQUIRE(theSemaphore.Wait());
+	REQUIRE(TimeUnder(kNTimeMillisecond));
 }
+
 
