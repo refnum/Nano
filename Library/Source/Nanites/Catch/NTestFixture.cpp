@@ -64,17 +64,17 @@ void NTestFixture::ResetTime(void)
 
 
 //============================================================================
-//		NTestFixture::TimeIsUnder : Is the time under a threshold?
+//		NTestFixture::GetElapsedTime : Get the elapsed time.
 //----------------------------------------------------------------------------
-bool NTestFixture::TimeIsUnder(NTime theTime) const
-{	NTime	elapsedTime;
+NTime NTestFixture::GetElapsedTime(void) const
+{	NTime	theTime;
 
 
 
-	// Check the time
-	elapsedTime = NTimeUtilities::GetTime() - mTimeStart;
+	// Get the time
+	theTime = NTimeUtilities::GetTime() - mTimeStart;
 
-	return(theTime <= elapsedTime);
+	return(theTime);
 }
 
 
@@ -82,18 +82,31 @@ bool NTestFixture::TimeIsUnder(NTime theTime) const
 
 
 //============================================================================
-//		NTestFixture::TimeIsOver : Is the time over a threshold?
+//		NTestFixture::TimeUnder : Is the time under a threshold?
 //----------------------------------------------------------------------------
-bool NTestFixture::TimeIsOver(NTime theTime) const
-{	NTime	elapsedTime;
-
+bool NTestFixture::TimeUnder(NTime theTime) const
+{
 
 
 	// Check the time
-	elapsedTime = NTimeUtilities::GetTime() - mTimeStart;
-
-	return(theTime >= elapsedTime);
+	return(GetElapsedTime() <= theTime);
 }
+
+
+
+
+
+//============================================================================
+//		NTestFixture::TimeOver : Is the time over a threshold?
+//----------------------------------------------------------------------------
+bool NTestFixture::TimeOver(NTime theTime) const
+{
+
+
+	// Check the time
+	return(GetElapsedTime() >= theTime);
+}
+
 
 
 

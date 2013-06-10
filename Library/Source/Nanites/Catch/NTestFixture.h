@@ -130,9 +130,13 @@ public:
 	void								ResetTime(void);
 
 
+	// Get the elapsed time
+	NTime								GetElapsedTime(void) const;
+
+
 	// Test the time
-	bool								TimeIsUnder(NTime theTime) const;
-	bool								TimeIsOver( NTime theTime) const;
+	bool								TimeUnder(NTime theTime) const;
+	bool								TimeOver( NTime theTime) const;
 
 
 private:
