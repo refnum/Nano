@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NRange.h"
-
-#include "TRange.h"
 
 
 
@@ -33,13 +32,26 @@ static const NRange kTestRange2										= NRange(3, 7);
 
 
 //============================================================================
-//		TRange::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TRange::Execute(void)
+#define TEST_NRANGE(_name, _desc)									NANO_TEST(TRange, _name, _desc)
+
+NANO_FIXTURE(TRange)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRANGE("Size", "Size")
 {
 
 
-	// Execute the tests
+	// Perform the test
 	NN_ASSERT(kNRangeNone.GetLocation() == kNIndexNone);
 	NN_ASSERT(kNRangeNone.GetSize()     == 0);
 
@@ -48,7 +60,20 @@ void TRange::Execute(void)
 
 	NN_ASSERT(kNRangeNone.IsEmpty());
 	NN_ASSERT(!kNRangeAll.IsEmpty());
+}
 
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRANGE("Positions", "Positions")
+{
+
+
+	// Perform the test
 	NN_ASSERT(kTestRange1.GetLocation() == 0);
 	NN_ASSERT(kTestRange1.GetSize()     == 5);
 	NN_ASSERT(kTestRange1.GetFirst()    == 0);
@@ -60,7 +85,20 @@ void TRange::Execute(void)
 	NN_ASSERT(kTestRange2.GetFirst()    == 3);
 	NN_ASSERT(kTestRange2.GetLast()     == 9);
 	NN_ASSERT(kTestRange2.GetNext()     == 10);
+}
 
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NRANGE("Manipulation", "Manipulation")
+{
+
+
+	// Perform the test
 	NN_ASSERT(kTestRange1.GetUnion(       kTestRange2) == NRange(0, 10));
 	NN_ASSERT(kTestRange1.GetIntersection(kTestRange2) == NRange(3, 2));
 	NN_ASSERT(kTestRange1.Overlaps(kTestRange2));

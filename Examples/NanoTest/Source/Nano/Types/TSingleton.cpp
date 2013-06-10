@@ -14,19 +14,33 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NSingleton.h"
-
-#include "TSingleton.h"
 
 
 
 
 
 //============================================================================
-//		TSingleton::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSingleton::Execute(void)
-{
-}
+#define TEST_NSINGLETON(_name, _desc)								NANO_TEST(TSingleton, _name, _desc)
 
+NANO_FIXTURE(TSingleton)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSINGLETON("Default", "Default state")
+{
+
+
+	// Perform the test
+}
 

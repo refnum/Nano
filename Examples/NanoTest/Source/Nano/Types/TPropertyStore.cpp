@@ -15,18 +15,35 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NPropertyStore.h"
-
-#include "TPropertyStore.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TPropertyStore::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TPropertyStore::Execute(void)
-{
-}
+#define TEST_NPROPERTYSTORE(_name, _desc)							NANO_TEST(TPropertyStore, _name, _desc)
 
+NANO_FIXTURE(TPropertyStore)
+{
+	NPropertyStore		propertyStore;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NPROPERTYSTORE("Default", "Default state")
+{
+
+
+	// Perform the test
+	REQUIRE(propertyStore.GetProperties().IsEmpty());
+	REQUIRE(propertyStore.GetDefaults().IsEmpty());
+}
 
