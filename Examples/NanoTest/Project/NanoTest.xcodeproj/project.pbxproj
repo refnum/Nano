@@ -90,6 +90,7 @@
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		ABA529D016626BFA000C695B /* TNetworkBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529CC16626BFA000C695B /* TNetworkBrowser.cpp */; };
 		ABA529D116626BFA000C695B /* TNetworkService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529CE16626BFA000C695B /* TNetworkService.cpp */; };
+		ABB4E0401767BA6800892A75 /* TImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB4E03F1767BA6800892A75 /* TImage.cpp */; };
 		ABB57D16112ADC21003D714C /* TSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57D14112ADC21003D714C /* TSingleton.cpp */; };
 		ABB6783012AE56EF0077D64E /* TCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6782E12AE56EF0077D64E /* TCFURL.cpp */; };
 		ABC66E7D17411D52005B9357 /* TTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC66E7B17411D52005B9357 /* TTask.cpp */; };
@@ -228,6 +229,7 @@
 		AB9E78990F27D8C50043A657 /* NanoTest Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.h"; sourceTree = "<group>"; };
 		ABA529CC16626BFA000C695B /* TNetworkBrowser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkBrowser.cpp; sourceTree = "<group>"; };
 		ABA529CE16626BFA000C695B /* TNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkService.cpp; sourceTree = "<group>"; };
+		ABB4E03F1767BA6800892A75 /* TImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TImage.cpp; sourceTree = "<group>"; };
 		ABB57D14112ADC21003D714C /* TSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSingleton.cpp; sourceTree = "<group>"; };
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
@@ -519,6 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				AB14320D103F512C002BD0D1 /* TColor.cpp */,
+				ABB4E03F1767BA6800892A75 /* TImage.cpp */,
 				AB514E741034612D00E5A6AD /* TPoint.cpp */,
 				AB514E761034612D00E5A6AD /* TRectangle.cpp */,
 				AB3326D11046C9B100C8DF0A /* TShape.cpp */,
@@ -756,6 +759,7 @@
 				AB514E171034184B00E5A6AD /* TTextUtilities.cpp in Sources */,
 				AB514E181034184B00E5A6AD /* TThreadUtilities.cpp in Sources */,
 				AB514E191034184B00E5A6AD /* TTimeUtilities.cpp in Sources */,
+				ABB4E0401767BA6800892A75 /* TImage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

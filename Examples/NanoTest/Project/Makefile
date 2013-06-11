@@ -24,6 +24,7 @@ SRCS   =                                                                        
         ../Source/Nano/Files/TFileMap.cpp                                            \
         ../Source/Nano/Files/TPropertyList.cpp                                       \
         ../Source/Nano/Graphics/TColor.cpp                                           \
+        ../Source/Nano/Graphics/TImage.cpp                                           \
         ../Source/Nano/Graphics/TPoint.cpp                                           \
         ../Source/Nano/Graphics/TRectangle.cpp                                       \
         ../Source/Nano/Graphics/TShape.cpp                                           \
