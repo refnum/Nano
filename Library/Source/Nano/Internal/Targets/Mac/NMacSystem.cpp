@@ -905,7 +905,14 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 
 
 	// Select the image format
-	if (bitsPerPixel == 24 && bitsPerComponent == 8)
+	if (bitsPerPixel == 8 && bitsPerComponent == 8)
+		{
+		theFormat  = kNImageFormat_RGBX_8888;
+		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
+		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
+		}
+
+	else if (bitsPerPixel == 24 && bitsPerComponent == 8)
 		{
 		theFormat  = kNImageFormat_RGBX_8888;
 		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
