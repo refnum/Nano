@@ -87,6 +87,7 @@
 	#include "NPropertyList.h"
 
 	#include "NColor.h"
+	#include "NImage.h"
 	#include "NPoint.h"
 	#include "NRectangle.h"
 	#include "NShape.h"

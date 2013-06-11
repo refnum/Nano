@@ -244,6 +244,8 @@
 		AB9DA5E9102AF78F0062E311 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */; };
 		AB9DA5EA102AF78F0062E311 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */; };
 		AB9DA5EB102AF78F0062E311 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
+		ABA297911767219500D938E5 /* NImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA2978F1767219500D938E5 /* NImage.cpp */; };
+		ABA297921767219500D938E5 /* NImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA2978F1767219500D938E5 /* NImage.cpp */; };
 		ABA529D716626C4E000C695B /* NNetworkBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */; };
 		ABA529D816626C4E000C695B /* NNetworkBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */; };
 		ABA529D916626C4E000C695B /* NNetworkService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529D516626C4E000C695B /* NNetworkService.cpp */; };
@@ -610,6 +612,8 @@
 		AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFNumber.cpp; sourceTree = "<group>"; };
 		AB9DA5E0102AF78F0062E311 /* NCFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFArray.h; sourceTree = "<group>"; };
 		AB9DA5E1102AF78F0062E311 /* NCFDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDate.h; sourceTree = "<group>"; };
+		ABA2978F1767219500D938E5 /* NImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NImage.cpp; sourceTree = "<group>"; };
+		ABA297901767219500D938E5 /* NImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NImage.h; sourceTree = "<group>"; };
 		ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkBrowser.cpp; sourceTree = "<group>"; };
 		ABA529D416626C4E000C695B /* NNetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkBrowser.h; sourceTree = "<group>"; };
 		ABA529D516626C4E000C695B /* NNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkService.cpp; sourceTree = "<group>"; };
@@ -881,6 +885,8 @@
 			children = (
 				AB1431F4103F5102002BD0D1 /* NColor.cpp */,
 				AB1431F5103F5102002BD0D1 /* NColor.h */,
+				ABA2978F1767219500D938E5 /* NImage.cpp */,
+				ABA297901767219500D938E5 /* NImage.h */,
 				AB514E59103460CB00E5A6AD /* NPoint.cpp */,
 				AB514E5A103460CB00E5A6AD /* NPoint.h */,
 				AB514E5B103460CB00E5A6AD /* NRectangle.cpp */,
@@ -1552,6 +1558,7 @@
 				AB1A78FD103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CF0FF36A34006F178C /* NPropertyList.cpp in Sources */,
 				AB1431F7103F5102002BD0D1 /* NColor.cpp in Sources */,
+				ABA297911767219500D938E5 /* NImage.cpp in Sources */,
 				AB514E5F103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E60103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB3326B41046C6F000C8DF0A /* NShape.cpp in Sources */,
@@ -1723,6 +1730,7 @@
 				AB1A78FE103241C200DFBA38 /* NFileMap.cpp in Sources */,
 				ABB145CD0FF36A34006F178C /* NPropertyList.cpp in Sources */,
 				AB1431F6103F5102002BD0D1 /* NColor.cpp in Sources */,
+				ABA297921767219500D938E5 /* NImage.cpp in Sources */,
 				AB514E62103460CB00E5A6AD /* NPoint.cpp in Sources */,
 				AB514E63103460CB00E5A6AD /* NRectangle.cpp in Sources */,
 				AB3326B31046C6F000C8DF0A /* NShape.cpp in Sources */,

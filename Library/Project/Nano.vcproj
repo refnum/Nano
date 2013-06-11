@@ -619,6 +619,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\Nano\Graphics\NImage.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\Nano\System\NJSONEncoder.cpp"
 				>
 			</File>
@@ -1802,6 +1806,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Types\NHashable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\Nano\Graphics\NImage.h"
 				>
 			</File>
 			<File

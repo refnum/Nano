@@ -714,3 +714,43 @@ NString NTargetSystem::TransformString(const NString &theString, NStringTransfor
 
 
 
+
+
+//============================================================================
+//		NTargetSystem::ImageEncode : Encode an image.
+//----------------------------------------------------------------------------
+NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
+{	NData	theResult;
+
+
+
+	// Encode the image
+		// dair, to do
+		NN_LOG("NTargetSystem::ImageEncode not implemented!");
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::ImageDecode : Decode an image.
+//----------------------------------------------------------------------------
+NImage NTargetSystem::ImageDecode(const NData &theData)
+{	NImage	theImage;
+
+
+
+	// Decode the image
+		// dair, to do
+		NN_LOG("NTargetSystem::ImageDecode not implemented!");
+	return(theImage);
+}
+
+
+
+
+
+
+

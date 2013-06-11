@@ -20,6 +20,7 @@
 #include "NString.h"
 #include "NLocale.h"
 #include "NVariant.h"
+#include "NImage.h"
 #include "NFile.h"
 #include "NTask.h"
 
@@ -30,6 +31,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
+// Tasks
 typedef enum {
 	kTaskKill,
 	kTaskInterrupt
@@ -82,6 +84,11 @@ public:
 
 	// Strings
 	static NString						TransformString(const NString &theString, NStringTransform theTransform);
+
+
+	// Images
+	static NData						ImageEncode(const NImage &theImage, const NUTI &theType);
+	static NImage						ImageDecode(const NData  &theData);
 };
 
 

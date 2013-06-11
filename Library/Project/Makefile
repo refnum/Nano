@@ -24,6 +24,7 @@ SRCS_NANO =                                                                     
         ../Source/Nano/Files/NFileMap.cpp                                            \
         ../Source/Nano/Files/NPropertyList.cpp                                       \
         ../Source/Nano/Graphics/NColor.cpp                                           \
+        ../Source/Nano/Graphics/NImage.cpp                                           \
         ../Source/Nano/Graphics/NPoint.cpp                                           \
         ../Source/Nano/Graphics/NRectangle.cpp                                       \
         ../Source/Nano/Graphics/NShape.cpp                                           \

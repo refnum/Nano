@@ -20,6 +20,7 @@
 #include "NString.h"
 #include "NArray.h"
 #include "NMutex.h"
+#include "NImage.h"
 #include "NFile.h"
 
 
@@ -138,11 +139,18 @@ inline NFile NBundleResource(const NString &theName, const NString &theType="", 
 	return(appBundle.GetResource(theName, theType, subDir));
 }
 
+inline NImage NBundleImage(const NString &theName, const NString &theType="", const NString &subDir="")
+{	NBundle		appBundle;
+
+	return(NImage(appBundle.GetResource(theName, theType, subDir)));
+}
+
 inline NString NBundleString(const NString &theKey, const NString &defaultValue="", const NString &tableName="")
 {	NBundle		appBundle;
 
 	return(appBundle.GetString(theKey, defaultValue, tableName));
 }
+
 
 
 
