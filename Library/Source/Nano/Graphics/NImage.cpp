@@ -69,7 +69,13 @@ NImage::NImage(const NFile &theFile)
 //		NImage::NImage : Constructor.
 //----------------------------------------------------------------------------
 NImage::NImage(const NSize &theSize, NImageFormat theFormat, const NData &theData, UInt32 rowBytes)
-{
+{	UInt32		packedRow;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(!theSize.IsEmpty());
+
 
 
 	// Initialize ourselves
@@ -80,15 +86,21 @@ NImage::NImage(const NSize &theSize, NImageFormat theFormat, const NData &theDat
 
 
 
-	// Copy the image
-	if (!theData.IsEmpty())
-		{
-		if (rowBytes == 0)
-			rowBytes = GetBytesPerPixel();
+	// Create the image
+	packedRow = (UInt32) (mSize.width * GetBytesPerPixel());
 
-		mData     = theData;
-		mRowBytes = rowBytes;
+	if (theData.IsEmpty())
+		{
+		mData.SetSize((NIndex) (mSize.height * packedRow));
+		mRowBytes = packedRow;
 		}
+	else
+		{
+		mData     = theData;
+		mRowBytes = (rowBytes != 0) ? rowBytes : packedRow;
+		}
+
+	NN_ASSERT(!mData.IsEmpty());
 }
 
 
