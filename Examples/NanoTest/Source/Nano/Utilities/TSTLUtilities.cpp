@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSTLUtilities.h"
-
-#include "TSTLUtilities.h"
+#include "NTestFixture.h"
 
 
 
@@ -33,38 +32,65 @@ static const UInt32List kTestList2									= mkvector((UInt32) 24, (UInt32) 25, 
 
 
 //============================================================================
-//		TSTLUtilities::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSTLUtilities::Execute(void)
-{	UInt32List		theList;
+#define TEST_NSTLUTILITIES(_name, _desc)							NANO_TEST(TSTLUtilities, _name, _desc)
+
+NANO_FIXTURE(TSTLUtilities)
+{
+	UInt32List		theList;
+	
+	SETUP
+	{
+		theList = kTestList1;
+	}
+};
 
 
 
-	// Append
-	theList = kTestList1;
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTLUTILITIES("Append", "Vector append")
+{
+
+
+	// Perform the test
 	append(theList, kTestList2);
 	
-	NN_ASSERT(theList.size() == (kTestList1.size() + kTestList2.size()));
-	NN_ASSERT(theList[0] == kTestList1[0]);
-	NN_ASSERT(theList[1] == kTestList1[1]);
-	NN_ASSERT(theList[2] == kTestList1[2]);
-	NN_ASSERT(theList[3] == kTestList2[0]);
-	NN_ASSERT(theList[4] == kTestList2[1]);
-	NN_ASSERT(theList[5] == kTestList2[2]);
+	REQUIRE(theList.size() == (kTestList1.size() + kTestList2.size()));
+	REQUIRE(theList[0] == kTestList1[0]);
+	REQUIRE(theList[1] == kTestList1[1]);
+	REQUIRE(theList[2] == kTestList1[2]);
+	REQUIRE(theList[3] == kTestList2[0]);
+	REQUIRE(theList[4] == kTestList2[1]);
+	REQUIRE(theList[5] == kTestList2[2]);
+}
 
 
 
-	// Prepend
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTLUTILITIES("Prepend", "Vector prepend")
+{
+
+
+	// Perform the test
 	theList = kTestList1;
 	prepend(theList, kTestList2);
 	
-	NN_ASSERT(theList.size() == (kTestList1.size() + kTestList2.size()));
-	NN_ASSERT(theList[0] == kTestList2[0]);
-	NN_ASSERT(theList[1] == kTestList2[1]);
-	NN_ASSERT(theList[2] == kTestList2[2]);
-	NN_ASSERT(theList[3] == kTestList1[0]);
-	NN_ASSERT(theList[4] == kTestList1[1]);
-	NN_ASSERT(theList[5] == kTestList1[2]);
+	REQUIRE(theList.size() == (kTestList1.size() + kTestList2.size()));
+	REQUIRE(theList[0] == kTestList2[0]);
+	REQUIRE(theList[1] == kTestList2[1]);
+	REQUIRE(theList[2] == kTestList2[2]);
+	REQUIRE(theList[3] == kTestList1[0]);
+	REQUIRE(theList[4] == kTestList1[1]);
+	REQUIRE(theList[5] == kTestList1[2]);
 }
 
 

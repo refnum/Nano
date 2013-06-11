@@ -14,26 +14,38 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NFile.h"
 #include "NUTI.h"
-
-#include "TUTI.h"
 
 
 
 
 
 //============================================================================
-//		TUTI::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TUTI::Execute(void)
+#define TEST_NUTI(_name, _desc)										NANO_TEST(TUTI, _name, _desc)
+
+NANO_FIXTURE(TUTI)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NUTI("Types", "Types")
 {
 
 
-	// Execute the tests
-	NN_ASSERT(NFile("test.gif").GetUTI() == NUTI(kNUTTypeGIF));
-	NN_ASSERT(NFile("test.png").GetUTI() == NUTI(kNUTTypePNG));
-	NN_ASSERT(NFile("test.jpg").GetUTI() == NUTI(kNUTTypeJPEG));
+	// Perform the test
+	REQUIRE(NFile("test.gif").GetUTI() == NUTI(kNUTTypeGIF));
+	REQUIRE(NFile("test.png").GetUTI() == NUTI(kNUTTypePNG));
+	REQUIRE(NFile("test.jpg").GetUTI() == NUTI(kNUTTypeJPEG));
 }
 
 

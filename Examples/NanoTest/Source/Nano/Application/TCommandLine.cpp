@@ -84,10 +84,10 @@ TEST_NCOMMANDLINE("Flags", "Test flag arguments")
 
 
 	// Perform the test
-	NN_ASSERT(cmdLine.GetFlagSInt64("arg2") == -2);
-	NN_ASSERT(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
-	NN_ASSERT(cmdLine.GetFlagString("arg4") == "\"" kTestString "\"");
-	NN_ASSERT(cmdLine.GetFlagString("arg5") ==      kTestString);
+	REQUIRE(cmdLine.GetFlagSInt64("arg2") == -2);
+	REQUIRE(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
+	REQUIRE(cmdLine.GetFlagString("arg4") == "\"" kTestString "\"");
+	REQUIRE(cmdLine.GetFlagString("arg5") ==      kTestString);
 }
 
 
@@ -104,27 +104,27 @@ TEST_NCOMMANDLINE("Manipulation", "Manipulate the command line")
 
 	// Perform the test
 	theArgs = cmdLine.GetArguments();
-	NN_ASSERT(theArgs.size() == 6);
-	NN_ASSERT(theArgs[0] == kTestArgList[0]);
-	NN_ASSERT(theArgs[1] == kTestArgList[1]);
-	NN_ASSERT(theArgs[2] == kTestArgList[2]);
-	NN_ASSERT(theArgs[3] == kTestArgList[3]);
-	NN_ASSERT(theArgs[4] == kTestArgList[4]);
-	NN_ASSERT(theArgs[5] == kTestArgList[5]);
+	REQUIRE(theArgs.size() == 6);
+	REQUIRE(theArgs[0] == kTestArgList[0]);
+	REQUIRE(theArgs[1] == kTestArgList[1]);
+	REQUIRE(theArgs[2] == kTestArgList[2]);
+	REQUIRE(theArgs[3] == kTestArgList[3]);
+	REQUIRE(theArgs[4] == kTestArgList[4]);
+	REQUIRE(theArgs[5] == kTestArgList[5]);
 	
 	cmdLine.Clear();
-	NN_ASSERT(cmdLine.GetArguments().empty());
+	REQUIRE(cmdLine.GetArguments().empty());
 	
 	reverse(theArgs);
 	cmdLine.SetArguments(theArgs);
 	theArgs = cmdLine.GetArguments();
-	NN_ASSERT(theArgs.size() == 6);
-	NN_ASSERT(theArgs[0] == kTestArgList[5]);
-	NN_ASSERT(theArgs[1] == kTestArgList[4]);
-	NN_ASSERT(theArgs[2] == kTestArgList[3]);
-	NN_ASSERT(theArgs[3] == kTestArgList[2]);
-	NN_ASSERT(theArgs[4] == kTestArgList[1]);
-	NN_ASSERT(theArgs[5] == kTestArgList[0]);
+	REQUIRE(theArgs.size() == 6);
+	REQUIRE(theArgs[0] == kTestArgList[5]);
+	REQUIRE(theArgs[1] == kTestArgList[4]);
+	REQUIRE(theArgs[2] == kTestArgList[3]);
+	REQUIRE(theArgs[3] == kTestArgList[2]);
+	REQUIRE(theArgs[4] == kTestArgList[1]);
+	REQUIRE(theArgs[5] == kTestArgList[0]);
 }
 
 
@@ -142,10 +142,10 @@ TEST_NCOMMANDLINE("Application", "Verify the application name")
 
 	// Perform the test
 	theArgs = NCommandLine::Get()->GetArguments();
-	NN_ASSERT(theArgs.size() >= 1);
+	REQUIRE(theArgs.size() >= 1);
 	
 	theValue = theArgs[0];
-	NN_ASSERT(theValue.GetLower().Contains("nanotest"));
+	REQUIRE(theValue.GetLower().Contains("nanotest"));
 }
 
 

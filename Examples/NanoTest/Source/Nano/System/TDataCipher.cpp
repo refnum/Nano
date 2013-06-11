@@ -54,7 +54,7 @@ NANO_FIXTURE(TDataCipher)
 		dataKey  = NData(NN_ARRAY_SIZE(kTestKey),  kTestKey);
 		dataTest = NData(NN_ARRAY_SIZE(kTestData), kTestData);
 
-		NN_ASSERT(theDigest.GetAdler32(dataTest) == kAdlerTest);
+		REQUIRE(theDigest.GetAdler32(dataTest) == kAdlerTest);
 		theCipher.SetKey(dataKey);
 	}
 };

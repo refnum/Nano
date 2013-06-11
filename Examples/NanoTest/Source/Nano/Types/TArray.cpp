@@ -40,27 +40,6 @@ static const SInt64 kTestSInt64										= -4000;
 
 
 //============================================================================
-//		ForEach : ForEach functor.
-//----------------------------------------------------------------------------
-static void ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount)
-{
-
-
-	// Compiler warning
-	NN_UNUSED(theIndex);
-
-
-
-	// Update the count
-	NN_ASSERT(theIndex == *theCount);
-	*theCount = *theCount + 1;
-}
-
-
-
-
-
-//============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
 #define TEST_NARRAY(_name, _desc)									NANO_TEST(TArray, _name, _desc)
@@ -68,6 +47,8 @@ static void ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCo
 NANO_FIXTURE(TArray)
 {
 	NArray	theArray, theArray2;
+
+	void	ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount);
 };
 
 
@@ -179,7 +160,7 @@ TEST_NARRAY("Add", "Add values")
 	REQUIRE(theArray.GetValueSInt64(2) == kTestSInt64);
 	
 	theCount = 0;
-	theArray.ForEach(BindFunction(ForEach, _1, _2, &theCount));
+	theArray.ForEach(BindSelf(TArray::ForEach, _1, _2, &theCount));
 	REQUIRE(theCount == 3);
 }
 
@@ -224,3 +205,24 @@ TEST_NARRAY("Join", "Join arrays")
 	REQUIRE(theArray.GetSize() == (NIndex) (kListSInt32.size() + kListSInt64.size()));
 }
 
+
+
+
+
+#pragma mark private
+//============================================================================
+//		TArray::ForEach : ForEach functor.
+//----------------------------------------------------------------------------
+void TArray::ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount)
+{
+
+
+	// Compiler warning
+	NN_UNUSED(theIndex);
+
+
+
+	// Update the count
+	REQUIRE(theIndex == *theCount);
+	*theCount = *theCount + 1;
+}

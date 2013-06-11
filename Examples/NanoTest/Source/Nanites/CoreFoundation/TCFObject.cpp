@@ -14,67 +14,110 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NCFObject.h"
-
-#include "TCFObject.h"
 
 
 
 
 
 //============================================================================
-//		TCFObject::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCFObject::Execute(void)
-{	NCFObject		theArray;
+#define TEST_NCFOBJECT(_name, _desc)									NANO_TEST(TCFObject, _name, _desc)
+
+NANO_FIXTURE(TCFObject)
+{
+	NCFObject		theArray;
 	CFArrayRef		cfArray;
+};
 
 
 
-	// Retain/release
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFOBJECT("Retain", "Retain/release")
+{
+
+
+	// Perform the test
 	cfArray = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
-	NN_ASSERT(CFGetRetainCount(cfArray) == 1);
+	REQUIRE(CFGetRetainCount(cfArray) == 1);
 	
 	CFSafeRetain(cfArray);
-	NN_ASSERT(CFGetRetainCount(cfArray) == 2);
+	REQUIRE(CFGetRetainCount(cfArray) == 2);
 
 	CFRelease(cfArray);
-	NN_ASSERT(CFGetRetainCount(cfArray) == 1);
+	REQUIRE(CFGetRetainCount(cfArray) == 1);
 
 	CFSafeRelease(cfArray);
-	NN_ASSERT(cfArray == NULL);
-	
-	
-	
-	// NULL handling
+	REQUIRE(cfArray == NULL);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFOBJECT("NULL", "NULL release")
+{
+
+
+	// Perform the test
 	cfArray = NULL;
 	CFSafeRetain( cfArray);
 	CFSafeRelease(cfArray);
+}
 
 
 
-	// Assignment
-	NN_ASSERT(!theArray.IsValid());
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFOBJECT("Assignment", "Assignment")
+{
+
+
+	// Perform the test
+	REQUIRE(!theArray.IsValid());
 	theArray.SetObject(CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks));
 
-	NN_ASSERT(theArray.IsValid());
-	NN_ASSERT(CFGetRetainCount(theArray) == 1);
+	REQUIRE(theArray.IsValid());
+	REQUIRE(CFGetRetainCount(theArray) == 1);
+}
 
 
 
-	// Copy
-	{
-		{	NCFObject	theArray2;
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFOBJECT("Copy", "Copy")
+{
+
+
+	// Perform the test
+	theArray.SetObject(CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks));
+	REQUIRE(CFGetRetainCount(theArray) == 1);
+
+	{	NCFObject	theArray2;
 	
 		theArray2 = theArray;
-		NN_ASSERT(CFGetRetainCount(theArray)  == 2);
-		NN_ASSERT(CFGetRetainCount(theArray2) == 2);
-		}
-
-	NN_ASSERT(CFGetRetainCount(theArray) == 1);
+		REQUIRE(CFGetRetainCount(theArray)  == 2);
+		REQUIRE(CFGetRetainCount(theArray2) == 2);
 	}
 
-
-
+	REQUIRE(CFGetRetainCount(theArray) == 1);
 }
+
+
+
 

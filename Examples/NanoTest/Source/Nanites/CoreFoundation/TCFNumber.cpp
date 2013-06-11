@@ -14,18 +14,34 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NCFNumber.h"
-
-#include "TCFNumber.h"
 
 
 
 
 
 //============================================================================
-//		TCFNumber::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCFNumber::Execute(void)
+#define TEST_NCFNUMBER(_name, _desc)								NANO_TEST(TCFNumber, _name, _desc)
+
+NANO_FIXTURE(TCFNumber)
 {
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFNUMBER("Default", "Default state")
+{
+
+
+	// Perform the test
 }
+
 

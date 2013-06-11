@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NCFString.h"
-
-#include "TCFString.h"
 
 
 
@@ -33,26 +32,40 @@ static const CFStringRef kTestCFString								= CFSTR("Hello World");
 
 
 //============================================================================
-//		TCFString::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCFString::Execute(void)
-{	NCFString		theString;
+#define TEST_NCFSTRING(_name, _desc)									NANO_TEST(TCFString, _name, _desc)
+
+NANO_FIXTURE(TCFString)
+{
+	NCFString		theString;
 	NCFObject		cfString;
+};
 
 
 
-	// Execute the tests
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFSTRING("Assign", "Assignment")
+{
+
+
+	// Perform the test
 	theString = kTestNString;
 	cfString  = theString.GetObject();
-	NN_ASSERT(CFStringCompare(cfString, kTestCFString, 0) == kCFCompareEqualTo);
+	REQUIRE(CFStringCompare(cfString, kTestCFString, 0) == (CFComparisonResult) kCFCompareEqualTo);
 
 	theString = NCFString(kTestCFString, false);
-	NN_ASSERT(theString == kTestNString);
+	REQUIRE(theString == kTestNString);
 
 	theString.SetObject(kTestCFString, false);
-	NN_ASSERT(theString == kTestNString);
+	REQUIRE(theString == kTestNString);
 
 	theString.SetObject(CFStringCreateCopy(kCFAllocatorDefault, kTestCFString), true);
-	NN_ASSERT(theString == kTestNString);
+	REQUIRE(theString == kTestNString);
 }
+
 

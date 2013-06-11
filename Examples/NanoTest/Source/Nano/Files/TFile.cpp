@@ -118,13 +118,13 @@ NANO_FIXTURE(TFile)
 		if (tmpFile.Exists())
 			{
 			theErr = tmpFile.Delete();
-			NN_ASSERT_NOERR(theErr);
+			REQUIRE_NOERR(theErr);
 			}
 
 		if (tmpFile2.Exists())
 			{
 			theErr = tmpFile2.Delete();
-			NN_ASSERT_NOERR(theErr);
+			REQUIRE_NOERR(theErr);
 			}
 	}
 };

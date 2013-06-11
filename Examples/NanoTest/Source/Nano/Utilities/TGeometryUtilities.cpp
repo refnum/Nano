@@ -16,40 +16,56 @@
 //----------------------------------------------------------------------------
 #include "NGeometryUtilities.h"
 #include "NSTLUtilities.h"
-
-#include "TGeometryUtilities.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TGeometryUtilities::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TGeometryUtilities::Execute(void)
-{	NRectangle64		theBounds64;
-	NRectangle32		theBounds32;
-	NRectangle			theBounds;
+#define TEST_NGEOMETRYUTILITIES(_name, _desc)						NANO_TEST(TGeometryUtilities, _name, _desc)
+
+NANO_FIXTURE(TGeometryUtilities)
+{
 	NPoint64List		thePoints64;
 	NPoint32List		thePoints32;
 	NPointList			thePoints;
 
+	SETUP
+	{
+		thePoints64 = mkvector(NPoint64(1.0f, 1.1f), NPoint64(2.0f, 2.2f), NPoint64(-3.0f, -3.3f));
+		thePoints32 = mkvector(NPoint32(1.0f, 1.1f), NPoint32(2.0f, 2.2f), NPoint32(-3.0f, -3.3f));
+		thePoints   = mkvector(NPoint  (1.0f, 1.1f), NPoint  (2.0f, 2.2f), NPoint  (-3.0f, -3.3f));
+	}
+};
 
 
-	// Prepare the data
-	thePoints64 = mkvector(NPoint64(1.0f, 1.1f), NPoint64(2.0f, 2.2f), NPoint64(-3.0f, -3.3f));
-	thePoints32 = mkvector(NPoint32(1.0f, 1.1f), NPoint32(2.0f, 2.2f), NPoint32(-3.0f, -3.3f));
-	thePoints   = mkvector(NPoint  (1.0f, 1.1f), NPoint  (2.0f, 2.2f), NPoint  (-3.0f, -3.3f));
 
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NGEOMETRYUTILITIES("Bounds", "Bounding box")
+{	NRectangle64		theBounds64;
+	NRectangle32		theBounds32;
+	NRectangle			theBounds;
+
+
+
+	// Perform the test
 	theBounds64 = NGeometryUtilities::GetBounds(thePoints64);
 	theBounds32 = NGeometryUtilities::GetBounds(thePoints32);
 	theBounds   = NGeometryUtilities::GetBounds(thePoints);
 
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.origin.x,    (Float64) theBounds32.origin.x));
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.origin.y,    (Float64) theBounds32.origin.y));
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.size.width,  (Float64) theBounds32.size.width));
-	NN_ASSERT(NMathUtilities::AreEqual(theBounds64.size.height, (Float64) theBounds32.size.height));
-	NN_ASSERT(theBounds == theBounds32);
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.origin.x,    (Float64) theBounds32.origin.x));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.origin.y,    (Float64) theBounds32.origin.y));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.size.width,  (Float64) theBounds32.size.width));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.size.height, (Float64) theBounds32.size.height));
+	REQUIRE(theBounds == theBounds32);
 }
+
 
 

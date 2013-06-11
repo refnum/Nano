@@ -15,8 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NThreadUtilities.h"
-
-#include "TThreadUtilities.h"
+#include "NTestFixture.h"
 
 
 
@@ -40,25 +39,38 @@ static const UInt32 kXorResult										= 0x189A4B04;
 
 
 //============================================================================
-//		TThreadUtilities::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TThreadUtilities::Execute(void)
+#define TEST_NTHREADUTILITIES(_name, _desc)							NANO_TEST(TThreadUtilities, _name, _desc)
+
+NANO_FIXTURE(TThreadUtilities)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTHREADUTILITIES("Atomic", "Atomic operations")
 {	UInt32		theValue;
 
 
 
-	// Bit operations
+	// Perform the test
 	theValue = kValueTest;
 	NThreadUtilities::AtomicAnd32(theValue, kAndMask);
-	NN_ASSERT(theValue == kAndResult);
+	REQUIRE(theValue == kAndResult);
 
 	theValue = kValueTest;
 	NThreadUtilities::AtomicOr32(theValue, kOrMask);
-	NN_ASSERT(theValue == kOrResult);
+	REQUIRE(theValue == kOrResult);
 
 	theValue = kValueTest;
 	NThreadUtilities::AtomicXor32(theValue, kXorMask);
-	NN_ASSERT(theValue == kXorResult);
+	REQUIRE(theValue == kXorResult);
 }
 
 

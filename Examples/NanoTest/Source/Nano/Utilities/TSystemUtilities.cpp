@@ -15,24 +15,36 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NSystemUtilities.h"
-
-#include "TSystemUtilities.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TSystemUtilities::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TSystemUtilities::Execute(void)
+#define TEST_NSYSTEMUTILITIES(_name, _desc)							NANO_TEST(TSystemUtilities, _name, _desc)
+
+NANO_FIXTURE(TSystemUtilities)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSYSTEMUTILITIES("OS", "OS version")
 {	OSVersion	theVers;
 
 
 
-	// Version
+	// Perform the test
 	theVers = NSystemUtilities::GetOSVersion();
-	NN_ASSERT(theVers != kOSUnknown);
+	REQUIRE(theVers != kOSUnknown);
 }
 
 

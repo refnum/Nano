@@ -14,22 +14,35 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NString.h"
-
-#include "TStringEncoder.h"
+#include "NStringEncoder.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TStringEncoder::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TStringEncoder::Execute(void)
+#define TEST_NSTRINGENCODER(_name, _desc)							NANO_TEST(TStringEncoder, _name, _desc)
+
+NANO_FIXTURE(TStringEncoder)
+{
+	void	TestTerminator(const NString &theString, NStringEncoding theEncoding);
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGENCODER("Terminators", "Terminators")
 {
 
 
-	// Terminators
+	// Perform the test
 	TestTerminator("Hello World", kNStringEncodingUTF8);
 	TestTerminator("Hello World", kNStringEncodingUTF16);
 	TestTerminator("Hello World", kNStringEncodingUTF32);
@@ -39,6 +52,7 @@ void TStringEncoder::Execute(void)
 
 
 
+#pragma mark private
 //============================================================================
 //		TStringEncoder::TestTerminator : Test string terminators.
 //----------------------------------------------------------------------------
@@ -53,10 +67,10 @@ void TStringEncoder::TestTerminator(const NString &theString, NStringEncoding th
 	data2 = data1;
 
 	testEncoder.AddTerminator(data2, theEncoding);
-	NN_ASSERT(data1 != data2);
+	REQUIRE(data1 != data2);
 
 	testEncoder.RemoveTerminator(data2, theEncoding);
-	NN_ASSERT(data1 == data2);
+	REQUIRE(data1 == data2);
 
 
 
@@ -65,7 +79,7 @@ void TStringEncoder::TestTerminator(const NString &theString, NStringEncoding th
 	data2 = data1;
 
 	testEncoder.RemoveTerminator(data2, theEncoding);
-	NN_ASSERT(data1 != data2);
+	REQUIRE(data1 != data2);
 
 	testEncoder.AddTerminator(data2, theEncoding);
 }

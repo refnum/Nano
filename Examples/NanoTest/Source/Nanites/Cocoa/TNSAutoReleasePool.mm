@@ -15,17 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NNSAutoReleasePool.h"
-
-#include "TNSAutoReleasePool.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TNSAutoReleasePool::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNSAutoReleasePool::Execute(void)
+#define TEST_NNSAUTORELEASEPOOL(_name, _desc)						NANO_TEST(TNSAutoReleasePool, _name, _desc)
+
+NANO_FIXTURE(TNSAutoReleasePool)
 {
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNSAUTORELEASEPOOL("Default", "Default state")
+{
+
+
+	// Perform the test
 }
+
 

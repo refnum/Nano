@@ -14,18 +14,34 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NCFArray.h"
-
-#include "TCFArray.h"
 
 
 
 
 
 //============================================================================
-//		TCFArray::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCFArray::Execute(void)
+#define TEST_NCFARRAY(_name, _desc)									NANO_TEST(TCFArray, _name, _desc)
+
+NANO_FIXTURE(TCFArray)
 {
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFARRAY("Default", "Default state")
+{
+
+
+	// Perform the test
 }
+
 

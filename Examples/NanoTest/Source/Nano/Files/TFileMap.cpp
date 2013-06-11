@@ -47,7 +47,7 @@ NANO_FIXTURE(TFileMap)
 	{
 		theFile = NFileUtilities::GetTemporaryFile();
 		theErr  = NFileUtilities::SetFileData(theFile, NData(kBufferSize, kBufferData));
-		NN_ASSERT_NOERR(theErr);
+		REQUIRE_NOERR(theErr);
 	}
 	
 	TEARDOWN
@@ -55,7 +55,7 @@ NANO_FIXTURE(TFileMap)
 		if (theFile.Exists())
 			{
 			theErr = theFile.Delete();
-			NN_ASSERT_NOERR(theErr);
+			REQUIRE_NOERR(theErr);
 			}
 	}
 };

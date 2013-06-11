@@ -15,18 +15,43 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTextUtilities.h"
-
-#include "TTextUtilities.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TTextUtilities::Execute : Execute the tests.
+//		Constants
 //----------------------------------------------------------------------------
-void TTextUtilities::Execute(void)
-{
-}
+static const NString kEntitiesDecoded								= "<&'\"'&>";
+static const NString kEntitiesEncoded								= "&lt;&amp;&apos;&quot;&apos;&amp;&gt;";
 
+
+
+
+
+//============================================================================
+//		Test fixture
+//----------------------------------------------------------------------------
+#define TEST_NTEXTUTILITIES(_name, _desc)							NANO_TEST(TTextUtilities, _name, _desc)
+
+NANO_FIXTURE(TTextUtilities)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTEXTUTILITIES("Entities", "Entities")
+{
+
+	// Perform the test
+	REQUIRE(NTextUtilities::EncodeEntities(kEntitiesDecoded) == kEntitiesEncoded);
+	REQUIRE(NTextUtilities::DecodeEntities(kEntitiesEncoded) == kEntitiesDecoded);
+}
 

@@ -200,8 +200,8 @@ TEST_NBROADCASTER("Remove Active", "Remove the listener that's broadcasting, whi
 	theBroadcaster.AddListener(&theListener);
 	theBroadcaster.BroadcastMessage(kTestMsgRemoveListener);
 	
-	NN_ASSERT(!theBroadcaster.HasListeners());
-	NN_ASSERT(!theListener.IsListeningTo());
+	REQUIRE(!theBroadcaster.HasListeners());
+	REQUIRE(!theListener.IsListeningTo());
 }
 
 
@@ -240,8 +240,8 @@ TEST_NBROADCASTER("Remove Different", "Remove a different listener from the same
 	theBroadcaster.AddListener(&theListener2);
 	theBroadcaster.BroadcastMessage(kTestMsgRemoveListener);
 
-	NN_ASSERT(theBroadcaster.HasListeners());
-	NN_ASSERT(theListener.IsListeningTo() || theListener2.IsListeningTo());
+	REQUIRE(theBroadcaster.HasListeners());
+	REQUIRE((theListener.IsListeningTo() || theListener2.IsListeningTo()));
 }
 
 

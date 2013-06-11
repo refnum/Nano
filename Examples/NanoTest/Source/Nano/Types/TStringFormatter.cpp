@@ -15,10 +15,10 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
+#include "NTestFixture.h"
 #include "NString.h"
 
 #include "CTestUtilities.h"
-#include "TStringFormatter.h"
 
 
 
@@ -54,150 +54,230 @@ static const NString kResultFormat32Value64							= "64-bit value with 32-bit le
 
 
 //============================================================================
-//		TStringFormatter::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TStringFormatter::Execute(void)
-{	NString				theResult, theAssert;
+#define TEST_NSTRINGFORMATTER(_name, _desc)							NANO_TEST(TStringFormatter, _name, _desc)
+
+NANO_FIXTURE(TStringFormatter)
+{
 	NStringFormatter	theFormatter;
-	SInt32				valueInt;
+	NString				theResult;
+};
 
 
 
-	// Primitives
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Primitives", "Primitives")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format("ArgChar [%c]", 'z');
-	NN_ASSERT(theResult == "ArgChar [z]");
+	REQUIRE(theResult == "ArgChar [z]");
 
 	theResult = theFormatter.Format("ArgUInt8 [%d]", kTestUInt8);
-	NN_ASSERT(theResult == "ArgUInt8 [8]");
+	REQUIRE(theResult == "ArgUInt8 [8]");
 
 	theResult = theFormatter.Format("ArgUInt16 [%d]", kTestUInt16);
-	NN_ASSERT(theResult == "ArgUInt16 [1616]");
+	REQUIRE(theResult == "ArgUInt16 [1616]");
 
 	theResult = theFormatter.Format("ArgUInt32 [%d]", kTestUInt32);
-	NN_ASSERT(theResult == "ArgUInt32 [32323232]");
+	REQUIRE(theResult == "ArgUInt32 [32323232]");
 
 	theResult = theFormatter.Format("ArgUInt32 [%ld]", kTestUInt32);
-	NN_ASSERT(theResult == "ArgUInt32 [32323232]");
+	REQUIRE(theResult == "ArgUInt32 [32323232]");
 
 	theResult = theFormatter.Format("ArgUInt64 [%lld]", kTestUInt64);
-	NN_ASSERT(theResult == "ArgUInt64 [6464646464646464]");
+	REQUIRE(theResult == "ArgUInt64 [6464646464646464]");
 
 
 	theResult = theFormatter.Format("ArgSInt8 [%d]", kTestSInt8);
-	NN_ASSERT(theResult == "ArgSInt8 [-8]");
+	REQUIRE(theResult == "ArgSInt8 [-8]");
 
 	theResult = theFormatter.Format("ArgSInt16 [%d]", kTestSInt16);
-	NN_ASSERT(theResult == "ArgSInt16 [-1616]");
+	REQUIRE(theResult == "ArgSInt16 [-1616]");
 
 	theResult = theFormatter.Format("ArgSInt32 [%d]", kTestSInt32);
-	NN_ASSERT(theResult == "ArgSInt32 [-32323232]");
+	REQUIRE(theResult == "ArgSInt32 [-32323232]");
 
 	theResult = theFormatter.Format("ArgSInt32 [%ld]", kTestSInt32);
-	NN_ASSERT(theResult == "ArgSInt32 [-32323232]");
+	REQUIRE(theResult == "ArgSInt32 [-32323232]");
 
 	theResult = theFormatter.Format("ArgSInt64 [%lld]", kTestSInt64);
-	NN_ASSERT(theResult == "ArgSInt64 [-6464646464646464]");
+	REQUIRE(theResult == "ArgSInt64 [-6464646464646464]");
 
 
 	theResult = theFormatter.Format("ArgFloat32 [%.6f]", kTestFloat32);
-	NN_ASSERT(theResult == "ArgFloat32 [3.141593]");
+	REQUIRE(theResult == "ArgFloat32 [3.141593]");
 
 	theResult = theFormatter.Format("ArgFloat64 [%.15f]", kTestFloat64);
-	NN_ASSERT(theResult == "ArgFloat64 [3.141592653589793]");
+	REQUIRE(theResult == "ArgFloat64 [3.141592653589793]");
 
 
 	theResult = theFormatter.Format("ArgPtrChar [%s]", kTestPtrChar);
-	NN_ASSERT(theResult == "ArgPtrChar [text]");
+	REQUIRE(theResult == "ArgPtrChar [text]");
 
 	theResult = theFormatter.Format("ArgPtrVoid [%p]", kTestPtrVoid);
-	NN_ASSERT(	theResult == "ArgPtrVoid [0xdeadbeef]" ||			// gcc
-				theResult == "ArgPtrVoid [DEADBEEF]");				// VS
+	REQUIRE((	theResult == "ArgPtrVoid [0xdeadbeef]" ||			// gcc
+				theResult == "ArgPtrVoid [DEADBEEF]"));				// VS
 
 
 	theResult = theFormatter.Format("ArgHex [%x]", kTestUInt32);
-	NN_ASSERT(theResult == "ArgHex [1ed36a0]");
+	REQUIRE(theResult == "ArgHex [1ed36a0]");
 
 	theResult = theFormatter.Format("ArgHEX [%X]", kTestUInt32);
-	NN_ASSERT(theResult == "ArgHEX [1ED36A0]");
+	REQUIRE(theResult == "ArgHEX [1ED36A0]");
+}
 
 
 
-	// Positional arguments
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Position", "Positional arguments")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format("ArgPos [%3$d] [%1$d] [%d]", 11, 22, 33);
-	NN_ASSERT(theResult == "ArgPos [33] [11] [22]");
+	REQUIRE(theResult == "ArgPos [33] [11] [22]");
+}
 
 
 
-	// Width specifier
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Width", "Width specifier")
+{	SInt32		valueInt;
+
+
+
+	// Perform the test
 	valueInt  = 10;
 	theResult = theFormatter.Format("ArgSInt16 [%*d]", valueInt, kTestSInt16);
-	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
+	REQUIRE(theResult == "ArgSInt16 [     -1616]");
 
 	theResult = theFormatter.Format("ArgSInt16 [%*2$d]", kTestSInt16, valueInt);
-	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
+	REQUIRE(theResult == "ArgSInt16 [     -1616]");
 
 	theResult = theFormatter.Format("ArgSInt16 [%10d]", kTestSInt16);
-	NN_ASSERT(theResult == "ArgSInt16 [     -1616]");
+	REQUIRE(theResult == "ArgSInt16 [     -1616]");
+}
 
 
 
-	// Precision specifier
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Precision", "Precision specifier")
+{	SInt32		valueInt;
+
+
+
+	// Perform the test
 	valueInt  = 4;
 	theResult = theFormatter.Format("ArgFloat32 [%.*f]", valueInt, kTestFloat32);
-	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
+	REQUIRE(theResult == "ArgFloat32 [3.1416]");
 
 	theResult = theFormatter.Format("ArgFloat32 [%.*2$f]", kTestFloat32, valueInt);
-	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
+	REQUIRE(theResult == "ArgFloat32 [3.1416]");
 
 	theResult = theFormatter.Format("ArgFloat32 [%.4f]", kTestFloat32);
-	NN_ASSERT(theResult == "ArgFloat32 [3.1416]");
+	REQUIRE(theResult == "ArgFloat32 [3.1416]");
 
 	valueInt  = -2;
 	theResult = theFormatter.Format("NegPrecisionIsDiscarded [%.*f]", valueInt, kTestFloat64);
-	NN_ASSERT(theResult == "NegPrecisionIsDiscarded [3.141593]");
-	
+	REQUIRE(theResult == "NegPrecisionIsDiscarded [3.141593]");
+}
 
 
-	// Counts
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Counts", "Counts")
+{
+
+
+	// Perform the test
 	theResult = theFormatter.Format("OneArg [%d]", 42);
-	NN_ASSERT(theResult == "OneArg [42]");
+	REQUIRE(theResult == "OneArg [42]");
 
 	theResult = theFormatter.Format("TwoArgs [%d] [%d]", 42, 23);
-	NN_ASSERT(theResult == "TwoArgs [42] [23]");
+	REQUIRE(theResult == "TwoArgs [42] [23]");
 
 	theResult = theFormatter.Format("ThreeArgs [%d] [%d] [%d]", 42, 23, 101);
-	NN_ASSERT(theResult == "ThreeArgs [42] [23] [101]");
+	REQUIRE(theResult == "ThreeArgs [42] [23] [101]");
+}
 
 
 
-	// Special cases
-	theResult = theFormatter.Format("PercentArg [%%]");
-	NN_ASSERT(theResult == "PercentArg [%]");
 
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Warnings", "Warnings")
+{	NString		theAssert;
+
+
+
+	// Perform the test
 	CTestUtilities::SetDebugCapture(true);
 	theResult = theFormatter.Format("NoSpecifier [% 12345]");
 	theAssert = CTestUtilities::SetDebugCapture(false);
-	NN_ASSERT(theResult == "NoSpecifier [% 12345]");
-	NN_ASSERT(theAssert.EndsWith(kResultMissingType));
+	REQUIRE(theResult == "NoSpecifier [% 12345]");
+	REQUIRE(theAssert.EndsWith(kResultMissingType));
 
 	CTestUtilities::SetDebugCapture(true);
 	theResult = theFormatter.Format("TooFewArgs [%d] [%d]", 42);
 	theAssert = CTestUtilities::SetDebugCapture(false);
-	NN_ASSERT(theResult == "TooFewArgs [42] []");
-	NN_ASSERT(theAssert.EndsWith(kResultTooFewArgs));
-
-	theResult = theFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
-	NN_ASSERT(theResult == "TooManyArgs [42] [23]");
+	REQUIRE(theResult == "TooFewArgs [42] []");
+	REQUIRE(theAssert.EndsWith(kResultTooFewArgs));
 
 	CTestUtilities::SetDebugCapture(true);
 	theResult = theFormatter.Format("Format64Value32 [%lld]", kTestUInt32);
 	theAssert = CTestUtilities::SetDebugCapture(false);
-	NN_ASSERT(theAssert.Contains(kResultFormat64Value32));
+	REQUIRE(theAssert.Contains(kResultFormat64Value32));
 
 	CTestUtilities::SetDebugCapture(true);
 	theResult = theFormatter.Format("Format32Value64 [%ld]", kTestUInt64);
 	theAssert = CTestUtilities::SetDebugCapture(false);
-	NN_ASSERT(theAssert.Contains(kResultFormat32Value64));
+	REQUIRE(theAssert.Contains(kResultFormat32Value64));
 }
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Special", "Special cases")
+{
+
+
+	// Perform the test
+	theResult = theFormatter.Format("PercentArg [%%]");
+	REQUIRE(theResult == "PercentArg [%]");
+
+	theResult = theFormatter.Format("TooManyArgs [%d] [%d]", 42, 23, 101);
+	REQUIRE(theResult == "TooManyArgs [42] [23]");
+}
+
+
 
 

@@ -14,34 +14,47 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NVariant.h"
-
-#include "TVariant.h"
 
 
 
 
 
 //============================================================================
-//		TVariant::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TVariant::Execute(void)
+#define TEST_NVARIANT(_name, _desc)									NANO_TEST(TVariant, _name, _desc)
+
+NANO_FIXTURE(TVariant)
+{
+	NVariant	theValue;
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NVARIANT("NData", "NData")
 {	NData			dataValue;
 	const NData		*dataPtr;
-	NVariant		theValue;
 	bool			gotValue;
 
 
 
-	// NData
+	// Perform the test
 	dataValue.AppendData(4, "test");
 	theValue = dataValue;
 	
 	dataPtr = theValue.GetValue<NData>();
-	NN_ASSERT(dataPtr != NULL);
+	REQUIRE(dataPtr != NULL);
 	
 	gotValue = theValue.GetValue(dataValue);
-	NN_ASSERT(gotValue);
+	REQUIRE(gotValue);
 }
+
 
 

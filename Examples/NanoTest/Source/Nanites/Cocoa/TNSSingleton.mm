@@ -15,17 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NNSSingleton.h"
-
-#include "TNSSingleton.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TNSSingleton::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TNSSingleton::Execute(void)
+#define TEST_NNSSINGLETON(_name, _desc)								NANO_TEST(TNSSingleton, _name, _desc)
+
+NANO_FIXTURE(TNSSingleton)
 {
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NNSSINGLETON("Default", "Default state")
+{
+
+
+	// Perform the test
 }
+
 

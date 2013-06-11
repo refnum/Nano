@@ -15,20 +15,34 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTimeUtilities.h"
-
-#include "TTimeUtilities.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TTimeUtilities::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TTimeUtilities::Execute(void)
+#define TEST_NTIMEUTILITIES(_name, _desc)							NANO_TEST(TTimeUtilities, _name, _desc)
+
+NANO_FIXTURE(TTimeUtilities)
+{
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTIMEUTILITIES("Time", "Time")
 {
 
 
+	// Perform the test
+	REQUIRE(NTimeUtilities::GetUpTime() < NTimeUtilities::GetTime());
 }
 
 

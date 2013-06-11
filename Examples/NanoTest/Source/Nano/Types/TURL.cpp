@@ -14,9 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NTestFixture.h"
 #include "NURL.h"
-
-#include "TURL.h"
 
 
 
@@ -38,22 +37,35 @@ static const NString kTestPath										= "/path/to/file.txt";
 
 
 //============================================================================
-//		TURL::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TURL::Execute(void)
-{	
+#define TEST_NURL(_name, _desc)										NANO_TEST(TURL, _name, _desc)
+
+NANO_FIXTURE(TURL)
+{
+};
 
 
-	// Execute the tests
-	NN_ASSERT(kTestURL1.GetScheme() == kTestScheme);
-	NN_ASSERT(kTestURL1.GetHost()   == kTestHost);
-	NN_ASSERT(kTestURL1.GetPort()   == kTestPort);
-	NN_ASSERT(kTestURL1.GetPath()   == kTestPath);
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NURL("Components", "Components")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestURL1.GetScheme() == kTestScheme);
+	REQUIRE(kTestURL1.GetHost()   == kTestHost);
+	REQUIRE(kTestURL1.GetPort()   == kTestPort);
+	REQUIRE(kTestURL1.GetPath()   == kTestPath);
 	
-	NN_ASSERT(kTestURL2.GetScheme() == kTestScheme);
-	NN_ASSERT(kTestURL2.GetHost()   == kTestHost);
-	NN_ASSERT(kTestURL2.GetPort()   == kTestPort);
-	NN_ASSERT(kTestURL2.GetPath()   == kTestPath);
+	REQUIRE(kTestURL2.GetScheme() == kTestScheme);
+	REQUIRE(kTestURL2.GetHost()   == kTestHost);
+	REQUIRE(kTestURL2.GetPort()   == kTestPort);
+	REQUIRE(kTestURL2.GetPath()   == kTestPath);
 }
 
 

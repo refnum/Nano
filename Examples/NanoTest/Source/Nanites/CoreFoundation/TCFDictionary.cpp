@@ -15,17 +15,33 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NCFDictionary.h"
-
-#include "TCFDictionary.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //============================================================================
-//		TCFDictionary::Execute : Execute the tests.
+//		Test fixture
 //----------------------------------------------------------------------------
-void TCFDictionary::Execute(void)
+#define TEST_NCFDICTIONARY(_name, _desc)							NANO_TEST(TCFDictionary, _name, _desc)
+
+NANO_FIXTURE(TCFDictionary)
 {
+};
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NCFDICTIONARY("Default", "Default state")
+{
+
+
+	// Perform the test
 }
+
 
