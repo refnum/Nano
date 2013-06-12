@@ -225,8 +225,8 @@ UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevValue)
 //		NDataDigest::GetMD5 : Get an MD5 digest.
 //----------------------------------------------------------------------------
 NDigestMD5 NDataDigest::GetMD5(const NData &theData)
-{	NDigestMD5		theDigest;
-	MD5Context		theState;
+{	MD5Context		theContext;
+	NDigestMD5		theDigest;
 
 
 
@@ -244,10 +244,10 @@ NDigestMD5 NDataDigest::GetMD5(const NData &theData)
 
 
 	// Get the digest
-	MD5Init(  &theState);
-	MD5Update(&theState, (const unsigned char *) theData.GetData(), theData.GetSize());
-	MD5Final(theDigest.bytes, &theState);
-	
+	MD5Init(  &theContext);
+	MD5Update(&theContext, (const unsigned char *) theData.GetData(), theData.GetSize());
+	MD5Final(theDigest.bytes, &theContext);
+
 	return(theDigest);
 }
 
