@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetSystem.h"
+#include "NTargetMath.h"
 #include "NImage.h"
 
 
@@ -317,6 +318,111 @@ NImageFormat NImage::GetFormat(void) const
 
 
 //============================================================================
+//		NImage::SetFormat : Set the format.
+//----------------------------------------------------------------------------
+void NImage::SetFormat(NImageFormat theFormat)
+{	bool	didSet;
+
+
+
+	// Process the image
+	didSet = true;
+
+	switch (mFormat) {
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			switch (theFormat) {
+				case kNImageFormat_RGBX_8888:
+				case kNImageFormat_RGBA_8888:
+					// No-op
+					break;
+
+				case kNImageFormat_XRGB_8888:
+				case kNImageFormat_ARGB_8888:
+					ForEach(BindSelf(NImage::PixelRotate32, _3, 8));
+					break;
+
+				case kNImageFormat_BGRX_8888:
+				case kNImageFormat_BGRA_8888:
+					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+					break;
+
+				default:
+					didSet = false;
+					break;
+				}
+			break;
+
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			switch (theFormat) {
+				case kNImageFormat_RGBX_8888:
+				case kNImageFormat_RGBA_8888:
+					ForEach(BindSelf(NImage::PixelRotate32, _3, 24));
+					break;
+
+				case kNImageFormat_XRGB_8888:
+				case kNImageFormat_ARGB_8888:
+					// No-op
+					break;
+
+				case kNImageFormat_BGRX_8888:
+				case kNImageFormat_BGRA_8888:
+					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+					break;
+
+				default:
+					didSet = false;
+					break;
+				}
+			break;
+
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			switch (theFormat) {
+				case kNImageFormat_RGBX_8888:
+				case kNImageFormat_RGBA_8888:
+					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+					break;
+
+				case kNImageFormat_XRGB_8888:
+				case kNImageFormat_ARGB_8888:
+					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+					break;
+
+				case kNImageFormat_BGRX_8888:
+				case kNImageFormat_BGRA_8888:
+					// No-op
+					break;
+
+				default:
+					didSet = false;
+					break;
+				}
+			break;
+
+
+		default:
+			didSet = false;
+			break;
+		}
+
+
+
+	// Update our state
+	if (didSet)
+		mFormat = theFormat;
+	else
+		NN_LOG("Unable to convert image from format %ld to format %ld!", mFormat, theFormat);
+}
+
+
+
+
+
+//============================================================================
 //		NImage::GetBitsPerPixel : Get the bits-per-pixel.
 //----------------------------------------------------------------------------
 NIndex NImage::GetBitsPerPixel(void) const
@@ -484,7 +590,7 @@ NData NImage::GetData(void) const
 //============================================================================
 //		NImage::Load : Load an image.
 //----------------------------------------------------------------------------
-NStatus NImage::Load(const NFile &theFile)
+NStatus NImage::Load(const NFile &theFile, NImageFormat theFormat)
 {	NData		theData;
 	NStatus		theErr;
 
@@ -492,7 +598,7 @@ NStatus NImage::Load(const NFile &theFile)
 
 	// Load the image
 	theData = NFileUtilities::GetFileData(theFile);
-	theErr  = Decode(theData);
+	theErr  = Decode(theData, theFormat);
 	
 	return(theErr);
 }
@@ -554,22 +660,76 @@ NData NImage::Encode(const NUTI &theType) const
 //============================================================================
 //		NImage::Decode : Decode an image.
 //----------------------------------------------------------------------------
-NStatus NImage::Decode(const NData &theData)
+NStatus NImage::Decode(const NData &theData, NImageFormat theFormat)
 {	NImage		theImage;
-	NStatus		theErr;
 
 
 
 	// Decode the image
 	theImage = NTargetSystem::ImageDecode(theData);
-	theErr   = kNErrMalformed;
+	if (!theImage.IsValid())
+		return(kNErrMalformed);
 
-	if (theImage.IsValid())
-		{
-		*this  = theImage;
-		theErr = kNoErr;
-		}
+
+
+	// Update our state
+	*this = theImage;
+
+	if (theFormat != kNImageFormatNone)
+		SetFormat(theFormat);
 	
-	return(theErr);
+	return(kNoErr);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::PixelRotate32 : Rotate a 32-bpp pixel.
+//----------------------------------------------------------------------------
+bool NImage::PixelRotate32(UInt8 *pixelPtr, UInt32 rotateRight)
+{	UInt32	*pixelPtr32 = (UInt32 *) pixelPtr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(rotateRight < 32);
+	NN_ASSERT((rotateRight % 8) == 0);
+
+
+
+	// Rotate the pixel
+	*pixelPtr32 = NTargetMath::RotateRight(*pixelPtr32, rotateRight);
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::PixelSwizzle32 : Swizzle a 32-bpp pixel.
+//----------------------------------------------------------------------------
+bool NImage::PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder)
+{	UInt8	theBytes[4];
+
+
+
+	// Validate our parameters
+	NN_ASSERT(newOrder.size() == 4);
+
+
+
+	// Swizzle the pixel
+	*((UInt32 *) &theBytes[0]) = *((UInt32 *) pixelPtr);
+
+	pixelPtr[0] = theBytes[newOrder[0]];
+	pixelPtr[1] = theBytes[newOrder[1]];
+	pixelPtr[2] = theBytes[newOrder[2]];
+	pixelPtr[3] = theBytes[newOrder[3]];
+
+	return(true);
 }
 

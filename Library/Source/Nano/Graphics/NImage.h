@@ -95,8 +95,9 @@ public:
 	NRectangle							GetBounds(void) const;
 
 
-	// Get the format
+	// Get/set the format
 	NImageFormat						GetFormat(void) const;
+	void								SetFormat(NImageFormat theFormat);
 
 
 	// Get the structure
@@ -118,13 +119,27 @@ public:
 
 
 	// Load/save the image
-	NStatus								Load(const NFile &theFile);
+	//
+	// Images are loaded in their existing format, and can be converted
+	// to a specific format after loading.
+	//
+	// Images are saved to the UTI of their file ("foo.jpg" will produce
+	// a JPEG), and can also be saved to a specific type.
+	NStatus								Load(const NFile &theFile, NImageFormat	theFormat=kNImageFormatNone);
 	NStatus								Save(const NFile &theFile, const NUTI &theType=NUTI()) const;
 
 
 	// Encode/decode the image
-	NData								Encode(const NUTI &theType=kNUTTypePNG) const;
-	NStatus								Decode(const NData &theData);
+	//
+	// Images are decoded to their existing format, and can be converted
+	// to a specific format after decoding.
+	NData								Encode(const NUTI  &theType=kNUTTypePNG) const;
+	NStatus								Decode(const NData &theData, NImageFormat theFormat=kNImageFormatNone);
+
+
+private:
+	bool								PixelRotate32( UInt8 *pixelPtr, UInt32 rotateRight);
+	bool								PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder);
 
 
 private:
