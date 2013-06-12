@@ -58,7 +58,7 @@ public:
 										NImage(	const NSize	   &theSize,
 												NImageFormat	theFormat = kNImageFormat_RGBA_8888,
 												const NData	   &theData   = NData(),
-												UInt32			rowBytes  = 0);
+												NIndex			rowBytes  = 0);
 
 										NImage(void);
 	virtual							   ~NImage(void);
@@ -73,8 +73,8 @@ public:
 
 
 	// Get the dimensions
-	UInt32								GetWidth( void) const;
-	UInt32								GetHeight(void) const;
+	NIndex								GetWidth( void) const;
+	NIndex								GetHeight(void) const;
 
 	NSize								GetSize(  void) const;
 	NRectangle							GetBounds(void) const;
@@ -85,17 +85,17 @@ public:
 
 
 	// Get the structure
-	UInt32								GetBitsPerPixel(    void) const;
-	UInt32								GetBitsPerComponent(void) const;
-	UInt32								GetBytesPerPixel(   void) const;
-	UInt32								GetBytesPerRow(     void) const;
+	NIndex								GetBitsPerPixel(    void) const;
+	NIndex								GetBitsPerComponent(void) const;
+	NIndex								GetBytesPerPixel(   void) const;
+	NIndex								GetBytesPerRow(     void) const;
 
 
 	// Get the pixels
 	//
 	// Const access is preferred, to avoid duplicating the underlying image data.
-	const UInt8						   *GetPixels(UInt32 x=0, UInt32 y=0) const;
-	UInt8							   *GetPixels(UInt32 x=0, UInt32 y=0);
+	const UInt8						   *GetPixels(NIndex x=0, NIndex y=0) const;
+	UInt8							   *GetPixels(NIndex x=0, NIndex y=0);
 
 
 	// Get the data
@@ -116,7 +116,7 @@ private:
 	NSize								mSize;
 	NData								mData;
 	NImageFormat						mFormat;
-	UInt32								mRowBytes;
+	NIndex								mRowBytes;
 };
 
 

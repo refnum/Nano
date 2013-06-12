@@ -68,8 +68,8 @@ NImage::NImage(const NFile &theFile)
 //============================================================================
 //		NImage::NImage : Constructor.
 //----------------------------------------------------------------------------
-NImage::NImage(const NSize &theSize, NImageFormat theFormat, const NData &theData, UInt32 rowBytes)
-{	UInt32		packedRow;
+NImage::NImage(const NSize &theSize, NImageFormat theFormat, const NData &theData, NIndex rowBytes)
+{	NIndex		packedRow;
 
 
 
@@ -87,7 +87,7 @@ NImage::NImage(const NSize &theSize, NImageFormat theFormat, const NData &theDat
 
 
 	// Create the image
-	packedRow = (UInt32) (mSize.width * GetBytesPerPixel());
+	packedRow = (NIndex) (mSize.width * GetBytesPerPixel());
 
 	if (theData.IsEmpty())
 		{
@@ -170,12 +170,12 @@ void NImage::Clear(void)
 //============================================================================
 //		NImage::GetWidth : Get the width.
 //----------------------------------------------------------------------------
-UInt32 NImage::GetWidth(void) const
+NIndex NImage::GetWidth(void) const
 {
 
 
 	// Get the width
-	return((UInt32) mSize.width);
+	return((NIndex) mSize.width);
 }
 
 
@@ -185,12 +185,12 @@ UInt32 NImage::GetWidth(void) const
 //============================================================================
 //		NImage::GetHeight : Get the height.
 //----------------------------------------------------------------------------
-UInt32 NImage::GetHeight(void) const
+NIndex NImage::GetHeight(void) const
 {
 
 
 	// Get the height
-	return((UInt32) mSize.height);
+	return((NIndex) mSize.height);
 }
 
 
@@ -245,8 +245,8 @@ NImageFormat NImage::GetFormat(void) const
 //============================================================================
 //		NImage::GetBitsPerPixel : Get the bits-per-pixel.
 //----------------------------------------------------------------------------
-UInt32 NImage::GetBitsPerPixel(void) const
-{	UInt32		theValue;
+NIndex NImage::GetBitsPerPixel(void) const
+{	NIndex		theValue;
 
 
 
@@ -275,8 +275,8 @@ UInt32 NImage::GetBitsPerPixel(void) const
 //============================================================================
 //		NImage::GetBitsPerComponent : Get the bits-per-component.
 //----------------------------------------------------------------------------
-UInt32 NImage::GetBitsPerComponent(void) const
-{	UInt32		theValue;
+NIndex NImage::GetBitsPerComponent(void) const
+{	NIndex		theValue;
 
 
 
@@ -305,8 +305,8 @@ UInt32 NImage::GetBitsPerComponent(void) const
 //============================================================================
 //		NImage::GetBytesPerPixel : Get the bytes-per-pixel.
 //----------------------------------------------------------------------------
-UInt32 NImage::GetBytesPerPixel(void) const
-{	UInt32	theValue;
+NIndex NImage::GetBytesPerPixel(void) const
+{	NIndex	theValue;
 
 
 
@@ -324,7 +324,7 @@ UInt32 NImage::GetBytesPerPixel(void) const
 //============================================================================
 //		NImage::GetBytesPerRow : Get the bytes-per-row.
 //----------------------------------------------------------------------------
-UInt32 NImage::GetBytesPerRow(void) const
+NIndex NImage::GetBytesPerRow(void) const
 {
 
 
@@ -339,9 +339,15 @@ UInt32 NImage::GetBytesPerRow(void) const
 //============================================================================
 //		NImage::GetPixels : Get the pixels.
 //----------------------------------------------------------------------------
-const UInt8 *NImage::GetPixels(UInt32 x, UInt32 y) const
+const UInt8 *NImage::GetPixels(NIndex x, NIndex y) const
 {	NIndex			theOffset;
 	const UInt8		*thePtr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(x >= 0 && x <= (NIndex) mSize.width);
+	NN_ASSERT(y >= 0 && y <= (NIndex) mSize.height);
 
 
 
@@ -359,9 +365,15 @@ const UInt8 *NImage::GetPixels(UInt32 x, UInt32 y) const
 //============================================================================
 //		NImage::GetPixels : Get the pixels.
 //----------------------------------------------------------------------------
-UInt8 *NImage::GetPixels(UInt32 x, UInt32 y)
+UInt8 *NImage::GetPixels(NIndex x, NIndex y)
 {	NIndex		theOffset;
 	UInt8		*thePtr;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(x >= 0 && x <= (NIndex) mSize.width);
+	NN_ASSERT(y >= 0 && y <= (NIndex) mSize.height);
 
 
 
