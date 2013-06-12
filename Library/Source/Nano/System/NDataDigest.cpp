@@ -259,7 +259,8 @@ NDigestMD5 NDataDigest::GetMD5(const NData &theData)
 //		NDataDigest::GetSHA1 : Get an SHA1 digest.
 //----------------------------------------------------------------------------
 NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
-{	NDigestSHA1		theDigest;
+{	SHA_CTX			theContext;
+	NDigestSHA1		theDigest;
 
 
 
@@ -277,8 +278,10 @@ NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
 
 
 	// Get the digest
-	SHA1_Data(theData.GetData(), theData.GetSize(), (char *) theDigest.bytes);
-	
+	SHA1_Init(  &theContext);
+	SHA1_Update(&theContext, (const unsigned char *) theData.GetData(), theData.GetSize());
+	SHA1_Final(theDigest.bytes, &theContext);
+
 	return(theDigest);
 }
 

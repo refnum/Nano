@@ -128,8 +128,8 @@ TEST_NDATADIGEST("SHA1", "SHA1 digest")
 
 
 	// Perform the test
-	REQUIRE(theDigest.GetString(theDigest.GetSHA1(data1)) == "6137623765393539326461613038393664623035");
-	REQUIRE(theDigest.GetString(theDigest.GetSHA1(data2)) == "3836383436306439386430396438626262393364");
+	REQUIRE(theDigest.GetString(theDigest.GetSHA1(data1)) == "a7b7e9592daa0896db0517bf8ad53e56b1246923");
+	REQUIRE(theDigest.GetString(theDigest.GetSHA1(data2)) == "868460d98d09d8bbb93d7b6cdd15cc7fbec676b9");
 	REQUIRE(theDigest.GetString(theDigest.GetSHA1(data3)) == "0000000000000000000000000000000000000000");
 }
 
