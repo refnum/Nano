@@ -28,19 +28,18 @@
 //----------------------------------------------------------------------------
 // Image formats
 //
-// Image formats define the size, and order, of components within an image:
-//
-//		kNImageFormat_RGBX_8888		[R] [G] [B] [X]
-//		kNImageFormat_RGBA_8888		[R] [G] [B] [A]
-//		kNImageFormat_XRGB_8888		[X] [R] [G] [B]
-//		kNImageFormat_ARGB_8888		[A] [R] [G] [B]
-//
+// Each format defines the size, and order, of components within an image.
 typedef enum {
 	kNImageFormatNone,
+
 	kNImageFormat_RGBX_8888,
 	kNImageFormat_RGBA_8888,
+
 	kNImageFormat_XRGB_8888,
-	kNImageFormat_ARGB_8888
+	kNImageFormat_ARGB_8888,
+
+	kNImageFormat_BGRX_8888,
+	kNImageFormat_BGRA_8888
 } NImageFormat;
 
 

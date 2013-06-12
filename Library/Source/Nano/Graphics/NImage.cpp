@@ -330,6 +330,8 @@ NIndex NImage::GetBitsPerPixel(void) const
 		case kNImageFormat_RGBA_8888:
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
 			theValue = 32;
 			break;
 		
@@ -360,6 +362,8 @@ NIndex NImage::GetBitsPerComponent(void) const
 		case kNImageFormat_RGBA_8888:
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
 			theValue = 8;
 			break;
 		
