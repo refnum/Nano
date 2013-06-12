@@ -310,7 +310,7 @@ NData NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex line
 {	NIndex		n, m, p, numBytes;
 	char		*linePtr;
 	NData		theLine;
-	char		theByte;
+	UInt8		theByte;
 
 
 
@@ -387,13 +387,13 @@ NData NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex line
 				{
 				theByte = theData[lineOffset + n];
 			
-				if (!isprint(theByte) || theByte == ' ')
+				if (theByte == ' ' || !isprint(theByte))
 					theByte = '.';
 				}
 			else
 				theByte = ' ';
 
-			linePtr[m++] = theByte;
+			linePtr[m++] = (char) theByte;
 			}
 
 		linePtr[m++] = '\n';
