@@ -48,7 +48,7 @@ NANO_FIXTURE(TArray)
 {
 	NArray	theArray, theArray2;
 
-	void	ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount);
+	static void ForEach(NIndex theIndex, const NVariant &/*theValue*/, NIndex *theCount);
 };
 
 
@@ -160,7 +160,7 @@ TEST_NARRAY("Add", "Add values")
 	REQUIRE(theArray.GetValueSInt64(2) == kTestSInt64);
 	
 	theCount = 0;
-	theArray.ForEach(BindSelf(TArray::ForEach, _1, _2, &theCount));
+	theArray.ForEach(BindFunction(TArray::ForEach, _1, _2, &theCount));
 	REQUIRE(theCount == 3);
 }
 

@@ -155,7 +155,7 @@ TEST_NDATA("Replace", "Replace data")
 	// Perform the test
 	theData = kTestData1;
 	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), NN_ARRAY_SIZE(kBlock3), kBlock3));
+	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
 	REQUIRE(theData.GetSize() == (2 * NN_ARRAY_SIZE(kBlock3)));
 	REQUIRE(memcmp(kBlock3, theData.GetData(0),                       NN_ARRAY_SIZE(kBlock3)) == 0);
 	REQUIRE(memcmp(kBlock3, theData.GetData(NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock3)) == 0);
@@ -179,7 +179,7 @@ TEST_NDATA("Append+Replace", "Append and replace")
 	// Perform the test
 	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
 	REQUIRE(theData.AppendData(NN_ARRAY_SIZE(kBlock3), kBlock3) != NULL);
-	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock1), kBlock1));
+	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock3)), NN_ARRAY_SIZE(kBlock1), kBlock1) != NULL);
 
 	REQUIRE(theData.GetSize() == NN_ARRAY_SIZE(kBlock1_and_3));
 	REQUIRE(memcmp(kBlock1_and_3, theData.GetData(), (size_t) theData.GetSize()) == 0);
