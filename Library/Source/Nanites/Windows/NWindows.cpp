@@ -21,10 +21,31 @@
 
 
 //============================================================================
-//		Linker
+//		StCOM::StCOM : Constructor.
 //----------------------------------------------------------------------------
-void NWindows_SuppressNoCodeLinkerWarning(void);
-void NWindows_SuppressNoCodeLinkerWarning(void)
-{
+StCOM::StCOM(DWORD coInit)
+{	HRESULT		winErr;
+
+
+
+	// Initialise COM
+	winErr = CoInitializeEx(NULL, coInit);
+	NN_ASSERT_SUCCESS(winErr);
 }
+
+
+
+
+
+//============================================================================
+//		StCOM::~StCOM : Destructor.
+//----------------------------------------------------------------------------
+StCOM::~StCOM(void)
+{
+
+
+	// Clean up
+	CoUninitialize();
+}
+
 

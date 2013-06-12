@@ -21,6 +21,8 @@
 #include "NRectangle.h"
 #include "NString.h"
 
+#include <objidl.h>
+
 
 
 
@@ -180,6 +182,8 @@ inline UInt64 ToNN(DWORD valueHigh, DWORD valueLow)
 
 // Nano
 #if NN_DEBUG
+	#define NN_ASSERT_SUCCESS(_winErr)			NN_ASSERT(SUCCEEDED((_winErr)))
+	
 	#define NN_LOG_LASTERR()												\
 		do																	\
 			{	LPTSTR		theStr;											\
@@ -201,9 +205,22 @@ inline UInt64 ToNN(DWORD valueHigh, DWORD valueLow)
 		while (0)
 
 #else
+	#define NN_ASSERT_SUCCESS(_winErr)							do { } while (0)
 	#define NN_LOG_LASTERR()									do { } while (0)
 #endif
 
+
+
+
+
+//============================================================================
+//		Class declaration
+//----------------------------------------------------------------------------
+class StCOM : public NUncopyable {
+public:
+										StCOM(DWORD coInit=COINIT_MULTITHREADED);
+	virtual							   ~StCOM(void);
+};
 
 
 

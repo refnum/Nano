@@ -16,7 +16,6 @@
 //----------------------------------------------------------------------------
 #include <shellapi.h>
 #include <winioctl.h>
-#include <objidl.h>
 #include <shlobj.h>
 
 #include "NWindows.h"
@@ -470,6 +469,7 @@ NString NTargetFile::GetParent(const NString &thePath)
 NString NTargetFile::GetTarget(const NString &thePath)
 {	TCHAR			theBuffer[MAX_PATH];
 	IPersistFile	*persistFile;
+	StCOM			coInitialize;
 	IShellLink		*shellLink;
 	SHFILEINFO		shellInfo;
 	NString			theTarget;
@@ -487,8 +487,6 @@ NString NTargetFile::GetTarget(const NString &thePath)
 
     if (!(shellInfo.dwAttributes & SFGAO_LINK))
 		return(theTarget);
-
-	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
 	if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &shellLink)))
 		shellLink->QueryInterface(IID_IPersistFile, (LPVOID *) &persistFile);
@@ -513,8 +511,6 @@ NString NTargetFile::GetTarget(const NString &thePath)
 	// Clean up
 	WNSafeRelease(persistFile);
 	WNSafeRelease(shellLink);
-
-	CoUninitialize();
 
 	return(theTarget);
 }
@@ -703,7 +699,8 @@ NStatus NTargetFile::CreateDirectory(const NString &thePath)
 //      NTargetFile::CreateLink : Create a link.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPath, NFileLink /*theType*/)
-{	IPersistFile	*persistFile;
+{	StCOM			coInitialize;
+	IPersistFile	*persistFile;
 	IShellLink		*shellLink;
 	HRESULT			winErr;
 
@@ -714,8 +711,6 @@ NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPat
 
 	shellLink   = NULL;
 	persistFile = NULL;
-
-	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
     if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &shellLink)))
 		shellLink->QueryInterface(IID_IPersistFile, (LPVOID *) &persistFile);
@@ -738,8 +733,6 @@ NStatus NTargetFile::CreateLink(const NString &thePath, const NString &targetPat
 	// Clean up
 	WNSafeRelease(persistFile);
 	WNSafeRelease(shellLink);
-
-	CoUninitialize();
 
 	return(NWinTarget::ConvertHRESULT(winErr));
 }
