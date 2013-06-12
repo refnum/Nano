@@ -168,6 +168,80 @@ void NImage::Clear(void)
 
 
 //============================================================================
+//		NImage::ForEach : Process each pixel.
+//----------------------------------------------------------------------------
+void NImage::ForEach(const NImageForEachImmutableFunctor &theFunctor) const
+{	NIndex			x, y, theWidth, theHeight, rowBytes, pixelBytes;
+	const UInt8		*basePtr, *pixelPtr;
+
+
+
+	// Get the state we need
+	theWidth   = GetWidth();
+	theHeight  = GetHeight();
+	rowBytes   = GetBytesPerRow();
+	pixelBytes = GetBytesPerPixel();
+	basePtr    = GetPixels();
+
+
+
+	// Process the pixels
+	for (y = 0; y < theHeight; y++)
+		{
+		pixelPtr = basePtr + (y * rowBytes);
+
+		for (x = 0; x < theWidth; x++)
+			{
+			if (!theFunctor(x, y, pixelPtr))
+				return;
+			
+			pixelPtr += pixelBytes;
+			}
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NImage::ForEach : Process each pixel.
+//----------------------------------------------------------------------------
+void NImage::ForEach(const NImageForEachMutableFunctor &theFunctor)
+{	NIndex		x, y, theWidth, theHeight, rowBytes, pixelBytes;
+	UInt8		*basePtr, *pixelPtr;
+
+
+
+	// Get the state we need
+	theWidth   = GetWidth();
+	theHeight  = GetHeight();
+	rowBytes   = GetBytesPerRow();
+	pixelBytes = GetBytesPerPixel();
+	basePtr    = GetPixels();
+
+
+
+	// Process the pixels
+	for (y = 0; y < theHeight; y++)
+		{
+		pixelPtr = basePtr + (y * rowBytes);
+
+		for (x = 0; x < theWidth; x++)
+			{
+			if (!theFunctor(x, y, pixelPtr))
+				return;
+			
+			pixelPtr += pixelBytes;
+			}
+		}
+}
+
+
+
+
+
+//============================================================================
 //		NImage::GetWidth : Get the width.
 //----------------------------------------------------------------------------
 NIndex NImage::GetWidth(void) const

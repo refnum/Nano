@@ -48,6 +48,17 @@ typedef enum {
 
 
 //============================================================================
+//		Types
+//----------------------------------------------------------------------------
+// Functors
+typedef nfunctor<bool (NIndex x, NIndex y, const UInt8 *pixelPtr)>		NImageForEachImmutableFunctor;
+typedef nfunctor<bool (NIndex x, NIndex y,       UInt8 *pixelPtr)>		NImageForEachMutableFunctor;
+
+
+
+
+
+//============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
 class NImage {
@@ -70,6 +81,11 @@ public:
 
 	// Clear the image
 	void								Clear(void);
+
+
+	// Process each pixel
+	void								ForEach(const NImageForEachImmutableFunctor &theFunctor) const;
+	void								ForEach(const NImageForEachMutableFunctor   &theFunctor);
 
 
 	// Get the dimensions
