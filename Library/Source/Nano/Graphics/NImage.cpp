@@ -169,35 +169,59 @@ void NImage::Clear(void)
 
 
 //============================================================================
-//		NImage::ForEach : Process each pixel.
+//		NImage::ForEachPixel : Process each pixel.
 //----------------------------------------------------------------------------
-void NImage::ForEach(const NImageForEachImmutableFunctor &theFunctor) const
-{	NIndex			x, y, theWidth, theHeight, rowBytes, pixelBytes;
-	const UInt8		*basePtr, *pixelPtr;
+void NImage::ForEachPixel(const NImageForEachImmutablePixelFunctor &theFunctor) const
+{
+
+
+	// Process each pixel
+	ForEachRow(BindSelf(NImage::ForEachPixelInImmutableRow, _1, _2, GetBytesPerPixel(), theFunctor, _3));
+}
+
+
+
+
+
+//============================================================================
+//		NImage::ForEachPixel : Process each pixel.
+//----------------------------------------------------------------------------
+void NImage::ForEachPixel(const NImageForEachMutablePixelFunctor &theFunctor)
+{
+
+
+	// Process each pixel
+	ForEachRow(BindSelf(NImage::ForEachPixelInMutableRow, _1, _2, GetBytesPerPixel(), theFunctor, _3));
+}
+
+
+
+
+
+//============================================================================
+//		NImage::ForEachRow : Process each row.
+//----------------------------------------------------------------------------
+void NImage::ForEachRow(const NImageForEachImmutableRowFunctor &theFunctor) const
+{	NIndex			y, theWidth, theHeight, rowBytes;
+	const UInt8		*rowPtr;
 
 
 
 	// Get the state we need
 	theWidth   = GetWidth();
 	theHeight  = GetHeight();
+	rowPtr     = GetPixels();
 	rowBytes   = GetBytesPerRow();
-	pixelBytes = GetBytesPerPixel();
-	basePtr    = GetPixels();
 
 
 
-	// Process the pixels
+	// Process the rows
 	for (y = 0; y < theHeight; y++)
 		{
-		pixelPtr = basePtr + (y * rowBytes);
+		if (!theFunctor(y, theWidth, rowPtr))
+			return;
 
-		for (x = 0; x < theWidth; x++)
-			{
-			if (!theFunctor(x, y, pixelPtr))
-				return;
-			
-			pixelPtr += pixelBytes;
-			}
+		rowPtr += rowBytes;
 		}
 }
 
@@ -206,35 +230,29 @@ void NImage::ForEach(const NImageForEachImmutableFunctor &theFunctor) const
 
 
 //============================================================================
-//		NImage::ForEach : Process each pixel.
+//		NImage::ForEachRow : Process each row.
 //----------------------------------------------------------------------------
-void NImage::ForEach(const NImageForEachMutableFunctor &theFunctor)
-{	NIndex		x, y, theWidth, theHeight, rowBytes, pixelBytes;
-	UInt8		*basePtr, *pixelPtr;
+void NImage::ForEachRow(const NImageForEachMutableRowFunctor &theFunctor)
+{	NIndex			y, theWidth, theHeight, rowBytes;
+	UInt8			*rowPtr;
 
 
 
 	// Get the state we need
 	theWidth   = GetWidth();
 	theHeight  = GetHeight();
+	rowPtr     = GetPixels();
 	rowBytes   = GetBytesPerRow();
-	pixelBytes = GetBytesPerPixel();
-	basePtr    = GetPixels();
 
 
 
-	// Process the pixels
+	// Process the rows
 	for (y = 0; y < theHeight; y++)
 		{
-		pixelPtr = basePtr + (y * rowBytes);
+		if (!theFunctor(y, theWidth, rowPtr))
+			return;
 
-		for (x = 0; x < theWidth; x++)
-			{
-			if (!theFunctor(x, y, pixelPtr))
-				return;
-			
-			pixelPtr += pixelBytes;
-			}
+		rowPtr += rowBytes;
 		}
 }
 
@@ -339,12 +357,12 @@ void NImage::SetFormat(NImageFormat theFormat)
 
 				case kNImageFormat_XRGB_8888:
 				case kNImageFormat_ARGB_8888:
-					ForEach(BindSelf(NImage::PixelRotate32, _3, 8));
+					ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 8));
 					break;
 
 				case kNImageFormat_BGRX_8888:
 				case kNImageFormat_BGRA_8888:
-					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
 					break;
 
 				default:
@@ -359,7 +377,7 @@ void NImage::SetFormat(NImageFormat theFormat)
 			switch (theFormat) {
 				case kNImageFormat_RGBX_8888:
 				case kNImageFormat_RGBA_8888:
-					ForEach(BindSelf(NImage::PixelRotate32, _3, 24));
+					ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 24));
 					break;
 
 				case kNImageFormat_XRGB_8888:
@@ -369,7 +387,7 @@ void NImage::SetFormat(NImageFormat theFormat)
 
 				case kNImageFormat_BGRX_8888:
 				case kNImageFormat_BGRA_8888:
-					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
 					break;
 
 				default:
@@ -384,12 +402,12 @@ void NImage::SetFormat(NImageFormat theFormat)
 			switch (theFormat) {
 				case kNImageFormat_RGBX_8888:
 				case kNImageFormat_RGBA_8888:
-					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
 					break;
 
 				case kNImageFormat_XRGB_8888:
 				case kNImageFormat_ARGB_8888:
-					ForEach(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
 					break;
 
 				case kNImageFormat_BGRX_8888:
@@ -679,6 +697,54 @@ NStatus NImage::Decode(const NData &theData, NImageFormat theFormat)
 		SetFormat(theFormat);
 	
 	return(kNoErr);
+}
+
+
+
+
+#pragma mark private
+//============================================================================
+//		NImage::ForEachPixelInImmutableRow : Process each pixel in a row.
+//----------------------------------------------------------------------------
+bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr)
+{	NIndex		x;
+
+
+
+	// Process the row
+	for (x = 0; x < theWidth; x++)
+		{
+		if (!theFunctor(x, y, rowPtr))
+			return(false);
+
+		rowPtr += pixelBytes;
+		}
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::ForEachPixelInMutableRow : Process each pixel in a row.
+//----------------------------------------------------------------------------
+bool NImage::ForEachPixelInMutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes,  const NImageForEachMutablePixelFunctor &theFunctor, UInt8 *rowPtr)
+{	NIndex		x;
+
+
+
+	// Process the row
+	for (x = 0; x < theWidth; x++)
+		{
+		if (!theFunctor(x, y, rowPtr))
+			return(false);
+
+		rowPtr += pixelBytes;
+		}
+
+	return(true);
 }
 
 

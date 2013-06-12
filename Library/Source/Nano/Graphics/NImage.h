@@ -50,8 +50,11 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<bool (NIndex x, NIndex y, const UInt8 *pixelPtr)>		NImageForEachImmutableFunctor;
-typedef nfunctor<bool (NIndex x, NIndex y,       UInt8 *pixelPtr)>		NImageForEachMutableFunctor;
+typedef nfunctor<bool (NIndex x, NIndex y, const UInt8 *pixelPtr)>		NImageForEachImmutablePixelFunctor;
+typedef nfunctor<bool (NIndex x, NIndex y,       UInt8 *pixelPtr)>		NImageForEachMutablePixelFunctor;
+
+typedef nfunctor<bool (NIndex y, NIndex theWidth, const UInt8 *rowPtr)>	NImageForEachImmutableRowFunctor;
+typedef nfunctor<bool (NIndex y, NIndex theWidth,       UInt8 *rowPtr)>	NImageForEachMutableRowFunctor;
 
 
 
@@ -83,8 +86,13 @@ public:
 
 
 	// Process each pixel
-	void								ForEach(const NImageForEachImmutableFunctor &theFunctor) const;
-	void								ForEach(const NImageForEachMutableFunctor   &theFunctor);
+	void								ForEachPixel(const NImageForEachImmutablePixelFunctor &theFunctor) const;
+	void								ForEachPixel(const NImageForEachMutablePixelFunctor   &theFunctor);
+
+
+	// Process each row
+	void								ForEachRow(const NImageForEachImmutableRowFunctor &theFunctor) const;
+	void								ForEachRow(const NImageForEachMutableRowFunctor   &theFunctor);
 
 
 	// Get the dimensions
@@ -138,6 +146,9 @@ public:
 
 
 private:
+	bool								ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr);
+	bool								ForEachPixelInMutableRow(  NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachMutablePixelFunctor   &theFunctor,       UInt8 *rowPtr);
+
 	bool								PixelRotate32( UInt8 *pixelPtr, UInt32 rotateRight);
 	bool								PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder);
 
