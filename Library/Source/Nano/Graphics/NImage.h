@@ -39,7 +39,9 @@ typedef enum {
 	kNImageFormat_ARGB_8888,
 
 	kNImageFormat_BGRX_8888,
-	kNImageFormat_BGRA_8888
+	kNImageFormat_BGRA_8888,
+
+	kNImageFormat_BGR_888,
 } NImageFormat;
 
 
@@ -152,9 +154,13 @@ private:
 	void								Convert_RGBA_8888(NImageFormat theFormat);
 	void								Convert_ARGB_8888(NImageFormat theFormat);
 	void								Convert_BGRA_8888(NImageFormat theFormat);
+	void								Convert_BGR_888(  NImageFormat theFormat);
 
 	bool								PixelRotate32( UInt8 *pixelPtr, UInt32 rotateRight);
 	bool								PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder);
+
+	bool								RowExpand24To32(NIndex y, NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage);
+	bool								RowReduce32To24(NIndex y, NIndex theWidth,       UInt8 *rowPtr, const NIndexList &srcOrder);
 
 
 private:

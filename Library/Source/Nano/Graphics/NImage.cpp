@@ -359,6 +359,10 @@ void NImage::SetFormat(NImageFormat theFormat)
 			Convert_BGRA_8888(theFormat);
 			break;
 
+		case kNImageFormat_BGR_888:
+			Convert_BGR_888(theFormat);
+			break;
+
 		default:
 			NN_LOG("Unknown image format: %ld", theFormat);
 			return;
@@ -394,6 +398,10 @@ NIndex NImage::GetBitsPerPixel(void) const
 			theValue = 32;
 			break;
 		
+		case kNImageFormat_BGR_888:
+			theValue = 24;
+			break;
+
 		default:
 			NN_LOG("Invalid image format: %ld", mFormat);
 			theValue = 0;
@@ -425,7 +433,11 @@ NIndex NImage::GetBitsPerComponent(void) const
 		case kNImageFormat_BGRA_8888:
 			theValue = 8;
 			break;
-		
+
+		case kNImageFormat_BGR_888:
+			theValue = 8;
+			break;
+
 		default:
 			NN_LOG("Invalid image format: %ld", mFormat);
 			theValue = 0;
@@ -710,6 +722,10 @@ void NImage::Convert_RGBA_8888(NImageFormat theFormat)
 			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
 			break;
 
+		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _1, _2, _3, mkvector(2, 1, 0)));
+			break;
+
 		default:
 			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
 			break;
@@ -744,6 +760,10 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
 			break;
 
+		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _1, _2, _3, mkvector(3, 2, 1)));
+			break;
+
 		default:
 			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
 			break;
@@ -755,7 +775,7 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 
 
 //============================================================================
-//		NImage::Convert_BGRA_8888 : Convert n BGRA_8888 image.
+//		NImage::Convert_BGRA_8888 : Convert a BGRA_8888 image.
 //----------------------------------------------------------------------------
 void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 {
@@ -775,6 +795,55 @@ void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
+			// No-op
+			break;
+
+		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _1, _2, _3, mkvector(0, 1, 2)));
+			break;
+
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_BGR_888 : Convert a BGR_888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_BGR_888(NImageFormat theFormat)
+{	NImage		tmpImage;
+
+
+
+	// Convert the image
+	switch (theFormat) {
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _1, _2, _3, mkvector(2, 1, 0, 3), &tmpImage));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _1, _2, _3, mkvector(3, 2, 1, 0), &tmpImage));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _1, _2, _3, mkvector(0, 1, 2, 3), &tmpImage));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_BGR_888:
 			// No-op
 			break;
 
@@ -816,7 +885,7 @@ bool NImage::PixelRotate32(UInt8 *pixelPtr, UInt32 rotateRight)
 //		NImage::PixelSwizzle32 : Swizzle a 32-bpp pixel.
 //----------------------------------------------------------------------------
 bool NImage::PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder)
-{	UInt8	theBytes[4];
+{	UInt8	thePixel[4];
 
 
 
@@ -826,12 +895,96 @@ bool NImage::PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder)
 
 
 	// Swizzle the pixel
-	*((UInt32 *) &theBytes[0]) = *((UInt32 *) pixelPtr);
+	*((UInt32 *) &thePixel[0]) = *((const UInt32 *) pixelPtr);
 
-	pixelPtr[0] = theBytes[newOrder[0]];
-	pixelPtr[1] = theBytes[newOrder[1]];
-	pixelPtr[2] = theBytes[newOrder[2]];
-	pixelPtr[3] = theBytes[newOrder[3]];
+	pixelPtr[0] = thePixel[newOrder[0]];
+	pixelPtr[1] = thePixel[newOrder[1]];
+	pixelPtr[2] = thePixel[newOrder[2]];
+	pixelPtr[3] = thePixel[newOrder[3]];
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::RowExpand24To32 : Expand a 24bpp row into 32bpp.
+//----------------------------------------------------------------------------
+bool NImage::RowExpand24To32(NIndex y, NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage)
+{	const UInt8		*srcPixel;
+	UInt8			*dstPixel;
+	NIndex			x;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(dstOrder.size()              == 4);
+	NN_ASSERT(dstImage->GetBytesPerPixel() == 4);
+	NN_ASSERT(dstImage->GetWidth()         == theWidth);
+
+
+
+	// Get the state we need
+	srcPixel = rowPtr;
+	dstPixel = dstImage->GetPixels(0, y);
+
+
+
+	// Expand the row
+	for (x = 0; x < theWidth; x++)
+		{
+		dstPixel[dstOrder[0]] = srcPixel[0];
+		dstPixel[dstOrder[1]] = srcPixel[1];
+		dstPixel[dstOrder[2]] = srcPixel[2];
+		dstPixel[dstOrder[3]] = 0xFF;
+
+		srcPixel += 3;
+		dstPixel += 4;
+		}
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::RowReduce32To24 : Reduce a 32bpp row to 24bpp.
+//----------------------------------------------------------------------------
+bool NImage::RowReduce32To24(NIndex y, NIndex theWidth, UInt8 *rowPtr, const NIndexList &srcOrder)
+{	UInt8			tmpPixel[4];
+	const UInt8		*srcPixel;
+	UInt8			*dstPixel;
+	NIndex			x;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(srcOrder.size() == 3);
+
+
+
+	// Get the state we need
+	srcPixel = rowPtr;
+	dstPixel = rowPtr;
+
+
+
+	// Reduce the row
+	for (x = 0; x < theWidth; x++)
+		{
+		*((UInt32 *) &tmpPixel[0]) = *((const UInt32 *) srcPixel);
+
+		dstPixel[0] = tmpPixel[srcOrder[0]];
+		dstPixel[1] = tmpPixel[srcOrder[1]];
+		dstPixel[2] = tmpPixel[srcOrder[2]];
+
+		srcPixel += 4;
+		dstPixel += 3;
+		}
 
 	return(true);
 }
