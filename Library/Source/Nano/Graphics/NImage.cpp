@@ -339,101 +339,36 @@ NImageFormat NImage::GetFormat(void) const
 //		NImage::SetFormat : Set the format.
 //----------------------------------------------------------------------------
 void NImage::SetFormat(NImageFormat theFormat)
-{	bool	didSet;
+{
 
 
-
-	// Process the image
-	didSet = true;
-
+	// Convert the image
 	switch (mFormat) {
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			switch (theFormat) {
-				case kNImageFormat_RGBX_8888:
-				case kNImageFormat_RGBA_8888:
-					// No-op
-					break;
-
-				case kNImageFormat_XRGB_8888:
-				case kNImageFormat_ARGB_8888:
-					ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 8));
-					break;
-
-				case kNImageFormat_BGRX_8888:
-				case kNImageFormat_BGRA_8888:
-					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
-					break;
-
-				default:
-					didSet = false;
-					break;
-				}
+			Convert_RGBA_8888(theFormat);
 			break;
-
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			switch (theFormat) {
-				case kNImageFormat_RGBX_8888:
-				case kNImageFormat_RGBA_8888:
-					ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 24));
-					break;
-
-				case kNImageFormat_XRGB_8888:
-				case kNImageFormat_ARGB_8888:
-					// No-op
-					break;
-
-				case kNImageFormat_BGRX_8888:
-				case kNImageFormat_BGRA_8888:
-					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
-					break;
-
-				default:
-					didSet = false;
-					break;
-				}
+			Convert_ARGB_8888(theFormat);
 			break;
-
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			switch (theFormat) {
-				case kNImageFormat_RGBX_8888:
-				case kNImageFormat_RGBA_8888:
-					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
-					break;
-
-				case kNImageFormat_XRGB_8888:
-				case kNImageFormat_ARGB_8888:
-					ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
-					break;
-
-				case kNImageFormat_BGRX_8888:
-				case kNImageFormat_BGRA_8888:
-					// No-op
-					break;
-
-				default:
-					didSet = false;
-					break;
-				}
+			Convert_BGRA_8888(theFormat);
 			break;
 
-
 		default:
-			didSet = false;
+			NN_LOG("Unknown image format: %ld", theFormat);
+			return;
 			break;
 		}
 
 
 
 	// Update our state
-	if (didSet)
-		mFormat = theFormat;
-	else
-		NN_LOG("Unable to convert image from format %ld to format %ld!", mFormat, theFormat);
+	mFormat = theFormat;
 }
 
 
@@ -745,6 +680,108 @@ bool NImage::ForEachPixelInMutableRow(NIndex y, NIndex theWidth, NIndex pixelByt
 		}
 
 	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_RGBA_8888 : Convert an RGBA_8888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_RGBA_8888(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat) {
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			// No-op
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 8));
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+			break;
+
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}	
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_ARGB_8888 : Convert an ARGB_8888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_ARGB_8888(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat) {
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 24));
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			// No-op
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+			break;
+
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_BGRA_8888 : Convert n BGRA_8888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_BGRA_8888(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat) {
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			// No-op
+			break;
+
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}
 }
 
 

@@ -149,6 +149,10 @@ private:
 	bool								ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr);
 	bool								ForEachPixelInMutableRow(  NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachMutablePixelFunctor   &theFunctor,       UInt8 *rowPtr);
 
+	void								Convert_RGBA_8888(NImageFormat theFormat);
+	void								Convert_ARGB_8888(NImageFormat theFormat);
+	void								Convert_BGRA_8888(NImageFormat theFormat);
+
 	bool								PixelRotate32( UInt8 *pixelPtr, UInt32 rotateRight);
 	bool								PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder);
 
