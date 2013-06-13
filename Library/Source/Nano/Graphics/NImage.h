@@ -156,10 +156,10 @@ private:
 	void								Convert_BGRA_8888(NImageFormat theFormat);
 	void								Convert_BGR_888(  NImageFormat theFormat);
 
-	bool								RowRotate32(    NIndex y, NIndex theWidth,       UInt8 *rowPtr, UInt32 rotateRight);
-	bool								RowSwizzle32(   NIndex y, NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
-	bool								RowExpand24To32(NIndex y, NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage);
-	bool								RowReduce32To24(NIndex y, NIndex theWidth,       UInt8 *rowPtr, const NIndexList &srcOrder);
+	bool								RowRotate32(    NIndex theWidth,       UInt8 *rowPtr, UInt32 rotateRight);
+	bool								RowSwizzle32(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
+	bool								RowExpand24To32(NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y);
+	bool								RowReduce32To24(NIndex theWidth,       UInt8 *rowPtr, const NIndexList &srcOrder);
 
 
 private:
