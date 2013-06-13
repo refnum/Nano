@@ -714,12 +714,12 @@ void NImage::Convert_RGBA_8888(NImageFormat theFormat)
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 8));
+			ForEachRow(BindSelf(NImage::RowRotate32, _1, _2, _3, 8));
 			break;
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32, _1, _2, _3, mkvector(2, 1, 0, 3)));
 			break;
 
 		case kNImageFormat_BGR_888:
@@ -747,7 +747,7 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 	switch (theFormat) {
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			ForEachPixel(BindSelf(NImage::PixelRotate32, _3, 24));
+			ForEachRow(BindSelf(NImage::RowRotate32, _1, _2, _3, 24));
 			break;
 
 		case kNImageFormat_XRGB_8888:
@@ -757,7 +757,7 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32, _1, _2, _3, mkvector(3, 2, 1, 0)));
 			break;
 
 		case kNImageFormat_BGR_888:
@@ -785,12 +785,12 @@ void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 	switch (theFormat) {
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(2, 1, 0, 3)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32, _1, _2, _3, mkvector(2, 1, 0, 3)));
 			break;
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			ForEachPixel(BindSelf(NImage::PixelSwizzle32, _3, mkvector(3, 2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32, _1, _2, _3, mkvector(3, 2, 1, 0)));
 			break;
 
 		case kNImageFormat_BGRX_8888:
@@ -858,10 +858,11 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 
 
 //============================================================================
-//		NImage::PixelRotate32 : Rotate a 32-bpp pixel.
+//		NImage::RowRotate32 : Rotate a row of 32-bpp pixels.
 //----------------------------------------------------------------------------
-bool NImage::PixelRotate32(UInt8 *pixelPtr, UInt32 rotateRight)
-{	UInt32	*pixelPtr32 = (UInt32 *) pixelPtr;
+bool NImage::RowRotate32(NIndex y, NIndex theWidth, UInt8 *rowPtr, UInt32 rotateRight)
+{	UInt32		*pixelPtr;
+	NIndex		x;
 
 
 
@@ -871,8 +872,14 @@ bool NImage::PixelRotate32(UInt8 *pixelPtr, UInt32 rotateRight)
 
 
 
-	// Rotate the pixel
-	*pixelPtr32 = NTargetMath::RotateRight(*pixelPtr32, rotateRight);
+	// Get the state we need
+	pixelPtr = (UInt32 *) rowPtr;
+
+
+
+	// Process the row
+	for (x = 0; x < theWidth; x++)
+		pixelPtr[x] = NTargetMath::RotateRight(pixelPtr[x], rotateRight);
 
 	return(true);
 }
@@ -882,10 +889,12 @@ bool NImage::PixelRotate32(UInt8 *pixelPtr, UInt32 rotateRight)
 
 
 //============================================================================
-//		NImage::PixelSwizzle32 : Swizzle a 32-bpp pixel.
+//		NImage::RowSwizzle32 : Swizzle a row of 32-bpp pixels.
 //----------------------------------------------------------------------------
-bool NImage::PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder)
-{	UInt8	thePixel[4];
+bool NImage::RowSwizzle32(NIndex y, NIndex theWidth, UInt8 *rowPtr, const NIndexList &newOrder)
+{	UInt8		tmpPixel[4];
+	UInt8		*pixelPtr;
+	NIndex		x;
 
 
 
@@ -894,13 +903,23 @@ bool NImage::PixelSwizzle32(UInt8 *pixelPtr, const NIndexList &newOrder)
 
 
 
-	// Swizzle the pixel
-	*((UInt32 *) &thePixel[0]) = *((const UInt32 *) pixelPtr);
+	// Get the state we need
+	pixelPtr = rowPtr;
 
-	pixelPtr[0] = thePixel[newOrder[0]];
-	pixelPtr[1] = thePixel[newOrder[1]];
-	pixelPtr[2] = thePixel[newOrder[2]];
-	pixelPtr[3] = thePixel[newOrder[3]];
+
+
+	// Process the row
+	for (x = 0; x < theWidth; x++)
+		{
+		*((UInt32 *) &tmpPixel[0]) = *((UInt32 *) pixelPtr);
+
+		pixelPtr[0] = tmpPixel[newOrder[0]];
+		pixelPtr[1] = tmpPixel[newOrder[1]];
+		pixelPtr[2] = tmpPixel[newOrder[2]];
+		pixelPtr[3] = tmpPixel[newOrder[3]];
+
+		pixelPtr += 4;
+		}
 
 	return(true);
 }
@@ -932,7 +951,7 @@ bool NImage::RowExpand24To32(NIndex y, NIndex theWidth, const UInt8 *rowPtr, con
 
 
 
-	// Expand the row
+	// Process the row
 	for (x = 0; x < theWidth; x++)
 		{
 		dstPixel[dstOrder[0]] = srcPixel[0];
@@ -973,10 +992,10 @@ bool NImage::RowReduce32To24(NIndex y, NIndex theWidth, UInt8 *rowPtr, const NIn
 
 
 
-	// Reduce the row
+	// Process the row
 	for (x = 0; x < theWidth; x++)
 		{
-		*((UInt32 *) &tmpPixel[0]) = *((const UInt32 *) srcPixel);
+		*((UInt32 *) &tmpPixel[0]) = *((UInt32 *) srcPixel);
 
 		dstPixel[0] = tmpPixel[srcOrder[0]];
 		dstPixel[1] = tmpPixel[srcOrder[1]];
