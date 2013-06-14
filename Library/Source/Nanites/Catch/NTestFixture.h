@@ -34,10 +34,16 @@
 namespace Catch {
 	class Fixture {
 	public:
-		Fixture(void) { }
+		         Fixture(void) { }
 		virtual ~Fixture(void) { }
-		virtual void setUp(void) { }
-		virtual void tearDown(void) { }
+
+		virtual void willSetUp(void) { }
+		virtual void     setUp(void) { }
+		virtual void  didSetUp(void) { }
+
+		virtual void willTearDown(void) { }
+		virtual void     tearDown(void) { }
+		virtual void  didTearDown(void) { }
 	};
 }
 
@@ -55,9 +61,15 @@ namespace Catch {
     } \
     void INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )::invokeFixture() \
 	{ \
+		willSetUp(); \
 		setUp(); \
+		didSetUp(); \
+		\
 		test(); \
+		\
+		willTearDown(); \
 		tearDown(); \
+		didTearDown(); \
 	} \
 	\
     void INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )::test()
@@ -137,6 +149,31 @@ public:
 	// Test the time
 	bool								TimeUnder(NTime theTime) const;
 	bool								TimeOver( NTime theTime) const;
+
+
+protected:
+	// Pre/post setup/teardown hooks
+	//
+	// Although NFixture can be used directly, it may also be sub-classed by a
+	// class that acts as a common base class for other fixtures.
+	//
+	// These sub-classes can override these methods to obtain a hook before and
+	// after the leaf fixtures invoke SETUP and TEARDOWN.
+	virtual void						WillSetUp(void);
+	virtual void						DidSetUp( void);
+
+
+	// Pre/post teardown hook
+	virtual void						WillTearDown(void);
+	virtual void						DidTearDown( void);
+
+
+protected:
+	void								willSetUp(void) { WillSetUp(); }
+	void								didSetUp( void) { DidSetUp();  }
+
+	void								willTearDown(void) { WillTearDown(); }
+	void								didTearDown( void) { DidTearDown();  }
 
 
 private:
