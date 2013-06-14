@@ -25,7 +25,7 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NSize kTestSize									= NSize(120, 72);
-static const UInt8 kTestPNG[]									= {	0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44,
+static const UInt8 kTestImage[]									= {	0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44,
 																	0x52, 0x00, 0x00, 0x00, 0x78, 0x00, 0x00, 0x00, 0x48, 0x04, 0x03, 0x00, 0x00, 0x00, 0xCF,
 																	0x30, 0x2C, 0x4C, 0x00, 0x00, 0x00, 0x1E, 0x50, 0x4C, 0x54, 0x45, 0x00, 0x65, 0xBD, 0x09,
 																	0x6A, 0xBF, 0x22, 0x7A, 0xC6, 0x4C, 0x93, 0xD1, 0x7F, 0xB2, 0xDE, 0xB2, 0xD0, 0xEB, 0xD4,
@@ -69,6 +69,9 @@ NANO_FIXTURE(TImage)
 {
 	NImage		theImage;
 	NData		theData;
+	NStatus		theErr;
+
+	void EncodeDecode(const NUTI &theType);
 };
 
 
@@ -84,7 +87,7 @@ TEST_NIMAGE("Default", "Default state")
 
 	// Perform the test
 	REQUIRE(!theImage.IsValid());
-	REQUIRE(theImage.GetBounds().IsEmpty());
+	REQUIRE( theImage.GetBounds().IsEmpty());
 }
 
 
@@ -94,19 +97,12 @@ TEST_NIMAGE("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NIMAGE("Encoding", "Encoding")
+TEST_NIMAGE("PNG", "PNG encoding/decoding")
 {
 
 
 	// Perform the test
-	theData  = NData(sizeof(kTestPNG), kTestPNG);
-	theImage = NImage(theData);
-
-	theData = theImage.Encode(kNUTTypePNG);
-	REQUIRE(!theData.IsEmpty());
-
-	theData = theImage.Encode(kNUTTypeJPEG);
-	REQUIRE(!theData.IsEmpty());
+	EncodeDecode(kNUTTypePNG);
 }
 
 
@@ -116,15 +112,67 @@ TEST_NIMAGE("Encoding", "Encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NIMAGE("Decoding", "Decoding")
+TEST_NIMAGE("JPEG", "JPEG encoding/decoding")
 {
 
 
 	// Perform the test
-	theData  = NData(sizeof(kTestPNG), kTestPNG);
-	theImage = NImage(theData);
-	
-	REQUIRE(theImage.IsValid());
-	REQUIRE(theImage.GetSize() == kTestSize);
+	EncodeDecode(kNUTTypeJPEG);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("TIFF", "TIFF encoding/decoding")
+{
+
+
+	// Perform the test
+	EncodeDecode(kNUTTypeTIFF);
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("GIF", "GIF encoding/decoding")
+{
+
+
+	// Perform the test
+	EncodeDecode(kNUTTypeGIF);
+}
+
+
+
+
+
+#pragma mark internal
+//============================================================================
+//		TImage::EncodeDecode : Encode/decode an image.
+//----------------------------------------------------------------------------
+void TImage::EncodeDecode(const NUTI &theType)
+{
+
+
+	// Setup
+	theErr = theImage.Decode(NData(sizeof(kTestImage), kTestImage));
+	REQUIRE_NOERR(theErr);
+
+
+
+	// Perform the test
+	theData = theImage.Encode(theType);
+	REQUIRE(!theData.IsEmpty());
+
+	theErr = theImage.Decode(theData);
+	REQUIRE_NOERR(theErr);
 }
 
