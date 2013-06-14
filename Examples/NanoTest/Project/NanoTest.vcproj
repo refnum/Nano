@@ -52,7 +52,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Ws2_32.lib Winhttp.lib Wininet.lib"
+				AdditionalDependencies="Ws2_32.lib Winhttp.lib Wininet.lib WindowsCodecs.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Ws2_32.lib Winhttp.lib Wininet.lib"
+				AdditionalDependencies="Ws2_32.lib Winhttp.lib Wininet.lib WindowsCodecs.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
