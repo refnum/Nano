@@ -363,6 +363,10 @@ void NImage::SetFormat(NImageFormat theFormat)
 			Convert_BGR_888(theFormat);
 			break;
 
+		case kNImageFormat_RGB_888:
+			Convert_RGB_888(theFormat);
+			break;
+
 		default:
 			NN_LOG("Unknown image format: %ld", theFormat);
 			return;
@@ -399,6 +403,7 @@ NIndex NImage::GetBitsPerPixel(void) const
 			break;
 		
 		case kNImageFormat_BGR_888:
+		case kNImageFormat_RGB_888:
 			theValue = 24;
 			break;
 
@@ -435,6 +440,7 @@ NIndex NImage::GetBitsPerComponent(void) const
 			break;
 
 		case kNImageFormat_BGR_888:
+		case kNImageFormat_RGB_888:
 			theValue = 8;
 			break;
 
@@ -726,6 +732,10 @@ void NImage::Convert_RGBA_8888(NImageFormat theFormat)
 			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(2, 1, 0)));
 			break;
 
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(0, 1, 2)));
+			break;
+
 		default:
 			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
 			break;
@@ -764,6 +774,10 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(3, 2, 1)));
 			break;
 
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(1, 2, 3)));
+			break;
+
 		default:
 			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
 			break;
@@ -800,6 +814,10 @@ void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 
 		case kNImageFormat_BGR_888:
 			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(0, 1, 2)));
+			break;
+
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(2, 1, 0)));
 			break;
 
 		default:
@@ -847,6 +865,59 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 			// No-op
 			break;
 
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowSwizzle24, _2, _3, mkvector(2, 1, 0)));
+			break;
+
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_RGB_888 : Convert an RGB_888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_RGB_888(NImageFormat theFormat)
+{	NImage		tmpImage;
+
+
+
+	// Convert the image
+	switch (theFormat) {
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(0, 1, 2, 3), &tmpImage, _1));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(3, 0, 1, 2), &tmpImage, _1));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(2, 1, 0, 3), &tmpImage, _1));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowSwizzle24, _2, _3, mkvector(2, 1, 0)));
+			break;
+
+		case kNImageFormat_RGB_888:
+			// No-op
+			break;
+
 		default:
 			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
 			break;
@@ -880,6 +951,47 @@ bool NImage::RowRotate32(NIndex theWidth, UInt8 *rowPtr, UInt32 rotateRight)
 	// Process the row
 	for (x = 0; x < theWidth; x++)
 		pixelPtr[x] = NTargetMath::RotateRight(pixelPtr[x], rotateRight);
+
+	return(true);
+}
+
+
+
+
+
+//============================================================================
+//		NImage::RowSwizzle24 : Swizzle a row of 24-bpp pixels.
+//----------------------------------------------------------------------------
+bool NImage::RowSwizzle24(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newOrder)
+{	UInt8		tmpPixel[3];
+	UInt8		*pixelPtr;
+	NIndex		x;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(newOrder.size() == 3);
+
+
+
+	// Get the state we need
+	pixelPtr = rowPtr;
+
+
+
+	// Process the row
+	for (x = 0; x < theWidth; x++)
+		{
+		tmpPixel[0] = pixelPtr[0];
+		tmpPixel[1] = pixelPtr[1];
+		tmpPixel[2] = pixelPtr[2];
+
+		pixelPtr[0] = tmpPixel[newOrder[0]];
+		pixelPtr[1] = tmpPixel[newOrder[1]];
+		pixelPtr[2] = tmpPixel[newOrder[2]];
+
+		pixelPtr += 3;
+		}
 
 	return(true);
 }
@@ -923,7 +1035,6 @@ bool NImage::RowSwizzle32(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newO
 
 	return(true);
 }
-
 
 
 
