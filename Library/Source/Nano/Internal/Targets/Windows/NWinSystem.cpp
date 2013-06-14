@@ -14,6 +14,10 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include <tchar.h>
+#include <wincodec.h>
+#include <wincodecsdk.h>
+
 #include "NSTLUtilities.h"
 #include "NTimeUtilities.h"
 #include "NWindows.h"
@@ -21,6 +25,18 @@
 #include "NRegistry.h"
 #include "NTargetFile.h"
 #include "NTargetSystem.h"
+
+
+
+
+
+//============================================================================
+//		Library glue
+//----------------------------------------------------------------------------
+// SHCreateMemStream
+#define INDEX_SHCreateMemStream											(LPCSTR) 12
+
+typedef IStream* (__stdcall *SHCreateMemStreamProc)(const BYTE *pInit, UINT cbInit);
 
 
 
@@ -62,6 +78,40 @@ static void ClosePipe(NTaskPipeRef &thePipe);
 //============================================================================
 //      Internal functions
 //----------------------------------------------------------------------------
+//      CreateMemoryStream : Create a memory stream.
+//----------------------------------------------------------------------------
+static IStream *CreateMemoryStream(const NData &theData=NData())
+{	static SHCreateMemStreamProc		sCreateMemStream = NULL;
+
+	IStream		*theStream;
+	HMODULE		hLibrary;
+
+
+
+	// Load the function
+	if (sCreateMemStream == NULL)
+		{
+		hLibrary = LoadLibrary(_T("shlwapi.dll"));
+		if (hLibrary != NULL)
+			sCreateMemStream = (SHCreateMemStreamProc) GetProcAddress(hLibrary, INDEX_SHCreateMemStream);
+		}
+
+
+
+	// Create the stream
+	if (sCreateMemStream != NULL)
+		theStream = sCreateMemStream(theData.GetData(), theData.GetSize());
+	else
+		theStream = NULL;
+
+	return(theStream);
+}
+
+
+
+
+
+//============================================================================
 //      CreatePipe : Create a pipe.
 //----------------------------------------------------------------------------
 static NTaskPipeRef CreatePipe(bool forChildRead)
@@ -887,14 +937,196 @@ NString NTargetSystem::TransformString(const NString &theString, NStringTransfor
 //		NTargetSystem::ImageEncode : Encode an image.
 //----------------------------------------------------------------------------
 NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
-{	NData	theResult;
+{	GUID						srcPixels, dstPixels, containerID;
+	NIndex						theWidth, theHeight, rowBytes;
+	NData						srcData, dstData;
+	StCOM						coInitialize;
+	IWICFormatConverter			*icConverter;
+	IStream						*theStream;
+	IWICBitmapEncoder			*icEncoder;
+	IWICImagingFactory			*icFactory;
+	STATSTG						streamInfo;
+	IWICBitmap					*icBitmap;
+	NImage						srcImage;
+	IWICBitmapFrameEncode		*icFrame;
+	HRESULT						winErr;
+
+
+
+	// Get the state we need
+	icFactory   = NULL;
+	icBitmap    = NULL;
+	icConverter = NULL;
+	icEncoder   = NULL;
+	icFrame     = NULL;
+
+	winErr    = ERROR_SUCCESS;
+	theStream = CreateMemoryStream();
+
+	if (theStream == NULL)
+		return(dstData);
+
+
+
+	// Prepare the source image
+	//
+	// Ideally we can use the image as-is, however if its format isn't one
+	// that WIC supports we'll need to convert it before we can encode.
+	srcImage = theImage;
+
+	switch (srcImage.GetFormat()) {
+		case kNImageFormat_BGRX_8888:
+			srcPixels = GUID_WICPixelFormat32bppBGR;
+			break;
+
+		case kNImageFormat_BGRA_8888:
+			srcPixels = GUID_WICPixelFormat32bppBGRA;
+			break;
+
+		case kNImageFormat_BGR_888:
+			srcPixels = GUID_WICPixelFormat24bppBGR;
+			break;
+
+		case kNImageFormat_RGB_888:
+			srcPixels = GUID_WICPixelFormat24bppRGB;
+			break;
+
+		default:
+			srcImage.SetFormat(kNImageFormat_BGRA_8888);
+			srcPixels = GUID_WICPixelFormat32bppBGRA;
+			break;
+		}
+
+	srcData   = srcImage.GetData();
+	theWidth  = srcImage.GetWidth();
+	theHeight = srcImage.GetHeight();
+	rowBytes  = srcImage.GetBytesPerRow();
+
+
+
+	// Prepare the destination format
+	//
+	// Some encoders can only encode to a single format.
+	if (theType == kNUTTypePNG)
+		{
+		containerID = GUID_ContainerFormatPng;
+		dstPixels   = GUID_WICPixelFormat32bppBGRA;
+		}
+
+	else if (theType == kNUTTypeJPEG)
+		{
+		containerID = GUID_ContainerFormatJpeg;
+		dstPixels   = GUID_WICPixelFormat24bppBGR;
+		}
+
+	else if (theType == kNUTTypeTIFF)
+		{
+		containerID = GUID_ContainerFormatTiff;
+		dstPixels   = GUID_WICPixelFormat32bppBGRA;
+		}
+
+	else if (theType == kNUTTypeGIF)
+		{
+		containerID = GUID_ContainerFormatGif;
+		dstPixels   = GUID_WICPixelFormat8bppIndexed;
+		}
+
+	else
+		{
+		NN_LOG("Unsupported format: %@", theType);
+		return(dstData);
+		}
+
+
+
+	// Create the converter
+	//
+	// The converter will handle transcoding from our source pixel format
+	// into the encoder-supported format, including colour reduction.
+	if (SUCCEEDED(winErr))
+		winErr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&icFactory));
+
+	if (SUCCEEDED(winErr))
+		winErr = icFactory->CreateBitmapFromMemory(theWidth, theHeight, srcPixels, rowBytes, srcData.GetSize(), srcData.GetData(), &icBitmap);
+
+	if (SUCCEEDED(winErr))
+		winErr = icFactory->CreateFormatConverter(&icConverter);
+
+	if (SUCCEEDED(winErr))
+		winErr = icConverter->Initialize(icBitmap, dstPixels, WICBitmapDitherTypeErrorDiffusion, NULL, 1.0, WICBitmapPaletteTypeMedianCut);
+
+	NN_ASSERT_SUCCESS(winErr);
+
+
+
+	// Create the encoder
+	if (SUCCEEDED(winErr))
+		winErr = icFactory->CreateEncoder(containerID, NULL, &icEncoder);
+
+	if (SUCCEEDED(winErr))
+		winErr = icEncoder->Initialize(theStream, WICBitmapEncoderNoCache);
+
+	if (SUCCEEDED(winErr))
+		winErr = icEncoder->CreateNewFrame(&icFrame, NULL);
+
+	if (SUCCEEDED(winErr))
+		winErr = icFrame->Initialize(NULL);
+
+	if (SUCCEEDED(winErr))
+		winErr = icFrame->SetSize(theWidth, theHeight);
+
+	NN_ASSERT_SUCCESS(winErr);
 
 
 
 	// Encode the image
-		// dair, to do
-		NN_LOG("NTargetSystem::ImageEncode not implemented!");
-	return(theResult);
+	if (SUCCEEDED(winErr))
+		winErr = icFrame->WriteSource(icConverter, NULL);
+
+	if (SUCCEEDED(winErr))
+		winErr = icFrame->Commit();
+
+	if (SUCCEEDED(winErr))
+		winErr = icEncoder->Commit();
+
+	NN_ASSERT_SUCCESS(winErr);
+
+
+
+
+	// Extract the data
+	if (SUCCEEDED(winErr))
+		winErr = theStream->Stat(&streamInfo, STATFLAG_NONAME);
+
+	if (SUCCEEDED(winErr))
+		{
+		if (!dstData.SetSize((NIndex) ToNN(streamInfo.cbSize)))
+			winErr = ERROR_NOT_ENOUGH_MEMORY;
+		}
+
+	if (SUCCEEDED(winErr))
+		winErr = theStream->Seek(ToWN((SInt64) 0), STREAM_SEEK_SET, NULL);
+
+	if (SUCCEEDED(winErr))
+		winErr = theStream->Read(dstData.GetData(), dstData.GetSize(), NULL);
+	
+	NN_ASSERT_SUCCESS(winErr);
+
+	if (FAILED(winErr))
+		dstData.Clear();
+
+
+
+	// Clean up
+	WNSafeRelease(icFrame);
+	WNSafeRelease(icEncoder);
+	WNSafeRelease(icConverter);
+	WNSafeRelease(icBitmap);
+	WNSafeRelease(icFactory);
+
+	WNSafeRelease(theStream);
+
+	return(dstData);
 }
 
 
@@ -905,20 +1137,114 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 //		NTargetSystem::ImageDecode : Decode an image.
 //----------------------------------------------------------------------------
 NImage NTargetSystem::ImageDecode(const NData &theData)
-{	NImage	theImage;
+{	UINT						theWidth, theHeight;
+	StCOM						coInitialize;
+	IWICImagingFactory			*icFactory;
+	IWICBitmapDecoder			*icDecoder;
+	IStream						*theStream;
+	NImageFormat				dstFormat;
+	GUID						dstPixels;
+	IWICBitmapSource			*icBitmap;
+	IWICBitmapFrameDecode		*icFrame;
+	NIndex						rowBytes;
+	NImage						theImage;
+	HRESULT						winErr;
+
+
+
+	// Get the state we need
+	icFactory = NULL;
+	icDecoder = NULL;
+	icFrame   = NULL;
+	icBitmap  = NULL;
+
+	theWidth  = 0;
+	theHeight = 0;
+	rowBytes  = 0;
+
+	winErr    = ERROR_SUCCESS;
+	theStream = CreateMemoryStream(theData);
+
+	if (theStream == NULL)
+		return(theImage);
+
+
+
+	// Create the decoder
+	if (SUCCEEDED(winErr))
+		winErr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&icFactory));
+
+	if (SUCCEEDED(winErr))
+		winErr = icFactory->CreateDecoderFromStream(theStream, 0, WICDecodeMetadataCacheOnDemand, &icDecoder);
+
+	NN_ASSERT_SUCCESS(winErr);
+
+
+
+	// Get the image data
+	if (SUCCEEDED(winErr))
+		winErr = icDecoder->GetFrame(0, &icFrame);
+
+	if (SUCCEEDED(winErr))
+		winErr = icFrame->GetSize(&theWidth, &theHeight);
+
+	if (SUCCEEDED(winErr))
+		winErr = icFrame->GetPixelFormat(&dstPixels);
+
+	NN_ASSERT_SUCCESS(winErr);
+
+
+
+	// Prepare the destination format
+	if (dstPixels == GUID_WICPixelFormat32bppBGR)
+		dstFormat = kNImageFormat_BGRX_8888;
+
+	else if (dstPixels == GUID_WICPixelFormat32bppBGRA)
+		dstFormat = kNImageFormat_BGRA_8888;
+
+	else if (dstPixels == GUID_WICPixelFormat24bppBGR)
+		dstFormat = kNImageFormat_BGR_888;
+
+	else if (dstPixels == GUID_WICPixelFormat24bppRGB)
+		dstFormat = kNImageFormat_RGB_888;
+
+	else
+		{
+		dstPixels = GUID_WICPixelFormat32bppBGRA;
+		dstFormat = kNImageFormat_BGRA_8888;
+		}
 
 
 
 	// Decode the image
-		// dair, to do
-		NN_LOG("NTargetSystem::ImageDecode not implemented!");
+	if (SUCCEEDED(winErr))
+		{
+		theImage  = NImage(NSize((Float32) theWidth, (Float32) theHeight), dstFormat);
+		rowBytes  = theImage.GetBytesPerRow();
+		}
+
+	if (SUCCEEDED(winErr))
+		winErr = WICConvertBitmapSource(dstPixels, icFrame, &icBitmap);
+
+	if (SUCCEEDED(winErr))
+		winErr = icBitmap->CopyPixels(NULL, rowBytes, rowBytes * theHeight, theImage.GetPixels());
+
+	NN_ASSERT_SUCCESS(winErr);
+
+	if (FAILED(winErr))
+		theImage.Clear();
+
+
+
+	// Clean up
+	WNSafeRelease(icBitmap);
+	WNSafeRelease(icFrame);
+	WNSafeRelease(icDecoder);
+	WNSafeRelease(icFactory);
+
+	WNSafeRelease(theStream);
+
 	return(theImage);
 }
-
-
-
-
-
-
 
 
