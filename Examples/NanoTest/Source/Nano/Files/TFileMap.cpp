@@ -116,6 +116,9 @@ TEST_NFILEMAP("Map", "Map and unmap")
 	REQUIRE(memcmp(thePtr, kBufferData, kBufferSize) == 0);
 
 	fileMap.Unmap(thePtr);
+
+	fileMap.Close();
+	REQUIRE(!fileMap.IsOpen());
 }
 
 
