@@ -594,6 +594,26 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 
 
 //============================================================================
+//		NData::ReplaceData : Replace data.
+//----------------------------------------------------------------------------
+UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(!theData.IsEmpty());
+
+
+
+	// Replace the data
+	return(ReplaceData(theRange, theData.GetSize(), theData.GetData());
+}
+
+
+
+
+
+//============================================================================
 //		NData::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NData::Compare(const NData &theValue) const

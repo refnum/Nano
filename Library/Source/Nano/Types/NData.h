@@ -70,16 +70,14 @@ public:
 
 	// Get/set the size
 	//
-    // Changing the size will invalidate any previously returned pointers.
-	// If the size is increased, the new space will be zero-filled.
+	// Increasing the size will zero-fill the new content.
 	NIndex								GetSize(void) const;
 	bool								SetSize(NIndex theSize);
 
 
 	// Reserve additional space
 	//
-	// The current size remains the same, however internal storage may be
-	// pre-allocated to help amortize the cost of future growth.
+	// Reserving space pre-allocates internal storage to amortize future resizes.
 	void								Reserve(NIndex theSize);
 
 
@@ -90,16 +88,15 @@ public:
 	// SetData(xxx, NULL) is equivalent to Clear+AppendData(xxx);
 	const UInt8						   *GetData(NIndex theOffset=0) const;
 	UInt8							   *GetData(NIndex theOffset=0);
-
-	NData								GetData(const NRange &theRange) const;
 	
+	NData								GetData(const NRange &theRange) const;
+
 	void								SetData(NIndex theSize, const void *thePtr, bool makeCopy=true);
 
 
 	// Append data
 	//
-    // Appending will invalidate any previously returned pointers. If no data is
-	// supplied, the new space is zero-filled.
+	// Appending a NULL pointer will zero-fill the new content.
 	//
 	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
 	UInt8							   *AppendData(NIndex theSize, const void *thePtr=NULL);
@@ -107,14 +104,14 @@ public:
 
 
 	// Remove data
-    void                                RemoveData(NIndex theSize, bool fromFront=true);
 	void								RemoveData(const NRange &theRange);
 
 
 	// Replace data
 	//
-	// Returns a pointer to the modified data.
+	// Returns a pointer to the newly-modified data.
 	UInt8							   *ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr);
+	UInt8							   *ReplaceData(const NRange &theRange, const NData &theData);
 
 
 	// Compare the value
