@@ -182,6 +182,49 @@
 
 
 
+
+//============================================================================
+//		Compiler
+//----------------------------------------------------------------------------
+// Baseline
+#define NN_TARGET_COMPILER_CLANG									0
+#define NN_TARGET_COMPILER_GCC										0
+#define NN_TARGET_COMPILER_MSC										0
+
+
+// Clang
+#if defined(__clang__)
+	#define NN_TARGET_COMPILER_CLANG								((__clang_major__      * 10000) + \
+																	 (__clang_minor__      * 100)   + \
+																	 (__clang_patchlevel__ * 1))
+#endif
+
+
+// GCC
+//
+// As Clang also defines __GNUC__ we can't simply test on that.
+#if defined(__GNUC_MINOR__)
+	#define NN_TARGET_COMPILER_GCC									((__GNUC__            * 10000) + \
+																	 (__GNUC_MINOR__      * 100)   + \
+																	 (__GNUC_PATCHLEVEL__ * 1))
+#endif
+
+
+// Visual Studio
+#if defined(_MSC_VER)
+	#define NN_TARGET_COMPILER_MSC									_MSC_VER
+#endif
+
+
+// Validate
+#if ((NN_TARGET_COMPILER_CLANG + NN_TARGET_COMPILER_GCC + NN_TARGET_COMPILER_MSC) != 1)
+	ERROR - Unable to determine target compiler
+#endif
+
+
+
+
+
 #endif // NANO_TARGET_HDR
 
 
