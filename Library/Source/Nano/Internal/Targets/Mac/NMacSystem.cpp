@@ -803,10 +803,11 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 {	NCFObject			cgColorSpace, cgDataProvider, cgImage, cgImageDst, cfData;
 	NData				srcData, dstData;
 	CGBitmapInfo		bitmapInfo;
+	CFStringRef			dstFormat;
 
 
 
-	// Get the state we need
+	// Prepare the source image
 	srcData = theImage.GetData();
 
 	switch (theImage.GetFormat()) {
@@ -850,6 +851,19 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 
 
 
+	// Prepare the destination format
+	if      (theType == kNUTTypePNG)	dstFormat = kUTTypePNG;
+	else if (theType == kNUTTypeJPEG)	dstFormat = kUTTypeJPEG;
+	else if (theType == kNUTTypeTIFF)	dstFormat = kUTTypeTIFF;
+	else if (theType == kNUTTypeGIF)	dstFormat = kUTTypeGIF;
+	else
+		{
+		NN_LOG("Unsupported format: %@", theType);
+		return(dstData);
+		}
+
+
+
 	// Create a CG image
 	if (!cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB()))
 		return(dstData);
@@ -872,7 +886,7 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 	if (!cfData.SetObject(CFDataCreateMutable(kCFAllocatorNano, 0)))
 		return(dstData);
 
-	if (!cgImageDst.SetObject(CGImageDestinationCreateWithData(cfData, ToCF(theType.GetValue()), 1, NULL)))
+	if (!cgImageDst.SetObject(CGImageDestinationCreateWithData(cfData, dstFormat, 1, NULL)))
 		return(dstData);
 
 	CGImageDestinationAddImage(cgImageDst, cgImage, NULL);
