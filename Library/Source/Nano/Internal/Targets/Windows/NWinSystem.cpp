@@ -975,20 +975,20 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 	srcImage = theImage;
 
 	switch (srcImage.GetFormat()) {
-		case kNImageFormat_BGRX_8888:
-			srcPixels = GUID_WICPixelFormat32bppBGR;
-			break;
-
-		case kNImageFormat_BGRA_8888:
-			srcPixels = GUID_WICPixelFormat32bppBGRA;
+		case kNImageFormat_RGB_888:
+			srcPixels = GUID_WICPixelFormat24bppRGB;
 			break;
 
 		case kNImageFormat_BGR_888:
 			srcPixels = GUID_WICPixelFormat24bppBGR;
 			break;
 
-		case kNImageFormat_RGB_888:
-			srcPixels = GUID_WICPixelFormat24bppRGB;
+		case kNImageFormat_BGRX_8888:
+			srcPixels = GUID_WICPixelFormat32bppBGR;
+			break;
+
+		case kNImageFormat_BGRA_8888:
+			srcPixels = GUID_WICPixelFormat32bppBGRA;
 			break;
 
 		default:
@@ -1196,17 +1196,17 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 
 
 	// Prepare the destination format
-	if (dstPixels == GUID_WICPixelFormat32bppBGR)
-		dstFormat = kNImageFormat_BGRX_8888;
-
-	else if (dstPixels == GUID_WICPixelFormat32bppBGRA)
-		dstFormat = kNImageFormat_BGRA_8888;
+	if (dstPixels == GUID_WICPixelFormat24bppRGB)
+		dstFormat = kNImageFormat_RGB_888;
 
 	else if (dstPixels == GUID_WICPixelFormat24bppBGR)
 		dstFormat = kNImageFormat_BGR_888;
 
-	else if (dstPixels == GUID_WICPixelFormat24bppRGB)
-		dstFormat = kNImageFormat_RGB_888;
+	else if (dstPixels == GUID_WICPixelFormat32bppBGR)
+		dstFormat = kNImageFormat_BGRX_8888;
+
+	else if (dstPixels == GUID_WICPixelFormat32bppBGRA)
+		dstFormat = kNImageFormat_BGRA_8888;
 
 	else
 		{

@@ -30,8 +30,16 @@
 //
 // Each format defines the size, and order, of components within an image.
 typedef enum {
+	// Meta
 	kNImageFormatNone,
 
+
+	// 24bpp
+	kNImageFormat_RGB_888,
+	kNImageFormat_BGR_888,
+
+
+	// 32bpp
 	kNImageFormat_RGBX_8888,
 	kNImageFormat_RGBA_8888,
 
@@ -39,11 +47,7 @@ typedef enum {
 	kNImageFormat_ARGB_8888,
 
 	kNImageFormat_BGRX_8888,
-	kNImageFormat_BGRA_8888,
-
-	kNImageFormat_BGR_888,
-
-	kNImageFormat_RGB_888
+	kNImageFormat_BGRA_8888
 } NImageFormat;
 
 
@@ -153,15 +157,15 @@ private:
 	bool								ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr);
 	bool								ForEachPixelInMutableRow(  NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachMutablePixelFunctor   &theFunctor,       UInt8 *rowPtr);
 
+	void								Convert_RGB_888(  NImageFormat theFormat);
+	void								Convert_BGR_888(  NImageFormat theFormat);
 	void								Convert_RGBA_8888(NImageFormat theFormat);
 	void								Convert_ARGB_8888(NImageFormat theFormat);
 	void								Convert_BGRA_8888(NImageFormat theFormat);
-	void								Convert_BGR_888(  NImageFormat theFormat);
-	void								Convert_RGB_888(  NImageFormat theFormat);
 
 	bool								RowRotate32(    NIndex theWidth,       UInt8 *rowPtr, UInt32 rotateRight);
-	bool								RowSwizzle32(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
 	bool								RowSwizzle24(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
+	bool								RowSwizzle32(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
 	bool								RowExpand24To32(NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y);
 	bool								RowReduce32To24(NIndex theWidth,       UInt8 *rowPtr, const NIndexList &srcOrder);
 

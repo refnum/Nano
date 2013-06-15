@@ -344,6 +344,14 @@ void NImage::SetFormat(NImageFormat theFormat)
 
 	// Convert the image
 	switch (mFormat) {
+		case kNImageFormat_RGB_888:
+			Convert_RGB_888(theFormat);
+			break;
+
+		case kNImageFormat_BGR_888:
+			Convert_BGR_888(theFormat);
+			break;
+
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
 			Convert_RGBA_8888(theFormat);
@@ -357,14 +365,6 @@ void NImage::SetFormat(NImageFormat theFormat)
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
 			Convert_BGRA_8888(theFormat);
-			break;
-
-		case kNImageFormat_BGR_888:
-			Convert_BGR_888(theFormat);
-			break;
-
-		case kNImageFormat_RGB_888:
-			Convert_RGB_888(theFormat);
 			break;
 
 		default:
@@ -393,6 +393,11 @@ NIndex NImage::GetBitsPerPixel(void) const
 
 	// Get the value
 	switch (mFormat) {
+		case kNImageFormat_RGB_888:
+		case kNImageFormat_BGR_888:
+			theValue = 24;
+			break;
+
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
 		case kNImageFormat_XRGB_8888:
@@ -402,11 +407,6 @@ NIndex NImage::GetBitsPerPixel(void) const
 			theValue = 32;
 			break;
 		
-		case kNImageFormat_BGR_888:
-		case kNImageFormat_RGB_888:
-			theValue = 24;
-			break;
-
 		default:
 			NN_LOG("Invalid image format: %ld", mFormat);
 			theValue = 0;
@@ -430,17 +430,17 @@ NIndex NImage::GetBitsPerComponent(void) const
 
 	// Get the value
 	switch (mFormat) {
+		case kNImageFormat_RGB_888:
+		case kNImageFormat_BGR_888:
+			theValue = 8;
+			break;
+
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			theValue = 8;
-			break;
-
-		case kNImageFormat_BGR_888:
-		case kNImageFormat_RGB_888:
 			theValue = 8;
 			break;
 
@@ -705,119 +705,42 @@ bool NImage::ForEachPixelInMutableRow(NIndex y, NIndex theWidth, NIndex pixelByt
 
 
 //============================================================================
-//		NImage::Convert_RGBA_8888 : Convert an RGBA_8888 image.
+//		NImage::Convert_RGB_888 : Convert an RGB_888 image.
 //----------------------------------------------------------------------------
-void NImage::Convert_RGBA_8888(NImageFormat theFormat)
-{
+void NImage::Convert_RGB_888(NImageFormat theFormat)
+{	NImage		tmpImage;
+
 
 
 	// Convert the image
 	switch (theFormat) {
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			// No-op
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowRotate32,     _2, _3, 8));
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,    _2, _3, mkvector(2, 1, 0, 3)));
-			break;
-
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(2, 1, 0)));
-			break;
-
 		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(0, 1, 2)));
-			break;
-
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
-			break;
-		}	
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Convert_ARGB_8888 : Convert an ARGB_8888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_ARGB_8888(NImageFormat theFormat)
-{
-
-
-	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowRotate32, _2, _3, 24));
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			// No-op
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,    _2, _3, mkvector(3, 2, 1, 0)));
-			break;
-
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(3, 2, 1)));
-			break;
-
-		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(1, 2, 3)));
-			break;
-
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
-			break;
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Convert_BGRA_8888 : Convert a BGRA_8888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_BGRA_8888(NImageFormat theFormat)
-{
-
-
-	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32, _2, _3, mkvector(2, 1, 0, 3)));
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32, _2, _3, mkvector(3, 2, 1, 0)));
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
 			// No-op
 			break;
 
 		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(0, 1, 2)));
+			ForEachRow(BindSelf(NImage::RowSwizzle24, _2, _3, mkvector(2, 1, 0)));
 			break;
 
-		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(2, 1, 0)));
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(0, 1, 2, 3), &tmpImage, _1));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(3, 0, 1, 2), &tmpImage, _1));
+			*this = tmpImage;
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
+			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(2, 1, 0, 3), &tmpImage, _1));
+			*this = tmpImage;
 			break;
 
 		default:
@@ -840,6 +763,14 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 
 	// Convert the image
 	switch (theFormat) {
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowSwizzle24, _2, _3, mkvector(2, 1, 0)));
+			break;
+
+		case kNImageFormat_BGR_888:
+			// No-op
+			break;
+
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
@@ -861,12 +792,88 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 			*this = tmpImage;
 			break;
 
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_RGBA_8888 : Convert an RGBA_8888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_RGBA_8888(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat) {
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(0, 1, 2)));
+			break;
+
 		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(2, 1, 0)));
+			break;
+
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
 			// No-op
 			break;
 
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			ForEachRow(BindSelf(NImage::RowRotate32,     _2, _3, 8));
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			ForEachRow(BindSelf(NImage::RowSwizzle32,    _2, _3, mkvector(2, 1, 0, 3)));
+			break;
+
+		default:
+			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+			break;
+		}	
+}
+
+
+
+
+
+//============================================================================
+//		NImage::Convert_ARGB_8888 : Convert an ARGB_8888 image.
+//----------------------------------------------------------------------------
+void NImage::Convert_ARGB_8888(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat) {
 		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowSwizzle24, _2, _3, mkvector(2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(1, 2, 3)));
+			break;
+
+		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(3, 2, 1)));
+			break;
+
+		case kNImageFormat_RGBX_8888:
+		case kNImageFormat_RGBA_8888:
+			ForEachRow(BindSelf(NImage::RowRotate32, _2, _3, 24));
+			break;
+
+		case kNImageFormat_XRGB_8888:
+		case kNImageFormat_ARGB_8888:
+			// No-op
+			break;
+
+		case kNImageFormat_BGRX_8888:
+		case kNImageFormat_BGRA_8888:
+			ForEachRow(BindSelf(NImage::RowSwizzle32,    _2, _3, mkvector(3, 2, 1, 0)));
 			break;
 
 		default:
@@ -880,41 +887,34 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 
 
 //============================================================================
-//		NImage::Convert_RGB_888 : Convert an RGB_888 image.
+//		NImage::Convert_BGRA_8888 : Convert a BGRA_8888 image.
 //----------------------------------------------------------------------------
-void NImage::Convert_RGB_888(NImageFormat theFormat)
-{	NImage		tmpImage;
-
+void NImage::Convert_BGRA_8888(NImageFormat theFormat)
+{
 
 
 	// Convert the image
 	switch (theFormat) {
+		case kNImageFormat_RGB_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(2, 1, 0)));
+			break;
+
+		case kNImageFormat_BGR_888:
+			ForEachRow(BindSelf(NImage::RowReduce32To24, _2, _3, mkvector(0, 1, 2)));
+			break;
+
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(0, 1, 2, 3), &tmpImage, _1));
-			*this = tmpImage;
+			ForEachRow(BindSelf(NImage::RowSwizzle32, _2, _3, mkvector(2, 1, 0, 3)));
 			break;
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(3, 0, 1, 2), &tmpImage, _1));
-			*this = tmpImage;
+			ForEachRow(BindSelf(NImage::RowSwizzle32, _2, _3, mkvector(3, 2, 1, 0)));
 			break;
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32, _2, _3, mkvector(2, 1, 0, 3), &tmpImage, _1));
-			*this = tmpImage;
-			break;
-
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowSwizzle24, _2, _3, mkvector(2, 1, 0)));
-			break;
-
-		case kNImageFormat_RGB_888:
 			// No-op
 			break;
 

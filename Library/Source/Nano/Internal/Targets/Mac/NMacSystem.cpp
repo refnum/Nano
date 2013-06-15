@@ -50,6 +50,7 @@ static const size_t kBufferSize											= 2 * kNKilobyte;
 //----------------------------------------------------------------------------
 //      ExecuteTask : Execute a task.
 //----------------------------------------------------------------------------
+__attribute__((__noreturn__))
 static void ExecuteTask(const NString &theCmd, const NString &cmdName, const NStringList &theArgs)
 {	std::vector<const char *>		argList;
 	NStringListConstIterator		theIter;
@@ -800,34 +801,50 @@ NString NTargetSystem::TransformString(const NString &theString, NStringTransfor
 //----------------------------------------------------------------------------
 NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 {	NCFObject			cgColorSpace, cgDataProvider, cgImage, cgImageDst, cfData;
-	NData				rawData, encodedData;
+	NData				srcData, dstData;
 	CGBitmapInfo		bitmapInfo;
 
 
 
 	// Get the state we need
-	rawData = theImage.GetData();
+	srcData = theImage.GetData();
 
 	switch (theImage.GetFormat()) {
+		case kNImageFormat_RGB_888:
+			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNone;
+			break;
+
+		case kNImageFormat_BGR_888:
+			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaNone;
+			break;
+
 		case kNImageFormat_RGBX_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
+			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNoneSkipLast;
 			break;
 
 		case kNImageFormat_RGBA_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
+			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaPremultipliedLast;
 			break;
 
 		case kNImageFormat_XRGB_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipFirst;
+			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNoneSkipFirst;
 			break;
 
 		case kNImageFormat_ARGB_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedFirst;
+			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaPremultipliedFirst;
+			break;
+
+		case kNImageFormat_BGRX_8888:
+			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaNoneSkipFirst;
+			break;
+
+		case kNImageFormat_BGRA_8888:
+			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaPremultipliedFirst;
 			break;
 
 		default:
 			NN_LOG("Unknown image format: %d", theImage.GetFormat());
-			return(encodedData);
+			return(dstData);
 			break;
 		}
 
@@ -835,10 +852,10 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 
 	// Create a CG image
 	if (!cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB()))
-		return(encodedData);
+		return(dstData);
 
-	if (!cgDataProvider.SetObject(CGDataProviderCreateWithData(NULL, rawData.GetData(), rawData.GetSize(), NULL)))
-		return(encodedData);
+	if (!cgDataProvider.SetObject(CGDataProviderCreateWithData(NULL, srcData.GetData(), srcData.GetSize(), NULL)))
+		return(dstData);
 	
 	if (!cgImage.SetObject(CGImageCreate(	theImage.GetWidth(),
 											theImage.GetHeight(),
@@ -847,28 +864,28 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 											theImage.GetBytesPerRow(),
 											cgColorSpace, bitmapInfo, cgDataProvider,
 											NULL, false, kCGRenderingIntentDefault)))
-		return(encodedData);
+		return(dstData);
 
 
 
 	// Encode the image
 	if (!cfData.SetObject(CFDataCreateMutable(kCFAllocatorNano, 0)))
-		return(encodedData);
+		return(dstData);
 
 	if (!cgImageDst.SetObject(CGImageDestinationCreateWithData(cfData, ToCF(theType.GetValue()), 1, NULL)))
-		return(encodedData);
+		return(dstData);
 
 	CGImageDestinationAddImage(cgImageDst, cgImage, NULL);
 
 	if (!CGImageDestinationFinalize(cgImageDst))
-		return(encodedData);
+		return(dstData);
 
 
 
 	// Copy the data
-	encodedData.SetData(CFDataGetLength(cfData), CFDataGetBytePtr(cfData));
+	dstData.SetData(CFDataGetLength(cfData), CFDataGetBytePtr(cfData));
 
-	return(encodedData);
+	return(dstData);
 }
 
 
@@ -914,8 +931,8 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 
 	else if (bitsPerPixel == 24 && bitsPerComponent == 8)
 		{
-		theFormat  = kNImageFormat_RGBX_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
+		theFormat  = kNImageFormat_RGB_888;
+		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNone;
 		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
 		}
 
