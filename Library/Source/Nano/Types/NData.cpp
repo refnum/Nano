@@ -34,6 +34,23 @@ NENCODABLE_DEFINE(NData);
 //============================================================================
 //		NData::NData : Constructor.
 //----------------------------------------------------------------------------
+NData::NData(const NData &theValue)
+		: NSharedValueData(theValue)
+{
+
+
+	// Initialize ourselves
+	mExternalSize = theValue.mExternalSize;
+	mExternalPtr  = theValue.mExternalPtr;
+}
+
+
+
+
+
+//============================================================================
+//		NData::NData : Constructor.
+//----------------------------------------------------------------------------
 NData::NData(NIndex theSize, const void *thePtr, bool makeCopy)
 {
 
@@ -49,23 +66,6 @@ NData::NData(NIndex theSize, const void *thePtr, bool makeCopy)
 
 	if (theSize != 0)
 		SetData(theSize, thePtr, makeCopy);
-}
-
-
-
-
-
-//============================================================================
-//		NData::NData : Constructor.
-//----------------------------------------------------------------------------
-NData::NData(const NData &theValue)
-		: NContainer(), NHashable(), NEncodable(), NComparable<NData>(), NSharedValueData(theValue)
-{
-
-
-	// Initialize ourselves
-	mExternalSize = theValue.mExternalSize;
-	mExternalPtr  = theValue.mExternalPtr;
 }
 
 
@@ -216,6 +216,24 @@ void NData::Reserve(NIndex theSize)
 //============================================================================
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
+NData NData::GetData(const NRange &theRange) const
+{	NData		theResult;
+
+
+
+	// Get the data
+	theResult.SetData(theRange.GetSize(), GetData(theRange.GetLocation()));
+	
+	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NData::GetData : Get the data.
+//----------------------------------------------------------------------------
 const UInt8 *NData::GetData(NIndex theOffset) const
 {	const NDataValue		*theValue;
 	const UInt8				*thePtr;
@@ -290,24 +308,6 @@ UInt8 *NData::GetData(NIndex theOffset)
 
 
 //============================================================================
-//		NData::GetData : Get the data.
-//----------------------------------------------------------------------------
-NData NData::GetData(const NRange &theRange) const
-{	NData		theResult;
-
-
-
-	// Get the data
-	theResult.SetData(theRange.GetSize(), GetData(theRange.GetLocation()));
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
 //		NData::SetData : Set the data.
 //----------------------------------------------------------------------------
 void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
@@ -344,52 +344,6 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 
 	// Update our state
 	ClearHash();
-}
-
-
-
-
-
-//============================================================================
-//		NData::AppendData : Append data.
-//----------------------------------------------------------------------------
-UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
-{	NDataValue		*theValue;
-	UInt8			*dstPtr;
-	NIndex			oldSize;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theSize >= 0);
-
-
-
-	// Check our parameters
-	if (theSize == 0)
-		return(NULL);
-
-
-
-	// Get the state we need
-	theValue = GetMutable();
-	oldSize  = (NIndex) theValue->size();
-
-
-
-	// Append the data
-	Resize(theValue, theSize + oldSize);
-
-	dstPtr = &theValue->at(oldSize);
-	if (thePtr != NULL)
-		memcpy(dstPtr, thePtr, theSize);
-
-
-
-	// Update our state
-	ClearHash();
-
-	return(dstPtr);
 }
 
 
@@ -451,34 +405,45 @@ UInt8 *NData::AppendData(const NData &theData)
 
 
 //============================================================================
-//		NData::RemoveData : Remove data.
+//		NData::AppendData : Append data.
 //----------------------------------------------------------------------------
-void NData::RemoveData(NIndex theSize, bool fromFront)
-{	NRange		theRange;
+UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
+{	NDataValue		*theValue;
+	UInt8			*dstPtr;
+	NIndex			oldSize;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(theSize > 0 && theSize <= GetSize());
+	NN_ASSERT(theSize >= 0);
 
 
 
-	// Remove all data
-	if (theSize == GetSize())
-		Clear();
+	// Check our parameters
+	if (theSize == 0)
+		return(NULL);
 
 
 
-	// Remove a range
-	else
-		{
-		if (fromFront)
-			theRange = NRange(0, theSize);
-		else
-			theRange = NRange(GetSize() - theSize, theSize);
+	// Get the state we need
+	theValue = GetMutable();
+	oldSize  = (NIndex) theValue->size();
 
-		RemoveData(theRange);
-		}
+
+
+	// Append the data
+	Resize(theValue, theSize + oldSize);
+
+	dstPtr = &theValue->at(oldSize);
+	if (thePtr != NULL)
+		memcpy(dstPtr, thePtr, theSize);
+
+
+
+	// Update our state
+	ClearHash();
+
+	return(dstPtr);
 }
 
 
@@ -500,16 +465,43 @@ void NData::RemoveData(const NRange &theRange)
 
 
 
-	// Get the state we need
-	theValue  = GetMutable();
-	iterStart = theValue->begin() + theRange.GetFirst();
-	iterEnd   = theValue->begin() + theRange.GetNext();
+	// Remove all the data
+	//
+	// We clear rather than erase to let us share the null value.
+	if (theRange.GetLocation() == 0 && theRange.GetSize() == GetSize())
+		Clear();
+	
+	
+	// Remove a range
+	else
+		{
+		theValue  = GetMutable();
+		iterStart = theValue->begin() + theRange.GetFirst();
+		iterEnd   = theValue->begin() + theRange.GetNext();
+
+		theValue->erase(iterStart, iterEnd);
+		ClearHash();
+		}
+}
 
 
 
-	// Remove the data
-	theValue->erase(iterStart, iterEnd);
-	ClearHash();
+
+
+//============================================================================
+//		NData::ReplaceData : Replace data.
+//----------------------------------------------------------------------------
+UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(!theData.IsEmpty());
+
+
+
+	// Replace the data
+	return(ReplaceData(theRange, theData.GetSize(), theData.GetData()));
 }
 
 
@@ -587,26 +579,6 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 	dstPtr = &theValue->at(replaceRange.GetLocation());
 
 	return(dstPtr);
-}
-
-
-
-
-
-//============================================================================
-//		NData::ReplaceData : Replace data.
-//----------------------------------------------------------------------------
-UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(!theData.IsEmpty());
-
-
-
-	// Replace the data
-	return(ReplaceData(theRange, theData.GetSize(), theData.GetData());
 }
 
 
