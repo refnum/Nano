@@ -659,7 +659,7 @@ NStatus NImage::Decode(const NData &theData, NImageFormat theFormat)
 //============================================================================
 //		NImage::ForEachPixelInImmutableRow : Process each pixel in a row.
 //----------------------------------------------------------------------------
-bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr)
+bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr) const
 {	NIndex		x;
 
 
