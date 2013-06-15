@@ -4,7 +4,6 @@
 GCC_OPTIMIZATION_LEVEL										= 0
 GCC_PREPROCESSOR_DEFINITIONS								= NN_DEBUG=1
 GCC_UNROLL_LOOPS											= NO
-GCC_WARN_UNINITIALIZED_AUTOS								= NO
 
 NANO_DEBUG_WARNING_CFLAGS									= -Wstack-protector
 NANO_DEBUG_OTHER_CFLAGS										= -fstack-protector-all
