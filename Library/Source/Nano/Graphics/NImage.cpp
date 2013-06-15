@@ -835,7 +835,7 @@ void NImage::Convert_RGBA_8888(NImageFormat theFormat)
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowRotate32,		_2, _3, 8));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(3, 0, 1, 2)));
 			break;
 
 		case kNImageFormat_BGRX_8888:
@@ -872,7 +872,7 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowRotate32,		_2, _3, 24));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(1, 2, 3, 0)));
 			break;
 
 		case kNImageFormat_XRGB_8888:
@@ -931,37 +931,6 @@ void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
 			break;
 		}
-}
-
-
-
-
-
-//============================================================================
-//		NImage::RowRotate32 : Rotate a row of 32-bpp pixels.
-//----------------------------------------------------------------------------
-bool NImage::RowRotate32(NIndex theWidth, UInt8 *rowPtr, UInt32 rotateRight)
-{	UInt32		*pixelPtr;
-	NIndex		x;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(rotateRight < 32);
-	NN_ASSERT((rotateRight % 8) == 0);
-
-
-
-	// Get the state we need
-	pixelPtr = (UInt32 *) rowPtr;
-
-
-
-	// Process the row
-	for (x = 0; x < theWidth; x++)
-		pixelPtr[x] = NTargetMath::RotateRight(pixelPtr[x], rotateRight);
-
-	return(true);
 }
 
 

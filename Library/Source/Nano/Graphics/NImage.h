@@ -163,7 +163,6 @@ private:
 	void								Convert_ARGB_8888(NImageFormat theFormat);
 	void								Convert_BGRA_8888(NImageFormat theFormat);
 
-	bool								RowRotate32(    NIndex theWidth,       UInt8 *rowPtr, UInt32 rotateRight);
 	bool								RowSwizzle24(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
 	bool								RowSwizzle32(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
 	bool								RowExpand24To32(NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y);
