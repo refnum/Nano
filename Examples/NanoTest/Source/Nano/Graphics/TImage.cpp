@@ -56,6 +56,15 @@ static const UInt8 kTestImage[]									= {	0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 
 																	0xFA, 0xE1, 0xF0, 0xD3, 0xAF, 0x8E, 0x27, 0xE8, 0x93, 0x24, 0xBF, 0xC8, 0x73, 0x1B, 0xD6,
 																	0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82 };
 
+static const UInt8 kComponentNone								= 0x00;
+static const UInt8 kComponentRed								= 0x11;
+static const UInt8 kComponentGreen								= 0x22;
+static const UInt8 kComponentBlue								= 0x33;
+static const UInt8 kComponentAlpha								= 0x44;
+
+static const NImageFormat kTestFormat							= kNImageFormat_RGBA_8888;
+static const UInt8        kTestPixel[]							= { kComponentRed, kComponentGreen, kComponentBlue, kComponentAlpha };
+
 
 
 
@@ -72,6 +81,7 @@ NANO_FIXTURE(TImage)
 	NStatus		theErr;
 
 	void EncodeDecode(const NUTI &theType);
+	void Format(NImageFormat theFormat, const UInt8List &theComponents);
 };
 
 
@@ -88,6 +98,126 @@ TEST_NIMAGE("Default", "Default state")
 	// Perform the test
 	REQUIRE(!theImage.IsValid());
 	REQUIRE( theImage.GetBounds().IsEmpty());
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("RGB_888", "Test RGB_888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_RGB_888, nvector<UInt8>(kComponentRed, kComponentGreen, kComponentBlue));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("BGR_888", "Test BGR_888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_BGR_888, nvector<UInt8>(kComponentBlue, kComponentGreen, kComponentRed));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("RGBX_8888", "Test RGBX_8888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_RGBX_8888, nvector<UInt8>(kComponentRed, kComponentGreen, kComponentBlue, kComponentNone));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("RGBA_8888", "Test RGBA_8888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_RGBA_8888, nvector<UInt8>(kComponentRed, kComponentGreen, kComponentBlue, kComponentAlpha));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("XRGB_8888", "Test XRGB_8888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_XRGB_8888, nvector<UInt8>(kComponentNone, kComponentRed, kComponentGreen, kComponentBlue));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("ARGB_8888", "Test ARGB_8888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_ARGB_8888, nvector<UInt8>(kComponentAlpha, kComponentRed, kComponentGreen, kComponentBlue));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("BGRX_8888", "Test BGRX_8888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_BGRX_8888, nvector<UInt8>(kComponentBlue, kComponentGreen, kComponentRed, kComponentNone));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NIMAGE("BGRA_8888", "Test BGRA_8888 conversion")
+{
+
+
+	// Perform the test
+	Format(kNImageFormat_BGRA_8888, nvector<UInt8>(kComponentBlue, kComponentGreen, kComponentRed, kComponentAlpha));
 }
 
 
@@ -175,4 +305,47 @@ void TImage::EncodeDecode(const NUTI &theType)
 	theErr = theImage.Decode(theData);
 	REQUIRE_NOERR(theErr);
 }
+
+
+
+
+
+//============================================================================
+//		TImage::Format : Image pixel formats.
+//----------------------------------------------------------------------------
+void TImage::Format(NImageFormat theFormat, const UInt8List &theComponents)
+{	const UInt8		*pixelPtr;
+	NIndex			n;
+
+
+
+	// Setup
+	theImage = NImage(NSize(1, 1), kTestFormat, NData(sizeof(kTestPixel), kTestPixel));
+
+
+
+	// Convert to the format
+	theImage.SetFormat(theFormat);
+	pixelPtr = theImage.GetPixels();
+	
+	for (n = 0; n < (NIndex) theComponents.size(); n++)
+		{
+		if (theComponents[n] != kComponentNone)
+			REQUIRE(pixelPtr[n] == theComponents[n]);
+		}
+
+
+
+	// Convert from the format
+	theImage.SetFormat(kTestFormat);
+	pixelPtr = theImage.GetPixels();
+
+	for (n = 0; n < NN_ARRAY_SIZE(kTestPixel); n++)
+		{
+		if (kTestPixel[n] != kComponentAlpha)
+			REQUIRE(pixelPtr[n] == kTestPixel[n]);
+		}
+}
+
+
 
