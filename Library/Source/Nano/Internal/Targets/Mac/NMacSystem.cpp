@@ -924,6 +924,7 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 	// Select the image format
 	if (bitsPerPixel == 8 && bitsPerComponent == 8)
 		{
+		// Convert indexed images to 32bpp without alpha
 		theFormat  = kNImageFormat_RGBX_8888;
 		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
 		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
@@ -931,13 +932,15 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 
 	else if (bitsPerPixel == 24 && bitsPerComponent == 8)
 		{
-		theFormat  = kNImageFormat_RGB_888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNone;
+		// Convert 24bpp images to 32bpp without alpha
+		theFormat  = kNImageFormat_RGBX_8888;
+		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
 		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
 		}
 
 	else if (bitsPerPixel == 32 && bitsPerComponent == 8)
 		{
+		// Convert 32bpp images to 32bpp with alpha
 		theFormat  = kNImageFormat_RGBA_8888;
 		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
 		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
