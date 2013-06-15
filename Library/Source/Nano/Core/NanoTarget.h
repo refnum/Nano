@@ -61,7 +61,7 @@
 
 // Validate
 #if !NN_TARGET_MAC && !NN_TARGET_WINDOWS && !NN_TARGET_IOS && !NN_TARGET_LINUX
-	ERROR - Unable to determine target platform
+	ERROR - Unable to identify target platform
 #endif
 
 
@@ -116,7 +116,7 @@
 
 // Validate
 #if NN_TARGET_ENDIAN_BIG == NN_TARGET_ENDIAN_LITTLE
-	ERROR - Unable to determine target endian-ness
+	ERROR - Unable to identify target endian-ness
 #endif
 
 
@@ -176,7 +176,7 @@
 
 // Validate
 #if NN_TARGET_ARCH_64 == NN_TARGET_ARCH_32
-	ERROR - Unable to determine target architecture size
+	ERROR - Unable to identify target architecture size
 #endif
 
 
@@ -194,16 +194,18 @@
 
 // Clang
 #if defined(__clang__)
-	#define NN_TARGET_COMPILER_CLANG								((__clang_major__      * 10000) + \
-																	 (__clang_minor__      * 100)   + \
+	#undef  NN_TARGET_COMPILER_CLANG
+	#define NN_TARGET_COMPILER_CLANG								((__clang_major__      * 10000 ) + \
+																	 (__clang_minor__      * 100   ) + \
 																	 (__clang_patchlevel__ * 1))
 #endif
 
 
 // GCC
 //
-// As Clang also defines __GNUC__ we can't simply test on that.
-#if defined(__GNUC_MINOR__)
+// Clang also defines __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
+	#undef  NN_TARGET_COMPILER_GCC
 	#define NN_TARGET_COMPILER_GCC									((__GNUC__            * 10000) + \
 																	 (__GNUC_MINOR__      * 100)   + \
 																	 (__GNUC_PATCHLEVEL__ * 1))
@@ -211,14 +213,19 @@
 
 
 // Visual Studio
-#if defined(_MSC_VER)
-	#define NN_TARGET_COMPILER_MSC									_MSC_VER
+#if defined(_MSC_FULL_VER)
+	#undef  NN_TARGET_COMPILER_MSC
+	#define NN_TARGET_COMPILER_MSC									_MSC_FULL_VER
 #endif
 
 
 // Validate
-#if ((NN_TARGET_COMPILER_CLANG + NN_TARGET_COMPILER_GCC + NN_TARGET_COMPILER_MSC) != 1)
-	ERROR - Unable to determine target compiler
+#if (( (NN_TARGET_COMPILER_CLANG!=0) + (NN_TARGET_COMPILER_GCC!=0) + (NN_TARGET_COMPILER_MSC!=0)) == 0)
+	ERROR - Unable to identify target compiler
+#endif
+
+#if (( (NN_TARGET_COMPILER_CLANG!=0) + (NN_TARGET_COMPILER_GCC!=0) + (NN_TARGET_COMPILER_MSC!=0))  > 1)
+	ERROR - Unable to uniquely identify target compiler
 #endif
 
 
