@@ -26,10 +26,10 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const SInt32List  kListSInt32								= mkvector((SInt32) 1, (SInt32) 2);
-static const SInt64List  kListSInt64								= mkvector((SInt64) 1, (SInt64) 2, (SInt64) 3);
-static const Float32List kListFloat32								= mkvector(1.0f, 2.0f, 3.0f, 4.0f);
-static const Float64List kListFloat64								= mkvector(1.0, 2.0, 3.0, 4.0, 5.0);
+static const SInt32List  kListSInt32								= nvector<SInt32>(1, 2);
+static const SInt64List  kListSInt64								= nvector<SInt64>(1, 2, 3);
+static const Float32List kListFloat32								= nvector<Float32>(1.0, 2.0, 3.0, 4.0);
+static const Float64List kListFloat64								= nvector<Float64>(1.0, 2.0, 3.0, 4.0, 5.0);
 
 static const NPoint kTestPoint										= NPoint(10.0f, 10.0f);
 static const SInt32 kTestSInt32										=  2000;

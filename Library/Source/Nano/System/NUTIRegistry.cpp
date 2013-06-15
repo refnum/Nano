@@ -225,7 +225,7 @@ void NUTIRegistry::AddUTI(	const NString		&theUTI,
 
 	// Add the UTI
 	theInfo.theDescription    = theDescription;
-	theInfo.conformsTo        = mkvector(conformsTo);
+	theInfo.conformsTo        = nvector(conformsTo);
 	theInfo.theTags[theClass] = theTag.GetLower();
 
 	NN_ASSERT(mInfo.find(theUTI) == mInfo.end());

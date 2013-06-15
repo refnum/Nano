@@ -35,9 +35,9 @@ NANO_FIXTURE(TGeometryUtilities)
 
 	SETUP
 	{
-		thePoints64 = mkvector(NPoint64(1.0f, 1.1f), NPoint64(2.0f, 2.2f), NPoint64(-3.0f, -3.3f));
-		thePoints32 = mkvector(NPoint32(1.0f, 1.1f), NPoint32(2.0f, 2.2f), NPoint32(-3.0f, -3.3f));
-		thePoints   = mkvector(NPoint  (1.0f, 1.1f), NPoint  (2.0f, 2.2f), NPoint  (-3.0f, -3.3f));
+		thePoints64 = nvector(NPoint64(1.0f, 1.1f), NPoint64(2.0f, 2.2f), NPoint64(-3.0f, -3.3f));
+		thePoints32 = nvector(NPoint32(1.0f, 1.1f), NPoint32(2.0f, 2.2f), NPoint32(-3.0f, -3.3f));
+		thePoints   = nvector(NPoint  (1.0f, 1.1f), NPoint  (2.0f, 2.2f), NPoint  (-3.0f, -3.3f));
 	}
 };
 
