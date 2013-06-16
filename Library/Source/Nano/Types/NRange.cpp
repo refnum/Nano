@@ -210,6 +210,21 @@ NIndex NRange::GetNext(void) const
 
 
 //============================================================================
+//		NRange::GetOffset : Get an offset.
+//----------------------------------------------------------------------------
+NIndex NRange::GetOffset(NIndex theOffset) const
+{
+
+
+	// Get the offset
+	return(mLocation + theOffset);
+}
+
+
+
+
+
+//============================================================================
 //		NRange::GetNormalized : Get a normalized range.
 //----------------------------------------------------------------------------
 NRange NRange::GetNormalized(NIndex theSize) const

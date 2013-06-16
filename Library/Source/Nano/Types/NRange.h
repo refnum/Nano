@@ -87,6 +87,10 @@ public:
 	NIndex								GetNext( void) const;
 
 
+	// Get an offset
+	NIndex								GetOffset(NIndex theOffset) const;
+	
+
 	// Get a normalized range
 	//
 	// A normalized range converts meta-values and clamps to a specific size.
