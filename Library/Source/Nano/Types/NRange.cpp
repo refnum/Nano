@@ -23,16 +23,6 @@
 
 
 //============================================================================
-//		Public constants
-//----------------------------------------------------------------------------
-const NRange kNRangeNone(kNIndexNone, 0);
-const NRange kNRangeAll (0, kNIndexNone);
-
-
-
-
-
-//============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NString kNRangeLocationKey								= "location";
@@ -168,6 +158,11 @@ NIndex NRange::GetFirst(void) const
 {
 
 
+	// Validate our state
+	NN_ASSERT(!IsMeta());
+
+
+
 	// Get the value
 	return(mLocation);
 }
@@ -181,6 +176,11 @@ NIndex NRange::GetFirst(void) const
 //----------------------------------------------------------------------------
 NIndex NRange::GetLast(void) const
 {
+
+
+	// Validate our state
+	NN_ASSERT(!IsMeta());
+
 
 
 	// Get the value
@@ -201,6 +201,11 @@ NIndex NRange::GetNext(void) const
 {
 
 
+	// Validate our state
+	NN_ASSERT(!IsMeta());
+
+
+
 	// Get the value
 	return(mLocation + mSize);
 }
@@ -214,6 +219,11 @@ NIndex NRange::GetNext(void) const
 //----------------------------------------------------------------------------
 NIndex NRange::GetOffset(NIndex theOffset) const
 {
+
+
+	// Validate our state
+	NN_ASSERT(!IsMeta());
+
 
 
 	// Get the offset
@@ -232,23 +242,35 @@ NRange NRange::GetNormalized(NIndex theSize) const
 
 
 
-	// Convert the size
+	// Get the state we need
 	theResult = *this;
+
+
+
+	// Normalize meta-values
+	if (theResult == kNRangeNone)
+		theResult = NRange(0, 0);
+
+	else if (theResult == kNRangeAll)
+		theResult = NRange(0, theSize);
+
+
+
+	// Normalize the range
+	//
+	// Non-meta ranges are normalised relative to the implicit 0..theSize range.
+	//
+	// A range outside that range is returned with its current position, but with
+	// a size of 0 (since it is essentially empty).
+	//
+	// A range within that range with a meta-length is expanded to the available size.
+	//
+	// A range within that range which exceeds the size is clamped to the available size.
+	else if (mLocation >= theSize || theSize == 0)
+		theResult.SetSize(0);
 	
-	if (theResult.mSize == kNIndexNone)
-		theResult.mSize = theSize;
-
-
-
-	// Check for start beyond end
-	if (theResult.GetFirst() >= theSize)
-		theResult = kNRangeNone;
-
-
-
-	// Check for last beyond end
-	if (theResult.GetLast() >= theSize)
-		theResult.SetSize(theSize - theResult.GetLocation());
+	else if (theResult.GetSize() == kNIndexNone || theResult.GetLast() >= theSize)
+		theResult.SetSize(theSize - theResult.mLocation);
 
 	return(theResult);
 }
@@ -262,14 +284,31 @@ NRange NRange::GetNormalized(NIndex theSize) const
 //----------------------------------------------------------------------------
 NRange NRange::GetUnion(const NRange &theRange) const
 {	NIndex		rangeFirst, rangeLast;
+	NRange		theResult;
+
+
+
+	// Validate our parameters and state
+	NN_ASSERT(!theRange.IsMeta());
+	NN_ASSERT(!IsMeta());
+
+
+
+	// Check for empty
+	if (IsEmpty())
+		return(theRange);
+	
+	if (theRange.IsEmpty())
+		return(*this);
 
 
 
 	// Get the union
 	rangeFirst = std::min(GetFirst(), theRange.GetFirst());
 	rangeLast  = std::max(GetLast(),  theRange.GetLast());
+	theResult  = NRange(rangeFirst, rangeLast - rangeFirst + 1);
 	
-	return(NRange(rangeFirst, rangeLast - rangeFirst + 1));
+	return(theResult);
 }
 
 
@@ -281,20 +320,34 @@ NRange NRange::GetUnion(const NRange &theRange) const
 //----------------------------------------------------------------------------
 NRange NRange::GetIntersection(const NRange &theRange) const
 {	NIndex		rangeFirst, rangeLast;
+	NRange		theResult;
 
 
 
-	// Check our parameters
-	if (GetLast() < theRange.GetLocation() || theRange.GetLast() < GetLocation())
-		return(kNRangeNone);
+	// Validate our parameters and state
+	NN_ASSERT(!theRange.IsMeta());
+	NN_ASSERT(!IsMeta());
 
 
 
+	// Check for empty
+	if (IsEmpty() || theRange.IsEmpty())
+		return(theResult);
+
+
+
+	// Check for no intersection
+	if (theRange.GetFirst() > GetLast() || theRange.GetLast() < GetFirst())
+		return(theResult);
+	
+	
+	
 	// Get the intersection
 	rangeFirst = std::max(GetFirst(), theRange.GetFirst());
 	rangeLast  = std::min(GetLast(),  theRange.GetLast());
+	theResult  = NRange(rangeFirst, rangeLast - rangeFirst + 1);
 	
-	return(NRange(rangeFirst, rangeLast - rangeFirst + 1));
+	return(theResult);
 }
 
 
@@ -317,14 +370,14 @@ bool NRange::IsEmpty(void) const
 
 
 //============================================================================
-//		NRange::Overlaps : Does the range overlap another?
+//		NRange::IsMeta : Is the range a meta-range?
 //----------------------------------------------------------------------------
-bool NRange::Overlaps(const NRange &theRange) const
+bool NRange::IsMeta(void) const
 {
 
 
-	// Check for overlap
-    return(!GetIntersection(theRange).IsEmpty());
+	// Check our state
+	return(mLocation == kNIndexNone || mSize == kNIndexNone);
 }
 
 
@@ -332,14 +385,56 @@ bool NRange::Overlaps(const NRange &theRange) const
 
 
 //============================================================================
-//		NRange::Contains : Does the range contain another?
+//		NRange::Overlaps : Does the range overlap another?
 //----------------------------------------------------------------------------
-bool NRange::Contains(NIndex theIndex) const
-{
+bool NRange::Overlaps(const NRange &theRange) const
+{	bool	hasOverlap;
+
+
+
+	// Validate our parameters and state
+	//
+	// kNRangeNone is the only supported meta range, as it is empty.
+	NN_ASSERT(!theRange.IsMeta());
+	NN_ASSERT(*this == kNRangeNone || !IsMeta());
+
+
+
+	// Check for overlap
+	hasOverlap = (!IsEmpty() && !theRange.IsEmpty());
+	
+	if (hasOverlap)
+		hasOverlap = !GetIntersection(theRange).IsEmpty();
+	
+	return(hasOverlap);
+}
+
+
+
+
+
+//============================================================================
+//		NRange::Contains : Does the range contain an offset?
+//----------------------------------------------------------------------------
+bool NRange::Contains(NIndex theOffset) const
+{	bool	hasOffset;
+
+
+
+	// Validate our state
+	//
+	// kNRangeNone is the only supported meta range, as it is empty.
+	NN_ASSERT(*this == kNRangeNone || !IsMeta());
+
 
 
 	// Check for containment
-    return(theIndex >= GetFirst() && theIndex <= GetLast());
+	hasOffset = !IsEmpty();
+
+	if (hasOffset)
+		hasOffset = (theOffset >= GetFirst() && theOffset <= GetLast());
+	
+	return(hasOffset);
 }
 
 

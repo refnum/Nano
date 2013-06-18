@@ -26,18 +26,6 @@
 
 
 //============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-class NRange;
-
-extern const NRange kNRangeNone;
-extern const NRange kNRangeAll;
-
-
-
-
-
-//============================================================================
 //		Types
 //----------------------------------------------------------------------------
 typedef std::vector<NRange>											NRangeList;
@@ -82,30 +70,60 @@ public:
 	//
 	// The last item in an empty range is the same as the first: the range has
 	// no content, but still has a location.
+	//
+	// May only be called on a normalized range.
 	NIndex								GetFirst(void) const;
 	NIndex								GetLast( void) const;
 	NIndex								GetNext( void) const;
 
 
 	// Get an offset
+	//
+	// May only be called on a normalized range.
 	NIndex								GetOffset(NIndex theOffset) const;
 	
 
 	// Get a normalized range
 	//
-	// A normalized range converts meta-values and clamps to a specific size.
+	// Normalizing a range returns a range without meta-values:
+	//
+	//		kNRangeNone			0..0
+	//		kNRangeAll			0..theSize
+	//		N..kNIndexNone		N..end
+	//
+	// A range whose size is kNIndexNone is treated as a range that extends
+	// to the end of the implied 0..theSize range.
+	//
+	// If the range is outside the implied 0..theSize range, the returned
+	// range has its original location and a size of 0.
+	//
+	// A range that exceeds the implied 0..theSize range is clamped to the
+	// maximum available size.
 	NRange								GetNormalized(NIndex theSize) const;
-	
 
-	// Get a modified range
+
+	// Get a union
+	//
+	// May only be called on a normalized range.
 	NRange								GetUnion(       const NRange &theRange) const;
 	NRange								GetIntersection(const NRange &theRange) const;
 
 
 	// Test the range
-	bool								IsEmpty(void)                    const;
-	bool								Overlaps(const NRange &theRange) const;
-	bool								Contains(NIndex        theIndex) const;
+	bool								IsEmpty(void) const;
+	bool								IsMeta( void) const;
+
+
+	// Does a range overlap another?
+	//
+	// May only be called on a normalized range, or kNRangeNone
+	bool								Overlaps(const NRange &theRange)  const;
+
+
+	// Does a range contain another?
+	//
+	// May only be called on a normalized range, or kNRangeNone
+	bool								Contains(NIndex theOffset) const;
 
 
 	// Operators
@@ -124,6 +142,18 @@ private:
 	NIndex								mLocation;
 	NIndex								mSize;
 };
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// Meta-ranges
+static const NRange kNRangeNone(kNIndexNone, 0);
+static const NRange kNRangeAll (0, kNIndexNone);
+
 
 
 
