@@ -77,36 +77,52 @@ public:
 
 	// Reserve additional space
 	//
-	// Reserving space pre-allocates internal storage to amortize future resizes.
+	// Reserving space may pre-allocate internal storage to amortize future resizes.
 	void								Reserve(NIndex theSize);
 
 
-	// Get/set the data
+	// Get the data
 	//
-	// GetData will return a NULL pointer if the data object is empty.
-	//
-	// SetData(xxx, NULL) is equivalent to Clear+AppendData(xxx);
-	NData								GetData(const NRange &theRange)    const;
-	const UInt8						   *GetData(      NIndex  theOffset=0) const;
-
+	// Returns a NULL pointer if the object is empty.
+	NData								GetData(const NRange &theRange) const;
+	const UInt8						   *GetData(NIndex theOffset=0)     const;
 	UInt8							   *GetData(NIndex theOffset=0);
+
+
+	// Set the data
+	//
+	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
 	void								SetData(NIndex theSize, const void *thePtr, bool makeCopy=true);
 
 
-	// Append data
+	// Insert data
 	//
-	// Appending a NULL pointer will zero-fill the new content.
+	// Inserts data immediately before the specified index, or at the end of the value
+	// if the index is equal to our current size.
 	//
-	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
-	UInt8							   *AppendData(const NData &theData);
-	UInt8							   *AppendData(      NIndex theSize, const void *thePtr=NULL);
+	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
+	//
+	// Returns a pointer to the newly-inserted data, or NULL if no data was appended.
+	UInt8							   *InsertData(NIndex beforeIndex, const NData &theData);
+	UInt8							   *InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr);
 
 
 	// Remove data
 	void								RemoveData(const NRange &theRange);
 
 
+	// Append data
+	//
+	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
+	//
+	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
+	UInt8							   *AppendData(const NData &theData);
+	UInt8							   *AppendData(      NIndex theSize, const void *thePtr=NULL);
+
+
 	// Replace data
+	//
+	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
 	//
 	// Returns a pointer to the newly-modified data.
 	UInt8							   *ReplaceData(const NRange &theRange, const NData &theData);
@@ -128,7 +144,7 @@ public:
 
 
 protected:
-	// Get the value
+	// Get the mutable value
 	NDataValue						   *GetMutable(void);
 
 
@@ -146,10 +162,14 @@ protected:
 
 
 private:
-	void								Resize(NDataValue *theValue, NIndex theSize);
-	
+	bool								IsValidSlice(void) const;
+
+	void								ResizeValue( NDataValue *theValue, NIndex theSize);
+	void								ResizedValue(NDataValue *theValue);
+
 
 private:
+	NRange								mSlice;
 	NIndex								mExternalSize;
 	const void						   *mExternalPtr;
 };

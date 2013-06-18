@@ -810,7 +810,7 @@ void NUnicodeParser::AddBOMToUTF8(NData &theData) const
 
 
 	// Insert the BOM
-	theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF8BOM), kUTF8BOM);
+	theBOM = theData.InsertData(0, NN_ARRAY_SIZE(kUTF8BOM), kUTF8BOM);
 	NN_ASSERT(theBOM == theData.GetData());
 }
 
@@ -828,9 +828,9 @@ void NUnicodeParser::AddBOMToUTF16(NData &theData, NEndianFormat theFormat) cons
 
 	// Insert the BOM
 	if (theFormat == kNEndianBig)
-		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF16BOMBE), kUTF16BOMBE);
+		theBOM = theData.InsertData(0, NN_ARRAY_SIZE(kUTF16BOMBE), kUTF16BOMBE);
 	else
-		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF16BOMLE), kUTF16BOMLE);
+		theBOM = theData.InsertData(0, NN_ARRAY_SIZE(kUTF16BOMLE), kUTF16BOMLE);
 	
 	NN_ASSERT(theBOM == theData.GetData());
 }
@@ -849,9 +849,9 @@ void NUnicodeParser::AddBOMToUTF32(NData &theData, NEndianFormat theFormat) cons
 
 	// Insert the BOM
 	if (theFormat == kNEndianBig)
-		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF32BOMBE), kUTF32BOMBE);
+		theBOM = theData.InsertData(0, NN_ARRAY_SIZE(kUTF32BOMBE), kUTF32BOMBE);
 	else
-		theBOM = theData.ReplaceData(kNRangeNone, NN_ARRAY_SIZE(kUTF32BOMLE), kUTF32BOMLE);
+		theBOM = theData.InsertData(0, NN_ARRAY_SIZE(kUTF32BOMLE), kUTF32BOMLE);
 	
 	NN_ASSERT(theBOM == theData.GetData());
 }

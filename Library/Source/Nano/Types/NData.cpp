@@ -40,6 +40,7 @@ NData::NData(const NData &theValue)
 
 
 	// Initialize ourselves
+	mSlice        = theValue.mSlice;
 	mExternalSize = theValue.mExternalSize;
 	mExternalPtr  = theValue.mExternalPtr;
 }
@@ -64,6 +65,9 @@ NData::NData(NIndex theSize, const void *thePtr, bool makeCopy)
 	mExternalSize = 0;
 	mExternalPtr  = NULL;
 
+
+
+	// Assign the data
 	if (theSize != 0)
 		SetData(theSize, thePtr, makeCopy);
 }
@@ -110,6 +114,7 @@ void NData::Clear(void)
 	NSharedValueData::Clear();
 	ClearHash();
 
+	mSlice        = NRange(0, 0);
 	mExternalSize = 0;
 	mExternalPtr  = NULL;
 }
@@ -122,21 +127,11 @@ void NData::Clear(void)
 //		NData::GetSize : Get the size.
 //----------------------------------------------------------------------------
 NIndex NData::GetSize(void) const
-{	const NDataValue		*theValue;
-	NIndex					theSize;
-
+{
 
 
 	// Get the size
-	if (mExternalSize != 0)
-		theSize = mExternalSize;
-	else
-		{
-		theValue = GetImmutable();
-		theSize  = (NIndex) theValue->size();
-		}
-
-	return(theSize);
+	return(mSlice.GetSize());
 }
 
 
@@ -157,38 +152,46 @@ bool NData::SetSize(NIndex theSize)
 
 
 
-	// Check our state
-	if (theSize == GetSize())
-		return(true);
-
-
-
-	// Set the size
+	// Resize to 0
+	//
+	// Clearing, rather than resizing, allows us to share the null value.
 	if (theSize == 0)
 		Clear();
+
+
+
+	// Resize to smaller
+	//
+	// If we're shrinking then we can leave the data alone (external or not)
+	// and just reduce our slice.
+	//
+	// This means that allocating a large block then reducing its size will
+	// leave the previous allocation around, possibly indefinitely.
+	//
+	// But given that the slice can be turned into an exact block by requesting
+	// a mutable pointer this seems a reasonable trade-off given that it lets
+	// us continue to share data when shrinking.
+	else if (theSize <= GetSize())
+		mSlice.SetSize(theSize);
+	
+	
+	
+	// Resize to larger
 	else
 		{
-		// Keep using an external buffer
-		//
-		// We can't grow an external buffer, so must take a copy.
-		if (mExternalSize != 0 && theSize <= mExternalSize)
-			mExternalSize = theSize;
-
-
-		// Or resize our own
-		else
-			{
-			theValue = GetMutable();
-			Resize(theValue, theSize);
-			}
+		theValue = GetMutable();
+		ResizeValue(theValue, theSize);
 		}
-	
-	ClearHash();
 
 
 
-	// Check the size
+	// Check our state
+	NN_ASSERT(IsValidSlice());
+
 	didSet = (GetSize() == theSize);
+	if (didSet)
+		ClearHash();
+
 	return(didSet);
 }
 
@@ -207,6 +210,11 @@ void NData::Reserve(NIndex theSize)
 	// Reserve the space
 	theValue = GetMutable();
 	theValue->reserve(theSize);
+
+
+
+	// Check our state
+	NN_ASSERT(IsValidSlice());
 }
 
 
@@ -217,14 +225,32 @@ void NData::Reserve(NIndex theSize)
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
 NData NData::GetData(const NRange &theRange) const
-{	NData		theResult;
+{	NRange		finalRange;
+	NData		theData;
+
+
+
+	// Get the state we need
+	finalRange = GetNormalized(theRange);
 
 
 
 	// Get the data
-	theResult.SetData(theRange.GetSize(), GetData(theRange.GetLocation()));
-	
-	return(theResult);
+	//
+	// The new data can use a slice of our data.
+	//
+	// As we may also be using a slice, the new range is relative to ours.
+	if (!finalRange.IsEmpty())
+		{
+		theData = *this;
+
+		theData.mSlice.SetLocation(mSlice.GetOffset(finalRange.GetLocation()));
+		theData.mSlice.SetSize(                     finalRange.GetSize());
+
+		NN_ASSERT(theData.IsValidSlice());
+		}
+
+	return(theData);
 }
 
 
@@ -242,23 +268,34 @@ const UInt8 *NData::GetData(NIndex theOffset) const
 
 	// Validate our parameters
 #if NN_DEBUG
-	if (!IsEmpty())
-		NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+	if (IsEmpty())
+		NN_ASSERT(theOffset == 0);
+	else
+		NN_ASSERT(mSlice.Contains(mSlice.GetOffset(theOffset)));
 #endif
 
 
 
-	// Get the data
+	// Get empty data
 	if (IsEmpty())
 		thePtr = NULL;
 
-	else if (mExternalPtr != NULL)
-		thePtr = ((const UInt8 *) mExternalPtr) + theOffset;
 
+
+	// Get immutable data
+	//
+	// The offset is relative to our slice.
 	else
 		{
-		theValue = GetImmutable();
-		thePtr   = &theValue->at(theOffset);
+		if (mExternalPtr != NULL)
+			thePtr = (const UInt8 *) mExternalPtr;
+		else
+			{
+			theValue = GetImmutable();
+			thePtr   = &theValue->at(0);
+			}
+		
+		thePtr += mSlice.GetOffset(theOffset);
 		}
 
 	return(thePtr);
@@ -277,29 +314,45 @@ UInt8 *NData::GetData(NIndex theOffset)
 
 
 
-	// Validate our parameters and state
+	// Validate our parameters
 #if NN_DEBUG
-	if (!IsEmpty())
-		NN_ASSERT(theOffset >= 0 && theOffset < GetSize());
+	if (IsEmpty())
+		NN_ASSERT(theOffset == 0);
+	else
+		NN_ASSERT(mSlice.Contains(mSlice.GetOffset(theOffset)));
 #endif
 
 
 
-	// Get the data
+	// Get empty data
+	//
+	// Although we have to return a mutable pointer, an empty object can just
+	// return NULL rather than becoming mutable.
 	if (IsEmpty())
 		thePtr = NULL;
-	
+
+
+
+	// Get mutable data
+	//
+	// Obtaining mutable data will copy any external data we might have been
+	// using, and resolve any slice we had of any shared data.
+	//
+	// As such we're left with a single slice onto our own data, anchored at
+	// 0, so the offset can be used directly.
 	else
 		{
 		theValue = GetMutable();
 		thePtr   = &theValue->at(theOffset);
+
+		NN_ASSERT(mSlice.GetLocation() == 0);
 		}
 
 
 
 	// Update our state
 	ClearHash();
-
+	
 	return(thePtr);
 }
 
@@ -311,39 +364,41 @@ UInt8 *NData::GetData(NIndex theOffset)
 //		NData::SetData : Set the data.
 //----------------------------------------------------------------------------
 void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
-{	NDataValue		*theValue;
-
+{
 
 
 	// Validate our parameters
 	NN_ASSERT(theSize >= 0);
 
+	if (NN_DEBUG && thePtr != NULL)
+		NN_ASSERT(!(thePtr >= GetData(0) && thePtr < GetData(GetSize())));
 
 
-	// Copy the data
-	if (makeCopy)
-		{
-		theValue = GetMutable();
-		Resize(theValue, theSize);
 
-		if (theSize != 0 && thePtr != NULL)
-			memcpy(&theValue->at(0), thePtr, theSize);
-		}
-
-
-	// Or use the external data
-	else
-		{
+	// Reset our state
+	if (!IsEmpty())
 		Clear();
 
-		mExternalSize = theSize;
-		mExternalPtr  = thePtr;
+
+
+	// Set the data
+	if (theSize != 0)
+		{
+		if (makeCopy || thePtr == NULL)
+			InsertData(GetSize(), theSize, thePtr);
+		else
+			{
+			mSlice        = NRange(0, theSize);
+			mExternalSize = theSize;
+			mExternalPtr  = thePtr;
+			ClearHash();
+			}
 		}
 
 
 
-	// Update our state
-	ClearHash();
+	// Check our state
+	NN_ASSERT(IsValidSlice());
 }
 
 
@@ -351,13 +406,19 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 
 
 //============================================================================
-//		NData::AppendData : Append data.
+//		NData::InsertData : Insert data.
 //----------------------------------------------------------------------------
-UInt8 *NData::AppendData(const NData &theData)
-{	NDataValue			*dstValue;
-	const NDataValue	*srcValue;
-	NIndex				oldSize;
-	UInt8				*thePtr;
+UInt8 *NData::InsertData(NIndex beforeIndex, const NData &theData)
+{	NDataValueConstIterator		srcBegin, srcEnd;
+	UInt8						*resultPtr;
+	NDataValueIterator			dstInsert;
+	NDataValue					*dstValue;
+	const NDataValue			*srcValue;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(beforeIndex >= 0 && beforeIndex <= GetSize());
 
 
 
@@ -367,37 +428,29 @@ UInt8 *NData::AppendData(const NData &theData)
 
 
 
-	// Append to empty
+	// Get the state we need
+	srcValue = theData.GetImmutable();
+	srcBegin = srcValue->begin() + theData.mSlice.GetFirst();
+	srcEnd   = srcValue->begin() + theData.mSlice.GetNext();
+
+	dstValue  = GetMutable();
+	dstInsert = dstValue->begin() + beforeIndex;
+
+
+
+	// Insert the data
 	//
-	// If we're empty then we can share the value, rather than appending bytes.
-	if (IsEmpty())
-		{
-		*this  = theData;
-		thePtr = GetData();
-		}
-	
-	
-	// Append to existing
-	//
-	// Since we're working with two NDataValues, we can insert the new values
-	// directly into the end of our vector to avoid resizing and initialising
-	// the new space (and then overwriting it with the new data).
-	else
-		{
-		srcValue = theData.GetImmutable();
-		dstValue = GetMutable();
-		oldSize  = GetSize();
-
-		dstValue->insert(dstValue->end(), srcValue->begin(), srcValue->end());
-		thePtr = &dstValue->at(oldSize);
-		}
+	// Inserting via iterators allows us to avoid manually resizing our
+	// value, which saves a redundant initialisation of the new area.
+	dstValue->insert(dstInsert, srcBegin, srcEnd);
+	ResizedValue(dstValue);
 
 
 
-	// Update our state
-	ClearHash();
-	
-	return(thePtr);
+	// Get the pointer
+	resultPtr = &dstValue->at(beforeIndex);
+
+	return(resultPtr);
 }
 
 
@@ -405,17 +458,17 @@ UInt8 *NData::AppendData(const NData &theData)
 
 
 //============================================================================
-//		NData::AppendData : Append data.
+//		NData::InsertData : Insert data.
 //----------------------------------------------------------------------------
-UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
-{	NDataValue		*theValue;
-	UInt8			*dstPtr;
-	NIndex			oldSize;
+UInt8 *NData::InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr)
+{	UInt8					*resultPtr;
+	NDataValue				*dstValue;
+	NDataValueIterator		dstInsert;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(theSize >= 0);
+	NN_ASSERT(beforeIndex >= 0 && beforeIndex <= GetSize());
 
 
 
@@ -426,24 +479,29 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 
 
 	// Get the state we need
-	theValue = GetMutable();
-	oldSize  = (NIndex) theValue->size();
+	dstValue  = GetMutable();
+	dstInsert = dstValue->begin() + beforeIndex;
 
 
 
-	// Append the data
-	Resize(theValue, theSize + oldSize);
+	// Insert the data
+	//
+	// Since insert will zero-fill we can skip the copy if our source is NULL.
+	dstValue->insert(dstInsert, theSize, 0x00);
+	ResizedValue(dstValue);
 
-	dstPtr = &theValue->at(oldSize);
 	if (thePtr != NULL)
-		memcpy(dstPtr, thePtr, theSize);
+		{
+		resultPtr = &dstValue->at(beforeIndex);
+		memmove(resultPtr, thePtr, theSize);
+		}
 
 
 
-	// Update our state
-	ClearHash();
+	// Get the pointer
+	resultPtr = &dstValue->at(beforeIndex);
 
-	return(dstPtr);
+	return(resultPtr);
 }
 
 
@@ -454,34 +512,59 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 //      NData::RemoveData : Remove data.
 //----------------------------------------------------------------------------
 void NData::RemoveData(const NRange &theRange)
-{	NDataValueIterator		iterStart, iterEnd;
+{	NDataValueIterator		removeFirst, removeLast;
+	NRange					finalRange;
 	NDataValue				*theValue;
 
 
 
-	// Validate our parameters
-	NN_ASSERT(theRange.GetLocation() >= 0);
-	NN_ASSERT(theRange.GetLast()     <  GetSize());
+	// Get the range
+	finalRange = GetNormalized(theRange);
+	if (finalRange.IsEmpty())
+		return;
 
 
 
-	// Remove all the data
-	//
-	// We clear rather than erase to let us share the null value.
-	if (theRange.GetLocation() == 0 && theRange.GetSize() == GetSize())
-		Clear();
-	
-	
-	// Remove a range
-	else
-		{
-		theValue  = GetMutable();
-		iterStart = theValue->begin() + theRange.GetFirst();
-		iterEnd   = theValue->begin() + theRange.GetNext();
+	// Get the state we need
+	theValue    = GetMutable();
+	removeFirst = theValue->begin() + finalRange.GetFirst();
+	removeLast  = theValue->begin() + finalRange.GetNext();
 
-		theValue->erase(iterStart, iterEnd);
-		ClearHash();
-		}
+
+
+	// Remove the data
+	theValue->erase(removeFirst, removeLast);
+	ResizedValue(theValue);
+}
+
+
+
+
+
+//============================================================================
+//		NData::AppendData : Append data.
+//----------------------------------------------------------------------------
+UInt8 *NData::AppendData(const NData &theData)
+{
+
+
+	// Append the data
+	return(InsertData(GetSize(), theData));
+}
+
+
+
+
+
+//============================================================================
+//		NData::AppendData : Append data.
+//----------------------------------------------------------------------------
+UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
+{
+
+
+	// Append the data
+	return(InsertData(GetSize(), theSize, thePtr));
 }
 
 
@@ -493,11 +576,6 @@ void NData::RemoveData(const NRange &theRange)
 //----------------------------------------------------------------------------
 UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
 {
-
-
-	// Validate our parameters
-	NN_ASSERT(!theData.IsEmpty());
-
 
 
 	// Replace the data
@@ -512,71 +590,63 @@ UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
 //		NData::ReplaceData : Replace data.
 //----------------------------------------------------------------------------
 UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)
-{	NIndex			oldSize, blockSize, sizeDelta;
-	NRange			replaceRange;
-	NDataValue		*theValue;
+{	NRange			finalRange;
+	NIndex			sizeDelta;
 	UInt8			*dstPtr;
-	const UInt8		*srcPtr;
 
 
 
 	// Validate our parameters
+	NN_ASSERT(!GetNormalized(theRange).IsEmpty());
 	NN_ASSERT(theSize >= 0);
 
 
 
 	// Get the state we need
-	theValue = GetMutable();
-	oldSize  = (NIndex) theValue->size();
-	
-	if (theRange == kNRangeNone)
-		replaceRange = NRange(0, 0);
+	finalRange = GetNormalized(theRange);
+	sizeDelta  = theSize - finalRange.GetSize();
+
+
+
+	// Replace everything
+	//
+	// Replacing everything can be done more efficiently as an assignment,
+	// as it lets us switch to the null value if we're replacing with empty.
+	if (IsFullRange(finalRange))
+		SetData(theSize, thePtr);
+
+
+
+	// Replace a range
+	//
+	// Inserting a larger range requires us to add a filler before we copy.
+	//
+	// This filler is placed at the end of the block we're going to overwrite,
+	// to minimise the amount of data beyond it that needs to be shuffled up.
 	else
-		replaceRange = theRange.GetNormalized(GetSize());
-
-
-
-	// Insert the block into a smaller range
-	if (theSize >= replaceRange.GetSize())
 		{
-		sizeDelta = theSize - replaceRange.GetSize();
-		Resize(theValue, oldSize + sizeDelta);
+		// Resize the value
+		if (sizeDelta > 0)
+			InsertData(finalRange.GetNext(), sizeDelta, NULL);
 
-		srcPtr    = &theValue->at(replaceRange.GetLocation() + replaceRange.GetSize());
-		dstPtr    = &theValue->at(replaceRange.GetLocation() + theSize);
-		blockSize = oldSize - replaceRange.GetNext();
-		memmove(dstPtr, srcPtr, blockSize);
+		else if (sizeDelta < 0)
+			RemoveData(NRange(finalRange.GetLocation(), -sizeDelta));
 
-		srcPtr    = (const UInt8 *) thePtr;
-		dstPtr    = &theValue->at(replaceRange.GetLocation());
-		blockSize = theSize;
-		memcpy(dstPtr, srcPtr, blockSize);
+
+
+		// Replace the range
+		dstPtr = GetData(finalRange.GetLocation());
+
+		if (thePtr == NULL)
+			memset( dstPtr,   0x00, theSize);
+		else
+			memmove(dstPtr, thePtr, theSize);
 		}
 
 
-	// Insert the block into a larger range
-	else
-		{
-		srcPtr    = (const UInt8 *) thePtr;
-		dstPtr    = &theValue->at(replaceRange.GetLocation());
-		blockSize = theSize;
-		memcpy(dstPtr, srcPtr, blockSize);
 
-		srcPtr    = &theValue->at(replaceRange.GetLocation() + replaceRange.GetSize());
-		dstPtr    = &theValue->at(replaceRange.GetLocation() + theSize);
-		blockSize = oldSize - replaceRange.GetNext();
-		memmove(dstPtr, srcPtr, blockSize);
-
-		sizeDelta = replaceRange.GetSize() - theSize;
-		Resize(theValue, oldSize - sizeDelta);
-		}
-
-	ClearHash();
-
-
-
-	// Get the data
-	dstPtr = &theValue->at(replaceRange.GetLocation());
+	// Get the pointer
+	dstPtr = GetData(finalRange.GetLocation());
 
 	return(dstPtr);
 }
@@ -589,32 +659,17 @@ UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *th
 //		NData::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NData::Compare(const NData &theValue) const
-{	const void				*ourPtr, *otherPtr;
-	NIndex					ourSize, otherSize;
-	NHashCode				ourHash, otherHash;
-	NComparison				theResult;
-
-
-
-	// Get the state we need
-	ourPtr   = (         mExternalPtr != NULL) ?          mExternalPtr  :          GetData();
-	otherPtr = (theValue.mExternalPtr != NULL) ? theValue.mExternalPtr  : theValue.GetData();
-
-	ourSize   = (         mExternalPtr != NULL) ?          mExternalSize :          GetSize();
-	otherSize = (theValue.mExternalPtr != NULL) ? theValue.mExternalSize : theValue.GetSize();
-
-	ourHash   =          GetHash();
-	otherHash = theValue.GetHash();
+{	NComparison	theResult;
 
 
 
 	// Compare the value
 	//
 	// We have no natural order, so the only real comparison is equality.
-	if (ourHash != otherHash)
-		theResult = GetComparison(ourHash, otherHash);
-	else
-		theResult = CompareData(ourSize, ourPtr, otherSize, otherPtr);
+	theResult = GetComparison(GetHash(), theValue.GetHash());
+
+	if (theResult == kNCompareEqualTo)
+		theResult = CompareData(GetSize(), GetData(), theValue.GetSize(), theValue.GetData());
 
 	return(theResult);
 }
@@ -636,6 +691,7 @@ const NData& NData::operator = (const NData &theValue)
 		NSharedValueData::operator=(theValue);
 		ClearHash();
 
+		mSlice        = theValue.mSlice;
 		mExternalSize = theValue.mExternalSize;
 		mExternalPtr  = theValue.mExternalPtr;
 		}
@@ -707,26 +763,56 @@ NData::operator NFormatArgument(void) const
 //----------------------------------------------------------------------------
 NDataValue *NData::GetMutable(void)
 {	NDataValue		*theValue;
+	NIndex			sliceSize;
 
 
 
 	// Get the state we need
-	theValue = NSharedValueData::GetMutable();
+	theValue  = NSharedValueData::GetMutable();
+	sliceSize = mSlice.GetSize();
 
 
 
-	// Copy external data
+	// Resolve external data
 	//
-	// External data can be supported indefinitely for immutable access,
-	// but must be copied whenever mutable access is required.
-	if (mExternalSize != 0)
+	// If we're using external data then we need to take a copy to be able
+	// to return a mutable version.
+	//
+	// We may or may not have been using a slice of the external data, but
+	// either way we'll end up with a slice that spans exactly what we own.
+	if (mExternalPtr != NULL)
 		{
-		Resize(theValue, mExternalSize);
-		memcpy(&theValue->at(0), mExternalPtr, mExternalSize);
-
-		mExternalSize = 0;
-		mExternalPtr  = NULL;
+		ResizeValue(theValue, sliceSize);
+		memcpy(&theValue->at(0), mExternalPtr, sliceSize);
 		}
+
+
+
+	// Resolve any slice
+	//
+	// Mutable access breaks the ability to share data, so if we had a slice
+	// of some larger data we resize to leave us with exactly what we own.
+	else if (sliceSize != (NIndex) theValue->size())
+		{
+		NN_ASSERT(sliceSize < (NIndex) theValue->size());
+
+		if (mSlice.GetLocation() != 0)
+			memmove(&theValue->at(0), &theValue->at(mSlice.GetLocation()), sliceSize);
+
+		ResizeValue(theValue, sliceSize);
+		}
+
+
+
+	// Update our state
+	//
+	// Mutable access always leaves us with our own copy of the data, and
+	// a slice that spans the entire block of data.
+	mSlice        = NRange(0, sliceSize);
+	mExternalSize = 0;
+	mExternalPtr  = NULL;
+
+	NN_ASSERT(IsValidSlice());
 
 	return(theValue);
 }
@@ -799,9 +885,45 @@ void NData::DecodeSelf(const NEncoder &theEncoder)
 
 #pragma mark private
 //============================================================================
-//      NData::Resize : Resize the value.
+//      NData::IsValidSlice : Is our slice valid?
 //----------------------------------------------------------------------------
-void NData::Resize(NDataValue *theValue, NIndex theSize)
+bool NData::IsValidSlice(void) const
+{	const NDataValue		*theValue;
+	bool					isValid;
+
+
+
+	// External slice
+	if (mExternalPtr != NULL)
+		{
+		NN_ASSERT(mExternalSize != 0);
+		isValid = (mSlice.GetFirst() >= 0 && mSlice.GetLast() < mExternalSize);
+		}
+	
+	
+	// Internal slice
+	else
+		{
+		NN_ASSERT(mExternalSize == 0);
+		theValue = GetImmutable();
+
+		if (theValue->empty())
+			isValid = mSlice.IsEmpty();
+		else
+			isValid = (mSlice.GetFirst() >= 0 && mSlice.GetLast() < (NIndex) theValue->size());
+		}
+
+	return(isValid);
+}
+
+
+
+
+
+//============================================================================
+//      NData::ResizeValue : Resize the value.
+//----------------------------------------------------------------------------
+void NData::ResizeValue(NDataValue *theValue, NIndex theSize)
 {
 
 
@@ -809,10 +931,41 @@ void NData::Resize(NDataValue *theValue, NIndex theSize)
 	//
 	// Reserving the space we need before the resize avoids excessive
 	// reallocation if resize is implemented in terms of insert().
-	if (theSize >= (NIndex) theValue->capacity())
+	if (theSize > (NIndex) theValue->capacity())
 		theValue->reserve(theSize);
 
 	theValue->resize(theSize, 0x00);
+
+
+
+	// Update our state
+	ResizedValue(theValue);
+}
+
+
+
+
+
+//============================================================================
+//      NData::ResizedValue : The value has been resized.
+//----------------------------------------------------------------------------
+void NData::ResizedValue(NDataValue *theValue)
+{
+
+
+	// Reset our state
+	//
+	// If we have a mutable value then we have the only copy of the data,
+	// so by definition our slice spans the whole range.
+	mSlice = NRange(0, (NIndex) theValue->size());
+	NN_ASSERT(IsValidSlice());
+
+	ClearHash();
+
+
+
+	// Check our state
+	NN_ASSERT(IsValidSlice());
 }
 
 
