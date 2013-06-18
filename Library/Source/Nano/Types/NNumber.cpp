@@ -824,9 +824,10 @@ bool NNumber::SetValue(const NString &theValue)
 		foundDot = theValue.Find(".");
 		foundE   = theValue.Find("e", kNStringNoCase);
 		
-		thePrecision = theValue.GetSize() - foundDot.GetNext();
 		if (foundDot.IsEmpty() || !foundE.IsEmpty())
 			thePrecision = kDecimalsFloat64;
+		else
+			thePrecision = theValue.GetSize() - foundDot.GetNext();
 
 
 

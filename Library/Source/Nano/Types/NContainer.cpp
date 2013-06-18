@@ -53,3 +53,42 @@ bool NContainer::IsEmpty(void) const
 	return(GetSize() == 0);
 }
 
+
+
+
+
+//============================================================================
+//      NContainer::IsFullRange : Does a range match the container?
+//----------------------------------------------------------------------------
+bool NContainer::IsFullRange(const NRange &theRange) const
+{	bool	isFull;
+
+
+
+	// Check the range
+	isFull = (theRange == kNRangeAll);
+	
+	if (!isFull)
+		isFull = (theRange.GetLocation() == 0 && theRange.GetSize() == GetSize());
+	
+	return(isFull);
+}
+
+
+
+
+
+//============================================================================
+//      NContainer::GetNormalized : Get a normalized range.
+//----------------------------------------------------------------------------
+NRange NContainer::GetNormalized(const NRange &theRange) const
+{
+
+
+	// Get the range
+	return(theRange.GetNormalized(GetSize()));
+}
+
+
+
+

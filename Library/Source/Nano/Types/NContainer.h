@@ -38,6 +38,15 @@ public:
 	virtual NIndex						GetSize(void) const = 0;
 
 
+protected:
+	// Does a range span the container?
+	bool								IsFullRange(const NRange &theRange) const;
+	
+	
+	// Get a normalized range
+	NRange								GetNormalized(const NRange &theRange) const;
+
+
 private:
 
 

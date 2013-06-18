@@ -229,18 +229,19 @@ void NArray::Join(const NArray &theValue)
 //----------------------------------------------------------------------------
 void NArray::Sort(const NArrayCompareFunctor &theFunctor, const NRange &theRange)
 {	NArrayValueIterator			iterFirst, iterLast;
-	NRange						processRange;
 	NArrayCompareFunctor		compareWith;
+	NRange						finalRange;
 	NArrayValue					*theArray;
 
 
 
 	// Get the state we need
-	theArray     = GetMutable();
-	compareWith  = GetCompareFunctor(theFunctor);
-	processRange = theRange.GetNormalized(GetSize());
-	iterFirst    = theArray->begin() + processRange.GetFirst();
-	iterLast     = theArray->begin() + processRange.GetNext();
+	theArray    = GetMutable();
+	compareWith = GetCompareFunctor(theFunctor);
+
+	finalRange = GetNormalized(theRange);
+	iterFirst  = theArray->begin() + finalRange.GetFirst();
+	iterLast   = theArray->begin() + finalRange.GetNext();
 
 
 	// Sort the array
@@ -256,22 +257,22 @@ void NArray::Sort(const NArrayCompareFunctor &theFunctor, const NRange &theRange
 //----------------------------------------------------------------------------
 void NArray::ForEach(const NArrayForEachFunctor &theFunctor, const NRange &theRange) const
 {	NIndex						n, minIndex, maxIndex;
-	NRange						processRange;
+	NRange						finalRange;
 	const NArrayValue			*theArray;
 
 
 
 	// Get the state we need
-	theArray     = GetImmutable();
-	processRange = theRange.GetNormalized(GetSize());
+	theArray   = GetImmutable();
+	finalRange = GetNormalized(theRange);
 
 
 
 	// Process the array
-	if (!processRange.IsEmpty())
+	if (!finalRange.IsEmpty())
 		{
-		minIndex = processRange.GetFirst();
-		maxIndex = processRange.GetNext();
+		minIndex = finalRange.GetFirst();
+		maxIndex = finalRange.GetNext();
 		
 		for (n = minIndex; n < maxIndex; n++)
 			theFunctor(n, theArray->at(n));

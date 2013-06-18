@@ -300,7 +300,6 @@ private:
 	void								TrimWhitespaceUTF8(   bool fromLeft, bool fromRight);
 	void								TrimWhitespaceGeneric(bool fromLeft, bool fromRight);
 
-	bool								IsFullRange(         const NRange     &theRange)                               const;           
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;

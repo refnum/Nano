@@ -1196,23 +1196,23 @@ void NString::TrimRight(NIndex theSize)
 //		NString::Trim : Trim a string.
 //----------------------------------------------------------------------------
 void NString::Trim(const NRange &theRange)
-{	NRange				charRange, byteRange;
+{	NRange				finalRange, byteRange;
 	NStringValue		*theValue;
 	NData				theData;
 
 
 
 	// Get the state we need
-	theValue  = GetMutable();
-	charRange = theRange.GetNormalized(GetSize());
+	theValue   = GetMutable();
+	finalRange = GetNormalized(theRange);
 
-	if (charRange.IsEmpty())
+	if (finalRange.IsEmpty())
 		return;
 
 
 
 	// Trim the string
-	byteRange = GetParser().GetRange(charRange);
+	byteRange = GetParser().GetRange(finalRange);
 	theValue->theData.RemoveData(byteRange);
 	ValueChanged(theValue);
 }
@@ -1468,12 +1468,12 @@ void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
 {	bool			isBackwards, isPattern;
 	NRangeList		theResults;
-	NRange			findRange;
+	NRange			finalRange;
 
 
 
 	// Get the state we need
-	findRange   = theRange.GetNormalized(GetSize());
+	finalRange  = GetNormalized(theRange);
 	isBackwards = ((theFlags & kNStringBackwards) == kNStringBackwards);
 	isPattern   = ((theFlags & kNStringPattern)   == kNStringPattern);
 
@@ -1486,7 +1486,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 	if (IsEmpty() || theString.IsEmpty())
 		return(theResults);
 	
-	if (!isPattern && theString.GetSize() > findRange.GetSize())
+	if (!isPattern && theString.GetSize() > finalRange.GetSize())
 		return(theResults);
 
 
@@ -1499,9 +1499,9 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 		{
 		// Find everything
 		if (isPattern)
-			theResults = FindPattern(theString, theFlags, findRange, true);
+			theResults = FindPattern(theString, theFlags, finalRange, true);
 		else
-			theResults = FindString( theString, theFlags, findRange, true);
+			theResults = FindString( theString, theFlags, finalRange, true);
 
 
 		// Adjust the result
@@ -1519,9 +1519,9 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 	else
 		{
 		if (isPattern)
-			theResults = FindPattern(theString, theFlags, findRange, doAll);
+			theResults = FindPattern(theString, theFlags, finalRange, doAll);
 		else
-			theResults = FindString( theString, theFlags, findRange, doAll);
+			theResults = FindString( theString, theFlags, finalRange, doAll);
 		}
 		
 	return(theResults);
@@ -2074,27 +2074,6 @@ void NString::TrimWhitespaceGeneric(bool fromLeft, bool fromRight)
 
 
 //============================================================================
-//      NString::IsFullRange : Does a range match the full string?
-//----------------------------------------------------------------------------
-bool NString::IsFullRange(const NRange &theRange) const
-{	bool	isFull;
-
-
-
-	// Check the range
-	isFull = (theRange == kNRangeAll);
-	
-	if (!isFull)
-		isFull = (theRange.GetLocation() == 0 && theRange.GetSize() == GetSize());
-	
-	return(isFull);
-}
-
-
-
-
-
-//============================================================================
 //      NString::GetCharacterOffset : Get the offset of a character.
 //----------------------------------------------------------------------------
 NIndex NString::GetCharacterOffset(const NRangeList *theRanges, NIndex byteOffset) const
@@ -2349,7 +2328,7 @@ UInt64 NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIn
 //		NString::GetString : Get a substring.
 //----------------------------------------------------------------------------
 NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRange) const
-{	NRange					charRange, byteRange;
+{	NRange					finalRange, byteRange;
 	const NStringValue		*theValue;
 	NString					theResult;
 	NData					theData;
@@ -2357,16 +2336,16 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	charRange = theRange.GetNormalized(GetSize());
+	theValue   = GetImmutable();
+	finalRange = GetNormalized(theRange);
 
-	if (charRange.IsEmpty())
+	if (finalRange.IsEmpty())
 		return(theResult);
 
 
 
 	// Extract the string
-	byteRange = theParser.GetRange(charRange);
+	byteRange = theParser.GetRange(finalRange);
 	theData   = theValue->theData.GetData(byteRange);
 	theResult.SetData(theData, theValue->theEncoding);
 
