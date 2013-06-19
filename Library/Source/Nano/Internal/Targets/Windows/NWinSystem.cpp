@@ -953,6 +953,12 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 
 
 
+	// Validate our parameters
+	NN_ASSERT(theImage.IsValid());
+	NN_ASSERT( theType.IsValid());
+
+
+
 	// Get the state we need
 	icFactory   = NULL;
 	icBitmap    = NULL;
