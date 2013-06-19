@@ -143,7 +143,7 @@ SRCS_COMPONENTS =                                                               
         ../Source/Nano/Internal/Components/schneier.com/blowfish_dat.c               \
         ../Source/Nano/Internal/Components/schneier.com/blowfish.c                   \
         ../Source/Nano/Internal/Components/sha2_1.1a/sha2.c                          \
-        ../Source/Nano/Internal/Components/sqlite_3.7.15.2/sqlite_3.7.15.2.c         \
+        ../Source/Nano/Internal/Components/sqlite_3.7.17/sqlite_3.7.17.c             \
         ../Source/Nano/Internal/Components/tero.co.uk/tero_des.cpp                   \
         ../Source/Nano/Internal/Components/udp.github.com/json.c                     \
         ../Source/Nano/Internal/Components/unicode.org/ConvertUTF.c                  \
@@ -186,7 +186,7 @@ FLAGS_INCLUDE =                                                                 
         -I"../Source/Nano/Internal/Components/pcre_7.8"                              \
         -I"../Source/Nano/Internal/Components/schneier.com"                          \
         -I"../Source/Nano/Internal/Components/sha2_1.1a"                             \
-        -I"../Source/Nano/Internal/Components/sqlite_3.7.15.2"                       \
+        -I"../Source/Nano/Internal/Components/sqlite_3.7.17"                         \
         -I"../Source/Nano/Internal/Components/tero.co.uk"                            \
         -I"../Source/Nano/Internal/Components/udp.github.com"                        \
         -I"../Source/Nano/Internal/Components/unicode.org"                           \
