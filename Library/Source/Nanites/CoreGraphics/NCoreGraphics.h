@@ -25,6 +25,21 @@
 
 
 //============================================================================
+//		Types
+//----------------------------------------------------------------------------
+typedef std::vector<CGFloat>										CGFloatList;
+typedef CGFloatList::iterator										CGFloatListIterator;
+typedef CGFloatList::const_iterator									CGFloatListConstIterator;
+
+typedef std::vector<CGPoint>										CGPointList;
+typedef CGPointList::iterator										CGPointListIterator;
+typedef CGPointList::const_iterator									CGPointListConstIterator;
+
+
+
+
+
+//============================================================================
 //		Inline functions
 //----------------------------------------------------------------------------
 // Nano to CoreGraphics
@@ -114,6 +129,9 @@ inline CGRect CGRectMake(CGFloat theWidth, CGFloat theHeight)
 {
 	return(CGRectMake(0.0, 0.0, theWidth, theHeight));
 }
+
+
+
 
 
 

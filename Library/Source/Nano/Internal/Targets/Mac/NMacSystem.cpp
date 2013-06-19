@@ -21,10 +21,11 @@
 #include "NCoreGraphics.h"
 #include "NCoreFoundation.h"
 #include "NTimeUtilities.h"
+#include "NCGImage.h"
 #include "NCFString.h"
+#include "NThread.h"
 #include "NSpinLock.h"
 #include "NMacTarget.h"
-#include "NThread.h"
 #include "NTargetSystem.h"
 
 
@@ -800,58 +801,20 @@ NString NTargetSystem::TransformString(const NString &theString, NStringTransfor
 //		NTargetSystem::ImageEncode : Encode an image.
 //----------------------------------------------------------------------------
 NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
-{	NCFObject			cgColorSpace, cgDataProvider, cgImage, cgImageDst, cfData;
-	NData				srcData, dstData;
-	CGBitmapInfo		bitmapInfo;
-	CFStringRef			dstFormat;
+{	NCFObject		cgImageDst, cfData;
+	CFStringRef		dstFormat;
+	NData			dstData;
+	NCGImage		cgImage;
 
 
 
-	// Prepare the source image
-	srcData = theImage.GetData();
-
-	switch (theImage.GetFormat()) {
-		case kNImageFormat_RGB_888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNone;
-			break;
-
-		case kNImageFormat_BGR_888:
-			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaNone;
-			break;
-
-		case kNImageFormat_RGBX_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNoneSkipLast;
-			break;
-
-		case kNImageFormat_RGBA_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaPremultipliedLast;
-			break;
-
-		case kNImageFormat_XRGB_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNoneSkipFirst;
-			break;
-
-		case kNImageFormat_ARGB_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaPremultipliedFirst;
-			break;
-
-		case kNImageFormat_BGRX_8888:
-			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaNoneSkipFirst;
-			break;
-
-		case kNImageFormat_BGRA_8888:
-			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaPremultipliedFirst;
-			break;
-
-		default:
-			NN_LOG("Unknown image format: %d", theImage.GetFormat());
-			return(dstData);
-			break;
-		}
+	// Validate our parameters
+	NN_ASSERT(theImage.IsValid());
+	NN_ASSERT( theType.IsValid());
 
 
 
-	// Prepare the destination format
+	// Get the state we need
 	if      (theType == kNUTTypePNG)	dstFormat = kUTTypePNG;
 	else if (theType == kNUTTypeJPEG)	dstFormat = kUTTypeJPEG;
 	else if (theType == kNUTTypeTIFF)	dstFormat = kUTTypeTIFF;
@@ -864,32 +827,16 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 
 
 
-	// Create a CG image
-	if (!cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB()))
-		return(dstData);
-
-	if (!cgDataProvider.SetObject(CGDataProviderCreateWithData(NULL, srcData.GetData(), srcData.GetSize(), NULL)))
-		return(dstData);
-	
-	if (!cgImage.SetObject(CGImageCreate(	theImage.GetWidth(),
-											theImage.GetHeight(),
-											theImage.GetBitsPerComponent(),
-											theImage.GetBitsPerPixel(),
-											theImage.GetBytesPerRow(),
-											cgColorSpace, bitmapInfo, cgDataProvider,
-											NULL, false, kCGRenderingIntentDefault)))
-		return(dstData);
-
-
-
 	// Encode the image
+	cgImage = NCGImage(theImage);
+
 	if (!cfData.SetObject(CFDataCreateMutable(kCFAllocatorNano, 0)))
 		return(dstData);
 
 	if (!cgImageDst.SetObject(CGImageDestinationCreateWithData(cfData, dstFormat, 1, NULL)))
 		return(dstData);
 
-	CGImageDestinationAddImage(cgImageDst, cgImage, NULL);
+	CGImageDestinationAddImage(cgImageDst, cgImage.GetObject(), NULL);
 
 	if (!CGImageDestinationFinalize(cgImageDst))
 		return(dstData);
@@ -910,79 +857,26 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 //		NTargetSystem::ImageDecode : Decode an image.
 //----------------------------------------------------------------------------
 NImage NTargetSystem::ImageDecode(const NData &theData)
-{	NCFObject			cfData, cgImage, cgImageSource, cgColorSpace, cgContext;
-	size_t				theWidth, theHeight, bitsPerPixel, bitsPerComponent;
-	CGBitmapInfo		bitmapInfo;
-	NImageFormat		theFormat;
-	NImage				theImage;
+{	NCFObject		cfData, cgImageSource;
+	NCGImage		cgImage;
 
 
 
-	// Create a CG image
+	// Get the state we need
 	if (!cfData.SetObject(CFDataCreateWithBytesNoCopy(kCFAllocatorNano, theData.GetData(), theData.GetSize(), kCFAllocatorNull)))
-		return(theImage);
-	
+		return(cgImage);
+
 	if (!cgImageSource.SetObject(CGImageSourceCreateWithData(cfData, NULL)))
-		return(theImage);
-	
-	if (!cgImage.SetObject(CGImageSourceCreateImageAtIndex(cgImageSource, 0, NULL)))
-		return(theImage);
-
-	theWidth         = CGImageGetWidth(           cgImage);
-	theHeight        = CGImageGetHeight(          cgImage);
-	bitsPerPixel     = CGImageGetBitsPerPixel(    cgImage);
-	bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
-
-
-
-	// Select the image format
-	if (bitsPerPixel == 8 && bitsPerComponent == 8)
-		{
-		// Convert indexed images to 32bpp without alpha
-		theFormat  = kNImageFormat_RGBX_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
-		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
-		}
-
-	else if (bitsPerPixel == 24 && bitsPerComponent == 8)
-		{
-		// Convert 24bpp images to 32bpp without alpha
-		theFormat  = kNImageFormat_RGBX_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
-		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
-		}
-
-	else if (bitsPerPixel == 32 && bitsPerComponent == 8)
-		{
-		// Convert 32bpp images to 32bpp with alpha
-		theFormat  = kNImageFormat_RGBA_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
-		cgColorSpace.SetObject(CGColorSpaceCreateDeviceRGB());
-		}
-
-	else
-		NN_LOG("Unknown image format: %d/%d", bitsPerPixel, bitsPerComponent);
-
-	if (!cgColorSpace.IsValid())
-		return(theImage);
+		return(cgImage);
 
 
 
 	// Decode the image
-	theImage = NImage(NSize(theWidth, theHeight), theFormat);
-
-	if (cgContext.SetObject(CGBitmapContextCreate(	theImage.GetPixels(),
-													theWidth,
-													theHeight,
-													bitsPerComponent,
-													theImage.GetBytesPerRow(),
-													cgColorSpace,
-													bitmapInfo)))
-		CGContextDrawImage(cgContext, ToCG(theImage.GetBounds()), cgImage);
-	else
-		theImage.Clear();
-
-	return(theImage);
+	cgImage.SetObject(CGImageSourceCreateImageAtIndex(cgImageSource, 0, NULL));
+	
+	return(cgImage);
 }
+
+
 
 

@@ -48,6 +48,12 @@
 		AB1BA184104E7CD300BB002B /* NTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA181104E7CD300BB002B /* NTransform.cpp */; };
 		AB1BA2911050168900BB002B /* NGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */; };
 		AB1BA2921050168900BB002B /* NGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */; };
+		AB1BCB59177196B500F3364C /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
+		AB1BCB5A177196B500F3364C /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
+		AB1BCB5E1771A02A00F3364C /* NCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */; };
+		AB1BCB5F1771A02A00F3364C /* NCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */; };
+		AB1BCB621771A4D800F3364C /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
+		AB1BCB631771A4D800F3364C /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
 		AB1F630F0FF9091B00A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB1F63100FF9092400A0AE35 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
@@ -396,6 +402,12 @@
 		AB1BA182104E7CD300BB002B /* NTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTransform.h; sourceTree = "<group>"; };
 		AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NGeometryUtilities.cpp; sourceTree = "<group>"; };
 		AB1BA2901050168900BB002B /* NGeometryUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGeometryUtilities.h; sourceTree = "<group>"; };
+		AB1BCB57177196B500F3364C /* NCGContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGContext.cpp; sourceTree = "<group>"; };
+		AB1BCB58177196B500F3364C /* NCGContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGContext.h; sourceTree = "<group>"; };
+		AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGColor.cpp; sourceTree = "<group>"; };
+		AB1BCB5D1771A02A00F3364C /* NCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGColor.h; sourceTree = "<group>"; };
+		AB1BCB601771A4D800F3364C /* NCGImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGImage.cpp; sourceTree = "<group>"; };
+		AB1BCB611771A4D800F3364C /* NCGImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGImage.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB223D9009CA2DF700533C00 /* Nano Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.h"; sourceTree = "<group>"; };
@@ -756,6 +768,12 @@
 		AB004029109700AD006029F9 /* CoreGraphics */ = {
 			isa = PBXGroup;
 			children = (
+				AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */,
+				AB1BCB5D1771A02A00F3364C /* NCGColor.h */,
+				AB1BCB57177196B500F3364C /* NCGContext.cpp */,
+				AB1BCB58177196B500F3364C /* NCGContext.h */,
+				AB1BCB601771A4D800F3364C /* NCGImage.cpp */,
+				AB1BCB611771A4D800F3364C /* NCGImage.h */,
 				AB00402A109700AD006029F9 /* NCoreGraphics.cpp */,
 				AB00402B109700AD006029F9 /* NCoreGraphics.h */,
 			);
@@ -1538,6 +1556,9 @@
 				AB28FC040FB5D9F000F72C61 /* NCFString.cpp in Sources */,
 				ABB6781A12AE55AA0077D64E /* NCFURL.cpp in Sources */,
 				AB00401B1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
+				AB1BCB5E1771A02A00F3364C /* NCGColor.cpp in Sources */,
+				AB1BCB59177196B500F3364C /* NCGContext.cpp in Sources */,
+				AB1BCB621771A4D800F3364C /* NCGImage.cpp in Sources */,
 				AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */,
 				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
@@ -1711,6 +1732,9 @@
 				AB91567C0F9B5328009FFEAF /* NCFString.cpp in Sources */,
 				ABB6781912AE55AA0077D64E /* NCFURL.cpp in Sources */,
 				AB00401A1096FEB0006029F9 /* NCoreFoundation.cpp in Sources */,
+				AB1BCB5F1771A02A00F3364C /* NCGColor.cpp in Sources */,
+				AB1BCB5A177196B500F3364C /* NCGContext.cpp in Sources */,
+				AB1BCB631771A4D800F3364C /* NCGImage.cpp in Sources */,
 				AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
 				ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */,
