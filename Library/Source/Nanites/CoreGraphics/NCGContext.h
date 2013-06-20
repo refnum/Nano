@@ -187,6 +187,25 @@ public:
 	void								DrawImage(const NImage &theImage, const NRectangle &theRect);
 
 
+	// Draw text
+	void								DrawText(const NString			   &theText,
+												 const NRectangle		   &theRect,
+													   NPosition			alignTo  = kNPositionLeft,
+													   CTFontUIFontType		fontID   = kCTFontUIFontUser,
+													   Float32				fontSize = 0.0);
+
+
+	// Measure text
+	NRectangle							GetTextBounds(const NString			   &theText,
+															CTFontUIFontType	fontID   = kCTFontUIFontUser,
+															Float32				fontSize = 0.0);
+
+
+private:
+	NCFObject							GetCTLine(const NString &theText);
+	NCFObject							GetCGFont(CTFontUIFontType fontID, Float32 fontSize);
+
+
 private:
 
 

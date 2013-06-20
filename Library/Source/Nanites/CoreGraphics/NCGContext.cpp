@@ -14,6 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NCoreFoundation.h"
 #include "NMathUtilities.h"
 #include "NCoreGraphics.h"
 #include "NCGImage.h"
@@ -1040,6 +1041,116 @@ void NCGContext::DrawImage(const NImage &theImage, const NRectangle &theRect)
 
 	// Draw the image
 	CGContextDrawImage(*this, ToCG(theRect), cgImage.GetObject());
+}
+
+
+
+
+
+//============================================================================
+//		NCGContext::DrawImage : Draw an image.
+//----------------------------------------------------------------------------
+void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPosition alignTo, CTFontUIFontType fontID, Float32 fontSize)
+{	NCFObject		ctLine, cgFont;
+	NRectangle		textRect;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the state we need
+	ctLine = GetCTLine(theText);
+	cgFont = GetCGFont(fontID, fontSize);
+
+	if (!ctLine.IsValid() || !cgFont.IsValid())
+		return;
+
+
+
+	// Draw the text
+	CGContextSetFont(*this, cgFont);
+
+	textRect = ToNN(CTLineGetImageBounds(ctLine, *this));
+	textRect.SetPosition(theRect, alignTo);
+
+	CGContextSetTextPosition(*this, textRect.origin.x, textRect.origin.y);
+	CTLineDraw(ctLine, *this);
+}
+
+
+
+
+
+//============================================================================
+//		NCGContext::GetTextBounds : Get the text bounds.
+//----------------------------------------------------------------------------
+NRectangle NCGContext::GetTextBounds(const NString &theText, CTFontUIFontType fontID, Float32 fontSize)
+{	NCFObject		ctLine, cgFont;
+	NRectangle		theRect;
+
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the state we need
+	ctLine = GetCTLine(theText);
+	cgFont = GetCGFont(fontID, fontSize);
+
+	if (!ctLine.IsValid() || !cgFont.IsValid())
+		return(theRect);
+
+
+
+	// Measure the text
+	CGContextSetFont(*this, cgFont);
+	theRect = ToNN(CTLineGetImageBounds(ctLine, *this));
+
+	return(theRect);
+}
+
+
+
+
+
+#pragma mark private
+//============================================================================
+//		NCGContext::GetCTLine : Get a CTLine.
+//----------------------------------------------------------------------------
+NCFObject NCGContext::GetCTLine(const NString &theText)
+{	NCFObject	cfString, ctLine;
+
+
+
+	// Create the line
+	if (cfString.SetObject(CFAttributedStringCreate(kCFAllocatorNano, ToCF(theText), NULL)))
+		ctLine.SetObject(CTLineCreateWithAttributedString(cfString));
+	
+	return(ctLine);
+}
+
+
+
+
+
+//============================================================================
+//		NCGContext::GetCGFont : Get a CGFont.
+//----------------------------------------------------------------------------
+NCFObject NCGContext::GetCGFont(CTFontUIFontType fontID, Float32 fontSize)
+{	NCFObject	ctFont, cgFont;
+
+
+
+	// Create the font
+	if (ctFont.SetObject(CTFontCreateUIFontForLanguage(fontID, fontSize, NULL)))
+		cgFont.SetObject(CTFontCopyGraphicsFont(ctFont, NULL));
+	
+	return(cgFont);
 }
 
 
