@@ -410,38 +410,15 @@ void NCGShading::SetEndRadius(float theValue)
 
 
 //============================================================================
-//		NCGShading::ApplyLinearShading : Apply a linear shading.
+//		NCGShading::SetStartEndPoints : Set the start/end points.
 //----------------------------------------------------------------------------
-void NCGShading::ApplyLinearShading(NLinearOrientation theOrientation, float a, float b)
+void NCGShading::SetStartEndPoints(const NRectangle &theRect, NPosition startPos, NPosition endPos)
 {
 
 
-	// Apply the shading
-	switch (theOrientation) {
-		case kLinearTopBottom:
-			SetStartPoint(NPoint(0.0f, a));
-			SetEndPoint(  NPoint(0.0f, b));
-			break;
-
-		case kLinearBottomTop:
-			SetStartPoint(NPoint(0.0f, b));
-			SetEndPoint(  NPoint(0.0f, a));
-			break;
-
-		case kLinearLeftRight:
-			SetStartPoint(NPoint(a, 0.0f));
-			SetEndPoint(  NPoint(b, 0.0f));
-			break;
-
-		case kLinearRightLeft:
-			SetStartPoint(NPoint(0.0f, b));
-			SetEndPoint(  NPoint(0.0f, a));
-			break;
-		
-		default:
-			NN_LOG("Unknown orientation: %d", theOrientation);
-			break;
-		}
+	// Update our state
+	SetStartPoint(theRect.GetPoint(startPos));
+	SetEndPoint(  theRect.GetPoint(endPos));
 }
 
 

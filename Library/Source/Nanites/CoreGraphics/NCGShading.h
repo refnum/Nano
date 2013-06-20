@@ -55,15 +55,6 @@ typedef enum {
 } NShadingMode;
 
 
-// Linear orientation
-typedef enum {
-	kLinearTopBottom,
-	kLinearBottomTop,
-	kLinearLeftRight,
-	kLinearRightLeft
-} NLinearOrientation;
-
-
 // Shadings
 extern const NShadingSample kShadingBlackWhite[];
 extern const NShadingSample kShadingWhiteBlack[];
@@ -141,11 +132,10 @@ public:
 	void								SetEndRadius(float theValue);
 
 
-	// Apply a linear shading
+	// Set the start/end points
 	//
-	// Adjusts the start and end points of the shading based on the orientation, where
-	// a is the top/left edge and b is the bottom/right edge of an appropriate rectangle.
-	void								ApplyLinearShading(NLinearOrientation theOrientation, float a, float b);
+	// Adjusts the start and end points of the shading based on two points in a rectangle.
+	void								SetStartEndPoints(const NRectangle &theRect, NPosition startPos, NPosition endPos);
 
 
 	// Operators
