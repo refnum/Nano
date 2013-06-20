@@ -294,6 +294,8 @@
 		ABC75E661753910200BB5983 /* NReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */; };
 		ABC75E671753910200BB5983 /* NSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E611753910100BB5983 /* NSpinLock.cpp */; };
 		ABC75E681753910200BB5983 /* NSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E611753910100BB5983 /* NSpinLock.cpp */; };
+		ABCFE3911773A0100054EEA3 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
+		ABCFE3921773A0100054EEA3 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
 		ABD681681679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD681691679DEC500CB2E04 /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
 		ABD6816A1679DEC500CB2E04 /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
@@ -683,6 +685,8 @@
 		ABC75E611753910100BB5983 /* NSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSpinLock.cpp; sourceTree = "<group>"; };
 		ABC75E621753910100BB5983 /* NSpinLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSpinLock.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
+		ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGShading.cpp; sourceTree = "<group>"; };
+		ABCFE3901773A0100054EEA3 /* NCGShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGShading.h; sourceTree = "<group>"; };
 		ABD681641679DEC400CB2E04 /* NMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageClient.cpp; sourceTree = "<group>"; };
 		ABD681651679DEC400CB2E04 /* NMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageClient.h; sourceTree = "<group>"; };
 		ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageEntity.cpp; sourceTree = "<group>"; };
@@ -774,6 +778,8 @@
 				AB1BCB58177196B500F3364C /* NCGContext.h */,
 				AB1BCB601771A4D800F3364C /* NCGImage.cpp */,
 				AB1BCB611771A4D800F3364C /* NCGImage.h */,
+				ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */,
+				ABCFE3901773A0100054EEA3 /* NCGShading.h */,
 				AB00402A109700AD006029F9 /* NCoreGraphics.cpp */,
 				AB00402B109700AD006029F9 /* NCoreGraphics.h */,
 			);
@@ -1559,6 +1565,7 @@
 				AB1BCB5E1771A02A00F3364C /* NCGColor.cpp in Sources */,
 				AB1BCB59177196B500F3364C /* NCGContext.cpp in Sources */,
 				AB1BCB621771A4D800F3364C /* NCGImage.cpp in Sources */,
+				ABCFE3911773A0100054EEA3 /* NCGShading.cpp in Sources */,
 				AB00402D109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */,
 				AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */,
@@ -1735,6 +1742,7 @@
 				AB1BCB5F1771A02A00F3364C /* NCGColor.cpp in Sources */,
 				AB1BCB5A177196B500F3364C /* NCGContext.cpp in Sources */,
 				AB1BCB631771A4D800F3364C /* NCGImage.cpp in Sources */,
+				ABCFE3921773A0100054EEA3 /* NCGShading.cpp in Sources */,
 				AB00402C109700AD006029F9 /* NCoreGraphics.cpp in Sources */,
 				AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */,
 				ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */,
