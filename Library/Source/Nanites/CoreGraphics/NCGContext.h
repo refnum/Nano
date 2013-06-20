@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NCoreGraphics.h"
+#include "NCGShading.h"
 #include "NCFObject.h"
 #include "NImage.h"
 #include "NData.h"
@@ -190,6 +191,10 @@ public:
 
 	// Draw an image
 	void								DrawImage(const NImage &theImage, const NRectangle &theRect);
+
+
+	// Draw a shading
+	void								DrawShading(const NCGShading &theShading);
 
 
 	// Draw text

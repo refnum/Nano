@@ -1107,6 +1107,26 @@ void NCGContext::DrawImage(const NImage &theImage, const NRectangle &theRect)
 
 
 //============================================================================
+//		NCGContext::DrawShading : Draw a shading.
+//----------------------------------------------------------------------------
+void NCGContext::DrawShading(const NCGShading &theShading)
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Draw the shading
+	CGContextDrawShading(*this, theShading);
+}
+
+
+
+
+
+//============================================================================
 //		NCGContext::DrawImage : Draw an image.
 //----------------------------------------------------------------------------
 void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPosition alignTo, CTFontUIFontType fontID, Float32 fontSize)
