@@ -97,6 +97,11 @@
 		ABCAFC5D17539B3500BAE1A7 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABCAFC5E17539B3500BAE1A7 /* TReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */; };
 		ABCAFC5F17539B3500BAE1A7 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
+		ABCFE39A1773A09C0054EEA3 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
+		ABCFE39B1773A09C0054EEA3 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
+		ABCFE39C1773A09C0054EEA3 /* TCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */; };
+		ABCFE39D1773A09C0054EEA3 /* TCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3981773A09C0054EEA3 /* TCGShading.cpp */; };
+		ABCFE39E1773A09C0054EEA3 /* TCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */; };
 		ABD68171167A481C00CB2E04 /* TMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */; };
 		ABD68172167A481C00CB2E04 /* TNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */; };
 		ABD6817F167AB8AA00CB2E04 /* TJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */; };
@@ -236,6 +241,11 @@
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
 		ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSpinLock.cpp; sourceTree = "<group>"; };
+		ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGColor.cpp; sourceTree = "<group>"; };
+		ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGContext.cpp; sourceTree = "<group>"; };
+		ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGImage.cpp; sourceTree = "<group>"; };
+		ABCFE3981773A09C0054EEA3 /* TCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGShading.cpp; sourceTree = "<group>"; };
+		ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCoreGraphics.cpp; sourceTree = "<group>"; };
 		ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageClient.cpp; sourceTree = "<group>"; };
 		ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkMessage.cpp; sourceTree = "<group>"; };
 		ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONEncoder.cpp; sourceTree = "<group>"; };
@@ -489,6 +499,7 @@
 			children = (
 				AB514DD31034184B00E5A6AD /* Cocoa */,
 				AB514DD61034184B00E5A6AD /* CoreFoundation */,
+				ABCFE3941773A09C0054EEA3 /* CoreGraphics */,
 			);
 			path = Nanites;
 			sourceTree = "<group>";
@@ -577,6 +588,18 @@
 			name = Source;
 			path = ../Source;
 			sourceTree = SOURCE_ROOT;
+		};
+		ABCFE3941773A09C0054EEA3 /* CoreGraphics */ = {
+			isa = PBXGroup;
+			children = (
+				ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */,
+				ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */,
+				ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */,
+				ABCFE3981773A09C0054EEA3 /* TCGShading.cpp */,
+				ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */,
+			);
+			path = CoreGraphics;
+			sourceTree = "<group>";
 		};
 		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
 			isa = PBXGroup;
@@ -676,6 +699,11 @@
 				AB514E201034184B00E5A6AD /* TCFObject.cpp in Sources */,
 				AB514E211034184B00E5A6AD /* TCFString.cpp in Sources */,
 				ABB6783012AE56EF0077D64E /* TCFURL.cpp in Sources */,
+				ABCFE39A1773A09C0054EEA3 /* TCGColor.cpp in Sources */,
+				ABCFE39B1773A09C0054EEA3 /* TCGContext.cpp in Sources */,
+				ABCFE39C1773A09C0054EEA3 /* TCGImage.cpp in Sources */,
+				ABCFE39D1773A09C0054EEA3 /* TCGShading.cpp in Sources */,
+				ABCFE39E1773A09C0054EEA3 /* TCoreGraphics.cpp in Sources */,
 				AB514DE51034184B00E5A6AD /* TCommandLine.cpp in Sources */,
 				AB514DE61034184B00E5A6AD /* TPreferences.cpp in Sources */,
 				AB514DE71034184B00E5A6AD /* TUndoManager.cpp in Sources */,
