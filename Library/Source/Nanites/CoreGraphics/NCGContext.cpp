@@ -26,6 +26,15 @@
 
 
 //============================================================================
+//		Build constants
+//----------------------------------------------------------------------------
+#define DEBUG_LAYOUT												0
+
+
+
+
+
+//============================================================================
 //		Internal functions
 //----------------------------------------------------------------------------
 //		ToCG : Convert to CG.
@@ -89,7 +98,7 @@ static const CGPoint *ToCG(NIndex theSize, const NPoint *theValues, CGPointList 
 //============================================================================
 //		NCGContext::NCGContext : Constructor.
 //----------------------------------------------------------------------------
-NCGContext::NCGContext(NImage &theImage)
+NCGContext::NCGContext(NImage &theImage, bool flipContext)
 {	CGBitmapInfo	bitmapInfo;
 	CGContextRef	cgContext;
 
@@ -109,7 +118,10 @@ NCGContext::NCGContext(NImage &theImage)
 
 
 	// Initialize ourselves
-	SetObject(cgContext, true);
+	InitialiseSelf(cgContext, true);
+
+	if (flipContext)
+		Flip(theImage.GetBounds());
 }
 
 
@@ -124,7 +136,7 @@ NCGContext::NCGContext(CGContextRef cgContext, bool takeOwnership)
 
 
 	// Initialize ourselves
-	SetObject(cgContext, takeOwnership);
+	InitialiseSelf(cgContext, takeOwnership);
 }
 
 
@@ -136,6 +148,10 @@ NCGContext::NCGContext(CGContextRef cgContext, bool takeOwnership)
 //----------------------------------------------------------------------------
 NCGContext::NCGContext(void)
 {
+
+
+	// Initialize ourselves
+	InitialiseSelf();
 }
 
 
@@ -254,6 +270,26 @@ void NCGContext::Rotate(NRadians theAngle)
 
 
 //============================================================================
+//		NCGContext::IsFlipped : Is the context flipped?
+//----------------------------------------------------------------------------
+bool NCGContext::IsFlipped(void) const
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Get the state
+	return(mIsFlipped);
+}
+
+
+
+
+
+//============================================================================
 //		NCGContext::Flip : Flip the context.
 //----------------------------------------------------------------------------
 void NCGContext::Flip(const NRectangle &theRect)
@@ -261,6 +297,8 @@ void NCGContext::Flip(const NRectangle &theRect)
 
 
 	// Flip the context
+	mIsFlipped = !mIsFlipped;
+
 	Translate(0.0f, theRect.origin.y + theRect.GetMaxY());
 	Scale(1.0f, -1.0f);
 }
@@ -1072,8 +1110,9 @@ void NCGContext::DrawImage(const NImage &theImage, const NRectangle &theRect)
 //		NCGContext::DrawImage : Draw an image.
 //----------------------------------------------------------------------------
 void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPosition alignTo, CTFontUIFontType fontID, Float32 fontSize)
-{	NCFObject		ctLine, cgFont;
-	NRectangle		textRect;
+{	StCGContextState	saveState(*this);
+	NCFObject			ctLine, cgFont;
+	NRectangle			textRect;
 
 
 
@@ -1091,14 +1130,39 @@ void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPo
 
 
 
-	// Draw the text
+	// Perform the layout
 	CGContextSetFont(*this, cgFont);
+
+	if (IsFlipped())
+		CGContextSetTextMatrix(*this, CGAffineTransformMakeScale(1.0f, -1.0f));
+	else
+		CGContextSetTextMatrix(*this, CGAffineTransformIdentity);
 
 	textRect = ToNN(CTLineGetImageBounds(ctLine, *this));
 	textRect.SetPosition(theRect, alignTo);
 
-	CGContextSetTextPosition(*this, textRect.origin.x, textRect.origin.y);
-	CTLineDraw(ctLine, *this);
+
+
+	// Draw the layout
+	if (DEBUG_LAYOUT)
+		{	StCGContextState	debugState(*this);
+
+		SetAlpha(0.5f);
+		SetLineWidth(1.0f);
+		SetStrokeColor(kNColorGreen);
+
+		SetFillColor(kNColorBlue);
+		DrawRect(theRect);
+
+		SetFillColor(kNColorRed);
+		DrawRect(textRect);
+		}
+
+
+
+	// Draw the text
+	CGContextSetTextPosition(*this, textRect.GetMinX(), textRect.GetMaxY());
+	CTLineDraw(ctLine,       *this);
 }
 
 
@@ -1141,17 +1205,43 @@ NRectangle NCGContext::GetTextBounds(const NString &theText, CTFontUIFontType fo
 
 #pragma mark private
 //============================================================================
+//		NCGContext::InitialiseSelf : Initialise ourselves.
+//----------------------------------------------------------------------------
+void NCGContext::InitialiseSelf(CGContextRef cgContext, bool takeOwnership)
+{	NCFDictionary		textAttributes;
+
+
+
+	// Get the state we need
+	textAttributes.SetValue(ToNN(kCTForegroundColorFromContextAttributeName), true);
+
+
+
+	// Initialise ourselves
+	if (cgContext != NULL)
+		SetObject(cgContext, takeOwnership);
+
+	mIsFlipped      = false;
+	mTextAttributes = textAttributes.GetObject();
+}
+
+
+
+
+
+#pragma mark private
+//============================================================================
 //		NCGContext::GetCTLine : Get a CTLine.
 //----------------------------------------------------------------------------
 NCFObject NCGContext::GetCTLine(const NString &theText)
-{	NCFObject	cfString, ctLine;
+{	NCFObject		cfString, ctLine;
 
 
 
 	// Create the line
-	if (cfString.SetObject(CFAttributedStringCreate(kCFAllocatorNano, ToCF(theText), NULL)))
+	if (cfString.SetObject(CFAttributedStringCreate(kCFAllocatorNano, ToCF(theText), mTextAttributes)))
 		ctLine.SetObject(CTLineCreateWithAttributedString(cfString));
-	
+
 	return(ctLine);
 }
 

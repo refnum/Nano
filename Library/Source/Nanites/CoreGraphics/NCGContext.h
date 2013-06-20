@@ -58,7 +58,7 @@ static const NShadowInfo kNShadowHeavy								= { NColor(0.0f, 0.0f, 0.0f, 1.00f
 //----------------------------------------------------------------------------
 class NCGContext : public NCFObject {
 public:
-										NCGContext(NImage &theImage);
+										NCGContext(NImage &theImage, bool flipContext=true);
 										NCGContext(CGContextRef cgContext, bool takeOwnership);
 
 										NCGContext(void);
@@ -74,6 +74,10 @@ public:
 	void								Scale(     Float32 x, Float32 y);
 	void								Translate( Float32 x, Float32 y);
 	void								Rotate(    NRadians    theAngle);
+
+
+	// Adjust the flip state
+	bool								IsFlipped(void) const;
 	void								Flip(const NRectangle &theRect);
 
 
@@ -203,13 +207,18 @@ public:
 
 
 private:
+	void								InitialiseSelf(	CGContextRef	cgContext     = NULL,
+														bool			takeOwnership = false);
+
+
+private:
 	NCFObject							GetCTLine(const NString &theText);
 	NCFObject							GetCGFont(CTFontUIFontType fontID, Float32 fontSize);
 
 
 private:
-
-
+	bool								mIsFlipped;
+	NCFObject							mTextAttributes;
 };
 
 
