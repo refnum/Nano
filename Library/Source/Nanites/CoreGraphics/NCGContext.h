@@ -174,6 +174,7 @@ public:
 	// Draw a rectangle
 	void								FillRect(  const NRectangle &theRect);
 	void								StrokeRect(const NRectangle &theRect);
+	void								DrawRect(  const NRectangle &theRect, CGPathDrawingMode theMode=kCGPathFillStroke);
 	void								ClearRect( const NRectangle &theRect);
 
 

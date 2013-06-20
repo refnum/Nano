@@ -945,6 +945,27 @@ void NCGContext::StrokeRect(const NRectangle &theRect)
 
 
 //============================================================================
+//		NCGContext::DrawRect : Draw a rectangle.
+//----------------------------------------------------------------------------
+void NCGContext::DrawRect(const NRectangle &theRect, CGPathDrawingMode theMode)
+{
+
+
+	// Validate our state
+	NN_ASSERT(IsValid());
+
+
+
+	// Draw the rectangle
+	AddRect(theRect);
+	DrawPath(theMode);
+}
+
+
+
+
+
+//============================================================================
 //		NCGContext::ClearRect : Clear a rectangle.
 //----------------------------------------------------------------------------
 void NCGContext::ClearRect(const NRectangle &theRect)
