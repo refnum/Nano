@@ -49,6 +49,26 @@ NTestFixture::~NTestFixture(void)
 
 
 //============================================================================
+//		NTestFixture::GetTestID : Get the current test ID.
+//----------------------------------------------------------------------------
+NString NTestFixture::GetTestID(void) const
+{
+
+
+	// Validate our state
+	NN_ASSERT(!mID.IsEmpty());
+
+
+
+	// Get the name
+	return(mID);
+}
+
+
+
+
+
+//============================================================================
 //		NTestFixture::ResetTime : Reset the time.
 //----------------------------------------------------------------------------
 void NTestFixture::ResetTime(void)
@@ -152,6 +172,86 @@ void NTestFixture::DidTearDown(void)
 {
 }
 
+
+
+
+
+#pragma mark protected
+//============================================================================
+//		NTestFixture::setCurrentTest : Set the current test.
+//----------------------------------------------------------------------------
+void NTestFixture::setCurrentTest(const std::string &testName)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(!testName.empty());
+	
+	
+	
+	// Set the name
+	mID = NString(testName.c_str(), kNStringLength);
+}
+
+
+
+
+
+//============================================================================
+//		NTestFixture::willSetUp : About to invoke setup.
+//----------------------------------------------------------------------------
+void NTestFixture::willSetUp(void)
+{
+
+
+	// Update our state
+	WillSetUp();
+}
+
+
+
+
+
+//============================================================================
+//		NTestFixture::didSetUp : Have invoked setUp.
+//----------------------------------------------------------------------------
+void NTestFixture::didSetUp(void)
+{
+
+
+	// Update our state
+	DidSetUp();
+}
+
+
+
+
+
+//============================================================================
+//		NTestFixture::willTearDown : About to invoke tearDown.
+//----------------------------------------------------------------------------
+void NTestFixture::willTearDown(void)
+{
+
+
+	// Update our state
+	WillTearDown();
+}
+
+
+
+
+
+//============================================================================
+//		NTestFixture::didTearDown : Have invoked tearDown.
+//----------------------------------------------------------------------------
+void NTestFixture::didTearDown(void)
+{
+
+
+	// Update our state
+	DidTearDown();
+}
 
 
 

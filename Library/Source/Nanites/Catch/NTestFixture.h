@@ -36,7 +36,13 @@ namespace Catch {
 	public:
 		         Fixture(void) { }
 		virtual ~Fixture(void) { }
+		
+		// TestCaseInfo::invoke could pass the TestCaseInfo in to the test
+		// invoker to allow it to obtain info about the current test.
+		virtual void setCurrentTest(const std::string &/*testName*/ ) { }
 
+		// ITestCase could declare pre/post setup/teardown methods allowing
+		// SETUP/TEARDOWN macros that do not require the class name.
 		virtual void willSetUp(void) { }
 		virtual void     setUp(void) { }
 		virtual void  didSetUp(void) { }
@@ -61,6 +67,8 @@ namespace Catch {
     } \
     void INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )::invokeFixture() \
 	{ \
+		setCurrentTest(TestName); \
+		\
 		willSetUp(); \
 		setUp(); \
 		didSetUp(); \
@@ -138,6 +146,10 @@ public:
 	virtual							   ~NTestFixture(void);
 
 
+	// Get the current test ID
+	NString								GetTestID(void) const;
+
+
 	// Reset the time
 	void								ResetTime(void);
 
@@ -169,14 +181,17 @@ protected:
 
 
 protected:
-	void								willSetUp(void) { WillSetUp(); }
-	void								didSetUp( void) { DidSetUp();  }
+	void								setCurrentTest(const std::string &testName);
 
-	void								willTearDown(void) { WillTearDown(); }
-	void								didTearDown( void) { DidTearDown();  }
+	void								willSetUp(void);
+	void								didSetUp( void);
+
+	void								willTearDown(void);
+	void								didTearDown( void);
 
 
 private:
+	NString								mID;
 	NTime								mTimeStart;
 };
 
