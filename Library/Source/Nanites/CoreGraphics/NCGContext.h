@@ -58,13 +58,19 @@ static const NShadowInfo kNShadowHeavy								= { NColor(0.0f, 0.0f, 0.0f, 1.00f
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NCGContext : public NCFObject {
+class NCGContext :	public NCFObject,
+					public NUncopyable {
 public:
-										NCGContext(NImage &theImage, bool flipContext=true);
+										NCGContext(NImage &theImage);
 										NCGContext(CGContextRef cgContext, bool takeOwnership);
 
 										NCGContext(void);
 	virtual							   ~NCGContext(void);
+
+
+	// Set the target
+	void								SetTarget(NImage &theImage);
+	void								SetTarget(CGContextRef cgContext, bool takeOwnership);
 
 
 	// Save/restore the state
@@ -213,8 +219,7 @@ public:
 
 
 private:
-	void								InitialiseSelf(	CGContextRef	cgContext     = NULL,
-														bool			takeOwnership = false);
+	void								InitialiseSelf(void);
 
 
 private:

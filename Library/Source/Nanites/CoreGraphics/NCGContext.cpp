@@ -133,30 +133,14 @@ static const CGPoint *ToCG(NIndex theSize, const NPoint *theValues, CGPointList 
 //============================================================================
 //		NCGContext::NCGContext : Constructor.
 //----------------------------------------------------------------------------
-NCGContext::NCGContext(NImage &theImage, bool flipContext)
-{	CGBitmapInfo	bitmapInfo;
-	CGContextRef	cgContext;
-
-
-
-	// Get the state we need
-	bitmapInfo = NCGImage::GetBitmapInfo(theImage.GetFormat());
-
-	cgContext = CGBitmapContextCreate(	theImage.GetPixels(),
-										theImage.GetWidth(),
-										theImage.GetHeight(),
-										theImage.GetBitsPerComponent(),
-										theImage.GetBytesPerRow(),
-										NCGColor::GetDeviceRGB(),
-										bitmapInfo);
-
+NCGContext::NCGContext(NImage &theImage)
+{
 
 
 	// Initialize ourselves
-	InitialiseSelf(cgContext, true);
-
-	if (flipContext)
-		Flip(theImage.GetBounds());
+	InitialiseSelf();
+	
+	SetTarget(theImage);
 }
 
 
@@ -171,7 +155,9 @@ NCGContext::NCGContext(CGContextRef cgContext, bool takeOwnership)
 
 
 	// Initialize ourselves
-	InitialiseSelf(cgContext, takeOwnership);
+	InitialiseSelf();
+
+	SetTarget(cgContext, takeOwnership);
 }
 
 
@@ -198,6 +184,58 @@ NCGContext::NCGContext(void)
 //----------------------------------------------------------------------------
 NCGContext::~NCGContext(void)
 {
+}
+
+
+
+
+
+//============================================================================
+//		NCGContext::SetTarget : Set the target image.
+//----------------------------------------------------------------------------
+void NCGContext::SetTarget(NImage &theImage)
+{	CGBitmapInfo	bitmapInfo;
+	CGContextRef	cgContext;
+
+
+
+	// Get the state we need
+	bitmapInfo = NCGImage::GetBitmapInfo(theImage.GetFormat());
+
+	cgContext = CGBitmapContextCreate(	theImage.GetPixels(),
+										theImage.GetWidth(),
+										theImage.GetHeight(),
+										theImage.GetBitsPerComponent(),
+										theImage.GetBytesPerRow(),
+										NCGColor::GetDeviceRGB(),
+										bitmapInfo);
+
+
+
+	// Set the target
+	SetTarget(cgContext, true);
+
+	Flip(theImage.GetBounds());
+}
+
+
+
+
+
+//============================================================================
+//		NCGContext::SetTarget : Set the target context.
+//----------------------------------------------------------------------------
+void NCGContext::SetTarget(CGContextRef cgContext, bool takeOwnership)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(cgContext != NULL);
+
+
+
+	// Set the target
+	SetObject(cgContext, takeOwnership);
 }
 
 
@@ -1241,8 +1279,8 @@ NRectangle NCGContext::GetTextBounds(const NString &theText, CTFontUIFontType fo
 //============================================================================
 //		NCGContext::InitialiseSelf : Initialise ourselves.
 //----------------------------------------------------------------------------
-void NCGContext::InitialiseSelf(CGContextRef cgContext, bool takeOwnership)
-{	NCFDictionary		textAttributes;
+void NCGContext::InitialiseSelf(void)
+{	NCFDictionary	textAttributes;
 
 
 
@@ -1252,9 +1290,6 @@ void NCGContext::InitialiseSelf(CGContextRef cgContext, bool takeOwnership)
 
 
 	// Initialise ourselves
-	if (cgContext != NULL)
-		SetObject(cgContext, takeOwnership);
-
 	mIsFlipped      = false;
 	mTextAttributes = textAttributes.GetObject();
 }
