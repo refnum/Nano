@@ -20,6 +20,7 @@
 #include "NCGShading.h"
 #include "NCFObject.h"
 #include "NImage.h"
+#include "NCache.h"
 #include "NData.h"
 
 
@@ -217,12 +218,18 @@ private:
 
 
 private:
+	NCFObject							PrepareTextLine(	const NString		&theText,
+															CTFontUIFontType	fontID,
+															Float32				fontSize,
+															NRectangle			&textRect);
+
 	NCFObject							GetCTLine(const NString &theText);
 	NCFObject							GetCGFont(CTFontUIFontType fontID, Float32 fontSize);
 
 
 private:
 	bool								mIsFlipped;
+	NCache								mTextCache;
 	NCFObject							mTextAttributes;
 };
 
