@@ -557,6 +557,19 @@ void TString::TestTrim(NStringEncoding theEncoding)
 
 
 	theString = Encode("TrimLeft", theEncoding);
+	theString.TrimLeft("Trim");
+	REQUIRE(theString == "Left");
+
+	theString = Encode("TrimRight", theEncoding);
+	theString.TrimRight("Right");
+	REQUIRE(theString == "Trim");
+
+	theString = Encode("TrimTr", theEncoding);
+	theString.Trim("Tr");
+	REQUIRE(theString == "im");
+
+
+	theString = Encode("TrimLeft", theEncoding);
 	theString.TrimLeft(4);
 	REQUIRE(theString == "Left");
 

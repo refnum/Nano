@@ -1083,7 +1083,7 @@ void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
 //		NString::TrimRight : Trim a string on the right.
 //----------------------------------------------------------------------------
 void NString::TrimRight(const NString &theString, NStringFlags theFlags)
-{	bool		isWhitespace;
+{	bool		isWhitespace, isSimple;
 	NString		trimString;
 
 
@@ -1101,7 +1101,9 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 
 	// Get the state we need
 	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
-	if (!isWhitespace)
+	isSimple     = (theFlags == kNStringNone);
+
+	if (!isWhitespace && !isSimple)
 		{
 		trimString = GetWhitespacePattern(theString, theFlags);
 
@@ -1116,6 +1118,13 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 	// Trim the string
 	if (isWhitespace)
 		TrimWhitespace(false, true);
+	
+	else if (isSimple)
+		{
+		if (EndsWith(theString))
+			TrimRight(theString.GetSize());
+		}
+
 	else
 		Replace(trimString, "", theFlags | kNStringPattern);
 }
