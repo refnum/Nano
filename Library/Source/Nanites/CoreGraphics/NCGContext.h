@@ -21,6 +21,7 @@
 #include "NCFObject.h"
 #include "NImage.h"
 #include "NCache.h"
+#include "NMutex.h"
 #include "NData.h"
 
 
@@ -234,8 +235,9 @@ private:
 
 private:
 	bool								mIsFlipped;
-	NCache								mTextCache;
-	NCFObject							mTextAttributes;
+	
+	static NMutex						mTextLock;
+	static NCache						mTextCache;
 };
 
 

@@ -35,18 +35,28 @@
 
 
 //============================================================================
+//		Static variables
+//----------------------------------------------------------------------------
+NMutex NCGContext::mTextLock;
+NCache NCGContext::mTextCache;
+
+
+
+
+
+//============================================================================
 //		Internal class definition
 //----------------------------------------------------------------------------
 class CGTextCacheKey : public NCacheKey {
 public:
 	CGTextCacheKey(void) { }
 
-	CGTextCacheKey(const NString &theText, CTFontUIFontType fontID, Float32 fontSize)
+	CGTextCacheKey(const NString &theText, CTFontUIFontType fontID, Float32 fontSize, bool isFlipped)
 	{
-		NN_ASSERT(sizeof(fontID) == sizeof(NIndex));
+		NN_ASSERT(sizeof(NIndex) == sizeof(fontID));
 		NN_ASSERT(NMathUtilities::AreEqual(fontSize, (NIndex) fontSize));
 
-		SetValue(theText.GetHash(), fontID, (NIndex) fontSize);
+		SetValue(theText.GetHash(), fontID, (NIndex) fontSize, (NIndex) isFlipped);
 	}
 };
 
@@ -377,8 +387,6 @@ void NCGContext::Flip(const NRectangle &theRect)
 
 	// Update our state
 	mIsFlipped = !mIsFlipped;
-
-	mTextCache.Clear();
 }
 
 
@@ -1280,18 +1288,11 @@ NRectangle NCGContext::GetTextBounds(const NString &theText, CTFontUIFontType fo
 //		NCGContext::InitialiseSelf : Initialise ourselves.
 //----------------------------------------------------------------------------
 void NCGContext::InitialiseSelf(void)
-{	NCFDictionary	textAttributes;
-
-
-
-	// Get the state we need
-	textAttributes.SetValue(ToNN(kCTForegroundColorFromContextAttributeName), true);
-
+{
 
 
 	// Initialise ourselves
-	mIsFlipped      = false;
-	mTextAttributes = textAttributes.GetObject();
+	mIsFlipped = false;
 }
 
 
@@ -1305,9 +1306,10 @@ NCFObject NCGContext::PrepareTextLine(	const NString		&theText,
 										CTFontUIFontType	fontID,
 										Float32				fontSize,
 										NRectangle			&textRect)
-{	NCFObject			ctLine, cgFont;
-	CGTextCacheValue	*cacheValue;
-	CGTextCacheKey		cacheKey;
+{	StLock					acquireLock(mTextLock);
+	NCFObject				ctLine, cgFont;
+	CGTextCacheValue		*cacheValue;
+	CGTextCacheKey			cacheKey;
 
 
 
@@ -1317,7 +1319,10 @@ NCFObject NCGContext::PrepareTextLine(	const NString		&theText,
 
 
 	// Get the state we need
-	cacheKey   =  CGTextCacheKey(theText, fontID, fontSize);
+	//
+	// Although the line bounds are determined by the text matrix, that matrix
+	// can only have two values so we can use our flip state for the key.
+	cacheKey   =  CGTextCacheKey(theText, fontID, fontSize, IsFlipped());
 	cacheValue = (CGTextCacheValue *) mTextCache.GetValue(cacheKey);
 
 
@@ -1364,11 +1369,17 @@ NCFObject NCGContext::PrepareTextLine(	const NString		&theText,
 //----------------------------------------------------------------------------
 NCFObject NCGContext::GetCTLine(const NString &theText)
 {	NCFObject		cfString, ctLine;
+	NDictionary		textAttributes;
+
+
+
+	// Get the state we need
+	textAttributes.SetValue(ToNN(kCTForegroundColorFromContextAttributeName), true);
 
 
 
 	// Create the line
-	if (cfString.SetObject(CFAttributedStringCreate(kCFAllocatorNano, ToCF(theText), mTextAttributes)))
+	if (cfString.SetObject(CFAttributedStringCreate(kCFAllocatorNano, ToCF(theText), ToCF(textAttributes))))
 		ctLine.SetObject(CTLineCreateWithAttributedString(cfString));
 
 	return(ctLine);
