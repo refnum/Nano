@@ -1353,9 +1353,20 @@ NCFObject NCGContext::PrepareTextLine(	const NString		&theText,
 
 	// Measure the text
 	if (cacheValue == NULL)
-		textRect = ToNN(CTLineGetImageBounds(ctLine, *this)).GetIntegral();
+		textRect = ToNN(CTLineGetImageBounds(ctLine, *this));
 	else
 		textRect = cacheValue->textRect;
+
+
+
+	// Update the cache
+	if (cacheValue == NULL)
+		{
+		cacheValue = new CGTextCacheValue(ctLine, cgFont, textRect);
+
+		mTextCache.SetValue(cacheKey, cacheValue);
+		cacheValue->Release();
+		}
 
 	return(ctLine);
 }
