@@ -70,7 +70,7 @@ NCacheKey::NCacheKey(const void *key0, const void *key1, const void *key2, const
 //============================================================================
 //		NCacheKey::NCacheKey : Constructor.
 //----------------------------------------------------------------------------
-NCacheKey::NCacheKey(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6, NIndex key7)
+NCacheKey::NCacheKey(NHashCode key0, NHashCode key1, NHashCode key2, NHashCode key3, NHashCode key4, NHashCode key5, NHashCode key6, NHashCode key7)
 {
 
 
@@ -154,13 +154,8 @@ void NCacheKey::SetValue(const NString &theValue)
 {
 
 
-	// Validate our state
-	NN_ASSERT(sizeof(NHashCode) == sizeof(NIndex));
-
-
-
 	// Set the value
-	SetValue((NIndex) theValue.GetHash());
+	SetValue(theValue.GetHash());
 }
 
 
@@ -220,7 +215,7 @@ void NCacheKey::SetValue(const void *key0, const void *key1, const void *key2, c
 //============================================================================
 //		NCacheKey::SetValue : Set the value.
 //----------------------------------------------------------------------------
-void NCacheKey::SetValue(NIndex key0, NIndex key1, NIndex key2, NIndex key3, NIndex key4, NIndex key5, NIndex key6, NIndex key7)
+void NCacheKey::SetValue(NHashCode key0, NHashCode key1, NHashCode key2, NHashCode key3, NHashCode key4, NHashCode key5, NHashCode key6, NHashCode key7)
 {
 
 
@@ -268,8 +263,8 @@ NComparison NCacheKey::Compare(const NCacheKey &theKey) const
 //============================================================================
 //		NCacheKey::SplitHi : Split a pointer.
 //----------------------------------------------------------------------------
-NIndex NCacheKey::SplitHi(const void *theValue)
-{	NIndex		partPtr;
+NHashCode NCacheKey::SplitHi(const void *theValue)
+{	NHashCode	thePart;
 	UIntPtr		intPtr;
 
 
@@ -279,12 +274,12 @@ NIndex NCacheKey::SplitHi(const void *theValue)
 
 #if NN_TARGET_ARCH_32
 	(void) intPtr;
-	partPtr = 0;
+	thePart = 0;
 #else
-	partPtr = ((intPtr >> 32) & 0xFFFFFFFF);
+	thePart = (NHashCode) ((intPtr >> 32) & 0xFFFFFFFF);
 #endif
 
-	return(partPtr);
+	return(thePart);
 }
 
 
@@ -294,17 +289,17 @@ NIndex NCacheKey::SplitHi(const void *theValue)
 //============================================================================
 //		NCacheKey::SplitLo : Split a pointer.
 //----------------------------------------------------------------------------
-NIndex NCacheKey::SplitLo(const void *theValue)
-{	NIndex		partPtr;
+NHashCode NCacheKey::SplitLo(const void *theValue)
+{	NHashCode	thePart;
 	UIntPtr		intPtr;
 
 
 
 	// Split the pointer
 	intPtr  = (UIntPtr) theValue;
-	partPtr = ((intPtr >> 0) & 0xFFFFFFFF);
+	thePart = (NHashCode) (((intPtr >> 0) & 0xFFFFFFFF));
 
-	return(partPtr);
+	return(thePart);
 }
 
 

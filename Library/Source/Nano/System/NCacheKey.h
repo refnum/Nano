@@ -27,7 +27,7 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-static const NIndex kNCacheKeyInvalid								= (NIndex) -1;
+static const NHashCode kNCacheKeyInvalid							= (NHashCode) -1;
 
 
 
@@ -46,14 +46,14 @@ public:
 												  const void *key2=(const void *) kNCacheKeyInvalid,
 												  const void *key3=(const void *) kNCacheKeyInvalid);
 
-										NCacheKey(NIndex key0,
-												  NIndex key1=kNCacheKeyInvalid,
-												  NIndex key2=kNCacheKeyInvalid,
-												  NIndex key3=kNCacheKeyInvalid,
-												  NIndex key4=kNCacheKeyInvalid,
-												  NIndex key5=kNCacheKeyInvalid,
-												  NIndex key6=kNCacheKeyInvalid,
-												  NIndex key7=kNCacheKeyInvalid);
+										NCacheKey(NHashCode key0,
+												  NHashCode key1=kNCacheKeyInvalid,
+												  NHashCode key2=kNCacheKeyInvalid,
+												  NHashCode key3=kNCacheKeyInvalid,
+												  NHashCode key4=kNCacheKeyInvalid,
+												  NHashCode key5=kNCacheKeyInvalid,
+												  NHashCode key6=kNCacheKeyInvalid,
+												  NHashCode key7=kNCacheKeyInvalid);
 
 										NCacheKey(void);
 	virtual							   ~NCacheKey(void);
@@ -76,14 +76,14 @@ public:
 													const void *key2=(const void *) kNCacheKeyInvalid,
 													const void *key3=(const void *) kNCacheKeyInvalid);
 
-	void								SetValue(	NIndex key0,
-													NIndex key1=kNCacheKeyInvalid,
-													NIndex key2=kNCacheKeyInvalid,
-													NIndex key3=kNCacheKeyInvalid,
-													NIndex key4=kNCacheKeyInvalid,
-													NIndex key5=kNCacheKeyInvalid,
-													NIndex key6=kNCacheKeyInvalid,
-													NIndex key7=kNCacheKeyInvalid);
+	void								SetValue(	NHashCode key0,
+													NHashCode key1=kNCacheKeyInvalid,
+													NHashCode key2=kNCacheKeyInvalid,
+													NHashCode key3=kNCacheKeyInvalid,
+													NHashCode key4=kNCacheKeyInvalid,
+													NHashCode key5=kNCacheKeyInvalid,
+													NHashCode key6=kNCacheKeyInvalid,
+													NHashCode key7=kNCacheKeyInvalid);
 
 
 	// Compare the key
@@ -103,12 +103,12 @@ public:
 	//
 	// This ensures that the low bits, which are typically more unique on 64-bit (and
 	// always more unique on 32-bit), are compared first.
-	static NIndex						SplitHi(const void *theValue);
-	static NIndex						SplitLo(const void *theValue);
+	static NHashCode					SplitHi(const void *theValue);
+	static NHashCode					SplitLo(const void *theValue);
 
 
 private:
-	NIndex								mKey[8];
+	NHashCode							mKey[8];
 };
 
 

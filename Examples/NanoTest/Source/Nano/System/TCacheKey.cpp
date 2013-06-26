@@ -33,8 +33,8 @@ static const NData kTestData2										= kTestString2.GetData();
 static void *kTestPointer1											= NN_TARGET_ARCH_64 ? ((void *) 0xDEADBEEFDEADBEEFLL) : ((void *) 0xDEADBEEF);
 static void *kTestPointer2											= NN_TARGET_ARCH_64 ? ((void *) 0xFEEDFACEFEEDFACELL) : ((void *) 0xFEEDFACE);
 
-static NIndex kTestIndex1											= 12345;
-static NIndex kTestIndex2											= 67890;
+static NHashCode kTestHash1											= 12345;
+static NHashCode kTestHash2											= 67890;
 
 
 
@@ -134,13 +134,13 @@ TEST_NCACHEKEY("Pointers", "Pointer cache keys")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Indices", "NIndex cache keys")
+TEST_NCACHEKEY("Indices", "NHashCode cache keys")
 {
 
 
 	// Perform the test
-	testKey1 = NCacheKey(kTestIndex1);
-	testKey2 = NCacheKey(kTestIndex2);
+	testKey1 = NCacheKey(kTestHash1);
+	testKey2 = NCacheKey(kTestHash2);
 
 	REQUIRE(testKey1 != testKey2);
 	REQUIRE(testKey1.IsValid());
@@ -159,11 +159,11 @@ TEST_NCACHEKEY("Set", "Set cache key")
 
 
 	// Perform the test
-	testKey1 = NCacheKey(kTestIndex1);
-	testKey2 = NCacheKey(kTestIndex2);
+	testKey1 = NCacheKey(kTestHash1);
+	testKey2 = NCacheKey(kTestHash2);
 	REQUIRE(testKey1 != testKey2);
 
-	testKey1.SetValue(kTestIndex2);
+	testKey1.SetValue(kTestHash2);
 	REQUIRE(testKey1 == testKey2);
 }
 
@@ -179,8 +179,8 @@ TEST_NCACHEKEY("Clear", "Clear cache key")
 
 
 	// Perform the test
-	testKey1 = NCacheKey(kTestIndex1);
-	testKey2 = NCacheKey(kTestIndex2);
+	testKey1 = NCacheKey(kTestHash1);
+	testKey2 = NCacheKey(kTestHash2);
 
 	REQUIRE(testKey1 != testKey2);
 	REQUIRE(testKey1.IsValid());
