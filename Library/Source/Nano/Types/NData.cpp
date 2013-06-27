@@ -370,8 +370,8 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 	// Validate our parameters
 	NN_ASSERT(theSize >= 0);
 
-	if (NN_DEBUG && thePtr != NULL)
-		NN_ASSERT(!(thePtr >= GetData(0) && thePtr < GetData(GetSize())));
+	if (NN_DEBUG && thePtr != NULL && !IsEmpty())
+		NN_ASSERT(!(thePtr >= GetData(0) && thePtr < GetData(GetSize()-1)));
 
 
 
