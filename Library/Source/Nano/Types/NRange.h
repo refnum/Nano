@@ -26,6 +26,19 @@
 
 
 //============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+// Meta-ranges
+//
+// Declared as #defines to allow their use during static initialisation.
+#define kNRangeNone													NRange(kNIndexNone, 0)
+#define kNRangeAll													NRange(0, kNIndexNone)
+
+
+
+
+
+//============================================================================
 //		Types
 //----------------------------------------------------------------------------
 typedef std::vector<NRange>											NRangeList;
@@ -143,16 +156,6 @@ private:
 	NIndex								mSize;
 };
 
-
-
-
-
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-// Meta-ranges
-static const NRange kNRangeNone(kNIndexNone, 0);
-static const NRange kNRangeAll (0, kNIndexNone);
 
 
 
