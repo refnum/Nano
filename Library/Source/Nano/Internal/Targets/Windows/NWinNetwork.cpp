@@ -1801,7 +1801,10 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 	// Reads are always blocking; once the socket has returned whatever data it
 	// can, we use a zero-byte read to generate an event when more data arrives.
 	winErr = SocketErr(WSARecv(theSocket->nativeSocket, &theBuffer, 1, &numRead, &theFlags, NULL, NULL));
-	NN_ASSERT(winErr == ERROR_SUCCESS || winErr == WSAEWOULDBLOCK);
+
+	NN_ASSERT(	winErr == ERROR_SUCCESS  ||
+				winErr == WSAEWOULDBLOCK ||
+				winErr == WSAECONNRESET);
 
 	InterlockedExchange(&theSocket->canRead, FALSE);
 	SocketTriggerRead(theSocket);
