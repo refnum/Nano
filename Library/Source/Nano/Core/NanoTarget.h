@@ -39,7 +39,7 @@
 
 
 // Windows
-#if defined(_MSC_VER)
+#if defined(_MSC_FULL_VER)
 	#undef  NN_TARGET_WINDOWS
 	#define NN_TARGET_WINDOWS										1
 #endif
