@@ -43,7 +43,7 @@ TEST_NUNDOSOURCE("Default", "Default state")
 
 
 	// Perform the test
-	REQUIRE(undoSource.GetUndoManager() == NULL);
+	REQUIRE(undoSource.GetUndoManager() == (NUndoManager *) NULL);
 }
 
 

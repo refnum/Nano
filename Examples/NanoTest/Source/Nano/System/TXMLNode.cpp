@@ -54,7 +54,7 @@ TEST_NXMLNODE("Default", "Default state")
 
 	// Perform the test
 	theNode = new NXMLNode(kNXMLNodeDocument, "");
-	REQUIRE(theNode->GetParent() == NULL);
+	REQUIRE(theNode->GetParent() == (NXMLNode *) NULL);
 	REQUIRE(!theNode->HasChildren());
 }
 

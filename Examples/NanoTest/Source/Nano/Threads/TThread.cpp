@@ -75,7 +75,7 @@ TEST_NTHREAD("TLS", "Thread-local storage")
 	REQUIRE(localRef != kNThreadLocalRefNone);
 
 	theValue = NThread::GetLocalValue(localRef);
-	REQUIRE(theValue == NULL);
+	REQUIRE(theValue == (void *) NULL);
 
 	NThread::SetLocalValue(localRef, kValueLocal);
 	theValue = NThread::GetLocalValue(localRef);
@@ -83,7 +83,7 @@ TEST_NTHREAD("TLS", "Thread-local storage")
 
 	NThread::SetLocalValue(localRef, NULL);
 	theValue = NThread::GetLocalValue(localRef);
-	REQUIRE(theValue == NULL);
+	REQUIRE(theValue == (void *) NULL);
 	
 	NThread::DestroyLocal(localRef);
 }

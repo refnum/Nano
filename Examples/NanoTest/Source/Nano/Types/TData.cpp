@@ -68,7 +68,7 @@ TEST_NDATA("Default", "Default state")
 
 	REQUIRE(theData.IsEmpty());
 	REQUIRE(theData.GetSize() == 0);
-	REQUIRE(theData.GetData() == NULL);
+	REQUIRE(theData.GetData() == (const UInt8 *) NULL);
 }
 
 
@@ -425,8 +425,8 @@ TEST_NDATA("Replace", "Replace data")
 
 	// Perform the test
 	theData = kTestData1;
-	REQUIRE(theData.AppendData(sizeof(kBlock3), kBlock3) != NULL);
-	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), sizeof(kBlock3), kBlock3) != NULL);
+	REQUIRE(theData.AppendData(sizeof(kBlock3), kBlock3)                                     != (UInt8 *) NULL);
+	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), sizeof(kBlock3), kBlock3) != (UInt8 *) NULL);
 
 	REQUIRE(theData.GetSize() == (2 * sizeof(kBlock3)));
 	REQUIRE(memcmp(kBlock3, theData.GetData(0),               sizeof(kBlock3)) == 0);

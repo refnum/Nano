@@ -50,7 +50,7 @@ TEST_NVARIANT("NData", "NData")
 	theValue = dataValue;
 	
 	dataPtr = theValue.GetValue<NData>();
-	REQUIRE(dataPtr != NULL);
+	REQUIRE(dataPtr != (const NData *) NULL);
 	
 	gotValue = theValue.GetValue(dataValue);
 	REQUIRE(gotValue);
