@@ -819,6 +819,13 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			thePath += "/Library/Logs";
 			break;
 
+		case kNLocationPreferences:
+			if (theDomain == kNDomainUser)
+				thePath = NCFString(NSHomeDirectory(), false);
+
+			thePath += "/Library/Preferences";
+			break;
+
 		case kNLocationCache:
 			thePath = GetDirectoryForDomain(theDomain, NSCachesDirectory);
 			break;

@@ -643,6 +643,10 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			thePath = GetDirectoryForDomain(theDomain, CSIDL_COMMON_APPDATA);
 			break;
 
+		case kNLocationPreferences:
+			thePath = GetDirectoryForDomain(theDomain, CSIDL_COMMON_APPDATA);
+			break;
+
 		case kNLocationCache:
 			thePath = GetDirectoryForDomain(theDomain, CSIDL_INTERNET_CACHE);
 			break;

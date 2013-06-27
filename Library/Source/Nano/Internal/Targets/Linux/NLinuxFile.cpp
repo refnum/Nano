@@ -570,6 +570,10 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".logs");
 			break;
 
+		case kNLocationPreferences:
+			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".preferences");
+			break;
+
 		case kNLocationCache:
 			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".cache");
 			break;

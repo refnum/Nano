@@ -60,6 +60,9 @@ TEST_NFILEUTILITIES("Directories", "Get directories")
 	
 	theFile = NFileUtilities::GetDirectory(kNLocationDesktop);
 	REQUIRE(theFile.IsDirectory());
+	
+	theFile = NFileUtilities::GetDirectory(kNLocationPreferences);
+	REQUIRE(theFile.IsDirectory());
 
 	theFile = NFileUtilities::GetCWD();
 	REQUIRE(theFile.IsDirectory());
