@@ -66,6 +66,7 @@ public:
 	// Is this the main thread?
 	static bool							IsMain(void);
 
+
 	// Is the thread running?
 	bool								IsRunning(void) const;
 
