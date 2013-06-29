@@ -34,9 +34,9 @@ static const UInt8 kTestData2[]										= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATADIGEST(_name, _desc)								NANO_TEST(TDataDigest, _name, _desc)
+#define TEST_NDATADIGEST(_name, _desc)								TEST_NANO(TDataDigest, _name, _desc)
 
-NANO_FIXTURE(TDataDigest)
+FIXTURE_NANO(TDataDigest)
 {
 	NData			data1, data2, data3;
 	NDataDigest		theDigest;

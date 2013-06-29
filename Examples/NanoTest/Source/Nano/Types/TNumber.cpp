@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNUMBER(_name, _desc)									NANO_TEST(TNumber, _name, _desc)
+#define TEST_NNUMBER(_name, _desc)									TEST_NANO(TNumber, _name, _desc)
 
-NANO_FIXTURE(TNumber)
+FIXTURE_NANO(TNumber)
 {
 	NNumber		theNumber;
 };

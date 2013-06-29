@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGIMAGE(_name, _desc)									NANO_TEST(TCGImage, _name, _desc)
+#define TEST_NCGIMAGE(_name, _desc)									TEST_NANO(TCGImage, _name, _desc)
 
-NANO_FIXTURE(TCGImage)
+FIXTURE_NANO(TCGImage)
 {
 };
 

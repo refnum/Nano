@@ -34,9 +34,9 @@ static const UInt32List kTestList2									= nvector<UInt32>(24, 25, 26);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTLUTILITIES(_name, _desc)							NANO_TEST(TSTLUtilities, _name, _desc)
+#define TEST_NSTLUTILITIES(_name, _desc)							TEST_NANO(TSTLUtilities, _name, _desc)
 
-NANO_FIXTURE(TSTLUtilities)
+FIXTURE_NANO(TSTLUtilities)
 {
 	UInt32List		theList;
 	

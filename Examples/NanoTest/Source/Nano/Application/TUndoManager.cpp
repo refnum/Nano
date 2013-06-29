@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUNDOMANAGER(_name, _desc)								NANO_TEST(TUndoManager, _name, _desc)
+#define TEST_NUNDOMANAGER(_name, _desc)								TEST_NANO(TUndoManager, _name, _desc)
 
-NANO_FIXTURE(TUndoManager)
+FIXTURE_NANO(TUndoManager)
 {
 	NUndoManager	undoManager;
 };

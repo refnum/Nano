@@ -25,9 +25,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NLISTENER(_name, _desc)								NANO_TEST(TListener, _name, _desc)
+#define TEST_NLISTENER(_name, _desc)								TEST_NANO(TListener, _name, _desc)
 
-NANO_FIXTURE(TListener)
+FIXTURE_NANO(TListener)
 {
 	NBroadcaster	theBroadcaster;
 	CTestListener	theListener;

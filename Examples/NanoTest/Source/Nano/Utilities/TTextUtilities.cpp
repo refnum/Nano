@@ -34,9 +34,9 @@ static const NString kEntitiesEncoded								= "&lt;&amp;&apos;&quot;&apos;&amp;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTEXTUTILITIES(_name, _desc)							NANO_TEST(TTextUtilities, _name, _desc)
+#define TEST_NTEXTUTILITIES(_name, _desc)							TEST_NANO(TTextUtilities, _name, _desc)
 
-NANO_FIXTURE(TTextUtilities)
+FIXTURE_NANO(TTextUtilities)
 {
 };
 

@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPROPERTYSTORE(_name, _desc)							NANO_TEST(TPropertyStore, _name, _desc)
+#define TEST_NPROPERTYSTORE(_name, _desc)							TEST_NANO(TPropertyStore, _name, _desc)
 
-NANO_FIXTURE(TPropertyStore)
+FIXTURE_NANO(TPropertyStore)
 {
 	NPropertyStore		propertyStore;
 };

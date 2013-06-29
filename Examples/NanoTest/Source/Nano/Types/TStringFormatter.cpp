@@ -56,9 +56,9 @@ static const NString kResultFormat32Value64							= "64-bit value with 32-bit le
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTRINGFORMATTER(_name, _desc)							NANO_TEST(TStringFormatter, _name, _desc)
+#define TEST_NSTRINGFORMATTER(_name, _desc)							TEST_NANO(TStringFormatter, _name, _desc)
 
-NANO_FIXTURE(TStringFormatter)
+FIXTURE_NANO(TStringFormatter)
 {
 	NStringFormatter	theFormatter;
 	NString				theResult;

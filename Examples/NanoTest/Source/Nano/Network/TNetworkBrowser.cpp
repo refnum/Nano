@@ -39,9 +39,9 @@ static const NString kTestResult2									= ".local.', port='666'";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKBROWSER(_name, _desc)							NANO_TEST(TNetworkBrowser, _name, _desc)
+#define TEST_NNETWORKBROWSER(_name, _desc)							TEST_NANO(TNetworkBrowser, _name, _desc)
 
-NANO_FIXTURE(TNetworkBrowser)
+FIXTURE_NANO(TNetworkBrowser)
 {
 };
 

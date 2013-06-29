@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUTIREGISTRY(_name, _desc)								NANO_TEST(TUTIRegistry, _name, _desc)
+#define TEST_NUTIREGISTRY(_name, _desc)								TEST_NANO(TUTIRegistry, _name, _desc)
 
-NANO_FIXTURE(TUTIRegistry)
+FIXTURE_NANO(TUTIRegistry)
 {
 	NUTIRegistry	*utiRegistry;
 

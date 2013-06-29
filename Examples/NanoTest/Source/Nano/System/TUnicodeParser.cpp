@@ -40,9 +40,9 @@ static const UTF32Char kChar2										= 0x00008A9E;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUNICODEPARSER(_name, _desc)							NANO_TEST(TUnicodeParser, _name, _desc)
+#define TEST_NUNICODEPARSER(_name, _desc)							TEST_NANO(TUnicodeParser, _name, _desc)
 
-NANO_FIXTURE(TUnicodeParser)
+FIXTURE_NANO(TUnicodeParser)
 {
 	NUnicodeParser		parserUTF8, parserUTF16, parserUTF32;
 

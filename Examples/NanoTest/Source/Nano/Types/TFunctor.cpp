@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFUNCTOR(_name, _desc)									NANO_TEST(TFunctor, _name, _desc)
+#define TEST_NFUNCTOR(_name, _desc)									TEST_NANO(TFunctor, _name, _desc)
 
-NANO_FIXTURE(TFunctor)
+FIXTURE_NANO(TFunctor)
 {
 	NFunctor	theFunctor;
 };

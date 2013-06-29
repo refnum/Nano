@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NATOMICINT(_name, _desc)								NANO_TEST(TAtomicInt, _name, _desc)
+#define TEST_NATOMICINT(_name, _desc)								TEST_NANO(TAtomicInt, _name, _desc)
 
-NANO_FIXTURE(TAtomicInt)
+FIXTURE_NANO(TAtomicInt)
 {
 	NAtomicInt	theValue;
 };

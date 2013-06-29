@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGCOLOR(_name, _desc)									NANO_TEST(TGColor, _name, _desc)
+#define TEST_NCGCOLOR(_name, _desc)									TEST_NANO(TGColor, _name, _desc)
 
-NANO_FIXTURE(TGColor)
+FIXTURE_NANO(TGColor)
 {
 };
 

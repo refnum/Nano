@@ -40,9 +40,9 @@ static const NData kTestData2(sizeof(kBlock2), kBlock2);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATA(_name, _desc)									NANO_TEST(TData, _name, _desc)
+#define TEST_NDATA(_name, _desc)									TEST_NANO(TData, _name, _desc)
 
-NANO_FIXTURE(TData)
+FIXTURE_NANO(TData)
 {
 	NData		theData;
 };

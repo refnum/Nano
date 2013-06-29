@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCOREGRAPHICS(_name, _desc)							NANO_TEST(TCoreGraphics, _name, _desc)
+#define TEST_NCOREGRAPHICS(_name, _desc)							TEST_NANO(TCoreGraphics, _name, _desc)
 
-NANO_FIXTURE(TCoreGraphics)
+FIXTURE_NANO(TCoreGraphics)
 {
 };
 

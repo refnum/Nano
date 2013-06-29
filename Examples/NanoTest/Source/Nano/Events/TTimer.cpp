@@ -36,9 +36,9 @@ static const NTime kTestRepeat										= 0.0006;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTIMER(_name, _desc)									NANO_TEST(TTimer, _name, _desc)
+#define TEST_NTIMER(_name, _desc)									TEST_NANO(TTimer, _name, _desc)
 
-NANO_FIXTURE(TTimer)
+FIXTURE_NANO(TTimer)
 {
 	NTimer	theTimer;
 };

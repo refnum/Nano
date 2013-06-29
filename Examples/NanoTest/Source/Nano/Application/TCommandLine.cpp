@@ -40,9 +40,9 @@ static const char *kTestArgList[]									= {	"app",
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCOMMANDLINE(_name, _desc)								NANO_TEST(TCommandLine, _name, _desc)
+#define TEST_NCOMMANDLINE(_name, _desc)								TEST_NANO(TCommandLine, _name, _desc)
 
-NANO_FIXTURE(TCommandLine)
+FIXTURE_NANO(TCommandLine)
 {
 	NCommandLine	cmdLine;
 

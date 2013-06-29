@@ -98,7 +98,7 @@ namespace Catch {
 //
 // A fixture derived from NTestFixture can be defined with:
 //
-//		NANO_FIXTURE(SomeFixture)
+//		FIXTURE_NANO(SomeFixture)
 //		{
 //			UInt8 *someData;
 //
@@ -119,15 +119,15 @@ namespace Catch {
 //
 // A test that uses this fixture can be defined with:
 //
-//		NANO_TEST(SomeFixture, "Malloc", "Testing malloc")
+//		TEST_NANO(SomeFixture, "Malloc", "Testing malloc")
 //		{
 //			someData = (UInt8 *) malloc(10);
 //			REQUIRE(someData != NULL);
 //		}
 //
 // This will create a "Nano/SomeFixture/Malloc" test based on SomeFixture.
-#define NANO_FIXTURE(_class)										struct _class : public NTestFixture
-#define NANO_TEST(_class, _name, _desc)								TEST_CASE_FIXTURE(_class, "Nano/" #_class "/" _name, _desc)
+#define FIXTURE_NANO(_class)										struct _class : public NTestFixture
+#define TEST_NANO(_class, _name, _desc)								TEST_CASE_FIXTURE(_class, "Nano/" #_class "/" _name, _desc)
 
 
 // Assertions

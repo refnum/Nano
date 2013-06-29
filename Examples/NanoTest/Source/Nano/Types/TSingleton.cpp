@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSINGLETON(_name, _desc)								NANO_TEST(TSingleton, _name, _desc)
+#define TEST_NSINGLETON(_name, _desc)								TEST_NANO(TSingleton, _name, _desc)
 
-NANO_FIXTURE(TSingleton)
+FIXTURE_NANO(TSingleton)
 {
 };
 

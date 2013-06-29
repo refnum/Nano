@@ -43,9 +43,9 @@ static NHashCode kTestHash2											= 67890;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCACHEKEY(_name, _desc)								NANO_TEST(TCacheKey, _name, _desc)
+#define TEST_NCACHEKEY(_name, _desc)								TEST_NANO(TCacheKey, _name, _desc)
 
-NANO_FIXTURE(TCacheKey)
+FIXTURE_NANO(TCacheKey)
 {
 	NCacheKey		testKey1, testKey2;
 };

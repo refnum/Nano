@@ -68,9 +68,9 @@ static const NString kTestJSON										=	"{\n"
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NJSONENCODER(_name, _desc)								NANO_TEST(TJSONEncoder, _name, _desc)
+#define TEST_NJSONENCODER(_name, _desc)								TEST_NANO(TJSONEncoder, _name, _desc)
 
-NANO_FIXTURE(TJSONEncoder)
+FIXTURE_NANO(TJSONEncoder)
 {
 	NDictionary		theDictionary1, theDictionary2;
 	NJSONEncoder	theEncoder;

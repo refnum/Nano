@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NLOCALE(_name, _desc)									NANO_TEST(TLocale, _name, _desc)
+#define TEST_NLOCALE(_name, _desc)									TEST_NANO(TLocale, _name, _desc)
 
-NANO_FIXTURE(TLocale)
+FIXTURE_NANO(TLocale)
 {
 	NLocale		theLocale;
 };

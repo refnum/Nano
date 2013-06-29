@@ -34,9 +34,9 @@ static const NRange kTestRange2										= NRange(3, 7);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NRANGE(_name, _desc)									NANO_TEST(TRange, _name, _desc)
+#define TEST_NRANGE(_name, _desc)									TEST_NANO(TRange, _name, _desc)
 
-NANO_FIXTURE(TRange)
+FIXTURE_NANO(TRange)
 {
 	NRange		theRange;
 };

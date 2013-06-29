@@ -430,9 +430,9 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMESSAGESERVER(_name, _desc)							NANO_TEST(TMessageServer, _name, _desc)
+#define TEST_NMESSAGESERVER(_name, _desc)							TEST_NANO(TMessageServer, _name, _desc)
 
-NANO_FIXTURE(TMessageServer)
+FIXTURE_NANO(TMessageServer)
 {
 };
 

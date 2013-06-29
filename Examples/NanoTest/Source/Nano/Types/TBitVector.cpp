@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBITVECTOR(_name, _desc)								NANO_TEST(TBitVector, _name, _desc)
+#define TEST_NBITVECTOR(_name, _desc)								TEST_NANO(TBitVector, _name, _desc)
 
-NANO_FIXTURE(TBitVector)
+FIXTURE_NANO(TBitVector)
 {
 	NBitVector		theVector;
 	

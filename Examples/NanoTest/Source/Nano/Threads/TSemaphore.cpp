@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSEMPAHORE(_name, _desc)								NANO_TEST(TSemaphore, _name, _desc)
+#define TEST_NSEMPAHORE(_name, _desc)								TEST_NANO(TSemaphore, _name, _desc)
 
-NANO_FIXTURE(TSemaphore)
+FIXTURE_NANO(TSemaphore)
 {
 	NSemaphore	theSemaphore;
 };

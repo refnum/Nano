@@ -46,9 +46,9 @@ static const NSize kTestSize4_Height								= NSize(1.0f, 0.0f);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSIZE(_name, _desc)								NANO_TEST(TSize, _name, _desc)
+#define TEST_NSIZE(_name, _desc)								TEST_NANO(TSize, _name, _desc)
 
-NANO_FIXTURE(TSize)
+FIXTURE_NANO(TSize)
 {
 	NSize	theSize;
 };

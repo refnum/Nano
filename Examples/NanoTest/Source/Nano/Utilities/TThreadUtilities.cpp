@@ -41,9 +41,9 @@ static const UInt32 kXorResult										= 0x189A4B04;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTHREADUTILITIES(_name, _desc)							NANO_TEST(TThreadUtilities, _name, _desc)
+#define TEST_NTHREADUTILITIES(_name, _desc)							TEST_NANO(TThreadUtilities, _name, _desc)
 
-NANO_FIXTURE(TThreadUtilities)
+FIXTURE_NANO(TThreadUtilities)
 {
 };
 

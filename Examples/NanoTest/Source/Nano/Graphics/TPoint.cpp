@@ -38,9 +38,9 @@ static const NPoint kTestPoint2_Offset								= NPoint(5.3f, 5.9f);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPOINT(_name, _desc)									NANO_TEST(TPoint, _name, _desc)
+#define TEST_NPOINT(_name, _desc)									TEST_NANO(TPoint, _name, _desc)
 
-NANO_FIXTURE(TPoint)
+FIXTURE_NANO(TPoint)
 {
 	NPoint		thePoint;
 };

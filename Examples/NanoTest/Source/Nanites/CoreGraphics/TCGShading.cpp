@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGSHADING(_name, _desc)								NANO_TEST(TCGShading, _name, _desc)
+#define TEST_NCGSHADING(_name, _desc)								TEST_NANO(TCGShading, _name, _desc)
 
-NANO_FIXTURE(TCGShading)
+FIXTURE_NANO(TCGShading)
 {
 };
 

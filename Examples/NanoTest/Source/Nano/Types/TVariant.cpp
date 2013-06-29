@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NVARIANT(_name, _desc)									NANO_TEST(TVariant, _name, _desc)
+#define TEST_NVARIANT(_name, _desc)									TEST_NANO(TVariant, _name, _desc)
 
-NANO_FIXTURE(TVariant)
+FIXTURE_NANO(TVariant)
 {
 	NVariant	theValue;
 };

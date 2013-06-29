@@ -25,9 +25,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NGEOMETRYUTILITIES(_name, _desc)						NANO_TEST(TGeometryUtilities, _name, _desc)
+#define TEST_NGEOMETRYUTILITIES(_name, _desc)						TEST_NANO(TGeometryUtilities, _name, _desc)
 
-NANO_FIXTURE(TGeometryUtilities)
+FIXTURE_NANO(TGeometryUtilities)
 {
 	NPoint64List		thePoints64;
 	NPoint32List		thePoints32;

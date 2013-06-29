@@ -26,9 +26,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSPINLOCK(_name, _desc)								NANO_TEST(TSpinLock, _name, _desc)
+#define TEST_NSPINLOCK(_name, _desc)								TEST_NANO(TSpinLock, _name, _desc)
 
-NANO_FIXTURE(TSpinLock)
+FIXTURE_NANO(TSpinLock)
 {
 	NSpinLock	theLock;
 };

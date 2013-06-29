@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NATOMICLIST(_name, _desc)								NANO_TEST(TAtomicList, _name, _desc)
+#define TEST_NATOMICLIST(_name, _desc)								TEST_NANO(TAtomicList, _name, _desc)
 
-NANO_FIXTURE(TAtomicList)
+FIXTURE_NANO(TAtomicList)
 {
 	NAtomicList<UInt32>		theList;
 };

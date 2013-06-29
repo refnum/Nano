@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDBHANDLE(_name, _desc)								NANO_TEST(TDBHandle, _name, _desc)
+#define TEST_NDBHANDLE(_name, _desc)								TEST_NANO(TDBHandle, _name, _desc)
 
-NANO_FIXTURE(TDBHandle)
+FIXTURE_NANO(TDBHandle)
 {
 	NDBHandle	dbHandle;
 };

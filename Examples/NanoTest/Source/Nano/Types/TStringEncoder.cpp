@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTRINGENCODER(_name, _desc)							NANO_TEST(TStringEncoder, _name, _desc)
+#define TEST_NSTRINGENCODER(_name, _desc)							TEST_NANO(TStringEncoder, _name, _desc)
 
-NANO_FIXTURE(TStringEncoder)
+FIXTURE_NANO(TStringEncoder)
 {
 	void	TestTerminator(const NString &theString, NStringEncoding theEncoding);
 };

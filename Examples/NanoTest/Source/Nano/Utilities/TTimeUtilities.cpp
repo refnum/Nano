@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTIMEUTILITIES(_name, _desc)							NANO_TEST(TTimeUtilities, _name, _desc)
+#define TEST_NTIMEUTILITIES(_name, _desc)							TEST_NANO(TTimeUtilities, _name, _desc)
 
-NANO_FIXTURE(TTimeUtilities)
+FIXTURE_NANO(TTimeUtilities)
 {
 };
 

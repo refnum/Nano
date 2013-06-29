@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFDICTIONARY(_name, _desc)							NANO_TEST(TCFDictionary, _name, _desc)
+#define TEST_NCFDICTIONARY(_name, _desc)							TEST_NANO(TCFDictionary, _name, _desc)
 
-NANO_FIXTURE(TCFDictionary)
+FIXTURE_NANO(TCFDictionary)
 {
 };
 

@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NVECTOR(_name, _desc)									NANO_TEST(TVector, _name, _desc)
+#define TEST_NVECTOR(_name, _desc)									TEST_NANO(TVector, _name, _desc)
 
-NANO_FIXTURE(TVector)
+FIXTURE_NANO(TVector)
 {
 	NVector	theVector;
 };

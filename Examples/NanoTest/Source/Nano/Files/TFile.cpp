@@ -88,9 +88,9 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILE(_name, _desc)									NANO_TEST(TFile, _name, _desc)
+#define TEST_NFILE(_name, _desc)									TEST_NANO(TFile, _name, _desc)
 
-NANO_FIXTURE(TFile)
+FIXTURE_NANO(TFile)
 {
 	NFile		tmpFile, tmpFile2;
 	NFile		theFile;

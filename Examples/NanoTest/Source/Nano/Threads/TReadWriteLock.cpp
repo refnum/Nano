@@ -26,9 +26,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NREADWRITELOCK(_name, _desc)							NANO_TEST(TReadWriteLock, _name, _desc)
+#define TEST_NREADWRITELOCK(_name, _desc)							TEST_NANO(TReadWriteLock, _name, _desc)
 
-NANO_FIXTURE(TReadWriteLock)
+FIXTURE_NANO(TReadWriteLock)
 {
 	NReadWriteLock	theLock;
 };

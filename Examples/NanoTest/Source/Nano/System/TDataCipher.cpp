@@ -41,9 +41,9 @@ static const UInt32 kAdlerBlowfish									= 0x8B360A2B;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATACIPHER(_name, _desc)								NANO_TEST(TDataCipher, _name, _desc)
+#define TEST_NDATACIPHER(_name, _desc)								TEST_NANO(TDataCipher, _name, _desc)
 
-NANO_FIXTURE(TDataCipher)
+FIXTURE_NANO(TDataCipher)
 {
 	NData			dataKey, dataTest, dataEnc, dataRaw;
 	NDataDigest		theDigest;

@@ -46,9 +46,9 @@ static const UInt8   kTestDiacritics_UTF8[]							= { 0x54, 0xC3, 0xA9, 0x73, 0x
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTRING(_name, _desc)									NANO_TEST(TString, _name, _desc)
+#define TEST_NSTRING(_name, _desc)									TEST_NANO(TString, _name, _desc)
 
-NANO_FIXTURE(TString)
+FIXTURE_NANO(TString)
 {
 	NString		theString, theString2;
 

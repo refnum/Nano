@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFARRAY(_name, _desc)									NANO_TEST(TCFArray, _name, _desc)
+#define TEST_NCFARRAY(_name, _desc)									TEST_NANO(TCFArray, _name, _desc)
 
-NANO_FIXTURE(TCFArray)
+FIXTURE_NANO(TCFArray)
 {
 };
 

@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGCONTEXT(_name, _desc)								NANO_TEST(TCGContext, _name, _desc)
+#define TEST_NCGCONTEXT(_name, _desc)								TEST_NANO(TCGContext, _name, _desc)
 
-NANO_FIXTURE(TCGContext)
+FIXTURE_NANO(TCGContext)
 {
 };
 

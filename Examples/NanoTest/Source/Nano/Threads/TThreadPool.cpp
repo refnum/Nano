@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTHREADPOOL(_name, _desc)								NANO_TEST(TThreadPool, _name, _desc)
+#define TEST_NTHREADPOOL(_name, _desc)								TEST_NANO(TThreadPool, _name, _desc)
 
-NANO_FIXTURE(TThreadPool)
+FIXTURE_NANO(TThreadPool)
 {
 	NThreadPool		thePool;
 };

@@ -42,9 +42,9 @@ static const SInt64 kTestSInt64										= -4000;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NARRAY(_name, _desc)									NANO_TEST(TArray, _name, _desc)
+#define TEST_NARRAY(_name, _desc)									TEST_NANO(TArray, _name, _desc)
 
-NANO_FIXTURE(TArray)
+FIXTURE_NANO(TArray)
 {
 	NArray	theArray, theArray2;
 

@@ -39,9 +39,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBUNDLE(_name, _desc)									NANO_TEST(TBundle, _name, _desc)
+#define TEST_NBUNDLE(_name, _desc)									TEST_NANO(TBundle, _name, _desc)
 
-NANO_FIXTURE(TBundle)
+FIXTURE_NANO(TBundle)
 {
 	NBundle		theBundle;
 

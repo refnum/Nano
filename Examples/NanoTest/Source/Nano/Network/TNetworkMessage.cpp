@@ -23,9 +23,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKMESSAGE(_name, _desc)							NANO_TEST(TNetworkMessage, _name, _desc)
+#define TEST_NNETWORKMESSAGE(_name, _desc)							TEST_NANO(TNetworkMessage, _name, _desc)
 
-NANO_FIXTURE(TNetworkMessage)
+FIXTURE_NANO(TNetworkMessage)
 {
 };
 

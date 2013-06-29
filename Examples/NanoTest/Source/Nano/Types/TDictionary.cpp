@@ -35,9 +35,9 @@ static const SInt64 kTestSInt64										= -4000;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDICTIONARY(_name, _desc)								NANO_TEST(TDictionary, _name, _desc)
+#define TEST_NDICTIONARY(_name, _desc)								TEST_NANO(TDictionary, _name, _desc)
 
-NANO_FIXTURE(TDictionary)
+FIXTURE_NANO(TDictionary)
 {
 	NDictionary		theDict, theDict2;
 };

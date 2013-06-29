@@ -35,9 +35,9 @@ static const NString kTestMessage									= "Hello World";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDEBUG(_name, _desc)									NANO_TEST(TDebug, _name, _desc)
+#define TEST_NDEBUG(_name, _desc)									TEST_NANO(TDebug, _name, _desc)
 
-NANO_FIXTURE(TDebug)
+FIXTURE_NANO(TDebug)
 {
 	NDebug		*nDebug;
 

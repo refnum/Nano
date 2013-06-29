@@ -39,9 +39,9 @@ static const NString kTestPath										= "/path/to/file.txt";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NURL(_name, _desc)										NANO_TEST(TURL, _name, _desc)
+#define TEST_NURL(_name, _desc)										TEST_NANO(TURL, _name, _desc)
 
-NANO_FIXTURE(TURL)
+FIXTURE_NANO(TURL)
 {
 };
 

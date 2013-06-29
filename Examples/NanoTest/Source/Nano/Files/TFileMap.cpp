@@ -35,9 +35,9 @@ static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', '
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILEMAP(_name, _desc)									NANO_TEST(TFileMap, _name, _desc)
+#define TEST_NFILEMAP(_name, _desc)									TEST_NANO(TFileMap, _name, _desc)
 
-NANO_FIXTURE(TFileMap)
+FIXTURE_NANO(TFileMap)
 {
 	NFileMap	fileMap;
 	NFile		theFile;

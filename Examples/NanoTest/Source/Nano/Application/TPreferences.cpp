@@ -48,9 +48,9 @@ static const NString kValueString2									= "Second String";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPREFERENCES(_name, _desc)								NANO_TEST(TPreferences, _name, _desc)
+#define TEST_NPREFERENCES(_name, _desc)								TEST_NANO(TPreferences, _name, _desc)
 
-NANO_FIXTURE(TPreferences)
+FIXTURE_NANO(TPreferences)
 {
 	NPreferences	*thePrefs;
 

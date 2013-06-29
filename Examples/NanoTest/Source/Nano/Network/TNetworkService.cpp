@@ -23,9 +23,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKSERVICE(_name, _desc)							NANO_TEST(TNetworkService, _name, _desc)
+#define TEST_NNETWORKSERVICE(_name, _desc)							TEST_NANO(TNetworkService, _name, _desc)
 
-NANO_FIXTURE(TNetworkService)
+FIXTURE_NANO(TNetworkService)
 {
 };
 

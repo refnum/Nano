@@ -120,9 +120,9 @@ static const NString kPropertyListBinary							=	"62706C6973743030D4010203040506
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPROPERTYLIST(_name, _desc)							NANO_TEST(TPropertyList, _name, _desc)
+#define TEST_NPROPERTYLIST(_name, _desc)							TEST_NANO(TPropertyList, _name, _desc)
 
-NANO_FIXTURE(TPropertyList)
+FIXTURE_NANO(TPropertyList)
 {
 	NDictionary			propertyDict, testDict1, testDict2;
 	NData				testData1, testData2;

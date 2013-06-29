@@ -36,9 +36,9 @@ static const NBitfield kTestAttribute4								= (NBitfield) (1 << 31);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NATTRIBUTES(_name, _desc)								NANO_TEST(TAttributes, _name, _desc)
+#define TEST_NATTRIBUTES(_name, _desc)								TEST_NANO(TAttributes, _name, _desc)
 
-NANO_FIXTURE(TAttributes)
+FIXTURE_NANO(TAttributes)
 {
 	NAttributes		theAttributes;
 };

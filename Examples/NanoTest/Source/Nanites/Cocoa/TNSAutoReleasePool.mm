@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNSAUTORELEASEPOOL(_name, _desc)						NANO_TEST(TNSAutoReleasePool, _name, _desc)
+#define TEST_NNSAUTORELEASEPOOL(_name, _desc)						TEST_NANO(TNSAutoReleasePool, _name, _desc)
 
-NANO_FIXTURE(TNSAutoReleasePool)
+FIXTURE_NANO(TNSAutoReleasePool)
 {
 };
 

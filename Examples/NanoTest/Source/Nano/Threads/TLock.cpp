@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NLOCK(_name, _desc)									NANO_TEST(TLock, _name, _desc)
+#define TEST_NLOCK(_name, _desc)									TEST_NANO(TLock, _name, _desc)
 
-NANO_FIXTURE(TLock)
+FIXTURE_NANO(TLock)
 {
 };
 

@@ -25,9 +25,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUTI(_name, _desc)										NANO_TEST(TUTI, _name, _desc)
+#define TEST_NUTI(_name, _desc)										TEST_NANO(TUTI, _name, _desc)
 
-NANO_FIXTURE(TUTI)
+FIXTURE_NANO(TUTI)
 {
 };
 

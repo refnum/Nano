@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NURLRESPONSE(_name, _desc)								NANO_TEST(TURLResponse, _name, _desc)
+#define TEST_NURLRESPONSE(_name, _desc)								TEST_NANO(TURLResponse, _name, _desc)
 
-NANO_FIXTURE(TURLResponse)
+FIXTURE_NANO(TURLResponse)
 {
 	NURLResponse	*theResponse;
 	NURLRequest		theRequest;

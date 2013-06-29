@@ -46,9 +46,9 @@ static const UInt8 kBigFloat64[8]									= { 0x40, 0x09, 0x21, 0xFB,	0x54, 0x44
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBYTESWAP(_name, _desc)								NANO_TEST(TByteSwap, _name, _desc)
+#define TEST_NBYTESWAP(_name, _desc)								TEST_NANO(TByteSwap, _name, _desc)
 
-NANO_FIXTURE(TByteSwap)
+FIXTURE_NANO(TByteSwap)
 {
 	Float32		float32N, float32B, float32L;
 	Float64		float64N, float64B, float64L;

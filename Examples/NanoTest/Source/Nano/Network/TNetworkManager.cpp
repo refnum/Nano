@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKMANAGER(_name, _desc)							NANO_TEST(TNetworkManager, _name, _desc)
+#define TEST_NNETWORKMANAGER(_name, _desc)							TEST_NANO(TNetworkManager, _name, _desc)
 
-NANO_FIXTURE(TNetworkManager)
+FIXTURE_NANO(TNetworkManager)
 {
 	NNetworkManager		*netManager;
 	

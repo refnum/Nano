@@ -25,9 +25,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCOLOR(_name, _desc)									NANO_TEST(TColor, _name, _desc)
+#define TEST_NCOLOR(_name, _desc)									TEST_NANO(TColor, _name, _desc)
 
-NANO_FIXTURE(TColor)
+FIXTURE_NANO(TColor)
 {
 	NColor		theColor;
 };

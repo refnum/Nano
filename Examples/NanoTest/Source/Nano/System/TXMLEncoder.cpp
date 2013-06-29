@@ -60,9 +60,9 @@ static const NString kTestXML										=	"<?xml version=\"1.0\" encoding=\"UTF-8
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NXMLENCODER(_name, _desc)								NANO_TEST(TXMLEncoder, _name, _desc)
+#define TEST_NXMLENCODER(_name, _desc)								TEST_NANO(TXMLEncoder, _name, _desc)
 
-NANO_FIXTURE(TXMLEncoder)
+FIXTURE_NANO(TXMLEncoder)
 {
 	NXMLEncoder			theEncoder;
 	NXMLNode			*nodeDoc;

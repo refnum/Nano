@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NXMLNODE(_name, _desc)									NANO_TEST(TXMLNode, _name, _desc)
+#define TEST_NXMLNODE(_name, _desc)									TEST_NANO(TXMLNode, _name, _desc)
 
-NANO_FIXTURE(TXMLNode)
+FIXTURE_NANO(TXMLNode)
 {
 	NXMLNode	*theNode;
 	

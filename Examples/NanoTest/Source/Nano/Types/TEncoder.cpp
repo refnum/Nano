@@ -192,9 +192,9 @@ NENCODABLE_DEFINE(TEncodable);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NENCODER(_name, _desc)									NANO_TEST(TEncoder, _name, _desc)
+#define TEST_NENCODER(_name, _desc)									TEST_NANO(TEncoder, _name, _desc)
 
-NANO_FIXTURE(TEncoder)
+FIXTURE_NANO(TEncoder)
 {
 	NEncoder		theEncoder;
 	TEncodable		theObject;

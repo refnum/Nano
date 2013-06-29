@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NXMLPARSER(_name, _desc)								NANO_TEST(TXMLParser, _name, _desc)
+#define TEST_NXMLPARSER(_name, _desc)								TEST_NANO(TXMLParser, _name, _desc)
 
-NANO_FIXTURE(TXMLParser)
+FIXTURE_NANO(TXMLParser)
 {
 	NXMLParser	theParser;
 };

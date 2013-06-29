@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSHAPE(_name, _desc)									NANO_TEST(TShape, _name, _desc)
+#define TEST_NSHAPE(_name, _desc)									TEST_NANO(TShape, _name, _desc)
 
-NANO_FIXTURE(TShape)
+FIXTURE_NANO(TShape)
 {
 	NShape	theShape;
 };

@@ -40,9 +40,9 @@ static const NRectangle kTestRectangle3								= NRectangle(3.7f, 5.2f, 0.1f, 1.
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NRECTANGLE(_name, _desc)								NANO_TEST(TRectangle, _name, _desc)
+#define TEST_NRECTANGLE(_name, _desc)								TEST_NANO(TRectangle, _name, _desc)
 
-NANO_FIXTURE(TRectangle)
+FIXTURE_NANO(TRectangle)
 {
 	NRectangle		theRect;
 };

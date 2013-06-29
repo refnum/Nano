@@ -72,9 +72,9 @@ static const UInt8        kTestPixel[]							= { kComponentRed, kComponentGreen,
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NIMAGE(_name, _desc)									NANO_TEST(TImage, _name, _desc)
+#define TEST_NIMAGE(_name, _desc)									TEST_NANO(TImage, _name, _desc)
 
-NANO_FIXTURE(TImage)
+FIXTURE_NANO(TImage)
 {
 	NImage		theImage;
 	NData		theData;

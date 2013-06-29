@@ -33,9 +33,9 @@ static void * const kValueLocal										= (void *) 0x12345678;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTHREAD(_name, _desc)									NANO_TEST(TThread, _name, _desc)
+#define TEST_NTHREAD(_name, _desc)									TEST_NANO(TThread, _name, _desc)
 
-NANO_FIXTURE(TThread)
+FIXTURE_NANO(TThread)
 {
 };
 

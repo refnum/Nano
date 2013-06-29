@@ -37,9 +37,9 @@ static const UInt64 kTestRangeLargeMax								= 120;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMATHUTILITIES(_name, _desc)							NANO_TEST(TMathUtilities, _name, _desc)
+#define TEST_NMATHUTILITIES(_name, _desc)							TEST_NANO(TMathUtilities, _name, _desc)
 
-NANO_FIXTURE(TMathUtilities)
+FIXTURE_NANO(TMathUtilities)
 {
 };
 

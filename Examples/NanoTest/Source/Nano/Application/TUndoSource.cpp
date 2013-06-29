@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUNDOSOURCE(_name, _desc)								NANO_TEST(TUndoSource, _name, _desc)
+#define TEST_NUNDOSOURCE(_name, _desc)								TEST_NANO(TUndoSource, _name, _desc)
 
-NANO_FIXTURE(TUndoSource)
+FIXTURE_NANO(TUndoSource)
 {
 	NUndoSource	undoSource;
 };

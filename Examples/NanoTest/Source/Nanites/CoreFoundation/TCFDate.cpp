@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFDATE(_name, _desc)									NANO_TEST(TCFDate, _name, _desc)
+#define TEST_NCFDATE(_name, _desc)									TEST_NANO(TCFDate, _name, _desc)
 
-NANO_FIXTURE(TCFDate)
+FIXTURE_NANO(TCFDate)
 {
 };
 

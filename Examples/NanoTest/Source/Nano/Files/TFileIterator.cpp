@@ -47,9 +47,9 @@ static const NString kTestChild										= kTestParent + NN_DIR + "Child1" + NN_
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILEITERATOR(_name, _desc)							NANO_TEST(TFileIterator, _name, _desc)
+#define TEST_NFILEITERATOR(_name, _desc)							TEST_NANO(TFileIterator, _name, _desc)
 
-NANO_FIXTURE(TFileIterator)
+FIXTURE_NANO(TFileIterator)
 {
 	NFileIterator	fileIter;
 };

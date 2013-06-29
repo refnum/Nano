@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFDATA(_name, _desc)									NANO_TEST(TCFData, _name, _desc)
+#define TEST_NCFDATA(_name, _desc)									TEST_NANO(TCFData, _name, _desc)
 
-NANO_FIXTURE(TCFData)
+FIXTURE_NANO(TCFData)
 {
 };
 

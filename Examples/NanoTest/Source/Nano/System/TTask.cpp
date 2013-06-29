@@ -51,9 +51,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTASK(_name, _desc)									NANO_TEST(TTask, _name, _desc)
+#define TEST_NTASK(_name, _desc)									TEST_NANO(TTask, _name, _desc)
 
-NANO_FIXTURE(TTask)
+FIXTURE_NANO(TTask)
 {
 	NTask		theTask;
 

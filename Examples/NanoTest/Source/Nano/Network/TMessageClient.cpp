@@ -23,9 +23,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMESSAGECLIENT(_name, _desc)							NANO_TEST(TMessageClient, _name, _desc)
+#define TEST_NMESSAGECLIENT(_name, _desc)							TEST_NANO(TMessageClient, _name, _desc)
 
-NANO_FIXTURE(TMessageClient)
+FIXTURE_NANO(TMessageClient)
 {
 };
 

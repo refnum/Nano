@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTRANSFORM(_name, _desc)								NANO_TEST(TTransform, _name, _desc)
+#define TEST_NTRANSFORM(_name, _desc)								TEST_NANO(TTransform, _name, _desc)
 
-NANO_FIXTURE(TTransform)
+FIXTURE_NANO(TTransform)
 {
 	NTransform	theTransform;
 };

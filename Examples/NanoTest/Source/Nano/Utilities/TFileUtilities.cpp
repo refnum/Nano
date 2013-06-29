@@ -36,9 +36,9 @@ static const UInt8   kTestTextUTF16LE[]								= { 0xFF, 0xFE, 0x74, 0x00, 0x65,
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILEUTILITIES(_name, _desc)									NANO_TEST(TFileUtilities, _name, _desc)
+#define TEST_NFILEUTILITIES(_name, _desc)									TEST_NANO(TFileUtilities, _name, _desc)
 
-NANO_FIXTURE(TFileUtilities)
+FIXTURE_NANO(TFileUtilities)
 {
 	NFile	theFile;
 };

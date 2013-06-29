@@ -26,9 +26,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMUTEX(_name, _desc)									NANO_TEST(TMutex, _name, _desc)
+#define TEST_NMUTEX(_name, _desc)									TEST_NANO(TMutex, _name, _desc)
 
-NANO_FIXTURE(TMutex)
+FIXTURE_NANO(TMutex)
 {
 	NMutex	theLock;
 };

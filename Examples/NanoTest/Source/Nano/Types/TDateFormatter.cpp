@@ -36,9 +36,9 @@ static const NGregorianDate kTestDate4								= { 2010, 6, 1,  0,  7,  5.12345, 
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATEFORMATTER(_name, _desc)							NANO_TEST(TDateFormatter, _name, _desc)
+#define TEST_NDATEFORMATTER(_name, _desc)							TEST_NANO(TDateFormatter, _name, _desc)
 
-NANO_FIXTURE(TDateFormatter)
+FIXTURE_NANO(TDateFormatter)
 {
 	NDateFormatter		theFormatter;
 	NString				theResult;

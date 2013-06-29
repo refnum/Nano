@@ -251,9 +251,9 @@ static const char *kTestDataB64									=	"iVBORw0KGgoAAAANSUhEUgAAAD4AAABACAMAA
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATAENCODER(_name, _desc)								NANO_TEST(TDataEncoder, _name, _desc)
+#define TEST_NDATAENCODER(_name, _desc)								TEST_NANO(TDataEncoder, _name, _desc)
 
-NANO_FIXTURE(TDataEncoder)
+FIXTURE_NANO(TDataEncoder)
 {
 	UInt32				srcAdler, dstAdler;
 	NData				srcData, dstData;

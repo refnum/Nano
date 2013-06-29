@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCACHEVALUE(_name, _desc)								NANO_TEST(TCacheValue, _name, _desc)
+#define TEST_NCACHEVALUE(_name, _desc)								TEST_NANO(TCacheValue, _name, _desc)
 
-NANO_FIXTURE(TCacheValue)
+FIXTURE_NANO(TCacheValue)
 {
 	NCacheValue		*theValue;
 	

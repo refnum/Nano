@@ -24,9 +24,9 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFOBJECT(_name, _desc)									NANO_TEST(TCFObject, _name, _desc)
+#define TEST_NCFOBJECT(_name, _desc)									TEST_NANO(TCFObject, _name, _desc)
 
-NANO_FIXTURE(TCFObject)
+FIXTURE_NANO(TCFObject)
 {
 	NCFObject		theArray;
 	CFArrayRef		cfArray;
