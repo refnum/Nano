@@ -88,6 +88,7 @@ TEST_NCOMMANDLINE("Flags", "Test flag arguments")
 	REQUIRE(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
 	REQUIRE(cmdLine.GetFlagString("arg4") == "\"" kTestString "\"");
 	REQUIRE(cmdLine.GetFlagString("arg5") ==      kTestString);
+	REQUIRE(!cmdLine.GetFlagFile("nonexistent").Exists());
 }
 
 

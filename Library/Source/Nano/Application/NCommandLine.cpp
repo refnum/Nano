@@ -206,11 +206,15 @@ NFile NCommandLine::GetFlagFile(const NString &theArgument) const
 	//
 	// Relative paths are relative to the current working directory.
 	theValue = GetFlagString(theArgument);
-	if (!theValue.StartsWith("/"))
-		theValue = NFileUtilities::GetCWD().GetPath() + "/" + theValue;
-
-	theResult = NFile(theValue);
 	
+	if (!theValue.IsEmpty())
+		{
+		if (!theValue.StartsWith("/"))
+			theValue = NFileUtilities::GetCWD().GetPath() + "/" + theValue;
+
+		theResult = NFile(theValue);
+		}
+
 	return(theResult);
 }
 
