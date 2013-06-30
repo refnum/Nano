@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDBHANDLE(_name, _desc)								TEST_NANO(TDBHandle, _name, _desc)
+#define TEST_NDBHANDLE(...)											TEST_NANO(TDBHandle, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDBHandle)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TDBHandle)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDBHANDLE("Default", "Default state")
+TEST_NDBHANDLE("Default")
 {
 
 

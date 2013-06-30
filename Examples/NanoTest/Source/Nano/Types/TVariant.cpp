@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NVARIANT(_name, _desc)									TEST_NANO(TVariant, _name, _desc)
+#define TEST_NVARIANT(...)											TEST_NANO(TVariant, ##__VA_ARGS__)
 
 FIXTURE_NANO(TVariant)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TVariant)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NVARIANT("NData", "NData")
+TEST_NVARIANT("NData")
 {	NData			dataValue;
 	const NData		*dataPtr;
 	bool			gotValue;

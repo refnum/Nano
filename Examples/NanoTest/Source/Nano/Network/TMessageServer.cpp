@@ -430,7 +430,7 @@ void TTestClient::ReceivedMessage(const NNetworkMessage &theMsg)
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMESSAGESERVER(_name, _desc)							TEST_NANO(TMessageServer, _name, _desc)
+#define TEST_NMESSAGESERVER(...)									TEST_NANO(TMessageServer, ##__VA_ARGS__)
 
 FIXTURE_NANO(TMessageServer)
 {
@@ -443,7 +443,7 @@ FIXTURE_NANO(TMessageServer)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMESSAGESERVER("State", "State tests")
+TEST_NMESSAGESERVER("State")
 {	TTestClient		testClient1, testClient2;
 	TTestServer		testServer;
 	UInt16			thePort;

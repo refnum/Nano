@@ -46,7 +46,7 @@ static const NSize kTestSize4_Height								= NSize(1.0f, 0.0f);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSIZE(_name, _desc)								TEST_NANO(TSize, _name, _desc)
+#define TEST_NSIZE(...)												TEST_NANO(TSize, ##__VA_ARGS__)
 
 FIXTURE_NANO(TSize)
 {
@@ -60,7 +60,7 @@ FIXTURE_NANO(TSize)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSIZE("Size", "Sizes")
+TEST_NSIZE("Size")
 {
 
 
@@ -77,7 +77,7 @@ TEST_NSIZE("Size", "Sizes")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSIZE("Contents", "Contents")
+TEST_NSIZE("Contents")
 {
 
 
@@ -104,7 +104,7 @@ TEST_NSIZE("Contents", "Contents")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSIZE("Comparisons", "Comparisons")
+TEST_NSIZE("Comparisons")
 {
 
 
@@ -123,7 +123,7 @@ TEST_NSIZE("Comparisons", "Comparisons")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSIZE("Manipulations", "Manipulations")
+TEST_NSIZE("Manipulations")
 {
 
 

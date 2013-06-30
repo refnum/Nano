@@ -23,7 +23,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKSERVICE(_name, _desc)							TEST_NANO(TNetworkService, _name, _desc)
+#define TEST_NNETWORKSERVICE(...)									TEST_NANO(TNetworkService, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNetworkService)
 {
@@ -36,7 +36,7 @@ FIXTURE_NANO(TNetworkService)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNETWORKSERVICE("Default", "Default state")
+TEST_NNETWORKSERVICE("Default")
 {
 
 

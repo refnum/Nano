@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFARRAY(_name, _desc)									TEST_NANO(TCFArray, _name, _desc)
+#define TEST_NCFARRAY(...)											TEST_NANO(TCFArray, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCFArray)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCFArray)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFARRAY("Default", "Default state")
+TEST_NCFARRAY("Default", "[cf]")
 {
 
 

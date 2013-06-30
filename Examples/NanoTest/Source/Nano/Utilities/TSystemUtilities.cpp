@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSYSTEMUTILITIES(_name, _desc)							TEST_NANO(TSystemUtilities, _name, _desc)
+#define TEST_NSYSTEMUTILITIES(...)									TEST_NANO(TSystemUtilities, ##__VA_ARGS__)
 
 FIXTURE_NANO(TSystemUtilities)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TSystemUtilities)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSYSTEMUTILITIES("OS", "OS version")
+TEST_NSYSTEMUTILITIES("OS")
 {	OSVersion	theVers;
 
 

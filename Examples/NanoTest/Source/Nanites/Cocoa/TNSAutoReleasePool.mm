@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNSAUTORELEASEPOOL(_name, _desc)						TEST_NANO(TNSAutoReleasePool, _name, _desc)
+#define TEST_NNSAUTORELEASEPOOL(...)								TEST_NANO(TNSAutoReleasePool, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNSAutoReleasePool)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TNSAutoReleasePool)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNSAUTORELEASEPOOL("Default", "Default state")
+TEST_NNSAUTORELEASEPOOL("Default", "[cocoa]")
 {
 
 

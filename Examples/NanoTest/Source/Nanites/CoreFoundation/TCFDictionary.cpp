@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFDICTIONARY(_name, _desc)							TEST_NANO(TCFDictionary, _name, _desc)
+#define TEST_NCFDICTIONARY(...)										TEST_NANO(TCFDictionary, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCFDictionary)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCFDictionary)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFDICTIONARY("Default", "Default state")
+TEST_NCFDICTIONARY("Default", "[cf]")
 {
 
 

@@ -36,7 +36,7 @@ static const NTime kTestRepeat										= 0.0006;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTIMER(_name, _desc)									TEST_NANO(TTimer, _name, _desc)
+#define TEST_NTIMER(...)											TEST_NANO(TTimer, ##__VA_ARGS__)
 
 FIXTURE_NANO(TTimer)
 {
@@ -65,7 +65,7 @@ static void IncrementValue(UInt32 *theValue)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTIMER("Default", "Default state")
+TEST_NTIMER("Default")
 {
 
 
@@ -80,7 +80,7 @@ TEST_NTIMER("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTIMER("Active", "Active timer")
+TEST_NTIMER("Active")
 {	UInt32		theValue;
 	NTimerID	theID;
 
@@ -102,7 +102,7 @@ TEST_NTIMER("Active", "Active timer")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTIMER("Reset", "Reset timer")
+TEST_NTIMER("Reset")
 {	UInt32		theValue;
 	NTimerID	theID;
 
@@ -128,7 +128,7 @@ TEST_NTIMER("Reset", "Reset timer")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTIMER("Removal", "Removal of timer")
+TEST_NTIMER("Removal")
 {	UInt32		theValue;
 	NTimerID	theID;
 

@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGSHADING(_name, _desc)								TEST_NANO(TCGShading, _name, _desc)
+#define TEST_NCGSHADING(...)										TEST_NANO(TCGShading, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCGShading)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCGShading)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCGSHADING("Default", "Default state")
+TEST_NCGSHADING("Default", "[cg]")
 {
 
 

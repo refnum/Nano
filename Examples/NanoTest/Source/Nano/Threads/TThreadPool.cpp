@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTHREADPOOL(_name, _desc)								TEST_NANO(TThreadPool, _name, _desc)
+#define TEST_NTHREADPOOL(...)										TEST_NANO(TThreadPool, ##__VA_ARGS__)
 
 FIXTURE_NANO(TThreadPool)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TThreadPool)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTHREADPOOL("Default", "Default state")
+TEST_NTHREADPOOL("Default")
 {
 
 

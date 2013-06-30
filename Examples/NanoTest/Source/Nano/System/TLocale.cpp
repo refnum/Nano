@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NLOCALE(_name, _desc)									TEST_NANO(TLocale, _name, _desc)
+#define TEST_NLOCALE(...)											TEST_NANO(TLocale, ##__VA_ARGS__)
 
 FIXTURE_NANO(TLocale)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TLocale)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLOCALE("Default", "Default state")
+TEST_NLOCALE("Default")
 {	bool	valueBool;
 
 

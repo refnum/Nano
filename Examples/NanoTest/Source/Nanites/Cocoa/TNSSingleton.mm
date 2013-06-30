@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNSSINGLETON(_name, _desc)								TEST_NANO(TNSSingleton, _name, _desc)
+#define TEST_NNSSINGLETON(...)										TEST_NANO(TNSSingleton, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNSSingleton)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TNSSingleton)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNSSINGLETON("Default", "Default state")
+TEST_NNSSINGLETON("Default", "[cocoa]")
 {
 
 

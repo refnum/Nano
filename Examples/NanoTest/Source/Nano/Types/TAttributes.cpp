@@ -36,7 +36,7 @@ static const NBitfield kTestAttribute4								= (NBitfield) (1 << 31);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NATTRIBUTES(_name, _desc)								TEST_NANO(TAttributes, _name, _desc)
+#define TEST_NATTRIBUTES(...)										TEST_NANO(TAttributes, ##__VA_ARGS__)
 
 FIXTURE_NANO(TAttributes)
 {
@@ -50,7 +50,7 @@ FIXTURE_NANO(TAttributes)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NATTRIBUTES("Default", "Default state")
+TEST_NATTRIBUTES("Default")
 {
 
 
@@ -69,7 +69,7 @@ TEST_NATTRIBUTES("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NATTRIBUTES("Set", "Set attributes")
+TEST_NATTRIBUTES("Set")
 {
 
 
@@ -94,7 +94,7 @@ TEST_NATTRIBUTES("Set", "Set attributes")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NATTRIBUTES("Clear", "Clear attributes")
+TEST_NATTRIBUTES("Clear")
 {
 
 

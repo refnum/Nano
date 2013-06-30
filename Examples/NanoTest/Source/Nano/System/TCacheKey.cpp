@@ -43,7 +43,7 @@ static NHashCode kTestHash2											= 67890;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCACHEKEY(_name, _desc)								TEST_NANO(TCacheKey, _name, _desc)
+#define TEST_NCACHEKEY(...)											TEST_NANO(TCacheKey, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCacheKey)
 {
@@ -57,7 +57,7 @@ FIXTURE_NANO(TCacheKey)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Default", "Default state test")
+TEST_NCACHEKEY("Default")
 {
 
 
@@ -74,7 +74,7 @@ TEST_NCACHEKEY("Default", "Default state test")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Strings", "String cache keys")
+TEST_NCACHEKEY("Strings")
 {
 
 
@@ -94,7 +94,7 @@ TEST_NCACHEKEY("Strings", "String cache keys")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Data", "Data cache keys")
+TEST_NCACHEKEY("Data")
 {
 
 
@@ -114,7 +114,7 @@ TEST_NCACHEKEY("Data", "Data cache keys")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Pointers", "Pointer cache keys")
+TEST_NCACHEKEY("Pointers")
 {
 
 
@@ -134,7 +134,7 @@ TEST_NCACHEKEY("Pointers", "Pointer cache keys")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Indices", "NHashCode cache keys")
+TEST_NCACHEKEY("Indices")
 {
 
 
@@ -154,7 +154,7 @@ TEST_NCACHEKEY("Indices", "NHashCode cache keys")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEKEY("Set", "Set cache key")
+TEST_NCACHEKEY("Set")
 {
 
 

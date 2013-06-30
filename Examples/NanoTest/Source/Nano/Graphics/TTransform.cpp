@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTRANSFORM(_name, _desc)								TEST_NANO(TTransform, _name, _desc)
+#define TEST_NTRANSFORM(...)										TEST_NANO(TTransform, ##__VA_ARGS__)
 
 FIXTURE_NANO(TTransform)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TTransform)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTRANSFORM("Default", "Default state")
+TEST_NTRANSFORM("Default")
 {
 
 

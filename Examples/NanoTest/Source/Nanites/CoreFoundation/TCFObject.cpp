@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFOBJECT(_name, _desc)									TEST_NANO(TCFObject, _name, _desc)
+#define TEST_NCFOBJECT(...)											TEST_NANO(TCFObject, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCFObject)
 {
@@ -39,7 +39,7 @@ FIXTURE_NANO(TCFObject)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFOBJECT("Retain", "Retain/release")
+TEST_NCFOBJECT("Retain", "[cf]")
 {
 
 
@@ -64,7 +64,7 @@ TEST_NCFOBJECT("Retain", "Retain/release")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFOBJECT("NULL", "NULL release")
+TEST_NCFOBJECT("NULL", "[cf]")
 {
 
 
@@ -81,7 +81,7 @@ TEST_NCFOBJECT("NULL", "NULL release")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFOBJECT("Assignment", "Assignment")
+TEST_NCFOBJECT("Assignment", "[cf]")
 {
 
 
@@ -100,7 +100,7 @@ TEST_NCFOBJECT("Assignment", "Assignment")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFOBJECT("Copy", "Copy")
+TEST_NCFOBJECT("Copy", "[cf]")
 {
 
 

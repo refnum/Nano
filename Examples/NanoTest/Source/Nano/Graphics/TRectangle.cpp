@@ -40,7 +40,7 @@ static const NRectangle kTestRectangle3								= NRectangle(3.7f, 5.2f, 0.1f, 1.
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NRECTANGLE(_name, _desc)								TEST_NANO(TRectangle, _name, _desc)
+#define TEST_NRECTANGLE(...)										TEST_NANO(TRectangle, ##__VA_ARGS__)
 
 FIXTURE_NANO(TRectangle)
 {
@@ -54,7 +54,7 @@ FIXTURE_NANO(TRectangle)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NRECTANGLE("Size", "Sizes")
+TEST_NRECTANGLE("Size")
 {
 
 
@@ -71,7 +71,7 @@ TEST_NRECTANGLE("Size", "Sizes")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NRECTANGLE("Contents", "Contents")
+TEST_NRECTANGLE("Contents")
 {
 
 
@@ -99,7 +99,7 @@ TEST_NRECTANGLE("Contents", "Contents")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NRECTANGLE("Comparisons", "Comparisons")
+TEST_NRECTANGLE("Comparisons")
 {
 
 
@@ -121,7 +121,7 @@ TEST_NRECTANGLE("Comparisons", "Comparisons")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NRECTANGLE("Manipulation", "Manipulations")
+TEST_NRECTANGLE("Manipulation")
 {
 
 
@@ -147,7 +147,7 @@ TEST_NRECTANGLE("Manipulation", "Manipulations")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NRECTANGLE("Geometry", "Geometry")
+TEST_NRECTANGLE("Geometry")
 {
 
 

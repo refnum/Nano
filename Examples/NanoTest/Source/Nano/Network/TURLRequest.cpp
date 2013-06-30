@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NURLREQUEST(_name, _desc)								TEST_NANO(TURLRequest, _name, _desc)
+#define TEST_NURLREQUEST(...)										TEST_NANO(TURLRequest, ##__VA_ARGS__)
 
 FIXTURE_NANO(TURLRequest)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TURLRequest)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NURLREQUEST("Default", "Default state")
+TEST_NURLREQUEST("Default")
 {
 
 

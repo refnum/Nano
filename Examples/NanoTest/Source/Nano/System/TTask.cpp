@@ -51,7 +51,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTASK(_name, _desc)									TEST_NANO(TTask, _name, _desc)
+#define TEST_NTASK(...)												TEST_NANO(TTask, ##__VA_ARGS__)
 
 FIXTURE_NANO(TTask)
 {
@@ -71,7 +71,7 @@ FIXTURE_NANO(TTask)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTASK("Task", "Task test")
+TEST_NTASK("Task")
 {	NString		theInput, theOutput;
 	NStatus		theErr;
 	NIndex		n;

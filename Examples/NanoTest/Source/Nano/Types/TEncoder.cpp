@@ -192,7 +192,7 @@ NENCODABLE_DEFINE(TEncodable);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NENCODER(_name, _desc)									TEST_NANO(TEncoder, _name, _desc)
+#define TEST_NENCODER(...)											TEST_NANO(TEncoder, ##__VA_ARGS__)
 
 FIXTURE_NANO(TEncoder)
 {
@@ -207,7 +207,7 @@ FIXTURE_NANO(TEncoder)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NENCODER("Encoding", "Encoding")
+TEST_NENCODER("Encoding")
 {	NData			dataXML, dataBinary;
 	UInt32			adlerData;
 	NDataDigest		theDigest;
@@ -234,7 +234,7 @@ TEST_NENCODER("Encoding", "Encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NENCODER("Decoding", "Decoding")
+TEST_NENCODER("Decoding")
 {	NData		dataXML, dataBinary;
 	NVariant	theValue;
 

@@ -34,7 +34,7 @@ static const CFStringRef kTestCFString								= CFSTR("Hello World");
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFSTRING(_name, _desc)									TEST_NANO(TCFString, _name, _desc)
+#define TEST_NCFSTRING(...)											TEST_NANO(TCFString, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCFString)
 {
@@ -49,7 +49,7 @@ FIXTURE_NANO(TCFString)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFSTRING("Assign", "Assignment")
+TEST_NCFSTRING("Assign", "[cf]")
 {
 
 

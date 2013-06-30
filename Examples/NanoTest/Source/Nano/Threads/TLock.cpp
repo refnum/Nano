@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NLOCK(_name, _desc)									TEST_NANO(TLock, _name, _desc)
+#define TEST_NLOCK(...)												TEST_NANO(TLock, ##__VA_ARGS__)
 
 FIXTURE_NANO(TLock)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TLock)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLOCK("StLock", "Stack locker")
+TEST_NLOCK("StLock")
 {	NMutex	theLock;
 
 

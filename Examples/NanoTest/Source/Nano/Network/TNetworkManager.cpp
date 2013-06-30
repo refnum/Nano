@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKMANAGER(_name, _desc)							TEST_NANO(TNetworkManager, _name, _desc)
+#define TEST_NNETWORKMANAGER(...)									TEST_NANO(TNetworkManager, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNetworkManager)
 {
@@ -43,7 +43,7 @@ FIXTURE_NANO(TNetworkManager)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNETWORKMANAGER("Connection", "Connection test")
+TEST_NNETWORKMANAGER("Connection")
 {	NString				theResult;
 
 

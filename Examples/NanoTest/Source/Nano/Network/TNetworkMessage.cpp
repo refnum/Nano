@@ -23,7 +23,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKMESSAGE(_name, _desc)							TEST_NANO(TNetworkMessage, _name, _desc)
+#define TEST_NNETWORKMESSAGE(...)									TEST_NANO(TNetworkMessage, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNetworkMessage)
 {
@@ -36,7 +36,7 @@ FIXTURE_NANO(TNetworkMessage)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNETWORKMESSAGE("Default", "Default state")
+TEST_NNETWORKMESSAGE("Default")
 {
 
 

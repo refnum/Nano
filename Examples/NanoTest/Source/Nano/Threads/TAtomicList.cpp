@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NATOMICLIST(_name, _desc)								TEST_NANO(TAtomicList, _name, _desc)
+#define TEST_NATOMICLIST(...)										TEST_NANO(TAtomicList, ##__VA_ARGS__)
 
 FIXTURE_NANO(TAtomicList)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TAtomicList)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NATOMICLIST("Default", "Default state")
+TEST_NATOMICLIST("Default")
 {
 
 

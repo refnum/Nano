@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNUMBER(_name, _desc)									TEST_NANO(TNumber, _name, _desc)
+#define TEST_NNUMBER(...)											TEST_NANO(TNumber, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNumber)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TNumber)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNUMBER("Default", "Default state")
+TEST_NNUMBER("Default")
 {
 
 

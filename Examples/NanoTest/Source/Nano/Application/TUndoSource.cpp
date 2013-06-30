@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUNDOSOURCE(_name, _desc)								TEST_NANO(TUndoSource, _name, _desc)
+#define TEST_NUNDOSOURCE(...)										TEST_NANO(TUndoSource, ##__VA_ARGS__)
 
 FIXTURE_NANO(TUndoSource)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TUndoSource)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNDOSOURCE("Default", "Default state")
+TEST_NUNDOSOURCE("Default")
 {
 
 

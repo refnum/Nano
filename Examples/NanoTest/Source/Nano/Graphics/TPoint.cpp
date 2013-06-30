@@ -38,7 +38,7 @@ static const NPoint kTestPoint2_Offset								= NPoint(5.3f, 5.9f);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPOINT(_name, _desc)									TEST_NANO(TPoint, _name, _desc)
+#define TEST_NPOINT(...)											TEST_NANO(TPoint, ##__VA_ARGS__)
 
 FIXTURE_NANO(TPoint)
 {
@@ -52,7 +52,7 @@ FIXTURE_NANO(TPoint)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPOINT("Size", "Sizes")
+TEST_NPOINT("Size")
 {
 
 
@@ -69,7 +69,7 @@ TEST_NPOINT("Size", "Sizes")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPOINT("Values", "Values")
+TEST_NPOINT("Values")
 {
 
 
@@ -92,7 +92,7 @@ TEST_NPOINT("Values", "Values")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPOINT("Comparisons", "Comparisons")
+TEST_NPOINT("Comparisons")
 {
 
 
@@ -108,7 +108,7 @@ TEST_NPOINT("Comparisons", "Comparisons")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPOINT("Manipulations", "Manipulations")
+TEST_NPOINT("Manipulations")
 {
 
 

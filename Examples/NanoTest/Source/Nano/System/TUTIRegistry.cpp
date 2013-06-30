@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUTIREGISTRY(_name, _desc)								TEST_NANO(TUTIRegistry, _name, _desc)
+#define TEST_NUTIREGISTRY(...)										TEST_NANO(TUTIRegistry, ##__VA_ARGS__)
 
 FIXTURE_NANO(TUTIRegistry)
 {
@@ -43,7 +43,7 @@ FIXTURE_NANO(TUTIRegistry)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUTIREGISTRY("Default", "Default state")
+TEST_NUTIREGISTRY("Default")
 {
 
 

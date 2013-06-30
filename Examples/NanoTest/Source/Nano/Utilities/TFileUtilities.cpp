@@ -36,7 +36,7 @@ static const UInt8   kTestTextUTF16LE[]								= { 0xFF, 0xFE, 0x74, 0x00, 0x65,
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILEUTILITIES(_name, _desc)									TEST_NANO(TFileUtilities, _name, _desc)
+#define TEST_NFILEUTILITIES(...)									TEST_NANO(TFileUtilities, ##__VA_ARGS__)
 
 FIXTURE_NANO(TFileUtilities)
 {
@@ -50,7 +50,7 @@ FIXTURE_NANO(TFileUtilities)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEUTILITIES("Directories", "Get directories")
+TEST_NFILEUTILITIES("Directories")
 {
 
 
@@ -75,7 +75,7 @@ TEST_NFILEUTILITIES("Directories", "Get directories")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEUTILITIES("Size", "Directory size")
+TEST_NFILEUTILITIES("DirectorySize")
 {	UInt64		theSize;
 
 
@@ -93,7 +93,7 @@ TEST_NFILEUTILITIES("Size", "Directory size")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEUTILITIES("Temporary", "Temporary file")
+TEST_NFILEUTILITIES("TemporaryFile")
 {
 
 
@@ -109,7 +109,7 @@ TEST_NFILEUTILITIES("Temporary", "Temporary file")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEUTILITIES("Data", "Reading and writing data")
+TEST_NFILEUTILITIES("ReadWriteData")
 {	NData		theData1, theData2;
 	NStatus		theErr;
 
@@ -132,7 +132,7 @@ TEST_NFILEUTILITIES("Data", "Reading and writing data")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEUTILITIES("Text", "Reading and writing text")
+TEST_NFILEUTILITIES("ReadWriteText")
 {	NData		theData1, theData2;
 	NString		theText;
 	NStatus		theErr;
@@ -169,7 +169,7 @@ TEST_NFILEUTILITIES("Text", "Reading and writing text")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEUTILITIES("Encoding", "Text file encoding detection")
+TEST_NFILEUTILITIES("TextEncoding")
 {	NString		theText;
 	NStatus		theErr;
 

@@ -251,7 +251,7 @@ static const char *kTestDataB64									=	"iVBORw0KGgoAAAANSUhEUgAAAD4AAABACAMAA
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATAENCODER(_name, _desc)								TEST_NANO(TDataEncoder, _name, _desc)
+#define TEST_NDATAENCODER(...)										TEST_NANO(TDataEncoder, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDataEncoder)
 {
@@ -275,7 +275,7 @@ FIXTURE_NANO(TDataEncoder)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATAENCODER("Hex", "Hex encoding")
+TEST_NDATAENCODER("Hex")
 {
 
 
@@ -295,7 +295,7 @@ TEST_NDATAENCODER("Hex", "Hex encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATAENCODER("B64", "Base64 encoding")
+TEST_NDATAENCODER("B64")
 {
 
 

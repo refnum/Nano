@@ -40,7 +40,7 @@ static const char *kTestArgList[]									= {	"app",
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCOMMANDLINE(_name, _desc)								TEST_NANO(TCommandLine, _name, _desc)
+#define TEST_NCOMMANDLINE(...)										TEST_NANO(TCommandLine, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCommandLine)
 {
@@ -59,7 +59,7 @@ FIXTURE_NANO(TCommandLine)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOMMANDLINE("Presence", "Check for arguments")
+TEST_NCOMMANDLINE("Presence")
 {
 
 
@@ -79,7 +79,7 @@ TEST_NCOMMANDLINE("Presence", "Check for arguments")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOMMANDLINE("Flags", "Test flag arguments")
+TEST_NCOMMANDLINE("Flags")
 {
 
 
@@ -98,7 +98,7 @@ TEST_NCOMMANDLINE("Flags", "Test flag arguments")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOMMANDLINE("Manipulation", "Manipulate the command line")
+TEST_NCOMMANDLINE("Manipulation")
 {	NStringList		theArgs;
 
 
@@ -135,7 +135,7 @@ TEST_NCOMMANDLINE("Manipulation", "Manipulate the command line")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOMMANDLINE("Application", "Verify the application name")
+TEST_NCOMMANDLINE("Application")
 {	NString			theValue;
 	NStringList		theArgs;
 

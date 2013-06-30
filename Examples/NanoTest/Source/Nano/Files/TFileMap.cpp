@@ -35,7 +35,7 @@ static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', '
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILEMAP(_name, _desc)									TEST_NANO(TFileMap, _name, _desc)
+#define TEST_NFILEMAP(...)											TEST_NANO(TFileMap, ##__VA_ARGS__)
 
 FIXTURE_NANO(TFileMap)
 {
@@ -67,7 +67,7 @@ FIXTURE_NANO(TFileMap)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEMAP("Default", "Default state")
+TEST_NFILEMAP("Default")
 {
 
 
@@ -82,7 +82,7 @@ TEST_NFILEMAP("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEMAP("Open", "Open and close")
+TEST_NFILEMAP("Open")
 {
 
 
@@ -103,7 +103,7 @@ TEST_NFILEMAP("Open", "Open and close")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILEMAP("Map", "Map and unmap")
+TEST_NFILEMAP("Map")
 {	void	*thePtr;
 
 

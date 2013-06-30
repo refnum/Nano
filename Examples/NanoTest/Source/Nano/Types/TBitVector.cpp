@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBITVECTOR(_name, _desc)								TEST_NANO(TBitVector, _name, _desc)
+#define TEST_NBITVECTOR(...)										TEST_NANO(TBitVector, ##__VA_ARGS__)
 
 FIXTURE_NANO(TBitVector)
 {
@@ -45,7 +45,7 @@ FIXTURE_NANO(TBitVector)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBITVECTOR("Manipulate", "Manipulate individual bits")
+TEST_NBITVECTOR("Manipulate")
 {
 
 
@@ -81,7 +81,7 @@ TEST_NBITVECTOR("Manipulate", "Manipulate individual bits")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBITVECTOR("Set", "Set all bits")
+TEST_NBITVECTOR("Set")
 {
 
 

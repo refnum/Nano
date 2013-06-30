@@ -48,7 +48,7 @@ static const NString kValueString2									= "Second String";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPREFERENCES(_name, _desc)								TEST_NANO(TPreferences, _name, _desc)
+#define TEST_NPREFERENCES(...)										TEST_NANO(TPreferences, ##__VA_ARGS__)
 
 FIXTURE_NANO(TPreferences)
 {
@@ -67,7 +67,7 @@ FIXTURE_NANO(TPreferences)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPREFERENCES("Empty", "Empty preferences")
+TEST_NPREFERENCES("Empty")
 {
 
 
@@ -84,7 +84,7 @@ TEST_NPREFERENCES("Empty", "Empty preferences")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPREFERENCES("Defaults", "Default preferences")
+TEST_NPREFERENCES("Defaults")
 {	NDictionary		theDefaults;
 
 
@@ -111,7 +111,7 @@ TEST_NPREFERENCES("Defaults", "Default preferences")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPREFERENCES("Modify", "Modify the preferences")
+TEST_NPREFERENCES("Modify")
 {
 
 

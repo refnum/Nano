@@ -40,7 +40,7 @@ static const NData kTestData2(sizeof(kBlock2), kBlock2);
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATA(_name, _desc)									TEST_NANO(TData, _name, _desc)
+#define TEST_NDATA(...)												TEST_NANO(TData, ##__VA_ARGS__)
 
 FIXTURE_NANO(TData)
 {
@@ -54,7 +54,7 @@ FIXTURE_NANO(TData)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Default", "Default state")
+TEST_NDATA("Default")
 {	NData	emptyData;
 
 
@@ -78,7 +78,7 @@ TEST_NDATA("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("CreateCopy", "Create with copy")
+TEST_NDATA("CreateCopy")
 {	UInt8	tmpBlock[NN_ARRAY_SIZE(kBlock1)];
 
 
@@ -99,7 +99,7 @@ TEST_NDATA("CreateCopy", "Create with copy")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("CreateNoCopy", "Create without copy")
+TEST_NDATA("CreateNoCopy")
 {	UInt8	tmpBlock[NN_ARRAY_SIZE(kBlock1)];
 
 
@@ -120,7 +120,7 @@ TEST_NDATA("CreateNoCopy", "Create without copy")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Clear", "Clear the value")
+TEST_NDATA("Clear")
 {
 
 
@@ -140,7 +140,7 @@ TEST_NDATA("Clear", "Clear the value")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("SizeDown", "Reduce the size")
+TEST_NDATA("SizeDown")
 {
 
 

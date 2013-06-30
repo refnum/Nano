@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUNDOMANAGER(_name, _desc)								TEST_NANO(TUndoManager, _name, _desc)
+#define TEST_NUNDOMANAGER(...)										TEST_NANO(TUndoManager, ##__VA_ARGS__)
 
 FIXTURE_NANO(TUndoManager)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TUndoManager)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNDOMANAGER("Default", "Default state")
+TEST_NUNDOMANAGER("Default")
 {
 
 

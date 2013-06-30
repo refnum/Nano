@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NXMLNODE(_name, _desc)									TEST_NANO(TXMLNode, _name, _desc)
+#define TEST_NXMLNODE(...)											TEST_NANO(TXMLNode, ##__VA_ARGS__)
 
 FIXTURE_NANO(TXMLNode)
 {
@@ -48,7 +48,7 @@ FIXTURE_NANO(TXMLNode)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NXMLNODE("Default", "Default state")
+TEST_NXMLNODE("Default")
 {
 
 

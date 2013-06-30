@@ -26,7 +26,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NREADWRITELOCK(_name, _desc)							TEST_NANO(TReadWriteLock, _name, _desc)
+#define TEST_NREADWRITELOCK(...)									TEST_NANO(TReadWriteLock, ##__VA_ARGS__)
 
 FIXTURE_NANO(TReadWriteLock)
 {
@@ -40,7 +40,7 @@ FIXTURE_NANO(TReadWriteLock)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NREADWRITELOCK("Basic", "Basic locking")
+TEST_NREADWRITELOCK("Basic")
 {
 
 
@@ -55,7 +55,7 @@ TEST_NREADWRITELOCK("Basic", "Basic locking")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NREADWRITELOCK("Readers", "Readers and Writers")
+TEST_NREADWRITELOCK("Readers")
 {
 
 

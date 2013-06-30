@@ -25,7 +25,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCOLOR(_name, _desc)									TEST_NANO(TColor, _name, _desc)
+#define TEST_NCOLOR(...)											TEST_NANO(TColor, ##__VA_ARGS__)
 
 FIXTURE_NANO(TColor)
 {
@@ -39,7 +39,7 @@ FIXTURE_NANO(TColor)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOLOR("Opacity", "Opacity")
+TEST_NCOLOR("Opacity")
 {
 
 
@@ -58,7 +58,7 @@ TEST_NCOLOR("Opacity", "Opacity")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOLOR("Components", "Components")
+TEST_NCOLOR("Components")
 {
 
 
@@ -83,7 +83,7 @@ TEST_NCOLOR("Components", "Components")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOLOR("Getters", "Getters")
+TEST_NCOLOR("Getters")
 {	Float32		r, g, b, a;
 
 

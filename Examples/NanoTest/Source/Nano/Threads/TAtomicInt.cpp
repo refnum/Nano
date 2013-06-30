@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NATOMICINT(_name, _desc)								TEST_NANO(TAtomicInt, _name, _desc)
+#define TEST_NATOMICINT(...)										TEST_NANO(TAtomicInt, ##__VA_ARGS__)
 
 FIXTURE_NANO(TAtomicInt)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TAtomicInt)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NATOMICINT("Arithmetic", "Arithmetic operations")
+TEST_NATOMICINT("Arithmetic")
 {
 
 

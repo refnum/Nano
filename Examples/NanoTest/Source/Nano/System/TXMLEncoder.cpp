@@ -60,7 +60,7 @@ static const NString kTestXML										=	"<?xml version=\"1.0\" encoding=\"UTF-8
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NXMLENCODER(_name, _desc)								TEST_NANO(TXMLEncoder, _name, _desc)
+#define TEST_NXMLENCODER(...)										TEST_NANO(TXMLEncoder, ##__VA_ARGS__)
 
 FIXTURE_NANO(TXMLEncoder)
 {
@@ -85,7 +85,7 @@ FIXTURE_NANO(TXMLEncoder)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NXMLENCODER("Encoding", "XML Encoding")
+TEST_NXMLENCODER("Encoding")
 {	NXMLNode	*nodeChild1, *nodeChild2, *nodeChild3;
 	NXMLNode	*nodeText, *nodeComment, *nodeCData;
 	NXMLNode	*nodeDocType, *nodeContents;
@@ -131,7 +131,7 @@ TEST_NXMLENCODER("Encoding", "XML Encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NXMLENCODER("Decoding", "XML Decoding")
+TEST_NXMLENCODER("Decoding")
 {	NXMLNode		*nodeChild1, *nodeChild2, *nodeChild3;
 	NXMLNode		*nodeText, *nodeComment, *nodeCData;
 	NXMLNodeList	theChildren;
@@ -214,7 +214,7 @@ TEST_NXMLENCODER("Decoding", "XML Decoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NXMLENCODER("Recoding", "XML decoding then encoding")
+TEST_NXMLENCODER("Recoding")
 {	NString		theText;
 
 

@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSEMPAHORE(_name, _desc)								TEST_NANO(TSemaphore, _name, _desc)
+#define TEST_NSEMPAHORE(...)										TEST_NANO(TSemaphore, ##__VA_ARGS__)
 
 FIXTURE_NANO(TSemaphore)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TSemaphore)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSEMPAHORE("Default", "Default state")
+TEST_NSEMPAHORE("Default")
 {
 
 

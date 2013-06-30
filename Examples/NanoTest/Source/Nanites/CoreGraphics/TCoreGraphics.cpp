@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCOREGRAPHICS(_name, _desc)							TEST_NANO(TCoreGraphics, _name, _desc)
+#define TEST_NCOREGRAPHICS(...)										TEST_NANO(TCoreGraphics, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCoreGraphics)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCoreGraphics)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCOREGRAPHICS("Default", "Default state")
+TEST_NCOREGRAPHICS("Default", "[cg]")
 {
 
 

@@ -88,7 +88,7 @@ static const NString kTestTmpPathFile								= kTestTmpPathChild  + NN_DIR + "TF
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFILE(_name, _desc)									TEST_NANO(TFile, _name, _desc)
+#define TEST_NFILE(...)												TEST_NANO(TFile, ##__VA_ARGS__)
 
 FIXTURE_NANO(TFile)
 {
@@ -136,7 +136,7 @@ FIXTURE_NANO(TFile)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Default", "Default state")
+TEST_NFILE("Default")
 {	NFile	newFile;
 
 
@@ -174,7 +174,7 @@ TEST_NFILE("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Comparisons", "Comparisons")
+TEST_NFILE("Comparisons")
 {	NFile		newFile;
 
 
@@ -193,7 +193,7 @@ TEST_NFILE("Comparisons", "Comparisons")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Links", "Links")
+TEST_NFILE("Links")
 {
 
 
@@ -247,7 +247,7 @@ TEST_NFILE("Links", "Links")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Get components", "Get components")
+TEST_NFILE("GetComponents")
 {	NString		thePath, theName, nameDisplay, nameNoExt, theExtension;
 
 
@@ -274,7 +274,7 @@ TEST_NFILE("Get components", "Get components")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Set components", "Set components")
+TEST_NFILE("SetComponents")
 {	NFile	newFile;
 
 
@@ -302,7 +302,7 @@ TEST_NFILE("Set components", "Set components")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Size", "File size")
+TEST_NFILE("Size")
 {	UInt64		theSize;
 
 
@@ -326,7 +326,7 @@ TEST_NFILE("Size", "File size")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Timestamps", "File timestamps")
+TEST_NFILE("Times")
 {
 
 
@@ -349,7 +349,7 @@ TEST_NFILE("Timestamps", "File timestamps")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Open and Close", "File opening/closing")
+TEST_NFILE("OpenClose")
 {
 
 
@@ -372,7 +372,7 @@ TEST_NFILE("Open and Close", "File opening/closing")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Reading/Writing", "File reading/writing")
+TEST_NFILE("ReadWrite")
 {	UInt8		tmpBuffer[kBufferSize];
 	UInt64		n, theSize;
 
@@ -427,13 +427,15 @@ TEST_NFILE("Reading/Writing", "File reading/writing")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Append", "Opening a file with write permission should append, not overwrite.")
+TEST_NFILE("Append")
 {	UInt8		tmpBuffer[kBufferSize];
 	UInt64		n, theSize;
 
 
 
 	// Perform the test
+	//
+	// Opening a file with write permission should append, not overwrite.
 	theErr  = tmpFile.Open(kNPermissionWrite, true);
 	REQUIRE_NOERR(theErr);
 
@@ -470,7 +472,7 @@ TEST_NFILE("Append", "Opening a file with write permission should append, not ov
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Create and Delete", "Creating and deleting a file")
+TEST_NFILE("CreateDelete")
 {
 
 
@@ -505,7 +507,7 @@ TEST_NFILE("Create and Delete", "Creating and deleting a file")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Open and Delete", "Deleting an open file")
+TEST_NFILE("OpenDelete")
 {
 
 
@@ -530,7 +532,7 @@ TEST_NFILE("Open and Delete", "Deleting an open file")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("File Parents", "Creating a file with parents")
+TEST_NFILE("FileParents")
 {
 
 
@@ -555,7 +557,7 @@ TEST_NFILE("File Parents", "Creating a file with parents")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Dir Parents", "Creating a directory with parents")
+TEST_NFILE("DirParents")
 {
 
 
@@ -580,7 +582,7 @@ TEST_NFILE("Dir Parents", "Creating a directory with parents")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Delete Contents", "Delete the contents of a directory")
+TEST_NFILE("DeleteContents")
 {	NFileIterator	fileIter;
 
 
@@ -607,7 +609,7 @@ TEST_NFILE("Delete Contents", "Delete the contents of a directory")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Relatives", "Parent/child relationships")
+TEST_NFILE("Relatives")
 {
 
 
@@ -626,7 +628,7 @@ TEST_NFILE("Relatives", "Parent/child relationships")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Exchange", "Exchange files")
+TEST_NFILE("Exchange")
 {
 
 
@@ -652,7 +654,7 @@ TEST_NFILE("Exchange", "Exchange files")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFILE("Move", "Move files")
+TEST_NFILE("Move")
 {
 
 

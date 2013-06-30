@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPROPERTYSTORE(_name, _desc)							TEST_NANO(TPropertyStore, _name, _desc)
+#define TEST_NPROPERTYSTORE(...)									TEST_NANO(TPropertyStore, ##__VA_ARGS__)
 
 FIXTURE_NANO(TPropertyStore)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TPropertyStore)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPROPERTYSTORE("Default", "Default state")
+TEST_NPROPERTYSTORE("Default")
 {
 
 

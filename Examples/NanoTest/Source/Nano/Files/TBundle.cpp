@@ -39,7 +39,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBUNDLE(_name, _desc)									TEST_NANO(TBundle, _name, _desc)
+#define TEST_NBUNDLE(...)											TEST_NANO(TBundle, ##__VA_ARGS__)
 
 FIXTURE_NANO(TBundle)
 {
@@ -60,7 +60,7 @@ FIXTURE_NANO(TBundle)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBUNDLE("Default", "Default state")
+TEST_NBUNDLE("Default")
 {	NString		theString;
 
 
@@ -80,7 +80,7 @@ TEST_NBUNDLE("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBUNDLE("Files", "File access")
+TEST_NBUNDLE("Files")
 {	NFile		theFile;
 
 
@@ -105,7 +105,7 @@ TEST_NBUNDLE("Files", "File access")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBUNDLE("Info.plist", "Info.plist access")
+TEST_NBUNDLE("Info.plist")
 {	NDictionary		theInfo;
 
 

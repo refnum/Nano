@@ -397,7 +397,7 @@ void TSocketClient::SocketDidClose(NSocket * /*theSocket*/, NStatus theErr)
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSOCKET(_name, _desc)									TEST_NANO(TSocket, _name, _desc)
+#define TEST_NSOCKET(...)											TEST_NANO(TSocket, ##__VA_ARGS__)
 
 FIXTURE_NANO(TSocket)
 {
@@ -429,7 +429,7 @@ FIXTURE_NANO(TSocket)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSOCKET("Client", "Client test")
+TEST_NSOCKET("Client")
 {	NData		theData;
 	NString		theText;
 
@@ -452,7 +452,7 @@ TEST_NSOCKET("Client", "Client test")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSOCKET("Server", "Server test")
+TEST_NSOCKET("Server")
 {
 
 

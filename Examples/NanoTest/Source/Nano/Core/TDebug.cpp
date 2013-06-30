@@ -35,7 +35,7 @@ static const NString kTestMessage									= "Hello World";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDEBUG(_name, _desc)									TEST_NANO(TDebug, _name, _desc)
+#define TEST_NDEBUG(...)											TEST_NANO(TDebug, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDebug)
 {
@@ -54,7 +54,7 @@ FIXTURE_NANO(TDebug)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDEBUG("Paths", "Path logging")
+TEST_NDEBUG("Paths")
 {
 
 
@@ -75,7 +75,7 @@ TEST_NDEBUG("Paths", "Path logging")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDEBUG("Output", "Log output")
+TEST_NDEBUG("Output")
 {	NString	theValue;
 
 

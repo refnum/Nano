@@ -120,7 +120,7 @@ static const NString kPropertyListBinary							=	"62706C6973743030D4010203040506
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NPROPERTYLIST(_name, _desc)							TEST_NANO(TPropertyList, _name, _desc)
+#define TEST_NPROPERTYLIST(...)										TEST_NANO(TPropertyList, ##__VA_ARGS__)
 
 FIXTURE_NANO(TPropertyList)
 {
@@ -202,7 +202,7 @@ static void DumpBinary(void)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPROPERTYLIST("XMLEncode", "XML encoding")
+TEST_NPROPERTYLIST("XMLEncode")
 {
 
 
@@ -227,7 +227,7 @@ TEST_NPROPERTYLIST("XMLEncode", "XML encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPROPERTYLIST("XMLDecode", "XML decoding")
+TEST_NPROPERTYLIST("XMLDecode")
 {
 
 
@@ -286,7 +286,7 @@ TEST_NPROPERTYLIST("XMLDecode", "XML decoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPROPERTYLIST("BinaryEncode", "Binary encoding")
+TEST_NPROPERTYLIST("BinaryEncode")
 {
 
 
@@ -306,7 +306,7 @@ TEST_NPROPERTYLIST("BinaryEncode", "Binary encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NPROPERTYLIST("BinaryDecode", "Binary decoding")
+TEST_NPROPERTYLIST("BinaryDecode")
 {	NDataEncoder	theEncoder;
 
 

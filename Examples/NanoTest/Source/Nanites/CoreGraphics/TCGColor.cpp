@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGCOLOR(_name, _desc)									TEST_NANO(TGColor, _name, _desc)
+#define TEST_NCGCOLOR(...)											TEST_NANO(TGColor, ##__VA_ARGS__)
 
 FIXTURE_NANO(TGColor)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TGColor)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCGCOLOR("Default", "Default state")
+TEST_NCGCOLOR("Default", "[cg]")
 {
 
 

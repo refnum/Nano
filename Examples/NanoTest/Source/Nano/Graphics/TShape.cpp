@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSHAPE(_name, _desc)									TEST_NANO(TShape, _name, _desc)
+#define TEST_NSHAPE(...)											TEST_NANO(TShape, ##__VA_ARGS__)
 
 FIXTURE_NANO(TShape)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TShape)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSHAPE("Default", "Default state")
+TEST_NSHAPE("Default")
 {
 
 

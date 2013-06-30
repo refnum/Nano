@@ -26,7 +26,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMUTEX(_name, _desc)									TEST_NANO(TMutex, _name, _desc)
+#define TEST_NMUTEX(...)											TEST_NANO(TMutex, ##__VA_ARGS__)
 
 FIXTURE_NANO(TMutex)
 {
@@ -40,7 +40,7 @@ FIXTURE_NANO(TMutex)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMUTEX("Basic", "Basic locking")
+TEST_NMUTEX("Basic")
 {
 
 
@@ -55,7 +55,7 @@ TEST_NMUTEX("Basic", "Basic locking")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMUTEX("Recursion", "Recursive locking")
+TEST_NMUTEX("Recursion")
 {
 
 

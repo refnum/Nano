@@ -68,7 +68,7 @@ static const NString kTestJSON										=	"{\n"
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NJSONENCODER(_name, _desc)								TEST_NANO(TJSONEncoder, _name, _desc)
+#define TEST_NJSONENCODER(...)										TEST_NANO(TJSONEncoder, ##__VA_ARGS__)
 
 FIXTURE_NANO(TJSONEncoder)
 {
@@ -86,7 +86,7 @@ FIXTURE_NANO(TJSONEncoder)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NJSONENCODER("Encoding", "JSON encoding")
+TEST_NJSONENCODER("Encoding")
 {
 
 
@@ -121,7 +121,7 @@ TEST_NJSONENCODER("Encoding", "JSON encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NJSONENCODER("Decoding", "JSON decoding")
+TEST_NJSONENCODER("Decoding")
 {
 
 

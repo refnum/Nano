@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGIMAGE(_name, _desc)									TEST_NANO(TCGImage, _name, _desc)
+#define TEST_NCGIMAGE(...)											TEST_NANO(TCGImage, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCGImage)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCGImage)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCGIMAGE("Default", "Default state")
+TEST_NCGIMAGE("Default", "[cg]")
 {
 
 

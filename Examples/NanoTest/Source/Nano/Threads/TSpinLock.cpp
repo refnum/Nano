@@ -26,7 +26,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSPINLOCK(_name, _desc)								TEST_NANO(TSpinLock, _name, _desc)
+#define TEST_NSPINLOCK(...)											TEST_NANO(TSpinLock, ##__VA_ARGS__)
 
 FIXTURE_NANO(TSpinLock)
 {
@@ -40,7 +40,7 @@ FIXTURE_NANO(TSpinLock)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSPINLOCK("Basic", "Basic locking")
+TEST_NSPINLOCK("Basic")
 {
 
 

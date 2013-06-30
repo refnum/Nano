@@ -36,7 +36,7 @@ static const NGregorianDate kTestDate4								= { 2010, 6, 1,  0,  7,  5.12345, 
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATEFORMATTER(_name, _desc)							TEST_NANO(TDateFormatter, _name, _desc)
+#define TEST_NDATEFORMATTER(...)									TEST_NANO(TDateFormatter, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDateFormatter)
 {
@@ -51,7 +51,7 @@ FIXTURE_NANO(TDateFormatter)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Quotes", "Quotes")
+TEST_NDATEFORMATTER("Quotes")
 {
 
 
@@ -73,7 +73,7 @@ TEST_NDATEFORMATTER("Quotes", "Quotes")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Era", "Era")
+TEST_NDATEFORMATTER("Era")
 {
 
 
@@ -121,7 +121,7 @@ TEST_NDATEFORMATTER("Era", "Era")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Year", "Year")
+TEST_NDATEFORMATTER("Year")
 {
 
 
@@ -156,7 +156,7 @@ TEST_NDATEFORMATTER("Year", "Year")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Quarter", "Quarter")
+TEST_NDATEFORMATTER("Quarter")
 {
 
 
@@ -194,7 +194,7 @@ TEST_NDATEFORMATTER("Quarter", "Quarter")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Month", "Month")
+TEST_NDATEFORMATTER("Month")
 {
 
 
@@ -238,7 +238,7 @@ TEST_NDATEFORMATTER("Month", "Month")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Week", "Week")
+TEST_NDATEFORMATTER("Week")
 {
 
 
@@ -257,7 +257,7 @@ TEST_NDATEFORMATTER("Week", "Week")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Day", "Day")
+TEST_NDATEFORMATTER("Day")
 {
 
 
@@ -284,7 +284,7 @@ TEST_NDATEFORMATTER("Day", "Day")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Week day", "Week day")
+TEST_NDATEFORMATTER("WeekDay")
 {
 
 
@@ -344,7 +344,7 @@ TEST_NDATEFORMATTER("Week day", "Week day")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Period", "Period")
+TEST_NDATEFORMATTER("Period")
 {
 
 
@@ -363,7 +363,7 @@ TEST_NDATEFORMATTER("Period", "Period")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Hour", "Hour")
+TEST_NDATEFORMATTER("Hour")
 {
 
 
@@ -451,7 +451,7 @@ TEST_NDATEFORMATTER("Hour", "Hour")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Minute", "Minute")
+TEST_NDATEFORMATTER("Minute")
 {
 
 
@@ -476,7 +476,7 @@ TEST_NDATEFORMATTER("Minute", "Minute")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATEFORMATTER("Second", "Second")
+TEST_NDATEFORMATTER("Second")
 {
 
 

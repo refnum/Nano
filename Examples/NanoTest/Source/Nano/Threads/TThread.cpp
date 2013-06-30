@@ -33,7 +33,7 @@ static void * const kValueLocal										= (void *) 0x12345678;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTHREAD(_name, _desc)									TEST_NANO(TThread, _name, _desc)
+#define TEST_NTHREAD(...)											TEST_NANO(TThread, ##__VA_ARGS__)
 
 FIXTURE_NANO(TThread)
 {
@@ -46,7 +46,7 @@ FIXTURE_NANO(TThread)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTHREAD("ID", "Thread IDs")
+TEST_NTHREAD("ID")
 {	NThreadID			theID;
 
 
@@ -64,7 +64,7 @@ TEST_NTHREAD("ID", "Thread IDs")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTHREAD("TLS", "Thread-local storage")
+TEST_NTHREAD("TLS")
 {	void				*theValue;
 	NThreadLocalRef		localRef;
 

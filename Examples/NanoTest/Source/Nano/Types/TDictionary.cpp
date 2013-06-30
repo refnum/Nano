@@ -35,7 +35,7 @@ static const SInt64 kTestSInt64										= -4000;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDICTIONARY(_name, _desc)								TEST_NANO(TDictionary, _name, _desc)
+#define TEST_NDICTIONARY(...)										TEST_NANO(TDictionary, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDictionary)
 {
@@ -49,7 +49,7 @@ FIXTURE_NANO(TDictionary)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDICTIONARY("Set", "Set value")
+TEST_NDICTIONARY("Set")
 {
 
 
@@ -69,7 +69,7 @@ TEST_NDICTIONARY("Set", "Set value")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDICTIONARY("Join", "Join dictionaries")
+TEST_NDICTIONARY("Join")
 {
 
 
@@ -95,7 +95,7 @@ TEST_NDICTIONARY("Join", "Join dictionaries")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDICTIONARY("Remove", "Remove value")
+TEST_NDICTIONARY("Remove")
 {
 
 

@@ -56,7 +56,7 @@ static const NString kResultFormat32Value64							= "64-bit value with 32-bit le
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTRINGFORMATTER(_name, _desc)							TEST_NANO(TStringFormatter, _name, _desc)
+#define TEST_NSTRINGFORMATTER(...)									TEST_NANO(TStringFormatter, ##__VA_ARGS__)
 
 FIXTURE_NANO(TStringFormatter)
 {
@@ -71,7 +71,7 @@ FIXTURE_NANO(TStringFormatter)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Primitives", "Primitives")
+TEST_NSTRINGFORMATTER("Primitives")
 {
 
 
@@ -140,7 +140,7 @@ TEST_NSTRINGFORMATTER("Primitives", "Primitives")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Position", "Positional arguments")
+TEST_NSTRINGFORMATTER("Position")
 {
 
 
@@ -156,7 +156,7 @@ TEST_NSTRINGFORMATTER("Position", "Positional arguments")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Width", "Width specifier")
+TEST_NSTRINGFORMATTER("Width")
 {	SInt32		valueInt;
 
 
@@ -180,7 +180,7 @@ TEST_NSTRINGFORMATTER("Width", "Width specifier")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Precision", "Precision specifier")
+TEST_NSTRINGFORMATTER("Precision")
 {	SInt32		valueInt;
 
 
@@ -208,7 +208,7 @@ TEST_NSTRINGFORMATTER("Precision", "Precision specifier")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Counts", "Counts")
+TEST_NSTRINGFORMATTER("Counts")
 {
 
 
@@ -230,7 +230,7 @@ TEST_NSTRINGFORMATTER("Counts", "Counts")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Warnings", "Warnings")
+TEST_NSTRINGFORMATTER("Warnings")
 {	NString		theAssert;
 
 
@@ -266,7 +266,7 @@ TEST_NSTRINGFORMATTER("Warnings", "Warnings")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGFORMATTER("Special", "Special cases")
+TEST_NSTRINGFORMATTER("Special")
 {
 
 

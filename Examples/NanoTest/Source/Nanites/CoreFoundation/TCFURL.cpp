@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFURL(_name, _desc)									TEST_NANO(TCFURL, _name, _desc)
+#define TEST_NCFURL(...)											TEST_NANO(TCFURL, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCFURL)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCFURL)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFURL("Default", "Default state")
+TEST_NCFURL("Default", "[cf]")
 {
 
 

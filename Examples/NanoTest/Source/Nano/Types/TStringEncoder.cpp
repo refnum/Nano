@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTRINGENCODER(_name, _desc)							TEST_NANO(TStringEncoder, _name, _desc)
+#define TEST_NSTRINGENCODER(...)									TEST_NANO(TStringEncoder, ##__VA_ARGS__)
 
 FIXTURE_NANO(TStringEncoder)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TStringEncoder)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRINGENCODER("Terminators", "Terminators")
+TEST_NSTRINGENCODER("Terminators")
 {
 
 

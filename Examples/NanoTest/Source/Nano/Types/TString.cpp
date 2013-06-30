@@ -46,7 +46,7 @@ static const UInt8   kTestDiacritics_UTF8[]							= { 0x54, 0xC3, 0xA9, 0x73, 0x
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSTRING(_name, _desc)									TEST_NANO(TString, _name, _desc)
+#define TEST_NSTRING(...)											TEST_NANO(TString, ##__VA_ARGS__)
 
 FIXTURE_NANO(TString)
 {
@@ -63,7 +63,7 @@ FIXTURE_NANO(TString)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Default", "Default state")
+TEST_NSTRING("Default")
 {
 
 
@@ -79,7 +79,7 @@ TEST_NSTRING("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Construction", "Construction")
+TEST_NSTRING("Construction")
 {
 
 
@@ -100,7 +100,7 @@ TEST_NSTRING("Construction", "Construction")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Find", "Find")
+TEST_NSTRING("Find")
 {	NRangeList		theRanges;
 	NRange			theRange;
 
@@ -162,7 +162,7 @@ TEST_NSTRING("Find", "Find")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Replace", "Replace")
+TEST_NSTRING("Replace")
 {	NIndex		theIndex;
 	bool		theFlag;
 
@@ -252,7 +252,7 @@ TEST_NSTRING("Replace", "Replace")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Comparisons", "Comparisons")
+TEST_NSTRING("Comparisons")
 {
 
 
@@ -293,7 +293,7 @@ TEST_NSTRING("Comparisons", "Comparisons")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Hashing", "Hashing")
+TEST_NSTRING("Hashing")
 {
 
 
@@ -312,7 +312,7 @@ TEST_NSTRING("Hashing", "Hashing")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Encoding", "Encoding")
+TEST_NSTRING("Encoding")
 {
 
 
@@ -328,7 +328,7 @@ TEST_NSTRING("Encoding", "Encoding")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Transforms", "Transforms")
+TEST_NSTRING("Transform")
 {
 
 
@@ -357,7 +357,7 @@ TEST_NSTRING("Transforms", "Transforms")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Extraction", "Extraction")
+TEST_NSTRING("Extraction")
 {
 
 
@@ -392,7 +392,7 @@ TEST_NSTRING("Extraction", "Extraction")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Split", "Split")
+TEST_NSTRING("Split")
 {	NStringList		theStrings;
 
 
@@ -465,7 +465,7 @@ TEST_NSTRING("Split", "Split")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Trim", "Trim")
+TEST_NSTRING("Trim")
 {
 
 
@@ -482,7 +482,7 @@ TEST_NSTRING("Trim", "Trim")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSTRING("Operators", "Operators")
+TEST_NSTRING("Operators")
 {
 
 

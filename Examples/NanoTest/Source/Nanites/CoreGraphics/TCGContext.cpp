@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCGCONTEXT(_name, _desc)								TEST_NANO(TCGContext, _name, _desc)
+#define TEST_NCGCONTEXT(...)										TEST_NANO(TCGContext, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCGContext)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCGContext)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCGCONTEXT("Default", "Default state")
+TEST_NCGCONTEXT("Default", "[cg]")
 {
 
 

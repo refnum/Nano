@@ -37,7 +37,7 @@ static const UInt64 kTestRangeLargeMax								= 120;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMATHUTILITIES(_name, _desc)							TEST_NANO(TMathUtilities, _name, _desc)
+#define TEST_NMATHUTILITIES(...)									TEST_NANO(TMathUtilities, ##__VA_ARGS__)
 
 FIXTURE_NANO(TMathUtilities)
 {
@@ -50,7 +50,7 @@ FIXTURE_NANO(TMathUtilities)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMATHUTILITIES("Float", "Floating point")
+TEST_NMATHUTILITIES("Float")
 {
 
 
@@ -74,7 +74,7 @@ TEST_NMATHUTILITIES("Float", "Floating point")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMATHUTILITIES("Integer", "Integers")
+TEST_NMATHUTILITIES("Integer")
 {
 
 
@@ -107,7 +107,7 @@ TEST_NMATHUTILITIES("Integer", "Integers")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMATHUTILITIES("Bits", "Bits")
+TEST_NMATHUTILITIES("Bits")
 {
 
 
@@ -135,7 +135,7 @@ TEST_NMATHUTILITIES("Bits", "Bits")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMATHUTILITIES("Angles", "Angles")
+TEST_NMATHUTILITIES("Angles")
 {
 
 
@@ -150,7 +150,7 @@ TEST_NMATHUTILITIES("Angles", "Angles")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMATHUTILITIES("Trig", "Trigonometry")
+TEST_NMATHUTILITIES("Trig")
 {
 
 
@@ -189,7 +189,7 @@ TEST_NMATHUTILITIES("Trig", "Trigonometry")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMATHUTILITIES("Random", "Random")
+TEST_NMATHUTILITIES("Random")
 {	UInt64		valueUInt64;
 	UInt32		valueUInt32;
 	UInt16		valueUInt16;

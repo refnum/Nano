@@ -34,7 +34,7 @@ static const UInt8 kTestData2[]										= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATADIGEST(_name, _desc)								TEST_NANO(TDataDigest, _name, _desc)
+#define TEST_NDATADIGEST(...)										TEST_NANO(TDataDigest, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDataDigest)
 {
@@ -55,7 +55,7 @@ FIXTURE_NANO(TDataDigest)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATADIGEST("Internet", "Internet digest")
+TEST_NDATADIGEST("Internet")
 {
 
 
@@ -72,7 +72,7 @@ TEST_NDATADIGEST("Internet", "Internet digest")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATADIGEST("DJB2", "DJB2 digest")
+TEST_NDATADIGEST("DJB2")
 {
 
 
@@ -89,7 +89,7 @@ TEST_NDATADIGEST("DJB2", "DJB2 digest")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATADIGEST("Adler32", "Adler32 digest")
+TEST_NDATADIGEST("Adler32")
 {
 
 
@@ -106,7 +106,7 @@ TEST_NDATADIGEST("Adler32", "Adler32 digest")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATADIGEST("MD5", "MD5 digest")
+TEST_NDATADIGEST("MD5")
 {
 
 
@@ -123,7 +123,7 @@ TEST_NDATADIGEST("MD5", "MD5 digest")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATADIGEST("SHA1", "SHA1 digest")
+TEST_NDATADIGEST("SHA1")
 {
 
 

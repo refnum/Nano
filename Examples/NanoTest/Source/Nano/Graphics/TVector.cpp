@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NVECTOR(_name, _desc)									TEST_NANO(TVector, _name, _desc)
+#define TEST_NVECTOR(...)											TEST_NANO(TVector, ##__VA_ARGS__)
 
 FIXTURE_NANO(TVector)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TVector)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NVECTOR("Default", "Default state")
+TEST_NVECTOR("Default")
 {
 
 

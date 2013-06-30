@@ -72,7 +72,7 @@ static const UInt8  kTestData[]										= { 0x4C, 0x6F, 0x72, 0x65, 0x6D, 0x20,
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATACOMPRESSOR(_name, _desc)							TEST_NANO(TDataCompressor, _name, _desc)
+#define TEST_NDATACOMPRESSOR(...)									TEST_NANO(TDataCompressor, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDataCompressor)
 {
@@ -94,7 +94,7 @@ FIXTURE_NANO(TDataCompressor)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATACOMPRESSOR("Null", "Null compression")
+TEST_NDATACOMPRESSOR("Null")
 {
 
 
@@ -119,7 +119,7 @@ TEST_NDATACOMPRESSOR("Null", "Null compression")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATACOMPRESSOR("ZLib", "ZLib compression")
+TEST_NDATACOMPRESSOR("ZLib")
 {
 
 

@@ -40,7 +40,7 @@ static const UTF32Char kChar2										= 0x00008A9E;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NUNICODEPARSER(_name, _desc)							TEST_NANO(TUnicodeParser, _name, _desc)
+#define TEST_NUNICODEPARSER(...)									TEST_NANO(TUnicodeParser, ##__VA_ARGS__)
 
 FIXTURE_NANO(TUnicodeParser)
 {
@@ -66,7 +66,7 @@ FIXTURE_NANO(TUnicodeParser)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNICODEPARSER("Size", "Size test")
+TEST_NUNICODEPARSER("Size")
 {
 
 
@@ -83,7 +83,7 @@ TEST_NUNICODEPARSER("Size", "Size test")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNICODEPARSER("Ranges", "Ranges")
+TEST_NUNICODEPARSER("Ranges")
 {	NRangeList		rangesUTF8, rangesUTF16, rangesUTF32;
 
 
@@ -117,7 +117,7 @@ TEST_NUNICODEPARSER("Ranges", "Ranges")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNICODEPARSER("Access", "Character access")
+TEST_NUNICODEPARSER("Access")
 {
 
 
@@ -142,7 +142,7 @@ TEST_NUNICODEPARSER("Access", "Character access")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNICODEPARSER("Types", "Character types")
+TEST_NUNICODEPARSER("Types")
 {
 
 
@@ -165,7 +165,7 @@ TEST_NUNICODEPARSER("Types", "Character types")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NUNICODEPARSER("Case", "Case translation")
+TEST_NUNICODEPARSER("Case")
 {
 
 

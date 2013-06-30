@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NTIMEUTILITIES(_name, _desc)							TEST_NANO(TTimeUtilities, _name, _desc)
+#define TEST_NTIMEUTILITIES(...)									TEST_NANO(TTimeUtilities, ##__VA_ARGS__)
 
 FIXTURE_NANO(TTimeUtilities)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TTimeUtilities)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NTIMEUTILITIES("Time", "Time")
+TEST_NTIMEUTILITIES("Time")
 {
 
 

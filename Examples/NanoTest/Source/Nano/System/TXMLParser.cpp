@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NXMLPARSER(_name, _desc)								TEST_NANO(TXMLParser, _name, _desc)
+#define TEST_NXMLPARSER(...)										TEST_NANO(TXMLParser, ##__VA_ARGS__)
 
 FIXTURE_NANO(TXMLParser)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TXMLParser)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NXMLPARSER("Default", "Default state")
+TEST_NXMLPARSER("Default")
 {
 
 

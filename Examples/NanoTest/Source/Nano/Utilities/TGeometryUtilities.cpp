@@ -25,7 +25,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NGEOMETRYUTILITIES(_name, _desc)						TEST_NANO(TGeometryUtilities, _name, _desc)
+#define TEST_NGEOMETRYUTILITIES(...)								TEST_NANO(TGeometryUtilities, ##__VA_ARGS__)
 
 FIXTURE_NANO(TGeometryUtilities)
 {
@@ -48,7 +48,7 @@ FIXTURE_NANO(TGeometryUtilities)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NGEOMETRYUTILITIES("Bounds", "Bounding box")
+TEST_NGEOMETRYUTILITIES("Bounds")
 {	NRectangle64		theBounds64;
 	NRectangle32		theBounds32;
 	NRectangle			theBounds;

@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NFUNCTOR(_name, _desc)									TEST_NANO(TFunctor, _name, _desc)
+#define TEST_NFUNCTOR(...)											TEST_NANO(TFunctor, ##__VA_ARGS__)
 
 FIXTURE_NANO(TFunctor)
 {
@@ -38,7 +38,7 @@ FIXTURE_NANO(TFunctor)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NFUNCTOR("Default", "Default state")
+TEST_NFUNCTOR("Default")
 {
 
 

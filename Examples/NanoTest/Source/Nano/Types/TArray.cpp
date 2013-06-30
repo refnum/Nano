@@ -42,7 +42,7 @@ static const SInt64 kTestSInt64										= -4000;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NARRAY(_name, _desc)									TEST_NANO(TArray, _name, _desc)
+#define TEST_NARRAY(...)											TEST_NANO(TArray, ##__VA_ARGS__)
 
 FIXTURE_NANO(TArray)
 {
@@ -58,7 +58,7 @@ FIXTURE_NANO(TArray)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NARRAY("Default", "Default state")
+TEST_NARRAY("Default")
 {
 
 
@@ -74,7 +74,7 @@ TEST_NARRAY("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NARRAY("Constructor", "Constructors")
+TEST_NARRAY("Constructor")
 {
 
 
@@ -107,7 +107,7 @@ TEST_NARRAY("Constructor", "Constructors")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NARRAY("Assignment", "Assign values")
+TEST_NARRAY("Assignment")
 {	Float32List		listFloat32;
 	Float64List		listFloat64;
 	NIndex			n;
@@ -145,7 +145,7 @@ TEST_NARRAY("Assignment", "Assign values")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NARRAY("Add", "Add values")
+TEST_NARRAY("Add")
 {	NIndex		theCount;
 
 
@@ -171,7 +171,7 @@ TEST_NARRAY("Add", "Add values")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NARRAY("Clear", "Clear values")
+TEST_NARRAY("Clear")
 {
 
 
@@ -194,7 +194,7 @@ TEST_NARRAY("Clear", "Clear values")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NARRAY("Join", "Join arrays")
+TEST_NARRAY("Join")
 {
 
 

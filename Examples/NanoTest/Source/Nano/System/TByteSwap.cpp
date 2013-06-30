@@ -46,7 +46,7 @@ static const UInt8 kBigFloat64[8]									= { 0x40, 0x09, 0x21, 0xFB,	0x54, 0x44
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBYTESWAP(_name, _desc)								TEST_NANO(TByteSwap, _name, _desc)
+#define TEST_NBYTESWAP(...)											TEST_NANO(TByteSwap, ##__VA_ARGS__)
 
 FIXTURE_NANO(TByteSwap)
 {
@@ -76,7 +76,7 @@ FIXTURE_NANO(TByteSwap)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBYTESWAP("Constants", "Constants")
+TEST_NBYTESWAP("Constants")
 {
 
 
@@ -94,7 +94,7 @@ TEST_NBYTESWAP("Constants", "Constants")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBYTESWAP("Primitives", "Primitives")
+TEST_NBYTESWAP("Primitives")
 {
 
 
@@ -119,7 +119,7 @@ TEST_NBYTESWAP("Primitives", "Primitives")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBYTESWAP("NtoB", "Native to Big")
+TEST_NBYTESWAP("NtoB")
 {
 
 
@@ -143,7 +143,7 @@ TEST_NBYTESWAP("NtoB", "Native to Big")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBYTESWAP("NtoL", "Native to Little")
+TEST_NBYTESWAP("NtoL")
 {
 
 
@@ -167,7 +167,7 @@ TEST_NBYTESWAP("NtoL", "Native to Little")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBYTESWAP("BtoN", "Big to Native")
+TEST_NBYTESWAP("BtoN")
 {
 
 
@@ -191,7 +191,7 @@ TEST_NBYTESWAP("BtoN", "Big to Native")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBYTESWAP("LtoN", "Little to Native")
+TEST_NBYTESWAP("LtoN")
 {
 
 

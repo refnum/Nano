@@ -39,7 +39,7 @@ static const NString kTestResult2									= ".local.', port='666'";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NNETWORKBROWSER(_name, _desc)							TEST_NANO(TNetworkBrowser, _name, _desc)
+#define TEST_NNETWORKBROWSER(...)									TEST_NANO(TNetworkBrowser, ##__VA_ARGS__)
 
 FIXTURE_NANO(TNetworkBrowser)
 {
@@ -79,7 +79,7 @@ static void BrowseEvent(const NNetworkBrowserEvent &theEvent, NString *theResult
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NNETWORKBROWSER("State", "State tests")
+TEST_NNETWORKBROWSER("State")
 {	NNetworkBrowser		theBrowser;
 	NNetworkService		theService;
 	NString				theResult;

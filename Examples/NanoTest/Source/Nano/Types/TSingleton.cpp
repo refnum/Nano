@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NSINGLETON(_name, _desc)								TEST_NANO(TSingleton, _name, _desc)
+#define TEST_NSINGLETON(...)										TEST_NANO(TSingleton, ##__VA_ARGS__)
 
 FIXTURE_NANO(TSingleton)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TSingleton)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSINGLETON("Default", "Default state")
+TEST_NSINGLETON("Default")
 {
 
 

@@ -23,7 +23,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NMESSAGECLIENT(_name, _desc)							TEST_NANO(TMessageClient, _name, _desc)
+#define TEST_NMESSAGECLIENT(...)									TEST_NANO(TMessageClient, ##__VA_ARGS__)
 
 FIXTURE_NANO(TMessageClient)
 {
@@ -36,7 +36,7 @@ FIXTURE_NANO(TMessageClient)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NMESSAGECLIENT("Default", "Default state")
+TEST_NMESSAGECLIENT("Default")
 {
 
 

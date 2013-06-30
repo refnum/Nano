@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCACHEVALUE(_name, _desc)								TEST_NANO(TCacheValue, _name, _desc)
+#define TEST_NCACHEVALUE(...)										TEST_NANO(TCacheValue, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCacheValue)
 {
@@ -48,7 +48,7 @@ FIXTURE_NANO(TCacheValue)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCACHEVALUE("Default", "Default state")
+TEST_NCACHEVALUE("Default")
 {
 
 

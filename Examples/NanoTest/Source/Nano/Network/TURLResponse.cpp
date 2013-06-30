@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NURLRESPONSE(_name, _desc)								TEST_NANO(TURLResponse, _name, _desc)
+#define TEST_NURLRESPONSE(...)										TEST_NANO(TURLResponse, ##__VA_ARGS__)
 
 FIXTURE_NANO(TURLResponse)
 {
@@ -50,7 +50,7 @@ FIXTURE_NANO(TURLResponse)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NURLRESPONSE("Normal", "Normal request")
+TEST_NURLRESPONSE("Normal")
 {	NData		theData;
 	NStatus		theErr;
 
@@ -69,7 +69,7 @@ TEST_NURLRESPONSE("Normal", "Normal request")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NURLRESPONSE("Cancel", "Cancel a request")
+TEST_NURLRESPONSE("Cancel")
 {
 
 

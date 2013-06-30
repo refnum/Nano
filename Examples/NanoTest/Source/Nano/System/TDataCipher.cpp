@@ -41,7 +41,7 @@ static const UInt32 kAdlerBlowfish									= 0x8B360A2B;
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATACIPHER(_name, _desc)								TEST_NANO(TDataCipher, _name, _desc)
+#define TEST_NDATACIPHER(...)										TEST_NANO(TDataCipher, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDataCipher)
 {
@@ -66,7 +66,7 @@ FIXTURE_NANO(TDataCipher)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATACIPHER("Null", "Null encryption")
+TEST_NDATACIPHER("Null")
 {
 
 
@@ -85,7 +85,7 @@ TEST_NDATACIPHER("Null", "Null encryption")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATACIPHER("DES", "DES encryption")
+TEST_NDATACIPHER("DES")
 {
 
 
@@ -104,7 +104,7 @@ TEST_NDATACIPHER("DES", "DES encryption")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATACIPHER("DES3", "DES3 encryption")
+TEST_NDATACIPHER("DES3")
 {
 
 
@@ -123,7 +123,7 @@ TEST_NDATACIPHER("DES3", "DES3 encryption")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATACIPHER("Blowfish", "Blowfish encryption")
+TEST_NDATACIPHER("Blowfish")
 {
 
 

@@ -25,7 +25,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NLISTENER(_name, _desc)								TEST_NANO(TListener, _name, _desc)
+#define TEST_NLISTENER(...)											TEST_NANO(TListener, ##__VA_ARGS__)
 
 FIXTURE_NANO(TListener)
 {
@@ -40,7 +40,7 @@ FIXTURE_NANO(TListener)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLISTENER("Default", "Default state")
+TEST_NLISTENER("Default")
 {
 
 
@@ -56,7 +56,7 @@ TEST_NLISTENER("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLISTENER("Single", "Single broadcaster")
+TEST_NLISTENER("Single")
 {
 
 
@@ -77,7 +77,7 @@ TEST_NLISTENER("Single", "Single broadcaster")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLISTENER("Multiple", "Multiple broadcasters")
+TEST_NLISTENER("Multiple")
 {	NBroadcaster	theBroadcaster2;
 
 
@@ -100,7 +100,7 @@ TEST_NLISTENER("Multiple", "Multiple broadcasters")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLISTENER("Active", "Active listener")
+TEST_NLISTENER("Active")
 {	UInt32	theValue;
 
 
@@ -122,7 +122,7 @@ TEST_NLISTENER("Active", "Active listener")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLISTENER("Inactive", "Inactive listener")
+TEST_NLISTENER("Inactive")
 {	UInt32	theValue;
 
 
@@ -145,7 +145,7 @@ TEST_NLISTENER("Inactive", "Inactive listener")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NLISTENER("Copy", "Copy broadcasters")
+TEST_NLISTENER("Copy")
 {	CTestListener	theListener2;
 	UInt32			theValue;
 

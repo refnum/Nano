@@ -26,7 +26,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NBROADCASTER(_name, _desc)								TEST_NANO(TBroadcaster, _name, _desc)
+#define TEST_NBROADCASTER(...)										TEST_NANO(TBroadcaster, ##__VA_ARGS__)
 
 FIXTURE_NANO(TBroadcaster)
 {
@@ -41,7 +41,7 @@ FIXTURE_NANO(TBroadcaster)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Default", "Default state")
+TEST_NBROADCASTER("Default")
 {
 
 
@@ -57,7 +57,7 @@ TEST_NBROADCASTER("Default", "Default state")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Single", "Single listener")
+TEST_NBROADCASTER("Single")
 {
 
 
@@ -76,7 +76,7 @@ TEST_NBROADCASTER("Single", "Single listener")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Multiple", "Multiple listeners")
+TEST_NBROADCASTER("Multiple")
 {	CTestListener	theListener2;
 
 
@@ -97,7 +97,7 @@ TEST_NBROADCASTER("Multiple", "Multiple listeners")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Active", "Active broadcast")
+TEST_NBROADCASTER("Active")
 {	UInt32		theValue;
 
 
@@ -119,7 +119,7 @@ TEST_NBROADCASTER("Active", "Active broadcast")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Inactive", "Inactive broadcast")
+TEST_NBROADCASTER("Inactive")
 {	UInt32		theValue;
 
 
@@ -142,7 +142,7 @@ TEST_NBROADCASTER("Inactive", "Inactive broadcast")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Ignored", "Ignored broadcast")
+TEST_NBROADCASTER("Ignored")
 {	UInt32		theValue;
 
 
@@ -163,7 +163,7 @@ TEST_NBROADCASTER("Ignored", "Ignored broadcast")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Copy", "Copy listeners")
+TEST_NBROADCASTER("Copy")
 {	NBroadcaster	theBroadcaster2;
 	UInt32			theValue;
 
@@ -190,7 +190,7 @@ TEST_NBROADCASTER("Copy", "Copy listeners")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Remove Active", "Remove the listener that's broadcasting, while broadcasting")
+TEST_NBROADCASTER("RemoveActive")
 {
 
 
@@ -211,7 +211,7 @@ TEST_NBROADCASTER("Remove Active", "Remove the listener that's broadcasting, whi
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NBROADCASTER("Remove Different", "Remove a different listener from the same broadcaster, while broadcasting")
+TEST_NBROADCASTER("RemoveDifferent")
 {	CTestListener	theListener2;
 
 

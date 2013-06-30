@@ -39,7 +39,7 @@ static const NString kTestPath										= "/path/to/file.txt";
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NURL(_name, _desc)										TEST_NANO(TURL, _name, _desc)
+#define TEST_NURL(...)												TEST_NANO(TURL, ##__VA_ARGS__)
 
 FIXTURE_NANO(TURL)
 {
@@ -52,7 +52,7 @@ FIXTURE_NANO(TURL)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NURL("Components", "Components")
+TEST_NURL("Components")
 {
 
 

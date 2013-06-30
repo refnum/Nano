@@ -24,7 +24,7 @@
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NCFNUMBER(_name, _desc)								TEST_NANO(TCFNumber, _name, _desc)
+#define TEST_NCFNUMBER(...)											TEST_NANO(TCFNumber, ##__VA_ARGS__)
 
 FIXTURE_NANO(TCFNumber)
 {
@@ -37,7 +37,7 @@ FIXTURE_NANO(TCFNumber)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NCFNUMBER("Default", "Default state")
+TEST_NCFNUMBER("Default", "[cf]")
 {
 
 

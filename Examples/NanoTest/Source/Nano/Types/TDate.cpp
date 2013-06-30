@@ -35,7 +35,7 @@ static const NGregorianDate kTestDate3								= { 2010, 6, 1, 20, 21, 57, kNTime
 //============================================================================
 //		Test fixture
 //----------------------------------------------------------------------------
-#define TEST_NDATE(_name, _desc)									TEST_NANO(TDate, _name, _desc)
+#define TEST_NDATE(...)												TEST_NANO(TDate, ##__VA_ARGS__)
 
 FIXTURE_NANO(TDate)
 {
@@ -54,7 +54,7 @@ FIXTURE_NANO(TDate)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATE("Conversion", "Date conversion")
+TEST_NDATE("Conversion")
 {	NGregorianDate		gregDate;
 
 
@@ -77,7 +77,7 @@ TEST_NDATE("Conversion", "Date conversion")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATE("Indices", "Date indices")
+TEST_NDATE("Indices")
 {	NIndex		n;
 
 
@@ -100,7 +100,7 @@ TEST_NDATE("Indices", "Date indices")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATE("Weeks", "Weeks of year")
+TEST_NDATE("Weeks")
 {	NGregorianDate		gregDate;
 	NIndex				n, m;
 
