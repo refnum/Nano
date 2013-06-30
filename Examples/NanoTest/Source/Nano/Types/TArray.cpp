@@ -116,12 +116,12 @@ TEST_NARRAY("Assignment", "Assign values")
 
 	// Perform the test
 	theArray.SetValuesSInt32(kListSInt32);
-	REQUIRE(theArray.GetSize()         == (NIndex) kListSInt32.size());
-	REQUIRE(theArray.GetValuesSInt32() ==          kListSInt32);
+	REQUIRE( theArray.GetSize()         == (NIndex) kListSInt32.size());
+	REQUIRE((theArray.GetValuesSInt32() ==          kListSInt32));
 
 	theArray.SetValuesSInt64(kListSInt64);
-	REQUIRE(theArray.GetSize()         == (NIndex) kListSInt64.size());
-	REQUIRE(theArray.GetValuesSInt64() ==          kListSInt64);
+	REQUIRE( theArray.GetSize()         == (NIndex) kListSInt64.size());
+	REQUIRE((theArray.GetValuesSInt64() ==          kListSInt64));
 
 	theArray.SetValuesFloat32(kListFloat32);
 	listFloat32 = theArray.GetValuesFloat32();

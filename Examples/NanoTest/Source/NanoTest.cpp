@@ -43,7 +43,7 @@ int main (int argc, const char **argv)
 
 
 	// Execute the tests
-    return(Catch::Main(argc, (char * const *) argv));
+    return(Catch::Session().run(argc, (char * const *) argv));
 }
 
 

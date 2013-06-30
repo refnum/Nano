@@ -93,9 +93,9 @@ TEST_NUNICODEPARSER("Ranges", "Ranges")
 	rangesUTF16 = *(parserUTF16.GetRanges());
 	rangesUTF32 = *(parserUTF32.GetRanges());
 
-	REQUIRE(rangesUTF8  == nvector(NRange(0,3), NRange(3,3), NRange(6,3)));
-	REQUIRE(rangesUTF16 == nvector(NRange(0,2), NRange(2,2), NRange(4,2)));
-	REQUIRE(rangesUTF32 == nvector(NRange(0,4), NRange(4,4), NRange(8,4)));
+	REQUIRE((rangesUTF8  == nvector(NRange(0,3), NRange(3,3), NRange(6,3))));
+	REQUIRE((rangesUTF16 == nvector(NRange(0,2), NRange(2,2), NRange(4,2))));
+	REQUIRE((rangesUTF32 == nvector(NRange(0,4), NRange(4,4), NRange(8,4))));
 
 	REQUIRE(parserUTF8.GetRange(0) == NRange(0,3));
 	REQUIRE(parserUTF8.GetRange(1) == NRange(3,3));

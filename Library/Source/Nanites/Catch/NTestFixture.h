@@ -56,16 +56,15 @@ namespace Catch {
 
 // Macros
 #define TEST_CASE_FIXTURE( ClassName, TestName, Desc )\
-    namespace{ \
-        class INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ ) : ClassName{ \
-		public: \
-			virtual ~INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )(void) { } \
+	namespace{ \
+		struct INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ) : ClassName{ \
             void invokeFixture(); \
-            void test(); \
-        }; \
-        Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( &INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )::invokeFixture, #ClassName, TestName, Desc, CATCH_INTERNAL_LINEINFO ); \
-    } \
-    void INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )::invokeFixture() \
+			void test(); \
+		}; \
+		Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( &INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture, #ClassName, Catch::NameAndDesc( TestName, Desc ), CATCH_INTERNAL_LINEINFO ); \
+	} \
+	\
+	void INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture() \
 	{ \
 		setCurrentTest(TestName); \
 		\
@@ -80,8 +79,7 @@ namespace Catch {
 		didTearDown(); \
 	} \
 	\
-    void INTERNAL_CATCH_UNIQUE_NAME( TestCaseMethod_catch_internal_ )::test()
-
+	void INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::test()
 
 #define SETUP														virtual void setUp(void)
 
