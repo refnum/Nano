@@ -181,10 +181,10 @@ inline UInt64 ToNN(DWORD valueHigh, DWORD valueLow)
 
 
 // Nano
-#define REQUIRE_SUCCESS(_winErr)								REQUIRE(SUCCEEDED((_winErr)))
+#define REQUIRE_SUCCESS(_winErr)									REQUIRE(SUCCEEDED((_winErr)))
 
 #if NN_DEBUG
-	#define NN_ASSERT_SUCCESS(_winErr)							NN_ASSERT(SUCCEEDED((_winErr)))
+	#define NN_ASSERT_SUCCESS(_winErr)								NN_ASSERT(SUCCEEDED((_winErr)))
 	
 	#define NN_LOG_LASTERR()												\
 		do																	\
@@ -207,8 +207,8 @@ inline UInt64 ToNN(DWORD valueHigh, DWORD valueLow)
 		while (0)
 
 #else
-	#define NN_ASSERT_SUCCESS(_winErr)							do { } while (0)
-	#define NN_LOG_LASTERR()									do { } while (0)
+	#define NN_ASSERT_SUCCESS(_winErr)								do { } while (0)
+	#define NN_LOG_LASTERR()										do { } while (0)
 #endif
 
 
