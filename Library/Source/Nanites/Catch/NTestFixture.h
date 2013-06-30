@@ -55,13 +55,13 @@ namespace Catch {
 
 
 // Macros
-#define TEST_CASE_FIXTURE( ClassName, TestName, Desc )\
+#define TEST_CASE_FIXTURE( ClassName, TestName, ... )\
 	namespace{ \
 		struct INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ) : ClassName{ \
             void invokeFixture(); \
 			void test(); \
 		}; \
-		Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( &INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture, #ClassName, Catch::NameAndDesc( TestName, Desc ), CATCH_INTERNAL_LINEINFO ); \
+		Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( &INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture, #ClassName, Catch::NameAndDesc( TestName, ##__VA_ARGS__ ), CATCH_INTERNAL_LINEINFO ); \
 	} \
 	\
 	void INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture() \
@@ -117,15 +117,26 @@ namespace Catch {
 //
 // A test that uses this fixture can be defined with:
 //
-//		TEST_NANO(SomeFixture, "Malloc", "Testing malloc")
+//		TEST_NANO(SomeFixture, "Allocate")
 //		{
 //			someData = (UInt8 *) malloc(10);
 //			REQUIRE(someData != NULL);
 //		}
 //
-// This will create a "Nano/SomeFixture/Malloc" test based on SomeFixture.
+// This will create a "Nano/SomeFixture/Allocate" test, based on SomeFixture.
+//
+//
+// A list of []-delimited tags can also be provided:
+//
+//		TEST_NANO(SomeFixture, "Allocate", "[malloc][mem]")
+//		{
+//			someData = (UInt8 *) malloc(10);
+//			REQUIRE(someData != NULL);
+//		}
+//
+// Tags may be used to group tests for execution by CATCH.
 #define FIXTURE_NANO(_class)										struct _class : public NTestFixture
-#define TEST_NANO(_class, _name, _desc)								TEST_CASE_FIXTURE(_class, "Nano/" #_class "/" _name, _desc)
+#define TEST_NANO(_class, ...)										TEST_CASE_FIXTURE(_class, "Nano/" #_class "/" __VA_ARGS__)
 
 
 // Assertions
@@ -145,6 +156,8 @@ public:
 
 
 	// Get the current test ID
+	//
+	// The test ID is a /-separated unique identifier for the test.
 	NString								GetTestID(void) const;
 
 
