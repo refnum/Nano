@@ -20,7 +20,7 @@
 #include <sys/wait.h>
 #include <locale.h>
 #include <errno.h>
-
+#include <unistd.h>
 #include "NFileUtilities.h"
 #include "NTargetSystem.h"
 

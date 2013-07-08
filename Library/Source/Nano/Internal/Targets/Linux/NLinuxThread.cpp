@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 #include <semaphore.h>
 #include <syscall.h>
-
+#include <unistd.h>
 #include "NLinuxTarget.h"
 #include "NTargetThread.h"
 
@@ -28,7 +28,7 @@
 //		Internal globals
 //----------------------------------------------------------------------------
 static ThreadFunctorList gMainThreadFunctors;
-
+static NThreadID gMainThreadId = NTargetThread::ThreadGetID();
 
 
 
@@ -289,7 +289,7 @@ bool NTargetThread::ThreadIsMain(void)
 
 
 	// Check our state
-	return(syscall(SYS_gettid) == getpid());
+	return(gMainThreadId == ThreadGetID());
 }
 
 

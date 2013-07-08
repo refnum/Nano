@@ -48,6 +48,15 @@ typedef struct {
 } FileMapInfo;
 
 
+typedef std::map<NString, NString>								DirectoryMap;
+
+
+
+//============================================================================
+//		Internal globals
+//----------------------------------------------------------------------------
+static DirectoryMap gUserDirs;
+
 
 
 
@@ -532,6 +541,69 @@ NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 
 
 //============================================================================
+//      UserDirPopulate : Populate the user dirs
+//----------------------------------------------------------------------------
+static void UserDirPopulate()
+{
+	NFile theFile = NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild("user-dirs.dirs");
+
+	if (theFile.IsFile())
+	{
+		// Need some kind of ReadLine functionality here
+		NString fullText = NFileUtilities::GetFileText(theFile);
+		NStringList lines = fullText.Split("\n");
+
+		for (NStringList::iterator it = lines.begin(); it != lines.end(); ++it)
+		{
+			// Trim all left and right whitespace
+			it->Trim();
+
+			NIndex stringSize = it->GetSize();
+
+			// Must be at least three characters x=y
+			if (stringSize < 3)
+				continue;
+
+			NRange equalsSearch = it->Find("=");
+
+			// There must be an equals
+			if (equalsSearch.GetSize() == 0)
+				continue;
+
+			NIndex equalsPos = equalsSearch.GetFirst();
+
+			// We must have at least one character on the right and leftof the equals
+			if (equalsPos > stringSize - 2 || equalsPos == 0)
+				continue;
+
+			NString value = *it;//it->SubString(stringSize-1);
+			NString key = *it;//it->SubString(stringSize+1);
+
+			// Already trimmed value left whitespace and key right whitespace
+			value.TrimRight();
+			key.TrimLeft();
+
+			// Trim any quotes on the value
+			value.TrimLeft("\"");
+			value.TrimRight("\"");
+
+			// We might have trimmed down to nothing
+			if (value.GetSize() == 0 || key.GetSize() == 0)
+				continue;
+
+			value.Replace("$HOME", NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild(value).GetPath());
+
+			gUserDirs[key]=value;
+		}
+	}
+}
+
+
+
+
+
+
+//============================================================================
 //      NTargetFile::GetDirectory : Get a directory.
 //----------------------------------------------------------------------------
 NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
@@ -546,6 +618,8 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 	isUser = (theDomain == kNDomainUser);
 	pathPtr = NULL;
 
+	//http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+	//http://freedesktop.org/wiki/Software/xdg-user-dirs/
 	switch (theLocation) {
 		case kNLocationHome:
 			NN_ASSERT(isUser);
@@ -557,39 +631,100 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 					pathPtr = pwInfo->pw_dir;
 				}
 			break;
-		
-		case kNLocationDesktop:
-			theFile = GetDirectory(theDomain, kNLocationHome).GetChild("Desktop");
-			break;
-		
-		case kNLocationDocuments:
-			theFile = GetDirectory(theDomain, kNLocationHome).GetChild("Documents");
-			break;
 
 		case kNLocationLogs:
-			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".logs");
+			if (isUser)
+			{
+				theFile = GetDirectory(theDomain, kNLocationApplicationSupport); // No spec for this but .local/share makes more sense
+			} else {
+				theFile = NFile("/var/log");
+			}
 			break;
 
 		case kNLocationPreferences:
-			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".preferences");
+			if (isUser)
+			{
+				pathPtr = getenv("XDG_CONFIG_HOME");
+				if (pathPtr == NULL)
+					theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".config"); // No env so default to .config
+				else
+					theFile = NFile(NString(pathPtr));
+			} else {
+				pathPtr = getenv("XDG_CONFIG_DIRS");
+				NStringList split = NString(pathPtr).Split(":");
+				if (split.size() == 0 || split[0].GetSize() == 0)
+					theFile = NFile("/etc/xdg"); // No env so use manual default of /etc/xdg
+				else
+ 					// For now just return the first and ignore the rest, though we need a way to return multiple config dirs.
+					theFile = NFile(split[0]);
+			}
 			break;
 
 		case kNLocationCache:
-			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".cache");
+			if (isUser)
+			{
+				pathPtr = getenv("XDG_CACHE_HOME");
+				if (pathPtr == NULL) // No env so use manual default
+					theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".cache");
+				else
+					theFile = NFile(NString(pathPtr));
+			} else {
+				theFile = NFile("/var/cache");
+			}
 			break;
 		
 		case kNLocationTemporary:
+			// Maybe this should use XDG_RUNTIME_DIR for user?
 			pathPtr = getenv("TMP");
 			if (pathPtr == NULL)
 				pathPtr = getenv("TMPDIR");
+			if (pathPtr == NULL)
+				pathPtr = getenv("TEMP");
 			if (pathPtr == NULL)
 				pathPtr = "/tmp";
 			break;
 		
 		case kNLocationApplicationSupport:
-			theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".support");
+			if (isUser)
+			{
+				pathPtr = getenv("XDG_DATA_HOME");
+				if (pathPtr == NULL)
+					theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".local").GetChild("share"); // No env so default to .local/share
+				else
+					theFile = NFile(NString(pathPtr));
+			} else {
+				pathPtr = getenv("XDG_DATA_DIRS");
+				NStringList split = NString(pathPtr).Split(":");
+				if (split.size() == 0 || split[0].GetSize() == 0) 
+					theFile = NFile("/usr/local/share"); // No env so use manual default of /usr/local/share:/usr/share
+				else
+					// For now just return the first and ignore the rest, though we need a way to return multiple data dirs.
+					theFile = NFile(split[0]);
+			}	
 			break;
-
+		
+		case kNLocationDesktop:
+			{
+				if (gUserDirs.size() == 0)
+					UserDirPopulate();
+				NString found  = gUserDirs["XDG_DESKTOP_DIR"];
+				if (!found.IsEmpty())
+					theFile = NFile(found);
+				else
+					theFile = GetDirectory(theDomain, kNLocationHome).GetChild("Desktop");
+			break;
+			}
+		case kNLocationDocuments:
+			{
+				if (gUserDirs.size() == 0)
+					UserDirPopulate();
+				NString found  = gUserDirs["XDG_DOCUMENTS_DIR"];
+				if (!found.IsEmpty())
+					theFile = NFile(found);
+				else
+					theFile = GetDirectory(theDomain, kNLocationHome);
+			break;
+			}
 		default:
 			NN_LOG("Unknown location: %d", theLocation);
 			break;
@@ -603,6 +738,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 
 	return(theFile);
 }
+
 
 
 

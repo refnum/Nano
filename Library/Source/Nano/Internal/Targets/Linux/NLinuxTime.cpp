@@ -15,10 +15,21 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <sys/time.h>
-
+#include <signal.h>
 #include "NSpinLock.h"
 #include "NTargetTime.h"
 
+
+
+
+
+//============================================================================
+//		Internal types
+//----------------------------------------------------------------------------
+typedef struct {
+	timer_t				timerid;
+	NTimerFunctor			theFunctor;
+} TimerInfo;
 
 
 
@@ -198,15 +209,56 @@ NTime NTargetTime::GetUpTime(void)
 
 
 //============================================================================
+//		TimerCallback : Timer callback.
+//----------------------------------------------------------------------------
+static void TimerCallback(sigval_t userData)
+{	
+	TimerInfo* timerInfo = (TimerInfo*) userData.sival_ptr;
+
+	// Get the state we need
+	timerInfo;
+
+	// Invoke the timer
+	if (timerInfo != NULL)
+		timerInfo->theFunctor(kNTimerFired);
+}
+
+
+
+
+//============================================================================
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
-NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
+NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAfter, NTime fireEvery)
 {
+	NN_LOG("NTargetTime::TimerCreate unfinished implementation!");
+	NTimerID theTimer = kNTimerNone;
+	itimerspec spec;
+	sigevent event;
+	TimerInfo* timerInfo;
 
+	// Allocate the timer info
+	timerInfo = new TimerInfo;
+	if (timerInfo == NULL)
+		return theTimer;
+	else 
+		theTimer = (NTimerID) timerInfo;
 
-	// dair, to do
-	NN_LOG("NTargetTime::TimerCreate not implemented!");
-	return(0);
+	memset(&event, 0x00, sizeof(sigevent));
+	event.sigev_notify=SIGEV_THREAD;
+	event.sigev_notify_function=TimerCallback;
+	event.sigev_notify_attributes = NULL;
+	event.sigev_value.sival_ptr=timerInfo;
+	
+	spec.it_interval.tv_sec=fireEvery;
+	spec.it_value.tv_sec=fireAfter;
+
+	if (timer_create(CLOCK_REALTIME, &event, &timerInfo->timerid))
+	{
+		timer_settime(timerInfo->timerid, 0, &spec, NULL);
+	}
+
+	return theTimer;
 }
 
 
@@ -218,10 +270,10 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAft
 //----------------------------------------------------------------------------
 void NTargetTime::TimerDestroy(NTimerID theTimer)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetTime::TimerDestroy not implemented!");
+	NN_LOG("NTargetTime::TimerDestroy unfinished implementation!");
+	TimerInfo* timerInfo = (TimerInfo *) theTimer;
+	timer_delete(timerInfo->timerid);
+	delete timerInfo;
 }
 
 
@@ -233,10 +285,14 @@ void NTargetTime::TimerDestroy(NTimerID theTimer)
 //----------------------------------------------------------------------------
 void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 {
+	NN_LOG("NTargetTime::TimerReset unfinished implementation!");
+	TimerInfo* timerInfo = (TimerInfo *) theTimer;
+	itimerspec spec;
 
+	timer_gettime(timerInfo->timerid, &spec);
+	spec.it_value.tv_nsec=fireAfter;
 
-	// dair, to do
-	NN_LOG("NTargetTime::TimerReset not implemented!");
+	timer_settime(timerInfo->timerid, 0, &spec, NULL);
 }
 
 
