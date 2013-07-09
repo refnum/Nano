@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <sys/stat.h>
+#include <sys/mount.h>
 #include <sys/fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -844,11 +845,14 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //----------------------------------------------------------------------------
 NStatus NTargetFile::UnmountVolume(const NString &thePath)
 {
+	int	status;
 
+	// Unmount, we can also use umount2 with flags
+	// However documentation specifies umount2 might not be
+	// on all systems
+	status = umount(thePath.GetUTF8());
 
-	// dair, to do
-	NN_LOG("NTargetFile::UnmountVolume not implemented!");
-	return(kNErrNotSupported);
+	return NLinuxTarget::ConvertSysErr(status);
 }
 
 

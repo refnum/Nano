@@ -18,7 +18,7 @@
 #include <signal.h>
 #include "NSpinLock.h"
 #include "NTargetTime.h"
-
+#include "NTargetThread.h"
 
 
 
@@ -213,10 +213,9 @@ NTime NTargetTime::GetUpTime(void)
 //----------------------------------------------------------------------------
 static void TimerCallback(sigval_t userData)
 {	
+	// Get the state we need
 	TimerInfo* timerInfo = (TimerInfo*) userData.sival_ptr;
 
-	// Get the state we need
-	timerInfo;
 
 	// Invoke the timer
 	if (timerInfo != NULL)
@@ -226,23 +225,21 @@ static void TimerCallback(sigval_t userData)
 
 
 
+
 //============================================================================
-//		NTargetTime::TimerCreate : Create a timer.
+//		DoTimerCreate : Create a timer.
 //----------------------------------------------------------------------------
-NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAfter, NTime fireEvery)
+static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theTimer)
 {
-	NN_LOG("NTargetTime::TimerCreate unfinished implementation!");
-	NTimerID theTimer = kNTimerNone;
 	itimerspec spec;
 	sigevent event;
 	TimerInfo* timerInfo;
 
+
 	// Allocate the timer info
 	timerInfo = new TimerInfo;
-	if (timerInfo == NULL)
-		return theTimer;
-	else 
-		theTimer = (NTimerID) timerInfo;
+	*theTimer = (timerInfo == NULL) ? kNTimerNone : (NTimerID) timerInfo;
+
 
 	memset(&event, 0x00, sizeof(sigevent));
 	event.sigev_notify=SIGEV_THREAD;
@@ -257,8 +254,58 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAft
 	{
 		timer_settime(timerInfo->timerid, 0, &spec, NULL);
 	}
+}
 
-	return theTimer;
+
+
+
+
+//============================================================================
+//		DoTimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+static void DoTimerDestroy(NTimerID theTimer)
+{
+	TimerInfo* timerInfo = (TimerInfo *) theTimer;
+	timer_delete(timerInfo->timerid);
+	delete timerInfo;
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
+{
+	TimerInfo* timerInfo = (TimerInfo *) theTimer;
+	itimerspec spec;
+
+	timer_gettime(timerInfo->timerid, &spec);
+	spec.it_value.tv_nsec=fireAfter;
+
+	timer_settime(timerInfo->timerid, 0, &spec, NULL);
+}
+
+
+
+
+//============================================================================
+//		NTargetTime::TimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAfter, NTime fireEvery)
+{	NTimerID	theTimer;
+
+
+
+	// Create the timer
+	//
+	// Nano always executes timers on the main thread and so we need to create the functor on the main thread.
+	theTimer = kNTimerNone;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theTimer));
+
+	return(theTimer);
 }
 
 
@@ -270,10 +317,10 @@ NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAft
 //----------------------------------------------------------------------------
 void NTargetTime::TimerDestroy(NTimerID theTimer)
 {
-	NN_LOG("NTargetTime::TimerDestroy unfinished implementation!");
-	TimerInfo* timerInfo = (TimerInfo *) theTimer;
-	timer_delete(timerInfo->timerid);
-	delete timerInfo;
+
+
+	// Destroy the timer
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerDestroy, theTimer));
 }
 
 
@@ -285,14 +332,10 @@ void NTargetTime::TimerDestroy(NTimerID theTimer)
 //----------------------------------------------------------------------------
 void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 {
-	NN_LOG("NTargetTime::TimerReset unfinished implementation!");
-	TimerInfo* timerInfo = (TimerInfo *) theTimer;
-	itimerspec spec;
 
-	timer_gettime(timerInfo->timerid, &spec);
-	spec.it_value.tv_nsec=fireAfter;
 
-	timer_settime(timerInfo->timerid, 0, &spec, NULL);
+	// Reset the timer
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerReset, theTimer, fireAfter));
 }
 
 

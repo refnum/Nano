@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetPreferences.h"
+#include <errno.h>
 
 
 
@@ -28,28 +29,41 @@ static	bool needsRead = true;
 static	bool needsWrite = false;
 
 
+
+
+
 //============================================================================
 //		SyncFile
 //----------------------------------------------------------------------------
 static void SyncFile(bool save = false)
 {
-	NN_LOG("NLinuxPreferences SyncFile unfinished implementation!");
 	if (needsRead || needsWrite)
 	{
-		NFile preferencesFile = NFileUtilities::GetDirectory(kNLocationPreferences, "user.conf", kNDomainUser, save);
+		NString preferencesName;
+
+		NBundle bundle;
+		if (bundle.IsValid())
+		{
+			preferencesName.Format("%s/%s/%s", bundle.GetInfoString("CompanyName"), bundle.GetInfoString("ProductName"), "user.conf");
+		} else {
+			preferencesName.Format("%s/%s/%s", "Nano", program_invocation_name, "user.conf");
+		}
+
+		NFile preferencesFile = NFileUtilities::GetDirectory(kNLocationPreferences, preferencesName, kNDomainUser, save);
+		NPropertyList propertyList;
+
 		if (save && needsWrite && !needsRead)
 		{
-			NEncoder encoder;
-			NData outputData = encoder.Encode(gPreferences, kNEncoderXML);
-			NFileUtilities::SetFileData(preferencesFile, outputData);
+
+			propertyList.Save(preferencesFile, gPreferences, kNPropertyListJSON);
 			needsWrite = false;
+
 		} else if (!save && needsRead)
 		{
-			NData inputData = NFileUtilities::GetFileData(preferencesFile);
-			NEncoder encoder;
-			// TO-DO Implement decoder
-			//gPreferences = (NDictionary)encoder.Decode(inputData);
+
+			gPreferences = propertyList.Load(preferencesFile);
 			needsRead = false;
+
 		}
 	}
 }

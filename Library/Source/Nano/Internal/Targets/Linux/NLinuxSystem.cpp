@@ -21,7 +21,8 @@
 #include <locale.h>
 #include <errno.h>
 #include <unistd.h>
-
+#include <png.h>
+#include <jpeglib.h>
 #include "NFileUtilities.h"
 #include "NTargetSystem.h"
 
