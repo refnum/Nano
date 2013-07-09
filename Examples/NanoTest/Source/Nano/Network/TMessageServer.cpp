@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NMathUtilities.h"
 #include "NMessageClient.h"
+#include "NMessageServer.h"
 #include "NTestFixture.h"
 
 

@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NThreadUtilities.h"
+#include "NSTLUtilities.h"
 #include "NTargetNetwork.h"
 #include "NThread.h"
 #include "NSocket.h"

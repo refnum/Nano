@@ -158,12 +158,12 @@ void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
 //============================================================================
 //      NDebug::LogMessage : Log a message.
 //----------------------------------------------------------------------------
-void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NString &theMsg)
+void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NString &msgFormat, NN_FORMAT_ARGS_PARAM)
 {	char				thePrefix[kPrefixBufferSize];
 	StLock				acquireLock(GetLock());
 	UInt32				timeStamp;
 	const char			*fileName;
-	NString				finalMsg;
+	NString				theMsg;
 
 
 
@@ -175,17 +175,35 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NString &theM
 
 	// Construct the message
 	//
-	// We must use a copy-data string, since our buffer is local.
+	// We may be invoked with a message with raw '%'s (e.g., when reporting formatter
+	// errors), so we only format if we've been given at least one valid argument.
+	if (arg1.IsValid())
+		theMsg.Format(msgFormat, NN_FORMAT_ARGS_LIST);
+	else
+		theMsg = msgFormat;
+
 	NTargetPOSIX::snprintf(thePrefix, sizeof(thePrefix), "[%lu] %s:%ld: ", timeStamp, fileName, (long) lineNum);
-
-	finalMsg  = NString(thePrefix, kNStringLength);
-	finalMsg += theMsg;
-	finalMsg += "\n";
-
+	theMsg.Format("%s%@\n", thePrefix, theMsg);
+	
 
 
 	// Print it out
-	mDebugOutput(finalMsg.GetUTF8());
+	mDebugOutput(theMsg.GetUTF8());
+}
+
+
+
+
+
+//============================================================================
+//      NDebug::LogMessage : Log a message.
+//----------------------------------------------------------------------------
+void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const char *msgFormat, NN_FORMAT_ARGS_PARAM)
+{
+
+
+	// Log the message
+	LogMessage(thePath, lineNum, NString(msgFormat, kNStringLength), NN_FORMAT_ARGS_LIST);
 }
 
 

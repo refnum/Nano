@@ -17,6 +17,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NData.h"
+#include "NFile.h"
+#include "NRectangle.h"
 #include "NUTI.h"
 
 

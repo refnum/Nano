@@ -26,7 +26,7 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kTestMessage									= "Hello World";
+#define kTestMessage												"Hello World"
 
 
 

@@ -23,6 +23,8 @@
 //----------------------------------------------------------------------------
 #include "catch.hpp"
 
+#include "NString.h"
+
 
 
 
@@ -58,6 +60,9 @@ namespace Catch {
 #define TEST_CASE_FIXTURE( ClassName, TestName, ... )\
 	namespace{ \
 		struct INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ) : ClassName{ \
+			         INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )(void) { } \
+			virtual ~INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )(void) { } \
+			\
             void invokeFixture(); \
 			void test(); \
 		}; \

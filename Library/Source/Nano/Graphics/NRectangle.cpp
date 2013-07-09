@@ -17,6 +17,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NString.h"
+#include "NMutex.h"
 
 #ifndef NRECTANGLE_CPP
 	#include "NEncoder.h"

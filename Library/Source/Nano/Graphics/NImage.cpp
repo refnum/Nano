@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NFileUtilities.h"
+#include "NSTLUtilities.h"
 #include "NTargetSystem.h"
 #include "NTargetMath.h"
 #include "NImage.h"

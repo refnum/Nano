@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTestFixture.h"
+#include "NSTLUtilities.h"
 #include "NImage.h"
 
 
