@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include <semaphore.h>
 #include <syscall.h>
+#include <unistd.h>
 
 #include "NLinuxTarget.h"
 #include "NTargetThread.h"
