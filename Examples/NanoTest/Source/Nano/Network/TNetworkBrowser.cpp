@@ -14,7 +14,9 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NNetworkBrowser.h"
 #include "NNetworkService.h"
+#include "NSTLUtilities.h"
 #include "NTestFixture.h"
 
 #include "CTestUtilities.h"

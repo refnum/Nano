@@ -18,7 +18,7 @@
 //----------------------------------------------------------------------------
 #include "NSTLUtilities.h"
 #include "NSemaphore.h"
-#include "NLock.h"
+#include "NMutex.h"
 #include "NThreadTask.h"
 
 

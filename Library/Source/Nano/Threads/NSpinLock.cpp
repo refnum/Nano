@@ -14,6 +14,8 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#include "NMathUtilities.h"
+#include "NTimeUtilities.h"
 #include "NTargetThread.h"
 #include "NSpinLock.h"
 

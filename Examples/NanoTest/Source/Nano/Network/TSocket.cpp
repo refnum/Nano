@@ -16,6 +16,7 @@
 //----------------------------------------------------------------------------
 #include "NThreadUtilities.h"
 #include "NMathUtilities.h"
+#include "NSocket.h"
 #include "NTestFixture.h"
 
 

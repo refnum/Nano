@@ -15,8 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NThreadUtilities.h"
+#include "NDataDigest.h"
 #include "NMessageEntity.h"
-
 
 
 

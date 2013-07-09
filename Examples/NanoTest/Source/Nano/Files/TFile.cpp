@@ -15,6 +15,7 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTestFixture.h"
+#include "NFileIterator.h"
 #include "NFile.h"
 
 

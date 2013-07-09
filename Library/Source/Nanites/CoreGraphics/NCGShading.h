@@ -19,6 +19,7 @@
 #include "NMathUtilities.h"
 
 #include "NCFObject.h"
+#include "NRectangle.h"
 #include "NColor.h"
 
 
