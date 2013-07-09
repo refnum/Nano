@@ -39,41 +39,44 @@ extern "C" void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const cha
 extern     void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...);
 
 #if NN_DEBUG
-	#define NN_ASSERT(_test)																								\
-		do																													\
-			{																												\
-			if (!(_test))																									\
-				NDebug_LogMessage(__FILE__, __LINE__, "Assertion failed: %s", #_test);										\
-			}																												\
+	#define NN_ASSERT(__test)																					\
+		do																										\
+			{																									\
+			if (!(__test))																						\
+				NDebug_LogMessage(	__FILE__, __LINE__,															\
+									"Assertion failed: %s", #__test);											\
+			}																									\
 		while(0)
 
-	#define NN_ASSERT_MSG(_test, _message, ...)																				\
-		do																													\
-			{																												\
-			if (!(_test))																									\
-				NDebug_LogMessage(__FILE__, __LINE__, "Assertion failed: %s (" #_message ")", #_test, ##__VA_ARGS__);		\
-			}																												\
+	#define NN_ASSERT_MSG(__test, __message, ...)																\
+		do																										\
+			{																									\
+			if (!(__test))																						\
+				NDebug_LogMessage(	__FILE__, __LINE__,															\
+									"Assertion failed: %s (" __message ")", #__test, ##__VA_ARGS__);			\
+			}																									\
 		while(0)
 
-	#define NN_ASSERT_NOERR(_error)																							\
-		do																													\
-			{																												\
-			if ((_error) != 0)																								\
-				NDebug_LogMessage(__FILE__, __LINE__, "Error: %ld", _error);												\
-			}																												\
+	#define NN_ASSERT_NOERR(__error)																			\
+		do																										\
+			{																									\
+			if ((__error) != 0)																					\
+				NDebug_LogMessage(	__FILE__, __LINE__,															\
+									"Error: %ld", __error);														\
+			}																									\
 		while(0)
 
-	#define NN_LOG(...)																										\
-		do																													\
-			{																												\
-			NDebug_LogMessage(__FILE__, __LINE__, __VA_ARGS__);																\
-			}																												\
+	#define NN_LOG(...)																							\
+		do																										\
+			{																									\
+			NDebug_LogMessage(__FILE__, __LINE__, __VA_ARGS__);													\
+			}																									\
 		while(0)
 
 #else
-	#define NN_ASSERT(_test)									do { } while (0)
-	#define NN_ASSERT_MSG(_test, _message, ...)					do { } while (0)
-	#define NN_ASSERT_NOERR(_error)								do { } while (0)
+	#define NN_ASSERT(__test)									do { } while (0)
+	#define NN_ASSERT_MSG(__test, __message, ...)				do { } while (0)
+	#define NN_ASSERT_NOERR(__error)							do { } while (0)
 	#define NN_LOG(...)											do { } while (0)
 #endif
 
@@ -106,41 +109,44 @@ typedef void (*DebugOutputProc)(const char *theMsg);
 //----------------------------------------------------------------------------
 // Primitives
 #if NN_DEBUG
-	#define NN_ASSERT(_test)																								\
-		do																													\
-			{																												\
-			if (!(_test))																									\
-				NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format("Assertion failed: %s", #_test));	\
-			}																												\
+	#define NN_ASSERT(__test)																					\
+		do																										\
+			{																									\
+			if (!(__test))																						\
+				NDebug::Get()->LogMessage(	__FILE__, __LINE__,													\
+											"Assertion failed: %s", #__test);									\
+			}																									\
 		while(0)
 
-	#define NN_ASSERT_MSG(_test, _message, ...)																												\
-		do																																					\
-			{																																				\
-			if (!(_test))																																	\
-				NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format("Assertion failed: %s (" #_message ")", #_test, ##__VA_ARGS__));	\
-			}																																				\
+	#define NN_ASSERT_MSG(__test, __message, ...)																\
+		do																										\
+			{																									\
+			if (!(__test))																						\
+				NDebug::Get()->LogMessage(	__FILE__, __LINE__,													\
+											"Assertion failed: %s (" __message ")", #__test, ##__VA_ARGS__);	\
+			}																									\
 		while(0)
 
-	#define NN_ASSERT_NOERR(_error)																							\
-		do																													\
-			{																												\
-			if ((_error) != kNoErr)																							\
-				NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format("Error: %ld", _error));				\
-			}																												\
+	#define NN_ASSERT_NOERR(__error)																			\
+		do																										\
+			{																									\
+			if ((__error) != kNoErr)																			\
+				NDebug::Get()->LogMessage(	__FILE__, __LINE__,													\
+											"Error: %ld", __error);												\
+			}																									\
 		while(0)
 
-	#define NN_LOG(...)																										\
-		do																													\
-			{																												\
-			NDebug::Get()->LogMessage(__FILE__, __LINE__, NStringFormatter().Format(__VA_ARGS__));							\
-			}																												\
+	#define NN_LOG(...)																							\
+		do																										\
+			{																									\
+			NDebug::Get()->LogMessage(__FILE__, __LINE__, __VA_ARGS__);											\
+			}																									\
 		while(0)
 
 #else
-	#define NN_ASSERT(_test)									do { } while (0)
-	#define NN_ASSERT_MSG(_test, _message, ...)					do { } while (0)
-	#define NN_ASSERT_NOERR(_error)								do { } while (0)
+	#define NN_ASSERT(__test)									do { } while (0)
+	#define NN_ASSERT_MSG(__test, __message, ...)				do { } while (0)
+	#define NN_ASSERT_NOERR(__error)							do { } while (0)
 	#define NN_LOG(...)											do { } while (0)
 #endif
 
@@ -183,7 +189,8 @@ public:
 
 
 	// Log a message
-	void								LogMessage(const char *thePath, UInt32 lineNum, const NString &theMsg);
+	void								LogMessage(const char *thePath, UInt32 lineNum, const NString &msgFormat, NN_FORMAT_ARGS);
+	void								LogMessage(const char *thePath, UInt32 lineNum, const char    *msgFormat, NN_FORMAT_ARGS);
 
 
     // Get the debug instance
