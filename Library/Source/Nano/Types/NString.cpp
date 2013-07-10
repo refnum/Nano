@@ -2369,8 +2369,13 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 //		NString::GetConstantString : Get a string constant.
 //----------------------------------------------------------------------------
 NString NString::GetConstantString(const char *theText)
-{	static NConstantStringMap		sTable;
-	static NMutex					sLock;
+{
+	// Eternals
+	//
+	// These must never be freed, otherwise they could be used after
+	// they have been destroyed during static destruction
+	static NConstantStringMap & sTable = *(new NConstantStringMap);
+	static NMutex &             sLock  = *(new NMutex);
 
 	StLock								lockMutex(sLock);
 	NString								theString;
@@ -2382,6 +2387,7 @@ NString NString::GetConstantString(const char *theText)
 	//
 	// Constant strings are cached by their pointer, which must persist.
 	theIter = sTable.find(theText);
+
 	if (theIter != sTable.end())
 		{
 		// Use the cache
