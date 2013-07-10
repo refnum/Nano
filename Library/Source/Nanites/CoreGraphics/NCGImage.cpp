@@ -142,29 +142,33 @@ bool NCGImage::SetObject(CGImageRef cfObject, bool takeOwnership)
 	if (bitsPerPixel == 8 && bitsPerComponent == 8)
 		{
 		// Convert indexed images to 32bpp without alpha
-		theFormat  = kNImageFormat_RGBX_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
+		theFormat    = kNImageFormat_RGBX_8888;
+		bitmapInfo   = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
 		cgColorSpace = NCGColor::GetDeviceRGB();
 		}
 
 	else if (bitsPerPixel == 24 && bitsPerComponent == 8)
 		{
 		// Convert 24bpp images to 32bpp without alpha
-		theFormat  = kNImageFormat_RGBX_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
+		theFormat    = kNImageFormat_RGBX_8888;
+		bitmapInfo   = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
 		cgColorSpace = NCGColor::GetDeviceRGB();
 		}
 
 	else if (bitsPerPixel == 32 && bitsPerComponent == 8)
 		{
 		// Convert 32bpp images to 32bpp with alpha
-		theFormat  = kNImageFormat_RGBA_8888;
-		bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
+		theFormat    = kNImageFormat_RGBA_8888;
+		bitmapInfo   = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
 		cgColorSpace = NCGColor::GetDeviceRGB();
 		}
 
 	else
+		{
 		NN_LOG("Unknown image format: %d/%d", bitsPerPixel, bitsPerComponent);
+		theFormat  = kNImageFormatNone;
+		bitmapInfo = kCGImageAlphaNone;
+		}
 
 	if (!cgColorSpace.IsValid())
 		return(false);
