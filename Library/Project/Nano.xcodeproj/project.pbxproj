@@ -596,7 +596,7 @@
 		AB9155630F9B4DD6009FFEAF /* NString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NString.h; sourceTree = "<group>"; };
 		AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringEncoder.cpp; sourceTree = "<group>"; };
 		AB9155650F9B4DD6009FFEAF /* NStringEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringEncoder.h; sourceTree = "<group>"; };
-		AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringFormatter.cpp; sourceTree = "<group>"; };
+		AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NStringFormatter.cpp; sourceTree = "<group>"; };
 		AB9155670F9B4DD6009FFEAF /* NStringFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringFormatter.h; sourceTree = "<group>"; };
 		AB9155680F9B4DD6009FFEAF /* NVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NVariant.cpp; sourceTree = "<group>"; };
 		AB9155690F9B4DD6009FFEAF /* NVariant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVariant.h; sourceTree = "<group>"; };

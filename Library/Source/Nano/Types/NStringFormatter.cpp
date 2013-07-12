@@ -14,6 +14,11 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#if NN_TARGET_MAC
+	#include "NCoreFoundation.h"
+	#include "NCocoa.h"
+#endif
+
 #include "NRange.h"
 #include "NString.h"
 #include "NStringFormatter.h"
@@ -114,6 +119,11 @@ NFormatArgument::NFormatArgument(const char    *theValue)			{	mGetValue = BindSe
 NFormatArgument::NFormatArgument(const NString &theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueString,	_1, theValue);	}
 
 NFormatArgument::NFormatArgument(const NFormatFunctor &getValue)	{	mGetValue = getValue;	}
+
+#if NN_TARGET_MAC
+NFormatArgument::NFormatArgument(NSObject    *nsValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	_1, ToNN([nsValue description]));	}
+NFormatArgument::NFormatArgument(CFStringRef  cfValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	_1, ToNN(cfValue)              );	}
+#endif
 
 
 

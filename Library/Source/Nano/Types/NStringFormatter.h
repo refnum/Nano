@@ -16,6 +16,10 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
+#if NN_TARGET_MAC && defined(__OBJC__)
+	#include <Foundation/Foundation.h>
+#endif
+
 #include "NFunctor.h"
 
 
@@ -91,6 +95,12 @@ typedef struct {
 typedef nfunctor<NString (const NString &theFormat)>				NFormatFunctor;
 
 
+// Obj-C
+#if NN_TARGET_MAC && !defined(__OBJC__)
+	typedef struct ptrNSObject *NSObject;
+#endif
+
+
 
 
 
@@ -114,6 +124,11 @@ public:
 										NFormatArgument(const NString &theValue);
 
 										NFormatArgument(const NFormatFunctor &getValue);
+
+#if NN_TARGET_MAC
+										NFormatArgument(NSObject    *nsValue);
+										NFormatArgument(CFStringRef  cfValue);
+#endif
 
 										NFormatArgument(void);
 	virtual							   ~NFormatArgument(void);

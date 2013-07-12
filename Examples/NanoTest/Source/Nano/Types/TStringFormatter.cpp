@@ -281,3 +281,30 @@ TEST_NSTRINGFORMATTER("Special")
 
 
 
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+#if NN_TARGET_MAC
+
+TEST_NSTRINGFORMATTER("Foundation")
+{	StAutoReleasePool		autoRelease;
+	NSString				*nsString;
+	CFStringRef				cfString;
+
+
+
+	// Perform the test
+	nsString  = [NSString stringWithUTF8String:"NSString"];
+	theResult = theFormatter.Format("Obj-C [%@]", nsString);
+	REQUIRE(theResult == "Obj-C [NSString]");
+
+	cfString  = CFSTR("CFString");
+	theResult = theFormatter.Format("Obj-C [%@]", cfString);
+	REQUIRE(theResult == "Obj-C [CFString]");
+}
+
+#endif // NN_TARGET_MAC
+
+
+
