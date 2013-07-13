@@ -1,5 +1,5 @@
 CXX     = gcc
-LDFLAGS = -lstdc++ -lpthread -lrt -ldl
+LDFLAGS = -lstdc++ -lpthread -lrt -ldl -lm
 AR      = ar
 ARFLAGS = rcs
 
