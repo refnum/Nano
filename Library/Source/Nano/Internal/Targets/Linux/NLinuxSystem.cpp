@@ -738,8 +738,8 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 	int *image_out_len;
 
 	image = gdImageCreateTrueColor(theImage.GetHeight(), theImage.GetWidth());
-	for (UInt32 y; y < theImage.GetWidth(); ++y) {
-		for (UInt32 x; x < theImage.GetHeight(); ++x) {
+	for (NIndex y; y < theImage.GetWidth(); ++y) {
+		for (NIndex x; x < theImage.GetHeight(); ++x) {
 			gdImageSetPixel(image, x, y, image_in[x*y]);
 		}
 	}
@@ -788,8 +788,7 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 	NData image_data(theData.GetSize(), theData.GetData(), true);
 	NImageFormat image_format;
 	gdImagePtr image;
-	int *image_out_len;
-	void *image_out;
+	UInt8 *image_out;
 	void *data = static_cast<void*>(image_data.GetData());
 	UInt32 data_len = theData.GetSize();
 
@@ -809,10 +808,15 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 	image_out = image_data.GetData();
 
 	int pixel;
-	for (UInt32 y; y < image->sy; ++y) {
-		for (UInt32 x; x < image->sx; ++x) {
+	UInt32 cur_index;
+	for (NIndex y; y < image->sy; ++y) {
+		for (NIndex x; x < image->sx; ++x) {
 			pixel = gdImageGetPixel(image, x, y);
-			//pixels[x*y] =
+			cur_index = x*y;
+			image_out[cur_index] = pixel & 0xFF000000;
+			image_out[cur_index + 1] = pixel & 0x00FF0000;
+			image_out[cur_index + 2] = pixel & 0x0000FF00;
+			image_out[cur_index + 3] = pixel & 0x000000FF;
 		}
 	}
 
