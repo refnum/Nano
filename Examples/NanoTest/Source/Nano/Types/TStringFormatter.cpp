@@ -207,6 +207,28 @@ TEST_NSTRINGFORMATTER("Precision")
 	valueInt  = -2;
 	theResult = theFormatter.Format("NegPrecisionIsDiscarded [%.*f]", valueInt, kTestFloat64);
 	REQUIRE(theResult == "NegPrecisionIsDiscarded [3.141593]");
+
+	theResult = theFormatter.Format("EmptyPrecisionIsIgnored [%-7.u]", kTestUInt16);
+	REQUIRE(theResult == "EmptyPrecisionIsIgnored [1616   ]");
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGFORMATTER("Alignment")
+{
+
+
+	// Perform the test
+	theResult = theFormatter.Format("ArgUInt16 [%7d]", kTestUInt16);
+	REQUIRE(theResult == "ArgUInt16 [   1616]");
+
+	theResult = theFormatter.Format("ArgUInt16 [%-7d]", kTestUInt16);
+	REQUIRE(theResult == "ArgUInt16 [1616   ]");
 }
 
 
