@@ -15,10 +15,21 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include <sys/time.h>
-
+#include <signal.h>
 #include "NSpinLock.h"
 #include "NTargetTime.h"
+#include "NTargetThread.h"
 
+
+
+
+//============================================================================
+//		Internal types
+//----------------------------------------------------------------------------
+typedef struct {
+	timer_t				timerid;
+	NTimerFunctor			theFunctor;
+} TimerInfo;
 
 
 
@@ -198,15 +209,103 @@ NTime NTargetTime::GetUpTime(void)
 
 
 //============================================================================
+//		TimerCallback : Timer callback.
+//----------------------------------------------------------------------------
+static void TimerCallback(sigval_t userData)
+{	
+	// Get the state we need
+	TimerInfo* timerInfo = (TimerInfo*) userData.sival_ptr;
+
+
+	// Invoke the timer
+	if (timerInfo != NULL)
+		timerInfo->theFunctor(kNTimerFired);
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theTimer)
+{
+	itimerspec spec;
+	sigevent event;
+	TimerInfo* timerInfo;
+
+
+	// Allocate the timer info
+	timerInfo = new TimerInfo;
+	*theTimer = (timerInfo == NULL) ? kNTimerNone : (NTimerID) timerInfo;
+
+
+	memset(&event, 0x00, sizeof(sigevent));
+	event.sigev_notify=SIGEV_THREAD;
+	event.sigev_notify_function=TimerCallback;
+	event.sigev_notify_attributes = NULL;
+	event.sigev_value.sival_ptr=timerInfo;
+	
+	spec.it_interval.tv_sec=fireEvery;
+	spec.it_value.tv_sec=fireAfter;
+
+	if (timer_create(CLOCK_REALTIME, &event, &timerInfo->timerid))
+	{
+		timer_settime(timerInfo->timerid, 0, &spec, NULL);
+	}
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+static void DoTimerDestroy(NTimerID theTimer)
+{
+	TimerInfo* timerInfo = (TimerInfo *) theTimer;
+	timer_delete(timerInfo->timerid);
+	delete timerInfo;
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
+{
+	TimerInfo* timerInfo = (TimerInfo *) theTimer;
+	itimerspec spec;
+
+	timer_gettime(timerInfo->timerid, &spec);
+	spec.it_value.tv_nsec=fireAfter;
+
+	timer_settime(timerInfo->timerid, 0, &spec, NULL);
+}
+
+
+
+
+//============================================================================
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
-NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
-{
+NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAfter, NTime fireEvery)
+{	NTimerID	theTimer;
 
 
-	// dair, to do
-	NN_LOG("NTargetTime::TimerCreate not implemented!");
-	return(0);
+
+	// Create the timer
+	//
+	// Nano always executes timers on the main thread and so we need to create the functor on the main thread.
+	theTimer = kNTimerNone;
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerCreate, theFunctor, fireAfter, fireEvery, &theTimer));
+
+	return(theTimer);
 }
 
 
@@ -220,8 +319,8 @@ void NTargetTime::TimerDestroy(NTimerID theTimer)
 {
 
 
-	// dair, to do
-	NN_LOG("NTargetTime::TimerDestroy not implemented!");
+	// Destroy the timer
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerDestroy, theTimer));
 }
 
 
@@ -235,8 +334,8 @@ void NTargetTime::TimerReset(NTimerID theTimer, NTime fireAfter)
 {
 
 
-	// dair, to do
-	NN_LOG("NTargetTime::TimerReset not implemented!");
+	// Reset the timer
+	NTargetThread::ThreadInvokeMain(BindFunction(DoTimerReset, theTimer, fireAfter));
 }
 
 

@@ -29,7 +29,7 @@
 //		Internal globals
 //----------------------------------------------------------------------------
 static ThreadFunctorList gMainThreadFunctors;
-
+static pthread_t gMainThreadID = pthread_self();
 
 
 
@@ -290,7 +290,7 @@ bool NTargetThread::ThreadIsMain(void)
 
 
 	// Check our state
-	return(syscall(SYS_gettid) == getpid());
+	return(gMainThreadID == pthread_self());
 }
 
 
