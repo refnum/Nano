@@ -696,6 +696,12 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 
 
 
+	// Validate our parameters
+	NN_ASSERT((theFlags & kNStringPattern)   == kNStringNone);
+	NN_ASSERT((theFlags & kNStringBackwards) == kNStringNone);
+
+
+
 	// Get the state we need
 	valueA =           GetImmutable();
 	valueB = theString.GetImmutable();
