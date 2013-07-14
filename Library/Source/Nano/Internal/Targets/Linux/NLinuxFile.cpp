@@ -49,14 +49,86 @@ typedef struct {
 } FileMapInfo;
 
 
-typedef std::map<NString, NString>								DirectoryMap;
 
 
 
 //============================================================================
 //		Internal globals
 //----------------------------------------------------------------------------
-static DirectoryMap gUserDirs;
+static NStringMap gUserDirs;
+
+
+
+
+
+//============================================================================
+//      Internal functions
+//----------------------------------------------------------------------------
+//      InitialiseUserDirs : Initialise the user directories.
+//----------------------------------------------------------------------------
+static void InitialiseUserDirs(void)
+{	NFile	theFile;
+
+
+
+	// Check our state
+	if (!gUserDirs.empty())
+		return;
+	
+
+	theFile = NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild("user-dirs.dirs");
+
+	if (theFile.IsFile())
+	{
+		// Need some kind of ReadLine functionality here
+		NString fullText = NFileUtilities::GetFileText(theFile);
+		NStringList lines = fullText.Split("\n");
+
+		for (NStringList::iterator it = lines.begin(); it != lines.end(); ++it)
+		{
+			// Trim all left and right whitespace
+			it->Trim();
+
+			NIndex stringSize = it->GetSize();
+
+			// Must be at least three characters x=y
+			if (stringSize < 3)
+				continue;
+
+			NRange equalsSearch = it->Find("=");
+
+			// There must be an equals
+			if (equalsSearch.GetSize() == 0)
+				continue;
+
+			NIndex equalsPos = equalsSearch.GetFirst();
+
+			// We must have at least one character on the right and leftof the equals
+			if (equalsPos > stringSize - 2 || equalsPos == 0)
+				continue;
+
+			NString value = *it;//it->SubString(stringSize-1);
+			NString key = *it;//it->SubString(stringSize+1);
+
+			// Already trimmed value left whitespace and key right whitespace
+			value.TrimRight();
+			key.TrimLeft();
+
+			// Trim any quotes on the value
+			value.TrimLeft("\"");
+			value.TrimRight("\"");
+
+			// We might have trimmed down to nothing
+			if (value.GetSize() == 0 || key.GetSize() == 0)
+				continue;
+
+			value.Replace("$HOME", NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild(value).GetPath());
+
+			gUserDirs[key]=value;
+		}
+	}
+}
+
 
 
 
@@ -542,69 +614,6 @@ NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 
 
 //============================================================================
-//      UserDirPopulate : Populate the user dirs
-//----------------------------------------------------------------------------
-static void UserDirPopulate()
-{
-	NFile theFile = NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild("user-dirs.dirs");
-
-	if (theFile.IsFile())
-	{
-		// Need some kind of ReadLine functionality here
-		NString fullText = NFileUtilities::GetFileText(theFile);
-		NStringList lines = fullText.Split("\n");
-
-		for (NStringList::iterator it = lines.begin(); it != lines.end(); ++it)
-		{
-			// Trim all left and right whitespace
-			it->Trim();
-
-			NIndex stringSize = it->GetSize();
-
-			// Must be at least three characters x=y
-			if (stringSize < 3)
-				continue;
-
-			NRange equalsSearch = it->Find("=");
-
-			// There must be an equals
-			if (equalsSearch.GetSize() == 0)
-				continue;
-
-			NIndex equalsPos = equalsSearch.GetFirst();
-
-			// We must have at least one character on the right and leftof the equals
-			if (equalsPos > stringSize - 2 || equalsPos == 0)
-				continue;
-
-			NString value = *it;//it->SubString(stringSize-1);
-			NString key = *it;//it->SubString(stringSize+1);
-
-			// Already trimmed value left whitespace and key right whitespace
-			value.TrimRight();
-			key.TrimLeft();
-
-			// Trim any quotes on the value
-			value.TrimLeft("\"");
-			value.TrimRight("\"");
-
-			// We might have trimmed down to nothing
-			if (value.GetSize() == 0 || key.GetSize() == 0)
-				continue;
-
-			value.Replace("$HOME", NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild(value).GetPath());
-
-			gUserDirs[key]=value;
-		}
-	}
-}
-
-
-
-
-
-
-//============================================================================
 //      NTargetFile::GetDirectory : Get a directory.
 //----------------------------------------------------------------------------
 NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
@@ -706,8 +715,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 		
 		case kNLocationDesktop:
 			{
-				if (gUserDirs.size() == 0)
-					UserDirPopulate();
+				InitialiseUserDirs();
 				NString found  = gUserDirs["XDG_DESKTOP_DIR"];
 				if (!found.IsEmpty())
 					theFile = NFile(found);
@@ -717,8 +725,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			}
 		case kNLocationDocuments:
 			{
-				if (gUserDirs.size() == 0)
-					UserDirPopulate();
+				InitialiseUserDirs();
 				NString found  = gUserDirs["XDG_DOCUMENTS_DIR"];
 				if (!found.IsEmpty())
 					theFile = NFile(found);
