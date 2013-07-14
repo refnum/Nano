@@ -40,8 +40,9 @@ static const SInt64	kTestSInt64										= -6464646464646464LL;
 static const Float32 kTestFloat32									= (Float32) kNPi;
 static const Float64 kTestFloat64									= (Float64) kNPi;
 
-static const char *kTestPtrChar										= "text";
-static const void *kTestPtrVoid										= (void *) 0xDEADBEEF;
+static const char    *kTestPtrChar									= "text";
+static const wchar_t *kTestPtrWChar									= L"text";
+static const void    *kTestPtrVoid									= (void *) 0xDEADBEEF;
 
 static const NString kResultMissingType								= ": Missing type: found '%' without type in 'NoSpecifier [% 12345]'\n";
 static const NString kResultTooFewArgs								= ": Invalid index: '%d'\n";
@@ -76,9 +77,6 @@ TEST_NSTRINGFORMATTER("Primitives")
 
 
 	// Perform the test
-	theResult = theFormatter.Format("ArgChar [%c]", 'z');
-	REQUIRE(theResult == "ArgChar [z]");
-
 	theResult = theFormatter.Format("ArgUInt8 [%d]", kTestUInt8);
 	REQUIRE(theResult == "ArgUInt8 [8]");
 
@@ -118,12 +116,22 @@ TEST_NSTRINGFORMATTER("Primitives")
 	REQUIRE(theResult == "ArgFloat64 [3.141592653589793]");
 
 
+	theResult = theFormatter.Format("ArgChar [%c]", kTestPtrChar[0]);
+	REQUIRE(theResult == "ArgChar [t]");
+
+	theResult = theFormatter.Format("ArgChar [%lc]", kTestPtrWChar[0]);
+	REQUIRE(theResult == "ArgChar [t]");
+
 	theResult = theFormatter.Format("ArgPtrChar [%s]", kTestPtrChar);
 	REQUIRE(theResult == "ArgPtrChar [text]");
 
+	theResult = theFormatter.Format("ArgPtrChar [%ls]", kTestPtrWChar);
+	REQUIRE(theResult == "ArgPtrChar [text]");
+
+
 	theResult = theFormatter.Format("ArgPtrVoid [%p]", kTestPtrVoid);
-	REQUIRE((	theResult == "ArgPtrVoid [0xdeadbeef]" ||			// gcc
-				theResult == "ArgPtrVoid [DEADBEEF]"));				// VS
+	REQUIRE((	theResult == "ArgPtrVoid [0xdeadbeef]" ||			// gcc/clang
+				theResult == "ArgPtrVoid [DEADBEEF]"));				// MSVC
 
 
 	theResult = theFormatter.Format("ArgHex [%x]", kTestUInt32);

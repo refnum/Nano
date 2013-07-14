@@ -198,6 +198,12 @@ public:
 	//			Float32				%f
 	//			Float64				%lf
 	//
+	//			char				%c
+	//			wchar_t				%lc
+	//
+	//			char *				%s
+	//			wchar_t *			%ls
+	//
 	//			Objects				%@
 	//
 	// Arguments are printed by wrapping them in an NFormatArgument object,
