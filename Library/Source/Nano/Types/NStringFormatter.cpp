@@ -316,8 +316,8 @@ NString NFormatArgument::GetValueCharPtr(const NString &theFormat, const char *t
 
 
 	// Validate our parameters
-	NN_ASSERT(theFormat == "%s");
-	NN_UNUSED(theFormat);
+	if (NN_DEBUG && theFormat.Find("%[-\\d]*s", kNStringPattern) != NRange(0, theFormat.GetSize()))
+		NN_LOG("Illegal string formatter: [%@]", theFormat);
 
 
 
