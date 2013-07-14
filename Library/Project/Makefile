@@ -191,7 +191,7 @@ FLAGS_INCLUDE =                                                                 
         -I"../Source/Nano/Internal/Components/udp.github.com"                        \
         -I"../Source/Nano/Internal/Components/unicode.org"                           \
         -I"../Source/Nano/Internal/Components/zlib_1.2.3"                            \
-	-I"../Source/Nano/Internal/Components/libgd-2.1.0"			     \
+        -I"../Source/Nano/Internal/Components/libgd-2.1.0"                           \
         -I"../Source/Nano/Internal/Targets"                                          \
         -I"../Source/Nano/Internal/Targets/Linux"                                    \
         -I"../Source/Nano/Network"                                                   \
