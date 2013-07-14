@@ -104,30 +104,34 @@ TEST_NTIMER("Active")
 //----------------------------------------------------------------------------
 TEST_NTIMER("Reset")
 {	UInt32		theValue;
-	UInt32		timeout;
 	NTimerID	theID;
+	NIndex		n;
 
 
 
 	// Perform the test
 	theValue = 0;
-	timeout = 100;
 	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
 
-	while (theValue < 3 && timeout > 0 )
-	{
+	for (n = 0; n < 100; n++)
+		{
 		CTestUtilities::ExecuteRunloop(kTestRepeat);
-		timeout--;
-	}
+		if (theValue == 3)
+			break;
+		}
+
 	REQUIRE(theValue == 3);
 
-	theTimer.ResetTimer(kTestRepeat, theID);
 
-	while (theValue < 5 && timeout > 0 )
-	{
+	theTimer.ResetTimer(kTestRepeat, theID);
+	
+	for (n = 0; n < 100; n++)
+		{
 		CTestUtilities::ExecuteRunloop(kTestRepeat);
-		timeout--;
-	}
+		if (theValue == 5)
+			break;
+		}
+
 	REQUIRE(theValue == 5);
 }
 
