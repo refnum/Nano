@@ -21,6 +21,9 @@
 #include <locale.h>
 #include <errno.h>
 #include <unistd.h>
+
+#include "gd.h"
+
 #include "NFileUtilities.h"
 #include "NTargetSystem.h"
 
@@ -38,6 +41,13 @@ static const NIndex kPipeWrite											= 1;
 // Misc
 static const size_t kBufferSize											= 2 * kNKilobyte;
 
+// Magic Numbers
+static const char *kMagicBmp = "BM";
+static const char *kMagicGif = "GIF8";
+static const char *kMagicJpeg = "\0xff\0xd8\0xff\0xe0";
+static const char *kMagicPng = ".PNG";
+static const char *kMagicXpm = "/* XPM */";
+static const char *kMagicTiff = "II*.";
 
 
 
@@ -720,16 +730,52 @@ NString NTargetSystem::TransformString(const NString &theString, NStringTransfor
 //		NTargetSystem::ImageEncode : Encode an image.
 //----------------------------------------------------------------------------
 NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
-{	NData	theResult;
+{
+	NData	image_data;
+	gdImagePtr image;
+	const UInt8* image_in = theImage.GetData().GetData();
+	void *image_out;
+	int *image_out_len;
 
+	image = gdImageCreateTrueColor(theImage.GetHeight(), theImage.GetWidth());
+	for (UInt32 y; y < theImage.GetWidth(); ++y) {
+		for (UInt32 x; x < theImage.GetHeight(); ++x) {
+			gdImageSetPixel(image, x, y, image_in[x*y]);
+		}
+	}
 
+	if (theType == kNUTTypePNG)
+		image_out = gdImagePngPtr(image, image_out_len);
+	else if (theType == kNUTTypeJPEG)
+		image_out = gdImageJpegPtr(image, image_out_len, -1);
+	else if (theType == kNUTTypeTIFF)
+		image_out = gdImageTiffPtr(image, image_out_len);
+	else if (theType == kNUTTypeGIF)
+		image_out = gdImageGifPtr(image, image_out_len);
+	else {
+		NN_LOG("Unsupported format: %@", theType);
+		return(image_data);
+	}
 
-	// Encode the image
-		// dair, to do
-		NN_LOG("NTargetSystem::ImageEncode not implemented!");
-	return(theResult);
+	gdImageDestroy(image);
+
+	image_data.SetData(*image_out_len, image_out, false);
+
+	return(image_data);
 }
 
+
+
+
+bool CompareMagicNumber(const void* data, UInt32 data_len, const char* magic_num)
+{
+	UInt32 magic_num_len = strlen(magic_num);
+
+	if (data_len < magic_num_len)
+		return false;
+
+	return memcmp(data, magic_num, magic_num_len) == 0;
+}
 
 
 
@@ -738,14 +784,43 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 //		NTargetSystem::ImageDecode : Decode an image.
 //----------------------------------------------------------------------------
 NImage NTargetSystem::ImageDecode(const NData &theData)
-{	NImage	theImage;
+{
+	NData image_data(theData.GetSize(), theData.GetData(), true);
+	NImageFormat image_format;
+	gdImagePtr image;
+	int *image_out_len;
+	void *image_out;
+	void *data = static_cast<void*>(image_data.GetData());
+	UInt32 data_len = theData.GetSize();
 
+	if (CompareMagicNumber(data, data_len, kMagicBmp))
+		image = gdImageCreateFromBmpPtr(data_len, data);
+	else if (CompareMagicNumber(data, data_len, kMagicPng))
+		image = gdImageCreateFromPngPtr(data_len, data);
+	else if (CompareMagicNumber(data, data_len, kMagicJpeg))
+		image = gdImageCreateFromJpegPtr(data_len, data);
+	else if (CompareMagicNumber(data, data_len, kMagicTiff))
+		image = gdImageCreateFromTiffPtr(data_len, data);
+	else if (CompareMagicNumber(data, data_len, kMagicGif))
+		image = gdImageCreateFromGifPtr(data_len, data);
 
+	image_format = kNImageFormat_ARGB_8888;
+	image_data.SetSize(image->sy*image->sx*4);
+	image_out = image_data.GetData();
 
-	// Decode the image
-		// dair, to do
-		NN_LOG("NTargetSystem::ImageDecode not implemented!");
-	return(theImage);
+	int pixel;
+	for (UInt32 y; y < image->sy; ++y) {
+		for (UInt32 x; x < image->sx; ++x) {
+			pixel = gdImageGetPixel(image, x, y);
+			//pixels[x*y] =
+		}
+	}
+
+	NImage theImage(static_cast<NSize>(image_data.GetSize()), image_format, image_data, image->sy);
+
+	gdImageDestroy(image);
+
+	return (theImage);
 }
 
 
