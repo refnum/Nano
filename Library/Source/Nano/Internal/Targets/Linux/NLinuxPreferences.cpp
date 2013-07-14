@@ -15,7 +15,58 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetPreferences.h"
+#include <errno.h>
 
+
+
+
+
+//============================================================================
+//      Internal globals
+//----------------------------------------------------------------------------
+static	NDictionary	gPreferences;
+static	bool needsRead = true;
+static	bool needsWrite = false;
+
+
+
+
+
+//============================================================================
+//		SyncFile
+//----------------------------------------------------------------------------
+static void SyncFile(bool save = false)
+{
+	if (needsRead || needsWrite)
+	{
+		NString preferencesName;
+
+		NBundle bundle;
+		if (bundle.IsValid())
+		{
+			preferencesName.Format("%s/%s/%s", bundle.GetInfoString("CompanyName"), bundle.GetInfoString("ProductName"), "user.conf");
+		} else {
+			preferencesName.Format("%s/%s/%s", "Nano", program_invocation_name, "user.conf");
+		}
+
+		NFile preferencesFile = NFileUtilities::GetDirectory(kNLocationPreferences, preferencesName, kNDomainUser, save);
+		NPropertyList propertyList;
+
+		if (save && needsWrite && !needsRead)
+		{
+
+			propertyList.Save(preferencesFile, gPreferences, kNPropertyListJSON);
+			needsWrite = false;
+
+		} else if (!save && needsRead)
+		{
+
+			gPreferences = propertyList.Load(preferencesFile);
+			needsRead = false;
+
+		}
+	}
+}
 
 
 
@@ -25,11 +76,8 @@
 //----------------------------------------------------------------------------
 bool NTargetPreferences::HasKey(const NString &theKey)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetPreferences::HasKey not implemented!");
-	return(false);
+	SyncFile();
+	return gPreferences.HasKey(theKey);
 }
 
 
@@ -41,10 +89,8 @@ bool NTargetPreferences::HasKey(const NString &theKey)
 //----------------------------------------------------------------------------
 void NTargetPreferences::RemoveKey(const NString &theKey)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetPreferences::RemoveKey not implemented!");
+	SyncFile();
+	gPreferences.RemoveKey(theKey);
 }
 
 
@@ -56,11 +102,8 @@ void NTargetPreferences::RemoveKey(const NString &theKey)
 //----------------------------------------------------------------------------
 NVariant NTargetPreferences::GetValue(const NString &theKey)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetPreferences::GetValue not implemented!");
-	return(0);
+	SyncFile();
+	return gPreferences.GetValue(theKey);
 }
 
 
@@ -72,10 +115,9 @@ NVariant NTargetPreferences::GetValue(const NString &theKey)
 //----------------------------------------------------------------------------
 void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValue)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetPreferences::SetValue not implemented!");
+	SyncFile();
+	gPreferences.SetValue(theKey, theValue);
+	needsWrite = true;
 }
 
 
@@ -87,10 +129,7 @@ void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValu
 //----------------------------------------------------------------------------
 void NTargetPreferences::Flush(void)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetPreferences::Flush not implemented!");
+	SyncFile(true);
 }
 
 

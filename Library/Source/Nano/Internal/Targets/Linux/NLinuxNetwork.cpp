@@ -16,6 +16,19 @@
 //----------------------------------------------------------------------------
 #include "NTargetNetwork.h"
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+// Sockets
+typedef struct NSocketInfo {
+	NSocket *nano_socket;
+	int	native_socket;
+} NSocketInfo;
+
 
 
 
@@ -180,11 +193,80 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 //----------------------------------------------------------------------------
 NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, UInt16 thePort)
 {
+	NSocketRef socket_ref; // NSocketInfo*
+	NString port;
+	struct addrinfo hints;
+	struct addrinfo *result;
+	struct addrinfo *rp;
+	int status;
+	int tmp_socket;
 
+	memset(&hints, 0, sizeof(struct addrinfo));
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketOpen not implemented!");
-	return(NULL);
+	hints.ai_socktype = (true) ? SOCK_DGRAM : SOCK_STREAM;
+
+	port.Format("%d",thePort);
+
+	if (theHost.IsEmpty()) {
+		hints.ai_family = AF_UNSPEC; // Allow IPv4 or IPv6
+		hints.ai_flags = AI_PASSIVE; // Any interface for Server
+		hints.ai_protocol = 0;
+		hints.ai_canonname = NULL;
+		hints.ai_addr = NULL;
+		hints.ai_next = NULL;
+
+		status = getaddrinfo(NULL, port.GetUTF8(), &hints, &result);
+	} else {
+		hints.ai_family = AF_UNSPEC; // Allow IPv4 or IPv6
+		hints.ai_flags = 0;
+		hints.ai_protocol = 0;
+
+		status = getaddrinfo(theHost.GetUTF8(), port.GetUTF8(), &hints, &result);
+	}
+
+	NN_ASSERT_NOERR(status);
+
+	if (status!=0)
+		return (NULL);
+
+	// Loop result until we find an address that will connect or bind
+	for (rp = result; rp != NULL; rp = rp->ai_next) {
+		tmp_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+		if (tmp_socket == -1)
+			continue;
+
+		if (theHost.IsEmpty()){
+			if (bind(tmp_socket, rp->ai_addr, rp->ai_addrlen) != -1)
+				break; // Success
+		} else {
+			if (connect(tmp_socket, rp->ai_addr, rp->ai_addrlen) != -1)
+				break; // Success
+		}
+
+		close(tmp_socket);
+	}
+
+	NN_ASSERT(rp!=NULL);
+
+	if (rp == NULL)
+		return (NULL);
+
+	// Clean up
+	freeaddrinfo(result);
+
+	// Setup signal handler for closed sockets
+	/*sa.sa_handler = sigchld_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	NN_ASSERT(sigaction(SIGCHLD, &sa, NULL) != -1);*/
+
+	// TODO Create thread for listening/accepting connections
+
+	socket_ref = new NSocketInfo();
+	socket_ref->nano_socket=nanoSocket;
+	socket_ref->native_socket=tmp_socket;
+
+	return socket_ref;
 }
 
 
@@ -196,10 +278,7 @@ NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHos
 //----------------------------------------------------------------------------
 void NTargetNetwork::SocketClose(NSocketRef theSocket)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketClose not implemented!");
+    close(theSocket->native_socket);
 }
 
 
@@ -243,11 +322,7 @@ bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *thePtr)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketRead not implemented!");
-	return(0);
+	 return read(theSocket->native_socket, thePtr, theSize);
 }
 
 
@@ -259,11 +334,7 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const void *thePtr)
 {
-
-
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketWrite not implemented!");
-	return(0);
+	return write(theSocket->native_socket, thePtr, theSize);
 }
 
 
