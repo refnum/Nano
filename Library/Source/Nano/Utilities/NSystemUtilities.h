@@ -185,6 +185,10 @@ public:
 	static NString						GetSystemArch(void);
 
 
+	// Get an environment variable
+	static NString						GetEnvironment(const NString &theKey);
+
+
 	// Compare two version strings
 	static NComparison					CompareVersions(const NString &version1, const NString &version2);
 

@@ -602,6 +602,27 @@ NString NSystemUtilities::GetSystemArch(void)
 
 
 //============================================================================
+//      NSystemUtilities::GetEnvironment : Get an environment variable.
+//----------------------------------------------------------------------------
+NString NSystemUtilities::GetEnvironment(const NString &theKey)
+{	NString			theValue;
+	const char		*envVar;
+
+
+
+	// Get the environment variable
+	envVar = getenv(theKey.GetUTF8());
+	if (envVar != NULL)
+		theValue = NString(envVar, kNStringLength);
+	
+	return(theValue);
+}
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::CompareVersions : Compare two version strings.
 //----------------------------------------------------------------------------
 //		Note :	Algorithm is based on Ricardo Batista's MacPad.
