@@ -28,8 +28,12 @@
 //============================================================================
 //		Internal globals
 //----------------------------------------------------------------------------
-static ThreadFunctorList gMainThreadFunctors;
-static pthread_t gMainThreadID = pthread_self();
+// Main thread
+//
+// This assumes that the main thread performs static initialisation.
+static pthread_t			gMainThreadID = pthread_self();
+static ThreadFunctorList	gMainThreadFunctors;
+
 
 
 
@@ -290,7 +294,7 @@ bool NTargetThread::ThreadIsMain(void)
 
 
 	// Check our state
-	return(gMainThreadID == pthread_self());
+	return(pthread_equal(pthread_self(), gMainThreadID));
 }
 
 
