@@ -851,15 +851,14 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //      NTargetFile::UnmountVolume : Unmount a volume.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::UnmountVolume(const NString &thePath)
-{
-	int	status;
+{	int		sysErr;
 
-	// Unmount, we can also use umount2 with flags
-	// However documentation specifies umount2 might not be
-	// on all systems
-	status = umount(thePath.GetUTF8());
 
-	return NLinuxTarget::ConvertSysErr(status);
+
+	// Unmount the path
+	sysErr = umount(thePath.GetUTF8());
+
+	return(NLinuxTarget::ConvertSysErr(sysErr));
 }
 
 
