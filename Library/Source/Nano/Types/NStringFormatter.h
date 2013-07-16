@@ -16,8 +16,12 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC && defined(__OBJC__)
-	#include <Foundation/Foundation.h>
+#if NN_TARGET_MAC
+	#include <CoreFoundation/CoreFoundation.h>
+
+	#if defined(__OBJC__)
+		#include <Foundation/Foundation.h>
+	#endif
 #endif
 
 #include "NFunctor.h"
