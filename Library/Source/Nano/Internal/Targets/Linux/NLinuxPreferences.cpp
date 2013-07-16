@@ -15,7 +15,8 @@
 //		Include files
 //----------------------------------------------------------------------------
 #include "NTargetPreferences.h"
-#include <errno.h>
+#include "NSystemUtilities.h"
+#include "NMutex.h"
 
 
 
@@ -24,60 +25,123 @@
 //============================================================================
 //      Internal globals
 //----------------------------------------------------------------------------
-static	NDictionary	gPreferences;
-static	bool needsRead = true;
-static	bool needsWrite = false;
+static NMutex		gPreferencesLock;
+static bool			gPreferencesDirty;
+static NDictionary	gPreferences;
 
 
 
 
 
 //============================================================================
-//		SyncFile
+//		Internal functions
 //----------------------------------------------------------------------------
-static void SyncFile(bool save = false)
-{
-	if (needsRead || needsWrite)
-	{
-		NString preferencesName;
+//		GetPrefsFile : Get the preferences file.
+//----------------------------------------------------------------------------
+static NFile GetPrefsFile(bool createDir)
+{	NBundle		appBundle;
+	NString		fileName;
+	NFile		theFile;
 
-		NBundle bundle;
-		if (bundle.IsValid())
-		{
-			preferencesName.Format("%s/%s/%s", bundle.GetInfoString("CompanyName"), bundle.GetInfoString("ProductName"), "user.conf");
-		} else {
-			preferencesName.Format("%s/%s/%s", "Nano", program_invocation_name, "user.conf");
-		}
 
-		NFile preferencesFile = NFileUtilities::GetDirectory(kNLocationPreferences, preferencesName, kNDomainUser, save);
-		NPropertyList propertyList;
 
-		if (save && needsWrite && !needsRead)
-		{
+	// Get the state we need
+	if (bundle.IsValid())
+		fileName.Format("%@.json", bundle.GetIdentifier());
+	else
+		fileName.Format("%@.json", NSystemUtilities::GetProcessName());
 
-			propertyList.Save(preferencesFile, gPreferences, kNPropertyListJSON);
-			needsWrite = false;
 
-		} else if (!save && needsRead)
-		{
 
-			gPreferences = propertyList.Load(preferencesFile);
-			needsRead = false;
-
-		}
-	}
+	// Get the file
+	theFile = NFileUtilities::GetDirectory(kNLocationPreferences, fileName, kNDomainUser, createDir);
+	
+	return(theFile);
 }
 
 
 
 
+
+//============================================================================
+//		LoadPrefs : Load the preferences.
+//----------------------------------------------------------------------------
+static void LoadPrefs(void)
+{	NPropertyList	propertyList;
+	NFile			theFile;
+
+
+
+	// Get the state we need
+	theFile = GetPrefsFile(false);
+
+
+
+	// Load the prefs
+	gPreferencesDirty = false;
+
+	if (theFile.IsFile())
+		gPreferences = propertyList.Load(theFile);
+}
+
+
+
+
+
+//============================================================================
+//		SavePrefs : Save the preferences.
+//----------------------------------------------------------------------------
+static void SavePrefs(void)
+{	NPropertyList	propertyList;
+	NFile			theFile;
+
+
+
+	// Get the state we need
+	theFile = GetPrefsFile(true);
+
+
+
+	// Save the prefs
+	if (gPreferencesDirty)
+		{
+		propertyList.Save(theFile, gPreferences, kNPropertyListJSON);
+		gPreferencesDirty = false;
+		}
+}
+
+
+
+
+
+//============================================================================
+//		ChangedPrefs : Mark the preferences as changed.
+//----------------------------------------------------------------------------
+static void ChangedPrefs(void)
+{
+
+
+	// Update our state
+	gPreferencesDirty = true;
+}
+
+
+
+
+
+#pragma NTargetPreferences
 //============================================================================
 //		NTargetPreferences::HasKey : Does a key exist?
 //----------------------------------------------------------------------------
 bool NTargetPreferences::HasKey(const NString &theKey)
-{
-	SyncFile();
-	return gPreferences.HasKey(theKey);
+{	StLock		acquireLock(gPreferencesLock);
+
+
+
+	// Check the key
+	LoadPrefs();
+
+	return(gPreferences.HasKey(theKey));
 }
 
 
@@ -88,9 +152,16 @@ bool NTargetPreferences::HasKey(const NString &theKey)
 //		NTargetPreferences::RemoveKey : Remove a key.
 //----------------------------------------------------------------------------
 void NTargetPreferences::RemoveKey(const NString &theKey)
-{
-	SyncFile();
+{	StLock		acquireLock(gPreferencesLock);
+
+
+
+	// Remove the key
+	LoadPrefs();
+
 	gPreferences.RemoveKey(theKey);
+
+	ChangedPrefs();
 }
 
 
@@ -101,9 +172,14 @@ void NTargetPreferences::RemoveKey(const NString &theKey)
 //		NTargetPreferences::GetValue : Get a value.
 //----------------------------------------------------------------------------
 NVariant NTargetPreferences::GetValue(const NString &theKey)
-{
-	SyncFile();
-	return gPreferences.GetValue(theKey);
+{	StLock		acquireLock(gPreferencesLock);
+
+
+
+	// Get the value
+	LoadPrefs();
+	
+	return(gPreferences.GetValue(theKey));
 }
 
 
@@ -114,10 +190,16 @@ NVariant NTargetPreferences::GetValue(const NString &theKey)
 //		NTargetPreferences::SetValue : Set a value.
 //----------------------------------------------------------------------------
 void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValue)
-{
-	SyncFile();
+{	StLock		acquireLock(gPreferencesLock);
+
+
+
+	// Set the value
+	LoadPrefs();
+
 	gPreferences.SetValue(theKey, theValue);
-	needsWrite = true;
+
+	ChangedPrefs();
 }
 
 
@@ -128,8 +210,12 @@ void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValu
 //		NTargetPreferences::Flush : Flush the preferences.
 //----------------------------------------------------------------------------
 void NTargetPreferences::Flush(void)
-{
-	SyncFile(true);
+{	StLock		acquireLock(gPreferencesLock);
+
+
+
+	// Flush the preferences
+	SavePrefs();
 }
 
 
