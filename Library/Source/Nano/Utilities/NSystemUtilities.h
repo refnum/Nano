@@ -169,6 +169,10 @@ public:
 	static NString						GetOSName(void);
 
 
+	// Get the process name
+	static NString						GetProcessName(void);
+
+
 	// Get the clock speed
 	//
 	// The result is in hertz.

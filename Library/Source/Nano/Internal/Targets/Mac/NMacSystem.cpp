@@ -18,6 +18,7 @@
 #include <sys/fcntl.h>
 #include <sysexits.h>
 
+#include "NCocoa.h"
 #include "NCoreGraphics.h"
 #include "NCoreFoundation.h"
 #include "NTimeUtilities.h"
@@ -346,6 +347,24 @@ NString NTargetSystem::GetOSName(void)
 #endif
 	
 	return(theResult);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetSystem::GetProcessName : Get the process name.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetProcessName(void)
+{	NString		theName;
+
+
+
+	// Get the name
+	theName = ToNN([[NSProcessInfo processInfo] processName]);
+
+	return(theName);
 }
 
 

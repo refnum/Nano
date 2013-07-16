@@ -345,11 +345,25 @@ NString NTargetSystem::GetOSName(void)
 //		NTargetSystem::GetProcessName : Get the process name.
 //----------------------------------------------------------------------------
 NString NTargetSystem::GetProcessName(void)
-{
+{	NRangeList	theRanges;
+	UInt64		theResult;
+	NString		theInfo;
 
 
-	// dair, to do
-	return("NTargetSystem_GetProcessName_Unimplemented")
+
+	// Get the state we need
+	theInfo   = GetProcFile("/proc/self/status");
+	theResult = 0;
+
+
+
+	// Get the process name
+	theRanges = theInfo.FindAll("Name\\s*:\\s*(.*)", kNStringPattern);
+	if (theRanges.size() == 2)
+		theResult = theInfo.GetString(theRanges[1]);
+
+	NN_ASSERT(!theResult.IsEmpty());
+	return(theResult);
 }
 
 

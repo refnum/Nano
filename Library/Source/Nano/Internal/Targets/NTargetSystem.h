@@ -61,6 +61,10 @@ public:
 	static NString						GetOSName(   void);
 
 
+	// Get the process details
+	static NString						GetProcessName(void);
+	
+
 	// Get the system details
 	static UInt64						GetSystemCPU( void);
 	static UInt64						GetSystemRAM( void);

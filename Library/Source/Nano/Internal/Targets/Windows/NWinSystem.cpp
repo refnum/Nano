@@ -455,6 +455,31 @@ NString NTargetSystem::GetOSName(void)
 
 
 //============================================================================
+//		NTargetSystem::GetProcessName : Get the process name.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetProcessName(void)
+{	TCHAR		theBuffer[MAX_PATH];
+	NString		theName;
+	NFile		theFile;
+
+
+
+	// Get the name
+	if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
+		{
+		theFile = NFile(ToNN(theBuffer));
+		if (theFile.IsFile())
+			theName = theFile.GetName(kNNameNoExtension);
+		}
+
+	return(theName);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetSystem::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
 UInt64 NTargetSystem::GetSystemCPU(void)

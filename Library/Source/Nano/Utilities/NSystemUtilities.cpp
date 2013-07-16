@@ -550,6 +550,21 @@ NString NSystemUtilities::GetOSName(void)
 
 
 //============================================================================
+//		NSystemUtilities::GetProcessName : Get the process name.
+//----------------------------------------------------------------------------
+NString NSystemUtilities::GetProcessName(void)
+{
+
+
+	// Get the name
+	return(NTargetSystem::GetProcessName());
+}
+
+
+
+
+
+//============================================================================
 //		NSystemUtilities::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
 UInt64 NSystemUtilities::GetSystemCPU(void)
