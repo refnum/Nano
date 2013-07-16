@@ -159,7 +159,7 @@ TEST_NDATA("SizeDown")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("SizeUp", "Increase the size")
+TEST_NDATA("SizeUp")
 {	NIndex			n, oldSize, theDelta;
 	const UInt8		*thePtr;
 
@@ -189,7 +189,7 @@ TEST_NDATA("SizeUp", "Increase the size")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Reserve", "Reserve data")
+TEST_NDATA("Reserve")
 {
 
 
@@ -208,7 +208,7 @@ TEST_NDATA("Reserve", "Reserve data")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("GetData", "Get data")
+TEST_NDATA("GetData")
 {	NData	sliceData;
 
 
@@ -234,7 +234,7 @@ TEST_NDATA("GetData", "Get data")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("SetDataValue", "Set data with value")
+TEST_NDATA("SetDataValue")
 {
 
 
@@ -251,7 +251,7 @@ TEST_NDATA("SetDataValue", "Set data with value")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("SetDataZero", "Set data with zeros")
+TEST_NDATA("SetDataZero")
 {	const UInt8		*thePtr;
 	NIndex			n;
 
@@ -273,7 +273,7 @@ TEST_NDATA("SetDataZero", "Set data with zeros")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("SetDataClear", "Set data with nothing")
+TEST_NDATA("SetDataClear")
 {
 
 
@@ -298,7 +298,7 @@ TEST_NDATA("SetDataClear", "Set data with nothing")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("InsertDataValue", "Insert data with value")
+TEST_NDATA("InsertDataValue")
 {
 
 
@@ -320,7 +320,7 @@ TEST_NDATA("InsertDataValue", "Insert data with value")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("InsertDataZero", "Insert data with zeros")
+TEST_NDATA("InsertDataZero")
 {	const UInt8		*thePtr;
 	NIndex			n;
 
@@ -348,7 +348,7 @@ TEST_NDATA("InsertDataZero", "Insert data with zeros")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Remove", "Remove data")
+TEST_NDATA("Remove")
 {
 
 
@@ -374,7 +374,7 @@ TEST_NDATA("Remove", "Remove data")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("AppendDataValue", "Append data with value")
+TEST_NDATA("AppendDataValue")
 {
 
 
@@ -393,7 +393,7 @@ TEST_NDATA("AppendDataValue", "Append data with value")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("AppendDataZero", "Append data with zeros")
+TEST_NDATA("AppendDataZero")
 {	const UInt8		*thePtr;
 	NIndex			n;
 
@@ -419,7 +419,7 @@ TEST_NDATA("AppendDataZero", "Append data with zeros")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Replace", "Replace data")
+TEST_NDATA("Replace")
 {
 
 
@@ -440,7 +440,7 @@ TEST_NDATA("Replace", "Replace data")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Compare", "Comparisons")
+TEST_NDATA("Compare")
 {
 
 
@@ -455,9 +455,9 @@ TEST_NDATA("Compare", "Comparisons")
 
 
 //============================================================================
-//		Test case
+//		Test cases
 //----------------------------------------------------------------------------
-TEST_NDATA("Concatenation1", "Concatenation with +=")
+TEST_NDATA("Concatenation1")
 {
 
 
@@ -476,7 +476,7 @@ TEST_NDATA("Concatenation1", "Concatenation with +=")
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NDATA("Concatenation2", "Concatenation with +")
+TEST_NDATA("Concatenation2")
 {
 
 
