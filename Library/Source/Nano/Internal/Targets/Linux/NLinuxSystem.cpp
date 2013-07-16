@@ -41,13 +41,15 @@ static const NIndex kPipeWrite											= 1;
 // Misc
 static const size_t kBufferSize											= 2 * kNKilobyte;
 
+
 // Magic Numbers
-static const char *kMagicBmp = "BM";
-static const char *kMagicGif = "GIF8";
-static const char *kMagicJpeg = "\0xff\0xd8\0xff\0xe0";
-static const char *kMagicPng = ".PNG";
-static const char *kMagicXpm = "/* XPM */";
-static const char *kMagicTiff = "II*.";
+static const char *kMagicBmp											= "BM";
+static const char *kMagicGif											= "GIF8";
+static const char *kMagicJpeg											= "\0xff\0xd8\0xff\0xe0";
+static const char *kMagicPng											= ".PNG";
+static const char *kMagicXpm											= "/* XPM */";
+static const char *kMagicTiff											= "II*.";
+
 
 
 
@@ -195,6 +197,26 @@ static NString GetProcFile(const NString &thePath)
 		}
 	
 	return(theText);
+}
+
+
+
+
+
+//============================================================================
+//      CompareMagicNumber : Compare a magic number.
+//----------------------------------------------------------------------------
+static bool CompareMagicNumber(const void* data, UInt32 data_len, const char* magic_num)
+{	UInt32		magic_num_len;
+
+
+
+	// Compare the number
+	magic_num_len = strlen(magic_num);
+	if (data_len < magic_num_len)
+		return(false);
+
+	return(memcmp(data, magic_num, magic_num_len) == 0);
 }
 
 
@@ -798,18 +820,6 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 	return(image_data);
 }
 
-
-
-
-bool CompareMagicNumber(const void* data, UInt32 data_len, const char* magic_num)
-{
-	UInt32 magic_num_len = strlen(magic_num);
-
-	if (data_len < magic_num_len)
-		return false;
-
-	return memcmp(data, magic_num, magic_num_len) == 0;
-}
 
 
 
