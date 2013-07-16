@@ -23,13 +23,16 @@
 
 
 
+
 //============================================================================
 //		Internal types
 //----------------------------------------------------------------------------
+// Timer info
 typedef struct {
-	timer_t				timerid;
-	NTimerFunctor			theFunctor;
+	timer_t				timerID;
+	NTimerFunctor		theFunctor;
 } TimerInfo;
+
 
 
 
@@ -156,6 +159,100 @@ static void UnlockTimeZone(void)
 
 
 
+//============================================================================
+//		TimerCallback : Timer callback.
+//----------------------------------------------------------------------------
+static void TimerCallback(sigval_t userData)
+{	TimerInfo		*timerInfo = (TimerInfo *) userData.sival_ptr;
+
+
+
+	// Invoke the timer
+	if (timerInfo != NULL)
+		timerInfo->theFunctor(kNTimerFired);
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerCreate : Create a timer.
+//----------------------------------------------------------------------------
+static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theTimer)
+{	TimerInfo		*timerInfo;
+	itimerspec		timerSpec;
+	sigevent		theEvent;
+
+
+
+	// Allocate the timer info
+	timerInfo = new TimerInfo;
+	*theTimer = (NTimerID) timerInfo;
+	
+	timerInfo->timerID    = 0;
+	timerInfo->theFunctor = theFunctor;
+
+
+
+	// Create the timer
+	memset(&theEvent, 0x00, sizeof(sigevent));
+
+	theEvent.sigev_notify            = SIGEV_THREAD;
+	theEvent.sigev_notify_function   = TimerCallback;
+	theEvent.sigev_notify_attributes = NULL;
+	theEvent.sigev_value.sival_ptr   = timerInfo;
+	
+	timerSpec.it_interval = NLinuxTarget::ConvertTimeSpec(fireEvery);
+	timerSpec.it_value    = NLinuxTarget::ConvertTimeSpec(fireAfter);
+
+	if (timer_create(CLOCK_REALTIME, &theEvent, &timerInfo->timerID))
+		timer_settime(timerInfo->timerID, 0, &timerSpec, NULL);
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerDestroy : Destroy a timer.
+//----------------------------------------------------------------------------
+static void DoTimerDestroy(NTimerID theTimer)
+{	TimerInfo *timerInfo = (TimerInfo *) theTimer;
+
+
+
+	// Remove the timer
+	timer_delete(timerInfo->timerID);
+
+	delete timerInfo;
+}
+
+
+
+
+
+//============================================================================
+//		DoTimerReset : Reset a timer.
+//----------------------------------------------------------------------------
+static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
+{	TimerInfo		*timerInfo = (TimerInfo *) theTimer;
+	itimerspec		timerSpec;
+
+
+
+	// Reset the timer
+	timer_gettime(timerInfo->timerID, &timerSpec);
+
+	timerSpec.it_value = NLinuxTarget::ConvertTimeSpec(fireAfter);
+
+	timer_settime(timerInfo->timerID, 0, &timerSpec, NULL);
+}
+
+
+
+
+
 #pragma mark NTargetTime
 //============================================================================
 //		Public functions
@@ -204,89 +301,6 @@ NTime NTargetTime::GetUpTime(void)
 	return(theTime);
 }
 
-
-
-
-
-//============================================================================
-//		TimerCallback : Timer callback.
-//----------------------------------------------------------------------------
-static void TimerCallback(sigval_t userData)
-{	
-	// Get the state we need
-	TimerInfo* timerInfo = (TimerInfo*) userData.sival_ptr;
-
-
-	// Invoke the timer
-	if (timerInfo != NULL)
-		timerInfo->theFunctor(kNTimerFired);
-}
-
-
-
-
-
-//============================================================================
-//		DoTimerCreate : Create a timer.
-//----------------------------------------------------------------------------
-static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery, NTimerID *theTimer)
-{
-	itimerspec spec;
-	sigevent event;
-	TimerInfo* timerInfo;
-
-
-	// Allocate the timer info
-	timerInfo = new TimerInfo;
-	*theTimer = (timerInfo == NULL) ? kNTimerNone : (NTimerID) timerInfo;
-
-
-	memset(&event, 0x00, sizeof(sigevent));
-	event.sigev_notify=SIGEV_THREAD;
-	event.sigev_notify_function=TimerCallback;
-	event.sigev_notify_attributes = NULL;
-	event.sigev_value.sival_ptr=timerInfo;
-	
-	spec.it_interval.tv_sec=fireEvery;
-	spec.it_value.tv_sec=fireAfter;
-
-	if (timer_create(CLOCK_REALTIME, &event, &timerInfo->timerid))
-	{
-		timer_settime(timerInfo->timerid, 0, &spec, NULL);
-	}
-}
-
-
-
-
-
-//============================================================================
-//		DoTimerDestroy : Destroy a timer.
-//----------------------------------------------------------------------------
-static void DoTimerDestroy(NTimerID theTimer)
-{
-	TimerInfo* timerInfo = (TimerInfo *) theTimer;
-	timer_delete(timerInfo->timerid);
-	delete timerInfo;
-}
-
-
-
-
-
-//============================================================================
-//		DoTimerReset : Reset a timer.
-//----------------------------------------------------------------------------
-static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
-{
-	TimerInfo* timerInfo = (TimerInfo *) theTimer;
-	itimerspec spec;
-
-	timer_gettime(timerInfo->timerid, &spec);
-	spec.it_value.tv_nsec=fireAfter;
-
-	timer_settime(timerInfo->timerid, 0, &spec, NULL);
-}
 
 
 
