@@ -345,12 +345,38 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 //      NTargetNetwork::SocketGetOption : Get a socket option.
 //----------------------------------------------------------------------------
 SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
-{
+{	socklen_t		valueSize;
+	int				valueInt;
+	SInt32			theValue;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketGetOption not implemented!");
-	return(0);
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Get the state we need
+	theValue = 0;
+
+
+
+	// Get the option
+	switch (theOption) {
+		case kNSocketNoDelay:
+			valueInt  = 0;
+			valueSize = sizeof(valueInt);
+
+			if (getsockopt(theSocket->nativeSocket, IPPROTO_TCP, TCP_NODELAY, &valueInt, &valueSize) == 0)
+				theValue = (valueInt != 0);
+			break;
+
+		default:
+			NN_LOG("Unknown option: %d", theOption);
+			break;
+		}
+	
+	return(theValue);
 }
 
 
@@ -361,13 +387,36 @@ SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOp
 //      NTargetNetwork::SocketSetOption : Set a socket option.
 //----------------------------------------------------------------------------
 NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue)
-{
+{	int			valueInt;
+	NStatus		theErr;
 
 
-	// dair, to do
-	NN_LOG("NTargetNetwork::SocketSetOption not implemented!");
-	return(kNErrPermission);
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
+
+
+
+	// Get the state we need
+	theErr = kNErrNotSupported;
+
+
+
+	// Set the option
+	switch (theOption) {
+		case kNSocketNoDelay:
+			valueInt = (theValue != 0) ? 1 : 0;
+
+			if (setsockopt(theSocket->nativeSocket, IPPROTO_TCP, TCP_NODELAY, &valueInt, sizeof(valueInt)) == 0)
+				theErr = kNoErr;
+			break;
+
+		default:
+			NN_LOG("Unknown option: %d", theOption);
+			break;
+		}
+	
+	return(theErr);
 }
-
 
 
