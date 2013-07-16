@@ -48,3 +48,21 @@ TEST_NSYSTEMUTILITIES("OS")
 }
 
 
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSYSTEMUTILITIES("Process")
+{	NString		theName;
+
+
+
+	// Perform the test
+	theName = NSystemUtilities::GetProcessName();
+	REQUIRE(theName == "NanoTest");
+}
+
+
+

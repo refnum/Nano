@@ -24,7 +24,8 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static void * const kValueLocal										= (void *) 0x12345678;
+static void * const  kValueLocal									= (void *) 0x12345678;
+static const NString kThreadName									= "Main Thread";
 
 
 
@@ -55,6 +56,22 @@ TEST_NTHREAD("ID")
 	theID = NThread::GetID();
 	REQUIRE( NThread::AreEqual(theID, theID));
 	REQUIRE(!NThread::AreEqual(theID, kNThreadIDNone));
+}
+
+
+
+
+
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NTHREAD("Name")
+{
+
+
+	// Perform the test
+	NThread::SetName(kThreadName);
+	REQUIRE(NThread::GetName() == kThreadName);
 }
 
 
