@@ -338,6 +338,47 @@ NThreadID NTargetThread::ThreadGetID(void)
 
 
 //============================================================================
+//		NTargetThread::ThreadGetName : Get the current thread name.
+//----------------------------------------------------------------------------
+NString NTargetThread::ThreadGetName(void)
+{	char		theBuffer[PATH_MAX];
+	NString		theName;
+	int			sysErr;
+
+
+
+	// Get the name
+	sysErr = pthread_getname_np(pthread_self(), theBuffer, sizeof(theBuffer));
+	NN_ASSERT_NOERR(sysErr);
+	
+	if (sysErr == 0)
+		theName = NString(theBuffer, kNStringLength);
+	
+	return(theName);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadSetName : Set the current thread name.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadSetName(const NString &theName)
+{	int		sysErr;
+
+
+
+	// Set the name
+	sysErr = pthread_setname_np(theName.GetUTF8());
+	NN_ASSERT_NOERR(sysErr);
+}
+
+
+
+
+
+//============================================================================
 //		NTargetThread::ThreadAreEqual : Are two thread IDs equal?
 //----------------------------------------------------------------------------
 bool NTargetThread::ThreadAreEqual(NThreadID thread1, NThreadID thread2)

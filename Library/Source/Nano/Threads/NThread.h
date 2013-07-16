@@ -75,6 +75,11 @@ public:
 	static NThreadID					GetID(void);
 
 
+	// Get/set the current thread name
+	static NString						GetName(void);
+	static void							SetName(const NString &theName);
+
+
 	// Are two thread IDs equal?
 	static bool							AreEqual(NThreadID thread1, NThreadID thread2);
 

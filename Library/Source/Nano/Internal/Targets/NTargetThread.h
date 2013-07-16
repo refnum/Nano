@@ -61,6 +61,8 @@ public:
 	// Threads
 	static bool							ThreadIsMain(void);
 	static NThreadID					ThreadGetID(void);
+	static NString						ThreadGetName(void);
+	static void							ThreadSetName(const NString &theName);
 	static bool							ThreadAreEqual(NThreadID thread1, NThreadID thread2);
 	static void							ThreadSleep(NTime theTime);
 	static NStatus						ThreadCreate(    const NFunctor &theFunctor);

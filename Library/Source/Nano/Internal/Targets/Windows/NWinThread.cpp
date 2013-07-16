@@ -27,7 +27,10 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UINT WM_INVOKEMAINTHREADFUNCTORS						= WM_USER + 1;
+static const UINT	WM_INVOKEMAINTHREADFUNCTORS						= WM_USER + 1;
+
+static const DWORD	MSVC_EXCEPTION									= 0x406D1388;
+static const DWORD	MSVC_SET_THREADNAME								= 0x1000;
 
 
 
@@ -46,6 +49,29 @@ typedef struct {
 	NIndex				numReaders;
 	NIndex				numWriters;
 } RWLockRef;
+
+
+// MSVC thread info
+//
+// Documented at:
+//
+//	http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
+#pragma pack(push,8)
+
+typedef struct {
+	DWORD				dwType;
+	LPCSTR				szName;
+	DWORD				dwThreadID;
+	DWORD				dwFlags;
+} THREADNAME_INFO;
+
+#pragma pack(pop)
+
+
+// Maps
+typedef std::map<NThreadID, NString>								ThreadNameMap;
+typedef ThreadMap::iterator											ThreadNameMapIterator;
+typedef ThreadMap::const_iterator									ThreadNameMapConstIterator;
 
 
 
@@ -91,6 +117,9 @@ static HWND CreateMainThreadWindow(void);
 static DWORD				gMainThreadID     = GetCurrentThreadId();
 static HWND					gMainThreadWindow = CreateMainThreadWindow();
 static ThreadFunctorList	gMainThreadFunctors;
+
+static NSpinLock			gThreadNameLock;
+static ThreadNameMap		gThreadNames;
 
 
 
@@ -466,6 +495,64 @@ NThreadID NTargetThread::ThreadGetID(void)
 
 	// Get the thread ID
 	return((NThreadID) GetCurrentThreadId());
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadGetName : Get the current thread name.
+//----------------------------------------------------------------------------
+NString NTargetThread::ThreadGetName(void)
+{	StLock							acquireLock(gThreadNameLock);
+	ThreadNameMapConstIterator		theIter;
+	NString							theName;
+
+
+
+	// Get the name
+	theIter = gThreadNames.find(ThreadGetID());
+	if (theIter != gThreadNames.end())
+		theName = theIter->second;
+	
+	return(theName);
+}
+
+
+
+
+
+//============================================================================
+//		NTargetThread::ThreadSetName : Set the current thread name.
+//----------------------------------------------------------------------------
+void NTargetThread::ThreadSetName(const NString &theName)
+{	StLock				acquireLock(gThreadNameLock);
+	THREADNAME_INFO		theInfo;
+	ThreadID			theID;
+
+
+
+	// Get the state we need
+	theID = ThreadGetID();
+	
+	theInfo.dwtype     = MSVC_SET_THREADNAME;
+	theInfo.szName     = ToWN(theName);
+	theInfo.dwThreadID = (DWORD) theID;
+	theInfo.dwFlags    = 0;
+
+
+
+	// Set the name
+	gThreadNames[theID] = theName;
+
+	__try
+		{
+		RaiseException(MSVC_EXCEPTION, 0, sizeof(theInfo)/sizeof(ULONG_PTR), (ULONG_PTR *) &theInfo);
+		}
+	__except(EXCEPTION_EXECUTE_HANDLER)
+		{
+		}
 }
 
 
