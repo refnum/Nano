@@ -168,9 +168,9 @@ static void WritePipe(NTaskPipeRef thePipe, const NString &theText)
 
 
 //============================================================================
-//      GetProcInfoFile : Get the contents of a /proc/xxxxinfo file.
+//      GetProcFile : Get the contents of a /proc file.
 //----------------------------------------------------------------------------
-static NString GetProcInfoFile(const NString &thePath)
+static NString GetProcFile(const NString &thePath)
 {	char		theBuffer[kBufferSize];
 	FILE		*theFile;
 	size_t		numRead;
@@ -179,6 +179,11 @@ static NString GetProcInfoFile(const NString &thePath)
 
 
 	// Read the file
+	//
+	// Special files under /proc can not have their size measured, so we
+	// can't use NFileUtilities::GetFileText to read their content.
+	//
+	// Instead we just have a "large enough" buffer, and grab them there.
 	theFile = fopen(thePath.GetUTF8(), "r");
 	if (theFile != NULL)
 		{
@@ -337,6 +342,21 @@ NString NTargetSystem::GetOSName(void)
 
 
 //============================================================================
+//		NTargetSystem::GetProcessName : Get the process name.
+//----------------------------------------------------------------------------
+NString NTargetSystem::GetProcessName(void)
+{
+
+
+	// dair, to do
+	return("NTargetSystem_GetProcessName_Unimplemented")
+}
+
+
+
+
+
+//============================================================================
 //		NTargetSystem::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
 UInt64 NTargetSystem::GetSystemCPU(void)
@@ -347,7 +367,7 @@ UInt64 NTargetSystem::GetSystemCPU(void)
 
 
 	// Get the state we need
-	theInfo   = GetProcInfoFile("/proc/cpuinfo");
+	theInfo   = GetProcFile("/proc/cpuinfo");
 	theResult = 0;
 
 
@@ -376,7 +396,7 @@ UInt64 NTargetSystem::GetSystemRAM(void)
 
 
 	// Get the state we need
-	theInfo   = GetProcInfoFile("/proc/meminfo");
+	theInfo   = GetProcFile("/proc/meminfo");
 	theResult = 0;
 
 
