@@ -677,6 +677,9 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 				if (pwInfo != NULL)
 					thePath = NString(pwInfo->pw_dir, kNStringLength);
 				}
+			
+			if (!thePath.IsEmpty())
+				theFile = thePath;
 			break;
 
 
@@ -735,7 +738,9 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 				thePath = NSystemUtilities::GetEnvironment("TEMP");
 
 			if (thePath.IsEmpty())
-				thePath = "/tmp";
+				theFile = "/tmp";
+			else
+				theFile = thePath;
 			break;
 
 
@@ -783,12 +788,6 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			NN_LOG("Unknown location: %d", theLocation);
 			break;
 		}
-
-
-
-	// Get the directory
-	if (!theFile.IsValid() && !thePath.IsEmpty())
-		theFile = thePath;
 
 	return(theFile);
 }
