@@ -23,10 +23,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
+
+
+
+//============================================================================
+//      Internal types
+//----------------------------------------------------------------------------
 // Sockets
 typedef struct NSocketInfo {
-	NSocket *nano_socket;
-	int	native_socket;
+	NSocket						   *nanoSocket;
+	int								nativeSocket;
 } NSocketInfo;
 
 
@@ -192,81 +199,92 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 //      NTargetNetwork::SocketOpen : Open a socket.
 //----------------------------------------------------------------------------
 NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, UInt16 thePort)
-{
-	NSocketRef socket_ref; // NSocketInfo*
-	NString port;
-	struct addrinfo hints;
-	struct addrinfo *result;
-	struct addrinfo *rp;
-	int status;
-	int tmp_socket;
+{	struct addrinfo		*theAddress, *addrList;
+	int					sysErr, tmpSocket;
+	NSocketRef			theSocket;
+	const char			*hostName;
+	struct addrinfo		addrInfo;
+	bool				isListen;
+	NString				portNum;
 
-	memset(&hints, 0, sizeof(struct addrinfo));
 
-	hints.ai_socktype = (true) ? SOCK_DGRAM : SOCK_STREAM;
 
-	port.Format("%d",thePort);
+	// Get the state we need
+	isListen = theHost.IsEmpty();
+	hostName = isListen ? NULL : theHost.GetUTF8();
 
-	if (theHost.IsEmpty()) {
-		hints.ai_family = AF_UNSPEC; // Allow IPv4 or IPv6
-		hints.ai_flags = AI_PASSIVE; // Any interface for Server
-		hints.ai_protocol = 0;
-		hints.ai_canonname = NULL;
-		hints.ai_addr = NULL;
-		hints.ai_next = NULL;
+	portNum.Format("%d",thePort);
 
-		status = getaddrinfo(NULL, port.GetUTF8(), &hints, &result);
-	} else {
-		hints.ai_family = AF_UNSPEC; // Allow IPv4 or IPv6
-		hints.ai_flags = 0;
-		hints.ai_protocol = 0;
 
-		status = getaddrinfo(theHost.GetUTF8(), port.GetUTF8(), &hints, &result);
-	}
 
-	NN_ASSERT_NOERR(status);
+	// Create the address
+	memset(&addrInfo, 0, sizeof(struct addrinfo));
 
-	if (status!=0)
-		return (NULL);
+	addrInfo.ai_family   = AF_UNSPEC;						// Allow IPv4 or IPv6
+	addrInfo.ai_socktype = SOCK_STREAM;						// Always TCP
+	addrInfo.ai_flags    = isListen ? AI_PASSIVE : 0;
 
-	// Loop result until we find an address that will connect or bind
-	for (rp = result; rp != NULL; rp = rp->ai_next) {
-		tmp_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-		if (tmp_socket == -1)
+	sysErr = getaddrinfo(hostName, portNum.GetUTF8(), &addrInfo, &addrList);
+	NN_ASSERT_NOERR(sysErr);
+
+	if (sysErr != 0)
+		return(NULL);
+
+
+
+	// Create the socket
+	//
+	// As we may have multiple addresses, we loop until we find one that we can connect/bind.
+	for (theAddress = addrList; theAddress != NULL; theAddress = theAddress->ai_next)
+		{
+		tmpSocket = socket(theAddress->ai_family, theAddress->ai_socktype, theAddress->ai_protocol);
+		if (tmpSocket == -1)
 			continue;
 
-		if (theHost.IsEmpty()){
-			if (bind(tmp_socket, rp->ai_addr, rp->ai_addrlen) != -1)
-				break; // Success
-		} else {
-			if (connect(tmp_socket, rp->ai_addr, rp->ai_addrlen) != -1)
-				break; // Success
+		if (isListen)
+			{
+			if (bind(tmpSocket, theAddress->ai_addr, theAddress->ai_addrlen) == 0)
+				break;
+			}
+		else
+			{
+			if (connect(tmpSocket, theAddress->ai_addr, theAddress->ai_addrlen) == 0)
+				break;
+			}
+
+		close(tmpSocket);
 		}
 
-		close(tmp_socket);
-	}
+	freeaddrinfo(addrList);
 
-	NN_ASSERT(rp!=NULL);
-
+	NN_ASSERT(rp != NULL);
 	if (rp == NULL)
 		return (NULL);
 
-	// Clean up
-	freeaddrinfo(result);
+
 
 	// Setup signal handler for closed sockets
-	/*sa.sa_handler = sigchld_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	NN_ASSERT(sigaction(SIGCHLD, &sa, NULL) != -1);*/
+	//
+	// TO DO
+		/*
+		sa.sa_handler = sigchld_handler;
+		sigemptyset(&sa.sa_mask);
+
+		sa.sa_flags = SA_RESTART;
+		NN_ASSERT(sigaction(SIGCHLD, &sa, NULL) != -1);
+	*/
 
 	// TODO Create thread for listening/accepting connections
 
-	socket_ref = new NSocketInfo();
-	socket_ref->nano_socket=nanoSocket;
-	socket_ref->native_socket=tmp_socket;
 
-	return socket_ref;
+
+	// Create the socket info
+	theSocket = new NSocketInfo;
+
+	theSocket->nanoSocket   = nanoSocket;
+	theSocket->nativeSocket = tmp_socket;
+
+	return(theSocket);
 }
 
 
