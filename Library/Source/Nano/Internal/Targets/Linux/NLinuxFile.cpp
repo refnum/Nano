@@ -133,6 +133,32 @@ static void InitialiseUserDirs(void)
 
 
 
+//============================================================================
+//      GetUserDir : Get a user directory.
+//----------------------------------------------------------------------------
+static NString GetUserDir(const NString &theKey)
+{	NString						theValue;
+	NStringMapConstIterator		theIter;
+
+
+
+	// Initialise our state
+	InitialiseUserDirs();
+
+
+
+	// Get the directory
+	theIter = gUserDirs.find(theKey);
+	if (theIter != gUserDirs.end())
+		theValue = theIter->second;
+	
+	return(theValue);
+}
+
+
+
+
+
 #pragma mark NTargetFile
 //============================================================================
 //      NTargetFile::IsFile : Is this a file?
@@ -719,21 +745,19 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			break;
 		
 		case kNLocationDesktop:
-				InitialiseUserDirs();
-				NString found  = gUserDirs["XDG_DESKTOP_DIR"];
-				if (!found.IsEmpty())
-					theFile = NFile(found);
-				else
+				thePath = GetUserDir("XDG_DESKTOP_DIR");
+				if (thePath.IsEmpty())
 					theFile = GetDirectory(theDomain, kNLocationHome).GetChild("Desktop");
+				else
+					theFile = thePath;
 			break;
 
 		case kNLocationDocuments:
-				InitialiseUserDirs();
-				NString found  = gUserDirs["XDG_DOCUMENTS_DIR"];
-				if (!found.IsEmpty())
-					theFile = NFile(found);
-				else
+				thePath = GetUserDir("XDG_DOCUMENTS_DIR");
+				if (thePath.IsEmpty())
 					theFile = GetDirectory(theDomain, kNLocationHome);
+				else
+					theFile = thePath;
 			break;
 
 		default:
