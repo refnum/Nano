@@ -17,6 +17,7 @@
 #include "NFile.h"
 #include "NWindows.h"
 #include "NRegistry.h"
+#include "NSystemUtilities.h"
 #include "NTargetPreferences.h"
 
 
@@ -31,28 +32,16 @@
 static NString GetAppRegistryPath(void)
 {	static NString	sAppKey;
 
-	TCHAR	theBuffer[MAX_PATH];
-	NFile	theFile;
-
 
 
 	// Create the app path
 	//
 	// This may need to be customisable at run-time, to allow apps to store
 	// values under "Software\\Company Name\\Product Name" and to allow the
-	// executable to be renamed without affecting its prefs.
+	// app to be renamed without affecting its prefs.
 	if (sAppKey.IsEmpty())
-		{
-		if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
-			{
-			theFile = NFile(ToNN(theBuffer));
-			if (theFile.IsFile())
-				sAppKey.Format("Software\\%@", theFile.GetName(kNNameNoExtension));
-			}
+		sAppKey.Format("Software\\%@", NSystemUtilities::GetProcessName());
 
-		NN_ASSERT(!sAppKey.IsEmpty());
-		}
-	
 	return(sAppKey);
 }
 
