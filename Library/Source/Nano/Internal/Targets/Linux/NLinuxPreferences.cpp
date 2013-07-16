@@ -46,8 +46,8 @@ static NFile GetPrefsFile(bool createDir)
 
 
 	// Get the state we need
-	if (bundle.IsValid())
-		fileName.Format("%@.json", bundle.GetIdentifier());
+	if (appBundle.IsValid())
+		fileName.Format("%@.json", appBundle.GetIdentifier());
 	else
 		fileName.Format("%@.json", NSystemUtilities::GetProcessName());
 

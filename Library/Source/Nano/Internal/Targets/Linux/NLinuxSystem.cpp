@@ -367,15 +367,13 @@ NString NTargetSystem::GetOSName(void)
 //		NTargetSystem::GetProcessName : Get the process name.
 //----------------------------------------------------------------------------
 NString NTargetSystem::GetProcessName(void)
-{	NRangeList	theRanges;
-	UInt64		theResult;
-	NString		theInfo;
+{	NString		theInfo, theResult;
+	NRangeList	theRanges;
 
 
 
 	// Get the state we need
-	theInfo   = GetProcFile("/proc/self/status");
-	theResult = 0;
+	theInfo = GetProcFile("/proc/self/status");
 
 
 

@@ -14,14 +14,25 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#include "NTargetNetwork.h"
-
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#include "NTargetNetwork.h"
+
+
+
+
+
+//============================================================================
+//      Internal constants
+//----------------------------------------------------------------------------
+static const int kSocketHandleInvalid								= -1;
 
 
 
@@ -210,9 +221,10 @@ NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHos
 
 
 	// Get the state we need
-	isListen = theHost.IsEmpty();
-	hostName = isListen ? NULL : theHost.GetUTF8();
+	isListen  = theHost.IsEmpty();
+	theAddress = NULL;
 
+	hostName = isListen ? NULL : theHost.GetUTF8();
 	portNum.Format("%d",thePort);
 
 
@@ -238,7 +250,7 @@ NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHos
 	for (theAddress = addrList; theAddress != NULL; theAddress = theAddress->ai_next)
 		{
 		tmpSocket = socket(theAddress->ai_family, theAddress->ai_socktype, theAddress->ai_protocol);
-		if (tmpSocket == -1)
+		if (tmpSocket == kSocketHandleInvalid)
 			continue;
 
 		if (isListen)
@@ -257,9 +269,9 @@ NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHos
 
 	freeaddrinfo(addrList);
 
-	NN_ASSERT(rp != NULL);
-	if (rp == NULL)
-		return (NULL);
+	NN_ASSERT(theAddress != NULL);
+	if (theAddress == NULL)
+		return(NULL);
 
 
 
@@ -282,7 +294,7 @@ NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHos
 	theSocket = new NSocketInfo;
 
 	theSocket->nanoSocket   = nanoSocket;
-	theSocket->nativeSocket = tmp_socket;
+	theSocket->nativeSocket = tmpSocket;
 
 	return(theSocket);
 }
@@ -349,7 +361,7 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != -1);
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
 
 
 
@@ -374,7 +386,7 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 
 
 	// Validate our parameters
-	NN_ASSERT(theSocket->nativeSocket != -1);
+	NN_ASSERT(theSocket->nativeSocket != kSocketHandleInvalid);
 
 
 

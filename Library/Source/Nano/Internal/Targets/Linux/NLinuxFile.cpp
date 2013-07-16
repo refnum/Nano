@@ -71,6 +71,7 @@ static void InitialiseUserDirs(void)
 	NRangeList						theTokens;
 	NStringList						theLines;
 	NStringListConstIterator		theIter;
+	NFile							theFile;
 
 
 
@@ -81,7 +82,7 @@ static void InitialiseUserDirs(void)
 
 
 	// Get the state we need
-	pathHome = NTargetFile::GetDirectory(kNDomainUser, kNLocationHome).getPath();
+	pathHome = NTargetFile::GetDirectory(kNDomainUser, kNLocationHome).GetPath();
 	theFile  = NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild("user-dirs.dirs");
 
 	if (theFile.IsFile())
@@ -648,7 +649,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 	//
 	//		http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 	//		http://freedesktop.org/wiki/Software/xdg-user-dirs/
-	/
+	//
 	// With some sensible defaults for non-XDG environments.
 	switch (theLocation) {
 		case kNLocationHome:
@@ -679,7 +680,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			if (isUser)
 				{
 				thePath = NSystemUtilities::GetEnvironment("XDG_CONFIG_HOME");
-				if (thePath.IsEmpty()))
+				if (thePath.IsEmpty())
 					thePath = GetDirectory(theDomain, kNLocationHome).GetChild(".config").GetPath();
 				}
 			else
@@ -697,7 +698,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			if (isUser)
 				{
 				thePath = NSystemUtilities::GetEnvironment("XDG_CACHE_HOME");
-				if (thePath.IsEmpty()))
+				if (thePath.IsEmpty())
 					thePath = GetDirectory(theDomain, kNLocationHome).GetChild(".cache").GetPath();
 				}
 			else

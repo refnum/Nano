@@ -16,7 +16,9 @@
 //----------------------------------------------------------------------------
 #include <sys/time.h>
 #include <signal.h>
+
 #include "NSpinLock.h"
+#include "NLinuxTarget.h"
 #include "NTargetTime.h"
 #include "NTargetThread.h"
 
