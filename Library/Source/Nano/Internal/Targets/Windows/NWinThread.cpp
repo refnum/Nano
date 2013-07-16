@@ -70,8 +70,8 @@ typedef struct {
 
 // Maps
 typedef std::map<NThreadID, NString>								ThreadNameMap;
-typedef ThreadMap::iterator											ThreadNameMapIterator;
-typedef ThreadMap::const_iterator									ThreadNameMapConstIterator;
+typedef ThreadNameMap::iterator										ThreadNameMapIterator;
+typedef ThreadNameMap::const_iterator								ThreadNameMapConstIterator;
 
 
 
@@ -527,23 +527,26 @@ NString NTargetThread::ThreadGetName(void)
 //		NTargetThread::ThreadSetName : Set the current thread name.
 //----------------------------------------------------------------------------
 void NTargetThread::ThreadSetName(const NString &theName)
-{	StLock				acquireLock(gThreadNameLock);
-	THREADNAME_INFO		theInfo;
-	ThreadID			theID;
+{	THREADNAME_INFO		theInfo;
+	NThreadID			theID;
 
 
 
 	// Get the state we need
 	theID = ThreadGetID();
 	
-	theInfo.dwtype     = MSVC_SET_THREADNAME;
-	theInfo.szName     = ToWN(theName);
+	theInfo.dwType     = MSVC_SET_THREADNAME;
+	theInfo.szName     = theName.GetUTF8();
 	theInfo.dwThreadID = (DWORD) theID;
 	theInfo.dwFlags    = 0;
 
 
 
 	// Set the name
+	//
+	// We can't use a StLock in a function that uses SEH, so we need
+	// to lock/unlock manually.
+	gThreadNameLock.Lock();
 	gThreadNames[theID] = theName;
 
 	__try
@@ -553,6 +556,8 @@ void NTargetThread::ThreadSetName(const NString &theName)
 	__except(EXCEPTION_EXECUTE_HANDLER)
 		{
 		}
+
+	gThreadNameLock.Unlock();
 }
 
 
