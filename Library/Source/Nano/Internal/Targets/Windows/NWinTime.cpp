@@ -334,10 +334,7 @@ static void DoTimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTim
 
 	// Allocate the timer info
 	timerInfo = new TimerInfo;
-	*theTimer = (timerInfo == NULL) ? kNTimerNone : (NTimerID) timerInfo;
-
-	if (timerInfo == NULL)
-		return;
+	*theTimer = (NTimerID) timerInfo;
 
 	timerInfo->timerID    = 0;
 	timerInfo->fireCount  = 0;
