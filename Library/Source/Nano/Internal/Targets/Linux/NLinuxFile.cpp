@@ -67,7 +67,10 @@ static NStringMap gUserDirs;
 //      InitialiseUserDirs : Initialise the user directories.
 //----------------------------------------------------------------------------
 static void InitialiseUserDirs(void)
-{	NFile	theFile;
+{	NString							pathHome, keyValue, theKey, theValue;
+	NRangeList						theTokens;
+	NStringList						theLines;
+	NStringListConstIterator		theIter;
 
 
 
@@ -78,57 +81,36 @@ static void InitialiseUserDirs(void)
 
 
 	// Get the state we need
-	theFile = NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild("user-dirs.dirs");
-	if (!theFile.IsFile())
-		return;
+	pathHome = NTargetFile::GetDirectory(kNDomainUser, kNLocationHome).getPath();
+	theFile  = NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild("user-dirs.dirs");
+
+	if (theFile.IsFile())
+		theLines = NFileUtilities::GetFileText(theFile).Split("\n");
 
 
 
 	// Initialise the directories
-	NString fullText = NFileUtilities::GetFileText(theFile);
-	NStringList lines = fullText.Split("\n");
-
-	for (NStringList::iterator it = lines.begin(); it != lines.end(); ++it)
+	for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
 		{
-		// Trim all left and right whitespace
-		it->Trim();
+		// Get the state we need
+		keyValue = *theIter;
+		keyValue.Trim();
+		
+		theTokens = keyValue.FindAll("(.*?)\\s*=\\s*(.*)", kNStringPattern);
+		if (theTokens.size() == 3)
+			{
+			theKey   = keyValue.GetString(theTokens[1]);
+			theValue = keyValue.GetString(theTokens[2]);
 
-		NIndex stringSize = it->GetSize();
+			theValue.Replace("$HOME", pathHome);
+			theValue.Trim("\"");
+			}
 
-		// Must be at least three characters x=y
-		if (stringSize < 3)
-			continue;
 
-		NRange equalsSearch = it->Find("=");
 
-		// There must be an equals
-		if (equalsSearch.GetSize() == 0)
-			continue;
-
-		NIndex equalsPos = equalsSearch.GetFirst();
-
-		// We must have at least one character on the right and leftof the equals
-		if (equalsPos > stringSize - 2 || equalsPos == 0)
-			continue;
-
-		NString value = *it;//it->SubString(stringSize-1);
-		NString key = *it;//it->SubString(stringSize+1);
-
-		// Already trimmed value left whitespace and key right whitespace
-		value.TrimRight();
-		key.TrimLeft();
-
-		// Trim any quotes on the value
-		value.TrimLeft("\"");
-		value.TrimRight("\"");
-
-		// We might have trimmed down to nothing
-		if (value.GetSize() == 0 || key.GetSize() == 0)
-			continue;
-
-		value.Replace("$HOME", NTargetFile::GetDirectory(kNDomainUser, kNLocationPreferences).GetChild(value).GetPath());
-
-		gUserDirs[key]=value;
+		// Add the directory
+		if (!theKey.IsEmpty() && !theValue.IsEmpty())
+			gUserDirs[theKey] = theValue;
 		}
 }
 
