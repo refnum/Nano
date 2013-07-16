@@ -647,10 +647,11 @@ NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 //      NTargetFile::GetDirectory : Get a directory.
 //----------------------------------------------------------------------------
 NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation theLocation)
-{	NString			thePath;
-	struct passwd	*pwInfo;
-	NFile			theFile;
-	bool			isUser;
+{	NStringList			thePaths;
+	NString				thePath;
+	struct passwd		*pwInfo;
+	NFile				theFile;
+	bool				isUser;
 
 
 
@@ -659,7 +660,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 
 
 
-	// Get the directory
+	// Get the path
 	//
 	// Based on:
 	//
@@ -669,25 +670,26 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 	// With some sensible defaults for non-XDG environments.
 	switch (theLocation) {
 		case kNLocationHome:
-			NN_ASSERT(isUser);
-			thePath = NSystemUtilities::GetEnvironment("HOME");
-			if (thePath.IsEmpty())
+			if (isUser)
 				{
-				pwInfo = getpwuid(getuid());
-				if (pwInfo != NULL)
-					thePath = NString(pwInfo->pw_dir, kNStringLength);
+				thePath = NSystemUtilities::GetEnvironment("HOME");
+				if (thePath.IsEmpty())
+					{
+					pwInfo = getpwuid(getuid());
+					if (pwInfo != NULL)
+						thePath = NString(pwInfo->pw_dir, kNStringLength);
+					}
 				}
-			
-			if (!thePath.IsEmpty())
-				theFile = thePath;
+			else
+				NN_LOG("Invalid domain - kNLocationHome requires kNDomainUser");
 			break;
 
 
 		case kNLocationLogs:
 			if (isUser)
-				theFile = GetDirectory(theDomain, kNLocationApplicationSupport); // No spec for this but .local/share makes more sense
+				thePath = GetDirectory(theDomain, kNLocationApplicationSupport).GetPath();
 			else
-				theFile = NFile("/var/log");
+				thePath = "/var/log";
 			break;
 
 
@@ -696,19 +698,15 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 				{
 				thePath = NSystemUtilities::GetEnvironment("XDG_CONFIG_HOME");
 				if (thePath.IsEmpty()))
-					theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".config"); // No env so default to .config
-				else
-					theFile = thePath;
+					thePath = GetDirectory(theDomain, kNLocationHome).GetChild(".config").GetPath();
 				}
 			else
 				{
-				thePath = NSystemUtilities::GetEnvironment("XDG_CONFIG_DIRS");
-				NStringList split = thePath.Split(":");
-				if (split.size() == 0 || split[0].GetSize() == 0)
-					theFile = NFile("/etc/xdg"); // No env so use manual default of /etc/xdg
+				thePaths = NSystemUtilities::GetEnvironment("XDG_CONFIG_DIRS").Split(":");
+				if (thePaths.empty() || thePaths[0].IsEmpty())
+					thePath = "/etc/xdg";
 				else
- 					// For now just return the first and ignore the rest, though we need a way to return multiple config dirs.
-					theFile = NFile(split[0]);
+					thePath = thePaths[0];
 				}
 			break;
 
@@ -717,18 +715,15 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			if (isUser)
 				{
 				thePath = NSystemUtilities::GetEnvironment("XDG_CACHE_HOME");
-				if (thePath.IsEmpty())) // No env so use manual default
-					theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".cache");
-				else
-					theFile = thePath;
+				if (thePath.IsEmpty()))
+					thePath = GetDirectory(theDomain, kNLocationHome).GetChild(".cache").GetPath();
 				}
 			else
-				theFile = NFile("/var/cache");
+				thePath = "/var/cache";
 			break;
 
 
 		case kNLocationTemporary:
-			// Maybe this should use XDG_RUNTIME_DIR for user?
 			thePath = NSystemUtilities::GetEnvironment("TMP");
 
 			if (thePath.IsEmpty())
@@ -738,9 +733,7 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 				thePath = NSystemUtilities::GetEnvironment("TEMP");
 
 			if (thePath.IsEmpty())
-				theFile = "/tmp";
-			else
-				theFile = thePath;
+				thePath = "/tmp";
 			break;
 
 
@@ -749,19 +742,15 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 				{
 				thePath = NSystemUtilities::GetEnvironment("XDG_DATA_HOME");
 				if (thePath.IsEmpty())
-					theFile = GetDirectory(theDomain, kNLocationHome).GetChild(".local").GetChild("share"); // No env so default to .local/share
-				else
-					theFile = thePath;
+					thePath = GetDirectory(theDomain, kNLocationHome).GetChild(".local").GetChild("share").GetPath();
 				}
 			else
 				{
-				thePath = NSystemUtilities::GetEnvironment("XDG_DATA_DIRS");
-				NStringList split = thePath.Split(":");
-				if (split.size() == 0 || split[0].GetSize() == 0) 
-					theFile = NFile("/usr/local/share"); // No env so use manual default of /usr/local/share:/usr/share
+				thePaths = NSystemUtilities::GetEnvironment("XDG_DATA_DIRS").Split(":");
+				if (thePaths.empty() || thePaths[0].IsEmpty())
+					thePath = "/usr/local/share";
 				else
-					// For now just return the first and ignore the rest, though we need a way to return multiple data dirs.
-					theFile = NFile(split[0]);
+					thePath = thePaths[0];
 				}	
 			break;
 
@@ -769,18 +758,14 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 		case kNLocationDesktop:
 			thePath = GetUserDir("XDG_DESKTOP_DIR");
 			if (thePath.IsEmpty())
-				theFile = GetDirectory(theDomain, kNLocationHome).GetChild("Desktop");
-			else
-				theFile = thePath;
+				thePath = GetDirectory(theDomain, kNLocationHome).GetChild("Desktop").GetPath();
 			break;
 
 
 		case kNLocationDocuments:
 			thePath = GetUserDir("XDG_DOCUMENTS_DIR");
 			if (thePath.IsEmpty())
-				theFile = GetDirectory(theDomain, kNLocationHome);
-			else
-				theFile = thePath;
+				thePath = GetDirectory(theDomain, kNLocationHome).GetPath();
 			break;
 
 
@@ -788,6 +773,12 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 			NN_LOG("Unknown location: %d", theLocation);
 			break;
 		}
+
+
+
+	// Get the directory
+	if (!thePath.IsEmpty())
+		theFile = NFile(thePath);
 
 	return(theFile);
 }
