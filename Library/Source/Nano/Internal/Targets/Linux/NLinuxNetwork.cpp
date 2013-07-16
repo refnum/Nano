@@ -278,7 +278,12 @@ NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHos
 //----------------------------------------------------------------------------
 void NTargetNetwork::SocketClose(NSocketRef theSocket)
 {
-    close(theSocket->native_socket);
+
+
+	// Close the socket
+	close(theSocket->nativeSocket);
+
+	delete theSocket;
 }
 
 
