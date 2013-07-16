@@ -32,11 +32,6 @@ bool NTargetPreferences::HasKey(const NString &theKey)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-
-
-
 	// Check the key
 	hasKey = cfObject.SetObject(CFPreferencesCopyAppValue(ToCF(theKey), kCFPreferencesCurrentApplication));
 	
@@ -52,11 +47,6 @@ bool NTargetPreferences::HasKey(const NString &theKey)
 //----------------------------------------------------------------------------
 void NTargetPreferences::RemoveKey(const NString &theKey)
 {
-
-
-	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-
 
 
 	// Remove the key
@@ -76,11 +66,6 @@ NVariant NTargetPreferences::GetValue(const NString &theKey)
 
 
 
-	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-
-
-
 	// Get the value
 	if (cfValue.SetObject(CFPreferencesCopyAppValue(ToCF(theKey), kCFPreferencesCurrentApplication)))
 		theValue = NMacTarget::ConvertCFToObject(cfValue);
@@ -97,11 +82,6 @@ NVariant NTargetPreferences::GetValue(const NString &theKey)
 //----------------------------------------------------------------------------
 void NTargetPreferences::SetValue(const NString &theKey, const NVariant &theValue)
 {	NCFObject		theObject;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
 
 
 
