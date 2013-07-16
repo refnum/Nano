@@ -321,8 +321,21 @@ bool NTargetNetwork::SocketCanWrite(NSocketRef theSocket)
 //      NTargetNetwork::SocketRead : Read from a socket.
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *thePtr)
-{
-	 return read(theSocket->native_socket, thePtr, theSize);
+{	NIndex	numRead;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != -1);
+
+
+
+	// Read from the stream
+	numRead = (NIndex) read(theSocket->nativeSocket, thePtr, theSize);
+	if (numRead < 0)
+		numRead = 0;
+
+	return(numRead);
 }
 
 
@@ -333,8 +346,21 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 //      NTargetNetwork::SocketWrite : Write to a socket.
 //----------------------------------------------------------------------------
 NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const void *thePtr)
-{
-	return write(theSocket->native_socket, thePtr, theSize);
+{	NIndex		numWritten;
+
+
+
+	// Validate our parameters
+	NN_ASSERT(theSocket->nativeSocket != -1);
+
+
+
+	// Write to the socket
+	numWritten = (NIndex) write(theSocket->nativeSocket, thePtr, theSize);
+	if (numWritten < 0)
+		numWritten = 0;
+
+	return(numWritten);
 }
 
 
