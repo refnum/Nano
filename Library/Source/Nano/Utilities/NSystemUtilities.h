@@ -161,7 +161,7 @@ public:
 	static NURL							GetURL(       const NVariant &theValue, const NString &debugID="");
 
 
-	// Get the system version
+	// Get the OS version
 	static OSVersion					GetOSVersion(void);
 
 
