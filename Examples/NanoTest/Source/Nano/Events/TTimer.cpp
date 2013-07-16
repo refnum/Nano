@@ -50,12 +50,12 @@ FIXTURE_NANO(TTimer)
 //============================================================================
 //		IncrementValue : Increment a value.
 //----------------------------------------------------------------------------
-static void IncrementValue(UInt32 *theValue)
+static void IncrementValue(UInt32 *theValue, UInt32 maxValue)
 {
 
 
 	// Update the value
-	*theValue = *theValue + 1;
+	*theValue = std::min(maxValue, *theValue + 1);
 }
 
 
@@ -88,7 +88,7 @@ TEST_NTIMER("Active")
 
 	// Perform the test
 	theValue = 0;
-	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
+	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue, 1), kTestDelay, kTestRepeat);
 
 	REQUIRE(theID != kNTimerNone);
 	REQUIRE(theTimer.HasTimer());
@@ -111,28 +111,21 @@ TEST_NTIMER("Reset")
 
 	// Perform the test
 	theValue = 0;
-	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
+	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue, 3), kTestDelay, kTestRepeat);
 
-	for (n = 0; n < 100; n++)
-		{
+	for (n = 0; n < 100 && theValue != 3; n++)
 		CTestUtilities::ExecuteRunloop(kTestRepeat);
-		if (theValue == 3)
-			break;
-		}
 
 	REQUIRE(theValue == 3);
 
 
+	theValue = 0;
 	theTimer.ResetTimer(kTestRepeat, theID);
 	
-	for (n = 0; n < 100; n++)
-		{
+	for (n = 0; n < 100 && theValue != 3; n++)
 		CTestUtilities::ExecuteRunloop(kTestRepeat);
-		if (theValue == 5)
-			break;
-		}
 
-	REQUIRE(theValue == 5);
+	REQUIRE(theValue == 3);
 }
 
 
@@ -150,7 +143,7 @@ TEST_NTIMER("Removal")
 
 	// Perform the test
 	theValue = 0;
-	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue), kTestDelay, kTestRepeat);
+	theID    = theTimer.AddTimer(BindFunction(IncrementValue, &theValue, 1), kTestDelay, kTestRepeat);
 
 	REQUIRE(theTimer.HasTimer());
 	REQUIRE(theTimer.HasTimer(theID));
