@@ -54,12 +54,14 @@ static const size_t kBufferSize											= 2 * kNKilobyte;
 
 
 // Magic Numbers
+#if NANO_USING_GD
 static const char *kMagicBmp											= "BM";
 static const char *kMagicGif											= "GIF8";
 static const char *kMagicJpeg											= "\0xff\0xd8\0xff\0xe0";
 static const char *kMagicPng											= ".PNG";
 static const char *kMagicXpm											= "/* XPM */";
 static const char *kMagicTiff											= "II*.";
+#endif
 
 
 
@@ -217,6 +219,7 @@ static NString GetProcFile(const NString &thePath)
 //============================================================================
 //      CompareMagicNumber : Compare a magic number.
 //----------------------------------------------------------------------------
+#if NANO_USING_GD
 static bool CompareMagicNumber(const void* data, UInt32 data_len, const char* magic_num)
 {	UInt32		magic_num_len;
 
@@ -229,6 +232,7 @@ static bool CompareMagicNumber(const void* data, UInt32 data_len, const char* ma
 
 	return(memcmp(data, magic_num, magic_num_len) == 0);
 }
+#endif
 
 
 
