@@ -424,6 +424,7 @@ void NTargetThread::ThreadSleep(NTime theTime)
 NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 {	NFunctor		*tmpFunctor;
 	pthread_t		threadID;
+	NStatus			theErr;
 	int				sysErr;
 
 
@@ -434,10 +435,14 @@ NStatus NTargetThread::ThreadCreate(const NFunctor &theFunctor)
 
 
 	// Create the thread
+	theErr = kNoErr;
 	sysErr = pthread_create(&threadID, NULL, ThreadEntry, tmpFunctor);
 	NN_ASSERT_NOERR(sysErr);
+
+	if (sysErr != 0)
+		theErr = NLinuxTarget::ConvertSysErr(errno);
 	
-	return(NLinuxTarget::ConvertSysErr(sysErr));
+	return(theErr);
 }
 
 

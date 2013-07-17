@@ -158,7 +158,7 @@ bool NTargetFile::IsFile(const NString &thePath)
 
 	// Check the path
 	sysErr = stat(thePath.GetUTF8(), &fileInfo);
-	isFile = (sysErr == kNoErr && S_ISREG(fileInfo.st_mode));
+	isFile = (sysErr == 0 && S_ISREG(fileInfo.st_mode));
 	
 	return(isFile);
 }
@@ -179,7 +179,7 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 
 	// Check the path
 	sysErr = stat(thePath.GetUTF8(), &fileInfo);
-	isDir  = (sysErr == kNoErr && S_ISDIR(fileInfo.st_mode));
+	isDir  = (sysErr == 0 && S_ISDIR(fileInfo.st_mode));
 	
 	return(isDir);
 }
@@ -200,7 +200,7 @@ bool NTargetFile::IsLink(const NString &thePath)
 
 	// Check for soft links
 	sysErr = lstat(thePath.GetUTF8(), &fileInfo);
-	isLink = (sysErr == kNoErr && S_ISLNK(fileInfo.st_mode));
+	isLink = (sysErr == 0 && S_ISLNK(fileInfo.st_mode));
 
 	return(isLink);
 }
@@ -225,7 +225,7 @@ bool NTargetFile::IsWriteable(const NString &thePath)
 	isWriteable = false;
 	sysErr      = stat(thePath.GetUTF8(), &fileInfo);
 
-	if (sysErr != kNoErr)
+	if (sysErr != 0)
 		return(isWriteable);
 
 
@@ -277,7 +277,7 @@ bool NTargetFile::Exists(const NString &thePath)
 
 	// Check the path
 	sysErr    = stat(thePath.GetUTF8(), &fileInfo);
-	doesExist = (sysErr == kNoErr);
+	doesExist = (sysErr == 0);
 	
 	return(doesExist);
 }
@@ -333,10 +333,7 @@ NStatus NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 		{
 		sysErr = rename(thePath.GetUTF8(), newPath.GetUTF8());
 		if (sysErr == -1)
-			{
-			sysErr = errno;
-			theErr = NLinuxTarget::ConvertSysErr(sysErr);
-			}
+			theErr = NLinuxTarget::ConvertSysErr(errno);
 		}
 
 	return(theErr);
@@ -366,7 +363,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 	sysErr  = stat(thePath.GetUTF8(), &fileInfo);
 	NN_ASSERT_NOERR(sysErr);
 
-	if (sysErr == kNoErr)
+	if (sysErr == 0)
 		theSize = fileInfo.st_size;
 
 	return(theSize);
@@ -380,15 +377,19 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::SetSize(const NString &thePath, NFileRef /*theFile*/, UInt64 theSize)
-{	int		sysErr;
+{	NStatus		theErr;
+	int			sysErr;
 
 
 
 	// Set the file size
+	theErr = kNoErr;
 	sysErr = truncate(thePath.GetUTF8(), theSize);
-	NN_ASSERT_NOERR(sysErr);
-
-	return(NLinuxTarget::ConvertSysErr(sysErr));
+	
+	if (sysErr != 0)
+		theErr = NLinuxTarget::ConvertSysErr(errno);
+	
+	return(theErr);
 }
 
 
@@ -409,7 +410,8 @@ NDate NTargetFile::GetCreationTime(const NString &thePath)
 	//
 	// Not actually the creation time, but as good as we can do.
 	sysErr = stat(thePath.GetUTF8(), &fileInfo);
-	if (sysErr == kNoErr)
+
+	if (sysErr == 0)
 		theDate.SetTime((fileInfo.st_ctime        - kNEpochTimeSince1970) +
 						(fileInfo.st_ctim.tv_nsec * kNTimeNanosecond));
 
@@ -432,7 +434,8 @@ NDate NTargetFile::GetAccessTime(const NString &thePath)
 
 	// Get the time
 	sysErr = stat(thePath.GetUTF8(), &fileInfo);
-	if (sysErr == kNoErr)
+
+	if (sysErr == 0)
 		theDate.SetTime((fileInfo.st_atime        - kNEpochTimeSince1970) +
 						(fileInfo.st_atim.tv_nsec * kNTimeNanosecond));
 
@@ -455,7 +458,8 @@ NDate NTargetFile::GetModificationTime(const NString &thePath)
 
 	// Get the time
 	sysErr = stat(thePath.GetUTF8(), &fileInfo);
-	if (sysErr == kNoErr)
+
+	if (sysErr == 0)
 		theDate.SetTime((fileInfo.st_mtime        - kNEpochTimeSince1970) +
 						(fileInfo.st_mtim.tv_nsec * kNTimeNanosecond));
 
@@ -570,7 +574,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 		{
 		dirResult = NULL;
 		sysErr    = readdir_r(theDir, &dirEntry, &dirResult);
-		if (sysErr == kNoErr && dirResult != NULL)
+		if (sysErr == 0 && dirResult != NULL)
 			{
 			if (strcmp(dirEntry.d_name, ".") != 0 && strcmp(dirEntry.d_name, "..") != 0)
 				{
@@ -579,7 +583,7 @@ NFileList NTargetFile::GetChildren(const NString &thePath)
 				}
 			}
 		}
-	while (sysErr == kNoErr && dirResult != NULL);
+	while (sysErr == 0 && dirResult != NULL);
 
 
 
@@ -775,15 +779,19 @@ NFile NTargetFile::GetDirectory(NDirectoryDomain theDomain, NDirectoryLocation t
 //      NTargetFile::CreateDirectory : Create a directory.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::CreateDirectory(const NString &thePath)
-{	int		sysErr;
+{	NStatus		theErr;
+	int			sysErr;
 
 
 
 	// Create the directory
+	theErr = kNoErr;
 	sysErr = mkdir(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
-	NN_ASSERT_NOERR(sysErr);
+
+	if (sysErr != 0)
+		theErr = NLinuxTarget::ConvertSysErr(errno);
 	
-	return(NLinuxTarget::ConvertSysErr(sysErr));
+	return(theErr);
 }
 
 
@@ -870,14 +878,19 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //      NTargetFile::UnmountVolume : Unmount a volume.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::UnmountVolume(const NString &thePath)
-{	int		sysErr;
+{	NStatus		theErr;
+	int			sysErr;
 
 
 
 	// Unmount the path
+	theErr = kNoErr;
 	sysErr = umount(thePath.GetUTF8());
-
-	return(NLinuxTarget::ConvertSysErr(sysErr));
+	
+	if (sysErr != 0)
+		theErr = NLinuxTarget::ConvertSysErr(errno);
+	
+	return(theErr);
 }
 
 
@@ -925,7 +938,7 @@ void NTargetFile::FileClose(NFileRef theFile)
 
 	// Close the file
 	sysErr = fclose((FILE *) theFile);
-	NN_ASSERT_NOERR(sysErr);
+	NN_ASSERT(sysErr == 0);
 }
 
 
@@ -959,7 +972,8 @@ UInt64 NTargetFile::FileGetPosition(NFileRef theFile)
 //      NTargetFile::FileSetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
 NStatus NTargetFile::FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
-{	int		sysErr;
+{	NStatus		theErr;
+	int			sysErr;
 
 
 
@@ -970,10 +984,14 @@ NStatus NTargetFile::FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePo
 
 
 	// Set the position
+	theErr = kNoErr;
 	sysErr = fseeko((FILE *) theFile, theOffset, NLinuxTarget::ConvertFilePosition(thePosition));
-	NN_ASSERT_NOERR(sysErr);
+	NN_ASSERT(sysErr == 0);
+
+	if (sysErr != 0)
+		theErr = NLinuxTarget::ConvertSysErr(errno);
 	
-	return(NLinuxTarget::ConvertSysErr(sysErr));
+	return(theErr);
 }
 
 
@@ -1213,14 +1231,14 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 	if (theAccess == kNAccessReadWrite)
 		{
 		sysErr = msync(pagePtr, mapSize, MS_SYNC);
-		NN_ASSERT_NOERR(sysErr);
+		NN_ASSERT(sysErr == 0);
 		}
 
 
 
 	// Discard the page
 	sysErr = munmap(pagePtr, mapSize);
-	NN_ASSERT_NOERR(sysErr);
+	NN_ASSERT(sysErr == 0);
 
 	theInfo->pageTable.erase(theIter);
 }
