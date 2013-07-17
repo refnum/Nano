@@ -378,7 +378,7 @@ NString NTargetSystem::GetProcessName(void)
 
 
 	// Get the process name
-	theRanges = theInfo.FindAll("Name\\s*:\\s*(.*)", kNStringPattern);
+	theRanges = theInfo.FindAll("Name\\s*:\\s*([^\\n]*)", kNStringPattern);
 	if (theRanges.size() == 2)
 		theResult = theInfo.GetString(theRanges[1]);
 
