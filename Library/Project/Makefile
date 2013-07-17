@@ -85,6 +85,7 @@ SRCS_NANO =                                                                     
         ../Source/Nano/Types/NData.cpp                                               \
         ../Source/Nano/Types/NDate.cpp                                               \
         ../Source/Nano/Types/NDateFormatter.cpp                                      \
+        ../Source/Nano/Types/NDebuggable.cpp                                         \
         ../Source/Nano/Types/NDictionary.cpp                                         \
         ../Source/Nano/Types/NEncodable.cpp                                          \
         ../Source/Nano/Types/NEncoder.cpp                                            \
