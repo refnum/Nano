@@ -142,13 +142,18 @@ NIndex NData::GetSize(void) const
 //		NData::SetSize : Set the size.
 //----------------------------------------------------------------------------
 bool NData::SetSize(NIndex theSize)
-{	NDataValue		*theValue;
-	bool			didSet;
+{	NIndex			oldSize, newSize;
+	NDataValue		*theValue;
 
 
 
 	// Validate our parameters
 	NN_ASSERT(theSize >= 0);
+
+
+
+	// Get the state we need
+	oldSize = GetSize();
 
 
 
@@ -188,11 +193,12 @@ bool NData::SetSize(NIndex theSize)
 	// Check our state
 	NN_ASSERT(IsValidSlice());
 
-	didSet = (GetSize() == theSize);
-	if (didSet)
-		ClearHash();
+	newSize = GetSize();
 
-	return(didSet);
+	if (newSize != oldSize)
+		ClearHash();
+	
+	return(newSize == theSize);
 }
 
 
