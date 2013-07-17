@@ -2,7 +2,7 @@
 #
 # lldb formatters can be enabled by including this file in your ~/.lldbinit:
 #
-#		command source /path/to/Nano/Support/Xcode/Nano.lldb
+#		command source "/path/to/Nano/Support/Xcode/Debugger/Nano.lldb"
 #
 # The lldb formatter syntax is documented at:
 #
