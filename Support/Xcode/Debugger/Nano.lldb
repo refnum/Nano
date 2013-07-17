@@ -1,0 +1,30 @@
+# Nano lldb formatters
+#
+# lldb formatters can be enabled by including this file in your ~/.lldbinit:
+#
+#		command source /path/to/Nano/Support/Xcode/Nano.lldb
+#
+# The lldb formatter syntax is documented at:
+#
+#		http://lldb.llvm.org/varformats.html
+#
+type summary add --category Nano NString		--summary-string "${var.mDebugSummary}"
+type summary add --category Nano NData			--summary-string "${var.mDebugSummary}"
+type summary add --category Nano NArray			--summary-string "${var.mDebugSummary}"
+type summary add --category Nano NDictionary	--summary-string "${var.mDebugSummary}"
+
+type summary add --category Nano NFile			--summary-string "${var.mPath}"
+type summary add --category Nano NURL			--summary-string "${var.mValue}"
+type summary add --category Nano NUTI			--summary-string "${var.mValue}"
+type summary add --category Nano NRange			--summary-string "\{location=${var.mLocation}, size=${var.mSize}\}"
+
+type summary add --category Nano NPoint			--summary-string "\{x=${var.x}, y=${var.y}\}"
+type summary add --category Nano NSize			--summary-string "\{width=${var.width}, height=${var.height}\}"
+type summary add --category Nano NRectangle		--summary-string "\{origin=\{${var.origin.x}, ${var.origin.y}\}, size=\{${var.size.width}, ${var.size.height}\}\}"
+type summary add --category Nano NVector		--summary-string "\{x=${var.x}, y=${var.y}\}"
+
+type summary add --category Nano NBundle		--summary-string "${var.mFile}"
+type summary add --category Nano NFileMap		--summary-string "${var.mFile}"
+
+type category enable Nano
+
