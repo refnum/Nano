@@ -42,7 +42,7 @@ public:
 
 
 	// stdio.h
-	static NIndex						snprintf( char *s, size_t n, const char *format, ...);
+	static NIndex						snprintf(char *s, size_t n, const char *format, ...);
 
 
 	// stdlib.h
