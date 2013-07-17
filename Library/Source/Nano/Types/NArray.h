@@ -21,6 +21,7 @@
 #include "NContainer.h"
 #include "NVariant.h"
 #include "NComparable.h"
+#include "NDebuggable.h"
 #include "NEncodable.h"
 #include "NRange.h"
 #include "NPoint.h"
@@ -66,6 +67,7 @@ typedef NSharedValue<NArrayValue>									NSharedValueArray;
 //----------------------------------------------------------------------------
 class NArray :	public NContainer,
 				public NEncodable,
+				public NDebuggable,
 				public NComparable<NArray>,
 				public NSharedValueArray {
 public:
@@ -167,6 +169,8 @@ protected:
 
 
 private:
+	void								ValueChanged(NArrayValue *theValue);
+
 	NArrayCompareFunctor				GetCompareFunctor(const NArrayCompareFunctor &theFunctor) const;
 	NString								GetDebugID(NIndex theIndex)                               const;
 

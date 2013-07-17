@@ -141,6 +141,7 @@
 	#include "NData.h"
 	#include "NDate.h"
 	#include "NDateFormatter.h"
+	#include "NDebuggable.h"
 	#include "NDictionary.h"
 	#include "NEncodable.h"
 	#include "NEncoder.h"

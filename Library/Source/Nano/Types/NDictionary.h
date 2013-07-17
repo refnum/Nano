@@ -19,6 +19,7 @@
 #include "NStringFormatter.h"
 #include "NSharedValue.h"
 #include "NContainer.h"
+#include "NDebuggable.h"
 #include "NEncodable.h"
 #include "NString.h"
 #include "NPoint.h"
@@ -59,6 +60,7 @@ typedef NSharedValue<NDictionaryValue>								NSharedValueDictionary;
 //----------------------------------------------------------------------------
 class NDictionary :	public NContainer,
 					public NEncodable,
+					public NDebuggable,
 					public NComparable<NDictionary>,
 					public NSharedValueDictionary {
 public:
@@ -144,7 +146,12 @@ protected:
 
 
 private:
+	void								ValueChanged(NDictionaryValue *theValue);
+
 	NString								GetDebugID(const NString &theKey) const;
+
+
+private:
 
 
 };

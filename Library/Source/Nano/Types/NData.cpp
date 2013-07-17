@@ -65,6 +65,8 @@ NData::NData(NIndex theSize, const void *thePtr, bool makeCopy)
 	mExternalSize = 0;
 	mExternalPtr  = NULL;
 
+	ValueChanged(NULL);
+
 
 
 	// Assign the data
@@ -86,6 +88,8 @@ NData::NData(void)
 	// Initialize ourselves
 	mExternalSize = 0;
 	mExternalPtr  = NULL;
+
+	ValueChanged(NULL);
 }
 
 
@@ -112,11 +116,12 @@ void NData::Clear(void)
 
 	// Clear the value
 	NSharedValueData::Clear();
-	ClearHash();
 
 	mSlice        = NRange(0, 0);
 	mExternalSize = 0;
 	mExternalPtr  = NULL;
+
+	ValueChanged(NULL);
 }
 
 
@@ -196,7 +201,7 @@ bool NData::SetSize(NIndex theSize)
 	newSize = GetSize();
 
 	if (newSize != oldSize)
-		ClearHash();
+		ValueChanged(NULL);
 	
 	return(newSize == theSize);
 }
@@ -397,7 +402,8 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 			mSlice        = NRange(0, theSize);
 			mExternalSize = theSize;
 			mExternalPtr  = thePtr;
-			ClearHash();
+
+			ValueChanged(NULL);
 			}
 		}
 
@@ -449,7 +455,7 @@ UInt8 *NData::InsertData(NIndex beforeIndex, const NData &theData)
 	// Inserting via iterators allows us to avoid manually resizing our
 	// value, which saves a redundant initialisation of the new area.
 	dstValue->insert(dstInsert, srcBegin, srcEnd);
-	ResizedValue(dstValue);
+	ValueChanged(dstValue);
 
 
 
@@ -494,7 +500,7 @@ UInt8 *NData::InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr)
 	//
 	// Since insert will zero-fill we can skip the copy if our source is NULL.
 	dstValue->insert(dstInsert, theSize, 0x00);
-	ResizedValue(dstValue);
+	ValueChanged(dstValue);
 
 	if (thePtr != NULL)
 		{
@@ -540,7 +546,7 @@ void NData::RemoveData(const NRange &theRange)
 
 	// Remove the data
 	theValue->erase(removeFirst, removeLast);
-	ResizedValue(theValue);
+	ValueChanged(theValue);
 }
 
 
@@ -695,11 +701,12 @@ const NData& NData::operator = (const NData &theValue)
 	if (this != &theValue)
 		{
 		NSharedValueData::operator=(theValue);
-		ClearHash();
 
 		mSlice        = theValue.mSlice;
 		mExternalSize = theValue.mExternalSize;
 		mExternalPtr  = theValue.mExternalPtr;
+		
+		ValueChanged(NULL);
 		}
 
 	return(*this);
@@ -891,6 +898,42 @@ void NData::DecodeSelf(const NEncoder &theEncoder)
 
 #pragma mark private
 //============================================================================
+//      NData::ValueChanged : Our value has been changed.
+//----------------------------------------------------------------------------
+void NData::ValueChanged(NDataValue *theValue)
+{
+
+
+	// Update the slice
+	//
+	// If we have a mutable value then we have the only copy of the data,
+	// so by definition our slice spans the whole range.
+	if (theValue != NULL)
+		{
+		mSlice = NRange(0, (NIndex) theValue->size());
+		NN_ASSERT(IsValidSlice());
+		}
+
+
+
+	// Update the debug summary
+#if NN_DEBUG
+	UpdateSummary("%ld %s", mSlice.GetSize(), mSlice.GetSize() == 1 ? "byte" : "bytes");
+#endif
+
+
+
+	// Reset our state
+	ClearHash();
+
+	NN_ASSERT(IsValidSlice());
+}
+
+
+
+
+
+//============================================================================
 //      NData::IsValidSlice : Is our slice valid?
 //----------------------------------------------------------------------------
 bool NData::IsValidSlice(void) const
@@ -945,34 +988,9 @@ void NData::ResizeValue(NDataValue *theValue, NIndex theSize)
 
 
 	// Update our state
-	ResizedValue(theValue);
+	ValueChanged(theValue);
 }
 
-
-
-
-
-//============================================================================
-//      NData::ResizedValue : The value has been resized.
-//----------------------------------------------------------------------------
-void NData::ResizedValue(NDataValue *theValue)
-{
-
-
-	// Reset our state
-	//
-	// If we have a mutable value then we have the only copy of the data,
-	// so by definition our slice spans the whole range.
-	mSlice = NRange(0, (NIndex) theValue->size());
-	NN_ASSERT(IsValidSlice());
-
-	ClearHash();
-
-
-
-	// Check our state
-	NN_ASSERT(IsValidSlice());
-}
 
 
 

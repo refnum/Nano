@@ -88,6 +88,8 @@ NString::NString(const void *copyText, NIndex numBytes, NStringEncoding theEncod
 
 
 	// Initialize ourselves
+	ValueChanged(NULL);
+
 	if (numBytes != 0)
 		SetData(NData(numBytes, copyText), theEncoding);
 }
@@ -131,6 +133,10 @@ NString::NString(UTF8Char theChar)
 //----------------------------------------------------------------------------
 NString::NString(void)
 {
+
+
+	// Initialise ourselves
+	ValueChanged(NULL);
 }
 
 
@@ -142,6 +148,23 @@ NString::NString(void)
 //----------------------------------------------------------------------------
 NString::~NString(void)
 {
+}
+
+
+
+
+
+//============================================================================
+//		NString::Clear : Clear the value.
+//----------------------------------------------------------------------------
+void NString::Clear(void)
+{
+
+
+	// Clear the value
+	NSharedValueString::Clear();
+
+	ValueChanged(NULL);
 }
 
 
@@ -1452,8 +1475,15 @@ void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 
 
 	// Update our value
-	if (updateSize)
+	if (theValue != NULL && updateSize)
 		theValue->theSize = GetParser().GetSize();
+
+
+
+	// Update the debug summary
+#if NN_DEBUG
+	UpdateSummary("%s", GetUTF8());
+#endif
 
 
 
@@ -1461,13 +1491,13 @@ void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 	//
 	// State that depends on our value needs to be reset whenever it changes.
 	//
-	// To help expose stale pointers returned through GetData(), we scrub the
-	// buffer in debug builds (vs just freeing the memory).
+	// To help expose stale pointers returned through GetUTFxxx(), we scrub
+	// this buffer in debug builds (vs just freeing the memory).
 	ClearHash();
 
 #if NN_DEBUG
 	if (!mData.IsEmpty())
-		memset(mData.GetData(), 'X', mData.GetSize());
+		memset(mData.GetData(), 'N', mData.GetSize());
 #else
 	mData.Clear();
 #endif
@@ -2413,9 +2443,11 @@ NString NString::GetConstantString(const char *theText)
 		// hash code is ever needed for a comparison.
 		theString = NString(theText, kNStringLength, kNStringEncodingUTF8);
 		theString.GetHash();
-
+	
 		sTable[theText] = theString;
 		}
 	
 	return(theString);
 }
+
+

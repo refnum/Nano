@@ -20,6 +20,8 @@
 #include "NStringEncoder.h"
 #include "NUnicodeParser.h"
 #include "NSharedValue.h"
+#include "NComparable.h"
+#include "NDebuggable.h"
 #include "NEncodable.h"
 #include "NContainer.h"
 #include "NHashable.h"
@@ -112,6 +114,7 @@ typedef NConstantStringMap::const_iterator							NConstantStringMapConstIterator
 class NString :	public NContainer,
 				public NHashable,
 				public NEncodable,
+				public NDebuggable,
 				public NComparable<NString>,
 				public NSharedValueString {
 public:
@@ -165,6 +168,10 @@ public:
 
 										NString(void);
 	virtual							   ~NString(void);
+
+
+	// Clear the value
+	void								Clear(void);
 
 
 	// Get the size

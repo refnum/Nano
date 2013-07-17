@@ -137,6 +137,10 @@ NArray::NArray(const NStringList &theValues)
 //----------------------------------------------------------------------------
 NArray::NArray(void)
 {
+
+
+	// Initialise ourselves
+	ValueChanged(NULL);
 }
 
 
@@ -218,6 +222,8 @@ void NArray::Join(const NArray &theValue)
 
 	// Join the arrays
 	append(*theArray, *(theValue.GetImmutable()));
+	
+	ValueChanged(theArray);
 }
 
 
@@ -244,8 +250,10 @@ void NArray::Sort(const NArrayCompareFunctor &theFunctor, const NRange &theRange
 	iterLast   = theArray->begin() + finalRange.GetNext();
 
 
+
 	// Sort the array
 	std::sort(iterFirst, iterLast, NSortArray(compareWith));
+	ValueChanged(theArray);
 }
 
 
@@ -357,6 +365,8 @@ void NArray::SetValue(NIndex theIndex, const NVariant &theValue)
 	// Set the value
 	theArray               = GetMutable();
 	theArray->at(theIndex) = theValue;
+	
+	ValueChanged(theArray);
 }
 
 
@@ -379,6 +389,8 @@ void NArray::AppendValue(const NVariant &theValue)
 	// Append the value
 	theArray = GetMutable();
 	theArray->push_back(theValue);
+	
+	ValueChanged(theArray);
 }
 
 
@@ -976,6 +988,32 @@ void NArray::DecodeSelf(const NEncoder &theEncoder)
 
 
 #pragma mark private
+//============================================================================
+//      NArray::ValueChanged : Our value has been changed.
+//----------------------------------------------------------------------------
+void NArray::ValueChanged(NArrayValue *theValue)
+{	NIndex		theSize;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(theSize);
+	NN_UNUSED(theValue);
+
+
+
+	// Update the debug summary
+#if NN_DEBUG
+	theSize = (theValue == NULL) ? 0 : (theValue->size());
+
+	UpdateSummary("%ld %s", theSize, theSize == 1 ? "value" : "values");
+#endif
+}
+
+
+
+
+
 //============================================================================
 //		NArray::GetCompareFunctor : Get a comparison functor.
 //----------------------------------------------------------------------------

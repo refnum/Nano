@@ -18,6 +18,8 @@
 //----------------------------------------------------------------------------
 #include "NStringFormatter.h"
 #include "NSharedValue.h"
+#include "NComparable.h"
+#include "NDebuggable.h"
 #include "NEncodable.h"
 #include "NContainer.h"
 #include "NHashable.h"
@@ -52,6 +54,7 @@ typedef NSharedValue<NDataValue>									NSharedValueData;
 class NData :	public NContainer,
 				public NHashable,
 				public NEncodable,
+				public NDebuggable,
 				public NComparable<NData>,
 				public NSharedValueData {
 public:
@@ -162,10 +165,10 @@ protected:
 
 
 private:
-	bool								IsValidSlice(void) const;
+	void								ValueChanged(NDataValue *theValue);
 
-	void								ResizeValue( NDataValue *theValue, NIndex theSize);
-	void								ResizedValue(NDataValue *theValue);
+	bool								IsValidSlice(void) const;
+	void								ResizeValue(NDataValue *theValue, NIndex theSize);
 
 
 private:

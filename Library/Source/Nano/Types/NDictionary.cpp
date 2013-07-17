@@ -38,6 +38,10 @@ NENCODABLE_DEFINE(NDictionary);
 //----------------------------------------------------------------------------
 NDictionary::NDictionary(void)
 {
+
+
+	// Initialise ourselves
+	ValueChanged(NULL);
 }
 
 
@@ -239,6 +243,8 @@ void NDictionary::RemoveKey(const NString &theKey)
 
 	// Remove the key
 	theDict->erase(theKey);
+	
+	ValueChanged(theDict);
 }
 
 
@@ -323,6 +329,8 @@ void NDictionary::SetValue(const NString &theKey, const NVariant &theValue)
 	// Set the value
 	theDict            = GetMutable();
 	(*theDict)[theKey] = theValue;
+
+	ValueChanged(theDict);
 }
 
 
@@ -694,6 +702,33 @@ void NDictionary::DecodeSelf(const NEncoder &theEncoder)
 				break;
 			}
 		}
+}
+
+
+
+
+
+#pragma mark private
+//============================================================================
+//      NDictionary::ValueChanged : Our value has been changed.
+//----------------------------------------------------------------------------
+void NDictionary::ValueChanged(NDictionaryValue *theValue)
+{	NIndex		theSize;
+
+
+
+	// Compiler warnings
+	NN_UNUSED(theSize);
+	NN_UNUSED(theValue);
+
+
+
+	// Update the debug summary
+#if NN_DEBUG
+	theSize = (theValue == NULL) ? 0 : (theValue->size());
+
+	UpdateSummary("%ld %s", theSize, theSize == 1 ? "value" : "values");
+#endif
 }
 
 
