@@ -12,6 +12,15 @@
 	__________________________________________________________________________
 */
 //============================================================================
+//		Build constants
+//----------------------------------------------------------------------------
+#define NANO_USING_GD													0
+
+
+
+
+
+//============================================================================
 //		Include files
 //----------------------------------------------------------------------------
 #include <sys/select.h>
@@ -22,7 +31,9 @@
 #include <errno.h>
 #include <unistd.h>
 
+#if NANO_USING_GD
 #include "gd.h"
+#endif
 
 #include "NFileUtilities.h"
 #include "NTargetSystem.h"
@@ -786,6 +797,8 @@ NString NTargetSystem::TransformString(const NString &theString, NStringTransfor
 NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 {
 	NData	image_data;
+
+#if NANO_USING_GD
 	gdImagePtr image;
 	const UInt8* image_in = theImage.GetData().GetData();
 	void *image_out;
@@ -814,6 +827,7 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 	gdImageDestroy(image);
 
 	image_data.SetData(*image_out_len, image_out, false);
+#endif
 
 	return(image_data);
 }
@@ -826,7 +840,9 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 //		NTargetSystem::ImageDecode : Decode an image.
 //----------------------------------------------------------------------------
 NImage NTargetSystem::ImageDecode(const NData &theData)
-{
+{	NImage		theImage;
+
+#if NANO_USING_GD
 	NData image_data(theData.GetSize(), theData.GetData(), true);
 	NImageFormat image_format;
 	gdImagePtr image;
@@ -862,9 +878,10 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 		}
 	}
 
-	NImage theImage(static_cast<NSize>(image_data.GetSize()), image_format, image_data, image->sy);
+	theImage = NImage(static_cast<NSize>(image_data.GetSize()), image_format, image_data, image->sy);
 
 	gdImageDestroy(image);
+#endif
 
 	return (theImage);
 }
