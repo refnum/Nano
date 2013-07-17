@@ -18,6 +18,10 @@
 #include "NTestFixture.h"
 #include "NString.h"
 
+#if NN_TARGET_MAC
+	#include "NNSAutoReleasePool.h"
+#endif
+
 #include "CTestUtilities.h"
 
 
