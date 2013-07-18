@@ -34,36 +34,36 @@
 //		Macros
 //----------------------------------------------------------------------------
 // Format arguments
-#define NN_FORMAT_ARGS					const NFormatArgument &arg1  = NFormatArgument(),	\
-										const NFormatArgument &arg2  = NFormatArgument(),	\
-										const NFormatArgument &arg3  = NFormatArgument(),	\
-										const NFormatArgument &arg4  = NFormatArgument(),	\
-										const NFormatArgument &arg5  = NFormatArgument(),	\
-										const NFormatArgument &arg6  = NFormatArgument(),	\
-										const NFormatArgument &arg7  = NFormatArgument(),	\
-										const NFormatArgument &arg8  = NFormatArgument(),	\
-										const NFormatArgument &arg9  = NFormatArgument(),	\
-										const NFormatArgument &arg10 = NFormatArgument(),	\
-										const NFormatArgument &arg11 = NFormatArgument(),	\
-										const NFormatArgument &arg12 = NFormatArgument(),	\
-										const NFormatArgument &arg13 = NFormatArgument(),	\
-										const NFormatArgument &arg14 = NFormatArgument(),	\
-										const NFormatArgument &arg15 = NFormatArgument()
+#define NN_FORMAT_ARGS					const NFormatArgument &arg1  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg2  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg3  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg4  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg5  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg6  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg7  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg8  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg9  = kNFormatArgumentNone,	\
+										const NFormatArgument &arg10 = kNFormatArgumentNone,	\
+										const NFormatArgument &arg11 = kNFormatArgumentNone,	\
+										const NFormatArgument &arg12 = kNFormatArgumentNone,	\
+										const NFormatArgument &arg13 = kNFormatArgumentNone,	\
+										const NFormatArgument &arg14 = kNFormatArgumentNone,	\
+										const NFormatArgument &arg15 = kNFormatArgumentNone
 
-#define NN_FORMAT_ARGS_PARAM			const NFormatArgument &arg1,						\
-										const NFormatArgument &arg2, 						\
-										const NFormatArgument &arg3, 						\
-										const NFormatArgument &arg4, 						\
-										const NFormatArgument &arg5, 						\
-										const NFormatArgument &arg6, 						\
-										const NFormatArgument &arg7, 						\
-										const NFormatArgument &arg8, 						\
-										const NFormatArgument &arg9, 						\
-										const NFormatArgument &arg10,						\
-										const NFormatArgument &arg11,						\
-										const NFormatArgument &arg12,						\
-										const NFormatArgument &arg13,						\
-										const NFormatArgument &arg14,						\
+#define NN_FORMAT_ARGS_PARAM			const NFormatArgument &arg1,							\
+										const NFormatArgument &arg2, 							\
+										const NFormatArgument &arg3, 							\
+										const NFormatArgument &arg4, 							\
+										const NFormatArgument &arg5, 							\
+										const NFormatArgument &arg6, 							\
+										const NFormatArgument &arg7, 							\
+										const NFormatArgument &arg8, 							\
+										const NFormatArgument &arg9, 							\
+										const NFormatArgument &arg10,							\
+										const NFormatArgument &arg11,							\
+										const NFormatArgument &arg12,							\
+										const NFormatArgument &arg13,							\
+										const NFormatArgument &arg14,							\
 										const NFormatArgument &arg15
 
 #define NN_FORMAT_ARGS_LIST				arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15
@@ -165,6 +165,15 @@ private:
 private:
 	NFormatFunctor						mGetValue;
 };
+
+
+
+
+
+//============================================================================
+//		Constants
+//----------------------------------------------------------------------------
+static const NFormatArgument kNFormatArgumentNone;
 
 
 
