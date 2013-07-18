@@ -261,8 +261,8 @@ public:
 	void								TrimRight(const NString &theString=kNStringWhitespace, NStringFlags theFlags=kNStringNone);
 	void								Trim(     const NString &theString=kNStringWhitespace, NStringFlags theFlags=kNStringNone);
 
-	void								TrimLeft( NIndex theSize);
-	void								TrimRight(NIndex theSize);
+	void								TrimLeft(  NIndex  theSize);
+	void								TrimRight( NIndex  theSize);
 	void								Trim(const NRange &theRange);
 
 
