@@ -216,8 +216,8 @@ static const float32_t kFloat32Max									= FLT_MAX;
 static const float64_t kFloat64Min									= DBL_MIN;
 static const float64_t kFloat64Max									= DBL_MAX;
 
-static const NIndex kNIndexMin										= kInt32Min;
-static const NIndex kNIndexMax										= kInt32Max;
+static const NIndex kNIndexMin										= INT_MIN;
+static const NIndex kNIndexMax										= INT_MAX;
 
 
 // Misc
