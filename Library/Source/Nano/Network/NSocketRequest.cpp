@@ -156,7 +156,7 @@ NIndex NSocketRequest::GetUnprocessedSize(void) const
 //============================================================================
 //		NSocketRequest::GetUnprocessedData : Get the unprocessed data.
 //----------------------------------------------------------------------------
-const UInt8 *NSocketRequest::GetUnprocessedData(void) const
+const uint8_t *NSocketRequest::GetUnprocessedData(void) const
 {
 
 
@@ -176,7 +176,7 @@ const UInt8 *NSocketRequest::GetUnprocessedData(void) const
 //============================================================================
 //		NSocketRequest::GetUnprocessedData : Get the unprocessed data.
 //----------------------------------------------------------------------------
-UInt8 *NSocketRequest::GetUnprocessedData(void)
+uint8_t *NSocketRequest::GetUnprocessedData(void)
 {
 
 

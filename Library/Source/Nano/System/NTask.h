@@ -68,8 +68,8 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Tasks
-typedef UIntPtr NTaskID;
-typedef UIntPtr NTaskPipeRef;
+typedef uintptr_t NTaskID;
+typedef uintptr_t NTaskPipeRef;
 
 static const NTaskID      kNTaskIDNone								= 0;
 static const NTaskPipeRef kNTaskPipeRefNone							= (NTaskPipeRef) -1;
@@ -84,7 +84,7 @@ static const NTaskPipeRef kNTaskPipeRefNone							= (NTaskPipeRef) -1;
 // Task info
 typedef struct {
 	NTaskID			taskID;
-	SInt32			taskResult;
+	int32_t			taskResult;
 
 	NTaskPipeRef	stdIn;
 	NTaskPipeRef	stdOut;
@@ -117,7 +117,7 @@ public:
 	// Get the task result
 	//
 	// Returns 0 if the task has not started, or is still running.
-	SInt32								GetResult(void) const;
+	int32_t								GetResult(void) const;
 
 
 	// Launch/terminate the task

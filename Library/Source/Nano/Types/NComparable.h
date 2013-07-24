@@ -96,7 +96,7 @@ template <class A, class B> inline NComparison GetComparison(const A &a, const B
 	return(a < b ? kNCompareLessThan : (a > b ? kNCompareGreaterThan : kNCompareEqualTo));
 }
 
-inline NComparison GetComparison(const Float32 &a, const Float32 &b)
+inline NComparison GetComparison(const float32_t &a, const float32_t &b)
 {
 	if (NMathUtilities::AreEqual(a, b))
 		return(kNCompareEqualTo);
@@ -104,7 +104,7 @@ inline NComparison GetComparison(const Float32 &a, const Float32 &b)
 		return(a < b ? kNCompareLessThan : kNCompareGreaterThan);
 }
 
-inline NComparison GetComparison(const Float64 &a, const Float64 &b)
+inline NComparison GetComparison(const float64_t &a, const float64_t &b)
 {
 	if (NMathUtilities::AreEqual(a, b))
 		return(kNCompareEqualTo);
@@ -114,7 +114,7 @@ inline NComparison GetComparison(const Float64 &a, const Float64 &b)
 
 
 // Get an NComparison from a memcmp/strcmp-style result
-inline NComparison GetComparison(SInt32 x)
+inline NComparison GetComparison(int32_t x)
 {
 	return(GetComparison(x, 0L));
 }

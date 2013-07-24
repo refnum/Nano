@@ -24,8 +24,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32List kTestList1									= nvector<UInt32>(11, 12, 13);
-static const UInt32List kTestList2									= nvector<UInt32>(24, 25, 26);
+static const UInt32List kTestList1									= nvector<uint32_t>(11, 12, 13);
+static const UInt32List kTestList2									= nvector<uint32_t>(24, 25, 26);
 
 
 

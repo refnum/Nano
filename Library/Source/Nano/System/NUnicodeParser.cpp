@@ -25,18 +25,18 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // BOM
-static const UInt8 kUTF8BOM[]										= { 0xEF, 0xBB, 0xBF };
-static const UInt8 kUTF16BOMBE[]									= { 0xFE, 0xFF };
-static const UInt8 kUTF16BOMLE[]									= { 0xFF, 0xFE };
-static const UInt8 kUTF32BOMBE[]									= { 0x00, 0x00, 0xFE, 0xFF };
-static const UInt8 kUTF32BOMLE[]									= { 0xFF, 0xFE, 0x00, 0x00 };
+static const uint8_t kUTF8BOM[]										= { 0xEF, 0xBB, 0xBF };
+static const uint8_t kUTF16BOMBE[]									= { 0xFE, 0xFF };
+static const uint8_t kUTF16BOMLE[]									= { 0xFF, 0xFE };
+static const uint8_t kUTF32BOMBE[]									= { 0x00, 0x00, 0xFE, 0xFF };
+static const uint8_t kUTF32BOMLE[]									= { 0xFF, 0xFE, 0x00, 0x00 };
 
 
 // UTF16
-static const UTF16Char kUTF16SurrogateHighStart						= 0xD800;
-static const UTF16Char kUTF16SurrogateHighEnd						= 0xDBFF;
-static const UTF16Char kUTF16SurrogateLowStart						= 0xDC00;
-static const UTF16Char kUTF16SurrogateLowEnd						= 0xDFFF;
+static const utf16_t kUTF16SurrogateHighStart						= 0xD800;
+static const utf16_t kUTF16SurrogateHighEnd							= 0xDBFF;
+static const utf16_t kUTF16SurrogateLowStart						= 0xDC00;
+static const utf16_t kUTF16SurrogateLowEnd							= 0xDFFF;
 
 
 // UTF8
@@ -207,11 +207,11 @@ NRange NUnicodeParser::GetRange(const NRange &theRange) const
 //============================================================================
 //		NUnicodeParser::GetChar : Get a character.
 //----------------------------------------------------------------------------
-UTF32Char NUnicodeParser::GetChar(NIndex theIndex, bool toLower) const
+utf32_t NUnicodeParser::GetChar(NIndex theIndex, bool toLower) const
 {	NStringEncoder		theEncoder;
 	NRange				theRange;
-	const UInt8			*srcPtr;
-	UTF32Char			theChar;
+	const uint8_t		*srcPtr;
+	utf32_t				theChar;
 
 
 
@@ -243,7 +243,7 @@ UTF32Char NUnicodeParser::GetChar(NIndex theIndex, bool toLower) const
 //============================================================================
 //		NUnicodeParser::IsSpace : Is this a whitespace character?
 //----------------------------------------------------------------------------
-bool NUnicodeParser::IsSpace(UTF32Char theChar) const
+bool NUnicodeParser::IsSpace(utf32_t theChar) const
 {	bool	theResult;
 
 
@@ -263,7 +263,7 @@ bool NUnicodeParser::IsSpace(UTF32Char theChar) const
 //============================================================================
 //		NUnicodeParser::IsPunct : Is this a punctuation character?
 //----------------------------------------------------------------------------
-bool NUnicodeParser::IsPunct(UTF32Char theChar) const
+bool NUnicodeParser::IsPunct(utf32_t theChar) const
 {	bool	theResult;
 
 
@@ -283,7 +283,7 @@ bool NUnicodeParser::IsPunct(UTF32Char theChar) const
 //============================================================================
 //		NUnicodeParser::IsAlpha : Is this an alphabetic character?
 //----------------------------------------------------------------------------
-bool NUnicodeParser::IsAlpha(UTF32Char theChar) const
+bool NUnicodeParser::IsAlpha(utf32_t theChar) const
 {	bool	theResult;
 
 
@@ -303,7 +303,7 @@ bool NUnicodeParser::IsAlpha(UTF32Char theChar) const
 //============================================================================
 //		NUnicodeParser::IsDigit : Is this a numeric character?
 //----------------------------------------------------------------------------
-bool NUnicodeParser::IsDigit(UTF32Char theChar) const
+bool NUnicodeParser::IsDigit(utf32_t theChar) const
 {	bool	theResult;
 
 
@@ -323,7 +323,7 @@ bool NUnicodeParser::IsDigit(UTF32Char theChar) const
 //============================================================================
 //		NUnicodeParser::GetLower : Get the lower-case version of a character.
 //----------------------------------------------------------------------------
-UTF32Char NUnicodeParser::GetLower(UTF32Char theChar) const
+utf32_t NUnicodeParser::GetLower(utf32_t theChar) const
 {
 
 
@@ -343,7 +343,7 @@ UTF32Char NUnicodeParser::GetLower(UTF32Char theChar) const
 //============================================================================
 //		NUnicodeParser::GetUpper : Get the upper-case version of a character.
 //----------------------------------------------------------------------------
-UTF32Char NUnicodeParser::GetUpper(UTF32Char theChar) const
+utf32_t NUnicodeParser::GetUpper(utf32_t theChar) const
 {
 
 
@@ -365,7 +365,7 @@ UTF32Char NUnicodeParser::GetUpper(UTF32Char theChar) const
 //----------------------------------------------------------------------------
 NStringEncoding NUnicodeParser::GetBOM(const NData &theData, NRange &theRange) const
 {	NStringEncoding		theEncoding;
-	const UInt8			*dataPtr;
+	const uint8_t		*dataPtr;
 	NIndex				dataSize;
 
 
@@ -592,9 +592,9 @@ NEndianFormat NUnicodeParser::GetEndianFormat(NStringEncoding theEncoding) const
 
 
 //============================================================================
-//		NUnicodeParser::GetNativeUTF8 : Get a native UTF8Char.
+//		NUnicodeParser::GetNativeUTF8 : Get a native utf8_t.
 //----------------------------------------------------------------------------
-UTF8Char NUnicodeParser::GetNativeUTF8(UTF8Char theChar, NStringEncoding /*theEncoding*/) const
+utf8_t NUnicodeParser::GetNativeUTF8(utf8_t theChar, NStringEncoding /*theEncoding*/) const
 {
 
 
@@ -607,15 +607,15 @@ UTF8Char NUnicodeParser::GetNativeUTF8(UTF8Char theChar, NStringEncoding /*theEn
 
 
 //============================================================================
-//		NUnicodeParser::GetNativeUTF16 : Get a native UTF16Char.
+//		NUnicodeParser::GetNativeUTF16 : Get a native utf16_t.
 //----------------------------------------------------------------------------
-UTF16Char NUnicodeParser::GetNativeUTF16(UTF16Char theChar, NStringEncoding theEncoding) const
+utf16_t NUnicodeParser::GetNativeUTF16(utf16_t theChar, NStringEncoding theEncoding) const
 {
 
 
 	// Get the character
 	if (GetEndianFormat(theEncoding) != kNEndianNative)
-		NSwapUInt16((UInt16 *) &theChar);
+		NSwapUInt16((uint16_t *) &theChar);
 	
 	return(theChar);
 }
@@ -625,15 +625,15 @@ UTF16Char NUnicodeParser::GetNativeUTF16(UTF16Char theChar, NStringEncoding theE
 
 
 //============================================================================
-//		NUnicodeParser::GetNativeUTF32 : Get a native UTF32Char.
+//		NUnicodeParser::GetNativeUTF32 : Get a native utf32_t.
 //----------------------------------------------------------------------------
-UTF32Char NUnicodeParser::GetNativeUTF32(UTF32Char theChar, NStringEncoding theEncoding) const
+utf32_t NUnicodeParser::GetNativeUTF32(utf32_t theChar, NStringEncoding theEncoding) const
 {
 
 
 	// Get the character
 	if (GetEndianFormat(theEncoding) != kNEndianNative)
-		NSwapUInt32((UInt32 *) &theChar);
+		NSwapUInt32((uint32_t *) &theChar);
 	
 	return(theChar);
 }
@@ -650,8 +650,8 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(const NRange &theBOM) const
 {	NIndex			n, theSize, charSize;
 	NRangeList		theResult;
 	NRange			theRange;
-	const UInt8		*theData;
-	UTF8Char		theChar;
+	const uint8_t	*theData;
+	utf8_t			theChar;
 
 
 
@@ -662,13 +662,13 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(const NRange &theBOM) const
 
 
 	// Get the code points
-	theResult.reserve(theSize / sizeof(UTF8Char));
+	theResult.reserve(theSize / sizeof(utf8_t));
 	n = (theBOM.IsEmpty() ? 0 : theBOM.GetNext());
 
 	while (n < theSize)
 		{
 		// Get the character
-		theChar  = GetNativeUTF8(*((const UTF8Char *) &theData[n]), mEncoding);
+		theChar  = GetNativeUTF8(*((const utf8_t *) &theData[n]), mEncoding);
 		charSize = kUTF8TrailingBytes[theChar] + 1;
 		NN_ASSERT(charSize >= 1 && charSize <= 6);
 
@@ -699,8 +699,8 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(const NRange &theBOM) const
 {	NIndex			n, theSize, charSize;
 	NRangeList		theResult;
 	NRange			theRange;
-	const UInt8		*theData;
-	UTF16Char		theChar;
+	const uint8_t	*theData;
+	utf16_t			theChar;
 
 
 
@@ -708,25 +708,25 @@ NRangeList NUnicodeParser::GetCodePointsUTF16(const NRange &theBOM) const
 	theSize = mData.GetSize();
 	theData = mData.GetData();
 
-	NN_ASSERT((theSize % sizeof(UTF16Char)) == 0);
+	NN_ASSERT((theSize % sizeof(utf16_t)) == 0);
 
 
 
 	// Get the code points
-	theResult.reserve(theSize / sizeof(UTF16Char));
+	theResult.reserve(theSize / sizeof(utf16_t));
 	n = (theBOM.IsEmpty() ? 0 : theBOM.GetNext());
 
 	while (n < theSize)
 		{
 		// Get the character
-		theChar  = GetNativeUTF16(*((const UTF16Char *) &theData[n]), mEncoding);
+		theChar  = GetNativeUTF16(*((const utf16_t *) &theData[n]), mEncoding);
 		charSize = 2;
 		
 		if (theChar >= kUTF16SurrogateHighStart && theChar <= kUTF16SurrogateHighEnd)
 			{
 			NN_ASSERT(n <= (theSize-2));
-			NN_ASSERT(GetNativeUTF16(*((const UTF16Char *) &theData[n+2]), mEncoding) >= kUTF16SurrogateLowStart &&
-					  GetNativeUTF16(*((const UTF16Char *) &theData[n+2]), mEncoding) <= kUTF16SurrogateLowEnd);
+			NN_ASSERT(GetNativeUTF16(*((const utf16_t *) &theData[n+2]), mEncoding) >= kUTF16SurrogateLowStart &&
+					  GetNativeUTF16(*((const utf16_t *) &theData[n+2]), mEncoding) <= kUTF16SurrogateLowEnd);
 			
 			charSize += 2;
 			}
@@ -758,8 +758,8 @@ NRangeList NUnicodeParser::GetCodePointsUTF32(const NRange &theBOM) const
 {	NIndex			n, theSize, charSize;
 	NRangeList		theResult;
 	NRange			theRange;
-	const UInt8		*theData;
-	UTF32Char		theChar;
+	const uint8_t	*theData;
+	utf32_t			theChar;
 
 
 
@@ -767,18 +767,18 @@ NRangeList NUnicodeParser::GetCodePointsUTF32(const NRange &theBOM) const
 	theSize = mData.GetSize();
 	theData = mData.GetData();
 
-	NN_ASSERT((theSize % sizeof(UTF32Char)) == 0);
+	NN_ASSERT((theSize % sizeof(utf32_t)) == 0);
 
 
 
 	// Get the code points
-	theResult.reserve(theSize / sizeof(UTF32Char));
+	theResult.reserve(theSize / sizeof(utf32_t));
 	n = (theBOM.IsEmpty() ? 0 : theBOM.GetNext());
 	
 	while (n < theSize)
 		{
 		// Get the character
-		theChar  = GetNativeUTF32(*((const UTF32Char *) &theData[n]), mEncoding);
+		theChar  = GetNativeUTF32(*((const utf32_t *) &theData[n]), mEncoding);
 		charSize = 4;
 
 
@@ -805,7 +805,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF32(const NRange &theBOM) const
 //		NUnicodeParser::AddBOMToUTF8 : Add a UTF8 BOM.
 //----------------------------------------------------------------------------
 void NUnicodeParser::AddBOMToUTF8(NData &theData) const
-{	const UInt8		*theBOM;
+{	const uint8_t	*theBOM;
 
 
 
@@ -822,7 +822,7 @@ void NUnicodeParser::AddBOMToUTF8(NData &theData) const
 //		NUnicodeParser::AddBOMToUTF16 : Add a UTF16 BOM.
 //----------------------------------------------------------------------------
 void NUnicodeParser::AddBOMToUTF16(NData &theData, NEndianFormat theFormat) const
-{	const UInt8		*theBOM;
+{	const uint8_t	*theBOM;
 
 
 
@@ -843,7 +843,7 @@ void NUnicodeParser::AddBOMToUTF16(NData &theData, NEndianFormat theFormat) cons
 //		NUnicodeParser::AddBOMToUTF32 : Add a UTF32 BOM.
 //----------------------------------------------------------------------------
 void NUnicodeParser::AddBOMToUTF32(NData &theData, NEndianFormat theFormat) const
-{	const UInt8		*theBOM;
+{	const uint8_t	*theBOM;
 
 
 

@@ -25,19 +25,19 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const UInt16 kNativeUInt16									= 0x1234;
-static const UInt32 kNativeUInt32									= 0x12345678;
-static const UInt64 kNativeUInt64									= 0x123456789ABCDEF0ULL;
+static const uint16_t kNativeUInt16									= 0x1234;
+static const uint32_t kNativeUInt32									= 0x12345678;
+static const uint64_t kNativeUInt64									= 0x123456789ABCDEF0ULL;
 
-static const UInt16 kSwappedUInt16									= 0x3412;
-static const UInt32 kSwappedUInt32									= 0x78563412;
-static const UInt64 kSwappedUInt64									= 0xF0DEBC9A78563412ULL;
+static const uint16_t kSwappedUInt16								= 0x3412;
+static const uint32_t kSwappedUInt32								= 0x78563412;
+static const uint64_t kSwappedUInt64								= 0xF0DEBC9A78563412ULL;
 
-static const UInt8 kLittleFloat32[4]								= { 0xDB, 0x0F, 0x49, 0x40 };
-static const UInt8 kLittleFloat64[8]								= { 0x18, 0x2D, 0x44, 0x54, 0xFB, 0x21, 0x09, 0x40 };
+static const uint8_t kLittleFloat32[4]								= { 0xDB, 0x0F, 0x49, 0x40 };
+static const uint8_t kLittleFloat64[8]								= { 0x18, 0x2D, 0x44, 0x54, 0xFB, 0x21, 0x09, 0x40 };
 
-static const UInt8 kBigFloat32[4]									= { 0x40, 0x49, 0x0F, 0xDB };
-static const UInt8 kBigFloat64[8]									= { 0x40, 0x09, 0x21, 0xFB,	0x54, 0x44,	0x2D, 0x18 };
+static const uint8_t kBigFloat32[4]									= { 0x40, 0x49, 0x0F, 0xDB };
+static const uint8_t kBigFloat64[8]									= { 0x40, 0x09, 0x21, 0xFB,	0x54, 0x44,	0x2D, 0x18 };
 
 
 
@@ -50,22 +50,22 @@ static const UInt8 kBigFloat64[8]									= { 0x40, 0x09, 0x21, 0xFB,	0x54, 0x44
 
 FIXTURE_NANO(TByteSwap)
 {
-	Float32		float32N, float32B, float32L;
-	Float64		float64N, float64B, float64L;
-	UInt16		value16;
-	UInt32		value32;
-	UInt64		value64;
+	float32_t		float32N, float32B, float32L;
+	float64_t		float64N, float64B, float64L;
+	uint16_t		value16;
+	uint32_t		value32;
+	uint64_t		value64;
 
 	SETUP
 	{
-		memcpy(&float32N, NN_TARGET_ENDIAN_BIG ? &kBigFloat32 : &kLittleFloat32, sizeof(Float32));
-		memcpy(&float64N, NN_TARGET_ENDIAN_BIG ? &kBigFloat64 : &kLittleFloat64, sizeof(Float64));
+		memcpy(&float32N, NN_TARGET_ENDIAN_BIG ? &kBigFloat32 : &kLittleFloat32, sizeof(float32_t));
+		memcpy(&float64N, NN_TARGET_ENDIAN_BIG ? &kBigFloat64 : &kLittleFloat64, sizeof(float64_t));
 
-		memcpy(&float32B, &kBigFloat32, sizeof(Float32));
-		memcpy(&float64B, &kBigFloat64, sizeof(Float64));
+		memcpy(&float32B, &kBigFloat32, sizeof(float32_t));
+		memcpy(&float64B, &kBigFloat64, sizeof(float64_t));
 
-		memcpy(&float32L, &kLittleFloat32, sizeof(Float32));
-		memcpy(&float64L, &kLittleFloat64, sizeof(Float64));
+		memcpy(&float32L, &kLittleFloat32, sizeof(float32_t));
+		memcpy(&float64L, &kLittleFloat64, sizeof(float64_t));
 	}
 };
 
@@ -103,9 +103,9 @@ TEST_NBYTESWAP("Primitives")
 	value32 = kNativeUInt32;
 	value64 = kNativeUInt64;
 	
-	NByteSwap::SwapInt16(&value16);
-	NByteSwap::SwapInt32(&value32);
-	NByteSwap::SwapInt64(&value64);
+	NByteSwap::Swap16(&value16);
+	NByteSwap::Swap32(&value32);
+	NByteSwap::Swap64(&value64);
 
 	REQUIRE(value16 == kSwappedUInt16);
 	REQUIRE(value32 == kSwappedUInt32);
@@ -124,13 +124,13 @@ TEST_NBYTESWAP("NtoB")
 
 
 	// Perform the test
-	REQUIRE(NSwapUInt16_NtoB(kNativeUInt16) == (UInt16) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapUInt32_NtoB(kNativeUInt32) == (UInt32) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapUInt64_NtoB(kNativeUInt64) == (UInt64) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapUInt16_NtoB(kNativeUInt16) == (uint16_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapUInt32_NtoB(kNativeUInt32) == (uint32_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapUInt64_NtoB(kNativeUInt64) == (uint64_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NSwapSInt16_NtoB(kNativeUInt16) == (SInt16) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapSInt32_NtoB(kNativeUInt32) == (SInt32) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapSInt64_NtoB(kNativeUInt64) == (SInt64) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapInt16_NtoB(kNativeUInt16) == (int16_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapInt32_NtoB(kNativeUInt32) == (int32_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapInt64_NtoB(kNativeUInt64) == (int64_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat32_NtoB(float32N), float32B));
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat64_NtoB(float64N), float64B));
@@ -148,13 +148,13 @@ TEST_NBYTESWAP("NtoL")
 
 
 	// Perform the test
-	REQUIRE(NSwapUInt16_NtoL(kNativeUInt16) == (UInt16) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapUInt32_NtoL(kNativeUInt32) == (UInt32) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapUInt64_NtoL(kNativeUInt64) == (UInt64) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapUInt16_NtoL(kNativeUInt16) == (uint16_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapUInt32_NtoL(kNativeUInt32) == (uint32_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapUInt64_NtoL(kNativeUInt64) == (uint64_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NSwapSInt16_NtoL(kNativeUInt16) == (SInt16) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapSInt32_NtoL(kNativeUInt32) == (SInt32) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapSInt64_NtoL(kNativeUInt64) == (SInt64) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapInt16_NtoL(kNativeUInt16) == (int16_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapInt32_NtoL(kNativeUInt32) == (int32_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapInt64_NtoL(kNativeUInt64) == (int64_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat32_NtoL(float32N), float32L));
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat64_NtoL(float64N), float64L));
@@ -172,13 +172,13 @@ TEST_NBYTESWAP("BtoN")
 
 
 	// Perform the test
-	REQUIRE(NSwapUInt16_BtoN(kNativeUInt16) == (UInt16) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapUInt32_BtoN(kNativeUInt32) == (UInt32) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapUInt64_BtoN(kNativeUInt64) == (UInt64) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapUInt16_BtoN(kNativeUInt16) == (uint16_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapUInt32_BtoN(kNativeUInt32) == (uint32_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapUInt64_BtoN(kNativeUInt64) == (uint64_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NSwapSInt16_BtoN(kNativeUInt16) == (SInt16) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapSInt32_BtoN(kNativeUInt32) == (SInt32) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapSInt64_BtoN(kNativeUInt64) == (SInt64) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapInt16_BtoN(kNativeUInt16) == (int16_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapInt32_BtoN(kNativeUInt32) == (int32_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapInt64_BtoN(kNativeUInt64) == (int64_t) (NN_TARGET_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat32_BtoN(float32B), float32N));
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat64_BtoN(float64B), float64N));
@@ -196,13 +196,13 @@ TEST_NBYTESWAP("LtoN")
 
 
 	// Perform the test
-	REQUIRE(NSwapUInt16_LtoN(kNativeUInt16) == (UInt16) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapUInt32_LtoN(kNativeUInt32) == (UInt32) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapUInt64_LtoN(kNativeUInt64) == (UInt64) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapUInt16_LtoN(kNativeUInt16) == (uint16_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapUInt32_LtoN(kNativeUInt32) == (uint32_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapUInt64_LtoN(kNativeUInt64) == (uint64_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NSwapSInt16_LtoN(kNativeUInt16) == (SInt16) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
-	REQUIRE(NSwapSInt32_LtoN(kNativeUInt32) == (SInt32) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
-	REQUIRE(NSwapSInt64_LtoN(kNativeUInt64) == (SInt64) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
+	REQUIRE(NSwapInt16_LtoN(kNativeUInt16) == (int16_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt16 : kSwappedUInt16));
+	REQUIRE(NSwapInt32_LtoN(kNativeUInt32) == (int32_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt32 : kSwappedUInt32));
+	REQUIRE(NSwapInt64_LtoN(kNativeUInt64) == (int64_t) (NN_TARGET_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat32_LtoN(float32L), float32N));
 	REQUIRE(NMathUtilities::AreEqual(NSwapFloat64_LtoN(float64L), float64N));

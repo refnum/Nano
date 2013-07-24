@@ -34,7 +34,7 @@
 // Shadow
 typedef struct {
 	NColor		color;
-	Float32		blur;
+	float32_t	blur;
 	NPoint		offset;
 } NShadowInfo;
 
@@ -80,8 +80,8 @@ public:
 
 
 	// Adjust the transform
-	void								Scale(     Float32 x, Float32 y);
-	void								Translate( Float32 x, Float32 y);
+	void								Scale(     float32_t x, float32_t y);
+	void								Translate( float32_t x, float32_t y);
 	void								Rotate(    NRadians    theAngle);
 
 
@@ -96,7 +96,7 @@ public:
 
 
 	// Set the line width
-	void								SetLineWidth(Float32 theWidth);
+	void								SetLineWidth(float32_t theWidth);
 
 
 	// Set the line cap
@@ -113,7 +113,7 @@ public:
 	
 
 	// Set the alpha
-	void								SetAlpha(Float32 theAlpha);
+	void								SetAlpha(float32_t theAlpha);
 
 
 	// Set the anti-aliasing
@@ -149,21 +149,21 @@ public:
 
 
 	// Move to a point
-	void								MoveTo(Float32 x, Float32 y);
+	void								MoveTo(float32_t x, float32_t y);
 	void								MoveTo(const NPoint &thePoint);
 
 
 	// Add a line
-	void								AddLineTo(Float32 x, Float32 y);
+	void								AddLineTo(float32_t x, float32_t y);
 	void								AddLineTo(const NPoint &thePoint);
 
 
 	// Add a rectangle
-	void								AddRect(const NRectangle &theRect, Float32 cornerRadius=0.0f);
+	void								AddRect(const NRectangle &theRect, float32_t cornerRadius=0.0f);
 
 
 	// Add a circle
-	void								AddCircle(const NPoint &theCenter, Float32 theRadius);
+	void								AddCircle(const NPoint &theCenter, float32_t theRadius);
 
 
 	// Add an ellipse
@@ -171,8 +171,8 @@ public:
 
 
 	// Add an arc
-	void								AddArc(       const NPoint &theCenter, Float32 theRadius, Float32 angleStart, Float32 angleEnd, bool clockWise);
-	void								AddArcToPoint(const NPoint &point1, const NPoint &point2, Float32 theRadius);
+	void								AddArc(       const NPoint &theCenter, float32_t theRadius, float32_t angleStart, float32_t angleEnd, bool clockWise);
+	void								AddArcToPoint(const NPoint &point1, const NPoint &point2, float32_t theRadius);
 
 
 	// Add a polyline
@@ -210,13 +210,13 @@ public:
 												 const NRectangle		   &theRect,
 													   NPosition			alignTo  = kNPositionLeft,
 													   CTFontUIFontType		fontID   = kCTFontUIFontUser,
-													   Float32				fontSize = 0.0);
+													   float32_t			fontSize = 0.0);
 
 
 	// Measure text
 	NRectangle							GetTextBounds(const NString			   &theText,
 															CTFontUIFontType	fontID   = kCTFontUIFontUser,
-															Float32				fontSize = 0.0);
+															float32_t			fontSize = 0.0);
 
 
 private:
@@ -226,11 +226,11 @@ private:
 private:
 	NCFObject							PrepareTextLine(	const NString		&theText,
 															CTFontUIFontType	fontID,
-															Float32				fontSize,
+															float32_t			fontSize,
 															NRectangle			&textRect);
 
 	NCFObject							GetCTLine(const NString &theText);
-	NCFObject							GetCGFont(CTFontUIFontType fontID, Float32 fontSize);
+	NCFObject							GetCGFont(CTFontUIFontType fontID, float32_t fontSize);
 
 
 private:

@@ -58,7 +58,7 @@
 																		kFormatTypesPointer		\
 																		kFormatTypesCustom
 
-static const UInt32 kFormatBufferSize									= 256;
+static const NIndex kFormatBufferSize									= 256;
 
 
 

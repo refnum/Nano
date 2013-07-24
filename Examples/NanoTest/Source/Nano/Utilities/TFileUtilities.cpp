@@ -25,9 +25,9 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NString kTestText										= "test";
-static const UInt8   kTestTextUTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
-static const UInt8   kTestTextUTF16BE[]								= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
-static const UInt8   kTestTextUTF16LE[]								= { 0xFF, 0xFE, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74, 0x00 };
+static const uint8_t kTestTextUTF8[]								= { 0xEF, 0xBB, 0xBF, 0x74, 0x65, 0x73, 0x74 };
+static const uint8_t kTestTextUTF16BE[]								= { 0xFE, 0xFF, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74 };
+static const uint8_t kTestTextUTF16LE[]								= { 0xFF, 0xFE, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74, 0x00 };
 
 
 
@@ -76,14 +76,14 @@ TEST_NFILEUTILITIES("Directories")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NFILEUTILITIES("DirectorySize")
-{	UInt64		theSize;
+{	uint64_t	theSize;
 
 
 
 	// Perform the test
 	theFile = NFileUtilities::GetDirectory(kNLocationLogs);
 	theSize = NFileUtilities::GetDirectorySize(theFile);
-	REQUIRE(theSize > (UInt64) 0);
+	REQUIRE(theSize > (uint64_t) 0);
 }
 
 

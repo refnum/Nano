@@ -136,7 +136,7 @@ private:
 	NStatus								CreateParser( void);
 	void								DestroyParser(void);
 
-	NStatus								ConvertXMLStatus(SInt32 xmlErr);
+	NStatus								ConvertXMLStatus(int32_t xmlErr);
 	
 	bool								FlushText(  void);
 	void								StopParsing(void);

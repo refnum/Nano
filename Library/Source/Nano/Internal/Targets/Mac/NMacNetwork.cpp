@@ -576,7 +576,7 @@ static void SocketStreamEvent(CFTypeRef cfStream, CFStreamEventType theEvent, vo
 					//
 					// Sockets with a parent were spawned by a parent socket to handle a new connection.
 					if (theSocket->parentSocket != NULL)
-						theSocket->parentSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (UIntPtr) theSocket->nanoSocket);
+						theSocket->parentSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (uintptr_t) theSocket->nanoSocket);
 
 
 					// Finish off
@@ -861,7 +861,7 @@ static NSocketRef SocketCreate(NSocket *nanoSocket, CFSocketNativeHandle nativeS
 //============================================================================
 ///		SocketCreateListening : Create a listening socket.
 //----------------------------------------------------------------------------
-static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
+static bool SocketCreateListening(NSocketRef theSocket, uint16_t thePort)
 {	int						valueInt, sysErr;
 	CFSocketSignature		theSignature;
 	NCFObject				addressData;
@@ -885,7 +885,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 	theAddress.sin_addr.s_addr = INADDR_ANY;
 	theAddress.sin_port        = htons(thePort);
 
-	isOK = addressData.SetObject(CFDataCreate(kCFAllocatorNano,  (const UInt8 *) &theAddress, sizeof(theAddress)));
+	isOK = addressData.SetObject(CFDataCreate(kCFAllocatorNano,  (const uint8_t *) &theAddress, sizeof(theAddress)));
 	NN_ASSERT(isOK);
 
 	if (isOK)
@@ -971,7 +971,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 //============================================================================
 ///		SocketCreateConnecting : Create a connecting socket.
 //----------------------------------------------------------------------------
-static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, UInt16 thePort)
+static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, uint16_t thePort)
 {	bool	isOK;
 
 
@@ -1149,7 +1149,7 @@ bool NTargetNetwork::ServicesAvailable(void)
 //============================================================================
 //      NTargetNetwork::ServiceAdvertiserCreate : Create a service advertiser.
 //----------------------------------------------------------------------------
-NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName)
+NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, uint16_t thePort, const NString &theName)
 {	NServiceAdvertiserRef	theAdvertiser;
 	DNSServiceErrorType		dnsErr;
 
@@ -1325,7 +1325,7 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 //============================================================================
 //      NTargetNetwork::SocketOpen : Open a socket.
 //----------------------------------------------------------------------------
-NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, UInt16 thePort)
+NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, uint16_t thePort)
 {	NSocketRef		theSocket;
 	bool			isOK;
 
@@ -1436,7 +1436,7 @@ NIndex NTargetNetwork::SocketRead(NSocketRef theSocket, NIndex theSize, void *th
 
 
 	// Read from the stream
-	numRead = (NIndex) CFReadStreamRead(theSocket->cfStreamRead, (UInt8 *) thePtr, theSize);
+	numRead = (NIndex) CFReadStreamRead(theSocket->cfStreamRead, (uint8_t *) thePtr, theSize);
 	if (numRead < 0)
 		numRead = 0;
 
@@ -1461,7 +1461,7 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 
 
 	// Write to the stream
-	numWritten = (NIndex) CFWriteStreamWrite(theSocket->cfStreamWrite, (const UInt8 *) thePtr, theSize);
+	numWritten = (NIndex) CFWriteStreamWrite(theSocket->cfStreamWrite, (const uint8_t *) thePtr, theSize);
 	if (numWritten < 0)
 		numWritten = 0;
 
@@ -1475,10 +1475,10 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 //============================================================================
 //      NTargetNetwork::SocketGetOption : Get a socket option.
 //----------------------------------------------------------------------------
-SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
+int32_t NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
 {	socklen_t		valueSize;
 	int				valueInt;
-	SInt32			theValue;
+	int32_t			theValue;
 
 
 
@@ -1517,7 +1517,7 @@ SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOp
 //============================================================================
 //      NTargetNetwork::SocketSetOption : Set a socket option.
 //----------------------------------------------------------------------------
-NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue)
+NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, int32_t theValue)
 {	int			valueInt;
 	NStatus		theErr;
 

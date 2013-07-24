@@ -129,7 +129,7 @@ NString NTextUtilities::GetHexDump(NIndex dataSize, const void *dataPtr, char fl
 		lineSize = std::min(dataSize - lineOffset, kHexLineWidth);
 		linePad  = kHexLineWidth - lineSize;
 		
-		theResult  += GetHexLine(lineOffset, lineSize, linePad, (const UInt8 *) dataPtr, flowSign, hexOnly);
+		theResult  += GetHexLine(lineOffset, lineSize, linePad, (const uint8_t *) dataPtr, flowSign, hexOnly);
 		lineOffset += lineSize;
 		}
 
@@ -306,11 +306,11 @@ void NTextUtilities::ProcessEntities(const NString &theKey, const NVariant &theV
 //============================================================================
 //      NTextUtilities::GetHexLine : Get a line for a hex dump.
 //----------------------------------------------------------------------------
-NData NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const UInt8 *theData, char flowSign, bool hexOnly)
+NData NTextUtilities::GetHexLine(NIndex lineOffset, NIndex lineSize, NIndex linePad, const uint8_t *theData, char flowSign, bool hexOnly)
 {	NIndex		n, m, p, numBytes;
 	char		*linePtr;
 	NData		theLine;
-	UInt8		theByte;
+	uint8_t		theByte;
 
 
 

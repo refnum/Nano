@@ -353,14 +353,14 @@ bool NDictionary::GetValueBoolean(const NString &theKey) const
 
 
 //============================================================================
-//		NDictionary::GetValueSInt32 : Get a SInt32 value.
+//		NDictionary::GetValueInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NDictionary::GetValueSInt32(const NString &theKey) const
+int32_t NDictionary::GetValueInt32(const NString &theKey) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt32(GetValue(theKey), GetDebugID(theKey)));
+	return(NSystemUtilities::GetInt32(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -368,14 +368,14 @@ SInt32 NDictionary::GetValueSInt32(const NString &theKey) const
 
 
 //============================================================================
-//		NDictionary::GetValueSInt64 : Get a SInt64 value.
+//		NDictionary::GetValueInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NDictionary::GetValueSInt64(const NString &theKey) const
+int64_t NDictionary::GetValueInt64(const NString &theKey) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt64(GetValue(theKey), GetDebugID(theKey)));
+	return(NSystemUtilities::GetInt64(GetValue(theKey), GetDebugID(theKey)));
 }
 
 
@@ -383,9 +383,9 @@ SInt64 NDictionary::GetValueSInt64(const NString &theKey) const
 
 
 //============================================================================
-//		NDictionary::GetValueFloat32 : Get a Float32 value.
+//		NDictionary::GetValueFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NDictionary::GetValueFloat32(const NString &theKey) const
+float32_t NDictionary::GetValueFloat32(const NString &theKey) const
 {
 
 
@@ -398,9 +398,9 @@ Float32 NDictionary::GetValueFloat32(const NString &theKey) const
 
 
 //============================================================================
-//		NDictionary::GetValueFloat64 : Get a Float64 value.
+//		NDictionary::GetValueFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NDictionary::GetValueFloat64(const NString &theKey) const
+float64_t NDictionary::GetValueFloat64(const NString &theKey) const
 {
 
 

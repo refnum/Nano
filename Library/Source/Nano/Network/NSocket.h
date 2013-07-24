@@ -114,8 +114,8 @@ public:
 	// The delegate will be informed when the operation completes, or an error occurrs.
 	//
 	// May be called from any thread.
-	void								Open(                        UInt16 thePort);
-	void								Open(const NString &theHost, UInt16 thePort);
+	void								Open(                        uint16_t thePort);
+	void								Open(const NString &theHost, uint16_t thePort);
 
 
 	// Close the socket
@@ -148,25 +148,25 @@ public:
 	// The delegate will not be informed of the operation.
 	//
 	// May be called from any thread, except the main thread.
-	NStatus								ReadUInt8( UInt8  &theValue);
-	NStatus								ReadUInt16(UInt16 &theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadUInt32(UInt32 &theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadUInt64(UInt64 &theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadSInt8( SInt8  &theValue);
-	NStatus								ReadSInt16(SInt16 &theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadSInt32(SInt32 &theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadSInt64(SInt64 &theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								ReadData(  NIndex  theSize, void  *theData);
-	NStatus								ReadData(  NIndex  theSize, NData &theData);
+	NStatus								ReadUInt8( uint8_t  &theValue);
+	NStatus								ReadUInt16(uint16_t &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadUInt32(uint32_t &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadUInt64(uint64_t &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadInt8(  int8_t   &theValue);
+	NStatus								ReadInt16( int16_t  &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadInt32( int32_t  &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadInt64( int64_t  &theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								ReadData(  NIndex    theSize, void  *theData);
+	NStatus								ReadData(  NIndex    theSize, NData &theData);
 
-	NStatus								WriteUInt8( UInt8  theValue);
-	NStatus								WriteUInt16(UInt16 theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteUInt32(UInt32 theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteUInt64(UInt64 theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteSInt8( SInt8  theValue);
-	NStatus								WriteSInt16(SInt16 theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteSInt32(SInt32 theValue, NEndianFormat wireFormat=kNEndianBig);
-	NStatus								WriteSInt64(SInt64 theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteUInt8( uint8_t  theValue);
+	NStatus								WriteUInt16(uint16_t theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteUInt32(uint32_t theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteUInt64(uint64_t theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteInt8(  int8_t   theValue);
+	NStatus								WriteInt16( int16_t  theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteInt32( int32_t  theValue, NEndianFormat wireFormat=kNEndianBig);
+	NStatus								WriteInt64( int64_t  theValue, NEndianFormat wireFormat=kNEndianBig);
 	NStatus								WriteData(  NIndex theSize, const void  *theData);
 	NStatus								WriteData(                  const NData &theData);
 
@@ -181,13 +181,13 @@ public:
 	// Get/set an option
 	//
 	// The meaning of the value is option-specific.
-	SInt32								GetOption(NSocketOption theOption) const;
-	NStatus								SetOption(NSocketOption theOption, SInt32 theValue);
+	int32_t								GetOption(NSocketOption theOption) const;
+	NStatus								SetOption(NSocketOption theOption, int32_t theValue);
 
 
 public:
 	// Handle events
-	void								SocketEvent(NSocketEvent theEvent, UIntPtr theValue=0);
+	void								SocketEvent(NSocketEvent theEvent, uintptr_t theValue=0);
 
 
 private:

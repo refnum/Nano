@@ -27,7 +27,7 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const UInt32 kASCIILimit											= 0x7F;
+static const uint32_t kASCIILimit									= 0x7F;
 
 
 
@@ -68,19 +68,19 @@ public:
 	// Get a character
 	//
 	// Returns a character within the parsed data.
-	UTF32Char							GetChar(NIndex theIndex, bool toLower=false) const;
+	utf32_t								GetChar(NIndex theIndex, bool toLower=false) const;
 
 
 	// Test a character
-	bool								IsSpace(UTF32Char theChar) const;
-	bool								IsPunct(UTF32Char theChar) const;
-	bool								IsAlpha(UTF32Char theChar) const;
-	bool								IsDigit(UTF32Char theChar) const;
+	bool								IsSpace(utf32_t theChar) const;
+	bool								IsPunct(utf32_t theChar) const;
+	bool								IsAlpha(utf32_t theChar) const;
+	bool								IsDigit(utf32_t theChar) const;
 
 
 	// Convert case
-	UTF32Char							GetLower(UTF32Char theChar) const;
-	UTF32Char							GetUpper(UTF32Char theChar) const;
+	utf32_t								GetLower(utf32_t theChar) const;
+	utf32_t								GetUpper(utf32_t theChar) const;
 
 
 	// Get the BOM
@@ -103,9 +103,9 @@ public:
 
 
 	// Get the native form of a UTF character
-	UTF8Char							GetNativeUTF8( UTF8Char  theChar, NStringEncoding theEncoding) const;
-	UTF16Char							GetNativeUTF16(UTF16Char theChar, NStringEncoding theEncoding) const;
-	UTF32Char							GetNativeUTF32(UTF32Char theChar, NStringEncoding theEncoding) const;
+	utf8_t								GetNativeUTF8( utf8_t  theChar, NStringEncoding theEncoding) const;
+	utf16_t								GetNativeUTF16(utf16_t theChar, NStringEncoding theEncoding) const;
+	utf32_t								GetNativeUTF32(utf32_t theChar, NStringEncoding theEncoding) const;
 
 
 private:

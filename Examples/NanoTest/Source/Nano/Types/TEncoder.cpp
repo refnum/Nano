@@ -50,15 +50,15 @@ static const NNumber    kValueNumber2								= -5678LL;
 static const NNumber    kValueNumber3								=  1234.12f;
 static const NNumber    kValueNumber4								= -5678.5678765000102;
 static const NString    kValueString								= "This \" is & a ' test < text > string";
-static const UInt8      kValueData[]								= { 0xAA, 0xBB, 0xCC, 0xDD };
+static const uint8_t    kValueData[]								= { 0xAA, 0xBB, 0xCC, 0xDD };
 static const NPoint		kValuePoint									= NPoint(10, 20);
 static const NSize		kValueSize									= NSize(30, 40);
 static const NRectangle kValueRectangle								= NRectangle(10, 20, 30, 40);
 
 
 // Results
-static const UInt32  kResultBinary									= 0x0F48C7C8;
-static const NString kResultXML										=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+static const uint32_t kResultBinary									= 0x0F48C7C8;
+static const NString  kResultXML									=	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 																		"<encoder version=\"1.0\">\n"
 																		"	<object class=\"TEncodable\" key=\"root\">\n"
 																		"		<bool key=\"Test Boolean 1\">true</bool>\n"
@@ -209,7 +209,7 @@ FIXTURE_NANO(TEncoder)
 //----------------------------------------------------------------------------
 TEST_NENCODER("Encoding")
 {	NData			dataXML, dataBinary;
-	UInt32			adlerData;
+	uint32_t		adlerData;
 	NDataDigest		theDigest;
 	NVariant		theValue;
 	NString			textXML;

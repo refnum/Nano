@@ -44,9 +44,9 @@ typedef enum {
 #pragma pack(push, 4)
 
 typedef struct {
-	UInt32		compression;
-	UInt32		reserved;
-	UInt32		origSize;
+	uint32_t		compression;
+	uint32_t		reserved;
+	uint32_t		origSize;
 } NCompressionHeader;
 
 #pragma pack(pop)

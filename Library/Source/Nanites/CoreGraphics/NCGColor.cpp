@@ -73,8 +73,8 @@ NCGColor::~NCGColor(void)
 //		NCGColor::GetObject : Get the object.
 //----------------------------------------------------------------------------
 NCFObject NCGColor::GetObject(void) const
-{	Float32		r, g, b, a;
-	NCFObject	theObject;
+{	float32_t		r, g, b, a;
+	NCFObject		theObject;
 
 
 

@@ -133,13 +133,13 @@ static void *ThreadEntry(void *userData)
 //----------------------------------------------------------------------------
 //		NTargetThread::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
-UInt32 NTargetThread::GetCPUCount(void)
-{	UInt32		theResult;
+NIndex NTargetThread::GetCPUCount(void)
+{	NIndex		theResult;
 
 
 
 	// Get the CPU count
-	theResult = sysconf(_SC_NPROCESSORS_ONLN);
+	theResult = (NIndex) sysconf(_SC_NPROCESSORS_ONLN);
 	NN_ASSERT(theResult > 0);
 
 	if (theResult == 0)
@@ -155,7 +155,7 @@ UInt32 NTargetThread::GetCPUCount(void)
 //============================================================================
 //		NTargetThread::AtomicCompareAndSwap32 : Atomic 32-bit compare-and-swap.
 //----------------------------------------------------------------------------
-bool NTargetThread::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue)
+bool NTargetThread::AtomicCompareAndSwap32(int32_t &theValue, int32_t oldValue, int32_t newValue)
 {
 
 
@@ -195,7 +195,7 @@ bool NTargetThread::AtomicCompareAndSwapPtr(void *&theValue, void *oldValue, voi
 //============================================================================
 //		NTargetThread::AtomicAdd32 : Atomic 32-bit add.
 //----------------------------------------------------------------------------
-SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
+int32_t NTargetThread::AtomicAdd32(int32_t &theValue, int32_t theDelta)
 {
 
 
@@ -215,7 +215,7 @@ SInt32 NTargetThread::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 //============================================================================
 //		NTargetThread::AtomicAnd32 : Atomic 32-bit and.
 //----------------------------------------------------------------------------
-void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
+void NTargetThread::AtomicAnd32(uint32_t &theValue, uint32_t theMask)
 {
 
 
@@ -235,7 +235,7 @@ void NTargetThread::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 //============================================================================
 //		NTargetThread::AtomicOr32 : Atomic 32-bit or.
 //----------------------------------------------------------------------------
-void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
+void NTargetThread::AtomicOr32(uint32_t &theValue, uint32_t theMask)
 {
 
 
@@ -255,7 +255,7 @@ void NTargetThread::AtomicOr32(UInt32 &theValue, UInt32 theMask)
 //============================================================================
 //		NTargetThread::AtomicXor32 : Atomic 32-bit xor.
 //----------------------------------------------------------------------------
-void NTargetThread::AtomicXor32(UInt32 &theValue, UInt32 theMask)
+void NTargetThread::AtomicXor32(uint32_t &theValue, uint32_t theMask)
 {
 
 
@@ -672,7 +672,7 @@ void NTargetThread::SemaphoreSignal(NSemaphoreRef theSemaphore)
 //============================================================================
 //      NTargetThread::SpinLock : Acquire the a spin lock.
 //----------------------------------------------------------------------------
-bool NTargetThread::SpinLock(SInt32 &theLock, bool /*canBlock*/)
+bool NTargetThread::SpinLock(int32_t &theLock, bool /*canBlock*/)
 {	bool	gotLock;
 
 
@@ -692,7 +692,7 @@ bool NTargetThread::SpinLock(SInt32 &theLock, bool /*canBlock*/)
 //============================================================================
 //      NTargetThread::SpinUnlock : Release a spin lock.
 //----------------------------------------------------------------------------
-void NTargetThread::SpinUnlock(SInt32 &theLock)
+void NTargetThread::SpinUnlock(int32_t &theLock)
 {
 
 

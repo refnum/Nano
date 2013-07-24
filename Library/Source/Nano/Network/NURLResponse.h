@@ -25,7 +25,7 @@
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
-typedef UIntPtr NURLResponseRef;
+typedef uintptr_t NURLResponseRef;
 
 static const NURLResponseRef kNURLResponseRefNone					= 0;
 

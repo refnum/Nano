@@ -39,7 +39,7 @@ static const NIndex kPrefixBufferSize									= 1024;
 //----------------------------------------------------------------------------
 //		NDebug_LogMessage : Log a message from C.
 //----------------------------------------------------------------------------
-void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...)
+void NDebug_LogMessage(const char *thePath, uint32_t lineNum, const char *theMsg, ...)
 {	char		theBuffer[kPrefixBufferSize];
 	NString		finalMsg;
 	va_list		argList;
@@ -158,17 +158,17 @@ void NDebug::SetDebugOutput(DebugOutputProc debugOutput)
 //============================================================================
 //      NDebug::LogMessage : Log a message.
 //----------------------------------------------------------------------------
-void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NString &msgFormat, NN_FORMAT_ARGS_PARAM)
+void NDebug::LogMessage(const char *thePath, uint32_t lineNum, const NString &msgFormat, NN_FORMAT_ARGS_PARAM)
 {	char				thePrefix[kPrefixBufferSize];
 	StLock				acquireLock(GetLock());
-	UInt32				timeStamp;
+	uint32_t			timeStamp;
 	const char			*fileName;
 	NString				theMsg;
 
 
 
 	// Get the state we need
-	timeStamp = (UInt32) (NTimeUtilities::GetUpTime() / kNTimeMillisecond);
+	timeStamp = (uint32_t) (NTimeUtilities::GetUpTime() / kNTimeMillisecond);
 	fileName  = mShowPath ? thePath : GetFileName(thePath);
 
 
@@ -198,7 +198,7 @@ void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const NString &msgF
 //============================================================================
 //      NDebug::LogMessage : Log a message.
 //----------------------------------------------------------------------------
-void NDebug::LogMessage(const char *thePath, UInt32 lineNum, const char *msgFormat, NN_FORMAT_ARGS_PARAM)
+void NDebug::LogMessage(const char *thePath, uint32_t lineNum, const char *msgFormat, NN_FORMAT_ARGS_PARAM)
 {
 
 

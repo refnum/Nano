@@ -32,9 +32,9 @@
 // Classes
 template <class T> class NTransformT;
 
-typedef NTransformT<Float64> NTransform64;
-typedef NTransformT<Float32> NTransform32;
-typedef NTransform32         NTransform;
+typedef NTransformT<float64_t> NTransform64;
+typedef NTransformT<float32_t> NTransform32;
+typedef NTransform32           NTransform;
 
 
 // Lists
@@ -117,14 +117,14 @@ public:
 //============================================================================
 //		Inline functions
 //----------------------------------------------------------------------------
-inline NTransform NTransformTranslate(Float32 x, Float32 y)
+inline NTransform NTransformTranslate(float32_t x, float32_t y)
 {	NTransform	theTransform;
 	
 	theTransform.SetTranslate(x, y);
 	return(theTransform);
 }
 
-inline NTransform NTransformScale(Float32 x, Float32 y)
+inline NTransform NTransformScale(float32_t x, float32_t y)
 {	NTransform	theTransform;
 	
 	theTransform.SetScale(x, y);

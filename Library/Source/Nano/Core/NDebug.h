@@ -32,11 +32,11 @@
 //				via a precompiled header to use Nano types/assertions.
 //----------------------------------------------------------------------------
 #if defined(__cplusplus)
-extern "C" void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...);
+extern "C" void NDebug_LogMessage(const char *thePath, uint32_t lineNum, const char *theMsg, ...);
 #endif
 
 #if !defined(__cplusplus)
-extern     void NDebug_LogMessage(const char *thePath, UInt32 lineNum, const char *theMsg, ...);
+extern     void NDebug_LogMessage(const char *thePath, uint32_t lineNum, const char *theMsg, ...);
 
 #if NN_DEBUG
 	#define NN_ASSERT(__test)																					\
@@ -152,9 +152,9 @@ typedef void (*DebugOutputProc)(const char *theMsg);
 
 
 // Alignment
-#define NN_ASSERT_ALIGNED_2(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(UInt16)))
-#define NN_ASSERT_ALIGNED_4(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(UInt32)))
-#define NN_ASSERT_ALIGNED_8(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(UInt65)))
+#define NN_ASSERT_ALIGNED_2(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(uint16_t)))
+#define NN_ASSERT_ALIGNED_4(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(uint32_t)))
+#define NN_ASSERT_ALIGNED_8(_value)								NN_ASSERT(NN_ALIGNED_TO(_value, sizeof(uint64_t)))
 
 
 
@@ -189,8 +189,8 @@ public:
 
 
 	// Log a message
-	void								LogMessage(const char *thePath, UInt32 lineNum, const NString &msgFormat, NN_FORMAT_ARGS);
-	void								LogMessage(const char *thePath, UInt32 lineNum, const char    *msgFormat, NN_FORMAT_ARGS);
+	void								LogMessage(const char *thePath, uint32_t lineNum, const NString &msgFormat, NN_FORMAT_ARGS);
+	void								LogMessage(const char *thePath, uint32_t lineNum, const char    *msgFormat, NN_FORMAT_ARGS);
 
 
     // Get the debug instance

@@ -26,14 +26,14 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const SInt32List  kListSInt32								= nvector<SInt32>(1, 2);
-static const SInt64List  kListSInt64								= nvector<SInt64>(1, 2, 3);
-static const Float32List kListFloat32								= nvector<Float32>(1.0, 2.0, 3.0, 4.0);
-static const Float64List kListFloat64								= nvector<Float64>(1.0, 2.0, 3.0, 4.0, 5.0);
+static const Int32List   kListInt32									= nvector<int32_t>(1, 2);
+static const Int64List   kListInt64									= nvector<int64_t>(1, 2, 3);
+static const Float32List kListFloat32								= nvector<float32_t>(1.0, 2.0, 3.0, 4.0);
+static const Float64List kListFloat64								= nvector<float64_t>(1.0, 2.0, 3.0, 4.0, 5.0);
 
-static const NPoint kTestPoint										= NPoint(10.0f, 10.0f);
-static const SInt32 kTestSInt32										=  2000;
-static const SInt64 kTestSInt64										= -4000;
+static const NPoint  kTestPoint										= NPoint(10.0f, 10.0f);
+static const int32_t kTestInt32										=  2000;
+static const int64_t kTestInt64										= -4000;
 
 
 
@@ -79,13 +79,13 @@ TEST_NARRAY("Constructor")
 
 
 	// Perform the test
-	theArray = NArray(kListSInt32);
-	REQUIRE(theArray.GetSize() == (NIndex) kListSInt32.size());
+	theArray = NArray(kListInt32);
+	REQUIRE(theArray.GetSize() == (NIndex) kListInt32.size());
 	REQUIRE( theArray.HasValue(2));
 	REQUIRE(!theArray.HasValue(3));
 
-	theArray = NArray(kListSInt64);
-	REQUIRE(theArray.GetSize() == (NIndex) kListSInt64.size());
+	theArray = NArray(kListInt64);
+	REQUIRE(theArray.GetSize() == (NIndex) kListInt64.size());
 	REQUIRE( theArray.HasValue(3));
 	REQUIRE(!theArray.HasValue(4));
 
@@ -115,13 +115,13 @@ TEST_NARRAY("Assignment")
 
 
 	// Perform the test
-	theArray.SetValuesSInt32(kListSInt32);
-	REQUIRE( theArray.GetSize()         == (NIndex) kListSInt32.size());
-	REQUIRE((theArray.GetValuesSInt32() ==          kListSInt32));
+	theArray.SetValuesInt32(kListInt32);
+	REQUIRE( theArray.GetSize()        == (NIndex) kListInt32.size());
+	REQUIRE((theArray.GetValuesInt32() ==          kListInt32));
 
-	theArray.SetValuesSInt64(kListSInt64);
-	REQUIRE( theArray.GetSize()         == (NIndex) kListSInt64.size());
-	REQUIRE((theArray.GetValuesSInt64() ==          kListSInt64));
+	theArray.SetValuesInt64(kListInt64);
+	REQUIRE( theArray.GetSize()        == (NIndex) kListInt64.size());
+	REQUIRE((theArray.GetValuesInt64() ==          kListInt64));
 
 	theArray.SetValuesFloat32(kListFloat32);
 	listFloat32 = theArray.GetValuesFloat32();
@@ -152,12 +152,12 @@ TEST_NARRAY("Add")
 
 	// Perform the test
 	theArray.AppendValue(kTestPoint);
-	theArray.AppendValue(kTestSInt32);
-	theArray.AppendValue(kTestSInt64);
+	theArray.AppendValue(kTestInt32);
+	theArray.AppendValue(kTestInt64);
 	REQUIRE(theArray.GetSize() == 3);
-	REQUIRE(theArray.GetValuePoint(0)  == kTestPoint);
-	REQUIRE(theArray.GetValueSInt32(1) == kTestSInt32);
-	REQUIRE(theArray.GetValueSInt64(2) == kTestSInt64);
+	REQUIRE(theArray.GetValuePoint(0) == kTestPoint);
+	REQUIRE(theArray.GetValueInt32(1) == kTestInt32);
+	REQUIRE(theArray.GetValueInt64(2) == kTestInt64);
 	
 	theCount = 0;
 	theArray.ForEach(BindFunction(TArray::ForEach, _1, _2, &theCount));
@@ -176,15 +176,15 @@ TEST_NARRAY("Clear")
 
 
 	// Perform the test
-	theArray = NArray(kListSInt32);
+	theArray = NArray(kListInt32);
 	theArray.Clear();
 	REQUIRE(theArray.IsEmpty());
 
-	theArray = NArray(kListSInt32);
+	theArray = NArray(kListInt32);
 	theArray.Clear();
-	theArray.AppendValue(kTestSInt32);
-	theArray.SetValue(0, kTestSInt64);
-	REQUIRE(theArray.GetValueSInt64(0) == kTestSInt64);
+	theArray.AppendValue(kTestInt32);
+	theArray.SetValue(0, kTestInt64);
+	REQUIRE(theArray.GetValueInt64(0) == kTestInt64);
 }
 
 
@@ -199,10 +199,10 @@ TEST_NARRAY("Join")
 
 
 	// Perform the test
-	theArray  = NArray(kListSInt32);
-	theArray2 = NArray(kListSInt64);
+	theArray  = NArray(kListInt32);
+	theArray2 = NArray(kListInt64);
 	theArray.Join(theArray2);
-	REQUIRE(theArray.GetSize() == (NIndex) (kListSInt32.size() + kListSInt64.size()));
+	REQUIRE(theArray.GetSize() == (NIndex) (kListInt32.size() + kListInt64.size()));
 }
 
 

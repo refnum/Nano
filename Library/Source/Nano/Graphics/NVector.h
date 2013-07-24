@@ -32,9 +32,9 @@
 // Classes
 template <class T> class NVectorT;
 
-typedef NVectorT<Float64> NVector64;
-typedef NVectorT<Float32> NVector32;
-typedef NVector32         NVector;
+typedef NVectorT<float64_t> NVector64;
+typedef NVectorT<float32_t> NVector32;
+typedef NVector32           NVector;
 
 
 // Lists

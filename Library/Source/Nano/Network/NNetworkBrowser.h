@@ -45,7 +45,7 @@ typedef struct {
 	NString				serviceName;
 	NString				serviceDomain;
 	NString				hostName;
-	UInt16				hostPort;
+	uint16_t			hostPort;
 } NNetworkBrowserEvent;
 
 

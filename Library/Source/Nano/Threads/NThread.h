@@ -36,8 +36,8 @@ static const NTime kNThreadSleepTime								= 10.0 * kNTimeMillisecond;
 //		Types
 //----------------------------------------------------------------------------
 // Thread local value
-typedef UIntPtr NThreadLocalRef;
-typedef UIntPtr NThreadID;
+typedef uintptr_t NThreadLocalRef;
+typedef uintptr_t NThreadID;
 
 static const NThreadLocalRef kNThreadLocalRefNone					= (NThreadLocalRef) -1;
 static const NThreadID       kNThreadIDNone							= (NThreadID) NULL;

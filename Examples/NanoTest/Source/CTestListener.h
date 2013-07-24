@@ -44,7 +44,7 @@ public:
 
 
 	// Set the target
-	void								SetTargetUInt32(  UInt32    *theTarget);
+	void								SetTargetUInt32(  uint32_t  *theTarget);
 	void								SetTargetListener(NListener *theTarget);
 
 
@@ -53,7 +53,7 @@ public:
 
 
 private:
-	UInt32							   *mTargetUInt32;
+	uint32_t						   *mTargetUInt32;
 	NListener						   *mTargetListener;
 };
 

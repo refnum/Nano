@@ -24,11 +24,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt64 kTestRangeSmallMin								= 100;
-static const UInt64 kTestRangeSmallMax								= 101;
+static const uint64_t kTestRangeSmallMin							= 100;
+static const uint64_t kTestRangeSmallMax							= 101;
 
-static const UInt64 kTestRangeLargeMin								= 100;
-static const UInt64 kTestRangeLargeMax								= 120;
+static const uint64_t kTestRangeLargeMin							= 100;
+static const uint64_t kTestRangeLargeMax							= 120;
 
 
 
@@ -158,28 +158,28 @@ TEST_NMATHUTILITIES("Trig")
 	REQUIRE(NMathUtilities::AreEqual(NMathUtilities::GetSign( kNPi),  1.0));
 	REQUIRE(NMathUtilities::AreEqual(NMathUtilities::GetSign(-kNPi), -1.0));
 
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Sec(  1.0), 1.850816f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Csc(  1.0), 1.188395f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Ctan( 1.0), 0.642093f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Asin( 1.0), 1.570796f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Acos( 1.0), 0.000000f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Asec( 1.0), 0.000000f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Acsc( 1.0), 1.570796f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Acot( 1.0), 0.785398f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Sinh( 1.0), 1.175201f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Cosh( 1.0), 1.543081f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Tanh( 1.0), 0.761594f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Sech( 1.0), 0.648054f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Csch( 1.0), 0.850918f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Coth( 1.0), 1.313035f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Asinh(1.0), 0.881374f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Acosh(1.0), 0.000000f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Atanh(0.5), 0.549306f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Asech(1.0), 0.000000f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Acsch(1.0), 0.881374f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Acoth(8.0), 0.125657f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Rint(1.0), 1.0f));
-	REQUIRE(NMathUtilities::AreEqual((Float32) NMathUtilities::Rint(1.0), 1.0f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Sec(  1.0), 1.850816f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Csc(  1.0), 1.188395f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Ctan( 1.0), 0.642093f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Asin( 1.0), 1.570796f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Acos( 1.0), 0.000000f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Asec( 1.0), 0.000000f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Acsc( 1.0), 1.570796f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Acot( 1.0), 0.785398f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Sinh( 1.0), 1.175201f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Cosh( 1.0), 1.543081f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Tanh( 1.0), 0.761594f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Sech( 1.0), 0.648054f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Csch( 1.0), 0.850918f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Coth( 1.0), 1.313035f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Asinh(1.0), 0.881374f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Acosh(1.0), 0.000000f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Atanh(0.5), 0.549306f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Asech(1.0), 0.000000f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Acsch(1.0), 0.881374f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Acoth(8.0), 0.125657f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Rint(1.0), 1.0f));
+	REQUIRE(NMathUtilities::AreEqual((float32_t) NMathUtilities::Rint(1.0), 1.0f));
 }
 
 
@@ -190,12 +190,12 @@ TEST_NMATHUTILITIES("Trig")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NMATHUTILITIES("Random")
-{	UInt64		valueUInt64;
-	UInt32		valueUInt32;
-	UInt16		valueUInt16;
-	UInt8		valueUInt8;
-	bool		valueBool;
-	NIndex		n;
+{	uint64_t		valueUInt64;
+	uint32_t		valueUInt32;
+	uint16_t		valueUInt16;
+	uint8_t			valueUInt8;
+	bool			valueBool;
+	NIndex			n;
 
 
 

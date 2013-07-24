@@ -37,7 +37,7 @@ public:
 
 
 	// Get the retain count
-	UInt32								GetRetainCount(void) const;
+	uint32_t							GetRetainCount(void) const;
 
 
 private:

@@ -76,8 +76,8 @@ public:
 
 
 	// Get the unprocessed data
-	const UInt8						   *GetUnprocessedData(void) const;
-	UInt8							   *GetUnprocessedData(void);
+	const uint8_t					   *GetUnprocessedData(void) const;
+	uint8_t							   *GetUnprocessedData(void);
 
 
 	// Get/set the status

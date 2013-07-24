@@ -50,7 +50,7 @@ FIXTURE_NANO(TTimer)
 //============================================================================
 //		IncrementValue : Increment a value.
 //----------------------------------------------------------------------------
-static void IncrementValue(UInt32 *theValue, UInt32 maxValue)
+static void IncrementValue(uint32_t *theValue, uint32_t maxValue)
 {
 
 
@@ -81,7 +81,7 @@ TEST_NTIMER("Default")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NTIMER("Active")
-{	UInt32		theValue;
+{	uint32_t	theValue;
 	NTimerID	theID;
 
 
@@ -103,7 +103,7 @@ TEST_NTIMER("Active")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NTIMER("Reset")
-{	UInt32		theValue;
+{	uint32_t	theValue;
 	NTimerID	theID;
 	NIndex		n;
 
@@ -136,7 +136,7 @@ TEST_NTIMER("Reset")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NTIMER("Removal")
-{	UInt32		theValue;
+{	uint32_t	theValue;
 	NTimerID	theID;
 
 

@@ -24,7 +24,7 @@
 //============================================================================
 //		NAtomicInt::NAtomicInt : Constructor.
 //----------------------------------------------------------------------------
-NAtomicInt::NAtomicInt(SInt32 theValue)
+NAtomicInt::NAtomicInt(int32_t theValue)
 {
 
 
@@ -58,8 +58,8 @@ NAtomicInt::~NAtomicInt(void)
 //============================================================================
 //		NAtomicInt::Compare : Compare the value.
 //----------------------------------------------------------------------------
-NComparison NAtomicInt::Compare(const SInt32 &theValue) const
-{	volatile SInt32		myValue;
+NComparison NAtomicInt::Compare(const int32_t &theValue) const
+{	volatile int32_t		myValue;
 
 
 
@@ -78,7 +78,7 @@ NComparison NAtomicInt::Compare(const SInt32 &theValue) const
 //============================================================================
 //		NAtomicInt::Increment : Increment the value.
 //----------------------------------------------------------------------------
-SInt32 NAtomicInt::Increment(SInt32 theDelta)
+int32_t NAtomicInt::Increment(int32_t theDelta)
 {
 
 
@@ -93,7 +93,7 @@ SInt32 NAtomicInt::Increment(SInt32 theDelta)
 //============================================================================
 //		NAtomicInt::Decrement : Decrement the value.
 //----------------------------------------------------------------------------
-SInt32 NAtomicInt::Decrement(SInt32 theDelta)
+int32_t NAtomicInt::Decrement(int32_t theDelta)
 {
 
 
@@ -318,9 +318,9 @@ bool NAtomicInt::operator > (int theValue) const
 
 
 //============================================================================
-//		NAtomicInt::SInt32 : SInt32 operator.
+//		NAtomicInt::int32_t : int32_t operator.
 //----------------------------------------------------------------------------
-NAtomicInt::operator SInt32(void) const
+NAtomicInt::operator int32_t(void) const
 {
 
 

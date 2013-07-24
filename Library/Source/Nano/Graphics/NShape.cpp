@@ -308,9 +308,9 @@ NVariant NShapeX::EncodableDecodeObject(const NEncoder &theEncoder)
 	theObject.DecodeSelf(theEncoder);
 
 	if (theObject.mIs64)
-		return(NShape64(theObject.Unflatten(theObject.mPoints.GetValuesFloat64()), theObject.mLoops.GetValuesSInt32()));
+		return(NShape64(theObject.Unflatten(theObject.mPoints.GetValuesFloat64()), theObject.mLoops.GetValuesInt32()));
 	else
-		return(NShape32(theObject.Unflatten(theObject.mPoints.GetValuesFloat32()), theObject.mLoops.GetValuesSInt32()));
+		return(NShape32(theObject.Unflatten(theObject.mPoints.GetValuesFloat32()), theObject.mLoops.GetValuesInt32()));
 }
 
 

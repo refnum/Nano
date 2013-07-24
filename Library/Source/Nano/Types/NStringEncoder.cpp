@@ -27,12 +27,12 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Misc
-static const UInt64    kStringTerminator								= 0;
-static const UTF16Char kStringInvalid									= 0x003F;
+static const uint64_t kStringTerminator									= 0;
+static const utf16_t  kStringInvalid									= 0x003F;
 
 
 // Legacy encodings
-static const UTF16Char kUTF16_ASCII[256]								= {
+static const utf16_t kUTF16_ASCII[256]									= {
 								// http://en.wikipedia.org/wiki/ASCII
 								0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 
 								0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 
@@ -51,7 +51,7 @@ static const UTF16Char kUTF16_ASCII[256]								= {
 								0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F,
 								0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F };
 
-static const UTF16Char kUTF16_MacRoman[256]								= {
+static const utf16_t kUTF16_MacRoman[256]								= {
 								// http://en.wikipedia.org/wiki/Mac_OS_Roman
 								0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 
 								0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 
@@ -70,7 +70,7 @@ static const UTF16Char kUTF16_MacRoman[256]								= {
 								0x2021, 0x00B7, 0x201A, 0x201E, 0x2030, 0x00C2, 0x00CA, 0x00C1, 0x00CB, 0x00C8, 0x00CD, 0x00CE, 0x00CF, 0x00CC, 0x00D3, 0x00D4, 
 								0xF8FF, 0x00D2, 0x00DA, 0x00DB, 0x00D9, 0x0131, 0x02C6, 0x02DC, 0x00AF, 0x02D8, 0x02D9, 0x02DA, 0x00B8, 0x02DD, 0x02DB, 0x02C7 };
 
-static const UTF16Char kUTF16_ISOLatin1[256]							= {
+static const utf16_t kUTF16_ISOLatin1[256]								= {
 								// http://en.wikipedia.org/wiki/ISO/IEC_8859-1
 								0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 								0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -89,7 +89,7 @@ static const UTF16Char kUTF16_ISOLatin1[256]							= {
 								0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7, 0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
 								0x00F0, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x00F7, 0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF };
 
-static const UTF16Char kUTF16_WindowsLatin1[256]						= { 
+static const utf16_t kUTF16_WindowsLatin1[256]							= {
 								// http://en.wikipedia.org/wiki/Windows-1252
 								0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F,
 								0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F,
@@ -202,7 +202,7 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 //============================================================================
 //		NStringEncoder::ConvertToUTF32 : Convert a character to UTF32.
 //----------------------------------------------------------------------------
-UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr)
+utf32_t NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr)
 {	UTF32					*dstStart32, *dstEnd32;
 	const UTF32				*srcStart32, *srcEnd32;
 	const UTF16				*srcStart16, *srcEnd16;
@@ -215,8 +215,8 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 
 
 	// Get the state we need
-	srcStart8 = (const UTF8 *) (((const UInt8 *) srcPtr) + 0);
-	srcEnd8   = (const UTF8 *) (((const UInt8 *) srcPtr) + srcSize);
+	srcStart8 = (const UTF8 *) (((const uint8_t *) srcPtr) + 0);
+	srcEnd8   = (const UTF8 *) (((const uint8_t *) srcPtr) + srcSize);
 
 	srcStart16 = (const UTF16 *) srcStart8;
 	srcEnd16   = (const UTF16 *) srcEnd8;
@@ -311,7 +311,7 @@ UTF32Char NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex src
 void NStringEncoder::AddTerminator(NData &theData, NStringEncoding theEncoding)
 {	NIndex			sizeData, sizeTerm;
 	bool			modifyData;
-	const UInt8		*thePtr;
+	const uint8_t	*thePtr;
 
 
 
@@ -346,7 +346,7 @@ void NStringEncoder::AddTerminator(NData &theData, NStringEncoding theEncoding)
 void NStringEncoder::RemoveTerminator(NData &theData, NStringEncoding theEncoding)
 {	NIndex			sizeData, sizeTerm;
 	bool			modifyData;
-	const UInt8		*thePtr;
+	const uint8_t	*thePtr;
 
 
 
@@ -406,14 +406,14 @@ NStringEncoding NStringEncoder::GetEncoding(const NData &theData)
 //----------------------------------------------------------------------------
 NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
 {	NIndex				theSize;
-	const UTF32Char		*ptr32;
-	const UTF16Char		*ptr16;
+	const utf32_t		*ptr32;
+	const utf16_t		*ptr16;
 
 
 
 	// Get the state we need
-	ptr32   = (const UTF32Char *) thePtr;
-	ptr16   = (const UTF16Char *) thePtr;
+	ptr32   = (const utf32_t *) thePtr;
+	ptr16   = (const utf16_t *) thePtr;
 	theSize = 0;
 
 
@@ -432,14 +432,14 @@ NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
 		case kNStringEncodingUTF16BE:
 		case kNStringEncodingUTF16LE:
 			while (*ptr16++ != 0x00)
-				theSize += sizeof(UTF16Char);
+				theSize += sizeof(utf16_t);
 			break;
 
 		case kNStringEncodingUTF32:
 		case kNStringEncodingUTF32BE:
 		case kNStringEncodingUTF32LE:
 			while (*ptr32++ != 0x00)
-				theSize += sizeof(UTF32Char);
+				theSize += sizeof(utf32_t);
 			break;
 
 		default:
@@ -466,19 +466,19 @@ NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
 	// Get the state we need
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
-			theSize = (NIndex) sizeof(UTF8Char);
+			theSize = (NIndex) sizeof(utf8_t);
 			break;
 
 		case kNStringEncodingUTF16:
 		case kNStringEncodingUTF16BE:
 		case kNStringEncodingUTF16LE:
-			theSize = (NIndex) sizeof(UTF16Char);
+			theSize = (NIndex) sizeof(utf16_t);
 			break;
 
 		case kNStringEncodingUTF32:
 		case kNStringEncodingUTF32BE:
 		case kNStringEncodingUTF32LE:
-			theSize = (NIndex) sizeof(UTF32Char);
+			theSize = (NIndex) sizeof(utf32_t);
 			break;
 
 		default:
@@ -499,16 +499,16 @@ NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
 //----------------------------------------------------------------------------
 NData NStringEncoder::ConvertFromLegacy(const NData &srcData, NStringEncoding &theEncoding)
 {	NIndex				n, numChars;
-	const UTF16Char		*srcTable;
-	const UInt8			*srcChars;
-	UTF16Char			dstChar;
+	const utf16_t		*srcTable;
+	const uint8_t		*srcChars;
+	utf16_t				dstChar;
 	NData				dstData;
 
 
 
 	// Get the state we need
 	numChars = srcData.GetSize();
-	srcChars = (const UInt8 *) srcData.GetData();
+	srcChars = (const uint8_t *) srcData.GetData();
 	srcTable = NULL;
 
 	switch (theEncoding) {
@@ -658,8 +658,8 @@ NStatus NStringEncoder::ConvertUTF8ToUTF16(const NData &srcData, NData &dstData)
 {	const UTF8				*srcStart, *srcEnd;
 	UTF16					*dstStart, *dstEnd;
 	ConversionResult		theResult;
-	const UInt8				*srcBase;
-	UInt8					*dstBase;
+	const uint8_t			*srcBase;
+	uint8_t					*dstBase;
 	NStatus					theErr;
 
 
@@ -696,8 +696,8 @@ NStatus NStringEncoder::ConvertUTF8ToUTF32(const NData &srcData, NData &dstData)
 {	const UTF8				*srcStart, *srcEnd;
 	UTF32					*dstStart, *dstEnd;
 	ConversionResult		theResult;
-	const UInt8				*srcBase;
-	UInt8					*dstBase;
+	const uint8_t			*srcBase;
+	uint8_t					*dstBase;
 	NStatus					theErr;
 
 
@@ -734,8 +734,8 @@ NStatus NStringEncoder::ConvertUTF16ToUTF8(const NData &srcData, NData &dstData)
 {	const UTF16				*srcStart, *srcEnd;
 	UTF8					*dstStart, *dstEnd;
 	ConversionResult		theResult;
-	const UInt8				*srcBase;
-	UInt8					*dstBase;
+	const uint8_t			*srcBase;
+	uint8_t					*dstBase;
 	NStatus					theErr;
 
 
@@ -772,8 +772,8 @@ NStatus NStringEncoder::ConvertUTF16ToUTF32(const NData &srcData, NData &dstData
 {	const UTF16				*srcStart, *srcEnd;
 	UTF32					*dstStart, *dstEnd;
 	ConversionResult		theResult;
-	const UInt8				*srcBase;
-	UInt8					*dstBase;
+	const uint8_t			*srcBase;
+	uint8_t					*dstBase;
 	NStatus					theErr;
 
 
@@ -810,8 +810,8 @@ NStatus NStringEncoder::ConvertUTF32ToUTF8(const NData &srcData, NData &dstData)
 {	const UTF32				*srcStart, *srcEnd;
 	UTF8					*dstStart, *dstEnd;
 	ConversionResult		theResult;
-	const UInt8				*srcBase;
-	UInt8					*dstBase;
+	const uint8_t			*srcBase;
+	uint8_t					*dstBase;
 	NStatus					theErr;
 
 
@@ -848,8 +848,8 @@ NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData
 {	const UTF32				*srcStart, *srcEnd;
 	UTF16					*dstStart, *dstEnd;
 	ConversionResult		theResult;
-	const UInt8				*srcBase;
-	UInt8					*dstBase;
+	const uint8_t			*srcBase;
+	uint8_t					*dstBase;
 	NStatus					theErr;
 
 
@@ -882,7 +882,7 @@ NStatus NStringEncoder::ConvertUTF32ToUTF16(const NData &srcData, NData &dstData
 //============================================================================
 //		NStringEncoder::ConvertUTF : Process a Unicode conversion.
 //----------------------------------------------------------------------------
-NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, UInt32 theResult)
+NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, uint32_t theResult)
 {	NStatus		theErr;
 
 
@@ -890,7 +890,7 @@ NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, UInt32 t
 	// Process the result
 	switch ((ConversionResult) theResult) {
 		case conversionOK:
-			theData.SetSize((NIndex) (((const UInt8 *) dataEnd) - theData.GetData()) );
+			theData.SetSize((NIndex) (((const uint8_t *) dataEnd) - theData.GetData()) );
 			theErr = kNoErr;
 			break;
 			
@@ -927,7 +927,7 @@ void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStrin
 {	NIndex				n, charSize, dataSize;
 	NEndianFormat		srcFormat, dstFormat;
 	NUnicodeParser		theParser;
-	UInt8				*dataPtr;
+	uint8_t				*dataPtr;
 
 
 
@@ -959,11 +959,11 @@ void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStrin
 		{
 		switch (charSize) {
 			case 2:
-				NSwapUInt16((UInt16 *) dataPtr);
+				NSwapUInt16((uint16_t *) dataPtr);
 				break;
 			
 			case 4:
-				NSwapUInt32((UInt32 *) dataPtr);
+				NSwapUInt32((uint32_t *) dataPtr);
 				break;
 
 			default:

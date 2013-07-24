@@ -151,12 +151,12 @@ NNumber::NNumber(const NString &theValue)
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
-NNumber::NNumber(SInt64 theValue)
+NNumber::NNumber(int64_t theValue)
 {
 
 
 	// Initialise ourselves
-	SetSInt64(theValue);
+	SetInt64(theValue);
 }
 
 
@@ -166,7 +166,7 @@ NNumber::NNumber(SInt64 theValue)
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
-NNumber::NNumber(Float32 theValue)
+NNumber::NNumber(float32_t theValue)
 {
 
 
@@ -181,7 +181,7 @@ NNumber::NNumber(Float32 theValue)
 //============================================================================
 //		NNumber::NNumber : Constructor.
 //----------------------------------------------------------------------------
-NNumber::NNumber(Float64 theValue)
+NNumber::NNumber(float64_t theValue)
 {
 
 
@@ -301,9 +301,9 @@ NString NNumber::GetString(void) const
 			else
 				{
 				if (mPrecision == kNPrecisionFloat32)
-					valueText.Format(kFormatFloat32, (Float32) mValue.real);
+					valueText.Format(kFormatFloat32, (float32_t) mValue.real);
 				else
-					valueText.Format(kFormatFloat64,           mValue.real);
+					valueText.Format(kFormatFloat64,             mValue.real);
 				}
 			break;
 
@@ -324,9 +324,9 @@ NString NNumber::GetString(void) const
 //		NNumber::Compare : Compare the value.
 //----------------------------------------------------------------------------
 NComparison NNumber::Compare(const NNumber &theValue) const
-{	Float64				valueFloat64_1, valueFloat64_2;
-	Float32				valueFloat32_1, valueFloat32_2;
-	SInt64				valueInt64_1,  valueInt64_2;
+{	float64_t			valueFloat64_1, valueFloat64_2;
+	float32_t			valueFloat32_1, valueFloat32_2;
+	int64_t				valueInt64_1,  valueInt64_2;
 	NComparison			theResult;
 
 
@@ -343,8 +343,8 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 				break;
 			
 			case kNPrecisionFloat32:
-				valueFloat32_1 = (Float32)          mValue.real;
-				valueFloat32_2 = (Float32) theValue.mValue.real;
+				valueFloat32_1 = (float32_t)          mValue.real;
+				valueFloat32_2 = (float32_t) theValue.mValue.real;
 				theResult      = GetComparison(valueFloat32_1, valueFloat32_2);
 				break;
 
@@ -368,8 +368,8 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 			case kNPrecisionInt16:
 			case kNPrecisionInt32:
 			case kNPrecisionInt64:
-				valueInt64_1 =          GetSInt64();
-				valueInt64_2 = theValue.GetSInt64();
+				valueInt64_1 =          GetInt64();
+				valueInt64_2 = theValue.GetInt64();
 				theResult    = GetComparison(valueInt64_1, valueInt64_2);
 				break;
 
@@ -400,14 +400,14 @@ NComparison NNumber::Compare(const NNumber &theValue) const
 
 
 //============================================================================
-//		NNumber::GetUInt8 : Get a UInt8 value.
+//		NNumber::GetUInt8 : Get a uint8_t value.
 //----------------------------------------------------------------------------
-UInt8 NNumber::GetUInt8(void) const
+uint8_t NNumber::GetUInt8(void) const
 {
 
 
 	// Get the value
-	return((UInt8) GetSInt64());
+	return((uint8_t) GetInt64());
 }
 
 
@@ -415,14 +415,14 @@ UInt8 NNumber::GetUInt8(void) const
 
 
 //============================================================================
-//		NNumber::GetUInt16 : Get a UInt16 value.
+//		NNumber::GetUInt16 : Get a uint16_t value.
 //----------------------------------------------------------------------------
-UInt16 NNumber::GetUInt16(void) const
+uint16_t NNumber::GetUInt16(void) const
 {
 
 
 	// Get the value
-	return((UInt16) GetSInt64());
+	return((uint16_t) GetInt64());
 }
 
 
@@ -430,14 +430,14 @@ UInt16 NNumber::GetUInt16(void) const
 
 
 //============================================================================
-//		NNumber::GetUInt32 : Get a UInt32 value.
+//		NNumber::GetUInt32 : Get a uint32_t value.
 //----------------------------------------------------------------------------
-UInt32 NNumber::GetUInt32(void) const
+uint32_t NNumber::GetUInt32(void) const
 {
 
 
 	// Get the value
-	return((UInt32) GetSInt64());
+	return((uint32_t) GetInt64());
 }
 
 
@@ -445,14 +445,14 @@ UInt32 NNumber::GetUInt32(void) const
 
 
 //============================================================================
-//		NNumber::GetUInt64 : Get a UInt64 value.
+//		NNumber::GetUInt64 : Get a uint64_t value.
 //----------------------------------------------------------------------------
-UInt64 NNumber::GetUInt64(void) const
+uint64_t NNumber::GetUInt64(void) const
 {
 
 
 	// Get the value
-	return((UInt64) GetSInt64());
+	return((uint64_t) GetInt64());
 }
 
 
@@ -460,14 +460,14 @@ UInt64 NNumber::GetUInt64(void) const
 
 
 //============================================================================
-//		NNumber::GetSInt8 : Get a SInt8 value.
+//		NNumber::GetInt8 : Get an int8_t value.
 //----------------------------------------------------------------------------
-SInt8 NNumber::GetSInt8(void) const
+int8_t NNumber::GetInt8(void) const
 {
 
 
 	// Get the value
-	return((SInt8) GetSInt64());
+	return((int8_t) GetInt64());
 }
 
 
@@ -475,14 +475,14 @@ SInt8 NNumber::GetSInt8(void) const
 
 
 //============================================================================
-//		NNumber::GetSInt16 : Get a SInt16 value.
+//		NNumber::GetInt16 : Get an int16_t value.
 //----------------------------------------------------------------------------
-SInt16 NNumber::GetSInt16(void) const
+int16_t NNumber::GetInt16(void) const
 {
 
 
 	// Get the value
-	return((SInt16) GetSInt64());
+	return((int16_t) GetInt64());
 }
 
 
@@ -490,14 +490,14 @@ SInt16 NNumber::GetSInt16(void) const
 
 
 //============================================================================
-//		NNumber::GetSInt32 : Get a SInt32 value.
+//		NNumber::GetInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NNumber::GetSInt32(void) const
+int32_t NNumber::GetInt32(void) const
 {
 
 
 	// Get the value
-	return((SInt32) GetSInt64());
+	return((int32_t) GetInt64());
 }
 
 
@@ -505,18 +505,18 @@ SInt32 NNumber::GetSInt32(void) const
 
 
 //============================================================================
-//		NNumber::GetSInt64 : Get a SInt64 value.
+//		NNumber::GetInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NNumber::GetSInt64(void) const
-{	SInt64		theValue;
+int64_t NNumber::GetInt64(void) const
+{	int64_t		theValue;
 
 
 
 	// Get the value
 	if (IsInteger())
-		theValue = (SInt64) mValue.integer;
+		theValue = (int64_t) mValue.integer;
 	else
-		theValue = (SInt64) mValue.real;
+		theValue = (int64_t) mValue.real;
 	
 	return(theValue);
 }
@@ -526,18 +526,18 @@ SInt64 NNumber::GetSInt64(void) const
 
 
 //============================================================================
-//		NNumber::GetFloat32 : Get a Float32 value.
+//		NNumber::GetFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NNumber::GetFloat32(void) const
-{	Float32		theValue;
+float32_t NNumber::GetFloat32(void) const
+{	float32_t		theValue;
 
 
 
 	// Get the value
 	if (IsInteger())
-		theValue = (Float32) mValue.integer;
+		theValue = (float32_t) mValue.integer;
 	else
-		theValue = (Float32) mValue.real;
+		theValue = (float32_t) mValue.real;
 	
 	return(theValue);
 }
@@ -547,18 +547,18 @@ Float32 NNumber::GetFloat32(void) const
 
 
 //============================================================================
-//		NNumber::GetFloat64 : Get a Float64 value.
+//		NNumber::GetFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NNumber::GetFloat64(void) const
-{	Float64		theValue;
+float64_t NNumber::GetFloat64(void) const
+{	float64_t		theValue;
 
 
 
 	// Get the value
 	if (IsInteger())
-		theValue = (Float64) mValue.integer;
+		theValue = (float64_t) mValue.integer;
 	else
-		theValue = (Float64) mValue.real;
+		theValue = (float64_t) mValue.real;
 	
 	return(theValue);
 }
@@ -568,9 +568,9 @@ Float64 NNumber::GetFloat64(void) const
 
 
 //============================================================================
-//		NNumber::SetUInt8 : Set a UInt8 value.
+//		NNumber::SetUInt8 : Set a uint8_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetUInt8(UInt8 theValue)
+void NNumber::SetUInt8(uint8_t theValue)
 {
 
 
@@ -584,9 +584,9 @@ void NNumber::SetUInt8(UInt8 theValue)
 
 
 //============================================================================
-//		NNumber::SetUInt16 : Set a UInt16 value.
+//		NNumber::SetUInt16 : Set a uint16_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetUInt16(UInt16 theValue)
+void NNumber::SetUInt16(uint16_t theValue)
 {
 
 
@@ -600,9 +600,9 @@ void NNumber::SetUInt16(UInt16 theValue)
 
 
 //============================================================================
-//		NNumber::SetUInt32 : Set a UInt32 value.
+//		NNumber::SetUInt32 : Set a uint32_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetUInt32(UInt32 theValue)
+void NNumber::SetUInt32(uint32_t theValue)
 {
 
 
@@ -616,9 +616,9 @@ void NNumber::SetUInt32(UInt32 theValue)
 
 
 //============================================================================
-//		NNumber::SetUInt64 : Set a UInt64 value.
+//		NNumber::SetUInt64 : Set a uint64_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetUInt64(UInt64 theValue)
+void NNumber::SetUInt64(uint64_t theValue)
 {
 
 
@@ -632,9 +632,9 @@ void NNumber::SetUInt64(UInt64 theValue)
 
 
 //============================================================================
-//		NNumber::SetSInt8 : Set a SInt8 value.
+//		NNumber::SetInt8 : Set an int8_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetSInt8(SInt8 theValue)
+void NNumber::SetInt8(int8_t theValue)
 {
 
 
@@ -648,9 +648,9 @@ void NNumber::SetSInt8(SInt8 theValue)
 
 
 //============================================================================
-//		NNumber::SetSInt16 : Set a SInt16 value.
+//		NNumber::SetInt16 : Set an int16_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetSInt16(SInt16 theValue)
+void NNumber::SetInt16(int16_t theValue)
 {
 
 
@@ -664,9 +664,9 @@ void NNumber::SetSInt16(SInt16 theValue)
 
 
 //============================================================================
-//		NNumber::SetSInt32 : Set a SInt32 value.
+//		NNumber::SetInt32 : Set an int32_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetSInt32(SInt32 theValue)
+void NNumber::SetInt32(int32_t theValue)
 {
 
 
@@ -680,9 +680,9 @@ void NNumber::SetSInt32(SInt32 theValue)
 
 
 //============================================================================
-//		NNumber::SetSInt64 : Set a SInt64 value.
+//		NNumber::SetInt64 : Set an int64_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetSInt64(SInt64 theValue)
+void NNumber::SetInt64(int64_t theValue)
 {
 
 
@@ -696,9 +696,9 @@ void NNumber::SetSInt64(SInt64 theValue)
 
 
 //============================================================================
-//		NNumber::SetFloat32 : Set a Float32 value.
+//		NNumber::SetFloat32 : Set a float32_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetFloat32(Float32 theValue)
+void NNumber::SetFloat32(float32_t theValue)
 {
 
 
@@ -712,9 +712,9 @@ void NNumber::SetFloat32(Float32 theValue)
 
 
 //============================================================================
-//		NNumber::SetFloat64 : Set a Float64 value.
+//		NNumber::SetFloat64 : Set a float64_t value.
 //----------------------------------------------------------------------------
-void NNumber::SetFloat64(Float64 theValue)
+void NNumber::SetFloat64(float64_t theValue)
 {
 
 
@@ -731,16 +731,16 @@ void NNumber::SetFloat64(Float64 theValue)
 //		NNumber::SetValue : Set the value.
 //----------------------------------------------------------------------------
 bool NNumber::SetValue(const NVariant &theValue)
-{	UInt8					valueUInt8;
-	UInt16					valueUInt16;
-	UInt32					valueUInt32;
-	UInt64					valueUInt64;
-	SInt8					valueSInt8;
-	SInt16					valueSInt16;
-	SInt32					valueSInt32;
-	SInt64					valueSInt64;
-	Float32					valueFloat32;
-	Float64					valueFloat64;
+{	uint8_t					valueUInt8;
+	uint16_t				valueUInt16;
+	uint32_t				valueUInt32;
+	uint64_t				valueUInt64;
+	int8_t					valueSInt8;
+	int16_t					valueSInt16;
+	int32_t					valueSInt32;
+	int64_t					valueSInt64;
+	float32_t				valueFloat32;
+	float64_t				valueFloat64;
 	int						valueInt;
 	long					valueLong;
 	NString					valueString;
@@ -766,16 +766,16 @@ bool NNumber::SetValue(const NVariant &theValue)
 		SetUInt64(valueUInt64);
 	
 	else if (theValue.GetValue(valueSInt8))
-		SetSInt8(valueSInt8);
+		SetInt8(valueSInt8);
 	
 	else if (theValue.GetValue(valueSInt16))
-		SetSInt16(valueSInt16);
+		SetInt16(valueSInt16);
 	
 	else if (theValue.GetValue(valueSInt32))
-		SetSInt32(valueSInt32);
+		SetInt32(valueSInt32);
 	
 	else if (theValue.GetValue(valueSInt64))
-		SetSInt64(valueSInt64);
+		SetInt64(valueSInt64);
 	
 	else if (theValue.GetValue(valueFloat32))
 		SetFloat32(valueFloat32);
@@ -784,10 +784,10 @@ bool NNumber::SetValue(const NVariant &theValue)
 		SetFloat64(valueFloat64);
 	
 	else if (theValue.GetValue(valueInt))
-		SetSInt64(valueInt);
+		SetInt64(valueInt);
 	
 	else if (theValue.GetValue(valueLong))
-		SetSInt64(valueLong);
+		SetInt64(valueLong);
 	
 	else if (theValue.GetValue(valueString))
 		return(SetValue(valueString));
@@ -808,8 +808,8 @@ bool NNumber::SetValue(const NVariant &theValue)
 bool NNumber::SetValue(const NString &theValue)
 {	NRange		foundDot, foundE;
 	NIndex		thePrecision;
-	SInt64		valueInteger;
-	Float64		valueReal;
+	int64_t		valueInteger;
+	float64_t	valueReal;
 
 
 
@@ -832,10 +832,12 @@ bool NNumber::SetValue(const NString &theValue)
 
 
 		// Cast the value
-		if (foundDot.IsEmpty() && foundE.IsEmpty() && valueReal >= kSInt64Min  && valueReal <= kSInt64Max)
-			SetSInt64((SInt64) valueReal);
+		if (foundDot.IsEmpty() && foundE.IsEmpty() && valueReal >= kInt64Min  && valueReal <= kInt64Max)
+			SetInt64((int64_t) valueReal);
+
 		else if (thePrecision <= kDecimalsFloat32  && valueReal >= kFloat32Min && valueReal <= kFloat32Max)
-			SetFloat32((Float32) valueReal);
+			SetFloat32((float32_t) valueReal);
+
 		else
 			SetFloat64(valueReal);
 
@@ -847,7 +849,7 @@ bool NNumber::SetValue(const NString &theValue)
 			 sscanf(theValue.GetUTF8(), "0x%llx", &valueInteger) == 1 ||
 			 sscanf(theValue.GetUTF8(), "0X%llx", &valueInteger) == 1)
 		{
-		SetSInt64(valueInteger);
+		SetInt64(valueInteger);
 		return(true);
 		}
 

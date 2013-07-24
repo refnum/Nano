@@ -302,17 +302,17 @@ NStatus NDBHandlePool::Execute(const NDBQuery &theQuery, const NDBResultFunctor 
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteSInt32 : Execute a query to obtain an SInt32.
+//		NDBHandlePool::ExecuteInt32 : Execute a query to obtain an int32_t.
 //----------------------------------------------------------------------------
-SInt32 NDBHandlePool::ExecuteSInt32(const NDBQuery &theQuery)
-{	SInt32		theValue;
+int32_t NDBHandlePool::ExecuteInt32(const NDBQuery &theQuery)
+{	int32_t		theValue;
 	NStatus		theErr;
 
 
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt32, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -323,17 +323,17 @@ SInt32 NDBHandlePool::ExecuteSInt32(const NDBQuery &theQuery)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteSInt64 : Execute a query to obtain an SInt64.
+//		NDBHandlePool::ExecuteInt64 : Execute a query to obtain an int64_t.
 //----------------------------------------------------------------------------
-SInt64 NDBHandlePool::ExecuteSInt64(const NDBQuery &theQuery)
-{	SInt64		theValue;
+int64_t NDBHandlePool::ExecuteInt64(const NDBQuery &theQuery)
+{	int64_t		theValue;
 	NStatus		theErr;
 
 
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt64, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -344,10 +344,10 @@ SInt64 NDBHandlePool::ExecuteSInt64(const NDBQuery &theQuery)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteFloat32 : Execute a query to obtain a Float32.
+//		NDBHandlePool::ExecuteFloat32 : Execute a query to obtain a float32_t.
 //----------------------------------------------------------------------------
-Float32 NDBHandlePool::ExecuteFloat32(const NDBQuery &theQuery)
-{	Float32		theValue;
+float32_t NDBHandlePool::ExecuteFloat32(const NDBQuery &theQuery)
+{	float32_t	theValue;
 	NStatus		theErr;
 
 
@@ -365,10 +365,10 @@ Float32 NDBHandlePool::ExecuteFloat32(const NDBQuery &theQuery)
 
 
 //============================================================================
-//		NDBHandlePool::ExecuteFloat64 : Execute a query to obtain a Float64.
+//		NDBHandlePool::ExecuteFloat64 : Execute a query to obtain a float64_t.
 //----------------------------------------------------------------------------
-Float64 NDBHandlePool::ExecuteFloat64(const NDBQuery &theQuery)
-{	Float64		theValue;
+float64_t NDBHandlePool::ExecuteFloat64(const NDBQuery &theQuery)
+{	float64_t	theValue;
 	NStatus		theErr;
 
 

@@ -73,8 +73,8 @@ class NArray :	public NContainer,
 public:
 										NENCODABLE_DECLARE(NArray);
 
-										NArray(const SInt32List  &theValues);
-										NArray(const SInt64List  &theValues);
+										NArray(const Int32List   &theValues);
+										NArray(const Int64List   &theValues);
 										NArray(const Float32List &theValues);
 										NArray(const Float64List &theValues);
 										NArray(const NStringList &theValues);
@@ -124,10 +124,10 @@ public:
 	//
 	// If the value can not be returned as the specified type, 0/empty is returned.
 	bool								GetValueBoolean(   NIndex theIndex) const;
-	SInt32								GetValueSInt32(    NIndex theIndex) const;
-	SInt64								GetValueSInt64(    NIndex theIndex) const;
-	Float32								GetValueFloat32(   NIndex theIndex) const;
-	Float64								GetValueFloat64(   NIndex theIndex) const;
+	int32_t								GetValueInt32(     NIndex theIndex) const;
+	int64_t								GetValueInt64(     NIndex theIndex) const;
+	float32_t							GetValueFloat32(   NIndex theIndex) const;
+	float64_t							GetValueFloat64(   NIndex theIndex) const;
 	NString								GetValueString(    NIndex theIndex) const;
 	NData								GetValueData(      NIndex theIndex) const;
 	NDate								GetValueDate(      NIndex theIndex) const;
@@ -141,14 +141,14 @@ public:
 
 
 	// Get/set an array of values
-	SInt32List							GetValuesSInt32( void) const;
-	SInt64List							GetValuesSInt64( void) const;
+	Int32List							GetValuesInt32(  void) const;
+	Int64List							GetValuesInt64(  void) const;
 	Float32List							GetValuesFloat32(void) const;
 	Float64List							GetValuesFloat64(void) const;
 	NStringList							GetValuesString( void) const;
 
-	void								SetValuesSInt32( const SInt32List  &theValues);
-	void								SetValuesSInt64( const SInt64List  &theValues);
+	void								SetValuesInt32(  const Int32List   &theValues);
+	void								SetValuesInt64(  const Int64List   &theValues);
 	void								SetValuesFloat32(const Float32List &theValues);
 	void								SetValuesFloat64(const Float64List &theValues);
 	void								SetValuesString( const NStringList &theValues);

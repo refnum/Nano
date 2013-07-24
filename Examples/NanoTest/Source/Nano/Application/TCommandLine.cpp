@@ -85,7 +85,7 @@ TEST_NCOMMANDLINE("Flags")
 
 
 	// Perform the test
-	REQUIRE(cmdLine.GetFlagSInt64("arg2") == -2);
+	REQUIRE(cmdLine.GetFlagInt64("arg2") == -2);
 	REQUIRE(NMathUtilities::AreEqual(cmdLine.GetFlagFloat64("arg3"), 3.0));
 	REQUIRE(cmdLine.GetFlagString("arg4") == "\"" kTestString "\"");
 	REQUIRE(cmdLine.GetFlagString("arg5") ==      kTestString);

@@ -34,7 +34,7 @@
 //		Library glue
 //----------------------------------------------------------------------------
 // SHCreateMemStream
-#define INDEX_SHCreateMemStream											(LPCSTR) 12
+#define INDEX_SHCreateMemStream										(LPCSTR) 12
 
 typedef IStream* (__stdcall *SHCreateMemStreamProc)(const BYTE *pInit, UINT cbInit);
 
@@ -46,8 +46,8 @@ typedef IStream* (__stdcall *SHCreateMemStreamProc)(const BYTE *pInit, UINT cbIn
 //		Internal constants
 //----------------------------------------------------------------------------
 // Buffers
-static const UInt32 kTaskBufferSize										= 2048;
-static const UInt32 kLocaleBufferSize									= 10;
+static const NIndex kTaskBufferSize									= 2048;
+static const NIndex kLocaleBufferSize								= 10;
 
 
 
@@ -482,9 +482,9 @@ NString NTargetSystem::GetProcessName(void)
 //============================================================================
 //		NTargetSystem::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
-UInt64 NTargetSystem::GetSystemCPU(void)
+uint64_t NTargetSystem::GetSystemCPU(void)
 {	NRegistry		theRegistry;
-	UInt32			theResult;
+	uint64_t		theResult;
 	NStatus			theErr;
 	
 
@@ -494,7 +494,7 @@ UInt64 NTargetSystem::GetSystemCPU(void)
 	theErr    = theRegistry.Open(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0");
 
 	if (theErr == kNoErr)
-		theResult = theRegistry.GetValueSInt32("~MHz") * 1000000;
+		theResult = ((uint64_t) theRegistry.GetValueInt32("~MHz")) * 1000000;
 	
 	return(theResult);
 }
@@ -506,7 +506,7 @@ UInt64 NTargetSystem::GetSystemCPU(void)
 //============================================================================
 //		NTargetSystem::GetSystemRAM : Get the physical memory.
 //----------------------------------------------------------------------------
-UInt64 NTargetSystem::GetSystemRAM(void)
+uint64_t NTargetSystem::GetSystemRAM(void)
 {	MEMORYSTATUSEX		memInfo;
 
 
@@ -1136,7 +1136,7 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 		}
 
 	if (SUCCEEDED(winErr))
-		winErr = theStream->Seek(ToWN((SInt64) 0), STREAM_SEEK_SET, NULL);
+		winErr = theStream->Seek(ToWN((int64_t) 0), STREAM_SEEK_SET, NULL);
 
 	if (SUCCEEDED(winErr))
 		winErr = theStream->Read(dstData.GetData(), dstData.GetSize(), NULL);
@@ -1250,7 +1250,7 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 	// Decode the image
 	if (SUCCEEDED(winErr))
 		{
-		theImage  = NImage(NSize((Float32) theWidth, (Float32) theHeight), dstFormat);
+		theImage  = NImage(NSize((float32_t) theWidth, (float32_t) theHeight), dstFormat);
 		rowBytes  = theImage.GetBytesPerRow();
 		}
 

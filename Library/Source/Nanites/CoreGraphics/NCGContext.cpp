@@ -51,7 +51,7 @@ class CGTextCacheKey : public NCacheKey {
 public:
 	CGTextCacheKey(void) { }
 
-	CGTextCacheKey(const NString &theText, CTFontUIFontType fontID, Float32 fontSize, bool isFlipped)
+	CGTextCacheKey(const NString &theText, CTFontUIFontType fontID, float32_t fontSize, bool isFlipped)
 	{
 		NN_ASSERT(sizeof(NIndex) == sizeof(fontID));
 		NN_ASSERT(NMathUtilities::AreEqual(fontSize, (NIndex) fontSize));
@@ -84,7 +84,7 @@ public:
 //----------------------------------------------------------------------------
 //		ToCG : Convert to CG.
 //----------------------------------------------------------------------------
-static const CGFloat *ToCG(NIndex theSize, const Float32 *theValues, CGFloatList &cgValues)
+static const CGFloat *ToCG(NIndex theSize, const float32_t *theValues, CGFloatList &cgValues)
 {
 #if NN_TARGET_ARCH_64
 	NIndex	n;
@@ -98,7 +98,7 @@ static const CGFloat *ToCG(NIndex theSize, const Float32 *theValues, CGFloatList
 	return(&cgValues[0]);
 
 #else
-	NN_ASSERT(sizeof(CGFloat) == sizeof(Float32));
+	NN_ASSERT(sizeof(CGFloat) == sizeof(float32_t));
 	NN_UNUSED(theSize);
 	NN_UNUSED(cgValues);
 
@@ -295,7 +295,7 @@ void NCGContext::RestoreState(void)
 //============================================================================
 //		NCGContext::Scale : Apply a scale transform.
 //----------------------------------------------------------------------------
-void NCGContext::Scale(Float32 x, Float32 y)
+void NCGContext::Scale(float32_t x, float32_t y)
 {
 
 
@@ -315,7 +315,7 @@ void NCGContext::Scale(Float32 x, Float32 y)
 //============================================================================
 //		NCGContext::Translate : Apply a translation transform.
 //----------------------------------------------------------------------------
-void NCGContext::Translate(Float32 x, Float32 y)
+void NCGContext::Translate(float32_t x, float32_t y)
 {
 
 
@@ -439,7 +439,7 @@ void NCGContext::ClipToRect(const NRectangle &theRect)
 //============================================================================
 //		NCGContext::SetLineWidth : Set the line width.
 //----------------------------------------------------------------------------
-void NCGContext::SetLineWidth(Float32 theWidth)
+void NCGContext::SetLineWidth(float32_t theWidth)
 {
 
 
@@ -515,7 +515,7 @@ void NCGContext::SetLineDash(void)
 //============================================================================
 //		NCGContext::SetLineDash : Set the line dash.
 //----------------------------------------------------------------------------
-void NCGContext::SetLineDash(const Float32List &theDash, Float32 thePhase)
+void NCGContext::SetLineDash(const Float32List &theDash, float32_t thePhase)
 {	NIndex			theSize;
 	CGFloatList		cgDash;
 
@@ -544,7 +544,7 @@ void NCGContext::SetLineDash(const Float32List &theDash, Float32 thePhase)
 //============================================================================
 //		NCGContext::SetAlpha : Set the alpha.
 //----------------------------------------------------------------------------
-void NCGContext::SetAlpha(Float32 theAlpha)
+void NCGContext::SetAlpha(float32_t theAlpha)
 {
 
 
@@ -744,7 +744,7 @@ void NCGContext::ClosePath(void)
 //============================================================================
 //		NCGContext::MoveTo : Move to a point.
 //----------------------------------------------------------------------------
-void NCGContext::MoveTo(Float32 x, Float32 y)
+void NCGContext::MoveTo(float32_t x, float32_t y)
 {
 
 
@@ -784,7 +784,7 @@ void NCGContext::MoveTo(const NPoint &thePoint)
 //============================================================================
 //		NCGContext::AddLineTo : Add a line to a point.
 //----------------------------------------------------------------------------
-void NCGContext::AddLineTo(Float32 x, Float32 y)
+void NCGContext::AddLineTo(float32_t x, float32_t y)
 {
 
 
@@ -824,7 +824,7 @@ void NCGContext::AddLineTo(const NPoint &thePoint)
 //============================================================================
 //		NCGContext::AddRect : Add a rectangle.
 //----------------------------------------------------------------------------
-void NCGContext::AddRect(const NRectangle &theRect, Float32 cornerRadius)
+void NCGContext::AddRect(const NRectangle &theRect, float32_t cornerRadius)
 {	NPoint		leftMiddle, topLeft, topRight, bottomRight;
 
 
@@ -874,7 +874,7 @@ void NCGContext::AddRect(const NRectangle &theRect, Float32 cornerRadius)
 //============================================================================
 //		NCGContext::AddCircle : Add a circle.
 //----------------------------------------------------------------------------
-void NCGContext::AddCircle(const NPoint &theCenter, Float32 theRadius)
+void NCGContext::AddCircle(const NPoint &theCenter, float32_t theRadius)
 {
 
 
@@ -886,7 +886,7 @@ void NCGContext::AddCircle(const NPoint &theCenter, Float32 theRadius)
 
 	// Add a circle
 	CGContextMoveToPoint(*this, theCenter.x + theRadius, theCenter.y);
-	CGContextAddArc(     *this, theCenter.x,             theCenter.y, theRadius, 0.0f, (Float32) (M_PI * 2.0), true);
+	CGContextAddArc(     *this, theCenter.x,             theCenter.y, theRadius, 0.0f, (float32_t) (M_PI * 2.0), true);
 }
 
 
@@ -897,7 +897,7 @@ void NCGContext::AddCircle(const NPoint &theCenter, Float32 theRadius)
 //		NCGContext::AddEllipse : Add an ellipse.
 //----------------------------------------------------------------------------
 void NCGContext::AddEllipse(const NRectangle &theRect)
-{	Float32		halfWidth, halfHeight;
+{	float32_t		halfWidth, halfHeight;
 
 
 
@@ -915,7 +915,7 @@ void NCGContext::AddEllipse(const NRectangle &theRect)
 	CGContextSaveGState(   *this);
 	CGContextTranslateCTM( *this, theRect.origin.x + halfWidth, theRect.origin.y + halfHeight);
 	CGContextScaleCTM(     *this, halfWidth, halfHeight);
-	CGContextAddArc(       *this, 0.0f, 0.0f, 1.0f, 0.0f, (Float32) (M_PI * 2.0), true);
+	CGContextAddArc(       *this, 0.0f, 0.0f, 1.0f, 0.0f, (float32_t) (M_PI * 2.0), true);
 	CGContextRestoreGState(*this);
 }
 
@@ -926,7 +926,7 @@ void NCGContext::AddEllipse(const NRectangle &theRect)
 //============================================================================
 //		NCGContext::AddArc : Add an arc.
 //----------------------------------------------------------------------------
-void NCGContext::AddArc(const NPoint &theCenter, Float32 theRadius, Float32 angleStart, Float32 angleEnd, bool clockWise)
+void NCGContext::AddArc(const NPoint &theCenter, float32_t theRadius, float32_t angleStart, float32_t angleEnd, bool clockWise)
 {
 
 
@@ -947,7 +947,7 @@ void NCGContext::AddArc(const NPoint &theCenter, Float32 theRadius, Float32 angl
 //============================================================================
 //		NCGContext::AddArcToPoint : Add an arc.
 //----------------------------------------------------------------------------
-void NCGContext::AddArcToPoint(const NPoint &point1, const NPoint &point2, Float32 theRadius)
+void NCGContext::AddArcToPoint(const NPoint &point1, const NPoint &point2, float32_t theRadius)
 {
 
 
@@ -1215,7 +1215,7 @@ void NCGContext::DrawShading(const NCGShading &theShading)
 //============================================================================
 //		NCGContext::DrawImage : Draw an image.
 //----------------------------------------------------------------------------
-void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPosition alignTo, CTFontUIFontType fontID, Float32 fontSize)
+void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPosition alignTo, CTFontUIFontType fontID, float32_t fontSize)
 {	StCGContextState	saveState(*this);
 	NRectangle			textRect;
 	NCFObject			ctLine;
@@ -1262,7 +1262,7 @@ void NCGContext::DrawText(const NString &theText, const NRectangle &theRect, NPo
 //============================================================================
 //		NCGContext::GetTextBounds : Get the text bounds.
 //----------------------------------------------------------------------------
-NRectangle NCGContext::GetTextBounds(const NString &theText, CTFontUIFontType fontID, Float32 fontSize)
+NRectangle NCGContext::GetTextBounds(const NString &theText, CTFontUIFontType fontID, float32_t fontSize)
 {	StCGContextState	saveState(*this);
 	NRectangle			textRect;
 
@@ -1304,7 +1304,7 @@ void NCGContext::InitialiseSelf(void)
 //----------------------------------------------------------------------------
 NCFObject NCGContext::PrepareTextLine(	const NString		&theText,
 										CTFontUIFontType	fontID,
-										Float32				fontSize,
+										float32_t			fontSize,
 										NRectangle			&textRect)
 {	StLock					acquireLock(mTextLock);
 	NCFObject				ctLine, cgFont;
@@ -1403,7 +1403,7 @@ NCFObject NCGContext::GetCTLine(const NString &theText)
 //============================================================================
 //		NCGContext::GetCGFont : Get a CGFont.
 //----------------------------------------------------------------------------
-NCFObject NCGContext::GetCGFont(CTFontUIFontType fontID, Float32 fontSize)
+NCFObject NCGContext::GetCGFont(CTFontUIFontType fontID, float32_t fontSize)
 {	NCFObject	ctFont, cgFont;
 
 

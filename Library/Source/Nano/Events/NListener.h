@@ -35,7 +35,7 @@ static NBroadcaster * const kBroadcasterAny							= NULL;
 //		Types
 //----------------------------------------------------------------------------
 // Lists	
-typedef std::map<NBroadcaster*, UInt8>								NBroadcasterMap;
+typedef std::map<NBroadcaster*, uint8_t>							NBroadcasterMap;
 typedef NBroadcasterMap::iterator									NBroadcasterMapIterator;
 typedef NBroadcasterMap::const_iterator								NBroadcasterMapConstIterator;
 

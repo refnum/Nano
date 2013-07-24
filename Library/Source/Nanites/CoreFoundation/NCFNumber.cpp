@@ -85,9 +85,9 @@ NCFNumber::~NCFNumber(void)
 //		NCFNumber::GetObject : Get the object.
 //----------------------------------------------------------------------------
 NCFObject NCFNumber::GetObject(void) const
-{	Float64			valueFloat64;
-	Float32			valueFloat32;
-	SInt64			valueSInt64;
+{	float64_t		valueFloat64;
+	float32_t		valueFloat32;
+	int64_t			valueInt64;
 	NCFObject		theObject;
 
 
@@ -98,8 +98,8 @@ NCFObject NCFNumber::GetObject(void) const
 		case kNPrecisionInt16:
 		case kNPrecisionInt32:
 		case kNPrecisionInt64:
-			valueSInt64 = GetSInt64();
-			theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberLongLongType, &valueSInt64));
+			valueInt64 = GetInt64();
+			theObject.SetObject(CFNumberCreate(kCFAllocatorNano, kCFNumberLongLongType, &valueInt64));
 			break;
 		
 		case kNPrecisionFloat32:
@@ -129,24 +129,24 @@ NCFObject NCFNumber::GetObject(void) const
 //----------------------------------------------------------------------------
 bool NCFNumber::SetObject(CFNumberRef cfObject, bool takeOwnership)
 {	NCFObject		theObject(cfObject, takeOwnership);
-	Float64			valueFloat64;
-	Float32			valueFloat32;
-	SInt64			valueSInt64;
+	float64_t		valueFloat64;
+	float32_t		valueFloat32;
+	int64_t			valueInt64;
 	bool			isValid;
 
 
 
 	// Get the state we need
 	isValid = (cfObject != NULL);
-	SetSInt8(0);
+	SetInt8(0);
 
 
 
 	// Set the object
 	if (isValid)
 		{
-		if (CFNumberGetValue(     cfObject, kCFNumberLongLongType, &valueSInt64))
-			SetSInt64(valueSInt64);
+		if (CFNumberGetValue(     cfObject, kCFNumberLongLongType, &valueInt64))
+			SetInt64(valueInt64);
 		
 		else if (CFNumberGetValue(cfObject, kCFNumberFloatType,    &valueFloat32))
 			SetFloat32(valueFloat32);

@@ -468,8 +468,8 @@ void NRange::EncodeSelf(NEncoder &theEncoder) const
 
 
 	// Encode the object
-	theEncoder.EncodeNumber(kNRangeLocationKey, (SInt64) mLocation);
-	theEncoder.EncodeNumber(kNRangeSizeKey,     (SInt64) mSize);
+	theEncoder.EncodeNumber(kNRangeLocationKey, (int64_t) mLocation);
+	theEncoder.EncodeNumber(kNRangeSizeKey,     (int64_t) mSize);
 }
 
 
@@ -484,8 +484,8 @@ void NRange::DecodeSelf(const NEncoder &theEncoder)
 
 
 	// Decode the object
-	mLocation = theEncoder.DecodeNumber(kNRangeLocationKey).GetSInt32();
-	mSize     = theEncoder.DecodeNumber(kNRangeSizeKey).GetSInt32();
+	mLocation = theEncoder.DecodeNumber(kNRangeLocationKey).GetInt32();
+	mSize     = theEncoder.DecodeNumber(kNRangeSizeKey).GetInt32();
 }
 
 

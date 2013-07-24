@@ -42,7 +42,7 @@ typedef enum {
 //----------------------------------------------------------------------------
 // Map info
 typedef struct {
-	UInt32		theSize;
+	uint32_t	theSize;
 	NMapAccess	theAccess;
 } NMapInfo;
 
@@ -90,7 +90,7 @@ public:
 	//
 	// A size of 0 will map the entire file. A cache hint can be provided if the
 	// mapping is temporary, to avoid polluting the normal disk cache.
-	void								*Map(UInt64 theOffset=0, UInt32 theSize=0, NMapAccess theAccess=kNAccessRead, bool noCache=false);
+	void								*Map(uint64_t theOffset=0, uint32_t theSize=0, NMapAccess theAccess=kNAccessRead, bool noCache=false);
 	void								Unmap(const void *thePtr);
 
 

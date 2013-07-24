@@ -30,7 +30,7 @@
 //============================================================================
 //      Global variables
 //----------------------------------------------------------------------------
-UInt32 gNMathUtilitiesRandomSeed = NMathUtilities::SetRandomSeed();
+uint32_t gNMathUtilitiesRandomSeed = NMathUtilities::SetRandomSeed();
 
 
 
@@ -39,8 +39,8 @@ UInt32 gNMathUtilitiesRandomSeed = NMathUtilities::SetRandomSeed();
 //============================================================================
 //      NMathUtilities::AreEqual : Are two floating point numbers equal?
 //----------------------------------------------------------------------------
-bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
-{	SInt32		intA, intB, theDelta;
+bool NMathUtilities::AreEqual(float32_t a, float32_t b, NIndex maxUlps)
+{	int32_t		intA, intB, theDelta;
 	bool		areEqual;
 
 
@@ -61,8 +61,8 @@ bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
 	//
 	// As noted there are situations where this is not perfect, but numbers that
 	// are a few 'steps' (ulps) away from each other are essentially equal.
-	intA = *(SInt32 *) &a;
-	intB = *(SInt32 *) &b;
+	intA = *(int32_t *) &a;
+	intB = *(int32_t *) &b;
 
     if (intA < 0)
         intA = 0x80000000L - intA;
@@ -70,7 +70,7 @@ bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
     if (intB < 0)
         intB = 0x80000000L - intB;
 
-	theDelta = (SInt32) labs(intA - intB);
+	theDelta = (int32_t) labs(intA - intB);
 	areEqual = (theDelta <= maxUlps);
 
 	return(areEqual);
@@ -83,8 +83,8 @@ bool NMathUtilities::AreEqual(Float32 a, Float32 b, NIndex maxUlps)
 //============================================================================
 //      NMathUtilities::AreEqual : Are two floating point numbers equal?
 //----------------------------------------------------------------------------
-bool NMathUtilities::AreEqual(Float64 a, Float64 b, NIndex maxUlps)
-{	SInt64		intA, intB, theDelta;
+bool NMathUtilities::AreEqual(float64_t a, float64_t b, NIndex maxUlps)
+{	int64_t		intA, intB, theDelta;
 	bool		areEqual;
 
 
@@ -105,8 +105,8 @@ bool NMathUtilities::AreEqual(Float64 a, Float64 b, NIndex maxUlps)
 	//
 	// As noted there are situations where this is not perfect, but numbers that
 	// are a few 'steps' (ulps) away from each other are essentially equal.
-	intA = *(SInt64 *) &a;
-	intB = *(SInt64 *) &b;
+	intA = *(int64_t *) &a;
+	intB = *(int64_t *) &b;
 
     if (intA < 0)
         intA = 0x8000000000000000LL - intA;
@@ -127,7 +127,7 @@ bool NMathUtilities::AreEqual(Float64 a, Float64 b, NIndex maxUlps)
 //============================================================================
 //      NMathUtilities::IsZero : Is a floating point number zero?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsZero(Float32 theValue)
+bool NMathUtilities::IsZero(float32_t theValue)
 {
 
 
@@ -142,7 +142,7 @@ bool NMathUtilities::IsZero(Float32 theValue)
 //============================================================================
 //      NMathUtilities::IsZero : Is a floating point number zero?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsZero(Float64 theValue)
+bool NMathUtilities::IsZero(float64_t theValue)
 {
 
 
@@ -157,7 +157,7 @@ bool NMathUtilities::IsZero(Float64 theValue)
 //============================================================================
 //      NMathUtilities::IsNan : Is a floating point number NaN?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsNan(Float64 theValue)
+bool NMathUtilities::IsNan(float64_t theValue)
 {
 
 
@@ -172,7 +172,7 @@ bool NMathUtilities::IsNan(Float64 theValue)
 //============================================================================
 //      NMathUtilities::IsInf : Is a floating point number infinite?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsInf(Float64 theValue)
+bool NMathUtilities::IsInf(float64_t theValue)
 {
 
 
@@ -187,7 +187,7 @@ bool NMathUtilities::IsInf(Float64 theValue)
 //============================================================================
 //      NMathUtilities::IsOdd : Is a number odd?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsOdd(SInt64 theValue)
+bool NMathUtilities::IsOdd(int64_t theValue)
 {
 
 
@@ -202,7 +202,7 @@ bool NMathUtilities::IsOdd(SInt64 theValue)
 //============================================================================
 //      NMathUtilities::IsEven : Is a number even?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsEven(SInt64 theValue)
+bool NMathUtilities::IsEven(int64_t theValue)
 {
 
 
@@ -217,7 +217,7 @@ bool NMathUtilities::IsEven(SInt64 theValue)
 //============================================================================
 //      NMathUtilities::IsPowerOf2 : Is a number a power of 2?
 //----------------------------------------------------------------------------
-bool NMathUtilities::IsPowerOf2(SInt64 theValue)
+bool NMathUtilities::IsPowerOf2(int64_t theValue)
 {
 
 
@@ -232,8 +232,8 @@ bool NMathUtilities::IsPowerOf2(SInt64 theValue)
 //============================================================================
 //      NMathUtilities::CountBits : Count the number of set bits.
 //----------------------------------------------------------------------------
-UInt32 NMathUtilities::CountBits(UInt32 theValue)
-{   UInt32  numBits;
+NIndex NMathUtilities::CountBits(uint32_t theValue)
+{   NIndex	  numBits;
 
 
 
@@ -260,7 +260,7 @@ UInt32 NMathUtilities::CountBits(UInt32 theValue)
 //============================================================================
 //      NMathUtilities::RotateLeft : Left-rotate.
 //----------------------------------------------------------------------------
-UInt32 NMathUtilities::RotateLeft(UInt32 theValue, UInt32 rotateBy)
+uint32_t NMathUtilities::RotateLeft(uint32_t theValue, uint32_t rotateBy)
 {
 
 
@@ -275,7 +275,7 @@ UInt32 NMathUtilities::RotateLeft(UInt32 theValue, UInt32 rotateBy)
 //============================================================================
 //      NMathUtilities::RotateRight : Right-rotate.
 //----------------------------------------------------------------------------
-UInt32 NMathUtilities::RotateRight(UInt32 theValue, UInt32 rotateBy)
+uint32_t NMathUtilities::RotateRight(uint32_t theValue, uint32_t rotateBy)
 {
 
 
@@ -320,7 +320,7 @@ NRadians NMathUtilities::GetRadians(NDegrees theValue)
 //============================================================================
 //      NMathUtilities::GetSign : Get the sign.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::GetSign(Float64 theValue)
+float64_t NMathUtilities::GetSign(float64_t theValue)
 {
 
 
@@ -335,7 +335,7 @@ Float64 NMathUtilities::GetSign(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Sec : Calculate the secant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Sec(Float64 theValue)
+float64_t NMathUtilities::Sec(float64_t theValue)
 {
 
 
@@ -350,7 +350,7 @@ Float64 NMathUtilities::Sec(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Csc : Calculate the cosecant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Csc(Float64 theValue)
+float64_t NMathUtilities::Csc(float64_t theValue)
 {
 
 
@@ -365,7 +365,7 @@ Float64 NMathUtilities::Csc(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Ctan : Calculate the cotangent.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Ctan(Float64 theValue)
+float64_t NMathUtilities::Ctan(float64_t theValue)
 {
 
 
@@ -380,7 +380,7 @@ Float64 NMathUtilities::Ctan(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Asin : Calculate the inverse sine.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Asin(Float64 theValue)
+float64_t NMathUtilities::Asin(float64_t theValue)
 {
 
 
@@ -395,7 +395,7 @@ Float64 NMathUtilities::Asin(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Acos : Calculate the inverse cosine.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Acos(Float64 theValue)
+float64_t NMathUtilities::Acos(float64_t theValue)
 {
 
 
@@ -410,7 +410,7 @@ Float64 NMathUtilities::Acos(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Asec : Calculate the inverse secant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Asec(Float64 theValue)
+float64_t NMathUtilities::Asec(float64_t theValue)
 {
 
 
@@ -425,7 +425,7 @@ Float64 NMathUtilities::Asec(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Acsc : Calculate the inverse cosecant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Acsc(Float64 theValue)
+float64_t NMathUtilities::Acsc(float64_t theValue)
 {
 
 
@@ -440,7 +440,7 @@ Float64 NMathUtilities::Acsc(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Acot : Calculate the inverse cotangent.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Acot(Float64 theValue)
+float64_t NMathUtilities::Acot(float64_t theValue)
 {
 
 
@@ -455,7 +455,7 @@ Float64 NMathUtilities::Acot(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Sinh : Calculate the hyperbolic sine.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Sinh(Float64 theValue)
+float64_t NMathUtilities::Sinh(float64_t theValue)
 {
 
 
@@ -470,7 +470,7 @@ Float64 NMathUtilities::Sinh(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Cosh : Calculate the hyperbolic cosine.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Cosh(Float64 theValue)
+float64_t NMathUtilities::Cosh(float64_t theValue)
 {
 
 
@@ -485,7 +485,7 @@ Float64 NMathUtilities::Cosh(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Tanh : Calculate the hyperbolic tangent.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Tanh(Float64 theValue)
+float64_t NMathUtilities::Tanh(float64_t theValue)
 {
 
 
@@ -500,7 +500,7 @@ Float64 NMathUtilities::Tanh(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Sech : Calculate the hyperbolic secant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Sech(Float64 theValue)
+float64_t NMathUtilities::Sech(float64_t theValue)
 {
 
 
@@ -515,7 +515,7 @@ Float64 NMathUtilities::Sech(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Csch : Calculate the hyperbolic cosecant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Csch(Float64 theValue)
+float64_t NMathUtilities::Csch(float64_t theValue)
 {
 
 
@@ -530,7 +530,7 @@ Float64 NMathUtilities::Csch(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Coth : Calculate the hyperbolic cotangent.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Coth(Float64 theValue)
+float64_t NMathUtilities::Coth(float64_t theValue)
 {
 
 
@@ -545,7 +545,7 @@ Float64 NMathUtilities::Coth(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Asinh : Calculate the inverse hyperbolic sine.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Asinh(Float64 theValue)
+float64_t NMathUtilities::Asinh(float64_t theValue)
 {
 
 
@@ -560,7 +560,7 @@ Float64 NMathUtilities::Asinh(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Acosh : Calculate the inverse hyperbolic cosine.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Acosh(Float64 theValue)
+float64_t NMathUtilities::Acosh(float64_t theValue)
 {
 
 
@@ -575,7 +575,7 @@ Float64 NMathUtilities::Acosh(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Atanh : Calculate the inverse hyperbolic tangent.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Atanh(Float64 theValue)
+float64_t NMathUtilities::Atanh(float64_t theValue)
 {
 
 
@@ -590,7 +590,7 @@ Float64 NMathUtilities::Atanh(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Asech : Calculate the inverse hyperbolic secant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Asech(Float64 theValue)
+float64_t NMathUtilities::Asech(float64_t theValue)
 {
 
 
@@ -605,7 +605,7 @@ Float64 NMathUtilities::Asech(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Acsch : Calculate the inverse hyperbolic cosecant.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Acsch(Float64 theValue)
+float64_t NMathUtilities::Acsch(float64_t theValue)
 {
 
 
@@ -620,7 +620,7 @@ Float64 NMathUtilities::Acsch(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Acoth : Calculate the inverse hyperbolic cotangent.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Acoth(Float64 theValue)
+float64_t NMathUtilities::Acoth(float64_t theValue)
 {
 
 
@@ -635,7 +635,7 @@ Float64 NMathUtilities::Acoth(Float64 theValue)
 //============================================================================
 //      NMathUtilities::Rint : Round to the nearest integer.
 //----------------------------------------------------------------------------
-Float64 NMathUtilities::Rint(Float64 theValue)
+float64_t NMathUtilities::Rint(float64_t theValue)
 {
 
 
@@ -650,16 +650,16 @@ Float64 NMathUtilities::Rint(Float64 theValue)
 //============================================================================
 //		NMathUtilities::SetRandomSeed : Set the random seed.
 //----------------------------------------------------------------------------
-UInt32 NMathUtilities::SetRandomSeed(UInt32 theSeed)
-{	UInt32		pidSeed, timeSeed;
+uint32_t NMathUtilities::SetRandomSeed(uint32_t theSeed)
+{	uint32_t		pidSeed, timeSeed;
 
 
 
 	// Generate a seed
 	if (theSeed == 0)
 		{
-		pidSeed  = (UInt16) (NTargetPOSIX::getpid()                                  & 0xFFFF);
-		timeSeed = (UInt16) (((UInt64) (NTargetTime::GetTime() / kNTimeMillisecond)) & 0xFFFF);
+		pidSeed  = (uint16_t) (NTargetPOSIX::getpid()                                    & 0xFFFF);
+		timeSeed = (uint16_t) (((uint64_t) (NTargetTime::GetTime() / kNTimeMillisecond)) & 0xFFFF);
 		theSeed  = (pidSeed << 16) | timeSeed;
 		}
 
@@ -691,14 +691,14 @@ bool NMathUtilities::GetRandomBoolean(void)
 
 
 //============================================================================
-//		NMathUtilities::GetRandomUInt8 : Get a random UInt8.
+//		NMathUtilities::GetRandomUInt8 : Get a random uint8_t.
 //----------------------------------------------------------------------------
-UInt8 NMathUtilities::GetRandomUInt8(UInt8 valueMin, UInt8 valueMax)
+uint8_t NMathUtilities::GetRandomUInt8(uint8_t valueMin, uint8_t valueMax)
 {
 
 
 	// Get the value
-	return((UInt8) GetRandomValue(valueMin, valueMax));
+	return((uint8_t) GetRandomValue(valueMin, valueMax));
 }
 
 
@@ -706,14 +706,14 @@ UInt8 NMathUtilities::GetRandomUInt8(UInt8 valueMin, UInt8 valueMax)
 
 
 //============================================================================
-//		NMathUtilities::GetRandomUInt16 : Get a random UInt16.
+//		NMathUtilities::GetRandomUInt16 : Get a random uint16_t.
 //----------------------------------------------------------------------------
-UInt16 NMathUtilities::GetRandomUInt16(UInt16 valueMin, UInt16 valueMax)
+uint16_t NMathUtilities::GetRandomUInt16(uint16_t valueMin, uint16_t valueMax)
 {
 
 
 	// Get the value
-	return((UInt16) GetRandomValue(valueMin, valueMax));
+	return((uint16_t) GetRandomValue(valueMin, valueMax));
 }
 
 
@@ -721,14 +721,14 @@ UInt16 NMathUtilities::GetRandomUInt16(UInt16 valueMin, UInt16 valueMax)
 
 
 //============================================================================
-//		NMathUtilities::GetRandomUInt32 : Get a random UInt32.
+//		NMathUtilities::GetRandomUInt32 : Get a random uint32_t.
 //----------------------------------------------------------------------------
-UInt32 NMathUtilities::GetRandomUInt32(UInt32 valueMin, UInt32 valueMax)
+uint32_t NMathUtilities::GetRandomUInt32(uint32_t valueMin, uint32_t valueMax)
 {
 
 
 	// Get the value
-	return((UInt32) GetRandomValue(valueMin, valueMax));
+	return((uint32_t) GetRandomValue(valueMin, valueMax));
 }
 
 
@@ -736,10 +736,10 @@ UInt32 NMathUtilities::GetRandomUInt32(UInt32 valueMin, UInt32 valueMax)
 
 
 //============================================================================
-//		NMathUtilities::GetRandomUInt64 : Get a random UInt64.
+//		NMathUtilities::GetRandomUInt64 : Get a random uint64_t.
 //----------------------------------------------------------------------------
-UInt64 NMathUtilities::GetRandomUInt64(UInt64 valueMin, UInt64 valueMax)
-{	UInt64		theValue, theRange;
+uint64_t NMathUtilities::GetRandomUInt64(uint64_t valueMin, uint64_t valueMax)
+{	uint64_t		theValue, theRange;
 
 
 
@@ -750,8 +750,8 @@ UInt64 NMathUtilities::GetRandomUInt64(UInt64 valueMin, UInt64 valueMax)
 
 	// Get the value
 	theRange = valueMax - valueMin;
-	theValue = (((UInt64) GetRandomUInt32()) << 32) |
-				((UInt64) GetRandomUInt32());
+	theValue = (((uint64_t) GetRandomUInt32()) << 32) |
+				((uint64_t) GetRandomUInt32());
 
 	theValue = valueMin + (theValue % theRange);
 	
@@ -766,8 +766,8 @@ UInt64 NMathUtilities::GetRandomUInt64(UInt64 valueMin, UInt64 valueMax)
 //============================================================================
 //		NMathUtilities::GetRandomValue : Get a random value.
 //----------------------------------------------------------------------------
-UInt32 NMathUtilities::GetRandomValue(UInt32 valueMin, UInt32 valueMax)
-{	UInt32		theValue, theRange;
+uint32_t NMathUtilities::GetRandomValue(uint32_t valueMin, uint32_t valueMax)
+{	uint32_t		theValue, theRange;
 
 
 

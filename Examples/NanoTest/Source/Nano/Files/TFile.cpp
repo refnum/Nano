@@ -26,12 +26,12 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Misc
-static const UInt32 kBufferSize										= 9;
-static const UInt8  kBufferData1[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
-static const UInt8  kBufferData2[kBufferSize]						= { 'A', 'l', 's', 'o', ' ', 't', 'h', 'i', 's' };
+static const uint32_t kBufferSize									= 9;
+static const uint8_t  kBufferData1[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
+static const uint8_t  kBufferData2[kBufferSize]						= { 'A', 'l', 's', 'o', ' ', 't', 'h', 'i', 's' };
 
-static const UInt32 kFileSizeTmp1									= 111;
-static const UInt32 kFileSizeTmp2									= 222;
+static const uint32_t kFileSizeTmp1									= 111;
+static const uint32_t kFileSizeTmp2									= 222;
 
 
 // Paths
@@ -304,13 +304,13 @@ TEST_NFILE("SetComponents")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NFILE("Size")
-{	UInt64		theSize;
+{	uint64_t	theSize;
 
 
 
 	// Perform the test
 	theSize = tmpFile.GetSize();
-	REQUIRE(theSize == (UInt64) 0);
+	REQUIRE(theSize == (uint64_t) 0);
 
 	theErr = tmpFile.SetSize(kBufferSize);
 	REQUIRE_NOERR(theErr);
@@ -374,8 +374,8 @@ TEST_NFILE("OpenClose")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NFILE("ReadWrite")
-{	UInt8		tmpBuffer[kBufferSize];
-	UInt64		n, theSize;
+{	uint8_t		tmpBuffer[kBufferSize];
+	uint64_t	n, theSize;
 
 
 
@@ -385,7 +385,7 @@ TEST_NFILE("ReadWrite")
 	REQUIRE(tmpFile.IsOpen());
 
 	theSize = tmpFile.GetPosition();
-	REQUIRE(theSize == (UInt64) 0);
+	REQUIRE(theSize == (uint64_t) 0);
 	
 	theSize = 123456;
 	theErr  = tmpFile.Write(kBufferSize, kBufferData1, theSize);
@@ -409,7 +409,7 @@ TEST_NFILE("ReadWrite")
 	theSize = 123456;
 	theErr  = tmpFile.Read(kBufferSize, tmpBuffer, theSize);
 	REQUIRE(theErr  == kNErrExhaustedSrc);
-	REQUIRE(theSize == (UInt64) 0);
+	REQUIRE(theSize == (uint64_t) 0);
 
 
 
@@ -418,7 +418,7 @@ TEST_NFILE("ReadWrite")
 	REQUIRE_NOERR(theErr);
 
 	theSize = tmpFile.GetPosition();
-	REQUIRE(theSize == (UInt64) 0);
+	REQUIRE(theSize == (uint64_t) 0);
 }
 
 
@@ -429,8 +429,8 @@ TEST_NFILE("ReadWrite")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NFILE("Append")
-{	UInt8		tmpBuffer[kBufferSize];
-	UInt64		n, theSize;
+{	uint8_t		tmpBuffer[kBufferSize];
+	uint64_t	n, theSize;
 
 
 

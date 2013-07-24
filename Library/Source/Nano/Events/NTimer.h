@@ -33,7 +33,7 @@ typedef enum {
 
 
 // Timer IDs
-typedef UIntPtr NTimerID;
+typedef uintptr_t NTimerID;
 
 static const NTimerID kNTimerNone									= (NTimerID) NULL;
 static const NTimerID kNTimerAll									= (NTimerID) NULL;

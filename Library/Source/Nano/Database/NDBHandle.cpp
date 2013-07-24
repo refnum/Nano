@@ -27,8 +27,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt32 kProgressUpdate									= 1000;
-static const UInt32 kBackupPageCount								= 100;
+static const NIndex kProgressUpdate									= 1000;
+static const NIndex kBackupPageCount								= 100;
 static const char   kNamePrefix										= ':';
 
 
@@ -356,17 +356,17 @@ NStatus NDBHandle::Execute(const NDBQuery &theQuery, const NDBResultFunctor &the
 
 
 //============================================================================
-//		NDBHandle::ExecuteSInt32 : Execute a query to obtain an SInt32.
+//		NDBHandle::ExecuteInt32 : Execute a query to obtain an int32_t.
 //----------------------------------------------------------------------------
-SInt32 NDBHandle::ExecuteSInt32(const NDBQuery &theQuery)
-{	SInt32		theValue;
+int32_t NDBHandle::ExecuteInt32(const NDBQuery &theQuery)
+{	int32_t		theValue;
 	NStatus		theErr;
 
 
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt32, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -377,17 +377,17 @@ SInt32 NDBHandle::ExecuteSInt32(const NDBQuery &theQuery)
 
 
 //============================================================================
-//		NDBHandle::ExecuteSInt64 : Execute a query to obtain an SInt64.
+//		NDBHandle::ExecuteInt64 : Execute a query to obtain an int64_t.
 //----------------------------------------------------------------------------
-SInt64 NDBHandle::ExecuteSInt64(const NDBQuery &theQuery)
-{	SInt64		theValue;
+int64_t NDBHandle::ExecuteInt64(const NDBQuery &theQuery)
+{	int64_t		theValue;
 	NStatus		theErr;
 
 
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueSInt64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt64, _1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -398,10 +398,10 @@ SInt64 NDBHandle::ExecuteSInt64(const NDBQuery &theQuery)
 
 
 //============================================================================
-//		NDBHandle::ExecuteFloat32 : Execute a query to obtain a Float32.
+//		NDBHandle::ExecuteFloat32 : Execute a query to obtain a float32_t.
 //----------------------------------------------------------------------------
-Float32 NDBHandle::ExecuteFloat32(const NDBQuery &theQuery)
-{	Float32		theValue;
+float32_t NDBHandle::ExecuteFloat32(const NDBQuery &theQuery)
+{	float32_t		theValue;
 	NStatus		theErr;
 
 
@@ -419,10 +419,10 @@ Float32 NDBHandle::ExecuteFloat32(const NDBQuery &theQuery)
 
 
 //============================================================================
-//		NDBHandle::ExecuteFloat64 : Execute a query to obtain a Float64.
+//		NDBHandle::ExecuteFloat64 : Execute a query to obtain a float64_t.
 //----------------------------------------------------------------------------
-Float64 NDBHandle::ExecuteFloat64(const NDBQuery &theQuery)
-{	Float64		theValue;
+float64_t NDBHandle::ExecuteFloat64(const NDBQuery &theQuery)
+{	float64_t		theValue;
 	NStatus		theErr;
 
 
@@ -483,7 +483,7 @@ NData NDBHandle::ExecuteData(const NDBQuery &theQuery)
 //		NDBHandle::HasTable : Does a table exist?
 //----------------------------------------------------------------------------
 bool NDBHandle::HasTable(const NString &theTable)
-{	SInt32		theResult;
+{	int32_t		theResult;
 	NString		theSQL;
 
 
@@ -493,7 +493,7 @@ bool NDBHandle::HasTable(const NString &theTable)
 	// SQLite does not support "IF NOT EXISTS" for virtual tables, however
 	// we can identify the presence of tables by querying the master table.
 	theSQL.Format("SELECT count() FROM sqlite_master WHERE name=\"%@\";", theTable);
-	theResult = ExecuteSInt32(theSQL);
+	theResult = ExecuteInt32(theSQL);
 	
 	return(theResult != 0);
 }
@@ -898,10 +898,10 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NVariant &thePa
 //		NDBHandle::SQLiteBindParameterByIndex : Bind a parameter to a query.
 //----------------------------------------------------------------------------
 void NDBHandle::SQLiteBindParameterByIndex(NDBQueryRef theQuery, NIndex theIndex, const NVariant &theValue)
-{	Float64				valueFloat64;
-	SInt64				valueSInt64;
+{	float64_t			valueFloat64;
 	NString				valueString;
 	NNumber				valueNumber;
+	int64_t				valueInt64;
 	NData				valueData;
 	bool				valueBool;
 	sqlite3_stmt		*sqlQuery;
@@ -930,8 +930,8 @@ void NDBHandle::SQLiteBindParameterByIndex(NDBQueryRef theQuery, NIndex theIndex
 		valueNumber = NNumber(theValue);
 		if (valueNumber.IsInteger())
 			{
-			valueSInt64 = valueNumber.GetSInt64();
-			dbErr       = sqlite3_bind_int64(sqlQuery, theIndex, valueSInt64);
+			valueInt64 = valueNumber.GetInt64();
+			dbErr      = sqlite3_bind_int64(sqlQuery, theIndex, valueInt64);
 			}
 		else
 			{
@@ -988,7 +988,7 @@ void NDBHandle::SQLiteBindParameterByKey(NDBQueryRef theQuery, const NString &th
 	// when performing a very large number of queries (e.g., storing a GPS
 	// track's points into a database).
 	//
-	// As such we use a simple UTF8Char array to do the append, since we know
+	// As such we use a simple utf8_t array to do the append, since we know
 	// we need the string encoded to UTF8 anyway.
 	textUTF8 = theKey.GetUTF8();
 	textBuffer.resize(strlen(textUTF8) + 2);

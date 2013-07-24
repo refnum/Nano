@@ -24,8 +24,8 @@
 //============================================================================
 //		Constants
 //----------------------------------------------------------------------------
-static const UInt8 kTestData1[]										= { 0xAA, 0xBB, 0xCC, 0xDD };
-static const UInt8 kTestData2[]										= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
+static const uint8_t kTestData1[]									= { 0xAA, 0xBB, 0xCC, 0xDD };
+static const uint8_t kTestData2[]									= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
 
 
 

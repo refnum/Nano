@@ -31,18 +31,18 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt8  kTestUInt8										= 8;
-static const UInt16	kTestUInt16										= 1616;
-static const UInt32	kTestUInt32										= 32323232;
-static const UInt64	kTestUInt64										= 6464646464646464ULL;
+static const uint8_t  kTestUInt8									= 8;
+static const uint16_t kTestUInt16									= 1616;
+static const uint32_t kTestUInt32									= 32323232;
+static const uint64_t kTestUInt64									= 6464646464646464ULL;
 
-static const SInt8	kTestSInt8										= -8;
-static const SInt16	kTestSInt16										= -1616;
-static const SInt32	kTestSInt32										= -32323232;
-static const SInt64	kTestSInt64										= -6464646464646464LL;
+static const int8_t	 kTestInt8										= -8;
+static const int16_t kTestInt16										= -1616;
+static const int32_t kTestInt32										= -32323232;
+static const int64_t kTestInt64										= -6464646464646464LL;
 
-static const Float32 kTestFloat32									= (Float32) kNPi;
-static const Float64 kTestFloat64									= (Float64) kNPi;
+static const float32_t kTestFloat32									= (float32_t) kNPi;
+static const float64_t kTestFloat64									= (float64_t) kNPi;
 
 static const char    *kTestPtrChar									= "text";
 static const wchar_t *kTestPtrWChar									= L"text";
@@ -97,19 +97,19 @@ TEST_NSTRINGFORMATTER("Primitives")
 	REQUIRE(theResult == "ArgUInt64 [6464646464646464]");
 
 
-	theResult = theFormatter.Format("ArgSInt8 [%d]", kTestSInt8);
+	theResult = theFormatter.Format("ArgSInt8 [%d]", kTestInt8);
 	REQUIRE(theResult == "ArgSInt8 [-8]");
 
-	theResult = theFormatter.Format("ArgSInt16 [%d]", kTestSInt16);
+	theResult = theFormatter.Format("ArgSInt16 [%d]", kTestInt16);
 	REQUIRE(theResult == "ArgSInt16 [-1616]");
 
-	theResult = theFormatter.Format("ArgSInt32 [%d]", kTestSInt32);
+	theResult = theFormatter.Format("ArgSInt32 [%d]", kTestInt32);
 	REQUIRE(theResult == "ArgSInt32 [-32323232]");
 
-	theResult = theFormatter.Format("ArgSInt32 [%ld]", kTestSInt32);
+	theResult = theFormatter.Format("ArgSInt32 [%ld]", kTestInt32);
 	REQUIRE(theResult == "ArgSInt32 [-32323232]");
 
-	theResult = theFormatter.Format("ArgSInt64 [%lld]", kTestSInt64);
+	theResult = theFormatter.Format("ArgSInt64 [%lld]", kTestInt64);
 	REQUIRE(theResult == "ArgSInt64 [-6464646464646464]");
 
 
@@ -169,19 +169,19 @@ TEST_NSTRINGFORMATTER("Position")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NSTRINGFORMATTER("Width")
-{	SInt32		valueInt;
+{	int32_t		valueInt;
 
 
 
 	// Perform the test
 	valueInt  = 10;
-	theResult = theFormatter.Format("ArgSInt16 [%*d]", valueInt, kTestSInt16);
+	theResult = theFormatter.Format("ArgSInt16 [%*d]", valueInt, kTestInt16);
 	REQUIRE(theResult == "ArgSInt16 [     -1616]");
 
-	theResult = theFormatter.Format("ArgSInt16 [%*2$d]", kTestSInt16, valueInt);
+	theResult = theFormatter.Format("ArgSInt16 [%*2$d]", kTestInt16, valueInt);
 	REQUIRE(theResult == "ArgSInt16 [     -1616]");
 
-	theResult = theFormatter.Format("ArgSInt16 [%10d]", kTestSInt16);
+	theResult = theFormatter.Format("ArgSInt16 [%10d]", kTestInt16);
 	REQUIRE(theResult == "ArgSInt16 [     -1616]");
 }
 
@@ -193,7 +193,7 @@ TEST_NSTRINGFORMATTER("Width")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NSTRINGFORMATTER("Precision")
-{	SInt32		valueInt;
+{	int32_t		valueInt;
 
 
 

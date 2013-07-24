@@ -69,8 +69,8 @@ public:
 
 
 	// Get/set the port
-	UInt16								GetPort(void) const;
-	void								SetPort(UInt16 thePort);
+	uint16_t							GetPort(void) const;
+	void								SetPort(uint16_t thePort);
 	
 	
 	// Get/set the max clients
@@ -172,7 +172,7 @@ private:
 	mutable NMutex						mLock;
 
 	NMessageServerStatus				mStatus;
-	UInt16								mPort;
+	uint16_t							mPort;
 	NIndex								mMaxClients;
 	NString								mPassword;
 

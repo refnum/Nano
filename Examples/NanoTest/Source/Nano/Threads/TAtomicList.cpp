@@ -28,7 +28,7 @@
 
 FIXTURE_NANO(TAtomicList)
 {
-	NAtomicList<UInt32>		theList;
+	NAtomicList<uint32_t>		theList;
 };
 
 

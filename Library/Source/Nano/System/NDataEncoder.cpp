@@ -113,7 +113,7 @@ NString NDataEncoder::Hex_Encode(const NData &theValue)
 {	NIndex			n, theSize;
 	NData			tmpBuffer;
 	NString			theResult;
-	const UInt8		*dataPtr;
+	const uint8_t	*dataPtr;
 	char			*textPtr;
 
 
@@ -150,7 +150,7 @@ NString NDataEncoder::Hex_Encode(const NData &theValue)
 NData NDataEncoder::Hex_Decode(const NString &theValue)
 {	NIndex			n, theSize;
 	NData			theResult;
-	UInt8			*dataPtr;
+	uint8_t			*dataPtr;
 	const char		*textPtr;
 	unsigned int	byteVal;
 
@@ -182,7 +182,7 @@ NData NDataEncoder::Hex_Decode(const NString &theValue)
 		sscanf(textPtr, "%2x", &byteVal);
 		NN_ASSERT((byteVal & 0xFFFFFF00) == 0);
 
-		dataPtr[n] = (UInt8) byteVal;
+		dataPtr[n] = (uint8_t) byteVal;
 		textPtr   += 2;
 		}
 	

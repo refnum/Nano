@@ -61,7 +61,7 @@ public:
 	// Is the value of a type?
 	//
 	//		NVariant	theValue;
-	//		SInt32		theInt;
+	//		int32_t		theInt;
 	//
 	//		if (theValue.IsType(typeid(float)))
 	//			foo();

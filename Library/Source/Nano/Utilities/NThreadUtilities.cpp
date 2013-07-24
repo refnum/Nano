@@ -25,7 +25,7 @@
 //============================================================================
 //		NThreadUtilities::GetCPUCount : Get the number of CPUs.
 //----------------------------------------------------------------------------
-UInt32 NThreadUtilities::GetCPUCount(void)
+NIndex NThreadUtilities::GetCPUCount(void)
 {
 
 
@@ -98,7 +98,7 @@ void NThreadUtilities::DelayFunctor(const NFunctor &theFunctor, NTime theDelay, 
 //============================================================================
 //		NThreadUtilities::AtomicCompareAndSwap32 : Atomic 32-bit compare-and-swap.
 //----------------------------------------------------------------------------
-bool NThreadUtilities::AtomicCompareAndSwap32(SInt32 &theValue, SInt32 oldValue, SInt32 newValue)
+bool NThreadUtilities::AtomicCompareAndSwap32(int32_t &theValue, int32_t oldValue, int32_t newValue)
 {
 
 
@@ -128,7 +128,7 @@ bool NThreadUtilities::AtomicCompareAndSwapPtr(void *&theValue, void *oldValue, 
 //============================================================================
 //		NThreadUtilities::AtomicAdd32 : Atomic 32-bit add.
 //----------------------------------------------------------------------------
-SInt32 NThreadUtilities::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
+int32_t NThreadUtilities::AtomicAdd32(int32_t &theValue, int32_t theDelta)
 {
 
 
@@ -143,7 +143,7 @@ SInt32 NThreadUtilities::AtomicAdd32(SInt32 &theValue, SInt32 theDelta)
 //============================================================================
 //		NThreadUtilities::AtomicAnd32 : Atomic 32-bit and.
 //----------------------------------------------------------------------------
-void NThreadUtilities::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
+void NThreadUtilities::AtomicAnd32(uint32_t &theValue, uint32_t theMask)
 {
 
 
@@ -158,7 +158,7 @@ void NThreadUtilities::AtomicAnd32(UInt32 &theValue, UInt32 theMask)
 //============================================================================
 //		NThreadUtilities::AtomicXor32 : Atomic 32-bit xor.
 //----------------------------------------------------------------------------
-void NThreadUtilities::AtomicXor32(UInt32 &theValue, UInt32 theMask)
+void NThreadUtilities::AtomicXor32(uint32_t &theValue, uint32_t theMask)
 {
 
 
@@ -173,7 +173,7 @@ void NThreadUtilities::AtomicXor32(UInt32 &theValue, UInt32 theMask)
 //============================================================================
 //		NThreadUtilities::AtomicOr32 : Atomic 32-bit or.
 //----------------------------------------------------------------------------
-void NThreadUtilities::AtomicOr32(UInt32 &theValue, UInt32 theMask)
+void NThreadUtilities::AtomicOr32(uint32_t &theValue, uint32_t theMask)
 {
 
 

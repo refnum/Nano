@@ -33,7 +33,7 @@
 // Color formats define the order of components within a representation, not
 // a specific byte order.
 //
-// E.g., when represented as a UInt32, a kNColorARGB would be stored as:
+// E.g., when represented as a uint32_t, a kNColorARGB would be stored as:
 //
 //		NN_TARGET_ENDIAN_BIG		[AA] [RR] [GG] [BB]
 //		NN_TARGET_ENDIAN_LITTLE		[BB] [GG] [RR] [AA]
@@ -76,8 +76,8 @@ class NColor :	public NEncodable,
 public:
 										NENCODABLE_DECLARE(NColor);
 
-										NColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
-										NColor(      UInt32    theColor, NColorFormat theFormat=kNColorRGBA);
+										NColor(float32_t r, float32_t g, float32_t b, float32_t a=1.0f);
+										NColor(      uint32_t  theColor, NColorFormat theFormat=kNColorRGBA);
 										NColor(const NString  &hexColor, NColorFormat theFormat=kNColorRGBA);
 										
 										NColor(void);
@@ -94,23 +94,23 @@ public:
 
 
 	// Get/set the color
-	void								GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const;
-	UInt32								GetColor(NColorFormat theFormat=kNColorRGBA)             const;
+	void								GetColor(float32_t &r, float32_t &g, float32_t &b, float32_t &a) const;
+	uint32_t							GetColor(NColorFormat theFormat=kNColorRGBA)                     const;
 
-	void								SetColor(Float32 r, Float32 g, Float32 b, Float32 a=1.0f);
-	void								SetColor(UInt32 theColor, NColorFormat theFormat=kNColorRGBA);
+	void								SetColor(float32_t r, float32_t g, float32_t b, float32_t a=1.0f);
+	void								SetColor(uint32_t theColor, NColorFormat theFormat=kNColorRGBA);
 	
 
 	// Get/set the components
-	Float32								GetRed(  void) const;
-	Float32								GetGreen(void) const;
-	Float32								GetBlue( void) const;
-	Float32								GetAlpha(void) const;
+	float32_t							GetRed(  void) const;
+	float32_t							GetGreen(void) const;
+	float32_t							GetBlue( void) const;
+	float32_t							GetAlpha(void) const;
 
-	void								SetRed(  Float32 theValue);
-	void								SetGreen(Float32 theValue);
-	void								SetBlue( Float32 theValue);
-	void								SetAlpha(Float32 theValue);
+	void								SetRed(  float32_t theValue);
+	void								SetGreen(float32_t theValue);
+	void								SetBlue( float32_t theValue);
+	void								SetAlpha(float32_t theValue);
 
 
 	// Operators
@@ -128,10 +128,10 @@ protected:
 
 
 private:
-	Float32								mRed;
-	Float32								mGreen;
-	Float32								mBlue;
-	Float32								mAlpha;
+	float32_t							mRed;
+	float32_t							mGreen;
+	float32_t							mBlue;
+	float32_t							mAlpha;
 };
 
 

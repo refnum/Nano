@@ -193,7 +193,7 @@ FILETIME NWinTarget::ConvertTimeFile(NTime theTime)
 	theTime += kNEpochTimeSince1601;
 	theTime /= (100.0 * kNTimeNanosecond);
 
-	hectoNanoSecs = ToWN((UInt64) theTime);
+	hectoNanoSecs = ToWN((uint64_t) theTime);
 
 	fileTime.dwLowDateTime  = hectoNanoSecs.LowPart;
 	fileTime.dwHighDateTime = hectoNanoSecs.HighPart;
@@ -209,7 +209,7 @@ FILETIME NWinTarget::ConvertTimeFile(NTime theTime)
 //		NWinTarget::ConvertFILETIME : Convert from a FILETIME.
 //----------------------------------------------------------------------------
 NTime NWinTarget::ConvertFILETIME(const FILETIME &fileTime)
-{	UInt64			hectoNanoSecs;
+{	uint64_t		hectoNanoSecs;
 	NTime			theTime;
 
 

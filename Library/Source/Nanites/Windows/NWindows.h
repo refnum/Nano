@@ -64,21 +64,21 @@ inline const TCHAR *ToWN(const NString &theString)
 	return(theString.GetUTF16());
 }
 
-inline LARGE_INTEGER ToWN(const SInt64 &theValue)
+inline LARGE_INTEGER ToWN(const int64_t &theValue)
 {	LARGE_INTEGER	theResult;
 
 	theResult.QuadPart = theValue;
 	return(theResult);
 }
 
-inline ULARGE_INTEGER ToWN(const UInt64 &theValue)
+inline ULARGE_INTEGER ToWN(const uint64_t &theValue)
 {	ULARGE_INTEGER	theResult;
 
 	theResult.QuadPart = theValue;
 	return(theResult);
 }
 
-inline void ToWN(UInt64 theValue, DWORD &valueHigh, DWORD &valueLow)
+inline void ToWN(uint64_t theValue, DWORD &valueHigh, DWORD &valueLow)
 {
 	valueHigh = (DWORD) ((theValue >> 32) & 0xFFFFFFFF);
 	valueLow  = (DWORD) ((theValue >>  0) & 0xFFFFFFFF);
@@ -89,38 +89,38 @@ inline void ToWN(UInt64 theValue, DWORD &valueHigh, DWORD &valueLow)
 // Windows to Nano
 inline NPoint ToNN(const POINT &thePoint)
 {
-	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
+	return(NPoint((float32_t) thePoint.x, (float32_t) thePoint.y));
 }
 
 inline NPoint ToNN(const POINTS &thePoint)
 {
-	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
+	return(NPoint((float32_t) thePoint.x, (float32_t) thePoint.y));
 }
 
 inline NPoint ToNN(const POINTL &thePoint)
 {
-	return(NPoint((Float32) thePoint.x, (Float32) thePoint.y));
+	return(NPoint((float32_t) thePoint.x, (float32_t) thePoint.y));
 }
 
 inline NSize ToNN(const SIZE &thePoint)
 {
-	return(NSize((Float32) thePoint.cx, (Float32) thePoint.cy));
+	return(NSize((float32_t) thePoint.cx, (float32_t) thePoint.cy));
 }
 
 inline NRectangle ToNN(const RECT &theRect)
 {
-	return(NRectangle(	(Float32)  theRect.left,
-						(Float32)  theRect.top,
-						(Float32) (theRect.right  - theRect.left),
-						(Float32) (theRect.bottom - theRect.top)));
+	return(NRectangle(	(float32_t)  theRect.left,
+						(float32_t)  theRect.top,
+						(float32_t) (theRect.right  - theRect.left),
+						(float32_t) (theRect.bottom - theRect.top)));
 }
 
 inline NRectangle ToNN(const RECTL &theRect)
 {
-	return(NRectangle(	(Float32)  theRect.left,
-						(Float32)  theRect.top,
-						(Float32) (theRect.right  - theRect.left),
-						(Float32) (theRect.bottom - theRect.top)));
+	return(NRectangle(	(float32_t)  theRect.left,
+						(float32_t)  theRect.top,
+						(float32_t) (theRect.right  - theRect.left),
+						(float32_t) (theRect.bottom - theRect.top)));
 }
 
 inline NString ToNN(const TCHAR *theString)
@@ -128,19 +128,19 @@ inline NString ToNN(const TCHAR *theString)
 	return(NString(theString, kNStringLength, kNStringEncodingUTF16));
 }
 
-inline SInt64 ToNN(const LARGE_INTEGER &theValue)
+inline int64_t ToNN(const LARGE_INTEGER &theValue)
 {
 	return(theValue.QuadPart);
 }
 
-inline UInt64 ToNN(const ULARGE_INTEGER &theValue)
+inline uint64_t ToNN(const ULARGE_INTEGER &theValue)
 {
 	return(theValue.QuadPart);
 }
 
-inline UInt64 ToNN(DWORD valueHigh, DWORD valueLow)
+inline uint64_t ToNN(DWORD valueHigh, DWORD valueLow)
 {
-	return( (((UInt64) valueHigh) << 32) | ((UInt64) valueLow) );
+	return( (((uint64_t) valueHigh) << 32) | ((uint64_t) valueLow) );
 }
 
 

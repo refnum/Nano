@@ -271,9 +271,9 @@ NData NData::GetData(const NRange &theRange) const
 //============================================================================
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
-const UInt8 *NData::GetData(NIndex theOffset) const
+const uint8_t *NData::GetData(NIndex theOffset) const
 {	const NDataValue		*theValue;
-	const UInt8				*thePtr;
+	const uint8_t			*thePtr;
 
 
 
@@ -299,7 +299,7 @@ const UInt8 *NData::GetData(NIndex theOffset) const
 	else
 		{
 		if (mExternalPtr != NULL)
-			thePtr = (const UInt8 *) mExternalPtr;
+			thePtr = (const uint8_t *) mExternalPtr;
 		else
 			{
 			theValue = GetImmutable();
@@ -319,9 +319,9 @@ const UInt8 *NData::GetData(NIndex theOffset) const
 //============================================================================
 //		NData::GetData : Get the data.
 //----------------------------------------------------------------------------
-UInt8 *NData::GetData(NIndex theOffset)
+uint8_t *NData::GetData(NIndex theOffset)
 {	NDataValue		*theValue;
-	UInt8			*thePtr;
+	uint8_t			*thePtr;
 
 
 
@@ -420,9 +420,9 @@ void NData::SetData(NIndex theSize, const void *thePtr, bool makeCopy)
 //============================================================================
 //		NData::InsertData : Insert data.
 //----------------------------------------------------------------------------
-UInt8 *NData::InsertData(NIndex beforeIndex, const NData &theData)
+uint8_t *NData::InsertData(NIndex beforeIndex, const NData &theData)
 {	NDataValueConstIterator		srcBegin, srcEnd;
-	UInt8						*resultPtr;
+	uint8_t						*resultPtr;
 	NDataValueIterator			dstInsert;
 	NDataValue					*dstValue;
 	const NDataValue			*srcValue;
@@ -472,8 +472,8 @@ UInt8 *NData::InsertData(NIndex beforeIndex, const NData &theData)
 //============================================================================
 //		NData::InsertData : Insert data.
 //----------------------------------------------------------------------------
-UInt8 *NData::InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr)
-{	UInt8					*resultPtr;
+uint8_t *NData::InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr)
+{	uint8_t					*resultPtr;
 	NDataValue				*dstValue;
 	NDataValueIterator		dstInsert;
 
@@ -556,7 +556,7 @@ void NData::RemoveData(const NRange &theRange)
 //============================================================================
 //		NData::AppendData : Append data.
 //----------------------------------------------------------------------------
-UInt8 *NData::AppendData(const NData &theData)
+uint8_t *NData::AppendData(const NData &theData)
 {
 
 
@@ -571,7 +571,7 @@ UInt8 *NData::AppendData(const NData &theData)
 //============================================================================
 //		NData::AppendData : Append data.
 //----------------------------------------------------------------------------
-UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
+uint8_t *NData::AppendData(NIndex theSize, const void *thePtr)
 {
 
 
@@ -586,7 +586,7 @@ UInt8 *NData::AppendData(NIndex theSize, const void *thePtr)
 //============================================================================
 //		NData::ReplaceData : Replace data.
 //----------------------------------------------------------------------------
-UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
+uint8_t *NData::ReplaceData(const NRange &theRange, const NData &theData)
 {
 
 
@@ -601,10 +601,10 @@ UInt8 *NData::ReplaceData(const NRange &theRange, const NData &theData)
 //============================================================================
 //		NData::ReplaceData : Replace data.
 //----------------------------------------------------------------------------
-UInt8 *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)
+uint8_t *NData::ReplaceData(const NRange &theRange, NIndex theSize, const void *thePtr)
 {	NRange			finalRange;
 	NIndex			sizeDelta;
-	UInt8			*dstPtr;
+	uint8_t			*dstPtr;
 
 
 

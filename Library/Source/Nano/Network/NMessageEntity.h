@@ -27,9 +27,9 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Handshake
-static const UInt32 kNMessageHandshakeMagic							= 0x4d655376;	// 'MeSv'
-static const UInt32 kNMessageHandshakeVersionInvalid				= kUInt32Max;
-static const UInt32 kNMessageHandshakeVersionCurrent				= 1;
+static const uint32_t kNMessageHandshakeMagic						= 0x4d655376;	// 'MeSv'
+static const uint32_t kNMessageHandshakeVersionInvalid				= kUInt32Max;
+static const uint32_t kNMessageHandshakeVersionCurrent				= 1;
 
 
 
@@ -40,8 +40,8 @@ static const UInt32 kNMessageHandshakeVersionCurrent				= 1;
 //----------------------------------------------------------------------------
 // Handshake
 typedef struct {
-	UInt32		theMagic;
-	UInt32		theVersion;
+	uint32_t		theMagic;
+	uint32_t		theVersion;
 } NMessageHandshake;
 
 

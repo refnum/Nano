@@ -92,8 +92,8 @@ public:
 	//
 	// The undo limit controls the maximum number of groups that will be saved
 	// to the undo/redo stacks. A limit of 0 removes the limit entirely.
-	UInt32								GetUndoLimit(void) const;
-	void								SetUndoLimit(UInt32 theLimit);
+	NIndex								GetUndoLimit(void) const;
+	void								SetUndoLimit(NIndex theLimit);
 
 
 	// Get the current undo/redo name
@@ -194,7 +194,7 @@ private:
 	bool								mIsRecording;
 	
 	bool								mGroupOpen;
-	UInt32								mUndoLimit;
+	NIndex								mUndoLimit;
 	NUndoGroup							mCurrentGroup;
 	
 	NUndoGroupList						mStackUndo;

@@ -98,7 +98,7 @@ TEST_NBROADCASTER("Multiple")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NBROADCASTER("Active")
-{	UInt32		theValue;
+{	uint32_t		theValue;
 
 
 
@@ -120,7 +120,7 @@ TEST_NBROADCASTER("Active")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NBROADCASTER("Inactive")
-{	UInt32		theValue;
+{	uint32_t		theValue;
 
 
 
@@ -143,7 +143,7 @@ TEST_NBROADCASTER("Inactive")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NBROADCASTER("Ignored")
-{	UInt32		theValue;
+{	uint32_t		theValue;
 
 
 
@@ -165,7 +165,7 @@ TEST_NBROADCASTER("Ignored")
 //----------------------------------------------------------------------------
 TEST_NBROADCASTER("Copy")
 {	NBroadcaster	theBroadcaster2;
-	UInt32			theValue;
+	uint32_t		theValue;
 
 
 

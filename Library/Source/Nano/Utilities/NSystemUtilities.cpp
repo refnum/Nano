@@ -62,11 +62,11 @@ bool NSystemUtilities::GetBoolean(const NVariant &theValue, const NString &debug
 
 
 //============================================================================
-//		NSystemUtilities::GetSInt32 : Get a SInt32 value.
+//		NSystemUtilities::GetInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NSystemUtilities::GetSInt32(const NVariant &theValue, const NString &debugID)
+int32_t NSystemUtilities::GetInt32(const NVariant &theValue, const NString &debugID)
 {	NNumber		theNumber;
-	SInt32		theResult;
+	int32_t		theResult;
 
 
 
@@ -79,10 +79,10 @@ SInt32 NSystemUtilities::GetSInt32(const NVariant &theValue, const NString &debu
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to SInt32 from %s", debugID, theValue.GetType().name());
+			NN_LOG("Unable to convert value [%@] to int32_t from %s", debugID, theValue.GetType().name());
 		}
 	
-	theResult = theNumber.GetSInt32();
+	theResult = theNumber.GetInt32();
 
 	return(theResult);
 }
@@ -92,11 +92,11 @@ SInt32 NSystemUtilities::GetSInt32(const NVariant &theValue, const NString &debu
 
 
 //============================================================================
-//		NSystemUtilities::GetSInt64 : Get a SInt64 value.
+//		NSystemUtilities::GetInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debugID)
+int64_t NSystemUtilities::GetInt64(const NVariant &theValue, const NString &debugID)
 {	NNumber		theNumber;
-	SInt64		theResult;
+	int64_t		theResult;
 
 
 
@@ -109,10 +109,10 @@ SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debu
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to SInt64 from %s", debugID, theValue.GetType().name());
+			NN_LOG("Unable to convert value [%@] to int64_t from %s", debugID, theValue.GetType().name());
 		}
 
-	theResult = theNumber.GetSInt64();
+	theResult = theNumber.GetInt64();
 
 	return(theResult);
 }
@@ -122,11 +122,11 @@ SInt64 NSystemUtilities::GetSInt64(const NVariant &theValue, const NString &debu
 
 
 //============================================================================
-//		NSystemUtilities::GetFloat32 : Get a Float32 value.
+//		NSystemUtilities::GetFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &debugID)
+float32_t NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &debugID)
 {	NNumber		theNumber;
-	Float32		theResult;
+	float32_t	theResult;
 
 
 
@@ -139,7 +139,7 @@ Float32 NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &de
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to Float32 from %s", debugID, theValue.GetType().name());
+			NN_LOG("Unable to convert value [%@] to float32_t from %s", debugID, theValue.GetType().name());
 		}
 
 	theResult = theNumber.GetFloat32();
@@ -152,11 +152,11 @@ Float32 NSystemUtilities::GetFloat32(const NVariant &theValue, const NString &de
 
 
 //============================================================================
-//		NSystemUtilities::GetFloat64 : Get a Float64 value.
+//		NSystemUtilities::GetFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &debugID)
+float64_t NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &debugID)
 {	NNumber		theNumber;
-	Float64		theResult;
+	float64_t	theResult;
 
 
 
@@ -169,7 +169,7 @@ Float64 NSystemUtilities::GetFloat64(const NVariant &theValue, const NString &de
 	if (!theNumber.SetValue(theValue))
 		{
 		if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
-			NN_LOG("Unable to convert value [%@] to Float64 from %s", debugID, theValue.GetType().name());
+			NN_LOG("Unable to convert value [%@] to float64_t from %s", debugID, theValue.GetType().name());
 		}
 
 	theResult = theNumber.GetFloat64();
@@ -311,7 +311,7 @@ NPoint NSystemUtilities::GetPoint(const NVariant &theValue, const NString &debug
 			NN_ASSERT(theResult64.x >= kFloat32Min && theResult64.x <= kFloat32Max);
 			NN_ASSERT(theResult64.y >= kFloat32Min && theResult64.y <= kFloat32Max);
 			
-			theResult = NPoint((Float32) theResult64.x, (Float32) theResult64.y);
+			theResult = NPoint((float32_t) theResult64.x, (float32_t) theResult64.y);
 			}
 
 		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
@@ -347,7 +347,7 @@ NSize NSystemUtilities::GetSize(const NVariant &theValue, const NString &debugID
 			NN_ASSERT(theResult64.width  >= kFloat32Min && theResult64.width  <= kFloat32Max);
 			NN_ASSERT(theResult64.height >= kFloat32Min && theResult64.height <= kFloat32Max);
 			
-			theResult = NSize((Float32) theResult64.width, (Float32) theResult64.height);
+			theResult = NSize((float32_t) theResult64.width, (float32_t) theResult64.height);
 			}
 
 		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
@@ -385,10 +385,10 @@ NRectangle NSystemUtilities::GetRectangle(const NVariant &theValue, const NStrin
 			NN_ASSERT(theResult64.size.width  >= kFloat32Min && theResult64.size.width  <= kFloat32Max);
 			NN_ASSERT(theResult64.size.height >= kFloat32Min && theResult64.size.height <= kFloat32Max);
 			
-			theResult = NRectangle(	(Float32) theResult64.origin.x,
-									(Float32) theResult64.origin.y,
-									(Float32) theResult64.size.width,
-									(Float32) theResult64.size.height);
+			theResult = NRectangle(	(float32_t) theResult64.origin.x,
+									(float32_t) theResult64.origin.y,
+									(float32_t) theResult64.size.width,
+									(float32_t) theResult64.size.height);
 			}
 
 		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
@@ -424,7 +424,7 @@ NVector NSystemUtilities::GetVector(const NVariant &theValue, const NString &deb
 			NN_ASSERT(theResult64.x >= kFloat32Min && theResult64.x <= kFloat32Max);
 			NN_ASSERT(theResult64.y >= kFloat32Min && theResult64.y <= kFloat32Max);
 			
-			theResult = NVector((Float32) theResult64.x, (Float32) theResult64.y);
+			theResult = NVector((float32_t) theResult64.x, (float32_t) theResult64.y);
 			}
 
 		else if (NN_DEBUG && theValue.IsValid() && !debugID.IsEmpty())
@@ -567,7 +567,7 @@ NString NSystemUtilities::GetProcessName(void)
 //============================================================================
 //		NSystemUtilities::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
-UInt64 NSystemUtilities::GetSystemCPU(void)
+uint64_t NSystemUtilities::GetSystemCPU(void)
 {
 
 
@@ -582,7 +582,7 @@ UInt64 NSystemUtilities::GetSystemCPU(void)
 //============================================================================
 //		NSystemUtilities::GetSystemRAM : Get the physical memory.
 //----------------------------------------------------------------------------
-UInt64 NSystemUtilities::GetSystemRAM(void)
+uint64_t NSystemUtilities::GetSystemRAM(void)
 {
 
 
@@ -766,7 +766,7 @@ NComparison NSystemUtilities::CompareVersions(const NString &version1, const NSt
 NStringList NSystemUtilities::GetVersionParts(const NString &theVersion)
 {	NIndex			lastType, partType;
 	NString			thePart, theChar;
-	UInt32			n, numChars;
+	NIndex			n, numChars;
 	NStringList		theList;
 
 

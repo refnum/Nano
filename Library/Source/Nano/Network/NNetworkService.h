@@ -73,12 +73,12 @@ public:
 
 
 	// Has a service been registered?
-	bool								HasService(const NString &serviceType, UInt16 thePort) const;
+	bool								HasService(const NString &serviceType, uint16_t thePort) const;
 
 
 	// Add/remove a service
-	NStatus								AddService(   const NString &serviceType, UInt16 thePort, const NString &theName="");
-	void								RemoveService(const NString &serviceType, UInt16 thePort);
+	NStatus								AddService(   const NString &serviceType, uint16_t thePort, const NString &theName="");
+	void								RemoveService(const NString &serviceType, uint16_t thePort);
 
 
 	// Remove all registered services
@@ -86,7 +86,7 @@ public:
 
 
 private:
-	NString								GetServiceID(const NString &serviceType, UInt16 thePort) const;
+	NString								GetServiceID(const NString &serviceType, uint16_t thePort) const;
 
 
 private:

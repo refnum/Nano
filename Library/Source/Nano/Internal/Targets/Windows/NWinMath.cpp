@@ -26,7 +26,7 @@
 //============================================================================
 //      NTargetMath::RotateLeft : Left-rotate.
 //----------------------------------------------------------------------------
-UInt32 NTargetMath::RotateLeft(UInt32 theValue, UInt32 rotateBy)
+uint32_t NTargetMath::RotateLeft(uint32_t theValue, uint32_t rotateBy)
 {
 
 
@@ -41,7 +41,7 @@ UInt32 NTargetMath::RotateLeft(UInt32 theValue, UInt32 rotateBy)
 //============================================================================
 //      NTargetMath::RotateRight : Right-rotate.
 //----------------------------------------------------------------------------
-UInt32 NTargetMath::RotateRight(UInt32 theValue, UInt32 rotateBy)
+uint32_t NTargetMath::RotateRight(uint32_t theValue, uint32_t rotateBy)
 {
 
 

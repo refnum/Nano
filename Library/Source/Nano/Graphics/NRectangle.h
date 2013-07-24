@@ -54,9 +54,9 @@ typedef enum {
 // Classes
 template<class T> class NRectangleT;
 
-typedef NRectangleT<Float64> NRectangle64;
-typedef NRectangleT<Float32> NRectangle32;
-typedef NRectangle32         NRectangle;
+typedef NRectangleT<float64_t> NRectangle64;
+typedef NRectangleT<float32_t> NRectangle32;
+typedef NRectangle32           NRectangle;
 
 
 // Lists

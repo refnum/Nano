@@ -303,7 +303,7 @@ NStatus NDataCipher::DES3_Decrypt(NData &theData)
 //----------------------------------------------------------------------------
 NStatus NDataCipher::Blowfish_Encrypt(NData &theData)
 {	NIndex					n, numWords;
-	UInt32					*dataPtr;
+	uint32_t				*dataPtr;
 	blowfish_context_t		bfState;
 
 
@@ -315,8 +315,8 @@ NStatus NDataCipher::Blowfish_Encrypt(NData &theData)
 
 
 	// Get the state we need
-	dataPtr  = (UInt32 *) theData.GetData();
-	numWords =            theData.GetSize() / sizeof(UInt32);
+	dataPtr  = (uint32_t *) theData.GetData();
+	numWords =              theData.GetSize() / sizeof(uint32_t);
 
 
 
@@ -340,7 +340,7 @@ NStatus NDataCipher::Blowfish_Encrypt(NData &theData)
 //----------------------------------------------------------------------------
 NStatus NDataCipher::Blowfish_Decrypt(NData &theData)
 {	NIndex					n, numWords;
-	UInt32					*dataPtr;
+	uint32_t				*dataPtr;
 	blowfish_context_t		bfState;
 
 
@@ -352,8 +352,8 @@ NStatus NDataCipher::Blowfish_Decrypt(NData &theData)
 
 
 	// Get the state we need
-	dataPtr  = (UInt32 *) theData.GetData();
-	numWords =            theData.GetSize() / sizeof(UInt32);
+	dataPtr  = (uint32_t *) theData.GetData();
+	numWords =              theData.GetSize() / sizeof(uint32_t);
 
 
 

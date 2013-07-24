@@ -215,7 +215,7 @@ void NRegistry::RemoveKey(const NString &theKey)
 //============================================================================
 //		NRegistry::GetSize : Get a value's size.
 //----------------------------------------------------------------------------
-UInt32 NRegistry::GetSize(const NString &theKey) const
+NIndex NRegistry::GetSize(const NString &theKey) const
 {	DWORD		theSize;
 	LSTATUS		theErr;
 
@@ -246,8 +246,8 @@ UInt32 NRegistry::GetSize(const NString &theKey) const
 NVariant NRegistry::GetValue(const NString &theKey) const
 {	DWORD			theType, theSize;
 	NString			valueString;
-	SInt32			valueInt32;
-	SInt64			valueInt64;
+	int32_t			valueInt32;
+	int64_t			valueInt64;
 	const char		*theHeader;
 	NEncoder		theEncoder;
 	NData			valueData;
@@ -289,8 +289,8 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 			break;
 		
 		case REG_DWORD:
-			NN_ASSERT(theData.GetSize() == sizeof(UInt32));
-			if (theData.GetSize() == sizeof(UInt32))
+			NN_ASSERT(theData.GetSize() == sizeof(uint32_t));
+			if (theData.GetSize() == sizeof(uint32_t))
 				{
 				memcpy(&valueInt32, theData.GetData(), theData.GetSize());
 				theValue = valueInt32;
@@ -298,8 +298,8 @@ NVariant NRegistry::GetValue(const NString &theKey) const
 			break;
 		
 		case REG_QWORD:
-			NN_ASSERT(theData.GetSize() == sizeof(UInt64));
-			if (theData.GetSize() == sizeof(UInt64))
+			NN_ASSERT(theData.GetSize() == sizeof(uint64_t));
+			if (theData.GetSize() == sizeof(uint64_t))
 				{
 				memcpy(&valueInt64, theData.GetData(), theData.GetSize());
 				theValue = valueInt64;
@@ -372,8 +372,8 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 {	NData		theData, valueData;
 	NString		valueString;
 	NNumber		valueNumber;
-	SInt32		valueInt32;
-	SInt64		valueInt64;
+	int32_t		valueInt32;
+	int64_t		valueInt64;
 	NEncoder	theEncoder;
 	bool		valueBool;
 	DWORD		theType;
@@ -410,14 +410,14 @@ void NRegistry::SetValue(const NString &theKey, const NVariant &theValue)
 			case kNPrecisionInt16:
 			case kNPrecisionInt32:
 				theType    = REG_DWORD;
-				valueInt32 = valueNumber.GetSInt32();
+				valueInt32 = valueNumber.GetInt32();
 
 				theData.AppendData(sizeof(valueInt32), &valueInt32);
 				break;
 
 			case kNPrecisionInt64:
 				theType    = REG_QWORD;
-				valueInt64 = valueNumber.GetSInt64();
+				valueInt64 = valueNumber.GetInt64();
 
 				theData.AppendData(sizeof(valueInt64), &valueInt64);
 				break;
@@ -503,14 +503,14 @@ bool NRegistry::GetValueBoolean(const NString &theKey) const
 
 
 //============================================================================
-//		NRegistry::GetValueSInt32 : Get a SInt32 value.
+//		NRegistry::GetValueInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NRegistry::GetValueSInt32(const NString &theKey) const
+int32_t NRegistry::GetValueInt32(const NString &theKey) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt32(GetValue(theKey), theKey));
+	return(NSystemUtilities::GetInt32(GetValue(theKey), theKey));
 }
 
 
@@ -518,14 +518,14 @@ SInt32 NRegistry::GetValueSInt32(const NString &theKey) const
 
 
 //============================================================================
-//		NRegistry::GetValueSInt64 : Get a SInt64 value.
+//		NRegistry::GetValueInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NRegistry::GetValueSInt64(const NString &theKey) const
+int64_t NRegistry::GetValueInt64(const NString &theKey) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt64(GetValue(theKey), theKey));
+	return(NSystemUtilities::GetInt64(GetValue(theKey), theKey));
 }
 
 
@@ -533,9 +533,9 @@ SInt64 NRegistry::GetValueSInt64(const NString &theKey) const
 
 
 //============================================================================
-//		NRegistry::GetValueFloat32 : Get a Float32 value.
+//		NRegistry::GetValueFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NRegistry::GetValueFloat32(const NString &theKey) const
+float32_t NRegistry::GetValueFloat32(const NString &theKey) const
 {
 
 
@@ -548,9 +548,9 @@ Float32 NRegistry::GetValueFloat32(const NString &theKey) const
 
 
 //============================================================================
-//		NRegistry::GetValueFloat64 : Get a Float64 value.
+//		NRegistry::GetValueFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NRegistry::GetValueFloat64(const NString &theKey) const
+float64_t NRegistry::GetValueFloat64(const NString &theKey) const
 {
 
 

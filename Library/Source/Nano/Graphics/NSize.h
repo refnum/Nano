@@ -31,9 +31,9 @@
 // Classes
 template <class T> class NSizeT;
 
-typedef NSizeT<Float64> NSize64;
-typedef NSizeT<Float32> NSize32;
-typedef NSize32         NSize;
+typedef NSizeT<float64_t> NSize64;
+typedef NSizeT<float32_t> NSize32;
+typedef NSize32           NSize;
 
 
 // Lists

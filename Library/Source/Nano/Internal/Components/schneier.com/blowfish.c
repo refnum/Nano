@@ -7,9 +7,9 @@
 	(((ctx->sbox[0][x >> 24] + ctx->sbox[1][(x >> 16) & 0xFF]) \
 	^ ctx->sbox[2][(x >> 8) & 0xFF]) + ctx->sbox[3][x & 0xFF])
 
-void blowfish_encryptblock(blowfish_context_t *ctx, UInt32 *hi, UInt32 *lo)
+void blowfish_encryptblock(blowfish_context_t *ctx, uint32_t *hi, uint32_t *lo)
 {
-	SInt32 i, temp;
+	int32_t i, temp;
 
 	for(i = 0; i < 16; i++) {
 		*hi ^= ctx->pbox[i];
@@ -22,9 +22,9 @@ void blowfish_encryptblock(blowfish_context_t *ctx, UInt32 *hi, UInt32 *lo)
 	*hi ^= ctx->pbox[17];
 }
 
-void blowfish_decryptblock(blowfish_context_t *ctx, UInt32 *hi, UInt32 *lo)
+void blowfish_decryptblock(blowfish_context_t *ctx, uint32_t *hi, uint32_t *lo)
 {
-	SInt32 i, temp;
+	int32_t i, temp;
 
 	for(i = 17; i > 1; i--) {
 		*hi ^= ctx->pbox[i];
@@ -37,13 +37,13 @@ void blowfish_decryptblock(blowfish_context_t *ctx, UInt32 *hi, UInt32 *lo)
 	*hi ^= ctx->pbox[0];
 }
 
-void blowfish_initiate(blowfish_context_t *ctx, void *keyparam, UInt32 keybytes)
+void blowfish_initiate(blowfish_context_t *ctx, void *keyparam, uint32_t keybytes)
 {
-	UInt8 *key = keyparam;
-	SInt32 i, j, k;
-	UInt32 calc;
+	uint8_t *key = keyparam;
+	int32_t i, j, k;
+	uint32_t calc;
 
-	UInt32 hi = 0, lo = 0;
+	uint32_t hi = 0, lo = 0;
 
 	keybytes %= 57;
 	

@@ -112,7 +112,7 @@ TEST_NDATE("Weeks")
 
 	for (m = 1; m <= 10; m++)
 		{
-		gregDate.day = (SInt8) m;
+		gregDate.day = (int8_t) m;
 		n            = NDate(gregDate).GetWeekOfYear();
 		REQUIRE(n == 1);
 		}

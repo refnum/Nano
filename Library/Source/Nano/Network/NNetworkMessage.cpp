@@ -35,7 +35,7 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 static const NCompression kCompressionType							= kNCompressionZLib;
-static const NIndex       kCompressionHeaderTrim					= sizeof(UInt32) + sizeof(UInt32);
+static const NIndex       kCompressionHeaderTrim					= sizeof(uint32_t) + sizeof(uint32_t);
 
 
 
@@ -45,7 +45,7 @@ static const NIndex       kCompressionHeaderTrim					= sizeof(UInt32) + sizeof(U
 //		Internal types
 //----------------------------------------------------------------------------
 NBYTESWAP_BEGIN_NO_DECLARE(NMessageHeader)
-	NBYTESWAP_B_SInt16		(msgType)
+	NBYTESWAP_B_Int16		(msgType)
 	NBYTESWAP_B_UInt8		(msgSrcID)
 	NBYTESWAP_B_UInt8		(msgDstID)
 	NBYTESWAP_B_UInt8		(msgAttributes)
@@ -229,7 +229,7 @@ NData NNetworkMessage::GetPayload(void) const
 
 	// Prepare the header
 	theHeader               = mHeader;
-	theHeader.msgAttributes = (UInt8) (theAttributes & kNMessageAttributeMask);
+	theHeader.msgAttributes = (uint8_t) (theAttributes & kNMessageAttributeMask);
 	theHeader.bodySize      = theBody.GetSize();
 
 
@@ -261,7 +261,7 @@ void NNetworkMessage::SetPayload(const NMessageHeader &theHeader, const NData &t
 	// Validate our parameters
 	NN_ASSERT(theHeader.msgSrcID != kNEntityEveryone);
 	NN_ASSERT(theHeader.msgDstID != kNEntityInvalid);
-	NN_ASSERT(theHeader.bodySize == (UInt32) theBody.GetSize());
+	NN_ASSERT(theHeader.bodySize == (uint32_t) theBody.GetSize());
 
 
 
@@ -381,7 +381,7 @@ NData NNetworkMessage::DecompressBody(const NData &theBody) const
 		memset(&compressedHeader, 0x00, sizeof(compressedHeader));
 
 		compressedHeader.compression = kCompressionType;
-		compressedHeader.origSize    = NSwapUInt32_BtoN( *((const UInt32 *) theBody.GetData()) );
+		compressedHeader.origSize    = NSwapUInt32_BtoN( *((const uint32_t *) theBody.GetData()) );
 
 
 

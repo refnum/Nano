@@ -306,9 +306,9 @@ NStatus NTargetFile::SetName(const NString &thePath, const NString &fileName, bo
 //============================================================================
 //      NTargetFile::GetSize : Get a file's size.
 //----------------------------------------------------------------------------
-UInt64 NTargetFile::GetSize(const NString &thePath)
+uint64_t NTargetFile::GetSize(const NString &thePath)
 {	WIN32_FILE_ATTRIBUTE_DATA		fileInfo;
-	UInt64							theSize;
+	uint64_t						theSize;
 	
 	
 	
@@ -328,7 +328,7 @@ UInt64 NTargetFile::GetSize(const NString &thePath)
 //============================================================================
 //      NTargetFile::SetSize : Set a file's size.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::SetSize(const NString &thePath, NFileRef theFile, UInt64 theSize)
+NStatus NTargetFile::SetSize(const NString &thePath, NFileRef theFile, uint64_t theSize)
 {	NStatus		theErr;
 
 
@@ -938,14 +938,14 @@ void NTargetFile::FileClose(NFileRef theFile)
 //============================================================================
 //      NTargetFile::FileGetPosition : Get the read/write position.
 //----------------------------------------------------------------------------
-UInt64 NTargetFile::FileGetPosition(NFileRef theFile)
-{	SInt64				theOffset;
+uint64_t NTargetFile::FileGetPosition(NFileRef theFile)
+{	int64_t				theOffset;
 	LARGE_INTEGER		thePos;
 
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(LARGE_INTEGER) <= sizeof(UInt64));
+	NN_ASSERT(sizeof(LARGE_INTEGER) <= sizeof(uint64_t));
 
 
 
@@ -965,13 +965,13 @@ UInt64 NTargetFile::FileGetPosition(NFileRef theFile)
 //============================================================================
 //      NTargetFile::FileSetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition)
+NStatus NTargetFile::FileSetPosition(NFileRef theFile, int64_t theOffset, NFilePosition thePosition)
 {	NStatus		theErr;
 
 
 
 	// Validate our state
-	NN_ASSERT(sizeof(LARGE_INTEGER) <= sizeof(UInt64));
+	NN_ASSERT(sizeof(LARGE_INTEGER) <= sizeof(uint64_t));
 
 
 
@@ -991,7 +991,7 @@ NStatus NTargetFile::FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePo
 //============================================================================
 //      NTargetFile::FileRead : Read from a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::FileRead(NFileRef theFile, UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
+NStatus NTargetFile::FileRead(NFileRef theFile, uint64_t theSize, void *thePtr, uint64_t &numRead, int64_t theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	DWORD		bytesRead;
 	NStatus		theErr;
 
@@ -1037,7 +1037,7 @@ NStatus NTargetFile::FileRead(NFileRef theFile, UInt64 theSize, void *thePtr, UI
 //============================================================================
 //      NTargetFile::FileWrite : Write to a file.
 //----------------------------------------------------------------------------
-NStatus NTargetFile::FileWrite(NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
+NStatus NTargetFile::FileWrite(NFileRef theFile, uint64_t theSize, const void *thePtr, uint64_t &numWritten, int64_t theOffset, NFilePosition thePosition, NFileFlags /*theFlags*/)
 {	DWORD		bytesWritten;
 	NStatus		theErr;
 
@@ -1151,11 +1151,11 @@ void NTargetFile::MapClose(NFileRef theFile)
 //============================================================================
 //      NTargetFile::MapFetch : Fetch a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOffset, UInt32 theSize, bool /*noCache*/)
+void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, uint64_t_t theOffset, uint32_t theSize, bool /*noCache*/)
 {	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
 	StLock			acquireLock(theInfo->theLock);
 
-	SInt64			pageSize, mapOffset, mapDelta;
+	int64_t			pageSize, mapOffset, mapDelta;
 	DWORD			offsetHigh, offsetLow;
 	void			*pagePtr, *thePtr;
 	SYSTEM_INFO		sysInfo;
@@ -1174,7 +1174,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 
 	mapOffset = theOffset - (theOffset % pageSize);
 	mapDelta  = theOffset - mapOffset;
-	theSize   = (UInt32) (theSize + mapDelta);
+	theSize   = (uint32_t) (theSize + mapDelta);
 
 	ToWN(mapOffset, offsetHigh, offsetLow);
 
@@ -1186,7 +1186,7 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 	
 	if (pagePtr != NULL)
 		{
-		thePtr = (void *) (((UInt8 *) pagePtr) + mapDelta);
+		thePtr = (void *) (((uint8_t *) pagePtr) + mapDelta);
 		
 		NN_ASSERT(theInfo->pageTable.find(thePtr) == theInfo->pageTable.end());
 		theInfo->pageTable[thePtr] = pagePtr;
@@ -1202,12 +1202,12 @@ void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, UInt64 theOf
 //============================================================================
 //      NTargetFile::MapDiscard : Discard a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void *thePtr, UInt32 theSize)
+void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void *thePtr, uint32_t theSize)
 {	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
 	StLock			acquireLock(theInfo->theLock);
 
 	void					*pagePtr;
-	SInt64					mapDelta;
+	int64_t					mapDelta;
 	PagePtrMapIterator		theIter;
 	BOOL					wasOK;
 
@@ -1218,10 +1218,10 @@ void NTargetFile::MapDiscard(NFileRef theFile, NMapAccess theAccess, const void 
 	NN_ASSERT(theIter != theInfo->pageTable.end());
 
 	pagePtr  = theIter->second;
-	mapDelta = (((UInt8 *) thePtr) - ((UInt8 *) pagePtr));
+	mapDelta = (((uint8_t *) thePtr) - ((uint8_t *) pagePtr));
 	
 	NN_ASSERT(mapDelta >= 0);
-	theSize = (UInt32) (theSize + mapDelta);
+	theSize = (uint32_t) (theSize + mapDelta);
 
 
 

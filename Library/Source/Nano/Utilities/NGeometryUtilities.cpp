@@ -389,7 +389,7 @@ template<class T> NGeometryComparison NGeometryUtilities::CompareRectangleToPoly
 //-----------------------------------------------------------------------------
 template<class T> NGeometryComparison NGeometryUtilities::ComparePointToPolygon(const NPointT<T> &thePoint, NIndex numPoints, const NPointT<T> *thePoints)
 {	bool			p1Above, p2Above;
-	SInt32			crossNum;
+	int32_t			crossNum;
 	NPointT<T>		p1, p2;
  	T				c, w;
     NIndex			n;

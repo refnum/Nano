@@ -26,8 +26,8 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Misc
-static const UInt32 kBufferSize										= 9;
-static const UInt8  kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
+static const NIndex  kBufferSize									= 9;
+static const uint8_t kBufferData[kBufferSize]						= { 'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a' };
 
 
 

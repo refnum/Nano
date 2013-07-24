@@ -21,15 +21,15 @@
 
 
 //============================================================================
-//		NByteSwap::SwapInt16 : Swap a 16-bit value.
+//		NByteSwap::Swap16 : Swap a 16-bit value.
 //----------------------------------------------------------------------------
-void NByteSwap::SwapInt16(UInt16 *theValue)
+void NByteSwap::Swap16(uint16_t *theValue)
 {
 
 
 	// Swap the value
-	*theValue =	(UInt16) ((*theValue & 0xFF00) >> 8) |
-				(UInt16) ((*theValue & 0x00FF) << 8);
+	*theValue =	(uint16_t) ((*theValue & 0xFF00) >> 8) |
+				(uint16_t) ((*theValue & 0x00FF) << 8);
 }
 
 
@@ -37,17 +37,17 @@ void NByteSwap::SwapInt16(UInt16 *theValue)
 
 
 //============================================================================
-//		NByteSwap::SwapInt32 : Swap a 32-bit value.
+//		NByteSwap::Swap32 : Swap a 32-bit value.
 //----------------------------------------------------------------------------
-void NByteSwap::SwapInt32(UInt32 *theValue)
+void NByteSwap::Swap32(uint32_t *theValue)
 {
 
 
 	// Swap the value
-	*theValue =	(UInt32) ((*theValue & 0xFF000000) >> 24) |
-				(UInt32) ((*theValue & 0x00FF0000) >>  8) |
-				(UInt32) ((*theValue & 0x0000FF00) <<  8) |
-				(UInt32) ((*theValue & 0x000000FF) << 24);
+	*theValue =	(uint32_t) ((*theValue & 0xFF000000) >> 24) |
+				(uint32_t) ((*theValue & 0x00FF0000) >>  8) |
+				(uint32_t) ((*theValue & 0x0000FF00) <<  8) |
+				(uint32_t) ((*theValue & 0x000000FF) << 24);
 }
 
 
@@ -55,21 +55,21 @@ void NByteSwap::SwapInt32(UInt32 *theValue)
 
 
 //============================================================================
-//		NByteSwap::SwapInt64 : Swap a 64-bit value.
+//		NByteSwap::Swap64 : Swap a 64-bit value.
 //----------------------------------------------------------------------------
-void NByteSwap::SwapInt64(UInt64 *theValue)
+void NByteSwap::Swap64(uint64_t *theValue)
 {
 
 
 	// Swap the value
-	*theValue =	(UInt64) ((*theValue & 0xFF00000000000000ULL) >> 56) |
-				(UInt64) ((*theValue & 0x00FF000000000000ULL) >> 40) |
-				(UInt64) ((*theValue & 0x0000FF0000000000ULL) >> 24) |
-				(UInt64) ((*theValue & 0x000000FF00000000ULL) >>  8) |
-				(UInt64) ((*theValue & 0x00000000FF000000ULL) <<  8) |
-				(UInt64) ((*theValue & 0x0000000000FF0000ULL) << 24) |
-				(UInt64) ((*theValue & 0x000000000000FF00ULL) << 40) |
-				(UInt64) ((*theValue & 0x00000000000000FFULL) << 56);
+	*theValue =	(uint64_t) ((*theValue & 0xFF00000000000000ULL) >> 56) |
+				(uint64_t) ((*theValue & 0x00FF000000000000ULL) >> 40) |
+				(uint64_t) ((*theValue & 0x0000FF0000000000ULL) >> 24) |
+				(uint64_t) ((*theValue & 0x000000FF00000000ULL) >>  8) |
+				(uint64_t) ((*theValue & 0x00000000FF000000ULL) <<  8) |
+				(uint64_t) ((*theValue & 0x0000000000FF0000ULL) << 24) |
+				(uint64_t) ((*theValue & 0x000000000000FF00ULL) << 40) |
+				(uint64_t) ((*theValue & 0x00000000000000FFULL) << 56);
 }
 
 
@@ -91,17 +91,17 @@ void NByteSwap::SwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)
 
 		case 2:
 			for (n = 0; n < numValues; n++)
-				NByteSwap::SwapInt16(((UInt16 *) valuePtr) + n);
+				NByteSwap::Swap16(((uint16_t *) valuePtr) + n);
 			break;
 
 		case 4:
 			for (n = 0; n < numValues; n++)
-				NByteSwap::SwapInt32(((UInt32 *) valuePtr) + n);
+				NByteSwap::Swap32(((uint32_t *) valuePtr) + n);
 			break;
 
 		case 8:
 			for (n = 0; n < numValues; n++)
-				NByteSwap::SwapInt64(((UInt64 *) valuePtr) + n);
+				NByteSwap::Swap64(((uint64_t *) valuePtr) + n);
 			break;
 		
 		default:

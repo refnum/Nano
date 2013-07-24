@@ -73,7 +73,7 @@ template <class T> T NMacTarget::GetSysctl(int nameMajor, int nameMinor)
 
 	theSize = sizeof(theResult);
 	sysErr  = sysctl(mibNames, 2, &theResult, &theSize, NULL, 0);
-	NN_ASSERT_NOERR(sysErr);
+	NN_ASSERT(sysErr == 0);
 
 	return(theResult);
 }

@@ -27,8 +27,8 @@
 //		Constants
 //----------------------------------------------------------------------------
 // Server
-static const UInt16 kServerPortMin									= 6000;
-static const UInt16 kServerPortMax									= 6999;
+static const uint16_t kServerPortMin								= 6000;
+static const uint16_t kServerPortMax								= 6999;
 
 static const NMessageType kTestClientBroadcastMsg					= 1;
 static const NMessageType kTestClientServerMsg						= 2;
@@ -40,7 +40,7 @@ static const NString kTestTokenKey									= "TestToken";
 
 static const NString kTokenClientBroadcast							= "Incoming Joke!";
 static const NString kTokenClientServer								= "Why did the chicken cross the road?";
-static const NString kTokenServerClient								= "To get to the other side.";
+static const NString kTokenServerClient								= "To get to the other side!";
 
 
 // State
@@ -447,7 +447,7 @@ FIXTURE_NANO(TMessageServer)
 TEST_NMESSAGESERVER("State")
 {	TTestClient		testClient1, testClient2;
 	TTestServer		testServer;
-	UInt16			thePort;
+	uint16_t		thePort;
 
 
 

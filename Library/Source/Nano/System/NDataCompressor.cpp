@@ -56,13 +56,13 @@ NData NDataCompressor::Compress(const NData &srcData, NCompression compressWith)
 
 
 	// Validate our parameters
-	NN_ASSERT(((UInt32) srcData.GetSize()) <= kUInt32Max);
+	NN_ASSERT(((uint32_t) srcData.GetSize()) <= kUInt32Max);
 
 
 
 	// Prepare the header
 	theHeader.compression = NSwapUInt32_NtoB(compressWith);
-	theHeader.reserved    = NSwapUInt32_NtoB((UInt32) 0);
+	theHeader.reserved    = NSwapUInt32_NtoB((uint32_t) 0);
 	theHeader.origSize    = NSwapUInt32_NtoB(srcData.GetSize());
 
 	dstData.AppendData(sizeof(theHeader), &theHeader);
@@ -197,7 +197,7 @@ NIndex NDataCompressor::GetRequiredSize(NIndex theSize, NCompression compressWit
 
 
 	// Validate our parameters
-	NN_ASSERT(((UInt32) theSize) <= kUInt32Max);
+	NN_ASSERT(((uint32_t) theSize) <= kUInt32Max);
 
 
 

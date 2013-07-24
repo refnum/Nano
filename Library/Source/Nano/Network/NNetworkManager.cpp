@@ -117,7 +117,7 @@ NNetworkManager *NNetworkManager::Get(void)
 //----------------------------------------------------------------------------
 NString NNetworkManager::GetDefaultUserAgent(void)
 {	NString		appName, appVers, osName, sysArch;
-	UInt64		numCPUs, sysCPU, sysRAM;
+	uint64_t		numCPUs, sysCPU, sysRAM;
 	NBundle		appBundle;
 	NString		theResult;
 

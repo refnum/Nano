@@ -42,9 +42,9 @@ static const NEndianFormat kNEndianNative = (NN_TARGET_ENDIAN_BIG ? kNEndianBig 
 class NByteSwap {
 public:
 	// Swap primitives
-	static void							SwapInt16(UInt16 *theValue);
-	static void							SwapInt32(UInt32 *theValue);
-	static void							SwapInt64(UInt64 *theValue);
+	static void							Swap16(uint16_t *theValue);
+	static void							Swap32(uint32_t *theValue);
+	static void							Swap64(uint64_t *theValue);
 	static void							SwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr);
 };
 
@@ -58,16 +58,16 @@ public:
 //		Swap and return
 //----------------------------------------------------------------------------
 // Always swap
-inline UInt16 NSwapUInt16(UInt16 theValue)												{ NByteSwap::SwapInt16(&theValue);						return(theValue); }
-inline UInt32 NSwapUInt32(UInt32 theValue)												{ NByteSwap::SwapInt32(&theValue);						return(theValue); }
-inline UInt64 NSwapUInt64(UInt64 theValue)												{ NByteSwap::SwapInt64(&theValue);						return(theValue); }
+inline uint16_t NSwapUInt16(uint16_t theValue)											{ NByteSwap::Swap16(&theValue);							return(theValue); }
+inline uint32_t NSwapUInt32(uint32_t theValue)											{ NByteSwap::Swap32(&theValue);							return(theValue); }
+inline uint64_t NSwapUInt64(uint64_t theValue)											{ NByteSwap::Swap64(&theValue);							return(theValue); }
 
-inline SInt16 NSwapSInt16(SInt16 theValue)												{ NByteSwap::SwapInt16((UInt16 *) &theValue);			return(theValue); }
-inline SInt32 NSwapSInt32(SInt32 theValue)												{ NByteSwap::SwapInt32((UInt32 *) &theValue);			return(theValue); }
-inline SInt64 NSwapSInt64(SInt64 theValue)												{ NByteSwap::SwapInt64((UInt64 *) &theValue);			return(theValue); }
+inline int16_t NSwapInt16(int16_t theValue)												{ NByteSwap::Swap16((uint16_t *) &theValue);			return(theValue); }
+inline int32_t NSwapInt32(int32_t theValue)												{ NByteSwap::Swap32((uint32_t *) &theValue);			return(theValue); }
+inline int64_t NSwapInt64(int64_t theValue)												{ NByteSwap::Swap64((uint64_t *) &theValue);			return(theValue); }
 
-inline Float32 NSwapFloat32(Float32 theValue)											{ NByteSwap::SwapInt32((UInt32 *) &theValue);			return(theValue); }
-inline Float64 NSwapFloat64(Float64 theValue)											{ NByteSwap::SwapInt64((UInt64 *) &theValue);			return(theValue); }
+inline float32_t NSwapFloat32(float32_t theValue)										{ NByteSwap::Swap32((uint32_t *) &theValue);			return(theValue); }
+inline float64_t NSwapFloat64(float64_t theValue)										{ NByteSwap::Swap64((uint64_t *) &theValue);			return(theValue); }
 
 inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{ NByteSwap::SwapBlock(numValues, valueSize, valuePtr);	return(valuePtr); }
 
@@ -75,29 +75,29 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 // Native to big
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_NtoB(UInt16 theValue)										{ return(theValue); }
-	inline UInt32 NSwapUInt32_NtoB(UInt32 theValue)										{ return(theValue); }
-	inline UInt64 NSwapUInt64_NtoB(UInt64 theValue)										{ return(theValue); }
+	inline uint16_t NSwapUInt16_NtoB(uint16_t theValue)									{ return(theValue); }
+	inline uint32_t NSwapUInt32_NtoB(uint32_t theValue)									{ return(theValue); }
+	inline uint64_t NSwapUInt64_NtoB(uint64_t theValue)									{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_NtoB(SInt16 theValue)										{ return(theValue); }
-	inline SInt32 NSwapSInt32_NtoB(SInt32 theValue)										{ return(theValue); }
-	inline SInt64 NSwapSInt64_NtoB(SInt64 theValue)										{ return(theValue); }
+	inline int16_t NSwapInt16_NtoB(int16_t theValue)									{ return(theValue); }
+	inline int32_t NSwapInt32_NtoB(int32_t theValue)									{ return(theValue); }
+	inline int64_t NSwapInt64_NtoB(int64_t theValue)									{ return(theValue); }
 
-	inline Float32 NSwapFloat32_NtoB(Float32 theValue)									{ return(theValue); }
-	inline Float64 NSwapFloat64_NtoB(Float64 theValue)									{ return(theValue); }
+	inline float32_t NSwapFloat32_NtoB(float32_t theValue)								{ return(theValue); }
+	inline float64_t NSwapFloat64_NtoB(float64_t theValue)								{ return(theValue); }
 	
 	inline void *NSwapBlock_NtoB(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #else
-	inline UInt16 NSwapUInt16_NtoB(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_NtoB(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_NtoB(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
+	inline uint16_t NSwapUInt16_NtoB(uint16_t theValue)									{ return(NSwapUInt16(theValue)); }
+	inline uint32_t NSwapUInt32_NtoB(uint32_t theValue)									{ return(NSwapUInt32(theValue)); }
+	inline uint64_t NSwapUInt64_NtoB(uint64_t theValue)									{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_NtoB(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_NtoB(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_NtoB(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
+	inline int16_t NSwapInt16_NtoB(int16_t theValue)									{ return(NSwapInt16(theValue)); }
+	inline int32_t NSwapInt32_NtoB(int32_t theValue)									{ return(NSwapInt32(theValue)); }
+	inline int64_t NSwapInt64_NtoB(int64_t theValue)									{ return(NSwapInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_NtoB(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_NtoB(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	inline float32_t NSwapFloat32_NtoB(float32_t theValue)								{ return(NSwapFloat32(theValue)); }
+	inline float64_t NSwapFloat64_NtoB(float64_t theValue)								{ return(NSwapFloat64(theValue)); }
 	
 	inline void *NSwapBlock_NtoB(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #endif
@@ -106,29 +106,29 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 // Native to little
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_NtoL(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_NtoL(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_NtoL(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
+	inline uint16_t NSwapUInt16_NtoL(uint16_t theValue)									{ return(NSwapUInt16(theValue)); }
+	inline uint32_t NSwapUInt32_NtoL(uint32_t theValue)									{ return(NSwapUInt32(theValue)); }
+	inline uint64_t NSwapUInt64_NtoL(uint64_t theValue)									{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_NtoL(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_NtoL(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_NtoL(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
+	inline int16_t NSwapInt16_NtoL(int16_t theValue)									{ return(NSwapInt16(theValue)); }
+	inline int32_t NSwapInt32_NtoL(int32_t theValue)									{ return(NSwapInt32(theValue)); }
+	inline int64_t NSwapInt64_NtoL(int64_t theValue)									{ return(NSwapInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_NtoL(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_NtoL(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	inline float32_t NSwapFloat32_NtoL(float32_t theValue)								{ return(NSwapFloat32(theValue)); }
+	inline float64_t NSwapFloat64_NtoL(float64_t theValue)								{ return(NSwapFloat64(theValue)); }
 	
 	inline void *NSwapBlock_NtoL(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #else
-	inline UInt16 NSwapUInt16_NtoL(UInt16 theValue)										{ return(theValue); }
-	inline UInt32 NSwapUInt32_NtoL(UInt32 theValue)										{ return(theValue); }
-	inline UInt64 NSwapUInt64_NtoL(UInt64 theValue)										{ return(theValue); }
+	inline uint16_t NSwapUInt16_NtoL(uint16_t theValue)									{ return(theValue); }
+	inline uint32_t NSwapUInt32_NtoL(uint32_t theValue)									{ return(theValue); }
+	inline uint64_t NSwapUInt64_NtoL(uint64_t theValue)									{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_NtoL(SInt16 theValue)										{ return(theValue); }
-	inline SInt32 NSwapSInt32_NtoL(SInt32 theValue)										{ return(theValue); }
-	inline SInt64 NSwapSInt64_NtoL(SInt64 theValue)										{ return(theValue); }
+	inline int16_t NSwapInt16_NtoL(int16_t theValue)									{ return(theValue); }
+	inline int32_t NSwapInt32_NtoL(int32_t theValue)									{ return(theValue); }
+	inline int64_t NSwapInt64_NtoL(int64_t theValue)									{ return(theValue); }
 
-	inline Float32 NSwapFloat32_NtoL(Float32 theValue)									{ return(theValue); }
-	inline Float64 NSwapFloat64_NtoL(Float64 theValue)									{ return(theValue); }
+	inline float32_t NSwapFloat32_NtoL(float32_t theValue)								{ return(theValue); }
+	inline float64_t NSwapFloat64_NtoL(float64_t theValue)								{ return(theValue); }
 	
 	inline void *NSwapBlock_NtoL(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #endif
@@ -137,29 +137,29 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 // Big to native
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_BtoN(UInt16 theValue)										{ return(theValue); }
-	inline UInt32 NSwapUInt32_BtoN(UInt32 theValue)										{ return(theValue); }
-	inline UInt64 NSwapUInt64_BtoN(UInt64 theValue)										{ return(theValue); }
+	inline uint16_t NSwapUInt16_BtoN(uint16_t theValue)									{ return(theValue); }
+	inline uint32_t NSwapUInt32_BtoN(uint32_t theValue)									{ return(theValue); }
+	inline uint64_t NSwapUInt64_BtoN(uint64_t theValue)									{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_BtoN(SInt16 theValue)										{ return(theValue); }
-	inline SInt32 NSwapSInt32_BtoN(SInt32 theValue)										{ return(theValue); }
-	inline SInt64 NSwapSInt64_BtoN(SInt64 theValue)										{ return(theValue); }
+	inline int16_t NSwapInt16_BtoN(int16_t theValue)									{ return(theValue); }
+	inline int32_t NSwapInt32_BtoN(int32_t theValue)									{ return(theValue); }
+	inline int64_t NSwapInt64_BtoN(int64_t theValue)									{ return(theValue); }
 
-	inline Float32 NSwapFloat32_BtoN(Float32 theValue)									{ return(theValue); }
-	inline Float64 NSwapFloat64_BtoN(Float64 theValue)									{ return(theValue); }
+	inline float32_t NSwapFloat32_BtoN(float32_t theValue)								{ return(theValue); }
+	inline float64_t NSwapFloat64_BtoN(float64_t theValue)								{ return(theValue); }
 	
 	inline void *NSwapBlock_BtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #else
-	inline UInt16 NSwapUInt16_BtoN(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_BtoN(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_BtoN(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
+	inline uint16_t NSwapUInt16_BtoN(uint16_t theValue)									{ return(NSwapUInt16(theValue)); }
+	inline uint32_t NSwapUInt32_BtoN(uint32_t theValue)									{ return(NSwapUInt32(theValue)); }
+	inline uint64_t NSwapUInt64_BtoN(uint64_t theValue)									{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_BtoN(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_BtoN(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_BtoN(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
+	inline int16_t NSwapInt16_BtoN(int16_t theValue)									{ return(NSwapInt16(theValue)); }
+	inline int32_t NSwapInt32_BtoN(int32_t theValue)									{ return(NSwapInt32(theValue)); }
+	inline int64_t NSwapInt64_BtoN(int64_t theValue)									{ return(NSwapInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_BtoN(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_BtoN(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	inline float32_t NSwapFloat32_BtoN(float32_t theValue)								{ return(NSwapFloat32(theValue)); }
+	inline float64_t NSwapFloat64_BtoN(float64_t theValue)								{ return(NSwapFloat64(theValue)); }
 	
 	inline void *NSwapBlock_BtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #endif
@@ -168,29 +168,29 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 // Little to native
 #if NN_TARGET_ENDIAN_BIG
-	inline UInt16 NSwapUInt16_LtoN(UInt16 theValue)										{ return(NSwapUInt16(theValue)); }
-	inline UInt32 NSwapUInt32_LtoN(UInt32 theValue)										{ return(NSwapUInt32(theValue)); }
-	inline UInt64 NSwapUInt64_LtoN(UInt64 theValue)										{ return(NSwapUInt64(theValue)); }
+	inline uint16_t NSwapUInt16_LtoN(uint16_t theValue)									{ return(NSwapUInt16(theValue)); }
+	inline uint32_t NSwapUInt32_LtoN(uint32_t theValue)									{ return(NSwapUInt32(theValue)); }
+	inline uint64_t NSwapUInt64_LtoN(uint64_t theValue)									{ return(NSwapUInt64(theValue)); }
 
-	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)										{ return(NSwapSInt16(theValue)); }
-	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)										{ return(NSwapSInt32(theValue)); }
-	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)										{ return(NSwapSInt64(theValue)); }
+	inline int16_t NSwapInt16_LtoN(int16_t theValue)									{ return(NSwapInt16(theValue)); }
+	inline int32_t NSwapInt32_LtoN(int32_t theValue)									{ return(NSwapInt32(theValue)); }
+	inline int64_t NSwapInt64_LtoN(int64_t theValue)									{ return(NSwapInt64(theValue)); }
 
-	inline Float32 NSwapFloat32_LtoN(Float32 theValue)									{ return(NSwapFloat32(theValue)); }
-	inline Float64 NSwapFloat64_LtoN(Float64 theValue)									{ return(NSwapFloat64(theValue)); }
+	inline float32_t NSwapFloat32_LtoN(float32_t theValue)								{ return(NSwapFloat32(theValue)); }
+	inline float64_t NSwapFloat64_LtoN(float64_t theValue)								{ return(NSwapFloat64(theValue)); }
 	
 	inline void *NSwapBlock_LtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ return(NSwapBlock(numValues, valueSize, valuePtr)); }
 #else
-	inline UInt16 NSwapUInt16_LtoN(UInt16 theValue)										{ return(theValue); }
-	inline UInt32 NSwapUInt32_LtoN(UInt32 theValue)										{ return(theValue); }
-	inline UInt64 NSwapUInt64_LtoN(UInt64 theValue)										{ return(theValue); }
+	inline uint16_t NSwapUInt16_LtoN(uint16_t theValue)									{ return(theValue); }
+	inline uint32_t NSwapUInt32_LtoN(uint32_t theValue)									{ return(theValue); }
+	inline uint64_t NSwapUInt64_LtoN(uint64_t theValue)									{ return(theValue); }
 
-	inline SInt16 NSwapSInt16_LtoN(SInt16 theValue)										{ return(theValue); }
-	inline SInt32 NSwapSInt32_LtoN(SInt32 theValue)										{ return(theValue); }
-	inline SInt64 NSwapSInt64_LtoN(SInt64 theValue)										{ return(theValue); }
+	inline int16_t NSwapInt16_LtoN(int16_t theValue)									{ return(theValue); }
+	inline int32_t NSwapInt32_LtoN(int32_t theValue)									{ return(theValue); }
+	inline int64_t NSwapInt64_LtoN(int64_t theValue)									{ return(theValue); }
 
-	inline Float32 NSwapFloat32_LtoN(Float32 theValue)									{ return(theValue); }
-	inline Float64 NSwapFloat64_LtoN(Float64 theValue)									{ return(theValue); }
+	inline float32_t NSwapFloat32_LtoN(float32_t theValue)								{ return(theValue); }
+	inline float64_t NSwapFloat64_LtoN(float64_t theValue)								{ return(theValue); }
 	
 	inline void *NSwapBlock_LtoN(NIndex numValues, NIndex valueSize, void *valuePtr)	{ NN_UNUSED(numValues); NN_UNUSED(valueSize); return(valuePtr); }
 #endif
@@ -205,72 +205,72 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 //		Swap in place
 //----------------------------------------------------------------------------
 // Always swap
-inline void NSwapUInt16(UInt16 *theValue)							{ *theValue = NSwapUInt16(*theValue); }
-inline void NSwapUInt32(UInt32 *theValue)							{ *theValue = NSwapUInt32(*theValue); }
-inline void NSwapUInt64(UInt64 *theValue)							{ *theValue = NSwapUInt64(*theValue); }
+inline void NSwapUInt16(uint16_t *theValue)							{ *theValue = NSwapUInt16(*theValue); }
+inline void NSwapUInt32(uint32_t *theValue)							{ *theValue = NSwapUInt32(*theValue); }
+inline void NSwapUInt64(uint64_t *theValue)							{ *theValue = NSwapUInt64(*theValue); }
 
-inline void NSwapSInt16(SInt16 *theValue)							{ *theValue = NSwapSInt16(*theValue); }
-inline void NSwapSInt32(SInt32 *theValue)							{ *theValue = NSwapSInt32(*theValue); }
-inline void NSwapSInt64(SInt64 *theValue)							{ *theValue = NSwapSInt64(*theValue); }
+inline void NSwapInt16(int16_t *theValue)							{ *theValue = NSwapInt16(*theValue); }
+inline void NSwapInt32(int32_t *theValue)							{ *theValue = NSwapInt32(*theValue); }
+inline void NSwapInt64(int64_t *theValue)							{ *theValue = NSwapInt64(*theValue); }
 
-inline void NSwapFloat32(Float32 *theValue)							{ *theValue = NSwapFloat32(*theValue); }
-inline void NSwapFloat64(Float64 *theValue)							{ *theValue = NSwapFloat64(*theValue); }
+inline void NSwapFloat32(float32_t *theValue)						{ *theValue = NSwapFloat32(*theValue); }
+inline void NSwapFloat64(float64_t *theValue)						{ *theValue = NSwapFloat64(*theValue); }
 
 
 
 // Native to big
-inline void NSwapUInt16_NtoB(UInt16 *theValue)						{ *theValue = NSwapUInt16_NtoB(*theValue); }
-inline void NSwapUInt32_NtoB(UInt32 *theValue)						{ *theValue = NSwapUInt32_NtoB(*theValue); }
-inline void NSwapUInt64_NtoB(UInt64 *theValue)						{ *theValue = NSwapUInt64_NtoB(*theValue); }
+inline void NSwapUInt16_NtoB(uint16_t *theValue)					{ *theValue = NSwapUInt16_NtoB(*theValue); }
+inline void NSwapUInt32_NtoB(uint32_t *theValue)					{ *theValue = NSwapUInt32_NtoB(*theValue); }
+inline void NSwapUInt64_NtoB(uint64_t *theValue)					{ *theValue = NSwapUInt64_NtoB(*theValue); }
 
-inline void NSwapSInt16_NtoB(SInt16 *theValue)						{ *theValue = NSwapSInt16_NtoB(*theValue); }
-inline void NSwapSInt32_NtoB(SInt32 *theValue)						{ *theValue = NSwapSInt32_NtoB(*theValue); }
-inline void NSwapSInt64_NtoB(SInt64 *theValue)						{ *theValue = NSwapSInt64_NtoB(*theValue); }
+inline void NSwapInt16_NtoB(int16_t *theValue)						{ *theValue = NSwapInt16_NtoB(*theValue); }
+inline void NSwapInt32_NtoB(int32_t *theValue)						{ *theValue = NSwapInt32_NtoB(*theValue); }
+inline void NSwapInt64_NtoB(int64_t *theValue)						{ *theValue = NSwapInt64_NtoB(*theValue); }
 
-inline void NSwapFloat32_NtoB(Float32 *theValue)					{ *theValue = NSwapFloat32_NtoB(*theValue); }
-inline void NSwapFloat64_NtoB(Float64 *theValue)					{ *theValue = NSwapFloat64_NtoB(*theValue); }
+inline void NSwapFloat32_NtoB(float32_t *theValue)					{ *theValue = NSwapFloat32_NtoB(*theValue); }
+inline void NSwapFloat64_NtoB(float64_t *theValue)					{ *theValue = NSwapFloat64_NtoB(*theValue); }
 
 
 
 // Native to little
-inline void NSwapUInt16_NtoL(UInt16 *theValue)						{ *theValue = NSwapUInt16_NtoL(*theValue); }
-inline void NSwapUInt32_NtoL(UInt32 *theValue)						{ *theValue = NSwapUInt32_NtoL(*theValue); }
-inline void NSwapUInt64_NtoL(UInt64 *theValue)						{ *theValue = NSwapUInt64_NtoL(*theValue); }
+inline void NSwapUInt16_NtoL(uint16_t *theValue)					{ *theValue = NSwapUInt16_NtoL(*theValue); }
+inline void NSwapUInt32_NtoL(uint32_t *theValue)					{ *theValue = NSwapUInt32_NtoL(*theValue); }
+inline void NSwapUInt64_NtoL(uint64_t *theValue)					{ *theValue = NSwapUInt64_NtoL(*theValue); }
 
-inline void NSwapSInt16_NtoL(SInt16 *theValue)						{ *theValue = NSwapSInt16_NtoL(*theValue); }
-inline void NSwapSInt32_NtoL(SInt32 *theValue)						{ *theValue = NSwapSInt32_NtoL(*theValue); }
-inline void NSwapSInt64_NtoL(SInt64 *theValue)						{ *theValue = NSwapSInt64_NtoL(*theValue); }
+inline void NSwapInt16_NtoL(int16_t *theValue)						{ *theValue = NSwapInt16_NtoL(*theValue); }
+inline void NSwapInt32_NtoL(int32_t *theValue)						{ *theValue = NSwapInt32_NtoL(*theValue); }
+inline void NSwapInt64_NtoL(int64_t *theValue)						{ *theValue = NSwapInt64_NtoL(*theValue); }
 
-inline void NSwapFloat32_NtoL(Float32 *theValue)					{ *theValue = NSwapFloat32_NtoL(*theValue); }
-inline void NSwapFloat64_NtoL(Float64 *theValue)					{ *theValue = NSwapFloat64_NtoL(*theValue); }
+inline void NSwapFloat32_NtoL(float32_t *theValue)					{ *theValue = NSwapFloat32_NtoL(*theValue); }
+inline void NSwapFloat64_NtoL(float64_t *theValue)					{ *theValue = NSwapFloat64_NtoL(*theValue); }
 
 
 
 // Big to native
-inline void NSwapUInt16_BtoN(UInt16 *theValue)						{ *theValue = NSwapUInt16_BtoN(*theValue); }
-inline void NSwapUInt32_BtoN(UInt32 *theValue)						{ *theValue = NSwapUInt32_BtoN(*theValue); }
-inline void NSwapUInt64_BtoN(UInt64 *theValue)						{ *theValue = NSwapUInt64_BtoN(*theValue); }
+inline void NSwapUInt16_BtoN(uint16_t *theValue)					{ *theValue = NSwapUInt16_BtoN(*theValue); }
+inline void NSwapUInt32_BtoN(uint32_t *theValue)					{ *theValue = NSwapUInt32_BtoN(*theValue); }
+inline void NSwapUInt64_BtoN(uint64_t *theValue)					{ *theValue = NSwapUInt64_BtoN(*theValue); }
 
-inline void NSwapSInt16_BtoN(SInt16 *theValue)						{ *theValue = NSwapSInt16_BtoN(*theValue); }
-inline void NSwapSInt32_BtoN(SInt32 *theValue)						{ *theValue = NSwapSInt32_BtoN(*theValue); }
-inline void NSwapSInt64_BtoN(SInt64 *theValue)						{ *theValue = NSwapSInt64_BtoN(*theValue); }
+inline void NSwapInt16_BtoN(int16_t *theValue)						{ *theValue = NSwapInt16_BtoN(*theValue); }
+inline void NSwapInt32_BtoN(int32_t *theValue)						{ *theValue = NSwapInt32_BtoN(*theValue); }
+inline void NSwapInt64_BtoN(int64_t *theValue)						{ *theValue = NSwapInt64_BtoN(*theValue); }
 
-inline void NSwapFloat32_BtoN(Float32 *theValue)					{ *theValue = NSwapFloat32_BtoN(*theValue); }
-inline void NSwapFloat64_BtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_BtoN(*theValue); }
+inline void NSwapFloat32_BtoN(float32_t *theValue)					{ *theValue = NSwapFloat32_BtoN(*theValue); }
+inline void NSwapFloat64_BtoN(float64_t *theValue)					{ *theValue = NSwapFloat64_BtoN(*theValue); }
 
 
 
 // Little to native
-inline void NSwapUInt16_LtoN(UInt16 *theValue)						{ *theValue = NSwapUInt16_LtoN(*theValue); }
-inline void NSwapUInt32_LtoN(UInt32 *theValue)						{ *theValue = NSwapUInt32_LtoN(*theValue); }
-inline void NSwapUInt64_LtoN(UInt64 *theValue)						{ *theValue = NSwapUInt64_LtoN(*theValue); }
+inline void NSwapUInt16_LtoN(uint16_t *theValue)					{ *theValue = NSwapUInt16_LtoN(*theValue); }
+inline void NSwapUInt32_LtoN(uint32_t *theValue)					{ *theValue = NSwapUInt32_LtoN(*theValue); }
+inline void NSwapUInt64_LtoN(uint64_t *theValue)					{ *theValue = NSwapUInt64_LtoN(*theValue); }
 
-inline void NSwapSInt16_LtoN(SInt16 *theValue)						{ *theValue = NSwapSInt16_LtoN(*theValue); }
-inline void NSwapSInt32_LtoN(SInt32 *theValue)						{ *theValue = NSwapSInt32_LtoN(*theValue); }
-inline void NSwapSInt64_LtoN(SInt64 *theValue)						{ *theValue = NSwapSInt64_LtoN(*theValue); }
+inline void NSwapInt16_LtoN(int16_t *theValue)						{ *theValue = NSwapInt16_LtoN(*theValue); }
+inline void NSwapInt32_LtoN(int32_t *theValue)						{ *theValue = NSwapInt32_LtoN(*theValue); }
+inline void NSwapInt64_LtoN(int64_t *theValue)						{ *theValue = NSwapInt64_LtoN(*theValue); }
 
-inline void NSwapFloat32_LtoN(Float32 *theValue)					{ *theValue = NSwapFloat32_LtoN(*theValue); }
-inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_LtoN(*theValue); }
+inline void NSwapFloat32_LtoN(float32_t *theValue)					{ *theValue = NSwapFloat32_LtoN(*theValue); }
+inline void NSwapFloat64_LtoN(float64_t *theValue)					{ *theValue = NSwapFloat64_LtoN(*theValue); }
 
 
 
@@ -282,10 +282,10 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_
 // A structure swap can be declared with:
 //
 //		typedef struct {
-//			UInt16		numLoops;
-//			UInt16		numPoints;
-//			UInt32		sizeLoops;
-//			UInt32		sizePoints;
+//			uint16_t				numLoops;
+//			uint16_t				numPoints;
+//			uint32_t				sizeLoops;
+//			uint32_t				sizePoints;
 //		} MyStructure;
 //
 //		NBYTESWAP_BEGIN(MyStructure)
@@ -354,11 +354,11 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_
 
 #define NBYTESWAP_BEGIN_NO_DECLARE(_type)													\
 	void NByteSwap_ ## _type(NIndex numItems, _type *firstItem, bool toNative)				\
-	{	UInt8       *currentField;                                                          \
+	{	uint8_t     *currentField;                                                          \
 		_type		*currentItem;															\
 		NIndex		n;																		\
 																							\
-		currentField = (UInt8 *) firstItem;													\
+		currentField = (uint8_t *) firstItem;												\
 		for (n = 0; n < numItems; n++)														\
 			{																				\
 			currentItem = (_type *) currentField;
@@ -386,7 +386,7 @@ inline void NSwapFloat64_LtoN(Float64 *theValue)					{ *theValue = NSwapFloat64_
 
 
 // Swap fields
-inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize, NEndianFormat valueFormat)
+inline void NByteSwap_Field(NIndex numValues, uint8_t *&valuePtr, NIndex valueSize, NEndianFormat valueFormat)
 {
 	if (valueFormat != kNEndianNative)
 		NByteSwap::SwapBlock(numValues, valueSize, valuePtr);
@@ -394,7 +394,7 @@ inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize
 	valuePtr += (numValues * valueSize);
 }
 
-#define NBYTESWAP_Offset()											(currentField - ((UInt8 *) currentItem))
+#define NBYTESWAP_Offset()											(currentField - ((uint8_t *) currentItem))
 #define NBYTESWAP_Skip(_numBytes)									currentField += _numBytes;
 #define NBYTESWAP_Fetch(_swapWith, _fieldName)						(toNative ? currentItem->_fieldName : _swapWith(currentItem->_fieldName))
 
@@ -404,32 +404,32 @@ inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize
 		NByteSwap_ ## _fieldType(_fieldCount, ( _fieldType *) currentField, toNative);		\
 		currentField += (_fieldCount * sizeof(_fieldType));
 
-#define NBYTESWAP_B_UInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
-#define NBYTESWAP_B_UInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianBig);
-#define NBYTESWAP_B_UInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianBig);
-#define NBYTESWAP_B_UInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianBig);
+#define NBYTESWAP_B_UInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(uint8_t));
+#define NBYTESWAP_B_UInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(uint16_t),  kNEndianBig);
+#define NBYTESWAP_B_UInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(uint32_t),  kNEndianBig);
+#define NBYTESWAP_B_UInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(uint64_t),  kNEndianBig);
 
-#define NBYTESWAP_B_SInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
-#define NBYTESWAP_B_SInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianBig);
-#define NBYTESWAP_B_SInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianBig);
-#define NBYTESWAP_B_SInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianBig);
+#define NBYTESWAP_B_Int8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(uint8_t));
+#define NBYTESWAP_B_Int16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(int16_t),   kNEndianBig);
+#define NBYTESWAP_B_Int32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(int32_t),   kNEndianBig);
+#define NBYTESWAP_B_Int64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(int64_t),   kNEndianBig);
 
-#define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianBig);
-#define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianBig);
+#define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(float32_t), kNEndianBig);
+#define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(float64_t), kNEndianBig);
 
 
-#define NBYTESWAP_L_UInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
-#define NBYTESWAP_L_UInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt16),  kNEndianLittle);
-#define NBYTESWAP_L_UInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt32),  kNEndianLittle);
-#define NBYTESWAP_L_UInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(UInt64),  kNEndianLittle);
+#define NBYTESWAP_L_UInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(uint8_t));
+#define NBYTESWAP_L_UInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(uint16_t),  kNEndianLittle);
+#define NBYTESWAP_L_UInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(uint32_t),  kNEndianLittle);
+#define NBYTESWAP_L_UInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(uint64_t),  kNEndianLittle);
 
-#define NBYTESWAP_L_SInt8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(UInt8));
-#define NBYTESWAP_L_SInt16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt16),  kNEndianLittle);
-#define NBYTESWAP_L_SInt32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt32),  kNEndianLittle);
-#define NBYTESWAP_L_SInt64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(SInt64),  kNEndianLittle);
+#define NBYTESWAP_L_Int8_Array(  _fieldName, _fieldCount)			currentField += (_fieldCount * sizeof(uint8_t));
+#define NBYTESWAP_L_Int16_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(int16_t),   kNEndianLittle);
+#define NBYTESWAP_L_Int32_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(int32_t),   kNEndianLittle);
+#define NBYTESWAP_L_Int64_Array( _fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(int64_t),   kNEndianLittle);
 
-#define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float32), kNEndianLittle);
-#define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(Float64), kNEndianLittle);
+#define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(float32_t), kNEndianLittle);
+#define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)			NByteSwap_Field(_fieldCount, currentField, sizeof(float64_t), kNEndianLittle);
 
 
 // Fields
@@ -441,10 +441,10 @@ inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize
 #define NBYTESWAP_B_UInt32( _fieldName)								NBYTESWAP_B_UInt32_Array( _fieldName, 1)
 #define NBYTESWAP_B_UInt64( _fieldName)								NBYTESWAP_B_UInt64_Array( _fieldName, 1)
 
-#define NBYTESWAP_B_SInt8(  _fieldName)								NBYTESWAP_B_SInt8_Array(  _fieldName, 1)
-#define NBYTESWAP_B_SInt16( _fieldName)								NBYTESWAP_B_SInt16_Array( _fieldName, 1)
-#define NBYTESWAP_B_SInt32( _fieldName)								NBYTESWAP_B_SInt32_Array( _fieldName, 1)
-#define NBYTESWAP_B_SInt64( _fieldName)								NBYTESWAP_B_SInt64_Array( _fieldName, 1)
+#define NBYTESWAP_B_Int8(  _fieldName)								NBYTESWAP_B_Int8_Array(  _fieldName, 1)
+#define NBYTESWAP_B_Int16( _fieldName)								NBYTESWAP_B_Int16_Array( _fieldName, 1)
+#define NBYTESWAP_B_Int32( _fieldName)								NBYTESWAP_B_Int32_Array( _fieldName, 1)
+#define NBYTESWAP_B_Int64( _fieldName)								NBYTESWAP_B_Int64_Array( _fieldName, 1)
 
 #define NBYTESWAP_B_Float32(_fieldName)								NBYTESWAP_B_Float32_Array(_fieldName, 1)
 #define NBYTESWAP_B_Float64(_fieldName)								NBYTESWAP_B_Float64_Array(_fieldName, 1)
@@ -455,10 +455,10 @@ inline void NByteSwap_Field(NIndex numValues, UInt8 *&valuePtr, NIndex valueSize
 #define NBYTESWAP_L_UInt32( _fieldName)								NBYTESWAP_L_UInt32_Array( _fieldName, 1)
 #define NBYTESWAP_L_UInt64( _fieldName)								NBYTESWAP_L_UInt64_Array( _fieldName, 1)
 
-#define NBYTESWAP_L_SInt8(  _fieldName)								NBYTESWAP_L_SInt8_Array(  _fieldName, 1)
-#define NBYTESWAP_L_SInt16( _fieldName)								NBYTESWAP_L_SInt16_Array( _fieldName, 1)
-#define NBYTESWAP_L_SInt32( _fieldName)								NBYTESWAP_L_SInt32_Array( _fieldName, 1)
-#define NBYTESWAP_L_SInt64( _fieldName)								NBYTESWAP_L_SInt64_Array( _fieldName, 1)
+#define NBYTESWAP_L_Int8(  _fieldName)								NBYTESWAP_L_Int8_Array(  _fieldName, 1)
+#define NBYTESWAP_L_Int16( _fieldName)								NBYTESWAP_L_Int16_Array( _fieldName, 1)
+#define NBYTESWAP_L_Int32( _fieldName)								NBYTESWAP_L_Int32_Array( _fieldName, 1)
+#define NBYTESWAP_L_Int64( _fieldName)								NBYTESWAP_L_Int64_Array( _fieldName, 1)
 
 #define NBYTESWAP_L_Float32(_fieldName)								NBYTESWAP_L_Float32_Array(_fieldName, 1)
 #define NBYTESWAP_L_Float64(_fieldName)								NBYTESWAP_L_Float64_Array(_fieldName, 1)

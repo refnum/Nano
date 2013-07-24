@@ -399,7 +399,7 @@ NStatus NFile::SetExtension(const NString &theExtension, bool renameFile)
 //============================================================================
 //        NFile::GetSize : Get the file size.
 //----------------------------------------------------------------------------
-UInt64 NFile::GetSize(void) const
+uint64_t NFile::GetSize(void) const
 {
 
 
@@ -420,7 +420,7 @@ UInt64 NFile::GetSize(void) const
 //============================================================================
 //        NFile::SetSize : Set the file size.
 //----------------------------------------------------------------------------
-NStatus NFile::SetSize(UInt64 theSize)
+NStatus NFile::SetSize(uint64_t theSize)
 {	bool		wasOpen;
 	NStatus		theErr;
 
@@ -863,8 +863,8 @@ void NFile::Close(void)
 //============================================================================
 //        NFile::GetPosition : Get the read/write position.
 //----------------------------------------------------------------------------
-UInt64 NFile::GetPosition(void) const
-{	UInt64		thePosition;
+uint64_t NFile::GetPosition(void) const
+{	uint64_t	thePosition;
 
 
 
@@ -887,7 +887,7 @@ UInt64 NFile::GetPosition(void) const
 //============================================================================
 //        NFile::SetPosition : Set the read/write position.
 //----------------------------------------------------------------------------
-NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
+NStatus NFile::SetPosition(int64_t theOffset, NFilePosition thePosition)
 {	NStatus		theErr;
 
 
@@ -913,7 +913,7 @@ NStatus NFile::SetPosition(SInt64 theOffset, NFilePosition thePosition)
 //============================================================================
 //        NFile::Read : Read data from the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
+NStatus NFile::Read(uint64_t theSize, void *thePtr, uint64_t &numRead, int64_t theOffset, NFilePosition thePosition, NFileFlags theFlags)
 {	NStatus		theErr;
 
 
@@ -940,7 +940,7 @@ NStatus NFile::Read(UInt64 theSize, void *thePtr, UInt64 &numRead, SInt64 theOff
 //============================================================================
 //        NFile::Write : Write data to the file.
 //----------------------------------------------------------------------------
-NStatus NFile::Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags)
+NStatus NFile::Write(uint64_t theSize, const void *thePtr, uint64_t &numWritten, int64_t theOffset, NFilePosition thePosition, NFileFlags theFlags)
 {	NStatus		theErr;
 
 

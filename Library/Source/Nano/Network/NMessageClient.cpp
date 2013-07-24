@@ -68,7 +68,7 @@ NMessageClientStatus NMessageClient::GetStatus(void) const
 //============================================================================
 //		NMessageClient::Connect : Connect to a server.
 //----------------------------------------------------------------------------
-void NMessageClient::Connect(const NString &theHost, UInt16 thePort, const NString &thePassword)
+void NMessageClient::Connect(const NString &theHost, uint16_t thePort, const NString &thePassword)
 {	StLock		acquireLock(mLock);
 
 
@@ -389,7 +389,7 @@ void NMessageClient::ClientThread(NSocket *theSocket)
 		NN_ASSERT(msgConnectResponse.GetType() == kNMessageConnectResponseMsg);
 
 		if (theErr == kNoErr)
-			theErr = msgConnectResponse.GetValueSInt32(kNMessageStatusKey);
+			theErr = msgConnectResponse.GetValueInt32(kNMessageStatusKey);
 
 		if (theErr == kNoErr)
 			{

@@ -45,21 +45,21 @@ public:
 
 	// Services
 	static bool							ServicesAvailable(void);
-	static NServiceAdvertiserRef		ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName);
+	static NServiceAdvertiserRef		ServiceAdvertiserCreate(const NString &serviceType, uint16_t thePort, const NString &theName);
 	static void							ServiceAdvertiserDestroy(NServiceAdvertiserRef theAdvertiser);
 	static NServiceBrowserRef			ServiceBrowserCreate(const NString &serviceType, const NNetworkBrowserEventFunctor &theFunctor);
 	static void							ServiceBrowserDestroy(NServiceBrowserRef theBrowser);
 
 
 	// Sockets
-	static NSocketRef					SocketOpen(     NSocket   *theSocket, const NString &theHost, UInt16 thePort);
+	static NSocketRef					SocketOpen(     NSocket   *theSocket, const NString &theHost, uint16_t thePort);
 	static void							SocketClose(    NSocketRef theSocket);
 	static bool							SocketCanRead(  NSocketRef theSocket);
 	static bool							SocketCanWrite( NSocketRef theSocket);
 	static NIndex						SocketRead(     NSocketRef theSocket, NIndex theSize,       void *thePtr);
 	static NIndex						SocketWrite(    NSocketRef theSocket, NIndex theSize, const void *thePtr);
-	static SInt32						SocketGetOption(NSocketRef theSocket, NSocketOption theOption);
-	static NStatus						SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue);
+	static int32_t						SocketGetOption(NSocketRef theSocket, NSocketOption theOption);
+	static NStatus						SocketSetOption(NSocketRef theSocket, NSocketOption theOption, int32_t theValue);
 };
 
 

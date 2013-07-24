@@ -49,7 +49,7 @@ NDataDigest::~NDataDigest(void)
 //============================================================================
 //		NDataDigest::GetString : Get an digest as a string.
 //----------------------------------------------------------------------------
-NString NDataDigest::GetString(UInt32 theValue) const
+NString NDataDigest::GetString(uint32_t theValue) const
 {	NString		theResult;
 
 
@@ -112,10 +112,10 @@ NString NDataDigest::GetString(const NDigestSHA1 &theValue) const
 //----------------------------------------------------------------------------
 //		Note : From <http://www.rfc-editor.org/rfc/rfc1071.txt>.
 //----------------------------------------------------------------------------
-UInt16 NDataDigest::GetInternet(const NData &theData)
-{	UInt32			theDigest, hi, lo;
+uint16_t NDataDigest::GetInternet(const NData &theData)
+{	uint32_t		theDigest, hi, lo;
 	NIndex			dataSize;
-	const UInt8		*dataPtr;
+	const uint8_t	*dataPtr;
 
 
 
@@ -126,8 +126,8 @@ UInt16 NDataDigest::GetInternet(const NData &theData)
 
 
 	// Get the state we need
-	dataPtr   = (const UInt8 *) theData.GetData();
-	dataSize  =                 theData.GetSize();
+	dataPtr   = (const uint8_t *) theData.GetData();
+	dataSize  =                   theData.GetSize();
 	theDigest = 0;
 
 
@@ -154,7 +154,7 @@ UInt16 NDataDigest::GetInternet(const NData &theData)
 	theDigest  = ~theDigest;
 	theDigest &= 0x0000FFFF;
 
-	return((UInt16) theDigest);
+	return((uint16_t) theDigest);
 }
 
 
@@ -166,10 +166,10 @@ UInt16 NDataDigest::GetInternet(const NData &theData)
 //----------------------------------------------------------------------------
 //		Note : From <http://www.cse.yorku.ca/~oz/hash.html>.
 //----------------------------------------------------------------------------
-UInt32 NDataDigest::GetDJB2(const NData &theData)
+uint32_t NDataDigest::GetDJB2(const NData &theData)
 {	NIndex			n, dataSize;
-	UInt32			theDigest;
-	const UInt8		*dataPtr;
+	uint32_t		theDigest;
+	const uint8_t	*dataPtr;
 
 
 
@@ -180,8 +180,8 @@ UInt32 NDataDigest::GetDJB2(const NData &theData)
 
 
 	// Get the state we need
-	dataPtr   = (const UInt8 *) theData.GetData();
-	dataSize  =                 theData.GetSize();
+	dataPtr   = (const uint8_t *) theData.GetData();
+	dataSize  =                   theData.GetSize();
 	theDigest = 5381;
 
 
@@ -200,8 +200,8 @@ UInt32 NDataDigest::GetDJB2(const NData &theData)
 //============================================================================
 //		NDataDigest::GetAdler32 : Get an Adler32 digest.
 //----------------------------------------------------------------------------
-UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevValue)
-{	UInt32		theDigest;
+uint32_t NDataDigest::GetAdler32(const NData &theData, uint32_t prevValue)
+{	uint32_t	theDigest;
 
 
 
@@ -212,7 +212,7 @@ UInt32 NDataDigest::GetAdler32(const NData &theData, UInt32 prevValue)
 
 
 	// Get the digest
-	theDigest = (UInt32) adler32(prevValue, theData.GetData(), theData.GetSize());
+	theDigest = (uint32_t) adler32(prevValue, theData.GetData(), theData.GetSize());
 	
 	return(theDigest);
 }
@@ -293,7 +293,7 @@ NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
 //============================================================================
 //		NDataDigest::GetQuad : Get a byte quad string.
 //----------------------------------------------------------------------------
-NString NDataDigest::GetQuad(const UInt8 *theBytes) const
+NString NDataDigest::GetQuad(const uint8_t *theBytes) const
 {	NString		theResult;
 
 

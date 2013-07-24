@@ -41,7 +41,7 @@
 
 
 // Is an address aligned?
-#define NN_ALIGNED_TO(_value, _size)								((((UIntPtr) _value) % _size) == 0)
+#define NN_ALIGNED_TO(_value, _size)								((((uintptr_t) _value) % _size) == 0)
 
 
 // Is a bit set?
@@ -57,24 +57,24 @@
 // Based on a PD implementation by Tom Torfs ("Binary constant macros").
 #define _NN_HEX(_n)	0x ## _n ## LU
 
-#define _NN_B8(_x)		(UInt8) (((_x & 0x0000000FLU) ?   1 : 0) | \
-								 ((_x & 0x000000F0LU) ?   2 : 0) | \
-								 ((_x & 0x00000F00LU) ?   4 : 0) | \
-								 ((_x & 0x0000F000LU) ?   8 : 0) | \
-								 ((_x & 0x000F0000LU) ?  16 : 0) | \
-								 ((_x & 0x00F00000LU) ?  32 : 0) | \
-								 ((_x & 0x0F000000LU) ?  64 : 0) | \
-								 ((_x & 0xF0000000LU) ? 128 : 0))
+#define _NN_B8(_x)										(uint8_t)  (((_x & 0x0000000FLU) ?   1 : 0) | \
+																	((_x & 0x000000F0LU) ?   2 : 0) | \
+																	((_x & 0x00000F00LU) ?   4 : 0) | \
+																	((_x & 0x0000F000LU) ?   8 : 0) | \
+																	((_x & 0x000F0000LU) ?  16 : 0) | \
+																	((_x & 0x00F00000LU) ?  32 : 0) | \
+																	((_x & 0x0F000000LU) ?  64 : 0) | \
+																	((_x & 0xF0000000LU) ? 128 : 0))
 
-#define NN_B8(_byte1)											(	(UInt8) _NN_B8(_NN_HEX(_byte1)) )
+#define NN_B8(_byte1)											(	(uint8_t) _NN_B8(_NN_HEX(_byte1)) )
 
-#define NN_B16(_byte1, _byte2)									(	(((UInt16) NN_B8(_byte1)) <<  8) | \
-																	(((UInt16) NN_B8(_byte2)) <<  0) )
+#define NN_B16(_byte1, _byte2)									(	(((uint16_t) NN_B8(_byte1)) <<  8) | \
+																	(((uint16_t) NN_B8(_byte2)) <<  0) )
 
-#define NN_B32(_byte1, _byte2, _byte3, _byte4)					(	(((UInt32) NN_B8(_byte1)) << 24) | \
-																	(((UInt32) NN_B8(_byte2)) << 16) | \
-																	(((UInt32) NN_B8(_byte3)) <<  8) | \
-																	(((UInt32) NN_B8(_byte4)) <<  0) )
+#define NN_B32(_byte1, _byte2, _byte3, _byte4)					(	(((uint32_t) NN_B8(_byte1)) << 24) | \
+																	(((uint32_t) NN_B8(_byte2)) << 16) | \
+																	(((uint32_t) NN_B8(_byte3)) <<  8) | \
+																	(((uint32_t) NN_B8(_byte4)) <<  0) )
 
 	
 	

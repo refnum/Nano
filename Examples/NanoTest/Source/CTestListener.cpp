@@ -48,9 +48,9 @@ CTestListener::~CTestListener(void)
 
 
 //============================================================================
-//		CTestListener::SetTargetUInt32 : Set the UInt32 target.
+//		CTestListener::SetTargetUInt32 : Set the uint32_t target.
 //----------------------------------------------------------------------------
-void CTestListener::SetTargetUInt32(UInt32 *theTarget)
+void CTestListener::SetTargetUInt32(uint32_t *theTarget)
 {
 
 

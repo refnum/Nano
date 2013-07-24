@@ -403,7 +403,7 @@ bool NJSONEncoder::DecodeBoolean(const json_value_ptr jsonValue)
 //============================================================================
 //		NJSONEncoder::DecodeInteger : Decode an integer.
 //----------------------------------------------------------------------------
-SInt64 NJSONEncoder::DecodeInteger(const json_value_ptr jsonValue)
+int64_t NJSONEncoder::DecodeInteger(const json_value_ptr jsonValue)
 {
 
 
@@ -423,7 +423,7 @@ SInt64 NJSONEncoder::DecodeInteger(const json_value_ptr jsonValue)
 //============================================================================
 //		NJSONEncoder::DecodeReal : Decode a real.
 //----------------------------------------------------------------------------
-Float64 NJSONEncoder::DecodeReal(const json_value_ptr jsonValue)
+float64_t NJSONEncoder::DecodeReal(const json_value_ptr jsonValue)
 {
 
 

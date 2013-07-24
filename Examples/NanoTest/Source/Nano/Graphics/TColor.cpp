@@ -84,7 +84,7 @@ TEST_NCOLOR("Components")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NCOLOR("Getters")
-{	Float32		r, g, b, a;
+{	float32_t		r, g, b, a;
 
 
 

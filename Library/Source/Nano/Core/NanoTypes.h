@@ -34,117 +34,61 @@
 #include <string.h>
 #include <time.h>
 
-#if !defined(_MSC_VER) || (_MSC_VER >= 1600)
+
+
+
+
+//============================================================================
+//		Standard Types
+//----------------------------------------------------------------------------
+// Integer
+//
+// MSVC does not provide stdint.h until VS 2010, so we provide a fallback.
+//
+#if NN_TARGET_WINDOWS
+
+	#if NN_TARGET_COMPILER_MSC >= 160000000
+		#include <stdint.h>
+	#else
+		typedef unsigned char										uint8_t;
+		typedef unsigned short										uint16_t;
+		typedef unsigned int										uint32_t;
+		typedef unsigned long long									uint64_t;
+
+		typedef signed char											int8_t;
+		typedef signed short										int16_t;
+		typedef signed int											int32_t;
+		typedef signed long long									int64_t;
+
+		#if NN_TARGET_ARCH_32
+			typedef uint32_t										uintptr_t;
+		#else
+			typedef uint64_t										uintptr_t;
+		#endif
+	#endif
+
+#else
 	#include <stdint.h>
 #endif
 
 
+// Floating point
+typedef float														float32_t;
+typedef double														float64_t;
 
 
-
-//============================================================================
-//		Bootstrap
-//----------------------------------------------------------------------------
-// Baseline
+// Unicode
 //
-// To handle platform-specific requirements for some types (e.g., gcc using
-// the LP64 model and VC++ using LLP64), we define a set of meta-types that
-// are generally correct.
-//
-// These types are then adjusted to suit the appropriate system headers for
-// each platform, then used to define the primitive Nano types.
-#define NANO_INT8													char
-#define NANO_INT16													short
-#define NANO_INT32													int
-#define NANO_INT64													long long
-#define NANO_INTPTR													uintptr_t
+// To ensure NString::GetUTF16() is equivalent to a LPCWSTR on Windows, we
+// define the UTF16 char type to match the native Win32 UTF16 type (wchar_t).
+typedef uint8_t														utf8_t;
+typedef uint32_t													utf32_t;
 
-#define NANO_UTF8													UInt8
-#define NANO_UTF16													UInt16
-#define NANO_UTF32													UInt32
-
-
-// Mac/iOS
-#if NN_TARGET_MAC || NN_TARGET_IOS
-	// UInt32/SInt32
-	//
-	// MacTypes.h uses a different type for UInt32/SInt32 on 32-bit architectures
-	// vs 64-bit, so to avoid a type redeclaration error we must make ours match.
-	#undef NANO_INT32
-
-	#if NN_TARGET_ARCH_64
-		#define NANO_INT32											int
-	#else
-		#define NANO_INT32											long
-	#endif
-#endif
-
-
-// Windows
 #if NN_TARGET_WINDOWS
-	// UTF16Char
-	//
-	// To ensure NString::GetUTF16() is equivalent to a LPCWSTR, we define the
-	// UTF16 char type to match the native Win32 UTF16 type (wchar_t).
-	#undef  NANO_UTF16
-	#define NANO_UTF16												wchar_t
-
-
-	// UIntPtr
-	//
-	// Visual Studio does not provide C99's stdint.h until VS 2010, so for older
-	// compilers we need to provide our own version.
-	#if !defined(INTPTR_MAX)
-	#if NN_TARGET_ARCH_32
-		#undef  NANO_INTPTR
-		#define NANO_INTPTR											unsigned NANO_INT32
-	#else
-		#undef  NANO_INTPTR
-		#define NANO_INTPTR											unsigned NANO_INT64
-	#endif
-	#endif
+	typedef wchar_t													utf16_t;
+#else
+	typedef uint16_t												utf16_t;
 #endif
-
-
-
-
-
-//============================================================================
-//		Core Types
-//----------------------------------------------------------------------------
-// Primitives
-//
-// These types are a consistent size on all targets and architectures.
-//
-// All other types may change their size between releases or targets.
-typedef unsigned NANO_INT8											UInt8;
-typedef unsigned NANO_INT16											UInt16;
-typedef unsigned NANO_INT32											UInt32;
-typedef unsigned NANO_INT64											UInt64;
-
-typedef signed NANO_INT8											SInt8;
-typedef signed NANO_INT16											SInt16;
-typedef signed NANO_INT32											SInt32;
-typedef signed NANO_INT64											SInt64;
-
-typedef float														Float32;
-typedef double														Float64;
-
-typedef NANO_UTF8													UTF8Char;
-typedef NANO_UTF16													UTF16Char;
-typedef NANO_UTF32													UTF32Char;
-
-
-// Misc
-typedef NANO_INTPTR													UIntPtr;
-
-typedef SInt32														NIndex;
-typedef SInt32														NStatus;
-typedef UInt32														NHashCode;
-typedef UInt32														NBitfield;
-typedef Float64														NRadians;
-typedef Float64														NDegrees;
-typedef Float64														NTime;
 
 
 
@@ -153,60 +97,73 @@ typedef Float64														NTime;
 //============================================================================
 //		Types
 //----------------------------------------------------------------------------
+// Misc
+//
+// These types have no defined size, and may change size between releases
+// or architectures. They are intended to be optimal for most cases.
+typedef int32_t														NIndex;
+typedef int32_t														NStatus;
+typedef uint32_t													NHashCode;
+typedef uint32_t													NBitfield;
+typedef float64_t													NRadians;
+typedef float64_t													NDegrees;
+typedef float64_t													NTime;
+
+
 // Lists
 #if defined(__cplusplus)
-typedef std::vector<UInt8>											UInt8List;
+typedef std::vector<uint8_t>										UInt8List;
 typedef UInt8List::iterator											UInt8ListIterator;
 typedef UInt8List::const_iterator									UInt8ListConstIterator;
 
-typedef std::vector<UInt16>											UInt16List;
+typedef std::vector<uint16_t>										UInt16List;
 typedef UInt16List::iterator										UInt16ListIterator;
 typedef UInt16List::const_iterator									UInt16ListConstIterator;
 
-typedef std::vector<UInt32>											UInt32List;
+typedef std::vector<uint32_t>										UInt32List;
 typedef UInt32List::iterator										UInt32ListIterator;
 typedef UInt32List::const_iterator									UInt32ListConstIterator;
 
-typedef std::vector<UInt64>											UInt64List;
+typedef std::vector<uint64_t>										UInt64List;
 typedef UInt64List::iterator										UInt64ListIterator;
 typedef UInt64List::const_iterator									UInt64ListConstIterator;
 
 
-typedef std::vector<SInt8>											SInt8List;
-typedef SInt8List::iterator											SInt8ListIterator;
-typedef SInt8List::const_iterator									SInt8ListConstIterator;
+typedef std::vector<int8_t>											Int8List;
+typedef Int8List::iterator											Int8ListIterator;
+typedef Int8List::const_iterator									Int8ListConstIterator;
 
-typedef std::vector<SInt16>											SInt16List;
-typedef SInt16List::iterator										SInt16ListIterator;
-typedef SInt16List::const_iterator									SInt16ListConstIterator;
+typedef std::vector<int16_t>										Int16List;
+typedef Int16List::iterator											Int16ListIterator;
+typedef Int16List::const_iterator									Int16ListConstIterator;
 
-typedef std::vector<SInt32>											SInt32List;
-typedef SInt32List::iterator										SInt32ListIterator;
-typedef SInt32List::const_iterator									SInt32ListConstIterator;
+typedef std::vector<int32_t>										Int32List;
+typedef Int32List::iterator											Int32ListIterator;
+typedef Int32List::const_iterator									Int32ListConstIterator;
 
-typedef std::vector<SInt64>											SInt64List;
-typedef SInt64List::iterator										SInt64ListIterator;
-typedef SInt64List::const_iterator									SInt64ListConstIterator;
+typedef std::vector<int64_t>										Int64List;
+typedef Int64List::iterator											Int64ListIterator;
+typedef Int64List::const_iterator									Int64ListConstIterator;
 
 
-typedef std::vector<Float32>										Float32List;
+typedef std::vector<float32_t>										Float32List;
 typedef Float32List::iterator										Float32ListIterator;
 typedef Float32List::const_iterator									Float32ListConstIterator;
 
-typedef std::vector<Float64>										Float64List;
+typedef std::vector<float64_t>										Float64List;
 typedef Float64List::iterator										Float64ListIterator;
 typedef Float64List::const_iterator									Float64ListConstIterator;
 
 
-typedef std::vector<UTF8Char>										UTF8List;
+typedef std::vector<utf8_t>											UTF8List;
 typedef UTF8List::iterator											UTF8ListIterator;
 typedef UTF8List::const_iterator									UTF8ListConstIterator;
 
-typedef std::vector<UTF16Char>										UTF16List;
+typedef std::vector<utf16_t>										UTF16List;
 typedef UTF16List::iterator											UTF16ListIterator;
 typedef UTF16List::const_iterator									UTF16ListConstIterator;
 
-typedef std::vector<UTF32Char>										UTF32List;
+typedef std::vector<utf32_t>										UTF32List;
 typedef UTF32List::iterator											UTF32ListIterator;
 typedef UTF32List::const_iterator									UTF32ListConstIterator;
 
@@ -236,31 +193,31 @@ typedef NBitfieldList::const_iterator								NBitfieldListConstIterator;
 //		Constants
 //----------------------------------------------------------------------------
 // Limits
-static const UInt8  kUInt8Min										= 0;
-static const UInt8  kUInt8Max										= UCHAR_MAX;
-static const UInt16 kUInt16Min										= 0;
-static const UInt16 kUInt16Max										= USHRT_MAX;
-static const UInt32 kUInt32Min										= 0;
-static const UInt32 kUInt32Max										= UINT_MAX;
-static const UInt64 kUInt64Min										= 0;
-static const UInt64 kUInt64Max										= ULLONG_MAX;
+static const uint8_t  kUInt8Min										= 0;
+static const uint8_t  kUInt8Max										= UCHAR_MAX;
+static const uint16_t kUInt16Min									= 0;
+static const uint16_t kUInt16Max									= USHRT_MAX;
+static const uint32_t kUInt32Min									= 0;
+static const uint32_t kUInt32Max									= UINT_MAX;
+static const uint64_t kUInt64Min									= 0;
+static const uint64_t kUInt64Max									= ULLONG_MAX;
 
-static const SInt8  kSInt8Min										= SCHAR_MIN;
-static const SInt8  kSInt8Max										= SCHAR_MAX;
-static const SInt16 kSInt16Min										= SHRT_MIN;
-static const SInt16 kSInt16Max										= SHRT_MAX;
-static const SInt32 kSInt32Min										= INT_MIN;
-static const SInt32 kSInt32Max										= INT_MAX;
-static const SInt64 kSInt64Min										= LLONG_MIN;
-static const SInt64 kSInt64Max										= LLONG_MAX;
+static const int8_t  kInt8Min										= SCHAR_MIN;
+static const int8_t  kInt8Max										= SCHAR_MAX;
+static const int16_t kInt16Min										= SHRT_MIN;
+static const int16_t kInt16Max										= SHRT_MAX;
+static const int32_t kInt32Min										= INT_MIN;
+static const int32_t kInt32Max										= INT_MAX;
+static const int64_t kInt64Min										= LLONG_MIN;
+static const int64_t kInt64Max										= LLONG_MAX;
 
-static const Float32 kFloat32Min									= FLT_MIN;
-static const Float32 kFloat32Max									= FLT_MAX;
-static const Float64 kFloat64Min									= DBL_MIN;
-static const Float64 kFloat64Max									= DBL_MAX;
+static const float32_t kFloat32Min									= FLT_MIN;
+static const float32_t kFloat32Max									= FLT_MAX;
+static const float64_t kFloat64Min									= DBL_MIN;
+static const float64_t kFloat64Max									= DBL_MAX;
 
-static const NIndex kNIndexMin										= INT_MIN;
-static const NIndex kNIndexMax										= INT_MAX;
+static const NIndex kNIndexMin										= kInt32Min;
+static const NIndex kNIndexMax										= kInt32Max;
 
 
 // Misc

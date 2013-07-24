@@ -32,9 +32,9 @@
 template<class T> class NPointT;
 template<class T> class NVectorT;
 
-typedef NPointT<Float64> NPoint64;
-typedef NPointT<Float32> NPoint32;
-typedef NPoint32         NPoint;
+typedef NPointT<float64_t> NPoint64;
+typedef NPointT<float32_t> NPoint32;
+typedef NPoint32           NPoint;
 
 
 // Lists

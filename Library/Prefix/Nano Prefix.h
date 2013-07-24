@@ -28,7 +28,7 @@
 
 // ZLib
 #define Z_PREFIX														1
-#define z_Byte															UInt8
+#define z_Byte															uint8_t
 
 
 

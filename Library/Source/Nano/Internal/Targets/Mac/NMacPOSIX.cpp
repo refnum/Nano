@@ -23,7 +23,7 @@
 //============================================================================
 //		NTargetPOSIX::is_nan : Mac isnan.
 //----------------------------------------------------------------------------
-bool NTargetPOSIX::is_nan(Float64 x)
+bool NTargetPOSIX::is_nan(float64_t x)
 {
 
 
@@ -38,7 +38,7 @@ bool NTargetPOSIX::is_nan(Float64 x)
 //============================================================================
 //		NTargetPOSIX::is_inf : Mac isinf.
 //----------------------------------------------------------------------------
-bool NTargetPOSIX::is_inf(Float64 x)
+bool NTargetPOSIX::is_inf(float64_t x)
 {
 
 
@@ -53,7 +53,7 @@ bool NTargetPOSIX::is_inf(Float64 x)
 //============================================================================
 //      NTargetPOSIX::asin : Calculate the inverse sine.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::asin(Float64 x)
+float64_t NTargetPOSIX::asin(float64_t x)
 {
 
 
@@ -68,7 +68,7 @@ Float64 NTargetPOSIX::asin(Float64 x)
 //============================================================================
 //      NTargetPOSIX::acos : Calculate the inverse cosine.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::acos(Float64 x)
+float64_t NTargetPOSIX::acos(float64_t x)
 {
 
 
@@ -83,7 +83,7 @@ Float64 NTargetPOSIX::acos(Float64 x)
 //============================================================================
 //      NTargetPOSIX::sinh : Calculate the hyperbolic sine.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::sinh(Float64 x)
+float64_t NTargetPOSIX::sinh(float64_t x)
 {
 
 
@@ -98,7 +98,7 @@ Float64 NTargetPOSIX::sinh(Float64 x)
 //============================================================================
 //      NTargetPOSIX::cosh : Calculate the hyperbolic cosine.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::cosh(Float64 x)
+float64_t NTargetPOSIX::cosh(float64_t x)
 {
 
 
@@ -113,7 +113,7 @@ Float64 NTargetPOSIX::cosh(Float64 x)
 //============================================================================
 //      NTargetPOSIX::tanh : Calculate the hyperbolic tangent.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::tanh(Float64 x)
+float64_t NTargetPOSIX::tanh(float64_t x)
 {
 
 
@@ -128,7 +128,7 @@ Float64 NTargetPOSIX::tanh(Float64 x)
 //============================================================================
 //      NTargetPOSIX::asinh : Calculate the inverse hyperbolic sine.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::asinh(Float64 x)
+float64_t NTargetPOSIX::asinh(float64_t x)
 {
 
 
@@ -143,7 +143,7 @@ Float64 NTargetPOSIX::asinh(Float64 x)
 //============================================================================
 //      NTargetPOSIX::acosh : Calculate the inverse hyperbolic cosine.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::acosh(Float64 x)
+float64_t NTargetPOSIX::acosh(float64_t x)
 {
 
 
@@ -158,7 +158,7 @@ Float64 NTargetPOSIX::acosh(Float64 x)
 //============================================================================
 //      NTargetPOSIX::atanh : Calculate the inverse hyperbolic tangent.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::atanh(Float64 x)
+float64_t NTargetPOSIX::atanh(float64_t x)
 {
 
 
@@ -173,7 +173,7 @@ Float64 NTargetPOSIX::atanh(Float64 x)
 //============================================================================
 //      NTargetPOSIX::rint : Round to the nearest integer.
 //----------------------------------------------------------------------------
-Float64 NTargetPOSIX::rint(Float64 x)
+float64_t NTargetPOSIX::rint(float64_t x)
 {
 
 
@@ -209,7 +209,7 @@ NIndex NTargetPOSIX::snprintf(char *s, size_t n, const char *format, ...)
 //============================================================================
 //      NTargetPOSIX::llabs : Absolute value of an integer.
 //----------------------------------------------------------------------------
-SInt64 NTargetPOSIX::llabs(SInt64 x)
+int64_t NTargetPOSIX::llabs(int64_t x)
 {
 
 
@@ -224,7 +224,7 @@ SInt64 NTargetPOSIX::llabs(SInt64 x)
 //============================================================================
 //      NTargetPOSIX::srandom : Seed the random number generator.
 //----------------------------------------------------------------------------
-void NTargetPOSIX::srandom(UInt32 s)
+void NTargetPOSIX::srandom(uint32_t s)
 {
 
 
@@ -239,7 +239,7 @@ void NTargetPOSIX::srandom(UInt32 s)
 //============================================================================
 //      NTargetPOSIX::random : Generate a random number.
 //----------------------------------------------------------------------------
-UInt32 NTargetPOSIX::random(void)
+uint32_t NTargetPOSIX::random(void)
 {
 
 
@@ -247,7 +247,7 @@ UInt32 NTargetPOSIX::random(void)
 	//
 	// Random returns a long in 64-bit, so we need to mod the result to obtain
 	// a 32-bit value that remains random.
-	return((UInt32) (::random() % kUInt32Max));
+	return((uint32_t) (::random() % kUInt32Max));
 }
 
 

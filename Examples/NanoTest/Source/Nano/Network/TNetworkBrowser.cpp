@@ -28,8 +28,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NString kTestService									= "_afpovertcp._tcp";
-static const UInt16  kTestPort										= 666;
+static const NString  kTestService									= "_afpovertcp._tcp";
+static const uint16_t kTestPort										= 666;
 
 static const NString kTestResult1									= "added: type='_afpovertcp._tcp.', name='";
 static const NString kTestResult2									= ".local.', port='666'";

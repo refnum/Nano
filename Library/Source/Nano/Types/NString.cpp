@@ -116,7 +116,7 @@ NString::NString(const NData &theData, NStringEncoding theEncoding)
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
-NString::NString(UTF8Char theChar)
+NString::NString(utf8_t theChar)
 {
 
 
@@ -227,9 +227,9 @@ const char *NString::GetUTF8(void) const
 //============================================================================
 //		NString::GetUTF16 : Get the string.
 //----------------------------------------------------------------------------
-const UTF16Char *NString::GetUTF16(void) const
+const utf16_t *NString::GetUTF16(void) const
 {	const NStringValue		*theValue;
-	const UTF16Char			*theText;
+	const utf16_t			*theText;
 	const NData				*theData;
 
 
@@ -250,7 +250,7 @@ const UTF16Char *NString::GetUTF16(void) const
 
 
 	// Get the string
-	theText = (const UTF16Char *) theData->GetData();
+	theText = (const utf16_t *) theData->GetData();
 
 	return(theText);
 }
@@ -712,9 +712,9 @@ NComparison NString::Compare(const NString &theValue) const
 NComparison NString::Compare(const NString &theString, NStringFlags theFlags) const
 {	NIndex					indexA, indexB, sizeA, sizeB;
 	bool					ignoreCase, isNumeric;
-	UInt64					numberA, numberB;
+	uint64_t				numberA, numberB;
 	const NStringValue		*valueA, *valueB;
-	UTF32Char				charA, charB;
+	utf32_t					charA, charB;
 	NComparison				theResult;
 
 
@@ -1583,7 +1583,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 {	NIndex				sizeB, n, offsetB, limitA, rangeFirst, rangeLast;
 	bool				ignoreCase, updateB;
 	NUnicodeParser		parserA, parserB;
-	UTF32Char			charA, charB;
+	utf32_t				charA, charB;
 	NRange				findRange;
 	NRangeList			theResult;
 
@@ -1838,7 +1838,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 void NString::CapitalizeCharacters(bool toUpper)
 {	NIndex					n, theSize;
 	NUnicodeParser			theParser;
-	UTF32Char				theChar;
+	utf32_t					theChar;
 	NData					theData;
 
 
@@ -1874,7 +1874,7 @@ void NString::CapitalizeCharacters(bool toUpper)
 void NString::CapitalizeWords(void)
 {	NIndex					n, theSize;
 	NUnicodeParser			theParser;
-	UTF32Char				theChar;
+	utf32_t					theChar;
 	bool					toUpper;
 	NData					theData;
 
@@ -1922,7 +1922,7 @@ void NString::CapitalizeWords(void)
 void NString::CapitalizeSentences(void)
 {	NIndex					n, theSize;
 	NUnicodeParser			theParser;
-	UTF32Char				theChar;
+	utf32_t					theChar;
 	bool					toUpper;
 	NData					theData;
 
@@ -1949,9 +1949,9 @@ void NString::CapitalizeSentences(void)
 				}
 			}
 		else
-			toUpper = (theChar == (UTF32Char) '!' ||
-					   theChar == (UTF32Char) '.' ||
-					   theChar == (UTF32Char) '?');
+			toUpper = (theChar == (utf32_t) '!' ||
+					   theChar == (utf32_t) '.' ||
+					   theChar == (utf32_t) '?');
 		
 		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
@@ -2003,7 +2003,7 @@ void NString::TrimWhitespace(bool fromLeft, bool fromRight)
 //----------------------------------------------------------------------------
 void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
 {	NIndex					theSize, indexStart, indexEnd;
-	const UTF8Char			*textUTF8;
+	const utf8_t			*textUTF8;
 	const NStringValue		*theValue;
 
 
@@ -2016,7 +2016,7 @@ void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
 	// Get the state we need
 	theValue = GetImmutable();
 	theSize  = theValue->theSize;
-	textUTF8 = (const UTF8Char *) theValue->theData.GetData();
+	textUTF8 = (const utf8_t *) theValue->theData.GetData();
 
 	indexStart = 0;
 	indexEnd   = theSize - 1;
@@ -2166,12 +2166,12 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 {	NStringEncoding			bestEncoding;
 	NIndex					n, theSize;
 	NUnicodeParser			theParser;
-	const UTF32Char			*chars32;
-	const UTF16Char			*chars16;
+	const utf32_t			*chars32;
+	const utf16_t			*chars16;
 	NRange					bomRange;
-	const UTF8Char			*chars8;
-	UTF16Char				char16;
-	UTF32Char				char32;
+	const utf8_t			*chars8;
+	utf16_t					char16;
+	utf32_t					char32;
 
 
 
@@ -2190,8 +2190,8 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 		case kNStringEncodingMacRoman:
 		case kNStringEncodingISOLatin1:
 		case kNStringEncodingWindowsLatin1:
-			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF8Char));
-			chars8       = (const UTF8Char *) theData.GetData();
+			theSize      = theData.GetSize() / ((NIndex) sizeof(utf8_t));
+			chars8       = (const utf8_t *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
 			for (n = 0; n < theSize; n++)
@@ -2211,8 +2211,8 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 		case kNStringEncodingUTF16:
 		case kNStringEncodingUTF16BE:
 		case kNStringEncodingUTF16LE:
-			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF16Char));
-			chars16      = (const UTF16Char *) theData.GetData();
+			theSize      = theData.GetSize() / ((NIndex) sizeof(utf16_t));
+			chars16      = (const utf16_t *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
 			for (n = 0; n < theSize; n++)
@@ -2233,8 +2233,8 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 		case kNStringEncodingUTF32:
 		case kNStringEncodingUTF32BE:
 		case kNStringEncodingUTF32LE:
-			theSize      = theData.GetSize() / ((NIndex) sizeof(UTF32Char));
-			chars32      = (const UTF32Char *) theData.GetData();
+			theSize      = theData.GetSize() / ((NIndex) sizeof(utf32_t));
+			chars32      = (const utf32_t *) theData.GetData();
 			bestEncoding = kNStringEncodingUTF8;
 			
 			for (n = 0; n < theSize; n++)
@@ -2327,8 +2327,8 @@ NUnicodeParser NString::GetParser(void) const
 //============================================================================
 //      NString::GetNumber : Get a number.
 //----------------------------------------------------------------------------
-UInt64 NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const
-{	UInt64		theNumber;
+uint64_t NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, utf32_t theChar) const
+{	uint64_t	theNumber;
 
 
 
@@ -2344,7 +2344,7 @@ UInt64 NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIn
 	while (true)
 		{
 		NN_ASSERT(theNumber <= (kUInt64Max/10));
-		theNumber = (theNumber * 10) + (theChar - (UTF32Char) '0');
+		theNumber = (theNumber * 10) + (theChar - (utf32_t) '0');
 
 		theIndex++;
 		if (theIndex == theSize)

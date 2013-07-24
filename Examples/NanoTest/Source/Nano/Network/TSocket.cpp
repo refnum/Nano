@@ -27,10 +27,10 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Server
-static const UInt16 kServerPortMin									= 7000;
-static const UInt16 kServerPortMax									= 7999;
+static const uint16_t kServerPortMin								= 7000;
+static const uint16_t kServerPortMax								= 7999;
 
-static const UInt32 kTestNumItems									= 100;
+static const uint32_t kTestNumItems									= 100;
 
 
 
@@ -46,7 +46,7 @@ public:
 
 
 	// Start/stop the server
-	void								Start(UInt16 thePort);
+	void								Start(uint16_t thePort);
 	void								Stop( void);
 
 
@@ -79,7 +79,7 @@ public:
 
 	// Execute the tests
 	void								ExecuteWeb(   bool *isDone, NData *theData);
-	void								ExecuteCustom(bool *isDone, UInt16 thePort);
+	void								ExecuteCustom(bool *isDone, uint16_t thePort);
 
 
 protected:
@@ -129,7 +129,7 @@ TSocketServer::~TSocketServer(void)
 //============================================================================
 //		TSocketServer::Start : Start the server.
 //----------------------------------------------------------------------------
-void TSocketServer::Start(UInt16 thePort)
+void TSocketServer::Start(uint16_t thePort)
 {
 
 
@@ -214,7 +214,7 @@ NSocketConnectionFunctor TSocketServer::SocketHasConnection(NSocket * /*theSocke
 //		TSocketServer::HandleConnection : Handle a connection.
 //----------------------------------------------------------------------------
 void TSocketServer::HandleConnection(NSocket *theSocket)
-{	UInt32		n, theValue;
+{	uint32_t	n, theValue;
 	NStatus		theErr;
 
 
@@ -317,8 +317,8 @@ void TSocketClient::ExecuteWeb(bool *isDone, NData *theData)
 //============================================================================
 //		TSocketClient::ExecuteCustom : Execute a custom client test.
 //----------------------------------------------------------------------------
-void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
-{	UInt32		n, theValue;
+void TSocketClient::ExecuteCustom(bool *isDone, uint16_t thePort)
+{	uint32_t	n, theValue;
 	NSocket		*theSocket;
 	NStatus		theErr;
 
@@ -334,11 +334,11 @@ void TSocketClient::ExecuteCustom(bool *isDone, UInt16 thePort)
 
 
 	// Get/set optins
-	theErr = theSocket->SetOption(kNSocketNoDelay, (SInt32) true);
+	theErr = theSocket->SetOption(kNSocketNoDelay, (int32_t) true);
 	NN_ASSERT_NOERR(theErr);
 	
 	theValue = theSocket->GetOption(kNSocketNoDelay);
-	NN_ASSERT(theValue == (SInt32) true);
+	NN_ASSERT(theValue == (int32_t) true);
 
 
 
@@ -404,7 +404,7 @@ FIXTURE_NANO(TSocket)
 {
 	TSocketServer		*theServer;
 	TSocketClient		*theClient;
-	UInt16				thePort;
+	uint16_t			thePort;
 	bool				isDone;
 
 	SETUP

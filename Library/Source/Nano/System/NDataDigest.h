@@ -28,11 +28,11 @@
 //----------------------------------------------------------------------------
 // Digests
 typedef struct {
-	UInt8		bytes[16];
+	uint8_t		bytes[16];
 } NDigestMD5;
 
 typedef struct NDigestSHA1 {
-	UInt8		bytes[20];
+	uint8_t		bytes[20];
 } NDigestSHA1;
 
 
@@ -49,7 +49,7 @@ public:
 
 
 	// Get a digest as a string
-	NString								GetString(      UInt32       theValue) const;
+	NString								GetString(      uint32_t     theValue) const;
 	NString								GetString(const NDigestMD5  &theValue) const;
 	NString								GetString(const NDigestSHA1 &theValue) const;
 
@@ -57,15 +57,15 @@ public:
 	// Get a digest
 	//
 	// The checksum of empty data is always 0.
-	UInt16								GetInternet(const NData &theData);
-	UInt32								GetDJB2(    const NData &theData);
-	UInt32								GetAdler32( const NData &theData, UInt32 prevValue=0);
+	uint16_t							GetInternet(const NData &theData);
+	uint32_t							GetDJB2(    const NData &theData);
+	uint32_t							GetAdler32( const NData &theData, uint32_t prevValue=0);
 	NDigestMD5							GetMD5(     const NData &theData);
 	NDigestSHA1							GetSHA1(    const NData &theData);
 
 
 private:
-	NString								GetQuad(const UInt8 *theBytes) const;
+	NString								GetQuad(const uint8_t *theBytes) const;
 
 
 private:

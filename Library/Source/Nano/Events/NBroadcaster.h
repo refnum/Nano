@@ -25,13 +25,13 @@
 //		Types
 //----------------------------------------------------------------------------
 // Messages
-typedef UInt32 NBroadcastMsg;
+typedef uint32_t NBroadcastMsg;
 
 
 // Listeners
 class NListener;
 
-typedef std::map<NListener*, UInt8>									NListenerMap;
+typedef std::map<NListener*, uint8_t>								NListenerMap;
 typedef NListenerMap::iterator										NListenerMapIterator;
 typedef NListenerMap::const_iterator								NListenerMapConstIterator;
 

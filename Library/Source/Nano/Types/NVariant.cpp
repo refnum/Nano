@@ -354,18 +354,18 @@ bool NVariant::IsNumeric(void) const
 	// Check our type
 	//
 	// As per NNumber, some unsized types are also allowed to support literal constants.
-	isNumeric = IsType(typeid(NNumber)) ||
-				IsType(typeid(UInt8))   ||
-				IsType(typeid(UInt16))  ||
-				IsType(typeid(UInt32))  ||
-				IsType(typeid(UInt64))  ||
-				IsType(typeid(SInt8))   ||
-				IsType(typeid(SInt16))  ||
-				IsType(typeid(SInt32))  ||
-				IsType(typeid(SInt64))  ||
-				IsType(typeid(Float32)) ||
-				IsType(typeid(Float64)) ||
-				IsType(typeid(int))     ||
+	isNumeric = IsType(typeid(NNumber))   ||
+				IsType(typeid(uint8_t))   ||
+				IsType(typeid(uint16_t))  ||
+				IsType(typeid(uint32_t))  ||
+				IsType(typeid(uint64_t))  ||
+				IsType(typeid(int8_t))    ||
+				IsType(typeid(int16_t))   ||
+				IsType(typeid(int32_t))   ||
+				IsType(typeid(int64_t))   ||
+				IsType(typeid(float32_t)) ||
+				IsType(typeid(float64_t)) ||
+				IsType(typeid(int))       ||
 				IsType(typeid(long));
 
 	return(isNumeric);

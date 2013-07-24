@@ -83,11 +83,11 @@ static const NTime kNEpochTimeSince1601								= 12622780800.0;	// Windows
 //
 // Gregorian dates exist within a specific time zone.
 typedef struct {
-	SInt32			year;			// Absolute value
-	SInt8			month;			// 1..12
-	SInt8			day;			// 1..31
-	SInt8			hour;			// 0..23
-	SInt8			minute;			// 0..59
+	int32_t			year;			// Absolute value
+	int8_t			month;			// 1..12
+	int8_t			day;			// 1..31
+	int8_t			hour;			// 0..23
+	int8_t			minute;			// 0..59
 	NTime			second;			// 0..60
 	NString			timeZone;		// Time zone
 } NGregorianDate;
@@ -95,11 +95,11 @@ typedef struct {
 
 // Gregorian units
 typedef struct {
-	SInt32			years;
-	SInt32			months;
-	SInt32			days;
-	SInt32			hours;
-	SInt32			minutes;
+	int32_t			years;
+	int32_t			months;
+	int32_t			days;
+	int32_t			hours;
+	int32_t			minutes;
 	NTime			seconds;
 } NGregorianUnits;
 

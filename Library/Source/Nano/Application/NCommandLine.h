@@ -48,8 +48,8 @@ public:
 	// Flag arguments take the form "-arg=value" or "--arg=value".
 	//
 	// If the value is missing, a 0/empty value is returned.
-	SInt64								GetFlagSInt64( const NString &theArgument) const;
-	Float64								GetFlagFloat64(const NString &theArgument) const;
+	int64_t								GetFlagInt64(  const NString &theArgument) const;
+	float64_t							GetFlagFloat64(const NString &theArgument) const;
 	NString								GetFlagString( const NString &theArgument) const;
 	NFile								GetFlagFile(   const NString &theArgument) const;
 

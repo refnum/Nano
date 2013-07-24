@@ -101,7 +101,7 @@ TEST_NLISTENER("Multiple")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NLISTENER("Active")
-{	UInt32	theValue;
+{	uint32_t	theValue;
 
 
 
@@ -123,7 +123,7 @@ TEST_NLISTENER("Active")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NLISTENER("Inactive")
-{	UInt32	theValue;
+{	uint32_t	theValue;
 
 
 
@@ -147,7 +147,7 @@ TEST_NLISTENER("Inactive")
 //----------------------------------------------------------------------------
 TEST_NLISTENER("Copy")
 {	CTestListener	theListener2;
-	UInt32			theValue;
+	uint32_t		theValue;
 
 
 

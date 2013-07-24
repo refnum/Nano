@@ -27,18 +27,18 @@
 class NTargetPOSIX {
 public:
 	// math.h
-	static bool							is_nan(Float64 x);
-	static bool							is_inf(Float64 x);
+	static bool							is_nan(float64_t x);
+	static bool							is_inf(float64_t x);
 
-	static Float64						asin( Float64 x);
-	static Float64						acos( Float64 x);
-	static Float64						sinh( Float64 x);
-	static Float64						cosh( Float64 x);
-	static Float64						tanh( Float64 x);
-	static Float64						asinh(Float64 x);
-	static Float64						acosh(Float64 x);
-	static Float64						atanh(Float64 x);
-	static Float64						rint( Float64 x);
+	static float64_t					asin( float64_t x);
+	static float64_t					acos( float64_t x);
+	static float64_t					sinh( float64_t x);
+	static float64_t					cosh( float64_t x);
+	static float64_t					tanh( float64_t x);
+	static float64_t					asinh(float64_t x);
+	static float64_t					acosh(float64_t x);
+	static float64_t					atanh(float64_t x);
+	static float64_t					rint( float64_t x);
 
 
 	// stdio.h
@@ -46,9 +46,9 @@ public:
 
 
 	// stdlib.h
-	static SInt64						llabs(  SInt64 x);
-	static void							srandom(UInt32 s);
-	static UInt32						random(void);
+	static int64_t						llabs(  int64_t  x);
+	static void							srandom(uint32_t s);
+	static uint32_t						random(void);
 
 
 	// process.h

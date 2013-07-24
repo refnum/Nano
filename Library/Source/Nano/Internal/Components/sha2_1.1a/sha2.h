@@ -49,9 +49,9 @@ extern "C" {
  ****************************************************************************/
 // Defined sized-types for Windows
 #if NN_TARGET_WINDOWS
-	typedef UInt8  u_int8_t;
-	typedef UInt32 u_int32_t;
-	typedef UInt64 u_int64_t;
+	typedef uint8_t  u_int8_t;
+	typedef uint32_t u_int32_t;
+	typedef uint64_t u_int64_t;
 #endif
 
 

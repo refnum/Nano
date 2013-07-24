@@ -25,13 +25,13 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt8 kTextUTF8[]										= { 0xE6, 0x97, 0xA5, 0xE6, 0x9C, 0xAC, 0xE8, 0xAA, 0x9E };
-static const UInt8 kTextUTF16BE[]									= { 0x65, 0xE5, 0x67, 0x2C, 0x8A, 0x9E };
-static const UInt8 kTextUTF32BE[]									= { 0x00, 0x00, 0x65, 0xE5, 0x00, 0x00, 0x67, 0x2C, 0x00, 0x00, 0x8A, 0x9E };
+static const uint8_t kTextUTF8[]									= { 0xE6, 0x97, 0xA5, 0xE6, 0x9C, 0xAC, 0xE8, 0xAA, 0x9E };
+static const uint8_t kTextUTF16BE[]									= { 0x65, 0xE5, 0x67, 0x2C, 0x8A, 0x9E };
+static const uint8_t kTextUTF32BE[]									= { 0x00, 0x00, 0x65, 0xE5, 0x00, 0x00, 0x67, 0x2C, 0x00, 0x00, 0x8A, 0x9E };
 
-static const UTF32Char kChar0										= 0x000065E5;
-static const UTF32Char kChar1										= 0x0000672C;
-static const UTF32Char kChar2										= 0x00008A9E;
+static const utf32_t kChar0											= 0x000065E5;
+static const utf32_t kChar1											= 0x0000672C;
+static const utf32_t kChar2											= 0x00008A9E;
 
 
 
@@ -170,13 +170,13 @@ TEST_NUNICODEPARSER("Case")
 
 
 	// Perform the test
-	REQUIRE(parserUTF8.GetLower('A') == (UTF32Char) 'a');
-	REQUIRE(parserUTF8.GetLower('0') == (UTF32Char) '0');
-	REQUIRE(parserUTF8.GetLower('?') == (UTF32Char) '?');
+	REQUIRE(parserUTF8.GetLower('A') == (utf32_t) 'a');
+	REQUIRE(parserUTF8.GetLower('0') == (utf32_t) '0');
+	REQUIRE(parserUTF8.GetLower('?') == (utf32_t) '?');
 
-	REQUIRE(parserUTF8.GetUpper('b') == (UTF32Char) 'B');
-	REQUIRE(parserUTF8.GetUpper('1') == (UTF32Char) '1');
-	REQUIRE(parserUTF8.GetUpper('!') == (UTF32Char) '!');
+	REQUIRE(parserUTF8.GetUpper('b') == (utf32_t) 'B');
+	REQUIRE(parserUTF8.GetUpper('1') == (utf32_t) '1');
+	REQUIRE(parserUTF8.GetUpper('!') == (utf32_t) '!');
 }
 
 

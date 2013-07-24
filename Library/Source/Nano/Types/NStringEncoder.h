@@ -74,7 +74,7 @@ public:
 
 
 	// Convert a character
-	UTF32Char							ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr);
+	utf32_t								ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr);
 
 
 	// Add/remove a null terminator
@@ -114,7 +114,7 @@ private:
 	NStatus								ConvertUTF32ToUTF8( const NData &srcData, NData &dstData);
 	NStatus								ConvertUTF32ToUTF16(const NData &srcData, NData &dstData);
 	
-	NStatus								ConvertUTF(NData &theData, const void *dataEnd, UInt32 theResult);
+	NStatus								ConvertUTF(NData &theData, const void *dataEnd, uint32_t theResult);
 	void								SwapUTF(   NData &theData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
 };
 

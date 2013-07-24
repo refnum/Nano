@@ -131,7 +131,7 @@ NIndex NSocket::GetPendingWrites(void) const
 //============================================================================
 //		NSocket::Open : Open the socket.
 //----------------------------------------------------------------------------
-void NSocket::Open(UInt16 thePort)
+void NSocket::Open(uint16_t thePort)
 {
 
 
@@ -146,7 +146,7 @@ void NSocket::Open(UInt16 thePort)
 //============================================================================
 //		NSocket::Open : Open the socket.
 //----------------------------------------------------------------------------
-void NSocket::Open(const NString &theHost, UInt16 thePort)
+void NSocket::Open(const NString &theHost, uint16_t thePort)
 {	StLock		acquireLock(mLock);
 
 
@@ -305,9 +305,9 @@ void NSocket::Write(NIndex theSize, const void *thePtr)
 
 
 //============================================================================
-//		NSocket::ReadUInt8 : Read a UInt8.
+//		NSocket::ReadUInt8 : Read a uint8_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadUInt8(UInt8 &theValue)
+NStatus NSocket::ReadUInt8(uint8_t &theValue)
 {	NStatus		theErr;
 
 
@@ -323,9 +323,9 @@ NStatus NSocket::ReadUInt8(UInt8 &theValue)
 
 
 //============================================================================
-//		NSocket::ReadUInt16 : Read a UInt16.
+//		NSocket::ReadUInt16 : Read a uint16_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadUInt16(UInt16 &theValue, NEndianFormat wireFormat)
+NStatus NSocket::ReadUInt16(uint16_t &theValue, NEndianFormat wireFormat)
 {	NStatus		theErr;
 
 
@@ -343,9 +343,9 @@ NStatus NSocket::ReadUInt16(UInt16 &theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::ReadUInt32 : Read a UInt32.
+//		NSocket::ReadUInt32 : Read a uint32_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadUInt32(UInt32 &theValue, NEndianFormat wireFormat)
+NStatus NSocket::ReadUInt32(uint32_t &theValue, NEndianFormat wireFormat)
 {	NStatus		theErr;
 
 
@@ -363,9 +363,9 @@ NStatus NSocket::ReadUInt32(UInt32 &theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::ReadUInt64 : Read a UInt64.
+//		NSocket::ReadUInt64 : Read a uint64_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadUInt64(UInt64 &theValue, NEndianFormat wireFormat)
+NStatus NSocket::ReadUInt64(uint64_t &theValue, NEndianFormat wireFormat)
 {	NStatus		theErr;
 
 
@@ -383,9 +383,9 @@ NStatus NSocket::ReadUInt64(UInt64 &theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::ReadSInt8 : Read an SInt8.
+//		NSocket::ReadInt8 : Read an int8_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadSInt8(SInt8 &theValue)
+NStatus NSocket::ReadInt8(int8_t &theValue)
 {	NStatus		theErr;
 
 
@@ -401,9 +401,9 @@ NStatus NSocket::ReadSInt8(SInt8 &theValue)
 
 
 //============================================================================
-//		NSocket::ReadSInt16 : Read an SInt16.
+//		NSocket::ReadInt16 : Read an int16_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadSInt16(SInt16 &theValue, NEndianFormat wireFormat)
+NStatus NSocket::ReadInt16(int16_t &theValue, NEndianFormat wireFormat)
 {	NStatus		theErr;
 
 
@@ -411,7 +411,7 @@ NStatus NSocket::ReadSInt16(SInt16 &theValue, NEndianFormat wireFormat)
 	// Read the value
 	theErr = ReadData(sizeof(theValue), &theValue);
 	if (theErr == kNoErr && wireFormat != kNEndianNative)
-		NSwapSInt16(&theValue);
+		NSwapInt16(&theValue);
 	
 	return(theErr);
 }
@@ -421,9 +421,9 @@ NStatus NSocket::ReadSInt16(SInt16 &theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::ReadSInt32 : Read an SInt32.
+//		NSocket::ReadInt32 : Read an int32_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadSInt32(SInt32 &theValue, NEndianFormat wireFormat)
+NStatus NSocket::ReadInt32(int32_t &theValue, NEndianFormat wireFormat)
 {	NStatus		theErr;
 
 
@@ -431,7 +431,7 @@ NStatus NSocket::ReadSInt32(SInt32 &theValue, NEndianFormat wireFormat)
 	// Read the value
 	theErr = ReadData(sizeof(theValue), &theValue);
 	if (theErr == kNoErr && wireFormat != kNEndianNative)
-		NSwapSInt32(&theValue);
+		NSwapInt32(&theValue);
 	
 	return(theErr);
 }
@@ -441,9 +441,9 @@ NStatus NSocket::ReadSInt32(SInt32 &theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::ReadSInt64 : Read an SInt64.
+//		NSocket::ReadInt64 : Read an int64_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::ReadSInt64(SInt64 &theValue, NEndianFormat wireFormat)
+NStatus NSocket::ReadInt64(int64_t &theValue, NEndianFormat wireFormat)
 {	NStatus		theErr;
 
 
@@ -451,7 +451,7 @@ NStatus NSocket::ReadSInt64(SInt64 &theValue, NEndianFormat wireFormat)
 	// Read the value
 	theErr = ReadData(sizeof(theValue), &theValue);
 	if (theErr == kNoErr && wireFormat != kNEndianNative)
-		NSwapSInt64(&theValue);
+		NSwapInt64(&theValue);
 	
 	return(theErr);
 }
@@ -540,9 +540,9 @@ NStatus NSocket::ReadData(NIndex theSize, NData &theData)
 
 
 //============================================================================
-//		NSocket::WriteUInt8 : Write a UInt8.
+//		NSocket::WriteUInt8 : Write a uint8_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteUInt8(UInt8 theValue)
+NStatus NSocket::WriteUInt8(uint8_t theValue)
 {
 
 
@@ -555,9 +555,9 @@ NStatus NSocket::WriteUInt8(UInt8 theValue)
 
 
 //============================================================================
-//		NSocket::WriteUInt16 : Write a UInt16.
+//		NSocket::WriteUInt16 : Write a uint16_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteUInt16(UInt16 theValue, NEndianFormat wireFormat)
+NStatus NSocket::WriteUInt16(uint16_t theValue, NEndianFormat wireFormat)
 {
 
 
@@ -573,9 +573,9 @@ NStatus NSocket::WriteUInt16(UInt16 theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::WriteUInt32 : Write a UInt32.
+//		NSocket::WriteUInt32 : Write a uint32_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteUInt32(UInt32 theValue, NEndianFormat wireFormat)
+NStatus NSocket::WriteUInt32(uint32_t theValue, NEndianFormat wireFormat)
 {
 
 
@@ -591,9 +591,9 @@ NStatus NSocket::WriteUInt32(UInt32 theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::WriteUInt64 : Write a UInt64.
+//		NSocket::WriteUInt64 : Write a uint64_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteUInt64(UInt64 theValue, NEndianFormat wireFormat)
+NStatus NSocket::WriteUInt64(uint64_t theValue, NEndianFormat wireFormat)
 {
 
 
@@ -609,9 +609,9 @@ NStatus NSocket::WriteUInt64(UInt64 theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::WriteSInt8 : Write a SInt8.
+//		NSocket::WriteInt8 : Write an int8_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteSInt8(SInt8 theValue)
+NStatus NSocket::WriteInt8(int8_t theValue)
 {
 
 
@@ -624,15 +624,15 @@ NStatus NSocket::WriteSInt8(SInt8 theValue)
 
 
 //============================================================================
-//		NSocket::WriteSInt16 : Write a SInt16.
+//		NSocket::WriteInt16 : Write an int16_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteSInt16(SInt16 theValue, NEndianFormat wireFormat)
+NStatus NSocket::WriteInt16(int16_t theValue, NEndianFormat wireFormat)
 {
 
 
 	// Write the value
 	if (wireFormat != kNEndianNative)
-		NSwapSInt16(&theValue);
+		NSwapInt16(&theValue);
 
 	return(WriteData(sizeof(theValue), &theValue));
 }
@@ -642,15 +642,15 @@ NStatus NSocket::WriteSInt16(SInt16 theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::WriteSInt32 : Write a SInt32.
+//		NSocket::WriteInt32 : Write an int32_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteSInt32(SInt32 theValue, NEndianFormat wireFormat)
+NStatus NSocket::WriteInt32(int32_t theValue, NEndianFormat wireFormat)
 {
 
 
 	// Write the value
 	if (wireFormat != kNEndianNative)
-		NSwapSInt32(&theValue);
+		NSwapInt32(&theValue);
 
 	return(WriteData(sizeof(theValue), &theValue));
 }
@@ -660,15 +660,15 @@ NStatus NSocket::WriteSInt32(SInt32 theValue, NEndianFormat wireFormat)
 
 
 //============================================================================
-//		NSocket::WriteSInt64 : Write a SInt64.
+//		NSocket::WriteInt64 : Write an int64_t.
 //----------------------------------------------------------------------------
-NStatus NSocket::WriteSInt64(SInt64 theValue, NEndianFormat wireFormat)
+NStatus NSocket::WriteInt64(int64_t theValue, NEndianFormat wireFormat)
 {
 
 
 	// Write the value
 	if (wireFormat != kNEndianNative)
-		NSwapSInt64(&theValue);
+		NSwapInt64(&theValue);
 
 	return(WriteData(sizeof(theValue), &theValue));
 }
@@ -773,7 +773,7 @@ void NSocket::SetDelegate(NSocketDelegate *theDelegate)
 //============================================================================
 ///		NSocket::GetOption : Get an option.
 //----------------------------------------------------------------------------
-SInt32 NSocket::GetOption(NSocketOption theOption) const
+int32_t NSocket::GetOption(NSocketOption theOption) const
 {
 
 
@@ -793,7 +793,7 @@ SInt32 NSocket::GetOption(NSocketOption theOption) const
 //============================================================================
 ///		NSocket::GetOption : Get an option.
 //----------------------------------------------------------------------------
-NStatus NSocket::SetOption(NSocketOption theOption, SInt32 theValue)
+NStatus NSocket::SetOption(NSocketOption theOption, int32_t theValue)
 {
 
 
@@ -814,7 +814,7 @@ NStatus NSocket::SetOption(NSocketOption theOption, SInt32 theValue)
 //============================================================================
 //		NSocket::SocketEvent : Handle events.
 //----------------------------------------------------------------------------
-void NSocket::SocketEvent(NSocketEvent theEvent, UIntPtr theValue)
+void NSocket::SocketEvent(NSocketEvent theEvent, uintptr_t theValue)
 {
 
 

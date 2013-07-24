@@ -198,18 +198,18 @@ public:
 	//
 	//			Type				Specifier
 	//			=============================
-	//			UInt8				%d
-	//			UInt16				%d
-	//			UInt32				%ld
-	//			UInt64				%lld
+	//			uint8_t				%d
+	//			uint16_t			%d
+	//			uint32_t			%ld
+	//			uint64_t			%lld
 	//
-	//			SInt8				%d
-	//			SInt16				%d
-	//			SInt32				%ld
-	//			SInt64				%lld
+	//			int8_t				%d
+	//			int16_t				%d
+	//			int32_t				%ld
+	//			int64_t				%lld
 	//
-	//			Float32				%f
-	//			Float64				%lf
+	//			float32_t			%f
+	//			float64_t			%lf
 	//
 	//			char				%c
 	//			wchar_t				%lc
@@ -219,28 +219,17 @@ public:
 	//
 	//			Objects				%@
 	//
-	// Arguments are printed by wrapping them in an NFormatArgument object,
-	// whose GetValue method is invoked to obtain the formatted text.
+	// Arguments are printed by wrapping them in an NFormatArgument object, whose
+	// GetValue method is invoked to obtain the formatted text.
 	//
-	// This allows custom objects to be printed using the %@ specifier, by
-	// providing a suitable NFormatArgument cast operator.
-	//
-	//
-	// On some platforms the UInt32/SInt32 types use a different underlying type
-	// for 64-bit vs 32-bit builds due to existing definitions in system headers.
-	//
-	// This means that a UInt32 is declared as an 'int' typedef on Mac 64-bit, vs
-	// a 'long' on Mac 32-bit.
-	//
-	// Since 'int' and 'long' strictly speaking require different format specifiers
-	// ('%d' and '%ld' respectively), NFormatArgument promotes all 'int' arguments
-	// to 'long' to allow '%ld' to be used for both.
+	// This allows custom objects to be printed using the %@ specifier, by providing
+	// a suitable NFormatArgument cast operator.
 	//
 	//
-	// On some platforms (32-bit PowerPC) the following behaviour is undefined:
+	// On some platforms the following behaviour is undefined:
 	//
-	//		UInt32		value32 = 1234;
-	//		UInt64		value64 = 1234;
+	//		uint32_t	value32 = 1234;
+	//		uint64_t	value64 = 1234;
 	//
 	//		Format("%lld", value32);	// Use a 64-bit length modifier, and 32-bit value
 	//		Format("%ld",  value64);	// Use a 32-bit length modifier, and 64-bit value

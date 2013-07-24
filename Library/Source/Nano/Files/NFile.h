@@ -84,7 +84,7 @@ typedef enum {
 
 
 // File reference
-typedef UIntPtr NFileRef;
+typedef uintptr_t NFileRef;
 
 static const NFileRef kNFileRefNone									= 0;
 
@@ -184,8 +184,8 @@ public:
 	// Get/set the size
 	//
 	// Growing the file will zero-fill any new space.
-	UInt64								GetSize(void) const;
-	NStatus								SetSize(UInt64 theSize);
+	uint64_t							GetSize(void) const;
+	NStatus								SetSize(uint64_t theSize);
 
 
 	// Get the timestamp
@@ -262,15 +262,15 @@ public:
 	// Get/set the read/write position
 	//
 	// SetPosition is only available for files opened for reading or updating.
-	UInt64								GetPosition(void) const;
-	NStatus								SetPosition(SInt64 theOffset, NFilePosition thePosition=kNPositionFromStart);
+	uint64_t							GetPosition(void) const;
+	NStatus								SetPosition(int64_t theOffset, NFilePosition thePosition=kNPositionFromStart);
 
 
 	// Read/write the file
 	//
 	// The file must be opened with appropriate permissions first.
-	NStatus								Read( UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
-	NStatus								Write(UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
+	NStatus								Read( uint64_t theSize,       void *thePtr, uint64_t &numRead,    int64_t theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
+	NStatus								Write(uint64_t theSize, const void *thePtr, uint64_t &numWritten, int64_t theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
 
 
 	// Operators

@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 #ifndef _UINT32
-	typedef UInt32 uint32;
+	typedef uint32_t uint32;
 #endif
 
 

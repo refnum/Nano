@@ -62,7 +62,7 @@ NString NFileUtilities::GetFileText(const NFile &theFile, NStringEncoding theEnc
 //		NFileUtilities::GetFileData : Get a file as data.
 //----------------------------------------------------------------------------
 NData NFileUtilities::GetFileData(const NFile &theFile)
-{	UInt64			theSize, numRead;
+{	uint64_t		theSize, numRead;
 	NFile			mutableFile;
 	NData			theData;
 	NStatus			theErr;
@@ -72,7 +72,7 @@ NData NFileUtilities::GetFileData(const NFile &theFile)
 	// Get the state we need
 	mutableFile = theFile;
 	theSize     = mutableFile.GetSize();
-	NN_ASSERT( ((SInt64) theSize) <= kSInt32Max);
+	NN_ASSERT( ((int64_t) theSize) <= kInt32Max);
 
 
 
@@ -98,7 +98,7 @@ NData NFileUtilities::GetFileData(const NFile &theFile)
 
 	NN_ASSERT_NOERR(theErr);
 	NN_ASSERT(numRead == theSize);
-	NN_ASSERT(((SInt64) numRead) <= kSInt32Max);
+	NN_ASSERT(((int64_t) numRead) <= kInt32Max);
 
 
 
@@ -131,7 +131,7 @@ NStatus NFileUtilities::SetFileText(const NFile &theFile, const NString &theText
 //		NFileUtilities::SetFileData : Set a file to data.
 //----------------------------------------------------------------------------
 NStatus NFileUtilities::SetFileData(const NFile &theFile, const NData &theData)
-{	UInt64			theSize, numWritten;
+{	uint64_t		theSize, numWritten;
 	NFile			mutableFile;
 	NStatus			theErr;
 
@@ -246,11 +246,11 @@ NFile NFileUtilities::GetDirectory(NDirectoryLocation theLocation, const NString
 //============================================================================
 //		NFileUtilities::GetDirectorySize : Get a directory size.
 //----------------------------------------------------------------------------
-UInt64 NFileUtilities::GetDirectorySize(const NFile &theDirectory)
+uint64_t NFileUtilities::GetDirectorySize(const NFile &theDirectory)
 {	NFileIterator				fileIterator;
 	NFileList					theFiles;
 	NFile						theFile;
-	UInt64						theSize;
+	uint64_t					theSize;
 	NFileListConstIterator		theIter;
 
 
@@ -289,7 +289,7 @@ NFile NFileUtilities::GetUniqueFile(const NFile &theDirectory, const NString &fi
 {	NString		nameChild, nameFile, nameExt;
 	NRange		extBreak;
 	NFile		theFile;
-	UInt32		n;
+	NIndex		n;
 
 
 

@@ -208,7 +208,7 @@ NIndex NURL::GetPort(void) const
 	theResult = kNIndexNone;
 
 	if (!theValue.IsEmpty() && theNumber.SetValue(theValue))
-		theResult = theNumber.GetSInt32();
+		theResult = theNumber.GetInt32();
 
 
 

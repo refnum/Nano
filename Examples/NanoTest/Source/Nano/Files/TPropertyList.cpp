@@ -49,18 +49,18 @@ static const NString kKeyColor										= "Test Color";
 
 
 // Values
-static const NString kValueString1									= "First String";
-static const NString kValueString2									= "Second String";
-static const bool    kValueBoolean1									= true;
-static const bool    kValueBoolean2									= false;
-static const SInt64  kValueNumber1									= -2342;
-static const Float64 kValueNumber2									= kNPi;
-static const UInt8   kValueData1[]									= { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A };
-static const UInt8   kValueData2[]									= { 0x3C, 0xE7, 0xC7, 0x32, 0xE3, 0xD8, 0x52 };
-static const NDate   kValueDate1									= NDate(-886538221);
-static const NDate   kValueDate2									= NDate( 268617632);
-static const NColor  kValueColor1									= NColor(1.0f, 0.8f, 0.4f, 0.2f);
-static const NColor  kValueColor2									= NColor(0.1f, 0.2f, 0.3f, 0.4f);
+static const NString   kValueString1								= "First String";
+static const NString   kValueString2								= "Second String";
+static const bool      kValueBoolean1								= true;
+static const bool      kValueBoolean2								= false;
+static const int64_t   kValueNumber1								= -2342;
+static const float64_t kValueNumber2								= kNPi;
+static const uint8_t   kValueData1[]								= { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A };
+static const uint8_t   kValueData2[]								= { 0x3C, 0xE7, 0xC7, 0x32, 0xE3, 0xD8, 0x52 };
+static const NDate     kValueDate1									= NDate(-886538221);
+static const NDate     kValueDate2									= NDate( 268617632);
+static const NColor    kValueColor1									= NColor(1.0f, 0.8f, 0.4f, 0.2f);
+static const NColor    kValueColor2									= NColor(0.1f, 0.2f, 0.3f, 0.4f);
 
 
 // Property lists
@@ -253,7 +253,7 @@ TEST_NPROPERTYLIST("XMLDecode")
 	REQUIRE(testArray.GetSize() == 7);
 	REQUIRE(testArray.GetValueString (0) == kValueString1);
 	REQUIRE(testArray.GetValueBoolean(1) == kValueBoolean1);
-	REQUIRE(testArray.GetValueSInt64 (2) == kValueNumber1);
+	REQUIRE(testArray.GetValueInt64  (2) == kValueNumber1);
 	REQUIRE(testArray.GetValueDate   (3) == kValueDate1);
 	REQUIRE(testArray.GetValueColor  (4) == kValueColor1);
 

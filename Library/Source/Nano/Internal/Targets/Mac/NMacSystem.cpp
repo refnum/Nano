@@ -185,10 +185,10 @@ static void DoNotification(CFNotificationCenterRef		/*cfCenter*/,
 
 
 //============================================================================
-//		GestaltSInt32 : Get a gestalt value.
+//		GestaltInt32 : Get a gestalt value.
 //----------------------------------------------------------------------------
 #if NN_TARGET_MAC
-static SInt32 GestaltSInt32(OSType theSelector)
+static int32_t GestaltInt32(OSType theSelector)
 {	SInt32		theValue;
 	OSStatus	theErr;
 
@@ -262,17 +262,17 @@ NFile NTargetSystem::FindBundle(const NString &bundleID)
 //      NTargetSystem::GetOSVersion : Get the OS version.
 //----------------------------------------------------------------------------
 OSVersion NTargetSystem::GetOSVersion(void)
-{	SInt32		verTarget, verMajor, verMinor, verBugFix;
+{	int32_t		verTarget, verMajor, verMinor, verBugFix;
 	OSVersion	theVers;
 
 
 
 	// Get the version
 #if NN_TARGET_MAC
-	verTarget = (SInt32) kOSMac;
-	verMajor  = GestaltSInt32(gestaltSystemVersionMajor);
-	verMinor  = GestaltSInt32(gestaltSystemVersionMinor);
-	verBugFix = GestaltSInt32(gestaltSystemVersionBugFix);
+	verTarget = (int32_t) kOSMac;
+	verMajor  = GestaltInt32(gestaltSystemVersionMajor);
+	verMinor  = GestaltInt32(gestaltSystemVersionMinor);
+	verBugFix = GestaltInt32(gestaltSystemVersionBugFix);
 	
 	verMajor <<= 16;
 	verMinor <<=  8;
@@ -288,7 +288,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 	theArray = [[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."];
 	numParts = [theArray count];
 
-	verTarget  = (SInt32) kOSiOS;
+	verTarget  = (int32_t) kOSiOS;
     verMajor   = (numParts >= 1) ? [[theArray objectAtIndex:0] intValue] : 0;
 	verMinor   = (numParts >= 2) ? [[theArray objectAtIndex:1] intValue] : 0;
 	verBugFix  = (numParts >= 3) ? [[theArray objectAtIndex:2] intValue] : 0;
@@ -312,7 +312,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 //		NTargetSystem::GetOSName : Get the OS name.
 //----------------------------------------------------------------------------
 NString NTargetSystem::GetOSName(void)
-{	SInt32			verMajor, verMinor, verBugFix;
+{	int32_t			verMajor, verMinor, verBugFix;
 	OSVersion		theVersion;
 	NString			theResult;
 
@@ -374,15 +374,15 @@ NString NTargetSystem::GetProcessName(void)
 //============================================================================
 //		NTargetSystem::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
-UInt64 NTargetSystem::GetSystemCPU(void)
-{	UInt32		theResult;
+uint64_t NTargetSystem::GetSystemCPU(void)
+{	unsigned int	theResult;
 
 
 
 	// Get the clock speed
-	theResult = NMacTarget::GetSysctl<UInt32>(CTL_HW, HW_CPU_FREQ);
+	theResult = NMacTarget::GetSysctl<unsigned int>(CTL_HW, HW_CPU_FREQ);
 	NN_ASSERT(theResult > 0);
-	
+
 	return(theResult);
 }
 
@@ -393,13 +393,13 @@ UInt64 NTargetSystem::GetSystemCPU(void)
 //============================================================================
 //		NTargetSystem::GetSystemRAM : Get the physical memory.
 //----------------------------------------------------------------------------
-UInt64 NTargetSystem::GetSystemRAM(void)
+uint64_t NTargetSystem::GetSystemRAM(void)
 {	uint64_t	theResult;
 
 
 
 	// Get the physical memory
-	theResult = NMacTarget::GetSysctl<UInt64>(CTL_HW, HW_MEMSIZE);
+	theResult = NMacTarget::GetSysctl<uint64_t>(CTL_HW, HW_MEMSIZE);
 	NN_ASSERT(theResult > 0);
 	
 	return(theResult);
@@ -494,7 +494,7 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	// Fork the process
 	theTask.taskID = fork();
 	
-	switch ((SInt32) theTask.taskID) {
+	switch ((int32_t) theTask.taskID) {
 		case -1:
 			// Handle failure
 			return(theTask);

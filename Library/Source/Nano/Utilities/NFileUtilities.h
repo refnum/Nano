@@ -90,7 +90,7 @@ public:
 
 
 	// Get a directory size
-	static UInt64						GetDirectorySize(const NFile &theDirectory);
+	static uint64_t						GetDirectorySize(const NFile &theDirectory);
 
 
 	// Get a uniquely-named file

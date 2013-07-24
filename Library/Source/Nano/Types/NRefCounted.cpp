@@ -90,7 +90,7 @@ void NRefCounted::Release(void)
 //============================================================================
 //		NRefCounted::GetRetainCount : Get the retain count.
 //----------------------------------------------------------------------------
-UInt32 NRefCounted::GetRetainCount(void) const
+uint32_t NRefCounted::GetRetainCount(void) const
 {
 
 

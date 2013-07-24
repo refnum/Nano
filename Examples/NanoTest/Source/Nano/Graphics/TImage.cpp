@@ -25,8 +25,8 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NSize kTestSize									= NSize(120, 72);
-static const UInt8 kTestImage[]									= {	0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44,
+static const NSize   kTestSize									= NSize(120, 72);
+static const uint8_t kTestImage[]								= {	0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44,
 																	0x52, 0x00, 0x00, 0x00, 0x78, 0x00, 0x00, 0x00, 0x48, 0x04, 0x03, 0x00, 0x00, 0x00, 0xCF,
 																	0x30, 0x2C, 0x4C, 0x00, 0x00, 0x00, 0x1E, 0x50, 0x4C, 0x54, 0x45, 0x00, 0x65, 0xBD, 0x09,
 																	0x6A, 0xBF, 0x22, 0x7A, 0xC6, 0x4C, 0x93, 0xD1, 0x7F, 0xB2, 0xDE, 0xB2, 0xD0, 0xEB, 0xD4,
@@ -57,14 +57,14 @@ static const UInt8 kTestImage[]									= {	0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 
 																	0xFA, 0xE1, 0xF0, 0xD3, 0xAF, 0x8E, 0x27, 0xE8, 0x93, 0x24, 0xBF, 0xC8, 0x73, 0x1B, 0xD6,
 																	0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82 };
 
-static const UInt8 kComponentNone								= 0x00;
-static const UInt8 kComponentRed								= 0x11;
-static const UInt8 kComponentGreen								= 0x22;
-static const UInt8 kComponentBlue								= 0x33;
-static const UInt8 kComponentAlpha								= 0x44;
+static const uint8_t kComponentNone								= 0x00;
+static const uint8_t kComponentRed								= 0x11;
+static const uint8_t kComponentGreen							= 0x22;
+static const uint8_t kComponentBlue								= 0x33;
+static const uint8_t kComponentAlpha							= 0x44;
 
 static const NImageFormat kTestFormat							= kNImageFormat_RGBA_8888;
-static const UInt8        kTestPixel[]							= { kComponentRed, kComponentGreen, kComponentBlue, kComponentAlpha };
+static const uint8_t      kTestPixel[]							= { kComponentRed, kComponentGreen, kComponentBlue, kComponentAlpha };
 
 
 
@@ -113,7 +113,7 @@ TEST_NIMAGE("RGB_888")
 
 
 	// Perform the test
-	Format(kNImageFormat_RGB_888, nvector<UInt8>(kComponentRed, kComponentGreen, kComponentBlue));
+	Format(kNImageFormat_RGB_888, nvector<uint8_t>(kComponentRed, kComponentGreen, kComponentBlue));
 }
 
 
@@ -128,7 +128,7 @@ TEST_NIMAGE("BGR_888")
 
 
 	// Perform the test
-	Format(kNImageFormat_BGR_888, nvector<UInt8>(kComponentBlue, kComponentGreen, kComponentRed));
+	Format(kNImageFormat_BGR_888, nvector<uint8_t>(kComponentBlue, kComponentGreen, kComponentRed));
 }
 
 
@@ -143,7 +143,7 @@ TEST_NIMAGE("RGBX_8888")
 
 
 	// Perform the test
-	Format(kNImageFormat_RGBX_8888, nvector<UInt8>(kComponentRed, kComponentGreen, kComponentBlue, kComponentNone));
+	Format(kNImageFormat_RGBX_8888, nvector<uint8_t>(kComponentRed, kComponentGreen, kComponentBlue, kComponentNone));
 }
 
 
@@ -158,7 +158,7 @@ TEST_NIMAGE("RGBA_8888")
 
 
 	// Perform the test
-	Format(kNImageFormat_RGBA_8888, nvector<UInt8>(kComponentRed, kComponentGreen, kComponentBlue, kComponentAlpha));
+	Format(kNImageFormat_RGBA_8888, nvector<uint8_t>(kComponentRed, kComponentGreen, kComponentBlue, kComponentAlpha));
 }
 
 
@@ -173,7 +173,7 @@ TEST_NIMAGE("XRGB_8888")
 
 
 	// Perform the test
-	Format(kNImageFormat_XRGB_8888, nvector<UInt8>(kComponentNone, kComponentRed, kComponentGreen, kComponentBlue));
+	Format(kNImageFormat_XRGB_8888, nvector<uint8_t>(kComponentNone, kComponentRed, kComponentGreen, kComponentBlue));
 }
 
 
@@ -188,7 +188,7 @@ TEST_NIMAGE("ARGB_8888")
 
 
 	// Perform the test
-	Format(kNImageFormat_ARGB_8888, nvector<UInt8>(kComponentAlpha, kComponentRed, kComponentGreen, kComponentBlue));
+	Format(kNImageFormat_ARGB_8888, nvector<uint8_t>(kComponentAlpha, kComponentRed, kComponentGreen, kComponentBlue));
 }
 
 
@@ -203,7 +203,7 @@ TEST_NIMAGE("BGRX_8888")
 
 
 	// Perform the test
-	Format(kNImageFormat_BGRX_8888, nvector<UInt8>(kComponentBlue, kComponentGreen, kComponentRed, kComponentNone));
+	Format(kNImageFormat_BGRX_8888, nvector<uint8_t>(kComponentBlue, kComponentGreen, kComponentRed, kComponentNone));
 }
 
 
@@ -218,7 +218,7 @@ TEST_NIMAGE("BGRA_8888")
 
 
 	// Perform the test
-	Format(kNImageFormat_BGRA_8888, nvector<UInt8>(kComponentBlue, kComponentGreen, kComponentRed, kComponentAlpha));
+	Format(kNImageFormat_BGRA_8888, nvector<uint8_t>(kComponentBlue, kComponentGreen, kComponentRed, kComponentAlpha));
 }
 
 
@@ -315,7 +315,7 @@ void TImage::EncodeDecode(const NUTI &theType)
 //		TImage::Format : Image pixel formats.
 //----------------------------------------------------------------------------
 void TImage::Format(NImageFormat theFormat, const UInt8List &theComponents)
-{	const UInt8		*pixelPtr;
+{	const uint8_t	*pixelPtr;
 	NIndex			n;
 
 

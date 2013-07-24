@@ -50,7 +50,7 @@ NNetworkService::~NNetworkService(void)
 //============================================================================
 //		NNetworkService::HasService : Has a service been registered?
 //----------------------------------------------------------------------------
-bool NNetworkService::HasService(const NString &serviceType, UInt16 thePort) const
+bool NNetworkService::HasService(const NString &serviceType, uint16_t thePort) const
 {	bool									hasService;
 	NServiceAdvertiserMapConstIterator		theIter;
 	NString									theID;
@@ -82,7 +82,7 @@ bool NNetworkService::HasService(const NString &serviceType, UInt16 thePort) con
 //============================================================================
 //		NNetworkService::AddService : Add a service.
 //----------------------------------------------------------------------------
-NStatus NNetworkService::AddService(const NString &serviceType, UInt16 thePort, const NString &theName)
+NStatus NNetworkService::AddService(const NString &serviceType, uint16_t thePort, const NString &theName)
 {	NServiceAdvertiserRef		theAdvertiser;
 	NStatus						theErr;
 	NString						theID;
@@ -127,7 +127,7 @@ NStatus NNetworkService::AddService(const NString &serviceType, UInt16 thePort, 
 //============================================================================
 //		NNetworkService::RemoveService : Remove a service.
 //----------------------------------------------------------------------------
-void NNetworkService::RemoveService(const NString &serviceType, UInt16 thePort)
+void NNetworkService::RemoveService(const NString &serviceType, uint16_t thePort)
 {	NServiceAdvertiserMapIterator	theIter;
 	NString							theID;
 
@@ -177,7 +177,7 @@ void NNetworkService::RemoveServices(void)
 //============================================================================
 //		NNetworkService::GetServiceID : Get a service ID.
 //----------------------------------------------------------------------------
-NString NNetworkService::GetServiceID(const NString &serviceType, UInt16 thePort) const
+NString NNetworkService::GetServiceID(const NString &serviceType, uint16_t thePort) const
 {	NString		theID;
 
 

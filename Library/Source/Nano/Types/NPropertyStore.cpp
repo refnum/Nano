@@ -159,14 +159,14 @@ bool NPropertyStore::GetValueBoolean(const NString &theKey) const
 
 
 //============================================================================
-//		NPropertyStore::GetValueSInt32 : Get a SInt32 value.
+//		NPropertyStore::GetValueInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NPropertyStore::GetValueSInt32(const NString &theKey) const
+int32_t NPropertyStore::GetValueInt32(const NString &theKey) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt32(GetValue(theKey), theKey));
+	return(NSystemUtilities::GetInt32(GetValue(theKey), theKey));
 }
 
 
@@ -174,14 +174,14 @@ SInt32 NPropertyStore::GetValueSInt32(const NString &theKey) const
 
 
 //============================================================================
-//		NPropertyStore::GetValueSInt64 : Get a SInt64 value.
+//		NPropertyStore::GetValueInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NPropertyStore::GetValueSInt64(const NString &theKey) const
+int64_t NPropertyStore::GetValueInt64(const NString &theKey) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt64(GetValue(theKey), theKey));
+	return(NSystemUtilities::GetInt64(GetValue(theKey), theKey));
 }
 
 
@@ -189,9 +189,9 @@ SInt64 NPropertyStore::GetValueSInt64(const NString &theKey) const
 
 
 //============================================================================
-//		NPropertyStore::GetValueFloat32 : Get a Float32 value.
+//		NPropertyStore::GetValueFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NPropertyStore::GetValueFloat32(const NString &theKey) const
+float32_t NPropertyStore::GetValueFloat32(const NString &theKey) const
 {
 
 
@@ -204,9 +204,9 @@ Float32 NPropertyStore::GetValueFloat32(const NString &theKey) const
 
 
 //============================================================================
-//		NPropertyStore::GetValueFloat64 : Get a Float64 value.
+//		NPropertyStore::GetValueFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NPropertyStore::GetValueFloat64(const NString &theKey) const
+float64_t NPropertyStore::GetValueFloat64(const NString &theKey) const
 {
 
 

@@ -494,7 +494,7 @@ void NXMLParser::DestroyParser(void)
 //============================================================================
 //		NXMLParser::ConvertXMLStatus : Convert an XML_Status.
 //----------------------------------------------------------------------------
-NStatus NXMLParser::ConvertXMLStatus(SInt32 xmlErr)
+NStatus NXMLParser::ConvertXMLStatus(int32_t xmlErr)
 {	NStatus		theErr;
 
 

@@ -144,10 +144,10 @@ public:
 	//
 	// If the value can not be returned as the specified type, 0/empty is returned.
 	static bool							GetBoolean(   const NVariant &theValue, const NString &debugID="");
-	static SInt32						GetSInt32(    const NVariant &theValue, const NString &debugID="");
-	static SInt64						GetSInt64(    const NVariant &theValue, const NString &debugID="");
-	static Float32						GetFloat32(   const NVariant &theValue, const NString &debugID="");
-	static Float64						GetFloat64(   const NVariant &theValue, const NString &debugID="");
+	static int32_t						GetInt32(     const NVariant &theValue, const NString &debugID="");
+	static int64_t						GetInt64(     const NVariant &theValue, const NString &debugID="");
+	static float32_t					GetFloat32(   const NVariant &theValue, const NString &debugID="");
+	static float64_t					GetFloat64(   const NVariant &theValue, const NString &debugID="");
 	static NString						GetString(    const NVariant &theValue, const NString &debugID="");
 	static NData						GetData(      const NVariant &theValue, const NString &debugID="");
 	static NDate						GetDate(      const NVariant &theValue, const NString &debugID="");
@@ -176,13 +176,13 @@ public:
 	// Get the clock speed
 	//
 	// The result is in hertz.
-	static UInt64						GetSystemCPU(void);
+	static uint64_t						GetSystemCPU(void);
 
 
 	// Get the physical memory
 	//
 	// The result is in bytes.
-	static UInt64						GetSystemRAM(void);
+	static uint64_t						GetSystemRAM(void);
 
 
 	// Get the architecture name

@@ -24,11 +24,11 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const UInt8 kBlock1[]										= { 0xAA, 0xBB, 0xCC, 0xDD };
-static const UInt8 kBlock2[]										= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
-static const UInt8 kBlock3[]										= { 0x1A, 0x2B, 0x3C };
+static const uint8_t kBlock1[]										= { 0xAA, 0xBB, 0xCC, 0xDD };
+static const uint8_t kBlock2[]										= { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
+static const uint8_t kBlock3[]										= { 0x1A, 0x2B, 0x3C };
 
-static const UInt8 kBlock1_and_3[]									= { 0xAA, 0xBB, 0xCC, 0xDD, 0x1A, 0x2B, 0x3C };
+static const uint8_t kBlock1_and_3[]								= { 0xAA, 0xBB, 0xCC, 0xDD, 0x1A, 0x2B, 0x3C };
 
 static const NData kTestData1(sizeof(kBlock1), kBlock1);
 static const NData kTestData2(sizeof(kBlock2), kBlock2);
@@ -68,7 +68,7 @@ TEST_NDATA("Default")
 
 	REQUIRE(theData.IsEmpty());
 	REQUIRE(theData.GetSize() == 0);
-	REQUIRE(theData.GetData() == (const UInt8 *) NULL);
+	REQUIRE(theData.GetData() == (const uint8_t *) NULL);
 }
 
 
@@ -79,7 +79,7 @@ TEST_NDATA("Default")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NDATA("CreateCopy")
-{	UInt8	tmpBlock[NN_ARRAY_SIZE(kBlock1)];
+{	uint8_t		tmpBlock[NN_ARRAY_SIZE(kBlock1)];
 
 
 
@@ -100,7 +100,7 @@ TEST_NDATA("CreateCopy")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NDATA("CreateNoCopy")
-{	UInt8	tmpBlock[NN_ARRAY_SIZE(kBlock1)];
+{	uint8_t		tmpBlock[NN_ARRAY_SIZE(kBlock1)];
 
 
 
@@ -161,7 +161,7 @@ TEST_NDATA("SizeDown")
 //----------------------------------------------------------------------------
 TEST_NDATA("SizeUp")
 {	NIndex			n, oldSize, theDelta;
-	const UInt8		*thePtr;
+	const uint8_t	*thePtr;
 
 
 
@@ -252,7 +252,7 @@ TEST_NDATA("SetDataValue")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NDATA("SetDataZero")
-{	const UInt8		*thePtr;
+{	const uint8_t	*thePtr;
 	NIndex			n;
 
 
@@ -321,7 +321,7 @@ TEST_NDATA("InsertDataValue")
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NDATA("InsertDataZero")
-{	const UInt8		*thePtr;
+{	const uint8_t	*thePtr;
 	NIndex			n;
 
 
@@ -371,6 +371,7 @@ TEST_NDATA("Remove")
 
 
 
+
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
@@ -390,11 +391,14 @@ TEST_NDATA("AppendDataValue")
 }
 
 
+
+
+
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
 TEST_NDATA("AppendDataZero")
-{	const UInt8		*thePtr;
+{	const uint8_t	*thePtr;
 	NIndex			n;
 
 
@@ -416,6 +420,8 @@ TEST_NDATA("AppendDataZero")
 
 
 
+
+
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
@@ -425,8 +431,8 @@ TEST_NDATA("Replace")
 
 	// Perform the test
 	theData = kTestData1;
-	REQUIRE(theData.AppendData(sizeof(kBlock3), kBlock3)                                     != (UInt8 *) NULL);
-	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), sizeof(kBlock3), kBlock3) != (UInt8 *) NULL);
+	REQUIRE(theData.AppendData(sizeof(kBlock3), kBlock3)                                     != (uint8_t *) NULL);
+	REQUIRE(theData.ReplaceData(NRange(0, NN_ARRAY_SIZE(kBlock1)), sizeof(kBlock3), kBlock3) != (uint8_t *) NULL);
 
 	REQUIRE(theData.GetSize() == (2 * sizeof(kBlock3)));
 	REQUIRE(memcmp(kBlock3, theData.GetData(0),               sizeof(kBlock3)) == 0);

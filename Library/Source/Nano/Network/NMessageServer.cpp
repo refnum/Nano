@@ -72,7 +72,7 @@ NMessageServerStatus NMessageServer::GetStatus(void) const
 //============================================================================
 //		NMessageServer::GetPort : Get the port.
 //----------------------------------------------------------------------------
-UInt16 NMessageServer::GetPort(void) const
+uint16_t NMessageServer::GetPort(void) const
 {
 
 
@@ -87,7 +87,7 @@ UInt16 NMessageServer::GetPort(void) const
 //============================================================================
 //		NMessageServer::SetPort : Set the port.
 //----------------------------------------------------------------------------
-void NMessageServer::SetPort(UInt16 thePort)
+void NMessageServer::SetPort(uint16_t thePort)
 {
 
 

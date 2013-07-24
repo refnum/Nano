@@ -31,14 +31,14 @@ static const NString kTestStringKey									= "StringValue";
 static const NString kTestArrayKey									= "ArrayValue";
 static const NString kTestDictionaryKey								= "DictionaryValue";
 
-static const bool    kValueBoolean1									= true;
-static const bool    kValueBoolean2									= false;
-static const SInt32  kValueInteger1									= 123;
-static const SInt32  kValueInteger2									= 456;
-static const Float32 kValueReal1									= 100.5;
-static const Float32 kValueReal2									= 200.5;
-static const NString kValueString1									= "This\t is\n a string";
-static const NString kValueString2									= "This is another string";
+static const bool      kValueBoolean1								= true;
+static const bool      kValueBoolean2								= false;
+static const int32_t   kValueInteger1								= 123;
+static const int32_t   kValueInteger2								= 456;
+static const float32_t kValueReal1									= 100.5;
+static const float32_t kValueReal2									= 200.5;
+static const NString   kValueString1								= "This\t is\n a string";
+static const NString   kValueString2								= "This is another string";
 
 static const NString kTestJSON										=	"{\n"
 																		"	\"RealValue\": 100.5,\n"
@@ -133,21 +133,21 @@ TEST_NJSONENCODER("Decoding")
 	theArray       = theDictionary1.GetValueArray(		kTestArrayKey);
 
 	REQUIRE(theDictionary1.GetValueBoolean(		kTestBooleanKey)	== kValueBoolean1);
-	REQUIRE(theDictionary1.GetValueSInt32(		kTestIntegerKey)	== kValueInteger1);
+	REQUIRE(theDictionary1.GetValueInt32(		kTestIntegerKey)	== kValueInteger1);
 	REQUIRE(theDictionary1.GetValueString(		kTestStringKey)		== kValueString1);
-	REQUIRE(theDictionary1.GetValueArray(			kTestArrayKey)		== theArray);
+	REQUIRE(theDictionary1.GetValueArray(		kTestArrayKey)		== theArray);
 	REQUIRE(theDictionary1.GetValueDictionary(	kTestDictionaryKey)	== theDictionary2);
 	REQUIRE(NMathUtilities::AreEqual(theDictionary1.GetValueFloat32(kTestRealKey), kValueReal1));
 
 	REQUIRE(theDictionary2.GetValueBoolean(		kTestBooleanKey)	== kValueBoolean2);
-	REQUIRE(theDictionary2.GetValueSInt32(		kTestIntegerKey)	== kValueInteger2);
+	REQUIRE(theDictionary2.GetValueInt32(		kTestIntegerKey)	== kValueInteger2);
 	REQUIRE(theDictionary2.GetValueString(		kTestStringKey)		== kValueString2);
-	REQUIRE(theDictionary2.GetValueArray(			kTestArrayKey).IsEmpty());
+	REQUIRE(theDictionary2.GetValueArray(		kTestArrayKey).IsEmpty());
 	REQUIRE(theDictionary2.GetValueDictionary(	kTestDictionaryKey).IsEmpty());
 	REQUIRE(NMathUtilities::AreEqual(theDictionary2.GetValueFloat32(kTestRealKey), kValueReal2));
 
 	REQUIRE(theArray.GetValueBoolean(0) == kValueBoolean2);
-	REQUIRE(theArray.GetValueSInt32(1)  == kValueInteger2);
+	REQUIRE(theArray.GetValueInt32(1)   == kValueInteger2);
 	REQUIRE(theArray.GetValueString(3)  == kValueString2);
 	REQUIRE(NMathUtilities::AreEqual(theArray.GetValueFloat32(2), kValueReal2));
 }

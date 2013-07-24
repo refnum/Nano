@@ -283,7 +283,7 @@ void NUndoManager::SetRecording(bool canRecord)
 //============================================================================
 //		NUndoManager::GetUndoLimit : Get the undo limit.
 //----------------------------------------------------------------------------
-UInt32 NUndoManager::GetUndoLimit(void) const
+NIndex NUndoManager::GetUndoLimit(void) const
 {
 
 
@@ -298,7 +298,7 @@ UInt32 NUndoManager::GetUndoLimit(void) const
 //============================================================================
 //		NUndoManager::SetUndoLimit : Set the undo limit.
 //----------------------------------------------------------------------------
-void NUndoManager::SetUndoLimit(UInt32 theLimit)
+void NUndoManager::SetUndoLimit(NIndex theLimit)
 {
 
 
@@ -418,10 +418,10 @@ void NUndoManager::EndGroup(bool flushGroup)
 	// Update the stacks
 	//
 	// Each list is a FILO, so we pop from the front.
-	if (mUndoLimit != 0 && mStackUndo.size() == mUndoLimit)
+	if (mUndoLimit != 0 && (mUndoLimit == (NIndex) mStackUndo.size()))
 		mStackUndo.pop_front();
 
-	if (mUndoLimit != 0 && mStackRedo.size() == mUndoLimit)
+	if (mUndoLimit != 0 && (mUndoLimit == (NIndex) mStackRedo.size()))
 		mStackRedo.pop_front();
 
 	UpdatedStacks();

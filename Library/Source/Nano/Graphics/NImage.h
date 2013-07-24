@@ -60,11 +60,11 @@ typedef enum {
 //		Types
 //----------------------------------------------------------------------------
 // Functors
-typedef nfunctor<bool (NIndex x, NIndex y, const UInt8 *pixelPtr)>		NImageForEachImmutablePixelFunctor;
-typedef nfunctor<bool (NIndex x, NIndex y,       UInt8 *pixelPtr)>		NImageForEachMutablePixelFunctor;
+typedef nfunctor<bool (NIndex x, NIndex y, const uint8_t *pixelPtr)>		NImageForEachImmutablePixelFunctor;
+typedef nfunctor<bool (NIndex x, NIndex y,       uint8_t *pixelPtr)>		NImageForEachMutablePixelFunctor;
 
-typedef nfunctor<bool (NIndex y, NIndex theWidth, const UInt8 *rowPtr)>	NImageForEachImmutableRowFunctor;
-typedef nfunctor<bool (NIndex y, NIndex theWidth,       UInt8 *rowPtr)>	NImageForEachMutableRowFunctor;
+typedef nfunctor<bool (NIndex y, NIndex theWidth, const uint8_t *rowPtr)>	NImageForEachImmutableRowFunctor;
+typedef nfunctor<bool (NIndex y, NIndex theWidth,       uint8_t *rowPtr)>	NImageForEachMutableRowFunctor;
 
 
 
@@ -128,8 +128,8 @@ public:
 	// Get the pixels
 	//
 	// Const access is preferred, to avoid duplicating the underlying image data.
-	const UInt8						   *GetPixels(NIndex x=0, NIndex y=0) const;
-	UInt8							   *GetPixels(NIndex x=0, NIndex y=0);
+	const uint8_t					   *GetPixels(NIndex x=0, NIndex y=0) const;
+	uint8_t							   *GetPixels(NIndex x=0, NIndex y=0);
 
 
 	// Get the data
@@ -156,8 +156,8 @@ public:
 
 
 private:
-	bool								ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr) const;
-	bool								ForEachPixelInMutableRow(  NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachMutablePixelFunctor   &theFunctor,       UInt8 *rowPtr);
+	bool								ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const uint8_t *rowPtr) const;
+	bool								ForEachPixelInMutableRow(  NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachMutablePixelFunctor   &theFunctor,       uint8_t *rowPtr);
 
 	void								Convert_RGB_888(  NImageFormat theFormat);
 	void								Convert_BGR_888(  NImageFormat theFormat);
@@ -165,10 +165,10 @@ private:
 	void								Convert_ARGB_8888(NImageFormat theFormat);
 	void								Convert_BGRA_8888(NImageFormat theFormat);
 
-	bool								RowSwizzle24(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
-	bool								RowSwizzle32(   NIndex theWidth,       UInt8 *rowPtr, const NIndexList &newOrder);
-	bool								RowExpand24To32(NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y);
-	bool								RowReduce32To24(NIndex theWidth,       UInt8 *rowPtr, const NIndexList &srcOrder);
+	bool								RowSwizzle24(   NIndex theWidth,       uint8_t *rowPtr, const NIndexList &newOrder);
+	bool								RowSwizzle32(   NIndex theWidth,       uint8_t *rowPtr, const NIndexList &newOrder);
+	bool								RowExpand24To32(NIndex theWidth, const uint8_t *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y);
+	bool								RowReduce32To24(NIndex theWidth,       uint8_t *rowPtr, const NIndexList &srcOrder);
 
 
 private:

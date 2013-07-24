@@ -53,8 +53,8 @@ typedef enum {
 //----------------------------------------------------------------------------
 // Values
 typedef union {
-	SInt64		integer;
-	Float64		real;
+	int64_t			integer;
+	float64_t		real;
 } NNumberValue;
 
 
@@ -75,9 +75,9 @@ public:
 
 										NNumber(const NVariant &theValue);
 										NNumber(const NString  &theValue);
-										NNumber(      SInt64    theValue);
-										NNumber(      Float32   theValue);
-										NNumber(      Float64   theValue);
+										NNumber(      int64_t   theValue);
+										NNumber(      float32_t theValue);
+										NNumber(      float64_t theValue);
 
 										NNumber(void);
 	virtual							   ~NNumber(void);
@@ -108,27 +108,27 @@ public:
 	//
 	// If the value needs to be cast from a different precision, conversion
 	// is performed using C's normal (potentially lossy) promotion rules.
-	UInt8								GetUInt8(  void) const;
-	UInt16								GetUInt16( void) const;
-	UInt32								GetUInt32( void) const;
-	UInt64								GetUInt64( void) const;
-	SInt8								GetSInt8(  void) const;
-	SInt16								GetSInt16( void) const;
-	SInt32								GetSInt32( void) const;
-	SInt64								GetSInt64( void) const;
-	Float32								GetFloat32(void) const;
-	Float64								GetFloat64(void) const;
+	uint8_t								GetUInt8(  void) const;
+	uint16_t							GetUInt16( void) const;
+	uint32_t							GetUInt32( void) const;
+	uint64_t							GetUInt64( void) const;
+	int8_t								GetInt8(   void) const;
+	int16_t								GetInt16(  void) const;
+	int32_t								GetInt32(  void) const;
+	int64_t								GetInt64(  void) const;
+	float32_t							GetFloat32(void) const;
+	float64_t							GetFloat64(void) const;
 
-	void								SetUInt8  (UInt8   theValue);
-	void								SetUInt16 (UInt16  theValue);
-	void								SetUInt32 (UInt32  theValue);
-	void								SetUInt64 (UInt64  theValue);
-	void								SetSInt8  (SInt8   theValue);
-	void								SetSInt16 (SInt16  theValue);
-	void								SetSInt32 (SInt32  theValue);
-	void								SetSInt64 (SInt64  theValue);
-	void								SetFloat32(Float32 theValue);
-	void								SetFloat64(Float64 theValue);
+	void								SetUInt8  (uint8_t   theValue);
+	void								SetUInt16 (uint16_t  theValue);
+	void								SetUInt32 (uint32_t  theValue);
+	void								SetUInt64 (uint64_t  theValue);
+	void								SetInt8   (int8_t    theValue);
+	void								SetInt16  (int16_t   theValue);
+	void								SetInt32  (int32_t   theValue);
+	void								SetInt64  (int64_t   theValue);
+	void								SetFloat32(float32_t theValue);
+	void								SetFloat64(float64_t theValue);
 
 
 	// Set a value

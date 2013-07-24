@@ -115,10 +115,10 @@ public:
 	//
 	// If the value does not exist, or can not be returned as the specified type, 0/empty is returned.
 	bool								GetValueBoolean(   const NString &theKey) const;
-	SInt32								GetValueSInt32(    const NString &theKey) const;
-	SInt64								GetValueSInt64(    const NString &theKey) const;
-	Float32								GetValueFloat32(   const NString &theKey) const;
-	Float64								GetValueFloat64(   const NString &theKey) const;
+	int32_t								GetValueInt32(    const NString &theKey) const;
+	int64_t								GetValueInt64(    const NString &theKey) const;
+	float32_t							GetValueFloat32(   const NString &theKey) const;
+	float64_t							GetValueFloat64(   const NString &theKey) const;
 	NString								GetValueString(    const NString &theKey) const;
 	NData								GetValueData(      const NString &theKey) const;
 	NDate								GetValueDate(      const NString &theKey) const;

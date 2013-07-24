@@ -32,8 +32,8 @@
 // Magic
 //
 // These values are considered to be fixed, and will never change.
-static const UInt8 kMagicXML_1_0[]									= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
-static const UInt8 kMagicBinary_1_0[]								= { 0x4E, 0x65, 0x4E, 0x63, 0x30, 0x30, 0x30, 0x31 };
+static const uint8_t kMagicXML_1_0[]								= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
+static const uint8_t kMagicBinary_1_0[]								= { 0x4E, 0x65, 0x4E, 0x63, 0x30, 0x30, 0x30, 0x31 };
 
 
 // Tokens
@@ -684,7 +684,7 @@ void NEncoder::RegisterClass(const NString &className, const NEncoderClassInfo &
 //----------------------------------------------------------------------------
 NEncoderFormat NEncoder::GetFormat(const NData &theData)
 {	NEncoderFormat		theFormat;
-	const UInt8			*dataPtr;
+	const uint8_t		*dataPtr;
 	NIndex				dataSize;
 
 
@@ -859,7 +859,7 @@ NXMLNode *NEncoder::DecodeBinary_1_0(const NData &theData)
 	NCompressionHeader		theHeader;
 	NXMLNode				*theRoot;
 	NIndex					dataSize;
-	const UInt8				*dataPtr;
+	const uint8_t			*dataPtr;
 	NData					xmlData;
 
 

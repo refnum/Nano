@@ -70,7 +70,7 @@ public:
 	//
 	// Bits are returned in the least-most-significant numBits bits of the result.
 	NData								GetBits(void)                            const;
-	inline UInt32						GetBits(NIndex theIndex, NIndex numBits) const;
+	inline uint32_t						GetBits(NIndex theIndex, NIndex numBits) const;
 
 	void								SetBits(bool		 theValue);
 	void								SetBits(const NData &theData);
@@ -79,8 +79,8 @@ public:
 	// Append bits
 	//
 	// Bits are read from the least-most-significant numBits of theValue.
-	void								AppendBit( bool	  theValue);
-	void								AppendBits(UInt32 theValue, NIndex numBits);
+	void								AppendBit( bool	    theValue);
+	void								AppendBits(uint32_t theValue, NIndex numBits);
 
 
 	// Flip bits
@@ -113,13 +113,13 @@ private:
 	void								UpdateSize( NIndex numBits);
 	NIndex								GetByteSize(NIndex numBits) const;
 
-	inline UInt8					   *GetByteForBit(NIndex theIndex, NIndex &bitIndex) const;
+	inline uint8_t					   *GetByteForBit(NIndex theIndex, NIndex &bitIndex) const;
 
 
 private:
 	NData								mData;
 	NIndex								mSize;
-	mutable UInt8					   *mBytes;
+	mutable uint8_t					   *mBytes;
 };
 
 
@@ -131,7 +131,7 @@ private:
 //----------------------------------------------------------------------------
 //		Note : Inlined for performance.
 //----------------------------------------------------------------------------
-inline UInt8 *NBitVector::GetByteForBit(NIndex theIndex, NIndex &bitIndex) const
+inline uint8_t *NBitVector::GetByteForBit(NIndex theIndex, NIndex &bitIndex) const
 {	NIndex		byteIndex;
 
 
@@ -161,7 +161,7 @@ inline UInt8 *NBitVector::GetByteForBit(NIndex theIndex, NIndex &bitIndex) const
 //----------------------------------------------------------------------------
 inline bool NBitVector::GetBit(NIndex theIndex) const
 {	NIndex		bitIndex;
-	UInt8		theByte;
+	uint8_t		theByte;
 
 
 
@@ -180,8 +180,8 @@ inline bool NBitVector::GetBit(NIndex theIndex) const
 //----------------------------------------------------------------------------
 //		Note : Inlined for performance.
 //----------------------------------------------------------------------------
-inline UInt32 NBitVector::GetBits(NIndex theIndex, NIndex numBits) const
-{	UInt32		theResult, theMask;
+inline uint32_t NBitVector::GetBits(NIndex theIndex, NIndex numBits) const
+{	uint32_t	theResult, theMask;
 	NIndex		n;
 
 
@@ -218,7 +218,7 @@ inline UInt32 NBitVector::GetBits(NIndex theIndex, NIndex numBits) const
 //----------------------------------------------------------------------------
 inline void NBitVector::SetBit(NIndex theIndex, bool theValue)
 {	NIndex		bitIndex;
-	UInt8		*bytePtr;
+	uint8_t		*bytePtr;
 
 
 

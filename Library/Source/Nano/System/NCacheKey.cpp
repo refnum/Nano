@@ -168,15 +168,15 @@ void NCacheKey::SetValue(const NString &theValue)
 void NCacheKey::SetValue(const NData &theValue)
 {	NDataDigest		dataDigest;
 	NDigestMD5		digestMD5;
-	const UInt32	*theKeys;
+	const uint32_t	*theKeys;
 
 
 
 	// Get the state we need
 	digestMD5 = dataDigest.GetMD5(theValue);
-	theKeys   = (const UInt32 *) &digestMD5;
+	theKeys   = (const uint32_t *) &digestMD5;
 
-	NN_ASSERT(sizeof(digestMD5) == (sizeof(UInt32) * 4));
+	NN_ASSERT(sizeof(digestMD5) == (sizeof(uint32_t) * 4));
 
 
 
@@ -265,12 +265,12 @@ NComparison NCacheKey::Compare(const NCacheKey &theKey) const
 //----------------------------------------------------------------------------
 NHashCode NCacheKey::SplitHi(const void *theValue)
 {	NHashCode	thePart;
-	UIntPtr		intPtr;
+	uintptr_t	intPtr;
 
 
 
 	// Split the pointer
-	intPtr = (UIntPtr) theValue;
+	intPtr = (uintptr_t) theValue;
 
 #if NN_TARGET_ARCH_32
 	(void) intPtr;
@@ -291,12 +291,12 @@ NHashCode NCacheKey::SplitHi(const void *theValue)
 //----------------------------------------------------------------------------
 NHashCode NCacheKey::SplitLo(const void *theValue)
 {	NHashCode	thePart;
-	UIntPtr		intPtr;
+	uintptr_t	intPtr;
 
 
 
 	// Split the pointer
-	intPtr  = (UIntPtr) theValue;
+	intPtr  = (uintptr_t) theValue;
 	thePart = (NHashCode) (((intPtr >> 0) & 0xFFFFFFFF));
 
 	return(thePart);

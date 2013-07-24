@@ -52,7 +52,7 @@ public:
 
 
 	// Connect/disconnect from a server
-	void								Connect(const NString &theHost, UInt16 thePort, const NString &thePassword="");
+	void								Connect(const NString &theHost, uint16_t thePort, const NString &thePassword="");
 	void								Disconnect(void);
 
 

@@ -25,21 +25,21 @@
 //============================================================================
 //		Class declaration
 //----------------------------------------------------------------------------
-class NAtomicInt : public NComparable<SInt32> {
+class NAtomicInt : public NComparable<int32_t> {
 public:
-										NAtomicInt(SInt32 theValue=0);
+										NAtomicInt(int32_t theValue=0);
 	virtual							   ~NAtomicInt(void);
 
 
 	// Compare the value
-	NComparison							Compare(const SInt32 &theValue) const;
+	NComparison							Compare(const int32_t &theValue) const;
 
 
 	// Increment/decrement the value
 	//
 	// Returns the new value after the increment/decrement operation.
-	SInt32								Increment(SInt32 theDelta=1);
-	SInt32								Decrement(SInt32 theDelta=1);
+	int32_t								Increment(int32_t theDelta=1);
+	int32_t								Decrement(int32_t theDelta=1);
 
 
 	// Operators
@@ -61,11 +61,11 @@ public:
 	bool								operator >= (int theValue) const;
 	bool								operator >	(int theValue) const;
 
-										operator SInt32(void) const;
+										operator int32_t(void) const;
 
 
 private:
-	mutable SInt32						mValue;
+	mutable int32_t						mValue;
 };
 
 

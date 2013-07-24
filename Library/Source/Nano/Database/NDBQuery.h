@@ -26,7 +26,7 @@
 //		Types
 //----------------------------------------------------------------------------
 // Misc
-typedef SInt32  NDBStatus;
+typedef int32_t NDBStatus;
 typedef void   *NDBHandleRef;
 typedef void   *NDBQueryRef;
 

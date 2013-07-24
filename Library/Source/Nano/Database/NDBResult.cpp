@@ -99,9 +99,9 @@ NString NDBResult::GetName(NIndex theIndex) const
 
 
 //============================================================================
-//		NDBResult::GetValueSInt32 : Get an SInt32 value.
+//		NDBResult::GetValueInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NDBResult::GetValueSInt32(NIndex theIndex) const
+int32_t NDBResult::GetValueInt32(NIndex theIndex) const
 {
 
 
@@ -119,9 +119,9 @@ SInt32 NDBResult::GetValueSInt32(NIndex theIndex) const
 
 
 //============================================================================
-//		NDBResult::GetValueSInt64 : Get an SInt64 value.
+//		NDBResult::GetValueInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NDBResult::GetValueSInt64(NIndex theIndex) const
+int64_t NDBResult::GetValueInt64(NIndex theIndex) const
 {
 
 
@@ -139,9 +139,9 @@ SInt64 NDBResult::GetValueSInt64(NIndex theIndex) const
 
 
 //============================================================================
-//		NDBResult::GetValueFloat32 : Get a Float32 value.
+//		NDBResult::GetValueFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NDBResult::GetValueFloat32(NIndex theIndex) const
+float32_t NDBResult::GetValueFloat32(NIndex theIndex) const
 {
 
 
@@ -151,7 +151,7 @@ Float32 NDBResult::GetValueFloat32(NIndex theIndex) const
 
 
 	// Get the value
-	return((Float32) GetValueFloat64(theIndex));
+	return((float32_t) GetValueFloat64(theIndex));
 }
 
 
@@ -159,9 +159,9 @@ Float32 NDBResult::GetValueFloat32(NIndex theIndex) const
 
 
 //============================================================================
-//		NDBResult::GetValueFloat64 : Get a Float64 value.
+//		NDBResult::GetValueFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NDBResult::GetValueFloat64(NIndex theIndex) const
+float64_t NDBResult::GetValueFloat64(NIndex theIndex) const
 {
 
 
@@ -237,14 +237,14 @@ NData NDBResult::GetValueData(NIndex theIndex) const
 
 
 //============================================================================
-//		NDBResult::GetRowValueSInt32 : Get a row value.
+//		NDBResult::GetRowValueInt32 : Get a row value.
 //----------------------------------------------------------------------------
-void NDBResult::GetRowValueSInt32(const NDBResult &theRow, NIndex theIndex, SInt32 *theValue)
+void NDBResult::GetRowValueInt32(const NDBResult &theRow, NIndex theIndex, int32_t *theValue)
 {
 
 
 	// Get the value
-	*theValue = theRow.GetValueSInt32(theIndex);
+	*theValue = theRow.GetValueInt32(theIndex);
 }
 
 
@@ -252,14 +252,14 @@ void NDBResult::GetRowValueSInt32(const NDBResult &theRow, NIndex theIndex, SInt
 
 
 //============================================================================
-//		NDBResult::GetRowValueSInt64 : Get a row value.
+//		NDBResult::GetRowValueInt64 : Get a row value.
 //----------------------------------------------------------------------------
-void NDBResult::GetRowValueSInt64(const NDBResult &theRow, NIndex theIndex, SInt64 *theValue)
+void NDBResult::GetRowValueInt64(const NDBResult &theRow, NIndex theIndex, int64_t *theValue)
 {
 
 
 	// Get the value
-	*theValue = theRow.GetValueSInt64(theIndex);
+	*theValue = theRow.GetValueInt64(theIndex);
 }
 
 
@@ -269,7 +269,7 @@ void NDBResult::GetRowValueSInt64(const NDBResult &theRow, NIndex theIndex, SInt
 //============================================================================
 //		NDBResult::GetRowValueFloat32 : Get a row value.
 //----------------------------------------------------------------------------
-void NDBResult::GetRowValueFloat32(const NDBResult &theRow, NIndex theIndex, Float32 *theValue)
+void NDBResult::GetRowValueFloat32(const NDBResult &theRow, NIndex theIndex, float32_t *theValue)
 {
 
 
@@ -284,7 +284,7 @@ void NDBResult::GetRowValueFloat32(const NDBResult &theRow, NIndex theIndex, Flo
 //============================================================================
 //		NDBResult::GetRowValueFloat64 : Get a row value.
 //----------------------------------------------------------------------------
-void NDBResult::GetRowValueFloat64(const NDBResult &theRow, NIndex theIndex, Float64 *theValue)
+void NDBResult::GetRowValueFloat64(const NDBResult &theRow, NIndex theIndex, float64_t *theValue)
 {
 
 
@@ -327,14 +327,14 @@ void NDBResult::GetRowValueData(const NDBResult &theRow, NIndex theIndex, NData 
 
 
 //============================================================================
-//		NDBResult::GetRowValuesSInt32 : Get a list of row values.
+//		NDBResult::GetRowValuesInt32 : Get a list of row values.
 //----------------------------------------------------------------------------
-void NDBResult::GetRowValuesSInt32(const NDBResult &theRow, NIndex theIndex, SInt32List *theValues)
+void NDBResult::GetRowValuesInt32(const NDBResult &theRow, NIndex theIndex, Int32List *theValues)
 {
 
 
 	// Get the value
-	theValues->push_back(theRow.GetValueSInt32(theIndex));
+	theValues->push_back(theRow.GetValueInt32(theIndex));
 }
 
 
@@ -342,14 +342,14 @@ void NDBResult::GetRowValuesSInt32(const NDBResult &theRow, NIndex theIndex, SIn
 
 
 //============================================================================
-//		NDBResult::GetRowValuesSInt64 : Get a list of row values.
+//		NDBResult::GetRowValuesInt64 : Get a list of row values.
 //----------------------------------------------------------------------------
-void NDBResult::GetRowValuesSInt64(const NDBResult &theRow, NIndex theIndex, SInt64List *theValues)
+void NDBResult::GetRowValuesInt64(const NDBResult &theRow, NIndex theIndex, Int64List *theValues)
 {
 
 
 	// Get the value
-	theValues->push_back(theRow.GetValueSInt64(theIndex));
+	theValues->push_back(theRow.GetValueInt64(theIndex));
 }
 
 

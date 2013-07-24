@@ -104,7 +104,7 @@ NTaskID NTask::GetID(void) const
 //============================================================================
 //		NTask::GetResult : Get the task result.
 //----------------------------------------------------------------------------
-SInt32 NTask::GetResult(void) const
+int32_t NTask::GetResult(void) const
 {
 
 

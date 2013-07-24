@@ -42,24 +42,24 @@ public:
 
 
 	// Get a value
-	SInt32								GetValueSInt32( NIndex theIndex) const;
-	SInt64								GetValueSInt64( NIndex theIndex) const;
-	Float32								GetValueFloat32(NIndex theIndex) const;
-	Float64								GetValueFloat64(NIndex theIndex) const;
+	int32_t								GetValueInt32(  NIndex theIndex) const;
+	int64_t								GetValueInt64(  NIndex theIndex) const;
+	float32_t							GetValueFloat32(NIndex theIndex) const;
+	float64_t							GetValueFloat64(NIndex theIndex) const;
 	NString								GetValueString( NIndex theIndex) const;
 	NData								GetValueData(   NIndex theIndex) const;
 
 
 	// Functors
-	static void							GetRowValueSInt32( const NDBResult &theRow, NIndex theIndex, SInt32  *theValue);
-	static void							GetRowValueSInt64( const NDBResult &theRow, NIndex theIndex, SInt64  *theValue);
-	static void							GetRowValueFloat32(const NDBResult &theRow, NIndex theIndex, Float32 *theValue);
-	static void							GetRowValueFloat64(const NDBResult &theRow, NIndex theIndex, Float64 *theValue);
-	static void							GetRowValueString( const NDBResult &theRow, NIndex theIndex, NString *theValue);
-	static void							GetRowValueData(   const NDBResult &theRow, NIndex theIndex, NData   *theValue);
+	static void							GetRowValueInt32(  const NDBResult &theRow, NIndex theIndex, int32_t   *theValue);
+	static void							GetRowValueInt64(  const NDBResult &theRow, NIndex theIndex, int64_t   *theValue);
+	static void							GetRowValueFloat32(const NDBResult &theRow, NIndex theIndex, float32_t *theValue);
+	static void							GetRowValueFloat64(const NDBResult &theRow, NIndex theIndex, float64_t *theValue);
+	static void							GetRowValueString( const NDBResult &theRow, NIndex theIndex, NString   *theValue);
+	static void							GetRowValueData(   const NDBResult &theRow, NIndex theIndex, NData     *theValue);
 
-	static void							GetRowValuesSInt32( const NDBResult &theRow, NIndex theIndex, SInt32List  *theValues);
-	static void							GetRowValuesSInt64( const NDBResult &theRow, NIndex theIndex, SInt64List  *theValues);
+	static void							GetRowValuesInt32(  const NDBResult &theRow, NIndex theIndex, Int32List   *theValues);
+	static void							GetRowValuesInt64(  const NDBResult &theRow, NIndex theIndex, Int64List   *theValues);
 	static void							GetRowValuesFloat32(const NDBResult &theRow, NIndex theIndex, Float32List *theValues);
 	static void							GetRowValuesFloat64(const NDBResult &theRow, NIndex theIndex, Float64List *theValues);
 	static void							GetRowValuesString( const NDBResult &theRow, NIndex theIndex, NStringList *theValues);

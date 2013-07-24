@@ -229,9 +229,9 @@ void NBitVector::AppendBit(bool theValue)
 //============================================================================
 //		NBitVector::AppendBits : Append bits.
 //----------------------------------------------------------------------------
-void NBitVector::AppendBits(UInt32 theValue, NIndex numBits)
+void NBitVector::AppendBits(uint32_t theValue, NIndex numBits)
 {	NIndex		n, theSize;
-	UInt32		theMask;
+	uint32_t	theMask;
 
 
 

@@ -526,12 +526,12 @@ NGregorianDate NTargetTime::ConvertTimeToDate(NTime theTime, const NString &time
 	if (!SystemTimeToTzSpecificLocalTime(&zoneInfo, &timeUTC, &timeLocal))
 		memset(&timeLocal, 0x00, sizeof(timeLocal));
 
-	theDate.year     = (SInt32) timeLocal.wYear;
-	theDate.month    = (SInt8)  timeLocal.wMonth;
-	theDate.day      = (SInt8)  timeLocal.wDay;
-	theDate.hour     = (SInt8)  timeLocal.wHour;
-	theDate.minute   = (SInt8)  timeLocal.wMinute;
-	theDate.second   = ((NTime) timeLocal.wSecond) + (((NTime) timeLocal.wMilliseconds) * kNTimeMillisecond);
+	theDate.year     = (int32_t) timeLocal.wYear;
+	theDate.month    = (int8_t)  timeLocal.wMonth;
+	theDate.day      = (int8_t)  timeLocal.wDay;
+	theDate.hour     = (int8_t)  timeLocal.wHour;
+	theDate.minute   = (int8_t)  timeLocal.wMinute;
+	theDate.second   = ((NTime)  timeLocal.wSecond) + (((NTime) timeLocal.wMilliseconds) * kNTimeMillisecond);
 	theDate.timeZone = timeZone;
 
 	return(theDate);

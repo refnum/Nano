@@ -163,8 +163,8 @@ public:
 										NString(const char *noCopyText);
 										NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
-										NString(const NData   &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
-										NString(      UTF8Char theChar);
+										NString(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(      utf8_t theChar);
 
 										NString(void);
 	virtual							   ~NString(void);
@@ -182,7 +182,7 @@ public:
 	//
 	// GetUTF8/16 return a NULL-terminated string, valid until the string is modified.
 	const char							*GetUTF8( void) const;
-	const UTF16Char						*GetUTF16(void) const;
+	const utf16_t						*GetUTF16(void) const;
 
 	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NStringRendering renderAs=kNStringRenderNone) const;
 	NStatus								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
@@ -311,9 +311,9 @@ private:
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;
 
-	NUnicodeParser						GetParser(void)                                                                                 const;
-	UInt64								GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, UTF32Char theChar) const;
-	NString								GetString(const NUnicodeParser &theParser, const NRange &theRange)                              const;
+	NUnicodeParser						GetParser(void)                                                                               const;
+	uint64_t							GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, utf32_t theChar) const;
+	NString								GetString(const NUnicodeParser &theParser, const NRange &theRange)                            const;
 
 	static NString						GetConstantString(const char *theText);
 

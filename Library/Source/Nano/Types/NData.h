@@ -34,7 +34,7 @@
 //----------------------------------------------------------------------------
 class NData;
 
-typedef std::vector<UInt8>											NDataValue;
+typedef std::vector<uint8_t>										NDataValue;
 typedef NDataValue::iterator										NDataValueIterator;
 typedef NDataValue::const_iterator									NDataValueConstIterator;
 
@@ -88,8 +88,8 @@ public:
 	//
 	// Returns a NULL pointer if the object is empty.
 	NData								GetData(const NRange &theRange) const;
-	const UInt8						   *GetData(NIndex theOffset=0)     const;
-	UInt8							   *GetData(NIndex theOffset=0);
+	const uint8_t					   *GetData(NIndex theOffset=0)     const;
+	uint8_t							   *GetData(NIndex theOffset=0);
 
 
 	// Set the data
@@ -106,8 +106,8 @@ public:
 	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
 	//
 	// Returns a pointer to the newly-inserted data, or NULL if no data was appended.
-	UInt8							   *InsertData(NIndex beforeIndex, const NData &theData);
-	UInt8							   *InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr);
+	uint8_t							   *InsertData(NIndex beforeIndex, const NData &theData);
+	uint8_t							   *InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr);
 
 
 	// Remove data
@@ -119,8 +119,8 @@ public:
 	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
 	//
 	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
-	UInt8							   *AppendData(const NData &theData);
-	UInt8							   *AppendData(      NIndex theSize, const void *thePtr=NULL);
+	uint8_t							   *AppendData(const NData &theData);
+	uint8_t							   *AppendData(      NIndex theSize, const void *thePtr=NULL);
 
 
 	// Replace data
@@ -128,8 +128,8 @@ public:
 	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
 	//
 	// Returns a pointer to the newly-modified data.
-	UInt8							   *ReplaceData(const NRange &theRange, const NData &theData);
-	UInt8							   *ReplaceData(const NRange &theRange,       NIndex theSize, const void *thePtr);
+	uint8_t							   *ReplaceData(const NRange &theRange, const NData &theData);
+	uint8_t							   *ReplaceData(const NRange &theRange,       NIndex theSize, const void *thePtr);
 
 
 	// Compare the value

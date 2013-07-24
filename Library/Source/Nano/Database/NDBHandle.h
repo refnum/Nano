@@ -120,10 +120,10 @@ public:
 	// Execute a return-one-value query
 	//
 	// Returns the first value of the query result, or 0/empty on failure.
-	SInt32								ExecuteSInt32( const NDBQuery &theQuery);
-	SInt64								ExecuteSInt64( const NDBQuery &theQuery);
-	Float32								ExecuteFloat32(const NDBQuery &theQuery);
-	Float64								ExecuteFloat64(const NDBQuery &theQuery);
+	int32_t								ExecuteInt32(  const NDBQuery &theQuery);
+	int64_t								ExecuteInt64(  const NDBQuery &theQuery);
+	float32_t							ExecuteFloat32(const NDBQuery &theQuery);
+	float64_t							ExecuteFloat64(const NDBQuery &theQuery);
 	NString								ExecuteString( const NDBQuery &theQuery);
 	NData								ExecuteData(   const NDBQuery &theQuery);
 

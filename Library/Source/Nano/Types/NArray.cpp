@@ -60,12 +60,12 @@ NENCODABLE_DEFINE(NArray);
 //============================================================================
 //		NArray::NArray : Constructor.
 //----------------------------------------------------------------------------
-NArray::NArray(const SInt32List &theValues)
+NArray::NArray(const Int32List &theValues)
 {
 
 
 	// Initialize ourselves
-	SetValuesSInt32(theValues);
+	SetValuesInt32(theValues);
 }
 
 
@@ -75,12 +75,12 @@ NArray::NArray(const SInt32List &theValues)
 //============================================================================
 //		NArray::NArray : Constructor.
 //----------------------------------------------------------------------------
-NArray::NArray(const SInt64List &theValues)
+NArray::NArray(const Int64List &theValues)
 {
 
 
 	// Initialize ourselves
-	SetValuesSInt64(theValues);
+	SetValuesInt64(theValues);
 }
 
 
@@ -413,14 +413,14 @@ bool NArray::GetValueBoolean(NIndex theIndex) const
 
 
 //============================================================================
-//		NArray::GetValueSInt32 : Get a SInt32 value.
+//		NArray::GetValueInt32 : Get an int32_t value.
 //----------------------------------------------------------------------------
-SInt32 NArray::GetValueSInt32(NIndex theIndex) const
+int32_t NArray::GetValueInt32(NIndex theIndex) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt32(GetValue(theIndex), GetDebugID(theIndex)));
+	return(NSystemUtilities::GetInt32(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -428,14 +428,14 @@ SInt32 NArray::GetValueSInt32(NIndex theIndex) const
 
 
 //============================================================================
-//		NArray::GetValueSInt64 : Get a SInt64 value.
+//		NArray::GetValueInt64 : Get an int64_t value.
 //----------------------------------------------------------------------------
-SInt64 NArray::GetValueSInt64(NIndex theIndex) const
+int64_t NArray::GetValueInt64(NIndex theIndex) const
 {
 
 
 	// Get the value
-	return(NSystemUtilities::GetSInt64(GetValue(theIndex), GetDebugID(theIndex)));
+	return(NSystemUtilities::GetInt64(GetValue(theIndex), GetDebugID(theIndex)));
 }
 
 
@@ -443,9 +443,9 @@ SInt64 NArray::GetValueSInt64(NIndex theIndex) const
 
 
 //============================================================================
-//		NArray::GetValueFloat32 : Get a Float32 value.
+//		NArray::GetValueFloat32 : Get a float32_t value.
 //----------------------------------------------------------------------------
-Float32 NArray::GetValueFloat32(NIndex theIndex) const
+float32_t NArray::GetValueFloat32(NIndex theIndex) const
 {
 
 
@@ -458,9 +458,9 @@ Float32 NArray::GetValueFloat32(NIndex theIndex) const
 
 
 //============================================================================
-//		NArray::GetValueFloat64 : Get a Float64 value.
+//		NArray::GetValueFloat64 : Get a float64_t value.
 //----------------------------------------------------------------------------
-Float64 NArray::GetValueFloat64(NIndex theIndex) const
+float64_t NArray::GetValueFloat64(NIndex theIndex) const
 {
 
 
@@ -623,11 +623,11 @@ NDictionary NArray::GetValueDictionary(NIndex theIndex) const
 
 
 //============================================================================
-//		NArray::GetValuesSInt32 : Get a SInt32List.
+//		NArray::GetValuesInt32 : Get an Int32List.
 //----------------------------------------------------------------------------
-SInt32List NArray::GetValuesSInt32(void) const
+Int32List NArray::GetValuesInt32(void) const
 {	NIndex			n, numItems;
-	SInt32List		theResult;
+	Int32List		theResult;
 
 
 
@@ -635,7 +635,7 @@ SInt32List NArray::GetValuesSInt32(void) const
 	numItems = GetSize();
 	
 	for (n = 0; n < numItems; n++)
-		theResult.push_back(GetValueSInt32(n));
+		theResult.push_back(GetValueInt32(n));
 	
 	return(theResult);
 }
@@ -645,11 +645,11 @@ SInt32List NArray::GetValuesSInt32(void) const
 
 
 //============================================================================
-//		NArray::GetValuesSInt64 : Get a SInt64List.
+//		NArray::GetValuesInt64 : Get an Int64List.
 //----------------------------------------------------------------------------
-SInt64List NArray::GetValuesSInt64(void) const
+Int64List NArray::GetValuesInt64(void) const
 {	NIndex			n, numItems;
-	SInt64List		theResult;
+	Int64List		theResult;
 
 
 
@@ -657,7 +657,7 @@ SInt64List NArray::GetValuesSInt64(void) const
 	numItems = GetSize();
 	
 	for (n = 0; n < numItems; n++)
-		theResult.push_back(GetValueSInt64(n));
+		theResult.push_back(GetValueInt64(n));
 	
 	return(theResult);
 }
@@ -733,10 +733,10 @@ NStringList NArray::GetValuesString(void) const
 
 
 //============================================================================
-//		NArray::SetValuesSInt32 : Set a SInt32List.
+//		NArray::SetValuesInt32 : Set an Int32List.
 //----------------------------------------------------------------------------
-void NArray::SetValuesSInt32(const SInt32List &theValues)
-{	SInt32ListConstIterator		theIter;
+void NArray::SetValuesInt32(const Int32List &theValues)
+{	Int32ListConstIterator		theIter;
 
 
 
@@ -752,10 +752,10 @@ void NArray::SetValuesSInt32(const SInt32List &theValues)
 
 
 //============================================================================
-//		NArray::SetValuesSInt64 : Set a SInt64List.
+//		NArray::SetValuesInt64 : Set an Int64List.
 //----------------------------------------------------------------------------
-void NArray::SetValuesSInt64(const SInt64List &theValues)
-{	SInt64ListConstIterator		theIter;
+void NArray::SetValuesInt64(const Int64List &theValues)
+{	Int64ListConstIterator		theIter;
 
 
 
@@ -952,7 +952,7 @@ void NArray::DecodeSelf(const NEncoder &theEncoder)
 
 
 		// Decode the value
-		n = theNumber.GetSInt32();
+		n = theNumber.GetInt32();
 
 		switch (theType) {
 			case kNEncodedBoolean:

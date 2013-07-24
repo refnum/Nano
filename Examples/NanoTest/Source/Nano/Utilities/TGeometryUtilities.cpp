@@ -60,10 +60,10 @@ TEST_NGEOMETRYUTILITIES("Bounds")
 	theBounds32 = NGeometryUtilities::GetBounds(thePoints32);
 	theBounds   = NGeometryUtilities::GetBounds(thePoints);
 
-	REQUIRE(NMathUtilities::AreEqual(theBounds64.origin.x,    (Float64) theBounds32.origin.x));
-	REQUIRE(NMathUtilities::AreEqual(theBounds64.origin.y,    (Float64) theBounds32.origin.y));
-	REQUIRE(NMathUtilities::AreEqual(theBounds64.size.width,  (Float64) theBounds32.size.width));
-	REQUIRE(NMathUtilities::AreEqual(theBounds64.size.height, (Float64) theBounds32.size.height));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.origin.x,    (float64_t) theBounds32.origin.x));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.origin.y,    (float64_t) theBounds32.origin.y));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.size.width,  (float64_t) theBounds32.size.width));
+	REQUIRE(NMathUtilities::AreEqual(theBounds64.size.height, (float64_t) theBounds32.size.height));
 	REQUIRE(theBounds == theBounds32);
 }
 

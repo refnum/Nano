@@ -10,17 +10,17 @@ extern "C" {
 
 
 typedef struct blowfish_context_t_ {
-	UInt32 pbox[256];
-	UInt32 sbox[4][256];
+	uint32_t pbox[256];
+	uint32_t sbox[4][256];
 } blowfish_context_t;
 
-void blowfish_encryptblock (blowfish_context_t *ctx, UInt32  *hi,  UInt32 *lo);
-void blowfish_decryptblock (blowfish_context_t *ctx, UInt32  *hi,  UInt32 *lo);
-void blowfish_initiate     (blowfish_context_t *ctx, void *keyparam,      UInt32  keybytes);
+void blowfish_encryptblock (blowfish_context_t *ctx, uint32_t  *hi,  uint32_t *lo);
+void blowfish_decryptblock (blowfish_context_t *ctx, uint32_t  *hi,  uint32_t *lo);
+void blowfish_initiate     (blowfish_context_t *ctx, void *keyparam,      uint32_t  keybytes);
 void blowfish_clean        (blowfish_context_t *ctx);
 
-extern const UInt32 ORIG_P[18];
-extern const UInt32 ORIG_S[4][256];
+extern const uint32_t ORIG_P[18];
+extern const uint32_t ORIG_S[4][256];
 
 
 

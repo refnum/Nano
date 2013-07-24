@@ -220,8 +220,8 @@ static NString GetProcFile(const NString &thePath)
 //      CompareMagicNumber : Compare a magic number.
 //----------------------------------------------------------------------------
 #if NANO_USING_GD
-static bool CompareMagicNumber(const void* data, UInt32 data_len, const char* magic_num)
-{	UInt32		magic_num_len;
+static bool CompareMagicNumber(const void* data, uint32_t data_len, const char* magic_num)
+{	uint32_t		magic_num_len;
 
 
 
@@ -408,10 +408,10 @@ NString NTargetSystem::GetProcessName(void)
 //============================================================================
 //		NTargetSystem::GetSystemCPU : Get the clock speed.
 //----------------------------------------------------------------------------
-UInt64 NTargetSystem::GetSystemCPU(void)
-{	NRangeList	theRanges;
-	UInt64		theResult;
-	NString		theInfo;
+uint64_t NTargetSystem::GetSystemCPU(void)
+{	NRangeList		theRanges;
+	uint64_t		theResult;
+	NString			theInfo;
 
 
 
@@ -437,10 +437,10 @@ UInt64 NTargetSystem::GetSystemCPU(void)
 //============================================================================
 //		NTargetSystem::GetSystemRAM : Get the physical memory.
 //----------------------------------------------------------------------------
-UInt64 NTargetSystem::GetSystemRAM(void)
-{	NRangeList	theRanges;
-	UInt64		theResult;
-	NString		theInfo;
+uint64_t NTargetSystem::GetSystemRAM(void)
+{	NRangeList		theRanges;
+	uint64_t		theResult;
+	NString			theInfo;
 
 
 
@@ -524,7 +524,7 @@ TaskInfo NTargetSystem::TaskCreate(const NString &theCmd, const NStringList &the
 	// Fork the process
 	theTask.taskID = fork();
 	
-	switch ((SInt32) theTask.taskID) {
+	switch ((int32_t) theTask.taskID) {
 		case -1:
 			// Handle failure
 			return(theTask);
@@ -804,7 +804,7 @@ NData NTargetSystem::ImageEncode(const NImage &theImage, const NUTI &theType)
 
 #if NANO_USING_GD
 	gdImagePtr image;
-	const UInt8* image_in = theImage.GetData().GetData();
+	const uint8_t* image_in = theImage.GetData().GetData();
 	void *image_out;
 	int *image_out_len;
 
@@ -850,9 +850,9 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 	NData image_data(theData.GetSize(), theData.GetData(), true);
 	NImageFormat image_format;
 	gdImagePtr image;
-	UInt8 *image_out;
+	uint8_t *image_out;
 	void *data = static_cast<void*>(image_data.GetData());
-	UInt32 data_len = theData.GetSize();
+	uint32_t data_len = theData.GetSize();
 
 	if (CompareMagicNumber(data, data_len, kMagicBmp))
 		image = gdImageCreateFromBmpPtr(data_len, data);
@@ -870,7 +870,7 @@ NImage NTargetSystem::ImageDecode(const NData &theData)
 	image_out = image_data.GetData();
 
 	int pixel;
-	UInt32 cur_index;
+	uint32_t cur_index;
 	for (NIndex y; y < image->sy; ++y) {
 		for (NIndex x; x < image->sx; ++x) {
 			pixel = gdImageGetPixel(image, x, y);

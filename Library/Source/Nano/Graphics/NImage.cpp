@@ -214,7 +214,7 @@ void NImage::ForEachPixel(const NImageForEachMutablePixelFunctor &theFunctor)
 //----------------------------------------------------------------------------
 void NImage::ForEachRow(const NImageForEachImmutableRowFunctor &theFunctor) const
 {	NIndex			y, theWidth, theHeight, rowBytes;
-	const UInt8		*rowPtr;
+	const uint8_t	*rowPtr;
 
 
 
@@ -245,7 +245,7 @@ void NImage::ForEachRow(const NImageForEachImmutableRowFunctor &theFunctor) cons
 //----------------------------------------------------------------------------
 void NImage::ForEachRow(const NImageForEachMutableRowFunctor &theFunctor)
 {	NIndex			y, theWidth, theHeight, rowBytes;
-	UInt8			*rowPtr;
+	uint8_t			*rowPtr;
 
 
 
@@ -505,9 +505,9 @@ NIndex NImage::GetBytesPerRow(void) const
 //============================================================================
 //		NImage::GetPixels : Get the pixels.
 //----------------------------------------------------------------------------
-const UInt8 *NImage::GetPixels(NIndex x, NIndex y) const
+const uint8_t *NImage::GetPixels(NIndex x, NIndex y) const
 {	NIndex			theOffset;
-	const UInt8		*thePtr;
+	const uint8_t	*thePtr;
 
 
 
@@ -531,9 +531,9 @@ const UInt8 *NImage::GetPixels(NIndex x, NIndex y) const
 //============================================================================
 //		NImage::GetPixels : Get the pixels.
 //----------------------------------------------------------------------------
-UInt8 *NImage::GetPixels(NIndex x, NIndex y)
+uint8_t *NImage::GetPixels(NIndex x, NIndex y)
 {	NIndex		theOffset;
-	UInt8		*thePtr;
+	uint8_t		*thePtr;
 
 
 
@@ -670,7 +670,7 @@ NStatus NImage::Decode(const NData &theData, NImageFormat theFormat)
 //============================================================================
 //		NImage::ForEachPixelInImmutableRow : Process each pixel in a row.
 //----------------------------------------------------------------------------
-bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const UInt8 *rowPtr) const
+bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const uint8_t *rowPtr) const
 {	NIndex		x;
 
 
@@ -694,7 +694,7 @@ bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelB
 //============================================================================
 //		NImage::ForEachPixelInMutableRow : Process each pixel in a row.
 //----------------------------------------------------------------------------
-bool NImage::ForEachPixelInMutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes,  const NImageForEachMutablePixelFunctor &theFunctor, UInt8 *rowPtr)
+bool NImage::ForEachPixelInMutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes,  const NImageForEachMutablePixelFunctor &theFunctor, uint8_t *rowPtr)
 {	NIndex		x;
 
 
@@ -942,9 +942,9 @@ void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 //============================================================================
 //		NImage::RowSwizzle24 : Swizzle a row of 24-bpp pixels.
 //----------------------------------------------------------------------------
-bool NImage::RowSwizzle24(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newOrder)
-{	UInt8		tmpPixel[3];
-	UInt8		*pixelPtr;
+bool NImage::RowSwizzle24(NIndex theWidth, uint8_t *rowPtr, const NIndexList &newOrder)
+{	uint8_t		tmpPixel[3];
+	uint8_t		*pixelPtr;
 	NIndex		x;
 
 
@@ -983,9 +983,9 @@ bool NImage::RowSwizzle24(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newO
 //============================================================================
 //		NImage::RowSwizzle32 : Swizzle a row of 32-bpp pixels.
 //----------------------------------------------------------------------------
-bool NImage::RowSwizzle32(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newOrder)
-{	UInt8		tmpPixel[4];
-	UInt8		*pixelPtr;
+bool NImage::RowSwizzle32(NIndex theWidth, uint8_t *rowPtr, const NIndexList &newOrder)
+{	uint8_t		tmpPixel[4];
+	uint8_t		*pixelPtr;
 	NIndex		x;
 
 
@@ -1003,7 +1003,7 @@ bool NImage::RowSwizzle32(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newO
 	// Process the row
 	for (x = 0; x < theWidth; x++)
 		{
-		*((UInt32 *) &tmpPixel[0]) = *((UInt32 *) pixelPtr);
+		*((uint32_t *) &tmpPixel[0]) = *((uint32_t *) pixelPtr);
 
 		pixelPtr[0] = tmpPixel[newOrder[0]];
 		pixelPtr[1] = tmpPixel[newOrder[1]];
@@ -1022,9 +1022,9 @@ bool NImage::RowSwizzle32(NIndex theWidth, UInt8 *rowPtr, const NIndexList &newO
 //============================================================================
 //		NImage::RowExpand24To32 : Expand a 24bpp row into 32bpp.
 //----------------------------------------------------------------------------
-bool NImage::RowExpand24To32(NIndex theWidth, const UInt8 *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y)
-{	const UInt8		*srcPixel;
-	UInt8			*dstPixel;
+bool NImage::RowExpand24To32(NIndex theWidth, const uint8_t *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y)
+{	const uint8_t	*srcPixel;
+	uint8_t			*dstPixel;
 	NIndex			x;
 
 
@@ -1064,10 +1064,10 @@ bool NImage::RowExpand24To32(NIndex theWidth, const UInt8 *rowPtr, const NIndexL
 //============================================================================
 //		NImage::RowReduce32To24 : Reduce a 32bpp row to 24bpp.
 //----------------------------------------------------------------------------
-bool NImage::RowReduce32To24(NIndex theWidth, UInt8 *rowPtr, const NIndexList &srcOrder)
-{	UInt8			tmpPixel[4];
-	const UInt8		*srcPixel;
-	UInt8			*dstPixel;
+bool NImage::RowReduce32To24(NIndex theWidth, uint8_t *rowPtr, const NIndexList &srcOrder)
+{	uint8_t			tmpPixel[4];
+	const uint8_t	*srcPixel;
+	uint8_t			*dstPixel;
 	NIndex			x;
 
 
@@ -1086,7 +1086,7 @@ bool NImage::RowReduce32To24(NIndex theWidth, UInt8 *rowPtr, const NIndexList &s
 	// Process the row
 	for (x = 0; x < theWidth; x++)
 		{
-		*((UInt32 *) &tmpPixel[0]) = *((UInt32 *) srcPixel);
+		*((uint32_t *) &tmpPixel[0]) = *((uint32_t *) srcPixel);
 
 		dstPixel[0] = tmpPixel[srcOrder[0]];
 		dstPixel[1] = tmpPixel[srcOrder[1]];

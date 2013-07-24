@@ -32,7 +32,7 @@
 // Entity IDs
 //
 // Messages are exchanged between entities, which have a fixed ID.
-typedef UInt8 NEntityID;
+typedef uint8_t NEntityID;
 
 static const NEntityID kNEntityInvalid								= 0;
 static const NEntityID kNEntityServer								= 1;
@@ -46,7 +46,7 @@ static const NEntityID kNEntityClientsMax							= kNEntityClientsLast - kNEntity
 // Messages
 //
 // Negative message types are reserved.
-typedef SInt16 NMessageType;
+typedef int16_t NMessageType;
 
 static const NMessageType kNMessageInvalidMsg						= -1;
 static const NMessageType kNMessageServerInfoMsg					= -2;
@@ -70,10 +70,10 @@ static const NBitfield kNMessageNeverCompress						= (1 << 8);			// Local
 //
 // Messages that contain a single kNMessageDataKey property will be transmitted
 // in a more efficient form than those requiring an arbitrary dictionary.
-static const NString kNMessageMaxClientsKey							= "MaxClients";		// SInt32, NIndex
-static const NString kNMessageNumClientsKey							= "NumClients";		// SInt32, NIndex
+static const NString kNMessageMaxClientsKey							= "MaxClients";		// int32_t (NIndex)
+static const NString kNMessageNumClientsKey							= "NumClients";		// int32_t (NIndex)
 static const NString kNMessagePasswordKey							= "Password";		// NString
-static const NString kNMessageStatusKey								= "Status";			// SInt32, NStatus
+static const NString kNMessageStatusKey								= "Status";			// int32_t (NStatus)
 static const NString kNMessageDataKey								= "Data";			// NData
 
 
@@ -90,11 +90,11 @@ typedef struct {
 	NMessageType			msgType;
 	NEntityID				msgSrcID;
 	NEntityID				msgDstID;
-	UInt8					msgAttributes;
-	UInt8					reserved1;
-	UInt8					reserved2;
-	UInt8					reserved3;
-	UInt32					bodySize;
+	uint8_t					msgAttributes;
+	uint8_t					reserved1;
+	uint8_t					reserved2;
+	uint8_t					reserved3;
+	uint32_t				bodySize;
 } NMessageHeader;
 
 #pragma pack(pop)

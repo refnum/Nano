@@ -40,18 +40,18 @@ typedef NAtomicList<NFunctor>										ThreadFunctorList;
 class NTargetThread {
 public:
 	// Get the active CPU count
-	static UInt32						GetCPUCount(void);
+	static NIndex						GetCPUCount(void);
 
 
 	// Atomic operations
-	static bool							AtomicCompareAndSwap32( SInt32 &theValue, SInt32 oldValue, SInt32 newValue);
+	static bool							AtomicCompareAndSwap32( int32_t &theValue, int32_t oldValue, int32_t newValue);
 	static bool							AtomicCompareAndSwapPtr(void  *&theValue, void  *oldValue, void  *newValue);
 
-	static SInt32						AtomicAdd32(SInt32 &theValue, SInt32 theDelta);
+	static int32_t						AtomicAdd32(int32_t &theValue, int32_t theDelta);
 
-	static void							AtomicAnd32(UInt32 &theValue, UInt32 theMask);
-	static void							AtomicOr32( UInt32 &theValue, UInt32 theMask);
-	static void							AtomicXor32(UInt32 &theValue, UInt32 theMask);
+	static void							AtomicAnd32(uint32_t &theValue, uint32_t theMask);
+	static void							AtomicOr32( uint32_t &theValue, uint32_t theMask);
+	static void							AtomicXor32(uint32_t &theValue, uint32_t theMask);
 
 
 	// Barriers
@@ -84,8 +84,8 @@ public:
 
 
 	// Spin lock
-	static bool							SpinLock(  SInt32 &theLock, bool canBlock);
-	static void							SpinUnlock(SInt32 &theLock);
+	static bool							SpinLock(  int32_t &theLock, bool canBlock);
+	static void							SpinUnlock(int32_t &theLock);
 };
 
 

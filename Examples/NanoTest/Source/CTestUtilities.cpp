@@ -28,9 +28,9 @@
 static const NIndex kThreadCount									= 10;
 static const NIndex kLockCount										= 100;
 
-static const UInt8  kDataActive										= 0x23;
-static const UInt8  kDataInactive									= 0x42;
-static const NIndex kDataSize										= 5000;
+static const uint8_t kDataActive									= 0x23;
+static const uint8_t kDataInactive									= 0x42;
+static const NIndex  kDataSize										= 5000;
 
 
 
@@ -158,7 +158,7 @@ void CTestUtilities::DebugOutputHook(const char *theMsg)
 //----------------------------------------------------------------------------
 void CTestUtilities::LockUnlock(NLock *theLock, NData *theData, bool *wasOK)
 {	NIndex		n, m, dataSize;
-	UInt8		*dataPtr;
+	uint8_t		*dataPtr;
 
 
 

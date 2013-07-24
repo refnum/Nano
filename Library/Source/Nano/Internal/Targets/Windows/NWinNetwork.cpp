@@ -49,10 +49,6 @@ EXTERN_C DECLSPEC_IMPORT BOOL STDAPICALLTYPE InternetGetConnectedState(LPDWORD l
 //============================================================================
 //		DNS-SD
 //----------------------------------------------------------------------------
-#define uint16_t													UInt16
-#define uint32_t													UInt32
-#define int32_t														SInt32
-
 typedef struct _DNSServiceRef_t	*DNSServiceRef;
 typedef uint32_t				 DNSServiceFlags;
 typedef int32_t					 DNSServiceErrorType;
@@ -196,7 +192,7 @@ typedef struct {
 	HINTERNET						hRequest;
 
 	bool							didCancel;
-	UInt8							theBuffer[kHTTP_BufferSize];
+	uint8_t							theBuffer[kHTTP_BufferSize];
 } WinURLResponse;
 
 
@@ -1140,7 +1136,7 @@ static int SocketCreateSocket(NSocketRef theSocket)
 //============================================================================
 //		SocketCreateListening : Create a listening socket.
 //----------------------------------------------------------------------------
-static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
+static bool SocketCreateListening(NSocketRef theSocket, uint16_t thePort)
 {	SOCKADDR_IN		localAddress;
 	BOOL			valueBOOL;
 
@@ -1189,7 +1185,7 @@ static bool SocketCreateListening(NSocketRef theSocket, UInt16 thePort)
 //============================================================================
 //		SocketCreateConnecting : Create a connecting socket.
 //----------------------------------------------------------------------------
-static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, UInt16 thePort)
+static bool SocketCreateConnecting(NSocketRef theSocket, const NString &theHost, uint16_t thePort)
 {	SOCKADDR_IN			localAddress, remoteAddress;
 	struct hostent		*hostInfo;
 	int					winErr;
@@ -1531,7 +1527,7 @@ bool NTargetNetwork::ServicesAvailable(void)
 //============================================================================
 //      NTargetNetwork::ServiceAdvertiserCreate : Create a service advertiser.
 //----------------------------------------------------------------------------
-NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, UInt16 thePort, const NString &theName)
+NServiceAdvertiserRef NTargetNetwork::ServiceAdvertiserCreate(const NString &serviceType, uint16_t thePort, const NString &theName)
 {	NServiceAdvertiserRef	theAdvertiser;
 	DNSServiceErrorType		dnsErr;
 
@@ -1690,7 +1686,7 @@ void NTargetNetwork::ServiceBrowserDestroy(NServiceBrowserRef theBrowser)
 //============================================================================
 //      NTargetNetwork::SocketOpen : Open a socket.
 //----------------------------------------------------------------------------
-NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, UInt16 thePort)
+NSocketRef NTargetNetwork::SocketOpen(NSocket *nanoSocket, const NString &theHost, uint16_t thePort)
 {	NSocketRef		theSocket;
 	bool			isOK;
 
@@ -1879,10 +1875,10 @@ NIndex NTargetNetwork::SocketWrite(NSocketRef theSocket, NIndex theSize, const v
 //============================================================================
 //      NTargetNetwork::SocketGetOption : Get a socket option.
 //----------------------------------------------------------------------------
-SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
+int32_t NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOption)
 {	int			valueSize;
 	BOOL		valueBool;
-	SInt32		theValue;
+	int32_t		theValue;
 
 
 
@@ -1921,7 +1917,7 @@ SInt32 NTargetNetwork::SocketGetOption(NSocketRef theSocket, NSocketOption theOp
 //============================================================================
 //      NTargetNetwork::SocketSetOption : Set a socket option.
 //----------------------------------------------------------------------------
-NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, SInt32 theValue)
+NStatus NTargetNetwork::SocketSetOption(NSocketRef theSocket, NSocketOption theOption, int32_t theValue)
 {	BOOL		valueBool;
 	NStatus		theErr;
 

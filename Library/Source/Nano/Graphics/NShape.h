@@ -34,9 +34,9 @@
 // Classes
 template <class T> class NShapeT;
 
-typedef NShapeT<Float64> NShape64;
-typedef NShapeT<Float32> NShape32;
-typedef NShape32         NShape;
+typedef NShapeT<float64_t> NShape64;
+typedef NShapeT<float32_t> NShape32;
+typedef NShape32           NShape;
 
 
 // Lists

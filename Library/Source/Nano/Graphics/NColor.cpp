@@ -77,7 +77,7 @@ NENCODABLE_DEFINE(NColor);
 //============================================================================
 //		NColor::NColor : Constructor.
 //----------------------------------------------------------------------------
-NColor::NColor(Float32 r, Float32 g, Float32 b, Float32 a)
+NColor::NColor(float32_t r, float32_t g, float32_t b, float32_t a)
 {
 
 
@@ -92,7 +92,7 @@ NColor::NColor(Float32 r, Float32 g, Float32 b, Float32 a)
 //============================================================================
 //		NColor::NColor : Constructor.
 //----------------------------------------------------------------------------
-NColor::NColor(UInt32 theColor, NColorFormat theFormat)
+NColor::NColor(uint32_t theColor, NColorFormat theFormat)
 {
 
 
@@ -109,7 +109,7 @@ NColor::NColor(UInt32 theColor, NColorFormat theFormat)
 //----------------------------------------------------------------------------
 NColor::NColor(const NString &hexColor, NColorFormat theFormat)
 {	unsigned int	valueR, valueG, valueB, valueA;
-	Float32			r, g, b, a;
+	float32_t		r, g, b, a;
 
 
 
@@ -120,20 +120,20 @@ NColor::NColor(const NString &hexColor, NColorFormat theFormat)
 		case kNColorARGB:
 			if (sscanf(hexColor.GetUTF8(), "%2x%2x%2x%2x", &valueA, &valueR, &valueG, &valueB) == 4)
 				{
-				r = ((Float32) valueR) * kOneOver255;
-				g = ((Float32) valueG) * kOneOver255;
-				b = ((Float32) valueB) * kOneOver255;
-				a = ((Float32) valueA) * kOneOver255;
+				r = ((float32_t) valueR) * kOneOver255;
+				g = ((float32_t) valueG) * kOneOver255;
+				b = ((float32_t) valueB) * kOneOver255;
+				a = ((float32_t) valueA) * kOneOver255;
 				}
 			break;
 
 		case kNColorRGBA:
 			if (sscanf(hexColor.GetUTF8(), "%2x%2x%2x%2x", &valueR, &valueG, &valueB, &valueA) == 4)
 				{
-				r = ((Float32) valueR) * kOneOver255;
-				g = ((Float32) valueG) * kOneOver255;
-				b = ((Float32) valueB) * kOneOver255;
-				a = ((Float32) valueA) * kOneOver255;
+				r = ((float32_t) valueR) * kOneOver255;
+				g = ((float32_t) valueG) * kOneOver255;
+				b = ((float32_t) valueB) * kOneOver255;
+				a = ((float32_t) valueA) * kOneOver255;
 				}
 			break;
 
@@ -240,7 +240,7 @@ NComparison NColor::Compare(const NColor &theValue) const
 //============================================================================
 //		NColor::GetColor : Get the color.
 //----------------------------------------------------------------------------
-void NColor::GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const
+void NColor::GetColor(float32_t &r, float32_t &g, float32_t &b, float32_t &a) const
 {
 
 
@@ -258,16 +258,16 @@ void NColor::GetColor(Float32 &r, Float32 &g, Float32 &b, Float32 &a) const
 //============================================================================
 //		NColor::GetColor : Get the color.
 //----------------------------------------------------------------------------
-UInt32 NColor::GetColor(NColorFormat theFormat) const
-{	UInt32	theColor, r, g, b, a;
+uint32_t NColor::GetColor(NColorFormat theFormat) const
+{	uint32_t	theColor, r, g, b, a;
 
 
 
 	// Get the color
-	r = (UInt8) (mRed   * 255.0f);
-	g = (UInt8) (mGreen * 255.0f);
-	b = (UInt8) (mBlue  * 255.0f);
-	a = (UInt8) (mAlpha * 255.0f);
+	r = (uint8_t) (mRed   * 255.0f);
+	g = (uint8_t) (mGreen * 255.0f);
+	b = (uint8_t) (mBlue  * 255.0f);
+	a = (uint8_t) (mAlpha * 255.0f);
 
 
 
@@ -297,7 +297,7 @@ UInt32 NColor::GetColor(NColorFormat theFormat) const
 //============================================================================
 //		NColor::SetColor : Set the color.
 //----------------------------------------------------------------------------
-void NColor::SetColor(Float32 r, Float32 g, Float32 b, Float32 a)
+void NColor::SetColor(float32_t r, float32_t g, float32_t b, float32_t a)
 {
 
 
@@ -315,25 +315,25 @@ void NColor::SetColor(Float32 r, Float32 g, Float32 b, Float32 a)
 //============================================================================
 //		NColor::SetColor : Set the color.
 //----------------------------------------------------------------------------
-void NColor::SetColor(UInt32 theColor, NColorFormat theFormat)
-{	Float32		r, g, b, a;
+void NColor::SetColor(uint32_t theColor, NColorFormat theFormat)
+{	float32_t		r, g, b, a;
 
 
 
 	// Break down the color
 	switch (theFormat) {
 		case kNColorARGB:
-			a = ((Float32) ((theColor >> 24) & 0xFF)) * kOneOver255;
-			r = ((Float32) ((theColor >> 16) & 0xFF)) * kOneOver255;
-			g = ((Float32) ((theColor >>  8) & 0xFF)) * kOneOver255;
-			b = ((Float32) ((theColor >>  0) & 0xFF)) * kOneOver255;
+			a = ((float32_t) ((theColor >> 24) & 0xFF)) * kOneOver255;
+			r = ((float32_t) ((theColor >> 16) & 0xFF)) * kOneOver255;
+			g = ((float32_t) ((theColor >>  8) & 0xFF)) * kOneOver255;
+			b = ((float32_t) ((theColor >>  0) & 0xFF)) * kOneOver255;
 			break;
 
 		case kNColorRGBA:
-			r = ((Float32) ((theColor >> 24) & 0xFF)) * kOneOver255;
-			g = ((Float32) ((theColor >> 16) & 0xFF)) * kOneOver255;
-			b = ((Float32) ((theColor >>  8) & 0xFF)) * kOneOver255;
-			a = ((Float32) ((theColor >>  0) & 0xFF)) * kOneOver255;
+			r = ((float32_t) ((theColor >> 24) & 0xFF)) * kOneOver255;
+			g = ((float32_t) ((theColor >> 16) & 0xFF)) * kOneOver255;
+			b = ((float32_t) ((theColor >>  8) & 0xFF)) * kOneOver255;
+			a = ((float32_t) ((theColor >>  0) & 0xFF)) * kOneOver255;
 			break;
 
 		default:
@@ -355,7 +355,7 @@ void NColor::SetColor(UInt32 theColor, NColorFormat theFormat)
 //============================================================================
 //		NColor::GetRed : Get the red value.
 //----------------------------------------------------------------------------
-Float32 NColor::GetRed(void) const
+float32_t NColor::GetRed(void) const
 {
 
 
@@ -370,7 +370,7 @@ Float32 NColor::GetRed(void) const
 //============================================================================
 //		NColor::GetGreen : Get the green value.
 //----------------------------------------------------------------------------
-Float32 NColor::GetGreen(void) const
+float32_t NColor::GetGreen(void) const
 {
 
 
@@ -385,7 +385,7 @@ Float32 NColor::GetGreen(void) const
 //============================================================================
 //		NColor::GetBlue : Get the blue value.
 //----------------------------------------------------------------------------
-Float32 NColor::GetBlue(void) const
+float32_t NColor::GetBlue(void) const
 {
 
 
@@ -400,7 +400,7 @@ Float32 NColor::GetBlue(void) const
 //============================================================================
 //		NColor::GetAlpha : Get the alpha value.
 //----------------------------------------------------------------------------
-Float32 NColor::GetAlpha(void) const
+float32_t NColor::GetAlpha(void) const
 {
 
 
@@ -415,7 +415,7 @@ Float32 NColor::GetAlpha(void) const
 //============================================================================
 //		NColor::SetRed : Set the red value.
 //----------------------------------------------------------------------------
-void NColor::SetRed(Float32 theValue)
+void NColor::SetRed(float32_t theValue)
 {
 
 
@@ -435,7 +435,7 @@ void NColor::SetRed(Float32 theValue)
 //============================================================================
 //		NColor::SetGreen : Set the green value.
 //----------------------------------------------------------------------------
-void NColor::SetGreen(Float32 theValue)
+void NColor::SetGreen(float32_t theValue)
 {
 
 
@@ -455,7 +455,7 @@ void NColor::SetGreen(Float32 theValue)
 //============================================================================
 //		NColor::SetBlue : Set the blue value.
 //----------------------------------------------------------------------------
-void NColor::SetBlue(Float32 theValue)
+void NColor::SetBlue(float32_t theValue)
 {
 
 
@@ -475,7 +475,7 @@ void NColor::SetBlue(Float32 theValue)
 //============================================================================
 //		NColor::SetAlpha : Set the alpha value.
 //----------------------------------------------------------------------------
-void NColor::SetAlpha(Float32 theValue)
+void NColor::SetAlpha(float32_t theValue)
 {
 
 

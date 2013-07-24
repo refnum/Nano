@@ -139,7 +139,7 @@ void NFileMap::Close(void)
 //============================================================================
 //		NFileMap::Map : Map a page.
 //----------------------------------------------------------------------------
-void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool noCache)
+void *NFileMap::Map(uint64_t theOffset, uint32_t theSize, NMapAccess theAccess, bool noCache)
 {	StLock			acquireLock(mLock);
 	NMapInfo		theInfo;
 	void			*thePtr;
@@ -155,7 +155,7 @@ void *NFileMap::Map(UInt64 theOffset, UInt32 theSize, NMapAccess theAccess, bool
 	if (theSize == 0)
 		{
 		NN_ASSERT(mFile.GetSize() <= ULONG_MAX);
-		theSize = (UInt32) mFile.GetSize();
+		theSize = (uint32_t) mFile.GetSize();
 		}
 
 	theInfo.theSize   = theSize;

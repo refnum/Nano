@@ -27,8 +27,8 @@
 class NTargetMath {
 public:
 	// Rotate an integer
-	static UInt32						RotateLeft( UInt32 theValue, UInt32 rotateBy);
-	static UInt32						RotateRight(UInt32 theValue, UInt32 rotateBy);
+	static uint32_t						RotateLeft( uint32_t theValue, uint32_t rotateBy);
+	static uint32_t						RotateRight(uint32_t theValue, uint32_t rotateBy);
 };
 
 

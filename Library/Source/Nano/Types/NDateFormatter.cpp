@@ -812,7 +812,7 @@ NString NDateFormatter::GetSecond(const NDateContext &theContext) const
 	switch (theContext.tokenChar) {
 		case 's':
 			NN_ASSERT(theContext.tokenSize >= 1 && theContext.tokenSize <= 2);
-			theValue.Format("%0*d", theContext.tokenSize, (SInt32) secondInt);
+			theValue.Format("%0*ld", theContext.tokenSize, (int32_t) secondInt);
 			break;
 
 		case 'S':

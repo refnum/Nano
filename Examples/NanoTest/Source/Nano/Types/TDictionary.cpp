@@ -24,9 +24,9 @@
 //============================================================================
 //		Internal constants
 //----------------------------------------------------------------------------
-static const NPoint kTestPoint										= NPoint(10.0f, 10.0f);
-static const SInt32 kTestSInt32										=  2000;
-static const SInt64 kTestSInt64										= -4000;
+static const NPoint  kTestPoint										= NPoint(10.0f, 10.0f);
+static const int32_t kTestInt32										=  2000;
+static const int64_t kTestInt64										= -4000;
 
 
 
@@ -54,9 +54,9 @@ TEST_NDICTIONARY("Set")
 
 
 	// Perform the test
-	theDict.SetValue("point",   kTestPoint);
-	theDict.SetValue("sint32",  kTestSInt32);
-	theDict2.SetValue("sint64", kTestSInt64);
+	theDict.SetValue( "point", kTestPoint);
+	theDict.SetValue( "int32", kTestInt32);
+	theDict2.SetValue("int64", kTestInt64);
 
 	REQUIRE(theDict.GetSize()  == 2);
 	REQUIRE(theDict2.GetSize() == 1);
@@ -74,18 +74,18 @@ TEST_NDICTIONARY("Join")
 
 
 	// Perform the test
-	theDict.SetValue("point",   kTestPoint);
-	theDict.SetValue("sint32",  kTestSInt32);
-	theDict2.SetValue("sint64", kTestSInt64);
+	theDict.SetValue( "point", kTestPoint);
+	theDict.SetValue( "int32", kTestInt32);
+	theDict2.SetValue("int64", kTestInt64);
 
 	theDict.Join(theDict2);
 	REQUIRE(theDict.GetSize()        == 3);
 	REQUIRE(theDict.GetKeys().size() == 3);
 
 	REQUIRE(!theDict.HasKey("fail"));
-	REQUIRE(theDict.GetValuePoint("point")   == kTestPoint);
-	REQUIRE(theDict.GetValueSInt32("sint32") == kTestSInt32);
-	REQUIRE(theDict.GetValueSInt64("sint64") == kTestSInt64);
+	REQUIRE(theDict.GetValuePoint("point") == kTestPoint);
+	REQUIRE(theDict.GetValueInt32("int32") == kTestInt32);
+	REQUIRE(theDict.GetValueInt64("int64") == kTestInt64);
 }
 
 

@@ -103,7 +103,7 @@ namespace Catch {
 //
 //		FIXTURE_NANO(SomeFixture)
 //		{
-//			UInt8 *someData;
+//			uint8_t *someData;
 //
 //			SETUP
 //			{
@@ -124,7 +124,7 @@ namespace Catch {
 //
 //		TEST_NANO(SomeFixture, "Allocate")
 //		{
-//			someData = (UInt8 *) malloc(10);
+//			someData = (uint8_t *) malloc(10);
 //			REQUIRE(someData != NULL);
 //		}
 //
@@ -135,7 +135,7 @@ namespace Catch {
 //
 //		TEST_NANO(SomeFixture, "Allocate", "[malloc][mem]")
 //		{
-//			someData = (UInt8 *) malloc(10);
+//			someData = (uint8_t *) malloc(10);
 //			REQUIRE(someData != NULL);
 //		}
 //

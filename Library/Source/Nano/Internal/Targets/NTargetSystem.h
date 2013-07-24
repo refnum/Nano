@@ -66,8 +66,8 @@ public:
 	
 
 	// Get the system details
-	static UInt64						GetSystemCPU( void);
-	static UInt64						GetSystemRAM( void);
+	static uint64_t						GetSystemCPU( void);
+	static uint64_t						GetSystemRAM( void);
 	static NString						GetSystemArch(void);
 
 

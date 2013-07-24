@@ -48,7 +48,7 @@ public:
 
 
 protected:
-    SInt32								mLockCount;
+    int32_t								mLockCount;
 };
 
 

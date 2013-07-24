@@ -56,8 +56,8 @@ public:
 
 
 	// Get/set a file's size
-	static UInt64						GetSize(const NString &thePath);
-	static NStatus						SetSize(const NString &thePath, NFileRef theFile, UInt64 theSize);
+	static uint64_t						GetSize(const NString &thePath);
+	static NStatus						SetSize(const NString &thePath, NFileRef theFile, uint64_t theSize);
 
 
 	// Get a file's timestamps
@@ -106,17 +106,17 @@ public:
 	// File I/O
 	static NFileRef						FileOpen(const NString &thePath, NFilePermission thePermission);
 	static void							FileClose(      NFileRef theFile);
-	static UInt64						FileGetPosition(NFileRef theFile);
-	static NStatus						FileSetPosition(NFileRef theFile, SInt64 theOffset, NFilePosition thePosition);
-	static NStatus						FileRead(       NFileRef theFile, UInt64 theSize,       void *thePtr, UInt64 &numRead,    SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags);
-	static NStatus						FileWrite(      NFileRef theFile, UInt64 theSize, const void *thePtr, UInt64 &numWritten, SInt64 theOffset, NFilePosition thePosition, NFileFlags theFlags);
+	static uint64_t						FileGetPosition(NFileRef theFile);
+	static NStatus						FileSetPosition(NFileRef theFile, int64_t theOffset, NFilePosition thePosition);
+	static NStatus						FileRead(       NFileRef theFile, uint64_t theSize,       void *thePtr, uint64_t &numRead,    int64_t theOffset, NFilePosition thePosition, NFileFlags theFlags);
+	static NStatus						FileWrite(      NFileRef theFile, uint64_t theSize, const void *thePtr, uint64_t &numWritten, int64_t theOffset, NFilePosition thePosition, NFileFlags theFlags);
 
 
 	// File mapping
 	static NFileRef						MapOpen(const NFile &theFile, NMapAccess theAccess);
 	static void							MapClose(  NFileRef theFile);
-	static void						   *MapFetch(  NFileRef theFile,  NMapAccess theAccess, UInt64 theOffset,   UInt32 theSize, bool noCache);
-	static void							MapDiscard(NFileRef theFile,  NMapAccess theAccess, const void *thePtr, UInt32 theSize);
+	static void						   *MapFetch(  NFileRef theFile,  NMapAccess theAccess, uint64_t    theOffset, uint32_t theSize, bool noCache);
+	static void							MapDiscard(NFileRef theFile,  NMapAccess theAccess, const void *thePtr,    uint32_t theSize);
 
 
 	// Bundles

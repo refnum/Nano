@@ -136,7 +136,7 @@ NShadingSampleList NCGShading::GetSamples(void) const
 //		NCGShading::SetSamples : Set the shading samples.
 //----------------------------------------------------------------------------
 void NCGShading::SetSamples(const NShadingSampleList &theSamples)
-{	UInt32		n, numItems;
+{	NIndex		n, numItems;
 	bool		didChange;
 
 
@@ -147,6 +147,7 @@ void NCGShading::SetSamples(const NShadingSampleList &theSamples)
 	if (!didChange)
 		{
 		numItems = mSamples.size();
+
 		for (n = 0; n < numItems && !didChange; n++)
 			didChange = (mSamples[n] != theSamples[n]);
 		}
@@ -474,7 +475,7 @@ const NCGShading& NCGShading::operator = (const NCGShading &theShading)
 NColor NCGShading::Evaluate(float theSample)
 {	NColor		theResult, colorOne, colorTwo;
 	float		theRange, theWeight;
-	SInt32		n, numSamples;
+	NIndex		n, numSamples;
 
 
 
@@ -681,7 +682,7 @@ CGFunctionRef NCGShading::CreateEvaluateCallback(void) const
 //		NCGShading::EvaluateCallback : Evaluate callback.
 //----------------------------------------------------------------------------
 void NCGShading::EvaluateCallback(void *info, const CGFloat *in, CGFloat *out)
-{	Float32			colRed, colGreen, colBlue, colAlpha;
+{	float32_t		colRed, colGreen, colBlue, colAlpha;
 	NCGShading		*thisPtr = (NCGShading *) info;
 	NColor			theColor;
 

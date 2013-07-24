@@ -25,7 +25,7 @@
 //		Vectors
 //----------------------------------------------------------------------------
 // Create a vector from an array
-template <class T> std::vector<T> vector_create_n(UInt32 numValues, const T *theValues) 
+template <class T> std::vector<T> vector_create_n(NIndex numValues, const T *theValues)
 {
 	return(std::vector<T>(theValues, theValues + numValues));
 } 
