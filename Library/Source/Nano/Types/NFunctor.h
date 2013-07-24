@@ -63,6 +63,7 @@
 #define kNArg7														std::tr1::placeholders::_7
 #define kNArg8														std::tr1::placeholders::_8
 #define kNArg9														std::tr1::placeholders::_9
+#define kNArg10														std::tr1::placeholders::_10
 
 #define nfunctor													std::tr1::function
 #define nbind(_func, ...)											std::tr1::bind(&_func, ##__VA_ARGS__)

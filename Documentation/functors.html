@@ -124,7 +124,7 @@ functor usage to be self-documenting.
 <h2>Binding Parameters</h2>
 <p>
 The parameters passed to <tt>nbind</tt> can be real values, or a "placeholder" value.
-Placeholders, which are named _1 to _10, are substituted with the appropriate parameter
+Placeholders, which are named kNArg1 to kNArg10, are substituted with the appropriate parameter
 when the functor is invoked.
 </p>
 
@@ -139,8 +139,8 @@ void MyFunction2(       const char *b);
 typedef nfunctor&lt;void (int, int)&gt; NFunctor1;
 typedef nfunctor&lt;void (int)     &gt; NFunctor2;
     ...
-NFunctor1 myFunc1 = BindFunction(MyFunction1, _2, "50", _1);
-NFunctor2 myFunc2 = BindFunction(MyFunction2,     "50");
+NFunctor1 myFunc1 = BindFunction(MyFunction1, kNArg2, "50", kNArg1);
+NFunctor2 myFunc2 = BindFunction(MyFunction2,         "50");
     ...
 myFunc1(60, 40);  // Equivalent to MyFunction1(40, "50", 60)
 myFunc2(23);      // Equivalent to MyFunction2(    "50")
@@ -190,7 +190,7 @@ void MyFunction3(UInt32 a, NTimerState theState);
     ...
 mTimer.AddTimer(BindFunction(MyFunction1           ), 1.0f);
 mTimer.AddTimer(BindFunction(MyFunction2, "2 secs" ), 2.0f);
-mTimer.AddTimer(BindFunction(MyFunction3, 42,    _1), 3.0f);
+mTimer.AddTimer(BindFunction(MyFunction3, 42,    kNArg1), 3.0f);
     ...
 // After 1 second,  mTimer invokes MyFunction1()
 // After 2 seconds, mTimer invokes MyFunction2("2 secs");
