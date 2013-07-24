@@ -894,7 +894,7 @@ static void SocketThread(void)
 				NN_LOG("Unable to re-attach accepte socket to IOCP!");
 
 			SocketThreadAdd();
-			theSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (UIntPtr) newSocket->nanoSocket);
+			theSocket->nanoSocket->SocketEvent(kNSocketHasConnection, (uintptr_t) newSocket->nanoSocket);
 
 
 			// Accept further connections

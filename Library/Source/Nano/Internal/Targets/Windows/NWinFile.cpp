@@ -998,7 +998,7 @@ NStatus NTargetFile::FileRead(NFileRef theFile, uint64_t theSize, void *thePtr, 
 
 
 	// Validate our parameters
-	NN_ASSERT(theSize <= kSInt32Max);
+	NN_ASSERT(theSize <= kInt32Max);
 
 
 
@@ -1151,7 +1151,7 @@ void NTargetFile::MapClose(NFileRef theFile)
 //============================================================================
 //      NTargetFile::MapFetch : Fetch a page from a memory-mapped file.
 //----------------------------------------------------------------------------
-void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, uint64_t_t theOffset, uint32_t theSize, bool /*noCache*/)
+void *NTargetFile::MapFetch(NFileRef theFile, NMapAccess theAccess, uint64_t theOffset, uint32_t theSize, bool /*noCache*/)
 {	FileMapInfo		*theInfo = (FileMapInfo *) theFile;
 	StLock			acquireLock(theInfo->theLock);
 
