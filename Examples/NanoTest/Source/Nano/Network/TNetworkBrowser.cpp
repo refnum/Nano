@@ -106,7 +106,7 @@ TEST_NNETWORKBROWSER("State")
 
 	// Prepare the browser
 	theBrowser.SetServices(nvector(kTestService));
-	theBrowser.SetEventHandler(BindFunction(BrowseEvent, _1, &theResult));
+	theBrowser.SetEventHandler(BindFunction(BrowseEvent, kNArg1, &theResult));
 
 
 

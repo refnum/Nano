@@ -74,7 +74,7 @@ NString NTextUtilities::EncodeEntities(const NString &theValue, const NDictionar
 	theEntities.RemoveKey(kEntityValueAmp);
 	NTextUtilities::ProcessEntities(kEntityValueAmp, kEntityNameAmp, &theResult);
 
-	theEntities.ForEach(BindFunction(NTextUtilities::ProcessEntities, _1, _2, &theResult));
+	theEntities.ForEach(BindFunction(NTextUtilities::ProcessEntities, kNArg1, kNArg2, &theResult));
 
 	return(theResult);
 }
@@ -99,7 +99,7 @@ NString NTextUtilities::DecodeEntities(const NString &theValue, const NDictionar
 
 
 	// Process the entities
-	theEntities.ForEach(BindFunction(NTextUtilities::ProcessEntities, _1, _2, &theResult));
+	theEntities.ForEach(BindFunction(NTextUtilities::ProcessEntities, kNArg1, kNArg2, &theResult));
 	
 	return(theResult);
 }

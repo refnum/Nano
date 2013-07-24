@@ -203,7 +203,7 @@ NSocketConnectionFunctor TSocketServer::SocketHasConnection(NSocket * /*theSocke
 
 
 	// Get the functor
-	return(BindSelf(TSocketServer::HandleConnection, _1));
+	return(BindSelf(TSocketServer::HandleConnection, kNArg1));
 }
 
 

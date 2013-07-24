@@ -60,9 +60,9 @@ bool NNumber::EncodableRegister(void)
 	
 	if (!sIsRegistered)
 		{
-		classInfo.canEncode    = BindFunction(NNumber::EncodableCanEncode,    _1);
-		classInfo.encodeObject = BindFunction(NNumber::EncodableEncodeObject, _1, _2);
-		classInfo.decodeObject = BindFunction(NNumber::EncodableDecodeObject, _1);
+		classInfo.canEncode    = BindFunction(NNumber::EncodableCanEncode,    kNArg1);
+		classInfo.encodeObject = BindFunction(NNumber::EncodableEncodeObject, kNArg1, kNArg2);
+		classInfo.decodeObject = BindFunction(NNumber::EncodableDecodeObject, kNArg1);
 		
 		NEncoder::RegisterClass("NNumber", classInfo);
 		sIsRegistered = true;

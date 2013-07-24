@@ -92,9 +92,9 @@ class NVariant;
 																														\
 		if (!sIsRegistered)																								\
 			{																											\
-			classInfo.canEncode    = BindFunction(_class::EncodableCanEncode,    _1);									\
-			classInfo.encodeObject = BindFunction(_class::EncodableEncodeObject, _1, _2);								\
-			classInfo.decodeObject = BindFunction(_class::EncodableDecodeObject, _1);									\
+			classInfo.canEncode    = BindFunction(_class::EncodableCanEncode,    kNArg1);								\
+			classInfo.encodeObject = BindFunction(_class::EncodableEncodeObject, kNArg1, kNArg2);						\
+			classInfo.decodeObject = BindFunction(_class::EncodableDecodeObject, kNArg1);								\
 																														\
 			NEncoder::RegisterClass(#_forClass, classInfo);																\
 			sIsRegistered = true;																						\

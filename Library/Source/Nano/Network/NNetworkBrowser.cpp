@@ -84,7 +84,7 @@ NStatus NNetworkBrowser::StartBrowsing(void)
 
 
 	// Get the state we need
-	theFunctor = BindSelf(NNetworkBrowser::DispatchEvent, _1);
+	theFunctor = BindSelf(NNetworkBrowser::DispatchEvent, kNArg1);
 
 
 

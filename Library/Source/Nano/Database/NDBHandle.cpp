@@ -366,7 +366,7 @@ int32_t NDBHandle::ExecuteInt32(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt32, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -387,7 +387,7 @@ int64_t NDBHandle::ExecuteInt64(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt64, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -408,7 +408,7 @@ float32_t NDBHandle::ExecuteFloat32(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0.0f;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat32, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -429,7 +429,7 @@ float64_t NDBHandle::ExecuteFloat64(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0.0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat64, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -449,7 +449,7 @@ NString NDBHandle::ExecuteString(const NDBQuery &theQuery)
 
 
 	// Execute the query
-	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueString, _1, 0, &theValue));
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueString, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -469,7 +469,7 @@ NData NDBHandle::ExecuteData(const NDBQuery &theQuery)
 
 
 	// Execute the query
-	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueData, _1, 0, &theValue));
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueData, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -883,10 +883,10 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef theQuery, const NVariant &thePa
 	if (theParameters.IsValid())
 		{
 		if (theParameters.GetValue(paramsArray))
-			paramsArray.ForEach(BindSelf(NDBHandle::SQLiteBindParameterByIndex, sqlQuery, _1, _2));
+			paramsArray.ForEach(BindSelf(NDBHandle::SQLiteBindParameterByIndex, sqlQuery, kNArg1, kNArg2));
 
 		else if (theParameters.GetValue(paramsDict))
-			paramsDict.ForEach(BindSelf(NDBHandle::SQLiteBindParameterByKey,    sqlQuery, _1, _2));
+			paramsDict.ForEach(BindSelf(NDBHandle::SQLiteBindParameterByKey,    sqlQuery, kNArg1, kNArg2));
 		}
 }
 

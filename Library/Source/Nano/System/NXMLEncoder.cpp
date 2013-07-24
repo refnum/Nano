@@ -110,11 +110,11 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML, NStatus *parseErr, const NP
 
 	// Prepare the parser
 	theParser.SetProgress(theProgress);
-	theParser.SetProcessDocumentType(BindSelf(NXMLEncoder::DecodeDocType,      _1, _2));
-	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, _1, _2));
-	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   _1));
-	theParser.SetProcessComment(     BindSelf(NXMLEncoder::DecodeComment,      _1));
-	theParser.SetProcessText(        BindSelf(NXMLEncoder::DecodeText,         _1, _2));
+	theParser.SetProcessDocumentType(BindSelf(NXMLEncoder::DecodeDocType,      kNArg1, kNArg2));
+	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, kNArg1, kNArg2));
+	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   kNArg1));
+	theParser.SetProcessComment(     BindSelf(NXMLEncoder::DecodeComment,      kNArg1));
+	theParser.SetProcessText(        BindSelf(NXMLEncoder::DecodeText,         kNArg1, kNArg2));
 
 
 
@@ -300,7 +300,7 @@ NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIn
 
 
 	// Collect the attributes
-	theKeys.ForEach(BindSelf(NXMLEncoder::EncodeElementAttribute, theAttributes, _2, &textAttributes));
+	theKeys.ForEach(BindSelf(NXMLEncoder::EncodeElementAttribute, theAttributes, kNArg2, &textAttributes));
 	textAttributes.TrimRight();
 
 

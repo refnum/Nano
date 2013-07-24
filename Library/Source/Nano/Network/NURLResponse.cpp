@@ -171,8 +171,8 @@ NStatus NURLResponse::WaitForReply(NData &theData)
 
 
 	// Get the state we need
-	SetDelegateDataFunctor(    BindSelf(NURLResponse::WaitData,     &theData, _1, _2));
-	SetDelegateFinishedFunctor(BindSelf(NURLResponse::WaitFinished, &theErr, &areDone, _1));
+	SetDelegateDataFunctor(    BindSelf(NURLResponse::WaitData,     &theData, kNArg1, kNArg2));
+	SetDelegateFinishedFunctor(BindSelf(NURLResponse::WaitFinished, &theErr, &areDone, kNArg1));
 
 	areDone = false;
 	theErr  = kNErrInternal;

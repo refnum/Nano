@@ -160,7 +160,7 @@ TEST_NARRAY("Add")
 	REQUIRE(theArray.GetValueInt64(2) == kTestInt64);
 	
 	theCount = 0;
-	theArray.ForEach(BindFunction(TArray::ForEach, _1, _2, &theCount));
+	theArray.ForEach(BindFunction(TArray::ForEach, kNArg1, kNArg2, &theCount));
 	REQUIRE(theCount == 3);
 }
 

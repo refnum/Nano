@@ -36,12 +36,12 @@
 // To produce a functor, a function and a parameter list can be "bound" into
 // a self-contained object which will perform that function when invoked.
 //
-// Parameters can be actual values, or "placeholders" (_1 to _9) that stand in
-// for the parameter supplied during invocation:
+// Parameters can be actual values, or "placeholders" that stand in for the
+// parameter supplied during invocation:
 //
 //			void MyFunction(int a, int b);
 //
-//			nfunctor func1 = nbind(MyFunction, 55, _1);
+//			nfunctor func1 = nbind(MyFunction, 55, kNArg1);
 //			nfunctor func2 = nbind(MyFunction, 55, 66);
 //
 //			func1(33);			// Equivalent to MyFunction(55, 33);
@@ -54,7 +54,15 @@
 // These parameters can be re-ordered, replace bind-time values, or be ignored:
 // the only requirement is that the final parameter list is type-compatible
 // with the bound function (which is detected at compile time).
-using namespace std::tr1::placeholders;
+#define kNArg1														std::tr1::placeholders::_1
+#define kNArg2														std::tr1::placeholders::_2
+#define kNArg3														std::tr1::placeholders::_3
+#define kNArg4														std::tr1::placeholders::_4
+#define kNArg5														std::tr1::placeholders::_5
+#define kNArg6														std::tr1::placeholders::_6
+#define kNArg7														std::tr1::placeholders::_7
+#define kNArg8														std::tr1::placeholders::_8
+#define kNArg9														std::tr1::placeholders::_9
 
 #define nfunctor													std::tr1::function
 #define nbind(_func, ...)											std::tr1::bind(&_func, ##__VA_ARGS__)

@@ -187,7 +187,7 @@ void NImage::ForEachPixel(const NImageForEachImmutablePixelFunctor &theFunctor) 
 
 
 	// Process each pixel
-	ForEachRow(BindSelf(NImage::ForEachPixelInImmutableRow, _1, _2, GetBytesPerPixel(), theFunctor, _3));
+	ForEachRow(BindSelf(NImage::ForEachPixelInImmutableRow, kNArg1, kNArg2, GetBytesPerPixel(), theFunctor, kNArg3));
 }
 
 
@@ -202,7 +202,7 @@ void NImage::ForEachPixel(const NImageForEachMutablePixelFunctor &theFunctor)
 
 
 	// Process each pixel
-	ForEachRow(BindSelf(NImage::ForEachPixelInMutableRow, _1, _2, GetBytesPerPixel(), theFunctor, _3));
+	ForEachRow(BindSelf(NImage::ForEachPixelInMutableRow, kNArg1, kNArg2, GetBytesPerPixel(), theFunctor, kNArg3));
 }
 
 
@@ -730,27 +730,27 @@ void NImage::Convert_RGB_888(NImageFormat theFormat)
 			break;
 
 		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowSwizzle24,		_2, _3, SELECT(2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle24,		kNArg2, kNArg3, SELECT(2, 1, 0)));
 			break;
 
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	_2, _3, SELECT(0, 1, 2, 3), &tmpImage, _1));
+			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(0, 1, 2, 3), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	_2, _3, SELECT(3, 0, 1, 2), &tmpImage, _1));
+			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(3, 0, 1, 2), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	_2, _3, SELECT(2, 1, 0, 3), &tmpImage, _1));
+			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(2, 1, 0, 3), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
@@ -775,7 +775,7 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 	// Convert the image
 	switch (theFormat) {
 		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowSwizzle24,		_2, _3, SELECT(2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle24,		kNArg2, kNArg3, SELECT(2, 1, 0)));
 			break;
 
 		case kNImageFormat_BGR_888:
@@ -785,21 +785,21 @@ void NImage::Convert_BGR_888(NImageFormat theFormat)
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	_2, _3, SELECT(2, 1, 0, 3), &tmpImage, _1));
+			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(2, 1, 0, 3), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	_2, _3, SELECT(3, 2, 1, 0), &tmpImage, _1));
+			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(3, 2, 1, 0), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
 			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	_2, _3, SELECT(0, 1, 2, 3), &tmpImage, _1));
+			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(0, 1, 2, 3), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
@@ -823,11 +823,11 @@ void NImage::Convert_RGBA_8888(NImageFormat theFormat)
 	// Convert the image
 	switch (theFormat) {
 		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	_2, _3, SELECT(0, 1, 2)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(0, 1, 2)));
 			break;
 
 		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	_2, _3, SELECT(2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(2, 1, 0)));
 			break;
 
 		case kNImageFormat_RGBX_8888:
@@ -837,12 +837,12 @@ void NImage::Convert_RGBA_8888(NImageFormat theFormat)
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(3, 0, 1, 2)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(3, 0, 1, 2)));
 			break;
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(2, 1, 0, 3)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(2, 1, 0, 3)));
 			break;
 
 		default:
@@ -865,16 +865,16 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 	// Convert the image
 	switch (theFormat) {
 		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	_2, _3, SELECT(1, 2, 3)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(1, 2, 3)));
 			break;
 
 		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	_2, _3, SELECT(3, 2, 1)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(3, 2, 1)));
 			break;
 
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(1, 2, 3, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(1, 2, 3, 0)));
 			break;
 
 		case kNImageFormat_XRGB_8888:
@@ -884,7 +884,7 @@ void NImage::Convert_ARGB_8888(NImageFormat theFormat)
 
 		case kNImageFormat_BGRX_8888:
 		case kNImageFormat_BGRA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(3, 2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(3, 2, 1, 0)));
 			break;
 
 		default:
@@ -907,21 +907,21 @@ void NImage::Convert_BGRA_8888(NImageFormat theFormat)
 	// Convert the image
 	switch (theFormat) {
 		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	_2, _3, SELECT(2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(2, 1, 0)));
 			break;
 
 		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	_2, _3, SELECT(0, 1, 2)));
+			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(0, 1, 2)));
 			break;
 
 		case kNImageFormat_RGBX_8888:
 		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(2, 1, 0, 3)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(2, 1, 0, 3)));
 			break;
 
 		case kNImageFormat_XRGB_8888:
 		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		_2, _3, SELECT(3, 2, 1, 0)));
+			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(3, 2, 1, 0)));
 			break;
 
 		case kNImageFormat_BGRX_8888:

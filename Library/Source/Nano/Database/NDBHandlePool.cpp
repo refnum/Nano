@@ -312,7 +312,7 @@ int32_t NDBHandlePool::ExecuteInt32(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt32, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -333,7 +333,7 @@ int64_t NDBHandlePool::ExecuteInt64(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueInt64, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -354,7 +354,7 @@ float32_t NDBHandlePool::ExecuteFloat32(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0.0f;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat32, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat32, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -375,7 +375,7 @@ float64_t NDBHandlePool::ExecuteFloat64(const NDBQuery &theQuery)
 
 	// Execute the query
 	theValue = 0.0;
-	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat64, _1, 0, &theValue));
+	theErr   = Execute(theQuery, BindFunction(NDBResult::GetRowValueFloat64, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -395,7 +395,7 @@ NString NDBHandlePool::ExecuteString(const NDBQuery &theQuery)
 
 
 	// Execute the query
-	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueString, _1, 0, &theValue));
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueString, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);
@@ -415,7 +415,7 @@ NData NDBHandlePool::ExecuteData(const NDBQuery &theQuery)
 
 
 	// Execute the query
-	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueData, _1, 0, &theValue));
+	theErr = Execute(theQuery, BindFunction(NDBResult::GetRowValueData, kNArg1, 0, &theValue));
 	NN_ASSERT_NOERR(theErr);
 	
 	return(theValue);

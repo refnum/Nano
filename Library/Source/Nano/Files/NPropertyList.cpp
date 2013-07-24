@@ -1228,12 +1228,12 @@ void NPropertyList::EncodeMacBinary1_GetObjectCount(const NVariant &theValue, ui
 	*numObjects += 1;
 
 	if (theValue.GetValue(valueArray))
-		valueArray.ForEach(     BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, _2, numObjects));
+		valueArray.ForEach(     BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, kNArg2, numObjects));
 
 	else if (theValue.GetValue(valueDictionary))
 		{
 		*numObjects += valueDictionary.GetSize();
-		valueDictionary.ForEach(BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, _2, numObjects));
+		valueDictionary.ForEach(BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, kNArg2, numObjects));
 		}
 }
 

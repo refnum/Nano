@@ -1026,7 +1026,7 @@ NArrayCompareFunctor NArray::GetCompareFunctor(const NArrayCompareFunctor &theFu
 	if (theFunctor != NULL)
 		compareWith = theFunctor;
 	else
-		compareWith = BindFunction(NVariant::CompareValues, _1, _2);
+		compareWith = BindFunction(NVariant::CompareValues, kNArg1, kNArg2);
 	
 	return(compareWith);
 }

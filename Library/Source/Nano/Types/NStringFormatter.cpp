@@ -104,25 +104,25 @@ static const NIndex kFormatBufferSize									= 256;
 //============================================================================
 //		NFormatArgument::NFormatArgument : Constructor.
 //----------------------------------------------------------------------------
-NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueULong,		_1, (unsigned long) theValue);	}
-NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueSLong,		_1, (  signed long) theValue);	}
+NFormatArgument::NFormatArgument(unsigned int theValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueULong,		kNArg1, (unsigned long) theValue);	}
+NFormatArgument::NFormatArgument(  signed int theValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueSLong,		kNArg1, (  signed long) theValue);	}
 
-NFormatArgument::NFormatArgument(unsigned long theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueULong,		_1, theValue);	}
-NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueSLong,		_1, theValue);	}
+NFormatArgument::NFormatArgument(unsigned long theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueULong,		kNArg1, theValue);	}
+NFormatArgument::NFormatArgument(  signed long theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueSLong,		kNArg1, theValue);	}
 
-NFormatArgument::NFormatArgument(unsigned long long theValue)		{	mGetValue = BindSelf(NFormatArgument::GetValueULongLong,	_1, theValue);	}
-NFormatArgument::NFormatArgument(  signed long long theValue)		{	mGetValue = BindSelf(NFormatArgument::GetValueSLongLong,	_1, theValue);	}
+NFormatArgument::NFormatArgument(unsigned long long theValue)		{	mGetValue = BindSelf(NFormatArgument::GetValueULongLong,	kNArg1, theValue);	}
+NFormatArgument::NFormatArgument(  signed long long theValue)		{	mGetValue = BindSelf(NFormatArgument::GetValueSLongLong,	kNArg1, theValue);	}
 
-NFormatArgument::NFormatArgument(double         theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueDouble,	_1, theValue);	}
-NFormatArgument::NFormatArgument(const void    *theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValuePointer,	_1, theValue);	}
-NFormatArgument::NFormatArgument(const char    *theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueCharPtr,	_1, theValue);	}
-NFormatArgument::NFormatArgument(const NString &theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueString,	_1, theValue);	}
+NFormatArgument::NFormatArgument(double         theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueDouble,	kNArg1, theValue);	}
+NFormatArgument::NFormatArgument(const void    *theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValuePointer,	kNArg1, theValue);	}
+NFormatArgument::NFormatArgument(const char    *theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueCharPtr,	kNArg1, theValue);	}
+NFormatArgument::NFormatArgument(const NString &theValue)			{	mGetValue = BindSelf(NFormatArgument::GetValueString,	kNArg1, theValue);	}
 
 NFormatArgument::NFormatArgument(const NFormatFunctor &getValue)	{	mGetValue = getValue;	}
 
 #if NN_TARGET_MAC
-NFormatArgument::NFormatArgument(NSObject    *nsValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	_1, ToNN([nsValue description]));	}
-NFormatArgument::NFormatArgument(CFStringRef  cfValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	_1, ToNN(cfValue)              );	}
+NFormatArgument::NFormatArgument(NSObject    *nsValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	kNArg1, ToNN([nsValue description]));	}
+NFormatArgument::NFormatArgument(CFStringRef  cfValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	kNArg1, ToNN(cfValue)              );	}
 #endif
 
 
