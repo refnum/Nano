@@ -186,7 +186,7 @@ Since the functor can map this parameter list to that of the target function, th
 
 <div class="box_code_yellow">void MyFunction1(void);
 void MyFunction2(const char *x);
-void MyFunction3(UInt32 a, NTimerState theState);
+void MyFunction3(uint32_t a, NTimerState theState);
     ...
 mTimer.AddTimer(BindFunction(MyFunction1           ), 1.0f);
 mTimer.AddTimer(BindFunction(MyFunction2, "2 secs" ), 2.0f);
