@@ -153,7 +153,7 @@ bool NImage::IsValid(void) const
 
 
 	// Check our state
-	return(mFormat != kNImageFormatNone);
+	return(mFormat != kNImageFormatNone && !mSize.IsEmpty());
 }
 
 
