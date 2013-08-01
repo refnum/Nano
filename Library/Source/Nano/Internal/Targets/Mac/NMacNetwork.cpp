@@ -171,7 +171,7 @@ static void       SocketDestroy(NSocketRef theSocket);
 	// This is a little klunky, but the alternatives are equally so.
 	//
 	// E.g., creating an extra thread to run the NSURLConnection (which creates its
-	// own internal thrad anyway, since it's designed to hide threading via the use
+	// own internal thread anyway, since it's designed to hide threading via the use
 	// of a runloop), then spinning that thread or using the synchronous API and not
 	// being able to deliver updates as data arrives.
 	[mConnection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:(NSString *)kNanoRunLoopMode];
