@@ -79,9 +79,9 @@ typedef double														float64_t;
 
 // Unicode
 //
-// To ensure NString::GetUTF16() is equivalent to a LPCWSTR on Windows, we
-// define the UTF16 char type to match the native Win32 UTF16 type (wchar_t).
-typedef uint8_t														utf8_t;
+// To ensure NString::GetUTF16() is equivalent to a LPCWSTR on Windows, we define
+// the UTF16 char type for this platform to match its native UTF16 type (wchar_t).
+typedef char														utf8_t;
 typedef uint32_t													utf32_t;
 
 #if NN_TARGET_WINDOWS

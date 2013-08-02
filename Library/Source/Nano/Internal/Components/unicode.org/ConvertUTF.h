@@ -96,9 +96,9 @@
  ****************************************************************************/
 // Use Nano types for correct sizing on 64-bit targets
 #if 1 // Nano
-	typedef utf32_t			UTF32;	/* at least 32 bits */
-	typedef utf16_t			UTF16;	/* at least 16 bits */
-	typedef utf8_t			UTF8;	/* typically 8 bits */
+	typedef uint32_t		UTF32;	/* at least 32 bits */
+	typedef uint16_t		UTF16;	/* at least 16 bits */
+	typedef uint8_t			UTF8;	/* typically 8 bits */
 	typedef unsigned char	Boolean; /* 0 or 1 */
 #else // Original
 	typedef unsigned long	UTF32;	/* at least 32 bits */

@@ -669,7 +669,7 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(const NRange &theBOM) const
 		{
 		// Get the character
 		theChar  = GetNativeUTF8(*((const utf8_t *) &theData[n]), mEncoding);
-		charSize = kUTF8TrailingBytes[theChar] + 1;
+		charSize = kUTF8TrailingBytes[(uint8_t) theChar] + 1;
 		NN_ASSERT(charSize >= 1 && charSize <= 6);
 
 
