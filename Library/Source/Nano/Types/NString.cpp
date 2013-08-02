@@ -58,7 +58,7 @@ NENCODABLE_DEFINE(NString);
 //============================================================================
 //		NString::NString : Constructor.
 //----------------------------------------------------------------------------
-NString::NString(const char *noCopyText)
+NString::NString(const utf8_t *noCopyText)
 {
 
 
@@ -192,32 +192,12 @@ NIndex NString::GetSize(void) const
 //============================================================================
 //		NString::GetUTF8 : Get the string.
 //----------------------------------------------------------------------------
-const char *NString::GetUTF8(void) const
-{	const NStringValue		*theValue;
-	const char				*theText;
-	const NData				*theData;
-
-
-
-	// Get the state we need
-	//
-	// Strings that require encoding conversion are converted via a per-object
-	// buffer, allowing the pointer to persist until we are modified.
-	theValue = GetImmutable();
-	theData  = &theValue->theData;
-
-	if (theValue->theEncoding != kNStringEncodingUTF8)
-		{
-		mData   = GetData(kNStringEncodingUTF8, true);
-		theData = &mData;
-		}
-
+const utf8_t *NString::GetUTF8(void) const
+{
 
 
 	// Get the string
-	theText = (const char *) theData->GetData();
-
-	return(theText);
+	return((const utf8_t *) GetEncodedText(kNStringEncodingUTF8));
 }
 
 
@@ -228,31 +208,26 @@ const char *NString::GetUTF8(void) const
 //		NString::GetUTF16 : Get the string.
 //----------------------------------------------------------------------------
 const utf16_t *NString::GetUTF16(void) const
-{	const NStringValue		*theValue;
-	const utf16_t			*theText;
-	const NData				*theData;
-
-
-
-	// Get the state we need
-	//
-	// Strings that require encoding conversion are converted via a per-object
-	// buffer, allowing the pointer to persist until we are modified.
-	theValue = GetImmutable();
-	theData  = &theValue->theData;
-
-	if (theValue->theEncoding != kNStringEncodingUTF16)
-		{
-		mData   = GetData(kNStringEncodingUTF16, kNStringNullTerminate);
-		theData = &mData;
-		}
-
+{
 
 
 	// Get the string
-	theText = (const utf16_t *) theData->GetData();
+	return((const utf16_t *) GetEncodedText(kNStringEncodingUTF16));
+}
 
-	return(theText);
+
+
+
+
+//============================================================================
+//		NString::GetUTF32 : Get the string.
+//----------------------------------------------------------------------------
+const utf32_t *NString::GetUTF32(void) const
+{
+
+
+	// Get the string
+	return((const utf32_t *) GetEncodedText(kNStringEncodingUTF32));
 }
 
 
@@ -320,8 +295,12 @@ NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 	NN_ASSERT_NOERR(theErr);
 	
 	if (theErr != kNoErr)
-		return(theErr);
+{
+// dair
+	theErr = theEncoder.Convert(theData, bestData, theEncoding, bestEncoding);
 
+		return(theErr);
+}
 
 
 	// Update our state
@@ -578,7 +557,7 @@ NString NString::GetLower(void) const
 //		NString::StartsWith : Does the string start with a string?
 //----------------------------------------------------------------------------
 bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
-{	const char		*thisUTF8, *prefixUTF8;
+{	const utf8_t	*thisUTF8, *prefixUTF8;
 	NString			matchString;
 	NRange			theRange;
 	NIndex			theSize;
@@ -627,7 +606,7 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 //----------------------------------------------------------------------------
 bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 {	NIndex			theSize, thisLen, suffixLen;
-	const char		*thisUTF8, *suffixUTF8;
+	const utf8_t	*thisUTF8, *suffixUTF8;
 	NString			matchString;
 	NRange			theRange;
 	bool			isMatch;
@@ -1709,7 +1688,7 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
 {	NIndex					n, matchStart, matchEnd, offsetFirst, offsetLast, searchSize, searchOffset;
 	int						regFlags, regErr, numMatches, errorPos;
-	const char				*textUTF8, *searchUTF8, *errorMsg;
+	const utf8_t			*textUTF8, *searchUTF8, *errorMsg;
 	const NRangeList		*theRanges;
 	NRange					matchRange;
 	std::vector<int>		theMatches;
@@ -1733,7 +1712,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 		regFlags |= PCRE_CASELESS;
 
 	dataUTF8 = GetData(kNStringEncodingUTF8);
-	textUTF8 = (const char *) dataUTF8.GetData();
+	textUTF8 = (const utf8_t *) dataUTF8.GetData();
 
 	theParser.Parse(dataUTF8, kNStringEncodingUTF8);
 	theRanges = theParser.GetRanges();
@@ -2304,6 +2283,41 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 
 
 //============================================================================
+//		NString::GetEncodedText : Get the string in an encoding.
+//----------------------------------------------------------------------------
+const uint8_t *NString::GetEncodedText(NStringEncoding theEncoding) const
+{	const NStringValue		*theValue;
+	const NData				*theData;
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	theData  = &theValue->theData;
+
+
+
+	// Re-encode if necessary
+	//
+	// Strings that require encoding conversion are converted via a per-object
+	// buffer, allowing the pointer to persist until we are modified.
+	if (theValue->theEncoding != theEncoding)
+		{
+		mData   = GetData(theEncoding, kNStringNullTerminate);
+		theData = &mData;
+		}
+
+
+
+	// Get the string
+	return(theData->GetData());
+}
+
+
+
+
+
+//============================================================================
 //        NString::GetParser : Get a parser.
 //----------------------------------------------------------------------------
 NUnicodeParser NString::GetParser(void) const
@@ -2404,7 +2418,7 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 //============================================================================
 //		NString::GetConstantString : Get a string constant.
 //----------------------------------------------------------------------------
-NString NString::GetConstantString(const char *theText)
+NString NString::GetConstantString(const utf8_t *theText)
 {
 	// Eternals
 	//

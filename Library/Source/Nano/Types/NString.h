@@ -100,7 +100,7 @@ typedef std::map<NString, NString, NStringHashCompare>				NStringMap;
 typedef NStringMap::iterator										NStringMapIterator;
 typedef NStringMap::const_iterator									NStringMapConstIterator;
 
-typedef std::map<const char *, NString>								NConstantStringMap;
+typedef std::map<const utf8_t *, NString>							NConstantStringMap;
 typedef NConstantStringMap::iterator								NConstantStringMapIterator;
 typedef NConstantStringMap::const_iterator							NConstantStringMapConstIterator;
 
@@ -160,8 +160,8 @@ public:
 	// The default parameters were chosen to allow NStrings to be created from string literals
 	// without copying, although this requires that text which must be copied must be created
 	// with an explicit NString().
-										NString(const char *noCopyText);
-										NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding=kNStringEncodingUTF8);
+										NString(const utf8_t *noCopyText);
+										NString(const void   *copyText, NIndex numBytes, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
 										NString(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 										NString(      utf8_t theChar);
@@ -175,15 +175,22 @@ public:
 
 
 	// Get the size
+	//
+	// Returns the number of code points (utf32_t characters) in the string.
 	NIndex								GetSize(void) const;
+
+
+	// Get the string
+	//
+	// Returns a NULL-terminated string that remains valid until the string is modified.
+	const utf8_t						*GetUTF8( void) const;
+	const utf16_t						*GetUTF16(void) const;
+	const utf32_t						*GetUTF32(void) const;
 
 
 	// Get/set the string
 	//
-	// GetUTF8/16 return a NULL-terminated string, valid until the string is modified.
-	const char							*GetUTF8( void) const;
-	const utf16_t						*GetUTF16(void) const;
-
+	// By default GetData returns a UTF8 encoded string, without any BOM or NULL terminator.
 	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NStringRendering renderAs=kNStringRenderNone) const;
 	NStatus								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
@@ -310,12 +317,13 @@ private:
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;
+	const uint8_t					   *GetEncodedText(NStringEncoding theEncoding)                                    const;
 
 	NUnicodeParser						GetParser(void)                                                                               const;
 	uint64_t							GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, utf32_t theChar) const;
 	NString								GetString(const NUnicodeParser &theParser, const NRange &theRange)                            const;
 
-	static NString						GetConstantString(const char *theText);
+	static NString						GetConstantString(const utf8_t *theText);
 
 
 private:
