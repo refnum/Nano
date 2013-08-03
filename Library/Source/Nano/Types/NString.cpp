@@ -2178,7 +2178,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 				if (bomRange.Contains(n))
 					continue;
 					
-				if (chars8[n] > kASCIILimit)
+				if (((uint32_t) chars8[n]) > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -2200,7 +2200,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 					continue;
 
 				char16 = theParser.GetNativeUTF16(chars16[n], theEncoding);
-				if (char16 > kASCIILimit)
+				if (((uint32_t) char16) > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -2222,7 +2222,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 					continue;
 					
 				char32 = theParser.GetNativeUTF32(chars32[n], theEncoding);
-				if (char32 > kASCIILimit)
+				if (((uint32_t) char32) > kASCIILimit)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
