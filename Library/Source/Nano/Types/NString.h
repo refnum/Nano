@@ -191,8 +191,8 @@ public:
 	// Get/set the string
 	//
 	// By default GetData returns a UTF8 encoded string, without any BOM or NULL terminator.
-	NData								 GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NStringRendering renderAs=kNStringRenderNone) const;
-	NStatus								 SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
+	NData								GetData(                      NStringEncoding theEncoding=kNStringEncodingUTF8, NStringRendering renderAs=kNStringRenderNone) const;
+	NStatus								SetData(const NData &theData, NStringEncoding theEncoding=kNStringEncodingUTF8);
 
 
 	// Find a substring
