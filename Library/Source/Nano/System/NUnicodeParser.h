@@ -102,8 +102,7 @@ public:
 	NEndianFormat						GetEndianFormat(NStringEncoding theEncoding) const;
 
 
-	// Get the native form of a UTF character
-	utf8_t								GetNativeUTF8( utf8_t  theChar, NStringEncoding theEncoding) const;
+	// Get the endian-native form of a UTF character
 	utf16_t								GetNativeUTF16(utf16_t theChar, NStringEncoding theEncoding) const;
 	utf32_t								GetNativeUTF32(utf32_t theChar, NStringEncoding theEncoding) const;
 

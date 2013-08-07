@@ -592,21 +592,6 @@ NEndianFormat NUnicodeParser::GetEndianFormat(NStringEncoding theEncoding) const
 
 
 //============================================================================
-//		NUnicodeParser::GetNativeUTF8 : Get a native utf8_t.
-//----------------------------------------------------------------------------
-utf8_t NUnicodeParser::GetNativeUTF8(utf8_t theChar, NStringEncoding /*theEncoding*/) const
-{
-
-
-	// Get the character
-	return(theChar);
-}
-
-
-
-
-
-//============================================================================
 //		NUnicodeParser::GetNativeUTF16 : Get a native utf16_t.
 //----------------------------------------------------------------------------
 utf16_t NUnicodeParser::GetNativeUTF16(utf16_t theChar, NStringEncoding theEncoding) const
@@ -668,8 +653,8 @@ NRangeList NUnicodeParser::GetCodePointsUTF8(const NRange &theBOM) const
 	while (n < theSize)
 		{
 		// Get the character
-		theChar  = GetNativeUTF8(*((const utf8_t *) &theData[n]), mEncoding);
-		charSize = kUTF8TrailingBytes[(uint8_t) theChar] + 1;
+		theChar  = (utf8_t)           theData[n];
+		charSize = kUTF8TrailingBytes[theData[n]] + 1;
 		NN_ASSERT(charSize >= 1 && charSize <= 6);
 
 
