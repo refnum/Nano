@@ -94,14 +94,6 @@ public:
 	void								RemoveBOM(NData &theData, NStringEncoding theEncoding) const;
 
 
-	// Get the generic form of a UTF encoding
-	NStringEncoding						GetGenericEncoding(NStringEncoding theEncoding) const;
-
-
-	// Get the EndianFormat of a UTF encoding
-	NEndianFormat						GetEndianFormat(NStringEncoding theEncoding) const;
-
-
 	// Get the endian-native form of a UTF character
 	utf16_t								GetNativeUTF16(utf16_t theChar, NStringEncoding theEncoding) const;
 	utf32_t								GetNativeUTF32(utf32_t theChar, NStringEncoding theEncoding) const;

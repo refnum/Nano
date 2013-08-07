@@ -523,75 +523,6 @@ void NUnicodeParser::RemoveBOM(NData &theData, NStringEncoding theEncoding) cons
 
 
 //============================================================================
-//		NUnicodeParser::GetGenericEncoding : Get the generic form of a UTF encoding.
-//----------------------------------------------------------------------------
-NStringEncoding NUnicodeParser::GetGenericEncoding(NStringEncoding theEncoding) const
-{
-
-
-	// Convert the encoding
-	switch (theEncoding) {
-		case kNStringEncodingUTF16BE:
-		case kNStringEncodingUTF16LE:
-			theEncoding = kNStringEncodingUTF16;
-			break;
-
-		case kNStringEncodingUTF32BE:
-		case kNStringEncodingUTF32LE:
-			theEncoding = kNStringEncodingUTF32;
-			break;
-		
-		default:
-			break;
-		}
-	
-	return(theEncoding);
-}
-
-
-
-
-
-//============================================================================
-//		NUnicodeParser::GetEndianFormat : Get the EndianFormat of a UTF encoding.
-//----------------------------------------------------------------------------
-NEndianFormat NUnicodeParser::GetEndianFormat(NStringEncoding theEncoding) const
-{	NEndianFormat		theFormat;
-
-
-
-	// Get the format
-	switch (theEncoding) {
-		case kNStringEncodingUTF8:
-		case kNStringEncodingUTF16:
-		case kNStringEncodingUTF32:
-			theFormat = kNEndianNative;
-			break;
-
-		case kNStringEncodingUTF16BE:
-		case kNStringEncodingUTF32BE:
-			theFormat = kNEndianBig;
-			break;
-
-		case kNStringEncodingUTF16LE:
-		case kNStringEncodingUTF32LE:
-			theFormat = kNEndianLittle;
-			break;
-
-		default:
-			NN_LOG("Unknown encoding: %d", theEncoding);
-			theFormat = kNEndianNative;
-			break;
-		}
-	
-	return(theFormat);
-}
-
-
-
-
-
-//============================================================================
 //		NUnicodeParser::GetNativeUTF16 : Get a native utf16_t.
 //----------------------------------------------------------------------------
 utf16_t NUnicodeParser::GetNativeUTF16(utf16_t theChar, NStringEncoding theEncoding) const
@@ -599,7 +530,7 @@ utf16_t NUnicodeParser::GetNativeUTF16(utf16_t theChar, NStringEncoding theEncod
 
 
 	// Get the character
-	if (GetEndianFormat(theEncoding) != kNEndianNative)
+	if (NStringEncoder::GetEncodingEndian(theEncoding) != kNEndianNative)
 		NSwapUInt16((uint16_t *) &theChar);
 	
 	return(theChar);
@@ -617,7 +548,7 @@ utf32_t NUnicodeParser::GetNativeUTF32(utf32_t theChar, NStringEncoding theEncod
 
 
 	// Get the character
-	if (GetEndianFormat(theEncoding) != kNEndianNative)
+	if (NStringEncoder::GetEncodingEndian(theEncoding) != kNEndianNative)
 		NSwapUInt32((uint32_t *) &theChar);
 	
 	return(theChar);

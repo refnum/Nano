@@ -152,9 +152,9 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 
 
 	// Get the state we need
-	tmpSrc     = ConvertFromLegacy(srcData,   srcEncoding);
-	genericSrc = theParser.GetGenericEncoding(srcEncoding);
-	genericDst = theParser.GetGenericEncoding(dstEncoding);
+	tmpSrc     = ConvertFromLegacy(srcData, srcEncoding);
+	genericSrc = GetEncodingGeneric(srcEncoding);
+	genericDst = GetEncodingGeneric(dstEncoding);
 
 
 
@@ -448,6 +448,68 @@ NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
 		}
 
 	return(theSize);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::GetEncodingGeneric : Get the generic form of an encoding.
+//----------------------------------------------------------------------------
+NStringEncoding NStringEncoder::GetEncodingGeneric(NStringEncoding theEncoding)
+{
+
+
+	// Get the generic form
+	switch (theEncoding) {
+		case kNStringEncodingUTF16BE:
+		case kNStringEncodingUTF16LE:
+			theEncoding = kNStringEncodingUTF16;
+			break;
+
+		case kNStringEncodingUTF32BE:
+		case kNStringEncodingUTF32LE:
+			theEncoding = kNStringEncodingUTF32;
+			break;
+		
+		default:
+			break;
+		}
+	
+	return(theEncoding);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::GetEncodingEndian : Get the EndianFormat of an encoding.
+//----------------------------------------------------------------------------
+NEndianFormat NStringEncoder::GetEncodingEndian(NStringEncoding theEncoding)
+{	NEndianFormat		theFormat;
+
+
+
+	// Get the endian format
+	switch (theEncoding) {
+		case kNStringEncodingUTF16BE:
+		case kNStringEncodingUTF32BE:
+			theFormat = kNEndianBig;
+			break;
+
+		case kNStringEncodingUTF16LE:
+		case kNStringEncodingUTF32LE:
+			theFormat = kNEndianLittle;
+			break;
+
+		default:
+			theFormat = kNEndianNative;
+			break;
+		}
+	
+	return(theFormat);
 }
 
 
@@ -926,7 +988,6 @@ NStatus NStringEncoder::ConvertUTF(NData &theData, const void *dataEnd, uint32_t
 void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
 {	NIndex				n, charSize, dataSize;
 	NEndianFormat		srcFormat, dstFormat;
-	NUnicodeParser		theParser;
 	uint8_t				*dataPtr;
 
 
@@ -937,8 +998,8 @@ void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStrin
 
 
 	// Get the state we need
-	srcFormat = theParser.GetEndianFormat(srcEncoding);
-	dstFormat = theParser.GetEndianFormat(dstEncoding);
+	srcFormat = GetEncodingEndian(srcEncoding);
+	dstFormat = GetEncodingEndian(dstEncoding);
 	charSize  = GetMaxCharSize(srcEncoding);
 	
 	if (charSize == 1 || srcFormat == dstFormat)

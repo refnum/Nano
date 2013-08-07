@@ -96,6 +96,18 @@ public:
 	NIndex								GetSize(const void *thePtr, NStringEncoding theEncoding);
 
 
+	// Get the generic form of an encoding
+	//
+	// Returns the encoding unchanged if it has no generic form.
+	static NStringEncoding				GetEncodingGeneric(NStringEncoding theEncoding);
+
+
+	// Get the EndianFormat of an encoding
+	//
+	// Returns kNEndianNative if the encoding has no endian-specific form.
+	static NEndianFormat				GetEncodingEndian(NStringEncoding theEncoding);
+
+
 private:
 	NIndex								GetMaxCharSize(NStringEncoding theEncoding);
 
