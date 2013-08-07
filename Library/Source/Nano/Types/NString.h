@@ -180,12 +180,13 @@ public:
 	NIndex								GetSize(void) const;
 
 
-	// Get the string
+	// Get the text
 	//
 	// Returns a NULL-terminated string that remains valid until the string is modified.
-	const utf8_t						*GetUTF8( void) const;
-	const utf16_t						*GetUTF16(void) const;
-	const utf32_t						*GetUTF32(void) const;
+	const char						   *GetText(NStringEncoding theEncoding) const;
+	const utf8_t					   *GetUTF8( void)                       const;
+	const utf16_t					   *GetUTF16(void)                       const;
+	const utf32_t					   *GetUTF32(void)                       const;
 
 
 	// Get/set the string
@@ -317,7 +318,6 @@ private:
 	NIndex								GetCharacterOffset(  const NRangeList *theRanges, NIndex          byteOffset)  const;
 	NStringEncoding						GetBestEncoding(     const NData      &theData,   NStringEncoding theEncoding) const;
 	NString								GetWhitespacePattern(const NString    &theString, NStringFlags    &theFlags)   const;
-	const uint8_t					   *GetEncodedText(NStringEncoding theEncoding)                                    const;
 
 	NUnicodeParser						GetParser(void)                                                                               const;
 	uint64_t							GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, utf32_t theChar) const;

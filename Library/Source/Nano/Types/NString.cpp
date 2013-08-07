@@ -190,14 +190,49 @@ NIndex NString::GetSize(void) const
 
 
 //============================================================================
-//		NString::GetUTF8 : Get the string.
+//		NString::GetText : Get the text.
+//----------------------------------------------------------------------------
+const char *NString::GetText(NStringEncoding theEncoding) const
+{	const NStringValue		*theValue;
+	const NData				*theData;
+
+
+
+	// Get the state we need
+	theValue = GetImmutable();
+	theData  = &theValue->theData;
+
+
+
+	// Re-encode if necessary
+	//
+	// Strings that require encoding conversion are converted via a per-object
+	// buffer, allowing the pointer to persist until we are modified.
+	if (theValue->theEncoding != theEncoding)
+		{
+		mData   = GetData(theEncoding, kNStringNullTerminate);
+		theData = &mData;
+		}
+
+
+
+	// Get the text
+	return((const char *) theData->GetData());
+}
+
+
+
+
+
+//============================================================================
+//		NString::GetUTF8 : Get the text as UTF8.
 //----------------------------------------------------------------------------
 const utf8_t *NString::GetUTF8(void) const
 {
 
 
 	// Get the string
-	return((const utf8_t *) GetEncodedText(kNStringEncodingUTF8));
+	return((const utf8_t *) GetText(kNStringEncodingUTF8));
 }
 
 
@@ -205,14 +240,14 @@ const utf8_t *NString::GetUTF8(void) const
 
 
 //============================================================================
-//		NString::GetUTF16 : Get the string.
+//		NString::GetUTF16 : Get the text as UTF16.
 //----------------------------------------------------------------------------
 const utf16_t *NString::GetUTF16(void) const
 {
 
 
 	// Get the string
-	return((const utf16_t *) GetEncodedText(kNStringEncodingUTF16));
+	return((const utf16_t *) GetText(kNStringEncodingUTF16));
 }
 
 
@@ -220,14 +255,14 @@ const utf16_t *NString::GetUTF16(void) const
 
 
 //============================================================================
-//		NString::GetUTF32 : Get the string.
+//		NString::GetUTF32 : Get the text as UTF32.
 //----------------------------------------------------------------------------
 const utf32_t *NString::GetUTF32(void) const
 {
 
 
 	// Get the string
-	return((const utf32_t *) GetEncodedText(kNStringEncodingUTF32));
+	return((const utf32_t *) GetText(kNStringEncodingUTF32));
 }
 
 
@@ -2276,41 +2311,6 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 		theFlags &= ~kNStringPattern;
 
 	return(thePattern);
-}
-
-
-
-
-
-//============================================================================
-//		NString::GetEncodedText : Get the string in an encoding.
-//----------------------------------------------------------------------------
-const uint8_t *NString::GetEncodedText(NStringEncoding theEncoding) const
-{	const NStringValue		*theValue;
-	const NData				*theData;
-
-
-
-	// Get the state we need
-	theValue = GetImmutable();
-	theData  = &theValue->theData;
-
-
-
-	// Re-encode if necessary
-	//
-	// Strings that require encoding conversion are converted via a per-object
-	// buffer, allowing the pointer to persist until we are modified.
-	if (theValue->theEncoding != theEncoding)
-		{
-		mData   = GetData(theEncoding, kNStringNullTerminate);
-		theData = &mData;
-		}
-
-
-
-	// Get the string
-	return(theData->GetData());
 }
 
 
