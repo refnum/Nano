@@ -52,6 +52,47 @@ TEST_NSTRINGENCODER("Terminators")
 
 
 
+//============================================================================
+//		Test case
+//----------------------------------------------------------------------------
+TEST_NSTRINGENCODER("Encodings")
+{	NData				data1, data2;
+	NStringEncoder		theEncoder;
+	NStatus				theErr;
+
+
+
+	// Perform the test
+	data1 = NString("Hello World").GetData(kNStringEncodingUTF8);
+	
+	theErr = theEncoder.Convert(data1, data2, kNStringEncodingUTF8,				kNStringEncodingUTF16);
+	REQUIRE_NOERR(theErr);
+
+	theErr = theEncoder.Convert(data2, data2, kNStringEncodingUTF16,			kNStringEncodingUTF32);
+	REQUIRE_NOERR(theErr);
+
+	theErr = theEncoder.Convert(data2, data2, kNStringEncodingUTF32,			kNStringEncodingMacRoman);
+	REQUIRE_NOERR(theErr);
+
+	theErr = theEncoder.Convert(data2, data2, kNStringEncodingMacRoman,			kNStringEncodingASCII);
+	REQUIRE_NOERR(theErr);
+	
+	theErr = theEncoder.Convert(data2, data2, kNStringEncodingASCII,			kNStringEncodingISOLatin1);
+	REQUIRE_NOERR(theErr);
+
+	theErr = theEncoder.Convert(data2, data2, kNStringEncodingISOLatin1,		kNStringEncodingWindowsLatin1);
+	REQUIRE_NOERR(theErr);
+
+	theErr = theEncoder.Convert(data2, data2, kNStringEncodingWindowsLatin1,	kNStringEncodingUTF8);
+	REQUIRE_NOERR(theErr);
+	
+	REQUIRE(data1 == data2);
+}
+
+
+
+
+
 #pragma mark private
 //============================================================================
 //		TStringEncoder::TestTerminator : Test string terminators.

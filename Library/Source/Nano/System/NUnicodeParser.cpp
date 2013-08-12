@@ -95,6 +95,11 @@ void NUnicodeParser::Parse(const NData &theData, NStringEncoding theEncoding)
 
 
 
+	// Validate our parameters
+	NN_ASSERT(NStringEncoder::IsEncodingUTF(theEncoding));
+
+
+
 	// Set the value
 	mData     = theData;
 	mEncoding = theEncoding;
@@ -122,7 +127,7 @@ void NUnicodeParser::Parse(const NData &theData, NStringEncoding theEncoding)
 			break;
 		
 		default:
-			NN_LOG("Unknown encoding: %d", theEncoding);
+			NN_LOG("Invalid encoding: %d", theEncoding);
 			break;
 		}
 }
@@ -251,7 +256,7 @@ bool NUnicodeParser::IsSpace(utf32_t theChar) const
 	// Check the character
 	//
 	// This test needs to be more sophisticated.
-	theResult = (theChar <= kASCIILimit && isspace(theChar));
+	theResult = (theChar <= kNASCIIMax && isspace(theChar));
 	
 	return(theResult);
 }
@@ -271,7 +276,7 @@ bool NUnicodeParser::IsPunct(utf32_t theChar) const
 	// Check the character
 	//
 	// This test needs to be more sophisticated.
-	theResult = (theChar <= kASCIILimit && ispunct(theChar));
+	theResult = (theChar <= kNASCIIMax && ispunct(theChar));
 	
 	return(theResult);
 }
@@ -291,7 +296,7 @@ bool NUnicodeParser::IsAlpha(utf32_t theChar) const
 	// Check the character
 	//
 	// This test needs to be more sophisticated.
-	theResult = (theChar <= kASCIILimit && isalpha(theChar));
+	theResult = (theChar <= kNASCIIMax && isalpha(theChar));
 	
 	return(theResult);
 }
@@ -311,7 +316,7 @@ bool NUnicodeParser::IsDigit(utf32_t theChar) const
 	// Check the character
 	//
 	// This test needs to be more sophisticated.
-	theResult = (theChar <= kASCIILimit && isdigit(theChar));
+	theResult = (theChar <= kNASCIIMax && isdigit(theChar));
 	
 	return(theResult);
 }
@@ -330,7 +335,7 @@ utf32_t NUnicodeParser::GetLower(utf32_t theChar) const
 	// Convert the character
 	//
 	// This test needs to be more sophisticated.
-	if (theChar <= kASCIILimit)
+	if (theChar <= kNASCIIMax)
 		theChar = tolower(theChar);
 	
 	return(theChar);
@@ -350,7 +355,7 @@ utf32_t NUnicodeParser::GetUpper(utf32_t theChar) const
 	// Convert the character
 	//
 	// This test needs to be more sophisticated.
-	if (theChar <= kASCIILimit)
+	if (theChar <= kNASCIIMax)
 		theChar = toupper(theChar);
 	
 	return(theChar);
@@ -417,8 +422,9 @@ void NUnicodeParser::AddBOM(NData &theData, NStringEncoding theEncoding) const
 
 
 	// Validate our parameters
+	NN_ASSERT(NStringEncoder::IsEncodingUTF(theEncoding));
 	NN_ASSERT(GetBOM(theData, theRange) == kNStringEncodingInvalid);
-	
+
 	(void) theRange;
 
 
@@ -454,7 +460,7 @@ void NUnicodeParser::AddBOM(NData &theData, NStringEncoding theEncoding) const
 			break;
 
 		default:
-			NN_LOG("Unknown encoding: %d", theEncoding);
+			NN_LOG("Invalid encoding: %d", theEncoding);
 			break;
 		}
 }
@@ -472,9 +478,10 @@ void NUnicodeParser::RemoveBOM(NData &theData, NStringEncoding theEncoding) cons
 
 
 
-	// Silence compiler warnings
+	// Validate our parameters
+	NN_ASSERT(NStringEncoder::IsEncodingUTF(theEncoding));
 	NN_UNUSED(theEncoding);
-	
+
 
 
 	// Get the state we need
@@ -513,7 +520,7 @@ void NUnicodeParser::RemoveBOM(NData &theData, NStringEncoding theEncoding) cons
 			break;
 
 		default:
-			NN_LOG("Unexpected encoding: %d", theEncoding);
+			NN_LOG("Invalid encoding: %d", theEncoding);
 			break;
 		}
 }

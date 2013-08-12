@@ -319,6 +319,12 @@ TEST_NSTRING("Encoding")
 	// Perform the test
 	theString = NString(kTestText2_UTF16BE, NN_ARRAY_SIZE(kTestText2_UTF16BE), kNStringEncodingUTF16BE);
 	REQUIRE(strcmp(theString.GetUTF8(), kTestText2_UTF8) == 0);
+
+	theString = kTestString;
+	REQUIRE(strcmp(kTestString.GetUTF8(), theString.GetText(kNStringEncodingASCII))         == 0);
+	REQUIRE(strcmp(kTestString.GetUTF8(), theString.GetText(kNStringEncodingMacRoman))      == 0);
+	REQUIRE(strcmp(kTestString.GetUTF8(), theString.GetText(kNStringEncodingISOLatin1))     == 0);
+	REQUIRE(strcmp(kTestString.GetUTF8(), theString.GetText(kNStringEncodingWindowsLatin1)) == 0);
 }
 
 

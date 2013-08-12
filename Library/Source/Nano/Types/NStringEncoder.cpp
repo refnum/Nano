@@ -28,11 +28,11 @@
 //----------------------------------------------------------------------------
 // Misc
 static const uint64_t kStringTerminator									= 0;
-static const utf16_t  kStringInvalid									= 0x003F;
+static const char     kStringInvalidChar								= '?';
 
 
 // Legacy encodings
-static const utf16_t kUTF16_ASCII[256]									= {
+static const utf32_t kASCII_to_UTF32[256]								= {
 								// http://en.wikipedia.org/wiki/ASCII
 								0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 
 								0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 
@@ -51,7 +51,7 @@ static const utf16_t kUTF16_ASCII[256]									= {
 								0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F,
 								0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F, 0x003F };
 
-static const utf16_t kUTF16_MacRoman[256]								= {
+static const utf32_t kMacRoman_to_UTF32[256]							= {
 								// http://en.wikipedia.org/wiki/Mac_OS_Roman
 								0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 
 								0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 
@@ -70,7 +70,7 @@ static const utf16_t kUTF16_MacRoman[256]								= {
 								0x2021, 0x00B7, 0x201A, 0x201E, 0x2030, 0x00C2, 0x00CA, 0x00C1, 0x00CB, 0x00C8, 0x00CD, 0x00CE, 0x00CF, 0x00CC, 0x00D3, 0x00D4, 
 								0xF8FF, 0x00D2, 0x00DA, 0x00DB, 0x00D9, 0x0131, 0x02C6, 0x02DC, 0x00AF, 0x02D8, 0x02D9, 0x02DA, 0x00B8, 0x02DD, 0x02DB, 0x02C7 };
 
-static const utf16_t kUTF16_ISOLatin1[256]								= {
+static const utf32_t kISOLatin1_to_UTF32[256]							= {
 								// http://en.wikipedia.org/wiki/ISO/IEC_8859-1
 								0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 								0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -89,7 +89,7 @@ static const utf16_t kUTF16_ISOLatin1[256]								= {
 								0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7, 0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
 								0x00F0, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x00F7, 0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF };
 
-static const utf16_t kUTF16_WindowsLatin1[256]							= {
+static const utf32_t kWindowsLatin1_to_UTF32[256]						= {
 								// http://en.wikipedia.org/wiki/Windows-1252
 								0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F,
 								0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F,
@@ -137,47 +137,51 @@ NStringEncoder::~NStringEncoder(void)
 //============================================================================
 //		NStringEncoder::Convert : Convert a string.
 //----------------------------------------------------------------------------
-//		Note :	Currently only UTF string encodings are defined, which makes
-//				the structure of the string converter straightforward.
-//
-//				This will need to be generalised to push all conversions
-//				through a common format when non-UTF encodings are supported.
-//----------------------------------------------------------------------------
 NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
 {	NStringEncoding		genericSrc, genericDst;
 	NUnicodeParser		theParser;
-	NData				tmpSrc;
+	NData				rawSrc;
 	NStatus				theErr;
 
 
 
 	// Get the state we need
-	tmpSrc     = ConvertFromLegacy(srcData, srcEncoding);
 	genericSrc = GetEncodingGeneric(srcEncoding);
 	genericDst = GetEncodingGeneric(dstEncoding);
+	rawSrc     = srcData;
 
 
 
 	// Prepare the input
-	theParser.RemoveBOM(tmpSrc, srcEncoding);
-	RemoveTerminator(   tmpSrc, srcEncoding);
+	if (IsEncodingUTF(genericSrc))
+		{
+		theParser.RemoveBOM(rawSrc, srcEncoding);
+		RemoveTerminator(   rawSrc, srcEncoding);
 	
-	SwapUTF(tmpSrc, srcEncoding, genericSrc);
+		SwapUTF(rawSrc, srcEncoding, genericSrc);
+		}
 
 
 
 	// Convert the string
 	switch (genericSrc) {
 		case kNStringEncodingUTF8:
-			theErr = ConvertFromUTF8( tmpSrc, dstData, genericDst);
+			theErr = ConvertFromUTF8( rawSrc, dstData, genericDst);
 			break;
 
 		case kNStringEncodingUTF16:
-			theErr = ConvertFromUTF16(tmpSrc, dstData, genericDst);
+			theErr = ConvertFromUTF16(rawSrc, dstData, genericDst);
 			break;
 
 		case kNStringEncodingUTF32:
-			theErr = ConvertFromUTF32(tmpSrc, dstData, genericDst);
+			theErr = ConvertFromUTF32(rawSrc, dstData, genericDst);
+			break;
+		
+		case kNStringEncodingASCII:
+		case kNStringEncodingMacRoman:
+		case kNStringEncodingISOLatin1:
+		case kNStringEncodingWindowsLatin1:
+			theErr = ConvertFromLegacy(rawSrc, dstData, genericSrc, genericDst);
 			break;
 
 		default:
@@ -188,8 +192,8 @@ NStatus NStringEncoder::Convert(const NData &srcData, NData &dstData, NStringEnc
 
 
 
-	// Prepare the result
-	if (theErr == kNoErr)
+	// Prepare the output
+	if (theErr == kNoErr && IsEncodingUTF(genericDst))
 		SwapUTF(dstData, genericDst, dstEncoding);
 
 	return(theErr);
@@ -231,8 +235,8 @@ utf32_t NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSi
 
 	// Adjust the encoding
 	//
-	// Endian-specific types are made generic, avoiding the slower generic conversion
-	// since no swapping is required.
+	// Endian-specific types are made generic if they match the native endian-ness,
+	// avoiding the slower generic conversion since no swapping is required.
 	switch (srcEncoding) {
 		case kNStringEncodingUTF16BE:
 			if (kNEndianNative == kNEndianBig)
@@ -261,6 +265,8 @@ utf32_t NStringEncoder::ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSi
 
 
 	// Convert the character
+	//
+	// Non UTF characters currently go through a relatively slow generic conversion.
 	switch (srcEncoding) {
 		case kNStringEncodingUTF8:
 			theResult = ConvertUTF8toUTF32( &srcStart8,  srcEnd8,  &dstStart32, dstEnd32, lenientConversion);
@@ -391,6 +397,7 @@ NStringEncoding NStringEncoder::GetEncoding(const NData &theData)
 	// additional heuristics (check for UTF16/32 encodings of common vowels in
 	// both BE and LE, etc).
 	theEncoding = theParser.GetBOM(theData, theRange);
+
 	if (theEncoding == kNStringEncodingInvalid)
 		theEncoding = kNStringEncodingUTF8;
 
@@ -448,6 +455,38 @@ NIndex NStringEncoder::GetSize(const void *thePtr, NStringEncoding theEncoding)
 		}
 
 	return(theSize);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::IsEncodingUTF : Is an encoding a UTF encoding?
+//----------------------------------------------------------------------------
+bool NStringEncoder::IsEncodingUTF(NStringEncoding theEncoding)
+{	bool	isUTF;
+
+
+
+	// Is an encoding a Unicode encoding?
+	switch (theEncoding) {
+		case kNStringEncodingUTF8:
+		case kNStringEncodingUTF16:
+		case kNStringEncodingUTF16BE:
+		case kNStringEncodingUTF16LE:
+		case kNStringEncodingUTF32:
+		case kNStringEncodingUTF32BE:
+		case kNStringEncodingUTF32LE:
+			isUTF = true;
+			break;
+		
+		default:
+			isUTF = false;
+			break;
+		}
+	
+	return(isUTF);
 }
 
 
@@ -528,6 +567,10 @@ NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
 	// Get the state we need
 	switch (theEncoding) {
 		case kNStringEncodingUTF8:
+		case kNStringEncodingASCII:
+		case kNStringEncodingMacRoman:
+		case kNStringEncodingISOLatin1:
+		case kNStringEncodingWindowsLatin1:
 			theSize = (NIndex) sizeof(utf8_t);
 			break;
 
@@ -557,48 +600,101 @@ NIndex NStringEncoder::GetMaxCharSize(NStringEncoding theEncoding)
 
 
 //============================================================================
-//		NStringEncoder::ConvertFromLegacy : Convert a legacy encoding.
+//		NStringEncoder::ConvertFromLegacy : Convert from a legacy encoding.
 //----------------------------------------------------------------------------
-NData NStringEncoder::ConvertFromLegacy(const NData &srcData, NStringEncoding &theEncoding)
+NStatus NStringEncoder::ConvertFromLegacy(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
 {	NIndex				n, numChars;
-	const utf16_t		*srcTable;
+	const utf32_t		*srcTable;
+	NData				dataUTF32;
 	const uint8_t		*srcChars;
-	utf16_t				dstChar;
-	NData				dstData;
+	utf32_t				*dstChars;
+	utf32_t				dstChar;
+	NStatus				theErr;
 
 
 
 	// Get the state we need
-	numChars = srcData.GetSize();
+	numChars = srcData.GetSize() / sizeof(uint8_t);
 	srcChars = (const uint8_t *) srcData.GetData();
-	srcTable = NULL;
-
-	switch (theEncoding) {
-		case kNStringEncodingASCII:				srcTable = kUTF16_ASCII;			break;
-		case kNStringEncodingMacRoman:			srcTable = kUTF16_MacRoman;			break;
-		case kNStringEncodingISOLatin1:			srcTable = kUTF16_ISOLatin1;		break;
-		case kNStringEncodingWindowsLatin1:		srcTable = kUTF16_WindowsLatin1;	break;
-		default:
-			return(srcData);
-			break;
-		}
-
-
-
-	// Convert the string
-	theEncoding = kNStringEncodingUTF16;
-	dstData.Reserve(srcData.GetSize() * 2);
+	srcTable = GetLegacyToUTF32( srcEncoding);
 	
+	if (srcTable == NULL)
+		return(kNErrNotSupported);
+
+
+
+	// Convert to UTF32
+	dataUTF32.SetSize(numChars * sizeof(utf32_t));
+	dstChars = (utf32_t *) dataUTF32.GetData();
+
 	for (n = 0; n < numChars; n++)
 		{
 		dstChar = srcTable[srcChars[n]];
-		if (dstChar == 0x0000)
-			dstChar = kStringInvalid;
 		
-		dstData.AppendData(sizeof(dstChar), &dstChar);
+		if (dstChar == 0x0000)
+			dstChars[n] = kStringInvalidChar;
+		else
+			dstChars[n] = dstChar;
 		}
 	
-	return(dstData);
+	
+	
+	// Convert to the final encoding
+	theErr = Convert(dataUTF32, dstData, kNStringEncodingUTF32, dstEncoding);
+
+	return(theErr);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::ConvertToLegacy : Convert to a legacy encoding.
+//----------------------------------------------------------------------------
+NStatus NStringEncoder::ConvertToLegacy(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding)
+{	NIndex							n, numChars;
+	const NUTF32LegacyMap			*srcTable;
+	NData							dataUTF32;
+	const utf32_t					*srcChars;
+	uint8_t							*dstChars;
+	NUTF32LegacyMapConstIterator	theIter;
+	NStatus							theErr;
+
+
+
+	// Convert to UTF32
+	theErr = Convert(srcData, dataUTF32, srcEncoding, kNStringEncodingUTF32);
+	if (theErr != kNoErr)
+		return(theErr);
+
+
+
+	// Get the state we need
+	numChars = dataUTF32.GetSize() / sizeof(utf32_t);
+	srcChars = (const utf32_t *) dataUTF32.GetData();
+	srcTable = GetLegacyFromUTF32(dstEncoding);
+
+	if (srcTable == NULL)
+		return(kNErrNotSupported);
+
+
+
+	// Convert to the final encoding
+	dstData.SetSize(numChars * sizeof(uint8_t));
+	dstChars = (uint8_t *) dstData.GetData();
+
+	for (n = 0; n < numChars; n++)
+		{
+		theIter = srcTable->find(srcChars[n]);
+		
+		if (theIter != srcTable->end())
+			dstChars[n] = theIter->second;
+		else
+			dstChars[n] = kStringInvalidChar;
+		}
+	
+	return(kNoErr);
 }
 
 
@@ -626,6 +722,13 @@ NStatus NStringEncoder::ConvertFromUTF8(const NData &srcData, NData &dstData, NS
 
 		case kNStringEncodingUTF32:
 			theErr = ConvertUTF8ToUTF32(srcData, dstData);
+			break;
+
+		case kNStringEncodingASCII:
+		case kNStringEncodingMacRoman:
+		case kNStringEncodingISOLatin1:
+		case kNStringEncodingWindowsLatin1:
+			theErr = ConvertToLegacy(srcData, dstData, kNStringEncodingUTF8, dstEncoding);
 			break;
 
 		default:
@@ -664,6 +767,13 @@ NStatus NStringEncoder::ConvertFromUTF16(const NData &srcData, NData &dstData, N
 			theErr = ConvertUTF16ToUTF32(srcData, dstData);
 			break;
 
+		case kNStringEncodingASCII:
+		case kNStringEncodingMacRoman:
+		case kNStringEncodingISOLatin1:
+		case kNStringEncodingWindowsLatin1:
+			theErr = ConvertToLegacy(srcData, dstData, kNStringEncodingUTF16, dstEncoding);
+			break;
+
 		default:
 			NN_LOG("Unknown encoding: %d", dstEncoding);
 			theErr = kNErrParam;
@@ -700,6 +810,13 @@ NStatus NStringEncoder::ConvertFromUTF32(const NData &srcData, NData &dstData, N
 			theErr  = kNoErr;
 			break;
 
+		case kNStringEncodingASCII:
+		case kNStringEncodingMacRoman:
+		case kNStringEncodingISOLatin1:
+		case kNStringEncodingWindowsLatin1:
+			theErr = ConvertToLegacy(srcData, dstData, kNStringEncodingUTF32, dstEncoding);
+			break;
+
 		default:
 			NN_LOG("Unknown encoding: %d", dstEncoding);
 			theErr = kNErrParam;
@@ -708,6 +825,7 @@ NStatus NStringEncoder::ConvertFromUTF32(const NData &srcData, NData &dstData, N
 	
 	return(theErr);
 }
+
 
 
 
@@ -994,6 +1112,7 @@ void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStrin
 
 	// Validate our parameters
 	NN_ASSERT(GetMaxCharSize(srcEncoding) == GetMaxCharSize(dstEncoding));
+	NN_ASSERT(IsEncodingUTF( srcEncoding) && IsEncodingUTF( dstEncoding));
 
 
 
@@ -1019,22 +1138,111 @@ void NStringEncoder::SwapUTF(NData &theData, NStringEncoding srcEncoding, NStrin
 	for (n = 0; n < dataSize; n += charSize)
 		{
 		switch (charSize) {
-			case 2:
+			case sizeof(uint16_t):
 				NSwapUInt16((uint16_t *) dataPtr);
 				break;
 			
-			case 4:
+			case sizeof(uint32_t):
 				NSwapUInt32((uint32_t *) dataPtr);
 				break;
 
 			default:
-				NN_LOG("Unknown char size: %d", charSize);
+				NN_LOG("Unknown UTF char size: %d", charSize);
 				return;
 				break;
 			}
 		
 		dataPtr += charSize;
 		}
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::GetLegacyToUTF32 : Get a legacy->UTF32 table.
+//----------------------------------------------------------------------------
+const utf32_t *NStringEncoder::GetLegacyToUTF32(NStringEncoding srcEncoding)
+{	const utf32_t	*theTable;
+
+
+
+	// Get the table
+	switch (srcEncoding) {
+		case kNStringEncodingASCII:				theTable = kASCII_to_UTF32;				break;
+		case kNStringEncodingMacRoman:			theTable = kMacRoman_to_UTF32;			break;
+		case kNStringEncodingISOLatin1:			theTable = kISOLatin1_to_UTF32;			break;
+		case kNStringEncodingWindowsLatin1:		theTable = kWindowsLatin1_to_UTF32;		break;
+		default:
+			NN_LOG("Unknown encoding: %ld", srcEncoding);
+			theTable = NULL;
+			break;
+		}
+	
+	return(theTable);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::GetLegacyFromUTF32 : Get a UTF32->legacy table.
+//----------------------------------------------------------------------------
+const NUTF32LegacyMap *NStringEncoder::GetLegacyFromUTF32(NStringEncoding dstEncoding)
+{	static NMutex				sMutex;
+	static NUTF32LegacyMap		sUTF32_to_ASCII;
+	static NUTF32LegacyMap		sUTF32_to_MacRoman;
+	static NUTF32LegacyMap		sUTF32_to_ISOLatin1;
+	static NUTF32LegacyMap		sUTF32_to_WindowsLatin1;
+
+	StLock					acquireLock(sMutex);
+	const NUTF32LegacyMap	*theTable;
+
+
+
+	// Populate the tables
+	if (sUTF32_to_ASCII.empty())
+		{
+		PopulateLegacyMap(kNASCIIMax,	kASCII_to_UTF32,			sUTF32_to_ASCII);
+		PopulateLegacyMap(255,			kMacRoman_to_UTF32,			sUTF32_to_MacRoman);
+		PopulateLegacyMap(255,			kISOLatin1_to_UTF32,		sUTF32_to_ISOLatin1);
+		PopulateLegacyMap(255,			kWindowsLatin1_to_UTF32,	sUTF32_to_WindowsLatin1);
+		}
+
+
+
+	// Get the table
+	switch (dstEncoding) {
+		case kNStringEncodingASCII:				theTable = &sUTF32_to_ASCII;			break;
+		case kNStringEncodingMacRoman:			theTable = &sUTF32_to_MacRoman;			break;
+		case kNStringEncodingISOLatin1:			theTable = &sUTF32_to_ISOLatin1;		break;
+		case kNStringEncodingWindowsLatin1:		theTable = &sUTF32_to_WindowsLatin1;	break;
+		default:
+			NN_LOG("Unknown encoding: %ld", dstEncoding);
+			theTable = NULL;
+			break;
+		}
+
+	return(theTable);
+}
+
+
+
+
+
+//============================================================================
+//		NStringEncoder::PopulateLegacyMap : Populate a UTF32->legacy map.
+//----------------------------------------------------------------------------
+void NStringEncoder::PopulateLegacyMap(NIndex maxChar, const utf32_t *toUTF32, NUTF32LegacyMap &fromUTF32)
+{	NIndex		n;
+
+
+
+	// Populate the table
+	for (n = 0; n <= maxChar; n++)
+		fromUTF32[toUTF32[n]] = (char) n;
 }
 
 

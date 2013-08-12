@@ -330,12 +330,8 @@ NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 	NN_ASSERT_NOERR(theErr);
 	
 	if (theErr != kNoErr)
-{
-// dair
-	theErr = theEncoder.Convert(theData, bestData, theEncoding, bestEncoding);
-
 		return(theErr);
-}
+
 
 
 	// Update our state
@@ -2213,7 +2209,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 				if (bomRange.Contains(n))
 					continue;
 					
-				if (((uint32_t) chars8[n]) > kASCIILimit)
+				if (((uint32_t) chars8[n]) > kNASCIIMax)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -2235,7 +2231,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 					continue;
 
 				char16 = theParser.GetNativeUTF16(chars16[n], theEncoding);
-				if (((uint32_t) char16) > kASCIILimit)
+				if (((uint32_t) char16) > kNASCIIMax)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;
@@ -2257,7 +2253,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 					continue;
 					
 				char32 = theParser.GetNativeUTF32(chars32[n], theEncoding);
-				if (((uint32_t) char32) > kASCIILimit)
+				if (((uint32_t) char32) > kNASCIIMax)
 					{
 					bestEncoding = kNStringEncodingUTF16;
 					break;

@@ -47,12 +47,31 @@ typedef enum {
 	
 	// Legacy
 	//
-	// Legacy encodings are only supported for conversion to Unicode.
+	// Although conversion from legacy to Unicode is exact, converting
+	// from Unicode to legacy may be lossy.
+	//
+	// Characters that can not be represented in a legacy encoding are
+	// replaced with a placeholder character.
 	kNStringEncodingASCII,
 	kNStringEncodingMacRoman,
 	kNStringEncodingISOLatin1,				// ISO 8859-1
 	kNStringEncodingWindowsLatin1			// ANSI 1252
 } NStringEncoding;
+
+
+// Misc
+static const uint32_t kNASCIIMax									= 0x7F;
+
+
+
+
+
+//============================================================================
+//      Types
+//----------------------------------------------------------------------------
+typedef std::map<utf32_t, uint8_t>									NUTF32LegacyMap;
+typedef NUTF32LegacyMap::iterator									NUTF32LegacyMapIterator;
+typedef NUTF32LegacyMap::const_iterator								NUTF32LegacyMapConstIterator;
 
 
 
@@ -96,6 +115,10 @@ public:
 	NIndex								GetSize(const void *thePtr, NStringEncoding theEncoding);
 
 
+	// Is an encoding a UTF encoding?
+	static bool							IsEncodingUTF(NStringEncoding theEncoding);
+
+
 	// Get the generic form of an encoding
 	//
 	// Returns the encoding unchanged if it has no generic form.
@@ -111,8 +134,9 @@ public:
 private:
 	NIndex								GetMaxCharSize(NStringEncoding theEncoding);
 
-	NData								ConvertFromLegacy(const NData &theData, NStringEncoding &theEncoding);
-	
+	NStatus								ConvertFromLegacy(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
+	NStatus								ConvertToLegacy(  const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
+
 	NStatus								ConvertFromUTF8( const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 	NStatus								ConvertFromUTF16(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
 	NStatus								ConvertFromUTF32(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
@@ -128,6 +152,10 @@ private:
 	
 	NStatus								ConvertUTF(NData &theData, const void *dataEnd, uint32_t theResult);
 	void								SwapUTF(   NData &theData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
+	
+	const utf32_t					   *GetLegacyToUTF32(  NStringEncoding srcEncoding);
+	const NUTF32LegacyMap			   *GetLegacyFromUTF32(NStringEncoding dstEncoding);
+	void								PopulateLegacyMap(NIndex maxChar, const utf32_t *toUTF32, NUTF32LegacyMap &fromUTF32);
 };
 
 
