@@ -14,7 +14,7 @@
 //============================================================================
 //		Build constants
 //----------------------------------------------------------------------------
-#define NANO_USING_GD													0
+#define NANO_USING_GD												0
 
 
 
@@ -46,21 +46,21 @@
 //		Internal constants
 //----------------------------------------------------------------------------
 // Tasks
-static const NIndex kPipeRead											= 0;
-static const NIndex kPipeWrite											= 1;
+static const NIndex kPipeRead										= 0;
+static const NIndex kPipeWrite										= 1;
 
 // Misc
-static const size_t kBufferSize											= 2 * kNKilobyte;
+static const size_t kBufferSize										= 2 * kNKilobyte;
 
 
 // Magic Numbers
 #if NANO_USING_GD
-static const char *kMagicBmp											= "BM";
-static const char *kMagicGif											= "GIF8";
-static const char *kMagicJpeg											= "\0xff\0xd8\0xff\0xe0";
-static const char *kMagicPng											= ".PNG";
-static const char *kMagicXpm											= "/* XPM */";
-static const char *kMagicTiff											= "II*.";
+static const char *kMagicBmp										= "BM";
+static const char *kMagicGif										= "GIF8";
+static const char *kMagicJpeg										= "\0xff\0xd8\0xff\0xe0";
+static const char *kMagicPng										= ".PNG";
+static const char *kMagicXpm										= "/* XPM */";
+static const char *kMagicTiff										= "II*.";
 #endif
 
 
