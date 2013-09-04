@@ -440,6 +440,7 @@ static void SocketThread(void)
 
 
 	// Run the thread
+	NThread::SetName("NMacNetwork::SocketThread");
 	gSocketRunLoop = CFRunLoopGetCurrent();
 
 	while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, kNTimeHour, false) != kCFRunLoopRunStopped && gSocketCount != 0)
