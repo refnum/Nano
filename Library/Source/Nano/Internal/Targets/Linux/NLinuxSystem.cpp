@@ -474,6 +474,10 @@ NString NTargetSystem::GetSystemArch(void)
 	// Get the architecture
 #if defined(__i386__) || defined(__x86_64__)
 	theArch = "x86";
+
+#elif defined(__arm__)
+	theArch = "ARM";
+
 #else
 	UNKNOWN ARCH
 #endif
