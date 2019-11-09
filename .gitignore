@@ -1,4 +1,8 @@
-# Mac OS X
+# GitHub
+Library/Source/Nano/Internal/Components/* linguist-vendored
+
+
+# macOS
 *.DS_Store
 
 
