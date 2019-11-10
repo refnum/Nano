@@ -182,6 +182,8 @@
 		AB7AB1C1103AED18004B1F6E /* blowfish_dat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB8CE2B5104D5F7000306EDC /* NDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */; };
 		AB8CE2B6104D5F7000306EDC /* NDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */; };
+		AB8DBDF62377809600619B6A /* NLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8DBDF42377809600619B6A /* NLogger.cpp */; };
+		AB8DBDF72377809600619B6A /* NLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8DBDF42377809600619B6A /* NLogger.cpp */; };
 		AB9155770F9B4DD6009FFEAF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155780F9B4DD6009FFEAF /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB9155790F9B4DD6009FFEAF /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -369,13 +371,6 @@
 		AB01819216BAA03C0033152D /* sqlite_3.7.17_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.17_fts3_tokenizer.h; sourceTree = "<group>"; };
 		AB01819316BAA03C0033152D /* sqlite_3.7.17.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.7.17.c; sourceTree = "<group>"; };
 		AB01819416BAA03C0033152D /* sqlite_3.7.17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.17.h; sourceTree = "<group>"; };
-		AB069DEE14CC1FAE006E6DF8 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
-		AB069DEF14CC1FAE006E6DF8 /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
-		AB069DF014CC1FAE006E6DF8 /* NanoDebugiOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebugiOS.xcconfig; sourceTree = "<group>"; };
-		AB069DF114CC1FAE006E6DF8 /* NanoDebugMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebugMac.xcconfig; sourceTree = "<group>"; };
-		AB069DF214CC1FAE006E6DF8 /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
-		AB069DF314CC1FAE006E6DF8 /* NanoReleaseiOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoReleaseiOS.xcconfig; sourceTree = "<group>"; };
-		AB069DF414CC1FAE006E6DF8 /* NanoReleaseMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoReleaseMac.xcconfig; sourceTree = "<group>"; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
 		AB078D2811D4A988006C9347 /* NUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NUIKit.mm; sourceTree = "<group>"; };
 		AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAttributes.cpp; sourceTree = "<group>"; };
@@ -416,7 +411,6 @@
 		AB1E1CF117967C2100CCC36F /* NDebuggable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebuggable.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
-		AB223D9009CA2DF700533C00 /* Nano Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.h"; sourceTree = "<group>"; };
 		AB23BAED102B5B95009CA347 /* NDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandle.cpp; sourceTree = "<group>"; };
 		AB23BAEE102B5B95009CA347 /* NDBHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandle.h; sourceTree = "<group>"; };
 		AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandlePool.cpp; sourceTree = "<group>"; };
@@ -427,7 +421,7 @@
 		AB23BB3A102B6565009CA347 /* NAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAtomicList.h; sourceTree = "<group>"; };
 		AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSemaphore.cpp; sourceTree = "<group>"; };
 		AB23BB5D102B67DB009CA347 /* NSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSemaphore.h; sourceTree = "<group>"; };
-		AB28FBDD0FB5D36300F72C61 /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB28FBDD0FB5D36300F72C61 /* libNano_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2AAC621035B621007BC4E6 /* NUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC631035B621007BC4E6 /* NUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTI.h; sourceTree = "<group>"; };
 		AB2AAD69103962E4007BC4E6 /* NLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLocale.h; sourceTree = "<group>"; };
@@ -504,6 +498,13 @@
 		AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish_dat.c; sourceTree = "<group>"; };
 		AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataEncoder.cpp; sourceTree = "<group>"; };
 		AB8CE2B4104D5F7000306EDC /* NDataEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataEncoder.h; sourceTree = "<group>"; };
+		AB8DBDE623777E6500619B6A /* Nano.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano.xcconfig; sourceTree = "<group>"; };
+		AB8DBDE923777E6500619B6A /* Nano.lldb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Nano.lldb; sourceTree = "<group>"; };
+		AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_iOS.xcconfig; sourceTree = "<group>"; };
+		AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_macOS.xcconfig; sourceTree = "<group>"; };
+		AB8DBDF323777FFA00619B6A /* Nano Prefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.h"; sourceTree = "<group>"; };
+		AB8DBDF42377809600619B6A /* NLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLogger.cpp; sourceTree = "<group>"; };
+		AB8DBDF52377809600619B6A /* NLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLogger.h; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		AB9154E50F9B4DD5009FFEAF /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
 		AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_chartables.c; sourceTree = "<group>"; };
@@ -740,15 +741,15 @@
 		ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCompressor.cpp; sourceTree = "<group>"; };
 		ABFD973F1663958F00EE07B7 /* NSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocket.cpp; sourceTree = "<group>"; };
 		ABFD97401663958F00EE07B7 /* NSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocket.h; sourceTree = "<group>"; };
-		D2AAC06F0554671400DB518D /* libNano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC06F0554671400DB518D /* libNano_macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_macOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC06F0554671400DB518D /* libNano.a */,
-				AB28FBDD0FB5D36300F72C61 /* libNano.a */,
+				D2AAC06F0554671400DB518D /* libNano_macOS.a */,
+				AB28FBDD0FB5D36300F72C61 /* libNano_iOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -756,9 +757,8 @@
 		0867D691FE84028FC02AAC07 /* Nano */ = {
 			isa = PBXGroup;
 			children = (
-				ABCE52F009C8ABC8007B718A /* Configuration */,
-				AB223D8F09CA2DF700533C00 /* Prefix */,
 				AB9154DE0F9B4DD5009FFEAF /* Source */,
+				AB8DBDE323777E6500619B6A /* Support */,
 				034768DDFF38A45A11DB9C8B /* Products */,
 			);
 			name = Nano;
@@ -833,15 +833,6 @@
 			);
 			path = Cocoa;
 			sourceTree = "<group>";
-		};
-		AB223D8F09CA2DF700533C00 /* Prefix */ = {
-			isa = PBXGroup;
-			children = (
-				AB223D9009CA2DF700533C00 /* Nano Prefix.h */,
-			);
-			name = Prefix;
-			path = ../Prefix;
-			sourceTree = SOURCE_ROOT;
 		};
 		AB23BAEC102B5B95009CA347 /* Database */ = {
 			isa = PBXGroup;
@@ -985,9 +976,30 @@
 			path = schneier.com;
 			sourceTree = "<group>";
 		};
+		AB8DBDE323777E6500619B6A /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				AB8DBDE423777E6500619B6A /* Xcode */,
+			);
+			name = Support;
+			path = ../Support;
+			sourceTree = "<group>";
+		};
+		AB8DBDE423777E6500619B6A /* Xcode */ = {
+			isa = PBXGroup;
+			children = (
+				AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */,
+				AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */,
+				AB8DBDE623777E6500619B6A /* Nano.xcconfig */,
+				AB8DBDE923777E6500619B6A /* Nano.lldb */,
+			);
+			path = Xcode;
+			sourceTree = "<group>";
+		};
 		AB9154DE0F9B4DD5009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AB8DBDF323777FFA00619B6A /* Nano Prefix.h */,
 				AB9154DF0F9B4DD5009FFEAF /* Nanites */,
 				AB9154E10F9B4DD5009FFEAF /* Nano */,
 			);
@@ -1138,6 +1150,8 @@
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,
 				AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */,
 				AB91550F0F9B4DD5009FFEAF /* NDebug.h */,
+				AB8DBDF42377809600619B6A /* NLogger.cpp */,
+				AB8DBDF52377809600619B6A /* NLogger.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1434,21 +1448,6 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		ABCE52F009C8ABC8007B718A /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				AB069DEE14CC1FAE006E6DF8 /* NanoCommon.xcconfig */,
-				AB069DEF14CC1FAE006E6DF8 /* NanoDebug.xcconfig */,
-				AB069DF014CC1FAE006E6DF8 /* NanoDebugiOS.xcconfig */,
-				AB069DF114CC1FAE006E6DF8 /* NanoDebugMac.xcconfig */,
-				AB069DF214CC1FAE006E6DF8 /* NanoRelease.xcconfig */,
-				AB069DF314CC1FAE006E6DF8 /* NanoReleaseiOS.xcconfig */,
-				AB069DF414CC1FAE006E6DF8 /* NanoReleaseMac.xcconfig */,
-			);
-			name = Configuration;
-			path = ../../Support/Xcode/Configuration;
-			sourceTree = SOURCE_ROOT;
-		};
 		ABD68173167AAB9800CB2E04 /* udp.github.com */ = {
 			isa = PBXGroup;
 			children = (
@@ -1491,9 +1490,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AB28FBDC0FB5D36300F72C61 /* iOS */ = {
+		AB28FBDC0FB5D36300F72C61 /* Nano_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iOS" */;
+			buildConfigurationList = AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "Nano_iOS" */;
 			buildPhases = (
 				AB28FBDA0FB5D36300F72C61 /* Sources */,
 			);
@@ -1501,14 +1500,14 @@
 			);
 			dependencies = (
 			);
-			name = iOS;
+			name = Nano_iOS;
 			productName = iPhone;
-			productReference = AB28FBDD0FB5D36300F72C61 /* libNano.a */;
+			productReference = AB28FBDD0FB5D36300F72C61 /* libNano_iOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		D2AAC06E0554671400DB518D /* Mac */ = {
+		D2AAC06E0554671400DB518D /* Nano_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Mac" */;
+			buildConfigurationList = 1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Nano_macOS" */;
 			buildPhases = (
 				D2AAC06C0554671400DB518D /* Sources */,
 			);
@@ -1516,9 +1515,9 @@
 			);
 			dependencies = (
 			);
-			name = Mac;
+			name = Nano_macOS;
 			productName = Nano;
-			productReference = D2AAC06F0554671400DB518D /* libNano.a */;
+			productReference = D2AAC06F0554671400DB518D /* libNano_macOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -1544,8 +1543,8 @@
 			projectDirPath = "";
 			projectRoot = ..;
 			targets = (
-				AB28FBDC0FB5D36300F72C61 /* iOS */,
-				D2AAC06E0554671400DB518D /* Mac */,
+				AB28FBDC0FB5D36300F72C61 /* Nano_iOS */,
+				D2AAC06E0554671400DB518D /* Nano_macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1605,6 +1604,7 @@
 				AB7AB08D103AD6B5004B1F6E /* fm_md5.c in Sources */,
 				AB1694DA10028C8200F7D4B7 /* cdecode.c in Sources */,
 				AB1694DB10028C8200F7D4B7 /* cencode.c in Sources */,
+				AB8DBDF62377809600619B6A /* NLogger.cpp in Sources */,
 				AB28FC050FB5D9F000F72C61 /* pcre_chartables.c in Sources */,
 				AB28FC060FB5D9F000F72C61 /* pcre_compile.c in Sources */,
 				AB28FC070FB5D9F000F72C61 /* pcre_config.c in Sources */,
@@ -1812,6 +1812,7 @@
 				ABFAA6981018AB360060ED12 /* adler32.c in Sources */,
 				ABFAA6991018AB360060ED12 /* compress.c in Sources */,
 				ABFAA69A1018AB360060ED12 /* crc32.c in Sources */,
+				AB8DBDF72377809600619B6A /* NLogger.cpp in Sources */,
 				ABFAA69B1018AB360060ED12 /* deflate.c in Sources */,
 				ABFAA69D1018AB360060ED12 /* gzio.c in Sources */,
 				ABFAA69E1018AB360060ED12 /* infback.c in Sources */,
@@ -1911,21 +1912,15 @@
 /* Begin XCBuildConfiguration section */
 		1DEB920208733DBB0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB069DF114CC1FAE006E6DF8 /* NanoDebugMac.xcconfig */;
+			baseConfigurationReference = AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
-				PRODUCT_NAME = Nano;
 			};
 			name = Debug;
 		};
 		1DEB920308733DBB0010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB069DF414CC1FAE006E6DF8 /* NanoReleaseMac.xcconfig */;
+			baseConfigurationReference = AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
-				PRODUCT_NAME = Nano;
 			};
 			name = Release;
 		};
@@ -1943,28 +1938,22 @@
 		};
 		AB28FBDE0FB5D36300F72C61 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB069DF014CC1FAE006E6DF8 /* NanoDebugiOS.xcconfig */;
+			baseConfigurationReference = AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
-				PRODUCT_NAME = Nano;
 			};
 			name = Debug;
 		};
 		AB28FBDF0FB5D36300F72C61 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB069DF314CC1FAE006E6DF8 /* NanoReleaseiOS.xcconfig */;
+			baseConfigurationReference = AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/Nano Prefix.h";
-				OTHER_CFLAGS = "$(NANO_OTHER_CFLAGS)";
-				PRODUCT_NAME = Nano;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Mac" */ = {
+		1DEB920108733DBB0010E9CD /* Build configuration list for PBXNativeTarget "Nano_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB920208733DBB0010E9CD /* Debug */,
@@ -1982,7 +1971,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "iOS" */ = {
+		AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "Nano_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB28FBDE0FB5D36300F72C61 /* Debug */,
