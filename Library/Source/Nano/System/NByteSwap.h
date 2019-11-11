@@ -30,7 +30,7 @@ typedef enum {
 	kNEndianLittle
 } NEndianFormat;
 
-static const NEndianFormat kNEndianNative = (NN_TARGET_ENDIAN_BIG ? kNEndianBig : kNEndianLittle);
+static const NEndianFormat kNEndianNative = (NN_ENDIAN_BIG ? kNEndianBig : kNEndianLittle);
 
 
 
@@ -74,7 +74,7 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 
 // Native to big
-#if NN_TARGET_ENDIAN_BIG
+#if NN_ENDIAN_BIG
 	inline uint16_t NSwapUInt16_NtoB(uint16_t theValue)									{ return(theValue); }
 	inline uint32_t NSwapUInt32_NtoB(uint32_t theValue)									{ return(theValue); }
 	inline uint64_t NSwapUInt64_NtoB(uint64_t theValue)									{ return(theValue); }
@@ -105,7 +105,7 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 
 // Native to little
-#if NN_TARGET_ENDIAN_BIG
+#if NN_ENDIAN_BIG
 	inline uint16_t NSwapUInt16_NtoL(uint16_t theValue)									{ return(NSwapUInt16(theValue)); }
 	inline uint32_t NSwapUInt32_NtoL(uint32_t theValue)									{ return(NSwapUInt32(theValue)); }
 	inline uint64_t NSwapUInt64_NtoL(uint64_t theValue)									{ return(NSwapUInt64(theValue)); }
@@ -136,7 +136,7 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 
 // Big to native
-#if NN_TARGET_ENDIAN_BIG
+#if NN_ENDIAN_BIG
 	inline uint16_t NSwapUInt16_BtoN(uint16_t theValue)									{ return(theValue); }
 	inline uint32_t NSwapUInt32_BtoN(uint32_t theValue)									{ return(theValue); }
 	inline uint64_t NSwapUInt64_BtoN(uint64_t theValue)									{ return(theValue); }
@@ -167,7 +167,7 @@ inline void *NSwapBlock(NIndex numValues, NIndex valueSize, void *valuePtr)				{
 
 
 // Little to native
-#if NN_TARGET_ENDIAN_BIG
+#if NN_ENDIAN_BIG
 	inline uint16_t NSwapUInt16_LtoN(uint16_t theValue)									{ return(NSwapUInt16(theValue)); }
 	inline uint32_t NSwapUInt32_LtoN(uint32_t theValue)									{ return(NSwapUInt32(theValue)); }
 	inline uint64_t NSwapUInt64_LtoN(uint64_t theValue)									{ return(NSwapUInt64(theValue)); }

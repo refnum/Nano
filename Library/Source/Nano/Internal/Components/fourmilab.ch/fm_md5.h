@@ -12,7 +12,7 @@ extern "C" {
  ****************************************************************************/
 #if defined(NANO_TARGET_HDR)
 
-#if NN_TARGET_ENDIAN_BIG
+#if NN_ENDIAN_BIG
 	#define HIGHFIRST
 #endif
 

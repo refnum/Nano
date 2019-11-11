@@ -35,8 +35,8 @@
 //
 // E.g., when represented as a uint32_t, a kNColorARGB would be stored as:
 //
-//		NN_TARGET_ENDIAN_BIG		[AA] [RR] [GG] [BB]
-//		NN_TARGET_ENDIAN_LITTLE		[BB] [GG] [RR] [AA]
+//		NN_ENDIAN_BIG		[AA] [RR] [GG] [BB]
+//		NN_ENDIAN_LITTLE		[BB] [GG] [RR] [AA]
 //
 // In both cases, the alpha byte could be accessed by a right shift of 24.
 typedef enum {

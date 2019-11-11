@@ -28,7 +28,7 @@
 //		Buld constants
 //----------------------------------------------------------------------------
 // Endian
-#if NN_TARGET_ENDIAN_BIG
+#if NN_ENDIAN_BIG
 	#define BYTEORDER													4321
 #else
 	#define BYTEORDER													1234

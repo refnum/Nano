@@ -80,51 +80,60 @@
 //		Endian-ness
 //----------------------------------------------------------------------------
 // Baseline
-#define NN_TARGET_ENDIAN_BIG										0
-#define NN_TARGET_ENDIAN_LITTLE										0
-
-
-// Mac
-#if NN_TARGET_MACOS
-	#if defined(__ppc__) || defined(__ppc64__)
-		#undef  NN_TARGET_ENDIAN_BIG
-		#define NN_TARGET_ENDIAN_BIG								1
-	#else
-		#undef  NN_TARGET_ENDIAN_LITTLE
-		#define NN_TARGET_ENDIAN_LITTLE								1
-	#endif
-#endif
-
-
-// Windows
-#if NN_TARGET_WINDOWS
-	#undef  NN_TARGET_ENDIAN_LITTLE
-	#define NN_TARGET_ENDIAN_LITTLE									1
-#endif
+#define NN_ENDIAN_BIG										0
+#define NN_ENDIAN_LITTLE									0
 
 
 // iOS
 #if NN_TARGET_IOS
-	#undef  NN_TARGET_ENDIAN_LITTLE
-	#define NN_TARGET_ENDIAN_LITTLE									1
+	#undef  NN_ENDIAN_LITTLE
+	#define NN_ENDIAN_LITTLE								1
 #endif
+
+
 
 
 // Linux
 #if NN_TARGET_LINUX
 	#if defined(__ppc__) || defined(__ppc64__)
-		#undef  NN_TARGET_ENDIAN_BIG
-		#define NN_TARGET_ENDIAN_BIG								1
+		#undef  NN_ENDIAN_BIG
+		#define NN_ENDIAN_BIG								1
 	#else
-		#undef  NN_TARGET_ENDIAN_LITTLE
-		#define NN_TARGET_ENDIAN_LITTLE								1
+		#undef  NN_ENDIAN_LITTLE
+		#define NN_ENDIAN_LITTLE							1
+	#endif
+#endif
+
+// macOS
+#if NN_TARGET_MACOS
+	#if defined(__ppc__) || defined(__ppc64__)
+		#undef  NN_ENDIAN_BIG
+		#define NN_ENDIAN_BIG								1
+	#else
+		#undef  NN_ENDIAN_LITTLE
+		#define NN_ENDIAN_LITTLE							1
 	#endif
 #endif
 
 
+// tvOS
+#if NN_TARGET_IOS
+	#undef  NN_ENDIAN_LITTLE
+	#define NN_ENDIAN_LITTLE								1
+#endif
+
+
+// Windows
+#if NN_TARGET_WINDOWS
+	#undef  NN_ENDIAN_LITTLE
+	#define NN_ENDIAN_LITTLE								1
+#endif
+
+
+
 // Validate
-#if NN_TARGET_ENDIAN_BIG == NN_TARGET_ENDIAN_LITTLE
-	ERROR - Unable to identify target endian-ness
+#if ((NN_ENDIAN_BIG + NN_ENDIAN_LITTLE) != 1)
+	#error Unable to identify endian-ness
 #endif
 
 
