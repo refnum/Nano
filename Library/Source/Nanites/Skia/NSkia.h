@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#pragma GCC diagnostic ignored "-Wshadow"
 #endif
 
@@ -41,7 +41,7 @@
 #include "SkStroke.h"
 #include "SkTypeface.h"
 
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#pragma GCC diagnostic warning "-Wshadow"
 #endif
 

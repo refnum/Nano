@@ -25,7 +25,7 @@
 //		Target
 //----------------------------------------------------------------------------
 // Baseline
-#define NN_TARGET_MAC												0
+#define NN_TARGET_MACOS												0
 #define NN_TARGET_WINDOWS											0
 #define NN_TARGET_IOS												0
 #define NN_TARGET_LINUX												0
@@ -33,8 +33,8 @@
 
 // Mac
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && !defined(__arm__) && !defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__)
-	#undef  NN_TARGET_MAC
-	#define NN_TARGET_MAC											1
+	#undef  NN_TARGET_MACOS
+	#define NN_TARGET_MACOS											1
 #endif
 
 
@@ -60,7 +60,7 @@
 
 
 // Validate
-#if !NN_TARGET_MAC && !NN_TARGET_WINDOWS && !NN_TARGET_IOS && !NN_TARGET_LINUX
+#if !NN_TARGET_MACOS && !NN_TARGET_WINDOWS && !NN_TARGET_IOS && !NN_TARGET_LINUX
 	ERROR - Unable to identify target platform
 #endif
 
@@ -77,7 +77,7 @@
 
 
 // Mac
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#if defined(__ppc__) || defined(__ppc64__)
 		#undef  NN_TARGET_ENDIAN_BIG
 		#define NN_TARGET_ENDIAN_BIG								1
@@ -132,7 +132,7 @@
 
 
 // Mac
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#if defined(__x86_64__) || defined(__ppc64__)
 		#undef  NN_TARGET_ARCH_64
 		#define NN_TARGET_ARCH_64									1

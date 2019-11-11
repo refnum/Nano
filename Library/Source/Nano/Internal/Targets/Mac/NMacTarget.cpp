@@ -199,7 +199,7 @@ NStatus NMacTarget::ConvertOSStatus(OSStatus osErr)
 	switch (osErr) {
 		case noErr:					theErr = kNoErr;					break;
 
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 		case paramErr:				theErr = kNErrParam;				break;
 		case kMPTimeoutErr:			theErr = kNErrTimeout;				break;
 		case memFullErr:			theErr = kNErrMemory;				break;

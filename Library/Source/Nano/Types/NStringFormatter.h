@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#include <CoreFoundation/CoreFoundation.h>
 
 	#if defined(__OBJC__)
@@ -100,7 +100,7 @@ typedef nfunctor<NString (const NString &theFormat)>				NFormatFunctor;
 
 
 // Obj-C
-#if NN_TARGET_MAC && !defined(__OBJC__)
+#if NN_TARGET_MACOS && !defined(__OBJC__)
 	typedef struct ptrNSObject *NSObject;
 #endif
 
@@ -129,7 +129,7 @@ public:
 
 										NFormatArgument(const NFormatFunctor &getValue);
 
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 										NFormatArgument(NSObject    *nsValue);
 										NFormatArgument(CFStringRef  cfValue);
 #endif

@@ -123,7 +123,7 @@ typedef enum {
 //
 // Allows portable code to insert a Mac auto-release pool within some scope,
 // without needing to create a platform-specific wrapper around that scope.
-#if NN_TARGET_MAC || NN_TARGET_IOS
+#if NN_TARGET_MACOS || NN_TARGET_IOS
 	#include "NNSAutoReleasePool.h"
 	
 	#define NN_MEMORY_POOL							StAutoReleasePool

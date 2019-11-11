@@ -14,7 +14,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#include "NCoreFoundation.h"
 	#include "NCocoa.h"
 #endif
@@ -120,7 +120,7 @@ NFormatArgument::NFormatArgument(const NString &theValue)			{	mGetValue = BindSe
 
 NFormatArgument::NFormatArgument(const NFormatFunctor &getValue)	{	mGetValue = getValue;	}
 
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 NFormatArgument::NFormatArgument(NSObject    *nsValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	kNArg1, ToNN([nsValue description]));	}
 NFormatArgument::NFormatArgument(CFStringRef  cfValue)				{	mGetValue = BindSelf(NFormatArgument::GetValueString,	kNArg1, ToNN(cfValue)              );	}
 #endif

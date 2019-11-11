@@ -187,7 +187,7 @@ static void DoNotification(CFNotificationCenterRef		/*cfCenter*/,
 //============================================================================
 //		GestaltInt32 : Get a gestalt value.
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 static int32_t GestaltInt32(OSType theSelector)
 {	SInt32		theValue;
 	OSStatus	theErr;
@@ -201,7 +201,7 @@ static int32_t GestaltInt32(OSType theSelector)
 	
 	return(theValue);
 }
-#endif // NN_TARGET_MAC
+#endif // NN_TARGET_MACOS
 
 
 
@@ -268,7 +268,7 @@ OSVersion NTargetSystem::GetOSVersion(void)
 
 
 	// Get the version
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	verTarget = (int32_t) kOSMac;
 	verMajor  = GestaltInt32(gestaltSystemVersionMajor);
 	verMinor  = GestaltInt32(gestaltSystemVersionMinor);
@@ -336,7 +336,7 @@ NString NTargetSystem::GetOSName(void)
 
 
 	// Get the name
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	theResult.Format("Mac OS %@", theResult);
 
 #elif NN_TARGET_IOS
@@ -418,7 +418,7 @@ NString NTargetSystem::GetSystemArch(void)
 
 
 	// Get the architecture
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	#if defined(__ppc__) || defined(__ppc64__)
 		theArch = "PPC";
 	#elif defined(__i386__) || defined(__x86_64__)

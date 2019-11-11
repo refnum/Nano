@@ -126,7 +126,7 @@ static NCFObject GetCFBundle(const NFile &theBundle)
 //----------------------------------------------------------------------------
 static NStatus CreateAlias(const NString &thePath, const NString &targetPath)
 {
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	FSRef				parentRef, aliasRef, targetRef;
 	NString				theParent, theName;
 	FSCatalogInfo		catalogInfo;
@@ -263,7 +263,7 @@ bool NTargetFile::IsDirectory(const NString &thePath)
 //----------------------------------------------------------------------------
 bool NTargetFile::IsLink(const NString &thePath)
 {
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	Boolean			isAlias, isFolder;
 	FSRef			theFSRef;
 	OSStatus		theErr;
@@ -282,7 +282,7 @@ bool NTargetFile::IsLink(const NString &thePath)
 
 
 	// Check for user links
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	if (!isLink)
 		{
 		theErr = FSPathMakeRef((const uint8_t *) thePath.GetUTF8(), &theFSRef, NULL);
@@ -399,7 +399,7 @@ NString NTargetFile::GetName(const NString &thePath, bool displayName)
 	// Get the display name
 	//
 	// Only files that exist have a display name, so we fall through on errors.
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	if (displayName)
 		{
 		if (cfURL.SetObject(CFURLCreateWithFileSystemPath(NULL, ToCF(thePath), kCFURLPOSIXPathStyle, IsDirectory(thePath))))
@@ -647,7 +647,7 @@ NString NTargetFile::GetParent(const NString &thePath)
 //----------------------------------------------------------------------------
 NString NTargetFile::GetTarget(const NString &thePath)
 {
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	Boolean			wasFolder, wasAlias;
 	NCFString		cfString;
 	FSRef			theFSRef;
@@ -676,7 +676,7 @@ NString NTargetFile::GetTarget(const NString &thePath)
 
 
 	// Resolve user links
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	theErr = FSPathMakeRef((const uint8_t *) theResult.GetUTF8(), &theFSRef, NULL);
 	if (theErr == kNoErr)
 		{
@@ -759,7 +759,7 @@ NStatus NTargetFile::Delete(const NString &thePath, bool moveToTrash)
 	// Move to the trash
 	if (moveToTrash)
 		{
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 		sysErr = FSPathMoveObjectToTrashSync(thePath.GetUTF8(), NULL, kFSFileOperationDefaultOptions);
 #else
 		NN_LOG("iOS does not support a trash");
@@ -941,7 +941,7 @@ NStatus NTargetFile::ExchangeWith(const NString &srcPath, const NString &dstPath
 //----------------------------------------------------------------------------
 NStatus NTargetFile::UnmountVolume(const NString &thePath)
 {
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	BOOL	wasOK;
 
 

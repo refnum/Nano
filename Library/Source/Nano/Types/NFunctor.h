@@ -16,7 +16,7 @@
 //============================================================================
 //		Include files
 //----------------------------------------------------------------------------
-#if NN_TARGET_MAC || NN_TARGET_IOS || NN_TARGET_LINUX
+#if NN_TARGET_MACOS || NN_TARGET_IOS || NN_TARGET_LINUX
 	#include <tr1/functional>
 #else
 	#include <functional>

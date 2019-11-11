@@ -182,7 +182,7 @@ public:
 
 
 	// Mac-specific CF operators
-#if NN_TARGET_MAC
+#if NN_TARGET_MACOS
 	NCFOBJECT_OPERATOR(CFHTTPMessageRef)
 	NCFOBJECT_OPERATOR(CFXMLNodeRef)
 	NCFOBJECT_OPERATOR(CFXMLTreeRef)
@@ -194,7 +194,7 @@ public:
 	NCFOBJECT_OPERATOR(PasteboardRef)
     NCFOBJECT_OPERATOR(SKIndexRef)
     NCFOBJECT_OPERATOR(SKSearchRef)
-#endif // NN_TARGET_MAC
+#endif // NN_TARGET_MACOS
 
 
 private:
