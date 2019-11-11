@@ -21,6 +21,178 @@
 		AB01819616BAA03C0033152D /* sqlite_3.7.17.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.17.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
 		AB03E58E237A09EC00FACADF /* NLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB03E58D237A09EC00FACADF /* NLogOutput.cpp */; };
 		AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB03E58D237A09EC00FACADF /* NLogOutput.cpp */; };
+		AB03E593237A0C5F00FACADF /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
+		AB03E594237A0C5F00FACADF /* NCocoa.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB00400E1096FCFD006029F9 /* NCocoa.mm */; };
+		AB03E595237A0C5F00FACADF /* NNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */; };
+		AB03E596237A0C5F00FACADF /* NNSSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB003FDE1096FC56006029F9 /* NNSSingleton.mm */; };
+		AB03E597237A0C5F00FACADF /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */; };
+		AB03E598237A0C5F00FACADF /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5D8102AF78F0062E311 /* NCFData.cpp */; };
+		AB03E599237A0C5F00FACADF /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */; };
+		AB03E59A237A0C5F00FACADF /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
+		AB03E59B237A0C5F00FACADF /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
+		AB03E59C237A0C5F00FACADF /* NCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156770F9B5328009FFEAF /* NCFObject.cpp */; };
+		AB03E59D237A0C5F00FACADF /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		AB03E59E237A0C5F00FACADF /* NCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6781712AE55AA0077D64E /* NCFURL.cpp */; };
+		AB03E59F237A0C5F00FACADF /* NCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */; };
+		AB03E5A0237A0C5F00FACADF /* NCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */; };
+		AB03E5A1237A0C5F00FACADF /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
+		AB03E5A2237A0C5F00FACADF /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
+		AB03E5A3237A0C5F00FACADF /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
+		AB03E5A4237A0C5F00FACADF /* NCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00402A109700AD006029F9 /* NCoreGraphics.cpp */; };
+		AB03E5A5237A0C5F00FACADF /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
+		AB03E5A6237A0C5F00FACADF /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
+		AB03E5A7237A0C5F00FACADF /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
+		AB03E5A8237A0C5F00FACADF /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
+		AB03E5A9237A0C5F00FACADF /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
+		AB03E5AA237A0C5F00FACADF /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
+		AB03E5AB237A0C5F00FACADF /* NDBHandlePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */; };
+		AB03E5AC237A0C5F00FACADF /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
+		AB03E5AD237A0C5F00FACADF /* NDBResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAF1102B5B95009CA347 /* NDBResult.cpp */; };
+		AB03E5AE237A0C5F00FACADF /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
+		AB03E5AF237A0C5F00FACADF /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
+		AB03E5B0237A0C5F00FACADF /* NTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78CB1032398000DFBA38 /* NTimer.cpp */; };
+		AB03E5B1237A0C5F00FACADF /* NBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CC0FF36A34006F178C /* NBundle.cpp */; };
+		AB03E5B2237A0C5F00FACADF /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B660FB7243700C5A7FF /* NFile.cpp */; };
+		AB03E5B3237A0C5F00FACADF /* NFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */; };
+		AB03E5B4237A0C5F00FACADF /* NFileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78FB103241C200DFBA38 /* NFileMap.cpp */; };
+		AB03E5B5237A0C5F00FACADF /* NPropertyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CA0FF36A34006F178C /* NPropertyList.cpp */; };
+		AB03E5B6237A0C5F00FACADF /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1431F4103F5102002BD0D1 /* NColor.cpp */; };
+		AB03E5B7237A0C5F00FACADF /* NImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA2978F1767219500D938E5 /* NImage.cpp */; };
+		AB03E5B8237A0C5F00FACADF /* NPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E59103460CB00E5A6AD /* NPoint.cpp */; };
+		AB03E5B9237A0C5F00FACADF /* NRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5B103460CB00E5A6AD /* NRectangle.cpp */; };
+		AB03E5BA237A0C5F00FACADF /* NShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326B11046C6F000C8DF0A /* NShape.cpp */; };
+		AB03E5BB237A0C5F00FACADF /* NSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E5D103460CB00E5A6AD /* NSize.cpp */; };
+		AB03E5BC237A0C5F00FACADF /* NTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA181104E7CD300BB002B /* NTransform.cpp */; };
+		AB03E5BD237A0C5F00FACADF /* NVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E901034638700E5A6AD /* NVector.cpp */; };
+		AB03E5BE237A0C5F00FACADF /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146100FF36F84006F178C /* xmlparse.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5BF237A0C5F00FACADF /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146110FF36F84006F178C /* xmlrole.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C0237A0C5F00FACADF /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABB146130FF36F84006F178C /* xmltok.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C1237A0C5F00FACADF /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C2237A0C5F00FACADF /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D610028C8200F7D4B7 /* cdecode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C3237A0C5F00FACADF /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AB1694D810028C8200F7D4B7 /* cencode.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C4237A0C5F00FACADF /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C5237A0C5F00FACADF /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E70F9B4DD5009FFEAF /* pcre_compile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C6237A0C5F00FACADF /* pcre_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E80F9B4DD5009FFEAF /* pcre_config.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C7237A0C5F00FACADF /* pcre_dfa_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154E90F9B4DD5009FFEAF /* pcre_dfa_exec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C8237A0C5F00FACADF /* pcre_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EA0F9B4DD5009FFEAF /* pcre_exec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5C9237A0C5F00FACADF /* pcre_fullinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EB0F9B4DD5009FFEAF /* pcre_fullinfo.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5CA237A0C5F00FACADF /* pcre_get.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EC0F9B4DD5009FFEAF /* pcre_get.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5CB237A0C5F00FACADF /* pcre_globals.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154ED0F9B4DD5009FFEAF /* pcre_globals.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5CC237A0C5F00FACADF /* pcre_info.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154EE0F9B4DD5009FFEAF /* pcre_info.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5CD237A0C5F00FACADF /* pcre_maketables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F00F9B4DD5009FFEAF /* pcre_maketables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5CE237A0C5F00FACADF /* pcre_newline.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F10F9B4DD5009FFEAF /* pcre_newline.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5CF237A0C5F00FACADF /* pcre_ord2utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F20F9B4DD5009FFEAF /* pcre_ord2utf8.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D0237A0C5F00FACADF /* pcre_refcount.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F40F9B4DD5009FFEAF /* pcre_refcount.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D1237A0C5F00FACADF /* pcre_study.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F50F9B4DD5009FFEAF /* pcre_study.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D2237A0C5F00FACADF /* pcre_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F60F9B4DD5009FFEAF /* pcre_tables.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D3237A0C5F00FACADF /* pcre_try_flipped.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F70F9B4DD5009FFEAF /* pcre_try_flipped.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D4237A0C5F00FACADF /* pcre_ucd.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F80F9B4DD5009FFEAF /* pcre_ucd.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D5237A0C5F00FACADF /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154F90F9B4DD5009FFEAF /* pcre_valid_utf8.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D6237A0C5F00FACADF /* pcre_version.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FA0F9B4DD5009FFEAF /* pcre_version.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D7237A0C5F00FACADF /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D8237A0C5F00FACADF /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BB103AED18004B1F6E /* blowfish.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5D9237A0C5F00FACADF /* blowfish_dat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5DA237A0C5F00FACADF /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5DB237A0C5F00FACADF /* sqlite_3.7.17.c in Sources */ = {isa = PBXBuildFile; fileRef = AB01819316BAA03C0033152D /* sqlite_3.7.17.c */; settings = {COMPILER_FLAGS = "-w -fno-fast-math"; }; };
+		AB03E5DC237A0C5F00FACADF /* tero_des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5DD237A0C5F00FACADF /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = ABD68174167AAB9900CB2E04 /* json.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5DE237A0C5F00FACADF /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5DF237A0C5F00FACADF /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA67F1018AB360060ED12 /* adler32.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E0237A0C5F00FACADF /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6801018AB360060ED12 /* compress.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E1237A0C5F00FACADF /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E2237A0C5F00FACADF /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6831018AB360060ED12 /* deflate.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E3237A0C5F00FACADF /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6861018AB360060ED12 /* gzio.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E4237A0C5F00FACADF /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6871018AB360060ED12 /* infback.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E5237A0C5F00FACADF /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6881018AB360060ED12 /* inffast.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E6237A0C5F00FACADF /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68B1018AB360060ED12 /* inflate.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E7237A0C5F00FACADF /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68D1018AB360060ED12 /* inftrees.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E8237A0C5F00FACADF /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6901018AB360060ED12 /* trees.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5E9237A0C5F00FACADF /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6921018AB360060ED12 /* uncompr.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB03E5EA237A0C5F00FACADF /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6961018AB360060ED12 /* zutil.c */; };
+		AB03E5EB237A0C5F00FACADF /* NMacFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */; };
+		AB03E5EC237A0C5F00FACADF /* NMacMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */; };
+		AB03E5ED237A0C5F00FACADF /* NMacNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2212A531220052C55F /* NMacNetwork.cpp */; };
+		AB03E5EE237A0C5F00FACADF /* NMacPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */; };
+		AB03E5EF237A0C5F00FACADF /* NMacPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB146560FF37325006F178C /* NMacPreferences.cpp */; };
+		AB03E5F0237A0C5F00FACADF /* NMacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */; };
+		AB03E5F1237A0C5F00FACADF /* NMacTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */; };
+		AB03E5F2237A0C5F00FACADF /* NMacThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155250F9B4DD6009FFEAF /* NMacThread.cpp */; };
+		AB03E5F3237A0C5F00FACADF /* NMacTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155260F9B4DD6009FFEAF /* NMacTime.cpp */; };
+		AB03E5F4237A0C5F00FACADF /* NMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681641679DEC400CB2E04 /* NMessageClient.cpp */; };
+		AB03E5F5237A0C5F00FACADF /* NMessageEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */; };
+		AB03E5F6237A0C5F00FACADF /* NMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */; };
+		AB03E5F7237A0C5F00FACADF /* NNetworkBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */; };
+		AB03E5F8237A0C5F00FACADF /* NNetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2612A531220052C55F /* NNetworkManager.cpp */; };
+		AB03E5F9237A0C5F00FACADF /* NNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */; };
+		AB03E5FA237A0C5F00FACADF /* NNetworkService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529D516626C4E000C695B /* NNetworkService.cpp */; };
+		AB03E5FB237A0C5F00FACADF /* NSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD973F1663958F00EE07B7 /* NSocket.cpp */; };
+		AB03E5FC237A0C5F00FACADF /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
+		AB03E5FD237A0C5F00FACADF /* NURLRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2812A531220052C55F /* NURLRequest.cpp */; };
+		AB03E5FE237A0C5F00FACADF /* NURLResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C2A12A531220052C55F /* NURLResponse.cpp */; };
+		AB03E5FF237A0C5F00FACADF /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
+		AB03E600237A0C5F00FACADF /* NCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */; };
+		AB03E601237A0C5F00FACADF /* NCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */; };
+		AB03E602237A0C5F00FACADF /* NCacheValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */; };
+		AB03E603237A0C5F00FACADF /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
+		AB03E604237A0C5F00FACADF /* NDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */; };
+		AB03E605237A0C5F00FACADF /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
+		AB03E606237A0C5F00FACADF /* NDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */; };
+		AB03E607237A0C5F00FACADF /* NJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */; };
+		AB03E608237A0C5F00FACADF /* NLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */; };
+		AB03E609237A0C5F00FACADF /* NTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53A404109B237800817E89 /* NTask.cpp */; };
+		AB03E60A237A0C5F00FACADF /* NUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */; };
+		AB03E60B237A0C5F00FACADF /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */; };
+		AB03E60C237A0C5F00FACADF /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
+		AB03E60D237A0C5F00FACADF /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
+		AB03E60E237A0C5F00FACADF /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
+		AB03E60F237A0C5F00FACADF /* NAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155390F9B4DD6009FFEAF /* NAtomicInt.cpp */; };
+		AB03E610237A0C5F00FACADF /* NAtomicList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB39102B6565009CA347 /* NAtomicList.cpp */; };
+		AB03E611237A0C5F00FACADF /* NLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553B0F9B4DD6009FFEAF /* NLock.cpp */; };
+		AB03E612237A0C5F00FACADF /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
+		AB03E613237A0C5F00FACADF /* NReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */; };
+		AB03E614237A0C5F00FACADF /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
+		AB03E615237A0C5F00FACADF /* NSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E611753910100BB5983 /* NSpinLock.cpp */; };
+		AB03E616237A0C5F00FACADF /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
+		AB03E617237A0C5F00FACADF /* NThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */; };
+		AB03E618237A0C5F00FACADF /* NThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */; };
+		AB03E619237A0C5F00FACADF /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
+		AB03E61A237A0C5F00FACADF /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
+		AB03E61B237A0C5F00FACADF /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
+		AB03E61C237A0C5F00FACADF /* NComparable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155440F9B4DD6009FFEAF /* NComparable.cpp */; };
+		AB03E61D237A0C5F00FACADF /* NContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155460F9B4DD6009FFEAF /* NContainer.cpp */; };
+		AB03E61E237A0C5F00FACADF /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
+		AB03E61F237A0C5F00FACADF /* NDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554A0F9B4DD6009FFEAF /* NDate.cpp */; };
+		AB03E620237A0C5F00FACADF /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB669B4F10035285006CB82F /* NDateFormatter.cpp */; };
+		AB03E621237A0C5F00FACADF /* NDebuggable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E1CF017967C2100CCC36F /* NDebuggable.cpp */; };
+		AB03E622237A0C5F00FACADF /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
+		AB03E623237A0C5F00FACADF /* NEncodable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA555101871460060ED12 /* NEncodable.cpp */; };
+		AB03E624237A0C5F00FACADF /* NEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA554101871460060ED12 /* NEncoder.cpp */; };
+		AB03E625237A0C5F00FACADF /* NFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */; };
+		AB03E626237A0C5F00FACADF /* NHashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155520F9B4DD6009FFEAF /* NHashable.cpp */; };
+		AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB03E58D237A09EC00FACADF /* NLogOutput.cpp */; };
+		AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
+		AB03E629237A0C5F00FACADF /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
+		AB03E62A237A0C5F00FACADF /* NProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3B53A6143DCD9400EC0F55 /* NProgressable.cpp */; };
+		AB03E62B237A0C5F00FACADF /* NPropertyStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514F641035784000E5A6AD /* NPropertyStore.cpp */; };
+		AB03E62C237A0C5F00FACADF /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
+		AB03E62D237A0C5F00FACADF /* NRefCounted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */; };
+		AB03E62E237A0C5F00FACADF /* NSharedValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */; };
+		AB03E62F237A0C5F00FACADF /* NSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57CFD112ADBFA003D714C /* NSingleton.cpp */; };
+		AB03E630237A0C5F00FACADF /* NString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155620F9B4DD6009FFEAF /* NString.cpp */; };
+		AB03E631237A0C5F00FACADF /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155640F9B4DD6009FFEAF /* NStringEncoder.cpp */; };
+		AB03E632237A0C5F00FACADF /* NStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155660F9B4DD6009FFEAF /* NStringFormatter.cpp */; };
+		AB03E633237A0C5F00FACADF /* NUncopyable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */; };
+		AB03E634237A0C5F00FACADF /* NURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C4012A5327B0052C55F /* NURL.cpp */; };
+		AB03E635237A0C5F00FACADF /* NUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC621035B621007BC4E6 /* NUTI.cpp */; };
+		AB03E636237A0C5F00FACADF /* NVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155680F9B4DD6009FFEAF /* NVariant.cpp */; };
+		AB03E637237A0C5F00FACADF /* NFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */; };
+		AB03E638237A0C5F00FACADF /* NGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */; };
+		AB03E639237A0C5F00FACADF /* NMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */; };
+		AB03E63A237A0C5F00FACADF /* NSTLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91556F0F9B4DD6009FFEAF /* NSTLUtilities.cpp */; };
+		AB03E63B237A0C5F00FACADF /* NSystemUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */; };
+		AB03E63C237A0C5F00FACADF /* NTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB35B34210011269009B75EF /* NTextUtilities.cpp */; };
+		AB03E63D237A0C5F00FACADF /* NThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */; };
+		AB03E63E237A0C5F00FACADF /* NTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155750F9B4DD6009FFEAF /* NTimeUtilities.cpp */; };
 		AB078D2911D4A988006C9347 /* NUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB078D2811D4A988006C9347 /* NUIKit.mm */; };
 		AB103B6310B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
 		AB103B6410B6AFFD00F425C5 /* NAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */; };
@@ -375,6 +547,8 @@
 		AB01819416BAA03C0033152D /* sqlite_3.7.17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.17.h; sourceTree = "<group>"; };
 		AB03E58C237A09EC00FACADF /* NLogOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLogOutput.h; sourceTree = "<group>"; };
 		AB03E58D237A09EC00FACADF /* NLogOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLogOutput.cpp; sourceTree = "<group>"; };
+		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
+		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
 		AB078D2811D4A988006C9347 /* NUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NUIKit.mm; sourceTree = "<group>"; };
 		AB103B6110B6AFFD00F425C5 /* NAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAttributes.cpp; sourceTree = "<group>"; };
@@ -753,6 +927,7 @@
 			children = (
 				D2AAC06F0554671400DB518D /* libNano_macOS.a */,
 				AB28FBDD0FB5D36300F72C61 /* libNano_iOS.a */,
+				AB03E642237A0C5F00FACADF /* libNano_tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -993,6 +1168,7 @@
 			children = (
 				AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */,
 				AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */,
+				AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */,
 				AB8DBDE623777E6500619B6A /* Nano.xcconfig */,
 				AB8DBDE923777E6500619B6A /* Nano.lldb */,
 			);
@@ -1494,6 +1670,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AB03E591237A0C5F00FACADF /* Nano_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB03E63F237A0C5F00FACADF /* Build configuration list for PBXNativeTarget "Nano_tvOS" */;
+			buildPhases = (
+				AB03E592237A0C5F00FACADF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Nano_tvOS;
+			productName = Nano;
+			productReference = AB03E642237A0C5F00FACADF /* libNano_tvOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		AB28FBDC0FB5D36300F72C61 /* Nano_iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB28FBE00FB5D38100F72C61 /* Build configuration list for PBXNativeTarget "Nano_iOS" */;
@@ -1549,11 +1740,191 @@
 			targets = (
 				AB28FBDC0FB5D36300F72C61 /* Nano_iOS */,
 				D2AAC06E0554671400DB518D /* Nano_macOS */,
+				AB03E591237A0C5F00FACADF /* Nano_tvOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AB03E592237A0C5F00FACADF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB03E593237A0C5F00FACADF /* NTestFixture.cpp in Sources */,
+				AB03E594237A0C5F00FACADF /* NCocoa.mm in Sources */,
+				AB03E595237A0C5F00FACADF /* NNSAutoReleasePool.mm in Sources */,
+				AB03E596237A0C5F00FACADF /* NNSSingleton.mm in Sources */,
+				AB03E597237A0C5F00FACADF /* NCFArray.cpp in Sources */,
+				AB03E598237A0C5F00FACADF /* NCFData.cpp in Sources */,
+				AB03E599237A0C5F00FACADF /* NCFDate.cpp in Sources */,
+				AB03E59A237A0C5F00FACADF /* NCFDictionary.cpp in Sources */,
+				AB03E59B237A0C5F00FACADF /* NCFNumber.cpp in Sources */,
+				AB03E59C237A0C5F00FACADF /* NCFObject.cpp in Sources */,
+				AB03E59D237A0C5F00FACADF /* NCFString.cpp in Sources */,
+				AB03E59E237A0C5F00FACADF /* NCFURL.cpp in Sources */,
+				AB03E59F237A0C5F00FACADF /* NCoreFoundation.cpp in Sources */,
+				AB03E5A0237A0C5F00FACADF /* NCGColor.cpp in Sources */,
+				AB03E5A1237A0C5F00FACADF /* NCGContext.cpp in Sources */,
+				AB03E5A2237A0C5F00FACADF /* NCGImage.cpp in Sources */,
+				AB03E5A3237A0C5F00FACADF /* NCGShading.cpp in Sources */,
+				AB03E5A4237A0C5F00FACADF /* NCoreGraphics.cpp in Sources */,
+				AB03E5A5237A0C5F00FACADF /* NCommandLine.cpp in Sources */,
+				AB03E5A6237A0C5F00FACADF /* NPreferences.cpp in Sources */,
+				AB03E5A7237A0C5F00FACADF /* NUndoManager.cpp in Sources */,
+				AB03E5A8237A0C5F00FACADF /* NUndoSource.cpp in Sources */,
+				AB03E5A9237A0C5F00FACADF /* NDebug.cpp in Sources */,
+				AB03E5AA237A0C5F00FACADF /* NDBHandle.cpp in Sources */,
+				AB03E5AB237A0C5F00FACADF /* NDBHandlePool.cpp in Sources */,
+				AB03E5AC237A0C5F00FACADF /* NDBQuery.cpp in Sources */,
+				AB03E5AD237A0C5F00FACADF /* NDBResult.cpp in Sources */,
+				AB03E5AE237A0C5F00FACADF /* NBroadcaster.cpp in Sources */,
+				AB03E5AF237A0C5F00FACADF /* NListener.cpp in Sources */,
+				AB03E5B0237A0C5F00FACADF /* NTimer.cpp in Sources */,
+				AB03E5B1237A0C5F00FACADF /* NBundle.cpp in Sources */,
+				AB03E5B2237A0C5F00FACADF /* NFile.cpp in Sources */,
+				AB03E5B3237A0C5F00FACADF /* NFileIterator.cpp in Sources */,
+				AB03E5B4237A0C5F00FACADF /* NFileMap.cpp in Sources */,
+				AB03E5B5237A0C5F00FACADF /* NPropertyList.cpp in Sources */,
+				AB03E5B6237A0C5F00FACADF /* NColor.cpp in Sources */,
+				AB03E5B7237A0C5F00FACADF /* NImage.cpp in Sources */,
+				AB03E5B8237A0C5F00FACADF /* NPoint.cpp in Sources */,
+				AB03E5B9237A0C5F00FACADF /* NRectangle.cpp in Sources */,
+				AB03E5BA237A0C5F00FACADF /* NShape.cpp in Sources */,
+				AB03E5BB237A0C5F00FACADF /* NSize.cpp in Sources */,
+				AB03E5BC237A0C5F00FACADF /* NTransform.cpp in Sources */,
+				AB03E5BD237A0C5F00FACADF /* NVector.cpp in Sources */,
+				AB03E5BE237A0C5F00FACADF /* xmlparse.c in Sources */,
+				AB03E5BF237A0C5F00FACADF /* xmlrole.c in Sources */,
+				AB03E5C0237A0C5F00FACADF /* xmltok.c in Sources */,
+				AB03E5C1237A0C5F00FACADF /* fm_md5.c in Sources */,
+				AB03E5C2237A0C5F00FACADF /* cdecode.c in Sources */,
+				AB03E5C3237A0C5F00FACADF /* cencode.c in Sources */,
+				AB03E5C4237A0C5F00FACADF /* pcre_chartables.c in Sources */,
+				AB03E5C5237A0C5F00FACADF /* pcre_compile.c in Sources */,
+				AB03E5C6237A0C5F00FACADF /* pcre_config.c in Sources */,
+				AB03E5C7237A0C5F00FACADF /* pcre_dfa_exec.c in Sources */,
+				AB03E5C8237A0C5F00FACADF /* pcre_exec.c in Sources */,
+				AB03E5C9237A0C5F00FACADF /* pcre_fullinfo.c in Sources */,
+				AB03E5CA237A0C5F00FACADF /* pcre_get.c in Sources */,
+				AB03E5CB237A0C5F00FACADF /* pcre_globals.c in Sources */,
+				AB03E5CC237A0C5F00FACADF /* pcre_info.c in Sources */,
+				AB03E5CD237A0C5F00FACADF /* pcre_maketables.c in Sources */,
+				AB03E5CE237A0C5F00FACADF /* pcre_newline.c in Sources */,
+				AB03E5CF237A0C5F00FACADF /* pcre_ord2utf8.c in Sources */,
+				AB03E5D0237A0C5F00FACADF /* pcre_refcount.c in Sources */,
+				AB03E5D1237A0C5F00FACADF /* pcre_study.c in Sources */,
+				AB03E5D2237A0C5F00FACADF /* pcre_tables.c in Sources */,
+				AB03E5D3237A0C5F00FACADF /* pcre_try_flipped.c in Sources */,
+				AB03E5D4237A0C5F00FACADF /* pcre_ucd.c in Sources */,
+				AB03E5D5237A0C5F00FACADF /* pcre_valid_utf8.c in Sources */,
+				AB03E5D6237A0C5F00FACADF /* pcre_version.c in Sources */,
+				AB03E5D7237A0C5F00FACADF /* pcre_xclass.c in Sources */,
+				AB03E5D8237A0C5F00FACADF /* blowfish.c in Sources */,
+				AB03E5D9237A0C5F00FACADF /* blowfish_dat.c in Sources */,
+				AB03E5DA237A0C5F00FACADF /* sha2.c in Sources */,
+				AB03E5DB237A0C5F00FACADF /* sqlite_3.7.17.c in Sources */,
+				AB03E5DC237A0C5F00FACADF /* tero_des.cpp in Sources */,
+				AB03E5DD237A0C5F00FACADF /* json.c in Sources */,
+				AB03E5DE237A0C5F00FACADF /* ConvertUTF.c in Sources */,
+				AB03E5DF237A0C5F00FACADF /* adler32.c in Sources */,
+				AB03E5E0237A0C5F00FACADF /* compress.c in Sources */,
+				AB03E5E1237A0C5F00FACADF /* crc32.c in Sources */,
+				AB03E5E2237A0C5F00FACADF /* deflate.c in Sources */,
+				AB03E5E3237A0C5F00FACADF /* gzio.c in Sources */,
+				AB03E5E4237A0C5F00FACADF /* infback.c in Sources */,
+				AB03E5E5237A0C5F00FACADF /* inffast.c in Sources */,
+				AB03E5E6237A0C5F00FACADF /* inflate.c in Sources */,
+				AB03E5E7237A0C5F00FACADF /* inftrees.c in Sources */,
+				AB03E5E8237A0C5F00FACADF /* trees.c in Sources */,
+				AB03E5E9237A0C5F00FACADF /* uncompr.c in Sources */,
+				AB03E5EA237A0C5F00FACADF /* zutil.c in Sources */,
+				AB03E5EB237A0C5F00FACADF /* NMacFile.cpp in Sources */,
+				AB03E5EC237A0C5F00FACADF /* NMacMath.cpp in Sources */,
+				AB03E5ED237A0C5F00FACADF /* NMacNetwork.cpp in Sources */,
+				AB03E5EE237A0C5F00FACADF /* NMacPOSIX.cpp in Sources */,
+				AB03E5EF237A0C5F00FACADF /* NMacPreferences.cpp in Sources */,
+				AB03E5F0237A0C5F00FACADF /* NMacSystem.cpp in Sources */,
+				AB03E5F1237A0C5F00FACADF /* NMacTarget.cpp in Sources */,
+				AB03E5F2237A0C5F00FACADF /* NMacThread.cpp in Sources */,
+				AB03E5F3237A0C5F00FACADF /* NMacTime.cpp in Sources */,
+				AB03E5F4237A0C5F00FACADF /* NMessageClient.cpp in Sources */,
+				AB03E5F5237A0C5F00FACADF /* NMessageEntity.cpp in Sources */,
+				AB03E5F6237A0C5F00FACADF /* NMessageServer.cpp in Sources */,
+				AB03E5F7237A0C5F00FACADF /* NNetworkBrowser.cpp in Sources */,
+				AB03E5F8237A0C5F00FACADF /* NNetworkManager.cpp in Sources */,
+				AB03E5F9237A0C5F00FACADF /* NNetworkMessage.cpp in Sources */,
+				AB03E5FA237A0C5F00FACADF /* NNetworkService.cpp in Sources */,
+				AB03E5FB237A0C5F00FACADF /* NSocket.cpp in Sources */,
+				AB03E5FC237A0C5F00FACADF /* NSocketRequest.cpp in Sources */,
+				AB03E5FD237A0C5F00FACADF /* NURLRequest.cpp in Sources */,
+				AB03E5FE237A0C5F00FACADF /* NURLResponse.cpp in Sources */,
+				AB03E5FF237A0C5F00FACADF /* NByteSwap.cpp in Sources */,
+				AB03E600237A0C5F00FACADF /* NCache.cpp in Sources */,
+				AB03E601237A0C5F00FACADF /* NCacheKey.cpp in Sources */,
+				AB03E602237A0C5F00FACADF /* NCacheValue.cpp in Sources */,
+				AB03E603237A0C5F00FACADF /* NDataCipher.cpp in Sources */,
+				AB03E604237A0C5F00FACADF /* NDataCompressor.cpp in Sources */,
+				AB03E605237A0C5F00FACADF /* NDataDigest.cpp in Sources */,
+				AB03E606237A0C5F00FACADF /* NDataEncoder.cpp in Sources */,
+				AB03E607237A0C5F00FACADF /* NJSONEncoder.cpp in Sources */,
+				AB03E608237A0C5F00FACADF /* NLocale.cpp in Sources */,
+				AB03E609237A0C5F00FACADF /* NTask.cpp in Sources */,
+				AB03E60A237A0C5F00FACADF /* NUnicodeParser.cpp in Sources */,
+				AB03E60B237A0C5F00FACADF /* NUTIRegistry.cpp in Sources */,
+				AB03E60C237A0C5F00FACADF /* NXMLEncoder.cpp in Sources */,
+				AB03E60D237A0C5F00FACADF /* NXMLNode.cpp in Sources */,
+				AB03E60E237A0C5F00FACADF /* NXMLParser.cpp in Sources */,
+				AB03E60F237A0C5F00FACADF /* NAtomicInt.cpp in Sources */,
+				AB03E610237A0C5F00FACADF /* NAtomicList.cpp in Sources */,
+				AB03E611237A0C5F00FACADF /* NLock.cpp in Sources */,
+				AB03E612237A0C5F00FACADF /* NMutex.cpp in Sources */,
+				AB03E613237A0C5F00FACADF /* NReadWriteLock.cpp in Sources */,
+				AB03E614237A0C5F00FACADF /* NSemaphore.cpp in Sources */,
+				AB03E615237A0C5F00FACADF /* NSpinLock.cpp in Sources */,
+				AB03E616237A0C5F00FACADF /* NThread.cpp in Sources */,
+				AB03E617237A0C5F00FACADF /* NThreadPool.cpp in Sources */,
+				AB03E618237A0C5F00FACADF /* NThreadTask.cpp in Sources */,
+				AB03E619237A0C5F00FACADF /* NArray.cpp in Sources */,
+				AB03E61A237A0C5F00FACADF /* NAttributes.cpp in Sources */,
+				AB03E61B237A0C5F00FACADF /* NBitVector.cpp in Sources */,
+				AB03E61C237A0C5F00FACADF /* NComparable.cpp in Sources */,
+				AB03E61D237A0C5F00FACADF /* NContainer.cpp in Sources */,
+				AB03E61E237A0C5F00FACADF /* NData.cpp in Sources */,
+				AB03E61F237A0C5F00FACADF /* NDate.cpp in Sources */,
+				AB03E620237A0C5F00FACADF /* NDateFormatter.cpp in Sources */,
+				AB03E621237A0C5F00FACADF /* NDebuggable.cpp in Sources */,
+				AB03E622237A0C5F00FACADF /* NDictionary.cpp in Sources */,
+				AB03E623237A0C5F00FACADF /* NEncodable.cpp in Sources */,
+				AB03E624237A0C5F00FACADF /* NEncoder.cpp in Sources */,
+				AB03E625237A0C5F00FACADF /* NFunctor.cpp in Sources */,
+				AB03E626237A0C5F00FACADF /* NHashable.cpp in Sources */,
+				AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */,
+				AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */,
+				AB03E629237A0C5F00FACADF /* NNumber.cpp in Sources */,
+				AB03E62A237A0C5F00FACADF /* NProgressable.cpp in Sources */,
+				AB03E62B237A0C5F00FACADF /* NPropertyStore.cpp in Sources */,
+				AB03E62C237A0C5F00FACADF /* NRange.cpp in Sources */,
+				AB03E62D237A0C5F00FACADF /* NRefCounted.cpp in Sources */,
+				AB03E62E237A0C5F00FACADF /* NSharedValue.cpp in Sources */,
+				AB03E62F237A0C5F00FACADF /* NSingleton.cpp in Sources */,
+				AB03E630237A0C5F00FACADF /* NString.cpp in Sources */,
+				AB03E631237A0C5F00FACADF /* NStringEncoder.cpp in Sources */,
+				AB03E632237A0C5F00FACADF /* NStringFormatter.cpp in Sources */,
+				AB03E633237A0C5F00FACADF /* NUncopyable.cpp in Sources */,
+				AB03E634237A0C5F00FACADF /* NURL.cpp in Sources */,
+				AB03E635237A0C5F00FACADF /* NUTI.cpp in Sources */,
+				AB03E636237A0C5F00FACADF /* NVariant.cpp in Sources */,
+				AB03E637237A0C5F00FACADF /* NFileUtilities.cpp in Sources */,
+				AB03E638237A0C5F00FACADF /* NGeometryUtilities.cpp in Sources */,
+				AB03E639237A0C5F00FACADF /* NMathUtilities.cpp in Sources */,
+				AB03E63A237A0C5F00FACADF /* NSTLUtilities.cpp in Sources */,
+				AB03E63B237A0C5F00FACADF /* NSystemUtilities.cpp in Sources */,
+				AB03E63C237A0C5F00FACADF /* NTextUtilities.cpp in Sources */,
+				AB03E63D237A0C5F00FACADF /* NThreadUtilities.cpp in Sources */,
+				AB03E63E237A0C5F00FACADF /* NTimeUtilities.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB28FBDA0FB5D36300F72C61 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1942,6 +2313,20 @@
 			};
 			name = Release;
 		};
+		AB03E640237A0C5F00FACADF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		AB03E641237A0C5F00FACADF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		AB28FBDE0FB5D36300F72C61 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */;
@@ -1973,6 +2358,15 @@
 			buildConfigurations = (
 				1DEB920608733DBB0010E9CD /* Debug */,
 				1DEB920708733DBB0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AB03E63F237A0C5F00FACADF /* Build configuration list for PBXNativeTarget "Nano_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB03E640237A0C5F00FACADF /* Debug */,
+				AB03E641237A0C5F00FACADF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
