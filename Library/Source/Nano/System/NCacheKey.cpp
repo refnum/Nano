@@ -272,7 +272,7 @@ NHashCode NCacheKey::SplitHi(const void *theValue)
 	// Split the pointer
 	intPtr = (uintptr_t) theValue;
 
-#if NN_TARGET_ARCH_32
+#if NN_ARCH_32
 	(void) intPtr;
 	thePart = 0;
 #else

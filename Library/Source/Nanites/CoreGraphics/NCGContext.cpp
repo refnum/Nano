@@ -86,7 +86,7 @@ public:
 //----------------------------------------------------------------------------
 static const CGFloat *ToCG(NIndex theSize, const float32_t *theValues, CGFloatList &cgValues)
 {
-#if NN_TARGET_ARCH_64
+#if NN_ARCH_64
 	NIndex	n;
 
 
@@ -115,7 +115,7 @@ static const CGFloat *ToCG(NIndex theSize, const float32_t *theValues, CGFloatLi
 //----------------------------------------------------------------------------
 static const CGPoint *ToCG(NIndex theSize, const NPoint *theValues, CGPointList &cgValues)
 {
-#if NN_TARGET_ARCH_64
+#if NN_ARCH_64
 	NIndex	n;
 
 

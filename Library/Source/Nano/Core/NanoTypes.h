@@ -60,7 +60,7 @@
 		typedef signed int											int32_t;
 		typedef signed long long									int64_t;
 
-		#if NN_TARGET_ARCH_32
+		#if NN_ARCH_32
 			typedef uint32_t										uintptr_t;
 		#else
 			typedef uint64_t										uintptr_t;

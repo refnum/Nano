@@ -605,7 +605,7 @@ NString NSystemUtilities::GetSystemArch(void)
 	// Get the architecture
 	theResult = NTargetSystem::GetSystemArch();
 
-	#if NN_TARGET_ARCH_64
+	#if NN_ARCH_64
 		theResult += "-64";
 	#endif
 	
