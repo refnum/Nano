@@ -25,45 +25,44 @@
 //		Target
 //----------------------------------------------------------------------------
 // Baseline
-#define NN_TARGET_IOS												0
-#define NN_TARGET_LINUX												0
-#define NN_TARGET_MACOS												0
-#define NN_TARGET_TVOS												0
-#define NN_TARGET_WINDOWS											0
-
+#define NN_TARGET_IOS										0
+#define NN_TARGET_LINUX										0
+#define NN_TARGET_MACOS										0
+#define NN_TARGET_TVOS										0
+#define NN_TARGET_WINDOWS									0
 
 // iOS
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && (defined(__arm__) || defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
 	#undef  NN_TARGET_IOS
-	#define NN_TARGET_IOS											1
+	#define NN_TARGET_IOS									1
 #endif
 
 
 // Linux
 #if defined(__linux__)
 	#undef  NN_TARGET_LINUX
-	#define NN_TARGET_LINUX											1
+	#define NN_TARGET_LINUX									1
 #endif
 
 
 // macOS
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && !defined(__arm__) && !defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__)
 	#undef  NN_TARGET_MACOS
-	#define NN_TARGET_MACOS											1
+	#define NN_TARGET_MACOS									1
 #endif
 
 
 // tvOS
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && defined(__ENVIRONMENT_TV_OS_VERSION_MIN_REQUIRED__) && !defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__)
 	#undef  NN_TARGET_TVOS
-	#define NN_TARGET_TVOS											1
+	#define NN_TARGET_TVOS									1
 #endif
 
 
 // Windows
 #if defined(_MSC_FULL_VER)
 	#undef  NN_TARGET_WINDOWS
-	#define NN_TARGET_WINDOWS										1
+	#define NN_TARGET_WINDOWS								1
 #endif
 
 
