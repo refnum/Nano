@@ -111,16 +111,10 @@ NLog* NLog::Get()
 //=============================================================================
 //		NLog::OutputMessage : Output a message.
 //-----------------------------------------------------------------------------
-void NLog::OutputMessage(const NLogMessage& logMsg) const
+void NLog::OutputMessage(const NLogMessage& logMsg)
 {
 	// Output the message
-	fprintf(stderr,
-			"%s %s %s %s %s\n",
-			logMsg.tokenLevel,
-			logMsg.tokenTime,
-			logMsg.tokenThread,
-			logMsg.tokenSource,
-			logMsg.logMsg);
+	mOutput.LogMessage(logMsg);
 }
 
 

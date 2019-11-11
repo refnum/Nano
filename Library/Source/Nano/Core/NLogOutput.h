@@ -1,8 +1,8 @@
 /*	NAME:
-		NLog.h
+		NLogOutput.h
 
 	DESCRIPTION:
-		Log system.
+		Log output.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -36,39 +36,11 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NLOG_H
-#define NLOG_H
+#ifndef NLOG_OUTPUT_H
+#define NLOG_OUTPUT_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NLogOutput.h"
-
-// System
-#include <stdarg.h>
-#include <stdlib.h>
-
-
-
-
-
-//=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-// Log levels
-//
-// The log level indicates the priority of the message.
-enum class NLogLevel
-{
-	Info,
-	Warning,
-	Error
-};
-
-
-// Misc
-static constexpr size_t kNLogMessageMax = 8 * 1024;
-static constexpr size_t kNLogTokenMax   = 128;
 
 
 
@@ -77,18 +49,30 @@ static constexpr size_t kNLogTokenMax   = 128;
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-struct NLogMessage
+struct NLogMessage;
+
+
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NLogOutput
 {
-	const char* filePath;
-	size_t      lineNum;
+public:
+										NLogOutput()          = default;
+	virtual                            ~NLogOutput()          = default;
 
-	NLogLevel logLevel;
-	char      logMsg[kNLogMessageMax];
+										NLogOutput(const NLogOutput&) = delete;
+	NLogOutput&                         operator=( const NLogOutput&) = delete;
 
-	char tokenLevel[kNLogTokenMax];
-	char tokenTime[kNLogTokenMax];
-	char tokenThread[kNLogTokenMax];
-	char tokenSource[kNLogTokenMax];
+										NLogOutput(NLogOutput&&) = delete;
+	NLogOutput&                         operator=( NLogOutput&&) = delete;
+
+
+	// Log a message
+	virtual void                        LogMessage(const NLogMessage& logMsg);
 };
 
 
@@ -98,50 +82,23 @@ struct NLogMessage
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NLog
+class NLogOutputConsole final : public NLogOutput
 {
 public:
-										NLog();
-									   ~NLog() = default;
+										NLogOutputConsole()          = default;
+	virtual                            ~NLogOutputConsole()          = default;
 
-										NLog(     const NLog&) = delete;
-	NLog&                               operator=(const NLog&) = delete;
+										NLogOutputConsole(const NLogOutputConsole&) = delete;
+	NLogOutputConsole&                  operator=(        const NLogOutputConsole&) = delete;
 
-										NLog(     NLog&&)  = delete;
-	NLog&                               operator=(NLog&&)  = delete;
+										NLogOutputConsole(NLogOutputConsole&&) = delete;
+	NLogOutputConsole&                  operator=(        NLogOutputConsole&&) = delete;
 
 
 	// Log a message
-	void                                Log(NLogLevel   logLevel,
-											const char* filePath,
-											size_t      lineNum,
-											const char* theMsg,
-											va_list     theArgs);
-
-
-	// Get the instance
-	static NLog*                        Get();
-
-
-private:
-	void                                OutputMessage(const NLogMessage& logMsg);
-
-	void                                FormatMessage(NLogMessage& logMsg,
-													  NLogLevel    logLevel,
-													  const char*  filePath,
-													  size_t       lineNum,
-													  const char*  theMsg,
-													  va_list      theArgs) const;
-
-	void                                FormatLevel( NLogMessage& logMsg) const;
-	void                                FormatTime(  NLogMessage& logMsg) const;
-	void                                FormatThread(NLogMessage& logMsg) const;
-	void                                FormatSource(NLogMessage& logMsg) const;
-
-
-private:
-	NLogOutputConsole                   mOutput;
+	void                                LogMessage(const NLogMessage& logMsg);
 };
 
 
-#endif // NLOG_H
+
+#endif // NLOG_OUTPUT_H
