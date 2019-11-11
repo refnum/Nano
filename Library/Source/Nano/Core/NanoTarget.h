@@ -217,17 +217,17 @@
 //		Compiler
 //----------------------------------------------------------------------------
 // Baseline
-#define NN_TARGET_COMPILER_CLANG									0
-#define NN_TARGET_COMPILER_GCC										0
-#define NN_TARGET_COMPILER_MSC										0
+#define NN_COMPILER_CLANG							0
+#define NN_COMPILER_GCC								0
+#define NN_COMPILER_MSC								0
 
 
 // Clang
 #if defined(__clang__)
-	#undef  NN_TARGET_COMPILER_CLANG
-	#define NN_TARGET_COMPILER_CLANG								((__clang_major__      * 10000 ) + \
-																	 (__clang_minor__      * 100   ) + \
-																	 (__clang_patchlevel__ * 1))
+	#undef  NN_COMPILER_CLANG
+	#define NN_COMPILER_CLANG						((__clang_major__      * 10000 ) + \
+													 (__clang_minor__      * 100   ) + \
+													 (__clang_patchlevel__ * 1))
 #endif
 
 
@@ -235,27 +235,23 @@
 //
 // Clang also defines __GNUC__
 #if defined(__GNUC__) && !defined(__clang__)
-	#undef  NN_TARGET_COMPILER_GCC
-	#define NN_TARGET_COMPILER_GCC									((__GNUC__            * 10000) + \
-																	 (__GNUC_MINOR__      * 100)   + \
-																	 (__GNUC_PATCHLEVEL__ * 1))
+	#undef  NN_COMPILER_GCC
+	#define NN_COMPILER_GCC							((__GNUC__            * 10000) + \
+													 (__GNUC_MINOR__      * 100)   + \
+													 (__GNUC_PATCHLEVEL__ * 1))
 #endif
 
 
 // Visual Studio
 #if defined(_MSC_FULL_VER)
-	#undef  NN_TARGET_COMPILER_MSC
-	#define NN_TARGET_COMPILER_MSC									_MSC_FULL_VER
+	#undef  NN_COMPILER_MSC
+	#define NN_COMPILER_MSC							_MSC_FULL_VER
 #endif
 
 
 // Validate
-#if (( (NN_TARGET_COMPILER_CLANG!=0) + (NN_TARGET_COMPILER_GCC!=0) + (NN_TARGET_COMPILER_MSC!=0)) == 0)
-	ERROR - Unable to identify target compiler
-#endif
-
-#if (( (NN_TARGET_COMPILER_CLANG!=0) + (NN_TARGET_COMPILER_GCC!=0) + (NN_TARGET_COMPILER_MSC!=0))  > 1)
-	ERROR - Unable to uniquely identify target compiler
+#if ( ((NN_COMPILER_CLANG != 0) + (NN_COMPILER_GCC != 0) + (NN_COMPILER_MSC != 0)) != 1)
+	#error Unable to identify compiler
 #endif
 
 

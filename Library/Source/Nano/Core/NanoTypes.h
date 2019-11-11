@@ -47,7 +47,7 @@
 //
 #if NN_TARGET_WINDOWS
 
-	#if NN_TARGET_COMPILER_MSC >= 160000000
+	#if NN_COMPILER_MSC >= 160000000
 		#include <stdint.h>
 	#else
 		typedef unsigned char										uint8_t;
