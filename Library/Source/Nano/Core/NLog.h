@@ -1,8 +1,8 @@
 /*	NAME:
-		NLogger.h
+		NLog.h
 
 	DESCRIPTION:
-		Logger.
+		Log system.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -36,8 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NLOGGER_H
-#define NLOGGER_H
+#ifndef NLOG_H
+#define NLOG_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -52,11 +52,40 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
+// Log levels
+//
+// The log level indicates the priority of the message.
 enum class NLogLevel
 {
 	Info,
 	Warning,
 	Error
+};
+
+
+// Misc
+static constexpr size_t kNLogMessageMax = 8 * 1024;
+static constexpr size_t kNLogTokenMax   = 128;
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+struct NLogMessage
+{
+	const char* filePath;
+	size_t      lineNum;
+
+	NLogLevel logLevel;
+	char      logMsg[kNLogMessageMax];
+
+	char tokenLevel[kNLogTokenMax];
+	char tokenTime[kNLogTokenMax];
+	char tokenThread[kNLogTokenMax];
+	char tokenSource[kNLogTokenMax];
 };
 
 
@@ -66,35 +95,46 @@ enum class NLogLevel
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NLogger
+class NLog
 {
 public:
-										NLogger();
-									   ~NLogger() = default;
+										NLog();
+									   ~NLog() = default;
 
-										NLogger(  const NLogger&) = delete;
-	NLogger&                            operator=(const NLogger&) = delete;
+										NLog(     const NLog&) = delete;
+	NLog&                               operator=(const NLog&) = delete;
 
-										NLogger(  NLogger&&) = delete;
-	NLogger&                            operator=(NLogger&&) = delete;
+										NLog(     NLog&&)  = delete;
+	NLog&                               operator=(NLog&&)  = delete;
 
 
 	// Log a message
 	void                                Log(NLogLevel   logLevel,
-											const char* fileName,
+											const char* filePath,
 											size_t      lineNum,
 											const char* theMsg,
 											va_list     theArgs);
 
 
 	// Get the instance
-	static NLogger*                     Get();
+	static NLog*                        Get();
 
 
 private:
-	const char*                         GetTokenLevel(NLogLevel logLevel)    const;
-	const char*                         GetTokenSource(const char* fileName) const;
+	void                                OutputMessage(const NLogMessage& logMsg) const;
+
+	void                                FormatMessage(NLogMessage& logMsg,
+													  NLogLevel    logLevel,
+													  const char*  filePath,
+													  size_t       lineNum,
+													  const char*  theMsg,
+													  va_list      theArgs) const;
+
+	void                                FormatLevel( NLogMessage& logMsg) const;
+	void                                FormatTime(  NLogMessage& logMsg) const;
+	void                                FormatThread(NLogMessage& logMsg) const;
+	void                                FormatSource(NLogMessage& logMsg) const;
 };
 
 
-#endif // NLOGGER_H
+#endif // NLOG_H
