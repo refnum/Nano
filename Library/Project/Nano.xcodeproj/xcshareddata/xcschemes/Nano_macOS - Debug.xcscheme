@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D2AAC06E0554671400DB518D"
-               BuildableName = "libNano.a"
+               BuildableName = "libNano_macOS.a"
                BlueprintName = "Nano_macOS"
                ReferencedContainer = "container:Nano.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D2AAC06E0554671400DB518D"
-            BuildableName = "libNano.a"
+            BuildableName = "libNano_macOS.a"
             BlueprintName = "Nano_macOS"
             ReferencedContainer = "container:Nano.xcodeproj">
          </BuildableReference>
