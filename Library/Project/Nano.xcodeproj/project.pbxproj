@@ -539,7 +539,6 @@
 		AB9155050F9B4DD5009FFEAF /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
 		AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCommandLine.cpp; sourceTree = "<group>"; };
 		AB9155080F9B4DD5009FFEAF /* NCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCommandLine.h; sourceTree = "<group>"; };
-		AB91550A0F9B4DD5009FFEAF /* Nano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano.h; sourceTree = "<group>"; };
 		AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTarget.h; sourceTree = "<group>"; };
 		AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTypes.h; sourceTree = "<group>"; };
 		AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
@@ -1148,7 +1147,6 @@
 		AB9155090F9B4DD5009FFEAF /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				AB91550A0F9B4DD5009FFEAF /* Nano.h */,
 				ABC877C5104522720047F707 /* NanoMacros.h */,
 				AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */,
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,
