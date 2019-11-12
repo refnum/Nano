@@ -101,9 +101,20 @@ USER_HEADER_SEARCH_PATHS = $(Nano_UHSP)
 
 
 //=============================================================================
+//		Compiler - Configuration
+//-----------------------------------------------------------------------------
+Nano_Configuration_Debug				= -DNN_DEBUG=1 -DNN_RELEASE=0
+Nano_Configuration_Release				= -DNN_DEBUG=0 -DNN_RELEASE=1
+Nano_Configuration						= Nano_Configuration_($CONFIGURATION)
+
+
+
+
+
+//=============================================================================
 //		Compiler - Misc
 //-----------------------------------------------------------------------------
-OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings)
+OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings) $(Nano_Configuration)
 
 
 
