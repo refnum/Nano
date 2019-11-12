@@ -83,7 +83,7 @@
 // Based on a PD implementation by Tom Torfs ("Binary constant macros").
 #define _NN_HEX(_n)                                         0x##_n##LU
 
-#define _NN_B8(_x)                                          \
+#define _NN_B8(_x)                                                              \
 	(uint8_t)(((_x & 0x0000000FLU) ? 1 : 0) | ((_x & 0x000000F0LU) ? 2 : 0) |   \
 			  ((_x & 0x00000F00LU) ? 4 : 0) | ((_x & 0x0000F000LU) ? 8 : 0) |   \
 			  ((_x & 0x000F0000LU) ? 16 : 0) | ((_x & 0x00F00000LU) ? 32 : 0) | \
@@ -94,9 +94,24 @@
 #define NN_B16(_byte1, _byte2)                              \
 	((((uint16_t) NN_B8(_byte1)) << 8) | (((uint16_t) NN_B8(_byte2)) << 0))
 
-#define NN_B32(_byte1, _byte2, _byte3, _byte4)              \
+#define NN_B32(_byte1, _byte2, _byte3, _byte4)                                  \
 	((((uint32_t) NN_B8(_byte1)) << 24) | (((uint32_t) NN_B8(_byte2)) << 16) |  \
 	 (((uint32_t) NN_B8(_byte3)) << 8) | (((uint32_t) NN_B8(_byte4)) << 0))
+
+
+// Format validation
+//
+// Example:
+//
+//		NN_VALIDATE_PRINTF(1, 2)
+//		void Print(const char* theMsg, ...);
+//
+#if NN_COMPILER_CLANG || NN_COMPILAER_GCC
+	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)  \
+		__attribute__((format(printf, _formatIndex, _firstParamIndex)))
+#else
+	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)
+#endif
 
 
 
