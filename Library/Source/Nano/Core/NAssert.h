@@ -77,7 +77,7 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _NN_REQUIRE(_condition, _message, ...)                                          \
+	#define _nn_require(_condition, _message, ...)                                          \
 		do                                                                                  \
 		{                                                                                   \
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                          \
@@ -87,20 +87,20 @@
 			}                                                                               \
 		} while (false)
 
-	#define _NN_REQUIRE_1(_condition)                       _NN_REQUIRE(_condition, "")
+	#define _nn_require_1(_condition)                       _nn_require(_condition, "")
 
-	#define _NN_REQUIRE_N(_condition, _message, ...)        \
-		_NN_REQUIRE(_condition, ", " _message, ##__VA_ARGS__)
+	#define _nn_require_N(_condition, _message, ...)        \
+		_nn_require(_condition, ", " _message, ##__VA_ARGS__)
 
-	#define _NN_REQUIRE_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
+	#define _nn_require_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
 
 	#define NN_REQUIRE(...)                                 \
-		_NN_REQUIRE_1_TO_N(__VA_ARGS__,                     \
-						   _NN_REQUIRE_N,                   \
-						   _NN_REQUIRE_N,                   \
-						   _NN_REQUIRE_N,                   \
-						   _NN_REQUIRE_N,                   \
-						   _NN_REQUIRE_1)                   \
+		_nn_require_1_TO_N(__VA_ARGS__,                     \
+						   _nn_require_N,                   \
+						   _nn_require_N,                   \
+						   _nn_require_N,                   \
+						   _nn_require_N,                   \
+						   _nn_require_1)                   \
 		(__VA_ARGS__)
 
 #else
@@ -127,7 +127,7 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _NN_EXPECT(_condition, _message, ...)                                           \
+	#define _nn_expect(_condition, _message, ...)                                           \
 		do                                                                                  \
 		{                                                                                   \
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                          \
@@ -136,20 +136,20 @@
 			}                                                                               \
 		} while (false)
 
-	#define _NN_EXPECT_1(_condition)                        _NN_EXPECT(_condition, "")
+	#define _nn_expect_1(_condition)                        _nn_expect(_condition, "")
 
-	#define _NN_EXPECT_N(_condition, _message, ...)         \
-		_NN_EXPECT(_condition, ", " _message, ##__VA_ARGS__)
+	#define _nn_expect_N(_condition, _message, ...)         \
+		_nn_expect(_condition, ", " _message, ##__VA_ARGS__)
 
-	#define _NN_EXPECT_1_TO_N(_0, _1, _2, _3, _4, _5, ...)  _5
+	#define _nn_expect_1_TO_N(_0, _1, _2, _3, _4, _5, ...)  _5
 
 	#define NN_EXPECT(...)                                  \
-		_NN_EXPECT_1_TO_N(__VA_ARGS__,                      \
-						  _NN_EXPECT_N,                     \
-						  _NN_EXPECT_N,                     \
-						  _NN_EXPECT_N,                     \
-						  _NN_EXPECT_N,                     \
-						  _NN_EXPECT_1)                     \
+		_nn_expect_1_TO_N(__VA_ARGS__,                      \
+						  _nn_expect_N,                     \
+						  _nn_expect_N,                     \
+						  _nn_expect_N,                     \
+						  _nn_expect_N,                     \
+						  _nn_expect_1)                     \
 		(__VA_ARGS__)
 
 #else
