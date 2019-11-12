@@ -67,8 +67,8 @@ enum class NLogLevel
 
 
 // Misc
-static constexpr size_t kNLogMessageMax = 8 * 1024;
-static constexpr size_t kNLogTokenMax   = 128;
+static constexpr size_t kNLogMessageMax                     = 8 * 1024;
+static constexpr size_t kNLogTokenMax                       = 128;
 
 
 

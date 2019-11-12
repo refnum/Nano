@@ -3,49 +3,75 @@
 
 	DESCRIPTION:
 		Nano macros.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NANO_MACROS_HDR
-#define NANO_MACROS_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NANO_MACROS_H
+#define NANO_MACROS_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Macros
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Mark unused parameters
-#define NN_UNUSED(_x)												(void) _x
+#define NN_UNUSED(_x)                                       (void) _x
 
 
 // Get the size of an array
-#define NN_ARRAY_SIZE(_a)											((NIndex) (sizeof((_a)) / sizeof((_a)[0])))
+#define NN_ARRAY_SIZE(_a)                                   ((NIndex)(sizeof((_a)) / sizeof((_a)[0])))
 
 
 // Get a clamped value
-#define NN_CLAMP_VALUE(_v, _min, _max)								std::min((_max), std::max((_min), (_v)))
+#define NN_CLAMP_VALUE(_v, _min, _max)                      std::min((_max), std::max((_min), (_v)))
 
 
 // Interpolate between values
-#define NN_LERP_VALUE(_start, _end, _progress)						( ((_start) * (1.0f - (_progress))) + ((_end) * (_progress)) )
+#define NN_LERP_VALUE(_start, _end, _progress)              \
+	(((_start) * (1.0f - (_progress))) + ((_end) * (_progress)))
 
 
 // Is an address aligned?
-#define NN_ALIGNED_TO(_value, _size)								((((uintptr_t) _value) % _size) == 0)
+#define NN_ALIGNED_TO(_value, _size)                        ((((uintptr_t) _value) % _size) == 0)
 
 
 // Is a bit set?
-#define NN_TEST_BIT(_value, _mask)									(((_value) & (_mask)) == (_mask))
+#define NN_TEST_BIT(_value, _mask)                          (((_value) & (_mask)) == (_mask))
 
 
 // Declare a binary constant
@@ -55,31 +81,23 @@
 //		NN_B32(10000000, 11111111, 10101010, 01010101)		= 2164238933
 //
 // Based on a PD implementation by Tom Torfs ("Binary constant macros").
-#define _NN_HEX(_n)	0x ## _n ## LU
+#define _NN_HEX(_n)                                         0x##_n##LU
 
-#define _NN_B8(_x)										(uint8_t)  (((_x & 0x0000000FLU) ?   1 : 0) | \
-																	((_x & 0x000000F0LU) ?   2 : 0) | \
-																	((_x & 0x00000F00LU) ?   4 : 0) | \
-																	((_x & 0x0000F000LU) ?   8 : 0) | \
-																	((_x & 0x000F0000LU) ?  16 : 0) | \
-																	((_x & 0x00F00000LU) ?  32 : 0) | \
-																	((_x & 0x0F000000LU) ?  64 : 0) | \
-																	((_x & 0xF0000000LU) ? 128 : 0))
+#define _NN_B8(_x)                                          \
+	(uint8_t)(((_x & 0x0000000FLU) ? 1 : 0) | ((_x & 0x000000F0LU) ? 2 : 0) |   \
+			  ((_x & 0x00000F00LU) ? 4 : 0) | ((_x & 0x0000F000LU) ? 8 : 0) |   \
+			  ((_x & 0x000F0000LU) ? 16 : 0) | ((_x & 0x00F00000LU) ? 32 : 0) | \
+			  ((_x & 0x0F000000LU) ? 64 : 0) | ((_x & 0xF0000000LU) ? 128 : 0))
 
-#define NN_B8(_byte1)											(	(uint8_t) _NN_B8(_NN_HEX(_byte1)) )
+#define NN_B8(_byte1)                                       ((uint8_t) _NN_B8(_NN_HEX(_byte1)))
 
-#define NN_B16(_byte1, _byte2)									(	(((uint16_t) NN_B8(_byte1)) <<  8) | \
-																	(((uint16_t) NN_B8(_byte2)) <<  0) )
+#define NN_B16(_byte1, _byte2)                              \
+	((((uint16_t) NN_B8(_byte1)) << 8) | (((uint16_t) NN_B8(_byte2)) << 0))
 
-#define NN_B32(_byte1, _byte2, _byte3, _byte4)					(	(((uint32_t) NN_B8(_byte1)) << 24) | \
-																	(((uint32_t) NN_B8(_byte2)) << 16) | \
-																	(((uint32_t) NN_B8(_byte3)) <<  8) | \
-																	(((uint32_t) NN_B8(_byte4)) <<  0) )
-
-	
-	
-	
-#endif // NANO_MACROS_HDR
+#define NN_B32(_byte1, _byte2, _byte3, _byte4)              \
+	((((uint32_t) NN_B8(_byte1)) << 24) | (((uint32_t) NN_B8(_byte2)) << 16) |  \
+	 (((uint32_t) NN_B8(_byte3)) << 8) | (((uint32_t) NN_B8(_byte4)) << 0))
 
 
 
+#endif // NANO_MACROS_H

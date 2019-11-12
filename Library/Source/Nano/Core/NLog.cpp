@@ -52,9 +52,9 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kEmojiInfo    = "(I)";
-static constexpr const char* kEmojiWarning = "(W)";
-static constexpr const char* kEmojiError   = "(E)";
+static constexpr const char* kEmojiInfo                     = "(I)";
+static constexpr const char* kEmojiWarning                  = "(W)";
+static constexpr const char* kEmojiError                    = "(E)";
 
 
 
