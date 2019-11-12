@@ -114,5 +114,37 @@
 #endif
 
 
+// Indicate an expression is likely
+//
+// Example:
+//
+//		if (NN_EXPECT_LIKELY(theFlag == true))
+//		{
+//			DoSomething();
+//		}
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define NN_EXPECT_LIKELY(_condition)                    __builtin_expect((__condition), 1)
+#else
+	#define NN_EXPECT_LIKELY(_condition)                    __condition
+#endif
+
+
+// Indicate an expression is unlikely
+//
+// Example:
+//
+//		if (NN_EXPECT_UNLIKELY(theFlag == true))
+//		{
+//			DoSomething();
+//		}
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define NN_EXPECT_UNLIKELY(_condition)                  __builtin_expect((__condition), 0)
+#else
+	#define NN_EXPECT_UNLIKELY(_condition)                  __condition
+#endif
+
+
 
 #endif // NANO_MACROS_H
