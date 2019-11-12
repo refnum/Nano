@@ -860,6 +860,7 @@
 		ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTime.cpp; sourceTree = "<group>"; };
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
+		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
 		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
 		ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -1323,6 +1324,7 @@
 		AB9155090F9B4DD5009FFEAF /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				ABC272A7237B407E00D96FE6 /* NanoConstants.h */,
 				ABC877C5104522720047F707 /* NanoMacros.h */,
 				AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */,
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,
