@@ -153,6 +153,7 @@
 	#else
 		#undef  NN_ARCH_32
 		#define NN_ARCH_32									1
+	#endif
 #endif
 
 
@@ -189,6 +190,7 @@
 	#else
 		#undef  NN_ARCH_32
 		#define NN_ARCH_32									1
+	#endif
 #endif
 
 
