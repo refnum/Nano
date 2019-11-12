@@ -43,7 +43,6 @@
 		AB03E5A6237A0C5F00FACADF /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
 		AB03E5A7237A0C5F00FACADF /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
 		AB03E5A8237A0C5F00FACADF /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
-		AB03E5A9237A0C5F00FACADF /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
 		AB03E5AA237A0C5F00FACADF /* NDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAED102B5B95009CA347 /* NDBHandle.cpp */; };
 		AB03E5AB237A0C5F00FACADF /* NDBHandlePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */; };
 		AB03E5AC237A0C5F00FACADF /* NDBQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3325E81046696E00C8DF0A /* NDBQuery.cpp */; };
@@ -268,7 +267,6 @@
 		AB28FC180FB5D9F000F72C61 /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC1A0FB5D9F000F72C61 /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB28FC1B0FB5D9F000F72C61 /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
-		AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
 		AB28FC1D0FB5D9F000F72C61 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		AB28FC1E0FB5D9F000F72C61 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		AB28FC1F0FB5D9F000F72C61 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
@@ -380,7 +378,6 @@
 		AB91558A0F9B4DD6009FFEAF /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9154FB0F9B4DD5009FFEAF /* pcre_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB91558D0F9B4DD6009FFEAF /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
-		AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */; };
 		AB91558F0F9B4DD6009FFEAF /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		AB9155900F9B4DD6009FFEAF /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		AB9155910F9B4DD6009FFEAF /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
@@ -466,6 +463,9 @@
 		ABB95B8C0FB7250800C5A7FF /* NIOSTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */; };
 		ABBBB56D16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
 		ABBBB56E16664A80003DEB1D /* NSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */; };
+		ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
+		ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
+		ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC75E631753910200BB5983 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABC75E641753910200BB5983 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABC75E651753910200BB5983 /* NReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */; };
@@ -715,8 +715,6 @@
 		AB9155080F9B4DD5009FFEAF /* NCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCommandLine.h; sourceTree = "<group>"; };
 		AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTarget.h; sourceTree = "<group>"; };
 		AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTypes.h; sourceTree = "<group>"; };
-		AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
-		AB91550F0F9B4DD5009FFEAF /* NDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebug.h; sourceTree = "<group>"; };
 		AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBroadcaster.cpp; sourceTree = "<group>"; };
 		AB9155120F9B4DD5009FFEAF /* NBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBroadcaster.h; sourceTree = "<group>"; };
 		AB9155130F9B4DD5009FFEAF /* NListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NListener.cpp; sourceTree = "<group>"; };
@@ -861,6 +859,8 @@
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
+		ABC272A8237B72EE00D96FE6 /* NAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAssert.cpp; sourceTree = "<group>"; };
+		ABC272A9237B72EE00D96FE6 /* NAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAssert.h; sourceTree = "<group>"; };
 		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
 		ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -1328,8 +1328,8 @@
 				ABC877C5104522720047F707 /* NanoMacros.h */,
 				AB91550C0F9B4DD5009FFEAF /* NanoTarget.h */,
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,
-				AB91550E0F9B4DD5009FFEAF /* NDebug.cpp */,
-				AB91550F0F9B4DD5009FFEAF /* NDebug.h */,
+				ABC272A8237B72EE00D96FE6 /* NAssert.cpp */,
+				ABC272A9237B72EE00D96FE6 /* NAssert.h */,
 				AB25E7B2237A0302009F31B3 /* NLog.cpp */,
 				AB25E7B3237A0303009F31B3 /* NLog.h */,
 				AB03E58D237A09EC00FACADF /* NLogOutput.cpp */,
@@ -1774,7 +1774,6 @@
 				AB03E5A6237A0C5F00FACADF /* NPreferences.cpp in Sources */,
 				AB03E5A7237A0C5F00FACADF /* NUndoManager.cpp in Sources */,
 				AB03E5A8237A0C5F00FACADF /* NUndoSource.cpp in Sources */,
-				AB03E5A9237A0C5F00FACADF /* NDebug.cpp in Sources */,
 				AB03E5AA237A0C5F00FACADF /* NDBHandle.cpp in Sources */,
 				AB03E5AB237A0C5F00FACADF /* NDBHandlePool.cpp in Sources */,
 				AB03E5AC237A0C5F00FACADF /* NDBQuery.cpp in Sources */,
@@ -1830,6 +1829,7 @@
 				AB03E5DE237A0C5F00FACADF /* ConvertUTF.c in Sources */,
 				AB03E5DF237A0C5F00FACADF /* adler32.c in Sources */,
 				AB03E5E0237A0C5F00FACADF /* compress.c in Sources */,
+				ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				AB03E5E1237A0C5F00FACADF /* crc32.c in Sources */,
 				AB03E5E2237A0C5F00FACADF /* deflate.c in Sources */,
 				AB03E5E3237A0C5F00FACADF /* gzio.c in Sources */,
@@ -1954,7 +1954,6 @@
 				ABB145420FF2C4EF006F178C /* NPreferences.cpp in Sources */,
 				AB1A78A2103234BE00DFBA38 /* NUndoManager.cpp in Sources */,
 				AB1A78A1103234BE00DFBA38 /* NUndoSource.cpp in Sources */,
-				AB28FC1C0FB5D9F000F72C61 /* NDebug.cpp in Sources */,
 				AB23BAF9102B5B96009CA347 /* NDBHandle.cpp in Sources */,
 				AB23BAFA102B5B96009CA347 /* NDBHandlePool.cpp in Sources */,
 				AB3325EB1046696E00C8DF0A /* NDBQuery.cpp in Sources */,
@@ -2047,6 +2046,7 @@
 				ABED2B7D10BFE28900EA8ECC /* NCacheValue.cpp in Sources */,
 				AB7AAFD7103AC4EF004B1F6E /* NDataCipher.cpp in Sources */,
 				ABFAA7131018B3810060ED12 /* NDataCompressor.cpp in Sources */,
+				ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				AB7AB0DB103ADEDD004B1F6E /* NDataDigest.cpp in Sources */,
 				AB8CE2B6104D5F7000306EDC /* NDataEncoder.cpp in Sources */,
 				ABD6817B167AB1FE00CB2E04 /* NJSONEncoder.cpp in Sources */,
@@ -2133,7 +2133,6 @@
 				ABB1453F0FF2C4DA006F178C /* NPreferences.cpp in Sources */,
 				AB1A78A4103234BE00DFBA38 /* NUndoManager.cpp in Sources */,
 				AB1A78A3103234BE00DFBA38 /* NUndoSource.cpp in Sources */,
-				AB91558E0F9B4DD6009FFEAF /* NDebug.cpp in Sources */,
 				AB23BAF5102B5B95009CA347 /* NDBHandle.cpp in Sources */,
 				AB23BAF6102B5B96009CA347 /* NDBHandlePool.cpp in Sources */,
 				AB3325EA1046696E00C8DF0A /* NDBQuery.cpp in Sources */,
@@ -2189,6 +2188,7 @@
 				AB91558C0F9B4DD6009FFEAF /* ConvertUTF.c in Sources */,
 				ABFAA6981018AB360060ED12 /* adler32.c in Sources */,
 				ABFAA6991018AB360060ED12 /* compress.c in Sources */,
+				ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				ABFAA69A1018AB360060ED12 /* crc32.c in Sources */,
 				ABFAA69B1018AB360060ED12 /* deflate.c in Sources */,
 				ABFAA69D1018AB360060ED12 /* gzio.c in Sources */,
