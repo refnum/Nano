@@ -60,7 +60,7 @@
 //
 // Logging is enabled in debug builds.
 //
-#define NN_LOGGING                                          NN_DEBUG
+#define NN_ENABLE_LOGGING                                   NN_DEBUG
 
 
 // Log a message
@@ -73,7 +73,7 @@
 //
 //		NN_LOG_ERROR("Something has gone wrong!");
 //
-#if NN_LOGGING
+#if NN_ENABLE_LOGGING
 
 	#define NN_LOG_INFO(...)                                            \
 		do                                                              \
