@@ -42,6 +42,7 @@
 #include "NLog.h"
 
 // System
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -61,16 +62,27 @@ static constexpr const char* kEmojiError                    = "(E)";
 
 
 //=============================================================================
-//		NLog::NLog : Constructor.
+//		Public Functions
 //-----------------------------------------------------------------------------
-NLog::NLog()
+//		NanoLog : Log a message.
+//-----------------------------------------------------------------------------
+void NanoLog(NLogLevel logLevel, const char* filePath, size_t lineNum, const char* theMsg, ...)
 {
+
+
+	// Log the message
+	va_list argList;
+
+	va_start(argList, theMsg);
+	NLog::Get()->Log(logLevel, filePath, lineNum, theMsg, argList);
+	va_end(argList);
 }
 
 
 
 
 
+#pragma mark NLog
 //=============================================================================
 //		NLog::Log : Log a message.
 //-----------------------------------------------------------------------------
@@ -80,6 +92,8 @@ void NLog::Log(NLogLevel   logLevel,
 			   const char* theMsg,
 			   va_list     theArgs)
 {
+
+
 	// Log the message
 	static thread_local NLogMessage sLogMsg;
 
@@ -96,6 +110,8 @@ void NLog::Log(NLogLevel   logLevel,
 //-----------------------------------------------------------------------------
 NLog* NLog::Get()
 {
+
+
 	// Get the instance
 	//
 	// Allowed to leak to support logging during static destruction.
@@ -108,11 +124,14 @@ NLog* NLog::Get()
 
 
 
+#pragma mark private
 //=============================================================================
 //		NLog::OutputMessage : Output a message.
 //-----------------------------------------------------------------------------
 void NLog::OutputMessage(const NLogMessage& logMsg)
 {
+
+
 	// Output the message
 	mOutput.LogMessage(logMsg);
 }
@@ -131,6 +150,8 @@ void NLog::FormatMessage(NLogMessage& logMsg,
 						 const char*  theMsg,
 						 va_list      theArgs) const
 {
+
+
 	// Format the message
 	logMsg.filePath = filePath;
 	logMsg.lineNum  = lineNum;
@@ -153,6 +174,8 @@ void NLog::FormatMessage(NLogMessage& logMsg,
 //-----------------------------------------------------------------------------
 void NLog::FormatLevel(NLogMessage& logMsg) const
 {
+
+
 	// Format the level
 	const char* levelEmoji = "??";
 	const char* levelLabel = "????";
@@ -185,6 +208,8 @@ void NLog::FormatLevel(NLogMessage& logMsg) const
 //-----------------------------------------------------------------------------
 void NLog::FormatTime(NLogMessage& logMsg) const
 {
+
+
 	// Format the time
 	snprintf(logMsg.tokenTime, sizeof(logMsg.tokenTime), "0000-00-00 00:00:00.000000");
 }
@@ -198,6 +223,8 @@ void NLog::FormatTime(NLogMessage& logMsg) const
 //-----------------------------------------------------------------------------
 void NLog::FormatThread(NLogMessage& logMsg) const
 {
+
+
 	// Format the thread
 	snprintf(logMsg.tokenThread, sizeof(logMsg.tokenThread), "00000000");
 }
@@ -211,6 +238,8 @@ void NLog::FormatThread(NLogMessage& logMsg) const
 //-----------------------------------------------------------------------------
 void NLog::FormatSource(NLogMessage& logMsg) const
 {
+
+
 	// Format the source
 	const char* fileName = strrchr(logMsg.filePath, '/');
 

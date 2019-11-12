@@ -56,6 +56,8 @@
 //-----------------------------------------------------------------------------
 void NLogOutputConsole::LogMessage(const NLogMessage& logMsg)
 {
+
+
 	// Output the message
 	fprintf(stderr,
 			"%s %s %s %s %s\n",

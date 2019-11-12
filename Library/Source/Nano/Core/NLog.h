@@ -43,10 +43,63 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NLogOutput.h"
+#include "NanoMacros.h"
 
 // System
 #include <stdarg.h>
 #include <stdlib.h>
+
+
+
+
+
+//=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+// Logging
+//
+// Logging is enabled in debug builds.
+//
+#define NN_LOGGING                                          NN_DEBUG
+
+
+// Log a message
+//
+// Example:
+//
+//		NN_LOG_INFO("This is just information.");
+//
+//		NN_LOG_WARNING("This is a warning!");
+//
+//		NN_LOG_ERROR("Something has gone wrong!");
+//
+#if NN_LOGGING
+
+	#define NN_LOG_INFO(...)                                            \
+		do                                                              \
+		{                                                               \
+			NanoLog(NLogLevel::Info, __FILE__, __LINE__, __VA_ARGS);    \
+		} while (false)
+
+	#define NN_LOG_WARNING(...)                                         \
+		do                                                              \
+		{                                                               \
+			NanoLog(NLogLevel::Warning, __FILE__, __LINE__, __VA_ARGS); \
+		} while (false)
+
+	#define NN_LOG_ERROR(...)                                           \
+		do                                                              \
+		{                                                               \
+			NanoLog(NLogLevel::Error, __FILE__, __LINE__, __VA_ARGS);   \
+		} while (false)
+
+#else
+
+	#define NN_LOG_INFO(...)
+	#define NN_LOG_WARNING(...)
+	#define NN_LOG_ERROR(...)
+
+#endif
 
 
 
@@ -64,6 +117,7 @@ enum class NLogLevel
 	Warning,
 	Error
 };
+
 
 
 // Misc
@@ -101,8 +155,8 @@ struct NLogMessage
 class NLog
 {
 public:
-										NLog();
-									   ~NLog() = default;
+										NLog()  = default;
+									   ~NLog()  = default;
 
 										NLog(     const NLog&) = delete;
 	NLog&                               operator=(const NLog&) = delete;
@@ -142,6 +196,17 @@ private:
 private:
 	NLogOutputConsole                   mOutput;
 };
+
+
+
+
+
+//=============================================================================
+//		Public Functions
+//-----------------------------------------------------------------------------
+NN_VALIDATE_PRINTF(4, 5)
+void NanoLog(NLogLevel logLevel, const char* filePath, size_t lineNum, const char* theMsg, ...);
+
 
 
 #endif // NLOG_H
