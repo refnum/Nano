@@ -16,6 +16,9 @@
 		ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
+		ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
+		ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
+		ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
 		ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
@@ -245,7 +248,6 @@
 		AB91553F0F9B4DD6009FFEAF /* NArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NArray.h; sourceTree = "<group>"; };
 		AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBitVector.cpp; sourceTree = "<group>"; };
 		AB9155410F9B4DD6009FFEAF /* NBitVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBitVector.h; sourceTree = "<group>"; };
-		AB9155440F9B4DD6009FFEAF /* NComparable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NComparable.cpp; sourceTree = "<group>"; };
 		AB9155450F9B4DD6009FFEAF /* NComparable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NComparable.h; sourceTree = "<group>"; };
 		AB9155460F9B4DD6009FFEAF /* NContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NContainer.cpp; sourceTree = "<group>"; };
 		AB9155470F9B4DD6009FFEAF /* NContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NContainer.h; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 		ABB95B7A0FB7250100C5A7FF /* NIOSTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIOSTarget.h; sourceTree = "<group>"; };
 		ABB95B7B0FB7250100C5A7FF /* NIOSThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSThread.cpp; sourceTree = "<group>"; };
 		ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTime.cpp; sourceTree = "<group>"; };
+		ABBB2B782380965C00EB2840 /* NComparable.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NComparable.inl; sourceTree = "<group>"; };
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
@@ -974,8 +977,8 @@
 				AB103B6210B6AFFD00F425C5 /* NAttributes.h */,
 				AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */,
 				AB9155410F9B4DD6009FFEAF /* NBitVector.h */,
-				AB9155440F9B4DD6009FFEAF /* NComparable.cpp */,
 				AB9155450F9B4DD6009FFEAF /* NComparable.h */,
+				ABBB2B782380965C00EB2840 /* NComparable.inl */,
 				AB9155460F9B4DD6009FFEAF /* NContainer.cpp */,
 				AB9155470F9B4DD6009FFEAF /* NContainer.h */,
 				AB9155480F9B4DD6009FFEAF /* NData.cpp */,
@@ -1247,6 +1250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */,
 				ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
@@ -1258,6 +1262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */,
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
 				ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
@@ -1269,6 +1274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */,
 				ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,

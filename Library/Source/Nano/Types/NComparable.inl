@@ -1,5 +1,5 @@
 /*	NAME:
-		NComparable.h
+		NComparable.inl
 
 	DESCRIPTION:
 		Comparable object.
@@ -36,88 +36,21 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCOMPARABLE_H
-#define NCOMPARABLE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NanoTypes.h"
 
 
 
 
 
 //=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-enum class NComparison
-{
-	LessThan                                                = -1,
-	EqualTo                                                 = 0,
-	GreaterThan                                             = 1
-};
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
+//		NComparable::operator == : Equality operator.
 //-----------------------------------------------------------------------------
 template <class T>
-class NComparable
+bool NComparable<T>::operator==(const T& theValue) const
 {
-public:
-	// Operators
-	bool                                operator==(const T& theValue) const;
-	bool                                operator!=(const T& theValue) const;
-	bool                                operator<=(const T& theValue) const;
-	bool                                operator<( const T& theValue) const;
-	bool                                operator>=(const T& theValue) const;
-	bool                                operator>( const T& theValue) const;
-
-
-	// Compare an object
-	//
-	// Derived classes must implement a comparison method.
-	NComparison                         Compare(const T& theValue) const;
-
-
-private:
-	NComparison                         CompareTo(const T& theValue) const;
-};
-
-
-
-
-
-//=============================================================================
-//		Public Functions
-//-----------------------------------------------------------------------------
-// Compare two types
-template <typename A, typename B>
-inline NComparison NCompare(const A& a, const B& b)
-{
-	if (a < b)
-	{
-		return NComparison::LessThan;
-	}
-	else if (a > b)
-	{
-		return NComparison::GreaterThan;
-	}
-	else
-	{
-		return NComparison::EqualTo;
-	}
-}
-
-
-// Convert a memcmp-style comparison result
-inline NComparison NCompare(int32_t x)
-{
-	return NCompare(x, 0);
+	return CompareTo(theValue) == NComparison::EqualTo;
 }
 
 
@@ -125,10 +58,78 @@ inline NComparison NCompare(int32_t x)
 
 
 //=============================================================================
-//		Includes
+//		NComparable::operator != : Inequality operator.
 //-----------------------------------------------------------------------------
-#include "NComparable.inl"
+template <class T>
+bool NComparable<T>::operator!=(const T& theValue) const
+{
+	return CompareTo(theValue) != NComparison::EqualTo;
+}
 
 
 
-#endif // NCOMPARABLE_H
+
+
+//=============================================================================
+//		NComparable::operator <= : Less-than-or-equals operator.
+//-----------------------------------------------------------------------------
+template <class T>
+bool NComparable<T>::operator<=(const T& theValue) const
+{
+	return CompareTo(theValue) != NComparison::GreaterThan;
+}
+
+
+
+
+
+//=============================================================================
+//		NComparable::operator < : Less-than operator.
+//-----------------------------------------------------------------------------
+template <class T>
+bool NComparable<T>::operator<(const T& theValue) const
+{
+	return CompareTo(theValue) == NComparison::LessThan;
+}
+
+
+
+
+
+//=============================================================================
+//		NComparable::operator >= : Greater-than-or-equals operator.
+//-----------------------------------------------------------------------------
+template <class T>
+bool NComparable<T>::operator>=(const T& theValue) const
+{
+	return CompareTo(theValue) != NComparison::LessThan;
+}
+
+
+
+
+
+//=============================================================================
+//		NComparable::operator > : Greater-than operator.
+//-----------------------------------------------------------------------------
+template <class T>
+bool NComparable<T>::operator>(const T& theValue) const
+{
+	return CompareTo(theValue) == NComparison::GreaterThan;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NComparable::CompareTo : Perform a comparison.
+//-----------------------------------------------------------------------------
+template <typename T>
+NComparison NComparable<T>::CompareTo(const T& theValue) const
+{
+	const T* thisValue = static_cast<const T*>(this);
+
+	return thisValue->Compare(theValue);
+}

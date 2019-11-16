@@ -5,62 +5,52 @@
 		Range object.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NEncoder.h"
-#include "NString.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NRange.h"
 
 
 
 
 
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NString kNRangeLocationKey								= "location";
-static const NString kNRangeSizeKey									= "size";
-
-
-
-
-
-//============================================================================
-//		Implementation
-//----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NRange);
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NRange::NRange : Constructor.
-//----------------------------------------------------------------------------
-NRange::NRange(NIndex theLocation, NIndex theSize)
-{
-
-
-	// Initialise ourselves
-	mLocation = theLocation;
-	mSize     = theSize;
-}
-
-
-
-
-
-//============================================================================
-//		NRange::~NRange : Destructor.
-//----------------------------------------------------------------------------
-NRange::~NRange(void)
+//-----------------------------------------------------------------------------
+NRange::NRange(size_t theLocation, size_t theSize)
+	: mLocation(theLocation)
+	, mSize(theSize)
 {
 }
 
@@ -68,52 +58,85 @@ NRange::~NRange(void)
 
 
 
-//============================================================================
-//		NRange::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NRange::Compare(const NRange &theValue) const
-{	NComparison		theResult;
-
-
-
-	// Compare the value
-	//
-	// We have no natural order, so the only real comparison is equality.
-	theResult = GetComparison(mSize, theValue.mSize);
-
-	if (theResult == kNCompareEqualTo)
-		theResult = GetComparison(mLocation, theValue.mLocation);
-
-	return(theResult);
+//=============================================================================
+//		NRange::IsEmpty : Is the range empty?
+//-----------------------------------------------------------------------------
+bool NRange::IsEmpty() const
+{
+	return mSize == 0;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NRange::Overlaps : Does the range overlap another?
+//-----------------------------------------------------------------------------
+bool NRange::Overlaps(const NRange& theRange) const
+{
+
+
+	// Check for overlap
+	bool hasOverlap = (!IsEmpty() && !theRange.IsEmpty());
+
+	if (hasOverlap)
+	{
+		hasOverlap = !GetIntersection(theRange).IsEmpty();
+	}
+
+	return hasOverlap;
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::Contains : Does the range contain an offset?
+//-----------------------------------------------------------------------------
+bool NRange::Contains(size_t theOffset) const
+{
+
+
+	// Check for containment
+	bool hasOffset = !IsEmpty();
+
+	if (hasOffset)
+	{
+		hasOffset = (theOffset >= GetFirst() && theOffset <= GetLast());
+	}
+
+	return hasOffset;
+}
+
+
+
+
+
+//=============================================================================
 //		NRange::GetLocation : Get the location.
-//----------------------------------------------------------------------------
-NIndex NRange::GetLocation(void) const
+//-----------------------------------------------------------------------------
+size_t NRange::GetLocation() const
 {
 
 
-	// Get the value
-	return(mLocation);
+	// Get the locatiom
+	return mLocation;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NRange::SetLocation : Set the location.
-//----------------------------------------------------------------------------
-void NRange::SetLocation(NIndex theValue)
+//-----------------------------------------------------------------------------
+void NRange::SetLocation(size_t theValue)
 {
 
 
-	// Set the value
+	// Set the location
 	mLocation = theValue;
 }
 
@@ -121,29 +144,29 @@ void NRange::SetLocation(NIndex theValue)
 
 
 
-//============================================================================
+//=============================================================================
 //		NRange::GetSize : Get the size.
-//----------------------------------------------------------------------------
-NIndex NRange::GetSize(void) const
+//-----------------------------------------------------------------------------
+size_t NRange::GetSize() const
 {
 
 
-	// Get the value
-	return(mSize);
+	// Get the size
+	return mSize;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NRange::SetSize : Set the size.
-//----------------------------------------------------------------------------
-void NRange::SetSize(NIndex theValue)
+//-----------------------------------------------------------------------------
+void NRange::SetSize(size_t theValue)
 {
 
 
-	// Set the value
+	// Set the size
 	mSize = theValue;
 }
 
@@ -151,308 +174,132 @@ void NRange::SetSize(NIndex theValue)
 
 
 
-//============================================================================
-//		NRange::GetFirst : Get the first item.
-//----------------------------------------------------------------------------
-NIndex NRange::GetFirst(void) const
+//=============================================================================
+//		NRange::GetFirst : Get the first element.
+//-----------------------------------------------------------------------------
+size_t NRange::GetFirst() const
 {
 
 
-	// Validate our state
-	NN_ASSERT(!IsMeta());
-
-
-
-	// Get the value
-	return(mLocation);
+	// Get the first element
+	return mLocation;
 }
 
 
 
 
 
-//============================================================================
-//		NRange::GetLast : Get the last item.
-//----------------------------------------------------------------------------
-NIndex NRange::GetLast(void) const
+//=============================================================================
+//		NRange::GetLast : Get the last element.
+//-----------------------------------------------------------------------------
+size_t NRange::GetLast() const
 {
 
 
-	// Validate our state
-	NN_ASSERT(!IsMeta());
-
-
-
-	// Get the value
+	// Get the last element
 	if (mSize == 0)
-		return(mLocation);
+	{
+		return mLocation;
+	}
 	else
-		return(mLocation + mSize - 1);
+	{
+		return mLocation + mSize - 1;
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NRange::GetNext : Get the subsequent item.
-//----------------------------------------------------------------------------
-NIndex NRange::GetNext(void) const
+//=============================================================================
+//		NRange::GetNext : Get the subsequent element.
+//-----------------------------------------------------------------------------
+size_t NRange::GetNext() const
 {
 
 
-	// Validate our state
-	NN_ASSERT(!IsMeta());
-
-
-
-	// Get the value
-	return(mLocation + mSize);
+	// Get the next element
+	return mLocation + mSize;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NRange::GetOffset : Get an offset.
-//----------------------------------------------------------------------------
-NIndex NRange::GetOffset(NIndex theOffset) const
+//-----------------------------------------------------------------------------
+size_t NRange::GetOffset(size_t theOffset) const
 {
-
-
-	// Validate our state
-	NN_ASSERT(!IsMeta());
-
 
 
 	// Get the offset
-	return(mLocation + theOffset);
+	return mLocation + theOffset;
 }
 
 
 
 
 
-//============================================================================
-//		NRange::GetNormalized : Get a normalized range.
-//----------------------------------------------------------------------------
-NRange NRange::GetNormalized(NIndex theSize) const
-{	NRange		theResult;
-
-
-
-	// Get the state we need
-	theResult = *this;
-
-
-
-	// Normalize meta-values
-	if (theResult == kNRangeNone)
-		theResult = NRange(0, 0);
-
-	else if (theResult == kNRangeAll)
-		theResult = NRange(0, theSize);
-
-
-
-	// Normalize the range
-	//
-	// Non-meta ranges are normalised relative to the implicit 0..theSize range.
-	//
-	// A range outside that range is returned with its current position, but with
-	// a size of 0 (since it is essentially empty).
-	//
-	// A range within that range with a meta-length is expanded to the available size.
-	//
-	// A range within that range which exceeds the size is clamped to the available size.
-	else if (mLocation >= theSize || theSize == 0)
-		theResult.SetSize(0);
-	
-	else if (theResult.GetSize() == kNIndexNone || theResult.GetLast() >= theSize)
-		theResult.SetSize(theSize - theResult.mLocation);
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NRange::GetUnion : Get the union of a range.
-//----------------------------------------------------------------------------
-NRange NRange::GetUnion(const NRange &theRange) const
-{	NIndex		rangeFirst, rangeLast;
-	NRange		theResult;
-
-
-
-	// Validate our parameters and state
-	NN_ASSERT(!theRange.IsMeta());
-	NN_ASSERT(!IsMeta());
-
+//=============================================================================
+//		NRange::GetUnion : Get the union with a range.
+//-----------------------------------------------------------------------------
+NRange NRange::GetUnion(const NRange& theRange) const
+{
 
 
 	// Check for empty
 	if (IsEmpty())
-		return(theRange);
-	
+	{
+		return theRange;
+	}
+
 	if (theRange.IsEmpty())
-		return(*this);
+	{
+		return *this;
+	}
 
 
 
 	// Get the union
-	rangeFirst = std::min(GetFirst(), theRange.GetFirst());
-	rangeLast  = std::max(GetLast(),  theRange.GetLast());
-	theResult  = NRange(rangeFirst, rangeLast - rangeFirst + 1);
-	
-	return(theResult);
+	size_t rangeFirst = std::min(GetFirst(), theRange.GetFirst());
+	size_t rangeLast  = std::max(GetLast(), theRange.GetLast());
+
+	return NRange(rangeFirst, rangeLast - rangeFirst + 1);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NRange::GetIntersection : Get the intersection of a range.
-//----------------------------------------------------------------------------
-NRange NRange::GetIntersection(const NRange &theRange) const
-{	NIndex		rangeFirst, rangeLast;
-	NRange		theResult;
+//-----------------------------------------------------------------------------
+NRange NRange::GetIntersection(const NRange& theRange) const
+{
 
 
-
-	// Validate our parameters and state
-	NN_ASSERT(!theRange.IsMeta());
-	NN_ASSERT(!IsMeta());
-
-
-
-	// Check for empty
+	// Check for empty ranges
 	if (IsEmpty() || theRange.IsEmpty())
-		return(theResult);
+	{
+		return NRange();
+	}
 
 
 
-	// Check for no intersection
+	// Check for empty intersection
 	if (theRange.GetFirst() > GetLast() || theRange.GetLast() < GetFirst())
-		return(theResult);
-	
-	
-	
+	{
+		return NRange();
+	}
+
+
+
 	// Get the intersection
-	rangeFirst = std::max(GetFirst(), theRange.GetFirst());
-	rangeLast  = std::min(GetLast(),  theRange.GetLast());
-	theResult  = NRange(rangeFirst, rangeLast - rangeFirst + 1);
-	
-	return(theResult);
-}
+	size_t rangeFirst = std::max(GetFirst(), theRange.GetFirst());
+	size_t rangeLast  = std::min(GetLast(), theRange.GetLast());
 
-
-
-
-
-//============================================================================
-//		NRange::IsEmpty : Is the range empty?
-//----------------------------------------------------------------------------
-bool NRange::IsEmpty(void) const
-{
-
-
-	// Check our state
-	return(mSize == 0);
-}
-
-
-
-
-
-//============================================================================
-//		NRange::IsMeta : Is the range a meta-range?
-//----------------------------------------------------------------------------
-bool NRange::IsMeta(void) const
-{
-
-
-	// Check our state
-	return(mLocation == kNIndexNone || mSize == kNIndexNone);
-}
-
-
-
-
-
-//============================================================================
-//		NRange::Overlaps : Does the range overlap another?
-//----------------------------------------------------------------------------
-bool NRange::Overlaps(const NRange &theRange) const
-{	bool	hasOverlap;
-
-
-
-	// Validate our parameters and state
-	//
-	// kNRangeNone is the only supported meta range, as it is empty.
-	NN_ASSERT(!theRange.IsMeta());
-	NN_ASSERT(*this == kNRangeNone || !IsMeta());
-
-
-
-	// Check for overlap
-	hasOverlap = (!IsEmpty() && !theRange.IsEmpty());
-	
-	if (hasOverlap)
-		hasOverlap = !GetIntersection(theRange).IsEmpty();
-	
-	return(hasOverlap);
-}
-
-
-
-
-
-//============================================================================
-//		NRange::Contains : Does the range contain an offset?
-//----------------------------------------------------------------------------
-bool NRange::Contains(NIndex theOffset) const
-{	bool	hasOffset;
-
-
-
-	// Validate our state
-	//
-	// kNRangeNone is the only supported meta range, as it is empty.
-	NN_ASSERT(*this == kNRangeNone || !IsMeta());
-
-
-
-	// Check for containment
-	hasOffset = !IsEmpty();
-
-	if (hasOffset)
-		hasOffset = (theOffset >= GetFirst() && theOffset <= GetLast());
-	
-	return(hasOffset);
-}
-
-
-
-
-
-//============================================================================
-//		NRange::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NRange::operator NFormatArgument(void) const
-{	NString		theResult;
-
-
-
-	// Get the value
-	theResult.Format("{l=%ld, s=%ld}", mLocation, mSize);
-
-	return(theResult);
+	return NRange(rangeFirst, rangeLast - rangeFirst + 1);
 }
 
 
@@ -460,32 +307,22 @@ NRange::operator NFormatArgument(void) const
 
 
 #pragma mark protected
-//============================================================================
-//      NRange::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NRange::EncodeSelf(NEncoder &theEncoder) const
+//=============================================================================
+//		NRange::Compare : Compare a range.
+//-----------------------------------------------------------------------------
+NComparison NRange::Compare(const NRange& theRange) const
 {
 
 
-	// Encode the object
-	theEncoder.EncodeNumber(kNRangeLocationKey, (int64_t) mLocation);
-	theEncoder.EncodeNumber(kNRangeSizeKey,     (int64_t) mSize);
+	// Compare the range
+	//
+	// Ranges can only be compared for equality / inequality.
+	NComparison theResult = NCompare(mSize, theRange.mSize);
+
+	if (theResult == NComparison::EqualTo)
+	{
+		theResult = NCompare(mLocation, theRange.mLocation);
+	}
+
+	return theResult;
 }
-
-
-
-
-
-//============================================================================
-//      NRange::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NRange::DecodeSelf(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	mLocation = theEncoder.DecodeNumber(kNRangeLocationKey).GetInt32();
-	mSize     = theEncoder.DecodeNumber(kNRangeSizeKey).GetInt32();
-}
-
-
