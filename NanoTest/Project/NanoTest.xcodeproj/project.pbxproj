@@ -7,17 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
-		AB439BE623800C0100DBB6B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
-		AB439BE723800C0100DBB6B2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
-		AB439BE823800C0100DBB6B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
-		AB439C5623800C0600DBB6B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
-		AB439C5723800C0600DBB6B2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
-		AB439C5823800C0600DBB6B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
-		AB481CAE12A57EF40052C55F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
-		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
 		ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
@@ -51,6 +42,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = AB03E642237A0C5F00FACADF;
 			remoteInfo = Nano_tvOS;
+		};
+		ABBB2B6B23806EED00EB2840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB03E591237A0C5F00FACADF;
+			remoteInfo = Nano_tvOS;
+		};
+		ABBB2B7023806EF200EB2840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC06E0554671400DB518D;
+			remoteInfo = Nano_macOS;
+		};
+		ABBB2B7223806EF500EB2840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB28FBDC0FB5D36300F72C61;
+			remoteInfo = Nano_iOS;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -181,9 +193,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB481CAE12A57EF40052C55F /* SystemConfiguration.framework in Frameworks */,
-				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
-				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,9 +200,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB439BE623800C0100DBB6B2 /* SystemConfiguration.framework in Frameworks */,
-				AB439BE723800C0100DBB6B2 /* Carbon.framework in Frameworks */,
-				AB439BE823800C0100DBB6B2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,9 +207,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB439C5623800C0600DBB6B2 /* SystemConfiguration.framework in Frameworks */,
-				AB439C5723800C0600DBB6B2 /* Carbon.framework in Frameworks */,
-				AB439C5823800C0600DBB6B2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +564,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				ABBB2B7123806EF200EB2840 /* PBXTargetDependency */,
 			);
 			name = NanoTest_macOS;
 			productInstallPath = "$(HOME)/Applications";
@@ -578,6 +582,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				ABBB2B7323806EF500EB2840 /* PBXTargetDependency */,
 			);
 			name = NanoTest_iOS;
 			productInstallPath = "$(HOME)/Applications";
@@ -595,6 +600,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				ABBB2B6C23806EED00EB2840 /* PBXTargetDependency */,
 			);
 			name = NanoTest_tvOS;
 			productInstallPath = "$(HOME)/Applications";
@@ -696,6 +702,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABBB2B6C23806EED00EB2840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano_tvOS;
+			targetProxy = ABBB2B6B23806EED00EB2840 /* PBXContainerItemProxy */;
+		};
+		ABBB2B7123806EF200EB2840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano_macOS;
+			targetProxy = ABBB2B7023806EF200EB2840 /* PBXContainerItemProxy */;
+		};
+		ABBB2B7323806EF500EB2840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nano_iOS;
+			targetProxy = ABBB2B7223806EF500EB2840 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AB439BEA23800C0100DBB6B2 /* Debug */ = {

@@ -2,4 +2,5 @@
 //		Linker
 //-----------------------------------------------------------------------------
 PRODUCT_NAME							= NanoTest_$(NANO_PLATFORM)
+OTHER_LDFLAGS							= $(inherited) -lNano_$(NANO_PLATFORM)
 
