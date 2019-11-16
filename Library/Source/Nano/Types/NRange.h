@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMixinComparable.h"
+#include "NMixinContainer.h"
 
 // System
 #include <vector>
@@ -65,14 +66,12 @@ using NVectorRange = std::vector<NRange>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NRange final : public NMixinComparable<NRange>
+class NRange final
+	: public NMixinContainer<NRange>
+	, public NMixinComparable<NRange>
 {
 public:
 										NRange(size_t theLocation = 0, size_t theSize = 0);
-
-
-	// Is the range empty?
-	bool                                IsEmpty() const;
 
 
 	// Does the range overlap another?

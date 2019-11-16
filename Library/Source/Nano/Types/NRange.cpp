@@ -59,18 +59,6 @@ NRange::NRange(size_t theLocation, size_t theSize)
 
 
 //=============================================================================
-//		NRange::IsEmpty : Is the range empty?
-//-----------------------------------------------------------------------------
-bool NRange::IsEmpty() const
-{
-	return mSize == 0;
-}
-
-
-
-
-
-//=============================================================================
 //		NRange::Overlaps : Does the range overlap another?
 //-----------------------------------------------------------------------------
 bool NRange::Overlaps(const NRange& theRange) const
