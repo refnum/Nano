@@ -95,7 +95,8 @@ Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Threads"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Types"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Utilities"
 
-USER_HEADER_SEARCH_PATHS = $(Nano_UHSP)
+USER_HEADER_SEARCH_PATHS				= $(Nano_UHSP)
+ALWAYS_SEARCH_USER_PATHS				= NO
 
 
 
