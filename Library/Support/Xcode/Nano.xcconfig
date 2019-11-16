@@ -61,6 +61,7 @@ Nano_Warnings = $(inherited) -Wno-c++98-compat
 Nano_Warnings = $(inherited) -Wno-c++98-compat-pedantic
 Nano_Warnings = $(inherited) -Wno-c99-extensions
 Nano_Warnings = $(inherited) -Wno-format-nonliteral
+Nano_Warnings = $(inherited) -Wno-global-constructors
 Nano_Warnings = $(inherited) -Wno-packed
 Nano_Warnings = $(inherited) -Wno-padded
 Nano_Warnings = $(inherited) -Wno-return-std-move-in-c++11
