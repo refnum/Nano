@@ -42,7 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NComparable.h"
+#include "NMixinComparable.h"
 
 // System
 #include <vector>
@@ -65,7 +65,7 @@ using NVectorRange = std::vector<NRange>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NRange final : public NComparable<NRange>
+class NRange final : public NMixinComparable<NRange>
 {
 public:
 										NRange(size_t theLocation = 0, size_t theSize = 0);

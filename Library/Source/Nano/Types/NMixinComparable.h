@@ -1,5 +1,5 @@
 /*	NAME:
-		NComparable.h
+		NMixinComparable.h
 
 	DESCRIPTION:
 		Comparable object.
@@ -36,8 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCOMPARABLE_H
-#define NCOMPARABLE_H
+#ifndef NMIXIN_COMPARABLE_H
+#define NMIXIN_COMPARABLE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -66,7 +66,7 @@ enum class NComparison
 //		Class Declaration
 //-----------------------------------------------------------------------------
 template <class T>
-class NComparable
+class NMixinComparable
 {
 public:
 	// Operators
@@ -80,7 +80,7 @@ public:
 
 	// Compare an object
 	//
-	// Derived classes must implement a comparison method.
+	// Must be implemented by derived classes.
 	NComparison                         Compare(const T& theValue) const;
 
 
@@ -127,8 +127,8 @@ inline NComparison NCompare(int32_t x)
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NComparable.inl"
+#include "NMixinComparable.inl"
 
 
 
-#endif // NCOMPARABLE_H
+#endif // NMIXIN_COMPARABLE_H

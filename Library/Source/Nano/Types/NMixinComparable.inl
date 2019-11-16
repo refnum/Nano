@@ -1,5 +1,5 @@
 /*	NAME:
-		NComparable.inl
+		NMixinComparable.inl
 
 	DESCRIPTION:
 		Comparable object.
@@ -45,10 +45,10 @@
 
 
 //=============================================================================
-//		NComparable::operator == : Equality operator.
+//		NMixinComparable::operator == : Equality operator.
 //-----------------------------------------------------------------------------
 template <class T>
-bool NComparable<T>::operator==(const T& theValue) const
+bool NMixinComparable<T>::operator==(const T& theValue) const
 {
 	return CompareTo(theValue) == NComparison::EqualTo;
 }
@@ -58,10 +58,10 @@ bool NComparable<T>::operator==(const T& theValue) const
 
 
 //=============================================================================
-//		NComparable::operator != : Inequality operator.
+//		NMixinComparable::operator != : Inequality operator.
 //-----------------------------------------------------------------------------
 template <class T>
-bool NComparable<T>::operator!=(const T& theValue) const
+bool NMixinComparable<T>::operator!=(const T& theValue) const
 {
 	return CompareTo(theValue) != NComparison::EqualTo;
 }
@@ -71,10 +71,10 @@ bool NComparable<T>::operator!=(const T& theValue) const
 
 
 //=============================================================================
-//		NComparable::operator <= : Less-than-or-equals operator.
+//		NMixinComparable::operator <= : Less-than-or-equals operator.
 //-----------------------------------------------------------------------------
 template <class T>
-bool NComparable<T>::operator<=(const T& theValue) const
+bool NMixinComparable<T>::operator<=(const T& theValue) const
 {
 	return CompareTo(theValue) != NComparison::GreaterThan;
 }
@@ -84,10 +84,10 @@ bool NComparable<T>::operator<=(const T& theValue) const
 
 
 //=============================================================================
-//		NComparable::operator < : Less-than operator.
+//		NMixinComparable::operator < : Less-than operator.
 //-----------------------------------------------------------------------------
 template <class T>
-bool NComparable<T>::operator<(const T& theValue) const
+bool NMixinComparable<T>::operator<(const T& theValue) const
 {
 	return CompareTo(theValue) == NComparison::LessThan;
 }
@@ -97,10 +97,10 @@ bool NComparable<T>::operator<(const T& theValue) const
 
 
 //=============================================================================
-//		NComparable::operator >= : Greater-than-or-equals operator.
+//		NMixinComparable::operator >= : Greater-than-or-equals operator.
 //-----------------------------------------------------------------------------
 template <class T>
-bool NComparable<T>::operator>=(const T& theValue) const
+bool NMixinComparable<T>::operator>=(const T& theValue) const
 {
 	return CompareTo(theValue) != NComparison::LessThan;
 }
@@ -110,10 +110,10 @@ bool NComparable<T>::operator>=(const T& theValue) const
 
 
 //=============================================================================
-//		NComparable::operator > : Greater-than operator.
+//		NMixinComparable::operator > : Greater-than operator.
 //-----------------------------------------------------------------------------
 template <class T>
-bool NComparable<T>::operator>(const T& theValue) const
+bool NMixinComparable<T>::operator>(const T& theValue) const
 {
 	return CompareTo(theValue) == NComparison::GreaterThan;
 }
@@ -124,10 +124,10 @@ bool NComparable<T>::operator>(const T& theValue) const
 
 #pragma mark private
 //=============================================================================
-//		NComparable::CompareTo : Perform a comparison.
+//		NMixinComparable::CompareTo : Perform a comparison.
 //-----------------------------------------------------------------------------
 template <typename T>
-NComparison NComparable<T>::CompareTo(const T& theValue) const
+NComparison NMixinComparable<T>::CompareTo(const T& theValue) const
 {
 	const T* thisValue = static_cast<const T*>(this);
 
