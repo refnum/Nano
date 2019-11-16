@@ -82,7 +82,7 @@ using NVectorInt32                                          = std::vector<int32_
 using NVectorInt64                                          = std::vector<int64_t>;
 
 using NVectorFloat32                                        = std::vector<float32_t>;
-using NVectorFloat64                                        = std::vector<Float64_t>;
+using NVectorFloat64                                        = std::vector<float64_t>;
 
 using NVectorUTF8                                           = std::vector<utf8_t>;
 using NVectorUTF16                                          = std::vector<utf16_t>;
