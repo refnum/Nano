@@ -5,42 +5,78 @@
 		Nano test fixture for catch.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NTimeUtilities.h"
-
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NTestFixture.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NTestFixture::NTestFixture : Constructor.
-//----------------------------------------------------------------------------
-NTestFixture::NTestFixture(void)
+//-----------------------------------------------------------------------------
+NTestFixture::NTestFixture()
 {
-
-
 	// Initialise ourselves
-	ResetTime();
+	SetUp();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NTestFixture::~NTestFixture : Destructor.
-//----------------------------------------------------------------------------
-NTestFixture::~NTestFixture(void)
+//-----------------------------------------------------------------------------
+NTestFixture::~NTestFixture()
+{
+
+
+	// Clean up
+	TearDown();
+}
+
+
+
+
+
+//=============================================================================
+//		NTestFixture::SetUp : Prepare the test.
+//-----------------------------------------------------------------------------
+void NTestFixture::SetUp()
 {
 }
 
@@ -48,210 +84,9 @@ NTestFixture::~NTestFixture(void)
 
 
 
-//============================================================================
-//		NTestFixture::GetTestID : Get the current test ID.
-//----------------------------------------------------------------------------
-NString NTestFixture::GetTestID(void) const
-{
-
-
-	// Validate our state
-	NN_ASSERT(!mID.IsEmpty());
-
-
-
-	// Get the name
-	return(mID);
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::ResetTime : Reset the time.
-//----------------------------------------------------------------------------
-void NTestFixture::ResetTime(void)
-{
-
-
-	// Reset the time
-	mTimeStart = NTimeUtilities::GetTime();
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::GetElapsedTime : Get the elapsed time.
-//----------------------------------------------------------------------------
-NTime NTestFixture::GetElapsedTime(void) const
-{	NTime	theTime;
-
-
-
-	// Get the time
-	theTime = NTimeUtilities::GetTime() - mTimeStart;
-
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::TimeUnder : Is the time under a threshold?
-//----------------------------------------------------------------------------
-bool NTestFixture::TimeUnder(NTime theTime) const
-{
-
-
-	// Check the time
-	return(GetElapsedTime() <= theTime);
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::TimeOver : Is the time over a threshold?
-//----------------------------------------------------------------------------
-bool NTestFixture::TimeOver(NTime theTime) const
-{
-
-
-	// Check the time
-	return(GetElapsedTime() >= theTime);
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//		NTestFixture::WillSetUp : Before SETUP.
-//----------------------------------------------------------------------------
-void NTestFixture::WillSetUp(void)
+//=============================================================================
+//		NTestFixture::TearDown : Destroy the test.
+//-----------------------------------------------------------------------------
+void NTestFixture::TearDown()
 {
 }
-
-
-
-
-
-//============================================================================
-//		NTestFixture::DidSetUp : After SETUP.
-//----------------------------------------------------------------------------
-void NTestFixture::DidSetUp(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::WillTearDown : Before TEARDOWN.
-//----------------------------------------------------------------------------
-void NTestFixture::WillTearDown(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::DidTearDown : After TEARDOWN.
-//----------------------------------------------------------------------------
-void NTestFixture::DidTearDown(void)
-{
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//		NTestFixture::setCurrentTest : Set the current test.
-//----------------------------------------------------------------------------
-void NTestFixture::setCurrentTest(const std::string &testName)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(!testName.empty());
-	
-	
-	
-	// Set the name
-	mID = NString(testName.c_str(), kNStringLength);
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::willSetUp : About to invoke setup.
-//----------------------------------------------------------------------------
-void NTestFixture::willSetUp(void)
-{
-
-
-	// Update our state
-	WillSetUp();
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::didSetUp : Have invoked setUp.
-//----------------------------------------------------------------------------
-void NTestFixture::didSetUp(void)
-{
-
-
-	// Update our state
-	DidSetUp();
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::willTearDown : About to invoke tearDown.
-//----------------------------------------------------------------------------
-void NTestFixture::willTearDown(void)
-{
-
-
-	// Update our state
-	WillTearDown();
-}
-
-
-
-
-
-//============================================================================
-//		NTestFixture::didTearDown : Have invoked tearDown.
-//----------------------------------------------------------------------------
-void NTestFixture::didTearDown(void)
-{
-
-
-	// Update our state
-	DidTearDown();
-}
-
-
-

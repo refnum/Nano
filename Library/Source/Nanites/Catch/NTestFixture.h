@@ -3,217 +3,137 @@
 
 	DESCRIPTION:
 		Nano test fixture for catch.
-		
+
 		Catch is a header-only library, distributed under the boost licence.
 
 		It has been included directly with this Nanite as this is compatible
 		with the Nano licence.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NTESTFIXTURE_HDR
-#define NTESTFIXTURE_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NTEST_FIXTURE_H
+#define NTEST_FIXTURE_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "catch.hpp"
 
-#include "NString.h"
 
 
 
 
-
-//============================================================================
-//		Catch
-//----------------------------------------------------------------------------
-// Classes
-namespace Catch {
-	class Fixture {
-	public:
-		         Fixture(void) { }
-		virtual ~Fixture(void) { }
-		
-		// TestCaseInfo::invoke could pass the TestCaseInfo in to the test
-		// invoker to allow it to obtain info about the current test.
-		virtual void setCurrentTest(const std::string &/*testName*/ ) { }
-
-		// ITestCase could declare pre/post setup/teardown methods allowing
-		// SETUP/TEARDOWN macros that do not require the class name.
-		virtual void willSetUp(void) { }
-		virtual void     setUp(void) { }
-		virtual void  didSetUp(void) { }
-
-		virtual void willTearDown(void) { }
-		virtual void     tearDown(void) { }
-		virtual void  didTearDown(void) { }
-	};
-}
-
-
-// Macros
-#define TEST_CASE_FIXTURE( ClassName, TestName, ... )\
-	namespace{ \
-		struct INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ) : ClassName{ \
-			         INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )(void) { } \
-			virtual ~INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )(void) { } \
-			\
-            void invokeFixture(); \
-			void test(); \
-		}; \
-		Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( &INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture, #ClassName, Catch::NameAndDesc( TestName, ##__VA_ARGS__ ), CATCH_INTERNAL_LINEINFO ); \
-	} \
-	\
-	void INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::invokeFixture() \
-	{ \
-		setCurrentTest(TestName); \
-		\
-		willSetUp(); \
-		setUp(); \
-		didSetUp(); \
-		\
-		test(); \
-		\
-		willTearDown(); \
-		tearDown(); \
-		didTearDown(); \
-	} \
-	\
-	void INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ )::test()
-
-#define SETUP														virtual void setUp(void)
-
-#define TEARDOWN													virtual void tearDown(void)
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		Macros
-//----------------------------------------------------------------------------
-// Fixture macros
+//-----------------------------------------------------------------------------
+// Fixture
 //
 // A fixture derived from NTestFixture can be defined with:
 //
-//		FIXTURE_NANO(SomeFixture)
+//		NANO_FIXTURE(SomeFixture)
 //		{
-//			uint8_t *someData;
+//			void* someData;
 //
 //			SETUP
 //			{
-//				someData = NULL;
+//				someData = nullptr;
 //			}
 //
 //			TEARDOWN
 //			{
-//				if (someData != NULL)
+//				if (someData != nullptr)
 //					free(someData);
 //			}
-//		}
+//		};
 //
-// Both SETUP and TEARDOWN sections are optional.
+// SETUP is optional, and is executed before the test.
 //
+// TEARDOWN is optional, and is executed after the test.
 //
-// A test that uses this fixture can be defined with:
+#define NANO_FIXTURE(_fixture)                              struct _fixture : public NTestFixture
+#define SETUP                                               void SetUp()
+#define TEARDOWN                                            void TearDown()
+
+
+// Tests
 //
-//		TEST_NANO(SomeFixture, "Allocate")
+// A test that uses a fixture can be defined with:
+//
+//		NANO_TEST(SomeFixture, "Allocate")
 //		{
-//			someData = (uint8_t *) malloc(10);
-//			REQUIRE(someData != NULL);
+//			someData = malloc(1);
+//			REQUIRE(someData != nullptr;
 //		}
 //
-// This will create a "Nano/SomeFixture/Allocate" test, based on SomeFixture.
+// This will create a "Nano/SomeFixture/Allocate" test.
 //
 //
 // A list of []-delimited tags can also be provided:
 //
-//		TEST_NANO(SomeFixture, "Allocate", "[malloc][mem]")
+//		NANO_TEST(SomeFixture, "Allocate", "[memory]")
 //		{
-//			someData = (uint8_t *) malloc(10);
-//			REQUIRE(someData != NULL);
+//			someData = malloc(1);
+//			REQUIRE(someData != nullptr;
 //		}
 //
-// Tags may be used to group tests for execution by CATCH.
-#define FIXTURE_NANO(_class)										struct _class : public NTestFixture
-#define TEST_NANO(_class, ...)										TEST_CASE_FIXTURE(_class, "Nano/" #_class "/" __VA_ARGS__)
-
-
-// Assertions
-#define REQUIRE_NOERR(_err)											REQUIRE((_err) == kNoErr)
+// Tags may be used to group tests for execution.
+//
+#define NANO_TEST(_fixture, ...)                            TEST_CASE_METHOD(_fixture, "Nano/" #_fixture "/" __VA_ARGS__)
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NTestFixture : public Catch::Fixture {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NTestFixture
+{
 public:
-										NTestFixture(void);
-	virtual							   ~NTestFixture(void);
+										NTestFixture();
+	virtual                            ~NTestFixture();
+
+										NTestFixture(const NTestFixture&) = delete;
+	NTestFixture&                       operator=(   const NTestFixture&) = delete;
+
+										NTestFixture(NTestFixture&&) = delete;
+	NTestFixture&                       operator=(   NTestFixture&&) = delete;
 
 
-	// Get the current test ID
-	//
-	// The test ID is a /-separated unique identifier for the test.
-	NString								GetTestID(void) const;
-
-
-	// Reset the time
-	void								ResetTime(void);
-
-
-	// Get the elapsed time
-	NTime								GetElapsedTime(void) const;
-
-
-	// Test the time
-	bool								TimeUnder(NTime theTime) const;
-	bool								TimeOver( NTime theTime) const;
-
-
-protected:
-	// Pre/post setup/teardown hooks
-	//
-	// Although NFixture can be used directly, it may also be sub-classed by a
-	// class that acts as a common base class for other fixtures.
-	//
-	// These sub-classes can override these methods to obtain a hook before and
-	// after the leaf fixtures invoke SETUP and TEARDOWN.
-	virtual void						WillSetUp(void);
-	virtual void						DidSetUp( void);
-
-
-	// Pre/post teardown hook
-	virtual void						WillTearDown(void);
-	virtual void						DidTearDown( void);
-
-
-protected:
-	void								setCurrentTest(const std::string &testName);
-
-	void								willSetUp(void);
-	void								didSetUp( void);
-
-	void								willTearDown(void);
-	void								didTearDown( void);
-
-
-private:
-	NString								mID;
-	NTime								mTimeStart;
+	// Pre/post test hooks
+	virtual void                        SetUp();
+	virtual void                        TearDown();
 };
 
 
 
-
-
-#endif // NTESTFIXTURE_HDR
-
+#endif // NTEST_FIXTURE_H
