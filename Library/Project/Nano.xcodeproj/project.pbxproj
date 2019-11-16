@@ -13,6 +13,9 @@
 		AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
 		AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
 		AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
+		ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
+		ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
+		ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
@@ -1246,6 +1249,7 @@
 			files = (
 				ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */,
+				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
 				AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1256,6 +1260,7 @@
 			files = (
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
 				ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */,
+				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB03E58E237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1266,6 +1271,7 @@
 			files = (
 				ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
+				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
