@@ -8,145 +8,55 @@
 
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
-		AB103B7C10B6B04000F425C5 /* TAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB103B7A10B6B04000F425C5 /* TAttributes.cpp */; };
-		AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14315F103EC576002BD0D1 /* TFileIterator.cpp */; };
-		AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
-		AB1BA197104E7D1400BB002B /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
-		AB1BA2A5105016AF00BB002B /* TGeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */; };
-		AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAC761035B65D007BC4E6 /* TUTI.cpp */; };
-		AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AAD7D10396310007BC4E6 /* TLocale.cpp */; };
-		AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */; };
-		AB3326D31046C9B100C8DF0A /* TShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326D11046C9B100C8DF0A /* TShape.cpp */; };
-		AB481C7412A539690052C55F /* TNetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C6E12A539690052C55F /* TNetworkManager.cpp */; };
-		AB481C7512A539690052C55F /* TURLRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7012A539690052C55F /* TURLRequest.cpp */; };
-		AB481C7612A539690052C55F /* TURLResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7212A539690052C55F /* TURLResponse.cpp */; };
-		AB481C7D12A539830052C55F /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
+		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
+		AB439BE623800C0100DBB6B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
+		AB439BE723800C0100DBB6B2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB439BE823800C0100DBB6B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
+		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
+		AB439C5623800C0600DBB6B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
+		AB439C5723800C0600DBB6B2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		AB439C5823800C0600DBB6B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
 		AB481CAE12A57EF40052C55F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */; };
-		AB514DE51034184B00E5A6AD /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
-		AB514DE61034184B00E5A6AD /* TPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D621034184B00E5A6AD /* TPreferences.cpp */; };
-		AB514DE71034184B00E5A6AD /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
-		AB514DE81034184B00E5A6AD /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
-		AB514DE91034184B00E5A6AD /* TDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D691034184B00E5A6AD /* TDebug.cpp */; };
-		AB514DEA1034184B00E5A6AD /* TDBHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D6C1034184B00E5A6AD /* TDBHandle.cpp */; };
-		AB514DEB1034184B00E5A6AD /* TDBHandlePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D6E1034184B00E5A6AD /* TDBHandlePool.cpp */; };
-		AB514DEC1034184B00E5A6AD /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D711034184B00E5A6AD /* TBroadcaster.cpp */; };
-		AB514DED1034184B00E5A6AD /* TListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D731034184B00E5A6AD /* TListener.cpp */; };
-		AB514DEE1034184B00E5A6AD /* TTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D751034184B00E5A6AD /* TTimer.cpp */; };
-		AB514DEF1034184B00E5A6AD /* TBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D781034184B00E5A6AD /* TBundle.cpp */; };
-		AB514DF01034184B00E5A6AD /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D7A1034184B00E5A6AD /* TFile.cpp */; };
-		AB514DF11034184B00E5A6AD /* TFileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D7C1034184B00E5A6AD /* TFileMap.cpp */; };
-		AB514DF21034184B00E5A6AD /* TPropertyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */; };
-		AB514DF41034184B00E5A6AD /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
-		AB514DF61034184B00E5A6AD /* TDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D871034184B00E5A6AD /* TDataCompressor.cpp */; };
-		AB514DF71034184B00E5A6AD /* TUnicodeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */; };
-		AB514DF81034184B00E5A6AD /* TXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */; };
-		AB514DF91034184B00E5A6AD /* TXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */; };
-		AB514DFA1034184B00E5A6AD /* TXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */; };
-		AB514DFB1034184B00E5A6AD /* TAtomicInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D921034184B00E5A6AD /* TAtomicInt.cpp */; };
-		AB514DFC1034184B00E5A6AD /* TAtomicList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D941034184B00E5A6AD /* TAtomicList.cpp */; };
-		AB514DFD1034184B00E5A6AD /* TLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D961034184B00E5A6AD /* TLock.cpp */; };
-		AB514DFE1034184B00E5A6AD /* TSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D981034184B00E5A6AD /* TSemaphore.cpp */; };
-		AB514DFF1034184B00E5A6AD /* TThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9A1034184B00E5A6AD /* TThread.cpp */; };
-		AB514E001034184B00E5A6AD /* TThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */; };
-		AB514E011034184B00E5A6AD /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
-		AB514E021034184B00E5A6AD /* TBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA11034184B00E5A6AD /* TBitVector.cpp */; };
-		AB514E041034184B00E5A6AD /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
-		AB514E051034184B00E5A6AD /* TDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA71034184B00E5A6AD /* TDate.cpp */; };
-		AB514E061034184B00E5A6AD /* TDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA91034184B00E5A6AD /* TDateFormatter.cpp */; };
-		AB514E071034184B00E5A6AD /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
-		AB514E081034184B00E5A6AD /* TEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAD1034184B00E5A6AD /* TEncoder.cpp */; };
-		AB514E091034184B00E5A6AD /* TFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAF1034184B00E5A6AD /* TFunctor.cpp */; };
-		AB514E0A1034184B00E5A6AD /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
-		AB514E0C1034184B00E5A6AD /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
-		AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
-		AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBD1034184B00E5A6AD /* TStringEncoder.cpp */; };
-		AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBF1034184B00E5A6AD /* TStringFormatter.cpp */; };
-		AB514E121034184B00E5A6AD /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DC11034184B00E5A6AD /* TVariant.cpp */; };
-		AB514E131034184B00E5A6AD /* TFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DC41034184B00E5A6AD /* TFileUtilities.cpp */; };
-		AB514E141034184B00E5A6AD /* TMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DC61034184B00E5A6AD /* TMathUtilities.cpp */; };
-		AB514E151034184B00E5A6AD /* TSTLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DC81034184B00E5A6AD /* TSTLUtilities.cpp */; };
-		AB514E161034184B00E5A6AD /* TSystemUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DCA1034184B00E5A6AD /* TSystemUtilities.cpp */; };
-		AB514E171034184B00E5A6AD /* TTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */; };
-		AB514E181034184B00E5A6AD /* TThreadUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DCE1034184B00E5A6AD /* TThreadUtilities.cpp */; };
-		AB514E191034184B00E5A6AD /* TTimeUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD01034184B00E5A6AD /* TTimeUtilities.cpp */; };
-		AB514E1A1034184B00E5A6AD /* TNSSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD51034184B00E5A6AD /* TNSSingleton.mm */; };
-		AB514E1B1034184B00E5A6AD /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
-		AB514E1C1034184B00E5A6AD /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
-		AB514E1D1034184B00E5A6AD /* TCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDB1034184B00E5A6AD /* TCFDate.cpp */; };
-		AB514E1E1034184B00E5A6AD /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
-		AB514E1F1034184B00E5A6AD /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
-		AB514E201034184B00E5A6AD /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
-		AB514E211034184B00E5A6AD /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
-		AB514E7A1034612D00E5A6AD /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E741034612D00E5A6AD /* TPoint.cpp */; };
-		AB514E7B1034612D00E5A6AD /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E761034612D00E5A6AD /* TRectangle.cpp */; };
-		AB514E7C1034612D00E5A6AD /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E781034612D00E5A6AD /* TSize.cpp */; };
-		AB514EBD1034654800E5A6AD /* TVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514EBC1034654800E5A6AD /* TVector.cpp */; };
-		AB514F7C1035788600E5A6AD /* TPropertyStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */; };
 		AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB6E7E3609F9052300F73093 /* Cocoa.framework */; };
-		AB7AAFEA103AC51C004B1F6E /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */; };
-		AB7AB14B103AE59F004B1F6E /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
-		AB8CE2E7104D617100306EDC /* TDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */; };
-		AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
-		ABA529D016626BFA000C695B /* TNetworkBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529CC16626BFA000C695B /* TNetworkBrowser.cpp */; };
-		ABA529D116626BFA000C695B /* TNetworkService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA529CE16626BFA000C695B /* TNetworkService.cpp */; };
-		ABB4E0401767BA6800892A75 /* TImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB4E03F1767BA6800892A75 /* TImage.cpp */; };
-		ABB57D16112ADC21003D714C /* TSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB57D14112ADC21003D714C /* TSingleton.cpp */; };
-		ABB6783012AE56EF0077D64E /* TCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6782E12AE56EF0077D64E /* TCFURL.cpp */; };
-		ABC66E7D17411D52005B9357 /* TTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC66E7B17411D52005B9357 /* TTask.cpp */; };
-		ABCAFC5D17539B3500BAE1A7 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
-		ABCAFC5E17539B3500BAE1A7 /* TReadWriteLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */; };
-		ABCAFC5F17539B3500BAE1A7 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
-		ABCFE39A1773A09C0054EEA3 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
-		ABCFE39B1773A09C0054EEA3 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
-		ABCFE39C1773A09C0054EEA3 /* TCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */; };
-		ABCFE39D1773A09C0054EEA3 /* TCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3981773A09C0054EEA3 /* TCGShading.cpp */; };
-		ABCFE39E1773A09C0054EEA3 /* TCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */; };
-		ABD68171167A481C00CB2E04 /* TMessageClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */; };
-		ABD68172167A481C00CB2E04 /* TNetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */; };
-		ABD6817F167AB8AA00CB2E04 /* TJSONEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */; };
-		ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0709009FBBC7A0031D3D1 /* libNano.a */; };
-		ABE96258103B00A300029708 /* TNSAutoReleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */; };
-		ABEB0C0016760C8A00B74B71 /* TMessageServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */; };
-		ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */; };
-		ABED2AFD10BBD88C00EA8ECC /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2AF910BBD88C00EA8ECC /* TCache.cpp */; };
-		ABED2AFE10BBD88C00EA8ECC /* TCacheKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */; };
-		ABED2B9310BFE2F000EA8ECC /* TCacheValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */; };
-		ABFD973E1663951500EE07B7 /* TSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD973C1663951500EE07B7 /* TSocket.cpp */; };
+		ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
+		ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
+		ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
+		ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */; };
+		ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */; };
+		ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */; };
+		ABBB2B6423801DBB00EB2840 /* TAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */; };
+		ABBB2B6523801DBB00EB2840 /* TAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */; };
+		ABBB2B6623801DBB00EB2840 /* TAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */ = {
+		AB439B7123800B1000DBB6B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC06F0554671400DB518D;
-			remoteInfo = Nano;
-		};
-		ABE0709509FBBC890031D3D1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC06E0554671400DB518D;
-			remoteInfo = Nano;
-		};
-		ABF81BD60FB5F9D50040A020 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+			containerPortal = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = AB28FBDD0FB5D36300F72C61;
-			remoteInfo = iPhone;
+			remoteInfo = Nano_iOS;
+		};
+		AB439B7323800B1000DBB6B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC06F0554671400DB518D;
+			remoteInfo = Nano_macOS;
+		};
+		AB439B7523800B1000DBB6B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB03E642237A0C5F00FACADF;
+			remoteInfo = Nano_tvOS;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		8D0C4E970486CD37000505A6 /* NanoTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB069E1A14CC2331006E6DF8 /* NanoCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoCommon.xcconfig; sourceTree = "<group>"; };
-		AB069E1B14CC2331006E6DF8 /* NanoDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebug.xcconfig; sourceTree = "<group>"; };
-		AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoDebugMac.xcconfig; sourceTree = "<group>"; };
-		AB069E1D14CC2331006E6DF8 /* NanoRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoRelease.xcconfig; sourceTree = "<group>"; };
-		AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = NanoReleaseMac.xcconfig; sourceTree = "<group>"; };
+		8D0C4E970486CD37000505A6 /* NanoTest_macOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_macOS; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB103B7A10B6B04000F425C5 /* TAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAttributes.cpp; sourceTree = "<group>"; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
@@ -158,6 +68,13 @@
 		AB328C8517612CBF00782F40 /* StdAfx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StdAfx.cpp; sourceTree = "<group>"; };
 		AB328C8617612CBF00782F40 /* StdAfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StdAfx.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
+		AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../Library/Project/Nano.xcodeproj; sourceTree = "<group>"; };
+		AB439B7923800B9600DBB6B2 /* NanoTest_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest_iOS.xcconfig; sourceTree = "<group>"; };
+		AB439B7A23800B9600DBB6B2 /* NanoTest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest.xcconfig; sourceTree = "<group>"; };
+		AB439B7B23800B9600DBB6B2 /* NanoTest_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest_tvOS.xcconfig; sourceTree = "<group>"; };
+		AB439B7C23800B9600DBB6B2 /* NanoTest_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest_macOS.xcconfig; sourceTree = "<group>"; };
+		AB439BEC23800C0100DBB6B2 /* NanoTest_iOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_iOS; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB439C5C23800C0600DBB6B2 /* NanoTest_tvOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_tvOS; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB481C6E12A539690052C55F /* TNetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkManager.cpp; sourceTree = "<group>"; };
 		AB481C7012A539690052C55F /* TURLRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLRequest.cpp; sourceTree = "<group>"; };
 		AB481C7212A539690052C55F /* TURLResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLResponse.cpp; sourceTree = "<group>"; };
@@ -167,7 +84,6 @@
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
 		AB514D641034184B00E5A6AD /* TUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoManager.cpp; sourceTree = "<group>"; };
 		AB514D661034184B00E5A6AD /* TUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoSource.cpp; sourceTree = "<group>"; };
-		AB514D691034184B00E5A6AD /* TDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebug.cpp; sourceTree = "<group>"; };
 		AB514D6C1034184B00E5A6AD /* TDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDBHandle.cpp; sourceTree = "<group>"; };
 		AB514D6E1034184B00E5A6AD /* TDBHandlePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDBHandlePool.cpp; sourceTree = "<group>"; };
 		AB514D711034184B00E5A6AD /* TBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBroadcaster.cpp; sourceTree = "<group>"; };
@@ -223,7 +139,6 @@
 		AB514E781034612D00E5A6AD /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
-		AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../../Library/Project/Nano.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataDigest.cpp; sourceTree = "<group>"; };
@@ -231,12 +146,14 @@
 		AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
 		AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
-		AB9E78990F27D8C50043A657 /* NanoTest Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NanoTest Prefix.h"; sourceTree = "<group>"; };
 		ABA529CC16626BFA000C695B /* TNetworkBrowser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkBrowser.cpp; sourceTree = "<group>"; };
 		ABA529CE16626BFA000C695B /* TNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkService.cpp; sourceTree = "<group>"; };
 		ABB4E03F1767BA6800892A75 /* TImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TImage.cpp; sourceTree = "<group>"; };
 		ABB57D14112ADC21003D714C /* TSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSingleton.cpp; sourceTree = "<group>"; };
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
+		ABBB2B5B23801DBB00EB2840 /* TLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLog.cpp; sourceTree = "<group>"; };
+		ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLogOutput.cpp; sourceTree = "<group>"; };
+		ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAssert.cpp; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -267,7 +184,26 @@
 				AB481CAE12A57EF40052C55F /* SystemConfiguration.framework in Frameworks */,
 				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
 				AB6E7E3709F9052300F73093 /* Cocoa.framework in Frameworks */,
-				ABE0709409FBBC820031D3D1 /* libNano.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB439BE523800C0100DBB6B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB439BE623800C0100DBB6B2 /* SystemConfiguration.framework in Frameworks */,
+				AB439BE723800C0100DBB6B2 /* Carbon.framework in Frameworks */,
+				AB439BE823800C0100DBB6B2 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB439C5523800C0600DBB6B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB439C5623800C0600DBB6B2 /* SystemConfiguration.framework in Frameworks */,
+				AB439C5723800C0600DBB6B2 /* Carbon.framework in Frameworks */,
+				AB439C5823800C0600DBB6B2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +213,9 @@
 		195DF8CFFE9D517E11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D0C4E970486CD37000505A6 /* NanoTest */,
+				8D0C4E970486CD37000505A6 /* NanoTest_macOS */,
+				AB439BEC23800C0100DBB6B2 /* NanoTest_iOS */,
+				AB439C5C23800C0600DBB6B2 /* NanoTest_tvOS */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,11 +223,10 @@
 		20286C29FDCF999611CA2CEA /* NanoTest */ = {
 			isa = PBXGroup;
 			children = (
-				AB5B29A909CAD85D008C593C /* Configuration */,
-				AB5B29B509CAD866008C593C /* Prefix */,
 				AB9155DC0F9B4F37009FFEAF /* Source */,
+				AB439B7723800B9600DBB6B2 /* Support */,
+				AB5B29DB09CAD8B7008C593C /* Projects */,
 				20286C32FDCF999611CA2CEA /* Frameworks */,
-				AB5B29DB09CAD8B7008C593C /* Dependencies */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
 			);
 			name = NanoTest;
@@ -328,6 +265,36 @@
 				AB328C8617612CBF00782F40 /* StdAfx.h */,
 			);
 			path = Windows;
+			sourceTree = "<group>";
+		};
+		AB439B6C23800B1000DBB6B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB439B7223800B1000DBB6B2 /* libNano_iOS.a */,
+				AB439B7423800B1000DBB6B2 /* libNano_macOS.a */,
+				AB439B7623800B1000DBB6B2 /* libNano_tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AB439B7723800B9600DBB6B2 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				AB439B7823800B9600DBB6B2 /* Xcode */,
+			);
+			name = Support;
+			path = ../Support;
+			sourceTree = "<group>";
+		};
+		AB439B7823800B9600DBB6B2 /* Xcode */ = {
+			isa = PBXGroup;
+			children = (
+				AB439B7923800B9600DBB6B2 /* NanoTest_iOS.xcconfig */,
+				AB439B7B23800B9600DBB6B2 /* NanoTest_tvOS.xcconfig */,
+				AB439B7C23800B9600DBB6B2 /* NanoTest_macOS.xcconfig */,
+				AB439B7A23800B9600DBB6B2 /* NanoTest.xcconfig */,
+			);
+			path = Xcode;
 			sourceTree = "<group>";
 		};
 		AB481C6D12A539690052C55F /* Network */ = {
@@ -378,7 +345,9 @@
 		AB514D681034184B00E5A6AD /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				AB514D691034184B00E5A6AD /* TDebug.cpp */,
+				ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */,
+				ABBB2B5B23801DBB00EB2840 /* TLog.cpp */,
+				ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -543,34 +512,12 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
-		AB5B29A909CAD85D008C593C /* Configuration */ = {
+		AB5B29DB09CAD8B7008C593C /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				AB069E1A14CC2331006E6DF8 /* NanoCommon.xcconfig */,
-				AB069E1B14CC2331006E6DF8 /* NanoDebug.xcconfig */,
-				AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */,
-				AB069E1D14CC2331006E6DF8 /* NanoRelease.xcconfig */,
-				AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */,
+				AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */,
 			);
-			name = Configuration;
-			path = ../../../Support/Xcode/Configuration;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB5B29B509CAD866008C593C /* Prefix */ = {
-			isa = PBXGroup;
-			children = (
-				AB9E78990F27D8C50043A657 /* NanoTest Prefix.h */,
-			);
-			name = Prefix;
-			path = ../Prefix;
-			sourceTree = SOURCE_ROOT;
-		};
-		AB5B29DB09CAD8B7008C593C /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */,
-			);
-			name = Dependencies;
+			name = Projects;
 			sourceTree = "<group>";
 		};
 		AB9155DC0F9B4F37009FFEAF /* Source */ = {
@@ -601,21 +548,12 @@
 			path = CoreGraphics;
 			sourceTree = "<group>";
 		};
-		ABE0708B09FBBC7A0031D3D1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABF81BD70FB5F9D50040A020 /* libNano.a */,
-				ABE0709009FBBC7A0031D3D1 /* libNano.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D0C4E890486CD37000505A6 /* NanoTest */ = {
+		8D0C4E890486CD37000505A6 /* NanoTest_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoTest" */;
+			buildConfigurationList = C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoTest_macOS" */;
 			buildPhases = (
 				8D0C4E8F0486CD37000505A6 /* Sources */,
 				8D0C4E910486CD37000505A6 /* Frameworks */,
@@ -623,12 +561,45 @@
 			buildRules = (
 			);
 			dependencies = (
-				ABE0709609FBBC890031D3D1 /* PBXTargetDependency */,
 			);
-			name = NanoTest;
+			name = NanoTest_macOS;
 			productInstallPath = "$(HOME)/Applications";
 			productName = NanoTest;
-			productReference = 8D0C4E970486CD37000505A6 /* NanoTest */;
+			productReference = 8D0C4E970486CD37000505A6 /* NanoTest_macOS */;
+			productType = "com.apple.product-type.tool";
+		};
+		AB439B7D23800C0100DBB6B2 /* NanoTest_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB439BE923800C0100DBB6B2 /* Build configuration list for PBXNativeTarget "NanoTest_iOS" */;
+			buildPhases = (
+				AB439B7E23800C0100DBB6B2 /* Sources */,
+				AB439BE523800C0100DBB6B2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NanoTest_iOS;
+			productInstallPath = "$(HOME)/Applications";
+			productName = NanoTest;
+			productReference = AB439BEC23800C0100DBB6B2 /* NanoTest_iOS */;
+			productType = "com.apple.product-type.tool";
+		};
+		AB439BED23800C0600DBB6B2 /* NanoTest_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB439C5923800C0600DBB6B2 /* Build configuration list for PBXNativeTarget "NanoTest_tvOS" */;
+			buildPhases = (
+				AB439BEE23800C0600DBB6B2 /* Sources */,
+				AB439C5523800C0600DBB6B2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NanoTest_tvOS;
+			productInstallPath = "$(HOME)/Applications";
+			productName = NanoTest;
+			productReference = AB439C5C23800C0600DBB6B2 /* NanoTest_tvOS */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -653,30 +624,39 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = ABE0708B09FBBC7A0031D3D1 /* Products */;
-					ProjectRef = AB5B29DF09CAD8E4008C593C /* Nano.xcodeproj */;
+					ProductGroup = AB439B6C23800B1000DBB6B2 /* Products */;
+					ProjectRef = AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */;
 				},
 			);
 			projectRoot = ..;
 			targets = (
-				8D0C4E890486CD37000505A6 /* NanoTest */,
+				AB439B7D23800C0100DBB6B2 /* NanoTest_iOS */,
+				8D0C4E890486CD37000505A6 /* NanoTest_macOS */,
+				AB439BED23800C0600DBB6B2 /* NanoTest_tvOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		ABE0709009FBBC7A0031D3D1 /* libNano.a */ = {
+		AB439B7223800B1000DBB6B2 /* libNano_iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libNano.a;
-			remoteRef = ABE0708F09FBBC7A0031D3D1 /* PBXContainerItemProxy */;
+			path = libNano_iOS.a;
+			remoteRef = AB439B7123800B1000DBB6B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ABF81BD70FB5F9D50040A020 /* libNano.a */ = {
+		AB439B7423800B1000DBB6B2 /* libNano_macOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libNano.a;
-			remoteRef = ABF81BD60FB5F9D50040A020 /* PBXContainerItemProxy */;
+			path = libNano_macOS.a;
+			remoteRef = AB439B7323800B1000DBB6B2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AB439B7623800B1000DBB6B2 /* libNano_tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNano_tvOS.a;
+			remoteRef = AB439B7523800B1000DBB6B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -686,137 +666,81 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABEC885D0FC73DD7003B7166 /* CTestListener.cpp in Sources */,
-				AB9156360F9B4F37009FFEAF /* CTestUtilities.cpp in Sources */,
+				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
+				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
-				ABE96258103B00A300029708 /* TNSAutoReleasePool.mm in Sources */,
-				AB514E1A1034184B00E5A6AD /* TNSSingleton.mm in Sources */,
-				AB514E1B1034184B00E5A6AD /* TCFArray.cpp in Sources */,
-				AB514E1C1034184B00E5A6AD /* TCFData.cpp in Sources */,
-				AB514E1D1034184B00E5A6AD /* TCFDate.cpp in Sources */,
-				AB514E1E1034184B00E5A6AD /* TCFDictionary.cpp in Sources */,
-				AB514E1F1034184B00E5A6AD /* TCFNumber.cpp in Sources */,
-				AB514E201034184B00E5A6AD /* TCFObject.cpp in Sources */,
-				AB514E211034184B00E5A6AD /* TCFString.cpp in Sources */,
-				ABB6783012AE56EF0077D64E /* TCFURL.cpp in Sources */,
-				ABCFE39A1773A09C0054EEA3 /* TCGColor.cpp in Sources */,
-				ABCFE39B1773A09C0054EEA3 /* TCGContext.cpp in Sources */,
-				ABCFE39C1773A09C0054EEA3 /* TCGImage.cpp in Sources */,
-				ABCFE39D1773A09C0054EEA3 /* TCGShading.cpp in Sources */,
-				ABCFE39E1773A09C0054EEA3 /* TCoreGraphics.cpp in Sources */,
-				AB514DE51034184B00E5A6AD /* TCommandLine.cpp in Sources */,
-				AB514DE61034184B00E5A6AD /* TPreferences.cpp in Sources */,
-				AB514DE71034184B00E5A6AD /* TUndoManager.cpp in Sources */,
-				AB514DE81034184B00E5A6AD /* TUndoSource.cpp in Sources */,
-				AB514DE91034184B00E5A6AD /* TDebug.cpp in Sources */,
-				AB514DEA1034184B00E5A6AD /* TDBHandle.cpp in Sources */,
-				AB514DEB1034184B00E5A6AD /* TDBHandlePool.cpp in Sources */,
-				AB514DEC1034184B00E5A6AD /* TBroadcaster.cpp in Sources */,
-				AB514DED1034184B00E5A6AD /* TListener.cpp in Sources */,
-				AB514DEE1034184B00E5A6AD /* TTimer.cpp in Sources */,
-				AB514DEF1034184B00E5A6AD /* TBundle.cpp in Sources */,
-				AB514DF01034184B00E5A6AD /* TFile.cpp in Sources */,
-				AB143161103EC576002BD0D1 /* TFileIterator.cpp in Sources */,
-				AB514DF11034184B00E5A6AD /* TFileMap.cpp in Sources */,
-				AB514DF21034184B00E5A6AD /* TPropertyList.cpp in Sources */,
-				AB14320E103F512C002BD0D1 /* TColor.cpp in Sources */,
-				AB514E7A1034612D00E5A6AD /* TPoint.cpp in Sources */,
-				AB514E7B1034612D00E5A6AD /* TRectangle.cpp in Sources */,
-				AB3326D31046C9B100C8DF0A /* TShape.cpp in Sources */,
-				AB514E7C1034612D00E5A6AD /* TSize.cpp in Sources */,
-				AB1BA197104E7D1400BB002B /* TTransform.cpp in Sources */,
-				AB514EBD1034654800E5A6AD /* TVector.cpp in Sources */,
-				ABD68171167A481C00CB2E04 /* TMessageClient.cpp in Sources */,
-				ABEB0C0016760C8A00B74B71 /* TMessageServer.cpp in Sources */,
-				ABA529D016626BFA000C695B /* TNetworkBrowser.cpp in Sources */,
-				AB481C7412A539690052C55F /* TNetworkManager.cpp in Sources */,
-				ABD68172167A481C00CB2E04 /* TNetworkMessage.cpp in Sources */,
-				ABA529D116626BFA000C695B /* TNetworkService.cpp in Sources */,
-				ABFD973E1663951500EE07B7 /* TSocket.cpp in Sources */,
-				AB481C7512A539690052C55F /* TURLRequest.cpp in Sources */,
-				AB481C7612A539690052C55F /* TURLResponse.cpp in Sources */,
-				AB514DF41034184B00E5A6AD /* TByteSwap.cpp in Sources */,
-				ABED2AFD10BBD88C00EA8ECC /* TCache.cpp in Sources */,
-				ABED2AFE10BBD88C00EA8ECC /* TCacheKey.cpp in Sources */,
-				ABED2B9310BFE2F000EA8ECC /* TCacheValue.cpp in Sources */,
-				AB7AAFEA103AC51C004B1F6E /* TDataCipher.cpp in Sources */,
-				AB514DF61034184B00E5A6AD /* TDataCompressor.cpp in Sources */,
-				AB7AB14B103AE59F004B1F6E /* TDataDigest.cpp in Sources */,
-				AB8CE2E7104D617100306EDC /* TDataEncoder.cpp in Sources */,
-				ABD6817F167AB8AA00CB2E04 /* TJSONEncoder.cpp in Sources */,
-				AB2AAD7F10396310007BC4E6 /* TLocale.cpp in Sources */,
-				ABC66E7D17411D52005B9357 /* TTask.cpp in Sources */,
-				AB514DF71034184B00E5A6AD /* TUnicodeParser.cpp in Sources */,
-				AB2AADCA1039797F007BC4E6 /* TUTIRegistry.cpp in Sources */,
-				AB514DF81034184B00E5A6AD /* TXMLEncoder.cpp in Sources */,
-				AB514DF91034184B00E5A6AD /* TXMLNode.cpp in Sources */,
-				AB514DFA1034184B00E5A6AD /* TXMLParser.cpp in Sources */,
-				AB514DFB1034184B00E5A6AD /* TAtomicInt.cpp in Sources */,
-				AB514DFC1034184B00E5A6AD /* TAtomicList.cpp in Sources */,
-				AB514DFD1034184B00E5A6AD /* TLock.cpp in Sources */,
-				ABCAFC5D17539B3500BAE1A7 /* TMutex.cpp in Sources */,
-				ABCAFC5E17539B3500BAE1A7 /* TReadWriteLock.cpp in Sources */,
-				AB514DFE1034184B00E5A6AD /* TSemaphore.cpp in Sources */,
-				ABCAFC5F17539B3500BAE1A7 /* TSpinLock.cpp in Sources */,
-				AB514DFF1034184B00E5A6AD /* TThread.cpp in Sources */,
-				AB514E001034184B00E5A6AD /* TThreadPool.cpp in Sources */,
-				AB514E011034184B00E5A6AD /* TArray.cpp in Sources */,
-				AB103B7C10B6B04000F425C5 /* TAttributes.cpp in Sources */,
-				AB514E021034184B00E5A6AD /* TBitVector.cpp in Sources */,
-				AB514E041034184B00E5A6AD /* TData.cpp in Sources */,
-				AB514E051034184B00E5A6AD /* TDate.cpp in Sources */,
-				AB514E061034184B00E5A6AD /* TDateFormatter.cpp in Sources */,
-				AB514E071034184B00E5A6AD /* TDictionary.cpp in Sources */,
-				AB514E081034184B00E5A6AD /* TEncoder.cpp in Sources */,
-				AB514E091034184B00E5A6AD /* TFunctor.cpp in Sources */,
-				AB514E0A1034184B00E5A6AD /* TNumber.cpp in Sources */,
-				AB514F7C1035788600E5A6AD /* TPropertyStore.cpp in Sources */,
-				AB514E0C1034184B00E5A6AD /* TRange.cpp in Sources */,
-				ABB57D16112ADC21003D714C /* TSingleton.cpp in Sources */,
-				AB514E0F1034184B00E5A6AD /* TString.cpp in Sources */,
-				AB514E101034184B00E5A6AD /* TStringEncoder.cpp in Sources */,
-				AB514E111034184B00E5A6AD /* TStringFormatter.cpp in Sources */,
-				AB481C7D12A539830052C55F /* TURL.cpp in Sources */,
-				AB2AAC781035B65D007BC4E6 /* TUTI.cpp in Sources */,
-				AB514E121034184B00E5A6AD /* TVariant.cpp in Sources */,
-				AB514E131034184B00E5A6AD /* TFileUtilities.cpp in Sources */,
-				AB1BA2A5105016AF00BB002B /* TGeometryUtilities.cpp in Sources */,
-				AB514E141034184B00E5A6AD /* TMathUtilities.cpp in Sources */,
-				AB514E151034184B00E5A6AD /* TSTLUtilities.cpp in Sources */,
-				AB514E161034184B00E5A6AD /* TSystemUtilities.cpp in Sources */,
-				AB514E171034184B00E5A6AD /* TTextUtilities.cpp in Sources */,
-				AB514E181034184B00E5A6AD /* TThreadUtilities.cpp in Sources */,
-				AB514E191034184B00E5A6AD /* TTimeUtilities.cpp in Sources */,
-				ABB4E0401767BA6800892A75 /* TImage.cpp in Sources */,
+				ABBB2B6523801DBB00EB2840 /* TAssert.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB439B7E23800C0100DBB6B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
+				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
+				ABBB2B6423801DBB00EB2840 /* TAssert.cpp in Sources */,
+				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB439BEE23800C0600DBB6B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
+				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
+				ABBB2B6623801DBB00EB2840 /* TAssert.cpp in Sources */,
+				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		ABE0709609FBBC890031D3D1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Nano;
-			targetProxy = ABE0709509FBBC890031D3D1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
+		AB439BEA23800C0100DBB6B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB439B7923800B9600DBB6B2 /* NanoTest_iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AB439BEB23800C0100DBB6B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB439B7923800B9600DBB6B2 /* NanoTest_iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AB439C5A23800C0600DBB6B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB439B7B23800B9600DBB6B2 /* NanoTest_tvOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AB439C5B23800C0600DBB6B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB439B7B23800B9600DBB6B2 /* NanoTest_tvOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		C0E91AC608A95435008D54AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB069E1C14CC2331006E6DF8 /* NanoDebugMac.xcconfig */;
+			baseConfigurationReference = AB439B7C23800B9600DBB6B2 /* NanoTest_macOS.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
-				PRODUCT_NAME = NanoTest;
 			};
 			name = Debug;
 		};
 		C0E91AC708A95435008D54AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB069E1E14CC2331006E6DF8 /* NanoReleaseMac.xcconfig */;
+			baseConfigurationReference = AB439B7C23800B9600DBB6B2 /* NanoTest_macOS.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "../Prefix/NanoTest Prefix.h";
-				PRODUCT_NAME = NanoTest;
 			};
 			name = Release;
 		};
@@ -835,7 +759,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoTest" */ = {
+		AB439BE923800C0100DBB6B2 /* Build configuration list for PBXNativeTarget "NanoTest_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB439BEA23800C0100DBB6B2 /* Debug */,
+				AB439BEB23800C0100DBB6B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AB439C5923800C0600DBB6B2 /* Build configuration list for PBXNativeTarget "NanoTest_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB439C5A23800C0600DBB6B2 /* Debug */,
+				AB439C5B23800C0600DBB6B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C0E91AC508A95435008D54AB /* Build configuration list for PBXNativeTarget "NanoTest_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C0E91AC608A95435008D54AB /* Debug */,

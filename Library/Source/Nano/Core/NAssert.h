@@ -100,8 +100,7 @@
 						   _nn_require_N,                   \
 						   _nn_require_N,                   \
 						   _nn_require_N,                   \
-						   _nn_require_1)                   \
-		(__VA_ARGS__)
+						   _nn_require_1)(__VA_ARGS__)
 
 #else
 	#define NN_REQUIRE(...)
@@ -149,8 +148,7 @@
 						  _nn_expect_N,                     \
 						  _nn_expect_N,                     \
 						  _nn_expect_N,                     \
-						  _nn_expect_1)                     \
-		(__VA_ARGS__)
+						  _nn_expect_1)(__VA_ARGS__)
 
 #else
 	#define NN_EXPECT(...)
