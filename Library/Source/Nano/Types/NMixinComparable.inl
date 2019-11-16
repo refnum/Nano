@@ -2,7 +2,7 @@
 		NMixinComparable.inl
 
 	DESCRIPTION:
-		Comparable object.
+		Mix-in for comparable objects.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -129,7 +129,7 @@ bool NMixinComparable<T>::operator>(const T& theValue) const
 template <typename T>
 NComparison NMixinComparable<T>::CompareTo(const T& theValue) const
 {
-	const T* thisValue = static_cast<const T*>(this);
+	auto thisObject = static_cast<const T&>(*this);
 
-	return thisValue->Compare(theValue);
+	return thisObject.Compare(theValue);
 }

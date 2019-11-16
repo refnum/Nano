@@ -2,7 +2,7 @@
 		NMixinComparable.h
 
 	DESCRIPTION:
-		Comparable object.
+		Mix-in for comparable objects.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software

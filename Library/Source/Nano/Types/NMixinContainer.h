@@ -61,9 +61,6 @@ public:
 	//
 	// Must be implemented by derived classes.
 	size_t                              GetSize() const;
-
-
-private:
 };
 
 

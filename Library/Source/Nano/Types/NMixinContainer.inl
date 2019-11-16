@@ -50,7 +50,7 @@
 template <typename T>
 bool NMixinContainer<T>::IsEmpty() const
 {
-	const T* thisValue = static_cast<const T*>(this);
+	auto thisObject = static_cast<const T&>(*this);
 
-	return thisValue->GetSize() == 0;
+	return thisObject.GetSize() == 0;
 }
