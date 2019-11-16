@@ -79,9 +79,9 @@
 //
 // TEARDOWN is optional, and is executed after the test.
 //
-#define NANO_FIXTURE(_fixture)                              struct _fixture : public NTestFixture
-#define SETUP                                               void SetUp()
-#define TEARDOWN                                            void TearDown()
+#define NANO_FIXTURE(_fixture)                              struct Fixture_##_fixture : public NTestFixture
+#define SETUP                                               void SetUp() final
+#define TEARDOWN                                            void TearDown() final
 
 
 // Tests
@@ -107,7 +107,8 @@
 //
 // Tags may be used to group tests for execution.
 //
-#define NANO_TEST(_fixture, ...)                            TEST_CASE_METHOD(_fixture, "Nano/" #_fixture "/" __VA_ARGS__)
+#define NANO_TEST(_fixture, ...)                            \
+	TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" __VA_ARGS__)
 
 
 

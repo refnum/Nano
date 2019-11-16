@@ -40,7 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NLogOutput.h"
+#include "NLog.h"
 #include "NTestFixture.h"
 
 
@@ -48,10 +48,8 @@
 
 
 //=============================================================================
-//		Macros
+//		Fixture
 //-----------------------------------------------------------------------------
-#define TEST_NLOGOUTPUTCONSOLE(...)                         NANO_TEST(TLogOutputConsole, #__VA_ARGS__)
-
 NANO_FIXTURE(TLogOutputConsole)
 {
 	NLogOutputConsole theOutput;
@@ -64,6 +62,6 @@ NANO_FIXTURE(TLogOutputConsole)
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-TEST_NLOGOUTPUTCONSOLE("Default")
+NANO_TEST(TLogOutputConsole, "Default")
 {
 }
