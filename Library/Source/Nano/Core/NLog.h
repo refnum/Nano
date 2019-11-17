@@ -78,19 +78,19 @@
 	#define NN_LOG_INFO(...)                                            \
 		do                                                              \
 		{                                                               \
-			NanoLog(NLogLevel::Info, __FILE__, __LINE__, __VA_ARGS);    \
+			NanoLog(NLogLevel::Info, __FILE__, __LINE__, __VA_ARGS__);  \
 		} while (false)
 
-	#define NN_LOG_WARNING(...)                                         \
-		do                                                              \
-		{                                                               \
-			NanoLog(NLogLevel::Warning, __FILE__, __LINE__, __VA_ARGS); \
+	#define NN_LOG_WARNING(...)                                             \
+		do                                                                  \
+		{                                                                   \
+			NanoLog(NLogLevel::Warning, __FILE__, __LINE__, __VA_ARGS__);   \
 		} while (false)
 
 	#define NN_LOG_ERROR(...)                                           \
 		do                                                              \
 		{                                                               \
-			NanoLog(NLogLevel::Error, __FILE__, __LINE__, __VA_ARGS);   \
+			NanoLog(NLogLevel::Error, __FILE__, __LINE__, __VA_ARGS__); \
 		} while (false)
 
 #else

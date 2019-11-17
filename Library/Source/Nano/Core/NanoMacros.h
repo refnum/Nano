@@ -81,9 +81,9 @@
 //		}
 //
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	#define NN_EXPECT_LIKELY(_condition)                    __builtin_expect((__condition), 1)
+	#define NN_EXPECT_LIKELY(_condition)                    __builtin_expect((_condition), 1)
 #else
-	#define NN_EXPECT_LIKELY(_condition)                    __condition
+	#define NN_EXPECT_LIKELY(_condition)                    _condition
 #endif
 
 
@@ -97,9 +97,9 @@
 //		}
 //
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	#define NN_EXPECT_UNLIKELY(_condition)                  __builtin_expect((__condition), 0)
+	#define NN_EXPECT_UNLIKELY(_condition)                  __builtin_expect((_condition), 0)
 #else
-	#define NN_EXPECT_UNLIKELY(_condition)                  __condition
+	#define NN_EXPECT_UNLIKELY(_condition)                  _condition
 #endif
 
 

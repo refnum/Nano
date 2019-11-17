@@ -77,14 +77,14 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_require(_condition, _message, ...)                                          \
-		do                                                                                  \
-		{                                                                                   \
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                          \
-			{                                                                               \
-				NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##VA_ARGS);    \
-				__builtin_trap();                                                           \
-			}                                                                               \
+	#define _nn_require(_condition, _message, ...)                                              \
+		do                                                                                      \
+		{                                                                                       \
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+			{                                                                                   \
+				NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+				__builtin_trap();                                                               \
+			}                                                                                   \
 		} while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require(_condition, "")
@@ -126,13 +126,13 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_expect(_condition, _message, ...)                                           \
-		do                                                                                  \
-		{                                                                                   \
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                          \
-			{                                                                               \
-				NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##VA_ARGS);    \
-			}                                                                               \
+	#define _nn_expect(_condition, _message, ...)                                               \
+		do                                                                                      \
+		{                                                                                       \
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+			{                                                                                   \
+				NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+			}                                                                                   \
 		} while (false)
 
 	#define _nn_expect_1(_condition)                        _nn_expect(_condition, "")
