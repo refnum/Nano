@@ -235,6 +235,10 @@ private:
 	size_t                              GetSizeShared()   const;
 	size_t                              GetSizeExternal() const;
 
+	size_t                              GetCapacitySmall()    const;
+	size_t                              GetCapacityShared()   const;
+	size_t                              GetCapacityExternal() const;
+
 	const uint8_t*                      GetDataSmall()    const;
 	const uint8_t*                      GetDataShared()   const;
 	const uint8_t*                      GetDataExternal() const;

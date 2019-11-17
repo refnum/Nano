@@ -68,11 +68,6 @@ NData::NData(size_t theSize, const void* theData, NDataUsage theUsage)
 	: mStorage({})
 	, mFlags(kStorageSmall)
 {
-	// Validate our state
-	static_assert(sizeof(mStorage) == kSmallSizeMax);
-
-
-
 	// Initialise ourselves
 	SetData(theSize, theData, theUsage);
 }
@@ -228,8 +223,25 @@ size_t NData::GetCapacity() const
 {
 
 
-	// TODO
-	return 0;
+	// Get the capacity
+	size_t theCapacity = 0;
+
+	switch (GetStorage())
+	{
+		case NDataStorage::Small:
+			theCapacity = GetCapacitySmall();
+			break;
+
+		case NDataStorage::Shared:
+			theCapacity = GetCapacityShared();
+			break;
+
+		case NDataStorage::External:
+			theCapacity = GetCapacityExternal();
+			break;
+	}
+
+	return theCapacity;
 }
 
 
@@ -332,11 +344,8 @@ uint8_t* NData::InsertData(size_t beforeIndex, const NData& theData)
 {
 
 
-	// TODO
-	NN_UNUSED(beforeIndex);
-	NN_UNUSED(theData);
-
-	return nullptr;
+	// Insert the data
+	return InsertData(beforeIndex, theData.GetSize(), theData.GetData(), NDataUsage::Copy);
 }
 
 
@@ -373,10 +382,8 @@ uint8_t* NData::AppendData(const NData& theData)
 {
 
 
-	// TODO
-	NN_UNUSED(theData);
-
-	return nullptr;
+	// Append the data
+	return AppendData(theData.GetSize(), theData.GetData(), NDataUsage::Copy);
 }
 
 
@@ -409,8 +416,8 @@ void NData::RemoveData(const NRange& theRange)
 {
 
 
-	// TODO
-	NN_UNUSED(theRange);
+	// Remove the data
+	ReplaceData(theRange, 0, nullptr, NDataUsage::Zero);
 }
 
 
@@ -424,11 +431,8 @@ uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
 {
 
 
-	// TODO
-	NN_UNUSED(theRange);
-	NN_UNUSED(theData);
-
-	return nullptr;
+	// Replace the data
+	return ReplaceData(theRange, theData.GetSize(), theData.GetData(), NDataUsage::Copy);
 }
 
 
@@ -465,10 +469,18 @@ NComparison NData::Compare(const NData& theData) const
 {
 
 
-	// TODO
-	NN_UNUSED(theData);
+	// Compare the data
+	//
+	// Data can only be compared for equality / inequality, so we
+	// can do a quick compare of our hash before checking the data.
+	NComparison theResult = NCompare(GetHash(), theData.GetHash());
 
-	return NComparison::EqualTo;
+	if (theResult == NComparison::EqualTo)
+	{
+		theResult = NCompare(GetSize(), GetData(), theData.GetSize(), theData.GetData());
+	}
+
+	return theResult;
 }
 
 
@@ -605,6 +617,66 @@ size_t NData::GetSizeExternal() const
 
 
 	// Get the size
+	return mStorage.External.theSlice.GetSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NData::GetCapacitySmall : Get the small capacity.
+//-----------------------------------------------------------------------------
+size_t NData::GetCapacitySmall() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::Small);
+
+
+
+	// Get the capacity
+	return NDataStorage::Small;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::GetCapacityShared : Get the shared capacity.
+//-----------------------------------------------------------------------------
+size_t NData::GetCapacityShared() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::Shared);
+
+
+
+	// Get the capacity
+	return mStorage.Shared.theBlock->theSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::GetCapacityExternal : Get the external capacity.
+//-----------------------------------------------------------------------------
+size_t NData::GetCapacityExternal() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::External);
+
+
+
+	// Get the capacity
 	return mStorage.External.theSlice.GetSize();
 }
 
