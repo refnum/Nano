@@ -294,9 +294,8 @@ NRange NRange::GetIntersection(const NRange& theRange) const
 
 
 
-#pragma mark protected
 //=============================================================================
-//		NRange::Compare : Compare a range.
+//		NRange::Compare : Compare the object.
 //-----------------------------------------------------------------------------
 NComparison NRange::Compare(const NRange& theRange) const
 {
