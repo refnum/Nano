@@ -51,7 +51,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kSmallSizeMax                       = NDataStorage::Small;
+static constexpr size_t kSizeSmallMax                       = NDataStorage::Small;
+static constexpr size_t kSizeEmpty                          = NDataStorage::Small;
 
 static constexpr uint8_t kStorageSmall                      = 0x3F;
 static constexpr uint8_t kStorageShared                     = (1 << 6);
@@ -66,7 +67,7 @@ static constexpr uint8_t kStorageExternal                   = (1 << 7);
 //-----------------------------------------------------------------------------
 NData::NData(size_t theSize, const void* theData, NDataUsage theUsage)
 	: mStorage({})
-	, mFlags(kStorageSmall)
+	, mFlags(kSizeEmpty)
 {
 	// Initialise ourselves
 	SetData(theSize, theData, theUsage);
@@ -81,10 +82,11 @@ NData::NData(size_t theSize, const void* theData, NDataUsage theUsage)
 //-----------------------------------------------------------------------------
 NData::NData()
 	: mStorage{}
-	, mFlags(kStorageSmall)
+	, mFlags(kSizeEmpty)
 {
 	// Validate our state
-	static_assert(sizeof(mStorage) == kSmallSizeMax);
+	static_assert(kSizeSmallMax == sizeof(mStorage));
+	static_assert(kSizeSmallMax <= kStorageSmall);
 }
 
 
@@ -98,7 +100,8 @@ NData::~NData()
 {
 
 
-	// TODO
+	// Clean up
+	ReleaseData();
 }
 
 
@@ -110,7 +113,7 @@ NData::~NData()
 //-----------------------------------------------------------------------------
 NData::NData(const NData& otherData)
 	: mStorage{}
-	, mFlags(kStorageSmall)
+	, mFlags(kSizeEmpty)
 {
 	// TODO
 	NN_UNUSED(otherData);
@@ -273,27 +276,31 @@ const uint8_t* NData::GetData(size_t theOffset) const
 	// Get the data
 	const uint8_t* theData = nullptr;
 
-	switch (GetStorage())
+	if (!IsEmpty())
 	{
-		case NDataStorage::Small:
-			theData = GetDataSmall();
-			break;
+		// Get the data
+		switch (GetStorage())
+		{
+			case NDataStorage::Small:
+				theData = GetDataSmall();
+				break;
 
-		case NDataStorage::Shared:
-			theData = GetDataShared();
-			break;
+			case NDataStorage::Shared:
+				theData = GetDataShared();
+				break;
 
-		case NDataStorage::External:
-			theData = GetDataExternal();
-			break;
-	}
+			case NDataStorage::External:
+				theData = GetDataExternal();
+				break;
+		}
 
 
 
-	// Apply the offset
-	if (theData != nullptr)
-	{
-		theData += theOffset;
+		// Apply the offset
+		if (theData != nullptr)
+		{
+			theData += theOffset;
+		}
 	}
 
 	return theData;
@@ -310,10 +317,17 @@ uint8_t* NData::GetMutableData(size_t theOffset)
 {
 
 
-	// TODO
-	NN_UNUSED(theOffset);
+	// Get the data
+	uint8_t* theData = nullptr;
 
-	return nullptr;
+	if (!IsEmpty())
+	{
+		MakeMutable();
+
+		theData = const_cast<uint8_t*>(GetData(theOffset));
+	}
+
+	return theData;
 }
 
 
@@ -327,10 +341,19 @@ void NData::SetData(size_t theSize, const void* theData, NDataUsage theUsage)
 {
 
 
-	// TODO
-	NN_UNUSED(theSize);
-	NN_UNUSED(theData);
-	NN_UNUSED(theUsage);
+	// Set the data
+	if (theUsage == NDataUsage::View)
+	{
+		SetDataExternal(theSize, theData, theUsage);
+	}
+	else if (theSize <= kSizeSmallMax)
+	{
+		SetDataSmall(theSize, theData, theUsage);
+	}
+	else
+	{
+		SetDataShared(theSize, theData, theUsage);
+	}
 }
 
 
@@ -565,6 +588,111 @@ NDataStorage NData::GetStorage() const
 
 
 //=============================================================================
+//		NData::ReleaseData : Release the data.
+//-----------------------------------------------------------------------------
+void NData::ReleaseData()
+{
+
+
+	// Release the data
+	//
+	// Shared data is released by the last owner.
+	if (GetStorage() == NDataStorage::Shared)
+	{
+		if (mStorage.Shared.theBlock->numOwners.fetch_sub(1) == 1)
+		{
+			free(mStorage.Shared.theBlock);
+		}
+	}
+
+
+
+	// Reset our state
+#if NN_DEBUG
+	memset(&mStorage, 0xAA, sizeof(mStorage));
+#endif
+
+	mFlags = kSizeEmpty;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::MakeMutable : Make the data mutable.
+//-----------------------------------------------------------------------------
+void NData::MakeMutable()
+{
+
+
+	// Get the state we need
+	NRange         srcSlice;
+	const uint8_t* srcData = nullptr;
+
+	switch (GetStorage())
+	{
+		case NDataStorage::Small:
+			// Always mutable
+			break;
+
+		case NDataStorage::Shared:
+			// Copy if shared
+			//
+			// If we're the only owner it's safe to mutate in place.
+			if (mStorage.Shared.theBlock->numOwners != 1)
+			{
+				srcSlice = mStorage.Shared.theSlice;
+				srcData  = mStorage.Shared.theBlock->theData;
+			}
+			break;
+
+		case NDataStorage::External:
+			// Always copy
+			srcSlice = mStorage.External.theSlice;
+			srcData  = mStorage.External.theData;
+			break;
+	}
+
+
+
+	// Copy the data
+	//
+	// Our data is mutable if we own the only copy.
+	if (!srcSlice.IsEmpty())
+	{
+		// Find the data
+		size_t srcSize = srcSlice.GetSize();
+		srcData        = srcData + srcSlice.GetLocation();
+
+
+
+		// Allocate a new block
+		size_t      blockSize = sizeof(NDataBlock) + srcSize;
+		NDataBlock* newBlock  = static_cast<NDataBlock*>(malloc(blockSize));
+
+		newBlock->numOwners = 1;
+		newBlock->theSize   = srcSize;
+
+		memcpy(newBlock->theData, srcData, srcSize);
+
+
+
+		// Attach to the new block
+		ReleaseData();
+
+		mStorage.Shared.theBlock = newBlock;
+		mStorage.Shared.theSlice.SetRange(0, srcSize);
+
+		mFlags = kStorageShared;
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NData::GetSizeSmall : Get the small size.
 //-----------------------------------------------------------------------------
 size_t NData::GetSizeSmall() const
@@ -685,7 +813,7 @@ size_t NData::GetCapacityExternal() const
 
 
 //=============================================================================
-//		NData::GetDataSmall : Get the small data.
+//		NData::GetDataSmall : Get small data.
 //-----------------------------------------------------------------------------
 const uint8_t* NData::GetDataSmall() const
 {
@@ -696,7 +824,7 @@ const uint8_t* NData::GetDataSmall() const
 
 
 
-	// Get the size
+	// Get the data
 	return mStorage.Small.theData;
 }
 
@@ -705,7 +833,7 @@ const uint8_t* NData::GetDataSmall() const
 
 
 //=============================================================================
-//		NData::GetDataShared : Get the shared data.
+//		NData::GetDataShared : Get shared data.
 //-----------------------------------------------------------------------------
 const uint8_t* NData::GetDataShared() const
 {
@@ -716,7 +844,7 @@ const uint8_t* NData::GetDataShared() const
 
 
 
-	// Get the size
+	// Get the data
 	return mStorage.Shared.theBlock->theData;
 }
 
@@ -725,7 +853,7 @@ const uint8_t* NData::GetDataShared() const
 
 
 //=============================================================================
-//		NData::GetDataExternal : Get the external data.
+//		NData::GetDataExternal : Get external data.
 //-----------------------------------------------------------------------------
 const uint8_t* NData::GetDataExternal() const
 {
@@ -736,6 +864,204 @@ const uint8_t* NData::GetDataExternal() const
 
 
 
-	// Get the sizse
+	// Get the data
 	return mStorage.External.theData;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetDataSmall : Set small data.
+//-----------------------------------------------------------------------------
+void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theSize <= kSizeSmallMax);
+	NN_REQUIRE(theUsage != NDataUsage::View);
+
+
+
+	// Set the data
+	//
+	// memmove will handle the case where the data is already within our storage.
+	switch (theUsage)
+	{
+		case NDataUsage::Copy:
+			memmove(mStorage.Small.theData, theData, theSize);
+			break;
+
+		case NDataUsage::Zero:
+			memset(mStorage.Small.theData, 0x00, theSize);
+			break;
+
+		case NDataUsage::None:
+			// Do nothing
+			break;
+
+		case NDataUsage::View:
+			NN_LOG_ERROR("NDataUsage::View is invalid!");
+			break;
+	}
+
+
+
+	// Switch to small data
+	ReleaseData();
+
+	mFlags = uint8_t(theSize);
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetDataShared : Set shared data.
+//-----------------------------------------------------------------------------
+void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theSize > kSizeSmallMax);
+	NN_REQUIRE(theUsage != NDataUsage::View);
+
+
+
+	// Get the state we need
+	bool usingShared  = (GetStorage() == NDataStorage::Shared);
+	bool withinShared = false;
+
+	if (usingShared)
+	{
+		uintptr_t srcFirst = reinterpret_cast<uintptr_t>(theData);
+		uintptr_t srcLast  = srcFirst + theSize - 1;
+
+		uintptr_t sharedFirst = reinterpret_cast<uintptr_t>(mStorage.Shared.theBlock->theData);
+		uintptr_t sharedLast  = sharedFirst + mStorage.Shared.theBlock->theSize - 1;
+
+		withinShared = (srcFirst >= sharedFirst && srcFirst <= sharedLast) &&
+					   (srcLast >= sharedFirst && srcLast <= sharedLast);
+	}
+
+
+
+	// Adjust our slice
+	//
+	// If the source data is already within our data we just need to adjust our slice.
+	if (withinShared)
+	{
+		uintptr_t blockFirst = reinterpret_cast<uintptr_t>(mStorage.Shared.theBlock->theData);
+		uintptr_t srcFirst   = reinterpret_cast<uintptr_t>(theData);
+
+		NN_REQUIRE(srcFirst >= blockFirst);
+		mStorage.Shared.theSlice.SetRange(srcFirst - blockFirst, theSize);
+	}
+
+
+	// Adjust our block
+	//
+	// If the data is external we need to copy it into our block.
+	else
+	{
+		// Reuse the existing block
+		//
+		// If we're using shared data, and we're the only owner, and the new data
+		// would fit then we can just copy the data into our existing block and
+		// adjust our slice.
+		bool reuseBlock = (usingShared && theSize <= mStorage.Shared.theBlock->theSize &&
+						   mStorage.Shared.theBlock->numOwners == 1);
+
+		if (reuseBlock)
+		{
+			mStorage.Shared.theSlice.SetRange(0, theSize);
+			switch (theUsage)
+			{
+				case NDataUsage::Copy:
+					memcpy(mStorage.Shared.theBlock->theData, theData, theSize);
+					break;
+
+				case NDataUsage::Zero:
+					memset(mStorage.Shared.theBlock->theData, 0x00, theSize);
+					break;
+
+				case NDataUsage::None:
+					// Do nothing
+					break;
+
+				case NDataUsage::View:
+					NN_LOG_ERROR("NDataUsage::View is invalid!");
+					break;
+			}
+		}
+
+
+		// Create a new block
+		//
+		// Move the data into a new block, where we are the only owner.
+		else
+		{
+			// Release any existing block
+			//
+			// This is safe to do because, if we were using shared data before, we
+			// have already checked to make sure that the new data isn't in our block.
+			ReleaseData();
+
+
+			// Create a new block
+			size_t blockSize = sizeof(NDataBlock) + theSize;
+
+			switch (theUsage)
+			{
+				case NDataUsage::Copy:
+					mStorage.Shared.theBlock = static_cast<NDataBlock*>(malloc(blockSize));
+					memcpy(mStorage.Shared.theBlock->theData, theData, theSize);
+					break;
+
+				case NDataUsage::Zero:
+					mStorage.Shared.theBlock = static_cast<NDataBlock*>(calloc(1, blockSize));
+					break;
+
+				case NDataUsage::None:
+					mStorage.Shared.theBlock = static_cast<NDataBlock*>(malloc(blockSize));
+					break;
+
+				case NDataUsage::View:
+					NN_LOG_ERROR("NDataUsage::View is invalid!");
+					break;
+			}
+
+			mStorage.Shared.theBlock->numOwners = 1;
+			mStorage.Shared.theBlock->theSize   = theSize;
+			mFlags                              = kStorageShared;
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetDataExternal : Set external data.
+//-----------------------------------------------------------------------------
+void NData::SetDataExternal(size_t theSize, const void* theData, NDataUsage theUsage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theUsage == NDataUsage::View);
+
+
+
+	// Switch to external data
+	ReleaseData();
+
+	mStorage.External.theData = static_cast<const uint8_t*>(theData);
+	mStorage.External.theSlice.SetRange(0, theSize);
+	mFlags = kStorageExternal;
 }

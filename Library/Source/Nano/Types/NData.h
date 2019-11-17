@@ -123,6 +123,7 @@ class NData
 	, public NMixinComparable<NData>
 	, public NMixinHashable<NData>
 {
+public:
 										NData(size_t theSize, const void* theData, NDataUsage theUsage = NDataUsage::Copy);
 
 										NData();
@@ -231,6 +232,9 @@ class NData
 private:
 	NDataStorage                        GetStorage() const;
 
+	void                                ReleaseData();
+	void                                MakeMutable();
+
 	size_t                              GetSizeSmall()    const;
 	size_t                              GetSizeShared()   const;
 	size_t                              GetSizeExternal() const;
@@ -243,6 +247,13 @@ private:
 	const uint8_t*                      GetDataShared()   const;
 	const uint8_t*                      GetDataExternal() const;
 
+	uint8_t*                            GetMutableSmall();
+	uint8_t*                            GetMutableShared();
+	uint8_t*                            GetMutableExternal();
+
+	void                                SetDataSmall(   size_t theSize, const void* theData, NDataUsage theUsage);
+	void                                SetDataShared(  size_t theSize, const void* theData, NDataUsage theUsage);
+	void                                SetDataExternal(size_t theSize, const void* theData, NDataUsage theUsage);
 
 
 private:
@@ -255,9 +266,9 @@ private:
 
 		struct
 		{
-			const NDataBlock* theBlock;
-			NRange            theSlice;
-			uint8_t           reserved[8];
+			NDataBlock* theBlock;
+			NRange      theSlice;
+			uint8_t     reserved[8];
 		} Shared;
 
 		struct
