@@ -121,6 +121,30 @@ inline NComparison NCompare(int32_t x)
 }
 
 
+// Compare two blocks of data
+//
+// Data can only be compared for equality / inequality.
+inline NComparison NCompare(size_t sizeA, const void* dataA, size_t sizeB, const void* dataB)
+{
+
+
+	// Compare by size
+	NComparison theResult = NCompare(sizeA, sizeB);
+	if (theResult == NComparison::EqualTo)
+	{
+		// Compare by address
+		theResult = NCompare(dataA, dataB);
+		if (theResult == NComparison::EqualTo)
+		{
+			// Compare by contents
+			theResult = NCompare(memcmp(dataA, dataB, sizeA));
+		}
+	}
+
+	return theResult;
+}
+
+
 
 
 
