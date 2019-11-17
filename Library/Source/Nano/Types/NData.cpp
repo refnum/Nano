@@ -101,7 +101,7 @@ NData::~NData()
 
 
 	// Clean up
-	ReleaseData();
+	Clear();
 }
 
 
@@ -115,8 +115,8 @@ NData::NData(const NData& otherData)
 	: mStorage{}
 	, mFlags(kSizeEmpty)
 {
-	// TODO
-	NN_UNUSED(otherData);
+	// Initialise ourselves
+	AcquireData(otherData);
 }
 
 
@@ -130,8 +130,11 @@ NData& NData::operator=(const NData& otherData)
 {
 
 
-	// TODO
-	NN_UNUSED(otherData);
+	// Initialise ourselves
+	if (this != &otherData)
+	{
+		AcquireData(otherData);
+	}
 
 	return *this;
 }
@@ -147,8 +150,9 @@ NData::NData(NData&& otherData)
 	: mStorage{}
 	, mFlags(kStorageSmall)
 {
-	// TODO
-	NN_UNUSED(otherData);
+	// Initialise ourselves
+	AcquireData(otherData);
+	otherData.Clear();
 }
 
 
@@ -162,10 +166,43 @@ NData& NData::operator=(NData&& otherData)
 {
 
 
-	// TODO
-	NN_UNUSED(otherData);
+	// Initialise ourselves
+	if (this != &otherData)
+	{
+		AcquireData(otherData);
+		otherData.Clear();
+	}
 
 	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::Clear : Clear the data.
+//-----------------------------------------------------------------------------
+void NData::Clear()
+{
+
+
+	// Release shared data
+	if (GetStorage() == NDataStorage::Shared)
+	{
+		ReleaseBlock(mStorage.Shared.theBlock);
+	}
+
+
+
+	// Reset our state
+#if NN_DEBUG
+	memset(&mStorage, 0xAA, sizeof(mStorage));
+#endif
+
+	mFlags = kSizeEmpty;
+
+	ClearHash();
 }
 
 
@@ -588,38 +625,6 @@ NDataStorage NData::GetStorage() const
 
 
 //=============================================================================
-//		NData::ReleaseData : Release the data.
-//-----------------------------------------------------------------------------
-void NData::ReleaseData()
-{
-
-
-	// Release the data
-	//
-	// Shared data is released by the last owner.
-	if (GetStorage() == NDataStorage::Shared)
-	{
-		if (mStorage.Shared.theBlock->numOwners.fetch_sub(1) == 1)
-		{
-			free(mStorage.Shared.theBlock);
-		}
-	}
-
-
-
-	// Reset our state
-#if NN_DEBUG
-	memset(&mStorage, 0xAA, sizeof(mStorage));
-#endif
-
-	mFlags = kSizeEmpty;
-}
-
-
-
-
-
-//=============================================================================
 //		NData::MakeMutable : Make the data mutable.
 //-----------------------------------------------------------------------------
 void NData::MakeMutable()
@@ -640,7 +645,7 @@ void NData::MakeMutable()
 			// Copy if shared
 			//
 			// If we're the only owner it's safe to mutate in place.
-			if (mStorage.Shared.theBlock->numOwners != 1)
+			if (atomic_load(&mStorage.Shared.theBlock->numOwners) != 1)
 			{
 				srcSlice = mStorage.Shared.theSlice;
 				srcData  = mStorage.Shared.theBlock->theData;
@@ -658,34 +663,61 @@ void NData::MakeMutable()
 
 	// Copy the data
 	//
-	// Our data is mutable if we own the only copy.
+	// Our data is mutable once we own the only copy.
 	if (!srcSlice.IsEmpty())
 	{
-		// Find the data
+		// Copy the data
 		size_t srcSize = srcSlice.GetSize();
 		srcData        = srcData + srcSlice.GetLocation();
 
-
-
-		// Allocate a new block
-		size_t      blockSize = sizeof(NDataBlock) + srcSize;
-		NDataBlock* newBlock  = static_cast<NDataBlock*>(malloc(blockSize));
-
-		newBlock->numOwners = 1;
-		newBlock->theSize   = srcSize;
-
-		memcpy(newBlock->theData, srcData, srcSize);
+		NDataBlock* theBlock = CreateBlock(srcSize, srcData, NDataUsage::Copy);
 
 
 
-		// Attach to the new block
-		ReleaseData();
+		// Switch to the new block
+		Clear();
 
-		mStorage.Shared.theBlock = newBlock;
-		mStorage.Shared.theSlice.SetRange(0, srcSize);
+		mStorage.Shared.theBlock = theBlock;
+		mStorage.Shared.theSlice = NRange(0, srcSize);
 
 		mFlags = kStorageShared;
 	}
+
+
+
+	// Reset our state
+	ClearHash();
+}
+
+
+
+
+
+//=============================================================================
+//		NData::AcquireData : Acquire the data from another object.
+//-----------------------------------------------------------------------------
+void NData::AcquireData(const NData& otherData)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(this != &otherData);
+	NN_REQUIRE(mFlags == kSizeEmpty);
+
+
+
+	// Acquire the data
+	mStorage = otherData.mStorage;
+	mFlags   = otherData.mFlags;
+
+	if (GetStorage() == NDataStorage::Shared)
+	{
+		AcquireBlock(mStorage.Shared.theBlock);
+	}
+
+
+	// Update our state
+	ClearHash();
 }
 
 
@@ -910,7 +942,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 
 
 	// Switch to small data
-	ReleaseData();
+	Clear();
 
 	mFlags = uint8_t(theSize);
 }
@@ -974,11 +1006,12 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		// would fit then we can just copy the data into our existing block and
 		// adjust our slice.
 		bool reuseBlock = (usingShared && theSize <= mStorage.Shared.theBlock->theSize &&
-						   mStorage.Shared.theBlock->numOwners == 1);
+						   atomic_load(&mStorage.Shared.theBlock->numOwners) == 1);
 
 		if (reuseBlock)
 		{
 			mStorage.Shared.theSlice.SetRange(0, theSize);
+
 			switch (theUsage)
 			{
 				case NDataUsage::Copy:
@@ -1007,37 +1040,15 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		{
 			// Release any existing block
 			//
-			// This is safe to do because, if we were using shared data before, we
-			// have already checked to make sure that the new data isn't in our block.
-			ReleaseData();
+			// This is safe to do because, even if we're using shared data, we have
+			// already checked to make sure that the new data wasn't in that block.
+			Clear();
 
 
 			// Create a new block
-			size_t blockSize = sizeof(NDataBlock) + theSize;
-
-			switch (theUsage)
-			{
-				case NDataUsage::Copy:
-					mStorage.Shared.theBlock = static_cast<NDataBlock*>(malloc(blockSize));
-					memcpy(mStorage.Shared.theBlock->theData, theData, theSize);
-					break;
-
-				case NDataUsage::Zero:
-					mStorage.Shared.theBlock = static_cast<NDataBlock*>(calloc(1, blockSize));
-					break;
-
-				case NDataUsage::None:
-					mStorage.Shared.theBlock = static_cast<NDataBlock*>(malloc(blockSize));
-					break;
-
-				case NDataUsage::View:
-					NN_LOG_ERROR("NDataUsage::View is invalid!");
-					break;
-			}
-
-			mStorage.Shared.theBlock->numOwners = 1;
-			mStorage.Shared.theBlock->theSize   = theSize;
-			mFlags                              = kStorageShared;
+			mStorage.Shared.theSlice = NRange(0, theSize);
+			mStorage.Shared.theBlock = CreateBlock(theSize, theData, theUsage);
+			mFlags                   = kStorageShared;
 		}
 	}
 }
@@ -1059,9 +1070,102 @@ void NData::SetDataExternal(size_t theSize, const void* theData, NDataUsage theU
 
 
 	// Switch to external data
-	ReleaseData();
+	Clear();
 
-	mStorage.External.theData = static_cast<const uint8_t*>(theData);
-	mStorage.External.theSlice.SetRange(0, theSize);
-	mFlags = kStorageExternal;
+	mStorage.External.theData  = static_cast<const uint8_t*>(theData);
+	mStorage.External.theSlice = NRange(0, theSize);
+	mFlags                     = kStorageExternal;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::CreateBlock : Create a block.
+//-----------------------------------------------------------------------------
+NDataBlock* NData::CreateBlock(size_t theSize, const void* theData, NDataUsage theUsage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theUsage != NDataUsage::View);
+
+
+
+	// Create the block
+	//
+	// We use malloc for allocation to avoid unncessary fill overhead when
+	// the data is about to be overwritten / does not need to be initialised.
+	size_t      blockSize = sizeof(NDataBlock) + theSize;
+	NDataBlock* theBlock  = nullptr;
+
+	switch (theUsage)
+	{
+		case NDataUsage::Copy:
+			theBlock = static_cast<NDataBlock*>(malloc(blockSize));
+			memcpy(theBlock->theData, theData, theSize);
+			break;
+
+		case NDataUsage::Zero:
+			theBlock = static_cast<NDataBlock*>(calloc(1, blockSize));
+			break;
+
+		case NDataUsage::None:
+			theBlock = static_cast<NDataBlock*>(malloc(blockSize));
+			break;
+
+		case NDataUsage::View:
+			NN_LOG_ERROR("NDataUsage::View is invalid!");
+			break;
+	}
+
+	atomic_store(&theBlock->numOwners, 1);
+
+	theBlock->theSize = theSize;
+
+	return theBlock;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::AcquireBlock : Acquire a block.
+//-----------------------------------------------------------------------------
+void NData::AcquireBlock(NDataBlock* theBlock)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(atomic_load(&theBlock->numOwners) != 0);
+
+
+
+	// Acquire the block
+	atomic_fetch_add(&theBlock->numOwners, 1);
+}
+
+
+
+
+
+//=============================================================================
+//		NData::ReleaseBlock : Release a block.
+//-----------------------------------------------------------------------------
+void NData::ReleaseBlock(NDataBlock* theBlock)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(atomic_load(&theBlock->numOwners) != 0);
+
+
+
+	// Release the block
+	if (atomic_fetch_sub(&theBlock->numOwners, 1) == 1)
+	{
+		free(theBlock);
+	}
 }

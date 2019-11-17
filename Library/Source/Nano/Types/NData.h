@@ -48,7 +48,7 @@
 #include "NRange.h"
 
 // System
-#include <atomic>
+#include <stdatomic.h>
 
 
 
@@ -62,6 +62,7 @@
 // Small amounts of data are stored directly in the object.
 //
 // Larger data may be shared between objects, or managed externally.
+//
 enum NDataStorage
 {
 	Small                                                   = 32,
@@ -86,6 +87,7 @@ enum NDataStorage
 //
 // The pointer for View usage must persist beyond the lifetime of any objects
 // that are viewing that data.
+//
 enum NDataUsage
 {
 	Copy,
@@ -104,11 +106,12 @@ enum NDataUsage
 // Data block
 //
 // A data block is a potentially shared block of data.
-struct alignas(16) NDataBlock
+//
+struct NDataBlock
 {
-	std::atomic_size_t numOwners;
-	size_t             theSize;
-	uint8_t            theData[];
+	atomic_size_t numOwners;
+	size_t        theSize;
+	uint8_t       theData[];
 };
 
 
@@ -134,6 +137,10 @@ public:
 
 										NData(    NData&&);
 	NData&                              operator=(NData&&);
+
+
+	// Clear the data
+	void                                Clear();
 
 
 	// Get/set the size
@@ -231,9 +238,9 @@ public:
 
 private:
 	NDataStorage                        GetStorage() const;
-
-	void                                ReleaseData();
 	void                                MakeMutable();
+
+	void                                AcquireData(const NData& otherData);
 
 	size_t                              GetSizeSmall()    const;
 	size_t                              GetSizeShared()   const;
@@ -255,6 +262,10 @@ private:
 	void                                SetDataShared(  size_t theSize, const void* theData, NDataUsage theUsage);
 	void                                SetDataExternal(size_t theSize, const void* theData, NDataUsage theUsage);
 
+	NDataBlock*                         CreateBlock(size_t theSize, const void* theData, NDataUsage theUsage);
+	void                                AcquireBlock(NDataBlock* theBlock);
+	void                                ReleaseBlock(NDataBlock* theBlock);
+
 
 private:
 	union
@@ -268,7 +279,6 @@ private:
 		{
 			NDataBlock* theBlock;
 			NRange      theSlice;
-			uint8_t     reserved[8];
 		} Shared;
 
 		struct
