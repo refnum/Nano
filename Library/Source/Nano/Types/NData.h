@@ -3,184 +3,269 @@
 
 	DESCRIPTION:
 		Data object.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NDATA_HDR
-#define NDATA_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NStringFormatter.h"
-#include "NSharedValue.h"
-#include "NComparable.h"
-#include "NDebuggable.h"
-#include "NEncodable.h"
-#include "NContainer.h"
-#include "NHashable.h"
+#ifndef NDATA_H
+#define NDATA_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NMixinComparable.h"
+#include "NMixinContainer.h"
+#include "NMixinHashable.h"
 #include "NRange.h"
 
-
-
-
-
-//============================================================================
-//      Types
-//----------------------------------------------------------------------------
-class NData;
-
-typedef std::vector<uint8_t>										NDataValue;
-typedef NDataValue::iterator										NDataValueIterator;
-typedef NDataValue::const_iterator									NDataValueConstIterator;
-
-typedef std::vector<NData>											NDataList;
-typedef NDataList::iterator											NDataListIterator;
-typedef NDataList::const_iterator									NDataListConstIterator;
-
-typedef NSharedValue<NDataValue>									NSharedValueData;
+// System
+#include <atomic>
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NData :	public NContainer,
-				public NHashable,
-				public NEncodable,
-				public NDebuggable,
-				public NComparable<NData>,
-				public NSharedValueData {
-public:
-										NENCODABLE_DECLARE(NData);
-
-										NData(const NData &theValue);
-										NData(NIndex theSize, const void *thePtr=NULL, bool makeCopy=true);
-
-										NData(void);
-	virtual							   ~NData(void);
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// Data storage
+//
+// Small amounts of data are stored directly in the object.
+//
+// Larger data may be shared between objects, or managed externally.
+enum NDataStorage
+{
+	Small                                                   = 32,
+	Shared,
+	External
+};
 
 
-	// Clear the value
-	void								Clear(void);
-
-
-	// Get/set the size
-	//
-	// Increasing the size will zero-fill the new content.
-	NIndex								GetSize(void) const;
-	bool								SetSize(NIndex theSize);
-
-
-	// Reserve additional space
-	//
-	// Reserving space may pre-allocate internal storage to amortize future resizes.
-	void								Reserve(NIndex theSize);
-
-
-	// Get the data
-	//
-	// Returns a NULL pointer if the object is empty.
-	NData								GetData(const NRange &theRange) const;
-	const uint8_t					   *GetData(NIndex theOffset=0)     const;
-	uint8_t							   *GetData(NIndex theOffset=0);
-
-
-	// Set the data
-	//
-	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
-	void								SetData(NIndex theSize, const void *thePtr, bool makeCopy=true);
-
-
-	// Insert data
-	//
-	// Inserts data immediately before the specified index, or at the end of the value
-	// if the index is equal to our current size.
-	//
-	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
-	//
-	// Returns a pointer to the newly-inserted data, or NULL if no data was appended.
-	uint8_t							   *InsertData(NIndex beforeIndex, const NData &theData);
-	uint8_t							   *InsertData(NIndex beforeIndex, NIndex theSize, const void *thePtr);
-
-
-	// Remove data
-	void								RemoveData(const NRange &theRange);
-
-
-	// Append data
-	//
-	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
-	//
-	// Returns a pointer to the newly-appended data, or NULL if no data was appended.
-	uint8_t							   *AppendData(const NData &theData);
-	uint8_t							   *AppendData(      NIndex theSize, const void *thePtr=NULL);
-
-
-	// Replace data
-	//
-	// A NULL source pointer is treated as a zero-filled block of the appropriate size.
-	//
-	// Returns a pointer to the newly-modified data.
-	uint8_t							   *ReplaceData(const NRange &theRange, const NData &theData);
-	uint8_t							   *ReplaceData(const NRange &theRange,       NIndex theSize, const void *thePtr);
-
-
-	// Compare the value
-	NComparison							Compare(const NData &theValue) const;
-
-
-	// Operators
-	const NData&						operator =  (const NData &theValue);
-	const NData&						operator += (const NData &theValue);
-	const NData							operator +	(const NData &theValue) const;
-
-
-	// Operators
-										operator NFormatArgument(void) const;
-
-
-protected:
-	// Get the mutable value
-	NDataValue						   *GetMutable(void);
-
-
-	// Get the null value
-	const NDataValue				   *GetNullValue(void) const;
-
-
-	// Calculate the hash
-	NHashCode							CalculateHash(void) const;
-
-
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
-
-
-private:
-	void								ValueChanged(NDataValue *theValue);
-
-	bool								IsValidSlice(void) const;
-	void								ResizeValue(NDataValue *theValue, NIndex theSize);
-
-
-private:
-	NRange								mSlice;
-	NIndex								mExternalSize;
-	const void						   *mExternalPtr;
+// Data usage
+//
+// Data supplied to an object may be treated in several different ways:
+//
+//		NDataUsage::Copy			Copy the data
+//
+//		NDataUsage::Zero			Treat the data as zero-filled
+//
+//		NDataUsage::None			Treat the data as uninitialised
+//
+//		NDataUsage::View			Create a view onto external data.
+//
+// The pointer for Zero and None usage may be nullptr, as it is never read.
+//
+// The pointer for View usage must persist beyond the lifetime of any objects
+// that are viewing that data.
+enum NDataUsage
+{
+	Copy,
+	Zero,
+	None,
+	View
 };
 
 
 
 
 
-#endif // NDATA_HDR
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Data block
+//
+// A data block is a potentially shared block of data.
+struct alignas(16) NDataBlock
+{
+	std::atomic_size_t numOwners;
+	size_t             theSize;
+	uint8_t            theData[];
+};
 
 
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NData
+	: public NMixinContainer<NData>
+	, public NMixinComparable<NData>
+	, public NMixinHashable<NData>
+{
+										NData(size_t theSize, const void* theData, NDataUsage theUsage = NDataUsage::Copy);
+
+										NData();
+	virtual                            ~NData();
+
+										NData(    const NData&);
+	NData&                              operator=(const NData&);
+
+										NData(    NData&&);
+	NData&                              operator=(NData&&);
+
+
+	// Get/set the size
+	//
+	// Increasing the size will zero-fill any new content.
+	size_t                              GetSize() const;
+	void                                SetSize(size_t theSize);
+
+
+	// Get/set the capacity
+	//
+	// The capacity is the maximum size available before reallocation.
+	//
+	// Increasing the capacity may reallocate the underlying storage,
+	// invalidating any previously returned pointers into the data.
+	size_t                              GetCapacity() const;
+	void                                SetCapacity(size_t theSize);
+
+
+	// Get the data
+	//
+	// Immutable access is preferred. Mutable access may need to copy the data.
+	//
+	// Returns nullptr if the data is empty.
+	const uint8_t*                      GetData(       size_t theOffset = 0) const;
+	uint8_t*                            GetMutableData(size_t theOffset = 0);
+
+
+	// Set the data
+	void                                SetData(size_t theSize, const void* theData, NDataUsage theUsage = NDataUsage::Copy);
+
+
+	// Insert data
+	//
+	// Inserts data immediately before the specified offset.
+	//
+	// NDataUsage::View is not supported as a data source.
+	//
+	// Returns a pointer to the first byte of the newly inserted data,
+	// or nullptr if no data was inserted.
+	uint8_t*                            InsertData(size_t      beforeIndex, const NData& theData);
+	uint8_t*                            InsertData(size_t      beforeIndex,
+												   size_t      theSize,
+												   const void* theData,
+												   NDataUsage  theUsage = NDataUsage::Copy);
+
+
+	// Append data
+	//
+	// Appends data to the end of the buffer.
+	//
+	// NDataUsage::View is not supported as a data source.
+	//
+	// Returns a pointer to the first byte of the newly appended data,
+	// or nullptr if no data was inserted.
+	uint8_t*                            AppendData(const NData& theData);
+	uint8_t*                            AppendData(size_t      theSize,
+												   const void* theData,
+												   NDataUsage  theUsage = NDataUsage::Copy);
+
+
+	// Remove data
+	//
+	// Removes the specified range from the data.
+	void                                RemoveData(const NRange& theRange);
+
+
+	// Replace data
+	//
+	// Replaces the specified range within the data.
+	//
+	// NDataUsage::View is not supported as a data source.
+	//
+	// Returns a pointer to the first byte of the replaced data,
+	// or nullptr if the replacement was a removal from the end.
+	uint8_t*                            ReplaceData(const NRange& theRange, const NData& theData);
+	uint8_t*                            ReplaceData(const NRange& theRange,
+													size_t        theSize,
+													const void*   theData,
+													NDataUsage    theUsage = NDataUsage::Copy);
+
+
+	// Compare an object
+	NComparison                         Compare(const NData& theData) const;
+
+
+	// Operators
+	const NData&                        operator+=(const NData& theValue);
+	const NData                         operator+( const NData& theValue) const;
+
+
+	// Calculate the hash
+	size_t                              CalculateHash() const;
+
+
+private:
+	NDataStorage                        GetStorage() const;
+
+	size_t                              GetSizeSmall()    const;
+	size_t                              GetSizeShared()   const;
+	size_t                              GetSizeExternal() const;
+
+	const uint8_t*                      GetDataSmall()    const;
+	const uint8_t*                      GetDataShared()   const;
+	const uint8_t*                      GetDataExternal() const;
+
+
+
+private:
+	union
+	{
+		struct
+		{
+			uint8_t theData[NDataStorage::Small];
+		} Small;
+
+		struct
+		{
+			const NDataBlock* theBlock;
+			NRange            theSlice;
+			uint8_t           reserved[8];
+		} Shared;
+
+		struct
+		{
+			const uint8_t* theData;
+			NRange         theSlice;
+		} External;
+	} mStorage;
+
+	uint8_t                             mFlags;
+};
+
+
+
+#endif // NDATA_H
