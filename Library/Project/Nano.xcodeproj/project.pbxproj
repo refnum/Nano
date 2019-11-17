@@ -19,6 +19,9 @@
 		ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
 		ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
 		ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
+		ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
+		ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
+		ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
 		ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC272A8237B72EE00D96FE6 /* NAssert.cpp */; };
@@ -256,8 +259,6 @@
 		AB91554D0F9B4DD6009FFEAF /* NDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDictionary.h; sourceTree = "<group>"; };
 		AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFunctor.cpp; sourceTree = "<group>"; };
 		AB9155510F9B4DD6009FFEAF /* NFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFunctor.h; sourceTree = "<group>"; };
-		AB9155520F9B4DD6009FFEAF /* NHashable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NHashable.cpp; sourceTree = "<group>"; };
-		AB9155530F9B4DD6009FFEAF /* NHashable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NHashable.h; sourceTree = "<group>"; };
 		AB9155540F9B4DD6009FFEAF /* NNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNumber.cpp; sourceTree = "<group>"; };
 		AB9155550F9B4DD6009FFEAF /* NNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNumber.h; sourceTree = "<group>"; };
 		AB9155580F9B4DD6009FFEAF /* NRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRange.cpp; sourceTree = "<group>"; };
@@ -354,6 +355,8 @@
 		ABBB2B7D2380BC2800EB2840 /* NMixinComparable.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinComparable.inl; sourceTree = "<group>"; };
 		ABBB2B7E2380BCD100EB2840 /* NMixinContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinContainer.h; sourceTree = "<group>"; };
 		ABBB2B7F2380BCD100EB2840 /* NMixinContainer.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinContainer.inl; sourceTree = "<group>"; };
+		ABBB2B862380CA3600EB2840 /* NMixinHashable.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinHashable.inl; sourceTree = "<group>"; };
+		ABBB2B872380CA3600EB2840 /* NMixinHashable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinHashable.h; sourceTree = "<group>"; };
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
@@ -993,12 +996,12 @@
 				ABFAA552101871460060ED12 /* NEncoder.h */,
 				AB9155500F9B4DD6009FFEAF /* NFunctor.cpp */,
 				AB9155510F9B4DD6009FFEAF /* NFunctor.h */,
-				AB9155520F9B4DD6009FFEAF /* NHashable.cpp */,
-				AB9155530F9B4DD6009FFEAF /* NHashable.h */,
 				ABBB2B7C2380BC2800EB2840 /* NMixinComparable.h */,
 				ABBB2B7D2380BC2800EB2840 /* NMixinComparable.inl */,
 				ABBB2B7E2380BCD100EB2840 /* NMixinContainer.h */,
 				ABBB2B7F2380BCD100EB2840 /* NMixinContainer.inl */,
+				ABBB2B872380CA3600EB2840 /* NMixinHashable.h */,
+				ABBB2B862380CA3600EB2840 /* NMixinHashable.inl */,
 				AB9155540F9B4DD6009FFEAF /* NNumber.cpp */,
 				AB9155550F9B4DD6009FFEAF /* NNumber.h */,
 				AB3B53A6143DCD9400EC0F55 /* NProgressable.cpp */,
@@ -1252,6 +1255,7 @@
 			files = (
 				ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */,
 				ABC272AC237B72EE00D96FE6 /* NAssert.cpp in Sources */,
+				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
 				AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */,
@@ -1264,6 +1268,7 @@
 			files = (
 				ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */,
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
+				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABC272AA237B72EE00D96FE6 /* NAssert.cpp in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB03E58E237A09EC00FACADF /* NLogOutput.cpp in Sources */,
@@ -1276,6 +1281,7 @@
 			files = (
 				ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */,
 				ABC272AB237B72EE00D96FE6 /* NAssert.cpp in Sources */,
+				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */,
