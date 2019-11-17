@@ -110,7 +110,7 @@ enum NDataUsage
 struct NDataBlock
 {
 	atomic_size_t numOwners;
-	size_t        theSize;
+	size_t        theCapacity;
 	uint8_t       theData[];
 };
 
@@ -240,11 +240,15 @@ private:
 	NDataStorage                        GetStorage() const;
 	void                                MakeMutable();
 
-	void                                AcquireData(const NData& otherData);
+	void                                AdoptData(const NData& otherData);
 
 	size_t                              GetSizeSmall()    const;
 	size_t                              GetSizeShared()   const;
 	size_t                              GetSizeExternal() const;
+
+	void                                SetSizeSmall(   size_t theSize);
+	void                                SetSizeShared(  size_t theSize);
+	void                                SetSizeExternal(size_t theSize);
 
 	size_t                              GetCapacitySmall()    const;
 	size_t                              GetCapacityShared()   const;
@@ -262,7 +266,12 @@ private:
 	void                                SetDataShared(  size_t theSize, const void* theData, NDataUsage theUsage);
 	void                                SetDataExternal(size_t theSize, const void* theData, NDataUsage theUsage);
 
-	NDataBlock*                         CreateBlock(size_t theSize, const void* theData, NDataUsage theUsage);
+	NDataBlock*                         CreateBlock(size_t      theCapacity,
+													size_t      theSize,
+													const void* theData,
+													NDataUsage  theUsage);
+	void                                AdoptBlock(NDataBlock* theBlock, size_t theSize);
+
 	void                                AcquireBlock(NDataBlock* theBlock);
 	void                                ReleaseBlock(NDataBlock* theBlock);
 
