@@ -50,10 +50,6 @@
 //=============================================================================
 //		Macros
 //-----------------------------------------------------------------------------
-// Mark unused parameters
-#define NN_UNUSED(_x)                                       (void) _x
-
-
 // Get the size of an array
 #define NN_ARRAY_SIZE(_a)                                   ((NIndex)(sizeof((_a)) / sizeof((_a)[0])))
 
@@ -104,6 +100,33 @@
 	#define NN_EXPECT_UNLIKELY(_condition)                  __builtin_expect((__condition), 0)
 #else
 	#define NN_EXPECT_UNLIKELY(_condition)                  __condition
+#endif
+
+
+// Mark as unused
+//
+// Example:
+//
+//		void DoSomething(int x)
+//		{
+//			NN_UNUSED(x);
+//		}
+//
+#define NN_UNUSED(_x)                                       ((void) (_x))
+
+
+// Format validation
+//
+// Example:
+//
+//		NN_VALIDATE_PRINTF(1, 2)
+//		void Print(const char* theMsg, ...);
+//
+#if NN_COMPILER_CLANG || NN_COMPILAER_GCC
+	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)  \
+		__attribute__((format(printf, _formatIndex, _firstParamIndex)))
+#else
+	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)
 #endif
 
 
