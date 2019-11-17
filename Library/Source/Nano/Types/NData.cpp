@@ -321,12 +321,28 @@ size_t NData::GetCapacity() const
 //=============================================================================
 //		NData::SetCapacity : Set the capacity.
 //-----------------------------------------------------------------------------
-void NData::SetCapacity(size_t theSize)
+void NData::SetCapacity(size_t theCapacity)
 {
 
 
-	// TODO
-	NN_UNUSED(theSize);
+	// Set the capacity
+	if (theCapacity != GetCapacity())
+	{
+		switch (GetStorage())
+		{
+			case NDataStorage::Small:
+				SetCapacitySmall(theCapacity);
+				break;
+
+			case NDataStorage::Shared:
+				SetCapacityShared(theCapacity);
+				break;
+
+			case NDataStorage::External:
+				SetCapacityExternal(theCapacity);
+				break;
+		}
+	}
 }
 
 
@@ -991,6 +1007,83 @@ size_t NData::GetCapacityExternal() const
 
 	// Get the capacity
 	return mStorage.External.theSlice.GetSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetCapacitySmall : Set the small capacity.
+//-----------------------------------------------------------------------------
+void NData::SetCapacitySmall(size_t theCapacity)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::Small);
+
+
+
+	// Set the capacity
+	if (theCapacity < mFlags)
+	{
+		mFlags = uint8_t(theCapacity);
+	}
+
+	else if (theCapacity > kSizeSmallMax)
+	{
+		size_t theSize = mFlags;
+		NDataBlock* theBlock =
+			CreateBlock(theCapacity, theSize, mStorage.Small.theData, NDataUsage::Copy);
+		AdoptBlock(theBlock, theSize);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetCapacityShared : Set the shared capacity.
+//-----------------------------------------------------------------------------
+void NData::SetCapacityShared(size_t theCapacity)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::Shared);
+
+
+
+	// Set the capacity
+	size_t      theSize = std::min(mStorage.Shared.theSlice.GetSize(), theCapacity);
+	NDataBlock* theBlock =
+		CreateBlock(theCapacity, theSize, mStorage.Shared.theBlock->theData, NDataUsage::Copy);
+	AdoptBlock(theBlock, theSize);
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetCapacityExternal : Set the external capacity.
+//-----------------------------------------------------------------------------
+void NData::SetCapacityExternal(size_t theCapacity)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::External);
+
+
+
+	// Set the capacity
+	size_t      theSize = std::min(mStorage.External.theSlice.GetSize(), theCapacity);
+	NDataBlock* theBlock =
+		CreateBlock(theCapacity, theSize, mStorage.External.theData, NDataUsage::Copy);
+	AdoptBlock(theBlock, theSize);
 }
 
 

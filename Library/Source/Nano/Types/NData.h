@@ -157,7 +157,7 @@ public:
 	// Increasing the capacity may reallocate the underlying storage,
 	// invalidating any previously returned pointers into the data.
 	size_t                              GetCapacity() const;
-	void                                SetCapacity(size_t theSize);
+	void                                SetCapacity(size_t theCapacity);
 
 
 	// Get the data
@@ -253,6 +253,10 @@ private:
 	size_t                              GetCapacitySmall()    const;
 	size_t                              GetCapacityShared()   const;
 	size_t                              GetCapacityExternal() const;
+
+	void                                SetCapacitySmall(   size_t theCapacity);
+	void                                SetCapacityShared(  size_t theCapacity);
+	void                                SetCapacityExternal(size_t theCapacity);
 
 	const uint8_t*                      GetDataSmall()    const;
 	const uint8_t*                      GetDataShared()   const;
