@@ -92,6 +92,10 @@ public:
 	void                                SetSize(size_t theSize);
 
 
+	// Set the range
+	void                                SetRange(size_t theLocation, size_t theSize);
+
+
 	// Get the limits
 	//
 	// The first and last element are contained within the range.

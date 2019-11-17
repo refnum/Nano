@@ -166,6 +166,22 @@ void NRange::SetSize(size_t theValue)
 
 
 //=============================================================================
+//		NRange::SetRange : Set the range.
+//-----------------------------------------------------------------------------
+void NRange::SetRange(size_t theLocation, size_t theSize)
+{
+
+
+	// Set the range
+	mLocation = theLocation;
+	mSize     = theSize;
+}
+
+
+
+
+
+//=============================================================================
 //		NRange::GetFirst : Get the first element.
 //-----------------------------------------------------------------------------
 size_t NRange::GetFirst() const
