@@ -240,6 +240,9 @@ private:
 	NDataStorage                        GetStorage() const;
 	void                                MakeMutable();
 
+	void                                CopyData(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage);
+
+
 	void                                AdoptData(const NData& otherData);
 
 	size_t                              GetSizeSmall()    const;

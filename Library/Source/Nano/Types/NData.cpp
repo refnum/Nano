@@ -741,6 +741,35 @@ void NData::MakeMutable()
 
 
 //=============================================================================
+//		NData::CopyData : Copy data.
+//-----------------------------------------------------------------------------
+void NData::CopyData(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage)
+{
+
+
+	// Copy the data
+	switch (theUsage)
+	{
+		case NDataUsage::Copy:
+		case NDataUsage::View:
+			memmove(dstPtr, srcPtr, theSize);
+			break;
+
+		case NDataUsage::Zero:
+			memset(dstPtr, 0x00, theSize);
+			break;
+
+		case NDataUsage::None:
+			// Do nothing
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NData::AdoptData : Adopt the data from another object.
 //-----------------------------------------------------------------------------
 void NData::AdoptData(const NData& otherData)
@@ -1173,26 +1202,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 
 
 	// Set the data
-	//
-	// memmove will handle the case where the data is already within our storage.
-	switch (theUsage)
-	{
-		case NDataUsage::Copy:
-			memmove(mStorage.Small.theData, theData, theSize);
-			break;
-
-		case NDataUsage::Zero:
-			memset(mStorage.Small.theData, 0x00, theSize);
-			break;
-
-		case NDataUsage::None:
-			// Do nothing
-			break;
-
-		case NDataUsage::View:
-			NN_LOG_ERROR("NDataUsage::View is invalid!");
-			break;
-	}
+	CopyData(mStorage.Small.theData, theData, theSize, theUsage);
 
 
 
@@ -1267,24 +1277,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		{
 			mStorage.Shared.theSlice.SetRange(0, theSize);
 
-			switch (theUsage)
-			{
-				case NDataUsage::Copy:
-					memcpy(mStorage.Shared.theBlock->theData, theData, theSize);
-					break;
-
-				case NDataUsage::Zero:
-					memset(mStorage.Shared.theBlock->theData, 0x00, theSize);
-					break;
-
-				case NDataUsage::None:
-					// Do nothing
-					break;
-
-				case NDataUsage::View:
-					NN_LOG_ERROR("NDataUsage::View is invalid!");
-					break;
-			}
+			CopyData(mStorage.Shared.theBlock->theData, theData, theSize, theUsage);
 		}
 
 
