@@ -48,7 +48,7 @@
 #include "NRange.h"
 
 // System
-#include <stdatomic.h>
+#include <atomic>
 
 
 
@@ -57,20 +57,6 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Data storage
-//
-// Small amounts of data are stored directly in the object.
-//
-// Larger data may be shared between objects, or managed externally.
-//
-enum NDataStorage
-{
-	Small                                                   = 32,
-	Shared,
-	External
-};
-
-
 // Data usage
 //
 // Data supplied to an object may be treated in several different ways:
@@ -103,15 +89,22 @@ enum NDataUsage
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Data block
+// NData storage
 //
-// A data block is a potentially shared block of data.
+// Small amounts of data are stored directly within an NData object.
 //
-struct NDataBlock
+// Larger amounts are shared between objects, using copy-on-write.
+struct NDataStorageSmall
 {
-	atomic_size_t numOwners;
-	size_t        theCapacity;
-	uint8_t       theData[];
+	uint8_t sizeFlags;
+	uint8_t theData[31];
+};
+
+struct NDataStorageShared
+{
+	struct NDataBlock* theBlock;
+	const uint8_t*     theData;
+	NRange             theSlice;
 };
 
 
@@ -240,7 +233,7 @@ public:
 
 
 private:
-	NDataStorage                        GetStorage() const;
+	bool                                IsSmall() const;
 	void                                MakeMutable();
 
 	bool                                IsValidOffset(size_t theOffset) const;
@@ -251,37 +244,26 @@ private:
 
 	void                                AdoptData(const NData& otherData);
 
-	size_t                              GetSizeSmall()    const;
-	size_t                              GetSizeShared()   const;
-	size_t                              GetSizeExternal() const;
+	size_t                              GetSizeSmall()  const;
+	size_t                              GetSizeShared() const;
 
-	void                                SetSizeSmall(   size_t theSize);
-	void                                SetSizeShared(  size_t theSize);
-	void                                SetSizeExternal(size_t theSize);
+	void                                SetSizeSmall( size_t theSize);
+	void                                SetSizeShared(size_t theSize);
 
-	size_t                              GetCapacitySmall()    const;
-	size_t                              GetCapacityShared()   const;
-	size_t                              GetCapacityExternal() const;
+	size_t                              GetCapacitySmall()  const;
+	size_t                              GetCapacityShared() const;
 
-	void                                SetCapacitySmall(   size_t theCapacity);
-	void                                SetCapacityShared(  size_t theCapacity);
-	void                                SetCapacityExternal(size_t theCapacity);
+	void                                SetCapacitySmall( size_t theCapacity);
+	void                                SetCapacityShared(size_t theCapacity);
 
-	const uint8_t*                      GetDataSmall()    const;
-	const uint8_t*                      GetDataShared()   const;
-	const uint8_t*                      GetDataExternal() const;
+	const uint8_t*                      GetDataSmall( size_t theOffset) const;
+	const uint8_t*                      GetDataShared(size_t theOffset) const;
 
-	uint8_t*                            GetMutableSmall();
-	uint8_t*                            GetMutableShared();
-	uint8_t*                            GetMutableExternal();
+	void                                SetDataSmall( size_t theSize, const void* theData, NDataUsage theUsage);
+	void                                SetDataShared(size_t theSize, const void* theData, NDataUsage theUsage);
 
-	void                                SetDataSmall(   size_t theSize, const void* theData, NDataUsage theUsage);
-	void                                SetDataShared(  size_t theSize, const void* theData, NDataUsage theUsage);
-	void                                SetDataExternal(size_t theSize, const void* theData, NDataUsage theUsage);
-
-	void                                RemoveDataSmall(   const NRange& theRange);
-	void                                RemoveDataShared(  const NRange& theRange);
-	void                                RemoveDataExternal(const NRange& theRange);
+	void                                RemoveDataSmall( const NRange& theRange);
+	void                                RemoveDataShared(const NRange& theRange);
 
 
 
@@ -298,25 +280,9 @@ private:
 private:
 	union
 	{
-		struct
-		{
-			uint8_t theData[NDataStorage::Small];
-		} Small;
-
-		struct
-		{
-			NDataBlock* theBlock;
-			NRange      theSlice;
-		} Shared;
-
-		struct
-		{
-			const uint8_t* theData;
-			NRange         theSlice;
-		} External;
-	} mStorage;
-
-	uint8_t                             mFlags;
+		NDataStorageSmall  mSmall;
+		NDataStorageShared mShared;
+	};
 };
 
 
