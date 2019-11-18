@@ -270,6 +270,12 @@ private:
 	void                                SetDataShared(  size_t theSize, const void* theData, NDataUsage theUsage);
 	void                                SetDataExternal(size_t theSize, const void* theData, NDataUsage theUsage);
 
+	void                                RemoveDataSmall(   const NRange& theRange);
+	void                                RemoveDataShared(  const NRange& theRange);
+	void                                RemoveDataExternal(const NRange& theRange);
+
+
+
 	NDataBlock*                         CreateBlock(size_t      theCapacity,
 													size_t      theSize,
 													const void* theData,

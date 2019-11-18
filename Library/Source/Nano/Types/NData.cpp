@@ -489,7 +489,7 @@ uint8_t* NData::AppendData(const NData& theData)
 
 
 	// Append the data
-	return AppendData(theData.GetSize(), theData.GetData(), NDataUsage::Copy);
+	return InsertData(GetSize(), theData);
 }
 
 
@@ -503,12 +503,8 @@ uint8_t* NData::AppendData(size_t theSize, const void* theData, NDataUsage theUs
 {
 
 
-	// TODO
-	NN_UNUSED(theSize);
-	NN_UNUSED(theData);
-	NN_UNUSED(theUsage);
-
-	return nullptr;
+	// Appemd the data
+	return InsertData(GetSize(), theSize, theData, theUsage);
 }
 
 
@@ -523,7 +519,20 @@ void NData::RemoveData(const NRange& theRange)
 
 
 	// Remove the data
-	ReplaceData(theRange, 0, nullptr, NDataUsage::Zero);
+	switch (GetStorage())
+	{
+		case NDataStorage::Small:
+			RemoveDataSmall(theRange);
+			break;
+
+		case NDataStorage::Shared:
+			RemoveDataShared(theRange);
+			break;
+
+		case NDataStorage::External:
+			RemoveDataExternal(theRange);
+			break;
+	}
 }
 
 
@@ -1033,7 +1042,7 @@ void NData::SetCapacitySmall(size_t theCapacity)
 
 	else if (theCapacity > kSizeSmallMax)
 	{
-		size_t theSize = mFlags;
+		size_t      theSize = mFlags;
 		NDataBlock* theBlock =
 			CreateBlock(theCapacity, theSize, mStorage.Small.theData, NDataUsage::Copy);
 		AdoptBlock(theBlock, theSize);
@@ -1312,6 +1321,141 @@ void NData::SetDataExternal(size_t theSize, const void* theData, NDataUsage theU
 	mStorage.External.theData  = static_cast<const uint8_t*>(theData);
 	mStorage.External.theSlice = NRange(0, theSize);
 	mFlags                     = kStorageExternal;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::RemoveDataSmall : Remove small data.
+//-----------------------------------------------------------------------------
+void NData::RemoveDataSmall(const NRange& theRange)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::Small);
+
+
+
+	// Remove the data
+	size_t dstoffset = theRange.GetFirst();
+	size_t srcOffset = theRange.GetNext();
+	size_t srcSize   = size_t(mFlags) - srcOffset;
+
+	memmove(&mStorage.Small.theData[dstoffset], &mStorage.Small.theData[srcOffset], srcSize);
+}
+
+
+
+
+
+//=============================================================================
+//		NData::RemoveDataShared : Remove shared data.
+//-----------------------------------------------------------------------------
+void NData::RemoveDataShared(const NRange& theRange)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::Shared);
+
+
+
+	// Remove from the front
+	//
+	// Remove by adjusting our slice.
+	if (theRange.GetLocation() == 0)
+	{
+		auto& theSlice = mStorage.Shared.theSlice;
+
+		theSlice.SetLocation(theRange.GetNext());
+		theSlice.SetSize(theSlice.GetSize() - theRange.GetSize());
+	}
+
+
+	// Remove from the end
+	//
+	// Remove by adjusting our slice
+	else if (theRange.GetLast() == mStorage.Shared.theSlice.GetLast())
+	{
+		auto& theSlice = mStorage.Shared.theSlice;
+
+		theSlice.SetSize(theSlice.GetSize() - theRange.GetSize());
+	}
+
+
+
+	// Remove from the middle
+	else
+	{
+		uint8_t* theData  = GetMutableShared();
+		auto&    theSlice = mStorage.Shared.theSlice;
+
+		size_t dstoffset = theRange.GetFirst();
+		size_t srcOffset = theRange.GetNext();
+		size_t srcSize   = theSlice.GetSize() - srcOffset;
+
+		memmove(&theData[dstoffset], &theData[srcOffset], srcSize);
+		theSlice.SetSize(theSlice.GetSize() - theRange.GetSize());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NData::RemoveDataExternal : Remove external data.
+//-----------------------------------------------------------------------------
+void NData::RemoveDataExternal(const NRange& theRange)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetStorage() == NDataStorage::External);
+
+
+
+	// Remove from the front
+	//
+	// Remove by adjusting our slice.
+	if (theRange.GetLocation() == 0)
+	{
+		auto& theSlice = mStorage.External.theSlice;
+
+		theSlice.SetLocation(theRange.GetNext());
+		theSlice.SetSize(theSlice.GetSize() - theRange.GetSize());
+	}
+
+
+	// Remove from the end
+	//
+	// Remove by adjusting our slice
+	else if (theRange.GetLast() == mStorage.External.theSlice.GetLast())
+	{
+		auto& theSlice = mStorage.External.theSlice;
+
+		theSlice.SetSize(theSlice.GetSize() - theRange.GetSize());
+	}
+
+
+
+	// Remove from the middle
+	else
+	{
+		uint8_t* theData  = GetMutableData();
+		auto&    theSlice = mStorage.Shared.theSlice;
+		NN_REQUIRE(GetStorage() == NDataStorage::Shared);
+
+		size_t dstoffset = theRange.GetFirst();
+		size_t srcOffset = theRange.GetNext();
+		size_t srcSize   = theSlice.GetSize() - srcOffset;
+
+		memmove(&theData[dstoffset], &theData[srcOffset], srcSize);
+		theSlice.SetSize(theSlice.GetSize() - theRange.GetSize());
+	}
 }
 
 
