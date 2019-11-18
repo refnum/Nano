@@ -490,13 +490,44 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 {
 
 
-	// TODO
-	NN_UNUSED(beforeIndex);
-	NN_UNUSED(theSize);
-	NN_UNUSED(theData);
-	NN_UNUSED(theUsage);
+	// Validate our parameters
+	NN_REQUIRE(IsValidOffset(beforeIndex));
+	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
 
-	return nullptr;
+	NN_EXPECT(theSize != 0);
+
+
+	// Insert the data
+	uint8_t* newData = nullptr;
+
+	if (theSize != 0)
+	{
+		// Grow the buffer
+		size_t oldSize = GetSize();
+		SetSize(oldSize + theSize);
+
+
+
+		// Prepare to insert
+		//
+		// Data after the inserted area must be moved up towards the end.
+		newData = GetMutableData(beforeIndex);
+
+		uint8_t* movedPtr  = newData + theSize;
+		size_t   movedSize = oldSize - beforeIndex;
+
+		if (movedSize != 0)
+		{
+			memmove(movedPtr, newData, movedSize);
+		}
+
+
+
+		// Insert the data
+		CopyData(newData, theData, theSize, theUsage);
+	}
+
+	return newData;
 }
 
 
@@ -594,13 +625,62 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 {
 
 
-	// TODO
-	NN_UNUSED(theRange);
-	NN_UNUSED(theSize);
-	NN_UNUSED(theData);
-	NN_UNUSED(theUsage);
+	// Validate our parameters
+	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
+	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
+	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
 
-	return nullptr;
+	NN_EXPECT(!theRange.IsEmpty());
+	NN_EXPECT(theSize != 0);
+
+
+
+	// Replace everything
+	if (theRange == NRange(0, GetSize()))
+	{
+		SetData(theSize, theData, theUsage);
+	}
+
+
+	// Replace a subrange
+	//
+	// If the range we're replacing is a different size than the data we are
+	// replacing it with then we need to insert filler / remove data prior
+	// to the replacement.
+	//
+	// When inserting filler we do so at the end of the area we're going to
+	// overwrite, to minimise the amount of data that needs to be moved up.
+	else
+	{
+		// Adjust the data
+		size_t replacedSize = theRange.GetSize();
+
+		if (replacedSize > theSize)
+		{
+			RemoveData(NRange(theRange.GetLocation(), replacedSize - theSize));
+		}
+		else
+		{
+			InsertData(theRange.GetNext(), theSize - replacedSize, nullptr, NDataUsage::None);
+		}
+
+
+
+		// Replace the range
+		if (theSize != 0)
+		{
+			uint8_t* dstPtr = GetMutableData(theRange.GetLocation());
+			CopyData(dstPtr, theData, theSize, theUsage);
+		}
+	}
+
+
+
+	// Get the replaced data
+	//
+	// If the replacement was a removal from the end then the range location
+	// will now be after our last byte, so we'll return nullptr as required.
+	return GetMutableData(theRange.GetLocation());
 }
 
 
