@@ -154,7 +154,10 @@ public:
 	//
 	// The capacity is the maximum size available before reallocation.
 	//
-	// Increasing the capacity may reallocate the underlying storage,
+	// Reducing the capacity below the current size will also reduce
+	// the current size.
+	//
+	// Adjusting the capacity may reallocate the underlying storage,
 	// invalidating any previously returned pointers into the data.
 	size_t                              GetCapacity() const;
 	void                                SetCapacity(size_t theCapacity);
@@ -164,7 +167,7 @@ public:
 	//
 	// Immutable access is preferred. Mutable access may need to copy the data.
 	//
-	// Returns nullptr if the data is empty.
+	// Returns nullptr if the offset is outside the buffer.
 	const uint8_t*                      GetData(       size_t theOffset = 0) const;
 	uint8_t*                            GetMutableData(size_t theOffset = 0);
 

@@ -371,7 +371,7 @@ const uint8_t* NData::GetData(size_t theOffset) const
 	// Get the data
 	const uint8_t* theData = nullptr;
 
-	if (!IsEmpty())
+	if (!IsEmpty() && theOffset < GetSize())
 	{
 		// Get the data
 		switch (GetStorage())
@@ -407,20 +407,20 @@ const uint8_t* NData::GetData(size_t theOffset) const
 
 //=============================================================================
 //		NData::GetMutableData : Get mutable data.
-	// Validate our parameters
-	NN_EXPECT(IsValidOffset(theOffset));
-
-
-
 //-----------------------------------------------------------------------------
 uint8_t* NData::GetMutableData(size_t theOffset)
 {
 
 
+	// Validate our parameters
+	NN_EXPECT(IsValidOffset(theOffset));
+
+
+
 	// Get the data
 	uint8_t* theData = nullptr;
 
-	if (!IsEmpty())
+	if (!IsEmpty() && theOffset < GetSize())
 	{
 		MakeMutable();
 
