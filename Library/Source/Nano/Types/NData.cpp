@@ -248,12 +248,14 @@ void NData::SetSize(size_t theSize)
 {
 
 
-	// Get the state we need
-	size_t oldSize = theSize;
+	// Validate our parameters
+	NN_EXPECT(theSize != GetSize());
 
 
 
 	// Set the size
+	size_t oldSize = GetSize();
+
 	if (theSize != oldSize)
 	{
 		switch (GetStorage())
@@ -325,6 +327,11 @@ void NData::SetCapacity(size_t theCapacity)
 {
 
 
+	// Validate our parameters
+	NN_EXPECT(theCapacity != GetCapacity());
+
+
+
 	// Set the capacity
 	if (theCapacity != GetCapacity())
 	{
@@ -354,6 +361,11 @@ void NData::SetCapacity(size_t theCapacity)
 //-----------------------------------------------------------------------------
 const uint8_t* NData::GetData(size_t theOffset) const
 {
+
+
+	// Validate our parameters
+	NN_EXPECT(IsValidOffset(theOffset));
+
 
 
 	// Get the data
@@ -395,6 +407,11 @@ const uint8_t* NData::GetData(size_t theOffset) const
 
 //=============================================================================
 //		NData::GetMutableData : Get mutable data.
+	// Validate our parameters
+	NN_EXPECT(IsValidOffset(theOffset));
+
+
+
 //-----------------------------------------------------------------------------
 uint8_t* NData::GetMutableData(size_t theOffset)
 {
@@ -422,6 +439,11 @@ uint8_t* NData::GetMutableData(size_t theOffset)
 //-----------------------------------------------------------------------------
 void NData::SetData(size_t theSize, const void* theData, NDataUsage theUsage)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
+
 
 
 	// Set the data
@@ -516,6 +538,14 @@ uint8_t* NData::AppendData(size_t theSize, const void* theData, NDataUsage theUs
 //-----------------------------------------------------------------------------
 void NData::RemoveData(const NRange& theRange)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
+	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
+
+	NN_EXPECT(!theRange.IsEmpty());
+
 
 
 	// Remove the data
@@ -734,6 +764,51 @@ void NData::MakeMutable()
 	//
 	// We assume that a request for mutable access implies mutation.
 	ClearHash();
+}
+
+
+
+
+
+//=============================================================================
+//		NData::IsValidOffset : Is an offset valid?
+//-----------------------------------------------------------------------------
+bool NData::IsValidOffset(size_t theOffset) const
+{
+
+
+	// Check the offset
+	//
+	// We allow a zero offset when empty.
+	return (theOffset == 0 && IsEmpty()) || (theOffset < GetSize());
+}
+
+
+
+
+
+//=============================================================================
+//		NData::IsValidUsage : Is a usage combination valid?
+//-----------------------------------------------------------------------------
+bool NData::IsValidUsage(size_t theSize, const void* theData, NDataUsage theUsage) const
+{
+
+
+	// Check the usage
+	switch (theUsage)
+	{
+		case NDataUsage::Copy:
+		case NDataUsage::View:
+			return (theSize == 0 && theData == nullptr) || (theSize != 0 && theData != nullptr);
+			break;
+
+		case NDataUsage::Zero:
+		case NDataUsage::None:
+			return theData == nullptr;
+			break;
+	}
+
+	return false;
 }
 
 

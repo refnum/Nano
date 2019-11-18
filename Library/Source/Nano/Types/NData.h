@@ -240,6 +240,9 @@ private:
 	NDataStorage                        GetStorage() const;
 	void                                MakeMutable();
 
+	bool                                IsValidOffset(size_t theOffset) const;
+	bool                                IsValidUsage( size_t theSize,   const void* theData, NDataUsage theUsage) const;
+
 	void                                CopyData(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage);
 
 
