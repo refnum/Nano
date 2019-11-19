@@ -50,10 +50,6 @@
 //=============================================================================
 //		Macros
 //-----------------------------------------------------------------------------
-// Get the size of an array
-#define NN_ARRAY_SIZE(_a)                                   ((NIndex)(sizeof((_a)) / sizeof((_a)[0])))
-
-
 // Get a clamped value
 #define NN_CLAMP_VALUE(_v, _min, _max)                      std::min((_max), std::max((_min), (_v)))
 
