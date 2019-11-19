@@ -481,13 +481,20 @@ void NData::SetData(size_t theSize, const void* theData, NDataUsage theUsage)
 
 
 	// Set the data
-	if (theSize <= kSmallSizeMax)
+	//
+	// Views are implicitly shared.
+	if (theSize != 0)
 	{
-		SetDataSmall(theSize, theData, theUsage);
-	}
-	else
-	{
-		SetDataShared(theSize, theData, theUsage);
+		if (theSize <= kSmallSizeMax && theUsage != NDataUsage::View)
+		{
+			SetDataSmall(theSize, theData, theUsage);
+		}
+		else
+		{
+			SetDataShared(theSize, theData, theUsage);
+		}
+
+		ClearHash();
 	}
 }
 
@@ -799,6 +806,10 @@ bool NData::IsSmall() const
 	return (mSmall.sizeFlags & kSmallSizeBit) != 0;
 }
 
+
+
+
+
 //=============================================================================
 //		NData::IsShared : Are we using shared storage?
 //-----------------------------------------------------------------------------
@@ -1019,8 +1030,6 @@ void NData::ReleaseShared()
 
 		delete mShared.theBlock;
 	}
-
-	memset(&mShared, 0x00, sizeof(mShared));
 }
 
 
@@ -1366,13 +1375,33 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 
 
 
-	// Set the data
+	// Set when small
 	//
-	// We must clear first, to release any exising shared data.
-	Clear();
+	// Even if theData is within our block we can just copy it to the start.
+	if (IsSmall())
+	{
+		MemCopy(mSmall.theData, theData, theSize, theUsage);
+	}
 
+
+	// Set when shared
+	//
+	// The data might be within our block and so would be lost when we
+	// release the block. As it's small we just make a local copy then
+	// copy it to small storage once we release the block.
+	else
+	{
+		NDataStorageSmall tmpData;
+
+		MemCopy(tmpData.theData, theData, theSize, theUsage);
+		ReleaseShared();
+		MemCopy(mSmall.theData, tmpData.theData, theSize, theUsage);
+	}
+
+
+
+	// Update our state
 	SetSizeSmall(theSize);
-	MemCopy(mSmall.theData, theData, theSize, theUsage);
 }
 
 
@@ -1386,67 +1415,54 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theSize > kSmallSizeMax);
-	NN_REQUIRE(theUsage != NDataUsage::View);
-
-
-
-	// Get the state we need
-	bool usingShared  = IsShared();
-	bool withinShared = false;
-
-	if (usingShared)
+	// Set when small
+	if (IsSmall())
 	{
+		MakeShared(theSize, theSize, theData, theUsage);
+	}
+
+
+
+	// Set when shared
+	else
+	{
+		// Get the state we need
 		uintptr_t srcFirst = reinterpret_cast<uintptr_t>(theData);
 		uintptr_t srcLast  = srcFirst + theSize - 1;
 
-		uintptr_t sharedFirst = reinterpret_cast<uintptr_t>(mShared.theData);
-		uintptr_t sharedLast  = sharedFirst + mShared.theBlock->theSize - 1;
-
-		withinShared = (srcFirst >= sharedFirst && srcFirst <= sharedLast) &&
-					   (srcLast >= sharedFirst && srcLast <= sharedLast);
-	}
-
-
-
-	// Adjust our slice
-	//
-	// If the source data is already within our data we just need to adjust our slice.
-	if (withinShared)
-	{
 		uintptr_t blockFirst = reinterpret_cast<uintptr_t>(mShared.theData);
-		uintptr_t srcFirst   = reinterpret_cast<uintptr_t>(theData);
+		uintptr_t blockLast  = blockFirst + mShared.theBlock->theSize - 1;
 
-		NN_REQUIRE(srcFirst >= blockFirst);
-		mShared.theSlice.SetRange(srcFirst - blockFirst, theSize);
-	}
+		bool withinBlock = (srcFirst >= blockFirst && srcFirst <= blockLast) &&
+						   (srcLast >= blockFirst && srcLast <= blockLast);
 
 
-	// Adjust our block
-	//
-	// If the data is external we need to update our block.
-	else
-	{
-		// Reuse the existing block
+		// Adjust our slice
 		//
-		// If we're using shared data, and we're the only owner, and the new data
-		// would fit then we can just copy the data into our existing block and
-		// adjust our slice.
-		bool reuseBlock = (usingShared && theSize <= mShared.theBlock->theSize &&
-						   mShared.theBlock->numOwners == 1);
-
-		if (reuseBlock)
+		// If the source is within our block, and we're not clearing the
+		// data, we can simply adjust our slice.
+		if (withinBlock && theUsage != NDataUsage::Zero)
 		{
-			mShared.theSlice.SetRange(0, theSize);
-
-			MemCopy(const_cast<uint8_t*>(mShared.theData), theData, theSize, theUsage);
+			mShared.theSlice.SetRange(srcFirst - blockFirst, theSize);
 		}
 
 
-		// Create a new block
+
+		// Reuse our block
 		//
-		// Move the data into a new block, where we are the only owner.
+		// If we're the only owner of our block, and the new data would
+		// fit, copy into into our existing block.
+		else if (mShared.theBlock->theSize >= theSize && mShared.theBlock->numOwners == 1)
+		{
+			MemCopy(const_cast<uint8_t*>(mShared.theData), theData, theSize, theUsage);
+			mShared.theSlice.SetRange(0, theSize);
+		}
+
+
+
+		// Create a block
+		//
+		// Otherwise we need to move the data into a new block.
 		else
 		{
 			MakeShared(theSize, theSize, theData, theUsage);
