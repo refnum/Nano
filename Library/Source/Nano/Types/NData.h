@@ -161,6 +161,7 @@ public:
 	// Immutable access is preferred. Mutable access may need to copy the data.
 	//
 	// Returns nullptr if the offset is outside the buffer.
+	NData                               GetData(const NRange& theRange)      const;
 	const uint8_t*                      GetData(       size_t theOffset = 0) const;
 	uint8_t*                            GetMutableData(size_t theOffset = 0);
 

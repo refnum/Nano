@@ -367,6 +367,46 @@ void NData::SetCapacity(size_t theCapacity)
 //=============================================================================
 //		NData::GetData : Get the data.
 //-----------------------------------------------------------------------------
+NData NData::GetData(const NRange& theRange) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
+	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
+
+	NN_EXPECT(!theRange.IsEmpty());
+
+
+
+	// Get the data
+	NData theData;
+
+	if (!theRange.IsEmpty())
+	{
+		if (IsSmall())
+		{
+			theData.SetData(theRange.GetSize(), GetData(theRange.GetLocation()));
+		}
+		else
+		{
+			theData.AdoptData(*this);
+			NN_REQUIRE(theData.IsShared());
+
+			theData.mShared.theSlice = theRange;
+		}
+	}
+
+	return theData;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::GetData : Get the data.
+//-----------------------------------------------------------------------------
 const uint8_t* NData::GetData(size_t theOffset) const
 {
 
