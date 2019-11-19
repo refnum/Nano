@@ -258,17 +258,17 @@ NANO_TEST(TRange, "Empty")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Overlaps")
+NANO_TEST(TRange, "Intersects")
 {
 
 
 	// Perform the test
-	REQUIRE(NRange(4, 3).Overlaps(NRange(6, 2)));     // 456 ~ 67 = true   (after)
-	REQUIRE(!NRange(4, 3).Overlaps(NRange(8, 2)));    // 456 ~ 89 = false  (after gap)
-	REQUIRE(NRange(4, 3).Overlaps(NRange(3, 2)));     // 456 ~ 34 = true   (before)
-	REQUIRE(!NRange(4, 3).Overlaps(NRange(1, 2)));    // 456 ~ 12 = false  (before gap)
-	REQUIRE(!NRange(4, 3).Overlaps(NRange(0, 0)));    // 456 ~ .  = false  (empty)
-	REQUIRE(!NRange(4, 3).Overlaps(NRange(3, 0)));    // 456 ~ .  = false  (empty)
+	REQUIRE(NRange(4, 3).Intersects(NRange(6, 2)));     // 456 ~ 67 = true   (after)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(8, 2)));    // 456 ~ 89 = false  (after gap)
+	REQUIRE(NRange(4, 3).Intersects(NRange(3, 2)));     // 456 ~ 34 = true   (before)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(1, 2)));    // 456 ~ 12 = false  (before gap)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(0, 0)));    // 456 ~ .  = false  (empty)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(3, 0)));    // 456 ~ .  = false  (empty)
 }
 
 

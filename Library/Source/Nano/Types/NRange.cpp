@@ -62,21 +62,14 @@ NRange::NRange(size_t theLocation, size_t theSize)
 
 
 //=============================================================================
-//		NRange::Overlaps : Does the range overlap another?
+//		NRange::Intersects : Does the range intersect another?
 //-----------------------------------------------------------------------------
-bool NRange::Overlaps(const NRange& theRange) const
+bool NRange::Intersects(const NRange& theRange) const
 {
 
 
-	// Check for overlap
-	bool hasOverlap = (!IsEmpty() && !theRange.IsEmpty());
-
-	if (hasOverlap)
-	{
-		hasOverlap = !GetIntersection(theRange).IsEmpty();
-	}
-
-	return hasOverlap;
+	// Check the intersection
+	return !GetIntersection(theRange).IsEmpty();
 }
 
 

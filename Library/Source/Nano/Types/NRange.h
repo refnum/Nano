@@ -74,8 +74,8 @@ public:
 										NRange(size_t theLocation = 0, size_t theSize = 0);
 
 
-	// Does the range overlap another?
-	bool                                Overlaps(const NRange& theRange) const;
+	// Does a range intersect another?
+	bool                                Intersects(const NRange& theRange) const;
 
 
 	// Does the range contain an offset?
