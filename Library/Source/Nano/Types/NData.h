@@ -233,16 +233,20 @@ public:
 
 
 private:
-	bool                                IsSmall() const;
-	void                                MakeMutable();
+	bool                                IsSmall()  const;
+	bool                                IsShared() const;
 
 	bool                                IsValidOffset(size_t theOffset) const;
 	bool                                IsValidUsage( size_t theSize,   const void* theData, NDataUsage theUsage) const;
 
-	void                                CopyData(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage);
+	void                                MakeMutable();
+	void                                MakeShared(size_t theCapacity, size_t theSize, const void* theData, NDataUsage theUsage);
 
+	void                                RetainShared();
+	void                                ReleaseShared();
 
 	void                                AdoptData(const NData& otherData);
+	void                                MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage);
 
 	size_t                              GetSizeSmall()  const;
 	size_t                              GetSizeShared() const;
@@ -264,17 +268,6 @@ private:
 
 	void                                RemoveDataSmall( const NRange& theRange);
 	void                                RemoveDataShared(const NRange& theRange);
-
-
-
-	NDataBlock*                         CreateBlock(size_t      theCapacity,
-													size_t      theSize,
-													const void* theData,
-													NDataUsage  theUsage);
-	void                                AdoptBlock(NDataBlock* theBlock, size_t theSize);
-
-	void                                AcquireBlock(NDataBlock* theBlock);
-	void                                ReleaseBlock(NDataBlock* theBlock);
 
 
 private:

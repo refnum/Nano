@@ -58,8 +58,6 @@ static constexpr size_t kSmallSizeShift                     = 3;
 static constexpr size_t kSmallSizeMax                       = 31;
 static constexpr size_t kSmallSize0                         = kSmallSizeFlag;
 
-static constexpr size_t kSharedCountView                    = size_t(-1);
-
 
 
 
@@ -69,17 +67,18 @@ static constexpr size_t kSharedCountView                    = size_t(-1);
 //-----------------------------------------------------------------------------
 // Data block
 //
-// The data block holds state for shared data.
+// The data block holds the state for shared data.
 //
-// new's default alignment will ensure that the least significant bit of
-// the block address is always zero.
+// As the block is allocated dynamically, the least significant bit of the
+// block address is always zero.
 //
 // By placing a pointer to the block at the start of our storage union we
 // can use that bit as a flag to indicate which representation is active.
 struct NDataBlock
 {
 	std::atomic_size_t numOwners;
-	size_t             theCapacity;
+	bool               ownedData;
+	size_t             theSize;
 	const uint8_t*     theData;
 };
 
@@ -215,9 +214,9 @@ void NData::Clear()
 
 
 	// Release shared data
-	if (!IsSmall())
+	if (IsShared())
 	{
-		ReleaseBlock(mShared.theBlock);
+		ReleaseShared();
 	}
 
 
@@ -515,7 +514,7 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 
 
 		// Insert the data
-		CopyData(newData, theData, theSize, theUsage);
+		MemCopy(newData, theData, theSize, theUsage);
 	}
 
 	return newData;
@@ -655,7 +654,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 		if (theSize != 0)
 		{
 			uint8_t* dstPtr = GetMutableData(theRange.GetLocation());
-			CopyData(dstPtr, theData, theSize, theUsage);
+			MemCopy(dstPtr, theData, theSize, theUsage);
 		}
 	}
 
@@ -757,56 +756,17 @@ bool NData::IsSmall() const
 
 
 	// Check the flag
-	return mSmall.sizeFlags & kSmallSizeFlag;
+	return bool(mSmall.sizeFlags & kSmallSizeFlag);
 }
-
-
-
-
-
 //=============================================================================
-//		NData::MakeMutable : Make the data mutable.
+//		NData::IsShared : Are we using shared storage?
 //-----------------------------------------------------------------------------
-void NData::MakeMutable()
+bool NData::IsShared() const
 {
 
 
-	// Get the state we need
-	NRange         srcSlice;
-	const uint8_t* srcData = nullptr;
-
-	if (!IsSmall())
-	{
-		// If we're a view, or we're shared, we need to copy the data
-		//
-		// Otherwise we are the only owner so can safely mutate in place.
-		if (mShared.theBlock->numOwners != 1)
-		{
-			srcSlice = mShared.theSlice;
-			srcData  = mShared.theData;
-		}
-	}
-
-
-
-	// Copy the data
-	//
-	// Our data is mutable once we own the only copy.
-	if (!srcSlice.IsEmpty())
-	{
-		size_t srcSize = srcSlice.GetSize();
-		srcData        = srcData + srcSlice.GetLocation();
-
-		NDataBlock* theBlock = CreateBlock(srcSize, srcSize, srcData, NDataUsage::Copy);
-		AdoptBlock(theBlock, srcSize);
-	}
-
-
-
-	// Reset our hash
-	//
-	// We assume that a request for mutable access implies mutation.
-	ClearHash();
+	// Check the flag
+	return !bool(mSmall.sizeFlags & kSmallSizeFlag);
 }
 
 
@@ -859,28 +819,167 @@ bool NData::IsValidUsage(size_t theSize, const void* theData, NDataUsage theUsag
 
 
 //=============================================================================
-//		NData::CopyData : Copy data.
+//		NData::MakeMutable : Make the data mutable.
 //-----------------------------------------------------------------------------
-void NData::CopyData(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage)
+void NData::MakeMutable()
 {
 
 
+	// Get the state we need
+	NRange         srcSlice;
+	const uint8_t* srcData = nullptr;
+
+	if (IsShared())
+	{
+		// If we're a view, or we're shared, we need to copy the data
+		//
+		// Otherwise we are the only owner so can safely mutate in place.
+		if (mShared.theBlock->numOwners != 1)
+		{
+			srcSlice = mShared.theSlice;
+			srcData  = mShared.theData;
+		}
+	}
+
+
+
 	// Copy the data
+	//
+	// Our data is mutable once we own the only copy.
+	if (!srcSlice.IsEmpty())
+	{
+		size_t srcSize = srcSlice.GetSize();
+		srcData        = srcData + srcSlice.GetLocation();
+
+		MakeShared(srcSize, srcSize, srcData, NDataUsage::Copy);
+	}
+
+
+
+	// Reset our hash
+	//
+	// We assume that a request for mutable access implies mutation.
+	ClearHash();
+}
+
+
+
+
+
+//=============================================================================
+//		NData::MakeShared : Make shared data.
+//-----------------------------------------------------------------------------
+void NData::MakeShared(size_t theCapacity, size_t theSize, const void* theData, NDataUsage theUsage)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theCapacity != 0 && theSize != 0);
+	NN_REQUIRE(theCapacity >= theSize);
+	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
+
+
+
+	// Create the data
+	//
+	// We use malloc to avoid unnecessary fill overhead when the data is
+	// about to be overwritten / does not need initialisation.
+	void* newData = nullptr;
+
 	switch (theUsage)
 	{
 		case NDataUsage::Copy:
-		case NDataUsage::View:
-			memmove(dstPtr, srcPtr, theSize);
+			newData = malloc(theCapacity);
+			memcpy(newData, theData, theSize);
 			break;
 
 		case NDataUsage::Zero:
-			memset(dstPtr, 0x00, theSize);
+			newData = calloc(1, theCapacity);
 			break;
 
 		case NDataUsage::None:
-			// Do nothing
+			newData = malloc(theCapacity);
+			break;
+
+		case NDataUsage::View:
+			newData = const_cast<void*>(theData);
 			break;
 	}
+
+
+
+	// Create the block
+	NDataBlock* theBlock = new NDataBlock{};
+
+	theBlock->numOwners = 1;
+	theBlock->ownedData = (theUsage != NDataUsage::View);
+	theBlock->theSize   = theCapacity;
+	theBlock->theData   = static_cast<const uint8_t*>(newData);
+
+
+
+	// Switch to shared data
+	Clear();
+
+	mShared.theBlock = theBlock;
+	mShared.theData  = theBlock->theData;
+	mShared.theSlice = NRange(0, theSize);
+
+	NN_REQUIRE(IsShared());
+}
+
+
+
+
+
+//=============================================================================
+//		NData::RetainShared : Retain the shared data.
+//-----------------------------------------------------------------------------
+void NData::RetainShared()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsShared());
+	NN_REQUIRE(mShared.theBlock->numOwners != 0);
+
+
+
+	// Retain the block
+	mShared.theBlock->numOwners += 1;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::ReleaseShared : Release the shared data.
+//-----------------------------------------------------------------------------
+void NData::ReleaseShared()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsShared());
+	NN_REQUIRE(mShared.theBlock->numOwners != 0);
+
+
+
+	// Release the block
+	//
+	// The last owner releases the block and the data, if we own it.
+	if (mShared.theBlock->numOwners.fetch_sub(1) == 1)
+	{
+		if (mShared.theBlock->ownedData)
+		{
+			free(const_cast<uint8_t*>(mShared.theBlock->theData));
+		}
+
+		delete mShared.theBlock;
+	}
+
+	memset(&mShared, 0x00, sizeof(mShared));
 }
 
 
@@ -903,14 +1002,43 @@ void NData::AdoptData(const NData& otherData)
 	// Adopt the data
 	mSmall = otherData.mSmall;
 
-	if (!IsSmall())
+	if (IsShared())
 	{
-		AcquireBlock(mShared.theBlock);
+		RetainShared();
 	}
 
 
 	// Update our state
 	ClearHash();
+}
+
+
+
+
+
+//=============================================================================
+//		NData::MemCopy : Copy bytes.
+//-----------------------------------------------------------------------------
+void NData::MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage)
+{
+
+
+	// Copy the data
+	switch (theUsage)
+	{
+		case NDataUsage::Copy:
+		case NDataUsage::View:
+			memmove(dstPtr, srcPtr, theSize);
+			break;
+
+		case NDataUsage::Zero:
+			memset(dstPtr, 0x00, theSize);
+			break;
+
+		case NDataUsage::None:
+			// Do nothing
+			break;
+	}
 }
 
 
@@ -948,7 +1076,7 @@ size_t NData::GetSizeShared() const
 
 
 	// Validate our state
-	NN_REQUIRE(!IsSmall());
+	NN_REQUIRE(IsShared());
 
 
 
@@ -982,12 +1110,11 @@ void NData::SetSizeSmall(size_t theSize)
 
 	// Switch to shared
 	//
-	// Larger data must be stored in a shared block.
+	// Copy the small data into a shared block, then resize as required.
 	else
 	{
-		NDataBlock* theBlock =
-			CreateBlock(theSize, GetSizeSmall(), mSmall.theData, NDataUsage::Copy);
-		AdoptBlock(theBlock, theSize);
+		MakeShared(theSize, GetSizeSmall(), mSmall.theData, NDataUsage::Copy);
+		SetSizeShared(theSize);
 	}
 }
 
@@ -1003,7 +1130,7 @@ void NData::SetSizeShared(size_t theSize)
 
 
 	// Validate our state
-	NN_REQUIRE(!IsSmall());
+	NN_REQUIRE(IsShared());
 
 
 
@@ -1017,11 +1144,11 @@ void NData::SetSizeShared(size_t theSize)
 	// Increase the size
 	else
 	{
-		// Can use our existing storage
+		// We can use our storage
 		//
-		// Even if we would only be using a subset of our existing block we can
-		// only the extra space if we're the exclusive owner.
-		if (theSize <= mShared.theBlock->theCapacity && mShared.theBlock->numOwners == 1)
+		// If the requested size is within our block, and nobody else is
+		// using it, we can just expand our slice.
+		if (theSize <= mShared.theBlock->theSize && mShared.theBlock->numOwners == 1)
 		{
 			mShared.theSlice.SetSize(theSize);
 		}
@@ -1029,12 +1156,11 @@ void NData::SetSizeShared(size_t theSize)
 
 		// We require new storage
 		//
-		// Copy the data into a new shared block, then switch to that.
+		// Copy the shared data into a larger block, then adjust our slice.
 		else
 		{
-			NDataBlock* theBlock =
-				CreateBlock(theSize, mShared.theSlice.GetSize(), mShared.theData, NDataUsage::Copy);
-			AdoptBlock(theBlock, theSize);
+			MakeShared(theSize, mShared.theSlice.GetSize(), mShared.theData, NDataUsage::Copy);
+			mShared.theSlice.SetSize(theSize);
 		}
 	}
 }
@@ -1071,12 +1197,12 @@ size_t NData::GetCapacityShared() const
 
 
 	// Validate our state
-	NN_REQUIRE(!IsSmall());
+	NN_REQUIRE(IsShared());
 
 
 
 	// Get the capacity
-	return mShared.theBlock->theCapacity;
+	return mShared.theBlock->theSize;
 }
 
 
@@ -1114,8 +1240,7 @@ void NData::SetCapacitySmall(size_t theCapacity)
 	// Larger data must be stored in a shared block.
 	else if (theCapacity > kSmallSizeMax)
 	{
-		NDataBlock* theBlock = CreateBlock(theCapacity, theSize, mSmall.theData, NDataUsage::Copy);
-		AdoptBlock(theBlock, theSize);
+		MakeShared(theCapacity, theSize, mSmall.theData, NDataUsage::Copy);
 	}
 }
 
@@ -1131,14 +1256,14 @@ void NData::SetCapacityShared(size_t theCapacity)
 
 
 	// Validate our state
-	NN_REQUIRE(!IsSmall());
+	NN_REQUIRE(IsShared());
 
 
 
 	// Set the capacity
-	size_t      theSize  = std::min(mShared.theSlice.GetSize(), theCapacity);
-	NDataBlock* theBlock = CreateBlock(theCapacity, theSize, mShared.theData, NDataUsage::Copy);
-	AdoptBlock(theBlock, theSize);
+	size_t theSize = std::min(mShared.theSlice.GetSize(), theCapacity);
+
+	MakeShared(theCapacity, theSize, mShared.theData, NDataUsage::Copy);
 }
 
 
@@ -1174,7 +1299,7 @@ const uint8_t* NData::GetDataShared(size_t theOffset) const
 
 
 	// Validate our state
-	NN_REQUIRE(!IsSmall());
+	NN_REQUIRE(IsShared());
 	NN_REQUIRE(theOffset < mShared.theSlice.GetSize());
 
 
@@ -1206,7 +1331,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 	Clear();
 
 	SetSizeSmall(theSize);
-	CopyData(mSmall.theData, theData, theSize, theUsage);
+	MemCopy(mSmall.theData, theData, theSize, theUsage);
 }
 
 
@@ -1227,7 +1352,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 
 
 	// Get the state we need
-	bool usingShared  = !IsSmall();
+	bool usingShared  = IsShared();
 	bool withinShared = false;
 
 	if (usingShared)
@@ -1236,7 +1361,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		uintptr_t srcLast  = srcFirst + theSize - 1;
 
 		uintptr_t sharedFirst = reinterpret_cast<uintptr_t>(mShared.theData);
-		uintptr_t sharedLast  = sharedFirst + mShared.theBlock->theCapacity - 1;
+		uintptr_t sharedLast  = sharedFirst + mShared.theBlock->theSize - 1;
 
 		withinShared = (srcFirst >= sharedFirst && srcFirst <= sharedLast) &&
 					   (srcLast >= sharedFirst && srcLast <= sharedLast);
@@ -1267,14 +1392,14 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		// If we're using shared data, and we're the only owner, and the new data
 		// would fit then we can just copy the data into our existing block and
 		// adjust our slice.
-		bool reuseBlock = (usingShared && theSize <= mShared.theBlock->theCapacity &&
+		bool reuseBlock = (usingShared && theSize <= mShared.theBlock->theSize &&
 						   mShared.theBlock->numOwners == 1);
 
 		if (reuseBlock)
 		{
 			mShared.theSlice.SetRange(0, theSize);
 
-			CopyData(const_cast<uint8_t*>(mShared.theData), theData, theSize, theUsage);
+			MemCopy(const_cast<uint8_t*>(mShared.theData), theData, theSize, theUsage);
 		}
 
 
@@ -1283,8 +1408,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		// Move the data into a new block, where we are the only owner.
 		else
 		{
-			NDataBlock* theBlock = CreateBlock(theSize, theSize, theData, theUsage);
-			AdoptBlock(theBlock, theSize);
+			MakeShared(theSize, theSize, theData, theUsage);
 		}
 	}
 }
@@ -1335,7 +1459,7 @@ void NData::RemoveDataShared(const NRange& theRange)
 
 
 	// Validate our state
-	NN_REQUIRE(!IsSmall());
+	NN_REQUIRE(IsShared());
 
 
 
@@ -1370,131 +1494,5 @@ void NData::RemoveDataShared(const NRange& theRange)
 
 		memmove(&theData[dstoffset], &theData[srcOffset], srcSize);
 		mShared.theSlice.SetSize(mShared.theSlice.GetSize() - theRange.GetSize());
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		NData::CreateBlock : Create a shared block.
-//-----------------------------------------------------------------------------
-NDataBlock* NData::CreateBlock(size_t      theCapacity,
-							   size_t      theSize,
-							   const void* theData,
-							   NDataUsage  theUsage)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(theCapacity != 0);
-	NN_REQUIRE(theSize != 0);
-	NN_REQUIRE(theCapacity >= theSize);
-	NN_REQUIRE(theUsage != NDataUsage::View);
-
-
-
-	// Create the data
-	//
-	// We use malloc to allocate the data to avoid unnecessary fill overhead
-	// when the data is about to be overwritten / does not need initialisation.
-	void* newData = nullptr;
-
-	switch (theUsage)
-	{
-		case NDataUsage::Copy:
-			newData = malloc(theCapacity);
-			memcpy(newData, theData, theSize);
-			break;
-
-		case NDataUsage::Zero:
-			newData = calloc(1, theCapacity);
-			break;
-
-		case NDataUsage::None:
-			newData = malloc(theCapacity);
-			break;
-
-		case NDataUsage::View:
-			newData = const_cast<void*>(theData);
-			break;
-	}
-
-
-
-	// Create the block
-	size_t numOwners = 1;
-
-	if (theUsage == NDataUsage::View)
-	{
-		numOwners = kSharedCountView;
-	}
-
-	return new NDataBlock{numOwners, theCapacity, static_cast<const uint8_t*>(newData)};
-}
-
-
-
-
-
-//=============================================================================
-//		NData::AdoptBlock : Adopt a shared block.
-//-----------------------------------------------------------------------------
-void NData::AdoptBlock(NDataBlock* theBlock, size_t theSize)
-{
-
-
-	// Adopt the block
-	Clear();
-
-	mShared.theBlock = theBlock;
-	mShared.theData  = theBlock->theData;
-	mShared.theSlice = NRange(0, theSize);
-
-	NN_REQUIRE(!IsSmall());
-}
-
-
-
-
-
-//=============================================================================
-//		NData::AcquireBlock : Acquire a shared block.
-//-----------------------------------------------------------------------------
-void NData::AcquireBlock(NDataBlock* theBlock)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(theBlock->numOwners != 0);
-
-
-
-	// Acquire the block
-	theBlock->numOwners += 1;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::ReleaseBlock : Release a shared block.
-//-----------------------------------------------------------------------------
-void NData::ReleaseBlock(NDataBlock* theBlock)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(theBlock->numOwners != 0);
-
-
-
-	// Release the block
-	if (theBlock->numOwners.fetch_sub(1) == 1)
-	{
-		free(const_cast<uint8_t*>(theBlock->theData));
-		delete theBlock;
 	}
 }
