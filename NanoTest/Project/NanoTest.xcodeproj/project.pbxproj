@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB2912192383771600509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
+		AB29121A2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
+		AB29121B2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
@@ -679,6 +682,7 @@
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
 				ABBB2B6523801DBB00EB2840 /* TAssert.cpp in Sources */,
+				AB29121A2383771700509C66 /* TData.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -691,6 +695,7 @@
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6423801DBB00EB2840 /* TAssert.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				AB2912192383771600509C66 /* TData.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -703,6 +708,7 @@
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6623801DBB00EB2840 /* TAssert.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				AB29121B2383771700509C66 /* TData.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
