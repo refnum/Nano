@@ -51,12 +51,12 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kSmallSizeFlag                      = 0b00000001;
+static constexpr size_t kSmallSizeBit                       = 0b00000001;
 static constexpr size_t kSmallSizeMask                      = 0b11111000;
 static constexpr size_t kSmallSizeShift                     = 3;
 
 static constexpr size_t kSmallSizeMax                       = 31;
-static constexpr size_t kSmallSize0                         = kSmallSizeFlag;
+static constexpr size_t kSmallSize0                         = kSmallSizeBit;
 
 
 
@@ -90,7 +90,7 @@ struct NDataBlock
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(size_t theSize, const void* theData, NDataUsage theUsage)
-	: mSmall({})
+	: mSmall{kSmallSize0, {}}
 {
 	// Initialise ourselves
 	SetData(theSize, theData, theUsage);
@@ -104,7 +104,7 @@ NData::NData(size_t theSize, const void* theData, NDataUsage theUsage)
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData()
-	: mSmall({})
+	: mSmall{kSmallSize0, {}}
 {
 	// Validate our state
 	static_assert(sizeof(NDataStorageSmall) == 32);
@@ -140,7 +140,7 @@ NData::~NData()
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(const NData& otherData)
-	: mSmall({})
+	: mSmall{kSmallSize0, {}}
 {
 	// Initialise ourselves
 	AdoptData(otherData);
@@ -174,7 +174,7 @@ NData& NData::operator=(const NData& otherData)
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(NData&& otherData)
-	: mSmall({})
+	: mSmall{kSmallSize0, {}}
 {
 	// Initialise ourselves
 	AdoptData(otherData);
@@ -796,8 +796,9 @@ bool NData::IsSmall() const
 
 
 	// Check the flag
-	return bool(mSmall.sizeFlags & kSmallSizeFlag);
+	return (mSmall.sizeFlags & kSmallSizeBit) != 0;
 }
+
 //=============================================================================
 //		NData::IsShared : Are we using shared storage?
 //-----------------------------------------------------------------------------
@@ -806,7 +807,7 @@ bool NData::IsShared() const
 
 
 	// Check the flag
-	return !bool(mSmall.sizeFlags & kSmallSizeFlag);
+	return (mSmall.sizeFlags & kSmallSizeBit) == 0;
 }
 
 
@@ -1144,7 +1145,7 @@ void NData::SetSizeSmall(size_t theSize)
 	// The size is stored in the top bits of the storage flag byte.
 	if (theSize <= kSmallSizeMax)
 	{
-		mSmall.sizeFlags = uint8_t((theSize << kSmallSizeShift) | kSmallSizeFlag);
+		mSmall.sizeFlags = uint8_t((theSize << kSmallSizeShift) | kSmallSizeBit);
 	}
 
 
