@@ -108,8 +108,32 @@ ALWAYS_SEARCH_USER_PATHS				= NO
 //=============================================================================
 //		Compiler - Configuration
 //-----------------------------------------------------------------------------
-Nano_Configuration_Debug				= -DNN_DEBUG=1 -DNN_RELEASE=0
-Nano_Configuration_Release				= -DNN_DEBUG=0 -DNN_RELEASE=1
+GCC_OPTIMIZATION_LEVEL_Debug			= 0
+GCC_OPTIMIZATION_LEVEL_Release			= 3
+GCC_OPTIMIZATION_LEVEL					= $(GCC_OPTIMIZATION_LEVEL_$(CONFIGURATION))
+
+ONLY_ACTIVE_ARCH_Debug					= YES
+ONLY_ACTIVE_ARCH_Release				= NO
+ONLY_ACTIVE_ARCH						= $(ONLY_ACTIVE_ARCH_$(CONFIGURATION))
+
+DEAD_CODE_STRIPPING_Debug				= NO
+DEAD_CODE_STRIPPING_Release				= YES
+DEAD_CODE_STRIPPING						= $(DEAD_CODE_STRIPPING_$(CONFIGURATION))
+
+Nano_Configuration_Debug				=
+Nano_Configuration_Debug				= $(inherited) -D_FORTIFY_SOURCE=2
+Nano_Configuration_Debug				= $(inherited) -DNN_DEBUG=1
+Nano_Configuration_Debug				= $(inherited) -DNN_RELEASE=0
+Nano_Configuration_Debug				= $(inherited) -fconstant-cfstrings
+Nano_Configuration_Debug				= $(inherited) -fno-common
+Nano_Configuration_Debug				= $(inherited) -fstack-protector-all
+
+Nano_Configuration_Release				=
+Nano_Configuration_Release				= $(inherited) -DNN_DEBUG=0
+Nano_Configuration_Release				= $(inherited) -DNN_RELEASE=1
+Nano_Configuration_Release				= $(inherited) -fconstant-cfstrings
+Nano_Configuration_Release				= $(inherited) -fno-common
+
 Nano_Configuration						= $(Nano_Configuration_$(CONFIGURATION))
 
 
@@ -119,6 +143,7 @@ Nano_Configuration						= $(Nano_Configuration_$(CONFIGURATION))
 //=============================================================================
 //		Compiler - Misc
 //-----------------------------------------------------------------------------
+OTHER_CFLAGS							= $(Nano_Warnings) $(Nano_Configuration)
 OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings) $(Nano_Configuration)
 
 
