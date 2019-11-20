@@ -134,7 +134,7 @@ inline NComparison NCompare(size_t sizeA, const void* dataA, size_t sizeB, const
 	{
 		// Compare by address
 		theResult = NCompare(dataA, dataB);
-		if (theResult == NComparison::EqualTo)
+		if (theResult != NComparison::EqualTo)
 		{
 			// Compare by contents
 			theResult = NCompare(memcmp(dataA, dataB, sizeA));
