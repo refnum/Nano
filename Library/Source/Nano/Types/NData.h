@@ -57,24 +57,24 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Data usage
+// Data source
 //
-// Data supplied to an object may be treated in several different ways:
+// Data may be supplied to an object in several different ways:
 //
-//		NDataUsage::Copy			Copy the data
+//		NDataNDataSource::Copy			Copy the data
 //
-//		NDataUsage::Zero			Treat the data as zero-filled
+//		NDataNDataSource::Zero			Treat the source as zero-filled
 //
-//		NDataUsage::None			Treat the data as uninitialised
+//		NDataNDataSource::None			Treat the source as uninitialised
 //
-//		NDataUsage::View			Create a view onto external data.
+//		NDataNDataSource::View			Create a view onto external data
 //
-// The pointer for Zero and None usage may be nullptr, as it is never read.
+// The pointer for Zero and None is unused and so may be nullptr.
 //
-// The pointer for View usage must persist beyond the lifetime of any objects
-// that are viewing that data.
+// The pointer for a View must persist beyond the lifetime of any NData
+// objects viewing that data.
 //
-enum NDataUsage
+enum NDataSource
 {
 	Copy,
 	Zero,
@@ -120,7 +120,7 @@ class NData
 	, public NMixinHashable<NData>
 {
 public:
-										NData(size_t theSize, const void* theData, NDataUsage theUsage = NDataUsage::Copy);
+										NData(size_t theSize, const void* theData, NDataSource theSource = NDataSource::Copy);
 
 										NData();
 	virtual                            ~NData();
@@ -167,14 +167,14 @@ public:
 
 
 	// Set the data
-	void                                SetData(size_t theSize, const void* theData, NDataUsage theUsage = NDataUsage::Copy);
+	void                                SetData(size_t theSize, const void* theData, NDataSource theSource = NDataSource::Copy);
 
 
 	// Insert data
 	//
 	// Inserts data immediately before the specified offset.
 	//
-	// NDataUsage::View is not supported as a data source.
+	// NDataSource::View is not supported as a source.
 	//
 	// Returns a pointer to the first byte of the newly inserted data,
 	// or nullptr if no data was inserted.
@@ -182,21 +182,21 @@ public:
 	uint8_t*                            InsertData(size_t      beforeIndex,
 												   size_t      theSize,
 												   const void* theData,
-												   NDataUsage  theUsage = NDataUsage::Copy);
+												   NDataSource theSource = NDataSource::Copy);
 
 
 	// Append data
 	//
 	// Appends data to the end of the buffer.
 	//
-	// NDataUsage::View is not supported as a data source.
+	// NDataSource::View is not supported as a source.
 	//
 	// Returns a pointer to the first byte of the newly appended data,
 	// or nullptr if no data was inserted.
 	uint8_t*                            AppendData(const NData& theData);
 	uint8_t*                            AppendData(size_t      theSize,
 												   const void* theData,
-												   NDataUsage  theUsage = NDataUsage::Copy);
+												   NDataSource theSource = NDataSource::Copy);
 
 
 	// Remove data
@@ -209,7 +209,7 @@ public:
 	//
 	// Replaces the specified range within the data.
 	//
-	// NDataUsage::View is not supported as a data source.
+	// NDataSource::View is not supported as a source.
 	//
 	// Returns a pointer to the first byte of the replaced data,
 	// or nullptr if the replacement was a removal from the end.
@@ -217,7 +217,7 @@ public:
 	uint8_t*                            ReplaceData(const NRange& theRange,
 													size_t        theSize,
 													const void*   theData,
-													NDataUsage    theUsage = NDataUsage::Copy);
+													NDataSource   theSource = NDataSource::Copy);
 
 
 	// Compare an object
@@ -238,16 +238,16 @@ private:
 	bool                                IsShared() const;
 
 	bool                                IsValidOffset(size_t theOffset) const;
-	bool                                IsValidUsage( size_t theSize,   const void* theData, NDataUsage theUsage) const;
+	bool                                IsValidSource(size_t theSize,   const void* theData, NDataSource theSource) const;
 
 	void                                MakeMutable();
-	void                                MakeShared(size_t theCapacity, size_t theSize, const void* theData, NDataUsage theUsage);
+	void                                MakeShared(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
 
 	void                                RetainShared();
 	void                                ReleaseShared();
 
 	void                                AdoptData(const NData& otherData);
-	void                                MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage);
+	void                                MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataSource theSource);
 
 	size_t                              GetSizeSmall()  const;
 	size_t                              GetSizeShared() const;
@@ -264,8 +264,8 @@ private:
 	const uint8_t*                      GetDataSmall( size_t theOffset) const;
 	const uint8_t*                      GetDataShared(size_t theOffset) const;
 
-	void                                SetDataSmall( size_t theSize, const void* theData, NDataUsage theUsage);
-	void                                SetDataShared(size_t theSize, const void* theData, NDataUsage theUsage);
+	void                                SetDataSmall( size_t theSize, const void* theData, NDataSource theSource);
+	void                                SetDataShared(size_t theSize, const void* theData, NDataSource theSource);
 
 	void                                RemoveDataSmall( const NRange& theRange);
 	void                                RemoveDataShared(const NRange& theRange);

@@ -109,7 +109,7 @@ NANO_TEST(TData, "CreateCopy")
 	uint8_t tmpBlock[std::size(kBlock1)];
 	memcpy(tmpBlock, kBlock1, sizeof(tmpBlock));
 
-	theData = NData(sizeof(tmpBlock), tmpBlock, NDataUsage::Copy);
+	theData = NData(sizeof(tmpBlock), tmpBlock, NDataSource::Copy);
 	memset(tmpBlock, 0x00, sizeof(tmpBlock));
 
 	REQUIRE(memcmp(theData.GetData(), tmpBlock, sizeof(tmpBlock)) != 0);
@@ -131,7 +131,7 @@ NANO_TEST(TData, "CreateNoCopy")
 	uint8_t tmpBlock[std::size(kBlock1)];
 	memcpy(tmpBlock, kBlock1, sizeof(tmpBlock));
 
-	theData = NData(sizeof(tmpBlock), tmpBlock, NDataUsage::View);
+	theData = NData(sizeof(tmpBlock), tmpBlock, NDataSource::View);
 	memset(tmpBlock, 0x00, sizeof(tmpBlock));
 
 	REQUIRE(memcmp(theData.GetData(), tmpBlock, sizeof(tmpBlock)) == 0);
@@ -282,7 +282,7 @@ NANO_TEST(TData, "SetDataZero")
 
 
 	// Perform the test
-	theData.SetData(sizeof(kBlock2), nullptr, NDataUsage::Zero);
+	theData.SetData(sizeof(kBlock2), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == sizeof(kBlock2));
 
 	const uint8_t* thePtr = theData.GetData();

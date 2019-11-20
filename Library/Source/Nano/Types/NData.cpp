@@ -89,11 +89,11 @@ struct NDataBlock
 //=============================================================================
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
-NData::NData(size_t theSize, const void* theData, NDataUsage theUsage)
+NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 	: mSmall{kSmallSize0, {}}
 {
 	// Initialise ourselves
-	SetData(theSize, theData, theUsage);
+	SetData(theSize, theData, theSource);
 }
 
 
@@ -471,12 +471,12 @@ uint8_t* NData::GetMutableData(size_t theOffset)
 //=============================================================================
 //		NData::SetData : Set the data.
 //-----------------------------------------------------------------------------
-void NData::SetData(size_t theSize, const void* theData, NDataUsage theUsage)
+void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
+	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 
 
@@ -485,13 +485,13 @@ void NData::SetData(size_t theSize, const void* theData, NDataUsage theUsage)
 	// Views are implicitly shared.
 	if (theSize != 0)
 	{
-		if (theSize <= kSmallSizeMax && theUsage != NDataUsage::View)
+		if (theSize <= kSmallSizeMax && theSource != NDataSource::View)
 		{
-			SetDataSmall(theSize, theData, theUsage);
+			SetDataSmall(theSize, theData, theSource);
 		}
 		else
 		{
-			SetDataShared(theSize, theData, theUsage);
+			SetDataShared(theSize, theData, theSource);
 		}
 
 		ClearHash();
@@ -510,7 +510,7 @@ uint8_t* NData::InsertData(size_t beforeIndex, const NData& theData)
 
 
 	// Insert the data
-	return InsertData(beforeIndex, theData.GetSize(), theData.GetData(), NDataUsage::Copy);
+	return InsertData(beforeIndex, theData.GetSize(), theData.GetData(), NDataSource::Copy);
 }
 
 
@@ -523,13 +523,13 @@ uint8_t* NData::InsertData(size_t beforeIndex, const NData& theData)
 uint8_t* NData::InsertData(size_t      beforeIndex,
 						   size_t      theSize,
 						   const void* theData,
-						   NDataUsage  theUsage)
+						   NDataSource theSource)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(IsValidOffset(beforeIndex));
-	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
+	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 	NN_EXPECT(theSize != 0);
 
@@ -561,7 +561,7 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 
 
 		// Insert the data
-		MemCopy(newData, theData, theSize, theUsage);
+		MemCopy(newData, theData, theSize, theSource);
 	}
 
 	return newData;
@@ -589,12 +589,12 @@ uint8_t* NData::AppendData(const NData& theData)
 //=============================================================================
 //		NData::AppendData : Append data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::AppendData(size_t theSize, const void* theData, NDataUsage theUsage)
+uint8_t* NData::AppendData(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
 	// Appemd the data
-	return InsertData(GetSize(), theSize, theData, theUsage);
+	return InsertData(GetSize(), theSize, theData, theSource);
 }
 
 
@@ -639,7 +639,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
 
 
 	// Replace the data
-	return ReplaceData(theRange, theData.GetSize(), theData.GetData(), NDataUsage::Copy);
+	return ReplaceData(theRange, theData.GetSize(), theData.GetData(), NDataSource::Copy);
 }
 
 
@@ -652,14 +652,14 @@ uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
 uint8_t* NData::ReplaceData(const NRange& theRange,
 							size_t        theSize,
 							const void*   theData,
-							NDataUsage    theUsage)
+							NDataSource   theSource)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
 	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
-	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
+	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 	NN_EXPECT(!theRange.IsEmpty());
 	NN_EXPECT(theSize != 0);
@@ -669,7 +669,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 	// Replace everything
 	if (theRange == NRange(0, GetSize()))
 	{
-		SetData(theSize, theData, theUsage);
+		SetData(theSize, theData, theSource);
 	}
 
 
@@ -692,7 +692,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 		}
 		else
 		{
-			InsertData(theRange.GetNext(), theSize - replacedSize, nullptr, NDataUsage::None);
+			InsertData(theRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
 		}
 
 
@@ -701,7 +701,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 		if (theSize != 0)
 		{
 			uint8_t* dstPtr = GetMutableData(theRange.GetLocation());
-			MemCopy(dstPtr, theData, theSize, theUsage);
+			MemCopy(dstPtr, theData, theSize, theSource);
 		}
 	}
 
@@ -843,22 +843,22 @@ bool NData::IsValidOffset(size_t theOffset) const
 
 
 //=============================================================================
-//		NData::IsValidUsage : Is a usage combination valid?
+//		NData::IsValidSource : Is a source combination valid?
 //-----------------------------------------------------------------------------
-bool NData::IsValidUsage(size_t theSize, const void* theData, NDataUsage theUsage) const
+bool NData::IsValidSource(size_t theSize, const void* theData, NDataSource theSource) const
 {
 
 
-	// Check the usage
-	switch (theUsage)
+	// Check the source
+	switch (theSource)
 	{
-		case NDataUsage::Copy:
-		case NDataUsage::View:
+		case NDataSource::Copy:
+		case NDataSource::View:
 			return (theSize == 0 && theData == nullptr) || (theSize != 0 && theData != nullptr);
 			break;
 
-		case NDataUsage::Zero:
-		case NDataUsage::None:
+		case NDataSource::Zero:
+		case NDataSource::None:
 			return theData == nullptr;
 			break;
 	}
@@ -903,7 +903,7 @@ void NData::MakeMutable()
 		size_t srcSize = srcSlice.GetSize();
 		srcData        = srcData + srcSlice.GetLocation();
 
-		MakeShared(srcSize, srcSize, srcData, NDataUsage::Copy);
+		MakeShared(srcSize, srcSize, srcData, NDataSource::Copy);
 	}
 
 
@@ -921,14 +921,17 @@ void NData::MakeMutable()
 //=============================================================================
 //		NData::MakeShared : Make shared data.
 //-----------------------------------------------------------------------------
-void NData::MakeShared(size_t theCapacity, size_t theSize, const void* theData, NDataUsage theUsage)
+void NData::MakeShared(size_t      theCapacity,
+					   size_t      theSize,
+					   const void* theData,
+					   NDataSource theSource)
 {
 
 
 	// Validate our parameters and state
 	NN_REQUIRE(theCapacity != 0 && theSize != 0);
 	NN_REQUIRE(theCapacity >= theSize);
-	NN_REQUIRE(IsValidUsage(theSize, theData, theUsage));
+	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 
 
@@ -938,22 +941,22 @@ void NData::MakeShared(size_t theCapacity, size_t theSize, const void* theData, 
 	// about to be overwritten / does not need initialisation.
 	void* newData = nullptr;
 
-	switch (theUsage)
+	switch (theSource)
 	{
-		case NDataUsage::Copy:
+		case NDataSource::Copy:
 			newData = malloc(theCapacity);
 			memcpy(newData, theData, theSize);
 			break;
 
-		case NDataUsage::Zero:
+		case NDataSource::Zero:
 			newData = calloc(1, theCapacity);
 			break;
 
-		case NDataUsage::None:
+		case NDataSource::None:
 			newData = malloc(theCapacity);
 			break;
 
-		case NDataUsage::View:
+		case NDataSource::View:
 			newData = const_cast<void*>(theData);
 			break;
 	}
@@ -964,7 +967,7 @@ void NData::MakeShared(size_t theCapacity, size_t theSize, const void* theData, 
 	NDataBlock* theBlock = new NDataBlock{};
 
 	theBlock->numOwners = 1;
-	theBlock->ownedData = (theUsage != NDataUsage::View);
+	theBlock->ownedData = (theSource != NDataSource::View);
 	theBlock->theSize   = theCapacity;
 	theBlock->theData   = static_cast<const uint8_t*>(newData);
 
@@ -1069,23 +1072,23 @@ void NData::AdoptData(const NData& otherData)
 //=============================================================================
 //		NData::MemCopy : Copy bytes.
 //-----------------------------------------------------------------------------
-void NData::MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataUsage theUsage)
+void NData::MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataSource theSource)
 {
 
 
 	// Copy the data
-	switch (theUsage)
+	switch (theSource)
 	{
-		case NDataUsage::Copy:
-		case NDataUsage::View:
+		case NDataSource::Copy:
+		case NDataSource::View:
 			memmove(dstPtr, srcPtr, theSize);
 			break;
 
-		case NDataUsage::Zero:
+		case NDataSource::Zero:
 			memset(dstPtr, 0x00, theSize);
 			break;
 
-		case NDataUsage::None:
+		case NDataSource::None:
 			// Do nothing
 			break;
 	}
@@ -1163,7 +1166,7 @@ void NData::SetSizeSmall(size_t theSize)
 	// Copy the small data into a shared block, then resize as required.
 	else
 	{
-		MakeShared(theSize, GetSizeSmall(), mSmall.theData, NDataUsage::Copy);
+		MakeShared(theSize, GetSizeSmall(), mSmall.theData, NDataSource::Copy);
 		SetSizeShared(theSize);
 	}
 }
@@ -1209,7 +1212,7 @@ void NData::SetSizeShared(size_t theSize)
 		// Copy the shared data into a larger block, then adjust our slice.
 		else
 		{
-			MakeShared(theSize, mShared.theSlice.GetSize(), mShared.theData, NDataUsage::Copy);
+			MakeShared(theSize, mShared.theSlice.GetSize(), mShared.theData, NDataSource::Copy);
 			mShared.theSlice.SetSize(theSize);
 		}
 	}
@@ -1290,7 +1293,7 @@ void NData::SetCapacitySmall(size_t theCapacity)
 	// Larger data must be stored in a shared block.
 	else if (theCapacity > kSmallSizeMax)
 	{
-		MakeShared(theCapacity, theSize, mSmall.theData, NDataUsage::Copy);
+		MakeShared(theCapacity, theSize, mSmall.theData, NDataSource::Copy);
 	}
 }
 
@@ -1313,7 +1316,7 @@ void NData::SetCapacityShared(size_t theCapacity)
 	// Set the capacity
 	size_t theSize = std::min(mShared.theSlice.GetSize(), theCapacity);
 
-	MakeShared(theCapacity, theSize, mShared.theData, NDataUsage::Copy);
+	MakeShared(theCapacity, theSize, mShared.theData, NDataSource::Copy);
 }
 
 
@@ -1365,13 +1368,13 @@ const uint8_t* NData::GetDataShared(size_t theOffset) const
 //=============================================================================
 //		NData::SetDataSmall : Set small data.
 //-----------------------------------------------------------------------------
-void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsage)
+void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(theSize <= kSmallSizeMax);
-	NN_REQUIRE(theUsage != NDataUsage::View);
+	NN_REQUIRE(theSource != NDataSource::View);
 
 
 
@@ -1380,7 +1383,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 	// Even if theData is within our block we can just copy it to the start.
 	if (IsSmall())
 	{
-		MemCopy(mSmall.theData, theData, theSize, theUsage);
+		MemCopy(mSmall.theData, theData, theSize, theSource);
 	}
 
 
@@ -1393,9 +1396,9 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 	{
 		NDataStorageSmall tmpData;
 
-		MemCopy(tmpData.theData, theData, theSize, theUsage);
+		MemCopy(tmpData.theData, theData, theSize, theSource);
 		ReleaseShared();
-		MemCopy(mSmall.theData, tmpData.theData, theSize, theUsage);
+		MemCopy(mSmall.theData, tmpData.theData, theSize, theSource);
 	}
 
 
@@ -1411,14 +1414,14 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataUsage theUsag
 //=============================================================================
 //		NData::SetDataShared : Set shared data.
 //-----------------------------------------------------------------------------
-void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsage)
+void NData::SetDataShared(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
 	// Set when small
 	if (IsSmall())
 	{
-		MakeShared(theSize, theSize, theData, theUsage);
+		MakeShared(theSize, theSize, theData, theSource);
 	}
 
 
@@ -1441,7 +1444,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		//
 		// If the source is within our block, and we're not clearing the
 		// data, we can simply adjust our slice.
-		if (withinBlock && theUsage != NDataUsage::Zero)
+		if (withinBlock && theSource != NDataSource::Zero)
 		{
 			mShared.theSlice.SetRange(srcFirst - blockFirst, theSize);
 		}
@@ -1454,7 +1457,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		// fit, copy into into our existing block.
 		else if (mShared.theBlock->theSize >= theSize && mShared.theBlock->numOwners == 1)
 		{
-			MemCopy(const_cast<uint8_t*>(mShared.theData), theData, theSize, theUsage);
+			MemCopy(const_cast<uint8_t*>(mShared.theData), theData, theSize, theSource);
 			mShared.theSlice.SetRange(0, theSize);
 		}
 
@@ -1465,7 +1468,7 @@ void NData::SetDataShared(size_t theSize, const void* theData, NDataUsage theUsa
 		// Otherwise we need to move the data into a new block.
 		else
 		{
-			MakeShared(theSize, theSize, theData, theUsage);
+			MakeShared(theSize, theSize, theData, theSource);
 		}
 	}
 }
