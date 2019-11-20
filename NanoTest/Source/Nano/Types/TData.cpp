@@ -351,13 +351,13 @@ NANO_TEST(TData, "InsertDataZero")
 
 
 	// Perform the test
-	theData.InsertData(0, sizeof(kBlock1), nullptr);
+	theData.InsertData(0, sizeof(kBlock1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 1));
 
-	theData.InsertData(1, sizeof(kBlock1), nullptr);
+	theData.InsertData(1, sizeof(kBlock1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 2));
 
-	theData.InsertData(2, sizeof(kBlock1), nullptr);
+	theData.InsertData(2, sizeof(kBlock1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 3));
 
 	const uint8_t* thePtr = theData.GetData();
@@ -428,13 +428,13 @@ NANO_TEST(TData, "AppendDataZero")
 
 
 	// Perform the test
-	theData.AppendData(sizeof(kBlock1), nullptr);
+	theData.AppendData(sizeof(kBlock1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 1));
 
-	theData.AppendData(sizeof(kBlock1), nullptr);
+	theData.AppendData(sizeof(kBlock1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 2));
 
-	theData.AppendData(sizeof(kBlock1), nullptr);
+	theData.AppendData(sizeof(kBlock1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 3));
 
 	const uint8_t* thePtr = theData.GetData();
