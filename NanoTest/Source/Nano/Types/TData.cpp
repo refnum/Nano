@@ -248,7 +248,7 @@ NANO_TEST(TData, "GetData")
 	sliceData = theData.GetData(NRange(2, 3));
 	REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(2), 3) == 0);
 
-	sliceData = theData.GetData(NRange(3, 50));
+	sliceData = theData.GetData(NRange(3, 3));
 	REQUIRE(sliceData.GetSize() == 3);
 	REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(3), 3) == 0);
 }
