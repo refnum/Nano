@@ -483,19 +483,16 @@ void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 	// Set the data
 	//
 	// Views are implicitly shared.
-	if (theSize != 0)
+	if (theSize <= kSmallSizeMax && theSource != NDataSource::View)
 	{
-		if (theSize <= kSmallSizeMax && theSource != NDataSource::View)
-		{
-			SetDataSmall(theSize, theData, theSource);
-		}
-		else
-		{
-			SetDataShared(theSize, theData, theSource);
-		}
-
-		ClearHash();
+		SetDataSmall(theSize, theData, theSource);
 	}
+	else
+	{
+		SetDataShared(theSize, theData, theSource);
+	}
+
+	ClearHash();
 }
 
 
