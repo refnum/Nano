@@ -33,8 +33,8 @@
  * $Id: sha2.h,v 1.4 2004/01/07 19:06:18 adg Exp $
  */
 
-#ifndef __SHA2_H__
-#define __SHA2_H__
+#ifndef _nano_SHA2_H_
+#define _nano_SHA2_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -272,5 +272,5 @@ char* SHA512_Data();
 }
 #endif /* __cplusplus */
 
-#endif /* __SHA2_H__ */
+#endif /* _nano_SHA2_H_ */
 
