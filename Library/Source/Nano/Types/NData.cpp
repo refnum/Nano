@@ -157,7 +157,7 @@ NData& NData::operator=(const NData& otherData)
 {
 
 
-	// Initialise ourselves
+	// Assign the value
 	if (this != &otherData)
 	{
 		AdoptData(otherData);
@@ -192,7 +192,7 @@ NData& NData::operator=(NData&& otherData)
 {
 
 
-	// Initialise ourselves
+	// Move the value
 	if (this != &otherData)
 	{
 		Clear();

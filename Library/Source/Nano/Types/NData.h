@@ -123,13 +123,13 @@ public:
 										NData(size_t theSize, const void* theData, NDataSource theSource = NDataSource::Copy);
 
 										NData();
-	virtual                            ~NData();
+									   ~NData();
 
-										NData(    const NData&);
-	NData&                              operator=(const NData&);
+										NData(    const NData& otherData);
+	NData&                              operator=(const NData& otherData);
 
-										NData(    NData&&);
-	NData&                              operator=(NData&&);
+										NData(    NData&& otherData);
+	NData&                              operator=(NData&& otherData);
 
 
 	// Clear the data
