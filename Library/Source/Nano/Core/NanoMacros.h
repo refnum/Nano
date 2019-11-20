@@ -67,13 +67,31 @@
 #define NN_TEST_BIT(_value, _mask)                          (((_value) & (_mask)) == (_mask))
 
 
+
+// Force inlining
+//
+// Example:
+//
+//		NN_ALWAYS_INLINE
+//		int Function()
+//		{
+//			return 1;
+//		}
+//
+#if NN_COMPILER_MSC
+	#define NN_ALWAYS_INLINE                                __forceinline
+#else
+	#define NN_ALWAYS_INLINE                                __attribute__((always_inline))
+#endif
+
+
 // Indicate an expression is likely
 //
 // Example:
 //
 //		if (NN_EXPECT_LIKELY(theFlag == true))
 //		{
-//			DoSomething();
+//			Function();
 //		}
 //
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
@@ -89,7 +107,7 @@
 //
 //		if (NN_EXPECT_UNLIKELY(theFlag == true))
 //		{
-//			DoSomething();
+//			Function();
 //		}
 //
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
@@ -103,7 +121,7 @@
 //
 // Example:
 //
-//		void DoSomething(int x)
+//		void Function(int x)
 //		{
 //			NN_UNUSED(x);
 //		}
