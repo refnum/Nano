@@ -195,6 +195,7 @@ NData& NData::operator=(NData&& otherData)
 	// Initialise ourselves
 	if (this != &otherData)
 	{
+		Clear();
 		AdoptData(otherData);
 		otherData.Clear();
 	}
