@@ -117,6 +117,37 @@
 #endif
 
 
+// Break to the debugger
+//
+// Terminates the process if no debugger is present.
+//
+// Example:
+//
+//		void Function(int x)
+//		{
+//			if (x == 0)
+//			{
+//				NN_DEBUG_BREAK();
+//			}
+//		}
+//
+#if NN_COMPILER_MSC
+	#define NN_DEBUG_BREAK                                  __debugbreak
+
+#else
+	#if NN_ARCH_X86
+		#define NN_DEBUG_BREAK()                            __asm__ volatile("int $0x03")
+
+	#elif NN_ARCH_ARM
+		#if NN_ARCH_64
+			#define NN_DEBUG_BREAK()                        __asm__ volatile(".inst 0xd4200000")
+		#else
+			#define NN_DEBUG_BREAK()                        __asm__ volatile(".inst 0xe7f001f0")
+		#endif
+	#endif
+#endif
+
+
 // Mark as unused
 //
 // Example:
