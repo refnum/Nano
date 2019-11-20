@@ -105,7 +105,7 @@
 
 
 //=============================================================================
-//		Endian-ness
+//		Architecture endian-ness
 //-----------------------------------------------------------------------------
 // Baseline
 #define NN_ENDIAN_BIG                                       0
@@ -160,6 +160,76 @@
 // Validate
 #if ((NN_ENDIAN_BIG + NN_ENDIAN_LITTLE) != 1)
 	#error Unable to identify endian-ness
+#endif
+
+
+
+
+
+//=============================================================================
+//		Architecture type
+//-----------------------------------------------------------------------------
+// Baseline
+#define NN_ARCH_ARM                                         0
+#define NN_ARCH_X86                                         0
+
+
+// iOS
+#if NN_TARGET_IOS
+	#if defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
+
+	#elif defined(__arm__) || defined(__arm64__)
+		#undef  NN_ARCH_ARM
+		#define NN_ARCH_ARM                                 1
+	#endif
+#endif
+
+
+// Linux
+#if NN_TARGET_LINUX
+	#if defined(__arm__) || defined(__aarch64__)
+		#undef  NN_ARCH_ARM
+		#define NN_ARCH_ARM                                 1
+
+	#elif defined(__i386__) || defined(__x86__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
+	#endif
+#endif
+
+
+// macOS
+#if NN_TARGET_MACOS
+	#undef  NN_ARCH_X86
+	#define NN_ARCH_X86                                     1
+#endif
+
+
+// tvOS
+#if NN_TARGET_TVOS
+	#if defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
+
+	#elif defined(__arm__) || defined(__arm64__)
+		#undef  NN_ARCH_ARM
+		#define NN_ARCH_ARM                                 1
+	#endif
+#endif
+
+
+// Windows
+#if NN_TARGET_WINDOWS
+	#undef  NN_ARCH_X86
+	#define NN_ARCH_X86                                     1
+#endif
+
+
+// Validate
+#if ((NN_ARCH_ARM + NN_ARCH_X86) != 1)
+	#error Unable to identify architecture type
 #endif
 
 
