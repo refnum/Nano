@@ -528,7 +528,7 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidOffset(beforeIndex));
+	NN_REQUIRE(IsValidOffset(beforeIndex) || beforeIndex == GetSize());
 	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 	NN_EXPECT(theSize != 0);
@@ -874,7 +874,7 @@ bool NData::IsValidSource(size_t theSize, const void* theData, NDataSource theSo
 	{
 		case NDataSource::Copy:
 		case NDataSource::View:
-			return (theSize == 0 && theData == nullptr) || (theSize != 0 && theData != nullptr);
+			return (theSize == 0) || (theSize != 0 && theData != nullptr);
 			break;
 
 		case NDataSource::Zero:
