@@ -373,8 +373,7 @@ NData NData::GetData(const NRange& theRange) const
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
-	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
+	NN_REQUIRE(IsValidRange(theRange));
 
 	NN_EXPECT(!theRange.IsEmpty());
 
@@ -610,8 +609,7 @@ void NData::RemoveData(const NRange& theRange)
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
-	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
+	NN_REQUIRE(IsValidRange(theRange));
 
 	NN_EXPECT(!theRange.IsEmpty());
 
@@ -639,6 +637,13 @@ uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(IsValidRange(theRange));
+
+	NN_EXPECT(!theRange.IsEmpty());
+
+
+
 	// Replace the data
 	return ReplaceData(theRange, theData.GetSize(), theData.GetData(), NDataSource::Copy);
 }
@@ -658,8 +663,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidOffset(theRange.GetFirst()));
-	NN_REQUIRE(IsValidOffset(theRange.GetLast()));
+	NN_REQUIRE(IsValidRange(theRange));
 	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 	NN_EXPECT(!theRange.IsEmpty());
@@ -820,6 +824,21 @@ bool NData::IsShared() const
 
 	// Check the flag
 	return (mSmall.sizeFlags & kSmallSizeBit) == 0;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::IsValidRange : Is a range valid?
+//-----------------------------------------------------------------------------
+bool NData::IsValidRange(const NRange& theRange) const
+{
+
+
+	// Check the range
+	return IsValidOffset(theRange.GetFirst()) && IsValidOffset(theRange.GetLast());
 }
 
 

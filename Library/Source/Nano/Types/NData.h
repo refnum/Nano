@@ -237,7 +237,8 @@ private:
 	bool                                IsSmall()  const;
 	bool                                IsShared() const;
 
-	bool                                IsValidOffset(size_t theOffset) const;
+	bool                                IsValidRange(const NRange& theRange) const;
+	bool                                IsValidOffset(size_t theOffset)      const;
 	bool                                IsValidSource(size_t theSize,   const void* theData, NDataSource theSource) const;
 
 	void                                MakeMutable();
