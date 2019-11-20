@@ -3,306 +3,260 @@
 
 	DESCRIPTION:
 		Data digests.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "nano_zlib.h"
-#include "fm_md5.h"
-#include "sha2.h"
-
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NDataDigest.h"
 
-
-
-
-
-//============================================================================
-//		NDataDigest::NDataDigest : Constructor.
-//----------------------------------------------------------------------------
-NDataDigest::NDataDigest(void)
-{
-}
+// Nano
+#include "fm_md5.h"
+#include "nano_zlib.h"
+#include "sha2.h"
 
 
 
 
 
-//============================================================================
-//		NDataDigest::~NDataDigest : Destructor.
-//----------------------------------------------------------------------------
-NDataDigest::~NDataDigest(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NDataDigest::GetString : Get an digest as a string.
-//----------------------------------------------------------------------------
-NString NDataDigest::GetString(uint32_t theValue) const
-{	NString		theResult;
-
-
-
-	// Get the string
-	theResult.Format("%08lx", theValue);
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NDataDigest::GetString : Get an MD5 digest as a string.
-//----------------------------------------------------------------------------
-NString NDataDigest::GetString(const NDigestMD5 &theValue) const
-{	NString		theResult;
-
-
-
-	// Get the string
-	theResult = GetQuad(&theValue.bytes[ 0]) + 
-				GetQuad(&theValue.bytes[ 4]) + 
-				GetQuad(&theValue.bytes[ 8]) + 
-				GetQuad(&theValue.bytes[12]);
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NDataDigest::GetString : Get SHA1 digest as a string.
-//----------------------------------------------------------------------------
-NString NDataDigest::GetString(const NDigestSHA1 &theValue) const
-{	NString		theResult;
-
-
-
-	// Get the string
-	theResult = GetQuad(&theValue.bytes[ 0]) + 
-				GetQuad(&theValue.bytes[ 4]) + 
-				GetQuad(&theValue.bytes[ 8]) + 
-				GetQuad(&theValue.bytes[12]) +
-				GetQuad(&theValue.bytes[16]);
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NDataDigest::GetInternet : Get the internet digest.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+uint16_t NDataDigest::GetInternet(const NData& theData, uint16_t prevValue)
+{
+
+
+	// Get the digest
+	return GetInternet(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetAdler32 : Get an Adler32 digest.
+//-----------------------------------------------------------------------------
+uint32_t NDataDigest::GetAdler32(const NData& theData, uint32_t prevValue)
+{
+
+
+	// Get the digest
+	return GetAdler32(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetMD5 : Get an MD5 digest.
+//-----------------------------------------------------------------------------
+NDigest128 NDataDigest::GetMD5(const NData& theData, const NDigest128* prevValue)
+{
+
+
+	// Get the digest
+	return GetMD5(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetSHA1 : Get an SHA1 digest.
+//-----------------------------------------------------------------------------
+NDigest160 NDataDigest::GetSHA1(const NData& theData, const NDigest160* prevValue)
+{
+
+
+	// Get the digest
+	return GetSHA1(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetInternet : Get the internet digest.
+//-----------------------------------------------------------------------------
 //		Note : From <http://www.rfc-editor.org/rfc/rfc1071.txt>.
 //----------------------------------------------------------------------------
-uint16_t NDataDigest::GetInternet(const NData &theData)
-{	uint32_t		theDigest, hi, lo;
-	NIndex			dataSize;
-	const uint8_t	*dataPtr;
-
-
-
-	// Check our parameters
-	if (theData.IsEmpty())
-		return(0);
-
-
-
-	// Get the state we need
-	dataPtr   = (const uint8_t *) theData.GetData();
-	dataSize  =                   theData.GetSize();
-	theDigest = 0;
-
+uint16_t NDataDigest::GetInternet(size_t theSize, const void* thePtr, uint16_t prevValue)
+{
 
 
 	// Get the digest
-	while (dataSize > 1)
-		{
-		hi = *dataPtr++;
-		lo = *dataPtr++;
+	uint32_t theDigest = prevValue;
 
-		theDigest += ((hi << 8) | lo);
-		dataSize  -= 2;
+	if (theSize != 0)
+	{
+		// Calculate the digest
+		const uint8_t* dataPtr = static_cast<const uint8_t*>(thePtr);
+
+		while (theSize > 1)
+		{
+			uint32_t hi = *dataPtr++;
+			uint32_t lo = *dataPtr++;
+
+			theDigest += ((hi << 8) | lo);
+			theSize -= 2;
 		}
 
-	if (dataSize > 0)
-		theDigest += *dataPtr++;
+		if (theSize > 0)
+		{
+			theDigest += *dataPtr++;
+		}
 
 
 
-	// Fold the 32-bit digest to 16 bits
-	while (theDigest >> 16)
-		theDigest = (theDigest & 0xffff) + (theDigest >> 16);
+		// Fold the 32-bit digest down to 16 bits
+		while (theDigest >> 16)
+		{
+			theDigest = (theDigest & 0xffff) + (theDigest >> 16);
+		}
 
-	theDigest  = ~theDigest;
-	theDigest &= 0x0000FFFF;
+		theDigest = ~theDigest;
+		theDigest &= 0x0000FFFF;
+	}
 
-	return((uint16_t) theDigest);
+	return uint16_t(theDigest);
 }
 
 
 
 
 
-//============================================================================
-//		NDataDigest::GetDJB2 : Get a a DJB2 digest.
-//----------------------------------------------------------------------------
-//		Note : From <http://www.cse.yorku.ca/~oz/hash.html>.
-//----------------------------------------------------------------------------
-uint32_t NDataDigest::GetDJB2(const NData &theData)
-{	NIndex			n, dataSize;
-	uint32_t		theDigest;
-	const uint8_t	*dataPtr;
+//=============================================================================
+//		NDataDigest::GetAdler32 : Get an Adler32 digest.
+//-----------------------------------------------------------------------------
+uint32_t NDataDigest::GetAdler32(size_t theSize, const void* thePtr, uint32_t prevValue)
+{
+
+
+	// Get the digest
+	uint32_t theDigest = prevValue;
+
+	if (theSize != 0)
+	{
+		theDigest = uint32_t(adler32(prevValue, static_cast<const Bytef*>(thePtr), uInt(theSize)));
+	}
+
+	return theDigest;
+}
 
 
 
-	// Check our parameters
-	if (theData.IsEmpty())
-		return(0);
+
+
+//=============================================================================
+//		NDataDigest::GetMD5 : Get an MD5 digest.
+//-----------------------------------------------------------------------------
+NDigest128 NDataDigest::GetMD5(size_t theSize, const void* thePtr, const NDigest128* prevValue)
+{
+
+
+	// Get the state we need
+	NDigest128 theDigest;
+
+	if (prevValue != nullptr)
+	{
+		theDigest = *prevValue;
+	}
+
+
+
+	// Get the digest
+	if (theSize != 0)
+	{
+		MD5Context theContext;
+		MD5Init(&theContext);
+
+		if (prevValue != nullptr)
+		{
+			MD5Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
+		}
+
+		MD5Update(&theContext, static_cast<const u_int8_t*>(thePtr), theSize);
+		MD5Final(theDigest.GetMutableBytes(), &theContext);
+	}
+
+	return theDigest;
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetSHA1 : Get an SHA1 digest.
+//-----------------------------------------------------------------------------
+NDigest160 NDataDigest::GetSHA1(size_t theSize, const void* thePtr, const NDigest160* prevValue)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NDigest160) == SHA1_DIGEST_LENGTH);
 
 
 
 	// Get the state we need
-	dataPtr   = (const uint8_t *) theData.GetData();
-	dataSize  =                   theData.GetSize();
-	theDigest = 5381;
+	NDigest160 theDigest;
+
+	if (prevValue != nullptr)
+	{
+		theDigest = *prevValue;
+	}
 
 
 
 	// Get the digest
-	for (n = 0; n < dataSize; n++)
-		theDigest = ((theDigest << 5) + theDigest) + dataPtr[n];
-	
-	return(theDigest);
+	if (theSize != 0)
+	{
+		SHA_CTX theContext;
+		SHA1_Init(&theContext);
+
+		if (prevValue != nullptr)
+		{
+			SHA1_Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
+		}
+
+		SHA1_Update(&theContext, static_cast<const u_int8_t*>(thePtr), theSize);
+		SHA1_Final(theDigest.GetMutableBytes(), &theContext);
+	}
+
+	return theDigest;
 }
-
-
-
-
-
-//============================================================================
-//		NDataDigest::GetAdler32 : Get an Adler32 digest.
-//----------------------------------------------------------------------------
-uint32_t NDataDigest::GetAdler32(const NData &theData, uint32_t prevValue)
-{	uint32_t	theDigest;
-
-
-
-	// Check our parameters
-	if (theData.IsEmpty())
-		return(prevValue);
-
-
-
-	// Get the digest
-	theDigest = (uint32_t) adler32(prevValue, theData.GetData(), theData.GetSize());
-	
-	return(theDigest);
-}
-
-
-
-
-
-//============================================================================
-//		NDataDigest::GetMD5 : Get an MD5 digest.
-//----------------------------------------------------------------------------
-NDigestMD5 NDataDigest::GetMD5(const NData &theData)
-{	MD5Context		theContext;
-	NDigestMD5		theDigest;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(theDigest.bytes) == 16);
-
-
-
-	// Check our parameters
-	memset(&theDigest, 0x00, sizeof(theDigest));
-
-	if (theData.IsEmpty())
-		return(theDigest);
-
-
-
-	// Get the digest
-	MD5Init(  &theContext);
-	MD5Update(&theContext, (const unsigned char *) theData.GetData(), theData.GetSize());
-	MD5Final(theDigest.bytes, &theContext);
-
-	return(theDigest);
-}
-
-
-
-
-
-//============================================================================
-//		NDataDigest::GetSHA1 : Get an SHA1 digest.
-//----------------------------------------------------------------------------
-NDigestSHA1 NDataDigest::GetSHA1(const NData &theData)
-{	SHA_CTX			theContext;
-	NDigestSHA1		theDigest;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(theDigest.bytes) == SHA1_DIGEST_LENGTH);
-
-
-
-	// Check our parameters
-	memset(&theDigest, 0x00, sizeof(theDigest));
-
-	if (theData.IsEmpty())
-		return(theDigest);
-
-
-
-	// Get the digest
-	SHA1_Init(  &theContext);
-	SHA1_Update(&theContext, (const unsigned char *) theData.GetData(), theData.GetSize());
-	SHA1_Final(theDigest.bytes, &theContext);
-
-	return(theDigest);
-}
-
-
-
-
-
-#pragma mark private
-//============================================================================
-//		NDataDigest::GetQuad : Get a byte quad string.
-//----------------------------------------------------------------------------
-NString NDataDigest::GetQuad(const uint8_t *theBytes) const
-{	NString		theResult;
-
-
-
-	// Get the string
-	theResult.Format("%02x%02x%02x%02x", theBytes[0], theBytes[1], theBytes[2], theBytes[3]);
-
-	return(theResult);
-}
-
-
-
