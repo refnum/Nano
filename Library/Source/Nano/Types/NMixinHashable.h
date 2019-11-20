@@ -47,15 +47,6 @@
 
 
 //=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-static constexpr size_t kNHashNone                          = 0;
-
-
-
-
-
-//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 template <class T>
@@ -67,7 +58,7 @@ public:
 
 	// Get the hash value
 	//
-	// Hashed values may change, and should not be serialised.
+	// Hash values may change between builds and so should not be serialised.
 	size_t                              GetHash() const;
 
 
