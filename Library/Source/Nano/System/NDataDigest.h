@@ -219,11 +219,15 @@ public:
 	// The checksum of empty data is always 0.
 	static uint16_t                     GetInternet(const NData& theData, uint16_t          prevValue = 0);
 	static uint32_t                     GetAdler32( const NData& theData, uint32_t          prevValue = 0);
+	static uint32_t                     GetXXHash32(const NData& theData, uint32_t          prevValue = 0);
+	static uint64_t                     GetXXHash64(const NData& theData, uint64_t          prevValue = 0);
 	static NDigest128                   GetMD5(     const NData& theData, const NDigest128* prevValue = nullptr);
 	static NDigest160                   GetSHA1(    const NData& theData, const NDigest160* prevValue = nullptr);
 
 	static uint16_t                     GetInternet(size_t            theSize, const void* thePtr, uint16_t prevValue = 0);
 	static uint32_t                     GetAdler32( size_t            theSize, const void* thePtr, uint32_t prevValue = 0);
+	static uint32_t                     GetXXHash32(size_t            theSize, const void* thePtr, uint32_t prevValue = 0);
+	static uint64_t                     GetXXHash64(size_t            theSize, const void* thePtr, uint64_t prevValue = 0);
 	static NDigest128                   GetMD5(     size_t            theSize,
 											   const void*       thePtr,
 											   const NDigest128* prevValue = nullptr);

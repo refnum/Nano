@@ -81,6 +81,36 @@ uint32_t NDataDigest::GetAdler32(const NData& theData, uint32_t prevValue)
 
 
 //=============================================================================
+//		NDataDigest::GetXXHash32 : Get an xxHash32 digest.
+//-----------------------------------------------------------------------------
+uint32_t NDataDigest::GetXXHash32(const NData& theData, uint32_t prevValue)
+{
+
+
+	// Get the digest
+	return GetXXHash32(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetXXHash64 : Get an xxHash64 digest.
+//-----------------------------------------------------------------------------
+uint64_t NDataDigest::GetXXHash64(const NData& theData, uint64_t prevValue)
+{
+
+
+	// Get the digest
+	return GetXXHash64(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
 //		NDataDigest::GetMD5 : Get an MD5 digest.
 //-----------------------------------------------------------------------------
 NDigest128 NDataDigest::GetMD5(const NData& theData, const NDigest128* prevValue)
@@ -176,6 +206,40 @@ uint32_t NDataDigest::GetAdler32(size_t theSize, const void* thePtr, uint32_t pr
 	}
 
 	return theDigest;
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetXXHash32 : Get an xxHash32 digest.
+//-----------------------------------------------------------------------------
+uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t prevValue)
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+
+	return XXH32(thePtr, theSize, prevValue);
+
+#pragma clang diagnostic pop
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetXXHash64 : Get an xxHash64 digest.
+//-----------------------------------------------------------------------------
+uint64_t NDataDigest::GetXXHash64(size_t theSize, const void* thePtr, uint64_t prevValue)
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wused-but-marked-unused"
+
+	return XXH64(thePtr, theSize, prevValue);
+
+#pragma clang diagnostic pop
 }
 
 
