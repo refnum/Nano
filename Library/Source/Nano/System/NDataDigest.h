@@ -55,102 +55,41 @@
 //
 // Template to implement a digest of a fixed size.
 template <size_t S>
-class NDigest
+class NDigestX
 {
 public:
-	NDigest()
-		: mBytes{}
-	{
-		static_assert(sizeof(*this) == (S / 8), "NDigest is not packed!");
-	}
+										NDigestX(size_t theSize, const uint8_t* thePtr);
 
-	NDigest(const NDigest& otherDigest)
-		: mBytes{}
-	{
-		operator=(otherDigest);
-	}
+										NDigestX();
 
-	NDigest<S>& operator=(const NDigest<S>& otherDigest)
-	{
-		if (this != &otherDigest)
-		{
-			memcpy(mBytes, otherDigest.mBytes, sizeof(mBytes));
-		}
-		return *this;
-	}
+										NDigestX( const NDigestX&    otherDigest);
+	NDigestX<S>&                        operator=(const NDigestX<S>& otherDigest);
 
 
 	// Is the digest valid?
-	bool IsValid() const
-	{
-		for (uint8_t theByte : mBytes)
-		{
-			if (theByte != 0)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
+	bool                                IsValid() const;
 
 
 	// Clear the digest
-	void Clear()
-	{
-		memset(mBytes, 0x00, sizeof(mBytes));
-	}
+	void                                Clear();
 
 
 	// Get/set the data
-	NData GetData() const
-	{
-		return NData(sizeof(mBytes), mBytes);
-	}
-
-	void SetData(const NData& theData)
-	{
-		NN_REQUIRE(    theData.GetSize() == S);
-		memcpy(mBytes, theData.GetData(),   S);
-	}
+	NData                               GetData() const;
+	void                                SetData(  const NData& theData);
 
 
 	// Get the bytes
-	const uint8_t* GetBytes() const
-	{
-		return mBytes;
-	}
-
-	uint8_t* GetMutableBytes()
-	{
-		return mBytes;
-	}
+	const uint8_t*                      GetBytes() const;
+	uint8_t*                            GetMutableBytes();
 
 
 	// Operators
-	bool operator<(const NDigest& otherDigest) const
-	{
-		// For std::map
-		return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes));
-	}
+	bool                                operator<( const NDigestX& otherDigest) const;
+	bool                                operator>( const NDigestX& otherDigest) const;
+	bool                                operator==(const NDigestX& otherDigest) const;
+	bool                                operator!=(const NDigestX& otherDigest) const;
 
-	bool operator>(const NDigest& otherDigest) const
-	{
-		// For comparisons
-		return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes));
-	}
-
-	bool operator==(const NDigest& otherDigest) const
-	{
-		// For std::unordered_map
-		return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes)) == 0;
-	}
-
-	bool operator!=(const NDigest& otherDigest) const
-	{
-		// For comparisons
-		return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes)) != 0;
-	}
 
 private:
 	uint8_t                             mBytes[S / 8];
@@ -172,7 +111,7 @@ private:
 // is uniformly distributed so we can just take a size_t-sized chunk.
 #define NDIGEST(_size)                                                  \
 																		\
-	using NDigest##_size = NDigest<_size>;                              \
+	using NDigest##_size = NDigestX<_size>;                             \
 																		\
 	namespace std                                                       \
 	{                                                                   \
@@ -214,6 +153,27 @@ NDIGEST(160);
 class NDataDigest
 {
 public:
+	// Get a runtime digest
+	//
+	// The algorithm used for the runtime digest is selected at runtime,
+	// choosing the most peformant digest for the given size of input.
+	//
+	// A runtime digest must never be serialised - the algorithm used will
+	// vary between systems.
+	static inline size_t                GetRuntime(   const NData&      theData, size_t   prevValue = 0);
+	static inline uint32_t              GetRuntime32( const NData&      theData, uint32_t prevValue = 0);
+	static inline uint64_t              GetRuntime64( const NData&      theData, uint64_t prevValue = 0);
+	static inline NDigest128            GetRuntime128(const NData&      theData,
+													  const NDigest128* prevValue = nullptr);
+
+	static inline size_t                GetRuntime(   size_t            theSize, const void* thePtr, size_t   prevValue = 0);
+	static inline uint32_t              GetRuntime32( size_t            theSize, const void* thePtr, uint32_t prevValue = 0);
+	static inline uint64_t              GetRuntime64( size_t            theSize, const void* thePtr, uint64_t prevValue = 0);
+	static inline NDigest128            GetRuntime128(size_t            theSize,
+													  const void*       thePtr,
+													  const NDigest128* prevValue = nullptr);
+
+
 	// Get a digest
 	//
 	// The checksum of empty data is always 0.
@@ -235,6 +195,15 @@ public:
 												const void*       thePtr,
 												const NDigest160* prevValue = nullptr);
 };
+
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NDataDigest.inl"
 
 
 
