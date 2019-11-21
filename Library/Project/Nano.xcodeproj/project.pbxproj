@@ -93,6 +93,11 @@
 		AB1E1CF117967C2100CCC36F /* NDebuggable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebuggable.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
+		AB2000C62386885F00CAB0F1 /* xxhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxhash.h; sourceTree = "<group>"; };
+		AB2000C72386885F00CAB0F1 /* Nano_xxHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_xxHash.h; sourceTree = "<group>"; };
+		AB2000C82386885F00CAB0F1 /* xxhash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xxhash.c; sourceTree = "<group>"; };
+		AB2000C92386885F00CAB0F1 /* xxh3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxh3.h; sourceTree = "<group>"; };
+		AB2000CD2386911800CAB0F1 /* NDataDigest.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDataDigest.inl; sourceTree = "<group>"; };
 		AB23BAED102B5B95009CA347 /* NDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandle.cpp; sourceTree = "<group>"; };
 		AB23BAEE102B5B95009CA347 /* NDBHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandle.h; sourceTree = "<group>"; };
 		AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandlePool.cpp; sourceTree = "<group>"; };
@@ -517,6 +522,17 @@
 			path = Cocoa;
 			sourceTree = "<group>";
 		};
+		AB2000C52386885F00CAB0F1 /* xxHash_0.7.2 */ = {
+			isa = PBXGroup;
+			children = (
+				AB2000C72386885F00CAB0F1 /* Nano_xxHash.h */,
+				AB2000C62386885F00CAB0F1 /* xxhash.h */,
+				AB2000C82386885F00CAB0F1 /* xxhash.c */,
+				AB2000C92386885F00CAB0F1 /* xxh3.h */,
+			);
+			path = xxHash_0.7.2;
+			sourceTree = "<group>";
+		};
 		AB23BAEC102B5B95009CA347 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,6 +780,7 @@
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				ABD68173167AAB9800CB2E04 /* udp.github.com */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
+				AB2000C52386885F00CAB0F1 /* xxHash_0.7.2 */,
 				ABFAA67E1018AB360060ED12 /* zlib_1.2.3 */,
 			);
 			path = Components;
@@ -871,6 +888,7 @@
 				ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */,
 				ABFAA7101018B3810060ED12 /* NDataCompressor.h */,
 				AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */,
+				AB2000CD2386911800CAB0F1 /* NDataDigest.inl */,
 				AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */,
 				AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */,
 				AB8CE2B4104D5F7000306EDC /* NDataEncoder.h */,
