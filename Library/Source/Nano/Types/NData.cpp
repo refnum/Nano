@@ -43,6 +43,7 @@
 
 // Nano
 #include "NAssert.h"
+#include "NDataDigest.h"
 
 
 
@@ -788,17 +789,8 @@ size_t NData::CalculateHash() const
 {
 
 
-	// Simple hash
-	size_t         theHash = 0;
-	size_t         theSize = GetSize();
-	const uint8_t* theData = GetData();
-
-	for (size_t n = 0; n < theSize; n++)
-	{
-		theHash += theData[n];
-	}
-
-	return theHash;
+	// Get the hash
+	return NDataDigest::GetRuntime(GetSize(), GetData());
 }
 
 
