@@ -2,88 +2,128 @@
 		NString.cpp
 
 	DESCRIPTION:
-		Strings are stored as NULL-terminated UTF8 or UTF16 data, without any
-		leading BOM.
+		String object.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "pcre.h"
-
-#include "NTextUtilities.h"
-#include "NSTLUtilities.h"
-#include "NTargetSystem.h"
-#include "NEncoder.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NString.h"
 
 
 
 
 
-//============================================================================
-//		Public constants
-//----------------------------------------------------------------------------
-const NIndex  kNStringLength										= kNIndexNone;
-const NString kNStringWhitespace									= "\\s";
-
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-const float kAppendGrowth											= 1.5f;
-
-
-
-
-
-//============================================================================
-//		Implementation
-//----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NString);
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NString::NString : Constructor.
-//----------------------------------------------------------------------------
-NString::NString(const utf8_t *noCopyText)
+//-----------------------------------------------------------------------------
+NString::NString()
 {
-
-
-	// Initialize ourselves
-	*this = GetConstantString(noCopyText);
 }
 
 
 
+// Nano 3.x implementation
+/*
+ #include "NEncoder.h"
+ #include "NSTLUtilities.h"
+ #include "NString.h"
+ #include "NTargetSystem.h"
+ #include "NTextUtilities.h"
+ #include "pcre.h"
 
 
-//============================================================================
-//		NString::NString : Constructor.
-//----------------------------------------------------------------------------
-NString::NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding)
-{	NStringEncoder		theEncoder;
+
+
+
+   //============================================================================
+   //		Public constants
+   //----------------------------------------------------------------------------
+   const NIndex  kNStringLength                             = kNIndexNone;
+   const NString kNStringWhitespace                         = "\\s";
+
+
+
+
+
+   //============================================================================
+   //		Internal constants
+   //----------------------------------------------------------------------------
+   const float kAppendGrowth                                = 1.5f;
+
+
+
+
+
+   //============================================================================
+   //		Implementation
+   //----------------------------------------------------------------------------
+   NENCODABLE_DEFINE(NString);
+
+
+
+
+
+   //============================================================================
+   //		NString::NString : Constructor.
+   //----------------------------------------------------------------------------
+   NString::NString(const utf8_t *noCopyText)
+   {
+
+
+	// Initialize ourselves
+ * this                                                     = GetConstantString(noCopyText);
+   }
+
+
+
+
+
+   //============================================================================
+   //		NString::NString : Constructor.
+   //----------------------------------------------------------------------------
+   NString::NString(const void *copyText, NIndex numBytes, NStringEncoding theEncoding)
+   {	NStringEncoder		theEncoder;
 
 
 
 	// Get the state we need
 	if (copyText == NULL)
-		numBytes = 0;
+		numBytes                                            = 0;
 
 	if (numBytes == kNStringLength)
-		numBytes = theEncoder.GetSize(copyText, theEncoding);
+		numBytes                                            = theEncoder.GetSize(copyText, theEncoding);
 
 
 
@@ -92,115 +132,115 @@ NString::NString(const void *copyText, NIndex numBytes, NStringEncoding theEncod
 
 	if (numBytes != 0)
 		SetData(NData(numBytes, copyText), theEncoding);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::NString : Constructor.
-//----------------------------------------------------------------------------
-NString::NString(const NData &theData, NStringEncoding theEncoding)
-{
+   //============================================================================
+   //		NString::NString : Constructor.
+   //----------------------------------------------------------------------------
+   NString::NString(const NData &theData, NStringEncoding theEncoding)
+   {
 
 
 	// Initialize ourselves
 	SetData(theData, theEncoding);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::NString : Constructor.
-//----------------------------------------------------------------------------
-NString::NString(utf8_t theChar)
-{
+   //============================================================================
+   //		NString::NString : Constructor.
+   //----------------------------------------------------------------------------
+   NString::NString(utf8_t theChar)
+   {
 
 
 	// Initialize ourselves
 	SetData(NData(1, &theChar), kNStringEncodingUTF8);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::NString : Constructor.
-//----------------------------------------------------------------------------
-NString::NString(void)
-{
+   //============================================================================
+   //		NString::NString : Constructor.
+   //----------------------------------------------------------------------------
+   NString::NString(void)
+   {
 
 
 	// Initialise ourselves
 	ValueChanged(NULL);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::~NString : Destructor.
-//----------------------------------------------------------------------------
-NString::~NString(void)
-{
-}
+   //============================================================================
+   //		NString::~NString : Destructor.
+   //----------------------------------------------------------------------------
+   NString::~NString(void)
+   {
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Clear : Clear the value.
-//----------------------------------------------------------------------------
-void NString::Clear(void)
-{
+   //============================================================================
+   //		NString::Clear : Clear the value.
+   //----------------------------------------------------------------------------
+   void NString::Clear(void)
+   {
 
 
 	// Clear the value
 	NSharedValueString::Clear();
 
 	ValueChanged(NULL);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetSize : Get the size.
-//----------------------------------------------------------------------------
-NIndex NString::GetSize(void) const
-{	const NStringValue		*theValue;
+   //============================================================================
+   //		NString::GetSize : Get the size.
+   //----------------------------------------------------------------------------
+   NIndex NString::GetSize(void) const
+   {	const NStringValue		*theValue;
 
 
 
 	// Get the size
-	theValue = GetImmutable();
+	theValue                                                = GetImmutable();
 
 	return(theValue->theSize);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetText : Get the text.
-//----------------------------------------------------------------------------
-const char *NString::GetText(NStringEncoding theEncoding) const
-{	const NStringValue		*theValue;
+   //============================================================================
+   //		NString::GetText : Get the text.
+   //----------------------------------------------------------------------------
+   const char *NString::GetText(NStringEncoding theEncoding) const
+   {	const NStringValue		*theValue;
 	const NData				*theData;
 
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	theData  = &theValue->theData;
+	theValue                                                = GetImmutable();
+	theData                                                 = &theValue->theData;
 
 
 
@@ -210,70 +250,70 @@ const char *NString::GetText(NStringEncoding theEncoding) const
 	// buffer, allowing the pointer to persist until we are modified.
 	if (theValue->theEncoding != theEncoding)
 		{
-		mData   = GetData(theEncoding, kNStringNullTerminate);
-		theData = &mData;
+		mData                                               = GetData(theEncoding, kNStringNullTerminate);
+		theData                                             = &mData;
 		}
 
 
 
 	// Get the text
 	return((const char *) theData->GetData());
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetUTF8 : Get the text as UTF8.
-//----------------------------------------------------------------------------
-const utf8_t *NString::GetUTF8(void) const
-{
+   //============================================================================
+   //		NString::GetUTF8 : Get the text as UTF8.
+   //----------------------------------------------------------------------------
+   const utf8_t *NString::GetUTF8(void) const
+   {
 
 
 	// Get the string
 	return((const utf8_t *) GetText(kNStringEncodingUTF8));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetUTF16 : Get the text as UTF16.
-//----------------------------------------------------------------------------
-const utf16_t *NString::GetUTF16(void) const
-{
+   //============================================================================
+   //		NString::GetUTF16 : Get the text as UTF16.
+   //----------------------------------------------------------------------------
+   const utf16_t *NString::GetUTF16(void) const
+   {
 
 
 	// Get the string
 	return((const utf16_t *) GetText(kNStringEncodingUTF16));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetUTF32 : Get the text as UTF32.
-//----------------------------------------------------------------------------
-const utf32_t *NString::GetUTF32(void) const
-{
+   //============================================================================
+   //		NString::GetUTF32 : Get the text as UTF32.
+   //----------------------------------------------------------------------------
+   const utf32_t *NString::GetUTF32(void) const
+   {
 
 
 	// Get the string
 	return((const utf32_t *) GetText(kNStringEncodingUTF32));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetData : Get the string.
-//----------------------------------------------------------------------------
-NData NString::GetData(NStringEncoding theEncoding, NStringRendering renderAs) const
-{	NStringEncoder			theEncoder;
+   //============================================================================
+   //		NString::GetData : Get the string.
+   //----------------------------------------------------------------------------
+   NData NString::GetData(NStringEncoding theEncoding, NStringRendering renderAs) const
+   {	NStringEncoder			theEncoder;
 	NUnicodeParser			theParser;
 	const NStringValue		*theValue;
 	NData					theData;
@@ -282,8 +322,8 @@ NData NString::GetData(NStringEncoding theEncoding, NStringRendering renderAs) c
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	theErr   = theEncoder.Convert(theValue->theData, theData, theValue->theEncoding, theEncoding);
+	theValue                                                = GetImmutable();
+	theErr                                                  = theEncoder.Convert(theValue->theData, theData, theValue->theEncoding, theEncoding);
 
 	if (theErr != kNoErr)
 		NN_LOG("Unable to convert '%@' to encoding %d", *this, theEncoding);
@@ -301,17 +341,17 @@ NData NString::GetData(NStringEncoding theEncoding, NStringRendering renderAs) c
 		}
 
 	return(theData);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::SetData : Set the string.
-//----------------------------------------------------------------------------
-NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
-{	NStringEncoding			bestEncoding;
+   //============================================================================
+   //		NString::SetData : Set the string.
+   //----------------------------------------------------------------------------
+   NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
+   {	NStringEncoding			bestEncoding;
 	NStringEncoder			theEncoder;
 	NStringValue			*theValue;
 	NData					bestData;
@@ -320,15 +360,15 @@ NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 
 
 	// Get the state we need
-	theValue     = GetMutable();
-	bestEncoding = GetBestEncoding(theData, theEncoding);
+	theValue                                                = GetMutable();
+	bestEncoding                                            = GetBestEncoding(theData, theEncoding);
 
 
 
 	// Convert the data
-	theErr = theEncoder.Convert(theData, bestData, theEncoding, bestEncoding);
+	theErr                                                  = theEncoder.Convert(theData, bestData, theEncoding, bestEncoding);
 	NN_ASSERT_NOERR(theErr);
-	
+
 	if (theErr != kNoErr)
 		return(theErr);
 
@@ -337,65 +377,65 @@ NStatus NString::SetData(const NData &theData, NStringEncoding theEncoding)
 	// Update our state
 	theEncoder.AddTerminator(bestData, bestEncoding);
 
-	theValue->theEncoding = bestEncoding;
-	theValue->theData     = bestData;
+	theValue->theEncoding                                   = bestEncoding;
+	theValue->theData                                       = bestData;
 
 	ValueChanged(theValue);
-	
+
 	return(kNoErr);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Find : Find a substring.
-//----------------------------------------------------------------------------
-NRange NString::Find(const NString &theString, NStringFlags theFlags, const NRange &theRange) const
-{	NRangeList		theResults;
+   //============================================================================
+   //		NString::Find : Find a substring.
+   //----------------------------------------------------------------------------
+   NRange NString::Find(const NString &theString, NStringFlags theFlags, const NRange &theRange) const
+   {	NRangeList		theResults;
 
 
 
 	// Find the string
-	theResults = FindMatches(theString, theFlags, theRange, false);
+	theResults                                              = FindMatches(theString, theFlags, theRange, false);
 
 	return(theResults.empty() ? kNRangeNone : theResults[0]);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::FindAll : Find every instance of a substring.
-//----------------------------------------------------------------------------
-NRangeList NString::FindAll(const NString &theString, NStringFlags theFlags, const NRange &theRange) const
-{	NRangeList		theResults;
+   //============================================================================
+   //		NString::FindAll : Find every instance of a substring.
+   //----------------------------------------------------------------------------
+   NRangeList NString::FindAll(const NString &theString, NStringFlags theFlags, const NRange &theRange) const
+   {	NRangeList		theResults;
 
 
 
 	// Find the strings
-	theResults = FindMatches(theString, theFlags, theRange, true);
+	theResults                                              = FindMatches(theString, theFlags, theRange, true);
 
 	return(theResults);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Replace : Replace a substring.
-//----------------------------------------------------------------------------
-void NString::Replace(const NRange &theRange, const NString &replaceWith)
-{	NString		thePrefix, theSuffix, theResult;
+   //============================================================================
+   //		NString::Replace : Replace a substring.
+   //----------------------------------------------------------------------------
+   void NString::Replace(const NRange &theRange, const NString &replaceWith)
+   {	NString		thePrefix, theSuffix, theResult;
 
 
 
 	// Replace the string
 	if (IsFullRange(theRange))
-		*this = replaceWith;
+ * this                                                     = replaceWith;
 
 
 
@@ -403,47 +443,47 @@ void NString::Replace(const NRange &theRange, const NString &replaceWith)
 	else
 		{
 		if (theRange.GetFirst() != 0)
-			thePrefix = GetString(NRange(0, theRange.GetFirst()));
+			thePrefix                                       = GetString(NRange(0, theRange.GetFirst()));
 
 		if (theRange.GetNext() < GetSize())
-			theSuffix = GetString(NRange(theRange.GetNext(), kNStringLength));
+			theSuffix                                       = GetString(NRange(theRange.GetNext(), kNStringLength));
 
-		*this = thePrefix + replaceWith + theSuffix;
+ * this                                                     = thePrefix + replaceWith + theSuffix;
 		}
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Replace : Replace a substring.
-//----------------------------------------------------------------------------
-bool NString::Replace(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
-{	NRange		foundRange;
+   //============================================================================
+   //		NString::Replace : Replace a substring.
+   //----------------------------------------------------------------------------
+   bool NString::Replace(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
+   {	NRange		foundRange;
 	bool		wasFound;
 
 
 
 	// Replace the substring
-	foundRange = Find(theString, theFlags, theRange);
-	wasFound   = (foundRange != kNRangeNone);
+	foundRange                                              = Find(theString, theFlags, theRange);
+	wasFound                                                = (foundRange != kNRangeNone);
 
 	if (wasFound)
 		Replace(foundRange, replaceWith);
 
 	return(wasFound);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::ReplaceAll : Replace every instance of a substring.
-//----------------------------------------------------------------------------
-NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
-{	NString					newString, thePrefix;
+   //============================================================================
+   //		NString::ReplaceAll : Replace every instance of a substring.
+   //----------------------------------------------------------------------------
+   NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith, NStringFlags theFlags, const NRange &theRange)
+   {	NString					newString, thePrefix;
 	NRangeList				foundRanges;
 	NRange					foundRange;
 	NUnicodeParser			theParser;
@@ -453,7 +493,7 @@ NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith,
 
 
 	// Get the state we need
-	foundRanges = FindAll(theString, theFlags, theRange);
+	foundRanges                                             = FindAll(theString, theFlags, theRange);
 	if (foundRanges.empty())
 		return(0);
 
@@ -464,40 +504,40 @@ NIndex NString::ReplaceAll(const NString &theString, const NString &replaceWith,
 	// To perform well when replacing a large number of small items (e.g., converting
 	// line endings) we parse the string once then rebuild it using the original text
 	// and the replaced ranges.
-	theParser = GetParser();
-	theIndex  = 0;
-	
-	for (theIter = foundRanges.begin(); theIter != foundRanges.end(); theIter++)
+	theParser                                               = GetParser();
+	theIndex                                                = 0;
+
+	for (theIter                                            = foundRanges.begin(); theIter != foundRanges.end(); theIter++)
 		{
-		foundRange = *theIter;
+		foundRange                                          = *theIter;
 
 		if (foundRange.GetFirst() != theIndex)
 			newString += GetString(theParser, NRange(theIndex, foundRange.GetFirst() - theIndex));
 
 		newString += replaceWith;
-		theIndex   = foundRange.GetNext();
+		theIndex                                            = foundRange.GetNext();
 		}
-	
+
 	if (theIndex < GetSize())
 		newString += GetString(theParser, NRange(theIndex, kNStringLength));
 
 
 
 	// Replace the string
-	*this = newString;
+ * this                                                     = newString;
 
 	return((NIndex) foundRanges.size());
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Transform : Transform the string.
-//----------------------------------------------------------------------------
-void NString::Transform(NStringTransform theTransform, const NRange &theRange)
-{	NString		newString;
+   //============================================================================
+   //		NString::Transform : Transform the string.
+   //----------------------------------------------------------------------------
+   void NString::Transform(NStringTransform theTransform, const NRange &theRange)
+   {	NString		newString;
 
 
 
@@ -517,7 +557,7 @@ void NString::Transform(NStringTransform theTransform, const NRange &theRange)
 
 
 	// Get the state we need
-	newString = GetString(theRange);
+	newString                                               = GetString(theRange);
 	if (newString.IsEmpty())
 		return;
 
@@ -535,60 +575,60 @@ void NString::Transform(NStringTransform theTransform, const NRange &theRange)
 
 	if (theTransform & kNStringCapitalizeSentences)
 		newString.CapitalizeSentences();
-	
+
 	if (theTransform & kNStringStripDiacritics)
-		newString = NTargetSystem::TransformString(newString, theTransform);
+		newString                                           = NTargetSystem::TransformString(newString, theTransform);
 
 	Replace(theRange, newString);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetUpper : Get as upper case.
-//----------------------------------------------------------------------------
-NString NString::GetUpper(void) const
-{	NString		theString;
+   //============================================================================
+   //		NString::GetUpper : Get as upper case.
+   //----------------------------------------------------------------------------
+   NString NString::GetUpper(void) const
+   {	NString		theString;
 
 
 
 	// Get the string
-	theString = *this;
+	theString                                               = *this;
 	theString.Transform(kNStringToUpperCase);
-	
+
 	return(theString);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetLower : Get as lower case.
-//----------------------------------------------------------------------------
-NString NString::GetLower(void) const
-{	NString		theString;
+   //============================================================================
+   //		NString::GetLower : Get as lower case.
+   //----------------------------------------------------------------------------
+   NString NString::GetLower(void) const
+   {	NString		theString;
 
 
 
 	// Get the string
-	theString = *this;
+	theString                                               = *this;
 	theString.Transform(kNStringToLowerCase);
-	
+
 	return(theString);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::StartsWith : Does the string start with a string?
-//----------------------------------------------------------------------------
-bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
-{	const utf8_t	*thisUTF8, *prefixUTF8;
+   //============================================================================
+   //		NString::StartsWith : Does the string start with a string?
+   //----------------------------------------------------------------------------
+   bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
+   {	const utf8_t	*thisUTF8, *prefixUTF8;
 	NString			matchString;
 	NRange			theRange;
 	NIndex			theSize;
@@ -599,16 +639,16 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 	// Simple test
 	if (theFlags == kNStringNone)
 		{
-		theSize = theString.GetSize();
-		isMatch = (theSize <= GetSize());
+		theSize                                             = theString.GetSize();
+		isMatch                                             = (theSize <= GetSize());
 
 		if (isMatch)
 			{
-			thisUTF8   =           GetUTF8();
-			prefixUTF8 = theString.GetUTF8();
+			thisUTF8                                        =           GetUTF8();
+			prefixUTF8                                      = theString.GetUTF8();
 
 			NN_ASSERT(strlen(prefixUTF8) <= strlen(thisUTF8));
-			isMatch = (memcmp(thisUTF8, prefixUTF8, strlen(prefixUTF8)) == 0);
+			isMatch                                         = (memcmp(thisUTF8, prefixUTF8, strlen(prefixUTF8)) == 0);
 			}
 		}
 
@@ -621,22 +661,22 @@ bool NString::StartsWith(const NString &theString, NStringFlags theFlags) const
 		else
 			matchString.Format("^\\Q%@\\E", theString);
 
-		theRange = Find(matchString, theFlags | kNStringPattern);
-		isMatch  = !theRange.IsEmpty();
+		theRange                                            = Find(matchString, theFlags | kNStringPattern);
+		isMatch                                             = !theRange.IsEmpty();
 		}
-	
+
 	return(isMatch);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::EndsWith : Does the string end with a string?
-//----------------------------------------------------------------------------
-bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
-{	NIndex			theSize, thisLen, suffixLen;
+   //============================================================================
+   //		NString::EndsWith : Does the string end with a string?
+   //----------------------------------------------------------------------------
+   bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
+   {	NIndex			theSize, thisLen, suffixLen;
 	const utf8_t	*thisUTF8, *suffixUTF8;
 	NString			matchString;
 	NRange			theRange;
@@ -647,19 +687,19 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 	// Simple test
 	if (theFlags == kNStringNone)
 		{
-		theSize = theString.GetSize();
-		isMatch = (theSize <= GetSize());
+		theSize                                             = theString.GetSize();
+		isMatch                                             = (theSize <= GetSize());
 
 		if (isMatch)
 			{
-			thisUTF8   =           GetUTF8();
-			suffixUTF8 = theString.GetUTF8();
-			
-			thisLen   = (NIndex) strlen(thisUTF8);
-			suffixLen = (NIndex) strlen(suffixUTF8);
+			thisUTF8                                        =           GetUTF8();
+			suffixUTF8                                      = theString.GetUTF8();
+
+			thisLen                                         = (NIndex) strlen(thisUTF8);
+			suffixLen                                       = (NIndex) strlen(suffixUTF8);
 
 			NN_ASSERT(suffixLen <= thisLen);
-			isMatch = (memcmp(thisUTF8 + thisLen - suffixLen, suffixUTF8, suffixLen) == 0);
+			isMatch                                         = (memcmp(thisUTF8 + thisLen - suffixLen, suffixUTF8, suffixLen) == 0);
 			}
 		}
 
@@ -672,55 +712,55 @@ bool NString::EndsWith(const NString &theString, NStringFlags theFlags) const
 		else
 			matchString.Format("\\Q%@\\E$", theString);
 
-		theRange = Find(matchString, theFlags | kNStringPattern);
-		isMatch  = !theRange.IsEmpty();
+		theRange                                            = Find(matchString, theFlags | kNStringPattern);
+		isMatch                                             = !theRange.IsEmpty();
 		}
-	
+
 	return(isMatch);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Contains : Does the string contain a string?
-//----------------------------------------------------------------------------
-bool NString::Contains(const NString &theString, NStringFlags theFlags) const
-{	NRange		theRange;
+   //============================================================================
+   //		NString::Contains : Does the string contain a string?
+   //----------------------------------------------------------------------------
+   bool NString::Contains(const NString &theString, NStringFlags theFlags) const
+   {	NRange		theRange;
 
 
 
 	// Find the string
-	theRange = Find(theString, theFlags);
+	theRange                                                = Find(theString, theFlags);
 
 	return(!theRange.IsEmpty());
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NString::Compare(const NString &theValue) const
-{
+   //============================================================================
+   //		NString::Compare : Compare the value.
+   //----------------------------------------------------------------------------
+   NComparison NString::Compare(const NString &theValue) const
+   {
 
 
 	// Compare the value
 	return(Compare(theValue, kNStringNone));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NString::Compare(const NString &theString, NStringFlags theFlags) const
-{	NIndex					indexA, indexB, sizeA, sizeB;
+   //============================================================================
+   //		NString::Compare : Compare the value.
+   //----------------------------------------------------------------------------
+   NComparison NString::Compare(const NString &theString, NStringFlags theFlags) const
+   {	NIndex					indexA, indexB, sizeA, sizeB;
 	bool					ignoreCase, isNumeric;
 	uint64_t				numberA, numberB;
 	const NStringValue		*valueA, *valueB;
@@ -736,11 +776,11 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 
 
 	// Get the state we need
-	valueA =           GetImmutable();
-	valueB = theString.GetImmutable();
+	valueA                                                  =           GetImmutable();
+	valueB                                                  = theString.GetImmutable();
 
-	ignoreCase = ((theFlags & kNStringNoCase)  != kNStringNone);
-	isNumeric  = ((theFlags & kNStringNumeric) != kNStringNone);
+	ignoreCase                                              = ((theFlags & kNStringNoCase)  != kNStringNone);
+	isNumeric                                               = ((theFlags & kNStringNumeric) != kNStringNone);
 
 
 
@@ -772,26 +812,26 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 	// to create/destroy objects it doesn't need).
 	NUnicodeParser			parserA, parserB;
 
-	parserA =           GetParser();
-	parserB = theString.GetParser();
-	
-	sizeA = parserA.GetSize();
-	sizeB = parserB.GetSize();
+	parserA                                                 =           GetParser();
+	parserB                                                 = theString.GetParser();
+
+	sizeA                                                   = parserA.GetSize();
+	sizeB                                                   = parserB.GetSize();
 
 
 
 	// Compare the strings
 	//
 	// Should probably use ICU for standard Unicode collation.
-	theResult = GetComparison(sizeA, sizeB);
-	indexA    = 0;
-	indexB    = 0;
+	theResult                                               = GetComparison(sizeA, sizeB);
+	indexA                                                  = 0;
+	indexB                                                  = 0;
 
 	while (indexA < sizeA && indexB < sizeB)
 		{
 		// Get the characters
-		charA = parserA.GetChar(indexA, ignoreCase);
-		charB = parserB.GetChar(indexB, ignoreCase);
+		charA                                               = parserA.GetChar(indexA, ignoreCase);
+		charB                                               = parserB.GetChar(indexB, ignoreCase);
 
 
 
@@ -801,18 +841,18 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 			// Parse the number
 			//
 			// This will advance the index to the last digit of each number.
-			numberA = GetNumber(parserA, indexA, sizeA, charA);
-			numberB = GetNumber(parserB, indexB, sizeB, charB);
+			numberA                                         = GetNumber(parserA, indexA, sizeA, charA);
+			numberB                                         = GetNumber(parserB, indexB, sizeB, charB);
 
 
 
 			// Compare numerically
 			if (numberA != numberB)
 				{
-				theResult = GetComparison(numberA, numberB);
+				theResult                                   = GetComparison(numberA, numberB);
 				break;
 				}
-			
+
 			if (indexA == (sizeA-1) || indexB == (sizeB-1))
 				break;
 			}
@@ -822,7 +862,7 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 		// Compare alphabetically
 		if (charA != charB)
 			{
-			theResult = GetComparison(charA, charB);
+			theResult                                       = GetComparison(charA, charB);
 			break;
 			}
 
@@ -832,19 +872,19 @@ NComparison NString::Compare(const NString &theString, NStringFlags theFlags) co
 		indexA++;
 		indexB++;
 		}
-	
+
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::EqualTo : Compare two strings.
-//----------------------------------------------------------------------------
-bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
-{
+   //============================================================================
+   //		NString::EqualTo : Compare two strings.
+   //----------------------------------------------------------------------------
+   bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
+   {
 
 
 	// Check the size
@@ -873,17 +913,17 @@ bool NString::EqualTo(const NString &theString, NStringFlags theFlags) const
 
 	// General equality
 	return(Compare(theString, theFlags) == kNCompareEqualTo);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetLeft : Get a left-anchored substring.
-//----------------------------------------------------------------------------
-NString NString::GetLeft(NIndex theSize) const
-{
+   //============================================================================
+   //		NString::GetLeft : Get a left-anchored substring.
+   //----------------------------------------------------------------------------
+   NString NString::GetLeft(NIndex theSize) const
+   {
 
 
 	// Validate our parameters
@@ -899,17 +939,17 @@ NString NString::GetLeft(NIndex theSize) const
 
 	// Get the substring
 	return(GetString(NRange(0, theSize)));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetRight : Get a right-anchored substring.
-//----------------------------------------------------------------------------
-NString NString::GetRight(NIndex theSize) const
-{
+   //============================================================================
+   //		NString::GetRight : Get a right-anchored substring.
+   //----------------------------------------------------------------------------
+   NString NString::GetRight(NIndex theSize) const
+   {
 
 
 	// Validate our parameters
@@ -925,17 +965,17 @@ NString NString::GetRight(NIndex theSize) const
 
 	// Get the substring
 	return(GetString(NRange(GetSize() - theSize, theSize)));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetString : Get a substring.
-//----------------------------------------------------------------------------
-NString NString::GetString(NIndex thePosition) const
-{
+   //============================================================================
+   //		NString::GetString : Get a substring.
+   //----------------------------------------------------------------------------
+   NString NString::GetString(NIndex thePosition) const
+   {
 
 
 	// Validate our parameters
@@ -951,38 +991,38 @@ NString NString::GetString(NIndex thePosition) const
 
 	// Get the substring
 	return(GetString(NRange(thePosition, kNStringLength)));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetString : Get a substring.
-//----------------------------------------------------------------------------
-NString NString::GetString(const NRange &theRange) const
-{
+   //============================================================================
+   //		NString::GetString : Get a substring.
+   //----------------------------------------------------------------------------
+   NString NString::GetString(const NRange &theRange) const
+   {
 
 
 	// Get the string
 	if (IsFullRange(theRange))
 		return(*this);
-	
-	
+
+
 	// Get a substring
 	else
 		return(GetString(GetParser(), theRange));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Split : Split a string.
-//----------------------------------------------------------------------------
-NStringList NString::Split(const NString &theString, NStringFlags theFlags) const
-{	NString						subString, matchString;
+   //============================================================================
+   //		NString::Split : Split a string.
+   //----------------------------------------------------------------------------
+   NStringList NString::Split(const NString &theString, NStringFlags theFlags) const
+   {	NString						subString, matchString;
 	NRange						theRange, subRange;
 	NRangeList					theMatches;
 	NIndex						offsetPrev;
@@ -998,15 +1038,15 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 
 
 	// Get the state we need
-	matchString = GetWhitespacePattern(theString, theFlags);
-	theParser   = GetParser();
-	offsetPrev  = 0;
+	matchString                                             = GetWhitespacePattern(theString, theFlags);
+	theParser                                               = GetParser();
+	offsetPrev                                              = 0;
 
 
 
 	// Find the split points
-	theMatches = FindAll(matchString, theFlags);
-	
+	theMatches                                              = FindAll(matchString, theFlags);
+
 	if (theMatches.empty())
 		theResult.push_back(*this);
 
@@ -1019,14 +1059,14 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 	if (!theMatches.empty())
 		theMatches.push_back(NRange(GetSize(), 1));
 
-	for (iterMatch = theMatches.begin(); iterMatch != theMatches.end(); iterMatch++)
+	for (iterMatch                                          = theMatches.begin(); iterMatch != theMatches.end(); iterMatch++)
 		{
-		theRange = *iterMatch;
-		subRange  = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
-		subString = GetString(theParser, subRange);
+		theRange                                            = *iterMatch;
+		subRange                                            = NRange(offsetPrev, theRange.GetLocation() - offsetPrev);
+		subString                                           = GetString(theParser, subRange);
 
 		theResult.push_back(subString);
-		offsetPrev = theRange.GetNext();
+		offsetPrev                                          = theRange.GetNext();
 		}
 
 
@@ -1037,47 +1077,47 @@ NStringList NString::Split(const NString &theString, NStringFlags theFlags) cons
 
 	if (!theResult.empty() && theResult.back().IsEmpty())
 		theResult.pop_back();
-	
+
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Join : Join strings.
-//----------------------------------------------------------------------------
-NString NString::Join(const NStringList &theStrings, const NString &joinWith, bool skipEmpty)
-{	NString						theResult;
+   //============================================================================
+   //		NString::Join : Join strings.
+   //----------------------------------------------------------------------------
+   NString NString::Join(const NStringList &theStrings, const NString &joinWith, bool skipEmpty)
+   {	NString						theResult;
 	NStringListConstIterator	theIter;
 
 
 
 	// Combine the strings
-	for (theIter = theStrings.begin(); theIter != theStrings.end(); theIter++)
+	for (theIter                                            = theStrings.begin(); theIter != theStrings.end(); theIter++)
 		{
 		if (skipEmpty && theIter->IsEmpty())
 			continue;
-		
+
 		theResult += *theIter;
 
 		if ((theIter + 1) != theStrings.end())
 			theResult += joinWith;
 		}
-	
+
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimLeft : Trim a string on the left.
-//----------------------------------------------------------------------------
-void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
-{	bool		isWhitespace;
+   //============================================================================
+   //		NString::TrimLeft : Trim a string on the left.
+   //----------------------------------------------------------------------------
+   void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
+   {	bool		isWhitespace;
 	NString		trimString;
 
 
@@ -1094,10 +1134,10 @@ void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
 
 
 	// Get the state we need
-	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
+	isWhitespace                                            = (theFlags == kNStringNone && theString == kNStringWhitespace);
 	if (!isWhitespace)
 		{
-		trimString = GetWhitespacePattern(theString, theFlags);
+		trimString                                          = GetWhitespacePattern(theString, theFlags);
 
 		if (theFlags & kNStringPattern)
 			trimString.Format("(?-m)^%@",       trimString);
@@ -1112,17 +1152,17 @@ void NString::TrimLeft(const NString &theString, NStringFlags theFlags)
 		TrimWhitespace(true, false);
 	else
 		Replace(trimString, "", theFlags | kNStringPattern);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimRight : Trim a string on the right.
-//----------------------------------------------------------------------------
-void NString::TrimRight(const NString &theString, NStringFlags theFlags)
-{	bool		isWhitespace, isSimple;
+   //============================================================================
+   //		NString::TrimRight : Trim a string on the right.
+   //----------------------------------------------------------------------------
+   void NString::TrimRight(const NString &theString, NStringFlags theFlags)
+   {	bool		isWhitespace, isSimple;
 	NString		trimString;
 
 
@@ -1139,12 +1179,12 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 
 
 	// Get the state we need
-	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
-	isSimple     = (theFlags == kNStringNone);
+	isWhitespace                                            = (theFlags == kNStringNone && theString == kNStringWhitespace);
+	isSimple                                                = (theFlags == kNStringNone);
 
 	if (!isWhitespace && !isSimple)
 		{
-		trimString = GetWhitespacePattern(theString, theFlags);
+		trimString                                          = GetWhitespacePattern(theString, theFlags);
 
 		if (theFlags & kNStringPattern)
 			trimString.Format("(?-m)%@$",       trimString);
@@ -1157,7 +1197,7 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 	// Trim the string
 	if (isWhitespace)
 		TrimWhitespace(false, true);
-	
+
 	else if (isSimple)
 		{
 		if (EndsWith(theString))
@@ -1166,17 +1206,17 @@ void NString::TrimRight(const NString &theString, NStringFlags theFlags)
 
 	else
 		Replace(trimString, "", theFlags | kNStringPattern);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Trim : Trim a string at both ends.
-//----------------------------------------------------------------------------
-void NString::Trim(const NString &theString, NStringFlags theFlags)
-{	bool	isWhitespace;
+   //============================================================================
+   //		NString::Trim : Trim a string at both ends.
+   //----------------------------------------------------------------------------
+   void NString::Trim(const NString &theString, NStringFlags theFlags)
+   {	bool	isWhitespace;
 
 
 
@@ -1192,7 +1232,7 @@ void NString::Trim(const NString &theString, NStringFlags theFlags)
 
 
 	// Get the state we need
-	isWhitespace = (theFlags == kNStringNone && theString == kNStringWhitespace);
+	isWhitespace                                            = (theFlags == kNStringNone && theString == kNStringWhitespace);
 
 
 
@@ -1204,55 +1244,55 @@ void NString::Trim(const NString &theString, NStringFlags theFlags)
 		TrimLeft( theString, theFlags);
 		TrimRight(theString, theFlags);
 		}
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimLeft : Trim a string on the left.
-//----------------------------------------------------------------------------
-void NString::TrimLeft(NIndex theSize)
-{
+   //============================================================================
+   //		NString::TrimLeft : Trim a string on the left.
+   //----------------------------------------------------------------------------
+   void NString::TrimLeft(NIndex theSize)
+   {
 
 
 	// Trim the string
 	Trim(NRange(0, theSize));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimRight : Trim a string on the right.
-//----------------------------------------------------------------------------
-void NString::TrimRight(NIndex theSize)
-{
+   //============================================================================
+   //		NString::TrimRight : Trim a string on the right.
+   //----------------------------------------------------------------------------
+   void NString::TrimRight(NIndex theSize)
+   {
 
 
 	// Trim the string
 	Trim(NRange(GetSize() - theSize, theSize));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Trim : Trim a string.
-//----------------------------------------------------------------------------
-void NString::Trim(const NRange &theRange)
-{	NRange				finalRange, byteRange;
+   //============================================================================
+   //		NString::Trim : Trim a string.
+   //----------------------------------------------------------------------------
+   void NString::Trim(const NRange &theRange)
+   {	NRange				finalRange, byteRange;
 	NStringValue		*theValue;
 	NData				theData;
 
 
 
 	// Get the state we need
-	theValue   = GetMutable();
-	finalRange = GetNormalized(theRange);
+	theValue                                                = GetMutable();
+	finalRange                                              = GetNormalized(theRange);
 
 	if (finalRange.IsEmpty())
 		return;
@@ -1260,36 +1300,36 @@ void NString::Trim(const NRange &theRange)
 
 
 	// Trim the string
-	byteRange = GetParser().GetRange(finalRange);
+	byteRange                                               = GetParser().GetRange(finalRange);
 	theValue->theData.RemoveData(byteRange);
 	ValueChanged(theValue);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::Format : Format the string.
-//----------------------------------------------------------------------------
-void NString::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
-{	NStringFormatter	theFormatter;
+   //============================================================================
+   //		NString::Format : Format the string.
+   //----------------------------------------------------------------------------
+   void NString::Format(const NString &theFormat, NN_FORMAT_ARGS_PARAM)
+   {	NStringFormatter	theFormatter;
 
 
 
 	// Format the string
-	*this = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
-}
+ * this                                                     = theFormatter.Format(theFormat, NN_FORMAT_ARGS_LIST);
+   }
 
 
 
 
 
-//============================================================================
-//		NString::== : Equality operator
-//----------------------------------------------------------------------------
-bool NString::operator == (const NString &theString) const
-{
+   //============================================================================
+   //		NString::== : Equality operator
+   //----------------------------------------------------------------------------
+   bool NString::operator == (const NString &theString) const
+   {
 
 
 	// Compare the objects
@@ -1297,17 +1337,17 @@ bool NString::operator == (const NString &theString) const
 	// Since we just need to test equality, we can use a case-sensitive
 	// EqualTo to perform a fast hash-based test before a full comparison.
 	return(EqualTo(theString, kNStringNone));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::!= : Inequality operator.
-//----------------------------------------------------------------------------
-bool NString::operator != (const NString &theString) const
-{
+   //============================================================================
+   //		NString::!= : Inequality operator.
+   //----------------------------------------------------------------------------
+   bool NString::operator != (const NString &theString) const
+   {
 
 
 	// Compare the objects
@@ -1315,17 +1355,17 @@ bool NString::operator != (const NString &theString) const
 	// Since we just need to test equality, we can use a case-sensitive
 	// EqualTo to perform a fast hash-based test before a full comparison.
 	return(!EqualTo(theString, kNStringNone));
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::+= : Append a string.
-//----------------------------------------------------------------------------
-const NString& NString::operator += (const NString &theString)
-{	const NStringValue		*otherValue;
+   //============================================================================
+   //		NString::+= : Append a string.
+   //----------------------------------------------------------------------------
+   const NString& NString::operator += (const NString &theString)
+   {	const NStringValue		*otherValue;
 	NStringEncoder			theEncoder;
 	NStringValue			*theValue;
 	NData					theData;
@@ -1336,21 +1376,21 @@ const NString& NString::operator += (const NString &theString)
 	// Check our parameters
 	if (theString.IsEmpty())
 		return(*this);
-		
+
 
 
 	// Get the state we need
-	theValue   = GetMutable();
-	otherValue = theString.GetImmutable();
+	theValue                                                = GetMutable();
+	otherValue                                              = theString.GetImmutable();
 
 
 
 	// Prepare the data
 	if (theValue->theEncoding == otherValue->theEncoding)
-		theData = otherValue->theData;
+		theData                                             = otherValue->theData;
 	else
 		{
-		theErr = theEncoder.Convert(otherValue->theData, theData, otherValue->theEncoding, theValue->theEncoding);
+		theErr                                              = theEncoder.Convert(otherValue->theData, theData, otherValue->theEncoding, theValue->theEncoding);
 		NN_ASSERT_NOERR(theErr);
 
 		if (theErr != kNoErr)
@@ -1377,17 +1417,17 @@ const NString& NString::operator += (const NString &theString)
 	ValueChanged(theValue, false);
 
 	return(*this);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::+ : Append a string.
-//----------------------------------------------------------------------------
-NString NString::operator + (const NString &theString) const
-{	NString		theResult;
+   //============================================================================
+   //		NString::+ : Append a string.
+   //----------------------------------------------------------------------------
+   NString NString::operator + (const NString &theString) const
+   {	NString		theResult;
 
 
 
@@ -1398,102 +1438,102 @@ NString NString::operator + (const NString &theString) const
 
 
 	// Append the string
-	theResult  = *this;
+	theResult                                               = *this;
 	theResult += theString;
-	
+
 	return(theResult);
-}
+   }
 
 
 
 
 
-#pragma mark protected
-//============================================================================
-//		NString::GetNullValue : Get the null value.
-//----------------------------------------------------------------------------
-const NStringValue *NString::GetNullValue(void) const
-{	static NStringValue		sNullValue = { 0, kNStringEncodingUTF8, NData(1) };
+ #pragma mark protected
+   //============================================================================
+   //		NString::GetNullValue : Get the null value.
+   //----------------------------------------------------------------------------
+   const NStringValue *NString::GetNullValue(void) const
+   {	static NStringValue		sNullValue                        = { 0, kNStringEncodingUTF8, NData(1) };
 
 
 
 	// Get the value
 	return(&sNullValue);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::CalculateHash : Calculate the hash.
-//----------------------------------------------------------------------------
-NHashCode NString::CalculateHash(void) const
-{	NHashCode		theResult;
+   //============================================================================
+   //		NString::CalculateHash : Calculate the hash.
+   //----------------------------------------------------------------------------
+   NHashCode NString::CalculateHash(void) const
+   {	NHashCode		theResult;
 
 
 
 	// Get the hash code
-	theResult = kNHashCodeNone;
+	theResult                                               = kNHashCodeNone;
 
 	if (!IsEmpty())
-		theResult = GetData().GetHash();
+		theResult                                           = GetData().GetHash();
 
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NString::EncodeSelf(NEncoder &theEncoder) const
-{
+   //============================================================================
+   //      NString::EncodeSelf : Encode the object.
+   //----------------------------------------------------------------------------
+   void NString::EncodeSelf(NEncoder &theEncoder) const
+   {
 
 
 	// Encode the object
 	theEncoder.EncodeString(kNEncoderValueKey, *this);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NString::DecodeSelf(const NEncoder &theEncoder)
-{
+   //============================================================================
+   //      NString::DecodeSelf : Decode the object.
+   //----------------------------------------------------------------------------
+   void NString::DecodeSelf(const NEncoder &theEncoder)
+   {
 
 
 	// Decode the object
-	*this = theEncoder.DecodeString(kNEncoderValueKey);
-}
+ * this                                                     = theEncoder.DecodeString(kNEncoderValueKey);
+   }
 
 
 
 
 
-#pragma mark private
-//============================================================================
-//      NString::ValueChanged : Our value has been changed.
-//----------------------------------------------------------------------------
-void NString::ValueChanged(NStringValue *theValue, bool updateSize)
-{
+ #pragma mark private
+   //============================================================================
+   //      NString::ValueChanged : Our value has been changed.
+   //----------------------------------------------------------------------------
+   void NString::ValueChanged(NStringValue *theValue, bool updateSize)
+   {
 
 
 	// Update our value
 	if (theValue != NULL && updateSize)
-		theValue->theSize = GetParser().GetSize();
+		theValue->theSize                                   = GetParser().GetSize();
 
 
 
 	// Update the debug summary
-#if NN_DEBUG
+ #if NN_DEBUG
 	UpdateSummary("%s", GetUTF8());
-#endif
+ #endif
 
 
 
@@ -1505,32 +1545,32 @@ void NString::ValueChanged(NStringValue *theValue, bool updateSize)
 	// this buffer in debug builds (vs just freeing the memory).
 	ClearHash();
 
-#if NN_DEBUG
+ #if NN_DEBUG
 	if (!mData.IsEmpty())
 		memset(mData.GetData(), 'N', mData.GetSize());
-#else
+ #else
 	mData.Clear();
-#endif
-}
+ #endif
+   }
 
 
 
 
 
-//============================================================================
-//		NString::FindMatches : Find a string.
-//----------------------------------------------------------------------------
-NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	bool			isBackwards, isPattern;
+   //============================================================================
+   //		NString::FindMatches : Find a string.
+   //----------------------------------------------------------------------------
+   NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
+   {	bool			isBackwards, isPattern;
 	NRangeList		theResults;
 	NRange			finalRange;
 
 
 
 	// Get the state we need
-	finalRange  = GetNormalized(theRange);
-	isBackwards = ((theFlags & kNStringBackwards) == kNStringBackwards);
-	isPattern   = ((theFlags & kNStringPattern)   == kNStringPattern);
+	finalRange                                              = GetNormalized(theRange);
+	isBackwards                                             = ((theFlags & kNStringBackwards) == kNStringBackwards);
+	isPattern                                               = ((theFlags & kNStringPattern)   == kNStringPattern);
 
 
 
@@ -1540,7 +1580,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 	// search may be larger than the text it matches ("^\s+" will match " ").
 	if (IsEmpty() || theString.IsEmpty())
 		return(theResults);
-	
+
 	if (!isPattern && theString.GetSize() > finalRange.GetSize())
 		return(theResults);
 
@@ -1554,9 +1594,9 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 		{
 		// Find everything
 		if (isPattern)
-			theResults = FindPattern(theString, theFlags, finalRange, true);
+			theResults                                      = FindPattern(theString, theFlags, finalRange, true);
 		else
-			theResults = FindString( theString, theFlags, finalRange, true);
+			theResults                                      = FindString( theString, theFlags, finalRange, true);
 
 
 		// Adjust the result
@@ -1565,7 +1605,7 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 			if (doAll)
 				reverse(theResults);
 			else
-				theResults = nvector(theResults.back());
+				theResults                                  = nvector(theResults.back());
 			}
 		}
 
@@ -1574,23 +1614,23 @@ NRangeList NString::FindMatches(const NString &theString, NStringFlags theFlags,
 	else
 		{
 		if (isPattern)
-			theResults = FindPattern(theString, theFlags, finalRange, doAll);
+			theResults                                      = FindPattern(theString, theFlags, finalRange, doAll);
 		else
-			theResults = FindString( theString, theFlags, finalRange, doAll);
+			theResults                                      = FindString( theString, theFlags, finalRange, doAll);
 		}
-		
+
 	return(theResults);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::FindString : Find a string.
-//----------------------------------------------------------------------------
-NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	NIndex				sizeB, n, offsetB, limitA, rangeFirst, rangeLast;
+   //============================================================================
+   //      NString::FindString : Find a string.
+   //----------------------------------------------------------------------------
+   NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
+   {	NIndex				sizeB, n, offsetB, limitA, rangeFirst, rangeLast;
 	bool				ignoreCase, updateB;
 	NUnicodeParser		parserA, parserB;
 	utf32_t				charA, charB;
@@ -1601,38 +1641,38 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 
 	// Validate our parameters
 	NN_ASSERT(!theString.IsEmpty());
-	
+
 
 
 	// Get the state we need
-	parserA =           GetParser();
-	parserB = theString.GetParser();
-	
-	sizeB = parserB.GetSize();
-	charB = 0;
-	
-	rangeFirst = theRange.GetFirst();
-	rangeLast  = theRange.GetLast();
+	parserA                                                 =           GetParser();
+	parserB                                                 = theString.GetParser();
 
-	limitA     = std::max((NIndex) 1, rangeLast - sizeB);
-	ignoreCase = (theFlags & kNStringNoCase);
+	sizeB                                                   = parserB.GetSize();
+	charB                                                   = 0;
 
-	findRange = kNRangeNone;
-	updateB   = true;
-	offsetB   = 0;
+	rangeFirst                                              = theRange.GetFirst();
+	rangeLast                                               = theRange.GetLast();
+
+	limitA                                                  = std::max((NIndex) 1, rangeLast - sizeB);
+	ignoreCase                                              = (theFlags & kNStringNoCase);
+
+	findRange                                               = kNRangeNone;
+	updateB                                                 = true;
+	offsetB                                                 = 0;
 
 
 
 	// Find the string
-	for (n = rangeFirst; n <= rangeLast; n++)
+	for (n                                                  = rangeFirst; n <= rangeLast; n++)
 		{
 		// Get the state we need
-		charA = parserA.GetChar(n, ignoreCase);
-		
+		charA                                               = parserA.GetChar(n, ignoreCase);
+
 		if (updateB)
 			{
-			charB   = parserB.GetChar(offsetB, ignoreCase);
-			updateB = false;
+			charB                                           = parserB.GetChar(offsetB, ignoreCase);
+			updateB                                         = false;
 			}
 
 
@@ -1643,17 +1683,17 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 			// Found a match
 			if (charA == charB)
 				{
-				findRange = NRange(n, 1);
-				updateB   = true;
-				offsetB   = 1;
+				findRange                                   = NRange(n, 1);
+				updateB                                     = true;
+				offsetB                                     = 1;
 				}
-			
+
 			// No match found
 			else
 				{ }
 			}
-		
-		
+
+
 		// Continue matching
 		else
 			{
@@ -1661,10 +1701,10 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 			if (charA == charB)
 				{
 				findRange.SetSize(findRange.GetSize() + 1);
-				updateB  = true;
+				updateB                                     = true;
 				offsetB += 1;
 				}
-			
+
 			// Cancel the match
 			//
 			// Since we're inside a match we need to keep charA at the same position
@@ -1674,9 +1714,9 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 			// it now so that the loop advances it back to the current position.
 			else
 				{
-				findRange = kNRangeNone;
-				updateB   = true;
-				offsetB   = 0;
+				findRange                                   = kNRangeNone;
+				updateB                                     = true;
+				offsetB                                     = 0;
 
 				n--;
 				}
@@ -1691,13 +1731,13 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 			if (!doAll)
 				break;
 
-			findRange = kNRangeNone;
-			updateB   = true;
-			offsetB   = 0;
+			findRange                                       = kNRangeNone;
+			updateB                                         = true;
+			offsetB                                         = 0;
 			}
-		
-		
-		
+
+
+
 		// Check the limit
 		//
 		// If we've found a match we need to search to the end of the range, but once we
@@ -1707,17 +1747,17 @@ NRangeList NString::FindString(const NString &theString, NStringFlags theFlags, 
 		}
 
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::FindPattern : Find a pattern.
-//----------------------------------------------------------------------------
-NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
-{	NIndex					n, matchStart, matchEnd, offsetFirst, offsetLast, searchSize, searchOffset;
+   //============================================================================
+   //      NString::FindPattern : Find a pattern.
+   //----------------------------------------------------------------------------
+   NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags, const NRange &theRange, bool doAll) const
+   {	NIndex					n, matchStart, matchEnd, offsetFirst, offsetLast, searchSize, searchOffset;
 	int						regFlags, regErr, numMatches, errorPos;
 	const utf8_t			*textUTF8, *searchUTF8, *errorMsg;
 	const NRangeList		*theRanges;
@@ -1732,21 +1772,21 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 
 	// Validate our parameters
 	NN_ASSERT(!theString.IsEmpty());
-	
+
 
 
 	// Get the state we need
-	numMatches = 0;
-	regFlags   = PCRE_MULTILINE | PCRE_DOTALL | PCRE_UTF8 | PCRE_NO_UTF8_CHECK;
-	
+	numMatches                                              = 0;
+	regFlags                                                = PCRE_MULTILINE | PCRE_DOTALL | PCRE_UTF8 | PCRE_NO_UTF8_CHECK;
+
 	if (theFlags & kNStringNoCase)
 		regFlags |= PCRE_CASELESS;
 
-	dataUTF8 = GetData(kNStringEncodingUTF8);
-	textUTF8 = (const utf8_t *) dataUTF8.GetData();
+	dataUTF8                                                = GetData(kNStringEncodingUTF8);
+	textUTF8                                                = (const utf8_t *) dataUTF8.GetData();
 
 	theParser.Parse(dataUTF8, kNStringEncodingUTF8);
-	theRanges = theParser.GetRanges();
+	theRanges                                               = theParser.GetRanges();
 
 
 
@@ -1754,24 +1794,24 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	NN_ASSERT(theRange.GetFirst() < (NIndex) theRanges->size());
 	NN_ASSERT(theRange.GetLast()  < (NIndex) theRanges->size());
 
-	offsetFirst = theRanges->at(theRange.GetFirst()).GetFirst();
-	offsetLast  = theRanges->at(theRange.GetLast() ).GetLast();
+	offsetFirst                                             = theRanges->at(theRange.GetFirst()).GetFirst();
+	offsetLast                                              = theRanges->at(theRange.GetLast() ).GetLast();
 
-	searchUTF8   = textUTF8   + offsetFirst;
-	searchSize   = offsetLast - offsetFirst + 1;
-	searchOffset = 0;
+	searchUTF8                                              = textUTF8   + offsetFirst;
+	searchSize                                              = offsetLast - offsetFirst + 1;
+	searchOffset                                            = 0;
 
 
 
 	// Compile the expression
-	regExp = pcre_compile(theString.GetUTF8(), regFlags, &errorMsg, &errorPos, NULL);
+	regExp                                                  = pcre_compile(theString.GetUTF8(), regFlags, &errorMsg, &errorPos, NULL);
 	if (regExp == NULL)
 		{
 		NN_LOG("Unable to compile '%@': %s (%d)", theString, errorMsg, errorPos);
 		return(theResult);
 		}
 
-	regErr = pcre_fullinfo(regExp, NULL, PCRE_INFO_CAPTURECOUNT, &numMatches);
+	regErr                                                  = pcre_fullinfo(regExp, NULL, PCRE_INFO_CAPTURECOUNT, &numMatches);
 	if (regErr != 0)
 		{
 		NN_LOG("Unable to extract capture count");
@@ -1786,7 +1826,7 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	while (searchOffset >= 0)
 		{
 		// Apply the expression
-		regErr = pcre_exec(regExp, NULL, searchUTF8, searchSize, searchOffset, PCRE_NO_UTF8_CHECK, &theMatches[0], (int) theMatches.size());
+		regErr                                              = pcre_exec(regExp, NULL, searchUTF8, searchSize, searchOffset, PCRE_NO_UTF8_CHECK, &theMatches[0], (int) theMatches.size());
 		NN_ASSERT(regErr == PCRE_ERROR_NOMATCH || regErr > 0);
 
 
@@ -1797,17 +1837,17 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 		// string, which we convert into absolute character offsets.
 		if (regErr > 0)
 			{
-			for (n = 0; n <= numMatches; n++)
+			for (n                                          = 0; n <= numMatches; n++)
 				{
-				matchStart = theMatches[(n * 2) + 0];
-				matchEnd   = theMatches[(n * 2) + 1];
-				matchRange = kNRangeNone;
-			
+				matchStart                                  = theMatches[(n * 2) + 0];
+				matchEnd                                    = theMatches[(n * 2) + 1];
+				matchRange                                  = kNRangeNone;
+
 				if (matchStart != -1)
 					{
-					matchStart = GetCharacterOffset(theRanges, offsetFirst + matchStart);
-					matchEnd   = GetCharacterOffset(theRanges, offsetFirst + matchEnd);
-					matchRange = NRange(matchStart, matchEnd - matchStart);
+					matchStart                              = GetCharacterOffset(theRanges, offsetFirst + matchStart);
+					matchEnd                                = GetCharacterOffset(theRanges, offsetFirst + matchEnd);
+					matchRange                              = NRange(matchStart, matchEnd - matchStart);
 					}
 
 				theResult.push_back(matchRange);
@@ -1819,15 +1859,15 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 		// Advance the search
 		if (doAll)
 			{
-			matchEnd = theMatches[1];
-			
+			matchEnd                                        = theMatches[1];
+
 			if (regErr > 0 && matchEnd != searchSize)
-				searchOffset = matchEnd;
+				searchOffset                                = matchEnd;
 			else
-				searchOffset = -1;
+				searchOffset                                = -1;
 			}
 		else
-			searchOffset = -1;
+			searchOffset                                    = -1;
 		}
 
 
@@ -1836,17 +1876,17 @@ NRangeList NString::FindPattern(const NString &theString, NStringFlags theFlags,
 	pcre_free(regExp);
 
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::CapitalizeCharacters : Capitalize characters.
-//----------------------------------------------------------------------------
-void NString::CapitalizeCharacters(bool toUpper)
-{	NIndex					n, theSize;
+   //============================================================================
+   //		NString::CapitalizeCharacters : Capitalize characters.
+   //----------------------------------------------------------------------------
+   void NString::CapitalizeCharacters(bool toUpper)
+   {	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	utf32_t					theChar;
 	NData					theData;
@@ -1854,17 +1894,17 @@ void NString::CapitalizeCharacters(bool toUpper)
 
 
 	// Get the state we need
-	theParser = GetParser();
-	theSize   = theParser.GetSize();
+	theParser                                               = GetParser();
+	theSize                                                 = theParser.GetSize();
 
 
 
 	// Capitalize characters
-	for (n = 0; n < theSize; n++)
+	for (n                                                  = 0; n < theSize; n++)
 		{
-		theChar = theParser.GetChar(n);
-		theChar = toUpper ? theParser.GetUpper(theChar) : theParser.GetLower(theChar);
-		
+		theChar                                             = theParser.GetChar(n);
+		theChar                                             = toUpper ? theParser.GetUpper(theChar) : theParser.GetLower(theChar);
+
 		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
 
@@ -1872,17 +1912,17 @@ void NString::CapitalizeCharacters(bool toUpper)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::CapitalizeWords : Capitalize words.
-//----------------------------------------------------------------------------
-void NString::CapitalizeWords(void)
-{	NIndex					n, theSize;
+   //============================================================================
+   //      NString::CapitalizeWords : Capitalize words.
+   //----------------------------------------------------------------------------
+   void NString::CapitalizeWords(void)
+   {	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	utf32_t					theChar;
 	bool					toUpper;
@@ -1891,28 +1931,28 @@ void NString::CapitalizeWords(void)
 
 
 	// Get the state we need
-	theParser = GetParser();
-	theSize   = theParser.GetSize();
-	toUpper   = true;
+	theParser                                               = GetParser();
+	theSize                                                 = theParser.GetSize();
+	toUpper                                                 = true;
 
 
 
 	// Capitalize words
-	for (n = 0; n < theSize; n++)
+	for (n                                                  = 0; n < theSize; n++)
 		{
-		theChar = theParser.GetChar(n);
+		theChar                                             = theParser.GetChar(n);
 
 		if (theParser.IsAlpha(theChar))
 			{
 			if (toUpper)
 				{
-				theChar = theParser.GetUpper(theChar);
-				toUpper = false;
+				theChar                                     = theParser.GetUpper(theChar);
+				toUpper                                     = false;
 				}
 			}
 		else
-			toUpper = true;
-		
+			toUpper                                         = true;
+
 		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
 
@@ -1920,17 +1960,17 @@ void NString::CapitalizeWords(void)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::CapitalizeSentences : Capitalize sentences.
-//----------------------------------------------------------------------------
-void NString::CapitalizeSentences(void)
-{	NIndex					n, theSize;
+   //============================================================================
+   //      NString::CapitalizeSentences : Capitalize sentences.
+   //----------------------------------------------------------------------------
+   void NString::CapitalizeSentences(void)
+   {	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	utf32_t					theChar;
 	bool					toUpper;
@@ -1939,30 +1979,30 @@ void NString::CapitalizeSentences(void)
 
 
 	// Get the state we need
-	theParser = GetParser();
-	theSize   = theParser.GetSize();
-	toUpper   = true;
+	theParser                                               = GetParser();
+	theSize                                                 = theParser.GetSize();
+	toUpper                                                 = true;
 
 
 
 	// Capitalize sentences
-	for (n = 0; n < theSize; n++)
+	for (n                                                  = 0; n < theSize; n++)
 		{
-		theChar = theParser.GetChar(n);
+		theChar                                             = theParser.GetChar(n);
 
 		if (toUpper)
 			{
 			if (theParser.IsAlpha(theChar))
 				{
-				theChar = theParser.GetUpper(theChar);
-				toUpper = false;
+				theChar                                     = theParser.GetUpper(theChar);
+				toUpper                                     = false;
 				}
 			}
 		else
-			toUpper = (theChar == (utf32_t) '!' ||
+			toUpper                                         = (theChar == (utf32_t) '!' ||
 					   theChar == (utf32_t) '.' ||
 					   theChar == (utf32_t) '?');
-		
+
 		theData.AppendData((NIndex) sizeof(theChar), &theChar);
 		}
 
@@ -1970,17 +2010,17 @@ void NString::CapitalizeSentences(void)
 
 	// Update the string
 	SetData(theData, kNStringEncodingUTF32);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimWhitespace : Trim whitespace from the string.
-//----------------------------------------------------------------------------
-void NString::TrimWhitespace(bool fromLeft, bool fromRight)
-{	const NStringValue		*theValue;
+   //============================================================================
+   //		NString::TrimWhitespace : Trim whitespace from the string.
+   //----------------------------------------------------------------------------
+   void NString::TrimWhitespace(bool fromLeft, bool fromRight)
+   {	const NStringValue		*theValue;
 
 
 
@@ -1990,7 +2030,7 @@ void NString::TrimWhitespace(bool fromLeft, bool fromRight)
 
 
 	// Get the state we need
-	theValue = GetImmutable();
+	theValue                                                = GetImmutable();
 
 
 
@@ -2002,17 +2042,17 @@ void NString::TrimWhitespace(bool fromLeft, bool fromRight)
 		TrimWhitespaceUTF8(   fromLeft, fromRight);
 	else
 		TrimWhitespaceGeneric(fromLeft, fromRight);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimWhitespaceUTF8 : Trim whitespace from a UTF8 string.
-//----------------------------------------------------------------------------
-void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
-{	NIndex					theSize, indexStart, indexEnd;
+   //============================================================================
+   //		NString::TrimWhitespaceUTF8 : Trim whitespace from a UTF8 string.
+   //----------------------------------------------------------------------------
+   void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
+   {	NIndex					theSize, indexStart, indexEnd;
 	const utf8_t			*textUTF8;
 	const NStringValue		*theValue;
 
@@ -2024,12 +2064,12 @@ void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
 
 
 	// Get the state we need
-	theValue = GetImmutable();
-	theSize  = theValue->theSize;
-	textUTF8 = (const utf8_t *) theValue->theData.GetData();
+	theValue                                                = GetImmutable();
+	theSize                                                 = theValue->theSize;
+	textUTF8                                                = (const utf8_t *) theValue->theData.GetData();
 
-	indexStart = 0;
-	indexEnd   = theSize - 1;
+	indexStart                                              = 0;
+	indexEnd                                                = theSize - 1;
 
 
 
@@ -2039,9 +2079,9 @@ void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
 		while (indexStart <= indexEnd && isspace(textUTF8[indexStart]))
 			indexStart++;
 		}
-	
-	
-	
+
+
+
 	// Trim the right
 	//
 	// In UTF8, a multi-byte sequence always has the high bit set in every
@@ -2054,29 +2094,29 @@ void NString::TrimWhitespaceUTF8(bool fromLeft, bool fromRight)
 		while (indexEnd >= indexStart && isspace(textUTF8[indexEnd]))
 			indexEnd--;
 		}
-	
-	
-	
+
+
+
 	// Update our state
 	if (indexStart != 0 || indexEnd != (theSize-1))
 		{
-		theSize = indexEnd - indexStart + 1;
+		theSize                                             = indexEnd - indexStart + 1;
 		if (theSize <= 0)
 			Clear();
 		else
-			*this = NString(&textUTF8[indexStart], theSize);
+ * this                                                     = NString(&textUTF8[indexStart], theSize);
 		}
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::TrimWhitespaceGeneric : Trim whitespace from a generic string.
-//----------------------------------------------------------------------------
-void NString::TrimWhitespaceGeneric(bool fromLeft, bool fromRight)
-{	NIndex				theSize, indexStart, indexEnd;
+   //============================================================================
+   //		NString::TrimWhitespaceGeneric : Trim whitespace from a generic string.
+   //----------------------------------------------------------------------------
+   void NString::TrimWhitespaceGeneric(bool fromLeft, bool fromRight)
+   {	NIndex				theSize, indexStart, indexEnd;
 	NUnicodeParser		theParser;
 
 
@@ -2087,11 +2127,11 @@ void NString::TrimWhitespaceGeneric(bool fromLeft, bool fromRight)
 
 
 	// Get the state we need
-	theParser = GetParser();
-	theSize   = theParser.GetSize();
+	theParser                                               = GetParser();
+	theSize                                                 = theParser.GetSize();
 
-	indexStart = 0;
-	indexEnd   = theSize - 1;
+	indexStart                                              = 0;
+	indexEnd                                                = theSize - 1;
 
 
 
@@ -2101,59 +2141,59 @@ void NString::TrimWhitespaceGeneric(bool fromLeft, bool fromRight)
 		while (indexStart <= indexEnd && theParser.IsSpace(theParser.GetChar(indexStart)))
 			indexStart++;
 		}
-	
-	
-	
+
+
+
 	// Trim the right
 	if (fromRight)
 		{
 		while (indexEnd >= indexStart && theParser.IsSpace(theParser.GetChar(indexEnd)))
 			indexEnd--;
 		}
-	
-	
-	
+
+
+
 	// Update our state
 	if (indexStart != 0 || indexEnd != (theSize-1))
 		{
-		theSize = indexEnd - indexStart + 1;
+		theSize                                             = indexEnd - indexStart + 1;
 		if (theSize <= 0)
 			Clear();
 		else
-			*this = GetString(theParser, NRange(indexStart, theSize));
+ * this                                                     = GetString(theParser, NRange(indexStart, theSize));
 		}
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::GetCharacterOffset : Get the offset of a character.
-//----------------------------------------------------------------------------
-NIndex NString::GetCharacterOffset(const NRangeList *theRanges, NIndex byteOffset) const
-{	NIndex		n, numItems;
+   //============================================================================
+   //      NString::GetCharacterOffset : Get the offset of a character.
+   //----------------------------------------------------------------------------
+   NIndex NString::GetCharacterOffset(const NRangeList *theRanges, NIndex byteOffset) const
+   {	NIndex		n, numItems;
 
 
 
 	// Locate the offset
-	numItems = (NIndex) theRanges->size();
-	
-	for (n = 0; n < numItems; n++)
+	numItems                                                = (NIndex) theRanges->size();
+
+	for (n                                                  = 0; n < numItems; n++)
 		{
 		if (theRanges->at(n).GetLocation() == byteOffset)
 			return(n);
 		}
-	
-	
-	
+
+
+
 	// Handle last character
 	//
 	// We allow the byte beyond the last character to be requested, which returns
 	// a fake character one beyond the last character (so that a suitable range
 	// can be calculated which takes in the last character).
-	n = theRanges->back().GetNext();
-	
+	n                                                       = theRanges->back().GetNext();
+
 	if (byteOffset == n)
 		return(numItems);
 
@@ -2163,17 +2203,17 @@ NIndex NString::GetCharacterOffset(const NRangeList *theRanges, NIndex byteOffse
 	NN_LOG("Unable to lcoate character at offset %d", byteOffset);
 
 	return(kNIndexNone);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::GetBestEncoding : Get the best encoding for a string.
-//----------------------------------------------------------------------------
-NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding) const
-{	NStringEncoding			bestEncoding;
+   //============================================================================
+   //      NString::GetBestEncoding : Get the best encoding for a string.
+   //----------------------------------------------------------------------------
+   NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding theEncoding) const
+   {	NStringEncoding			bestEncoding;
 	NIndex					n, theSize;
 	NUnicodeParser			theParser;
 	const utf32_t			*chars32;
@@ -2187,7 +2227,7 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 	// Get the state we need
 	if (theParser.GetBOM(theData, bomRange) == kNStringEncodingInvalid)
-		bomRange = kNRangeNone;
+		bomRange                                            = kNRangeNone;
 
 
 
@@ -2200,18 +2240,18 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 		case kNStringEncodingMacRoman:
 		case kNStringEncodingISOLatin1:
 		case kNStringEncodingWindowsLatin1:
-			theSize      = theData.GetSize() / ((NIndex) sizeof(utf8_t));
-			chars8       = (const utf8_t *) theData.GetData();
-			bestEncoding = kNStringEncodingUTF8;
-			
-			for (n = 0; n < theSize; n++)
+			theSize                                         = theData.GetSize() / ((NIndex) sizeof(utf8_t));
+			chars8                                          = (const utf8_t *) theData.GetData();
+			bestEncoding                                    = kNStringEncodingUTF8;
+
+			for (n                                          = 0; n < theSize; n++)
 				{
 				if (bomRange.Contains(n))
 					continue;
-					
+
 				if (((uint32_t) chars8[n]) > kNASCIIMax)
 					{
-					bestEncoding = kNStringEncodingUTF16;
+					bestEncoding                            = kNStringEncodingUTF16;
 					break;
 					}
 				}
@@ -2221,19 +2261,19 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 		case kNStringEncodingUTF16:
 		case kNStringEncodingUTF16BE:
 		case kNStringEncodingUTF16LE:
-			theSize      = theData.GetSize() / ((NIndex) sizeof(utf16_t));
-			chars16      = (const utf16_t *) theData.GetData();
-			bestEncoding = kNStringEncodingUTF8;
-			
-			for (n = 0; n < theSize; n++)
+			theSize                                         = theData.GetSize() / ((NIndex) sizeof(utf16_t));
+			chars16                                         = (const utf16_t *) theData.GetData();
+			bestEncoding                                    = kNStringEncodingUTF8;
+
+			for (n                                          = 0; n < theSize; n++)
 				{
 				if (bomRange.Contains(n))
 					continue;
 
-				char16 = theParser.GetNativeUTF16(chars16[n], theEncoding);
+				char16                                      = theParser.GetNativeUTF16(chars16[n], theEncoding);
 				if (((uint32_t) char16) > kNASCIIMax)
 					{
-					bestEncoding = kNStringEncodingUTF16;
+					bestEncoding                            = kNStringEncodingUTF16;
 					break;
 					}
 				}
@@ -2243,19 +2283,19 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 		case kNStringEncodingUTF32:
 		case kNStringEncodingUTF32BE:
 		case kNStringEncodingUTF32LE:
-			theSize      = theData.GetSize() / ((NIndex) sizeof(utf32_t));
-			chars32      = (const utf32_t *) theData.GetData();
-			bestEncoding = kNStringEncodingUTF8;
-			
-			for (n = 0; n < theSize; n++)
+			theSize                                         = theData.GetSize() / ((NIndex) sizeof(utf32_t));
+			chars32                                         = (const utf32_t *) theData.GetData();
+			bestEncoding                                    = kNStringEncodingUTF8;
+
+			for (n                                          = 0; n < theSize; n++)
 				{
 				if (bomRange.Contains(n))
 					continue;
-					
-				char32 = theParser.GetNativeUTF32(chars32[n], theEncoding);
+
+				char32                                      = theParser.GetNativeUTF32(chars32[n], theEncoding);
 				if (((uint32_t) char32) > kNASCIIMax)
 					{
-					bestEncoding = kNStringEncodingUTF16;
+					bestEncoding                            = kNStringEncodingUTF16;
 					break;
 					}
 				}
@@ -2264,27 +2304,27 @@ NStringEncoding NString::GetBestEncoding(const NData &theData, NStringEncoding t
 
 		default:
 			NN_LOG("Unknown encoding: %d", theEncoding);
-			bestEncoding = kNStringEncodingUTF16;
+			bestEncoding                                    = kNStringEncodingUTF16;
 			break;
 		}
-	
+
 	return(bestEncoding);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::GetWhitespacePattern : Get a whitespace pattern.
-//----------------------------------------------------------------------------
-NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &theFlags) const
-{	NString		thePattern;
+   //============================================================================
+   //      NString::GetWhitespacePattern : Get a whitespace pattern.
+   //----------------------------------------------------------------------------
+   NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &theFlags) const
+   {	NString		thePattern;
 
 
 
 	// Get the state we need
-	thePattern = theString;
+	thePattern                                              = theString;
 
 
 
@@ -2307,38 +2347,38 @@ NString NString::GetWhitespacePattern(const NString &theString, NStringFlags &th
 		theFlags &= ~kNStringPattern;
 
 	return(thePattern);
-}
+   }
 
 
 
 
 
-//============================================================================
-//        NString::GetParser : Get a parser.
-//----------------------------------------------------------------------------
-NUnicodeParser NString::GetParser(void) const
-{	const NStringValue		*theValue;
+   //============================================================================
+   //        NString::GetParser : Get a parser.
+   //----------------------------------------------------------------------------
+   NUnicodeParser NString::GetParser(void) const
+   {	const NStringValue		*theValue;
 	NUnicodeParser			theParser;
 
 
 
 	// Get the parser
-	theValue = GetImmutable();
+	theValue                                                = GetImmutable();
 
 	theParser.Parse(theValue->theData, theValue->theEncoding);
 
 	return(theParser);
-}
+   }
 
 
 
 
 
-//============================================================================
-//      NString::GetNumber : Get a number.
-//----------------------------------------------------------------------------
-uint64_t NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, utf32_t theChar) const
-{	uint64_t	theNumber;
+   //============================================================================
+   //      NString::GetNumber : Get a number.
+   //----------------------------------------------------------------------------
+   uint64_t NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, NIndex theSize, utf32_t theChar) const
+   {	uint64_t	theNumber;
 
 
 
@@ -2349,18 +2389,18 @@ uint64_t NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, N
 
 
 	// Get the number
-	theNumber = 0;
+	theNumber                                               = 0;
 
 	while (true)
 		{
 		NN_ASSERT(theNumber <= (kUInt64Max/10));
-		theNumber = (theNumber * 10) + (theChar - (utf32_t) '0');
+		theNumber                                           = (theNumber * 10) + (theChar - (utf32_t) '0');
 
 		theIndex++;
 		if (theIndex == theSize)
 			break;
-		
-		theChar = theParser.GetChar(theIndex);
+
+		theChar                                             = theParser.GetChar(theIndex);
 		if (!theParser.IsDigit(theChar))
 			break;
 		}
@@ -2373,17 +2413,17 @@ uint64_t NString::GetNumber(const NUnicodeParser &theParser, NIndex &theIndex, N
 	theIndex--;
 
 	return(theNumber);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetString : Get a substring.
-//----------------------------------------------------------------------------
-NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRange) const
-{	NRange					finalRange, byteRange;
+   //============================================================================
+   //		NString::GetString : Get a substring.
+   //----------------------------------------------------------------------------
+   NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRange) const
+   {	NRange					finalRange, byteRange;
 	const NStringValue		*theValue;
 	NString					theResult;
 	NData					theData;
@@ -2391,8 +2431,8 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 
 
 	// Get the state we need
-	theValue   = GetImmutable();
-	finalRange = GetNormalized(theRange);
+	theValue                                                = GetImmutable();
+	finalRange                                              = GetNormalized(theRange);
 
 	if (finalRange.IsEmpty())
 		return(theResult);
@@ -2400,28 +2440,28 @@ NString NString::GetString(const NUnicodeParser &theParser, const NRange &theRan
 
 
 	// Extract the string
-	byteRange = theParser.GetRange(finalRange);
-	theData   = theValue->theData.GetData(byteRange);
+	byteRange                                               = theParser.GetRange(finalRange);
+	theData                                                 = theValue->theData.GetData(byteRange);
 	theResult.SetData(theData, theValue->theEncoding);
 
 	return(theResult);
-}
+   }
 
 
 
 
 
-//============================================================================
-//		NString::GetConstantString : Get a string constant.
-//----------------------------------------------------------------------------
-NString NString::GetConstantString(const utf8_t *theText)
-{
+   //============================================================================
+   //		NString::GetConstantString : Get a string constant.
+   //----------------------------------------------------------------------------
+   NString NString::GetConstantString(const utf8_t *theText)
+   {
 	// Eternals
 	//
 	// These must never be freed, otherwise they could be used after
 	// they have been destroyed during static destruction
-	static NConstantStringMap & sTable = *(new NConstantStringMap);
-	static NMutex &             sLock  = *(new NMutex);
+	static NConstantStringMap & sTable                      = *(new NConstantStringMap);
+	static NMutex &             sLock                       = *(new NMutex);
 
 	StLock								lockMutex(sLock);
 	NString								theString;
@@ -2432,7 +2472,7 @@ NString NString::GetConstantString(const utf8_t *theText)
 	// Get the string
 	//
 	// Constant strings are cached by their pointer, which must persist.
-	theIter = sTable.find(theText);
+	theIter                                                 = sTable.find(theText);
 
 	if (theIter != sTable.end())
 		{
@@ -2441,7 +2481,7 @@ NString NString::GetConstantString(const utf8_t *theText)
 		// To help detect bugs where a mutable pointer was incorrectly passed to
 		// the no-copy constructor, we validate that the input pointer still
 		// matches the cached string in terms of content.
-		theString = theIter->second;
+		theString                                           = theIter->second;
 		NN_ASSERT(strcmp(theText, theString.GetUTF8()) == 0);
 		}
 	else
@@ -2451,13 +2491,15 @@ NString NString::GetConstantString(const utf8_t *theText)
 		// Before inserting into the cache we calculate the string's hash code,
 		// ensuring that the cached string won't need to become mutable if its
 		// hash code is ever needed for a comparison.
-		theString = NString(theText, kNStringLength, kNStringEncodingUTF8);
+		theString                                           = NString(theText, kNStringLength, kNStringEncodingUTF8);
 		theString.GetHash();
-	
-		sTable[theText] = theString;
+
+		sTable[theText]                                     = theString;
 		}
-	
+
 	return(theString);
-}
+   }
 
 
+ */
+// Nano 3.x implementation
