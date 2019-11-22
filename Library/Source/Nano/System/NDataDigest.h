@@ -54,7 +54,7 @@
 // Data digest
 //
 // Template to implement a digest of a fixed size.
-template <size_t S>
+template <size_t N>
 class NDigestX
 {
 public:
@@ -63,7 +63,7 @@ public:
 										NDigestX();
 
 										NDigestX( const NDigestX&    otherDigest);
-	NDigestX<S>&                        operator=(const NDigestX<S>& otherDigest);
+	NDigestX<N>&                        operator=(const NDigestX<N>& otherDigest);
 
 
 	// Is the digest valid?
@@ -92,7 +92,7 @@ public:
 
 
 private:
-	uint8_t                             mBytes[S / 8];
+	uint8_t                             mBytes[N / 8];
 };
 
 

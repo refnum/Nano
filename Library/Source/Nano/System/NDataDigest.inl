@@ -57,11 +57,11 @@
 //=============================================================================
 //		NDigestX::NDigestX : Constructor.
 //-----------------------------------------------------------------------------
-template <size_t S>
-NDigestX<S>::NDigestX(size_t theSize, const uint8_t* thePtr)
+template <size_t N>
+NDigestX<N>::NDigestX(size_t theSize, const uint8_t* thePtr)
 	: mBytes{}
 {
-	NN_REQUIRE(theSize == S);
+	NN_REQUIRE(theSize == N);
 	memcpy(&mBytes, thePtr, sizeof(mBytes));
 }
 
@@ -72,11 +72,11 @@ NDigestX<S>::NDigestX(size_t theSize, const uint8_t* thePtr)
 //=============================================================================
 //		NDigestX::NDigestX : Constructor.
 //-----------------------------------------------------------------------------
-template <size_t S>
-NDigestX<S>::NDigestX()
+template <size_t N>
+NDigestX<N>::NDigestX()
 	: mBytes{}
 {
-	static_assert(sizeof(*this) == (S / 8), "NDigestX is not packed!");
+	static_assert(sizeof(*this) == (N / 8), "NDigestX is not packed!");
 }
 
 
@@ -86,8 +86,8 @@ NDigestX<S>::NDigestX()
 //=============================================================================
 //		NDigestX::NDigestX : Constructor.
 //-----------------------------------------------------------------------------
-template <size_t S>
-NDigestX<S>::NDigestX(const NDigestX& otherDigest)
+template <size_t N>
+NDigestX<N>::NDigestX(const NDigestX& otherDigest)
 	: mBytes{}
 {
 	operator=(otherDigest);
@@ -100,8 +100,8 @@ NDigestX<S>::NDigestX(const NDigestX& otherDigest)
 //=============================================================================
 //		NDigestX::operator= : Assignment operator.
 //-----------------------------------------------------------------------------
-template <size_t S>
-NDigestX<S>& NDigestX<S>::operator=(const NDigestX<S>& otherDigest)
+template <size_t N>
+NDigestX<N>& NDigestX<N>::operator=(const NDigestX<N>& otherDigest)
 {
 
 
@@ -121,8 +121,8 @@ NDigestX<S>& NDigestX<S>::operator=(const NDigestX<S>& otherDigest)
 //=============================================================================
 //		NDigestX::IsValid : Is the digest valid?
 //-----------------------------------------------------------------------------
-template <size_t S>
-bool NDigestX<S>::IsValid() const
+template <size_t N>
+bool NDigestX<N>::IsValid() const
 {
 
 
@@ -145,8 +145,8 @@ bool NDigestX<S>::IsValid() const
 //=============================================================================
 //		NDigestX::Clear : Clear the digest.
 //-----------------------------------------------------------------------------
-template <size_t S>
-void NDigestX<S>::Clear()
+template <size_t N>
+void NDigestX<N>::Clear()
 {
 
 
@@ -161,8 +161,8 @@ void NDigestX<S>::Clear()
 //=============================================================================
 //		NDigestX::GetData : Get the data.
 //-----------------------------------------------------------------------------
-template <size_t S>
-NData NDigestX<S>::GetData() const
+template <size_t N>
+NData NDigestX<N>::GetData() const
 {
 
 
@@ -177,18 +177,18 @@ NData NDigestX<S>::GetData() const
 //=============================================================================
 //		NDigestX::SetData : Set the data.
 //-----------------------------------------------------------------------------
-template <size_t S>
-void NDigestX<S>::SetData(const NData& theData)
+template <size_t N>
+void NDigestX<N>::SetData(const NData& theData)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(theData.GetSize() == S);
+	NN_REQUIRE(theData.GetSize() == N);
 
 
 
 	// Set the data
-	memcpy(mBytes, theData.GetData(), S);
+	memcpy(mBytes, theData.GetData(), N);
 }
 
 
@@ -198,8 +198,8 @@ void NDigestX<S>::SetData(const NData& theData)
 //=============================================================================
 //		NDigestX::GetBytes : Get the bytes.
 //-----------------------------------------------------------------------------
-template <size_t S>
-const uint8_t* NDigestX<S>::GetBytes() const
+template <size_t N>
+const uint8_t* NDigestX<N>::GetBytes() const
 {
 
 
@@ -214,8 +214,8 @@ const uint8_t* NDigestX<S>::GetBytes() const
 //=============================================================================
 //		NDigestX::GetMutableBytes : Get mutable access to the bytes.
 //-----------------------------------------------------------------------------
-template <size_t S>
-uint8_t* NDigestX<S>::GetMutableBytes()
+template <size_t N>
+uint8_t* NDigestX<N>::GetMutableBytes()
 {
 
 
@@ -230,8 +230,8 @@ uint8_t* NDigestX<S>::GetMutableBytes()
 //=============================================================================
 //		NDigestX::operator< : Less-than operator.
 //-----------------------------------------------------------------------------
-template <size_t S>
-bool NDigestX<S>::operator<(const NDigestX<S>& otherDigest) const
+template <size_t N>
+bool NDigestX<N>::operator<(const NDigestX<N>& otherDigest) const
 {
 
 
@@ -246,8 +246,8 @@ bool NDigestX<S>::operator<(const NDigestX<S>& otherDigest) const
 //=============================================================================
 //		NDigestX::operator> : Greater-than operator.
 //-----------------------------------------------------------------------------
-template <size_t S>
-bool NDigestX<S>::operator>(const NDigestX<S>& otherDigest) const
+template <size_t N>
+bool NDigestX<N>::operator>(const NDigestX<N>& otherDigest) const
 {
 
 
@@ -262,8 +262,8 @@ bool NDigestX<S>::operator>(const NDigestX<S>& otherDigest) const
 //=============================================================================
 //		NDigestX::operator== : Equality operator.
 //-----------------------------------------------------------------------------
-template <size_t S>
-bool NDigestX<S>::operator==(const NDigestX<S>& otherDigest) const
+template <size_t N>
+bool NDigestX<N>::operator==(const NDigestX<N>& otherDigest) const
 {
 
 
@@ -278,8 +278,8 @@ bool NDigestX<S>::operator==(const NDigestX<S>& otherDigest) const
 //=============================================================================
 //		NDigestX::operator!= : Inequaliy operator.
 //-----------------------------------------------------------------------------
-template <size_t S>
-bool NDigestX<S>::operator!=(const NDigestX<S>& otherDigest) const
+template <size_t N>
+bool NDigestX<N>::operator!=(const NDigestX<N>& otherDigest) const
 {
 
 
