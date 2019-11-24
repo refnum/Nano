@@ -953,25 +953,49 @@ void NData::MakeShared(size_t      theCapacity,
 
 
 
-	// Create the data
+	// Check for an existing block
 	//
-	// We use malloc to avoid unnecessary fill overhead when the data is
-	// about to be overwritten / does not need initialisation.
+	// If we are the sole owner of an existing block then we can reuse
+	// that block (and potentially its data) when adjusting the capacity.
+	NDataBlock* existingBlock = nullptr;
+	const void* existingData  = nullptr;
+
+	if (IsShared() && mShared.theBlock->numOwners == 1)
+	{
+		// Switching to a view
+		//
+		// If we are switching to a view onto external data then we must
+		// release any existing daa owned by the block.
+		if (theSource == NDataSource::View && mShared.theBlock->ownedData)
+		{
+			free(const_cast<uint8_t*>(mShared.theBlock->theData));
+			mShared.theBlock->theData = nullptr;
+		}
+
+
+		// Get the state we need
+		existingBlock = mShared.theBlock;
+		existingData  = mShared.theBlock->theData;
+	}
+
+
+
+	// Create the data
 	void* newData = nullptr;
 
 	switch (theSource)
 	{
 		case NDataSource::Copy:
-			newData = malloc(theCapacity);
+			newData = MemAllocate(theCapacity, existingData, false);
 			memcpy(newData, theData, theSize);
 			break;
 
 		case NDataSource::Zero:
-			newData = calloc(1, theCapacity);
+			newData = MemAllocate(theCapacity, existingData, true);
 			break;
 
 		case NDataSource::None:
-			newData = malloc(theCapacity);
+			newData = MemAllocate(theCapacity, existingData, false);
 			break;
 
 		case NDataSource::View:
@@ -982,17 +1006,25 @@ void NData::MakeShared(size_t      theCapacity,
 
 
 	// Create the block
-	NDataBlock* theBlock = new NDataBlock{};
+	NDataBlock* theBlock = existingBlock;
+
+	if (theBlock == nullptr)
+	{
+		theBlock = new NDataBlock{};
+	}
 
 	theBlock->numOwners = 1;
 	theBlock->ownedData = (theSource != NDataSource::View);
 	theBlock->theSize   = theCapacity;
-	theBlock->theData   = static_cast<const uint8_t*>(newData);
+	theBlock->theData   = static_cast<uint8_t*>(newData);
 
 
 
 	// Switch to shared data
-	Clear();
+	if (existingBlock == nullptr)
+	{
+		Clear();
+	}
 
 	mShared.theBlock = theBlock;
 	mShared.theData  = theBlock->theData;
@@ -1110,6 +1142,54 @@ void NData::MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataSourc
 			// Do nothing
 			break;
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NData::MemAllocate : Allocate bytes.
+//-----------------------------------------------------------------------------
+void* NData::MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theSize != 0);
+
+
+
+	// Allocate the memory
+	//
+	// Zero'd memory is allocated with calloc so that larger allocations
+	// can be provided by zero'd pages rather than malloc+memset.
+	//
+	// Otherwise we use realloc to avoid any unnecessary fill when the
+	// data is about to be overwritten or does not need initialisation.
+	//
+	// realloc can also avoid a malloc+memcpy+free if the existing data
+	// sits within some larger underlying allocation.
+	void* newPtr = nullptr;
+
+	if (zeroMem)
+	{
+		if (existingPtr == nullptr)
+		{
+			newPtr = calloc(1, theSize);
+		}
+		else
+		{
+			newPtr = realloc(const_cast<void*>(existingPtr), theSize);
+			memset(newPtr, 0x00, theSize);
+		}
+	}
+	else
+	{
+		newPtr = realloc(const_cast<void*>(existingPtr), theSize);
+	}
+
+	return newPtr;
 }
 
 

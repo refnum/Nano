@@ -248,7 +248,8 @@ private:
 	void                                ReleaseShared();
 
 	void                                AdoptData(const NData& otherData);
-	void                                MemCopy(void* dstPtr, const void* srcPtr, size_t theSize, NDataSource theSource);
+	void                                MemCopy(void* dstPtr,       const void* srcPtr, size_t theSize, NDataSource theSource);
+	void*                               MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem);
 
 	size_t                              GetSizeSmall()  const;
 	size_t                              GetSizeShared() const;
