@@ -100,9 +100,9 @@ struct NDataStorageSmall
 	uint8_t theData[31];
 };
 
-struct NDataStorageShared
+struct NDataStorageLarge
 {
-	struct NDataBlock* theBlock;
+	struct NDataState* theState;
 	const uint8_t*     theData;
 	NRange             theSlice;
 };
@@ -234,50 +234,50 @@ public:
 
 
 private:
-	bool                                IsSmall()  const;
-	bool                                IsShared() const;
+	bool                                IsSmall() const;
+	bool                                IsLarge() const;
 
 	bool                                IsValidRange(const NRange& theRange) const;
 	bool                                IsValidOffset(size_t theOffset)      const;
 	bool                                IsValidSource(size_t theSize,   const void* theData, NDataSource theSource) const;
 
 	void                                MakeMutable();
-	void                                MakeShared(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
+	void                                MakeLarge(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
 
-	void                                RetainShared();
-	void                                ReleaseShared();
+	void                                RetainLarge();
+	void                                ReleaseLarge();
 
 	void                                AdoptData(const NData& otherData);
 	void                                MemCopy(void* dstPtr,       const void* srcPtr, size_t theSize, NDataSource theSource);
 	void*                               MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem);
 
-	size_t                              GetSizeSmall()  const;
-	size_t                              GetSizeShared() const;
+	size_t                              GetSizeSmall() const;
+	size_t                              GetSizeLarge() const;
 
-	void                                SetSizeSmall( size_t theSize);
-	void                                SetSizeShared(size_t theSize);
+	void                                SetSizeSmall(size_t theSize);
+	void                                SetSizeLarge(size_t theSize);
 
-	size_t                              GetCapacitySmall()  const;
-	size_t                              GetCapacityShared() const;
+	size_t                              GetCapacitySmall() const;
+	size_t                              GetCapacityLarge() const;
 
-	void                                SetCapacitySmall( size_t theCapacity);
-	void                                SetCapacityShared(size_t theCapacity);
+	void                                SetCapacitySmall(size_t theCapacity);
+	void                                SetCapacityLarge(size_t theCapacity);
 
-	const uint8_t*                      GetDataSmall( size_t theOffset) const;
-	const uint8_t*                      GetDataShared(size_t theOffset) const;
+	const uint8_t*                      GetDataSmall(size_t theOffset) const;
+	const uint8_t*                      GetDataLarge(size_t theOffset) const;
 
-	void                                SetDataSmall( size_t theSize, const void* theData, NDataSource theSource);
-	void                                SetDataShared(size_t theSize, const void* theData, NDataSource theSource);
+	void                                SetDataSmall(size_t theSize, const void* theData, NDataSource theSource);
+	void                                SetDataLarge(size_t theSize, const void* theData, NDataSource theSource);
 
-	void                                RemoveDataSmall( const NRange& theRange);
-	void                                RemoveDataShared(const NRange& theRange);
+	void                                RemoveDataSmall(const NRange& theRange);
+	void                                RemoveDataLarge(const NRange& theRange);
 
 
 private:
 	union
 	{
-		NDataStorageSmall  mSmall;
-		NDataStorageShared mShared;
+		NDataStorageSmall mSmall;
+		NDataStorageLarge mLarge;
 	};
 };
 
