@@ -62,6 +62,8 @@ NDigestX<N>::NDigestX(size_t theSize, const uint8_t* thePtr)
 	: mBytes{}
 {
 	NN_REQUIRE(theSize == N);
+	NN_UNUSED(theSize);
+
 	memcpy(&mBytes, thePtr, sizeof(mBytes));
 }
 
