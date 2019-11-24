@@ -68,6 +68,7 @@ Nano_Warnings = $(inherited) -Wno-gnu-zero-variadic-macro-arguments
 Nano_Warnings = $(inherited) -Wno-packed
 Nano_Warnings = $(inherited) -Wno-padded
 Nano_Warnings = $(inherited) -Wno-return-std-move-in-c++11
+Nano_Warnings = $(inherited) -Wno-switch-enum
 Nano_Warnings = $(inherited) -Wno-unreachable-code-break
 Nano_Warnings = $(inherited) -Wno-weak-vtables
 
