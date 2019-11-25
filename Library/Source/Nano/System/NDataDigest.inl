@@ -361,11 +361,18 @@ size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t prevVa
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
 	// Get the digest
+	size_t theDigest = prevValue;
+
+	if (theSize != 0)
+	{
 #if NN_ARCH_64
-	return XXH64(thePtr, theSize, prevValue);
+		theDigest = XXH64(thePtr, theSize, prevValue);
 #else
-	return XXH32(thePtr, theSize, prevValue);
+		theDigest      = XXH32(thePtr, theSize, prevValue);
 #endif
+	}
+
+	return theDigest;
 
 #pragma clang diagnostic pop
 }
@@ -383,11 +390,18 @@ uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, uint32_t 
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
 	// Get the digest
+	uint32_t theDigest = prevValue;
+
+	if (theSize != 0)
+	{
 #if NN_ARCH_64
-	return uint32_t(XXH64(thePtr, theSize, prevValue));
+		theDigest = uint32_t(XXH64(thePtr, theSize, prevValue));
 #else
-	return XXH32(thePtr, theSize, prevValue);
+		theDigest      = XXH32(thePtr, theSize, prevValue);
 #endif
+	}
+
+	return theDigest;
 
 #pragma clang diagnostic pop
 }
@@ -404,15 +418,23 @@ uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
-	// Get the digest
-#if NN_ARCH_64
-	return XXH64(thePtr, theSize, prevValue);
-#else
-	uint32_t hash1 = XXH32(thePtr, theSize, prevValue);
-	uint32_t hash2 = XXH32(thePtr, theSize, hash1);
 
-	return (uint64_t(hash1) << 32) | uint64_t(hash2);
+	// Get the digest
+	uint64_t theDigest = prevValue;
+
+	if (theDigest != 0)
+	{
+#if NN_ARCH_64
+		theDigest = XXH64(thePtr, theSize, prevValue);
+#else
+		uint32_t hash1 = XXH32(thePtr, theSize, prevValue);
+		uint32_t hash2 = XXH32(thePtr, theSize, hash1);
+
+		theDigest = (uint64_t(hash1) << 32) | uint64_t(hash2);
 #endif
+	}
+
+	return theDigest;
 
 #pragma clang diagnostic pop
 }
@@ -432,21 +454,30 @@ NDigest128 NDataDigest::GetRuntime128(size_t            theSize,
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
 	// Get the state we need
+	NDigest128   theDigest;
 	XXH64_hash_t xxSeed64 = 0;
 
 	if (prevValue != nullptr)
 	{
-		memcpy(&xxSeed64, prevValue->GetBytes(), sizeof(xxSeed64));
+		theDigest = *prevValue;
+
+		static_assert(sizeof(xxSeed64) < sizeof(theDigest));
+		memcpy(&xxSeed64, theDigest.GetBytes(), sizeof(xxSeed64));
 	}
 
 
 	// Get the digest
 	//
-	// xxh3 has yet to be finalised but still be used as a runtime hash.
-	XXH128_hash_t xxDigest128 = XXH128(thePtr, theSize, xxSeed64);
+	// xxh3 has yet to be finalised but is safe to use as a runtime hash.
+	if (theSize != 0)
+	{
+		XXH128_hash_t xxDigest128 = XXH128(thePtr, theSize, xxSeed64);
 
-	static_assert(sizeof(xxDigest128) == sizeof(NDigest128));
-	return NDigest128(sizeof(xxDigest128), reinterpret_cast<const uint8_t*>(&xxDigest128));
+		static_assert(sizeof(xxDigest128) == sizeof(NDigest128));
+		theDigest = NDigest128(sizeof(xxDigest128), reinterpret_cast<const uint8_t*>(&xxDigest128));
+	}
+
+	return theDigest;
 
 #pragma clang diagnostic pop
 }

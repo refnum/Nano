@@ -220,7 +220,17 @@ uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t p
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
-	return XXH32(thePtr, theSize, prevValue);
+
+
+	// Get the digest
+	uint32_t theDigest = prevValue;
+
+	if (theSize != 0)
+	{
+		theDigest = XXH32(thePtr, theSize, prevValue);
+	}
+
+	return theDigest;
 
 #pragma clang diagnostic pop
 }
@@ -237,7 +247,14 @@ uint64_t NDataDigest::GetXXHash64(size_t theSize, const void* thePtr, uint64_t p
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 
-	return XXH64(thePtr, theSize, prevValue);
+	uint64_t theDigest = prevValue;
+
+	if (theSize != 0)
+	{
+		theDigest = XXH64(thePtr, theSize, prevValue);
+	}
+
+	return theDigest;
 
 #pragma clang diagnostic pop
 }
