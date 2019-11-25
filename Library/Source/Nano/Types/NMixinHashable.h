@@ -47,18 +47,27 @@
 
 
 //=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// "None" hash
+//
+// The hash of nothing is always kNHashNone.
+static constexpr size_t kNHashNone                          = 0;
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 template <class T>
 class NMixinHashable
 {
 public:
-										NMixinHashable();
-
-
 	// Get the hash value
 	//
-	// Hash values may change between builds and so should not be serialised.
+	// Hash values are runtime-specific and must not be serialised.
 	size_t                              GetHash() const;
 
 
@@ -66,14 +75,11 @@ public:
 	void                                ClearHash();
 
 
-	// Calculate the hash
+public:
+	// Fetch the hash
 	//
 	// Must be implemented by derived classes.
-	size_t                              CalculateHash() const;
-
-
-private:
-	mutable size_t                      mHash;
+	size_t&                             FetchHash(bool updateHash) const;
 };
 
 

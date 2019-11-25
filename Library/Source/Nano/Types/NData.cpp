@@ -92,6 +92,7 @@ struct NDataState
 //-----------------------------------------------------------------------------
 NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 	: mSmall{kSmallEmpty, {}}
+	, mHash(kNHashNone)
 {
 	// Initialise ourselves
 	SetData(theSize, theData, theSource);
@@ -106,6 +107,7 @@ NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 //-----------------------------------------------------------------------------
 NData::NData()
 	: mSmall{kSmallEmpty, {}}
+	, mHash(kNHashNone)
 {
 	// Validate our state
 	static_assert(sizeof(NDataStorageSmall) == 32);
@@ -775,14 +777,19 @@ const NData NData::operator+(const NData& theValue) const
 
 
 //=============================================================================
-//		NData::CalculateHash : Calculate the hash.
+//		NData::FetchHash : Fetch the hash.
 //-----------------------------------------------------------------------------
-size_t NData::CalculateHash() const
+size_t& NData::FetchHash(bool updateHash) const
 {
 
 
-	// Get the hash
-	return NDataDigest::GetRuntime(GetSize(), GetData());
+	// Fetch the hash
+	if (updateHash)
+	{
+		mHash = NDataDigest::GetRuntime(GetSize(), GetData());
+	}
+
+	return mHash;
 }
 
 

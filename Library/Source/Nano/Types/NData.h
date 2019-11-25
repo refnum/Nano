@@ -229,8 +229,9 @@ public:
 	const NData                         operator+( const NData& theValue) const;
 
 
-	// Calculate the hash
-	size_t                              CalculateHash() const;
+public:
+	// Fetch the hash
+	size_t&                             FetchHash(bool updateHash) const;
 
 
 private:
@@ -279,6 +280,8 @@ private:
 		NDataStorageSmall mSmall;
 		NDataStorageLarge mLarge;
 	};
+
+	mutable size_t                      mHash;
 };
 
 

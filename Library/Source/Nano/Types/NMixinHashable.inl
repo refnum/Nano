@@ -46,36 +46,6 @@
 
 
 //=============================================================================
-//		Internal Constants
-//-----------------------------------------------------------------------------
-// "None" hash
-//
-// We want to allow zero as a valid hash value (e.g., as the hash of an
-// empty value), so we pick a random non-zero value to use as our marker.
-//
-// Any such marker could collide with a genuine hash however in the event
-// of a collision the only side effect will be that the hashed value is
-// effectively uncached.
-static constexpr size_t kNHashNone                          = size_t(0xcde21de8810e5cb7ULL);
-
-
-
-
-
-//=============================================================================
-//		NMixinHashable::NMixinHashable : Constructor.
-//-----------------------------------------------------------------------------
-template <typename T>
-NMixinHashable<T>::NMixinHashable()
-	: mHash(kNHashNone)
-{
-}
-
-
-
-
-
-//=============================================================================
 //		NMixinHashable::GetHash : Get the hash value.
 //-----------------------------------------------------------------------------
 template <typename T>
@@ -83,19 +53,16 @@ size_t NMixinHashable<T>::GetHash() const
 {
 
 
-	// Update the hash
-	if (mHash != kNHashNone)
-	{
-		auto thisObject = static_cast<const T&>(*this);
+	// Get the hash
+	const T& thisObject = static_cast<const T&>(*this);
+	size_t   theHash    = thisObject.FetchHash(false);
 
-		mHash = thisObject.CalculateHash();
-		NN_EXPECT(mHash != kNHashNone);
+	if (theHash == kNHashNone)
+	{
+		theHash = thisObject.FetchHash(true);
 	}
 
-
-
-	// Get the hash
-	return mHash;
+	return theHash;
 }
 
 
@@ -111,5 +78,7 @@ void NMixinHashable<T>::ClearHash()
 
 
 	// Clear the hash
-	mHash = kNHashNone;
+	const T& thisObject = static_cast<const T&>(*this);
+
+	thisObject.FetchHash(false) = kNHashNone;
 }
