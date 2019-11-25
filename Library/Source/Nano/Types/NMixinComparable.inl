@@ -129,7 +129,7 @@ bool NMixinComparable<T>::operator>(const T& theValue) const
 template <typename T>
 NComparison NMixinComparable<T>::CompareTo(const T& theValue) const
 {
-	auto thisObject = static_cast<const T&>(*this);
+	const T& thisObject = static_cast<const T&>(*this);
 
 	return thisObject.Compare(theValue);
 }

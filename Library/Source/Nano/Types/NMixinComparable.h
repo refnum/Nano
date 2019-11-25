@@ -78,6 +78,7 @@ public:
 	bool                                operator>( const T& theValue) const;
 
 
+public:
 	// Compare an object
 	//
 	// Must be implemented by derived classes.
