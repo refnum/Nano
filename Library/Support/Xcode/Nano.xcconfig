@@ -124,19 +124,20 @@ DEAD_CODE_STRIPPING_Debug				= NO
 DEAD_CODE_STRIPPING_Release				= YES
 DEAD_CODE_STRIPPING						= $(DEAD_CODE_STRIPPING_$(CONFIGURATION))
 
-Nano_Configuration_Debug				=
+Nano_Configuration_Common				=
+Nano_Configuration_Common				= $(inherited) -DNN_DEBUG=0
+Nano_Configuration_Common				= $(inherited) -DNN_RELEASE=0
+Nano_Configuration_Common				= $(inherited) -fconstant-cfstrings
+Nano_Configuration_Common				= $(inherited) -fno-common
+
+Nano_Configuration_Debug				= $(Nano_Configuration_Common)
 Nano_Configuration_Debug				= $(inherited) -D_FORTIFY_SOURCE=2
-Nano_Configuration_Debug				= $(inherited) -DNN_DEBUG=1
-Nano_Configuration_Debug				= $(inherited) -DNN_RELEASE=0
-Nano_Configuration_Debug				= $(inherited) -fconstant-cfstrings
-Nano_Configuration_Debug				= $(inherited) -fno-common
+Nano_Configuration_Debug				= $(inherited) -UNN_DEBUG -DNN_DEBUG=1
 Nano_Configuration_Debug				= $(inherited) -fstack-protector-all
 
-Nano_Configuration_Release				=
-Nano_Configuration_Release				= $(inherited) -DNN_DEBUG=0
-Nano_Configuration_Release				= $(inherited) -DNN_RELEASE=1
-Nano_Configuration_Release				= $(inherited) -fconstant-cfstrings
-Nano_Configuration_Release				= $(inherited) -fno-common
+Nano_Configuration_Release				= $(Nano_Configuration_Common)
+Nano_Configuration_Release				= $(inherited) -UNN_RELEASE -DNN_RELEASE=1
+Nano_Configuration_Release				= $(inherited) -fno-stack-protector
 
 Nano_Configuration						= $(Nano_Configuration_$(CONFIGURATION))
 
