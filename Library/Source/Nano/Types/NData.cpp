@@ -52,12 +52,12 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kSmallFlagIsSmall                   = 0b00000001;
-static constexpr size_t kSmallSizeMask                      = 0b11111000;
-static constexpr size_t kSmallSizeShift                     = 3;
-static constexpr size_t kSmallSizeMax                       = 31;
+static constexpr uint8_t kNDataFlagIsLarge                  = 0b00000001;
+static constexpr uint8_t kNDataSizeMask                     = 0b11111000;
+static constexpr uint8_t kNDataSizeShift                    = 3;
+static constexpr uint8_t kNDataSizeMax                      = 23;
 
-static constexpr size_t kSmallEmpty                         = kSmallFlagIsSmall;
+static constexpr uint8_t kNDataEmpty                        = 0;
 
 
 
@@ -66,19 +66,13 @@ static constexpr size_t kSmallEmpty                         = kSmallFlagIsSmall;
 //=============================================================================
 //		Internal Types
 //-----------------------------------------------------------------------------
-// Data state
+// Large data state
 //
 // Holds the state for large data.
-//
-// As the state is allocated dynamically with natural alignment we know that
-// the least significant bit of its address will always be zero.
-//
-// By placing a pointer to the state at the start of our storage union we
-// can use that bit as a flag to indicate which representation is active.
 struct NDataState
 {
 	std::atomic_size_t numOwners;
-	bool               ownedData;
+	bool               isView;
 	size_t             theSize;
 	const uint8_t*     theData;
 };
@@ -91,8 +85,7 @@ struct NDataState
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(size_t theSize, const void* theData, NDataSource theSource)
-	: mSmall{kSmallEmpty, {}}
-	, mHash(kNHashNone)
+	: mData{}
 {
 	// Initialise ourselves
 	SetData(theSize, theData, theSource);
@@ -106,18 +99,18 @@ NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData()
-	: mSmall{kSmallEmpty, {}}
-	, mHash(kNHashNone)
+	: mData{}
 {
 	// Validate our state
-	static_assert(sizeof(NDataStorageSmall) == 32);
-	static_assert(sizeof(NDataStorageLarge) == 32);
+	static_assert(sizeof(mData.Small.theData) == kNDataSizeMax);
+	static_assert(sizeof(NDataStorage) == 32);
 
-	static_assert(offsetof(NDataStorageSmall, sizeFlags) == 0);
-	static_assert(offsetof(NDataStorageLarge, theState) == 0);
+	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
+	static_assert(offsetof(NDataStorage, Large.theState) == 0);
 
-	static_assert(NN_ENDIAN_LITTLE, "NDataStorageSmall/Large no longer overlap!");
-	static_assert(alignof(std::max_align_t) > 1, "NDataState requires LSB be free!");
+	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
+	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
+	static_assert(kNDataEmpty == 0, "Small should be zero-initialised");
 }
 
 
@@ -143,10 +136,10 @@ NData::~NData()
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(const NData& otherData)
-	: mSmall{kSmallEmpty, {}}
+	: mData{}
 {
 	// Initialise ourselves
-	AdoptData(otherData);
+	MakeCopy(otherData);
 }
 
 
@@ -163,7 +156,7 @@ NData& NData::operator=(const NData& otherData)
 	// Assign the value
 	if (this != &otherData)
 	{
-		AdoptData(otherData);
+		MakeCopy(otherData);
 	}
 
 	return *this;
@@ -177,10 +170,10 @@ NData& NData::operator=(const NData& otherData)
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(NData&& otherData)
-	: mSmall{kSmallEmpty, {}}
+	: mData{}
 {
 	// Initialise ourselves
-	AdoptData(otherData);
+	MakeCopy(otherData);
 	otherData.Clear();
 }
 
@@ -199,7 +192,7 @@ NData& NData::operator=(NData&& otherData)
 	if (this != &otherData)
 	{
 		Clear();
-		AdoptData(otherData);
+		MakeCopy(otherData);
 		otherData.Clear();
 	}
 
@@ -217,22 +210,13 @@ void NData::Clear()
 {
 
 
-	// Release large data
+	// Clear the data
 	if (IsLarge())
 	{
 		ReleaseLarge();
 	}
 
-
-
-	// Reset our state
-#if NN_DEBUG
-	memset(&mSmall, 0xAA, sizeof(mSmall));
-#endif
-
-	mSmall.sizeFlags = kSmallEmpty;
-
-	ClearHash();
+	memset(&mData, 0x00, sizeof(mData));
 }
 
 
@@ -369,7 +353,6 @@ NData NData::GetData(const NRange& theRange) const
 
 	// Validate our parameters
 	NN_REQUIRE(IsValidRange(theRange));
-
 	NN_EXPECT(!theRange.IsEmpty());
 
 
@@ -385,10 +368,10 @@ NData NData::GetData(const NRange& theRange) const
 		}
 		else
 		{
-			theData.AdoptData(*this);
+			theData.MakeCopy(*this);
 			NN_REQUIRE(theData.IsLarge());
 
-			theData.mLarge.theSlice = theRange;
+			theData.mData.Large.theSlice = theRange;
 		}
 	}
 
@@ -456,6 +439,8 @@ uint8_t* NData::GetMutableData(size_t theOffset)
 		thePtr = const_cast<uint8_t*>(GetData(theOffset));
 	}
 
+	ClearHash();
+
 	return thePtr;
 }
 
@@ -477,8 +462,8 @@ void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 
 	// Set the data
 	//
-	// Views are implicitly shared, so use large data.
-	if (theSize <= kSmallSizeMax && theSource != NDataSource::View)
+	// Views are implicitly shared, so must use large data.
+	if (theSize <= kNDataSizeMax && theSource != NDataSource::View)
 	{
 		SetDataSmall(theSize, theData, theSource);
 	}
@@ -524,6 +509,7 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
 	NN_EXPECT(theSize != 0);
+
 
 
 	// Insert the data
@@ -663,24 +649,22 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 
 
-	// Replace everything
+	// Replace the data
 	if (theRange == NRange(0, GetSize()))
 	{
+		// Replace everything
 		SetData(theSize, theData, theSource);
 	}
-
-
-	// Replace a subrange
-	//
-	// If the range we're replacing is a different size than the data we are
-	// replacing it with then we need to insert filler / remove data prior
-	// to the replacement.
-	//
-	// When inserting filler we do so at the end of the area we're going to
-	// overwrite, to minimise the amount of data that needs to be moved up.
 	else
 	{
 		// Adjust the data
+		//
+		// If the range we're replacing is a different size than the data we are
+		// replacing it with then we need to insert filler / remove data prior
+		// to overwriting.
+		//
+		// Any filter is inserted at the end of the area we're going to overwrite,
+		// to minimise the amount of data that needs to be moved up.
 		size_t replacedSize = theRange.GetSize();
 
 		if (replacedSize > theSize)
@@ -786,10 +770,10 @@ size_t& NData::FetchHash(bool updateHash) const
 	// Fetch the hash
 	if (updateHash)
 	{
-		mHash = NDataDigest::GetRuntime(GetSize(), GetData());
+		mData.theHash = NDataDigest::GetRuntime(GetSize(), GetData());
 	}
 
-	return mHash;
+	return mData.theHash;
 }
 
 
@@ -805,7 +789,7 @@ bool NData::IsSmall() const
 
 
 	// Check the flag
-	return (mSmall.sizeFlags & kSmallFlagIsSmall) != 0;
+	return (mData.Small.sizeFlags & kNDataFlagIsLarge) == 0;
 }
 
 
@@ -820,7 +804,7 @@ bool NData::IsLarge() const
 
 
 	// Check the flag
-	return (mSmall.sizeFlags & kSmallFlagIsSmall) == 0;
+	return (mData.Small.sizeFlags & kNDataFlagIsLarge) != 0;
 }
 
 
@@ -888,47 +872,25 @@ bool NData::IsValidSource(size_t theSize, const void* theData, NDataSource theSo
 
 
 //=============================================================================
-//		NData::MakeMutable : Make the data mutable.
+//		NData::MakeCopy : Make a copy of another object.
 //-----------------------------------------------------------------------------
-void NData::MakeMutable()
+void NData::MakeCopy(const NData& otherData)
 {
 
 
-	// Get the state we need
-	NRange         srcSlice;
-	const uint8_t* srcData = nullptr;
-
-	if (IsLarge())
-	{
-		// If we're a view, or we're large, we need to copy the data
-		//
-		// Otherwise we are the only owner so can safely mutate in place.
-		if (mLarge.theState->numOwners != 1)
-		{
-			srcSlice = mLarge.theSlice;
-			srcData  = mLarge.theData;
-		}
-	}
+	// Validate our parameters and state
+	NN_REQUIRE(this != &otherData);
+	NN_REQUIRE(IsSmall());
 
 
 
 	// Copy the data
-	//
-	// Our data is mutable once we own the only copy.
-	if (!srcSlice.IsEmpty())
+	mData = otherData.mData;
+
+	if (IsLarge())
 	{
-		size_t srcSize = srcSlice.GetSize();
-		srcData        = srcData + srcSlice.GetLocation();
-
-		MakeLarge(srcSize, srcSize, srcData, NDataSource::Copy);
+		RetainLarge();
 	}
-
-
-
-	// Reset our hash
-	//
-	// We assume that a request for mutable access implies mutation.
-	ClearHash();
 }
 
 
@@ -959,22 +921,27 @@ void NData::MakeLarge(size_t      theCapacity,
 	NDataState* existingState = nullptr;
 	const void* existingData  = nullptr;
 
-	if (IsLarge() && mLarge.theState->numOwners == 1)
+	if (IsLarge())
 	{
-		// Switching to a view
-		//
-		// If we are switching to a view onto external data then we must
-		// release any existing data owned by the state.
-		if (theSource == NDataSource::View && mLarge.theState->ownedData)
+		NDataState* largeState = GetLarge();
+
+		if (largeState->numOwners == 1)
 		{
-			free(const_cast<uint8_t*>(mLarge.theState->theData));
-			mLarge.theState->theData = nullptr;
+			// Switching to a view
+			//
+			// If we're switching to a view, and we don't currently have
+			// a view, we need to release the existing data first.
+			if (theSource == NDataSource::View && !largeState->isView)
+			{
+				free(const_cast<uint8_t*>(largeState->theData));
+				largeState->theData = nullptr;
+			}
+
+
+			// Get the state we need
+			existingState = largeState;
+			existingData  = largeState->theData;
 		}
-
-
-		// Get the state we need
-		existingState = mLarge.theState;
-		existingData  = mLarge.theState->theData;
 	}
 
 
@@ -1013,7 +980,7 @@ void NData::MakeLarge(size_t      theCapacity,
 	}
 
 	theState->numOwners = 1;
-	theState->ownedData = (theSource != NDataSource::View);
+	theState->isView    = (theSource == NDataSource::View);
 	theState->theSize   = theCapacity;
 	theState->theData   = static_cast<uint8_t*>(newData);
 
@@ -1025,10 +992,86 @@ void NData::MakeLarge(size_t      theCapacity,
 		Clear();
 	}
 
-	mLarge.theState = theState;
-	mLarge.theData  = theState->theData;
-	mLarge.theSlice = NRange(0, theSize);
+	SetLarge(theState, theSize);
+}
 
+
+
+
+
+//=============================================================================
+//		NData::MakeMutable : Make the data mutable.
+//-----------------------------------------------------------------------------
+void NData::MakeMutable()
+{
+
+
+	// Copy the data
+	//
+	// Small data is always mutable, as we own the only copy.
+	//
+	// Large data of which we are the only owner can be mutated in place.
+	//
+	// Large data that's shared by other objects, or which is a view onto
+	// exernal data, must be copied to allow mutation.
+	if (IsLarge())
+	{
+		const NDataState* largeState = GetLarge();
+
+		if (largeState->isView || largeState->numOwners != 1)
+		{
+			NRange         srcSlice = mData.Large.theSlice;
+			size_t         srcSize  = srcSlice.GetSize();
+			const uint8_t* srcData  = largeState->theData + srcSlice.GetLocation();
+
+			MakeLarge(srcSize, srcSize, srcData, NDataSource::Copy);
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NData::GetLarge : Get the large state.
+//-----------------------------------------------------------------------------
+NDataState* NData::GetLarge()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Get the large state
+	const NDataState* theState = mData.Large.theState;
+	uintptr_t statePtr = reinterpret_cast<uintptr_t>(theState) & ~uintptr_t(kNDataFlagIsLarge);
+
+	return reinterpret_cast<NDataState*>(statePtr);
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetLarge : Get the large state.
+//-----------------------------------------------------------------------------
+void NData::SetLarge(NDataState* theState, size_t theSize)
+{
+
+
+	// Set the large state
+	uintptr_t statePtr = reinterpret_cast<uintptr_t>(theState) | uintptr_t(kNDataFlagIsLarge);
+
+	mData.Large.theState = reinterpret_cast<NDataState*>(statePtr);
+	mData.Large.theSlice = NRange(0, theSize);
+
+
+
+	// Validate our state
 	NN_REQUIRE(IsLarge());
 }
 
@@ -1045,12 +1088,17 @@ void NData::RetainLarge()
 
 	// Validate our state
 	NN_REQUIRE(IsLarge());
-	NN_REQUIRE(mLarge.theState->numOwners != 0);
+
+
+
+	// Get the state we need
+	NDataState* largeState = GetLarge();
+	NN_REQUIRE(largeState->numOwners != 0);
 
 
 
 	// Retain the state
-	mLarge.theState->numOwners += 1;
+	largeState->numOwners += 1;
 }
 
 
@@ -1066,52 +1114,27 @@ void NData::ReleaseLarge()
 
 	// Validate our state
 	NN_REQUIRE(IsLarge());
-	NN_REQUIRE(mLarge.theState->numOwners != 0);
+
+
+
+	// Get the state we need
+	NDataState* largeState = GetLarge();
+	NN_REQUIRE(largeState->numOwners != 0);
 
 
 
 	// Release the state
 	//
-	// The last owner releases the state and the data, if we own it.
-	if (mLarge.theState->numOwners.fetch_sub(1) == 1)
+	// The last owner releases the state, and any data that we own.
+	if (largeState->numOwners.fetch_sub(1) == 1)
 	{
-		if (mLarge.theState->ownedData)
+		if (!largeState->isView)
 		{
-			free(const_cast<uint8_t*>(mLarge.theState->theData));
+			free(const_cast<uint8_t*>(largeState->theData));
 		}
 
-		delete mLarge.theState;
+		delete largeState;
 	}
-}
-
-
-
-
-
-//=============================================================================
-//		NData::AdoptData : Adopt the data from another object.
-//-----------------------------------------------------------------------------
-void NData::AdoptData(const NData& otherData)
-{
-
-
-	// Validate our parameters and state
-	NN_REQUIRE(this != &otherData);
-	NN_REQUIRE(mSmall.sizeFlags == kSmallEmpty);
-
-
-
-	// Adopt the data
-	mSmall = otherData.mSmall;
-
-	if (IsLarge())
-	{
-		RetainLarge();
-	}
-
-
-	// Update our state
-	ClearHash();
 }
 
 
@@ -1164,7 +1187,7 @@ void* NData::MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem)
 	// Zero'd memory is allocated with calloc so that larger allocations
 	// can be provided by zero'd pages rather than malloc+memset.
 	//
-	// Otherwise we use realloc to avoid any unnecessary fill when the
+	// Other allocations use realloc to avoid any unnecessary fill when the
 	// data is about to be overwritten or does not need initialisation.
 	//
 	// realloc can also avoid a malloc+memcpy+free if the existing data
@@ -1210,8 +1233,7 @@ size_t NData::GetSizeSmall() const
 	// Get the size
 	//
 	// The size is stored in the top bits of the storage flag byte.
-	size_t theSize = ((mSmall.sizeFlags & kSmallSizeMask) >> kSmallSizeShift);
-	return theSize;
+	return (mData.Small.sizeFlags & kNDataSizeMask) >> kNDataSizeShift;
 }
 
 
@@ -1231,7 +1253,7 @@ size_t NData::GetSizeLarge() const
 
 
 	// Get the size
-	return mLarge.theSlice.GetSize();
+	return mData.Large.theSlice.GetSize();
 }
 
 
@@ -1252,18 +1274,18 @@ void NData::SetSizeSmall(size_t theSize)
 	// Set small size
 	//
 	// The size is stored in the top bits of the storage flag byte.
-	if (theSize <= kSmallSizeMax)
+	if (theSize <= kNDataSizeMax)
 	{
-		mSmall.sizeFlags = uint8_t((theSize << kSmallSizeShift) | kSmallFlagIsSmall);
+		mData.Small.sizeFlags = uint8_t(theSize << kNDataSizeShift);
 	}
 
 
 	// Switch to large
 	//
-	// Copy the small data into large storage, then resize as required.
+	// Copy the small data into new large storage, then resize as required.
 	else
 	{
-		MakeLarge(theSize, GetSizeSmall(), mSmall.theData, NDataSource::Copy);
+		MakeLarge(theSize, GetSizeSmall(), mData.Small.theData, NDataSource::Copy);
 		SetSizeLarge(theSize);
 	}
 }
@@ -1284,23 +1306,38 @@ void NData::SetSizeLarge(size_t theSize)
 
 
 
-	// Reduce the size
-	if (theSize <= mLarge.theSlice.GetSize())
+	// Switch to small size
+	//
+	// A reduction below the small threshold means a change in storage.
+	if (theSize <= kNDataSizeMax)
 	{
-		mLarge.theSlice.SetSize(theSize);
+		SetDataSmall(theSize, GetData(), NDataSource::Copy);
 	}
 
 
-	// Increase the size
+	// Reduce large size
+	//
+	// A reduction below our current size means a change in slice.
+	else if (theSize <= mData.Large.theSlice.GetSize())
+	{
+		mData.Large.theSlice.SetSize(theSize);
+	}
+
+
+	// Increase large size
+	//
+	// Anything else increases our slice, and potentially our storage.
 	else
 	{
 		// We can use our storage
 		//
 		// If the requested size is within our data, and we are the only
 		// owner of this state, we can just expand our slice.
-		if (theSize <= mLarge.theState->theSize && mLarge.theState->numOwners == 1)
+		NDataState* largeState = GetLarge();
+
+		if (theSize <= largeState->theSize && largeState->numOwners == 1)
 		{
-			mLarge.theSlice.SetSize(theSize);
+			mData.Large.theSlice.SetSize(theSize);
 		}
 
 
@@ -1309,8 +1346,11 @@ void NData::SetSizeLarge(size_t theSize)
 		// Copy the large data into a new larger copy, then adjust our slice.
 		else
 		{
-			MakeLarge(theSize, mLarge.theSlice.GetSize(), mLarge.theData, NDataSource::Copy);
-			mLarge.theSlice.SetSize(theSize);
+			MakeLarge(theSize,
+					  mData.Large.theSlice.GetSize(),
+					  largeState->theData,
+					  NDataSource::Copy);
+			mData.Large.theSlice.SetSize(theSize);
 		}
 	}
 }
@@ -1332,7 +1372,7 @@ size_t NData::GetCapacitySmall() const
 
 
 	// Get the capacity
-	return kSmallSizeMax;
+	return kNDataSizeMax;
 }
 
 
@@ -1352,7 +1392,12 @@ size_t NData::GetCapacityLarge() const
 
 
 	// Get the capacity
-	return mLarge.theState->theSize;
+	//
+	// We can cast away const as we only need to read the capacity.
+	NData*      thisData   = const_cast<NData*>(this);
+	NDataState* largeState = thisData->GetLarge();
+
+	return largeState->theSize;
 }
 
 
@@ -1373,9 +1418,11 @@ void NData::SetCapacitySmall(size_t theCapacity)
 
 	// Set small capacity
 	//
-	// Small storage has a fixed capacity, but if the new capacity is
-	// under our size we need to reduce our size to match the behaviour
-	// of large storage.
+	// If the requested capacity is less than our current size then
+	// our size must be reduced accordingly.
+	//
+	// This gives us consistent behaviour with large storage, even
+	// though small storage always reports a fixed capacity.
 	size_t theSize = GetSizeSmall();
 
 	if (theCapacity < theSize)
@@ -1388,9 +1435,9 @@ void NData::SetCapacitySmall(size_t theCapacity)
 	// Switch to large
 	//
 	// Larger data must be stored externally.
-	else if (theCapacity > kSmallSizeMax)
+	else if (theCapacity > kNDataSizeMax)
 	{
-		MakeLarge(theCapacity, theSize, mSmall.theData, NDataSource::Copy);
+		MakeLarge(theCapacity, theSize, mData.Small.theData, NDataSource::Copy);
 	}
 }
 
@@ -1411,9 +1458,10 @@ void NData::SetCapacityLarge(size_t theCapacity)
 
 
 	// Set the capacity
-	size_t theSize = std::min(mLarge.theSlice.GetSize(), theCapacity);
+	size_t      theSize    = std::min(mData.Large.theSlice.GetSize(), theCapacity);
+	NDataState* largeState = GetLarge();
 
-	MakeLarge(theCapacity, theSize, mLarge.theData, NDataSource::Copy);
+	MakeLarge(theCapacity, theSize, largeState->theData, NDataSource::Copy);
 }
 
 
@@ -1429,12 +1477,12 @@ const uint8_t* NData::GetDataSmall(size_t theOffset) const
 
 	// Validate our state
 	NN_REQUIRE(IsSmall());
-	NN_REQUIRE(theOffset <= kSmallSizeMax);
+	NN_REQUIRE(theOffset <= kNDataSizeMax);
 
 
 
 	// Get the data
-	return &mSmall.theData[theOffset];
+	return &mData.Small.theData[theOffset];
 }
 
 
@@ -1450,12 +1498,17 @@ const uint8_t* NData::GetDataLarge(size_t theOffset) const
 
 	// Validate our state
 	NN_REQUIRE(IsLarge());
-	NN_REQUIRE(theOffset < mLarge.theSlice.GetSize());
+	NN_REQUIRE(theOffset < mData.Large.theSlice.GetSize());
 
 
 
 	// Get the data
-	return &mLarge.theData[mLarge.theSlice.GetOffset(theOffset)];
+	//
+	// We can cast away const as we restore it in our result.
+	NData*      thisData   = const_cast<NData*>(this);
+	NDataState* largeState = thisData->GetLarge();
+
+	return &largeState->theData[mData.Large.theSlice.GetOffset(theOffset)];
 }
 
 
@@ -1470,7 +1523,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 
 
 	// Validate our parameters
-	NN_REQUIRE(theSize <= kSmallSizeMax);
+	NN_REQUIRE(theSize <= kNDataSizeMax);
 	NN_REQUIRE(theSource != NDataSource::View);
 
 
@@ -1480,7 +1533,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 	// Even if the new data is within our data we can just copy it to the start.
 	if (IsSmall())
 	{
-		MemCopy(mSmall.theData, theData, theSize, theSource);
+		MemCopy(mData.Small.theData, theData, theSize, theSource);
 	}
 
 
@@ -1493,11 +1546,11 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 	// to small storage once we release the state.
 	else
 	{
-		NDataStorageSmall tmpData;
+		uint8_t tmpData[kNDataSizeMax];
 
-		MemCopy(tmpData.theData, theData, theSize, theSource);
+		MemCopy(tmpData, theData, theSize, theSource);
 		ReleaseLarge();
-		MemCopy(mSmall.theData, tmpData.theData, theSize, theSource);
+		MemCopy(mData.Small.theData, tmpData, theSize, theSource);
 	}
 
 
@@ -1532,20 +1585,21 @@ void NData::SetDataLarge(size_t theSize, const void* theData, NDataSource theSou
 		uintptr_t srcFirst = reinterpret_cast<uintptr_t>(theData);
 		uintptr_t srcLast  = srcFirst + theSize - 1;
 
-		uintptr_t ourFirst = reinterpret_cast<uintptr_t>(mLarge.theData);
-		uintptr_t ourLast  = ourFirst + mLarge.theState->theSize - 1;
+		NDataState* largeState = GetLarge();
+		uintptr_t   largeFirst = reinterpret_cast<uintptr_t>(largeState->theData);
+		uintptr_t   largeLast  = largeFirst + largeState->theSize - 1;
 
-		bool withinOurData = (srcFirst >= ourFirst && srcFirst <= ourLast) &&
-							 (srcLast >= ourFirst && srcLast <= ourLast);
+		bool withinLargeData = (srcFirst >= largeFirst && srcFirst <= largeLast) &&
+							   (srcLast >= largeFirst && srcLast <= largeLast);
 
 
 		// Adjust our slice
 		//
 		// If the source is within our data, and we're not clearing the
 		// data, we can simply adjust our slice.
-		if (withinOurData && theSource != NDataSource::Zero)
+		if (withinLargeData && theSource != NDataSource::Zero)
 		{
-			mLarge.theSlice.SetRange(srcFirst - ourFirst, theSize);
+			mData.Large.theSlice.SetRange(srcFirst - largeFirst, theSize);
 		}
 
 
@@ -1554,10 +1608,10 @@ void NData::SetDataLarge(size_t theSize, const void* theData, NDataSource theSou
 		//
 		// If we're the only owner of our data, and the new data would
 		// fit, copy into into our existing allocation.
-		else if (mLarge.theState->theSize >= theSize && mLarge.theState->numOwners == 1)
+		else if (largeState->theSize >= theSize && largeState->numOwners == 1)
 		{
-			MemCopy(const_cast<uint8_t*>(mLarge.theData), theData, theSize, theSource);
-			mLarge.theSlice.SetRange(0, theSize);
+			MemCopy(const_cast<uint8_t*>(largeState->theData), theData, theSize, theSource);
+			mData.Large.theSlice.SetRange(0, theSize);
 		}
 
 
@@ -1590,7 +1644,7 @@ void NData::RemoveDataSmall(const NRange& theRange)
 
 	// Remove from the front/middle
 	//
-	// Removal from the end is simply our final size adjustment.
+	// Removal from the end is handled by our final size adjustment.
 	size_t oldSize = GetSizeSmall();
 	size_t newSize = oldSize - theRange.GetSize();
 
@@ -1600,7 +1654,7 @@ void NData::RemoveDataSmall(const NRange& theRange)
 		size_t srcOffset = theRange.GetNext();
 		size_t srcSize   = oldSize - srcOffset;
 
-		memmove(&mSmall.theData[dstoffset], &mSmall.theData[srcOffset], srcSize);
+		memmove(&mData.Small.theData[dstoffset], &mData.Small.theData[srcOffset], srcSize);
 	}
 
 	SetSizeSmall(newSize);
@@ -1622,22 +1676,27 @@ void NData::RemoveDataLarge(const NRange& theRange)
 
 
 
+	// Get the state we need
+	NRange& largeSlice = mData.Large.theSlice;
+
+
 	// Remove from the front
 	//
 	// Remove by adjusting our slice.
 	if (theRange.GetLocation() == 0)
 	{
-		mLarge.theSlice.SetLocation(theRange.GetNext());
-		mLarge.theSlice.SetSize(mLarge.theSlice.GetSize() - theRange.GetSize());
+		largeSlice.SetLocation(theRange.GetNext());
+		largeSlice.SetSize(largeSlice.GetSize() - theRange.GetSize());
 	}
+
 
 
 	// Remove from the end
 	//
 	// Remove by adjusting our slice
-	else if (theRange.GetLast() == mLarge.theSlice.GetLast())
+	else if (theRange.GetLast() == largeSlice.GetLast())
 	{
-		mLarge.theSlice.SetSize(mLarge.theSlice.GetSize() - theRange.GetSize());
+		largeSlice.SetSize(largeSlice.GetSize() - theRange.GetSize());
 	}
 
 
@@ -1649,9 +1708,9 @@ void NData::RemoveDataLarge(const NRange& theRange)
 
 		size_t dstoffset = theRange.GetFirst();
 		size_t srcOffset = theRange.GetNext();
-		size_t srcSize   = mLarge.theSlice.GetSize() - srcOffset;
+		size_t srcSize   = largeSlice.GetSize() - srcOffset;
 
 		memmove(&theData[dstoffset], &theData[srcOffset], srcSize);
-		mLarge.theSlice.SetSize(mLarge.theSlice.GetSize() - theRange.GetSize());
+		largeSlice.SetSize(largeSlice.GetSize() - theRange.GetSize());
 	}
 }

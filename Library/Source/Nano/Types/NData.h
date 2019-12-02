@@ -61,13 +61,13 @@
 //
 // Data may be supplied to an object in several different ways:
 //
-//		NDataNDataSource::Copy			Copy the data
+//		NDataSource::Copy			Copy the data
 //
-//		NDataNDataSource::Zero			Treat the source as zero-filled
+//		NDataSource::Zero			Treat the source as zero-filled
 //
-//		NDataNDataSource::None			Treat the source as uninitialised
+//		NDataSource::None			Treat the source as uninitialised
 //
-//		NDataNDataSource::View			Create a view onto external data
+//		NDataSource::View			Create a view onto external data
 //
 // The pointer for Zero and None is unused and so may be nullptr.
 //
@@ -89,22 +89,31 @@ enum NDataSource
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// NData storage
+// Data storage
 //
-// Small amounts of data are stored directly within an NData object.
+// Small amounts of data are stored directly within the object.
 //
-// Larger amounts are shared between objects, using copy-on-write.
-struct NDataStorageSmall
+// Larger amounts of data are a view onto shared immutable state.
+//
+// 16-byte alignment allows storage init/copy operations to be vectorised.
+struct alignas(16) NDataStorage
 {
-	uint8_t sizeFlags;
-	uint8_t theData[31];
-};
+	union
+	{
+		struct
+		{
+			uint8_t sizeFlags;
+			uint8_t theData[23];
+		} Small;
 
-struct NDataStorageLarge
-{
-	struct NDataState* theState;
-	const uint8_t*     theData;
-	NRange             theSlice;
+		struct
+		{
+			struct NDataState* theState;
+			NRange             theSlice;
+		} Large;
+	};
+
+	mutable size_t theHash;
 };
 
 
@@ -158,7 +167,8 @@ public:
 
 	// Get the data
 	//
-	// Immutable access is preferred. Mutable access may need to copy the data.
+	// Immutable access is preferred. Mutable access to larger data
+	// objects need to copy the data.
 	//
 	// Returns nullptr if the offset is outside the buffer.
 	NData                               GetData(const NRange& theRange)      const;
@@ -242,13 +252,15 @@ private:
 	bool                                IsValidOffset(size_t theOffset)      const;
 	bool                                IsValidSource(size_t theSize,   const void* theData, NDataSource theSource) const;
 
-	void                                MakeMutable();
+	void                                MakeCopy(const NData& otherData);
 	void                                MakeLarge(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
+	void                                MakeMutable();
 
+	NDataState*                         GetLarge();
+	void                                SetLarge(NDataState* theState, size_t theSize);
 	void                                RetainLarge();
 	void                                ReleaseLarge();
 
-	void                                AdoptData(const NData& otherData);
 	void                                MemCopy(void* dstPtr,       const void* srcPtr, size_t theSize, NDataSource theSource);
 	void*                               MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem);
 
@@ -275,13 +287,7 @@ private:
 
 
 private:
-	union
-	{
-		NDataStorageSmall mSmall;
-		NDataStorageLarge mLarge;
-	};
-
-	mutable size_t                      mHash;
+	NDataStorage                        mData;
 };
 
 
