@@ -65,6 +65,7 @@ Nano_Warnings = $(inherited) -Wno-exit-time-destructors
 Nano_Warnings = $(inherited) -Wno-format-nonliteral
 Nano_Warnings = $(inherited) -Wno-global-constructors
 Nano_Warnings = $(inherited) -Wno-gnu-zero-variadic-macro-arguments
+Nano_Warnings = $(inherited) -Wno-nested-anon-types
 Nano_Warnings = $(inherited) -Wno-packed
 Nano_Warnings = $(inherited) -Wno-padded
 Nano_Warnings = $(inherited) -Wno-return-std-move-in-c++11
