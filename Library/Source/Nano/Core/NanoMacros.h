@@ -63,11 +63,6 @@
 #define NN_ALIGNED_TO(_value, _size)                        ((((uintptr_t) _value) % _size) == 0)
 
 
-// Is a bit set?
-#define NN_TEST_BIT(_value, _mask)                          (((_value) & (_mask)) == (_mask))
-
-
-
 // Force inlining
 //
 // Example:
