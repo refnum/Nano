@@ -53,9 +53,9 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 static constexpr uint8_t kNDataFlagIsLarge                  = 0b00000001;
-static constexpr uint8_t kNDataSizeMask                     = 0b11111000;
-static constexpr uint8_t kNDataSizeShift                    = 3;
-static constexpr uint8_t kNDataSizeMax                      = 23;
+static constexpr uint8_t kNDataSmallSizeMask                = 0b11111000;
+static constexpr uint8_t kNDataSmallSizeShift               = 3;
+static constexpr uint8_t kNDataSmallSizeMax                 = 23;
 
 static constexpr uint8_t kNDataEmpty                        = 0;
 
@@ -102,7 +102,7 @@ NData::NData()
 	: mData{}
 {
 	// Validate our state
-	static_assert(sizeof(mData.Small.theData) == kNDataSizeMax);
+	static_assert(sizeof(mData.Small.theData) == kNDataSmallSizeMax);
 	static_assert(sizeof(NDataStorage) == 32);
 
 	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
@@ -463,7 +463,7 @@ void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 	// Set the data
 	//
 	// Views are implicitly shared, so must use large data.
-	if (theSize <= kNDataSizeMax && theSource != NDataSource::View)
+	if (theSize <= kNDataSmallSizeMax && theSource != NDataSource::View)
 	{
 		SetDataSmall(theSize, theData, theSource);
 	}
@@ -1233,7 +1233,7 @@ size_t NData::GetSizeSmall() const
 	// Get the size
 	//
 	// The size is stored in the top bits of the storage flag byte.
-	return (mData.Small.sizeFlags & kNDataSizeMask) >> kNDataSizeShift;
+	return (mData.Small.sizeFlags & kNDataSmallSizeMask) >> kNDataSmallSizeShift;
 }
 
 
@@ -1274,9 +1274,9 @@ void NData::SetSizeSmall(size_t theSize)
 	// Set small size
 	//
 	// The size is stored in the top bits of the storage flag byte.
-	if (theSize <= kNDataSizeMax)
+	if (theSize <= kNDataSmallSizeMax)
 	{
-		mData.Small.sizeFlags = uint8_t(theSize << kNDataSizeShift);
+		mData.Small.sizeFlags = uint8_t(theSize << kNDataSmallSizeShift);
 	}
 
 
@@ -1309,7 +1309,7 @@ void NData::SetSizeLarge(size_t theSize)
 	// Switch to small size
 	//
 	// A reduction below the small threshold means a change in storage.
-	if (theSize <= kNDataSizeMax)
+	if (theSize <= kNDataSmallSizeMax)
 	{
 		SetDataSmall(theSize, GetData(), NDataSource::Copy);
 	}
@@ -1372,7 +1372,7 @@ size_t NData::GetCapacitySmall() const
 
 
 	// Get the capacity
-	return kNDataSizeMax;
+	return kNDataSmallSizeMax;
 }
 
 
@@ -1435,7 +1435,7 @@ void NData::SetCapacitySmall(size_t theCapacity)
 	// Switch to large
 	//
 	// Larger data must be stored externally.
-	else if (theCapacity > kNDataSizeMax)
+	else if (theCapacity > kNDataSmallSizeMax)
 	{
 		MakeLarge(theCapacity, theSize, mData.Small.theData, NDataSource::Copy);
 	}
@@ -1477,7 +1477,7 @@ const uint8_t* NData::GetDataSmall(size_t theOffset) const
 
 	// Validate our state
 	NN_REQUIRE(IsSmall());
-	NN_REQUIRE(theOffset <= kNDataSizeMax);
+	NN_REQUIRE(theOffset <= kNDataSmallSizeMax);
 
 
 
@@ -1523,7 +1523,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 
 
 	// Validate our parameters
-	NN_REQUIRE(theSize <= kNDataSizeMax);
+	NN_REQUIRE(theSize <= kNDataSmallSizeMax);
 	NN_REQUIRE(theSource != NDataSource::View);
 
 
@@ -1546,7 +1546,7 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 	// to small storage once we release the state.
 	else
 	{
-		uint8_t tmpData[kNDataSizeMax];
+		uint8_t tmpData[kNDataSmallSizeMax];
 
 		MemCopy(tmpData, theData, theSize, theSource);
 		ReleaseLarge();
