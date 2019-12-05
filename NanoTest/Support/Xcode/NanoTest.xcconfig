@@ -11,5 +11,5 @@ USER_HEADER_SEARCH_PATHS				= $(Nano_UHSP)
 //		Linker
 //-----------------------------------------------------------------------------
 PRODUCT_NAME							= NanoTest_$(NANO_PLATFORM)
-OTHER_LDFLAGS							= $(inherited) -lNano_$(NANO_PLATFORM)
+OTHER_LDFLAGS							= $(inherited) $(Nano_LinkFlags)
 

@@ -99,6 +99,7 @@ Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Targets"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Network"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/System"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Threads"
+Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Time"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Types"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Utilities"
 
@@ -160,5 +161,7 @@ OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings) $(Nano_Configuration)
 //=============================================================================
 //		Linker
 //-----------------------------------------------------------------------------
+Nano_LinkFlags							= -framework CoreFoundation -lNano_$(NANO_PLATFORM)
+
 PRODUCT_NAME							= Nano_$(NANO_PLATFORM)
 

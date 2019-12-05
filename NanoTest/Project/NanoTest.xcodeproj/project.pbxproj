@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
+		AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
+		AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB2000D223876EB900CAB0F1 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
 		AB2000D323876EB900CAB0F1 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
 		AB2000D423876EBA00CAB0F1 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
@@ -90,6 +93,7 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest_macOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_macOS; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtils.cpp; sourceTree = "<group>"; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
@@ -156,7 +160,6 @@
 		AB514DCA1034184B00E5A6AD /* TSystemUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSystemUtilities.cpp; sourceTree = "<group>"; };
 		AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtilities.cpp; sourceTree = "<group>"; };
 		AB514DCE1034184B00E5A6AD /* TThreadUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadUtilities.cpp; sourceTree = "<group>"; };
-		AB514DD01034184B00E5A6AD /* TTimeUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtilities.cpp; sourceTree = "<group>"; };
 		AB514DD51034184B00E5A6AD /* TNSSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSSingleton.mm; sourceTree = "<group>"; };
 		AB514DD71034184B00E5A6AD /* TCFArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFArray.cpp; sourceTree = "<group>"; };
 		AB514DD91034184B00E5A6AD /* TCFData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFData.cpp; sourceTree = "<group>"; };
@@ -268,6 +271,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AB0DBE7523999C1700F6AD43 /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */,
+			);
+			path = Time;
+			sourceTree = "<group>";
+		};
 		AB328C8217612CBF00782F40 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +362,7 @@
 				AB481C6D12A539690052C55F /* Network */,
 				AB514D801034184B00E5A6AD /* System */,
 				AB514D911034184B00E5A6AD /* Threads */,
+				AB0DBE7523999C1700F6AD43 /* Time */,
 				AB514D9E1034184B00E5A6AD /* Types */,
 				AB514DC31034184B00E5A6AD /* Utilities */,
 			);
@@ -486,7 +498,6 @@
 				AB514DCA1034184B00E5A6AD /* TSystemUtilities.cpp */,
 				AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */,
 				AB514DCE1034184B00E5A6AD /* TThreadUtilities.cpp */,
-				AB514DD01034184B00E5A6AD /* TTimeUtilities.cpp */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -708,6 +719,7 @@
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
+				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +738,7 @@
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
+				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +757,7 @@
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
+				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
