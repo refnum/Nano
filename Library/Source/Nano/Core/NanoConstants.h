@@ -55,7 +55,7 @@
 //		Constants
 //-----------------------------------------------------------------------------
 // Indices
-static constexpr kNNotFound                                 = size_t(-1);
+static constexpr size_t kNNotFound                          = size_t(-1);
 
 
 // Limits
