@@ -355,4 +355,20 @@
 
 
 
+
+
+//=============================================================================
+//		Platform
+//-----------------------------------------------------------------------------
+// User Experience
+#define NN_PLATFORM_CONSOLE                                 (NN_TARGET_TVOS)
+#define NN_PLATFORM_DESKTOP                                 (NN_TARGET_LINUX || NN_TARGET_MACOS || NN_TARGET_WINDOWS)
+#define NN_PLATFORM_MOBILE                                  (NN_TARGET_IOS)
+
+
+// Platform Family
+#define NN_PLATFORM_DARWIN                                  (NN_TARGET_MACOS || NN_TARGET_IOS || NN_TARGET_TVOS)
+
+
+
 #endif // NANO_TARGET_H
