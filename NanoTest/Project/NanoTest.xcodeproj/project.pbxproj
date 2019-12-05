@@ -10,6 +10,9 @@
 		AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
+		AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
+		AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
+		AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
 		AB2000D223876EB900CAB0F1 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
 		AB2000D323876EB900CAB0F1 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
 		AB2000D423876EBA00CAB0F1 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DBB1034184B00E5A6AD /* TString.cpp */; };
@@ -715,6 +718,7 @@
 				ABBB2B6523801DBB00EB2840 /* TAssert.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB29121A2383771700509C66 /* TData.cpp in Sources */,
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
@@ -734,6 +738,7 @@
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
 				AB2912192383771600509C66 /* TData.cpp in Sources */,
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
@@ -753,6 +758,7 @@
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB29121B2383771700509C66 /* TData.cpp in Sources */,
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,

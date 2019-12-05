@@ -104,6 +104,7 @@ static constexpr NInterval kNTimeYearish                    = 60.0 * 60.0 * 24.0
 
 static constexpr NInterval kNTimeNone                       = 0.0;
 static constexpr NInterval kNTimeForever                    = -1.0;
+static constexpr NInterval kNTimeDistantFuture              = kNTimeYearish * 4000000000.0;
 
 
 // NStatus

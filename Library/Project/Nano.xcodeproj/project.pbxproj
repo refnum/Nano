@@ -71,6 +71,8 @@
 		AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtils.h; sourceTree = "<group>"; };
 		AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
+		AB0DBE7A23999E2D00F6AD43 /* NThread.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NThread.inl; sourceTree = "<group>"; };
+		AB0DBE7B2399A03400F6AD43 /* NSpinLock.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NSpinLock.inl; sourceTree = "<group>"; };
 		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
 		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
 		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
@@ -390,7 +392,6 @@
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
 		ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReadWriteLock.cpp; sourceTree = "<group>"; };
 		ABC75E601753910100BB5983 /* NReadWriteLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NReadWriteLock.h; sourceTree = "<group>"; };
-		ABC75E611753910100BB5983 /* NSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSpinLock.cpp; sourceTree = "<group>"; };
 		ABC75E621753910100BB5983 /* NSpinLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSpinLock.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
 		ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGShading.cpp; sourceTree = "<group>"; };
@@ -1022,10 +1023,11 @@
 				ABC75E601753910100BB5983 /* NReadWriteLock.h */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,
 				AB23BB5D102B67DB009CA347 /* NSemaphore.h */,
-				ABC75E611753910100BB5983 /* NSpinLock.cpp */,
 				ABC75E621753910100BB5983 /* NSpinLock.h */,
+				AB0DBE7B2399A03400F6AD43 /* NSpinLock.inl */,
 				AB1A7936103248AF00DFBA38 /* NThread.cpp */,
 				AB1A7937103248AF00DFBA38 /* NThread.h */,
+				AB0DBE7A23999E2D00F6AD43 /* NThread.inl */,
 				AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */,
 				AB1A7938103248AF00DFBA38 /* NThreadPool.h */,
 				AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */,
