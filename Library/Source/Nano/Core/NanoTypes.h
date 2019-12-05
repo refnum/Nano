@@ -64,7 +64,6 @@ using utf32_t                                               = char32_t;
 
 
 // Nano
-using NStatus                                               = int32_t;
 using NRadians                                              = float64_t;
 using NDegrees                                              = float64_t;
 using NInterval                                             = float64_t;
