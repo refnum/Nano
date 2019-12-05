@@ -1,8 +1,8 @@
 /*	NAME:
-		TThread.cpp
+		NThread.inl
 
 	DESCRIPTION:
-		NThread tests.
+		Thread object.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -39,118 +39,48 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NTestFixture.h"
-#include "NThread.h"
+#include "NanoTargets.h"
 
 
 
 
 
 //=============================================================================
-//		Constants
+//		NThread::Yield : Yield the thread.
 //-----------------------------------------------------------------------------
-// Nano 3.x
-#if 0
-static void * const kValueLocal                             = (void *) 0x12345678;
-static const NString kThreadName                            = "Main Thread";
+void NThread::Yield()
+{
+
+
+	// Yield the thread
+	std::this_thread::yield();
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::Pause : Pause the thread.
+//-----------------------------------------------------------------------------
+void NThread::Pause()
+{
+
+
+	// Pause the thread.
+	//
+	// Inserts an architecture-specific instruction that informs the CPU we
+	// are in a busy-wait loop, allowing it to adjust scheduling accordingly:
+	//
+	//	https://software.intel.com/en-us/articles/benefitting-power-and-performance-sleep-loops
+	//
+#if NN_TARGET_WINDOWS
+	YieldProcessor();
+
+#elif NN_ARCH_X86
+	__asm__ __volatile__("pause");
+
+#elif NN_ARCH_ARM
+	__asm__ __volatile__("yield");
 #endif
-
-
-
-
-
-//=============================================================================
-//		Fixture
-//-----------------------------------------------------------------------------
-NANO_FIXTURE(TThread){};
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Yield")
-{
-
-
-	// Perform the test
-	NThread::Yield();
-	NThread::Pause();
 }
-
-
-
-// Nano 3.x
-#if 0
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-TEST_NTHREAD("ID")
-{
-  NThreadID theID;
-
-
-
-  // Perform the test
-  theID = NThread::GetID();
-  REQUIRE( NThread::AreEqual(theID, theID));
-  REQUIRE(!NThread::AreEqual(theID, kNThreadIDNone));
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-TEST_NTHREAD("Name")
-{
-
-
-  // Perform the test
-  NThread::SetName(kThreadName);
-  REQUIRE(NThread::GetName() == kThreadName);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-TEST_NTHREAD("TLS")
-{
-  void                *theValue;
-  NThreadLocalRef localRef;
-
-
-
-  // Perform the test
-  localRef = NThread::CreateLocal();
-  REQUIRE(localRef != kNThreadLocalRefNone);
-
-  theValue = NThread::GetLocalValue(localRef);
-  REQUIRE(theValue == (void *) NULL);
-
-  NThread::SetLocalValue(localRef, kValueLocal);
-  theValue = NThread::GetLocalValue(localRef);
-  REQUIRE(theValue == kValueLocal);
-
-  NThread::SetLocalValue(localRef, NULL);
-  theValue = NThread::GetLocalValue(localRef);
-  REQUIRE(theValue == (void *) NULL);
-
-  NThread::DestroyLocal(localRef);
-}
-
-
-#endif

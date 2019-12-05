@@ -3,143 +3,200 @@
 
 	DESCRIPTION:
 		Thread object.
-	
+
 	COPYRIGHT:
-        Copyright (c) 2006-2013, refNum Software
-        <http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-        All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NTHREAD_HDR
-#define NTHREAD_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NFunctor.h"
-#include "NSemaphore.h"
+#ifndef NTHREAD_H
+#define NTHREAD_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// System
+#include <thread>
+
+
+
+// Nano 3.x
+#if 0
+	#include "NFunctor.h"
+	#include "NSemaphore.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
-static const NTime kNThreadSleepTime								= 10.0 * kNTimeMillisecond;
+//-----------------------------------------------------------------------------
+static const NTime kNThreadSleepTime                        = 10.0 * kNTimeMillisecond;
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Thread local value
 typedef uintptr_t NThreadLocalRef;
 typedef uintptr_t NThreadID;
 
-static const NThreadLocalRef kNThreadLocalRefNone					= (NThreadLocalRef) -1;
-static const NThreadID       kNThreadIDNone							= (NThreadID) NULL;
+static const NThreadLocalRef kNThreadLocalRefNone           = (NThreadLocalRef) -1;
+static const NThreadID kNThreadIDNone                       = (NThreadID) NULL;
 
 
 // Lists
 class NThread;
 
-typedef std::vector<NThread*>										NThreadList;
-typedef NThreadList::iterator										NThreadListIterator;
-typedef NThreadList::const_iterator									NThreadListConstIterator;
+typedef std::vector<NThread*>                                       NThreadList;
+typedef NThreadList::iterator NThreadListIterator;
+typedef NThreadList::const_iterator NThreadListConstIterator;
+
+#endif
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NThread {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NThread
+{
 public:
-										NThread(void);
-	virtual							   ~NThread(void);
-
-
-	// Is this the main thread?
-	static bool							IsMain(void);
-
-
-	// Is the thread running?
-	bool								IsRunning(void) const;
-
-
-	// Get the current thread
-	static NThreadID					GetID(void);
-
-
-	// Get/set the current thread name
-	static NString						GetName(void);
-	static void							SetName(const NString &theName);
-
-
-	// Are two thread IDs equal?
-	static bool							AreEqual(NThreadID thread1, NThreadID thread2);
-
-
-	// Get/set the auto-delete state
+	// Yield the thread
 	//
-	// Auto-delete threads will delete themselves once Run returns.
-	bool								IsAutoDelete(void) const;
-	void								SetAutoDelete(bool autoDelete);
+	// Allows the OS to schedule another thread.
+	inline static void                  Yield();
 
 
-	// Start/stop the thread
-	void								Start(void);
-	void								Stop(bool shouldWait=true);
-
-
-	// Sleep the current thread
+	// Pause the thread
 	//
-	// A sleep time of kNTimeNone indicates a request to yield the processor
-	// if desireable, rather than actually sleeping the thread.
-	static void							Sleep(NTime theTime=kNThreadSleepTime);
+	// Allows the CPU to adapt to a busy-wait loop.
+	inline static void                  Pause();
 
 
-	// Create/destroy a thread-local value
-	static NThreadLocalRef				CreateLocal(void);
-	static void							DestroyLocal(NThreadLocalRef theKey);
+// Nano 3.x
+#if 0
+NThread();
+	virtual                            ~NThread();
 
 
-	// Get/set a thread-local value
-	static void						   *GetLocalValue(NThreadLocalRef theKey);
-	static void							SetLocalValue(NThreadLocalRef theKey, void *theValue);
+// Is this the main thread?
+static bool                         IsMain();
 
 
-	// Invoke a functor on the main thread
-	//
-	// The thread will block until the functor has executed.
-	static void							InvokeMain(const NFunctor &theFunctor);
+// Is the thread running?
+bool                                IsRunning() const;
+
+
+// Get the current thread
+static NThreadID                    GetID();
+
+
+// Get/set the current thread name
+static NString                      GetName();
+static void                         SetName(const NString &theName);
+
+
+// Are two thread IDs equal?
+static bool                         AreEqual(NThreadID thread1, NThreadID thread2);
+
+
+// Get/set the auto-delete state
+//
+// Auto-delete threads will delete themselves once Run returns.
+bool                                IsAutoDelete() const;
+void                                SetAutoDelete(bool autoDelete);
+
+
+// Start/stop the thread
+void                                Start();
+void                                Stop(bool shouldWait=true);
+
+
+// Sleep the current thread
+//
+// A sleep time of kNTimeNone indicates a request to yield the processor
+// if desireable, rather than actually sleeping the thread.
+static void                         Sleep(NTime theTime=kNThreadSleepTime);
+
+
+// Create/destroy a thread-local value
+static NThreadLocalRef              CreateLocal();
+static void                         DestroyLocal(NThreadLocalRef theKey);
+
+
+// Get/set a thread-local value
+static void                        *GetLocalValue(NThreadLocalRef theKey);
+static void                         SetLocalValue(NThreadLocalRef theKey, void *theValue);
+
+
+// Invoke a functor on the main thread
+//
+// The thread will block until the functor has executed.
+static void                         InvokeMain(const NFunctor &theFunctor);
 
 
 protected:
-	// Should the thread stop?
-	bool								ShouldStop(void) const;
+// Should the thread stop?
+bool                                ShouldStop() const;
 
 
-	// Run the thread
-	virtual void						Run(void) = 0;
-
-
-private:
-	void								InvokeRun(void);
+// Run the thread
+virtual void                        Run() = 0;
 
 
 private:
-	bool								mIsRunning;
-	bool								mAutoDelete;
-	bool								mShouldStop;
+void                                InvokeRun();
+
+
+private:
+bool mIsRunning;
+bool mAutoDelete;
+bool mShouldStop;
+#endif
 };
 
 
 
-#endif // NTHREAD_HDR
 
 
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NThread.inl"
+
+
+
+#endif // NTHREAD_H
