@@ -926,13 +926,13 @@
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
 				ABB95B730FB7250100C5A7FF /* iOS */,
 				AB555160173FF8D8008D8AF6 /* Linux */,
-				AB91551D0F9B4DD5009FFEAF /* Mac */,
+				AB91551D0F9B4DD5009FFEAF /* macOS */,
 				AB91552E0F9B4DD6009FFEAF /* Windows */,
 			);
 			path = Targets;
 			sourceTree = "<group>";
 		};
-		AB91551D0F9B4DD5009FFEAF /* Mac */ = {
+		AB91551D0F9B4DD5009FFEAF /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
@@ -946,7 +946,7 @@
 				AB9155250F9B4DD6009FFEAF /* NMacThread.cpp */,
 				AB9155260F9B4DD6009FFEAF /* NMacTime.cpp */,
 			);
-			path = Mac;
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		AB91552E0F9B4DD6009FFEAF /* Windows */ = {
