@@ -57,11 +57,13 @@
 #define NN_TARGET_TVOS                                      0
 #define NN_TARGET_WINDOWS                                   0
 
+
 // Android
 #if defined(__ANDROID__)
 	#undef  NN_TARGET_ANDROID
 	#define NN_TARGET_ANDROID                               1
 #endif
+
 
 // iOS
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) &&    \
@@ -191,27 +193,28 @@
 
 // Android
 #if NN_TARGET_ANDROID
-	#if defined(__i386__) || defined(__x86_64__)
-		#undef  NN_ARCH_X86
-		#define NN_ARCH_X86                                 1
-
-	#elif defined(__arm__) || defined(__aarch64__)
+	#if defined(__arm__) || defined(__aarch64__)
 		#undef  NN_ARCH_ARM
 		#define NN_ARCH_ARM                                 1
+
+	#elif defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
 	#endif
+
 #endif
 
 
 // iOS
 #if NN_TARGET_IOS
-	#if defined(__i386__) || defined(__x86_64__)
-		#undef  NN_ARCH_X86
-		#define NN_ARCH_X86                                 1
-
-	#elif defined(__arm__) || defined(__arm64__)
+	#if defined(__arm__) || defined(__arm64__)
 		#undef  NN_ARCH_ARM
 		#define NN_ARCH_ARM                                 1
+	#elif defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
 	#endif
+
 #endif
 
 
@@ -221,7 +224,7 @@
 		#undef  NN_ARCH_ARM
 		#define NN_ARCH_ARM                                 1
 
-	#elif defined(__i386__) || defined(__x86__) || defined(__x86_64__)
+	#elif defined(__i386__) || defined(__x86_64__)
 		#undef  NN_ARCH_X86
 		#define NN_ARCH_X86                                 1
 	#endif
@@ -237,13 +240,12 @@
 
 // tvOS
 #if NN_TARGET_TVOS
-	#if defined(__i386__) || defined(__x86_64__)
-		#undef  NN_ARCH_X86
-		#define NN_ARCH_X86                                 1
-
-	#elif defined(__arm__) || defined(__arm64__)
+	#if defined(__arm__) || defined(__arm64__)
 		#undef  NN_ARCH_ARM
 		#define NN_ARCH_ARM                                 1
+	#elif defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
 	#endif
 #endif
 
@@ -274,7 +276,7 @@
 
 // Android
 #if NN_TARGET_ANDROID
-	#if defined(__x86_64__) || defined(__arm64__)
+	#if defined(__aarch64__) || defined(__x86_64__)
 		#undef  NN_ARCH_64
 		#define NN_ARCH_64                                  1
 	#else
@@ -287,7 +289,7 @@
 
 // iOS
 #if NN_TARGET_IOS
-	#if defined(__x86_64__) || defined(__aarch64__)
+	#if defined(__arm64__) || defined(__x86_64__)
 		#undef  NN_ARCH_64
 		#define NN_ARCH_64                                  1
 	#else
@@ -300,7 +302,7 @@
 
 // Linux
 #if NN_TARGET_LINUX
-	#if defined(__x86_64__) || defined(__amd64__)
+	#if defined(__aarch64__) || defined(__amd64__) || defined(__x86_64__)
 		#undef  NN_ARCH_64
 		#define NN_ARCH_64                                  1
 	#else
@@ -324,7 +326,7 @@
 
 // tvOS
 #if NN_TARGET_TVOS
-	#if defined(__x86_64__) || defined(__aarch64__)
+	#if defined(__arm64__) || defined(__x86_64__)
 		#undef  NN_ARCH_64
 		#define NN_ARCH_64                                  1
 	#else
