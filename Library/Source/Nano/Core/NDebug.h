@@ -1,8 +1,8 @@
 /*	NAME:
-		NAssert.h
+		NDebug.h
 
 	DESCRIPTION:
-		Assertions.
+		Debug logging and assrtions.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -36,21 +36,27 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NASSERT_H
-#define NASSERT_H
+#ifndef NDEBUG_H
+#define NDEBUG_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NLog.h"
+#include "NanoMacros.h"
 
 
 
 
 
 //=============================================================================
-//		Macros
+//		Configuration
 //-----------------------------------------------------------------------------
+// Logging
+//
+// Logging is enabled in debug builds.
+//
+#define NN_ENABLE_LOGGING                                   NN_DEBUG
+
+
 // Asserts
 //
 // Assertions are enabled when logging is enabled.
@@ -58,6 +64,57 @@
 #define NN_ENABLE_ASSERTIONS                                NN_ENABLE_LOGGING
 
 
+
+
+
+//=============================================================================
+//		Logging
+//-----------------------------------------------------------------------------
+// Log a message
+//
+// Example:
+//
+//		NN_LOG_INFO("This is just information.");
+//
+//		NN_LOG_WARNING("This is a warning!");
+//
+//		NN_LOG_ERROR("Something has gone wrong!");
+//
+#if NN_ENABLE_LOGGING
+
+	#define NN_LOG_INFO(...)                                            \
+		do                                                              \
+		{                                                               \
+			NanoLog(NLogLevel::Info, __FILE__, __LINE__, __VA_ARGS__);  \
+		} while (false)
+
+	#define NN_LOG_WARNING(...)                                             \
+		do                                                                  \
+		{                                                                   \
+			NanoLog(NLogLevel::Warning, __FILE__, __LINE__, __VA_ARGS__);   \
+		} while (false)
+
+	#define NN_LOG_ERROR(...)                                           \
+		do                                                              \
+		{                                                               \
+			NanoLog(NLogLevel::Error, __FILE__, __LINE__, __VA_ARGS__); \
+		} while (false)
+
+#else
+
+	#define NN_LOG_INFO(...)
+	#define NN_LOG_WARNING(...)
+	#define NN_LOG_ERROR(...)
+
+#endif
+
+
+
+
+
+//=============================================================================
+//		Assertions
+//-----------------------------------------------------------------------------
 // Requirement
 //
 // A requirement expresses a condition that must be met.
@@ -186,4 +243,31 @@
 
 
 
-#endif // NASSERT_H
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// Log levels
+//
+// The log level indicates the priority of the message.
+enum class NLogLevel
+{
+	Info,
+	Warning,
+	Error
+};
+
+
+
+
+
+//=============================================================================
+//		Public Functions
+//-----------------------------------------------------------------------------
+NN_VALIDATE_PRINTF(4, 5)
+void NanoLog(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...);
+
+
+
+#endif // NDEBUG_H

@@ -1,8 +1,8 @@
 /*	NAME:
-		NAssert.cpp
+		NDebug.cpp
 
 	DESCRIPTION:
-		Assertions.
+		Debug logging and assrtions.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -40,3 +40,28 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NDebug.h"
+
+
+// Nano
+#include "NLog.h"
+
+
+
+
+
+//=============================================================================
+//		Public Functions
+//-----------------------------------------------------------------------------
+//		NanoLog : Log a message.
+//-----------------------------------------------------------------------------
+void NanoLog(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...)
+{
+
+
+	// Log the message
+	va_list argList;
+
+	va_start(argList, theMsg);
+	NLog::Get()->Log(logLevel, filePath, lineNum, theMsg, argList);
+	va_end(argList);
+}

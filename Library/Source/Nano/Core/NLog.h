@@ -42,8 +42,9 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NDebug.h"
 #include "NLogOutput.h"
-#include "NanoMacros.h"
+#include "NSpinLock.h"
 
 // System
 #include <stdarg.h>
@@ -54,73 +55,8 @@
 
 
 //=============================================================================
-//		Macros
-//-----------------------------------------------------------------------------
-// Logging
-//
-// Logging is enabled in debug builds.
-//
-#define NN_ENABLE_LOGGING                                   NN_DEBUG
-
-
-// Log a message
-//
-// Example:
-//
-//		NN_LOG_INFO("This is just information.");
-//
-//		NN_LOG_WARNING("This is a warning!");
-//
-//		NN_LOG_ERROR("Something has gone wrong!");
-//
-#if NN_ENABLE_LOGGING
-
-	#define NN_LOG_INFO(...)                                            \
-		do                                                              \
-		{                                                               \
-			NanoLog(NLogLevel::Info, __FILE__, __LINE__, __VA_ARGS__);  \
-		} while (false)
-
-	#define NN_LOG_WARNING(...)                                             \
-		do                                                                  \
-		{                                                                   \
-			NanoLog(NLogLevel::Warning, __FILE__, __LINE__, __VA_ARGS__);   \
-		} while (false)
-
-	#define NN_LOG_ERROR(...)                                           \
-		do                                                              \
-		{                                                               \
-			NanoLog(NLogLevel::Error, __FILE__, __LINE__, __VA_ARGS__); \
-		} while (false)
-
-#else
-
-	#define NN_LOG_INFO(...)
-	#define NN_LOG_WARNING(...)
-	#define NN_LOG_ERROR(...)
-
-#endif
-
-
-
-
-
-//=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Log levels
-//
-// The log level indicates the priority of the message.
-enum class NLogLevel
-{
-	Info,
-	Warning,
-	Error
-};
-
-
-
-// Misc
 static constexpr size_t kNLogMessageMax                     = 8 * 1024;
 static constexpr size_t kNLogTokenMax                       = 128;
 
@@ -134,7 +70,7 @@ static constexpr size_t kNLogTokenMax                       = 128;
 struct NLogMessage
 {
 	const char* filePath;
-	size_t      lineNum;
+	int         lineNum;
 
 	NLogLevel logLevel;
 	char      logMsg[kNLogMessageMax];
@@ -168,7 +104,7 @@ public:
 	// Log a message
 	void                                Log(NLogLevel   logLevel,
 											const char* filePath,
-											size_t      lineNum,
+											int         lineNum,
 											const char* theMsg,
 											va_list     theArgs);
 
@@ -183,7 +119,7 @@ private:
 	void                                FormatMessage(NLogMessage& logMsg,
 													  NLogLevel    logLevel,
 													  const char*  filePath,
-													  size_t       lineNum,
+													  int          lineNum,
 													  const char*  theMsg,
 													  va_list      theArgs) const;
 
@@ -194,18 +130,9 @@ private:
 
 
 private:
+	NSpinLock                           mLock;
 	NLogOutputConsole                   mOutput;
 };
-
-
-
-
-
-//=============================================================================
-//		Public Functions
-//-----------------------------------------------------------------------------
-NN_VALIDATE_PRINTF(4, 5)
-void NanoLog(NLogLevel logLevel, const char* filePath, size_t lineNum, const char* theMsg, ...);
 
 
 

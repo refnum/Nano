@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NLog.h"
 
+// Nano
+#include "NScopedLock.h"
+
 // System
 #include <stdarg.h>
 #include <stdio.h>
@@ -62,33 +65,11 @@ static constexpr const char* kEmojiError                    = "(E)";
 
 
 //=============================================================================
-//		Public Functions
-//-----------------------------------------------------------------------------
-//		NanoLog : Log a message.
-//-----------------------------------------------------------------------------
-void NanoLog(NLogLevel logLevel, const char* filePath, size_t lineNum, const char* theMsg, ...)
-{
-
-
-	// Log the message
-	va_list argList;
-
-	va_start(argList, theMsg);
-	NLog::Get()->Log(logLevel, filePath, lineNum, theMsg, argList);
-	va_end(argList);
-}
-
-
-
-
-
-#pragma mark NLog
-//=============================================================================
 //		NLog::Log : Log a message.
 //-----------------------------------------------------------------------------
 void NLog::Log(NLogLevel   logLevel,
 			   const char* filePath,
-			   size_t      lineNum,
+			   int         lineNum,
 			   const char* theMsg,
 			   va_list     theArgs)
 {
@@ -130,6 +111,8 @@ NLog* NLog::Get()
 //-----------------------------------------------------------------------------
 void NLog::OutputMessage(const NLogMessage& logMsg)
 {
+	NScopedLock acquireLock(mLock);
+
 
 
 	// Output the message
@@ -146,7 +129,7 @@ void NLog::OutputMessage(const NLogMessage& logMsg)
 void NLog::FormatMessage(NLogMessage& logMsg,
 						 NLogLevel    logLevel,
 						 const char*  filePath,
-						 size_t       lineNum,
+						 int          lineNum,
 						 const char*  theMsg,
 						 va_list      theArgs) const
 {
@@ -252,5 +235,5 @@ void NLog::FormatSource(NLogMessage& logMsg) const
 		fileName += 1;
 	}
 
-	snprintf(logMsg.tokenSource, sizeof(logMsg.tokenSource), "%s:%zu", fileName, logMsg.lineNum);
+	snprintf(logMsg.tokenSource, sizeof(logMsg.tokenSource), "%s:%d", fileName, logMsg.lineNum);
 }
