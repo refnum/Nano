@@ -117,6 +117,7 @@
 		AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLocale.cpp; sourceTree = "<group>"; };
 		AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTIRegistry.cpp; sourceTree = "<group>"; };
 		AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
+		AB2E01C7239878AF00224E11 /* NScopedLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NScopedLock.h; sourceTree = "<group>"; };
 		AB2F38AE10CFD91700885DAE /* NWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWindows.cpp; sourceTree = "<group>"; };
 		AB2F38AF10CFD91700885DAE /* NWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWindows.h; sourceTree = "<group>"; };
 		AB328C8A17612D8400782F40 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
@@ -977,6 +978,7 @@
 				ABC75E5D1753910100BB5983 /* NMutex.cpp */,
 				ABC75E5E1753910100BB5983 /* NMutex.h */,
 				ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */,
+				AB2E01C7239878AF00224E11 /* NScopedLock.h */,
 				ABC75E601753910100BB5983 /* NReadWriteLock.h */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,
 				AB23BB5D102B67DB009CA347 /* NSemaphore.h */,
