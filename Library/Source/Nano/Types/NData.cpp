@@ -42,8 +42,8 @@
 #include "NData.h"
 
 // Nano
-#include "NAssert.h"
 #include "NDataDigest.h"
+#include "NDebug.h"
 
 
 

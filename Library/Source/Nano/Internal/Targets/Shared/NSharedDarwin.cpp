@@ -42,7 +42,7 @@
 #include "NSharedDarwin.h"
 
 // Nano
-#include "NAssert.h"
+#include "NDebug.h"
 #include "NSharedPOSIX.h"
 
 // System
