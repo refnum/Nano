@@ -1,5 +1,5 @@
 /*	NAME:
-		NanoTarget.h
+		NanoTargets.h
 
 	DESCRIPTION:
 		Nano build targets.
@@ -36,8 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NANO_TARGET_H
-#define NANO_TARGET_H
+#ifndef NANO_TARGETS_H
+#define NANO_TARGETS_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -371,4 +371,4 @@
 
 
 
-#endif // NANO_TARGET_H
+#endif // NANO_TARGETS_H
