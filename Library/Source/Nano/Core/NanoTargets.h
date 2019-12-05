@@ -50,11 +50,18 @@
 //		Target
 //-----------------------------------------------------------------------------
 // Baseline
+#define NN_TARGET_ANDROID                                   0
 #define NN_TARGET_IOS                                       0
 #define NN_TARGET_LINUX                                     0
 #define NN_TARGET_MACOS                                     0
 #define NN_TARGET_TVOS                                      0
 #define NN_TARGET_WINDOWS                                   0
+
+// Android
+#if defined(__ANDROID__)
+	#undef  NN_TARGET_ANDROID
+	#define NN_TARGET_ANDROID                               1
+#endif
 
 // iOS
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) &&    \
@@ -96,7 +103,8 @@
 
 
 // Validate
-#if ((NN_TARGET_IOS + NN_TARGET_LINUX + NN_TARGET_MACOS + NN_TARGET_TVOS + NN_TARGET_WINDOWS) != 1)
+#if ((NN_TARGET_ANDROID + NN_TARGET_IOS + NN_TARGET_LINUX + NN_TARGET_MACOS + NN_TARGET_TVOS +  \
+	  NN_TARGET_WINDOWS) != 1)
 	#error Unable to identify platform
 #endif
 
@@ -110,6 +118,13 @@
 // Baseline
 #define NN_ENDIAN_BIG                                       0
 #define NN_ENDIAN_LITTLE                                    0
+
+
+// Android
+#if NN_TARGET_ANDROID
+	#undef  NN_ENDIAN_LITTLE
+	#define NN_ENDIAN_LITTLE                                1
+#endif
 
 
 // iOS
@@ -172,6 +187,19 @@
 // Baseline
 #define NN_ARCH_ARM                                         0
 #define NN_ARCH_X86                                         0
+
+
+// Android
+#if NN_TARGET_ANDROID
+	#if defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
+
+	#elif defined(__arm__) || defined(__aarch64__)
+		#undef  NN_ARCH_ARM
+		#define NN_ARCH_ARM                                 1
+	#endif
+#endif
 
 
 // iOS
@@ -242,6 +270,19 @@
 // Baseline
 #define NN_ARCH_64                                          0
 #define NN_ARCH_32                                          0
+
+
+// Android
+#if NN_TARGET_ANDROID
+	#if defined(__x86_64__) || defined(__arm64__)
+		#undef  NN_ARCH_64
+		#define NN_ARCH_64                                  1
+	#else
+		#undef  NN_ARCH_32
+		#define NN_ARCH_32                                  1
+	#endif
+#endif
+
 
 
 // iOS
@@ -363,7 +404,7 @@
 // User Experience
 #define NN_PLATFORM_CONSOLE                                 (NN_TARGET_TVOS)
 #define NN_PLATFORM_DESKTOP                                 (NN_TARGET_LINUX || NN_TARGET_MACOS || NN_TARGET_WINDOWS)
-#define NN_PLATFORM_MOBILE                                  (NN_TARGET_IOS)
+#define NN_PLATFORM_MOBILE                                  (NN_TARGET_ANDROID | NN_TARGET_IOS)
 
 
 // Platform Family
