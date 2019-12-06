@@ -28,9 +28,9 @@
 		ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */; };
 		ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */; };
 		ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */; };
-		ABBB2B6423801DBB00EB2840 /* TAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */; };
-		ABBB2B6523801DBB00EB2840 /* TAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */; };
-		ABBB2B6623801DBB00EB2840 /* TAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */; };
+		ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */; };
+		ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */; };
+		ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */; };
 		ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
 		ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
 		ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
@@ -190,7 +190,7 @@
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
 		ABBB2B5B23801DBB00EB2840 /* TLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLog.cpp; sourceTree = "<group>"; };
 		ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLogOutput.cpp; sourceTree = "<group>"; };
-		ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAssert.cpp; sourceTree = "<group>"; };
+		ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebug.cpp; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -386,7 +386,7 @@
 		AB514D681034184B00E5A6AD /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				ABBB2B5D23801DBB00EB2840 /* TAssert.cpp */,
+				ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */,
 				ABBB2B5B23801DBB00EB2840 /* TLog.cpp */,
 				ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */,
 			);
@@ -715,7 +715,7 @@
 				AB2000D323876EB900CAB0F1 /* TString.cpp in Sources */,
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
-				ABBB2B6523801DBB00EB2840 /* TAssert.cpp in Sources */,
+				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
@@ -734,7 +734,7 @@
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
 				AB2000D423876EBA00CAB0F1 /* TString.cpp in Sources */,
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
-				ABBB2B6423801DBB00EB2840 /* TAssert.cpp in Sources */,
+				ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
@@ -754,7 +754,7 @@
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
 				AB2000D223876EB900CAB0F1 /* TString.cpp in Sources */,
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
-				ABBB2B6623801DBB00EB2840 /* TAssert.cpp in Sources */,
+				ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,

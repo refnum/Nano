@@ -1,8 +1,8 @@
 /*	NAME:
-		TAssert.cpp
+		TDebug.cpp
 
 	DESCRIPTION:
-		NAssert tests.
+		NDebug tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -40,7 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NAssert.h"
+#include "NDebug.h"
 #include "NTestFixture.h"
 
 
@@ -50,7 +50,7 @@
 //=============================================================================
 //		Fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TAssert){};
+NANO_FIXTURE(TDebug){};
 
 
 
@@ -59,6 +59,6 @@ NANO_FIXTURE(TAssert){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TAssert, "Default")
+NANO_TEST(TDebug, "Default")
 {
 }
