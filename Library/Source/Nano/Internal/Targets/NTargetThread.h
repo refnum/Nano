@@ -76,13 +76,6 @@ public:
 	static void							LocalSetValue(NThreadLocalRef theKey, void *theValue);
 
 
-	// Semaphores
-	static NSemaphoreRef				SemaphoreCreate(NIndex theValue);
-	static void							SemaphoreDestroy(NSemaphoreRef theSemaphore);
-	static bool							SemaphoreWait(   NSemaphoreRef theSemaphore, NTime waitFor);
-	static void							SemaphoreSignal( NSemaphoreRef theSemaphore);
-
-
 	// Spin lock
 	static bool							SpinLock(  int32_t &theLock, bool canBlock);
 	static void							SpinUnlock(int32_t &theLock);
