@@ -44,6 +44,9 @@
 // Nano
 #include "NanoTypes.h"
 
+// System
+#include <string.h>
+
 
 
 

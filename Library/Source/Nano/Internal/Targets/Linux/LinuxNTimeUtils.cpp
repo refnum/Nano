@@ -42,6 +42,7 @@
 #include "NTimeUtils.h"
 
 // Nano
+#include "NDebug.h"
 #include "NSharedPOSIX.h"
 #include "NTimeUtils.h"
 
@@ -60,7 +61,7 @@ NInterval NTimeUtils::GetTime()
 	struct timeval timeVal = {};
 	gettimeofday(&timeVal, NULL);
 
-	return NSharedPOSIX::FromTimeval(timeVal);
+	return NSharedPOSIX::ToInterval(timeVal);
 }
 
 
@@ -75,13 +76,13 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the state we need
-	NN_EXPECT_NOERR(sysErr);
 	struct timespec timeSpec = {};
 	int             sysErr   = clock_gettime(CLOCK_MONOTONIC, &timeSpec);
+	NN_EXPECT_NOT_ERR(sysErr);
 
 	if (sysErr != 0)
 	{
-		memset(timeSpec, 0x00, sizeof(timeSpec));
+		memset(&timeSpec, 0x00, sizeof(timeSpec));
 	}
 
 
