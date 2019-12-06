@@ -40,3 +40,51 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NTimeUtils.h"
+
+// Nano
+#include "NanoConstants.h"
+
+// System
+#include <math.h>
+
+
+
+
+
+//=============================================================================
+//		NTimeUtils::ToInterval : Convert to an NInterval.
+//-----------------------------------------------------------------------------
+NInterval NTimeUtils::ToInterval(const struct timespec& timeSpec)
+{
+
+
+	// Get the time
+	NInterval timeSecs = NInterval(timeSpec.tv_sec);
+	NInterval timeFrac = NInterval(timeSpec.tv_nsec) * kNTimeNanosecond;
+
+	return timeSecs + timeFrac;
+}
+
+
+
+
+
+//=============================================================================
+//		NTimeUtils::ToTimespec : Convert to a timespec.
+//-----------------------------------------------------------------------------
+struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
+{
+	// Get the state we need
+	NInterval timeSecs = floor(theInterval);
+	NInterval timeFrac = theInterval - timeSecs;
+
+
+
+	// Get the time
+	struct timespec timeSpec;
+
+	timeSpec.tv_sec  = time_t(timeSecs);
+	timeSpec.tv_nsec = long(timeFrac / kNTimeNanosecond);
+
+	return timeSpec;
+}

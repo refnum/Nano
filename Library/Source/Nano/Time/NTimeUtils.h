@@ -43,6 +43,9 @@
 //-----------------------------------------------------------------------------
 #include "NanoTypes.h"
 
+// System
+#include <time.h>
+
 
 
 
@@ -61,6 +64,14 @@ public:
 
 	// Get the time since boot
 	static NInterval                    GetUpTime();
+
+
+	// Convert between times
+	//
+	// No epoch conversion is performed on intervals.
+	static NInterval                    ToInterval(const struct timespec& timeSpec);
+
+	static struct timespec              ToTimespec(NInterval theInterval);
 };
 
 
