@@ -46,22 +46,21 @@
 
 // System
 #include <math.h>
-#include <sys/time.h>
 
 
 
 
 
 //=============================================================================
-//		NSharedPOSIX::FromTimeval : Convert a timeval to an NInterval.
+//		NSharedPOSIX::ToInterval : Convert to an NInterval.
 //-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::FromTimeval(const struct timeval& theTime)
+NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
 {
 
 
 	// Get the time
-	NInterval timeSecs = NInterval(theTime.tv_sec);
-	NInterval timeFrac = NInterval(theTime.tv_usec) * kNTimeMicrosecond;
+	NInterval timeSecs = NInterval(timeVal.tv_sec);
+	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
 
 	return timeSecs + timeFrac;
 }
@@ -71,7 +70,7 @@ NInterval NSharedPOSIX::FromTimeval(const struct timeval& theTime)
 
 
 //=============================================================================
-//		NSharedPOSIX::ToTimeval : Convert am NInterval to a timeval.
+//		NSharedPOSIX::ToTimeval : Convert to a timeval.
 //-----------------------------------------------------------------------------
 struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
 {
@@ -82,10 +81,10 @@ struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
 
 
 	// Get the time
-	struct timeval theTime;
+	struct timeval timeVal;
 
-	theTime.tv_sec  = time_t(timeSecs);
-	theTime.tv_usec = suseconds_t(timeFrac / kNTimeMicrosecond);
+	timeVal.tv_sec  = time_t(timeSecs);
+	timeVal.tv_usec = suseconds_t(timeFrac / kNTimeMicrosecond);
 
-	return theTime;
+	return timeVal;
 }

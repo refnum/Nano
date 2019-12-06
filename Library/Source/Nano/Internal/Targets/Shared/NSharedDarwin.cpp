@@ -78,7 +78,7 @@ static NInterval GetBootTime()
 
 
 	// Convert the time
-	return NSharedPOSIX::FromTimeval(timeVal);
+	return NSharedPOSIX::ToInterval(timeVal);
 }
 
 

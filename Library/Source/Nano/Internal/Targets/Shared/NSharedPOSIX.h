@@ -43,6 +43,9 @@
 //-----------------------------------------------------------------------------
 #include "NanoTypes.h"
 
+// System
+#include <sys/time.h>
+
 
 
 
@@ -53,8 +56,11 @@
 class NSharedPOSIX
 {
 public:
-	// Convert to/from a timeval
-	static NInterval                    FromTimeval(const struct timeval& theTime);
+	// Convert between times
+	//
+	// No epoch conversion is performed on intervals.
+	static NInterval                    ToInterval(const struct timeval& timeVal);
+
 	static struct timeval               ToTimeval(NInterval theInterval);
 };
 
