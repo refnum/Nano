@@ -74,7 +74,7 @@
 
 
 // Linux
-#if defined(__linux__)
+#if defined(__linux__) && !defined(__ANDROID__)
 	#undef  NN_TARGET_LINUX
 	#define NN_TARGET_LINUX                                 1
 #endif
