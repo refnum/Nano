@@ -217,9 +217,6 @@ uint32_t NDataDigest::GetAdler32(size_t theSize, const void* thePtr, uint32_t pr
 //-----------------------------------------------------------------------------
 uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t prevValue)
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wused-but-marked-unused"
-
 
 
 	// Get the digest
@@ -227,12 +224,12 @@ uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t p
 
 	if (theSize != 0)
 	{
+		NN_DIAGNOSTIC_PUSH_IGNORE("-Wused-but-marked-unused")
 		theDigest = XXH32(thePtr, theSize, prevValue);
+		NN_DIAGNOSTIC_POP()
 	}
 
 	return theDigest;
-
-#pragma clang diagnostic pop
 }
 
 
@@ -244,19 +241,16 @@ uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t p
 //-----------------------------------------------------------------------------
 uint64_t NDataDigest::GetXXHash64(size_t theSize, const void* thePtr, uint64_t prevValue)
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wused-but-marked-unused"
-
 	uint64_t theDigest = prevValue;
 
 	if (theSize != 0)
 	{
+		NN_DIAGNOSTIC_PUSH_IGNORE("-Wused-but-marked-unused")
 		theDigest = XXH64(thePtr, theSize, prevValue);
+		NN_DIAGNOSTIC_POP()
 	}
 
 	return theDigest;
-
-#pragma clang diagnostic pop
 }
 
 

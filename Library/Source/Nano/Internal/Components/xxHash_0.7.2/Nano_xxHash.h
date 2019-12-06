@@ -50,15 +50,16 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wold-style-cast"
-#pragma clang diagnostic ignored "-Wimplicit-fallthrough"
-#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+NN_DIAGNOSTIC_PUSH()
+NN_DIAGNOSTIC_IGNORE("-Wimplicit-fallthrough")
+NN_DIAGNOSTIC_IGNORE("-Wold-style-cast")
+NN_DIAGNOSTIC_IGNORE("-Wunknown-pragmas")
+NN_DIAGNOSTIC_IGNORE("-Wzero-as-null-pointer-constant")
 
 #include "xxh3.h"
 #include "xxhash.h"
 
-#pragma clang diagnostic pop
+NN_DIAGNOSTIC_POP()
 
 
 

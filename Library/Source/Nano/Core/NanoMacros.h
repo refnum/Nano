@@ -63,6 +63,15 @@
 #define NN_ALIGNED_TO(_value, _size)                        ((((uintptr_t) _value) % _size) == 0)
 
 
+// Stringify a token
+//
+// Example:
+//
+//		NN_STRINGIFY(test)
+//
+#define NN_STRINGIFY(_token)                                #_token
+
+
 // Force inlining
 //
 // Example:
@@ -168,6 +177,38 @@
 #else
 	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)
 #endif
+
+
+// Compiler diagnostics
+//
+// Example:
+//
+//		NN_DIAGNOSTIC_PUSH
+//		NN_DIAGNOSTIC_IGNORE("-Wold-style-cast")
+//
+//		uint8_t* thePtr = (uint8_t*) otherPtr;
+//
+//		NN_DIAGNOSTIC_POP
+//
+#if NN_COMPILER_CLANG
+	#define NN_DIAGNOSTIC_IGNORE(_warning)                  _Pragma(NN_STRINGIFY(clang diagnostic ignored _warning))
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(clang diagnostic push))
+	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(clang diagnostic pop))
+
+#elif NN_COMPILER_GCC
+	#define NN_DIAGNOSTIC_IGNORE(_warning)                  _Pragma(NN_STRINGIFY(GCC diagnostic ignored _warning))
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push))
+	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop))
+
+#else
+	#define NN_DIAGNOSTIC_PUSH
+	#define NN_DIAGNOSTIC_POP
+
+#endif
+
+#define NN_DIAGNOSTIC_PUSH_IGNORE(_warning)                 \
+	NN_DIAGNOSTIC_PUSH();                                   \
+	NN_DIAGNOSTIC_IGNORE(_warning)
 
 
 
