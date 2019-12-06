@@ -109,6 +109,46 @@
 #endif
 
 
+// Log unimplemented code
+//
+// Example:
+//
+//		void FunctionOne()
+//		{
+//			NN_LOG_UNIMPLEMENTED();
+//		}
+//
+//		void FunctionTwo(bool resetValue)
+//		{
+//			if (resetValue)
+//				NN_LOG_UNIMPLEMENTED("values can't be reset");
+//		}
+//
+#if NN_ENABLE_LOGGING
+
+	#define _nn_log_unimplemented(_msg, ...)                                        \
+		do                                                                          \
+		{                                                                           \
+			NN_LOG_WARNING("%s is unimplemented" _msg, __func__, ##__VA_ARGS__);    \
+		} while (false)
+
+	#define _nn_log_unimplemented_0(...)                                _nn_log_unimplemented("!")
+	#define _nn_log_unimplemented_N(_msg, ...)                          _nn_log_unimplemented(", " _msg, ##__VA_ARGS__)
+	#define _nn_log_unimplemented_0_TO_N(_0, _1, _2, _3, _4, _5, ...)   _5
+
+	#define NN_LOG_UNIMPLEMENTED(...)                           \
+		_nn_log_unimplemented_0_TO_N(__VA_ARGS__,               \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_0)(__VA_ARGS__)
+
+#else
+	#define NN_LOG_UNIMPLEMENTED(...)
+#endif
+
+
 
 
 
