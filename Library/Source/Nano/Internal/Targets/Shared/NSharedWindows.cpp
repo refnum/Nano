@@ -53,9 +53,6 @@
 //-----------------------------------------------------------------------------
 NInternval NSharedWindows::ConvertFILETIME(const FILETIME& fileTime)
 {
-	uint64_t hectoNanoSecs;
-	NTime    theTime;
-
 
 
 	// Get the time
