@@ -44,9 +44,11 @@
 // Nano
 #include "NDebug.h"
 #include "NSharedPOSIX.h"
+#include "NanoConstants.h"
 
 // System
 #include <CoreFoundation/CoreFoundation.h>
+#include <dispatch/semaphore.h>
 #include <sys/sysctl.h>
 
 
@@ -112,4 +114,102 @@ NInterval NSharedDarwin::GetUpTime()
 	static NInterval sBootTime = GetBootTime();
 
 	return GetTime() - sBootTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::SemaphoreCreate : Create a semaphore.
+//-----------------------------------------------------------------------------
+NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theValue <= size_t(LONG_MAX));
+
+	static_assert(sizeof(NSemaphoreRef) >= sizeof(dispatch_semaphore_t));
+
+
+
+	// Create the semaphore
+	//
+	// A dispatch semaphore can avoid a trip to the kernel and so
+	// performs substantially better than a Mach semaphore.
+	//
+	//	A signal/wait loop that runs 10,000,000 times takes:
+	//
+	//		Mach semaphore:			4.7s
+	//		Dispatch semaphore:		0.22s
+	//
+	// Timings from a 2.2Ghz Core i7.
+	dispatch_semaphore_t dispatchSem = dispatch_semaphore_create(long(theValue));
+	NN_REQUIRE_NOT_NULL(dispatchSem);
+
+	return NSemaphoreRef(dispatchSem);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::SemaphoreDestroy : Destroy a semaphore.
+//-----------------------------------------------------------------------------
+void NSharedDarwin::SemaphoreDestroy(NSemaphoreRef theSemaphore)
+{
+
+
+	// Destroy the semaphore
+	dispatch_semaphore_t dispatchSem = dispatch_semaphore_t(theSemaphore);
+
+	dispatch_release(dispatchSem);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::SemaphoreWait : Wait for a semaphore.
+//-----------------------------------------------------------------------------
+bool NSharedDarwin::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
+{
+
+
+	// Get the state we need
+	dispatch_semaphore_t dispatchSem  = dispatch_semaphore_t(theSemaphore);
+	dispatch_time_t      dispatchWait = DISPATCH_TIME_FOREVER;
+
+	if (waitFor != kNTimeForever)
+	{
+		dispatchWait = dispatch_time(DISPATCH_TIME_NOW, int64_t(waitFor / kNTimeNanosecond));
+	}
+
+
+
+	// Wait for the semaphore
+	long sysErr = dispatch_semaphore_wait(dispatchSem, dispatchWait);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return sysErr == 0;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::SemaphoreSignal : Signal a semaphore.
+//-----------------------------------------------------------------------------
+void NSharedDarwin::SemaphoreSignal(NSemaphoreRef theSemaphore)
+{
+
+
+	// Signal the semaphore
+	dispatch_semaphore_t dispatchSem = dispatch_semaphore_t(theSemaphore);
+
+	(void) dispatch_semaphore_signal(dispatchSem);
 }

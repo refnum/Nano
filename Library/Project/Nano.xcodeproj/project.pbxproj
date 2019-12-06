@@ -16,6 +16,14 @@
 		AB07EA312399D7ED00E0AC49 /* NTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */; };
 		AB07EA322399D7ED00E0AC49 /* NTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */; };
 		AB07EA332399D7ED00E0AC49 /* NTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */; };
+		AB07EA35239A4E5600E0AC49 /* macOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */; };
+		AB07EA36239A4E5600E0AC49 /* macOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */; };
+		AB07EA37239A4E5600E0AC49 /* macOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */; };
+		AB07EA3D239A522400E0AC49 /* tvOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA39239A521F00E0AC49 /* tvOSNSemaphore.cpp */; };
+		AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */; };
+		AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
+		AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
+		AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
 		AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
@@ -82,6 +90,14 @@
 		AB07EA2E2399D75500E0AC49 /* NSharedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSharedWindows.h; sourceTree = "<group>"; };
 		AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTime.cpp; sourceTree = "<group>"; };
 		AB07EA302399D7ED00E0AC49 /* NTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTime.h; sourceTree = "<group>"; };
+		AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNSemaphore.cpp; sourceTree = "<group>"; };
+		AB07EA38239A521F00E0AC49 /* LinuxNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinuxNSemaphore.cpp; sourceTree = "<group>"; };
+		AB07EA39239A521F00E0AC49 /* tvOSNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tvOSNSemaphore.cpp; sourceTree = "<group>"; };
+		AB07EA3A239A521F00E0AC49 /* WindowsNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsNSemaphore.cpp; sourceTree = "<group>"; };
+		AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNSemaphore.cpp; sourceTree = "<group>"; };
+		AB07EA3C239A521F00E0AC49 /* AndroidNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNSemaphore.cpp; sourceTree = "<group>"; };
+		AB07EA3F239A52C700E0AC49 /* NSharedLinux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSharedLinux.h; sourceTree = "<group>"; };
+		AB07EA40239A52C700E0AC49 /* NSharedLinux.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedLinux.cpp; sourceTree = "<group>"; };
 		AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtils.h; sourceTree = "<group>"; };
 		AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -530,6 +546,7 @@
 		AB07EA242399D3C500E0AC49 /* Android */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA3C239A521F00E0AC49 /* AndroidNSemaphore.cpp */,
 				AB07EA252399D3C500E0AC49 /* AndroidNTimeUtils.cpp */,
 			);
 			path = Android;
@@ -538,6 +555,7 @@
 		AB07EA292399D3EA00E0AC49 /* tvOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA39239A521F00E0AC49 /* tvOSNSemaphore.cpp */,
 				AB07EA2A2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp */,
 			);
 			path = tvOS;
@@ -680,6 +698,7 @@
 		AB555160173FF8D8008D8AF6 /* Linux */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA38239A521F00E0AC49 /* LinuxNSemaphore.cpp */,
 				AB07EA282399D3DB00E0AC49 /* LinuxNTimeUtils.cpp */,
 				AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */,
 				AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */,
@@ -737,6 +756,8 @@
 			children = (
 				AB86FDF323999A4D0062CAA0 /* NSharedDarwin.cpp */,
 				AB86FDF123999A4D0062CAA0 /* NSharedDarwin.h */,
+				AB07EA40239A52C700E0AC49 /* NSharedLinux.cpp */,
+				AB07EA3F239A52C700E0AC49 /* NSharedLinux.h */,
 				AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */,
 				AB86FDF423999A4D0062CAA0 /* NSharedPOSIX.h */,
 				AB07EA2D2399D75500E0AC49 /* NSharedWindows.cpp */,
@@ -1008,6 +1029,7 @@
 		AB91551D0F9B4DD5009FFEAF /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */,
 				AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */,
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
 				AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */,
@@ -1036,6 +1058,7 @@
 				AB9155350F9B4DD6009FFEAF /* NWinTarget.h */,
 				AB9155360F9B4DD6009FFEAF /* NWinThread.cpp */,
 				AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */,
+				AB07EA3A239A521F00E0AC49 /* WindowsNSemaphore.cpp */,
 				AB07EA2C2399D3F900E0AC49 /* WindowsNTimeUtils.cpp */,
 			);
 			path = Windows;
@@ -1209,6 +1232,7 @@
 		ABB95B730FB7250100C5A7FF /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */,
 				AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */,
 				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
 				ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */,
@@ -1347,11 +1371,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB86FDFA23999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
+				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
 				ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */,
 				AB2000CF23876EB300CAB0F1 /* NString.cpp in Sources */,
 				AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				AB07EA2B2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp in Sources */,
+				AB07EA3D239A522400E0AC49 /* tvOSNSemaphore.cpp in Sources */,
 				ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB07EA332399D7ED00E0AC49 /* NTime.cpp in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
@@ -1359,6 +1385,7 @@
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
 				AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */,
+				AB07EA37239A4E5600E0AC49 /* macOSNSemaphore.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1367,6 +1394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB86FDF823999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
+				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */,
 				AB2000D123876EB400CAB0F1 /* NString.cpp in Sources */,
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
@@ -1375,10 +1403,12 @@
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
 				AB07EA312399D7ED00E0AC49 /* NTime.cpp in Sources */,
 				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
+				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				AB03E58E237A09EC00FACADF /* NLogOutput.cpp in Sources */,
+				AB07EA35239A4E5600E0AC49 /* macOSNSemaphore.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1387,6 +1417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB86FDF923999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
+				AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB0DBE7323999B8200F6AD43 /* macOSNTimeUtils.cpp in Sources */,
 				ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */,
 				AB2000D023876EB300CAB0F1 /* NString.cpp in Sources */,
@@ -1399,6 +1430,7 @@
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */,
 				AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */,
+				AB07EA36239A4E5600E0AC49 /* macOSNSemaphore.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

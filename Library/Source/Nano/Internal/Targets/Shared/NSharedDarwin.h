@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NSemaphore.h"
 #include "NanoTypes.h"
 
 
@@ -56,6 +57,13 @@ public:
 	// Get the time
 	static NInterval                    GetTime();
 	static NInterval                    GetUpTime();
+
+
+	// Semaphores
+	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
+	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
+	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
+	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
 };
 
 

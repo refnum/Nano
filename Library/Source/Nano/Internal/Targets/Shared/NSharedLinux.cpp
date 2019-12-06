@@ -1,8 +1,8 @@
 /*	NAME:
-		NSemaphore.h
+		NSharedLinux.cpp
 
 	DESCRIPTION:
-		Semaphore object.
+		Linux support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -36,70 +36,112 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSEMAPHORE_H
-#define NSEMAPHORE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoConstants.h"
+#include "NSharedLinux.h"
+
+// Nano
+#include "NDebug.h"
+#include "NTimeUtils.h"
+
+// System
+#include <limits.h>
+#include <semaphore.h>
 
 
 
 
 
 //=============================================================================
-//		Types
+//		NSharedLinux::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
-using NSemaphoreRef                                         = void*;
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
-//-----------------------------------------------------------------------------
-class NSemaphore
+NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)
 {
-public:
-										NSemaphore(size_t theValue = 0);
-									   ~NSemaphore();
 
-										NSemaphore(const NSemaphore& theSemaphore) = delete;
-	NSemaphore&                         operator=( const NSemaphore& theSemaphore) = delete;
 
-										NSemaphore(NSemaphore&& theSemaphore);
-	NSemaphore&                         operator=( NSemaphore&& theSemaphore);
+	// Validate our parameters and state
+	NN_REQUIRE(theValue <= size_t(UINT_MAX));
+
+	static_assert(sizeof(NSemaphoreRef) >= sizeof(sem_t*));
+
+
+
+	// Create the semaphore
+	sem_t* semRef = (sem_t*) malloc(sizeof(sem_t));
+	NN_REQUIRE_NOT_NULL(semRef);
+
+	int sysErr = sem_init(semRef, 0, static_cast<unsigned int>(theValue));
+	NN_REQUIRE_NOT_ERR(sysErr);
+
+	return NSemaphoreRef(semRef);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::SemaphoreDestroy : Destroy a semaphore.
+//-----------------------------------------------------------------------------
+void NSharedLinux::SemaphoreDestroy(NSemaphoreRef theSemaphore)
+{
+
+
+	// Destroy the semaphore
+	sem_t* semRef = static_cast<sem_t*>(theSemaphore);
+	int    sysErr = sem_destroy(semRef);
+
+	NN_REQUIRE_NOT_ERR(sysErr);
+
+	free(semRef);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::SemaphoreWait : Wait for a semaphore.
+//-----------------------------------------------------------------------------
+bool NSharedLinux::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
+{
+
+
+	// Get the state we need
+	sem_t* semRef = static_cast<sem_t*>(theSemaphore);
+	int    sysErr = 0;
+
 
 
 	// Wait for the semaphore
-	//
-	// If the value of the semaphore is greater than zero, decrements the value
-	// and returns true.
-	//
-	// Otherwise, the calling thread is blocked until the timeout occurs or the
-	// semaphore is finally set.
-	bool                                Wait(NInterval waitFor = kNTimeForever);
+	if (waitFor == kNTimeForever)
+	{
+		sysErr = sem_wait(semRef);
+	}
+	else
+	{
+		struct timespec semWait = NTimeUtils::ToTimespec(waitFor);
+		sysErr                  = sem_timedwait(semRef, &semWait);
+	}
+
+	return sysErr == 0;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::SemaphoreSignal : Signal a semaphore.
+//-----------------------------------------------------------------------------
+void NSharedLinux::SemaphoreSignal(NSemaphoreRef theSemaphore)
+{
 
 
 	// Signal the semaphore
-	//
-	// Wakes one of the threads which are waiting on the semaphore or,
-	// if no threads are waiting, increments the value of the semaphore.
-	void                                Signal(size_t numSignals = 1);
+	sem_t* semRef = static_cast<sem_t*>(theSemaphore);
+	int    sysErr = sem_post(semRef);
 
-
-private:
-	NSemaphoreRef                       Create(size_t theValue);
-	void                                Destroy(NSemaphoreRef theSemaphore);
-	bool                                Wait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	void                                Signal( NSemaphoreRef theSemaphore);
-
-
-private:
-	NSemaphoreRef                       mSemaphore;
-};
-
-
-
-#endif // NSEMAPHORE_H
+	NN_EXPECT_NOT_ERR(sysErr);
+}

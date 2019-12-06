@@ -1,8 +1,8 @@
 /*	NAME:
-		NSemaphore.h
+		LinuxNSemaphore.cpp
 
 	DESCRIPTION:
-		Semaphore object.
+		macOS semaphore.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -36,70 +36,70 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSEMAPHORE_H
-#define NSEMAPHORE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoConstants.h"
+#include "NSemaphore.h"
+
+// Nano
+#include "NSharedLinux.h"
 
 
 
 
 
 //=============================================================================
-//		Types
+//		NSemaphore::Create : Create the semaphore.
 //-----------------------------------------------------------------------------
-using NSemaphoreRef                                         = void*;
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
-//-----------------------------------------------------------------------------
-class NSemaphore
+NSemaphoreRef NSemaphore::Create(size_t theValue)
 {
-public:
-										NSemaphore(size_t theValue = 0);
-									   ~NSemaphore();
 
-										NSemaphore(const NSemaphore& theSemaphore) = delete;
-	NSemaphore&                         operator=( const NSemaphore& theSemaphore) = delete;
 
-										NSemaphore(NSemaphore&& theSemaphore);
-	NSemaphore&                         operator=( NSemaphore&& theSemaphore);
+	// Create the semaphore
+	return NSharedLinux::SemaphoreCreate(theValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NSemaphore::Destroy : Destroy the semaphore.
+//-----------------------------------------------------------------------------
+void NSemaphore::Destroy(NSemaphoreRef theSemaphore)
+{
+
+
+	// Destroy the semaphore
+	NSharedLinux::SemaphoreDestroy(theSemaphore);
+}
+
+
+
+
+
+//=============================================================================
+//		NSemaphore::Wait : Wait for the semaphore.
+//-----------------------------------------------------------------------------
+bool NSemaphore::Wait(NSemaphoreRef theSemaphore, NInterval waitFor)
+{
 
 
 	// Wait for the semaphore
-	//
-	// If the value of the semaphore is greater than zero, decrements the value
-	// and returns true.
-	//
-	// Otherwise, the calling thread is blocked until the timeout occurs or the
-	// semaphore is finally set.
-	bool                                Wait(NInterval waitFor = kNTimeForever);
+	return NSharedLinux::SemaphoreWait(theSemaphore, waitFor);
+}
+
+
+
+
+
+//=============================================================================
+//		NSemaphore::Signal : Signal the semaphore.
+//-----------------------------------------------------------------------------
+void NSemaphore::Signal(NSemaphoreRef theSemaphore)
+{
 
 
 	// Signal the semaphore
-	//
-	// Wakes one of the threads which are waiting on the semaphore or,
-	// if no threads are waiting, increments the value of the semaphore.
-	void                                Signal(size_t numSignals = 1);
-
-
-private:
-	NSemaphoreRef                       Create(size_t theValue);
-	void                                Destroy(NSemaphoreRef theSemaphore);
-	bool                                Wait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	void                                Signal( NSemaphoreRef theSemaphore);
-
-
-private:
-	NSemaphoreRef                       mSemaphore;
-};
-
-
-
-#endif // NSEMAPHORE_H
+	NSharedLinux::SemaphoreSignal(theSemaphore);
+}

@@ -22,11 +22,9 @@
 
 
 //============================================================================
-//		Test fixture
+//		Fixture
 //----------------------------------------------------------------------------
-#define TEST_NSEMPAHORE(...)										TEST_NANO(TSemaphore, ##__VA_ARGS__)
-
-FIXTURE_NANO(TSemaphore)
+NANO_FIXTURE(TSemaphore)
 {
 	NSemaphore	theSemaphore;
 };
@@ -38,7 +36,7 @@ FIXTURE_NANO(TSemaphore)
 //============================================================================
 //		Test case
 //----------------------------------------------------------------------------
-TEST_NSEMPAHORE("Default")
+NANO_TEST(TSemaphore, "Default")
 {
 
 

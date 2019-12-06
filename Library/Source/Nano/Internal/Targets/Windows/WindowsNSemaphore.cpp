@@ -1,8 +1,8 @@
 /*	NAME:
-		NSemaphore.h
+		WindowsNSemaphore.cpp
 
 	DESCRIPTION:
-		Semaphore object.
+		macOS semaphore.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -36,70 +36,102 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSEMAPHORE_H
-#define NSEMAPHORE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoConstants.h"
+#include "NSemaphore.h"
+
+// Nano
+#include "NSharedDarwin.h"
+
+// System
+#include <limits.h>
 
 
 
 
 
 //=============================================================================
-//		Types
+//		NSemaphore::Create : Create the semaphore.
 //-----------------------------------------------------------------------------
-using NSemaphoreRef                                         = void*;
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
-//-----------------------------------------------------------------------------
-class NSemaphore
+NSemaphoreRef NSemaphore::Create(size_t theValue)
 {
-public:
-										NSemaphore(size_t theValue = 0);
-									   ~NSemaphore();
 
-										NSemaphore(const NSemaphore& theSemaphore) = delete;
-	NSemaphore&                         operator=( const NSemaphore& theSemaphore) = delete;
 
-										NSemaphore(NSemaphore&& theSemaphore);
-	NSemaphore&                         operator=( NSemaphore&& theSemaphore);
+	// Validate our parameters and state
+	NN_REQUIRE(theValue <= size_t(LONG_MAX));
+
+	static_assert(sizeof(NSemaphoreRef) >= sizeof(sem_t*));
+
+
+	// Create the semaphore
+	HANDLE semHnd = CreateSemaphore(nullptr, theValue, LONG_MAX, nullptr);
+	NN_REQUIRE_NOT_NULL(semRef);
+
+	return NSemaphoreRef(semRef);
+}
+
+
+
+
+
+//=============================================================================
+//		NSemaphore::Destroy : Destroy the semaphore.
+//-----------------------------------------------------------------------------
+void NSemaphore::Destroy(NSemaphoreRef theSemaphore)
+{
+
+
+	// Destroy the semaphore
+	HANDLE semHnd = HANDLE(theSemaphore);
+	BOOL   wasOK  = CloseHandle(semHnd);
+
+	NN_EXPECT(wasOK);
+}
+
+
+
+
+
+//=============================================================================
+//		NSemaphore::Wait : Wait for the semaphore.
+//-----------------------------------------------------------------------------
+bool NSemaphore::Wait(NSemaphoreRef theSemaphore, NInterval waitFor)
+{
+
+
+	// Get the state we need
+	HANDLE semHnd = HANDLE(theSemaphore);
+	DWORD  waitMS = INFINITE;
+
+	if (waitFor != kNTimeForever)
+	{
+		waitMS = DWORD(waitFor / kNTimeMillisecond);
+	}
+
 
 
 	// Wait for the semaphore
-	//
-	// If the value of the semaphore is greater than zero, decrements the value
-	// and returns true.
-	//
-	// Otherwise, the calling thread is blocked until the timeout occurs or the
-	// semaphore is finally set.
-	bool                                Wait(NInterval waitFor = kNTimeForever);
+	DWORD theResult = WaitForSingleObject(semHnd, waitMS);
+	NN_EXPECT(theResult == WAIT_OBJECT_0 || theResult == WAIT_TIMEOUT);
+
+	return theResult == WAIT_OBJECT_0;
+}
+
+
+
+
+
+//=============================================================================
+//		NSemaphore::Signal : Signal the semaphore.
+//-----------------------------------------------------------------------------
+void NSemaphore::Signal(NSemaphoreRef theSemaphore)
+{
 
 
 	// Signal the semaphore
-	//
-	// Wakes one of the threads which are waiting on the semaphore or,
-	// if no threads are waiting, increments the value of the semaphore.
-	void                                Signal(size_t numSignals = 1);
+	HANDLE semHnd = HANDLE(theSemaphore);
+	BOOL   wasOK  = ReleaseSemaphore(semHnd, 1, nullptr);
 
-
-private:
-	NSemaphoreRef                       Create(size_t theValue);
-	void                                Destroy(NSemaphoreRef theSemaphore);
-	bool                                Wait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	void                                Signal( NSemaphoreRef theSemaphore);
-
-
-private:
-	NSemaphoreRef                       mSemaphore;
-};
-
-
-
-#endif // NSEMAPHORE_H
+	NN_EXPECT(wasOK);
+}
