@@ -413,41 +413,6 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 
 #pragma mark NTargetTime
 //============================================================================
-//		NTargetTime::GetTime : Get the time.
-//----------------------------------------------------------------------------
-NTime NTargetTime::GetTime(void)
-{	FILETIME		fileTime;
-	NTime			theTime;
-
-
-
-	// Get the time
-	GetSystemTimeAsFileTime(&fileTime);
-	theTime = NWinTarget::ConvertFILETIME(fileTime);
-	
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetTime::GetUpTime : Get the time since boot.
-//----------------------------------------------------------------------------
-NTime NTargetTime::GetUpTime(void)
-{
-
-
-	// Get the time
-	return(((NTime) GetTickCount()) * kNTimeMillisecond);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
 NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)

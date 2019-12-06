@@ -28,14 +28,6 @@
 //----------------------------------------------------------------------------
 class NTargetTime {
 public:
-	// Get the current time
-	static NTime						GetTime(void);
-
-
-	// Get the time since boot
-	static NTime						GetUpTime(void);
-
-
 	// Manage timers
 	//
 	// Timers are always executed on the main thread.

@@ -257,57 +257,6 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 
 #pragma mark NTargetTime
 //============================================================================
-//		Public functions
-//----------------------------------------------------------------------------
-//		NTargetTime::GetTime : Get the time.
-//----------------------------------------------------------------------------
-NTime NTargetTime::GetTime(void)
-{	struct timeval		timeVal;
-	NTime				theTime;
-
-
-
-	// Get the time
-	gettimeofday(&timeVal, NULL);
-	theTime = ((NTime) timeVal.tv_sec) + (((NTime) timeVal.tv_usec) * kNTimeMicrosecond);
-	
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
-//		NTargetTime::GetUpTime : Get the time since boot.
-//----------------------------------------------------------------------------
-NTime NTargetTime::GetUpTime(void)
-{	struct timespec		timeSpec;
-	NTime				theTime;
-	int					sysErr;
-
-
-
-	// Get the state we need
-	sysErr = clock_gettime(CLOCK_MONOTONIC, &timeSpec);
-	NN_ASSERT_NOERR(sysErr);
-	
-	
-	
-	// Get the time since boot
-	theTime = 0.0;
-	
-	if (sysErr == 0)
-		theTime = ((NTime) timeSpec.tv_sec) + (((NTime) timeSpec.tv_nsec) * kNTimeNanosecond);
-
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
 NTimerID NTargetTime::TimerCreate(const NTimerFunctor& theFunctor, NTime fireAfter, NTime fireEvery)

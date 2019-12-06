@@ -170,54 +170,6 @@ static void DoTimerReset(NTimerID theTimer, NTime fireAfter)
 
 #pragma mark NTargetTime
 //============================================================================
-//		NTargetTime::GetTime : Get the time.
-//----------------------------------------------------------------------------
-NTime NTargetTime::GetTime(void)
-{
-
-
-	// Get the time
-	return(CFAbsoluteTimeGetCurrent());
-}
-
-
-
-
-
-//============================================================================
-//		NTargetTime::GetUpTime : Get the time since boot.
-//----------------------------------------------------------------------------
-NTime NTargetTime::GetUpTime(void)
-{	struct timeval		timeBoot, timeNow, theDelta;
-	NTime				theTime;
-	int					sysErr;
-
-
-
-	// Get the state we need
-	timeBoot = NMacTarget::GetSysctl<struct timeval>(CTL_KERN, KERN_BOOTTIME);
-	sysErr   = gettimeofday(&timeNow, NULL);
-	NN_ASSERT_NOERR(sysErr);
-
-
-
-	// Get the time since boot
-	theTime = 0.0;
-
-	if (sysErr == 0)
-		{
-		timersub(&timeNow, &timeBoot, &theDelta);
-		theTime = ((NTime) theDelta.tv_sec) + (((NTime) theDelta.tv_usec) * kNTimeMicrosecond);
-		}
-	
-	return(theTime);
-}
-
-
-
-
-
-//============================================================================
 //		NTargetTime::TimerCreate : Create a timer.
 //----------------------------------------------------------------------------
 NTimerID NTargetTime::TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery)
