@@ -11,6 +11,11 @@
 		AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB03E58D237A09EC00FACADF /* NLogOutput.cpp */; };
 		AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB03E58D237A09EC00FACADF /* NLogOutput.cpp */; };
 		AB03E628237A0C5F00FACADF /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
+		AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */; };
+		AB07EA2B2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2A2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp */; };
+		AB07EA312399D7ED00E0AC49 /* NTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */; };
+		AB07EA322399D7ED00E0AC49 /* NTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */; };
+		AB07EA332399D7ED00E0AC49 /* NTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */; };
 		AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
@@ -68,6 +73,15 @@
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
 		AB078D2811D4A988006C9347 /* NUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NUIKit.mm; sourceTree = "<group>"; };
+		AB07EA252399D3C500E0AC49 /* AndroidNTimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNTimeUtils.cpp; sourceTree = "<group>"; };
+		AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNTimeUtils.cpp; sourceTree = "<group>"; };
+		AB07EA282399D3DB00E0AC49 /* LinuxNTimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinuxNTimeUtils.cpp; sourceTree = "<group>"; };
+		AB07EA2A2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tvOSNTimeUtils.cpp; sourceTree = "<group>"; };
+		AB07EA2C2399D3F900E0AC49 /* WindowsNTimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsNTimeUtils.cpp; sourceTree = "<group>"; };
+		AB07EA2D2399D75500E0AC49 /* NSharedWindows.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedWindows.cpp; sourceTree = "<group>"; };
+		AB07EA2E2399D75500E0AC49 /* NSharedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSharedWindows.h; sourceTree = "<group>"; };
+		AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTime.cpp; sourceTree = "<group>"; };
+		AB07EA302399D7ED00E0AC49 /* NTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTime.h; sourceTree = "<group>"; };
 		AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtils.h; sourceTree = "<group>"; };
 		AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -517,9 +531,27 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
+		AB07EA242399D3C500E0AC49 /* Android */ = {
+			isa = PBXGroup;
+			children = (
+				AB07EA252399D3C500E0AC49 /* AndroidNTimeUtils.cpp */,
+			);
+			path = Android;
+			sourceTree = "<group>";
+		};
+		AB07EA292399D3EA00E0AC49 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				AB07EA2A2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp */,
+			);
+			path = tvOS;
+			sourceTree = "<group>";
+		};
 		AB0DBE6C23999B7100F6AD43 /* Time */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA2F2399D7ED00E0AC49 /* NTime.cpp */,
+				AB07EA302399D7ED00E0AC49 /* NTime.h */,
 				AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */,
 				AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */,
 			);
@@ -652,6 +684,7 @@
 		AB555160173FF8D8008D8AF6 /* Linux */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA282399D3DB00E0AC49 /* LinuxNTimeUtils.cpp */,
 				AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */,
 				AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */,
 				AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */,
@@ -710,6 +743,8 @@
 				AB86FDF123999A4D0062CAA0 /* NSharedDarwin.h */,
 				AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */,
 				AB86FDF423999A4D0062CAA0 /* NSharedPOSIX.h */,
+				AB07EA2D2399D75500E0AC49 /* NSharedWindows.cpp */,
+				AB07EA2E2399D75500E0AC49 /* NSharedWindows.h */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -963,10 +998,12 @@
 				AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */,
 				AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */,
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
+				AB07EA242399D3C500E0AC49 /* Android */,
 				ABB95B730FB7250100C5A7FF /* iOS */,
 				AB555160173FF8D8008D8AF6 /* Linux */,
 				AB91551D0F9B4DD5009FFEAF /* macOS */,
 				AB86FDF023999A4D0062CAA0 /* Shared */,
+				AB07EA292399D3EA00E0AC49 /* tvOS */,
 				AB91552E0F9B4DD6009FFEAF /* Windows */,
 			);
 			path = Targets;
@@ -1003,6 +1040,7 @@
 				AB9155350F9B4DD6009FFEAF /* NWinTarget.h */,
 				AB9155360F9B4DD6009FFEAF /* NWinThread.cpp */,
 				AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */,
+				AB07EA2C2399D3F900E0AC49 /* WindowsNTimeUtils.cpp */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -1179,6 +1217,7 @@
 		ABB95B730FB7250100C5A7FF /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */,
 				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
 				ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */,
 				AB481C2112A531220052C55F /* NIOSNetwork.cpp */,
@@ -1320,7 +1359,9 @@
 				AB2000CF23876EB300CAB0F1 /* NString.cpp in Sources */,
 				AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
+				AB07EA2B2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp in Sources */,
 				ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */,
+				AB07EA332399D7ED00E0AC49 /* NTime.cpp in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB03E627237A0C5F00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
@@ -1340,6 +1381,8 @@
 				AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
+				AB07EA312399D7ED00E0AC49 /* NTime.cpp in Sources */,
+				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
@@ -1358,6 +1401,7 @@
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
+				AB07EA322399D7ED00E0AC49 /* NTime.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
