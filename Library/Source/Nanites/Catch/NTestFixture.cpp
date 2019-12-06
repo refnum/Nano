@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NTestFixture.h"
 
+// Nano
+#include "NTimeUtils.h"
+
 
 
 
@@ -49,7 +52,10 @@
 //		NTestFixture::NTestFixture : Constructor.
 //-----------------------------------------------------------------------------
 NTestFixture::NTestFixture()
+	: mTimeStart(NTimeUtils::GetTime())
 {
+
+
 	// Initialise ourselves
 	SetUp();
 }
@@ -89,4 +95,36 @@ void NTestFixture::SetUp()
 //-----------------------------------------------------------------------------
 void NTestFixture::TearDown()
 {
+}
+
+
+
+
+
+//=============================================================================
+//		NTestFixture::GetTime : Get the elapsed time.
+//-----------------------------------------------------------------------------
+NInterval NTestFixture::GetTime() const
+{
+
+
+	// Get the time
+	NInterval timeNow = NTimeUtils::GetTime();
+
+	return timeNow - mTimeStart;
+}
+
+
+
+
+
+//=============================================================================
+//		NTestFixture::TimeUnder : Check the elapsed time.
+//-----------------------------------------------------------------------------
+bool NTestFixture::TimeUnder(NInterval theTime) const
+{
+
+
+	// Check the time
+	return GetTime() <= theTime;
 }

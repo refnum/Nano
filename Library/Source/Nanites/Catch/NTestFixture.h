@@ -46,6 +46,10 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NanoTypes.h"
+
+// Catch
 #include "catch.hpp"
 
 
@@ -133,6 +137,18 @@ public:
 	// Pre/post test hooks
 	virtual void                        SetUp();
 	virtual void                        TearDown();
+
+
+	// Get the elapsed time
+	NInterval                           GetTime() const;
+
+
+	// Check the elapsed time
+	bool                                TimeUnder(NInterval theTime) const;
+
+
+private:
+	NInterval                           mTimeStart;
 };
 
 
