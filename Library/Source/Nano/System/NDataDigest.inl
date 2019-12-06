@@ -48,10 +48,6 @@
 
 
 
-#pragma mark NDigest
-
-
-
 
 
 //=============================================================================
@@ -61,9 +57,15 @@ template <size_t N>
 NDigestX<N>::NDigestX(size_t theSize, const uint8_t* thePtr)
 	: mBytes{}
 {
+
+
+	// Validate our parameters
 	NN_REQUIRE(theSize == N);
 	NN_UNUSED(theSize);
 
+
+
+	// Copy the data
 	memcpy(&mBytes, thePtr, sizeof(mBytes));
 }
 
@@ -78,6 +80,9 @@ template <size_t N>
 NDigestX<N>::NDigestX()
 	: mBytes{}
 {
+
+
+	// Validate our state
 	static_assert(sizeof(*this) == (N / 8), "NDigestX is not packed!");
 }
 
@@ -92,6 +97,9 @@ template <size_t N>
 NDigestX<N>::NDigestX(const NDigestX& otherDigest)
 	: mBytes{}
 {
+
+
+	// Initialise ourselves
 	operator=(otherDigest);
 }
 

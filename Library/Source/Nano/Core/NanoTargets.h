@@ -201,7 +201,6 @@
 		#undef  NN_ARCH_X86
 		#define NN_ARCH_X86                                 1
 	#endif
-
 #endif
 
 
@@ -214,7 +213,6 @@
 		#undef  NN_ARCH_X86
 		#define NN_ARCH_X86                                 1
 	#endif
-
 #endif
 
 

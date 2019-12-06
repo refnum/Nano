@@ -87,6 +87,8 @@ struct NDataState
 NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 	: mData{}
 {
+
+
 	// Initialise ourselves
 	SetData(theSize, theData, theSource);
 }
@@ -101,6 +103,8 @@ NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 NData::NData()
 	: mData{}
 {
+
+
 	// Validate our state
 	static_assert(sizeof(mData.Small.theData) == kNDataSmallSizeMax);
 	static_assert(sizeof(NDataStorage) == 32);
@@ -138,6 +142,8 @@ NData::~NData()
 NData::NData(const NData& otherData)
 	: mData{}
 {
+
+
 	// Initialise ourselves
 	MakeCopy(otherData);
 }
@@ -172,6 +178,8 @@ NData& NData::operator=(const NData& otherData)
 NData::NData(NData&& otherData)
 	: mData{}
 {
+
+
 	// Initialise ourselves
 	MakeCopy(otherData);
 	otherData.Clear();

@@ -76,6 +76,8 @@ struct NStringState
 NString::NString(const utf32_t* theString)
 	: mString{}
 {
+
+
 	// Validate our state
 	static_assert(sizeof(mString.Small.theData) == kNStringSmallSizeMax);
 	static_assert(sizeof(NStringStorage) == 32);
@@ -105,6 +107,8 @@ NString::NString(const utf32_t* theString)
 NString::NString(const NString& otherString)
 	: mString{}
 {
+
+
 	// Initialise ourselves
 	MakeCopy(otherString);
 }
@@ -139,6 +143,8 @@ NString& NString::operator=(const NString& otherString)
 NString::NString(NString&& otherString)
 	: mString{}
 {
+
+
 	// Initialise ourselves
 	MakeCopy(otherString);
 	otherString.Clear();

@@ -81,7 +81,7 @@ struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
 
 
 	// Get the time
-	struct timeval timeVal;
+	struct timeval timeVal = {};
 
 	timeVal.tv_sec  = time_t(timeSecs);
 	timeVal.tv_usec = suseconds_t(timeFrac / kNTimeMicrosecond);

@@ -57,13 +57,7 @@ NInterval NTimeUtils::GetTime()
 
 
 	// Get the time
-	struct timeval timeVal
-	{
-	};
-
-
-
-	// Get the time
+	struct timeval timeVal = {};
 	gettimeofday(&timeVal, NULL);
 
 	return NSharedPOSIX::FromTimeval(timeVal);
@@ -81,11 +75,9 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the state we need
-	struct timespec timeSpec
-	{
-	};
-	int sysErr = clock_gettime(CLOCK_MONOTONIC, &timeSpec);
 	NN_EXPECT_NOERR(sysErr);
+	struct timespec timeSpec = {};
+	int             sysErr   = clock_gettime(CLOCK_MONOTONIC, &timeSpec);
 
 	if (sysErr != 0)
 	{
