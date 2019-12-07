@@ -58,8 +58,7 @@ script:
       if [[ "$TRAVIS_JOB_NAME" == "Android - Debug" ]]; then
         wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O android-ndk-r20b-linux-x86_64.zip;
         unzip -q android-ndk-r20b-linux-x86_64.zip;
-        ls -l;
-        cmake -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="./android-ndk-r20b-linux-x86_64/build/cmake/android.toolchain.cmake" -DCMAKE_BUILD_TYPE=Debug "../Library/Project";
+        cmake -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="./android-ndk-r20b/build/cmake/android.toolchain.cmake" -DCMAKE_BUILD_TYPE=Debug "../Library/Project";
         make -j2;
       else
         cmake -DCMAKE_BUILD_TYPE=Debug "../Library/Project";
