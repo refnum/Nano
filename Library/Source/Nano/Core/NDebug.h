@@ -282,7 +282,7 @@
 #define NN_REQUIRE_NOT_NULL(_pointer, ...)                  \
 	do                                                      \
 	{                                                       \
-		NN_REQUIRE((_pointer) != nullptr, ##__VA_ARGS__)    \
+		NN_REQUIRE((_pointer) != nullptr, ##__VA_ARGS__);   \
 		NN_UNUSED(_pointer);                                \
 	} while (false)
 
