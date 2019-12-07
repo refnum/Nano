@@ -34,7 +34,7 @@ jobs:
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       set -o pipefail;
-      xcodebuild build;
+      xcodebuild build
         -project Library/Project/Nano.xcodeproj
         -scheme "$TRAVIS_XCODE_SCHEME"
         -destination "$XCODE_DESTINATION"
