@@ -272,14 +272,34 @@
 //
 // The condition expression must not have side effects.
 //
-#define NN_REQUIRE_NOT_ERR(_error, ...)                     NN_REQUIRE((_error) == 0, ##__VA_ARGS__)
+#define NN_REQUIRE_NOT_ERR(_error, ...)                     \
+	do                                                      \
+	{                                                       \
+		NN_REQUIRE((_error) == 0, ##__VA_ARGS__);           \
+		NN_UNUSED(_error);                                  \
+	} while (false)
 
-#define NN_REQUIRE_NOT_NULL(_pointer, ...)                  NN_REQUIRE((_pointer) != nullptr, ##__VA_ARGS__)
+#define NN_REQUIRE_NOT_NULL(_pointer, ...)                  \
+	do                                                      \
+	{                                                       \
+		NN_REQUIRE((_pointer) != nullptr, ##__VA_ARGS__)    \
+		NN_UNUSED(_pointer);                                \
+	} while (false)
 
 
-#define NN_EXPECT_NOT_ERR(_error, ...)                      NN_EXPECT((_error) == 0, ##__VA_ARGS__)
+#define NN_EXPECT_NOT_ERR(_error, ...)                      \
+	do                                                      \
+	{                                                       \
+		NN_EXPECT((_error) == 0, ##__VA_ARGS__)             \
+		NN_UNUSED(_error);                                  \
+	} while (false)
 
-#define NN_EXPECT_NOT_NULL(_pointer, ...)                   NN_EXPECT((_pointer) != nullptr, ##__VA_ARGS__)
+#define NN_EXPECT_NOT_NULL(_pointer, ...)                   \
+	do                                                      \
+	{                                                       \
+		NN_EXPECT((_pointer) != nullptr, ##__VA_ARGS__)     \
+		NN_UNUSED(_pointer);                                \
+	} while (false)
 
 
 
