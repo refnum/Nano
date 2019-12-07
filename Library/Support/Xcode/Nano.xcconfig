@@ -17,7 +17,7 @@ Nano_Warnings =
 Nano_Warnings = $(inherited) -Weverything
 Nano_Warnings = $(inherited) -Werror
 
-// Revert Xcode suppresisons
+// Revert Xcode suppressions
 Nano_Warnings = $(inherited) -Wblock-capture-autoreleasing
 Nano_Warnings = $(inherited) -Wbool-conversion
 Nano_Warnings = $(inherited) -Wcomma
