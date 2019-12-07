@@ -1,29 +1,53 @@
-os: osx
-language: objective-c
-
-script:
-  - set -o pipefail
-  - xcodebuild build
-      -project Library/Project/Nano.xcodeproj
-      -scheme "$TRAVIS_XCODE_SCHEME"
-      -destination "$XCODE_DESTINATION"
-      | xcpretty
-
 matrix:
   include:
-    - xcode_scheme: "Nano_macOS - Debug"
+    - os: osx
       osx_image: xcode11.2
+      language: objective-c
+      xcode_scheme: "Nano_macOS - Debug"
       env:
         - XCODE_SDK=macosx
         - XCODE_DESTINATION="arch=x86_64"
-    - xcode_scheme: "Nano_iOS - Debug"
+
+    - os: osx
       osx_image: xcode11.2
+      language: objective-c
+      xcode_scheme: "Nano_iOS - Debug"
       env:
         - XCODE_SDK=iphoneos
         - XCODE_DESTINATION="generic/platform=iOS"
-    - xcode_scheme: "Nano_tvOS - Debug"
+
+    - os: osx
       osx_image: xcode11.2
+      language: objective-c
+      xcode_scheme: "Nano_tvOS - Debug"
       env:
         - XCODE_SDK=appletvos
         - XCODE_DESTINATION="generic/platform=tvOS"
+
+    - os: linux
+        dist: bionic
+        language: cpp
+        compiler: gcc
+
+
+
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      set -o pipefail
+      xcodebuild build
+        -project Library/Project/Nano.xcodeproj
+        -scheme "$TRAVIS_XCODE_SCHEME"
+        -destination "$XCODE_DESTINATION"
+        | xcpretty
+
+    elif  [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      mkdir -p Build
+      cd Build
+      cmake
+        -DCMAKE_BUILD_TYPE=Debug
+        ../Library/Project
+      make
+    fi
+
+
 
