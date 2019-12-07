@@ -1,0 +1,29 @@
+os: osx
+language: objective-c
+
+script:
+  - set -o pipefail
+  - xcodebuild build
+      -project Library/Project/Nano.xcodeproj
+      -scheme "$TRAVIS_XCODE_SCHEME"
+      -destination "$XCODE_DESTINATION"
+      | xcpretty
+
+matrix:
+  include:
+    - xcode_scheme: "Nano_macOS - Debug"
+      osx_image: xcode11.2
+      env:
+        - XCODE_SDK=macosx
+        - XCODE_DESTINATION="arch=x86_64"
+    - xcode_scheme: "Nano_iOS - Debug"
+      osx_image: xcode11.2
+      env:
+        - XCODE_SDK=iphoneos
+        - XCODE_DESTINATION="generic/platform=iOS"
+    - xcode_scheme: "Nano_tvOS - Debug"
+      osx_image: xcode11.2
+      env:
+        - XCODE_SDK=appletvos
+        - XCODE_DESTINATION="generic/platform=tvOS"
+
