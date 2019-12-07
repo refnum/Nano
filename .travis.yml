@@ -1,6 +1,6 @@
 jobs:
   include:
-  	- name "Nano macOS - Debug"
+    - name "Nano macOS - Debug"
       os: osx
       osx_image: xcode11.2
       language: objective-c
@@ -9,7 +9,7 @@ jobs:
         - XCODE_SDK=macosx
         - XCODE_DESTINATION="arch=x86_64"
 
-  	- name "Nano iOS - Debug"
+    - name "Nano iOS - Debug"
       os: osx
       osx_image: xcode11.2
       language: objective-c
@@ -18,7 +18,7 @@ jobs:
         - XCODE_SDK=iphoneos
         - XCODE_DESTINATION="generic/platform=iOS"
 
-  	- name "Nano tvOS - Debug"
+    - name "Nano tvOS - Debug"
       os: osx
       osx_image: xcode11.2
       language: objective-c
@@ -27,13 +27,13 @@ jobs:
         - XCODE_SDK=appletvos
         - XCODE_DESTINATION="generic/platform=tvOS"
 
-  	- name "Linux - Debug"
+    - name "Linux - Debug"
       os: linux
       dist: bionic
       language: cpp
       compiler: gcc
 
-  	- name "Android - Debug"
+    - name "Android - Debug"
       os: linux
       dist: bionic
       language: cpp
