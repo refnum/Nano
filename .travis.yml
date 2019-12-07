@@ -1,6 +1,6 @@
 jobs:
   include:
-  - name: "Nano macOS - Debug"
+  - name: "macOS - Debug"
     os: osx
     osx_image: xcode11.2
     language: objective-c
@@ -9,7 +9,7 @@ jobs:
       - XCODE_SDK=macosx
       - XCODE_DESTINATION="arch=x86_64"
 
-  - name: "Nano iOS - Debug"
+  - name: "iOS - Debug"
     os: osx
     osx_image: xcode11.2
     language: objective-c
@@ -18,7 +18,7 @@ jobs:
       - XCODE_SDK=iphoneos
       - XCODE_DESTINATION="generic/platform=iOS"
 
-  - name: "Nano tvOS - Debug"
+  - name: "tvOS - Debug"
     os: osx
     osx_image: xcode11.2
     language: objective-c
@@ -53,24 +53,17 @@ script:
         | xcpretty;
     elif  [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       if [[ "$TRAVIS_JOB_NAME" == "Android - Debug" ]]; then
-        wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip -O $HOME/android-sdk.tgz;
-        cd $HOME;
-        mkdir android;
-        unzip android-sdk.tgz -d android/sdk;
-        export PATH=$PATH:$HOME/android/sdk/tools:$HOME/android/sdk/tools/bin;
-        echo y | sdkmanager 'ndk-bundle';
-        export ANDROID_HOME="${HOME}/android/sdk";
-        export ANDROID_NDK_HOME="${HOME}/android/sdk/ndk-bundle";
-        mkdir -p Build;
-        cd Build;
-        cmake -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake" -DCMAKE_BUILD_TYPE=Debug ../Library/Project;
+        wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O $HOME/android-ndk-r20b-linux-x86_64.zip;
+        unzip android-ndk-r20b-linux-x86_64.zip;
+        CMAKE_ARGS=-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake";
         make;
       else
-        mkdir -p Build;
-        cd Build;
-        cmake -DCMAKE_BUILD_TYPE=Debug ../Library/Project;
-        make;
+        CMAKE_ARGS="";
       fi
+      mkdir -p Build;
+      cd Build;
+      cmake ${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Debug ../Library/Project;
+      make;
     fi
 
 
