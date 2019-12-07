@@ -22,19 +22,7 @@ if [ "${TRAVIS_PLATFORM}" == "Android" ]; then
 	wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O android-ndk-r20b-linux-x86_64.zip
 	unzip -q android-ndk-r20b-linux-x86_64.zip
 
-pwd
-ls -l
-echo ""
-echo "android-ndk-r20b:"
-ls -l android-ndk-r20b
-echo ""
-echo "android-ndk-r20b/build:"
-ls -l android-ndk-r20b/build
-echo ""
-echo "android-ndk-r20b/build/cmake:"
-ls -l android-ndk-r20b/build/cmake
-
-	CMAKE_FLAGS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=\"${TRAVIS_BUILD_DIR}/Build/android-ndk-r20b/build/cmake/android.toolchain.cmake\""
+	CMAKE_FLAGS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/Build/android-ndk-r20b/build/cmake/android.toolchain.cmake"
 
 elif [ "${TRAVIS_PLATFORM}" == "Linux" ]; then
 	CMAKE_FLAGS=""
@@ -57,8 +45,6 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	echo "${JOB_NAME}"
 	printf -v _hr "%*s" ${#JOB_NAME} && echo ${_hr// /=}
 
-
-echo cmake ${CMAKE_FLAGS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	cmake ${CMAKE_FLAGS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
