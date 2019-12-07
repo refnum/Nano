@@ -46,6 +46,9 @@
 #include "NSharedPOSIX.h"
 #include "NTimeUtils.h"
 
+// System
+#include <string.h>
+
 
 
 
