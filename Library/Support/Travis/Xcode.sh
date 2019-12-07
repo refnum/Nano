@@ -46,21 +46,20 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 	# Prepare to build
 	XCODE_SCHEME="${TRAVIS_PROJECT}_${TRAVIS_PLATFORM} - ${BUILD_CONFIG}"
-	NANO_ROOT="${TRAVIS_BUILD_DIR}"
+	XCODE_PARAMS="-jobs 3 CODE_SIGNING_REQUIRED=NO Nano=${TRAVIS_BUILD_DIR}"
 
 
 	echo "${XCODE_SCHEME}"
 	printf -v _hr "%*s" ${#XCODE_SCHEME} && echo ${_hr// /=}
 
 
-
 	# Perform the build
-	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" Nano="${NANO_ROOT}" #| xcpretty
+	xcodebuild build ${XCODE_ARGS} -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" | xcpretty
 	echo ""
 
 
 	# Run the tests
-	if [[ "${TRAVIS_PROJECT}" == "NanoTest" ]]; then
+	if [[ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "macOS" ]]; then
 		./NanoTest/Project/NanoTest -d yes
 	fi
 
