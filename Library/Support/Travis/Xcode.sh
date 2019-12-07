@@ -55,7 +55,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Perform the build
-	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" Nano="${NANO_ROOT}" | xcpretty
+	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" Nano="${NANO_ROOT}" #| xcpretty
 	echo ""
 
 
