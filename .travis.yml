@@ -1,70 +1,23 @@
 jobs:
   include:
-  - name: "macOS - Debug"
-    os: osx
+  - name: "macOS"
     osx_image: xcode11.2
-    language: objective-c
-    xcode_scheme: "Nano_macOS - Debug"
-    env:
-      - XCODE_SDK=macosx
-      - XCODE_DESTINATION="arch=x86_64"
+    script: "Library/Support/Travis/Xcode.sh" "NanoTest" "macOS"
 
-  - name: "iOS - Debug"
-    os: osx
+  - name: "iOS"
     osx_image: xcode11.2
-    language: objective-c
-    xcode_scheme: "Nano_iOS - Debug"
-    env:
-      - XCODE_SDK=iphoneos
-      - XCODE_DESTINATION="generic/platform=iOS"
+    script: "Library/Support/Travis/Xcode.sh" "NanoTest" "iOS"
 
-  - name: "tvOS - Debug"
-    os: osx
+  - name: "tvOS"
     osx_image: xcode11.2
-    language: objective-c
-    xcode_scheme: "Nano_tvOS - Debug"
-    env:
-      - XCODE_SDK=appletvos
-      - XCODE_DESTINATION="generic/platform=tvOS"
+    script: "Library/Support/Travis/Xcode.sh" "NanoTest" "tvOS"
 
-  - name: "Linux - Debug"
-    os: linux
+
+  - name: "Linux"
     dist: bionic
-    language: cpp
-    compiler: gcc
+    script: "Library/Support/Travis/CMake.sh" "NanoTest" "Linux"
 
-  - name: "Android - Debug"
-    os: linux
+  - name: "Android"
     dist: bionic
-    language: cpp
-    compiler: gcc
-
-
-
-
-
-script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      set -o pipefail;
-      xcodebuild build
-        -jobs 2
-        -project Library/Project/Nano.xcodeproj
-        -scheme "$TRAVIS_XCODE_SCHEME"
-        -destination "$XCODE_DESTINATION"
-        | xcpretty;
-    elif  [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      mkdir -p Build;
-      cd Build;
-      if [[ "$TRAVIS_JOB_NAME" == "Android - Debug" ]]; then
-        wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O android-ndk-r20b-linux-x86_64.zip;
-        unzip -q android-ndk-r20b-linux-x86_64.zip;
-        cmake -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="./android-ndk-r20b/build/cmake/android.toolchain.cmake" -DCMAKE_BUILD_TYPE=Debug "../Library/Project";
-        make -j2;
-      else
-        cmake -DCMAKE_BUILD_TYPE=Debug "../Library/Project";
-        make -j2;
-      fi
-    fi
-
-
+    script: "Library/Support/Travis/CMake.sh" "NanoTest" "Android"
 
