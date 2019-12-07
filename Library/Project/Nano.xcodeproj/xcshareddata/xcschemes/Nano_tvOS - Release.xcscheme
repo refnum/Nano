@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D2AAC06E0554671400DB518D"
-               BuildableName = "libNano_macOS.a"
-               BlueprintName = "Nano_macOS"
+               BlueprintIdentifier = "AB03E591237A0C5F00FACADF"
+               BuildableName = "libNano_tvOS.a"
+               BlueprintName = "Nano_tvOS"
                ReferencedContainer = "container:Nano.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D2AAC06E0554671400DB518D"
-            BuildableName = "libNano_macOS.a"
-            BlueprintName = "Nano_macOS"
+            BlueprintIdentifier = "AB03E591237A0C5F00FACADF"
+            BuildableName = "libNano_tvOS.a"
+            BlueprintName = "Nano_tvOS"
             ReferencedContainer = "container:Nano.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

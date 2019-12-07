@@ -82,6 +82,7 @@
 
 // macOS
 #if (defined(__APPLE_CPP__) || defined(__APPLE_CC__)) && !defined(__arm__) &&   \
+	!defined(__ENVIRONMENT_TV_OS_VERSION_MIN_REQUIRED__) &&  \
 	!defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__)
 	#undef  NN_TARGET_MACOS
 	#define NN_TARGET_MACOS                                 1
@@ -161,7 +162,7 @@
 
 
 // tvOS
-#if NN_TARGET_IOS
+#if NN_TARGET_TVOS
 	#undef  NN_ENDIAN_LITTLE
 	#define NN_ENDIAN_LITTLE                                1
 #endif
