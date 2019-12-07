@@ -267,6 +267,8 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 			return nullptr;
 			break;
 	}
+
+	return nullptr;
 }
 
 
