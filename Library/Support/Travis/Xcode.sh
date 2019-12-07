@@ -46,7 +46,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 	# Prepare to build
 	XCODE_SCHEME="${TRAVIS_PROJECT}_${TRAVIS_PLATFORM} - ${BUILD_CONFIG}"
-	NANO_ROOT="${TRAVIS_BUILD_DIR}/refnum/Nano"
+	NANO_ROOT="${TRAVIS_BUILD_DIR}"
 
 
 	echo "${XCODE_SCHEME}"
