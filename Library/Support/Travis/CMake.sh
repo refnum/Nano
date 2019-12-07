@@ -53,7 +53,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Run the tests
-	if [ "${TRAVIS_PROJECT}" == "NanoTest" ]; then
+	if [ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "Linux" ]; then
 		./NanoTest/Project/NanoTest -d yes
 	fi
 
