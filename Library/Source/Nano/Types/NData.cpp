@@ -46,7 +46,7 @@
 #include "NDebug.h"
 
 // System
-#include <stddef.h>
+#include <cstddef>
 
 
 
