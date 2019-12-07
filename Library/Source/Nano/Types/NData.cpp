@@ -45,6 +45,9 @@
 #include "NDataDigest.h"
 #include "NDebug.h"
 
+// System
+#include <stddef.h>
+
 
 
 
