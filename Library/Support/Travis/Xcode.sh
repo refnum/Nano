@@ -10,6 +10,7 @@ TRAVIS_PLATFORM="$2"
 
 
 
+
 # Parse the project
 if [[ "${TRAVIS_PROJECT}" == "Nano" ]]; then
 	XCODE_PROJECT="Library/Project/Nano.xcodeproj"
@@ -21,6 +22,7 @@ else
 	echo "Unknown project: '${TRAVIS_PROJECT}'"
 	exit -1
 fi
+
 
 
 
@@ -41,6 +43,7 @@ fi
 
 
 
+
 # Do the builds
 for BUILD_CONFIG in "Debug" "Release"; do
 
@@ -53,9 +56,11 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	printf -v _hr "%*s" ${#XCODE_SCHEME} && echo ${_hr// /=}
 
 
+
 	# Perform the build
 	xcodebuild build ${XCODE_PARAMS} -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" | xcpretty
 	echo ""
+
 
 
 	# Run the tests

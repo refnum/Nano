@@ -10,6 +10,7 @@ TRAVIS_PLATFORM="$2"
 
 
 
+
 # Parse the platform
 if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 
@@ -31,6 +32,7 @@ fi
 
 
 
+
 # Do the builds
 for BUILD_CONFIG in "Debug" "Release"; do
 
@@ -44,12 +46,14 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	printf -v _hr "%*s" ${#JOB_NAME} && echo ${_hr// /=}
 
 
+
 	# Perform the build
 	cmake ${CMAKE_PARAMS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
 	make -j3 "${TRAVIS_PROJECT}"
 	echo ""
+
 
 
 	# Run the tests
