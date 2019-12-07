@@ -372,7 +372,8 @@ size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t prevVa
 
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH_IGNORE("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_PUSH_IGNORE("-Wunknown-pragmas")
+		NN_DIAGNOSTIC_IGNORE("-Wused-but-marked-unused")
 #if NN_ARCH_64
 		theDigest = XXH64(thePtr, theSize, prevValue);
 #else
@@ -400,7 +401,8 @@ uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, uint32_t 
 
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH_IGNORE("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_PUSH_IGNORE("-Wunknown-pragmas")
+		NN_DIAGNOSTIC_IGNORE("-Wused-but-marked-unused")
 #if NN_ARCH_64
 		theDigest = uint32_t(XXH64(thePtr, theSize, prevValue));
 #else
@@ -428,7 +430,8 @@ uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t 
 
 	if (theDigest != 0)
 	{
-		NN_DIAGNOSTIC_PUSH_IGNORE("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_PUSH_IGNORE("-Wunknown-pragmas")
+		NN_DIAGNOSTIC_IGNORE("-Wused-but-marked-unused")
 #if NN_ARCH_64
 		theDigest = XXH64(thePtr, theSize, prevValue);
 #else
@@ -474,7 +477,8 @@ NDigest128 NDataDigest::GetRuntime128(size_t            theSize,
 	// xxh3 has yet to be finalised but is safe to use as a runtime hash.
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH_IGNORE("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_PUSH_IGNORE("-Wunknown-pragmas")
+		NN_DIAGNOSTIC_IGNORE("-Wused-but-marked-unused")
 		XXH128_hash_t xxDigest128 = XXH128(thePtr, theSize, xxSeed64);
 		NN_DIAGNOSTIC_POP()
 

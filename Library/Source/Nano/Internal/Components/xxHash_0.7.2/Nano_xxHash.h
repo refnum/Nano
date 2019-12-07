@@ -54,7 +54,6 @@ NN_DIAGNOSTIC_PUSH()
 NN_DIAGNOSTIC_IGNORE("-Wimplicit-fallthrough")
 NN_DIAGNOSTIC_IGNORE("-Wold-style-cast")
 NN_DIAGNOSTIC_IGNORE("-Wpragmas")
-NN_DIAGNOSTIC_IGNORE("-Wunknown-pragmas")
 NN_DIAGNOSTIC_IGNORE("-Wzero-as-null-pointer-constant")
 
 #include "xxh3.h"
