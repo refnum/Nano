@@ -128,13 +128,19 @@ if (NN_COMPILER_CLANG)
 	list(APPEND NN_COMPILER_WARNINGS -Wno-unreachable-code-break)
 	list(APPEND NN_COMPILER_WARNINGS -Wno-weak-vtables)
 
+
 elseif (NN_COMPILER_GCC)
 	# Maximum warnings
 	list(APPEND NN_COMPILER_WARNINGS -Wall)
 	list(APPEND NN_COMPILER_WARNINGS -Wextra)
 	list(APPEND NN_COMPILER_WARNINGS -Werror)
 
+	# Discard unwanted warnings
+	list(APPEND NN_COMPILER_WARNINGS -Wno-unknown-pragmas)
+
+
 elseif (NN_COMPILER_MSC)
+
 
 endif()
 
