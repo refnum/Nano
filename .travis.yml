@@ -1,43 +1,43 @@
 jobs:
   include:
-    - name "Nano macOS - Debug"
-      os: osx
-      osx_image: xcode11.2
-      language: objective-c
-      xcode_scheme: "Nano_macOS - Debug"
-      env:
-        - XCODE_SDK=macosx
-        - XCODE_DESTINATION="arch=x86_64"
+  - name: "Nano macOS - Debug"
+    os: osx
+    osx_image: xcode11.2
+    language: objective-c
+    xcode_scheme: "Nano_macOS - Debug"
+    env:
+      - XCODE_SDK=macosx
+      - XCODE_DESTINATION="arch=x86_64"
 
-    - name "Nano iOS - Debug"
-      os: osx
-      osx_image: xcode11.2
-      language: objective-c
-      xcode_scheme: "Nano_iOS - Debug"
-      env:
-        - XCODE_SDK=iphoneos
-        - XCODE_DESTINATION="generic/platform=iOS"
+  - name: "Nano iOS - Debug"
+    os: osx
+    osx_image: xcode11.2
+    language: objective-c
+    xcode_scheme: "Nano_iOS - Debug"
+    env:
+      - XCODE_SDK=iphoneos
+      - XCODE_DESTINATION="generic/platform=iOS"
 
-    - name "Nano tvOS - Debug"
-      os: osx
-      osx_image: xcode11.2
-      language: objective-c
-      xcode_scheme: "Nano_tvOS - Debug"
-      env:
-        - XCODE_SDK=appletvos
-        - XCODE_DESTINATION="generic/platform=tvOS"
+  - name: "Nano tvOS - Debug"
+    os: osx
+    osx_image: xcode11.2
+    language: objective-c
+    xcode_scheme: "Nano_tvOS - Debug"
+    env:
+      - XCODE_SDK=appletvos
+      - XCODE_DESTINATION="generic/platform=tvOS"
 
-    - name "Linux - Debug"
-      os: linux
-      dist: bionic
-      language: cpp
-      compiler: gcc
+  - name: "Linux - Debug"
+    os: linux
+    dist: bionic
+    language: cpp
+    compiler: gcc
 
-    - name "Android - Debug"
-      os: linux
-      dist: bionic
-      language: cpp
-      compiler: gcc
+  - name: "Android - Debug"
+    os: linux
+    dist: bionic
+    language: cpp
+    compiler: gcc
 
 
 
