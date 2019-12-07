@@ -69,7 +69,7 @@ NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)
 
 
 	// Create the semaphore
-	sem_t* semRef = (sem_t*) malloc(sizeof(sem_t));
+	sem_t* semRef = static_cast<sem_t*>(malloc(sizeof(sem_t)));
 	NN_REQUIRE_NOT_NULL(semRef);
 
 	int sysErr = sem_init(semRef, 0, static_cast<unsigned int>(theValue));
