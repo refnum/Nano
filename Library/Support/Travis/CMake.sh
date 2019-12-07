@@ -9,7 +9,7 @@ TRAVIS_PLATFORM="$2"
 
 
 # Prepare to build
-set -o pipefail
+set -euo pipefail
 
 mkdir -p Build
 cd       Build
@@ -21,7 +21,7 @@ if [ "${TRAVIS_PLATFORM}" == "Android" ]; then
 	wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O android-ndk-r20b-linux-x86_64.zip
 	unzip -q android-ndk-r20b-linux-x86_64.zip
 
-	CMAKE_FLAGS=-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="./android-ndk-r20b/build/cmake/android.toolchain.cmake"
+	CMAKE_FLAGS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=\"./android-ndk-r20b/build/cmake/android.toolchain.cmake\""
 
 elif [ "${TRAVIS_PLATFORM}" == "Linux" ]; then
 	CMAKE_FLAGS=""

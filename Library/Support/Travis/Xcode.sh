@@ -9,7 +9,7 @@ TRAVIS_PLATFORM="$2"
 
 
 # Prepare to build
-set -o pipefail
+set -euo pipefail
 
 
 
