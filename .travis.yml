@@ -1,24 +1,29 @@
 jobs:
   include:
     - name: "macOS"
-      osx_image: xcode11.2
       script: Library/Support/Travis/Xcode.sh NanoTest macOS
+      osx_image: xcode11.2
+      os: osx
   
     - name: "iOS"
-      osx_image: xcode11.2
       script: Library/Support/Travis/Xcode.sh NanoTest iOS
+      osx_image: xcode11.2
+      os: osx
   
     - name: "tvOS"
-      osx_image: xcode11.2
       script: Library/Support/Travis/Xcode.sh NanoTest tvOS
+      osx_image: xcode11.2
+      os: osx
   
   
     - name: "Linux"
-      dist: bionic
       script: Library/Support/Travis/CMake.sh NanoTest Linux
+      dist: bionic
+      os: linux
   
     - name: "Android"
-      dist: bionic
       script: Library/Support/Travis/CMake.sh NanoTest Android
+      dist: bionic
+      os: linux
   
   
