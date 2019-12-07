@@ -3,13 +3,10 @@
 
 
 # Get the arguments
+set -euo pipefail
+
 TRAVIS_PROJECT="$1"
 TRAVIS_PLATFORM="$2"
-
-
-
-# Prepare to build
-set -euo pipefail
 
 
 
@@ -29,7 +26,7 @@ elif [ "${TRAVIS_PLATFORM}" == "Linux" ]; then
 
 else
 	echo "Unknown platform: ${TRAVIS_PLATFORM}"
-	exit -1
+	exit 1
 fi
 
 
@@ -37,6 +34,7 @@ fi
 # Do the builds
 for BUILD_CONFIG in "Debug" "Release"; do
 
+	# Prepare to build
 	mkdir -p "${TRAVIS_BUILD_DIR}/Build/${BUILD_CONFIG}"
 	cd       "${TRAVIS_BUILD_DIR}/Build/${BUILD_CONFIG}"
 
@@ -45,20 +43,21 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	echo "${JOB_NAME}"
 	printf -v _hr "%*s" ${#JOB_NAME} && echo ${_hr// /=}
 
+
+	# Perform the build
 	cmake ${CMAKE_FLAGS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
-	make -j3 "${TRAVIS_PROJECT}" VERBOSE=1
+	make -j3 "${TRAVIS_PROJECT}"
 	echo ""
 
+
+	# Run the tests
+	if [ "${TRAVIS_PROJECT}" == "NanoTest" ]; then
+		./NanoTest/Project/NanoTest -d yes
+	fi
+
 done 
-
-
-
-# Run the tests
-if [ "${TRAVIS_PROJECT}" == "NanoTest" ]; then
-	find . -name "NanoTest"
-fi
 
 
 

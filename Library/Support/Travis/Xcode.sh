@@ -3,13 +3,10 @@
 
 
 # Get the arguments
+set -euo pipefail
+
 TRAVIS_PROJECT="$1"
 TRAVIS_PLATFORM="$2"
-
-
-
-# Prepare to build
-set -euo pipefail
 
 
 
@@ -47,22 +44,24 @@ fi
 # Do the builds
 for BUILD_CONFIG in "Debug" "Release"; do
 
+	# Prepare to build
 	XCODE_SCHEME="${TRAVIS_PROJECT}_${TRAVIS_PLATFORM} - ${BUILD_CONFIG}"
+	NANO_ROOT="${TRAVIS_BUILD_DIR}/refnum/Nano"
+
 
 	echo "${XCODE_SCHEME}"
 	printf -v _hr "%*s" ${#XCODE_SCHEME} && echo ${_hr// /=}
 
-	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" #| xcpretty
+
+
+	# Perform the build
+	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" Nano="${NANO_ROOT}" | xcpretty
 	echo ""
 
+
+	# Run the tests
+	if [ "${TRAVIS_PROJECT}" == "NanoTest" ]; then
+		./NanoTest/Project/NanoTest -d yes
+	fi
+
 done 
-
-
-
-# Run the tests
-if [ "${TRAVIS_PROJECT}" == "NanoTest" ]; then
-	find . -name "NanoTest"
-fi
-
-
-
