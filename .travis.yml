@@ -1,6 +1,7 @@
 jobs:
   include:
-    - os: osx
+  	- name "Nano macOS - Debug"
+      os: osx
       osx_image: xcode11.2
       language: objective-c
       xcode_scheme: "Nano_macOS - Debug"
@@ -8,7 +9,8 @@ jobs:
         - XCODE_SDK=macosx
         - XCODE_DESTINATION="arch=x86_64"
 
-    - os: osx
+  	- name "Nano iOS - Debug"
+      os: osx
       osx_image: xcode11.2
       language: objective-c
       xcode_scheme: "Nano_iOS - Debug"
@@ -16,7 +18,8 @@ jobs:
         - XCODE_SDK=iphoneos
         - XCODE_DESTINATION="generic/platform=iOS"
 
-    - os: osx
+  	- name "Nano tvOS - Debug"
+      os: osx
       osx_image: xcode11.2
       language: objective-c
       xcode_scheme: "Nano_tvOS - Debug"
@@ -24,10 +27,19 @@ jobs:
         - XCODE_SDK=appletvos
         - XCODE_DESTINATION="generic/platform=tvOS"
 
-    - os: linux
+  	- name "Linux - Debug"
+      os: linux
       dist: bionic
       language: cpp
       compiler: gcc
+
+  	- name "Android - Debug"
+      os: linux
+      dist: bionic
+      language: cpp
+      compiler: gcc
+
+
 
 
 
@@ -40,10 +52,25 @@ script:
         -destination "$XCODE_DESTINATION"
         | xcpretty;
     elif  [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      mkdir -p Build;
-      cd Build;
-      cmake -DCMAKE_BUILD_TYPE=Debug ../Library/Project;
-      make;
+      if [[ "$TRAVIS_JOB_NAME" == "Android - Debug" ]]; then
+        wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip -O $HOME/android-sdk.tgz;
+        cd $HOME;
+        mkdir android;
+        unzip android-sdk.tgz -d android/sdk;
+        export PATH=$PATH:$HOME/android/sdk/tools:$HOME/android/sdk/tools/bin;
+        echo y | sdkmanager 'ndk-bundle';
+        export ANDROID_HOME="${HOME}/android/sdk";
+        export ANDROID_NDK_HOME="${HOME}/android/sdk/ndk-bundle";
+        mkdir -p Build;
+        cd Build;
+        cmake -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake" -DCMAKE_BUILD_TYPE=Debug ../Library/Project;
+        make;
+      else
+        mkdir -p Build;
+        cd Build;
+        cmake -DCMAKE_BUILD_TYPE=Debug ../Library/Project;
+        make;
+      fi
     fi
 
 
