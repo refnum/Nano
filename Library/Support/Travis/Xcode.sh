@@ -54,7 +54,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Perform the build
-	xcodebuild build ${XCODE_ARGS} -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" | xcpretty
+	xcodebuild build ${XCODE_PARAMS} -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" | xcpretty
 	echo ""
 
 
