@@ -87,11 +87,13 @@ function(nano_target_build_app theTarget)
 	if (NN_TARGET_ANDROID)
 		target_link_libraries("${theTarget}" PRIVATE "android")
 		target_link_libraries("${theTarget}" PRIVATE "log")
+		target_link_libraries("${theTarget}" PRIVATE "pthread")
 
 	elseif (NN_TARGET_IOS)
 		target_nano_find_link_library("${theTarget}" "CoreFoundation")
 
 	elseif (NN_TARGET_LINUX)
+		target_link_libraries("${theTarget}" PRIVATE "pthread")
 
 	elseif (NN_TARGET_MACOS)
 		target_nano_find_link_library("${theTarget}" "CoreFoundation")
