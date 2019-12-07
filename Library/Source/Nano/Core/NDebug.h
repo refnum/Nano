@@ -290,14 +290,14 @@
 #define NN_EXPECT_NOT_ERR(_error, ...)                      \
 	do                                                      \
 	{                                                       \
-		NN_EXPECT((_error) == 0, ##__VA_ARGS__)             \
+		NN_EXPECT((_error) == 0, ##__VA_ARGS__);            \
 		NN_UNUSED(_error);                                  \
 	} while (false)
 
 #define NN_EXPECT_NOT_NULL(_pointer, ...)                   \
 	do                                                      \
 	{                                                       \
-		NN_EXPECT((_pointer) != nullptr, ##__VA_ARGS__)     \
+		NN_EXPECT((_pointer) != nullptr, ##__VA_ARGS__);    \
 		NN_UNUSED(_pointer);                                \
 	} while (false)
 
