@@ -52,7 +52,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	echo "${XCODE_SCHEME}"
 	printf -v _hr "%*s" ${#XCODE_SCHEME} && echo ${_hr// /=}
 
-	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" | xcpretty
+	xcodebuild build -jobs 3 -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -destination "$XCODE_DESTINATION" #| xcpretty
 	echo ""
 
 done 
