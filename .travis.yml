@@ -6,12 +6,12 @@ jobs:
       os: osx
   
     - name: "iOS"
-      script: Library/Support/Travis/Xcode.sh NanoTest iOS
+      script: Library/Support/Travis/Xcode.sh Nano iOS
       osx_image: xcode11.2
       os: osx
   
     - name: "tvOS"
-      script: Library/Support/Travis/Xcode.sh NanoTest tvOS
+      script: Library/Support/Travis/Xcode.sh Nano tvOS
       osx_image: xcode11.2
       os: osx
   
