@@ -11,7 +11,7 @@ TRAVIS_PLATFORM="$2"
 
 
 # Parse the platform
-if [ "${TRAVIS_PLATFORM}" == "Android" ]; then
+if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 
 	mkdir -p "${TRAVIS_BUILD_DIR}/Build"
 	cd       "${TRAVIS_BUILD_DIR}/Build"
@@ -21,7 +21,7 @@ if [ "${TRAVIS_PLATFORM}" == "Android" ]; then
 
 	CMAKE_FLAGS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/Build/android-ndk-r20b/build/cmake/android.toolchain.cmake"
 
-elif [ "${TRAVIS_PLATFORM}" == "Linux" ]; then
+elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_FLAGS=""
 
 else
@@ -53,7 +53,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Run the tests
-	if [ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "Linux" ]; then
+	if [[ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 		./NanoTest/Project/NanoTest -d yes
 	fi
 
