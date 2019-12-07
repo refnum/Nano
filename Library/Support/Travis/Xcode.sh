@@ -49,8 +49,11 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 	# Prepare to build
 	XCODE_SCHEME="${TRAVIS_PROJECT}_${TRAVIS_PLATFORM} - ${BUILD_CONFIG}"
-	XCODE_PARAMS="-jobs 3 CODE_SIGNING_REQUIRED=NO Nano=${TRAVIS_BUILD_DIR}"
+	XCODE_PARAMS="-jobs 3 CODE_SIGNING_REQUIRED=NO Nano=${TRAVIS_BUILD_DIR} SYMROOT=${TRAVIS_BUILD_DIR}/Build"
 
+	if [[ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "macOS" ]]; then
+		XCODE_PARAMS="${XCODE_PARAMS} -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES"
+	fi
 
 	echo "${XCODE_SCHEME}"
 	printf -v _hr "%*s" ${#XCODE_SCHEME} && echo ${_hr// /=}
@@ -65,7 +68,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 	# Run the tests
 	if [[ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "macOS" ]]; then
-		./NanoTest/Project/NanoTest -d yes
+		"Build/${BUILD_CONFIG}/NanoTest_${TRAVIS_PLATFORM}" -d yes
 	fi
 
 done 
