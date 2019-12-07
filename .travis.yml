@@ -1,4 +1,4 @@
-matrix:
+jobs:
   include:
     - os: osx
       osx_image: xcode11.2
@@ -25,9 +25,9 @@ matrix:
         - XCODE_DESTINATION="generic/platform=tvOS"
 
     - os: linux
-        dist: bionic
-        language: cpp
-        compiler: gcc
+      dist: bionic
+      language: cpp
+      compiler: gcc
 
 
 
