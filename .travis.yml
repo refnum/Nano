@@ -39,13 +39,10 @@ script:
         -scheme "$TRAVIS_XCODE_SCHEME"
         -destination "$XCODE_DESTINATION"
         | xcpretty
-
     elif  [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       mkdir -p Build
       cd Build
-      cmake
-        -DCMAKE_BUILD_TYPE=Debug
-        ../Library/Project
+      cmake -DCMAKE_BUILD_TYPE=Debug ../Library/Project
       make
     fi
 
