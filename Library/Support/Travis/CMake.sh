@@ -57,12 +57,10 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	cmake -G "${CMAKE_GENERATOR}" ${CMAKE_PARAMS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
-cat "C:/Users/travis/build/refnum/Nano/Build/Debug/CMakeFiles/CMakeOutput.log"
-
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
 		make -j3 "${TRAVIS_PROJECT}"
 	else
-		MSBuild.exe "NanoTest.sln" "/p:Configuration=${BUILD_CONFIG}" /m
+		MSBuild.exe NanoTest.sln "//p:Configuration=${BUILD_CONFIG}" //m
 	fi
 
 	echo ""
