@@ -28,9 +28,12 @@ elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_PARAMS=""
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
+	MSBUILD_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
+	PATH=$MSBUILD_PATH:$PATH
+
 	CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
 	CMAKE_PARAMS=""
-	
+
 else
 	echo "Unknown platform: ${TRAVIS_PLATFORM}"
 	exit 1
@@ -60,9 +63,10 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
 		make -j3 "${TRAVIS_PROJECT}"
 	else
-find Build -type f
 
-		MSBuild.exe "Build\\${BUILD_CONFIG}\\NanoTest.sln" "//p:Configuration=${BUILD_CONFIG}" //m
+ls -lR "C:/Users/travis/build/refnum/Nano"
+
+		MSBuild.exe NanoTest.sln /p:Configuration=${BUILD_CONFIG} /m
 	fi
 
 	echo ""
