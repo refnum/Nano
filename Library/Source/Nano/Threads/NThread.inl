@@ -41,6 +41,10 @@
 //-----------------------------------------------------------------------------
 #include "NanoTargets.h"
 
+#if NN_ARCH_X86
+	#include <immintrin.h>
+#endif // NN_ARCH_X86
+
 
 
 
@@ -74,11 +78,8 @@ void NThread::Pause()
 	//
 	//	https://software.intel.com/en-us/articles/benefitting-power-and-performance-sleep-loops
 	//
-#if NN_TARGET_WINDOWS
-	YieldProcessor();
-
-#elif NN_ARCH_X86
-	__asm__ __volatile__("pause");
+#if NN_ARCH_X86
+	_mm_pause();
 
 #elif NN_ARCH_ARM
 	__asm__ __volatile__("yield");

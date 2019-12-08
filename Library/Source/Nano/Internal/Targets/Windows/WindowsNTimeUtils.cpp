@@ -42,6 +42,7 @@
 #include "NTimeUtils.h"
 
 // Nano
+#include "NanoConstants.h"
 #include "NSharedWindows.h"
 
 

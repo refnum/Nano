@@ -27,8 +27,6 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Core/NLog.h"
 		"${TARGET_SOURCE_DIR}/Core/NLogOutput.cpp"
 		"${TARGET_SOURCE_DIR}/Core/NLogOutput.h"
-		"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
-		"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 		"${TARGET_SOURCE_DIR}/System/NDataDigest.cpp"
 		"${TARGET_SOURCE_DIR}/System/NDataDigest.h"
 		"${TARGET_SOURCE_DIR}/System/NDataDigest.inl"
@@ -90,6 +88,8 @@ if (NN_TARGET_ANDROID)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	target_include_directories("${PROJECT_NAME}"
@@ -112,6 +112,8 @@ if (NN_TARGET_IOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	target_include_directories("${PROJECT_NAME}"
@@ -134,6 +136,8 @@ target_sources("${PROJECT_NAME}"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	target_include_directories("${PROJECT_NAME}"
@@ -157,6 +161,8 @@ target_sources("${PROJECT_NAME}"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	target_include_directories("${PROJECT_NAME}"
@@ -177,6 +183,8 @@ if (NN_TARGET_TVOS)
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNTimeUtils.cpp"
 		)

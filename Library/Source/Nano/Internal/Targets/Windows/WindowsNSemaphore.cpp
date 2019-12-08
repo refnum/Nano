@@ -42,10 +42,13 @@
 #include "NSemaphore.h"
 
 // Nano
+#include "NDebug.h"
 #include "NSharedDarwin.h"
 
 // System
 #include <limits.h>
+
+#include <winbase.h>
 
 
 
@@ -61,14 +64,14 @@ NSemaphoreRef NSemaphore::Create(size_t theValue)
 	// Validate our parameters and state
 	NN_REQUIRE(theValue <= size_t(LONG_MAX));
 
-	static_assert(sizeof(NSemaphoreRef) >= sizeof(sem_t*));
+	static_assert(sizeof(NSemaphoreRef) >= sizeof(HANDLE));
 
 
 	// Create the semaphore
 	HANDLE semHnd = CreateSemaphore(nullptr, theValue, LONG_MAX, nullptr);
-	NN_REQUIRE_NOT_NULL(semRef);
+	NN_REQUIRE_NOT_NULL(semHnd);
 
-	return NSemaphoreRef(semRef);
+	return NSemaphoreRef(semHnd);
 }
 
 

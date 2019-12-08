@@ -201,8 +201,8 @@
 	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop))
 
 #else
-	#define NN_DIAGNOSTIC_PUSH
-	#define NN_DIAGNOSTIC_POP
+	#define NN_DIAGNOSTIC_PUSH()
+	#define NN_DIAGNOSTIC_POP()
 
 #endif
 
