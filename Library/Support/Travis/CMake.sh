@@ -26,7 +26,7 @@ elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_PARAMS=""
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
-	CMAKE_PARAMS="-G Visual\ Studio\ 15\ 2017"
+	CMAKE_PARAMS="-G Visual Studio 15 2017"
 
 else
 	echo "Unknown platform: ${TRAVIS_PLATFORM}"
