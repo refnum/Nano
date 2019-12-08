@@ -50,6 +50,8 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NanoMacros.h"
+
 NN_DIAGNOSTIC_PUSH()
 NN_DIAGNOSTIC_IGNORE("-Wimplicit-fallthrough")
 NN_DIAGNOSTIC_IGNORE("-Wold-style-cast")
