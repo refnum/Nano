@@ -3,7 +3,7 @@
 
 
 # Get the arguments
-set -euo pipefail
+#set -euo pipefail
 
 TRAVIS_PROJECT="$1"
 TRAVIS_PLATFORM="$2"
