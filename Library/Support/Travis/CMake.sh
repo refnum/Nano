@@ -65,8 +65,10 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	else
 
 ls -lR "C:/Users/travis/build/refnum/Nano"
+echo "currently in:"
+pwd
 
-		MSBuild.exe NanoTest.sln /p:Configuration=${BUILD_CONFIG} /m
+		MSBuild.exe NanoTest.sln //p:Configuration=${BUILD_CONFIG} //m
 	fi
 
 	echo ""
