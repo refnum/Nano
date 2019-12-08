@@ -63,7 +63,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
 		make -j3 "${TRAVIS_PROJECT}"
 	else
-		MSBuild.exe Nano.sln //p:Configuration=${BUILD_CONFIG} //m
+		MSBuild.exe Nano.sln //p:Configuration=${BUILD_CONFIG} //m //nologo //verbosity:minimal 
 	fi
 
 	echo ""
