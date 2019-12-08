@@ -20,14 +20,17 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 	wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O android-ndk-r20b-linux-x86_64.zip
 	unzip -q android-ndk-r20b-linux-x86_64.zip
 
+	CMAKE_GENERATOR="Ninja"
 	CMAKE_PARAMS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/Build/android-ndk-r20b/build/cmake/android.toolchain.cmake"
 
 elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
+	CMAKE_GENERATOR="Ninja"
 	CMAKE_PARAMS=""
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
-	CMAKE_PARAMS="-G Visual Studio 15 2017"
-
+	CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
+	CMAKE_PARAMS=""
+	
 else
 	echo "Unknown platform: ${TRAVIS_PLATFORM}"
 	exit 1
@@ -51,7 +54,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Perform the build
-	cmake ${CMAKE_PARAMS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
+	cmake -G "${CMAKE_GENERATOR}" ${CMAKE_PARAMS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
