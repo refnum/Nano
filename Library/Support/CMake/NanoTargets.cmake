@@ -71,7 +71,7 @@ endif()
 #------------------------------------------------------------------------------
 set(NN_COMPILER_CLANG										0)
 set(NN_COMPILER_GCC											0)
-set(NN_COMPILER_MSC											0)
+set(NN_COMPILER_MSVC										0)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
 	set(NN_COMPILER_CLANG									1)
@@ -81,9 +81,9 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	set(NN_COMPILER_GCC										1)
 	set(NN_COMPILER											"GCC")
 
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Windows")
-	set(NN_COMPILER_MSC										1)
-	set(NN_COMPILER											"MSC")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	set(NN_COMPILER_MSVC									1)
+	set(NN_COMPILER											"MSVC")
 
 else()
 	message(FATAL_ERROR "[Nano] Unable to identify compiler from '${CMAKE_CXX_COMPILER_ID}'")
