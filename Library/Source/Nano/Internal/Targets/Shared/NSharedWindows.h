@@ -44,7 +44,7 @@
 #include "NanoTypes.h"
 
 // System
-#include <minwinbase.h>
+#include <WinBase.h>
 
 
 
