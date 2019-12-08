@@ -25,6 +25,9 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_PARAMS=""
 
+elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
+	CMAKE_PARAMS="-G \"Visual Studio 15 2017 Win64\""
+
 else
 	echo "Unknown platform: ${TRAVIS_PLATFORM}"
 	exit 1
@@ -51,7 +54,12 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	cmake ${CMAKE_PARAMS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
-	make -j3 "${TRAVIS_PROJECT}"
+	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
+		make -j3 "${TRAVIS_PROJECT}"
+	else
+		MSBuild.exe "NanoTest.sln" "/p:Configuration=${BUILD_CONFIG}" /m
+	fi
+
 	echo ""
 
 
