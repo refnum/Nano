@@ -362,7 +362,7 @@
 // Baseline
 #define NN_COMPILER_CLANG                                   0
 #define NN_COMPILER_GCC                                     0
-#define NN_COMPILER_MSC                                     0
+#define NN_COMPILER_MSVC                                    0
 
 
 // Clang
@@ -385,13 +385,13 @@
 
 // Visual Studio
 #if defined(_MSC_FULL_VER)
-	#undef  NN_COMPILER_MSC
-	#define NN_COMPILER_MSC                                 _MSC_FULL_VER
+	#undef  NN_COMPILER_MSVC
+	#define NN_COMPILER_MSVC                                _MSC_FULL_VER
 #endif
 
 
 // Validate
-#if (((NN_COMPILER_CLANG != 0) + (NN_COMPILER_GCC != 0) + (NN_COMPILER_MSC != 0)) != 1)
+#if (((NN_COMPILER_CLANG != 0) + (NN_COMPILER_GCC != 0) + (NN_COMPILER_MSVC != 0)) != 1)
 	#error Unable to identify compiler
 #endif
 

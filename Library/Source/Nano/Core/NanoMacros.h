@@ -82,7 +82,7 @@
 //			return 1;
 //		}
 //
-#if NN_COMPILER_MSC
+#if NN_COMPILER_MSVC
 	#define NN_ALWAYS_INLINE                                __forceinline
 #else
 	#define NN_ALWAYS_INLINE                                __attribute__((always_inline))
@@ -135,7 +135,7 @@
 //			}
 //		}
 //
-#if NN_COMPILER_MSC
+#if NN_COMPILER_MSVC
 	#define NN_DEBUG_BREAK                                  __debugbreak
 
 #else
