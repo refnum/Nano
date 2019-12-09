@@ -107,7 +107,7 @@ struct alignas(16) NStringStorage
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NString
+class NN_EMPTY_BASE NString final
 	: public NMixinContainer<NString>
 	, public NMixinComparable<NString>
 	, public NMixinHashable<NString>

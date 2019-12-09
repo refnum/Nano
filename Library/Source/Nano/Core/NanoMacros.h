@@ -103,6 +103,28 @@
 #endif
 
 
+// Request EBO
+//
+// MSVC only performs Empty Base Optimization for classs that derive from a
+// single empty base class. This macro enables EBO for multiple base classes:
+//
+//		https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/
+//
+// Example:
+//
+//		class NN_EMPTY_BASE DerivedClass
+//			: public BaseClass1
+//			, public BaseClass1
+//		{
+//			...
+//
+#if NN_COMPILER_MSVC
+	#define NN_EMPTY_BASE                                   __declspec(empty_bases)
+#else
+	#define NN_EMPTY_BASE
+#endif
+
+
 // Indicate an expression is likely
 //
 // Example:

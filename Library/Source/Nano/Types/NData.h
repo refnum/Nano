@@ -123,7 +123,7 @@ struct alignas(16) NDataStorage
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NData
+class NN_EMPTY_BASE NData final
 	: public NMixinContainer<NData>
 	, public NMixinComparable<NData>
 	, public NMixinHashable<NData>

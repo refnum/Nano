@@ -80,11 +80,14 @@ NString::NString(const utf32_t* theString)
 
 
 	// Validate our state
-	static_assert(sizeof(mString.Small.theData) == kNStringSmallSizeMax);
 	static_assert(sizeof(NStringStorage) == 32);
-
 	static_assert(offsetof(NStringStorage, Small.sizeFlags) == 0);
+	static_assert(offsetof(NStringStorage, Small.theData) == 1);
 	static_assert(offsetof(NStringStorage, Large.theState) == 0);
+	static_assert(offsetof(NStringStorage, Large.reserved) == 8);
+	static_assert(offsetof(NStringStorage, theHash) == 24);
+
+	static_assert(sizeof(mString.Small.theData) == kNStringSmallSizeMax);
 
 	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
 	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");

@@ -66,7 +66,7 @@ using NVectorRange = std::vector<NRange>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NRange final
+class NN_EMPTY_BASE NRange final
 	: public NMixinContainer<NRange>
 	, public NMixinComparable<NRange>
 {
