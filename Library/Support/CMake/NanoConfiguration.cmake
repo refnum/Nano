@@ -160,8 +160,14 @@ elseif (NN_COMPILER_MSVC)
 
 	# Discard unwanted warnings
 	list(APPEND NN_COMPILER_WARNINGS /wd4068)		# Unknown pragma
-	list(APPEND NN_COMPILER_WARNINGS /wd4820)		# Padding added after data member 
 	list(APPEND NN_COMPILER_WARNINGS /wd4514)		# Unreferenced inline function has been removed 
+	list(APPEND NN_COMPILER_WARNINGS /wd4623)		# Default constructor was implicitly defined as deleted
+	list(APPEND NN_COMPILER_WARNINGS /wd4625)		# Copy constructor was implicitly defined as deleted
+	list(APPEND NN_COMPILER_WARNINGS /wd4626)		# Assignment operator was implicitly defined as deleted
+	list(APPEND NN_COMPILER_WARNINGS /wd4710)		# Function not inlined
+	list(APPEND NN_COMPILER_WARNINGS /wd4820)		# Padding added after data member 
+	list(APPEND NN_COMPILER_WARNINGS /wd5027)		# Move assignment operator was implicitly defined as deleted
+	list(APPEND NN_COMPILER_WARNINGS /wd5039)		# Pointer to potentially throwing function passed to C function
 
 endif()
 
