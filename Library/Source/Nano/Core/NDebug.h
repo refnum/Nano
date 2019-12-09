@@ -219,9 +219,6 @@
 	#define _nn_require_from1(_condition, _message, ...)                                      \
 	  do                                                                                      \
 	  {                                                                                       \
-		  if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
-		  {                                                                                   \
-		  }                                                                                   \
 	  } while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require_from1(_condition, "")
