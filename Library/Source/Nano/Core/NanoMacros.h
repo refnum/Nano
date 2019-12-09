@@ -219,12 +219,12 @@
 //
 // Example:
 //
-//		NN_DIAGNOSTIC_PUSH
-//		NN_DIAGNOSTIC_IGNORE("-Wold-style-cast")
+//		NN_DIAGNOSTIC_PUSH();
+//		NN_DIAGNOSTIC_IGNORE_CLANG("-Wold-style-cast");
 //
 //		uint8_t* thePtr = (uint8_t*) otherPtr;
 //
-//		NN_DIAGNOSTIC_POP
+//		NN_DIAGNOSTIC_POP();
 //
 #define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)
 #define NN_DIAGNOSTIC_IGNORE_GCC(_warning)
@@ -247,9 +247,9 @@
 	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              NN_DIAGNOSTIC_IGNORE(_warning)
 
 #elif NN_COMPILER_MSVC
-	#define NN_DIAGNOSTIC_IGNORE(_warning)                  __pragma("warning(disable:" NN_STRINGIFY(_warning) ")")
-	#define NN_DIAGNOSTIC_PUSH()                            __pragma("warning(push)")
-	#define NN_DIAGNOSTIC_POP()                             __pragma("warning(pop)")
+	#define NN_DIAGNOSTIC_IGNORE(_warning)                  __pragma(warning(disable:_warning))
+	#define NN_DIAGNOSTIC_PUSH()                            __pragma(warning(push))
+	#define NN_DIAGNOSTIC_POP()                             __pragma(warning(pop))
 
 	#undef  NN_DIAGNOSTIC_IGNORE_MSVC
 	#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)             NN_DIAGNOSTIC_IGNORE(_warning)

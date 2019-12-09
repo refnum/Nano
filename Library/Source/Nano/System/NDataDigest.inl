@@ -372,16 +372,17 @@ size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t prevVa
 
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH()
-		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused")
-		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas")
+		NN_DIAGNOSTIC_PUSH();
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
 #if NN_ARCH_64
 		theDigest = XXH64(thePtr, theSize, prevValue);
 #else
 		theDigest      = XXH32(thePtr, theSize, prevValue);
 #endif
-		NN_DIAGNOSTIC_POP()
+
+		NN_DIAGNOSTIC_POP();
 	}
 
 	return theDigest;
@@ -403,16 +404,17 @@ uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, uint32_t 
 
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH()
-		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused")
-		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas")
+		NN_DIAGNOSTIC_PUSH();
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
 #if NN_ARCH_64
 		theDigest = uint32_t(XXH64(thePtr, theSize, prevValue));
 #else
 		theDigest      = XXH32(thePtr, theSize, prevValue);
 #endif
-		NN_DIAGNOSTIC_POP()
+
+		NN_DIAGNOSTIC_POP();
 	}
 
 	return theDigest;
@@ -434,9 +436,9 @@ uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t 
 
 	if (theDigest != 0)
 	{
-		NN_DIAGNOSTIC_PUSH()
-		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused")
-		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas")
+		NN_DIAGNOSTIC_PUSH();
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
 #if NN_ARCH_64
 		theDigest = XXH64(thePtr, theSize, prevValue);
@@ -446,7 +448,8 @@ uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t 
 
 		theDigest = (uint64_t(hash1) << 32) | uint64_t(hash2);
 #endif
-		NN_DIAGNOSTIC_POP()
+
+		NN_DIAGNOSTIC_POP();
 	}
 
 	return theDigest;
@@ -483,13 +486,13 @@ NDigest128 NDataDigest::GetRuntime128(size_t            theSize,
 	// xxh3 has yet to be finalised but is safe to use as a runtime hash.
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH()
-		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused")
-		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas")
+		NN_DIAGNOSTIC_PUSH();
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
 		XXH128_hash_t xxDigest128 = XXH128(thePtr, theSize, xxSeed64);
 
-		NN_DIAGNOSTIC_POP()
+		NN_DIAGNOSTIC_POP();
 
 		static_assert(sizeof(xxDigest128) == sizeof(NDigest128));
 		theDigest = NDigest128(sizeof(xxDigest128), reinterpret_cast<const uint8_t*>(&xxDigest128));
