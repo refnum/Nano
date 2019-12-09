@@ -28,9 +28,6 @@ elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_PARAMS=""
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
-#	MSBUILD_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
-#	PATH=$MSBUILD_PATH:$PATH
-
 	CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
 	CMAKE_PARAMS=""
 
@@ -63,9 +60,9 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
 		make -j3 "${TRAVIS_PROJECT}"
 	else
-#		MSBuild.exe Nano.sln //p:Configuration=${BUILD_CONFIG} //m //nologo //verbosity:minimal 
-		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}" --debug-output --trace
-
+echo "About to build";
+		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}"
+echo "Finished build";
 	fi
 
 	echo ""
@@ -73,8 +70,15 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Run the tests
-	if [[ "${TRAVIS_PROJECT}" == "NanoTest" && "${TRAVIS_PLATFORM}" == "Linux" ]]; then
-		./NanoTest/Project/NanoTest -d yes
+	if [[ "${TRAVIS_PROJECT}" == "NanoTest" ]]; then
+
+		if [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
+			./NanoTest/Project/NanoTest -d yes
+
+		elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
+			./NanoTest/Project/Debug/NanoTest.exe -d yes
+		fi
+
 	fi
 
 done 
