@@ -112,7 +112,7 @@
 // Tags may be used to group tests for execution.
 //
 #define NANO_TEST(_fixture, ...)                            \
-	TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" __VA_ARGS__)
+	TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" NN_EXPAND(__VA_ARGS__))
 
 
 

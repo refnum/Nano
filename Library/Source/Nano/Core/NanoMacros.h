@@ -72,6 +72,20 @@
 #define NN_STRINGIFY(_token)                                #_token
 
 
+// Expand a token
+//
+// Allow MSVC to expand __VA_ARGS__ to multiple tokens when passed
+// between macros, rather than passing it on as a single token.
+//
+//		https://devblogs.microsoft.com/cppblog/msvc-preprocessor-progress-towards-conformance/
+//
+// Example:
+//
+//		NN_EXPAND(OTHER_MACRO(__VA_ARGS))
+
+#define NN_EXPAND(_token)                                   _token
+
+
 // Force inlining
 //
 // Example:
