@@ -43,12 +43,10 @@
 
 // Nano
 #include "NDebug.h"
-#include "NSharedDarwin.h"
+#include "NSharedWindows.h"
 
 // System
 #include <limits.h>
-
-#include <winbase.h>
 
 
 

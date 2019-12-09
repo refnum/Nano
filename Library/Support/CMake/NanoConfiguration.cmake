@@ -46,6 +46,7 @@ if (NN_COMPILER_CLANG)
 		list(APPEND NN_COMPILER_FLAGS -fno-stack-protector)
 	endif()
 
+
 elseif (NN_COMPILER_GCC)
 
 	if (NN_DEBUG)
@@ -53,6 +54,14 @@ elseif (NN_COMPILER_GCC)
 	else()
 		list(APPEND NN_COMPILER_FLAGS -O3)
 	endif()
+
+
+elseif (NN_COMPILER_MSVC)
+
+	list(APPEND NN_COMPILER_FLAGS /DNOMINMAX)
+	list(APPEND NN_COMPILER_FLAGS /DUNICODE)
+	list(APPEND NN_COMPILER_FLAGS /DVC_EXTRALEAN)
+	list(APPEND NN_COMPILER_FLAGS /DWIN32_LEAN_AND_MEAN)
 
 endif()
 
@@ -139,6 +148,11 @@ elseif (NN_COMPILER_GCC)
 
 
 elseif (NN_COMPILER_MSC)
+	list(APPEND NN_COMPILER_WARNINGS /Wall)
+	list(APPEND NN_COMPILER_WARNINGS /WX)			# Warnings as errors
+
+	# Discard unwanted warnings
+	list(APPEND NN_COMPILER_WARNINGS /wd4068)		# Unknown pragma
 
 
 endif()
