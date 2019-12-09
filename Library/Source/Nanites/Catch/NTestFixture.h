@@ -47,8 +47,8 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NanoTypes.h"
 #include "NanoMacros.h"
+#include "NanoTypes.h"
 
 // Catch
 #include "catch.hpp"

@@ -102,9 +102,20 @@
 
 #else
 
-	#define NN_LOG_INFO(...)
-	#define NN_LOG_WARNING(...)
-	#define NN_LOG_ERROR(...)
+	#define NN_LOG_INFO(...)                                \
+		do                                                  \
+		{                                                   \
+		} while (false)
+
+	#define NN_LOG_WARNING(...)                             \
+		do                                                  \
+		{                                                   \
+		} while (false)
+
+	#define NN_LOG_ERROR(...)                               \
+		do                                                  \
+		{                                                   \
+		} while (false)
 
 #endif
 
@@ -145,7 +156,12 @@
 											   _nn_log_unimplemented_0)(__VA_ARGS__))
 
 #else
-	#define NN_LOG_UNIMPLEMENTED(...)
+
+	#define NN_LOG_UNIMPLEMENTED(...)                       \
+		do                                                  \
+		{                                                   \
+		} while (false)
+
 #endif
 
 
@@ -218,7 +234,12 @@
 
 
 #else
-	#define NN_REQUIRE(...)
+
+	#define NN_REQUIRE(...)                                 \
+		do                                                  \
+		{                                                   \
+		} while (false)
+
 #endif
 
 
@@ -266,7 +287,12 @@
 									_nn_expect_1)(__VA_ARGS__))
 
 #else
-	#define NN_EXPECT(...)
+
+	#define NN_EXPECT(...)                                  \
+		do                                                  \
+		{                                                   \
+		} while (false)
+
 #endif
 
 
