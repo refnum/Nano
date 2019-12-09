@@ -223,7 +223,9 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_expect(_condition, _message, ...)                                               \
+	#define _nn_expect(...)
+	
+	#define _nn_expect2(_condition, _message, ...)                                               \
 		do                                                                                      \
 		{                                                                                       \
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
