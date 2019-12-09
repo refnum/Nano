@@ -54,6 +54,18 @@ NANO_FIXTURE(TTimeUtils){};
 
 
 
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TTimeUtils, "Time")
+{
+
+
+	// Perform the test
+	REQUIRE(NTimeUtils::GetTime() != 0.0);
+}
+
+
 
 //=============================================================================
 //		Test case
@@ -63,5 +75,5 @@ NANO_TEST(TTimeUtils, "Uptime")
 
 
 	// Perform the test
-	REQUIRE(NTimeUtils::GetUpTime() < NTimeUtils::GetTime());
+	REQUIRE(NTimeUtils::GetUpTime() != 0.0);
 }
