@@ -60,6 +60,9 @@ NRange::NRange(size_t theLocation, size_t theSize)
 	// Validate our state
 	static_assert(std::is_trivially_copyable<NRange>::value, "NRange is not trivially copyable!");
 	static_assert(std::is_standard_layout<NRange>::value, "NRange is not standard layout!");
+
+	static_assert(offsetof(NRange, mLocation) == 0);
+	static_assert(offsetof(NRange, mSize)     == 8);
 }
 
 

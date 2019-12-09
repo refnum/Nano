@@ -127,6 +127,7 @@ NData::NData()
 
 
 
+
 	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
 	static_assert(offsetof(NDataStorage, Large.theState) == 0);
 
