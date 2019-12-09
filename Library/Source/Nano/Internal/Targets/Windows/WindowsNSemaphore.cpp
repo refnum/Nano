@@ -66,7 +66,7 @@ NSemaphoreRef NSemaphore::Create(size_t theValue)
 
 
 	// Create the semaphore
-	HANDLE semHnd = CreateSemaphore(nullptr, theValue, LONG_MAX, nullptr);
+	HANDLE semHnd = CreateSemaphore(nullptr, LONG(theValue), LONG_MAX, nullptr);
 	NN_REQUIRE_NOT_NULL(semHnd);
 
 	return NSemaphoreRef(semHnd);

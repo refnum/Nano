@@ -459,7 +459,8 @@ size_t NString::GetSizeSmall() const
 	//
 	// As we only use small stoarge for fixed-width strings we can get the
 	// size in codepoints by multiplying by the element size.
-	size_t theSize = (mString.Small.sizeFlags & kNStringSmallSizeMask) >> kNStringSmallSizeShift;
+	size_t theSize =
+		size_t((mString.Small.sizeFlags & kNStringSmallSizeMask) >> kNStringSmallSizeShift);
 
 	if (mString.Small.sizeFlags & kNStringFlagIsUTF16)
 	{
