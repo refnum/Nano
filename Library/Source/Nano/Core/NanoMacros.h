@@ -150,7 +150,7 @@
 //		}
 //
 #if NN_COMPILER_MSVC
-	#define NN_DEBUG_BREAK                                  __debugbreak
+	#define NN_DEBUG_BREAK()                                __debugbreak()
 
 #else
 	#if NN_ARCH_X86
