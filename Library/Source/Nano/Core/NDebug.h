@@ -221,7 +221,6 @@
 	  {                                                                                       \
 		  if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
 		  {                                                                                   \
-			  NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
 		  }                                                                                   \
 	  } while (false)
 
