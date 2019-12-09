@@ -172,11 +172,12 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /wd4625)		# Copy constructor was implicitly defined as deleted
 	list(APPEND NN_COMPILER_WARNINGS /wd4626)		# Assignment operator was implicitly defined as deleted
 	list(APPEND NN_COMPILER_WARNINGS /wd4710)		# Function not inlined
+	list(APPEND NN_COMPILER_WARNINGS /wd4774)		# Format string is not a string literal
 	list(APPEND NN_COMPILER_WARNINGS /wd4820)		# Padding added after data member 
 	list(APPEND NN_COMPILER_WARNINGS /wd5026)		# Move constructor was implicitly defined as deleted 
 	list(APPEND NN_COMPILER_WARNINGS /wd5027)		# Move assignment operator was implicitly defined as deleted
 	list(APPEND NN_COMPILER_WARNINGS /wd5039)		# Pointer to potentially throwing function passed to C function
-	list(APPEND NN_COMPILER_WARNINGS /wd4774)		# Format string is not a string literal
+	list(APPEND NN_COMPILER_WARNINGS /wd5105)		# Macro expansion producing 'defined' has undefined behavior
 
 endif()
 
