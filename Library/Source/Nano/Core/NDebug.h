@@ -192,12 +192,12 @@
 	#define _nn_require_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
 
 	#define NN_REQUIRE(...)                                 \
-		_nn_require_1_TO_N(NN_EXPAND(__VA_ARGS__),          \
+		_nn_require_1_TO_N(NN_EXPAND(__VA_ARGS__,           \
 						   _nn_require_N,                   \
 						   _nn_require_N,                   \
 						   _nn_require_N,                   \
 						   _nn_require_N,                   \
-						   _nn_require_1)(NN_EXPAND(__VA_ARGS__))
+						   _nn_require_1))(NN_EXPAND(__VA_ARGS__))
 
 #else
 	#define NN_REQUIRE(...)
