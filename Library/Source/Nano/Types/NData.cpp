@@ -112,7 +112,20 @@ NData::NData()
 	// Validate our state
 	static_assert(sizeof(mData.Small.theData) == kNDataSmallSizeMax);
 //	static_assert(sizeof(NDataStorage) == 32);
-	static_assert(sizeof(NDataStorage) <= 48);
+	static_assert(sizeof(NDataStorage) <= 47);
+
+	static_assert(sizeof(void*) == 8);
+	static_assert(sizeof(NRange) == 16);
+
+	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
+	static_assert(offsetof(NDataStorage, Small.theData)   == 1);
+
+	static_assert(offsetof(NDataStorage, Large.theState) == 0);
+	static_assert(offsetof(NDataStorage, Large.theSlice) == 8);
+
+	static_assert(offsetof(NDataStorage, theHash) == 24);
+
+
 
 	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
 	static_assert(offsetof(NDataStorage, Large.theState) == 0);
