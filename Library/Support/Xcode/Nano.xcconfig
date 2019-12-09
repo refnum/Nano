@@ -134,13 +134,13 @@ Nano_Configuration_Common				= $(inherited) -fconstant-cfstrings
 Nano_Configuration_Common				= $(inherited) -fno-common
 
 Nano_Configuration_Debug				= $(Nano_Configuration_Common)
+Nano_Configuration_Debug				= $(inherited) -fstack-protector-all
 Nano_Configuration_Debug				= $(inherited) -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2
 Nano_Configuration_Debug				= $(inherited) -UNN_DEBUG -DNN_DEBUG=1
-Nano_Configuration_Debug				= $(inherited) -fstack-protector-all
 
 Nano_Configuration_Release				= $(Nano_Configuration_Common)
-Nano_Configuration_Release				= $(inherited) -UNN_RELEASE -DNN_RELEASE=1
 Nano_Configuration_Release				= $(inherited) -fno-stack-protector
+Nano_Configuration_Release				= $(inherited) -UNN_RELEASE -DNN_RELEASE=1
 
 Nano_Configuration						= $(Nano_Configuration_$(CONFIGURATION))
 
