@@ -224,9 +224,12 @@ uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t p
 
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH_IGNORE("-Wpragmas")
-		NN_DIAGNOSTIC_IGNORE("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_PUSH()
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas")
+
 		theDigest = XXH32(thePtr, theSize, prevValue);
+
 		NN_DIAGNOSTIC_POP()
 	}
 
@@ -246,9 +249,12 @@ uint64_t NDataDigest::GetXXHash64(size_t theSize, const void* thePtr, uint64_t p
 
 	if (theSize != 0)
 	{
-		NN_DIAGNOSTIC_PUSH_IGNORE("-Wpragmas")
-		NN_DIAGNOSTIC_IGNORE("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_PUSH()
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused")
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas")
+
 		theDigest = XXH64(thePtr, theSize, prevValue);
+
 		NN_DIAGNOSTIC_POP()
 	}
 

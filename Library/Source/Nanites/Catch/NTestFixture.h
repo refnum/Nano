@@ -52,14 +52,11 @@
 
 // Catch
 NN_DIAGNOSTIC_PUSH()
-
-#if NN_COMPILER_MSVC
-	NN_DIAGNOSTIC_IGNORE(4365)		// Signed / unsigned mismatch
-	NN_DIAGNOSTIC_IGNORE(4388)		// Signed / unsigned mismatch
-	NN_DIAGNOSTIC_IGNORE(4583)		// Destructor is not implicitly called
-	NN_DIAGNOSTIC_IGNORE(4619)		// Unknown #pragma warning
-	NN_DIAGNOSTIC_IGNORE(4996)		// Unsafe function
-#endif // NN_COMPILER_MSVC
+NN_DIAGNOSTIC_IGNORE_MSVC(4365)    // Signed / unsigned mismatch
+NN_DIAGNOSTIC_IGNORE_MSVC(4388)    // Signed / unsigned mismatch
+NN_DIAGNOSTIC_IGNORE_MSVC(4583)    // Destructor is not implicitly called
+NN_DIAGNOSTIC_IGNORE_MSVC(4619)    // Unknown #pragma warning
+NN_DIAGNOSTIC_IGNORE_MSVC(4996)    // Unsafe function
 
 #include "catch.hpp"
 
