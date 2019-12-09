@@ -217,20 +217,20 @@
 									 _nn_require_1)(__VA_ARGS__))
 */
 
+	#define _nn_require_1(_condition)                       _nn_require_from1(_condition, "")
 
-#define _nn_require_1(...)        selected_1
+	#define _nn_require_N(_condition, _message, ...)        \
+		_nn_require_fromN(_condition, ", " _message, ##__VA_ARGS__)
 
-#define _nn_require_N(...)        selected_n
+	#define _nn_require_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
 
-#define _nn_require_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
-
-#define NN_REQUIRE(...)                                 \
-	NN_EXPAND(_nn_require_1_TO_N(__VA_ARGS__,           \
-								 _nn_require_N,         \
-								 _nn_require_N,         \
-								 _nn_require_N,         \
-								 _nn_require_N,         \
-								 _nn_require_1)(xxx))
+	#define NN_REQUIRE(...)                                 \
+		NN_EXPAND(_nn_require_1_TO_N(__VA_ARGS__,           \
+									 _nn_require_N,         \
+									 _nn_require_N,         \
+									 _nn_require_N,         \
+									 _nn_require_N,         \
+									 _nn_require_1)(__VA_ARGS__))
 
 
 #else
