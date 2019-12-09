@@ -44,6 +44,7 @@
 // Nano
 #include "NMixinComparable.h"
 #include "NMixinContainer.h"
+#include "NanoMacros.h"
 
 // System
 #include <vector>
