@@ -45,8 +45,8 @@
 #include "NMixinComparable.h"
 #include "NMixinContainer.h"
 #include "NMixinHashable.h"
-#include "NanoMacros.h"
 #include "NRange.h"
+#include "NanoMacros.h"
 
 
 
