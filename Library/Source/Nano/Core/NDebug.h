@@ -248,7 +248,6 @@
 									_nn_expect_1)(__VA_ARGS__))
 
 #else
-	failure
 	#define NN_EXPECT(...)
 #endif
 

@@ -58,9 +58,7 @@ NDigestX<N>::NDigestX(size_t theSize, const uint8_t* thePtr)
 	: mBytes{}
 {
 
-	size_t x = NN_EXPAND(theSize);
-	(void) x;
-	
+
 	// Validate our parameters
 	NN_REQUIRE(theSize == N);
 	NN_UNUSED(theSize);
