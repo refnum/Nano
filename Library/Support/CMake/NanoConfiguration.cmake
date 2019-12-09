@@ -159,13 +159,16 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /Wall)
 	list(APPEND NN_COMPILER_WARNINGS /WX)			# Warnings as errors
 
+
 	# Discard unwanted warnings
-	#
-	# Many of these are 'unwanted', despite their usefulness, due to their
-	# presence in system headers. Such warnings (e.g., C4774) are caught on
-	# other platforms.
-	list(APPEND NN_COMPILER_WARNINGS /wd4061)		# Enumerator in switch of enum is not explicitly handled by a case label
+	list(APPEND NN_COMPILER_WARNINGS -D_CRT_SECURE_NO_WARNINGS)
 	list(APPEND NN_COMPILER_WARNINGS /wd4068)		# Unknown pragma
+
+
+	# Discard necessary warnings
+	#
+	# These warnings are useful, but are present in system headers.
+	list(APPEND NN_COMPILER_WARNINGS /wd4061)		# Enumerator in switch of enum is not explicitly handled by a case label
 	list(APPEND NN_COMPILER_WARNINGS /wd4514)		# Unreferenced inline function has been removed 
 	list(APPEND NN_COMPILER_WARNINGS /wd4571)		# Structured exceptions are no longer caught
 	list(APPEND NN_COMPILER_WARNINGS /wd4623)		# Default constructor was implicitly defined as deleted
