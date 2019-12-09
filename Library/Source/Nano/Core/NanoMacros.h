@@ -236,6 +236,11 @@
 	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push))
 	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop))
 
+#elif NN_COMPILER_MSVC
+	#define NN_DIAGNOSTIC_IGNORE(_warning)                  __pragma("warning(disable:" NN_STRINGIFY(_warning) ")")
+	#define NN_DIAGNOSTIC_PUSH()                            __pragma("warning(push)")
+	#define NN_DIAGNOSTIC_POP()                             __pragma("warning(pop)")
+
 #else
 	#define NN_DIAGNOSTIC_IGNORE(_warning)
 	#define NN_DIAGNOSTIC_PUSH()
