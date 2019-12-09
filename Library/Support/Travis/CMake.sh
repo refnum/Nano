@@ -64,7 +64,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 		make -j3 "${TRAVIS_PROJECT}"
 	else
 #		MSBuild.exe Nano.sln //p:Configuration=${BUILD_CONFIG} //m //nologo //verbosity:minimal 
-		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}" --debug-output --trace -- -d1reportSingleClassLayoutNRange
+		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}" --debug-output --trace
 
 	fi
 
