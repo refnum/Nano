@@ -1245,7 +1245,7 @@ size_t NData::GetSizeSmall() const
 	// Get the size
 	//
 	// The size is stored in the top bits of the storage flag byte.
-	return (mData.Small.sizeFlags & kNDataSmallSizeMask) >> kNDataSmallSizeShift;
+	return size_t((mData.Small.sizeFlags & kNDataSmallSizeMask) >> kNDataSmallSizeShift);
 }
 
 
