@@ -49,9 +49,23 @@
 
 
 //=============================================================================
-//		NSharedWindows::ConvertFILETIME : Convert from a FILETIME.
+//		Internal Functions
 //-----------------------------------------------------------------------------
-NInternval NSharedWindows::ConvertFILETIME(const FILETIME& fileTime)
+//		ToNN : Convert two DWORDs to a uint64_t.
+//-----------------------------------------------------------------------------
+uint64_t ToNN(DWORD valueHigh, DWORD valueLow)
+{
+	return (uint64_t(valueHigh) << 32) | uint64_t(valueLow);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::ToInterval : Convert to an NInterval.
+//-----------------------------------------------------------------------------
+NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
 {
 
 

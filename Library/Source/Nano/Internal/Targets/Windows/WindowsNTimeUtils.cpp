@@ -42,8 +42,8 @@
 #include "NTimeUtils.h"
 
 // Nano
-#include "NanoConstants.h"
 #include "NSharedWindows.h"
+#include "NanoConstants.h"
 
 
 
@@ -61,7 +61,7 @@ NInterval NTimeUtils::GetTime()
 
 	GetSystemTimeAsFileTime(&fileTime);
 
-	return NSharedWindows::ConvertFILETIME(fileTime);
+	return NSharedWindows::ToInterval(fileTime);
 }
 
 
