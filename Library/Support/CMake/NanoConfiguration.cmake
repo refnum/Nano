@@ -163,6 +163,7 @@ elseif (NN_COMPILER_MSVC)
 	# Discard unwanted warnings
 	list(APPEND NN_COMPILER_WARNINGS -D_CRT_SECURE_NO_WARNINGS)
 	list(APPEND NN_COMPILER_WARNINGS /wd4068)		# Unknown pragma
+	list(APPEND NN_COMPILER_WARNINGS /wd4619)		# Unrecognised warning pragma
 
 
 	# Discard necessary warnings
@@ -180,6 +181,7 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /wd5026)		# Move constructor was implicitly defined as deleted 
 	list(APPEND NN_COMPILER_WARNINGS /wd5027)		# Move assignment operator was implicitly defined as deleted
 	list(APPEND NN_COMPILER_WARNINGS /wd5039)		# Pointer to potentially throwing function passed to C function
+	list(APPEND NN_COMPILER_WARNINGS /wd5045)		# Spectre mitigation suggested
 	list(APPEND NN_COMPILER_WARNINGS /wd5105)		# Macro expansion producing 'defined' has undefined behavior
 
 endif()
