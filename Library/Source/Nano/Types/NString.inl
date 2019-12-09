@@ -58,7 +58,7 @@ static constexpr uint8_t kNStringEmptyUTF8                  = 0;
 static constexpr size_t  kNStringEmptyUTF16                 = kNStringFlagIsUTF16;
 
 static constexpr utf8_t kNStringUTF8Null                    = utf8_t(0x00);
-static constexpr utf8_t kNStringUTF8Variable                = utf8_t(0x80);
+static constexpr utf8_t kNStringUTF8Variable                = utf8_t(0x80U);
 
 static constexpr utf16_t kNStringUTF16Null                  = utf16_t(0x0000);
 static constexpr utf16_t kNStringUTF16SurrogateStart        = utf16_t(0xD800);

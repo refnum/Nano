@@ -159,6 +159,11 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /WX)			# Warnings as errors
 
 	# Discard unwanted warnings
+	#
+	# Many of these are 'unwanted', despite their usefulness, due to their
+	# presence in system headers. Such warnings (e.g., C4774) are caught on
+	# other platforms.
+	list(APPEND NN_COMPILER_WARNINGS /wd4061)		# Enumerator in switch of enum is not explicitly handled by a case label
 	list(APPEND NN_COMPILER_WARNINGS /wd4068)		# Unknown pragma
 	list(APPEND NN_COMPILER_WARNINGS /wd4514)		# Unreferenced inline function has been removed 
 	list(APPEND NN_COMPILER_WARNINGS /wd4571)		# Structured exceptions are no longer caught
@@ -170,7 +175,8 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /wd5026)		# Move constructor was implicitly defined as deleted 
 	list(APPEND NN_COMPILER_WARNINGS /wd5027)		# Move assignment operator was implicitly defined as deleted
 	list(APPEND NN_COMPILER_WARNINGS /wd5039)		# Pointer to potentially throwing function passed to C function
- 
+	list(APPEND NN_COMPILER_WARNINGS /wd4774)		# Format string is not a string literal
+
 endif()
 
 
