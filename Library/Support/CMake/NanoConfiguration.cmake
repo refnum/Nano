@@ -147,7 +147,7 @@ elseif (NN_COMPILER_GCC)
 	list(APPEND NN_COMPILER_WARNINGS -Wno-unknown-pragmas)
 
 
-elseif (NN_COMPILER_MSC)
+elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /Wall)
 	list(APPEND NN_COMPILER_WARNINGS /WX)			# Warnings as errors
 
