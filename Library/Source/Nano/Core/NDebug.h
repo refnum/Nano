@@ -216,6 +216,14 @@
 									 _nn_require_N,         \
 									 _nn_require_1)(__VA_ARGS__))
 */
+	#define _nn_require_from1(_condition, _message, ...)                                      \
+	  do                                                                                      \
+	  {                                                                                       \
+		  if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+		  {                                                                                   \
+			  NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+		  }                                                                                   \
+	  } while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require_from1(_condition, "")
 
