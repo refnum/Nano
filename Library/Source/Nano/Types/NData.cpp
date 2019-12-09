@@ -46,6 +46,7 @@
 #include "NDebug.h"
 
 // System
+#include <algorithm>
 #include <cstddef>
 
 
