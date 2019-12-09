@@ -60,9 +60,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
 		make -j3 "${TRAVIS_PROJECT}"
 	else
-echo "About to build";
 		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}"
-echo "Finished build";
 	fi
 
 	echo ""

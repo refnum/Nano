@@ -76,5 +76,7 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	return NInterval(GetTickCount()) * kNTimeMillisecond;
+	uint64_t tickCount = GetTickCount64();
+	
+	return NInterval(tickCount) * kNTimeMillisecond;
 }
