@@ -59,7 +59,7 @@ public:
 	// Convert between times
 	//
 	// No epoch conversion is performed on intervals.
-	NInterval                           ToInterval(const FILETIME& fileTime);
+	static NInterval                    ToInterval(const FILETIME& fileTime);
 };
 
 
