@@ -171,7 +171,7 @@
 //		NN_VALIDATE_PRINTF(1, 2)
 //		void Print(const char* theMsg, ...);
 //
-#if NN_COMPILER_CLANG || NN_COMPILAER_GCC
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
 	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)  \
 		__attribute__((format(printf, _formatIndex, _firstParamIndex)))
 #else
