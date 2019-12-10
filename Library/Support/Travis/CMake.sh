@@ -40,6 +40,7 @@ fi
 
 
 # Do the builds
+#for BUILD_CONFIG in "Debug" "Release"; do
 for BUILD_CONFIG in "Debug" "Release"; do
 
 	# Prepare to build
@@ -74,7 +75,10 @@ for BUILD_CONFIG in "Debug" "Release"; do
 			./NanoTest/Project/NanoTest -d yes
 
 		elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
+echo "About to run";
+ls -l 
 			./NanoTest/Project/Debug/NanoTest.exe -d yes
+echo "Done!"
 		fi
 
 	fi
