@@ -42,7 +42,7 @@
 #include "NanoTargets.h"
 
 #if NN_TARGET_WINDOWS
-	#include <processthreadsapi.h>
+	#include <Windows.h>
 #endif // NN_TARGET_WINDOWS
 
 #if NN_ARCH_X86
