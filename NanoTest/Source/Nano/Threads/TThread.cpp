@@ -71,6 +71,22 @@ NANO_FIXTURE(TThread){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TThread, "ID")
+{
+
+
+	// Perform the test
+	NThreadID theID = NThread::GetID();
+	REQUIRE(theID != kNThreadIDNone);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TThread, "Yield")
 {
 
@@ -84,25 +100,6 @@ NANO_TEST(TThread, "Yield")
 
 // Nano 3.x
 #if 0
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-TEST_NTHREAD("ID")
-{
-  NThreadID theID;
-
-
-
-  // Perform the test
-  theID = NThread::GetID();
-  REQUIRE( NThread::AreEqual(theID, theID));
-  REQUIRE(!NThread::AreEqual(theID, kNThreadIDNone));
-}
 
 
 
