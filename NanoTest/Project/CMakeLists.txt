@@ -17,10 +17,11 @@ set(TARGET_SOURCE_DIR "${PROJECT_SOURCE_DIR}/../Source")
 
 target_sources("${PROJECT_NAME}"
 	PRIVATE
-		"${TARGET_SOURCE_DIR}/NanoTest.cpp"
+		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Core/TDebug.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Core/TLog.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Core/TLogOutput.cpp"
+		"${TARGET_SOURCE_DIR}/Nano/Threads/TMutex.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Threads/TSemaphore.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Threads/TSpinLock.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Threads/TThread.cpp"
@@ -32,7 +33,7 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinHashable.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TRange.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TString.cpp"
-		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
+		"${TARGET_SOURCE_DIR}/NanoTest.cpp"
 )
 
 target_include_directories("${PROJECT_NAME}"
