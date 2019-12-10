@@ -22,7 +22,7 @@ jobs:
       osx_image: xcode11.2
       os: osx
 
-      - name: "tvOS"
+    - name: "tvOS"
       script: Library/Support/Travis/Xcode.sh Nano tvOS
       osx_image: xcode11.2
       os: osx
