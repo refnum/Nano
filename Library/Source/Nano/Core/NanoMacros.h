@@ -247,7 +247,7 @@
 	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              NN_DIAGNOSTIC_IGNORE(_warning)
 
 #elif NN_COMPILER_MSVC
-	#define NN_DIAGNOSTIC_IGNORE(_warning)                  __pragma(warning(disable:_warning))
+	#define NN_DIAGNOSTIC_IGNORE(_warning)                  __pragma(warning(disable : _warning))
 	#define NN_DIAGNOSTIC_PUSH()                            __pragma(warning(push))
 	#define NN_DIAGNOSTIC_POP()                             __pragma(warning(pop))
 
