@@ -50,7 +50,20 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Native semaphore
 using NSemaphoreRef                                         = void*;
+
+// Forward declaration
+class NMutex;
+
+
+
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+static constexpr NSemaphoreRef kNSemaphoreNone = nullptr;
 
 
 
@@ -61,6 +74,8 @@ using NSemaphoreRef                                         = void*;
 //-----------------------------------------------------------------------------
 class NSemaphore
 {
+	friend class                        NMutex;
+
 public:
 										NSemaphore(size_t theValue = 0);
 									   ~NSemaphore();
@@ -89,11 +104,14 @@ public:
 	void                                Signal(size_t numSignals = 1);
 
 
-private:
-	NSemaphoreRef                       Create(size_t theValue);
-	void                                Destroy(NSemaphoreRef theSemaphore);
-	bool                                Wait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	void                                Signal( NSemaphoreRef theSemaphore);
+protected:
+	// NMutex
+	//
+	// Must not be used directly.
+	static NSemaphoreRef                Create(size_t theValue);
+	static void                         Destroy(NSemaphoreRef theSemaphore);
+	static bool                         Wait(   NSemaphoreRef theSemaphore, NInterval waitFor);
+	static void                         Signal( NSemaphoreRef theSemaphore);
 
 
 private:
