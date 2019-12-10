@@ -3,242 +3,297 @@
 
 	DESCRIPTION:
 		Implements a 'benaphore' recursive mutex lock.
-		
+
 		In theory most OS mutex implementations will avoid an expensive trip to the
 		kernel if there is little or no contention.
-		
+
 		In practice the Mac OS X implementation of pthread_mutex is extremely slow.
-		
+
 		4 threads acquiring a shared lock 1,000,000 times (with a small amount of
 		work within the lock) were seen, on a 2.2Ghz Core i7 running 10.8, to produce
 		times of:
-	
+
 			Mac NMutex						0.12s
 			Mac pthread_mutex			   15.31s
-	
+
 			Windows NMutex					0.11s
 			Windows Critical Section		0.10s
 			Windows Semaphore				3.74s
-	
+
 			Linux NMutex					0.14s
 			Linux pthread_mutex				0.23s
-		
+
 		A Windows critical section uses the same technique as an NMutex (atomic spin
 		before blocking), so has effectively the same performance.
-		
+
 		Benchmarking threaded code is often difficult (as it's not clear if slow times
 		are indicative of a problem in the benchmark), however two similar experiences
 		with Mac OS X are at:
-		
+
 			http://www.mr-edd.co.uk/blog/sad_state_of_osx_pthread_mutex_t
-			
-			http://old.nabble.com/Mutex-performance-td24892454.html
+
+			http://old.nabble.com/Mutex-performance-td24892454.html.
 
 	COPYRIGHT:
-        Copyright (c) 2006-2013, refNum Software
-        <http://www.refnum.com/>
+		Copyright (c) 2006-2019, refNum Software
+		All rights reserved.
 
-        All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NThread.h"
-#include "NTargetThread.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NMutex.h"
 
 
 
 
 
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NIndex kMutexSpinUntilBlock							= 5000;
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr size_t kNMutexSpinCount                    = 5000;
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NMutex::NMutex : Constructor.
-//----------------------------------------------------------------------------
-NMutex::NMutex(void)
+//-----------------------------------------------------------------------------
+NMutex::NMutex()
+	: mSemaphore(kNSemaphoreNone)
+	, mOwner(kNThreadIDNone)
+	, mLockCount(0)
+	, mRecursion(0)
 {
-
-
-	// Initialize ourselves
-	mOwnerID   = kNThreadIDNone;
-	mRecursion = 0;
-	mSemaphore = kNSemaphoreRefNone;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NMutex::~NMutex : Destructor.
-//----------------------------------------------------------------------------
-NMutex::~NMutex(void)
+//-----------------------------------------------------------------------------
+NMutex::~NMutex()
 {
 
 
 	// Clean up
-	if (mSemaphore != kNSemaphoreRefNone)
-		NTargetThread::SemaphoreDestroy(mSemaphore);
+	auto theSemaphore = mSemaphore.load(std::memory_order_consume);
+
+	if (theSemaphore != kNSemaphoreNone)
+	{
+		NSemaphore::Destroy(theSemaphore);
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NMutex::Lock : Acquire the lock.
-//----------------------------------------------------------------------------
-bool NMutex::Lock(NTime waitFor)
-{	NSemaphoreRef	theSemaphore;
-	NThreadID		thisThread;
-	bool			gotLock;
-	NIndex			n;
+//=============================================================================
+//		NMutex::IsLocked : Is the lock locked?
+//-----------------------------------------------------------------------------
+bool NMutex::IsLocked() const
+{
+
+
+	// Check our state
+	return mLockCount != 0;
+}
 
 
 
-	// Get the state we need
-	thisThread = NThread::GetID();
-	gotLock    = false;
 
 
+#pragma mark private
+//=============================================================================
+//		NMutex::WaitForLock : Wait for the lock.
+//-----------------------------------------------------------------------------
+bool NMutex::WaitForLock(NInterval waitFor)
+{
 
-	// Attempt to acquire the lock
+
+	// Check the owner
 	//
-	// If we appear to own the lock then we don't bother spinning.
-	//
-	// We still need to increment the counter before we can be sure this thread really
-	// has it, but if we are being called recursively spinning would just waste time.
-	//
-	//
-	// If we don't appear to own the lock then we'll lock it if we're the first thread
-	// to swap the counter from 0 to 1.
-	//
-	// If the mutex is locked then we'll obtain ownership if another thread drops the
-	// counter to 0 while we're spinning (allowing us to raise it to 1).
-	//
-	// We employ a simple back-off strategy, starting with a yield (0) then using an
-	// extra microsecond on subsequent loops.
-	if (!NThread::AreEqual(thisThread, mOwnerID))
-		{
-		for (n = 0; n < kMutexSpinUntilBlock; n++)
-			{
-			gotLock = NTargetThread::AtomicCompareAndSwap32(mLockCount, 0, 1);
-			if (gotLock)
-				break;
+	// If we're already the owner then we have acquired the lock recursively.
+	NThreadID currentOwner = mOwner.load(std::memory_order_relaxed);
+	NThreadID thisThread   = NThread::GetID();
 
-			NThread::Sleep(n * kNTimeMicrosecond);
-			}
-		}
+	if (NN_EXPECT_UNLIKELY(currentOwner == thisThread))
+	{
+		IncrementCount();
+		mRecursion++;
+		return true;
+	}
 
 
 
-	// Acquire the lock
+	// Spin for the lock
+	//
+	// We acquire the lock by being the first thread to take the count
+	// from 0 to 1.
+	//
+	// We make at one further attempt to acquire the lock, then perform
+	// a short spin if we're allowed to wait at all.
+	size_t spinFor = (waitFor == kNTimeNone) ? 1 : kNMutexSpinCount;
+	bool   gotLock = false;
+
+	for (size_t n = 0; n < spinFor && !gotLock; n++)
+	{
+		gotLock = AcquireCount();
+		NThread::Pause();
+	}
+
+
+
+	// Wait for the lock
+	//
+	// If we've failed to acquire the lock then we'll have to wait.
 	if (!gotLock)
-		{
+	{
 		// Create the semaphore
 		//
-		// Once we raise the count beyond 1 then whatever thread currently has the lock will
-		// need to be able to set the semaphore to wake us after it decrements the count.
+		// The semaphore is created on demand to ensure a mutex can be
+		// created without any additional overhead until it is waited on.
 		//
-		// Although deferring creation like this means that potentially we might create a
-		// redundant semaphore, in practice this happens very rarely.
-		//
-		// It is also safe - even if two threads create a semaphore, only one of them will
-		// assign it (the other will just release theirs).
-		if (mSemaphore == kNSemaphoreRefNone)
+		// We must swap the semaphore into place atomically, and discard
+		// our semaphore if we lose, as multiple threads may attempt to
+		// create the semaphore for the mutex.
+		if (mSemaphore.load(std::memory_order_relaxed) == kNSemaphoreNone)
+		{
+			NSemaphoreRef oldSemaphore = kNSemaphoreNone;
+			NSemaphoreRef newSemaphore = NSemaphore::Create(0);
+
+			if (!mSemaphore.compare_exchange_strong(oldSemaphore,
+													newSemaphore,
+													std::memory_order_release,
+													std::memory_order_relaxed))
 			{
-			theSemaphore = NTargetThread::SemaphoreCreate(0);
-
-			if (!NTargetThread::AtomicCompareAndSwapPtr(mSemaphore, kNSemaphoreRefNone, theSemaphore))
-				NTargetThread::SemaphoreDestroy(theSemaphore);
-			}
-
-
-
-		// Raise the count
-		//
-		// If raising the count takes it to exactly 1 then we've just acquired the lock.
-		//
-		// We have to raise the count to indicate our interest in the lock, but if it's
-		// now exactly 1 then it's been unlocked between our spinlock attempt and now.
-		gotLock = (NTargetThread::AtomicAdd32(mLockCount, 1) == 1);
-		if (!gotLock)
-			{
-			// Check the owner
-			//
-			// The count is now 2+, but if we're the owning thread we already have the lock.
-			gotLock = NThread::AreEqual(thisThread, mOwnerID);
-			if (!gotLock)
-				{
-				// Wait for the semaphore
-				//
-				// Otherwise we have to wait - the current owner will set it when they're
-				// done, allowing us to wake and take ownership.
-				gotLock = NTargetThread::SemaphoreWait(mSemaphore, waitFor);
-				}
+				NSemaphore::Destroy(newSemaphore);
 			}
 		}
+
+
+
+		// Sleep the thread
+		//
+		// We raise the count to mark our interest in the lock.
+		//
+		// If the count is 1 then we know that, although it was locked on our
+		// prior attempts, the mutex has since been unlocked and we have just
+		// acquired it.
+		//
+		// If the count is higher than 1 then the lock is still being held and
+		// so we need to wait for the owner to signal the semaphore.
+		gotLock = (IncrementCount() == 1);
+		if (!gotLock)
+		{
+			gotLock = WaitForSemaphore(waitFor);
+		}
+	}
 
 
 
 	// Update our state
 	if (gotLock)
-		{
-		mOwnerID = thisThread;
+	{
+		mOwner.store(thisThread, std::memory_order_relaxed);
 		mRecursion++;
-		}
+	}
 
-	return(gotLock);
+	return gotLock;
 }
 
 
 
 
 
-//============================================================================
-//      NMutex::Unlock : Release the lock.
-//----------------------------------------------------------------------------
-void NMutex::Unlock(void)
-{	NIndex		newRecursion;
+//=============================================================================
+//		NMutex::WaitForSemaphore : Wait for the semaphore.
+//-----------------------------------------------------------------------------
+bool NMutex::WaitForSemaphore(NInterval waitFor)
+{
 
 
+	// Wait for the semaphore
+	auto theSemaphore = mSemaphore.load(std::memory_order_consume);
+	bool gotLock      = NSemaphore::Wait(theSemaphore, waitFor);
 
-	// Get the state we need
-	NN_ASSERT(NThread::AreEqual(mOwnerID, NThread::GetID()));
-	NN_ASSERT(mRecursion >= 1);
-
-
-
-	// Update the lock
-	//
-	// The lock state must be reset before decrementing the count; once the count
-	// falls to 0 the lock will be open for other threads.
-	newRecursion = --mRecursion;
-	
-	if (newRecursion == 0)
-		mOwnerID = kNThreadIDNone;
-
-
-
-	// Release the lock
-	//
-	// If there are 1+ threads waiting on the lock after we decrement the count then,
-	// provided none of them are us, we can wake one by setting the semaphore.
-	if (NTargetThread::AtomicAdd32(mLockCount, -1) > 0)
+	if (!gotLock)
+	{
+		// Handle timeout
+		//
+		// If we timed out waiting for the semaphore then we must decrement
+		// the lock count to indicate we are no longer waiting on the lock.
+		//
+		// This balances the previous increment of the count just before we
+		// waited on the semaphore.
+		//
+		//
+		// However, if the count is currently 1 then the lock must have been
+		// released (and the semaphore signalled) at some point after we
+		// returned from timing out on the semaphore.
+		//
+		// This leaves the semaphore set, so we must take it again to consume
+		// that signal.
+		//
+		// If that second attempt succeeds then we have acquired the lock
+		// after all.
+		//
+		// If the scond attempt fails then we must loop and try to decrement
+		// our count again, as the same scenario could repeat between returning
+		// from the Wait and checking the lock count.
+		while (true)
 		{
-		if (newRecursion == 0)
-			NTargetThread::SemaphoreSignal(mSemaphore);
+			// Decrement the count
+			if (mLockCount.load(std::memory_order_relaxed) > 1 && ReleaseCount())
+			{
+				gotLock = false;
+				break;
+			}
+
+
+			// Poll the semaphore
+			if (NSemaphore::Wait(theSemaphore, kNTimeNone))
+			{
+				gotLock = true;
+				break;
+			}
+
+
+			// Spinning
+			NThread::Pause();
 		}
+	}
+
+	return gotLock;
 }
-
-
-
