@@ -147,13 +147,13 @@
 	#define _nn_log_unimplemented_N(_msg, ...)                          _nn_log_unimplemented(", " _msg, ##__VA_ARGS__)
 	#define _nn_log_unimplemented_0_TO_N(_0, _1, _2, _3, _4, _5, ...)   _5
 
-	#define NN_LOG_UNIMPLEMENTED(...)                                   \
-		NN_EXPAND(_nn_log_unimplemented_0_TO_N(__VA_ARGS__,             \
-											   _nn_log_unimplemented_N, \
-											   _nn_log_unimplemented_N, \
-											   _nn_log_unimplemented_N, \
-											   _nn_log_unimplemented_N, \
-											   _nn_log_unimplemented_0)(__VA_ARGS__))
+	#define NN_LOG_UNIMPLEMENTED(...)                           \
+		_nn_log_unimplemented_0_TO_N(__VA_ARGS__,               \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_N,   \
+									 _nn_log_unimplemented_0)(__VA_ARGS__)
 
 #else
 
@@ -190,20 +190,14 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_require(_condition, _message, ...)          \
-		do                                                  \
-		{                                                   \
-			if (NN_EXPECT_UNLIKELY(!(_condition)))          \
-			{                                               \
-				NanoLog(NLogLevel::Error,                   \
-						__FILE__,                           \
-						__LINE__,                           \
-						"Requirement failed: %s" _message,  \
-						#_condition,                        \
-						##__VA_ARGS__);                     \
-															\
-				NN_DEBUG_BREAK();                           \
-			}                                               \
+	#define _nn_require(_condition, _message, ...)                                              \
+		do                                                                                      \
+		{                                                                                       \
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+			{                                                                                   \
+				NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+				NN_DEBUG_BREAK();                                                               \
+			}                                                                                   \
 		} while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require(_condition, "")
@@ -250,18 +244,13 @@
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_expect(_condition, _message, ...)           \
-		do                                                  \
-		{                                                   \
-			if (NN_EXPECT_UNLIKELY(!(_condition)))          \
-			{                                               \
-				NanoLog(NLogLevel::Error,                   \
-						__FILE__,                           \
-						__LINE__,                           \
-						"Expectation failed: %s" _message,  \
-						#_condition,                        \
-						##__VA_ARGS__);                     \
-			}                                               \
+	#define _nn_expect(_condition, _message, ...)                                               \
+		do                                                                                      \
+		{                                                                                       \
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+			{                                                                                   \
+				NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+			}                                                                                   \
 		} while (false)
 
 	#define _nn_expect_1(_condition)                        _nn_expect(_condition, "")
