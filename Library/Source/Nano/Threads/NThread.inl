@@ -50,6 +50,34 @@
 
 
 //=============================================================================
+//		NThread::GetID : Get the thread ID.
+//-----------------------------------------------------------------------------
+NThreadID NThread::GetID()
+{
+
+
+	// Get the ID
+	//
+	// A std::thread::id is deliberately opaque, and has to be pushed
+	// through a std::hash to obtain an integer representation.
+	//
+	// As a thread ID is always numeric we rely on platform-specific
+	// knowledge to avoid this hash overhead.
+#if NN_TARGET_WINDOWS
+	static_assert(sizeof(NThreadID) >= sizeof(DWORD));
+	return NThreadID(GetCurrentThreadId());
+
+#else
+	static_assert(sizeof(NThreadID) >= sizeof(pthread_t));
+	return NThreadID(pthread_self());
+#endif
+}
+
+
+
+
+
+//=============================================================================
 //		NThread::Yield : Yield the thread.
 //-----------------------------------------------------------------------------
 void NThread::Yield()

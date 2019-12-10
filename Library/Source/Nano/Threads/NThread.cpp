@@ -120,26 +120,6 @@ bool NThread::IsRunning() const
 
 
 //=============================================================================
-//		NThread::GetID : Get the current thread ID.
-//-----------------------------------------------------------------------------
-NThreadID NThread::GetID()
-{
-  NThreadID theID;
-
-
-
-  // Get the ID
-  theID = NTargetThread::ThreadGetID();
-  NN_ASSERT(theID != kNThreadIDNone);
-
-  return theID;
-}
-
-
-
-
-
-//=============================================================================
 //		NThread::GetName : Get the current thread name.
 //-----------------------------------------------------------------------------
 NString NThread::GetName()

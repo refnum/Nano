@@ -46,6 +46,24 @@
 
 
 
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+using NThreadID                                             = uintptr_t;
+
+
+
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+static constexpr NThreadID kNThreadIDNone                   = 0;
+
+
+
 // Nano 3.x
 #if 0
 	#include "NFunctor.h"
@@ -56,23 +74,12 @@
 
 
 //=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-static const NTime kNThreadSleepTime                        = 10.0 * kNTimeMillisecond;
-
-
-
-
-
-//=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
 // Thread local value
 typedef uintptr_t NThreadLocalRef;
-typedef uintptr_t NThreadID;
 
 static const NThreadLocalRef kNThreadLocalRefNone           = (NThreadLocalRef) -1;
-static const NThreadID kNThreadIDNone                       = (NThreadID) NULL;
 
 
 // Lists
@@ -94,6 +101,10 @@ typedef NThreadList::const_iterator NThreadListConstIterator;
 class NThread
 {
 public:
+	// Get the thread ID
+	static inline NThreadID             GetID();
+
+
 	// Yield the thread
 	//
 	// Allows the OS to schedule another thread.
@@ -118,10 +129,6 @@ static bool                         IsMain();
 
 // Is the thread running?
 bool                                IsRunning() const;
-
-
-// Get the current thread
-static NThreadID                    GetID();
 
 
 // Get/set the current thread name
