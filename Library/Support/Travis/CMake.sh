@@ -73,7 +73,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 		if [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 			./NanoTest/Project/NanoTest -d yes
 
-		elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
+		elif [[ "${TRAVIS_PLATFORM}" == "Windows" && "${BUILD_CONFIG}" != "Release" ]]; then
 			./NanoTest/Project/Debug/NanoTest.exe -d yes
 		fi
 
