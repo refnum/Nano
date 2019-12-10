@@ -2,33 +2,31 @@ language: cpp
 
 jobs:
   include:
-#    - name: "macOS"
-#      script: Library/Support/Travis/Xcode.sh NanoTest macOS
-#      osx_image: xcode11.2
-#      os: osx
-#  
-#    - name: "iOS"
-#      script: Library/Support/Travis/Xcode.sh Nano iOS
-#      osx_image: xcode11.2
-#      os: osx
-#  
-#    - name: "tvOS"
-#      script: Library/Support/Travis/Xcode.sh Nano tvOS
-#      osx_image: xcode11.2
-#      os: osx
-#  
-#  
-#    - name: "Linux"
-#      script: Library/Support/Travis/CMake.sh NanoTest Linux
-#      dist: bionic
-#      os: linux
-#  
-#    - name: "Android"
-#      script: Library/Support/Travis/CMake.sh NanoTest Android
-#      dist: bionic
-#      os: linux
-#
-#
+    - name: "Android"
+      script: Library/Support/Travis/CMake.sh NanoTest Android
+      dist: bionic
+      os: linux
+
+    - name: "iOS"
+      script: Library/Support/Travis/Xcode.sh Nano iOS
+      osx_image: xcode11.2
+      os: osx
+
+    - name: "Linux"
+      script: Library/Support/Travis/CMake.sh NanoTest Linux
+      dist: bionic
+      os: linux
+
+    - name: "macOS"
+      script: Library/Support/Travis/Xcode.sh NanoTest macOS
+      osx_image: xcode11.2
+      os: osx
+
+      - name: "tvOS"
+      script: Library/Support/Travis/Xcode.sh Nano tvOS
+      osx_image: xcode11.2
+      os: osx
+
     - name: "Windows"
       script: Library/Support/Travis/CMake.sh NanoTest Windows
       os: windows
