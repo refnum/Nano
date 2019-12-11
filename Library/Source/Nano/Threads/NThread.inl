@@ -82,13 +82,13 @@ NThreadID NThread::GetID()
 
 
 //=============================================================================
-//		NThread::Yield : Yield the thread.
+//		NThread::Switch : Switch the current thread.
 //-----------------------------------------------------------------------------
-void NThread::Yield()
+void NThread::Switch()
 {
 
 
-	// Yield the thread
+	// Switch the thread
 	std::this_thread::yield();
 }
 
@@ -97,7 +97,7 @@ void NThread::Yield()
 
 
 //=============================================================================
-//		NThread::Pause : Pause the thread.
+//		NThread::Pause : Pause the current thread.
 //-----------------------------------------------------------------------------
 void NThread::Pause()
 {

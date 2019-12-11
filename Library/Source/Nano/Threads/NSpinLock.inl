@@ -174,7 +174,7 @@ public:
 				NThread::Pause();
 			}
 
-			NThread::Yield();
+			NThread::Switch();
 		} while (NTimeUtils::GetTime() < stopTime);
 
 		return false;

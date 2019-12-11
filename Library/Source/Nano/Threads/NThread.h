@@ -105,13 +105,13 @@ public:
 	static inline NThreadID             GetID();
 
 
-	// Yield the thread
+	// Switch the current thread
 	//
 	// Allows the OS to schedule another thread.
-	inline static void                  Yield();
+	inline static void                  Switch();
 
 
-	// Pause the thread
+	// Pause the  current thread
 	//
 	// Allows the CPU to adapt to a busy-wait loop.
 	inline static void                  Pause();

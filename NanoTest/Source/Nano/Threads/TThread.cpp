@@ -92,7 +92,7 @@ NANO_TEST(TThread, "Yield")
 
 
 	// Perform the test
-	NThread::Yield();
+	NThread::Switch();
 	NThread::Pause();
 }
 
