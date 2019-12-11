@@ -39,7 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#define CATCH_CONFIG_RUNNER
+#include <stdio.h>
+
+//#define CATCH_CONFIG_RUNNER
 
 //#include "NTestFixture.h"
 
@@ -53,7 +55,7 @@
 int main(int argc, char* argv[])
 {
 	// Debugging Travis CI crash
-	printf("Travis: reached main!\n");
+	printf("Travis: reached main (%d, %s)!\n", argc, argv[0]);
 
 
 	// Execute the tests
