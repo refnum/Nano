@@ -40,7 +40,8 @@ fi
 
 
 # Do the builds
-for BUILD_CONFIG in "Debug" "Release"; do
+#for BUILD_CONFIG in "Debug" "Release"; do
+for BUILD_CONFIG in "Release"; do
 
 	# Prepare to build
 	mkdir -p "${TRAVIS_BUILD_DIR}/Build/${BUILD_CONFIG}"
