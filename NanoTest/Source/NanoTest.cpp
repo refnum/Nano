@@ -39,11 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include <stdio.h>
+#define CATCH_CONFIG_RUNNER
 
-//#define CATCH_CONFIG_RUNNER
-
-//#include "NTestFixture.h"
+#include "NTestFixture.h"
 
 
 
@@ -54,11 +52,8 @@
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
-	// Debugging Travis CI crash
-	printf("Travis: reached main (%d, %s)!\n", argc, argv[0]);
 
 
 	// Execute the tests
-//	return Catch::Session().run(argc, argv);
-	return 0;
+	return Catch::Session().run(argc, argv);
 }
