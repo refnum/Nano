@@ -17,7 +17,7 @@ set(TARGET_SOURCE_DIR "${PROJECT_SOURCE_DIR}/../Source")
 
 target_sources("${PROJECT_NAME}"
 	PRIVATE
-		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
+#		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
 #		"${TARGET_SOURCE_DIR}/Nano/Core/TDebug.cpp"
 #		"${TARGET_SOURCE_DIR}/Nano/Core/TLog.cpp"
 #		"${TARGET_SOURCE_DIR}/Nano/Core/TLogOutput.cpp"
