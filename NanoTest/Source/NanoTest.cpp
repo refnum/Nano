@@ -52,6 +52,8 @@
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
+	// Debugging Travis CI crash
+	printf("Travis: reached main!\n");
 
 
 	// Execute the tests
