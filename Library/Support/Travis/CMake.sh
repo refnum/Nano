@@ -75,7 +75,7 @@ for BUILD_CONFIG in "Release"; do
 			./NanoTest/Project/NanoTest -d yes
 
 		elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
-			./NanoTest/Project/Debug/NanoTest.exe -d yes
+			"./NanoTest/Project/${BUILD_CONFIG}/NanoTest.exe" -d yes
 		fi
 
 	fi
