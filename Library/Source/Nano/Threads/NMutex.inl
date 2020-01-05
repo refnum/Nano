@@ -2,7 +2,7 @@
 		NMutex.inl
 
 	DESCRIPTION:
-		Mutex.
+		Mutex lock.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2019, refNum Software
@@ -117,7 +117,7 @@ void NMutex::Unlock()
 
 
 
-
+#pragma mark private
 //=============================================================================
 //		NMutex::AcquireCount : Acquire the lock count.
 //-----------------------------------------------------------------------------

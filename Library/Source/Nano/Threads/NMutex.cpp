@@ -170,7 +170,10 @@ bool NMutex::WaitForLock(NInterval waitFor)
 	for (size_t n = 0; n < spinFor && !gotLock; n++)
 	{
 		gotLock = AcquireCount();
-		NThread::Pause();
+		if (!gotLock)
+		{
+			NThread::Pause();
+		}
 	}
 
 
@@ -178,7 +181,7 @@ bool NMutex::WaitForLock(NInterval waitFor)
 	// Wait for the lock
 	//
 	// If we've failed to acquire the lock then we'll have to wait.
-	if (!gotLock)
+	if (!gotLock && waitFor != kNTimeNone)
 	{
 		// Create the semaphore
 		//

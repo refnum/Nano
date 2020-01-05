@@ -62,11 +62,11 @@ NThreadID NThread::GetID()
 
 	// Get the ID
 	//
-	// A std::thread::id is deliberately opaque, and has to be pushed
-	// through a std::hash to obtain an integer representation.
+	// A std::thread::id is deliberately opaque and must be pushed through
+	// std::hash to obtain an integer representation.
 	//
-	// As a thread ID is always numeric we can use a platform-specific
-	// method to avoid this hash overhead.
+	// This takes about a dozen instructions, which we can avoid by using
+	// the native thread identifier directly.
 #if NN_TARGET_WINDOWS
 	static_assert(sizeof(NThreadID) >= sizeof(DWORD));
 	return NThreadID(GetCurrentThreadId());
