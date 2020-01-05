@@ -10,7 +10,7 @@
 		https://fastcompression.blogspot.com/2018/03/xxhash-for-small-keys-impressive-power.html.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2019, refNum Software
+		Copyright (c) 2006-2020, refNum Software
 		All rights reserved.
 
 		Redistribution and use in source and binary forms, with or without
