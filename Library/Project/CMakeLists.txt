@@ -30,6 +30,9 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/System/NDataDigest.cpp"
 		"${TARGET_SOURCE_DIR}/System/NDataDigest.h"
 		"${TARGET_SOURCE_DIR}/System/NDataDigest.inl"
+		"${TARGET_SOURCE_DIR}/Text/NString.cpp"
+		"${TARGET_SOURCE_DIR}/Text/NString.h"
+		"${TARGET_SOURCE_DIR}/Text/NString.inl"
 		"${TARGET_SOURCE_DIR}/Threads/NMutex.cpp"
 		"${TARGET_SOURCE_DIR}/Threads/NMutex.h"
 		"${TARGET_SOURCE_DIR}/Threads/NMutex.inl"
@@ -57,15 +60,13 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Types/NMixinHashable.inl"
 		"${TARGET_SOURCE_DIR}/Types/NRange.cpp"
 		"${TARGET_SOURCE_DIR}/Types/NRange.h"
-		"${TARGET_SOURCE_DIR}/Types/NString.cpp"
-		"${TARGET_SOURCE_DIR}/Types/NString.h"
-		"${TARGET_SOURCE_DIR}/Types/NString.inl"
 )
 
 target_include_directories("${PROJECT_NAME}"
 	PUBLIC
 		"${TARGET_SOURCE_DIR}/Core"
 		"${TARGET_SOURCE_DIR}/System"
+		"${TARGET_SOURCE_DIR}/Text"
 		"${TARGET_SOURCE_DIR}/Threads"
 		"${TARGET_SOURCE_DIR}/Time"
 		"${TARGET_SOURCE_DIR}/Types"
@@ -133,7 +134,7 @@ endif()
 #		Linux
 #------------------------------------------------------------------------------
 if (NN_TARGET_LINUX)
-target_sources("${PROJECT_NAME}"
+	target_sources("${PROJECT_NAME}"
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNTimeUtils.cpp"
@@ -158,7 +159,7 @@ endif()
 #		macOS
 #------------------------------------------------------------------------------
 if (NN_TARGET_MACOS)
-target_sources("${PROJECT_NAME}"
+	target_sources("${PROJECT_NAME}"
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNTimeUtils.cpp"
