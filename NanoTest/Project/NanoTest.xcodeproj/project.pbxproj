@@ -27,6 +27,9 @@
 		AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56392123C2A54C00675F68 /* TStringEncoder.cpp */; };
 		AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56392123C2A54C00675F68 /* TStringEncoder.cpp */; };
 		AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56392123C2A54C00675F68 /* TStringEncoder.cpp */; };
+		AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
+		AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
+		AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
@@ -734,6 +737,7 @@
 				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB29121A2383771700509C66 /* TData.cpp in Sources */,
@@ -757,6 +761,7 @@
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
 				AB2912192383771600509C66 /* TData.cpp in Sources */,
@@ -780,6 +785,7 @@
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB29121B2383771700509C66 /* TData.cpp in Sources */,

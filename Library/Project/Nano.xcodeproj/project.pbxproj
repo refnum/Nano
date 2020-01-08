@@ -39,6 +39,9 @@
 		AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391C23C2A52700675F68 /* NStringEncoder.cpp */; };
 		AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391C23C2A52700675F68 /* NStringEncoder.cpp */; };
 		AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391C23C2A52700675F68 /* NStringEncoder.cpp */; };
+		AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
+		AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
+		AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
 		AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
@@ -1392,6 +1395,7 @@
 				ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */,
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */,
+				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				AB07EA2B2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp in Sources */,
 				AB07EA3D239A522400E0AC49 /* tvOSNSemaphore.cpp in Sources */,
@@ -1417,6 +1421,7 @@
 				ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
+				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
@@ -1445,6 +1450,7 @@
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB07EA322399D7ED00E0AC49 /* NTime.cpp in Sources */,
+				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
