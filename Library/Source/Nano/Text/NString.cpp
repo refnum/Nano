@@ -229,18 +229,9 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 {
 
 
-	// Validate our parameters
-	NN_EXPECT(theEncoding != NStringEncoding::None);
-
-
-
 	// Get the text
 	switch (theEncoding)
 	{
-		case NStringEncoding::None:
-			return nullptr;
-			break;
-
 		case NStringEncoding::UTF8:
 			if (IsSmall())
 			{
@@ -267,6 +258,11 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 
 		case NStringEncoding::UTF32:
 			// TODO
+			return nullptr;
+			break;
+
+		default:
+			NN_LOG_ERROR("Invalid internal encoding!");
 			return nullptr;
 			break;
 	}
