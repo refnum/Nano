@@ -73,7 +73,7 @@ constexpr NRange::NRange(size_t theLocation, size_t theSize)
 //=============================================================================
 //		NRange::Intersects : Does the range intersect another?
 //-----------------------------------------------------------------------------
-bool NRange::Intersects(const NRange& theRange) const
+inline bool NRange::Intersects(const NRange& theRange) const
 {
 
 
@@ -93,7 +93,7 @@ bool NRange::Intersects(const NRange& theRange) const
 //=============================================================================
 //		NRange::Contains : Does the range contain an offset?
 //-----------------------------------------------------------------------------
-bool NRange::Contains(size_t theOffset) const
+inline bool NRange::Contains(size_t theOffset) const
 {
 
 
@@ -120,7 +120,7 @@ bool NRange::Contains(size_t theOffset) const
 //=============================================================================
 //		NRange::IsMeta : Is this a meta range?
 //-----------------------------------------------------------------------------
-bool NRange::IsMeta() const
+inline bool NRange::IsMeta() const
 {
 
 
@@ -135,7 +135,7 @@ bool NRange::IsMeta() const
 //=============================================================================
 //		NRange::Clear : Clear the range.
 //-----------------------------------------------------------------------------
-void NRange::Clear()
+inline void NRange::Clear()
 {
 
 
@@ -151,7 +151,7 @@ void NRange::Clear()
 //=============================================================================
 //		NRange::GetLocation : Get the location.
 //-----------------------------------------------------------------------------
-size_t NRange::GetLocation() const
+inline size_t NRange::GetLocation() const
 {
 
 
@@ -166,7 +166,7 @@ size_t NRange::GetLocation() const
 //=============================================================================
 //		NRange::SetLocation : Set the location.
 //-----------------------------------------------------------------------------
-void NRange::SetLocation(size_t theValue)
+inline void NRange::SetLocation(size_t theValue)
 {
 
 
@@ -181,7 +181,7 @@ void NRange::SetLocation(size_t theValue)
 //=============================================================================
 //		NRange::GetSize : Get the size.
 //-----------------------------------------------------------------------------
-size_t NRange::GetSize() const
+inline size_t NRange::GetSize() const
 {
 
 
@@ -196,7 +196,7 @@ size_t NRange::GetSize() const
 //=============================================================================
 //		NRange::SetSize : Set the size.
 //-----------------------------------------------------------------------------
-void NRange::SetSize(size_t theValue)
+inline void NRange::SetSize(size_t theValue)
 {
 
 
@@ -211,7 +211,7 @@ void NRange::SetSize(size_t theValue)
 //=============================================================================
 //		NRange::SetRange : Set the range.
 //-----------------------------------------------------------------------------
-void NRange::SetRange(size_t theLocation, size_t theSize)
+inline void NRange::SetRange(size_t theLocation, size_t theSize)
 {
 
 
@@ -227,7 +227,7 @@ void NRange::SetRange(size_t theLocation, size_t theSize)
 //=============================================================================
 //		NRange::GetFirst : Get the first element.
 //-----------------------------------------------------------------------------
-size_t NRange::GetFirst() const
+inline size_t NRange::GetFirst() const
 {
 
 
@@ -245,7 +245,7 @@ size_t NRange::GetFirst() const
 //=============================================================================
 //		NRange::GetLast : Get the last element.
 //-----------------------------------------------------------------------------
-size_t NRange::GetLast() const
+inline size_t NRange::GetLast() const
 {
 
 
@@ -270,7 +270,7 @@ size_t NRange::GetLast() const
 //=============================================================================
 //		NRange::GetNext : Get the subsequent element.
 //-----------------------------------------------------------------------------
-size_t NRange::GetNext() const
+inline size_t NRange::GetNext() const
 {
 
 
@@ -288,7 +288,7 @@ size_t NRange::GetNext() const
 //=============================================================================
 //		NRange::GetOffset : Get an offset.
 //-----------------------------------------------------------------------------
-size_t NRange::GetOffset(size_t theOffset) const
+inline size_t NRange::GetOffset(size_t theOffset) const
 {
 
 
