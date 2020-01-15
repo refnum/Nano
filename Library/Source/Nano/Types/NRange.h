@@ -44,6 +44,7 @@
 // Nano
 #include "NMixinComparable.h"
 #include "NMixinContainer.h"
+#include "NanoConstants.h"
 #include "NanoMacros.h"
 
 // System
@@ -72,7 +73,7 @@ class NN_EMPTY_BASE NRange final
 	, public NMixinComparable<NRange>
 {
 public:
-										NRange(size_t theLocation = 0, size_t theSize = 0);
+	constexpr                           NRange(size_t theLocation = 0, size_t theSize = 0);
 
 
 	// Does a range intersect another?
@@ -81,6 +82,14 @@ public:
 
 	// Does the range contain an offset?
 	bool                                Contains(size_t theOffset) const;
+
+
+	// Is this a meta-range?
+	bool                                IsMeta() const;
+
+
+	// Clear the range
+	void                                Clear();
 
 
 	// Get/set the location
@@ -121,6 +130,21 @@ public:
 	NRange                              GetIntersection(const NRange& theRange) const;
 
 
+	// Get a normalized range
+	//
+	// Normalizing a meta-range evaluates it against an implied 0..theSize range:
+	//
+	//		kNRangeNone			0..0
+	//		kNRangeAll			0..theSize
+	//
+	// A range whose size exceeds the implied 0..theSize range is clamped to
+	// the maximum available size.
+	//
+	// A range whose location falls ouside the implied 0..theSize range keeps
+	// its original location and receives a size of 0.
+	NRange                              GetNormalized(size_t theSize) const;
+
+
 	// Compare a range
 	NComparison                         Compare(const NRange& theRange) const;
 
@@ -129,6 +153,25 @@ private:
 	size_t                              mLocation;
 	size_t                              mSize;
 };
+
+
+
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+static const NRange kNRangeNone(  kNNotFound, 0);
+static const NRange kNRangeAll(0, kNNotFound);
+
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NRange.inl"
 
 
 

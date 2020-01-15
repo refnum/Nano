@@ -198,6 +198,7 @@
 		AB481C4112A5327B0052C55F /* NURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURL.h; path = ../Source/Nano/Types/NURL.h; sourceTree = SOURCE_ROOT; };
 		AB492C902399A41A003E4D1A /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
 		AB492C912399A41A003E4D1A /* NDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebug.h; sourceTree = "<group>"; };
+		AB4E383423C8D9D50089B916 /* NRange.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NRange.inl; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
 		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPOSIX.cpp; sourceTree = "<group>"; };
@@ -1152,6 +1153,7 @@
 				AB514F631035784000E5A6AD /* NPropertyStore.h */,
 				AB9155580F9B4DD6009FFEAF /* NRange.cpp */,
 				AB9155590F9B4DD6009FFEAF /* NRange.h */,
+				AB4E383423C8D9D50089B916 /* NRange.inl */,
 				AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */,
 				AB91555D0F9B4DD6009FFEAF /* NRefCounted.h */,
 				AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */,

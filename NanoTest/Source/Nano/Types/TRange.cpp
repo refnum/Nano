@@ -79,6 +79,91 @@ NANO_TEST(TRange, "Default")
 	// Perform the test
 	REQUIRE(theRange.GetLocation() == 0);
 	REQUIRE(theRange.GetSize() == 0);
+
+	REQUIRE(kNRangeNone.GetLocation() == kNNotFound);
+	REQUIRE(kNRangeNone.GetSize() == 0);
+
+	REQUIRE(kNRangeAll.GetLocation() == 0);
+	REQUIRE(kNRangeAll.GetSize() == kNNotFound);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "Intersects")
+{
+
+
+	// Perform the test
+	REQUIRE(NRange(4, 3).Intersects(NRange(6, 2)));     // 456 ~ 67 = true   (after)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(8, 2)));    // 456 ~ 89 = false  (after gap)
+	REQUIRE(NRange(4, 3).Intersects(NRange(3, 2)));     // 456 ~ 34 = true   (before)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(1, 2)));    // 456 ~ 12 = false  (before gap)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(0, 0)));    // 456 ~ .  = false  (empty)
+	REQUIRE(!NRange(4, 3).Intersects(NRange(3, 0)));    // 456 ~ .  = false  (empty)
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "Contains")
+{
+
+
+	// Perform the test
+	REQUIRE(!NRange(4, 3).Contains(3));    // 456 ~ 3 = false  (before)
+	REQUIRE(NRange(4, 3).Contains(4));     // 456 ~ 4 = true   (first)
+	REQUIRE(NRange(4, 3).Contains(5));     // 456 ~ 5 = true   (inside)
+	REQUIRE(NRange(4, 3).Contains(6));     // 456 ~ 6 = true   (last)
+	REQUIRE(!NRange(4, 3).Contains(7));    // 456 ~ 7 = false  (after)
+	REQUIRE(!NRange(4, 0).Contains(3));    //   . ~ 3 = false  (never)
+	REQUIRE(!NRange(4, 0).Contains(4));    //   . ~ 4 = false  (never)
+	REQUIRE(!NRange(4, 0).Contains(5));    //   . ~ 5 = false  (never)
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "Meta")
+{
+
+
+	// Perform the test
+	REQUIRE(!kTestRange1.IsMeta());
+	REQUIRE(!kTestRange2.IsMeta());
+
+	REQUIRE(kNRangeNone.IsMeta());
+	REQUIRE(kNRangeAll.IsMeta());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "Empty")
+{
+
+
+	// Perform the test
+	REQUIRE(kNRangeNone.IsEmpty());
+
+	REQUIRE(!NRange(4, 3).IsEmpty());
+	REQUIRE(NRange(4, 0).IsEmpty());
 }
 
 
@@ -95,6 +180,9 @@ NANO_TEST(TRange, "Comparison")
 	// Perform the test
 	REQUIRE(kTestRange1 == kTestRange1);
 	REQUIRE(kTestRange1 != kTestRange2);
+
+	REQUIRE(kNRangeNone == kNRangeNone);
+	REQUIRE(kNRangeNone != kNRangeAll);
 }
 
 
@@ -242,53 +330,33 @@ NANO_TEST(TRange, "Intersection")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Empty")
+NANO_TEST(TRange, "Normalized")
 {
 
 
 	// Perform the test
-	REQUIRE(!NRange(4, 3).IsEmpty());
-	REQUIRE(NRange(4, 0).IsEmpty());
-}
+	theRange = kNRangeNone.GetNormalized(10);
+	REQUIRE((theRange.GetLocation() == 0 && theRange.GetSize() == 0));    // Meta (none)
+
+	theRange = kNRangeAll.GetNormalized(10);
+	REQUIRE((theRange.GetLocation() == 0 && theRange.GetSize() == 10));    // Meta (all)
 
 
+	theRange = NRange(3, 7).GetNormalized(10);
+	REQUIRE(
+		(theRange.GetLocation() == 3 && theRange.GetSize() == 7));    // Within (non-zero length)
+
+	theRange = NRange(3, 9).GetNormalized(10);
+	REQUIRE((theRange.GetLocation() == 3 && theRange.GetSize() == 7));    // Within (clamped length)
+
+	theRange = NRange(3, 0).GetNormalized(10);
+	REQUIRE((theRange.GetLocation() == 3 && theRange.GetSize() == 0));    // Within (zero length)
 
 
+	theRange = NRange(30, 7).GetNormalized(10);
+	REQUIRE(
+		(theRange.GetLocation() == 30 && theRange.GetSize() == 0));    // Outside (non-zero length)
 
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Intersects")
-{
-
-
-	// Perform the test
-	REQUIRE(NRange(4, 3).Intersects(NRange(6, 2)));     // 456 ~ 67 = true   (after)
-	REQUIRE(!NRange(4, 3).Intersects(NRange(8, 2)));    // 456 ~ 89 = false  (after gap)
-	REQUIRE(NRange(4, 3).Intersects(NRange(3, 2)));     // 456 ~ 34 = true   (before)
-	REQUIRE(!NRange(4, 3).Intersects(NRange(1, 2)));    // 456 ~ 12 = false  (before gap)
-	REQUIRE(!NRange(4, 3).Intersects(NRange(0, 0)));    // 456 ~ .  = false  (empty)
-	REQUIRE(!NRange(4, 3).Intersects(NRange(3, 0)));    // 456 ~ .  = false  (empty)
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Contains")
-{
-
-
-	// Perform the test
-	REQUIRE(!NRange(4, 3).Contains(3));    // 456 ~ 3 = false  (before)
-	REQUIRE(NRange(4, 3).Contains(4));     // 456 ~ 4 = true   (first)
-	REQUIRE(NRange(4, 3).Contains(5));     // 456 ~ 5 = true   (inside)
-	REQUIRE(NRange(4, 3).Contains(6));     // 456 ~ 6 = true   (last)
-	REQUIRE(!NRange(4, 3).Contains(7));    // 456 ~ 7 = false  (after)
-	REQUIRE(!NRange(4, 0).Contains(3));    //   . ~ 3 = false  (never)
-	REQUIRE(!NRange(4, 0).Contains(4));    //   . ~ 4 = false  (never)
-	REQUIRE(!NRange(4, 0).Contains(5));    //   . ~ 5 = false  (never)
+	theRange = NRange(30, 0).GetNormalized(0);
+	REQUIRE((theRange.GetLocation() == 30 && theRange.GetSize() == 0));    // Outside (zero length)
 }
