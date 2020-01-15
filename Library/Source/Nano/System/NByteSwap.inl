@@ -300,7 +300,15 @@ void NByteSwap::Swap16(uint16_t* theValue)
 
 
 	// Swap the value
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	*theValue = __builtin_bswap16(*theValue);
+
+#elif NN_COMPILER_MSVC
+	*theValue = _byteswap_ushort(*theValue);
+
+#else
 	*theValue = uint16_t((*theValue & 0xFF00) >> 8) | uint16_t((*theValue & 0x00FF) << 8);
+#endif
 }
 
 
@@ -315,8 +323,16 @@ void NByteSwap::Swap32(uint32_t* theValue)
 
 
 	// Swap the value
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	*theValue = __builtin_bswap32(*theValue);
+
+#elif NN_COMPILER_MSVC
+	*theValue = _byteswap_ulong(*theValue);
+
+#else
 	*theValue = uint32_t((*theValue & 0xFF000000) >> 24) | uint32_t((*theValue & 0x00FF0000) >> 8) |
 				uint32_t((*theValue & 0x0000FF00) << 8) | uint32_t((*theValue & 0x000000FF) << 24);
+#endif
 }
 
 
@@ -331,6 +347,13 @@ void NByteSwap::Swap64(uint64_t* theValue)
 
 
 	// Swap the value
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	*theValue = __builtin_bswap64(*theValue);
+
+#elif NN_COMPILER_MSVC
+	*theValue = _byteswap_uint64(*theValue);
+
+#else
 	*theValue = uint64_t((*theValue & 0xFF00000000000000ULL) >> 56) |
 				uint64_t((*theValue & 0x00FF000000000000ULL) >> 40) |
 				uint64_t((*theValue & 0x0000FF0000000000ULL) >> 24) |
@@ -339,4 +362,5 @@ void NByteSwap::Swap64(uint64_t* theValue)
 				uint64_t((*theValue & 0x0000000000FF0000ULL) << 24) |
 				uint64_t((*theValue & 0x000000000000FF00ULL) << 40) |
 				uint64_t((*theValue & 0x00000000000000FFULL) << 56);
+#endif
 }
