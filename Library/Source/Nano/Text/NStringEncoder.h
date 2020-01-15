@@ -5,161 +5,125 @@
 		String encoder.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2020, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NSTRINGENCODER_HDR
-#define NSTRINGENCODER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NByteSwap.h"
-#include "NData.h"
+#ifndef NSTRING_ENCODER_H
+#define NSTRING_ENCODER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NStringEncodings.h"
+#include "NanoConstants.h"
+
+// System
+#include <unordered_map>
 
 
 
 
 
-//============================================================================
-//      Constants
-//----------------------------------------------------------------------------
-// String encodings
-typedef enum {
-	// Meta
-	kNStringEncodingInvalid,
-
-
-	// Unicode
-	//
-	// Generic UTF16 and UTF32 encodings store data in the byte order
-	// of the BOM, or kEndianNative order if no BOM is present.
-	kNStringEncodingUTF8,
-	kNStringEncodingUTF16,
-	kNStringEncodingUTF16BE,
-	kNStringEncodingUTF16LE,
-	kNStringEncodingUTF32,
-	kNStringEncodingUTF32BE,
-	kNStringEncodingUTF32LE,
-	
-	
-	// Legacy
-	//
-	// Although conversion from legacy to Unicode is exact, converting
-	// from Unicode to legacy may be lossy.
-	//
-	// Characters that can not be represented in a legacy encoding are
-	// replaced with a placeholder character.
-	kNStringEncodingASCII,
-	kNStringEncodingMacRoman,
-	kNStringEncodingISOLatin1,				// ISO 8859-1
-	kNStringEncodingWindowsLatin1			// ANSI 1252
-} NStringEncoding;
-
-
-// Misc
-static const uint32_t kNASCIIMax									= 0x7F;
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+using NUTF32LegacyMap                                       = std::unordered_map<utf32_t, uint8_t>;
 
 
 
 
 
-//============================================================================
-//      Types
-//----------------------------------------------------------------------------
-typedef std::map<utf32_t, uint8_t>									NUTF32LegacyMap;
-typedef NUTF32LegacyMap::iterator									NUTF32LegacyMapIterator;
-typedef NUTF32LegacyMap::const_iterator								NUTF32LegacyMapConstIterator;
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+class NData;
+class NUnicodeView;
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NStringEncoder {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NStringEncoder
+{
 public:
-										NStringEncoder(void);
-	virtual							   ~NStringEncoder(void);
-
-
-	// Convert a string
+	// Convert text
 	//
-	// Meta-data such as a BOM prefix or null terminator are removed.
-	NStatus								Convert(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
-
-
-	// Convert a character
-	utf32_t								ConvertToUTF32(NStringEncoding srcEncoding, NIndex srcSize, const void *srcPtr);
-
-
-	// Add/remove a null terminator
+	// Any BOM in the input text is always removed.
 	//
-	// The null terminator is the maximum character size for the encoding.
-	void								AddTerminator(   NData &theData, NStringEncoding theEncoding);
-	void								RemoveTerminator(NData &theData, NStringEncoding theEncoding);
+	// The output text will always conain a null terminator.
+	void                                Convert(NStringEncoding srcEncoding,
+												const NData&    srcData,
+												NStringEncoding dstEncoding,
+												NData&          dstData);
 
 
-	// Get a string encoding
+	// Get a native encoding
 	//
-	// Returns kNStringEncodingInvalid if the encoding is unknown.
-	NStringEncoding						GetEncoding(const NData &theData);
-
-
-	// Get a string length
-	//
-	// Returns the number of bytes in a NULL-terminated string, not counting the terminator.
-	NIndex								GetSize(const void *thePtr, NStringEncoding theEncoding);
-
-
-	// Is an encoding a UTF encoding?
-	static bool							IsEncodingUTF(NStringEncoding theEncoding);
-
-
-	// Get the generic form of an encoding
-	//
-	// Returns the encoding unchanged if it has no generic form.
-	static NStringEncoding				GetEncodingGeneric(NStringEncoding theEncoding);
-
-
-	// Get the EndianFormat of an encoding
-	//
-	// Returns kNEndianNative if the encoding has no endian-specific form.
-	static NEndianFormat				GetEncodingEndian(NStringEncoding theEncoding);
+	// Returns the native equivalent of a potentially endian-specific encoding.
+	static NStringEncoding              GetNativeEncoding(NStringEncoding theEncoding);
 
 
 private:
-	NIndex								GetMaxCharSize(NStringEncoding theEncoding);
+	void                                ProcessInput( NStringEncoding theEncoding, NData& theData);
+	void                                ProcessOutput(NStringEncoding theEncoding, NData& theData);
 
-	NStatus								ConvertFromLegacy(const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
-	NStatus								ConvertToLegacy(  const NData &srcData, NData &dstData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
+	void                                RemoveBOM(NData& theData);
+	void                                RemoveNull(NStringEncoding theEncoding, NData& theData);
+	void                                SwapUTF(   NStringEncoding theEncoding, NData& theData);
 
-	NStatus								ConvertFromUTF8( const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
-	NStatus								ConvertFromUTF16(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
-	NStatus								ConvertFromUTF32(const NData &srcData, NData &dstData, NStringEncoding dstEncoding);
+	size_t                              GetElementSize(NStringEncoding theEncoding);
 
-	NStatus								ConvertUTF8ToUTF16(const NData &srcData, NData &dstData);
-	NStatus								ConvertUTF8ToUTF32(const NData &srcData, NData &dstData);
+	void                                ConvertFromUTF8( const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
+	void                                ConvertFromUTF16(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
+	void                                ConvertFromUTF32(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
 
-	NStatus								ConvertUTF16ToUTF8( const NData &srcData, NData &dstData);
-	NStatus								ConvertUTF16ToUTF32(const NData &srcData, NData &dstData);
+	void                                ConvertToUTF8( NUnicodeView& srcView, NData& dstData);
+	void                                ConvertToUTF16(NUnicodeView& srcView, NData& dstData);
+	void                                ConvertToUTF32(NUnicodeView& srcView, NData& dstData);
 
-	NStatus								ConvertUTF32ToUTF8( const NData &srcData, NData &dstData);
-	NStatus								ConvertUTF32ToUTF16(const NData &srcData, NData &dstData);
-	
-	NStatus								ConvertUTF(NData &theData, const void *dataEnd, uint32_t theResult);
-	void								SwapUTF(   NData &theData, NStringEncoding srcEncoding, NStringEncoding dstEncoding);
-	
-	const utf32_t					   *GetLegacyToUTF32(  NStringEncoding srcEncoding);
-	const NUTF32LegacyMap			   *GetLegacyFromUTF32(NStringEncoding dstEncoding);
-	void								PopulateLegacyMap(NIndex maxChar, const utf32_t *toUTF32, NUTF32LegacyMap &fromUTF32);
+	void                                ConvertFromLegacy(NStringEncoding srcEncoding,
+														  const NData&    srcData,
+														  NStringEncoding dstEncoding,
+														  NData&          dstData);
+
+	void                                ConvertToLegacy(NUnicodeView& srcView, NStringEncoding dstEncoding, NData& dstData);
+
+	const utf32_t*                      GetLegacyToUTF32(  NStringEncoding srcEncoding);
+	const NUTF32LegacyMap*              GetLegacyFromUTF32(NStringEncoding dstEncoding);
+	NUTF32LegacyMap                     GetLegacyMap(size_t maxChar, const utf32_t* toUTF32);
 };
 
 
 
-
-
-#endif // NSTRINGENCODER_HDR
+#endif // NSTRING_ENCODER_H
