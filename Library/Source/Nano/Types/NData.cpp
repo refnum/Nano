@@ -1136,7 +1136,10 @@ void NData::MakeLarge(size_t      theCapacity,
 	{
 		case NDataSource::Copy:
 			newData = MemAllocate(theCapacity, existingData, false);
-			memcpy(newData, theData, theSize);
+			if (theData != existingData)
+			{
+				memcpy(newData, theData, theSize);
+			}
 			break;
 
 		case NDataSource::Zero:
