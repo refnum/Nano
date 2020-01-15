@@ -159,8 +159,11 @@ NANO_TEST(TByteSwap, "NtoB")
 	REQUIRE(NByteSwap::SwapNtoB(kNativeUInt32) == (NN_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
 	REQUIRE(NByteSwap::SwapNtoB(kNativeUInt64) == (NN_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NByteSwap::SwapNtoB(float32N) == float32B);
-	REQUIRE(NByteSwap::SwapNtoB(float64N) == float64B);
+	float32_t float32 = NByteSwap::SwapNtoB(float32N);
+	REQUIRE(memcmp(&float32, &float32B, sizeof(float32)));
+
+	float64_t float64 = NByteSwap::SwapNtoB(float64N);
+	REQUIRE(memcmp(&float64, &float64B, sizeof(float64)));
 }
 
 
@@ -189,8 +192,11 @@ NANO_TEST(TByteSwap, "NtoL")
 	REQUIRE(NByteSwap::SwapNtoL(kNativeUInt64) ==
 			(NN_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NByteSwap::SwapNtoL(float32N) == float32L);
-	REQUIRE(NByteSwap::SwapNtoL(float64N) == float64L);
+	float32_t float32 = NByteSwap::SwapNtoL(float32N);
+	REQUIRE(memcmp(&float32, &float32L, sizeof(float32)));
+
+	float64_t float64 = NByteSwap::SwapNtoL(float64N);
+	REQUIRE(memcmp(&float64, &float64L, sizeof(float64)));
 }
 
 
@@ -213,8 +219,11 @@ NANO_TEST(TByteSwap, "BtoN")
 	REQUIRE(NByteSwap::SwapBtoN(kNativeUInt32) == (NN_ENDIAN_BIG ? kNativeUInt32 : kSwappedUInt32));
 	REQUIRE(NByteSwap::SwapBtoN(kNativeUInt64) == (NN_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NByteSwap::SwapBtoN(float32B) == float32N);
-	REQUIRE(NByteSwap::SwapBtoN(float64B) == float64N);
+	float32_t float32 = NByteSwap::SwapBtoN(float32B);
+	REQUIRE(memcmp(&float32, &float32N, sizeof(float32)));
+
+	float64_t float64 = NByteSwap::SwapBtoN(float64B);
+	REQUIRE(memcmp(&float64, &float64N, sizeof(float64)));
 }
 
 
@@ -243,6 +252,9 @@ NANO_TEST(TByteSwap, "LtoN")
 	REQUIRE(NByteSwap::SwapLtoN(kNativeUInt64) ==
 			(NN_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
-	REQUIRE(NByteSwap::SwapLtoN(float32L) == float32N);
-	REQUIRE(NByteSwap::SwapLtoN(float64L) == float64N);
+	float32_t float32 = NByteSwap::SwapLtoN(float32L);
+	REQUIRE(memcmp(&float32, &float32N, sizeof(float32)));
+
+	float64_t float64 = NByteSwap::SwapLtoN(float64L);
+	REQUIRE(memcmp(&float64, &float64N, sizeof(float64)));
 }
