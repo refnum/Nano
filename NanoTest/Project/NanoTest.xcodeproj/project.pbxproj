@@ -30,6 +30,9 @@
 		AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
 		AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
 		AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D831034184B00E5A6AD /* TByteSwap.cpp */; };
+		AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393523C75C1A00675F68 /* TUnicodeView.cpp */; };
+		AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393523C75C1A00675F68 /* TUnicodeView.cpp */; };
+		AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393523C75C1A00675F68 /* TUnicodeView.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
@@ -187,6 +190,7 @@
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
 		AB56391423C2A3F600675F68 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
 		AB56392123C2A54C00675F68 /* TStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringEncoder.cpp; sourceTree = "<group>"; };
+		AB56393523C75C1A00675F68 /* TUnicodeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeView.cpp; sourceTree = "<group>"; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataDigest.cpp; sourceTree = "<group>"; };
@@ -568,6 +572,7 @@
 			children = (
 				AB56391423C2A3F600675F68 /* TString.cpp */,
 				AB56392123C2A54C00675F68 /* TStringEncoder.cpp */,
+				AB56393523C75C1A00675F68 /* TUnicodeView.cpp */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -744,6 +749,7 @@
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
+				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
@@ -768,6 +774,7 @@
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
+				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
@@ -792,6 +799,7 @@
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
+				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);

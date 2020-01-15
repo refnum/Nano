@@ -42,6 +42,9 @@
 		AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
 		AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
 		AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */; };
+		AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393923C75C3A00675F68 /* NUnicodeView.cpp */; };
+		AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393923C75C3A00675F68 /* NUnicodeView.cpp */; };
+		AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393923C75C3A00675F68 /* NUnicodeView.cpp */; };
 		AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
@@ -232,6 +235,8 @@
 		AB56391C23C2A52700675F68 /* NStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringEncoder.cpp; sourceTree = "<group>"; };
 		AB56392C23C69DE900675F68 /* NByteSwap.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NByteSwap.inl; sourceTree = "<group>"; };
 		AB56392E23C6B13900675F68 /* NStringEncodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringEncodings.h; sourceTree = "<group>"; };
+		AB56393923C75C3A00675F68 /* NUnicodeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeView.cpp; sourceTree = "<group>"; };
+		AB56393A23C75C3A00675F68 /* NUnicodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeView.h; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tero_des.cpp; sourceTree = "<group>"; };
@@ -734,8 +739,10 @@
 				AB56390C23C2A3A900675F68 /* NString.h */,
 				AB56390D23C2A3A900675F68 /* NString.inl */,
 				AB56391C23C2A52700675F68 /* NStringEncoder.cpp */,
-				AB56392E23C6B13900675F68 /* NStringEncodings.h */,
 				AB56391B23C2A52700675F68 /* NStringEncoder.h */,
+				AB56392E23C6B13900675F68 /* NStringEncodings.h */,
+				AB56393923C75C3A00675F68 /* NUnicodeView.cpp */,
+				AB56393A23C75C3A00675F68 /* NUnicodeView.h */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -1398,6 +1405,7 @@
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				AB86FDFA23999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
+				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */,
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */,
@@ -1424,6 +1432,7 @@
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
 				AB86FDF823999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
+				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
@@ -1448,6 +1457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB86FDF923999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
+				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB0DBE7323999B8200F6AD43 /* macOSNTimeUtils.cpp in Sources */,
