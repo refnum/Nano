@@ -163,10 +163,10 @@ NANO_TEST(TByteSwap, "NtoB")
 	REQUIRE(NByteSwap::SwapNtoB(kNativeUInt64) == (NN_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
 	float32_t float32 = NByteSwap::SwapNtoB(float32N);
-	REQUIRE(memcmp(&float32, &float32B, sizeof(float32)));
+	REQUIRE(memcmp(&float32, &float32B, sizeof(float32)) == 0);
 
 	float64_t float64 = NByteSwap::SwapNtoB(float64N);
-	REQUIRE(memcmp(&float64, &float64B, sizeof(float64)));
+	REQUIRE(memcmp(&float64, &float64B, sizeof(float64)) == 0);
 }
 
 
@@ -196,10 +196,10 @@ NANO_TEST(TByteSwap, "NtoL")
 			(NN_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
 	float32_t float32 = NByteSwap::SwapNtoL(float32N);
-	REQUIRE(memcmp(&float32, &float32L, sizeof(float32)));
+	REQUIRE(memcmp(&float32, &float32L, sizeof(float32)) == 0);
 
 	float64_t float64 = NByteSwap::SwapNtoL(float64N);
-	REQUIRE(memcmp(&float64, &float64L, sizeof(float64)));
+	REQUIRE(memcmp(&float64, &float64L, sizeof(float64)) == 0);
 }
 
 
@@ -223,10 +223,10 @@ NANO_TEST(TByteSwap, "BtoN")
 	REQUIRE(NByteSwap::SwapBtoN(kNativeUInt64) == (NN_ENDIAN_BIG ? kNativeUInt64 : kSwappedUInt64));
 
 	float32_t float32 = NByteSwap::SwapBtoN(float32B);
-	REQUIRE(memcmp(&float32, &float32N, sizeof(float32)));
+	REQUIRE(memcmp(&float32, &float32N, sizeof(float32)) == 0);
 
 	float64_t float64 = NByteSwap::SwapBtoN(float64B);
-	REQUIRE(memcmp(&float64, &float64N, sizeof(float64)));
+	REQUIRE(memcmp(&float64, &float64N, sizeof(float64)) == 0);
 }
 
 
@@ -256,8 +256,8 @@ NANO_TEST(TByteSwap, "LtoN")
 			(NN_ENDIAN_LITTLE ? kNativeUInt64 : kSwappedUInt64));
 
 	float32_t float32 = NByteSwap::SwapLtoN(float32L);
-	REQUIRE(memcmp(&float32, &float32N, sizeof(float32)));
+	REQUIRE(memcmp(&float32, &float32N, sizeof(float32)) == 0);
 
 	float64_t float64 = NByteSwap::SwapLtoN(float64L);
-	REQUIRE(memcmp(&float64, &float64N, sizeof(float64)));
+	REQUIRE(memcmp(&float64, &float64N, sizeof(float64)) == 0);
 }
