@@ -43,6 +43,9 @@
 #include "NByteSwap.h"
 #include "NTestFixture.h"
 
+// System
+#include <string.h>
+
 
 
 
