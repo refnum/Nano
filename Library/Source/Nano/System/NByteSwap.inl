@@ -250,7 +250,7 @@ T NByteSwap::SwapXtoY(NEndian orderX, NEndian orderY, T theValue)
 {
 	if (orderX != orderY)
 	{
-		Swap(theValue);
+		Swap(&theValue);
 	}
 
 	return theValue;
