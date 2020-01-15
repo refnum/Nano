@@ -46,26 +46,8 @@
 #include "NMixinContainer.h"
 #include "NMixinHashable.h"
 #include "NRange.h"
+#include "NStringEncodings.h"
 #include "NanoMacros.h"
-
-
-
-
-
-//=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-// String encoding
-enum class NStringEncoding
-{
-	// Meta
-	None,
-
-	// Unicode
-	UTF8,
-	UTF16,
-	UTF32
-};
 
 
 

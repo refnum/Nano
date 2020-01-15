@@ -231,6 +231,7 @@
 		AB56391B23C2A52700675F68 /* NStringEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringEncoder.h; sourceTree = "<group>"; };
 		AB56391C23C2A52700675F68 /* NStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringEncoder.cpp; sourceTree = "<group>"; };
 		AB56392C23C69DE900675F68 /* NByteSwap.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NByteSwap.inl; sourceTree = "<group>"; };
+		AB56392E23C6B13900675F68 /* NStringEncodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringEncodings.h; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tero_des.cpp; sourceTree = "<group>"; };
@@ -733,6 +734,7 @@
 				AB56390C23C2A3A900675F68 /* NString.h */,
 				AB56390D23C2A3A900675F68 /* NString.inl */,
 				AB56391C23C2A52700675F68 /* NStringEncoder.cpp */,
+				AB56392E23C6B13900675F68 /* NStringEncodings.h */,
 				AB56391B23C2A52700675F68 /* NStringEncoder.h */,
 			);
 			path = Text;
