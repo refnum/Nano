@@ -93,8 +93,39 @@ NN_DIAGNOSTIC_POP();
 //
 // TEARDOWN is optional, and is executed after the test.
 //
-#define NANO_FIXTURE(_fixture)                              struct Fixture_##_fixture : public NTestFixture
-#define SETUP                                               void SetUp() final
+template <class T>
+class NTestFixtureChild
+{
+public:
+	NTestFixtureChild()
+	{
+		DoSetUp();
+	}
+
+	~NTestFixtureChild()
+	{
+		DoTearDown();
+	}
+
+	void DoSetUp()
+	{
+		T* thisObject = static_cast<T*>(this);
+		thisObject->SetUp();
+	}
+
+	void DoTearDown()
+	{
+		T* thisObject = static_cast<T*>(this);
+		thisObject->TearDown();
+	}
+};
+
+#define NANO_FIXTURE(_fixture)                              \
+	struct Fixture_##_fixture                               \
+		: public NTestFixture                               \
+		, public NTestFixtureChild<Fixture_##_fixture>
+
+#define SETUP                                               void SetUp()    final
 #define TEARDOWN                                            void TearDown() final
 
 
@@ -122,7 +153,7 @@ NN_DIAGNOSTIC_POP();
 // Tags may be used to group tests for execution.
 //
 #define NANO_TEST(_fixture, ...)                            \
-	TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" NN_EXPAND(__VA_ARGS__))
+										TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" NN_EXPAND(__VA_ARGS__))
 
 
 
@@ -135,7 +166,7 @@ class NTestFixture
 {
 public:
 										NTestFixture();
-	virtual                            ~NTestFixture();
+	virtual                            ~NTestFixture() = default;
 
 										NTestFixture(const NTestFixture&) = delete;
 	NTestFixture&                       operator=(   const NTestFixture&) = delete;

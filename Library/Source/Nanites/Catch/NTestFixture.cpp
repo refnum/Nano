@@ -54,25 +54,6 @@
 NTestFixture::NTestFixture()
 	: mTimeStart(NTimeUtils::GetTime())
 {
-
-
-	// Initialise ourselves
-	SetUp();
-}
-
-
-
-
-
-//=============================================================================
-//		NTestFixture::~NTestFixture : Destructor.
-//-----------------------------------------------------------------------------
-NTestFixture::~NTestFixture()
-{
-
-
-	// Clean up
-	TearDown();
 }
 
 
