@@ -263,7 +263,6 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 
 		default:
 			NN_LOG_ERROR("Invalid internal encoding!");
-			return nullptr;
 			break;
 	}
 
