@@ -48,6 +48,8 @@
 // System
 #include <algorithm>
 #include <cstddef>
+#include <experimental/algorithm>
+#include <experimental/functional>
 
 
 
@@ -708,6 +710,172 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 	// If the replacement was a removal from the end then the range location
 	// will now be after our last byte, so we'll return nullptr as required.
 	return GetMutableData(theRange.GetLocation());
+}
+
+
+
+
+
+//=============================================================================
+//		NData::Find : Find the first instance of data within the data.
+//-----------------------------------------------------------------------------
+NRange NData::Find(const NData& theData, const NRange& theRange) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theData.IsEmpty());
+
+
+
+	// Get the state we need
+	NRange         searchRange = theRange.GetNormalized(GetSize());
+	size_t         searchSize  = searchRange.GetSize();
+	const uint8_t* searchBegin = GetData(searchRange.GetLocation());
+	const uint8_t* searchEnd   = searchBegin + searchSize;
+
+	size_t         needleSize  = theData.GetSize();
+	const uint8_t* needleBegin = theData.GetData();
+	const uint8_t* needleEnd   = needleBegin + needleSize;
+
+
+
+	// Find the data
+	NRange theResult;
+
+	auto findBegin =
+		std::experimental::search(searchBegin,
+								  searchEnd,
+								  std::experimental::boyer_moore_searcher(needleBegin, needleEnd));
+
+	if (findBegin != searchEnd)
+	{
+		theResult.SetRange(size_t(findBegin - searchBegin), needleSize);
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::FindAll : Find data within the data.
+//-----------------------------------------------------------------------------
+NVectorRange NData::FindAll(const NData& theData, const NRange& theRange) const
+{
+
+
+	// Get the state we need
+	NRange         searchRange = theRange.GetNormalized(GetSize());
+	size_t         searchSize  = searchRange.GetSize();
+	const uint8_t* searchBase  = GetData();
+	const uint8_t* searchBegin = searchBase + searchRange.GetLocation();
+	const uint8_t* searchEnd   = searchBegin + searchSize;
+
+	size_t         needleSize  = theData.GetSize();
+	const uint8_t* needleBegin = theData.GetData();
+	const uint8_t* needleEnd   = needleBegin + needleSize;
+
+
+
+	// Find the data
+	NVectorRange theResult;
+
+	while (searchBegin < searchEnd)
+	{
+		auto findBegin = std::experimental::search(
+			searchBegin,
+			searchEnd,
+			std::experimental::boyer_moore_searcher(needleBegin, needleEnd));
+
+		if (findBegin == searchEnd)
+		{
+			break;
+		}
+
+		theResult.push_back({size_t(findBegin - searchBase), needleSize});
+		searchBegin = findBegin + needleSize;
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::StartsWith : Does the data start with some data?
+//-----------------------------------------------------------------------------
+bool NData::StartsWith(const NData& theData) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theData.IsEmpty());
+
+
+
+	// Find the data
+	size_t thisSize  = GetSize();
+	size_t otherSize = theData.GetSize();
+	bool   isMatch   = (thisSize >= otherSize);
+
+	if (isMatch)
+	{
+		isMatch = (memcmp(GetData(), theData.GetData(), otherSize) == 0);
+	}
+
+	return isMatch;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::EndsWith : Does the data end with some data?
+//-----------------------------------------------------------------------------
+bool NData::EndsWith(const NData& theData) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theData.IsEmpty());
+
+
+
+	// Find the data
+	size_t thisSize  = GetSize();
+	size_t otherSize = theData.GetSize();
+	bool   isMatch   = (thisSize >= otherSize);
+
+	if (isMatch)
+	{
+		isMatch = (memcmp(GetData(thisSize - otherSize), theData.GetData(), otherSize) == 0);
+	}
+
+	return isMatch;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::Contains : Does the data contain some data?
+//-----------------------------------------------------------------------------
+bool NData::Contains(const NData& theData, const NRange& theRange) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theData.IsEmpty());
+
+	// Find the data
+	return !Find(theData, theRange).IsEmpty();
 }
 
 
@@ -1564,7 +1732,8 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 		uint8_t tmpData[kNDataSmallSizeMax];
 
 		MemCopy(tmpData, theData, theSize, theSource);
-		ReleaseLarge();
+		Clear();
+
 		MemCopy(mData.Small.theData, tmpData, theSize, theSource);
 	}
 

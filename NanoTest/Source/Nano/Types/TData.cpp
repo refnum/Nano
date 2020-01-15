@@ -58,6 +58,8 @@ static const uint8_t kBlock1_and_3[]                        = {0xAA, 0xBB, 0xCC,
 
 static const NData kTestData1(sizeof(kBlock1), kBlock1);
 static const NData kTestData2(sizeof(kBlock2), kBlock2);
+static const NData kTestData3(sizeof(kBlock3), kBlock3);
+static const NData kTestData1_and_3(sizeof(kBlock1_and_3), kBlock1_and_3);
 
 
 
@@ -465,6 +467,148 @@ NANO_TEST(TData, "Replace")
 	REQUIRE(memcmp(kBlock3, theData.GetData(0), sizeof(kBlock3)) == 0);
 	REQUIRE(memcmp(kBlock3, theData.GetData(sizeof(kBlock3)), sizeof(kBlock3)) == 0);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "Find")
+{
+
+
+	// Perform the test
+	NRange theRange = kTestData1_and_3.Find(kTestData1);
+	REQUIRE(theRange == NRange(0, 4));
+
+	theRange = kTestData1_and_3.Find(kTestData3);
+	REQUIRE(theRange == NRange(4, 3));
+
+	theRange = kTestData1_and_3.Find(kTestData1, NRange(2, 3));
+	REQUIRE(theRange.IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "FindAll")
+{
+
+
+	// Get the state we need
+	for (auto n = 0; n < 3; n++)
+	{
+		theData.AppendData(kTestData1);
+		theData.AppendData(kTestData2);
+		theData.AppendData(kTestData3);
+	}
+
+
+	// Perform the test
+	NVectorRange theResult = theData.FindAll(kTestData1);
+
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == NRange(0, 4));
+	REQUIRE(theResult[1] == NRange(13, 4));
+	REQUIRE(theResult[2] == NRange(26, 4));
+
+
+	// Perform the test
+	theResult = theData.FindAll(kTestData1, NRange(2, 1000));
+
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == NRange(13, 4));
+	REQUIRE(theResult[1] == NRange(26, 4));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "StartsWith")
+{
+
+
+	// Perform the test
+	NN_REQUIRE(kTestData1_and_3.StartsWith(kTestData1));
+	NN_REQUIRE(!kTestData1_and_3.StartsWith(kTestData2));
+	NN_REQUIRE(!kTestData1_and_3.StartsWith(kTestData3));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "EndsWith")
+{
+
+
+	// Perform the test
+	NN_REQUIRE(!kTestData1_and_3.EndsWith(kTestData1));
+	NN_REQUIRE(!kTestData1_and_3.EndsWith(kTestData2));
+	NN_REQUIRE(kTestData1_and_3.EndsWith(kTestData3));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "Contains")
+{
+
+
+	// Perform the test
+	NN_REQUIRE(kTestData1_and_3.Contains(kTestData1));
+	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData2));
+	NN_REQUIRE(kTestData1_and_3.Contains(kTestData3));
+
+	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData1, NRange(1, 500)));
+	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData2, NRange(1, 50)));
+	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData3, NRange(1, 5)));
+}
+
+
+
+// dair
+/*
+
+   // Test the contents
+   bool                                StartsWith(const NData& theData) const;
+   bool                                EndsWith(  const NData& theData) const;
+   bool                                Contains(  const NData& theData, const NRange& theRange  = kNRangeAll) const;
+
+
+
+   //-----------------------------------------------------------------------------
+   4   static const uint8_t kBlock1[]                       = {0xAA, 0xBB, 0xCC, 0xDD};
+   6   static const uint8_t kBlock2[]                       = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+   3   static const uint8_t kBlock3[]                       = {0x1A, 0x2B, 0x3C};
+
+   static const uint8_t kBlock1_and_3[]                     = {0xAA, 0xBB, 0xCC, 0xDD, 0x1A, 0x2B, 0x3C};
+
+
+
+   static const NData kTestData1(sizeof(kBlock1), kBlock1);
+   static const NData kTestData2(sizeof(kBlock2), kBlock2);
+   static const NData kTestData3(sizeof(kBlock3), kBlock3);
+   static const NData kTestData1_and_3(sizeof(kBlock1_and_3), kBlock1_and_3);
+
+ */
 
 
 

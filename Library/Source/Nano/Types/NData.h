@@ -231,6 +231,19 @@ public:
 													NDataSource   theSource = NDataSource::Copy);
 
 
+	// Find data
+	//
+	// Returns the location of the search data within the data.
+	NRange                              Find(   const NData& theData, const NRange& theRange = kNRangeAll) const;
+	NVectorRange                        FindAll(const NData& theData, const NRange& theRange = kNRangeAll) const;
+
+
+	// Test the contents
+	bool                                StartsWith(const NData& theData) const;
+	bool                                EndsWith(  const NData& theData) const;
+	bool                                Contains(  const NData& theData, const NRange& theRange = kNRangeAll) const;
+
+
 	// Compare an object
 	NComparison                         Compare(const NData& theData) const;
 
