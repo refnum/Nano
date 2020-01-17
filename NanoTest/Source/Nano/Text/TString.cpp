@@ -108,3 +108,26 @@ NANO_TEST(TString, "Construction")
 	NString     stringFour(localString.c_str());
 	NN_REQUIRE(stringFour.GetSize() == 10);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetText")
+{
+
+
+	// Perform the test
+	theString = kTestString;
+
+	REQUIRE(theString.GetText(NStringEncoding::UTF8) != nullptr);
+	REQUIRE(theString.GetText(NStringEncoding::UTF16) != nullptr);
+	REQUIRE(theString.GetText(NStringEncoding::UTF32) != nullptr);
+	REQUIRE(theString.GetText(NStringEncoding::ASCII) != nullptr);
+	REQUIRE(theString.GetText(NStringEncoding::MacRoman) != nullptr);
+	REQUIRE(theString.GetText(NStringEncoding::ISOLatin1) != nullptr);
+	REQUIRE(theString.GetText(NStringEncoding::WindowsLatin1) != nullptr);
+}

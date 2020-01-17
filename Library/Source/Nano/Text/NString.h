@@ -56,13 +56,17 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declarations
+class NData;
+
+
 // String storage
 //
 // Small strings are stored directly within the object.
 //
-// Larger amounts of data are a view onto shared immutable state.
+// Larger strings are a view onto shared immutable state.
 //
-// 16-byte alignment allows storage init/copy operations to be vectorised.
+// Storage is 16-byte aligned to allow init/copy operations to be vectorised.
 struct alignas(16) NStringStorage
 {
 	union
@@ -103,11 +107,11 @@ public:
 	inline                              NString();
 	inline                             ~NString();
 
-										NString(  const NString& otherData);
-	NString&                            operator=(const NString& otherData);
+										NString(  const NString& otherString);
+	NString&                            operator=(const NString& otherString);
 
-										NString(  NString&& otherData);
-	NString&                            operator=(NString&& otherData);
+										NString(  NString&& otherString);
+	NString&                            operator=(NString&& otherString);
 
 
 	// Clear the string
@@ -136,17 +140,25 @@ public:
 
 
 private:
-	constexpr bool                      IsSmall() const;
-	constexpr bool                      IsLarge() const;
+	constexpr bool                      IsSmall()      const;
+	constexpr bool                      IsSmallUTF8()  const;
+	constexpr bool                      IsSmallUTF16() const;
+	constexpr bool                      IsLarge()      const;
 
-	constexpr bool                      IsFixedWidthUTF8( size_t theSize, const utf8_t* textUTF8)   const;
-	constexpr bool                      IsFixedWidthUTF16(size_t theSize, const utf16_t* textUTF16) const;
+	constexpr bool                      IsFixedWidthUTF8( size_t numUTF8,  const utf8_t* textUTF8)   const;
+	constexpr bool                      IsFixedWidthUTF16(size_t numUTF16, const utf16_t* textUTF16) const;
 
-	constexpr bool                      SetSmallUTF8( size_t theSize,  const utf8_t* textUTF8);
-	constexpr bool                      SetSmallUTF16(size_t theSize,  const utf16_t* textUTF16);
+	constexpr bool                      SetSmallUTF8( size_t numUTF8,  const utf8_t* textUTF8);
+	constexpr bool                      SetSmallUTF16(size_t numUTF16, const utf16_t* textUTF16);
 	constexpr void                      SetSmall(     size_t numBytes, const void* theText, NStringEncoding theEncoding);
 
-	void                                MakeCopy(const NString& otherString);
+	void                                MakeClone(const NString& otherString);
+	void                                MakeLarge();
+
+	const NData*                        GetEncoding(  NStringEncoding theEncoding);
+	const NData*                        FetchEncoding(NStringEncoding theEncoding);
+	void                                StoreEncoding(NStringEncoding theEncoding);
+	void                                ReleaseEncodings();
 
 	NStringState*                       GetLarge();
 	void                                SetLarge(NStringState* theState);

@@ -44,6 +44,8 @@
 // Nano
 #include "NData.h"
 #include "NDataDigest.h"
+#include "NStringEncoder.h"
+#include "NThread.h"
 
 // System
 #include <atomic>
@@ -56,15 +58,25 @@
 //=============================================================================
 //		Internal Types
 //-----------------------------------------------------------------------------
+// Encoded string data
+//
+// The data for a string in a particular encoding.
+struct NStringData
+{
+	std::atomic<struct NStringData*> nextData;
+	NStringEncoding                  theEncoding;
+	NData                            theData;
+};
+
+
 // Large string state
 //
 // Holds the state for large strings.
 struct NStringState
 {
 	std::atomic_size_t numOwners;
-	NStringEncoding    theEncoding;
 	size_t             theSize;
-	NData              theData;
+	NStringData        stringData;
 };
 
 
@@ -79,25 +91,10 @@ NString::NString(const utf32_t* theString)
 {
 
 
-	// Validate our state
-	static_assert(sizeof(NStringStorage) == 32);
-	static_assert(offsetof(NStringStorage, Small.sizeFlags) == 0);
-	static_assert(offsetof(NStringStorage, Small.theData) == 1);
-	static_assert(offsetof(NStringStorage, Large.theState) == 0);
-	static_assert(offsetof(NStringStorage, Large.reserved) == 8);
-	static_assert(offsetof(NStringStorage, theHash) == 24);
-
-	static_assert(sizeof(mString.Small.theData) == kNStringSmallSizeMax);
-
-	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
-	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
-
-
-
 	// Set the text
 	size_t theSize = std::char_traits<utf32_t>::length(theString) + 1;
 
-	SetText(theSize * sizeof(utf32_t), theString, NStringEncoding::UTF16);
+	SetText(theSize * sizeof(utf32_t), theString, NStringEncoding::UTF32);
 }
 
 
@@ -113,7 +110,7 @@ NString::NString(const NString& otherString)
 
 
 	// Initialise ourselves
-	MakeCopy(otherString);
+	MakeClone(otherString);
 }
 
 
@@ -127,10 +124,10 @@ NString& NString::operator=(const NString& otherString)
 {
 
 
-	// Assign the value
+	// Assign the string
 	if (this != &otherString)
 	{
-		MakeCopy(otherString);
+		MakeClone(otherString);
 	}
 
 	return *this;
@@ -149,7 +146,7 @@ NString::NString(NString&& otherString)
 
 
 	// Initialise ourselves
-	MakeCopy(otherString);
+	MakeClone(otherString);
 	otherString.Clear();
 }
 
@@ -164,11 +161,11 @@ NString& NString::operator=(NString&& otherString)
 {
 
 
-	// Move the value
+	// Move the string
 	if (this != &otherString)
 	{
 		Clear();
-		MakeCopy(otherString);
+		MakeClone(otherString);
 		otherString.Clear();
 	}
 
@@ -228,44 +225,30 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 {
 
 
-	// Get the text
-	switch (theEncoding)
+	// Get small text
+	if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
 	{
-		case NStringEncoding::UTF8:
-			if (IsSmall())
-			{
-				return GetUTF8();
-			}
-			else
-			{
-				// TODO
-				return nullptr;
-			}
-			break;
-
-		case NStringEncoding::UTF16:
-			if (IsSmall())
-			{
-				return GetUTF16();
-			}
-			else
-			{
-				// TODO
-				return nullptr;
-			}
-			break;
-
-		case NStringEncoding::UTF32:
-			// TODO
-			return nullptr;
-			break;
-
-		default:
-			NN_LOG_ERROR("Invalid internal encoding!");
-			break;
+		return GetUTF8();
 	}
 
-	return nullptr;
+	else if (theEncoding == NStringEncoding::UTF16 && IsSmallUTF16())
+	{
+		return GetUTF16();
+	}
+
+
+
+	// Get the text
+	//
+	// If we're using large storage, or an encoding that's not supported
+	// by small storage, we return the contents of the encoded text data.
+	//
+	// We can cast away const as any required transcoding does not change
+	// our state.
+	NString*     thisString = const_cast<NString*>(this);
+	const NData* theData    = thisString->GetEncoding(theEncoding);
+
+	return theData->GetData();
 }
 
 
@@ -311,9 +294,9 @@ size_t& NString::FetchHash(bool updateHash) const
 
 #pragma mark private
 //=============================================================================
-//		NString::MakeCopy : Make a copy of another object.
+//		NString::MakeClone : Make a clone of another object.
 //-----------------------------------------------------------------------------
-void NString::MakeCopy(const NString& otherString)
+void NString::MakeClone(const NString& otherString)
 {
 
 
@@ -329,6 +312,180 @@ void NString::MakeCopy(const NString& otherString)
 	if (IsLarge())
 	{
 		RetainLarge();
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::MakeLarge : Make the string use large storage.
+//-----------------------------------------------------------------------------
+void NString::MakeLarge()
+{
+
+
+	// Switch to large storage
+	if (IsSmall())
+	{
+		size_t numBytes =
+			size_t((mString.Small.sizeFlags & kNStringSmallSizeMask) >> kNStringSmallSizeShift);
+
+		if (IsSmallUTF8())
+		{
+			SetTextLarge(numBytes, mString.Small.theData, NStringEncoding::UTF8);
+		}
+		else
+		{
+			SetTextLarge(numBytes, mString.Small.theData, NStringEncoding::UTF8);
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetEncoding : Get the string data in an encoding.
+//-----------------------------------------------------------------------------
+const NData* NString::GetEncoding(NStringEncoding theEncoding)
+{
+
+
+	// Update our state
+	//
+	// Dynamic encoding requires large string storage.
+	MakeLarge();
+
+
+
+	// Get the data
+	//
+	// If the data doesn't exist in this encoding then it must be stored.
+	const NData* theData = FetchEncoding(theEncoding);
+	if (theData == nullptr)
+	{
+		StoreEncoding(theEncoding);
+
+		theData = FetchEncoding(theEncoding);
+		NN_REQUIRE(theData != nullptr);
+	}
+
+	return theData;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::FetchEncoding : Fetch the string data in an encoding.
+//-----------------------------------------------------------------------------
+const NData* NString::FetchEncoding(NStringEncoding theEncoding)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Get the state we need
+	const NStringState* largeState = GetLarge();
+	const NStringData*  stringData = &largeState->stringData;
+
+
+
+	// Fetch the data
+	while (stringData != nullptr)
+	{
+		if (stringData->theEncoding == theEncoding)
+		{
+			return &stringData->theData;
+		}
+
+		stringData = stringData->nextData;
+	}
+
+	return nullptr;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::StoreEncoding : Store the string data in an encoding.
+//-----------------------------------------------------------------------------
+void NString::StoreEncoding(NStringEncoding theEncoding)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Get the state we need
+	NStringState* largeState = GetLarge();
+	NStringData*  stringData = &largeState->stringData;
+
+
+
+	// Encode the string
+	NStringData* newData = new NStringData{};
+	newData->theEncoding = theEncoding;
+
+	NStringEncoder theEncoder;
+	theEncoder.Convert(stringData->theEncoding,
+					   stringData->theData,
+					   newData->theEncoding,
+					   newData->theData);
+
+
+
+	// Store the encoding
+	bool didSwap = false;
+
+	do
+	{
+		NStringData* nextData = stringData->nextData.load();
+		newData->nextData     = nextData;
+		didSwap               = stringData->nextData.compare_exchange_strong(nextData, newData);
+
+		if (!didSwap)
+		{
+			NThread::Pause();
+		}
+	} while (!didSwap);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::ReleaseEncodings : Release the encodings.
+//-----------------------------------------------------------------------------
+void NString::ReleaseEncodings()
+{
+
+
+	// Get the state we need
+	NStringState* largeState = GetLarge();
+	NStringData*  theData    = largeState->stringData.nextData.exchange(nullptr);
+
+
+
+	// Release the encodings
+	while (theData != nullptr)
+	{
+		NStringData* nextData = theData->nextData;
+
+		delete theData;
+		theData = nextData;
 	}
 }
 
@@ -429,6 +586,7 @@ void NString::ReleaseLarge()
 	// The last owner releases the state.
 	if (largeState->numOwners.fetch_sub(1) == 1)
 	{
+		ReleaseEncodings();
 		delete largeState;
 	}
 }
@@ -454,23 +612,25 @@ size_t NString::GetSizeSmall() const
 	// The size is stored in the top bits of the storage flag byte, and
 	// holds the number of used bytes including the terminating null.
 	//
-	// As we only use small stoarge for fixed-width strings we can get the
-	// size in codepoints by multiplying by the element size.
-	size_t theSize =
+	// As we only use small storage for fixed-width strings the size
+	// in codepoints can be determined directly from the size in bytes.
+	size_t theSize = 0;
+	size_t numBytes =
 		size_t((mString.Small.sizeFlags & kNStringSmallSizeMask) >> kNStringSmallSizeShift);
 
-	if (mString.Small.sizeFlags & kNStringFlagIsUTF16)
+	if (IsSmallUTF16())
 	{
-		theSize *= sizeof(utf16_t);
+		NN_REQUIRE((theSize % sizeof(utf16_t)) == 0);
+		theSize = numBytes / sizeof(utf16_t);
 	}
 	else
 	{
-		theSize *= sizeof(utf8_t);
+		theSize = numBytes / sizeof(utf8_t);
 	}
 
 
 
-	// Remove the terminator
+	// Discount the terminator
 	if (theSize > 0)
 	{
 		theSize--;
@@ -590,18 +750,15 @@ void NString::SetTextLarge(size_t numBytes, const void* theText, NStringEncoding
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(numBytes > kNStringSmallSizeMax);
-
-
-
 	// Create the state
 	NStringState* theState = new NStringState;
 
-	theState->numOwners   = 1;
-	theState->theEncoding = theEncoding;
-	theState->theSize     = 0;
-	theState->theData.SetData(numBytes, theText);
+	theState->numOwners = 1;
+	theState->theSize   = 0;
+
+	theState->stringData.nextData    = nullptr;
+	theState->stringData.theEncoding = theEncoding;
+	theState->stringData.theData.SetData(numBytes, theText);
 
 
 

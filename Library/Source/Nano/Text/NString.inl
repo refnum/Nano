@@ -74,6 +74,8 @@ constexpr NString::NString(const utf8_t* theString)
 
 
 	// Initialise ourselves
+	//
+	// constexpr construction allows compile-time creation from string literals.
 	size_t theSize = std::char_traits<utf8_t>::length(theString) + 1;
 
 	if (!SetSmallUTF8(theSize, theString))
@@ -95,6 +97,8 @@ constexpr NString::NString(const utf16_t* theString)
 
 
 	// Initialise ourselves
+	//
+	// constexpr construction allows compile-time creation from string literals.
 	size_t theSize = std::char_traits<utf16_t>::length(theString) + 1;
 
 	if (!SetSmallUTF16(theSize, theString))
@@ -113,6 +117,20 @@ constexpr NString::NString(const utf16_t* theString)
 NString::NString()
 	: mString{}
 {
+
+
+	// Validate our state
+	static_assert(sizeof(NStringStorage) == 32);
+	static_assert(sizeof(mString.Small.theData) == kNStringSmallSizeMax);
+
+	static_assert(offsetof(NStringStorage, Small.sizeFlags) == 0);
+	static_assert(offsetof(NStringStorage, Small.theData) == 1);
+	static_assert(offsetof(NStringStorage, Large.theState) == 0);
+	static_assert(offsetof(NStringStorage, Large.reserved) == 8);
+	static_assert(offsetof(NStringStorage, theHash) == 24);
+
+	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
+	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
 }
 
 
@@ -145,7 +163,7 @@ constexpr const utf8_t* NString::GetUTF8() const
 
 
 	// Get the text
-	if (IsSmall() && !(mString.Small.sizeFlags & kNStringFlagIsUTF16))
+	if (IsSmallUTF8())
 	{
 		return reinterpret_cast<const utf8_t*>(mString.Small.theData);
 	}
@@ -167,7 +185,7 @@ constexpr const utf16_t* NString::GetUTF16() const
 
 
 	// Get the text
-	if (IsSmall() && (mString.Small.sizeFlags & kNStringFlagIsUTF16))
+	if (IsSmallUTF16())
 	{
 		return reinterpret_cast<const utf16_t*>(mString.Small.theData);
 	}
@@ -198,6 +216,36 @@ constexpr bool NString::IsSmall() const
 
 
 //=============================================================================
+//		NString::IsSmallUTF8 : Are we a small UTF8 string?
+//-----------------------------------------------------------------------------
+constexpr bool NString::IsSmallUTF8() const
+{
+
+
+	// Check the flag
+	return IsSmall() && ((mString.Small.sizeFlags & kNStringFlagIsUTF16) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::IsSmallUTF16 : Are we a small UTF16 string?
+//-----------------------------------------------------------------------------
+constexpr bool NString::IsSmallUTF16() const
+{
+
+
+	// Check the flag
+	return IsSmall() && ((mString.Small.sizeFlags & kNStringFlagIsUTF16) != 0);
+}
+
+
+
+
+
+//=============================================================================
 //		NString::IsLarge : Are we using large storage?
 //-----------------------------------------------------------------------------
 constexpr bool NString::IsLarge() const
@@ -205,7 +253,7 @@ constexpr bool NString::IsLarge() const
 
 
 	// Check the flag
-	return (mString.Small.sizeFlags & kNStringFlagIsLarge) != 0;
+	return !IsSmall();
 }
 
 
@@ -215,12 +263,12 @@ constexpr bool NString::IsLarge() const
 //=============================================================================
 //		NString::IsFixedWidthUTF8 : Check for fixed-width UTF8.
 //-----------------------------------------------------------------------------
-constexpr bool NString::IsFixedWidthUTF8(size_t theSize, const utf8_t* textUTF8) const
+constexpr bool NString::IsFixedWidthUTF8(size_t numUTF8, const utf8_t* textUTF8) const
 {
 
 
 	// Check the text
-	for (size_t n = 0; n < theSize; n++)
+	for (size_t n = 0; n < numUTF8; n++)
 	{
 		if (textUTF8[n] & kNStringUTF8Variable)
 		{
@@ -238,12 +286,12 @@ constexpr bool NString::IsFixedWidthUTF8(size_t theSize, const utf8_t* textUTF8)
 //=============================================================================
 //		NString::IsFixedWidthUTF16 : Check for fixed-width UTF16.
 //-----------------------------------------------------------------------------
-constexpr bool NString::IsFixedWidthUTF16(size_t theSize, const utf16_t* textUTF16) const
+constexpr bool NString::IsFixedWidthUTF16(size_t numUTF16, const utf16_t* textUTF16) const
 {
 
 
 	// Check the text
-	for (size_t n = 0; n < theSize; n++)
+	for (size_t n = 0; n < numUTF16; n++)
 	{
 		if (textUTF16[n] >= kNStringUTF16SurrogateStart &&
 			textUTF16[n] <= kNStringUTF16SurrogateEnd)
@@ -262,14 +310,14 @@ constexpr bool NString::IsFixedWidthUTF16(size_t theSize, const utf16_t* textUTF
 //=============================================================================
 //		NString::SetSmallUTF8 : Attempt to set a UTF8 string as small.
 //-----------------------------------------------------------------------------
-constexpr bool NString::SetSmallUTF8(size_t theSize, const utf8_t* textUTF8)
+constexpr bool NString::SetSmallUTF8(size_t numUTF8, const utf8_t* textUTF8)
 {
 
 
 	// Initialise the string
-	size_t numBytes = theSize * sizeof(utf8_t);
+	size_t numBytes = numUTF8 * sizeof(utf8_t);
 
-	if (numBytes < kNStringSmallSizeMax && IsFixedWidthUTF8(theSize, textUTF8))
+	if (numBytes < kNStringSmallSizeMax && IsFixedWidthUTF8(numUTF8, textUTF8))
 	{
 		SetSmall(numBytes, textUTF8, NStringEncoding::UTF8);
 		return true;
@@ -285,14 +333,14 @@ constexpr bool NString::SetSmallUTF8(size_t theSize, const utf8_t* textUTF8)
 //=============================================================================
 //		NString::SetSmallUTF16 : Attempt to set a UTF16 string as small.
 //-----------------------------------------------------------------------------
-constexpr bool NString::SetSmallUTF16(size_t theSize, const utf16_t* textUTF16)
+constexpr bool NString::SetSmallUTF16(size_t numUTF16, const utf16_t* textUTF16)
 {
 
 
 	// Initialise the string
-	size_t numBytes = theSize * sizeof(utf16_t);
+	size_t numBytes = numUTF16 * sizeof(utf16_t);
 
-	if (numBytes < kNStringSmallSizeMax && IsFixedWidthUTF16(theSize, textUTF16))
+	if (numBytes < kNStringSmallSizeMax && IsFixedWidthUTF16(numUTF16, textUTF16))
 	{
 		SetSmall(numBytes, textUTF16, NStringEncoding::UTF16);
 		return true;
