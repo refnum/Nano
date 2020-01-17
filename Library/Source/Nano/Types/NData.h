@@ -48,9 +48,6 @@
 #include "NRange.h"
 #include "NanoMacros.h"
 
-// System
-#include <atomic>
-
 
 
 
@@ -60,7 +57,7 @@
 //-----------------------------------------------------------------------------
 // Data source
 //
-// Data may be supplied to an object in several different ways:
+// Data may be supplied from several different sources:
 //
 //		NDataSource::Copy			Copy the data
 //
@@ -70,11 +67,10 @@
 //
 //		NDataSource::View			Create a view onto external data
 //
-// The pointer for Zero and None is unused and so may be nullptr.
+// The pointer for Zero and None is unused and may be nullptr.
 //
-// The pointer for a View must persist beyond the lifetime of any NData
-// objects viewing that data.
-//
+// The pointer for a View must persist beyond the lifetime of any
+// NData objects viewing that data.
 enum NDataSource
 {
 	Copy,
@@ -96,7 +92,7 @@ enum NDataSource
 //
 // Larger amounts of data are a view onto shared immutable state.
 //
-// 16-byte alignment allows storage init/copy operations to be vectorised.
+// Storage is 16-byte aligned to allow init/copy operations to be vectorised.
 struct alignas(16) NDataStorage
 {
 	union
@@ -168,8 +164,7 @@ public:
 
 	// Get the data
 	//
-	// Immutable access is preferred. Mutable access to larger data
-	// objects need to copy the data.
+	// A request for mutable access may need to copy the data.
 	//
 	// Returns nullptr if the offset is outside the buffer.
 	NData                               GetData(const NRange& theRange)      const;
@@ -203,7 +198,7 @@ public:
 	// NDataSource::View is not supported as a source.
 	//
 	// Returns a pointer to the first byte of the newly appended data,
-	// or nullptr if no data was inserted.
+	// or nullptr if no data was appended.
 	uint8_t*                            AppendData(const NData& theData);
 	uint8_t*                            AppendData(size_t      theSize,
 												   const void* theData,
@@ -266,7 +261,7 @@ private:
 	bool                                IsValidOffset(size_t theOffset)      const;
 	bool                                IsValidSource(size_t theSize,   const void* theData, NDataSource theSource) const;
 
-	void                                MakeCopy(const NData& otherData);
+	void                                MakeClone(const NData& otherData);
 	void                                MakeLarge(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
 	void                                MakeMutable();
 
@@ -304,6 +299,14 @@ private:
 	NDataStorage                        mData;
 };
 
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NData.inl"
 
 
 #endif // NDATA_H

@@ -44,44 +44,11 @@
 // Nano
 #include "NDataDigest.h"
 #include "NDebug.h"
+#include "NStdAlgorithm.h"
 
 // System
-#include <algorithm>
+#include <atomic>
 #include <cstddef>
-#include <experimental/algorithm>
-#include <experimental/functional>
-
-
-
-
-
-//=============================================================================
-//		Internal Constants
-//-----------------------------------------------------------------------------
-static constexpr uint8_t kNDataFlagIsLarge                  = 0b00000001;
-static constexpr uint8_t kNDataSmallSizeMask                = 0b11111000;
-static constexpr uint8_t kNDataSmallSizeShift               = 3;
-static constexpr uint8_t kNDataSmallSizeMax                 = 23;
-
-static constexpr uint8_t kNDataEmpty                        = 0;
-
-
-
-
-
-//=============================================================================
-//		Internal Types
-//-----------------------------------------------------------------------------
-// Large data state
-//
-// Holds the state for large data.
-struct NDataState
-{
-	std::atomic_size_t numOwners;
-	bool               isView;
-	size_t             theSize;
-	const uint8_t*     theData;
-};
 
 
 
@@ -106,55 +73,13 @@ NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 //=============================================================================
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
-NData::NData()
-	: mData{}
-{
-
-
-	// Validate our state
-	static_assert(sizeof(NDataStorage) == 32);
-	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
-	static_assert(offsetof(NDataStorage, Small.theData) == 1);
-	static_assert(offsetof(NDataStorage, Large.theState) == 0);
-	static_assert(offsetof(NDataStorage, Large.theSlice) == 8);
-	static_assert(offsetof(NDataStorage, theHash) == 24);
-
-	static_assert(sizeof(mData.Small.theData) == kNDataSmallSizeMax);
-
-	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
-	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
-	static_assert(kNDataEmpty == 0, "Small should be zero-initialised");
-}
-
-
-
-
-
-//=============================================================================
-//		NData::~NData : Destructor.
-//-----------------------------------------------------------------------------
-NData::~NData()
-{
-
-
-	// Clean up
-	Clear();
-}
-
-
-
-
-
-//=============================================================================
-//		NData::NData : Constructor.
-//-----------------------------------------------------------------------------
 NData::NData(const NData& otherData)
 	: mData{}
 {
 
 
 	// Initialise ourselves
-	MakeCopy(otherData);
+	MakeClone(otherData);
 }
 
 
@@ -168,10 +93,10 @@ NData& NData::operator=(const NData& otherData)
 {
 
 
-	// Assign the value
+	// Assign the data
 	if (this != &otherData)
 	{
-		MakeCopy(otherData);
+		MakeClone(otherData);
 	}
 
 	return *this;
@@ -190,7 +115,7 @@ NData::NData(NData&& otherData)
 
 
 	// Initialise ourselves
-	MakeCopy(otherData);
+	MakeClone(otherData);
 	otherData.Clear();
 }
 
@@ -205,11 +130,11 @@ NData& NData::operator=(NData&& otherData)
 {
 
 
-	// Move the value
+	// Move the data
 	if (this != &otherData)
 	{
 		Clear();
-		MakeCopy(otherData);
+		MakeClone(otherData);
 		otherData.Clear();
 	}
 
@@ -241,37 +166,10 @@ void NData::Clear()
 
 
 //=============================================================================
-//		NData::GetSize : Get the size.
-//-----------------------------------------------------------------------------
-size_t NData::GetSize() const
-{
-
-
-	// Get the size
-	if (IsSmall())
-	{
-		return GetSizeSmall();
-	}
-	else
-	{
-		return GetSizeLarge();
-	}
-}
-
-
-
-
-
-//=============================================================================
 //		NData::SetSize : Set the size.
 //-----------------------------------------------------------------------------
 void NData::SetSize(size_t theSize)
 {
-
-
-	// Validate our parameters
-	NN_EXPECT(theSize != GetSize());
-
 
 
 	// Set the size
@@ -310,37 +208,10 @@ void NData::SetSize(size_t theSize)
 
 
 //=============================================================================
-//		NData::GetCapacity : Get the capacity.
-//-----------------------------------------------------------------------------
-size_t NData::GetCapacity() const
-{
-
-
-	// Get the capacity
-	if (IsSmall())
-	{
-		return GetCapacitySmall();
-	}
-	else
-	{
-		return GetCapacityLarge();
-	}
-}
-
-
-
-
-
-//=============================================================================
 //		NData::SetCapacity : Set the capacity.
 //-----------------------------------------------------------------------------
 void NData::SetCapacity(size_t theCapacity)
 {
-
-
-	// Validate our parameters
-	NN_EXPECT(theCapacity != GetCapacity());
-
 
 
 	// Set the capacity
@@ -375,54 +246,21 @@ NData NData::GetData(const NRange& theRange) const
 
 
 	// Get the data
-	NData theData;
+	NRange finalRange = theRange.GetNormalized(GetSize());
+	NData  theData;
 
-	if (!theRange.IsEmpty())
+	if (!finalRange.IsEmpty())
 	{
 		if (IsSmall())
 		{
-			theData.SetData(theRange.GetSize(), GetData(theRange.GetLocation()));
+			theData.SetData(finalRange.GetSize(), GetData(finalRange.GetLocation()));
 		}
 		else
 		{
-			theData.MakeCopy(*this);
+			theData.MakeClone(*this);
 			NN_REQUIRE(theData.IsLarge());
 
-			theData.mData.Large.theSlice = theRange;
-		}
-	}
-
-	return theData;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetData : Get the data.
-//-----------------------------------------------------------------------------
-const uint8_t* NData::GetData(size_t theOffset) const
-{
-
-
-	// Validate our parameters
-	NN_EXPECT(IsValidOffset(theOffset));
-
-
-
-	// Get the data
-	const uint8_t* theData = nullptr;
-
-	if (!IsEmpty() && theOffset < GetSize())
-	{
-		if (IsSmall())
-		{
-			theData = GetDataSmall(theOffset);
-		}
-		else
-		{
-			theData = GetDataLarge(theOffset);
+			theData.mData.Large.theSlice = finalRange;
 		}
 	}
 
@@ -611,13 +449,15 @@ void NData::RemoveData(const NRange& theRange)
 
 
 	// Remove the data
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
 	if (IsSmall())
 	{
-		RemoveDataSmall(theRange);
+		RemoveDataSmall(finalRange);
 	}
 	else
 	{
-		RemoveDataLarge(theRange);
+		RemoveDataLarge(finalRange);
 	}
 }
 
@@ -667,7 +507,9 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 
 	// Replace the data
-	if (theRange == NRange(0, GetSize()))
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
+	if (finalRange == NRange(0, GetSize()))
 	{
 		// Replace everything
 		SetData(theSize, theData, theSource);
@@ -682,15 +524,15 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 		//
 		// Any filter is inserted at the end of the area we're going to overwrite,
 		// to minimise the amount of data that needs to be moved up.
-		size_t replacedSize = theRange.GetSize();
+		size_t replacedSize = finalRange.GetSize();
 
 		if (replacedSize > theSize)
 		{
-			RemoveData(NRange(theRange.GetLocation(), replacedSize - theSize));
+			RemoveData(NRange(finalRange.GetLocation(), replacedSize - theSize));
 		}
 		else
 		{
-			InsertData(theRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
+			InsertData(finalRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
 		}
 
 
@@ -698,7 +540,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 		// Replace the range
 		if (theSize != 0)
 		{
-			uint8_t* dstPtr = GetMutableData(theRange.GetLocation());
+			uint8_t* dstPtr = GetMutableData(finalRange.GetLocation());
 			MemCopy(dstPtr, theData, theSize, theSource);
 		}
 	}
@@ -708,8 +550,13 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 	// Get the replaced data
 	//
 	// If the replacement was a removal from the end then the range location
-	// will now be after our last byte, so we'll return nullptr as required.
-	return GetMutableData(theRange.GetLocation());
+	// will now be after our last byte so we must return nullptr.
+	size_t theOffset = finalRange.GetLocation();
+	if (theOffset >= GetSize())
+	{
+		return nullptr;
+	}
+	return GetMutableData(theOffset);
 }
 
 
@@ -743,11 +590,7 @@ NRange NData::Find(const NData& theData, const NRange& theRange) const
 	// Find the data
 	NRange theResult;
 
-	auto findBegin =
-		std::experimental::search(searchBegin,
-								  searchEnd,
-								  std::experimental::boyer_moore_searcher(needleBegin, needleEnd));
-
+	auto findBegin = nstd::search(searchBegin, searchEnd, needleBegin, needleEnd);
 	if (findBegin != searchEnd)
 	{
 		theResult.SetRange(size_t(findBegin - searchBegin), needleSize);
@@ -785,11 +628,7 @@ NVectorRange NData::FindAll(const NData& theData, const NRange& theRange) const
 
 	while (searchBegin < searchEnd)
 	{
-		auto findBegin = std::experimental::search(
-			searchBegin,
-			searchEnd,
-			std::experimental::boyer_moore_searcher(needleBegin, needleEnd));
-
+		auto findBegin = nstd::search(searchBegin, searchEnd, needleBegin, needleEnd);
 		if (findBegin == searchEnd)
 		{
 			break;
@@ -873,6 +712,8 @@ bool NData::Contains(const NData& theData, const NRange& theRange) const
 
 	// Validate our parameters
 	NN_REQUIRE(!theData.IsEmpty());
+
+
 
 	// Find the data
 	return !Find(theData, theRange).IsEmpty();
@@ -965,36 +806,6 @@ size_t& NData::FetchHash(bool updateHash) const
 
 #pragma mark private
 //=============================================================================
-//		NData::IsSmall : Are we using small storage?
-//-----------------------------------------------------------------------------
-bool NData::IsSmall() const
-{
-
-
-	// Check the flag
-	return (mData.Small.sizeFlags & kNDataFlagIsLarge) == 0;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::IsLarge : Are we using large storage?
-//-----------------------------------------------------------------------------
-bool NData::IsLarge() const
-{
-
-
-	// Check the flag
-	return (mData.Small.sizeFlags & kNDataFlagIsLarge) != 0;
-}
-
-
-
-
-
-//=============================================================================
 //		NData::IsValidRange : Is a range valid?
 //-----------------------------------------------------------------------------
 bool NData::IsValidRange(const NRange& theRange) const
@@ -1002,7 +813,9 @@ bool NData::IsValidRange(const NRange& theRange) const
 
 
 	// Check the range
-	return IsValidOffset(theRange.GetFirst()) && IsValidOffset(theRange.GetLast());
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
+	return IsValidOffset(finalRange.GetFirst()) && IsValidOffset(finalRange.GetLast());
 }
 
 
@@ -1055,9 +868,9 @@ bool NData::IsValidSource(size_t theSize, const void* theData, NDataSource theSo
 
 
 //=============================================================================
-//		NData::MakeCopy : Make a copy of another object.
+//		NData::MakeClone : Make a clone of another object.
 //-----------------------------------------------------------------------------
-void NData::MakeCopy(const NData& otherData)
+void NData::MakeClone(const NData& otherData)
 {
 
 
@@ -1091,7 +904,7 @@ void NData::MakeLarge(size_t      theCapacity,
 
 
 	// Validate our parameters and state
-	NN_REQUIRE(theCapacity != 0 && theSize != 0);
+	NN_REQUIRE(theCapacity != 0);
 	NN_REQUIRE(theCapacity >= theSize);
 	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
 
@@ -1112,8 +925,8 @@ void NData::MakeLarge(size_t      theCapacity,
 		{
 			// Switching to a view
 			//
-			// If we're switching to a view, and we don't currently have
-			// a view, we need to release the existing data first.
+			// If we're switching to a view, and we're not currently a
+			// view, we need to release our existing data first.
 			if (theSource == NDataSource::View && !largeState->isView)
 			{
 				free(const_cast<uint8_t*>(largeState->theData));
@@ -1135,8 +948,42 @@ void NData::MakeLarge(size_t      theCapacity,
 	switch (theSource)
 	{
 		case NDataSource::Copy:
+			// Handle data within our data
+			//
+			// If the supplied data is within our existing data then we can't
+			// read from it after a MemAllocate as that may reallocate the
+			// existing data (and invalidating the supplied pointer).
+			//
+			// As such we "copy" it by moving it to the start of the existing
+			// data, assuming it doesn't already fall at the start.
+			if (existingData != nullptr)
+			{
+				uintptr_t dataFirst     = reinterpret_cast<uintptr_t>(theData);
+				uintptr_t existingFirst = reinterpret_cast<uintptr_t>(existingData);
+				uintptr_t existingLast  = existingFirst + existingState->theSize;
+
+				if (dataFirst >= existingFirst && dataFirst <= existingLast)
+				{
+					if (dataFirst != existingFirst)
+					{
+						memmove(const_cast<void*>(existingData), theData, theSize);
+					}
+
+					theData = nullptr;
+				}
+			}
+
+
+			// Copy the data
+			//
+			// In general we resize our existing data then copy the supplied
+			// data into it.
+			//
+			// If the supplied data fell within our existing data then we will
+			// have already moved it to the start and we don't need to copy
+			// even if we do end up reallocating.
 			newData = MemAllocate(theCapacity, existingData, false);
-			if (theData != existingData)
+			if (theData != nullptr)
 			{
 				memcpy(newData, theData, theSize);
 			}
@@ -1194,7 +1041,7 @@ void NData::MakeMutable()
 
 	// Copy the data
 	//
-	// Small data is always mutable, as we own the only copy.
+	// Small data is always mutable as we own the only copy.
 	//
 	// Large data of which we are the only owner can be mutated in place.
 	//
@@ -1213,29 +1060,6 @@ void NData::MakeMutable()
 			MakeLarge(srcSize, srcSize, srcData, NDataSource::Copy);
 		}
 	}
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetLarge : Get the large state.
-//-----------------------------------------------------------------------------
-NDataState* NData::GetLarge()
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the large state
-	const NDataState* theState = mData.Large.theState;
-	uintptr_t statePtr = reinterpret_cast<uintptr_t>(theState) & ~uintptr_t(kNDataFlagIsLarge);
-
-	return reinterpret_cast<NDataState*>(statePtr);
 }
 
 
@@ -1376,8 +1200,9 @@ void* NData::MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem)
 	// Other allocations use realloc to avoid any unnecessary fill when the
 	// data is about to be overwritten or does not need initialisation.
 	//
-	// realloc can also avoid a malloc+memcpy+free if the existing data
-	// sits within some larger underlying allocation.
+	// realloc can also often avoid a malloc+memcpy+free if the existing data
+	// is using a larger underlying allocation that can be expanded / shrunk
+	// to fulfill the request.
 	void* newPtr = nullptr;
 
 	if (zeroMem)
@@ -1398,48 +1223,6 @@ void* NData::MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem)
 	}
 
 	return newPtr;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetSizeSmall : Get the small size.
-//-----------------------------------------------------------------------------
-size_t NData::GetSizeSmall() const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsSmall());
-
-
-
-	// Get the size
-	//
-	// The size is stored in the top bits of the storage flag byte.
-	return size_t((mData.Small.sizeFlags & kNDataSmallSizeMask) >> kNDataSmallSizeShift);
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetSizeLarge : Get the large size.
-//-----------------------------------------------------------------------------
-size_t NData::GetSizeLarge() const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the size
-	return mData.Large.theSlice.GetSize();
 }
 
 
@@ -1546,51 +1329,6 @@ void NData::SetSizeLarge(size_t theSize)
 
 
 //=============================================================================
-//		NData::GetCapacitySmall : Get the small capacity.
-//-----------------------------------------------------------------------------
-size_t NData::GetCapacitySmall() const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsSmall());
-
-
-
-	// Get the capacity
-	return kNDataSmallSizeMax;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetCapacityLarge : Get the large capacity.
-//-----------------------------------------------------------------------------
-size_t NData::GetCapacityLarge() const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the capacity
-	//
-	// We can cast away const as we only need to read the capacity.
-	NData*      thisData   = const_cast<NData*>(this);
-	NDataState* largeState = thisData->GetLarge();
-
-	return largeState->theSize;
-}
-
-
-
-
-
-//=============================================================================
 //		NData::SetCapacitySmall : Set the small capacity.
 //-----------------------------------------------------------------------------
 void NData::SetCapacitySmall(size_t theCapacity)
@@ -1648,53 +1386,6 @@ void NData::SetCapacityLarge(size_t theCapacity)
 	NDataState* largeState = GetLarge();
 
 	MakeLarge(theCapacity, theSize, largeState->theData, NDataSource::Copy);
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetDataSmall : Get small data.
-//-----------------------------------------------------------------------------
-const uint8_t* NData::GetDataSmall(size_t theOffset) const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsSmall());
-	NN_REQUIRE(theOffset <= kNDataSmallSizeMax);
-
-
-
-	// Get the data
-	return &mData.Small.theData[theOffset];
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetDataLarge : Get large data.
-//-----------------------------------------------------------------------------
-const uint8_t* NData::GetDataLarge(size_t theOffset) const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
-	NN_REQUIRE(theOffset < mData.Large.theSlice.GetSize());
-
-
-
-	// Get the data
-	//
-	// We can cast away const as we restore it in our result.
-	NData*      thisData   = const_cast<NData*>(this);
-	NDataState* largeState = thisData->GetLarge();
-
-	return &largeState->theData[mData.Large.theSlice.GetOffset(theOffset)];
 }
 
 
@@ -1865,6 +1556,7 @@ void NData::RemoveDataLarge(const NRange& theRange)
 
 	// Get the state we need
 	NRange& largeSlice = mData.Large.theSlice;
+
 
 
 	// Remove from the front
