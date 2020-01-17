@@ -1555,10 +1555,18 @@ void NData::RemoveDataLarge(const NRange& theRange)
 
 
 
+	// Remove all
+	if (theRange == NRange(0, largeSlice.GetSize()))
+	{
+		Clear();
+	}
+
+
+
 	// Remove from the front
 	//
 	// Remove by adjusting our slice.
-	if (theRange.GetLocation() == 0)
+	else if (theRange.GetLocation() == 0)
 	{
 		largeSlice.SetLocation(theRange.GetNext());
 		largeSlice.SetSize(largeSlice.GetSize() - theRange.GetSize());
