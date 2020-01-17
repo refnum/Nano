@@ -69,6 +69,60 @@ NN_DIAGNOSTIC_POP();
 //=============================================================================
 //		Macros
 //-----------------------------------------------------------------------------
+// Catch Glue
+//
+// Catch2 invokes test methods via a subclass of the test fixture.
+//
+// We can't map SETUP and TEARDOWN to the constructor/destructor of the
+// test fixture as those macros don't have access to the fixture name.
+//
+// We also can't invoke SetUp() and TearDown() within the base class of
+// all fixtures as the test fixture's cosntructor has yet to run at the
+// point that the base class is constructed.
+//
+// To allow SetUp() and TearDown() to be invoked around the test() method,
+// and after the fixture has been fully constructed, we need to clone the
+// internal Catch2 class and invoke test() via a wrapper method that can
+// do the setup-test-teardown sequence.
+//
+#define _nano_INTERNAL_CATCH_TEST_CASE_METHOD2(TestName, ClassName, ...)    \
+	CATCH_INTERNAL_START_WARNINGS_SUPPRESSION                               \
+	CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS                                \
+	namespace                                                               \
+	{                                                                       \
+	struct TestName : INTERNAL_CATCH_REMOVE_PARENS(ClassName)               \
+	{                                                                       \
+		void InvokeTest();                                                  \
+		void test();                                                        \
+	};                                                                      \
+	Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME(autoRegistrar)(               \
+		Catch::makeTestInvoker(&TestName::InvokeTest),                      \
+		CATCH_INTERNAL_LINEINFO,                                            \
+		#ClassName,                                                         \
+		Catch::NameAndTags{__VA_ARGS__});                                   \
+	}                                                                       \
+	CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION                                \
+																			\
+	void TestName::InvokeTest()                                             \
+	{                                                                       \
+		SetUp();                                                            \
+		test();                                                             \
+		TearDown();                                                         \
+	}                                                                       \
+																			\
+	void TestName::test()
+
+#define _nano_INTERNAL_CATCH_TEST_CASE_METHOD(ClassName, ...)       \
+	_nano_INTERNAL_CATCH_TEST_CASE_METHOD2(                         \
+		INTERNAL_CATCH_UNIQUE_NAME(____C_A_T_C_H____T_E_S_T____),   \
+		ClassName,                                                  \
+		__VA_ARGS__)
+
+#define _nano_TEST_CASE_METHOD(className, ...)              \
+	_nano_INTERNAL_CATCH_TEST_CASE_METHOD(className, __VA_ARGS__)
+
+
+
 // Fixture
 //
 // A fixture derived from NTestFixture can be defined with:
@@ -93,40 +147,10 @@ NN_DIAGNOSTIC_POP();
 //
 // TEARDOWN is optional, and is executed after the test.
 //
-template <class T>
-class NTestFixtureChild
-{
-public:
-	NTestFixtureChild()
-	{
-		DoSetUp();
-	}
-
-	~NTestFixtureChild()
-	{
-		DoTearDown();
-	}
-
-	void DoSetUp()
-	{
-		T* thisObject = static_cast<T*>(this);
-		thisObject->SetUp();
-	}
-
-	void DoTearDown()
-	{
-		T* thisObject = static_cast<T*>(this);
-		thisObject->TearDown();
-	}
-};
-
-#define NANO_FIXTURE(_fixture)                              \
-	struct Fixture_##_fixture                               \
-		: public NTestFixture                               \
-		, public NTestFixtureChild<Fixture_##_fixture>
-
-#define SETUP                                               void SetUp()    final
+#define NANO_FIXTURE(_fixture)                              struct Fixture_##_fixture : public NTestFixture
+#define SETUP                                               void SetUp() final
 #define TEARDOWN                                            void TearDown() final
+
 
 
 // Tests
@@ -153,7 +177,7 @@ public:
 // Tags may be used to group tests for execution.
 //
 #define NANO_TEST(_fixture, ...)                            \
-										TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" NN_EXPAND(__VA_ARGS__))
+	_nano_TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" __VA_ARGS__)
 
 
 
