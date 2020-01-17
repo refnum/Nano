@@ -50,16 +50,15 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const uint8_t kBlock1[]                              = {0xAA, 0xBB, 0xCC, 0xDD};
-static const uint8_t kBlock2[]                              = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
-static const uint8_t kBlock3[]                              = {0x1A, 0x2B, 0x3C};
+static const uint8_t kTestArray1[]                          = {0xAA, 0xBB, 0xCC, 0xDD};
+static const uint8_t kTestArray2[]                          = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
+									  0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13,
+									  0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,
+									  0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+									  0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30};
 
-static const uint8_t kBlock1_and_3[]                        = {0xAA, 0xBB, 0xCC, 0xDD, 0x1A, 0x2B, 0x3C};
-
-static const NData kTestData1(sizeof(kBlock1), kBlock1);
-static const NData kTestData2(sizeof(kBlock2), kBlock2);
-static const NData kTestData3(sizeof(kBlock3), kBlock3);
-static const NData kTestData1_and_3(sizeof(kBlock1_and_3), kBlock1_and_3);
+static const NData kTestDataSmall(sizeof(kTestArray1), kTestArray1);
+static const NData kTestDataLarge(sizeof(kTestArray2), kTestArray2);
 
 
 
@@ -70,7 +69,13 @@ static const NData kTestData1_and_3(sizeof(kBlock1_and_3), kBlock1_and_3);
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TData)
 {
-	NData theData;
+	std::vector<NData> dataObjects;
+
+	SETUP
+	{
+		dataObjects.push_back(kTestDataSmall);
+		dataObjects.push_back(kTestDataLarge);
+	}
 };
 
 
@@ -85,15 +90,49 @@ NANO_TEST(TData, "Default")
 
 
 	// Perform the test
-	REQUIRE(!kTestData1.IsEmpty());
-	REQUIRE(!kTestData2.IsEmpty());
-
-	REQUIRE(kTestData1.GetSize() == sizeof(kBlock1));
-	REQUIRE(kTestData2.GetSize() == sizeof(kBlock2));
+	NData theData;
 
 	REQUIRE(theData.IsEmpty());
+	REQUIRE(theData.GetHash() == 0);
 	REQUIRE(theData.GetSize() == 0);
 	REQUIRE(theData.GetData() == nullptr);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "Container")
+{
+
+
+	// Perform the test
+	for (auto theData : dataObjects)
+	{
+		REQUIRE(!theData.IsEmpty());
+		REQUIRE(theData.GetSize() != 0);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "Hashable")
+{
+
+
+	// Perform the test
+	for (auto theData : dataObjects)
+	{
+		REQUIRE(theData.GetHash() != 0);
+	}
 }
 
 
@@ -108,14 +147,24 @@ NANO_TEST(TData, "CreateCopy")
 
 
 	// Perform the test
-	uint8_t tmpBlock[std::size(kBlock1)];
-	memcpy(tmpBlock, kBlock1, sizeof(tmpBlock));
+	uint8_t tmpArray[std::max(sizeof(kTestArray1), sizeof(kTestArray2))];
+	NData   theData;
 
-	theData = NData(sizeof(tmpBlock), tmpBlock, NDataSource::Copy);
-	memset(tmpBlock, 0x00, sizeof(tmpBlock));
 
-	REQUIRE(memcmp(theData.GetData(), tmpBlock, sizeof(tmpBlock)) != 0);
-	REQUIRE(memcmp(theData.GetData(), kBlock1, sizeof(kBlock1)) == 0);
+	memcpy(tmpArray, kTestArray1, sizeof(kTestArray1));
+	theData = NData(sizeof(kTestArray1), kTestArray1, NDataSource::Copy);
+	memset(tmpArray, 0x00, sizeof(tmpArray));
+
+	REQUIRE(memcmp(theData.GetData(), tmpArray, theData.GetSize()) != 0);
+	REQUIRE(memcmp(theData.GetData(), kTestArray1, theData.GetSize()) == 0);
+
+
+	memcpy(tmpArray, kTestArray2, sizeof(kTestArray2));
+	theData = NData(sizeof(kTestArray2), kTestArray2, NDataSource::Copy);
+	memset(tmpArray, 0x00, sizeof(tmpArray));
+
+	REQUIRE(memcmp(theData.GetData(), tmpArray, theData.GetSize()) != 0);
+	REQUIRE(memcmp(theData.GetData(), kTestArray2, theData.GetSize()) == 0);
 }
 
 
@@ -130,14 +179,24 @@ NANO_TEST(TData, "CreateNoCopy")
 
 
 	// Perform the test
-	uint8_t tmpBlock[std::size(kBlock1)];
-	memcpy(tmpBlock, kBlock1, sizeof(tmpBlock));
+	uint8_t tmpArray[std::max(sizeof(kTestArray1), sizeof(kTestArray2))];
+	NData   theData;
 
-	theData = NData(sizeof(tmpBlock), tmpBlock, NDataSource::View);
-	memset(tmpBlock, 0x00, sizeof(tmpBlock));
 
-	REQUIRE(memcmp(theData.GetData(), tmpBlock, sizeof(tmpBlock)) == 0);
-	REQUIRE(memcmp(theData.GetData(), kBlock1, sizeof(kBlock1)) != 0);
+	memcpy(tmpArray, kTestArray1, sizeof(kTestArray1));
+	theData = NData(sizeof(kTestArray1), tmpArray, NDataSource::View);
+	memset(tmpArray, 0x00, sizeof(tmpArray));
+
+	REQUIRE(memcmp(theData.GetData(), tmpArray, theData.GetSize()) == 0);
+	REQUIRE(memcmp(theData.GetData(), kTestArray1, theData.GetSize()) != 0);
+
+
+	memcpy(tmpArray, kTestArray2, sizeof(kTestArray2));
+	theData = NData(sizeof(kTestArray2), tmpArray, NDataSource::View);
+	memset(tmpArray, 0x00, sizeof(tmpArray));
+
+	REQUIRE(memcmp(theData.GetData(), tmpArray, theData.GetSize()) == 0);
+	REQUIRE(memcmp(theData.GetData(), kTestArray2, theData.GetSize()) != 0);
 }
 
 
@@ -152,12 +211,14 @@ NANO_TEST(TData, "Clear")
 
 
 	// Perform the test
-	theData = kTestData1;
-	REQUIRE(!theData.IsEmpty());
+	for (auto theData : dataObjects)
+	{
+		REQUIRE(!theData.IsEmpty());
 
-	theData.Clear();
-	REQUIRE(theData.IsEmpty());
-	REQUIRE(theData.GetSize() == 0);
+		theData.Clear();
+
+		REQUIRE(theData.IsEmpty());
+	}
 }
 
 
@@ -172,11 +233,14 @@ NANO_TEST(TData, "SizeDown")
 
 
 	// Perform the test
-	theData = kTestData1;
-	REQUIRE(theData.GetSize() > 1);
+	for (auto theData : dataObjects)
+	{
+		REQUIRE(theData.GetSize() > 1);
 
-	theData.SetSize(1);
-	REQUIRE(theData.GetSize() == 1);
+		theData.SetSize(1);
+
+		REQUIRE(theData.GetSize() == 1);
+	}
 }
 
 
@@ -191,23 +255,26 @@ NANO_TEST(TData, "SizeUp")
 
 
 	// Perform the test
-	size_t theDelta = 10;
-	theData         = kTestData1;
-	size_t oldSize  = theData.GetSize();
-	REQUIRE(oldSize != 0);
+	size_t theDelta = 100;
 
-	const uint8_t* thePtr = theData.GetData(0);
-	for (size_t n = 0; n < oldSize; n++)
+	for (auto theData : dataObjects)
 	{
-		REQUIRE(thePtr[n] != 0x00);
-	}
+		size_t oldSize = theData.GetSize();
+		REQUIRE(oldSize != 0);
 
-	theData.SetSize(oldSize + theDelta);
+		const uint8_t* thePtr = theData.GetData(0);
+		for (size_t n = 0; n < oldSize; n++)
+		{
+			REQUIRE(thePtr[n] != 0x00);
+		}
 
-	thePtr = theData.GetData(oldSize);
-	for (size_t n = 0; n < theDelta; n++)
-	{
-		REQUIRE(thePtr[n] == 0x00);
+		theData.SetSize(oldSize + theDelta);
+
+		thePtr = theData.GetData(oldSize);
+		for (size_t n = 0; n < theDelta; n++)
+		{
+			REQUIRE(thePtr[n] == 0x00);
+		}
 	}
 }
 
@@ -218,16 +285,23 @@ NANO_TEST(TData, "SizeUp")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "Reserve")
+NANO_TEST(TData, "Capacity")
 {
 
 
 	// Perform the test
-	theData = kTestData1;
-	REQUIRE(theData.GetSize() == kTestData1.GetSize());
+	size_t theCapacity = 100;
 
-	theData.SetCapacity(theData.GetSize() * 10);
-	REQUIRE(theData.GetSize() == kTestData1.GetSize());
+	for (auto theData : dataObjects)
+	{
+		size_t oldSize = theData.GetSize();
+		REQUIRE(oldSize != 0);
+
+		theData.SetCapacity(theCapacity);
+
+		REQUIRE(theData.GetSize() == oldSize);
+		REQUIRE(theData.GetCapacity() == theCapacity);
+	}
 }
 
 
@@ -242,17 +316,24 @@ NANO_TEST(TData, "GetData")
 
 
 	// Perform the test
-	theData = kTestData2;
+	for (auto theData : dataObjects)
+	{
+		NData sliceData = theData.GetData(NRange(0, 3));
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(0), 3) == 0);
 
-	NData sliceData = theData.GetData(NRange(0, 3));
-	REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(0), 3) == 0);
+		sliceData = theData.GetData(NRange(2, 3));
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(2), 3) == 0);
 
-	sliceData = theData.GetData(NRange(2, 3));
-	REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(2), 3) == 0);
+		sliceData = theData.GetData(NRange(3, 3));
+		REQUIRE(sliceData.GetSize() == 3);
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(3), 3) == 0);
 
-	sliceData = theData.GetData(NRange(3, 3));
-	REQUIRE(sliceData.GetSize() == 3);
-	REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(3), 3) == 0);
+		const uint8_t* constPtr = theData.GetData();
+		REQUIRE(constPtr != nullptr);
+
+		const uint8_t* mutablePtr = theData.GetMutableData();
+		REQUIRE(mutablePtr != nullptr);
+	}
 }
 
 
@@ -267,9 +348,19 @@ NANO_TEST(TData, "SetDataValue")
 
 
 	// Perform the test
-	theData.SetData(sizeof(kBlock1), kBlock1);
-	REQUIRE(theData.GetSize() == sizeof(kBlock1));
-	REQUIRE(memcmp(theData.GetData(), kBlock1, sizeof(kBlock1)) == 0);
+	NData theData;
+
+
+	theData.SetData(sizeof(kTestArray1), kTestArray1);
+
+	REQUIRE(theData.GetSize() == sizeof(kTestArray1));
+	REQUIRE(memcmp(theData.GetData(), kTestArray1, sizeof(kTestArray1)) == 0);
+
+
+	theData.SetData(sizeof(kTestArray2), kTestArray2);
+
+	REQUIRE(theData.GetSize() == sizeof(kTestArray2));
+	REQUIRE(memcmp(theData.GetData(), kTestArray2, sizeof(kTestArray2)) == 0);
 }
 
 
@@ -284,13 +375,20 @@ NANO_TEST(TData, "SetDataZero")
 
 
 	// Perform the test
-	theData.SetData(sizeof(kBlock2), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == sizeof(kBlock2));
+	std::vector<size_t> theSizes{10, 100};
 
-	const uint8_t* thePtr = theData.GetData();
-	for (size_t n = 0; n < sizeof(kBlock2); n++)
+	for (auto theSize : theSizes)
 	{
-		REQUIRE(thePtr[n] == 0x00);
+		NData theData;
+
+		theData.SetData(theSize, nullptr, NDataSource::Zero);
+		REQUIRE(theData.GetSize() == theSize);
+
+		const uint8_t* thePtr = theData.GetData();
+		for (size_t n = 0; n < theSize; n++)
+		{
+			REQUIRE(thePtr[n] == 0x00);
+		}
 	}
 }
 
@@ -301,19 +399,21 @@ NANO_TEST(TData, "SetDataZero")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "SetDataClear")
+NANO_TEST(TData, "SetDataNone")
 {
 
 
 	// Perform the test
-	theData.SetData(sizeof(kBlock2), kBlock2);
-	REQUIRE(theData.GetSize() == sizeof(kBlock2));
+	NData theData;
 
-	theData.SetData(0, kBlock2);
+	theData.SetData(sizeof(kTestArray1), kTestArray1);
+	REQUIRE(theData.GetSize() == sizeof(kTestArray1));
+
+	theData.SetData(0, kTestArray1);
 	REQUIRE(theData.IsEmpty());
 
-	theData.SetData(sizeof(kBlock2), kBlock2);
-	REQUIRE(theData.GetSize() == sizeof(kBlock2));
+	theData.SetData(sizeof(kTestArray1), kTestArray1);
+	REQUIRE(theData.GetSize() == sizeof(kTestArray1));
 
 	theData.SetData(0, nullptr);
 	REQUIRE(theData.IsEmpty());
@@ -331,14 +431,19 @@ NANO_TEST(TData, "InsertDataValue")
 
 
 	// Perform the test
-	theData.InsertData(0, kTestData1);
-	REQUIRE(theData == kTestData1);
+	for (auto theData : dataObjects)
+	{
+		NData tmpData;
 
-	theData.InsertData(1, kTestData1);
-	REQUIRE(theData.GetSize() == (kTestData1.GetSize() * 2));
+		tmpData.InsertData(0, theData);
+		REQUIRE(theData == theData);
 
-	theData.InsertData(2, sizeof(kBlock1), kBlock1);
-	REQUIRE(theData.GetSize() == (kTestData1.GetSize() * 3));
+		tmpData.InsertData(1, theData);
+		REQUIRE(theData.GetSize() == (theData.GetSize() * 2));
+
+		tmpData.InsertData(2, theData.GetSize(), theData.GetData());
+		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 3));
+	}
 }
 
 
@@ -353,16 +458,89 @@ NANO_TEST(TData, "InsertDataZero")
 
 
 	// Perform the test
-	theData.InsertData(0, sizeof(kBlock1), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 1));
+	NData theData;
 
-	theData.InsertData(1, sizeof(kBlock1), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 2));
+	theData.InsertData(0, sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 1));
 
-	theData.InsertData(2, sizeof(kBlock1), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 3));
+	theData.InsertData(1, sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 2));
+
+	theData.InsertData(2, sizeof(kTestArray2), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == ((sizeof(kTestArray1) * 2) + sizeof(kTestArray2)));
 
 	const uint8_t* thePtr = theData.GetData();
+	for (size_t n = 0; n < theData.GetSize(); n++)
+	{
+		REQUIRE(thePtr[n] == 0x00);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "AppendDataValue")
+{
+
+
+	// Perform the test
+	for (auto theData : dataObjects)
+	{
+		NData tmpData;
+
+		tmpData.AppendData(theData);
+		REQUIRE(tmpData == theData);
+
+		tmpData.AppendData(theData);
+		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 2));
+
+		tmpData.AppendData(theData.GetSize(), theData.GetData());
+		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 3));
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "AppendDataZero")
+{
+
+
+	// Perform the test
+	NData          theData;
+	const uint8_t* thePtr;
+
+
+	theData.Clear();
+	theData.AppendData(sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 1));
+
+	theData.AppendData(sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 2));
+
+	thePtr = theData.GetData();
+	for (size_t n = 0; n < theData.GetSize(); n++)
+	{
+		REQUIRE(thePtr[n] == 0x00);
+	}
+
+
+	theData.Clear();
+	theData.AppendData(sizeof(kTestArray2), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == (sizeof(kTestArray2) * 1));
+
+	theData.AppendData(sizeof(kTestArray2), nullptr, NDataSource::Zero);
+	REQUIRE(theData.GetSize() == (sizeof(kTestArray2) * 2));
+
+	thePtr = theData.GetData();
 	for (size_t n = 0; n < theData.GetSize(); n++)
 	{
 		REQUIRE(thePtr[n] == 0x00);
@@ -381,68 +559,22 @@ NANO_TEST(TData, "Remove")
 
 
 	// Perform the test
-	theData.SetData(sizeof(kBlock1), kBlock1);
-	theData.RemoveData(NRange(0, sizeof(kBlock1)));
-	REQUIRE(theData.IsEmpty());
-
-	theData.SetData(sizeof(kBlock1_and_3), kBlock1_and_3);
-	theData.RemoveData(NRange(0, sizeof(kBlock1)));
-	REQUIRE(theData.GetSize() == sizeof(kBlock3));
-	REQUIRE(memcmp(theData.GetData(), kBlock3, sizeof(kBlock3)) == 0);
-
-	theData.SetData(sizeof(kBlock1_and_3), kBlock1_and_3);
-	theData.RemoveData(NRange(sizeof(kBlock1), sizeof(kBlock3)));
-	REQUIRE(theData.GetSize() == sizeof(kBlock1));
-	REQUIRE(memcmp(theData.GetData(), kBlock1, sizeof(kBlock1)) == 0);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TData, "AppendDataValue")
-{
-
-
-	// Perform the test
-	theData.AppendData(kTestData1);
-	REQUIRE(theData == kTestData1);
-
-	theData.AppendData(kTestData1);
-	REQUIRE(theData.GetSize() == (kTestData1.GetSize() * 2));
-
-	theData.AppendData(sizeof(kBlock1), kBlock1);
-	REQUIRE(theData.GetSize() == (kTestData1.GetSize() * 3));
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TData, "AppendDataZero")
-{
-
-
-	// Perform the test
-	theData.AppendData(sizeof(kBlock1), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 1));
-
-	theData.AppendData(sizeof(kBlock1), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 2));
-
-	theData.AppendData(sizeof(kBlock1), nullptr, NDataSource::Zero);
-	REQUIRE(theData.GetSize() == (sizeof(kBlock1) * 3));
-
-	const uint8_t* thePtr = theData.GetData();
-	for (size_t n = 0; n < theData.GetSize(); n++)
+	for (auto theData : dataObjects)
 	{
-		REQUIRE(thePtr[n] == 0x00);
+		theData.RemoveData(NRange(0, theData.GetSize()));
+		REQUIRE(theData.IsEmpty());
+
+		theData.AppendData(sizeof(kTestArray1), kTestArray1);
+		theData.AppendData(sizeof(kTestArray2), kTestArray2);
+		theData.RemoveData(NRange(0, sizeof(kTestArray1)));
+		REQUIRE(theData.GetSize() == sizeof(kTestArray2));
+		REQUIRE(memcmp(theData.GetData(), kTestArray2, sizeof(kTestArray2)) == 0);
+
+		theData.AppendData(sizeof(kTestArray1), kTestArray1);
+		theData.AppendData(sizeof(kTestArray2), kTestArray2);
+		theData.RemoveData(NRange(sizeof(kTestArray1), sizeof(kTestArray2)));
+		REQUIRE(theData.GetSize() == sizeof(kTestArray1));
+		REQUIRE(memcmp(theData.GetData(), kTestArray1, sizeof(kTestArray1)) == 0);
 	}
 }
 
@@ -458,14 +590,14 @@ NANO_TEST(TData, "Replace")
 
 
 	// Perform the test
-	theData = kTestData1;
-	REQUIRE(theData.AppendData(sizeof(kBlock3), kBlock3) != nullptr);
-	REQUIRE(theData.ReplaceData(NRange(0, std::size(kBlock1)), sizeof(kBlock3), kBlock3) !=
+	NData theData;
+
+	REQUIRE(theData.AppendData(sizeof(kTestArray1), kTestArray1) != nullptr);
+	REQUIRE(theData.ReplaceData(NRange(0, sizeof(kTestArray1)), sizeof(kTestArray2), kTestArray2) !=
 			nullptr);
 
-	REQUIRE(theData.GetSize() == (2 * sizeof(kBlock3)));
-	REQUIRE(memcmp(kBlock3, theData.GetData(0), sizeof(kBlock3)) == 0);
-	REQUIRE(memcmp(kBlock3, theData.GetData(sizeof(kBlock3)), sizeof(kBlock3)) == 0);
+	REQUIRE(theData.GetSize() == sizeof(kTestArray2));
+	REQUIRE(memcmp(theData.GetData(), kTestArray2, sizeof(kTestArray2)) == 0);
 }
 
 
@@ -480,14 +612,17 @@ NANO_TEST(TData, "Find")
 
 
 	// Perform the test
-	NRange theRange = kTestData1_and_3.Find(kTestData1);
-	REQUIRE(theRange == NRange(0, 4));
+	NRange theRange;
+	NData  theData;
 
-	theRange = kTestData1_and_3.Find(kTestData3);
-	REQUIRE(theRange == NRange(4, 3));
+	REQUIRE(theData.AppendData(kTestDataSmall) != nullptr);
+	REQUIRE(theData.AppendData(kTestDataLarge) != nullptr);
 
-	theRange = kTestData1_and_3.Find(kTestData1, NRange(2, 3));
-	REQUIRE(theRange.IsEmpty());
+	theRange = theData.Find(kTestDataSmall);
+	REQUIRE(theRange == NRange(0, kTestDataSmall.GetSize()));
+
+	theRange = theData.Find(kTestDataLarge);
+	REQUIRE(theRange == NRange(kTestDataSmall.GetSize(), kTestDataLarge.GetSize()));
 }
 
 
@@ -502,29 +637,32 @@ NANO_TEST(TData, "FindAll")
 
 
 	// Get the state we need
+	NData theData;
+
 	for (auto n = 0; n < 3; n++)
 	{
-		theData.AppendData(kTestData1);
-		theData.AppendData(kTestData2);
-		theData.AppendData(kTestData3);
+		theData.AppendData(kTestDataSmall);
+		theData.AppendData(kTestDataLarge);
 	}
 
 
 	// Perform the test
-	NVectorRange theResult = theData.FindAll(kTestData1);
+	NVectorRange theResult = theData.FindAll(kTestDataSmall);
+	size_t       sizeSmall = kTestDataSmall.GetSize();
+	size_t       sizeLarge = kTestDataLarge.GetSize();
 
 	REQUIRE(theResult.size() == 3);
-	REQUIRE(theResult[0] == NRange(0, 4));
-	REQUIRE(theResult[1] == NRange(13, 4));
-	REQUIRE(theResult[2] == NRange(26, 4));
+	REQUIRE(theResult[0] == NRange(0, sizeSmall));
+	REQUIRE(theResult[1] == NRange((sizeSmall + sizeLarge) * 1, sizeSmall));
+	REQUIRE(theResult[2] == NRange((sizeSmall + sizeLarge) * 2, sizeSmall));
 
 
 	// Perform the test
-	theResult = theData.FindAll(kTestData1, NRange(2, 1000));
+	theResult = theData.FindAll(kTestDataSmall, NRange(2, 1000));
 
 	REQUIRE(theResult.size() == 2);
-	REQUIRE(theResult[0] == NRange(13, 4));
-	REQUIRE(theResult[1] == NRange(26, 4));
+	REQUIRE(theResult[0] == NRange((sizeSmall + sizeLarge) * 1, sizeSmall));
+	REQUIRE(theResult[1] == NRange((sizeSmall + sizeLarge) * 2, sizeSmall));
 }
 
 
@@ -539,9 +677,14 @@ NANO_TEST(TData, "StartsWith")
 
 
 	// Perform the test
-	NN_REQUIRE(kTestData1_and_3.StartsWith(kTestData1));
-	NN_REQUIRE(!kTestData1_and_3.StartsWith(kTestData2));
-	NN_REQUIRE(!kTestData1_and_3.StartsWith(kTestData3));
+	NData smallData = kTestDataSmall + kTestDataSmall;
+	NData largeData = kTestDataLarge + kTestDataLarge;
+
+	REQUIRE(smallData.StartsWith(kTestDataSmall));
+	REQUIRE(largeData.StartsWith(kTestDataLarge));
+
+	REQUIRE(!smallData.StartsWith(kTestDataLarge));
+	REQUIRE(!largeData.StartsWith(kTestDataSmall));
 }
 
 
@@ -556,9 +699,14 @@ NANO_TEST(TData, "EndsWith")
 
 
 	// Perform the test
-	NN_REQUIRE(!kTestData1_and_3.EndsWith(kTestData1));
-	NN_REQUIRE(!kTestData1_and_3.EndsWith(kTestData2));
-	NN_REQUIRE(kTestData1_and_3.EndsWith(kTestData3));
+	NData smallData = kTestDataSmall + kTestDataSmall;
+	NData largeData = kTestDataLarge + kTestDataLarge;
+
+	REQUIRE(smallData.EndsWith(kTestDataSmall));
+	REQUIRE(largeData.EndsWith(kTestDataLarge));
+
+	REQUIRE(!smallData.EndsWith(kTestDataLarge));
+	REQUIRE(!largeData.EndsWith(kTestDataSmall));
 }
 
 
@@ -573,42 +721,18 @@ NANO_TEST(TData, "Contains")
 
 
 	// Perform the test
-	NN_REQUIRE(kTestData1_and_3.Contains(kTestData1));
-	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData2));
-	NN_REQUIRE(kTestData1_and_3.Contains(kTestData3));
+	NData smallData = kTestDataSmall + kTestDataSmall;
+	NData largeData = kTestDataLarge + kTestDataLarge;
 
-	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData1, NRange(1, 500)));
-	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData2, NRange(1, 50)));
-	NN_REQUIRE(!kTestData1_and_3.Contains(kTestData3, NRange(1, 5)));
+	REQUIRE(smallData.Contains(kTestDataSmall));
+	REQUIRE(largeData.Contains(kTestDataLarge));
+
+	REQUIRE(!smallData.Contains(kTestDataLarge));
+	REQUIRE(!largeData.Contains(kTestDataSmall));
+
+	REQUIRE(!smallData.Contains(kTestDataSmall, NRange(1, 3)));
+	REQUIRE(!largeData.Contains(kTestDataLarge, NRange(1, 3)));
 }
-
-
-
-// dair
-/*
-
-   // Test the contents
-   bool                                StartsWith(const NData& theData) const;
-   bool                                EndsWith(  const NData& theData) const;
-   bool                                Contains(  const NData& theData, const NRange& theRange  = kNRangeAll) const;
-
-
-
-   //-----------------------------------------------------------------------------
-   4   static const uint8_t kBlock1[]                       = {0xAA, 0xBB, 0xCC, 0xDD};
-   6   static const uint8_t kBlock2[]                       = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
-   3   static const uint8_t kBlock3[]                       = {0x1A, 0x2B, 0x3C};
-
-   static const uint8_t kBlock1_and_3[]                     = {0xAA, 0xBB, 0xCC, 0xDD, 0x1A, 0x2B, 0x3C};
-
-
-
-   static const NData kTestData1(sizeof(kBlock1), kBlock1);
-   static const NData kTestData2(sizeof(kBlock2), kBlock2);
-   static const NData kTestData3(sizeof(kBlock3), kBlock3);
-   static const NData kTestData1_and_3(sizeof(kBlock1_and_3), kBlock1_and_3);
-
- */
 
 
 
@@ -617,14 +741,22 @@ NANO_TEST(TData, "Contains")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "Compare")
+NANO_TEST(TData, "Comparable")
 {
 
 
 	// Perform the test
-	theData = kTestData1;
-	REQUIRE(theData == kTestData1);
-	REQUIRE(theData != kTestData2);
+	for (auto theData : dataObjects)
+	{
+		if (theData == theData)
+		{
+			REQUIRE((theData == kTestDataSmall && theData != kTestDataLarge));
+		}
+		else
+		{
+			REQUIRE((theData != kTestDataSmall && theData == kTestDataLarge));
+		}
+	}
 }
 
 
@@ -634,36 +766,19 @@ NANO_TEST(TData, "Compare")
 //=============================================================================
 //		Test cases
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "Concatenation1")
+NANO_TEST(TData, "Concatenation")
 {
 
 
 	// Perform the test
-	theData = kTestData1;
-	theData += kTestData2;
-	REQUIRE(theData.GetSize() == (kTestData1.GetSize() + kTestData2.GetSize()));
-	REQUIRE(memcmp(theData.GetData(0), kTestData1.GetData(0), kTestData1.GetSize()) == 0);
-	REQUIRE(memcmp(theData.GetData(kTestData1.GetSize()),
-				   kTestData2.GetData(0),
-				   kTestData2.GetSize()) == 0);
-}
+	for (auto theData : dataObjects)
+	{
+		size_t theSize = theData.GetSize();
+		theData += kTestDataSmall;
 
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TData, "Concatenation2")
-{
-
-
-	// Perform the test
-	theData = kTestData1 + kTestData2;
-	REQUIRE(theData.GetSize() == (kTestData1.GetSize() + kTestData2.GetSize()));
-	REQUIRE(memcmp(theData.GetData(0), kTestData1.GetData(0), kTestData1.GetSize()) == 0);
-	REQUIRE(memcmp(theData.GetData(kTestData1.GetSize()),
-				   kTestData2.GetData(0),
-				   kTestData2.GetSize()) == 0);
+		REQUIRE(theData.GetSize() == (theSize + kTestDataSmall.GetSize()));
+		REQUIRE(memcmp(theData.GetData(theSize),
+					   kTestDataSmall.GetData(),
+					   kTestDataSmall.GetSize()) == 0);
+	}
 }
