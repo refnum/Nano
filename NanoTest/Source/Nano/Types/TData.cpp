@@ -51,11 +51,10 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 static const uint8_t kTestArray1[]                          = {0xAA, 0xBB, 0xCC, 0xDD};
-static const uint8_t kTestArray2[]                          = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
-									  0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13,
-									  0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,
-									  0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
-									  0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30};
+static const uint8_t kTestArray2[]                          = {
+	0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
+	0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
+	0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30};
 
 static const NData kTestDataSmall(sizeof(kTestArray1), kTestArray1);
 static const NData kTestDataLarge(sizeof(kTestArray2), kTestArray2);
@@ -318,15 +317,18 @@ NANO_TEST(TData, "GetData")
 	// Perform the test
 	for (auto theData : dataObjects)
 	{
-		NData sliceData = theData.GetData(NRange(0, 3));
-		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(0), 3) == 0);
+		NData sliceData = theData.GetData(NRange(0, 4));
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(0), 4) == 0);
 
-		sliceData = theData.GetData(NRange(2, 3));
-		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(2), 3) == 0);
+		sliceData = theData.GetData(NRange(1, 3));
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(1), 3) == 0);
 
-		sliceData = theData.GetData(NRange(3, 3));
-		REQUIRE(sliceData.GetSize() == 3);
-		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(3), 3) == 0);
+		sliceData = theData.GetData(NRange(2, 2));
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(2), 2) == 0);
+
+		sliceData = theData.GetData(NRange(3, 1));
+		REQUIRE(sliceData.GetSize() == 1);
+		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(3), 1) == 0);
 
 		const uint8_t* constPtr = theData.GetData();
 		REQUIRE(constPtr != nullptr);
@@ -439,7 +441,7 @@ NANO_TEST(TData, "InsertDataValue")
 		REQUIRE(theData == theData);
 
 		tmpData.InsertData(1, theData);
-		REQUIRE(theData.GetSize() == (theData.GetSize() * 2));
+		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 2));
 
 		tmpData.InsertData(2, theData.GetSize(), theData.GetData());
 		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 3));
@@ -570,9 +572,10 @@ NANO_TEST(TData, "Remove")
 		REQUIRE(theData.GetSize() == sizeof(kTestArray2));
 		REQUIRE(memcmp(theData.GetData(), kTestArray2, sizeof(kTestArray2)) == 0);
 
-		theData.AppendData(sizeof(kTestArray1), kTestArray1);
 		theData.AppendData(sizeof(kTestArray2), kTestArray2);
-		theData.RemoveData(NRange(sizeof(kTestArray1), sizeof(kTestArray2)));
+		theData.AppendData(sizeof(kTestArray1), kTestArray1);
+		theData.RemoveData(NRange(sizeof(kTestArray2), sizeof(kTestArray2)));
+		theData.RemoveData(NRange(0, sizeof(kTestArray2)));
 		REQUIRE(theData.GetSize() == sizeof(kTestArray1));
 		REQUIRE(memcmp(theData.GetData(), kTestArray1, sizeof(kTestArray1)) == 0);
 	}
@@ -748,7 +751,7 @@ NANO_TEST(TData, "Comparable")
 	// Perform the test
 	for (auto theData : dataObjects)
 	{
-		if (theData == theData)
+		if (theData == kTestDataSmall)
 		{
 			REQUIRE((theData == kTestDataSmall && theData != kTestDataLarge));
 		}
