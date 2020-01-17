@@ -162,7 +162,6 @@ elseif (NN_COMPILER_MSVC)
 
 	# Discard unwanted warnings
 	list(APPEND NN_COMPILER_WARNINGS -D_CRT_SECURE_NO_WARNINGS)
-	list(APPEND NN_COMPILER_WARNINGS /wd2220)		# No object file produced
 	list(APPEND NN_COMPILER_WARNINGS /wd4068)		# Unknown pragma
 	list(APPEND NN_COMPILER_WARNINGS /wd4619)		# Unrecognised warning pragma
 	list(APPEND NN_COMPILER_WARNINGS /wd4711)		# Function selected for automatic inlining
