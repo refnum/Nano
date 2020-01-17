@@ -128,9 +128,13 @@ NANO_TEST(NUnicodeView, "UTF8/Iterate")
 
 	for (utf32_t codePoint : theView)
 	{
+// dair
+printf("adding [0x%0lX]\n", static_cast<unsigned long>(codePoint));
 		theResult.push_back(codePoint);
 	}
 
+// dair
+printf("size=%zu\n", theResult.size());
 	REQUIRE(theResult.size() == kStringSize);
 	REQUIRE(memcmp(&theResult[0], kStringUTF32, kStringSize * sizeof(utf32_t)) == 0);
 }
