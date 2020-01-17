@@ -91,7 +91,6 @@ NString::NString(const utf32_t* theString)
 
 	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
 	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
-	static_assert(kNStringEmptyUTF8 == 0, "Small UTF8 should be zero-initialised");
 
 
 

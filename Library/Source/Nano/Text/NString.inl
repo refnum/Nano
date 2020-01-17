@@ -54,9 +54,6 @@ static constexpr uint8_t kNStringSmallSizeMask              = 0b11111000;
 static constexpr uint8_t kNStringSmallSizeShift             = 3;
 static constexpr uint8_t kNStringSmallSizeMax               = 23;
 
-static constexpr uint8_t kNStringEmptyUTF8                  = 0;
-static constexpr size_t  kNStringEmptyUTF16                 = kNStringFlagIsUTF16;
-
 static constexpr utf8_t kNStringUTF8Null                    = utf8_t(0x00);
 static constexpr utf8_t kNStringUTF8Variable                = utf8_t(0x80U);
 
