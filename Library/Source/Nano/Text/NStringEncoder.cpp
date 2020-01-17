@@ -44,6 +44,7 @@
 // Nano
 #include "NByteSwap.h"
 #include "NData.h"
+#include "NStdAlgorithm.h"
 #include "NUnicodeView.h"
 #include "NanoConstants.h"
 #include "NanoTypes.h"
@@ -772,17 +773,7 @@ void NStringEncoder::ConvertToLegacy(NUnicodeView&   srcView,
 	// Convert to the encoding
 	for (utf32_t codePoint : srcView)
 	{
-		// dair, use nstd::fetch?
-		auto theIter = srcTable->find(codePoint);
-
-		if (theIter != srcTable->end())
-		{
-			theResult.push_back(theIter->second);
-		}
-		else
-		{
-			theResult.push_back(kNASCIIReplacement);
-		}
+		theResult.push_back(nstd::fetch(*srcTable, codePoint, kNASCIIReplacement));
 	}
 
 	theResult.push_back(0);
