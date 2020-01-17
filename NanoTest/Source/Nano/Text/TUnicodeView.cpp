@@ -50,7 +50,6 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-//static const utf32_t*   kStringUTF32                        = U"Hello World! 😀";
 static const utf32_t*   kStringUTF32                        = U"Hello World! \x1F600";
 static constexpr size_t kStringSize                         = 14;
 
@@ -129,18 +128,8 @@ NANO_TEST(NUnicodeView, "UTF8/Iterate")
 
 	for (utf32_t codePoint : theView)
 	{
-// dair
-printf("adding [0x%0lX]\n", static_cast<unsigned long>(codePoint));
 		theResult.push_back(codePoint);
 	}
-
-// dair
-printf("size=%zu\n", theResult.size());
-
-for (size_t n = 0; n <= kStringSize; n++)
-{
-	printf("original [0x%0lX]\n", static_cast<unsigned long>(kStringUTF32[n]));
-}
 
 	REQUIRE(theResult.size() == kStringSize);
 	REQUIRE(memcmp(&theResult[0], kStringUTF32, kStringSize * sizeof(utf32_t)) == 0);
