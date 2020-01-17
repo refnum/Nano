@@ -50,7 +50,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const utf32_t*   kStringUTF32                        = U"Hello World! 😀";
+//static const utf32_t*   kStringUTF32                        = U"Hello World! 😀";
+static const utf32_t*   kStringUTF32                        = U"Hello World! \x1F600";
 static constexpr size_t kStringSize                         = 14;
 
 static const uint8_t kTestUTF8[]                            = {0x48,
