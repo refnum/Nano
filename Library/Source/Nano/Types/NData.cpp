@@ -47,7 +47,6 @@
 #include "NStdAlgorithm.h"
 
 // System
-#include <atomic>
 #include <cstddef>
 
 
