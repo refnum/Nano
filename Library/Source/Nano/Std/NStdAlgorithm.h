@@ -50,7 +50,7 @@
 #include <unordered_set>
 #include <vector>
 
-#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+#if NN_COMPILER_CLANG
 	#include <experimental/functional>
 #else
 	#include <functional>
@@ -442,7 +442,7 @@ typename T::const_iterator search(const T& haystack, const T& needle)
 template <typename IH, typename IN>
 IH search(IH hayBegin, IH hayEnd, IN needleBegin, IN needleEnd)
 {
-#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+#if NN_COMPILER_CLANG
 	return std::search(hayBegin,
 					   hayEnd,
 					   std::experimental::boyer_moore_horspool_searcher(needleBegin, needleEnd));
