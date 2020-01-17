@@ -94,7 +94,50 @@ NString::NString(const utf32_t* theString)
 	// Set the text
 	size_t theSize = std::char_traits<utf32_t>::length(theString) + 1;
 
-	SetText(theSize * sizeof(utf32_t), theString, NStringEncoding::UTF32);
+	SetText(NStringEncoding::UTF32, theSize * sizeof(utf32_t), theString);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
+NString::NString(NStringEncoding theEncoding, size_t numBytes, const void* theData)
+	: mString{}
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+	NN_REQUIRE(numBytes == 0 || (numBytes != 0 && theData != nullptr));
+
+
+
+	// Set the text
+	SetText(theEncoding, numBytes, theData);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
+NString::NString(NStringEncoding theEncoding, const NData& theData)
+	: mString{}
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
+
+
+	// Set the text
+	SetData(theEncoding, theData);
 }
 
 
@@ -225,6 +268,11 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
+
+
 	// Get small text
 	if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
 	{
@@ -243,8 +291,7 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 	// If we're using large storage, or an encoding that's not supported
 	// by small storage, we return the contents of the encoded text data.
 	//
-	// We can cast away const as any required transcoding does not change
-	// our state.
+	// We can cast away const as transcoding does not change our state.
 	NString*     thisString = const_cast<NString*>(this);
 	const NData* theData    = thisString->GetEncoding(theEncoding);
 
@@ -264,6 +311,51 @@ const utf32_t* NString::GetUTF32() const
 
 	// Get the text
 	return static_cast<const utf32_t*>(GetText(NStringEncoding::UTF32));
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetData : Get the text.
+//-----------------------------------------------------------------------------
+NData NString::GetData(NStringEncoding theEncoding) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
+
+
+	// Get the text
+	//
+	// We can cast away const as transcoding does not change our state.
+	NString*     thisString = const_cast<NString*>(this);
+	const NData* theData    = thisString->GetEncoding(theEncoding);
+
+	return *theData;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::SGetData : Set the text.
+//-----------------------------------------------------------------------------
+void NString::SetData(NStringEncoding theEncoding, const NData& theData)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
+
+
+	// Set the text
+	SetText(theEncoding, theData.GetSize(), theData.GetData());
 }
 
 
@@ -334,11 +426,11 @@ void NString::MakeLarge()
 
 		if (IsSmallUTF8())
 		{
-			SetTextLarge(numBytes, mString.Small.theData, NStringEncoding::UTF8);
+			SetTextLarge(NStringEncoding::UTF8, numBytes, mString.Small.theData);
 		}
 		else
 		{
-			SetTextLarge(numBytes, mString.Small.theData, NStringEncoding::UTF8);
+			SetTextLarge(NStringEncoding::UTF8, numBytes, mString.Small.theData);
 		}
 	}
 }
@@ -352,6 +444,11 @@ void NString::MakeLarge()
 //-----------------------------------------------------------------------------
 const NData* NString::GetEncoding(NStringEncoding theEncoding)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
 
 
 	// Update our state
@@ -387,7 +484,8 @@ const NData* NString::FetchEncoding(NStringEncoding theEncoding)
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(IsValidEncoding(theEncoding));
 	NN_REQUIRE(IsLarge());
 
 
@@ -423,7 +521,8 @@ void NString::StoreEncoding(NStringEncoding theEncoding)
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(IsValidEncoding(theEncoding));
 	NN_REQUIRE(IsLarge());
 
 
@@ -671,8 +770,13 @@ size_t NString::GetSizeLarge() const
 //=============================================================================
 //		NString::SetText : Set the text.
 //-----------------------------------------------------------------------------
-void NString::SetText(size_t numBytes, const void* theText, NStringEncoding theEncoding)
+void NString::SetText(NStringEncoding theEncoding, size_t numBytes, const void* theText)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
 
 
 	// Get the state we need
@@ -701,11 +805,11 @@ void NString::SetText(size_t numBytes, const void* theText, NStringEncoding theE
 	// Set the text
 	if (isSmall)
 	{
-		SetTextSmall(numBytes, theText, theEncoding);
+		SetTextSmall(theEncoding, numBytes, theText);
 	}
 	else
 	{
-		SetTextLarge(numBytes, theText, theEncoding);
+		SetTextLarge(theEncoding, numBytes, theText);
 	}
 }
 
@@ -716,7 +820,7 @@ void NString::SetText(size_t numBytes, const void* theText, NStringEncoding theE
 //=============================================================================
 //		NString::SetTextSmall : Set small text.
 //-----------------------------------------------------------------------------
-void NString::SetTextSmall(size_t numBytes, const void* theText, NStringEncoding theEncoding)
+void NString::SetTextSmall(NStringEncoding theEncoding, size_t numBytes, const void* theText)
 {
 
 
@@ -746,7 +850,7 @@ void NString::SetTextSmall(size_t numBytes, const void* theText, NStringEncoding
 //=============================================================================
 //		NString::SetTextLarge : Set large text.
 //-----------------------------------------------------------------------------
-void NString::SetTextLarge(size_t numBytes, const void* theText, NStringEncoding theEncoding)
+void NString::SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const void* theText)
 {
 
 

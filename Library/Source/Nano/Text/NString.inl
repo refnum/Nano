@@ -82,7 +82,7 @@ constexpr NString::NString(const utf8_t* theString)
 
 	if (!SetSmallUTF8(theSize, theString))
 	{
-		SetText(theSize * sizeof(utf8_t), theString, NStringEncoding::UTF8);
+		SetText(NStringEncoding::UTF8, theSize * sizeof(utf8_t), theString);
 	}
 }
 
@@ -105,7 +105,7 @@ constexpr NString::NString(const utf16_t* theString)
 
 	if (!SetSmallUTF16(theSize, theString))
 	{
-		SetText(theSize * sizeof(utf16_t), theString, NStringEncoding::UTF16);
+		SetText(NStringEncoding::UTF16, theSize * sizeof(utf16_t), theString);
 	}
 }
 
@@ -256,6 +256,21 @@ constexpr bool NString::IsLarge() const
 
 	// Check the flag
 	return !IsSmall();
+}
+
+
+
+
+
+//=============================================================================
+//		NString::IsValidEncoding : Is this a valid encoding?
+//-----------------------------------------------------------------------------
+constexpr bool NString::IsValidEncoding(NStringEncoding theEncoding) const
+{
+
+
+	// Check the encoding
+	return (theEncoding != NStringEncoding::Unknown);
 }
 
 

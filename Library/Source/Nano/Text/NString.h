@@ -104,6 +104,9 @@ public:
 	constexpr                           NString(const utf16_t* theString);
 										NString(const utf32_t* theString);
 
+										NString(NStringEncoding theEncoding, size_t numBytes, const void* theData);
+										NString(NStringEncoding theEncoding, const NData& theData);
+
 	inline                              NString();
 	inline                             ~NString();
 
@@ -134,6 +137,13 @@ public:
 	const utf32_t*                      GetUTF32() const;
 
 
+	// Get/set the text
+	//
+	// GetData returns a NULL-terminated string in the specified encoding.
+	NData                               GetData(NStringEncoding theEncoding) const;
+	void                                SetData(NStringEncoding theEncoding, const NData& theData);
+
+
 public:
 	// Fetch the hash
 	size_t&                             FetchHash(bool updateHash) const;
@@ -145,8 +155,9 @@ private:
 	constexpr bool                      IsSmallUTF16() const;
 	constexpr bool                      IsLarge()      const;
 
-	constexpr bool                      IsFixedWidthUTF8( size_t numUTF8,  const utf8_t* textUTF8)   const;
-	constexpr bool                      IsFixedWidthUTF16(size_t numUTF16, const utf16_t* textUTF16) const;
+	constexpr bool                      IsValidEncoding(NStringEncoding theEncoding) const;
+	constexpr bool                      IsFixedWidthUTF8( size_t numUTF8,            const utf8_t* textUTF8)   const;
+	constexpr bool                      IsFixedWidthUTF16(size_t numUTF16,           const utf16_t* textUTF16) const;
 
 	constexpr bool                      SetSmallUTF8( size_t numUTF8,  const utf8_t* textUTF8);
 	constexpr bool                      SetSmallUTF16(size_t numUTF16, const utf16_t* textUTF16);
@@ -168,11 +179,9 @@ private:
 	size_t                              GetSizeSmall() const;
 	size_t                              GetSizeLarge() const;
 
-	void                                SetText(size_t numBytes, const void* theText, NStringEncoding theEncoding);
-
-	void                                SetTextSmall(size_t numBytes, const void* theText, NStringEncoding theEncoding);
-	void                                SetTextLarge(size_t numBytes, const void* theText, NStringEncoding theEncoding);
-
+	void                                SetText(     NStringEncoding theEncoding, size_t numBytes, const void* theText);
+	void                                SetTextSmall(NStringEncoding theEncoding, size_t numBytes, const void* theText);
+	void                                SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const void* theText);
 
 
 private:
