@@ -206,6 +206,9 @@
 		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPOSIX.cpp; sourceTree = "<group>"; };
+		AB5127DD23D0778400528FBE /* NStdAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdAlgorithm.h; sourceTree = "<group>"; };
+		AB5127E823D07FB400528FBE /* NStdContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdContainer.h; sourceTree = "<group>"; };
+		AB5127EE23D0FD1A00528FBE /* NData.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NData.inl; sourceTree = "<group>"; };
 		AB514E59103460CB00E5A6AD /* NPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPoint.cpp; sourceTree = "<group>"; };
 		AB514E5A103460CB00E5A6AD /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
 		AB514E5B103460CB00E5A6AD /* NRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRectangle.cpp; sourceTree = "<group>"; };
@@ -352,8 +355,6 @@
 		AB91556C0F9B4DD6009FFEAF /* NFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtilities.h; sourceTree = "<group>"; };
 		AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMathUtilities.cpp; sourceTree = "<group>"; };
 		AB91556E0F9B4DD6009FFEAF /* NMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMathUtilities.h; sourceTree = "<group>"; };
-		AB91556F0F9B4DD6009FFEAF /* NSTLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSTLUtilities.cpp; sourceTree = "<group>"; };
-		AB9155700F9B4DD6009FFEAF /* NSTLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTLUtilities.h; sourceTree = "<group>"; };
 		AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSystemUtilities.cpp; sourceTree = "<group>"; };
 		AB9155720F9B4DD6009FFEAF /* NSystemUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSystemUtilities.h; sourceTree = "<group>"; };
 		AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThreadUtilities.cpp; sourceTree = "<group>"; };
@@ -690,6 +691,15 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		AB5127DC23D0778400528FBE /* Std */ = {
+			isa = PBXGroup;
+			children = (
+				AB5127DD23D0778400528FBE /* NStdAlgorithm.h */,
+				AB5127E823D07FB400528FBE /* NStdContainer.h */,
+			);
+			path = Std;
+			sourceTree = "<group>";
+		};
 		AB514E58103460CB00E5A6AD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -882,6 +892,7 @@
 				AB514E58103460CB00E5A6AD /* Graphics */,
 				ABB95B640FB7241B00C5A7FF /* Internal */,
 				AB481C2512A531220052C55F /* Network */,
+				AB5127DC23D0778400528FBE /* Std */,
 				AB9155150F9B4DD5009FFEAF /* System */,
 				AB56390A23C2A3A900675F68 /* Text */,
 				AB9155380F9B4DD6009FFEAF /* Threads */,
@@ -1192,8 +1203,6 @@
 				AB1BA2901050168900BB002B /* NGeometryUtilities.h */,
 				AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */,
 				AB91556E0F9B4DD6009FFEAF /* NMathUtilities.h */,
-				AB91556F0F9B4DD6009FFEAF /* NSTLUtilities.cpp */,
-				AB9155700F9B4DD6009FFEAF /* NSTLUtilities.h */,
 				AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */,
 				AB9155720F9B4DD6009FFEAF /* NSystemUtilities.h */,
 				AB35B34210011269009B75EF /* NTextUtilities.cpp */,

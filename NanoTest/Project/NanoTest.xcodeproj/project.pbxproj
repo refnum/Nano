@@ -21,6 +21,12 @@
 		AB29121B2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
+		AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
+		AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
+		AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
+		AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
+		AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
+		AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
 		AB56391823C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
 		AB56391923C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
 		AB56391A23C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
@@ -134,6 +140,8 @@
 		AB481C7212A539690052C55F /* TURLResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLResponse.cpp; sourceTree = "<group>"; };
 		AB481C7B12A539830052C55F /* TURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURL.cpp; sourceTree = "<group>"; };
 		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdAlgorithm.cpp; sourceTree = "<group>"; };
+		AB5127E923D07FC700528FBE /* TStdContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdContainer.cpp; sourceTree = "<group>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
 		AB514D641034184B00E5A6AD /* TUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoManager.cpp; sourceTree = "<group>"; };
@@ -171,7 +179,6 @@
 		AB514DC11034184B00E5A6AD /* TVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVariant.cpp; sourceTree = "<group>"; };
 		AB514DC41034184B00E5A6AD /* TFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileUtilities.cpp; sourceTree = "<group>"; };
 		AB514DC61034184B00E5A6AD /* TMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMathUtilities.cpp; sourceTree = "<group>"; };
-		AB514DC81034184B00E5A6AD /* TSTLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSTLUtilities.cpp; sourceTree = "<group>"; };
 		AB514DCA1034184B00E5A6AD /* TSystemUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSystemUtilities.cpp; sourceTree = "<group>"; };
 		AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtilities.cpp; sourceTree = "<group>"; };
 		AB514DCE1034184B00E5A6AD /* TThreadUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadUtilities.cpp; sourceTree = "<group>"; };
@@ -368,6 +375,15 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		AB5127DF23D0780400528FBE /* Std */ = {
+			isa = PBXGroup;
+			children = (
+				AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */,
+				AB5127E923D07FC700528FBE /* TStdContainer.cpp */,
+			);
+			path = Std;
+			sourceTree = "<group>";
+		};
 		AB514D5E1034184A00E5A6AD /* Nano */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +394,7 @@
 				AB514D771034184B00E5A6AD /* Files */,
 				AB514E731034612D00E5A6AD /* Graphics */,
 				AB481C6D12A539690052C55F /* Network */,
+				AB5127DF23D0780400528FBE /* Std */,
 				AB514D801034184B00E5A6AD /* System */,
 				AB56391223C2A3F600675F68 /* Text */,
 				AB514D911034184B00E5A6AD /* Threads */,
@@ -510,7 +527,6 @@
 				AB514DC41034184B00E5A6AD /* TFileUtilities.cpp */,
 				AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */,
 				AB514DC61034184B00E5A6AD /* TMathUtilities.cpp */,
-				AB514DC81034184B00E5A6AD /* TSTLUtilities.cpp */,
 				AB514DCA1034184B00E5A6AD /* TSystemUtilities.cpp */,
 				AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */,
 				AB514DCE1034184B00E5A6AD /* TThreadUtilities.cpp */,
@@ -734,6 +750,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */,
+				AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
@@ -759,6 +777,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */,
+				AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */,
@@ -784,6 +804,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */,
+				AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */,
