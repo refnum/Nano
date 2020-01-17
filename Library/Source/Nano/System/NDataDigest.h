@@ -160,16 +160,15 @@ public:
 	//
 	// A runtime digest must never be serialised - the algorithm used will
 	// vary between systems.
-	static inline size_t                GetRuntime(   const NData&      theData, size_t   prevValue = 0);
-	static inline uint32_t              GetRuntime32( const NData&      theData, uint32_t prevValue = 0);
-	static inline uint64_t              GetRuntime64( const NData&      theData, uint64_t prevValue = 0);
-	static inline NDigest128            GetRuntime128(const NData&      theData,
-													  const NDigest128* prevValue = nullptr);
+	static size_t                       GetRuntime(   const NData& theData, size_t            prevValue = 0);
+	static uint32_t                     GetRuntime32( const NData& theData, uint32_t          prevValue = 0);
+	static uint64_t                     GetRuntime64( const NData& theData, uint64_t          prevValue = 0);
+	static NDigest128                   GetRuntime128(const NData& theData, const NDigest128* prevValue = nullptr);
 
-	static inline size_t                GetRuntime(   size_t            theSize, const void* thePtr, size_t   prevValue = 0);
-	static inline uint32_t              GetRuntime32( size_t            theSize, const void* thePtr, uint32_t prevValue = 0);
-	static inline uint64_t              GetRuntime64( size_t            theSize, const void* thePtr, uint64_t prevValue = 0);
-	static inline NDigest128            GetRuntime128(size_t            theSize,
+	static size_t                       GetRuntime(   size_t            theSize, const void* thePtr, size_t   prevValue = 0);
+	static uint32_t                     GetRuntime32( size_t            theSize, const void* thePtr, uint32_t prevValue = 0);
+	static uint64_t                     GetRuntime64( size_t            theSize, const void* thePtr, uint64_t prevValue = 0);
+	static NDigest128                   GetRuntime128(size_t            theSize,
 													  const void*       thePtr,
 													  const NDigest128* prevValue = nullptr);
 

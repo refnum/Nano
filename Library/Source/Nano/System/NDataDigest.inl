@@ -305,7 +305,7 @@ bool NDigestX<N>::operator!=(const NDigestX<N>& otherDigest) const
 //=============================================================================
 //		NDataDigest::GetRuntime : Get the runtime digest.
 //-----------------------------------------------------------------------------
-size_t NDataDigest::GetRuntime(const NData& theData, size_t prevValue)
+inline size_t NDataDigest::GetRuntime(const NData& theData, size_t prevValue)
 {
 
 
@@ -324,7 +324,7 @@ size_t NDataDigest::GetRuntime(const NData& theData, size_t prevValue)
 //=============================================================================
 //		NDataDigest::GetRuntime32 : Get the runtime digest.
 //-----------------------------------------------------------------------------
-uint32_t NDataDigest::GetRuntime32(const NData& theData, uint32_t prevValue)
+inline uint32_t NDataDigest::GetRuntime32(const NData& theData, uint32_t prevValue)
 {
 	return GetRuntime32(theData.GetSize(), theData.GetData(), prevValue);
 }
@@ -336,7 +336,7 @@ uint32_t NDataDigest::GetRuntime32(const NData& theData, uint32_t prevValue)
 //=============================================================================
 //		NDataDigest::GetRuntime64 : Get the runtime digest.
 //-----------------------------------------------------------------------------
-uint64_t NDataDigest::GetRuntime64(const NData& theData, uint64_t prevValue)
+inline uint64_t NDataDigest::GetRuntime64(const NData& theData, uint64_t prevValue)
 {
 	return GetRuntime64(theData.GetSize(), theData.GetData(), prevValue);
 }
@@ -348,7 +348,7 @@ uint64_t NDataDigest::GetRuntime64(const NData& theData, uint64_t prevValue)
 //=============================================================================
 //		NDataDigest::GetRuntime128 : Get the runtime digest.
 //-----------------------------------------------------------------------------
-NDigest128 NDataDigest::GetRuntime128(const NData& theData, const NDigest128* prevValue)
+inline NDigest128 NDataDigest::GetRuntime128(const NData& theData, const NDigest128* prevValue)
 {
 
 
@@ -363,7 +363,7 @@ NDigest128 NDataDigest::GetRuntime128(const NData& theData, const NDigest128* pr
 //=============================================================================
 //		NDataDigest::GetRuntime : Get the runtime digest.
 //-----------------------------------------------------------------------------
-size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t prevValue)
+inline size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t prevValue)
 {
 
 
@@ -395,7 +395,7 @@ size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t prevVa
 //=============================================================================
 //		NDataDigest::GetRuntime32 : Get the runtime digest.
 //-----------------------------------------------------------------------------
-uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, uint32_t prevValue)
+inline uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, uint32_t prevValue)
 {
 
 
@@ -427,7 +427,7 @@ uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, uint32_t 
 //=============================================================================
 //		NDataDigest::GetRuntime64 : Get the runtime digest.
 //-----------------------------------------------------------------------------
-uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t prevValue)
+inline uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t prevValue)
 {
 
 
@@ -462,9 +462,9 @@ uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, uint64_t 
 //=============================================================================
 //		NDataDigest::GetRuntime128 : Get the runtime digest.
 //-----------------------------------------------------------------------------
-NDigest128 NDataDigest::GetRuntime128(size_t            theSize,
-									  const void*       thePtr,
-									  const NDigest128* prevValue)
+inline NDigest128 NDataDigest::GetRuntime128(size_t            theSize,
+											 const void*       thePtr,
+											 const NDigest128* prevValue)
 {
 
 
