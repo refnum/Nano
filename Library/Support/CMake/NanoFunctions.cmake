@@ -48,6 +48,51 @@ endfunction()
 
 
 #==============================================================================
+#		nano_target_compile_set_prefix : Set the compiler prefix header.
+#------------------------------------------------------------------------------
+function(nano_target_compile_set_prefix theTarget thePrefix)
+
+	if (NN_COMPILER_MSVC)
+		target_compile_options("${theTarget}" PRIVATE /FI"${thePrefix}")
+
+	else()
+		target_compile_options("${theTarget}" PRIVATE -include "${thePrefix}")
+	endif()
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_target_compile_disable_warnings : Disable compiler warnings.
+#------------------------------------------------------------------------------
+function(nano_target_compile_disable_warnings theTarget thePattern)
+
+	get_target_property(theSources "${theTarget}" SOURCES)
+
+	if (NN_COMPILER_MSVC)
+		set(flagNoWarnings "/W0")
+	else()
+		set(flagNoWarnings "-w")
+	endif()
+
+	foreach (theFile ${theSources})
+
+		if ("${theFile}" MATCHES "${thePattern}")
+			SET_SOURCE_FILES_PROPERTIES("${theFile}" PROPERTIES COMPILE_FLAGS "${flagNoWarnings}")
+		endif()
+
+ 	endforeach()
+
+endfunction()
+
+
+
+
+
+#==============================================================================
 #		nano_target_link_add_library : Find and link to a library.
 #------------------------------------------------------------------------------
 function(nano_target_link_add_library theTarget theLibrary)
