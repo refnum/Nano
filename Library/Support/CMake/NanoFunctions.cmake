@@ -1,11 +1,12 @@
 #==============================================================================
-#		target_nano_create_groups : Organise source into groups for IDEs.
+#		nano_target_source_make_groups : Create source groupings for IDEs.
 #------------------------------------------------------------------------------
-function(target_nano_create_groups target)
+function(nano_target_source_make_groups theTarget)
 
-	get_target_property(theSources "${target}" SOURCES)
+	get_target_property(theSources "${theTarget}" SOURCES)
 
 	foreach (theFile ${theSources})
+
 		get_filename_component(thePath "${theFile}" ABSOLUTE)
 		get_filename_component(thePath "${thePath}" PATH)
 
@@ -17,6 +18,7 @@ function(target_nano_create_groups target)
 
 		string(REGEX REPLACE "/" "\\\\" winPath "${thePath}")
 		source_group("${winPath}" REGULAR_EXPRESSION "${thePath}/[^/\\]+\\..*")
+
 	endforeach()
 
 endfunction()
@@ -26,9 +28,9 @@ endfunction()
 
 
 #==============================================================================
-#		target_nano_compile_options : Set the compiler options.
+#		nano_target_compile_set_defaults : Set the compiler's default options.
 #------------------------------------------------------------------------------
-function(target_nano_compile_options theTarget)
+function(nano_target_compile_set_defaults theTarget)
 
 	# Features
 	target_compile_features("${theTarget}" PUBLIC "cxx_std_17")
@@ -45,14 +47,14 @@ endfunction()
 
 
 
-
 #==============================================================================
-#		target_nano_find_link_library : Find and link a library.
+#		nano_target_link_add_library : Find and link to a library.
 #------------------------------------------------------------------------------
-function(target_nano_find_link_library theTarget theLibrary)
+function(nano_target_link_add_library theTarget theLibrary)
 
-	find_library("NN_LIBRARY_${theLibrary}" "${theLibrary}")
-	target_link_libraries("${theTarget}" PRIVATE "${NN_LIBRARY_${theLibrary}}")
+	find_library("_NN_LIBRARY_${theLibrary}" "${theLibrary}")
+
+	target_link_libraries("${theTarget}" PRIVATE "${_NN_LIBRARY_${theLibrary}}")
 
 endfunction()
 
@@ -61,12 +63,12 @@ endfunction()
 
 
 #==============================================================================
-#		target_nano_build_library : Build a library target.
+#		nano_target_build_library : Build a library target.
 #------------------------------------------------------------------------------
-function(target_nano_build_library theTarget)
+function(nano_target_build_library theTarget)
 
-	target_nano_compile_options("${theTarget}")
-	target_nano_create_groups(  "${theTarget}")
+	nano_target_compile_set_defaults(	"${theTarget}")
+	nano_target_source_make_groups(		"${theTarget}")
 
 endfunction()
 
@@ -79,9 +81,9 @@ endfunction()
 #------------------------------------------------------------------------------
 function(nano_target_build_app theTarget)
 
-	target_nano_compile_options("${theTarget}")
-	target_nano_create_groups(	"${theTarget}")
-	target_link_libraries(		"${theTarget}" PRIVATE "Nano")
+	nano_target_compile_set_defaults(	"${theTarget}")
+	nano_target_source_make_groups(		"${theTarget}")
+	target_link_libraries(				"${theTarget}" PRIVATE "Nano")
 
 
 	if (NN_TARGET_ANDROID)
@@ -89,16 +91,16 @@ function(nano_target_build_app theTarget)
 		target_link_libraries("${theTarget}" PRIVATE "log")
 
 	elseif (NN_TARGET_IOS)
-		target_nano_find_link_library("${theTarget}" "CoreFoundation")
+		nano_target_link_add_library("${theTarget}" "CoreFoundation")
 
 	elseif (NN_TARGET_LINUX)
 		target_link_libraries("${theTarget}" PRIVATE "pthread")
 
 	elseif (NN_TARGET_MACOS)
-		target_nano_find_link_library("${theTarget}" "CoreFoundation")
+		nano_target_link_add_library("${theTarget}" "CoreFoundation")
 
 	elseif (NN_TARGET_TVOS)
-		target_nano_find_link_library("${theTarget}" "CoreFoundation")
+		nano_target_link_add_library("${theTarget}" "CoreFoundation")
 
 	elseif (NN_TARGET_WINDOWS)
 
