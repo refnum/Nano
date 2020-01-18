@@ -27,6 +27,42 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Core/NLog.h"
 		"${TARGET_SOURCE_DIR}/Core/NLogOutput.cpp"
 		"${TARGET_SOURCE_DIR}/Core/NLogOutput.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/config.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/dftables.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_auto_possess.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_chartables.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_compile.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_config.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_context.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_convert.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_dfa_match.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_error.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_extuni.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_find_bracket.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_fuzzsupport.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_internal.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_intmodedep.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_jit_compile.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_jit_neon_inc.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_jit_simd_inc.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_maketables.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_match_data.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_match.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_newline.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_ord2utf.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_pattern_info.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_script_run.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_serialize.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_string_utils.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_study.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_substitute.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_substring.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_tables.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_ucd.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_ucp.h"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_valid_utf.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2_xclass.c"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34/pcre2.h"
 		"${TARGET_SOURCE_DIR}/Std/NStdAlgorithm.h"
 		"${TARGET_SOURCE_DIR}/Std/NStdContainer.h"
 		"${TARGET_SOURCE_DIR}/System/NByteSwap.cpp"
@@ -86,6 +122,7 @@ target_include_directories("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Internal/Components/xxHash_0.7.2"
 	PRIVATE
 		"${TARGET_SOURCE_DIR}/Internal/Components/fourmilab.ch"
+		"${TARGET_SOURCE_DIR}/Internal/Components/pcre2_10.34"
 		"${TARGET_SOURCE_DIR}/Internal/Components/sha2_1.1a"
 		"${TARGET_SOURCE_DIR}/Internal/Components/zlib_1.2.3"
 		"${TARGET_SOURCE_DIR}/Internal/Targets/Shared"
@@ -94,7 +131,7 @@ target_include_directories("${PROJECT_NAME}"
 
 
 
-
+ 
 #==============================================================================
 #		Android
 #------------------------------------------------------------------------------
@@ -241,7 +278,11 @@ endif()
 #==============================================================================
 #		Build
 #------------------------------------------------------------------------------
-target_nano_build_library("${PROJECT_NAME}")
+nano_target_compile_set_prefix(			"${PROJECT_NAME}" "${TARGET_SOURCE_DIR}/Nano Prefix.h")
+nano_target_compile_disable_warnings(	"${PROJECT_NAME}" "Internal/Components")
+
+nano_target_build_library("${PROJECT_NAME}")
+
 
 
 

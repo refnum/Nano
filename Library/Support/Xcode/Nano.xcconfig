@@ -153,6 +153,8 @@ Nano_Configuration						= $(Nano_Configuration_$(CONFIGURATION))
 //=============================================================================
 //		Compiler - Misc
 //-----------------------------------------------------------------------------
+GCC_PREFIX_HEADER						= ../Source/Nano/Nano Prefix.h
+
 OTHER_CFLAGS							= $(Nano_Warnings) $(Nano_Configuration)
 OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings) $(Nano_Configuration)
 
