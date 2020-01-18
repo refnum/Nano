@@ -270,7 +270,7 @@ constexpr bool NString::IsValidEncoding(NStringEncoding theEncoding) const
 
 
 	// Check the encoding
-	return (theEncoding != NStringEncoding::Unknown);
+	return theEncoding != NStringEncoding::Unknown;
 }
 
 
