@@ -56,6 +56,7 @@ Nano_Warnings = $(inherited) -Wunused-variable
 
 // Discard unwanted warnings
 Nano_Warnings = $(inherited) -Wno-atomic-implicit-seq-cst
+Nano_Warnings = $(inherited) -Wno-c++2a-compat
 Nano_Warnings = $(inherited) -Wno-c++17-extensions
 Nano_Warnings = $(inherited) -Wno-c++98-compat
 Nano_Warnings = $(inherited) -Wno-c++98-compat-pedantic
