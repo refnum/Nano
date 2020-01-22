@@ -132,38 +132,17 @@ utf32_t NUnicodeView::GetCodepoint(size_t theOffset) const
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(theOffset < mSize);
+
+
+
 	// Get the codepoint
-	utf32_t codePoint = 0;
+	utf32_t theCodepoint = 0;
 
-	if (theOffset < mSize)
-	{
-		// Get the state we need
-		size_t         theSize = mSize - theOffset;
-		const uint8_t* theData = &mData[theOffset];
+	(void) DecodeUTF(theOffset, theCodepoint);
 
-
-		// Decode the codepoint
-		switch (mEncoding)
-		{
-			case NStringEncoding::UTF8:
-				DecodeUTF8(theSize, theData, codePoint);
-				break;
-
-			case NStringEncoding::UTF16:
-				DecodeUTF16(theSize, theData, codePoint);
-				break;
-
-			case NStringEncoding::UTF32:
-				DecodeUTF32(theSize, theData, codePoint);
-				break;
-
-			default:
-				NN_LOG_UNIMPLEMENTED("Invalid encoding!");
-				break;
-		}
-	}
-
-	return codePoint;
+	return theCodepoint;
 }
 
 
@@ -176,40 +155,18 @@ utf32_t NUnicodeView::GetCodepoint(size_t theOffset) const
 size_t NUnicodeView::GetCodepointSize(size_t theOffset) const
 {
 
-
-	// Get the size
-	size_t charSize = 0;
-
-	if (theOffset < mSize)
-	{
-		// Get the state we need
-		size_t         theSize   = mSize - theOffset;
-		const uint8_t* theData   = &mData[theOffset];
-		utf32_t        codePoint = 0;
+	// Validate our parameters
+	NN_REQUIRE(theOffset < mSize);
 
 
-		// Decode the codepoint
-		switch (mEncoding)
-		{
-			case NStringEncoding::UTF8:
-				charSize = DecodeUTF8(theSize, theData, codePoint);
-				break;
 
-			case NStringEncoding::UTF16:
-				charSize = DecodeUTF16(theSize, theData, codePoint);
-				break;
+	// Get the codepoint size
+	utf32_t theCodepoint     = 0;
+	size_t codepointSize = 0;
+	
+	codepointSize = DecodeUTF(theOffset, theCodepoint);
 
-			case NStringEncoding::UTF32:
-				charSize = DecodeUTF32(theSize, theData, codePoint);
-				break;
-
-			default:
-				NN_LOG_UNIMPLEMENTED("Invalid encoding!");
-				break;
-		}
-	}
-
-	return charSize;
+	return codepointSize;
 }
 
 
@@ -217,7 +174,7 @@ size_t NUnicodeView::GetCodepointSize(size_t theOffset) const
 
 
 //=============================================================================
-//		NUnicodeView::GetMaxSize : Get the maximum size.
+//		NUnicodeView::GetMaxSize : Get the maximum number of codepoints.
 //-----------------------------------------------------------------------------
 size_t NUnicodeView::GetMaxSize() const
 {
@@ -287,14 +244,66 @@ NUTF32Iterator NUnicodeView::end() const
 
 #pragma mark private
 //=============================================================================
-//		NUnicodeView::DecodeUTF8 : Decode UTF8.
+//		NUnicodeView::DecodeUTF : Decode UTF.
 //-----------------------------------------------------------------------------
-size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const
+size_t NUnicodeView::DecodeUTF(size_t theOffset, utf32_t& theCodepoint) const
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(theOffset < mSize);
+
+
+
+	// Get the state we need
+	theCodepoint = 0;
+	size_t codepointSize = 0;
+	
+	size_t         theSize = mSize - theOffset;
+	const uint8_t* theData = &mData[theOffset];
+
+
+
+	// Decode the codepoint
+	switch (mEncoding)
+	{
+		case NStringEncoding::UTF8:
+			codepointSize= DecodeUTF8(theSize, theData, theCodepoint);
+			break;
+
+		case NStringEncoding::UTF16:
+			codepointSize= DecodeUTF16(theSize, theData, theCodepoint);
+			break;
+
+		case NStringEncoding::UTF32:
+			codepointSize= DecodeUTF32(theSize, theData, theCodepoint);
+			break;
+
+		default:
+			NN_LOG_UNIMPLEMENTED("Invalid encoding!");
+			break;
+	}
+
+	return codepointSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NUnicodeView::DecodeUTF8 : Decode UTF8.
+//-----------------------------------------------------------------------------
+size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const
+{
+
+
+	// Validate our parameters
+	NN_EXPECT(theSize >= 1);
+
+
 	// Get the codepoint
-	size_t charSize = 0;
+	size_t codepointSize = 0;
 
 	if (theSize >= 1)
 	{
@@ -305,8 +314,8 @@ size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t&
 		{
 			utf32_t byte0 = utf32_t(nextUTF8[0] & 0b01111111);
 
-			codePoint = byte0;
-			charSize  = 1;
+			theCodepoint = byte0;
+			codepointSize     = 1;
 		}
 
 
@@ -316,8 +325,8 @@ size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t&
 			utf32_t byte0 = utf32_t(nextUTF8[0] & 0b00011111) << 6;
 			utf32_t byte1 = utf32_t(nextUTF8[1] & 0b00111111) << 0;
 
-			codePoint = byte0 | byte1;
-			charSize  = 2;
+			theCodepoint = byte0 | byte1;
+			codepointSize     = 2;
 		}
 
 
@@ -328,8 +337,8 @@ size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t&
 			utf32_t byte1 = utf32_t(nextUTF8[1] & 0b00111111) << 6;
 			utf32_t byte2 = utf32_t(nextUTF8[2] & 0b00111111) << 0;
 
-			codePoint = byte0 | byte1 | byte2;
-			charSize  = 3;
+			theCodepoint = byte0 | byte1 | byte2;
+			codepointSize     = 3;
 		}
 
 
@@ -341,20 +350,20 @@ size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t&
 			utf32_t byte2 = utf32_t(nextUTF8[2] & 0b00111111) << 6;
 			utf32_t byte3 = utf32_t(nextUTF8[3] & 0b00111111) << 0;
 
-			codePoint = byte0 | byte1 | byte2 | byte3;
-			charSize  = 4;
+			theCodepoint = byte0 | byte1 | byte2 | byte3;
+			codepointSize     = 4;
 		}
 
 
 		// Invalid byte
 		else
 		{
-			codePoint = kNUTF32Replacement;
-			charSize  = 1;
+			theCodepoint = kNUTF32Replacement;
+			codepointSize     = 1;
 		}
 	}
 
-	return charSize;
+	return codepointSize;
 }
 
 
@@ -364,12 +373,19 @@ size_t NUnicodeView::DecodeUTF8(size_t theSize, const uint8_t* theData, utf32_t&
 //=============================================================================
 //		NUnicodeView::DecodeUTF16 : Decode UTF16.
 //-----------------------------------------------------------------------------
-size_t NUnicodeView::DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const
+size_t NUnicodeView::DecodeUTF16(size_t         theSize,
+								 const uint8_t* theData,
+								 utf32_t&       theCodepoint) const
 {
+
+	
+	// Validate our parameters
+	NN_EXPECT(theSize >= 2);
+
 
 
 	// Get the codepoint
-	size_t charSize = 0;
+	size_t codepointSize = 0;
 
 	if (theSize >= 2)
 	{
@@ -385,21 +401,21 @@ size_t NUnicodeView::DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t
 					utf32_t pairHi = utf32_t(nextUTF16[0] - 0xD800) << 10;
 					utf32_t pairLo = utf32_t(nextUTF16[1] - 0xDC00) << 0;
 
-					codePoint = 0x10000 + (pairHi | pairLo);
-					charSize  = 4;
+					theCodepoint = 0x10000 + (pairHi | pairLo);
+					codepointSize     = 4;
 				}
 				else
 				{
 					// Invalid low component
-					codePoint = kNUTF32Replacement;
-					charSize  = 2;
+					theCodepoint = kNUTF32Replacement;
+					codepointSize     = 2;
 				}
 			}
 			else
 			{
 				// Missing low component
-				codePoint = kNUTF32Replacement;
-				charSize  = 2;
+				theCodepoint = kNUTF32Replacement;
+				codepointSize     = 2;
 			}
 		}
 
@@ -407,12 +423,12 @@ size_t NUnicodeView::DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t
 		// Individual codepoint
 		else
 		{
-			codePoint = nextUTF16[0];
-			charSize  = 2;
+			theCodepoint = nextUTF16[0];
+			codepointSize     = 2;
 		}
 	}
 
-	return charSize;
+	return codepointSize;
 }
 
 
@@ -422,20 +438,27 @@ size_t NUnicodeView::DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t
 //=============================================================================
 //		NUnicodeView::DecodeUTF32 : Decode UTF32.
 //-----------------------------------------------------------------------------
-size_t NUnicodeView::DecodeUTF32(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const
+size_t NUnicodeView::DecodeUTF32(size_t         theSize,
+								 const uint8_t* theData,
+								 utf32_t&       theCodepoint) const
 {
+
+	
+	// Validate our parameters
+	NN_EXPECT(theSize >= 4);
+
 
 
 	// Get the codepoint
-	size_t charSize = 0;
+	size_t codepointSize = 0;
 
 	if (theSize >= 4)
 	{
 		const utf32_t* nextUTF32 = reinterpret_cast<const utf32_t*>(theData);
 
-		codePoint = *nextUTF32;
-		charSize  = 4;
+		theCodepoint = *nextUTF32;
+		codepointSize     = 4;
 	}
 
-	return charSize;
+	return codepointSize;
 }

@@ -125,9 +125,10 @@ public:
 
 
 private:
-	size_t                              DecodeUTF8( size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
-	size_t                              DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
-	size_t                              DecodeUTF32(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
+	size_t                              DecodeUTF( size_t theOffset, utf32_t& theCodepoint) const;
+	size_t                              DecodeUTF8( size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const;
+	size_t                              DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const;
+	size_t                              DecodeUTF32(size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const;
 
 
 private:

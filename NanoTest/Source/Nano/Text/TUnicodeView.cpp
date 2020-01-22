@@ -200,9 +200,6 @@ NANO_TEST(NUnicodeView, "UTF8/Codepoint")
 
 	REQUIRE(theView.GetCodepoint(byteOffset) == 'e');
 	REQUIRE(theView.GetCodepointSize(byteOffset) == sizeof(utf8_t));
-
-	REQUIRE(theView.GetCodepoint(1000) == 0);
-	REQUIRE(theView.GetSize(1000) == 0);
 }
 
 
@@ -222,9 +219,6 @@ NANO_TEST(NUnicodeView, "UTF16/Codepoint")
 
 	REQUIRE(theView.GetCodepoint(byteOffset) == 'e');
 	REQUIRE(theView.GetCodepointSize(byteOffset) == sizeof(utf16_t));
-
-	REQUIRE(theView.GetCodepoint(1000) == 0);
-	REQUIRE(theView.GetSize(1000) == 0);
 }
 
 
@@ -244,9 +238,6 @@ NANO_TEST(NUnicodeView, "UTF32/Codepoint")
 
 	REQUIRE(theView.GetCodepoint(byteOffset) == 'e');
 	REQUIRE(theView.GetCodepointSize(byteOffset) == sizeof(utf32_t));
-
-	REQUIRE(theView.GetCodepoint(1000) == 0);
-	REQUIRE(theView.GetSize(1000) == 0);
 }
 
 
