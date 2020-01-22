@@ -174,6 +174,47 @@ size_t NUnicodeView::GetCodepointSize(size_t theOffset) const
 
 
 //=============================================================================
+//		NUnicodeView::GetSize : Get the number of codepoints.
+//-----------------------------------------------------------------------------
+size_t NUnicodeView::GetSize() const
+{
+
+
+	// Get the state we need
+	size_t theSize   = 0;
+	size_t theOffset = 0;
+
+
+
+	// Get the size
+	while (theOffset < mSize)
+	{
+		// Decode the codepoint
+		//
+		// We stop when we run out of codepoints, or hit the terminator.
+		utf32_t theCodepoint     = 0;
+		size_t codepointSize = DecodeUTF(theOffset, theCodepoint);
+
+		if (codepointSize == 0 || theCodepoint == 0)
+		{
+		break;
+		}
+
+
+
+		// Count the codepoints	
+		theOffset += codepointSize;
+		theSize += 1;
+	}
+
+	return theSize;
+}
+
+
+
+
+
+//=============================================================================
 //		NUnicodeView::GetMaxSize : Get the maximum number of codepoints.
 //-----------------------------------------------------------------------------
 size_t NUnicodeView::GetMaxSize() const

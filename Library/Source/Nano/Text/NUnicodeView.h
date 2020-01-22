@@ -111,6 +111,12 @@ public:
 	size_t                              GetCodepointSize(size_t theOffset) const;
 
 
+	// Get the size
+	//
+	// Returns the number of codepoints in the text, not counting any terminating null.
+	size_t                              GetSize() const;
+
+
 	// Get the maximum size
 	//
 	// Returns the maximum number of codepoints in the text.
