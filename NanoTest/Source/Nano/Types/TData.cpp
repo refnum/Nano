@@ -213,10 +213,12 @@ NANO_TEST(TData, "Clear")
 	for (auto theData : dataObjects)
 	{
 		REQUIRE(!theData.IsEmpty());
+		REQUIRE(theData.GetSize() != 0);
 
 		theData.Clear();
 
 		REQUIRE(theData.IsEmpty());
+		REQUIRE(theData.GetSize() == 0);
 	}
 }
 
