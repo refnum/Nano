@@ -287,7 +287,7 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 
 
 
-	// Get the text
+	// Get arbitrary text
 	//
 	// If we're using large storage, or an encoding that's not supported
 	// by small storage, we return the contents of the encoded text data.
@@ -431,7 +431,7 @@ void NString::MakeLarge()
 		}
 		else
 		{
-			SetTextLarge(NStringEncoding::UTF8, numBytes, mString.Small.theData);
+			SetTextLarge(NStringEncoding::UTF16, numBytes, mString.Small.theData);
 		}
 	}
 }
