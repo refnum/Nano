@@ -108,7 +108,7 @@ public:
 	// Get the size of a codepoint
 	//
 	// Returns 0 if no codepoint exists at the offset.
-	size_t                              GetSize(size_t theOffset) const;
+	size_t                              GetCodepointSize(size_t theOffset) const;
 
 
 	// Get the maximum size

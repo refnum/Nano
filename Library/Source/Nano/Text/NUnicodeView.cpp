@@ -81,7 +81,7 @@ void NUTF32Iterator::operator++()
 
 
 	// Advance the iterator
-	mOffset += mView->GetSize(mOffset);
+	mOffset += mView->GetCodepointSize(mOffset);
 }
 
 
@@ -171,9 +171,9 @@ utf32_t NUnicodeView::GetCodepoint(size_t theOffset) const
 
 
 //=============================================================================
-//		NUnicodeView::GetSize : Get the size of a codepoint.
+//		NUnicodeView::GetCodepointSize : Get the size of a codepoint.
 //-----------------------------------------------------------------------------
-size_t NUnicodeView::GetSize(size_t theOffset) const
+size_t NUnicodeView::GetCodepointSize(size_t theOffset) const
 {
 
 
