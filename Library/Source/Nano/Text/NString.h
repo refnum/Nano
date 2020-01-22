@@ -123,13 +123,14 @@ public:
 
 	// Get the size
 	//
-	// Returns the number of code points (utf32_t characters) in the string.
+	// Returns the number of codepoints (utf32_t characters) in the string,
+	// not counting the terminating null character.
 	size_t                              GetSize() const;
 
 
 	// Get the text
 	//
-	// Returns a NULL-terminated string that remains valid until the string is modified.
+	// Returns a null-terminated string that remains valid until the string is modified.
 	const void*                         GetText(NStringEncoding theEncoding) const;
 
 	constexpr const utf8_t*             GetUTF8()  const;

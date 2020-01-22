@@ -46,6 +46,7 @@
 #include "NDataDigest.h"
 #include "NStringEncoder.h"
 #include "NThread.h"
+#include "NUnicodeView.h"
 
 // System
 #include <atomic>
@@ -856,9 +857,10 @@ void NString::SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const v
 
 	// Create the state
 	NStringState* theState = new NStringState;
+	NUnicodeView  theView(theEncoding, numBytes, theText);
 
 	theState->numOwners = 1;
-	theState->theSize   = 0;
+	theState->theSize   = theView.GetSize();
 
 	theState->stringData.nextData    = nullptr;
 	theState->stringData.theEncoding = theEncoding;
