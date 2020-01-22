@@ -224,20 +224,23 @@ size_t NUnicodeView::GetMaxSize() const
 
 
 	// Get the maximum size
+	//
+	// The maximum size for variable-width encodings is when
+	// every element encodes a single codepoint.
 	size_t maxSize = 0;
 
 	switch (mEncoding)
 	{
 		case NStringEncoding::UTF8:
-			maxSize = (mSize / sizeof(utf8_t)) * sizeof(utf32_t);
+			maxSize = (mSize / sizeof(utf8_t));
 			break;
 
 		case NStringEncoding::UTF16:
-			maxSize = (mSize / sizeof(utf16_t)) * sizeof(utf32_t);
+			maxSize = (mSize / sizeof(utf16_t));
 			break;
 
 		case NStringEncoding::UTF32:
-			maxSize = (mSize / sizeof(utf32_t)) * sizeof(utf32_t);
+			maxSize = (mSize / sizeof(utf32_t));
 			break;
 
 		default:

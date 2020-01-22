@@ -551,7 +551,7 @@ void NStringEncoder::ConvertToUTF8(NUnicodeView& srcView, NData& dstData)
 	// Get the state we need
 	NVectorUTF8 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() * sizeof(utf8_t));
+	theResult.reserve(srcView.GetMaxSize() + 1);
 
 
 
@@ -626,7 +626,7 @@ void NStringEncoder::ConvertToUTF16(NUnicodeView& srcView, NData& dstData)
 	// Get the state we need
 	NVectorUTF16 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() * sizeof(utf16_t));
+	theResult.reserve(srcView.GetMaxSize() + 1);
 
 
 
@@ -676,7 +676,7 @@ void NStringEncoder::ConvertToUTF32(NUnicodeView& srcView, NData& dstData)
 	// Get the state we need
 	NVectorUTF32 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() * sizeof(utf32_t));
+	theResult.reserve(srcView.GetMaxSize() + 1);
 
 
 
@@ -766,7 +766,7 @@ void NStringEncoder::ConvertToLegacy(NUnicodeView&   srcView,
 
 	NVectorUInt8 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() * sizeof(char));
+	theResult.reserve(srcView.GetMaxSize() + 1);
 
 
 

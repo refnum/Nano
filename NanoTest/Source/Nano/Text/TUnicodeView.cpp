@@ -263,7 +263,7 @@ NANO_TEST(NUnicodeView, "UTF8/GetMaxSize")
 	// Perform the test
 	NUnicodeView theView(NStringEncoding::UTF8, sizeof(kTestUTF8), kTestUTF8);
 
-	REQUIRE(theView.GetMaxSize() == (std::size(kTestUTF8) * sizeof(utf32_t)));
+	REQUIRE(theView.GetMaxSize() == std::size(kTestUTF8));
 }
 
 
@@ -280,7 +280,7 @@ NANO_TEST(NUnicodeView, "UTF16/GetMaxSize")
 	// Perform the test
 	NUnicodeView theView(NStringEncoding::UTF16, sizeof(kTestUTF16), kTestUTF16);
 
-	REQUIRE(theView.GetMaxSize() == (std::size(kTestUTF16) * sizeof(utf32_t)));
+	REQUIRE(theView.GetMaxSize() == std::size(kTestUTF16));
 }
 
 
@@ -297,5 +297,5 @@ NANO_TEST(NUnicodeView, "UTF32/GetMaxSize")
 	// Perform the test
 	NUnicodeView theView(NStringEncoding::UTF32, sizeof(kTestUTF32), kTestUTF32);
 
-	REQUIRE(theView.GetMaxSize() == (std::size(kTestUTF32) * sizeof(utf32_t)));
+	REQUIRE(theView.GetMaxSize() == std::size(kTestUTF32));
 }
