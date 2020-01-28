@@ -144,7 +144,8 @@ private:
 	static void                         AddTerminator(   NStringEncoding theEncoding, NData& theData);
 	static void                         RemoveTerminator(NStringEncoding theEncoding, NData& theData);
 
-	static void                         SwapUTF(NStringEncoding theEncoding, NData& theData);
+	static bool                         ShouldSwap(NStringEncoding theEncoding);
+	static void                         SwapUTF(   NStringEncoding theEncoding, NData& theData);
 
 
 	static void                         ConvertText(NStringEncoding srcEncoding,

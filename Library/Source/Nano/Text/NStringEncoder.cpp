@@ -183,22 +183,21 @@ void NStringEncoder::Convert(NStringEncoding     srcEncoding,
 
 
 	// Get the state we need
-	NStringEncoding inputEncoding  = GetNativeEncoding(srcEncoding);
-	NStringEncoding outputEncoding = GetNativeEncoding(dstEncoding);
+	NStringEncoding nativeSrcEncoding = GetNativeEncoding(srcEncoding);
+	NStringEncoding nativeDstEncoding = GetNativeEncoding(dstEncoding);
 
-	bool swapInput  = (inputEncoding != srcEncoding);	only need to swap if not in native endian!
-	bool swapOutput = (outputEncoding != dstEncoding);
-
-	NData inputData = srcData;
+	bool  swapInput  = ShouldSwap(srcEncoding);
+	bool  swapOutput = ShouldSwap(dstEncoding);
+	NData inputData  = srcData;
 
 
 
 	// Convert the text
-	ProcessInput(theFlags, swapInput, inputEncoding, inputData);
+	ProcessInput(theFlags, swapInput, nativeSrcEncoding, inputData);
 
-	ConvertText(inputEncoding, inputData, outputEncoding, dstData);
+	ConvertText(nativeSrcEncoding, inputData, nativeDstEncoding, dstData);
 
-	ProcessOutput(theFlags, swapOutput, outputEncoding, dstData);
+	ProcessOutput(theFlags, swapOutput, nativeDstEncoding, dstData);
 }
 
 
@@ -443,6 +442,39 @@ void NStringEncoder::RemoveTerminator(NStringEncoding theEncoding, NData& theDat
 	{
 		theData.SetSize(theData.GetSize() - theTerminator.GetSize());
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NStringEncoder::ShouldSwap : Should we endian-swap the data?
+//-----------------------------------------------------------------------------
+bool NStringEncoder::ShouldSwap(NStringEncoding theEncoding)
+{
+
+
+	// Check the encoding
+	bool shouldSwap = false;
+
+	switch (theEncoding)
+	{
+		case NStringEncoding::UTF16BE:
+		case NStringEncoding::UTF32BE:
+			shouldSwap = NN_ENDIAN_LITTLE;
+			break;
+
+		case NStringEncoding::UTF16LE:
+		case NStringEncoding::UTF32LE:
+			shouldSwap = NN_ENDIAN_BIG;
+			break;
+
+		default:
+			break;
+	}
+
+	return shouldSwap;
 }
 
 
