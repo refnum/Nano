@@ -395,7 +395,6 @@ void NString::MakeClone(const NString& otherString)
 
 	// Validate our parameters and state
 	NN_REQUIRE(this != &otherString);
-	NN_REQUIRE(IsSmall());
 
 
 

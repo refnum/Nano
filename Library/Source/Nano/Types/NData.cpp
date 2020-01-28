@@ -872,7 +872,6 @@ void NData::MakeClone(const NData& otherData)
 
 	// Validate our parameters and state
 	NN_REQUIRE(this != &otherData);
-	NN_REQUIRE(IsSmall());
 
 
 
