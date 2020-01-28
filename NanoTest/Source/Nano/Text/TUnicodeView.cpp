@@ -190,7 +190,7 @@ NANO_TEST(NUnicodeView, "UTF32/Iterate")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NUnicodeView, "UTF8/Codepoint")
+NANO_TEST(NUnicodeView, "UTF8/CodePoint")
 {
 
 
@@ -198,8 +198,8 @@ NANO_TEST(NUnicodeView, "UTF8/Codepoint")
 	NUnicodeView theView(NStringEncoding::UTF8, sizeof(kTestUTF8), kTestUTF8);
 	size_t       byteOffset = 1 * sizeof(utf8_t);
 
-	REQUIRE(theView.GetCodepoint(byteOffset) == 'e');
-	REQUIRE(theView.GetCodepointSize(byteOffset) == sizeof(utf8_t));
+	REQUIRE(theView.GetCodePoint(byteOffset) == 'e');
+	REQUIRE(theView.GetCodePointSize(byteOffset) == sizeof(utf8_t));
 }
 
 
@@ -209,7 +209,7 @@ NANO_TEST(NUnicodeView, "UTF8/Codepoint")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NUnicodeView, "UTF16/Codepoint")
+NANO_TEST(NUnicodeView, "UTF16/CodePoint")
 {
 
 
@@ -217,8 +217,8 @@ NANO_TEST(NUnicodeView, "UTF16/Codepoint")
 	NUnicodeView theView(NStringEncoding::UTF16, sizeof(kTestUTF16), kTestUTF16);
 	size_t       byteOffset = 1 * sizeof(utf16_t);
 
-	REQUIRE(theView.GetCodepoint(byteOffset) == 'e');
-	REQUIRE(theView.GetCodepointSize(byteOffset) == sizeof(utf16_t));
+	REQUIRE(theView.GetCodePoint(byteOffset) == 'e');
+	REQUIRE(theView.GetCodePointSize(byteOffset) == sizeof(utf16_t));
 }
 
 
@@ -228,7 +228,7 @@ NANO_TEST(NUnicodeView, "UTF16/Codepoint")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NUnicodeView, "UTF32/Codepoint")
+NANO_TEST(NUnicodeView, "UTF32/CodePoint")
 {
 
 
@@ -236,8 +236,8 @@ NANO_TEST(NUnicodeView, "UTF32/Codepoint")
 	NUnicodeView theView(NStringEncoding::UTF32, sizeof(kTestUTF32), kTestUTF32);
 	size_t       byteOffset = 1 * sizeof(utf32_t);
 
-	REQUIRE(theView.GetCodepoint(byteOffset) == 'e');
-	REQUIRE(theView.GetCodepointSize(byteOffset) == sizeof(utf32_t));
+	REQUIRE(theView.GetCodePoint(byteOffset) == 'e');
+	REQUIRE(theView.GetCodePointSize(byteOffset) == sizeof(utf32_t));
 }
 
 

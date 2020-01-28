@@ -94,6 +94,10 @@ public:
 	static NStringEncoding              GetNativeEncoding(NStringEncoding theEncoding);
 
 
+	// Get the size of a code unit
+	static size_t                       GetCodeUnitSize(NStringEncoding theEncoding);
+
+
 private:
 	void                                ProcessInput( NStringEncoding theEncoding, NData& theData);
 	void                                ProcessOutput(NStringEncoding theEncoding, NData& theData);

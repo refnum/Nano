@@ -99,27 +99,27 @@ public:
 	NUnicodeView&                       operator=(   NUnicodeView&& otherView) = delete;
 
 
-	// Get a codepoint
+	// Get a code point
 	//
-	// Returns 0 if no codepoint exists at the offset.
-	utf32_t                             GetCodepoint(size_t theOffset) const;
+	// Returns 0 if no code point exists at the offset.
+	utf32_t                             GetCodePoint(size_t theOffset) const;
 
 
-	// Get the size of a codepoint
+	// Get the size of a code point
 	//
-	// Returns 0 if no codepoint exists at the offset.
-	size_t                              GetCodepointSize(size_t theOffset) const;
+	// Returns 0 if no code point exists at the offset.
+	size_t                              GetCodePointSize(size_t theOffset) const;
 
 
 	// Get the size
 	//
-	// Returns the number of codepoints in the text, not counting any terminating null.
+	// Returns the number of code points in the text, not counting any terminating null.
 	size_t                              GetSize() const;
 
 
 	// Get the maximum size
 	//
-	// Returns the maximum number of codepoints in the text.
+	// Returns the maximum number of code points in the text.
 	size_t                              GetMaxSize() const;
 
 
@@ -131,10 +131,10 @@ public:
 
 
 private:
-	size_t                              DecodeUTF( size_t theOffset, utf32_t& theCodepoint) const;
-	size_t                              DecodeUTF8( size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const;
-	size_t                              DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const;
-	size_t                              DecodeUTF32(size_t theSize, const uint8_t* theData, utf32_t& theCodepoint) const;
+	size_t                              DecodeUTF(  size_t theOffset, utf32_t& codePoint) const;
+	size_t                              DecodeUTF8( size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
+	size_t                              DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
+	size_t                              DecodeUTF32(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
 
 
 private:
