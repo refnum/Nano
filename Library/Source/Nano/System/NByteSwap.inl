@@ -265,7 +265,7 @@ constexpr uint16_t NByteSwap::Swap<uint16_t>(uint16_t theValue)
 	return __builtin_bswap16(theValue);
 
 #else
-	return = uint16_t((theValue & 0xFF00) >> 8) | uint16_t((theValue & 0x00FF) << 8);
+	return uint16_t((theValue & 0xFF00) >> 8) | uint16_t((theValue & 0x00FF) << 8);
 #endif
 }
 
