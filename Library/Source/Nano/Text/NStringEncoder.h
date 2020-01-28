@@ -53,9 +53,36 @@
 
 
 //=============================================================================
-//		Types
+//		Constants
 //-----------------------------------------------------------------------------
-using NUTF32LegacyMap                                       = std::unordered_map<utf32_t, uint8_t>;
+// Encoder flags
+//
+// A removal flag will remove the feature if present.
+//
+// An additional flag will always add the feature to the output.
+//
+// Removal flags are applied before addition flags. This allows text to be
+// normalised by requesting both addition and removal of a feature.
+//
+// For example, kNStringEncoderBOMTerminator will ensure the output string has
+// both a BOM and terminator regardless of the presence of a BOM or terminator
+// in the input string.
+using NStringEncoderFlags                                   = uint8_t;
+
+static constexpr NStringEncoderFlags kNStringEncoderNone                = 0;
+static constexpr NStringEncoderFlags kNStringEncoderRemoveBOM           = (1 << 0);
+static constexpr NStringEncoderFlags kNStringEncoderRemoveTerminator    = (1 << 1);
+static constexpr NStringEncoderFlags kNStringEncoderAddBOM              = (1 << 2);
+static constexpr NStringEncoderFlags kNStringEncoderAddTerminator       = (1 << 3);
+
+static constexpr NStringEncoderFlags kNStringEncoderBOM =
+	kNStringEncoderRemoveBOM | kNStringEncoderAddBOM;
+
+static constexpr NStringEncoderFlags kNStringEncoderTerminator =
+	kNStringEncoderRemoveTerminator | kNStringEncoderAddTerminator;
+
+static constexpr NStringEncoderFlags kNStringEncoderBOMTerminator =
+	kNStringEncoderBOM | kNStringEncoderTerminator;
 
 
 
@@ -64,8 +91,13 @@ using NUTF32LegacyMap                                       = std::unordered_map
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Classes
 class NData;
 class NUnicodeView;
+
+
+// Map
+using NUTF32LegacyMap = std::unordered_map<utf32_t, uint8_t>;
 
 
 
@@ -78,19 +110,16 @@ class NStringEncoder
 {
 public:
 	// Convert text
-	//
-	// Any BOM in the input text is always removed.
-	//
-	// The output text will always conain a null terminator.
-	void                                Convert(NStringEncoding srcEncoding,
-												const NData&    srcData,
-												NStringEncoding dstEncoding,
-												NData&          dstData);
+	static void                         Convert(NStringEncoding     srcEncoding,
+												const NData&        srcData,
+												NStringEncoding     dstEncoding,
+												NData&              dstData,
+												NStringEncoderFlags theFlags = kNStringEncoderNone);
 
 
 	// Get a native encoding
 	//
-	// Returns the native equivalent of a potentially endian-specific encoding.
+	// Returns the native equivalent to any endian-specific encodings.
 	static NStringEncoding              GetNativeEncoding(NStringEncoding theEncoding);
 
 
@@ -99,33 +128,49 @@ public:
 
 
 private:
-	void                                ProcessInput( NStringEncoding theEncoding, NData& theData);
-	void                                ProcessOutput(NStringEncoding theEncoding, NData& theData);
+	static void                         ProcessInput(NStringEncoderFlags theFlags,
+													 bool                swapInput,
+													 NStringEncoding     srcEncoding,
+													 NData&              srcData);
 
-	void                                RemoveBOM(NData& theData);
-	void                                RemoveNull(NStringEncoding theEncoding, NData& theData);
-	void                                SwapUTF(   NStringEncoding theEncoding, NData& theData);
+	static void                         ProcessOutput(NStringEncoderFlags theFlags,
+													  bool                swapOutput,
+													  NStringEncoding     dstEncoding,
+													  NData&              dstData);
 
-	size_t                              GetElementSize(NStringEncoding theEncoding);
+	static void                         AddBOM(   NStringEncoding theEncoding, NData& theData);
+	static void                         RemoveBOM(NStringEncoding theEncoding, NData& theData);
 
-	void                                ConvertFromUTF8( const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
-	void                                ConvertFromUTF16(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
-	void                                ConvertFromUTF32(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
+	static void                         AddTerminator(   NStringEncoding theEncoding, NData& theData);
+	static void                         RemoveTerminator(NStringEncoding theEncoding, NData& theData);
 
-	void                                ConvertToUTF8( NUnicodeView& srcView, NData& dstData);
-	void                                ConvertToUTF16(NUnicodeView& srcView, NData& dstData);
-	void                                ConvertToUTF32(NUnicodeView& srcView, NData& dstData);
+	static void                         SwapUTF(NStringEncoding theEncoding, NData& theData);
 
-	void                                ConvertFromLegacy(NStringEncoding srcEncoding,
+
+	static void                         ConvertText(NStringEncoding srcEncoding,
+													const NData&    srcData,
+													NStringEncoding dstEncoding,
+													NData&          dstData);
+
+	static void                         ConvertFromUTF8( const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
+	static void                         ConvertFromUTF16(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
+	static void                         ConvertFromUTF32(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
+
+	static void                         ConvertToUTF8( NUnicodeView& srcView, NData& dstData);
+	static void                         ConvertToUTF16(NUnicodeView& srcView, NData& dstData);
+	static void                         ConvertToUTF32(NUnicodeView& srcView, NData& dstData);
+
+
+	static void                         ConvertFromLegacy(NStringEncoding srcEncoding,
 														  const NData&    srcData,
 														  NStringEncoding dstEncoding,
 														  NData&          dstData);
 
-	void                                ConvertToLegacy(NUnicodeView& srcView, NStringEncoding dstEncoding, NData& dstData);
+	static void                         ConvertToLegacy(NUnicodeView& srcView, NStringEncoding dstEncoding, NData& dstData);
 
-	const utf32_t*                      GetLegacyToUTF32(  NStringEncoding srcEncoding);
-	const NUTF32LegacyMap*              GetLegacyFromUTF32(NStringEncoding dstEncoding);
-	NUTF32LegacyMap                     GetLegacyMap(size_t maxChar, const utf32_t* toUTF32);
+	static const utf32_t*               GetLegacyToUTF32(  NStringEncoding srcEncoding);
+	static const NUTF32LegacyMap*       GetLegacyFromUTF32(NStringEncoding dstEncoding);
+	static NUTF32LegacyMap              GetLegacyMap(size_t maxChar, const utf32_t* toUTF32);
 };
 
 

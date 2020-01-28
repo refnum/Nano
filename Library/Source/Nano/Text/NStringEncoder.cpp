@@ -61,11 +61,9 @@ static constexpr size_t kStringMaxASCII                     = 0x7F;
 static constexpr size_t kStringMaxLegacy                    = 0xFF;
 
 // BOM
-static constexpr uint8_t kBOM_UTF8[]                        = {0xEF, 0xBB, 0xBF};
-static constexpr uint8_t kBOM_UTF16BE[]                     = {0xFE, 0xFF};
-static constexpr uint8_t kBOM_UTF16LE[]                     = {0xFF, 0xFE};
-static constexpr uint8_t kBOM_UTF32BE[]                     = {0x00, 0x00, 0xFE, 0xFF};
-static constexpr uint8_t kBOM_UTF32LE[]                     = {0xFF, 0xFE, 0x00, 0x00};
+static constexpr uint8_t  kBOM_UTF8[]                       = {0xEF, 0xBB, 0xBF};
+static constexpr uint16_t kBOM_UTF16[]                      = {0xFEFF};
+static constexpr uint32_t kBOM_UTF32[]                      = {0x0000FEFF};
 
 
 // Legacy encodings
@@ -176,50 +174,31 @@ static constexpr utf32_t kWindowsLatin1_to_UTF32[256]       = {
 //=============================================================================
 //		NStringEncoder::Convert : Convert text.
 //-----------------------------------------------------------------------------
-void NStringEncoder::Convert(NStringEncoding srcEncoding,
-							 const NData&    srcData,
-							 NStringEncoding dstEncoding,
-							 NData&          dstData)
+void NStringEncoder::Convert(NStringEncoding     srcEncoding,
+							 const NData&        srcData,
+							 NStringEncoding     dstEncoding,
+							 NData&              dstData,
+							 NStringEncoderFlags theFlags)
 {
 
 
 	// Get the state we need
 	NStringEncoding inputEncoding  = GetNativeEncoding(srcEncoding);
 	NStringEncoding outputEncoding = GetNativeEncoding(dstEncoding);
-	NData           inputData      = srcData;
+
+	bool swapInput  = (inputEncoding != srcEncoding);	only need to swap if not in native endian!
+	bool swapOutput = (outputEncoding != dstEncoding);
+
+	NData inputData = srcData;
 
 
 
 	// Convert the text
-	ProcessInput(srcEncoding, inputData);
+	ProcessInput(theFlags, swapInput, inputEncoding, inputData);
 
-	switch (inputEncoding)
-	{
-		case NStringEncoding::UTF8:
-			ConvertFromUTF8(inputData, outputEncoding, dstData);
-			break;
+	ConvertText(inputEncoding, inputData, outputEncoding, dstData);
 
-		case NStringEncoding::UTF16:
-			ConvertFromUTF16(inputData, outputEncoding, dstData);
-			break;
-
-		case NStringEncoding::UTF32:
-			ConvertFromUTF32(inputData, outputEncoding, dstData);
-			break;
-
-		case NStringEncoding::ASCII:
-		case NStringEncoding::MacRoman:
-		case NStringEncoding::ISOLatin1:
-		case NStringEncoding::WindowsLatin1:
-			ConvertFromLegacy(inputEncoding, inputData, outputEncoding, dstData);
-			break;
-
-		default:
-			NN_LOG_UNIMPLEMENTED("Unknown encoding!");
-			break;
-	}
-
-	ProcessOutput(dstEncoding, dstData);
+	ProcessOutput(theFlags, swapOutput, outputEncoding, dstData);
 }
 
 
@@ -303,17 +282,30 @@ size_t NStringEncoder::GetCodeUnitSize(NStringEncoding theEncoding)
 
 #pragma mark privae
 //=============================================================================
-//		NStringEncoder:::ProcessInput : Process the input data.
+//		NStringEncoder:::ProcessInput : Process the input.
 //-----------------------------------------------------------------------------
-void NStringEncoder::ProcessInput(NStringEncoding theEncoding, NData& theData)
+void NStringEncoder::ProcessInput(NStringEncoderFlags theFlags,
+								  bool                swapInput,
+								  NStringEncoding     srcEncoding,
+								  NData&              srcData)
 {
 
 
-	// Prepare the data
-	RemoveBOM(theData);
-	RemoveNull(theEncoding, theData);
+	// Process the input
+	if (swapInput)
+	{
+		SwapUTF(srcEncoding, srcData);
+	}
 
-	SwapUTF(theEncoding, theData);
+	if (theFlags & kNStringEncoderRemoveBOM)
+	{
+		RemoveBOM(srcEncoding, srcData);
+	}
+
+	if (theFlags & kNStringEncoderRemoveTerminator)
+	{
+		RemoveTerminator(srcEncoding, srcData);
+	}
 }
 
 
@@ -323,63 +315,133 @@ void NStringEncoder::ProcessInput(NStringEncoding theEncoding, NData& theData)
 //=============================================================================
 //		NStringEncoder:::ProcessOutput : Process the output data.
 //-----------------------------------------------------------------------------
-void NStringEncoder::ProcessOutput(NStringEncoding theEncoding, NData& theData)
+void NStringEncoder::ProcessOutput(NStringEncoderFlags theFlags,
+								   bool                swapOutput,
+								   NStringEncoding     dstEncoding,
+								   NData&              dstData)
 {
 
 
-	// Prepare the data
-	SwapUTF(theEncoding, theData);
-}
-
-
-
-
-
-//=============================================================================
-//		NStringEncoder:::RemoveBOM : Remove a BOM.
-//-----------------------------------------------------------------------------
-void NStringEncoder::RemoveBOM(NData& theData)
-{
-
-
-	// Remove any BOM
-#define REMOVE_BOM(_bom)                                    \
-	do                                                      \
-	{                                                       \
-		if (theData.StartsWith(NData(sizeof(_bom), _bom)))  \
-		{                                                   \
-			theData.RemoveData(NRange(0, sizeof(_bom)));    \
-			return;                                         \
-		}                                                   \
-	} while (0)
-
-	REMOVE_BOM(kBOM_UTF8);
-	REMOVE_BOM(kBOM_UTF16BE);
-	REMOVE_BOM(kBOM_UTF16LE);
-	REMOVE_BOM(kBOM_UTF32BE);
-	REMOVE_BOM(kBOM_UTF32LE);
-
-#undef REMOVE_BOM
-}
-
-
-
-
-
-//=============================================================================
-//		NStringEncoder::RemoveNull : Remove a null terminator.
-//-----------------------------------------------------------------------------
-void NStringEncoder::RemoveNull(NStringEncoding theEncoding, NData& theData)
-{
-
-
-	// Get the state we need
-	size_t nullSize = GetElementSize(theEncoding);
-	NData  nullBytes(nullSize, nullptr, NDataSource::Zero);
-
-	if (theData.EndsWith(nullBytes))
+	// Process the output
+	if (theFlags & kNStringEncoderAddBOM)
 	{
-		theData.RemoveData(NRange(theData.GetSize() - nullSize, nullSize));
+		AddBOM(dstEncoding, dstData);
+	}
+
+	if (theFlags & kNStringEncoderAddTerminator)
+	{
+		AddTerminator(dstEncoding, dstData);
+	}
+
+	if (swapOutput)
+	{
+		SwapUTF(dstEncoding, dstData);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NStringEncoder:::AddBOM : Add the BOM.
+//-----------------------------------------------------------------------------
+void NStringEncoder::AddBOM(NStringEncoding theEncoding, NData& theData)
+{
+
+
+	// Remove the BOM
+	switch (theEncoding)
+	{
+		case NStringEncoding::UTF8:
+			theData.InsertData(0, sizeof(kBOM_UTF8), kBOM_UTF8);
+			break;
+
+		case NStringEncoding::UTF16:
+			theData.InsertData(0, sizeof(kBOM_UTF16), kBOM_UTF16);
+			break;
+
+		case NStringEncoding::UTF32:
+			theData.InsertData(0, sizeof(kBOM_UTF32), kBOM_UTF32);
+			break;
+
+		default:
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NStringEncoder:::RemoveBOM : Remove the BOM.
+//-----------------------------------------------------------------------------
+void NStringEncoder::RemoveBOM(NStringEncoding theEncoding, NData& theData)
+{
+
+
+	// Remove the BOM
+	switch (theEncoding)
+	{
+		case NStringEncoding::UTF8:
+			if (theData.StartsWith(NData(sizeof(kBOM_UTF8), kBOM_UTF8)))
+			{
+				theData.RemoveData(NRange(0, sizeof(kBOM_UTF8)));
+			}
+			break;
+
+		case NStringEncoding::UTF16:
+			if (theData.StartsWith(NData(sizeof(kBOM_UTF16), kBOM_UTF16)))
+			{
+				theData.RemoveData(NRange(0, sizeof(kBOM_UTF16)));
+			}
+			break;
+
+		case NStringEncoding::UTF32:
+			if (theData.StartsWith(NData(sizeof(kBOM_UTF32), kBOM_UTF32)))
+			{
+				theData.RemoveData(NRange(0, sizeof(kBOM_UTF32)));
+			}
+			break;
+
+		default:
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NStringEncoder::AddTerminator : Add the terminator.
+//-----------------------------------------------------------------------------
+void NStringEncoder::AddTerminator(NStringEncoding theEncoding, NData& theData)
+{
+
+
+	// Add the terminator
+	theData.SetSize(theData.GetSize() + GetCodeUnitSize(theEncoding));
+}
+
+
+
+
+
+//=============================================================================
+//		NStringEncoder:::RemoveTerminator : Remove the terminator.
+//-----------------------------------------------------------------------------
+void NStringEncoder::RemoveTerminator(NStringEncoding theEncoding, NData& theData)
+{
+
+
+	// Remove the terminator
+	NData theTerminator(GetCodeUnitSize(theEncoding), nullptr, NDataSource::Zero);
+
+	if (theData.EndsWith(theTerminator))
+	{
+		theData.SetSize(theData.GetSize() - theTerminator.GetSize());
 	}
 }
 
@@ -395,16 +457,17 @@ void NStringEncoder::SwapUTF(NStringEncoding theEncoding, NData& theData)
 
 
 	// Get the state we need
-	NStringEncoding nativeEncoding = GetNativeEncoding(theEncoding);
-	size_t          elementSize    = GetElementSize(theEncoding);
+	size_t codeUnitSize = GetCodeUnitSize(theEncoding);
 
 
 
 	// Swap the data
-	if (elementSize != 1 && theEncoding != nativeEncoding)
+	if (codeUnitSize != 1)
 	{
-		size_t numElements = theData.GetSize() / elementSize;
-		NByteSwap::SwapN(numElements, elementSize, theData.GetMutableData());
+		NN_REQUIRE((theData.GetSize() % codeUnitSize) == 0);
+		size_t numElements = theData.GetSize() / codeUnitSize;
+
+		NByteSwap::Swap(numElements, codeUnitSize, theData.GetMutableData());
 	}
 }
 
@@ -413,43 +476,41 @@ void NStringEncoder::SwapUTF(NStringEncoding theEncoding, NData& theData)
 
 
 //=============================================================================
-//		NStringEncoder::GetElementSize : Get the size of an encoding element.
+//		NStringEncoder:::ConvertText : Convert the text.
 //-----------------------------------------------------------------------------
-size_t NStringEncoder::GetElementSize(NStringEncoding theEncoding)
+void NStringEncoder::ConvertText(NStringEncoding srcEncoding,
+								 const NData&    srcData,
+								 NStringEncoding dstEncoding,
+								 NData&          dstData)
 {
 
 
-	// Get the size
-	size_t theSize = 0;
-
-	switch (theEncoding)
+	// Convert the text
+	switch (srcEncoding)
 	{
-		case NStringEncoding::Unknown:
-			theSize = 0;
+		case NStringEncoding::UTF8:
+			ConvertFromUTF8(srcData, dstEncoding, dstData);
 			break;
 
-		case NStringEncoding::UTF8:
+		case NStringEncoding::UTF16:
+			ConvertFromUTF16(srcData, dstEncoding, dstData);
+			break;
+
+		case NStringEncoding::UTF32:
+			ConvertFromUTF32(srcData, dstEncoding, dstData);
+			break;
+
 		case NStringEncoding::ASCII:
 		case NStringEncoding::MacRoman:
 		case NStringEncoding::ISOLatin1:
 		case NStringEncoding::WindowsLatin1:
-			theSize = sizeof(utf8_t);
+			ConvertFromLegacy(srcEncoding, srcData, dstEncoding, dstData);
 			break;
 
-		case NStringEncoding::UTF16:
-		case NStringEncoding::UTF16BE:
-		case NStringEncoding::UTF16LE:
-			theSize = sizeof(utf16_t);
-			break;
-
-		case NStringEncoding::UTF32:
-		case NStringEncoding::UTF32BE:
-		case NStringEncoding::UTF32LE:
-			theSize = sizeof(utf32_t);
+		default:
+			NN_LOG_UNIMPLEMENTED("Unknown encoding!");
 			break;
 	}
-
-	return theSize;
 }
 
 
@@ -595,7 +656,7 @@ void NStringEncoder::ConvertToUTF8(NUnicodeView& srcView, NData& dstData)
 	// Get the state we need
 	NVectorUTF8 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() + 1);
+	theResult.reserve(srcView.GetMaxSize());
 
 
 
@@ -648,8 +709,6 @@ void NStringEncoder::ConvertToUTF8(NUnicodeView& srcView, NData& dstData)
 		}
 	}
 
-	theResult.push_back(0);
-
 
 
 	// Trim the result
@@ -670,7 +729,7 @@ void NStringEncoder::ConvertToUTF16(NUnicodeView& srcView, NData& dstData)
 	// Get the state we need
 	NVectorUTF16 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() + 1);
+	theResult.reserve(srcView.GetMaxSize());
 
 
 
@@ -698,8 +757,6 @@ void NStringEncoder::ConvertToUTF16(NUnicodeView& srcView, NData& dstData)
 		}
 	}
 
-	theResult.push_back(0);
-
 
 
 	// Trim the result
@@ -720,7 +777,7 @@ void NStringEncoder::ConvertToUTF32(NUnicodeView& srcView, NData& dstData)
 	// Get the state we need
 	NVectorUTF32 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() + 1);
+	theResult.reserve(srcView.GetMaxSize());
 
 
 
@@ -736,8 +793,6 @@ void NStringEncoder::ConvertToUTF32(NUnicodeView& srcView, NData& dstData)
 			NN_EXPECT(codePoint <= 0x10FFFF);
 		}
 	}
-
-	theResult.push_back(0);
 
 
 
@@ -782,14 +837,12 @@ void NStringEncoder::ConvertFromLegacy(NStringEncoding srcEncoding,
 		theResult.push_back(codePoint);
 	}
 
-	theResult.push_back(0);
-
 
 
 	// Convert to the final encoding
 	NData dataUTF32(theResult.size() * sizeof(utf32_t), theResult.data());
 
-	return Convert(NStringEncoding::UTF32, dataUTF32, dstEncoding, dstData);
+	ConvertFromUTF32(dataUTF32, dstEncoding, dstData);
 }
 
 
@@ -810,7 +863,7 @@ void NStringEncoder::ConvertToLegacy(NUnicodeView&   srcView,
 
 	NVectorUInt8 theResult;
 
-	theResult.reserve(srcView.GetMaxSize() + 1);
+	theResult.reserve(srcView.GetMaxSize());
 
 
 
@@ -819,8 +872,6 @@ void NStringEncoder::ConvertToLegacy(NUnicodeView&   srcView,
 	{
 		theResult.push_back(nstd::fetch(*srcTable, codePoint, kNASCIIReplacement));
 	}
-
-	theResult.push_back(0);
 
 
 
@@ -877,10 +928,13 @@ const utf32_t* NStringEncoder::GetLegacyToUTF32(NStringEncoding srcEncoding)
 //-----------------------------------------------------------------------------
 const NUTF32LegacyMap* NStringEncoder::GetLegacyFromUTF32(NStringEncoding dstEncoding)
 {
-	static NUTF32LegacyMap sUTF32_to_ASCII    = GetLegacyMap(kStringMaxASCII, kASCII_to_UTF32);
+	static NUTF32LegacyMap sUTF32_to_ASCII = GetLegacyMap(kStringMaxASCII, kASCII_to_UTF32);
+
 	static NUTF32LegacyMap sUTF32_to_MacRoman = GetLegacyMap(kStringMaxLegacy, kMacRoman_to_UTF32);
+
 	static NUTF32LegacyMap sUTF32_to_ISOLatin1 =
 		GetLegacyMap(kStringMaxLegacy, kISOLatin1_to_UTF32);
+
 	static NUTF32LegacyMap sUTF32_to_WindowsLatin1 =
 		GetLegacyMap(kStringMaxLegacy, kWindowsLatin1_to_UTF32);
 
