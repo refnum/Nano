@@ -302,14 +302,14 @@
 	do                                                      \
 	{                                                       \
 		NN_REQUIRE((_error) == 0, ##__VA_ARGS__);           \
-		NN_UNUSED(_error);                                  \
+		NN_UNUSED(sizeof((_error) ? 0 : 1));                \
 	} while (false)
 
 #define NN_REQUIRE_NOT_NULL(_pointer, ...)                  \
 	do                                                      \
 	{                                                       \
 		NN_REQUIRE((_pointer) != nullptr, ##__VA_ARGS__);   \
-		NN_UNUSED(_pointer);                                \
+		NN_UNUSED(sizeof((_pointer) ? 0 : 1));              \
 	} while (false)
 
 
@@ -317,14 +317,14 @@
 	do                                                      \
 	{                                                       \
 		NN_EXPECT((_error) == 0, ##__VA_ARGS__);            \
-		NN_UNUSED(_error);                                  \
+		NN_UNUSED(sizeof((_error) ? 0 : 1));                \
 	} while (false)
 
 #define NN_EXPECT_NOT_NULL(_pointer, ...)                   \
 	do                                                      \
 	{                                                       \
 		NN_EXPECT((_pointer) != nullptr, ##__VA_ARGS__);    \
-		NN_UNUSED(_pointer);                                \
+		NN_UNUSED(sizeof((_pointer) ? 0 : 1));              \
 	} while (false)
 
 
