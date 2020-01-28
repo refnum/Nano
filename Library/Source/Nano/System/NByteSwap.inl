@@ -46,50 +46,10 @@
 
 
 //=============================================================================
-//		NByteSwap::Swap : Always swap.
-//-----------------------------------------------------------------------------
-template <typename T>
-T NByteSwap::Swap(T theValue)
-{
-	Swap(1, &theValue);
-	return theValue;
-}
-
-
-
-
-
-//=============================================================================
-//		NByteSwap::Swap : Always swap.
-//-----------------------------------------------------------------------------
-template <typename T>
-void NByteSwap::Swap(T* theValue)
-{
-	Swap(1, theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NByteSwap::Swap : Always swap.
-//-----------------------------------------------------------------------------
-template <typename T>
-void NByteSwap::Swap(size_t numValues, T* theValues)
-{
-	SwapN(numValues, sizeof(T), theValues);
-}
-
-
-
-
-
-//=============================================================================
 //		NByteSwap::SwapNtoB : Swap native to big-endian.
 //-----------------------------------------------------------------------------
 template <typename T>
-T NByteSwap::SwapNtoB(T theValue)
+constexpr T NByteSwap::SwapNtoB(T theValue)
 {
 	return SwapXtoY(NEndian::Native, NEndian::Big, theValue);
 }
@@ -104,7 +64,7 @@ T NByteSwap::SwapNtoB(T theValue)
 template <typename T>
 void NByteSwap::SwapNtoB(T* theValue)
 {
-	return SwapXtoY(NEndian::Native, NEndian::Big, theValue);
+	SwapXtoY(NEndian::Native, NEndian::Big, theValue);
 }
 
 
@@ -117,7 +77,7 @@ void NByteSwap::SwapNtoB(T* theValue)
 template <typename T>
 void NByteSwap::SwapNtoB(size_t numValues, T* theValues)
 {
-	return SwapXtoY(NEndian::Native, NEndian::Big, numValues, theValues);
+	SwapXtoY(NEndian::Native, NEndian::Big, numValues, theValues);
 }
 
 
@@ -128,7 +88,7 @@ void NByteSwap::SwapNtoB(size_t numValues, T* theValues)
 //		NByteSwap::SwapBtoN : Swap big-endian to native.
 //-----------------------------------------------------------------------------
 template <typename T>
-T NByteSwap::SwapBtoN(T theValue)
+constexpr T NByteSwap::SwapBtoN(T theValue)
 {
 	return SwapXtoY(NEndian::Big, NEndian::Native, theValue);
 }
@@ -143,7 +103,7 @@ T NByteSwap::SwapBtoN(T theValue)
 template <typename T>
 void NByteSwap::SwapBtoN(T* theValue)
 {
-	return SwapXtoY(NEndian::Big, NEndian::Native, theValue);
+	SwapXtoY(NEndian::Big, NEndian::Native, theValue);
 }
 
 
@@ -156,7 +116,7 @@ void NByteSwap::SwapBtoN(T* theValue)
 template <typename T>
 void NByteSwap::SwapBtoN(size_t numValues, T* theValues)
 {
-	return SwapXtoY(NEndian::Big, NEndian::Native, numValues, theValues);
+	SwapXtoY(NEndian::Big, NEndian::Native, numValues, theValues);
 }
 
 
@@ -167,7 +127,7 @@ void NByteSwap::SwapBtoN(size_t numValues, T* theValues)
 //		NByteSwap::SwapNtoL : Swap native to little-endian.
 //-----------------------------------------------------------------------------
 template <typename T>
-T NByteSwap::SwapNtoL(T theValue)
+constexpr T NByteSwap::SwapNtoL(T theValue)
 {
 	return SwapXtoY(NEndian::Native, NEndian::Little, theValue);
 }
@@ -182,7 +142,7 @@ T NByteSwap::SwapNtoL(T theValue)
 template <typename T>
 void NByteSwap::SwapNtoL(T* theValue)
 {
-	return SwapXtoY(NEndian::Native, NEndian::Little, theValue);
+	SwapXtoY(NEndian::Native, NEndian::Little, theValue);
 }
 
 
@@ -195,7 +155,7 @@ void NByteSwap::SwapNtoL(T* theValue)
 template <typename T>
 void NByteSwap::SwapNtoL(size_t numValues, T* theValues)
 {
-	return SwapXtoY(NEndian::Native, NEndian::Little, numValues, theValues);
+	SwapXtoY(NEndian::Native, NEndian::Little, numValues, theValues);
 }
 
 
@@ -206,7 +166,7 @@ void NByteSwap::SwapNtoL(size_t numValues, T* theValues)
 //		NByteSwap::SwapLtoN : Swap little-endian to native.
 //-----------------------------------------------------------------------------
 template <typename T>
-T NByteSwap::SwapLtoN(T theValue)
+constexpr T NByteSwap::SwapLtoN(T theValue)
 {
 	return SwapXtoY(NEndian::Little, NEndian::Native, theValue);
 }
@@ -221,7 +181,7 @@ T NByteSwap::SwapLtoN(T theValue)
 template <typename T>
 void NByteSwap::SwapLtoN(T* theValue)
 {
-	return SwapXtoY(NEndian::Little, NEndian::Native, theValue);
+	SwapXtoY(NEndian::Little, NEndian::Native, theValue);
 }
 
 
@@ -234,7 +194,7 @@ void NByteSwap::SwapLtoN(T* theValue)
 template <typename T>
 void NByteSwap::SwapLtoN(size_t numValues, T* theValues)
 {
-	return SwapXtoY(NEndian::Little, NEndian::Native, numValues, theValues);
+	SwapXtoY(NEndian::Little, NEndian::Native, numValues, theValues);
 }
 
 
@@ -246,11 +206,11 @@ void NByteSwap::SwapLtoN(size_t numValues, T* theValues)
 //		NByteSwap::SwapXtoY : Swap X-endian to Y-endian.
 //-----------------------------------------------------------------------------
 template <typename T>
-T NByteSwap::SwapXtoY(NEndian orderX, NEndian orderY, T theValue)
+constexpr T NByteSwap::SwapXtoY(NEndian orderX, NEndian orderY, T theValue)
 {
 	if (orderX != orderY)
 	{
-		Swap(&theValue);
+		return Swap(theValue);
 	}
 
 	return theValue;
@@ -293,21 +253,22 @@ void NByteSwap::SwapXtoY(NEndian orderX, NEndian orderY, size_t numValues, T* th
 
 
 //=============================================================================
-//		NByteSwap::Swap16 : Swap a uint16_t.
+//		NByteSwap::Swap : Always swap.
 //-----------------------------------------------------------------------------
-void NByteSwap::Swap16(uint16_t* theValue)
+template <>
+constexpr uint16_t NByteSwap::Swap<uint16_t>(uint16_t theValue)
 {
 
 
 	// Swap the value
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	*theValue = __builtin_bswap16(*theValue);
+	return __builtin_bswap16(theValue);
 
 #elif NN_COMPILER_MSVC
-	*theValue = _byteswap_ushort(*theValue);
+	return _byteswap_ushort(theValue);
 
 #else
-	*theValue = uint16_t((*theValue & 0xFF00) >> 8) | uint16_t((*theValue & 0x00FF) << 8);
+	return = uint16_t((theValue & 0xFF00) >> 8) | uint16_t((theValue & 0x00FF) << 8);
 #endif
 }
 
@@ -316,22 +277,23 @@ void NByteSwap::Swap16(uint16_t* theValue)
 
 
 //=============================================================================
-//		NByteSwap::Swap32 : Swap a uint32_t.
+//		NByteSwap::Swap : Always swap.
 //-----------------------------------------------------------------------------
-void NByteSwap::Swap32(uint32_t* theValue)
+template <>
+constexpr uint32_t NByteSwap::Swap<uint32_t>(uint32_t theValue)
 {
 
 
 	// Swap the value
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	*theValue = __builtin_bswap32(*theValue);
+	return __builtin_bswap32(theValue);
 
 #elif NN_COMPILER_MSVC
-	*theValue = _byteswap_ulong(*theValue);
+	return _byteswap_ulong(theValue);
 
 #else
-	*theValue = uint32_t((*theValue & 0xFF000000) >> 24) | uint32_t((*theValue & 0x00FF0000) >> 8) |
-				uint32_t((*theValue & 0x0000FF00) << 8) | uint32_t((*theValue & 0x000000FF) << 24);
+	return uint32_t((theValue & 0xFF000000) >> 24) | uint32_t((theValue & 0x00FF0000) >> 8) |
+		   uint32_t((theValue & 0x0000FF00) << 8) | uint32_t((theValue & 0x000000FF) << 24);
 #endif
 }
 
@@ -340,27 +302,117 @@ void NByteSwap::Swap32(uint32_t* theValue)
 
 
 //=============================================================================
-//		NByteSwap::Swap64 : Swap a uint64_t.
+//		NByteSwap::Swap : Always swap.
 //-----------------------------------------------------------------------------
-void NByteSwap::Swap64(uint64_t* theValue)
+template <>
+constexpr uint64_t NByteSwap::Swap<uint64_t>(uint64_t theValue)
 {
 
 
 	// Swap the value
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	*theValue = __builtin_bswap64(*theValue);
+	return __builtin_bswap64(theValue);
 
 #elif NN_COMPILER_MSVC
-	*theValue = _byteswap_uint64(*theValue);
+	return _byteswap_uint64(theValue);
 
 #else
-	*theValue = uint64_t((*theValue & 0xFF00000000000000ULL) >> 56) |
-				uint64_t((*theValue & 0x00FF000000000000ULL) >> 40) |
-				uint64_t((*theValue & 0x0000FF0000000000ULL) >> 24) |
-				uint64_t((*theValue & 0x000000FF00000000ULL) >> 8) |
-				uint64_t((*theValue & 0x00000000FF000000ULL) << 8) |
-				uint64_t((*theValue & 0x0000000000FF0000ULL) << 24) |
-				uint64_t((*theValue & 0x000000000000FF00ULL) << 40) |
-				uint64_t((*theValue & 0x00000000000000FFULL) << 56);
+	return uint64_t((theValue & 0xFF00000000000000ULL) >> 56) |
+		   uint64_t((theValue & 0x00FF000000000000ULL) >> 40) |
+		   uint64_t((theValue & 0x0000FF0000000000ULL) >> 24) |
+		   uint64_t((theValue & 0x000000FF00000000ULL) >> 8) |
+		   uint64_t((theValue & 0x00000000FF000000ULL) << 8) |
+		   uint64_t((theValue & 0x0000000000FF0000ULL) << 24) |
+		   uint64_t((theValue & 0x000000000000FF00ULL) << 40) |
+		   uint64_t((theValue & 0x00000000000000FFULL) << 56);
 #endif
+}
+
+
+
+
+
+//=============================================================================
+//		NByteSwap::Swap : Always swap.
+//-----------------------------------------------------------------------------
+template <>
+inline float NByteSwap::Swap<float>(float theValue)
+{
+	Swap(reinterpret_cast<uint32_t*>(&theValue));
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NByteSwap::Swap : Always swap.
+//-----------------------------------------------------------------------------
+template <>
+inline double NByteSwap::Swap<double>(double theValue)
+{
+	Swap(reinterpret_cast<uint64_t*>(&theValue));
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NByteSwap::Swap : Always swap.
+//-----------------------------------------------------------------------------
+template <typename T>
+constexpr T NByteSwap::Swap(T theValue)
+{
+	if constexpr (std::is_integral<T>::value)
+	{
+		if constexpr (sizeof(T) == sizeof(uint16_t))
+		{
+			theValue = T(Swap(uint16_t(theValue)));
+		}
+		else if constexpr (sizeof(T) == sizeof(uint32_t))
+		{
+			theValue = T(Swap(uint32_t(theValue)));
+		}
+		else if constexpr (sizeof(T) == sizeof(uint64_t))
+		{
+			theValue = T(Swap(uint64_t(theValue)));
+		}
+	}
+	else
+	{
+		Swap(1, sizeof(theValue), &theValue);
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NByteSwap::Swap : Always swap.
+//-----------------------------------------------------------------------------
+template <typename T>
+void NByteSwap::Swap(T* theValue)
+{
+	*theValue = Swap(*theValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NByteSwap::Swap : Always swap.
+//-----------------------------------------------------------------------------
+template <typename T>
+void NByteSwap::Swap(size_t numValues, T* theValues)
+{
+	Swap(numValues, sizeof(T), theValues);
 }

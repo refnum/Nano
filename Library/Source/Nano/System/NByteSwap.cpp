@@ -49,16 +49,14 @@
 
 
 //=============================================================================
-//		NByteSwap::SwapN : Swap N values.
+//		NByteSwap::Swap : Swap N values.
 //-----------------------------------------------------------------------------
-void NByteSwap::SwapN(size_t numValues, size_t valueSize, void* valuePtr)
+void NByteSwap::Swap(size_t numValues, size_t valueSize, void* valuePtr)
 {
 
 
-	// Get the state we need
-	uint16_t* value16 = reinterpret_cast<uint16_t*>(valuePtr);
-	uint32_t* value32 = reinterpret_cast<uint32_t*>(valuePtr);
-	uint64_t* value64 = reinterpret_cast<uint64_t*>(valuePtr);
+	// Validate our parameters
+	NN_REQUIRE(valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8);
 
 
 
@@ -71,26 +69,25 @@ void NByteSwap::SwapN(size_t numValues, size_t valueSize, void* valuePtr)
 		case 2:
 			for (size_t n = 0; n < numValues; n++)
 			{
-				Swap16(&value16[n]);
+				uint16_t* value16 = reinterpret_cast<uint16_t*>(valuePtr);
+				value16[n]        = Swap(value16[n]);
 			}
 			break;
 
 		case 4:
 			for (size_t n = 0; n < numValues; n++)
 			{
-				Swap32(&value32[n]);
+				uint32_t* value32 = reinterpret_cast<uint32_t*>(valuePtr);
+				value32[n]        = Swap(value32[n]);
 			}
 			break;
 
 		case 8:
 			for (size_t n = 0; n < numValues; n++)
 			{
-				Swap64(&value64[n]);
+				uint64_t* value64 = reinterpret_cast<uint64_t*>(valuePtr);
+				value64[n]        = Swap(value64[n]);
 			}
-			break;
-
-		default:
-			NN_LOG_UNIMPLEMENTED("Unhandled size: %zu", valueSize);
 			break;
 	}
 }

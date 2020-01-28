@@ -78,9 +78,6 @@ NANO_FIXTURE(TByteSwap)
 {
 	float32_t float32N, float32B, float32L;
 	float64_t float64N, float64B, float64L;
-	uint16_t  value16;
-	uint32_t  value32;
-	uint64_t  value64;
 
 	SETUP
 	{
@@ -129,17 +126,9 @@ NANO_TEST(TByteSwap, "Primitives")
 
 
 	// Perform the test
-	value16 = kNativeUInt16;
-	value32 = kNativeUInt32;
-	value64 = kNativeUInt64;
-
-	NByteSwap::Swap16(&value16);
-	NByteSwap::Swap32(&value32);
-	NByteSwap::Swap64(&value64);
-
-	REQUIRE(value16 == kSwappedUInt16);
-	REQUIRE(value32 == kSwappedUInt32);
-	REQUIRE(value64 == kSwappedUInt64);
+	REQUIRE(NByteSwap::Swap(kNativeUInt16) == kSwappedUInt16);
+	REQUIRE(NByteSwap::Swap(kNativeUInt32) == kSwappedUInt32);
+	REQUIRE(NByteSwap::Swap(kNativeUInt64) == kSwappedUInt64);
 }
 
 

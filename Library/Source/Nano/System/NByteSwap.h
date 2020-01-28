@@ -69,20 +69,9 @@ enum class NEndian
 class NByteSwap
 {
 public:
-	// Always swap
-	template <typename T>
-	static T                            Swap(T theValue);
-
-	template <typename T>
-	static void                         Swap(T* theValue);
-
-	template <typename T>
-	static void                         Swap(size_t numValues, T* theValues);
-
-
 	// Swap native to big-endian
 	template <typename T>
-	static T                            SwapNtoB(T theValue);
+	static constexpr T                  SwapNtoB(T theValue);
 
 	template <typename T>
 	static void                         SwapNtoB(T* theValue);
@@ -93,7 +82,7 @@ public:
 
 	// Swap big-endian to native
 	template <typename T>
-	static T                            SwapBtoN(T theValue);
+	static constexpr T                  SwapBtoN(T theValue);
 
 	template <typename T>
 	static void                         SwapBtoN(T* theValue);
@@ -104,7 +93,7 @@ public:
 
 	// Swap native to little-endian
 	template <typename T>
-	static T                            SwapNtoL(T theValue);
+	static constexpr T                  SwapNtoL(T theValue);
 
 	template <typename T>
 	static void                         SwapNtoL(T* theValue);
@@ -115,7 +104,7 @@ public:
 
 	// Swap little-endian to native
 	template <typename T>
-	static T                            SwapLtoN(T theValue);
+	static constexpr T                  SwapLtoN(T theValue);
 
 	template <typename T>
 	static void                         SwapLtoN(T* theValue);
@@ -124,16 +113,23 @@ public:
 	static void                         SwapLtoN(size_t numValues, T* theValues);
 
 
-	// Swap primitives
-	static inline void                  Swap16(uint16_t* theValue);
-	static inline void                  Swap32(uint32_t* theValue);
-	static inline void                  Swap64(uint64_t* theValue);
-	static void                         SwapN(size_t numValues, size_t valueSize, void* valuePtr);
+	// Always swap
+	template <typename T>
+	static constexpr T                  Swap(T theValue);
+
+	template <typename T>
+	static void                         Swap(T* theValue);
+
+	template <typename T>
+	static void                         Swap(size_t numValues, T* theValues);
+
+	static void                         Swap(size_t numValues, size_t valueSize, void* valuePtr);
+
 
 
 private:
 	template <typename T>
-	static T                            SwapXtoY(NEndian orderX, NEndian orderY, T theValue);
+	static constexpr T                  SwapXtoY(NEndian orderX, NEndian orderY, T theValue);
 
 	template <typename T>
 	static void                         SwapXtoY(NEndian orderX, NEndian orderY, T* theValue);
@@ -266,7 +262,7 @@ inline void NByteSwap_Field(size_t    numValues,
 {
 	if (valueOrder != NEndian::Native)
 	{
-		NByteSwap::SwapN(numValues, valueSize, valuePtr);
+		NByteSwap::Swap(numValues, valueSize, valuePtr);
 	}
 
 	valuePtr += (numValues * valueSize);
