@@ -265,7 +265,7 @@ constexpr uint16_t NByteSwap::Swap<uint16_t>(uint16_t theValue)
 	return __builtin_bswap16(theValue);
 
 #else
-	return uint16_t((theValue & 0xFF00) >> 8) | uint16_t((theValue & 0x00FF) << 8);
+	return ((theValue >> 8) & 0xFF00) | ((theValue << 8) & 0x00FF);
 #endif
 }
 
@@ -286,8 +286,8 @@ constexpr uint32_t NByteSwap::Swap<uint32_t>(uint32_t theValue)
 	return __builtin_bswap32(theValue);
 
 #else
-	return uint32_t((theValue & 0xFF000000) >> 24) | uint32_t((theValue & 0x00FF0000) >> 8) |
-		   uint32_t((theValue & 0x0000FF00) << 8) | uint32_t((theValue & 0x000000FF) << 24);
+	return ((theValue >> 24) & 0xFF000000) | ((theValue >> 8) & 0x00FF0000) |
+		   ((theValue << 8) & 0x0000FF00) | ((theValue << 24) & 0x000000FF);
 #endif
 }
 
@@ -308,14 +308,10 @@ constexpr uint64_t NByteSwap::Swap<uint64_t>(uint64_t theValue)
 	return __builtin_bswap64(theValue);
 
 #else
-	return uint64_t((theValue & 0xFF00000000000000ULL) >> 56) |
-		   uint64_t((theValue & 0x00FF000000000000ULL) >> 40) |
-		   uint64_t((theValue & 0x0000FF0000000000ULL) >> 24) |
-		   uint64_t((theValue & 0x000000FF00000000ULL) >> 8) |
-		   uint64_t((theValue & 0x00000000FF000000ULL) << 8) |
-		   uint64_t((theValue & 0x0000000000FF0000ULL) << 24) |
-		   uint64_t((theValue & 0x000000000000FF00ULL) << 40) |
-		   uint64_t((theValue & 0x00000000000000FFULL) << 56);
+	return ((theValue >> 56) & 0xFF00000000000000ULL) | ((theValue >> 40) & 0x00FF000000000000ULL) |
+		   ((theValue >> 24) & 0x0000FF0000000000ULL) | ((theValue >> 8) & 0x000000FF00000000ULL) |
+		   ((theValue << 8) & 0x00000000FF000000ULL) | ((theValue << 24) & 0x0000000000FF0000ULL) |
+		   ((theValue << 40) & 0x000000000000FF00ULL) | ((theValue << 56) & 0x00000000000000FFULL);
 #endif
 }
 
