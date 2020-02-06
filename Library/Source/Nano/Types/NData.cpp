@@ -256,6 +256,9 @@ NData NData::GetData(const NRange& theRange) const
 			theData.MakeClone(*this);
 			NN_REQUIRE(theData.IsLarge());
 
+			finalRange.SetLocation(finalRange.GetLocation() +
+								   theData.mData.Large.theSlice.GetLocation());
+
 			theData.mData.Large.theSlice = finalRange;
 		}
 	}
@@ -1312,7 +1315,7 @@ void NData::SetSizeLarge(size_t theSize)
 		{
 			MakeLarge(theSize,
 					  mData.Large.theSlice.GetSize(),
-					  largeState->theData,
+					  largeState->theData + mData.Large.theSlice.GetLocation(),
 					  NDataSource::Copy);
 			mData.Large.theSlice.SetSize(theSize);
 		}
