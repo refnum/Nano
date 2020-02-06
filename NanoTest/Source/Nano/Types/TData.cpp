@@ -50,7 +50,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const uint8_t kTestArray1[]                          = {0xAA, 0xBB, 0xCC, 0xDD};
+static const uint8_t kTestArray1[]                          = {0xA1, 0xB1, 0xC1, 0xD1, 0xA2, 0xB2, 0xC2, 0xD2};
 static const uint8_t kTestArray2[]                          = {
 	0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
 	0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
@@ -74,6 +74,8 @@ NANO_FIXTURE(TData)
 	{
 		dataObjects.push_back(kTestDataSmall);
 		dataObjects.push_back(kTestDataLarge);
+		dataObjects.push_back(kTestDataSmall.GetData(NRange(1, kTestDataSmall.GetSize() - 2)));
+		dataObjects.push_back(kTestDataLarge.GetData(NRange(1, kTestDataLarge.GetSize() - 2)));
 	}
 };
 
@@ -260,21 +262,40 @@ NANO_TEST(TData, "SizeUp")
 
 	for (auto theData : dataObjects)
 	{
+		// Save the existing content
+		//
+		// We save a copy of the existing content to test that resizing data
+		// that is using a slice will resolve that slice to become mutable.
 		size_t oldSize = theData.GetSize();
 		REQUIRE(oldSize != 0);
 
-		const uint8_t* thePtr = theData.GetData(0);
+		NVectorUInt8 oldContent(oldSize, 0);
+
+		const uint8_t* thePtr = theData.GetData();
 		for (size_t n = 0; n < oldSize; n++)
 		{
 			REQUIRE(thePtr[n] != 0x00);
+			oldContent[n] = thePtr[n];
 		}
 
-		theData.SetSize(oldSize + theDelta);
 
-		thePtr = theData.GetData(oldSize);
-		for (size_t n = 0; n < theDelta; n++)
+		// Grow the data
+		//
+		// Existing content should be preserved, new content should be 0.
+		size_t newSize = oldSize + theDelta;
+		theData.SetSize(newSize);
+
+		thePtr = theData.GetData();
+		for (size_t n = 0; n < newSize; n++)
 		{
-			REQUIRE(thePtr[n] == 0x00);
+			if (n < oldSize)
+			{
+				REQUIRE(thePtr[n] == oldContent[n]);
+			}
+			else
+			{
+				REQUIRE(thePtr[n] == 0x00);
+			}
 		}
 	}
 }
@@ -755,11 +776,15 @@ NANO_TEST(TData, "Comparable")
 	{
 		if (theData == kTestDataSmall)
 		{
-			REQUIRE((theData == kTestDataSmall && theData != kTestDataLarge));
+			REQUIRE(theData == kTestDataSmall);
+		}
+		else if (theData == kTestDataLarge)
+		{
+			REQUIRE(theData == kTestDataLarge);
 		}
 		else
 		{
-			REQUIRE((theData != kTestDataSmall && theData == kTestDataLarge));
+			REQUIRE((theData != kTestDataSmall && theData != kTestDataLarge));
 		}
 	}
 }
