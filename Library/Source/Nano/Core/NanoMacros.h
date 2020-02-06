@@ -105,8 +105,10 @@
 
 // Request EBO
 //
-// MSVC only performs Empty Base Optimization for classs that derive from a
-// single empty base class. This macro enables EBO for multiple base classes:
+// MSVC only performs Empty Base Optimization for classs that derive
+// from a single empty base class.
+//
+// This macro enables EBO for multiple base classes, as per:
 //
 //		https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/
 //
@@ -258,8 +260,51 @@
 	#define NN_DIAGNOSTIC_IGNORE(_warning)
 	#define NN_DIAGNOSTIC_PUSH()
 	#define NN_DIAGNOSTIC_POP()
-
 #endif
+
+
+
+// Packed structure
+//
+// Set the packing applied to structure fields.
+//
+// Example:
+//
+//		NN_STRUCT_PACK_1(MyStructure
+//		{
+//			uint8_t		value1;
+//			uint16_t	value2;
+//		});
+//
+// Packing affects the internal layout of a structure.
+//
+// The alignas() specifier can be used to set the alignment
+// of the structure itself:
+//
+//		NN_STRUCT_PACK_1(alignas(16) MyStructure
+//		{
+//			uint8_t		value1;
+//			uint16_t	value2;
+//		});
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define _nn_struct_pack(_packing, ...)                                      \
+		_Pragma(NN_STRINGIFY(pack(push, _packing))) struct __VA_ARGS__ _Pragma( \
+			NN_STRINGIFY(pack(pop)))
+
+#elif NN_COMPILER_MSVC
+	#define _nn_struct_pack(_packing, ...)                  \
+		__pragma(pack(push, _packing)) struct __VA_ARGS__ __pragma(pack(pop))
+
+#else
+	#error "Unable to implement NN_STRUCT_PACK_x macros!"
+#endif
+
+#define NN_STRUCT_PACK_1(...)                               _nn_struct_pack(1, __VA_ARGS__)
+#define NN_STRUCT_PACK_2(...)                               _nn_struct_pack(2, __VA_ARGS__)
+#define NN_STRUCT_PACK_4(...)                               _nn_struct_pack(4, __VA_ARGS__)
+#define NN_STRUCT_PACK_8(...)                               _nn_struct_pack(8, __VA_ARGS__)
+#define NN_STRUCT_PACK_16(...)                              _nn_struct_pack(16, __VA_ARGS__)
 
 
 
