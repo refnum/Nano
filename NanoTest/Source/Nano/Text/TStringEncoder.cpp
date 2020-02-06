@@ -451,7 +451,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF8")
 							dataAdded,
 							kNStringEncoderBOMTerminator);
 
-	REQUIRE(dataAdded.GetSize() == (dataUTF8.GetSize() + 2));
+	REQUIRE(dataAdded.GetSize() == (dataUTF8.GetSize() + sizeof(kBOM_UTF8) + sizeof(utf8_t)));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF8), kBOM_UTF8)));
 	REQUIRE(dataAdded.EndsWith(NData(sizeof(kTerminator_UTF8), kTerminator_UTF8)));
 
@@ -460,7 +460,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF8")
 							dataAdded,
 							NStringEncoding::UTF8,
 							dataRemoved,
-							kNStringEncoderNone);
+							kNStringEncoderRemoveBOM | kNStringEncoderRemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF8);
 }
@@ -485,16 +485,16 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF16")
 							dataAdded,
 							kNStringEncoderBOMTerminator);
 
-	REQUIRE(dataAdded.GetSize() == (dataUTF16.GetSize() + 4));
+	REQUIRE(dataAdded.GetSize() == (dataUTF16.GetSize() + sizeof(kBOM_UTF16BE) + sizeof(utf16_t)));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF16BE), kBOM_UTF16BE)));
 	REQUIRE(dataAdded.EndsWith(NData(sizeof(kTerminator_UTF16), kTerminator_UTF16)));
 
 
-	NStringEncoder::Convert(NStringEncoding::UTF16,
+	NStringEncoder::Convert(NStringEncoding::UTF16BE,
 							dataAdded,
 							NStringEncoding::UTF16,
 							dataRemoved,
-							kNStringEncoderNone);
+							kNStringEncoderRemoveBOM | kNStringEncoderRemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF16);
 }
@@ -514,21 +514,21 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF32")
 	NData dataAdded, dataRemoved;
 
 	NStringEncoder::Convert(NStringEncoding::UTF32,
-							dataUTF16,
+							dataUTF32,
 							NStringEncoding::UTF32BE,
 							dataAdded,
 							kNStringEncoderBOMTerminator);
 
-	REQUIRE(dataAdded.GetSize() == (dataUTF32.GetSize() + 8));
+	REQUIRE(dataAdded.GetSize() == (dataUTF32.GetSize() + sizeof(kBOM_UTF32BE) + sizeof(utf32_t)));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF32BE), kBOM_UTF32BE)));
 	REQUIRE(dataAdded.EndsWith(NData(sizeof(kTerminator_UTF32), kTerminator_UTF32)));
 
 
-	NStringEncoder::Convert(NStringEncoding::UTF32,
+	NStringEncoder::Convert(NStringEncoding::UTF32BE,
 							dataAdded,
 							NStringEncoding::UTF32,
 							dataRemoved,
-							kNStringEncoderNone);
+							kNStringEncoderRemoveBOM | kNStringEncoderRemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF32);
 }
