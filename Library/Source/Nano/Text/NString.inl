@@ -448,6 +448,6 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 
 	for (size_t n = 0; n < sizeof(mString.Small.theData); n++)
 	{
-		mString.Small.theData[n] = ((n < numBytes) ? theData[n] : 0x00);
+		mString.Small.theData[n] = ((n < numBytes) ? theData[n] : uint8_t(0));
 	}
 }
