@@ -289,7 +289,7 @@
 //
 #if NN_COMPILER_CLANG || NN_COMPILER_GCC
 	#define _nn_struct_pack(_packing, ...)                                      \
-		_Pragma(NN_STRINGIFY(pack(push, _packing))) struct __VA_ARGS__ _Pragma( \
+		_Pragma(NN_STRINGIFY(pack(push, _packing))) struct __VA_ARGS__; _Pragma( \
 			NN_STRINGIFY(pack(pop)))
 
 #elif NN_COMPILER_MSVC
