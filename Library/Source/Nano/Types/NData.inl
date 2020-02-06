@@ -49,10 +49,10 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr uint8_t kNDataFlagIsLarge                  = 0b00000001;
-static constexpr uint8_t kNDataSmallSizeMask                = 0b11111000;
-static constexpr uint8_t kNDataSmallSizeShift               = 3;
-static constexpr uint8_t kNDataSmallSizeMax                 = 23;
+static constexpr uint8_t kNDataFlagIsLarge                  = 0b10000000;
+static constexpr uint8_t kNDataFlagSmallSizeMask            = 0b00011111;
+
+static constexpr uint8_t kNDataSmallSizeMax                 = 27;
 
 
 
@@ -86,14 +86,12 @@ inline NData::NData()
 	static_assert(sizeof(NDataStorage) == 32);
 	static_assert(sizeof(mData.Small.theData) == kNDataSmallSizeMax);
 
-	static_assert(offsetof(NDataStorage, Small.sizeFlags) == 0);
-	static_assert(offsetof(NDataStorage, Small.theData) == 1);
+	static_assert(offsetof(NDataStorage, Small.theData) == 0);
 	static_assert(offsetof(NDataStorage, Large.theState) == 0);
 	static_assert(offsetof(NDataStorage, Large.theSlice) == 8);
-	static_assert(offsetof(NDataStorage, theHash) == 24);
 
-	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
-	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
+	static_assert(offsetof(NDataStorage, theFlags) == 27);
+	static_assert(offsetof(NDataStorage, theHash) == 28);
 }
 
 
@@ -205,7 +203,7 @@ inline bool NData::IsSmall() const
 
 
 	// Check the flag
-	return (mData.Small.sizeFlags & kNDataFlagIsLarge) == 0;
+	return !IsLarge();
 }
 
 
@@ -220,30 +218,7 @@ inline bool NData::IsLarge() const
 
 
 	// Check the flag
-	return !IsSmall();
-}
-
-
-
-
-
-//=============================================================================
-//		NData::GetLarge : Get the large state.
-//-----------------------------------------------------------------------------
-inline NDataState* NData::GetLarge()
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the large state
-	const NDataState* theState = mData.Large.theState;
-	uintptr_t statePtr = reinterpret_cast<uintptr_t>(theState) & ~uintptr_t(kNDataFlagIsLarge);
-
-	return reinterpret_cast<NDataState*>(statePtr);
+	return (mData.theFlags & kNDataFlagIsLarge) != 0;
 }
 
 
@@ -264,8 +239,8 @@ inline size_t NData::GetSizeSmall() const
 
 	// Get the size
 	//
-	// The size is stored in the top bits of the storage flag byte.
-	return size_t((mData.Small.sizeFlags & kNDataSmallSizeMask) >> kNDataSmallSizeShift);
+	// The small size is stored in the flag byte.
+	return size_t(mData.theFlags & kNDataFlagSmallSizeMask);
 }
 
 
@@ -325,12 +300,7 @@ inline size_t NData::GetCapacityLarge() const
 
 
 	// Get the capacity
-	//
-	// We can cast away const as we only need to read the capacity.
-	NData*      thisData   = const_cast<NData*>(this);
-	NDataState* largeState = thisData->GetLarge();
-
-	return largeState->theSize;
+	return mData.Large.theState->theSize;
 }
 
 
@@ -372,10 +342,5 @@ inline const uint8_t* NData::GetDataLarge(size_t theOffset) const
 
 
 	// Get the data
-	//
-	// We can cast away const as we restore it in our result.
-	NData*      thisData   = const_cast<NData*>(this);
-	NDataState* largeState = thisData->GetLarge();
-
-	return &largeState->theData[mData.Large.theSlice.GetOffset(theOffset)];
+	return &mData.Large.theState->theData[mData.Large.theSlice.GetOffset(theOffset)];
 }

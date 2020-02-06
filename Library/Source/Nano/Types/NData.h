@@ -96,15 +96,19 @@ enum NDataSource
 //
 // Larger amounts of data are a view onto shared immutable state.
 //
-// Storage is 16-byte aligned to allow init/copy operations to be vectorised.
-struct alignas(16) NDataStorage
-{
+//
+// The storage structure is 16-byte aligned, and a multiple of 8 bytes
+// in size, to allow initialisation / copy operations to be vectorised.
+//
+// The small data field must be the first field to ensure it has the
+// correct alignment to be recast to any type that is <= 16 bytes.
+//
+NN_STRUCT_PACK_1(alignas(16) NDataStorage {
 	union
 	{
 		struct
 		{
-			uint8_t sizeFlags;
-			uint8_t theData[23];
+			uint8_t theData[27];
 		} Small;
 
 		struct
@@ -114,8 +118,9 @@ struct alignas(16) NDataStorage
 		} Large;
 	};
 
-	mutable size_t theHash;
-};
+	uint8_t  theFlags;
+	uint32_t theHash;
+});
 
 
 
@@ -253,8 +258,8 @@ public:
 
 
 public:
-	// Fetch the hash
-	size_t&                             FetchHash(bool updateHash) const;
+	// Update the hash
+	size_t                              UpdateHash(NHashAction theAction);
 
 
 private:
@@ -269,7 +274,6 @@ private:
 	void                                MakeLarge(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
 	void                                MakeMutable();
 
-	NDataState*                         GetLarge();
 	void                                SetLarge(NDataState* theState, size_t theSize);
 	void                                RetainLarge();
 	void                                ReleaseLarge();

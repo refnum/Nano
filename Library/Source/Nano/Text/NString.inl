@@ -50,16 +50,14 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr uint8_t kNStringFlagIsLarge                = 0b00000001;
-static constexpr uint8_t kNStringFlagIsUTF16                = 0b00000010;
-static constexpr uint8_t kNStringSmallSizeMask              = 0b11111000;
-static constexpr uint8_t kNStringSmallSizeShift             = 3;
-static constexpr uint8_t kNStringSmallSizeMax               = 23;
+static constexpr uint8_t kNStringFlagIsLarge                = 0b10000000;
+static constexpr uint8_t kNStringFlagIsSmallUTF16           = 0b01000000;
+static constexpr uint8_t kNStringFlagSmallSizeMask          = 0b00011111;
 
-static constexpr utf8_t kNStringUTF8Null                    = utf8_t(0x00);
-static constexpr utf8_t kNStringUTF8Variable                = utf8_t(0x80U);
+static constexpr uint8_t kNStringSmallSizeMaxUTF8           = 26;
+static constexpr uint8_t kNStringSmallSizeMaxUTF16          = 12;
 
-static constexpr utf16_t kNStringUTF16Null                  = utf16_t(0x0000);
+static constexpr utf8_t  kNStringUTF8IsVariableWidth        = utf8_t(0x80U);
 static constexpr utf16_t kNStringUTF16SurrogateStart        = utf16_t(0xD800);
 static constexpr utf16_t kNStringUTF16SurrogateEnd          = utf16_t(0xDFFF);
 
@@ -78,11 +76,11 @@ constexpr NString::NString(const utf8_t* theString)
 	// Initialise ourselves
 	//
 	// constexpr construction allows compile-time creation from string literals.
-	size_t theSize = std::char_traits<utf8_t>::length(theString) + 1;
+	size_t numBytes = std::char_traits<utf8_t>::length(theString) * sizeof(utf8_t);
 
-	if (!SetSmallUTF8(theSize, theString))
+	if (!SetSmallUTF8(numBytes, theString))
 	{
-		SetText(NStringEncoding::UTF8, theSize * sizeof(utf8_t), theString);
+		SetText(NStringEncoding::UTF8, numBytes, theString);
 	}
 }
 
@@ -101,11 +99,11 @@ constexpr NString::NString(const utf16_t* theString)
 	// Initialise ourselves
 	//
 	// constexpr construction allows compile-time creation from string literals.
-	size_t theSize = std::char_traits<utf16_t>::length(theString) + 1;
+	size_t numBytes = std::char_traits<utf16_t>::length(theString) * sizeof(utf16_t);
 
-	if (!SetSmallUTF16(theSize, theString))
+	if (!SetSmallUTF16(numBytes, theString))
 	{
-		SetText(NStringEncoding::UTF16, theSize * sizeof(utf16_t), theString);
+		SetText(NStringEncoding::UTF16, numBytes, theString);
 	}
 }
 
@@ -123,16 +121,18 @@ NString::NString()
 
 	// Validate our state
 	static_assert(sizeof(NStringStorage) == 32);
-	static_assert(sizeof(mString.Small.theData) == kNStringSmallSizeMax);
 
-	static_assert(offsetof(NStringStorage, Small.sizeFlags) == 0);
-	static_assert(offsetof(NStringStorage, Small.theData) == 1);
+	static_assert(sizeof(mString.Small.theData) >=
+				  ((kNStringSmallSizeMaxUTF8 + 1) * sizeof(utf8_t)));
+
+	static_assert(sizeof(mString.Small.theData) >=
+				  ((kNStringSmallSizeMaxUTF16 + 1) * sizeof(utf16_t)));
+
+	static_assert(offsetof(NStringStorage, Small.theData) == 0);
 	static_assert(offsetof(NStringStorage, Large.theState) == 0);
-	static_assert(offsetof(NStringStorage, Large.reserved) == 8);
-	static_assert(offsetof(NStringStorage, theHash) == 24);
 
-	static_assert(alignof(std::max_align_t) > 1, "Large flag requires LSB be free");
-	static_assert(NN_ENDIAN_LITTLE, "Small/Large flag no longer overlap!");
+	static_assert(offsetof(NStringStorage, theFlags) == 27);
+	static_assert(offsetof(NStringStorage, theHash) == 28);
 }
 
 
@@ -210,7 +210,7 @@ constexpr bool NString::IsSmall() const
 
 
 	// Check the flag
-	return (mString.Small.sizeFlags & kNStringFlagIsLarge) == 0;
+	return !IsLarge();
 }
 
 
@@ -225,7 +225,7 @@ constexpr bool NString::IsSmallUTF8() const
 
 
 	// Check the flag
-	return IsSmall() && ((mString.Small.sizeFlags & kNStringFlagIsUTF16) == 0);
+	return IsSmall() && ((mString.theFlags & kNStringFlagIsSmallUTF16) == 0);
 }
 
 
@@ -240,7 +240,7 @@ constexpr bool NString::IsSmallUTF16() const
 
 
 	// Check the flag
-	return IsSmall() && ((mString.Small.sizeFlags & kNStringFlagIsUTF16) != 0);
+	return IsSmall() && ((mString.theFlags & kNStringFlagIsSmallUTF16) != 0);
 }
 
 
@@ -255,7 +255,7 @@ constexpr bool NString::IsLarge() const
 
 
 	// Check the flag
-	return !IsSmall();
+	return (mString.theFlags & kNStringFlagIsLarge) != 0;
 }
 
 
@@ -278,16 +278,34 @@ constexpr bool NString::IsValidEncoding(NStringEncoding theEncoding) const
 
 
 //=============================================================================
-//		NString::IsFixedWidthUTF8 : Check for fixed-width UTF8.
+//		NString::IsValidSmallUTF8 : Check for a small UTF8 string.
 //-----------------------------------------------------------------------------
-constexpr bool NString::IsFixedWidthUTF8(size_t numUTF8, const utf8_t* textUTF8) const
+constexpr bool NString::IsValidSmallUTF8(size_t numBytes, const utf8_t* textUTF8) const
 {
+
+
+	// Check our parameters
+	if ((numBytes % sizeof(utf8_t)) != 0)
+	{
+		return false;
+	}
+
+
+
+	// Check the size
+	size_t numUTF8 = numBytes / sizeof(utf8_t);
+
+	if (numUTF8 > kNStringSmallSizeMaxUTF8)
+	{
+		return false;
+	}
+
 
 
 	// Check the text
 	for (size_t n = 0; n < numUTF8; n++)
 	{
-		if (textUTF8[n] & kNStringUTF8Variable)
+		if (textUTF8[n] & kNStringUTF8IsVariableWidth)
 		{
 			return false;
 		}
@@ -301,10 +319,28 @@ constexpr bool NString::IsFixedWidthUTF8(size_t numUTF8, const utf8_t* textUTF8)
 
 
 //=============================================================================
-//		NString::IsFixedWidthUTF16 : Check for fixed-width UTF16.
+//		NString::IsValidSmallUTF16 : Check for a small UTF16 string.
 //-----------------------------------------------------------------------------
-constexpr bool NString::IsFixedWidthUTF16(size_t numUTF16, const utf16_t* textUTF16) const
+constexpr bool NString::IsValidSmallUTF16(size_t numBytes, const utf16_t* textUTF16) const
 {
+
+
+	// Check our parameters
+	if ((numBytes % sizeof(utf16_t)) != 0)
+	{
+		return false;
+	}
+
+
+
+	// Check the size
+	size_t numUTF16 = numBytes / sizeof(utf16_t);
+
+	if (numUTF16 > kNStringSmallSizeMaxUTF16)
+	{
+		return false;
+	}
+
 
 
 	// Check the text
@@ -327,14 +363,12 @@ constexpr bool NString::IsFixedWidthUTF16(size_t numUTF16, const utf16_t* textUT
 //=============================================================================
 //		NString::SetSmallUTF8 : Attempt to set a UTF8 string as small.
 //-----------------------------------------------------------------------------
-constexpr bool NString::SetSmallUTF8(size_t numUTF8, const utf8_t* textUTF8)
+constexpr bool NString::SetSmallUTF8(size_t numBytes, const utf8_t* textUTF8)
 {
 
 
 	// Initialise the string
-	size_t numBytes = numUTF8 * sizeof(utf8_t);
-
-	if (numBytes < kNStringSmallSizeMax && IsFixedWidthUTF8(numUTF8, textUTF8))
+	if (IsValidSmallUTF8(numBytes, textUTF8))
 	{
 		SetSmall(numBytes, textUTF8, NStringEncoding::UTF8);
 		return true;
@@ -350,14 +384,12 @@ constexpr bool NString::SetSmallUTF8(size_t numUTF8, const utf8_t* textUTF8)
 //=============================================================================
 //		NString::SetSmallUTF16 : Attempt to set a UTF16 string as small.
 //-----------------------------------------------------------------------------
-constexpr bool NString::SetSmallUTF16(size_t numUTF16, const utf16_t* textUTF16)
+constexpr bool NString::SetSmallUTF16(size_t numBytes, const utf16_t* textUTF16)
 {
 
 
 	// Initialise the string
-	size_t numBytes = numUTF16 * sizeof(utf16_t);
-
-	if (numBytes < kNStringSmallSizeMax && IsFixedWidthUTF16(numUTF16, textUTF16))
+	if (IsValidSmallUTF16(numBytes, textUTF16))
 	{
 		SetSmall(numBytes, textUTF16, NStringEncoding::UTF16);
 		return true;
@@ -378,26 +410,44 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 
 
 	// Validate our parameters
-	NN_EXPECT(numBytes < kNStringSmallSizeMax);
 	NN_EXPECT(theEncoding == NStringEncoding::UTF8 || theEncoding == NStringEncoding::UTF16);
 
+	if (theEncoding == NStringEncoding::UTF8)
+	{
+		NN_EXPECT((numBytes % sizeof(utf8_t)) == 0);
+		NN_EXPECT(IsValidSmallUTF8(numBytes, static_cast<const utf8_t*>(theText)));
+	}
+	else
+	{
+		NN_EXPECT((numBytes % sizeof(utf16_t)) == 0);
+		NN_EXPECT(IsValidSmallUTF16(numBytes, static_cast<const utf16_t*>(theText)));
+	}
 
 
-	// Initialise the flags
-	mString.Small.sizeFlags = uint8_t(numBytes << kNStringSmallSizeShift);
+
+	// Set the flags
+	size_t codeUnitSize = (theEncoding == NStringEncoding::UTF8) ? sizeof(utf8_t) : sizeof(utf16_t);
+	size_t numCodePoints = numBytes / codeUnitSize;
+
+	mString.theFlags = uint8_t(numCodePoints);
 
 	if (theEncoding == NStringEncoding::UTF16)
 	{
-		mString.Small.sizeFlags |= kNStringFlagIsUTF16;
+		mString.theFlags |= kNStringFlagIsSmallUTF16;
 	}
 
 
 
 	// Copy the data
+	//
+	// We fill to the end to include our null terminator.
+	//
+	// This is our constexpr path to allow in-place construction from
+	// string literals so cannot use memset.
 	const uint8_t* theData = static_cast<const uint8_t*>(theText);
 
-	for (size_t n = 0; n < numBytes; n++)
+	for (size_t n = 0; n < sizeof(mString.Small.theData); n++)
 	{
-		mString.Small.theData[n] = theData[n];
+		mString.Small.theData[n] = ((n < numBytes) ? theData[n] : 0x00);
 	}
 }

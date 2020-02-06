@@ -54,6 +54,16 @@
 
 
 //=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// Sizes
+static constexpr size_t kNStringLength                      = size_t(-1);
+
+
+
+
+
+//=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declarations
@@ -66,26 +76,30 @@ class NData;
 //
 // Larger strings are a view onto shared immutable state.
 //
-// Storage is 16-byte aligned to allow init/copy operations to be vectorised.
-struct alignas(16) NStringStorage
-{
+//
+// The storage structure is 16-byte aligned, and a multiple of 8 bytes
+// in size, to allow initialisation / copy operations to be vectorised.
+//
+// The small data field must be the first field to ensure it has the
+// correct alignment to be recast to any type that is <= 16 bytes.
+//
+NN_STRUCT_PACK_1(alignas(16) NStringStorage {
 	union
 	{
 		struct
 		{
-			uint8_t sizeFlags;
-			uint8_t theData[23];
+			uint8_t theData[27];
 		} Small;
 
 		struct
 		{
 			struct NStringState* theState;
-			uint8_t              reserved[16];
 		} Large;
 	};
 
-	mutable size_t theHash;
-};
+	uint8_t                             theFlags;
+	uint32_t                            theHash;
+});
 
 
 
@@ -123,14 +137,14 @@ public:
 
 	// Get the size
 	//
-	// Returns the number of codepoints (utf32_t characters) in the string,
-	// not counting the terminating null character.
+	// Returns the number of code points (utf32_t elements) in the string,
+	// not counting the null terminator.
 	size_t                              GetSize() const;
 
 
 	// Get the text
 	//
-	// Returns a null-terminated string that remains valid until the string is modified.
+	// Returns a null-terminated string that is valid until the string is modified.
 	const void*                         GetText(NStringEncoding theEncoding) const;
 
 	constexpr const utf8_t*             GetUTF8()  const;
@@ -138,16 +152,20 @@ public:
 	const utf32_t*                      GetUTF32() const;
 
 
-	// Get/set the text
+	// Get/set the string data
 	//
-	// GetData returns a NULL-terminated string in the specified encoding.
+	// As strings may contain embedded nulls the string data does not need to
+	// have a null terminator, nor will a terminator be added on retrieval.
+	//
+	// A string will a trailing null element will preserves that null as part of
+	// its content, just as it would a null at any other location.
 	NData                               GetData(NStringEncoding theEncoding) const;
 	void                                SetData(NStringEncoding theEncoding, const NData& theData);
 
 
 public:
-	// Fetch the hash
-	size_t&                             FetchHash(bool updateHash) const;
+	// Update the hash
+	size_t                              UpdateHash(NHashAction theAction);
 
 
 private:
@@ -156,12 +174,15 @@ private:
 	constexpr bool                      IsSmallUTF16() const;
 	constexpr bool                      IsLarge()      const;
 
-	constexpr bool                      IsValidEncoding(NStringEncoding theEncoding) const;
-	constexpr bool                      IsFixedWidthUTF8( size_t numUTF8,            const utf8_t* textUTF8)   const;
-	constexpr bool                      IsFixedWidthUTF16(size_t numUTF16,           const utf16_t* textUTF16) const;
+	constexpr bool                      IsValidEncoding(NStringEncoding theEncoding)  const;
+	constexpr bool                      IsValidSmallUTF8( size_t numBytes,            const utf8_t* textUTF8)   const;
+	constexpr bool                      IsValidSmallUTF16(size_t numBytes,            const utf16_t* textUTF16) const;
 
-	constexpr bool                      SetSmallUTF8( size_t numUTF8,  const utf8_t* textUTF8);
-	constexpr bool                      SetSmallUTF16(size_t numUTF16, const utf16_t* textUTF16);
+	constexpr size_t                    GetLength(  NStringEncoding theEncoding, const void* theString);
+	constexpr size_t                    GetCodeUnit(NStringEncoding theEncoding, const void* theString);
+
+	constexpr bool                      SetSmallUTF8( size_t numBytes, const utf8_t* textUTF8);
+	constexpr bool                      SetSmallUTF16(size_t numBytes, const utf16_t* textUTF16);
 	constexpr void                      SetSmall(     size_t numBytes, const void* theText, NStringEncoding theEncoding);
 
 	void                                MakeClone(const NString& otherString);
@@ -172,7 +193,6 @@ private:
 	void                                StoreEncoding(NStringEncoding theEncoding);
 	void                                ReleaseEncodings();
 
-	NStringState*                       GetLarge();
 	void                                SetLarge(NStringState* theState);
 	void                                RetainLarge();
 	void                                ReleaseLarge();

@@ -93,7 +93,7 @@ NString::NString(const utf32_t* theString)
 
 
 	// Set the text
-	size_t theSize = std::char_traits<utf32_t>::length(theString) + 1;
+	size_t theSize = std::char_traits<utf32_t>::length(theString);
 
 	SetText(NStringEncoding::UTF32, theSize * sizeof(utf32_t), theString);
 }
@@ -330,13 +330,43 @@ NData NString::GetData(NStringEncoding theEncoding) const
 
 
 
-	// Get the text
+	// Get the state we need
+	size_t theSize = GetSize();
+	NData  theData;
+
+
+
+	// Get small text
+	//
+	// Small text must be copied.
+	if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
+	{
+		theData.SetData(theSize * sizeof(utf8_t), GetUTF8());
+	}
+
+	else if (theEncoding == NStringEncoding::UTF16 && IsSmallUTF16())
+	{
+		theData.SetData(theSize * sizeof(utf16_t), GetUTF16());
+	}
+
+
+
+	// Get large text
+	//
+	// Large text may need to be transcoded, but any result can share
+	// our internal storage since removing the terminator simply shrinks
+	// the slice of the returned data.
 	//
 	// We can cast away const as transcoding does not change our state.
-	NString*     thisString = const_cast<NString*>(this);
-	const NData* theData    = thisString->GetEncoding(theEncoding);
+	else
+	{
+		NString* thisString = const_cast<NString*>(this);
 
-	return *theData;
+		theData = *(thisString->GetEncoding(theEncoding));
+		theData.SetSize(theData.GetSize() - NStringEncoder::GetCodeUnitSize(theEncoding));
+	}
+
+	return theData;
 }
 
 
@@ -344,7 +374,7 @@ NData NString::GetData(NStringEncoding theEncoding) const
 
 
 //=============================================================================
-//		NString::SGetData : Set the text.
+//		NString::SetData : Set the text.
 //-----------------------------------------------------------------------------
 void NString::SetData(NStringEncoding theEncoding, const NData& theData)
 {
@@ -365,17 +395,28 @@ void NString::SetData(NStringEncoding theEncoding, const NData& theData)
 
 #pragma mark public
 //=============================================================================
-//		NString::FetchHash : Fetch the hash.
+//		NString::UpdateHash : Update the hash.
 //-----------------------------------------------------------------------------
-size_t& NString::FetchHash(bool updateHash) const
+size_t NString::UpdateHash(NHashAction theAction)
 {
 
 
-	// Fetch the hash
-	if (updateHash)
+	// Update the hash
+	//
+	// We always use a 32-bit hash, even on 64-bit sysems, to maximise
+	// storage space for small objects.
+	switch (theAction)
 	{
-		const utf8_t* theText = GetUTF8();
-		mString.theHash       = NDataDigest::GetRuntime(strlen(theText), theText);
+		case NHashAction::Get:
+			break;
+
+		case NHashAction::Clear:
+			mString.theHash = 0;
+			break;
+
+		case NHashAction::Update:
+			mString.theHash = NDataDigest::GetRuntime32(GetData(NStringEncoding::UTF8));
+			break;
 	}
 
 	return mString.theHash;
@@ -419,18 +460,20 @@ void NString::MakeLarge()
 
 
 	// Switch to large storage
+	//
+	// Our small strings are all fixed-width so the number of codepoints
+	// gives us the number of bytes directly.
 	if (IsSmall())
 	{
-		size_t numBytes =
-			size_t((mString.Small.sizeFlags & kNStringSmallSizeMask) >> kNStringSmallSizeShift);
+		size_t theSize = size_t(mString.theFlags & kNStringFlagSmallSizeMask);
 
 		if (IsSmallUTF8())
 		{
-			SetTextLarge(NStringEncoding::UTF8, numBytes, mString.Small.theData);
+			SetTextLarge(NStringEncoding::UTF8, theSize * sizeof(utf8_t), mString.Small.theData);
 		}
 		else
 		{
-			SetTextLarge(NStringEncoding::UTF16, numBytes, mString.Small.theData);
+			SetTextLarge(NStringEncoding::UTF16, theSize * sizeof(utf16_t), mString.Small.theData);
 		}
 	}
 }
@@ -491,8 +534,7 @@ const NData* NString::FetchEncoding(NStringEncoding theEncoding)
 
 
 	// Get the state we need
-	const NStringState* largeState = GetLarge();
-	const NStringData*  stringData = &largeState->stringData;
+	const NStringData* stringData = &mString.Large.theState->stringData;
 
 
 
@@ -528,24 +570,26 @@ void NString::StoreEncoding(NStringEncoding theEncoding)
 
 
 	// Get the state we need
-	NStringState* largeState = GetLarge();
-	NStringData*  stringData = &largeState->stringData;
+	NStringData* stringData = &mString.Large.theState->stringData;
 
 
 
 	// Encode the string
+	//
+	// The canonical data has no BOM and already has a terminator so we
+	// don't need any further processing beyond the content.
 	NStringData* newData = new NStringData{};
 	newData->theEncoding = theEncoding;
 
-	NStringEncoder theEncoder;
-	theEncoder.Convert(stringData->theEncoding,
-					   stringData->theData,
-					   newData->theEncoding,
-					   newData->theData);
+	NStringEncoder::Convert(stringData->theEncoding,
+							stringData->theData,
+							newData->theEncoding,
+							newData->theData,
+							kNStringEncoderNone);
 
 
 
-	// Store the encoding
+	// Store the new encoding
 	bool didSwap = false;
 
 	do
@@ -573,8 +617,7 @@ void NString::ReleaseEncodings()
 
 
 	// Get the state we need
-	NStringState* largeState = GetLarge();
-	NStringData*  theData    = largeState->stringData.nextData.exchange(nullptr);
+	NStringData* theData = mString.Large.theState->stringData.nextData.exchange(nullptr);
 
 
 
@@ -593,43 +636,16 @@ void NString::ReleaseEncodings()
 
 
 //=============================================================================
-//		NString::GetLarge : Get the large state.
-//-----------------------------------------------------------------------------
-NStringState* NString::GetLarge()
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the large state
-	const NStringState* theState = mString.Large.theState;
-	uintptr_t statePtr = reinterpret_cast<uintptr_t>(theState) & ~uintptr_t(kNStringFlagIsLarge);
-
-	return reinterpret_cast<NStringState*>(statePtr);
-}
-
-
-
-
-
-//=============================================================================
-//		NString::SetLarge : Get the large state.
+//		NString::SetLarge : Set the large state.
 //-----------------------------------------------------------------------------
 void NString::SetLarge(NStringState* theState)
 {
 
 
 	// Set the large state
-	uintptr_t statePtr     = reinterpret_cast<uintptr_t>(theState) | uintptr_t(kNStringFlagIsLarge);
-	mString.Large.theState = reinterpret_cast<NStringState*>(statePtr);
+	mString.Large.theState = theState;
 
-
-
-	// Validate our state
-	NN_REQUIRE(IsLarge());
+	mString.theFlags = kNStringFlagIsLarge;
 }
 
 
@@ -645,17 +661,12 @@ void NString::RetainLarge()
 
 	// Validate our state
 	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the state we need
-	NStringState* largeState = GetLarge();
-	NN_REQUIRE(largeState->numOwners != 0);
+	NN_REQUIRE(mString.Large.theState->numOwners != 0);
 
 
 
 	// Retain the state
-	largeState->numOwners += 1;
+	mString.Large.theState->numOwners += 1;
 }
 
 
@@ -671,22 +682,18 @@ void NString::ReleaseLarge()
 
 	// Validate our state
 	NN_REQUIRE(IsLarge());
-
-
-
-	// Get the state we need
-	NStringState* largeState = GetLarge();
-	NN_REQUIRE(largeState->numOwners != 0);
+	NN_REQUIRE(mString.Large.theState->numOwners != 0);
 
 
 
 	// Release the state
 	//
 	// The last owner releases the state.
-	if (largeState->numOwners.fetch_sub(1) == 1)
+	if (mString.Large.theState->numOwners.fetch_sub(1) == 1)
 	{
 		ReleaseEncodings();
-		delete largeState;
+		delete mString.Large.theState;
+		mString.Large.theState = nullptr;
 	}
 }
 
@@ -708,34 +715,8 @@ size_t NString::GetSizeSmall() const
 
 	// Get the size
 	//
-	// The size is stored in the top bits of the storage flag byte, and
-	// holds the number of used bytes including the terminating null.
-	//
-	// As we only use small storage for fixed-width strings the size
-	// in codepoints can be determined directly from the size in bytes.
-	size_t theSize = 0;
-	size_t numBytes =
-		size_t((mString.Small.sizeFlags & kNStringSmallSizeMask) >> kNStringSmallSizeShift);
-
-	if (IsSmallUTF16())
-	{
-		NN_REQUIRE((theSize % sizeof(utf16_t)) == 0);
-		theSize = numBytes / sizeof(utf16_t);
-	}
-	else
-	{
-		theSize = numBytes / sizeof(utf8_t);
-	}
-
-
-
-	// Discount the terminator
-	if (theSize > 0)
-	{
-		theSize--;
-	}
-
-	return theSize;
+	// The small size is stored in the flag byte.
+	return size_t(mString.theFlags & kNStringFlagSmallSizeMask);
 }
 
 
@@ -755,12 +736,7 @@ size_t NString::GetSizeLarge() const
 
 
 	// Get the size
-	//
-	// We can cast away const as we only need to read the size.
-	NString*      thisString = const_cast<NString*>(this);
-	NStringState* largeState = thisString->GetLarge();
-
-	return largeState->theSize;
+	return mString.Large.theState->theSize;
 }
 
 
@@ -780,30 +756,24 @@ void NString::SetText(NStringEncoding theEncoding, size_t numBytes, const void* 
 
 
 	// Get the state we need
-	bool isSmall = (numBytes <= kNStringSmallSizeMax);
+	bool setSmall = false;
 
-	if (isSmall)
+	if (theEncoding == NStringEncoding::UTF8)
 	{
-		switch (theEncoding)
-		{
-			case NStringEncoding::UTF8:
-				isSmall = IsFixedWidthUTF8(numBytes, static_cast<const utf8_t*>(theText));
-				break;
+		setSmall = IsValidSmallUTF8(numBytes, static_cast<const utf8_t*>(theText));
+	}
 
-			case NStringEncoding::UTF16:
-				isSmall = IsFixedWidthUTF16(numBytes, static_cast<const utf16_t*>(theText));
-				break;
-
-			default:
-				isSmall = false;
-				break;
-		}
+	else if (theEncoding == NStringEncoding::UTF16)
+	{
+		setSmall = IsValidSmallUTF16(numBytes, static_cast<const utf16_t*>(theText));
 	}
 
 
 
 	// Set the text
-	if (isSmall)
+	Clear();
+
+	if (setSmall)
 	{
 		SetTextSmall(theEncoding, numBytes, theText);
 	}
@@ -825,16 +795,17 @@ void NString::SetTextSmall(NStringEncoding theEncoding, size_t numBytes, const v
 
 
 	// Validate our parameters
-	NN_REQUIRE(numBytes <= kNStringSmallSizeMax);
 	NN_REQUIRE(theEncoding == NStringEncoding::UTF8 || theEncoding == NStringEncoding::UTF16);
 
 	if (theEncoding == NStringEncoding::UTF8)
 	{
-		NN_REQUIRE(IsFixedWidthUTF8(numBytes, static_cast<const utf8_t*>(theText)));
+		NN_REQUIRE((numBytes / sizeof(utf8_t)) <= kNStringSmallSizeMaxUTF8);
+		NN_REQUIRE(IsValidSmallUTF8(numBytes, static_cast<const utf8_t*>(theText)));
 	}
 	else
 	{
-		NN_REQUIRE(IsFixedWidthUTF16(numBytes, static_cast<const utf16_t*>(theText)));
+		NN_REQUIRE((numBytes / sizeof(utf16_t)) <= kNStringSmallSizeMaxUTF16);
+		NN_REQUIRE(IsValidSmallUTF16(numBytes, static_cast<const utf16_t*>(theText)));
 	}
 
 
@@ -854,16 +825,31 @@ void NString::SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const v
 {
 
 
+	// Get the state we need
+	NUnicodeView theView(theEncoding, numBytes, theText);
+
+	NStringEncoding dstEncoding = NStringEncoder::GetNativeEncoding(theEncoding);
+
+
 	// Create the state
+	//
+	// The canonical data maintains the original encoding and adds a null
+	// terminator.
+	//
+	// An exception to this is endian-specific Unicode encodings. These are
+	// converted to their native equivalent and stored without any BOM.
 	NStringState* theState = new NStringState;
-	NUnicodeView  theView(theEncoding, numBytes, theText);
 
-	theState->numOwners = 1;
-	theState->theSize   = theView.GetSize();
-
+	theState->numOwners              = 1;
+	theState->theSize                = theView.GetSize();
 	theState->stringData.nextData    = nullptr;
 	theState->stringData.theEncoding = theEncoding;
-	theState->stringData.theData.SetData(numBytes, theText);
+
+	NStringEncoder::Convert(theEncoding,
+							NData(numBytes, theText),
+							dstEncoding,
+							theState->stringData.theData,
+							kNStringEncoderRemoveBOM | kNStringEncoderTerminator);
 
 
 
