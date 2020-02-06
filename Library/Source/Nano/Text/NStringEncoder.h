@@ -156,17 +156,14 @@ private:
 	static void                         ConvertFromUTF8( const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
 	static void                         ConvertFromUTF16(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
 	static void                         ConvertFromUTF32(const NData& srcData, NStringEncoding dstEncoding, NData& dstData);
-
-	static void                         ConvertToUTF8( NUnicodeView& srcView, NData& dstData);
-	static void                         ConvertToUTF16(NUnicodeView& srcView, NData& dstData);
-	static void                         ConvertToUTF32(NUnicodeView& srcView, NData& dstData);
-
-
 	static void                         ConvertFromLegacy(NStringEncoding srcEncoding,
 														  const NData&    srcData,
 														  NStringEncoding dstEncoding,
 														  NData&          dstData);
 
+	static void                         ConvertToUTF8(  NUnicodeView& srcView, NData& dstData);
+	static void                         ConvertToUTF16( NUnicodeView& srcView, NData& dstData);
+	static void                         ConvertToUTF32( NUnicodeView& srcView, NData& dstData);
 	static void                         ConvertToLegacy(NUnicodeView& srcView, NStringEncoding dstEncoding, NData& dstData);
 
 	static const utf32_t*               GetLegacyToUTF32(  NStringEncoding srcEncoding);

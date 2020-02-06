@@ -679,6 +679,64 @@ void NStringEncoder::ConvertFromUTF32(const NData&    srcData,
 
 
 //=============================================================================
+//		NStringEncoder::ConvertFromLegacy : Convert from a legacy encoding.
+//-----------------------------------------------------------------------------
+void NStringEncoder::ConvertFromLegacy(NStringEncoding srcEncoding,
+									   const NData&    srcData,
+									   NStringEncoding dstEncoding,
+									   NData&          dstData)
+{
+
+
+	// No-op conversions
+	if ((srcEncoding == dstEncoding) ||
+		(srcEncoding == NStringEncoding::ASCII && dstEncoding == NStringEncoding::UTF8))
+	{
+		dstData = srcData;
+	}
+
+
+
+	// Convert via UTF32
+	else
+	{
+		// Get the state we need
+		size_t         numChars = srcData.GetSize() / sizeof(uint8_t);
+		const uint8_t* srcChars = srcData.GetData();
+		const utf32_t* srcTable = GetLegacyToUTF32(srcEncoding);
+
+		NVectorUTF32 theResult;
+
+		theResult.reserve(numChars * sizeof(utf32_t));
+
+
+
+		// Convert to UTF32
+		for (size_t n = 0; n < numChars; n++)
+		{
+			utf32_t codePoint = srcTable[srcChars[n]];
+			if (codePoint == 0x0000)
+			{
+				codePoint = kNUTF32Replacement;
+			}
+
+			theResult.push_back(codePoint);
+		}
+
+
+
+		// Convert to the final encoding
+		NData dataUTF32(theResult.size() * sizeof(utf32_t), theResult.data());
+
+		ConvertFromUTF32(dataUTF32, dstEncoding, dstData);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NStringEncoder::ConvertToUTF8 : Convert to UTF8.
 //-----------------------------------------------------------------------------
 void NStringEncoder::ConvertToUTF8(NUnicodeView& srcView, NData& dstData)
@@ -830,51 +888,6 @@ void NStringEncoder::ConvertToUTF32(NUnicodeView& srcView, NData& dstData)
 
 	// Trim the result
 	dstData.SetData(theResult.size() * sizeof(utf32_t), theResult.data());
-}
-
-
-
-
-
-//=============================================================================
-//		NStringEncoder::ConvertFromLegacy : Convert from a legacy encoding.
-//-----------------------------------------------------------------------------
-void NStringEncoder::ConvertFromLegacy(NStringEncoding srcEncoding,
-									   const NData&    srcData,
-									   NStringEncoding dstEncoding,
-									   NData&          dstData)
-{
-
-
-	// Get the state we need
-	size_t         numChars = srcData.GetSize() / sizeof(uint8_t);
-	const uint8_t* srcChars = srcData.GetData();
-	const utf32_t* srcTable = GetLegacyToUTF32(srcEncoding);
-
-	NVectorUTF32 theResult;
-
-	theResult.reserve(numChars * sizeof(utf32_t));
-
-
-
-	// Convert to UTF32
-	for (size_t n = 0; n < numChars; n++)
-	{
-		utf32_t codePoint = srcTable[srcChars[n]];
-		if (codePoint == 0x0000)
-		{
-			codePoint = kNUTF32Replacement;
-		}
-
-		theResult.push_back(codePoint);
-	}
-
-
-
-	// Convert to the final encoding
-	NData dataUTF32(theResult.size() * sizeof(utf32_t), theResult.data());
-
-	ConvertFromUTF32(dataUTF32, dstEncoding, dstData);
 }
 
 
