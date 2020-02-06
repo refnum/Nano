@@ -63,11 +63,20 @@ public:
 		return mHash != kNHashNone;
 	}
 
-	size_t& FetchHash(bool updateHash) const
+	size_t UpdateHash(NHashAction theAction) const
 	{
-		if (updateHash)
+		switch (theAction)
 		{
-			mHash = 1234;
+			case NHashAction::Get:
+				break;
+
+			case NHashAction::Clear:
+				mHash = 0;
+				break;
+
+			case NHashAction::Update:
+				mHash = 1234;
+				break;
 		}
 
 		return mHash;
