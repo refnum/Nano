@@ -114,7 +114,7 @@ constexpr NString::NString(const utf16_t* theString)
 //=============================================================================
 //		NString::NString : Constructor.
 //-----------------------------------------------------------------------------
-NString::NString()
+inline NString::NString()
 	: mString{}
 {
 
@@ -142,7 +142,7 @@ NString::NString()
 //=============================================================================
 //		NString::~NString : Destructor.
 //-----------------------------------------------------------------------------
-NString::~NString()
+inline NString::~NString()
 {
 
 

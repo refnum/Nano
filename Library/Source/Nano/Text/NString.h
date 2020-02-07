@@ -123,8 +123,8 @@ public:
 										NString(NStringEncoding theEncoding, size_t numBytes, const void* theData);
 										NString(NStringEncoding theEncoding, const NData& theData);
 
-	inline                              NString();
-	inline                             ~NString();
+										NString();
+									   ~NString();
 
 										NString(  const NString& otherString);
 	NString&                            operator=(const NString& otherString);
