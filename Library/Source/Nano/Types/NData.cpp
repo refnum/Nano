@@ -723,16 +723,43 @@ bool NData::Contains(const NData& theData, const NRange& theRange) const
 
 
 //=============================================================================
-//		NData::Compare : Compare the object.
+//		NData::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
-NComparison NData::Compare(const NData& theData) const
+bool NData::CompareEqual(const NData& theData) const
 {
+
+
+	// Compare the hash
+	//
+	// A different hash means no equality.
+	if (GetHash() != theData.GetHash())
+	{
+		return false;
+	}
+
 
 
 	// Compare the data
 	//
-	// Data can only be compared for equality / inequality, so we
-	// can do a quick compare of our hash before checking the data.
+	// A hash collision could produce equal hashes so check the bytes.
+	return CompareOrder(theData) == NComparison::EqualTo;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+NComparison NData::CompareOrder(const NData& theData) const
+{
+
+
+	// Order by hash
+	//
+	// Bytes have no intrinsic ordering so we order by hash first,
+	// then fall back to a byte-wise comparison.
 	NComparison theResult = NCompare(GetHash(), theData.GetHash());
 
 	if (theResult == NComparison::EqualTo)

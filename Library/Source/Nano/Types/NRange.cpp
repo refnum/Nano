@@ -165,20 +165,36 @@ NRange NRange::GetNormalized(size_t theSize) const
 
 
 //=============================================================================
-//		NRange::Compare : Compare the object.
+//		NRange::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
-NComparison NRange::Compare(const NRange& theRange) const
+bool NRange::CompareEqual(const NRange& theRange) const
+{
+
+
+	// Compare the range
+	return mLocation == theRange.mLocation && mSize == theRange.mSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+NComparison NRange::CompareOrder(const NRange& theRange) const
 {
 
 
 	// Compare the range
 	//
-	// Ranges can only be compared for equality / inequality.
-	NComparison theResult = NCompare(mSize, theRange.mSize);
+	// Ranges have no intrinsic ordering so we order by location first,
+	// then order by size.
+	NComparison theResult = NCompare(mLocation, theRange.mLocation);
 
 	if (theResult == NComparison::EqualTo)
 	{
-		theResult = NCompare(mLocation, theRange.mLocation);
+		theResult = NCompare(mSize, theRange.mSize);
 	}
 
 	return theResult;

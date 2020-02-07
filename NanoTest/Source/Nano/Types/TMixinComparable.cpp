@@ -58,7 +58,12 @@ public:
 	{
 	}
 
-	NComparison Compare(const TestComparable& otherObject) const
+	bool CompareEqual(const TestComparable& otherObject) const
+	{
+		return CompareOrder(otherObject) == NComparison::EqualTo;
+	}
+
+	NComparison CompareOrder(const TestComparable& otherObject) const
 	{
 		return NCompare(mValue, otherObject.mValue);
 	}

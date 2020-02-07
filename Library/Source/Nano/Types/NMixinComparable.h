@@ -56,9 +56,9 @@
 //-----------------------------------------------------------------------------
 enum class NComparison
 {
-	LessThan                                                = -1,
-	EqualTo                                                 = 0,
-	GreaterThan                                             = 1
+	LessThan,
+	EqualTo,
+	GreaterThan
 };
 
 
@@ -85,11 +85,13 @@ public:
 	// Compare an object
 	//
 	// Must be implemented by derived classes.
-	NComparison                         Compare(const T& theValue) const;
+	bool                                CompareEqual(const T& theValue) const;
+	NComparison                         CompareOrder(const T& theValue) const;
 
 
 private:
-	NComparison                         CompareTo(const T& theValue) const;
+	bool                                IsEqual( const T& theValue) const;
+	NComparison                         GetOrder(const T& theValue) const;
 };
 
 
@@ -126,23 +128,18 @@ inline NComparison NCompare(int32_t x)
 
 
 // Compare two blocks of data
-//
-// Data can only be compared for equality / inequality.
 inline NComparison NCompare(size_t sizeA, const void* dataA, size_t sizeB, const void* dataB)
 {
 
 
-	// Compare by size
-	NComparison theResult = NCompare(sizeA, sizeB);
-	if (theResult == NComparison::EqualTo)
+	// Compare the data
+	//
+	// We check for a common prefix, then break ties by size.
+	NComparison theResult = NCompare(memcmp(dataA, dataB, std::min(sizeA, sizeB)));
+
+	if (theResult == NComparison::EqualTo && sizeA != sizeB)
 	{
-		// Compare by address
-		theResult = NCompare(dataA, dataB);
-		if (theResult != NComparison::EqualTo)
-		{
-			// Compare by contents
-			theResult = NCompare(memcmp(dataA, dataB, sizeA));
-		}
+		theResult = NCompare(sizeA, sizeB);
 	}
 
 	return theResult;

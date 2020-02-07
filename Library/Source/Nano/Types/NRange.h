@@ -146,7 +146,8 @@ public:
 
 
 	// Compare a range
-	NComparison                         Compare(const NRange& theRange) const;
+	bool                                CompareEqual(const NRange& theRange) const;
+	NComparison                         CompareOrder(const NRange& theRange) const;
 
 
 private:

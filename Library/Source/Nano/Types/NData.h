@@ -249,7 +249,8 @@ public:
 
 
 	// Compare an object
-	NComparison                         Compare(const NData& theData) const;
+	bool                                CompareEqual(const NData& theData) const;
+	NComparison                         CompareOrder(const NData& theData) const;
 
 
 	// Operators
