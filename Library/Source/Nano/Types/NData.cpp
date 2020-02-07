@@ -289,11 +289,18 @@ uint8_t* NData::GetMutableData(size_t theOffset)
 
 	if (!IsEmpty() && theOffset < GetSize())
 	{
+		// Get the data
 		MakeMutable();
-		thePtr = const_cast<uint8_t*>(GetData(theOffset));
-	}
 
-	ClearHash();
+		thePtr = const_cast<uint8_t*>(GetData(theOffset));
+
+
+
+		// Update our state
+		//
+		// Mutable access implicitly resets our hash.
+		ClearHash();
+	}
 
 	return thePtr;
 }
@@ -326,6 +333,9 @@ void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 		SetDataLarge(theSize, theData, theSource);
 	}
 
+
+
+	// Update our state
 	ClearHash();
 }
 
@@ -377,9 +387,9 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 
 
 
-		// Prepare to insert
+		// Insert the data
 		//
-		// Data after the inserted area must be moved up towards the end.
+		// Data after the inserted area must first be moved towards the end.
 		newData = GetMutableData(beforeIndex);
 
 		uint8_t* movedPtr  = newData + theSize;
@@ -390,10 +400,12 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 			memmove(movedPtr, newData, movedSize);
 		}
 
-
-
-		// Insert the data
 		MemCopy(newData, theData, theSize, theSource);
+
+
+
+		// Update our state
+		ClearHash();
 	}
 
 	return newData;
@@ -458,6 +470,11 @@ void NData::RemoveData(const NRange& theRange)
 	{
 		RemoveDataLarge(finalRange);
 	}
+
+
+
+	// Update our state
+	ClearHash();
 }
 
 
@@ -505,14 +522,17 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 
 
-	// Replace the data
+	// Replace everything
 	NRange finalRange = theRange.GetNormalized(GetSize());
 
 	if (finalRange == NRange(0, GetSize()))
 	{
-		// Replace everything
 		SetData(theSize, theData, theSource);
 	}
+
+
+
+	// Replace a range
 	else
 	{
 		// Adjust the data
@@ -546,6 +566,11 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 
 
+	// Update our state
+	ClearHash();
+
+
+
 	// Get the replaced data
 	//
 	// If the replacement was a removal from the end then the range location
@@ -555,6 +580,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 	{
 		return nullptr;
 	}
+
 	return GetMutableData(theOffset);
 }
 
