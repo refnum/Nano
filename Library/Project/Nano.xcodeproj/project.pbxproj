@@ -344,6 +344,8 @@
 		AB514F641035784000E5A6AD /* NPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53A404109B237800817E89 /* NTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTask.cpp; sourceTree = "<group>"; };
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
+		AB54F99C23EDA8D1005207BC /* NMixinConcatenable.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinConcatenable.inl; sourceTree = "<group>"; };
+		AB54F99D23EDA8D1005207BC /* NMixinConcatenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinConcatenable.h; sourceTree = "<group>"; };
 		AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxFile.cpp; sourceTree = "<group>"; };
 		AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxMath.cpp; sourceTree = "<group>"; };
 		AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxNetwork.cpp; sourceTree = "<group>"; };
@@ -1329,6 +1331,8 @@
 				ABF5130B2397AF7F001F9F8B /* NMixinAttributes.inl */,
 				ABBB2B7C2380BC2800EB2840 /* NMixinComparable.h */,
 				ABBB2B7D2380BC2800EB2840 /* NMixinComparable.inl */,
+				AB54F99D23EDA8D1005207BC /* NMixinConcatenable.h */,
+				AB54F99C23EDA8D1005207BC /* NMixinConcatenable.inl */,
 				ABBB2B7E2380BCD100EB2840 /* NMixinContainer.h */,
 				ABBB2B7F2380BCD100EB2840 /* NMixinContainer.inl */,
 				ABBB2B872380CA3600EB2840 /* NMixinHashable.h */,

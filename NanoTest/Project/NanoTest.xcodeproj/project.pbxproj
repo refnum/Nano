@@ -27,6 +27,9 @@
 		AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
 		AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
 		AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
+		AB54F99F23EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */; };
+		AB54F9A023EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */; };
+		AB54F9A123EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */; };
 		AB56391823C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
 		AB56391923C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
 		AB56391A23C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
@@ -195,6 +198,7 @@
 		AB514E781034612D00E5A6AD /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
+		AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinConcatenable.cpp; sourceTree = "<group>"; };
 		AB56391423C2A3F600675F68 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
 		AB56392123C2A54C00675F68 /* TStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringEncoder.cpp; sourceTree = "<group>"; };
 		AB56393523C75C1A00675F68 /* TUnicodeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeView.cpp; sourceTree = "<group>"; };
@@ -507,6 +511,7 @@
 				AB514DAD1034184B00E5A6AD /* TEncoder.cpp */,
 				ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */,
 				ABF513102397C3FB001F9F8B /* TMixinComparable.cpp */,
+				AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */,
 				ABF513112397C3FB001F9F8B /* TMixinContainer.cpp */,
 				ABF513122397C3FB001F9F8B /* TMixinHashable.cpp */,
 				AB514DB11034184B00E5A6AD /* TNumber.cpp */,
@@ -763,6 +768,7 @@
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
+				AB54F9A023EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */,
 				AB29121A2383771700509C66 /* TData.cpp in Sources */,
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
@@ -790,6 +796,7 @@
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
+				AB54F99F23EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */,
 				AB2912192383771600509C66 /* TData.cpp in Sources */,
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
@@ -817,6 +824,7 @@
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
+				AB54F9A123EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */,
 				AB29121B2383771700509C66 /* TData.cpp in Sources */,
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
