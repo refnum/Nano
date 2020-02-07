@@ -227,7 +227,7 @@ void NString::Clear()
 {
 
 
-	// Clear the data
+	// Clear the string
 	if (IsLarge())
 	{
 		ReleaseLarge();
@@ -387,6 +387,11 @@ void NString::SetData(NStringEncoding theEncoding, const NData& theData)
 
 	// Set the text
 	SetText(theEncoding, theData.GetSize(), theData.GetData());
+
+
+
+	// Update our state
+	ClearHash();
 }
 
 
@@ -713,6 +718,7 @@ void NString::ReleaseLarge()
 	if (mString.Large.theState->numOwners.fetch_sub(1) == 1)
 	{
 		ReleaseEncodings();
+
 		delete mString.Large.theState;
 		mString.Large.theState = nullptr;
 	}
