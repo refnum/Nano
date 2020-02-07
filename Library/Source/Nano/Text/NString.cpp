@@ -294,7 +294,7 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 	//
 	// We can cast away const as transcoding does not change our state.
 	NString*     thisString = const_cast<NString*>(this);
-	const NData* theData    = thisString->GetEncoding(theEncoding);
+	const NData* theData    = thisString->FetchEncoding(theEncoding);
 
 	return theData->GetData();
 }
@@ -362,7 +362,7 @@ NData NString::GetData(NStringEncoding theEncoding) const
 	{
 		NString* thisString = const_cast<NString*>(this);
 
-		theData = *(thisString->GetEncoding(theEncoding));
+		theData = *(thisString->FetchEncoding(theEncoding));
 		theData.SetSize(theData.GetSize() - NStringEncoder::GetCodeUnitSize(theEncoding));
 	}
 
@@ -504,9 +504,9 @@ void NString::MakeLarge()
 
 
 //=============================================================================
-//		NString::GetEncoding : Get the string data in an encoding.
+//		NString::FetchEncoding : Fetch the string data in an encoding.
 //-----------------------------------------------------------------------------
-const NData* NString::GetEncoding(NStringEncoding theEncoding)
+const NData* NString::FetchEncoding(NStringEncoding theEncoding)
 {
 
 
@@ -524,13 +524,13 @@ const NData* NString::GetEncoding(NStringEncoding theEncoding)
 
 	// Get the data
 	//
-	// If the data doesn't exist in this encoding then it must be stored.
-	const NData* theData = FetchEncoding(theEncoding);
+	// If the data doesn't exist in this encoding then it must be added.
+	const NData* theData = GetEncoding(theEncoding);
 	if (theData == nullptr)
 	{
-		StoreEncoding(theEncoding);
+		AddEncoding(theEncoding);
 
-		theData = FetchEncoding(theEncoding);
+		theData = GetEncoding(theEncoding);
 		NN_REQUIRE(theData != nullptr);
 	}
 
@@ -542,9 +542,9 @@ const NData* NString::GetEncoding(NStringEncoding theEncoding)
 
 
 //=============================================================================
-//		NString::FetchEncoding : Fetch the string data in an encoding.
+//		NString::GetEncoding : Get the string data in an encoding.
 //-----------------------------------------------------------------------------
-const NData* NString::FetchEncoding(NStringEncoding theEncoding)
+const NData* NString::GetEncoding(NStringEncoding theEncoding) const
 {
 
 
@@ -559,7 +559,7 @@ const NData* NString::FetchEncoding(NStringEncoding theEncoding)
 
 
 
-	// Fetch the data
+	// Get the data
 	while (stringData != nullptr)
 	{
 		if (stringData->theEncoding == theEncoding)
@@ -578,9 +578,9 @@ const NData* NString::FetchEncoding(NStringEncoding theEncoding)
 
 
 //=============================================================================
-//		NString::StoreEncoding : Store the string data in an encoding.
+//		NString::AddEncoding : Add a copy of the string data in an encoding.
 //-----------------------------------------------------------------------------
-void NString::StoreEncoding(NStringEncoding theEncoding)
+void NString::AddEncoding(NStringEncoding theEncoding)
 {
 
 
@@ -610,7 +610,7 @@ void NString::StoreEncoding(NStringEncoding theEncoding)
 
 
 
-	// Store the new encoding
+	// Add the new encoding
 	bool didSwap = false;
 
 	do

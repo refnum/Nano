@@ -194,9 +194,9 @@ private:
 	void                                MakeClone(const NString& otherString);
 	void                                MakeLarge();
 
-	const NData*                        GetEncoding(  NStringEncoding theEncoding);
 	const NData*                        FetchEncoding(NStringEncoding theEncoding);
-	void                                StoreEncoding(NStringEncoding theEncoding);
+	const NData*                        GetEncoding(  NStringEncoding theEncoding) const;
+	void                                AddEncoding(  NStringEncoding theEncoding);
 	void                                ReleaseEncodings();
 
 	void                                SetLarge(NStringState* theState);
