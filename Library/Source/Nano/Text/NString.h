@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMixinComparable.h"
+#include "NMixinConcatenable.h"
 #include "NMixinContainer.h"
 #include "NMixinHashable.h"
 #include "NRange.h"
@@ -109,9 +110,10 @@ NN_STRUCT_PACK_1(alignas(16) NStringStorage {
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NN_EMPTY_BASE NString final
-	: public NMixinContainer<NString>
+	: public NMixinHashable<NString>
 	, public NMixinComparable<NString>
-	, public NMixinHashable<NString>
+	, public NMixinConcatenable<NString>
+	, public NMixinContainer<NString>
 {
 public:
 	constexpr                           NString(const utf8_t*  theString);
@@ -161,6 +163,10 @@ public:
 	// its content, just as it would a null at any other location.
 	NData                               GetData(NStringEncoding theEncoding) const;
 	void                                SetData(NStringEncoding theEncoding, const NData& theData);
+
+
+	// Operators
+	const NString&                      operator+=(const NString& theString);
 
 
 public:

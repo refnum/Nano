@@ -777,33 +777,14 @@ NComparison NData::CompareOrder(const NData& theData) const
 //=============================================================================
 //		NData::+= : Concatenate operator.
 //-----------------------------------------------------------------------------
-const NData& NData::operator+=(const NData& theValue)
+const NData& NData::operator+=(const NData& theData)
 {
 
 
 	// Append the data
-	AppendData(theValue);
+	AppendData(theData);
 
 	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::+ : Concatenate operator.
-//-----------------------------------------------------------------------------
-const NData NData::operator+(const NData& theValue) const
-{
-
-
-	// Append the data
-	NData theResult(*this);
-
-	theResult += theValue;
-
-	return theResult;
 }
 
 

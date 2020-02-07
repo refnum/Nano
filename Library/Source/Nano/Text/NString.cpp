@@ -393,6 +393,27 @@ void NString::SetData(NStringEncoding theEncoding, const NData& theData)
 
 
 
+//=============================================================================
+//		NString::+= : Concatenate operator.
+//-----------------------------------------------------------------------------
+const NString& NString::operator+=(const NString& theString)
+{
+
+
+	// Append the string
+	//
+	// Appended strings are normalized to UTF8 as this is the encoding
+	// most likely to allow us to continue to use small storage.
+	SetData(NStringEncoding::UTF8,
+			GetData(NStringEncoding::UTF8) + theString.GetData(NStringEncoding::UTF8));
+
+	return *this;
+}
+
+
+
+
+
 #pragma mark public
 //=============================================================================
 //		NString::UpdateHash : Update the hash.

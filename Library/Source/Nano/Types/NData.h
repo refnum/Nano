@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMixinComparable.h"
+#include "NMixinConcatenable.h"
 #include "NMixinContainer.h"
 #include "NMixinHashable.h"
 #include "NRange.h"
@@ -130,9 +131,10 @@ NN_STRUCT_PACK_1(alignas(16) NDataStorage {
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NN_EMPTY_BASE NData final
-	: public NMixinContainer<NData>
+	: public NMixinHashable<NData>
 	, public NMixinComparable<NData>
-	, public NMixinHashable<NData>
+	, public NMixinConcatenable<NData>
+	, public NMixinContainer<NData>
 {
 public:
 										NData(size_t theSize, const void* theData, NDataSource theSource = NDataSource::Copy);
@@ -254,8 +256,7 @@ public:
 
 
 	// Operators
-	const NData&                        operator+=(const NData& theValue);
-	const NData                         operator+( const NData& theValue) const;
+	const NData&                        operator+=(const NData& theData);
 
 
 public:

@@ -334,3 +334,35 @@ NANO_TEST(TString, "SetData")
 		REQUIRE(tmpString.GetData(NStringEncoding::UTF32) == tmpData);
 	}
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Concatenate")
+{
+
+
+	// Perform the test
+	size_t oldSize = 0;
+
+	for (auto theString : stringObjects)
+	{
+		oldSize = theString.GetSize();
+		theString += kTestStringSmall;
+		REQUIRE(theString.GetSize() == (oldSize + kTestStringSmall.GetSize()));
+
+		oldSize = theString.GetSize();
+		theString += kTestStringLarge;
+		REQUIRE(theString.GetSize() == (oldSize + kTestStringLarge.GetSize()));
+
+		theString = kTestStringSmall + kTestStringSmall;
+		REQUIRE(theString.GetSize() == (kTestStringSmall.GetSize() * 2));
+
+		theString = kTestStringLarge + kTestStringLarge;
+		REQUIRE(theString.GetSize() == (kTestStringLarge.GetSize() * 2));
+	}
+}
