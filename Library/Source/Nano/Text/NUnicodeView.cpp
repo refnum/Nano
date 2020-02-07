@@ -235,11 +235,11 @@ size_t NUnicodeView::GetSize() const
 	{
 		// Decode the code point
 		//
-		// We stop when we run out of code points, or hit the terminator.
+		// We stop when we run out of code points.
 		utf32_t codePoint     = 0;
 		size_t  codePointSize = DecodeUTF(theOffset, codePoint);
 
-		if (codePointSize == 0 || codePoint == 0)
+		if (codePointSize == 0)
 		{
 			break;
 		}

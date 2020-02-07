@@ -119,7 +119,7 @@ public:
 
 	// Get the size
 	//
-	// Returns the number of code points in the text, not counting any terminating null.
+	// Returns the number of code points in the text.
 	size_t                              GetSize() const;
 
 
