@@ -72,6 +72,8 @@ static constexpr uint64_t kNUInt64Max                       = std::numeric_limit
 static constexpr float32_t kNFloat32Max                     = std::numeric_limits<float32_t>::max();
 static constexpr float64_t kNFloat64Max                     = std::numeric_limits<float64_t>::max();
 
+static constexpr size_t kNSizeMax                           = std::numeric_limits<size_t>::max();
+
 
 // Memory
 static constexpr uint64_t kNKilobyte                        = 1000;

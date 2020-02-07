@@ -87,6 +87,8 @@ using NVectorUTF8                                           = std::vector<utf8_t
 using NVectorUTF16                                          = std::vector<utf16_t>;
 using NVectorUTF32                                          = std::vector<utf32_t>;
 
+using NVectorSize                                           = std::vector<size_t>;
+
 
 
 #endif // NANO_TYPES_H
