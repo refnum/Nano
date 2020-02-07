@@ -175,6 +175,49 @@ size_t NUnicodeView::GetCodePointSize(size_t theOffset) const
 
 
 //=============================================================================
+//		NUnicodeView::GetCodePointOffsets : Get the codepoint offsets.
+//-----------------------------------------------------------------------------
+NVectorSize NUnicodeView::GetCodePointOffsets(size_t maxSize) const
+{
+
+
+	// Get the offsets
+	NVectorSize theOffsets;
+	size_t      theOffset = 0;
+
+	theOffsets.reserve(std::min(maxSize, GetMaxSize()));
+
+
+
+	// Get the offsets
+	while (theOffset < mSize)
+	{
+		// Decode the code point
+		//
+		// We stop when we run out of code points, or reach the limit.
+		utf32_t codePoint     = 0;
+		size_t  codePointSize = DecodeUTF(theOffset, codePoint);
+
+		if (codePointSize == 0 || theOffsets.size() == maxSize)
+		{
+			break;
+		}
+
+
+
+		// Save the offset
+		theOffsets.push_back(theOffset);
+		theOffset += codePointSize;
+	}
+
+	return theOffsets;
+}
+
+
+
+
+
+//=============================================================================
 //		NUnicodeView::GetSize : Get the number of code points.
 //-----------------------------------------------------------------------------
 size_t NUnicodeView::GetSize() const

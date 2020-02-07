@@ -111,6 +111,12 @@ public:
 	size_t                              GetCodePointSize(size_t theOffset) const;
 
 
+	// Get the codepoint offsets
+	//
+	// Returns the byte offset for the specified number of codepoints.
+	NVectorSize                         GetCodePointOffsets(size_t maxSize = kNSizeMax) const;
+
+
 	// Get the size
 	//
 	// Returns the number of code points in the text, not counting any terminating null.
