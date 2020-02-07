@@ -798,8 +798,6 @@ void NString::SetText(NStringEncoding theEncoding, size_t numBytes, const void* 
 
 
 	// Set the text
-	Clear();
-
 	if (setSmall)
 	{
 		SetTextSmall(theEncoding, numBytes, theText);
@@ -837,6 +835,16 @@ void NString::SetTextSmall(NStringEncoding theEncoding, size_t numBytes, const v
 
 
 
+	// Set when large
+	//
+	// Any existing large state must be released.
+	if (IsLarge())
+	{
+		Clear();
+	}
+
+
+
 	// Set the text
 	SetSmall(numBytes, theText, theEncoding);
 }
@@ -852,34 +860,63 @@ void NString::SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const v
 {
 
 
-	// Get the state we need
-	NUnicodeView theView(theEncoding, numBytes, theText);
+	// Check for existing state
+	//
+	// If we are the sole owner of some existing state then we can reuse
+	// that state (and potentially its data) when assigning the content.
+	//
+	// Any alternative encodings are now obsolete so must be released.
+	NStringState* existingState = nullptr;
 
-	NStringEncoding dstEncoding = NStringEncoder::GetNativeEncoding(theEncoding);
+	if (IsLarge())
+	{
+		if (mString.Large.theState->numOwners == 1)
+		{
+			ReleaseEncodings();
+
+			existingState = mString.Large.theState;
+		}
+	}
+
 
 
 	// Create the state
-	//
-	// The canonical data maintains the original encoding and adds a null
-	// terminator.
-	//
-	// An exception to this is endian-specific Unicode encodings. These are
-	// converted to their native equivalent and stored without any BOM.
-	NStringState* theState = new NStringState;
+	NUnicodeView theView(theEncoding, numBytes, theText);
+
+	NStringState* theState = existingState;
+
+	if (theState == nullptr)
+	{
+		theState = new NStringState{};
+	}
 
 	theState->numOwners              = 1;
 	theState->theSize                = theView.GetSize();
 	theState->stringData.nextData    = nullptr;
 	theState->stringData.theEncoding = theEncoding;
 
+
+
+	// Create the data
+	//
+	// The canonical data maintains the original encoding and adds a null
+	// terminator.
+	//
+	// An exception to this is endian-specific Unicode encodings. These are
+	// converted to their native equivalent and stored without any BOM.
 	NStringEncoder::Convert(theEncoding,
 							NData(numBytes, theText),
-							dstEncoding,
+							NStringEncoder::GetNativeEncoding(theEncoding),
 							theState->stringData.theData,
 							kNStringEncoderRemoveBOM | kNStringEncoderTerminator);
 
 
 
-	// Swtich to large data
+	// Switch to large data
+	if (existingState == nullptr)
+	{
+		Clear();
+	}
+
 	SetLarge(theState);
 }
