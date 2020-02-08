@@ -154,6 +154,12 @@ public:
 	const utf32_t*                      GetUTF32() const;
 
 
+	// Get the current encodings
+	//
+	// Returns the list of encodings that can be returned without transcoding.
+	NVectorStringEncoding               GetEncodings() const;
+
+
 	// Get/set the string data
 	//
 	// As strings may contain embedded nulls the string data does not need to

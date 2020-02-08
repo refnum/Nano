@@ -317,6 +317,43 @@ const utf32_t* NString::GetUTF32() const
 
 
 
+//=============================================================================
+//		NString::GetEncodings : Get the encodings held by the string.
+//-----------------------------------------------------------------------------
+NVectorStringEncoding NString::GetEncodings() const
+{
+
+
+	// Small encodings
+	if (IsSmallUTF8())
+	{
+		return {NStringEncoding::UTF8};
+	}
+
+	else if (IsSmallUTF16())
+	{
+		return {NStringEncoding::UTF16};
+	}
+
+
+
+	// Large encodings
+	const NStringData*    stringData = &mString.Large.theState->stringData;
+	NVectorStringEncoding theEncodings;
+
+
+	// Get the data
+	while (stringData != nullptr)
+	{
+		theEncodings.push_back(stringData->theEncoding);
+		stringData = stringData->nextData;
+	}
+
+	return theEncodings;
+}
+
+
+
 
 //=============================================================================
 //		NString::GetData : Get the text.
