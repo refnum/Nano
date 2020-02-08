@@ -154,6 +154,8 @@ public:
 	// Get the text
 	//
 	// Returns a null-terminated string that is valid until the string is modified.
+	//
+	// A UTF8 / UTF16 result may be invalidated by requesting any other encoding.
 	const void*                         GetText(NStringEncoding theEncoding) const;
 
 	constexpr const utf8_t*             GetUTF8()  const;

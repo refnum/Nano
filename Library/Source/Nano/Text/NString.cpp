@@ -318,6 +318,7 @@ const utf32_t* NString::GetUTF32() const
 
 
 
+
 //=============================================================================
 //		NString::GetEncodings : Get the encodings held by the string.
 //-----------------------------------------------------------------------------
@@ -352,6 +353,7 @@ NVectorStringEncoding NString::GetEncodings() const
 
 	return theEncodings;
 }
+
 
 
 
