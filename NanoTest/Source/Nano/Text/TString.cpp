@@ -144,6 +144,14 @@ NANO_TEST(TString, "Hashable")
 	{
 		REQUIRE(theString.GetHash() != 0);
 	}
+
+
+	NString stringUTF8("test");
+	NString stringUTF16(u"test");
+	NString stringUTF32(U"test");
+
+	REQUIRE(stringUTF8.GetHash() == stringUTF16.GetHash());
+	REQUIRE(stringUTF8.GetHash() == stringUTF32.GetHash());
 }
 
 
@@ -254,6 +262,19 @@ NANO_TEST(TString, "GetText")
 		REQUIRE(theString.GetText(NStringEncoding::ISOLatin1) != nullptr);
 		REQUIRE(theString.GetText(NStringEncoding::WindowsLatin1) != nullptr);
 	}
+
+
+	NString     theString     = kTestStringSmall;
+	const char* textUTF8      = kTestStringSmall.GetUTF8();
+	const void* textASCII     = theString.GetText(NStringEncoding::ASCII);
+	const void* textMacRoman  = theString.GetText(NStringEncoding::MacRoman);
+	const void* textISOLatin1 = theString.GetText(NStringEncoding::ISOLatin1);
+	const void* textWinLatin1 = theString.GetText(NStringEncoding::WindowsLatin1);
+
+	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textASCII)) == 0);
+	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textMacRoman)) == 0);
+	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textISOLatin1)) == 0);
+	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textWinLatin1)) == 0);
 }
 
 
@@ -371,11 +392,11 @@ NANO_TEST(TString, "Compare")
 
 
 	// Perform the test
-	NString stringA = "Abcdef";
-	NString stringB = "Abcdg";
+	NString stringA = "test";
+	NString stringB = "TeSt";
 
-	NComparison theResult = stringA.Compare(stringB);
-	REQUIRE(theResult == NComparison::LessThan);
+	REQUIRE(stringA.Compare(stringB, kNStringNone) == NComparison::GreaterThan);
+	REQUIRE(stringA.Compare(stringB, kNStringNoCase) == NComparison::EqualTo);
 }
 
 
