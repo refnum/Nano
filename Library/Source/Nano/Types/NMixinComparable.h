@@ -45,8 +45,8 @@
 #include "NanoTypes.h"
 
 // System
-#include <algorithm>
 #include <string.h>
+#include <algorithm>
 
 
 

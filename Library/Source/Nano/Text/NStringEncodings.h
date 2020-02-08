@@ -43,6 +43,9 @@
 //-----------------------------------------------------------------------------
 #include "NanoTypes.h"
 
+// System
+#include <vector>
+
 
 
 
@@ -92,6 +95,15 @@ enum class NStringEncoding
 // Characters
 static constexpr utf32_t kNUTF32Replacement                 = 0xFFFD;
 static constexpr char    kNASCIIReplacement                 = '?';
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+using NVectorStringEncoding                                 = std::vector<NStringEncoding>;
 
 
 #endif // NSTRING_ENCODINGS_H
