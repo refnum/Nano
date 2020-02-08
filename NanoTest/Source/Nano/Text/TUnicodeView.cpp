@@ -43,6 +43,9 @@
 #include "NTestFixture.h"
 #include "NUnicodeView.h"
 
+// System
+#include <string.h>
+
 
 
 
