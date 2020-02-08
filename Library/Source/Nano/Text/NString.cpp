@@ -506,17 +506,17 @@ size_t NString::UpdateHash(NHashAction theAction)
 //=============================================================================
 //		NString::MakeClone : Make a clone of another object.
 //-----------------------------------------------------------------------------
-void NString::MakeClone(const NString& otherString)
+void NString::MakeClone(const NString& theString)
 {
 
 
 	// Validate our parameters and state
-	NN_REQUIRE(this != &otherString);
+	NN_REQUIRE(this != &theString);
 
 
 
 	// Copy the string
-	mString = otherString.mString;
+	mString = theString.mString;
 
 	if (IsLarge())
 	{
@@ -832,7 +832,17 @@ void NString::SetText(NStringEncoding theEncoding, size_t numBytes, const void* 
 
 
 
-	// Get the state we need
+	// Check for ASCII
+	//
+	// ASCII text is auto-promoted to UTF8 as it is a simple subset.
+	if (theEncoding == NStringEncoding::ASCII)
+	{
+		theEncoding = NStringEncoding::UTF8;
+	}
+
+
+
+	// Check for small storage
 	bool setSmall = false;
 
 	if (theEncoding == NStringEncoding::UTF8)

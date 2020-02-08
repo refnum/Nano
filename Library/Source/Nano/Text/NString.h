@@ -200,7 +200,7 @@ private:
 	constexpr bool                      SetSmallUTF16(size_t numBytes, const utf16_t* textUTF16);
 	constexpr void                      SetSmall(     size_t numBytes, const void* theText, NStringEncoding theEncoding);
 
-	void                                MakeClone(const NString& otherString);
+	void                                MakeClone(const NString& theString);
 	void                                MakeLarge();
 
 	const NData*                        FetchEncoding(NStringEncoding theEncoding);
