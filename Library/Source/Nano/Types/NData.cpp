@@ -767,7 +767,7 @@ bool NData::CompareEqual(const NData& theData) const
 
 	// Compare the data
 	//
-	// A hash collision could produce equal hashes so check the bytes.
+	// A hash collision could produce equal hashes so check the content.
 	return CompareOrder(theData) == NComparison::EqualTo;
 }
 
@@ -784,7 +784,7 @@ NComparison NData::CompareOrder(const NData& theData) const
 
 	// Order by hash
 	//
-	// Bytes have no intrinsic ordering so we order by hash first,
+	// Data objects have no intrinsic ordering so we order by hash first,
 	// then fall back to a byte-wise comparison.
 	NComparison theResult = NCompare(GetHash(), theData.GetHash());
 

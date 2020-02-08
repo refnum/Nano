@@ -449,7 +449,9 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 
 
 
-	// Get the content
+	// Get small text
+	//
+	// Small text can return a pointer to the small storage.
 	const void* theData = nullptr;
 
 	if (IsSmall())
@@ -467,6 +469,13 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 			theData      = mString.Small.theData;
 		}
 	}
+
+
+
+	// Get large text
+	//
+	// Large text returns a pointer to the large storage, minus the final
+	// terminator after the content.
 	else
 	{
 		NN_REQUIRE(IsLarge());

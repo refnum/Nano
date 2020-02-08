@@ -173,8 +173,8 @@ public:
 
 	// Get the string content
 	//
-	// Returns a pointer to the current string content, its encoding, and the
-	// size in bytes of that content.
+	// Returns a pointer to the primary string encoding, its size in bytes,
+	// and the data in that encoding.
 	//
 	// The results are valid until the string is modified.
 	const void*                         GetContent(NStringEncoding* theEncoding, size_t* theSize) const;
