@@ -42,6 +42,7 @@
 #include "NUnicodeView.h"
 
 // Nano
+#include "NString.h"
 #include "NStringEncoder.h"
 
 
@@ -117,11 +118,30 @@ NUnicodeView::NUnicodeView(NStringEncoding theEncoding, size_t theSize, const vo
 
 
 	// Validate our state
-	NN_REQUIRE(mEncoding == NStringEncoding::UTF8 || mEncoding == NStringEncoding::UTF16 ||
-			   mEncoding == NStringEncoding::UTF32);
+	NN_REQUIRE(IsValid());
+}
 
-	NN_REQUIRE(mSize != 0);
-	NN_REQUIRE_NOT_NULL(mData);
+
+
+
+
+//=============================================================================
+//		NUnicodeView::NUnicodeView : Constructor.
+//-----------------------------------------------------------------------------
+NUnicodeView::NUnicodeView(const NString& theString)
+	: mEncoding(NStringEncoding::Unknown)
+	, mSize(0)
+	, mData(nullptr)
+{
+
+
+	// Initialise ourselves
+	mData = static_cast<const uint8_t*>(theString.GetContent(&mEncoding, &mSize));
+
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
 }
 
 
@@ -310,6 +330,29 @@ NUTF32Iterator NUnicodeView::end() const
 
 
 #pragma mark private
+//=============================================================================
+//		NUnicodeView::IsValid : Is the view valid?
+//-----------------------------------------------------------------------------
+bool NUnicodeView::IsValid() const
+{
+
+
+	// Check the state
+	bool isValid = (mSize != 0 && mData != nullptr);
+
+	if (isValid)
+	{
+		isValid = (mEncoding == NStringEncoding::UTF8 || mEncoding == NStringEncoding::UTF16 ||
+				   mEncoding == NStringEncoding::UTF32);
+	}
+
+	return isValid;
+}
+
+
+
+
+
 //=============================================================================
 //		NUnicodeView::DecodeUTF : Decode UTF.
 //-----------------------------------------------------------------------------

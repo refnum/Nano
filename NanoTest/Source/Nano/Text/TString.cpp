@@ -342,6 +342,103 @@ NANO_TEST(TString, "SetData")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetContent")
+{
+
+
+	// Perform the test
+	for (auto theString : stringObjects)
+	{
+		NStringEncoding theEncoding = NStringEncoding::Unknown;
+		size_t          theSize     = 0;
+		const void*     theData     = theString.GetContent(&theEncoding, &theSize);
+
+		REQUIRE(theEncoding != NStringEncoding::Unknown);
+		REQUIRE(theSize != 0);
+		REQUIRE(theData != nullptr);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Compare")
+{
+
+
+	// Perform the test
+	NString stringA = "Abcdef";
+	NString stringB = "Abcdg";
+
+	NComparison theResult = stringA.Compare(stringB);
+	REQUIRE(theResult == NComparison::LessThan);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "CompareEqual")
+{
+
+
+	// Perform the test
+	for (auto theString : stringObjects)
+	{
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theString != kTestStringLarge);
+		}
+		else if (theString == kTestStringLarge)
+		{
+			REQUIRE(theString != kTestStringSmall);
+		}
+	}
+
+	REQUIRE(NString("1234") != NString("abcd"));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "CompareOrder")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestStringSmall <= kTestStringSmall);
+	REQUIRE(kTestStringSmall <= kTestStringLarge);
+	REQUIRE(kTestStringSmall < kTestStringLarge);
+
+	REQUIRE(kTestStringLarge >= kTestStringLarge);
+	REQUIRE(kTestStringLarge >= kTestStringSmall);
+	REQUIRE(kTestStringLarge > kTestStringSmall);
+
+	REQUIRE(NString("A") < NString("B"));
+	REQUIRE(NString("B") > NString("A"));
+
+	REQUIRE(NString("A") < NString("a"));
+	REQUIRE(NString("a") > NString("A"));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Concatenate")
 {
 

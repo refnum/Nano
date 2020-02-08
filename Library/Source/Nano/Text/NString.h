@@ -157,12 +157,21 @@ public:
 	// Get/set the string data
 	//
 	// As strings may contain embedded nulls the string data does not need to
-	// have a null terminator, nor will a terminator be added on retrieval.
+	// have a null terminator nor will a terminator be added on retrieval.
 	//
 	// A string will a trailing null element will preserves that null as part of
 	// its content, just as it would a null at any other location.
 	NData                               GetData(NStringEncoding theEncoding) const;
 	void                                SetData(NStringEncoding theEncoding, const NData& theData);
+
+
+	// Get the string content
+	//
+	// Returns a pointer to the current string content, its encoding, and the
+	// size in bytes of that content.
+	//
+	// The results are valid until the string is modified.
+	const void*                         GetContent(NStringEncoding* theEncoding, size_t* theSize) const;
 
 
 	// Operators

@@ -338,7 +338,8 @@ NData NString::GetData(NStringEncoding theEncoding) const
 
 	// Get small text
 	//
-	// Small text must be copied.
+	// Small text must be copied, although it will typically result
+	// in a small storage data object as well.
 	if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
 	{
 		theData.SetData(theSize * sizeof(utf8_t), GetUTF8());
@@ -354,8 +355,8 @@ NData NString::GetData(NStringEncoding theEncoding) const
 	// Get large text
 	//
 	// Large text may need to be transcoded, but any result can share
-	// our internal storage since removing the terminator simply shrinks
-	// the slice of the returned data.
+	// our internal storage since removing the terminator just needs
+	// to shrink the slice of the returned data.
 	//
 	// We can cast away const as transcoding does not change our state.
 	else
@@ -392,6 +393,55 @@ void NString::SetData(NStringEncoding theEncoding, const NData& theData)
 
 	// Update our state
 	ClearHash();
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetContent : Get the string content.
+//-----------------------------------------------------------------------------
+const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theEncoding != nullptr);
+	NN_REQUIRE(theSize != nullptr);
+
+
+
+	// Get the content
+	const void* theData = nullptr;
+
+	if (IsSmall())
+	{
+		if (IsSmallUTF8())
+		{
+			*theEncoding = NStringEncoding::UTF8;
+			*theSize     = GetSizeSmall() * sizeof(utf8_t);
+			theData      = mString.Small.theData;
+		}
+		else
+		{
+			*theEncoding = NStringEncoding::UTF16;
+			*theSize     = GetSizeSmall() * sizeof(utf16_t);
+			theData      = mString.Small.theData;
+		}
+	}
+	else
+	{
+		NN_REQUIRE(IsLarge());
+
+		const NStringData& stringData = mString.Large.theState->stringData;
+
+		*theEncoding = stringData.theEncoding;
+		*theSize     = stringData.theData.GetSize() - NStringEncoder::GetCodeUnitSize(*theEncoding);
+		theData      = stringData.theData.GetData();
+	}
+
+	return theData;
 }
 
 

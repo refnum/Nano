@@ -42,8 +42,8 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NData.h"
 #include "NStringEncodings.h"
+#include "NanoConstants.h"
 
 
 
@@ -52,6 +52,7 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+class NString;
 class NUnicodeView;
 
 
@@ -89,6 +90,7 @@ class NUnicodeView
 {
 public:
 										NUnicodeView(NStringEncoding theEncoding, size_t theSize, const void* theData);
+										NUnicodeView(const NString& theString);
 
 									   ~NUnicodeView() = default;
 
@@ -137,6 +139,8 @@ public:
 
 
 private:
+	bool                                IsValid() const;
+
 	size_t                              DecodeUTF(  size_t theOffset, utf32_t& codePoint) const;
 	size_t                              DecodeUTF8( size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
 	size_t                              DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
