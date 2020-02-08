@@ -30,6 +30,9 @@
 		AB54F99F23EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */; };
 		AB54F9A023EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */; };
 		AB54F9A123EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */; };
+		AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
+		AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
+		AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB56391823C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
 		AB56391923C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
 		AB56391A23C2A3F600675F68 /* TString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56391423C2A3F600675F68 /* TString.cpp */; };
@@ -199,6 +202,7 @@
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
 		AB54F99E23EDA9AF005207BC /* TMixinConcatenable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinConcatenable.cpp; sourceTree = "<group>"; };
+		AB54F9A723EE4503005207BC /* TTextUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtils.cpp; sourceTree = "<group>"; };
 		AB56391423C2A3F600675F68 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
 		AB56392123C2A54C00675F68 /* TStringEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringEncoder.cpp; sourceTree = "<group>"; };
 		AB56393523C75C1A00675F68 /* TUnicodeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeView.cpp; sourceTree = "<group>"; };
@@ -593,6 +597,7 @@
 			children = (
 				AB56391423C2A3F600675F68 /* TString.cpp */,
 				AB56392123C2A54C00675F68 /* TStringEncoder.cpp */,
+				AB54F9A723EE4503005207BC /* TTextUtils.cpp */,
 				AB56393523C75C1A00675F68 /* TUnicodeView.cpp */,
 			);
 			path = Text;
@@ -766,6 +771,7 @@
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB54F9A023EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */,
@@ -794,6 +800,7 @@
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
 				AB54F99F23EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */,
@@ -822,6 +829,7 @@
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB54F9A123EDA9AF005207BC /* TMixinConcatenable.cpp in Sources */,
