@@ -44,6 +44,7 @@
 // Nano
 #include "NData.h"
 #include "NDataDigest.h"
+#include "NStringComparator.h"
 #include "NStringEncoder.h"
 #include "NThread.h"
 #include "NUnicodeView.h"
@@ -488,6 +489,73 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 	}
 
 	return theData;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::Compare : Compare the string.
+//-----------------------------------------------------------------------------
+NComparison NString::Compare(const NString& theString, NStringFlags theFlags) const
+{
+
+
+	// Compare the string
+	return NStringComparator::Compare(*this, theString, theFlags);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+bool NString::CompareEqual(const NString& theString) const
+{
+
+
+	// Compare the size
+	//
+	// A different size means no equality.
+	if (GetSize() != theString.GetSize())
+	{
+		return false;
+	}
+
+
+
+	// Compare the hash
+	//
+	// A different hash means no equality.
+	if (GetHash() != theString.GetHash())
+	{
+		return false;
+	}
+
+
+
+	// Compare the text
+	//
+	// A hash collision could produce equal hashes so check the content.
+	return CompareOrder(theString) == NComparison::EqualTo;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+NComparison NString::CompareOrder(const NString& theString) const
+{
+
+
+	// Order by comparison
+	return Compare(theString, kNStringNone);
 }
 
 

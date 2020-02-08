@@ -187,6 +187,15 @@ public:
 	const void*                         GetContent(NStringEncoding* theEncoding, size_t* theSize) const;
 
 
+	// Compare the string
+	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone) const;
+
+
+	// Compare an object
+	bool                                CompareEqual(const NString& theString) const;
+	NComparison                         CompareOrder(const NString& theString) const;
+
+
 	// Operators
 	const NString&                      operator+=(const NString& theString);
 
