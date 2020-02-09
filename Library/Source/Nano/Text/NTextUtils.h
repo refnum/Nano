@@ -57,6 +57,10 @@ public:
 	// Convert case
 	static utf32_t                      ToLower(utf32_t theChar);
 	static utf32_t                      ToUpper(utf32_t theChar);
+
+
+	// Test a character
+	static bool                         IsDigit(utf32_t theChar);
 };
 
 

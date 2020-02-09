@@ -80,3 +80,18 @@ utf32_t NTextUtils::ToUpper(utf32_t theChar)
 
 	return theChar;
 }
+
+
+
+
+
+//=============================================================================
+//		NTextUtils::IsDigit : Is a character a digit?
+//-----------------------------------------------------------------------------
+bool NTextUtils::IsDigit(utf32_t theChar)
+{
+
+
+	// Test the character
+	return theChar >= U'0' && theChar <= U'9';
+}
