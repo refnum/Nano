@@ -54,7 +54,11 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-using NOptionalComparison                                   = std::optional<NComparison>;
+// Forward declaration
+class NUTF32Iterator;
+
+// Optionals
+using NOptionalComparison = std::optional<NComparison>;
 
 
 
@@ -80,6 +84,10 @@ private:
 	static NOptionalComparison          CompareGeneral(const NString& stringA,
 													   const NString& stringB,
 													   NStringFlags   theFlags);
+
+	static uint64_t                     GetNumber(utf32_t               theChar,
+												  NUTF32Iterator&       theIter,
+												  const NUTF32Iterator& endIter);
 };
 
 

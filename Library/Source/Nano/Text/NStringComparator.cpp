@@ -156,33 +156,63 @@ NOptionalComparison NStringComparator::CompareGeneral(const NString& stringA,
 	NUTF32Iterator iterA = viewA.begin();
 	NUTF32Iterator iterB = viewB.begin();
 
+	NUTF32Iterator endA = viewA.end();
+	NUTF32Iterator endB = viewB.end();
+
 	size_t sizeA = stringA.GetSize();
 	size_t sizeB = stringB.GetSize();
 
-	size_t      compareSize = std::min(sizeA, sizeB);
-	NComparison theResult   = NCompare(sizeA, sizeB);
+	bool ignoreCase = bool(theFlags & kNStringNoCase);
+	bool isNumeric  = bool(theFlags & kNStringNumeric);
 
+	NComparison theResult = NCompare(sizeA, sizeB);
 
 
 	// General comparison
 	//
 	// This ignores normalisation and many other aspects of collation.
-	for (size_t n = 0; n < compareSize; n++)
+	while (iterA != endA && iterB != endB)
 	{
 		// Get the state we need
 		utf32_t charA = *iterA;
 		utf32_t charB = *iterB;
 
-		if (theFlags & kNStringNoCase)
+
+
+		// Compare numerically
+		if (isNumeric && NTextUtils::IsDigit(charA) && NTextUtils::IsDigit(charB))
 		{
-			charA = NTextUtils::ToLower(charA);
-			charB = NTextUtils::ToLower(charB);
+			// Parse the number
+			//
+			// This will advance the seek iterator to the last digit of each number.
+			uint64_t numberA = GetNumber(charA, iterA, endA);
+			uint64_t numberB = GetNumber(charB, iterB, endB);
+
+
+
+			// Compare numerically
+			if (numberA != numberB)
+			{
+				theResult = NCompare(numberA, numberB);
+				break;
+			}
+
+			if ((iterA + 1) == endA || (iterB + 1) == endB)
+			{
+				break;
+			}
 		}
 
 
 
 		// Compare lexicographically
-		if (sizeA != sizeB)
+		if (ignoreCase)
+		{
+			charA = NTextUtils::ToLower(charA);
+			charB = NTextUtils::ToLower(charB);
+		}
+
+		if (charA != charB)
 		{
 			theResult = NCompare(charA, charB);
 			break;
@@ -196,4 +226,64 @@ NOptionalComparison NStringComparator::CompareGeneral(const NString& stringA,
 	}
 
 	return theResult;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NStringComparator::GetNumber : Get a number.
+//-----------------------------------------------------------------------------
+uint64_t NStringComparator::GetNumber(utf32_t               theChar,
+									  NUTF32Iterator&       theIter,
+									  const NUTF32Iterator& endIter)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(NTextUtils::IsDigit(theChar));
+	NN_REQUIRE(theIter != endIter);
+
+
+
+	// Get the number
+	NUTF32Iterator prevIter  = theIter;
+	uint64_t       theNumber = 0;
+
+	while (true)
+	{
+		// Accumulate
+		NN_REQUIRE(theNumber <= (kNUInt64Max / 10));
+		theNumber = (theNumber * 10) + (theChar - U'0');
+
+
+		// Advance
+		prevIter = theIter++;
+
+		if (theIter == endIter)
+		{
+			break;
+		}
+
+
+		// Acquire
+		theChar = *theIter;
+
+		if (!NTextUtils::IsDigit(theChar))
+		{
+			break;
+		}
+	}
+
+
+
+	// Adjust the iterator
+	//
+	// We leave the iterator pointing at the last digit in the number,
+	// so that it can be advanced again by the normal comparison loop.
+	theIter = prevIter;
+
+	return theNumber;
 }

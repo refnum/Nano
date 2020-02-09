@@ -65,7 +65,8 @@ static constexpr size_t kNStringLength                      = size_t(-1);
 using NStringFlags                                          = uint8_t;
 
 static constexpr NStringFlags kNStringNone                  = 0;
-static constexpr NStringFlags kNStringNoCase                = (1 << 1);
+static constexpr NStringFlags kNStringNoCase                = (1 << 0);
+static constexpr NStringFlags kNStringNumeric               = (1 << 1);
 
 
 

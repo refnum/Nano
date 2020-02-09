@@ -176,3 +176,32 @@ NANO_TEST(NStringComparator, "NoCase")
 	theResult = NStringComparator::Compare("aa", "AA", kNStringNoCase);
 	REQUIRE(theResult == NComparison::EqualTo);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NStringComparator, "Numeric")
+{
+
+
+	// Perform the test
+	REQUIRE(NStringComparator::Compare("2", "2", kNStringNumeric) == NComparison::EqualTo);
+	REQUIRE(NStringComparator::Compare("2.0", "2.0", kNStringNumeric) == NComparison::EqualTo);
+	REQUIRE(NStringComparator::Compare("foo2.txt", "foo7.txt", kNStringNumeric) ==
+			NComparison::LessThan);
+	REQUIRE(NStringComparator::Compare("foo7.txt", "foo2.txt", kNStringNumeric) ==
+			NComparison::GreaterThan);
+	REQUIRE(NStringComparator::Compare("foo002.txt", "foo007.txt", kNStringNumeric) ==
+			NComparison::LessThan);
+	REQUIRE(NStringComparator::Compare("123", "0123", kNStringNumeric) == NComparison::LessThan);
+	REQUIRE(NStringComparator::Compare("99", "0123", kNStringNumeric) == NComparison::LessThan);
+	REQUIRE(NStringComparator::Compare("010", "0002", kNStringNumeric) == NComparison::GreaterThan);
+	REQUIRE(NStringComparator::Compare("0100", "20", kNStringNumeric) == NComparison::GreaterThan);
+	REQUIRE(NStringComparator::Compare("1", "10", kNStringNumeric) == NComparison::LessThan);
+	REQUIRE(NStringComparator::Compare("2", "11", kNStringNumeric) == NComparison::LessThan);
+	REQUIRE(NStringComparator::Compare("3", "12", kNStringNumeric) == NComparison::LessThan);
+}
