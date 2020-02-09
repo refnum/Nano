@@ -513,6 +513,21 @@ NComparison NString::Compare(const NString& theString, NStringFlags theFlags) co
 
 
 //=============================================================================
+//		NString::EqualTo : Are two strings equal?
+//-----------------------------------------------------------------------------
+bool NString::EqualTo(const NString& theString, NStringFlags theFlags) const
+{
+
+
+	// Compare the strings
+	return Compare(theString, theFlags) == NComparison::EqualTo;
+}
+
+
+
+
+
+//=============================================================================
 //		NString::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
 bool NString::CompareEqual(const NString& theString) const

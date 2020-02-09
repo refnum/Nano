@@ -406,6 +406,25 @@ NANO_TEST(TString, "Compare")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "EqualTo")
+{
+
+
+	// Perform the test
+	NString stringA = "test";
+	NString stringB = "TeSt";
+
+	REQUIRE(stringA.EqualTo(stringB));
+	REQUIRE(!stringA.EqualTo(stringB, kNStringNone));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "CompareEqual")
 {
 

@@ -191,7 +191,8 @@ public:
 
 
 	// Compare the string
-	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone) const;
+	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone)   const;
+	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
 
 
 	// Compare an object
