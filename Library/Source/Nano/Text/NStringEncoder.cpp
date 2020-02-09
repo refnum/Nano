@@ -57,9 +57,9 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Misc
-static constexpr size_t kStringMaxASCII                     = 0x7F;
-static constexpr size_t kStringMaxLegacy                    = 0xFF;
-static constexpr utf32_t kStringInvalidLegacy				= 0xDFFF;
+static constexpr size_t  kStringMaxASCII                    = 0x7F;
+static constexpr size_t  kStringMaxLegacy                   = 0xFF;
+static constexpr utf32_t kStringInvalidLegacy               = 0xDFFF;
 
 // BOM
 static constexpr uint8_t  kBOM_UTF8[]                       = {0xEF, 0xBB, 0xBF};
