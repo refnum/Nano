@@ -78,14 +78,76 @@ utf32_t NUTF32Iterator::operator*() const
 
 
 //=============================================================================
-//		NUTF32Iterator::operator++ : Increment operator.
+//		NUTF32Iterator::operator++ : Prefix increment operator.
 //-----------------------------------------------------------------------------
-void NUTF32Iterator::operator++()
+NUTF32Iterator& NUTF32Iterator::operator++()
 {
 
 
 	// Advance the iterator
 	mOffset += mView->GetCodePointSize(mOffset);
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NUTF32Iterator::operator++ : Postfix increment operator.
+//-----------------------------------------------------------------------------
+NUTF32Iterator NUTF32Iterator::operator++(int)
+{
+
+
+	// Advance the iterator
+	NUTF32Iterator prevIter = *this;
+
+	mOffset += mView->GetCodePointSize(mOffset);
+
+	return prevIter;
+}
+
+
+
+
+
+//=============================================================================
+//		NUTF32Iterator::operator+ : Addition operator.
+//-----------------------------------------------------------------------------
+NUTF32Iterator NUTF32Iterator::operator+(size_t n) const
+{
+
+
+	// Advance the iterator
+	NUTF32Iterator theIter = *this;
+
+	for (size_t x = 0; x < n; x++)
+	{
+		++theIter;
+	}
+
+	return theIter;
+}
+
+
+
+
+
+//=============================================================================
+//		NUTF32Iterator::operator== : Equality operator.
+//-----------------------------------------------------------------------------
+bool NUTF32Iterator::operator==(const NUTF32Iterator& otherIter) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(mView == otherIter.mView);
+
+
+	// Compare the iterator
+	return mOffset == otherIter.mOffset;
 }
 
 
@@ -97,6 +159,10 @@ void NUTF32Iterator::operator++()
 //-----------------------------------------------------------------------------
 bool NUTF32Iterator::operator!=(const NUTF32Iterator& otherIter) const
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(mView == otherIter.mView);
 
 
 	// Compare the iterator

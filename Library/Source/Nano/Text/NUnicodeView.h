@@ -70,7 +70,13 @@ public:
 
 	// Operators
 	utf32_t                             operator*() const;
-	void                                operator++();
+
+	NUTF32Iterator&                     operator++();
+	NUTF32Iterator                      operator++(int);
+
+	NUTF32Iterator                      operator+(size_t n) const;
+
+	bool                                operator==(const NUTF32Iterator& otherIter) const;
 	bool                                operator!=(const NUTF32Iterator& otherIter) const;
 
 
