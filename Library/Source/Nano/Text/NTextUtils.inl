@@ -39,7 +39,6 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NTextUtils.h"
 
 
 
@@ -48,7 +47,7 @@
 //=============================================================================
 //		NTextUtils::ToLower : Convert to lower case.
 //-----------------------------------------------------------------------------
-utf32_t NTextUtils::ToLower(utf32_t theChar)
+constexpr utf32_t NTextUtils::ToLower(utf32_t theChar)
 {
 
 
@@ -68,7 +67,7 @@ utf32_t NTextUtils::ToLower(utf32_t theChar)
 //=============================================================================
 //		NTextUtils::ToUpper : Convert to upper case.
 //-----------------------------------------------------------------------------
-utf32_t NTextUtils::ToUpper(utf32_t theChar)
+constexpr utf32_t NTextUtils::ToUpper(utf32_t theChar)
 {
 
 
@@ -88,7 +87,7 @@ utf32_t NTextUtils::ToUpper(utf32_t theChar)
 //=============================================================================
 //		NTextUtils::IsDigit : Is a character a digit?
 //-----------------------------------------------------------------------------
-bool NTextUtils::IsDigit(utf32_t theChar)
+constexpr bool NTextUtils::IsDigit(utf32_t theChar)
 {
 
 
