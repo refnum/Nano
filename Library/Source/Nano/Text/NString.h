@@ -67,6 +67,9 @@ using NStringFlags                                          = uint8_t;
 static constexpr NStringFlags kNStringNone                  = 0;
 static constexpr NStringFlags kNStringNoCase                = (1 << 0);
 static constexpr NStringFlags kNStringNumeric               = (1 << 1);
+static constexpr NStringFlags kNStringPattern               = (1 << 2);
+
+static constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
 
 
 
@@ -77,6 +80,19 @@ static constexpr NStringFlags kNStringNumeric               = (1 << 1);
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NData;
+
+
+// Pattern group
+//
+// A pattern group identifies both the range that matched the pattern,
+// and the ranges of individual capture groups within that pattern.
+struct NPatternGroup
+{
+	NRange       thePattern;
+	NVectorRange theGroups;
+};
+
+using NVectorPatternGroup = std::vector<NPatternGroup>;
 
 
 // String storage

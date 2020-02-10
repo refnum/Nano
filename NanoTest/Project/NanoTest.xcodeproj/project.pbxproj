@@ -16,6 +16,9 @@
 		AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
 		AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
 		AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
+		AB1B4D9923F024FE00B304D3 /* TStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */; };
+		AB1B4D9A23F024FE00B304D3 /* TStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */; };
+		AB1B4D9B23F024FE00B304D3 /* TStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */; };
 		AB2912192383771600509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB29121A2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB29121B2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
@@ -129,6 +132,7 @@
 		AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtils.cpp; sourceTree = "<group>"; };
 		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
+		AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringScanner.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
 		AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGeometryUtilities.cpp; sourceTree = "<group>"; };
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
@@ -602,6 +606,7 @@
 				AB56391423C2A3F600675F68 /* TString.cpp */,
 				AB54F9B023EF14CE005207BC /* TStringComparator.cpp */,
 				AB56392123C2A54C00675F68 /* TStringEncoder.cpp */,
+				AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */,
 				AB54F9A723EE4503005207BC /* TTextUtils.cpp */,
 				AB56393523C75C1A00675F68 /* TUnicodeView.cpp */,
 			);
@@ -765,6 +770,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1B4D9A23F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
@@ -795,6 +801,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1B4D9923F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
@@ -825,6 +832,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1B4D9B23F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
