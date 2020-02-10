@@ -55,13 +55,15 @@ class NTextUtils
 {
 public:
 	// Convert case
-	static constexpr utf32_t                      ToLower(utf32_t theChar);
-	static constexpr utf32_t                      ToUpper(utf32_t theChar);
+	static constexpr utf32_t            ToLower(utf32_t theChar);
+	static constexpr utf32_t            ToUpper(utf32_t theChar);
 
 
 	// Test a character
-	static constexpr bool                         IsDigit(utf32_t theChar);
+	static constexpr bool               IsDigit(utf32_t theChar);
 };
+
+
 
 
 

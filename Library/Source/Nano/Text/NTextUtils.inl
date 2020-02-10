@@ -1,5 +1,5 @@
 /*	NAME:
-		NTextUtils.cpp
+		NTextUtils.inl
 
 	DESCRIPTION:
 		Text utilities.
