@@ -73,7 +73,8 @@ class NN_EMPTY_BASE NRange final
 	, public NMixinComparable<NRange>
 {
 public:
-	constexpr                           NRange(size_t theLocation = 0, size_t theSize = 0);
+	constexpr                           NRange(size_t theLocation, size_t theSize);
+	constexpr                           NRange();
 
 
 	// Does a range intersect another?

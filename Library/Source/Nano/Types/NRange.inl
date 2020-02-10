@@ -55,6 +55,19 @@ constexpr NRange::NRange(size_t theLocation, size_t theSize)
 	: mLocation(theLocation)
 	, mSize(theSize)
 {
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::NRange : Constructor.
+//-----------------------------------------------------------------------------
+constexpr NRange::NRange()
+	: mLocation(0)
+	, mSize(0)
+{
 
 
 	// Validate our state
