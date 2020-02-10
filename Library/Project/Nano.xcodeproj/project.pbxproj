@@ -234,6 +234,7 @@
 		AB1B4D9D23F0250C00B304D3 /* NStringScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringScanner.h; sourceTree = "<group>"; };
 		AB1B4DA123F0920100B304D3 /* Nano_pcre2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_pcre2.h; sourceTree = "<group>"; };
 		AB1B4DA223F0A65500B304D3 /* NTextUtils.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTextUtils.inl; sourceTree = "<group>"; };
+		AB1B4DA323F21DB100B304D3 /* Nano Prefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Nano Prefix.h"; path = "Nano/Nano Prefix.h"; sourceTree = "<group>"; };
 		AB1BA181104E7CD300BB002B /* NTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTransform.cpp; sourceTree = "<group>"; };
 		AB1BA182104E7CD300BB002B /* NTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTransform.h; sourceTree = "<group>"; };
 		AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NGeometryUtilities.cpp; sourceTree = "<group>"; };
@@ -405,7 +406,6 @@
 		AB8DBDE923777E6500619B6A /* Nano.lldb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Nano.lldb; sourceTree = "<group>"; };
 		AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_iOS.xcconfig; sourceTree = "<group>"; };
 		AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_macOS.xcconfig; sourceTree = "<group>"; };
-		AB8DBDF323777FFA00619B6A /* Nano Prefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Nano Prefix.h"; sourceTree = "<group>"; };
 		AB9154E40F9B4DD5009FFEAF /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		AB9154E50F9B4DD5009FFEAF /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
 		AB9154E60F9B4DD5009FFEAF /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre_chartables.c; sourceTree = "<group>"; };
@@ -1021,7 +1021,7 @@
 		AB9154DE0F9B4DD5009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				AB8DBDF323777FFA00619B6A /* Nano Prefix.h */,
+				AB1B4DA323F21DB100B304D3 /* Nano Prefix.h */,
 				AB9154DF0F9B4DD5009FFEAF /* Nanites */,
 				AB9154E10F9B4DD5009FFEAF /* Nano */,
 			);
