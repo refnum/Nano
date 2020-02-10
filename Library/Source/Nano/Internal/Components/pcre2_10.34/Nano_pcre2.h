@@ -1,8 +1,8 @@
 /*	NAME:
-		Nano Prefix.h
+		Nano_pcre2.h
 
 	DESCRIPTION:
-		Nano prefix header.
+		pcre2 support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,28 +36,21 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NANO_PREFIX_H
-#define NANO_PREFIX_H
+#ifndef NANO_PCRE2_H
+#define NANO_PCRE2_H
 //=============================================================================
-//		Macros
+//		Includes
 //-----------------------------------------------------------------------------
-// PCRE
-#define HAVE_CONFIG_H                                       1
-#define SUPPORT_UNICODE                                     1
-#define PCRE2_CODE_UNIT_WIDTH                               8
+#include "NanoMacros.h"
+
+NN_DIAGNOSTIC_PUSH();
+
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
+
+#include "pcre2.h"
+
+NN_DIAGNOSTIC_POP();
 
 
-// Nano 3.x
-/*
-   // Expat
- #define HAVE_EXPAT_CONFIG_H                                1
- #define XML_STATIC                                         1
 
-
-   // ZLib
- #define Z_PREFIX                                           1
- #define z_Byte                                             uint8_t
- */
-
-
-#endif // NANO_PREFIX_H
+#endif // NANO_PCRE2_H
