@@ -122,7 +122,7 @@ public:
 	// Get the codepoint offsets
 	//
 	// Returns the byte offset for the specified number of codepoints.
-	NVectorSize                         GetCodePointOffsets(size_t maxSize = kNSizeMax) const;
+	NVectorSize                         GetCodePointOffsets(size_t maxResult = kNSizeMax) const;
 
 
 	// Get the size
