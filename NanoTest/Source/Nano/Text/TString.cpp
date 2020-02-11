@@ -387,6 +387,217 @@ NANO_TEST(TString, "GetContent")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "Find")
+{
+
+
+	// Perform the test
+	NRange theRange;
+
+	for (auto theString : stringObjects)
+	{
+		theRange = theString.Find("World", kNStringNone);
+		REQUIRE(theRange == NRange(6, 5));
+
+		theRange = theString.Find("WORLD", kNStringNoCase);
+		REQUIRE(theRange == NRange(6, 5));
+
+		theRange = theString.Find("WORLD", kNStringNone);
+		REQUIRE(theRange.IsEmpty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "FindAll")
+{
+
+
+	// Perform the test
+	NVectorRange theRanges;
+
+	for (auto theString : stringObjects)
+	{
+		theRanges = theString.FindAll("World", kNStringNone);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theRanges.size() == 1);
+			REQUIRE(theRanges[0] == NRange(6, 5));
+		}
+		else
+		{
+			REQUIRE(theRanges.size() == 4);
+			REQUIRE(theRanges[0] == NRange(6, 5));
+			REQUIRE(theRanges[1] == NRange(16, 5));
+			REQUIRE(theRanges[2] == NRange(26, 5));
+			REQUIRE(theRanges[3] == NRange(38, 5));
+		}
+
+
+		theRanges = theString.FindAll("WORLD", kNStringNoCase);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theRanges.size() == 1);
+			REQUIRE(theRanges[0] == NRange(6, 5));
+		}
+		else
+		{
+			REQUIRE(theRanges.size() == 4);
+			REQUIRE(theRanges[0] == NRange(6, 5));
+			REQUIRE(theRanges[1] == NRange(16, 5));
+			REQUIRE(theRanges[2] == NRange(26, 5));
+			REQUIRE(theRanges[3] == NRange(38, 5));
+		}
+
+
+		theRanges = theString.FindAll("WORLD", kNStringNone);
+		REQUIRE(theRanges.empty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "FindGroups")
+{
+
+
+	// Perform the test
+	NPatternGroup patternGroup;
+
+	for (auto theString : stringObjects)
+	{
+		patternGroup = theString.FindGroup("\\sWo(\\w+)", kNStringPattern);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(patternGroup.theGroups.size() == 1);
+			REQUIRE(patternGroup.thePattern == NRange(5, 6));
+			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+		}
+		else
+		{
+			REQUIRE(patternGroup.theGroups.size() == 1);
+			REQUIRE(patternGroup.thePattern == NRange(5, 6));
+			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+		}
+
+
+		patternGroup = theString.FindGroup("\\sWO(\\w+)", kNStringPatternNoCase);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(patternGroup.theGroups.size() == 1);
+			REQUIRE(patternGroup.thePattern == NRange(5, 6));
+			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+		}
+		else
+		{
+			REQUIRE(patternGroup.theGroups.size() == 1);
+			REQUIRE(patternGroup.thePattern == NRange(5, 6));
+			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+		}
+
+
+		patternGroup = theString.FindGroup("\\sWO(\\w+)", kNStringPattern);
+		REQUIRE(patternGroup.thePattern.IsEmpty());
+		REQUIRE(patternGroup.theGroups.empty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "FindAllGroups")
+{
+
+
+	// Perform the test
+	NVectorPatternGroup patternGroups;
+
+	for (auto theString : stringObjects)
+	{
+		patternGroups = theString.FindAllGroups("\\sWo(\\w+)", kNStringPattern);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(patternGroups.size() == 1);
+			REQUIRE(patternGroups[0].theGroups.size() == 1);
+			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
+			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+		}
+		else
+		{
+			REQUIRE(patternGroups.size() == 4);
+			REQUIRE(patternGroups[0].theGroups.size() == 1);
+			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
+			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+
+			REQUIRE(patternGroups[1].theGroups.size() == 1);
+			REQUIRE(patternGroups[1].thePattern == NRange(15, 6));
+			REQUIRE(patternGroups[1].theGroups[0] == NRange(18, 3));
+
+			REQUIRE(patternGroups[2].theGroups.size() == 1);
+			REQUIRE(patternGroups[2].thePattern == NRange(25, 6));
+			REQUIRE(patternGroups[2].theGroups[0] == NRange(28, 3));
+
+			REQUIRE(patternGroups[3].theGroups.size() == 1);
+			REQUIRE(patternGroups[3].thePattern == NRange(37, 6));
+			REQUIRE(patternGroups[3].theGroups[0] == NRange(40, 3));
+		}
+
+
+		patternGroups = theString.FindAllGroups("\\sWO(\\w+)", kNStringPatternNoCase);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(patternGroups.size() == 1);
+			REQUIRE(patternGroups[0].theGroups.size() == 1);
+			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
+			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+		}
+		else
+		{
+			REQUIRE(patternGroups.size() == 4);
+			REQUIRE(patternGroups[0].theGroups.size() == 1);
+			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
+			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+
+			REQUIRE(patternGroups[1].theGroups.size() == 1);
+			REQUIRE(patternGroups[1].thePattern == NRange(15, 6));
+			REQUIRE(patternGroups[1].theGroups[0] == NRange(18, 3));
+
+			REQUIRE(patternGroups[2].theGroups.size() == 1);
+			REQUIRE(patternGroups[2].thePattern == NRange(25, 6));
+			REQUIRE(patternGroups[2].theGroups[0] == NRange(28, 3));
+
+			REQUIRE(patternGroups[3].theGroups.size() == 1);
+			REQUIRE(patternGroups[3].thePattern == NRange(37, 6));
+			REQUIRE(patternGroups[3].theGroups[0] == NRange(40, 3));
+		}
+
+
+		patternGroups = theString.FindAllGroups("\\sWO(\\w+)", kNStringPattern);
+		REQUIRE(patternGroups.empty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Compare")
 {
 

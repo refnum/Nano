@@ -46,6 +46,7 @@
 #include "NDataDigest.h"
 #include "NStringComparator.h"
 #include "NStringEncoder.h"
+#include "NStringScanner.h"
 #include "NThread.h"
 #include "NUnicodeView.h"
 
@@ -492,6 +493,72 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 
 	return theData;
 }
+
+
+
+
+//=============================================================================
+//		NString::Find : Find the first instancs of a string.
+//-----------------------------------------------------------------------------
+NRange NString::Find(const NString& theString, NStringFlags theFlags, const NRange& theRange) const
+{
+
+
+	// Find rhe string
+	return NStringScanner::Find(*this, theString, theFlags, theRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::FindAll : Find all instancs of a string.
+//-----------------------------------------------------------------------------
+NVectorRange NString::FindAll(const NString& theString,
+							  NStringFlags   theFlags,
+							  const NRange&  theRange) const
+{
+
+
+	// Find rhe strings
+	return NStringScanner::FindAll(*this, theString, theFlags, theRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::FindGroup : Find the first instancs of capturing pattern.
+//-----------------------------------------------------------------------------
+NPatternGroup NString::FindGroup(const NString& theString,
+								 NStringFlags   theFlags,
+								 const NRange&  theRange) const
+{
+
+
+	// Find rhe string
+	return NStringScanner::FindGroup(*this, theString, theFlags, theRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::FindA;;Groups : Find a;; instancs of capturing pattern.
+//-----------------------------------------------------------------------------
+NVectorPatternGroup NString::FindAllGroups(const NString& theString,
+										   NStringFlags   theFlags,
+										   const NRange&  theRange) const
+{
+
+
+	// Find rhe strings
+	return NStringScanner::FindAllGroups(*this, theString, theFlags, theRange);
+}
+
 
 
 

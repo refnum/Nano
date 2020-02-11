@@ -216,6 +216,38 @@ public:
 	const void*                         GetContent(NStringEncoding* theEncoding, size_t* theSize) const;
 
 
+	// Find a string
+	//
+	// Find the first, or all, instances of a substring.
+	//
+	// kNStringPattern return the ranges of the overall match, ignoring
+	// any capture groups for pattern searches.
+	//
+	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
+	NRange                              Find(const NString& theString,
+											 NStringFlags   theFlags = kNStringNone,
+											 const NRange&  theRange = kNRangeAll) const;
+
+	NVectorRange                        FindAll(const NString& theString,
+												NStringFlags   theFlags = kNStringNone,
+												const NRange&  theRange = kNRangeAll) const;
+
+
+	// Find a capturing pattern
+	//
+	// Find the first, or all, instances of a substring.
+	//
+	// kNStringPattern return the ranges of the overall pattern, including
+	// ny capture groups within that pattern.
+	//
+	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
+	NPatternGroup                       FindGroup(const NString& theString,
+												  NStringFlags   theFlags = kNStringNone,
+												  const NRange&  theRange = kNRangeAll) const;
+
+	NVectorPatternGroup                 FindAllGroups(const NString& theString,
+													  NStringFlags   theFlags = kNStringNone,
+													  const NRange&  theRange = kNRangeAll) const;
 	// Compare the string
 	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone)   const;
 	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
