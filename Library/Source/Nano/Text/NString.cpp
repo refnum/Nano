@@ -620,6 +620,9 @@ bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the start.
+NStringFlags tmp = theFlags;
+NStringFlags tmp = theFlags | kNStringPattern;
+NN_UNUSED(tmp);
 	return !Find("\\A" + theString, theFlags | kNStringPattern).IsEmpty();
 }
 
