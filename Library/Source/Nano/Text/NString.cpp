@@ -620,11 +620,9 @@ bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the start.
-NStringFlags tmp = theFlags;
- tmp = kNStringPattern;
- tmp = theFlags | kNStringPattern;
-NN_UNUSED(tmp);
-	return !Find("\\A" + theString, theFlags | kNStringPattern).IsEmpty();
+	theFlags |= kNStringPattern;
+
+	return !Find("\\A" + theString, theFlags).IsEmpty();
 }
 
 
@@ -641,7 +639,9 @@ bool NString::EndsWith(const NString& theString, NStringFlags theFlags) const
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the end.
-	return !Find(theString + "\\Z", theFlags | kNStringPattern).IsEmpty();
+	theFlags |= kNStringPattern;
+
+	return !Find(theString + "\\Z", theFlags).IsEmpty();
 }
 
 

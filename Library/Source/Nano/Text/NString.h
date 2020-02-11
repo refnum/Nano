@@ -64,10 +64,10 @@ static constexpr size_t kNStringLength                      = size_t(-1);
 // String flags
 using NStringFlags                                          = uint8_t;
 
-static constexpr NStringFlags kNStringNone                  = NStringFlags(0);
-static constexpr NStringFlags kNStringNoCase                = NStringFlags(1 << 0);
-static constexpr NStringFlags kNStringNumeric               = NStringFlags(1 << 1);
-static constexpr NStringFlags kNStringPattern               = NStringFlags(1 << 2);
+static constexpr NStringFlags kNStringNone                  = 0;
+static constexpr NStringFlags kNStringNoCase                = (1 << 0);
+static constexpr NStringFlags kNStringNumeric               = (1 << 1);
+static constexpr NStringFlags kNStringPattern               = (1 << 2);
 
 static constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
 
@@ -75,11 +75,11 @@ static constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | 
 // Transform flags
 using NStringTransform                                      = uint8_t;
 
-static constexpr NStringTransform kNStringTransformNone                 = NStringTransform(0);
-static constexpr NStringTransform kNStringTransformToLower              = NStringTransform(1 << 0);
-static constexpr NStringTransform kNStringTransformToUpper              = NStringTransform(1 << 1);
-static constexpr NStringTransform kNStringTransformCapitalizeWords      = NStringTransform(1 << 2);
-static constexpr NStringTransform kNStringTransformCapitalizeSentences  = NStringTransform(1 << 3);
+static constexpr NStringTransform kNStringTransformNone                 = 0;
+static constexpr NStringTransform kNStringTransformToLower              = (1 << 0);
+static constexpr NStringTransform kNStringTransformToUpper              = (1 << 1);
+static constexpr NStringTransform kNStringTransformCapitalizeWords      = (1 << 2);
+static constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 3);
 
 
 
