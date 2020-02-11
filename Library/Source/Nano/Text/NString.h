@@ -256,6 +256,14 @@ public:
 	NString                             GetUpper() const;
 
 
+	// Test the string
+	//
+	// Supports kNStringNoCasea and kNStringPattern.
+	bool                                StartsWith(const NString& theString, NStringFlags theFlags = kNStringNone) const;
+	bool                                EndsWith(  const NString& theString, NStringFlags theFlags = kNStringNone) const;
+	bool                                Contains(  const NString& theString, NStringFlags theFlags = kNStringNone) const;
+
+
 	// Compare the string
 	//
 	// The equality (==, !=) and order (<, <=, >, >= operarators are case-sensitive.

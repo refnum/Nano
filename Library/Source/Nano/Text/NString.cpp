@@ -549,7 +549,7 @@ NPatternGroup NString::FindGroup(const NString& theString,
 
 
 //=============================================================================
-//		NString::FindA;;Groups : Find a;; instancs of capturing pattern.
+//		NString::FindAllGroups : Find a;; instancs of capturing pattern.
 //-----------------------------------------------------------------------------
 NVectorPatternGroup NString::FindAllGroups(const NString& theString,
 										   NStringFlags   theFlags,
@@ -604,6 +604,55 @@ NString NString::GetUpper() const
 
 	// Transform the string
 	return NStringTransformer::Transform(*this, kNStringTransformToUpper, kNRangeAll);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::StartsWith : Does a string start with a prefix?
+//-----------------------------------------------------------------------------
+bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
+{
+
+
+	// Check the string
+	//
+	// By using a pattern search we can anchor the search term at the start.
+	return !Find("\\A" + theString, theFlags | kNStringPattern).IsEmpty();
+}
+
+
+
+
+
+//=============================================================================
+//		NString::EndsWith : Does a string end with a suffix?
+//-----------------------------------------------------------------------------
+bool NString::EndsWith(const NString& theString, NStringFlags theFlags) const
+{
+
+
+	// Check the string
+	//
+	// By using a pattern search we can anchor the search term at the end.
+	return !Find(theString + "\\Z", theFlags | kNStringPattern).IsEmpty();
+}
+
+
+
+
+
+//=============================================================================
+//		NString::Contains : Does a string contain a string?
+//-----------------------------------------------------------------------------
+bool NString::Contains(const NString& theString, NStringFlags theFlags) const
+{
+
+
+	// Check the string
+	return !Find(theString, theFlags).IsEmpty();
 }
 
 

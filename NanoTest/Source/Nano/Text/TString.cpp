@@ -687,6 +687,72 @@ NANO_TEST(TString, "GetUpper")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "StartsWith")
+{
+
+
+	// Perform the test
+	for (auto theString : stringObjects)
+	{
+		REQUIRE(theString.StartsWith("Hello"));
+		REQUIRE(theString.StartsWith("HELLO", kNStringNoCase));
+
+		REQUIRE(theString.StartsWith("Hel+o", kNStringPattern));
+		REQUIRE(theString.StartsWith("HEL+O", kNStringPatternNoCase));
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "EndsWith")
+{
+
+
+	// Perform the test
+	for (auto theString : stringObjects)
+	{
+		REQUIRE(theString.EndsWith("World"));
+		REQUIRE(theString.EndsWith("WORLD", kNStringNoCase));
+
+		REQUIRE(theString.EndsWith("Wo\\w\\wd", kNStringPattern));
+		REQUIRE(theString.EndsWith("WO\\w\\wD", kNStringPatternNoCase));
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Contains")
+{
+
+
+	// Perform the test
+	for (auto theString : stringObjects)
+	{
+		REQUIRE(theString.Contains("llo Wor"));
+		REQUIRE(theString.Contains("LLO WOR", kNStringNoCase));
+
+		REQUIRE(theString.Contains("l+o\\sW.r", kNStringPattern));
+		REQUIRE(theString.Contains("L+O\\sW.R", kNStringPatternNoCase));
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Compare")
 {
 
