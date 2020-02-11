@@ -64,8 +64,8 @@ NANO_TEST(NTextUtils, "ToLower")
 
 
 	// Perform the test
-	REQUIRE(NTextUtils::ToLower(U'A') == U'a');
-	REQUIRE(NTextUtils::ToLower(U'Z') == U'z');
+	REQUIRE(NTextUtils::GetLower(U'A') == U'a');
+	REQUIRE(NTextUtils::GetLower(U'Z') == U'z');
 }
 
 
@@ -80,6 +80,6 @@ NANO_TEST(NTextUtils, "ToUpper")
 
 
 	// Perform the test
-	REQUIRE(NTextUtils::ToUpper(U'a') == U'A');
-	REQUIRE(NTextUtils::ToUpper(U'z') == U'Z');
+	REQUIRE(NTextUtils::GetUpper(U'a') == U'A');
+	REQUIRE(NTextUtils::GetUpper(U'z') == U'Z');
 }

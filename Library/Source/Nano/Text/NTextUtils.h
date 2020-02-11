@@ -55,8 +55,8 @@ class NTextUtils
 {
 public:
 	// Convert case
-	static constexpr utf32_t            ToLower(utf32_t theChar);
-	static constexpr utf32_t            ToUpper(utf32_t theChar);
+	static constexpr utf32_t            GetLower(utf32_t theChar);
+	static constexpr utf32_t            GetUpper(utf32_t theChar);
 
 
 	// Test a character

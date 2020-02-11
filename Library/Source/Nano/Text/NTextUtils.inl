@@ -45,9 +45,9 @@
 
 
 //=============================================================================
-//		NTextUtils::ToLower : Convert to lower case.
+//		NTextUtils::GetLower : Convert to lower case.
 //-----------------------------------------------------------------------------
-constexpr utf32_t NTextUtils::ToLower(utf32_t theChar)
+constexpr utf32_t NTextUtils::GetLower(utf32_t theChar)
 {
 
 
@@ -65,9 +65,9 @@ constexpr utf32_t NTextUtils::ToLower(utf32_t theChar)
 
 
 //=============================================================================
-//		NTextUtils::ToUpper : Convert to upper case.
+//		NTextUtils::GetUpper : Convert to upper case.
 //-----------------------------------------------------------------------------
-constexpr utf32_t NTextUtils::ToUpper(utf32_t theChar)
+constexpr utf32_t NTextUtils::GetUpper(utf32_t theChar)
 {
 
 

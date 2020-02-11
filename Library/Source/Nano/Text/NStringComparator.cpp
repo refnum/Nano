@@ -208,8 +208,8 @@ NOptionalComparison NStringComparator::CompareGeneral(const NString& stringA,
 		// Compare lexicographically
 		if (ignoreCase)
 		{
-			charA = NTextUtils::ToLower(charA);
-			charB = NTextUtils::ToLower(charB);
+			charA = NTextUtils::GetLower(charA);
+			charB = NTextUtils::GetLower(charB);
 		}
 
 		if (charA != charB)
