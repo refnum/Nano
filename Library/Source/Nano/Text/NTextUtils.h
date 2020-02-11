@@ -60,7 +60,9 @@ public:
 
 
 	// Test a character
-	static constexpr bool               IsDigit(utf32_t theChar);
+	static constexpr bool               IsDigit(   utf32_t theChar);
+	static constexpr bool               IsAlpha(   utf32_t theChar);
+	static constexpr bool               IsSentence(utf32_t theChar);
 };
 
 

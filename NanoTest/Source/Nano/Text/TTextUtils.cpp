@@ -83,3 +83,83 @@ NANO_TEST(NTextUtils, "ToUpper")
 	REQUIRE(NTextUtils::GetUpper(U'a') == U'A');
 	REQUIRE(NTextUtils::GetUpper(U'z') == U'Z');
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "IsDigit")
+{
+
+
+	// Perform the test
+	REQUIRE(NTextUtils::IsDigit(U'0'));
+	REQUIRE(NTextUtils::IsDigit(U'1'));
+	REQUIRE(NTextUtils::IsDigit(U'2'));
+	REQUIRE(NTextUtils::IsDigit(U'3'));
+	REQUIRE(NTextUtils::IsDigit(U'4'));
+	REQUIRE(NTextUtils::IsDigit(U'5'));
+	REQUIRE(NTextUtils::IsDigit(U'6'));
+	REQUIRE(NTextUtils::IsDigit(U'7'));
+	REQUIRE(NTextUtils::IsDigit(U'8'));
+	REQUIRE(NTextUtils::IsDigit(U'9'));
+
+	REQUIRE(!NTextUtils::IsDigit(U'A'));
+	REQUIRE(!NTextUtils::IsDigit(U'Z'));
+	REQUIRE(!NTextUtils::IsDigit(U'a'));
+	REQUIRE(!NTextUtils::IsDigit(U'z'));
+	REQUIRE(!NTextUtils::IsDigit(U'!'));
+	REQUIRE(!NTextUtils::IsDigit(U'?'));
+	REQUIRE(!NTextUtils::IsDigit(U'#'));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "IsAlpha")
+{
+
+
+	// Perform the test
+	REQUIRE(NTextUtils::IsAlpha(U'A'));
+	REQUIRE(NTextUtils::IsAlpha(U'Z'));
+	REQUIRE(NTextUtils::IsAlpha(U'a'));
+	REQUIRE(NTextUtils::IsAlpha(U'z'));
+
+	REQUIRE(!NTextUtils::IsAlpha(U'0'));
+	REQUIRE(!NTextUtils::IsAlpha(U'9'));
+	REQUIRE(!NTextUtils::IsAlpha(U'!'));
+	REQUIRE(!NTextUtils::IsAlpha(U'?'));
+	REQUIRE(!NTextUtils::IsAlpha(U'#'));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "IsSentence")
+{
+
+
+	// Perform the test
+	REQUIRE(NTextUtils::IsSentence(U'!'));
+	REQUIRE(NTextUtils::IsSentence(U'.'));
+	REQUIRE(NTextUtils::IsSentence(U'?'));
+
+	REQUIRE(!NTextUtils::IsSentence(U'0'));
+	REQUIRE(!NTextUtils::IsSentence(U'9'));
+	REQUIRE(!NTextUtils::IsSentence(U'A'));
+	REQUIRE(!NTextUtils::IsSentence(U'Z'));
+	REQUIRE(!NTextUtils::IsSentence(U'a'));
+	REQUIRE(!NTextUtils::IsSentence(U'z'));
+}

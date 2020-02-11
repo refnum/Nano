@@ -94,3 +94,33 @@ constexpr bool NTextUtils::IsDigit(utf32_t theChar)
 	// Test the character
 	return theChar >= U'0' && theChar <= U'9';
 }
+
+
+
+
+
+//=============================================================================
+//		NTextUtils::IsAlpha : Is a character alphabetic?
+//-----------------------------------------------------------------------------
+constexpr bool NTextUtils::IsAlpha(utf32_t theChar)
+{
+
+
+	// Test the character
+	return (theChar >= U'A' && theChar <= U'Z') || (theChar >= U'a' && theChar <= U'z');
+}
+
+
+
+
+
+//=============================================================================
+//		NTextUtils::IsSentence : Is a character a sentence terminator?
+//-----------------------------------------------------------------------------
+constexpr bool NTextUtils::IsSentence(utf32_t theChar)
+{
+
+
+	// Test the character
+	return theChar == U'!' || theChar == U'.' || theChar == U'?';
+}
