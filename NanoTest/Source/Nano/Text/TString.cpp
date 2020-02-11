@@ -68,7 +68,7 @@ static const uint32_t kTestDataLargeUTF32[]                 = {
 	0x000054, 0x000068, 0x000072, 0x000065, 0x000065};
 
 static const NString kTestStringSmall                       = "Hello World";
-static const NString kTestStringLarge                       = "Hello World Testing Testing One Two Three";
+static const NString kTestStringLarge                       = "Hello World One World Two World Three World";
 
 
 
@@ -588,6 +588,95 @@ NANO_TEST(TString, "FindAllGroups")
 
 		patternGroups = theString.FindAllGroups("\\sWO(\\w+)", kNStringPattern);
 		REQUIRE(patternGroups.empty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetTransformed")
+{
+
+
+	// Perform the test
+	NString tmpString;
+
+	for (auto theString : stringObjects)
+	{
+		tmpString = theString.GetTransformed(kNStringTransformNone);
+		REQUIRE(tmpString == theString);
+
+		tmpString = theString.GetTransformed(kNStringTransformToLower);
+		REQUIRE(tmpString != theString);
+
+		tmpString = theString.GetTransformed(kNStringTransformToUpper);
+		REQUIRE(tmpString != theString);
+	}
+
+	tmpString = NString("one two three").GetTransformed(kNStringTransformCapitalizeWords);
+	REQUIRE(tmpString == "One Two Three");
+
+	tmpString = NString("one? TWO! three.").GetTransformed(kNStringTransformCapitalizeSentences);
+	REQUIRE(tmpString == "One? Two! Three.");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetLower")
+{
+
+
+	// Perform the test
+	NString       tmpString;
+	const utf8_t* textUTF8;
+
+	for (auto theString : stringObjects)
+	{
+		tmpString = theString.GetLower();
+		textUTF8  = tmpString.GetUTF8();
+
+		while (*textUTF8 != 0x00)
+		{
+			REQUIRE((!isalpha(*textUTF8) || islower(*textUTF8)));
+			textUTF8++;
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetUpper")
+{
+
+
+	// Perform the test
+	NString       tmpString;
+	const utf8_t* textUTF8;
+
+	for (auto theString : stringObjects)
+	{
+		tmpString = theString.GetUpper();
+		textUTF8  = tmpString.GetUTF8();
+
+		while (*textUTF8 != 0x00)
+		{
+			REQUIRE((!isalpha(*textUTF8) || isupper(*textUTF8)));
+			textUTF8++;
+		}
 	}
 }
 

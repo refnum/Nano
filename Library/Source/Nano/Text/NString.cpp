@@ -47,6 +47,7 @@
 #include "NStringComparator.h"
 #include "NStringEncoder.h"
 #include "NStringScanner.h"
+#include "NStringTransformer.h"
 #include "NThread.h"
 #include "NUnicodeView.h"
 
@@ -497,6 +498,7 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 
 
 
+
 //=============================================================================
 //		NString::Find : Find the first instancs of a string.
 //-----------------------------------------------------------------------------
@@ -559,6 +561,50 @@ NVectorPatternGroup NString::FindAllGroups(const NString& theString,
 	return NStringScanner::FindAllGroups(*this, theString, theFlags, theRange);
 }
 
+
+
+
+
+//=============================================================================
+//		NString::GetTransformed : Transform the string.
+//-----------------------------------------------------------------------------
+NString NString::GetTransformed(NStringTransform theTransform, const NRange& theRange)
+{
+
+
+	// Transform the string
+	return NStringTransformer::Transform(*this, theTransform, theRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetLower : Get the string in lower case.
+//-----------------------------------------------------------------------------
+NString NString::GetLower() const
+{
+
+
+	// Transform the string
+	return NStringTransformer::Transform(*this, kNStringTransformToLower, kNRangeAll);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetUpper : Get the string in upper case.
+//-----------------------------------------------------------------------------
+NString NString::GetUpper() const
+{
+
+
+	// Transform the string
+	return NStringTransformer::Transform(*this, kNStringTransformToUpper, kNRangeAll);
+}
 
 
 

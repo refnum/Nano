@@ -248,6 +248,14 @@ public:
 	NVectorPatternGroup                 FindAllGroups(const NString& theString,
 													  NStringFlags   theFlags = kNStringNone,
 													  const NRange&  theRange = kNRangeAll) const;
+
+
+	// Transform the string
+	NString                             GetTransformed(NStringTransform theTransform, const NRange& theRange = kNRangeAll);
+	NString                             GetLower() const;
+	NString                             GetUpper() const;
+
+
 	// Compare the string
 	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone)   const;
 	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
