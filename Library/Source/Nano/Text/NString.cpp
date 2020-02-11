@@ -621,6 +621,7 @@ bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
 	//
 	// By using a pattern search we can anchor the search term at the start.
 NStringFlags tmp = theFlags;
+ tmp = kNStringPattern;
  tmp = theFlags | kNStringPattern;
 NN_UNUSED(tmp);
 	return !Find("\\A" + theString, theFlags | kNStringPattern).IsEmpty();
