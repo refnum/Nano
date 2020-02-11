@@ -31,6 +31,9 @@
 		AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */; };
 		AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */; };
 		AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */; };
+		AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
+		AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
+		AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
 		AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
 		AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
 		AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
@@ -235,6 +238,8 @@
 		AB1B4DA123F0920100B304D3 /* Nano_pcre2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_pcre2.h; sourceTree = "<group>"; };
 		AB1B4DA223F0A65500B304D3 /* NTextUtils.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTextUtils.inl; sourceTree = "<group>"; };
 		AB1B4DA323F21DB100B304D3 /* Nano Prefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Nano Prefix.h"; path = "Nano/Nano Prefix.h"; sourceTree = "<group>"; };
+		AB1B4DA423F2F90800B304D3 /* NStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringTransformer.h; sourceTree = "<group>"; };
+		AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA181104E7CD300BB002B /* NTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTransform.cpp; sourceTree = "<group>"; };
 		AB1BA182104E7CD300BB002B /* NTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTransform.h; sourceTree = "<group>"; };
 		AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NGeometryUtilities.cpp; sourceTree = "<group>"; };
@@ -934,9 +939,11 @@
 				AB54F9AC23EF14A7005207BC /* NStringComparator.h */,
 				AB56391C23C2A52700675F68 /* NStringEncoder.cpp */,
 				AB56391B23C2A52700675F68 /* NStringEncoder.h */,
+				AB56392E23C6B13900675F68 /* NStringEncodings.h */,
 				AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */,
 				AB1B4D9D23F0250C00B304D3 /* NStringScanner.h */,
-				AB56392E23C6B13900675F68 /* NStringEncodings.h */,
+				AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */,
+				AB1B4DA423F2F90800B304D3 /* NStringTransformer.h */,
 				AB54F9A223EE44C9005207BC /* NTextUtils.h */,
 				AB1B4DA223F0A65500B304D3 /* NTextUtils.inl */,
 				AB56393923C75C3A00675F68 /* NUnicodeView.cpp */,
@@ -1634,6 +1641,7 @@
 				AB07EA2B2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp in Sources */,
 				AB07EA3D239A522400E0AC49 /* tvOSNSemaphore.cpp in Sources */,
 				AB51285323D2810600528FBE /* pcre2_maketables.c in Sources */,
+				AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB51283523D2810600528FBE /* pcre2_extuni.c in Sources */,
 				AB51285023D2810600528FBE /* pcre2_tables.c in Sources */,
 				AB56391023C2A3A900675F68 /* NString.cpp in Sources */,
@@ -1692,6 +1700,7 @@
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
 				AB51285123D2810600528FBE /* pcre2_maketables.c in Sources */,
+				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB51283323D2810600528FBE /* pcre2_extuni.c in Sources */,
 				AB51284E23D2810600528FBE /* pcre2_tables.c in Sources */,
 				AB56390E23C2A3A900675F68 /* NString.cpp in Sources */,
@@ -1748,6 +1757,7 @@
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				AB51283A23D2810600528FBE /* pcre2_match.c in Sources */,
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
+				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB51281F23D2810600528FBE /* pcre2_convert.c in Sources */,

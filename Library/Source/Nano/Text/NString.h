@@ -72,6 +72,16 @@ static constexpr NStringFlags kNStringPattern               = (1 << 2);
 static constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
 
 
+// Transform flags
+using NStringTransform                                      = uint8_t;
+
+static constexpr NStringTransform kNStringTransformNone                 = 0;
+static constexpr NStringTransform kNStringTransformToLower              = (1 << 0);
+static constexpr NStringTransform kNStringTransformToUpper              = (1 << 1);
+static constexpr NStringTransform kNStringTransformCapitalizeWords      = (1 << 2);
+static constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 3);
+
+
 
 
 
