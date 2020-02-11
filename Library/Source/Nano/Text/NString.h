@@ -257,6 +257,10 @@ public:
 
 
 	// Compare the string
+	//
+	// The equality (==, !=) and order (<, <=, >, >= operarators are case-sensitive.
+	//
+	// Supports kNStringNoCasea and kNStringNumeric.
 	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone)   const;
 	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
 
