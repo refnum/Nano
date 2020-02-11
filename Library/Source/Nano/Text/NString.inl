@@ -451,3 +451,19 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 		mString.Small.theData[n] = ((n < numBytes) ? theData[n] : uint8_t(0));
 	}
 }
+
+
+
+
+
+//=============================================================================
+//		Global operator+ : Append a string literal.
+//-----------------------------------------------------------------------------
+template <typename T>
+NString operator+(const T* theLiteral, const NString& theString)
+{
+
+
+	// Append the string
+	return NString(theLiteral) + theString;
+}
