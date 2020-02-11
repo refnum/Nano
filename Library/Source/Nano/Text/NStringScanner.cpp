@@ -54,8 +54,8 @@
 //-----------------------------------------------------------------------------
 NRange NStringScanner::Find(const NString& theString,
 							const NString& searchFor,
-							const NRange&  searchRange,
-							NStringFlags   theFlags)
+							NStringFlags   theFlags,
+							const NRange&  theRange)
 {
 
 
@@ -65,7 +65,7 @@ NRange NStringScanner::Find(const NString& theString,
 
 
 	// Find the first instance
-	return FindGroup(theString, searchFor, searchRange, theFlags).thePattern;
+	return FindGroup(theString, searchFor, theFlags, theRange).thePattern;
 }
 
 
@@ -77,8 +77,8 @@ NRange NStringScanner::Find(const NString& theString,
 //-----------------------------------------------------------------------------
 NVectorRange NStringScanner::FindAll(const NString& theString,
 									 const NString& searchFor,
-									 const NRange&  searchRange,
-									 NStringFlags   theFlags)
+									 NStringFlags   theFlags,
+									 const NRange&  theRange)
 {
 
 
@@ -87,10 +87,10 @@ NVectorRange NStringScanner::FindAll(const NString& theString,
 
 
 
-	// Find the first instance
+	// Find every instance
 	NVectorRange theResult;
 
-	for (const auto& patternGroup : FindAllGroups(theString, searchFor, searchRange, theFlags))
+	for (const auto& patternGroup : FindAllGroups(theString, searchFor, theFlags, theRange))
 	{
 		theResult.push_back(patternGroup.thePattern);
 	}
@@ -107,8 +107,8 @@ NVectorRange NStringScanner::FindAll(const NString& theString,
 //-----------------------------------------------------------------------------
 NPatternGroup NStringScanner::FindGroup(const NString& theString,
 										const NString& searchFor,
-										const NRange&  searchRange,
-										NStringFlags   theFlags)
+										NStringFlags   theFlags,
+										const NRange&  theRange)
 {
 
 
@@ -118,7 +118,7 @@ NPatternGroup NStringScanner::FindGroup(const NString& theString,
 
 
 	// Find the first instance
-	NVectorPatternGroup patternGroups = Find(theString, searchFor, searchRange, theFlags, 1);
+	NVectorPatternGroup patternGroups = Find(theString, searchFor, theFlags, theRange, 1);
 	NPatternGroup       theResult;
 
 	if (!patternGroups.empty())
@@ -138,8 +138,8 @@ NPatternGroup NStringScanner::FindGroup(const NString& theString,
 //-----------------------------------------------------------------------------
 NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
 												  const NString& searchFor,
-												  const NRange&  searchRange,
-												  NStringFlags   theFlags)
+												  NStringFlags   theFlags,
+												  const NRange&  theRange)
 {
 
 
@@ -148,8 +148,8 @@ NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
 
 
 
-	// Find the first instance
-	return Find(theString, searchFor, searchRange, theFlags, kNSizeMax);
+	// Find every instance
+	return Find(theString, searchFor, theFlags, theRange, kNSizeMax);
 }
 
 
@@ -162,9 +162,9 @@ NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
 //-----------------------------------------------------------------------------
 NVectorPatternGroup NStringScanner::Find(const NString& theString,
 										 const NString& searchFor,
-										 const NRange&  searchRange,
 										 NStringFlags   theFlags,
-										 size_t         maxResult)
+										 const NRange&  theRange,
+										 size_t         maxResuilt)
 {
 
 
@@ -174,15 +174,15 @@ NVectorPatternGroup NStringScanner::Find(const NString& theString,
 
 
 	// Get the state we need
-	NRange              finalRange = searchRange.GetNormalized(theString.GetSize());
+	NRange              finalRange = theRange.GetNormalized(theString.GetSize());
 	NVectorPatternGroup patternGroups;
 
 
 
 	// Find the pattern
-	if (!theString.IsEmpty() && !searchFor.IsEmpty() && !searchRange.IsEmpty())
+	if (!theString.IsEmpty() && !searchFor.IsEmpty() && !finalRange.IsEmpty())
 	{
-		patternGroups = FindPattern(theString, searchFor, finalRange, theFlags, maxResult);
+		patternGroups = FindPattern(theString, searchFor, theFlags, finalRange, maxResuilt);
 	}
 
 	return patternGroups;
@@ -197,8 +197,8 @@ NVectorPatternGroup NStringScanner::Find(const NString& theString,
 //-----------------------------------------------------------------------------
 NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 												const NString& searchFor,
-												const NRange&  theRange,
 												NStringFlags   theFlags,
+												const NRange&  theRange,
 												size_t         maxResult)
 {
 
@@ -309,7 +309,6 @@ pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFl
 	if (theFlags & kNStringPattern)
 	{
 		regFlags |= PCRE2_DOTALL;
-		regFlags |= PCRE2_MULTILINE;
 	}
 	else
 	{
@@ -419,11 +418,11 @@ NRange NStringScanner::BytesToCodepoints(const NVectorSize& codePointOffsets,
 	// Get the state we need
 	size_t codePointLocation = kNNotFound;
 	size_t codePointSize     = kNNotFound;
-
+	size_t n                 = codePointOffset;
 
 
 	// Find the codepoint offsets
-	for (size_t n = codePointOffset; n < codePointOffsets.size(); n++)
+	for (; n < codePointOffsets.size(); n++)
 	{
 		size_t byteOffset = codePointOffsets[n];
 
@@ -442,8 +441,17 @@ NRange NStringScanner::BytesToCodepoints(const NVectorSize& codePointOffsets,
 
 
 	// Update the range
+	//
+	// If the the byte range ends on the final codepoint then our byte range
+	// will end exactly after the final codepoint, so we calculate the size
+	// relative to the location.
 	NN_REQUIRE(codePointLocation != kNNotFound);
-	NN_REQUIRE(codePointSize != kNNotFound);
+
+	if (byteRange.GetNext() == codePointOffsets.size())
+	{
+		NN_REQUIRE(codePointSize == kNNotFound);
+		codePointSize = n - codePointLocation;
+	}
 
 	return {codePointLocation, codePointSize};
 }
