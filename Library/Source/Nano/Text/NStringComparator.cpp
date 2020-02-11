@@ -43,6 +43,7 @@
 
 // Nano
 #include "NData.h"
+#include "NDebug.h"
 #include "NStdAlgorithm.h"
 #include "NTextUtils.h"
 #include "NUnicodeView.h"
@@ -58,6 +59,11 @@ NComparison NStringComparator::Compare(const NString& stringA,
 									   const NString& stringB,
 									   NStringFlags   theFlags)
 {
+
+
+	// Validate ourparameters
+	NN_REQUIRE((theFlags & ~(kNStringNoCase | kNStringNumeric)) == 0);
+
 
 
 	// Compare the strings

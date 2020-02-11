@@ -71,6 +71,8 @@ class NStringComparator
 {
 public:
 	// Compare two strings
+	//
+	// Supports kNStringNoCase and kNStringNumeric.
 	static NComparison                  Compare(const NString& stringA,
 												const NString& stringB,
 												NStringFlags   theFlags = kNStringNone);
