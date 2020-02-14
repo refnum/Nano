@@ -162,7 +162,7 @@ bool NStringTransformer::CapitalizeCharacters(size_t numUTF32, utf32_t* textUTF3
 	{
 		// Get the state we need
 		utf32_t oldChar = textUTF32[n];
-		utf32_t newChar = oldChar;
+		utf32_t newChar;
 
 
 
