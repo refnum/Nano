@@ -57,8 +57,11 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declarations
 class NRange;
 
+
+// Containers
 using NVectorRange = std::vector<NRange>;
 
 
@@ -107,20 +110,21 @@ public:
 	void                                SetRange(size_t theLocation, size_t theSize);
 
 
-	// Get the limits
+	// Get the contents
 	//
-	// The first and last element are contained within the range.
+	// The position of the elements within the range are relative
+	// to the range location/
+	//
+	// The first element in the range has an offset of 0.
+	//
+	// The first and last element are both contained within the range.
 	//
 	// The "next element" is the element immediately after the range.
+	size_t                              GetPosition(size_t theOffset) const;
+
 	size_t                              GetFirst() const;
 	size_t                              GetLast()  const;
 	size_t                              GetNext()  const;
-
-
-	// Get an offset
-	//
-	// Return an offset relative to our location.
-	size_t                              GetOffset(size_t theOffset) const;
 
 
 	// Get the union with a range
@@ -146,7 +150,8 @@ public:
 	NRange                              GetNormalized(size_t theSize) const;
 
 
-	// Compare a range
+public:
+	// NMixinComparable
 	bool                                CompareEqual(const NRange& theRange) const;
 	NComparison                         CompareOrder(const NRange& theRange) const;
 

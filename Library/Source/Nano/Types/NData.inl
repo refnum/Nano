@@ -342,5 +342,7 @@ inline const uint8_t* NData::GetDataLarge(size_t theOffset) const
 
 
 	// Get the data
-	return &mData.Large.theState->theData[mData.Large.theSlice.GetOffset(theOffset)];
+	size_t theIndex = mData.Large.theSlice.GetPosition(theOffset);
+
+	return &mData.Large.theState->theData[theIndex];
 }

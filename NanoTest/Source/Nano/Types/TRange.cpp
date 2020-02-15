@@ -230,43 +230,34 @@ NANO_TEST(TRange, "Size")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Limit")
+NANO_TEST(TRange, "Contents")
 {
 
 
 	// Perform the test
 	REQUIRE(kTestRange1.GetLocation() == 0);
 	REQUIRE(kTestRange1.GetSize() == 5);
+
+	REQUIRE(kTestRange1.GetPosition(0) == kTestRange1.GetFirst());
+	REQUIRE(kTestRange1.GetPosition(1) == kTestRange1.GetFirst() + 1);
+	REQUIRE(kTestRange1.GetPosition(2) == kTestRange1.GetFirst() + 2);
+
 	REQUIRE(kTestRange1.GetFirst() == 0);
 	REQUIRE(kTestRange1.GetLast() == 4);
 	REQUIRE(kTestRange1.GetNext() == 5);
 
+
+	// Perform the test
 	REQUIRE(kTestRange2.GetLocation() == 3);
 	REQUIRE(kTestRange2.GetSize() == 7);
+
+	REQUIRE(kTestRange2.GetPosition(0) == kTestRange2.GetFirst());
+	REQUIRE(kTestRange2.GetPosition(1) == kTestRange2.GetFirst() + 1);
+	REQUIRE(kTestRange2.GetPosition(2) == kTestRange2.GetFirst() + 2);
+
 	REQUIRE(kTestRange2.GetFirst() == 3);
 	REQUIRE(kTestRange2.GetLast() == 9);
 	REQUIRE(kTestRange2.GetNext() == 10);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Offset")
-{
-
-
-	// Perform the test
-	REQUIRE(kTestRange1.GetOffset(0) == kTestRange1.GetFirst());
-	REQUIRE(kTestRange1.GetOffset(1) == kTestRange1.GetFirst() + 1);
-	REQUIRE(kTestRange1.GetOffset(2) == kTestRange1.GetFirst() + 2);
-
-	REQUIRE(kTestRange2.GetOffset(0) == kTestRange2.GetFirst());
-	REQUIRE(kTestRange2.GetOffset(1) == kTestRange2.GetFirst() + 1);
-	REQUIRE(kTestRange2.GetOffset(2) == kTestRange2.GetFirst() + 2);
 }
 
 

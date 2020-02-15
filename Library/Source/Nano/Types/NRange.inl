@@ -238,6 +238,27 @@ inline void NRange::SetRange(size_t theLocation, size_t theSize)
 
 
 //=============================================================================
+//		NRange::GetPosition : Get the position of an element.
+//-----------------------------------------------------------------------------
+inline size_t NRange::GetPosition(size_t theOffset) const
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theOffset < GetSize());
+	NN_REQUIRE(!IsMeta());
+
+
+
+	// Get the element
+	return mLocation + theOffset;
+}
+
+
+
+
+
+//=============================================================================
 //		NRange::GetFirst : Get the first element.
 //-----------------------------------------------------------------------------
 inline size_t NRange::GetFirst() const
@@ -292,23 +313,4 @@ inline size_t NRange::GetNext() const
 
 	// Get the next element
 	return mLocation + mSize;
-}
-
-
-
-
-
-//=============================================================================
-//		NRange::GetOffset : Get an offset.
-//-----------------------------------------------------------------------------
-inline size_t NRange::GetOffset(size_t theOffset) const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(!IsMeta());
-
-
-	// Get the offset
-	return mLocation + theOffset;
 }
