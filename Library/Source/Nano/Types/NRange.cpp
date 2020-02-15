@@ -52,6 +52,26 @@
 
 
 //=============================================================================
+//		NRange::GetOffset : Get the range relative to an offset.
+//-----------------------------------------------------------------------------
+NRange NRange::GetOffset(size_t theOffset) const
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!IsMeta());
+
+
+
+	// Get the offset
+	return {mLocation + theOffset, mSize};
+}
+
+
+
+
+
+//=============================================================================
 //		NRange::GetUnion : Get the union with a range.
 //-----------------------------------------------------------------------------
 NRange NRange::GetUnion(const NRange& theRange) const
@@ -164,6 +184,7 @@ NRange NRange::GetNormalized(size_t theSize) const
 
 
 
+#pragma mark NMixinComparable
 //=============================================================================
 //		NRange::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
@@ -172,7 +193,7 @@ bool NRange::CompareEqual(const NRange& theRange) const
 
 
 	// Compare the range
-	return mLocation == theRange.mLocation && mSize == theRange.mSize;
+	return (mLocation == theRange.mLocation) && (mSize == theRange.mSize);
 }
 
 

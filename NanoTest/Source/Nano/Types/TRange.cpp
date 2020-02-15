@@ -249,6 +249,27 @@ NANO_TEST(TRange, "Contents")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TRange, "GetOffset")
+{
+
+
+	// Perform the test
+	REQUIRE(NRange(0, 3).GetOffset(0) == NRange(0, 3));
+	REQUIRE(NRange(0, 3).GetOffset(1) == NRange(1, 3));
+	REQUIRE(NRange(0, 3).GetOffset(2) == NRange(2, 3));
+
+	REQUIRE(NRange(1, 3).GetOffset(0) == NRange(1, 3));
+	REQUIRE(NRange(2, 3).GetOffset(1) == NRange(3, 3));
+	REQUIRE(NRange(3, 3).GetOffset(2) == NRange(5, 3));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TRange, "GetUnion")
 {
 

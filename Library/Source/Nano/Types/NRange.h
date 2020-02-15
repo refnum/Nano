@@ -127,6 +127,10 @@ public:
 	size_t                              GetNext()  const;
 
 
+	// Get the range relative to an offset
+	NRange                              GetOffset(size_t theOffset) const;
+
+
 	// Get the union with a range
 	NRange                              GetUnion(const NRange& theRange) const;
 
