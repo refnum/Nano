@@ -256,10 +256,8 @@ NData NData::GetData(const NRange& theRange) const
 			theData.MakeClone(*this);
 			NN_REQUIRE(theData.IsLarge());
 
-			finalRange.SetLocation(finalRange.GetLocation() +
-								   theData.mData.Large.theSlice.GetLocation());
-
-			theData.mData.Large.theSlice = finalRange;
+			auto& theSlice = theData.mData.Large.theSlice;
+			theSlice       = finalRange.GetOffset(theSlice.GetLocation());
 		}
 	}
 
