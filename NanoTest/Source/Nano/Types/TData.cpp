@@ -125,24 +125,6 @@ NANO_TEST(TData, "Container")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "Hashable")
-{
-
-
-	// Perform the test
-	for (auto theData : dataObjects)
-	{
-		REQUIRE(theData.GetHash() != 0);
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
 NANO_TEST(TData, "CreateCopy")
 {
 
@@ -765,9 +747,33 @@ NANO_TEST(TData, "Contains")
 
 
 //=============================================================================
+//		Test cases
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "Appendable")
+{
+
+
+	// Perform the test
+	for (auto theData : dataObjects)
+	{
+		size_t theSize = theData.GetSize();
+		theData += kTestDataSmall;
+
+		REQUIRE(theData.GetSize() == (theSize + kTestDataSmall.GetSize()));
+		REQUIRE(memcmp(theData.GetData(theSize),
+					   kTestDataSmall.GetData(),
+					   kTestDataSmall.GetSize()) == 0);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "Comparable")
+NANO_TEST(TData, "CompareEqual")
 {
 
 
@@ -794,21 +800,34 @@ NANO_TEST(TData, "Comparable")
 
 
 //=============================================================================
-//		Test cases
+//		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "Concatenation")
+NANO_TEST(TData, "CompareOrder")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestDataSmall <= kTestDataSmall);
+	REQUIRE(kTestDataSmall < kTestDataLarge);
+
+	REQUIRE(kTestDataLarge >= kTestDataLarge);
+	REQUIRE(kTestDataLarge > kTestDataSmall);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TData, "Hashable")
 {
 
 
 	// Perform the test
 	for (auto theData : dataObjects)
 	{
-		size_t theSize = theData.GetSize();
-		theData += kTestDataSmall;
-
-		REQUIRE(theData.GetSize() == (theSize + kTestDataSmall.GetSize()));
-		REQUIRE(memcmp(theData.GetData(theSize),
-					   kTestDataSmall.GetData(),
-					   kTestDataSmall.GetSize()) == 0);
+		REQUIRE(theData.GetHash() != 0);
 	}
 }

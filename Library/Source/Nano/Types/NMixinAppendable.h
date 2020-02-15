@@ -1,8 +1,8 @@
 /*	NAME:
-		NMixinConcatenable.inl
+		NMixinAppendable.h
 
 	DESCRIPTION:
-		Mix-in for concatenable objects.
+		Mix-in for appendable objects.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,6 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
+#ifndef NMIXIN_APPENDABLE_H
+#define NMIXIN_APPENDABLE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -45,19 +47,33 @@
 
 
 //=============================================================================
-//		NMixinConcatenable::operator + : Concatenate operator.
+//		Class Declaration
 //-----------------------------------------------------------------------------
 template <class T>
-T NMixinConcatenable<T>::operator+(const T& theValue) const
+class NMixinAppendable
 {
+public:
+	// Operators
+	const T&                            operator+=(const T& theValue);
+	T                                   operator+( const T& theValue) const;
 
 
-	// Append the value
-	const T& thisObject = static_cast<const T&>(*this);
+public:
+	// Append an object
+	//
+	// Must be implemented by derived classes.
+	void                                Append(const T& theValue);
+};
 
-	T theResult(thisObject);
 
-	theResult += theValue;
 
-	return theResult;
-}
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NMixinAppendable.inl"
+
+
+
+#endif // NMIXIN_APPENDABLE_H

@@ -135,32 +135,6 @@ NANO_TEST(TString, "Container")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "Hashable")
-{
-
-
-	// Perform the test
-	for (auto theString : stringObjects)
-	{
-		REQUIRE(theString.GetHash() != 0);
-	}
-
-
-	NString stringUTF8("test");
-	NString stringUTF16(u"test");
-	NString stringUTF32(U"test");
-
-	REQUIRE(stringUTF8.GetHash() == stringUTF16.GetHash());
-	REQUIRE(stringUTF8.GetHash() == stringUTF32.GetHash());
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Construction")
 {
 
@@ -791,6 +765,38 @@ NANO_TEST(TString, "EqualTo")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "Appendable")
+{
+
+
+	// Perform the test
+	size_t oldSize = 0;
+
+	for (auto theString : stringObjects)
+	{
+		oldSize = theString.GetSize();
+		theString += kTestStringSmall;
+		REQUIRE(theString.GetSize() == (oldSize + kTestStringSmall.GetSize()));
+
+		oldSize = theString.GetSize();
+		theString += kTestStringLarge;
+		REQUIRE(theString.GetSize() == (oldSize + kTestStringLarge.GetSize()));
+
+		theString = kTestStringSmall + kTestStringSmall;
+		REQUIRE(theString.GetSize() == (kTestStringSmall.GetSize() * 2));
+
+		theString = kTestStringLarge + kTestStringLarge;
+		REQUIRE(theString.GetSize() == (kTestStringLarge.GetSize() * 2));
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "CompareEqual")
 {
 
@@ -845,27 +851,21 @@ NANO_TEST(TString, "CompareOrder")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "Concatenate")
+NANO_TEST(TString, "Hashable")
 {
 
 
 	// Perform the test
-	size_t oldSize = 0;
-
 	for (auto theString : stringObjects)
 	{
-		oldSize = theString.GetSize();
-		theString += kTestStringSmall;
-		REQUIRE(theString.GetSize() == (oldSize + kTestStringSmall.GetSize()));
-
-		oldSize = theString.GetSize();
-		theString += kTestStringLarge;
-		REQUIRE(theString.GetSize() == (oldSize + kTestStringLarge.GetSize()));
-
-		theString = kTestStringSmall + kTestStringSmall;
-		REQUIRE(theString.GetSize() == (kTestStringSmall.GetSize() * 2));
-
-		theString = kTestStringLarge + kTestStringLarge;
-		REQUIRE(theString.GetSize() == (kTestStringLarge.GetSize() * 2));
+		REQUIRE(theString.GetHash() != 0);
 	}
+
+
+	NString stringUTF8("test");
+	NString stringUTF16(u"test");
+	NString stringUTF32(U"test");
+
+	REQUIRE(stringUTF8.GetHash() == stringUTF16.GetHash());
+	REQUIRE(stringUTF8.GetHash() == stringUTF32.GetHash());
 }

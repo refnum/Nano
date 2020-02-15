@@ -1,8 +1,8 @@
 /*	NAME:
-		TMixinConcatenable.cpp
+		TMixinAppendable.cpp
 
 	DESCRIPTION:
-		NMixinConcatenable tests.
+		NMixinAppendable tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -40,7 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NMixinConcatenable.h"
+#include "NMixinAppendable.h"
 #include "NStdAlgorithm.h"
 #include "NTestFixture.h"
 
@@ -51,15 +51,15 @@
 //=============================================================================
 //		Internal Class Declaration
 //-----------------------------------------------------------------------------
-class TestConcatenable : public NMixinConcatenable<TestConcatenable>
+class TestAppendable : public NMixinAppendable<TestAppendable>
 {
 public:
-	TestConcatenable(uint8_t valueA, uint8_t valueB)
+	TestAppendable(uint8_t valueA, uint8_t valueB)
 		: mValues{valueA, valueB}
 	{
 	}
 
-	TestConcatenable()
+	TestAppendable()
 	{
 	}
 
@@ -68,12 +68,9 @@ public:
 		return &mValues;
 	}
 
-
-	// Operators
-	const TestConcatenable& operator+=(const TestConcatenable& otherObject)
+	void Append(const TestAppendable& otherObject)
 	{
 		nstd::push_back(mValues, otherObject.mValues);
-		return *this;
 	}
 
 
@@ -88,8 +85,8 @@ private:
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const TestConcatenable kTestObjectA(1, 2);
-static const TestConcatenable kTestObjectB(10, 20);
+static const TestAppendable kTestObjectA(1, 2);
+static const TestAppendable kTestObjectB(10, 20);
 
 
 
@@ -98,7 +95,7 @@ static const TestConcatenable kTestObjectB(10, 20);
 //=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TMixinConcatenable){};
+NANO_FIXTURE(TMixinAppendable){};
 
 
 
@@ -107,10 +104,10 @@ NANO_FIXTURE(TMixinConcatenable){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TMixinConcatenable, "Default")
+NANO_TEST(TMixinAppendable, "Default")
 {
 	// Perform the test
-	TestConcatenable                    theObject;
+	TestAppendable                      theObject;
 	const NVectorUInt8* theValues = theObject.GetValues();
 
 										REQUIRE(theValues->empty());

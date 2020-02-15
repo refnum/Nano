@@ -360,8 +360,6 @@
 		AB514F641035784000E5A6AD /* NPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53A404109B237800817E89 /* NTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTask.cpp; sourceTree = "<group>"; };
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
-		AB54F99C23EDA8D1005207BC /* NMixinConcatenable.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinConcatenable.inl; sourceTree = "<group>"; };
-		AB54F99D23EDA8D1005207BC /* NMixinConcatenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinConcatenable.h; sourceTree = "<group>"; };
 		AB54F9A223EE44C9005207BC /* NTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtils.h; sourceTree = "<group>"; };
 		AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringComparator.cpp; sourceTree = "<group>"; };
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
@@ -522,6 +520,8 @@
 		ABA529D416626C4E000C695B /* NNetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkBrowser.h; sourceTree = "<group>"; };
 		ABA529D516626C4E000C695B /* NNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkService.cpp; sourceTree = "<group>"; };
 		ABA529D616626C4E000C695B /* NNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkService.h; sourceTree = "<group>"; };
+		ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMixinAppendable.h; sourceTree = "<group>"; };
+		ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NMixinAppendable.inl; sourceTree = "<group>"; };
 		ABAB539412AF8E800061AD01 /* NRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRegistry.cpp; sourceTree = "<group>"; };
 		ABAB539512AF8E800061AD01 /* NRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRegistry.h; sourceTree = "<group>"; };
 		ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferences.cpp; sourceTree = "<group>"; };
@@ -1354,12 +1354,12 @@
 				ABFAA553101871460060ED12 /* NEncodable.h */,
 				ABFAA554101871460060ED12 /* NEncoder.cpp */,
 				ABFAA552101871460060ED12 /* NEncoder.h */,
+				ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */,
+				ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */,
 				ABF5130A2397AF7F001F9F8B /* NMixinAttributes.h */,
 				ABF5130B2397AF7F001F9F8B /* NMixinAttributes.inl */,
 				ABBB2B7C2380BC2800EB2840 /* NMixinComparable.h */,
 				ABBB2B7D2380BC2800EB2840 /* NMixinComparable.inl */,
-				AB54F99D23EDA8D1005207BC /* NMixinConcatenable.h */,
-				AB54F99C23EDA8D1005207BC /* NMixinConcatenable.inl */,
 				ABBB2B7E2380BCD100EB2840 /* NMixinContainer.h */,
 				ABBB2B7F2380BCD100EB2840 /* NMixinContainer.inl */,
 				ABBB2B872380CA3600EB2840 /* NMixinHashable.h */,

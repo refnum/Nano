@@ -693,6 +693,27 @@ bool NString::EqualTo(const NString& theString, NStringFlags theFlags) const
 
 
 
+#pragma mark NMixinAppendable
+//=============================================================================
+//		NString::Append : Append a value.
+//-----------------------------------------------------------------------------
+void NString::Append(const NString& theString)
+{
+
+
+	// Append the string
+	//
+	// Appended strings are normalized to UTF8 as this is the encoding
+	// most likely to allow us to continue to use small storage.
+	SetData(NStringEncoding::UTF8,
+			GetData(NStringEncoding::UTF8) + theString.GetData(NStringEncoding::UTF8));
+}
+
+
+
+
+
+#pragma mark NMixinComparable
 //=============================================================================
 //		NString::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
@@ -745,28 +766,7 @@ NComparison NString::CompareOrder(const NString& theString) const
 
 
 
-//=============================================================================
-//		NString::+= : Concatenate operator.
-//-----------------------------------------------------------------------------
-const NString& NString::operator+=(const NString& theString)
-{
-
-
-	// Append the string
-	//
-	// Appended strings are normalized to UTF8 as this is the encoding
-	// most likely to allow us to continue to use small storage.
-	SetData(NStringEncoding::UTF8,
-			GetData(NStringEncoding::UTF8) + theString.GetData(NStringEncoding::UTF8));
-
-	return *this;
-}
-
-
-
-
-
-#pragma mark public
+#pragma mark NMixinHashable
 //=============================================================================
 //		NString::UpdateHash : Update the hash.
 //-----------------------------------------------------------------------------

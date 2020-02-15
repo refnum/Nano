@@ -42,8 +42,8 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NMixinAppendable.h"
 #include "NMixinComparable.h"
-#include "NMixinConcatenable.h"
 #include "NMixinContainer.h"
 #include "NMixinHashable.h"
 #include "NRange.h"
@@ -144,10 +144,10 @@ NN_STRUCT_PACK_1(alignas(16) NStringStorage {
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NN_EMPTY_BASE NString final
-	: public NMixinHashable<NString>
+	: public NMixinAppendable<NString>
 	, public NMixinComparable<NString>
-	, public NMixinConcatenable<NString>
 	, public NMixinContainer<NString>
+	, public NMixinHashable<NString>
 {
 public:
 	constexpr                           NString(const utf8_t*  theString);
@@ -273,17 +273,17 @@ public:
 	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
 
 
-	// Compare an object
+public:
+	// NMixinAppendable
+	void                                Append(const NString& theString);
+
+
+	// NMixinComparable
 	bool                                CompareEqual(const NString& theString) const;
 	NComparison                         CompareOrder(const NString& theString) const;
 
 
-	// Operators
-	const NString&                      operator+=(const NString& theString);
-
-
-public:
-	// Update the hash
+	// NMixinHashable
 	size_t                              UpdateHash(NHashAction theAction);
 
 

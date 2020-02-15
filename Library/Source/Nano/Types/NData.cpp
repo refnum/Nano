@@ -748,6 +748,23 @@ bool NData::Contains(const NData& theData, const NRange& theRange) const
 
 
 
+#pragma mark NMixinAppendable
+//=============================================================================
+//		NData::Append : Append data.
+//-----------------------------------------------------------------------------
+void NData::Append(const NData& theData)
+{
+
+
+	// Append the data
+	AppendData(theData);
+}
+
+
+
+
+
+#pragma mark NMixinComparable
 //=============================================================================
 //		NData::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
@@ -800,23 +817,7 @@ NComparison NData::CompareOrder(const NData& theData) const
 
 
 
-//=============================================================================
-//		NData::+= : Concatenate operator.
-//-----------------------------------------------------------------------------
-const NData& NData::operator+=(const NData& theData)
-{
-
-
-	// Append the data
-	AppendData(theData);
-
-	return *this;
-}
-
-
-
-
-
+#pragma mark NMixinHashable
 //=============================================================================
 //		NData::UpdateHash : Update the hash.
 //-----------------------------------------------------------------------------
