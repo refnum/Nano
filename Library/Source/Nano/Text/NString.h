@@ -90,6 +90,7 @@ static constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NData;
+struct NStringData;
 
 
 // Pattern group
@@ -307,9 +308,9 @@ private:
 	void                                MakeClone(const NString& theString);
 	void                                MakeLarge();
 
-	const NData*                        FetchEncoding(NStringEncoding theEncoding);
-	const NData*                        GetEncoding(  NStringEncoding theEncoding) const;
-	void                                AddEncoding(  NStringEncoding theEncoding);
+	const NStringData*                  FetchEncoding( NStringEncoding theEncoding);
+	const NStringData*                  GetEncoding(   NStringEncoding theEncoding) const;
+	void                                CreateEncoding(NStringEncoding theEncoding);
 	void                                ReleaseEncodings();
 
 	void                                SetLarge(NStringState* theState);
