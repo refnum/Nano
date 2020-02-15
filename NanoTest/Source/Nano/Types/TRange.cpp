@@ -52,6 +52,7 @@
 //-----------------------------------------------------------------------------
 static const NRange kTestRange1{0, 5};
 static const NRange kTestRange2{3, 7};
+static const NRange kTestRange3{3, 4};
 
 
 
@@ -136,7 +137,7 @@ NANO_TEST(TRange, "Contains")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Meta")
+NANO_TEST(TRange, "IsMeta")
 {
 
 
@@ -155,7 +156,7 @@ NANO_TEST(TRange, "Meta")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Empty")
+NANO_TEST(TRange, "IsEmpty")
 {
 
 
@@ -173,26 +174,7 @@ NANO_TEST(TRange, "Empty")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Comparison")
-{
-
-
-	// Perform the test
-	REQUIRE(kTestRange1 == kTestRange1);
-	REQUIRE(kTestRange1 != kTestRange2);
-
-	REQUIRE(kNRangeNone == kNRangeNone);
-	REQUIRE(kNRangeNone != kNRangeAll);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Location")
+NANO_TEST(TRange, "GetLocation")
 {
 
 
@@ -211,7 +193,7 @@ NANO_TEST(TRange, "Location")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Size")
+NANO_TEST(TRange, "GetSize")
 {
 
 
@@ -267,7 +249,7 @@ NANO_TEST(TRange, "Contents")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Union")
+NANO_TEST(TRange, "GetUnion")
 {
 
 
@@ -289,7 +271,7 @@ NANO_TEST(TRange, "Union")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Intersection")
+NANO_TEST(TRange, "GetIntersection")
 {
 
 
@@ -321,7 +303,7 @@ NANO_TEST(TRange, "Intersection")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRange, "Normalized")
+NANO_TEST(TRange, "GetNormalized")
 {
 
 
@@ -350,4 +332,48 @@ NANO_TEST(TRange, "Normalized")
 
 	theRange = NRange(30, 0).GetNormalized(0);
 	REQUIRE((theRange.GetLocation() == 30 && theRange.GetSize() == 0));    // Outside (zero length)
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "CompareEqual")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestRange1 == kTestRange1);
+	REQUIRE(kTestRange1 != kTestRange2);
+
+	REQUIRE(kNRangeNone == kNRangeNone);
+	REQUIRE(kNRangeNone != kNRangeAll);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "CompareOrder")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestRange1 <= kTestRange1);
+	REQUIRE(kTestRange1 < kTestRange2);
+	REQUIRE(kTestRange1 < kTestRange3);
+
+	REQUIRE(kTestRange2 > kTestRange1);
+	REQUIRE(kTestRange2 >= kTestRange2);
+	REQUIRE(kTestRange2 > kTestRange3);
+
+	REQUIRE(kTestRange3 > kTestRange1);
+	REQUIRE(kTestRange3 < kTestRange2);
+	REQUIRE(kTestRange3 >= kTestRange3);
 }
