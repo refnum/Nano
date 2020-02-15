@@ -52,6 +52,7 @@
 
 // System
 #include <atomic>
+#include <vector>
 
 
 
@@ -91,6 +92,14 @@ enum NDataSource
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declarations
+class NData;
+
+
+// Containers
+using NVectorData = std::vector<NData>;
+
+
 // Data storage
 //
 // Small amounts of data are stored directly within the object.
