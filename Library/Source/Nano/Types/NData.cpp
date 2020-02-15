@@ -616,10 +616,13 @@ NRange NData::Find(const NData& theData, const NRange& theRange) const
 	// Find the data
 	NRange theResult;
 
-	auto findBegin = nstd::search(searchBegin, searchEnd, needleBegin, needleEnd);
-	if (findBegin != searchEnd)
+	if (searchSize != 0)
 	{
-		theResult.SetRange(size_t(findBegin - searchBegin), needleSize);
+		auto findBegin = nstd::search(searchBegin, searchEnd, needleBegin, needleEnd);
+		if (findBegin != searchEnd)
+		{
+			theResult.SetRange(size_t(findBegin - searchBegin), needleSize);
+		}
 	}
 
 	return theResult;
