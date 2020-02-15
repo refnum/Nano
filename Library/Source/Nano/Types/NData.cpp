@@ -576,6 +576,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 	// If the replacement was a removal from the end then the range location
 	// will now be after our last byte so we must return nullptr.
 	size_t theOffset = finalRange.GetLocation();
+
 	if (theOffset >= GetSize())
 	{
 		return nullptr;
@@ -801,9 +802,9 @@ NComparison NData::CompareOrder(const NData& theData) const
 
 	// Order by hash
 	//
-	// Data objects have no intrinsic ordering so we order by hash first,
+	// Data objects have no intrinsic ordering so we order by size first,
 	// then fall back to a byte-wise comparison.
-	NComparison theResult = NCompare(GetHash(), theData.GetHash());
+	NComparison theResult = NCompare(GetSize(), theData.GetSize());
 
 	if (theResult == NComparison::EqualTo)
 	{
