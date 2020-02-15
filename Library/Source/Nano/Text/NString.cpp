@@ -292,11 +292,18 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 
 	// Get arbitrary text
 	//
-	// If we're using large storage, or an encoding that's not supported
-	// by small storage, we return the contents of the encoded text data.
+	// If we're using large storage, or an encoding that's not supported by
+	// small storage, we return the contents of the encoded text data.
 	//
-	// We can cast away const as transcoding does not change our state.
-	NString*           thisString = const_cast<NString*>(this);
+	// Strings using a slice of anoher string may also need to have their
+	// slice resolved to ensure we can return a null-terminated string.
+	NString* thisString = const_cast<NString*>(this);
+
+	if (thisString->ResolveSlice())
+	{
+		thisString->ClearHash();
+	}
+
 	const NStringData* stringData = thisString->FetchEncoding(theEncoding);
 
 	return stringData->theData.GetData();
@@ -396,18 +403,17 @@ NData NString::GetData(NStringEncoding theEncoding) const
 
 	// Get large text
 	//
-	// Large text may need to be transcoded, but any result can share
-	// our internal storage since removing the terminator just needs
-	// to shrink the slice of the returned data.
+	// Large text may need to be transcoded to the desired encoding,
+	// and a slice extracted from the appropriate data.
 	//
-	// We can cast away const as transcoding does not change our state.
+	// We can cast away const as this does not change our public state.
 	else
 	{
-		NString*           thisString = const_cast<NString*>(this);
+		NString* thisString = const_cast<NString*>(this);
 		const NStringData* stringData = thisString->FetchEncoding(theEncoding);
+		NRange             sliceBytes = GetSliceBytes(*stringData);
 
-		theData = stringData->theData;
-		theData.SetSize(theData.GetSize() - NStringEncoder::GetCodeUnitSize(theEncoding));
+		theData = stringData->theData.GetData(sliceBytes);
 	}
 
 	return theData;
@@ -457,7 +463,7 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 
 	// Get small text
 	//
-	// Small text can return a pointer to the small storage.
+	// Small text returns a pointer to the small storage.
 	const void* theData = nullptr;
 
 	if (IsSmall())
@@ -480,17 +486,17 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 
 	// Get large text
 	//
-	// Large text returns a pointer to the large storage, minus the final
-	// terminator after the content.
+	// Large text returns a pointer to our slice of the large storage.
 	else
 	{
 		NN_REQUIRE(IsLarge());
 
 		const NStringData& stringData = mString.Large.theState->stringData;
+		NRange             sliceBytes = GetSliceBytes(stringData);
 
 		*theEncoding = stringData.theEncoding;
-		*theSize     = stringData.theData.GetSize() - NStringEncoder::GetCodeUnitSize(*theEncoding);
-		theData      = stringData.theData.GetData();
+		*theSize     = sliceBytes.GetSize();
+		theData      = stringData.theData.GetData(sliceBytes.GetLocation());
 	}
 
 	return theData;
@@ -694,6 +700,42 @@ bool NString::EqualTo(const NString& theString, NStringFlags theFlags) const
 
 
 
+//=============================================================================
+//		NString::GetSubstring : Get a substring.
+//-----------------------------------------------------------------------------
+NString NString::GetSubstring(const NRange& theRange) const
+{
+
+
+	// Get the substring
+	NRange  finalRange = theRange.GetNormalized(GetSize());
+	NString theResult;
+
+	if (!finalRange.IsEmpty())
+	{
+		// Get the substring
+		if (IsSmall())
+		{
+			theResult = GetSubstringSmall(theRange);
+		}
+		else
+		{
+			theResult = GetSubstringLarge(theRange);
+		}
+
+
+
+		// Update the result
+		theResult.ClearHash();
+	}
+
+	return theResult;
+}
+
+
+
+
+
 #pragma mark NMixinAppendable
 //=============================================================================
 //		NString::Append : Append a value.
@@ -850,6 +892,122 @@ void NString::MakeLarge()
 			SetTextLarge(NStringEncoding::UTF16, theSize * sizeof(utf16_t), mString.Small.theData);
 		}
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::IsSlice : Is this string a slice of a larger string?
+//-----------------------------------------------------------------------------
+bool NString::IsSlice() const
+{
+
+
+	// Check our state
+	bool isSlice = IsLarge();
+
+	if (isSlice)
+	{
+		isSlice = (mString.Large.theSlice != NRange(0, mString.Large.theState->theSize));
+	}
+
+	return isSlice;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::ResolveSlice : Resolve a sliced substring.
+//-----------------------------------------------------------------------------
+bool NString::ResolveSlice()
+{
+
+
+	// Resolve the slice
+	//
+	// A string that is a slice of a larger string cannot be used to return
+	// a null-terminated pointer, as the slice ends inside the larger string.
+	//
+	// These strings can be made null-terminated by resolving their slice,
+	// which resets them to a new copy of the content they used to share.
+	bool wasSlice = IsSlice();
+
+	if (wasSlice)
+	{
+		// Resolve the slice
+		NN_REQUIRE(IsLarge());
+
+		const NStringData& stringData = mString.Large.theState->stringData;
+		NRange             sliceBytes = GetSliceBytes(stringData);
+
+		SetText(stringData.theEncoding,
+				sliceBytes.GetSize(),
+				stringData.theData.GetData(sliceBytes.GetLocation()));
+
+
+		// Validate our state
+		NN_REQUIRE(!IsSlice());
+	}
+
+	return wasSlice;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSliceBytes : Get the bytes covered by a slice.
+//-----------------------------------------------------------------------------
+NRange NString::GetSliceBytes(const NStringData& stringData) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Complete slice
+	//
+	// If the slice covers the entire data then we can determine the byte
+	// range just by removing the encoding-specific terminator from the end.
+	NRange sliceBytes;
+
+	if (!IsSlice())
+	{
+		sliceBytes.SetSize(stringData.theData.GetSize() -
+						   NStringEncoder::GetCodeUnitSize(stringData.theEncoding));
+	}
+
+
+
+	// Partial slice
+	//
+	// If the slice is some subset of the data we need to determine the
+	// byte offset for each codepoint in the slice.
+	//
+	// From this we can convert our slice (in codepoints) to a byte range.
+	else
+	{
+		NUnicodeView theView(stringData.theEncoding,
+							 stringData.theData.GetSize(),
+							 stringData.theData.GetData());
+
+		const NRange& theSlice   = mString.Large.theSlice;
+		NVectorSize   theOffsets = theView.GetCodePointOffsets(theSlice.GetNext() + 1);
+
+		size_t byteFirst = theOffsets[theSlice.GetLocation()];
+		size_t byteNext  = theOffsets[theSlice.GetNext()];
+
+		sliceBytes.SetRange(byteFirst, byteNext - byteFirst);
+	}
+
+	return sliceBytes;
 }
 
 
@@ -1018,6 +1176,7 @@ void NString::SetLarge(NStringState* theState)
 
 	// Set the large state
 	mString.Large.theState = theState;
+	mString.Large.theSlice = NRange(0, theState->theSize);
 
 	mString.theFlags = kNStringFlagIsLarge;
 }
@@ -1111,7 +1270,66 @@ size_t NString::GetSizeLarge() const
 
 
 	// Get the size
-	return mString.Large.theState->theSize;
+	return mString.Large.theSlice.GetSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSubstringSmall : Get a small substring.
+//-----------------------------------------------------------------------------
+NString NString::GetSubstringSmall(const NRange& theRange) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsSmall());
+
+
+
+	// Get the substring
+	NString theResult;
+
+	if (IsSmallUTF8())
+	{
+		theResult.SetSmallUTF8(theRange.GetSize() * sizeof(utf8_t),
+							   GetUTF8() + theRange.GetLocation());
+	}
+	else
+	{
+		NN_REQUIRE(IsSmallUTF16());
+		theResult.SetSmallUTF16(theRange.GetSize() * sizeof(utf16_t),
+								GetUTF16() + theRange.GetLocation());
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSubstringLarge : Get a large substring.
+//-----------------------------------------------------------------------------
+NString NString::GetSubstringLarge(const NRange& theRange) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Get the substring
+	NString theResult(*this);
+
+	auto& theSlice = theResult.mString.Large.theSlice;
+	theSlice       = theRange.GetOffset(theSlice.GetLocation());
+	
+	return theResult;
 }
 
 
@@ -1258,7 +1476,8 @@ void NString::SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const v
 	// Create the data
 	//
 	// The canonical data maintains the original encoding and adds a null
-	// terminator.
+	// terminator for the common case of requesting access as complete
+	// slice onto a null-terminated string.
 	//
 	// An exception to this is endian-specific Unicode encodings. These are
 	// converted to their native equivalent and stored without any BOM.

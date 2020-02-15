@@ -765,6 +765,51 @@ NANO_TEST(TString, "EqualTo")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetSubstring")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestStringSmall.GetSubstring(NRange(0, 5)) == "Hello");
+	REQUIRE(kTestStringSmall.GetSubstring(NRange(2, 3)) == "llo");
+	REQUIRE(kTestStringSmall.GetSubstring(NRange(6, 5)) == "World");
+
+	REQUIRE(kTestStringLarge.GetSubstring(NRange(0, 5)) == "Hello");
+	REQUIRE(kTestStringLarge.GetSubstring(NRange(22, 9)) == "Two World");
+	REQUIRE(kTestStringLarge.GetSubstring(NRange(32, 11)) == "Three World");
+
+	REQUIRE(kTestStringSmall.GetSubstring(NRange(0, kTestStringSmall.GetSize())) ==
+			kTestStringSmall);
+	REQUIRE(kTestStringLarge.GetSubstring(NRange(0, kTestStringLarge.GetSize())) ==
+			kTestStringLarge);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "ResolveSlice")
+{
+
+
+	// Perform the test
+	NString     theString = kTestStringLarge.GetSubstring(NRange(22, 9));
+	const char* textUTF8  = theString.GetUTF8();
+
+	REQUIRE(strlen(textUTF8) == 9);
+	REQUIRE(strcmp(textUTF8, "Two World") == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Appendable")
 {
 

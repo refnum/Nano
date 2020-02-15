@@ -130,6 +130,7 @@ NN_STRUCT_PACK_1(alignas(16) NStringStorage {
 		struct
 		{
 			struct NStringState* theState;
+			NRange               theSlice;
 		} Large;
 	};
 
@@ -274,6 +275,12 @@ public:
 	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
 
 
+	// Get a substring
+	//
+	// Returns as much of the requested substring as possible.
+	NString                             GetSubstring(const NRange& theRange) const;
+
+
 public:
 	// NMixinAppendable
 	void                                Append(const NString& theString);
@@ -308,6 +315,10 @@ private:
 	void                                MakeClone(const NString& theString);
 	void                                MakeLarge();
 
+	bool                                IsSlice() const;
+	bool                                ResolveSlice();
+	NRange                              GetSliceBytes(const NStringData& stringData) const;
+
 	const NStringData*                  FetchEncoding( NStringEncoding theEncoding);
 	const NStringData*                  GetEncoding(   NStringEncoding theEncoding) const;
 	void                                CreateEncoding(NStringEncoding theEncoding);
@@ -319,6 +330,9 @@ private:
 
 	size_t                              GetSizeSmall() const;
 	size_t                              GetSizeLarge() const;
+
+	NString                             GetSubstringSmall(const NRange& theRange) const;
+	NString                             GetSubstringLarge(const NRange& theRange) const;
 
 	void                                SetText(     NStringEncoding theEncoding, size_t numBytes, const void* theText);
 	void                                SetTextSmall(NStringEncoding theEncoding, size_t numBytes, const void* theText);
