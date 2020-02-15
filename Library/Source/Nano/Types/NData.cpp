@@ -452,25 +452,22 @@ void NData::RemoveData(const NRange& theRange)
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(IsValidRange(theRange));
-
-	NN_EXPECT(!theRange.IsEmpty());
-
-
-
 	// Remove the data
 	NRange finalRange = theRange.GetNormalized(GetSize());
 
-	if (IsSmall())
+	if (!finalRange.IsEmpty())
 	{
-		RemoveDataSmall(finalRange);
-	}
-	else
-	{
-		RemoveDataLarge(finalRange);
-	}
+		NN_REQUIRE(IsValidRange(finalRange));
 
+		if (IsSmall())
+		{
+			RemoveDataSmall(finalRange);
+		}
+		else
+		{
+			RemoveDataLarge(finalRange);
+		}
+	}
 
 
 	// Update our state
