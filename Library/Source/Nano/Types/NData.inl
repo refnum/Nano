@@ -175,7 +175,7 @@ inline const uint8_t* NData::GetData(size_t theOffset) const
 	// Get the data
 	const uint8_t* theData = nullptr;
 
-	if (!IsEmpty() && theOffset < GetSize())
+	if (theOffset < GetSize())
 	{
 		if (IsSmall())
 		{

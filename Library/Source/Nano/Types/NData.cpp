@@ -245,7 +245,7 @@ NData NData::GetData(const NRange& theRange) const
 	NRange finalRange = theRange.GetNormalized(GetSize());
 	NData  theData;
 
-	if (!finalRange.IsEmpty())
+	if (!finalRange.IsEmpty() && IsValidRange(finalRange))
 	{
 		if (IsSmall())
 		{
@@ -283,13 +283,14 @@ uint8_t* NData::GetMutableData(size_t theOffset)
 
 
 	// Get the data
-	//
-	// Once mutable we can safely cast away the const.
 	uint8_t* thePtr = nullptr;
 
-	if (!IsEmpty() && theOffset < GetSize())
+	if (theOffset < GetSize())
 	{
 		// Get the data
+		//
+		// Once mutable we can safely cast away the const as we know
+		// we are now the only owner of the data.
 		MakeMutable();
 
 		thePtr = const_cast<uint8_t*>(GetData(theOffset));

@@ -128,8 +128,8 @@ NN_STRUCT_PACK_1(alignas(16) NDataStorage {
 		} Large;
 	};
 
-	uint8_t  theFlags;
-	uint32_t theHash;
+	uint8_t                             theFlags;
+	uint32_t                            theHash;
 });
 
 
