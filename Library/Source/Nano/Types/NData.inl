@@ -167,11 +167,6 @@ inline const uint8_t* NData::GetData(size_t theOffset) const
 {
 
 
-	// Validate our parameters
-	NN_EXPECT(IsValidOffset(theOffset));
-
-
-
 	// Get the data
 	const uint8_t* theData = nullptr;
 

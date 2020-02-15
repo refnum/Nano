@@ -235,12 +235,6 @@ NData NData::GetData(const NRange& theRange) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(IsValidRange(theRange));
-	NN_EXPECT(!theRange.IsEmpty());
-
-
-
 	// Get the data
 	NRange finalRange = theRange.GetNormalized(GetSize());
 	NData  theData;
@@ -273,11 +267,6 @@ NData NData::GetData(const NRange& theRange) const
 //-----------------------------------------------------------------------------
 uint8_t* NData::GetMutableData(size_t theOffset)
 {
-
-
-	// Validate our parameters
-	NN_EXPECT(IsValidOffset(theOffset));
-
 
 
 	// Get the data
@@ -368,10 +357,8 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidOffset(beforeIndex) || beforeIndex == GetSize());
+	NN_REQUIRE(beforeIndex <= GetSize());
 	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
-
-	NN_EXPECT(theSize != 0);
 
 
 
@@ -484,13 +471,6 @@ uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(IsValidRange(theRange));
-
-	NN_EXPECT(!theRange.IsEmpty());
-
-
-
 	// Replace the data
 	return ReplaceData(theRange, theData.GetSize(), theData.GetData(), NDataSource::Copy);
 }
@@ -510,11 +490,7 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsValidRange(theRange));
 	NN_REQUIRE(IsValidSource(theSize, theData, theSource));
-
-	NN_EXPECT(!theRange.IsEmpty());
-	NN_EXPECT(theSize != 0);
 
 
 
@@ -858,10 +834,13 @@ bool NData::IsValidRange(const NRange& theRange) const
 {
 
 
-	// Check the range
-	NRange finalRange = theRange.GetNormalized(GetSize());
+	// Validate our parameters
+	NN_REQUIRE(!theRange.IsMeta());
 
-	return IsValidOffset(finalRange.GetFirst()) && IsValidOffset(finalRange.GetLast());
+
+
+	// Check the range
+	return IsValidOffset(theRange.GetFirst()) && IsValidOffset(theRange.GetLast());
 }
 
 
@@ -876,9 +855,7 @@ bool NData::IsValidOffset(size_t theOffset) const
 
 
 	// Check the offset
-	//
-	// We allow a zero offset when empty.
-	return (theOffset == 0 && IsEmpty()) || (theOffset < GetSize());
+	return theOffset < GetSize();
 }
 
 

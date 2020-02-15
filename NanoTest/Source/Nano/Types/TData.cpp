@@ -320,6 +320,8 @@ NANO_TEST(TData, "GetData")
 
 
 	// Perform the test
+	const uint8_t* thePtr;
+
 	for (auto theData : dataObjects)
 	{
 		NData sliceData = theData.GetData(NRange(0, 4));
@@ -335,11 +337,22 @@ NANO_TEST(TData, "GetData")
 		REQUIRE(sliceData.GetSize() == 1);
 		REQUIRE(memcmp(sliceData.GetData(0), theData.GetData(3), 1) == 0);
 
-		const uint8_t* constPtr = theData.GetData();
-		REQUIRE(constPtr != nullptr);
+		sliceData = theData.GetData(NRange(1000, 100));
+		REQUIRE(sliceData.IsEmpty());
 
-		const uint8_t* mutablePtr = theData.GetMutableData();
-		REQUIRE(mutablePtr != nullptr);
+
+		thePtr = theData.GetData();
+		REQUIRE(thePtr != nullptr);
+
+		thePtr = theData.GetData(theData.GetSize());
+		REQUIRE(thePtr == nullptr);
+
+
+		thePtr = theData.GetMutableData();
+		REQUIRE(thePtr != nullptr);
+
+		thePtr = theData.GetMutableData(theData.GetSize());
+		REQUIRE(thePtr == nullptr);
 	}
 }
 

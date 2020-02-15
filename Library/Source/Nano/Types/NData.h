@@ -186,7 +186,7 @@ public:
 	//
 	// A request for mutable access may need to copy the data.
 	//
-	// Returns nullptr if the offset is outside the buffer.
+	// Returns nullptr if the request falls outside the buffer.
 	NData                               GetData(const NRange& theRange)      const;
 	const uint8_t*                      GetData(       size_t theOffset = 0) const;
 	uint8_t*                            GetMutableData(size_t theOffset = 0);
