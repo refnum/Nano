@@ -50,6 +50,9 @@
 #include "NStringEncodings.h"
 #include "NanoMacros.h"
 
+// System
+#include <vector>
+
 
 
 
@@ -90,7 +93,12 @@ static constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NData;
+class NString;
 struct NStringData;
+
+
+// Containers
+using NVectorString = std::vector<NString>;
 
 
 // Pattern group
@@ -278,7 +286,10 @@ public:
 	// Get a substring
 	//
 	// Returns as much of the requested substring as possible.
-	NString                             GetSubstring(const NRange& theRange) const;
+	NString                             GetPrefix(size_t theSize) const;
+	NString                             GetSuffix(size_t theSize) const;
+	NString                             GetSubstring( const NRange& theRange)        const;
+	NVectorString                       GetSubstrings(const NVectorRange& theRanges) const;
 
 
 public:

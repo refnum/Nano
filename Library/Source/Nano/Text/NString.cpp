@@ -409,7 +409,7 @@ NData NString::GetData(NStringEncoding theEncoding) const
 	// We can cast away const as this does not change our public state.
 	else
 	{
-		NString* thisString = const_cast<NString*>(this);
+		NString*           thisString = const_cast<NString*>(this);
 		const NStringData* stringData = thisString->FetchEncoding(theEncoding);
 		NRange             sliceBytes = GetSliceBytes(*stringData);
 
@@ -701,6 +701,44 @@ bool NString::EqualTo(const NString& theString, NStringFlags theFlags) const
 
 
 //=============================================================================
+//		NString::GetPrefix : Get a prefix.
+//-----------------------------------------------------------------------------
+NString NString::GetPrefix(size_t theSize) const
+{
+
+
+	// Get the prefix
+	return GetSubstring(NRange(0, theSize));
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSuffix : Get a suffix.
+//-----------------------------------------------------------------------------
+NString NString::GetSuffix(size_t theSize) const
+{
+
+
+	// Get the suffix
+	size_t  maxSize = GetSize();
+	NString theResult;
+
+	if (theSize <= maxSize)
+	{
+		theResult = GetSubstring(NRange(maxSize - theSize, theSize));
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
 //		NString::GetSubstring : Get a substring.
 //-----------------------------------------------------------------------------
 NString NString::GetSubstring(const NRange& theRange) const
@@ -727,6 +765,30 @@ NString NString::GetSubstring(const NRange& theRange) const
 
 		// Update the result
 		theResult.ClearHash();
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSubstrings : Get substrings.
+//-----------------------------------------------------------------------------
+NVectorString NString::GetSubstrings(const NVectorRange& theRanges) const
+{
+
+
+	// Get the substrings
+	NVectorString theResult;
+
+	theResult.reserve(theRanges.size());
+
+	for (const auto& theRange : theRanges)
+	{
+		theResult.emplace_back(GetSubstring(theRange));
 	}
 
 	return theResult;
@@ -1328,7 +1390,7 @@ NString NString::GetSubstringLarge(const NRange& theRange) const
 
 	auto& theSlice = theResult.mString.Large.theSlice;
 	theSlice       = theRange.GetOffset(theSlice.GetLocation());
-	
+
 	return theResult;
 }
 

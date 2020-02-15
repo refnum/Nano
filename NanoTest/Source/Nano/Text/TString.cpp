@@ -765,6 +765,54 @@ NANO_TEST(TString, "EqualTo")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetPrefix")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestStringSmall.GetPrefix(0) == "");
+	REQUIRE(kTestStringSmall.GetPrefix(3) == "Hel");
+	REQUIRE(kTestStringSmall.GetPrefix(5) == "Hello");
+
+	REQUIRE(kTestStringLarge.GetPrefix(0) == "");
+	REQUIRE(kTestStringLarge.GetPrefix(3) == "Hel");
+	REQUIRE(kTestStringLarge.GetPrefix(5) == "Hello");
+
+	REQUIRE(kTestStringSmall.GetPrefix(kTestStringSmall.GetSize()) == kTestStringSmall);
+	REQUIRE(kTestStringLarge.GetPrefix(kTestStringLarge.GetSize()) == kTestStringLarge);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetSuffix")
+{
+
+
+	// Perform the test
+	REQUIRE(kTestStringSmall.GetSuffix(0) == "");
+	REQUIRE(kTestStringSmall.GetSuffix(3) == "rld");
+	REQUIRE(kTestStringSmall.GetSuffix(5) == "World");
+
+	REQUIRE(kTestStringLarge.GetSuffix(0) == "");
+	REQUIRE(kTestStringLarge.GetSuffix(3) == "rld");
+	REQUIRE(kTestStringLarge.GetSuffix(5) == "World");
+
+	REQUIRE(kTestStringSmall.GetSuffix(kTestStringSmall.GetSize()) == kTestStringSmall);
+	REQUIRE(kTestStringLarge.GetSuffix(kTestStringLarge.GetSize()) == kTestStringLarge);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "GetSubstring")
 {
 
@@ -782,6 +830,37 @@ NANO_TEST(TString, "GetSubstring")
 			kTestStringSmall);
 	REQUIRE(kTestStringLarge.GetSubstring(NRange(0, kTestStringLarge.GetSize())) ==
 			kTestStringLarge);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetSubstrings")
+{
+
+
+	// Perform the test
+	NVectorRange  theRanges;
+	NVectorString theResult;
+
+
+	theRanges = {{0, 5}, {2, 3}, {6, 5}};
+	theResult = kTestStringSmall.GetSubstrings(theRanges);
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "Hello");
+	REQUIRE(theResult[1] == "llo");
+	REQUIRE(theResult[2] == "World");
+
+	theRanges = {{0, 5}, {22, 9}, {32, 11}};
+	theResult = kTestStringLarge.GetSubstrings(theRanges);
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "Hello");
+	REQUIRE(theResult[1] == "Two World");
+	REQUIRE(theResult[2] == "Three World");
 }
 
 
