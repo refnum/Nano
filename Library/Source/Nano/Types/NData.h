@@ -204,8 +204,8 @@ public:
 	//
 	// Returns a pointer to the first byte of the newly inserted data,
 	// or nullptr if no data was inserted.
-	uint8_t*                            InsertData(size_t      beforeIndex, const NData& theData);
-	uint8_t*                            InsertData(size_t      beforeIndex,
+	uint8_t*                            Insert(size_t      beforeIndex, const NData& theData);
+	uint8_t*                            Insert(size_t      beforeIndex,
 												   size_t      theSize,
 												   const void* theData,
 												   NDataSource theSource = NDataSource::Copy);
@@ -219,8 +219,8 @@ public:
 	//
 	// Returns a pointer to the first byte of the newly appended data,
 	// or nullptr if no data was appended.
-	uint8_t*                            AppendData(const NData& theData);
-	uint8_t*                            AppendData(size_t      theSize,
+	uint8_t*                            Append(const NData& theData);
+	uint8_t*                            Append(size_t      theSize,
 												   const void* theData,
 												   NDataSource theSource = NDataSource::Copy);
 
@@ -228,7 +228,7 @@ public:
 	// Remove data
 	//
 	// Removes the specified range from the data.
-	void                                RemoveData(const NRange& theRange);
+	void                                Remove(const NRange& theRange);
 
 
 	// Replace data
@@ -239,8 +239,8 @@ public:
 	//
 	// Returns a pointer to the first byte of the replaced data,
 	// or nullptr if the replacement was a removal from the end.
-	uint8_t*                            ReplaceData(const NRange& theRange, const NData& theData);
-	uint8_t*                            ReplaceData(const NRange& theRange,
+	uint8_t*                            Replace(const NRange& theRange, const NData& theData);
+	uint8_t*                            Replace(const NRange& theRange,
 													size_t        theSize,
 													const void*   theData,
 													NDataSource   theSource = NDataSource::Copy);
@@ -260,10 +260,6 @@ public:
 
 
 public:
-	// NMixinAppendable
-	void                                Append(const NData& theData);
-
-
 	// NMixinComparable
 	bool                                CompareEqual(const NData& theData) const;
 	NComparison                         CompareOrder(const NData& theData) const;
@@ -304,14 +300,14 @@ private:
 	void                                SetCapacitySmall(size_t theCapacity);
 	void                                SetCapacityLarge(size_t theCapacity);
 
-	const uint8_t*                      GetDataSmall(size_t theOffset) const;
-	const uint8_t*                      GetDataLarge(size_t theOffset) const;
+	const uint8_t*                      GetSmall(size_t theOffset) const;
+	const uint8_t*                      GetLarge(size_t theOffset) const;
 
-	void                                SetDataSmall(size_t theSize, const void* theData, NDataSource theSource);
-	void                                SetDataLarge(size_t theSize, const void* theData, NDataSource theSource);
+	void                                SetSmall(size_t theSize, const void* theData, NDataSource theSource);
+	void                                SetLarge(size_t theSize, const void* theData, NDataSource theSource);
 
-	void                                RemoveDataSmall(const NRange& theRange);
-	void                                RemoveDataLarge(const NRange& theRange);
+	void                                RemoveSmall(const NRange& theRange);
+	void                                RemoveLarge(const NRange& theRange);
 
 
 private:

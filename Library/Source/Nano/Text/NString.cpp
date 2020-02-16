@@ -1501,7 +1501,7 @@ void NString::AppendLarge(const NString& theString)
 		stringData.theData.SetCapacity(sizeTotal * 2);
 	}
 
-	stringData.theData.InsertData(sizeThis, appendData);
+	stringData.theData.Insert(sizeThis, appendData);
 
 
 

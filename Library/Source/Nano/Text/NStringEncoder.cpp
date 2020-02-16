@@ -354,15 +354,15 @@ void NStringEncoder::AddBOM(NStringEncoding theEncoding, NData& theData)
 	switch (theEncoding)
 	{
 		case NStringEncoding::UTF8:
-			theData.InsertData(0, sizeof(kBOM_UTF8), kBOM_UTF8);
+			theData.Insert(0, sizeof(kBOM_UTF8), kBOM_UTF8);
 			break;
 
 		case NStringEncoding::UTF16:
-			theData.InsertData(0, sizeof(kBOM_UTF16), kBOM_UTF16);
+			theData.Insert(0, sizeof(kBOM_UTF16), kBOM_UTF16);
 			break;
 
 		case NStringEncoding::UTF32:
-			theData.InsertData(0, sizeof(kBOM_UTF32), kBOM_UTF32);
+			theData.Insert(0, sizeof(kBOM_UTF32), kBOM_UTF32);
 			break;
 
 		default:
@@ -387,21 +387,21 @@ void NStringEncoder::RemoveBOM(NStringEncoding theEncoding, NData& theData)
 		case NStringEncoding::UTF8:
 			if (theData.StartsWith(NData(sizeof(kBOM_UTF8), kBOM_UTF8)))
 			{
-				theData.RemoveData(NRange(0, sizeof(kBOM_UTF8)));
+				theData.Remove(NRange(0, sizeof(kBOM_UTF8)));
 			}
 			break;
 
 		case NStringEncoding::UTF16:
 			if (theData.StartsWith(NData(sizeof(kBOM_UTF16), kBOM_UTF16)))
 			{
-				theData.RemoveData(NRange(0, sizeof(kBOM_UTF16)));
+				theData.Remove(NRange(0, sizeof(kBOM_UTF16)));
 			}
 			break;
 
 		case NStringEncoding::UTF32:
 			if (theData.StartsWith(NData(sizeof(kBOM_UTF32), kBOM_UTF32)))
 			{
-				theData.RemoveData(NRange(0, sizeof(kBOM_UTF32)));
+				theData.Remove(NRange(0, sizeof(kBOM_UTF32)));
 			}
 			break;
 

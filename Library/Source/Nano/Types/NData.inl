@@ -174,11 +174,11 @@ inline const uint8_t* NData::GetData(size_t theOffset) const
 	{
 		if (IsSmall())
 		{
-			theData = GetDataSmall(theOffset);
+			theData = GetSmall(theOffset);
 		}
 		else
 		{
-			theData = GetDataLarge(theOffset);
+			theData = GetLarge(theOffset);
 		}
 	}
 
@@ -303,9 +303,9 @@ inline size_t NData::GetCapacityLarge() const
 
 
 //=============================================================================
-//		NData::GetDataSmall : Get small data.
+//		NData::GetSmall : Get small data.
 //-----------------------------------------------------------------------------
-inline const uint8_t* NData::GetDataSmall(size_t theOffset) const
+inline const uint8_t* NData::GetSmall(size_t theOffset) const
 {
 
 
@@ -324,9 +324,9 @@ inline const uint8_t* NData::GetDataSmall(size_t theOffset) const
 
 
 //=============================================================================
-//		NData::GetDataLarge : Get large data.
+//		NData::GetLarge : Get large data.
 //-----------------------------------------------------------------------------
-inline const uint8_t* NData::GetDataLarge(size_t theOffset) const
+inline const uint8_t* NData::GetLarge(size_t theOffset) const
 {
 
 

@@ -446,7 +446,7 @@ NANO_TEST(TData, "SetDataNone")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "InsertDataValue")
+NANO_TEST(TData, "InsertValue")
 {
 
 
@@ -455,13 +455,13 @@ NANO_TEST(TData, "InsertDataValue")
 	{
 		NData tmpData;
 
-		tmpData.InsertData(0, theData);
+		tmpData.Insert(0, theData);
 		REQUIRE(theData == theData);
 
-		tmpData.InsertData(1, theData);
+		tmpData.Insert(1, theData);
 		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 2));
 
-		tmpData.InsertData(2, theData.GetSize(), theData.GetData());
+		tmpData.Insert(2, theData.GetSize(), theData.GetData());
 		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 3));
 	}
 }
@@ -473,20 +473,20 @@ NANO_TEST(TData, "InsertDataValue")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "InsertDataZero")
+NANO_TEST(TData, "InsertZero")
 {
 
 
 	// Perform the test
 	NData theData;
 
-	theData.InsertData(0, sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	theData.Insert(0, sizeof(kTestArray1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 1));
 
-	theData.InsertData(1, sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	theData.Insert(1, sizeof(kTestArray1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 2));
 
-	theData.InsertData(2, sizeof(kTestArray2), nullptr, NDataSource::Zero);
+	theData.Insert(2, sizeof(kTestArray2), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == ((sizeof(kTestArray1) * 2) + sizeof(kTestArray2)));
 
 	const uint8_t* thePtr = theData.GetData();
@@ -503,7 +503,7 @@ NANO_TEST(TData, "InsertDataZero")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "AppendDataValue")
+NANO_TEST(TData, "AppendValue")
 {
 
 
@@ -512,13 +512,13 @@ NANO_TEST(TData, "AppendDataValue")
 	{
 		NData tmpData;
 
-		tmpData.AppendData(theData);
+		tmpData.Append(theData);
 		REQUIRE(tmpData == theData);
 
-		tmpData.AppendData(theData);
+		tmpData.Append(theData);
 		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 2));
 
-		tmpData.AppendData(theData.GetSize(), theData.GetData());
+		tmpData.Append(theData.GetSize(), theData.GetData());
 		REQUIRE(tmpData.GetSize() == (theData.GetSize() * 3));
 	}
 }
@@ -530,7 +530,7 @@ NANO_TEST(TData, "AppendDataValue")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TData, "AppendDataZero")
+NANO_TEST(TData, "AppendZero")
 {
 
 
@@ -540,10 +540,10 @@ NANO_TEST(TData, "AppendDataZero")
 
 
 	theData.Clear();
-	theData.AppendData(sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	theData.Append(sizeof(kTestArray1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 1));
 
-	theData.AppendData(sizeof(kTestArray1), nullptr, NDataSource::Zero);
+	theData.Append(sizeof(kTestArray1), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kTestArray1) * 2));
 
 	thePtr = theData.GetData();
@@ -554,10 +554,10 @@ NANO_TEST(TData, "AppendDataZero")
 
 
 	theData.Clear();
-	theData.AppendData(sizeof(kTestArray2), nullptr, NDataSource::Zero);
+	theData.Append(sizeof(kTestArray2), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kTestArray2) * 1));
 
-	theData.AppendData(sizeof(kTestArray2), nullptr, NDataSource::Zero);
+	theData.Append(sizeof(kTestArray2), nullptr, NDataSource::Zero);
 	REQUIRE(theData.GetSize() == (sizeof(kTestArray2) * 2));
 
 	thePtr = theData.GetData();
@@ -581,19 +581,19 @@ NANO_TEST(TData, "Remove")
 	// Perform the test
 	for (auto theData : dataObjects)
 	{
-		theData.RemoveData(NRange(0, theData.GetSize()));
+		theData.Remove(NRange(0, theData.GetSize()));
 		REQUIRE(theData.IsEmpty());
 
-		theData.AppendData(sizeof(kTestArray1), kTestArray1);
-		theData.AppendData(sizeof(kTestArray2), kTestArray2);
-		theData.RemoveData(NRange(0, sizeof(kTestArray1)));
+		theData.Append(sizeof(kTestArray1), kTestArray1);
+		theData.Append(sizeof(kTestArray2), kTestArray2);
+		theData.Remove(NRange(0, sizeof(kTestArray1)));
 		REQUIRE(theData.GetSize() == sizeof(kTestArray2));
 		REQUIRE(memcmp(theData.GetData(), kTestArray2, sizeof(kTestArray2)) == 0);
 
-		theData.AppendData(sizeof(kTestArray2), kTestArray2);
-		theData.AppendData(sizeof(kTestArray1), kTestArray1);
-		theData.RemoveData(NRange(sizeof(kTestArray2), sizeof(kTestArray2)));
-		theData.RemoveData(NRange(0, sizeof(kTestArray2)));
+		theData.Append(sizeof(kTestArray2), kTestArray2);
+		theData.Append(sizeof(kTestArray1), kTestArray1);
+		theData.Remove(NRange(sizeof(kTestArray2), sizeof(kTestArray2)));
+		theData.Remove(NRange(0, sizeof(kTestArray2)));
 		REQUIRE(theData.GetSize() == sizeof(kTestArray1));
 		REQUIRE(memcmp(theData.GetData(), kTestArray1, sizeof(kTestArray1)) == 0);
 	}
@@ -613,8 +613,8 @@ NANO_TEST(TData, "Replace")
 	// Perform the test
 	NData theData;
 
-	REQUIRE(theData.AppendData(sizeof(kTestArray1), kTestArray1) != nullptr);
-	REQUIRE(theData.ReplaceData(NRange(0, sizeof(kTestArray1)), sizeof(kTestArray2), kTestArray2) !=
+	REQUIRE(theData.Append(sizeof(kTestArray1), kTestArray1) != nullptr);
+	REQUIRE(theData.Replace(NRange(0, sizeof(kTestArray1)), sizeof(kTestArray2), kTestArray2) !=
 			nullptr);
 
 	REQUIRE(theData.GetSize() == sizeof(kTestArray2));
@@ -636,8 +636,8 @@ NANO_TEST(TData, "Find")
 	NRange theRange;
 	NData  theData;
 
-	REQUIRE(theData.AppendData(kTestDataSmall) != nullptr);
-	REQUIRE(theData.AppendData(kTestDataLarge) != nullptr);
+	REQUIRE(theData.Append(kTestDataSmall) != nullptr);
+	REQUIRE(theData.Append(kTestDataLarge) != nullptr);
 
 	theRange = theData.Find(kTestDataSmall);
 	REQUIRE(theRange == NRange(0, kTestDataSmall.GetSize()));
@@ -662,8 +662,8 @@ NANO_TEST(TData, "FindAll")
 
 	for (auto n = 0; n < 3; n++)
 	{
-		theData.AppendData(kTestDataSmall);
-		theData.AppendData(kTestDataLarge);
+		theData.Append(kTestDataSmall);
+		theData.Append(kTestDataLarge);
 	}
 
 

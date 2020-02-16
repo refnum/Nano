@@ -314,11 +314,11 @@ void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 	// Views are implicitly shared, so must use large data.
 	if (theSize <= kNDataSmallSizeMax && theSource != NDataSource::View)
 	{
-		SetDataSmall(theSize, theData, theSource);
+		SetSmall(theSize, theData, theSource);
 	}
 	else
 	{
-		SetDataLarge(theSize, theData, theSource);
+		SetLarge(theSize, theData, theSource);
 	}
 
 
@@ -332,14 +332,14 @@ void NData::SetData(size_t theSize, const void* theData, NDataSource theSource)
 
 
 //=============================================================================
-//		NData::InsertData : Insert data.
+//		NData::Insert : Insert data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::InsertData(size_t beforeIndex, const NData& theData)
+uint8_t* NData::Insert(size_t beforeIndex, const NData& theData)
 {
 
 
 	// Insert the data
-	return InsertData(beforeIndex, theData.GetSize(), theData.GetData(), NDataSource::Copy);
+	return Insert(beforeIndex, theData.GetSize(), theData.GetData(), NDataSource::Copy);
 }
 
 
@@ -347,9 +347,9 @@ uint8_t* NData::InsertData(size_t beforeIndex, const NData& theData)
 
 
 //=============================================================================
-//		NData::InsertData : Insert data.
+//		NData::Insert : Insert data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::InsertData(size_t      beforeIndex,
+uint8_t* NData::Insert(size_t      beforeIndex,
 						   size_t      theSize,
 						   const void* theData,
 						   NDataSource theSource)
@@ -402,14 +402,14 @@ uint8_t* NData::InsertData(size_t      beforeIndex,
 
 
 //=============================================================================
-//		NData::AppendData : Append data.
+//		NData::Append : Append data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::AppendData(const NData& theData)
+uint8_t* NData::Append(const NData& theData)
 {
 
 
 	// Append the data
-	return InsertData(GetSize(), theData);
+	return Insert(GetSize(), theData);
 }
 
 
@@ -417,14 +417,14 @@ uint8_t* NData::AppendData(const NData& theData)
 
 
 //=============================================================================
-//		NData::AppendData : Append data.
+//		NData::Append : Append data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::AppendData(size_t theSize, const void* theData, NDataSource theSource)
+uint8_t* NData::Append(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
 	// Appemd the data
-	return InsertData(GetSize(), theSize, theData, theSource);
+	return Insert(GetSize(), theSize, theData, theSource);
 }
 
 
@@ -432,9 +432,9 @@ uint8_t* NData::AppendData(size_t theSize, const void* theData, NDataSource theS
 
 
 //=============================================================================
-//		NData::RemoveData : Remove data.
+//		NData::Remove : Remove data.
 //-----------------------------------------------------------------------------
-void NData::RemoveData(const NRange& theRange)
+void NData::Remove(const NRange& theRange)
 {
 
 
@@ -447,11 +447,11 @@ void NData::RemoveData(const NRange& theRange)
 
 		if (IsSmall())
 		{
-			RemoveDataSmall(finalRange);
+			RemoveSmall(finalRange);
 		}
 		else
 		{
-			RemoveDataLarge(finalRange);
+			RemoveLarge(finalRange);
 		}
 	}
 
@@ -465,14 +465,14 @@ void NData::RemoveData(const NRange& theRange)
 
 
 //=============================================================================
-//		NData::ReplaceData : Replace data.
+//		NData::Replace : Replace data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
+uint8_t* NData::Replace(const NRange& theRange, const NData& theData)
 {
 
 
 	// Replace the data
-	return ReplaceData(theRange, theData.GetSize(), theData.GetData(), NDataSource::Copy);
+	return Replace(theRange, theData.GetSize(), theData.GetData(), NDataSource::Copy);
 }
 
 
@@ -480,9 +480,9 @@ uint8_t* NData::ReplaceData(const NRange& theRange, const NData& theData)
 
 
 //=============================================================================
-//		NData::ReplaceData : Replace data.
+//		NData::Replace : Replace data.
 //-----------------------------------------------------------------------------
-uint8_t* NData::ReplaceData(const NRange& theRange,
+uint8_t* NData::Replace(const NRange& theRange,
 							size_t        theSize,
 							const void*   theData,
 							NDataSource   theSource)
@@ -519,11 +519,11 @@ uint8_t* NData::ReplaceData(const NRange& theRange,
 
 		if (replacedSize > theSize)
 		{
-			RemoveData(NRange(finalRange.GetLocation(), replacedSize - theSize));
+			Remove(NRange(finalRange.GetLocation(), replacedSize - theSize));
 		}
 		else
 		{
-			InsertData(finalRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
+			Insert(finalRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
 		}
 
 
@@ -718,22 +718,6 @@ bool NData::Contains(const NData& theData, const NRange& theRange) const
 
 	// Find the data
 	return !Find(theData, theRange).IsEmpty();
-}
-
-
-
-
-
-#pragma mark NMixinAppendable
-//=============================================================================
-//		NData::Append : Append data.
-//-----------------------------------------------------------------------------
-void NData::Append(const NData& theData)
-{
-
-
-	// Append the data
-	AppendData(theData);
 }
 
 
@@ -1285,7 +1269,7 @@ void NData::SetSizeLarge(size_t theSize)
 	// A reduction below the small threshold means a change in storage.
 	if (theSize <= kNDataSmallSizeMax)
 	{
-		SetDataSmall(theSize, GetData(), NDataSource::Copy);
+		SetSmall(theSize, GetData(), NDataSource::Copy);
 	}
 
 
@@ -1396,9 +1380,9 @@ void NData::SetCapacityLarge(size_t theCapacity)
 
 
 //=============================================================================
-//		NData::SetDataSmall : Set small data.
+//		NData::SetSmall : Set small data.
 //-----------------------------------------------------------------------------
-void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSource)
+void NData::SetSmall(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
@@ -1445,9 +1429,9 @@ void NData::SetDataSmall(size_t theSize, const void* theData, NDataSource theSou
 
 
 //=============================================================================
-//		NData::SetDataLarge : Set large data.
+//		NData::SetLarge : Set large data.
 //-----------------------------------------------------------------------------
-void NData::SetDataLarge(size_t theSize, const void* theData, NDataSource theSource)
+void NData::SetLarge(size_t theSize, const void* theData, NDataSource theSource)
 {
 
 
@@ -1514,9 +1498,9 @@ void NData::SetDataLarge(size_t theSize, const void* theData, NDataSource theSou
 
 
 //=============================================================================
-//		NData::RemoveDataSmall : Remove small data.
+//		NData::RemoveSmall : Remove small data.
 //-----------------------------------------------------------------------------
-void NData::RemoveDataSmall(const NRange& theRange)
+void NData::RemoveSmall(const NRange& theRange)
 {
 
 
@@ -1548,9 +1532,9 @@ void NData::RemoveDataSmall(const NRange& theRange)
 
 
 //=============================================================================
-//		NData::RemoveDataLarge : Remove large data.
+//		NData::RemoveLarge : Remove large data.
 //-----------------------------------------------------------------------------
-void NData::RemoveDataLarge(const NRange& theRange)
+void NData::RemoveLarge(const NRange& theRange)
 {
 
 
