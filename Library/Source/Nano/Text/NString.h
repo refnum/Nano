@@ -324,10 +324,10 @@ private:
 	constexpr void                      SetSmall(     size_t numBytes, const void* theText, NStringEncoding theEncoding);
 
 	void                                MakeClone(const NString& theString);
+	bool                                MakeUnique();
 	void                                MakeLarge();
 
-	bool                                IsSlice() const;
-	bool                                ResolveSlice();
+	bool                                IsSlice()     const;
 	NRange                              GetSliceBytes(const NStringData& stringData) const;
 
 	const NStringData*                  FetchEncoding( NStringEncoding theEncoding);

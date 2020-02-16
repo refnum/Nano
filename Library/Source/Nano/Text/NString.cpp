@@ -290,20 +290,24 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 
 
 
-	// Get arbitrary text
+	// Make unique
 	//
-	// If we're using large storage, or an encoding that's not supported by
-	// small storage, we return the contents of the encoded text data.
-	//
-	// Strings using a slice of anoher string may also need to have their
-	// slice resolved to ensure we can return a null-terminated string.
+	// If we are using a slice onto another string we need to resolve the slice
+	// into a new string, to ensure our result is a null-terminated string.
 	NString* thisString = const_cast<NString*>(this);
 
-	if (thisString->ResolveSlice())
+	if (IsSlice())
 	{
+		thisString->MakeUnique();
 		thisString->ClearHash();
 	}
 
+
+
+	// Get the text
+	//
+	// If we're using large storage, or an encoding that's not supported by
+	// small storage, we return the contents in the appropriate encoding.
 	const NStringData* stringData = thisString->FetchEncoding(theEncoding);
 
 	return stringData->theData.GetData();
@@ -931,6 +935,42 @@ void NString::MakeClone(const NString& theString)
 
 
 //=============================================================================
+//		NString::MakeUnique : Make a large string unique.
+//-----------------------------------------------------------------------------
+bool NString::MakeUnique()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge(), "Small strings are implicitly unique");
+
+
+
+	// Create a unique string
+	//
+	// If we have a slice onto a larger string, or we are sharing data
+	// with anyone else, create a new unsliced string for the content.
+	//
+	// This leaves us as the only owner of our entire content.
+	bool makeUnique = (IsSlice() || mString.Large.theState->numOwners != 1);
+
+	if (makeUnique)
+	{
+		NStringEncoding theEncoding = NStringEncoding::Unknown;
+		size_t          numBytes    = 0;
+		const void*     theData     = GetContent(&theEncoding, &numBytes);
+
+		SetTextLarge(theEncoding, numBytes, theData);
+	}
+
+	return makeUnique;
+}
+
+
+
+
+
+//=============================================================================
 //		NString::MakeLarge : Make the string use large storage.
 //-----------------------------------------------------------------------------
 void NString::MakeLarge()
@@ -978,46 +1018,6 @@ bool NString::IsSlice() const
 	}
 
 	return isSlice;
-}
-
-
-
-
-
-//=============================================================================
-//		NString::ResolveSlice : Resolve a sliced substring.
-//-----------------------------------------------------------------------------
-bool NString::ResolveSlice()
-{
-
-
-	// Resolve the slice
-	//
-	// A string that is a slice of a larger string cannot be used to return
-	// a null-terminated pointer, as the slice ends inside the larger string.
-	//
-	// These strings can be made null-terminated by resolving their slice,
-	// which resets them to a new copy of the content they used to share.
-	bool wasSlice = IsSlice();
-
-	if (wasSlice)
-	{
-		// Resolve the slice
-		NN_REQUIRE(IsLarge());
-
-		const NStringData& stringData = mString.Large.theState->stringData;
-		NRange             sliceBytes = GetSliceBytes(stringData);
-
-		SetText(stringData.theEncoding,
-				sliceBytes.GetSize(),
-				stringData.theData.GetData(sliceBytes.GetLocation()));
-
-
-		// Validate our state
-		NN_REQUIRE(!IsSlice());
-	}
-
-	return wasSlice;
 }
 
 
