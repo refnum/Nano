@@ -943,15 +943,17 @@ void NString::MakeLarge()
 	// gives us the number of bytes directly.
 	if (IsSmall())
 	{
-		size_t theSize = size_t(mString.theFlags & kNStringFlagSmallSizeMask);
-
 		if (IsSmallUTF8())
 		{
-			SetTextLarge(NStringEncoding::UTF8, theSize * sizeof(utf8_t), mString.Small.theData);
+			SetTextLarge(NStringEncoding::UTF8,
+						 GetSizeSmall() * sizeof(utf8_t),
+						 mString.Small.theData);
 		}
 		else
 		{
-			SetTextLarge(NStringEncoding::UTF16, theSize * sizeof(utf16_t), mString.Small.theData);
+			SetTextLarge(NStringEncoding::UTF16,
+						 GetSizeSmall() * sizeof(utf16_t),
+						 mString.Small.theData);
 		}
 	}
 }
