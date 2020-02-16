@@ -758,11 +758,11 @@ NString NString::GetSubstring(const NRange& theRange) const
 		// Get the substring
 		if (IsSmall())
 		{
-			theResult = GetSubstringSmall(theRange);
+			theResult = GetSubstringSmall(finalRange);
 		}
 		else
 		{
-			theResult = GetSubstringLarge(theRange);
+			theResult = GetSubstringLarge(finalRange);
 		}
 
 

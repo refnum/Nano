@@ -818,6 +818,9 @@ NANO_TEST(TString, "GetSubstring")
 
 
 	// Perform the test
+	REQUIRE(kTestStringSmall.GetSubstring(kNRangeNone) == "");
+	REQUIRE(kTestStringSmall.GetSubstring(kNRangeAll) == kTestStringSmall);
+
 	REQUIRE(kTestStringSmall.GetSubstring(NRange(0, 5)) == "Hello");
 	REQUIRE(kTestStringSmall.GetSubstring(NRange(2, 3)) == "llo");
 	REQUIRE(kTestStringSmall.GetSubstring(NRange(6, 5)) == "World");
