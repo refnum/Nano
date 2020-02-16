@@ -90,7 +90,7 @@ public:
 	// Update the hash
 	//
 	// Must be implemented by derived classes.
-	size_t                              UpdateHash(NHashAction theAction);
+	size_t                              HashUpdate(NHashAction theAction);
 };
 
 

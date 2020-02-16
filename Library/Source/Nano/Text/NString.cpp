@@ -908,9 +908,9 @@ NComparison NString::CompareOrder(const NString& theString) const
 
 #pragma mark NMixinHashable
 //=============================================================================
-//		NString::UpdateHash : Update the hash.
+//		NString::HashUpdate : Update the hash.
 //-----------------------------------------------------------------------------
-size_t NString::UpdateHash(NHashAction theAction)
+size_t NString::HashUpdate(NHashAction theAction)
 {
 
 

@@ -63,7 +63,7 @@ public:
 		return mHash != kNHashNone;
 	}
 
-	size_t UpdateHash(NHashAction theAction) const
+	size_t HashUpdate(NHashAction theAction) const
 	{
 		switch (theAction)
 		{

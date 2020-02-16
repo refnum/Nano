@@ -57,10 +57,10 @@ size_t NMixinHashable<T>::GetHash() const
 	const T& thisObject  = static_cast<const T&>(*this);
 	T&       thisMutable = const_cast<T&>(thisObject);
 
-	size_t theHash = thisMutable.UpdateHash(NHashAction::Get);
+	size_t theHash = thisMutable.HashUpdate(NHashAction::Get);
 	if (theHash == kNHashNone)
 	{
-		theHash = thisMutable.UpdateHash(NHashAction::Update);
+		theHash = thisMutable.HashUpdate(NHashAction::Update);
 	}
 
 	return theHash;
@@ -81,5 +81,5 @@ void NMixinHashable<T>::ClearHash()
 	// Clear the hash
 	T& thisObject = static_cast<T&>(*this);
 
-	(void) thisObject.UpdateHash(NHashAction::Clear);
+	(void) thisObject.HashUpdate(NHashAction::Clear);
 }

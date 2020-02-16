@@ -795,9 +795,9 @@ NComparison NData::CompareOrder(const NData& theData) const
 
 #pragma mark NMixinHashable
 //=============================================================================
-//		NData::UpdateHash : Update the hash.
+//		NData::HashUpdate : Update the hash.
 //-----------------------------------------------------------------------------
-size_t NData::UpdateHash(NHashAction theAction)
+size_t NData::HashUpdate(NHashAction theAction)
 {
 
 
