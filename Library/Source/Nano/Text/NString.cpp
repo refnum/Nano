@@ -811,11 +811,42 @@ void NString::Append(const NString& theString)
 
 
 	// Append the string
-	//
-	// Appended strings are normalized to UTF8 as this is the encoding
-	// most likely to allow us to continue to use small storage.
-	SetData(NStringEncoding::UTF8,
-			GetData(NStringEncoding::UTF8) + theString.GetData(NStringEncoding::UTF8));
+	if (!theString.IsEmpty())
+	{
+		// Append to empty
+		if (IsEmpty())
+		{
+			*this = theString;
+		}
+
+
+		// Append to non-empty
+		else
+		{
+			// Append the string
+			if (IsSmallUTF8() && theString.IsSmallUTF8())
+			{
+				AppendSmall(theString);
+			}
+			else if (IsSmallUTF16() && theString.IsSmallUTF16())
+			{
+				AppendSmall(theString);
+			}
+			else
+			{
+				if (IsSmall())
+				{
+					MakeLarge();
+				}
+
+				AppendLarge(theString);
+			}
+
+
+			// Update our state
+			ClearHash();
+		}
+	}
 }
 
 
@@ -1335,6 +1366,150 @@ size_t NString::GetSizeLarge() const
 
 	// Get the size
 	return mString.Large.theSlice.GetSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NString::AppendSmall : Append small strings.
+//-----------------------------------------------------------------------------
+void NString::AppendSmall(const NString& theString)
+{
+
+
+	// Validate our parameters state
+	NN_REQUIRE(IsSmall() && theString.IsSmall());
+
+	NN_REQUIRE((IsSmallUTF8() && theString.IsSmallUTF8()) ||
+			   (IsSmallUTF16() && theString.IsSmallUTF16()));
+
+
+
+	// Get the state we need
+	NStringEncoding theEncoding = NStringEncoding::Unknown;
+	size_t          bytesThis   = GetSizeSmall();
+	size_t          bytesOther  = theString.GetSizeSmall();
+
+	if (IsSmallUTF8())
+	{
+		NN_REQUIRE(theString.IsSmallUTF8());
+		theEncoding = NStringEncoding::UTF8;
+		bytesThis *= sizeof(utf8_t);
+		bytesOther *= sizeof(utf8_t);
+	}
+	else
+	{
+		NN_REQUIRE(theString.IsSmallUTF16());
+		theEncoding = NStringEncoding::UTF16;
+		bytesThis *= sizeof(utf16_t);
+		bytesOther *= sizeof(utf16_t);
+	}
+
+
+
+	// Append the string
+	//
+	// Two small strings can fit into twice the small storage.
+	//
+	// If the combined string continues to fit into a small string we
+	// can append without any further allocation, otherwise we will
+	// switch to large storage.
+	uint8_t tmpData[sizeof(mString.Small.theData) * 2];
+
+	memcpy(&tmpData[0], &mString.Small.theData[0], bytesThis);
+	memcpy(&tmpData[bytesThis], &theString.mString.Small.theData[0], bytesOther);
+
+	SetText(theEncoding, bytesThis + bytesOther, tmpData);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::AppendLarge : Append large strings.
+//-----------------------------------------------------------------------------
+void NString::AppendLarge(const NString& theString)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Get the state we need
+	auto& largeThis = mString.Large;
+
+
+
+	// Append by merging
+	//
+	// If we share the same state, and our slices are contiguous,
+	// we can append simply by adjusting the size of our slice.
+	if (theString.IsLarge())
+	{
+		const auto& largeOther = theString.mString.Large;
+
+		if (largeThis.theState == largeOther.theState)
+		{
+			if (largeThis.theSlice.GetNext() == largeOther.theSlice.GetFirst())
+			{
+				largeThis.theSlice.SetSize(largeThis.theSlice.GetSize() +
+										   largeOther.theSlice.GetSize());
+				return;
+			}
+		}
+	}
+
+
+
+	// Prepare the string
+	//
+	// To append we need to resolve any slice and stop sharing data.
+	MakeUnique();
+
+	NN_REQUIRE(!IsSlice());
+	NN_REQUIRE(largeThis.theState->numOwners == 1);
+
+
+
+	// Get the state we need
+	//
+	// We preserve the encoding of the original string.
+	NStringData& stringData = largeThis.theState->stringData;
+	NData        appendData = theString.GetData(stringData.theEncoding);
+
+	size_t sizeTerminator = NStringEncoder::GetCodeUnitSize(stringData.theEncoding);
+	size_t sizeThis       = stringData.theData.GetSize() - sizeTerminator;
+	size_t sizeOther      = appendData.GetSize();
+	size_t sizeTotal      = sizeThis + sizeOther + sizeTerminator;
+
+
+
+	// Append the data
+	//
+	// The original data is null terminated. The new data can be appended by
+	// inserting it just before the existing terminator.
+	//
+	// To reduce repeated allocations we increase the capacity beyond the
+	// required size when we reach the limit.
+	if (sizeTotal > stringData.theData.GetCapacity())
+	{
+		stringData.theData.SetCapacity(sizeTotal * 2);
+	}
+
+	stringData.theData.InsertData(sizeThis, appendData);
+
+
+
+	// Update our state
+	//
+	// The new string contains the codepoints from both strings.
+	largeThis.theState->theSize += theString.GetSize();
+	largeThis.theSlice = NRange(0, largeThis.theState->theSize);
 }
 
 
