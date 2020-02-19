@@ -499,27 +499,42 @@ uint8_t* NData::Replace(const NRange& theRange,
 	}
 
 
-
 	// Replace a range
 	else
 	{
-		// Adjust the data
+		// Replace from the end
 		//
-		// If the range we're replacing is a different size than the data we are
-		// replacing it with then we need to insert filler / remove data prior
-		// to overwriting.
-		//
-		// Any filter is inserted at the end of the area we're going to overwrite,
-		// to minimise the amount of data that needs to be moved up.
-		size_t replacedSize = finalRange.GetSize();
-
-		if (replacedSize > theSize)
+		// If the range we're replacing is at the end we can just
+		// adjust our size then fill the new contents with MemCopy.
+		if (finalRange.GetNext() == GetSize())
 		{
-			Remove(NRange(finalRange.GetLocation(), replacedSize - theSize));
+			size_t oldSize = GetSize();
+			size_t newSize = oldSize + theSize - finalRange.GetSize();
+
+			SetSizeRaw(newSize);
 		}
+
+		// Replace elsewhere
 		else
 		{
-			Insert(finalRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
+			// Adjust the data
+			//
+			// If the range we're replacing is a different size than the data we are
+			// replacing it with then we need to insert filler / remove data prior
+			// to overwriting.
+			//
+			// Any filler is inserted at the end of the area we're going to overwrite,
+			// to minimise the amount of data that needs to be moved up.
+			size_t replacedSize = finalRange.GetSize();
+
+			if (replacedSize > theSize)
+			{
+				Remove(NRange(finalRange.GetLocation(), replacedSize - theSize));
+			}
+			else
+			{
+				Insert(finalRange.GetNext(), theSize - replacedSize, nullptr, NDataSource::None);
+			}
 		}
 
 
