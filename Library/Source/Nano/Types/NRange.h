@@ -89,7 +89,7 @@ public:
 
 
 	// Is this a meta-range?
-	bool                                IsMeta() const;
+	constexpr bool                      IsMeta() const;
 
 
 	// Clear the range
@@ -97,12 +97,12 @@ public:
 
 
 	// Get/set the location
-	size_t                              GetLocation() const;
+	constexpr size_t                    GetLocation() const;
 	void                                SetLocation(size_t theLocation);
 
 
 	// Get/set the size
-	size_t                              GetSize() const;
+	constexpr size_t                    GetSize() const;
 	void                                SetSize(size_t theSize);
 
 
@@ -156,8 +156,8 @@ public:
 
 public:
 	// NMixinComparable
-	bool                                CompareEqual(const NRange& theRange) const;
-	NComparison                         CompareOrder(const NRange& theRange) const;
+	constexpr bool                      CompareEqual(const NRange& theRange) const;
+	constexpr NComparison               CompareOrder(const NRange& theRange) const;
 
 
 private:

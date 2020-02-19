@@ -133,7 +133,7 @@ inline bool NRange::Contains(size_t theOffset) const
 //=============================================================================
 //		NRange::IsMeta : Is this a meta range?
 //-----------------------------------------------------------------------------
-inline bool NRange::IsMeta() const
+constexpr bool NRange::IsMeta() const
 {
 
 
@@ -164,7 +164,7 @@ inline void NRange::Clear()
 //=============================================================================
 //		NRange::GetLocation : Get the location.
 //-----------------------------------------------------------------------------
-inline size_t NRange::GetLocation() const
+constexpr size_t NRange::GetLocation() const
 {
 
 
@@ -194,7 +194,7 @@ inline void NRange::SetLocation(size_t theValue)
 //=============================================================================
 //		NRange::GetSize : Get the size.
 //-----------------------------------------------------------------------------
-inline size_t NRange::GetSize() const
+constexpr size_t NRange::GetSize() const
 {
 
 
@@ -313,4 +313,85 @@ inline size_t NRange::GetNext() const
 
 	// Get the next element
 	return mLocation + mSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::GetNormalized : Get a normalized range.
+//-----------------------------------------------------------------------------
+inline NRange NRange::GetNormalized(size_t theSize) const
+{
+
+
+	// Normalize meta-ranges
+	NRange theRange(*this);
+
+	if (theRange == kNRangeNone)
+	{
+		theRange.Clear();
+	}
+
+	else if (theRange == kNRangeAll)
+	{
+		theRange.SetRange(0, theSize);
+	}
+
+
+
+	// Normalize normal ranges
+	else if (theRange.GetLocation() >= theSize)
+	{
+		theRange.SetSize(0);
+	}
+
+	else if (theRange.GetNext() >= theSize)
+	{
+		theRange.SetSize(theSize - theRange.GetLocation());
+	}
+
+	return theRange;
+}
+
+
+
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NRange::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+constexpr bool NRange::CompareEqual(const NRange& theRange) const
+{
+
+
+	// Compare the range
+	return (mLocation == theRange.mLocation) && (mSize == theRange.mSize);
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+constexpr NComparison NRange::CompareOrder(const NRange& theRange) const
+{
+
+
+	// Compare the range
+	//
+	// Ranges have no intrinsic ordering so we order by location first,
+	// then order by size.
+	NComparison theResult = NCompare(mLocation, theRange.mLocation);
+
+	if (theResult == NComparison::EqualTo)
+	{
+		theResult = NCompare(mSize, theRange.mSize);
+	}
+
+	return theResult;
 }
