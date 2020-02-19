@@ -120,11 +120,11 @@ public:
 	// Get a native encoding
 	//
 	// Returns the native equivalent to any endian-specific encodings.
-	static NStringEncoding              GetNativeEncoding(NStringEncoding theEncoding);
+	static constexpr NStringEncoding    GetNativeEncoding(NStringEncoding theEncoding);
 
 
 	// Get the size of a code unit
-	static size_t                       GetCodeUnitSize(NStringEncoding theEncoding);
+	static constexpr size_t             GetCodeUnitSize(NStringEncoding theEncoding);
 
 
 private:
@@ -171,6 +171,14 @@ private:
 	static NUTF32LegacyMap              GetLegacyMap(size_t maxChar, const utf32_t* toUTF32);
 };
 
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NStringEncoder.inl"
 
 
 #endif // NSTRING_ENCODER_H

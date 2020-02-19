@@ -305,6 +305,7 @@
 		AB492C902399A41A003E4D1A /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
 		AB492C912399A41A003E4D1A /* NDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebug.h; sourceTree = "<group>"; };
 		AB4E383423C8D9D50089B916 /* NRange.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NRange.inl; sourceTree = "<group>"; };
+		AB4E546423FD2AE60004BC30 /* NStringEncoder.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NStringEncoder.inl; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
 		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPOSIX.cpp; sourceTree = "<group>"; };
@@ -939,6 +940,7 @@
 				AB54F9AC23EF14A7005207BC /* NStringComparator.h */,
 				AB56391C23C2A52700675F68 /* NStringEncoder.cpp */,
 				AB56391B23C2A52700675F68 /* NStringEncoder.h */,
+				AB4E546423FD2AE60004BC30 /* NStringEncoder.inl */,
 				AB56392E23C6B13900675F68 /* NStringEncodings.h */,
 				AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */,
 				AB1B4D9D23F0250C00B304D3 /* NStringScanner.h */,
