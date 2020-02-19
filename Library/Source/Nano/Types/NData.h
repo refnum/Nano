@@ -291,6 +291,7 @@ private:
 	size_t                              GetSizeSmall() const;
 	size_t                              GetSizeLarge() const;
 
+	void                                SetSizeRaw(  size_t theSize);
 	void                                SetSizeSmall(size_t theSize);
 	void                                SetSizeLarge(size_t theSize);
 

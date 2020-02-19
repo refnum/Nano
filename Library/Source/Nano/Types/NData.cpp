@@ -174,18 +174,10 @@ void NData::SetSize(size_t theSize)
 	if (theSize != oldSize)
 	{
 		// Adjust the size
-		if (IsSmall())
-		{
-			SetSizeSmall(theSize);
-		}
-		else
-		{
-			SetSizeLarge(theSize);
-		}
+		//
+		// We zero-fill any new space.
+		SetSizeRaw(theSize);
 
-
-
-		// Zero-fill any new space
 		if (theSize > oldSize)
 		{
 			uint8_t* thePtr = GetMutableData(oldSize);
@@ -368,8 +360,12 @@ uint8_t* NData::Insert(size_t      beforeIndex,
 	if (theSize != 0)
 	{
 		// Grow the buffer
+		//
+		// New space will be filled by MemCopy based on the source.
 		size_t oldSize = GetSize();
-		SetSize(oldSize + theSize);
+		size_t newSize = oldSize + theSize;
+
+		SetSizeRaw(newSize);
 
 
 
@@ -1196,6 +1192,28 @@ void* NData::MemAllocate(size_t theSize, const void* existingPtr, bool zeroMem)
 	}
 
 	return newPtr;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::SetSizeRaw : Set the size.
+//-----------------------------------------------------------------------------
+void NData::SetSizeRaw(size_t theSize)
+{
+
+
+	// Set the size
+	if (IsSmall())
+	{
+		SetSizeSmall(theSize);
+	}
+	else
+	{
+		SetSizeLarge(theSize);
+	}
 }
 
 
