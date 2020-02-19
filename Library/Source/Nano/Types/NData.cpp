@@ -1267,19 +1267,13 @@ void NData::SetSizeLarge(size_t theSize)
 
 
 
-	// Switch to small size
-	//
-	// A reduction below the small threshold means a change in storage.
-	if (theSize <= kNDataSmallSizeMax)
-	{
-		SetSmall(theSize, GetData(), NDataSource::Copy);
-	}
-
-
 	// Reduce large size
 	//
 	// A reduction below our current size means a change in slice.
-	else if (theSize <= mData.Large.theSlice.GetSize())
+	//
+	// Large data is left as large data, rather than shrunk back to small,
+	// as an object that was large once is likely to be large again.
+	if (theSize <= mData.Large.theSlice.GetSize())
 	{
 		mData.Large.theSlice.SetSize(theSize);
 	}
