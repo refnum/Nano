@@ -104,7 +104,7 @@ private:
 //-----------------------------------------------------------------------------
 // Compare two types
 template <typename A, typename B>
-inline NComparison NCompare(const A& a, const B& b)
+constexpr NComparison NCompare(const A& a, const B& b)
 {
 	if (a < b)
 	{
@@ -122,7 +122,7 @@ inline NComparison NCompare(const A& a, const B& b)
 
 
 // Convert a memcmp-style comparison result
-inline NComparison NCompare(int32_t x)
+constexpr NComparison NCompare(int32_t x)
 {
 	return NCompare(x, 0);
 }
