@@ -573,6 +573,70 @@ uint8_t* NData::Replace(const NRange& theRange,
 
 
 //=============================================================================
+//		NData::ReplaceAppend : Replace the end of the data.
+//-----------------------------------------------------------------------------
+//		Note : Optimised for NString::Append usage.
+//-----------------------------------------------------------------------------
+void NData::ReplaceAppend(size_t sizeReplace, size_t theSize, const void* theData)
+{
+
+
+	// Validate our parameters
+	//
+	// We require a non-zero amount of data that is external to us.
+	NN_REQUIRE(sizeReplace != 0 && sizeReplace < GetSize());
+	NN_REQUIRE(theSize != 0 && sizeReplace < theSize);
+	NN_REQUIRE_NOT_NULL(theData);
+
+	NN_REQUIRE(((uintptr_t(theData) + theSize) < uintptr_t(GetData())) ||
+			   (uintptr_t(theData) > uintptr_t(GetData() + GetSize())));
+
+
+
+	// Get the state we need
+	size_t oldSize = GetSize();
+	size_t newSize = oldSize - sizeReplace + theSize;
+
+	size_t   dstOffset = oldSize - sizeReplace;
+	uint8_t* dstPtr    = nullptr;
+
+
+
+	// Replace the data
+	//
+	// We test once up front for the small / large decisions.
+	if (IsSmall())
+	{
+		// Small data is always mutable
+		SetSizeSmall(newSize);
+
+		dstPtr = const_cast<uint8_t*>(GetSmall(dstOffset));
+	}
+	else
+	{
+		// Large data only needs to be mutable for views or shared data.
+		SetSizeLarge(newSize);
+		if (mData.Large.theState->isView || mData.Large.theState->numOwners != 1)
+		{
+			MakeMutable();
+		}
+
+		dstPtr = const_cast<uint8_t*>(GetLarge(dstOffset));
+	}
+
+	memcpy(dstPtr, theData, theSize);
+
+
+
+	// Update our state
+	ClearHash();
+}
+
+
+
+
+
+//=============================================================================
 //		NData::Find : Find the first instance of data within the data.
 //-----------------------------------------------------------------------------
 NRange NData::Find(const NData& theData, const NRange& theRange) const

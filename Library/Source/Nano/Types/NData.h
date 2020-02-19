@@ -244,6 +244,13 @@ public:
 												NDataSource   theSource = NDataSource::Copy);
 
 
+	// Replace and append
+	//
+	// Replaces the trailing bytes of the data with a non-zero amount
+	// of externally provided data.
+	void                                ReplaceAppend(size_t sizeReplace, size_t theSize, const void* theData);
+
+
 	// Find data
 	//
 	// Returns the location of the search data within the data.
