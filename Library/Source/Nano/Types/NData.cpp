@@ -350,9 +350,9 @@ uint8_t* NData::Insert(size_t beforeIndex, const NData& theData)
 //		NData::Insert : Insert data.
 //-----------------------------------------------------------------------------
 uint8_t* NData::Insert(size_t      beforeIndex,
-						   size_t      theSize,
-						   const void* theData,
-						   NDataSource theSource)
+					   size_t      theSize,
+					   const void* theData,
+					   NDataSource theSource)
 {
 
 
@@ -483,9 +483,9 @@ uint8_t* NData::Replace(const NRange& theRange, const NData& theData)
 //		NData::Replace : Replace data.
 //-----------------------------------------------------------------------------
 uint8_t* NData::Replace(const NRange& theRange,
-							size_t        theSize,
-							const void*   theData,
-							NDataSource   theSource)
+						size_t        theSize,
+						const void*   theData,
+						NDataSource   theSource)
 {
 
 

@@ -206,9 +206,9 @@ public:
 	// or nullptr if no data was inserted.
 	uint8_t*                            Insert(size_t      beforeIndex, const NData& theData);
 	uint8_t*                            Insert(size_t      beforeIndex,
-												   size_t      theSize,
-												   const void* theData,
-												   NDataSource theSource = NDataSource::Copy);
+											   size_t      theSize,
+											   const void* theData,
+											   NDataSource theSource = NDataSource::Copy);
 
 
 	// Append data
@@ -220,9 +220,7 @@ public:
 	// Returns a pointer to the first byte of the newly appended data,
 	// or nullptr if no data was appended.
 	uint8_t*                            Append(const NData& theData);
-	uint8_t*                            Append(size_t      theSize,
-												   const void* theData,
-												   NDataSource theSource = NDataSource::Copy);
+	uint8_t*                            Append(size_t theSize, const void* theData, NDataSource theSource = NDataSource::Copy);
 
 
 	// Remove data
@@ -241,9 +239,9 @@ public:
 	// or nullptr if the replacement was a removal from the end.
 	uint8_t*                            Replace(const NRange& theRange, const NData& theData);
 	uint8_t*                            Replace(const NRange& theRange,
-													size_t        theSize,
-													const void*   theData,
-													NDataSource   theSource = NDataSource::Copy);
+												size_t        theSize,
+												const void*   theData,
+												NDataSource   theSource = NDataSource::Copy);
 
 
 	// Find data
