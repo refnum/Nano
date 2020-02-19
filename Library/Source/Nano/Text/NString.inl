@@ -201,6 +201,37 @@ constexpr const utf16_t* NString::GetUTF16() const
 
 
 
+#pragma mark NMixinHashable
+//=============================================================================
+//		NString::HashGet : Get the hash.
+//-----------------------------------------------------------------------------
+inline size_t NString::HashGet() const
+{
+
+
+	// Get the hash
+	return mString.theHash;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::HashClear : Clear the hash.
+//-----------------------------------------------------------------------------
+inline void NString::HashClear()
+{
+
+
+	// Clear the hash
+	mString.theHash = 0;
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NString::IsSmall : Are we using small storage?

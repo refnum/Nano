@@ -63,23 +63,20 @@ public:
 		return mHash != kNHashNone;
 	}
 
-	size_t HashUpdate(NHashAction theAction) const
+	size_t HashGet() const
 	{
-		switch (theAction)
-		{
-			case NHashAction::Get:
-				break;
-
-			case NHashAction::Clear:
-				mHash = 0;
-				break;
-
-			case NHashAction::Update:
-				mHash = 1234;
-				break;
-		}
-
 		return mHash;
+	}
+
+	size_t HashUpdate()
+	{
+		mHash = 1234;
+		return mHash;
+	}
+
+	void HashClear()
+	{
+		mHash = 0;
 	}
 
 private:

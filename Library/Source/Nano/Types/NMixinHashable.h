@@ -57,15 +57,6 @@
 static constexpr size_t kNHashNone                          = 0;
 
 
-// Hash actions
-enum class NHashAction
-{
-	Get,
-	Clear,
-	Update
-};
-
-
 
 
 
@@ -87,10 +78,10 @@ public:
 
 
 public:
-	// Update the hash
-	//
-	// Must be implemented by derived classes.
-	size_t                              HashUpdate(NHashAction theAction);
+	// Provide the hash
+	size_t                              HashGet() const;
+	size_t                              HashUpdate();
+	void                                HashClear();
 };
 
 

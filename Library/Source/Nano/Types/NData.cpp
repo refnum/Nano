@@ -781,27 +781,12 @@ NComparison NData::CompareOrder(const NData& theData) const
 //=============================================================================
 //		NData::HashUpdate : Update the hash.
 //-----------------------------------------------------------------------------
-size_t NData::HashUpdate(NHashAction theAction)
+size_t NData::HashUpdate()
 {
 
 
 	// Update the hash
-	//
-	// We always use a 32-bit hash, even on 64-bit sysems, to maximise
-	// storage space for small objects.
-	switch (theAction)
-	{
-		case NHashAction::Get:
-			break;
-
-		case NHashAction::Clear:
-			mData.theHash = 0;
-			break;
-
-		case NHashAction::Update:
-			mData.theHash = NDataDigest::GetRuntime32(GetSize(), GetData());
-			break;
-	}
+	mData.theHash = NDataDigest::GetRuntime32(GetSize(), GetData());
 
 	return mData.theHash;
 }

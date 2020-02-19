@@ -189,6 +189,37 @@ inline const uint8_t* NData::GetData(size_t theOffset) const
 
 
 
+#pragma mark NMixinHashable
+//=============================================================================
+//		NData::HashGet : Get the hash.
+//-----------------------------------------------------------------------------
+inline size_t NData::HashGet() const
+{
+
+
+	// Get the hash
+	return mData.theHash;
+}
+
+
+
+
+
+//=============================================================================
+//		NData::HashClear : Clear the hash.
+//-----------------------------------------------------------------------------
+inline void NData::HashClear()
+{
+
+
+	// Clear the hash
+	mData.theHash = 0;
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NData::IsSmall : Are we using small storage?

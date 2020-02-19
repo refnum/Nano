@@ -910,27 +910,12 @@ NComparison NString::CompareOrder(const NString& theString) const
 //=============================================================================
 //		NString::HashUpdate : Update the hash.
 //-----------------------------------------------------------------------------
-size_t NString::HashUpdate(NHashAction theAction)
+size_t NString::HashUpdate()
 {
 
 
 	// Update the hash
-	//
-	// We always use a 32-bit hash, even on 64-bit sysems, to maximise
-	// storage space for small objects.
-	switch (theAction)
-	{
-		case NHashAction::Get:
-			break;
-
-		case NHashAction::Clear:
-			mString.theHash = 0;
-			break;
-
-		case NHashAction::Update:
-			mString.theHash = NDataDigest::GetRuntime32(GetData(NStringEncoding::UTF8));
-			break;
-	}
+	mString.theHash = NDataDigest::GetRuntime32(GetData(NStringEncoding::UTF8));
 
 	return mString.theHash;
 }

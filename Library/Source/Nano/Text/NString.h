@@ -303,7 +303,10 @@ public:
 
 
 	// NMixinHashable
-	size_t                              HashUpdate(NHashAction theAction);
+	size_t                              HashGet() const;
+	size_t                              HashUpdate();
+	void                                HashClear();
+
 
 
 private:
