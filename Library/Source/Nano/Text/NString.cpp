@@ -755,20 +755,31 @@ NString NString::GetSubstring(const NRange& theRange) const
 
 	if (!finalRange.IsEmpty())
 	{
-		// Get the substring
-		if (IsSmall())
+		// Return entire string
+		if (finalRange == NRange(0, GetSize()))
 		{
-			theResult = GetSubstringSmall(finalRange);
+			theResult = *this;
 		}
+
+
+		// Return substring
 		else
 		{
-			theResult = GetSubstringLarge(finalRange);
+			// Get the substring
+			if (IsSmall())
+			{
+				theResult = GetSubstringSmall(finalRange);
+			}
+			else
+			{
+				theResult = GetSubstringLarge(finalRange);
+			}
+
+
+
+			// Update the result
+			theResult.ClearHash();
 		}
-
-
-
-		// Update the result
-		theResult.ClearHash();
 	}
 
 	return theResult;
@@ -1508,7 +1519,8 @@ NString NString::GetSubstringSmall(const NRange& theRange) const
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(theRange.GetSize() < GetSize());
 	NN_REQUIRE(IsSmall());
 
 
@@ -1543,6 +1555,7 @@ NString NString::GetSubstringLarge(const NRange& theRange) const
 
 
 	// Validate our state
+	NN_REQUIRE(theRange.GetSize() < GetSize());
 	NN_REQUIRE(IsLarge());
 
 
