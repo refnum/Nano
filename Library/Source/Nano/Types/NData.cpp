@@ -1357,7 +1357,10 @@ void NData::SetCapacityLarge(size_t theCapacity)
 	// Set the capacity
 	size_t theSize = std::min(mData.Large.theSlice.GetSize(), theCapacity);
 
-	MakeLarge(theCapacity, theSize, mData.Large.theState->theData, NDataSource::Copy);
+	MakeLarge(theCapacity,
+			  theSize,
+			  mData.Large.theState->theData + mData.Large.theSlice.GetLocation(),
+			  NDataSource::Copy);
 }
 
 
