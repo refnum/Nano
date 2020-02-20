@@ -1524,7 +1524,7 @@ void NString::AppendLarge(const NString& otherString)
 	else
 	{
 		// Get the state we need
-		NN_REQUIRE(theString.IsLarge());
+		NN_REQUIRE(otherString.IsLarge());
 
 		bytesTerminator = NStringEncoder::GetCodeUnitSize(encodingThis);
 		sizeOther       = otherString.GetSizeLarge();
