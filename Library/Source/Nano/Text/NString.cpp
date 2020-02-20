@@ -1406,7 +1406,8 @@ void NString::AppendSmall(const NString& otherString)
 				   &otherString.mString.Small.theData,
 				   bytesOther);
 
-			mString.theFlags = uint8_t(sizeTotal) | kNStringFlagIsSmallUTF16;
+			mString.theFlags = uint8_t(sizeTotal);
+			mString.theFlags |= kNStringFlagIsSmallUTF16;
 			return;
 		}
 	}
