@@ -1037,11 +1037,14 @@ bool NString::IsSlice() const
 
 
 	// Check our state
+	//
+	// A slice is a substring of a large string.
 	bool isSlice = IsLarge();
 
 	if (isSlice)
 	{
-		isSlice = (mString.Large.theSlice != NRange(0, mString.Large.theState->theSize));
+		NN_REQUIRE(mString.Large.theSlice.GetLast() < mString.Large.theState->theSize);
+		isSlice = (mString.Large.theSlice.GetSize() < mString.Large.theState->theSize);
 	}
 
 	return isSlice;
