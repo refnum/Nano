@@ -822,42 +822,18 @@ void NString::Append(const NString& theString)
 
 
 	// Append the string
-	if (!theString.IsEmpty())
+	if (IsSmall())
 	{
-		// Append to empty
-		if (IsEmpty())
-		{
-			*this = theString;
-		}
-
-
-		// Append to non-empty
-		else
-		{
-			// Append the string
-			if (IsSmallUTF8() && theString.IsSmallUTF8())
-			{
-				AppendSmall(theString);
-			}
-			else if (IsSmallUTF16() && theString.IsSmallUTF16())
-			{
-				AppendSmall(theString);
-			}
-			else
-			{
-				if (IsSmall())
-				{
-					MakeLarge();
-				}
-
-				AppendLarge(theString);
-			}
-
-
-			// Update our state
-			ClearHash();
-		}
+		AppendSmall(theString);
 	}
+	else
+	{
+		AppendLarge(theString);
+	}
+
+
+	// Update our state
+	ClearHash();
 }
 
 
@@ -1374,53 +1350,103 @@ size_t NString::GetSizeLarge() const
 //=============================================================================
 //		NString::AppendSmall : Append small strings.
 //-----------------------------------------------------------------------------
-void NString::AppendSmall(const NString& theString)
+void NString::AppendSmall(const NString& otherString)
 {
 
 
 	// Validate our parameters state
-	NN_REQUIRE(IsSmall() && theString.IsSmall());
-
-	NN_REQUIRE((IsSmallUTF8() && theString.IsSmallUTF8()) ||
-			   (IsSmallUTF16() && theString.IsSmallUTF16()));
+	NN_REQUIRE(IsSmall());
 
 
 
 	// Get the state we need
 	NStringEncoding theEncoding = NStringEncoding::Unknown;
-	size_t          bytesThis   = GetSizeSmall();
-	size_t          bytesOther  = theString.GetSizeSmall();
 
-	if (IsSmallUTF8())
+	size_t sizeThis  = GetSize();
+	size_t sizeOther = otherString.GetSize();
+	size_t sizeTotal = sizeThis + sizeOther;
+
+	size_t bytesThis  = 0;
+	size_t bytesOther = 0;
+
+
+
+	// Append Small UTF8 + Small UTF8
+	//
+	// If the combined string would remain small we can simply copy in place.
+	if (IsSmallUTF8() && otherString.IsSmallUTF8())
 	{
-		NN_REQUIRE(theString.IsSmallUTF8());
 		theEncoding = NStringEncoding::UTF8;
-		bytesThis *= sizeof(utf8_t);
-		bytesOther *= sizeof(utf8_t);
+		bytesThis   = sizeof(utf8_t) * sizeThis;
+		bytesOther  = sizeof(utf8_t) * (sizeOther + 1);
+
+		if (sizeTotal <= kNStringSmallSizeMaxUTF8)
+		{
+			memcpy(&mString.Small.theData[bytesThis],
+				   &otherString.mString.Small.theData,
+				   bytesOther);
+
+			mString.theFlags = uint8_t(sizeTotal);
+			return;
+		}
 	}
+
+	// Append Small UTF8 + Small UTF8
+	//
+	// If the combined string would remain small we can simply copy in place.
+	else if (IsSmallUTF16() && otherString.IsSmallUTF16())
+	{
+		theEncoding = NStringEncoding::UTF16;
+		bytesThis   = sizeof(utf16_t) * sizeThis;
+		bytesOther  = sizeof(utf16_t) * (sizeOther + 1);
+
+		if (sizeTotal <= kNStringSmallSizeMaxUTF16)
+		{
+			memcpy(&mString.Small.theData[bytesThis],
+				   &otherString.mString.Small.theData,
+				   bytesOther);
+
+			mString.theFlags = uint8_t(sizeTotal) | kNStringFlagIsSmallUTF16;
+			return;
+		}
+	}
+
+
+
+	// Append large
+	//
+	// If both strings are small, and both share the same encoding, we can
+	// concat them into a local buffer and create our large string from that.
+	//
+	// We copy all of the original data, rather than just bytesThis, as this
+	// gives us a vector copy rather than individual bytes.
+	if (theEncoding != NStringEncoding::Unknown)
+	{
+		uint8_t tmpData[sizeof(mString.Small.theData) * 2];
+
+		memcpy(&tmpData, &mString.Small.theData, sizeof(mString.Small.theData));
+		memcpy(&tmpData[bytesThis], &otherString.mString.Small.theData, bytesOther);
+
+		SetText(theEncoding, bytesThis + bytesOther, tmpData);
+	}
+
+
+	// General case
+	//
+	// Otherwise we have small+large, or different encodings, so we need to turn
+	// ourselves into a large string and fall back to the general path.
 	else
 	{
-		NN_REQUIRE(theString.IsSmallUTF16());
-		theEncoding = NStringEncoding::UTF16;
-		bytesThis *= sizeof(utf16_t);
-		bytesOther *= sizeof(utf16_t);
+		if (IsEmpty())
+		{
+			*this = otherString;
+		}
+		else
+		{
+			MakeLarge();
+			AppendLarge(otherString);
+		}
 	}
-
-
-
-	// Append the string
-	//
-	// Two small strings can fit into twice the small storage.
-	//
-	// If the combined string continues to fit into a small string we
-	// can append without any further allocation, otherwise we will
-	// switch to large storage.
-	uint8_t tmpData[sizeof(mString.Small.theData) * 2];
-
-	memcpy(&tmpData[0], &mString.Small.theData[0], bytesThis);
-	memcpy(&tmpData[bytesThis], &theString.mString.Small.theData[0], bytesOther);
-
-	SetText(theEncoding, bytesThis + bytesOther, tmpData);
 }
 
 
@@ -1430,7 +1456,7 @@ void NString::AppendSmall(const NString& theString)
 //=============================================================================
 //		NString::AppendLarge : Append large strings.
 //-----------------------------------------------------------------------------
-void NString::AppendLarge(const NString& theString)
+void NString::AppendLarge(const NString& otherString)
 {
 
 
@@ -1439,76 +1465,109 @@ void NString::AppendLarge(const NString& theString)
 
 
 
-	// Get the state we need
-	auto& largeThis = mString.Large;
-
-
-
-	// Append by merging
+	// Prepare the string
 	//
-	// If we share the same state, and our slices are contiguous,
-	// we can append simply by adjusting the size of our slice.
-	if (theString.IsLarge())
+	// A large string can only be appended to if it is unsliced and is
+	// the unique owner of its data.
+	//
+	// As this is on the hotpath for string concatenation we repeat
+	// MakeUnique's tests here to avoid any unnecessary call.
+	if (mString.Large.theSlice.GetSize() < mString.Large.theState->theSize ||
+		mString.Large.theState->numOwners != 1)
 	{
-		const auto& largeOther = theString.mString.Large;
+		MakeUnique();
+	}
 
-		if (largeThis.theState == largeOther.theState)
-		{
-			if (largeThis.theSlice.GetNext() == largeOther.theSlice.GetFirst())
-			{
-				largeThis.theSlice.SetSize(largeThis.theSlice.GetSize() +
-										   largeOther.theSlice.GetSize());
-				return;
-			}
-		}
+	NN_REQUIRE(!IsSlice());
+	NN_REQUIRE(mString.Large.theState->numOwners == 1);
+
+
+
+	// Get the state we need
+	NStringEncoding encodingThis    = mString.Large.theState->stringData.theEncoding;
+	size_t          bytesTerminator = 0;
+
+	size_t         sizeOther  = 0;
+	size_t         bytesOther = 0;
+	const uint8_t* textOther  = nullptr;
+
+
+
+	// Append UTF8 + Small UTF8
+	//
+	// We can get the size and bytes directly from the other string.
+	if (encodingThis == NStringEncoding::UTF8 && otherString.IsSmallUTF8())
+	{
+		bytesTerminator = sizeof(utf8_t);
+		sizeOther       = otherString.GetSizeSmall();
+		bytesOther      = (sizeOther + 1) * sizeof(utf8_t);
+		textOther       = otherString.mString.Small.theData;
 	}
 
 
 
-	// Prepare the string
+	// Append UTF16 + Small UTF16
 	//
-	// To append we need to resolve any slice and stop sharing data.
-	MakeUnique();
+	// We can get the size and bytes directly from the other string.
+	else if (encodingThis == NStringEncoding::UTF16 && otherString.IsSmallUTF16())
+	{
+		bytesTerminator = sizeof(utf16_t);
+		sizeOther       = otherString.GetSizeSmall();
+		bytesOther      = (sizeOther + 1) * sizeof(utf16_t);
+		textOther       = otherString.mString.Small.theData;
+	}
 
-	NN_REQUIRE(!IsSlice());
-	NN_REQUIRE(largeThis.theState->numOwners == 1);
 
-
-
-	// Get the state we need
+	// General case
 	//
-	// We preserve the encoding of the original string.
-	NStringData& stringData = largeThis.theState->stringData;
-	NData        appendData = theString.GetData(stringData.theEncoding);
+	// We may need to process the string to obtain the bytes.
+	else
+	{
+		// Get the state we need
+		NN_REQUIRE(theString.IsLarge());
 
-	size_t sizeTerminator = NStringEncoder::GetCodeUnitSize(stringData.theEncoding);
-	size_t sizeThis       = stringData.theData.GetSize() - sizeTerminator;
-	size_t sizeOther      = appendData.GetSize();
-	size_t sizeTotal      = sizeThis + sizeOther + sizeTerminator;
+		bytesTerminator = NStringEncoder::GetCodeUnitSize(encodingThis);
+		sizeOther       = otherString.GetSizeLarge();
+
+
+
+		// Get the data
+		//
+		// In the ideal case the other string is unsliced and in our encoding.
+		//
+		// If not we may need to either transcode it or resolve its slice to
+		// append data we can concatenate with our own.
+		const NStringData* otherStringData = &otherString.mString.Large.theState->stringData;
+
+		if (encodingThis != otherStringData->theEncoding || otherString.IsSlice())
+		{
+			NString* otherMutable = const_cast<NString*>(&otherString);
+			otherStringData       = otherMutable->FetchEncoding(encodingThis);
+		}
+
+		bytesOther = otherStringData->theData.GetSize();
+		textOther  = otherStringData->theData.GetData();
+	}
 
 
 
 	// Append the data
-	//
-	// The original data is null terminated. The new data can be appended by
-	// inserting it just before the existing terminator.
-	//
-	// To reduce repeated allocations we increase the capacity beyond the
-	// required size when we reach the limit.
-	if (sizeTotal > stringData.theData.GetCapacity())
+	NData& dataThis   = mString.Large.theState->stringData.theData;
+	size_t bytesThis  = dataThis.GetSize() - bytesTerminator;
+	size_t bytesTotal = bytesThis + bytesOther;
+
+	if (bytesTotal > dataThis.GetCapacity())
 	{
-		stringData.theData.SetCapacity(sizeTotal * 2);
+		dataThis.SetCapacity(bytesTotal * 2);
 	}
 
-	stringData.theData.Insert(sizeThis, appendData);
+	dataThis.ReplaceAppend(bytesTerminator, bytesOther, textOther);
 
 
 
 	// Update our state
-	//
-	// The new string contains the codepoints from both strings.
-	largeThis.theState->theSize += theString.GetSize();
-	largeThis.theSlice = NRange(0, largeThis.theState->theSize);
+	mString.Large.theState->theSize += sizeOther;
+	mString.Large.theSlice.SetSize(mString.Large.theState->theSize);
 }
 
 

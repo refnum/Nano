@@ -345,8 +345,8 @@ private:
 	size_t                              GetSizeSmall() const;
 	size_t                              GetSizeLarge() const;
 
-	void                                AppendSmall(const NString& theString);
-	void                                AppendLarge(const NString& theString);
+	void                                AppendSmall(const NString& otherString);
+	void                                AppendLarge(const NString& otherString);
 
 	NString                             GetSubstringSmall(const NRange& theRange) const;
 	NString                             GetSubstringLarge(const NRange& theRange) const;
