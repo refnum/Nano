@@ -243,12 +243,12 @@ public:
 												const NRange&  theRange = kNRangeAll) const;
 
 
-	// Find a capturing pattern
+	// Find a capture group
 	//
 	// Find the first, or all, instances of a substring.
 	//
 	// kNStringPattern return the ranges of the overall pattern, including
-	// ny capture groups within that pattern.
+	// any capture groups within that pattern.
 	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
 	NPatternGroup                       FindGroup(const NString& theString,
