@@ -112,6 +112,23 @@ public:
 													  const NRange&  theRange);
 
 
+	// Replace a substring
+	//
+	// ReplaceAll returns the number of instances replaced within the string.
+	//
+	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
+	static bool                         Replace(NString&       theString,
+												const NString& searchFor,
+												const NString& replaceWith,
+												NStringFlags   theFlags = kNStringNone,
+												const NRange&  theRange = kNRangeAll);
+	static size_t                       ReplaceAll(NString&       theString,
+												   const NString& searchFor,
+												   const NString& replaceWith,
+												   NStringFlags   theFlags = kNStringNone,
+												   const NRange&  theRange = kNRangeAll);
+
+
 private:
 	static NVectorPatternGroup          Find(const NString& theString,
 											 const NString& searchFor,
@@ -125,6 +142,11 @@ private:
 													NStringFlags   theFlags,
 													const NRange&  theRange,
 													size_t         maxResult);
+
+
+	static void                         ReplaceRanges(NString&            theString,
+													  const NVectorRange& foundRanges,
+													  const NString&      replaceWith);
 
 	static pcre2_real_code_8*           GetRegexp(const NString& searchFor, NStringFlags theFlags);
 

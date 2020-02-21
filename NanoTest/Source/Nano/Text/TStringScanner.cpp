@@ -59,7 +59,7 @@ static const NString kTestString =
 	"Curabitur faucibus semper leo non elementum. "
 	"Vivamus scelerisque sapien scelerisque ligula.";
 
-static const NRange kRangeMissed                            = NRange(60, 100);
+static const NRange kRangeMissed                            = NRange(340, 20);
 
 static const NRange kRangeVivamus1                          = NRange(57, 7);
 static const NRange kRangeVivamus1Group1                    = NRange(57, 2);
@@ -408,4 +408,117 @@ NANO_TEST(NStringScanner, "FindAllGroups/Pattern")
 	patternGroups =
 		NStringScanner::FindAllGroups(kTestString, "(V.)(V.M)US", kNStringPattern, kRangeMissed);
 	REQUIRE(patternGroups.empty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NStringScanner, "Replace")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::Replace(theString, "Lorem", "xxx"));
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::Replace(theString, "LOREM", "xxx", kNStringNoCase));
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::Replace(theString, "Lo..m", "xxx", kNStringPattern));
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::Replace(theString, "LO..M", "xxx", kNStringPatternNoCase));
+
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "Lorem", "xxx", kNStringNone, kRangeMissed));
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "LOREM", "xxx", kNStringNoCase, kRangeMissed));
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "Lo..m", "xxx", kNStringPattern, kRangeMissed));
+
+	theString = kTestString;
+	REQUIRE(
+		!NStringScanner::Replace(theString, "LO..M", "xxx", kNStringPatternNoCase, kRangeMissed));
+
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "LORAX", "xxx"));
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "LORAX", "xxx", kNStringNoCase));
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "Lo..x", "xxx", kNStringPattern));
+
+	theString = kTestString;
+	REQUIRE(!NStringScanner::Replace(theString, "LO..X", "xxx", kNStringPatternNoCase));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NStringScanner, "ReplaceAll")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "dolor", "xxx") == 2);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "DOLOR", "xxx", kNStringNoCase) == 2);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "do..r", "xxx", kNStringPattern) == 2);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "DO..R", "xxx", kNStringPatternNoCase) == 2);
+
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "dolor", "xxx", kNStringNone, kRangeMissed) == 0);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "DOLOR", "xxx", kNStringNoCase, kRangeMissed) ==
+			0);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "do..r", "xxx", kNStringPattern, kRangeMissed) ==
+			0);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString,
+									   "DO..R",
+									   "xxx",
+									   kNStringPatternNoCase,
+									   kRangeMissed) == 0);
+
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "zalor", "xxx") == 0);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "ZALOR", "xxx", kNStringNoCase) == 0);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "za..r", "xxx", kNStringPattern) == 0);
+
+	theString = kTestString;
+	REQUIRE(NStringScanner::ReplaceAll(theString, "ZA..R", "xxx", kNStringPatternNoCase) == 0);
 }

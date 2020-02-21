@@ -153,9 +153,70 @@ NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
 }
 
 
+bool   Replace(NString&       theString,
+			   const NString& findString,
+			   const NString& replaceWith,
+			   NStringFlags   theFlags                      = kNStringNone,
+			   const NRange&  theRange                      = kNRangeAll);
+size_t ReplaceAll(NString&       theString,
+				  const NString& findString,
+				  const NString& replaceWith,
+				  NStringFlags   theFlags                   = kNStringNone,
+				  const NRange&  theRange                   = kNRangeAll);
 
 
 
+
+
+//=============================================================================
+//		NStringScanner::Replace : Replace a substring.
+//-----------------------------------------------------------------------------
+bool NStringScanner::Replace(NString&       theString,
+							 const NString& searchFor,
+							 const NString& replaceWith,
+							 NStringFlags   theFlags,
+							 const NRange&  theRange)
+{
+
+
+	// Find and replace
+	NRange foundRange = Find(theString, searchFor, theFlags, theRange);
+	bool   foundIt    = !foundRange.IsEmpty();
+
+	if (!foundIt)
+	{
+		ReplaceRanges(theString, {foundRange}, replaceWith);
+	}
+
+	return foundIt;
+}
+
+
+
+
+
+//=============================================================================
+//		NStringScanner::ReplaceAll : Replace substrings.
+//-----------------------------------------------------------------------------
+size_t NStringScanner::ReplaceAll(NString&       theString,
+								  const NString& searchFor,
+								  const NString& replaceWith,
+								  NStringFlags   theFlags,
+								  const NRange&  theRange)
+{
+
+
+	// Find and replace
+	NVectorRange foundRanges = FindAll(theString, searchFor, theFlags, theRange);
+	size_t       numFound    = foundRanges.size();
+
+	if (numFound != 0)
+	{
+		ReplaceRanges(theString, foundRanges, replaceWith);
+	}
+
+	return numFound;
+}
 #pragma mark private
 //=============================================================================
 //		NStringScanner::Find : Find a string.
@@ -285,6 +346,48 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 	pcre2_code_free(regExp);
 
 	return BytesToCodepoints(codePointOffsets, patternGroups);
+}
+
+
+
+
+
+//=============================================================================
+//		NStringScanner::ReplaceRanges : Replace ranges within a string.
+//-----------------------------------------------------------------------------
+void NStringScanner::ReplaceRanges(NString&            theString,
+								   const NVectorRange& foundRanges,
+								   const NString&      replaceWith)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theString.IsEmpty());
+	NN_REQUIRE(!foundRanges.empty());
+
+
+
+	// Replace the ranges
+	NString newString;
+	NRange  previousRange;
+
+	for (const auto& foundRange : foundRanges)
+	{
+		previousRange.SetSize(foundRange.GetLocation() - previousRange.GetLocation());
+
+		newString += theString.GetSubstring(previousRange);
+		newString += replaceWith;
+
+		previousRange.SetRange(foundRange.GetNext(), 0);
+	}
+
+	if (previousRange.GetLocation() != 0)
+	{
+		previousRange.SetSize(theString.GetSize() - previousRange.GetLocation());
+		newString += theString.GetSubstring(previousRange);
+	}
+
+	theString = newString;
 }
 
 
