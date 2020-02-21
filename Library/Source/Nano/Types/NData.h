@@ -77,7 +77,7 @@
 //
 // The pointer for a View must persist beyond the lifetime of any
 // NData objects viewing that data.
-enum NDataSource
+enum class NDataSource
 {
 	Copy,
 	Zero,
