@@ -192,6 +192,10 @@
 
 // Mark as unused
 //
+// Marks a variable, or expression, as unused without evaluation.
+//
+// sizeof does not support lambdas until C++20.
+//
 // Example:
 //
 //		void Function(int x)
@@ -199,7 +203,7 @@
 //			NN_UNUSED(x);
 //		}
 //
-#define NN_UNUSED(_x)                                       ((void) (_x))
+#define NN_UNUSED(_expr)                                    ((void) sizeof((_expr) ? 1 : 0))
 
 
 // Format validation
