@@ -194,8 +194,6 @@
 //
 // Marks a variable, or expression, as unused without evaluation.
 //
-// sizeof does not support lambdas until C++20.
-//
 // Example:
 //
 //		void Function(int x)
@@ -203,7 +201,39 @@
 //			NN_UNUSED(x);
 //		}
 //
-#define NN_UNUSED(_expr)                                    ((void) sizeof((_expr) ? 1 : 0))
+// sizeof() cannot be used with a bitfield or function type, or lambdas
+// in an unevaluated context until C++20. As such we have two approaches.
+//
+// For C++ we can use a constexpr if where we place the expression in
+// the discarded branch.
+//
+// For C we fall back to sizeof(), even though this cannot be used with
+// certain types as above.
+//
+#if defined(__cplusplus)
+
+	#define NN_UNUSED(_expression)                          \
+		do                                                  \
+		{                                                   \
+			if constexpr (true)                             \
+			{                                               \
+				/* Do nothing */                            \
+			}                                               \
+			else                                            \
+			{                                               \
+				(_expression);                              \
+			}                                               \
+		} while (false)
+
+#else
+
+	#define NN_UNUSED(_expression)                          \
+		do                                                  \
+		{                                                   \
+			(void) sizeof((_expression));                   \
+		} while (false)
+
+#endif
 
 
 // Format validation
