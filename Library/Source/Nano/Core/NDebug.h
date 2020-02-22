@@ -44,6 +44,10 @@
 #include "NanoMacros.h"
 
 
+// System
+#include <utility>
+
+
 
 
 
@@ -172,6 +176,14 @@
 //=============================================================================
 //		Assertions
 //-----------------------------------------------------------------------------
+// Helpers
+template <typename T>
+inline void _nn_invoke_assertion(T&& theAction) noexcept
+{
+	std::forward<T>(theAction)();
+}
+
+
 // Requirement
 //
 // A requirement expresses a condition that must be met.
@@ -187,18 +199,19 @@
 //			mPtrThatIsDereferencedLater = thePtr;
 //		}
 //
-// The condition expression must not have side effects.
-//
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_require(_condition, _message, ...)                                              \
-		do                                                                                      \
-		{                                                                                       \
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
-			{                                                                                   \
-				NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-				NN_DEBUG_BREAK();                                                               \
-			}                                                                                   \
+	#define _nn_require(_condition, _message, ...)                                                  \
+		do                                                                                          \
+		{                                                                                           \
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
+			{                                                                                       \
+				/* Invoking through a lambda on failure allows use within constexpr */              \
+				_nn_invoke_assertion([]() {                                                         \
+					NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+					NN_DEBUG_BREAK();                                                               \
+				});                                                                                 \
+			}                                                                                       \
 		} while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require(_condition, "")
@@ -243,17 +256,24 @@
 //			mPtrThatIsCheckedBeforeUse = thePtr;
 //		}
 //
-// The condition expression must not have side effects.
-//
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_expect(_condition, _message, ...)                                               \
-		do                                                                                      \
-		{                                                                                       \
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
-			{                                                                                   \
-				NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-			}                                                                                   \
+template <typename T>
+inline void _nn_expect_invoke(T&& theAction) noexcept
+{
+	std::forward<T>(theAction)();
+}
+
+	#define _nn_expect(_condition, _message, ...)                                                   \
+		do                                                                                          \
+		{                                                                                           \
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
+			{                                                                                       \
+				/* Invoking through a lambda on failure allows use within constexpr */              \
+				_nn_invoke_assertion([]() {                                                         \
+					NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+				});                                                                                 \
+			}                                                                                       \
 		} while (false)
 
 	#define _nn_expect_1(_condition)                        _nn_expect(_condition, "")
@@ -299,8 +319,6 @@
 //			NStatus theErr = SaveValueToFile(theValue);
 //			NN_EXPECT_NOT_ERR(theErr);
 //		}
-//
-// The condition expression must not have side effects.
 //
 #define NN_REQUIRE_NOT_ERR(_error, ...)                     \
 	do                                                      \
