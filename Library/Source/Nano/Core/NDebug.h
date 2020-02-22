@@ -221,10 +221,11 @@
 	#define NN_REQUIRE(_condition, ...)                     \
 		do                                                  \
 		{                                                   \
-			NN_UNUSED(_condition)                           \
+			NN_UNUSED(_condition);                          \
 		} while (false)
 
 #endif
+
 
 
 // Expectation
@@ -275,7 +276,7 @@
 	#define NN_EXPECT(_condition, ...)                      \
 		do                                                  \
 		{                                                   \
-			NN_UNUSED(_condition)                           \
+			NN_UNUSED(_condition);                          \
 		} while (false)
 
 #endif
