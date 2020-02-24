@@ -177,11 +177,19 @@
 //		Assertions
 //-----------------------------------------------------------------------------
 // Helpers
+//
+// An assertion's content is invoked via a forwarding lambda to
+// allow use in constexpr functions.
 template <typename T>
-inline void _nn_invoke_assertion(T&& theAction) noexcept
+inline void _nn_forward_assertion(T&& theAction) noexcept
 {
 	std::forward<T>(theAction)();
 }
+
+#define _nn_invoke_assertion(...)                           \
+	_nn_forward_assertion([]() {                            \
+		__VA_ARGS__                                         \
+	})
 
 
 // Requirement
@@ -206,11 +214,9 @@ inline void _nn_invoke_assertion(T&& theAction) noexcept
 		{                                                                                           \
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
 			{                                                                                       \
-				/* Invoking through a lambda on failure allows use within constexpr */              \
-				_nn_invoke_assertion([]() {                                                         \
+				_nn_invoke_assertion(                                                               \
 					NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-					NN_DEBUG_BREAK();                                                               \
-				});                                                                                 \
+					NN_DEBUG_BREAK(););                                                             \
 			}                                                                                       \
 		} while (false)
 
@@ -258,21 +264,13 @@ inline void _nn_invoke_assertion(T&& theAction) noexcept
 //
 #if NN_ENABLE_ASSERTIONS
 
-template <typename T>
-inline void _nn_expect_invoke(T&& theAction) noexcept
-{
-	std::forward<T>(theAction)();
-}
-
 	#define _nn_expect(_condition, _message, ...)                                                   \
 		do                                                                                          \
 		{                                                                                           \
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
 			{                                                                                       \
-				/* Invoking through a lambda on failure allows use within constexpr */              \
-				_nn_invoke_assertion([]() {                                                         \
-					NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-				});                                                                                 \
+				_nn_invoke_assertion(                                                               \
+					NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__););  \
 			}                                                                                       \
 		} while (false)
 
