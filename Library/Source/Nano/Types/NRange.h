@@ -61,7 +61,7 @@
 class NRange;
 
 
-// Containers
+// Aliases
 using NVectorRange = std::vector<NRange>;
 
 
@@ -85,7 +85,7 @@ public:
 
 
 	// Does the range contain an offset?
-	bool                                Contains(size_t theOffset) const;
+	constexpr bool                      Contains(size_t theOffset) const;
 
 
 	// Is this a meta-range?
@@ -93,21 +93,21 @@ public:
 
 
 	// Clear the range
-	void                                Clear();
+	constexpr void                      Clear();
 
 
 	// Get/set the location
 	constexpr size_t                    GetLocation() const;
-	void                                SetLocation(size_t theLocation);
+	constexpr void                      SetLocation(size_t theLocation);
 
 
 	// Get/set the size
 	constexpr size_t                    GetSize() const;
-	void                                SetSize(size_t theSize);
+	constexpr void                      SetSize(size_t theSize);
 
 
 	// Set the range
-	void                                SetRange(size_t theLocation, size_t theSize);
+	constexpr void                      SetRange(size_t theLocation, size_t theSize);
 
 
 	// Get the contents
@@ -120,23 +120,23 @@ public:
 	// The first and last element are both contained within the range.
 	//
 	// The "next element" is the element immediately after the range.
-	size_t                              GetPosition(size_t theOffset) const;
+	constexpr size_t                    GetPosition(size_t theOffset) const;
 
-	size_t                              GetFirst() const;
-	size_t                              GetLast()  const;
-	size_t                              GetNext()  const;
+	constexpr size_t                    GetFirst() const;
+	constexpr size_t                    GetLast()  const;
+	constexpr size_t                    GetNext()  const;
 
 
 	// Get the range relative to an offset
-	NRange                              GetOffset(size_t theOffset) const;
+	constexpr NRange                    GetOffset(size_t theOffset) const;
 
 
 	// Get the union with a range
-	NRange                              GetUnion(const NRange& theRange) const;
+	constexpr NRange                    GetUnion(const NRange& theRange) const;
 
 
 	// Get the intersection with a range
-	NRange                              GetIntersection(const NRange& theRange) const;
+	constexpr NRange                    GetIntersection(const NRange& theRange) const;
 
 
 	// Get a normalized range
@@ -151,7 +151,7 @@ public:
 	//
 	// A range whose location falls ouside the implied 0..theSize range keeps
 	// its original location and receives a size of 0.
-	NRange                              GetNormalized(size_t theSize) const;
+	constexpr NRange                    GetNormalized(size_t theSize) const;
 
 
 public:
@@ -170,19 +170,19 @@ private:
 
 
 //=============================================================================
-//		Constants
+//		Includes
 //-----------------------------------------------------------------------------
-static const NRange kNRangeNone(  kNNotFound, 0);
-static const NRange kNRangeAll(0, kNNotFound);
+#include "NRange.inl"
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		Constants
 //-----------------------------------------------------------------------------
-#include "NRange.inl"
+static constexpr NRange kNRangeNone(  kNNotFound, 0);
+static constexpr NRange kNRangeAll(0, kNNotFound);
 
 
 

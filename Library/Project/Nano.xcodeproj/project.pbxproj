@@ -156,9 +156,6 @@
 		ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
-		ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
-		ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
-		ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155580F9B4DD6009FFEAF /* NRange.cpp */; };
 		ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
@@ -483,7 +480,6 @@
 		AB91554D0F9B4DD6009FFEAF /* NDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDictionary.h; sourceTree = "<group>"; };
 		AB9155540F9B4DD6009FFEAF /* NNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNumber.cpp; sourceTree = "<group>"; };
 		AB9155550F9B4DD6009FFEAF /* NNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNumber.h; sourceTree = "<group>"; };
-		AB9155580F9B4DD6009FFEAF /* NRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRange.cpp; sourceTree = "<group>"; };
 		AB9155590F9B4DD6009FFEAF /* NRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRange.h; sourceTree = "<group>"; };
 		AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRefCounted.cpp; sourceTree = "<group>"; };
 		AB91555D0F9B4DD6009FFEAF /* NRefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRefCounted.h; sourceTree = "<group>"; };
@@ -1372,7 +1368,6 @@
 				AB3B53A7143DCD9400EC0F55 /* NProgressable.h */,
 				AB514F641035784000E5A6AD /* NPropertyStore.cpp */,
 				AB514F631035784000E5A6AD /* NPropertyStore.h */,
-				AB9155580F9B4DD6009FFEAF /* NRange.cpp */,
 				AB9155590F9B4DD6009FFEAF /* NRange.h */,
 				AB4E383423C8D9D50089B916 /* NRange.inl */,
 				AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */,
@@ -1632,7 +1627,6 @@
 				AB51285C23D2810600528FBE /* pcre2_substitute.c in Sources */,
 				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB51282623D2810600528FBE /* dftables.c in Sources */,
-				ABBB2B7923809DBE00EB2840 /* NRange.cpp in Sources */,
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */,
 				AB51282023D2810600528FBE /* pcre2_convert.c in Sources */,
@@ -1691,7 +1685,6 @@
 				AB51285A23D2810600528FBE /* pcre2_substitute.c in Sources */,
 				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB51282423D2810600528FBE /* dftables.c in Sources */,
-				ABBB2B7B23809DBF00EB2840 /* NRange.cpp in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */,
 				AB51281E23D2810600528FBE /* pcre2_convert.c in Sources */,
@@ -1746,7 +1739,6 @@
 				AB51284F23D2810600528FBE /* pcre2_tables.c in Sources */,
 				AB51285223D2810600528FBE /* pcre2_maketables.c in Sources */,
 				AB51284623D2810600528FBE /* pcre2_compile.c in Sources */,
-				ABBB2B7A23809DBE00EB2840 /* NRange.cpp in Sources */,
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB51286D23D2810600528FBE /* pcre2_config.c in Sources */,

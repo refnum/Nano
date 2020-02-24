@@ -116,7 +116,6 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Types/NMixinContainer.inl"
 		"${TARGET_SOURCE_DIR}/Types/NMixinHashable.h"
 		"${TARGET_SOURCE_DIR}/Types/NMixinHashable.inl"
-		"${TARGET_SOURCE_DIR}/Types/NRange.cpp"
 		"${TARGET_SOURCE_DIR}/Types/NRange.h"
 		"${TARGET_SOURCE_DIR}/Types/NRange.inl"
 )

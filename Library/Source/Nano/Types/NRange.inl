@@ -106,7 +106,7 @@ inline bool NRange::Intersects(const NRange& theRange) const
 //=============================================================================
 //		NRange::Contains : Does the range contain an offset?
 //-----------------------------------------------------------------------------
-inline bool NRange::Contains(size_t theOffset) const
+constexpr bool NRange::Contains(size_t theOffset) const
 {
 
 
@@ -148,7 +148,7 @@ constexpr bool NRange::IsMeta() const
 //=============================================================================
 //		NRange::Clear : Clear the range.
 //-----------------------------------------------------------------------------
-inline void NRange::Clear()
+constexpr void NRange::Clear()
 {
 
 
@@ -179,7 +179,7 @@ constexpr size_t NRange::GetLocation() const
 //=============================================================================
 //		NRange::SetLocation : Set the location.
 //-----------------------------------------------------------------------------
-inline void NRange::SetLocation(size_t theValue)
+constexpr void NRange::SetLocation(size_t theValue)
 {
 
 
@@ -209,7 +209,7 @@ constexpr size_t NRange::GetSize() const
 //=============================================================================
 //		NRange::SetSize : Set the size.
 //-----------------------------------------------------------------------------
-inline void NRange::SetSize(size_t theValue)
+constexpr void NRange::SetSize(size_t theValue)
 {
 
 
@@ -224,7 +224,7 @@ inline void NRange::SetSize(size_t theValue)
 //=============================================================================
 //		NRange::SetRange : Set the range.
 //-----------------------------------------------------------------------------
-inline void NRange::SetRange(size_t theLocation, size_t theSize)
+constexpr void NRange::SetRange(size_t theLocation, size_t theSize)
 {
 
 
@@ -240,7 +240,7 @@ inline void NRange::SetRange(size_t theLocation, size_t theSize)
 //=============================================================================
 //		NRange::GetPosition : Get the position of an element.
 //-----------------------------------------------------------------------------
-inline size_t NRange::GetPosition(size_t theOffset) const
+constexpr size_t NRange::GetPosition(size_t theOffset) const
 {
 
 
@@ -261,7 +261,7 @@ inline size_t NRange::GetPosition(size_t theOffset) const
 //=============================================================================
 //		NRange::GetFirst : Get the first element.
 //-----------------------------------------------------------------------------
-inline size_t NRange::GetFirst() const
+constexpr size_t NRange::GetFirst() const
 {
 
 
@@ -279,7 +279,7 @@ inline size_t NRange::GetFirst() const
 //=============================================================================
 //		NRange::GetLast : Get the last element.
 //-----------------------------------------------------------------------------
-inline size_t NRange::GetLast() const
+constexpr size_t NRange::GetLast() const
 {
 
 
@@ -304,7 +304,7 @@ inline size_t NRange::GetLast() const
 //=============================================================================
 //		NRange::GetNext : Get the subsequent element.
 //-----------------------------------------------------------------------------
-inline size_t NRange::GetNext() const
+constexpr size_t NRange::GetNext() const
 {
 
 
@@ -320,21 +320,114 @@ inline size_t NRange::GetNext() const
 
 
 //=============================================================================
+//		NRange::GetOffset : Get the range relative to an offset.
+//-----------------------------------------------------------------------------
+constexpr NRange NRange::GetOffset(size_t theOffset) const
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!IsMeta());
+
+
+
+	// Get the offset
+	return {mLocation + theOffset, mSize};
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::GetUnion : Get the union with a range.
+//-----------------------------------------------------------------------------
+constexpr NRange NRange::GetUnion(const NRange& theRange) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(!IsMeta());
+
+
+	// Check for empty
+	if (IsEmpty())
+	{
+		return theRange;
+	}
+
+	if (theRange.IsEmpty())
+	{
+		return *this;
+	}
+
+
+
+	// Get the union
+	size_t rangeFirst = std::min(GetFirst(), theRange.GetFirst());
+	size_t rangeLast  = std::max(GetLast(), theRange.GetLast());
+
+	return NRange(rangeFirst, rangeLast - rangeFirst + 1);
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::GetIntersection : Get the intersection of a range.
+//-----------------------------------------------------------------------------
+constexpr NRange NRange::GetIntersection(const NRange& theRange) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(!IsMeta());
+
+
+	// Check for empty ranges
+	if (IsEmpty() || theRange.IsEmpty())
+	{
+		return NRange();
+	}
+
+
+
+	// Check for empty intersection
+	if (theRange.GetFirst() > GetLast() || theRange.GetLast() < GetFirst())
+	{
+		return NRange();
+	}
+
+
+
+	// Get the intersection
+	size_t rangeFirst = std::max(GetFirst(), theRange.GetFirst());
+	size_t rangeLast  = std::min(GetLast(), theRange.GetLast());
+
+	return NRange(rangeFirst, rangeLast - rangeFirst + 1);
+}
+
+
+
+
+
+//=============================================================================
 //		NRange::GetNormalized : Get a normalized range.
 //-----------------------------------------------------------------------------
-inline NRange NRange::GetNormalized(size_t theSize) const
+constexpr NRange NRange::GetNormalized(size_t theSize) const
 {
 
 
 	// Normalize meta-ranges
 	NRange theRange(*this);
 
-	if (theRange == kNRangeNone)
+	if (theRange.GetLocation() == kNNotFound && theRange.GetSize() == 0)
 	{
 		theRange.Clear();
 	}
 
-	else if (theRange == kNRangeAll)
+	else if (theRange.GetLocation() == 0 && theRange.GetSize() == kNNotFound)
 	{
 		theRange.SetRange(0, theSize);
 	}
