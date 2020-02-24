@@ -221,7 +221,7 @@
 			}                                               \
 			else                                            \
 			{                                               \
-				(_expression);                              \
+				(void) (_expression);                       \
 			}                                               \
 		} while (false)
 
