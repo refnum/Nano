@@ -56,7 +56,7 @@ class NMixinContainer
 {
 public:
 	// Is the container empty?
-	bool                                IsEmpty() const;
+	constexpr bool                      IsEmpty() const;
 
 
 	// Get the size
