@@ -183,7 +183,7 @@ bool NStringScanner::Replace(NString&       theString,
 	NRange foundRange = Find(theString, searchFor, theFlags, theRange);
 	bool   foundIt    = !foundRange.IsEmpty();
 
-	if (!foundIt)
+	if (foundIt)
 	{
 		ReplaceRanges(theString, {foundRange}, replaceWith);
 	}
@@ -217,6 +217,11 @@ size_t NStringScanner::ReplaceAll(NString&       theString,
 
 	return numFound;
 }
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NStringScanner::Find : Find a string.
@@ -368,8 +373,8 @@ void NStringScanner::ReplaceRanges(NString&            theString,
 
 
 	// Replace the ranges
-	NString newString;
 	NRange  previousRange;
+	NString newString;
 
 	for (const auto& foundRange : foundRanges)
 	{
