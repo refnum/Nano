@@ -61,7 +61,6 @@ NDigestX<N>::NDigestX(size_t theSize, const uint8_t* thePtr)
 
 	// Validate our parameters
 	NN_REQUIRE(theSize == N);
-	NN_UNUSED(theSize);
 
 
 
