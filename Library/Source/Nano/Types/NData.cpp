@@ -585,7 +585,7 @@ void NData::ReplaceAppend(size_t sizeReplace, size_t theSize, const void* theDat
 	//
 	// We require a non-zero amount of data that is external to us.
 	NN_REQUIRE(sizeReplace != 0 && sizeReplace < GetSize());
-	NN_REQUIRE(theSize != 0 && sizeReplace < theSize);
+	NN_REQUIRE(theSize != 0 && sizeReplace <= theSize);
 	NN_REQUIRE_NOT_NULL(theData);
 
 	NN_REQUIRE(((uintptr_t(theData) + theSize) < uintptr_t(GetData())) ||
