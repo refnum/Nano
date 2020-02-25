@@ -1491,6 +1491,7 @@ void NString::AppendLarge(const NString& otherString)
 	size_t         sizeOther  = 0;
 	size_t         bytesOther = 0;
 	const uint8_t* textOther  = nullptr;
+	NData          dataOther;
 
 
 
@@ -1535,19 +1536,32 @@ void NString::AppendLarge(const NString& otherString)
 		// Get the data
 		//
 		// In the ideal case the other string is unsliced and in our encoding.
+		// In this case we can simply append its data as-is, including its
+		// terminator.
 		//
-		// If not we may need to either transcode it or resolve its slice to
-		// append data we can concatenate with our own.
+		// If not we may need to either transcode it, to create a null-terminated
+		// copy of the data in the required encoding.
+		//
+		// If we have a slice onto some other data we must resolve the slice,
+		// again to obtain null-terminated data we can concatenate with our own.
 		const NStringData* otherStringData = &otherString.mString.Large.theState->stringData;
+		dataOther                          = otherStringData->theData;
 
-		if (encodingThis != otherStringData->theEncoding || otherString.IsSlice())
+		if (encodingThis != otherStringData->theEncoding)
 		{
 			NString* otherMutable = const_cast<NString*>(&otherString);
-			otherStringData       = otherMutable->FetchEncoding(encodingThis);
+			dataOther             = otherMutable->FetchEncoding(encodingThis)->theData;
 		}
 
-		bytesOther = otherStringData->theData.GetSize();
-		textOther  = otherStringData->theData.GetData();
+		else if (otherString.IsSlice())
+		{
+			NRange sliceOther = otherString.GetSliceBytes(*otherStringData);
+			dataOther         = otherStringData->theData.GetData(sliceOther);
+			dataOther.SetSize(dataOther.GetSize() + bytesTerminator);
+		}
+
+		bytesOther = dataOther.GetSize();
+		textOther  = dataOther.GetData();
 	}
 
 
