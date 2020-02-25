@@ -577,6 +577,42 @@ NVectorPatternGroup NString::FindAllGroups(const NString& theString,
 
 
 //=============================================================================
+//		NString::Replace : Replace a substring.
+//-----------------------------------------------------------------------------
+bool NString::Replace(const NString& theString,
+					  const NString& replaceWith,
+					  NStringFlags   theFlags,
+					  const NRange&  theRange)
+{
+
+
+	// Find and replace
+	return NStringScanner::Replace(*this, theString, replaceWith, theFlags, theRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::ReplaceAll : Replace substrings.
+//-----------------------------------------------------------------------------
+size_t NString::ReplaceAll(const NString& theString,
+						   const NString& replaceWith,
+						   NStringFlags   theFlags,
+						   const NRange&  theRange)
+{
+
+
+	// Find and replace
+	return NStringScanner::ReplaceAll(*this, theString, replaceWith, theFlags, theRange);
+}
+
+
+
+
+
+//=============================================================================
 //		NString::GetTransformed : Transform the string.
 //-----------------------------------------------------------------------------
 NString NString::GetTransformed(NStringTransform theTransform, const NRange& theRange)

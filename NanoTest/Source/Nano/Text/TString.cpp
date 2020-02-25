@@ -572,6 +572,102 @@ NANO_TEST(TString, "FindAllGroups")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "Replace")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.Replace("World", "You"));
+	REQUIRE(theString == "Hello You");
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.Replace("WORLD", "YOU", kNStringNoCase));
+	REQUIRE(theString == "Hello YOU");
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.Replace("Wo..d", "You", kNStringPattern));
+	REQUIRE(theString == "Hello You");
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.Replace("WO..D", "YOU", kNStringPatternNoCase));
+	REQUIRE(theString == "Hello YOU");
+
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.Replace("Three", "Your"));
+	REQUIRE(theString == "Hello World One World Two World Your World");
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.Replace("THREE", "YOUR", kNStringNoCase));
+	REQUIRE(theString == "Hello World One World Two World YOUR World");
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.Replace("Thre+", "Your", kNStringPattern));
+	REQUIRE(theString == "Hello World One World Two World Your World");
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.Replace("THR..", "YOUR", kNStringPatternNoCase));
+	REQUIRE(theString == "Hello World One World Two World YOUR World");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "ReplaceAll")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.ReplaceAll("o", "a") == 2);
+	REQUIRE(theString == "Hella Warld");
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.ReplaceAll("O", "A", kNStringNoCase) == 2);
+	REQUIRE(theString == "HellA WArld");
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.ReplaceAll("ll.", "pp", kNStringPattern) == 1);
+	REQUIRE(theString == "Hepp World");
+
+	theString = kTestStringSmall;
+	REQUIRE(theString.ReplaceAll("LL.", "PP", kNStringPatternNoCase) == 1);
+	REQUIRE(theString == "HePP World");
+
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.ReplaceAll("World", "You") == 4);
+	REQUIRE(theString == "Hello You One You Two You Three You");
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.ReplaceAll("WORLD", "YOU", kNStringNoCase) == 4);
+	REQUIRE(theString == "Hello YOU One YOU Two YOU Three YOU");
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.ReplaceAll("Wo..d", "You", kNStringPattern) == 4);
+	REQUIRE(theString == "Hello You One You Two You Three You");
+
+	theString = kTestStringLarge;
+	REQUIRE(theString.ReplaceAll("WO..D", "YOU", kNStringPatternNoCase) == 4);
+	REQUIRE(theString == "Hello YOU One YOU Two YOU Three YOU");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "GetTransformed")
 {
 

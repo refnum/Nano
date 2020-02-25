@@ -260,6 +260,21 @@ public:
 													  const NRange&  theRange = kNRangeAll) const;
 
 
+	// Replace a substring
+	//
+	// ReplaceAll returns the number of instances replaced within the string.
+	//
+	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
+	bool                                Replace(const NString& theString,
+												const NString& replaceWith,
+												NStringFlags   theFlags = kNStringNone,
+												const NRange&  theRange = kNRangeAll);
+	size_t                              ReplaceAll(const NString& theString,
+												   const NString& replaceWith,
+												   NStringFlags   theFlags = kNStringNone,
+												   const NRange&  theRange = kNRangeAll);
+
+
 	// Transform the string
 	NString                             GetTransformed(NStringTransform theTransform, const NRange& theRange = kNRangeAll);
 	NString                             GetLower() const;
