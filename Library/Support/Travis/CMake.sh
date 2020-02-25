@@ -60,7 +60,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 	if [[ "${TRAVIS_PLATFORM}" != "Windows" ]]; then
 		make -j3 "${TRAVIS_PROJECT}"
 	else
-		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}" VERBOSE=1
+		cmake --build . --parallel --config "${BUILD_CONFIG}" --target "${TRAVIS_PROJECT}" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 	fi
 
 	echo ""
