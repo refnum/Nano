@@ -201,50 +201,21 @@
 //			NN_UNUSED(x);
 //		}
 //
-// sizeof() cannot be used with a bitfield or function type, or lambdas
-// in an unevaluated context until C++20. As such we have two approaches.
+// Although a constexpr if should discard any expression in the untaken
+// branch, both gcc and MSVC will warn about unused / set-but-unused
+// variables within the discarded expression.
 //
-// For C++ we can use a constexpr if where we place the expression in
-// the untaken branch, which should cause it to be completely discarded.
+// However all compilers will elide the expression if placed in a normal
+// branch that is never taken, even in debug builds.
 //
-// However both GCC and MSVC incorrectly examine the usage of variables
-// within the discard branch, when used within a template, so until that
-// bug is fixed we just rely on an the compiler to discard the branch
-// rather than the language.
-//
-// For C we fall back to sizeof(), even though this cannot be used with
-// certain types as above.
-//
-#if defined(__cplusplus)
-
-	#if NN_COMPILER_CLANG
-		#define _nn_unused_constexpr                        constexpr
-	#else
-		#define _nn_unused_constexpr
-	#endif    // !NN_COMPILER_CLANG
-
-	#define NN_UNUSED(_expression)                          \
-		do                                                  \
+#define NN_UNUSED(_expression)                              \
+	do                                                      \
+	{                                                       \
+		if (false)                                          \
 		{                                                   \
-			if _nn_unused_constexpr (true)                  \
-			{                                               \
-				/* Do nothing */                            \
-			}                                               \
-			else                                            \
-			{                                               \
-				(void) (_expression);                       \
-			}                                               \
-		} while (false)
-
-#else
-
-	#define NN_UNUSED(_expression)                          \
-		do                                                  \
-		{                                                   \
-			(void) sizeof((_expression));                   \
-		} while (false)
-
-#endif
+			(void) (_expression);                           \
+		}                                                   \
+	} while (false)
 
 
 // Format validation
