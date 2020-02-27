@@ -522,3 +522,96 @@ NANO_TEST(TStringScanner, "ReplaceAll")
 	theString = kTestString;
 	REQUIRE(NStringScanner::ReplaceAll(theString, "ZA..R", "xxx", kNStringPatternNoCase) == 0);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TStringScanner, "Split")
+{
+
+
+	// Perform the test
+	NString       kTokenComma(",");
+	NVectorString theResult;
+
+	theResult = NStringScanner::Split("a");
+	REQUIRE(theResult.size() == 1);
+	REQUIRE(theResult[0] == "a");
+
+	theResult = NStringScanner::Split("a b c");
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+	theResult = NStringScanner::Split("a  b   c");
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+	theResult = NStringScanner::Split("a \tb\t \tc");
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+
+	theResult = NStringScanner::Split("", kTokenComma);
+	REQUIRE(theResult.size() == 1);
+	REQUIRE(theResult[0] == "");
+
+	theResult = NStringScanner::Split(",", kTokenComma);
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "");
+
+	theResult = NStringScanner::Split(",,", kTokenComma);
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "");
+	REQUIRE(theResult[2] == "");
+
+
+	theResult = NStringScanner::Split("a,b,c", kTokenComma);
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+	theResult = NStringScanner::Split(",a,b,c", kTokenComma);
+	REQUIRE(theResult.size() == 4);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "a");
+	REQUIRE(theResult[2] == "b");
+	REQUIRE(theResult[3] == "c");
+
+	theResult = NStringScanner::Split(",a,b,c,", kTokenComma);
+	REQUIRE(theResult.size() == 5);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "a");
+	REQUIRE(theResult[2] == "b");
+	REQUIRE(theResult[3] == "c");
+	REQUIRE(theResult[4] == "");
+
+	theResult = NStringScanner::Split(",a,,b,c,", kTokenComma);
+	REQUIRE(theResult.size() == 6);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "a");
+	REQUIRE(theResult[2] == "");
+	REQUIRE(theResult[3] == "b");
+	REQUIRE(theResult[4] == "c");
+	REQUIRE(theResult[5] == "");
+
+	theResult = NStringScanner::Split("a,,,b,c", kTokenComma);
+	REQUIRE(theResult.size() == 5);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "");
+	REQUIRE(theResult[2] == "");
+	REQUIRE(theResult[3] == "b");
+	REQUIRE(theResult[4] == "c");
+}

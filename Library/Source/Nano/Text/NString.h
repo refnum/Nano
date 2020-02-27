@@ -269,6 +269,7 @@ public:
 												const NString& replaceWith,
 												NStringFlags   theFlags = kNStringNone,
 												const NRange&  theRange = kNRangeAll);
+
 	size_t                              ReplaceAll(const NString& theString,
 												   const NString& replaceWith,
 												   NStringFlags   theFlags = kNStringNone,
@@ -305,6 +306,22 @@ public:
 	NString                             GetSuffix(size_t theSize) const;
 	NString                             GetSubstring( const NRange& theRange)        const;
 	NVectorString                       GetSubstrings(const NVectorRange& theRanges) const;
+
+
+	// Split a string
+	//
+	// Split the string into a list of elements, divided by the separator,
+	// which defaults to whitespace.
+	//
+	// A separator that appears at the start/end of the string, or adjacent
+	// separators within the string, will produce an empty string.
+	//
+	// nstd::erase_if can be used to discard empty elements.
+	//
+	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
+	NVectorString                       Split(const NString& splitWith = "\\s+",
+											  NStringFlags   theFlags  = kNStringPattern,
+											  const NRange&  theRange  = kNRangeAll) const;
 
 
 public:

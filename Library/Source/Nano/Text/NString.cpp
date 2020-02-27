@@ -849,6 +849,23 @@ NVectorString NString::GetSubstrings(const NVectorRange& theRanges) const
 
 
 
+//=============================================================================
+//		NString::Split : Split a string.
+//-----------------------------------------------------------------------------
+NVectorString NString::Split(const NString& splitWith,
+							 NStringFlags   theFlags,
+							 const NRange&  theRange) const
+{
+
+
+	// Split the string
+	return NStringScanner::Split(*this, splitWith, theFlags, theRange);
+}
+
+
+
+
+
 #pragma mark NMixinAppendable
 //=============================================================================
 //		NString::Append : Append a value.

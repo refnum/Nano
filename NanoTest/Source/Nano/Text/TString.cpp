@@ -969,6 +969,99 @@ NANO_TEST(TString, "GetSubstrings")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "Split")
+{
+
+
+	// Perform the test
+	NString       kTokenComma(",");
+	NVectorString theResult;
+
+	theResult = NString("a").Split();
+	REQUIRE(theResult.size() == 1);
+	REQUIRE(theResult[0] == "a");
+
+	theResult = NString("a b c").Split();
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+	theResult = NString("a  b   c").Split();
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+	theResult = NString("a \tb\t \tc").Split();
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+
+	theResult = NString("").Split(kTokenComma);
+	REQUIRE(theResult.size() == 1);
+	REQUIRE(theResult[0] == "");
+
+	theResult = NString(",").Split(kTokenComma);
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "");
+
+	theResult = NString(",,").Split(kTokenComma);
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "");
+	REQUIRE(theResult[2] == "");
+
+
+	theResult = NString("a,b,c").Split(kTokenComma);
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+	REQUIRE(theResult[2] == "c");
+
+	theResult = NString(",a,b,c").Split(kTokenComma);
+	REQUIRE(theResult.size() == 4);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "a");
+	REQUIRE(theResult[2] == "b");
+	REQUIRE(theResult[3] == "c");
+
+	theResult = NString(",a,b,c,").Split(kTokenComma);
+	REQUIRE(theResult.size() == 5);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "a");
+	REQUIRE(theResult[2] == "b");
+	REQUIRE(theResult[3] == "c");
+	REQUIRE(theResult[4] == "");
+
+	theResult = NString(",a,,b,c,").Split(kTokenComma);
+	REQUIRE(theResult.size() == 6);
+	REQUIRE(theResult[0] == "");
+	REQUIRE(theResult[1] == "a");
+	REQUIRE(theResult[2] == "");
+	REQUIRE(theResult[3] == "b");
+	REQUIRE(theResult[4] == "c");
+	REQUIRE(theResult[5] == "");
+
+	theResult = NString("a,,,b,c").Split(kTokenComma);
+	REQUIRE(theResult.size() == 5);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "");
+	REQUIRE(theResult[2] == "");
+	REQUIRE(theResult[3] == "b");
+	REQUIRE(theResult[4] == "c");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "ResolveSlice")
 {
 

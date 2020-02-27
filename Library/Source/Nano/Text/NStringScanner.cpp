@@ -222,6 +222,59 @@ size_t NStringScanner::ReplaceAll(NString&       theString,
 
 
 
+//=============================================================================
+//		NStringScanner::Split : Split a string.
+//-----------------------------------------------------------------------------
+NVectorString NStringScanner::Split(const NString& theString,
+									const NString& splitWith,
+									NStringFlags   theFlags,
+									const NRange&  theRange)
+{
+
+
+	// Get the state we need
+	NVectorRange  foundRanges = FindAll(theString, splitWith, theFlags, theRange);
+	NVectorString theResult;
+
+
+
+	// No split
+	if (foundRanges.empty())
+	{
+		theResult.emplace_back(theString);
+	}
+
+
+	// Split by range
+	else
+	{
+		NRange  previousRange;
+		NString newString;
+
+		theResult.reserve(foundRanges.size());
+
+		for (const auto& foundRange : foundRanges)
+		{
+			previousRange.SetSize(foundRange.GetLocation() - previousRange.GetLocation());
+			theResult.emplace_back(theString.GetSubstring(previousRange));
+
+			previousRange.SetRange(foundRange.GetNext(), 0);
+		}
+
+		if (previousRange.GetLocation() != 0)
+		{
+			previousRange.SetSize(theString.GetSize() - previousRange.GetLocation());
+			theResult.emplace_back(theString.GetSubstring(previousRange));
+		}
+	}
+
+	return theResult;
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NStringScanner::Find : Find a string.
