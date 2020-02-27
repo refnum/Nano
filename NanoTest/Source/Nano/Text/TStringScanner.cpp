@@ -80,7 +80,7 @@ static const NVectorRange kGroupsVivamus2                   = {kRangeVivamus2Gro
 //=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(NStringScanner){};
+NANO_FIXTURE(TStringScanner){};
 
 
 
@@ -89,7 +89,7 @@ NANO_FIXTURE(NStringScanner){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "Find/Literal")
+NANO_TEST(TStringScanner, "Find/Literal")
 {
 
 
@@ -124,7 +124,7 @@ NANO_TEST(NStringScanner, "Find/Literal")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "Find/Pattern")
+NANO_TEST(TStringScanner, "Find/Pattern")
 {
 
 
@@ -159,7 +159,7 @@ NANO_TEST(NStringScanner, "Find/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "FindAll/Literal")
+NANO_TEST(TStringScanner, "FindAll/Literal")
 {
 
 
@@ -195,7 +195,7 @@ NANO_TEST(NStringScanner, "FindAll/Literal")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "FindAll/Pattern")
+NANO_TEST(TStringScanner, "FindAll/Pattern")
 {
 
 
@@ -233,7 +233,7 @@ NANO_TEST(NStringScanner, "FindAll/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "FindGroup/Literal")
+NANO_TEST(TStringScanner, "FindGroup/Literal")
 {
 
 
@@ -273,7 +273,7 @@ NANO_TEST(NStringScanner, "FindGroup/Literal")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "FindGroup/Pattern")
+NANO_TEST(TStringScanner, "FindGroup/Pattern")
 {
 
 
@@ -319,7 +319,7 @@ NANO_TEST(NStringScanner, "FindGroup/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "FindAllGroups/Literal")
+NANO_TEST(TStringScanner, "FindAllGroups/Literal")
 {
 
 
@@ -365,7 +365,7 @@ NANO_TEST(NStringScanner, "FindAllGroups/Literal")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "FindAllGroups/Pattern")
+NANO_TEST(TStringScanner, "FindAllGroups/Pattern")
 {
 
 
@@ -417,7 +417,7 @@ NANO_TEST(NStringScanner, "FindAllGroups/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "Replace")
+NANO_TEST(TStringScanner, "Replace")
 {
 
 
@@ -471,7 +471,7 @@ NANO_TEST(NStringScanner, "Replace")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(NStringScanner, "ReplaceAll")
+NANO_TEST(TStringScanner, "ReplaceAll")
 {
 
 
