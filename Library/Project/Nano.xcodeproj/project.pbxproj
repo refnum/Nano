@@ -150,6 +150,9 @@
 		ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
+		ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
+		ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
+		ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
 		ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
@@ -521,6 +524,7 @@
 		ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NMixinAppendable.inl; sourceTree = "<group>"; };
 		ABAB539412AF8E800061AD01 /* NRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRegistry.cpp; sourceTree = "<group>"; };
 		ABAB539512AF8E800061AD01 /* NRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRegistry.h; sourceTree = "<group>"; };
+		ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtils.cpp; sourceTree = "<group>"; };
 		ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferences.cpp; sourceTree = "<group>"; };
 		ABB1453D0FF2C4DA006F178C /* NPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPreferences.h; sourceTree = "<group>"; };
 		ABB145C90FF36A34006F178C /* NPropertyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPropertyList.h; sourceTree = "<group>"; };
@@ -942,6 +946,7 @@
 				AB1B4D9D23F0250C00B304D3 /* NStringScanner.h */,
 				AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */,
 				AB1B4DA423F2F90800B304D3 /* NStringTransformer.h */,
+				ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */,
 				AB54F9A223EE44C9005207BC /* NTextUtils.h */,
 				AB1B4DA223F0A65500B304D3 /* NTextUtils.inl */,
 				AB56393923C75C3A00675F68 /* NUnicodeView.cpp */,
@@ -1634,6 +1639,7 @@
 				AB51286823D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB51284123D2810600528FBE /* pcre2_substring.c in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
+				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB07EA2B2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp in Sources */,
 				AB07EA3D239A522400E0AC49 /* tvOSNSemaphore.cpp in Sources */,
 				AB51285323D2810600528FBE /* pcre2_maketables.c in Sources */,
@@ -1692,6 +1698,7 @@
 				AB51286623D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB51283F23D2810600528FBE /* pcre2_substring.c in Sources */,
 				AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */,
+				ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
 				AB51285123D2810600528FBE /* pcre2_maketables.c in Sources */,
@@ -1760,6 +1767,7 @@
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				AB51281C23D2810600528FBE /* pcre2_script_run.c in Sources */,
+				ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB51286723D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */,
 				AB51286423D2810600528FBE /* pcre2_context.c in Sources */,

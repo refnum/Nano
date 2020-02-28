@@ -48,6 +48,15 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static const NVectorString kTestStrings                     = {"One", "Two", "", "", "Three", "Four", ""};
+
+
+
+
+
+//=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(NTextUtils){};
@@ -162,4 +171,44 @@ NANO_TEST(NTextUtils, "IsSentence")
 	REQUIRE(!NTextUtils::IsSentence(U'Z'));
 	REQUIRE(!NTextUtils::IsSentence(U'a'));
 	REQUIRE(!NTextUtils::IsSentence(U'z'));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "RemoveEmpty")
+{
+
+
+	// Perform the test
+	NVectorString theResult = NTextUtils::RemoveEmpty(kTestStrings);
+	REQUIRE(theResult.size() == 4);
+	REQUIRE(theResult[0] == "One");
+	REQUIRE(theResult[1] == "Two");
+	REQUIRE(theResult[2] == "Three");
+	REQUIRE(theResult[3] == "Four");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "Join")
+{
+
+
+	// Perform the test
+	NString theResult = NTextUtils::Join(kTestStrings, ",");
+	REQUIRE(theResult == "One,Two,,,Three,Four,");
+
+
+	theResult = NTextUtils::Join(NTextUtils::RemoveEmpty(kTestStrings), ",");
+	REQUIRE(theResult == "One,Two,Three,Four");
 }

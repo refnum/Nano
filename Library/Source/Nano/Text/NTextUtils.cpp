@@ -1,5 +1,5 @@
 /*	NAME:
-		NTextUtils.h
+		NTextUtils.cpp
 
 	DESCRIPTION:
 		Text utilities.
@@ -36,53 +36,56 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NTEXT_UTILS_H
-#define NTEXT_UTILS_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NTextUtils.h"
+
 // Nano
-#include "NString.h"
+#include "NStdAlgorithm.h"
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NTextUtils::RemoveEmpty : Remove empty strings from a list.
 //-----------------------------------------------------------------------------
-class NTextUtils
+NVectorString NTextUtils::RemoveEmpty(const NVectorString& theStrings)
 {
-public:
-	// Convert case
-	static constexpr utf32_t            GetLower(utf32_t theChar);
-	static constexpr utf32_t            GetUpper(utf32_t theChar);
 
 
-	// Test a character
-	static constexpr bool               IsDigit(   utf32_t theChar);
-	static constexpr bool               IsAlpha(   utf32_t theChar);
-	static constexpr bool               IsSentence(utf32_t theChar);
+	// Remove any empty strings
+	NVectorString theResult(theStrings);
 
+	nstd::erase_if(theResult, [](const NString& theString) {
+		return theString.IsEmpty();
+	});
 
-	// Remove empty
-	//
-	// Remove empty strings from a list
-	static NVectorString                RemoveEmpty(const NVectorString& theStrings);
-
-
-	// Join strings
-	static NString                      Join(const NVectorString& theStrings, const NString& joinWith = "");
-};
+	return theResult;
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NTextUtils::Join : Join a list of strings.
 //-----------------------------------------------------------------------------
-#include "NTextUtils.inl"
+NString NTextUtils::Join(const NVectorString& theStrings, const NString& joinWith)
+{
 
 
-#endif // NTEXT_UTILS_H
+	// Join the strings
+	NString theResult;
+
+	for (const auto& theString : theStrings)
+	{
+		theResult += theString;
+		theResult += joinWith;
+	}
+
+	theResult.RemoveSuffix(joinWith.GetSize());
+
+	return theResult;
+}
