@@ -42,6 +42,7 @@
 #include "NStringScanner.h"
 
 // Nano
+#include "NStdAlgorithm.h"
 #include "NUnicodeView.h"
 #include "Nano_pcre2.h"
 
@@ -153,18 +154,6 @@ NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
 }
 
 
-bool   Replace(NString&       theString,
-			   const NString& findString,
-			   const NString& replaceWith,
-			   NStringFlags   theFlags                      = kNStringNone,
-			   const NRange&  theRange                      = kNRangeAll);
-size_t ReplaceAll(NString&       theString,
-				  const NString& findString,
-				  const NString& replaceWith,
-				  NStringFlags   theFlags                   = kNStringNone,
-				  const NRange&  theRange                   = kNRangeAll);
-
-
 
 
 
@@ -185,7 +174,7 @@ bool NStringScanner::Replace(NString&       theString,
 
 	if (foundIt)
 	{
-		ReplaceRanges(theString, {foundRange}, replaceWith);
+		ReplaceAll(theString, {foundRange}, replaceWith);
 	}
 
 	return foundIt;
@@ -212,10 +201,81 @@ size_t NStringScanner::ReplaceAll(NString&       theString,
 
 	if (numFound != 0)
 	{
-		ReplaceRanges(theString, foundRanges, replaceWith);
+		ReplaceAll(theString, foundRanges, replaceWith);
 	}
 
 	return numFound;
+}
+
+
+
+
+
+//=============================================================================
+//		NStringScanner::Replace : Replace a range within a string.
+//-----------------------------------------------------------------------------
+void NStringScanner::Replace(NString&       theString,
+							 const NRange&  theRange,
+							 const NString& replaceWith,
+							 const NRange&  overRange)
+{
+
+
+	// Replace the range
+	ReplaceAll(theString, {theRange}, replaceWith, overRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NStringScanner::ReplaceAll : Replace ranges within a string.
+//-----------------------------------------------------------------------------
+void NStringScanner::ReplaceAll(NString&            theString,
+								const NVectorRange& theRanges,
+								const NString&      replaceWith,
+								const NRange&       theRange)
+{
+
+
+	// Get the state we need
+	bool         replaceEmpty      = replaceWith.IsEmpty();
+	NRange       finalRange        = theRange.GetNormalized(theString.GetSize());
+	NVectorRange replacementRanges = GetReplacementRanges(theRanges, finalRange);
+
+
+	// Replace the ranges
+	if (!theString.IsEmpty() && !replacementRanges.empty() && !finalRange.IsEmpty())
+	{
+		NRange  previousRange;
+		NString newString;
+
+
+		// Replace the ranges
+		for (const auto& replaceRange : replacementRanges)
+		{
+			previousRange.SetSize(replaceRange.GetLocation() - previousRange.GetLocation());
+
+			newString += theString.GetSubstring(previousRange);
+			if (!replaceEmpty)
+			{
+				newString += replaceWith;
+			}
+
+			previousRange.SetRange(replaceRange.GetNext(), 0);
+		}
+
+
+		// Append any suffix
+		if (previousRange.GetLocation() != 0)
+		{
+			previousRange.SetSize(theString.GetSize() - previousRange.GetLocation());
+			newString += theString.GetSubstring(previousRange);
+		}
+
+		theString = newString;
+	}
 }
 
 
@@ -411,41 +471,53 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 
 
 //=============================================================================
-//		NStringScanner::ReplaceRanges : Replace ranges within a string.
+//		NStringScanner::GetReplacementRanges : Get the replacement ranges.
 //-----------------------------------------------------------------------------
-void NStringScanner::ReplaceRanges(NString&            theString,
-								   const NVectorRange& foundRanges,
-								   const NString&      replaceWith)
+NVectorRange NStringScanner::GetReplacementRanges(const NVectorRange& theRanges,
+												  const NRange&       theRange)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!theString.IsEmpty());
-	NN_REQUIRE(!foundRanges.empty());
+	//
+	// Replacement ranges may not overlap.
+	NN_REQUIRE(!theRanges.empty());
+	NN_REQUIRE(!theRange.IsEmpty());
 
-
-
-	// Replace the ranges
-	NRange  previousRange;
-	NString newString;
-
-	for (const auto& foundRange : foundRanges)
+#if NN_ENABLE_ASSERTIONS
+	for (const auto& outerRange : theRanges)
 	{
-		previousRange.SetSize(foundRange.GetLocation() - previousRange.GetLocation());
+		for (const auto& innerRange : theRanges)
+		{
+			NN_REQUIRE(outerRange == innerRange ||
+					   outerRange.GetIntersection(innerRange).IsEmpty());
+		}
+	}
+#endif // NN_ENABLE_ASSERTIONS
 
-		newString += theString.GetSubstring(previousRange);
-		newString += replaceWith;
 
-		previousRange.SetRange(foundRange.GetNext(), 0);
+
+	// Get the replacement ranges
+	//
+	// To perform replacements we intersect the proposed ranges with
+	// the actual ranges, then sort them to ensure we can replace by
+	// appending the unaffected ranges with the replacement text.
+	NVectorRange theResult;
+
+	theResult.reserve(theRanges.size());
+
+	for (const auto& proposedRange : theRanges)
+	{
+		NRange actualRange = proposedRange.GetIntersection(theRange);
+		if (!actualRange.IsEmpty())
+		{
+			theResult.emplace_back(actualRange);
+		}
 	}
 
-	if (previousRange.GetLocation() != 0)
-	{
-		previousRange.SetSize(theString.GetSize() - previousRange.GetLocation());
-		newString += theString.GetSubstring(previousRange);
-	}
+	nstd::sort(theResult);
 
-	theString = newString;
+	return theResult;
 }
 
 

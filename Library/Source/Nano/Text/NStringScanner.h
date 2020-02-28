@@ -130,6 +130,21 @@ public:
 												   const NRange&  theRange = kNRangeAll);
 
 
+	// Replace a range
+	//
+	// Each replacement range is intersected with the applicable range,
+	// and the resulting intersection is replaced with the string.
+	static void                         Replace(NString&       theString,
+												const NRange&  theRange,
+												const NString& replaceWith,
+												const NRange&  overRange = kNRangeAll);
+
+	static void                         ReplaceAll(NString&            theString,
+												   const NVectorRange& theRanges,
+												   const NString&      replaceWith,
+												   const NRange&       theRange = kNRangeAll);
+
+
 	// Split a string
 	//
 	// Split the string into a list of elements, divided by the separator,
@@ -161,10 +176,7 @@ private:
 													const NRange&  theRange,
 													size_t         maxResult);
 
-
-	static void                         ReplaceRanges(NString&            theString,
-													  const NVectorRange& foundRanges,
-													  const NString&      replaceWith);
+	static NVectorRange                 GetReplacementRanges(const NVectorRange& theRanges, const NRange& theRange);
 
 	static pcre2_real_code_8*           GetRegexp(const NString& searchFor, NStringFlags theFlags);
 

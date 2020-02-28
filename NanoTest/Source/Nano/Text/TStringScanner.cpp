@@ -417,7 +417,7 @@ NANO_TEST(TStringScanner, "FindAllGroups/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStringScanner, "Replace")
+NANO_TEST(TStringScanner, "Replace/String")
 {
 
 
@@ -471,7 +471,7 @@ NANO_TEST(TStringScanner, "Replace")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStringScanner, "ReplaceAll")
+NANO_TEST(TStringScanner, "ReplaceAll/String")
 {
 
 
@@ -521,6 +521,74 @@ NANO_TEST(TStringScanner, "ReplaceAll")
 
 	theString = kTestString;
 	REQUIRE(NStringScanner::ReplaceAll(theString, "ZA..R", "xxx", kNStringPatternNoCase) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TStringScanner, "Replace/Range")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = "Hello World";
+	NStringScanner::Replace(theString, NRange(6, 5), "AA");
+	REQUIRE(theString == "Hello AA");
+
+	theString = "Hello World";
+	NStringScanner::Replace(theString, NRange(6, 5), "AABBCCDD");
+	REQUIRE(theString == "Hello AABBCCDD");
+
+
+	theString = "Hello World";
+	NStringScanner::Replace(theString, NRange(5, 6), "");
+	REQUIRE(theString == "Hello");
+
+	theString = "Hello World";
+	NStringScanner::Replace(theString, NRange(5, 60), "");
+	REQUIRE(theString == "Hello");
+
+
+	theString = "Hello World";
+	NStringScanner::Replace(theString, NRange(0, 6), "");
+	REQUIRE(theString == "World");
+
+	theString = "Hello World";
+	NStringScanner::Replace(theString, NRange(0, 60), "");
+	REQUIRE(theString == "");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TStringScanner, "ReplaceAll/Range")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = "Hello World";
+	NStringScanner::ReplaceAll(theString, {NRange(1, 3), NRange(5, 2), NRange(8, 3)}, "");
+	REQUIRE(theString == "Hoo");
+
+	theString = "Hello World";
+	NStringScanner::ReplaceAll(theString, {NRange(5, 2), NRange(1, 3), NRange(8, 33)}, "");
+	REQUIRE(theString == "Hoo");
+
+	theString = "Hello World";
+	NStringScanner::ReplaceAll(theString, {NRange(1, 3), NRange(88, 33), NRange(5, 2)}, "");
+	REQUIRE(theString == "Hoorld");
 }
 
 
