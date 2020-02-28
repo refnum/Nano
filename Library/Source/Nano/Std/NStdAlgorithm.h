@@ -424,6 +424,33 @@ void push_front(T& container, typename T::value_type&& value)
 
 
 //=============================================================================
+//		nstd::reverse : Reverse the values within a container.
+//-----------------------------------------------------------------------------
+template <typename T>
+void reverse(T& container)
+{
+	std::reverse(std::begin(container), std::end(container));
+}
+
+
+
+
+
+//=============================================================================
+//		nstd::reversed : Return a reversed container.
+//-----------------------------------------------------------------------------
+template <typename T>
+T reversed(T container)
+{
+	nstd::reverse(container);
+	return container;
+}
+
+
+
+
+
+//=============================================================================
 //		nstd::search : Search a container for a container.
 //-----------------------------------------------------------------------------
 template <typename T>

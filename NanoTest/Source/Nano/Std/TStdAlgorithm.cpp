@@ -395,6 +395,47 @@ NANO_TEST(TStdAlgorithm, "nstd:push_front")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TStdAlgorithm, "nstd:reverse")
+{
+
+
+	// Perform the test
+	auto theVector = kTestVector1;
+
+	nstd::reverse(theVector);
+	REQUIRE(theVector.size() == 3);
+	REQUIRE(theVector[0] == 3);
+	REQUIRE(theVector[1] == 2);
+	REQUIRE(theVector[2] == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TStdAlgorithm, "nstd:reversed")
+{
+
+
+	// Perform the test
+	auto theVector = nstd::reversed(kTestVector1);
+
+	REQUIRE(theVector.size() == 3);
+	REQUIRE(theVector[0] == 3);
+	REQUIRE(theVector[1] == 2);
+	REQUIRE(theVector[2] == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TStdAlgorithm, "nstd:search")
 {
 
