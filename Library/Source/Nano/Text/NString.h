@@ -331,6 +331,14 @@ public:
 	void                                RemoveSubstrings(const NVectorRange& theRanges);
 
 
+	// Trim a string
+	//
+	// Removes whitespace from the prefix, suffix, or ends of the string.
+	void                                TrimPrefix();
+	void                                TrimSuffix();
+	void                                Trim();
+
+
 	// Split a string
 	//
 	// Split the string into a list of elements, divided by the separator,

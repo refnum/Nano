@@ -951,6 +951,52 @@ void NString::RemoveSubstrings(const NVectorRange& theRanges)
 
 
 //=============================================================================
+//		NString::TrimPrefix : Trim whitespace from the start of the string.
+//-----------------------------------------------------------------------------
+void NString::TrimPrefix()
+{
+
+
+	// Trim the string
+	NStringScanner::Replace(*this, "^\\s+", "", kNStringPattern);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::TrimSuffix : Trim whitespace from the end of the string.
+//-----------------------------------------------------------------------------
+void NString::TrimSuffix()
+{
+
+
+	// Trim the string
+	NStringScanner::Replace(*this, "\\s+$", "", kNStringPattern);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::Trim : Trim whitespace from each end of the string.
+//-----------------------------------------------------------------------------
+void NString::Trim()
+{
+
+
+	// Trim the string
+	TrimPrefix();
+	TrimSuffix();
+}
+
+
+
+
+
+//=============================================================================
 //		NString::Split : Split a string.
 //-----------------------------------------------------------------------------
 NVectorString NString::Split(const NString& splitWith,

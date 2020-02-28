@@ -1142,6 +1142,63 @@ NANO_TEST(TString, "RemoveSubstrings")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "TrimPrefix")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = " \n \t Hello \t \n ";
+	theString.TrimPrefix();
+	REQUIRE(theString == "Hello \t \n ");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "TrimSuffix")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = " \n \t Hello \n \t ";
+	theString.TrimSuffix();
+	REQUIRE(theString == " \n \t Hello");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Trim")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = " \n \t Hello \n \t ";
+	theString.Trim();
+	REQUIRE(theString == "Hello");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Split")
 {
 
