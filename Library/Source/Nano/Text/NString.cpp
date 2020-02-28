@@ -882,6 +882,75 @@ NVectorString NString::GetSubstrings(const NVectorRange& theRanges) const
 
 
 //=============================================================================
+//		NString::RemovePrefix : Remove a prefix.
+//-----------------------------------------------------------------------------
+void NString::RemovePrefix(size_t theSize)
+{
+
+
+	// Remove the prefix
+	RemoveSubstring(NRange(0, theSize));
+}
+
+
+
+
+
+//=============================================================================
+//		NString::RemoveSuffix : Remove a suffix.
+//-----------------------------------------------------------------------------
+void NString::RemoveSuffix(size_t theSize)
+{
+
+
+	// Remove the suffix
+	size_t maxSize = GetSize();
+
+	if (theSize >= maxSize)
+	{
+		Clear();
+	}
+	else
+	{
+		RemoveSubstring(NRange(maxSize - theSize, theSize));
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::RemoveSubstring : Remove a range.
+//-----------------------------------------------------------------------------
+void NString::RemoveSubstring(const NRange& theRange)
+{
+
+
+	// Remove the range
+	Replace(theRange, "");
+}
+
+
+
+
+
+//=============================================================================
+//		NString::RemoveSubstrings : Remove range.
+//-----------------------------------------------------------------------------
+void NString::RemoveSubstrings(const NVectorRange& theRanges)
+{
+
+
+	// Remove the ranges
+	ReplaceAll(theRanges, "");
+}
+
+
+
+
+
+//=============================================================================
 //		NString::Split : Split a string.
 //-----------------------------------------------------------------------------
 NVectorString NString::Split(const NString& splitWith,

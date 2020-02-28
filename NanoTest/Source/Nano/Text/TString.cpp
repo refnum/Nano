@@ -1026,6 +1026,122 @@ NANO_TEST(TString, "GetSubstrings")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "RemovePrefix")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	theString.RemovePrefix(6);
+	REQUIRE(theString == "World");
+
+	theString = kTestStringSmall;
+	theString.RemovePrefix(theString.GetSize());
+	REQUIRE(theString == "");
+
+	theString = kTestStringSmall;
+	theString.RemovePrefix(6000);
+	REQUIRE(theString == "");
+
+	theString = kTestStringSmall;
+	theString.RemovePrefix(0);
+	REQUIRE(theString == kTestStringSmall);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "RemoveSuffix")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	theString.RemoveSuffix(6);
+	REQUIRE(theString == "Hello");
+
+	theString = kTestStringSmall;
+	theString.RemoveSuffix(theString.GetSize());
+	REQUIRE(theString == "");
+
+	theString = kTestStringSmall;
+	theString.RemoveSuffix(6000);
+	REQUIRE(theString == "");
+
+	theString = kTestStringSmall;
+	theString.RemoveSuffix(0);
+	REQUIRE(theString == kTestStringSmall);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "RemoveSubstring")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	theString.RemoveSubstring(NRange(3, 7));
+	REQUIRE(theString == "Held");
+
+	theString = kTestStringSmall;
+	theString.RemoveSubstring(NRange(3, 6000));
+	REQUIRE(theString == "Hel");
+
+	theString = kTestStringSmall;
+	theString.RemoveSubstring(NRange(3, 0));
+	REQUIRE(theString == kTestStringSmall);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "RemoveSubstrings")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	theString.RemoveSubstrings({NRange(1, 3), NRange(5, 2), NRange(8, 3)});
+	REQUIRE(theString == "Hoo");
+
+	theString = kTestStringSmall;
+	theString.RemoveSubstrings({NRange(5, 2), NRange(1, 3), NRange(8, 33)});
+	REQUIRE(theString == "Hoo");
+
+	theString = kTestStringSmall;
+	theString.RemoveSubstrings({NRange(1, 3), NRange(88, 33), NRange(5, 2)});
+	REQUIRE(theString == "Hoorld");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Split")
 {
 

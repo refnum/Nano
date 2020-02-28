@@ -322,6 +322,15 @@ public:
 	NVectorString                       GetSubstrings(const NVectorRange& theRanges) const;
 
 
+	// Remove a substring
+	//
+	// Removes as much of the requested susbstring as possible.
+	void                                RemovePrefix(size_t theSize);
+	void                                RemoveSuffix(size_t theSize);
+	void                                RemoveSubstring( const NRange& theRange);
+	void                                RemoveSubstrings(const NVectorRange& theRanges);
+
+
 	// Split a string
 	//
 	// Split the string into a list of elements, divided by the separator,
