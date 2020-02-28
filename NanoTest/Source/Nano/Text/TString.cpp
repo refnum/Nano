@@ -70,6 +70,15 @@ static const uint32_t kTestDataLargeUTF32[]                 = {
 static const NString kTestStringSmall                       = "Hello World";
 static const NString kTestStringLarge                       = "Hello World One World Two World Three World";
 
+static const NString kTestStringLines =
+	"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"
+	"Vivamus est erat, scelerisque quis molestie a, bibendum eget risus.\r"
+	"Etiam laoreet velit dolor, at eleifend enim ultrices vitae.\r\n"
+	"\n"
+	"\r"
+	"\r\n"
+	"Vivamus scelerisque sapien scelerisque ligula.";
+
 
 
 
@@ -1283,6 +1292,29 @@ NANO_TEST(TString, "Split")
 	REQUIRE(theResult[2] == "");
 	REQUIRE(theResult[3] == "b");
 	REQUIRE(theResult[4] == "c");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetLines")
+{
+
+
+	// Perform the test
+	NVectorString theResult = kTestStringLines.GetLines();
+	REQUIRE(theResult.size() == 7);
+	REQUIRE(theResult[0] == "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+	REQUIRE(theResult[1] == "Vivamus est erat, scelerisque quis molestie a, bibendum eget risus.");
+	REQUIRE(theResult[2] == "Etiam laoreet velit dolor, at eleifend enim ultrices vitae.");
+	REQUIRE(theResult[3] == "");
+	REQUIRE(theResult[4] == "");
+	REQUIRE(theResult[5] == "");
+	REQUIRE(theResult[6] == "Vivamus scelerisque sapien scelerisque ligula.");
 }
 
 

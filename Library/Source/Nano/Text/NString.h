@@ -355,6 +355,14 @@ public:
 											  const NRange&  theRange  = kNRangeAll) const;
 
 
+	// Get lines
+	//
+	// Eacn Unix, DOS, or Mac line ending indicates the start of a new line.
+	//
+	// NTextUtils::RemoveEmpty can be used to discard empty lines.
+	NVectorString                       GetLines() const;
+
+
 public:
 	// NMixinAppendable
 	void                                Append(const NString& theString);

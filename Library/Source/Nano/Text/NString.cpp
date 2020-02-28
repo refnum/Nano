@@ -1013,6 +1013,21 @@ NVectorString NString::Split(const NString& splitWith,
 
 
 
+//=============================================================================
+//		NString::GetLines : Get the individual lines.
+//-----------------------------------------------------------------------------
+NVectorString NString::GetLines() const
+{
+
+
+	// Get the lines
+	return NStringScanner::Split(*this, "\\n|\\r\\n?", kNStringPattern);
+}
+
+
+
+
+
 #pragma mark NMixinAppendable
 //=============================================================================
 //		NString::Append : Append a value.
