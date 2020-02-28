@@ -80,12 +80,12 @@ NANO_FIXTURE(TStdAlgorithm){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStdAlgorithm, "nstd:concat")
+NANO_TEST(TStdAlgorithm, "nstd:appended")
 {
 
 
 	// Perform the test
-	auto theVector = nstd::concat(kTestVector1, kTestVector2);
+	auto theVector = nstd::appended(kTestVector1, kTestVector2);
 
 	REQUIRE(theVector.size() == 9);
 	REQUIRE(theVector[0] == 1);

@@ -83,10 +83,10 @@ IH search(IH hayBegin, IH hayEnd, IN needleBegin, IN needleEnd);
 
 
 //=============================================================================
-//		nstd::concat : Concatenate two containers.
+//		nstd::appended : Return the result of appending two containers.
 //-----------------------------------------------------------------------------
 template <typename T1, typename T2>
-T1 concat(T1 container1, T2&& container2)
+T1 appended(T1 container1, T2&& container2)
 {
 	nstd::push_back(container1, std::forward<T2>(container2));
 	return container1;
