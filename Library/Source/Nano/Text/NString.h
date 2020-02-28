@@ -316,7 +316,7 @@ public:
 	// A separator that appears at the start/end of the string, or adjacent
 	// separators within the string, will produce an empty string.
 	//
-	// nstd::erase_if can be used to discard empty elements.
+	// NTextUtils::RemoveEmpty can be used to discard empty elements.
 	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
 	NVectorString                       Split(const NString& splitWith = "\\s+",
