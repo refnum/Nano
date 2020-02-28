@@ -548,6 +548,11 @@ pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFl
 		regFlags |= PCRE2_LITERAL;
 	}
 
+	if (theFlags & kNStringMultiLine)
+	{
+		regFlags |= PCRE2_MULTILINE;
+	}
+
 
 
 	// Compile the expression

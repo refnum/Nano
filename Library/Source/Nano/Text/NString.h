@@ -71,6 +71,7 @@ static constexpr NStringFlags kNStringNone                  = 0;
 static constexpr NStringFlags kNStringNoCase                = (1 << 0);
 static constexpr NStringFlags kNStringNumeric               = (1 << 1);
 static constexpr NStringFlags kNStringPattern               = (1 << 2);
+static constexpr NStringFlags kNStringMultiLine             = (1 << 3);
 
 static constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
 
