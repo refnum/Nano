@@ -572,7 +572,7 @@ NANO_TEST(TString, "FindAllGroups")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "Replace")
+NANO_TEST(TString, "Replace/String")
 {
 
 
@@ -620,7 +620,7 @@ NANO_TEST(TString, "Replace")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "ReplaceAll")
+NANO_TEST(TString, "ReplaceAll/String")
 {
 
 
@@ -659,6 +659,64 @@ NANO_TEST(TString, "ReplaceAll")
 	theString = kTestStringLarge;
 	REQUIRE(theString.ReplaceAll("WO..D", "YOU", kNStringPatternNoCase) == 4);
 	REQUIRE(theString == "Hello YOU One YOU Two YOU Three YOU");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Replace/Range")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	theString.Replace(NRange(6, 5), "You");
+	REQUIRE(theString == "Hello You");
+
+	theString = kTestStringLarge;
+	theString.Replace(NRange(6, 5), "You");
+	REQUIRE(theString == "Hello You One World Two World Three World");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "ReplaceAll/Range")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString = kTestStringSmall;
+	theString.ReplaceAll({NRange(1, 3), NRange(5, 2), NRange(8, 3)}, "");
+	REQUIRE(theString == "Hoo");
+
+	theString = kTestStringSmall;
+	theString.ReplaceAll({NRange(1, 3), NRange(5, 2), NRange(8, 33)}, "");
+	REQUIRE(theString == "Hoo");
+
+	theString = kTestStringSmall;
+	theString.ReplaceAll({NRange(1, 3), NRange(5, 2), NRange(88, 33)}, "");
+	REQUIRE(theString == "Hoorld");
+
+	theString = kTestStringLarge;
+	theString.ReplaceAll({NRange(11, 10), NRange(21, 10), NRange(31, 12)}, "");
+	REQUIRE(theString == "Hello World");
+
+	theString = kTestStringLarge;
+	theString.ReplaceAll({NRange(31, 12), NRange(21, 10), NRange(11, 10)}, "");
+	REQUIRE(theString == "Hello World");
 }
 
 
@@ -945,7 +1003,6 @@ NANO_TEST(TString, "GetSubstrings")
 	// Perform the test
 	NVectorRange  theRanges;
 	NVectorString theResult;
-
 
 	theRanges = {{0, 5}, {2, 3}, {6, 5}};
 	theResult = kTestStringSmall.GetSubstrings(theRanges);

@@ -277,6 +277,19 @@ public:
 												   const NRange&  theRange = kNRangeAll);
 
 
+	// Replace a range
+	//
+	// Each replacement range is intersected with the applicable range,
+	// and the resulting intersection is replaced with the string.
+	void                                Replace(const NRange&  theRange,
+												const NString& replaceWith,
+												const NRange&  overRange = kNRangeAll);
+
+	void                                ReplaceAll(const NVectorRange& theRanges,
+												   const NString&      replaceWith,
+												   const NRange&       theRange = kNRangeAll);
+
+
 	// Transform the string
 	NString                             GetTransformed(NStringTransform theTransform, const NRange& theRange = kNRangeAll);
 	NString                             GetLower() const;

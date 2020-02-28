@@ -613,6 +613,38 @@ size_t NString::ReplaceAll(const NString& theString,
 
 
 //=============================================================================
+//		NString::Replace : Replace a substring.
+//-----------------------------------------------------------------------------
+void NString::Replace(const NRange& theRange, const NString& replaceWith, const NRange& overRange)
+{
+
+
+	// Find and replace
+	NStringScanner::Replace(*this, theRange, replaceWith, overRange);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::ReplaceAll : Replace substrings.
+//-----------------------------------------------------------------------------
+void NString::ReplaceAll(const NVectorRange& theRanges,
+						 const NString&      replaceWith,
+						 const NRange&       theRange)
+{
+
+
+	// Find and replace
+	NStringScanner::ReplaceAll(*this, theRanges, replaceWith, theRange);
+}
+
+
+
+
+
+//=============================================================================
 //		NString::GetTransformed : Transform the string.
 //-----------------------------------------------------------------------------
 NString NString::GetTransformed(NStringTransform theTransform, const NRange& theRange)
