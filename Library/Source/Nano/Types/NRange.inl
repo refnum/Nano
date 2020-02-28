@@ -477,8 +477,7 @@ constexpr NComparison NRange::CompareOrder(const NRange& theRange) const
 
 	// Compare the range
 	//
-	// Ranges have no intrinsic ordering so we order by location first,
-	// then order by size.
+	// Ranges are ordered by location first, then by size.
 	NComparison theResult = NCompare(mLocation, theRange.mLocation);
 
 	if (theResult == NComparison::EqualTo)
