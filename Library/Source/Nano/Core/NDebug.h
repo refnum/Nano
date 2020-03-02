@@ -196,6 +196,8 @@
 	#define NN_CHECK(_condition, _expression)               \
 		do                                                  \
 		{                                                   \
+			_nn_validate_condition((_condition));           \
+															\
 			if (NN_UNLIKELY(!(_condition)))                 \
 			{                                               \
 				_expression;                                \
@@ -239,6 +241,8 @@
 	#define _nn_require(_condition, _message, ...)                                                  \
 		do                                                                                          \
 		{                                                                                           \
+			_nn_validate_condition((_condition));                                                   \
+																									\
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
 			{                                                                                       \
 				_nn_invoke_assertion(                                                               \
@@ -294,6 +298,8 @@
 	#define _nn_expect(_condition, _message, ...)                                                   \
 		do                                                                                          \
 		{                                                                                           \
+			_nn_validate_condition((_condition));                                                   \
+																									\
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
 			{                                                                                       \
 				_nn_invoke_assertion(                                                               \

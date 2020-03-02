@@ -45,7 +45,7 @@
 
 
 //=============================================================================
-//		nn_invoke_assertion : Invoke an assertion.
+//		_nn_invoke_assertion : Invoke an assertion.
 //-----------------------------------------------------------------------------
 //		Note : Invoking via forwarding lambda allows use within constexpr functions.
 //-----------------------------------------------------------------------------
@@ -69,5 +69,91 @@ inline void _nn_forward_assertion(T&& theAction) noexcept
 		{                                                   \
 			__VA_ARGS__                                     \
 		} while (false)
+
+#endif // defined(__cplusplus)
+
+
+
+
+
+//=============================================================================
+//		_nn_has_assignment : Does an expression contain an assignment?
+//-----------------------------------------------------------------------------
+#if defined(__cplusplus)
+
+template <size_t N>
+constexpr bool _nn_has_assignment(char const (&theChars)[N])
+{
+
+
+	// Get the state we need
+	char prevChar = '?';
+	char theChar  = '?';
+
+
+
+	// Scan the string
+	for (size_t n = 1; n < (N - 1); n++)
+	{
+		prevChar = theChar;
+		theChar  = theChars[n];
+
+
+		// Reject '++' and '--'
+		if (theChar == '+' || theChar == '-')
+		{
+			if (prevChar == theChar)
+			{
+				return true;
+			}
+		}
+
+
+		// Reject '=', except for '==', '<=', '>=', and '!='
+		else if (theChar == '=')
+		{
+			if (theChars[n + 1] == '=')
+			{
+				n++;
+				continue;
+			}
+
+			if (prevChar == '>' || prevChar == '<' || prevChar == '!')
+			{
+				continue;
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+#else
+
+	#define _nn_has_assignment(...)                         false
+
+#endif // defined(__cplusplus)
+
+
+
+
+
+//=============================================================================
+//		_nn_validate_condition : Is an assert condition valid?
+//-----------------------------------------------------------------------------
+#if defined(__cplusplus)
+
+	#define _nn_validate_condition(_condition)                  \
+		do                                                      \
+		{                                                       \
+			static_assert(!_nn_has_assignment(#_condition));    \
+																\
+		} while (false)
+
+#else
+
+	#define _nn_validate_condition(_condition)
 
 #endif // defined(__cplusplus)
