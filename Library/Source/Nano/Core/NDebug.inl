@@ -141,15 +141,28 @@ constexpr bool _nn_has_assignment(char const (&theChars)[N])
 
 
 //=============================================================================
+//		_nn_is_known_constant : Is an expression a compile-time constant?
+//-----------------------------------------------------------------------------
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define _nn_is_known_constant(_expression)              __builtin_constant_p(_expression)
+#else
+	#define _nn_is_known_constant(_expression)              false
+#endif
+
+
+
+
+
+//=============================================================================
 //		_nn_validate_condition : Is an assert condition valid?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
 
-	#define _nn_validate_condition(_condition)                  \
-		do                                                      \
-		{                                                       \
-			static_assert(!_nn_has_assignment(#_condition));    \
-																\
+	#define _nn_validate_condition(_condition)                                          \
+		do                                                                              \
+		{                                                                               \
+			static_assert(!_nn_has_assignment(#_condition), "Unexpected assignment!");  \
+			static_assert(!_nn_is_known_constant(_condition), "Use static_assert!");    \
 		} while (false)
 
 #else
