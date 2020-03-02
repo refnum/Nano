@@ -83,6 +83,42 @@
 
 
 //=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// Log levels
+//
+// The log level indicates the priority of the message.
+enum NLogLevel
+{
+	kNLogLevelInfo,
+	kNLogLevelWarning,
+	kNLogLevelError
+};
+
+
+
+
+
+//=============================================================================
+//		Public Functions
+//-----------------------------------------------------------------------------
+// Log with printf-style formatting
+NN_VALIDATE_PRINTF(4, 5)
+void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...);
+
+
+// Log a message
+#define NanoLog(_level, ...)                                    \
+	do                                                          \
+	{                                                           \
+		NanoLogPrintf(_level, __FILE__, __LINE__, __VA_ARGS__); \
+	} while (false)
+
+
+
+
+
+//=============================================================================
 //		Logging
 //-----------------------------------------------------------------------------
 // Log a message
@@ -97,22 +133,22 @@
 //
 #if NN_ENABLE_LOGGING
 
-	#define NN_LOG_INFO(...)                                            \
-		do                                                              \
-		{                                                               \
-			NanoLog(kNLogLevelInfo, __FILE__, __LINE__, __VA_ARGS__);   \
+	#define NN_LOG_INFO(...)                                \
+		do                                                  \
+		{                                                   \
+			NanoLog(kNLogLevelInfo, __VA_ARGS__);           \
 		} while (false)
 
-	#define NN_LOG_WARNING(...)                                             \
-		do                                                                  \
-		{                                                                   \
-			NanoLog(kNLogLevelWarning, __FILE__, __LINE__, __VA_ARGS__);    \
+	#define NN_LOG_WARNING(...)                             \
+		do                                                  \
+		{                                                   \
+			NanoLog(kNLogLevelWarning, __VA_ARGS__);        \
 		} while (false)
 
-	#define NN_LOG_ERROR(...)                                           \
-		do                                                              \
-		{                                                               \
-			NanoLog(kNLogLevelError, __FILE__, __LINE__, __VA_ARGS__);  \
+	#define NN_LOG_ERROR(...)                               \
+		do                                                  \
+		{                                                   \
+			NanoLog(kNLogLevelError, __VA_ARGS__);          \
 		} while (false)
 
 #else
@@ -375,33 +411,6 @@
 	{                                                       \
 		NN_EXPECT((_pointer) != nullptr, ##__VA_ARGS__);    \
 	} while (false)
-
-
-
-
-
-//=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-// Log levels
-//
-// The log level indicates the priority of the message.
-enum NLogLevel
-{
-	kNLogLevelInfo,
-	kNLogLevelWarning,
-	kNLogLevelError
-};
-
-
-
-
-
-//=============================================================================
-//		Public Functions
-//-----------------------------------------------------------------------------
-NN_VALIDATE_PRINTF(4, 5)
-void NanoLog(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...);
 
 
 

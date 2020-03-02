@@ -52,9 +52,9 @@
 //=============================================================================
 //		Public Functions
 //-----------------------------------------------------------------------------
-//		NanoLog : Log a message.
+//		NanoLogPrintf : Log a message with printf-style formatting.
 //-----------------------------------------------------------------------------
-void NanoLog(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...)
+void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...)
 {
 
 
