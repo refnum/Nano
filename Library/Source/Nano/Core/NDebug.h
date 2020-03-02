@@ -45,7 +45,9 @@
 
 
 // System
-#include <utility>
+#if defined(__cplusplus)
+	#include <utility>
+#endif // defined(__cplusplus)
 
 
 
@@ -72,6 +74,39 @@
 
 
 //=============================================================================
+//		Helpers
+//-----------------------------------------------------------------------------
+// Invoke an assertion
+//
+// Invoking via a forwarding lambda allows use within constexpr functions.
+//
+#if defined(__cplusplus)
+template <typename T>
+inline void _nn_forward_assertion(T&& theAction) noexcept
+{
+	std::forward<T>(theAction)();
+}
+
+	#define _nn_invoke_assertion(...)                       \
+		_nn_forward_assertion([]() {                        \
+			__VA_ARGS__                                     \
+		})
+
+#else
+
+	#define _nn_invoke_assertion(...)                       \
+		do                                                  \
+		{                                                   \
+			__VA_ARGS__                                     \
+		} while (false)
+
+#endif // defined(__cplusplus)
+
+
+
+
+
+//=============================================================================
 //		Logging
 //-----------------------------------------------------------------------------
 // Log a message
@@ -89,19 +124,19 @@
 	#define NN_LOG_INFO(...)                                            \
 		do                                                              \
 		{                                                               \
-			NanoLog(NLogLevel::Info, __FILE__, __LINE__, __VA_ARGS__);  \
+			NanoLog(kNLogLevelInfo, __FILE__, __LINE__, __VA_ARGS__);   \
 		} while (false)
 
 	#define NN_LOG_WARNING(...)                                             \
 		do                                                                  \
 		{                                                                   \
-			NanoLog(NLogLevel::Warning, __FILE__, __LINE__, __VA_ARGS__);   \
+			NanoLog(kNLogLevelWarning, __FILE__, __LINE__, __VA_ARGS__);    \
 		} while (false)
 
 	#define NN_LOG_ERROR(...)                                           \
 		do                                                              \
 		{                                                               \
-			NanoLog(NLogLevel::Error, __FILE__, __LINE__, __VA_ARGS__); \
+			NanoLog(kNLogLevelError, __FILE__, __LINE__, __VA_ARGS__);  \
 		} while (false)
 
 #else
@@ -148,8 +183,10 @@
 		} while (false)
 
 	#define _nn_log_unimplemented_0(...)                    _nn_log_unimplemented("!")
+
 	#define _nn_log_unimplemented_N(_message, ...)          \
 		_nn_log_unimplemented(", " _message, ##__VA_ARGS__)
+
 	#define _nn_log_unimplemented_0_TO_N(_0, _1, _2, _3, _4, _5, ...)   _5
 
 	#define NN_LOG_UNIMPLEMENTED(...)                           \
@@ -176,22 +213,6 @@
 //=============================================================================
 //		Assertions
 //-----------------------------------------------------------------------------
-// Helpers
-//
-// An assertion's content is invoked via a forwarding lambda to
-// allow use in constexpr functions.
-template <typename T>
-inline void _nn_forward_assertion(T&& theAction) noexcept
-{
-	std::forward<T>(theAction)();
-}
-
-#define _nn_invoke_assertion(...)                           \
-	_nn_forward_assertion([]() {                            \
-		__VA_ARGS__                                         \
-	})
-
-
 // Requirement
 //
 // A requirement expresses a condition that must be met.
@@ -353,11 +374,11 @@ inline void _nn_forward_assertion(T&& theAction) noexcept
 // Log levels
 //
 // The log level indicates the priority of the message.
-enum class NLogLevel
+enum NLogLevel
 {
-	Info,
-	Warning,
-	Error
+	kNLogLevelInfo,
+	kNLogLevelWarning,
+	kNLogLevelError
 };
 
 

@@ -165,15 +165,15 @@ void NLog::FormatLevel(NLogMessage& logMsg) const
 
 	switch (logMsg.logLevel)
 	{
-		case NLogLevel::Info:
+		case kNLogLevelInfo:
 			levelEmoji = kEmojiInfo;
 			levelLabel = "INFO ";
 			break;
-		case NLogLevel::Warning:
+		case kNLogLevelWarning:
 			levelEmoji = kEmojiWarning;
 			levelLabel = "WARN ";
 			break;
-		case NLogLevel::Error:
+		case kNLogLevelError:
 			levelEmoji = kEmojiError;
 			levelLabel = "ERR ";
 			break;
