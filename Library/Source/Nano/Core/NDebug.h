@@ -207,6 +207,36 @@ inline void _nn_forward_assertion(T&& theAction) noexcept
 #endif
 
 
+// Conditional logging
+//
+// Perform a logging expression conditionally.
+//
+// Example:
+//
+//		NN_CHECK(numKeys < 100, NN_LOG_WARNING("Cache is too large"));
+//
+#if NN_ENABLE_LOGGING
+
+	#define NN_CHECK(_condition, _expression)               \
+		do                                                  \
+		{                                                   \
+			if (NN_UNLIKELY(!(_condition)))                 \
+			{                                               \
+				_expression;                                \
+			}                                               \
+		} while (false)
+
+#else
+
+	#define NN_CHECK(_condition, _expression)               \
+		do                                                  \
+		{                                                   \
+			NN_UNUSED(_condition);                          \
+		} while (false)
+
+#endif
+
+
 
 
 
