@@ -43,8 +43,12 @@
 
 // Nano
 #include "NScopedLock.h"
+#include "NThread.h"
+#include "NTimeUtils.h"
 
 // System
+#include <inttypes.h>
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -56,9 +60,9 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kEmojiInfo                     = "(I)";
-static constexpr const char* kEmojiWarning                  = "(W)";
-static constexpr const char* kEmojiError                    = "(E)";
+static constexpr const char* kEmojiInfo                     = "\xF0\x9F\x92\xAC";
+static constexpr const char* kEmojiWarning                  = "\xF0\x9F\x94\x86";
+static constexpr const char* kEmojiError                    = "\xE2\x9B\x94\xEF\xB8\x8F";
 
 
 
@@ -167,11 +171,11 @@ void NLog::FormatLevel(NLogMessage& logMsg) const
 	{
 		case kNLogLevelInfo:
 			levelEmoji = kEmojiInfo;
-			levelLabel = "INFO ";
+			levelLabel = "INFO";
 			break;
 		case kNLogLevelWarning:
 			levelEmoji = kEmojiWarning;
-			levelLabel = "WARN ";
+			levelLabel = "WARN";
 			break;
 		case kNLogLevelError:
 			levelEmoji = kEmojiError;
@@ -193,8 +197,18 @@ void NLog::FormatTime(NLogMessage& logMsg) const
 {
 
 
+	// Get the state we need
+	NInterval timeNow = NTimeUtils::GetTime();
+	uint64_t  timeUS  = uint64_t((timeNow - floor(timeNow)) / kNTimeMicrosecond);
+
+
+
 	// Format the time
-	snprintf(logMsg.tokenTime, sizeof(logMsg.tokenTime), "0000-00-00 00:00:00.000000");
+	snprintf(logMsg.tokenTime, sizeof(logMsg.tokenTime), "%04d-%02d-%02d ", 2000, 1, 1);
+
+	snprintf(&logMsg.tokenTime[11], 10, "%02d:%02d:%02d.", 0, 0, uint32_t(timeNow) % 60);
+
+	snprintf(&logMsg.tokenTime[20], 7, "%06d", int(timeUS));
 }
 
 
@@ -209,7 +223,10 @@ void NLog::FormatThread(NLogMessage& logMsg) const
 
 
 	// Format the thread
-	snprintf(logMsg.tokenThread, sizeof(logMsg.tokenThread), "00000000");
+	snprintf(logMsg.tokenThread,
+			 sizeof(logMsg.tokenThread),
+			 "%08" PRIX32,
+			 uint32_t(NThread::GetID()));
 }
 
 
