@@ -206,6 +206,7 @@
 		AB07EA3C239A521F00E0AC49 /* AndroidNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNSemaphore.cpp; sourceTree = "<group>"; };
 		AB07EA3F239A52C700E0AC49 /* NSharedLinux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSharedLinux.h; sourceTree = "<group>"; };
 		AB07EA40239A52C700E0AC49 /* NSharedLinux.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedLinux.cpp; sourceTree = "<group>"; };
+		AB09E1D0240DB8FB001FCBFC /* NDebug.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDebug.inl; sourceTree = "<group>"; };
 		AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtils.h; sourceTree = "<group>"; };
 		AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -1186,6 +1187,7 @@
 				AB91550C0F9B4DD5009FFEAF /* NanoTargets.h */,
 				AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */,
 				AB492C902399A41A003E4D1A /* NDebug.cpp */,
+				AB09E1D0240DB8FB001FCBFC /* NDebug.inl */,
 				AB492C912399A41A003E4D1A /* NDebug.h */,
 				AB25E7B2237A0302009F31B3 /* NLog.cpp */,
 				AB25E7B3237A0303009F31B3 /* NLog.h */,

@@ -74,33 +74,9 @@
 
 
 //=============================================================================
-//		Helpers
+//		Includes
 //-----------------------------------------------------------------------------
-// Invoke an assertion
-//
-// Invoking via a forwarding lambda allows use within constexpr functions.
-//
-#if defined(__cplusplus)
-template <typename T>
-inline void _nn_forward_assertion(T&& theAction) noexcept
-{
-	std::forward<T>(theAction)();
-}
-
-	#define _nn_invoke_assertion(...)                       \
-		_nn_forward_assertion([]() {                        \
-			__VA_ARGS__                                     \
-		})
-
-#else
-
-	#define _nn_invoke_assertion(...)                       \
-		do                                                  \
-		{                                                   \
-			__VA_ARGS__                                     \
-		} while (false)
-
-#endif // defined(__cplusplus)
+#include "NDebug.inl"
 
 
 
