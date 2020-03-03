@@ -37,10 +37,23 @@
 	___________________________________________________________________________
 */
 //=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+#define FMT_HEADER_ONLY
+
+
+
+
+
+//=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NanoMacros.h"
+
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
+NN_DIAGNOSTIC_IGNORE_MSVC(4464)     // Relative include path contains '..'
+NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
 
 #include "../fmt_2020_03_04/printf.h"
 

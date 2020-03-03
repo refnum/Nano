@@ -158,6 +158,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 			{                                                                                   \
 				NN_DIAGNOSTIC_PUSH();                                                           \
 				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                              \
+				NN_DIAGNOSTIC_IGNORE_MSVC(4474) /* printf extra args */                         \
 				NanoLogPrintf(_level, __FILE__, __LINE__, _format, ##__VA_ARGS__);              \
 				NN_DIAGNOSTIC_POP();                                                            \
 			}                                                                                   \
