@@ -260,13 +260,13 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 
 	#define _nn_log_unimplemented_0_TO_N(_0, _1, _2, _3, _4, _5, ...)   _5
 
-	#define NN_LOG_UNIMPLEMENTED(...)                           \
-		_nn_log_unimplemented_0_TO_N(__VA_ARGS__,               \
-									 _nn_log_unimplemented_N,   \
-									 _nn_log_unimplemented_N,   \
-									 _nn_log_unimplemented_N,   \
-									 _nn_log_unimplemented_N,   \
-									 _nn_log_unimplemented_0)(__VA_ARGS__)
+	#define NN_LOG_UNIMPLEMENTED(...)                                   \
+		NN_EXPAND(_nn_log_unimplemented_0_TO_N(__VA_ARGS__,             \
+											   _nn_log_unimplemented_N, \
+											   _nn_log_unimplemented_N, \
+											   _nn_log_unimplemented_N, \
+											   _nn_log_unimplemented_N, \
+											   _nn_log_unimplemented_0)(__VA_ARGS__))
 
 #else
 
@@ -354,12 +354,12 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define _nn_require_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
 
 	#define NN_REQUIRE(...)                                 \
-		_nn_require_1_TO_N(__VA_ARGS__,                     \
-						   _nn_require_N,                   \
-						   _nn_require_N,                   \
-						   _nn_require_N,                   \
-						   _nn_require_N,                   \
-						   _nn_require_1)(__VA_ARGS__)
+		NN_EXPAND(_nn_require_1_TO_N(__VA_ARGS__,           \
+									 _nn_require_N,         \
+									 _nn_require_N,         \
+									 _nn_require_N,         \
+									 _nn_require_N,         \
+									 _nn_require_1)(__VA_ARGS__))
 
 #else
 
@@ -410,12 +410,12 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define _nn_expect_1_TO_N(_0, _1, _2, _3, _4, _5, ...)  _5
 
 	#define NN_EXPECT(...)                                  \
-		_nn_expect_1_TO_N(__VA_ARGS__,                      \
-						  _nn_expect_N,                     \
-						  _nn_expect_N,                     \
-						  _nn_expect_N,                     \
-						  _nn_expect_N,                     \
-						  _nn_expect_1)(__VA_ARGS__)
+		NN_EXPAND(_nn_expect_1_TO_N(__VA_ARGS__,            \
+									_nn_expect_N,           \
+									_nn_expect_N,           \
+									_nn_expect_N,           \
+									_nn_expect_N,           \
+									_nn_expect_1)(__VA_ARGS__))
 
 #else
 
