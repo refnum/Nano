@@ -87,12 +87,7 @@
 //
 // Example:
 //
-//		#define OUTER_MACRO(...)						\
-// 			do											\
-// 			{											\
-// 				NN_EXPAND(INNER_MACRO(__VA_ARGS__))		\
-// 			}											\
-// 			while (false)
+//		#define OUTER(...)  NN_EXPAND(INNER(__VA_ARGS__))
 //
 #define NN_EXPAND(_token)                                   _token
 
