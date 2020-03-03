@@ -60,9 +60,15 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
+#if NN_TARGET_WINDOWS
+static constexpr const char* kEmojiInfo                     = "--";
+static constexpr const char* kEmojiWarning                  = "++";
+static constexpr const char* kEmojiError                    = "!!";
+#else
 static constexpr const char* kEmojiInfo                     = "\xF0\x9F\x92\xAC";
 static constexpr const char* kEmojiWarning                  = "\xF0\x9F\x94\x86";
 static constexpr const char* kEmojiError                    = "\xE2\x9B\x94\xEF\xB8\x8F";
+#endif // NN_TARGET_WINDOWS
 
 
 
