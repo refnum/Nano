@@ -75,8 +75,8 @@ void push_back(T& container1, T&& container2);
 template <typename T, typename P>
 bool erase_if(T& container, const P& predicate);
 
-template <typename IH, typename IN>
-IH search(IH hayBegin, IH hayEnd, IN needleBegin, IN needleEnd);
+template <typename H, typename N>
+H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd);
 
 
 
@@ -466,8 +466,8 @@ typename T::const_iterator search(const T& haystack, const T& needle)
 //=============================================================================
 //		nstd::search : Search a container for a container.
 //-----------------------------------------------------------------------------
-template <typename IH, typename IN>
-IH search(IH hayBegin, IH hayEnd, IN needleBegin, IN needleEnd)
+template <typename H, typename N>
+H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd)
 {
 #if NN_COMPILER_CLANG
 	return std::search(hayBegin,
