@@ -440,22 +440,6 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 {
 
 
-	// Validate our parameters
-	NN_EXPECT(theEncoding == NStringEncoding::UTF8 || theEncoding == NStringEncoding::UTF16);
-
-	if (theEncoding == NStringEncoding::UTF8)
-	{
-		NN_EXPECT((numBytes % sizeof(utf8_t)) == 0);
-		NN_EXPECT(IsValidSmallUTF8(numBytes, static_cast<const utf8_t*>(theText)));
-	}
-	else
-	{
-		NN_EXPECT((numBytes % sizeof(utf16_t)) == 0);
-		NN_EXPECT(IsValidSmallUTF16(numBytes, static_cast<const utf16_t*>(theText)));
-	}
-
-
-
 	// Set the flags
 	size_t codeUnitSize = (theEncoding == NStringEncoding::UTF8) ? sizeof(utf8_t) : sizeof(utf16_t);
 	size_t numCodePoints = numBytes / codeUnitSize;
