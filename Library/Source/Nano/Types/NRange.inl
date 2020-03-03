@@ -106,7 +106,7 @@ inline bool NRange::Intersects(const NRange& theRange) const
 //=============================================================================
 //		NRange::Contains : Does the range contain an offset?
 //-----------------------------------------------------------------------------
-constexpr bool NRange::Contains(size_t theOffset) const
+inline bool NRange::Contains(size_t theOffset) const
 {
 
 
@@ -240,7 +240,7 @@ constexpr void NRange::SetRange(size_t theLocation, size_t theSize)
 //=============================================================================
 //		NRange::GetPosition : Get the position of an element.
 //-----------------------------------------------------------------------------
-constexpr size_t NRange::GetPosition(size_t theOffset) const
+inline size_t NRange::GetPosition(size_t theOffset) const
 {
 
 
@@ -261,7 +261,7 @@ constexpr size_t NRange::GetPosition(size_t theOffset) const
 //=============================================================================
 //		NRange::GetFirst : Get the first element.
 //-----------------------------------------------------------------------------
-constexpr size_t NRange::GetFirst() const
+inline size_t NRange::GetFirst() const
 {
 
 
@@ -279,7 +279,7 @@ constexpr size_t NRange::GetFirst() const
 //=============================================================================
 //		NRange::GetLast : Get the last element.
 //-----------------------------------------------------------------------------
-constexpr size_t NRange::GetLast() const
+inline size_t NRange::GetLast() const
 {
 
 
@@ -304,7 +304,7 @@ constexpr size_t NRange::GetLast() const
 //=============================================================================
 //		NRange::GetNext : Get the subsequent element.
 //-----------------------------------------------------------------------------
-constexpr size_t NRange::GetNext() const
+inline size_t NRange::GetNext() const
 {
 
 
@@ -322,7 +322,7 @@ constexpr size_t NRange::GetNext() const
 //=============================================================================
 //		NRange::GetOffset : Get the range relative to an offset.
 //-----------------------------------------------------------------------------
-constexpr NRange NRange::GetOffset(size_t theOffset) const
+inline NRange NRange::GetOffset(size_t theOffset) const
 {
 
 
@@ -342,7 +342,7 @@ constexpr NRange NRange::GetOffset(size_t theOffset) const
 //=============================================================================
 //		NRange::GetUnion : Get the union with a range.
 //-----------------------------------------------------------------------------
-constexpr NRange NRange::GetUnion(const NRange& theRange) const
+inline NRange NRange::GetUnion(const NRange& theRange) const
 {
 
 
@@ -377,7 +377,7 @@ constexpr NRange NRange::GetUnion(const NRange& theRange) const
 //=============================================================================
 //		NRange::GetIntersection : Get the intersection of a range.
 //-----------------------------------------------------------------------------
-constexpr NRange NRange::GetIntersection(const NRange& theRange) const
+inline NRange NRange::GetIntersection(const NRange& theRange) const
 {
 
 

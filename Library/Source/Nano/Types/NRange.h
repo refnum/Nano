@@ -85,7 +85,7 @@ public:
 
 
 	// Does the range contain an offset?
-	constexpr bool                      Contains(size_t theOffset) const;
+	bool                                Contains(size_t theOffset) const;
 
 
 	// Is this a meta-range?
@@ -120,23 +120,23 @@ public:
 	// The first and last element are both contained within the range.
 	//
 	// The "next element" is the element immediately after the range.
-	constexpr size_t                    GetPosition(size_t theOffset) const;
+	size_t                              GetPosition(size_t theOffset) const;
 
-	constexpr size_t                    GetFirst() const;
-	constexpr size_t                    GetLast()  const;
-	constexpr size_t                    GetNext()  const;
+	size_t                              GetFirst() const;
+	size_t                              GetLast()  const;
+	size_t                              GetNext()  const;
 
 
 	// Get the range relative to an offset
-	constexpr NRange                    GetOffset(size_t theOffset) const;
+	NRange                              GetOffset(size_t theOffset) const;
 
 
 	// Get the union with a range
-	constexpr NRange                    GetUnion(const NRange& theRange) const;
+	NRange                              GetUnion(const NRange& theRange) const;
 
 
 	// Get the intersection with a range
-	constexpr NRange                    GetIntersection(const NRange& theRange) const;
+	NRange                              GetIntersection(const NRange& theRange) const;
 
 
 	// Get a normalized range
