@@ -1,8 +1,8 @@
 /*	NAME:
-		NDebug.cpp
+		Nano_fmt.h
 
 	DESCRIPTION:
-		Debug logging and assrtions.
+		fmt support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,54 +36,32 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
+#ifndef NANO_FMT_H
+#define NANO_FMT_H
 //=============================================================================
-//		Includes
+//		Macros
 //-----------------------------------------------------------------------------
-#include "NDebug.h"
-
-
-// Nano
-#include "NLog.h"
-
-
-
-
-
-//=============================================================================
-//		Public Functions
-//-----------------------------------------------------------------------------
-//		NanoLogFormatArgs : Log a message with std::format formatting.
-//-----------------------------------------------------------------------------
-void NanoLogFormatArgs(NLogLevel                           logLevel,
-					   const char*                         filePath,
-					   int                                 lineNum,
-					   const fmt::basic_string_view<char>& formatStr,
-					   fmt::format_args                    theArgs)
-{
-
-
-	// Log the message
-	fmt::memory_buffer theBuffer;
-	fmt::internal::vformat_to(theBuffer, formatStr, theArgs);
-
-	NanoLogPrintf(logLevel, filePath, lineNum, "%.*s", int(theBuffer.size()), theBuffer.data());
-}
+#define FMT_HEADER_ONLY
 
 
 
 
 
 //=============================================================================
-//		NanoLogPrintf : Log a message with printf-style formatting.
+//		Includes
 //-----------------------------------------------------------------------------
-void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...)
-{
+#include "NanoMacros.h"
+
+NN_DIAGNOSTIC_PUSH();
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
+
+#include "format.h"
+
+NN_DIAGNOSTIC_POP();
+
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-member-function");
 
 
-	// Log the message
-	va_list argList;
-
-	va_start(argList, theMsg);
-	NLog::Get()->Log(logLevel, filePath, lineNum, theMsg, argList);
-	va_end(argList);
-}
+#endif // NANO_FMT_H

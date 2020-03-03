@@ -74,6 +74,85 @@ inline void _nn_forward_assertion(T&& theAction) noexcept
 
 
 
+#if defined(__cplusplus)
+//=============================================================================
+//		NanoLogFormat : Log with std::format-style formatting.
+//-----------------------------------------------------------------------------
+template <typename L, typename P, typename Ln, typename S, typename... Args>
+void NanoLogFormat(L logLevel, P filePath, Ln lineNum, const S& formatStr, Args&&... theArgs)
+{
+
+
+	// Format the string
+	//
+	// Formatting at the call site is done through an array of arguments, rather
+	// than expanding the parameter pack, to minimise template bloat:
+	//
+	//	https://www.zverovich.net/2017/12/09/improving-compile-times.html
+	//	https://www.zverovich.net/2016/11/05/reducing-printf-call-overhead.html
+	//
+	NanoLogFormatArgs(logLevel,
+					  filePath,
+					  lineNum,
+					  formatStr,
+					  {fmt::internal::make_args_checked<Args...>(formatStr, theArgs...)});
+}
+#endif // defined(__cplusplus)
+
+
+
+
+
+//=============================================================================
+//		_nn_has_format_specifiers : Does a string use std::format specifiers?
+//-----------------------------------------------------------------------------
+#if defined(__cplusplus)
+
+template <size_t N>
+constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
+{
+
+
+	// Check the string
+	//
+	// Although this can produce false positives its purpose is to aid
+	// in the transition from printf-style specifiers to std::format.
+	//
+	// The side effects of a mis-categorised string are harmless:
+	//
+	//	o "%s{}" will be seen as a std::format string, but the '%s'
+	//    will simply be preserved as-is in the output.
+	//
+	//  o "{%s}" will also be seen as a std::format string, but will
+	//    be rejected at compile time as an invalid format.
+	//
+	// Either case can be easily adjusted to select std::format or
+	// printf-style formatting as required.
+	//
+	size_t numBraces = 0;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		switch (theChars[n])
+		{
+			case '{':
+			case '}':
+				numBraces += 1;
+				break;
+		}
+	}
+
+	return (numBraces != 0) && ((numBraces % 2) == 0);
+}
+
+#else
+
+	#define _nn_has_format_specifiers(...)                  false
+
+#endif // defined(__cplusplus)
+
+
+
 
 
 //=============================================================================

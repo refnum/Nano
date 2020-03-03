@@ -61,4 +61,18 @@ NANO_FIXTURE(TDebug){};
 //-----------------------------------------------------------------------------
 NANO_TEST(TDebug, "Default")
 {
+
+
+	// Perform the test
+	NN_LOG_INFO("Testing NN_LOG_INFO    : no params");
+	NN_LOG_WARNING("Testing NN_LOG_WARNING : no params");
+	NN_LOG_ERROR("Testing NN_LOG_ERROR   : no params");
+
+	NN_LOG_INFO("Testing NN_LOG_INFO    : %s params (%d)", "printf", 1);
+	NN_LOG_WARNING("Testing NN_LOG_WARNING : %s params (%d)", "printf", 2);
+	NN_LOG_ERROR("Testing NN_LOG_ERROR   : %s params (%d)", "printf", 3);
+
+	NN_LOG_INFO("Testing NN_LOG_INFO    : {} params ({})", "std::format", 1);
+	NN_LOG_WARNING("Testing NN_LOG_WARNING : {} params ({})", "std::format", 2);
+	NN_LOG_ERROR("Testing NN_LOG_ERROR   : {} params ({})", "std::format", 3);
 }

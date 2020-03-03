@@ -131,6 +131,7 @@ target_include_directories("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Threads"
 		"${TARGET_SOURCE_DIR}/Time"
 		"${TARGET_SOURCE_DIR}/Types"
+		"${TARGET_SOURCE_DIR}/Internal/Components/fmt_2020_03_04"
 		"${TARGET_SOURCE_DIR}/Internal/Components/xxHash_0.7.2"
 	PRIVATE
 		"${TARGET_SOURCE_DIR}/Internal/Components/fourmilab.ch"
