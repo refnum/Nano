@@ -53,7 +53,6 @@
 #include "NanoMacros.h"
 
 NN_DIAGNOSTIC_PUSH();
-
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-fallthrough");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wold-style-cast");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wzero-as-null-pointer-constant");
