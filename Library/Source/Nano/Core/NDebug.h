@@ -192,22 +192,22 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if NN_ENABLE_LOGGING
 
-	#define NN_LOG_INFO(...)                                \
-		do                                                  \
-		{                                                   \
-			NanoLog(kNLogLevelInfo, __VA_ARGS__);           \
+	#define NN_LOG_INFO(_message, ...)                          \
+		do                                                      \
+		{                                                       \
+			NanoLog(kNLogLevelInfo, _message, ##__VA_ARGS__);   \
 		} while (false)
 
-	#define NN_LOG_WARNING(...)                             \
-		do                                                  \
-		{                                                   \
-			NanoLog(kNLogLevelWarning, __VA_ARGS__);        \
+	#define NN_LOG_WARNING(_message, ...)                           \
+		do                                                          \
+		{                                                           \
+			NanoLog(kNLogLevelWarning, _message, ##__VA_ARGS__);    \
 		} while (false)
 
-	#define NN_LOG_ERROR(...)                               \
-		do                                                  \
-		{                                                   \
-			NanoLog(kNLogLevelError, __VA_ARGS__);          \
+	#define NN_LOG_ERROR(_message, ...)                         \
+		do                                                      \
+		{                                                       \
+			NanoLog(kNLogLevelError, _message, ##__VA_ARGS__);  \
 		} while (false)
 
 #else
