@@ -79,9 +79,20 @@
 //
 //		https://devblogs.microsoft.com/cppblog/msvc-preprocessor-progress-towards-conformance/
 //
+// Expansion only appears to be necessary when the outer macro only
+// takes ... and uses __VA_ARGS__ to pass on its arguments.
+//
+// If the outer macro takes a named parameter, and uses ##__VA_ARGS__
+// to consume trailing commas, no expansion is necessary.
+//
 // Example:
 //
-//		NN_EXPAND(OTHER_MACRO(__VA_ARGS))
+//		#define OUTER_MACRO(...)						\
+// 			do											\
+// 			{											\
+// 				NN_EXPAND(INNER_MACRO(__VA_ARGS__))		\
+// 			}											\
+// 			while (false)
 //
 #define NN_EXPAND(_token)                                   _token
 
