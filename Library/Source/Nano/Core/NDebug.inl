@@ -42,38 +42,6 @@
 
 
 
-
-
-//=============================================================================
-//		_nn_invoke_assertion : Invoke an assertion.
-//-----------------------------------------------------------------------------
-//		Note : Invoking via forwarding lambda allows use within constexpr functions.
-//-----------------------------------------------------------------------------
-#if defined(__cplusplus)
-
-template <typename T>
-inline void _nn_forward_assertion(T&& theAction) noexcept
-{
-	std::forward<T>(theAction)();
-}
-
-	#define _nn_invoke_assertion(...)                       \
-		_nn_forward_assertion([]() {                        \
-			__VA_ARGS__                                     \
-		})
-
-#else
-
-	#define _nn_invoke_assertion(...)                       \
-		do                                                  \
-		{                                                   \
-			__VA_ARGS__                                     \
-		} while (false)
-
-#endif // defined(__cplusplus)
-
-
-
 #if defined(__cplusplus)
 //=============================================================================
 //		NanoLogFormat : Log with std::format-style formatting.
@@ -107,7 +75,6 @@ void NanoLogFormat(L logLevel, P filePath, Ln lineNum, const S& formatStr, Args&
 //		_nn_has_format_specifiers : Does a string use std::format specifiers?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
-
 template <size_t N>
 constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
 {
@@ -144,11 +111,8 @@ constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
 
 	return (numBraces != 0) && ((numBraces % 2) == 0);
 }
-
 #else
-
 	#define _nn_has_format_specifiers(...)                  false
-
 #endif // defined(__cplusplus)
 
 
@@ -159,7 +123,6 @@ constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
 //		_nn_has_assignment : Does an expression contain an assignment?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
-
 template <size_t N>
 constexpr bool _nn_has_assignment(char const (&theChars)[N])
 {
@@ -208,11 +171,8 @@ constexpr bool _nn_has_assignment(char const (&theChars)[N])
 
 	return false;
 }
-
 #else
-
 	#define _nn_has_assignment(...)                         false
-
 #endif // defined(__cplusplus)
 
 

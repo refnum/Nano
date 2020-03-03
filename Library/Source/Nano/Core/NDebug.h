@@ -333,17 +333,16 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_require(_condition, _message, ...)                                                  \
-		do                                                                                          \
-		{                                                                                           \
-			_nn_validate_condition((_condition));                                                   \
-																									\
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
-			{                                                                                       \
-				_nn_invoke_assertion(                                                               \
-					NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-					NN_DEBUG_BREAK(););                                                             \
-			}                                                                                       \
+	#define _nn_require(_condition, _message, ...)                                              \
+		do                                                                                      \
+		{                                                                                       \
+			_nn_validate_condition((_condition));                                               \
+																								\
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+			{                                                                                   \
+				NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+				NN_DEBUG_BREAK();                                                               \
+			}                                                                                   \
 		} while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require(_condition, "")
@@ -390,16 +389,15 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_expect(_condition, _message, ...)                                                   \
-		do                                                                                          \
-		{                                                                                           \
-			_nn_validate_condition((_condition));                                                   \
-																									\
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
-			{                                                                                       \
-				_nn_invoke_assertion(                                                               \
-					NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__););  \
-			}                                                                                       \
+	#define _nn_expect(_condition, _message, ...)                                               \
+		do                                                                                      \
+		{                                                                                       \
+			_nn_validate_condition((_condition));                                               \
+																								\
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
+			{                                                                                   \
+				NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+			}                                                                                   \
 		} while (false)
 
 	#define _nn_expect_1(_condition)                        _nn_expect(_condition, "")
