@@ -246,8 +246,13 @@ void NLog::FormatSource(NLogMessage& logMsg) const
 {
 
 
-	// Format the source
+	// Locate the file name
 	const char* fileName = strrchr(logMsg.filePath, '/');
+
+	if (fileName == nullptr)
+	{
+		fileName = strrchr(logMsg.filePath, '\\');
+	}
 
 	if (fileName == nullptr)
 	{
@@ -258,5 +263,8 @@ void NLog::FormatSource(NLogMessage& logMsg) const
 		fileName += 1;
 	}
 
+
+
+	// Format the source
 	snprintf(logMsg.tokenSource, sizeof(logMsg.tokenSource), "%s:%d", fileName, logMsg.lineNum);
 }
