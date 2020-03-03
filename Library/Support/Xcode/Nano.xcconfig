@@ -64,6 +64,7 @@ Nano_Warnings = $(inherited) -Wno-c99-extensions
 Nano_Warnings = $(inherited) -Wno-documentation-unknown-command
 Nano_Warnings = $(inherited) -Wno-exit-time-destructors
 Nano_Warnings = $(inherited) -Wno-float-equal
+Nano_Warnings = $(inherited) -Wno-format-non-iso
 Nano_Warnings = $(inherited) -Wno-format-nonliteral
 Nano_Warnings = $(inherited) -Wno-global-constructors
 Nano_Warnings = $(inherited) -Wno-gnu-zero-variadic-macro-arguments
