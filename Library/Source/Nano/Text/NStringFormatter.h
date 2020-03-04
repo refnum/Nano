@@ -113,6 +113,7 @@ public:
 			{                                                                   \
 				NN_DIAGNOSTIC_PUSH();                                           \
 				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");              \
+				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                \
 				NN_DIAGNOSTIC_IGNORE_MSVC(4474) /* Extra arguments     */       \
 				NN_DIAGNOSTIC_IGNORE_MSVC(4840) /* Non-POD argument    */       \
 				NN_DIAGNOSTIC_IGNORE_MSVC(4476) /* Positional argument */       \
