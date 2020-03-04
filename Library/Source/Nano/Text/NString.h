@@ -196,8 +196,8 @@ public:
 	// A UTF8 / UTF16 result may be invalidated by requesting any other encoding.
 	const void*                         GetText(NStringEncoding theEncoding) const;
 
-	constexpr const utf8_t*             GetUTF8()  const;
-	constexpr const utf16_t*            GetUTF16() const;
+	const utf8_t*                       GetUTF8()  const;
+	const utf16_t*                      GetUTF16() const;
 	const utf32_t*                      GetUTF32() const;
 
 

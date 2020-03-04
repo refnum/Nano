@@ -160,7 +160,7 @@ inline NString::~NString()
 //=============================================================================
 //		NString::GetUTF8 : Get the text as UTF8.
 //-----------------------------------------------------------------------------
-constexpr const utf8_t* NString::GetUTF8() const
+inline const utf8_t* NString::GetUTF8() const
 {
 
 
@@ -182,7 +182,7 @@ constexpr const utf8_t* NString::GetUTF8() const
 //=============================================================================
 //		NString::GetUTF16 : Get the text as UTF16.
 //-----------------------------------------------------------------------------
-constexpr const utf16_t* NString::GetUTF16() const
+inline const utf16_t* NString::GetUTF16() const
 {
 
 
