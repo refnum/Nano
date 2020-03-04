@@ -70,12 +70,15 @@ NData::NData(size_t theSize, const void* theData, NDataSource theSource)
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(const NData& otherData)
-	: mData{}
+	: mData{otherData.mData}
 {
 
 
 	// Initialise ourselves
-	MakeClone(otherData);
+	if (IsLarge())
+	{
+		RetainLarge();
+	}
 }
 
 
@@ -92,7 +95,17 @@ NData& NData::operator=(const NData& otherData)
 	// Assign the data
 	if (this != &otherData)
 	{
-		MakeClone(otherData);
+		if (IsLarge())
+		{
+			ReleaseLarge();
+		}
+
+		mData = otherData.mData;
+		
+		if (IsLarge())
+		{
+			RetainLarge();
+		}
 	}
 
 	return *this;
@@ -111,8 +124,7 @@ NData::NData(NData&& otherData)
 
 
 	// Initialise ourselves
-	MakeClone(otherData);
-	otherData.Clear();
+	std::swap(mData, otherData.mData);
 }
 
 
@@ -129,8 +141,7 @@ NData& NData::operator=(NData&& otherData)
 	// Move the data
 	if (this != &otherData)
 	{
-		Clear();
-		MakeClone(otherData);
+		std::swap(mData, otherData.mData);
 		otherData.Clear();
 	}
 
@@ -239,7 +250,7 @@ NData NData::GetData(const NRange& theRange) const
 		}
 		else
 		{
-			theData.MakeClone(*this);
+			theData = *this;
 			NN_REQUIRE(theData.IsLarge());
 
 			auto& theSlice = theData.mData.Large.theSlice;
@@ -928,31 +939,6 @@ bool NData::IsValidSource(size_t theSize, const void* theData, NDataSource theSo
 	}
 
 	return false;
-}
-
-
-
-
-
-//=============================================================================
-//		NData::MakeClone : Make a clone of another object.
-//-----------------------------------------------------------------------------
-void NData::MakeClone(const NData& otherData)
-{
-
-
-	// Validate our parameters and state
-	NN_REQUIRE(this != &otherData);
-
-
-
-	// Copy the data
-	mData = otherData.mData;
-
-	if (IsLarge())
-	{
-		RetainLarge();
-	}
 }
 
 

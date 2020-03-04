@@ -284,7 +284,6 @@ private:
 	bool                                IsValidOffset(size_t theOffset)      const;
 	bool                                IsValidSource(size_t theSize,   const void* theData, NDataSource theSource) const;
 
-	void                                MakeClone(const NData& otherData);
 	void                                MakeLarge(size_t theCapacity, size_t theSize, const void* theData, NDataSource theSource);
 	void                                MakeMutable();
 

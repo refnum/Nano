@@ -152,12 +152,15 @@ NString::NString(NStringEncoding theEncoding, const NData& theData)
 //		NString::NString : Constructor.
 //-----------------------------------------------------------------------------
 NString::NString(const NString& otherString)
-	: mString{}
+	: mString{otherString.mString}
 {
 
 
 	// Initialise ourselves
-	MakeClone(otherString);
+	if (IsLarge())
+	{
+		RetainLarge();
+	}
 }
 
 
@@ -174,7 +177,17 @@ NString& NString::operator=(const NString& otherString)
 	// Assign the string
 	if (this != &otherString)
 	{
-		MakeClone(otherString);
+		if (IsLarge())
+		{
+			ReleaseLarge();
+		}
+
+		mString = otherString.mString;
+		
+		if (IsLarge())
+		{
+			RetainLarge();
+		}
 	}
 
 	return *this;
@@ -193,8 +206,7 @@ NString::NString(NString&& otherString)
 
 
 	// Initialise ourselves
-	MakeClone(otherString);
-	otherString.Clear();
+	std::swap(mString, otherString.mString);
 }
 
 
@@ -211,8 +223,7 @@ NString& NString::operator=(NString&& otherString)
 	// Move the string
 	if (this != &otherString)
 	{
-		Clear();
-		MakeClone(otherString);
+		std::swap(mString, otherString.mString);
 		otherString.Clear();
 	}
 
@@ -1127,31 +1138,6 @@ size_t NString::HashUpdate()
 
 
 #pragma mark private
-//=============================================================================
-//		NString::MakeClone : Make a clone of another object.
-//-----------------------------------------------------------------------------
-void NString::MakeClone(const NString& theString)
-{
-
-
-	// Validate our parameters and state
-	NN_REQUIRE(this != &theString);
-
-
-
-	// Copy the string
-	mString = theString.mString;
-
-	if (IsLarge())
-	{
-		RetainLarge();
-	}
-}
-
-
-
-
-
 //=============================================================================
 //		NString::MakeUnique : Make a large string unique.
 //-----------------------------------------------------------------------------
