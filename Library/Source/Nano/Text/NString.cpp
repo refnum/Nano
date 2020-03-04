@@ -183,7 +183,7 @@ NString& NString::operator=(const NString& otherString)
 		}
 
 		mString = otherString.mString;
-		
+
 		if (IsLarge())
 		{
 			RetainLarge();
@@ -247,7 +247,7 @@ void NString::Clear()
 		ReleaseLarge();
 	}
 
-	memset(&mString, 0x00, sizeof(mString));
+	mString = {};
 }
 
 

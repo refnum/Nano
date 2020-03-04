@@ -101,7 +101,7 @@ NData& NData::operator=(const NData& otherData)
 		}
 
 		mData = otherData.mData;
-		
+
 		if (IsLarge())
 		{
 			RetainLarge();
@@ -165,7 +165,7 @@ void NData::Clear()
 		ReleaseLarge();
 	}
 
-	memset(&mData, 0x00, sizeof(mData));
+	mData = {};
 }
 
 
