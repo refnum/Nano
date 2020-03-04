@@ -455,15 +455,24 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 
 	// Copy the data
 	//
-	// We fill to the end to include our null terminator.
+	// This is our constexpr path to allow in-place construction
+	// from string literals so cannot use memcpy.
 	//
-	// This is our constexpr path to allow in-place construction from
-	// string literals so cannot use memset.
+	// When used at runtime we also zero-fill to avoid leaving
+	// previous string data in our storage.
 	const uint8_t* theData = static_cast<const uint8_t*>(theText);
+	size_t         n       = 0;
 
-	for (size_t n = 0; n < sizeof(mString.Small.theData); n++)
+	while (n < numBytes)
 	{
-		mString.Small.theData[n] = ((n < numBytes) ? theData[n] : uint8_t(0));
+		mString.Small.theData[n] = theData[n];
+		n++;
+	}
+
+	while (n < sizeof(mString.Small.theData))
+	{
+		mString.Small.theData[n] = 0x00;
+		n++;
 	}
 }
 
