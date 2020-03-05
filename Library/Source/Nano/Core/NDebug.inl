@@ -42,6 +42,37 @@
 
 
 
+
+
+//=============================================================================
+//		Diagnostics
+//-----------------------------------------------------------------------------
+// Work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53431
+//
+// Prior to gcc 9.2 using #pragma diagnostic within a macro works to suppress
+// warnings works as expected C but has no effect in C++.
+//
+// Both NanoLog() and NFormat() need to support unused arguments for their
+// std::format path, but unused arguments triggers a warning on the printf
+// path despite that code being discarded.
+//
+// We work around that by suppressing that warning around the printf.
+//
+//
+// That workaround has no effect in older gcc's, because it takes place
+// within a macro, so for these versions we need to disable this globally.
+//
+// We do so in code, rather than with a command line flag, so that we can
+// still get that warning on non-macro calls to printf in gcc 9.2+.
+//
+#if defined(__cplusplus) && NN_COMPILER_GCC && NN_COMPILER_GCC < 90201
+	NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");
+#endif
+
+
+
+
+
 #if defined(__cplusplus)
 //=============================================================================
 //		NanoLogFormat : Log with std::format-style formatting.
