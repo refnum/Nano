@@ -56,7 +56,7 @@ import os
 #==============================================================================
 #		Constants
 #------------------------------------------------------------------------------
-# Constants
+# Nano
 kNNotFound													= 18446744073709551615
 
 kNDataFlagIsLarge											= 0b10000000
@@ -93,6 +93,22 @@ NStringEncodings = {
 	NStringEncoding_ISOLatin1		: { "size" : 1, "name" : "latin_1"		},
 	NStringEncoding_WindowsLatin1	: { "size" : 1, "name" : "cp1252"		}
 }
+
+
+# Inscrutable objects
+#
+# lldb will invoke summariser views on objects that are in scope but are
+# yet to be initialised.
+#
+# Parsing these will typically produce an exception so our _Show methods
+# assume any exceptions are an attempt to display an inscrutable object.
+#
+#
+# If this value is ever shown for an object that has been initialised then
+# this typically indicates an error in the summariser.
+#
+# Remove the exception handling and debug the summariser to find the cause.
+kInscrutable												= u"\u2754"
 
 
 
@@ -238,28 +254,32 @@ def NData_GetBytes(theData):
 #------------------------------------------------------------------------------
 def NData_Show(theData, theInfo):
 
-	theFlags = getPathUInt(theData, "->mData.theFlags")
-	isLarge  = (theFlags & kNDataFlagIsLarge)
+	try:
+		theFlags = getPathUInt(theData, "->mData.theFlags")
+		isLarge  = (theFlags & kNDataFlagIsLarge)
 
-	if (isLarge):
-		theSize = getPathUInt(theData, "->mData.Large.theSlice.mSize")
+		if (isLarge):
+			theSize = getPathUInt(theData, "->mData.Large.theSlice.mSize")
 		
-		if (theSize != 0):
-			theOffset = getPathUInt( theData, "->mData.Large.theSlice.mLocation")
-			thePtr    = getPathValue(theData, "->mData.Large.theState->theData")
-			theInfo   = ", data=" + hex(thePtr.GetValueAsUnsigned() + theOffset)
+			if (theSize != 0):
+				theOffset = getPathUInt( theData, "->mData.Large.theSlice.mLocation")
+				thePtr    = getPathValue(theData, "->mData.Large.theState->theData")
+				theInfo   = ", data=" + hex(thePtr.GetValueAsUnsigned() + theOffset)
 
-	else:
-		theSize = (theFlags & kNDataFlagSmallSizeMask)
+		else:
+			theSize = (theFlags & kNDataFlagSmallSizeMask)
 		
-		if (theSize != 0):
-			sbData  = getPathData(theData, "->mData.Small.theData")
-			theInfo = ", data={0x" + ', 0x'.join(format(x, '02X') for x in sbData.uint8s[0:theSize]) + "}"
+			if (theSize != 0):
+				sbData  = getPathData(theData, "->mData.Small.theData")
+				theInfo = ", data={0x" + ', 0x'.join(format(x, '02X') for x in sbData.uint8s[0:theSize]) + "}"
 
-	if (theSize == 0):
-		return "size=0"
-	else:
-		return "size=" + str(theSize) + theInfo
+		if (theSize == 0):
+			return "size=0"
+		else:
+			return "size=" + str(theSize) + theInfo
+
+	except:
+		return kInscrutable
 
 
 
@@ -270,13 +290,17 @@ def NData_Show(theData, theInfo):
 #------------------------------------------------------------------------------
 def NRange_Show(theRange, theInfo):
 
-	theLocation = getMemberUInt(theRange, "mLocation")
-	theSize     = getMemberUInt(theRange, "mSize")
+	try:
+		theLocation = getMemberUInt(theRange, "mLocation")
+		theSize     = getMemberUInt(theRange, "mSize")
 	
-	theLocation = "kNNotFound" if (theLocation == kNNotFound) else str(theLocation)
-	theSize     = "kNNotFound" if (theSize     == kNNotFound) else str(theSize)
+		theLocation = "kNNotFound" if (theLocation == kNNotFound) else str(theLocation)
+		theSize     = "kNNotFound" if (theSize     == kNNotFound) else str(theSize)
 
-	return "location=" + theLocation + ", size=" + theSize
+		return "location=" + theLocation + ", size=" + theSize
+
+	except:
+		return kInscrutable
 
 
 
@@ -287,63 +311,67 @@ def NRange_Show(theRange, theInfo):
 #------------------------------------------------------------------------------
 def NString_Show(theString, theInfo):
 
-	theFlags = getPathUInt(theString, "->mString.theFlags")
-	isLarge  = (theFlags & kNStringFlagIsLarge)
-	theInfo  = ""
+	try:
+		theFlags = getPathUInt(theString, "->mString.theFlags")
+		isLarge  = (theFlags & kNStringFlagIsLarge)
+		theInfo  = ""
 
-	if (isLarge):
-		# Decode the string
-		#
-		# Large strings are stored as a null-terminated buffer.
-		theEncoding = getPathUInt(theString, "->mString.Large.theState->stringData.theEncoding")
-		theData     = getPathValue(theString, "->mString.Large.theState->stringData.theData")
+		if (isLarge):
+			# Decode the string
+			#
+			# Large strings are stored as a null-terminated buffer.
+			theEncoding = getPathUInt(theString, "->mString.Large.theState->stringData.theEncoding")
+			theData     = getPathValue(theString, "->mString.Large.theState->stringData.theData")
 
-		nullSize = getEncodingSize(theEncoding)
-		theBytes = NData_GetBytes(theData)
+			nullSize = getEncodingSize(theEncoding)
+			theBytes = NData_GetBytes(theData)
 
-		theBytes = theBytes[:-nullSize]
-		theInfo  = getText(theBytes, theEncoding)
-
-
-
-		# Extract sub-strings
-		#
-		# A sub-string must be converted to UTF32, sliced by code points, then re-decoded.
-		stringSize = getPathUInt(theString, "->mString.Large.theState->theSize")
-		sliceSize  = getPathUInt(theString, "->mString.Large.theSlice.mSize")
-
-		if (sliceSize != stringSize):
-			sliceOffset = getPathUInt(theString, "->mString.Large.theSlice.mLocation")
-
-			bytesUTF32 = theInfo.encode("utf-32")	
-			theFormat  = "=" + "I" * int(len(bytesUTF32) / 4)
-			codePoints = struct.unpack(theFormat, bytesUTF32)
-
-			sliceFirst = sliceOffset + 1
-			sliceLast  = sliceFirst + sliceSize
-			codePoints = codePoints[sliceFirst:sliceLast]
-
-			theFormat  = "=" + "I" * len(codePoints)
-			bytesUTF32 = struct.pack(theFormat, *codePoints)
-			theInfo    = getText(bytesUTF32, NStringEncoding_UTF32)
-
-	else:
-		theSize = (theFlags & kNStringFlagSmallSizeMask)
-
-		if (theSize != 0):
-			sbData  = getPathData(theString, "->mString.Small.theData")
-			isUTF16 = (theFlags & kNStringFlagIsSmallUTF16)
-
-			if (isUTF16):
-				theEncoding = NStringEncoding_UTF16
-			else:
-				theEncoding = NStringEncoding_UTF8
-
-			byteSize = theSize * getEncodingSize(theEncoding)
-			theBytes = SBData_GetBytes(sbData, 0, byteSize)
+			theBytes = theBytes[:-nullSize]
 			theInfo  = getText(theBytes, theEncoding)
 
-	return '"' + theInfo + '"'
+
+
+			# Extract sub-strings
+			#
+			# A sub-string must be converted to UTF32, sliced by code points, then re-decoded.
+			stringSize = getPathUInt(theString, "->mString.Large.theState->theSize")
+			sliceSize  = getPathUInt(theString, "->mString.Large.theSlice.mSize")
+
+			if (sliceSize != stringSize):
+				sliceOffset = getPathUInt(theString, "->mString.Large.theSlice.mLocation")
+
+				bytesUTF32 = theInfo.encode("utf-32")	
+				theFormat  = "=" + "I" * int(len(bytesUTF32) / 4)
+				codePoints = struct.unpack(theFormat, bytesUTF32)
+
+				sliceFirst = sliceOffset + 1
+				sliceLast  = sliceFirst + sliceSize
+				codePoints = codePoints[sliceFirst:sliceLast]
+
+				theFormat  = "=" + "I" * len(codePoints)
+				bytesUTF32 = struct.pack(theFormat, *codePoints)
+				theInfo    = getText(bytesUTF32, NStringEncoding_UTF32)
+
+		else:
+			theSize = (theFlags & kNStringFlagSmallSizeMask)
+
+			if (theSize != 0):
+				sbData  = getPathData(theString, "->mString.Small.theData")
+				isUTF16 = (theFlags & kNStringFlagIsSmallUTF16)
+
+				if (isUTF16):
+					theEncoding = NStringEncoding_UTF16
+				else:
+					theEncoding = NStringEncoding_UTF8
+
+				byteSize = theSize * getEncodingSize(theEncoding)
+				theBytes = SBData_GetBytes(sbData, 0, byteSize)
+				theInfo  = getText(theBytes, theEncoding)
+
+		return '"' + theInfo + '"'
+
+	except:
+		return kInscrutable
 
 
 
