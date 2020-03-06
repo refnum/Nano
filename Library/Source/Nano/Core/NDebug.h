@@ -48,11 +48,7 @@
 	#include "Nano_fmt.h"
 #endif
 
-
-// System
-#if defined(__cplusplus)
-	#include <utility>
-#endif // defined(__cplusplus)
+#include "NDebug.inl"
 
 
 
@@ -73,15 +69,6 @@
 // Assertions are enabled when logging is enabled.
 //
 #define NN_ENABLE_ASSERTIONS                                NN_ENABLE_LOGGING
-
-
-
-
-
-//=============================================================================
-//		Includes
-//-----------------------------------------------------------------------------
-#include "NDebug.inl"
 
 
 
