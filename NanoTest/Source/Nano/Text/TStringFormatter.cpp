@@ -120,8 +120,8 @@ NANO_TEST(NStringFormatter, "Default/format")
 	theResult = NFormat("ArgFloat32 [{:.7}]", kTestFloat64);
 	REQUIRE(theResult == "ArgFloat32 [3.141593]");
 
-	theResult = NFormat("ArgFloat64 [{:15}]", kTestFloat64);
-	REQUIRE(theResult == "ArgFloat64 [3.141592653589793]");
+	theResult = NFormat("ArgFloat64 [{:.15}]", kTestFloat64);
+	REQUIRE(theResult == "ArgFloat64 [3.14159265358979]");
 
 
 	theResult = NFormat("ArgHex [{:x}]", kTestUInt32);
@@ -176,11 +176,11 @@ NANO_TEST(NStringFormatter, "Default/printf")
 	REQUIRE(theResult == "ArgSInt64 [-6464646464646464]");
 
 
-	theResult = NFormat("ArgFloat32 [%.6f]", kTestFloat64);
+	theResult = NFormat("ArgFloat32 [%.7g]", kTestFloat64);
 	REQUIRE(theResult == "ArgFloat32 [3.141593]");
 
-	theResult = NFormat("ArgFloat64 [%.15f]", kTestFloat64);
-	REQUIRE(theResult == "ArgFloat64 [3.141592653589793]");
+	theResult = NFormat("ArgFloat64 [%.15g]", kTestFloat64);
+	REQUIRE(theResult == "ArgFloat64 [3.14159265358979]");
 
 
 	theResult = NFormat("ArgHex [%" PRIx32 "]", kTestUInt32);
@@ -301,11 +301,11 @@ NANO_TEST(NStringFormatter, "Precision/printf")
 
 
 	// Perform the test
-	int32_t valueInt = 4;
-	theResult        = NFormat("ArgFloat32 [%.*f]", valueInt, kTestFloat64);
+	int32_t valueInt = 5;
+	theResult        = NFormat("ArgFloat32 [%.*g]", valueInt, kTestFloat64);
 	REQUIRE(theResult == "ArgFloat32 [3.1416]");
 
-	theResult = NFormat("ArgFloat32 [%.4f]", kTestFloat64);
+	theResult = NFormat("ArgFloat32 [%.5g]", kTestFloat64);
 	REQUIRE(theResult == "ArgFloat32 [3.1416]");
 }
 
