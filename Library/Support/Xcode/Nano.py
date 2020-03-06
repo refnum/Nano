@@ -225,7 +225,7 @@ def NData_GetBytes(theData):
 
 	else:
 		theSize  = (theFlags & kNDataFlagSmallSizeMask)
-		theBytes = getPathData(theData, "->mData.Small.theData").uint8s
+		theBytes = bytes(getPathData(theData, "->mData.Small.theData").uint8s[0:theSize])
 
 	return theBytes
 
