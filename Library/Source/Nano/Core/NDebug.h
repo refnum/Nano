@@ -236,10 +236,17 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if NN_ENABLE_LOGGING
 
-	#define _nn_log_unimplemented(_message, ...)                                        \
-		do                                                                              \
-		{                                                                               \
-			NN_LOG_WARNING("%s is unimplemented" _message, __func__, ##__VA_ARGS__);    \
+	#define _nn_log_unimplemented(_message, ...)                                            \
+		do                                                                                  \
+		{                                                                                   \
+			if constexpr (_nn_has_format_specifiers(_message))                              \
+			{                                                                               \
+				NN_LOG_WARNING("{} is unimplemented" _message, __func__, ##__VA_ARGS__);    \
+			}                                                                               \
+			else                                                                            \
+			{                                                                               \
+				NN_LOG_WARNING("%s is unimplemented" _message, __func__, ##__VA_ARGS__);    \
+			}                                                                               \
 		} while (false)
 
 	#define _nn_log_unimplemented_0(...)                    _nn_log_unimplemented("!")
@@ -322,16 +329,24 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_require(_condition, _message, ...)                                              \
-		do                                                                                      \
-		{                                                                                       \
-			_nn_validate_condition((_condition));                                               \
-																								\
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
-			{                                                                                   \
-				NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-				NN_DEBUG_BREAK();                                                               \
-			}                                                                                   \
+	#define _nn_require(_condition, _message, ...)                                                  \
+		do                                                                                          \
+		{                                                                                           \
+			_nn_validate_condition((_condition));                                                   \
+																									\
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
+			{                                                                                       \
+				if constexpr (_nn_has_format_specifiers(_message))                                  \
+				{                                                                                   \
+					NN_LOG_ERROR("Requirement failed: {}" _message, #_condition, ##__VA_ARGS__);    \
+				}                                                                                   \
+				else                                                                                \
+				{                                                                                   \
+					NN_LOG_ERROR("Requirement failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+				}                                                                                   \
+																									\
+				NN_DEBUG_BREAK();                                                                   \
+			}                                                                                       \
 		} while (false)
 
 	#define _nn_require_1(_condition)                       _nn_require(_condition, "")
@@ -378,15 +393,22 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if NN_ENABLE_ASSERTIONS
 
-	#define _nn_expect(_condition, _message, ...)                                               \
-		do                                                                                      \
-		{                                                                                       \
-			_nn_validate_condition((_condition));                                               \
-																								\
-			if (NN_EXPECT_UNLIKELY(!(_condition)))                                              \
-			{                                                                                   \
-				NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
-			}                                                                                   \
+	#define _nn_expect(_condition, _message, ...)                                                   \
+		do                                                                                          \
+		{                                                                                           \
+			_nn_validate_condition((_condition));                                                   \
+																									\
+			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
+			{                                                                                       \
+				if constexpr (_nn_has_format_specifiers(_message))                                  \
+				{                                                                                   \
+					NN_LOG_ERROR("Expectation failed: {}" _message, #_condition, ##__VA_ARGS__);    \
+				}                                                                                   \
+				else                                                                                \
+				{                                                                                   \
+					NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+				}                                                                                   \
+			}                                                                                       \
 		} while (false)
 
 	#define _nn_expect_1(_condition)                        _nn_expect(_condition, "")
