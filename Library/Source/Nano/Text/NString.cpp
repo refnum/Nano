@@ -1916,6 +1916,7 @@ void NString::SetTextSmall(NStringEncoding theEncoding, size_t numBytes, const v
 	if (theEncoding == NStringEncoding::UTF8)
 	{
 		NN_REQUIRE((numBytes / sizeof(utf8_t)) <= kNStringSmallSizeMaxUTF8);
+		NN_REQUIRE((numBytes % sizeof(utf8_t)) == 0);
 		NN_REQUIRE(IsValidSmallUTF8(numBytes, static_cast<const utf8_t*>(theText)));
 	}
 	else
