@@ -66,17 +66,17 @@
 // still get that warning on non-macro calls to printf in gcc 9.2+.
 //
 #if defined(__cplusplus) && NN_COMPILER_GCC && NN_COMPILER_GCC < 90201
-	NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");
+NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");
 #endif
 
 
 
 
 
-#if defined(__cplusplus)
 //=============================================================================
 //		NanoLogFormat : Log with std::format-style formatting.
 //-----------------------------------------------------------------------------
+#if defined(__cplusplus)
 template <typename L, typename P, typename Ln, typename S, typename... Args>
 void NanoLogFormat(L logLevel, P filePath, Ln lineNum, const S& formatStr, Args&&... theArgs)
 {
