@@ -57,27 +57,27 @@ import os
 #		Constants
 #------------------------------------------------------------------------------
 # Constants
-kNNotFound													= 18446744073709551615;
+kNNotFound													= 18446744073709551615
 
-kNDataFlagIsLarge											= 0b10000000;
-kNDataFlagSmallSizeMask										= 0b00011111;
+kNDataFlagIsLarge											= 0b10000000
+kNDataFlagSmallSizeMask										= 0b00011111
 
-kNStringFlagIsLarge											= 0b10000000;
-kNStringFlagIsSmallUTF16									= 0b01000000;
-kNStringFlagSmallSizeMask									= 0b00011111;
+kNStringFlagIsLarge											= 0b10000000
+kNStringFlagIsSmallUTF16									= 0b01000000
+kNStringFlagSmallSizeMask									= 0b00011111
 
-NStringEncoding_Unknown										= 0;
-NStringEncoding_UTF8										= 1;
-NStringEncoding_UTF16										= 2;
-NStringEncoding_UTF32										= 3;
-NStringEncoding_UTF16BE										= 4;
-NStringEncoding_UTF16LE										= 5;
-NStringEncoding_UTF32BE										= 6;
-NStringEncoding_UTF32LE										= 7;
-NStringEncoding_ASCII										= 8;
-NStringEncoding_MacRoman									= 9;
-NStringEncoding_ISOLatin1									= 10;
-NStringEncoding_WindowsLatin1								= 11;
+NStringEncoding_Unknown										= 0
+NStringEncoding_UTF8										= 1
+NStringEncoding_UTF16										= 2
+NStringEncoding_UTF32										= 3
+NStringEncoding_UTF16BE										= 4
+NStringEncoding_UTF16LE										= 5
+NStringEncoding_UTF32BE										= 6
+NStringEncoding_UTF32LE										= 7
+NStringEncoding_ASCII										= 8
+NStringEncoding_MacRoman									= 9
+NStringEncoding_ISOLatin1									= 10
+NStringEncoding_WindowsLatin1								= 11
 
 NStringEncodings = {
 	NStringEncoding_Unknown			: { "size" : 1, "name" : "undefined"	},
@@ -164,7 +164,7 @@ def getMemory(thePtr, theOffset, theSize):
 #------------------------------------------------------------------------------
 def getEncodingSize(theEncoding):
 
-	return NStringEncodings.get(theEncoding).get("size");
+	return NStringEncodings.get(theEncoding).get("size")
 
 
 
@@ -175,7 +175,7 @@ def getEncodingSize(theEncoding):
 #------------------------------------------------------------------------------
 def getEncodingName(theEncoding):
 
-	return NStringEncodings.get(theEncoding).get("name");
+	return NStringEncodings.get(theEncoding).get("name")
 
 
 
@@ -186,7 +186,7 @@ def getEncodingName(theEncoding):
 #------------------------------------------------------------------------------
 def getText(theBytes, theEncoding):
 
-	pyEncoding = getEncodingName(theEncoding);
+	pyEncoding = getEncodingName(theEncoding)
 	theText    = theBytes.decode(pyEncoding)
 	
 	return theText
@@ -298,10 +298,10 @@ def NString_Show(theString, theInfo):
 		theEncoding = getPathUInt(theString, "->mString.Large.theState->stringData.theEncoding")
 		theData     = getPathValue(theString, "->mString.Large.theState->stringData.theData")
 
-		nullSize = getEncodingSize(theEncoding);
+		nullSize = getEncodingSize(theEncoding)
 		theBytes = NData_GetBytes(theData)
-		
-		theBytes = theBytes[:-nullSize];
+
+		theBytes = theBytes[:-nullSize]
 		theInfo  = getText(theBytes, theEncoding)
 
 
@@ -311,25 +311,25 @@ def NString_Show(theString, theInfo):
 		# A sub-string must be converted to UTF32, sliced by code points, then re-decoded.
 		stringSize = getPathUInt(theString, "->mString.Large.theState->theSize")
 		sliceSize  = getPathUInt(theString, "->mString.Large.theSlice.mSize")
-		
+
 		if (sliceSize != stringSize):
 			sliceOffset = getPathUInt(theString, "->mString.Large.theSlice.mLocation")
 
-			bytesUTF32 = theInfo.encode("utf-32");	
-			theFormat  = "=" + "I" * int(len(bytesUTF32) / 4);
-			codePoints = struct.unpack(theFormat, bytesUTF32);
+			bytesUTF32 = theInfo.encode("utf-32")	
+			theFormat  = "=" + "I" * int(len(bytesUTF32) / 4)
+			codePoints = struct.unpack(theFormat, bytesUTF32)
 
-			sliceFirst = sliceOffset + 1;
-			sliceLast  = sliceFirst + sliceSize;
-			codePoints = codePoints[sliceFirst:sliceLast];
+			sliceFirst = sliceOffset + 1
+			sliceLast  = sliceFirst + sliceSize
+			codePoints = codePoints[sliceFirst:sliceLast]
 
-			theFormat  = "=" + "I" * len(codePoints);
-			bytesUTF32 = struct.pack(theFormat, *codePoints);
+			theFormat  = "=" + "I" * len(codePoints)
+			bytesUTF32 = struct.pack(theFormat, *codePoints)
 			theInfo    = getText(bytesUTF32, NStringEncoding_UTF32)
 
 	else:
 		theSize = (theFlags & kNStringFlagSmallSizeMask)
-		
+
 		if (theSize != 0):
 			sbData  = getPathData(theString, "->mString.Small.theData")
 			isUTF16 = (theFlags & kNStringFlagIsSmallUTF16)
