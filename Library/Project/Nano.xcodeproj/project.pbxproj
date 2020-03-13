@@ -162,6 +162,9 @@
 		ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
+		ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
+		ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
+		ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -577,6 +580,8 @@
 		ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NJSONEncoder.cpp; sourceTree = "<group>"; };
 		ABD6817A167AB1FE00CB2E04 /* NJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJSONEncoder.h; sourceTree = "<group>"; };
 		ABDCE89A241BD9130054A16E /* NTime.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTime.inl; sourceTree = "<group>"; };
+		ABDCE89F241C22AD0054A16E /* NClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NClock.h; sourceTree = "<group>"; };
+		ABDCE8A0241C22AD0054A16E /* NClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NClock.cpp; sourceTree = "<group>"; };
 		ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageServer.cpp; sourceTree = "<group>"; };
 		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
 		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
@@ -725,6 +730,8 @@
 		AB0DBE6C23999B7100F6AD43 /* Time */ = {
 			isa = PBXGroup;
 			children = (
+				ABDCE8A0241C22AD0054A16E /* NClock.cpp */,
+				ABDCE89F241C22AD0054A16E /* NClock.h */,
 				ABDCE89A241BD9130054A16E /* NTime.inl */,
 				AB07EA302399D7ED00E0AC49 /* NTime.h */,
 				AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */,
@@ -1624,6 +1631,7 @@
 				AB51285623D2810600528FBE /* pcre2_ucd.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB51282C23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
+				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB51285923D2810600528FBE /* pcre2_find_bracket.c in Sources */,
 				AB09E1C3240D5F2B001FCBFC /* NStringFormatter.cpp in Sources */,
 				AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */,
@@ -1683,6 +1691,7 @@
 				AB51285423D2810600528FBE /* pcre2_ucd.c in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				AB51282A23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
+				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB51285723D2810600528FBE /* pcre2_find_bracket.c in Sources */,
 				AB09E1C1240D5F2B001FCBFC /* NStringFormatter.cpp in Sources */,
 				AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
@@ -1731,6 +1740,7 @@
 				AB51281F23D2810600528FBE /* pcre2_convert.c in Sources */,
 				AB51282523D2810600528FBE /* dftables.c in Sources */,
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
+				ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB09E1C2240D5F2B001FCBFC /* NStringFormatter.cpp in Sources */,
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */,
