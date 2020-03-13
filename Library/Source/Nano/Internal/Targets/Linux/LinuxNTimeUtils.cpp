@@ -72,7 +72,7 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	return NPOSIX::clock_gettime(CLOCK_MONOTONIC);
+	return NSharedPOSIX::clock_gettime(CLOCK_MONOTONIC);
 }
 
 
