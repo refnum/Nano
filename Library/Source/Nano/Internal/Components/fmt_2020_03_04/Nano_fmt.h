@@ -59,7 +59,7 @@ NN_DIAGNOSTIC_IGNORE_MSVC(4355);    // 'this' used in base member initializer
 NN_DIAGNOSTIC_IGNORE_MSVC(4365);    // Signed / unsigned mismatch
 NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
 
-#if !NN_DEBUG
+#if !NN_DEBUG && !defined(NDEBUG)
 	#define NDEBUG
 #endif
 
