@@ -56,12 +56,12 @@
 class NSharedPOSIX
 {
 public:
-	// Convert between times
+	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.
-	static NInterval                    ToInterval(const struct timeval& timeVal);
-
 	static struct timeval               ToTimeval(NInterval theInterval);
+
+	static NInterval                    ToInterval(const struct timeval& timeVal);
 };
 
 

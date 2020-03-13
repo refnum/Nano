@@ -52,13 +52,49 @@
 
 
 //=============================================================================
+//		NTimeUtils::ToTimespec : Convert to a timespec.
+//-----------------------------------------------------------------------------
+struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
+{
+	// Convert the value
+	NInterval timeSecs = floor(theInterval);
+	NInterval timeFrac = theInterval - timeSecs;
+
+	return {time_t(timeSecs), long(timeFrac / kNTimeNanosecond)};
+}
+
+
+
+
+
+//=============================================================================
+//		NTimeUtils::ToLocaltime : Convert to a tm.
+//-----------------------------------------------------------------------------
+struct tm NTimeUtils::ToLocaltime(NTime theTime)
+{
+	// Convert the value
+	time_t    timeUnix = time_t(theTime + kNanoEpochTo1970);
+	struct tm timeLocal
+	{
+	};
+
+	(void) localtime_r(&timeUnix, &timeLocal);
+
+	return timeLocal;
+}
+
+
+
+
+
+//=============================================================================
 //		NTimeUtils::ToInterval : Convert to an NInterval.
 //-----------------------------------------------------------------------------
 NInterval NTimeUtils::ToInterval(const struct timespec& timeSpec)
 {
 
 
-	// Get the time
+	// Convert the value
 	NInterval timeSecs = NInterval(timeSpec.tv_sec);
 	NInterval timeFrac = NInterval(timeSpec.tv_nsec) * kNTimeNanosecond;
 
@@ -70,21 +106,15 @@ NInterval NTimeUtils::ToInterval(const struct timespec& timeSpec)
 
 
 //=============================================================================
-//		NTimeUtils::ToTimespec : Convert to a timespec.
+//		NTimeUtils::ToTime : Convert to an NTime.
 //-----------------------------------------------------------------------------
-struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
+NTime NTimeUtils::ToTime(const struct tm& localTime)
 {
-	// Get the state we need
-	NInterval timeSecs = floor(theInterval);
-	NInterval timeFrac = theInterval - timeSecs;
 
 
+	// Convert the value
+	struct tm localCopy(localTime);
+	time_t    timeUnix = mktime(&localCopy);
 
-	// Get the time
-	struct timespec timeSpec;
-
-	timeSpec.tv_sec  = time_t(timeSecs);
-	timeSpec.tv_nsec = long(timeFrac / kNTimeNanosecond);
-
-	return timeSpec;
+	return NTime(NInterval(timeUnix), kNanoEpochFrom1970);
 }

@@ -70,11 +70,9 @@ NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
 {
 
 
-	// Get the time
-	uint64_t hectoNanoSecs = ToNN(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+	// Convert the value
+	uint64_t  hectoNanoSecs = ToNN(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+	NInterval theInterval   = NInterval(hectoNanoSecs.QuadPart) * (100.0 * kNTimeNanosecond);
 
-	NInterval theTime = NInterval(hectoNanoSecs) * (100.0 * kNTimeNanosecond);
-	theTime           = kNanoEpochFrom1601;
-
-	return theTime;
+	return theInterval;
 }

@@ -47,6 +47,19 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr NInterval       kTestInterval              = 123.111222444;
+static constexpr struct timespec kTestTimespec              = {123, 111222444};
+
+static constexpr NTime     kTestTime                        = 0.0;
+static constexpr struct tm kTestLocaltime                   = {0, 0, 0, 1, 0, 101, 1, 0, 0, 0, nullptr};
+
+
+
+
+
+//=============================================================================
 //		Fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TTimeUtils){};
@@ -79,4 +92,27 @@ NANO_TEST(TTimeUtils, "GetUpTime")
 
 	// Perform the test
 	REQUIRE(NTimeUtils::GetUpTime() != 0.0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TTimeUtils, "Conversion")
+{
+
+
+	// Perform the test
+	auto timeSpec = NTimeUtils::ToTimespec(kTestInterval);
+	REQUIRE(memcmp(&kTestTimespec, &timeSpec, sizeof(timeSpec)) == 0);
+	REQUIRE(NTimeUtils::ToInterval(kTestTimespec) == kTestInterval);
+
+	auto localTime    = NTimeUtils::ToLocaltime(kTestTime);
+	localTime.tm_zone = nullptr;
+
+	REQUIRE(memcmp(&kTestLocaltime, &localTime, sizeof(localTime)) == 0);
+	REQUIRE(NTimeUtils::ToTime(kTestLocaltime) == kTestTime);
 }

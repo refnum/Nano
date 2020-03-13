@@ -52,17 +52,15 @@
 
 
 //=============================================================================
-//		NSharedPOSIX::ToInterval : Convert to an NInterval.
+//		NSharedPOSIX::ToTimeval : Convert to a timeval.
 //-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
+struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
 {
+	// Convert the value
+	NInterval timeSecs = floor(theInterval);
+	NInterval timeFrac = theInterval - timeSecs;
 
-
-	// Get the time
-	NInterval timeSecs = NInterval(timeVal.tv_sec);
-	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
-
-	return timeSecs + timeFrac;
+	return {time_t(timeSecs), suseconds_t(timeFrac / kNTimeMicrosecond)};
 }
 
 
@@ -70,21 +68,15 @@ NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
 
 
 //=============================================================================
-//		NSharedPOSIX::ToTimeval : Convert to a timeval.
+//		NSharedPOSIX::ToInterval : Convert to an NInterval.
 //-----------------------------------------------------------------------------
-struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
+NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
 {
-	// Get the state we need
-	NInterval timeSecs = floor(theInterval);
-	NInterval timeFrac = theInterval - timeSecs;
 
 
+	// Convert the value
+	NInterval timeSecs = NInterval(timeVal.tv_sec);
+	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
 
-	// Get the time
-	struct timeval timeVal = {};
-
-	timeVal.tv_sec  = time_t(timeSecs);
-	timeVal.tv_usec = suseconds_t(timeFrac / kNTimeMicrosecond);
-
-	return timeVal;
+	return timeSecs + timeFrac;
 }

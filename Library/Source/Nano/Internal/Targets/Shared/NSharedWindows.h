@@ -56,7 +56,7 @@
 class NSharedWindows
 {
 public:
-	// Convert between times
+	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.
 	static NInterval                    ToInterval(const FILETIME& fileTime);

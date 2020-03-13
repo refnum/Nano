@@ -66,12 +66,14 @@ public:
 	static NInterval                    GetUpTime();
 
 
-	// Convert between times
+	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.
-	static NInterval                    ToInterval(const struct timespec& timeSpec);
-
 	static struct timespec              ToTimespec(NInterval theInterval);
+	static struct tm                    ToLocaltime(NTime theTime);
+
+	static NInterval                    ToInterval(const struct timespec& timeSpec);
+	static NTime                        ToTime(    const struct tm& localTime);
 };
 
 
