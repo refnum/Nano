@@ -36,6 +36,12 @@
 #  define FMT_HAS_CPP_ATTRIBUTE(x) 0
 #endif
 
+#define FMT_HAS_CPP14_ATTRIBUTE(attribute) \
+  (__cplusplus >= 201402L && FMT_HAS_CPP_ATTRIBUTE(attribute))
+
+#define FMT_HAS_CPP17_ATTRIBUTE(attribute) \
+  (__cplusplus >= 201703L && FMT_HAS_CPP_ATTRIBUTE(attribute))
+
 #ifdef __clang__
 #  define FMT_CLANG_VERSION (__clang_major__ * 100 + __clang_minor__)
 #else
@@ -132,9 +138,16 @@
 #  define FMT_NORETURN
 #endif
 
+#ifndef FMT_MAYBE_UNUSED
+#  if FMT_HAS_CPP17_ATTRIBUTE(maybe_unused)
+#    define FMT_MAYBE_UNUSED [[maybe_unused]]
+#  else
+#    define FMT_MAYBE_UNUSED
+#  endif
+#endif
+
 #ifndef FMT_DEPRECATED
-#  if (FMT_HAS_CPP_ATTRIBUTE(deprecated) && __cplusplus >= 201402L) || \
-      FMT_MSC_VER >= 1900
+#  if FMT_HAS_CPP14_ATTRIBUTE(deprecated) || FMT_MSC_VER >= 1900
 #    define FMT_DEPRECATED [[deprecated]]
 #  else
 #    if defined(__GNUC__) || defined(__clang__)
@@ -147,8 +160,8 @@
 #  endif
 #endif
 
-// Workaround broken [[deprecated]] in the Intel compiler and NVCC.
-#if defined(__INTEL_COMPILER) || FMT_NVCC
+// Workaround broken [[deprecated]] in the Intel, PGI and NVCC compilers.
+#if defined(__INTEL_COMPILER) || defined(__PGI) || FMT_NVCC
 #  define FMT_DEPRECATED_ALIAS
 #else
 #  define FMT_DEPRECATED_ALIAS FMT_DEPRECATED
@@ -259,7 +272,8 @@ namespace internal {
 // A workaround for gcc 4.8 to make void_t work in a SFINAE context.
 template <typename... Ts> struct void_t_impl { using type = void; };
 
-FMT_NORETURN FMT_API void assert_fail(const char* file, int line, const char* message);
+FMT_NORETURN FMT_API void assert_fail(const char* file, int line,
+                                      const char* message);
 
 #ifndef FMT_ASSERT
 #  ifdef NDEBUG
@@ -949,8 +963,9 @@ template <typename Context> struct arg_mapper {
             FMT_ENABLE_IF(std::is_enum<T>::value &&
                           !has_formatter<T, Context>::value &&
                           !has_fallback_formatter<T, Context>::value)>
-  FMT_CONSTEXPR auto map(const T& val) -> decltype(
-      map(static_cast<typename std::underlying_type<T>::type>(val))) {
+  FMT_CONSTEXPR auto map(const T& val)
+      -> decltype(std::declval<arg_mapper>().map(
+          static_cast<typename std::underlying_type<T>::type>(val))) {
     return map(static_cast<typename std::underlying_type<T>::type>(val));
   }
   template <typename T,

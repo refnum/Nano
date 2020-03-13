@@ -86,6 +86,7 @@ FMT_FUNC int safe_strerror(int error_code, char*& buffer,
     }
 
     // Handle the result of GNU-specific version of strerror_r.
+    FMT_MAYBE_UNUSED
     int handle(char* message) {
       // If the buffer is full then the message is probably truncated.
       if (message == buffer_ && strlen(buffer_) == buffer_size_ - 1)
@@ -95,11 +96,13 @@ FMT_FUNC int safe_strerror(int error_code, char*& buffer,
     }
 
     // Handle the case when strerror_r is not available.
+    FMT_MAYBE_UNUSED
     int handle(internal::null<>) {
       return fallback(strerror_s(buffer_, buffer_size_, error_code_));
     }
 
     // Fallback to strerror_s when strerror_r is not available.
+    FMT_MAYBE_UNUSED
     int fallback(int result) {
       // If the buffer is full then the message is probably truncated.
       return result == 0 && strlen(buffer_) == buffer_size_ - 1 ? ERANGE
@@ -526,8 +529,7 @@ class bigint {
     FMT_ASSERT(compare(*this, other) >= 0, "");
     bigit borrow = 0;
     int i = other.exp_ - exp_;
-    for (size_t j = 0, n = other.bigits_.size(); j != n;
-         ++i, ++j) {
+    for (size_t j = 0, n = other.bigits_.size(); j != n; ++i, ++j) {
       subtract_bigits(i, other.bigits_[j], borrow);
     }
     while (borrow > 0) subtract_bigits(i, 0, borrow);
@@ -756,7 +758,7 @@ enum result {
 }
 
 // A version of count_digits optimized for grisu_gen_digits.
-inline unsigned grisu_count_digits(uint32_t n) {
+inline int grisu_count_digits(uint32_t n) {
   if (n < 10) return 1;
   if (n < 100) return 2;
   if (n < 1000) return 3;

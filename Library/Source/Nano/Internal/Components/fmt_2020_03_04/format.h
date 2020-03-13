@@ -66,12 +66,12 @@
 #if __cplusplus == 201103L || __cplusplus == 201402L
 #  if defined(__clang__)
 #    define FMT_FALLTHROUGH [[clang::fallthrough]]
-#  elif FMT_GCC_VERSION >= 700
+#  elif FMT_GCC_VERSION >= 700 && !defined(__PGI)
 #    define FMT_FALLTHROUGH [[gnu::fallthrough]]
 #  else
 #    define FMT_FALLTHROUGH
 #  endif
-#elif (FMT_HAS_CPP_ATTRIBUTE(fallthrough) && (__cplusplus >= 201703)) || \
+#elif FMT_HAS_CPP17_ATTRIBUTE(fallthrough) || \
     (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
 #  define FMT_FALLTHROUGH [[fallthrough]]
 #else
@@ -473,13 +473,18 @@ inline size_t count_code_points(basic_string_view<Char> s) {
 }
 
 // Counts the number of code points in a UTF-8 string.
-inline size_t count_code_points(basic_string_view<char8_t> s) {
-  const char8_t* data = s.data();
+inline size_t count_code_points(basic_string_view<char> s) {
+  const char* data = s.data();
   size_t num_code_points = 0;
   for (size_t i = 0, size = s.size(); i != size; ++i) {
     if ((data[i] & 0xc0) != 0x80) ++num_code_points;
   }
   return num_code_points;
+}
+
+inline size_t count_code_points(basic_string_view<char8_t> s) {
+  return count_code_points(basic_string_view<char>(
+      reinterpret_cast<const char*>(s.data()), s.size()));
 }
 
 template <typename Char>
@@ -561,7 +566,8 @@ class FMT_DEPRECATED u8string_view : public basic_string_view<char8_t> {
 
 #if FMT_USE_USER_DEFINED_LITERALS
 inline namespace literals {
-inline basic_string_view<char8_t> operator"" _u(const char* s, std::size_t n) {
+FMT_DEPRECATED inline basic_string_view<char8_t> operator"" _u(const char* s,
+                                                               std::size_t n) {
   return {reinterpret_cast<const char8_t*>(s), n};
 }
 }  // namespace literals
@@ -1603,6 +1609,18 @@ template <typename Range> class basic_writer {
     }
   };
 
+  struct bytes_writer {
+    string_view bytes;
+
+    size_t size() const { return bytes.size(); }
+    size_t width() const { return bytes.size(); }
+
+    template <typename It> void operator()(It&& it) const {
+      const char* data = bytes.data();
+      it = copy_str<char>(data, data + size(), it);
+    }
+  };
+
   template <typename UIntPtr> struct pointer_writer {
     UIntPtr value;
     int num_digits;
@@ -1759,6 +1777,10 @@ template <typename Range> class basic_writer {
     if (specs.precision >= 0 && to_unsigned(specs.precision) < size)
       size = code_point_index(s, to_unsigned(specs.precision));
     write(data, size, specs);
+  }
+
+  void write_bytes(string_view bytes, const format_specs& specs) {
+    write_padded(specs, bytes_writer{bytes});
   }
 
   template <typename UIntPtr>
@@ -3150,11 +3172,32 @@ class bytes {
   explicit bytes(string_view data) : data_(data) {}
 };
 
-template <> struct formatter<bytes> : formatter<string_view> {
+template <> struct formatter<bytes> {
+  template <typename ParseContext>
+  FMT_CONSTEXPR auto parse(ParseContext& ctx) -> decltype(ctx.begin()) {
+    using handler_type = internal::dynamic_specs_handler<ParseContext>;
+    internal::specs_checker<handler_type> handler(handler_type(specs_, ctx),
+                                                  internal::type::string_type);
+    auto it = parse_format_specs(ctx.begin(), ctx.end(), handler);
+    internal::check_string_type_spec(specs_.type, ctx.error_handler());
+    return it;
+  }
+
   template <typename FormatContext>
   auto format(bytes b, FormatContext& ctx) -> decltype(ctx.out()) {
-    return formatter<string_view>::format(b.data_, ctx);
+    internal::handle_dynamic_spec<internal::width_checker>(
+        specs_.width, specs_.width_ref, ctx);
+    internal::handle_dynamic_spec<internal::precision_checker>(
+        specs_.precision, specs_.precision_ref, ctx);
+    using range_type =
+        internal::output_range<typename FormatContext::iterator, char>;
+    internal::basic_writer<range_type> writer(range_type(ctx.out()));
+    writer.write_bytes(b.data_, specs_);
+    return writer.out();
   }
+
+ private:
+  internal::dynamic_format_specs<char> specs_;
 };
 
 template <typename It, typename Char> struct arg_join : internal::view {
@@ -3501,18 +3544,18 @@ FMT_CONSTEXPR internal::udl_arg<wchar_t> operator"" _a(const wchar_t* s,
 #endif  // FMT_USE_USER_DEFINED_LITERALS
 FMT_END_NAMESPACE
 
-#define FMT_STRING_IMPL(s, ...)                                       \
-  []() -> fmt::basic_string_view<fmt::remove_cvref_t<decltype(*s)>> { \
-    /* Use a macro-like name to avoid shadowing warnings. */          \
-    struct FMT_STRING : fmt::compile_string {                \
+#define FMT_STRING_IMPL(s, ...)                              \
+  [] {                                                       \
+    /* Use a macro-like name to avoid shadowing warnings. */ \
+    struct FMT_COMPILE_STRING : fmt::compile_string {        \
       using char_type = fmt::remove_cvref_t<decltype(*s)>;   \
-      __VA_ARGS__ FMT_CONSTEXPR                              \
+      FMT_MAYBE_UNUSED __VA_ARGS__ FMT_CONSTEXPR             \
       operator fmt::basic_string_view<char_type>() const {   \
         /* FMT_STRING only accepts string literals. */       \
         return fmt::internal::literal_to_view(s);            \
       }                                                      \
     };                                                       \
-    return FMT_STRING();                                     \
+    return FMT_COMPILE_STRING();                             \
   }()
 
 /**
