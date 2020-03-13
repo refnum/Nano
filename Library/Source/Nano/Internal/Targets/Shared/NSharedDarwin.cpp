@@ -60,7 +60,7 @@
 //-----------------------------------------------------------------------------
 //      GetBootTime : Get the boot time.
 //-----------------------------------------------------------------------------
-static NInterval GetBootTime()
+static NTime GetBootTime()
 {
 
 
@@ -80,7 +80,7 @@ static NInterval GetBootTime()
 
 
 	// Convert the time
-	return NSharedPOSIX::ToInterval(timeVal);
+	return NTime(NSharedPOSIX::ToInterval(timeVal), kNanoEpochFrom2001);
 }
 
 
@@ -111,7 +111,7 @@ NInterval NSharedDarwin::GetUpTime()
 
 
 	// Get the time since boot
-	static NInterval sBootTime = GetBootTime();
+	static NTime sBootTime = GetBootTime();
 
 	return GetTime() - sBootTime;
 }
