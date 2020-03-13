@@ -89,7 +89,7 @@ uint64_t NSharedLinux::GetClockTicks()
 		memset(&timeSpec, 0x00, sizeof(timeSpec));
 	}
 
-	return (timeSpec.tv_sec * kNanosecondsPerSecond) + timeSpec.tv_nsec;
+	return (uint64_t(timeSpec.tv_sec) * kNanosecondsPerSecond) + uint64_t(timeSpec.tv_nsec);
 }
 
 
