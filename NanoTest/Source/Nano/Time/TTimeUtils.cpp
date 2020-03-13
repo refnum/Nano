@@ -106,7 +106,8 @@ NANO_TEST(TTimeUtils, "Conversion")
 
 	// Perform the test
 	auto timeSpec = NTimeUtils::ToTimespec(kTestInterval);
-	REQUIRE(memcmp(&kTestTimespec, &timeSpec, sizeof(timeSpec)) == 0);
+	REQUIRE(timeSpec.tv_sec == kTestTimespec.tv_sec);
+	REQUIRE(timeSpec.tv_nsec == kTestTimespec.tv_nsec);
 	REQUIRE(NTimeUtils::ToInterval(timeSpec) == kTestInterval);
 
 	auto localTime = NTimeUtils::ToLocaltime(kTestTime);
