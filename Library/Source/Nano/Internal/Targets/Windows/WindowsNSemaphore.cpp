@@ -88,7 +88,6 @@ void NSemaphore::Destroy(NSemaphoreRef theSemaphore)
 	BOOL   wasOK  = CloseHandle(semHnd);
 
 	NN_EXPECT(wasOK);
-	NN_UNUSED(wasOK);
 }
 
 
@@ -136,5 +135,4 @@ void NSemaphore::Signal(NSemaphoreRef theSemaphore)
 	BOOL   wasOK  = ReleaseSemaphore(semHnd, 1, nullptr);
 
 	NN_EXPECT(wasOK);
-	NN_UNUSED(wasOK);
 }
