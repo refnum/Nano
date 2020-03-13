@@ -134,22 +134,24 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 //
 #if defined(__cplusplus)
 
-	#define NanoLog(_level, _format, ...)                                                       \
-		do                                                                                      \
-		{                                                                                       \
-			if constexpr (_nn_has_format_specifiers(_format))                                   \
-			{                                                                                   \
-				NanoLogFormat(_level, __FILE__, __LINE__, FMT_STRING(_format), ##__VA_ARGS__);  \
-			}                                                                                   \
-			else                                                                                \
-			{                                                                                   \
-				NN_DIAGNOSTIC_PUSH();                                                           \
-				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                              \
-				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                                \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4474) /* Extra arguments */                           \
-				NanoLogPrintf(_level, __FILE__, __LINE__, _format, ##__VA_ARGS__);              \
-				NN_DIAGNOSTIC_POP();                                                            \
-			}                                                                                   \
+	#define NanoLog(_level, _format, ...)                                                   \
+		do                                                                                  \
+		{                                                                                   \
+			auto _format_message = FMT_STRING(_format);                                     \
+																							\
+			if constexpr (_nn_has_format_specifiers(_format))                               \
+			{                                                                               \
+				NanoLogFormat(_level, __FILE__, __LINE__, _format_message, ##__VA_ARGS__);  \
+			}                                                                               \
+			else                                                                            \
+			{                                                                               \
+				NN_DIAGNOSTIC_PUSH();                                                       \
+				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                          \
+				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                            \
+				NN_DIAGNOSTIC_IGNORE_MSVC(4474) /* Extra arguments */                       \
+				NanoLogPrintf(_level, __FILE__, __LINE__, _format, ##__VA_ARGS__);          \
+				NN_DIAGNOSTIC_POP();                                                        \
+			}                                                                               \
 		} while (false)
 
 #else
