@@ -78,7 +78,7 @@ struct NLogMessage
 	const char* logMsg;
 
 	char tagLevel[13];
-	char tagDate[11];
+	char tagDate[37];
 	char tagTime[16];
 	char tagThread[9];
 	char tagSource[kNLogSourceMax];
