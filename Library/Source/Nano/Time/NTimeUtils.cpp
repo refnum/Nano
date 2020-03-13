@@ -43,6 +43,7 @@
 
 // Nano
 #include "NanoConstants.h"
+#include "NPOSIX.h"
 
 // System
 #include <math.h>
@@ -73,14 +74,9 @@ struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
 struct tm NTimeUtils::ToLocaltime(NTime theTime)
 {
 	// Convert the value
-	time_t    timeUnix = time_t(theTime + kNanoEpochTo1970);
-	struct tm timeLocal
-	{
-	};
+	time_t timeUnix = time_t(theTime + kNanoEpochTo1970);
 
-	(void) localtime_r(&timeUnix, &timeLocal);
-
-	return timeLocal;
+	return NPOSIX::localtime(timeUnix);
 }
 
 
