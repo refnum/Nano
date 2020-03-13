@@ -65,6 +65,18 @@ public:
 	static NInterval                    GetUpTime();
 
 
+	// Get the clock ticks
+	//
+	// Returns the ticks since boot in the sytem clock.
+	static uint64_t                     GetClockTicks();
+
+
+	// Get the clock frequency
+	//
+	// Returns the frequency, in ticks per second, of the system clock.
+	static uint64_t                     GetClockFrequency();
+
+
 	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.

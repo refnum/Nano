@@ -79,3 +79,53 @@ NInterval NTimeUtils::GetUpTime()
 
 	return NInterval(tickCount) * kNTimeMillisecond;
 }
+
+
+
+
+
+//=============================================================================
+//		NTimeUtils::GetClockTicks : Get the clock ticks.
+//-----------------------------------------------------------------------------
+uint64_t NTimeUtils::GetClockTicks()
+{
+
+
+	// Get the clock ticks
+	LARGE_INTEGER clockTicks{};
+
+	BOOL wasOK = QueryPerformanceCounter(&clockTicks);
+	NN_EXPECT(wasOK);
+
+	if (!wasOK)
+	{
+		clockTicks.QuadPart = 0;
+	}
+
+	return uint64_t(clockTicks.QuadPart);
+}
+
+
+
+
+
+//=============================================================================
+//		NTimeUtils::GetClockFrequency : Get the clock frequency.
+//-----------------------------------------------------------------------------
+uint64_t NTimeUtils::GetClockFrequency()
+{
+
+
+	// Get the clock frequency
+	LARGE_INTEGER clockFreq{};
+
+	BOOL wasOK = QueryPerformanceFrequency(&clockFreq);
+	NN_EXPECT(wasOK);
+
+	if (!wasOK)
+	{
+		clockFreq.QuadPart = 0;
+	}
+
+	return uint64_t(clockFreq.QuadPart);
+}

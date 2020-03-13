@@ -49,6 +49,7 @@
 // System
 #include <CoreFoundation/CoreFoundation.h>
 #include <dispatch/semaphore.h>
+#include <mach/mach_time.h>
 #include <sys/sysctl.h>
 
 
@@ -87,6 +88,34 @@ static NTime GetBootTime()
 
 
 
+//=============================================================================
+//		GetMachClockFrequency : Get the Mach clock frequency.
+//-----------------------------------------------------------------------------
+static uint64_t GetMachClockFrequency()
+{
+
+
+	// Get the clock frequency
+	mach_timebase_info_data_t timebaseInfo{};
+
+	kern_return_t sysErr = mach_timebase_info(&timebaseInfo);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != KERN_SUCCESS)
+	{
+		return 0;
+	}
+
+	float64_t nanoPerTick = float64_t(timebaseInfo.numer) / float64_t(timebaseInfo.denom);
+	uint64_t  ticksPerSec = uint64_t(float64_t(NSEC_PER_SEC) / nanoPerTick);
+
+	return ticksPerSec;
+}
+
+
+
+
+
 #pragma mark NSharedDarwin
 //=============================================================================
 //		NSharedDarwin::GetTime : Get the time.
@@ -114,6 +143,38 @@ NInterval NSharedDarwin::GetUpTime()
 	static NTime sBootTime = GetBootTime();
 
 	return GetTime() - sBootTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::GetClockTicks : Get the clock ticks.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::GetClockTicks()
+{
+
+
+	// Get the clock ticks
+	return uint64_t(mach_absolute_time());
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::GetClockFrequency : Get the clock frequency.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::GetClockFrequency()
+{
+
+
+	// Get the clock frequency
+	static uint64_t sClockFrequency = GetMachClockFrequency();
+
+	return sClockFrequency;
 }
 
 

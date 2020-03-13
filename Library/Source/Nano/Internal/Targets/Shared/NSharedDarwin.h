@@ -63,6 +63,11 @@ public:
 	static NInterval                    GetUpTime();
 
 
+	// Get the system clock
+	static uint64_t                     GetClockTicks();
+	static uint64_t                     GetClockFrequency();
+
+
 	// Semaphores
 	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);

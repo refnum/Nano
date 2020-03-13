@@ -57,6 +57,61 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr uint64_t kNanosecondsPerSecond             = 1000000000ULL;
+
+#if defined(CLOCK_MONOTONIC_RAW)
+static constexpr clockid_t kSystemClockID                   = CLOCK_MONOTONIC_RAW;
+#else
+static constexpr clockid_t kSystemClockID                   = CLOCK_MONTONIC;
+#endif
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::GetClockTicks : Get the clock ticks.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::GetClockTicks()
+{
+
+
+	// Get the clock ticks
+	struct timespec timeSpec = {};
+
+	int sysErr = ::clock_gettime(kSystemClockID, &timeSpec);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeSpec, 0x00, sizeof(timeSpec));
+	}
+
+	return (timeSpec.tv_sec * kNanosecondsPerSecond) + timeSpec.tv_nsec;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::GetClockFrequency : Get the clock frequency.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::GetClockFrequency()
+{
+
+
+	// Get the clock frequency
+	return kNanosecondsPerSecond;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)
