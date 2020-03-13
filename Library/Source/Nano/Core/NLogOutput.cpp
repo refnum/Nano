@@ -54,16 +54,17 @@
 //=============================================================================
 //		NLogOutputConsole::LogMessage : Log a message.
 //-----------------------------------------------------------------------------
-void NLogOutputConsole::LogMessage(const NLogMessage& logMsg)
+void NLogOutputConsole::LogMessage(const NLogMessage& theMsg)
 {
 
 
 	// Output the message
 	fprintf(stderr,
-			"%s %s %s %s %s\n",
-			logMsg.tokenLevel,
-			logMsg.tokenTime,
-			logMsg.tokenThread,
-			logMsg.tokenSource,
-			logMsg.logMsg);
+			"%s %s %s %s %s %s\n",
+			theMsg.tagLevel,
+			theMsg.tagDate,
+			theMsg.tagTime,
+			theMsg.tagThread,
+			theMsg.tagSource,
+			theMsg.msgBuffer);
 }

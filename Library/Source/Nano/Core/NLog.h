@@ -45,6 +45,7 @@
 #include "NDebug.h"
 #include "NLogOutput.h"
 #include "NSpinLock.h"
+#include "NanoConstants.h"
 
 // System
 #include <stdarg.h>
@@ -57,8 +58,9 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kNLogMessageMax                     = 8 * 1024;
-static constexpr size_t kNLogTokenMax                       = 128;
+// Misc
+static constexpr size_t kNLogMessageMax                     = 8 * kNKibibyte;
+static constexpr size_t kNLogSourceMax                      = 128;
 
 
 
@@ -72,13 +74,16 @@ struct NLogMessage
 	const char* filePath;
 	int         lineNum;
 
-	NLogLevel logLevel;
-	char      logMsg[kNLogMessageMax];
+	NLogLevel   logLevel;
+	const char* logMsg;
 
-	char tokenLevel[kNLogTokenMax];
-	char tokenTime[kNLogTokenMax];
-	char tokenThread[kNLogTokenMax];
-	char tokenSource[kNLogTokenMax];
+	char tagLevel[13];
+	char tagDate[11];
+	char tagTime[16];
+	char tagThread[9];
+	char tagSource[kNLogSourceMax];
+
+	char msgBuffer[kNLogMessageMax];
 };
 
 
@@ -105,7 +110,7 @@ public:
 	void                                Log(NLogLevel   logLevel,
 											const char* filePath,
 											int         lineNum,
-											const char* theMsg,
+											const char* logMsg,
 											va_list     theArgs);
 
 
@@ -114,19 +119,19 @@ public:
 
 
 private:
-	void                                OutputMessage(const NLogMessage& logMsg);
+	void                                OutputMessage(const NLogMessage& theMsg);
 
-	void                                FormatMessage(NLogMessage& logMsg,
+	void                                FormatMessage(NLogMessage& theMsg,
 													  NLogLevel    logLevel,
 													  const char*  filePath,
 													  int          lineNum,
-													  const char*  theMsg,
+													  const char*  logMsg,
 													  va_list      theArgs) const;
 
-	void                                FormatLevel( NLogMessage& logMsg) const;
-	void                                FormatTime(  NLogMessage& logMsg) const;
-	void                                FormatThread(NLogMessage& logMsg) const;
-	void                                FormatSource(NLogMessage& logMsg) const;
+	void                                FormatTagLevel( NLogMessage& theMsg) const;
+	void                                FormatTagTime(  NLogMessage& theMsg) const;
+	void                                FormatTagThread(NLogMessage& theMsg) const;
+	void                                FormatTagSource(NLogMessage& theMsg) const;
 
 
 private:

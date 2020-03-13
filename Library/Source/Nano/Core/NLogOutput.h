@@ -72,7 +72,7 @@ public:
 
 
 	// Log a message
-	virtual void                        LogMessage(const NLogMessage& logMsg) = 0;
+	virtual void                        LogMessage(const NLogMessage& theMsg) = 0;
 };
 
 
@@ -96,7 +96,7 @@ public:
 
 
 	// Log a message
-	void                                LogMessage(const NLogMessage& logMsg);
+	void                                LogMessage(const NLogMessage& theMsg);
 };
 
 

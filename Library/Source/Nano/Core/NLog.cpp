@@ -80,7 +80,7 @@ static constexpr const char* kEmojiError                    = "\xE2\x9B\x94\xEF\
 void NLog::Log(NLogLevel   logLevel,
 			   const char* filePath,
 			   int         lineNum,
-			   const char* theMsg,
+			   const char* logMsg,
 			   va_list     theArgs)
 {
 
@@ -88,7 +88,7 @@ void NLog::Log(NLogLevel   logLevel,
 	// Log the message
 	static thread_local NLogMessage sLogMsg;
 
-	FormatMessage(sLogMsg, logLevel, filePath, lineNum, theMsg, theArgs);
+	FormatMessage(sLogMsg, logLevel, filePath, lineNum, logMsg, theArgs);
 	OutputMessage(sLogMsg);
 }
 
@@ -119,14 +119,14 @@ NLog* NLog::Get()
 //=============================================================================
 //		NLog::OutputMessage : Output a message.
 //-----------------------------------------------------------------------------
-void NLog::OutputMessage(const NLogMessage& logMsg)
+void NLog::OutputMessage(const NLogMessage& theMsg)
 {
 	NScopedLock acquireLock(mLock);
 
 
 
 	// Output the message
-	mOutput.LogMessage(logMsg);
+	mOutput.LogMessage(theMsg);
 }
 
 
@@ -136,26 +136,27 @@ void NLog::OutputMessage(const NLogMessage& logMsg)
 //=============================================================================
 //		NLog::FormatMessage : Format the message.
 //-----------------------------------------------------------------------------
-void NLog::FormatMessage(NLogMessage& logMsg,
+void NLog::FormatMessage(NLogMessage& theMsg,
 						 NLogLevel    logLevel,
 						 const char*  filePath,
 						 int          lineNum,
-						 const char*  theMsg,
+						 const char*  logMsg,
 						 va_list      theArgs) const
 {
 
 
 	// Format the message
-	logMsg.filePath = filePath;
-	logMsg.lineNum  = lineNum;
-	logMsg.logLevel = logLevel;
+	theMsg.filePath = filePath;
+	theMsg.lineNum  = lineNum;
+	theMsg.logLevel = logLevel;
+	theMsg.logMsg   = logMsg;
 
-	FormatLevel(logMsg);
-	FormatTime(logMsg);
-	FormatThread(logMsg);
-	FormatSource(logMsg);
+	FormatTagLevel(theMsg);
+	FormatTagTime(theMsg);
+	FormatTagThread(theMsg);
+	FormatTagSource(theMsg);
 
-	vsnprintf(logMsg.logMsg, sizeof(logMsg.logMsg), theMsg, theArgs);
+	vsnprintf(theMsg.msgBuffer, sizeof(theMsg.msgBuffer), logMsg, theArgs);
 }
 
 
@@ -163,9 +164,9 @@ void NLog::FormatMessage(NLogMessage& logMsg,
 
 
 //=============================================================================
-//		NLog::FormatLevel : Format the log level.
+//		NLog::FormatTagLevel : Format the level tag.
 //-----------------------------------------------------------------------------
-void NLog::FormatLevel(NLogMessage& logMsg) const
+void NLog::FormatTagLevel(NLogMessage& theMsg) const
 {
 
 
@@ -173,7 +174,7 @@ void NLog::FormatLevel(NLogMessage& logMsg) const
 	const char* levelEmoji = "??";
 	const char* levelLabel = "????";
 
-	switch (logMsg.logLevel)
+	switch (theMsg.logLevel)
 	{
 		case kNLogLevelInfo:
 			levelEmoji = kEmojiInfo;
@@ -189,7 +190,7 @@ void NLog::FormatLevel(NLogMessage& logMsg) const
 			break;
 	}
 
-	snprintf(logMsg.tokenLevel, sizeof(logMsg.tokenLevel), "%s %s", levelEmoji, levelLabel);
+	snprintf(theMsg.tagLevel, sizeof(theMsg.tagLevel), "%s %s", levelEmoji, levelLabel);
 }
 
 
@@ -197,24 +198,35 @@ void NLog::FormatLevel(NLogMessage& logMsg) const
 
 
 //=============================================================================
-//		NLog::FormatTime : Format the time.
+//		NLog::FormatTagTime : Format the date and time tags.
 //-----------------------------------------------------------------------------
-void NLog::FormatTime(NLogMessage& logMsg) const
+void NLog::FormatTagTime(NLogMessage& theMsg) const
 {
 
 
 	// Get the state we need
-	NInterval timeNow = NTimeUtils::GetTime();
-	uint64_t  timeUS  = uint64_t((timeNow - floor(timeNow)) / kNTimeMicrosecond);
+	NInterval timeNow   = NTimeUtils::GetTime();
+	struct tm timeLocal = NTimeUtils::ToLocaltime(timeNow);
+	uint64_t  timeUS    = uint64_t((timeNow - floor(timeNow)) / kNTimeMicrosecond);
 
 
 
 	// Format the time
-	snprintf(logMsg.tokenTime, sizeof(logMsg.tokenTime), "%04d-%02d-%02d ", 2000, 1, 1);
+	snprintf(theMsg.tagDate,
+			 sizeof(theMsg.tagDate),
+			 "%04d-%02d-%02d ",
+			 timeLocal.tm_year + 1900,
+			 timeLocal.tm_mon + 1,
+			 timeLocal.tm_mday);
 
-	snprintf(&logMsg.tokenTime[11], 10, "%02d:%02d:%02d.", 0, 0, uint32_t(timeNow) % 60);
+	snprintf(&theMsg.tagTime[0],
+			 10,
+			 "%02d:%02d:%02d.",
+			 timeLocal.tm_hour,
+			 timeLocal.tm_min,
+			 timeLocal.tm_sec);
 
-	snprintf(&logMsg.tokenTime[20], 7, "%06d", int(timeUS));
+	snprintf(&theMsg.tagTime[9], 7, "%06d", int(timeUS));
 }
 
 
@@ -222,17 +234,14 @@ void NLog::FormatTime(NLogMessage& logMsg) const
 
 
 //=============================================================================
-//		NLog::FormatThread : Format the thread ID.
+//		NLog::FormatTagThread : Format the thread ID tag.
 //-----------------------------------------------------------------------------
-void NLog::FormatThread(NLogMessage& logMsg) const
+void NLog::FormatTagThread(NLogMessage& theMsg) const
 {
 
 
 	// Format the thread
-	snprintf(logMsg.tokenThread,
-			 sizeof(logMsg.tokenThread),
-			 "%08" PRIX32,
-			 uint32_t(NThread::GetID()));
+	snprintf(theMsg.tagThread, sizeof(theMsg.tagThread), "%08" PRIX32, uint32_t(NThread::GetID()));
 }
 
 
@@ -240,23 +249,23 @@ void NLog::FormatThread(NLogMessage& logMsg) const
 
 
 //=============================================================================
-//		NLog::FormatSource : Format the source.
+//		NLog::FormatTagSource : Format the source.
 //-----------------------------------------------------------------------------
-void NLog::FormatSource(NLogMessage& logMsg) const
+void NLog::FormatTagSource(NLogMessage& theMsg) const
 {
 
 
 	// Locate the file name
-	const char* fileName = strrchr(logMsg.filePath, '/');
+	const char* fileName = strrchr(theMsg.filePath, '/');
 
 	if (fileName == nullptr)
 	{
-		fileName = strrchr(logMsg.filePath, '\\');
+		fileName = strrchr(theMsg.filePath, '\\');
 	}
 
 	if (fileName == nullptr)
 	{
-		fileName = logMsg.filePath;
+		fileName = theMsg.filePath;
 	}
 	else
 	{
@@ -266,5 +275,5 @@ void NLog::FormatSource(NLogMessage& logMsg) const
 
 
 	// Format the source
-	snprintf(logMsg.tokenSource, sizeof(logMsg.tokenSource), "%s:%d", fileName, logMsg.lineNum);
+	snprintf(theMsg.tagSource, sizeof(theMsg.tagSource), "%s:%d", fileName, theMsg.lineNum);
 }
