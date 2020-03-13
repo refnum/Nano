@@ -52,8 +52,7 @@
 static constexpr NInterval       kTestInterval              = 123.111222444;
 static constexpr struct timespec kTestTimespec              = {123, 111222444};
 
-static constexpr NTime     kTestTime                        = 0.0;
-static constexpr struct tm kTestLocaltime                   = {0, 0, 0, 1, 0, 101, 1, 0, 0, 0, nullptr};
+static constexpr NTime kTestTime                            = 0.0;
 
 
 
@@ -108,11 +107,17 @@ NANO_TEST(TTimeUtils, "Conversion")
 	// Perform the test
 	auto timeSpec = NTimeUtils::ToTimespec(kTestInterval);
 	REQUIRE(memcmp(&kTestTimespec, &timeSpec, sizeof(timeSpec)) == 0);
-	REQUIRE(NTimeUtils::ToInterval(kTestTimespec) == kTestInterval);
+	REQUIRE(NTimeUtils::ToInterval(timeSpec) == kTestInterval);
 
-	auto localTime    = NTimeUtils::ToLocaltime(kTestTime);
-	localTime.tm_zone = nullptr;
-
-	REQUIRE(memcmp(&kTestLocaltime, &localTime, sizeof(localTime)) == 0);
-	REQUIRE(NTimeUtils::ToTime(kTestLocaltime) == kTestTime);
+	auto localTime = NTimeUtils::ToLocaltime(kTestTime);
+	REQUIRE(localTime.tm_sec == 0);
+	REQUIRE(localTime.tm_min == 0);
+	REQUIRE(localTime.tm_hour == 0);
+	REQUIRE(localTime.tm_mday == 1);
+	REQUIRE(localTime.tm_mon == 0);
+	REQUIRE(localTime.tm_year == 101);
+	REQUIRE(localTime.tm_wday == 1);
+	REQUIRE(localTime.tm_yday == 0);
+	REQUIRE(localTime.tm_isdst == 0);
+	REQUIRE(NTimeUtils::ToTime(localTime) == kTestTime);
 }
