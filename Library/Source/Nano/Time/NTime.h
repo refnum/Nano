@@ -1,11 +1,11 @@
 /*	NAME:
-		NTimeUtils.h
+		NTime.h
 
 	DESCRIPTION:
 		Time object.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2019, refNum Software
+		Copyright (c) 2006-2020, refNum Software
 		All rights reserved.
 
 		Redistribution and use in source and binary forms, with or without
@@ -36,8 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NTIME_UTILS_H
-#define NTIME_UTILS_H
+#ifndef NTIME_H
+#define NTIME_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -58,18 +58,98 @@
 //      nanoTime = unixTime + kNanoEpochFrom1970;
 //
 // The Nano epoch starts at 00:00:00 on 2001/01/01 in UTC.
-static constexpr NInterval kNanoEpochTo2001    = 0.0;              // Darwin
-static constexpr NInterval kNanoEpochTo1970    = 978307200.0;      // Unix
-static constexpr NInterval kNanoEpochTo1904    = 3061152000.0;     // Mac OS 9
-static constexpr NInterval kNanoEpochTo1601    = 12622780800.0;    // Windows
+//
+static constexpr NInterval kNanoEpochTo2001                 = 0.0;              // Darwin
+static constexpr NInterval kNanoEpochTo1970                 = 978307200.0;      // Unix
+static constexpr NInterval kNanoEpochTo1904                 = 3061152000.0;     // Mac OS 9
+static constexpr NInterval kNanoEpochTo1601                 = 12622780800.0;    // Windows
 
-static constexpr NInterval kNanoEpochFrom2001  = -kNanoEpochTo2001;    // Darwin
-static constexpr NInterval kNanoEpochFrom1970  = -kNanoEpochTo1970;    // Unix
-static constexpr NInterval kNanoEpochFrom1904  = -kNanoEpochTo1904;    // Mac OS 9
-static constexpr NInterval kNanoEpochFrom1601  = -kNanoEpochTo1601;    // Windows
-
-
-
+static constexpr NInterval kNanoEpochFrom2001               = -kNanoEpochTo2001;    // Darwin
+static constexpr NInterval kNanoEpochFrom1970               = -kNanoEpochTo1970;    // Unix
+static constexpr NInterval kNanoEpochFrom1904               = -kNanoEpochTo1904;    // Mac OS 9
+static constexpr NInterval kNanoEpochFrom1601               = -kNanoEpochTo1601;    // Windows
 
 
-#endif // NTIME_UTILS_H
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NTime
+{
+public:
+	constexpr                           NTime(NInterval theValue = 0.0);
+										NTime(NInterval theValue, NInterval fromEpoch);
+
+
+	// Convert to a specific precision
+	//
+	// The time must be expressible in the requested precision.
+	uint64_t                            ToMS() const;
+	uint64_t                            ToUS() const;
+	uint64_t                            ToNS() const;
+
+	static uint64_t                     ToMS(NInterval theValue);
+	static uint64_t                     ToUS(NInterval theValue);
+	static uint64_t                     ToNS(NInterval theValue);
+
+
+	// Convert to an interval
+	constexpr                           operator NInterval() const;
+
+
+	// Comparison operators
+	constexpr bool                      operator==(const NTime& theTime) const;
+	constexpr bool                      operator!=(const NTime& theTime) const;
+	constexpr bool                      operator<( const NTime& theTime) const;
+	constexpr bool                      operator>( const NTime& theTime) const;
+	constexpr bool                      operator<=(const NTime& theTime) const;
+	constexpr bool                      operator>=(const NTime& theTime) const;
+
+	constexpr bool                      operator==(NInterval theValue) const;
+	constexpr bool                      operator!=(NInterval theValue) const;
+	constexpr bool                      operator<( NInterval theValue) const;
+	constexpr bool                      operator>( NInterval theValue) const;
+	constexpr bool                      operator<=(NInterval theValue) const;
+	constexpr bool                      operator>=(NInterval theValue) const;
+
+
+	// Arithmetic operators
+	NTime&                              operator+=(const NTime& theTime);
+	NTime&                              operator-=(const NTime& theTime);
+	NTime&                              operator*=(const NTime& theTime);
+	NTime&                              operator/=(const NTime& theTime);
+
+	NTime&                              operator+=(NInterval theValue);
+	NTime&                              operator-=(NInterval theValue);
+	NTime&                              operator*=(NInterval theValue);
+	NTime&                              operator/=(NInterval theValue);
+
+	constexpr NTime                     operator+(const NTime& theTime) const;
+	constexpr NTime                     operator-(const NTime& theTime) const;
+	constexpr NTime                     operator*(const NTime& theTime) const;
+	constexpr NTime                     operator/(const NTime& theTime) const;
+
+	constexpr NTime                     operator+(NInterval theValue) const;
+	constexpr NTime                     operator-(NInterval theValue) const;
+	constexpr NTime                     operator*(NInterval theValue) const;
+	constexpr NTime                     operator/(NInterval theValue) const;
+
+
+private:
+	NInterval                           mValue;
+};
+
+
+
+
+
+//=============================================================================
+//		Inline Functions
+//-----------------------------------------------------------------------------
+#include "NTime.inl"
+
+
+
+#endif // NTIME_H

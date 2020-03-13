@@ -73,6 +73,9 @@
 		ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
 		ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
 		ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
+		ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
+		ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
+		ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
@@ -248,6 +251,7 @@
 		ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageClient.cpp; sourceTree = "<group>"; };
 		ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkMessage.cpp; sourceTree = "<group>"; };
 		ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONEncoder.cpp; sourceTree = "<group>"; };
+		ABDCE89B241BDAD50054A16E /* TTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTime.cpp; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
@@ -322,6 +326,7 @@
 		AB0DBE7523999C1700F6AD43 /* Time */ = {
 			isa = PBXGroup;
 			children = (
+				ABDCE89B241BDAD50054A16E /* TTime.cpp */,
 				AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */,
 			);
 			path = Time;
@@ -800,6 +805,7 @@
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				AB09E1C6240D5F49001FCBFC /* TStringFormatter.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
@@ -833,6 +839,7 @@
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				AB09E1C5240D5F49001FCBFC /* TStringFormatter.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
@@ -866,6 +873,7 @@
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				AB09E1C7240D5F49001FCBFC /* TStringFormatter.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
