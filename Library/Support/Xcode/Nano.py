@@ -43,11 +43,13 @@
 #==============================================================================
 #		Imports
 #------------------------------------------------------------------------------
-import struct
 import array
+import datetime
 import lldb
-import sys
+import math
 import os
+import struct
+import sys
 
 
 
@@ -58,6 +60,9 @@ import os
 #------------------------------------------------------------------------------
 # Nano
 kNNotFound													= 18446744073709551615
+
+kNTimeNanosecond											= 1.0 / 1000000000.0
+kNanoEpochTo1970											= 978307200
 
 kNDataFlagIsLarge											= 0b10000000
 kNDataFlagSmallSizeMask										= 0b00011111
@@ -120,6 +125,17 @@ kInscrutable												= u"\u2754"
 def getMemberUInt(theValue, theName):
 
 	return theValue.GetChildMemberWithName(theName).GetValueAsUnsigned(0)
+
+
+
+
+
+#==============================================================================
+#		getMemberFloat : Get member as a float.
+#------------------------------------------------------------------------------
+def getMemberFloat(theValue, theName):
+
+	return float(theValue.GetChildMemberWithName(theName).GetValue())
 
 
 
@@ -378,6 +394,26 @@ def NString_Show(theString, theInfo):
 
 
 #==============================================================================
+#		NTime_Show : Show an NTime.
+#------------------------------------------------------------------------------
+def NTime_Show(theTime, theInfo):
+
+	unixSecs = getMemberFloat(theTime, "mValue") + kNanoEpochTo1970
+	unixFrac = unixSecs - math.floor(unixSecs)
+
+	strTime = datetime.datetime.utcfromtimestamp(unixSecs).strftime("%Y-%m-%d %H:%M:%S.")
+	strSecs = "{:.9g}".format(unixFrac);
+
+	if (strSecs != "0"):
+		strSecs = strSecs[2:]
+
+	return strTime + strSecs
+
+
+
+
+
+#==============================================================================
 #		loadNano : Load the Nano summarisers.
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
@@ -385,6 +421,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show   NData')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show  NRange')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show NString')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show   NTime')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
