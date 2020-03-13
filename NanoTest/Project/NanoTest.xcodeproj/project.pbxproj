@@ -79,6 +79,9 @@
 		ABDCE8A5241C22BB0054A16E /* TClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A4241C22BB0054A16E /* TClock.cpp */; };
 		ABDCE8A6241C22BB0054A16E /* TClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A4241C22BB0054A16E /* TClock.cpp */; };
 		ABDCE8A7241C22BB0054A16E /* TClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A4241C22BB0054A16E /* TClock.cpp */; };
+		ABDCE8AE241C2A720054A16E /* TPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8AD241C2A720054A16E /* TPOSIX.cpp */; };
+		ABDCE8AF241C2A720054A16E /* TPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8AD241C2A720054A16E /* TPOSIX.cpp */; };
+		ABDCE8B0241C2A720054A16E /* TPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8AD241C2A720054A16E /* TPOSIX.cpp */; };
 		ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
@@ -256,6 +259,7 @@
 		ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONEncoder.cpp; sourceTree = "<group>"; };
 		ABDCE89B241BDAD50054A16E /* TTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTime.cpp; sourceTree = "<group>"; };
 		ABDCE8A4241C22BB0054A16E /* TClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TClock.cpp; sourceTree = "<group>"; };
+		ABDCE8AD241C2A720054A16E /* TPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPOSIX.cpp; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
@@ -503,6 +507,7 @@
 				AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */,
 				ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */,
 				AB2AAD7D10396310007BC4E6 /* TLocale.cpp */,
+				ABDCE8AD241C2A720054A16E /* TPOSIX.cpp */,
 				ABC66E7B17411D52005B9357 /* TTask.cpp */,
 				AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */,
 				AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */,
@@ -791,6 +796,7 @@
 				AB1B4D9A23F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
+				ABDCE8AF241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
@@ -826,6 +832,7 @@
 				AB1B4D9923F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
+				ABDCE8AE241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */,
@@ -861,6 +868,7 @@
 				AB1B4D9B23F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
+				ABDCE8B0241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */,

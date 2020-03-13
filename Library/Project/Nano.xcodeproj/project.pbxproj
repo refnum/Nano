@@ -165,6 +165,9 @@
 		ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
+		ABDCE8AA241C2A550054A16E /* NPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A8241C2A540054A16E /* NPOSIX.cpp */; };
+		ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A8241C2A540054A16E /* NPOSIX.cpp */; };
+		ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A8241C2A540054A16E /* NPOSIX.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -582,6 +585,8 @@
 		ABDCE89A241BD9130054A16E /* NTime.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTime.inl; sourceTree = "<group>"; };
 		ABDCE89F241C22AD0054A16E /* NClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NClock.h; sourceTree = "<group>"; };
 		ABDCE8A0241C22AD0054A16E /* NClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NClock.cpp; sourceTree = "<group>"; };
+		ABDCE8A8241C2A540054A16E /* NPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPOSIX.cpp; sourceTree = "<group>"; };
+		ABDCE8A9241C2A540054A16E /* NPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPOSIX.h; sourceTree = "<group>"; };
 		ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageServer.cpp; sourceTree = "<group>"; };
 		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
 		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
@@ -1210,6 +1215,8 @@
 				ABD6817A167AB1FE00CB2E04 /* NJSONEncoder.h */,
 				AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */,
 				AB2AAD69103962E4007BC4E6 /* NLocale.h */,
+				ABDCE8A8241C2A540054A16E /* NPOSIX.cpp */,
+				ABDCE8A9241C2A540054A16E /* NPOSIX.h */,
 				AB53A404109B237800817E89 /* NTask.cpp */,
 				AB53A405109B237800817E89 /* NTask.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
@@ -1631,6 +1638,7 @@
 				AB51285623D2810600528FBE /* pcre2_ucd.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB51282C23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
+				ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB51285923D2810600528FBE /* pcre2_find_bracket.c in Sources */,
 				AB09E1C3240D5F2B001FCBFC /* NStringFormatter.cpp in Sources */,
@@ -1691,6 +1699,7 @@
 				AB51285423D2810600528FBE /* pcre2_ucd.c in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				AB51282A23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
+				ABDCE8AA241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB51285723D2810600528FBE /* pcre2_find_bracket.c in Sources */,
 				AB09E1C1240D5F2B001FCBFC /* NStringFormatter.cpp in Sources */,
@@ -1748,6 +1757,7 @@
 				ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB51286723D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */,
+				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB51286423D2810600528FBE /* pcre2_context.c in Sources */,
 				AB51284923D2810600528FBE /* pcre2_jit_compile.c in Sources */,
 				AB51285B23D2810600528FBE /* pcre2_substitute.c in Sources */,
