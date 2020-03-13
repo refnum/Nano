@@ -43,12 +43,14 @@
 
 // Nano
 #include "NDebug.h"
+#include "NSharedPOSIX.h"
 #include "NTimeUtils.h"
 
 // System
 #include <limits.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <time.h>
 
 
 

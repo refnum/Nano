@@ -91,12 +91,12 @@ static NInterval GetBootTime()
 //=============================================================================
 //		NSharedDarwin::GetTime : Get the time.
 //-----------------------------------------------------------------------------
-NInterval NSharedDarwin::GetTime()
+NTime NSharedDarwin::GetTime()
 {
 
 
 	// Get the time
-	return NInterval(CFAbsoluteTimeGetCurrent());
+	return NTime(CFAbsoluteTimeGetCurrent(), kNanoEpochFrom2001);
 }
 
 

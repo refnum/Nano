@@ -41,8 +41,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NSemaphore.h"
-#include "NanoTypes.h"
+#include "NTime.h"
 
 
 
@@ -54,8 +55,11 @@
 class NSharedDarwin
 {
 public:
-	// Get the time
-	static NInterval                    GetTime();
+	// Get the current time
+	static NTime                        GetTime();
+
+
+	// Get the time since boot
 	static NInterval                    GetUpTime();
 
 

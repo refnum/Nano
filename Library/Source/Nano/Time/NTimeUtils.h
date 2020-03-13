@@ -41,7 +41,8 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoTypes.h"
+// Nano
+#include "NTime.h"
 
 // System
 #include <time.h>
@@ -57,9 +58,7 @@ class NTimeUtils
 {
 public:
 	// Get the current time
-	//
-	// Returns the time since the Nano Epoch (00:00:00 on 2001/01/01 in UTC).
-	static NInterval                    GetTime();
+	static NTime                        GetTime();
 
 
 	// Get the time since boot

@@ -52,16 +52,15 @@
 //=============================================================================
 //		NTimeUtils::GetTime : Get the time.
 //-----------------------------------------------------------------------------
-NInterval NTimeUtils::GetTime()
+NTime NTimeUtils::GetTime()
 {
 
 
 	// Get the time
 	FILETIME fileTime{};
-
 	GetSystemTimeAsFileTime(&fileTime);
 
-	return NSharedWindows::ToInterval(fileTime);
+	return NTime(NSharedWindows::ToInterval(fileTime), kNanoEpochFrom1601);
 }
 
 
