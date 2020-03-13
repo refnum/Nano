@@ -42,8 +42,8 @@
 #include "NTimeUtils.h"
 
 // Nano
-#include "NanoConstants.h"
 #include "NPOSIX.h"
+#include "NanoConstants.h"
 
 // System
 #include <math.h>

@@ -67,7 +67,7 @@ NANO_TEST(TPOSIX, "localtime")
 
 	REQUIRE(theTime.tm_sec == 0);
 	REQUIRE(theTime.tm_min == 0);
-	REQUIRE(theTime.tm_hour == 1);
+	REQUIRE((theTime.tm_hour == 0 || theTime.tm_hour == 1));
 	REQUIRE(theTime.tm_mday == 1);
 	REQUIRE(theTime.tm_mon == 0);
 	REQUIRE(theTime.tm_year == 70);
