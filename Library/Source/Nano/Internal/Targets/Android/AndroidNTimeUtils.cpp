@@ -42,7 +42,7 @@
 #include "NTimeUtils.h"
 
 // Nano
-#include "NDebug.h"
+#include "NSharedPOSIX.h"
 
 
 
@@ -56,9 +56,7 @@ NInterval NTimeUtils::GetTime()
 
 
 	// Get the time
-	NN_LOG_UNIMPLEMENTED();
-
-	return 0.0;
+	return NSharedPOSIX::gettimeofday();
 }
 
 
@@ -73,7 +71,5 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	NN_LOG_UNIMPLEMENTED();
-
-	return 0.0;
+	return NPOSIX::clock_gettime(CLOCK_MONOTONIC);
 }

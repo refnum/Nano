@@ -42,10 +42,67 @@
 #include "NSharedPOSIX.h"
 
 // Nano
-#include "NanoConstants.h"
+#include "NDebug.h"
+#include "NTimeUtils.h"
 
 // System
 #include <math.h>
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::gettimeofday : Get the time of day.
+//-----------------------------------------------------------------------------
+NTime NSharedPOSIX::gettimeofday()
+{
+
+
+	// Get the time of day
+	struct timeval timeVal = {};
+
+	int sysErr = ::gettimeofday(&timeVal, nullptr);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeVal, 0x00, sizeof(timeVal));
+	}
+
+
+
+	// Get the time
+	return NTime(ToInterval(timeVal), kNanoEpochFrom1970);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::clock_gettime : Get a clock time.
+//-----------------------------------------------------------------------------
+NInterval NSharedPOSIX::clock_gettime(clockid_t theID)
+{
+
+
+	// Get the clock time
+	struct timespec timeSpec = {};
+
+	int sysErr = ::clock_gettime(theID, &timeSpec);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeSpec, 0x00, sizeof(timeSpec));
+	}
+
+
+
+	// Get the time
+	return NTimeUtils::ToInterval(timeSpec);
+}
 
 
 

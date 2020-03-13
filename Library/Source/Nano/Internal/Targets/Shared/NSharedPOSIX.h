@@ -41,7 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoTypes.h"
+#include "NTime.h"
 
 // System
 #include <sys/time.h>
@@ -56,6 +56,18 @@
 class NSharedPOSIX
 {
 public:
+	// Get the time of day
+	//
+	// Returns gettimeofday() in the Nano epoch.
+	static NTime                        gettimeofday();
+
+
+	// Get a clock time
+	//
+	// Returns clock_gettime for the specified clock.
+	static NInterval                    clock_gettime(clockid_t theID);
+
+
 	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.
