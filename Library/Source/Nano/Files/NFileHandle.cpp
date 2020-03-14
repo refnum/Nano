@@ -49,7 +49,7 @@
 //		NFileHandle::NFileHandle : Constructor.
 //-----------------------------------------------------------------------------
 NFileHandle::NFileHandle()
-	: mHandle(nullptr)
+	: mHandle(kNFileHandleNone)
 {
 }
 
