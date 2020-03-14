@@ -50,11 +50,9 @@
 
 
 //=============================================================================
-//		Internal Functions
+//		NSharedWindows::ToUInt64 : Convert two DWORDs to a uint64_t.
 //-----------------------------------------------------------------------------
-//		ToNN : Convert two DWORDs to a uint64_t.
-//-----------------------------------------------------------------------------
-uint64_t ToNN(DWORD valueHigh, DWORD valueLow)
+uint64_t NSharedWindows::ToUInt64(DWORD valueHigh, DWORD valueLow)
 {
 	return (uint64_t(valueHigh) << 32) | uint64_t(valueLow);
 }
@@ -71,8 +69,8 @@ NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
 
 
 	// Convert the value
-	ULARGE_INTEGER hectoNanoSecs = {fileTime.dwHighDateTime, fileTime.dwLowDateTime};
-	NInterval      theInterval   = NInterval(hectoNanoSecs.QuadPart) * (100.0 * kNTimeNanosecond);
+	uint64_t  hectoNanoSecs = ToUInt64(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+	NInterval theInterval   = NInterval(hectoNanoSecs.QuadPart) * (100.0 * kNTimeNanosecond);
 
 	return theInterval;
 }

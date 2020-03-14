@@ -56,6 +56,10 @@
 class NSharedWindows
 {
 public:
+	// Convert two DWORDs to a uint64_t
+	static uint64_t                     ToUInt64(DWORD valueHigh, DWORD valueLow);
+
+
 	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.
