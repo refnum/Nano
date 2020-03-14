@@ -47,16 +47,13 @@
 #include "NTimeUtils.h"
 
 // System
-#include <fcntl.h>
 #include <semaphore.h>
-#include <stdlib.h>
+#include <sys/fcntl.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-#include <unistd.h>
 
-#if NN_TARGET_LINUX
+#if NN_TARGET_LINUX && !defined(STATX_TYPE)
 	#include <linux/stat.h>
+	#include <linux/fcntl.h>
 #endif
 
 
@@ -85,8 +82,7 @@ constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreation
 
 
 
-
-
+#if NN_TARGET_LINUX
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
@@ -102,6 +98,7 @@ static NTime ToTime(const statx_timestamp& timeStamp)
 
 	return NTime(timeSecs + timeFrac, kNanoEpochFrom1970);
 }
+#endif // NN_TARGET_LINUX
 
 
 
