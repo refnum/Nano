@@ -70,7 +70,7 @@ NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
 
 	// Convert the value
 	uint64_t  hectoNanoSecs = ToUInt64(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
-	NInterval theInterval   = NInterval(hectoNanoSecs.QuadPart) * (100.0 * kNTimeNanosecond);
+	NInterval theInterval   = NInterval(hectoNanoSecs) * (100.0 * kNTimeNanosecond);
 
 	return theInterval;
 }
