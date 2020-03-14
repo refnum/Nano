@@ -356,7 +356,7 @@ size_t NUnicodeView::GetMaxSize() const
 	// The maximum size for variable-width encodings is when
 	// every element encodes a single code point.
 	size_t codePointSize = NStringEncoder::GetCodeUnitSize(mEncoding);
-	size_t maxSize       = (mSize / codePointSize);
+	size_t maxSize       = (codePointSize != 0) ? (mSize / codePointSize) : 0;
 
 	return maxSize;
 }
