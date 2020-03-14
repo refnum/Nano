@@ -47,6 +47,7 @@
 #include "NTimeUtils.h"
 
 // System
+#include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -76,6 +77,8 @@ static constexpr NFileInfoFlags kNFileInfoMaskStat          = kNFileInfoExists |
 													 kNFileInfoIsDirectory |
 													 kNFileInfoModifiedTime | kNFileInfoFileSize;
 
+constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreationTime | kNFileInfoModifiedTime;
+
 
 
 
@@ -83,6 +86,24 @@ static constexpr NFileInfoFlags kNFileInfoMaskStat          = kNFileInfoExists |
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
+//		ToTime : Convert to an NTime.
+//-----------------------------------------------------------------------------
+static NTime ToTime(const statx_timestamp& timeStamp)
+{
+
+
+	// Convert the value
+	NInterval timeSecs = NInterval(timeStamp.tv_sec);
+	NInterval timeFrac = NInterval(timeStamp.tv_nsec) * kNTimeNanosecond;
+
+	return NTime(timeSecs + timeFrac, kNanoEpochFrom1970);
+}
+
+
+
+
+
+//=============================================================================
 //		GetFileStateStat : Get file state with stat().
 //-----------------------------------------------------------------------------
 static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
@@ -99,6 +120,7 @@ static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 
 	int  sysErr = stat(thePath.GetUTF8(), &theInfo);
 	bool wasOK  = (sysErr == 0);
+
 
 
 	// Update the state
@@ -137,9 +159,9 @@ static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 
 
 //=============================================================================
-//		GetFileStateCreationTime : Get the file creation time.
+//		GetFileStateStatX : Get file state with statx().
 //-----------------------------------------------------------------------------
-static void GetFileStateCreationTime(const NString& thePath, NFileInfoState& theState)
+static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 {
 
 
@@ -149,34 +171,72 @@ static void GetFileStateCreationTime(const NString& thePath, NFileInfoState& the
 
 
 	// Get the state we need
-	//
-	// Android does not provide statx so we always use the modified time
+	int  sysErr = 0;
+	bool wasOK  = false;
+
+
+
 #if NN_TARGET_ANDROID
-	NN_REQUIRE(theState.modifiedTime != 0.0);
-	theState.creationTime = theState.modifiedTime;
+	// Android does not provide statx
+	//
+	// We assume files are created when they were last modified, so
+	// we can skip a stat if the modification time is already known.
+	if ((theState.theFlags & kNFileInfoModifiedTime) == 0)
+	{
+		struct stat theInfo;
+
+		sysErr = stat(thePath.GetUTF8(), &theInfo);
+		wasOK  = (sysErr == 0);
+
+		theState.creationTime = NTime(NTimeUtils::ToInterval(theInfo.st_mtim), kNanoEpochFrom1970);
+		theState.modifiedTime = creationTime;
+	}
 
 #else
+	// Linux provides statx to query the birth time
+	//
+	// We can't avoid a potentially second call to stat so we
+	// fill both birth and modification times.
 	struct statx theInfo;
 
-	int  sysErr = SYS_statx(0, thePath.GetUTF8(), AT_STATX_SYNC_AS_STAT, STATX_BTIME, &theInfo);
-	bool wasOK  = (sysErr == 0);
+	sysErr =
+		statx(0, thePath.GetUTF8(), AT_STATX_SYNC_AS_STAT, STATX_MTIME | STATX_BTIME, &theInfo);
+	wasOK = (sysErr == 0);
 
 
 
 	// Update the state
 	if (wasOK)
 	{
-		NInterval timeSecs = NInterval(timeStamp.tv_sec);
-		NInterval timeFrac = NInterval(timeStamp.tv_nsec) * kNTimeNanosecond;
+		// Fix up broken creation times
+		//
+		// Not every filesystem supports creation times.
+		//
+		// Those that do can also report a creation time (the time this file
+		// was created) later than the modification time (the time the content
+		// of a file that this file was copied from was last modified).
+		//
+		// Creation is by definition earlier than modification so we use the
+		// modification time if no creation time was available, or if the file
+		// claims ot have been modified before it was created.
+		if (theInfo.stx_mask & STATX_MTIME)
+		{
+			theState.modifiedTime = ToTime(theInfo.stx_mtime);
+			theState.creationTime = theState.modifiedTime;
+		}
 
-		theState.creationTime = NTime(timeSecs + timeFrac, kNanoEpochFrom1970);
-		theState.theFlags |= kNFileInfoCreationTime;
-	}
-	else
-	{
-		theState.theFlags &= ~kNFileInfoCreationTime;
+		if (theInfo.stx_mask & STATX_BTIME)
+		{
+			theState.modifiedTime = ToTime(theInfo.stx_btime);
+			if (theState.creationTime > theState.modifiedTime)
+			{
+				theState.creationTime = theState.modifiedTime;
+			}
+		}
 	}
 #endif
+
+	return wasOK;
 }
 
 
@@ -254,12 +314,12 @@ bool NSharedLinux::GetFileState(const NString&  thePath,
 
 
 	// Fetch with statx
-	if (wasOK)
+	if (wasOK && (theFlags & kNFileInfoMaskStatX) != 0)
 	{
-		if ((theFlags & kNFileInfoCreationTime) != 0)
+		wasOK = GetFileStateStatX(thePath, theState);
+		if (wasOK)
 		{
-			GetFileStateCreationTime(thePath, theState);
-			validState |= kNFileInfoCreationTime;
+			validState |= kNFileInfoMaskStatX;
 		}
 	}
 
