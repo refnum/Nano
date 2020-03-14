@@ -78,8 +78,8 @@ static const NString kPathDirectory                         = "/tmp";
 static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
 
 #elif NN_TARGET_WINDOWS
-static const NString kPathFile                              = "c:\\Windows\\WindowsShell.Manifest";
-static const NString kPathDirectory                         = "c:\\Windows\\temp";
+static const NString kPathFile                              = "c:\\Windows\\explorer.exe";
+static const NString kPathDirectory                         = "c:\\Windows";
 static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
 
 #else
@@ -173,7 +173,7 @@ NANO_TEST(TFileInfo, "Permission")
 	// Perform the test
 	theInfo.SetPath(kPathFile);
 	REQUIRE(theInfo.CanRead());
-	REQUIRE(!theInfo.CanWrite());
+	REQUIRE((!theInfo.CanWrite() || NN_TARGET_WINDOWS));
 	REQUIRE(theInfo.CanExecute());
 
 	theInfo.SetPath(kPathDirectory);
