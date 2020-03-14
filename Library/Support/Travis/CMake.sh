@@ -26,37 +26,10 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_GENERATOR="Unix Makefiles"
 	CMAKE_PARAMS=""
-	
-	echo "finding files..."
-	find /usr/include -name stat.h
-	find /usr/include -name fcntl.h
-	echo ""
-	
-	echo "/usr/include/linux/stat.h"
-	cat  "/usr/include/linux/stat.h"
-	echo ""
-
-	echo "/usr/include/linux/fcntl.h"
-	cat  "/usr/include/linux/fcntl.h"
-	echo ""
-
-	echo "/usr/include/x86_64-linux-gnu/sys/stat.h"
-	cat  "/usr/include/x86_64-linux-gnu/sys/stat.h"
-	echo ""
-
-	echo "/usr/include/x86_64-linux-gnu/sys/fcntl.h"
-	cat  "/usr/include/x86_64-linux-gnu/sys/fcntl.h"
-	echo ""
-
-	echo "/usr/include/fcntl.h"
-	cat  "/usr/include/fcntl.h"
-	echo ""
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
 	CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
 	CMAKE_PARAMS=""
-	
-	dir "C:\Windows"
 
 else
 	echo "Unknown platform: ${TRAVIS_PLATFORM}"
