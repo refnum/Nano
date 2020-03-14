@@ -53,7 +53,6 @@
 
 #if NN_TARGET_LINUX && !defined(STATX_TYPE)
 	#include <linux/stat.h>
-	#include <linux/fcntl.h>
 #endif
 
 
