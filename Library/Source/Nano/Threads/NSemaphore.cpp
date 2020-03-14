@@ -68,7 +68,7 @@ NSemaphore::~NSemaphore()
 
 
 	// Clean up
-	if (mSemaphore != nullptr)
+	if (mSemaphore != kNSemaphoreNone)
 	{
 		Destroy(mSemaphore);
 	}
@@ -82,7 +82,7 @@ NSemaphore::~NSemaphore()
 //		NSemaphore::NSemaphore : Constructor.
 //-----------------------------------------------------------------------------
 NSemaphore::NSemaphore(NSemaphore&& theSemaphore)
-	: mSemaphore(nullptr)
+	: mSemaphore(kNSemaphoreNone)
 {
 
 
