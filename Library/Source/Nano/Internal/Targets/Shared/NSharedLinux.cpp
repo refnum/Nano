@@ -55,6 +55,10 @@
 #include <time.h>
 #include <unistd.h>
 
+#if NN_TARGET_LINUX
+	#include <linux/stat.h>
+#endif
+
 
 
 
@@ -189,7 +193,7 @@ static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 		wasOK  = (sysErr == 0);
 
 		theState.creationTime = NTime(NTimeUtils::ToInterval(theInfo.st_mtim), kNanoEpochFrom1970);
-		theState.modifiedTime = creationTime;
+		theState.modifiedTime = theState.creationTime;
 	}
 
 #else
