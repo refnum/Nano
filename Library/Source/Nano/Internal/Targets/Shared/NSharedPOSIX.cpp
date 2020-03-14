@@ -47,8 +47,26 @@
 #include "NTimeUtils.h"
 
 // System
+#include <fcntl.h>
 #include <math.h>
+#include <sys/stat.h>
 #include <unistd.h>
+
+
+
+
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+// AT_EACCESS
+//
+// Android does not support AT_EACCESS.
+#if NN_TARGET_ANDROID
+static constexpr int NN_AT_EACCESS                          = 0;
+#else
+static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
+#endif
 
 
 
@@ -111,31 +129,37 @@ NInterval NSharedPOSIX::clock_gettime(clockid_t theID)
 
 
 //=============================================================================
-//		NSharedPOSIX::GetFileAccessMode : Convert a file info flag to am access() mode.
+//		NSharedPOSIX::GetFileStateAccess : Get file state with access().
 //-----------------------------------------------------------------------------
-int NSharedPOSIX::GetFileAccessMode(NFileInfoFlags theFlag)
+void NSharedPOSIX::GetFileStateAccess(const NString&  thePath,
+									  NFileInfoFlags  theFlag,
+									  NFileInfoState& theState)
 {
 
 
 	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
+
 	NN_REQUIRE(theFlag == kNFileInfoCanRead || theFlag == kNFileInfoCanWrite ||
 			   theFlag == kNFileInfoCanExecute);
 
 
 
-	// Get the mode
+	// Get the state we need
+	int theMode = -1;
+
 	switch (theFlag)
 	{
 		case kNFileInfoCanRead:
-			return R_OK;
+			theMode = R_OK;
 			break;
 
 		case kNFileInfoCanWrite:
-			return W_OK;
+			theMode = W_OK;
 			break;
 
 		case kNFileInfoCanExecute:
-			return X_OK;
+			theMode = X_OK;
 			break;
 
 		default:
@@ -143,7 +167,21 @@ int NSharedPOSIX::GetFileAccessMode(NFileInfoFlags theFlag)
 			break;
 	}
 
-	return -1;
+
+
+	// Get the state
+	if (theMode != -1)
+	{
+		int sysErr = faccessat(0, thePath.GetUTF8(), theMode, NN_AT_EACCESS);
+		if (sysErr == 0)
+		{
+			theState.theFlags |= theFlag;
+		}
+		else
+		{
+			theState.theFlags &= ~theFlag;
+		}
+	}
 }
 
 

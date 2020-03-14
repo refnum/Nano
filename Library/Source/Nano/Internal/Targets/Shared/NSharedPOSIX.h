@@ -79,8 +79,10 @@ public:
 	static NInterval                    clock_gettime(clockid_t theID);
 
 
-	// Get an access() mode
-	static int                          GetFileAccessMode(NFileInfoFlags theFlag);
+	// Get an access() state
+	static void                         GetFileStateAccess(const NString&  thePath,
+														   NFileInfoFlags  theFlag,
+														   NFileInfoState& theState);
 
 
 	// Convert between time formats

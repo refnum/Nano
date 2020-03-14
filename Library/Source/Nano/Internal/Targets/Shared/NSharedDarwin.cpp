@@ -142,7 +142,9 @@ static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 	NN_REQUIRE(!thePath.IsEmpty());
 
 	// Get the state we need
-	struct stat theInfo;
+	struct stat theInfo
+	{
+	};
 
 	int  sysErr = stat(thePath.GetUTF8(), &theInfo);
 	bool wasOK  = (sysErr == 0);
@@ -182,40 +184,6 @@ static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 	}
 
 	return wasOK;
-}
-
-
-
-
-
-//=============================================================================
-//		GetFileStateAccess : Get file state with access().
-//-----------------------------------------------------------------------------
-static void GetFileStateAccess(const NString&  thePath,
-							   NFileInfoFlags  theFlag,
-							   NFileInfoState& theState)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
-
-
-	// Get the state we need
-	int theMode = NSharedPOSIX::GetFileAccessMode(theFlag);
-	int sysErr  = faccessat(0, thePath.GetUTF8(), theMode, AT_EACCESS);
-
-
-
-	// Update the state
-	if (sysErr == 0)
-	{
-		theState.theFlags |= theFlag;
-	}
-	else
-	{
-		theState.theFlags &= ~theFlag;
-	}
 }
 
 
@@ -321,19 +289,19 @@ bool NSharedDarwin::GetFileState(const NString&  thePath,
 	{
 		if ((theFlags & kNFileInfoCanRead) != 0)
 		{
-			GetFileStateAccess(thePath, kNFileInfoCanRead, theState);
+			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanRead, theState);
 			validState |= kNFileInfoCanRead;
 		}
 
 		if ((theFlags & kNFileInfoCanWrite) != 0)
 		{
-			GetFileStateAccess(thePath, kNFileInfoCanWrite, theState);
+			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanWrite, theState);
 			validState |= kNFileInfoCanWrite;
 		}
 
 		if ((theFlags & kNFileInfoCanExecute) != 0)
 		{
-			GetFileStateAccess(thePath, kNFileInfoCanExecute, theState);
+			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanExecute, theState);
 			validState |= kNFileInfoCanExecute;
 		}
 	}
