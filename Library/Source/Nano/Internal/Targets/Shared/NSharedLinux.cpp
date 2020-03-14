@@ -48,11 +48,13 @@
 
 // System
 #include <semaphore.h>
-#include <sys/fcntl.h>
 #include <sys/stat.h>
 
 #if NN_TARGET_LINUX && !defined(STATX_TYPE)
 	#include <linux/stat.h>
+	#include <linux/fcntl.h>
+#else
+	#include <sys/fcntl.h>
 #endif
 
 
