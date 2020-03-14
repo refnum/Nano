@@ -48,14 +48,8 @@
 
 // System
 #include <semaphore.h>
+#include <sys/fcntl.h>
 #include <sys/stat.h>
-
-#if NN_TARGET_LINUX && !defined(STATX_TYPE)
-	#include <linux/stat.h>
-	#include <linux/fcntl.h>
-#else
-	#include <sys/fcntl.h>
-#endif
 
 
 
@@ -83,7 +77,7 @@ constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreation
 
 
 
-#if NN_TARGET_LINUX
+#if NN_TARGET_LINUX && defined(SYS_statx)
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
@@ -99,7 +93,7 @@ static NTime ToTime(const statx_timestamp& timeStamp)
 
 	return NTime(timeSecs + timeFrac, kNanoEpochFrom1970);
 }
-#endif // NN_TARGET_LINUX
+#endif
 
 
 
@@ -178,24 +172,8 @@ static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 
 
 
-#if NN_TARGET_ANDROID
-	// Android does not provide statx
-	//
-	// We assume files are created when they were last modified, so
-	// we can skip a stat if the modification time is already known.
-	if ((theState.theFlags & kNFileInfoModifiedTime) == 0)
-	{
-		struct stat theInfo;
-
-		sysErr = stat(thePath.GetUTF8(), &theInfo);
-		wasOK  = (sysErr == 0);
-
-		theState.creationTime = NTime(NTimeUtils::ToInterval(theInfo.st_mtim), kNanoEpochFrom1970);
-		theState.modifiedTime = theState.creationTime;
-	}
-
-#else
-	// Linux provides statx to query the birth time
+#if NN_TARGET_LINUX && defined(SYS_statx)
+	// Linux may statx to query the birth time
 	//
 	// We can't avoid a potentially second call to stat so we
 	// fill both birth and modification times.
@@ -235,6 +213,23 @@ static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 				theState.creationTime = theState.modifiedTime;
 			}
 		}
+	}
+
+
+#else
+	// Android and older Linux does not provide statx
+	//
+	// We assume files are created when they were last modified, so
+	// we can skip a stat if the modification time is already known.
+	if ((theState.theFlags & kNFileInfoModifiedTime) == 0)
+	{
+		struct stat theInfo;
+
+		sysErr = stat(thePath.GetUTF8(), &theInfo);
+		wasOK  = (sysErr == 0);
+
+		theState.creationTime = NTime(NTimeUtils::ToInterval(theInfo.st_mtim), kNanoEpochFrom1970);
+		theState.modifiedTime = theState.creationTime;
 	}
 #endif
 
