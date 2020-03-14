@@ -42,7 +42,7 @@
 #include "NFileInfo.h"
 
 // Nano
-#include "NDebug.h"
+#include "NSharedLinux.h"
 
 
 
@@ -55,9 +55,6 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 {
 
 
-	// Update our state
-	NN_UNUSED(theFlags);
-	NN_LOG_UNIMPLEMENTED();
-
-	return false;
+	// Fetch the state
+	return NSharedLinux::GetFileState(mPath, theFlags, mValid, mState);
 }

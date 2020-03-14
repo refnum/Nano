@@ -44,10 +44,136 @@
 // Nano
 #include "NDebug.h"
 
+// System
+#include <io.h>
 
 
 
 
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr NFileInfoFlags kNFileInfoMaskAttributes =
+	kNFileInfoExists | kNFileInfoIsFile | kNFileInfoIsDirectory | kNFileInfoCreationTime |
+	kNFileInfoModifiedTime | kNFileInfoFileSize;
+
+
+
+
+
+//=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetFileStateAttributes : Get file attribute state.
+//-----------------------------------------------------------------------------
+static bool GetFileStateAttributes(const NString& thePath, NFileInfoState& theState)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
+
+
+
+	// Get the state we need
+	WIN32_FILE_ATTRIBUTE_DATA theInfo{};
+
+	bool wasOK = GetFileAttributesExW(thePath.GetUTF16(), GetFileExInfoStandard, &theInfo);
+
+
+
+	// Update the state
+	if (wasOK)
+	{
+		theState.theFlags |= kNFileInfoExists;
+
+		if ((theInfo.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
+		{
+			theState.theFlags |= kNFileInfoIsDirectory;
+			theState.theFlags &= ~kNFileInfoIsFile;
+			theState.fileSize = 0;
+		}
+		else
+		{
+			theState.theFlags |= kNFileInfoIsFile;
+			theState.theFlags &= ~kNFileInfoIsDirectory;
+			theState.fileSize = ToUInt64(theInfo.nFileSizeHigh, theInfo.nFileSizeLow);
+		}
+
+		theState.creationTime =
+			NTime(NSharedWindows::ToInterval(theInfo.ftCreationTime), kNanoEpochFrom1601);
+
+		theState.modifiedTime =
+			NTime(NSharedWindows::ToInterval(theInfo.ftLastWriteTime), kNanoEpochFrom1601);
+	}
+
+	return wasOK;
+}
+
+
+
+
+
+//=============================================================================
+//		GetFileStateAccess : Get file state with _waccess().
+//-----------------------------------------------------------------------------
+void GetFileStateAccess(const NString& thePath, NFileInfoFlags theFlag, NFileInfoState& theState)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
+
+	NN_REQUIRE(theFlag == kNFileInfoCanRead || theFlag == kNFileInfoCanWrite ||
+			   theFlag == kNFileInfoCanExecute);
+
+
+
+	// Get the state we need
+	int theMode = -1;
+
+	switch (theFlag)
+	{
+		case kNFileInfoCanRead:
+			theMode = 04;
+			break;
+
+		case kNFileInfoCanWrite:
+			theMode = 02;
+			break;
+
+		case kNFileInfoCanExecute:
+			NN_LOG_UNIMPLEMENTED();
+			break;
+
+		default:
+			NN_LOG_ERROR("Unknown file info mode: {}", theFlag);
+			break;
+	}
+
+
+
+	// Get the state
+	if (theMode != -1)
+	{
+		int sysErr = _waccess(thePath.GetUTF8(), theMode);
+		if (sysErr == 0)
+		{
+			theState.theFlags |= theFlag;
+		}
+		else
+		{
+			theState.theFlags &= ~theFlag;
+		}
+	}
+}
+
+
+
+
+
+#pragma mark NFileInfo
 //=============================================================================
 //		NFileInfo::FetchState : Fetch the requested state.
 //-----------------------------------------------------------------------------
@@ -55,9 +181,41 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 {
 
 
-	// Update our state
-	NN_UNUSED(theFlags);
-	NN_LOG_UNIMPLEMENTED();
+	// Fetch with GetFileAttributes
+	bool wasOK = true;
 
-	return false;
+	if (wasOK && (theFlags & kNFileInfoMaskAttributes) != 0)
+	{
+		wasOK = GetFileStateAttributes(thePath, theState);
+		if (wasOK)
+		{
+			validState |= kNFileInfoMaskAttributes;
+		}
+	}
+
+
+
+	// Fetch with access
+	if (wasOK)
+	{
+		if ((theFlags & kNFileInfoCanRead) != 0)
+		{
+			GetFileStateAccess(thePath, kNFileInfoCanRead, theState);
+			validState |= kNFileInfoCanRead;
+		}
+
+		if ((theFlags & kNFileInfoCanWrite) != 0)
+		{
+			GetFileStateAccess(thePath, kNFileInfoCanWrite, theState);
+			validState |= kNFileInfoCanWrite;
+		}
+
+		if ((theFlags & kNFileInfoCanExecute) != 0)
+		{
+			GetFileStateAccess(thePath, kNFileInfoCanExecute, theState);
+			validState |= kNFileInfoCanExecute;
+		}
+	}
+
+	return wasOK;
 }

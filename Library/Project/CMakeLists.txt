@@ -142,6 +142,7 @@ target_sources("${PROJECT_NAME}"
 target_include_directories("${PROJECT_NAME}"
 	PUBLIC
 		"${TARGET_SOURCE_DIR}/Core"
+		"${TARGET_SOURCE_DIR}/Files"
 		"${TARGET_SOURCE_DIR}/Std"
 		"${TARGET_SOURCE_DIR}/System"
 		"${TARGET_SOURCE_DIR}/Text"
