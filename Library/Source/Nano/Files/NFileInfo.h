@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NString.h"
+#include "NTime.h"
 
 
 
@@ -50,15 +51,33 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-using NFileInfoState                                        = uint32_t;
+using NFileInfoFlags                                        = uint16_t;
 
-static constexpr NFileInfoState kNFileInfoNone              = 0;
-static constexpr NFileInfoState kNFileInfoAll               = ~kNFileInfoNone;
+static constexpr NFileInfoFlags kNFileInfoNone              = 0;
+static constexpr NFileInfoFlags kNFileInfoExists            = (1 << 0);
+static constexpr NFileInfoFlags kNFileInfoIsFile            = (1 << 1);
+static constexpr NFileInfoFlags kNFileInfoIsDirectory       = (1 << 2);
+static constexpr NFileInfoFlags kNFileInfoCanRead           = (1 << 3);
+static constexpr NFileInfoFlags kNFileInfoCanWrite          = (1 << 4);
+static constexpr NFileInfoFlags kNFileInfoCanExecute        = (1 << 5);
+static constexpr NFileInfoFlags kNFileInfoCreationTime      = (1 << 6);
+static constexpr NFileInfoFlags kNFileInfoModifiedTime      = (1 << 7);
+static constexpr NFileInfoFlags kNFileInfoFileSize          = (1 << 8);
 
-static constexpr NFileInfoState kNFileInfoExists            = (1 << 0);
-static constexpr NFileInfoState kNFileInfoIsFile            = (1 << 1);
-static constexpr NFileInfoState kNFileInfoIsDirectory       = (1 << 2);
-static constexpr NFileInfoState kNFileInfoSize              = (1 << 3);
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+struct NFileInfoState
+{
+	NFileInfoFlags theFlags;
+	NTime          creationTime;
+	NTime          modifiedTime;
+	uint64_t       fileSize;
+};
 
 
 
@@ -71,51 +90,54 @@ class NFileInfo final
 {
 public:
 										NFileInfo();
-										NFileInfo(const NString& thePath, NFileInfoState theState);
-
-
-	// Get/set the state
-	//
-	// Changing the state will refresh the info.
-	NFileInfoState                      GetState() const;
-	void                                SetState(NFileInfoState theState);
+										NFileInfo(const NString& thePath);
 
 
 	// Get/set the path
 	//
-	// CHanging the path will refresh the info.
+	// The path must be set before any state can be queried.
 	NString                             GetPath() const;
 	void                                SetPath(  const NString& thePath);
 
 
-	// Does the path exist?
-	bool                                Exists() const;
+	// Refresh the info
+	void                                Refresh();
 
 
-	// Is the path a file?
-	bool                                IsFile() const;
-
-
-	// Is the path a directory?
+	// Get the status
+	bool                                Exists()      const;
+	bool                                IsFile()      const;
 	bool                                IsDirectory() const;
 
 
-	// Get the size
-	size_t                              GetSize() const;
+	// Get the permissions
+	bool                                CanRead()    const;
+	bool                                CanWrite()   const;
+	bool                                CanExecute() const;
+
+
+	// Get the timestamps
+	NTime                               GetCreationTime() const;
+	NTime                               GetModifiedTime() const;
+
+
+	// Get the file size
+	//
+	// Only valid for files.
+	size_t                              GetFileSize() const;
 
 
 private:
-	bool                                HasFlag(NFileInfoState theFlag) const;
+	bool                                TestFlag(NFileInfoFlags theFlag) const;
 
-	void                                RefreshInfo();
+	void                                UpdateState(NFileInfoFlags theFlags) const;
+	bool                                FetchState( NFileInfoFlags theFlags);
 
 
 private:
-	NFileInfoState                      mState;
 	NString                             mPath;
-
-	uint64_t                            mSize;
-	NFileInfoState                      mFlags;
+	NFileInfoFlags                      mValid;
+	NFileInfoState                      mState;
 };
 
 

@@ -47,9 +47,56 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+#if NN_TARGET_ANDROID
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+
+#elif NN_TARGET_IOS
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+
+
+#elif NN_TARGET_LINUX
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+
+
+#elif NN_TARGET_MACOS
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+
+
+#elif NN_TARGET_TVOS
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+
+#elif NN_TARGET_WINDOWS
+static const NString kPathFile                              = "c:\\Windows\\WindowsShell.Manifest";
+static const NString kPathDirectory                         = "c:\\Windows\\temp";
+static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
+
+#else
+	#error "Unknown target"
+#endif
+
+
+
+
+
+//=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TFileInfo){};
+NANO_FIXTURE(TFileInfo)
+{
+	NFileInfo theInfo;
+};
 
 
 
@@ -58,6 +105,127 @@ NANO_FIXTURE(TFileInfo){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileInfo, "Default")
+NANO_TEST(TFileInfo, "SetPath")
 {
+
+
+	// Perform the test
+	theInfo.SetPath(kPathFile);
+	REQUIRE(theInfo.GetPath() == kPathFile);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Refresh")
+{
+
+
+	// Perform the test
+	theInfo.SetPath(kPathFile);
+	theInfo.Refresh();
+	REQUIRE(theInfo.GetPath() == kPathFile);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Status")
+{
+
+
+	// Perform the test
+	theInfo.SetPath(kPathFile);
+	REQUIRE(theInfo.Exists());
+	REQUIRE(theInfo.IsFile());
+	REQUIRE(!theInfo.IsDirectory());
+
+	theInfo.SetPath(kPathDirectory);
+	REQUIRE(theInfo.Exists());
+	REQUIRE(!theInfo.IsFile());
+	REQUIRE(theInfo.IsDirectory());
+
+	theInfo.SetPath(kPathDoesNotExist);
+	REQUIRE(!theInfo.Exists());
+	REQUIRE(!theInfo.IsFile());
+	REQUIRE(!theInfo.IsDirectory());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Permission")
+{
+
+
+	// Perform the test
+	theInfo.SetPath(kPathFile);
+	REQUIRE(theInfo.CanRead());
+	REQUIRE(!theInfo.CanWrite());
+	REQUIRE(theInfo.CanExecute());
+
+	theInfo.SetPath(kPathDirectory);
+	REQUIRE(theInfo.CanRead());
+	REQUIRE(theInfo.CanWrite());
+	REQUIRE(theInfo.CanExecute());
+
+	theInfo.SetPath(kPathDoesNotExist);
+	REQUIRE(!theInfo.CanRead());
+	REQUIRE(!theInfo.CanWrite());
+	REQUIRE(!theInfo.CanExecute());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Timestamps")
+{
+
+
+	// Perform the test
+	theInfo.SetPath(kPathFile);
+	REQUIRE(theInfo.GetCreationTime() != 0.0);
+	REQUIRE(theInfo.GetModifiedTime() != 0.0);
+	REQUIRE(theInfo.GetModifiedTime() >= theInfo.GetCreationTime());
+
+	theInfo.SetPath(kPathDirectory);
+	REQUIRE(theInfo.GetCreationTime() != 0.0);
+	REQUIRE(theInfo.GetModifiedTime() != 0.0);
+	REQUIRE(theInfo.GetModifiedTime() >= theInfo.GetCreationTime());
+
+	theInfo.SetPath(kPathDoesNotExist);
+	REQUIRE(theInfo.GetCreationTime() == 0.0);
+	REQUIRE(theInfo.GetModifiedTime() == 0.0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "File size")
+{
+
+
+	// Perform the test
+	theInfo.SetPath(kPathFile);
+	REQUIRE(theInfo.GetFileSize() != 0);
 }

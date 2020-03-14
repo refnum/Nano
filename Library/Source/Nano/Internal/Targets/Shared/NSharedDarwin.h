@@ -42,8 +42,18 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFileInfo.h"
 #include "NSemaphore.h"
 #include "NTime.h"
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+class NString;
 
 
 
@@ -66,6 +76,13 @@ public:
 	// Get the system clock
 	static uint64_t                     GetClockTicks();
 	static uint64_t                     GetClockFrequency();
+
+
+	// Get file state
+	static bool                         GetFileState(const NString&  thePath,
+													 NFileInfoFlags  theFlags,
+													 NFileInfoFlags& validState,
+													 NFileInfoState& theState);
 
 
 	// Semaphores

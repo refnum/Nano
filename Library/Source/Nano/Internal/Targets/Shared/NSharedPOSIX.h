@@ -41,10 +41,21 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFileInfo.h"
 #include "NTime.h"
 
 // System
+#include <sys/stat.h>
 #include <sys/time.h>
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+class NString;
 
 
 
@@ -66,6 +77,10 @@ public:
 	//
 	// Returns clock_gettime for the specified clock.
 	static NInterval                    clock_gettime(clockid_t theID);
+
+
+	// Get an access() mode
+	static int                          GetFileAccessMode(NFileInfoFlags theFlag);
 
 
 	// Convert between time formats

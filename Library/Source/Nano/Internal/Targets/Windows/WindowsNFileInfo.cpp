@@ -49,12 +49,15 @@
 
 
 //=============================================================================
-//		NFileInfo::RefreshInfo : Refresh the info.
+//		NFileInfo::FetchState : Fetch the requested state.
 //-----------------------------------------------------------------------------
-void NFileInfo::RefreshInfo()
+bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 {
 
 
 	// Update our state
+	NN_UNUSED(theFlags);
 	NN_LOG_UNIMPLEMENTED();
+
+	return false;
 }

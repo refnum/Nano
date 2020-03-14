@@ -43,10 +43,12 @@
 
 // Nano
 #include "NDebug.h"
+#include "NString.h"
 #include "NTimeUtils.h"
 
 // System
 #include <math.h>
+#include <unistd.h>
 
 
 
@@ -102,6 +104,46 @@ NInterval NSharedPOSIX::clock_gettime(clockid_t theID)
 
 	// Get the time
 	return NTimeUtils::ToInterval(timeSpec);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::GetFileAccessMode : Convert a file info flag to am access() mode.
+//-----------------------------------------------------------------------------
+int NSharedPOSIX::GetFileAccessMode(NFileInfoFlags theFlag)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theFlag == kNFileInfoCanRead || theFlag == kNFileInfoCanWrite ||
+			   theFlag == kNFileInfoCanExecute);
+
+
+
+	// Get the mode
+	switch (theFlag)
+	{
+		case kNFileInfoCanRead:
+			return R_OK;
+			break;
+
+		case kNFileInfoCanWrite:
+			return W_OK;
+			break;
+
+		case kNFileInfoCanExecute:
+			return X_OK;
+			break;
+
+		default:
+			NN_LOG_ERROR("Unknown file info mode: {}", theFlag);
+			break;
+	}
+
+	return -1;
 }
 
 

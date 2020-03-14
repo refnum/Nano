@@ -44,13 +44,28 @@
 // Nano
 #include "NDebug.h"
 #include "NSharedPOSIX.h"
-#include "NanoConstants.h"
+#include "NString.h"
+#include "NTimeUtils.h"
 
 // System
 #include <CoreFoundation/CoreFoundation.h>
 #include <dispatch/semaphore.h>
+#include <fcntl.h>
 #include <mach/mach_time.h>
+#include <sys/stat.h>
 #include <sys/sysctl.h>
+#include <unistd.h>
+
+
+
+
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr NFileInfoFlags kNFileInfoMaskStat =
+	kNFileInfoExists | kNFileInfoIsFile | kNFileInfoIsDirectory | kNFileInfoCreationTime |
+	kNFileInfoModifiedTime | kNFileInfoFileSize;
 
 
 
@@ -116,6 +131,97 @@ static uint64_t GetMachClockFrequency()
 
 
 
+//=============================================================================
+//		GetFileStateStat : Get file state with stat().
+//-----------------------------------------------------------------------------
+static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
+
+	// Get the state we need
+	struct stat theInfo;
+
+	int  sysErr = stat(thePath.GetUTF8(), &theInfo);
+	bool wasOK  = (sysErr == 0);
+
+
+
+	// Update the state
+	if (wasOK)
+	{
+		theState.theFlags |= kNFileInfoExists;
+
+		if (S_ISREG(theInfo.st_mode))
+		{
+			theState.theFlags |= kNFileInfoIsFile;
+			theState.fileSize = uint64_t(theInfo.st_size);
+		}
+		else
+		{
+			theState.theFlags &= ~kNFileInfoIsFile;
+			theState.fileSize = 0;
+		}
+
+		if (S_ISDIR(theInfo.st_mode))
+		{
+			theState.theFlags |= kNFileInfoIsDirectory;
+		}
+		else
+		{
+			theState.theFlags &= ~kNFileInfoIsDirectory;
+		}
+
+		theState.creationTime =
+			NTime(NTimeUtils::ToInterval(theInfo.st_birthtimespec), kNanoEpochFrom1970);
+
+		theState.modifiedTime =
+			NTime(NTimeUtils::ToInterval(theInfo.st_mtimespec), kNanoEpochFrom1970);
+	}
+
+	return wasOK;
+}
+
+
+
+
+
+//=============================================================================
+//		GetFileStateAccess : Get file state with access().
+//-----------------------------------------------------------------------------
+static void GetFileStateAccess(const NString&  thePath,
+							   NFileInfoFlags  theFlag,
+							   NFileInfoState& theState)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
+
+
+	// Get the state we need
+	int theMode = NSharedPOSIX::GetFileAccessMode(theFlag);
+	int sysErr  = faccessat(0, thePath.GetUTF8(), theMode, AT_EACCESS);
+
+
+
+	// Update the state
+	if (sysErr == 0)
+	{
+		theState.theFlags |= theFlag;
+	}
+	else
+	{
+		theState.theFlags &= ~theFlag;
+	}
+}
+
+
+
+
+
 #pragma mark NSharedDarwin
 //=============================================================================
 //		NSharedDarwin::GetTime : Get the time.
@@ -175,6 +281,64 @@ uint64_t NSharedDarwin::GetClockFrequency()
 	static uint64_t sClockFrequency = GetMachClockFrequency();
 
 	return sClockFrequency;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::GetFileState : Get file state.
+//-----------------------------------------------------------------------------
+bool NSharedDarwin::GetFileState(const NString&  thePath,
+								 NFileInfoFlags  theFlags,
+								 NFileInfoFlags& validState,
+								 NFileInfoState& theState)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(theFlags != kNFileInfoNone);
+
+
+	// Fetch with stat
+	bool wasOK = true;
+
+	if (wasOK && (theFlags & kNFileInfoMaskStat) != 0)
+	{
+		wasOK = GetFileStateStat(thePath, theState);
+		if (wasOK)
+		{
+			validState |= kNFileInfoMaskStat;
+		}
+	}
+
+
+
+	// Fetch with access
+	if (wasOK)
+	{
+		if ((theFlags & kNFileInfoCanRead) != 0)
+		{
+			GetFileStateAccess(thePath, kNFileInfoCanRead, theState);
+			validState |= kNFileInfoCanRead;
+		}
+
+		if ((theFlags & kNFileInfoCanWrite) != 0)
+		{
+			GetFileStateAccess(thePath, kNFileInfoCanWrite, theState);
+			validState |= kNFileInfoCanWrite;
+		}
+
+		if ((theFlags & kNFileInfoCanExecute) != 0)
+		{
+			GetFileStateAccess(thePath, kNFileInfoCanExecute, theState);
+			validState |= kNFileInfoCanExecute;
+		}
+	}
+
+	return wasOK;
 }
 
 
