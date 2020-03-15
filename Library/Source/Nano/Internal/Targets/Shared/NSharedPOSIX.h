@@ -79,6 +79,11 @@ public:
 	static NInterval                    clock_gettime(clockid_t theID);
 
 
+	// Get a POSIX error
+	static NStatus                      GetSysErr(int sysErr);
+	static NStatus                      GetErrno();
+
+
 	// Get an access() state
 	static void                         GetFileStateAccess(const NString&  thePath,
 														   NFileInfoFlags  theFlag,
