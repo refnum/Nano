@@ -124,7 +124,7 @@ public:
 	// Get the file size
 	//
 	// Only valid for files.
-	size_t                              GetFileSize() const;
+	uint64_t                            GetFileSize() const;
 
 
 private:

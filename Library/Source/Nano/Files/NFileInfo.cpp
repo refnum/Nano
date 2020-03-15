@@ -275,7 +275,7 @@ NTime NFileInfo::GetModifiedTime() const
 //=============================================================================
 //		NFileInfo::GetFileSize : Get the file size.
 //-----------------------------------------------------------------------------
-size_t NFileInfo::GetFileSize() const
+uint64_t NFileInfo::GetFileSize() const
 {
 
 
