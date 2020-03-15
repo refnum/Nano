@@ -151,6 +151,29 @@ constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
 
 
 //=============================================================================
+//		_nn_is_error : Is this an eror value?
+//-----------------------------------------------------------------------------
+#if defined(__cplusplus)
+template <typename E>
+constexpr bool _nn_is_error(E theErr) noexcept
+{
+	return theErr != E(0);
+}
+
+template <>
+constexpr bool _nn_is_error<NStatus>(NStatus theErr) noexcept
+{
+	return theErr != NStatus::NoErr;
+}
+#else
+	#define _nn_is_error(_theErr)                           ((_theErr) != 0)
+#endif // defined(__cplusplus)
+
+
+
+
+
+//=============================================================================
 //		_nn_has_assignment : Does an expression contain an assignment?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)

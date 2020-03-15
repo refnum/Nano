@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NanoConstants.h"
 #include "NanoMacros.h"
 
 #if defined(__cplusplus)
@@ -458,7 +459,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 #define NN_REQUIRE_NOT_ERR(_error, ...)                     \
 	do                                                      \
 	{                                                       \
-		NN_REQUIRE((_error) == 0, ##__VA_ARGS__);           \
+		NN_REQUIRE(!_nn_is_error(_error), ##__VA_ARGS__);   \
 	} while (false)
 
 #define NN_REQUIRE_NOT_NULL(_pointer, ...)                  \
@@ -471,7 +472,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 #define NN_EXPECT_NOT_ERR(_error, ...)                      \
 	do                                                      \
 	{                                                       \
-		NN_EXPECT((_error) == 0, ##__VA_ARGS__);            \
+		NN_EXPECT(!_nn_is_error(_error), ##__VA_ARGS__);    \
 	} while (false)
 
 #define NN_EXPECT_NOT_NULL(_pointer, ...)                   \
