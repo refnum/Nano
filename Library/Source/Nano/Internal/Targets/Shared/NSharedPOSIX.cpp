@@ -97,7 +97,7 @@ static constexpr const char* GetPermission(NFilePermission thePermission)
 			return "w+";
 			break;
 	}
-	
+
 	return nullptr;
 }
 

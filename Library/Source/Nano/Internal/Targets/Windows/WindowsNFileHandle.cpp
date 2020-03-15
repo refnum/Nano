@@ -72,7 +72,10 @@ static constexpr UINT GetPermission(NFilePermission thePermission)
 }
 
 
-#pragam mark NFileHandle
+
+
+
+#pragma mark NFileHandle
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
