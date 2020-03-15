@@ -74,6 +74,37 @@ static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
 
 
 //=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetPermisson : Get a permission string.
+//-----------------------------------------------------------------------------
+static constexpr const char* GetPermission(NFilePermission thePermission)
+{
+
+
+	// Get the permission
+	switch (thePermission)
+	{
+		case NFilePermission::Read:
+			return "r";
+			break;
+
+		case NFilePermission::Write:
+			return "w";
+			break;
+
+		case NFilePermission::Update:
+			return "w+";
+			break;
+	}
+}
+
+
+
+
+
+#pragma mark NSharedPOSIX
+//=============================================================================
 //		NSharedPOSIX::gettimeofday : Get the time of day.
 //-----------------------------------------------------------------------------
 NTime NSharedPOSIX::gettimeofday()
@@ -750,6 +781,143 @@ void NSharedPOSIX::GetFileStateAccess(const NString&  thePath,
 			theState.theFlags &= ~theFlag;
 		}
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileOpen : Open a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
+							   NFilePermission thePermission,
+							   NFileHandleRef& fileHandle)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NFileHandleRef) >= sizeof(FILE*));
+
+
+	// Open the file
+	FILE* theFile = fopen(thePath.GetUTF8(), GetPermission(thePermission));
+	if (theFile != nullptr)
+	{
+		fileHandle = static_cast<NFileHandleRef>(theFile);
+	}
+
+	return GetErrno();
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileClose : Close a file.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::FileClose(NFileHandleRef fileHandle)
+{
+
+
+	// Get the state we need
+	FILE* theFile = static_cast<FILE*>(fileHandle);
+
+	// Close the file
+	int sysErr = fclose(theFile);
+	NN_EXPECT_NOT_ERR(sysErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileSeek : Seek into a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileSeek(NFileHandleRef fileHandle, uint64_t thePosition)
+{
+
+
+	// Get the state we need
+	FILE* theFile = static_cast<FILE*>(fileHandle);
+
+
+
+	// Seek into the file
+	int sysErr = fseeko(theFile, off_t(thePosition), SEEK_SET);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return GetSysErr(sysErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileRead : Read from a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
+							   uint64_t       theSize,
+							   void*          thePtr,
+							   uint64_t&      numRead)
+{
+
+
+	// Get the state we need
+	FILE*   theFile = static_cast<FILE*>(fileHandle);
+	NStatus theErr  = NStatus::NoErr;
+
+
+	// Read from the file
+	numRead = fread(thePtr, theSize, 1, theFile);
+
+	if (numRead != theSize)
+	{
+		if (feof(theFile))
+		{
+			theErr = NStatus::ExhaustedSrc;
+		}
+
+		else
+		{
+			theErr = GetSysErr(ferror(theFile));
+		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileWrite : Write to a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
+								uint64_t       theSize,
+								const void*    thePtr,
+								uint64_t&      numWritten)
+{
+
+
+	// Get the state we need
+	FILE*   theFile = static_cast<FILE*>(fileHandle);
+	NStatus theErr  = NStatus::NoErr;
+
+
+	// Write to the file
+	numWritten = fwrite(thePtr, theSize, 1, theFile);
+
+	if (numWritten != theSize)
+	{
+		theErr = NStatus::DiskFull;
+	}
+
+	return theErr;
 }
 
 

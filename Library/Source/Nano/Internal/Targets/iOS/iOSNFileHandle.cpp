@@ -40,3 +40,81 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFileHandle.h"
+
+// Nano
+#include "NSharedPOSIX.h"
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileOpen : Open the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileOpen(NFilePermission thePermission)
+{
+
+
+	// Open the file
+	return NSharedPOSIX::FileOpen(mPath, thePermission, mHandle);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileClose : Close the file.
+//-----------------------------------------------------------------------------
+void NFileHandle::FileClose()
+{
+
+
+	// Open the file
+	NSharedPOSIX::FileClose(mHandle);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileSeek : Seek into the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileSeek(uint64_t thePosition)
+{
+
+
+	// Open the file
+	return NSharedPOSIX::FileSeek(mHandle, thePosition);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileRead : Read from the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
+{
+
+
+	// Read from the file
+	return NSharedPOSIX::FileRead(mHandle, theSize, thePtr, numRead);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileWrite : Write to the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten)
+{
+
+
+	// Write to the file
+	return NSharedPOSIX::FileWrite(mHandle, theSize, thePtr, numWritten);
+}

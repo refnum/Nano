@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NFileHandle.h"
 
+// Nano
+#include "NFileInfo.h"
+
 
 
 
@@ -49,8 +52,28 @@
 //		NFileHandle::NFileHandle : Constructor.
 //-----------------------------------------------------------------------------
 NFileHandle::NFileHandle()
-	: mHandle(kNFileHandleNone)
+	: mPath{}
+	, mHandle(kNFileHandleNone)
+	, mPosition(0)
 {
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::~NFileHandle : Destructor.
+//-----------------------------------------------------------------------------
+NFileHandle::~NFileHandle()
+{
+
+
+	// Clean up
+	if (IsOpen())
+	{
+		Close();
+	}
 }
 
 
@@ -65,5 +88,180 @@ bool NFileHandle::IsOpen() const
 
 
 	// Check the state
-	return mHandle != nullptr;
+	return mHandle != kNFileHandleNone;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::GetPath : Get the path.
+//-----------------------------------------------------------------------------
+NString NFileHandle::GetPath() const
+{
+
+
+	// Get the path
+	return mPath;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::Open : Open the file handle.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::Open(const NString& thePath, NFilePermission thePermission)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!IsOpen());
+	NN_REQUIRE(!thePath.IsEmpty());
+
+	NN_REQUIRE(mPath.IsEmpty());
+	NN_REQUIRE(mPosition == 0);
+
+
+
+	// Open the file
+	NStatus theErr = FileOpen(thePermission);
+	NN_EXPECT_NOT_ERR(theErr);
+
+	if (theErr == NStatus::NoErr)
+	{
+		NN_REQUIRE(mHandle != kNFileHandleNone);
+		mPath = thePath;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::Close : Close the file handle.
+//-----------------------------------------------------------------------------
+void NFileHandle::Close()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+	NN_REQUIRE(!mPath.IsEmpty());
+
+
+
+	// Close the handle
+	FileClose();
+
+	mPath.Clear();
+	mHandle   = kNFileHandleNone;
+	mPosition = 0;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::GetPosition : Get the position.
+//-----------------------------------------------------------------------------
+uint64_t NFileHandle::GetPosition() const
+{
+
+
+	// Get the position
+	return mPosition;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::SetPosition : Set the position.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::SetPosition(int64_t theOffset, NFileOffset relativeTo)
+{
+
+
+	// Get the state we need
+	NStatus  theErr      = NStatus::NoErr;
+	uint64_t newPosition = 0;
+
+	switch (relativeTo)
+	{
+		case NFileOffset::FromStart:
+			NN_REQUIRE(theOffset >= 0);
+			newPosition = uint64_t(theOffset);
+			break;
+
+		case NFileOffset::FromPosition:
+			NN_REQUIRE((int64_t(mPosition) + theOffset) >= 0);
+			newPosition = uint64_t(int64_t(mPosition) + theOffset);
+			break;
+
+		case NFileOffset::FromEnd:
+			NN_REQUIRE(theOffset >= 0);
+			NN_REQUIRE(uint64_t(theOffset) <= NFileInfo(mPath).GetFileSize());
+			newPosition = NFileInfo(mPath).GetFileSize() - uint64_t(theOffset);
+			break;
+	}
+
+
+
+	// Update the position
+	if (newPosition != mPosition)
+	{
+		theErr = FileSeek(mPosition);
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::Read : Read from the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::Read(uint64_t    theSize,
+						  void*       thePtr,
+						  uint64_t&   numRead,
+						  int64_t     theOffset,
+						  NFileOffset relativeTo)
+{
+
+
+	// Read from the file
+	SetPosition(theOffset, relativeTo);
+
+	return FileRead(theSize, thePtr, numRead);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::Write : Write to the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::Write(uint64_t    theSize,
+						   const void* thePtr,
+						   uint64_t&   numWritten,
+						   int64_t     theOffset,
+						   NFileOffset relativeTo)
+{
+
+
+	// Write to the file
+	SetPosition(theOffset, relativeTo);
+
+	return FileWrite(theSize, thePtr, numWritten);
 }

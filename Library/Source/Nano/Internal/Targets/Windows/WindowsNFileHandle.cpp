@@ -40,3 +40,206 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFileHandle.h"
+
+// Nano
+#include "NSharedPOSIX.h"
+
+
+
+
+
+//=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetPermisson : Get a permission string.
+//-----------------------------------------------------------------------------
+static constexpr UINT GetPermission(NFilePermission thePermission)
+{
+
+
+	// Get the permission
+	switch (thePermission)
+	{
+		case NFilePermission::Read:
+			return FILE_GENERIC_READ;
+			break;
+
+		case NFilePermission::Write:
+			return FILE_GENERIC_WRITE;
+			break;
+
+		case NFilePermission::Update:
+			return FILE_GENERIC_READ | FILE_GENERIC_WRITE;
+			break;
+	}
+}
+
+
+#pragam mark NFileHandle
+//=============================================================================
+//		NFileHandle::FileOpen : Open the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileOpen(NFilePermission thePermission)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NFileHandleRef) >= sizeof(HANDLE));
+
+
+
+	// Open the file
+	NStatus theErr = NStatus::Permission;
+
+	HANDLE theFile = CreateFile(LPCWSTR(mPath.GetUTF8()),
+								GetPermission(thePermission),
+								FILE_SHARE_READ | FILE_SHARE_WRITE,
+								nullptr,
+								OPEN_ALWAYS,
+								FILE_ATTRIBUTE_NORMAL,
+								nullptr);
+
+	if (theFile != INVALID_HANDLE_VALUE)
+	{
+		mHandle = NFileHandleRef(theFile);
+		theErr  = NStatus::NoErr;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileClose : Close the file.
+//-----------------------------------------------------------------------------
+void NFileHandle::FileClose()
+{
+
+
+	// Get the state we need
+	HANDLE theFile = static_cast<HANDLE>(mHandle);
+
+
+
+	// Close the file
+	BOOL wasOK = CloseHandle(theFile);
+	NN_EXPECT(wasOK);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileSeek : Seek into the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileSeek(uint64_t thePosition)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(LARGE_INTEGER) <= sizeof(uint64_t));
+
+
+	// Get the state we need
+	HANDLE  theFile = static_cast<HANDLE>(mHandle);
+	NStatus theErr  = NStatus::NoErr;
+
+	LARGE_INTEGER theOffset;
+	theOffset.QuadPart = thePosition;
+
+
+	// Seek into the file
+	if (!SetFilePointerEx(theFile, theOffset, nullptr, FILE_BEGIN))
+	{
+		theErr = NStatus::Param;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileRead : Read from the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theSize <= kNInt32Max);
+
+
+
+	// Get the state we need
+	HANDLE  theFile   = static_cast<HANDLE>(mHandle);
+	NStatus theErr    = NStatus::NoErr;
+	DWORD   bytesRead = 0;
+
+
+
+	// Read from the file
+	if (!ReadFile(theFile, thePtr, DWORD(theSize), &bytesRead, nullptr))
+	{
+		theErr = NStatus::Param;
+	}
+
+	if (theErr == NStatus::NoErr && bytesRead == 0)
+	{
+		theErr = NStatus::ExhaustedSrc;
+	}
+
+	if (theErr == NStatus::NoErr)
+	{
+		numRead = bytesRead;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileWrite : Write to the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten)
+{
+
+
+	// Validate our parameters
+	NN_ASSERT(theSize <= kNInt32Max);
+
+
+
+	// Get the state we need
+	HANDLE  theFile      = static_cast<HANDLE>(mHandle);
+	NStatus theErr       = NStatus::NoErr;
+	DWORD   bytesWritten = 0;
+
+
+	// Write to the file
+	if (!WriteFile(theFile, thePtr, DWORD(theSize), &bytesWritten, nullptr))
+	{
+		theErr = NStatus::Param;
+	}
+
+	if (theErr == NStatus::NoErr)
+	{
+		numWritten = bytesWritten;
+	}
+
+	if (numWritten != theSize)
+	{
+		theErr = NStatus::DiskFull;
+	}
+
+	return theErr;
+}

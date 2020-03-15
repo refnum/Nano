@@ -47,9 +47,51 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+// Misc
+static constexpr uint32_t kBufferSize                       = 9;
+static constexpr uint8_t  kBufferData[kBufferSize]          = {'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a'};
+
+
+// Paths
+#if NN_TARGET_ANDROID
+static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+
+#elif NN_TARGET_IOS
+static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+
+
+#elif NN_TARGET_LINUX
+static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+
+
+#elif NN_TARGET_MACOS
+static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+
+
+#elif NN_TARGET_TVOS
+static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+
+#elif NN_TARGET_WINDOWS
+static const NString kPathTmpFile                           = "c:\\temp\\tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+
+#else
+	#error "Unknown target"
+#endif
+
+
+
+
+
+//=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TFileHandle){};
+NANO_FIXTURE(TFileHandle)
+{
+	NFileHandle theFile;
+	NStatus     theErr;
+};
 
 
 
@@ -60,4 +102,98 @@ NANO_FIXTURE(TFileHandle){};
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileHandle, "Default")
 {
+
+
+	// Validate our state
+	REQUIRE(!theFile.IsOpen());
+	REQUIRE(theFile.GetPath().IsEmpty());
+	REQUIRE(theFile.GetPosition() == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "OpenRead")
+{
+
+
+	// Perform the test
+	theErr = theFile.Open(kPathTmpFile, NFilePermission::Read);
+	REQUIRE(theErr == NStatus::NotFound);
+	REQUIRE(!theFile.IsOpen());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "OpenWrite")
+{
+
+
+	// Perform the test
+	theErr = theFile.Open(kPathTmpFile, NFilePermission::Write);
+	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(theFile.IsOpen());
+	REQUIRE(theFile.GetPosition() == 0);
+
+	uint64_t numWritten = 123456;
+	theErr              = theFile.Write(kBufferSize, kBufferData, numWritten);
+	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(numWritten == kBufferSize);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "OpenWriteRead")
+{
+
+
+	// Perform the test
+	theErr = theFile.Open(kPathTmpFile, NFilePermission::Write);
+	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(theFile.IsOpen());
+	REQUIRE(theFile.GetPosition() == 0);
+
+	uint64_t numWritten = 123456;
+	theErr              = theFile.Write(kBufferSize, kBufferData, numWritten);
+	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(numWritten == kBufferSize);
+	REQUIRE(theFile.GetPosition() == numWritten);
+
+	theFile.Close();
+	REQUIRE(!theFile.IsOpen());
+	REQUIRE(theFile.GetPosition() == 0);
+
+
+
+	theErr = theFile.Open(kPathTmpFile, NFilePermission::Read);
+	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(theFile.IsOpen());
+	REQUIRE(theFile.GetPosition() == 0);
+
+	uint8_t  tmpBuffer[kBufferSize];
+	uint64_t numRead = 123456;
+	theErr           = theFile.Read(kBufferSize, tmpBuffer, numRead);
+	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(numRead == kBufferSize);
+
+	REQUIRE(memcmp(tmpBuffer, kBufferData, kBufferSize) == 0);
+
+	numRead = 123456;
+	theErr  = theFile.Read(kBufferSize, tmpBuffer, numRead);
+	REQUIRE(theErr == NStatus::ExhaustedSrc);
+	REQUIRE(numRead == 0);
 }

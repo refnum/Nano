@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NString.h"
 
 
 
@@ -59,7 +60,25 @@ using NFileHandleRef                                        = void*;
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
+// Native file handle
 static constexpr NFileHandleRef kNFileHandleNone            = nullptr;
+
+
+// Permissions
+enum class NFilePermission
+{
+	Read,
+	Write,
+	Update
+};
+
+// Offsets
+enum class NFileOffset
+{
+	FromStart,
+	FromPosition,
+	FromEnd
+};
 
 
 
@@ -72,7 +91,7 @@ class NFileHandle final
 {
 public:
 										NFileHandle();
-	virtual                            ~NFileHandle() = default;
+									   ~NFileHandle();
 
 										NFileHandle(const NFileHandle&) = delete;
 	NFileHandle&                        operator=(  const NFileHandle&) = delete;
@@ -85,8 +104,54 @@ public:
 	bool                                IsOpen() const;
 
 
+	// Get the path
+	NString                             GetPath() const;
+
+
+	// Open/close the handle
+	//
+	// A handle must be closed before it can be opened.
+	//
+	// An open handle will be closed when it goes out of scope.
+	NStatus                             Open(const NString& thePath, NFilePermission thePermission = NFilePermission::Read);
+	void                                Close();
+
+
+	// Get/set the position
+	//
+	// The default position is 0.
+	uint64_t                            GetPosition() const;
+	NStatus                             SetPosition(int64_t theOffset, NFileOffset relativeTo = NFileOffset::FromStart);
+
+
+	// Read from the file
+	NStatus                             Read(uint64_t    theSize,
+											 void*       thePtr,
+											 uint64_t&   numRead,
+											 int64_t     theOffset  = 0,
+											 NFileOffset relativeTo = NFileOffset::FromPosition);
+
+
+	// Write to the file
+	NStatus                             Write(uint64_t    theSize,
+											  const void* thePtr,
+											  uint64_t&   numWritten,
+											  int64_t     theOffset  = 0,
+											  NFileOffset relativeTo = NFileOffset::FromPosition);
+
+
 private:
+	NStatus                             FileOpen(NFilePermission thePermission);
+	void                                FileClose();
+	NStatus                             FileSeek( uint64_t thePosition);
+	NStatus                             FileRead( uint64_t theSize,       void* thePtr, uint64_t& numRead);
+	NStatus                             FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten);
+
+
+private:
+	NString                             mPath;
 	NFileHandleRef                      mHandle;
+	uint64_t                            mPosition;
 };
 
 

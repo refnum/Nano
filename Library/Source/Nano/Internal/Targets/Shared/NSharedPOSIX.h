@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFileHandle.h"
 #include "NFileInfo.h"
 #include "NTime.h"
 
@@ -88,6 +89,22 @@ public:
 	static void                         GetFileStateAccess(const NString&  thePath,
 														   NFileInfoFlags  theFlag,
 														   NFileInfoState& theState);
+
+
+	// File handle
+	static NStatus                      FileOpen(const NString&  thePath,
+												 NFilePermission thePermission,
+												 NFileHandleRef& fileHandle);
+	static void                         FileClose(NFileHandleRef fileHandle);
+	static NStatus                      FileSeek( NFileHandleRef fileHandle, uint64_t thePosition);
+	static NStatus                      FileRead( NFileHandleRef fileHandle,
+												 uint64_t       theSize,
+												 void*          thePtr,
+												 uint64_t&      numRead);
+	static NStatus                      FileWrite(NFileHandleRef fileHandle,
+												  uint64_t       theSize,
+												  const void*    thePtr,
+												  uint64_t&      numWritten);
 
 
 	// Convert between time formats
