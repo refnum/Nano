@@ -50,8 +50,11 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declaration
+class NFile;
+
 // Native file handle
-using NFileHandleRef                                        = void*;
+using NFileHandleRef = void*;
 
 
 
@@ -61,7 +64,7 @@ using NFileHandleRef                                        = void*;
 //		Constants
 //-----------------------------------------------------------------------------
 // Native file handle
-static constexpr NFileHandleRef kNFileHandleNone            = nullptr;
+static constexpr NFileHandleRef kNFileHandleNone = nullptr;
 
 
 // Permissions
@@ -113,7 +116,9 @@ public:
 	// A handle must be closed before it can be opened.
 	//
 	// An open handle will be closed when it goes out of scope.
+	NStatus                             Open(const NFile& theFile,   NFilePermission thePermission = NFilePermission::Read);
 	NStatus                             Open(const NString& thePath, NFilePermission thePermission = NFilePermission::Read);
+
 	void                                Close();
 
 

@@ -42,6 +42,7 @@
 #include "NFileHandle.h"
 
 // Nano
+#include "NFile.h"
 #include "NFileInfo.h"
 
 
@@ -103,6 +104,21 @@ NString NFileHandle::GetPath() const
 
 	// Get the path
 	return mPath;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::Open : Open the file handle.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::Open(const NFile& theFile, NFilePermission thePermission)
+{
+
+
+	// Open the file
+	return Open(theFile.GetPath(), thePermission);
 }
 
 
