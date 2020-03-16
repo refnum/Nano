@@ -121,17 +121,17 @@ NStatus NFileHandle::FileOpen(NFilePermission thePermission)
 	// Open the file
 	NStatus theErr = NStatus::Permission;
 
-	HANDLE theFile = CreateFile(LPCWSTR(mPath.GetUTF8()),
-								GetFilePermisson(thePermission),
-								FILE_SHARE_READ | FILE_SHARE_WRITE,
-								nullptr,
-								OPEN_ALWAYS,
-								FILE_ATTRIBUTE_NORMAL,
-								nullptr);
+	HANDLE hFile = CreateFile(LPCWSTR(mPath.GetUTF8()),
+							  GetFilePermisson(thePermission),
+							  FILE_SHARE_READ | FILE_SHARE_WRITE,
+							  nullptr,
+							  OPEN_ALWAYS,
+							  FILE_ATTRIBUTE_NORMAL,
+							  nullptr);
 
-	if (theFile != INVALID_HANDLE_VALUE)
+	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		mHandle = NFileHandleRef(theFile);
+		mHandle = NFileHandleRef(hFile);
 		theErr  = NStatus::NoErr;
 	}
 
@@ -150,12 +150,12 @@ void NFileHandle::FileClose()
 
 
 	// Get the state we need
-	HANDLE theFile = static_cast<HANDLE>(mHandle);
+	HANDLE hFile = static_cast<HANDLE>(mHandle);
 
 
 
 	// Close the file
-	BOOL wasOK = CloseHandle(theFile);
+	BOOL wasOK = CloseHandle(hFile);
 	NN_EXPECT(wasOK);
 }
 
@@ -176,14 +176,14 @@ uint64_t NFileHandle::FileGetPosition()
 
 
 	// Get the state we need
-	HANDLE        theFile   = static_cast<HANDLE>(mHandle);
+	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
 	LARGE_INTEGER theOffset = {0};
 	NStatus       theErr    = NStatus::NoErr;
 
 
 
 	// Get the file position
-	if (!SetFilePointerEx(theFile, theOffset, &theOffset, FILE_CURRENT))
+	if (!SetFilePointerEx(hFile, theOffset, &theOffset, FILE_CURRENT))
 	{
 		theErr = NStatus::Param;
 	}
@@ -209,14 +209,14 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 
 
 	// Get the state we need
-	HANDLE        theFile   = static_cast<HANDLE>(mHandle);
+	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
 	LARGE_INTEGER theOffset = {thePosition};
 	NStatus       theErr    = NStatus::NoErr;
 
 
 
 	// Set the file position
-	if (!SetFilePointerEx(theFile, theOffset, nullptr, GetFileMove(relativeTo)))
+	if (!SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo)))
 	{
 		theErr = NStatus::Param;
 	}
@@ -240,7 +240,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 
 
 	// Get the state we need
-	HANDLE theFile = static_cast<HANDLE>(mHandle);
+	HANDLE hFile = static_cast<HANDLE>(mHandle);
 
 
 
@@ -250,7 +250,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 
 	if (theErr == NStatus::NoErr)
 	{
-		BOOL wasOK = SetEndOfFile(theFile);
+		BOOL wasOK = SetEndOfFile(hFile);
 		NN_EXPECT(wasOK);
 
 		if (!wasOK)
@@ -279,14 +279,14 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 
 
 	// Get the state we need
-	HANDLE  theFile   = static_cast<HANDLE>(mHandle);
+	HANDLE  hFile     = static_cast<HANDLE>(mHandle);
 	NStatus theErr    = NStatus::NoErr;
 	DWORD   bytesRead = 0;
 
 
 
 	// Read from the file
-	if (!ReadFile(theFile, thePtr, DWORD(theSize), &bytesRead, nullptr))
+	if (!ReadFile(hFile, thePtr, DWORD(theSize), &bytesRead, nullptr))
 	{
 		theErr = NStatus::Param;
 	}
@@ -321,13 +321,13 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 
 	// Get the state we need
-	HANDLE  theFile      = static_cast<HANDLE>(mHandle);
+	HANDLE  hFile        = static_cast<HANDLE>(mHandle);
 	NStatus theErr       = NStatus::NoErr;
 	DWORD   bytesWritten = 0;
 
 
 	// Write to the file
-	if (!WriteFile(theFile, thePtr, DWORD(theSize), &bytesWritten, nullptr))
+	if (!WriteFile(hFile, thePtr, DWORD(theSize), &bytesWritten, nullptr))
 	{
 		theErr = NStatus::Param;
 	}
@@ -357,12 +357,12 @@ NStatus NFileHandle::FileFlush()
 
 
 	// Get the state we need
-	HANDLE  theFile = static_cast<HANDLE>(mHandle);
-	NStatus theErr  = NStatus::NoErr;
+	HANDLE  hFile  = static_cast<HANDLE>(mHandle);
+	NStatus theErr = NStatus::NoErr;
 
 
 	// Flush the file
-	BOOL wasOK = FlushFileBuffers(theFile);
+	BOOL wasOK = FlushFileBuffers(hFile);
 	NN_EXPECT(wasOK);
 
 	if (!wasOK)
