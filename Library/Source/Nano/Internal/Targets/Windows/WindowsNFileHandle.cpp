@@ -48,9 +48,9 @@
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
-//		GetPermisson : Get a permission string.
+//		GetFilePermisson : Get a CreateFile permission.
 //-----------------------------------------------------------------------------
-static constexpr UINT GetPermission(NFilePermission thePermission)
+static constexpr UINT GetFilePermisson(NFilePermission thePermission)
 {
 
 
@@ -92,7 +92,7 @@ NStatus NFileHandle::FileOpen(NFilePermission thePermission)
 	NStatus theErr = NStatus::Permission;
 
 	HANDLE theFile = CreateFile(LPCWSTR(mPath.GetUTF8()),
-								GetPermission(thePermission),
+								GetFilePermisson(thePermission),
 								FILE_SHARE_READ | FILE_SHARE_WRITE,
 								nullptr,
 								OPEN_ALWAYS,

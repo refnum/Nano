@@ -76,9 +76,9 @@ static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
-//		GetPermisson : Get a permission string.
+//		GetFilePermisson : Get a fopen permission.
 //-----------------------------------------------------------------------------
-static constexpr const char* GetPermission(NFilePermission thePermission)
+static constexpr const char* GetFilePermisson(NFilePermission thePermission)
 {
 
 
@@ -802,8 +802,9 @@ NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
 	static_assert(sizeof(NFileHandleRef) >= sizeof(FILE*));
 
 
+
 	// Open the file
-	FILE* theFile = fopen(thePath.GetUTF8(), GetPermission(thePermission));
+	FILE* theFile = fopen(thePath.GetUTF8(), GetFilePermisson(thePermission));
 	if (theFile != nullptr)
 	{
 		fileHandle = static_cast<NFileHandleRef>(theFile);
