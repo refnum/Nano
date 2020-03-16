@@ -62,6 +62,81 @@ uint64_t NSharedWindows::ToUInt64(DWORD valueHigh, DWORD valueLow)
 
 
 //=============================================================================
+//		NWinTarget::GetHRESULT : Get an HRESULT as an NStatus.
+//-----------------------------------------------------------------------------
+NStatus NWinTarget::GetHRESULT(HRESULT winErr)
+{
+
+
+	// Get the status
+	NStatus theErr = NStatus::Internal;
+
+	switch (winErr)
+	{
+		case ERROR_SUCCESS:
+			theErr = kNoErr;
+			break;
+
+		case ERROR_SHARING_VIOLATION:
+			theErr = kNErrBusy;
+			break;
+
+		case ERROR_FILE_NOT_FOUND:
+			theErr = kNErrNotFound;
+			break;
+
+		case ERROR_PATH_NOT_FOUND:
+			theErr = kNErrNotFound;
+			break;
+
+		case ERROR_ENVVAR_NOT_FOUND:
+			theErr = kNErrNotFound;
+			break;
+
+		case ERROR_ACCESS_DENIED:
+			theErr = kNErrPermission;
+			break;
+
+		case ERROR_HANDLE_EOF:
+			theErr = kNErrExhaustedSrc;
+			break;
+
+		case ERROR_ALREADY_EXISTS:
+			theErr = kNErrDuplicate;
+			break;
+
+		case ERROR_INVALID_HANDLE:
+			theErr = kNErrParam;
+			break;
+
+		default:
+			NN_LOG_UNIMPLEMENTED("Unknown error {}", winErr);
+			break;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::GetLastError : Get the last error.
+//-----------------------------------------------------------------------------
+NStatus NSharedWindows::GetLastError()
+{
+
+
+	// Get the error
+	return GetHRESULT(::GetLastError());
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedWindows::ToInterval : Convert to an NInterval.
 //-----------------------------------------------------------------------------
 NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)

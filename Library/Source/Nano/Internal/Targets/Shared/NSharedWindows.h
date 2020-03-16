@@ -60,6 +60,11 @@ public:
 	static uint64_t                     ToUInt64(DWORD valueHigh, DWORD valueLow);
 
 
+	// Get an HRESULT error
+	static NStatus                      GetHRESULT(HRESULT winErr);
+	static NStatus                      GetLastError();
+
+
 	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.
