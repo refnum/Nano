@@ -735,6 +735,10 @@ NStatus NSharedPOSIX::GetSysErr(int sysErr)
 			theErr = NStatus::ExhaustedDst;
 			break;
 #endif //NN_PLATFORM_DARWIN
+
+		default:
+			NN_LOG_UNIMPLEMENTED("Unknown error {}", sysErr);
+			break;
 	}
 
 	return theErr;
