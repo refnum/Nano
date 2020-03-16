@@ -918,7 +918,38 @@ NStatus NSharedPOSIX::FileSetPosition(NFileHandleRef fileHandle,
 	int sysErr = fseeko(theFile, off_t(thePosition), GetFileWhence(relativeTo));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetSysErr(sysErr);
+	return GetErrno();
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileSetSize : Set the file size.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theSize <= uint64_t(kNInt64Max));
+
+	static_assert(sizeof(off_t) == sizeof(int64_t));
+
+
+
+	// Get the state we need
+	FILE* theFile  = static_cast<FILE*>(fileHandle);
+	int   fileDesc = fileno(theFile);
+
+
+
+	// Set the file size
+	int sysErr = ftruncate(fileDesc, off_t(theSize));
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return GetErrno();
 }
 
 

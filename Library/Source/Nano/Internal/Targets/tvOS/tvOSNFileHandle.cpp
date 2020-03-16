@@ -109,6 +109,21 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 
 
 //=============================================================================
+//		NFileHandle::FileSetSize : Set the size.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileSetSize(uint64_t theSize)
+{
+
+
+	// Set the size
+	return NSharedPOSIX::FileSetSize(mHandle, theSize);
+}
+
+
+
+
+
+//=============================================================================
 //		NFileHandle::FileRead : Read from the file.
 //-----------------------------------------------------------------------------
 NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)

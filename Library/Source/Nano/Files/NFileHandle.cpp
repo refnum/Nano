@@ -212,6 +212,36 @@ NStatus NFileHandle::SetPosition(int64_t theOffset, NFileOffset relativeTo)
 
 
 //=============================================================================
+//		NFileHandle::GetSize : Get the size.
+//-----------------------------------------------------------------------------
+uint64_t NFileHandle::GetSize() const
+{
+
+
+	// Get the size
+	return NFileInfo(mPath).GetFileSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::SetSize : Set the size.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::SetSize(uint64_t theSize)
+{
+
+
+	// Set the size
+	return FileSetSize(theSize);
+}
+
+
+
+
+
+//=============================================================================
 //		NFileHandle::Read : Read from the file.
 //-----------------------------------------------------------------------------
 NStatus NFileHandle::Read(uint64_t    theSize,

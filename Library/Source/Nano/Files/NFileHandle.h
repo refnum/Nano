@@ -129,6 +129,15 @@ public:
 	NStatus                             SetPosition(int64_t theOffset, NFileOffset relativeTo = NFileOffset::FromStart);
 
 
+	// Get/set the size
+	//
+	// A file must be opened for writing to adjust its size.
+	//
+	// Extending the file size will zero-fill the new content.
+	uint64_t                            GetSize() const;
+	NStatus                             SetSize(uint64_t theSize);
+
+
 	// Read from the file
 	NStatus                             Read(uint64_t    theSize,
 											 void*       thePtr,
@@ -150,9 +159,9 @@ private:
 	void                                FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
-	NStatus                             FileSeek( uint64_t       thePosition);
-	NStatus                             FileRead( uint64_t theSize,       void* thePtr, uint64_t& numRead);
-	NStatus                             FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten);
+	NStatus                             FileSetSize(uint64_t theSize);
+	NStatus                             FileRead(   uint64_t theSize,       void* thePtr, uint64_t& numRead);
+	NStatus                             FileWrite(  uint64_t theSize, const void* thePtr, uint64_t& numWritten);
 
 
 private:

@@ -104,7 +104,7 @@ public:
 														int64_t        thePosition,
 														NFileOffset    relativeTo);
 
-	static NStatus                      FileSeek(NFileHandleRef fileHandle, uint64_t thePosition);
+	static NStatus                      FileSetSize(NFileHandleRef fileHandle, uint64_t theSize);
 
 	static NStatus                      FileRead(NFileHandleRef fileHandle,
 												 uint64_t       theSize,

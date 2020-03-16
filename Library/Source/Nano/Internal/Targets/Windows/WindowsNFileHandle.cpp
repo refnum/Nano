@@ -229,6 +229,44 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 
 
 //=============================================================================
+//		NFileHandle::FileSetSize : Set the size.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileSetSize(uint64_t theSize)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theSize <= uint64_t(kNInt64Max));
+
+
+	// Get the state we need
+	HANDLE theFile = static_cast<HANDLE>(mHandle);
+
+
+
+	// Set the size
+	NStatus theErr = FileSetPosition(int64_t(theSize), NFileOffset::FromStart);
+	NN_EXPECT_NOT_ERR(theErr);
+
+	if (theErr == NStatus::NoErr)
+	{
+		BOOL wasOK = SetEndOfFile(theFile);
+		NN_EXPECT(wasOK);
+
+		if (!wasOK)
+		{
+			theErr = NStatus::DiskFull;
+		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
 //		NFileHandle::FileRead : Read from the file.
 //-----------------------------------------------------------------------------
 NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
