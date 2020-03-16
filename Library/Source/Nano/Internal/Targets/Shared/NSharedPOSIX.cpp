@@ -935,6 +935,11 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 {
 
 
+	// Validate our parameters
+	static_assert(sizeof(uint64_t) == sizeof(size_t));
+
+
+
 	// Get the state we need
 	FILE*   theFile = static_cast<FILE*>(fileHandle);
 	NStatus theErr  = NStatus::NoErr;
@@ -942,7 +947,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 
 
 	// Read from the file
-	numRead = fread(thePtr, theSize, 1, theFile);
+	numRead = fread(thePtr, size_t(theSize), 1, theFile);
 
 	if (numRead != theSize)
 	{
@@ -973,13 +978,18 @@ NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 {
 
 
+	// Validate our parameters
+	static_assert(sizeof(uint64_t) == sizeof(size_t));
+
+
+
 	// Get the state we need
 	FILE*   theFile = static_cast<FILE*>(fileHandle);
 	NStatus theErr  = NStatus::NoErr;
 
 
 	// Write to the file
-	numWritten = fwrite(thePtr, theSize, 1, theFile);
+	numWritten = fwrite(thePtr, size_t(theSize), 1, theFile);
 
 	if (numWritten != theSize)
 	{
