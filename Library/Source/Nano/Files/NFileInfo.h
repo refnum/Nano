@@ -93,6 +93,18 @@ public:
 										NFileInfo(const NString& thePath);
 
 
+	// Is the object valid?
+	//
+	// A valid object has a non-empty path.
+	bool                                IsValid() const;
+
+
+	// Clear the object
+	//
+	// Resets the object to an empty path.
+	void                                Clear();
+
+
 	// Get/set the path
 	//
 	// The path must be set before any state can be queried.
@@ -100,7 +112,7 @@ public:
 	void                                SetPath(  const NString& thePath);
 
 
-	// Refresh the info
+	// Refresh the state
 	void                                Refresh();
 
 
