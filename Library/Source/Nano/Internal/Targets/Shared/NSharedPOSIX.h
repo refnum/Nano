@@ -95,12 +95,22 @@ public:
 	static NStatus                      FileOpen(const NString&  thePath,
 												 NFilePermission thePermission,
 												 NFileHandleRef& fileHandle);
+
 	static void                         FileClose(NFileHandleRef fileHandle);
-	static NStatus                      FileSeek( NFileHandleRef fileHandle, uint64_t thePosition);
-	static NStatus                      FileRead( NFileHandleRef fileHandle,
+
+	static uint64_t                     FileGetPosition(NFileHandleRef fileHandle);
+
+	static NStatus                      FileSetPosition(NFileHandleRef fileHandle,
+														int64_t        thePosition,
+														NFileOffset    relativeTo);
+
+	static NStatus                      FileSeek(NFileHandleRef fileHandle, uint64_t thePosition);
+
+	static NStatus                      FileRead(NFileHandleRef fileHandle,
 												 uint64_t       theSize,
 												 void*          thePtr,
 												 uint64_t&      numRead);
+
 	static NStatus                      FileWrite(NFileHandleRef fileHandle,
 												  uint64_t       theSize,
 												  const void*    thePtr,

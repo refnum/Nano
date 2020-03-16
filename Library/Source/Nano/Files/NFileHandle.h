@@ -143,7 +143,9 @@ public:
 private:
 	NStatus                             FileOpen(NFilePermission thePermission);
 	void                                FileClose();
-	NStatus                             FileSeek( uint64_t thePosition);
+	uint64_t                            FileGetPosition() const;
+	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
+	NStatus                             FileSeek( uint64_t       thePosition);
 	NStatus                             FileRead( uint64_t theSize,       void* thePtr, uint64_t& numRead);
 	NStatus                             FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten);
 

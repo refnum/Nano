@@ -79,14 +79,29 @@ void NFileHandle::FileClose()
 
 
 //=============================================================================
-//		NFileHandle::FileSeek : Seek into the file.
+//		NFileHandle::FileGetPosition : Get the file position.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileSeek(uint64_t thePosition)
+uint64_t NFileHandle::FileGetPosition() const
 {
 
 
 	// Open the file
-	return NSharedPOSIX::FileSeek(mHandle, thePosition);
+	return NSharedPOSIX::FileGetPosition(mHandle);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileSetPosition : Set the file position.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo)
+{
+
+
+	// Open the file
+	return NSharedPOSIX::FileSetPosition(mHandle, thePosition, relativeTo);
 }
 
 

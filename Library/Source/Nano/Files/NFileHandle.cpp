@@ -54,7 +54,6 @@
 NFileHandle::NFileHandle()
 	: mPath{}
 	, mHandle(kNFileHandleNone)
-	, mPosition(0)
 {
 }
 
@@ -176,7 +175,7 @@ uint64_t NFileHandle::GetPosition() const
 
 
 	// Get the position
-	return mPosition;
+	return FileGetPosition();
 }
 
 
@@ -190,38 +189,8 @@ NStatus NFileHandle::SetPosition(int64_t theOffset, NFileOffset relativeTo)
 {
 
 
-	// Get the state we need
-	NStatus  theErr      = NStatus::NoErr;
-	uint64_t newPosition = 0;
-
-	switch (relativeTo)
-	{
-		case NFileOffset::FromStart:
-			NN_REQUIRE(theOffset >= 0);
-			newPosition = uint64_t(theOffset);
-			break;
-
-		case NFileOffset::FromPosition:
-			NN_REQUIRE((int64_t(mPosition) + theOffset) >= 0);
-			newPosition = uint64_t(int64_t(mPosition) + theOffset);
-			break;
-
-		case NFileOffset::FromEnd:
-			NN_REQUIRE(theOffset >= 0);
-			NN_REQUIRE(uint64_t(theOffset) <= NFileInfo(mPath).GetFileSize());
-			newPosition = NFileInfo(mPath).GetFileSize() - uint64_t(theOffset);
-			break;
-	}
-
-
-
-	// Update the position
-	if (newPosition != mPosition)
-	{
-		theErr = FileSeek(mPosition);
-	}
-
-	return theErr;
+	// Set the position
+	return FileSetPosition(theOffset, relativeTo);
 }
 
 
@@ -239,10 +208,24 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 {
 
 
-	// Read from the file
-	SetPosition(theOffset, relativeTo);
+	// Adjust the offset
+	NStatus theErr = NStatus::NoErr;
 
-	return FileRead(theSize, thePtr, numRead);
+	if (theOffset != 0 && relativeTo != NFileOffset::FromPosition)
+	{
+		theErr = SetPosition(theOffset, relativeTo);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Read from the file
+	if (theErr == NStatus::NoErr)
+	{
+		theErr = FileRead(theSize, thePtr, numRead);
+	}
+
+	return theErr;
 }
 
 
@@ -260,8 +243,22 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 {
 
 
-	// Write to the file
-	SetPosition(theOffset, relativeTo);
+	// Adjust the offset
+	NStatus theErr = NStatus::NoErr;
 
-	return FileWrite(theSize, thePtr, numWritten);
+	if (theOffset != 0 && relativeTo != NFileOffset::FromPosition)
+	{
+		theErr = SetPosition(theOffset, relativeTo);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Write to the file
+	if (theErr == NStatus::NoErr)
+	{
+		theErr = FileWrite(theSize, thePtr, numWritten);
+	}
+
+	return theErr;
 }

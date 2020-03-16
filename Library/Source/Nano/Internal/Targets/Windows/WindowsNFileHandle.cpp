@@ -75,6 +75,36 @@ static constexpr UINT GetFilePermisson(NFilePermission thePermission)
 
 
 
+//=============================================================================
+//		GetFileMove : Get a SetFilePointerEx move value.
+//-----------------------------------------------------------------------------
+static constexpr DWORD GetFileMove(NFileOffset relativeTo)
+{
+
+
+	// Get the permission
+	switch (relativeTo)
+	{
+		case NFileOffset::FromStart:
+			return FILE_BEGIN;
+			break;
+
+		case NFileOffset::FromPosition:
+			return FILE_CURRENT;
+			break;
+
+		case NFileOffset::FromEnd:
+			return FILE_END;
+			break;
+	}
+
+	return SEEK_END;
+}
+
+
+
+
+
 #pragma mark NFileHandle
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
@@ -134,26 +164,59 @@ void NFileHandle::FileClose()
 
 
 //=============================================================================
-//		NFileHandle::FileSeek : Seek into the file.
+//		NFileHandle::FileGetPosition : Get the file position.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileSeek(uint64_t thePosition)
+uint64_t NFileHandle::FileGetPosition()
 {
 
 
 	// Validate our state
-	static_assert(sizeof(LARGE_INTEGER) <= sizeof(uint64_t));
+	static_assert(sizeof(LARGE_INTEGER) == sizeof(uint64_t));
+
 
 
 	// Get the state we need
-	HANDLE  theFile = static_cast<HANDLE>(mHandle);
-	NStatus theErr  = NStatus::NoErr;
-
-	LARGE_INTEGER theOffset;
-	theOffset.QuadPart = thePosition;
+	HANDLE        theFile   = static_cast<HANDLE>(mHandle);
+	LARGE_INTEGER theOffset = {0};
+	NStatus       theErr    = NStatus::NoErr;
 
 
-	// Seek into the file
-	if (!SetFilePointerEx(theFile, theOffset, nullptr, FILE_BEGIN))
+
+	// Get the file position
+	if (!SetFilePointerEx(theFile, theOffset, &theOffset, FILE_CURRENT))
+	{
+		theErr = NStatus::Param;
+	}
+
+	NN_REQUIRE(theOffset.QuadPart >= 0);
+	return uint64_t(theOffset.QuadPart);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileSetPosition : Set the file position.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(LARGE_INTEGER) == sizeof(int64_t));
+
+
+
+	// Get the state we need
+	HANDLE        theFile   = static_cast<HANDLE>(mHandle);
+	LARGE_INTEGER theOffset = {thePosition};
+	NStatus       theErr    = NStatus::NoErr;
+
+
+
+	// Set the file position
+	if (!SetFilePointerEx(theFile, theOffset, nullptr, GetFileMove(relativeTo)))
 	{
 		theErr = NStatus::Param;
 	}

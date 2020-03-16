@@ -105,6 +105,36 @@ static constexpr const char* GetFilePermisson(NFilePermission thePermission)
 
 
 
+//=============================================================================
+//		GetFileWhence : Get an fseeko whence value.
+//-----------------------------------------------------------------------------
+static constexpr int GetFileWhence(NFileOffset relativeTo)
+{
+
+
+	// Get the permission
+	switch (relativeTo)
+	{
+		case NFileOffset::FromStart:
+			return SEEK_SET;
+			break;
+
+		case NFileOffset::FromPosition:
+			return SEEK_CUR;
+			break;
+
+		case NFileOffset::FromEnd:
+			return SEEK_END;
+			break;
+	}
+
+	return SEEK_END;
+}
+
+
+
+
+
 #pragma mark NSharedPOSIX
 //=============================================================================
 //		NSharedPOSIX::gettimeofday : Get the time of day.
@@ -827,6 +857,7 @@ void NSharedPOSIX::FileClose(NFileHandleRef fileHandle)
 	// Get the state we need
 	FILE* theFile = static_cast<FILE*>(fileHandle);
 
+
 	// Close the file
 	int sysErr = fclose(theFile);
 	NN_EXPECT_NOT_ERR(sysErr);
@@ -837,10 +868,15 @@ void NSharedPOSIX::FileClose(NFileHandleRef fileHandle)
 
 
 //=============================================================================
-//		NSharedPOSIX::FileSeek : Seek into a file.
+//		NSharedPOSIX::FileGetPosition : Get the file position.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileSeek(NFileHandleRef fileHandle, uint64_t thePosition)
+uint64_t NSharedPOSIX::FileGetPosition(NFileHandleRef fileHandle)
 {
+
+
+	// Validate our state
+	static_assert(sizeof(off_t) == sizeof(uint64_t));
+
 
 
 	// Get the state we need
@@ -848,8 +884,38 @@ NStatus NSharedPOSIX::FileSeek(NFileHandleRef fileHandle, uint64_t thePosition)
 
 
 
-	// Seek into the file
-	int sysErr = fseeko(theFile, off_t(thePosition), SEEK_SET);
+	// Get the position
+	off_t thePosition = ftello(theFile);
+	NN_REQUIRE(thePosition >= 0);
+
+	return uint64_t(thePosition);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::FileSetPosition : Set the file position.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileSetPosition(NFileHandleRef fileHandle,
+									  int64_t        thePosition,
+									  NFileOffset    relativeTo)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(off_t) == sizeof(int64_t));
+
+
+
+	// Get the state we need
+	FILE* theFile = static_cast<FILE*>(fileHandle);
+
+
+
+	// Set the position
+	int sysErr = fseeko(theFile, off_t(thePosition), GetFileWhence(relativeTo));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return GetSysErr(sysErr);
@@ -874,6 +940,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 	NStatus theErr  = NStatus::NoErr;
 
 
+
 	// Read from the file
 	numRead = fread(thePtr, theSize, 1, theFile);
 
@@ -883,7 +950,6 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 		{
 			theErr = NStatus::ExhaustedSrc;
 		}
-
 		else
 		{
 			theErr = GetSysErr(ferror(theFile));
