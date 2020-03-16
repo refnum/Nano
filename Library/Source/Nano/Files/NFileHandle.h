@@ -154,6 +154,12 @@ public:
 											  NFileOffset relativeTo = NFileOffset::FromPosition);
 
 
+	// Flush the file
+	//
+	// Request that written data be flushed to disk.
+	NStatus                             Flush();
+
+
 private:
 	NStatus                             FileOpen(NFilePermission thePermission);
 	void                                FileClose();
@@ -162,6 +168,7 @@ private:
 	NStatus                             FileSetSize(uint64_t theSize);
 	NStatus                             FileRead(   uint64_t theSize,       void* thePtr, uint64_t& numRead);
 	NStatus                             FileWrite(  uint64_t theSize, const void* thePtr, uint64_t& numWritten);
+	NStatus                             FileFlush();
 
 
 private:

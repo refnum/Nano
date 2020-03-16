@@ -116,6 +116,8 @@ public:
 												  const void*    thePtr,
 												  uint64_t&      numWritten);
 
+	static NStatus                      FileFlush(NFileHandleRef fileHandle);
+
 
 	// Convert between time formats
 	//

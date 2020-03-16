@@ -1035,6 +1035,29 @@ NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 
 
 //=============================================================================
+//		NSharedPOSIX::FileFlush : Flush the file.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
+{
+
+
+	// Get the state we need
+	FILE* theFile = static_cast<FILE*>(fileHandle);
+
+
+
+	// Flush the file
+	int sysErr = fflush(theFile);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return GetErrno();
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedPOSIX::ToTimeval : Convert to a timeval.
 //-----------------------------------------------------------------------------
 struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)

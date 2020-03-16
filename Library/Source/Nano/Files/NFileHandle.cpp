@@ -314,3 +314,18 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 
 	return theErr;
 }
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::Flush : Flush the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::Flush()
+{
+
+
+	// Flush the file
+	return FileFlush();
+}

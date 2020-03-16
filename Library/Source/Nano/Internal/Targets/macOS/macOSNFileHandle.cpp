@@ -148,3 +148,18 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 	// Write to the file
 	return NSharedPOSIX::FileWrite(mHandle, theSize, thePtr, numWritten);
 }
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileFlush : Flush the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileFlush()
+{
+
+
+	// Flush the file
+	return NSharedPOSIX::FileFlush(mHandle);
+}

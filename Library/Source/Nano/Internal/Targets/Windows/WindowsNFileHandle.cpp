@@ -344,3 +344,31 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 	return theErr;
 }
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::FileFlush : Flush the file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::FileFlush()
+{
+
+
+	// Get the state we need
+	HANDLE  theFile = static_cast<HANDLE>(mHandle);
+	NStatus theErr  = NStatus::NoErr;
+
+
+	// Flush the file
+	BOOL wasOK = FlushFileBuffers(theFile);
+	NN_EXPECT(wasOK);
+
+	if (!wasOK)
+	{
+		theErr = NStatus::NotHandled;
+	}
+
+	return theErr;
+}
