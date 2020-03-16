@@ -137,7 +137,6 @@ NStatus NFileHandle::Open(const NString& thePath, NFilePermission thePermission)
 	NN_REQUIRE(!thePath.IsEmpty());
 
 	NN_REQUIRE(mPath.IsEmpty());
-	NN_REQUIRE(mPosition == 0);
 
 
 
@@ -175,8 +174,7 @@ void NFileHandle::Close()
 	FileClose();
 
 	mPath.Clear();
-	mHandle   = kNFileHandleNone;
-	mPosition = 0;
+	mHandle = kNFileHandleNone;
 }
 
 

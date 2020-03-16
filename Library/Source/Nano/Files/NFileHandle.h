@@ -158,7 +158,6 @@ private:
 private:
 	NString                             mPath;
 	NFileHandleRef                      mHandle;
-	uint64_t                            mPosition;
 };
 
 
