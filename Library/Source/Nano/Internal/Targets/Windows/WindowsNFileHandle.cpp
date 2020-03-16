@@ -119,8 +119,6 @@ NStatus NFileHandle::FileOpen(NFilePermission thePermission)
 
 
 	// Open the file
-	NStatus theErr = NStatus::Permission;
-
 	HANDLE hFile = CreateFile(LPCWSTR(mPath.GetUTF8()),
 							  GetFilePermisson(thePermission),
 							  FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -132,10 +130,9 @@ NStatus NFileHandle::FileOpen(NFilePermission thePermission)
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		mHandle = NFileHandleRef(hFile);
-		theErr  = NStatus::NoErr;
 	}
 
-	return theErr;
+	return NSharedWindows::GetLastError();
 }
 
 
@@ -178,14 +175,16 @@ uint64_t NFileHandle::FileGetPosition()
 	// Get the state we need
 	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
 	LARGE_INTEGER theOffset = {0};
-	NStatus       theErr    = NStatus::NoErr;
 
 
 
 	// Get the file position
-	if (!SetFilePointerEx(hFile, theOffset, &theOffset, FILE_CURRENT))
+	BOOL wasOK = SetFilePointerEx(hFile, theOffset, &theOffset, FILE_CURRENT);
+	NN_EXPECT(wasOK);
+
+	if (!wasOK)
 	{
-		theErr = NStatus::Param;
+		theOffset.QuadPart = 0;
 	}
 
 	NN_REQUIRE(theOffset.QuadPart >= 0);
@@ -211,17 +210,14 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 	// Get the state we need
 	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
 	LARGE_INTEGER theOffset = {thePosition};
-	NStatus       theErr    = NStatus::NoErr;
 
 
 
 	// Set the file position
-	if (!SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo)))
-	{
-		theErr = NStatus::Param;
-	}
+		BOOL wasOK = SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo)))
+			   NN_EXPECT(wasOK);
 
-	return theErr;
+		return NSharedWindows::GetLastError();
 }
 
 
@@ -255,7 +251,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 
 		if (!wasOK)
 		{
-			theErr = NStatus::DiskFull;
+			theErr = NSharedWindows::GetLastError();
 		}
 	}
 
@@ -286,9 +282,12 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 
 
 	// Read from the file
-	if (!ReadFile(hFile, thePtr, DWORD(theSize), &bytesRead, nullptr))
+	BOOL wasOK = ReadFile(hFile, thePtr, DWORD(theSize), &bytesRead, nullptr);
+	NN_EXPECT(wasOK);
+
+	if (!wasOK)
 	{
-		theErr = NStatus::Param;
+		theErr = NSharedWindows::GetLastError();
 	}
 
 	if (theErr == NStatus::NoErr && bytesRead == 0)
@@ -327,9 +326,12 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 
 	// Write to the file
-	if (!WriteFile(hFile, thePtr, DWORD(theSize), &bytesWritten, nullptr))
+	BOOL wasOK = WriteFile(hFile, thePtr, DWORD(theSize), &bytesWritten, nullptr);
+	NN_EXPECT(wasOK);
+
+	if (!wasOK)
 	{
-		theErr = NStatus::Param;
+		theErr = NSharedWindows::GetLastError();
 	}
 
 	if (theErr == NStatus::NoErr)
@@ -357,18 +359,12 @@ NStatus NFileHandle::FileFlush()
 
 
 	// Get the state we need
-	HANDLE  hFile  = static_cast<HANDLE>(mHandle);
-	NStatus theErr = NStatus::NoErr;
+	HANDLE hFile = static_cast<HANDLE>(mHandle);
 
 
 	// Flush the file
 	BOOL wasOK = FlushFileBuffers(hFile);
 	NN_EXPECT(wasOK);
 
-	if (!wasOK)
-	{
-		theErr = NStatus::NotHandled;
-	}
-
-	return theErr;
+	return NSharedWindows::GetLastError();
 }
