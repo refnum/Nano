@@ -224,9 +224,13 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 {
 
 
-	// Adjust the offset
+	// Get the state we need
 	NStatus theErr = NStatus::NoErr;
+	numRead        = 0;
 
+
+
+	// Adjust the offset
 	if (theOffset != 0 && relativeTo != NFileOffset::FromPosition)
 	{
 		theErr = SetPosition(theOffset, relativeTo);
@@ -259,9 +263,13 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 {
 
 
-	// Adjust the offset
+	// Get the state we need
 	NStatus theErr = NStatus::NoErr;
+	numWritten     = 0;
 
+
+
+	// Adjust the offset
 	if (theOffset != 0 && relativeTo != NFileOffset::FromPosition)
 	{
 		theErr = SetPosition(theOffset, relativeTo);
