@@ -138,6 +138,7 @@ NString NFile::GetPath() const
 	NN_REQUIRE(IsValid());
 
 
+
 	// Get our state
 	return mInfo.GetPath();
 }
@@ -155,6 +156,8 @@ void NFile::SetPath(const NString& thePath)
 
 	// Validate our parameters
 	NN_REQUIRE(!thePath.IsEmpty());
+
+
 
 	// Set our state
 	mInfo.SetPath(thePath);
@@ -192,6 +195,8 @@ bool NFile::Exists() const
 	// Validate our state
 	NN_REQUIRE(IsValid());
 
+
+
 	// Get our state
 	return mInfo.Exists();
 }
@@ -209,6 +214,8 @@ bool NFile::IsFile() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get our state
 	return mInfo.IsFile();
@@ -228,6 +235,8 @@ bool NFile::IsDirectory() const
 	// Validate our state
 	NN_REQUIRE(IsValid());
 
+
+
 	// Get our state
 	return mInfo.IsDirectory();
 }
@@ -245,6 +254,8 @@ bool NFile::CanRead() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get our state
 	return mInfo.CanRead();
@@ -264,6 +275,8 @@ bool NFile::CanWrite() const
 	// Validate our state
 	NN_REQUIRE(IsValid());
 
+
+
 	// Get our state
 	return mInfo.CanWrite();
 }
@@ -281,6 +294,8 @@ bool NFile::CanExecute() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get our state
 	return mInfo.CanExecute();
@@ -301,6 +316,7 @@ NTime NFile::GetCreationTime() const
 	NN_REQUIRE(IsValid());
 
 
+
 	// Get our state
 	return mInfo.GetCreationTime();
 }
@@ -319,6 +335,8 @@ NTime NFile::GetModifiedTime() const
 	// Validate our state
 	NN_REQUIRE(IsValid());
 
+
+
 	// Get our state
 	return mInfo.GetModifiedTime();
 }
@@ -336,6 +354,8 @@ NString NFile::GetName() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get the file name
 	return GetPathComponent(kNPatternFileName);
@@ -356,6 +376,7 @@ NStatus NFile::SetName(const NString& theName, bool renameFile)
 	NN_REQUIRE(!theName.IsEmpty());
 
 	NN_REQUIRE(IsValid());
+
 
 
 	// Update the path
@@ -480,6 +501,7 @@ NFile NFile::GetParent() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
 
 
 	// Get the child

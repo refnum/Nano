@@ -126,10 +126,6 @@ NString NFileInfo::GetPath() const
 {
 
 
-	// Validate our state
-	NN_REQUIRE(IsValid());
-
-
 	// Get the path
 	return mPath;
 }
@@ -149,6 +145,7 @@ void NFileInfo::SetPath(const NString& thePath)
 	NN_REQUIRE(!thePath.IsEmpty());
 
 
+
 	// Set the path
 	mPath = thePath;
 
@@ -165,9 +162,6 @@ void NFileInfo::SetPath(const NString& thePath)
 void NFileInfo::Refresh()
 {
 
-
-	// Validate our state
-	NN_REQUIRE(IsValid());
 
 	// Update our state
 	mValid = kNFileInfoNone;
@@ -187,6 +181,7 @@ bool NFileInfo::Exists() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
 
 
 	// Get the state
@@ -209,6 +204,8 @@ bool NFileInfo::IsFile() const
 	// Validate our state
 	NN_REQUIRE(IsValid());
 
+
+
 	// Get the state
 	UpdateState(kNFileInfoIsFile);
 
@@ -228,6 +225,8 @@ bool NFileInfo::IsDirectory() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get the state
 	UpdateState(kNFileInfoIsDirectory);
@@ -250,6 +249,7 @@ bool NFileInfo::CanRead() const
 	NN_REQUIRE(IsValid());
 
 
+
 	// Get the state
 	UpdateState(kNFileInfoCanRead);
 
@@ -269,6 +269,8 @@ bool NFileInfo::CanWrite() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get the state
 	UpdateState(kNFileInfoCanWrite);
@@ -291,6 +293,7 @@ bool NFileInfo::CanExecute() const
 	NN_REQUIRE(IsValid());
 
 
+
 	// Get the state
 	UpdateState(kNFileInfoCanExecute);
 
@@ -310,6 +313,8 @@ NTime NFileInfo::GetCreationTime() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get the state
 	UpdateState(kNFileInfoCreationTime);
@@ -331,6 +336,8 @@ NTime NFileInfo::GetModifiedTime() const
 	// Validate our state
 	NN_REQUIRE(IsValid());
 
+
+
 	// Get the state
 	UpdateState(kNFileInfoModifiedTime);
 
@@ -350,6 +357,7 @@ uint64_t NFileInfo::GetFileSize() const
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
 
 
 	// Get the state
