@@ -5,1023 +5,541 @@
 		File object.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2020, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NFileIterator.h"
-#include "NTargetFile.h"
-#include "NEncoder.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NFile.h"
 
-
-
-
-
-//============================================================================
-//		Implementation
-//----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NFile);
+// Nano
+#include "NDebug.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		Internalonstants
+//-----------------------------------------------------------------------------
+// Directory separator
+#if NN_TARGET_WINDOWS
+static constexpr const char* kNPatternParent                = "(.*\\).*?$";
+static constexpr const char* kNPatternFileName              = ".*\\(.*?$)";
+static constexpr const char* kNPatternFileExtension         = "\\.(.*?$)";
+static constexpr const char* kNSeparator                    = "\\";
+
+#else
+static constexpr const char* kNPatternParent                = "(.*\\/).*?$";
+static constexpr const char* kNPatternFileName              = ".*\\/(.*?$)";
+static constexpr const char* kNPatternFileExtension         = "\\.(.*?)$";
+static constexpr const char* kNSeparator                    = "/";
+#endif
+
+
+
+
+
+//=============================================================================
 //		NFile::NFile : Constructor.
-//----------------------------------------------------------------------------
-NFile::NFile(const NString &thePath)
+//-----------------------------------------------------------------------------
+NFile::NFile()
+	: mInfo()
 {
-
-
-	// Initialize ourselves
-	InitializeSelf(thePath);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NFile::NFile : Constructor.
-//----------------------------------------------------------------------------
-NFile::NFile(const NFile &theFile)
-		: NEncodable(), NComparable<NFile>()
+//-----------------------------------------------------------------------------
+NFile::NFile(const NString& thePath)
+	: mInfo(thePath)
 {
 
 
-	// Initialise ourselves
-	InitializeSelf();
-	CloneFile(theFile);
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
 }
 
 
 
 
 
-//============================================================================
-//		NFile::NFile : Constructor.
-//----------------------------------------------------------------------------
-NFile::NFile(void)
-{
-	
-	
-	// Initialize ourselves
-	InitializeSelf();
-}
-
-
-
-
-
-//============================================================================
-//		NFile::~NFile : Destructor.
-//----------------------------------------------------------------------------
-NFile::~NFile(void)
-{
-
-
-	// Clean up
-	if (IsOpen())
-		Close();
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NFile::IsValid : Is the file valid?
-//----------------------------------------------------------------------------
-bool NFile::IsValid(void) const
+//-----------------------------------------------------------------------------
+bool NFile::IsValid() const
 {
 
 
 	// Check our state
-	return(!mPath.IsEmpty());
+	return !mInfo.IsValid();
 }
 
 
 
 
 
-//============================================================================
-//        NFile::IsFile : Is this a file?
-//----------------------------------------------------------------------------
-bool NFile::IsFile(void) const
+//=============================================================================
+//		NFile::Clear : Clear the file.
+//-----------------------------------------------------------------------------
+void NFile::Clear()
 {
 
 
-	// Check the path
-	return(Exists() && NTargetFile::IsFile(mPath));
+	// Reset our state
+	mInfo.Clear();
 }
 
 
 
 
 
-//============================================================================
-//        NFile::IsDirectory : Is this a directory?
-//----------------------------------------------------------------------------
-bool NFile::IsDirectory(void) const
-{
-
-
-	// Check the path
-	return(Exists() && NTargetFile::IsDirectory(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::IsLink : Is this a link?
-//----------------------------------------------------------------------------
-bool NFile::IsLink(void) const
-{
-
-
-	// Check the path
-	return(Exists() && NTargetFile::IsLink(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::IsWriteable : Is the file writeable?
-//----------------------------------------------------------------------------
-bool NFile::IsWriteable(void) const
-{
-
-
-	// Check the path
-	return(NTargetFile::IsWriteable(mPath));
-}
-
-
-
-
-
-//============================================================================
-//		NFile::IsOpen : Is the file open?
-//----------------------------------------------------------------------------
-bool NFile::IsOpen(void) const
-{
-
-
-	// Check our state
-	return(mFile != kNFileRefNone);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::Exists : Does the file exist?
-//----------------------------------------------------------------------------
-bool NFile::Exists(void) const
-{
-
-
-	// Check the path
-	return(NTargetFile::Exists(mPath));
-}
-
-
-
-
-
-//============================================================================
-//		NFile::Clear : Clear the value.
-//----------------------------------------------------------------------------
-void NFile::Clear(void)
-{
-
-
-	// Clear the value
-	if (IsOpen())
-		Close();
-
-	mPath.Clear();
-}
-
-
-
-
-
-//============================================================================
-//		NFile::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NFile::Compare(const NFile &theValue) const
-{
-
-
-	// Compare the value
-	//
-	// File paths are considered to be case-insensitive but case-preserving.
-	return(mPath.Compare(theValue.mPath, kNStringNoCase));
-}
-
-
-
-
-
-//============================================================================
-//		NFile::GetUTI : Get the UTI.
-//----------------------------------------------------------------------------
-NUTI NFile::GetUTI(void) const
-{	NString		theExtension;
-	NUTI		theUTI;
-
-
-
-	// Use the file extension
-	//
-	// Could also use a target-specific mechanism like LaunchServices.
-	if (!theUTI.IsValid())
-		{
-		theExtension = GetExtension();
-		if (!theExtension.IsEmpty())
-			theUTI = NUTI(kNUTITagClassFileExtension, theExtension);
-		}
-	
-	return(theUTI);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NFile::GetPath : Get the path.
-//----------------------------------------------------------------------------
-NString NFile::GetPath(void) const
+//-----------------------------------------------------------------------------
+NString NFile::GetPath() const
 {
 
 
-	// Get the path
-	return(mPath);
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+	// Get our state
+	return mInfo.GetPath();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NFile::SetPath : Set the path.
-//----------------------------------------------------------------------------
-void NFile::SetPath(const NString &thePath)
+//-----------------------------------------------------------------------------
+void NFile::SetPath(const NString& thePath)
 {
 
 
-	// Update our state
-	if (IsOpen())
-		Close();
+	// Validate our parameters
+	NN_REQUIRE(!thePath.IsEmpty());
 
-
-
-	// Set the path
-	mPath = thePath;
+	// Set our state
+	mInfo.SetPath(thePath);
 }
 
 
 
 
 
-//============================================================================
-//        NFile::GetName : Get the file name.
-//----------------------------------------------------------------------------
-NString NFile::GetName(NFileName theName) const
-{	bool		displayName;
-	NString		fileName;
-	NRange		theDot;
-
-
-
-	// Get the name
-	displayName = (theName == kNNameDisplay);
-	fileName    = NTargetFile::GetName(mPath, displayName);
-
-	if (theName == kNNameNoExtension)
-		{
-		theDot = fileName.Find(".", kNStringBackwards);
-		if (!theDot.IsEmpty())
-			fileName = fileName.GetLeft(theDot.GetLocation());
-		}
-
-	return(fileName);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::SetName : Set the file name.
-//----------------------------------------------------------------------------
-NStatus NFile::SetName(const NString &theName, bool renameFile)
+//=============================================================================
+//		NFile::Refresh : Refresh the info.
+//-----------------------------------------------------------------------------
+void NFile::Refresh()
 {
 
 
-	// Set the name
-	return(SetName(theName, renameFile, false));
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Refresh our state
+	mInfo.Refresh();
 }
 
 
 
 
 
-//============================================================================
-//		NFile::GetExtension : Set the file extension.
-//----------------------------------------------------------------------------
-NString NFile::GetExtension(void) const
-{	NString			theResult;
-	NRange			theDot;
+//=============================================================================
+//		NFile::Exists : Does the file exists?
+//-----------------------------------------------------------------------------
+bool NFile::Exists() const
+{
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
 
-	// Get the state we need
-	theResult = GetName();
-	theDot    = theResult.Find(".", kNStringBackwards);
-
-
-
-	// Extract the extension
-	if (theDot.IsEmpty())
-		theResult.Clear();
-	else
-		theResult = theResult.GetString(theDot.GetNext());
-
-	return(theResult);
+	// Get our state
+	return mInfo.Exists();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NFile::IsFile : Is this a file?
+//-----------------------------------------------------------------------------
+bool NFile::IsFile() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get our state
+	return mInfo.IsFile();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::IsDirectory : Is this a directory?
+//-----------------------------------------------------------------------------
+bool NFile::IsDirectory() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get our state
+	return mInfo.IsDirectory();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::CanRead : Is the file readable?
+//-----------------------------------------------------------------------------
+bool NFile::CanRead() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get our state
+	return mInfo.CanRead();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::CanWrite : Is the file writeable?
+//-----------------------------------------------------------------------------
+bool NFile::CanWrite() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get our state
+	return mInfo.CanWrite();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::CanExecute : Is the file executable?
+//-----------------------------------------------------------------------------
+bool NFile::CanExecute() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get our state
+	return mInfo.CanExecute();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::GetCreationTime : Get the creation time.
+//-----------------------------------------------------------------------------
+NTime NFile::GetCreationTime() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+	// Get our state
+	return mInfo.GetCreationTime();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::GetModifiedTime : Get the modification time.
+//-----------------------------------------------------------------------------
+NTime NFile::GetModifiedTime() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get our state
+	return mInfo.GetModifiedTime();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::GetName : Get the file name.
+//-----------------------------------------------------------------------------
+NString NFile::GetName() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get the file name
+	return GetPathComponent(kNPatternFileName);
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::SetName : Set the file name.
+//-----------------------------------------------------------------------------
+NStatus NFile::SetName(const NString& theName, bool renameFile)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!theName.IsEmpty());
+
+	NN_REQUIRE(IsValid());
+
+
+	// Update the path
+	NString pathParent = GetPathComponent(kNPatternParent);
+	NString newPath    = pathParent + theName;
+
+	SetPath(newPath);
+
+
+
+	// Rename the file
+	if (renameFile)
+	{
+		NN_LOG_UNIMPLEMENTED();
+	}
+
+	return NStatus::NoErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::GetExtension : Get the file extension.
+//-----------------------------------------------------------------------------
+NString NFile::GetExtension() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the file extension
+	return GetPathComponent(kNPatternFileExtension);
+}
+
+
+
+
+
+//=============================================================================
 //		NFile::SetExtension : Set the file extension.
-//----------------------------------------------------------------------------
-NStatus NFile::SetExtension(const NString &theExtension, bool renameFile)
-{	NString		theName, oldExtension;
+//-----------------------------------------------------------------------------
+NStatus NFile::SetExtension(const NString& theExtension, bool renameFile)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!theExtension.IsEmpty());
+	NN_REQUIRE(!theExtension.StartsWith("."));
+
+	NN_REQUIRE(IsValid());
 
 
 
-	// Construct the new name
-	theName      = GetName();
-	oldExtension = GetExtension();
-	
+	// Update the path
+	NString oldExtension = GetPathComponent(kNPatternFileExtension);
+	NString newPath      = GetPath();
+
 	if (!oldExtension.IsEmpty())
-		theName = theName.GetLeft(theName.GetSize() - (oldExtension.GetSize() + 1));
-	
-	theName += ".";
-	theName += theExtension;
+	{
+		newPath.RemoveSuffix(oldExtension.GetSize());
+	}
+
+	if (!newPath.EndsWith("."))
+	{
+		newPath += ".";
+	}
+
+	newPath += theExtension;
+	SetPath(newPath);
 
 
 
-	// Set the file name
-	return(SetName(theName, renameFile));
+	// Rename the file
+	if (renameFile)
+	{
+		NN_LOG_UNIMPLEMENTED();
+	}
+
+	return NStatus::NoErr;
 }
 
 
 
 
 
-//============================================================================
-//        NFile::GetSize : Get the file size.
-//----------------------------------------------------------------------------
-uint64_t NFile::GetSize(void) const
+//=============================================================================
+//		NFile::GetChild : Get a child.
+//-----------------------------------------------------------------------------
+NFile NFile::GetChild(const NString& theName) const
 {
 
 
-	// Check our state
-	if (!Exists() || !IsFile())
-		return(0);
+	// Validate our parameters and state
+	NN_REQUIRE(!theName.IsEmpty());
+	NN_REQUIRE(!theName.StartsWith(kNSeparator));
+
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the child
+	NString childPath = GetPath() + kNSeparator + theName;
+
+	return NFile(childPath);
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::GetParent : Get the parent.
+//-----------------------------------------------------------------------------
+NFile NFile::GetParent() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+	// Get the child
+	NString pathParent = GetPathComponent(kNPatternParent);
+
+	return NFile(pathParent);
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::GetSize : Get the size of a file.
+//-----------------------------------------------------------------------------
+uint64_t NFile::GetSize() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+	NN_REQUIRE(IsFile());
 
 
 
 	// Get the size
-	return(NTargetFile::GetSize(mPath));
+	return mInfo.GetFileSize();
 }
 
 
 
 
 
-//============================================================================
-//        NFile::SetSize : Set the file size.
-//----------------------------------------------------------------------------
-NStatus NFile::SetSize(uint64_t theSize)
-{	bool		wasOpen;
-	NStatus		theErr;
-
-
-
-	// Prepare the file
-	wasOpen = IsOpen();
-
-	if (!wasOpen)
-		{
-		theErr = Open(kNPermissionWrite, true);
-		NN_ASSERT_NOERR(theErr);
-
-		if (theErr != kNoErr)
-			return(theErr);
-		}
-
-
-
-	// Set the size
-	theErr = NTargetFile::SetSize(mPath, mFile, theSize);
-	NN_ASSERT_NOERR(theErr);
-
-
-
-	// Clean up
-	if (!wasOpen)
-		Close();
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetCreationTime : Get the creation time.
-//----------------------------------------------------------------------------
-NDate NFile::GetCreationTime(void) const
+#pragma mark NMixinComparable
+//=============================================================================
+//		NFile::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+bool NFile::CompareEqual(const NFile& theFile) const
 {
 
 
-	// Get the time
-	return(NTargetFile::GetCreationTime(mPath));
+	// Compare the paths
+	return CompareOrder(theFile) == NComparison::EqualTo;
 }
 
 
 
 
 
-//============================================================================
-//        NFile::GetAccessTime : Get the access time.
-//----------------------------------------------------------------------------
-NDate NFile::GetAccessTime(void) const
+//=============================================================================
+//		NFile::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+NComparison NFile::CompareOrder(const NFile& theFile) const
 {
 
 
-	// Get the time
-	return(NTargetFile::GetAccessTime(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetModificationTime : Get the modification time.
-//----------------------------------------------------------------------------
-NDate NFile::GetModificationTime(void) const
-{
-
-
-	// Get the time
-	return(NTargetFile::GetModificationTime(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetChild : Get the child of a directory.
-//----------------------------------------------------------------------------
-NFile NFile::GetChild(const NString &fileName) const
-{
-
-
-	// Get the child
-	return(NTargetFile::GetChild(mPath, fileName));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetParent : Get the parent of a file/directory.
-//----------------------------------------------------------------------------
-NFile NFile::GetParent(void) const
-{
-
-
-	// Get the parent
-	return(NTargetFile::GetParent(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetTarget : Get the target of a file.
-//----------------------------------------------------------------------------
-NFile NFile::GetTarget(void) const
-{	NFile	theFile;
-
-
-
-	// Get the target
-	theFile = *this;
-	theFile.ResolveTarget();
-	
-	return(theFile);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::ResolveTarget : Resolve a linked file.
-//----------------------------------------------------------------------------
-void NFile::ResolveTarget(void)
-{
-
-
-	// Resolve the link
-	SetPath(NTargetFile::GetTarget(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetChildren : Get the child of a directory.
-//----------------------------------------------------------------------------
-NFileList NFile::GetChildren(void) const
-{
-
-
-	// Validate our state
-	NN_ASSERT(IsDirectory());
-
-
-
-	// Get the children
-	return(NTargetFile::GetChildren(mPath));
-}
-
-
-
-
-
-//============================================================================
-//        NFile::Delete : Delete the file.
-//----------------------------------------------------------------------------
-NStatus NFile::Delete(bool moveToTrash) const
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(Exists());
-
-
-
-	// Empty directories
-	if (IsDirectory() && !moveToTrash)
-		{
-		theErr = DeleteContents();
-		NN_ASSERT_NOERR(theErr);
-		
-		if (theErr != kNoErr)
-			return(theErr);
-		}
-
-
-
-	// Delete the file
-	theErr = NTargetFile::Delete(mPath, moveToTrash);
-	NN_ASSERT_NOERR(theErr);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::DeleteContents : Delete the contents if a directory.
-//----------------------------------------------------------------------------
-NStatus NFile::DeleteContents(void) const
-{	NFileIterator				fileIterator;
-	NFileList					theFiles;
-	NFile						theFile;
-	NFileListConstIterator		theIter;
-	NStatus						theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsDirectory());
-
-
-
-	// Get the state we need
-	fileIterator.SetRecurseLimit(0);
-	theFiles = fileIterator.GetFiles(*this);
-	theErr   = kNoErr;
-
-
-
-	// Delete the contents
-	for (theIter = theFiles.begin(); theIter != theFiles.end() && theErr == kNoErr; theIter++)
-		{
-		theFile = *theIter;
-		
-		if (theFile.IsDirectory())
-			theErr = theFile.DeleteContents();
-
-		if (theErr == kNoErr)
-			theErr = theFile.Delete();
-		}
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::CreateFile : Create a file.
-//----------------------------------------------------------------------------
-NStatus NFile::CreateFile(void)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(!Exists());
-
-
-
-	// Create the parent
-	CreateParent();
-
-
-
-	// Create a file
-	theErr = Open(kNPermissionWrite, true);
-	NN_ASSERT_NOERR(theErr);
-
-	if (theErr == kNoErr)
-		Close();
-	
-	return(theErr);
-}
-		
-		
-
-
-
-//============================================================================
-//        NFile::CreateDirectory : Create a directory.
-//----------------------------------------------------------------------------
-NStatus NFile::CreateDirectory(void)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(!Exists());
-
-
-
-	// Create the parent
-	CreateParent();
-
-
-
-	// Create a directory
-	theErr = NTargetFile::CreateDirectory(mPath);
-	NN_ASSERT_NOERR(theErr);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::CreateLink : Create a link.
-//----------------------------------------------------------------------------
-NStatus NFile::CreateLink(const NFile &theTarget, NFileLink theType)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(!Exists());
-
-
-
-	// Create the parent
-	CreateParent();
-
-
-
-	// Create a directory
-	theErr = NTargetFile::CreateLink(mPath, theTarget.mPath, theType);
-	NN_ASSERT_NOERR(theErr);
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::ExchangeWith : Exchange two files.
-//----------------------------------------------------------------------------
-NStatus NFile::ExchangeWith(const NFile &theTarget)
-{	NStatus		theErr;
-
-
-
-	// Exchange two files
-	theErr = NTargetFile::ExchangeWith(mPath, theTarget.mPath);
-	NN_ASSERT_NOERR(theErr);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::MoveTo : Move a file to a directory.
-//----------------------------------------------------------------------------
-NStatus NFile::MoveTo(const NFile &theTarget)
-{	NFile		newFile;
-	NStatus		theErr;
-
-
-
-	// Validate our parameters and state
-	NN_ASSERT(theTarget.IsDirectory());
-	NN_ASSERT(Exists());
-
-
-
-	// Move the file
-	newFile = theTarget.GetChild(GetName());
-	theErr  = SetName(newFile.GetPath(), true, true);
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::Open : Open the file.
-//----------------------------------------------------------------------------
-NStatus NFile::Open(NFilePermission thePermission, bool canCreate)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(!IsOpen());
-
-
-
-	// Check our state
-	if (!canCreate && !IsFile())
-		return(kNErrNotFound);
-
-
-
-	// Open the file
-	theErr = kNErrPermission;
-	mFile  = NTargetFile::FileOpen(mPath, thePermission);
-	
-	if (mFile != kNFileRefNone)
-		{
-		theErr      = kNoErr;
-		mPermission = thePermission;
-		}
-
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::Close : Close the file.
-//----------------------------------------------------------------------------
-void NFile::Close(void)
-{
-
-
-	// Validate our state
-	NN_ASSERT(Exists() ? IsFile() : true);
-	NN_ASSERT(IsOpen());
-
-
-
-	// Close the file
-	NTargetFile::FileClose(mFile);
-
-	mFile       = kNFileRefNone;
-	mPermission = kNPermissionRead;
-}
-
-
-
-
-
-//============================================================================
-//        NFile::GetPosition : Get the read/write position.
-//----------------------------------------------------------------------------
-uint64_t NFile::GetPosition(void) const
-{	uint64_t	thePosition;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsFile());
-	NN_ASSERT(IsOpen());
-
-
-
-	// Get the position
-	thePosition = NTargetFile::FileGetPosition(mFile);
-	
-	return(thePosition);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::SetPosition : Set the read/write position.
-//----------------------------------------------------------------------------
-NStatus NFile::SetPosition(int64_t theOffset, NFilePosition thePosition)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsFile());
-	NN_ASSERT(IsOpen());
-	NN_ASSERT(mPermission != kNPermissionWrite);
-
-
-
-	// Set the position
-	theErr = NTargetFile::FileSetPosition(mFile, theOffset, thePosition);
-	NN_ASSERT_NOERR(theErr);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::Read : Read data from the file.
-//----------------------------------------------------------------------------
-NStatus NFile::Read(uint64_t theSize, void *thePtr, uint64_t &numRead, int64_t theOffset, NFilePosition thePosition, NFileFlags theFlags)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsFile());
-	NN_ASSERT(IsOpen());
-	NN_ASSERT(mPermission != kNPermissionWrite);
-
-
-
-	// Read the file
-	numRead = 0;
-	theErr  = NTargetFile::FileRead(mFile, theSize, thePtr, numRead, theOffset, thePosition, theFlags);
-	NN_ASSERT(theErr == kNoErr || theErr == kNErrExhaustedSrc);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//        NFile::Write : Write data to the file.
-//----------------------------------------------------------------------------
-NStatus NFile::Write(uint64_t theSize, const void *thePtr, uint64_t &numWritten, int64_t theOffset, NFilePosition thePosition, NFileFlags theFlags)
-{	NStatus		theErr;
-
-
-
-	// Validate our state
-	NN_ASSERT(IsFile());
-	NN_ASSERT(IsOpen());
-	NN_ASSERT(mPermission != kNPermissionRead);
-
-
-
-	// Write the file
-	numWritten = 0;
-	theErr     = NTargetFile::FileWrite(mFile, theSize, thePtr, numWritten, theOffset, thePosition, theFlags);
-	NN_ASSERT_NOERR(theErr);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//		NFile::= : Assignment operator.
-//----------------------------------------------------------------------------
-const NFile& NFile::operator = (const NFile &theFile)
-{
-
-
-	// Assign the file
-	if (this != &theFile)
-		CloneFile(theFile);
-	
-	return(*this);
-}
-
-
-
-
-
-//============================================================================
-//		NFile::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NFile::operator NFormatArgument(void) const
-{
-
-
-	// Get the value
-	return(GetPath());
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//      NFile::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NFile::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeString(kNEncoderValueKey, GetPath());
-}
-
-
-
-
-
-//============================================================================
-//      NFile::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NFile::DecodeSelf(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	SetPath(theEncoder.DecodeString(kNEncoderValueKey));
+	// Order by path
+	//
+	// File paths are considered to be case-insensitive but case-preserving.
+	return GetPath().Compare(theFile.GetPath(), kNStringNoCase);
 }
 
 
@@ -1029,80 +547,23 @@ void NFile::DecodeSelf(const NEncoder &theEncoder)
 
 
 #pragma mark private
-//============================================================================
-//		NFile::InitializeSelf : Initialize the file.
-//----------------------------------------------------------------------------
-void NFile::InitializeSelf(const NString &thePath)
+//=============================================================================
+//		NFile::GetPathComponent : Get a component of the path.
+//-----------------------------------------------------------------------------
+NString NFile::GetPathComponent(const NString& thePattern) const
 {
 
 
-	// Initialize ourselves
-	mPath       = thePath;
-	mFile       = kNFileRefNone;
-	mPermission = kNPermissionRead;
+	// Get our state
+	NString       thePath  = mInfo.GetPath();
+	NPatternGroup theMatch = thePath.FindGroup(thePattern, kNStringPattern);
+	NString       theComponent;
+
+	if (!theMatch.theGroups.empty())
+	{
+		NN_REQUIRE(theMatch.theGroups.size() == 1);
+		theComponent = thePath.GetSubstring(theMatch.theGroups[0]);
+	}
+
+	return theComponent;
 }
-
-
-
-
-
-//============================================================================
-//		NFile::CloneFile : Clone a file.
-//----------------------------------------------------------------------------
-void NFile::CloneFile(const NFile &theFile)
-{
-
-
-	// Reset our state
-	if (IsOpen())
-		Close();
-
-
-
-	// Clone the file
-	//
-	// File references are not copied between files; a file reference
-	// is owned by the file object which opened it.
-	mPath = theFile.mPath;
-}
-
-
-
-
-
-//============================================================================
-//        NFile::CreateParent : Create the parent directory.
-//----------------------------------------------------------------------------
-void NFile::CreateParent(void)
-{	NFile	theParent;
-
-
-
-	// Create the parent directory
-	theParent = GetParent();
-	
-	if (!theParent.Exists())
-		theParent.CreateDirectory();
-}
-
-
-
-
-
-//============================================================================
-//        NFile::SetName : Set the file name.
-//----------------------------------------------------------------------------
-NStatus NFile::SetName(const NString &theName, bool renameFile, bool isPath)
-{	NString		newPath;
-	NStatus		theErr;
-
-
-
-	// Set the name
-	theErr = NTargetFile::SetName(mPath, theName, renameFile, isPath, newPath);
-	if (theErr == kNoErr)
-		SetPath(newPath);
-	
-	return(theErr);
-}
-

@@ -88,6 +88,9 @@
 		ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8BC241C59680054A16E /* TFileHandle.cpp */; };
 		ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8BC241C59680054A16E /* TFileHandle.cpp */; };
 		ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8BC241C59680054A16E /* TFileHandle.cpp */; };
+		ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E8241F8AEA0054A16E /* TFile.cpp */; };
+		ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E8241F8AEA0054A16E /* TFile.cpp */; };
+		ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E8241F8AEA0054A16E /* TFile.cpp */; };
 		ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
@@ -188,7 +191,6 @@
 		AB514D731034184B00E5A6AD /* TListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TListener.cpp; sourceTree = "<group>"; };
 		AB514D751034184B00E5A6AD /* TTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimer.cpp; sourceTree = "<group>"; };
 		AB514D781034184B00E5A6AD /* TBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBundle.cpp; sourceTree = "<group>"; };
-		AB514D7A1034184B00E5A6AD /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
 		AB514D7C1034184B00E5A6AD /* TFileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileMap.cpp; sourceTree = "<group>"; };
 		AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyList.cpp; sourceTree = "<group>"; };
 		AB514D831034184B00E5A6AD /* TByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TByteSwap.cpp; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 		ABDCE8AD241C2A720054A16E /* TPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPOSIX.cpp; sourceTree = "<group>"; };
 		ABDCE8BB241C59680054A16E /* TFileInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileInfo.cpp; sourceTree = "<group>"; };
 		ABDCE8BC241C59680054A16E /* TFileHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileHandle.cpp; sourceTree = "<group>"; };
+		ABDCE8E8241F8AEA0054A16E /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
 		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
@@ -494,7 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				AB514D781034184B00E5A6AD /* TBundle.cpp */,
-				AB514D7A1034184B00E5A6AD /* TFile.cpp */,
+				ABDCE8E8241F8AEA0054A16E /* TFile.cpp */,
 				ABDCE8BC241C59680054A16E /* TFileHandle.cpp */,
 				ABDCE8BB241C59680054A16E /* TFileInfo.cpp */,
 				AB14315F103EC576002BD0D1 /* TFileIterator.cpp */,
@@ -817,6 +820,7 @@
 				ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
+				ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
@@ -855,6 +859,7 @@
 				ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
+				ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
@@ -893,6 +898,7 @@
 				ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
+				ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,

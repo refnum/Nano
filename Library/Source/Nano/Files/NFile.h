@@ -3,306 +3,159 @@
 
 	DESCRIPTION:
 		File object.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2020, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NFILE_HDR
-#define NFILE_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NStringFormatter.h"
-#include "NComparable.h"
-#include "NEncodable.h"
+#ifndef NFILE_H
+#define NFILE_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NFileInfo.h"
+#include "NMixinComparable.h"
 #include "NString.h"
-#include "NDate.h"
-#include "NUTI.h"
+
+// System
+#include <vector>
 
 
 
 
 
-//============================================================================
-//      Constants
-//----------------------------------------------------------------------------
-// Flags
-typedef NBitfield NFileFlags;
-
-static const NFileFlags kNFileNone									= 0;
-static const NFileFlags kNFileCacheRequest							= (1 << 0);
-static const NFileFlags kNFileCacheSuppress							= (1 << 1);
-
-
-// Names
-//
-// The "raw" name is the name on disk, while the "display" name is
-// the user's view of that name subject to their preferences (e.g.,
-// with extension potentially suppressed).
-typedef enum {
-	kNNameRaw,
-	kNNameDisplay,
-	kNNameNoExtension
-} NFileName;
-
-
-// Links
-//
-// A soft link can be detected with IsLink but does not need to be resolved
-// before use, as it will be resolved automatically by the filesystem.
-//
-// A hard link can not be detected by IsLink, or resolved by the application,
-// as it exists entirely within the filesystem.
-//
-// A user link can be detected with IsLink and must be resolved before use,
-// as these typically exist above the filesystem (e.g., a Finder alias).
-typedef enum {
-	kNLinkSoft,
-	kNLinkHard,
-	kNLinkUser
-} NFileLink;
-
-
-// Permissions
-typedef enum {
-	kNPermissionRead,
-	kNPermissionWrite,
-	kNPermissionUpdate
-} NFilePermission;
-
-
-// Positions
-typedef enum {
-	kNPositionFromStart,
-	kNPositionFromMark,
-	kNPositionFromEnd
-} NFilePosition;
-
-
-// File reference
-typedef uintptr_t NFileRef;
-
-static const NFileRef kNFileRefNone									= 0;
-
-
-// Directory separator
-#if NN_TARGET_MACOS || NN_TARGET_IOS || NN_TARGET_LINUX
-	#define NN_DIR													"/"
-#elif NN_TARGET_WINDOWS
-	#define NN_DIR													"\\"
-#else
-	UNKNOWN TARGET
-#endif
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// Forward declarations
 class NFile;
 
-typedef std::vector<NFile>											NFileList;
-typedef NFileList::iterator											NFileListIterator;
-typedef NFileList::const_iterator									NFileListConstIterator;
+
+// Containers
+using NVectorFile = std::vector<NFile>;
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NFile :	public NEncodable,
-				public NComparable<NFile> {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NN_EMPTY_BASE NFile final : public NMixinComparable<NFile>
+{
 public:
-										NENCODABLE_DECLARE(NFile);
-
-										NFile(const NString &thePath);
-										NFile(const NFile   &theFile);
-
-										NFile(void);
-	virtual							   ~NFile(void);
+										NFile();
+										NFile(const NString& thePath);
 
 
 	// Is the file valid?
-	bool								IsValid(void) const;
-
-
-	// Is this a file/directory/link?
 	//
-	// Will always return false if the object does not exist.
-	bool								IsFile(     void) const;
-	bool								IsDirectory(void) const;
-	bool								IsLink(     void) const;
+	// A valid file has a non-empty path.
+	bool                                IsValid() const;
 
 
-	// Is the file writeable?
-	bool								IsWriteable(void) const;
-
-
-	// Is the file open?
-	bool								IsOpen(void) const;
-
-
-	// Does the file exist?
-	bool								Exists(void) const;
-
-
-	// Clear the value
-	void								Clear(void);
-
-
-	// Compare the value
-	NComparison							Compare(const NFile &theValue) const;
-
-
-	// Get the UTI
-	NUTI								GetUTI(void) const;
+	// Clear the file
+	//
+	// Resets the file to an empty path.
+	void                                Clear();
 
 
 	// Get/set the path
-	NString								GetPath(void) const;
-	void								SetPath(const NString &thePath);
+	NString                             GetPath() const;
+	void                                SetPath(  const NString& thePath);
+
+
+	// Refresh the state
+	void                                Refresh();
+
+
+	// Get the file status
+	bool                                Exists()      const;
+	bool                                IsFile()      const;
+	bool                                IsDirectory() const;
+
+
+	// Get the permissions
+	bool                                CanRead()    const;
+	bool                                CanWrite()   const;
+	bool                                CanExecute() const;
+
+
+	// Get the timestamps
+	NTime                               GetCreationTime() const;
+	NTime                               GetModifiedTime() const;
 
 
 	// Get/set the name
-	NString								GetName(NFileName theName=kNNameRaw) const;
-	NStatus								SetName(const NString &theName, bool renameFile=false);
+	NString                             GetName() const;
+	NStatus                             SetName(  const NString& theName, bool renameFile = false);
 
 
 	// Get/set the extension
-	NString								GetExtension(void) const;
-	NStatus								SetExtension(const NString &theExtension, bool renameFile=false);
+	NString                             GetExtension() const;
+	NStatus                             SetExtension(  const NString& theExtension, bool renameFile = false);
 
 
-	// Get/set the size
+	// Get the child/parent
 	//
-	// Growing the file will zero-fill any new space.
-	uint64_t							GetSize(void) const;
-	NStatus								SetSize(uint64_t theSize);
-
-
-	// Get the timestamp
-	NDate								GetCreationTime(    void) const;
-	NDate								GetAccessTime(      void) const;
-	NDate								GetModificationTime(void) const;
-
-
-	// Get the child/parent of a file
+	// Only directories have children, however all files/directories except
+	// the root directory have a parent.
 	//
-	// Only directories have children, however all files/directories except the root
-	// directory have a parent.
+	// The child name may include path components.
+	NFile                               GetChild(   const NString& theName) const;
+	NFile                               GetParent() const;
+
+
+	// Get the size of a file
 	//
-	// The child file name may include path components.
-	NFile								GetChild(const NString &fileName) const;
-	NFile								GetParent(void)                   const;
+	// Only valid for files.
+	uint64_t                            GetSize() const;
 
 
-	// Get the target of file
-	//
-	// Resolves any links in the file's path to obtain the final file.
-	NFile								GetTarget(    void) const;
-	void								ResolveTarget(void);
 
-
-	// Get the children of a directory
-	NFileList							GetChildren(void) const;
-
-
-	// Delete the file
-	//
-	// Deleting a file, rather than moving it to the trash, is permanent.
-	//
-	// If the file is open, it will be unlinked. If it is a directory, the
-	// contents will be deleted before the directory itself.
-	NStatus								Delete(bool moveToTrash=false) const;
-
-
-	// Delete the contents of a directory
-	//
-	// Recursively deletes the contents of a directory.
-	NStatus								DeleteContents(void) const;
-
-
-	// Create a file/directory/link
-	//
-	// Non-existent parent directories will be created as necessary.
-	NStatus								CreateFile(     void);
-	NStatus								CreateDirectory(void);
-	NStatus								CreateLink(const NFile &theTarget, NFileLink theType);
-
-
-	// Exchange two files
-	//
-	// Both files must be on the same volume.
-	NStatus								ExchangeWith(const NFile &theTarget);
-
-
-	// Move a file
-	//
-	// Both file and target directory must be on the same volume.
-	NStatus								MoveTo(const NFile &theTarget);
-
-
-	// Open/close the file
-	//
-	// Files opened for writing are always appended to.
-	//
-	// Files opened for updating can be read to/written from the current position.
-	NStatus								Open(NFilePermission thePermission=kNPermissionRead, bool canCreate=false);
-	void								Close(void);
-
-
-	// Get/set the read/write position
-	//
-	// SetPosition is only available for files opened for reading or updating.
-	uint64_t							GetPosition(void) const;
-	NStatus								SetPosition(int64_t theOffset, NFilePosition thePosition=kNPositionFromStart);
-
-
-	// Read/write the file
-	//
-	// The file must be opened with appropriate permissions first.
-	NStatus								Read( uint64_t theSize,       void *thePtr, uint64_t &numRead,    int64_t theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
-	NStatus								Write(uint64_t theSize, const void *thePtr, uint64_t &numWritten, int64_t theOffset=0, NFilePosition thePosition=kNPositionFromMark, NFileFlags theFlags=kNFileNone);
-
-
-	// Operators
-	const NFile&						operator = (const NFile &theFile);
-										operator NFormatArgument(void) const;
-
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
+public:
+	// NMixinComparable
+	bool                                CompareEqual(const NFile& theFile) const;
+	NComparison                         CompareOrder(const NFile& theFile) const;
 
 
 private:
-	void								InitializeSelf(const NString &thePath="");
-
-	void								CloneFile(const NFile &theFile);
-
-	void								CreateParent(void);
-	NStatus								SetName(const NString &theName, bool renameFile, bool isPath);
+	NString                             GetPathComponent(const NString& thePattern) const;
 
 
 private:
-	NString								mPath;
-	NFileRef							mFile;
-	NFilePermission						mPermission;
+	NFileInfo                           mInfo;
 };
 
 
 
-
-
-#endif // NFILE_HDR
-
-
+#endif // NFILE_H
