@@ -62,6 +62,34 @@ uint64_t NSharedWindows::ToUInt64(DWORD valueHigh, DWORD valueLow)
 
 
 //=============================================================================
+//		NSharedWindows::ToInt64 : Convert a LARGE_INTEGER to an int64_t.
+//-----------------------------------------------------------------------------
+int64_t NSharedWindows::ToInt64(LARGE_INTEGER theValue)
+{
+	return theValue.QuadPart;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::ToLargeInteger : Convert an int64_t to a LARGE_INTEGER.
+//-----------------------------------------------------------------------------
+LARGE_INTEGER NSharedWindows::ToLargeInteger(int64_t theValue)
+{
+	LARGE_INTEGER largeInteger{};
+
+	largeInteger.QuadPart = theValue;
+
+	return largeInteger;
+}
+
+
+
+
+
+//=============================================================================
 //		NWinTarget::GetHRESULT : Get an HRESULT as an NStatus.
 //-----------------------------------------------------------------------------
 NStatus NWinTarget::GetHRESULT(HRESULT winErr)

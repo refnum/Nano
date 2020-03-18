@@ -92,17 +92,20 @@ uint64_t NTimeUtils::GetClockTicks()
 
 
 	// Get the clock ticks
-	LARGE_INTEGER clockTicks{};
+	LARGE_INTEGER clockTicks = NSharedWindows::ToLargeInteger(0);
 
 	BOOL wasOK = QueryPerformanceCounter(&clockTicks);
 	NN_EXPECT(wasOK);
 
+	int64_t theTicks = NSharedWindows::ToInt64(clockTicks);
+	NN_REQUIRE(theTicks >= 0);
+
 	if (!wasOK)
 	{
-		clockTicks.QuadPart = 0;
+		theTicks = 0;
 	}
 
-	return uint64_t(clockTicks.QuadPart);
+	return uint64_t(theTicks);
 }
 
 
@@ -117,15 +120,18 @@ uint64_t NTimeUtils::GetClockFrequency()
 
 
 	// Get the clock frequency
-	LARGE_INTEGER clockFreq{};
+	LARGE_INTEGER clockFreq = NSharedWindows::ToLargeInteger(0);
 
 	BOOL wasOK = QueryPerformanceFrequency(&clockFreq);
 	NN_EXPECT(wasOK);
 
+	int64_t theFreq = NSharedWindows::ToInt64(clockFreq);
+	NN_REQUIRE(theFreq >= 0);
+
 	if (!wasOK)
 	{
-		clockFreq.QuadPart = 0;
+		theFreq = 0;
 	}
 
-	return uint64_t(clockFreq.QuadPart);
+	return uint64_t(theFreq);
 }

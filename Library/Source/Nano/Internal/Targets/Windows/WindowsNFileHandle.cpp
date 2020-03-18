@@ -163,7 +163,7 @@ void NFileHandle::FileClose()
 //=============================================================================
 //		NFileHandle::FileGetPosition : Get the file position.
 //-----------------------------------------------------------------------------
-uint64_t NFileHandle::FileGetPosition()
+uint64_t NFileHandle::FileGetPosition() const
 {
 
 
@@ -174,7 +174,7 @@ uint64_t NFileHandle::FileGetPosition()
 
 	// Get the state we need
 	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
-	LARGE_INTEGER theOffset = {0};
+	LARGE_INTEGER theOffset = NSharedWindows::ToLargeInteger(0);
 
 
 
@@ -182,13 +182,15 @@ uint64_t NFileHandle::FileGetPosition()
 	BOOL wasOK = SetFilePointerEx(hFile, theOffset, &theOffset, FILE_CURRENT);
 	NN_EXPECT(wasOK);
 
+	int64_t thePosition = NSharedWindows::ToInt64(theOffset);
+	NN_REQUIRE(thePosition >= 0);
+
 	if (!wasOK)
 	{
-		theOffset.QuadPart = 0;
+		thePosition = 0;
 	}
 
-	NN_REQUIRE(theOffset.QuadPart >= 0);
-	return uint64_t(theOffset.QuadPart);
+	return uint64_t(thePosition);
 }
 
 
@@ -209,15 +211,15 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 
 	// Get the state we need
 	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
-	LARGE_INTEGER theOffset = {thePosition};
+	LARGE_INTEGER theOffset = NSharedWindows::ToLargeInteger(thePosition);
 
 
 
 	// Set the file position
-		BOOL wasOK = SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo)))
-			   NN_EXPECT(wasOK);
+	BOOL wasOK = SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo));
+	NN_EXPECT(wasOK);
 
-		return NSharedWindows::GetLastError();
+	return NSharedWindows::GetLastError();
 }
 
 

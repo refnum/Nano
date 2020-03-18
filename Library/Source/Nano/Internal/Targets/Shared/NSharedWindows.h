@@ -56,8 +56,10 @@
 class NSharedWindows
 {
 public:
-	// Convert two DWORDs to a uint64_t
+	// Convert between integer formats
 	static uint64_t                     ToUInt64(DWORD valueHigh, DWORD valueLow);
+	static int64_t                      ToInt64(LARGE_INTEGER  theValue);
+	static LARGE_INTEGER                ToLargeInteger(int64_t theValue);
 
 
 	// Get an HRESULT error
