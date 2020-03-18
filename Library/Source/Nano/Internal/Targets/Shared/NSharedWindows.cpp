@@ -90,9 +90,9 @@ LARGE_INTEGER NSharedWindows::ToLargeInteger(int64_t theValue)
 
 
 //=============================================================================
-//		NWinTarget::GetHRESULT : Get an HRESULT as an NStatus.
+//		NSharedWindows::ToStatus : Convert an HRESULT to an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NWinTarget::GetHRESULT(HRESULT winErr)
+NStatus NSharedWindows::ToStatus(HRESULT winErr)
 {
 
 
@@ -101,40 +101,40 @@ NStatus NWinTarget::GetHRESULT(HRESULT winErr)
 
 	switch (winErr)
 	{
-		case ERROR_SUCCESS:
-			theErr = kNoErr;
+		case HRESULT_FROM_WIN32(ERROR_SUCCESS):
+			theErr = NStatus::OK;
 			break;
 
-		case ERROR_SHARING_VIOLATION:
-			theErr = kNErrBusy;
+		case HRESULT_FROM_WIN32(ERROR_SHARING_VIOLATION):
+			theErr = NStatus::Busy;
 			break;
 
-		case ERROR_FILE_NOT_FOUND:
-			theErr = kNErrNotFound;
+		case HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND):
+			theErr = NStatus::NotFound;
 			break;
 
-		case ERROR_PATH_NOT_FOUND:
-			theErr = kNErrNotFound;
+		case HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND):
+			theErr = NStatus::NotFound;
 			break;
 
-		case ERROR_ENVVAR_NOT_FOUND:
-			theErr = kNErrNotFound;
+		case HRESULT_FROM_WIN32(ERROR_ENVVAR_NOT_FOUND):
+			theErr = NStatus::NotFound;
 			break;
 
-		case ERROR_ACCESS_DENIED:
-			theErr = kNErrPermission;
+		case HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED):
+			theErr = NStatus::Permission;
 			break;
 
-		case ERROR_HANDLE_EOF:
-			theErr = kNErrExhaustedSrc;
+		case HRESULT_FROM_WIN32(ERROR_HANDLE_EOF):
+			theErr = NStatus::ExhaustedSrc;
 			break;
 
-		case ERROR_ALREADY_EXISTS:
-			theErr = kNErrDuplicate;
+		case HRESULT_FROM_WIN32(ERROR_ALREADY_EXISTS):
+			theErr = NStatus::Duplicate;
 			break;
 
-		case ERROR_INVALID_HANDLE:
-			theErr = kNErrParam;
+		case HRESULT_FROM_WIN32(ERROR_INVALID_HANDLE):
+			theErr = NStatus::Param;
 			break;
 
 		default:
@@ -157,7 +157,7 @@ NStatus NSharedWindows::GetLastError()
 
 
 	// Get the error
-	return GetHRESULT(::GetLastError());
+	return ToStatus(HRESULT_FROM_WIN32(::GetLastError()));
 }
 
 

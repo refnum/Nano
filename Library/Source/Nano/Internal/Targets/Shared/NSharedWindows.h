@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NanoConstants.h"
 #include "NanoTypes.h"
 
 // System
@@ -63,7 +64,7 @@ public:
 
 
 	// Get an HRESULT error
-	static NStatus                      GetHRESULT(HRESULT winErr);
+	static NStatus                      ToStatus(HRESULT winErr);
 	static NStatus                      GetLastError();
 
 

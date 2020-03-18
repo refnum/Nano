@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NFileHandle.h"
 
+// Nano
+#include "NSharedWindows.h"
+
 
 
 
@@ -272,7 +275,7 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 
 
 	// Validate our parameters
-	NN_ASSERT(theSize <= kNInt32Max);
+	NN_REQUIRE(theSize <= kNInt32Max);
 
 
 
@@ -287,19 +290,17 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 	BOOL wasOK = ReadFile(hFile, thePtr, DWORD(theSize), &bytesRead, nullptr);
 	NN_EXPECT(wasOK);
 
-	if (!wasOK)
-	{
-		theErr = NSharedWindows::GetLastError();
-	}
-
-	if (theErr == NStatus::NoErr && bytesRead == 0)
-	{
-		theErr = NStatus::ExhaustedSrc;
-	}
-
-	if (theErr == NStatus::NoErr)
+	if (wasOK)
 	{
 		numRead = bytesRead;
+		if (numRead == 0)
+		{
+			theErr = NStatus::ExhaustedSrc;
+		}
+	}
+	else
+	{
+		theErr = NSharedWindows::GetLastError();
 	}
 
 	return theErr;
@@ -317,7 +318,7 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 
 	// Validate our parameters
-	NN_ASSERT(theSize <= kNInt32Max);
+	NN_REQUIRE(theSize <= kNInt32Max);
 
 
 
@@ -331,19 +332,17 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 	BOOL wasOK = WriteFile(hFile, thePtr, DWORD(theSize), &bytesWritten, nullptr);
 	NN_EXPECT(wasOK);
 
-	if (!wasOK)
-	{
-		theErr = NSharedWindows::GetLastError();
-	}
-
-	if (theErr == NStatus::NoErr)
+	if (wasOK)
 	{
 		numWritten = bytesWritten;
+		if (numWritten != theSize)
+		{
+			theErr = NStatus::DiskFull;
+		}
 	}
-
-	if (numWritten != theSize)
+	else
 	{
-		theErr = NStatus::DiskFull;
+		theErr = NSharedWindows::GetLastError();
 	}
 
 	return theErr;
