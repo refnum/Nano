@@ -166,6 +166,7 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS /wd4371)		# Class layout may vary previous version of the compiler
 	list(APPEND NN_COMPILER_WARNINGS /wd4619)		# Unrecognised warning pragma
 	list(APPEND NN_COMPILER_WARNINGS /wd4711)		# Function selected for automatic inlining
+	list(APPEND NN_COMPILER_WARNINGS /wd4715)		# Not all control paths return a value (enforced by clang/gcc -Wswitch-enum)
 
 	
 	# Discard necessary warnings
