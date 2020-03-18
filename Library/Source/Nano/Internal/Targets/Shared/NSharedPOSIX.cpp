@@ -193,9 +193,9 @@ NInterval NSharedPOSIX::clock_gettime(clockid_t theID)
 
 
 //=============================================================================
-//		NSharedPOSIX::GetSysErr : Get a system error as an NStatus.
+//		NSharedPOSIX::ToStatus : Convert an errno to an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::GetSysErr(int sysErr)
+NStatus NSharedPOSIX::ToStatus(int sysErr)
 {
 
 
@@ -206,7 +206,7 @@ NStatus NSharedPOSIX::GetSysErr(int sysErr)
 	{
 		case 0:
 			// No error
-			theErr = NStatus::NoErr;
+			theErr = NStatus::OK;
 			break;
 
 		case EPERM:
@@ -756,7 +756,7 @@ NStatus NSharedPOSIX::GetErrno()
 
 
 	// Get the value
-	return GetSysErr(errno);
+	return ToStatus(errno);
 }
 
 
@@ -992,7 +992,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 		}
 		else
 		{
-			theErr = GetSysErr(ferror(theFile));
+			theErr = ToStatus(ferror(theFile));
 		}
 	}
 

@@ -81,7 +81,7 @@ public:
 
 
 	// Get a POSIX error
-	static NStatus                      GetSysErr(int sysErr);
+	static NStatus                      ToStatus(int sysErr);
 	static NStatus                      GetErrno();
 
 
