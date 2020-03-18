@@ -244,7 +244,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 	NStatus theErr = FileSetPosition(int64_t(theSize), NFileOffset::FromStart);
 	NN_EXPECT_NOT_ERR(theErr);
 
-	if (theErr == NStatus::NoErr)
+	if (theErr == NStatus::OK)
 	{
 		BOOL wasOK = SetEndOfFile(hFile);
 		NN_EXPECT(wasOK);
@@ -276,7 +276,7 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 
 	// Get the state we need
 	HANDLE  hFile     = static_cast<HANDLE>(mHandle);
-	NStatus theErr    = NStatus::NoErr;
+	NStatus theErr    = NStatus::OK;
 	DWORD   bytesRead = 0;
 
 
@@ -321,7 +321,7 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 	// Get the state we need
 	HANDLE  hFile        = static_cast<HANDLE>(mHandle);
-	NStatus theErr       = NStatus::NoErr;
+	NStatus theErr       = NStatus::OK;
 	DWORD   bytesWritten = 0;
 
 

@@ -120,11 +120,9 @@ static constexpr NInterval kNTimeDistantFuture              = kNTimeYearish * 40
 
 
 // NStatus
-//
-// Other than NoErr, values may change between releases.
 enum class NStatus
 {
-	NoErr                                                   = 0,
+	OK,
 	Busy,
 	Cancelled,
 	Checksum,
@@ -143,7 +141,7 @@ enum class NStatus
 	Permission,
 	Timeout,
 	TooNew,
-	TooOld,
+	TooOld
 };
 
 

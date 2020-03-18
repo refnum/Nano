@@ -977,7 +977,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 
 	// Get the state we need
 	FILE*   theFile = static_cast<FILE*>(fileHandle);
-	NStatus theErr  = NStatus::NoErr;
+	NStatus theErr  = NStatus::OK;
 
 
 
@@ -1020,7 +1020,7 @@ NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 
 	// Get the state we need
 	FILE*   theFile = static_cast<FILE*>(fileHandle);
-	NStatus theErr  = NStatus::NoErr;
+	NStatus theErr  = NStatus::OK;
 
 
 	// Write to the file

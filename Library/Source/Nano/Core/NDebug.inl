@@ -163,7 +163,7 @@ constexpr bool _nn_is_error(E theErr) noexcept
 template <>
 constexpr bool _nn_is_error<NStatus>(NStatus theErr) noexcept
 {
-	return theErr != NStatus::NoErr;
+	return theErr != NStatus::OK;
 }
 #else
 	#define _nn_is_error(_theErr)                           ((_theErr) != 0)
