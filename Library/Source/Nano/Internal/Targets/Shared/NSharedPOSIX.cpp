@@ -76,24 +76,24 @@ static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
-//		GetFilePermisson : Get a fopen permission.
+//		GetFileAccess : Get a fopen access mode.
 //-----------------------------------------------------------------------------
-static constexpr const char* GetFilePermisson(NFilePermission thePermission)
+static constexpr const char* GetFileAccess(NFileAccess theAccess)
 {
 
 
 	// Get the permission
-	switch (thePermission)
+	switch (theAccess)
 	{
-		case NFilePermission::Read:
+		case NFileAccess::Read:
 			return "r";
 			break;
 
-		case NFilePermission::Write:
+		case NFileAccess::Write:
 			return "w";
 			break;
 
-		case NFilePermission::Update:
+		case NFileAccess::ReadWrite:
 			return "w+";
 			break;
 	}
@@ -827,7 +827,7 @@ void NSharedPOSIX::GetFileStateAccess(const NString&  thePath,
 //		NSharedPOSIX::FileOpen : Open a file.
 //-----------------------------------------------------------------------------
 NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
-							   NFilePermission thePermission,
+							   NFileAccess     theAccess,
 							   NFileHandleRef& fileHandle)
 {
 
@@ -838,7 +838,7 @@ NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
 
 
 	// Open the file
-	FILE* theFile = fopen(thePath.GetUTF8(), GetFilePermisson(thePermission));
+	FILE* theFile = fopen(thePath.GetUTF8(), GetFileAccess(theAccess));
 	if (theFile != nullptr)
 	{
 		fileHandle = static_cast<NFileHandleRef>(theFile);

@@ -51,12 +51,12 @@
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileOpen(NFilePermission thePermission)
+NStatus NFileHandle::FileOpen(NFileAccess theAccess)
 {
 
 
 	// Open the file
-	return NSharedPOSIX::FileOpen(mPath, thePermission, mHandle);
+	return NSharedPOSIX::FileOpen(mPath, theAccess, mHandle);
 }
 
 

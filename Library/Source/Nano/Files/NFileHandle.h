@@ -67,13 +67,28 @@ using NFileHandleRef = void*;
 static constexpr NFileHandleRef kNFileHandleNone = nullptr;
 
 
-// Permissions
-enum class NFilePermission
+// File access
+//
+// A file may be opened for access in one mode at a time:
+//
+//		NFileAccess::Read			The file may only be read from.
+//
+//		NFileAccess::Write			The file may only be written to.
+//
+//		NFileAccess::ReadWrite		The file may be read from and written to.
+//
+//
+// In NFileAccess::Read mode the file will not be created if it does not exist.
+//
+// In NFileAccess::Write or NFileAccess::ReadWrite modes mode the file will be
+// created if it does not exist.
+enum class NFileAccess
 {
 	Read,
 	Write,
-	Update
+	ReadWrite
 };
+
 
 // Offsets
 enum class NFileOffset
@@ -113,11 +128,10 @@ public:
 
 	// Open/close the handle
 	//
-	// A handle must be closed before it can be opened.
-	//
-	// An open handle will be closed when it goes out of scope.
-	NStatus                             Open(const NFile& theFile,   NFilePermission thePermission = NFilePermission::Read);
-	NStatus                             Open(const NString& thePath, NFilePermission thePermission = NFilePermission::Read);
+	// An open handle must be closed to open it in a different access
+	// mode. An open handle will be closed when it goes out of scope.
+	NStatus                             Open(const NFile& theFile,   NFileAccess theAccess = NFileAccess::Read);
+	NStatus                             Open(const NString& thePath, NFileAccess theAccess = NFileAccess::Read);
 
 	void                                Close();
 
@@ -161,7 +175,10 @@ public:
 
 
 private:
-	NStatus                             FileOpen(NFilePermission thePermission);
+	bool                                CanRead()  const;
+	bool                                CanWrite() const;
+
+	NStatus                             FileOpen(NFileAccess theAccess);
 	void                                FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
@@ -173,6 +190,7 @@ private:
 
 private:
 	NString                             mPath;
+	NFileAccess                         mAccess;
 	NFileHandleRef                      mHandle;
 };
 

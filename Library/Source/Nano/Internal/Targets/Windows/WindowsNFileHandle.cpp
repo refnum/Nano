@@ -51,25 +51,50 @@
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
-//		GetFilePermisson : Get a CreateFile permission.
+//		GetFileAccess : Get a CreateFile access mode.
 //-----------------------------------------------------------------------------
-static constexpr UINT GetFilePermisson(NFilePermission thePermission)
+static constexpr DWORD GetFileAccess(NFileAccess theAccess)
 {
 
 
-	// Get the permission
-	switch (thePermission)
+	// Get the access mode
+	switch (theAccess)
 	{
-		case NFilePermission::Read:
+		case NFileAccess::Read:
 			return FILE_GENERIC_READ;
 			break;
 
-		case NFilePermission::Write:
+		case NFileAccess::Write:
 			return FILE_GENERIC_WRITE;
 			break;
 
-		case NFilePermission::Update:
+		case NFileAccess::ReadWrite:
 			return FILE_GENERIC_READ | FILE_GENERIC_WRITE;
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		GetFileCreation : Get a CreateFile creation mode.
+//-----------------------------------------------------------------------------
+static constexpr DWORD GetFileCreation(NFileAccess theAccess)
+{
+
+
+	// Get the creation mode
+	switch (theAccess)
+	{
+		case NFileAccess::Read:
+			return OPEN_EXISTING;
+			break;
+
+		case NFileAccess::Write:
+		case NFileAccess::ReadWrite:
+			return OPEN_ALWAYS;
 			break;
 	}
 }
@@ -112,7 +137,7 @@ static constexpr DWORD GetFileMove(NFileOffset relativeTo)
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileOpen(NFilePermission thePermission)
+NStatus NFileHandle::FileOpen(NFileAccess theAccess)
 {
 
 
@@ -122,13 +147,13 @@ NStatus NFileHandle::FileOpen(NFilePermission thePermission)
 
 
 	// Open the file
-	HANDLE hFile = CreateFile(LPCWSTR(mPath.GetUTF8()),
-							  GetFilePermisson(thePermission),
-							  FILE_SHARE_READ | FILE_SHARE_WRITE,
-							  nullptr,
-							  OPEN_ALWAYS,
-							  FILE_ATTRIBUTE_NORMAL,
-							  nullptr);
+	HANDLE hFile = CreateFileW(LPCWSTR(mPath.GetUTF16()),
+							   GetFileAccess(theAccess),
+							   FILE_SHARE_READ | FILE_SHARE_WRITE,
+							   nullptr,
+							   GetFileCreation(theAccess),
+							   FILE_ATTRIBUTE_NORMAL,
+							   nullptr);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{

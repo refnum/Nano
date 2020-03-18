@@ -107,7 +107,6 @@ NANO_TEST(TFileHandle, "Default")
 	// Validate our state
 	REQUIRE(!theFile.IsOpen());
 	REQUIRE(theFile.GetPath().IsEmpty());
-	REQUIRE(theFile.GetPosition() == 0);
 }
 
 
@@ -122,7 +121,7 @@ NANO_TEST(TFileHandle, "OpenRead")
 
 
 	// Perform the test
-	theErr = theFile.Open(kPathTmpFile, NFilePermission::Read);
+	theErr = theFile.Open(kPathTmpFile, NFileAccess::Read);
 	REQUIRE(theErr == NStatus::NotFound);
 	REQUIRE(!theFile.IsOpen());
 }
@@ -139,14 +138,14 @@ NANO_TEST(TFileHandle, "OpenWrite")
 
 
 	// Perform the test
-	theErr = theFile.Open(kPathTmpFile, NFilePermission::Write);
-	REQUIRE(theErr == NStatus::NoErr);
+	theErr = theFile.Open(kPathTmpFile, NFileAccess::Write);
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.IsOpen());
 	REQUIRE(theFile.GetPosition() == 0);
 
 	uint64_t numWritten = 123456;
 	theErr              = theFile.Write(kBufferSize, kBufferData, numWritten);
-	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numWritten == kBufferSize);
 }
 
@@ -162,14 +161,14 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 	// Perform the test
-	theErr = theFile.Open(kPathTmpFile, NFilePermission::Write);
-	REQUIRE(theErr == NStatus::NoErr);
+	theErr = theFile.Open(kPathTmpFile, NFileAccess::Write);
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.IsOpen());
 	REQUIRE(theFile.GetPosition() == 0);
 
 	uint64_t numWritten = 123456;
 	theErr              = theFile.Write(kBufferSize, kBufferData, numWritten);
-	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numWritten == kBufferSize);
 	REQUIRE(theFile.GetPosition() == numWritten);
 
@@ -179,15 +178,15 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 
-	theErr = theFile.Open(kPathTmpFile, NFilePermission::Read);
-	REQUIRE(theErr == NStatus::NoErr);
+	theErr = theFile.Open(kPathTmpFile, NFileAccess::Read);
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.IsOpen());
 	REQUIRE(theFile.GetPosition() == 0);
 
 	uint8_t  tmpBuffer[kBufferSize];
 	uint64_t numRead = 123456;
 	theErr           = theFile.Read(kBufferSize, tmpBuffer, numRead);
-	REQUIRE(theErr == NStatus::NoErr);
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numRead == kBufferSize);
 
 	REQUIRE(memcmp(tmpBuffer, kBufferData, kBufferSize) == 0);

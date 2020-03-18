@@ -54,6 +54,7 @@
 //-----------------------------------------------------------------------------
 NFileHandle::NFileHandle()
 	: mPath{}
+	, mAccess(NFileAccess::Read)
 	, mHandle(kNFileHandleNone)
 {
 }
@@ -113,12 +114,12 @@ NString NFileHandle::GetPath() const
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NFile& theFile, NFilePermission thePermission)
+NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess)
 {
 
 
 	// Open the file
-	return Open(theFile.GetPath(), thePermission);
+	return Open(theFile.GetPath(), theAccess);
 }
 
 
@@ -128,7 +129,7 @@ NStatus NFileHandle::Open(const NFile& theFile, NFilePermission thePermission)
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NString& thePath, NFilePermission thePermission)
+NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess)
 {
 
 
@@ -141,13 +142,21 @@ NStatus NFileHandle::Open(const NString& thePath, NFilePermission thePermission)
 
 
 	// Open the file
-	NStatus theErr = FileOpen(thePermission);
+	NStatus theErr = FileOpen(theAccess);
 	NN_EXPECT_NOT_ERR(theErr);
 
-	if (theErr == NStatus::NoErr)
+	if (theErr == NStatus::OK)
 	{
+		// Update our state
 		NN_REQUIRE(mHandle != kNFileHandleNone);
-		mPath = thePath;
+
+		mPath   = thePath;
+		mAccess = theAccess;
+
+
+
+		// Initialise the position
+		SetPosition(0, NFileOffset::FromStart);
 	}
 
 	return theErr;
@@ -174,6 +183,7 @@ void NFileHandle::Close()
 	FileClose();
 
 	mPath.Clear();
+	mAccess = NFileAccess::Read;
 	mHandle = kNFileHandleNone;
 }
 
@@ -186,6 +196,10 @@ void NFileHandle::Close()
 //-----------------------------------------------------------------------------
 uint64_t NFileHandle::GetPosition() const
 {
+
+
+	// Validate our state
+	NN_REQUIRE(IsOpen());
 
 
 	// Get the position
@@ -201,6 +215,10 @@ uint64_t NFileHandle::GetPosition() const
 //-----------------------------------------------------------------------------
 NStatus NFileHandle::SetPosition(int64_t theOffset, NFileOffset relativeTo)
 {
+
+
+	// Validate our state
+	NN_REQUIRE(IsOpen());
 
 
 	// Set the position
@@ -233,6 +251,10 @@ NStatus NFileHandle::SetSize(uint64_t theSize)
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+
+
 	// Set the size
 	return FileSetSize(theSize);
 }
@@ -252,8 +274,13 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+	NN_REQUIRE(CanRead());
+
+
 	// Get the state we need
-	NStatus theErr = NStatus::NoErr;
+	NStatus theErr = NStatus::OK;
 	numRead        = 0;
 
 
@@ -268,7 +295,7 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 
 
 	// Read from the file
-	if (theErr == NStatus::NoErr)
+	if (theErr == NStatus::OK)
 	{
 		theErr = FileRead(theSize, thePtr, numRead);
 	}
@@ -291,8 +318,14 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+	NN_REQUIRE(CanWrite());
+
+
+
 	// Get the state we need
-	NStatus theErr = NStatus::NoErr;
+	NStatus theErr = NStatus::OK;
 	numWritten     = 0;
 
 
@@ -307,7 +340,7 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 
 
 	// Write to the file
-	if (theErr == NStatus::NoErr)
+	if (theErr == NStatus::OK)
 	{
 		theErr = FileWrite(theSize, thePtr, numWritten);
 	}
@@ -326,6 +359,40 @@ NStatus NFileHandle::Flush()
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+
+
 	// Flush the file
 	return FileFlush();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::CanRead : Can the file be read from?
+//-----------------------------------------------------------------------------
+bool NFileHandle::CanRead() const
+{
+
+
+	// Check our state
+	return mAccess == NFileAccess::Read || mAccess == NFileAccess::ReadWrite;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::CanWrite : Can the file be written to?
+//-----------------------------------------------------------------------------
+bool NFileHandle::CanWrite() const
+{
+
+
+	// Check our state
+	return mAccess == NFileAccess::Write || mAccess == NFileAccess::ReadWrite;
 }
