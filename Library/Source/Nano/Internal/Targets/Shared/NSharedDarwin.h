@@ -85,6 +85,11 @@ public:
 													 NFileInfoState& theState);
 
 
+	// Files
+	static NStatus                      FileRename(  const NString& oldPath, const NString& newPath);
+	static NStatus                      FileExchange(const NString& oldPath, const NString& newPath);
+
+
 	// Semaphores
 	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);

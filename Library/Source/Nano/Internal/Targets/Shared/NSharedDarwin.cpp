@@ -314,6 +314,50 @@ bool NSharedDarwin::GetFileState(const NString&  thePath,
 
 
 //=============================================================================
+//		NSharedDarwin::FileRename : Atomically rename a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedDarwin::FileRename(const NString& oldPath, const NString& newPath)
+{
+
+
+	// Rename the file
+	NStatus theErr = NStatus::OK;
+
+	if (!renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL))
+	{
+		theErr = NSharedPOSIX::GetErrno();
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::FileExchange : Atomically exchange files.
+//-----------------------------------------------------------------------------
+NStatus NSharedDarwin::FileExchange(const NString& oldPath, const NString& newPath)
+{
+
+
+	// Exchange the files
+	NStatus theErr = NStatus::OK;
+
+	if (!renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP))
+	{
+		theErr = NSharedPOSIX::GetErrno();
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)

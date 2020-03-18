@@ -198,7 +198,7 @@ static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 		//
 		// Creation is by definition earlier than modification so we use the
 		// modification time if no creation time was available, or if the file
-		// claims ot have been modified before it was created.
+		// claims to have been modified before it was created.
 		if (theInfo.stx_mask & STATX_MTIME)
 		{
 			theState.modifiedTime = ToTime(theInfo.stx_mtime);
@@ -345,6 +345,50 @@ bool NSharedLinux::GetFileState(const NString&  thePath,
 	}
 
 	return wasOK;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::FileRename : Atomically rename a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedLinux::FileRename(const NString& oldPath, const NString& newPath)
+{
+
+
+	// Rename the file
+	NStatus theErr = NStatus::OK;
+
+	if (!renameat2(0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE))
+	{
+		theErr = NSharedPOSIX::GetErrno();
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::FileExchange : Atomically exchange files.
+//-----------------------------------------------------------------------------
+NStatus NSharedLinux::FileExchange(const NString& oldPath, const NString& newPath)
+{
+
+
+	// Exchange the files
+	NStatus theErr = NStatus::OK;
+
+	if (!renameat2(0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE))
+	{
+		theErr = NSharedPOSIX::GetErrno();
+	}
+
+	return theErr;
 }
 
 
