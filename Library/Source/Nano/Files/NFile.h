@@ -116,11 +116,15 @@ public:
 
 
 	// Get/set the name
+	//
+	// Returns NStatus::Duplicate if a file already exists with the new name.
 	NString                             GetName() const;
 	NStatus                             SetName(  const NString& theName, bool renameFile = false);
 
 
 	// Get/set the extension
+	//
+	// Returns NStatus::Duplicate if a file already exists with the new name.
 	NString                             GetExtension() const;
 	NStatus                             SetExtension(  const NString& theExtension, bool renameFile = false);
 
@@ -141,7 +145,6 @@ public:
 	uint64_t                            GetSize() const;
 
 
-
 public:
 	// NMixinComparable
 	bool                                CompareEqual(const NFile& theFile) const;
@@ -150,6 +153,7 @@ public:
 
 private:
 	NString                             GetPathComponent(const NString& thePattern) const;
+	NStatus                             UpdatePath(      const NString& newPath, bool renameFile);
 
 
 private:

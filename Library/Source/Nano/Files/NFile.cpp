@@ -43,6 +43,7 @@
 
 // Nano
 #include "NDebug.h"
+#include "NFileUtils.h"
 
 
 
@@ -379,21 +380,14 @@ NStatus NFile::SetName(const NString& theName, bool renameFile)
 
 
 
-	// Update the path
+	// Get the state we need
 	NString pathParent = GetPathComponent(kNPatternParent);
 	NString newPath    = pathParent + theName;
 
-	SetPath(newPath);
 
 
-
-	// Rename the file
-	if (renameFile)
-	{
-		NN_LOG_UNIMPLEMENTED();
-	}
-
-	return NStatus::NoErr;
+	// Update the path
+	return UpdatePath(newPath, renameFile);
 }
 
 
@@ -435,7 +429,7 @@ NStatus NFile::SetExtension(const NString& theExtension, bool renameFile)
 
 
 
-	// Update the path
+	// Get the state we need
 	NString oldExtension = GetPathComponent(kNPatternFileExtension);
 	NString newPath      = GetPath();
 
@@ -450,17 +444,11 @@ NStatus NFile::SetExtension(const NString& theExtension, bool renameFile)
 	}
 
 	newPath += theExtension;
-	SetPath(newPath);
 
 
 
-	// Rename the file
-	if (renameFile)
-	{
-		NN_LOG_UNIMPLEMENTED();
-	}
-
-	return NStatus::NoErr;
+	// Update the path
+	return UpdatePath(newPath, renameFile);
 }
 
 
@@ -588,4 +576,41 @@ NString NFile::GetPathComponent(const NString& thePattern) const
 	}
 
 	return theComponent;
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::UpdatePath : Update the path.
+//-----------------------------------------------------------------------------
+NStatus NFile::UpdatePath(const NString& newPath, bool renameFile)
+{
+
+
+	// Rename the file
+	NStatus theErr = NStatus::OK;
+
+	if (renameFile)
+	{
+		if (NFileInfo(newPath).Exists())
+		{
+			theErr = NStatus::Duplicate;
+		}
+		else
+		{
+			theErr = NFileUtils::Rename(GetPath(), newPath);
+		}
+	}
+
+
+
+	// Update our state
+	if (theErr == NStatus::OK)
+	{
+		SetPath(newPath);
+	}
+
+	return theErr;
 }
