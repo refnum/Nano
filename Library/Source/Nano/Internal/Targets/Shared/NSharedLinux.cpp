@@ -48,9 +48,10 @@
 
 // System
 #include <semaphore.h>
-#include <sys/fcntl.h>
 #include <sys/stat.h>
-
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <linux/fs.h>
 
 
 
@@ -361,7 +362,7 @@ NStatus NSharedLinux::FileRename(const NString& oldPath, const NString& newPath)
 	// Rename the file
 	NStatus theErr = NStatus::OK;
 
-	if (!renameat2(0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE))
+	if (!syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE))
 	{
 		theErr = NSharedPOSIX::GetErrno();
 	}
@@ -383,7 +384,7 @@ NStatus NSharedLinux::FileExchange(const NString& oldPath, const NString& newPat
 	// Exchange the files
 	NStatus theErr = NStatus::OK;
 
-	if (!renameat2(0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE))
+	if (!syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE))
 	{
 		theErr = NSharedPOSIX::GetErrno();
 	}
