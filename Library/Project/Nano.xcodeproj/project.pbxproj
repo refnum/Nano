@@ -120,6 +120,12 @@
 		AB51287823D2810600528FBE /* pcre2_serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = AB51281623D2810600528FBE /* pcre2_serialize.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB51287923D2810600528FBE /* pcre2_serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = AB51281623D2810600528FBE /* pcre2_serialize.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB51287A23D2810600528FBE /* pcre2_serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = AB51281623D2810600528FBE /* pcre2_serialize.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
+		AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
+		AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
+		AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */; };
+		AB53BBE8242123FF009960AA /* macOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBE7242123FF009960AA /* macOSNFileUtils.cpp */; };
+		AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */; };
 		AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
@@ -390,6 +396,14 @@
 		AB514F641035784000E5A6AD /* NPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53A404109B237800817E89 /* NTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTask.cpp; sourceTree = "<group>"; };
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
+		AB53BBDF242123AB009960AA /* NFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtils.cpp; sourceTree = "<group>"; };
+		AB53BBE0242123AB009960AA /* NFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtils.h; sourceTree = "<group>"; };
+		AB53BBE4242123EB009960AA /* WindowsNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsNFileUtils.cpp; sourceTree = "<group>"; };
+		AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tvOSNFileUtils.cpp; sourceTree = "<group>"; };
+		AB53BBE7242123FF009960AA /* macOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNFileUtils.cpp; sourceTree = "<group>"; };
+		AB53BBE92421240A009960AA /* LinuxNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinuxNFileUtils.cpp; sourceTree = "<group>"; };
+		AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNFileUtils.cpp; sourceTree = "<group>"; };
+		AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNFileUtils.cpp; sourceTree = "<group>"; };
 		AB54F9A223EE44C9005207BC /* NTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtils.h; sourceTree = "<group>"; };
 		AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringComparator.cpp; sourceTree = "<group>"; };
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
@@ -734,6 +748,7 @@
 			children = (
 				ABDCE8CA241C604F0054A16E /* AndroidNFileHandle.cpp */,
 				ABDCE8C5241C604E0054A16E /* AndroidNFileInfo.cpp */,
+				AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */,
 				AB07EA3C239A521F00E0AC49 /* AndroidNSemaphore.cpp */,
 				AB07EA252399D3C500E0AC49 /* AndroidNTimeUtils.cpp */,
 			);
@@ -745,6 +760,7 @@
 			children = (
 				ABDCE8CC241C604F0054A16E /* tvOSNFileHandle.cpp */,
 				ABDCE8C9241C604F0054A16E /* tvOSNFileInfo.cpp */,
+				AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */,
 				AB07EA39239A521F00E0AC49 /* tvOSNSemaphore.cpp */,
 				AB07EA2A2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp */,
 			);
@@ -959,6 +975,7 @@
 			children = (
 				ABDCE8C7241C604E0054A16E /* LinuxNFileHandle.cpp */,
 				ABDCE8C6241C604E0054A16E /* LinuxNFileInfo.cpp */,
+				AB53BBE92421240A009960AA /* LinuxNFileUtils.cpp */,
 				AB07EA38239A521F00E0AC49 /* LinuxNSemaphore.cpp */,
 				AB07EA282399D3DB00E0AC49 /* LinuxNTimeUtils.cpp */,
 				AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */,
@@ -1295,6 +1312,7 @@
 			children = (
 				ABDCE8CB241C604F0054A16E /* macOSNFileHandle.cpp */,
 				ABDCE8CE241C604F0054A16E /* macOSNFileInfo.cpp */,
+				AB53BBE7242123FF009960AA /* macOSNFileUtils.cpp */,
 				AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */,
 				AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */,
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
@@ -1326,6 +1344,7 @@
 				AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */,
 				ABDCE8C8241C604F0054A16E /* WindowsNFileHandle.cpp */,
 				ABDCE8C3241C604E0054A16E /* WindowsNFileInfo.cpp */,
+				AB53BBE4242123EB009960AA /* WindowsNFileUtils.cpp */,
 				AB07EA3A239A521F00E0AC49 /* WindowsNSemaphore.cpp */,
 				AB07EA2C2399D3F900E0AC49 /* WindowsNTimeUtils.cpp */,
 			);
@@ -1490,6 +1509,8 @@
 				AB143171103EC5BE002BD0D1 /* NFileIterator.h */,
 				AB1A78FB103241C200DFBA38 /* NFileMap.cpp */,
 				AB1A78FC103241C200DFBA38 /* NFileMap.h */,
+				AB53BBDF242123AB009960AA /* NFileUtils.cpp */,
+				AB53BBE0242123AB009960AA /* NFileUtils.h */,
 				ABB145CA0FF36A34006F178C /* NPropertyList.cpp */,
 				ABB145C90FF36A34006F178C /* NPropertyList.h */,
 			);
@@ -1501,6 +1522,7 @@
 			children = (
 				ABDCE8C4241C604E0054A16E /* iOSNFileHandle.cpp */,
 				ABDCE8CD241C604F0054A16E /* iOSNFileInfo.cpp */,
+				AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */,
 				AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */,
 				AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */,
 				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
@@ -1668,6 +1690,8 @@
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				AB51286823D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB51284123D2810600528FBE /* pcre2_substring.c in Sources */,
+				AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */,
+				AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */,
 				ABDCE8D5241C61880054A16E /* tvOSNSemaphore.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
@@ -1720,6 +1744,7 @@
 				AB51284523D2810600528FBE /* pcre2_compile.c in Sources */,
 				AB51286323D2810600528FBE /* pcre2_context.c in Sources */,
 				AB51282123D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
+				AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB51286023D2810600528FBE /* pcre2_valid_utf.c in Sources */,
 				AB51284B23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
@@ -1733,6 +1758,7 @@
 				AB51281E23D2810600528FBE /* pcre2_convert.c in Sources */,
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				AB51286623D2810600528FBE /* pcre2_match_data.c in Sources */,
+				AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB51283F23D2810600528FBE /* pcre2_substring.c in Sources */,
 				AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */,
@@ -1798,6 +1824,7 @@
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,
 				AB51283A23D2810600528FBE /* pcre2_match.c in Sources */,
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
+				AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB03E58F237A09EC00FACADF /* NLogOutput.cpp in Sources */,
 				ABDCE8E0241C61960054A16E /* macOSNFileInfo.cpp in Sources */,
@@ -1818,6 +1845,7 @@
 				AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB51286423D2810600528FBE /* pcre2_context.c in Sources */,
+				AB53BBE8242123FF009960AA /* macOSNFileUtils.cpp in Sources */,
 				AB51284923D2810600528FBE /* pcre2_jit_compile.c in Sources */,
 				AB51285B23D2810600528FBE /* pcre2_substitute.c in Sources */,
 				AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */,

@@ -34,6 +34,8 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Files/NFileHandle.h"
 		"${TARGET_SOURCE_DIR}/Files/NFileInfo.cpp"
 		"${TARGET_SOURCE_DIR}/Files/NFileInfo.h"
+		"${TARGET_SOURCE_DIR}/Files/NFileUtils.cpp"
+		"${TARGET_SOURCE_DIR}/Files/NFileUtils.h"
 		"${TARGET_SOURCE_DIR}/Internal/Components/fmt_2020_03_04/core.h"
 		"${TARGET_SOURCE_DIR}/Internal/Components/fmt_2020_03_04/format-inl.h"
 		"${TARGET_SOURCE_DIR}/Internal/Components/fmt_2020_03_04/format.h"
@@ -173,6 +175,7 @@ if (NN_TARGET_ANDROID)
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileInfo.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.cpp"
@@ -199,6 +202,7 @@ if (NN_TARGET_IOS)
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileInfo.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
@@ -225,6 +229,7 @@ if (NN_TARGET_LINUX)
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileInfo.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.cpp"
@@ -252,6 +257,7 @@ if (NN_TARGET_MACOS)
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileInfo.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
@@ -282,6 +288,7 @@ if (NN_TARGET_TVOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileInfo.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNTimeUtils.cpp"
 		)
@@ -306,6 +313,7 @@ if (NN_TARGET_WINDOWS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedWindows.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileInfo.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNTimeUtils.cpp"
 	)

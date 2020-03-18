@@ -36,6 +36,9 @@
 		AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
 		AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
 		AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E923D07FC700528FBE /* TStdContainer.cpp */; };
+		AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDB2421239C009960AA /* TFileUtils.cpp */; };
+		AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDB2421239C009960AA /* TFileUtils.cpp */; };
+		AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDB2421239C009960AA /* TFileUtils.cpp */; };
 		AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
@@ -232,6 +235,7 @@
 		AB514E781034612D00E5A6AD /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
+		AB53BBDB2421239C009960AA /* TFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileUtils.cpp; sourceTree = "<group>"; };
 		AB54F9A723EE4503005207BC /* TTextUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtils.cpp; sourceTree = "<group>"; };
 		AB54F9B023EF14CE005207BC /* TStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringComparator.cpp; sourceTree = "<group>"; };
 		AB56391423C2A3F600675F68 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
@@ -502,6 +506,7 @@
 				ABDCE8BB241C59680054A16E /* TFileInfo.cpp */,
 				AB14315F103EC576002BD0D1 /* TFileIterator.cpp */,
 				AB514D7C1034184B00E5A6AD /* TFileMap.cpp */,
+				AB53BBDB2421239C009960AA /* TFileUtils.cpp */,
 				AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */,
 			);
 			path = Files;
@@ -835,6 +840,7 @@
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
+				AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
@@ -874,6 +880,7 @@
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
+				AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
@@ -913,6 +920,7 @@
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
+				AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
