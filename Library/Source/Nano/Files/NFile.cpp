@@ -105,7 +105,7 @@ bool NFile::IsValid() const
 
 
 	// Check our state
-	return !mInfo.IsValid();
+	return mInfo.IsValid();
 }
 
 
