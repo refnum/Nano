@@ -321,14 +321,10 @@ NStatus NSharedDarwin::FileRename(const NString& oldPath, const NString& newPath
 
 
 	// Rename the file
-	NStatus theErr = NStatus::OK;
+	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL);
+	NN_EXPECT_NOT_ERR(sysErr);
 
-	if (!renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL))
-	{
-		theErr = NSharedPOSIX::GetErrno();
-	}
-
-	return theErr;
+	return NSharedPOSIX::GetErrno(sysErr);
 }
 
 
@@ -343,14 +339,10 @@ NStatus NSharedDarwin::FileExchange(const NString& oldPath, const NString& newPa
 
 
 	// Exchange the files
-	NStatus theErr = NStatus::OK;
+	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP);
+	NN_EXPECT_NOT_ERR(sysErr);
 
-	if (!renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP))
-	{
-		theErr = NSharedPOSIX::GetErrno();
-	}
-
-	return theErr;
+	return NSharedPOSIX::GetErrno(sysErr);
 }
 
 

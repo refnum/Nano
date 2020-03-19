@@ -155,12 +155,13 @@ NStatus NFileHandle::FileOpen(NFileAccess theAccess)
 							   FILE_ATTRIBUTE_NORMAL,
 							   nullptr);
 
-	if (hFile != INVALID_HANDLE_VALUE)
+	bool wasOK = (hFile != INVALID_HANDLE_VALUE);
+	if (wasOK)
 	{
 		mHandle = NFileHandleRef(hFile);
 	}
 
-	return NSharedWindows::GetLastError();
+	return NSharedWindows::GetLastError(wasOK);
 }
 
 
@@ -247,7 +248,7 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 	BOOL wasOK = SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo));
 	NN_EXPECT(wasOK);
 
-	return NSharedWindows::GetLastError();
+	return NSharedWindows::GetLastError(wasOK);
 }
 
 
@@ -277,12 +278,8 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 	if (theErr == NStatus::OK)
 	{
 		BOOL wasOK = SetEndOfFile(hFile);
-		NN_EXPECT(wasOK);
-
-		if (!wasOK)
-		{
-			theErr = NSharedWindows::GetLastError();
-		}
+		theErr     = NSharedWindows::GetLastError(wasOK);
+		NN_EXPECT_NOT_ERR(theErr);
 	}
 
 	return theErr;
@@ -313,7 +310,8 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 
 	// Read from the file
 	BOOL wasOK = ReadFile(hFile, thePtr, DWORD(theSize), &bytesRead, nullptr);
-	NN_EXPECT(wasOK);
+	theErr     = NSharedWindows::GetLastError(wasOK);
+	NN_EXPECT_NOT_ERR(theErr);
 
 	if (wasOK)
 	{
@@ -322,10 +320,6 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 		{
 			theErr = NStatus::ExhaustedSrc;
 		}
-	}
-	else
-	{
-		theErr = NSharedWindows::GetLastError();
 	}
 
 	return theErr;
@@ -355,7 +349,8 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 	// Write to the file
 	BOOL wasOK = WriteFile(hFile, thePtr, DWORD(theSize), &bytesWritten, nullptr);
-	NN_EXPECT(wasOK);
+	theErr     = NSharedWindows::GetLastError(wasOK);
+	NN_EXPECT_NOT_ERR(theErr);
 
 	if (wasOK)
 	{
@@ -364,10 +359,6 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 		{
 			theErr = NStatus::DiskFull;
 		}
-	}
-	else
-	{
-		theErr = NSharedWindows::GetLastError();
 	}
 
 	return theErr;
@@ -392,5 +383,5 @@ NStatus NFileHandle::FileFlush()
 	BOOL wasOK = FlushFileBuffers(hFile);
 	NN_EXPECT(wasOK);
 
-	return NSharedWindows::GetLastError();
+	return NSharedWindows::GetLastError(wasOK);
 }

@@ -751,12 +751,19 @@ NStatus NSharedPOSIX::ToStatus(int sysErr)
 //=============================================================================
 //		NSharedPOSIX::GetErrno : Get errno as an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::GetErrno()
+NStatus NSharedPOSIX::GetErrno(int sysErr)
 {
 
 
 	// Get the value
-	return ToStatus(errno);
+	NStatus theErr = NStatus::OK;
+
+	if (sysErr != 0)
+	{
+		theErr = ToStatus(errno);
+	}
+
+	return theErr;
 }
 
 
@@ -838,13 +845,19 @@ NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
 
 
 	// Open the file
-	FILE* theFile = fopen(thePath.GetUTF8(), GetFileAccess(theAccess));
-	if (theFile != nullptr)
+	NStatus theErr  = NStatus::OK;
+	FILE*   theFile = fopen(thePath.GetUTF8(), GetFileAccess(theAccess));
+
+	if (theFile == nullptr)
+	{
+		theErr = GetErrno();
+	}
+	else
 	{
 		fileHandle = static_cast<NFileHandleRef>(theFile);
 	}
 
-	return GetErrno();
+	return theErr;
 }
 
 
@@ -922,7 +935,7 @@ NStatus NSharedPOSIX::FileSetPosition(NFileHandleRef fileHandle,
 	int sysErr = fseeko(theFile, off_t(thePosition), GetFileWhence(relativeTo));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno();
+	return GetErrno(sysErr);
 }
 
 
@@ -953,7 +966,7 @@ NStatus NSharedPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
 	int sysErr = ftruncate(fileDesc, off_t(theSize));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno();
+	return GetErrno(sysErr);
 }
 
 
@@ -1054,7 +1067,7 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 	int sysErr = fflush(theFile);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno();
+	return GetErrno(sysErr);
 }
 
 

@@ -47,11 +47,12 @@
 #include "NTimeUtils.h"
 
 // System
+#include <linux/fs.h>
 #include <semaphore.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <sys/syscall.h>
-#include <linux/fs.h>
+#include <unistd.h>
+
 
 
 
@@ -360,14 +361,10 @@ NStatus NSharedLinux::FileRename(const NString& oldPath, const NString& newPath)
 
 
 	// Rename the file
-	NStatus theErr = NStatus::OK;
+		int sysErr = syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE))
+			   NN_EXPECT_NOT_ERR(sysErr);
 
-	if (!syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE))
-	{
-		theErr = NSharedPOSIX::GetErrno();
-	}
-
-	return theErr;
+		return NSharedPOSIX::GetErrno(sysErr);
 }
 
 
@@ -382,14 +379,10 @@ NStatus NSharedLinux::FileExchange(const NString& oldPath, const NString& newPat
 
 
 	// Exchange the files
-	NStatus theErr = NStatus::OK;
+		int sysErr = syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE))
+			   NN_EXPECT_NOT_ERR(sysErr);
 
-	if (!syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE))
-	{
-		theErr = NSharedPOSIX::GetErrno();
-	}
-
-	return theErr;
+		return NSharedPOSIX::GetErrno(sysErr);
 }
 
 

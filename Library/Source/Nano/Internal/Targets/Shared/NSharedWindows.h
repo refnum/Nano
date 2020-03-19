@@ -64,8 +64,11 @@ public:
 
 
 	// Get an HRESULT error
+	//
+	// GetLastError will return NStatusOK if passed true, or the
+	// current value of ::GetLastError translated to an NStatus.
 	static NStatus                      ToStatus(HRESULT winErr);
-	static NStatus                      GetLastError();
+	static NStatus                      GetLastError(bool wasOK = false);
 
 
 	// Convert between time formats

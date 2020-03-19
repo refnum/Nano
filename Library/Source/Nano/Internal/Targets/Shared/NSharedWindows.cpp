@@ -152,12 +152,19 @@ NStatus NSharedWindows::ToStatus(HRESULT winErr)
 //=============================================================================
 //		NSharedWindows::GetLastError : Get the last error.
 //-----------------------------------------------------------------------------
-NStatus NSharedWindows::GetLastError()
+NStatus NSharedWindows::GetLastError(bool wasOK)
 {
 
 
 	// Get the error
-	return ToStatus(HRESULT_FROM_WIN32(::GetLastError()));
+	NStatus theErr = NStatus::OK;
+
+	if (!wasOK)
+	{
+		theErr = ToStatus(HRESULT_FROM_WIN32(::GetLastError()));
+	}
+
+	return theErr;
 }
 
 

@@ -81,8 +81,11 @@ public:
 
 
 	// Get a POSIX error
+	//
+	// GetErrno will return NStatus::OK if passed 0, or the
+	// current value of errno translated to an NStatus.
 	static NStatus                      ToStatus(int sysErr);
-	static NStatus                      GetErrno();
+	static NStatus                      GetErrno(int sysErr = -1);
 
 
 	// Get an access() state

@@ -69,19 +69,15 @@ NStatus NFileUtils::Rename(const NString& oldPath, const NString& newPath)
 
 
 	// Rename the file
-	NStatus theErr = NStatus::OK;
+	BOOL wasOK = MoveFileTransactedW(LPCWSTR(oldPath.GetUTF16()),
+									 LPCWSTR(newPath.GetUTF16()),
+									 nullptr,
+									 nullptr,
+									 MOVEFILE_COPY_ALLOWED,
+									 nullptr);
+	NN_EXPECT(wasOK);
 
-	if (!MoveFileTransactedW(LPCWSTR(oldPath.GetUTF16()),
-							 LPCWSTR(newPath.GetUTF16()),
-							 nullptr,
-							 nullptr,
-							 MOVEFILE_COPY_ALLOWED,
-							 nullptr))
-	{
-		theErr = NSharedWindows::GetLastError();
-	}
-
-	return theErr;
+	return NSharedWindows::GetLastError(wasOK);
 }
 
 
@@ -129,12 +125,8 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 		if (theErr == NStatus::OK)
 		{
 			BOOL wasOK = CommitTransaction(hTransaction);
-			NN_EXPECT(wasOK);
-
-			if (!wasOK)
-			{
-				theErr = NSharedWindows::GetLastError();
-			}
+			theErr     = NSharedWindows::GetLastError(wasOK);
+			NN_EXPECT_NOT_ERR(theErr);
 		}
 
 
