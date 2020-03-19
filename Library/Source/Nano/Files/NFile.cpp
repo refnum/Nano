@@ -523,6 +523,27 @@ uint64_t NFile::GetSize() const
 
 
 //=============================================================================
+//		NFile::GetChildren : Get the children of a directory.
+//-----------------------------------------------------------------------------
+NVectorFile NFile::GetChildren() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+	NN_REQUIRE(IsDirectory());
+
+
+
+	// Get the children
+	return NFileUtils::GetChildren(GetPath());
+}
+
+
+
+
+
+//=============================================================================
 //		NFile::CreateFile : Create a file.
 //-----------------------------------------------------------------------------
 NStatus NFile::CreateFile()

@@ -98,7 +98,7 @@ public:
 	void                                Refresh();
 
 
-	// Get the file status
+	// Get the status
 	bool                                Exists()      const;
 	bool                                IsFile()      const;
 	bool                                IsDirectory() const;
@@ -143,6 +143,12 @@ public:
 	//
 	// Only valid for files.
 	uint64_t                            GetSize() const;
+
+
+	// Get the children of a directory
+	//
+	// Only valid for directories.
+	NVectorFile                         GetChildren() const;
 
 
 	// Create an empty file / directory
