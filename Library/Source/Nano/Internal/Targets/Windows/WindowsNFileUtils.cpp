@@ -138,3 +138,21 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 	return theErr;
 }
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::CreateDirectory : Create a directory.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::CreateDirectory(const NString& thePath)
+{
+
+
+	// Create the directory
+		BOOL wasOK = CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr))
+			   NN_EXPECT(wasOK);
+
+		return NSharedWindows::GetLastError(wasOK);
+}

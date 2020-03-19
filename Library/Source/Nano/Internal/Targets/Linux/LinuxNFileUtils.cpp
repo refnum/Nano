@@ -43,6 +43,7 @@
 
 // Nano
 #include "NSharedLinux.h"
+#include "NSharedPOSIX.h"
 
 
 
@@ -72,4 +73,19 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 	// Exchange the files
 	return NSharedLinux::FileExchange(oldPath, newPath);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::CreateDirectory : Create a directory.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::CreateDirectory(const NString& thePath)
+{
+
+
+	// Create the directory
+	return NSharedPOSIX::CreateDirectory(thePath);
 }

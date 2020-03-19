@@ -78,12 +78,22 @@ class NString;
 class NFileUtils
 {
 public:
+	// Create directories
+	//
+	// Create a directory and any parent directories as required.
+	static NStatus                      CreateDirectories(const NString& thePath);
+
+
 	// Atomically rename a file
 	static NStatus                      Rename(const NString& oldPath, const NString& newPath);
 
 
 	// Atomically exchange two files.
 	static NStatus                      Exchange(const NString& oldPath, const NString& newPath);
+
+
+private:
+	static NStatus                      CreateDirectory(const NString& thePath);
 };
 
 

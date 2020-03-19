@@ -122,6 +122,10 @@ public:
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
 
 
+	// Create a directory
+	static NStatus                      CreateDirectory(const NString& thePath);
+
+
 	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.

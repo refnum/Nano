@@ -40,3 +40,65 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFileUtils.h"
+
+// Nano
+#include "NFileInfo.h"
+#include "NString.h"
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::CreateDirectories : Create directories.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::CreateDirectories(const NString& thePath)
+{
+
+
+	// Get the state we need
+	NStatus theErr = NStatus::NotFound;
+	NString parentPath;
+
+
+
+	// Create the directories
+	for (const auto& theParent : thePath.Split(kNPathSeparator, kNStringNone))
+	{
+		if (!theParent.IsEmpty())
+		{
+			// Get the state we need
+			parentPath += kNPathSeparator + theParent;
+			NFileInfo theInfo(parentPath);
+
+
+
+			// Create the parent
+			//
+			// We create missing directories, skip existing directories,
+			// and fail if we encounter something that is not a directory.
+			if (!theInfo.Exists())
+			{
+				theErr = CreateDirectory(parentPath);
+			}
+			else if (!theInfo.IsDirectory())
+			{
+				theErr = NStatus::Duplicate;
+			}
+			else
+			{
+				theErr = NStatus::OK;
+			}
+
+
+
+			// Handle failure
+			if (theErr != NStatus::OK)
+			{
+				break;
+			}
+		}
+	}
+
+	return theErr;
+}
