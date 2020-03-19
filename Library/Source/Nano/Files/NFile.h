@@ -145,6 +145,13 @@ public:
 	uint64_t                            GetSize() const;
 
 
+	// Create an empty file / directory
+	//
+	// Parent directories will be created as necessary.
+	NStatus                             CreateFile();
+	NStatus                             CreateDirectory();
+
+
 public:
 	// NMixinComparable
 	bool                                CompareEqual(const NFile& theFile) const;

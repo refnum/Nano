@@ -43,6 +43,7 @@
 
 // Nano
 #include "NDebug.h"
+#include "NFileHandle.h"
 #include "NFileUtils.h"
 
 
@@ -515,6 +516,69 @@ uint64_t NFile::GetSize() const
 
 	// Get the size
 	return mInfo.GetFileSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::CreateFile : Create a file.
+//-----------------------------------------------------------------------------
+NStatus NFile::CreateFile()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Create the file
+	NStatus theErr = NStatus::Duplicate;
+
+	if (!Exists())
+	{
+		// Ensure the parent exists
+		theErr = GetParent().CreateDirectory();
+		NN_EXPECT_NOT_ERR(theErr);
+
+
+
+		// Create the file
+		if (theErr == NStatus::OK)
+		{
+			NFileHandle fileHandle;
+
+			theErr = fileHandle.Open(*this, NFileAccess::Write);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::CreateDirectory : Create a directory.
+//-----------------------------------------------------------------------------
+NStatus NFile::CreateDirectory()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Create the directory
+	NStatus theErr = NFileUtils::CreateDirectories(GetPath());
+	NN_EXPECT_NOT_ERR(theErr);
+
+	return theErr;
 }
 
 
