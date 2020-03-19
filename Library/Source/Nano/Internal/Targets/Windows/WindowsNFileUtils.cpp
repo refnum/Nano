@@ -62,6 +62,49 @@
 
 
 //=============================================================================
+//		NFileUtils::GetChildren : Get the children of a directory.
+//-----------------------------------------------------------------------------
+NVectorFile NFileUtils::GetChildren(const NString& thePath)
+{
+
+
+	// Open the directory
+	WIN32_FIND_DATA dirEntry{};
+	NFileList       theFiles;
+
+	NString thePattern = thePath + "\\*";
+	HANDLE  theDir     = FindFirstFile(LPCWSTR(thePattern.GetUTF16()), &dirEntry);
+
+	if (theDir == INVALID_HANDLE_VALUE)
+	{
+		return theFiles;
+	}
+
+
+
+	// Collect the children
+	do
+	{
+		NString fileName(dirEntry.cFileName);
+		if (fileName != "." && fileName != "..")
+		{
+			theFiles.emplace_back(NFile(thePath + kNPathSeparator + fileName));
+		}
+	} while (FindNextFile(theDir, &dirEntry));
+
+
+
+	// Clean up
+	FindClose(theDir);
+
+	return theFiles;
+}
+
+
+
+
+
+//=============================================================================
 //		NFileUtils::Rename : Atomically rename a file.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::Rename(const NString& oldPath, const NString& newPath)

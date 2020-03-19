@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFile.h"
 #include "NFileHandle.h"
 #include "NFileInfo.h"
 #include "NTime.h"
@@ -120,6 +121,10 @@ public:
 												  uint64_t&      numWritten);
 
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
+
+
+	// Get the children of a directory
+	static NVectorFile                  GetChildren(const NString& thePath);
 
 
 	// Create a directory

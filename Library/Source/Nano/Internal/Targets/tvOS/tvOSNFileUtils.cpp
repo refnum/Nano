@@ -50,6 +50,21 @@
 
 
 //=============================================================================
+//		NFileUtils::GetChildren : Get the children of a directory.
+//-----------------------------------------------------------------------------
+NVectorFile NFileUtils::GetChildren(const NString& thePath)
+{
+
+
+	// Get the children
+	return NSharedPOSIX::GetChildren(thePath);
+}
+
+
+
+
+
+//=============================================================================
 //		NFileUtils::Rename : Atomically rename a file.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::Rename(const NString& oldPath, const NString& newPath)

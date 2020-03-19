@@ -43,10 +43,12 @@
 
 // Nano
 #include "NDebug.h"
+#include "NFileUtils.h"
 #include "NString.h"
 #include "NTimeUtils.h"
 
 // System
+#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <math.h>
@@ -1068,6 +1070,59 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return GetErrno(sysErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::GetChildren : Get the children of a directory.
+//-----------------------------------------------------------------------------
+NVectorFile NSharedPOSIX::GetChildren(const NString& thePath)
+{
+
+
+	// Open the directory
+	NVectorFile theFiles;
+
+	DIR* theDir = opendir(thePath.GetUTF8());
+	NN_EXPECT(theDir != nullptr);
+
+	if (theDir == nullptr)
+	{
+		return theFiles;
+	}
+
+
+
+	// Collect the files
+	struct dirent  dirEntry;
+	struct dirent* dirResult = nullptr;
+	int            sysErr    = 0;
+
+	do
+	{
+		// Read the entry
+		dirResult = nullptr;
+		sysErr    = readdir_r(theDir, &dirEntry, &dirResult);
+		NN_EXPECT_NOT_ERR(sysErr);
+
+		if (sysErr == 0 && dirResult != nullptr)
+		{
+			if (strcmp(dirEntry.d_name, ".") != 0 && strcmp(dirEntry.d_name, "..") != 0)
+			{
+				theFiles.emplace_back(NFile(thePath + kNPathSeparator + dirEntry.d_name));
+			}
+		}
+	} while (sysErr == 0 && dirResult != nullptr);
+
+
+
+	// Clean up
+	closedir(theDir);
+
+	return theFiles;
 }
 
 

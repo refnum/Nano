@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFile.h"
 #include "NanoConstants.h"
 #include "NanoTargets.h"
 
@@ -63,21 +64,15 @@ static constexpr const char* kNPathSeparator                = "/";
 
 
 //=============================================================================
-//		Types
-//-----------------------------------------------------------------------------
-// Forward declarations
-class NString;
-
-
-
-
-
-//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NFileUtils
 {
 public:
+	// Get the children of a directory
+	static NVectorFile                  GetChildren(const NString& thePath);
+
+
 	// Create directories
 	//
 	// Create a directory and any parent directories as required.
