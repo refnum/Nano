@@ -57,13 +57,11 @@
 static constexpr const char* kNPatternParent                = "(.*\\).*?$";
 static constexpr const char* kNPatternFileName              = ".*\\(.*?$)";
 static constexpr const char* kNPatternFileExtension         = "\\.(.*?$)";
-static constexpr const char* kNSeparator                    = "\\";
 
 #else
 static constexpr const char* kNPatternParent                = "(.*\\/).*?$";
 static constexpr const char* kNPatternFileName              = ".*\\/(.*?$)";
 static constexpr const char* kNPatternFileExtension         = "\\.(.*?)$";
-static constexpr const char* kNSeparator                    = "/";
 #endif
 
 
@@ -464,14 +462,14 @@ NFile NFile::GetChild(const NString& theName) const
 
 	// Validate our parameters and state
 	NN_REQUIRE(!theName.IsEmpty());
-	NN_REQUIRE(!theName.StartsWith(kNSeparator));
+	NN_REQUIRE(!theName.StartsWith(kNPathSeparator));
 
 	NN_REQUIRE(IsValid());
 
 
 
 	// Get the child
-	NString childPath = GetPath() + kNSeparator + theName;
+	NString childPath = GetPath() + kNPathSeparator + theName;
 
 	return NFile(childPath);
 }

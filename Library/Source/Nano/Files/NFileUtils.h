@@ -42,6 +42,21 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NanoConstants.h"
+#include "NanoTargets.h"
+
+
+
+
+
+//=============================================================================
+//		Internalonstants
+//-----------------------------------------------------------------------------
+// Directory separator
+#if NN_TARGET_WINDOWS
+static constexpr const char* kNPathSeparator                = "\\";
+#else
+static constexpr const char* kNPathSeparator                = "/";
+#endif
 
 
 
