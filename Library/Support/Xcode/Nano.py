@@ -414,14 +414,28 @@ def NTime_Show(theTime, theInfo):
 
 
 #==============================================================================
+#		NFile_Show : Show an NFile.
+#------------------------------------------------------------------------------
+def NFile_Show(theFile, theInfo):
+
+	thePath = getPathValue(theFile, "->mInfo.mPath");
+
+	return NString_Show(thePath, theInfo);
+
+
+
+
+
+#==============================================================================
 #		loadNano : Load the Nano summarisers.
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
 
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show   NData')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show  NRange')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show NString')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show   NTime')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show     NData')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show    NRange')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show   NString')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show     NTime')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFile_Show     NFile')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
