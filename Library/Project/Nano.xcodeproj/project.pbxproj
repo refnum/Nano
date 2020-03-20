@@ -33,6 +33,9 @@
 		AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
 		AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
 		AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
+		AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
+		AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
+		AB4AF5512422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
 		AB51281823D2810600528FBE /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5127F023D2810600528FBE /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB51281923D2810600528FBE /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5127F023D2810600528FBE /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB51281A23D2810600528FBE /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5127F023D2810600528FBE /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -246,8 +249,6 @@
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7A23999E2D00F6AD43 /* NThread.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NThread.inl; sourceTree = "<group>"; };
 		AB0DBE7B2399A03400F6AD43 /* NSpinLock.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NSpinLock.inl; sourceTree = "<group>"; };
-		AB143171103EC5BE002BD0D1 /* NFileIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileIterator.h; sourceTree = "<group>"; };
-		AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileIterator.cpp; sourceTree = "<group>"; };
 		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
 		AB1431F5103F5102002BD0D1 /* NColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NColor.h; sourceTree = "<group>"; };
 		AB1694D610028C8200F7D4B7 /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdecode.c; sourceTree = "<group>"; };
@@ -339,6 +340,8 @@
 		AB481C4112A5327B0052C55F /* NURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURL.h; path = ../Source/Nano/Types/NURL.h; sourceTree = SOURCE_ROOT; };
 		AB492C902399A41A003E4D1A /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
 		AB492C912399A41A003E4D1A /* NDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebug.h; sourceTree = "<group>"; };
+		AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileScanner.cpp; sourceTree = "<group>"; };
+		AB4AF54E2422FEC600E665D4 /* NFileScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileScanner.h; sourceTree = "<group>"; };
 		AB4E383423C8D9D50089B916 /* NRange.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NRange.inl; sourceTree = "<group>"; };
 		AB4E546423FD2AE60004BC30 /* NStringEncoder.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NStringEncoder.inl; sourceTree = "<group>"; };
 		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
@@ -1505,10 +1508,10 @@
 				ABDCE8B3241C59570054A16E /* NFileInfo.h */,
 				ABB145CC0FF36A34006F178C /* NBundle.cpp */,
 				ABB145CB0FF36A34006F178C /* NBundle.h */,
-				AB143172103EC5BE002BD0D1 /* NFileIterator.cpp */,
-				AB143171103EC5BE002BD0D1 /* NFileIterator.h */,
 				AB1A78FB103241C200DFBA38 /* NFileMap.cpp */,
 				AB1A78FC103241C200DFBA38 /* NFileMap.h */,
+				AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */,
+				AB4AF54E2422FEC600E665D4 /* NFileScanner.h */,
 				AB53BBDF242123AB009960AA /* NFileUtils.cpp */,
 				AB53BBE0242123AB009960AA /* NFileUtils.h */,
 				ABB145CA0FF36A34006F178C /* NPropertyList.cpp */,
@@ -1674,6 +1677,7 @@
 				AB51287423D2810600528FBE /* pcre2_newline.c in Sources */,
 				AB51283B23D2810600528FBE /* pcre2_match.c in Sources */,
 				AB51284723D2810600528FBE /* pcre2_compile.c in Sources */,
+				AB4AF5512422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				AB51286523D2810600528FBE /* pcre2_context.c in Sources */,
 				AB51282323D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
@@ -1741,6 +1745,7 @@
 				AB51281823D2810600528FBE /* pcre2_xclass.c in Sources */,
 				AB51287223D2810600528FBE /* pcre2_newline.c in Sources */,
 				AB51283923D2810600528FBE /* pcre2_match.c in Sources */,
+				AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				AB51284523D2810600528FBE /* pcre2_compile.c in Sources */,
 				AB51286323D2810600528FBE /* pcre2_context.c in Sources */,
 				AB51282123D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
@@ -1808,6 +1813,7 @@
 				AB51283423D2810600528FBE /* pcre2_extuni.c in Sources */,
 				AB51282E23D2810600528FBE /* pcre2_string_utils.c in Sources */,
 				AB51284F23D2810600528FBE /* pcre2_tables.c in Sources */,
+				AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				AB51285223D2810600528FBE /* pcre2_maketables.c in Sources */,
 				AB51284623D2810600528FBE /* pcre2_compile.c in Sources */,
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,

@@ -30,6 +30,9 @@
 		AB29121B2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
+		AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
+		AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
+		AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
 		AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
 		AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
 		AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
@@ -158,7 +161,6 @@
 		8D0C4E970486CD37000505A6 /* NanoTest_macOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_macOS; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB09E1C4240D5F49001FCBFC /* TStringFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringFormatter.cpp; sourceTree = "<group>"; };
 		AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtils.cpp; sourceTree = "<group>"; };
-		AB14315F103EC576002BD0D1 /* TFileIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileIterator.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringScanner.cpp; sourceTree = "<group>"; };
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		AB481C7212A539690052C55F /* TURLResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURLResponse.cpp; sourceTree = "<group>"; };
 		AB481C7B12A539830052C55F /* TURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURL.cpp; sourceTree = "<group>"; };
 		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileScanner.cpp; sourceTree = "<group>"; };
 		AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdAlgorithm.cpp; sourceTree = "<group>"; };
 		AB5127E923D07FC700528FBE /* TStdContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdContainer.cpp; sourceTree = "<group>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
@@ -504,7 +507,7 @@
 				ABDCE8E8241F8AEA0054A16E /* TFile.cpp */,
 				ABDCE8BC241C59680054A16E /* TFileHandle.cpp */,
 				ABDCE8BB241C59680054A16E /* TFileInfo.cpp */,
-				AB14315F103EC576002BD0D1 /* TFileIterator.cpp */,
+				AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */,
 				AB514D7C1034184B00E5A6AD /* TFileMap.cpp */,
 				AB53BBDB2421239C009960AA /* TFileUtils.cpp */,
 				AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */,
@@ -832,6 +835,7 @@
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
+				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB29121A2383771700509C66 /* TData.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABDCE8A6241C22BB0054A16E /* TClock.cpp in Sources */,
@@ -872,6 +876,7 @@
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
+				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB2912192383771600509C66 /* TData.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABDCE8A5241C22BB0054A16E /* TClock.cpp in Sources */,
@@ -912,6 +917,7 @@
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
+				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB29121B2383771700509C66 /* TData.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABDCE8A7241C22BB0054A16E /* TClock.cpp in Sources */,
