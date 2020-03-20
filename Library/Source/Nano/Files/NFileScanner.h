@@ -46,6 +46,7 @@
 
 
 // System
+#include <functional>
 #include <vector>
 
 
