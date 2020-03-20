@@ -361,10 +361,11 @@ NStatus NSharedLinux::FileRename(const NString& oldPath, const NString& newPath)
 
 
 	// Rename the file
-		int sysErr = syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE))
-			   NN_EXPECT_NOT_ERR(sysErr);
+	int sysErr =
+		syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE);
+	NN_EXPECT_NOT_ERR(sysErr);
 
-		return NSharedPOSIX::GetErrno(sysErr);
+	return NSharedPOSIX::GetErrno(sysErr);
 }
 
 
@@ -379,10 +380,11 @@ NStatus NSharedLinux::FileExchange(const NString& oldPath, const NString& newPat
 
 
 	// Exchange the files
-		int sysErr = syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE))
-			   NN_EXPECT_NOT_ERR(sysErr);
+	int sysErr =
+		syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE);
+	NN_EXPECT_NOT_ERR(sysErr);
 
-		return NSharedPOSIX::GetErrno(sysErr);
+	return NSharedPOSIX::GetErrno(sysErr);
 }
 
 
