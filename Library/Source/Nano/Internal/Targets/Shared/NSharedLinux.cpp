@@ -85,7 +85,7 @@ constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreation
 //-----------------------------------------------------------------------------
 //		ToTime : Convert to an NTime.
 //-----------------------------------------------------------------------------
-static NTime ToTime(const statx_timestamp& timeStamp)
+static NTime ToTime(const struct statx_timestamp& timeStamp)
 {
 
 
