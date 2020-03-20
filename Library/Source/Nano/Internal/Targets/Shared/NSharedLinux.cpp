@@ -48,6 +48,7 @@
 
 // System
 #include <linux/fs.h>
+#include <linux/stat.h>
 #include <semaphore.h>
 #include <sys/stat.h>
 #include <sys/syscall.h>
