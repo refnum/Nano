@@ -1097,25 +1097,22 @@ NVectorFile NSharedPOSIX::GetChildren(const NString& thePath)
 
 
 	// Collect the files
-	struct dirent  dirEntry;
-	struct dirent* dirResult = nullptr;
-	int            sysErr    = 0;
+	const struct dirent* dirEntry = nullptr;
 
 	do
 	{
 		// Read the entry
-		dirResult = nullptr;
-		sysErr    = readdir_r(theDir, &dirEntry, &dirResult);
-		NN_EXPECT_NOT_ERR(sysErr);
+		dirEntry = readdir(theDir);
+		NN_EXPECT_NOT_NULL(dirEntry);
 
-		if (sysErr == 0 && dirResult != nullptr)
+		if (dirEntry != nullptr)
 		{
-			if (strcmp(dirEntry.d_name, ".") != 0 && strcmp(dirEntry.d_name, "..") != 0)
+			if (strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
 			{
-				theFiles.emplace_back(NFile(thePath + kNPathSeparator + dirEntry.d_name));
+				theFiles.emplace_back(NFile(thePath + kNPathSeparator + dirEntry->d_name));
 			}
 		}
-	} while (sysErr == 0 && dirResult != nullptr);
+	} while (dirEntry != nullptr);
 
 
 
