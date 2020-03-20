@@ -85,7 +85,7 @@ NVectorFile NFileUtils::GetChildren(const NString& thePath)
 	// Collect the children
 	do
 	{
-		NString fileName(static_cast<const utf16_t*>(dirEntry.cFileName));
+		NString fileName(reinterpret_cast<const utf16_t*>(dirEntry.cFileName));
 		if (fileName != "." && fileName != "..")
 		{
 			theFiles.emplace_back(NFile(thePath + kNPathSeparator + fileName));
@@ -194,7 +194,7 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath)
 
 
 	// Create the directory
-	BOOL wasOK = CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr);
+	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr);
 	NN_EXPECT(wasOK);
 
 	return NSharedWindows::GetLastError(wasOK);
