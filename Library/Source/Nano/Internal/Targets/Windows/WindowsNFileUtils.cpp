@@ -70,7 +70,7 @@ NVectorFile NFileUtils::GetChildren(const NString& thePath)
 
 	// Open the directory
 	WIN32_FIND_DATA dirEntry{};
-	NFileList       theFiles;
+	NVectorFile     theFiles;
 
 	NString thePattern = thePath + "\\*";
 	HANDLE  theDir     = FindFirstFile(LPCWSTR(thePattern.GetUTF16()), &dirEntry);
@@ -85,7 +85,7 @@ NVectorFile NFileUtils::GetChildren(const NString& thePath)
 	// Collect the children
 	do
 	{
-		NString fileName(dirEntry.cFileName);
+		NString fileName(static_cast<const utf16_t*>(dirEntry.cFileName));
 		if (fileName != "." && fileName != "..")
 		{
 			theFiles.emplace_back(NFile(thePath + kNPathSeparator + fileName));
@@ -194,8 +194,8 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath)
 
 
 	// Create the directory
-		BOOL wasOK = CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr))
-			   NN_EXPECT(wasOK);
+	BOOL wasOK = CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr);
+	NN_EXPECT(wasOK);
 
-		return NSharedWindows::GetLastError(wasOK);
+	return NSharedWindows::GetLastError(wasOK);
 }
