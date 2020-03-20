@@ -173,6 +173,7 @@ bool NUTF32Iterator::operator!=(const NUTF32Iterator& otherIter) const
 
 
 
+#pragma mark NUnicodeView
 //=============================================================================
 //		NUnicodeView::NUnicodeView : Constructor.
 //-----------------------------------------------------------------------------
