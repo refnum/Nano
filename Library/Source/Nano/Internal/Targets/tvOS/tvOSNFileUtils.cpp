@@ -95,6 +95,30 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 
 //=============================================================================
+//		NFileUtils::Delete : Delete a file.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+{
+
+
+	// Validate our parameters
+	if (moveToTrash)
+	{
+		NN_LOG_UNIMPLEMENTED();
+	}
+
+
+
+	// Delete the file
+	return NSharedPOSIX::Delete(thePath);
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
 //		NFileUtils::CreateDirectory : Create a directory.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::CreateDirectory(const NString& thePath)

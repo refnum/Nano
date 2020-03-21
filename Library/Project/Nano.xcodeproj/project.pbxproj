@@ -30,6 +30,7 @@
 		AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
 		AB25E7B7237A0303009F31B3 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
 		AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB25E7B2237A0302009F31B3 /* NLog.cpp */; };
+		AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */; };
 		AB492C922399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
 		AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
 		AB492C942399A41A003E4D1A /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB492C902399A41A003E4D1A /* NDebug.cpp */; };
@@ -127,7 +128,6 @@
 		AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
 		AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
 		AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */; };
-		AB53BBE8242123FF009960AA /* macOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBE7242123FF009960AA /* macOSNFileUtils.cpp */; };
 		AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */; };
 		AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
@@ -326,6 +326,7 @@
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
 		AB3B53A6143DCD9400EC0F55 /* NProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NProgressable.cpp; sourceTree = "<group>"; };
 		AB3B53A7143DCD9400EC0F55 /* NProgressable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProgressable.h; sourceTree = "<group>"; };
+		AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = macOSNFileUtils.mm; sourceTree = "<group>"; };
 		AB481C2112A531220052C55F /* NIOSNetwork.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSNetwork.cpp; sourceTree = "<group>"; };
 		AB481C2212A531220052C55F /* NMacNetwork.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacNetwork.cpp; sourceTree = "<group>"; };
 		AB481C2312A531220052C55F /* NTargetNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetNetwork.h; sourceTree = "<group>"; };
@@ -403,7 +404,6 @@
 		AB53BBE0242123AB009960AA /* NFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtils.h; sourceTree = "<group>"; };
 		AB53BBE4242123EB009960AA /* WindowsNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tvOSNFileUtils.cpp; sourceTree = "<group>"; };
-		AB53BBE7242123FF009960AA /* macOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBE92421240A009960AA /* LinuxNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinuxNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNFileUtils.cpp; sourceTree = "<group>"; };
@@ -1315,7 +1315,7 @@
 			children = (
 				ABDCE8CB241C604F0054A16E /* macOSNFileHandle.cpp */,
 				ABDCE8CE241C604F0054A16E /* macOSNFileInfo.cpp */,
-				AB53BBE7242123FF009960AA /* macOSNFileUtils.cpp */,
+				AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */,
 				AB07EA34239A4E5600E0AC49 /* macOSNSemaphore.cpp */,
 				AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */,
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
@@ -1812,6 +1812,7 @@
 				AB51283123D2810600528FBE /* pcre2_pattern_info.c in Sources */,
 				AB51283423D2810600528FBE /* pcre2_extuni.c in Sources */,
 				AB51282E23D2810600528FBE /* pcre2_string_utils.c in Sources */,
+				AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */,
 				AB51284F23D2810600528FBE /* pcre2_tables.c in Sources */,
 				AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				AB51285223D2810600528FBE /* pcre2_maketables.c in Sources */,
@@ -1851,7 +1852,6 @@
 				AB492C932399A41A003E4D1A /* NDebug.cpp in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB51286423D2810600528FBE /* pcre2_context.c in Sources */,
-				AB53BBE8242123FF009960AA /* macOSNFileUtils.cpp in Sources */,
 				AB51284923D2810600528FBE /* pcre2_jit_compile.c in Sources */,
 				AB51285B23D2810600528FBE /* pcre2_substitute.c in Sources */,
 				AB25E7B8237A0303009F31B3 /* NLog.cpp in Sources */,

@@ -259,7 +259,7 @@ if (NN_TARGET_MACOS)
 		PRIVATE
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileInfo.cpp"
-			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileUtils.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileUtils.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"

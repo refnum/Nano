@@ -42,6 +42,7 @@
 #include "NFileUtils.h"
 
 // Nano
+#include "NFileInfo.h"
 #include "NSharedWindows.h"
 #include "NString.h"
 
@@ -186,6 +187,58 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 
 
+//=============================================================================
+//		NFileUtils::Delete : Delete a file.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+{
+
+
+	// Get the state we need
+	LPCWSTR winPath = LPCWSTR(thePath.GetUTF16());
+	BOOL    wasOK   = false;
+
+
+
+	// Move to trash
+	if (moveToTrash)
+	{
+		SHFILEOPSTRUCT fileOp{};
+
+		fileOp.wFunc  = FO_DELETE;
+		fileOp.pFrom  = winPath;
+		fileOp.fFlags = FOF_ALLOWUNDO | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
+
+		wasOK = SHFileOperation(&fileOp);
+		NN_EXPECT(wasOK);
+	}
+
+
+	// Delete the file
+	else
+	{
+		NFileInfo theInfo(thePath);
+
+		if (theInfo.IsDirectory())
+		{
+			wasOK = RemoveDirectory(winPath);
+			NN_EXPECT(wasOK);
+		}
+		else
+		{
+			wasOK = DeleteFile(winPath);
+			NN_EXPECT(wasOK);
+		}
+	}
+
+	return NWinShared::GetLastError(wasOK);
+}
+
+
+
+
+
+#pragma mark private
 //=============================================================================
 //		NFileUtils::CreateDirectory : Create a directory.
 //-----------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 /*	NAME:
-		macOSNFileUtils.cpp
+		macOSNFileUtils.mm
 
 	DESCRIPTION:
 		macOS file utilities.
@@ -44,6 +44,9 @@
 // Nano
 #include "NSharedDarwin.h"
 #include "NSharedPOSIX.h"
+
+// System
+#include <Foundation/Foundation.h>
 
 
 
@@ -94,6 +97,54 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 
 
+//=============================================================================
+//		NFileUtils::Delete : Delete a file.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+{
+
+
+	// Get the state we need
+	NStatus theErr = NStatus::Permission;
+
+
+	// Move to trash
+	if (moveToTrash)
+	{
+		@autoreleasepool
+		{
+			NSString* nsPath = [NSString stringWithUTF8String:thePath.GetUTF8()];
+			if (nsPath != nil)
+			{
+				NSURL* nsURL = [NSURL fileURLWithPath:nsPath];
+				bool   wasOK = [[NSFileManager defaultManager] trashItemAtURL:nsURL
+														   resultingItemURL:nil
+																	  error:nil];
+				NN_EXPECT(wasOK);
+
+				if (wasOK)
+				{
+					theErr = NStatus::OK;
+				}
+			}
+		}
+	}
+
+
+	// Delete the file
+	else
+	{
+		theErr = NSharedPOSIX::Delete(thePath);
+	}
+
+	return theErr;
+}
+
+
+
+
+
+#pragma mark private
 //=============================================================================
 //		NFileUtils::CreateDirectory : Create a directory.
 //-----------------------------------------------------------------------------

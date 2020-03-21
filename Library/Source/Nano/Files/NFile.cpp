@@ -606,6 +606,56 @@ NStatus NFile::CreateDirectory()
 
 
 
+//=============================================================================
+//		NFile::Delete : Delete a file.
+//-----------------------------------------------------------------------------
+NStatus NFile::Delete(bool moveToTrash) const
+{
+
+
+	// Delete the file
+	return NFileUtils::Delete(GetPath(), moveToTrash);
+}
+
+
+
+
+
+//=============================================================================
+//		NFile::DeleteChildren : Delete the children of a directory.
+//-----------------------------------------------------------------------------
+NStatus NFile::DeleteChildren() const
+{
+
+
+	// Delete the children
+	NStatus theErr = NStatus::OK;
+
+	for (const auto& theChild : GetChildren())
+	{
+		if (theChild.IsDirectory())
+		{
+			theErr = theChild.DeleteChildren();
+		}
+
+		if (theErr == NStatus::OK)
+		{
+			theErr = theChild.Delete();
+		}
+
+		if (theErr != NStatus::OK)
+		{
+			break;
+		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
 #pragma mark NMixinComparable
 //=============================================================================
 //		NFile::CompareEqual : Perform an equality comparison.

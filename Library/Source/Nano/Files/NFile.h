@@ -158,6 +158,16 @@ public:
 	NStatus                             CreateDirectory();
 
 
+	// Delete the file
+	//
+	// Deleting a file, rather than moving it to the trash, is permanent.
+	NStatus                             Delete(bool moveToTrash = false) const;
+
+
+	// Delete the items within a directory
+	NStatus                             DeleteChildren() const;
+
+
 public:
 	// NMixinComparable
 	bool                                CompareEqual(const NFile& theFile) const;

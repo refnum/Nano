@@ -131,6 +131,10 @@ public:
 	static NStatus                      CreateDirectory(const NString& thePath);
 
 
+	// Delete a file
+	static NStatus                      Delete(const NString& thePath);
+
+
 	// Convert between time formats
 	//
 	// No epoch conversion is performed on intervals.

@@ -169,7 +169,7 @@ OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings) $(Nano_Configuration)
 //=============================================================================
 //		Linker
 //-----------------------------------------------------------------------------
-Nano_LinkFlags							= -framework CoreFoundation -lNano_$(NANO_PLATFORM)
+Nano_LinkFlags							= -framework CoreFoundation -framework Foundation -lNano_$(NANO_PLATFORM)
 
 PRODUCT_NAME							= Nano_$(NANO_PLATFORM)
 

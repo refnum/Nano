@@ -87,6 +87,10 @@ public:
 	static NStatus                      Exchange(const NString& oldPath, const NString& newPath);
 
 
+	// Delete a file
+	static NStatus                      Delete(const NString& thePath, bool moveToTrash = false);
+
+
 private:
 	static NStatus                      CreateDirectory(const NString& thePath);
 };

@@ -1145,6 +1145,24 @@ NStatus NSharedPOSIX::CreateDirectory(const NString& thePath)
 
 
 //=============================================================================
+//		NSharedPOSIX::Delete : Delete a file.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::Delete(const NString& thePath)
+{
+
+
+	// Delete the file
+	int sysErr = unlinkat(0, thePath.GetUTF8(), AT_REMOVEDIR);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return GetErrno(sysErr);
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedPOSIX::ToTimeval : Convert to a timeval.
 //-----------------------------------------------------------------------------
 struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
