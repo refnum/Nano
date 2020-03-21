@@ -48,6 +48,7 @@
 
 // System
 #include <ktmw32.h>
+#include <shellapi.h>
 
 
 
@@ -231,7 +232,7 @@ NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
 		}
 	}
 
-	return NWinShared::GetLastError(wasOK);
+	return NSharedWindows::GetLastError(wasOK);
 }
 
 
