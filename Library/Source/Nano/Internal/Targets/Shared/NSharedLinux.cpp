@@ -184,7 +184,7 @@ static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 	struct statx theInfo;
 
 	sysErr =
-		statx(0, thePath.GetUTF8(), AT_STATX_SYNC_AS_STAT, STATX_MTIME | STATX_BTIME, &theInfo);
+		::statx(0, thePath.GetUTF8(), AT_STATX_SYNC_AS_STAT, STATX_MTIME | STATX_BTIME, &theInfo);
 	wasOK = (sysErr == 0);
 
 

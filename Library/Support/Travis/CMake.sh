@@ -26,8 +26,6 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 	CMAKE_GENERATOR="Unix Makefiles"
 	CMAKE_PARAMS=""
-	
-	grep -r AT_STATX_SYNC_AS_STAT /usr/include
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
 	CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
