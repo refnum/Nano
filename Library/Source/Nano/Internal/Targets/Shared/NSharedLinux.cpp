@@ -177,14 +177,19 @@ static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
 
 
 #if NN_TARGET_LINUX && defined(SYS_statx)
-	// Linux may statx to query the birth time
+	// Linux may have statx to query the birth time
 	//
-	// We can't avoid a potentially second call to stat so we
-	// fill both birth and modification times.
+	// We can't avoid a potentially second call to stat so we fill both
+	// birth and modification times.
 	struct statx theInfo;
 
-	sysErr =
-		::statx(0, thePath.GetUTF8(), AT_STATX_SYNC_AS_STAT, STATX_MTIME | STATX_BTIME, &theInfo);
+	sysErr = int(syscall(__NR_statx,
+						 0,
+						 thePath.GetUTF8(),
+						 AT_STATX_SYNC_AS_STAT,
+						 STATX_MTIME | STATX_BTIME,
+						 &theInfo));
+
 	wasOK = (sysErr == 0);
 
 
