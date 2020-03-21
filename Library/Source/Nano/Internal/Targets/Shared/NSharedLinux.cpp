@@ -47,7 +47,7 @@
 #include "NTimeUtils.h"
 
 // System
-#include <fcntl.h>
+#include <linux/fcntl.h>
 #include <linux/fs.h>
 #include <linux/stat.h>
 #include <semaphore.h>
