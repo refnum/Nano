@@ -156,7 +156,13 @@ NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess)
 
 
 		// Initialise the position
-		SetPosition(0, NFileOffset::FromStart);
+		theErr = SetPosition(0, NFileOffset::FromStart);
+		NN_EXPECT_NOT_ERR(theErr);
+
+		if (theErr != NStatus::OK)
+		{
+			Close();
+		}
 	}
 
 	return theErr;
