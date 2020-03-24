@@ -64,12 +64,26 @@ kNNotFound													= 18446744073709551615
 kNTimeNanosecond											= 1.0 / 1000000000.0
 kNanoEpochTo1970											= 978307200
 
+
 kNDataFlagIsLarge											= 0b10000000
 kNDataFlagSmallSizeMask										= 0b00011111
+
 
 kNStringFlagIsLarge											= 0b10000000
 kNStringFlagIsSmallUTF16									= 0b01000000
 kNStringFlagSmallSizeMask									= 0b00011111
+
+
+NFileAccess_Read											= 0
+NFileAccess_Write											= 1
+NFileAccess_ReadWrite										= 2
+
+NFileAccessNames = {
+	NFileAccess_Read      : "Read",
+	NFileAccess_Write     : "Write",
+	NFileAccess_ReadWrite : "ReadWrite",
+}
+
 
 NStringEncoding_Unknown										= 0
 NStringEncoding_UTF8										= 1
@@ -175,6 +189,19 @@ def getPathData(theValue, thePath):
 
 
 #==============================================================================
+#		getPathNString : Get a path as an NString.
+#------------------------------------------------------------------------------
+def getPathNString(theValue, thePath):
+
+	theString = getPathValue(theValue, thePath)
+
+	return NString_Show(theString, None)
+
+
+
+
+
+#==============================================================================
 #		getMemory : Get bytes from an address.
 #------------------------------------------------------------------------------
 def getMemory(thePtr, theOffset, theSize):
@@ -186,6 +213,17 @@ def getMemory(thePtr, theOffset, theSize):
 	theBytes    = theProcess.ReadMemory(theAddresss, theSize, theErr)
 
 	return theBytes
+
+
+
+
+
+#==============================================================================
+#		getFileAccessName : Get the name of a file access mode.
+#------------------------------------------------------------------------------
+def getFileAccessName(theAccess):
+
+	return NFileAccessNames.get(theAccess)
 
 
 
@@ -402,7 +440,7 @@ def NTime_Show(theTime, theInfo):
 	unixFrac = unixSecs - math.floor(unixSecs)
 
 	strTime = datetime.datetime.utcfromtimestamp(unixSecs).strftime("%Y-%m-%d %H:%M:%S.")
-	strSecs = "{:.9g}".format(unixFrac);
+	strSecs = "{:.9g}".format(unixFrac)
 
 	if (strSecs != "0"):
 		strSecs = strSecs[2:]
@@ -418,9 +456,27 @@ def NTime_Show(theTime, theInfo):
 #------------------------------------------------------------------------------
 def NFile_Show(theFile, theInfo):
 
-	thePath = getPathValue(theFile, "->mInfo.mPath");
+	thePath = getPathNString(theFile, "->mInfo.mPath")
 
-	return NString_Show(thePath, theInfo);
+	return thePath
+
+
+
+
+
+#==============================================================================
+#		NFileHandle_Show : Show an NFileHandle.
+#------------------------------------------------------------------------------
+def NFileHandle_Show(theFile, theInfo):
+
+	thePath    = getPathNString(theFile, "->mPath")
+	accessName = ""
+
+	if (thePath):
+		fileAccess = getPathUInt(theFile, "->mAccess")
+		accessName = " (" + getFileAccessName(fileAccess) + ")"
+
+	return thePath + accessName
 
 
 
@@ -431,11 +487,12 @@ def NFile_Show(theFile, theInfo):
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
 
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show     NData')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show    NRange')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show   NString')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show     NTime')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFile_Show     NFile')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show          NData')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show         NRange')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show        NString')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show          NTime')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFile_Show          NFile')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
