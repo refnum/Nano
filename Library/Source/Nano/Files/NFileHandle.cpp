@@ -142,7 +142,7 @@ NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess)
 
 
 	// Open the file
-	NStatus theErr = FileOpen(theAccess);
+	NStatus theErr = FileOpen(thePath, theAccess);
 	NN_EXPECT_NOT_ERR(theErr);
 
 	if (theErr == NStatus::OK)

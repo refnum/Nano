@@ -178,7 +178,7 @@ private:
 	bool                                CanRead()  const;
 	bool                                CanWrite() const;
 
-	NStatus                             FileOpen(NFileAccess theAccess);
+	NStatus                             FileOpen(const NString& thePath, NFileAccess theAccess);
 	void                                FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);

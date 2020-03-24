@@ -137,7 +137,7 @@ static constexpr DWORD GetFileMove(NFileOffset relativeTo)
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileOpen(NFileAccess theAccess)
+NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess)
 {
 
 
@@ -147,7 +147,7 @@ NStatus NFileHandle::FileOpen(NFileAccess theAccess)
 
 
 	// Open the file
-	HANDLE hFile = CreateFileW(LPCWSTR(mPath.GetUTF16()),
+	HANDLE hFile = CreateFileW(LPCWSTR(thePath.GetUTF16()),
 							   GetFileAccess(theAccess),
 							   FILE_SHARE_READ | FILE_SHARE_WRITE,
 							   nullptr,
