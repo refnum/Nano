@@ -395,6 +395,11 @@ NFileScannerIterator NFileScanner::begin()
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
 	// Get the iterator
 	//
 	// Scanning from the start implicitly restarts the scan.
@@ -414,6 +419,9 @@ NFileScannerIterator NFileScanner::end()
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
 	// Get the iterator
 	return {*this, NFile()};
 }
@@ -422,36 +430,22 @@ NFileScannerIterator NFileScanner::end()
 
 
 
+#pragma mark private
 //=============================================================================
-//		NFileScanner::GetNext: Get the next file.
+//		NFileScanner::IsValid : Is the scanner in a valid state to scan?
 //-----------------------------------------------------------------------------
-NFile NFileScanner::GetNext()
+bool NFileScanner::IsValid()
 {
 
 
-	// Collect more results
-	if (mScanResults.empty() && !mScanStop)
-	{
-		ContinueScan();
-	}
-
-
-	// Get the next file
-	NFile theFile;
-
-	if (!mScanResults.empty())
-	{
-		theFile = nstd::extract_front(mScanResults);
-	}
-
-	return theFile;
+	// Check our state
+	return mScanRoot.IsDirectory();
 }
 
 
 
 
 
-#pragma mark private
 //=============================================================================
 //		NFileScanner::ContinueScan : Continue the scan.
 //-----------------------------------------------------------------------------

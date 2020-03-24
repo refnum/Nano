@@ -154,11 +154,13 @@ public:
 
 	// Scan the files
 	//
-	// Scan a directory.
+	// Start scanning a directory.
 	NStatus                             Scan(const NFile& theRoot);
 
 
 	// Get the next file
+	//
+	// May only be called when a scan is underway.
 	//
 	// Returns an invalid file when the scan is complete.
 	NFile                               GetNext();
@@ -166,7 +168,9 @@ public:
 
 	// Get NFileScanner iterators
 	//
-	// Scanning from the start implicitly restarts the scan.
+	// May only be called when a scan is underway.
+	//
+	// A call to begin() implicitly restarts the scan.
 	//
 	// Returns iterators suitable for a range-based for.
 	NFileScannerIterator                begin();
@@ -174,6 +178,7 @@ public:
 
 
 private:
+	bool                                IsValid();
 	void                                ContinueScan();
 
 
