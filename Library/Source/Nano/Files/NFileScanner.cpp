@@ -494,7 +494,8 @@ void NFileScanner::ContinueScan()
 
 			if (isMatch && mFilterItem != nullptr)
 			{
-				isMatch = mFilterItem(theFile, &mScanStop);
+				NN_REQUIRE(!mScanStop);
+				isMatch = mFilterItem(theFile, mScanStop);
 			}
 
 			if (isMatch)

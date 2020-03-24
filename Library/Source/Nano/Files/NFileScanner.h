@@ -68,7 +68,7 @@ struct NFileScannerRoot
 
 
 // Filters
-typedef std::function<bool(const NFile& theFile, bool* stopScan)> NFileScannerFilter;
+typedef std::function<bool(const NFile& theFile, bool& stopScan)> NFileScannerFilter;
 
 
 // Containers
