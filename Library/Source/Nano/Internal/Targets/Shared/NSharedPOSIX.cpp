@@ -997,7 +997,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 
 
 	// Read from the file
-	numRead = fread(thePtr, size_t(theSize), 1, theFile);
+	numRead = fread(thePtr, 1, size_t(theSize), theFile);
 
 	if (numRead != theSize)
 	{
@@ -1039,7 +1039,7 @@ NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 
 
 	// Write to the file
-	numWritten = fwrite(thePtr, size_t(theSize), 1, theFile);
+	numWritten = fwrite(thePtr, 1, size_t(theSize), theFile);
 
 	if (numWritten != theSize)
 	{
