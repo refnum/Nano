@@ -49,14 +49,14 @@
 //-----------------------------------------------------------------------------
 // Work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53431
 //
-// Prior to gcc 9.2 using #pragma diagnostic within a macro works to suppress
-// warnings works as expected C but has no effect in C++.
+// Prior to gcc 9.2 using #pragma diagnostic within a macro to suppress
+// warnings works as expected in C but has no effect in C++.
 //
 // Both NanoLog() and NFormat() need to support unused arguments for their
-// std::format path, but unused arguments triggers a warning on the printf
+// std::format path, but unused arguments trigger a warning on the printf
 // path despite that code being discarded.
 //
-// We work around that by suppressing that warning around the printf.
+// We work around that by suppressing that warning just around the printf.
 //
 //
 // That workaround has no effect in older gcc's, because it takes place

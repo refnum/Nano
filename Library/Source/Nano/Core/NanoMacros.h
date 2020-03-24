@@ -250,38 +250,41 @@
 //
 //		NN_DIAGNOSTIC_POP();
 //
-#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)
-#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)
-#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)
+#define NN_DIAGNOSTIC_PUSH()                                static_assert(true)
+#define NN_DIAGNOSTIC_POP()                                 static_assert(true)
+#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)                static_assert(true)
+#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)                  static_assert(true)
+#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)                 static_assert(true)
 
 #if NN_COMPILER_CLANG
-	#define NN_DIAGNOSTIC_IGNORE(_warning)                  _Pragma(NN_STRINGIFY(clang diagnostic ignored _warning))
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(clang diagnostic push))
-	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(clang diagnostic pop))
+	#undef NN_DIAGNOSTIC_PUSH
+	#undef NN_DIAGNOSTIC_POP
+	#undef NN_DIAGNOSTIC_IGNORE_CLANG
 
-	#undef  NN_DIAGNOSTIC_IGNORE_CLANG
-	#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)            NN_DIAGNOSTIC_IGNORE(_warning)
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(clang diagnostic push)) static_assert(true)
+	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(clang diagnostic pop)) static_assert(true)
+	#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)            \
+		_Pragma(NN_STRINGIFY(clang diagnostic ignored _warning)) static_assert(true)
 
 #elif NN_COMPILER_GCC
-	#define NN_DIAGNOSTIC_IGNORE(_warning)                  _Pragma(NN_STRINGIFY(GCC diagnostic ignored _warning))
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push))
-	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop))
+	#undef NN_DIAGNOSTIC_PUSH
+	#undef NN_DIAGNOSTIC_POP
+	#undef NN_DIAGNOSTIC_IGNORE_GCC
 
-	#undef  NN_DIAGNOSTIC_IGNORE_GCC
-	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              NN_DIAGNOSTIC_IGNORE(_warning)
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push)) static_assert(true)
+	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop)) static_assert(true)
+	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              \
+		_Pragma(NN_STRINGIFY(GCC diagnostic ignored _warning)) static_assert(true)
 
 #elif NN_COMPILER_MSVC
-	#define NN_DIAGNOSTIC_IGNORE(_warning)                  __pragma(warning(disable : _warning))
-	#define NN_DIAGNOSTIC_PUSH()                            __pragma(warning(push))
-	#define NN_DIAGNOSTIC_POP()                             __pragma(warning(pop))
+	#undef NN_DIAGNOSTIC_PUSH
+	#undef NN_DIAGNOSTIC_POP
+	#undef NN_DIAGNOSTIC_IGNORE_MSVC
 
-	#undef  NN_DIAGNOSTIC_IGNORE_MSVC
-	#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)             NN_DIAGNOSTIC_IGNORE(_warning)
-
-#else
-	#define NN_DIAGNOSTIC_IGNORE(_warning)
-	#define NN_DIAGNOSTIC_PUSH()
-	#define NN_DIAGNOSTIC_POP()
+	#define NN_DIAGNOSTIC_PUSH()                            __pragma(warning(push)) static_assert(true)
+	#define NN_DIAGNOSTIC_POP()                             __pragma(warning(pop)) static_assert(true)
+	#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)             \
+		__pragma(warning(disable : _warning)) static_assert(true)
 #endif
 
 
