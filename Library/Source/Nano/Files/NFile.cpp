@@ -656,6 +656,29 @@ NStatus NFile::DeleteChildren() const
 
 
 
+//=============================================================================
+//		NFile::MoveTo : Move a file to a new location.
+//-----------------------------------------------------------------------------
+NStatus NFile::MoveTo(const NFile& newParent)
+{
+
+
+	// Validate our parameters and stdate
+	NN_REQUIRE(newParent.IsDirectory());
+	NN_REQUIRE(Exists());
+
+
+
+	// Mov the file
+	NFile newFile = newParent.GetChild(GetName());
+
+	return UpdatePath(newFile.GetPath(), true);
+}
+
+
+
+
+
 #pragma mark NMixinComparable
 //=============================================================================
 //		NFile::CompareEqual : Perform an equality comparison.

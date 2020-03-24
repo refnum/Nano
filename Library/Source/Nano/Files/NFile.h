@@ -168,6 +168,10 @@ public:
 	NStatus                             DeleteChildren() const;
 
 
+	// Move a file to a new location
+	NStatus                             MoveTo(const NFile& newParent);
+
+
 public:
 	// NMixinComparable
 	bool                                CompareEqual(const NFile& theFile) const;
