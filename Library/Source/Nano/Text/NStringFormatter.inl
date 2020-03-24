@@ -116,7 +116,7 @@ constexpr auto NBaseFormatter::parse(fmt::format_parse_context& theContext) cons
 //=============================================================================
 //		NFormatPackToString : Format a parameter pack to an NString.
 //-----------------------------------------------------------------------------
-template <typename S, typename... Args>
+template<typename S, typename... Args>
 NString NFormatPackToString(const S& formatStr, Args&&... theArgs)
 {
 
@@ -140,7 +140,7 @@ NString NFormatPackToString(const S& formatStr, Args&&... theArgs)
 //=============================================================================
 //		NSprintfPackToString : Sprintf a parameter pack to an NString.
 //-----------------------------------------------------------------------------
-template <typename S, typename... Args>
+template<typename S, typename... Args>
 NString NSprintfPackToString(const S& formatStr, Args&&... theArgs)
 {
 
@@ -164,11 +164,11 @@ NString NSprintfPackToString(const S& formatStr, Args&&... theArgs)
 //=============================================================================
 //		NString formatter
 //-----------------------------------------------------------------------------
-template <>
+template<>
 class fmt::formatter<NString> : public NBaseFormatter
 {
 public:
-	template <typename FormatContext>
+	template<typename FormatContext>
 	auto format(const NString& p, FormatContext& ctx)
 	{
 		return format_to(ctx.out(), p.GetUTF8());

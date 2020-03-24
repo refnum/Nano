@@ -63,7 +63,7 @@ static constexpr size_t kNHashNone                          = 0;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 class NMixinHashable
 {
 public:

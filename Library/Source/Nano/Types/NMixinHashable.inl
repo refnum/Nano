@@ -48,7 +48,7 @@
 //=============================================================================
 //		NMixinHashable::GetHash : Get the hash value.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 size_t NMixinHashable<T>::GetHash() const
 {
 
@@ -73,7 +73,7 @@ size_t NMixinHashable<T>::GetHash() const
 //=============================================================================
 //		NMixinHashable::ClearHash : Clear the hash value.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void NMixinHashable<T>::ClearHash()
 {
 

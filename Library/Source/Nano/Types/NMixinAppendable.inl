@@ -47,7 +47,7 @@
 //=============================================================================
 //		NMixinAppendable::operator += : Concatenate operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 const T& NMixinAppendable<T>::operator+=(const T& theValue)
 {
 
@@ -67,7 +67,7 @@ const T& NMixinAppendable<T>::operator+=(const T& theValue)
 //=============================================================================
 //		NMixinAppendable::operator + : Concatenate operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 T NMixinAppendable<T>::operator+(const T& theValue) const
 {
 

@@ -69,7 +69,7 @@ enum class NComparison
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 class NMixinComparable
 {
 public:
@@ -103,7 +103,7 @@ private:
 //		Public Functions
 //-----------------------------------------------------------------------------
 // Compare two types
-template <typename A, typename B>
+template<typename A, typename B>
 constexpr NComparison NCompare(const A& a, const B& b)
 {
 	if (a < b)

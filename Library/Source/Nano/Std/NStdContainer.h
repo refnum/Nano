@@ -53,7 +53,7 @@ namespace nstd
 //=============================================================================
 //		nstd::vector : Create a vector from a C array of values.
 //-----------------------------------------------------------------------------
-template <class T, size_t numValues>
+template<class T, size_t numValues>
 std::vector<T> vector(const T (&theValues)[numValues])
 {
 	return std::vector<T>(theValues, theValues + numValues);
@@ -66,7 +66,7 @@ std::vector<T> vector(const T (&theValues)[numValues])
 //=============================================================================
 //		nstd::vector : Create a vector from a pointer to values.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 std::vector<T> vector(size_t numValues, const T* theValues)
 {
 	return std::vector<T>(theValues, theValues + numValues);
@@ -79,12 +79,12 @@ std::vector<T> vector(size_t numValues, const T* theValues)
 //=============================================================================
 //		nstd::vector : Create a vector from a list of values.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void _make_vector(std::vector<T>&)
 {
 }
 
-template <typename T, typename P>
+template<typename T, typename P>
 void _make_vector(std::vector<T>& theVector, P&& theParam)
 {
 	static_assert(std::is_convertible<P, T>::value, "Param type cannot be stored in vector");
@@ -92,14 +92,14 @@ void _make_vector(std::vector<T>& theVector, P&& theParam)
 	theVector.push_back(static_cast<T>(std::forward<P>(theParam)));
 }
 
-template <typename T, typename P, typename... Args>
+template<typename T, typename P, typename... Args>
 void _make_vector(std::vector<T>& theVector, P&& theParam, Args&&... theArgs)
 {
 	nstd::_make_vector(theVector, std::forward<P>(theParam));
 	nstd::_make_vector(theVector, std::forward<Args>(theArgs)...);
 }
 
-template <typename T, typename... Args>
+template<typename T, typename... Args>
 std::vector<T> vector(Args&&... theArgs)
 {
 	std::vector<T> theVector;

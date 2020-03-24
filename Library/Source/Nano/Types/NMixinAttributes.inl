@@ -47,7 +47,7 @@
 //=============================================================================
 //		NMixinAttributes::NMixinAttributes : Constructor.
 //-----------------------------------------------------------------------------
-template <class T, typename A>
+template<class T, typename A>
 NMixinAttributes<T, A>::NMixinAttributes()
 	: mAttributes(0)
 {
@@ -60,7 +60,7 @@ NMixinAttributes<T, A>::NMixinAttributes()
 //=============================================================================
 //		NMixinAttributes::HasAttribute : Is an attribute set?
 //-----------------------------------------------------------------------------
-template <class T, typename A>
+template<class T, typename A>
 bool NMixinAttributes<T, A>::HasAttribute(A theAttribute) const
 {
 
@@ -76,7 +76,7 @@ bool NMixinAttributes<T, A>::HasAttribute(A theAttribute) const
 //=============================================================================
 //		NMixinAttributes::ClearAttributes : Clear attributes.
 //-----------------------------------------------------------------------------
-template <class T, typename A>
+template<class T, typename A>
 void NMixinAttributes<T, A>::ClearAttributes(A theAttributes)
 {
 
@@ -92,7 +92,7 @@ void NMixinAttributes<T, A>::ClearAttributes(A theAttributes)
 //=============================================================================
 //		NMixinAttributes::GetAttributes : Get the attributes.
 //-----------------------------------------------------------------------------
-template <class T, typename A>
+template<class T, typename A>
 A NMixinAttributes<T, A>::GetAttributes() const
 {
 
@@ -108,7 +108,7 @@ A NMixinAttributes<T, A>::GetAttributes() const
 //=============================================================================
 //		NMixinAttributes::SetAttributes : Set the attributes.
 //-----------------------------------------------------------------------------
-template <class T, typename A>
+template<class T, typename A>
 void NMixinAttributes<T, A>::SetAttributes(A setThese, A clearThese)
 {
 

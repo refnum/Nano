@@ -66,16 +66,16 @@ namespace nstd
 //=============================================================================
 //		Template Declarations
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void push_back(T& container1, const T& container2);
 
-template <typename T>
+template<typename T>
 void push_back(T& container1, T&& container2);
 
-template <typename T, typename P>
+template<typename T, typename P>
 bool erase_if(T& container, const P& predicate);
 
-template <typename H, typename N>
+template<typename H, typename N>
 H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd);
 
 
@@ -85,7 +85,7 @@ H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd);
 //=============================================================================
 //		nstd::appended : Return the result of appending two containers.
 //-----------------------------------------------------------------------------
-template <typename T1, typename T2>
+template<typename T1, typename T2>
 T1 appended(T1 container1, T2&& container2)
 {
 	nstd::push_back(container1, std::forward<T2>(container2));
@@ -99,7 +99,7 @@ T1 appended(T1 container1, T2&& container2)
 //=============================================================================
 //		nstd::contains : Does an associative container contain a key?
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool contains(const T& container, const typename T::key_type& key)
 {
 	return container.find(key) != container.end();
@@ -112,7 +112,7 @@ bool contains(const T& container, const typename T::key_type& key)
 //=============================================================================
 //		nstd::contains : Does an std::set contain a key?
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool contains(const std::set<T>& container, const T& key)
 {
 	return container.find(key) != container.end();
@@ -125,7 +125,7 @@ bool contains(const std::set<T>& container, const T& key)
 //=============================================================================
 //		nstd::contains : Does an std::unordered_set contain a key?
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool contains(const std::unordered_set<T>& container, const T& key)
 {
 	return container.find(key) != container.end();
@@ -138,7 +138,7 @@ bool contains(const std::unordered_set<T>& container, const T& key)
 //=============================================================================
 //		nstd::contains : Does a container contain a value?
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool contains(const T& container, const typename T::value_type& value)
 {
 	auto iterBegin = std::begin(container);
@@ -154,7 +154,7 @@ bool contains(const T& container, const typename T::value_type& value)
 //=============================================================================
 //		nstd::contains : Does a container contain a value?
 //-----------------------------------------------------------------------------
-template <class T, size_t N>
+template<class T, size_t N>
 bool contains(const T (&container)[N], const T& value)
 {
 	auto iterBegin = std::begin(container);
@@ -170,7 +170,7 @@ bool contains(const T (&container)[N], const T& value)
 //=============================================================================
 //		nstd::equal : Are two containers equal?
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool equal(const T& container1, const T& container2)
 {
 	return std::equal(std::begin(container1),
@@ -186,7 +186,7 @@ bool equal(const T& container1, const T& container2)
 //=============================================================================
 //		nstd::erase : Erase a value from a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool erase(T& container, const typename T::value_type& value)
 {
 	return erase_if(container, [&](const typename T::value_type& element) {
@@ -201,7 +201,7 @@ bool erase(T& container, const typename T::value_type& value)
 //=============================================================================
 //		nstd::erase_if : Erase a value from a container with a predicate.
 //-----------------------------------------------------------------------------
-template <typename T, typename P>
+template<typename T, typename P>
 bool erase_if(T& container, const P& predicate)
 {
 	auto iterBegin = std::begin(container);
@@ -225,7 +225,7 @@ bool erase_if(T& container, const P& predicate)
 //=============================================================================
 //		nstd::extract_back : Extract the last element from a container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 typename T::value_type extract_back(T& container)
 {
 	NN_REQUIRE(!container.empty());
@@ -245,7 +245,7 @@ typename T::value_type extract_back(T& container)
 //=============================================================================
 //		nstd::extract_front : Extract the first element from a container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 typename T::value_type extract_front(T& container)
 {
 	NN_REQUIRE(!container.empty());
@@ -265,7 +265,7 @@ typename T::value_type extract_front(T& container)
 //=============================================================================
 //		nstd::fetch : Fetch a value from an associative container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 typename T::mapped_type fetch(const T&                       container,
 							  const typename T::key_type&    key,
 							  const typename T::mapped_type& defaultValue)
@@ -289,7 +289,7 @@ typename T::mapped_type fetch(const T&                       container,
 //=============================================================================
 //		nstd::front : Get a pointer to the first element in a container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 typename T::value_type* front(T& container)
 {
 	if (container.empty())
@@ -309,7 +309,7 @@ typename T::value_type* front(T& container)
 //=============================================================================
 //		nstd::keys : Get the keys from an associative container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 std::vector<typename T::key_type> keys(const T& container)
 {
 	std::vector<typename T::key_type> result;
@@ -330,7 +330,7 @@ std::vector<typename T::key_type> keys(const T& container)
 //=============================================================================
 //		nstd::move_back : Move a container's contents to the end of a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void move_back(T& container1, T& container2)
 {
 	container1.reserve(container1.size() + container2.size());
@@ -346,7 +346,7 @@ void move_back(T& container1, T& container2)
 //=============================================================================
 //		nstd::pop_front : Remove the first element from a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void pop_front(T& container)
 {
 	NN_REQUIRE(!container.empty());
@@ -361,7 +361,7 @@ void pop_front(T& container)
 //=============================================================================
 //		nstd::push_back : Insert a container at the end of a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void push_back(T& container1, const T& container2)
 {
 	container1.insert(container1.end(), container2.begin(), container2.end());
@@ -374,7 +374,7 @@ void push_back(T& container1, const T& container2)
 //=============================================================================
 //		nstd::push_back : Insert a container at the end of a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void push_back(T& container1, T&& container2)
 {
 	nstd::move_back(container1, container2);
@@ -387,7 +387,7 @@ void push_back(T& container1, T&& container2)
 //=============================================================================
 //		nstd::push_front : Insert an element at the start of a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void push_front(T& container, const typename T::value_type& value)
 {
 	container.insert(container.begin(), value);
@@ -400,7 +400,7 @@ void push_front(T& container, const typename T::value_type& value)
 //=============================================================================
 //		nstd::push_front : Insert a container at the start of a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void push_front(T& container1, const T& container2)
 {
 	container1.insert(container1.begin(), container2.begin(), container2.end());
@@ -413,7 +413,7 @@ void push_front(T& container1, const T& container2)
 //=============================================================================
 //		nstd::push_front : Insert an element at the start of a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void push_front(T& container, typename T::value_type&& value)
 {
 	container.insert(container.begin(), std::move(value));
@@ -426,7 +426,7 @@ void push_front(T& container, typename T::value_type&& value)
 //=============================================================================
 //		nstd::reverse : Reverse the values within a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void reverse(T& container)
 {
 	std::reverse(std::begin(container), std::end(container));
@@ -439,7 +439,7 @@ void reverse(T& container)
 //=============================================================================
 //		nstd::reversed : Return a reversed container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 T reversed(T container)
 {
 	nstd::reverse(container);
@@ -453,7 +453,7 @@ T reversed(T container)
 //=============================================================================
 //		nstd::search : Search a container for a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 typename T::const_iterator search(const T& haystack, const T& needle)
 {
 	return nstd::search(haystack.begin(), haystack.end(), needle.begin(), needle.end());
@@ -466,7 +466,7 @@ typename T::const_iterator search(const T& haystack, const T& needle)
 //=============================================================================
 //		nstd::search : Search a container for a container.
 //-----------------------------------------------------------------------------
-template <typename H, typename N>
+template<typename H, typename N>
 H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd)
 {
 #if NN_COMPILER_CLANG
@@ -487,7 +487,7 @@ H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd)
 //=============================================================================
 //		nstd::sort : Sort the values within a container.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 void sort(T& container)
 {
 	std::sort(std::begin(container), std::end(container));
@@ -500,7 +500,7 @@ void sort(T& container)
 //=============================================================================
 //		nstd::sort : Sort the values within a container with a comparator.
 //-----------------------------------------------------------------------------
-template <typename T, typename C>
+template<typename T, typename C>
 void sort(T& container, const C& comparator)
 {
 	std::sort(std::begin(container), std::end(container), comparator);
@@ -513,7 +513,7 @@ void sort(T& container, const C& comparator)
 //=============================================================================
 //		nstd::stable_uniquify : Order-preserving uniquify the values in a container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 void stable_uniquify(T& container)
 {
 	typedef typename T::value_type V;
@@ -563,7 +563,7 @@ void stable_uniquify(T& container)
 //=============================================================================
 //		nstd::uniquify : Uniquify the values in a container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 void uniquify(T& container)
 {
 	auto iterBegin = container.begin();
@@ -580,7 +580,7 @@ void uniquify(T& container)
 //=============================================================================
 //		nstd::values : Get the values from an associative container.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 std::vector<typename T::mapped_type> values(const T& container)
 {
 	std::vector<typename T::mapped_type> result;

@@ -49,7 +49,7 @@
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-template <class T, typename A>
+template<class T, typename A>
 class NMixinAttributes
 {
 public:

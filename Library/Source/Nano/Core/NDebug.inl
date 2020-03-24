@@ -77,7 +77,7 @@ NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");
 //		NanoLogFormat : Log with std::format-style formatting.
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
-template <typename L, typename P, typename Ln, typename S, typename... Args>
+template<typename L, typename P, typename Ln, typename S, typename... Args>
 void NanoLogFormat(L logLevel, P filePath, Ln lineNum, const S& formatStr, Args&&... theArgs)
 {
 
@@ -106,7 +106,7 @@ void NanoLogFormat(L logLevel, P filePath, Ln lineNum, const S& formatStr, Args&
 //		_nn_has_format_specifiers : Does a string use std::format specifiers?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
-template <size_t N>
+template<size_t N>
 constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
 {
 
@@ -154,13 +154,13 @@ constexpr bool _nn_has_format_specifiers(char const (&theChars)[N]) noexcept
 //		_nn_is_error : Is this an eror value?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
-template <typename E>
+template<typename E>
 constexpr bool _nn_is_error(E theErr) noexcept
 {
 	return theErr != E(0);
 }
 
-template <>
+template<>
 constexpr bool _nn_is_error<NStatus>(NStatus theErr) noexcept
 {
 	return theErr != NStatus::OK;
@@ -177,7 +177,7 @@ constexpr bool _nn_is_error<NStatus>(NStatus theErr) noexcept
 //		_nn_has_assignment : Does an expression contain an assignment?
 //-----------------------------------------------------------------------------
 #if defined(__cplusplus)
-template <size_t N>
+template<size_t N>
 constexpr bool _nn_has_assignment(char const (&theChars)[N])
 {
 

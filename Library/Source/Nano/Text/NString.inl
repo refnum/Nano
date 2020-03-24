@@ -483,7 +483,7 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 //=============================================================================
 //		Global operator+ : Append a string literal.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 NString operator+(const T* theLiteral, const NString& theString)
 {
 

@@ -47,7 +47,7 @@
 //=============================================================================
 //		NMixinContainer::IsEmpty : Is the container empty?
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 constexpr bool NMixinContainer<T>::IsEmpty() const
 {
 	const T& thisObject = static_cast<const T&>(*this);

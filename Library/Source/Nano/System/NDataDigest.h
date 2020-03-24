@@ -54,7 +54,7 @@
 // Data digest
 //
 // Template to implement a digest of a fixed size.
-template <size_t N>
+template<size_t N>
 class NDigestX
 {
 public:
@@ -115,7 +115,7 @@ private:
 																		\
 	namespace std                                                       \
 	{                                                                   \
-	template <>                                                         \
+	template<>                                                          \
 	struct hash<NDigest##_size>                                         \
 	{                                                                   \
 		size_t operator()(const NDigest##_size& theDigest) const        \

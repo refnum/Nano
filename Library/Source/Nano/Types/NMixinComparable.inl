@@ -47,7 +47,7 @@
 //=============================================================================
 //		NMixinComparable::operator == : Equality operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 bool NMixinComparable<T>::operator==(const T& theValue) const
 {
 	return IsEqual(theValue);
@@ -60,7 +60,7 @@ bool NMixinComparable<T>::operator==(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::operator != : Inequality operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 bool NMixinComparable<T>::operator!=(const T& theValue) const
 {
 	return !IsEqual(theValue);
@@ -73,7 +73,7 @@ bool NMixinComparable<T>::operator!=(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::operator <= : Less-than-or-equals operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 bool NMixinComparable<T>::operator<=(const T& theValue) const
 {
 	return GetOrder(theValue) != NComparison::GreaterThan;
@@ -86,7 +86,7 @@ bool NMixinComparable<T>::operator<=(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::operator < : Less-than operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 bool NMixinComparable<T>::operator<(const T& theValue) const
 {
 	return GetOrder(theValue) == NComparison::LessThan;
@@ -99,7 +99,7 @@ bool NMixinComparable<T>::operator<(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::operator >= : Greater-than-or-equals operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 bool NMixinComparable<T>::operator>=(const T& theValue) const
 {
 	return GetOrder(theValue) != NComparison::LessThan;
@@ -112,7 +112,7 @@ bool NMixinComparable<T>::operator>=(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::operator > : Greater-than operator.
 //-----------------------------------------------------------------------------
-template <class T>
+template<class T>
 bool NMixinComparable<T>::operator>(const T& theValue) const
 {
 	return GetOrder(theValue) == NComparison::GreaterThan;
@@ -126,7 +126,7 @@ bool NMixinComparable<T>::operator>(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::IsEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 bool NMixinComparable<T>::IsEqual(const T& theValue) const
 {
 	const T& thisObject = static_cast<const T&>(*this);
@@ -141,7 +141,7 @@ bool NMixinComparable<T>::IsEqual(const T& theValue) const
 //=============================================================================
 //		NMixinComparable::GetOrder : Perform a three-way comparison.
 //-----------------------------------------------------------------------------
-template <typename T>
+template<typename T>
 NComparison NMixinComparable<T>::GetOrder(const T& theValue) const
 {
 	const T& thisObject = static_cast<const T&>(*this);

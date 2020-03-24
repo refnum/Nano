@@ -70,57 +70,57 @@ class NByteSwap
 {
 public:
 	// Swap native to big-endian
-	template <typename T>
+	template<typename T>
 	static constexpr T                  SwapNtoB(T theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapNtoB(T* theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapNtoB(size_t numValues, T* theValues);
 
 
 	// Swap big-endian to native
-	template <typename T>
+	template<typename T>
 	static constexpr T                  SwapBtoN(T theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapBtoN(T* theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapBtoN(size_t numValues, T* theValues);
 
 
 	// Swap native to little-endian
-	template <typename T>
+	template<typename T>
 	static constexpr T                  SwapNtoL(T theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapNtoL(T* theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapNtoL(size_t numValues, T* theValues);
 
 
 	// Swap little-endian to native
-	template <typename T>
+	template<typename T>
 	static constexpr T                  SwapLtoN(T theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapLtoN(T* theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapLtoN(size_t numValues, T* theValues);
 
 
 	// Always swap
-	template <typename T>
+	template<typename T>
 	static constexpr T                  Swap(T theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         Swap(T* theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         Swap(size_t numValues, T* theValues);
 
 	static void                         Swap(size_t numValues, size_t valueSize, void* valuePtr);
@@ -128,13 +128,13 @@ public:
 
 
 private:
-	template <typename T>
+	template<typename T>
 	static constexpr T                  SwapXtoY(NEndian orderX, NEndian orderY, T theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapXtoY(NEndian orderX, NEndian orderY, T* theValue);
 
-	template <typename T>
+	template<typename T>
 	static void                         SwapXtoY(NEndian orderX, NEndian orderY, size_t numValues, T* theValues);
 };
 
