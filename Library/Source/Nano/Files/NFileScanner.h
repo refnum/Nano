@@ -166,6 +166,14 @@ public:
 	NFile                               GetNext();
 
 
+	// Get the files
+	//
+	// May only be called when a scan is underway.
+	//
+	// Returns the files found by the scan.
+	NVectorFile                         GetFiles();
+
+
 	// Get NFileScanner iterators
 	//
 	// May only be called when a scan is underway.

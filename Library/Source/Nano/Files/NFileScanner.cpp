@@ -389,6 +389,64 @@ NStatus NFileScanner::Scan(const NFile& theRoot)
 
 
 //=============================================================================
+//		NFileScanner::GetNext: Get the next file.
+//-----------------------------------------------------------------------------
+NFile NFileScanner::GetNext()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+	// Collect more results
+	if (mScanResults.empty() && !mScanStop)
+	{
+		ContinueScan();
+	}
+
+
+	// Get the next file
+	NFile theFile;
+
+	if (!mScanResults.empty())
+	{
+		theFile = nstd::extract_front(mScanResults);
+	}
+
+	return theFile;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileScanner::GetFiles : Get the files.
+//-----------------------------------------------------------------------------
+NVectorFile NFileScanner::GetFiles()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+	// Get the files
+	NVectorFile theFiles;
+
+	for (const auto& theFile : *this)
+	{
+		theFiles.emplace_back(theFile);
+	}
+
+	return theFiles;
+}
+
+
+
+
+
+//=============================================================================
 //		NFileScanner::begin : Return the initial iterator.
 //-----------------------------------------------------------------------------
 NFileScannerIterator NFileScanner::begin()
