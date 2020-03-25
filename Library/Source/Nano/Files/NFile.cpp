@@ -620,8 +620,34 @@ NStatus NFile::Delete(bool moveToTrash) const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Delete contents
+	NStatus theErr = NStatus::OK;
+
+	if (!moveToTrash && IsDirectory())
+	{
+		theErr = DeleteChildren();
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
 	// Delete the file
-	return NFileUtils::Delete(GetPath(), moveToTrash);
+	if (theErr == NStatus::OK)
+	{
+		theErr = NFileUtils::Delete(GetPath(), moveToTrash);
+	}
+
+
+
+	// Update our state
+	mInfo.Refresh();
+
+	return theErr;
 }
 
 
