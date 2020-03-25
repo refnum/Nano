@@ -478,7 +478,8 @@
 				ABBB2B5B23801DBB00EB2840 /* TLog.cpp */,
 				ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */,
 			);
-			path = Core;
+			name = Core;
+			path = Debugging;
 			sourceTree = "<group>";
 		};
 		AB514D6B1034184B00E5A6AD /* Database */ = {
