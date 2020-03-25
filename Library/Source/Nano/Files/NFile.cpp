@@ -566,7 +566,7 @@ NStatus NFile::CreateFile()
 		{
 			NFileHandle fileHandle;
 
-			theErr = fileHandle.Open(*this, NFileAccess::Write);
+			theErr = fileHandle.Open(*this, NFileAccess::WriteOnly);
 			NN_EXPECT_NOT_ERR(theErr);
 
 			mInfo.Refresh();

@@ -71,22 +71,22 @@ static constexpr NFileHandleRef kNFileHandleNone = nullptr;
 //
 // A file may be opened for access in one mode at a time:
 //
-//		NFileAccess::Read			The file may only be read from.
-//
-//		NFileAccess::Write			The file may only be written to.
-//
 //		NFileAccess::ReadWrite		The file may be read from and written to.
 //
+//		NFileAccess::ReadOnly		The file may only be read from.
 //
-// In NFileAccess::Read mode the file will not be created if it does not exist.
+//		NFileAccess::WriteOnly		The file may only be written to.
 //
-// In NFileAccess::Write or NFileAccess::ReadWrite modes mode the file will be
-// created if it does not exist.
+// Opening a file in NFileAccess::ReadWrite or NFileAccess::WriteOnly mode
+// will create the file if it does not exist.
+//
+// Opening a file in NFileAccess::ReadOnly mode will return NStatus::NotFound
+// if the file does not exist.
 enum class NFileAccess
 {
-	Read,
-	Write,
-	ReadWrite
+	ReadWrite,
+	ReadOnly,
+	WriteOnly,
 };
 
 
@@ -130,8 +130,8 @@ public:
 	//
 	// An open handle must be closed to open it in a different access
 	// mode. An open handle will be closed when it goes out of scope.
-	NStatus                             Open(const NFile& theFile,   NFileAccess theAccess = NFileAccess::Read);
-	NStatus                             Open(const NString& thePath, NFileAccess theAccess = NFileAccess::Read);
+	NStatus                             Open(const NFile& theFile,   NFileAccess theAccess = NFileAccess::ReadOnly);
+	NStatus                             Open(const NString& thePath, NFileAccess theAccess = NFileAccess::ReadOnly);
 
 	void                                Close();
 

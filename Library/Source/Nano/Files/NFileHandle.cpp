@@ -54,7 +54,7 @@
 //-----------------------------------------------------------------------------
 NFileHandle::NFileHandle()
 	: mPath{}
-	, mAccess(NFileAccess::Read)
+	, mAccess(NFileAccess::ReadOnly)
 	, mHandle(kNFileHandleNone)
 {
 }
@@ -187,7 +187,7 @@ void NFileHandle::Close()
 	FileClose();
 
 	mPath.Clear();
-	mAccess = NFileAccess::Read;
+	mAccess = NFileAccess::ReadOnly;
 	mHandle = kNFileHandleNone;
 }
 
@@ -385,7 +385,7 @@ bool NFileHandle::CanRead() const
 
 
 	// Check our state
-	return mAccess == NFileAccess::Read || mAccess == NFileAccess::ReadWrite;
+	return mAccess == NFileAccess::ReadWrite || mAccess == NFileAccess::ReadOnly;
 }
 
 
@@ -400,5 +400,5 @@ bool NFileHandle::CanWrite() const
 
 
 	// Check our state
-	return mAccess == NFileAccess::Write || mAccess == NFileAccess::ReadWrite;
+	return mAccess == NFileAccess::ReadWrite || mAccess == NFileAccess::WriteOnly;
 }

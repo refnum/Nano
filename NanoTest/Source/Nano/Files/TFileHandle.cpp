@@ -156,7 +156,7 @@ NANO_TEST(TFileHandle, "OpenRead")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Read);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::NotFound);
 	REQUIRE(!fileHnd.IsOpen());
 }
@@ -173,7 +173,7 @@ NANO_TEST(TFileHandle, "OpenWrite")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Write);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -200,7 +200,7 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Write);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -216,7 +216,7 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Read);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -247,7 +247,7 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Write);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadWrite);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -263,7 +263,7 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 	NData zeroData(kLargeSize, nullptr, NDataSource::Zero);
 	NData fileData(kLargeSize, nullptr, NDataSource::None);
 
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Read);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
