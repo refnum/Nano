@@ -1579,13 +1579,13 @@ void NString::AppendSmall(const NString& otherString)
 	{
 		theEncoding = NStringEncoding::UTF8;
 		bytesThis   = sizeof(utf8_t) * sizeThis;
-		bytesOther  = sizeof(utf8_t) * (sizeOther + 1);
+		bytesOther  = sizeof(utf8_t) * sizeOther;
 
 		if (sizeTotal <= kNStringSmallSizeMaxUTF8)
 		{
 			memcpy(&mString.Small.theData[bytesThis],
 				   &otherString.mString.Small.theData,
-				   bytesOther);
+				   bytesOther + sizeof(utf8_t));
 
 			mString.theFlags = uint8_t(sizeTotal);
 			return;
@@ -1599,13 +1599,13 @@ void NString::AppendSmall(const NString& otherString)
 	{
 		theEncoding = NStringEncoding::UTF16;
 		bytesThis   = sizeof(utf16_t) * sizeThis;
-		bytesOther  = sizeof(utf16_t) * (sizeOther + 1);
+		bytesOther  = sizeof(utf16_t) * sizeOther;
 
 		if (sizeTotal <= kNStringSmallSizeMaxUTF16)
 		{
 			memcpy(&mString.Small.theData[bytesThis],
 				   &otherString.mString.Small.theData,
-				   bytesOther);
+				   bytesOther + sizeof(utf16_t));
 
 			mString.theFlags = uint8_t(sizeTotal);
 			mString.theFlags |= kNStringFlagIsSmallUTF16;
