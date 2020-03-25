@@ -49,11 +49,14 @@
 // System
 #include <linux/fcntl.h>
 #include <linux/fs.h>
-#include <linux/stat.h>
 #include <semaphore.h>
 #include <sys/stat.h>
 #include <sys/syscall.h>
 #include <unistd.h>
+
+#if !defined(__statx_timestamp_defined)
+	#include <linux/stat.h>
+#endif // __statx_timestamp_defined
 
 
 
