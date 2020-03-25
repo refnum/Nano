@@ -40,7 +40,78 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFile.h"
+#include "NStdAlgorithm.h"
 #include "NTestFixture.h"
+
+
+
+
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+// Paths
+static const NString kExtensionTmpFileA                     = "aaa";
+static const NString kExtensionTmpFileB                     = "bbb";
+
+static const NString kNameTmpFileA                          = "TFile_A." + kExtensionTmpFileA;
+static const NString kNameTmpFileB                          = "TFile_B." + kExtensionTmpFileB;
+
+#if NN_TARGET_ANDROID
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+static const NString kPathTmpDirectory                      = "/tmp/TFile";
+static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
+static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
+
+#elif NN_TARGET_IOS
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+static const NString kPathTmpDirectory                      = "/tmp/TFile";
+static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
+static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
+
+
+#elif NN_TARGET_LINUX
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+static const NString kPathTmpDirectory                      = "/tmp/TFile";
+static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
+static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
+
+
+#elif NN_TARGET_MACOS
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+static const NString kPathTmpDirectory                      = "/tmp/TFile";
+static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
+static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
+
+
+#elif NN_TARGET_TVOS
+static const NString kPathFile                              = "/bin/bash";
+static const NString kPathDirectory                         = "/tmp";
+static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
+static const NString kPathTmpDirectory                      = "/tmp/TFile";
+static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
+static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
+
+
+#elif NN_TARGET_WINDOWS
+static const NString kPathFile                              = "c:\\Windows\\regedit.exe";
+static const NString kPathDirectory                         = "c:\\Windows";
+static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
+static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFile";
+static const NString kPathTmpFileA                          = kPathTmpDirectory + "\\" + kNameTmpFileA;
+static const NString kPathTmpFileB                          = kPathTmpDirectory + "\\" + kNameTmpFileB;
+
+#else
+	#error "Unknown target"
+#endif
 
 
 
@@ -51,7 +122,26 @@
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TFile)
 {
-	NFile theFile;
+	NFile   theFile;
+	NStatus theErr;
+
+	SETUP
+	{
+		if (NFile(kPathTmpDirectory).Exists())
+		{
+			theErr = NFile(kPathTmpDirectory).Delete();
+			REQUIRE(theErr == NStatus::OK);
+		}
+
+		theErr = NFile(kPathTmpDirectory).CreateDirectory();
+		REQUIRE(theErr == NStatus::OK);
+	}
+
+	TEARDOWN
+	{
+		theErr = NFile(kPathTmpDirectory).Delete();
+		REQUIRE(theErr == NStatus::OK);
+	}
 };
 
 
@@ -67,4 +157,541 @@ NANO_TEST(TFile, "Default")
 
 	// Perform the test
 	REQUIRE(!theFile.IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Constructor")
+{
+
+
+	// Perform the test
+	REQUIRE(NFile(kPathFile).IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Clear")
+{
+
+
+	// Perform the test
+	theFile = NFile(kPathFile);
+	REQUIRE(theFile.IsValid());
+	REQUIRE(!theFile.GetPath().IsEmpty());
+
+	theFile.Clear();
+	REQUIRE(!theFile.IsValid());
+	REQUIRE(theFile.GetPath().IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "SetPath")
+{
+
+
+	// Perform the test
+	REQUIRE(theFile.GetPath() != kPathFile);
+	theFile.SetPath(kPathFile);
+	REQUIRE(theFile.GetPath() == kPathFile);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Refresh")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathFile);
+	theFile.Refresh();
+	REQUIRE(theFile.GetPath() == kPathFile);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Status")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathFile);
+	REQUIRE(theFile.Exists());
+	REQUIRE(theFile.IsFile());
+	REQUIRE(!theFile.IsDirectory());
+
+	theFile.SetPath(kPathDirectory);
+	REQUIRE(theFile.Exists());
+	REQUIRE(!theFile.IsFile());
+	REQUIRE(theFile.IsDirectory());
+
+	theFile.SetPath(kPathDoesNotExist);
+	REQUIRE(!theFile.Exists());
+	REQUIRE(!theFile.IsFile());
+	REQUIRE(!theFile.IsDirectory());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Permission")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathFile);
+	REQUIRE(theFile.CanRead());
+	REQUIRE((!theFile.CanWrite() || NN_TARGET_WINDOWS));
+	REQUIRE(theFile.CanExecute());
+
+	theFile.SetPath(kPathDirectory);
+	REQUIRE(theFile.CanRead());
+	REQUIRE(theFile.CanWrite());
+	REQUIRE(theFile.CanExecute());
+
+	theFile.SetPath(kPathDoesNotExist);
+	REQUIRE(!theFile.CanRead());
+	REQUIRE(!theFile.CanWrite());
+	REQUIRE(!theFile.CanExecute());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Time")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathFile);
+	REQUIRE(theFile.GetCreationTime() != 0.0);
+	REQUIRE(theFile.GetModifiedTime() != 0.0);
+	REQUIRE(theFile.GetModifiedTime() >= theFile.GetCreationTime());
+
+	theFile.SetPath(kPathDirectory);
+	REQUIRE(theFile.GetCreationTime() != 0.0);
+	REQUIRE(theFile.GetModifiedTime() != 0.0);
+	REQUIRE(theFile.GetModifiedTime() >= theFile.GetCreationTime());
+
+	theFile.SetPath(kPathDoesNotExist);
+	REQUIRE(theFile.GetCreationTime() == 0.0);
+	REQUIRE(theFile.GetModifiedTime() == 0.0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetName/SetName")
+{
+
+
+	// Perform the test
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	REQUIRE(tmpFileA.GetName() == kNameTmpFileA);
+	REQUIRE(tmpFileB.GetName() == kNameTmpFileB);
+
+	theErr = tmpFileA.SetName(kNameTmpFileB, false);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileA.GetName() == kNameTmpFileB);
+
+
+	theErr = tmpFileB.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!NFile(kPathTmpFileA).Exists());
+	REQUIRE(NFile(kPathTmpFileB).Exists());
+
+	theErr = tmpFileB.SetName(kNameTmpFileA, true);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(NFile(kPathTmpFileA).Exists());
+	REQUIRE(!NFile(kPathTmpFileB).Exists());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetExtension/SetExtension")
+{
+
+
+	// Perform the test
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	REQUIRE(tmpFileA.GetExtension() == kExtensionTmpFileA);
+	REQUIRE(tmpFileB.GetExtension() == kExtensionTmpFileB);
+
+	theErr = tmpFileA.SetExtension(kExtensionTmpFileB, false);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileA.GetExtension() == kExtensionTmpFileB);
+
+
+	theErr = tmpFileB.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!NFile(kPathTmpFileA).Exists());
+	REQUIRE(NFile(kPathTmpFileB).Exists());
+
+	theErr = tmpFileB.SetExtension(kExtensionTmpFileA, true);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!NFile(kPathTmpFileA).Exists());
+	REQUIRE(!NFile(kPathTmpFileB).Exists());
+	REQUIRE(tmpFileB.Exists());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetChild")
+{
+
+
+	// Perform the test
+	NFile tmpDir(kPathTmpDirectory);
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	REQUIRE(tmpDir.GetChild(kNameTmpFileA) == tmpFileA);
+	REQUIRE(tmpDir.GetChild(kNameTmpFileB) == tmpFileB);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetParent")
+{
+
+
+	// Perform the test
+	NFile tmpDir(kPathTmpDirectory);
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	REQUIRE(tmpFileA.GetParent() == tmpDir);
+	REQUIRE(tmpFileB.GetParent() == tmpDir);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetSize")
+{
+
+
+	// Perform the test
+	NFile tmpFile(kPathTmpFileA);
+
+	theErr = tmpFile.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFile.IsFile());
+	REQUIRE(tmpFile.GetSize() == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetChildren")
+{
+
+
+	// Perform the test
+	NFile tmpDir(kPathTmpDirectory);
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	theErr = tmpFileA.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileA.GetParent() == tmpDir);
+
+	theErr = tmpFileB.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileB.GetParent() == tmpDir);
+
+	NVectorFile theChildren = tmpDir.GetChildren();
+	REQUIRE(theChildren.size() == 2);
+	REQUIRE(nstd::contains(theChildren, tmpFileA));
+	REQUIRE(nstd::contains(theChildren, tmpFileB));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "CreateFile")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathTmpFileA);
+	REQUIRE(!theFile.Exists());
+
+	theErr = theFile.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(theFile.Exists());
+	REQUIRE(theFile.IsFile());
+	REQUIRE(!theFile.IsDirectory());
+
+	theErr = theFile.Delete();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!theFile.Exists());
+	REQUIRE(!theFile.IsFile());
+	REQUIRE(!theFile.IsDirectory());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "CreateDirectory")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathTmpFileA);
+	REQUIRE(!theFile.Exists());
+
+	theErr = theFile.CreateDirectory();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(theFile.Exists());
+	REQUIRE(!theFile.IsFile());
+	REQUIRE(theFile.IsDirectory());
+
+	theErr = theFile.Delete();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!theFile.Exists());
+	REQUIRE(!theFile.IsFile());
+	REQUIRE(!theFile.IsDirectory());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Delete")
+{
+
+
+	// Perform the test
+	theFile.SetPath(kPathTmpFileA);
+	REQUIRE(!theFile.Exists());
+
+
+	theErr = theFile.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(theFile.Exists());
+
+	theErr = theFile.Delete(false);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!theFile.Exists());
+
+
+	theErr = theFile.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(theFile.Exists());
+
+	theErr = theFile.Delete(true);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!theFile.Exists());
+
+
+	theErr = theFile.CreateDirectory();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(theFile.Exists());
+
+	theErr = theFile.Delete(false);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!theFile.Exists());
+
+
+	theErr = theFile.CreateDirectory();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(theFile.Exists());
+
+	theErr = theFile.Delete(true);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(!theFile.Exists());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "DeleteChildren")
+{
+
+
+	// Perform the test
+	NFile tmpDir(kPathTmpDirectory);
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	theErr = tmpFileA.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileA.GetParent() == tmpDir);
+
+	theErr = tmpFileB.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileB.GetParent() == tmpDir);
+
+	NVectorFile theChildren = tmpDir.GetChildren();
+	REQUIRE(theChildren.size() == 2);
+	REQUIRE(nstd::contains(theChildren, tmpFileA));
+	REQUIRE(nstd::contains(theChildren, tmpFileB));
+
+	theErr = tmpDir.DeleteChildren();
+	REQUIRE(theErr == NStatus::OK);
+
+	theChildren = tmpDir.GetChildren();
+	REQUIRE(theChildren.empty());
+	REQUIRE(!tmpFileA.Exists());
+	REQUIRE(!tmpFileB.Exists());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "MoveTo")
+{
+
+
+	// Perform the test
+	NFile tmpDir(kPathTmpDirectory);
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpDirB = tmpDir.GetChild("one/two/three");
+
+	theErr = tmpFileA.CreateFile();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileA.IsFile());
+
+	theErr = tmpDirB.CreateDirectory();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpDirB.IsDirectory());
+
+	REQUIRE(tmpDir.GetChildren().size() == 2);
+	REQUIRE(tmpDirB.GetChildren().size() == 0);
+
+	theErr = tmpFileA.MoveTo(tmpDirB);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(tmpFileA.GetParent() == tmpDirB);
+
+	REQUIRE(tmpDir.GetChildren().size() == 1);
+	REQUIRE(tmpDirB.GetChildren().size() == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "CompareEqual")
+{
+
+
+	// Perform the test
+	NFile fileA(kPathFile);
+	NFile fileB(kPathDirectory);
+
+	REQUIRE(fileA == fileA);
+	REQUIRE(fileB == fileB);
+
+	REQUIRE(fileA != fileB);
+	REQUIRE(fileB != fileA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "CompareOrder")
+{
+
+
+	// Perform the test
+	NFile fileA(kPathFile);
+	NFile fileB(kPathDirectory);
+
+	REQUIRE(fileA <= fileB);
+	REQUIRE(fileA < fileB);
+
+	REQUIRE(fileB >= fileA);
+	REQUIRE(fileB > fileA);
 }

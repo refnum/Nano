@@ -120,11 +120,48 @@ NANO_TEST(TFileInfo, "Default")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Constructor")
+{
+
+
+	// Perform the test
+	REQUIRE(NFileInfo(kPathFile).IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Clear")
+{
+
+
+	// Perform the test
+	theInfo = NFileInfo(kPathFile);
+	REQUIRE(theInfo.IsValid());
+	REQUIRE(!theInfo.GetPath().IsEmpty());
+
+	theInfo.Clear();
+	REQUIRE(!theInfo.IsValid());
+	REQUIRE(theInfo.GetPath().IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFileInfo, "SetPath")
 {
 
 
 	// Perform the test
+	REQUIRE(theInfo.GetPath() != kPathFile);
 	theInfo.SetPath(kPathFile);
 	REQUIRE(theInfo.GetPath() == kPathFile);
 }
@@ -209,7 +246,7 @@ NANO_TEST(TFileInfo, "Permission")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileInfo, "Timestamps")
+NANO_TEST(TFileInfo, "Time")
 {
 
 
@@ -236,7 +273,7 @@ NANO_TEST(TFileInfo, "Timestamps")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileInfo, "File size")
+NANO_TEST(TFileInfo, "GetFileSize")
 {
 
 

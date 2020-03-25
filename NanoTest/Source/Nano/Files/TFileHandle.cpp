@@ -39,6 +39,8 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NData.h"
+#include "NFile.h"
 #include "NFileHandle.h"
 #include "NTestFixture.h"
 
@@ -50,31 +52,41 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Misc
-static constexpr uint32_t kBufferSize                       = 9;
-static constexpr uint8_t  kBufferData[kBufferSize]          = {'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a'};
+static constexpr size_t  kLargeSize                         = 9000;
+static constexpr size_t  kBufferSize                        = 9;
+static constexpr uint8_t kBufferData[kBufferSize]           = {'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a'};
 
 
 // Paths
+static const NString kNameTmpFile                           = "TFileHandle.dat";
+
+
 #if NN_TARGET_ANDROID
-static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
+static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 #elif NN_TARGET_IOS
-static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
+static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 
 #elif NN_TARGET_LINUX
-static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
+static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 
 #elif NN_TARGET_MACOS
-static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
+static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 
 #elif NN_TARGET_TVOS
-static const NString kPathTmpFile                           = "/tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
+static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 #elif NN_TARGET_WINDOWS
-static const NString kPathTmpFile                           = "c:\\temp\\tmp/4bf32e59-38be-4151-b31b-e734de7f738a.tmp";
+static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFileHandle";
+static const NString kPathTmpFile                           = kPathTmpDirectory + "\\" + kNameTmpFile;
 
 #else
 	#error "Unknown target"
@@ -89,8 +101,31 @@ static const NString kPathTmpFile                           = "c:\\temp\\tmp/4bf
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TFileHandle)
 {
-	NFileHandle theFile;
+	NFileHandle fileHnd;
 	NStatus     theErr;
+
+	SETUP
+	{
+		if (NFile(kPathTmpDirectory).Exists())
+		{
+			theErr = NFile(kPathTmpDirectory).Delete();
+			REQUIRE(theErr == NStatus::OK);
+		}
+
+		theErr = NFile(kPathTmpDirectory).CreateDirectory();
+		REQUIRE(theErr == NStatus::OK);
+	}
+
+	TEARDOWN
+	{
+		if (fileHnd.IsOpen())
+		{
+			fileHnd.Close();
+		}
+
+		theErr = NFile(kPathTmpDirectory).Delete();
+		REQUIRE(theErr == NStatus::OK);
+	}
 };
 
 
@@ -105,8 +140,8 @@ NANO_TEST(TFileHandle, "Default")
 
 
 	// Validate our state
-	REQUIRE(!theFile.IsOpen());
-	REQUIRE(theFile.GetPath().IsEmpty());
+	REQUIRE(!fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPath().IsEmpty());
 }
 
 
@@ -121,9 +156,9 @@ NANO_TEST(TFileHandle, "OpenRead")
 
 
 	// Perform the test
-	theErr = theFile.Open(kPathTmpFile, NFileAccess::Read);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Read);
 	REQUIRE(theErr == NStatus::NotFound);
-	REQUIRE(!theFile.IsOpen());
+	REQUIRE(!fileHnd.IsOpen());
 }
 
 
@@ -138,15 +173,19 @@ NANO_TEST(TFileHandle, "OpenWrite")
 
 
 	// Perform the test
-	theErr = theFile.Open(kPathTmpFile, NFileAccess::Write);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Write);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(theFile.IsOpen());
-	REQUIRE(theFile.GetPosition() == 0);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint64_t numWritten = 123456;
-	theErr              = theFile.Write(kBufferSize, kBufferData, numWritten);
-	REQUIRE(theErr == NStatus::OK);
+	uint64_t numWritten = kLargeSize;
+	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+
 	REQUIRE(numWritten == kBufferSize);
+	REQUIRE(theErr == NStatus::OK);
+
+	theErr = fileHnd.Flush();
+	REQUIRE(theErr == NStatus::OK);
 }
 
 
@@ -161,38 +200,78 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 	// Perform the test
-	theErr = theFile.Open(kPathTmpFile, NFileAccess::Write);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Write);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(theFile.IsOpen());
-	REQUIRE(theFile.GetPosition() == 0);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint64_t numWritten = 123456;
-	theErr              = theFile.Write(kBufferSize, kBufferData, numWritten);
+	uint64_t numWritten = kLargeSize;
+	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numWritten == kBufferSize);
-	REQUIRE(theFile.GetPosition() == numWritten);
+	REQUIRE(fileHnd.GetPosition() == numWritten);
 
-	theFile.Close();
-	REQUIRE(!theFile.IsOpen());
-	REQUIRE(theFile.GetPosition() == 0);
-
+	fileHnd.Close();
+	REQUIRE(!fileHnd.IsOpen());
 
 
-	theErr = theFile.Open(kPathTmpFile, NFileAccess::Read);
+
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Read);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(theFile.IsOpen());
-	REQUIRE(theFile.GetPosition() == 0);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
 
 	uint8_t  tmpBuffer[kBufferSize];
-	uint64_t numRead = 123456;
-	theErr           = theFile.Read(kBufferSize, tmpBuffer, numRead);
+	uint64_t numRead = kLargeSize;
+	theErr           = fileHnd.Read(kBufferSize, tmpBuffer, numRead);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numRead == kBufferSize);
 
 	REQUIRE(memcmp(tmpBuffer, kBufferData, kBufferSize) == 0);
 
-	numRead = 123456;
-	theErr  = theFile.Read(kBufferSize, tmpBuffer, numRead);
+	numRead = kLargeSize;
+	theErr  = fileHnd.Read(kBufferSize, tmpBuffer, numRead);
 	REQUIRE(theErr == NStatus::ExhaustedSrc);
 	REQUIRE(numRead == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "GetSize/SetSize")
+{
+
+
+	// Perform the test
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Write);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
+	REQUIRE(fileHnd.GetSize() == 0);
+
+	theErr = fileHnd.SetSize(kLargeSize);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(fileHnd.GetSize() == kLargeSize);
+
+	fileHnd.Close();
+
+
+	NData zeroData(kLargeSize, nullptr, NDataSource::Zero);
+	NData fileData(kLargeSize, nullptr, NDataSource::None);
+
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::Read);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
+	REQUIRE(fileHnd.GetSize() == kLargeSize);
+
+	uint64_t numRead = kLargeSize;
+	theErr           = fileHnd.Read(fileData.GetSize(), fileData.GetMutableData(), numRead);
+	REQUIRE(theErr == NStatus::OK);
+
+	REQUIRE(fileData == zeroData);
 }

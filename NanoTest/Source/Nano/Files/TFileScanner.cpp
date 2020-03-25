@@ -39,31 +39,58 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFile.h"
 #include "NFileScanner.h"
 #include "NTestFixture.h"
 
 
 
-#if 0
+
+
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Paths
-	#if NN_TARGET_MAC
-static const NString kTestParent                            = "/tmp/TFileIterator";
+#if NN_TARGET_ANDROID
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
 
-	#elif NN_TARGET_WINDOWS
-static const NString kTestParent                            = "c:\\windows\\temp\\TFileIterator";
+#elif NN_TARGET_IOS
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
 
-	#elif NN_TARGET_LINUX
-static const NString kTestParent                            = "/tmp/TFileIterator";
 
-	#else
-UNKNOWN TARGET
-	#endif
+#elif NN_TARGET_LINUX
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
 
-static const NString kTestChild                             = kTestParent + NN_DIR + "Child1" + NN_DIR + "Child2" + NN_DIR + "Child3";
 
+#elif NN_TARGET_MACOS
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+
+#elif NN_TARGET_TVOS
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+#elif NN_TARGET_WINDOWS
+static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "\\one\\two\\three\\four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "\\one\\two\\33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "\\one\\222.dat";
+
+#else
+	#error "Unknown target"
 #endif
 
 
@@ -76,6 +103,32 @@ static const NString kTestChild                             = kTestParent + NN_D
 NANO_FIXTURE(TFileScanner)
 {
 	NFileScanner fileScanner;
+	NVectorFile  theFiles;
+	NStatus      theErr;
+
+	SETUP
+	{
+		if (NFile(kPathTmpDirectory).Exists())
+		{
+			theErr = NFile(kPathTmpDirectory).Delete();
+			REQUIRE(theErr == NStatus::OK);
+		}
+
+		theErr = NFile(kPathTmpChildA).CreateDirectory();
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = NFile(kPathTmpChildB).CreateFile();
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = NFile(kPathTmpChildC).CreateFile();
+		REQUIRE(theErr == NStatus::OK);
+	}
+
+	TEARDOWN
+	{
+		theErr = NFile(kPathTmpDirectory).Delete();
+		REQUIRE(theErr == NStatus::OK);
+	}
 };
 
 
@@ -85,6 +138,204 @@ NANO_FIXTURE(TFileScanner)
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileScanner, "Defailt")
+NANO_TEST(TFileScanner, "Default")
 {
+
+
+	// Perform the test
+	REQUIRE(fileScanner.GetRecurseDepth() == kNSizeMax);
+	REQUIRE(fileScanner.GetFilterPath().IsEmpty());
+	REQUIRE(fileScanner.GetFilterName().IsEmpty());
+	REQUIRE(fileScanner.GetFilterItem() == nullptr);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "SetRecurseDepth")
+{
+
+
+	// Perform the test
+	fileScanner.SetRecurseDepth(2);
+
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 6);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "SetFilterPath")
+{
+
+
+	// Perform the test
+	fileScanner.SetFilterPath(".*two.*");
+
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 4);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "SetFilterName")
+{
+
+
+	// Perform the test
+	fileScanner.SetFilterPath(".*\\.dat");
+
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 2);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "SetFilterItem/None")
+{
+
+
+	// Perform the test
+	fileScanner.SetFilterItem([](const NFile& /*theFile*/, bool& stopScan) {
+		stopScan = true;
+		return true;
+	});
+
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "SetFilterItem/All")
+{
+
+
+	// Perform the test
+	fileScanner.SetFilterItem([](const NFile& /*theFile*/, bool& /*stopScan*/) {
+		return true;
+	});
+
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 6);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "SetFilterItem/Some")
+{
+
+
+	// Perform the test
+	fileScanner.SetFilterItem([](const NFile& theFile, bool& /*stopScan*/) {
+		return theFile.IsFile();
+	});
+
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 2);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "GetFiles")
+{
+
+
+	// Perform the test
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	theFiles = fileScanner.GetFiles();
+	REQUIRE(theFiles.size() == 6);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "RangeBasedFor")
+{
+
+
+	// Perform the test
+	theErr = fileScanner.Scan(kPathTmpDirectory);
+	REQUIRE(theErr == NStatus::OK);
+
+	size_t numItems = 0;
+	size_t numFiles = 0;
+	size_t numDirs  = 0;
+
+	for (const auto& theFile : fileScanner)
+	{
+		numItems++;
+
+		if (theFile.IsDirectory())
+		{
+			numDirs++;
+		}
+
+		else if (theFile.IsFile())
+		{
+			numFiles++;
+		}
+	}
+
+	REQUIRE(numItems == 6);
+	REQUIRE(numDirs == 4);
+	REQUIRE(numFiles == 2);
 }

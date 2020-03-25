@@ -47,9 +47,87 @@
 
 
 //=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+#if NN_TARGET_ANDROID
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+#elif NN_TARGET_IOS
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+
+#elif NN_TARGET_LINUX
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+
+#elif NN_TARGET_MACOS
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+
+#elif NN_TARGET_TVOS
+static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+
+
+#elif NN_TARGET_WINDOWS
+static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFileScanner";
+static const NString kPathTmpChildA                         = kPathTmpDirectory + "\\one\\two\\three\\four";
+static const NString kPathTmpChildB                         = kPathTmpDirectory + "\\one\\two\\33333.dat";
+static const NString kPathTmpChildC                         = kPathTmpDirectory + "\\one\\222.dat";
+
+#else
+	#error "Unknown target"
+#endif
+
+
+
+
+
+//=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TFileUtils){};
+NANO_FIXTURE(TFileUtils)
+{
+	NStatus theErr;
+
+	SETUP
+	{
+		if (NFile(kPathTmpDirectory).Exists())
+		{
+			theErr = NFile(kPathTmpDirectory).Delete();
+			REQUIRE(theErr == NStatus::OK);
+		}
+
+		theErr = NFileUtils::CreateDirectories(kPathTmpChildA);
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = NFile(kPathTmpChildB).CreateFile();
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = NFile(kPathTmpChildC).CreateFile();
+		REQUIRE(theErr == NStatus::OK);
+	}
+
+	TEARDOWN
+	{
+		theErr = NFile(kPathTmpDirectory).Delete();
+		REQUIRE(theErr == NStatus::OK);
+	}
+};
 
 
 
@@ -58,6 +136,86 @@ NANO_FIXTURE(TFileUtils){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileUtils, "Default")
+NANO_TEST(TFileUtils, "GetChildren")
 {
+
+
+	// Perform the test
+	NVectorFile theFiles = NFileUtils::GetChildren(kPathTmpDirectory);
+	REQUIRE(theFiles.size() == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "CreateDirectories")
+{
+
+
+	// Perform the test
+	theErr =
+		NFileUtils::CreateDirectories(kPathTmpChildA + kNPathSeparator + "aa" + kNPathSeparator +
+									  "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
+	REQUIRE(theErr == NStatus::OK);
+
+	NVectorFile theFiles = NFileUtils::GetChildren(kPathTmpChildA);
+	REQUIRE(theFiles.size() == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "Rename")
+{
+
+
+	// Perform the test
+	theErr = NFileUtils::Delete(kPathTmpChildB);
+	REQUIRE(theErr == NStatus::OK);
+
+	theErr = NFileUtils::Rename(kPathTmpChildC, kPathTmpChildB);
+	REQUIRE(theErr == NStatus::OK);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "Exchange")
+{
+
+
+	// Perform the test
+	theErr = NFileUtils::Exchange(kPathTmpChildB, kPathTmpChildC);
+	REQUIRE(theErr == NStatus::OK);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "Delete")
+{
+
+
+	// Perform the test
+	theErr = NFileUtils::Delete(kPathTmpChildB, false);
+	REQUIRE(theErr == NStatus::OK);
+
+	theErr = NFileUtils::Delete(kPathTmpChildC, true);
+	REQUIRE(theErr == NStatus::OK);
 }
