@@ -710,9 +710,10 @@ bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the start.
-	theFlags |= kNStringPattern;
+	NString      searchText  = GetEscapedPattern(theString, theFlags);
+	NStringFlags searchFlags = theFlags | kNStringPattern;
 
-	return !Find("\\A" + theString, theFlags).IsEmpty();
+	return !Find("\\A" + searchText, searchFlags).IsEmpty();
 }
 
 
@@ -729,9 +730,10 @@ bool NString::EndsWith(const NString& theString, NStringFlags theFlags) const
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the end.
-	theFlags |= kNStringPattern;
+	NString      searchText  = GetEscapedPattern(theString, theFlags);
+	NStringFlags searchFlags = theFlags | kNStringPattern;
 
-	return !Find(theString + "\\Z", theFlags).IsEmpty();
+	return !Find(searchText + "\\Z", searchFlags).IsEmpty();
 }
 
 
@@ -1279,6 +1281,31 @@ NRange NString::GetSliceBytes(const NStringData& stringData) const
 	}
 
 	return sliceBytes;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetEscapedPattern : Get a potentially escaped pattern.
+//-----------------------------------------------------------------------------
+NString NString::GetEscapedPattern(const NString& theString, NStringFlags theFlags) const
+{
+
+
+	// Get the string
+	//
+	// If the string is not being used for a pattern search then we
+	// escape its contents to allow it to be used for a pattern search.
+	if (theFlags & kNStringPattern)
+	{
+		return theString;
+	}
+	else
+	{
+		return "\\Q" + theString + "\\E";
+	}
 }
 
 

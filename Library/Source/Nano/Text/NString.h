@@ -403,6 +403,8 @@ private:
 	bool                                IsSlice()     const;
 	NRange                              GetSliceBytes(const NStringData& stringData) const;
 
+	NString                             GetEscapedPattern(const NString& theString, NStringFlags theFlags) const;
+
 	const NStringData*                  FetchEncoding( NStringEncoding theEncoding);
 	const NStringData*                  GetEncoding(   NStringEncoding theEncoding) const;
 	void                                CreateEncoding(NStringEncoding theEncoding);

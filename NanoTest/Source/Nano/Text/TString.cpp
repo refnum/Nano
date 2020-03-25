@@ -837,6 +837,12 @@ NANO_TEST(TString, "StartsWith")
 		REQUIRE(theString.StartsWith("Hel+o", kNStringPattern));
 		REQUIRE(theString.StartsWith("HEL+O", kNStringPatternNoCase));
 	}
+
+	REQUIRE(NString(".aaa").StartsWith("."));
+	REQUIRE(!NString("aaa").StartsWith("."));
+
+	REQUIRE(NString(".aaa").StartsWith(".", kNStringPattern));
+	REQUIRE(NString("aaaa").StartsWith(".", kNStringPattern));
 }
 
 
@@ -859,6 +865,12 @@ NANO_TEST(TString, "EndsWith")
 		REQUIRE(theString.EndsWith("Wo\\w\\wd", kNStringPattern));
 		REQUIRE(theString.EndsWith("WO\\w\\wD", kNStringPatternNoCase));
 	}
+
+	REQUIRE(NString("aaa.").EndsWith("."));
+	REQUIRE(!NString("aaa").EndsWith("."));
+
+	REQUIRE(NString("aaa.").EndsWith(".", kNStringPattern));
+	REQUIRE(NString("aaaa").EndsWith(".", kNStringPattern));
 }
 
 
