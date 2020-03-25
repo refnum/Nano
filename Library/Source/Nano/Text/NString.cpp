@@ -711,7 +711,7 @@ bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
 	//
 	// By using a pattern search we can anchor the search term at the start.
 	NString      searchText  = GetEscapedPattern(theString, theFlags);
-	NStringFlags searchFlags = theFlags | kNStringPattern;
+	NStringFlags searchFlags = NStringFlags(theFlags | kNStringPattern);
 
 	return !Find("\\A" + searchText, searchFlags).IsEmpty();
 }
@@ -731,7 +731,7 @@ bool NString::EndsWith(const NString& theString, NStringFlags theFlags) const
 	//
 	// By using a pattern search we can anchor the search term at the end.
 	NString      searchText  = GetEscapedPattern(theString, theFlags);
-	NStringFlags searchFlags = theFlags | kNStringPattern;
+	NStringFlags searchFlags = NStringFlags(theFlags | kNStringPattern);
 
 	return !Find(searchText + "\\Z", searchFlags).IsEmpty();
 }
