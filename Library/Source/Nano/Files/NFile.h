@@ -184,7 +184,7 @@ private:
 
 
 private:
-	NFileInfo                           mInfo;
+	mutable NFileInfo                   mInfo;
 };
 
 

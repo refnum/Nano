@@ -573,6 +573,8 @@ NStatus NFile::CreateFile()
 
 			theErr = fileHandle.Open(*this, NFileAccess::Write);
 			NN_EXPECT_NOT_ERR(theErr);
+
+			mInfo.Refresh();
 		}
 	}
 
@@ -598,6 +600,11 @@ NStatus NFile::CreateDirectory()
 	// Create the directory
 	NStatus theErr = NFileUtils::CreateDirectories(GetPath());
 	NN_EXPECT_NOT_ERR(theErr);
+
+
+
+	// Update our state
+	mInfo.Refresh();
 
 	return theErr;
 }
