@@ -55,12 +55,12 @@
 //-----------------------------------------------------------------------------
 // Directory separator
 #if NN_TARGET_WINDOWS
-static constexpr const char* kNPatternParent                = "(.*\\).*?$";
+static constexpr const char* kNPatternParent                = "(.*)\\.*?$";
 static constexpr const char* kNPatternFileName              = ".*\\(.*?$)";
 static constexpr const char* kNPatternFileExtension         = "\\.(.*?$)";
 
 #else
-static constexpr const char* kNPatternParent                = "(.*\\/).*?$";
+static constexpr const char* kNPatternParent                = "(.*)\\/.*?$";
 static constexpr const char* kNPatternFileName              = ".*\\/(.*?$)";
 static constexpr const char* kNPatternFileExtension         = "\\.(.*?)$";
 #endif
@@ -381,7 +381,7 @@ NStatus NFile::SetName(const NString& theName, bool renameFile)
 
 	// Get the state we need
 	NString pathParent = GetPathComponent(kNPatternParent);
-	NString newPath    = pathParent + theName;
+	NString newPath    = pathParent + kNPathSeparator + theName;
 
 
 
