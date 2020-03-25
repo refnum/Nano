@@ -1149,9 +1149,18 @@ NStatus NSharedPOSIX::Delete(const NString& thePath)
 {
 
 
-	// Delete the file
-	int sysErr = unlinkat(0, thePath.GetUTF8(), AT_REMOVEDIR);
+	// Get the state we need
+	struct stat theInfo;
+
+	int sysErr = stat(thePath.GetUTF8(), &theInfo);
 	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr == 0)
+	{
+		int dirFlag = S_ISDIR(theInfo.st_mode) ? AT_REMOVEDIR : 0;
+		sysErr      = unlinkat(0, thePath.GetUTF8(), dirFlag);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
 
 	return GetErrno(sysErr);
 }
