@@ -68,6 +68,12 @@ struct NFileScannerRoot
 
 
 // Filters
+//
+// The item filter should return true/false as the current item
+// should be included in the results.
+//
+// The stopScan flag should be set to true if the scan should
+// stop after the current item.
 typedef std::function<bool(const NFile& theFile, bool& stopScan)> NFileScannerFilter;
 
 
