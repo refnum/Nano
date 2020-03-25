@@ -143,8 +143,6 @@ NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess)
 
 	// Open the file
 	NStatus theErr = FileOpen(thePath, theAccess);
-	NN_EXPECT_NOT_ERR(theErr);
-
 	if (theErr == NStatus::OK)
 	{
 		// Update our state
@@ -259,6 +257,7 @@ NStatus NFileHandle::SetSize(uint64_t theSize)
 
 	// Validate our state
 	NN_REQUIRE(IsOpen());
+	NN_REQUIRE(CanWrite());
 
 
 	// Set the size
@@ -367,6 +366,7 @@ NStatus NFileHandle::Flush()
 
 	// Validate our state
 	NN_REQUIRE(IsOpen());
+	NN_REQUIRE(CanWrite());
 
 
 	// Flush the file

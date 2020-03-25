@@ -139,13 +139,16 @@ public:
 	// Get/set the position
 	//
 	// The default position is 0.
+	//
+	// The file must be open to access its position.
 	uint64_t                            GetPosition() const;
 	NStatus                             SetPosition(int64_t theOffset, NFileOffset relativeTo = NFileOffset::FromStart);
 
 
 	// Get/set the size
 	//
-	// A file must be opened for writing to adjust its size.
+	// The file may be closed to query the size, but must be
+	// opened for writing to adjust its size.
 	//
 	// Extending the file size will zero-fill the new content.
 	uint64_t                            GetSize() const;
@@ -153,6 +156,8 @@ public:
 
 
 	// Read from the file
+	//
+	// The file must be opened for reading.
 	NStatus                             Read(uint64_t    theSize,
 											 void*       thePtr,
 											 uint64_t&   numRead,
@@ -161,6 +166,8 @@ public:
 
 
 	// Write to the file
+	//
+	// The file must be opened for writing.
 	NStatus                             Write(uint64_t    theSize,
 											  const void* thePtr,
 											  uint64_t&   numWritten,
@@ -170,7 +177,9 @@ public:
 
 	// Flush the file
 	//
-	// Request that written data be flushed to disk.
+	// Flush unwritten data to disk.
+	//
+	// The file must be opened for writing.
 	NStatus                             Flush();
 
 

@@ -134,11 +134,6 @@ NString NFile::GetPath() const
 {
 
 
-	// Validate our state
-	NN_REQUIRE(IsValid());
-
-
-
 	// Get our state
 	return mInfo.GetPath();
 }
@@ -661,6 +656,11 @@ NStatus NFile::DeleteChildren() const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsDirectory());
+
+
+
 	// Delete the children
 	NStatus theErr = NStatus::OK;
 
@@ -702,7 +702,7 @@ NStatus NFile::MoveTo(const NFile& newParent)
 
 
 
-	// Mov the file
+	// Move the file
 	NFile newFile = newParent.GetChild(GetName());
 
 	return UpdatePath(newFile.GetPath(), true);

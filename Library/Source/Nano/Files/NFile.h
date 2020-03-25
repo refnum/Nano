@@ -95,65 +95,83 @@ public:
 
 
 	// Refresh the state
+	//
+	// The file must be valid to refresh its state.
 	void                                Refresh();
 
 
 	// Get the status
+	//
+	// The file must be valid to get its status.
 	bool                                Exists()      const;
 	bool                                IsFile()      const;
 	bool                                IsDirectory() const;
 
 
 	// Get the permissions
+	//
+	// The file must be valid to get its permissions.
 	bool                                CanRead()    const;
 	bool                                CanWrite()   const;
 	bool                                CanExecute() const;
 
 
 	// Get the timestamps
+	//
+	// The file must be valid to get its timestamps.
 	NTime                               GetCreationTime() const;
 	NTime                               GetModifiedTime() const;
 
 
 	// Get/set the name
 	//
-	// Returns NStatus::Duplicate if a file already exists with the new name.
+	// Changing the name will return NStatus::Duplicate
+	// if a file already exists with the new name.
+	//
+	// The file must be valid to get/set its name.
 	NString                             GetName() const;
 	NStatus                             SetName(  const NString& theName, bool renameFile = false);
 
 
 	// Get/set the extension
 	//
-	// Returns NStatus::Duplicate if a file already exists with the new name.
+	// Changing the extension will return NStatus::Duplicate
+	// if a file already exists with the new extension.
+	//
+	// The file must be valid to get/set its extension.
 	NString                             GetExtension() const;
 	NStatus                             SetExtension(  const NString& theExtension, bool renameFile = false);
 
 
 	// Get the child/parent
 	//
-	// Only directories have children, however all files/directories except
-	// the root directory have a parent.
+	// Only directories have children, however all files/directories
+	// except the root directory have a parent.
 	//
 	// The child name may include path components.
+	//
+	// The file must be valid to get its relatives.
 	NFile                               GetChild(   const NString& theName) const;
 	NFile                               GetParent() const;
 
 
 	// Get the size of a file
 	//
-	// Only valid for files.
+	// Only a valid file has a size.
 	uint64_t                            GetSize() const;
 
 
 	// Get the children of a directory
 	//
-	// Only valid for directories.
+	// Only a valid directory has children.
 	NVectorFile                         GetChildren() const;
 
 
 	// Create an empty file / directory
 	//
 	// Parent directories will be created as necessary.
+	//
+	// The file must be valid to create it on disk.
 	NStatus                             CreateFile();
 	NStatus                             CreateDirectory();
 
@@ -161,14 +179,20 @@ public:
 	// Delete the file
 	//
 	// Deleting a file, rather than moving it to the trash, is permanent.
+	//
+	// The file must be valid to delete it from disk.
 	NStatus                             Delete(bool moveToTrash = false) const;
 
 
 	// Delete the items within a directory
+	//
+	// The file must be a valid directory to delete its children.
 	NStatus                             DeleteChildren() const;
 
 
 	// Move a file to a new location
+	//
+	// The file must exist, and be moving to a valid directory.
 	NStatus                             MoveTo(const NFile& newParent);
 
 
