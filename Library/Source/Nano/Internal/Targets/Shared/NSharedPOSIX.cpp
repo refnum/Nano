@@ -1103,8 +1103,6 @@ NVectorFile NSharedPOSIX::GetChildren(const NString& thePath)
 	{
 		// Read the entry
 		dirEntry = readdir(theDir);
-		NN_EXPECT_NOT_NULL(dirEntry);
-
 		if (dirEntry != nullptr)
 		{
 			if (strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
