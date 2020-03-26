@@ -203,8 +203,7 @@ public:
 
 
 private:
-	NString                             GetPathComponent(const NString& thePattern) const;
-	NStatus                             UpdatePath(      const NString& newPath, bool renameFile);
+	NStatus                             UpdatePath(const NString& newPath, bool renameFile);
 
 
 private:

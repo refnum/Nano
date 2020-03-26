@@ -60,6 +60,24 @@ static constexpr const char* kNPathSeparator                = "/";
 #endif
 
 
+// Paths
+//
+// A path can be broken into distinct parts:
+//
+//		NPath::Parent				The parent directory of the item
+//
+//		NPath::Name					The name of the item
+//
+//		NPath::Extension			The extension of the item
+//
+enum NPathPart
+{
+	Parent,
+	Name,
+	Extension,
+};
+
+
 
 
 
@@ -69,6 +87,10 @@ static constexpr const char* kNPathSeparator                = "/";
 class NFileUtils
 {
 public:
+	// Get part of a path
+	static NString                      GetPathPart(const NString& thePath, NPathPart thePart);
+
+
 	// Get the children of a directory
 	static NVectorFile                  GetChildren(const NString& thePath);
 

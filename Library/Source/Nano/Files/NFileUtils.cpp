@@ -50,6 +50,87 @@
 
 
 //=============================================================================
+//		Internalonstants
+//-----------------------------------------------------------------------------
+// Directory separator
+#if NN_TARGET_WINDOWS
+static constexpr const char* kNPatternParent                = "(.*)\\.*?$";
+static constexpr const char* kNPatternName                  = ".*\\(.*?$)";
+static constexpr const char* kNPatternExtension             = "\\.(.*?$)";
+
+#else
+static constexpr const char* kNPatternParent                = "(.*)\\/.*?$";
+static constexpr const char* kNPatternName                  = ".*\\/(.*?$)";
+static constexpr const char* kNPatternExtension             = "\\.(.*?)$";
+#endif
+
+
+
+
+
+//=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetPartPattern : Get the pattern for a part.
+//-----------------------------------------------------------------------------
+static NString GetPartPattern(NPathPart thePart)
+{
+
+
+	// Get the pattern
+	NString thePattern;
+
+	switch (thePart)
+	{
+		case NPathPart::Parent:
+			thePattern = kNPatternParent;
+			break;
+
+		case NPathPart::Name:
+			thePattern = kNPatternName;
+			break;
+
+		case NPathPart::Extension:
+			thePattern = kNPatternExtension;
+			break;
+	}
+
+	NN_REQUIRE(!thePattern.IsEmpty());
+
+	return thePattern;
+}
+
+
+
+
+
+#pragma mark NFileUtils
+//=============================================================================
+//		NFileUtils::GetPathPart : Get part of a path.
+//-----------------------------------------------------------------------------
+NString NFileUtils::GetPathPart(const NString& thePath, NPathPart thePart)
+{
+
+
+	// Get the component
+	NString       thePattern = GetPartPattern(thePart);
+	NPatternGroup theMatch   = thePath.FindGroup(thePattern, kNStringPattern);
+	NString       theResult;
+
+	if (!theMatch.theGroups.empty())
+	{
+		NN_REQUIRE(theMatch.theGroups.size() == 1);
+		theResult = thePath.GetSubstring(theMatch.theGroups[0]);
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
 //		NFileUtils::CreateDirectories : Create directories.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::CreateDirectories(const NString& thePath)

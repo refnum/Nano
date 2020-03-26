@@ -51,25 +51,6 @@
 
 
 //=============================================================================
-//		Internalonstants
-//-----------------------------------------------------------------------------
-// Directory separator
-#if NN_TARGET_WINDOWS
-static constexpr const char* kNPatternParent                = "(.*)\\.*?$";
-static constexpr const char* kNPatternFileName              = ".*\\(.*?$)";
-static constexpr const char* kNPatternFileExtension         = "\\.(.*?$)";
-
-#else
-static constexpr const char* kNPatternParent                = "(.*)\\/.*?$";
-static constexpr const char* kNPatternFileName              = ".*\\/(.*?$)";
-static constexpr const char* kNPatternFileExtension         = "\\.(.*?)$";
-#endif
-
-
-
-
-
-//=============================================================================
 //		NFile::NFile : Constructor.
 //-----------------------------------------------------------------------------
 NFile::NFile()
@@ -353,7 +334,7 @@ NString NFile::GetName() const
 
 
 	// Get the file name
-	return GetPathComponent(kNPatternFileName);
+	return NFileUtils::GetPathPart(GetPath(), NPathPart::Name);
 }
 
 
@@ -375,7 +356,7 @@ NStatus NFile::SetName(const NString& theName, bool renameFile)
 
 
 	// Get the state we need
-	NString pathParent = GetPathComponent(kNPatternParent);
+	NString pathParent = NFileUtils::GetPathPart(GetPath(), NPathPart::Parent);
 	NString newPath    = pathParent + kNPathSeparator + theName;
 
 
@@ -401,7 +382,7 @@ NString NFile::GetExtension() const
 
 
 	// Get the file extension
-	return GetPathComponent(kNPatternFileExtension);
+	return NFileUtils::GetPathPart(GetPath(), NPathPart::Extension);
 }
 
 
@@ -424,7 +405,7 @@ NStatus NFile::SetExtension(const NString& theExtension, bool renameFile)
 
 
 	// Get the state we need
-	NString oldExtension = GetPathComponent(kNPatternFileExtension);
+	NString oldExtension = GetExtension();
 	NString newPath      = GetPath();
 
 	if (!oldExtension.IsEmpty())
@@ -487,9 +468,7 @@ NFile NFile::GetParent() const
 
 
 	// Get the child
-	NString pathParent = GetPathComponent(kNPatternParent);
-
-	return NFile(pathParent);
+	return NFile(NFileUtils::GetPathPart(GetPath(), NPathPart::Parent));
 }
 
 
@@ -746,31 +725,6 @@ NComparison NFile::CompareOrder(const NFile& theFile) const
 
 
 #pragma mark private
-//=============================================================================
-//		NFile::GetPathComponent : Get a component of the path.
-//-----------------------------------------------------------------------------
-NString NFile::GetPathComponent(const NString& thePattern) const
-{
-
-
-	// Get our state
-	NString       thePath  = mInfo.GetPath();
-	NPatternGroup theMatch = thePath.FindGroup(thePattern, kNStringPattern);
-	NString       theComponent;
-
-	if (!theMatch.theGroups.empty())
-	{
-		NN_REQUIRE(theMatch.theGroups.size() == 1);
-		theComponent = thePath.GetSubstring(theMatch.theGroups[0]);
-	}
-
-	return theComponent;
-}
-
-
-
-
-
 //=============================================================================
 //		NFile::UpdatePath : Update the path.
 //-----------------------------------------------------------------------------
