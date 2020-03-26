@@ -112,7 +112,7 @@ NANO_FIXTURE(TFileUtils)
 			REQUIRE(theErr == NStatus::OK);
 		}
 
-		theErr = NFileUtils::CreateDirectories(kPathTmpChildA);
+		theErr = NFileUtils::CreateDirectory(kPathTmpChildA);
 		REQUIRE(theErr == NStatus::OK);
 
 		theErr = NFile(kPathTmpChildB).CreateFile();
@@ -178,9 +178,8 @@ NANO_TEST(TFileUtils, "CreateDirectories")
 
 
 	// Perform the test
-	theErr =
-		NFileUtils::CreateDirectories(kPathTmpChildA + kNPathSeparator + "aa" + kNPathSeparator +
-									  "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
+	theErr = NFileUtils::CreateDirectory(kPathTmpChildA + kNPathSeparator + "aa" + kNPathSeparator +
+										 "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
 	REQUIRE(theErr == NStatus::OK);
 
 	NVectorFile theFiles = NFileUtils::GetChildren(kPathTmpChildA);

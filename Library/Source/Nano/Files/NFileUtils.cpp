@@ -42,6 +42,7 @@
 #include "NFileUtils.h"
 
 // Nano
+#include "NFileHandle.h"
 #include "NFileInfo.h"
 #include "NString.h"
 
@@ -131,52 +132,118 @@ NString NFileUtils::GetPathPart(const NString& thePath, NPathPart thePart)
 
 
 //=============================================================================
-//		NFileUtils::CreateDirectories : Create directories.
+//		NFileUtils::CreateFile : Create a file.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::CreateDirectories(const NString& thePath)
+NStatus NFileUtils::CreateFile(const NString& thePath, bool deleteExisting)
 {
 
 
-	// Get the state we need
-	NStatus theErr = NStatus::NotFound;
-	NString parentPath;
+	// Prepare to create
+	NStatus theErr = NStatus::OK;
+
+	if (deleteExisting)
+	{
+		theErr = Delete(thePath);
+		if (theErr == NStatus::NotFound)
+		{
+			theErr = NStatus::OK;
+		}
+	}
+
+
+
+	// Create the file
+	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
+	{
+		// Create the parent
+		NString theParent = GetPathPart(thePath, NPathPart::Parent);
+		if (!theParent.IsEmpty())
+		{
+			theErr = CreateDirectory(theParent, false);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+
+
+
+		// Create the file
+		if (theErr == NStatus::OK)
+		{
+			NFileHandle fileHandle;
+
+			theErr = fileHandle.Open(thePath, NFileAccess::WriteOnly);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::CreateDirectory : Create a directory.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
+{
+
+
+	// Prepare to create
+	NStatus theErr = NStatus::OK;
+
+	if (deleteExisting)
+	{
+		theErr = Delete(thePath);
+		if (theErr == NStatus::NotFound)
+		{
+			theErr = NStatus::OK;
+		}
+	}
 
 
 
 	// Create the directories
-	for (const auto& theParent : thePath.Split(kNPathSeparator, kNStringNone))
+	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
 	{
-		if (!theParent.IsEmpty())
+		theErr = NStatus::NotFound;
+		NString parentPath;
+
+		for (const auto& theParent : thePath.Split(kNPathSeparator, kNStringNone))
 		{
-			// Get the state we need
-			parentPath += kNPathSeparator + theParent;
-			NFileInfo theInfo(parentPath);
-
-
-
-			// Create the parent
-			//
-			// We create missing directories, skip existing directories,
-			// and fail if we encounter something that is not a directory.
-			if (!theInfo.Exists())
+			if (!theParent.IsEmpty())
 			{
-				theErr = CreateDirectory(parentPath);
-			}
-			else if (!theInfo.IsDirectory())
-			{
-				theErr = NStatus::Duplicate;
-			}
-			else
-			{
-				theErr = NStatus::OK;
-			}
+				// Get the state we need
+				parentPath += kNPathSeparator + theParent;
+				NFileInfo theInfo(parentPath);
 
 
 
-			// Handle failure
-			if (theErr != NStatus::OK)
-			{
-				break;
+				// Create the parent
+				//
+				// We create missing directories, skip existing directories,
+				// and fail if we encounter something that is not a directory.
+				if (!theInfo.Exists())
+				{
+					theErr = MakeDirectory(parentPath);
+					NN_EXPECT_NOT_ERR(theErr);
+				}
+				else if (!theInfo.IsDirectory())
+				{
+					theErr = NStatus::Duplicate;
+				}
+				else
+				{
+					theErr = NStatus::OK;
+				}
+
+
+
+				// Handle failure
+				if (theErr != NStatus::OK)
+				{
+					break;
+				}
 			}
 		}
 	}

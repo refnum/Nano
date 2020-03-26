@@ -95,10 +95,14 @@ public:
 	static NVectorFile                  GetChildren(const NString& thePath);
 
 
-	// Create directories
+	// Create a file / directory
 	//
-	// Create a directory and any parent directories as required.
-	static NStatus                      CreateDirectories(const NString& thePath);
+	// Creates an empty file / directory, and any required parent directories.
+	//
+	// Returns NStatus::Duplicate if an item already exists, unless any
+	// existing item is to be deleted.
+	static NStatus                      CreateFile(     const NString& thePath, bool deleteExisting = false);
+	static NStatus                      CreateDirectory(const NString& thePath, bool deleteExisting = false);
 
 
 	// Atomically rename a file
@@ -114,7 +118,7 @@ public:
 
 
 private:
-	static NStatus                      CreateDirectory(const NString& thePath);
+	static NStatus                      MakeDirectory(const NString& thePath);
 };
 
 

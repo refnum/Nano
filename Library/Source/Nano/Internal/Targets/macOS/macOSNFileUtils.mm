@@ -146,9 +146,9 @@ NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
 
 #pragma mark private
 //=============================================================================
-//		NFileUtils::CreateDirectory : Create a directory.
+//		NFileUtils::MakeDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::CreateDirectory(const NString& thePath)
+NStatus NFileUtils::MakeDirectory(const NString& thePath)
 {
 
 

@@ -529,28 +529,14 @@ NStatus NFile::CreateFile()
 
 
 
-	// Create the file
-	NStatus theErr = NStatus::Duplicate;
-
-	if (!Exists())
-	{
-		// Ensure the parent exists
-		theErr = GetParent().CreateDirectory();
-		NN_EXPECT_NOT_ERR(theErr);
+	// Create the directory
+	NStatus theErr = NFileUtils::CreateFile(GetPath());
+	NN_EXPECT_NOT_ERR(theErr);
 
 
 
-		// Create the file
-		if (theErr == NStatus::OK)
-		{
-			NFileHandle fileHandle;
-
-			theErr = fileHandle.Open(*this, NFileAccess::WriteOnly);
-			NN_EXPECT_NOT_ERR(theErr);
-
-			mInfo.Refresh();
-		}
-	}
+	// Update our state
+	mInfo.Refresh();
 
 	return theErr;
 }
@@ -572,7 +558,7 @@ NStatus NFile::CreateDirectory()
 
 
 	// Create the directory
-	NStatus theErr = NFileUtils::CreateDirectories(GetPath());
+	NStatus theErr = NFileUtils::CreateDirectory(GetPath());
 	NN_EXPECT_NOT_ERR(theErr);
 
 
