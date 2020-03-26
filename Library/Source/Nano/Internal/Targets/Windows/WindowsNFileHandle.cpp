@@ -104,6 +104,42 @@ static constexpr DWORD GetFileCreation(NFileAccess theAccess)
 
 
 //=============================================================================
+//		GetFileAttributes : Get a CreateFile attributes.
+//-----------------------------------------------------------------------------
+static constexpr DWORD GetFileAttributes(NFileFlags theFlags)
+{
+
+
+	// Get the flags
+	DWORD theAttributes = FILE_ATTRIBUTE_NORMAL;
+
+	if (theFlags != 0)
+	{
+		theAttributes = 0;
+
+		if (theFlags & kNFileDeleteOnClose)
+		{
+			theAttributes |= FILE_FLAG_DELETE_ON_CLOSE | FILE_ATTRIBUTE_TEMPORARY;
+		}
+
+		if (theFlags & kNFilePositionSequential)
+		{
+			theAttributes |= FILE_FLAG_SEQUENTIAL_SCAN;
+		}
+		else if (theFlags & kNFilePositionRandom)
+		{
+			theAttributes |= FILE_FLAG_RANDOM_ACCESS;
+		}
+	}
+
+	return theAttributes;
+}
+
+
+
+
+
+//=============================================================================
 //		GetFileMove : Get a SetFilePointerEx move value.
 //-----------------------------------------------------------------------------
 static constexpr DWORD GetFileMove(NFileOffset relativeTo)
@@ -137,7 +173,7 @@ static constexpr DWORD GetFileMove(NFileOffset relativeTo)
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess)
+NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags)
 {
 
 
@@ -152,7 +188,7 @@ NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess)
 							   FILE_SHARE_READ | FILE_SHARE_WRITE,
 							   nullptr,
 							   GetFileCreation(theAccess),
-							   FILE_ATTRIBUTE_NORMAL,
+							   GetFileAttributes(theFlags),
 							   nullptr);
 
 	bool wasOK = (hFile != INVALID_HANDLE_VALUE);

@@ -51,12 +51,12 @@
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess)
+NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags)
 {
 
 
 	// Open the file
-	return NSharedPOSIX::FileOpen(thePath, theAccess, mHandle);
+	return NSharedPOSIX::FileOpen(thePath, theAccess, theFlags, mHandle);
 }
 
 

@@ -82,6 +82,7 @@ static constexpr NFileHandleRef kNFileHandleNone = nullptr;
 //
 // Opening a file in NFileAccess::ReadOnly mode will return NStatus::NotFound
 // if the file does not exist.
+//
 enum class NFileAccess
 {
 	ReadWrite,
@@ -90,7 +91,42 @@ enum class NFileAccess
 };
 
 
-// Offsets
+// File flags
+//
+// A file may be opened with flags to indicate its likely usage:
+//
+//		kNFileDefault				Flags are determined by the access mode.
+//
+//		kNFileWillRead				The file will definitely be read.
+//
+//		kNFileDeleteOnClose			The file is deleted when closed.
+//
+//		kNFilePositionSequential	The position will typically increase.
+//
+//		kNFilePositionRandom		The position may change at random.
+//
+// The kNFileDefault flag chooses an appropriate set of flags for the access
+// mode that the file was opened with:
+//
+//		NFileAccess::ReadWrite		kNFileWillRead + kNFilePositionSequential
+//
+//		NFileAccess::ReadOnly		kNFileWillRead + kNFilePositionSequential
+//
+//		NFileAccess::WriteOnly		kNFilePositionSequential
+//
+using NFileFlags                                            = uint8_t;
+
+static constexpr NFileFlags kNFileDefault                   = 0;
+static constexpr NFileFlags kNFileWillRead                  = (1 << 1);
+static constexpr NFileFlags kNFileDeleteOnClose             = (1 << 2);
+static constexpr NFileFlags kNFilePositionSequential        = (1 << 3);
+static constexpr NFileFlags kNFilePositionRandom            = (1 << 4);
+
+
+// File offsets
+//
+// The file offset mode determines how a relative offset is converted to an
+// absolute position.
 enum class NFileOffset
 {
 	FromStart,
@@ -130,8 +166,13 @@ public:
 	//
 	// An open handle must be closed to open it in a different access
 	// mode. An open handle will be closed when it goes out of scope.
-	NStatus                             Open(const NFile& theFile,   NFileAccess theAccess = NFileAccess::ReadOnly);
-	NStatus                             Open(const NString& thePath, NFileAccess theAccess = NFileAccess::ReadOnly);
+	NStatus                             Open(const NFile& theFile,
+											 NFileAccess  theAccess = NFileAccess::ReadOnly,
+											 NFileFlags   theFlags  = kNFileDefault);
+
+	NStatus                             Open(const NString& thePath,
+											 NFileAccess    theAccess = NFileAccess::ReadOnly,
+											 NFileFlags     theFlags  = kNFileDefault);
 
 	void                                Close();
 
@@ -187,7 +228,9 @@ private:
 	bool                                CanRead()  const;
 	bool                                CanWrite() const;
 
-	NStatus                             FileOpen(const NString& thePath, NFileAccess theAccess);
+	NFileFlags                          GetOpenFlags(NFileAccess theAccess, NFileFlags theFlags);
+
+	NStatus                             FileOpen(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags);
 	void                                FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);

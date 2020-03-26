@@ -114,12 +114,12 @@ NString NFileHandle::GetPath() const
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess)
+NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileFlags theFlags)
 {
 
 
 	// Open the file
-	return Open(theFile.GetPath(), theAccess);
+	return Open(theFile.GetPath(), theAccess, theFlags);
 }
 
 
@@ -129,7 +129,7 @@ NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess)
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess)
+NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags)
 {
 
 
@@ -142,7 +142,7 @@ NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess)
 
 
 	// Open the file
-	NStatus theErr = FileOpen(thePath, theAccess);
+	NStatus theErr = FileOpen(thePath, theAccess, GetOpenFlags(theAccess, theFlags));
 	if (theErr == NStatus::OK)
 	{
 		// Update our state
@@ -401,4 +401,45 @@ bool NFileHandle::CanWrite() const
 
 	// Check our state
 	return mAccess == NFileAccess::ReadWrite || mAccess == NFileAccess::WriteOnly;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::GetOpenFlags : Get the open flags.
+//-----------------------------------------------------------------------------
+NFileFlags NFileHandle::GetOpenFlags(NFileAccess theAccess, NFileFlags theFlags)
+{
+
+
+	// Validate our parameters
+	bool isSequential = bool(theFlags & kNFilePositionSequential);
+	bool isRandom     = bool(theFlags & kNFilePositionRandom);
+
+	NN_REQUIRE(!(isSequential && isRandom));
+
+
+
+	// Get the flags
+	if (theFlags == kNFileDefault)
+	{
+		switch (theAccess)
+		{
+			case NFileAccess::ReadWrite:
+				theFlags = kNFileWillRead | kNFilePositionSequential;
+				break;
+
+			case NFileAccess::ReadOnly:
+				theFlags = kNFileWillRead | kNFilePositionSequential;
+				break;
+
+			case NFileAccess::WriteOnly:
+				theFlags = kNFilePositionSequential;
+				break;
+		}
+	}
+
+	return theFlags;
 }

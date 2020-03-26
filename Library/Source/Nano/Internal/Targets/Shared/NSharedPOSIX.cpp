@@ -137,6 +137,99 @@ static constexpr int GetFileWhence(NFileOffset relativeTo)
 
 
 
+//=============================================================================
+//		ApplyFileFlags : Apply a file's flags.
+//-----------------------------------------------------------------------------
+static NStatus ApplyFileFlags(FILE* theFile, const NString& thePath, NFileFlags theFlags)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE_NOT_NULL(theFile);
+
+
+
+	// Get the state we need
+	NStatus theErr   = NStatus::OK;
+	int     fileDesc = fileno(theFile);
+	int     sysErr   = 0;
+
+
+
+	// Temporary files
+	if (theErr == NStatus::OK && (theFlags & kNFileDeleteOnClose))
+	{
+		sysErr = unlinkat(fileDesc, thePath.GetUTF8(), 0);
+		theErr = NSharedPOSIX::GetErrno(sysErr);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Read-ahead
+	if (theErr == NStatus::OK && (theFlags & kNFileWillRead))
+	{
+#if NN_PLATFORM_DARWIN
+		struct radvisory readAhead
+		{
+		};
+		struct stat theInfo
+		{
+		};
+
+		sysErr = fstat(fileDesc, &theInfo);
+		if (sysErr == 0 && theInfo.st_size != 0)
+		{
+			readAhead.ra_count =
+				int(std::min(off_t(std::numeric_limits<int>::max()), theInfo.st_size));
+
+			sysErr = fcntl(fileDesc, F_RDADVISE, &readAhead);
+		}
+
+#elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
+		sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_WILLNEED);
+#endif
+
+		theErr = NSharedPOSIX::GetErrno(sysErr);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Access
+	if (theErr == NStatus::OK)
+	{
+		if (theFlags & kNFilePositionSequential)
+		{
+#if NN_PLATFORM_DARWIN
+			sysErr = fcntl(fileDesc, F_RDAHEAD, 1);
+
+#elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
+			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_SEQUENTIAL);
+#endif
+		}
+
+		else if (theFlags & kNFilePositionRandom)
+		{
+#if NN_PLATFORM_DARWIN
+			sysErr = fcntl(fileDesc, F_RDAHEAD, 0);
+
+#elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
+			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_RANDOM);
+#endif
+		}
+
+		theErr = NSharedPOSIX::GetErrno(sysErr);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+	return theErr;
+}
+
+
+
+
+
 #pragma mark NSharedPOSIX
 //=============================================================================
 //		NSharedPOSIX::gettimeofday : Get the time of day.
@@ -837,6 +930,7 @@ void NSharedPOSIX::GetFileStateAccess(const NString&  thePath,
 //-----------------------------------------------------------------------------
 NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
 							   NFileAccess     theAccess,
+							   NFileFlags      theFlags,
 							   NFileHandleRef& fileHandle)
 {
 
@@ -856,7 +950,11 @@ NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
 	}
 	else
 	{
-		fileHandle = static_cast<NFileHandleRef>(theFile);
+		theErr = ApplyFileFlags(theFile, thePath, theFlags);
+		if (theErr == NStatus::OK)
+		{
+			fileHandle = static_cast<NFileHandleRef>(theFile);
+		}
 	}
 
 	return theErr;
