@@ -227,6 +227,31 @@ NANO_TEST(TFileUtils, "GetChildren")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "GetLocation")
+{
+
+
+	// Perform the state
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::AppCaches).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::AppSupport).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::SharedSupport).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserDesktop).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserDocuments).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserDownloads).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserHome).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserLogs).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserPictures).IsEmpty());
+	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserPreferences).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFileUtils, "GetPathPart")
 {
 

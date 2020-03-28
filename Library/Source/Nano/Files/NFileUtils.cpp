@@ -300,6 +300,46 @@ NStatus NFileUtils::DeleteChildren(const NString& thePath, bool moveToTrash)
 
 
 //=============================================================================
+//		NFileUtils::GetLocation : Get a location.
+//-----------------------------------------------------------------------------
+NString NFileUtils::GetLocation(NFileLocation theLocation, const NString& pathChild, bool canCreate)
+{
+
+
+	// Get the path
+	NString thePath;
+	NStatus theErr = GetLocation(theLocation, thePath);
+
+	if (theErr == NStatus::OK)
+	{
+		if (!thePath.IsEmpty() && !pathChild.IsEmpty())
+		{
+			thePath += kNPathSeparator + pathChild;
+		}
+	}
+
+
+	// Create the directory
+	if (theErr == NStatus::OK && canCreate)
+	{
+		if (!NFileInfo(thePath).Exists())
+		{
+			theErr = CreateDirectory(thePath);
+			if (theErr != NStatus::OK)
+			{
+				thePath.Clear();
+			}
+		}
+	}
+
+	return thePath;
+}
+
+
+
+
+
+//=============================================================================
 //		NFileUtils::GetPathPart : Get part of a path.
 //-----------------------------------------------------------------------------
 NString NFileUtils::GetPathPart(const NString& thePath, NPathPart thePart)

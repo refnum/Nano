@@ -155,3 +155,18 @@ NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 
 	return theErr;
 }
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::GetLocation : Get a location.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
+{
+
+
+	// Get the location
+	return NSharedDarwin::GetLocation(theLocation, thePath);
+}

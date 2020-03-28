@@ -350,6 +350,71 @@ NStatus NSharedDarwin::FileExchange(const NString& oldPath, const NString& newPa
 
 
 //=============================================================================
+//		NSharedDarwin::GetLocation : Get a location.
+//-----------------------------------------------------------------------------
+NStatus NSharedDarwin::GetLocation(NFileLocation theLocation, NString& thePath)
+{
+
+
+	// Get the location
+	NStatus theErr = NStatus::NotSupported;
+	thePath.Clear();
+
+	switch (theLocation)
+	{
+		case NFileLocation::AppCaches:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::AppCaches");
+			break;
+
+		case NFileLocation::AppSupport:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::AppSupport");
+			break;
+
+		case NFileLocation::AppTemporaries:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::AppTemporaries");
+			break;
+
+		case NFileLocation::SharedSupport:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::SharedSupport");
+			break;
+
+		case NFileLocation::UserDesktop:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDesktop");
+			break;
+
+		case NFileLocation::UserDocuments:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDocuments");
+			break;
+
+		case NFileLocation::UserDownloads:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDownloads");
+			break;
+
+		case NFileLocation::UserHome:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserHome");
+			break;
+
+		case NFileLocation::UserLogs:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserLogs");
+			break;
+
+		case NFileLocation::UserPictures:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPictures");
+			break;
+
+		case NFileLocation::UserPreferences:
+			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPreferences");
+			break;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)

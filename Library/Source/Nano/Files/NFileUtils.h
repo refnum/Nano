@@ -60,6 +60,58 @@ static constexpr const char* kNPathSeparator                = "/";
 #endif
 
 
+// Locations
+//
+// A platform-specific location for files of a particular purpose:
+//
+//		NFileLocation::AppCaches			Cache files.
+//
+//				Typically preserved across reboots, but may be purged by
+//				the system at any time.
+//
+//		NFileLocation::AppSupport			Support files.
+//
+//				Non-preference files installed with, or created by, the app.
+//
+//		NFileLocation::AppTemporaries		Temporary files.
+//
+//				Typically deleted between reboots, but may be purged by
+//				the system at any time.
+//
+//		NFileLocation::SharedSupport		Shared support files.
+//
+//				Shared equivalent to NFileLocation::AppSupport.
+//
+//		NFileLocation::UserDesktop			The user's desktop directory.
+//
+//		NFileLocation::UserDocuments		The user's documents directory.
+//
+//		NFileLocation::UserDownloads		The user's downloads directory.
+//
+//		NFileLocation::UserHome				The user's home directory.
+//
+//		NFileLocation::UserLogs				The user's log directory.
+//
+//		NFileLocation::UserPictures			The user's pictures directory.
+//
+//		NFileLocation::UserPreferences		The user's preferences directory.
+//
+enum class NFileLocation
+{
+	AppCaches,
+	AppSupport,
+	AppTemporaries,
+	SharedSupport,
+	UserDesktop,
+	UserDocuments,
+	UserDownloads,
+	UserHome,
+	UserLogs,
+	UserPictures,
+	UserPreferences
+};
+
+
 // Paths
 //
 // A path can be broken into distinct parts:
@@ -70,7 +122,7 @@ static constexpr const char* kNPathSeparator                = "/";
 //
 //		NPath::Extension			The extension of the item
 //
-enum NPathPart
+enum class NPathPart
 {
 	Parent,
 	Name,
@@ -111,6 +163,18 @@ public:
 	static NVectorString                GetChildren(const NString& thePath);
 
 
+	// Get a location
+	//
+	// Get a location, with an optional path to a child directory.
+	//
+	// The final location can be created if it does not exist.
+	//
+	// Returns an empty path if the directory does not exist, or cannot be created.
+	static NString                      GetLocation(NFileLocation  theLocation,
+													const NString& pathChild = "",
+													bool           canCreate = false);
+
+
 	// Get part of a path
 	static NString                      GetPathPart(const NString& thePath, NPathPart thePart);
 
@@ -126,6 +190,7 @@ public:
 private:
 	static NStatus                      MakeDirectory(const NString& thePath);
 	static NStatus                      DeletePath(   const NString& thePath, bool moveToTrash);
+	static NStatus                      GetLocation(NFileLocation theLocation, NString& thePath);
 };
 
 
