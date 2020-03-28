@@ -121,6 +121,7 @@ NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 	if (moveToTrash)
 	{
 		NN_LOG_UNIMPLEMENTED();
+		return NStatus::NotSupported;
 	}
 
 
