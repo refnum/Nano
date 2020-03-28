@@ -510,7 +510,17 @@ NVectorFile NFile::GetChildren() const
 
 
 	// Get the children
-	return NFileUtils::GetChildren(GetPath());
+	NVectorString childPaths = NFileUtils::GetChildren(GetPath());
+	NVectorFile   theChildren;
+
+	theChildren.reserve(childPaths.size());
+
+	for (const auto& childPath : childPaths)
+	{
+		theChildren.emplace_back(NFile(childPath));
+	}
+
+	return theChildren;
 }
 
 

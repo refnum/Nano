@@ -124,11 +124,8 @@ public:
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
 
 
-	// Get the children of a directory
-	static NVectorFile                  GetChildren(const NString& thePath);
-
-
-	// Create a directory
+	// Directories
+	static NVectorString                GetChildren(    const NString& thePath);
 	static NStatus                      CreateDirectory(const NString& thePath);
 
 

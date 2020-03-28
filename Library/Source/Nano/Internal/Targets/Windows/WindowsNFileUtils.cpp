@@ -66,13 +66,13 @@
 //=============================================================================
 //		NFileUtils::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
-NVectorFile NFileUtils::GetChildren(const NString& thePath)
+NVectorString NFileUtils::GetChildren(const NString& thePath)
 {
 
 
 	// Open the directory
 	WIN32_FIND_DATA dirEntry{};
-	NVectorFile     theFiles;
+	NVectorString   theChildren;
 
 	NString thePattern = thePath + "\\*";
 	HANDLE  theDir     = FindFirstFile(LPCWSTR(thePattern.GetUTF16()), &dirEntry);
@@ -90,7 +90,7 @@ NVectorFile NFileUtils::GetChildren(const NString& thePath)
 		NString fileName(reinterpret_cast<const utf16_t*>(dirEntry.cFileName));
 		if (fileName != "." && fileName != "..")
 		{
-			theFiles.emplace_back(NFile(thePath + kNPathSeparator + fileName));
+			theChildren.emplace_back(thePath + kNPathSeparator + fileName);
 		}
 	} while (FindNextFile(theDir, &dirEntry));
 
@@ -99,7 +99,7 @@ NVectorFile NFileUtils::GetChildren(const NString& thePath)
 	// Clean up
 	FindClose(theDir);
 
-	return theFiles;
+	return theChildren;
 }
 
 

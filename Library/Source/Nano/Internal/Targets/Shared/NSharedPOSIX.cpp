@@ -1177,19 +1177,19 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 //=============================================================================
 //		NSharedPOSIX::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
-NVectorFile NSharedPOSIX::GetChildren(const NString& thePath)
+NVectorString NSharedPOSIX::GetChildren(const NString& thePath)
 {
 
 
 	// Open the directory
-	NVectorFile theFiles;
+	NVectorString theChildren;
 
 	DIR* theDir = opendir(thePath.GetUTF8());
 	NN_EXPECT(theDir != nullptr);
 
 	if (theDir == nullptr)
 	{
-		return theFiles;
+		return theChildren;
 	}
 
 
@@ -1205,7 +1205,7 @@ NVectorFile NSharedPOSIX::GetChildren(const NString& thePath)
 		{
 			if (strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
 			{
-				theFiles.emplace_back(NFile(thePath + kNPathSeparator + dirEntry->d_name));
+				theChildren.emplace_back(thePath + kNPathSeparator + dirEntry->d_name);
 			}
 		}
 	} while (dirEntry != nullptr);
@@ -1215,7 +1215,7 @@ NVectorFile NSharedPOSIX::GetChildren(const NString& thePath)
 	// Clean up
 	closedir(theDir);
 
-	return theFiles;
+	return theChildren;
 }
 
 

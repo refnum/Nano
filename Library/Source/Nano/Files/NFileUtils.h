@@ -41,7 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NFile.h"
+#include "NString.h"
 #include "NanoConstants.h"
 #include "NanoTargets.h"
 
@@ -92,7 +92,7 @@ public:
 
 
 	// Get the children of a directory
-	static NVectorFile                  GetChildren(const NString& thePath);
+	static NVectorString                  GetChildren(const NString& thePath);
 
 
 	// Create a file / directory
