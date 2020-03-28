@@ -1175,6 +1175,24 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 
 
 //=============================================================================
+//		NSharedPOSIX::CreateDirectory : Create a directory.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::CreateDirectory(const NString& thePath)
+{
+
+
+	// Create the directory
+	int sysErr = mkdir(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return GetErrno(sysErr);
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedPOSIX::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
 NVectorString NSharedPOSIX::GetChildren(const NString& thePath)
@@ -1223,27 +1241,9 @@ NVectorString NSharedPOSIX::GetChildren(const NString& thePath)
 
 
 //=============================================================================
-//		NSharedPOSIX::CreateDirectory : Create a directory.
+//		NSharedPOSIX::DeletePath : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::CreateDirectory(const NString& thePath)
-{
-
-
-	// Create the directory
-	int sysErr = mkdir(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	return GetErrno(sysErr);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::Delete : Delete a file.
-//-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::Delete(const NString& thePath)
+NStatus NSharedPOSIX::DeletePath(const NString& thePath)
 {
 
 
@@ -1257,7 +1257,6 @@ NStatus NSharedPOSIX::Delete(const NString& thePath)
 	{
 		int dirFlag = S_ISDIR(theInfo.st_mode) ? AT_REMOVEDIR : 0;
 		sysErr      = unlinkat(0, thePath.GetUTF8(), dirFlag);
-		NN_EXPECT_NOT_ERR(sysErr);
 	}
 
 	return GetErrno(sysErr);

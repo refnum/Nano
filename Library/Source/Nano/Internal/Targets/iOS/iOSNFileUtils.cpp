@@ -94,10 +94,26 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 
 
+#pragma mark private
 //=============================================================================
-//		NFileUtils::Delete : Delete a file.
+//		NFileUtils::MakeDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+NStatus NFileUtils::MakeDirectory(const NString& thePath)
+{
+
+
+	// Create the directory
+	return NSharedPOSIX::CreateDirectory(thePath);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::DeletePath : Delete a path.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 {
 
 
@@ -109,22 +125,6 @@ NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
 
 
 
-	// Delete the file
-	return NSharedPOSIX::Delete(thePath);
-}
-
-
-
-
-
-#pragma mark private
-//=============================================================================
-//		NFileUtils::MakeDirectory : Create a directory.
-//-----------------------------------------------------------------------------
-NStatus NFileUtils::MakeDirectory(const NString& thePath)
-{
-
-
-	// Create the directory
-	return NSharedPOSIX::CreateDirectory(thePath);
+	// Delete the path
+	return NSharedPOSIX::DeletePath(thePath);
 }

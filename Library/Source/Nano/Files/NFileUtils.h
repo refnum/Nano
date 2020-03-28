@@ -87,38 +87,45 @@ enum NPathPart
 class NFileUtils
 {
 public:
-	// Get part of a path
-	static NString                      GetPathPart(const NString& thePath, NPathPart thePart);
-
-
-	// Get the children of a directory
-	static NVectorString                  GetChildren(const NString& thePath);
-
-
 	// Create a file / directory
 	//
 	// Creates an empty file / directory, and any required parent directories.
 	//
-	// Returns NStatus::Duplicate if an item already exists, unless any
+	// Returns NStatus::Duplicate if an item already exists, unless any such
 	// existing item is to be deleted.
 	static NStatus                      CreateFile(     const NString& thePath, bool deleteExisting = false);
 	static NStatus                      CreateDirectory(const NString& thePath, bool deleteExisting = false);
 
 
-	// Atomically rename a file
+	// Delete a path
+	//
+	// Deleting a path, rather than moving it to the trash, is permanent.
+	static NStatus                      Delete(const NString& thePath, bool moveToTrash = false);
+
+
+	// Delete the children of a directory
+	static NStatus                      DeleteChildren(const NString& thePath, bool moveToTrash = false);
+
+
+	// Get the children of a directory
+	static NVectorString                GetChildren(const NString& thePath);
+
+
+	// Get part of a path
+	static NString                      GetPathPart(const NString& thePath, NPathPart thePart);
+
+
+	// Atomically rename a path
 	static NStatus                      Rename(const NString& oldPath, const NString& newPath);
 
 
-	// Atomically exchange two files.
+	// Atomically exchange two paths
 	static NStatus                      Exchange(const NString& oldPath, const NString& newPath);
-
-
-	// Delete a file
-	static NStatus                      Delete(const NString& thePath, bool moveToTrash = false);
 
 
 private:
 	static NStatus                      MakeDirectory(const NString& thePath);
+	static NStatus                      DeletePath(   const NString& thePath, bool moveToTrash);
 };
 
 

@@ -188,10 +188,29 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 
 
 
+#pragma mark private
 //=============================================================================
-//		NFileUtils::Delete : Delete a file.
+//		NFileUtils::MakeDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+NStatus NFileUtils::MakeDirectory(const NString& thePath)
+{
+
+
+	// Create the directory
+	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr);
+	NN_EXPECT(wasOK);
+
+	return NSharedWindows::GetLastError(wasOK);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::DeletePath : Delete a path.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 {
 
 
@@ -215,7 +234,7 @@ NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
 	}
 
 
-	// Delete the file
+	// Delete the path
 	else
 	{
 		NFileInfo theInfo(thePath);
@@ -231,25 +250,6 @@ NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
 			NN_EXPECT(wasOK);
 		}
 	}
-
-	return NSharedWindows::GetLastError(wasOK);
-}
-
-
-
-
-
-#pragma mark private
-//=============================================================================
-//		NFileUtils::MakeDirectory : Create a directory.
-//-----------------------------------------------------------------------------
-NStatus NFileUtils::MakeDirectory(const NString& thePath)
-{
-
-
-	// Create the directory
-	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr);
-	NN_EXPECT(wasOK);
 
 	return NSharedWindows::GetLastError(wasOK);
 }

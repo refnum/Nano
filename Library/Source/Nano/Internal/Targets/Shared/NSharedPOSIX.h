@@ -125,12 +125,12 @@ public:
 
 
 	// Directories
-	static NVectorString                GetChildren(    const NString& thePath);
 	static NStatus                      CreateDirectory(const NString& thePath);
+	static NVectorString                GetChildren(    const NString& thePath);
 
 
-	// Delete a file
-	static NStatus                      Delete(const NString& thePath);
+	// Delete a path
+	static NStatus                      DeletePath(const NString& thePath);
 
 
 	// Convert between time formats

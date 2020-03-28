@@ -107,38 +107,13 @@ static NString GetPartPattern(NPathPart thePart)
 
 #pragma mark NFileUtils
 //=============================================================================
-//		NFileUtils::GetPathPart : Get part of a path.
-//-----------------------------------------------------------------------------
-NString NFileUtils::GetPathPart(const NString& thePath, NPathPart thePart)
-{
-
-
-	// Get the component
-	NString       thePattern = GetPartPattern(thePart);
-	NPatternGroup theMatch   = thePath.FindGroup(thePattern, kNStringPattern);
-	NString       theResult;
-
-	if (!theMatch.theGroups.empty())
-	{
-		NN_REQUIRE(theMatch.theGroups.size() == 1);
-		theResult = thePath.GetSubstring(theMatch.theGroups[0]);
-	}
-
-	return theResult;
-}
-
-
-
-
-
-//=============================================================================
 //		NFileUtils::CreateFile : Create a file.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::CreateFile(const NString& thePath, bool deleteExisting)
 {
 
 
-	// Prepare to create
+	// Delete any existing item
 	NStatus theErr = NStatus::OK;
 
 	if (deleteExisting)
@@ -189,7 +164,7 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 {
 
 
-	// Prepare to create
+	// Delete any existing item
 	NStatus theErr = NStatus::OK;
 
 	if (deleteExisting)
@@ -203,7 +178,7 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 
 
 
-	// Create the directories
+	// Create the directory
 	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
 	{
 		theErr = NStatus::NotFound;
@@ -215,7 +190,7 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 			{
 				// Get the state we need
 				parentPath += kNPathSeparator + theParent;
-				NFileInfo theInfo(parentPath);
+				NFileInfo parentInfo(parentPath);
 
 
 
@@ -223,12 +198,12 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 				//
 				// We create missing directories, skip existing directories,
 				// and fail if we encounter something that is not a directory.
-				if (!theInfo.Exists())
+				if (!parentInfo.Exists())
 				{
 					theErr = MakeDirectory(parentPath);
 					NN_EXPECT_NOT_ERR(theErr);
 				}
-				else if (!theInfo.IsDirectory())
+				else if (!parentInfo.IsDirectory())
 				{
 					theErr = NStatus::Duplicate;
 				}
@@ -249,4 +224,98 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 	}
 
 	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::Delete : Delete a path.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+{
+
+
+	// Get the state we need
+	NStatus   theErr = NStatus::OK;
+	NFileInfo theInfo(thePath);
+
+
+
+	// Delete children
+	//
+	// If we have a directory then, unless we're moving it to the trash,
+	// we need to delete its children recursively before we can delete it.
+	if (!moveToTrash && theInfo.IsDirectory())
+	{
+		theErr = DeleteChildren(thePath, false);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Delete the path
+	if (theErr == NStatus::OK && theInfo.Exists())
+	{
+		theErr = DeletePath(thePath, moveToTrash);
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::DeleteChildren : Delete the children of a directory.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::DeleteChildren(const NString& thePath, bool moveToTrash)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(NFileInfo(thePath).IsDirectory());
+
+
+
+	// Delete the children
+	NStatus theErr = NStatus::OK;
+
+	for (const auto& childPath : GetChildren(thePath))
+	{
+		theErr = Delete(childPath, moveToTrash);
+		if (theErr != NStatus::OK)
+		{
+			break;
+		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::GetPathPart : Get part of a path.
+//-----------------------------------------------------------------------------
+NString NFileUtils::GetPathPart(const NString& thePath, NPathPart thePart)
+{
+
+
+	// Get the component
+	NString       thePattern = GetPartPattern(thePart);
+	NPatternGroup theMatch   = thePath.FindGroup(thePattern, kNStringPattern);
+	NString       theResult;
+
+	if (!theMatch.theGroups.empty())
+	{
+		NN_REQUIRE(theMatch.theGroups.size() == 1);
+		theResult = thePath.GetSubstring(theMatch.theGroups[0]);
+	}
+
+	return theResult;
 }
