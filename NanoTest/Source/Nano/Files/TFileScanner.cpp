@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 #include "NFile.h"
 #include "NFileScanner.h"
+#include "NFileUtils.h"
 #include "NTestFixture.h"
 
 
@@ -108,25 +109,22 @@ NANO_FIXTURE(TFileScanner)
 
 	SETUP
 	{
-		if (NFile(kPathTmpDirectory).Exists())
-		{
-			theErr = NFile(kPathTmpDirectory).Delete();
-			REQUIRE(theErr == NStatus::OK);
-		}
-
-		theErr = NFile(kPathTmpChildA).CreateDirectory();
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFile(kPathTmpChildB).CreateFile();
+		theErr = NFileUtils::CreateDirectory(kPathTmpChildA);
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFile(kPathTmpChildC).CreateFile();
+		theErr = NFileUtils::CreateFile(kPathTmpChildB);
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = NFileUtils::CreateFile(kPathTmpChildC);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
 	TEARDOWN
 	{
-		theErr = NFile(kPathTmpDirectory).Delete();
+		theErr = NFileUtils::Delete(kPathTmpDirectory);
 		REQUIRE(theErr == NStatus::OK);
 	}
 };

@@ -42,6 +42,7 @@
 #include "NData.h"
 #include "NFile.h"
 #include "NFileHandle.h"
+#include "NFileUtils.h"
 #include "NTestFixture.h"
 
 
@@ -106,13 +107,7 @@ NANO_FIXTURE(TFileHandle)
 
 	SETUP
 	{
-		if (NFile(kPathTmpDirectory).Exists())
-		{
-			theErr = NFile(kPathTmpDirectory).Delete();
-			REQUIRE(theErr == NStatus::OK);
-		}
-
-		theErr = NFile(kPathTmpDirectory).CreateDirectory();
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
@@ -123,7 +118,7 @@ NANO_FIXTURE(TFileHandle)
 			fileHnd.Close();
 		}
 
-		theErr = NFile(kPathTmpDirectory).Delete();
+		theErr = NFileUtils::Delete(kPathTmpDirectory);
 		REQUIRE(theErr == NStatus::OK);
 	}
 };

@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFile.h"
+#include "NFileUtils.h"
 #include "NStdAlgorithm.h"
 #include "NTestFixture.h"
 
@@ -127,19 +128,13 @@ NANO_FIXTURE(TFile)
 
 	SETUP
 	{
-		if (NFile(kPathTmpDirectory).Exists())
-		{
-			theErr = NFile(kPathTmpDirectory).Delete();
-			REQUIRE(theErr == NStatus::OK);
-		}
-
-		theErr = NFile(kPathTmpDirectory).CreateDirectory();
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
 	TEARDOWN
 	{
-		theErr = NFile(kPathTmpDirectory).Delete();
+		theErr = NFileUtils::Delete(kPathTmpDirectory);
 		REQUIRE(theErr == NStatus::OK);
 	}
 };

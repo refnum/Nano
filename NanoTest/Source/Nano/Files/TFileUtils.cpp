@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFileInfo.h"
 #include "NFileUtils.h"
 #include "NTestFixture.h"
 
@@ -106,28 +107,118 @@ NANO_FIXTURE(TFileUtils)
 
 	SETUP
 	{
-		if (NFile(kPathTmpDirectory).Exists())
-		{
-			theErr = NFile(kPathTmpDirectory).Delete();
-			REQUIRE(theErr == NStatus::OK);
-		}
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
 
 		theErr = NFileUtils::CreateDirectory(kPathTmpChildA);
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFile(kPathTmpChildB).CreateFile();
+		theErr = NFileUtils::CreateFile(kPathTmpChildB);
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFile(kPathTmpChildC).CreateFile();
+		theErr = NFileUtils::CreateFile(kPathTmpChildC);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
 	TEARDOWN
 	{
-		theErr = NFile(kPathTmpDirectory).Delete();
+		theErr = NFileUtils::Delete(kPathTmpDirectory);
 		REQUIRE(theErr == NStatus::OK);
 	}
 };
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "CreateFile")
+{
+
+
+	// Perform the test
+	NString thePath = kPathTmpChildC + ".bak";
+
+	theErr = NFileUtils::CreateFile(thePath);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(NFileInfo(thePath).IsFile());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "CreateDirectory")
+{
+
+
+	// Perform the test
+	theErr = NFileUtils::CreateDirectory(kPathTmpChildA + kNPathSeparator + "aa" + kNPathSeparator +
+										 "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
+	REQUIRE(theErr == NStatus::OK);
+
+	NVectorString theChildren = NFileUtils::GetChildren(kPathTmpChildA);
+	REQUIRE(theChildren.size() == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "Delete")
+{
+
+
+	// Perform the test
+	theErr = NFileUtils::Delete(kPathTmpChildB, false);
+	REQUIRE(theErr == NStatus::OK);
+
+	theErr = NFileUtils::Delete(kPathTmpChildC, true);
+	REQUIRE(theErr == NStatus::OK);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "DeleteChildren")
+{
+
+
+	// Perform the test
+	REQUIRE(NFileUtils::GetChildren(kPathTmpDirectory).size() != 0);
+
+	theErr = NFileUtils::DeleteChildren(kPathTmpDirectory, false);
+	REQUIRE(theErr == NStatus::OK);
+
+	REQUIRE(NFileUtils::GetChildren(kPathTmpDirectory).size() == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "GetChildren")
+{
+
+
+	// Perform the test
+	NVectorString theChildren = NFileUtils::GetChildren(kPathTmpDirectory);
+	REQUIRE(theChildren.size() == 1);
+}
 
 
 
@@ -148,42 +239,6 @@ NANO_TEST(TFileUtils, "GetPathPart")
 	REQUIRE(NFileUtils::GetPathPart(kPathTmpChildC, NPathPart::Parent) == theParent);
 	REQUIRE(NFileUtils::GetPathPart(kPathTmpChildC, NPathPart::Name) == theName);
 	REQUIRE(NFileUtils::GetPathPart(kPathTmpChildC, NPathPart::Extension) == theExtension);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TFileUtils, "GetChildren")
-{
-
-
-	// Perform the test
-	NVectorFile theFiles = NFileUtils::GetChildren(kPathTmpDirectory);
-	REQUIRE(theFiles.size() == 1);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TFileUtils, "CreateDirectories")
-{
-
-
-	// Perform the test
-	theErr = NFileUtils::CreateDirectory(kPathTmpChildA + kNPathSeparator + "aa" + kNPathSeparator +
-										 "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
-	REQUIRE(theErr == NStatus::OK);
-
-	NVectorFile theFiles = NFileUtils::GetChildren(kPathTmpChildA);
-	REQUIRE(theFiles.size() == 1);
 }
 
 
@@ -218,24 +273,5 @@ NANO_TEST(TFileUtils, "Exchange")
 
 	// Perform the test
 	theErr = NFileUtils::Exchange(kPathTmpChildB, kPathTmpChildC);
-	REQUIRE(theErr == NStatus::OK);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TFileUtils, "Delete")
-{
-
-
-	// Perform the test
-	theErr = NFileUtils::Delete(kPathTmpChildB, false);
-	REQUIRE(theErr == NStatus::OK);
-
-	theErr = NFileUtils::Delete(kPathTmpChildC, true);
 	REQUIRE(theErr == NStatus::OK);
 }
