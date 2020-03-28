@@ -595,22 +595,9 @@ NStatus NFile::Delete(bool moveToTrash) const
 
 
 
-	// Delete contents
-	NStatus theErr = NStatus::OK;
-
-	if (!moveToTrash && IsDirectory())
-	{
-		theErr = DeleteChildren();
-		NN_EXPECT_NOT_ERR(theErr);
-	}
-
-
-
 	// Delete the file
-	if (theErr == NStatus::OK)
-	{
-		theErr = NFileUtils::Delete(GetPath(), moveToTrash);
-	}
+	NStatus theErr = NFileUtils::Delete(GetPath(), moveToTrash);
+	NN_EXPECT_NOT_ERR(theErr);
 
 
 
@@ -627,7 +614,7 @@ NStatus NFile::Delete(bool moveToTrash) const
 //=============================================================================
 //		NFile::DeleteChildren : Delete the children of a directory.
 //-----------------------------------------------------------------------------
-NStatus NFile::DeleteChildren() const
+NStatus NFile::DeleteChildren(bool moveToTrash) const
 {
 
 
@@ -637,27 +624,7 @@ NStatus NFile::DeleteChildren() const
 
 
 	// Delete the children
-	NStatus theErr = NStatus::OK;
-
-	for (const auto& theChild : GetChildren())
-	{
-		if (theChild.IsDirectory())
-		{
-			theErr = theChild.DeleteChildren();
-		}
-
-		if (theErr == NStatus::OK)
-		{
-			theErr = theChild.Delete();
-		}
-
-		if (theErr != NStatus::OK)
-		{
-			break;
-		}
-	}
-
-	return theErr;
+	return NFileUtils::DeleteChildren(GetPath(), moveToTrash);
 }
 
 

@@ -178,7 +178,7 @@ public:
 
 	// Delete the file
 	//
-	// Deleting a file, rather than moving it to the trash, is permanent.
+	// Deleting, rather than moving to the trash, is permanent.
 	//
 	// The file must be valid to delete it from disk.
 	NStatus                             Delete(bool moveToTrash = false) const;
@@ -186,8 +186,10 @@ public:
 
 	// Delete the items within a directory
 	//
+	// Deleting, rather than moving to the trash, is permanent.
+	//
 	// The file must be a valid directory to delete its children.
-	NStatus                             DeleteChildren() const;
+	NStatus                             DeleteChildren(bool moveToTrash = false) const;
 
 
 	// Move a file to a new location
