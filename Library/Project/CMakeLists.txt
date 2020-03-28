@@ -208,8 +208,8 @@ if (NN_TARGET_IOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNTimeUtils.cpp"
-			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
@@ -263,8 +263,8 @@ if (NN_TARGET_MACOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileUtils.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNSemaphore.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNTimeUtils.cpp"
-			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
@@ -285,8 +285,8 @@ endif()
 if (NN_TARGET_TVOS)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
-			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileHandle.cpp"

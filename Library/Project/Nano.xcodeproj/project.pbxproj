@@ -144,12 +144,12 @@
 		AB62326E242AF51300651349 /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB623267242AF51300651349 /* NDebug.cpp */; };
 		AB62326F242AF51300651349 /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB623267242AF51300651349 /* NDebug.cpp */; };
 		AB623270242AF51300651349 /* NDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB623267242AF51300651349 /* NDebug.cpp */; };
+		AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB62327124301A4000651349 /* NSharedDarwin.mm */; };
+		AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB62327124301A4000651349 /* NSharedDarwin.mm */; };
+		AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB62327124301A4000651349 /* NSharedDarwin.mm */; };
 		AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
-		AB86FDF823999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF323999A4D0062CAA0 /* NSharedDarwin.cpp */; };
-		AB86FDF923999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF323999A4D0062CAA0 /* NSharedDarwin.cpp */; };
-		AB86FDFA23999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF323999A4D0062CAA0 /* NSharedDarwin.cpp */; };
 		ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
@@ -429,6 +429,7 @@
 		AB623265242AF51300651349 /* NLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLog.h; sourceTree = "<group>"; };
 		AB623266242AF51300651349 /* NLogOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLogOutput.h; sourceTree = "<group>"; };
 		AB623267242AF51300651349 /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
+		AB62327124301A4000651349 /* NSharedDarwin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSharedDarwin.mm; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tero_des.cpp; sourceTree = "<group>"; };
@@ -448,7 +449,6 @@
 		AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish_dat.c; sourceTree = "<group>"; };
 		AB86FDF123999A4D0062CAA0 /* NSharedDarwin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedDarwin.h; sourceTree = "<group>"; };
 		AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedPOSIX.cpp; sourceTree = "<group>"; };
-		AB86FDF323999A4D0062CAA0 /* NSharedDarwin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedDarwin.cpp; sourceTree = "<group>"; };
 		AB86FDF423999A4D0062CAA0 /* NSharedPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedPOSIX.h; sourceTree = "<group>"; };
 		AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataEncoder.cpp; sourceTree = "<group>"; };
 		AB8CE2B4104D5F7000306EDC /* NDataEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataEncoder.h; sourceTree = "<group>"; };
@@ -1077,8 +1077,8 @@
 		AB86FDF023999A4D0062CAA0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				AB86FDF323999A4D0062CAA0 /* NSharedDarwin.cpp */,
 				AB86FDF123999A4D0062CAA0 /* NSharedDarwin.h */,
+				AB62327124301A4000651349 /* NSharedDarwin.mm */,
 				AB07EA40239A52C700E0AC49 /* NSharedLinux.cpp */,
 				AB07EA3F239A52C700E0AC49 /* NSharedLinux.h */,
 				AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */,
@@ -1677,7 +1677,6 @@
 				AB51283823D2810600528FBE /* pcre2_chartables.c in Sources */,
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB51286B23D2810600528FBE /* pcre2_error.c in Sources */,
-				AB86FDFA23999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
 				AB51282F23D2810600528FBE /* pcre2_string_utils.c in Sources */,
 				AB51285F23D2810600528FBE /* pcre2_study.c in Sources */,
 				ABDCE8BA241C59570054A16E /* NFileInfo.cpp in Sources */,
@@ -1691,6 +1690,7 @@
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
 				AB51286223D2810600528FBE /* pcre2_valid_utf.c in Sources */,
 				ABDCE8D6241C61880054A16E /* tvOSNTimeUtils.cpp in Sources */,
+				AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB51284D23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
 				AB51285C23D2810600528FBE /* pcre2_substitute.c in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
@@ -1746,7 +1746,6 @@
 				AB51283623D2810600528FBE /* pcre2_chartables.c in Sources */,
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB51286923D2810600528FBE /* pcre2_error.c in Sources */,
-				AB86FDF823999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
 				AB51282D23D2810600528FBE /* pcre2_string_utils.c in Sources */,
 				AB51285D23D2810600528FBE /* pcre2_study.c in Sources */,
 				ABDCE8B8241C59570054A16E /* NFileInfo.cpp in Sources */,
@@ -1759,6 +1758,7 @@
 				AB51282123D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
 				AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
+				AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB51286023D2810600528FBE /* pcre2_valid_utf.c in Sources */,
 				AB51284B23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
 				AB51285A23D2810600528FBE /* pcre2_substitute.c in Sources */,
@@ -1808,7 +1808,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB86FDF923999A4E0062CAA0 /* NSharedDarwin.cpp in Sources */,
 				AB51287923D2810600528FBE /* pcre2_serialize.c in Sources */,
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
@@ -1827,6 +1826,7 @@
 				AB51284623D2810600528FBE /* pcre2_compile.c in Sources */,
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
+				AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB51286D23D2810600528FBE /* pcre2_config.c in Sources */,
 				AB51282223D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
 				AB51281923D2810600528FBE /* pcre2_xclass.c in Sources */,

@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedDarwin.cpp
+		NSharedDarwin.mm
 
 	DESCRIPTION:
 		Darwin support.
