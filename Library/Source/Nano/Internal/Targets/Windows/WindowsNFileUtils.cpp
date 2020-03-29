@@ -64,6 +64,31 @@
 
 
 //=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//      GetSHKnownFolderPath : Get a known folder location.
+//----------------------------------------------------------------------------
+static NString GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
+{
+
+
+	// Get the folder
+	PWSTR winPath = nullptr;
+
+	if (SUCCEEDED(SHGetKnownFolderPath(theID, KF_FLAG_CREATE, nullptr, &winPath)))
+	{
+		thePath = NString(winPath);
+	}
+
+	return thePath;
+}
+
+
+
+
+
+#pragma mark NFileUtils
+//=============================================================================
 //		NFileUtils::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
 NVectorString NFileUtils::GetChildren(const NString& thePath)
@@ -266,53 +291,67 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 
 	// Get the location
-	NStatus theErr = NStatus::NotSupported;
-	thePath.Clear();
+	NStatus theErr = NStatus::OK;
 
 	switch (theLocation)
 	{
 		case NFileLocation::AppCaches:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppCaches");
+			thePath = GetSHKnownFolderPath(FOLDERID_InternetCache);
 			break;
 
 		case NFileLocation::AppSupport:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppSupport");
+			thePath = GetSHKnownFolderPath(FOLDERID_LocalAppData);
 			break;
 
 		case NFileLocation::AppTemporaries:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppTemporaries");
-			break;
+		{
+			WCHAR tmpPath[MAXPATH + 1];
+
+			if (GetTempPath(std::size(tmpPath), tmpPath) != 0)
+			{
+				thePath = NString(tmpPath);
+			}
+		}
+		break;
 
 		case NFileLocation::SharedSupport:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::SharedSupport");
+			thePath = GetSHKnownFolderPath(FOLDERID_ProgramData);
 			break;
 
 		case NFileLocation::UserDesktop:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDesktop");
+			thePath = GetSHKnownFolderPath(FOLDERID_Desktop);
 			break;
 
 		case NFileLocation::UserDocuments:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDocuments");
+			thePath = GetSHKnownFolderPath(FOLDERID_Documents);
 			break;
 
 		case NFileLocation::UserDownloads:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDownloads");
+			thePath = GetSHKnownFolderPath(FOLDERID_Downloads);
 			break;
 
 		case NFileLocation::UserHome:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserHome");
+			thePath = GetSHKnownFolderPath(FOLDERID_Profile);
 			break;
 
 		case NFileLocation::UserLogs:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserLogs");
+			thePath = GetSHKnownFolderPath(FOLDERID_LocalAppData);
+			if (!thePath.IsEmpty())
+			{
+				thePath += "\\Logs";
+			}
 			break;
 
 		case NFileLocation::UserPictures:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPictures");
+			thePath = GetSHKnownFolderPath(FOLDERID_Pictures);
 			break;
 
 		case NFileLocation::UserPreferences:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPreferences");
+			thePath = GetSHKnownFolderPath(FOLDERID_LocalAppData);
+			if (!thePath.IsEmpty())
+			{
+				thePath += "\\Preferences";
+			}
 			break;
 	}
 
