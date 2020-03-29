@@ -305,11 +305,17 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::AppTemporaries:
 		{
-			WCHAR tmpPath[MAXPATH + 1];
+			WCHAR tmpPath[MAXPATH];
 
-			if (GetTempPath(std::size(tmpPath), tmpPath) != 0)
+			DWORD winErr = GetTempPath(MAXPATH, tmpPath);
+			if (winErr != 0 && winErr < MAX_PATH)
 			{
 				thePath = NString(tmpPath);
+			}
+			
+			if (thePath.IsEmpty())
+			{
+				thePath = GetSHKnownFolderPath(FOLDERID_InternetCache);
 			}
 		}
 		break;
