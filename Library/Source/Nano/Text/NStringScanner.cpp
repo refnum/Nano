@@ -560,7 +560,7 @@ pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFl
 	size_t errorOffset = 0;
 
 	pcre2_code* regExp = pcre2_compile(PCRE2_SPTR8(searchFor.GetUTF8()),
-									   kNStringLength,
+									   ~static_cast<PCRE2_SIZE>(0),    // PCRE2_ZERO_TERMINATED
 									   regFlags,
 									   &errorCode,
 									   &errorOffset,

@@ -60,10 +60,6 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Sizes
-static constexpr size_t kNStringLength                      = size_t(-1);
-
-
 // String flags
 using NStringFlags                                          = uint8_t;
 
