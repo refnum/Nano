@@ -312,7 +312,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 			{
 				thePath = NString(tmpPath);
 			}
-			
+
 			if (thePath.IsEmpty())
 			{
 				thePath = GetSHKnownFolderPath(FOLDERID_InternetCache);

@@ -117,11 +117,10 @@ NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 {
 
 
-	// Validate our parameters
+	// Check our parameters
 	if (moveToTrash)
 	{
-		NN_LOG_UNIMPLEMENTED();
-		return NStatus::NotSupported;
+		NN_LOG_UNIMPLEMENTED("Unable to move to trash - deleting {}", thePath);
 	}
 
 
