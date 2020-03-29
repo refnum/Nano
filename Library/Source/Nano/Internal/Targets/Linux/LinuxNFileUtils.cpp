@@ -42,6 +42,7 @@
 #include "NFileUtils.h"
 
 // Nano
+#include "NPOSIX.h"
 #include "NSharedLinux.h"
 #include "NSharedPOSIX.h"
 
@@ -142,53 +143,102 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 
 	// Get the location
-	NStatus theErr = NStatus::NotSupported;
-	thePath.Clear();
+	NStatus theErr = NStatus::OK;
 
 	switch (theLocation)
 	{
 		case NFileLocation::AppCaches:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppCaches");
+			thePath = NPOSIX::getenv("XDG_CACHE_HOME");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/.cache";
+			}
 			break;
 
 		case NFileLocation::AppSupport:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppSupport");
+			thePath = NPOSIX::getenv("XDG_DATA_HOME");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/.local/share";
+			}
 			break;
 
 		case NFileLocation::AppTemporaries:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppTemporaries");
+			thePath = NPOSIX::getenv("XDG_RUNTIME_DIR");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("TMPDIR");
+			}
+
+			if (thePath.IsEmpty())
+			{
+				thePath = "/tmp";
+			}
 			break;
 
 		case NFileLocation::SharedSupport:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::SharedSupport");
+			thePath = NPOSIX::getenv("XDG_DATA_DIRS");
+			if (thePath.Contains(":"))
+			{
+				thePath = thePath.Split(":").first();
+			}
+
+			if (thePath.IsEmpty())
+			{
+				thePath = "/usr/local/share";
+			}
 			break;
 
 		case NFileLocation::UserDesktop:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDesktop");
+			thePath = NPOSIX::getenv("XDG_DESKTOP_DIR");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/Desktop";
+			}
 			break;
 
 		case NFileLocation::UserDocuments:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDocuments");
+			thePath = NPOSIX::getenv("XDG_DOCUMENTS_DIR");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/Documents";
+			}
 			break;
 
 		case NFileLocation::UserDownloads:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDownloads");
+			thePath = NPOSIX::getenv("XDG_DOWNLOAD_DIR");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/Downloads";
+			}
 			break;
 
 		case NFileLocation::UserHome:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserHome");
+			thePath = NPOSIX::getenv("HOME");
 			break;
 
 		case NFileLocation::UserLogs:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserLogs");
+			thePath = NPOSIX::getenv("XDG_DATA_HOME");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/.local/share/logs";
+			}
 			break;
 
 		case NFileLocation::UserPictures:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPictures");
+			thePath = NPOSIX::getenv("XDG_PICTURES_DIR");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/Pictures";
+			}
 			break;
 
 		case NFileLocation::UserPreferences:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPreferences");
+			thePath = NPOSIX::getenv("XDG_CONFIG_HOME");
+			if (thePath.IsEmpty())
+			{
+				thePath = NPOSIX::getenv("HOME") + "/.config";
+			}
 			break;
 	}
 
