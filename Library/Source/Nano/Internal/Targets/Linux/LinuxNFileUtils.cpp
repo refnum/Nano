@@ -180,7 +180,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 			thePath = NPOSIX::getenv("XDG_DATA_DIRS");
 			if (thePath.Contains(":"))
 			{
-				thePath = thePath.Split(":").first();
+				thePath = thePath.Split(":").front();
 			}
 
 			if (thePath.IsEmpty())
