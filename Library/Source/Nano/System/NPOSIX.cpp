@@ -51,7 +51,7 @@ NString NPOSIX::getenv(const NString& theName)
 	NString theValue;
 
 #if NN_TARGET_WINDOWS
-	const utf16_t* envValue = _wgetenv(theName.GetUTF16());
+	const utf16_t* envValue = _wgetenv(reintrepret_cast<wchar_t*>(theName.GetUTF16()));
 	if (envValue != nullptr)
 	{
 		theValue = NString(envValue);
@@ -79,7 +79,7 @@ void NPOSIX::setenv(const NString& theName, const NString& theValue)
 #if NN_TARGET_WINDOWS
 	NString nameValue = theName + "=" + theValue;
 
-	int sysErr = _wputenv(nameValue.GetUTF16());
+	int sysErr = _wputenv(reinterpret_cast<wchar_t*>(nameValue.GetUTF16()));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 #else
