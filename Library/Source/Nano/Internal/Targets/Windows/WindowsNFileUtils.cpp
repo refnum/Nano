@@ -47,8 +47,8 @@
 #include "NString.h"
 
 // System
+#include <Shlobj.h>
 #include <ktmw32.h>
-#include <shellapi.h>
 
 
 
