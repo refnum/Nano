@@ -33,6 +33,9 @@
 		AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
 		AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
 		AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
+		AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */; };
+		AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */; };
+		AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */; };
 		AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
 		AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
 		AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
@@ -185,6 +188,7 @@
 		AB481C7B12A539830052C55F /* TURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TURL.cpp; sourceTree = "<group>"; };
 		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileScanner.cpp; sourceTree = "<group>"; };
+		AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFilePath.cpp; sourceTree = "<group>"; };
 		AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdAlgorithm.cpp; sourceTree = "<group>"; };
 		AB5127E923D07FC700528FBE /* TStdContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdContainer.cpp; sourceTree = "<group>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
@@ -510,6 +514,7 @@
 				ABDCE8BB241C59680054A16E /* TFileInfo.cpp */,
 				AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */,
 				AB514D7C1034184B00E5A6AD /* TFileMap.cpp */,
+				AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */,
 				AB53BBDB2421239C009960AA /* TFileUtils.cpp */,
 				AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */,
 			);
@@ -834,6 +839,7 @@
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
+				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
@@ -875,6 +881,7 @@
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
+				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
 				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
@@ -916,6 +923,7 @@
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
+				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
