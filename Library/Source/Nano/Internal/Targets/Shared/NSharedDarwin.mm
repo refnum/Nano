@@ -49,6 +49,7 @@
 
 // System
 #include <CoreFoundation/CoreFoundation.h>
+#include <Foundation/Foundation.h>
 #include <dispatch/semaphore.h>
 #include <fcntl.h>
 #include <mach/mach_time.h>
@@ -184,6 +185,37 @@ static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 	}
 
 	return wasOK;
+}
+
+
+
+
+
+//=============================================================================
+//		GetNSSearchPath : Get an NSSearchPath location.
+//-----------------------------------------------------------------------------
+static NString GetNSSearchPath(NSSearchPathDomainMask theDomain, NSSearchPathDirectory theDirectory)
+{
+
+
+	// Get the location
+	NString thePath;
+
+	@autoreleasepool
+	{
+		NSArray<NSString*>* nsPaths =
+			NSSearchPathForDirectoriesInDomains(theDirectory, theDomain, YES);
+		if (nsPaths != nil && nsPaths.count != 0)
+		{
+			NSString* nsPath = [nsPaths objectAtIndex:0];
+			if (nsPath != nil)
+			{
+				thePath = NString(nsPath.UTF8String);
+			}
+		}
+	}
+
+	return thePath;
 }
 
 
@@ -357,53 +389,60 @@ NStatus NSharedDarwin::GetLocation(NFileLocation theLocation, NString& thePath)
 
 
 	// Get the location
-	NStatus theErr = NStatus::NotSupported;
-	thePath.Clear();
+	NStatus theErr = NStatus::OK;
 
 	switch (theLocation)
 	{
 		case NFileLocation::AppCaches:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppCaches");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSCachesDirectory);
 			break;
 
 		case NFileLocation::AppSupport:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppSupport");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSApplicationSupportDirectory);
 			break;
 
 		case NFileLocation::AppTemporaries:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::AppTemporaries");
+			thePath = NString(NSTemporaryDirectory().UTF8String);
 			break;
 
 		case NFileLocation::SharedSupport:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::SharedSupport");
+			thePath = GetNSSearchPath(NSLocalDomainMask, NSApplicationSupportDirectory);
 			break;
 
 		case NFileLocation::UserDesktop:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDesktop");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSDesktopDirectory);
 			break;
 
 		case NFileLocation::UserDocuments:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDocuments");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSDocumentDirectory);
 			break;
 
 		case NFileLocation::UserDownloads:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserDownloads");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSDownloadsDirectory);
 			break;
 
 		case NFileLocation::UserHome:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserHome");
+			thePath = NString(NSHomeDirectory().UTF8String);
 			break;
 
 		case NFileLocation::UserLogs:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserLogs");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSLibraryDirectory);
+			if (!thePath.IsEmpty())
+			{
+				thePath += "/Logs";
+			}
 			break;
 
 		case NFileLocation::UserPictures:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPictures");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSPicturesDirectory);
 			break;
 
 		case NFileLocation::UserPreferences:
-			NN_LOG_UNIMPLEMENTED("NFileLocation::UserPreferences");
+			thePath = GetNSSearchPath(NSUserDomainMask, NSLibraryDirectory);
+			if (!thePath.IsEmpty())
+			{
+				thePath += "/Preferences";
+			}
 			break;
 	}
 
