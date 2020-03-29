@@ -22,6 +22,10 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NString.h"
+
+
 // System
 #include <time.h>
 
@@ -35,6 +39,11 @@
 class NPOSIX
 {
 public:
+	// stdlib.h
+	static NString                      getenv(const NString& theName);
+	static void                         setenv(const NString& theName, const NString& theValue);
+
+
 	// time.h
 	static struct tm                    localtime(time_t timeUnix);
 };

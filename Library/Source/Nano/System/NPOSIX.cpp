@@ -28,11 +28,65 @@
 
 
 // System
+#include <stdlib.h>
+
 #if NN_TARGET_WINDOWS
 	#include <io.h>
 #else
 	#include <unistd.h>
 #endif
+
+
+
+
+
+//=============================================================================
+//		NPOSIX::getenv : Get an environment variable.
+//-----------------------------------------------------------------------------
+NString NPOSIX::getenv(const NString& theName)
+{
+
+
+	// Get the value
+	NString theValue;
+
+#if NN_TARGET_WINDOWS
+	const utf16_t* envValue = _wgetenv(theName.GetUTF16());
+	if (envValue != nullptr)
+	{
+		theValue = NString(envValue);
+	}
+#else
+	const utf8_t* envValue = ::getenv(theName.GetUTF8());
+	if (envValue != nullptr)
+	{
+		theValue = envValue;
+	}
+#endif
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPOSIX::setenv : Set an environment variable.
+//-----------------------------------------------------------------------------
+void NPOSIX::setenv(const NString& theName, const NString& theValue)
+{
+#if NN_TARGET_WINDOWS
+	NString nameValue = theName + "=" + theValue;
+
+	int sysErr = _wputenv(nameValue.GetUTF16());
+	NN_EXPECT_NOT_ERR(sysErr);
+
+#else
+	int sysErr = ::setenv(theName.GetUTF8(), theValue.GetUTF8(), 1);
+	NN_EXPECT_NOT_ERR(sysErr);
+#endif
+}
 
 
 
