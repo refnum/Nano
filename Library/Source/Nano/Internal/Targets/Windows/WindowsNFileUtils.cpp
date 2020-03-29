@@ -49,6 +49,7 @@
 // System
 #include <Shlobj.h>
 #include <ktmw32.h>
+#include <shellapi.h>
 
 
 
@@ -73,7 +74,8 @@ static NString GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
 
 
 	// Get the folder
-	PWSTR winPath = nullptr;
+	PWSTR   winPath;
+	NString thePath;
 
 	if (SUCCEEDED(SHGetKnownFolderPath(theID, KF_FLAG_CREATE, nullptr, &winPath)))
 	{
@@ -104,7 +106,7 @@ NVectorString NFileUtils::GetChildren(const NString& thePath)
 
 	if (theDir == INVALID_HANDLE_VALUE)
 	{
-		return theFiles;
+		return theChildren;
 	}
 
 
@@ -307,10 +309,10 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 		{
 			WCHAR tmpPath[MAXPATH];
 
-			DWORD winErr = GetTempPath(MAXPATH, tmpPath);
+			DWORD winErr = GetTempPathW(MAXPATH, tmpPath);
 			if (winErr != 0 && winErr < MAX_PATH)
 			{
-				thePath = NString(tmpPath);
+				thePath = NString(&tmpPath[0]);
 			}
 
 			if (thePath.IsEmpty())
