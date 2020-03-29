@@ -52,6 +52,9 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Paths
+static const NString kPathTmpDirectory =
+	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFile");
+
 static const NString kExtensionTmpFileA                     = "aaa";
 static const NString kExtensionTmpFileB                     = "bbb";
 
@@ -62,7 +65,6 @@ static const NString kNameTmpFileB                          = "TFile_B." + kExte
 static const NString kPathFile                              = "/bin/bash";
 static const NString kPathDirectory                         = "/tmp";
 static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpDirectory                      = "/tmp/TFile";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
 
@@ -70,7 +72,6 @@ static const NString kPathTmpFileB                          = kPathTmpDirectory 
 static const NString kPathFile                              = "/bin/bash";
 static const NString kPathDirectory                         = "/tmp";
 static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpDirectory                      = "/tmp/TFile";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
 
@@ -79,7 +80,6 @@ static const NString kPathTmpFileB                          = kPathTmpDirectory 
 static const NString kPathFile                              = "/bin/bash";
 static const NString kPathDirectory                         = "/tmp";
 static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpDirectory                      = "/tmp/TFile";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
 
@@ -88,7 +88,6 @@ static const NString kPathTmpFileB                          = kPathTmpDirectory 
 static const NString kPathFile                              = "/bin/bash";
 static const NString kPathDirectory                         = "/tmp";
 static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpDirectory                      = "/tmp/TFile";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
 
@@ -97,7 +96,6 @@ static const NString kPathTmpFileB                          = kPathTmpDirectory 
 static const NString kPathFile                              = "/bin/bash";
 static const NString kPathDirectory                         = "/tmp";
 static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpDirectory                      = "/tmp/TFile";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
 
@@ -106,7 +104,6 @@ static const NString kPathTmpFileB                          = kPathTmpDirectory 
 static const NString kPathFile                              = "c:\\Windows\\regedit.exe";
 static const NString kPathDirectory                         = "c:\\Windows";
 static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFile";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "\\" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "\\" + kNameTmpFileB;
 

@@ -51,41 +51,35 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
+static const NString kPathTmpDirectory =
+	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileScanner");
+
 #if NN_TARGET_ANDROID
-static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
 static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
 static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
 static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
 
 #elif NN_TARGET_IOS
-static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
 static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
 static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
 static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
 
 #elif NN_TARGET_LINUX
-static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
 static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
 static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
 static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
 
 #elif NN_TARGET_MACOS
-static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
 static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
 static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
 static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
 
-
 #elif NN_TARGET_TVOS
-static const NString kPathTmpDirectory                      = "/tmp/TFileScanner";
 static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
 static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
 static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
 
 #elif NN_TARGET_WINDOWS
-static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFileScanner";
 static const NString kPathTmpChildA                         = kPathTmpDirectory + "\\one\\two\\three\\four";
 static const NString kPathTmpChildB                         = kPathTmpDirectory + "\\one\\two\\33333.dat";
 static const NString kPathTmpChildC                         = kPathTmpDirectory + "\\one\\222.dat";

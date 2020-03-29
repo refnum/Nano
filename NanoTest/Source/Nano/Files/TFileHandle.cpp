@@ -59,34 +59,27 @@ static constexpr uint8_t kBufferData[kBufferSize]           = {'T', 'e', 's', 't
 
 
 // Paths
+static const NString kPathTmpDirectory =
+	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileHandle");
 static const NString kNameTmpFile                           = "TFileHandle.dat";
 
 
 #if NN_TARGET_ANDROID
-static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
 static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 #elif NN_TARGET_IOS
-static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
 static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
 
 #elif NN_TARGET_LINUX
-static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
 static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
 
 #elif NN_TARGET_MACOS
-static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
 static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
-
 #elif NN_TARGET_TVOS
-static const NString kPathTmpDirectory                      = "/tmp/TFileHandle";
 static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
 
 #elif NN_TARGET_WINDOWS
-static const NString kPathTmpDirectory                      = "c:\\Windows\\Temp\\TFileHandle";
 static const NString kPathTmpFile                           = kPathTmpDirectory + "\\" + kNameTmpFile;
 
 #else
