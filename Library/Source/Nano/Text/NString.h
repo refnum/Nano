@@ -375,7 +375,6 @@ public:
 	void                                HashClear();
 
 
-
 private:
 	constexpr bool                      IsSmall()      const;
 	constexpr bool                      IsSmallUTF8()  const;

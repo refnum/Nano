@@ -37,49 +37,17 @@
 	___________________________________________________________________________
 */
 //=============================================================================
-//		Macros
-//-----------------------------------------------------------------------------
-#define FMT_HEADER_ONLY
-
-
-
-
-
-//=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoMacros.h"
-
-NN_DIAGNOSTIC_PUSH();
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
-NN_DIAGNOSTIC_IGNORE_MSVC(4464);    // Relative include path contains '..'
-NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
-
-#include "../fmt_2020_03_04/printf.h"
-
-NN_DIAGNOSTIC_POP();
 
 
 
 
 
 //=============================================================================
-//		Internal function prototypes
+//		NSimpleFormatter::parse : Simple std::formatter parsing.
 //-----------------------------------------------------------------------------
-NString NFormatArgsToString(const fmt::basic_string_view<char>& formatStr,
-							fmt::format_args                    theArgs);
-
-NString NSprintfArgsToString(const fmt::basic_string_view<char>&         formatStr,
-							 fmt::basic_format_args<fmt::printf_context> theArgs);
-
-
-
-
-
-//=============================================================================
-//		NBaseFormatter::parse : Basic std::formatter parsing.
-//-----------------------------------------------------------------------------
-constexpr auto NBaseFormatter::parse(fmt::format_parse_context& theContext) const
+constexpr auto NSimpleFormatter::parse(fmt::format_parse_context& theContext) const
 {
 
 
@@ -100,7 +68,6 @@ constexpr auto NBaseFormatter::parse(fmt::format_parse_context& theContext) cons
 	// simple base class for objects that format with "{}".
 	//
 	auto theIter = theContext.begin();
-
 	if (*theIter != '}')
 	{
 		throw fmt::format_error("Unexpected specifier!");
@@ -108,69 +75,3 @@ constexpr auto NBaseFormatter::parse(fmt::format_parse_context& theContext) cons
 
 	return theIter;
 }
-
-
-
-
-
-//=============================================================================
-//		NFormatPackToString : Format a parameter pack to an NString.
-//-----------------------------------------------------------------------------
-template<typename S, typename... Args>
-NString NFormatPackToString(const S& formatStr, Args&&... theArgs)
-{
-
-
-	// Format the string
-	//
-	// Formatting at the call site is done through an array of arguments, rather
-	// than expanding the parameter pack, to minimise template bloat:
-	//
-	//	https://www.zverovich.net/2017/12/09/improving-compile-times.html
-	//	https://www.zverovich.net/2016/11/05/reducing-printf-call-overhead.html
-	//
-	return NFormatArgsToString(formatStr,
-							   {fmt::internal::make_args_checked<Args...>(formatStr, theArgs...)});
-}
-
-
-
-
-
-//=============================================================================
-//		NSprintfPackToString : Sprintf a parameter pack to an NString.
-//-----------------------------------------------------------------------------
-template<typename S, typename... Args>
-NString NSprintfPackToString(const S& formatStr, Args&&... theArgs)
-{
-
-
-	// Format the string
-	try
-	{
-		return NSprintfArgsToString(formatStr,
-									fmt::make_format_args<fmt::printf_context>(theArgs...));
-	}
-	catch (const std::exception& theErr)
-	{
-		return NFormatPackToString("sprintf failure: {}\n", theErr.what());
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		NString formatter
-//-----------------------------------------------------------------------------
-template<>
-class fmt::formatter<NString> : public NBaseFormatter
-{
-public:
-	template<typename FormatContext>
-	auto format(const NString& p, FormatContext& ctx)
-	{
-		return format_to(ctx.out(), p.GetUTF8());
-	}
-};

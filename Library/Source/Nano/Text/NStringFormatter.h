@@ -2,7 +2,7 @@
 		NStringFormatter.h
 
 	DESCRIPTION:
-		String Formatter.
+		String formatter.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -41,8 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NString.h"
+#include "Nano_fmt.h"
 
 
 
@@ -51,7 +50,7 @@
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NBaseFormatter
+class NSimpleFormatter
 {
 public:
 	// Parse the context
@@ -60,72 +59,6 @@ public:
 	// and who produce their output with a simple "{}".
 	constexpr auto                      parse(fmt::format_parse_context& theContext) const;
 };
-
-
-
-
-
-//=============================================================================
-//		Macros
-//-----------------------------------------------------------------------------
-// Format a string
-//
-// Accepts either std::format-style or printf-style formatting automatically.
-//
-//		https://fmt.dev/latest/syntax.html
-//
-//		https://en.cppreference.com/w/cpp/utility/format/formatter#Standard_format_specification
-//		https://en.cppreference.com/w/c/io/fprintf
-//
-// Example:
-//
-//		NString theResult = NFormat("{} {}", "Hello", "World");
-//
-//		NString theResult = NFormat("%s %s", "Hello", "World");
-//
-// std::format formatting errors are reported as a constexpr compile error:
-//
-//		Constexpr variable 'invalid_format' must
-//		be initialized by a constant expression.
-//
-// printf formatting errors are reported as a compile error.
-//
-#define NFormat(_format, ...)                                               \
-	[&]() {                                                                 \
-		auto _format_message = FMT_STRING(_format);                         \
-																			\
-		if constexpr (_nn_has_format_specifiers(_format))                   \
-		{                                                                   \
-			return NFormatPackToString(_format_message, ##__VA_ARGS__);     \
-		}                                                                   \
-		else                                                                \
-		{                                                                   \
-			/* Check the format                                        */   \
-			/*                                                         */   \
-			/* This branch is never taken, so is never evaluated       */   \
-			/* other than to validate the arguments against printf.    */   \
-			/*                                                         */   \
-			/* As std::format allows additional arguments we discard   */   \
-			/* this warning for consistency.                           */   \
-			/*                                                         */   \
-			/* For MSVC we must also discard some additional warnings  */   \
-			/* that would apply to a traditional printf, but do not    */   \
-			/* apply to the fmtlib implementation.   */                     \
-			if (false)                                                      \
-			{                                                               \
-				NN_DIAGNOSTIC_PUSH();                                       \
-				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");          \
-				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");            \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments     */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD argument    */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4476); /* Positional argument */  \
-				printf(_format, ##__VA_ARGS__);                             \
-				NN_DIAGNOSTIC_POP();                                        \
-			}                                                               \
-																			\
-			return NSprintfPackToString(_format_message, ##__VA_ARGS__);    \
-		}                                                                   \
-	}()
 
 
 

@@ -1,8 +1,8 @@
 /*	NAME:
-		NStringFormatter.cpp
+		NFormat.cpp
 
 	DESCRIPTION:
-		String formatter.
+		String formatting.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -39,7 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NStringFormatter.h"
+#include "NFormat.h"
 
 
 

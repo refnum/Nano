@@ -39,6 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NStringFormatter.h"
+
 // System
 #include <cstddef>
 #include <string>
@@ -491,3 +494,22 @@ NString operator+(const T* theLiteral, const NString& theString)
 	// Append the string
 	return NString(theLiteral) + theString;
 }
+
+
+
+
+
+#pragma mark NFormat
+//=============================================================================
+//		NString formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NString> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NString& p, FormatContext& ctx)
+	{
+		return format_to(ctx.out(), p.GetUTF8());
+	}
+};

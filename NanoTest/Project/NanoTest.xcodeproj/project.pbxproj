@@ -36,6 +36,9 @@
 		AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */; };
 		AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */; };
 		AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */; };
+		AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4C32430F34E00D36016 /* TFormat.cpp */; };
+		AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4C32430F34E00D36016 /* TFormat.cpp */; };
+		AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4C32430F34E00D36016 /* TFormat.cpp */; };
 		AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
 		AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
 		AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */; };
@@ -189,6 +192,7 @@
 		AB481CAD12A57EF40052C55F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileScanner.cpp; sourceTree = "<group>"; };
 		AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFilePath.cpp; sourceTree = "<group>"; };
+		AB4EB4C32430F34E00D36016 /* TFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFormat.cpp; sourceTree = "<group>"; };
 		AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdAlgorithm.cpp; sourceTree = "<group>"; };
 		AB5127E923D07FC700528FBE /* TStdContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdContainer.cpp; sourceTree = "<group>"; };
 		AB514D601034184B00E5A6AD /* TCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCommandLine.cpp; sourceTree = "<group>"; };
@@ -651,6 +655,7 @@
 		AB56391223C2A3F600675F68 /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				AB4EB4C32430F34E00D36016 /* TFormat.cpp */,
 				AB56391423C2A3F600675F68 /* TString.cpp */,
 				AB54F9B023EF14CE005207BC /* TStringComparator.cpp */,
 				AB56392123C2A54C00675F68 /* TStringEncoder.cpp */,
@@ -837,6 +842,7 @@
 				ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
@@ -879,6 +885,7 @@
 				ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
@@ -921,6 +928,7 @@
 				ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
