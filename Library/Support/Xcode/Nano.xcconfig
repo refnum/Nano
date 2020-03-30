@@ -139,6 +139,8 @@ Nano_Configuration_Common				= $(inherited) -DNN_DEBUG=0
 Nano_Configuration_Common				= $(inherited) -DNN_RELEASE=0
 Nano_Configuration_Common				= $(inherited) -fconstant-cfstrings
 Nano_Configuration_Common				= $(inherited) -fno-common
+Nano_Configuration_Common				= $(inherited) -fvisibility=hidden
+Nano_Configuration_Common				= $(inherited) -fvisibility-inlines-hidden
 
 Nano_Configuration_Debug				= $(Nano_Configuration_Common)
 Nano_Configuration_Debug				= $(inherited) -fstack-protector-all
