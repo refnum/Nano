@@ -79,7 +79,7 @@ static NString GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
 
 	if (SUCCEEDED(SHGetKnownFolderPath(theID, KF_FLAG_CREATE, nullptr, &winPath)))
 	{
-		thePath = NString(winPath);
+		thePath = NString(reinterpret_cast<const utf16_t*>(winPath));
 	}
 
 	return thePath;
@@ -312,7 +312,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 			DWORD winErr = GetTempPathW(MAXPATH, tmpPath);
 			if (winErr != 0 && winErr < MAX_PATH)
 			{
-				thePath = NString(&tmpPath[0]);
+				thePath = NString(reinterpret_cast<const utf16_t*>(&tmpPath[0]));
 			}
 
 			if (thePath.IsEmpty())

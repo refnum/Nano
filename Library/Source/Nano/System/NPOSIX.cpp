@@ -51,10 +51,12 @@ NString NPOSIX::getenv(const NString& theName)
 	NString theValue;
 
 #if NN_TARGET_WINDOWS
-	const utf16_t* envValue = _wgetenv(reinterpret_cast<const wchar_t*>(theName.GetUTF16()));
-	if (envValue != nullptr)
+	const wchar_t* winName  = reinterpret_cast<const wchar_t*>(theName.GetUTF16());
+	const wchar_t* winValue = _wgetenv(winName);
+	if (winValue != nullptr)
 	{
-		theValue = NString(envValue);
+		const utf16_t* envValue = reinterpret_cast<const utf16_t*>(winValue);
+		theValue                = NString(envValue);
 	}
 #else
 	const utf8_t* envValue = ::getenv(theName.GetUTF8());
