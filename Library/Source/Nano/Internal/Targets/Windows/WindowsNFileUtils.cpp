@@ -307,7 +307,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::AppTemporaries:
 		{
-			WCHAR tmpPath[MAXPATH];
+			WCHAR tmpPath[MAX_PATH];
 
 			DWORD winErr = GetTempPathW(MAXPATH, tmpPath);
 			if (winErr != 0 && winErr < MAX_PATH)
