@@ -65,9 +65,11 @@
 // We do so in code, rather than with a command line flag, so that we can
 // still get that warning on non-macro calls to printf in gcc 9.2+.
 //
-#if defined(__cplusplus) && NN_COMPILER_GCC && NN_COMPILER_GCC < 90201
-NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");
-#endif
+/*
+ #if defined(__cplusplus) && NN_COMPILER_GCC && NN_COMPILER_GCC < 90201
+   NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");
+ #endif
+ */
 
 
 

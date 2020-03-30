@@ -75,6 +75,13 @@
 //
 #define NFormat(_format, ...)                                               \
 	[&]() {                                                                 \
+		NN_DIAGNOSTIC_PUSH();                                               \
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                  \
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                    \
+		NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments     */          \
+		NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD argument    */          \
+		NN_DIAGNOSTIC_IGNORE_MSVC(4476); /* Positional argument */          \
+																			\
 		auto _format_message = FMT_STRING(_format);                         \
 																			\
 		if constexpr (_nn_has_format_specifiers(_format))                   \
@@ -96,18 +103,13 @@
 			/* apply to the fmtlib implementation.   */                     \
 			if (false)                                                      \
 			{                                                               \
-				NN_DIAGNOSTIC_PUSH();                                       \
-				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");          \
-				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");            \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments     */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD argument    */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4476); /* Positional argument */  \
 				printf(_format, ##__VA_ARGS__);                             \
-				NN_DIAGNOSTIC_POP();                                        \
 			}                                                               \
 																			\
 			return NSprintfPackToString(_format_message, ##__VA_ARGS__);    \
 		}                                                                   \
+																			\
+		NN_DIAGNOSTIC_POP();                                                \
 	}()
 
 
