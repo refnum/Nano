@@ -138,21 +138,21 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define NanoLog(_level, _format, ...)                                                       \
 		do                                                                                      \
 		{                                                                                       \
-			NN_DIAGNOSTIC_PUSH();                                                               \
-			NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                                  \
-			NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                                    \
-			NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments */                              \
-																								\
-			if constexpr (_nn_has_format_specifiers(_format))                                   \
+			if (_nn_has_format_specifiers(_format))                                             \
 			{                                                                                   \
 				NanoLogFormat(_level, __FILE__, __LINE__, FMT_STRING(_format), ##__VA_ARGS__);  \
 			}                                                                                   \
 			else                                                                                \
 			{                                                                                   \
+				NN_DIAGNOSTIC_PUSH();                                                           \
+				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                              \
+				/*NN_DIAGNOSTIC_IGNORE_CLANG("-Wnon-pod-varargs");*/                            \
+				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                                \
+				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments */                          \
 				NanoLogPrintf(_level, __FILE__, __LINE__, _format, ##__VA_ARGS__);              \
+				NN_DIAGNOSTIC_POP();                                                            \
 			}                                                                                   \
 																								\
-			NN_DIAGNOSTIC_POP();                                                                \
 		} while (false)
 
 #else
