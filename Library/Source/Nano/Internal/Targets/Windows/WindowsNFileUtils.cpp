@@ -309,7 +309,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 		{
 			WCHAR tmpPath[MAX_PATH];
 
-			DWORD winErr = GetTempPathW(MAXPATH, tmpPath);
+			DWORD winErr = GetTempPathW(MAX_PATH, tmpPath);
 			if (winErr != 0 && winErr < MAX_PATH)
 			{
 				thePath = NString(reinterpret_cast<const utf16_t*>(&tmpPath[0]));
