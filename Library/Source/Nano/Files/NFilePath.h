@@ -74,6 +74,10 @@ class NN_EMPTY_BASE NFilePath final
 	, public NMixinHashable<NFilePath>
 {
 public:
+										NFilePath() = default;
+										NFilePath(const NString& thePath);
+
+
 	// Is the path valid?
 	bool                                IsValid() const;
 
@@ -82,8 +86,27 @@ public:
 	void                                Clear();
 
 
-	// Get the path
-	NString                             GetString() const;
+	// Get/set the path
+	NString                             GetPath() const;
+	void                                SetPath(  const NString& thePath);
+
+
+	// Get the parent
+	//
+	// Get the parent from the path, typically all but the last part.
+	NString                             GetParent() const;
+
+
+	// Get the name
+	//
+	// Get the name from the path, typically the last part.
+	NString                             GetName(bool withExtension = true) const;
+
+
+	// Get the extension
+	//
+	// Get the extension of the name, if any.
+	NString                             GetExtension() const;
 
 
 public:
@@ -100,6 +123,11 @@ public:
 	size_t                              HashGet() const;
 	size_t                              HashUpdate();
 	void                                HashClear();
+
+
+private:
+	NString                             GetPathPart(const NString& thePath, const NString& thePattern) const;
+
 
 private:
 	NString                             mPath;

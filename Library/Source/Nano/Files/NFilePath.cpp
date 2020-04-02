@@ -46,6 +46,44 @@
 
 
 //=============================================================================
+//		Internal Cnstants
+//-----------------------------------------------------------------------------
+// Part patterns
+#if NN_TARGET_WINDOWS
+static constexpr const char* kNPatternParent                = "(.*)\\.*?$";
+static constexpr const char* kNPatternNameWithExtension     = ".*\\(.*?$)";
+static constexpr const char* kNPatternNameWithoutExtension  = ".*\\(.*?)(\\..*)?$";
+static constexpr const char* kNPatternExtension             = "\\.(.*?$)";
+
+#else
+static constexpr const char* kNPatternParent                = "(.*)\\/.*?$";
+static constexpr const char* kNPatternNameWithExtension     = ".*\\/(.*?$)";
+static constexpr const char* kNPatternNameWithoutExtension  = ".*\\/(.*?)(\\..*)?$";
+static constexpr const char* kNPatternExtension             = "\\.(.*?)$";
+#endif
+
+
+
+
+
+#pragma mark NFilePath
+//=============================================================================
+//		NFilePath::NFilePath : Constructor.
+//-----------------------------------------------------------------------------
+NFilePath::NFilePath(const NString& thePath)
+	: mPath()
+{
+
+
+	// Set the path
+	SetPath(thePath);
+}
+
+
+
+
+
+//=============================================================================
 //		NFilePath::IsValid : Is the path valid?
 //-----------------------------------------------------------------------------
 bool NFilePath::IsValid() const
@@ -76,14 +114,81 @@ void NFilePath::Clear()
 
 
 //=============================================================================
-//		NFilePath::GetString : Get the path as a string.
+//		NFilePath::GetPath : Get the path.
 //-----------------------------------------------------------------------------
-NString NFilePath::GetString() const
+NString NFilePath::GetPath() const
 {
 
 
 	// Get the path
 	return mPath;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetPath : Set the path.
+//-----------------------------------------------------------------------------
+void NFilePath::SetPath(const NString& thePath)
+{
+
+
+	// Set the path
+	mPath = thePath;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetParent : Get the parent.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetParent() const
+{
+
+
+	// Get the parent
+	return GetPathPart(mPath, kNPatternParent);
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetName : Get the name.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetName(bool withExtension) const
+{
+
+
+	// Get the parent
+	if (withExtension)
+	{
+		return GetPathPart(mPath, kNPatternNameWithExtension);
+	}
+	else
+	{
+		return GetPathPart(mPath, kNPatternNameWithoutExtension);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetExtension : Get the extension.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetExtension() const
+{
+
+
+	// Get the extension
+	return GetPathPart(mPath, kNPatternExtension);
 }
 
 
@@ -177,4 +282,28 @@ void NFilePath::HashClear()
 
 	// Clear the hash
 	mPath.HashClear();
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NFilePath::GetPathPart : Get part of a path.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetPathPart(const NString& thePath, const NString& thePattern) const
+{
+
+
+	// Get the part
+	NPatternGroup theMatch = thePath.FindGroup(thePattern, kNStringPattern);
+	NString       theResult;
+
+	if (!theMatch.theGroups.empty())
+	{
+		theResult = thePath.GetSubstring(theMatch.theGroups[0]);
+	}
+
+	return theResult;
 }

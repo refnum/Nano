@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NString.h"
+#include "NFilePath.h"
 #include "NanoConstants.h"
 #include "NanoTargets.h"
 
@@ -50,16 +51,8 @@
 
 
 //=============================================================================
-//		Internal Constants
+//		Constants
 //-----------------------------------------------------------------------------
-// Directory separator
-#if NN_TARGET_WINDOWS
-static constexpr const char* kNPathSeparator                = "\\";
-#else
-static constexpr const char* kNPathSeparator                = "/";
-#endif
-
-
 // Locations
 //
 // A platform-specific location for files of a particular purpose:
