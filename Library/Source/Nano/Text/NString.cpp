@@ -1750,41 +1750,51 @@ void NString::AppendLarge(const NString& otherString)
 
 	// General case
 	//
-	// We may need to process the string to obtain the bytes.
+	// We may need to transcode the string to obtain the bytes.
 	else
 	{
 		// Get the state we need
-		NN_REQUIRE(otherString.IsLarge());
-
 		bytesTerminator = NStringEncoder::GetCodeUnitSize(encodingThis);
-		sizeOther       = otherString.GetSizeLarge();
+		sizeOther       = otherString.GetSize();
 
 
 
 		// Get the data
 		//
-		// In the ideal case the other string is unsliced and in our encoding.
+		// In the ideal case the other string is large data, unsliced, and in
+		// our encoding.
+		//
 		// In this case we can simply append its data as-is, including its
 		// terminator.
 		//
-		// If not we may need to either transcode it, to create a null-terminated
+		//
+		// If not we may need to transcode it, to create a null-terminated
 		// copy of the data in the required encoding.
 		//
-		// If we have a slice onto some other data we must resolve the slice,
-		// again to obtain null-terminated data we can concatenate with our own.
-		const NStringData* otherStringData = &otherString.mString.Large.theState->stringData;
-		dataOther                          = otherStringData->theData;
-
-		if (encodingThis != otherStringData->theEncoding)
+		// If the other string is a slice onto some other string we must
+		// resolve the slice in order to obtain null-terminated data we
+		// can append to our data.
+		if (otherString.IsLarge())
 		{
-			NString* otherMutable = const_cast<NString*>(&otherString);
-			dataOther             = otherMutable->FetchEncoding(encodingThis)->theData;
+			const NStringData* otherStringData = &otherString.mString.Large.theState->stringData;
+			dataOther                          = otherStringData->theData;
+
+			if (encodingThis != otherStringData->theEncoding)
+			{
+				NString* otherMutable = const_cast<NString*>(&otherString);
+				dataOther             = otherMutable->FetchEncoding(encodingThis)->theData;
+			}
+
+			else if (otherString.IsSlice())
+			{
+				NRange sliceOther = otherString.GetSliceBytes(*otherStringData);
+				dataOther         = otherStringData->theData.GetData(sliceOther);
+				dataOther.SetSize(dataOther.GetSize() + bytesTerminator);
+			}
 		}
-
-		else if (otherString.IsSlice())
+		else
 		{
-			NRange sliceOther = otherString.GetSliceBytes(*otherStringData);
-			dataOther         = otherStringData->theData.GetData(sliceOther);
+			dataOther = otherString.GetData(encodingThis);
 			dataOther.SetSize(dataOther.GetSize() + bytesTerminator);
 		}
 

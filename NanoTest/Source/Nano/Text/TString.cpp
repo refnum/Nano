@@ -1387,6 +1387,26 @@ NANO_TEST(TString, "Appendable")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "AppendLargeUTF16SmallUTF18")
+{
+
+
+	// Perform the test
+	NString theString;
+
+	theString  = kTestStringLarge.GetUTF16();
+	theString += kTestStringSmall.GetUTF8();
+
+	REQUIRE(theString == (kTestStringLarge + kTestStringSmall));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "CompareEqual")
 {
 
