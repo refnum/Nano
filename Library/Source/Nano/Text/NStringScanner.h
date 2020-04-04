@@ -185,15 +185,17 @@ private:
 
 	static pcre2_real_code_8*           GetRegexp(const NString& searchFor, NStringFlags theFlags);
 
-	static NVectorPatternGroup          BytesToCodepoints(const NVectorSize&         codePointOffsets,
+	static NVectorPatternGroup          BytesToCodepoints(const NString&             theString,
+														  const NData&               dataUTF8,
+														  size_t                     rangeLocation,
 														  const NVectorPatternGroup& bytePatternGroups);
+
+	static bool                         IsFixedWidthUTF8(const NData& dataUTF8);
+
 
 	static NRange                       BytesToCodepoints(const NVectorSize& codePointOffsets,
 														  size_t             codePointOffset,
 														  const NRange&      byteRange);
-
-	static NRange                       CodepointsToBytes(const NVectorSize& codePointOffsets,
-														  const NRange&      codePointRange);
 };
 
 

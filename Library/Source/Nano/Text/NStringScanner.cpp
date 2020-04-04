@@ -42,6 +42,7 @@
 #include "NStringScanner.h"
 
 // Nano
+#include "NData.h"
 #include "NStdAlgorithm.h"
 #include "NUnicodeView.h"
 #include "Nano_pcre2.h"
@@ -406,13 +407,15 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 
 
 	// Get the state we need
-	NVectorSize         codePointOffsets = NUnicodeView(theString).GetCodePointOffsets();
+	NString searchString = theString.GetSubstring(theRange);
+	NData   searchUTF8   = searchString.GetData(NStringEncoding::UTF8);
+
+	const utf8_t* searchText   = reinterpret_cast<const utf8_t*>(searchUTF8.GetData());
+	size_t        searchSize   = searchUTF8.GetSize();
+	size_t        searchOffset = 0;
+
 	NVectorPatternGroup patternGroups;
 	NPatternGroup       patternGroup;
-
-	NRange        searchRange  = CodepointsToBytes(codePointOffsets, theRange);
-	const utf8_t* searchUTF8   = theString.GetUTF8() + searchRange.GetLocation();
-	size_t        searchOffset = 0;
 
 
 
@@ -429,8 +432,8 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 	{
 		// Perform the match
 		int regErr = pcre2_match(regExp,
-								 PCRE2_SPTR8(searchUTF8),
-								 searchRange.GetSize(),
+								 PCRE2_SPTR8(searchText),
+								 searchSize,
 								 searchOffset,
 								 PCRE2_NO_UTF_CHECK,
 								 regMatches,
@@ -473,12 +476,10 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 
 
 	// Clean up
-	//
-	// Our byte offsets must be converted back to codepoint offsets.
 	pcre2_match_data_free(regMatches);
 	pcre2_code_free(regExp);
 
-	return BytesToCodepoints(codePointOffsets, patternGroups);
+	return BytesToCodepoints(searchString, searchUTF8, theRange.GetLocation(), patternGroups);
 }
 
 
@@ -605,48 +606,113 @@ pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFl
 //=============================================================================
 //		NStringScanner::BytesToCodepoints : Convert byte offsets to codepoint offsets.
 //-----------------------------------------------------------------------------
-NVectorPatternGroup NStringScanner::BytesToCodepoints(const NVectorSize&         codePointOffsets,
+NVectorPatternGroup NStringScanner::BytesToCodepoints(const NString&             theString,
+													  const NData&               dataUTF8,
+													  size_t                     rangeLocation,
 													  const NVectorPatternGroup& bytePatternGroups)
 {
 
 
-	// Get the state we need
+	// Convert to codepoints offsets
+	//
+	// PCRE returns pattern groups as byte offsets relative to the start of
+	// the search text.
+	//
+	// As PCRE always takes UTF8 text as input we can check to see if the
+	// search text is in fact fixed width UTF8.
+	//
+	// If it is then any byte offset results are already codepoint offsets.
 	NVectorPatternGroup codePointGroups(bytePatternGroups);
 
-	size_t patternOffset = 0;
-	size_t nextPattern   = 0;
-
-
-
-	// Convert the pattern groups
-	for (auto& patternGroup : codePointGroups)
+	if (!IsFixedWidthUTF8(dataUTF8))
 	{
-		// Convert the pattern range
+		// Get the state we need
 		//
-		// The returned offset is that of the last codepoint in the pattern itself,
-		// which gives us our starting point for the next pattern.
-		patternOffset = nextPattern;
-		patternGroup.thePattern =
-			BytesToCodepoints(codePointOffsets, patternOffset, patternGroup.thePattern);
-		nextPattern = patternGroup.thePattern.GetNext();
+		// We track the offset used to perform the initial byte->codepoint
+		// lookup for each group, allowing us to skip forward after the
+		// group to minimise lookups.
+		NVectorSize codePointOffsets(NUnicodeView(theString).GetCodePointOffsets());
+		size_t      patternOffset = 0;
+		size_t      nextPattern   = 0;
 
-
-
-		// Convert the captured ranges
-		//
-		// As a captured groups may start from the start of the pattern itself we
-		// start with the same start offset.
-		//
-		// As captured groups follow sequentially from each other we can us the end
-		// of each group as the starting point for the next group.
-		for (auto& theRange : patternGroup.theGroups)
+		for (auto& patternGroup : codePointGroups)
 		{
-			theRange      = BytesToCodepoints(codePointOffsets, patternOffset, theRange);
-			patternOffset = theRange.GetNext();
+			// Convert the pattern range
+			//
+			// The returned offset is that of the last codepoint in the pattern
+			// itself, which gives us our starting point for the next pattern.
+			patternOffset = nextPattern;
+			patternGroup.thePattern =
+				BytesToCodepoints(codePointOffsets, patternOffset, patternGroup.thePattern);
+			nextPattern = patternGroup.thePattern.GetNext();
+
+
+
+			// Convert the captured ranges
+			//
+			// As a captured groups may start from the start of the pattern
+			// itself we use the same start offset.
+			//
+			// However as captured groups follow sequentially from each other
+			// we can also use the end of each group as the starting point for
+			// the next group.
+			for (auto& theRange : patternGroup.theGroups)
+			{
+				theRange      = BytesToCodepoints(codePointOffsets, patternOffset, theRange);
+				patternOffset = theRange.GetNext();
+			}
+		}
+	}
+
+
+
+	// Apply the search offset
+	//
+	// If we searched a substring of the original string then our
+	// results need to be adjusted by the offset of that substring.
+	//
+	// The common case is that we're searching the entire string and
+	// so we do this as a separate pass as required.
+	if (rangeLocation != 0)
+	{
+		for (auto& patternGroup : codePointGroups)
+		{
+			patternGroup.thePattern.AddOffset(rangeLocation);
+
+			for (auto& theRange : patternGroup.theGroups)
+			{
+				theRange.AddOffset(rangeLocation);
+			}
 		}
 	}
 
 	return codePointGroups;
+}
+
+
+
+
+
+//=============================================================================
+//		NStringScanner::IsFixedWidthUTF8 : Is UTF8 data fixed-width?
+//-----------------------------------------------------------------------------
+bool NStringScanner::IsFixedWidthUTF8(const NData& dataUTF8)
+{
+
+
+	// Check the bytes
+	size_t         theSize = dataUTF8.GetSize();
+	const uint8_t* theData = dataUTF8.GetData();
+
+	for (size_t n = 0; n < theSize; n++)
+	{
+		if ((theData[n] & kNUTF8VariableWidth) != 0)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 
@@ -707,29 +773,4 @@ NRange NStringScanner::BytesToCodepoints(const NVectorSize& codePointOffsets,
 	}
 
 	return {codePointLocation, codePointSize};
-}
-
-
-
-
-
-//=============================================================================
-//		NStringScanner::CodepointsToBytes : Convert codepoint offsets to byte offsets.
-//-----------------------------------------------------------------------------
-NRange NStringScanner::CodepointsToBytes(const NVectorSize& codePointOffsets,
-										 const NRange&      codePointRange)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(codePointRange.GetFirst() < codePointOffsets.size());
-	NN_REQUIRE(codePointRange.GetLast() < codePointOffsets.size());
-
-
-
-	// Convert the range
-	size_t byteFirst = codePointOffsets[codePointRange.GetFirst()];
-	size_t byteLast  = codePointOffsets[codePointRange.GetLast()];
-
-	return {byteFirst, byteLast - byteFirst + 1};
 }

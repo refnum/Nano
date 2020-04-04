@@ -1313,6 +1313,94 @@ NANO_TEST(TString, "Split")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "Split/UTF")
+{
+
+
+	// Perform the test
+	//
+	// PCRE works with UTF8 strings internally so test that different
+	// external encodings are transcoded internally as needed.
+	//
+	// Ideally we want to avoid transcoding unless absolutely necessary,
+	// and share as much internal state amongst strings as we can when we
+	// do, so test both small and large strings in three encodings.
+	NVectorString theResult;
+
+	theResult = NString(u8"a,b").Split(",");
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+
+	theResult = NString(u8"aaaaaaaaaaaaaaaaaaaa,bbbbbbbbbbbbbbbbbbbb").Split(",");
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "aaaaaaaaaaaaaaaaaaaa");
+	REQUIRE(theResult[1] == "bbbbbbbbbbbbbbbbbbbb");
+
+
+	theResult = NString(u"a,b").Split(",");
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+
+	theResult = NString(u"aaaaaaaaaaaaaaaaaaaa,bbbbbbbbbbbbbbbbbbbb").Split(",");
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "aaaaaaaaaaaaaaaaaaaa");
+	REQUIRE(theResult[1] == "bbbbbbbbbbbbbbbbbbbb");
+
+
+	theResult = NString(U"a,b").Split(",");
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+
+	theResult = NString(U"aaaaaaaaaaaaaaaaaaaa,bbbbbbbbbbbbbbbbbbbb").Split(",");
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "aaaaaaaaaaaaaaaaaaaa");
+	REQUIRE(theResult[1] == "bbbbbbbbbbbbbbbbbbbb");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Split/WhitespacePattern")
+{
+
+
+	// Perform the test
+	//
+	// The default split separator is a pattern but, as most separators
+	// are literals, the flags default to a literal.
+	//
+	// Splitting on whitespace will activate a pattern match automatically.
+	//
+	// Splitting on something that could be interpreted as a pattern, but
+	// should be a literal, will be split as a literal.
+	NVectorString theResult;
+
+	theResult = NString("a  b").Split();
+	REQUIRE(theResult.size() == 2);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "b");
+
+	theResult = NString("a\\\\b").Split("\\");
+	REQUIRE(theResult.size() == 3);
+	REQUIRE(theResult[0] == "a");
+	REQUIRE(theResult[1] == "");
+	REQUIRE(theResult[2] == "b");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "GetLines")
 {
 
@@ -1394,7 +1482,7 @@ NANO_TEST(TString, "AppendLargeUTF16SmallUTF18")
 	// Perform the test
 	NString theString;
 
-	theString  = kTestStringLarge.GetUTF16();
+	theString = kTestStringLarge.GetUTF16();
 	theString += kTestStringSmall.GetUTF8();
 
 	REQUIRE(theString == (kTestStringLarge + kTestStringSmall));
