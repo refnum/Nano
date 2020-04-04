@@ -294,7 +294,7 @@ public:
 
 	// Test the string
 	//
-	// Supports kNStringNoCasea and kNStringPattern.
+	// Supports kNStringNoCase and kNStringPattern.
 	bool                                StartsWith(const NString& theString, NStringFlags theFlags = kNStringNone) const;
 	bool                                EndsWith(  const NString& theString, NStringFlags theFlags = kNStringNone) const;
 	bool                                Contains(  const NString& theString, NStringFlags theFlags = kNStringNone) const;
@@ -302,9 +302,10 @@ public:
 
 	// Compare the string
 	//
-	// The equality (==, !=) and order (<, <=, >, >= operarators are case-sensitive.
+	// EqualTo defaults to case-insensitive equality as the equality
+	// (==, !=) and order (<, <=, >, >= operarators are always case-sensitive.
 	//
-	// Supports kNStringNoCasea and kNStringNumeric.
+	// Supports kNStringNoCase and kNStringNumeric.
 	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone)   const;
 	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
 
