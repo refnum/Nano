@@ -92,9 +92,15 @@ enum class NStringEncoding
 };
 
 
-// Characters
+// Replacements
 static constexpr utf32_t kNUTF32Replacement                 = 0xFFFD;
 static constexpr char    kNASCIIReplacement                 = '?';
+
+
+// Misc
+static constexpr utf8_t  kNUTF8VariableWidth                = utf8_t(0x80U);
+static constexpr utf16_t kNUTF16SurrogateStart              = utf16_t(0xD800);
+static constexpr utf16_t kNUTF16SurrogateEnd                = utf16_t(0xDFFF);
 
 
 
