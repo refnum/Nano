@@ -147,18 +147,23 @@ public:
 
 	// Split a string
 	//
-	// Split the string into a list of elements, divided by the separator,
-	// which defaults to whitespace.
+	// Split the string into a list of elements, divided by the separator.
 	//
 	// A separator that appears at the start/end of the string, or adjacent
 	// separators within the string, will produce an empty string.
 	//
 	// NTextUtils::RemoveEmpty can be used to discard empty elements.
 	//
+	//
+	// The default behaviour is to split on whitespace.
+	//
+	// As most separators are not patterns theFlags is promoted to
+	// a pattern search if splitWithin remains the default value.
+	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
 	static NVectorString                Split(const NString& theString,
-											  const NString& splitWith = "\\s+",
-											  NStringFlags   theFlags  = kNStringPattern,
+											  const NString& splitWith = kNStringWhitespace,
+											  NStringFlags   theFlags  = kNStringNone,
 											  const NRange&  theRange  = kNRangeAll);
 
 

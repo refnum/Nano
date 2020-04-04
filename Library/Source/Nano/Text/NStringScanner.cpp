@@ -292,6 +292,21 @@ NVectorString NStringScanner::Split(const NString& theString,
 {
 
 
+	// Adjust the flags
+	//
+	// Most separators are not patterns so we leave the default
+	// value of theFlags as kNStringNone.
+	//
+	// However, to provide our default behaviour of splitting on
+	// whitespace, we must enable pattern matching if splitting
+	// on our special whitespace pattern.
+	if (splitWith == kNStringWhitespace && theFlags == kNStringNone)
+	{
+		theFlags |= kNStringPattern;
+	}
+
+
+
 	// Get the state we need
 	NVectorRange  foundRanges = FindAll(theString, splitWith, theFlags, theRange);
 	NVectorString theResult;
