@@ -101,6 +101,10 @@ public:
 	constexpr void                      SetLocation(size_t theLocation);
 
 
+	// Add an offset to the location
+	constexpr void                      AddOffset(size_t theDelta);
+
+
 	// Get/set the size
 	constexpr size_t                    GetSize() const;
 	constexpr void                      SetSize(size_t theSize);
@@ -127,7 +131,7 @@ public:
 	size_t                              GetNext()  const;
 
 
-	// Get the range relative to an offset
+	// Get the range after adding an offset
 	NRange                              GetOffset(size_t theOffset) const;
 
 

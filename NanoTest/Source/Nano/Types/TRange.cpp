@@ -193,6 +193,44 @@ NANO_TEST(TRange, "GetLocation")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TRange, "AddOffset")
+{
+
+
+	// Perform the test
+	theRange.SetRange(0, 3);
+	theRange.AddOffset(0);
+	REQUIRE(theRange == NRange(0, 3));
+
+	theRange.SetRange(0, 3);
+	theRange.AddOffset(1);
+	REQUIRE(theRange == NRange(1, 3));
+
+	theRange.SetRange(0, 3);
+	theRange.AddOffset(2);
+	REQUIRE(theRange == NRange(2, 3));
+
+
+	theRange.SetRange(1, 3);
+	theRange.AddOffset(0);
+	REQUIRE(theRange == NRange(1, 3));
+
+	theRange.SetRange(2, 3);
+	theRange.AddOffset(1);
+	REQUIRE(theRange == NRange(3, 3));
+
+	theRange.SetRange(3, 3);
+	theRange.AddOffset(2);
+	REQUIRE(theRange == NRange(5, 3));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TRange, "GetSize")
 {
 

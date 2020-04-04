@@ -179,12 +179,27 @@ constexpr size_t NRange::GetLocation() const
 //=============================================================================
 //		NRange::SetLocation : Set the location.
 //-----------------------------------------------------------------------------
-constexpr void NRange::SetLocation(size_t theValue)
+constexpr void NRange::SetLocation(size_t theLocation)
 {
 
 
 	// Set the location
-	mLocation = theValue;
+	mLocation = theLocation;
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::AddOffset : Add an offset to the location.
+//-----------------------------------------------------------------------------
+constexpr void NRange::AddOffset(size_t theOffset)
+{
+
+
+	// Update the location
+	mLocation += theOffset;
 }
 
 
@@ -209,12 +224,12 @@ constexpr size_t NRange::GetSize() const
 //=============================================================================
 //		NRange::SetSize : Set the size.
 //-----------------------------------------------------------------------------
-constexpr void NRange::SetSize(size_t theValue)
+constexpr void NRange::SetSize(size_t theSize)
 {
 
 
 	// Set the size
-	mSize = theValue;
+	mSize = theSize;
 }
 
 
@@ -310,6 +325,8 @@ inline size_t NRange::GetNext() const
 
 	// Validate our state
 	NN_REQUIRE(!IsMeta());
+
+
 
 	// Get the next element
 	return mLocation + mSize;
