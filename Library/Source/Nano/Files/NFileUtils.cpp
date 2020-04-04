@@ -55,8 +55,8 @@
 //-----------------------------------------------------------------------------
 // Directory separator
 #if NN_TARGET_WINDOWS
-static constexpr const char* kNPatternParent                = "(.*)\\.*?$";
-static constexpr const char* kNPatternName                  = ".*\\(.*?$)";
+static constexpr const char* kNPatternParent                = "(.*)\\\\.*?$";
+static constexpr const char* kNPatternName                  = ".*\\\\(.*?$)";
 static constexpr const char* kNPatternExtension             = "\\.(.*?$)";
 
 #else

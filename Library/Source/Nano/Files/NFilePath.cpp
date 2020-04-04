@@ -50,9 +50,9 @@
 //-----------------------------------------------------------------------------
 // Part patterns
 #if NN_TARGET_WINDOWS
-static constexpr const char* kNPatternParent                = "(.*)\\.*?$";
-static constexpr const char* kNPatternNameWithExtension     = ".*\\(.*?$)";
-static constexpr const char* kNPatternNameWithoutExtension  = ".*\\(.*?)(\\..*)?$";
+static constexpr const char* kNPatternParent                = "(.*)\\\\.*?$";
+static constexpr const char* kNPatternNameWithExtension     = ".*\\\\(.*?$)";
+static constexpr const char* kNPatternNameWithoutExtension  = ".*\\\\(.*?)(\\..*)?$";
 static constexpr const char* kNPatternExtension             = "\\.(.*?$)";
 
 #else
