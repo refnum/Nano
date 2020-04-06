@@ -394,41 +394,42 @@ NData NString::GetData(NStringEncoding theEncoding) const
 
 
 
-	// Get the state we need
+	// Get the text
 	size_t theSize = GetSize();
 	NData  theData;
 
-
-
-	// Get small text
-	//
-	// Small text must be copied, although it will typically result
-	// in a small storage data object as well.
-	if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
+	if (theSize != 0)
 	{
-		theData.SetData(theSize * sizeof(utf8_t), GetUTF8());
-	}
+		// Get small text
+		//
+		// Small text must be copied, although it will typically result
+		// in a small storage data object as well.
+		if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
+		{
+			theData.SetData(theSize * sizeof(utf8_t), GetUTF8());
+		}
 
-	else if (theEncoding == NStringEncoding::UTF16 && IsSmallUTF16())
-	{
-		theData.SetData(theSize * sizeof(utf16_t), GetUTF16());
-	}
+		else if (theEncoding == NStringEncoding::UTF16 && IsSmallUTF16())
+		{
+			theData.SetData(theSize * sizeof(utf16_t), GetUTF16());
+		}
 
 
 
-	// Get large text
-	//
-	// Large text may need to be transcoded to the desired encoding,
-	// and a slice extracted from the appropriate data.
-	//
-	// We can cast away const as this does not change our public state.
-	else
-	{
-		NString*           thisString = const_cast<NString*>(this);
-		const NStringData* stringData = thisString->FetchEncoding(theEncoding);
-		NRange             sliceBytes = GetSliceBytes(*stringData);
+		// Get large text
+		//
+		// Large text may need to be transcoded to the desired encoding,
+		// and a slice extracted from the appropriate data.
+		//
+		// We can cast away const as this does not change our public state.
+		else
+		{
+			NString*           thisString = const_cast<NString*>(this);
+			const NStringData* stringData = thisString->FetchEncoding(theEncoding);
+			NRange             sliceBytes = GetSliceBytes(*stringData);
 
-		theData = stringData->theData.GetData(sliceBytes);
+			theData = stringData->theData.GetData(sliceBytes);
+		}
 	}
 
 	return theData;
