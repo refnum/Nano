@@ -1526,6 +1526,40 @@ NANO_TEST(TString, "Append/MultipleEncodings")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "Append/MultipleEncodingsSliced")
+{
+
+
+	// Perform the test
+	//
+	// Splitting a string returns slices, and appending to a string
+	// maintains the encoding of the string being appended to.
+	//
+	// This can require that individual slices of the split string
+	// be transcoded in order to be appended to the result.
+	NString pathInput(u"/path/as/utf16/assigned/to/utf8");
+	NString pathOutput(u8"");
+	NString pathDelim("/");
+
+	for (const auto& thePart : pathInput.Split(pathDelim))
+	{
+		if (!thePart.IsEmpty())
+		{
+			pathOutput += pathDelim;
+			pathOutput += thePart;
+		}
+	}
+
+	REQUIRE(pathOutput == pathInput);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "CompareEqual")
 {
 

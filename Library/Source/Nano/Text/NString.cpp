@@ -1782,13 +1782,18 @@ void NString::AppendLarge(const NString& otherString)
 			const NStringData* otherStringData = &otherString.mString.Large.theState->stringData;
 			dataOther                          = otherStringData->theData;
 
+
+			// Convert to our encoding
 			if (encodingThis != otherStringData->theEncoding)
 			{
 				NString* otherMutable = const_cast<NString*>(&otherString);
-				dataOther             = otherMutable->FetchEncoding(encodingThis)->theData;
+				otherStringData       = otherMutable->FetchEncoding(encodingThis);
+				dataOther             = otherStringData->theData;
 			}
 
-			else if (otherString.IsSlice())
+
+			// Resolve any slice
+			if (otherString.IsSlice())
 			{
 				NRange sliceOther = otherString.GetSliceBytes(*otherStringData);
 				dataOther         = otherStringData->theData.GetData(sliceOther);
