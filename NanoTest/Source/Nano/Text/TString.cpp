@@ -1475,17 +1475,48 @@ NANO_TEST(TString, "Appendable")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "AppendLargeUTF16SmallUTF18")
+NANO_TEST(TString, "Append/LargeUTF16SmallUTF8")
 {
 
 
 	// Perform the test
+	//
+	// Appending large + small may require transcoding.
 	NString theString;
 
 	theString = kTestStringLarge.GetUTF16();
 	theString += kTestStringSmall.GetUTF8();
 
 	REQUIRE(theString == (kTestStringLarge + kTestStringSmall));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Append/MultipleEncodings")
+{
+
+
+	// Perform the test
+	//
+	// Appending to a string with multiple encodings must release
+	// the alternative encodings after appending new content.
+	//
+	// This can be tested by asking for one of the existing encodings,
+	// and ensuring it contains the results of the append operation.
+	NString theString;
+
+	theString = u"Apple";           // u"Apple"				UTF16
+	(void) theString.GetUTF8();     // u8"Apple"			UTF8
+	(void) theString.GetUTF32();    // U"Apple"				UTF8
+
+	theString += u8"Banana";    // u"AppleBanana"		UTF16
+
+	REQUIRE(strstr(theString.GetUTF8(), "Banana") != nullptr);
 }
 
 

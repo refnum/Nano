@@ -1158,7 +1158,8 @@ bool NString::MakeUnique()
 	// with anyone else, create a new unsliced string for the content.
 	//
 	// This leaves us as the only owner of our entire content.
-	bool makeUnique = (IsSlice() || mString.Large.theState->numOwners != 1);
+	bool makeUnique = (IsSlice() || mString.Large.theState->numOwners != 1 ||
+					   mString.Large.theState->stringData.nextData != nullptr);
 
 	if (makeUnique)
 	{
@@ -1702,13 +1703,15 @@ void NString::AppendLarge(const NString& otherString)
 	// As this is on the hotpath for string concatenation we repeat
 	// MakeUnique's tests here to avoid any unnecessary call.
 	if (mString.Large.theSlice.GetSize() < mString.Large.theState->theSize ||
-		mString.Large.theState->numOwners != 1)
+		mString.Large.theState->numOwners != 1 ||
+		mString.Large.theState->stringData.nextData != nullptr)
 	{
 		MakeUnique();
 	}
 
 	NN_REQUIRE(!IsSlice());
 	NN_REQUIRE(mString.Large.theState->numOwners == 1);
+	NN_REQUIRE(mString.Large.theState->stringData.nextData == nullptr);
 
 
 
