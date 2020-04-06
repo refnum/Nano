@@ -41,8 +41,8 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NString.h"
 #include "NFilePath.h"
+#include "NString.h"
 #include "NanoConstants.h"
 #include "NanoTargets.h"
 

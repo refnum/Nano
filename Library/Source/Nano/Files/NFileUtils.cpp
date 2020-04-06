@@ -189,6 +189,12 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 			if (!theParent.IsEmpty())
 			{
 				// Get the state we need
+				if (NN_TARGET_WINDOWS && parentPath.IsEmpty())
+				{
+					parentPath = theParent;
+					continue;
+				}
+
 				parentPath += kNPathSeparator + theParent;
 				NFileInfo parentInfo(parentPath);
 
