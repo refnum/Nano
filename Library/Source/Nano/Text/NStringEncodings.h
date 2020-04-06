@@ -99,8 +99,12 @@ static constexpr char    kNASCIIReplacement                 = '?';
 
 // Misc
 static constexpr utf8_t  kNUTF8VariableWidth                = utf8_t(0x80U);
-static constexpr utf16_t kNUTF16SurrogateStart              = utf16_t(0xD800);
-static constexpr utf16_t kNUTF16SurrogateEnd                = utf16_t(0xDFFF);
+static constexpr utf16_t kNUTF16SurrogatesStart             = utf16_t(0xD800);
+static constexpr utf16_t kNUTF16SurrogatesEnd               = utf16_t(0xDFFF);
+static constexpr utf16_t kNUTF16SurrogateHiStart            = utf16_t(0xD800);
+static constexpr utf16_t kNUTF16SurrogateHiEnd              = utf16_t(0xDBFF);
+static constexpr utf16_t kNUTF16SurrogateLoStart            = utf16_t(0xDC00);
+static constexpr utf16_t kNUTF16SurrogateLoEnd              = utf16_t(0xDFFF);
 
 
 

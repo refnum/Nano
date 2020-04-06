@@ -568,14 +568,15 @@ size_t NUnicodeView::DecodeUTF16(size_t theSize, const uint8_t* theData, utf32_t
 		// Surrogate pair
 		const utf16_t* nextUTF16 = reinterpret_cast<const utf16_t*>(theData);
 
-		if (nextUTF16[0] >= 0xD800 && nextUTF16[0] <= 0xDBFF)
+		if (nextUTF16[0] >= kNUTF16SurrogateHiStart && nextUTF16[0] <= kNUTF16SurrogateHiEnd)
 		{
 			if (theSize >= 4)
 			{
-				if (nextUTF16[1] >= 0xDC00 && nextUTF16[1] <= 0xDFFF)
+				if (nextUTF16[1] >= kNUTF16SurrogateLoStart &&
+					nextUTF16[1] <= kNUTF16SurrogateLoEnd)
 				{
-					utf32_t pairHi = utf32_t(nextUTF16[0] - 0xD800) << 10;
-					utf32_t pairLo = utf32_t(nextUTF16[1] - 0xDC00) << 0;
+					utf32_t pairHi = utf32_t(nextUTF16[0] - kNUTF16SurrogateHiStart) << 10;
+					utf32_t pairLo = utf32_t(nextUTF16[1] - kNUTF16SurrogateLoStart) << 0;
 
 					codePoint     = 0x10000 + (pairHi | pairLo);
 					codePointSize = 4;

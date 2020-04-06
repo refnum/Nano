@@ -757,8 +757,8 @@ void NStringEncoder::ConvertToUTF16(NUnicodeView& srcView, NData& dstData)
 		{
 			codePoint -= 0x10000;
 
-			utf16_t pairHi = 0xD800 + ((codePoint >> 10) & 0b1111111111);
-			utf16_t pairLo = 0xDC00 + ((codePoint >> 0) & 0b1111111111);
+			utf16_t pairHi = kNUTF16SurrogateHiStart + ((codePoint >> 10) & 0b1111111111);
+			utf16_t pairLo = kNUTF16SurrogateLoStart + ((codePoint >> 0) & 0b1111111111);
 
 			theResult.push_back(pairHi);
 			theResult.push_back(pairLo);

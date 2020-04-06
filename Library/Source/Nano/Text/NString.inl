@@ -60,10 +60,6 @@ static constexpr uint8_t kNStringFlagSmallSizeMask          = 0b00011111;
 static constexpr uint8_t kNStringSmallSizeMaxUTF8           = 26;
 static constexpr uint8_t kNStringSmallSizeMaxUTF16          = 12;
 
-static constexpr utf8_t  kNStringUTF8IsVariableWidth        = utf8_t(0x80U);
-static constexpr utf16_t kNStringUTF16SurrogateStart        = utf16_t(0xD800);
-static constexpr utf16_t kNStringUTF16SurrogateEnd          = utf16_t(0xDFFF);
-
 
 
 
@@ -339,7 +335,7 @@ constexpr bool NString::IsValidSmallUTF8(size_t numBytes, const utf8_t* textUTF8
 	// Check the text
 	for (size_t n = 0; n < numUTF8; n++)
 	{
-		if (textUTF8[n] & kNStringUTF8IsVariableWidth)
+		if (textUTF8[n] & kNUTF8VariableWidth)
 		{
 			return false;
 		}
@@ -380,8 +376,7 @@ constexpr bool NString::IsValidSmallUTF16(size_t numBytes, const utf16_t* textUT
 	// Check the text
 	for (size_t n = 0; n < numUTF16; n++)
 	{
-		if (textUTF16[n] >= kNStringUTF16SurrogateStart &&
-			textUTF16[n] <= kNStringUTF16SurrogateEnd)
+		if (textUTF16[n] >= kNUTF16SurrogatesStart && textUTF16[n] <= kNUTF16SurrogatesEnd)
 		{
 			return false;
 		}
