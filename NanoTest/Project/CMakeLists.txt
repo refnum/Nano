@@ -66,6 +66,20 @@ target_include_directories("${PROJECT_NAME}"
 
 
 #==============================================================================
+#		Windows
+#------------------------------------------------------------------------------
+if (NN_TARGET_WINDOWS)
+	target_sources("${PROJECT_NAME}"
+		PRIVATE
+			"${TARGET_SOURCE_DIR}/../../Library/Support/Visual Studio/Nano.natvis"
+	)
+endif()
+
+
+
+
+
+#==============================================================================
 #		Build
 #------------------------------------------------------------------------------
 nano_target_build_app("${PROJECT_NAME}")

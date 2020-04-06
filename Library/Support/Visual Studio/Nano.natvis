@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="NRange">
+    <DisplayString>{{location={mLocation}, size={mSize}}}</DisplayString>
+    <Expand>
+        <Item Name="mLocation">mLocation</Item>
+        <Item Name="mSize">mSize</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="NString">
+    <DisplayString>{GetUTF8(), s8}</DisplayString>
+  </Type>
+</AutoVisualizer>
+

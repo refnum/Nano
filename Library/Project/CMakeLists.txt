@@ -316,6 +316,7 @@ endif()
 if (NN_TARGET_WINDOWS)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
+			"${PROJECT_SOURCE_DIR}/../Support/Visual Studio/Nano.natvis"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedWindows.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedWindows.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileHandle.cpp"
