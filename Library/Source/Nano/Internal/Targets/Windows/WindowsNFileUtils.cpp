@@ -224,7 +224,7 @@ NStatus NFileUtils::MakeDirectory(const NString& thePath)
 
 
 	// Create the directory
-	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF8()), nullptr);
+	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF16()), nullptr);
 	NN_EXPECT(wasOK);
 
 	return NSharedWindows::GetLastError(wasOK);
