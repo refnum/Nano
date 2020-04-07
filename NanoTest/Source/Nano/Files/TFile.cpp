@@ -102,7 +102,7 @@ static const NString kPathTmpFileB                          = kPathTmpDirectory 
 
 #elif NN_TARGET_WINDOWS
 static const NString kPathFile                              = "c:\\Windows\\regedit.exe";
-static const NString kPathDirectory                         = "c:\\Windows";
+static const NString kPathDirectory                         = "c:\\Windows\\System";
 static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
 static const NString kPathTmpFileA                          = kPathTmpDirectory + "\\" + kNameTmpFileA;
 static const NString kPathTmpFileB                          = kPathTmpDirectory + "\\" + kNameTmpFileB;
