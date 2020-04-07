@@ -623,7 +623,7 @@ NANO_TEST(TFile, "MoveTo")
 	// Perform the test
 	NFile tmpDir(kPathTmpDirectory);
 	NFile tmpFileA(kPathTmpFileA);
-	NFile tmpDirB = tmpDir.GetChild("one/two/three");
+	NFile tmpDirB = tmpDir.GetChild("one").GetChild("two").GetChild("three");
 
 	theErr = tmpFileA.CreateFile();
 	REQUIRE(theErr == NStatus::OK);
