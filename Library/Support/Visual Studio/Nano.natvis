@@ -8,8 +8,46 @@
     </Expand>
   </Type>
 
-  <Type Name="NString">
-    <DisplayString>{GetUTF8(), s8}</DisplayString>
-  </Type>
-</AutoVisualizer>
 
+  <Type Name="NString">
+  	<!-- Small UTF8 / UTF16 -->
+    <DisplayString Condition="(mString.theFlags >> 6) == 0">{mString.Small.theData,s8}</DisplayString>
+    <DisplayString Condition="(mString.theFlags >> 6) == 1">{mString.Small.theData,su}</DisplayString>
+
+  	<!-- Large unsliced UTF8 -->
+    <DisplayString Condition="
+      (mString.theFlags >> 7 == 1) &amp;&amp;
+      (mString.Large.theSlice.mLocation == 0) &amp;&amp;
+	  (mString.Large.theState->stringData.theEncoding == 1) &amp;&amp;
+	  (mString.Large.theState->stringData.theData.mData.theFlags >> 7) == 1 &amp;&amp;
+	  (mString.Large.theState->stringData.theData.mData.Large.theSlice.mLocation == 0)
+      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,s8}</DisplayString>
+
+  	<!-- Large unsliced UTF16 -->
+    <DisplayString Condition="
+      (mString.theFlags >> 7 == 1) &amp;&amp;
+      (mString.Large.theSlice.mLocation == 0) &amp;&amp;
+	  (mString.Large.theState->stringData.theEncoding == 2) &amp;&amp;
+	  (mString.Large.theState->stringData.theData.mData.theFlags >> 7) == 1 &amp;&amp;
+	  (mString.Large.theState->stringData.theData.mData.Large.theSlice.mLocation == 0)
+      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,su}</DisplayString>
+
+  	<!-- Large unsliced UTF32 -->
+    <DisplayString Condition="
+      (mString.theFlags >> 7 == 1) &amp;&amp;
+      (mString.Large.theSlice.mLocation == 0) &amp;&amp;
+	  (mString.Large.theState->stringData.theEncoding == 3) &amp;&amp;
+	  (mString.Large.theState->stringData.theData.mData.theFlags >> 7) == 1 &amp;&amp;
+	  (mString.Large.theState->stringData.theData.mData.Large.theSlice.mLocation == 0)
+      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,s32}</DisplayString>
+
+  	<!-- Transcode to UTF: has side effects, so must be invoked manually -->
+    <DisplayString>{GetUTF8(),s8}</DisplayString>
+  </Type>
+
+
+  <Type Name="NFilePath">
+    <DisplayString>{mPath}</DisplayString>
+  </Type>
+
+</AutoVisualizer>
