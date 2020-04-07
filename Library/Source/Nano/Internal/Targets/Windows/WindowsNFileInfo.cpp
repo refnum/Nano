@@ -72,12 +72,12 @@ static constexpr NFileInfoFlags kNFileInfoMaskAttributes =
 //-----------------------------------------------------------------------------
 //		GetFileStateStat : Get file state with stat().
 //-----------------------------------------------------------------------------
-bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
+bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 
 	// Get the state we need
@@ -133,12 +133,12 @@ bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 //-----------------------------------------------------------------------------
 //		GetFileStateAttributes : Get file attribute state.
 //-----------------------------------------------------------------------------
-static bool GetFileStateAttributes(const NString& thePath, NFileInfoState& theState)
+static bool GetFileStateAttributes(const NFilePath& thePath, NFileInfoState& theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 
 
@@ -191,7 +191,7 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 
 
 	// Validate our parameters
-	NN_REQUIRE(!mPath.IsEmpty());
+	NN_REQUIRE(mPath.IsValid());
 	NN_REQUIRE(theFlags != kNFileInfoNone);
 
 

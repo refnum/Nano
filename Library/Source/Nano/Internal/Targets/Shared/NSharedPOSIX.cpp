@@ -868,14 +868,14 @@ NStatus NSharedPOSIX::GetErrno(int sysErr)
 //=============================================================================
 //		NSharedPOSIX::GetFileStateAccess : Get file state with access().
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::GetFileStateAccess(const NString&  thePath,
-									  NFileInfoFlags  theFlag,
-									  NFileInfoState& theState)
+void NSharedPOSIX::GetFileStateAccess(const NFilePath& thePath,
+									  NFileInfoFlags   theFlag,
+									  NFileInfoState&  theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 	NN_REQUIRE(theFlag == kNFileInfoCanRead || theFlag == kNFileInfoCanWrite ||
 			   theFlag == kNFileInfoCanExecute);

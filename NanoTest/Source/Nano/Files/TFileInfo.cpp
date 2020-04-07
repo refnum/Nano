@@ -142,11 +142,9 @@ NANO_TEST(TFileInfo, "Clear")
 	// Perform the test
 	theInfo = NFileInfo(kPathFile);
 	REQUIRE(theInfo.IsValid());
-	REQUIRE(!theInfo.GetPath().IsEmpty());
 
 	theInfo.Clear();
 	REQUIRE(!theInfo.IsValid());
-	REQUIRE(theInfo.GetPath().IsEmpty());
 }
 
 

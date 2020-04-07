@@ -41,7 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NString.h"
+#include "NFilePath.h"
 #include "NTime.h"
 
 
@@ -90,7 +90,7 @@ class NFileInfo final
 {
 public:
 										NFileInfo();
-										NFileInfo(const NString& thePath);
+										NFileInfo(const NFilePath& thePath);
 
 
 	// Is the object valid?
@@ -108,8 +108,8 @@ public:
 	// Get/set the path
 	//
 	// The path must be set before any state can be queried.
-	NString                             GetPath() const;
-	void                                SetPath(  const NString& thePath);
+	NFilePath                           GetPath() const;
+	void                                SetPath(  const NFilePath& thePath);
 
 
 	// Refresh the state
@@ -147,7 +147,7 @@ private:
 
 
 private:
-	NString                             mPath;
+	NFilePath                           mPath;
 	NFileInfoFlags                      mValid;
 	NFileInfoState                      mState;
 };

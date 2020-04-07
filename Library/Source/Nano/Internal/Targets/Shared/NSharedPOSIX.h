@@ -55,15 +55,6 @@
 
 
 //=============================================================================
-//		Types
-//-----------------------------------------------------------------------------
-class NString;
-
-
-
-
-
-//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NSharedPOSIX
@@ -90,9 +81,9 @@ public:
 
 
 	// Get an access() state
-	static void                         GetFileStateAccess(const NString&  thePath,
-														   NFileInfoFlags  theFlag,
-														   NFileInfoState& theState);
+	static void                         GetFileStateAccess(const NFilePath& thePath,
+														   NFileInfoFlags   theFlag,
+														   NFileInfoState&  theState);
 
 
 	// File handle

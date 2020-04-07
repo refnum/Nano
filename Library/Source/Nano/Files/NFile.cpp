@@ -116,7 +116,16 @@ NString NFile::GetPath() const
 
 
 	// Get our state
-	return mInfo.GetPath();
+	//
+	// TODO - return NFilePath.
+	if (mInfo.GetPath().IsValid())
+	{
+		return mInfo.GetPath().GetPath();
+	}
+	else
+	{
+		return "";
+	}
 }
 
 

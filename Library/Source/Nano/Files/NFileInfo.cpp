@@ -73,7 +73,7 @@ NFileInfo::NFileInfo()
 //=============================================================================
 //		NFileInfo::NFileInfo : Constructor.
 //-----------------------------------------------------------------------------
-NFileInfo::NFileInfo(const NString& thePath)
+NFileInfo::NFileInfo(const NFilePath& thePath)
 	: mPath(thePath)
 	, mValid(kNFileInfoNone)
 	, mState{}
@@ -81,7 +81,7 @@ NFileInfo::NFileInfo(const NString& thePath)
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 }
 
 
@@ -96,7 +96,7 @@ bool NFileInfo::IsValid() const
 
 
 	// Check our state
-	return !mPath.IsEmpty();
+	return mPath.IsValid();
 }
 
 
@@ -122,7 +122,7 @@ void NFileInfo::Clear()
 //=============================================================================
 //		NFileInfo::GetPath : Get the path.
 //-----------------------------------------------------------------------------
-NString NFileInfo::GetPath() const
+NFilePath NFileInfo::GetPath() const
 {
 
 
@@ -137,12 +137,12 @@ NString NFileInfo::GetPath() const
 //=============================================================================
 //		NFileInfo::SetPath : Set the path.
 //-----------------------------------------------------------------------------
-void NFileInfo::SetPath(const NString& thePath)
+void NFileInfo::SetPath(const NFilePath& thePath)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 
 

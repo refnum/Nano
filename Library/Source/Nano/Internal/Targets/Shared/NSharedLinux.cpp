@@ -109,12 +109,12 @@ static NTime ToTime(const struct statx_timestamp& timeStamp)
 //=============================================================================
 //		GetFileStateStat : Get file state with stat().
 //-----------------------------------------------------------------------------
-static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
+static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 
 
@@ -164,12 +164,12 @@ static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
 //=============================================================================
 //		GetFileStateStatX : Get file state with statx().
 //-----------------------------------------------------------------------------
-static bool GetFileStateStatX(const NString& thePath, NFileInfoState& theState)
+static bool GetFileStateStatX(const NFilePath& thePath, NFileInfoState& theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 
 
@@ -296,15 +296,15 @@ uint64_t NSharedLinux::GetClockFrequency()
 //=============================================================================
 //		NSharedLinux::GetFileState : Get file state.
 //-----------------------------------------------------------------------------
-bool NSharedLinux::GetFileState(const NString&  thePath,
-								NFileInfoFlags  theFlags,
-								NFileInfoFlags& validState,
-								NFileInfoState& theState)
+bool NSharedLinux::GetFileState(const NFilePath& thePath,
+								NFileInfoFlags   theFlags,
+								NFileInfoFlags&  validState,
+								NFileInfoState&  theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 	NN_REQUIRE(theFlags != kNFileInfoNone);
 
 

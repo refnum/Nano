@@ -135,12 +135,12 @@ static uint64_t GetMachClockFrequency()
 //=============================================================================
 //		GetFileStateStat : Get file state with stat().
 //-----------------------------------------------------------------------------
-static bool GetFileStateStat(const NString& thePath, NFileInfoState& theState)
+static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 	// Get the state we need
 	struct stat theInfo
@@ -290,15 +290,15 @@ uint64_t NSharedDarwin::GetClockFrequency()
 //=============================================================================
 //		NSharedDarwin::GetFileState : Get file state.
 //-----------------------------------------------------------------------------
-bool NSharedDarwin::GetFileState(const NString&  thePath,
-								 NFileInfoFlags  theFlags,
-								 NFileInfoFlags& validState,
-								 NFileInfoState& theState)
+bool NSharedDarwin::GetFileState(const NFilePath& thePath,
+								 NFileInfoFlags   theFlags,
+								 NFileInfoFlags&  validState,
+								 NFileInfoState&  theState)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 	NN_REQUIRE(theFlags != kNFileInfoNone);
 
 

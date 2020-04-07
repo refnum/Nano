@@ -50,15 +50,6 @@
 
 
 //=============================================================================
-//		Types
-//-----------------------------------------------------------------------------
-class NString;
-
-
-
-
-
-//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NSharedLinux
@@ -70,10 +61,10 @@ public:
 
 
 	// Get file state
-	static bool                         GetFileState(const NString&  thePath,
-													 NFileInfoFlags  theFlags,
-													 NFileInfoFlags& validState,
-													 NFileInfoState& theState);
+	static bool                         GetFileState(const NFilePath& thePath,
+													 NFileInfoFlags   theFlags,
+													 NFileInfoFlags&  validState,
+													 NFileInfoState&  theState);
 
 
 	// Files
