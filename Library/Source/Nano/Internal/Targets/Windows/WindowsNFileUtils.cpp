@@ -42,6 +42,7 @@
 #include "NFileUtils.h"
 
 // Nano
+#include "NData.h"
 #include "NFileInfo.h"
 #include "NSharedWindows.h"
 #include "NString.h"
@@ -300,31 +301,39 @@ NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 
 
 	// Get the state we need
-	LPCWSTR winPath = LPCWSTR(thePath.GetUTF16());
-	BOOL    wasOK   = false;
+	NStatus theErr = NStatus::OK;
 
 
 
 	// Move to trash
 	if (moveToTrash)
 	{
-		SHFILEOPSTRUCT fileOp{};
+		NData winPath(thePath.GetData(NStringEncoding::UTF16));
+		winPath.SetSize(winPath.GetSize() + (sizeof(WCHAR) * 2));
+
+		SHFILEOPSTRUCTW fileOp{};
 
 		fileOp.wFunc  = FO_DELETE;
-		fileOp.pFrom  = winPath;
+		fileOp.pFrom  = LPCWSTR(winPath.GetData());
 		fileOp.fFlags = FOF_ALLOWUNDO | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
 
-		wasOK = SHFileOperation(&fileOp);
-		NN_EXPECT(wasOK);
+		int shErr = SHFileOperationW(&fileOp);
+		NN_EXPECT_NOT_ERR(shErr);
+
+		if (shErr != 0)
+		{
+			theErr = NStatus::NotFound;
+		}
 	}
 
 
 	// Delete the path
 	else
 	{
-		NFileInfo theInfo(thePath);
+		LPCWSTR winPath = LPCWSTR(thePath.GetUTF16());
+		BOOL    wasOK   = true;
 
-		if (theInfo.IsDirectory())
+		if (NFileInfo(thePath).IsDirectory())
 		{
 			wasOK = RemoveDirectory(winPath);
 			NN_EXPECT(wasOK);
@@ -334,9 +343,11 @@ NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 			wasOK = DeleteFile(winPath);
 			NN_EXPECT(wasOK);
 		}
+
+		theErr = NSharedWindows::GetLastError(wasOK);
 	}
 
-	return NSharedWindows::GetLastError(wasOK);
+	return theErr;
 }
 
 
