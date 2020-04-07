@@ -89,6 +89,58 @@ static NString GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
 
 
 
+//=============================================================================
+//		CreateTransaction : Create a transaction.
+//-----------------------------------------------------------------------------
+NStatus CreateTransaction(HANDLE* hTransaction)
+{
+
+
+	// Create the transaction
+	NStatus theErr = NStatus::OK;
+	*hTransaction  = ::CreateTransaction(nullptr,
+										0,
+										TRANSACTION_DO_NOT_PROMOTE,
+										0,
+										0,
+										INFINITE,
+										L"WindowsNFileUtils Transaction");
+
+	if (*hTransaction == nullptr)
+	{
+		theErr = NStatus::NotSupported;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		RenameTransacted : Rename a file within a transaction.
+//-----------------------------------------------------------------------------
+NStatus RenameTransacted(HANDLE hTransaction, const NString& oldPath, const NString& newPath)
+{
+
+
+	// Rename the file
+	BOOL wasOK = MoveFileTransactedW(LPCWSTR(oldPath.GetUTF16()),
+									 LPCWSTR(newPath.GetUTF16()),
+									 nullptr,
+									 nullptr,
+									 MOVEFILE_COPY_ALLOWED,
+									 hTransaction);
+	NN_EXPECT(wasOK);
+
+	return NSharedWindows::GetLastError(wasOK);
+}
+
+
+
+
+
 #pragma mark NFileUtils
 //=============================================================================
 //		NFileUtils::GetChildren : Get the children of a directory.
@@ -140,16 +192,31 @@ NStatus NFileUtils::Rename(const NString& oldPath, const NString& newPath)
 {
 
 
-	// Rename the file
-	BOOL wasOK = MoveFileTransactedW(LPCWSTR(oldPath.GetUTF16()),
-									 LPCWSTR(newPath.GetUTF16()),
-									 nullptr,
-									 nullptr,
-									 MOVEFILE_COPY_ALLOWED,
-									 nullptr);
-	NN_EXPECT(wasOK);
+	// Get the state we need
+	HANDLE  hTransaction = nullptr;
+	NStatus theErr       = CreateTransaction(&hTransaction);
 
-	return NSharedWindows::GetLastError(wasOK);
+
+
+	// Rename the file
+	if (theErr == NStatus::OK)
+	{
+		theErr = RenameTransacted(hTransaction, oldPath, newPath);
+
+		if (theErr == NStatus::OK)
+		{
+			BOOL wasOK = CommitTransaction(hTransaction);
+			theErr     = NSharedWindows::GetLastError(wasOK);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+
+
+		// Clean up
+		BOOL wasOK = CloseHandle(hTransaction);
+		NN_EXPECT(wasOK);
+	}
+
+	return theErr;
 }
 
 
@@ -163,35 +230,27 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 {
 
 
-	// Exchange the files
-	NStatus theErr       = NStatus::OK;
-	HANDLE  hTransaction = CreateTransaction(nullptr,
-											0,
-											TRANSACTION_DO_NOT_PROMOTE,
-											0,
-											0,
-											INFINITE,
-											L"NFileUtils::Exchange");
+	// Get the state we need
+	HANDLE  hTransaction = nullptr;
+	NStatus theErr       = CreateTransaction(&hTransaction);
 
-	if (hTransaction == nullptr)
+
+
+	// Exchange the files
+	if (theErr == NStatus::OK)
 	{
-		theErr = NStatus::Internal;
-	}
-	else
-	{
-		// Rename the files
 		NString tmpPath = newPath + ".exchange";
 
-		theErr = Rename(oldPath, tmpPath);
+		theErr = RenameTransacted(hTransaction, oldPath, tmpPath);
 
 		if (theErr == NStatus::OK)
 		{
-			theErr = Rename(newPath, oldPath);
+			theErr = RenameTransacted(hTransaction, newPath, oldPath);
 		}
 
 		if (theErr == NStatus::OK)
 		{
-			theErr = Rename(tmpPath, newPath);
+			theErr = RenameTransacted(hTransaction, tmpPath, newPath);
 		}
 
 		if (theErr == NStatus::OK)
@@ -200,7 +259,6 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 			theErr     = NSharedWindows::GetLastError(wasOK);
 			NN_EXPECT_NOT_ERR(theErr);
 		}
-
 
 
 		// Clean up
