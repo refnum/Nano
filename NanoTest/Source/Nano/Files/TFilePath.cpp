@@ -439,6 +439,40 @@ NANO_TEST(TFilePath, "SetPath")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetUTF8")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpA.GetUTF8() != nullptr);
+	REQUIRE(kPathTmpB.GetUTF8() != nullptr);
+	REQUIRE(kPathTmpC.GetUTF8() != nullptr);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetUTF16")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpA.GetUTF16() != nullptr);
+	REQUIRE(kPathTmpB.GetUTF16() != nullptr);
+	REQUIRE(kPathTmpC.GetUTF16() != nullptr);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFilePath, "Appendable")
 {
 

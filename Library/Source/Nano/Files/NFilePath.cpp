@@ -519,6 +519,46 @@ void NFilePath::SetPath(const NString& thePath)
 
 
 
+//=============================================================================
+//		NFilePath::GetUTF8 : Get the path as a UTF8 string.
+//-----------------------------------------------------------------------------
+const utf8_t* NFilePath::GetUTF8() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the path
+	return mPath.GetUTF8();
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetUTF16 : Get the path as a UTF16 string.
+//-----------------------------------------------------------------------------
+const utf16_t* NFilePath::GetUTF16() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the path
+	return mPath.GetUTF16();
+}
+
+
+
+
+
 #pragma mark NMixinAppendable
 //=============================================================================
 //		NFilePath::Append : Append a value.

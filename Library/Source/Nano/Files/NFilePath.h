@@ -154,6 +154,11 @@ public:
 	void                                SetPath(  const NString& thePath);
 
 
+	// Get the path as a null-terminated string
+	const utf8_t*                       GetUTF8()  const;
+	const utf16_t*                      GetUTF16() const;
+
+
 public:
 	// NMixinAppendable
 	void                                Append(const NFilePath& thePath);
