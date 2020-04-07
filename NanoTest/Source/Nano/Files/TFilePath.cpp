@@ -58,16 +58,16 @@ static const NString kNameA                                 = "four";
 static const NString kNameB                                 = kNameBNoExtension + "." + kExtension;
 static const NString kNameC                                 = kNameCNoExtension + "." + kExtension;
 
-static const NString kPathTmpDirectory =
+static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFilePath");
 
-static const NString kPathTmpOne                            = kPathTmpDirectory + kNPathSeparator + "one";
-static const NString kPathTmpOneTwo                         = kPathTmpOne + kNPathSeparator + "two";
-static const NString kPathTmpOneTwoThree                    = kPathTmpOneTwo + kNPathSeparator + "three";
+static const NFilePath kPathTmpOne                          = kPathTmpDirectory.GetChild("one");
+static const NFilePath kPathTmpOneTwo                       = kPathTmpOne.GetChild("two");
+static const NFilePath kPathTmpOneTwoThree                  = kPathTmpOneTwo.GetChild("three");
 
-static const NString kPathTmpA                              = kPathTmpOneTwoThree + kNPathSeparator + kNameA;
-static const NString kPathTmpB                              = kPathTmpOneTwo + kNPathSeparator + kNameB;
-static const NString kPathTmpC                              = kPathTmpOne + kNPathSeparator + kNameC;
+static const NFilePath kPathTmpA                            = kPathTmpOneTwoThree.GetChild(kNameA);
+static const NFilePath kPathTmpB                            = kPathTmpOneTwo.GetChild(kNameB);
+static const NFilePath kPathTmpC                            = kPathTmpOne.GetChild(kNameC);
 
 
 
@@ -103,12 +103,77 @@ NANO_TEST(TFilePath, "Default")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "IsAbsolute")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpA.IsAbsolute());
+	REQUIRE(kPathTmpB.IsAbsolute());
+	REQUIRE(kPathTmpC.IsAbsolute());
+
+	REQUIRE(!NFilePath("one").IsAbsolute());
+	REQUIRE(!NFilePath("one").GetChild("two").IsAbsolute());
+	REQUIRE(!NFilePath("one").GetChild("two").GetChild("three").IsAbsolute());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "IsRelative")
+{
+
+
+	// Perform the test
+	REQUIRE(!kPathTmpA.IsRelative());
+	REQUIRE(!kPathTmpB.IsRelative());
+	REQUIRE(!kPathTmpC.IsRelative());
+
+	REQUIRE(NFilePath("one").IsRelative());
+	REQUIRE(NFilePath("one").GetChild("two").IsRelative());
+	REQUIRE(NFilePath("one").GetChild("two").GetChild("three").IsRelative());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "IsRoot")
+{
+
+
+	// Perform the test
+	thePath = kPathTmpA;
+	REQUIRE(!thePath.IsRoot());
+
+	while (!thePath.IsRoot())
+	{
+		thePath = thePath.GetParent();
+	}
+
+	REQUIRE(thePath.IsRoot());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFilePath, "Clear")
 {
 
 
 	// Perform the test
-	thePath.SetPath(kPathTmpA);
+	thePath = kPathTmpA;
 	REQUIRE(thePath.IsValid());
 
 	thePath.Clear();
@@ -122,36 +187,18 @@ NANO_TEST(TFilePath, "Clear")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFilePath, "GetPath")
+NANO_TEST(TFilePath, "GetRoot")
 {
 
 
 	// Perform the test
-	REQUIRE(NFilePath(kPathTmpA).GetPath() == kPathTmpA);
-	REQUIRE(NFilePath(kPathTmpB).GetPath() == kPathTmpB);
-	REQUIRE(NFilePath(kPathTmpC).GetPath() == kPathTmpC);
-}
+	REQUIRE(kPathTmpA.GetRoot().IsValid());
+	REQUIRE(kPathTmpB.GetRoot().IsValid());
+	REQUIRE(kPathTmpC.GetRoot().IsValid());
 
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TFilePath, "SetPath")
-{
-
-
-	// Perform the test
-	thePath.SetPath(kPathTmpA);
-	REQUIRE(thePath.GetPath() == kPathTmpA);
-
-	thePath.SetPath(kPathTmpB);
-	REQUIRE(thePath.GetPath() == kPathTmpB);
-
-	thePath.SetPath(kPathTmpC);
-	REQUIRE(thePath.GetPath() == kPathTmpC);
+	REQUIRE(!NFilePath("one").GetRoot().IsValid());
+	REQUIRE(!NFilePath("one").GetChild("two").GetRoot().IsValid());
+	REQUIRE(!NFilePath("one").GetChild("two").GetChild("three").GetRoot().IsValid());
 }
 
 
@@ -166,14 +213,13 @@ NANO_TEST(TFilePath, "GetParent")
 
 
 	// Perform the test
-	NString parentA = kPathTmpDirectory + kNPathSeparator + "one" + kNPathSeparator + "two" +
-					  kNPathSeparator + "three";
-	NString parentB = kPathTmpDirectory + kNPathSeparator + "one" + kNPathSeparator + "two";
-	NString parentC = kPathTmpDirectory + kNPathSeparator + "one";
+	NFilePath parentA = kPathTmpDirectory.GetChild("one").GetChild("two").GetChild("three");
+	NFilePath parentB = kPathTmpDirectory.GetChild("one").GetChild("two");
+	NFilePath parentC = kPathTmpDirectory.GetChild("one");
 
-	REQUIRE(NFilePath(kPathTmpA).GetParent() == parentA);
-	REQUIRE(NFilePath(kPathTmpB).GetParent() == parentB);
-	REQUIRE(NFilePath(kPathTmpC).GetParent() == parentC);
+	REQUIRE(kPathTmpA.GetParent() == parentA);
+	REQUIRE(kPathTmpB.GetParent() == parentB);
+	REQUIRE(kPathTmpC.GetParent() == parentC);
 }
 
 
@@ -183,22 +229,64 @@ NANO_TEST(TFilePath, "GetParent")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFilePath, "GetName")
+NANO_TEST(TFilePath, "GetChild")
 {
 
 
 	// Perform the test
-	REQUIRE(NFilePath(kPathTmpA).GetName() == kNameA);
-	REQUIRE(NFilePath(kPathTmpB).GetName() == kNameB);
-	REQUIRE(NFilePath(kPathTmpC).GetName() == kNameC);
+	NFilePath parent3 = kPathTmpDirectory.GetChild("one").GetChild("two").GetChild("three");
+	NFilePath parent2 = kPathTmpDirectory.GetChild("one").GetChild("two");
+	NFilePath parent1 = kPathTmpDirectory.GetChild("one");
 
-	REQUIRE(NFilePath(kPathTmpA).GetName(true) == kNameA);
-	REQUIRE(NFilePath(kPathTmpB).GetName(true) == kNameB);
-	REQUIRE(NFilePath(kPathTmpC).GetName(true) == kNameC);
+	REQUIRE(parent3.GetChild(kNameA) == kPathTmpA);
+	REQUIRE(parent2.GetChild(kNameB) == kPathTmpB);
+	REQUIRE(parent1.GetChild(kNameC) == kPathTmpC);
+}
 
-	REQUIRE(NFilePath(kPathTmpA).GetName(false) == kNameA);
-	REQUIRE(NFilePath(kPathTmpB).GetName(false) == kNameBNoExtension);
-	REQUIRE(NFilePath(kPathTmpC).GetName(false) == kNameCNoExtension);
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetFilename")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpA.GetFilename() == kNameA);
+	REQUIRE(kPathTmpB.GetFilename() == kNameB);
+	REQUIRE(kPathTmpC.GetFilename() == kNameC);
+
+	REQUIRE(kPathTmpA.GetFilename(true) == kNameA);
+	REQUIRE(kPathTmpB.GetFilename(true) == kNameB);
+	REQUIRE(kPathTmpC.GetFilename(true) == kNameC);
+
+	REQUIRE(kPathTmpA.GetFilename(false) == kNameA);
+	REQUIRE(kPathTmpB.GetFilename(false) == kNameBNoExtension);
+	REQUIRE(kPathTmpC.GetFilename(false) == kNameCNoExtension);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetFilename")
+{
+
+
+	// Perform the test
+	thePath = kPathTmpA;
+	REQUIRE(thePath.GetFilename() == kNameA);
+	REQUIRE(thePath.GetFilename() != kNameB);
+
+	thePath.SetFilename(kNameB);
+	REQUIRE(thePath.GetFilename() != kNameA);
+	REQUIRE(thePath.GetFilename() == kNameB);
 }
 
 
@@ -213,7 +301,209 @@ NANO_TEST(TFilePath, "GetExtension")
 
 
 	// Perform the test
-	REQUIRE(NFilePath(kPathTmpA).GetExtension() == "");
-	REQUIRE(NFilePath(kPathTmpB).GetExtension() == kExtension);
-	REQUIRE(NFilePath(kPathTmpC).GetExtension() == kExtension);
+	REQUIRE(kPathTmpA.GetExtension() == "");
+	REQUIRE(kPathTmpB.GetExtension() == kExtension);
+	REQUIRE(kPathTmpC.GetExtension() == kExtension);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetExtension")
+{
+
+
+	// Perform the test
+	thePath = kPathTmpA;
+	REQUIRE(thePath.GetExtension() == "");
+	REQUIRE(!thePath.GetFilename().Contains("."));
+
+	thePath.SetExtension("");
+	REQUIRE(thePath.GetExtension() == "");
+	REQUIRE(!thePath.GetFilename().Contains("."));
+
+	thePath.SetExtension("abc");
+	REQUIRE(thePath.GetExtension() == "abc");
+	REQUIRE(thePath.GetFilename().EndsWith(".abc"));
+
+	thePath.SetExtension("123456");
+	REQUIRE(thePath.GetExtension() == "123456");
+	REQUIRE(thePath.GetFilename().EndsWith(".123456"));
+
+	thePath.SetExtension("");
+	REQUIRE(thePath.GetExtension() == "");
+	REQUIRE(!thePath.GetFilename().Contains("."));
+
+	REQUIRE(thePath == kPathTmpA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetParts")
+{
+
+
+	// Perform the test
+	NVectorString theParts;
+
+	theParts = kPathTmpA.GetRoot().GetParts();
+	REQUIRE(theParts.size() == 1);
+
+	theParts = kPathTmpA.GetParts();
+	REQUIRE(theParts.size() > 3);
+
+	thePath.SetParts(theParts);
+	REQUIRE(thePath == kPathTmpA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetParts")
+{
+
+
+	// Perform the test
+	NVectorString theParts = kPathTmpA.GetParts();
+	REQUIRE(theParts.size() > 3);
+
+	thePath = kPathTmpB;
+	thePath.SetParts(theParts);
+
+	REQUIRE(thePath == kPathTmpA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetPath")
+{
+
+
+	// Perform the test
+	NString theValue;
+
+	theValue = kPathTmpA.GetPath();
+	REQUIRE(!theValue.IsEmpty());
+
+	theValue = kPathTmpB.GetPath();
+	REQUIRE(!theValue.IsEmpty());
+
+	theValue = kPathTmpC.GetPath();
+	REQUIRE(!theValue.IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetPath")
+{
+
+
+	// Perform the test
+	thePath.SetPath(kPathTmpA.GetPath());
+	REQUIRE(thePath == kPathTmpA);
+
+	thePath.SetPath(kPathTmpB.GetPath());
+	REQUIRE(thePath == kPathTmpB);
+
+	thePath.SetPath(kPathTmpC.GetPath());
+	REQUIRE(thePath == kPathTmpC);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "Appendable")
+{
+
+
+	// Perform the test
+	thePath = kPathTmpDirectory;
+	thePath += NFilePath("one");
+	thePath += NFilePath("two");
+	thePath += NFilePath("three");
+
+	NN_REQUIRE(thePath == kPathTmpOneTwoThree);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "CompareEqual")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpOne == kPathTmpOne);
+	REQUIRE(kPathTmpOne != kPathTmpOneTwo);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "CompareOrder")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpOne <= kPathTmpOne);
+	REQUIRE(kPathTmpOne <= kPathTmpOneTwo);
+	REQUIRE(kPathTmpOne < kPathTmpOneTwo);
+
+	REQUIRE(kPathTmpOneTwo >= kPathTmpOneTwo);
+	REQUIRE(kPathTmpOneTwo >= kPathTmpOne);
+	REQUIRE(kPathTmpOneTwo > kPathTmpOne);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "Hashable")
+{
+
+
+	// Perform the test
+	REQUIRE(thePath.GetHash() == 0);
+
+	REQUIRE(kPathTmpA.GetHash() != 0);
+	REQUIRE(kPathTmpB.GetHash() != 0);
+	REQUIRE(kPathTmpC.GetHash() != 0);
 }

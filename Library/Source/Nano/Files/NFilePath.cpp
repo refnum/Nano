@@ -48,18 +48,24 @@
 //=============================================================================
 //		Internal Cnstants
 //-----------------------------------------------------------------------------
-// Part patterns
+// Components
 #if NN_TARGET_WINDOWS
-static constexpr const char* kNPatternParent                = "(.*)\\\\.*?$";
-static constexpr const char* kNPatternNameWithExtension     = ".*\\\\(.*?$)";
-static constexpr const char* kNPatternNameWithoutExtension  = ".*\\\\(.*?)(\\..*)?$";
-static constexpr const char* kNPatternExtension             = "\\.(.*?$)";
+static constexpr const char* kNAbsolutePrefix               = "[A-Za-z]:\\\\";
+static constexpr const char* kNRootSuffix                   = ":\\";
+static constexpr const char* kNPartRoot                     = "^([A-Za-z]:\\\\)";
+static constexpr const char* kNPartParent                   = "(.*)\\\\.*?$";
+static constexpr const char* kNPartFilenameWithExtension    = ".*\\\\(.*?$)";
+static constexpr const char* kNPartFilenameWithoutExtension = ".*\\\\(.*?)(\\..*)?$";
+static constexpr const char* kNPartExtension                = "\\.(.*?$)";
 
 #else
-static constexpr const char* kNPatternParent                = "(.*)\\/.*?$";
-static constexpr const char* kNPatternNameWithExtension     = ".*\\/(.*?$)";
-static constexpr const char* kNPatternNameWithoutExtension  = ".*\\/(.*?)(\\..*)?$";
-static constexpr const char* kNPatternExtension             = "\\.(.*?)$";
+static constexpr const char* kNAbsolutePrefix               = "\\/";
+static constexpr const char* kNRootSuffix                   = "/";
+static constexpr const char* kNPartRoot                     = "^(\\/)";
+static constexpr const char* kNPartParent                   = "(.*)\\/.*?$";
+static constexpr const char* kNPartFilenameWithExtension    = ".*\\/(.*?$)";
+static constexpr const char* kNPartFilenameWithoutExtension = ".*\\/(.*?)(\\..*)?$";
+static constexpr const char* kNPartExtension                = "\\.(.*?)$";
 #endif
 
 
@@ -99,6 +105,66 @@ bool NFilePath::IsValid() const
 
 
 //=============================================================================
+//		NFilePath::IsAbsolute : Is this an absolute path?
+//-----------------------------------------------------------------------------
+bool NFilePath::IsAbsolute() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Check the state
+	return mPath.StartsWith(kNAbsolutePrefix, kNStringPattern);
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::IsRelative : Is this a relative path?
+//-----------------------------------------------------------------------------
+bool NFilePath::IsRelative() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Check the state
+	return !IsAbsolute();
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::IsRoot : Is this a root path?
+//-----------------------------------------------------------------------------
+bool NFilePath::IsRoot() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Check the state
+	return mPath.EndsWith(kNRootSuffix);
+}
+
+
+
+
+
+//=============================================================================
 //		NFilePath::Clear : Clear the path.
 //-----------------------------------------------------------------------------
 void NFilePath::Clear()
@@ -114,10 +180,320 @@ void NFilePath::Clear()
 
 
 //=============================================================================
+//		NFilePath::GetRoot : Get the root path.
+//-----------------------------------------------------------------------------
+NFilePath NFilePath::GetRoot() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the root path
+	NString theRoot = GetPart(kNPartRoot);
+
+	NN_REQUIRE((IsRelative() && theRoot.IsEmpty()) || (IsAbsolute() && !theRoot.IsEmpty()));
+
+	return theRoot;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetParent : Get the parent.
+//-----------------------------------------------------------------------------
+NFilePath NFilePath::GetParent() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the parent
+	if (IsRoot())
+	{
+		// A root is its own parent
+		return *this;
+	}
+	else
+	{
+		// Get the parent
+		//
+		// The root is what's left when no more parents can be found.
+		NString theParent = GetPart(kNPartParent);
+		if (!theParent.Contains(kNPathSeparator))
+		{
+			theParent = GetPart(kNPartRoot);
+		}
+
+		return theParent;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetChild : Get a child of the path.
+//-----------------------------------------------------------------------------
+NFilePath NFilePath::GetChild(const NString& theName) const
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!theName.IsEmpty());
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the child
+	NFilePath theChild(*this);
+
+	if (!theChild.IsRoot())
+	{
+		NN_REQUIRE(!theChild.mPath.EndsWith(kNPathSeparator));
+		theChild.mPath += kNPathSeparator;
+	}
+
+	theChild.mPath += theName;
+
+	return theChild;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetFilename : Get the filename.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetFilename(bool withExtension) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the filename
+	if (withExtension)
+	{
+		return GetPart(kNPartFilenameWithExtension);
+	}
+	else
+	{
+		return GetPart(kNPartFilenameWithoutExtension);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetFilename : Set the filename.
+//-----------------------------------------------------------------------------
+void NFilePath::SetFilename(const NString& theName)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Set the filename
+	bool didSet = SetPart(kNPartFilenameWithExtension, theName);
+	NN_REQUIRE(didSet);
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetExtension : Get the extension.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetExtension() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the extension
+	return GetPart(kNPartExtension);
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetExtension : Set the extension.
+//-----------------------------------------------------------------------------
+void NFilePath::SetExtension(const NString& theExtension)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!theExtension.StartsWith("."));
+	NN_REQUIRE(IsValid());
+
+
+
+	// Set the extension
+	bool didSet = SetPart(kNPartExtension, theExtension);
+	if (didSet)
+	{
+		// Remove the extension
+		//
+		// If we had an extension then our pattern will replace
+		// everything after the final dot.
+		//
+		// If the new extension is empty we need to trim the dot
+		// as a second pass.
+		if (theExtension.IsEmpty())
+		{
+			NN_REQUIRE(mPath.EndsWith("."));
+			mPath.RemoveSuffix(1);
+		}
+	}
+	else
+	{
+		// Add an extension
+		//
+		// If we didn't have an extension then we won't have found
+		// a match so, if we want to add one, we must add the dot.
+		NN_REQUIRE(!mPath.EndsWith("."));
+		if (!theExtension.IsEmpty())
+		{
+			mPath += "." + theExtension;
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetParts : Get the parts.
+//-----------------------------------------------------------------------------
+NVectorString NFilePath::GetParts() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the parts
+	NVectorString theParts;
+
+	if (IsRoot())
+	{
+		// The root path contains the root
+		theParts.push_back(mPath);
+	}
+	else
+	{
+		// A non-root path is split on separators
+		//
+		// If the path was absolute then the root part's separator
+		// will have been lost, so this must be added back on.
+		theParts = mPath.Split(kNPathSeparator);
+		NN_REQUIRE(!theParts.empty());
+
+		if (IsAbsolute())
+		{
+			theParts[0] += kNPathSeparator;
+		}
+	}
+
+	return theParts;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetParts : Set the parts.
+//-----------------------------------------------------------------------------
+void NFilePath::SetParts(const NVectorString& theParts)
+{
+
+
+	// Get the state we need
+	bool   isAbsolute = false;
+	size_t numParts   = theParts.size();
+	size_t n          = 0;
+
+	mPath.Clear();
+
+
+
+	// Set the parts
+	for (const auto& thePart : theParts)
+	{
+		// Update our state
+		mPath += thePart;
+
+		if (n == 0)
+		{
+			isAbsolute = IsAbsolute();
+		}
+
+
+		// Add a separator
+		//
+		// We don't add a separator after the last part.
+		//
+		// If we have an absolute path then the root already contains
+		// a separator so we don't add one after the first part either.
+		if (n == (numParts - 1))
+		{
+			// Don't add separator after last part
+		}
+		else if (isAbsolute && n == 0)
+		{
+			// Don't add separator after root part
+		}
+		else
+		{
+			mPath += kNPathSeparator;
+		}
+
+		n++;
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NFilePath::GetPath : Get the path.
 //-----------------------------------------------------------------------------
 NString NFilePath::GetPath() const
 {
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
 
 
 	// Get the path
@@ -143,58 +519,6 @@ void NFilePath::SetPath(const NString& thePath)
 
 
 
-//=============================================================================
-//		NFilePath::GetParent : Get the parent.
-//-----------------------------------------------------------------------------
-NString NFilePath::GetParent() const
-{
-
-
-	// Get the parent
-	return GetPathPart(mPath, kNPatternParent);
-}
-
-
-
-
-
-//=============================================================================
-//		NFilePath::GetName : Get the name.
-//-----------------------------------------------------------------------------
-NString NFilePath::GetName(bool withExtension) const
-{
-
-
-	// Get the parent
-	if (withExtension)
-	{
-		return GetPathPart(mPath, kNPatternNameWithExtension);
-	}
-	else
-	{
-		return GetPathPart(mPath, kNPatternNameWithoutExtension);
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		NFilePath::GetExtension : Get the extension.
-//-----------------------------------------------------------------------------
-NString NFilePath::GetExtension() const
-{
-
-
-	// Get the extension
-	return GetPathPart(mPath, kNPatternExtension);
-}
-
-
-
-
-
 #pragma mark NMixinAppendable
 //=============================================================================
 //		NFilePath::Append : Append a value.
@@ -204,7 +528,7 @@ void NFilePath::Append(const NFilePath& thePath)
 
 
 	// Append the path
-	mPath.Append(thePath.mPath);
+	*this = GetChild(thePath.mPath);
 }
 
 
@@ -290,20 +614,43 @@ void NFilePath::HashClear()
 
 #pragma mark private
 //=============================================================================
-//		NFilePath::GetPathPart : Get part of a path.
+//		NFilePath::GetPart : Get part of the path.
 //-----------------------------------------------------------------------------
-NString NFilePath::GetPathPart(const NString& thePath, const NString& thePattern) const
+NString NFilePath::GetPart(const NString& thePattern) const
 {
 
 
 	// Get the part
-	NPatternGroup theMatch = thePath.FindGroup(thePattern, kNStringPattern);
+	NPatternGroup theMatch = mPath.FindGroup(thePattern, kNStringPattern);
 	NString       theResult;
 
 	if (!theMatch.theGroups.empty())
 	{
-		theResult = thePath.GetSubstring(theMatch.theGroups[0]);
+		theResult = mPath.GetSubstring(theMatch.theGroups[0]);
 	}
 
 	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetPart : Set part of the path.
+//-----------------------------------------------------------------------------
+bool NFilePath::SetPart(const NString& thePattern, const NString& theValue)
+{
+
+
+	// Set the part
+	NPatternGroup theMatch = mPath.FindGroup(thePattern, kNStringPattern);
+	bool          didSet   = !theMatch.theGroups.empty();
+
+	if (didSet)
+	{
+		mPath.Replace(theMatch.theGroups[0], theValue);
+	}
+
+	return didSet;
 }

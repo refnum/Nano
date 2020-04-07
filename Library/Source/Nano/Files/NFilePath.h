@@ -82,31 +82,76 @@ public:
 	bool                                IsValid() const;
 
 
+	// Is the path an absolute / relative path?
+	//
+	// An absolute path starts with a root part.
+	bool                                IsAbsolute() const;
+	bool                                IsRelative() const;
+
+
+	// Is the path a root path?
+	//
+	// A root path is the initial component of an absolute path?
+	bool                                IsRoot() const;
+
+
 	// Clear the path
 	void                                Clear();
 
 
-	// Get/set the path
-	NString                             GetPath() const;
-	void                                SetPath(  const NString& thePath);
+	// Get the root
+	//
+	// The root path is the first part of an absolute path.
+	//
+	// A relative path has no root, and an empty path is returned.
+	NFilePath                           GetRoot() const;
 
 
 	// Get the parent
 	//
-	// Get the parent from the path, typically all but the last part.
-	NString                             GetParent() const;
-
-
-	// Get the name
+	// The parent is all but the last part of the path.
 	//
-	// Get the name from the path, typically the last part.
-	NString                             GetName(bool withExtension = true) const;
-
-
-	// Get the extension
+	// The parent of a root path is itself.
 	//
-	// Get the extension of the name, if any.
+	// The final parent of a path with no root, such as a relative
+	// path, is an empty path.
+	NFilePath                           GetParent() const;
+
+
+	// Get a child of the path
+	NFilePath                           GetChild(const NString& theName) const;
+
+
+	// Get/set the filename
+	//
+	// The filename is the last part of the path.
+	//
+	// Assigning an empty filename removes the filename part.
+	NString                             GetFilename(bool withExtension = true) const;
+	void                                SetFilename(const NString& theName);
+
+
+	// Get/set the extension
+	//
+	// The extension is the dot-prefixed suffix of the last part.
+	//
+	// Assigning an empty extension removes the extension.
 	NString                             GetExtension() const;
+	void                                SetExtension(  const NString& theExtension);
+
+
+	// Get/set the parts
+	//
+	// An absolute path has the root as its first part.
+	NVectorString                       GetParts() const;
+	void                                SetParts(  const NVectorString& theParts);
+
+
+	// Get/set the path
+	//
+	// Access the path as a single string.
+	NString                             GetPath() const;
+	void                                SetPath(  const NString& thePath);
 
 
 public:
@@ -126,13 +171,13 @@ public:
 
 
 private:
-	NString                             GetPathPart(const NString& thePath, const NString& thePattern) const;
+	NString                             GetPart(const NString& thePattern) const;
+	bool                                SetPart(const NString& thePattern, const NString& theValue);
 
 
 private:
 	NString                             mPath;
 };
-
 
 
 #endif // NFILE_PATH_H

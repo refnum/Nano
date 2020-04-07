@@ -320,7 +320,12 @@ NString NFileUtils::GetLocation(NFileLocation theLocation, const NString& pathCh
 	{
 		if (!thePath.IsEmpty() && !pathChild.IsEmpty())
 		{
-			thePath += kNPathSeparator + pathChild;
+			if (!thePath.EndsWith(kNPathSeparator))
+			{
+				thePath += kNPathSeparator;
+			}
+
+			thePath += pathChild;
 		}
 	}
 
