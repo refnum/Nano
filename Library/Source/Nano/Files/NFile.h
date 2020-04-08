@@ -74,12 +74,12 @@ class NN_EMPTY_BASE NFile final : public NMixinComparable<NFile>
 {
 public:
 										NFile();
-										NFile(const NString& thePath);
+										NFile(const NFilePath& thePath);
 
 
 	// Is the file valid?
 	//
-	// A valid file has a non-empty path.
+	// A valid file has a valid path.
 	bool                                IsValid() const;
 
 
@@ -90,8 +90,8 @@ public:
 
 
 	// Get/set the path
-	NString                             GetPath() const;
-	void                                SetPath(  const NString& thePath);
+	NFilePath                           GetPath() const;
+	void                                SetPath(  const NFilePath& thePath);
 
 
 	// Refresh the state
@@ -145,10 +145,7 @@ public:
 
 	// Get the child/parent
 	//
-	// Only directories have children, however all files/directories
-	// except the root directory have a parent.
-	//
-	// The child name may include path components.
+	// Only a valid directory has children.
 	//
 	// The file must be valid to get its relatives.
 	NFile                               GetChild(   const NString& theName) const;
@@ -205,7 +202,7 @@ public:
 
 
 private:
-	NStatus                             UpdatePath(const NString& newPath, bool renameFile);
+	NStatus                             UpdatePath(const NFilePath& newPath, bool renameFile);
 
 
 private:

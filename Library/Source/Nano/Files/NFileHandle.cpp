@@ -121,7 +121,7 @@ NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileFlag
 
 
 	// Open the file
-	return Open(NFilePath(theFile.GetPath()), theAccess, theFlags);
+	return Open(theFile.GetPath(), theAccess, theFlags);
 }
 
 

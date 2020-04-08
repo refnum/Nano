@@ -344,7 +344,7 @@ def NData_Show(theData, theInfo):
 #------------------------------------------------------------------------------
 def NFile_Show(theFile, theInfo):
 
-	thePath = getPathNString(theFile, "->mInfo.mPath")
+	thePath = getPathNString(theFile, "->mInfo.mPath.mPath")
 
 	return thePath
 
@@ -357,7 +357,7 @@ def NFile_Show(theFile, theInfo):
 #------------------------------------------------------------------------------
 def NFileHandle_Show(fileHnd, theInfo):
 
-	thePath    = getPathNString(fileHnd, "->mPath")
+	thePath    = getPathNString(fileHnd, "->mPath.mPath")
 	accessName = ""
 
 	if (thePath):

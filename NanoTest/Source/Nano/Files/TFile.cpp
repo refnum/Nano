@@ -52,7 +52,7 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Paths
-static const NString kPathTmpDirectory =
+static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFile");
 
 static const NString kExtensionTmpFileA                     = "aaa";
@@ -61,54 +61,17 @@ static const NString kExtensionTmpFileB                     = "bbb";
 static const NString kNameTmpFileA                          = "TFile_A." + kExtensionTmpFileA;
 static const NString kNameTmpFileB                          = "TFile_B." + kExtensionTmpFileB;
 
-#if NN_TARGET_ANDROID
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
-static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
+static const NFilePath kPathTmpFileA                        = kPathTmpDirectory.GetChild(kNameTmpFileA);
+static const NFilePath kPathTmpFileB                        = kPathTmpDirectory.GetChild(kNameTmpFileB);
 
-#elif NN_TARGET_IOS
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
-static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
-
-
-#elif NN_TARGET_LINUX
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
-static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
-
-
-#elif NN_TARGET_MACOS
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
-static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
-
-
-#elif NN_TARGET_TVOS
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpFileA                          = kPathTmpDirectory + "/" + kNameTmpFileA;
-static const NString kPathTmpFileB                          = kPathTmpDirectory + "/" + kNameTmpFileB;
-
-
-#elif NN_TARGET_WINDOWS
-static const NString kPathFile                              = "c:\\Windows\\regedit.exe";
-static const NString kPathDirectory                         = "c:\\Windows\\System";
-static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
-static const NString kPathTmpFileA                          = kPathTmpDirectory + "\\" + kNameTmpFileA;
-static const NString kPathTmpFileB                          = kPathTmpDirectory + "\\" + kNameTmpFileB;
-
+#if NN_TARGET_WINDOWS
+static const NFilePath kPathFile                            = NString("c:\\Windows\\regedit.exe");
+static const NFilePath kPathDirectory                       = NString("c:\\Windows\\System");
+static const NFilePath kPathDoesNotExist                    = NString("c:\\63785644-da36-4148-939f-4416cb5ea56e");
 #else
-	#error "Unknown target"
+static const NFilePath kPathFile                            = NString("/bin/bash");
+static const NFilePath kPathDirectory                       = NString("/tmp");
+static const NFilePath kPathDoesNotExist                    = NString("/63785644-da36-4148-939f-4416cb5ea56e");
 #endif
 
 
@@ -125,13 +88,13 @@ NANO_FIXTURE(TFile)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory.GetPath(), true);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
 	TEARDOWN
 	{
-		theErr = NFileUtils::Delete(kPathTmpDirectory);
+		theErr = NFileUtils::Delete(kPathTmpDirectory.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 	}
 };
@@ -180,11 +143,9 @@ NANO_TEST(TFile, "Clear")
 	// Perform the test
 	theFile = NFile(kPathFile);
 	REQUIRE(theFile.IsValid());
-	REQUIRE(!theFile.GetPath().IsEmpty());
 
 	theFile.Clear();
 	REQUIRE(!theFile.IsValid());
-	REQUIRE(theFile.GetPath().IsEmpty());
 }
 
 

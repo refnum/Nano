@@ -536,7 +536,7 @@ void NFileScanner::ContinueScan()
 
 			if (isMatch && matchPath)
 			{
-				isMatch = theFile.GetPath().Contains(mFilterPath, kNStringPatternNoCase);
+				isMatch = theFile.GetPath().GetPath().Contains(mFilterPath, kNStringPatternNoCase);
 			}
 
 			if (isMatch && matchName)

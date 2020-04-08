@@ -65,13 +65,13 @@ NFile::NFile()
 //=============================================================================
 //		NFile::NFile : Constructor.
 //-----------------------------------------------------------------------------
-NFile::NFile(const NString& thePath)
+NFile::NFile(const NFilePath& thePath)
 	: mInfo(thePath)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 }
 
 
@@ -111,21 +111,12 @@ void NFile::Clear()
 //=============================================================================
 //		NFile::GetPath : Get the path.
 //-----------------------------------------------------------------------------
-NString NFile::GetPath() const
+NFilePath NFile::GetPath() const
 {
 
 
 	// Get our state
-	//
-	// TODO - return NFilePath.
-	if (mInfo.GetPath().IsValid())
-	{
-		return mInfo.GetPath().GetPath();
-	}
-	else
-	{
-		return "";
-	}
+	return mInfo.GetPath();
 }
 
 
@@ -135,12 +126,12 @@ NString NFile::GetPath() const
 //=============================================================================
 //		NFile::SetPath : Set the path.
 //-----------------------------------------------------------------------------
-void NFile::SetPath(const NString& thePath)
+void NFile::SetPath(const NFilePath& thePath)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
 
 
@@ -343,7 +334,7 @@ NString NFile::GetName() const
 
 
 	// Get the file name
-	return NFileUtils::GetPathPart(GetPath(), NPathPart::Name);
+	return mInfo.GetPath().GetFilename();
 }
 
 
@@ -364,13 +355,10 @@ NStatus NFile::SetName(const NString& theName, bool renameFile)
 
 
 
-	// Get the state we need
-	NString pathParent = NFileUtils::GetPathPart(GetPath(), NPathPart::Parent);
-	NString newPath    = pathParent + kNPathSeparator + theName;
-
-
-
 	// Update the path
+	NFilePath newPath = mInfo.GetPath();
+	newPath.SetFilename(theName);
+
 	return UpdatePath(newPath, renameFile);
 }
 
@@ -391,7 +379,7 @@ NString NFile::GetExtension() const
 
 
 	// Get the file extension
-	return NFileUtils::GetPathPart(GetPath(), NPathPart::Extension);
+	return mInfo.GetPath().GetExtension();
 }
 
 
@@ -413,25 +401,10 @@ NStatus NFile::SetExtension(const NString& theExtension, bool renameFile)
 
 
 
-	// Get the state we need
-	NString oldExtension = GetExtension();
-	NString newPath      = GetPath();
-
-	if (!oldExtension.IsEmpty())
-	{
-		newPath.RemoveSuffix(oldExtension.GetSize());
-	}
-
-	if (!newPath.EndsWith("."))
-	{
-		newPath += ".";
-	}
-
-	newPath += theExtension;
-
-
-
 	// Update the path
+	NFilePath newPath = mInfo.GetPath();
+	newPath.SetExtension(theExtension);
+
 	return UpdatePath(newPath, renameFile);
 }
 
@@ -455,9 +428,7 @@ NFile NFile::GetChild(const NString& theName) const
 
 
 	// Get the child
-	NString childPath = GetPath() + kNPathSeparator + theName;
-
-	return NFile(childPath);
+	return mInfo.GetPath().GetChild(theName);
 }
 
 
@@ -477,7 +448,7 @@ NFile NFile::GetParent() const
 
 
 	// Get the child
-	return NFile(NFileUtils::GetPathPart(GetPath(), NPathPart::Parent));
+	return mInfo.GetPath().GetParent();
 }
 
 
@@ -519,7 +490,7 @@ NVectorFile NFile::GetChildren() const
 
 
 	// Get the children
-	NVectorString childPaths = NFileUtils::GetChildren(GetPath());
+	NVectorString childPaths = NFileUtils::GetChildren(GetPath().GetPath());
 	NVectorFile   theChildren;
 
 	theChildren.reserve(childPaths.size());
@@ -549,7 +520,7 @@ NStatus NFile::CreateFile()
 
 
 	// Create the directory
-	NStatus theErr = NFileUtils::CreateFile(GetPath());
+	NStatus theErr = NFileUtils::CreateFile(GetPath().GetPath());
 	NN_EXPECT_NOT_ERR(theErr);
 
 
@@ -577,7 +548,7 @@ NStatus NFile::CreateDirectory()
 
 
 	// Create the directory
-	NStatus theErr = NFileUtils::CreateDirectory(GetPath());
+	NStatus theErr = NFileUtils::CreateDirectory(GetPath().GetPath());
 	NN_EXPECT_NOT_ERR(theErr);
 
 
@@ -605,7 +576,7 @@ NStatus NFile::Delete(bool moveToTrash) const
 
 
 	// Delete the file
-	NStatus theErr = NFileUtils::Delete(GetPath(), moveToTrash);
+	NStatus theErr = NFileUtils::Delete(GetPath().GetPath(), moveToTrash);
 	NN_EXPECT_NOT_ERR(theErr);
 
 
@@ -633,7 +604,7 @@ NStatus NFile::DeleteChildren(bool moveToTrash) const
 
 
 	// Delete the children
-	return NFileUtils::DeleteChildren(GetPath(), moveToTrash);
+	return NFileUtils::DeleteChildren(GetPath().GetPath(), moveToTrash);
 }
 
 
@@ -672,7 +643,7 @@ bool NFile::CompareEqual(const NFile& theFile) const
 
 
 	// Compare the paths
-	return CompareOrder(theFile) == NComparison::EqualTo;
+	return mInfo.GetPath().CompareEqual(theFile.mInfo.GetPath());
 }
 
 
@@ -687,9 +658,7 @@ NComparison NFile::CompareOrder(const NFile& theFile) const
 
 
 	// Order by path
-	//
-	// File paths are considered to be case-insensitive but case-preserving.
-	return GetPath().Compare(theFile.GetPath(), kNStringNoCase);
+	return mInfo.GetPath().CompareOrder(theFile.mInfo.GetPath());
 }
 
 
@@ -700,7 +669,7 @@ NComparison NFile::CompareOrder(const NFile& theFile) const
 //=============================================================================
 //		NFile::UpdatePath : Update the path.
 //-----------------------------------------------------------------------------
-NStatus NFile::UpdatePath(const NString& newPath, bool renameFile)
+NStatus NFile::UpdatePath(const NFilePath& newPath, bool renameFile)
 {
 
 
@@ -715,7 +684,7 @@ NStatus NFile::UpdatePath(const NString& newPath, bool renameFile)
 		}
 		else
 		{
-			theErr = NFileUtils::Rename(GetPath(), newPath);
+			theErr = NFileUtils::Rename(GetPath().GetPath(), newPath.GetPath());
 		}
 	}
 
