@@ -113,6 +113,67 @@ constexpr NString::NString(const utf16_t* theString)
 //=============================================================================
 //		NString::NString : Constructor.
 //-----------------------------------------------------------------------------
+inline NString::NString(const utf32_t* theString)
+	: mString{}
+{
+
+
+	// Set the text
+	size_t theSize = std::char_traits<utf32_t>::length(theString);
+
+	SetText(NStringEncoding::UTF32, theSize * sizeof(utf32_t), theString);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
+inline NString::NString(NStringEncoding theEncoding, size_t numBytes, const void* theData)
+	: mString{}
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+	NN_REQUIRE(numBytes == 0 || (numBytes != 0 && theData != nullptr));
+
+
+
+	// Set the text
+	SetText(theEncoding, numBytes, theData);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
+inline NString::NString(NStringEncoding theEncoding, const NData& theData)
+	: mString{}
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsValidEncoding(theEncoding));
+
+
+
+	// Set the text
+	SetData(theEncoding, theData);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
 inline NString::NString()
 	: mString{}
 {
@@ -149,6 +210,134 @@ inline NString::~NString()
 	if (IsLarge())
 	{
 		ReleaseLarge();
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
+inline NString::NString(const NString& otherString)
+	: mString{otherString.mString}
+{
+
+
+	// Initialise ourselves
+	if (IsLarge())
+	{
+		RetainLarge();
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+inline NString& NString::operator=(const NString& otherString)
+{
+
+
+	// Assign the string
+	if (this != &otherString)
+	{
+		if (IsLarge())
+		{
+			ReleaseLarge();
+		}
+
+		mString = otherString.mString;
+
+		if (IsLarge())
+		{
+			RetainLarge();
+		}
+	}
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::NString : Constructor.
+//-----------------------------------------------------------------------------
+inline NString::NString(NString&& otherString)
+	: mString{}
+{
+
+
+	// Initialise ourselves
+	std::swap(mString, otherString.mString);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+inline NString& NString::operator=(NString&& otherString)
+{
+
+
+	// Move the string
+	if (this != &otherString)
+	{
+		std::swap(mString, otherString.mString);
+		otherString.Clear();
+	}
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::Clear : Clear the string.
+//-----------------------------------------------------------------------------
+inline void NString::Clear()
+{
+
+
+	// Clear the string
+	if (IsLarge())
+	{
+		ReleaseLarge();
+	}
+
+	mString = {};
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSize : Get the size.
+//-----------------------------------------------------------------------------
+inline size_t NString::GetSize() const
+{
+
+
+	// Get the size
+	if (IsSmall())
+	{
+		return GetSizeSmall();
+	}
+	else
+	{
+		return GetSizeLarge();
 	}
 }
 
@@ -472,6 +661,48 @@ constexpr void NString::SetSmall(size_t numBytes, const void* theText, NStringEn
 		mString.Small.theData[n] = 0x00;
 		n++;
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSizeSmall : Get the small size.
+//-----------------------------------------------------------------------------
+inline size_t NString::GetSizeSmall() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsSmall());
+
+
+
+	// Get the size
+	//
+	// The small size is stored in the flag byte.
+	return size_t(mString.theFlags & kNStringFlagSmallSizeMask);
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetSizeLarge : Get the large size.
+//-----------------------------------------------------------------------------
+inline size_t NString::GetSizeLarge() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsLarge());
+
+
+
+	// Get the size
+	return mString.Large.theSlice.GetSize();
 }
 
 
