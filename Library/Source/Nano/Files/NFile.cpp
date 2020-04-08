@@ -604,7 +604,7 @@ NStatus NFile::DeleteChildren(bool moveToTrash) const
 
 
 	// Delete the children
-	return NFileUtils::DeleteChildren(GetPath().GetPath(), moveToTrash);
+	return NFileUtils::DeleteChildren(GetPath(), moveToTrash);
 }
 
 

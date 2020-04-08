@@ -211,7 +211,7 @@ NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 	// we need to delete its children recursively before we can delete it.
 	if (!moveToTrash && theInfo.IsDirectory())
 	{
-		theErr = DeleteChildren(thePath.GetPath(), false);
+		theErr = DeleteChildren(thePath, false);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -233,7 +233,7 @@ NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 //=============================================================================
 //		NFileUtils::DeleteChildren : Delete the children of a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::DeleteChildren(const NString& thePath, bool moveToTrash)
+NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, bool moveToTrash)
 {
 
 

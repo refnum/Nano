@@ -129,7 +129,7 @@ public:
 
 
 	// Delete the children of a directory
-	static NStatus                      DeleteChildren(const NString& thePath, bool moveToTrash = false);
+	static NStatus                      DeleteChildren(const NFilePath& thePath, bool moveToTrash = false);
 
 
 	// Get the children of a directory
