@@ -68,8 +68,8 @@ public:
 
 
 	// Files
-	static NStatus                      FileRename(  const NString& oldPath, const NString& newPath);
-	static NStatus                      FileExchange(const NString& oldPath, const NString& newPath);
+	static NStatus                      FileRename(  const NFilePath& oldPath, const NFilePath& newPath);
+	static NStatus                      FileExchange(const NString&   oldPath, const NString&   newPath);
 
 
 	// Semaphores

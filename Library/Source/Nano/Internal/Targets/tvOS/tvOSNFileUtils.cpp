@@ -67,7 +67,7 @@ NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::Rename : Atomically rename a file.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Rename(const NString& oldPath, const NString& newPath)
+NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 

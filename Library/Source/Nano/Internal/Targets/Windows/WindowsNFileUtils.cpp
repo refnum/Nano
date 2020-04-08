@@ -122,7 +122,7 @@ NStatus CreateTransaction(HANDLE* hTransaction)
 //=============================================================================
 //		RenameTransacted : Rename a file within a transaction.
 //-----------------------------------------------------------------------------
-NStatus RenameTransacted(HANDLE hTransaction, const NString& oldPath, const NString& newPath)
+NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
@@ -189,7 +189,7 @@ NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::Rename : Atomically rename a file.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Rename(const NString& oldPath, const NString& newPath)
+NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 

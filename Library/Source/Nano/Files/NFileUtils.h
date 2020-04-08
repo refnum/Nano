@@ -149,7 +149,7 @@ public:
 
 
 	// Atomically rename a path
-	static NStatus                      Rename(const NString& oldPath, const NString& newPath);
+	static NStatus                      Rename(const NFilePath& oldPath, const NFilePath& newPath);
 
 
 	// Atomically exchange two paths

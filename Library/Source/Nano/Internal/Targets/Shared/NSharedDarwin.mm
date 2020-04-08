@@ -350,7 +350,7 @@ bool NSharedDarwin::GetFileState(const NFilePath& thePath,
 //=============================================================================
 //		NSharedDarwin::FileRename : Atomically rename a file.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::FileRename(const NString& oldPath, const NString& newPath)
+NStatus NSharedDarwin::FileRename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 

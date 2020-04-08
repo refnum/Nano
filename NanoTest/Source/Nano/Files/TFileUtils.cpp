@@ -229,7 +229,7 @@ NANO_TEST(TFileUtils, "Rename")
 	theErr = NFileUtils::Delete(kPathTmpChildB);
 	REQUIRE(theErr == NStatus::OK);
 
-	theErr = NFileUtils::Rename(kPathTmpChildC.GetPath(), kPathTmpChildB.GetPath());
+	theErr = NFileUtils::Rename(kPathTmpChildC, kPathTmpChildB);
 	REQUIRE(theErr == NStatus::OK);
 }
 

@@ -684,7 +684,7 @@ NStatus NFile::UpdatePath(const NFilePath& newPath, bool renameFile)
 		}
 		else
 		{
-			theErr = NFileUtils::Rename(GetPath().GetPath(), newPath.GetPath());
+			theErr = NFileUtils::Rename(GetPath(), newPath);
 		}
 	}
 

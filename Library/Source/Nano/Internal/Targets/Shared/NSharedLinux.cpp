@@ -366,13 +366,15 @@ bool NSharedLinux::GetFileState(const NFilePath& thePath,
 //=============================================================================
 //		NSharedLinux::FileRename : Atomically rename a file.
 //-----------------------------------------------------------------------------
-NStatus NSharedLinux::FileRename(const NString& oldPath, const NString& newPath)
+NStatus NSharedLinux::FileRename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
 	// Rename the file
-	int sysErr =
-		int(syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_NOREPLACE));
+	const utf8_t* oldUTF8 = oldPath.GetUTF8();
+	const utf8_t* newuTF8 = newPath.GetUTF8();
+
+	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_NOREPLACE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NSharedPOSIX::GetErrno(sysErr);
