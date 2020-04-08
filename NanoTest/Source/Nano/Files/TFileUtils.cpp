@@ -246,27 +246,6 @@ NANO_TEST(TFileUtils, "GetLocation")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileUtils, "GetPathPart")
-{
-
-
-	// Perform the test
-	NString theParent    = kPathTmpDirectory + kNPathSeparator + "one";
-	NString theName      = "222.dat";
-	NString theExtension = "dat";
-
-	REQUIRE(NFileUtils::GetPathPart(kPathTmpChildC, NPathPart::Parent) == theParent);
-	REQUIRE(NFileUtils::GetPathPart(kPathTmpChildC, NPathPart::Name) == theName);
-	REQUIRE(NFileUtils::GetPathPart(kPathTmpChildC, NPathPart::Extension) == theExtension);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
 NANO_TEST(TFileUtils, "Rename")
 {
 

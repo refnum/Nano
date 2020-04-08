@@ -103,24 +103,6 @@ enum class NFileLocation
 };
 
 
-// Paths
-//
-// A path can be broken into distinct parts:
-//
-//		NPath::Parent				The parent directory of the item
-//
-//		NPath::Name					The name of the item
-//
-//		NPath::Extension			The extension of the item
-//
-enum class NPathPart
-{
-	Parent,
-	Name,
-	Extension,
-};
-
-
 
 
 
@@ -164,10 +146,6 @@ public:
 	static NString                      GetLocation(NFileLocation  theLocation,
 													const NString& pathChild = "",
 													bool           canCreate = false);
-
-
-	// Get part of a path
-	static NString                      GetPathPart(const NString& thePath, NPathPart thePart);
 
 
 	// Atomically rename a path
