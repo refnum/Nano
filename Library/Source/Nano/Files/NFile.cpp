@@ -421,8 +421,6 @@ NFile NFile::GetChild(const NString& theName) const
 
 	// Validate our parameters and state
 	NN_REQUIRE(!theName.IsEmpty());
-	NN_REQUIRE(!theName.StartsWith(kNPathSeparator));
-
 	NN_REQUIRE(IsValid());
 
 

@@ -56,20 +56,6 @@
 
 
 //=============================================================================
-//		Internal Constants
-//-----------------------------------------------------------------------------
-// Directory separator
-#if NN_TARGET_WINDOWS
-static constexpr const char* kNPathSeparator                = "\\";
-#else
-static constexpr const char* kNPathSeparator                = "/";
-#endif
-
-
-
-
-
-//=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declarations

@@ -48,10 +48,19 @@
 //=============================================================================
 //		Internal Cnstants
 //-----------------------------------------------------------------------------
+// Separator
+#if NN_TARGET_WINDOWS
+static constexpr const char* kNPathSeparator                = "\\";
+#else
+static constexpr const char* kNPathSeparator                = "/";
+#endif
+
+
 // Components
 #if NN_TARGET_WINDOWS
 static constexpr const char* kNAbsolutePrefix               = "[A-Za-z]:\\\\";
 static constexpr const char* kNRootSuffix                   = ":\\";
+
 static constexpr const char* kNPartRoot                     = "^([A-Za-z]:\\\\)";
 static constexpr const char* kNPartParent                   = "(.*)\\\\.*?$";
 static constexpr const char* kNPartFilenameWithExtension    = ".*\\\\(.*?$)";
@@ -61,6 +70,7 @@ static constexpr const char* kNPartExtension                = "\\.(.*?$)";
 #else
 static constexpr const char* kNAbsolutePrefix               = "\\/";
 static constexpr const char* kNRootSuffix                   = "/";
+
 static constexpr const char* kNPartRoot                     = "^(\\/)";
 static constexpr const char* kNPartParent                   = "(.*)\\/.*?$";
 static constexpr const char* kNPartFilenameWithExtension    = ".*\\/(.*?$)";
