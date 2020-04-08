@@ -42,8 +42,10 @@
 #include "NFileHandle.h"
 
 // Nano
+#include "NData.h"
 #include "NFile.h"
 #include "NFileInfo.h"
+#include "NStringEncoder.h"
 
 
 
@@ -381,6 +383,170 @@ NStatus NFileHandle::Flush()
 
 
 
+//=============================================================================
+//		NFileHandle::ReadText : Read text from a file.
+//-----------------------------------------------------------------------------
+NString NFileHandle::ReadText(const NFile& theFile, NStringEncoding theEncoding)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theFile.IsValid());
+
+
+
+	// Read the text
+	NData   theData = ReadData(theFile);
+	NString theText;
+
+	if (!theData.IsEmpty())
+	{
+		// Determine the encoding
+		if (theEncoding == NStringEncoding::Unknown)
+		{
+			theEncoding = NStringEncoder::GetUnknownEncoding(theData);
+		}
+
+
+		// Set the text
+		if (theEncoding != NStringEncoding::Unknown)
+		{
+			theText.SetData(theEncoding, theData);
+		}
+	}
+
+	return theText;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::WriteText : Write text to a file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::WriteText(const NFile&    theFile,
+							   const NString&  theText,
+							   NStringEncoding theEncoding)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theFile.IsValid());
+	NN_EXPECT(!theText.IsEmpty());
+
+
+
+	// Write the text
+	return WriteData(theFile, theText.GetData(theEncoding));
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::ReadData : Read data from a file.
+//-----------------------------------------------------------------------------
+NData NFileHandle::ReadData(const NFile& theFile)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theFile.IsValid());
+
+
+
+	// Get the state we need
+	NFileHandle fileHnd;
+	NData       theData;
+
+
+
+	// Read the file data
+	NStatus theErr = fileHnd.Open(theFile, NFileAccess::ReadOnly);
+	NN_EXPECT(theErr == NStatus::OK || theErr == NStatus::NotFound);
+
+	if (theErr == NStatus::OK)
+	{
+		uint64_t theSize = uint64_t(theFile.GetSize());
+		uint64_t numRead = 0;
+
+		(void) theData.Append(theSize, nullptr, NDataSource::None);
+
+		theErr = fileHnd.Read(theSize, theData.GetMutableData(), numRead);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Clean up
+	if (theErr != NStatus::OK)
+	{
+		theData.Clear();
+	}
+
+	return theData;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::WriteData : Write data to a file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::WriteData(const NFile& theFile, const NData& theData)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theFile.IsValid());
+	NN_EXPECT(!theData.IsEmpty());
+
+
+	// Get the state we need
+	NFileHandle fileHnd;
+
+
+
+	// Write the file data
+	NStatus theErr = fileHnd.Open(theFile, NFileAccess::WriteOnly);
+	NN_EXPECT_NOT_ERR(theErr);
+
+	if (theErr == NStatus::OK)
+	{
+		uint64_t theSize    = uint64_t(theData.GetSize());
+		uint64_t numWritten = 0;
+
+		theErr = fileHnd.Write(theSize, theData.GetData(), numWritten);
+		NN_EXPECT_NOT_ERR(theErr);
+
+		if (theErr == NStatus::OK)
+		{
+			theErr = fileHnd.SetSize(theSize);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+
+		fileHnd.Close();
+	}
+
+
+
+	// Clean up
+	if (theErr != NStatus::OK)
+	{
+		theFile.Delete();
+	}
+
+	return theErr;
+}
+
+
+
+
+
+#pragma mark private
 //=============================================================================
 //		NFileHandle::CanRead : Can the file be read from?
 //-----------------------------------------------------------------------------

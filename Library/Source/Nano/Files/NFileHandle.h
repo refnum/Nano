@@ -83,6 +83,9 @@ static constexpr NFileHandleRef kNFileHandleNone = nullptr;
 // Opening a file in NFileAccess::ReadOnly mode will return
 // NStatus::NotFound if the file does not exist.
 //
+// Openin a file in any mode will leave the initial file position at 0
+// and the existing file size unchanged.
+//
 enum class NFileAccess
 {
 	ReadWrite,
@@ -222,6 +225,23 @@ public:
 	//
 	// The file must be opened for writing.
 	NStatus                             Flush();
+
+
+	// Read/write a text file
+	//
+	// Reading text in the unknown encoding will attempt to auto-detect
+	// the encoding from the file content, or use UTF8 as a fallback.
+	static NString                      ReadText(const NFile&    theFile,
+												 NStringEncoding theEncoding = NStringEncoding::Unknown);
+
+	static NStatus                      WriteText(const NFile&    theFile,
+												  const NString&  theText,
+												  NStringEncoding theEncoding = NStringEncoding::UTF8);
+
+
+	// Read/write a data file
+	static NData                        ReadData( const NFile& theFile);
+	static NStatus                      WriteData(const NFile& theFile, const NData& theData);
 
 
 private:

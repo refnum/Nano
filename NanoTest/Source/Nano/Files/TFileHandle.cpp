@@ -57,6 +57,9 @@ static constexpr size_t  kLargeSize                         = 9000;
 static constexpr size_t  kBufferSize                        = 9;
 static constexpr uint8_t kBufferData[kBufferSize]           = {'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a'};
 
+static const NString kTestString                            = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+static const NData   kTestData                              = kTestString.GetData(NStringEncoding::UTF32BE);
+
 
 // Paths
 static const NFilePath kPathTmpDirectory =
@@ -240,4 +243,68 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 	REQUIRE(theErr == NStatus::OK);
 
 	REQUIRE(fileData == zeroData);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "WriteText/ReadText")
+{
+
+
+	// Perform the test
+	NString theText;
+
+	theText = NFileHandle::ReadText(kFileTmp);
+	REQUIRE(theText.IsEmpty());
+
+
+	theErr = NFileHandle::WriteText(kFileTmp, kTestString);
+	REQUIRE(theErr == NStatus::OK);
+
+	theText = NFileHandle::ReadText(kFileTmp);
+	REQUIRE(theText == kTestString);
+
+
+	theErr = NFileHandle::WriteText(kFileTmp, kTestString, NStringEncoding::UTF16);
+	REQUIRE(theErr == NStatus::OK);
+
+	theText = NFileHandle::ReadText(kFileTmp, NStringEncoding::UTF16);
+	REQUIRE(theText == kTestString);
+
+
+	theErr = NFileHandle::WriteText(kFileTmp, kTestString, NStringEncoding::UTF32);
+	REQUIRE(theErr == NStatus::OK);
+
+	theText = NFileHandle::ReadText(kFileTmp, NStringEncoding::UTF32);
+	REQUIRE(theText == kTestString);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "WriteData/ReadData")
+{
+
+
+	// Perform the test
+	NData theData;
+
+	theData = NFileHandle::ReadData(kFileTmp);
+	REQUIRE(theData.IsEmpty());
+
+
+	theErr = NFileHandle::WriteData(kFileTmp, kTestData);
+	REQUIRE(theErr == NStatus::OK);
+
+	theData = NFileHandle::ReadData(kFileTmp);
+	REQUIRE(theData == kTestData);
 }
