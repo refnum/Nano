@@ -41,11 +41,15 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// nano
 #include "NMixinAppendable.h"
 #include "NMixinComparable.h"
 #include "NMixinHashable.h"
 #include "NString.h"
 #include "NanoTargets.h"
+
+// System
+#include <vector>
 
 
 
@@ -60,6 +64,20 @@ static constexpr const char* kNPathSeparator                = "\\";
 #else
 static constexpr const char* kNPathSeparator                = "/";
 #endif
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NFilePath;
+
+
+// Containers
+using NVectorFilePath = std::vector<NFilePath>;
 
 
 
