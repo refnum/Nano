@@ -64,7 +64,11 @@ static constexpr utf32_t kStringInvalidLegacy               = 0xDFFF;
 // BOM
 static constexpr uint8_t  kBOM_UTF8[]                       = {0xEF, 0xBB, 0xBF};
 static constexpr uint16_t kBOM_UTF16[]                      = {0xFEFF};
+static constexpr uint16_t kBOM_UTF16BE[]                    = {NByteSwap::SwapNtoB(kBOM_UTF16[0])};
+static constexpr uint16_t kBOM_UTF16LE[]                    = {NByteSwap::SwapNtoL(kBOM_UTF16[0])};
 static constexpr uint32_t kBOM_UTF32[]                      = {0x0000FEFF};
+static constexpr uint32_t kBOM_UTF32BE[]                    = {NByteSwap::SwapNtoB(kBOM_UTF32[0])};
+static constexpr uint32_t kBOM_UTF32LE[]                    = {NByteSwap::SwapNtoL(kBOM_UTF32[0])};
 
 
 // Legacy encodings
@@ -199,6 +203,84 @@ void NStringEncoder::Convert(NStringEncoding     srcEncoding,
 	ConvertText(nativeSrcEncoding, inputData, nativeDstEncoding, dstData);
 
 	ProcessOutput(theFlags, swapOutput, nativeDstEncoding, dstData);
+}
+
+
+
+
+
+//=============================================================================
+//		NStringEncoder::GetUnknownEncoding : Get an unknown encoding.
+//-----------------------------------------------------------------------------
+NStringEncoding NStringEncoder::GetUnknownEncoding(const NData& theData)
+{
+
+
+	// Get the state we need
+	NStringEncoding theEncoding = NStringEncoding::Unknown;
+	const uint8_t*  thePtr      = theData.GetData();
+	size_t          theSize     = theData.GetSize();
+
+
+
+	// Check for a BOM
+	if (theEncoding == NStringEncoding::Unknown && theSize >= sizeof(kBOM_UTF8))
+	{
+		if (memcmp(thePtr, kBOM_UTF8, sizeof(kBOM_UTF8)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF8;
+		}
+	}
+
+	if (theEncoding == NStringEncoding::Unknown && theSize >= sizeof(kBOM_UTF16))
+	{
+		static_assert(sizeof(kBOM_UTF16BE) == sizeof(kBOM_UTF16));
+		static_assert(sizeof(kBOM_UTF16LE) == sizeof(kBOM_UTF16));
+
+		if (memcmp(thePtr, kBOM_UTF16, sizeof(kBOM_UTF16)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF16;
+		}
+		else if (memcmp(thePtr, kBOM_UTF16BE, sizeof(kBOM_UTF16BE)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF16BE;
+		}
+		else if (memcmp(thePtr, kBOM_UTF16LE, sizeof(kBOM_UTF16LE)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF16LE;
+		}
+	}
+
+	if (theEncoding == NStringEncoding::Unknown && theSize >= sizeof(kBOM_UTF32))
+	{
+		static_assert(sizeof(kBOM_UTF32BE) == sizeof(kBOM_UTF32));
+		static_assert(sizeof(kBOM_UTF32LE) == sizeof(kBOM_UTF32));
+
+		if (memcmp(thePtr, kBOM_UTF32, sizeof(kBOM_UTF32)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF32;
+		}
+		else if (memcmp(thePtr, kBOM_UTF32BE, sizeof(kBOM_UTF32BE)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF32BE;
+		}
+		else if (memcmp(thePtr, kBOM_UTF32LE, sizeof(kBOM_UTF32LE)) == 0)
+		{
+			theEncoding = NStringEncoding::UTF32LE;
+		}
+	}
+
+
+
+	// Check the content
+	//
+	// For now assume any non-BOM content is UTF8.
+	if (theEncoding == NStringEncoding::Unknown && theSize != 0)
+	{
+		theEncoding = NStringEncoding::UTF8;
+	}
+
+	return theEncoding;
 }
 
 

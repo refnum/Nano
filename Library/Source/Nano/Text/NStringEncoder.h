@@ -123,6 +123,12 @@ public:
 	static constexpr NStringEncoding    GetNativeEncoding(NStringEncoding theEncoding);
 
 
+	// Identify an unknown encoding
+	//
+	// Returns NStringEncoding::Unknown if the encoding could not be determined.
+	static NStringEncoding              GetUnknownEncoding(const NData& theData);
+
+
 	// Get the size of a code unit
 	static constexpr size_t             GetCodeUnitSize(NStringEncoding theEncoding);
 
