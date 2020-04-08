@@ -520,7 +520,7 @@ NStatus NFile::CreateFile()
 
 
 	// Create the directory
-	NStatus theErr = NFileUtils::CreateFile(GetPath().GetPath());
+	NStatus theErr = NFileUtils::CreateFile(GetPath());
 	NN_EXPECT_NOT_ERR(theErr);
 
 

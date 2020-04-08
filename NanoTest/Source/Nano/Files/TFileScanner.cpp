@@ -83,10 +83,10 @@ NANO_FIXTURE(TFileScanner)
 		theErr = NFileUtils::CreateDirectory(kPathTmpChildA.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFileUtils::CreateFile(kPathTmpChildB.GetPath());
+		theErr = NFileUtils::CreateFile(kPathTmpChildB);
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFileUtils::CreateFile(kPathTmpChildC.GetPath());
+		theErr = NFileUtils::CreateFile(kPathTmpChildC);
 		REQUIRE(theErr == NStatus::OK);
 	}
 

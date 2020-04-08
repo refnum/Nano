@@ -109,7 +109,7 @@ static NString GetPartPattern(NPathPart thePart)
 //=============================================================================
 //		NFileUtils::CreateFile : Create a file.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::CreateFile(const NString& thePath, bool deleteExisting)
+NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 {
 
 
@@ -118,7 +118,7 @@ NStatus NFileUtils::CreateFile(const NString& thePath, bool deleteExisting)
 
 	if (deleteExisting)
 	{
-		theErr = Delete(thePath);
+		theErr = Delete(thePath.GetPath());
 		if (theErr == NStatus::NotFound)
 		{
 			theErr = NStatus::OK;
@@ -131,10 +131,10 @@ NStatus NFileUtils::CreateFile(const NString& thePath, bool deleteExisting)
 	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
 	{
 		// Create the parent
-		NString theParent = GetPathPart(thePath, NPathPart::Parent);
-		if (!theParent.IsEmpty())
+		NFilePath theParent = thePath.GetParent();
+		if (theParent.IsValid())
 		{
-			theErr = CreateDirectory(theParent, false);
+			theErr = CreateDirectory(theParent.GetPath(), false);
 			NN_EXPECT_NOT_ERR(theErr);
 		}
 

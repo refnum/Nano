@@ -131,7 +131,8 @@ NANO_TEST(TFileUtils, "CreateFile")
 
 
 	// Perform the test
-	NString thePath = kPathTmpChildC + ".bak";
+	NFilePath thePath = kPathTmpChildC;
+	thePath.SetExtension("bak");
 
 	theErr = NFileUtils::CreateFile(thePath);
 	REQUIRE(theErr == NStatus::OK);
