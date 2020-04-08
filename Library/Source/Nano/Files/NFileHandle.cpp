@@ -305,6 +305,8 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 		theErr = FileRead(theSize, thePtr, numRead);
 	}
 
+	NN_REQUIRE(theErr != NStatus::OK || (numRead == theSize));
+
 	return theErr;
 }
 
@@ -349,6 +351,8 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 	{
 		theErr = FileWrite(theSize, thePtr, numWritten);
 	}
+
+	NN_REQUIRE(theErr != NStatus::OK || (numWritten == theSize));
 
 	return theErr;
 }
