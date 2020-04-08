@@ -406,11 +406,11 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 			{                                                                                       \
 				if (_nn_has_format_specifiers(_message))                                            \
 				{                                                                                   \
-					NN_LOG_ERROR("Expectation failed: {}" _message, #_condition, ##__VA_ARGS__);    \
+					NN_LOG_WARNING("Expectation failed: {}" _message, #_condition, ##__VA_ARGS__);  \
 				}                                                                                   \
 				else                                                                                \
 				{                                                                                   \
-					NN_LOG_ERROR("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);    \
+					NN_LOG_WARNING("Expectation failed: %s" _message, #_condition, ##__VA_ARGS__);  \
 				}                                                                                   \
 			}                                                                                       \
 		} while (false)
