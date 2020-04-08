@@ -50,42 +50,16 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-static const NString kPathTmpDirectory =
+static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileScanner");
 
-#if NN_TARGET_ANDROID
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+static const NFilePath kPathTmpOne                          = kPathTmpDirectory.GetChild("one");
+static const NFilePath kPathTmpOneTwo                       = kPathTmpOne.GetChild("two");
+static const NFilePath kPathTmpOneTwoThree                  = kPathTmpOneTwo.GetChild("three");
 
-#elif NN_TARGET_IOS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_LINUX
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_MACOS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_TVOS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_WINDOWS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "\\one\\two\\three\\four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "\\one\\two\\33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "\\one\\222.dat";
-
-#else
-	#error "Unknown target"
-#endif
+static const NFilePath kPathTmpChildA                       = kPathTmpOneTwoThree.GetChild("four");
+static const NFilePath kPathTmpChildB                       = kPathTmpOneTwo.GetChild("33333.dat");
+static const NFilePath kPathTmpChildC                       = kPathTmpOne.GetChild("222.dat");
 
 
 
@@ -151,8 +125,9 @@ NANO_TEST(TFileUtils, "CreateDirectory")
 
 
 	// Perform the test
-	theErr = NFileUtils::CreateDirectory(
-		NFilePath(kPathTmpChildA).GetChild("aa").GetChild("bb").GetChild("cc").GetChild("dd"));
+	NFilePath thePath = kPathTmpChildA.GetChild("aa").GetChild("bb").GetChild("cc").GetChild("dd");
+
+	theErr = NFileUtils::CreateDirectory(thePath);
 	REQUIRE(theErr == NStatus::OK);
 
 	NVectorFilePath theChildren = NFileUtils::GetChildren(kPathTmpChildA);
@@ -226,17 +201,17 @@ NANO_TEST(TFileUtils, "GetLocation")
 
 
 	// Perform the state
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::AppCaches).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::AppSupport).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::SharedSupport).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserDesktop).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserDocuments).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserDownloads).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserHome).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserLogs).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserPictures).IsEmpty());
-	REQUIRE(!NFileUtils::GetLocation(NFileLocation::UserPreferences).IsEmpty());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppCaches).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppSupport).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::SharedSupport).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDesktop).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDocuments).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDownloads).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserHome).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserLogs).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPictures).IsValid());
+	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPreferences).IsValid());
 }
 
 
@@ -254,7 +229,7 @@ NANO_TEST(TFileUtils, "Rename")
 	theErr = NFileUtils::Delete(kPathTmpChildB);
 	REQUIRE(theErr == NStatus::OK);
 
-	theErr = NFileUtils::Rename(kPathTmpChildC, kPathTmpChildB);
+	theErr = NFileUtils::Rename(kPathTmpChildC.GetPath(), kPathTmpChildB.GetPath());
 	REQUIRE(theErr == NStatus::OK);
 }
 
@@ -270,6 +245,6 @@ NANO_TEST(TFileUtils, "Exchange")
 
 
 	// Perform the test
-	theErr = NFileUtils::Exchange(kPathTmpChildB, kPathTmpChildC);
+	theErr = NFileUtils::Exchange(kPathTmpChildB.GetPath(), kPathTmpChildC.GetPath());
 	REQUIRE(theErr == NStatus::OK);
 }

@@ -70,13 +70,13 @@
 //-----------------------------------------------------------------------------
 //      GetSHKnownFolderPath : Get a known folder location.
 //----------------------------------------------------------------------------
-static NString GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
+static NFilePath GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
 {
 
 
 	// Get the folder
-	PWSTR   winPath;
-	NString thePath;
+	NFilepath thePath;
+	PWSTR     winPath;
 
 	if (SUCCEEDED(SHGetKnownFolderPath(theID, KF_FLAG_CREATE, nullptr, &winPath)))
 	{
@@ -359,14 +359,14 @@ NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 
 
 //=============================================================================
-//		NFileUtils::GetLocation : Get a location.
+//		NFileUtils::PathLocation : Get a location as a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
+NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 {
 
 
 	// Get the location
-	NStatus theErr = NStatus::OK;
+	NFilePath thePath;
 
 	switch (theLocation)
 	{
@@ -417,9 +417,9 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserLogs:
 			thePath = GetSHKnownFolderPath(FOLDERID_LocalAppData);
-			if (!thePath.IsEmpty())
+			if (thePath.IsValid())
 			{
-				thePath += "\\Logs";
+				thePath = thePath.GetChild("Logs");
 			}
 			break;
 
@@ -429,12 +429,12 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserPreferences:
 			thePath = GetSHKnownFolderPath(FOLDERID_LocalAppData);
-			if (!thePath.IsEmpty())
+			if (thePath.IsValid())
 			{
-				thePath += "\\Preferences";
+				thePath = thePath.GetChild("Preferences");
 			}
 			break;
 	}
 
-	return theErr;
+	return thePath;
 }

@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NFileInfo.h"
+#include "NFilePath.h"
 #include "NFileUtils.h"
 #include "NSemaphore.h"
 #include "NTime.h"
@@ -89,7 +90,10 @@ public:
 	// Files
 	static NStatus                      FileRename(  const NString& oldPath, const NString& newPath);
 	static NStatus                      FileExchange(const NString& oldPath, const NString& newPath);
-	static NStatus                      GetLocation(NFileLocation theLocation, NString& thePath);
+
+
+	// Paths
+	static NFilePath                    PathLocation(NFileLocation theLocation);
 
 
 	// Semaphores

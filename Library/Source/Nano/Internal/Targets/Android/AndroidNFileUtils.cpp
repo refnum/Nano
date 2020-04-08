@@ -134,15 +134,14 @@ NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 
 
 //=============================================================================
-//		NFileUtils::GetLocation : Get a location.
+//		NFileUtils::PathLocation : Get a location as a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
+NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 {
 
 
 	// Get the location
-	NStatus theErr = NStatus::NotSupported;
-	thePath.Clear();
+	NFilePath thePath;
 
 	switch (theLocation)
 	{
@@ -191,5 +190,5 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 			break;
 	}
 
-	return theErr;
+	return thePath;
 }

@@ -138,13 +138,13 @@ public:
 
 	// Get a location
 	//
-	// Get a location, with an optional path to a child directory.
+	// Get a location, with an optional child directory.
 	//
 	// The final location can be created if it does not exist.
 	//
 	// Returns an empty path if the directory does not exist, or cannot be created.
-	static NString                      GetLocation(NFileLocation  theLocation,
-													const NString& pathChild = "",
+	static NFilePath                    GetLocation(NFileLocation  theLocation,
+													const NString& theChild  = "",
 													bool           canCreate = false);
 
 
@@ -159,7 +159,7 @@ public:
 private:
 	static NStatus                      MakeDirectory(const NFilePath& thePath);
 	static NStatus                      DeletePath(   const NFilePath& thePath, bool moveToTrash);
-	static NStatus                      GetLocation(NFileLocation theLocation, NString& thePath);
+	static NFilePath                    PathLocation(NFileLocation theLocation);
 };
 
 

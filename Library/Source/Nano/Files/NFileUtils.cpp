@@ -264,34 +264,35 @@ NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, bool moveToTrash)
 //=============================================================================
 //		NFileUtils::GetLocation : Get a location.
 //-----------------------------------------------------------------------------
-NString NFileUtils::GetLocation(NFileLocation theLocation, const NString& pathChild, bool canCreate)
+NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
+								  const NString& theChild,
+								  bool           canCreate)
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(theChild.IsEmpty() || NFilePath(theChild).IsRelative());
+
+
+
 	// Get the path
-	NString thePath;
-	NStatus theErr = GetLocation(theLocation, thePath);
+	NFilePath thePath = PathLocation(theLocation);
 
-	if (theErr == NStatus::OK)
+	if (thePath.IsValid() && !theChild.IsEmpty())
 	{
-		if (!thePath.IsEmpty() && !pathChild.IsEmpty())
-		{
-			if (!thePath.EndsWith(kNPathSeparator))
-			{
-				thePath += kNPathSeparator;
-			}
-
-			thePath += pathChild;
-		}
+		thePath += NFilePath(theChild);
 	}
 
 
+
 	// Create the directory
-	if (theErr == NStatus::OK && canCreate)
+	if (thePath.IsValid() && canCreate)
 	{
 		if (!NFileInfo(thePath).Exists())
 		{
-			theErr = CreateDirectory(thePath);
+			NStatus theErr = CreateDirectory(thePath);
+			NN_EXPECT_NOT_ERR(theErr);
+
 			if (theErr != NStatus::OK)
 			{
 				thePath.Clear();

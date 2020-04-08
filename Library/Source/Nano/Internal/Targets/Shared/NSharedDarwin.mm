@@ -194,17 +194,19 @@ static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 //=============================================================================
 //		GetNSSearchPath : Get an NSSearchPath location.
 //-----------------------------------------------------------------------------
-static NString GetNSSearchPath(NSSearchPathDomainMask theDomain, NSSearchPathDirectory theDirectory)
+static NFilePath GetNSSearchPath(NSSearchPathDomainMask theDomain,
+								 NSSearchPathDirectory  theDirectory)
 {
 
 
 	// Get the location
-	NString thePath;
+	NFilePath thePath;
 
 	@autoreleasepool
 	{
 		NSArray<NSString*>* nsPaths =
 			NSSearchPathForDirectoriesInDomains(theDirectory, theDomain, YES);
+
 		if (nsPaths != nil && nsPaths.count != 0)
 		{
 			NSString* nsPath = [nsPaths objectAtIndex:0];
@@ -382,14 +384,14 @@ NStatus NSharedDarwin::FileExchange(const NString& oldPath, const NString& newPa
 
 
 //=============================================================================
-//		NSharedDarwin::GetLocation : Get a location.
+//		NSharedDarwin::PathLocation : Get a location as a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::GetLocation(NFileLocation theLocation, NString& thePath)
+NFilePath NSharedDarwin::PathLocation(NFileLocation theLocation)
 {
 
 
 	// Get the location
-	NStatus theErr = NStatus::OK;
+	NFilePath thePath;
 
 	switch (theLocation)
 	{
@@ -427,9 +429,9 @@ NStatus NSharedDarwin::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserLogs:
 			thePath = GetNSSearchPath(NSUserDomainMask, NSLibraryDirectory);
-			if (!thePath.IsEmpty())
+			if (thePath.IsValid())
 			{
-				thePath += "/Logs";
+				thePath = thePath.GetChild("Logs");
 			}
 			break;
 
@@ -439,14 +441,14 @@ NStatus NSharedDarwin::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserPreferences:
 			thePath = GetNSSearchPath(NSUserDomainMask, NSLibraryDirectory);
-			if (!thePath.IsEmpty())
+			if (thePath.IsValid())
 			{
-				thePath += "/Preferences";
+				thePath = thePath.GetChild("Preferences");
 			}
 			break;
 	}
 
-	return theErr;
+	return thePath;
 }
 
 

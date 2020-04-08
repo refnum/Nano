@@ -135,20 +135,20 @@ NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 
 
 //=============================================================================
-//		NFileUtils::GetLocation : Get a location.
+//		NFileUtils::PathLocation : Get a location as a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
+NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 {
 
 
 	// Get the location
-	NStatus theErr = NStatus::OK;
+	NFilePath thePath;
 
 	switch (theLocation)
 	{
 		case NFileLocation::AppCaches:
 			thePath = NPOSIX::getenv("XDG_CACHE_HOME");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/.cache";
 			}
@@ -156,7 +156,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::AppSupport:
 			thePath = NPOSIX::getenv("XDG_DATA_HOME");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/.local/share";
 			}
@@ -164,12 +164,12 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::AppTemporaries:
 			thePath = NPOSIX::getenv("XDG_RUNTIME_DIR");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("TMPDIR");
 			}
 
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = "/tmp";
 			}
@@ -177,12 +177,12 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::SharedSupport:
 			thePath = NPOSIX::getenv("XDG_DATA_DIRS");
-			if (thePath.Contains(":"))
+			if (thePath.GetPath().Contains(":"))
 			{
-				thePath = thePath.Split(":").front();
+				thePath = thePath.GetPath().Split(":").front();
 			}
 
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = "/usr/local/share";
 			}
@@ -190,7 +190,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserDesktop:
 			thePath = NPOSIX::getenv("XDG_DESKTOP_DIR");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/Desktop";
 			}
@@ -198,7 +198,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserDocuments:
 			thePath = NPOSIX::getenv("XDG_DOCUMENTS_DIR");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/Documents";
 			}
@@ -206,7 +206,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserDownloads:
 			thePath = NPOSIX::getenv("XDG_DOWNLOAD_DIR");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/Downloads";
 			}
@@ -218,7 +218,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserLogs:
 			thePath = NPOSIX::getenv("XDG_DATA_HOME");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/.local/share/logs";
 			}
@@ -226,7 +226,7 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserPictures:
 			thePath = NPOSIX::getenv("XDG_PICTURES_DIR");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/Pictures";
 			}
@@ -234,12 +234,12 @@ NStatus NFileUtils::GetLocation(NFileLocation theLocation, NString& thePath)
 
 		case NFileLocation::UserPreferences:
 			thePath = NPOSIX::getenv("XDG_CONFIG_HOME");
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = NPOSIX::getenv("HOME") + "/.config";
 			}
 			break;
 	}
 
-	return theErr;
+	return thePath;
 }
