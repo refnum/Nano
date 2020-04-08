@@ -51,7 +51,7 @@
 //=============================================================================
 //		NFileHandle::FileOpen : Open the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileOpen(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags)
+NStatus NFileHandle::FileOpen(const NFilePath& thePath, NFileAccess theAccess, NFileFlags theFlags)
 {
 
 

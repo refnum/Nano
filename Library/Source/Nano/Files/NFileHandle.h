@@ -41,7 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NString.h"
+#include "NFilePath.h"
 
 
 
@@ -77,11 +77,11 @@ static constexpr NFileHandleRef kNFileHandleNone = nullptr;
 //
 //		NFileAccess::WriteOnly		The file may only be written to.
 //
-// Opening a file in NFileAccess::ReadWrite or NFileAccess::WriteOnly mode
-// will create the file if it does not exist.
+// Opening a file in NFileAccess::ReadWrite or NFileAccess::WriteOnly
+// mode will create the file if it does not exist.
 //
-// Opening a file in NFileAccess::ReadOnly mode will return NStatus::NotFound
-// if the file does not exist.
+// Opening a file in NFileAccess::ReadOnly mode will return
+// NStatus::NotFound if the file does not exist.
 //
 enum class NFileAccess
 {
@@ -159,7 +159,7 @@ public:
 
 
 	// Get the path
-	NString                             GetPath() const;
+	NFilePath                           GetPath() const;
 
 
 	// Open/close the handle
@@ -170,9 +170,9 @@ public:
 											 NFileAccess  theAccess = NFileAccess::ReadOnly,
 											 NFileFlags   theFlags  = kNFileDefault);
 
-	NStatus                             Open(const NString& thePath,
-											 NFileAccess    theAccess = NFileAccess::ReadOnly,
-											 NFileFlags     theFlags  = kNFileDefault);
+	NStatus                             Open(const NFilePath& thePath,
+											 NFileAccess      theAccess = NFileAccess::ReadOnly,
+											 NFileFlags       theFlags  = kNFileDefault);
 
 	void                                Close();
 
@@ -230,7 +230,7 @@ private:
 
 	NFileFlags                          GetOpenFlags(NFileAccess theAccess, NFileFlags theFlags);
 
-	NStatus                             FileOpen(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags);
+	NStatus                             FileOpen(const NFilePath& thePath, NFileAccess theAccess, NFileFlags theFlags);
 	void                                FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
@@ -241,7 +241,7 @@ private:
 
 
 private:
-	NString                             mPath;
+	NFilePath                           mPath;
 	NFileAccess                         mAccess;
 	NFileHandleRef                      mHandle;
 };

@@ -99,7 +99,7 @@ bool NFileHandle::IsOpen() const
 //=============================================================================
 //		NFileHandle::GetPath : Get the path.
 //-----------------------------------------------------------------------------
-NString NFileHandle::GetPath() const
+NFilePath NFileHandle::GetPath() const
 {
 
 
@@ -119,7 +119,7 @@ NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileFlag
 
 
 	// Open the file
-	return Open(theFile.GetPath(), theAccess, theFlags);
+	return Open(NFilePath(theFile.GetPath()), theAccess, theFlags);
 }
 
 
@@ -129,15 +129,15 @@ NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileFlag
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NString& thePath, NFileAccess theAccess, NFileFlags theFlags)
+NStatus NFileHandle::Open(const NFilePath& thePath, NFileAccess theAccess, NFileFlags theFlags)
 {
 
 
 	// Validate our parameters and state
 	NN_REQUIRE(!IsOpen());
-	NN_REQUIRE(!thePath.IsEmpty());
+	NN_REQUIRE(thePath.IsValid());
 
-	NN_REQUIRE(mPath.IsEmpty());
+	NN_REQUIRE(!mPath.IsValid());
 
 
 
@@ -179,7 +179,7 @@ void NFileHandle::Close()
 
 	// Validate our state
 	NN_REQUIRE(IsOpen());
-	NN_REQUIRE(!mPath.IsEmpty());
+	NN_REQUIRE(mPath.IsValid());
 
 
 

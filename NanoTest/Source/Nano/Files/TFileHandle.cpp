@@ -59,32 +59,11 @@ static constexpr uint8_t kBufferData[kBufferSize]           = {'T', 'e', 's', 't
 
 
 // Paths
-static const NString kPathTmpDirectory =
+static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileHandle");
-static const NString kNameTmpFile                           = "TFileHandle.dat";
 
-
-#if NN_TARGET_ANDROID
-static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
-#elif NN_TARGET_IOS
-static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
-#elif NN_TARGET_LINUX
-static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
-#elif NN_TARGET_MACOS
-static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
-#elif NN_TARGET_TVOS
-static const NString kPathTmpFile                           = kPathTmpDirectory + "/" + kNameTmpFile;
-
-#elif NN_TARGET_WINDOWS
-static const NString kPathTmpFile                           = kPathTmpDirectory + "\\" + kNameTmpFile;
-
-#else
-	#error "Unknown target"
-#endif
+static const NString   kNameTmpFile                         = "TFileHandle.dat";
+static const NFilePath kPathTmpFile                         = kPathTmpDirectory.GetChild(kNameTmpFile);
 
 
 
@@ -100,7 +79,7 @@ NANO_FIXTURE(TFileHandle)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory.GetPath(), true);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
@@ -111,7 +90,7 @@ NANO_FIXTURE(TFileHandle)
 			fileHnd.Close();
 		}
 
-		theErr = NFileUtils::Delete(kPathTmpDirectory);
+		theErr = NFileUtils::Delete(kPathTmpDirectory.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 	}
 };
@@ -129,7 +108,7 @@ NANO_TEST(TFileHandle, "Default")
 
 	// Validate our state
 	REQUIRE(!fileHnd.IsOpen());
-	REQUIRE(fileHnd.GetPath().IsEmpty());
+	REQUIRE(!fileHnd.GetPath().IsValid());
 }
 
 

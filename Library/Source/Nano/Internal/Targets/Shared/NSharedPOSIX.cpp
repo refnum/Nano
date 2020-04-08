@@ -140,13 +140,13 @@ static constexpr int GetFileWhence(NFileOffset relativeTo)
 //=============================================================================
 //		ApplyFileFlags : Apply a file's flags.
 //-----------------------------------------------------------------------------
-static NStatus ApplyFileFlags(FILE* theFile, const NString& thePath, NFileFlags theFlags)
+static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlags theFlags)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE_NOT_NULL(theFile);
-
+	NN_REQUIRE(thePath.IsValid());
 
 
 	// Get the state we need
@@ -928,14 +928,16 @@ void NSharedPOSIX::GetFileStateAccess(const NFilePath& thePath,
 //=============================================================================
 //		NSharedPOSIX::FileOpen : Open a file.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileOpen(const NString&  thePath,
-							   NFileAccess     theAccess,
-							   NFileFlags      theFlags,
-							   NFileHandleRef& fileHandle)
+NStatus NSharedPOSIX::FileOpen(const NFilePath& thePath,
+							   NFileAccess      theAccess,
+							   NFileFlags       theFlags,
+							   NFileHandleRef&  fileHandle)
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(thePath.IsValid());
+
 	static_assert(sizeof(NFileHandleRef) >= sizeof(FILE*));
 
 
