@@ -92,6 +92,20 @@ NOptionalComparison NStringComparator::CompareFast(const NString& stringA,
 {
 
 
+	// Empty comparison
+	//
+	// Comparisons against an empty string can be handled without
+	// looking at the content.
+	size_t sizeA = stringA.GetSize();
+	size_t sizeB = stringB.GetSize();
+
+	if (sizeA == 0 || sizeB == 0)
+	{
+		return NCompare(sizeA, sizeB);
+	}
+
+
+
 	// Fast comparison
 	//
 	// A case-sensitive lexicographic comparison can be handled with a
@@ -106,9 +120,6 @@ NOptionalComparison NStringComparator::CompareFast(const NString& stringA,
 		// their content directly.
 		NStringEncoding encodingA = NStringEncoding::Unknown;
 		NStringEncoding encodingB = NStringEncoding::Unknown;
-
-		size_t sizeA = 0;
-		size_t sizeB = 0;
 
 		const void* contentA = stringA.GetContent(&encodingA, &sizeA);
 		const void* contentB = stringB.GetContent(&encodingB, &sizeB);

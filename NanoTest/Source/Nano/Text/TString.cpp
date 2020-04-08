@@ -909,9 +909,27 @@ NANO_TEST(TString, "Compare")
 	// Perform the test
 	NString stringA = "test";
 	NString stringB = "TeSt";
+	NString stringC;
 
 	REQUIRE(stringA.Compare(stringB, kNStringNone) == NComparison::GreaterThan);
 	REQUIRE(stringA.Compare(stringB, kNStringNoCase) == NComparison::EqualTo);
+
+	REQUIRE(stringA.Compare(stringC, kNStringNone) == NComparison::GreaterThan);
+	REQUIRE(stringA.Compare(stringC, kNStringNoCase) == NComparison::GreaterThan);
+
+
+	REQUIRE(stringB.Compare(stringA, kNStringNone) == NComparison::LessThan);
+	REQUIRE(stringB.Compare(stringA, kNStringNoCase) == NComparison::EqualTo);
+
+	REQUIRE(stringB.Compare(stringC, kNStringNone) == NComparison::GreaterThan);
+	REQUIRE(stringB.Compare(stringC, kNStringNoCase) == NComparison::GreaterThan);
+
+
+	REQUIRE(stringC.Compare(stringA, kNStringNone) == NComparison::LessThan);
+	REQUIRE(stringC.Compare(stringA, kNStringNoCase) == NComparison::LessThan);
+
+	REQUIRE(stringC.Compare(stringB, kNStringNone) == NComparison::LessThan);
+	REQUIRE(stringC.Compare(stringB, kNStringNoCase) == NComparison::LessThan);
 }
 
 
