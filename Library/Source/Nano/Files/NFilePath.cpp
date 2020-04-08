@@ -584,7 +584,7 @@ bool NFilePath::CompareEqual(const NFilePath& thePath) const
 
 
 	// Compare the path
-	return mPath.CompareEqual(thePath.mPath);
+	return CompareOrder(thePath) == NComparison::EqualTo;
 }
 
 
@@ -599,7 +599,9 @@ NComparison NFilePath::CompareOrder(const NFilePath& thePath) const
 
 
 	// Compare the path
-	return mPath.CompareOrder(thePath.mPath);
+	//
+	// File paths are considered to be case-insensitive but case-preserving.
+	return mPath.Compare(thePath.mPath, kNStringNoCase);
 }
 
 
