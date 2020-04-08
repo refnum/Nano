@@ -121,7 +121,7 @@ public:
 
 
 	// Delete a path
-	static NStatus                      DeletePath(const NString& thePath);
+	static NStatus                      DeletePath(const NFilePath& thePath);
 
 
 	// Convert between time formats

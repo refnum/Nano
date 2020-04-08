@@ -296,7 +296,7 @@ NStatus NFileUtils::MakeDirectory(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::DeletePath : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
+NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 {
 
 
@@ -306,9 +306,13 @@ NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
 
 
 	// Move to trash
+	//
+	// The SHFILEOPSTRUCTW structure takes a null-terminated list of
+	// null-terminated strings, so we must copy the path and add two
+	// terminators.
 	if (moveToTrash)
 	{
-		NData winPath(thePath.GetData(NStringEncoding::UTF16));
+		NData winPath(thePath.GetPath().GetData(NStringEncoding::UTF16));
 		winPath.SetSize(winPath.GetSize() + (sizeof(WCHAR) * 2));
 
 		SHFILEOPSTRUCTW fileOp{};

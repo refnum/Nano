@@ -67,7 +67,7 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 
 	if (deleteExisting)
 	{
-		theErr = Delete(thePath.GetPath());
+		theErr = Delete(thePath);
 		if (theErr == NStatus::NotFound)
 		{
 			theErr = NStatus::OK;
@@ -123,7 +123,7 @@ NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, bool deleteExistin
 
 	if (deleteExisting)
 	{
-		theErr = Delete(thePath.GetPath());
+		theErr = Delete(thePath);
 		if (theErr == NStatus::NotFound)
 		{
 			theErr = NStatus::OK;
@@ -190,8 +190,13 @@ NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, bool deleteExistin
 //=============================================================================
 //		NFileUtils::Delete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
+NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsAbsolute());
+
 
 
 	// Get the state we need
@@ -206,7 +211,7 @@ NStatus NFileUtils::Delete(const NString& thePath, bool moveToTrash)
 	// we need to delete its children recursively before we can delete it.
 	if (!moveToTrash && theInfo.IsDirectory())
 	{
-		theErr = DeleteChildren(thePath, false);
+		theErr = DeleteChildren(thePath.GetPath(), false);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -242,7 +247,7 @@ NStatus NFileUtils::DeleteChildren(const NString& thePath, bool moveToTrash)
 
 	for (const auto& childPath : GetChildren(thePath))
 	{
-		theErr = Delete(childPath.GetPath(), moveToTrash);
+		theErr = Delete(childPath, moveToTrash);
 		if (theErr != NStatus::OK)
 		{
 			break;
@@ -296,4 +301,3 @@ NString NFileUtils::GetLocation(NFileLocation theLocation, const NString& pathCh
 
 	return thePath;
 }
-

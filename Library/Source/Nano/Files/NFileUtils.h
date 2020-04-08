@@ -125,7 +125,7 @@ public:
 	// Delete a path
 	//
 	// Deleting a path, rather than moving it to the trash, is permanent.
-	static NStatus                      Delete(const NString& thePath, bool moveToTrash = false);
+	static NStatus                      Delete(const NFilePath& thePath, bool moveToTrash = false);
 
 
 	// Delete the children of a directory
@@ -158,7 +158,7 @@ public:
 
 private:
 	static NStatus                      MakeDirectory(const NFilePath& thePath);
-	static NStatus                      DeletePath(   const NString&   thePath, bool moveToTrash);
+	static NStatus                      DeletePath(   const NFilePath& thePath, bool moveToTrash);
 	static NStatus                      GetLocation(NFileLocation theLocation, NString& thePath);
 };
 

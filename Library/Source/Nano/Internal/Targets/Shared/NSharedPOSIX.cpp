@@ -1245,20 +1245,26 @@ NVectorFilePath NSharedPOSIX::GetChildren(const NFilePath& thePath)
 //=============================================================================
 //		NSharedPOSIX::DeletePath : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::DeletePath(const NString& thePath)
+NStatus NSharedPOSIX::DeletePath(const NFilePath& thePath)
 {
 
 
 	// Get the state we need
 	struct stat theInfo;
 
-	int sysErr = stat(thePath.GetUTF8(), &theInfo);
+	const utf8_t* pathUTF8 = thePath.GetUTF8();
+	int           sysErr   = stat(pathUTF8, &theInfo);
 	NN_EXPECT_NOT_ERR(sysErr);
 
+
+
+	// Delete the path
 	if (sysErr == 0)
 	{
 		int dirFlag = S_ISDIR(theInfo.st_mode) ? AT_REMOVEDIR : 0;
-		sysErr      = unlinkat(0, thePath.GetUTF8(), dirFlag);
+
+		sysErr = unlinkat(0, pathUTF8, dirFlag);
+		NN_EXPECT_NOT_ERR(sysErr);
 	}
 
 	return GetErrno(sysErr);

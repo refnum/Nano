@@ -576,7 +576,7 @@ NStatus NFile::Delete(bool moveToTrash) const
 
 
 	// Delete the file
-	NStatus theErr = NFileUtils::Delete(GetPath().GetPath(), moveToTrash);
+	NStatus theErr = NFileUtils::Delete(GetPath(), moveToTrash);
 	NN_EXPECT_NOT_ERR(theErr);
 
 

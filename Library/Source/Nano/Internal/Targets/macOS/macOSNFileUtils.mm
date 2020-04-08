@@ -116,7 +116,7 @@ NStatus NFileUtils::MakeDirectory(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::DeletePath : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::DeletePath(const NString& thePath, bool moveToTrash)
+NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 {
 
 
