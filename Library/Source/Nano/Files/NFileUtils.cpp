@@ -113,6 +113,11 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsAbsolute());
+
+
+
 	// Delete any existing item
 	NStatus theErr = NStatus::OK;
 
@@ -134,7 +139,7 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 		NFilePath theParent = thePath.GetParent();
 		if (theParent.IsValid())
 		{
-			theErr = CreateDirectory(theParent.GetPath(), false);
+			theErr = CreateDirectory(theParent, false);
 			NN_EXPECT_NOT_ERR(theErr);
 		}
 
@@ -160,8 +165,13 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 //=============================================================================
 //		NFileUtils::CreateDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
+NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, bool deleteExisting)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsAbsolute());
+
 
 
 	// Delete any existing item
@@ -169,7 +179,7 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 
 	if (deleteExisting)
 	{
-		theErr = Delete(thePath);
+		theErr = Delete(thePath.GetPath());
 		if (theErr == NStatus::NotFound)
 		{
 			theErr = NStatus::OK;
@@ -182,22 +192,20 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
 	{
 		theErr = NStatus::NotFound;
-		NString parentPath;
+		NFilePath parentPath;
 
-		for (const auto& theParent : thePath.Split(kNPathSeparator, kNStringNone))
+		for (const auto& thePart : thePath.GetParts())
 		{
-			if (!theParent.IsEmpty())
+			if (!parentPath.IsValid())
 			{
-				// Get the state we need
-				if (NN_TARGET_WINDOWS && parentPath.IsEmpty())
-				{
-					parentPath = theParent;
-					continue;
-				}
-
-				parentPath += kNPathSeparator + theParent;
+				// Process the root
+				parentPath = thePart;
+			}
+			else
+			{
+				// Process the directories
+				parentPath = parentPath.GetChild(thePart);
 				NFileInfo parentInfo(parentPath);
-
 
 
 				// Create the parent
@@ -217,7 +225,6 @@ NStatus NFileUtils::CreateDirectory(const NString& thePath, bool deleteExisting)
 				{
 					theErr = NStatus::OK;
 				}
-
 
 
 				// Handle failure

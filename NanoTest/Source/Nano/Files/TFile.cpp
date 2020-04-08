@@ -88,7 +88,7 @@ NANO_FIXTURE(TFile)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory.GetPath(), true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
 		REQUIRE(theErr == NStatus::OK);
 	}
 

@@ -151,8 +151,8 @@ NANO_TEST(TFileUtils, "CreateDirectory")
 
 
 	// Perform the test
-	theErr = NFileUtils::CreateDirectory(kPathTmpChildA + kNPathSeparator + "aa" + kNPathSeparator +
-										 "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
+	theErr = NFileUtils::CreateDirectory(
+		NFilePath(kPathTmpChildA).GetChild("aa").GetChild("bb").GetChild("cc").GetChild("dd"));
 	REQUIRE(theErr == NStatus::OK);
 
 	NVectorFilePath theChildren = NFileUtils::GetChildren(kPathTmpChildA);

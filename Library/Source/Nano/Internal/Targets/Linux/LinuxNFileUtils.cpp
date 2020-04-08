@@ -99,7 +99,7 @@ NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
 //=============================================================================
 //		NFileUtils::MakeDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::MakeDirectory(const NString& thePath)
+NStatus NFileUtils::MakeDirectory(const NFilePath& thePath)
 {
 
 

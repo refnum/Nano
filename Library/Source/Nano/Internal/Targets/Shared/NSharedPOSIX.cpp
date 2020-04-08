@@ -1179,7 +1179,7 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 //=============================================================================
 //		NSharedPOSIX::CreateDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::CreateDirectory(const NString& thePath)
+NStatus NSharedPOSIX::CreateDirectory(const NFilePath& thePath)
 {
 
 

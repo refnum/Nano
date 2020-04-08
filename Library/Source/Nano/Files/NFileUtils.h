@@ -137,7 +137,7 @@ public:
 	// Returns NStatus::Duplicate if an item already exists, unless any such
 	// existing item is to be deleted.
 	static NStatus                      CreateFile(     const NFilePath& thePath, bool deleteExisting = false);
-	static NStatus                      CreateDirectory(const NString&   thePath, bool deleteExisting = false);
+	static NStatus                      CreateDirectory(const NFilePath& thePath, bool deleteExisting = false);
 
 
 	// Delete a path
@@ -179,8 +179,8 @@ public:
 
 
 private:
-	static NStatus                      MakeDirectory(const NString& thePath);
-	static NStatus                      DeletePath(   const NString& thePath, bool moveToTrash);
+	static NStatus                      MakeDirectory(const NFilePath& thePath);
+	static NStatus                      DeletePath(   const NString&   thePath, bool moveToTrash);
 	static NStatus                      GetLocation(NFileLocation theLocation, NString& thePath);
 };
 
