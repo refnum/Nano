@@ -51,42 +51,16 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-static const NString kPathTmpDirectory =
+static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileScanner");
 
-#if NN_TARGET_ANDROID
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
+static const NFilePath kPathTmpOne                          = kPathTmpDirectory.GetChild("one");
+static const NFilePath kPathTmpOneTwo                       = kPathTmpOne.GetChild("two");
+static const NFilePath kPathTmpOneTwoThree                  = kPathTmpOneTwo.GetChild("three");
 
-#elif NN_TARGET_IOS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_LINUX
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_MACOS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_TVOS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "/one/two/three/four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "/one/two/33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "/one/222.dat";
-
-#elif NN_TARGET_WINDOWS
-static const NString kPathTmpChildA                         = kPathTmpDirectory + "\\one\\two\\three\\four";
-static const NString kPathTmpChildB                         = kPathTmpDirectory + "\\one\\two\\33333.dat";
-static const NString kPathTmpChildC                         = kPathTmpDirectory + "\\one\\222.dat";
-
-#else
-	#error "Unknown target"
-#endif
+static const NFilePath kPathTmpChildA                       = kPathTmpOneTwoThree.GetChild("four");
+static const NFilePath kPathTmpChildB                       = kPathTmpOneTwo.GetChild("33333.dat");
+static const NFilePath kPathTmpChildC                       = kPathTmpOne.GetChild("222.dat");
 
 
 
@@ -103,22 +77,22 @@ NANO_FIXTURE(TFileScanner)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory.GetPath(), true);
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFileUtils::CreateDirectory(kPathTmpChildA);
+		theErr = NFileUtils::CreateDirectory(kPathTmpChildA.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFileUtils::CreateFile(kPathTmpChildB);
+		theErr = NFileUtils::CreateFile(kPathTmpChildB.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 
-		theErr = NFileUtils::CreateFile(kPathTmpChildC);
+		theErr = NFileUtils::CreateFile(kPathTmpChildC.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 	}
 
 	TEARDOWN
 	{
-		theErr = NFileUtils::Delete(kPathTmpDirectory);
+		theErr = NFileUtils::Delete(kPathTmpDirectory.GetPath());
 		REQUIRE(theErr == NStatus::OK);
 	}
 };

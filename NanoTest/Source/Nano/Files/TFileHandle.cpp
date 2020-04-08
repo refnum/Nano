@@ -62,8 +62,7 @@ static constexpr uint8_t kBufferData[kBufferSize]           = {'T', 'e', 's', 't
 static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileHandle");
 
-static const NString   kNameTmpFile                         = "TFileHandle.dat";
-static const NFilePath kPathTmpFile                         = kPathTmpDirectory.GetChild(kNameTmpFile);
+static const NFilePath kFileTmp                             = kPathTmpDirectory.GetChild("TFileHandle.dat");
 
 
 
@@ -123,7 +122,7 @@ NANO_TEST(TFileHandle, "OpenRead")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
+	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::NotFound);
 	REQUIRE(!fileHnd.IsOpen());
 }
@@ -140,7 +139,7 @@ NANO_TEST(TFileHandle, "OpenWrite")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteOnly);
+	theErr = fileHnd.Open(kFileTmp, NFileAccess::WriteOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -167,7 +166,7 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteOnly);
+	theErr = fileHnd.Open(kFileTmp, NFileAccess::WriteOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -183,7 +182,7 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
+	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -214,7 +213,7 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadWrite);
+	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadWrite);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -230,7 +229,7 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 	NData zeroData(kLargeSize, nullptr, NDataSource::Zero);
 	NData fileData(kLargeSize, nullptr, NDataSource::None);
 
-	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
+	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);

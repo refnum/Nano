@@ -49,41 +49,14 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-#if NN_TARGET_ANDROID
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-
-#elif NN_TARGET_IOS
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-
-
-#elif NN_TARGET_LINUX
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-
-
-#elif NN_TARGET_MACOS
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-
-
-#elif NN_TARGET_TVOS
-static const NString kPathFile                              = "/bin/bash";
-static const NString kPathDirectory                         = "/tmp";
-static const NString kPathDoesNotExist                      = "/63785644-da36-4148-939f-4416cb5ea56e";
-
-#elif NN_TARGET_WINDOWS
-static const NString kPathFile                              = "c:\\Windows\\regedit.exe";
-static const NString kPathDirectory                         = "c:\\Windows";
-static const NString kPathDoesNotExist                      = "c:\\63785644-da36-4148-939f-4416cb5ea56e";
-
+#if NN_TARGET_WINDOWS
+static const NFilePath kPathFile                            = NString("c:\\Windows\\regedit.exe");
+static const NFilePath kPathDirectory                       = NString("c:\\Windows\\System");
+static const NFilePath kPathDoesNotExist                    = NString("c:\\63785644-da36-4148-939f-4416cb5ea56e");
 #else
-	#error "Unknown target"
+static const NFilePath kPathFile                            = NString("/bin/bash");
+static const NFilePath kPathDirectory                       = NString("/tmp");
+static const NFilePath kPathDoesNotExist                    = NString("/63785644-da36-4148-939f-4416cb5ea56e");
 #endif
 
 
