@@ -153,7 +153,7 @@ public:
 
 
 	// Atomically exchange two paths
-	static NStatus                      Exchange(const NString& oldPath, const NString& newPath);
+	static NStatus                      Exchange(const NFilePath& oldPath, const NFilePath& newPath);
 
 
 private:

@@ -83,7 +83,7 @@ NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
 //=============================================================================
 //		NFileUtils::Exchange : Atomically exchange files.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Exchange(const NString& oldPath, const NString& newPath)
+NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 

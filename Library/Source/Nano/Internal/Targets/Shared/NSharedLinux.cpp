@@ -387,13 +387,15 @@ NStatus NSharedLinux::FileRename(const NFilePath& oldPath, const NFilePath& newP
 //=============================================================================
 //		NSharedLinux::FileExchange : Atomically exchange files.
 //-----------------------------------------------------------------------------
-NStatus NSharedLinux::FileExchange(const NString& oldPath, const NString& newPath)
+NStatus NSharedLinux::FileExchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
 	// Exchange the files
-	int sysErr =
-		int(syscall(SYS_renameat2, 0, oldPath.GetUTF8(), 0, newPath.GetUTF8(), RENAME_EXCHANGE));
+	const utf8_t* oldUTF8 = oldPath.GetUTF8();
+	const utf8_t* newuTF8 = newPath.GetUTF8();
+
+	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newuTF8, RENAME_EXCHANGE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NSharedPOSIX::GetErrno(sysErr);

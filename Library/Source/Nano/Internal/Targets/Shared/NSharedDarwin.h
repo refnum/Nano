@@ -89,7 +89,7 @@ public:
 
 	// Files
 	static NStatus                      FileRename(  const NFilePath& oldPath, const NFilePath& newPath);
-	static NStatus                      FileExchange(const NString&   oldPath, const NString&   newPath);
+	static NStatus                      FileExchange(const NFilePath& oldPath, const NFilePath& newPath);
 
 
 	// Paths

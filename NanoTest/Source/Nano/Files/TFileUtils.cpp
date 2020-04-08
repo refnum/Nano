@@ -245,6 +245,6 @@ NANO_TEST(TFileUtils, "Exchange")
 
 
 	// Perform the test
-	theErr = NFileUtils::Exchange(kPathTmpChildB.GetPath(), kPathTmpChildC.GetPath());
+	theErr = NFileUtils::Exchange(kPathTmpChildB, kPathTmpChildC);
 	REQUIRE(theErr == NStatus::OK);
 }

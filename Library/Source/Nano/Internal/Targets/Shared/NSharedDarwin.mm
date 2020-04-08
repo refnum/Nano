@@ -368,7 +368,7 @@ NStatus NSharedDarwin::FileRename(const NFilePath& oldPath, const NFilePath& new
 //=============================================================================
 //		NSharedDarwin::FileExchange : Atomically exchange files.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::FileExchange(const NString& oldPath, const NString& newPath)
+NStatus NSharedDarwin::FileExchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
