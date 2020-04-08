@@ -14,34 +14,34 @@
     <DisplayString Condition="(mString.theFlags >> 6) == 0">{mString.Small.theData,s8}</DisplayString>
     <DisplayString Condition="(mString.theFlags >> 6) == 1">{mString.Small.theData,su}</DisplayString>
 
-  	<!-- Large unsliced UTF8 -->
+  	<!-- Large unsliced UTF8, or a slice onto the start of a large UTF8 string -->
     <DisplayString Condition="
       (mString.theFlags >> 7 == 1) &amp;&amp;
-      (mString.Large.theSlice.mSize == mString.Large.theState->theSize) &amp;&amp;
+      (mString.Large.theSlice.mLocation == 0) &amp;&amp;
 	  (mString.Large.theState->stringData.theEncoding == 1) &amp;&amp;
 	  (mString.Large.theState->stringData.theData.mData.theFlags >> 7 == 1) &amp;&amp;
       (mString.Large.theState->stringData.theData.mData.Large.theSlice.mLocation == 0)
-      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,s8}</DisplayString>
+      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,[mString.Large.theSlice.mSize]s8}</DisplayString>
 
-  	<!-- Large unsliced UTF16 -->
+  	<!-- Large unsliced UTF16, or a slice onto the start of a large UTF16 string -->
     <DisplayString Condition="
       (mString.theFlags >> 7 == 1) &amp;&amp;
-      (mString.Large.theSlice.mSize == mString.Large.theState->theSize) &amp;&amp;
+      (mString.Large.theSlice.mLocation == 0) &amp;&amp;
 	  (mString.Large.theState->stringData.theEncoding == 2) &amp;&amp;
 	  (mString.Large.theState->stringData.theData.mData.theFlags >> 7 == 1) &amp;&amp;
       (mString.Large.theState->stringData.theData.mData.Large.theSlice.mLocation == 0)
-      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,su}</DisplayString>
+      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,[mString.Large.theSlice.mSize]su}</DisplayString>
 
-  	<!-- Large unsliced UTF32 -->
+  	<!-- Large unsliced UTF32, or a slice onto the start of a large UTF32 string -->
     <DisplayString Condition="
       (mString.theFlags >> 7 == 1) &amp;&amp;
-      (mString.Large.theSlice.mSize == mString.Large.theState->theSize) &amp;&amp;
+      (mString.Large.theSlice.mLocation == 0) &amp;&amp;
 	  (mString.Large.theState->stringData.theEncoding == 3) &amp;&amp;
 	  (mString.Large.theState->stringData.theData.mData.theFlags >> 7 == 1) &amp;&amp;
       (mString.Large.theState->stringData.theData.mData.Large.theSlice.mLocation == 0)
-      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,s32}</DisplayString>
+      ">{mString.Large.theState->stringData.theData.mData.Large.theState->theData,[mString.Large.theSlice.mSize]s32}</DisplayString>
 
-  	<!-- Transcode to UTF8: has side effects, so must be invoked manually -->
+  	<!-- Transcode to UTF8: safe, but has side effects, so must be invoked manually -->
     <DisplayString>{GetUTF8(),s8}</DisplayString>
   </Type>
 
