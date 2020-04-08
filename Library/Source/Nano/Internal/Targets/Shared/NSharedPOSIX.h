@@ -116,8 +116,8 @@ public:
 
 
 	// Directories
-	static NStatus                      CreateDirectory(const NString& thePath);
-	static NVectorString                GetChildren(    const NString& thePath);
+	static NStatus                      CreateDirectory(const NString&   thePath);
+	static NVectorFilePath              GetChildren(    const NFilePath& thePath);
 
 
 	// Delete a path

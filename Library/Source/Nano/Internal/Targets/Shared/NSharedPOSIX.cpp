@@ -1197,12 +1197,12 @@ NStatus NSharedPOSIX::CreateDirectory(const NString& thePath)
 //=============================================================================
 //		NSharedPOSIX::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
-NVectorString NSharedPOSIX::GetChildren(const NString& thePath)
+NVectorFilePath NSharedPOSIX::GetChildren(const NFilePath& thePath)
 {
 
 
 	// Open the directory
-	NVectorString theChildren;
+	NVectorFilePath theChildren;
 
 	DIR* theDir = opendir(thePath.GetUTF8());
 	NN_EXPECT(theDir != nullptr);
@@ -1225,7 +1225,7 @@ NVectorString NSharedPOSIX::GetChildren(const NString& thePath)
 		{
 			if (strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
 			{
-				theChildren.emplace_back(thePath + kNPathSeparator + dirEntry->d_name);
+				theChildren.emplace_back(thePath.GetChild(dirEntry->d_name));
 			}
 		}
 	} while (dirEntry != nullptr);

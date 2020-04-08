@@ -154,7 +154,7 @@ NANO_TEST(TFileUtils, "CreateDirectory")
 										 "bb" + kNPathSeparator + "cc" + kNPathSeparator + "dd");
 	REQUIRE(theErr == NStatus::OK);
 
-	NVectorString theChildren = NFileUtils::GetChildren(kPathTmpChildA);
+	NVectorFilePath theChildren = NFileUtils::GetChildren(kPathTmpChildA);
 	REQUIRE(theChildren.size() == 1);
 }
 
@@ -209,7 +209,7 @@ NANO_TEST(TFileUtils, "GetChildren")
 
 
 	// Perform the test
-	NVectorString theChildren = NFileUtils::GetChildren(kPathTmpDirectory);
+	NVectorFilePath theChildren = NFileUtils::GetChildren(kPathTmpDirectory);
 	REQUIRE(theChildren.size() == 1);
 }
 

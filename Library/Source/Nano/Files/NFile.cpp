@@ -490,8 +490,8 @@ NVectorFile NFile::GetChildren() const
 
 
 	// Get the children
-	NVectorString childPaths = NFileUtils::GetChildren(GetPath().GetPath());
-	NVectorFile   theChildren;
+	NVectorFilePath childPaths = NFileUtils::GetChildren(GetPath());
+	NVectorFile     theChildren;
 
 	theChildren.reserve(childPaths.size());
 

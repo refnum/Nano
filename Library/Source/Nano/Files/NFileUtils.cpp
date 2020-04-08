@@ -291,7 +291,7 @@ NStatus NFileUtils::DeleteChildren(const NString& thePath, bool moveToTrash)
 
 	for (const auto& childPath : GetChildren(thePath))
 	{
-		theErr = Delete(childPath, moveToTrash);
+		theErr = Delete(childPath.GetPath(), moveToTrash);
 		if (theErr != NStatus::OK)
 		{
 			break;

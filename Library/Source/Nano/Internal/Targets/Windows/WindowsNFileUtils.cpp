@@ -146,15 +146,15 @@ NStatus RenameTransacted(HANDLE hTransaction, const NString& oldPath, const NStr
 //=============================================================================
 //		NFileUtils::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
-NVectorString NFileUtils::GetChildren(const NString& thePath)
+NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 {
 
 
 	// Open the directory
 	WIN32_FIND_DATA dirEntry{};
-	NVectorString   theChildren;
+	NVectorFilePath theChildren;
 
-	NString thePattern = thePath + "\\*";
+	NString thePattern = thePath.GetPath() + "\\*";
 	HANDLE  theDir     = FindFirstFile(LPCWSTR(thePattern.GetUTF16()), &dirEntry);
 
 	if (theDir == INVALID_HANDLE_VALUE)
@@ -167,10 +167,10 @@ NVectorString NFileUtils::GetChildren(const NString& thePath)
 	// Collect the children
 	do
 	{
-		NString fileName(reinterpret_cast<const utf16_t*>(dirEntry.cFileName));
-		if (fileName != "." && fileName != "..")
+		if (wcscmp(dirEntry.cFileName, L".") != 0 && wcscmp(dirEntry.cFileName, L"..") != 0)
 		{
-			theChildren.emplace_back(thePath + kNPathSeparator + fileName);
+			NString fileName(reinterpret_cast<const utf16_t*>(dirEntry.cFileName));
+			theChildren.emplace_back(thePath.GetChild(fileName));
 		}
 	} while (FindNextFile(theDir, &dirEntry));
 

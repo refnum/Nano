@@ -53,7 +53,7 @@
 //=============================================================================
 //		NFileUtils::GetChildren : Get the children of a directory.
 //-----------------------------------------------------------------------------
-NVectorString NFileUtils::GetChildren(const NString& thePath)
+NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 {
 
 
