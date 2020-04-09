@@ -41,7 +41,11 @@
 //-----------------------------------------------------------------------------
 #include "NFileInfo.h"
 #include "NFileUtils.h"
+#include "NStdAlgorithm.h"
 #include "NTestFixture.h"
+
+// System
+#include <set>
 
 
 
@@ -200,7 +204,7 @@ NANO_TEST(TFileUtils, "GetLocation")
 {
 
 
-	// Perform the state
+	// Perform the test
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppCaches).IsValid());
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppSupport).IsValid());
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsValid());
@@ -212,6 +216,37 @@ NANO_TEST(TFileUtils, "GetLocation")
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserLogs).IsValid());
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPictures).IsValid());
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPreferences).IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "GetUniqueChild")
+{
+
+
+	// Perform the test
+	std::set<NFilePath> prevPaths;
+
+	for (auto n = 0; n < 30; n++)
+	{
+		NFilePath path1 = NFileUtils::GetUniqueChild(kPathTmpOne);
+		NFilePath path2 = NFileUtils::GetUniqueChild(kPathTmpOne, "Test");
+		NFilePath path3 = NFileUtils::GetUniqueChild(kPathTmpOne, "Test.dat");
+
+		REQUIRE(!nstd::contains(prevPaths, path1));
+		prevPaths.insert(path1);
+
+		REQUIRE(!nstd::contains(prevPaths, path2));
+		prevPaths.insert(path2);
+
+		REQUIRE(!nstd::contains(prevPaths, path3));
+		prevPaths.insert(path3);
+	}
 }
 
 

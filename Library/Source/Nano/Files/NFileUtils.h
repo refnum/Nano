@@ -148,6 +148,15 @@ public:
 													bool           canCreate = false);
 
 
+	// Get a uniquely named file
+	//
+	// Returns a uniquely named file within the specified directory.
+	//
+	// A base name can be provided to control the prefix and extension
+	// of the file name.
+	static NFilePath                    GetUniqueChild(const NFilePath& thePath, const NString baseName = "");
+
+
 	// Atomically rename a path
 	static NStatus                      Rename(const NFilePath& oldPath, const NFilePath& newPath);
 

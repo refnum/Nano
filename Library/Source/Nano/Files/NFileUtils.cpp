@@ -44,7 +44,11 @@
 // Nano
 #include "NFileHandle.h"
 #include "NFileInfo.h"
+#include "NFormat.h"
 #include "NString.h"
+
+// System
+#include <random>
 
 
 
@@ -301,4 +305,55 @@ NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
 	}
 
 	return thePath;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::GetUniqueChild : Get a uniquely named file.
+//-----------------------------------------------------------------------------
+NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString baseName)
+{
+
+
+	// Get the state we need
+	std::random_device randDevice;
+	std::mt19937_64    randUInt64(randDevice());
+
+	NString fileName      = "NFileUtils";
+	NString fileExtension = ".tmp";
+
+
+
+	// Process the base name
+	if (!baseName.IsEmpty())
+	{
+		NFilePath basePath(baseName);
+
+		fileName      = basePath.GetFilename(false);
+		fileExtension = basePath.GetExtension();
+
+		if (!fileExtension.IsEmpty())
+		{
+			fileExtension = "." + fileExtension;
+		}
+	}
+
+
+
+	// Generate a unique child
+	while (true)
+	{
+		NString uniqueName =
+			NFormat("{}_{:08x}{:08x}{}", fileName, randUInt64(), randUInt64(), fileExtension);
+
+		NFileInfo theInfo(thePath.GetChild(uniqueName));
+
+		if (!theInfo.Exists())
+		{
+			return theInfo.GetPath();
+		}
+	}
 }
