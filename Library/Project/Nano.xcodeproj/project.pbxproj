@@ -216,6 +216,7 @@
 		AB01819416BAA03C0033152D /* sqlite_3.7.17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.17.h; sourceTree = "<group>"; };
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB04AC1E243E9E7C00485373 /* NFilePath.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NFilePath.inl; sourceTree = "<group>"; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
 		AB078D2811D4A988006C9347 /* NUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NUIKit.mm; sourceTree = "<group>"; };
 		AB07EA252399D3C500E0AC49 /* AndroidNTimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -1529,6 +1530,7 @@
 				AB1A78FC103241C200DFBA38 /* NFileMap.h */,
 				AB4EB4BE2430EE0F00D36016 /* NFilePath.cpp */,
 				AB4EB4BF2430EE0F00D36016 /* NFilePath.h */,
+				AB04AC1E243E9E7C00485373 /* NFilePath.inl */,
 				AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */,
 				AB4AF54E2422FEC600E665D4 /* NFileScanner.h */,
 				AB53BBDF242123AB009960AA /* NFileUtils.cpp */,
