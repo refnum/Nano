@@ -65,7 +65,7 @@ static const NData   kTestData                              = kTestString.GetDat
 static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFileHandle");
 
-static const NFilePath kFileTmp                             = kPathTmpDirectory.GetChild("TFileHandle.dat");
+static const NFilePath kPathTmpFile                         = kPathTmpDirectory.GetChild("TFileHandle.dat");
 
 
 
@@ -125,7 +125,7 @@ NANO_TEST(TFileHandle, "OpenRead")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadOnly);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::NotFound);
 	REQUIRE(!fileHnd.IsOpen());
 }
@@ -142,7 +142,7 @@ NANO_TEST(TFileHandle, "OpenWrite")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kFileTmp, NFileAccess::WriteOnly);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -169,7 +169,7 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kFileTmp, NFileAccess::WriteOnly);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -185,7 +185,7 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 
 
 
-	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadOnly);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -216,7 +216,7 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 
 
 	// Perform the test
-	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadWrite);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadWrite);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -232,7 +232,7 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 	NData zeroData(kLargeSize, nullptr, NDataSource::Zero);
 	NData fileData(kLargeSize, nullptr, NDataSource::None);
 
-	theErr = fileHnd.Open(kFileTmp, NFileAccess::ReadOnly);
+	theErr = fileHnd.Open(kPathTmpFile, NFileAccess::ReadOnly);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
@@ -259,28 +259,28 @@ NANO_TEST(TFileHandle, "WriteText/ReadText")
 	// Perform the test
 	NString theText;
 
-	theText = NFileHandle::ReadText(kFileTmp);
+	theText = NFileHandle::ReadText(kPathTmpFile);
 	REQUIRE(theText.IsEmpty());
 
 
-	theErr = NFileHandle::WriteText(kFileTmp, kTestString);
+	theErr = NFileHandle::WriteText(kPathTmpFile, kTestString);
 	REQUIRE(theErr == NStatus::OK);
 
-	theText = NFileHandle::ReadText(kFileTmp);
+	theText = NFileHandle::ReadText(kPathTmpFile);
 	REQUIRE(theText == kTestString);
 
 
-	theErr = NFileHandle::WriteText(kFileTmp, kTestString, NStringEncoding::UTF16);
+	theErr = NFileHandle::WriteText(kPathTmpFile, kTestString, NStringEncoding::UTF16);
 	REQUIRE(theErr == NStatus::OK);
 
-	theText = NFileHandle::ReadText(kFileTmp, NStringEncoding::UTF16);
+	theText = NFileHandle::ReadText(kPathTmpFile, NStringEncoding::UTF16);
 	REQUIRE(theText == kTestString);
 
 
-	theErr = NFileHandle::WriteText(kFileTmp, kTestString, NStringEncoding::UTF32);
+	theErr = NFileHandle::WriteText(kPathTmpFile, kTestString, NStringEncoding::UTF32);
 	REQUIRE(theErr == NStatus::OK);
 
-	theText = NFileHandle::ReadText(kFileTmp, NStringEncoding::UTF32);
+	theText = NFileHandle::ReadText(kPathTmpFile, NStringEncoding::UTF32);
 	REQUIRE(theText == kTestString);
 }
 
@@ -298,13 +298,13 @@ NANO_TEST(TFileHandle, "WriteData/ReadData")
 	// Perform the test
 	NData theData;
 
-	theData = NFileHandle::ReadData(kFileTmp);
+	theData = NFileHandle::ReadData(kPathTmpFile);
 	REQUIRE(theData.IsEmpty());
 
 
-	theErr = NFileHandle::WriteData(kFileTmp, kTestData);
+	theErr = NFileHandle::WriteData(kPathTmpFile, kTestData);
 	REQUIRE(theErr == NStatus::OK);
 
-	theData = NFileHandle::ReadData(kFileTmp);
+	theData = NFileHandle::ReadData(kPathTmpFile);
 	REQUIRE(theData == kTestData);
 }
