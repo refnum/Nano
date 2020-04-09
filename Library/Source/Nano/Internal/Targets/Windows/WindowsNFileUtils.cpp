@@ -241,7 +241,7 @@ NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
 	if (theErr == NStatus::OK)
 	{
 		NFilePath tmpPath = newPath;
-		tmpPath.SetExtension(".exchange");
+		tmpPath.SetExtension("nfileutils_exchange");
 
 		theErr = RenameTransacted(hTransaction, oldPath, tmpPath);
 
@@ -386,7 +386,8 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 			DWORD winErr = GetTempPathW(MAX_PATH, tmpPath);
 			if (winErr != 0 && winErr < MAX_PATH)
 			{
-				thePath = NString(reinterpret_cast<const utf16_t*>(&tmpPath[0]));
+				tmpPath[winErr - 1] = WCHAR(0);
+				thePath             = NString(reinterpret_cast<const utf16_t*>(&tmpPath[0]));
 			}
 
 			if (!thePath.IsValid())
