@@ -102,8 +102,6 @@ enum class NFileAccess
 //
 //		kNFileWillRead				The file will definitely be read.
 //
-//		kNFileDeleteOnClose			The file is deleted when closed.
-//
 //		kNFilePositionSequential	The position will typically increase.
 //
 //		kNFilePositionRandom		The position may change at random.
@@ -121,9 +119,8 @@ using NFileFlags                                            = uint8_t;
 
 static constexpr NFileFlags kNFileDefault                   = 0;
 static constexpr NFileFlags kNFileWillRead                  = (1 << 1);
-static constexpr NFileFlags kNFileDeleteOnClose             = (1 << 2);
-static constexpr NFileFlags kNFilePositionSequential        = (1 << 3);
-static constexpr NFileFlags kNFilePositionRandom            = (1 << 4);
+static constexpr NFileFlags kNFilePositionSequential        = (1 << 2);
+static constexpr NFileFlags kNFilePositionRandom            = (1 << 3);
 
 
 // File offsets

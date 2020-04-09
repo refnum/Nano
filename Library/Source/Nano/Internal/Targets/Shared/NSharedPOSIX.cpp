@@ -156,16 +156,6 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 
 
 
-	// Temporary files
-	if (theErr == NStatus::OK && (theFlags & kNFileDeleteOnClose))
-	{
-		sysErr = unlinkat(fileDesc, thePath.GetUTF8(), 0);
-		theErr = NSharedPOSIX::GetErrno(sysErr);
-		NN_EXPECT_NOT_ERR(theErr);
-	}
-
-
-
 	// Read-ahead
 	if (theErr == NStatus::OK && (theFlags & kNFileWillRead))
 	{

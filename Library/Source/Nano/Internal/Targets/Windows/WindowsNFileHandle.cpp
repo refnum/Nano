@@ -117,11 +117,6 @@ static constexpr DWORD GetFileAttributes(NFileFlags theFlags)
 	{
 		theAttributes = 0;
 
-		if (theFlags & kNFileDeleteOnClose)
-		{
-			theAttributes |= FILE_FLAG_DELETE_ON_CLOSE | FILE_ATTRIBUTE_TEMPORARY;
-		}
-
 		if (theFlags & kNFilePositionSequential)
 		{
 			theAttributes |= FILE_FLAG_SEQUENTIAL_SCAN;
