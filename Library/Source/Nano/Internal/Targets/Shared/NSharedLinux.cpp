@@ -372,7 +372,7 @@ NStatus NSharedLinux::FileRename(const NFilePath& oldPath, const NFilePath& newP
 
 	// Rename the file
 	const utf8_t* oldUTF8 = oldPath.GetUTF8();
-	const utf8_t* newuTF8 = newPath.GetUTF8();
+	const utf8_t* newUTF8 = newPath.GetUTF8();
 
 	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_NOREPLACE));
 	NN_EXPECT_NOT_ERR(sysErr);
@@ -393,9 +393,9 @@ NStatus NSharedLinux::FileExchange(const NFilePath& oldPath, const NFilePath& ne
 
 	// Exchange the files
 	const utf8_t* oldUTF8 = oldPath.GetUTF8();
-	const utf8_t* newuTF8 = newPath.GetUTF8();
+	const utf8_t* newUTF8 = newPath.GetUTF8();
 
-	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newuTF8, RENAME_EXCHANGE));
+	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_EXCHANGE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NSharedPOSIX::GetErrno(sysErr);

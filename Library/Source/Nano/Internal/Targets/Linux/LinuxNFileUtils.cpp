@@ -171,7 +171,7 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 
 			if (!thePath.IsValid())
 			{
-				thePath = "/tmp";
+				thePath = NString("/tmp");
 			}
 			break;
 
@@ -184,7 +184,7 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 
 			if (!thePath.IsValid())
 			{
-				thePath = "/usr/local/share";
+				thePath = NString("/usr/local/share");
 			}
 			break;
 

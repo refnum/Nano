@@ -142,3 +142,4 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 
 	// Get the location
 	return NSharedDarwin::PathLocation(theLocation);
+}

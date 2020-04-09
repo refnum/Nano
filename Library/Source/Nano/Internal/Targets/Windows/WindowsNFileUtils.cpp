@@ -75,7 +75,7 @@ static NFilePath GetSHKnownFolderPath(REFKNOWNFOLDERID theID)
 
 
 	// Get the folder
-	NFilepath thePath;
+	NFilePath thePath;
 	PWSTR     winPath;
 
 	if (SUCCEEDED(SHGetKnownFolderPath(theID, KF_FLAG_CREATE, nullptr, &winPath)))
@@ -240,7 +240,8 @@ NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
 	// Exchange the files
 	if (theErr == NStatus::OK)
 	{
-		NString tmpPath = newPath + ".exchange";
+		NFilePath tmpPath = newPath;
+		tmpPath.SetExtension(".exchange");
 
 		theErr = RenameTransacted(hTransaction, oldPath, tmpPath);
 
@@ -388,7 +389,7 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 				thePath = NString(reinterpret_cast<const utf16_t*>(&tmpPath[0]));
 			}
 
-			if (thePath.IsEmpty())
+			if (!thePath.IsValid())
 			{
 				thePath = GetSHKnownFolderPath(FOLDERID_InternetCache);
 			}
