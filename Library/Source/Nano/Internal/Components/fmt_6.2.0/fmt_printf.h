@@ -11,7 +11,7 @@
 #include <algorithm>  // std::max
 #include <limits>     // std::numeric_limits
 
-#include "ostream.h"
+#include "fmt_ostream.h"
 
 FMT_BEGIN_NAMESPACE
 namespace internal {

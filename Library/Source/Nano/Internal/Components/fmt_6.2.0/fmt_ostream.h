@@ -9,7 +9,7 @@
 #define FMT_OSTREAM_H_
 
 #include <ostream>
-#include "format.h"
+#include "fmt_format.h"
 
 FMT_BEGIN_NAMESPACE
 namespace internal {

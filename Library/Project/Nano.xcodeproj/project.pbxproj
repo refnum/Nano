@@ -217,6 +217,13 @@
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB04AC1E243E9E7C00485373 /* NFilePath.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NFilePath.inl; sourceTree = "<group>"; };
+		AB04AC20243FA91700485373 /* fmt_ostream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_ostream.h; sourceTree = "<group>"; };
+		AB04AC21243FA91700485373 /* fmt_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_core.h; sourceTree = "<group>"; };
+		AB04AC22243FA91700485373 /* fmt_format-inl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fmt_format-inl.h"; sourceTree = "<group>"; };
+		AB04AC23243FA91700485373 /* Nano_fmt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fmt.h; sourceTree = "<group>"; };
+		AB04AC24243FA91700485373 /* fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_format.h; sourceTree = "<group>"; };
+		AB04AC25243FA91700485373 /* LICENSE.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.rst; sourceTree = "<group>"; };
+		AB04AC26243FA91700485373 /* fmt_printf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_printf.h; sourceTree = "<group>"; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
 		AB078D2811D4A988006C9347 /* NUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NUIKit.mm; sourceTree = "<group>"; };
 		AB07EA252399D3C500E0AC49 /* AndroidNTimeUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -235,15 +242,8 @@
 		AB07EA3C239A521F00E0AC49 /* AndroidNSemaphore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNSemaphore.cpp; sourceTree = "<group>"; };
 		AB07EA3F239A52C700E0AC49 /* NSharedLinux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSharedLinux.h; sourceTree = "<group>"; };
 		AB07EA40239A52C700E0AC49 /* NSharedLinux.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedLinux.cpp; sourceTree = "<group>"; };
-		AB09E1BC240D5E74001FCBFC /* Nano_fmt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fmt.h; sourceTree = "<group>"; };
-		AB09E1BD240D5E75001FCBFC /* LICENSE.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.rst; sourceTree = "<group>"; };
 		AB09E1C0240D5F2B001FCBFC /* NStringFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringFormatter.h; sourceTree = "<group>"; };
 		AB09E1C8240D5FCB001FCBFC /* NStringFormatter.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NStringFormatter.inl; sourceTree = "<group>"; };
-		AB09E1CB240DB6E2001FCBFC /* format-inl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "format-inl.h"; sourceTree = "<group>"; };
-		AB09E1CC240DB6E2001FCBFC /* core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
-		AB09E1CD240DB6E2001FCBFC /* printf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = printf.h; sourceTree = "<group>"; };
-		AB09E1CE240DB6E2001FCBFC /* format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = format.h; sourceTree = "<group>"; };
-		AB09E1CF240DB73E001FCBFC /* ostream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ostream.h; sourceTree = "<group>"; };
 		AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtils.h; sourceTree = "<group>"; };
 		AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -745,6 +745,20 @@
 			path = sqlite_3.7.17;
 			sourceTree = "<group>";
 		};
+		AB04AC1F243FA91700485373 /* fmt_6.2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AB04AC21243FA91700485373 /* fmt_core.h */,
+				AB04AC22243FA91700485373 /* fmt_format-inl.h */,
+				AB04AC24243FA91700485373 /* fmt_format.h */,
+				AB04AC20243FA91700485373 /* fmt_ostream.h */,
+				AB04AC26243FA91700485373 /* fmt_printf.h */,
+				AB04AC25243FA91700485373 /* LICENSE.rst */,
+				AB04AC23243FA91700485373 /* Nano_fmt.h */,
+			);
+			path = fmt_6.2.0;
+			sourceTree = "<group>";
+		};
 		AB078D2611D4A988006C9347 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -776,20 +790,6 @@
 				AB07EA2A2399D3EA00E0AC49 /* tvOSNTimeUtils.cpp */,
 			);
 			path = tvOS;
-			sourceTree = "<group>";
-		};
-		AB09E1B9240D5E74001FCBFC /* fmt_2020_03_04 */ = {
-			isa = PBXGroup;
-			children = (
-				AB09E1BC240D5E74001FCBFC /* Nano_fmt.h */,
-				AB09E1BD240D5E75001FCBFC /* LICENSE.rst */,
-				AB09E1CC240DB6E2001FCBFC /* core.h */,
-				AB09E1CB240DB6E2001FCBFC /* format-inl.h */,
-				AB09E1CE240DB6E2001FCBFC /* format.h */,
-				AB09E1CF240DB73E001FCBFC /* ostream.h */,
-				AB09E1CD240DB6E2001FCBFC /* printf.h */,
-			);
-			path = fmt_2020_03_04;
 			sourceTree = "<group>";
 		};
 		AB0DBE6C23999B7100F6AD43 /* Time */ = {
@@ -1199,7 +1199,7 @@
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
 				ABB146050FF36F84006F178C /* expat_2.0.1 */,
-				AB09E1B9240D5E74001FCBFC /* fmt_2020_03_04 */,
+				AB04AC1F243FA91700485373 /* fmt_6.2.0 */,
 				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
 				AB1694D510028C8200F7D4B7 /* libb64_1.1 */,
 				AB5127EF23D2810600528FBE /* pcre2_10.34 */,

@@ -63,7 +63,7 @@ NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
 	#define NDEBUG
 #endif
 
-#include "format.h"
+#include "fmt_format.h"
 
 NN_DIAGNOSTIC_POP();
 
