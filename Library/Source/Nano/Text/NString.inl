@@ -734,8 +734,8 @@ class fmt::formatter<NString> : public NSimpleFormatter
 {
 public:
 	template<typename FormatContext>
-	auto format(const NString& p, FormatContext& ctx)
+	auto format(const NString& theParam, FormatContext& theContext)
 	{
-		return format_to(ctx.out(), p.GetUTF8());
+		return format_to(theContext.out(), theParam.GetUTF8());
 	}
 };
