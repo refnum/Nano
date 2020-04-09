@@ -165,10 +165,7 @@ public:
 	NFilePath                           GetPath() const;
 
 
-	// Open/close the handle
-	//
-	// An open handle must be closed to open it in a different access
-	// mode. An open handle will be closed when it goes out of scope.
+	// Open the handle
 	NStatus                             Open(const NFile& theFile,
 											 NFileAccess  theAccess = NFileAccess::ReadOnly,
 											 NFileFlags   theFlags  = kNFileDefault);
@@ -177,6 +174,19 @@ public:
 											 NFileAccess      theAccess = NFileAccess::ReadOnly,
 											 NFileFlags       theFlags  = kNFileDefault);
 
+
+	// Open a temporary file
+	//
+	// Open a temporary file for NFileAccess::ReadWrite access.
+	//
+	// A base name can be provided to control the prefix and extension
+	// of the file name.
+	NStatus                             OpenTemporary(const NString& baseName = "");
+
+
+	// Close the handle
+	//
+	// Open handles are closed automatically when they go out of scope.
 	void                                Close();
 
 

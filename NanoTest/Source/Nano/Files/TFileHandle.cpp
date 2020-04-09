@@ -211,6 +211,60 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "OpenTemporary/Unnamed")
+{
+
+
+	// Perform the test
+	theErr = fileHnd.OpenTemporary();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
+
+	uint64_t numWritten = kLargeSize;
+	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(numWritten == kBufferSize);
+	REQUIRE(fileHnd.GetPosition() == numWritten);
+
+	fileHnd.Close();
+	REQUIRE(!fileHnd.IsOpen());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "OpenTemporary/Named")
+{
+
+
+	// Perform the test
+	theErr = fileHnd.OpenTemporary("Test.dat");
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(fileHnd.IsOpen());
+	REQUIRE(fileHnd.GetPosition() == 0);
+
+	uint64_t numWritten = kLargeSize;
+	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(numWritten == kBufferSize);
+	REQUIRE(fileHnd.GetPosition() == numWritten);
+
+	fileHnd.Close();
+	REQUIRE(!fileHnd.IsOpen());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFileHandle, "GetSize/SetSize")
 {
 

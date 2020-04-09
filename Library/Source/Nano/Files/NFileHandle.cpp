@@ -45,6 +45,7 @@
 #include "NData.h"
 #include "NFile.h"
 #include "NFileInfo.h"
+#include "NFileUtils.h"
 #include "NStringEncoder.h"
 
 
@@ -163,6 +164,31 @@ NStatus NFileHandle::Open(const NFilePath& thePath, NFileAccess theAccess, NFile
 		{
 			Close();
 		}
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::OpenTemporary : Open a temporary file.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::OpenTemporary(const NString& baseName)
+{
+
+
+	// Open the file
+	NFileInfo tmpDir(NFileUtils::GetLocation(NFileLocation::AppTemporaries, "", true));
+	NFilePath thePath(NFileUtils::GetUniqueChild(tmpDir.GetPath(), baseName));
+
+	NStatus theErr = NStatus::Permission;
+
+	if (tmpDir.IsDirectory())
+	{
+		theErr = Open(thePath, NFileAccess::ReadWrite);
 	}
 
 	return theErr;
