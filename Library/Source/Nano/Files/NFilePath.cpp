@@ -63,8 +63,9 @@ static constexpr const char* kNRootSuffix                   = ":\\";
 
 static constexpr const char* kNPartRoot                     = "^([A-Za-z]:\\\\)";
 static constexpr const char* kNPartParent                   = "(.*)\\\\.*?$";
-static constexpr const char* kNPartFilenameWithExtension    = ".*\\\\(.*?$)";
-static constexpr const char* kNPartFilenameWithoutExtension = ".*\\\\(.*?)(\\..*)?$";
+static constexpr const char* kNPartFilename                 = ".*\\\\(.*?$)";
+static constexpr const char* kNPartStem                     = ".*\\\\(.*?)(\\..*)?$";
+static constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
 static constexpr const char* kNPartExtension                = "\\.(.*?$)";
 
 #else
@@ -73,8 +74,9 @@ static constexpr const char* kNRootSuffix                   = "/";
 
 static constexpr const char* kNPartRoot                     = "^(\\/)";
 static constexpr const char* kNPartParent                   = "(.*)\\/.*?$";
-static constexpr const char* kNPartFilenameWithExtension    = ".*\\/(.*?$)";
-static constexpr const char* kNPartFilenameWithoutExtension = ".*\\/(.*?)(\\..*)?$";
+static constexpr const char* kNPartFilename                 = ".*\\/(.*?$)";
+static constexpr const char* kNPartStem                     = ".*\\/(.*?)(\\..*)?$";
+static constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
 static constexpr const char* kNPartExtension                = "\\.(.*?)$";
 #endif
 
@@ -294,14 +296,40 @@ NString NFilePath::GetFilename(bool withExtension) const
 
 
 	// Get the filename
+	NString fileName;
+
 	if (withExtension)
 	{
-		return GetPart(kNPartFilenameWithExtension);
+		fileName = GetPart(kNPartFilename);
 	}
 	else
 	{
-		return GetPart(kNPartFilenameWithoutExtension);
+		fileName = GetPart(kNPartStem);
 	}
+
+
+
+	// Single item
+	//
+	// If we failed to find a separator then we have a relative path
+	// with a single item, our current name, which is our result.
+	//
+	// This may also need to have its extension, if any, removed.
+	if (fileName.IsEmpty())
+	{
+		NN_REQUIRE(IsRelative());
+
+		if (withExtension)
+		{
+			fileName = mPath;
+		}
+		else
+		{
+			fileName = GetPart(kNPartStemSingle);
+		}
+	}
+
+	return fileName;
 }
 
 
@@ -321,8 +349,22 @@ void NFilePath::SetFilename(const NString& theName)
 
 
 	// Set the filename
-	bool didSet = SetPart(kNPartFilenameWithExtension, theName);
-	NN_REQUIRE(didSet);
+	//
+	// If we failed to find a separator then we have a relative path
+	// with a single item, our current name, which we replace.
+	if (!SetPart(kNPartFilename, theName))
+	{
+		NN_REQUIRE(IsRelative());
+		mPath = theName;
+	}
+
+
+
+	// Validate our state
+	//
+	// We should only be assigned a filename, not a path, which we
+	// can validate by extracting the filename after assignment.
+	NN_REQUIRE(GetFilename() == theName);
 }
 
 
