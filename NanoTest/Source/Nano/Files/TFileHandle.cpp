@@ -79,10 +79,16 @@ NANO_FIXTURE(TFileHandle)
 	NFileHandle fileHnd;
 	NStatus     theErr;
 
+	uint64_t sizeRead;
+	uint64_t sizeWritten;
+
 	SETUP
 	{
 		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
 		REQUIRE(theErr == NStatus::OK);
+
+		sizeRead    = 0;
+		sizeWritten = 0;
 	}
 
 	TEARDOWN
@@ -147,10 +153,10 @@ NANO_TEST(TFileHandle, "OpenWrite")
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint64_t numWritten = kLargeSize;
-	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+	sizeWritten = kLargeSize;
+	theErr      = fileHnd.Write(kBufferSize, kBufferData, sizeWritten);
 
-	REQUIRE(numWritten == kBufferSize);
+	REQUIRE(sizeWritten == kBufferSize);
 	REQUIRE(theErr == NStatus::OK);
 
 	theErr = fileHnd.Flush();
@@ -174,11 +180,11 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint64_t numWritten = kLargeSize;
-	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+	sizeWritten = kLargeSize;
+	theErr      = fileHnd.Write(kBufferSize, kBufferData, sizeWritten);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(numWritten == kBufferSize);
-	REQUIRE(fileHnd.GetPosition() == numWritten);
+	REQUIRE(sizeWritten == kBufferSize);
+	REQUIRE(fileHnd.GetPosition() == sizeWritten);
 
 	fileHnd.Close();
 	REQUIRE(!fileHnd.IsOpen());
@@ -190,18 +196,18 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint8_t  tmpBuffer[kBufferSize];
-	uint64_t numRead = kLargeSize;
-	theErr           = fileHnd.Read(kBufferSize, tmpBuffer, numRead);
+	uint8_t tmpBuffer[kBufferSize];
+	sizeRead = kLargeSize;
+	theErr   = fileHnd.Read(kBufferSize, tmpBuffer, sizeRead);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(numRead == kBufferSize);
+	REQUIRE(sizeRead == kBufferSize);
 
 	REQUIRE(memcmp(tmpBuffer, kBufferData, kBufferSize) == 0);
 
-	numRead = kLargeSize;
-	theErr  = fileHnd.Read(kBufferSize, tmpBuffer, numRead);
+	sizeRead = kLargeSize;
+	theErr   = fileHnd.Read(kBufferSize, tmpBuffer, sizeRead);
 	REQUIRE(theErr == NStatus::ExhaustedSrc);
-	REQUIRE(numRead == 0);
+	REQUIRE(sizeRead == 0);
 }
 
 
@@ -221,11 +227,11 @@ NANO_TEST(TFileHandle, "OpenTemporary/Unnamed")
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint64_t numWritten = kLargeSize;
-	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+	sizeWritten = kLargeSize;
+	theErr      = fileHnd.Write(kBufferSize, kBufferData, sizeWritten);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(numWritten == kBufferSize);
-	REQUIRE(fileHnd.GetPosition() == numWritten);
+	REQUIRE(sizeWritten == kBufferSize);
+	REQUIRE(fileHnd.GetPosition() == sizeWritten);
 }
 
 
@@ -245,11 +251,11 @@ NANO_TEST(TFileHandle, "OpenTemporary/Named")
 	REQUIRE(fileHnd.IsOpen());
 	REQUIRE(fileHnd.GetPosition() == 0);
 
-	uint64_t numWritten = kLargeSize;
-	theErr              = fileHnd.Write(kBufferSize, kBufferData, numWritten);
+	sizeWritten = kLargeSize;
+	theErr      = fileHnd.Write(kBufferSize, kBufferData, sizeWritten);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(numWritten == kBufferSize);
-	REQUIRE(fileHnd.GetPosition() == numWritten);
+	REQUIRE(sizeWritten == kBufferSize);
+	REQUIRE(fileHnd.GetPosition() == sizeWritten);
 }
 
 
@@ -306,8 +312,8 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 	REQUIRE(fileHnd.GetPosition() == 0);
 	REQUIRE(fileHnd.GetSize() == kLargeSize);
 
-	uint64_t numRead = kLargeSize;
-	theErr           = fileHnd.Read(fileData.GetSize(), fileData.GetMutableData(), numRead);
+	sizeRead = kLargeSize;
+	theErr   = fileHnd.Read(fileData.GetSize(), fileData.GetMutableData(), sizeRead);
 	REQUIRE(theErr == NStatus::OK);
 
 	REQUIRE(fileData == zeroData);

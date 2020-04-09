@@ -211,7 +211,7 @@ public:
 	// The file must be opened for reading.
 	NStatus                             Read(uint64_t    theSize,
 											 void*       thePtr,
-											 uint64_t&   numRead,
+											 uint64_t&   sizeRead,
 											 int64_t     theOffset  = 0,
 											 NFileOffset relativeTo = NFileOffset::FromPosition);
 
@@ -221,7 +221,7 @@ public:
 	// The file must be opened for writing.
 	NStatus                             Write(uint64_t    theSize,
 											  const void* thePtr,
-											  uint64_t&   numWritten,
+											  uint64_t&   sizeWritten,
 											  int64_t     theOffset  = 0,
 											  NFileOffset relativeTo = NFileOffset::FromPosition);
 
@@ -262,8 +262,8 @@ private:
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
 	NStatus                             FileSetSize(uint64_t theSize);
-	NStatus                             FileRead(   uint64_t theSize,       void* thePtr, uint64_t& numRead);
-	NStatus                             FileWrite(  uint64_t theSize, const void* thePtr, uint64_t& numWritten);
+	NStatus                             FileRead(   uint64_t theSize,       void* thePtr, uint64_t& sizeRead);
+	NStatus                             FileWrite(  uint64_t theSize, const void* thePtr, uint64_t& sizeWritten);
 	NStatus                             FileFlush();
 
 

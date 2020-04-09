@@ -301,7 +301,7 @@ NStatus NFileHandle::SetSize(uint64_t theSize)
 //-----------------------------------------------------------------------------
 NStatus NFileHandle::Read(uint64_t    theSize,
 						  void*       thePtr,
-						  uint64_t&   numRead,
+						  uint64_t&   sizeRead,
 						  int64_t     theOffset,
 						  NFileOffset relativeTo)
 {
@@ -314,7 +314,7 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 
 	// Get the state we need
 	NStatus theErr = NStatus::OK;
-	numRead        = 0;
+	sizeRead       = 0;
 
 
 
@@ -330,10 +330,10 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 	// Read from the file
 	if (theErr == NStatus::OK)
 	{
-		theErr = FileRead(theSize, thePtr, numRead);
+		theErr = FileRead(theSize, thePtr, sizeRead);
 	}
 
-	NN_REQUIRE(theErr != NStatus::OK || (numRead == theSize));
+	NN_REQUIRE(theErr != NStatus::OK || (sizeRead == theSize));
 
 	return theErr;
 }
@@ -347,7 +347,7 @@ NStatus NFileHandle::Read(uint64_t    theSize,
 //-----------------------------------------------------------------------------
 NStatus NFileHandle::Write(uint64_t    theSize,
 						   const void* thePtr,
-						   uint64_t&   numWritten,
+						   uint64_t&   sizeWritten,
 						   int64_t     theOffset,
 						   NFileOffset relativeTo)
 {
@@ -361,7 +361,7 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 
 	// Get the state we need
 	NStatus theErr = NStatus::OK;
-	numWritten     = 0;
+	sizeWritten    = 0;
 
 
 
@@ -377,10 +377,10 @@ NStatus NFileHandle::Write(uint64_t    theSize,
 	// Write to the file
 	if (theErr == NStatus::OK)
 	{
-		theErr = FileWrite(theSize, thePtr, numWritten);
+		theErr = FileWrite(theSize, thePtr, sizeWritten);
 	}
 
-	NN_REQUIRE(theErr != NStatus::OK || (numWritten == theSize));
+	NN_REQUIRE(theErr != NStatus::OK || (sizeWritten == theSize));
 
 	return theErr;
 }
@@ -495,12 +495,12 @@ NData NFileHandle::ReadData(const NFile& theFile)
 
 	if (theErr == NStatus::OK)
 	{
-		uint64_t theSize = uint64_t(theFile.GetSize());
-		uint64_t numRead = 0;
+		uint64_t theSize  = uint64_t(theFile.GetSize());
+		uint64_t sizeRead = 0;
 
 		(void) theData.Append(theSize, nullptr, NDataSource::None);
 
-		theErr = fileHnd.Read(theSize, theData.GetMutableData(), numRead);
+		theErr = fileHnd.Read(theSize, theData.GetMutableData(), sizeRead);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -542,10 +542,10 @@ NStatus NFileHandle::WriteData(const NFile& theFile, const NData& theData)
 
 	if (theErr == NStatus::OK)
 	{
-		uint64_t theSize    = uint64_t(theData.GetSize());
-		uint64_t numWritten = 0;
+		uint64_t theSize     = uint64_t(theData.GetSize());
+		uint64_t sizeWritten = 0;
 
-		theErr = fileHnd.Write(theSize, theData.GetData(), numWritten);
+		theErr = fileHnd.Write(theSize, theData.GetData(), sizeWritten);
 		NN_EXPECT_NOT_ERR(theErr);
 
 		if (theErr == NStatus::OK)

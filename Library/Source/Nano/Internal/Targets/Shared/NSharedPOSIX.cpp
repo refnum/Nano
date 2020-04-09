@@ -1071,7 +1071,7 @@ NStatus NSharedPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
 NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 							   uint64_t       theSize,
 							   void*          thePtr,
-							   uint64_t&      numRead)
+							   uint64_t&      sizeRead)
 {
 
 
@@ -1087,9 +1087,9 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 
 
 	// Read from the file
-	numRead = fread(thePtr, 1, size_t(theSize), theFile);
+	sizeRead = fread(thePtr, 1, size_t(theSize), theFile);
 
-	if (numRead != theSize)
+	if (sizeRead != theSize)
 	{
 		if (feof(theFile))
 		{
@@ -1114,7 +1114,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 								uint64_t       theSize,
 								const void*    thePtr,
-								uint64_t&      numWritten)
+								uint64_t&      sizeWritten)
 {
 
 
@@ -1129,9 +1129,9 @@ NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 
 
 	// Write to the file
-	numWritten = fwrite(thePtr, 1, size_t(theSize), theFile);
+	sizeWritten = fwrite(thePtr, 1, size_t(theSize), theFile);
 
-	if (numWritten != theSize)
+	if (sizeWritten != theSize)
 	{
 		theErr = NStatus::DiskFull;
 	}

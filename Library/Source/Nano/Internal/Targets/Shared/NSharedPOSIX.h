@@ -105,12 +105,12 @@ public:
 	static NStatus                      FileRead(NFileHandleRef fileHandle,
 												 uint64_t       theSize,
 												 void*          thePtr,
-												 uint64_t&      numRead);
+												 uint64_t&      sizeRead);
 
 	static NStatus                      FileWrite(NFileHandleRef fileHandle,
 												  uint64_t       theSize,
 												  const void*    thePtr,
-												  uint64_t&      numWritten);
+												  uint64_t&      sizeWritten);
 
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
 

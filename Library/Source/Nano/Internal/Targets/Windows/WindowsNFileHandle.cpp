@@ -323,7 +323,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 //=============================================================================
 //		NFileHandle::FileRead : Read from the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
+NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& sizeRead)
 {
 
 
@@ -346,8 +346,8 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 
 	if (wasOK)
 	{
-		numRead = bytesRead;
-		if (numRead == 0)
+		sizeRead = bytesRead;
+		if (sizeRead == 0)
 		{
 			theErr = NStatus::ExhaustedSrc;
 		}
@@ -363,7 +363,7 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 //=============================================================================
 //		NFileHandle::FileWrite : Write to the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten)
+NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& sizeWritten)
 {
 
 
@@ -385,8 +385,8 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& n
 
 	if (wasOK)
 	{
-		numWritten = bytesWritten;
-		if (numWritten != theSize)
+		sizeWritten = bytesWritten;
+		if (sizeWritten != theSize)
 		{
 			theErr = NStatus::DiskFull;
 		}

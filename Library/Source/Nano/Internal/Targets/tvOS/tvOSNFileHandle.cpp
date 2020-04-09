@@ -126,12 +126,12 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 //=============================================================================
 //		NFileHandle::FileRead : Read from the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
+NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& sizeRead)
 {
 
 
 	// Read from the file
-	return NSharedPOSIX::FileRead(mHandle, theSize, thePtr, numRead);
+	return NSharedPOSIX::FileRead(mHandle, theSize, thePtr, sizeRead);
 }
 
 
@@ -141,12 +141,12 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& numRead)
 //=============================================================================
 //		NFileHandle::FileWrite : Write to the file.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& numWritten)
+NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& sizeWritten)
 {
 
 
 	// Write to the file
-	return NSharedPOSIX::FileWrite(mHandle, theSize, thePtr, numWritten);
+	return NSharedPOSIX::FileWrite(mHandle, theSize, thePtr, sizeWritten);
 }
 
 
