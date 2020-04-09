@@ -226,9 +226,6 @@ NANO_TEST(TFileHandle, "OpenTemporary/Unnamed")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numWritten == kBufferSize);
 	REQUIRE(fileHnd.GetPosition() == numWritten);
-
-	fileHnd.Close();
-	REQUIRE(!fileHnd.IsOpen());
 }
 
 
@@ -253,6 +250,23 @@ NANO_TEST(TFileHandle, "OpenTemporary/Named")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(numWritten == kBufferSize);
 	REQUIRE(fileHnd.GetPosition() == numWritten);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "Close")
+{
+
+
+	// Perform the test
+	theErr = fileHnd.OpenTemporary();
+	REQUIRE(theErr == NStatus::OK);
+	REQUIRE(fileHnd.IsOpen());
 
 	fileHnd.Close();
 	REQUIRE(!fileHnd.IsOpen());
