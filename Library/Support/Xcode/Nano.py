@@ -371,6 +371,17 @@ def NFileHandle_Show(fileHnd, theInfo):
 
 
 #==============================================================================
+#		NFileInfo_Show : Show an NFileInfo.
+#------------------------------------------------------------------------------
+def NFileInfo_Show(fileInfo, theInfo):
+
+	return getPathNString(fileInfo, "->mPath.mPath")
+
+
+
+
+
+#==============================================================================
 #		NFilePath_Show : Show an NFilePath.
 #------------------------------------------------------------------------------
 def NFilePath_Show(filePath, theInfo):
@@ -500,6 +511,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show          NData')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFile_Show          NFile')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileInfo_Show      NFileInfo')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFilePath_Show      NFilePath')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show         NRange')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show        NString')
