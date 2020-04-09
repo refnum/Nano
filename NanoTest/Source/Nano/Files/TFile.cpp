@@ -94,7 +94,7 @@ NANO_FIXTURE(TFile)
 
 	TEARDOWN
 	{
-		theErr = NFileUtils::Delete(kPathTmpDirectory.GetPath());
+		theErr = NFileUtils::Delete(kPathTmpDirectory);
 		REQUIRE(theErr == NStatus::OK);
 	}
 };

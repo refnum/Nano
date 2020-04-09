@@ -92,7 +92,7 @@ NANO_FIXTURE(TFileScanner)
 
 	TEARDOWN
 	{
-		theErr = NFileUtils::Delete(kPathTmpDirectory.GetPath());
+		theErr = NFileUtils::Delete(kPathTmpDirectory);
 		REQUIRE(theErr == NStatus::OK);
 	}
 };
