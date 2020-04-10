@@ -138,11 +138,11 @@ public:
 
 	// Get a location
 	//
-	// Get a location, with an optional child directory.
+	// Get the path to a location directory, with an optional child directory.
 	//
 	// The final location can be created if it does not exist.
 	//
-	// Returns an empty path if the directory does not exist, or cannot be created.
+	// Returns an empty path if the location does not exist, or cannot be created.
 	static NFilePath                    GetLocation(NFileLocation  theLocation,
 													const NString& theChild  = "",
 													bool           canCreate = false);
