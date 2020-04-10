@@ -120,13 +120,13 @@ NStatus CreateTransaction(HANDLE* hTransaction)
 
 
 //=============================================================================
-//		RenameTransacted : Rename a file within a transaction.
+//		RenameTransacted : Rename a path within a transaction.
 //-----------------------------------------------------------------------------
 NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
-	// Rename the file
+	// Rename the path
 	BOOL wasOK = MoveFileTransactedW(LPCWSTR(oldPath.GetUTF16()),
 									 LPCWSTR(newPath.GetUTF16()),
 									 nullptr,
@@ -143,44 +143,6 @@ NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NF
 
 
 #pragma mark NFileUtils
-//=============================================================================
-//		NFileUtils::Rename : Atomically rename a file.
-//-----------------------------------------------------------------------------
-NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
-{
-
-
-	// Get the state we need
-	HANDLE  hTransaction = nullptr;
-	NStatus theErr       = CreateTransaction(&hTransaction);
-
-
-
-	// Rename the file
-	if (theErr == NStatus::OK)
-	{
-		theErr = RenameTransacted(hTransaction, oldPath, newPath);
-
-		if (theErr == NStatus::OK)
-		{
-			BOOL wasOK = CommitTransaction(hTransaction);
-			theErr     = NSharedWindows::GetLastError(wasOK);
-			NN_EXPECT_NOT_ERR(theErr);
-		}
-
-
-		// Clean up
-		BOOL wasOK = CloseHandle(hTransaction);
-		NN_EXPECT(wasOK);
-	}
-
-	return theErr;
-}
-
-
-
-
-
 //=============================================================================
 //		NFileUtils::Exchange : Atomically exchange files.
 //-----------------------------------------------------------------------------
@@ -353,6 +315,44 @@ NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
 	FindClose(theDir);
 
 	return theChildren;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::PathRename : Atomically rename a path.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+{
+
+
+	// Get the state we need
+	HANDLE  hTransaction = nullptr;
+	NStatus theErr       = CreateTransaction(&hTransaction);
+
+
+
+	// Rename the path
+	if (theErr == NStatus::OK)
+	{
+		theErr = RenameTransacted(hTransaction, oldPath, newPath);
+
+		if (theErr == NStatus::OK)
+		{
+			BOOL wasOK = CommitTransaction(hTransaction);
+			theErr     = NSharedWindows::GetLastError(wasOK);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+
+
+		// Clean up
+		BOOL wasOK = CloseHandle(hTransaction);
+		NN_EXPECT(wasOK);
+	}
+
+	return theErr;
 }
 
 

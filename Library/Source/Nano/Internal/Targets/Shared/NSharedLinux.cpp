@@ -364,13 +364,13 @@ bool NSharedLinux::GetFileState(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedLinux::FileRename : Atomically rename a file.
+//		NSharedLinux::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedLinux::FileRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
-	// Rename the file
+	// Rename the path
 	const utf8_t* oldUTF8 = oldPath.GetUTF8();
 	const utf8_t* newUTF8 = newPath.GetUTF8();
 

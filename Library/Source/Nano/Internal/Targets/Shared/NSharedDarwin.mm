@@ -348,13 +348,13 @@ bool NSharedDarwin::GetFileState(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedDarwin::FileRename : Atomically rename a file.
+//		NSharedDarwin::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::FileRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
-	// Rename the file
+	// Rename the path
 	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL);
 	NN_EXPECT_NOT_ERR(sysErr);
 

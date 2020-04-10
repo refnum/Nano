@@ -115,7 +115,7 @@ public:
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
 
 
-	// File path
+	// File paths
 	static NStatus                      PathCreate(  const NFilePath& thePath);
 	static NStatus                      PathDelete(  const NFilePath& thePath);
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);

@@ -51,21 +51,6 @@
 
 
 //=============================================================================
-//		NFileUtils::Rename : Atomically rename a file.
-//-----------------------------------------------------------------------------
-NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
-{
-
-
-	// Rename the file
-	return NSharedLinux::FileRename(oldPath, newPath);
-}
-
-
-
-
-
-//=============================================================================
 //		NFileUtils::Exchange : Atomically exchange files.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
@@ -128,6 +113,21 @@ NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
 
 	// Get the children
 	return NSharedPOSIX::PathChildren(thePath);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::PathRename : Atomically rename a path.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+{
+
+
+	// Rename the path
+	return NSharedLinux::PathRename(oldPath, newPath);
 }
 
 

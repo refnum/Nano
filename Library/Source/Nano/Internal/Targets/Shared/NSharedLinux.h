@@ -67,8 +67,8 @@ public:
 													 NFileInfoState&  theState);
 
 
-	// Files
-	static NStatus                      FileRename(  const NFilePath& oldPath, const NFilePath& newPath);
+	// File paths
+	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
 	static NStatus                      FileExchange(const NFilePath& oldPath, const NFilePath& newPath);
 
 

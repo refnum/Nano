@@ -377,3 +377,27 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 		}
 	}
 }
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::Rename : Atomically rename a path.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(oldPath.IsValid());
+	NN_REQUIRE(newPath.IsValid());
+
+	NN_EXPECT(NFileInfo(oldPath).Exists());
+	NN_EXPECT(!NFileInfo(newPath).Exists());
+
+
+	// Rename the path
+	return PathRename(oldPath, newPath);
+}
+
