@@ -323,8 +323,9 @@ NANO_TEST(TFilePath, "SetFilename/Relative")
 	thePaths.push_back(NFilePath("foo").GetChild(kFilenameA));
 	thePaths.push_back(NFilePath(kFilenameA));
 
-	for (auto thePath : thePaths)
+	for (auto testPath : thePaths)
 	{
+		thePath = testPath;
 		REQUIRE(thePath.GetFilename() == kFilenameA);
 		REQUIRE(thePath.GetFilename() != kFilenameB);
 
@@ -412,8 +413,9 @@ NANO_TEST(TFilePath, "SetStem/Relative")
 	thePaths.push_back(NFilePath("foo").GetChild(kFilenameA));
 	thePaths.push_back(NFilePath(kFilenameA));
 
-	for (auto thePath : thePaths)
+	for (auto testPath : thePaths)
 	{
+		thePath = testPath;
 		REQUIRE(thePath.GetStem() == kStemA);
 		REQUIRE(thePath.GetStem() != kStemB);
 
@@ -515,8 +517,9 @@ NANO_TEST(TFilePath, "SetExtension/Relative")
 	thePaths.push_back(NFilePath("foo").GetChild(kFilenameA));
 	thePaths.push_back(NFilePath(kFilenameA));
 
-	for (auto thePath : thePaths)
+	for (auto testPath : thePaths)
 	{
+		thePath = testPath;
 		REQUIRE(thePath.GetExtension() == "");
 		REQUIRE(!thePath.GetFilename().Contains("."));
 
