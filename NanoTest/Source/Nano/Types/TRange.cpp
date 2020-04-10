@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFormat.h"
 #include "NRange.h"
 #include "NTestFixture.h"
 
@@ -435,4 +436,21 @@ NANO_TEST(TRange, "CompareOrder")
 	REQUIRE(kTestRange3 > kTestRange1);
 	REQUIRE(kTestRange3 < kTestRange2);
 	REQUIRE(kTestRange3 >= kTestRange3);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRange, "Format")
+{
+
+
+	// Perform the test
+	REQUIRE(NFormat("{}", kTestRange1) == "{0, 5}");
+	REQUIRE(NFormat("{}", kTestRange2) == "{3, 7}");
+	REQUIRE(NFormat("{}", kTestRange3) == "{3, 4}");
 }

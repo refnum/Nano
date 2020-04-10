@@ -43,6 +43,7 @@
 
 // Nano
 #include "NDebug.h"
+#include "NStringFormatter.h"
 
 
 
@@ -504,3 +505,25 @@ constexpr NComparison NRange::CompareOrder(const NRange& theRange) const
 
 	return theResult;
 }
+
+
+
+
+
+#pragma mark NFormat
+//=============================================================================
+//		NRange formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NRange> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NRange& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(),
+						 "{{{}, {}}}",
+						 theParam.GetLocation(),
+						 theParam.GetSize());
+	}
+};
