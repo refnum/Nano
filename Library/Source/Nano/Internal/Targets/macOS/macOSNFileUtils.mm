@@ -161,7 +161,7 @@ NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 
 
 //=============================================================================
-//		NFileUtils::PathLocation : Get a location as a path.
+//		NFileUtils::PathLocation : Get the path to a location.
 //-----------------------------------------------------------------------------
 NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 {
