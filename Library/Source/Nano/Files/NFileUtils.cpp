@@ -162,7 +162,7 @@ NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, bool deleteExistin
 				// and fail if we encounter something that is not a directory.
 				if (!parentInfo.Exists())
 				{
-					theErr = MakeDirectory(parentPath);
+					theErr = PathCreate(parentPath);
 					NN_EXPECT_NOT_ERR(theErr);
 				}
 				else if (!parentInfo.IsDirectory())

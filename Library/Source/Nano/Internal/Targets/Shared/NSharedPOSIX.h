@@ -115,8 +115,8 @@ public:
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
 
 
-	// Directories
-	static NStatus                      CreateDirectory(const NFilePath& thePath);
+	// File paths
+	static NStatus                      PathCreate(const NFilePath& thePath);
 	static NVectorFilePath              GetChildren(    const NFilePath& thePath);
 
 

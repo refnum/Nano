@@ -277,13 +277,13 @@ NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
 
 #pragma mark private
 //=============================================================================
-//		NFileUtils::MakeDirectory : Create a directory.
+//		NFileUtils::PathCreate : Create a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::MakeDirectory(const NFilePath& thePath)
+NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 {
 
 
-	// Create the directory
+	// Create the path
 	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF16()), nullptr);
 	NN_EXPECT(wasOK);
 

@@ -1167,13 +1167,13 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 
 
 //=============================================================================
-//		NSharedPOSIX::CreateDirectory : Create a directory.
+//		NSharedPOSIX::PathCreate : Create a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::CreateDirectory(const NFilePath& thePath)
+NStatus NSharedPOSIX::PathCreate(const NFilePath& thePath)
 {
 
 
-	// Create the directory
+	// Create the path
 	int sysErr = mkdir(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
 	NN_EXPECT_NOT_ERR(sysErr);
 
