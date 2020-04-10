@@ -111,9 +111,9 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NFileUtils::DeletePath : Delete a path.
+//		NFileUtils::PathDelete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
 {
 
 
@@ -126,7 +126,7 @@ NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
 
 
 	// Delete the path
-	return NSharedPOSIX::DeletePath(thePath);
+	return NSharedPOSIX::PathDelete(thePath);
 }
 
 

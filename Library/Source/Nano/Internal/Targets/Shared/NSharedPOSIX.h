@@ -116,12 +116,9 @@ public:
 
 
 	// File paths
-	static NStatus                      PathCreate(const NFilePath& thePath);
-	static NVectorFilePath              GetChildren(    const NFilePath& thePath);
-
-
-	// Delete a path
-	static NStatus                      DeletePath(const NFilePath& thePath);
+	static NStatus                      PathCreate( const NFilePath& thePath);
+	static NStatus                      PathDelete( const NFilePath& thePath);
+	static NVectorFilePath              GetChildren(const NFilePath& thePath);
 
 
 	// Convert between time formats

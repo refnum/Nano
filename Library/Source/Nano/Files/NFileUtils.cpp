@@ -224,7 +224,7 @@ NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 	// Delete the path
 	if (theErr == NStatus::OK && theInfo.Exists())
 	{
-		theErr = DeletePath(thePath, moveToTrash);
+		theErr = PathDelete(thePath, moveToTrash);
 	}
 
 	return theErr;

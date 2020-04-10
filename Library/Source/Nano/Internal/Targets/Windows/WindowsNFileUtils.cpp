@@ -295,9 +295,9 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NFileUtils::DeletePath : Delete a path.
+//		NFileUtils::PathDelete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::DeletePath(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
 {
 
 

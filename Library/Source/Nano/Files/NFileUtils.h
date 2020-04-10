@@ -167,7 +167,7 @@ public:
 
 private:
 	static NStatus                      PathCreate(const NFilePath& thePath);
-	static NStatus                      DeletePath(   const NFilePath& thePath, bool moveToTrash);
+	static NStatus                      PathDelete(const NFilePath& thePath, bool moveToTrash);
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 };
 
