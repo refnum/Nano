@@ -114,47 +114,53 @@ class NFileUtils
 public:
 	// Create a file / directory
 	//
-	// Creates an empty file / directory, and any required parent directories.
+	// Creates any parent directories as required.
 	//
-	// Returns NStatus::Duplicate if an item already exists, unless any such
-	// existing item is to be deleted.
+	// Returns NStatus::Duplicate if the path already exists and
+	// may not be deleted.
 	static NStatus                      CreateFile(     const NFilePath& thePath, bool deleteExisting = false);
 	static NStatus                      CreateDirectory(const NFilePath& thePath, bool deleteExisting = false);
 
 
 	// Delete a path
 	//
-	// Deleting a path, rather than moving it to the trash, is permanent.
+	// Platforms that do not support a trash will always delete.
 	static NStatus                      Delete(const NFilePath& thePath, bool moveToTrash = false);
 
 
 	// Delete the children of a directory
+	//
+	// Recursively deletes the children of a directory, leaving
+	// the directory itself in place.
 	static NStatus                      DeleteChildren(const NFilePath& thePath, bool moveToTrash = false);
 
 
 	// Get the children of a directory
+	//
+	// Returns the immediate children of a directory.
 	static NVectorFilePath              GetChildren(const NFilePath& thePath);
-
-
-	// Get a location
-	//
-	// Get the path to a location directory, with an optional child directory.
-	//
-	// The final location can be created if it does not exist.
-	//
-	// Returns an empty path if the location does not exist, or cannot be created.
-	static NFilePath                    GetLocation(NFileLocation  theLocation,
-													const NString& theChild  = "",
-													bool           canCreate = false);
 
 
 	// Get a uniquely named file
 	//
 	// Returns a uniquely named file within the specified directory.
 	//
-	// A base name can be provided to control the prefix and extension
-	// of the file name.
+	// A base name can be provided to control the file stem and extension.
 	static NFilePath                    GetUniqueChild(const NFilePath& thePath, const NString baseName = "");
+
+
+	// Get a location
+	//
+	// Get the path to a location, with an optional child directory.
+	//
+	// The canCreate flag indicates if the final path should be created if
+	// does not exist.
+	//
+	// Returns an empty path if the location is not supported, or the final
+	// path cannot be created.
+	static NFilePath                    GetLocation(NFileLocation  theLocation,
+													const NString& theChild  = "",
+													bool           canCreate = false);
 
 
 	// Atomically rename a path

@@ -278,6 +278,40 @@ NInterval NSharedPOSIX::clock_gettime(clockid_t theID)
 
 
 //=============================================================================
+//		NSharedPOSIX::ToTimeval : Convert to a timeval.
+//-----------------------------------------------------------------------------
+struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
+{
+	// Convert the value
+	NInterval timeSecs = floor(theInterval);
+	NInterval timeFrac = theInterval - timeSecs;
+
+	return {time_t(timeSecs), suseconds_t(timeFrac / kNTimeMicrosecond)};
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ToInterval : Convert to an NInterval.
+//-----------------------------------------------------------------------------
+NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
+{
+
+
+	// Convert the value
+	NInterval timeSecs = NInterval(timeVal.tv_sec);
+	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
+
+	return timeSecs + timeFrac;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedPOSIX::ToStatus : Convert an errno to an NStatus.
 //-----------------------------------------------------------------------------
 NStatus NSharedPOSIX::ToStatus(int sysErr)
@@ -1258,38 +1292,4 @@ NVectorFilePath NSharedPOSIX::PathChildren(const NFilePath& thePath)
 	closedir(theDir);
 
 	return theChildren;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::ToTimeval : Convert to a timeval.
-//-----------------------------------------------------------------------------
-struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
-{
-	// Convert the value
-	NInterval timeSecs = floor(theInterval);
-	NInterval timeFrac = theInterval - timeSecs;
-
-	return {time_t(timeSecs), suseconds_t(timeFrac / kNTimeMicrosecond)};
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::ToInterval : Convert to an NInterval.
-//-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
-{
-
-
-	// Convert the value
-	NInterval timeSecs = NInterval(timeVal.tv_sec);
-	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
-
-	return timeSecs + timeFrac;
 }

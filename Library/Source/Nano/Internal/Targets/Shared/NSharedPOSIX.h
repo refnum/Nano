@@ -72,10 +72,17 @@ public:
 	static NInterval                    clock_gettime(clockid_t theID);
 
 
-	// Get a POSIX error
+	// Time conversion
 	//
-	// GetErrno will return NStatus::OK if passed 0, or the
-	// current value of errno translated to an NStatus.
+	// No epoch conversion is performed on intervals.
+	static struct timeval               ToTimeval(NInterval theInterval);
+	static NInterval                    ToInterval(const struct timeval& timeVal);
+
+
+	// Error conversion
+	//
+	// GetErrno returns NStatus::OK if passed 0, otherwise it
+	// returns the current value of errno as an NStatus.
 	static NStatus                      ToStatus(int sysErr);
 	static NStatus                      GetErrno(int sysErr = -1);
 
@@ -119,14 +126,6 @@ public:
 	static NStatus                      PathCreate(  const NFilePath& thePath);
 	static NStatus                      PathDelete(  const NFilePath& thePath);
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);
-
-
-	// Convert between time formats
-	//
-	// No epoch conversion is performed on intervals.
-	static struct timeval               ToTimeval(NInterval theInterval);
-
-	static NInterval                    ToInterval(const struct timeval& timeVal);
 };
 
 

@@ -57,24 +57,24 @@
 class NSharedWindows
 {
 public:
-	// Convert between integer formats
+	// Integer conversion
 	static uint64_t                     ToUInt64(DWORD valueHigh, DWORD valueLow);
 	static int64_t                      ToInt64(LARGE_INTEGER  theValue);
 	static LARGE_INTEGER                ToLargeInteger(int64_t theValue);
 
 
-	// Get an HRESULT error
-	//
-	// GetLastError will return NStatusOK if passed true, or the
-	// current value of ::GetLastError translated to an NStatus.
-	static NStatus                      ToStatus(HRESULT winErr);
-	static NStatus                      GetLastError(bool wasOK = false);
-
-
-	// Convert between time formats
+	// Time conversion
 	//
 	// No epoch conversion is performed on intervals.
 	static NInterval                    ToInterval(const FILETIME& fileTime);
+
+
+	// Error conversion
+	//
+	// GetLastError returns NStatus::OK if passed true, otherwise it
+	// returns the current value of ::GetLastError as an NStatus.
+	static NStatus                      ToStatus(HRESULT winErr);
+	static NStatus                      GetLastError(bool wasOK = false);
 };
 
 

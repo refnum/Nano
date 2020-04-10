@@ -67,15 +67,9 @@ class NString;
 class NSharedDarwin
 {
 public:
-	// Get the current time
+	// Time
 	static NTime                        GetTime();
-
-
-	// Get the time since boot
 	static NInterval                    GetUpTime();
-
-
-	// Get the system clock
 	static uint64_t                     GetClockTicks();
 	static uint64_t                     GetClockFrequency();
 

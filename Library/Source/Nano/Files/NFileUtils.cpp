@@ -286,52 +286,6 @@ NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NFileUtils::GetLocation : Get a location.
-//-----------------------------------------------------------------------------
-NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
-								  const NString& theChild,
-								  bool           canCreate)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(theChild.IsEmpty() || NFilePath(theChild).IsRelative());
-
-
-
-	// Get the path
-	NFilePath thePath = PathLocation(theLocation);
-
-	if (thePath.IsValid() && !theChild.IsEmpty())
-	{
-		thePath += NFilePath(theChild);
-	}
-
-
-
-	// Create the directory
-	if (thePath.IsValid() && canCreate)
-	{
-		if (!NFileInfo(thePath).Exists())
-		{
-			NStatus theErr = CreateDirectory(thePath);
-			NN_EXPECT_NOT_ERR(theErr);
-
-			if (theErr != NStatus::OK)
-			{
-				thePath.Clear();
-			}
-		}
-	}
-
-	return thePath;
-}
-
-
-
-
-
-//=============================================================================
 //		NFileUtils::GetUniqueChild : Get a uniquely named file.
 //-----------------------------------------------------------------------------
 NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString baseName)
@@ -376,6 +330,52 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 			return theInfo.GetPath();
 		}
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::GetLocation : Get a location.
+//-----------------------------------------------------------------------------
+NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
+								  const NString& theChild,
+								  bool           canCreate)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theChild.IsEmpty() || NFilePath(theChild).IsRelative());
+
+
+
+	// Get the path
+	NFilePath thePath = PathLocation(theLocation);
+
+	if (thePath.IsValid() && !theChild.IsEmpty())
+	{
+		thePath += NFilePath(theChild);
+	}
+
+
+
+	// Create the directory
+	if (thePath.IsValid() && canCreate)
+	{
+		if (!NFileInfo(thePath).Exists())
+		{
+			NStatus theErr = CreateDirectory(thePath);
+			NN_EXPECT_NOT_ERR(theErr);
+
+			if (theErr != NStatus::OK)
+			{
+				thePath.Clear();
+			}
+		}
+	}
+
+	return thePath;
 }
 
 

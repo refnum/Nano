@@ -55,7 +55,7 @@
 class NSharedLinux
 {
 public:
-	// Get the system clock
+	// Time
 	static uint64_t                     GetClockTicks();
 	static uint64_t                     GetClockFrequency();
 

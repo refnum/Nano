@@ -90,6 +90,24 @@ LARGE_INTEGER NSharedWindows::ToLargeInteger(int64_t theValue)
 
 
 //=============================================================================
+//		NSharedWindows::ToInterval : Convert to an NInterval.
+//-----------------------------------------------------------------------------
+NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
+{
+
+
+	// Convert the value
+	uint64_t  hectoNanoSecs = ToUInt64(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+	NInterval theInterval   = NInterval(hectoNanoSecs) * (100.0 * kNTimeNanosecond);
+
+	return theInterval;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedWindows::ToStatus : Convert an HRESULT to an NStatus.
 //-----------------------------------------------------------------------------
 NStatus NSharedWindows::ToStatus(HRESULT winErr)
@@ -165,22 +183,4 @@ NStatus NSharedWindows::GetLastError(bool wasOK)
 	}
 
 	return theErr;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedWindows::ToInterval : Convert to an NInterval.
-//-----------------------------------------------------------------------------
-NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
-{
-
-
-	// Convert the value
-	uint64_t  hectoNanoSecs = ToUInt64(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
-	NInterval theInterval   = NInterval(hectoNanoSecs) * (100.0 * kNTimeNanosecond);
-
-	return theInterval;
 }

@@ -176,8 +176,7 @@ public:
 	//
 	// Open a temporary file for NFileAccess::ReadWrite access.
 	//
-	// A base name can be provided to control the prefix and extension
-	// of the file name.
+	// A base name can be provided to control the file stem and extension.
 	NStatus                             OpenTemporary(const NString& baseName = "");
 
 
