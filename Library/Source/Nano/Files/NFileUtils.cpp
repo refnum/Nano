@@ -266,6 +266,26 @@ NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, bool moveToTrash)
 
 
 //=============================================================================
+//		NFileUtils::GetChildren : Get the children of a directory.
+//-----------------------------------------------------------------------------
+NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(NFileInfo(thePath).IsDirectory());
+
+
+
+	// Get the children
+	return PathChildren(thePath);
+}
+
+
+
+
+
+//=============================================================================
 //		NFileUtils::GetLocation : Get a location.
 //-----------------------------------------------------------------------------
 NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,

@@ -115,10 +115,10 @@ public:
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
 
 
-	// File paths
-	static NStatus                      PathCreate( const NFilePath& thePath);
-	static NStatus                      PathDelete( const NFilePath& thePath);
-	static NVectorFilePath              GetChildren(const NFilePath& thePath);
+	// File path
+	static NStatus                      PathCreate(  const NFilePath& thePath);
+	static NStatus                      PathDelete(  const NFilePath& thePath);
+	static NVectorFilePath              PathChildren(const NFilePath& thePath);
 
 
 	// Convert between time formats

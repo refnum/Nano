@@ -1217,9 +1217,9 @@ NStatus NSharedPOSIX::PathDelete(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NSharedPOSIX::GetChildren : Get the children of a directory.
+//		NSharedPOSIX::PathChildren : Get the children of a path.
 //-----------------------------------------------------------------------------
-NVectorFilePath NSharedPOSIX::GetChildren(const NFilePath& thePath)
+NVectorFilePath NSharedPOSIX::PathChildren(const NFilePath& thePath)
 {
 
 

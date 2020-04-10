@@ -144,49 +144,6 @@ NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NF
 
 #pragma mark NFileUtils
 //=============================================================================
-//		NFileUtils::GetChildren : Get the children of a directory.
-//-----------------------------------------------------------------------------
-NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
-{
-
-
-	// Open the directory
-	WIN32_FIND_DATA dirEntry{};
-	NVectorFilePath theChildren;
-
-	NString thePattern = thePath.GetPath() + "\\*";
-	HANDLE  theDir     = FindFirstFile(LPCWSTR(thePattern.GetUTF16()), &dirEntry);
-
-	if (theDir == INVALID_HANDLE_VALUE)
-	{
-		return theChildren;
-	}
-
-
-
-	// Collect the children
-	do
-	{
-		if (wcscmp(dirEntry.cFileName, L".") != 0 && wcscmp(dirEntry.cFileName, L"..") != 0)
-		{
-			NString fileName(reinterpret_cast<const utf16_t*>(dirEntry.cFileName));
-			theChildren.emplace_back(thePath.GetChild(fileName));
-		}
-	} while (FindNextFile(theDir, &dirEntry));
-
-
-
-	// Clean up
-	FindClose(theDir);
-
-	return theChildren;
-}
-
-
-
-
-
-//=============================================================================
 //		NFileUtils::Rename : Atomically rename a file.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
@@ -353,6 +310,49 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
 	}
 
 	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::PathChildren : Get the children of a path.
+//-----------------------------------------------------------------------------
+NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
+{
+
+
+	// Open the directory
+	WIN32_FIND_DATA dirEntry{};
+	NVectorFilePath theChildren;
+
+	NString thePattern = thePath.GetPath() + "\\*";
+	HANDLE  theDir     = FindFirstFile(LPCWSTR(thePattern.GetUTF16()), &dirEntry);
+
+	if (theDir == INVALID_HANDLE_VALUE)
+	{
+		return theChildren;
+	}
+
+
+
+	// Collect the children
+	do
+	{
+		if (wcscmp(dirEntry.cFileName, L".") != 0 && wcscmp(dirEntry.cFileName, L"..") != 0)
+		{
+			NString fileName(reinterpret_cast<const utf16_t*>(dirEntry.cFileName));
+			theChildren.emplace_back(thePath.GetChild(fileName));
+		}
+	} while (FindNextFile(theDir, &dirEntry));
+
+
+
+	// Clean up
+	FindClose(theDir);
+
+	return theChildren;
 }
 
 
