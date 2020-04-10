@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NData.h"
+#include "NFormat.h"
 #include "NString.h"
 #include "NTestFixture.h"
 
@@ -1649,4 +1650,19 @@ NANO_TEST(TString, "Hashable")
 
 	REQUIRE(stringUTF8.GetHash() == stringUTF16.GetHash());
 	REQUIRE(stringUTF8.GetHash() == stringUTF32.GetHash());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "Format")
+{
+
+
+	// Perform the test
+	REQUIRE(NFormat("{}", kTestStringSmall) == "Hello World");
 }

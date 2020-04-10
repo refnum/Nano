@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 #include "NFilePath.h"
 #include "NFileUtils.h"
+#include "NFormat.h"
 #include "NTestFixture.h"
 
 
@@ -740,4 +741,32 @@ NANO_TEST(TFilePath, "Hashable")
 	REQUIRE(kPathTmpA.GetHash() != 0);
 	REQUIRE(kPathTmpB.GetHash() != 0);
 	REQUIRE(kPathTmpC.GetHash() != 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "Format")
+{
+
+
+	// Perform the test
+	NVectorFilePath thePaths;
+
+	thePaths.push_back(kPathTmpA);
+	thePaths.push_back(kPathTmpB);
+	thePaths.push_back(kPathTmpC);
+
+	thePaths.push_back(NFilePath(kFilenameA));
+	thePaths.push_back(NFilePath(kFilenameB));
+	thePaths.push_back(NFilePath(kFilenameC));
+
+	for (auto testPath : thePaths)
+	{
+		REQUIRE(NFormat("{}", testPath.GetPath()) == testPath.GetPath());
+	}
 }
