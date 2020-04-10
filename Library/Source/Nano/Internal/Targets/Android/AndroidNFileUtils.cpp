@@ -67,16 +67,8 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::PathDelete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool /*moveToTrash*/)
 {
-
-
-	// Check our parameters
-	if (moveToTrash)
-	{
-		NN_LOG_UNIMPLEMENTED("Unable to move to trash - deleting {}", thePath);
-	}
-
 
 
 	// Delete the path
