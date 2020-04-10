@@ -170,6 +170,7 @@ private:
 	static NStatus                      PathDelete(  const NFilePath& thePath, bool moveToTrash);
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);
 	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
+	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 };
 

@@ -385,13 +385,13 @@ NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newP
 
 
 //=============================================================================
-//		NSharedLinux::FileExchange : Atomically exchange files.
+//		NSharedLinux::PathExchange : Atomically exchange paths.
 //-----------------------------------------------------------------------------
-NStatus NSharedLinux::FileExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
-	// Exchange the files
+	// Exchange the paths
 	const utf8_t* oldUTF8 = oldPath.GetUTF8();
 	const utf8_t* newUTF8 = newPath.GetUTF8();
 

@@ -144,58 +144,6 @@ NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NF
 
 #pragma mark NFileUtils
 //=============================================================================
-//		NFileUtils::Exchange : Atomically exchange files.
-//-----------------------------------------------------------------------------
-NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
-{
-
-
-	// Get the state we need
-	HANDLE  hTransaction = nullptr;
-	NStatus theErr       = CreateTransaction(&hTransaction);
-
-
-
-	// Exchange the files
-	if (theErr == NStatus::OK)
-	{
-		NFilePath tmpPath = newPath;
-		tmpPath.SetExtension("nfileutils_exchange");
-
-		theErr = RenameTransacted(hTransaction, oldPath, tmpPath);
-
-		if (theErr == NStatus::OK)
-		{
-			theErr = RenameTransacted(hTransaction, newPath, oldPath);
-		}
-
-		if (theErr == NStatus::OK)
-		{
-			theErr = RenameTransacted(hTransaction, tmpPath, newPath);
-		}
-
-		if (theErr == NStatus::OK)
-		{
-			BOOL wasOK = CommitTransaction(hTransaction);
-			theErr     = NSharedWindows::GetLastError(wasOK);
-			NN_EXPECT_NOT_ERR(theErr);
-		}
-
-
-		// Clean up
-		BOOL wasOK = CloseHandle(hTransaction);
-		NN_EXPECT(wasOK);
-	}
-
-	return theErr;
-}
-
-
-
-
-
-#pragma mark private
-//=============================================================================
 //		NFileUtils::PathCreate : Create a path.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::PathCreate(const NFilePath& thePath)
@@ -338,6 +286,57 @@ NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPat
 	if (theErr == NStatus::OK)
 	{
 		theErr = RenameTransacted(hTransaction, oldPath, newPath);
+
+		if (theErr == NStatus::OK)
+		{
+			BOOL wasOK = CommitTransaction(hTransaction);
+			theErr     = NSharedWindows::GetLastError(wasOK);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+
+
+		// Clean up
+		BOOL wasOK = CloseHandle(hTransaction);
+		NN_EXPECT(wasOK);
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::PathExchange : Atomically exchange two paths.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+{
+
+
+	// Get the state we need
+	HANDLE  hTransaction = nullptr;
+	NStatus theErr       = CreateTransaction(&hTransaction);
+
+
+
+	// Exchange the files
+	if (theErr == NStatus::OK)
+	{
+		NFilePath tmpPath = newPath;
+		tmpPath.SetExtension("nfileutils_exchange");
+
+		theErr = RenameTransacted(hTransaction, oldPath, tmpPath);
+
+		if (theErr == NStatus::OK)
+		{
+			theErr = RenameTransacted(hTransaction, newPath, oldPath);
+		}
+
+		if (theErr == NStatus::OK)
+		{
+			theErr = RenameTransacted(hTransaction, tmpPath, newPath);
+		}
 
 		if (theErr == NStatus::OK)
 		{

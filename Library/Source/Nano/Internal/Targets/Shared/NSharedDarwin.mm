@@ -366,13 +366,13 @@ NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& new
 
 
 //=============================================================================
-//		NSharedDarwin::FileExchange : Atomically exchange files.
+//		NSharedDarwin::PathExchange : Atomically exchange two paths.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::FileExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NSharedDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
-	// Exchange the files
+	// Exchange the paths
 	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP);
 	NN_EXPECT_NOT_ERR(sysErr);
 

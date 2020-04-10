@@ -50,22 +50,6 @@
 
 
 //=============================================================================
-//		NFileUtils::Exchange : Atomically exchange files.
-//-----------------------------------------------------------------------------
-NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
-{
-
-
-	// Exchange the files
-	return NSharedLinux::FileExchange(oldPath, newPath);
-}
-
-
-
-
-
-#pragma mark private
-//=============================================================================
 //		NFileUtils::PathCreate : Create a path.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::PathCreate(const NFilePath& thePath)
@@ -127,6 +111,21 @@ NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPat
 
 	// Rename the path
 	return NSharedLinux::PathRename(oldPath, newPath);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileUtils::PathExchange : Atomically exchange two paths.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+{
+
+
+	// Exchange the paths
+	return NSharedLinux::PathExchange(oldPath, newPath);
 }
 
 

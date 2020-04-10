@@ -401,3 +401,25 @@ NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
 	return PathRename(oldPath, newPath);
 }
 
+
+
+
+
+//=============================================================================
+//		NFileUtils::Exchange : Atomically exchange two paths.
+//-----------------------------------------------------------------------------
+NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(oldPath.IsValid());
+	NN_REQUIRE(newPath.IsValid());
+
+	NN_EXPECT(NFileInfo(oldPath).Exists());
+	NN_EXPECT(NFileInfo(newPath).Exists());
+
+
+	// Exchange the paths
+	return PathExchange(oldPath, newPath);
+}
