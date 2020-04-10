@@ -322,8 +322,8 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 	std::random_device randDevice;
 	std::mt19937_64    randUInt64(randDevice());
 
-	NString fileName      = "NFileUtils";
-	NString fileExtension = ".tmp";
+	NString theStem      = "NFileUtils";
+	NString theExtension = ".tmp";
 
 
 
@@ -332,12 +332,12 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 	{
 		NFilePath basePath(baseName);
 
-		fileName      = basePath.GetFilename(false);
-		fileExtension = basePath.GetExtension();
+		theStem      = basePath.GetStem();
+		theExtension = basePath.GetExtension();
 
-		if (!fileExtension.IsEmpty())
+		if (!theExtension.IsEmpty())
 		{
-			fileExtension = "." + fileExtension;
+			theExtension = "." + theExtension;
 		}
 	}
 
@@ -347,7 +347,7 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 	while (true)
 	{
 		NString uniqueName =
-			NFormat("{}_{:08x}{:08x}{}", fileName, randUInt64(), randUInt64(), fileExtension);
+			NFormat("{}_{:08x}{:08x}{}", theStem, randUInt64(), randUInt64(), theExtension);
 
 		NFileInfo theInfo(thePath.GetChild(uniqueName));
 

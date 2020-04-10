@@ -105,20 +105,25 @@ public:
 
 	// Get the root
 	//
-	// The root path is the first part of an absolute path.
+	// The root is the first part of an absolute path:
 	//
-	// A relative path has no root, and an empty path is returned.
+	//		/path/to/file.dat		C:\path\to\file.dat
+	//      ^                       ^^^
+	//
+	// The root of a relative path is an empty path.
 	NFilePath                           GetRoot() const;
 
 
 	// Get the parent
 	//
-	// The parent is all but the last part of the path.
+	// The parent is all but the last part of the path:
 	//
-	// The parent of a root path is itself.
+	//		/path/to/file.dat		C:\path\to\file.dat
+	//      ^^^^^^^^                ^^^^^^^^^^
 	//
-	// The final parent of a path with no root, such as a relative
-	// path, is an empty path.
+	// The final parent of an absolute path is the root path itself.
+	//
+	// The final parent of a relative path is an empty path.
 	NFilePath                           GetParent() const;
 
 
@@ -128,18 +133,38 @@ public:
 
 	// Get/set the filename
 	//
-	// The filename is the last part of the path.
+	// The filename is the final part of the path:
 	//
-	// Assigning an empty filename removes the filename part.
-	NString                             GetFilename(bool withExtension = true) const;
-	void                                SetFilename(const NString& theName);
+	//		/path/to/file.dat		C:\path\to\file.dat
+	//               ^^^^^^^^                  ^^^^^^^^
+	//
+	// The filename includes both stem and extension.
+	NString                             GetFilename() const;
+	void                                SetFilename(  const NString& theName);
+
+
+	// Get/set the stem
+	//
+	// The stem comes before the last period in the final part:
+	//
+	//		/path/to/file.dat		C:\path\to\file.dat
+	//               ^^^^                      ^^^^
+	//
+	// The stem does not include the period.
+	NString                             GetStem() const;
+	void                                SetStem(  const NString& theStem);
 
 
 	// Get/set the extension
 	//
-	// The extension is the dot-prefixed suffix of the last part.
+	// The extension comes after the last period in the final part:
 	//
-	// Assigning an empty extension removes the extension.
+	//		/path/to/file.dat		C:\path\to\file.dat
+	//                    ^^^                       ^^^
+	//
+	// The extension does not include the period.
+	//
+	// Assigning an empty extension also removes the last period.
 	NString                             GetExtension() const;
 	void                                SetExtension(  const NString& theExtension);
 

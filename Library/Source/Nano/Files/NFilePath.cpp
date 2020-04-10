@@ -237,7 +237,7 @@ NFilePath NFilePath::GetParent() const
 	{
 		// Get the parent
 		//
-		// The root is what's left when no more parents can be found.
+		// The root is the part that remains when there are no more parents.
 		NString theParent = GetPart(kNPartParent);
 		if (!theParent.Contains(kNPathSeparator))
 		{
@@ -286,7 +286,7 @@ NFilePath NFilePath::GetChild(const NString& theName) const
 //=============================================================================
 //		NFilePath::GetFilename : Get the filename.
 //-----------------------------------------------------------------------------
-NString NFilePath::GetFilename(bool withExtension) const
+NString NFilePath::GetFilename() const
 {
 
 
@@ -296,40 +296,18 @@ NString NFilePath::GetFilename(bool withExtension) const
 
 
 	// Get the filename
-	NString fileName;
-
-	if (withExtension)
-	{
-		fileName = GetPart(kNPartFilename);
-	}
-	else
-	{
-		fileName = GetPart(kNPartStem);
-	}
-
-
-
-	// Single item
 	//
-	// If we failed to find a separator then we have a relative path
-	// with a single item, our current name, which is our result.
-	//
-	// This may also need to have its extension, if any, removed.
-	if (fileName.IsEmpty())
+	// If we fail to find a separator we must have a single, relative, part.
+	NString theName = GetPart(kNPartFilename);
+
+	if (theName.IsEmpty())
 	{
 		NN_REQUIRE(IsRelative());
 
-		if (withExtension)
-		{
-			fileName = mPath;
-		}
-		else
-		{
-			fileName = GetPart(kNPartStemSingle);
-		}
+		theName = mPath;
 	}
 
-	return fileName;
+	return theName;
 }
 
 
@@ -343,15 +321,15 @@ void NFilePath::SetFilename(const NString& theName)
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(!theName.IsEmpty());
 	NN_REQUIRE(IsValid());
 
 
 
 	// Set the filename
 	//
-	// If we failed to find a separator then we have a relative path
-	// with a single item, our current name, which we replace.
+	// If we fail to find a separator we must have a single, relative, part.
 	if (!SetPart(kNPartFilename, theName))
 	{
 		NN_REQUIRE(IsRelative());
@@ -361,10 +339,73 @@ void NFilePath::SetFilename(const NString& theName)
 
 
 	// Validate our state
-	//
-	// We should only be assigned a filename, not a path, which we
-	// can validate by extracting the filename after assignment.
 	NN_REQUIRE(GetFilename() == theName);
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetStem : Get the stem.
+//-----------------------------------------------------------------------------
+NString NFilePath::GetStem() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the stem
+	//
+	// If we fail to find a separator we must have a single, relative, part.
+	NString theStem = GetPart(kNPartStem);
+
+	if (theStem.IsEmpty())
+	{
+		NN_REQUIRE(IsRelative());
+
+		theStem = GetPart(kNPartStemSingle);
+		NN_REQUIRE(!theStem.IsEmpty());
+	}
+
+	return theStem;
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetStem : Set the stem.
+//-----------------------------------------------------------------------------
+void NFilePath::SetStem(const NString& theStem)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(!theStem.IsEmpty());
+	NN_REQUIRE(IsValid());
+
+
+
+	// Set the stem
+	//
+	// If we fail to find a separator we must have a single, relative, part.
+	if (!SetPart(kNPartStem, theStem))
+	{
+		NN_REQUIRE(IsRelative());
+
+		bool didSet = SetPart(kNPartStemSingle, theStem);
+		NN_REQUIRE(didSet);
+	}
+
+
+
+	// Validate our state
+	NN_REQUIRE(GetStem() == theStem);
 }
 
 
@@ -410,11 +451,10 @@ void NFilePath::SetExtension(const NString& theExtension)
 	{
 		// Remove the extension
 		//
-		// If we had an extension then our pattern will replace
-		// everything after the final dot.
+		// If we had an extension then we will have replaced everything
+		// after the last period.
 		//
-		// If the new extension is empty we need to trim the dot
-		// as a second pass.
+		// If the new extension is empty we must remove this period too.
 		if (theExtension.IsEmpty())
 		{
 			NN_REQUIRE(mPath.EndsWith("."));
@@ -425,14 +465,20 @@ void NFilePath::SetExtension(const NString& theExtension)
 	{
 		// Add an extension
 		//
-		// If we didn't have an extension then we won't have found
-		// a match so, if we want to add one, we must add the dot.
+		// If we had no extension, but we want to add one, then we must
+		// also add the last period.
 		NN_REQUIRE(!mPath.EndsWith("."));
+
 		if (!theExtension.IsEmpty())
 		{
 			mPath += "." + theExtension;
 		}
 	}
+
+
+
+	// Validate our state
+	NN_REQUIRE(GetExtension() == theExtension);
 }
 
 

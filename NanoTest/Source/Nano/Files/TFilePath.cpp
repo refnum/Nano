@@ -51,12 +51,14 @@
 //		Constants
 //-----------------------------------------------------------------------------
 static const NString kExtension                             = "dat";
-static const NString kNameBNoExtension                      = "33333";
-static const NString kNameCNoExtension                      = "222";
 
-static const NString kNameA                                 = "four";
-static const NString kNameB                                 = kNameBNoExtension + "." + kExtension;
-static const NString kNameC                                 = kNameCNoExtension + "." + kExtension;
+static const NString kStemA                                 = "four";
+static const NString kStemB                                 = "33333";
+static const NString kStemC                                 = "222";
+
+static const NString kFilenameA                             = kStemA;
+static const NString kFilenameB                             = kStemB + "." + kExtension;
+static const NString kFilenameC                             = kStemC + "." + kExtension;
 
 static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFilePath");
@@ -65,9 +67,9 @@ static const NFilePath kPathTmpOne                          = kPathTmpDirectory.
 static const NFilePath kPathTmpOneTwo                       = kPathTmpOne.GetChild("two");
 static const NFilePath kPathTmpOneTwoThree                  = kPathTmpOneTwo.GetChild("three");
 
-static const NFilePath kPathTmpA                            = kPathTmpOneTwoThree.GetChild(kNameA);
-static const NFilePath kPathTmpB                            = kPathTmpOneTwo.GetChild(kNameB);
-static const NFilePath kPathTmpC                            = kPathTmpOne.GetChild(kNameC);
+static const NFilePath kPathTmpA                            = kPathTmpOneTwoThree.GetChild(kFilenameA);
+static const NFilePath kPathTmpB                            = kPathTmpOneTwo.GetChild(kFilenameB);
+static const NFilePath kPathTmpC                            = kPathTmpOne.GetChild(kFilenameC);
 
 
 
@@ -238,9 +240,9 @@ NANO_TEST(TFilePath, "GetChild")
 	NFilePath parent2 = kPathTmpDirectory.GetChild("one").GetChild("two");
 	NFilePath parent1 = kPathTmpDirectory.GetChild("one");
 
-	REQUIRE(parent3.GetChild(kNameA) == kPathTmpA);
-	REQUIRE(parent2.GetChild(kNameB) == kPathTmpB);
-	REQUIRE(parent1.GetChild(kNameC) == kPathTmpC);
+	REQUIRE(parent3.GetChild(kFilenameA) == kPathTmpA);
+	REQUIRE(parent2.GetChild(kFilenameB) == kPathTmpB);
+	REQUIRE(parent1.GetChild(kFilenameC) == kPathTmpC);
 }
 
 
@@ -255,17 +257,9 @@ NANO_TEST(TFilePath, "GetFilename/Absolute")
 
 
 	// Perform the test
-	REQUIRE(kPathTmpA.GetFilename() == kNameA);
-	REQUIRE(kPathTmpB.GetFilename() == kNameB);
-	REQUIRE(kPathTmpC.GetFilename() == kNameC);
-
-	REQUIRE(kPathTmpA.GetFilename(true) == kNameA);
-	REQUIRE(kPathTmpB.GetFilename(true) == kNameB);
-	REQUIRE(kPathTmpC.GetFilename(true) == kNameC);
-
-	REQUIRE(kPathTmpA.GetFilename(false) == kNameA);
-	REQUIRE(kPathTmpB.GetFilename(false) == kNameBNoExtension);
-	REQUIRE(kPathTmpC.GetFilename(false) == kNameCNoExtension);
+	REQUIRE(kPathTmpA.GetFilename() == kFilenameA);
+	REQUIRE(kPathTmpB.GetFilename() == kFilenameB);
+	REQUIRE(kPathTmpC.GetFilename() == kFilenameC);
 }
 
 
@@ -282,30 +276,13 @@ NANO_TEST(TFilePath, "GetFilename/Relative")
 	// Perform the test
 	thePath = NFilePath("foo");
 
-	REQUIRE(thePath.GetChild(kNameA).GetFilename() == kNameA);
-	REQUIRE(thePath.GetChild(kNameB).GetFilename() == kNameB);
-	REQUIRE(thePath.GetChild(kNameC).GetFilename() == kNameC);
+	REQUIRE(thePath.GetChild(kFilenameA).GetFilename() == kFilenameA);
+	REQUIRE(thePath.GetChild(kFilenameB).GetFilename() == kFilenameB);
+	REQUIRE(thePath.GetChild(kFilenameC).GetFilename() == kFilenameC);
 
-	REQUIRE(thePath.GetChild(kNameA).GetFilename(true) == kNameA);
-	REQUIRE(thePath.GetChild(kNameB).GetFilename(true) == kNameB);
-	REQUIRE(thePath.GetChild(kNameC).GetFilename(true) == kNameC);
-
-	REQUIRE(thePath.GetChild(kNameA).GetFilename(false) == kNameA);
-	REQUIRE(thePath.GetChild(kNameB).GetFilename(false) == kNameBNoExtension);
-	REQUIRE(thePath.GetChild(kNameC).GetFilename(false) == kNameCNoExtension);
-
-
-	REQUIRE(NFilePath(kNameA).GetFilename() == kNameA);
-	REQUIRE(NFilePath(kNameB).GetFilename() == kNameB);
-	REQUIRE(NFilePath(kNameC).GetFilename() == kNameC);
-
-	REQUIRE(NFilePath(kNameA).GetFilename(true) == kNameA);
-	REQUIRE(NFilePath(kNameB).GetFilename(true) == kNameB);
-	REQUIRE(NFilePath(kNameC).GetFilename(true) == kNameC);
-
-	REQUIRE(NFilePath(kNameA).GetFilename(false) == kNameA);
-	REQUIRE(NFilePath(kNameB).GetFilename(false) == kNameBNoExtension);
-	REQUIRE(NFilePath(kNameC).GetFilename(false) == kNameCNoExtension);
+	REQUIRE(NFilePath(kFilenameA).GetFilename() == kFilenameA);
+	REQUIRE(NFilePath(kFilenameB).GetFilename() == kFilenameB);
+	REQUIRE(NFilePath(kFilenameC).GetFilename() == kFilenameC);
 }
 
 
@@ -321,12 +298,12 @@ NANO_TEST(TFilePath, "SetFilename/Absolute")
 
 	// Perform the test
 	thePath = kPathTmpA;
-	REQUIRE(thePath.GetFilename() == kNameA);
-	REQUIRE(thePath.GetFilename() != kNameB);
+	REQUIRE(thePath.GetFilename() == kFilenameA);
+	REQUIRE(thePath.GetFilename() != kFilenameB);
 
-	thePath.SetFilename(kNameB);
-	REQUIRE(thePath.GetFilename() != kNameA);
-	REQUIRE(thePath.GetFilename() == kNameB);
+	thePath.SetFilename(kFilenameB);
+	REQUIRE(thePath.GetFilename() != kFilenameA);
+	REQUIRE(thePath.GetFilename() == kFilenameB);
 }
 
 
@@ -341,22 +318,20 @@ NANO_TEST(TFilePath, "SetFilename/Relative")
 
 
 	// Perform the test
-	thePath = NFilePath("foo").GetChild(kNameA);
-	REQUIRE(thePath.GetFilename() == kNameA);
-	REQUIRE(thePath.GetFilename() != kNameB);
+	NVectorFilePath thePaths;
 
-	thePath.SetFilename(kNameB);
-	REQUIRE(thePath.GetFilename() != kNameA);
-	REQUIRE(thePath.GetFilename() == kNameB);
+	thePaths.push_back(NFilePath("foo").GetChild(kFilenameA));
+	thePaths.push_back(NFilePath(kFilenameA));
 
+	for (auto thePath : thePaths)
+	{
+		REQUIRE(thePath.GetFilename() == kFilenameA);
+		REQUIRE(thePath.GetFilename() != kFilenameB);
 
-	thePath = NFilePath(kNameA);
-	REQUIRE(thePath.GetFilename() == kNameA);
-	REQUIRE(thePath.GetFilename() != kNameB);
-
-	thePath.SetFilename(kNameB);
-	REQUIRE(thePath.GetFilename() != kNameA);
-	REQUIRE(thePath.GetFilename() == kNameB);
+		thePath.SetFilename(kFilenameB);
+		REQUIRE(thePath.GetFilename() != kFilenameA);
+		REQUIRE(thePath.GetFilename() == kFilenameB);
+	}
 }
 
 
@@ -366,7 +341,96 @@ NANO_TEST(TFilePath, "SetFilename/Relative")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFilePath, "GetExtension")
+NANO_TEST(TFilePath, "GetStem/Absolute")
+{
+
+
+	// Perform the test
+	REQUIRE(kPathTmpA.GetStem() == kStemA);
+	REQUIRE(kPathTmpB.GetStem() == kStemB);
+	REQUIRE(kPathTmpC.GetStem() == kStemC);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetStem/Relative")
+{
+
+
+	// Perform the test
+	thePath = NFilePath("foo");
+
+	REQUIRE(thePath.GetChild(kFilenameA).GetStem() == kStemA);
+	REQUIRE(thePath.GetChild(kFilenameB).GetStem() == kStemB);
+	REQUIRE(thePath.GetChild(kFilenameC).GetStem() == kStemC);
+
+	REQUIRE(NFilePath(kFilenameA).GetStem() == kStemA);
+	REQUIRE(NFilePath(kFilenameB).GetStem() == kStemB);
+	REQUIRE(NFilePath(kFilenameC).GetStem() == kStemC);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetStem/Absolute")
+{
+
+
+	// Perform the test
+	thePath = kPathTmpA;
+	REQUIRE(thePath.GetStem() == kStemA);
+	REQUIRE(thePath.GetStem() != kStemB);
+
+	thePath.SetStem(kStemB);
+	REQUIRE(thePath.GetStem() != kStemA);
+	REQUIRE(thePath.GetStem() == kStemB);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetStem/Relative")
+{
+
+
+	// Perform the test
+	NVectorFilePath thePaths;
+
+	thePaths.push_back(NFilePath("foo").GetChild(kFilenameA));
+	thePaths.push_back(NFilePath(kFilenameA));
+
+	for (auto thePath : thePaths)
+	{
+		REQUIRE(thePath.GetStem() == kStemA);
+		REQUIRE(thePath.GetStem() != kStemB);
+
+		thePath.SetStem(kStemB);
+		REQUIRE(thePath.GetStem() != kStemA);
+		REQUIRE(thePath.GetStem() == kStemB);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetExtension/Absolute")
 {
 
 
@@ -383,7 +447,30 @@ NANO_TEST(TFilePath, "GetExtension")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TFilePath, "SetExtension")
+NANO_TEST(TFilePath, "GetExtension/Relative")
+{
+
+
+	// Perform the test
+	thePath = NFilePath("foo");
+
+	REQUIRE(thePath.GetChild(kFilenameA).GetExtension() == "");
+	REQUIRE(thePath.GetChild(kFilenameB).GetExtension() == kExtension);
+	REQUIRE(thePath.GetChild(kFilenameC).GetExtension() == kExtension);
+
+	REQUIRE(NFilePath(kFilenameA).GetExtension() == "");
+	REQUIRE(NFilePath(kFilenameB).GetExtension() == kExtension);
+	REQUIRE(NFilePath(kFilenameC).GetExtension() == kExtension);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetExtension/Absolute")
 {
 
 
@@ -398,17 +485,57 @@ NANO_TEST(TFilePath, "SetExtension")
 
 	thePath.SetExtension("abc");
 	REQUIRE(thePath.GetExtension() == "abc");
-	REQUIRE(thePath.GetFilename().EndsWith(".abc"));
+	REQUIRE(thePath.GetFilename() == (kFilenameA + ".abc"));
 
 	thePath.SetExtension("123456");
 	REQUIRE(thePath.GetExtension() == "123456");
-	REQUIRE(thePath.GetFilename().EndsWith(".123456"));
+	REQUIRE(thePath.GetFilename() == (kFilenameA + ".123456"));
 
 	thePath.SetExtension("");
 	REQUIRE(thePath.GetExtension() == "");
 	REQUIRE(!thePath.GetFilename().Contains("."));
 
 	REQUIRE(thePath == kPathTmpA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "SetExtension/Relative")
+{
+
+
+	// Perform the test
+	NVectorFilePath thePaths;
+
+	thePaths.push_back(NFilePath("foo").GetChild(kFilenameA));
+	thePaths.push_back(NFilePath(kFilenameA));
+
+	for (auto thePath : thePaths)
+	{
+		REQUIRE(thePath.GetExtension() == "");
+		REQUIRE(!thePath.GetFilename().Contains("."));
+
+		thePath.SetExtension("");
+		REQUIRE(thePath.GetExtension() == "");
+		REQUIRE(!thePath.GetFilename().Contains("."));
+
+		thePath.SetExtension("abc");
+		REQUIRE(thePath.GetExtension() == "abc");
+		REQUIRE(thePath.GetFilename() == (kFilenameA + ".abc"));
+
+		thePath.SetExtension("123456");
+		REQUIRE(thePath.GetExtension() == "123456");
+		REQUIRE(thePath.GetFilename() == (kFilenameA + ".123456"));
+
+		thePath.SetExtension("");
+		REQUIRE(thePath.GetExtension() == "");
+		REQUIRE(!thePath.GetFilename().Contains("."));
+	}
 }
 
 
