@@ -100,7 +100,7 @@ NANO_TEST(TTimeUtils, "GetUpTime")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TTimeUtils, "Conversion")
+NANO_TEST(TTimeUtils, "Convert/timespec")
 {
 
 
@@ -109,8 +109,20 @@ NANO_TEST(TTimeUtils, "Conversion")
 	REQUIRE(timeSpec.tv_sec == kTestTimespec.tv_sec);
 	REQUIRE(timeSpec.tv_nsec == kTestTimespec.tv_nsec);
 	REQUIRE(NTimeUtils::ToInterval(timeSpec) == kTestInterval);
+}
 
-	auto localTime = NTimeUtils::ToLocaltime(kTestTime);
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TTimeUtils, "Convert/tm")
+{
+
+
+	auto localTime = NTimeUtils::ToTmLocal(kTestTime);
 	REQUIRE(localTime.tm_sec == 0);
 	REQUIRE(localTime.tm_min == 0);
 	REQUIRE(localTime.tm_hour == 0);

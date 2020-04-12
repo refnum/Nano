@@ -206,7 +206,7 @@ void NLog::FormatTagTime(NLogMessage& theMsg) const
 
 	// Get the state we need
 	NInterval timeNow   = NTimeUtils::GetTime();
-	struct tm timeLocal = NTimeUtils::ToLocaltime(timeNow);
+	struct tm timeLocal = NTimeUtils::ToTmLocal(timeNow);
 	uint64_t  timeUS    = uint64_t((timeNow - floor(timeNow)) / kNTimeMicrosecond);
 
 

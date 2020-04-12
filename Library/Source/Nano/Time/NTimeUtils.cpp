@@ -69,9 +69,9 @@ struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
 
 
 //=============================================================================
-//		NTimeUtils::ToLocaltime : Convert to a tm.
+//		NTimeUtils::ToTmLocal : Convert to a tm in local time.
 //-----------------------------------------------------------------------------
-struct tm NTimeUtils::ToLocaltime(NTime theTime)
+struct tm NTimeUtils::ToTmLocal(NTime theTime)
 {
 	// Convert the value
 	time_t timeUnix = time_t(theTime + kNanoEpochTo1970);

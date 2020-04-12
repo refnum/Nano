@@ -81,7 +81,7 @@ public:
 	//
 	// No epoch conversion is performed on intervals.
 	static struct timespec              ToTimespec(NInterval theInterval);
-	static struct tm                    ToLocaltime(NTime theTime);
+	static struct tm                    ToTmLocal(NTime theTime);
 
 	static NInterval                    ToInterval(const struct timespec& timeSpec);
 	static NTime                        ToTime(    const struct tm& localTime);
