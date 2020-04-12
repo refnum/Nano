@@ -122,15 +122,16 @@ NANO_TEST(TTimeUtils, "Convert/tm")
 {
 
 
-	auto localTime = NTimeUtils::ToTmLocal(kTestTime);
-	REQUIRE(localTime.tm_sec == 0);
-	REQUIRE(localTime.tm_min == 0);
-	REQUIRE(localTime.tm_hour == 0);
-	REQUIRE(localTime.tm_mday == 1);
-	REQUIRE(localTime.tm_mon == 0);
-	REQUIRE(localTime.tm_year == 101);
-	REQUIRE(localTime.tm_wday == 1);
-	REQUIRE(localTime.tm_yday == 0);
-	REQUIRE(localTime.tm_isdst == 0);
-	REQUIRE(NTimeUtils::ToTime(localTime) == kTestTime);
+	// Perform the test
+	auto timeUTC = NTimeUtils::ToTmUTC(kTestTime);
+	REQUIRE(timeUTC.tm_sec == 0);
+	REQUIRE(timeUTC.tm_min == 0);
+	REQUIRE(timeUTC.tm_hour == 0);
+	REQUIRE(timeUTC.tm_mday == 1);
+	REQUIRE(timeUTC.tm_mon == 0);
+	REQUIRE(timeUTC.tm_year == 101);
+	REQUIRE(timeUTC.tm_wday == 1);
+	REQUIRE(timeUTC.tm_yday == 0);
+	REQUIRE(timeUTC.tm_isdst == 0);
+	REQUIRE(NTimeUtils::ToTime(timeUTC) == kTestTime);
 }

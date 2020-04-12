@@ -69,6 +69,21 @@ struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
 
 
 //=============================================================================
+//		NTimeUtils::ToTmUTC : Convert to a tm in UTC.
+//-----------------------------------------------------------------------------
+struct tm NTimeUtils::ToTmUTC(NTime theTime)
+{
+	// Convert the value
+	time_t timeUnix = time_t(theTime + kNanoEpochTo1970);
+
+	return NPOSIX::gmtime(timeUnix);
+}
+
+
+
+
+
+//=============================================================================
 //		NTimeUtils::ToTmLocal : Convert to a tm in local time.
 //-----------------------------------------------------------------------------
 struct tm NTimeUtils::ToTmLocal(NTime theTime)
@@ -102,14 +117,14 @@ NInterval NTimeUtils::ToInterval(const struct timespec& timeSpec)
 
 
 //=============================================================================
-//		NTimeUtils::ToTime : Convert to an NTime.
+//		NTimeUtils::ToTime : Convert a tm in UTC to an NTime.
 //-----------------------------------------------------------------------------
-NTime NTimeUtils::ToTime(const struct tm& localTime)
+NTime NTimeUtils::ToTime(const struct tm& timeUTC)
 {
 
 
 	// Convert the value
-	struct tm localCopy(localTime);
+	struct tm localCopy(timeUTC);
 	time_t    timeUnix = mktime(&localCopy);
 
 	return NTime(NInterval(timeUnix), kNanoEpochFrom1970);
