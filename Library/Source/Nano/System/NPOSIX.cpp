@@ -95,7 +95,32 @@ void NPOSIX::setenv(const NString& theName, const NString& theValue)
 
 
 //=============================================================================
-//		NPOSIX::localtime : Convert a time_t to a struct tm.
+//		NPOSIX::gmtime : Convert a time_t to a struct tm in GMT (UTC).
+//-----------------------------------------------------------------------------
+struct tm NPOSIX::gmtime(time_t timeUnix)
+{
+	// Convert the time
+	//
+	// Windows has _s, rather than _r, and reverses the parameter order.
+	struct tm gmTime
+	{
+	};
+
+#if NN_TARGET_WINDOWS
+	gmtime_s(&gmTime, &timeUnix);
+#else
+	gmtime_r(&timeUnix, &gmTime);
+#endif
+
+	return gmTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NPOSIX::localtime : Convert a time_t to a struct tm in local time.
 //-----------------------------------------------------------------------------
 struct tm NPOSIX::localtime(time_t timeUnix)
 {

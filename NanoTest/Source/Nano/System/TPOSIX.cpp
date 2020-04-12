@@ -95,6 +95,31 @@ NANO_TEST(TPOSIX, "setenv")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TPOSIX, "gmtime")
+{
+
+
+	// Perform the test
+	struct tm theTime = NPOSIX::gmtime(0);
+
+	REQUIRE(theTime.tm_sec == 0);
+	REQUIRE(theTime.tm_min == 0);
+	REQUIRE((theTime.tm_hour == 0 || theTime.tm_hour == 1));
+	REQUIRE(theTime.tm_mday == 1);
+	REQUIRE(theTime.tm_mon == 0);
+	REQUIRE(theTime.tm_year == 70);
+	REQUIRE(theTime.tm_wday == 4);
+	REQUIRE(theTime.tm_yday == 0);
+	REQUIRE(theTime.tm_isdst == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TPOSIX, "localtime")
 {
 

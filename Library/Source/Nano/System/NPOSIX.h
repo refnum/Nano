@@ -45,6 +45,7 @@ public:
 
 
 	// time.h
+	static struct tm                    gmtime(   time_t timeUnix);
 	static struct tm                    localtime(time_t timeUnix);
 };
 
