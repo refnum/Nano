@@ -48,8 +48,13 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NStringFormatter.h"
+#include "NTimeUtils.h"
 #include "NanoMacros.h"
 
+
+// Fmtlib
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
 NN_DIAGNOSTIC_IGNORE_MSVC(4464);    // Relative include path contains '..'
@@ -119,3 +124,32 @@ NString NSprintfPackToString(const S& formatStr, Args&&... theArgs)
 		return NFormatPackToString("sprintf failure: {}\n", theErr.what());
 	}
 }
+
+
+
+
+
+#pragma mark NTime
+//=============================================================================
+//		NTime formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NTime> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NTime& theParam, FormatContext& theContext)
+	{
+		// Simple ISO-8601 formatter
+		struct tm timeLocal = NTimeUtils::ToTmUTC(theParam);
+
+		return format_to(theContext.out(),
+						 "{:04d}-{:02d}-{:02d}T{:02d}:{:02d}:{:02d}Z",
+						 timeLocal.tm_year + 1900,
+						 timeLocal.tm_mon + 1,
+						 timeLocal.tm_mday,
+						 timeLocal.tm_hour,
+						 timeLocal.tm_min,
+						 timeLocal.tm_sec);
+	}
+};

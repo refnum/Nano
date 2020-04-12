@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFormat.h"
 #include "NTestFixture.h"
 #include "NTime.h"
 
@@ -49,7 +50,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NTime kTestTime                            = 388391022.1234;
+static constexpr NTime kTestTime                            = 356768013.1234;
 static constexpr NTime kTestTimeConversion                  = 0.111222444;
 
 static constexpr NTime kTestEarly                           = 1000;
@@ -189,4 +190,23 @@ NANO_TEST(TTime, "Arithmetic")
 
 	REQUIRE(((kTestEarly * 2.0) / 2.0) == kTestEarly);
 	REQUIRE(((kTestEarly / 2.0) * 2.0) == kTestEarly);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TTime, "Format")
+{
+
+
+	// Perform the test
+	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom2001)) == "2001-01-01T00:00:00Z");
+	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom1970)) == "1970-01-01T00:00:00Z");
+	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom1904)) == "1904-01-01T00:00:00Z");
+	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom1601)) == "1601-01-01T00:00:00Z");
+	REQUIRE(NFormat("{}", kTestTime) == "2012-04-22T06:13:33Z");
 }
