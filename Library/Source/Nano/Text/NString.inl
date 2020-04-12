@@ -720,22 +720,3 @@ NString operator+(const T* theLiteral, const NString& theString)
 	// Append the string
 	return NString(theLiteral) + theString;
 }
-
-
-
-
-
-#pragma mark NFormat
-//=============================================================================
-//		NString formatter
-//-----------------------------------------------------------------------------
-template<>
-class fmt::formatter<NString> : public NSimpleFormatter
-{
-public:
-	template<typename FormatContext>
-	auto format(const NString& theParam, FormatContext& theContext)
-	{
-		return format_to(theContext.out(), theParam.GetUTF8());
-	}
-};

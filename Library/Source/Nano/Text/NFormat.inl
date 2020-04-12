@@ -49,6 +49,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFilePath.h"
 #include "NStringFormatter.h"
 #include "NTimeUtils.h"
 #include "NanoMacros.h"
@@ -124,6 +125,66 @@ NString NSprintfPackToString(const S& formatStr, Args&&... theArgs)
 		return NFormatPackToString("sprintf failure: {}\n", theErr.what());
 	}
 }
+
+
+
+
+
+#pragma mark NFilePath
+//=============================================================================
+//		NFilePath formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NFilePath> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NFilePath& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(), theParam.GetUTF8());
+	}
+};
+
+
+
+
+
+#pragma mark NRange
+//=============================================================================
+//		NRange formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NRange> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NRange& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(),
+						 "{{{}, {}}}",
+						 theParam.GetLocation(),
+						 theParam.GetSize());
+	}
+};
+
+
+
+
+
+#pragma mark NString
+//=============================================================================
+//		NString formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NString> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NString& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(), theParam.GetUTF8());
+	}
+};
 
 
 
