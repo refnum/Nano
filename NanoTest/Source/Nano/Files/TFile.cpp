@@ -662,7 +662,6 @@ NANO_TEST(TFile, "Format")
 
 
 	// Perform the test
-	NFile theFile(kPathFile);
-
+	theFile = kPathFile;
 	REQUIRE(NFormat("{}", theFile) == theFile.GetPath().GetPath());
 }
