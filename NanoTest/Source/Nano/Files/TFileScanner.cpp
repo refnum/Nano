@@ -77,7 +77,7 @@ NANO_FIXTURE(TFileScanner)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, NFileAction::CanDelete);
 		REQUIRE(theErr == NStatus::OK);
 
 		theErr = NFileUtils::CreateDirectory(kPathTmpChildA);

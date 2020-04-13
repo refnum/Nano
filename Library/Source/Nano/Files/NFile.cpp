@@ -44,7 +44,6 @@
 // Nano
 #include "NDebug.h"
 #include "NFileHandle.h"
-#include "NFileUtils.h"
 
 
 
@@ -564,17 +563,19 @@ NStatus NFile::CreateDirectory()
 //=============================================================================
 //		NFile::Delete : Delete a file.
 //-----------------------------------------------------------------------------
-NStatus NFile::Delete(bool moveToTrash) const
+NStatus NFile::Delete(NFileAction theAction) const
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash);
+
 	NN_REQUIRE(IsValid());
 
 
 
 	// Delete the file
-	NStatus theErr = NFileUtils::Delete(GetPath(), moveToTrash);
+	NStatus theErr = NFileUtils::Delete(GetPath(), theAction);
 	NN_EXPECT_NOT_ERR(theErr);
 
 
@@ -592,17 +593,19 @@ NStatus NFile::Delete(bool moveToTrash) const
 //=============================================================================
 //		NFile::DeleteChildren : Delete the children of a directory.
 //-----------------------------------------------------------------------------
-NStatus NFile::DeleteChildren(bool moveToTrash) const
+NStatus NFile::DeleteChildren(NFileAction theAction) const
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash);
+
 	NN_REQUIRE(IsDirectory());
 
 
 
 	// Delete the children
-	return NFileUtils::DeleteChildren(GetPath(), moveToTrash);
+	return NFileUtils::DeleteChildren(GetPath(), theAction);
 }
 
 

@@ -181,7 +181,7 @@ NStatus NFileHandle::OpenTemporary(const NString& baseName)
 
 
 	// Open the file
-	NFileInfo tmpDir(NFileUtils::GetLocation(NFileLocation::AppTemporaries, "", true));
+	NFileInfo tmpDir(NFileUtils::GetLocation(NFileLocation::AppTemporaries));
 	NFilePath thePath(NFileUtils::GetUniqueChild(tmpDir.GetPath(), baseName));
 
 	NStatus theErr = NStatus::Permission;

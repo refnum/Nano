@@ -70,7 +70,7 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::PathDelete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::PathDelete(const NFilePath& thePath, NFileAction theAction)
 {
 
 
@@ -79,7 +79,7 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
 
 
 	// Move to trash
-	if (moveToTrash)
+	if (theAction == NFileAction::CanTrash)
 	{
 		@autoreleasepool
 		{

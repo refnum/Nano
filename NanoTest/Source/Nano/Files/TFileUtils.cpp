@@ -78,7 +78,7 @@ NANO_FIXTURE(TFileUtils)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, NFileAction::CanDelete);
 
 		theErr = NFileUtils::CreateDirectory(kPathTmpChildA);
 		REQUIRE(theErr == NStatus::OK);
@@ -150,10 +150,10 @@ NANO_TEST(TFileUtils, "Delete")
 
 
 	// Perform the test
-	theErr = NFileUtils::Delete(kPathTmpChildB, false);
+	theErr = NFileUtils::Delete(kPathTmpChildB, NFileAction::CanDelete);
 	REQUIRE(theErr == NStatus::OK);
 
-	theErr = NFileUtils::Delete(kPathTmpChildC, true);
+	theErr = NFileUtils::Delete(kPathTmpChildC, NFileAction::CanTrash);
 	REQUIRE(theErr == NStatus::OK);
 }
 
@@ -171,7 +171,7 @@ NANO_TEST(TFileUtils, "DeleteChildren")
 	// Perform the test
 	REQUIRE(NFileUtils::GetChildren(kPathTmpDirectory).size() != 0);
 
-	theErr = NFileUtils::DeleteChildren(kPathTmpDirectory, false);
+	theErr = NFileUtils::DeleteChildren(kPathTmpDirectory, NFileAction::CanDelete);
 	REQUIRE(theErr == NStatus::OK);
 
 	REQUIRE(NFileUtils::GetChildren(kPathTmpDirectory).size() == 0);

@@ -51,27 +51,55 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
+// Actions
+//
+// Determines what actions can be taken on a file:
+//
+//		NFileAction::CanCreate				Creation is allowed.
+//
+//		NFileAction::CanDelete				Deletion is allowed.
+//
+//		NFileAction::CanTrash				Moving to the trash is allowed.
+//
+//		NFileAction::DontCreate				Nothing should be created.
+//
+//		NFileAction::DontDelete				Nothing should be deleted.
+//
+// Methods that take an action typically only support the subset of
+// actions that make sense for their particular operation.
+//
+// The exact behaviour for each action is method-specific.
+enum class NFileAction
+{
+	CanCreate,
+	CanDelete,
+	CanTrash,
+	DontCreate,
+	DontDelete
+};
+
+
 // Locations
 //
 // A platform-specific location for files of a particular purpose:
 //
 //		NFileLocation::AppCaches			Cache files.
 //
-//				Typically preserved across reboots, but may be purged by
-//				the system at any time.
+//			Typically preserved across reboots, but may be purged by
+//			the system at any time.
 //
 //		NFileLocation::AppSupport			Support files.
 //
-//				Non-preference files installed with, or created by, the app.
+//			Non-preference files installed with, or created by, the app.
 //
 //		NFileLocation::AppTemporaries		Temporary files.
 //
-//				Typically deleted between reboots, but may be purged by
-//				the system at any time.
+//			Typically deleted between reboots, but may be purged by
+//			the system at any time.
 //
 //		NFileLocation::SharedSupport		Shared support files.
 //
-//				Shared equivalent to NFileLocation::AppSupport.
+//			Shared equivalent to NFileLocation::AppSupport.
 //
 //		NFileLocation::UserDesktop			The user's desktop directory.
 //
@@ -114,25 +142,46 @@ class NFileUtils
 public:
 	// Create a file / directory
 	//
-	// Creates any parent directories as required.
+	// Supported actions:
 	//
-	// Returns NStatus::Duplicate if the path already exists and
-	// may not be deleted.
-	static NStatus                      CreateFile(     const NFilePath& thePath, bool deleteExisting = false);
-	static NStatus                      CreateDirectory(const NFilePath& thePath, bool deleteExisting = false);
+	//		NFileAction::CanDelete
+	//		NFileAction::CanTrash
+	//		NFileAction::DontDelete
+	//
+	// Any existing item will be deleted, or moved to the trash, before a
+	// new item is created at the path.
+	//
+	// Passing NFileAction::DontDelete will return NStatus::Duplicate if
+	// the path already exists.
+	//
+	// Parent directories in the path are created as required.
+	static NStatus                      CreateFile(const NFilePath& thePath,
+												   NFileAction      theAction = NFileAction::DontDelete);
+
+	static NStatus                      CreateDirectory(const NFilePath& thePath,
+														NFileAction      theAction = NFileAction::DontDelete);
 
 
 	// Delete a path
 	//
+	// Supported actions:
+	//
+	//		NFileAction::CanDelete
+	//		NFileAction::CanTrash
+	//
 	// Platforms that do not support a trash will always delete.
-	static NStatus                      Delete(const NFilePath& thePath, bool moveToTrash = false);
+	static NStatus                      Delete(const NFilePath& thePath, NFileAction theAction = NFileAction::CanDelete);
 
 
 	// Delete the children of a directory
 	//
-	// Recursively deletes the children of a directory, leaving
-	// the directory itself in place.
-	static NStatus                      DeleteChildren(const NFilePath& thePath, bool moveToTrash = false);
+	// Supported actions:
+	//
+	//		NFileAction::CanDelete
+	//		NFileAction::CanTrash
+	//
+	static NStatus                      DeleteChildren(const NFilePath& thePath,
+													   NFileAction      theAction = NFileAction::CanDelete);
 
 
 	// Get the children of a directory
@@ -151,16 +200,18 @@ public:
 
 	// Get a location
 	//
-	// Get the path to a location, with an optional child directory.
+	// Get the path to a location, or a directory within that location.
 	//
-	// The canCreate flag indicates if the final path should be created if
-	// does not exist.
+	// Supported actions:
 	//
-	// Returns an empty path if the location is not supported, or the final
-	// path cannot be created.
+	//		NFileAction::CanCreate
+	//		NFileAction::DontCreate
+	//
+	// Returns an empty path if the location is not supported, or creation was
+	// requested but the final path could not be created.
 	static NFilePath                    GetLocation(NFileLocation  theLocation,
 													const NString& theChild  = "",
-													bool           canCreate = false);
+													NFileAction    theAction = NFileAction::CanCreate);
 
 
 	// Atomically rename a path
@@ -173,7 +224,7 @@ public:
 
 private:
 	static NStatus                      PathCreate(  const NFilePath& thePath);
-	static NStatus                      PathDelete(  const NFilePath& thePath, bool moveToTrash);
+	static NStatus                      PathDelete(  const NFilePath& thePath, NFileAction theAction);
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);
 	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
 	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);

@@ -57,21 +57,22 @@
 //=============================================================================
 //		NFileUtils::CreateFile : Create a file.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
+NStatus NFileUtils::CreateFile(const NFilePath& thePath, NFileAction theAction)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsAbsolute());
-
+	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash ||
+			   theAction == NFileAction::DontDelete);
 
 
 	// Delete any existing item
 	NStatus theErr = NStatus::OK;
 
-	if (deleteExisting)
+	if (theAction != NFileAction::DontDelete)
 	{
-		theErr = Delete(thePath);
+		theErr = Delete(thePath, theAction);
 		if (theErr == NStatus::NotFound)
 		{
 			theErr = NStatus::OK;
@@ -87,7 +88,7 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 		NFilePath theParent = thePath.GetParent();
 		if (theParent.IsValid())
 		{
-			theErr = CreateDirectory(theParent, false);
+			theErr = CreateDirectory(theParent, theAction);
 			NN_EXPECT_NOT_ERR(theErr);
 		}
 
@@ -113,19 +114,21 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, bool deleteExisting)
 //=============================================================================
 //		NFileUtils::CreateDirectory : Create a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, bool deleteExisting)
+NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, NFileAction theAction)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsAbsolute());
+	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash ||
+			   theAction == NFileAction::DontDelete);
 
 
 
 	// Delete any existing item
 	NStatus theErr = NStatus::OK;
 
-	if (deleteExisting)
+	if (theAction != NFileAction::DontDelete)
 	{
 		theErr = Delete(thePath);
 		if (theErr == NStatus::NotFound)
@@ -194,12 +197,13 @@ NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, bool deleteExistin
 //=============================================================================
 //		NFileUtils::Delete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::Delete(const NFilePath& thePath, NFileAction theAction)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsAbsolute());
+	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash);
 
 
 
@@ -213,9 +217,9 @@ NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 	//
 	// If we have a directory then, unless we're moving it to the trash,
 	// we need to delete its children recursively before we can delete it.
-	if (!moveToTrash && theInfo.IsDirectory())
+	if (theAction != NFileAction::CanTrash && theInfo.IsDirectory())
 	{
-		theErr = DeleteChildren(thePath, false);
+		theErr = DeleteChildren(thePath, NFileAction::CanDelete);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -224,7 +228,7 @@ NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 	// Delete the path
 	if (theErr == NStatus::OK && theInfo.Exists())
 	{
-		theErr = PathDelete(thePath, moveToTrash);
+		theErr = PathDelete(thePath, theAction);
 	}
 
 	return theErr;
@@ -237,12 +241,13 @@ NStatus NFileUtils::Delete(const NFilePath& thePath, bool moveToTrash)
 //=============================================================================
 //		NFileUtils::DeleteChildren : Delete the children of a directory.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, NFileAction theAction)
 {
 
 
 	// Validate our state
 	NN_REQUIRE(NFileInfo(thePath).IsDirectory());
+	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash);
 
 
 
@@ -251,7 +256,7 @@ NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, bool moveToTrash)
 
 	for (const auto& childPath : GetChildren(thePath))
 	{
-		theErr = Delete(childPath, moveToTrash);
+		theErr = Delete(childPath, theAction);
 		if (theErr != NStatus::OK)
 		{
 			break;
@@ -341,12 +346,13 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 //-----------------------------------------------------------------------------
 NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
 								  const NString& theChild,
-								  bool           canCreate)
+								  NFileAction    theAction)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(theChild.IsEmpty() || NFilePath(theChild).IsRelative());
+	NN_REQUIRE(theAction == NFileAction::CanCreate || theAction == NFileAction::DontCreate);
 
 
 
@@ -361,7 +367,7 @@ NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
 
 
 	// Create the directory
-	if (thePath.IsValid() && canCreate)
+	if (thePath.IsValid() && theAction == NFileAction::CanCreate)
 	{
 		if (!NFileInfo(thePath).Exists())
 		{

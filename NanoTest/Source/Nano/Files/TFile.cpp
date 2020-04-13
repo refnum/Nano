@@ -89,7 +89,7 @@ NANO_FIXTURE(TFile)
 
 	SETUP
 	{
-		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, true);
+		theErr = NFileUtils::CreateDirectory(kPathTmpDirectory, NFileAction::CanDelete);
 		REQUIRE(theErr == NStatus::OK);
 	}
 
@@ -501,7 +501,7 @@ NANO_TEST(TFile, "Delete")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.Exists());
 
-	theErr = theFile.Delete(false);
+	theErr = theFile.Delete(NFileAction::CanDelete);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(!theFile.Exists());
 
@@ -510,7 +510,7 @@ NANO_TEST(TFile, "Delete")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.Exists());
 
-	theErr = theFile.Delete(true);
+	theErr = theFile.Delete(NFileAction::CanTrash);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(!theFile.Exists());
 
@@ -519,7 +519,7 @@ NANO_TEST(TFile, "Delete")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.Exists());
 
-	theErr = theFile.Delete(false);
+	theErr = theFile.Delete(NFileAction::CanDelete);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(!theFile.Exists());
 
@@ -528,7 +528,7 @@ NANO_TEST(TFile, "Delete")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(theFile.Exists());
 
-	theErr = theFile.Delete(true);
+	theErr = theFile.Delete(NFileAction::CanTrash);
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(!theFile.Exists());
 }

@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NFileInfo.h"
+#include "NFileUtils.h"
 #include "NMixinComparable.h"
 #include "NString.h"
 
@@ -175,18 +176,24 @@ public:
 
 	// Delete the file
 	//
-	// Deleting, rather than moving to the trash, is permanent.
+	// Supported actions:
 	//
-	// The file must be valid to delete it from disk.
-	NStatus                             Delete(bool moveToTrash = false) const;
+	//		NFileAction::CanDelete
+	//		NFileAction::CanTrash
+	//
+	// The file must be valid to delete it.
+	NStatus                             Delete(NFileAction theAction = NFileAction::CanDelete) const;
 
 
 	// Delete the items within a directory
 	//
-	// Deleting, rather than moving to the trash, is permanent.
+	// Supported actions:
+	//
+	//		NFileAction::CanDelete
+	//		NFileAction::CanTrash
 	//
 	// The file must be a valid directory to delete its children.
-	NStatus                             DeleteChildren(bool moveToTrash = false) const;
+	NStatus                             DeleteChildren(NFileAction theAction = NFileAction::CanDelete) const;
 
 
 	// Move a file to a new location

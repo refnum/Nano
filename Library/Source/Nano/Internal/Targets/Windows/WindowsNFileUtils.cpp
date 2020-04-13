@@ -164,7 +164,7 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::PathDelete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
+NStatus NFileUtils::PathDelete(const NFilePath& thePath, NFileAction theAction)
 {
 
 
@@ -178,7 +178,7 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, bool moveToTrash)
 	// The SHFILEOPSTRUCTW structure takes a null-terminated list of
 	// null-terminated strings, so we must copy the path and add two
 	// terminators.
-	if (moveToTrash)
+	if (theAction == NFileAction::CanTrash)
 	{
 		NData winPath(thePath.GetPath().GetData(NStringEncoding::UTF16));
 		winPath.SetSize(winPath.GetSize() + (sizeof(WCHAR) * 2));
