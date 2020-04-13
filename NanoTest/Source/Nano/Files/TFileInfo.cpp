@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFileInfo.h"
+#include "NFormat.h"
 #include "NTestFixture.h"
 
 
@@ -251,4 +252,19 @@ NANO_TEST(TFileInfo, "GetFileSize")
 	// Perform the test
 	theInfo.SetPath(kPathFile);
 	REQUIRE(theInfo.GetFileSize() != 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileInfo, "Format")
+{
+
+
+	// Perform the test
+	REQUIRE(NFormat("{}", kPathFile) == kPathFile.GetPath());
 }

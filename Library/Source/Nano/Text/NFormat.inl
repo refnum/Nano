@@ -49,6 +49,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFileInfo.h"
 #include "NFilePath.h"
 #include "NTimeUtils.h"
 #include "NanoMacros.h"
@@ -161,6 +162,25 @@ constexpr auto NSimpleFormatter::parse(fmt::format_parse_context& theContext) co
 
 	return theIter;
 }
+
+
+
+
+
+#pragma mark NFileInfo
+//=============================================================================
+//		NFileInfo formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NFileInfo> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NFileInfo& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(), theParam.GetPath().GetUTF8());
+	}
+};
 
 
 
