@@ -115,6 +115,23 @@
 
 
 //=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NSimpleFormatter
+{
+public:
+	// Parse the context
+	//
+	// Base class for formatters that have no formatting specifiers,
+	// and who produce their output with a simple "{}".
+	constexpr auto                      parse(fmt::format_parse_context& theContext) const;
+};
+
+
+
+
+
+//=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFormat.inl"
