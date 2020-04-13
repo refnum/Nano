@@ -204,9 +204,14 @@ NANO_TEST(TTime, "Format")
 
 
 	// Perform the test
+	//
+	// NPOSIX::gmtime does not support dates before 1970 on Windows.
+	REQUIRE(NFormat("{}", kTestTime) == "2012-04-22T06:13:33Z");
 	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom2001)) == "2001-01-01T00:00:00Z");
 	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom1970)) == "1970-01-01T00:00:00Z");
+
+#if !NN_TARGET_WINDOWS
 	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom1904)) == "1904-01-01T00:00:00Z");
 	REQUIRE(NFormat("{}", NTime(kNanoEpochFrom1601)) == "1601-01-01T00:00:00Z");
-	REQUIRE(NFormat("{}", kTestTime) == "2012-04-22T06:13:33Z");
+#endif
 }

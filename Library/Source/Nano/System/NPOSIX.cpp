@@ -107,7 +107,8 @@ struct tm NPOSIX::gmtime(time_t timeUnix)
 	};
 
 #if NN_TARGET_WINDOWS
-	gmtime_s(&gmTime, &timeUnix);
+	int sysErr = gmtime_s(&gmTime, &timeUnix);
+	NN_EXPECT(sysErr == 0, "Unable to convert pre-1970 time_t");
 #else
 	gmtime_r(&timeUnix, &gmTime);
 #endif
@@ -132,7 +133,8 @@ struct tm NPOSIX::localtime(time_t timeUnix)
 	};
 
 #if NN_TARGET_WINDOWS
-	localtime_s(&localTime, &timeUnix);
+	int sysErr = localtime_s(&localTime, &timeUnix);
+	NN_EXPECT(sysErr == 0, "Unable to convert pre-1970 time_t");
 #else
 	localtime_r(&timeUnix, &localTime);
 #endif
