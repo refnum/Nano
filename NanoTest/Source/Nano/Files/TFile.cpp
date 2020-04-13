@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 #include "NFile.h"
 #include "NFileUtils.h"
+#include "NFormat.h"
 #include "NStdAlgorithm.h"
 #include "NTestFixture.h"
 
@@ -647,4 +648,21 @@ NANO_TEST(TFile, "CompareOrder")
 
 	REQUIRE(fileB >= fileA);
 	REQUIRE(fileB > fileA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFile, "Format")
+{
+
+
+	// Perform the test
+	NFile theFile(kPathFile);
+
+	REQUIRE(NFormat("{}", theFile) == theFile.GetPath().GetPath());
 }
