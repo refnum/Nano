@@ -63,6 +63,7 @@
 #define NN_ALIGNED_TO(_value, _size)                        ((((uintptr_t) _value) % _size) == 0)
 
 
+
 // Stringify a token
 //
 // Example:
@@ -71,25 +72,6 @@
 //
 #define NN_STRINGIFY(_token)                                #_token
 
-
-// Expand a token
-//
-// Allow MSVC to expand __VA_ARGS__ to multiple tokens when passed
-// between macros, rather than passing it on as a single token.
-//
-//		https://devblogs.microsoft.com/cppblog/msvc-preprocessor-progress-towards-conformance/
-//
-// Expansion only appears to be necessary when the outer macro only
-// takes ... and uses __VA_ARGS__ to pass on its arguments.
-//
-// If the outer macro takes a named parameter, and uses ##__VA_ARGS__
-// to consume trailing commas, no expansion is necessary.
-//
-// Example:
-//
-//		#define OUTER(...)  NN_EXPAND(INNER(__VA_ARGS__))
-//
-#define NN_EXPAND(_token)                                   _token
 
 
 // Force inlining
@@ -108,61 +90,6 @@
 	#define NN_ALWAYS_INLINE                                __attribute__((always_inline))
 #endif
 
-
-// Request EBO
-//
-// MSVC only performs Empty Base Optimization for classs that derive
-// from a single empty base class.
-//
-// This macro enables EBO for multiple base classes, as per:
-//
-//		https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/
-//
-// Example:
-//
-//		class NN_EMPTY_BASE DerivedClass
-//			: public BaseClass1
-//			, public BaseClass1
-//		{
-//			...
-//
-#if NN_COMPILER_MSVC
-	#define NN_EMPTY_BASE                                   __declspec(empty_bases)
-#else
-	#define NN_EMPTY_BASE
-#endif
-
-
-// Indicate an expression is likely
-//
-// Example:
-//
-//		if (NN_EXPECT_LIKELY(theFlag == true))
-//		{
-//			Function();
-//		}
-//
-#if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	#define NN_EXPECT_LIKELY(_condition)                    __builtin_expect((_condition), 1)
-#else
-	#define NN_EXPECT_LIKELY(_condition)                    _condition
-#endif
-
-
-// Indicate an expression is unlikely
-//
-// Example:
-//
-//		if (NN_EXPECT_UNLIKELY(theFlag == true))
-//		{
-//			Function();
-//		}
-//
-#if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	#define NN_EXPECT_UNLIKELY(_condition)                  __builtin_expect((_condition), 0)
-#else
-	#define NN_EXPECT_UNLIKELY(_condition)                  _condition
-#endif
 
 
 // Break to the debugger
@@ -195,48 +122,6 @@
 	#endif
 #endif
 
-
-// Mark as unused
-//
-// Marks a variable, or expression, as unused without evaluation.
-//
-// Example:
-//
-//		void Function(int x)
-//		{
-//			NN_UNUSED(x);
-//		}
-//
-// Although a constexpr if should discard any expression in the untaken
-// branch, both gcc and MSVC will warn about unused / set-but-unused
-// variables within the discarded expression.
-//
-// However all compilers will elide the expression if placed in a normal
-// branch that is never taken, even in debug builds.
-//
-#define NN_UNUSED(_expression)                              \
-	do                                                      \
-	{                                                       \
-		if (false)                                          \
-		{                                                   \
-			(void) (_expression);                           \
-		}                                                   \
-	} while (false)
-
-
-// Format validation
-//
-// Example:
-//
-//		NN_VALIDATE_PRINTF(1, 2)
-//		void Print(const char* theMsg, ...);
-//
-#if NN_COMPILER_CLANG || NN_COMPILER_GCC
-	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)  \
-		__attribute__((format(printf, _formatIndex, _firstParamIndex)))
-#else
-	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)
-#endif
 
 
 // Compiler diagnostics
@@ -286,6 +171,85 @@
 	#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)             \
 		__pragma(warning(disable : _warning)) static_assert(true)
 #endif
+
+
+// Request EBO
+//
+// MSVC only performs Empty Base Optimization for classs that derive
+// from a single empty base class.
+//
+// This macro enables EBO for multiple base classes, as per:
+//
+//		https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/
+//
+// Example:
+//
+//		class NN_EMPTY_BASE DerivedClass
+//			: public BaseClass1
+//			, public BaseClass1
+//		{
+//			...
+//
+#if NN_COMPILER_MSVC
+	#define NN_EMPTY_BASE                                   __declspec(empty_bases)
+#else
+	#define NN_EMPTY_BASE
+#endif
+
+
+// Expand a token
+//
+// Allow MSVC to expand __VA_ARGS__ to multiple tokens when passed
+// between macros, rather than passing it on as a single token.
+//
+//		https://devblogs.microsoft.com/cppblog/msvc-preprocessor-progress-towards-conformance/
+//
+// Expansion only appears to be necessary when the outer macro only
+// takes ... and uses __VA_ARGS__ to pass on its arguments.
+//
+// If the outer macro takes a named parameter, and uses ##__VA_ARGS__
+// to consume trailing commas, no expansion is necessary.
+//
+// Example:
+//
+//		#define OUTER(...)  NN_EXPAND(INNER(__VA_ARGS__))
+//
+#define NN_EXPAND(_token)                                   _token
+
+
+
+// Indicate an expression is likely
+//
+// Example:
+//
+//		if (NN_EXPECT_LIKELY(theFlag == true))
+//		{
+//			Function();
+//		}
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define NN_EXPECT_LIKELY(_condition)                    __builtin_expect((_condition), 1)
+#else
+	#define NN_EXPECT_LIKELY(_condition)                    _condition
+#endif
+
+
+
+// Indicate an expression is unlikely
+//
+// Example:
+//
+//		if (NN_EXPECT_UNLIKELY(theFlag == true))
+//		{
+//			Function();
+//		}
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define NN_EXPECT_UNLIKELY(_condition)                  __builtin_expect((_condition), 0)
+#else
+	#define NN_EXPECT_UNLIKELY(_condition)                  _condition
+#endif
+
 
 
 // Function name
@@ -348,6 +312,49 @@
 #define NN_STRUCT_PACK_4(...)                               _nn_struct_pack(4, __VA_ARGS__)
 #define NN_STRUCT_PACK_8(...)                               _nn_struct_pack(8, __VA_ARGS__)
 #define NN_STRUCT_PACK_16(...)                              _nn_struct_pack(16, __VA_ARGS__)
+
+
+// Mark as unused
+//
+// Marks a variable, or expression, as unused without evaluation.
+//
+// Example:
+//
+//		void Function(int x)
+//		{
+//			NN_UNUSED(x);
+//		}
+//
+// Although a constexpr if should discard any expression in the untaken
+// branch, both gcc and MSVC will warn about unused / set-but-unused
+// variables within the discarded expression.
+//
+// However all compilers will elide the expression if placed in a normal
+// branch that is never taken, even in debug builds.
+//
+#define NN_UNUSED(_expression)                              \
+	do                                                      \
+	{                                                       \
+		if (false)                                          \
+		{                                                   \
+			(void) (_expression);                           \
+		}                                                   \
+	} while (false)
+
+
+// Format validation
+//
+// Example:
+//
+//		NN_VALIDATE_PRINTF(1, 2)
+//		void Print(const char* theMsg, ...);
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)  \
+		__attribute__((format(printf, _formatIndex, _firstParamIndex)))
+#else
+	#define NN_VALIDATE_PRINTF(_formatIndex, _firstParamIndex)
+#endif
 
 
 
