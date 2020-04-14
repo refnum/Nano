@@ -258,10 +258,10 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define _nn_log_unimplemented_N(_message, ...)          \
 		_nn_log_unimplemented(", " _message, ##__VA_ARGS__)
 
-	#define _nn_log_unimplemented_0_TO_N(_0, _1, _2, _3, _4, _5, ...)   _5
+	#define _nn_log_unimplemented_0_to_N(_0, _1, _2, _3, _4, _5, ...)   _5
 
 	#define NN_LOG_UNIMPLEMENTED(...)                                   \
-		NN_EXPAND(_nn_log_unimplemented_0_TO_N(__VA_ARGS__,             \
+		NN_EXPAND(_nn_log_unimplemented_0_to_N(__VA_ARGS__,             \
 											   _nn_log_unimplemented_N, \
 											   _nn_log_unimplemented_N, \
 											   _nn_log_unimplemented_N, \
@@ -358,10 +358,10 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define _nn_require_N(_condition, _message, ...)        \
 		_nn_require(_condition, ", " _message, ##__VA_ARGS__)
 
-	#define _nn_require_1_TO_N(_0, _1, _2, _3, _4, _5, ...) _5
+	#define _nn_require_1_to_N(_0, _1, _2, _3, _4, _5, ...) _5
 
 	#define NN_REQUIRE(...)                                 \
-		NN_EXPAND(_nn_require_1_TO_N(__VA_ARGS__,           \
+		NN_EXPAND(_nn_require_1_to_N(__VA_ARGS__,           \
 									 _nn_require_N,         \
 									 _nn_require_N,         \
 									 _nn_require_N,         \
@@ -420,10 +420,10 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define _nn_expect_N(_condition, _message, ...)         \
 		_nn_expect(_condition, ", " _message, ##__VA_ARGS__)
 
-	#define _nn_expect_1_TO_N(_0, _1, _2, _3, _4, _5, ...)  _5
+	#define _nn_expect_1_to_N(_0, _1, _2, _3, _4, _5, ...)  _5
 
 	#define NN_EXPECT(...)                                  \
-		NN_EXPAND(_nn_expect_1_TO_N(__VA_ARGS__,            \
+		NN_EXPAND(_nn_expect_1_to_N(__VA_ARGS__,            \
 									_nn_expect_N,           \
 									_nn_expect_N,           \
 									_nn_expect_N,           \
