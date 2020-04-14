@@ -288,6 +288,24 @@
 #endif
 
 
+// Function name
+//
+// The name of the current function.
+//
+// Example:
+//
+//		const char* MyFunction()
+//		{
+//			return NN_FUNCTION;
+//		}
+//
+#if NN_COMPILER_MSVC
+	#define NN_FUNCTION                                     __FUNCSIG__
+#else
+	#define NN_FUNCTION                                     __PRETTY_FUNCTION__
+#endif
+
+
 
 // Packed structure
 //

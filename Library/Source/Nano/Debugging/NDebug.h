@@ -245,11 +245,11 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 		{                                                                                   \
 			if (_nn_has_format_specifiers(_message))                                        \
 			{                                                                               \
-				NN_LOG_WARNING("{} is unimplemented" _message, __func__, ##__VA_ARGS__);    \
+				NN_LOG_WARNING("{} is unimplemented" _message, NN_FUNCTION, ##__VA_ARGS__); \
 			}                                                                               \
 			else                                                                            \
 			{                                                                               \
-				NN_LOG_WARNING("%s is unimplemented" _message, __func__, ##__VA_ARGS__);    \
+				NN_LOG_WARNING("%s is unimplemented" _message, NN_FUNCTION, ##__VA_ARGS__); \
 			}                                                                               \
 		} while (false)
 
