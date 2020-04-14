@@ -43,6 +43,9 @@
 #include <cstddef>
 #include <string>
 
+// Nano
+#include "NUsageLog.h"
+
 
 
 
@@ -52,10 +55,34 @@
 //-----------------------------------------------------------------------------
 static constexpr uint8_t kNStringFlagIsLarge                = 0b10000000;
 static constexpr uint8_t kNStringFlagIsSmallUTF16           = 0b01000000;
+static constexpr uint8_t kNStringFlagCreatedSmall           = 0b00100000;
 static constexpr uint8_t kNStringFlagSmallSizeMask          = 0b00011111;
 
 static constexpr uint8_t kNStringSmallSizeMaxUTF8           = 26;
 static constexpr uint8_t kNStringSmallSizeMaxUTF16          = 12;
+
+
+
+
+
+//=============================================================================
+//		Internal Macros
+//-----------------------------------------------------------------------------
+// NString usage
+#define NN_ENABLE_NSTRING_USAGE_LOGGING                     NN_ENABLE_USAGE_LOGGING
+
+#if NN_ENABLE_NSTRING_USAGE_LOGGING
+
+	#define NSTRING_USAGE(...)                              NN_USAGE(__VA_ARGS__)
+
+#else
+
+	#define NSTRING_USAGE(...)                              \
+		do                                                  \
+		{                                                   \
+		} while (0)
+
+#endif
 
 
 
@@ -207,6 +234,23 @@ inline NString::~NString()
 	if (IsLarge())
 	{
 		ReleaseLarge();
+	}
+
+
+
+	// Record our usage
+	if (IsLarge())
+	{
+		NSTRING_USAGE("NString::Large", GetSize());
+	}
+	else
+	{
+		NSTRING_USAGE("NString::Small", GetSize());
+	}
+
+	if ((mString.theFlags & kNStringFlagCreatedSmall) != 0)
+	{
+		NSTRING_USAGE("NString::CreatedSmall");
 	}
 }
 
@@ -586,6 +630,7 @@ constexpr bool NString::SetSmallUTF8(size_t numBytes, const utf8_t* textUTF8)
 	if (IsValidSmallUTF8(numBytes, textUTF8))
 	{
 		SetSmall(numBytes, textUTF8, NStringEncoding::UTF8);
+		mString.theFlags |= kNStringFlagCreatedSmall;
 		return true;
 	}
 
@@ -607,6 +652,7 @@ constexpr bool NString::SetSmallUTF16(size_t numBytes, const utf16_t* textUTF16)
 	if (IsValidSmallUTF16(numBytes, textUTF16))
 	{
 		SetSmall(numBytes, textUTF16, NStringEncoding::UTF16);
+		mString.theFlags |= kNStringFlagCreatedSmall;
 		return true;
 	}
 

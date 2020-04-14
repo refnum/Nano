@@ -39,6 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NUsageLog.h"
+
 // System
 #include <cstddef>
 
@@ -53,6 +56,29 @@ static constexpr uint8_t kNDataFlagIsLarge                  = 0b10000000;
 static constexpr uint8_t kNDataFlagSmallSizeMask            = 0b00011111;
 
 static constexpr uint8_t kNDataSmallSizeMax                 = 27;
+
+
+
+
+
+//=============================================================================
+//		Internal Macros
+//-----------------------------------------------------------------------------
+// NData usage
+#define NN_ENABLE_NDATA_USAGE_LOGGING                       NN_ENABLE_USAGE_LOGGING
+
+#if NN_ENABLE_NDATA_USAGE_LOGGING
+
+	#define NDATA_USAGE(...)                                NN_USAGE(__VA_ARGS__)
+
+#else
+
+	#define NDATA_USAGE(...)                                \
+		do                                                  \
+		{                                                   \
+		} while (0)
+
+#endif
 
 
 
@@ -109,6 +135,18 @@ inline NData::~NData()
 	if (IsLarge())
 	{
 		ReleaseLarge();
+	}
+
+
+
+	// Record our usage
+	if (IsLarge())
+	{
+		NDATA_USAGE("NData::Large", GetSize());
+	}
+	else
+	{
+		NDATA_USAGE("NData::Small", GetSize());
 	}
 }
 
