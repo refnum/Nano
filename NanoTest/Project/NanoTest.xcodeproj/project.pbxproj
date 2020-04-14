@@ -82,6 +82,12 @@
 		ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
 		ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
 		ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB51034184B00E5A6AD /* TRange.cpp */; };
+		ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C832446095F009E9B53 /* TUsageLog.cpp */; };
+		ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C832446095F009E9B53 /* TUsageLog.cpp */; };
+		ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C832446095F009E9B53 /* TUsageLog.cpp */; };
+		ABBE8C8824460960009E9B53 /* TUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C8424460960009E9B53 /* TUsageBucket.cpp */; };
+		ABBE8C8924460960009E9B53 /* TUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C8424460960009E9B53 /* TUsageBucket.cpp */; };
+		ABBE8C8A24460960009E9B53 /* TUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C8424460960009E9B53 /* TUsageBucket.cpp */; };
 		ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
@@ -264,6 +270,8 @@
 		ABBB2B5B23801DBB00EB2840 /* TLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLog.cpp; sourceTree = "<group>"; };
 		ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLogOutput.cpp; sourceTree = "<group>"; };
 		ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebug.cpp; sourceTree = "<group>"; };
+		ABBE8C832446095F009E9B53 /* TUsageLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUsageLog.cpp; sourceTree = "<group>"; };
+		ABBE8C8424460960009E9B53 /* TUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUsageBucket.cpp; sourceTree = "<group>"; };
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -481,6 +489,8 @@
 				ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */,
 				ABBB2B5B23801DBB00EB2840 /* TLog.cpp */,
 				ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */,
+				ABBE8C8424460960009E9B53 /* TUsageBucket.cpp */,
+				ABBE8C832446095F009E9B53 /* TUsageLog.cpp */,
 			);
 			name = Core;
 			path = Debugging;
@@ -820,6 +830,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBE8C8924460960009E9B53 /* TUsageBucket.cpp in Sources */,
 				AB1B4D9A23F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
@@ -853,6 +864,7 @@
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
 				AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
+				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
@@ -862,6 +874,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBE8C8824460960009E9B53 /* TUsageBucket.cpp in Sources */,
 				AB1B4D9923F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
@@ -895,6 +908,7 @@
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
 				AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
+				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
@@ -904,6 +918,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBE8C8A24460960009E9B53 /* TUsageBucket.cpp in Sources */,
 				AB1B4D9B23F024FE00B304D3 /* TStringScanner.cpp in Sources */,
 				AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
@@ -937,6 +952,7 @@
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
 				AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
+				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);

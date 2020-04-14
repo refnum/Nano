@@ -168,6 +168,12 @@
 		ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
 		ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155480F9B4DD6009FFEAF /* NData.cpp */; };
+		ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C8B2446096C009E9B53 /* NUsageLog.cpp */; };
+		ABBE8C902446096C009E9B53 /* NUsageLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C8B2446096C009E9B53 /* NUsageLog.cpp */; };
+		ABBE8C912446096C009E9B53 /* NUsageLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C8B2446096C009E9B53 /* NUsageLog.cpp */; };
+		ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
+		ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
+		ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
 		ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
@@ -598,6 +604,10 @@
 		ABBB2B872380CA3600EB2840 /* NMixinHashable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinHashable.h; sourceTree = "<group>"; };
 		ABBBB56B16664A80003DEB1D /* NSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocketRequest.cpp; sourceTree = "<group>"; };
 		ABBBB56C16664A80003DEB1D /* NSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSocketRequest.h; sourceTree = "<group>"; };
+		ABBE8C8B2446096C009E9B53 /* NUsageLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageLog.cpp; sourceTree = "<group>"; };
+		ABBE8C8C2446096C009E9B53 /* NUsageBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageBucket.h; sourceTree = "<group>"; };
+		ABBE8C8E2446096C009E9B53 /* NUsageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageLog.h; sourceTree = "<group>"; };
+		ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageBucket.cpp; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
 		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
@@ -1038,6 +1048,10 @@
 				AB623265242AF51300651349 /* NLog.h */,
 				AB623264242AF51300651349 /* NLogOutput.cpp */,
 				AB623266242AF51300651349 /* NLogOutput.h */,
+				ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */,
+				ABBE8C8C2446096C009E9B53 /* NUsageBucket.h */,
+				ABBE8C8B2446096C009E9B53 /* NUsageLog.cpp */,
+				ABBE8C8E2446096C009E9B53 /* NUsageLog.h */,
 			);
 			path = Debugging;
 			sourceTree = "<group>";
@@ -1712,6 +1726,8 @@
 				AB51286823D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB51284123D2810600528FBE /* pcre2_substring.c in Sources */,
 				AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */,
+				ABBE8C912446096C009E9B53 /* NUsageLog.cpp in Sources */,
+				ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */,
 				ABDCE8D5241C61880054A16E /* tvOSNSemaphore.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
@@ -1781,6 +1797,8 @@
 				AB51281E23D2810600528FBE /* pcre2_convert.c in Sources */,
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				AB51286623D2810600528FBE /* pcre2_match_data.c in Sources */,
+				ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */,
+				ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB51283F23D2810600528FBE /* pcre2_substring.c in Sources */,
 				ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */,
@@ -1850,6 +1868,8 @@
 				ABDCE8DF241C61960054A16E /* macOSNFileHandle.cpp in Sources */,
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,
 				AB51283A23D2810600528FBE /* pcre2_match.c in Sources */,
+				ABBE8C902446096C009E9B53 /* NUsageLog.cpp in Sources */,
+				ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
