@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 #include "NFileInfo.h"
 #include "NSemaphore.h"
+#include "NString.h"
 #include "NanoTypes.h"
 
 
@@ -58,6 +59,10 @@ public:
 	// Time
 	static uint64_t                     GetClockTicks();
 	static uint64_t                     GetClockFrequency();
+
+
+	// Get a /proc file
+	static NString                      GetProcFile(const NFilePath& thePath);
 
 
 	// Get file state

@@ -47,7 +47,7 @@
 #include "NTimeUtils.h"
 
 // System
-#include <linux/fcntl.h>
+#include <fcntl.h>
 #include <linux/fs.h>
 #include <semaphore.h>
 #include <sys/stat.h>
@@ -65,6 +65,11 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
+// Misc
+static constexpr size_t kNBufferSize                        = 2 * kNKibibyte;
+
+
+
 // Time
 static constexpr uint64_t kNanosecondsPerSecond             = 1000000000ULL;
 
@@ -75,12 +80,14 @@ static constexpr clockid_t kSystemClockID                   = CLOCK_MONTONIC;
 #endif
 
 
-// File info
+// File
 static constexpr NFileInfoFlags kNFileInfoMaskStat          = kNFileInfoExists | kNFileInfoIsFile |
 													 kNFileInfoIsDirectory |
 													 kNFileInfoModifiedTime | kNFileInfoFileSize;
 
 constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreationTime | kNFileInfoModifiedTime;
+
+
 
 
 
@@ -287,6 +294,42 @@ uint64_t NSharedLinux::GetClockFrequency()
 
 	// Get the clock frequency
 	return kNanosecondsPerSecond;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::GetProcFile : Get a /proc file.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::GetProcFile(const NFilePath& thePath)
+{
+
+
+	// Read the file
+	NString theText;
+
+	int theFD = open(thePath.GetUTF8(), O_RDONLY);
+
+	if (theFD != -1)
+	{
+		uint8_t theBuffer[kNBufferSize];
+		ssize_t numRead;
+
+		do
+		{
+			numRead = read(theFD, theBuffer, kNBufferSize);
+			if (numRead > 0)
+			{
+				theText += NString(NStringEncoding::UTF8, size_t(numRead), theBuffer);
+			}
+		} while (numRead > 0);
+
+		close(theFD);
+	}
+
+	return theText;
 }
 
 
