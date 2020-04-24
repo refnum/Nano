@@ -22,6 +22,7 @@ endif()
 #		Compiler - Configuration
 #------------------------------------------------------------------------------
 set(NN_COMPILER_FLAGS "")
+set(NN_LINKER_FLAGS   "")
 
 if (NN_COMPILER_CLANG)
 	list(APPEND NN_COMPILER_FLAGS -DNN_DEBUG=0)
@@ -53,6 +54,8 @@ elseif (NN_COMPILER_GCC)
 		list(APPEND NN_COMPILER_FLAGS -O3)
 	endif()
 
+	list(APPEND NN_LINKER_FLAGS -rdynamic)
+
 
 elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_FLAGS /DNOMINMAX)
@@ -69,6 +72,8 @@ elseif (NN_COMPILER_MSVC)
 		list(APPEND NN_COMPILER_FLAGS /DNN_DEBUG=0)
 		list(APPEND NN_COMPILER_FLAGS /DNN_RELEASE=1)
 	endif()
+
+	list(APPEND NN_LINKER_FLAGS dbghelp.lib)
 
 endif()
 

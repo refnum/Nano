@@ -40,6 +40,7 @@ function(nano_target_compile_set_defaults theTarget)
 	# Flags
 	target_compile_options("${theTarget}" PRIVATE ${NN_COMPILER_FLAGS})
 	target_compile_options("${theTarget}" PRIVATE ${NN_COMPILER_WARNINGS})
+	target_link_options("${theTarget}"    PRIVATE ${NN_LINKER_FLAGS})
 
 endfunction()
 
