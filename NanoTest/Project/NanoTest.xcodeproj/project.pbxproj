@@ -25,6 +25,9 @@
 		AB2912192383771600509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB29121A2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB29121B2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
+		AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304824524CD700F21BF6 /* TDebugger.cpp */; };
+		AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304824524CD700F21BF6 /* TDebugger.cpp */; };
+		AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304824524CD700F21BF6 /* TDebugger.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
@@ -174,6 +177,7 @@
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
 		AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGeometryUtilities.cpp; sourceTree = "<group>"; };
+		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
 		AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
@@ -487,6 +491,7 @@
 			isa = PBXGroup;
 			children = (
 				ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */,
+				AB2A304824524CD700F21BF6 /* TDebugger.cpp */,
 				ABBB2B5B23801DBB00EB2840 /* TLog.cpp */,
 				ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */,
 				ABBE8C8424460960009E9B53 /* TUsageBucket.cpp */,
@@ -865,6 +870,7 @@
 				AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
+				AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
@@ -909,6 +915,7 @@
 				AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
+				AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);
@@ -953,6 +960,7 @@
 				AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
+				AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 			);

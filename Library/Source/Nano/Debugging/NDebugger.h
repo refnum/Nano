@@ -1,8 +1,8 @@
 /*	NAME:
-		NSharedDarwin.h
+		NDebugger.h
 
 	DESCRIPTION:
-		Darwin support.
+		Debugger support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,18 +36,13 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_DARWIN_H
-#define NSHARED_DARWIN_H
+#ifndef NDEBUGGER_H
+#define NDEBUGGER_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NFileInfo.h"
-#include "NFilePath.h"
-#include "NFileUtils.h"
-#include "NSemaphore.h"
 #include "NString.h"
-#include "NTime.h"
 
 
 
@@ -56,41 +51,28 @@
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NSharedDarwin
+class NDebugger
 {
 public:
-	// Time
-	static NTime                        GetTime();
-	static NInterval                    GetUpTime();
-	static uint64_t                     GetClockTicks();
-	static uint64_t                     GetClockFrequency();
+	// Is a debugger active?
+	static bool                         IsActive();
 
 
-	// Debugger
-	static bool                         DebuggerIsActive();
-	static NVectorString                DebuggerGetBacktrace(size_t skipFrames, size_t numFrames);
+	// Get a backtrace
+	//
+	// Returns up to numFrames function names, starting from the caller.
+	//
+	// A non-zero value for skipFrames will skip that many frames.
+	static NVectorString                GetBacktrace(size_t skipFrames = 0, size_t numFrames = kNSizeMax);
 
 
-	// Get file state
-	static bool                         GetFileState(const NFilePath& thePath,
-													 NFileInfoFlags   theFlags,
-													 NFileInfoFlags&  validState,
-													 NFileInfoState&  theState);
-
-
-	// File paths
-	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
-	static NFilePath                    PathLocation(NFileLocation theLocation);
-
-
-	// Semaphores
-	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
-	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
-	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
+	// Get a backtrace identifier
+	//
+	// Returns a backtrace as a single string, useful for recording object
+	// construction for debugging.
+	static NString                      GetBacktraceID(size_t skipFrames = 0, size_t numFrames = kNSizeMax);
 };
 
 
 
-#endif // NSHARED_DARWIN_H
+#endif // NDEBUGGER_H

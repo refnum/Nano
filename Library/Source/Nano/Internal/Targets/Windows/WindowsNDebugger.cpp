@@ -1,8 +1,8 @@
 /*	NAME:
-		NSharedDarwin.h
+		WindowsNDebugger.cpp
 
 	DESCRIPTION:
-		Darwin support.
+		Windows debugger support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,61 +36,114 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_DARWIN_H
-#define NSHARED_DARWIN_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NDebugger.h"
+
 // Nano
-#include "NFileInfo.h"
-#include "NFilePath.h"
-#include "NFileUtils.h"
-#include "NSemaphore.h"
-#include "NString.h"
-#include "NTime.h"
+#include "NSharedWindows.h"
+
+// System
+#include <dbghelp.h>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		Internal Constants
 //-----------------------------------------------------------------------------
-class NSharedDarwin
+static constexpr size_t kNDebuggerMaxFrames                 = 512;
+
+
+
+
+
+//=============================================================================
+//		NDebugger::IsActive : Is a debugger active?
+//-----------------------------------------------------------------------------
+bool NDebugger::IsActive()
 {
-public:
-	// Time
-	static NTime                        GetTime();
-	static NInterval                    GetUpTime();
-	static uint64_t                     GetClockTicks();
-	static uint64_t                     GetClockFrequency();
 
 
-	// Debugger
-	static bool                         DebuggerIsActive();
-	static NVectorString                DebuggerGetBacktrace(size_t skipFrames, size_t numFrames);
-
-
-	// Get file state
-	static bool                         GetFileState(const NFilePath& thePath,
-													 NFileInfoFlags   theFlags,
-													 NFileInfoFlags&  validState,
-													 NFileInfoState&  theState);
-
-
-	// File paths
-	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
-	static NFilePath                    PathLocation(NFileLocation theLocation);
-
-
-	// Semaphores
-	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
-	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
-	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
-};
+	// Check the state
+	return IsDebuggerPresent();
+}
 
 
 
-#endif // NSHARED_DARWIN_H
+
+
+//=============================================================================
+//		NDebugger::GetBacktrace : Get a backtrace.
+//-----------------------------------------------------------------------------
+NVectorString NDebugger::GetBacktrace(size_t skipFrames, size_t numFrames)
+{
+
+
+	// Get the state we need
+	//
+	// We increase skipFrames to skip ourselves.
+	skipFrames++;
+
+	if (numFrames != kNSizeMax)
+	{
+		numFrames += skipFrames;
+	}
+
+	numFrames = std::min(numFrames, kNDebuggerMaxFrames);
+
+
+
+	// Get the frames
+	void* theFrames[kNDebuggerMaxFrames];
+
+	HANDLE hProcess = GetCurrentProcess();
+	BOOL   wasOK    = SymInitialize(hProcess, NULL, TRUE);
+	NN_EXPECT(wasOK);
+
+	if (wasOK)
+	{
+		numFrames = CaptureStackBackTrace(DWORD(skipFrames), DWORD(numFrames), theFrames, nullptr);
+	}
+	else
+	{
+		numFrames = 0;
+	}
+
+
+
+	// Process the symbols
+	NVectorString theTrace;
+
+	char         symbolBuffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
+	PSYMBOL_INFO symbolInfo   = (PSYMBOL_INFO) symbolBuffer;
+	DWORD64      symbolOffset = 0;
+
+	symbolInfo->SizeOfStruct = sizeof(SYMBOL_INFO);
+	symbolInfo->MaxNameLen   = MAX_SYM_NAME;
+
+	for (size_t n = 0; n < numFrames; n++)
+	{
+		NString theName;
+
+		if (SymFromAddr(hProcess, DWORD64(theFrames[n]), &symbolOffset, symbolInfo))
+		{
+			theName = symbolInfo->Name;
+		}
+
+		theTrace.emplace_back(theName);
+	}
+
+
+
+	// Clean up
+	if (wasOK)
+	{
+		wasOK = SymCleanup(hProcess);
+		NN_EXPECT(wasOK);
+	}
+
+	return theTrace;
+}

@@ -50,7 +50,9 @@
 // System
 #include <CoreFoundation/CoreFoundation.h>
 #include <Foundation/Foundation.h>
+#include <cxxabi.h>
 #include <dispatch/semaphore.h>
+#include <execinfo.h>
 #include <fcntl.h>
 #include <mach/mach_time.h>
 #include <sys/stat.h>
@@ -64,6 +66,11 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
+// Debugger
+static const char*      kNDebuggerSymbolName                = "0x\\w+ (\\w+) \\+ \\d+$";
+static constexpr size_t kNDebuggerMaxFrames                 = 512;
+
+// File
 static constexpr NFileInfoFlags kNFileInfoMaskStat =
 	kNFileInfoExists | kNFileInfoIsFile | kNFileInfoIsDirectory | kNFileInfoCreationTime |
 	kNFileInfoModifiedTime | kNFileInfoFileSize;
@@ -82,16 +89,16 @@ static NTime GetBootTime()
 
 
 	// Get the boot time
-	struct timeval timeVal     = {};
-	size_t         theSize     = sizeof(timeVal);
-	int            theNames[2] = {CTL_KERN, KERN_BOOTTIME};
+	struct timeval timeVal    = {};
+	size_t         theSize    = sizeof(timeVal);
+	int            theName[2] = {CTL_KERN, KERN_BOOTTIME};
 
-	int sysErr = sysctl(theNames, 2, &timeVal, &theSize, nullptr, 0);
+	int sysErr = sysctl(theName, std::size(theName), &timeVal, &theSize, nullptr, 0);
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	if (sysErr != 0)
 	{
-		memset(&timeVal, 0x00, sizeof(timeVal));
+		timeVal = {};
 	}
 
 
@@ -283,6 +290,135 @@ uint64_t NSharedDarwin::GetClockFrequency()
 	static uint64_t sClockFrequency = GetMachClockFrequency();
 
 	return sClockFrequency;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::DebuggerIsActive : Is a debugger active?
+//-----------------------------------------------------------------------------
+bool NSharedDarwin::DebuggerIsActive()
+{
+
+
+	// Get the process flags
+	//
+	// https://developer.apple.com/library/content/qa/qa1361/_index.html
+	struct kinfo_proc theInfo    = {};
+	size_t            theSize    = sizeof(theInfo);
+	int               theName[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
+
+	int sysErr = sysctl(theName, std::size(theName), &theInfo, &theSize, nullptr, 0);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		theInfo = {};
+	}
+
+
+
+	// Check for P_TRACED
+	return theInfo.kp_proc.p_flag & P_TRACED;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::DebuggerGetBacktrace : Get a backtrace.
+//-----------------------------------------------------------------------------
+NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numFrames)
+{
+
+
+	// Get the state we need
+	//
+	// We increase skipFrames to skip ourselves.
+	skipFrames++;
+
+	if (numFrames != kNSizeMax)
+	{
+		numFrames += skipFrames;
+	}
+
+	numFrames = std::min(numFrames, kNDebuggerMaxFrames);
+
+
+
+	// Get the frames
+	void* theFrames[kNDebuggerMaxFrames];
+	numFrames = size_t(backtrace(theFrames, int(numFrames)));
+
+	char** theSymbols = backtrace_symbols(theFrames, int(numFrames));
+	if (theSymbols == nullptr)
+	{
+		numFrames = 0;
+	}
+
+
+
+	// Process the symbols
+	//
+	// Example symbols:
+	//
+	//		"0   NanoTest_macOS                      0x0000000100e542bb _ZN13NSharedDarwin20DebuggerGetBacktraceEmm + 1083"
+	//		"1   NanoTest_macOS                      0x0000000101072219 _ZN9NDebugger12GetBacktraceEmm + 57"
+	//		"2   NanoTest_macOS                      0x0000000100c569f4 _ZN12_GLOBAL__N_129____C_A_T_C_H____T_E_S_T____24testEv + 1060"
+	//		"3   NanoTest_macOS                      0x0000000100c55efb _ZN12_GLOBAL__N_129____C_A_T_C_H____T_E_S_T____210InvokeTestEv + 251"
+	//		"4   NanoTest_macOS                      0x0000000100c5d5f5 _ZNK5Catch19TestInvokerAsMethodIN12_GLOBAL__N_129____C_A_T_C_H____T_E_S_T____2EE6invokeEv + 549"
+	//		"5   NanoTest_macOS                      0x0000000100335e95 _ZNK5Catch8TestCase6invokeEv + 325"
+	//		"6   NanoTest_macOS                      0x0000000100335b77 _ZN5Catch10RunContext20invokeActiveTestCaseEv + 423"
+	//		"7   NanoTest_macOS                      0x000000010032a1cf _ZN5Catch10RunContext14runCurrentTestERNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES8_ + 3471"
+	//		"8   NanoTest_macOS                      0x0000000100326cff _ZN5Catch10RunContext7runTestERKNS_8TestCaseE + 2943"
+	//		"9   NanoTest_macOS                      0x0000000100343fa1 _ZN5Catch12_GLOBAL__N_19TestGroup7executeEv + 2401"
+	//		"10  NanoTest_macOS                      0x00000001003417fa _ZN5Catch7Session11runInternalEv + 2426"
+	//		"11  NanoTest_macOS                      0x0000000100340cc0 _ZN5Catch7Session3runEv + 416"
+	//		"12  NanoTest_macOS                      0x00000001003be38c _ZN5Catch7Session3runIcEEiiPKPKT_ + 284"
+	//		"13  NanoTest_macOS                      0x00000001003be0ac main + 364"
+	//		"14  libdyld.dylib                       0x00007fff709163d5 start + 1"
+	//
+	NVectorString theTrace;
+
+	for (size_t n = 0; n < numFrames; n++)
+	{
+		if (n >= skipFrames)
+		{
+			NString       theSymbol(theSymbols[n]);
+			NPatternGroup theMatch = theSymbol.FindGroup(kNDebuggerSymbolName, kNStringPattern);
+
+			if (!theMatch.theGroups.empty())
+			{
+				// Demangle the name
+				//
+				// C symbols can't be demangled so are used as-is.
+				int     sysErr  = 0;
+				NString theName = theSymbol.GetSubstring(theMatch.theGroups[0]);
+				char*   cppName = abi::__cxa_demangle(theName.GetUTF8(), nullptr, nullptr, &sysErr);
+
+				if (cppName != nullptr && sysErr == 0)
+				{
+					theName = cppName;
+					free(cppName);
+				}
+
+				theTrace.emplace_back(theName);
+			}
+		}
+	}
+
+
+
+	// Clean up
+	if (theSymbols != nullptr)
+	{
+		free(theSymbols);
+	}
+
+	return theTrace;
 }
 
 

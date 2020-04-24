@@ -1,8 +1,8 @@
 /*	NAME:
-		NSharedDarwin.h
+		NDebugger.cpp
 
 	DESCRIPTION:
-		Darwin support.
+		Log system.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,61 +36,27 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_DARWIN_H
-#define NSHARED_DARWIN_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NDebugger.h"
+
 // Nano
-#include "NFileInfo.h"
-#include "NFilePath.h"
-#include "NFileUtils.h"
-#include "NSemaphore.h"
-#include "NString.h"
-#include "NTime.h"
+#include "NTextUtils.h"
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NUsageBucket::GetBacktraceID : Get a backtrace identifier.
 //-----------------------------------------------------------------------------
-class NSharedDarwin
+NString NDebugger::GetBacktraceID(size_t skipFrames, size_t numFrames)
 {
-public:
-	// Time
-	static NTime                        GetTime();
-	static NInterval                    GetUpTime();
-	static uint64_t                     GetClockTicks();
-	static uint64_t                     GetClockFrequency();
 
 
-	// Debugger
-	static bool                         DebuggerIsActive();
-	static NVectorString                DebuggerGetBacktrace(size_t skipFrames, size_t numFrames);
-
-
-	// Get file state
-	static bool                         GetFileState(const NFilePath& thePath,
-													 NFileInfoFlags   theFlags,
-													 NFileInfoFlags&  validState,
-													 NFileInfoState&  theState);
-
-
-	// File paths
-	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
-	static NFilePath                    PathLocation(NFileLocation theLocation);
-
-
-	// Semaphores
-	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
-	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
-	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
-};
-
-
-
-#endif // NSHARED_DARWIN_H
+	// Get the ID
+	//
+	// We increase skipFrames to skip ourselves.
+	return NTextUtils::Join(GetBacktrace(skipFrames + 1, numFrames), " < ");
+}

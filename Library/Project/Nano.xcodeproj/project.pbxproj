@@ -21,6 +21,12 @@
 		AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
 		AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
 		AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
+		AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304324524C9100F21BF6 /* NDebugger.cpp */; };
+		AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304324524C9100F21BF6 /* NDebugger.cpp */; };
+		AB2A304724524C9100F21BF6 /* NDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304324524C9100F21BF6 /* NDebugger.cpp */; };
+		AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304E24524F5F00F21BF6 /* iOSNDebugger.cpp */; };
+		AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */; };
+		AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */; };
 		AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */; };
 		AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
 		AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
@@ -304,6 +310,14 @@
 		AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSemaphore.cpp; sourceTree = "<group>"; };
 		AB23BB5D102B67DB009CA347 /* NSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSemaphore.h; sourceTree = "<group>"; };
 		AB28FBDD0FB5D36300F72C61 /* libNano_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB2A304324524C9100F21BF6 /* NDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebugger.cpp; sourceTree = "<group>"; };
+		AB2A304424524C9100F21BF6 /* NDebugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebugger.h; sourceTree = "<group>"; };
+		AB2A304C24524F5F00F21BF6 /* AndroidNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNDebugger.cpp; sourceTree = "<group>"; };
+		AB2A304D24524F5F00F21BF6 /* LinuxNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinuxNDebugger.cpp; sourceTree = "<group>"; };
+		AB2A304E24524F5F00F21BF6 /* iOSNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNDebugger.cpp; sourceTree = "<group>"; };
+		AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNDebugger.cpp; sourceTree = "<group>"; };
+		AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tvOSNDebugger.cpp; sourceTree = "<group>"; };
+		AB2A305124524F5F00F21BF6 /* WindowsNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsNDebugger.cpp; sourceTree = "<group>"; };
 		AB2AAC621035B621007BC4E6 /* NUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTI.cpp; sourceTree = "<group>"; };
 		AB2AAC631035B621007BC4E6 /* NUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTI.h; sourceTree = "<group>"; };
 		AB2AAD69103962E4007BC4E6 /* NLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLocale.h; sourceTree = "<group>"; };
@@ -774,6 +788,7 @@
 		AB07EA242399D3C500E0AC49 /* Android */ = {
 			isa = PBXGroup;
 			children = (
+				AB2A304C24524F5F00F21BF6 /* AndroidNDebugger.cpp */,
 				ABDCE8CA241C604F0054A16E /* AndroidNFileHandle.cpp */,
 				ABDCE8C5241C604E0054A16E /* AndroidNFileInfo.cpp */,
 				AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */,
@@ -786,6 +801,7 @@
 		AB07EA292399D3EA00E0AC49 /* tvOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */,
 				ABDCE8CC241C604F0054A16E /* tvOSNFileHandle.cpp */,
 				ABDCE8C9241C604F0054A16E /* tvOSNFileInfo.cpp */,
 				AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */,
@@ -986,6 +1002,7 @@
 		AB555160173FF8D8008D8AF6 /* Linux */ = {
 			isa = PBXGroup;
 			children = (
+				AB2A304D24524F5F00F21BF6 /* LinuxNDebugger.cpp */,
 				ABDCE8C7241C604E0054A16E /* LinuxNFileHandle.cpp */,
 				ABDCE8C6241C604E0054A16E /* LinuxNFileInfo.cpp */,
 				AB53BBE92421240A009960AA /* LinuxNFileUtils.cpp */,
@@ -1039,6 +1056,8 @@
 				AB623267242AF51300651349 /* NDebug.cpp */,
 				AB623262242AF51300651349 /* NDebug.h */,
 				AB623261242AF51300651349 /* NDebug.inl */,
+				AB2A304324524C9100F21BF6 /* NDebugger.cpp */,
+				AB2A304424524C9100F21BF6 /* NDebugger.h */,
 				AB623263242AF51300651349 /* NLog.cpp */,
 				AB623265242AF51300651349 /* NLog.h */,
 				AB623264242AF51300651349 /* NLogOutput.cpp */,
@@ -1335,6 +1354,7 @@
 		AB91551D0F9B4DD5009FFEAF /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */,
 				ABDCE8CB241C604F0054A16E /* macOSNFileHandle.cpp */,
 				ABDCE8CE241C604F0054A16E /* macOSNFileInfo.cpp */,
 				AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */,
@@ -1367,6 +1387,7 @@
 				AB9155350F9B4DD6009FFEAF /* NWinTarget.h */,
 				AB9155360F9B4DD6009FFEAF /* NWinThread.cpp */,
 				AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */,
+				AB2A305124524F5F00F21BF6 /* WindowsNDebugger.cpp */,
 				ABDCE8C8241C604F0054A16E /* WindowsNFileHandle.cpp */,
 				ABDCE8C3241C604E0054A16E /* WindowsNFileInfo.cpp */,
 				AB53BBE4242123EB009960AA /* WindowsNFileUtils.cpp */,
@@ -1547,6 +1568,7 @@
 		ABB95B730FB7250100C5A7FF /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				AB2A304E24524F5F00F21BF6 /* iOSNDebugger.cpp */,
 				ABDCE8C4241C604E0054A16E /* iOSNFileHandle.cpp */,
 				ABDCE8CD241C604F0054A16E /* iOSNFileInfo.cpp */,
 				AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */,
@@ -1714,6 +1736,7 @@
 				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB62326A242AF51300651349 /* NLog.cpp in Sources */,
+				AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */,
 				AB623270242AF51300651349 /* NDebug.cpp in Sources */,
 				AB51282023D2810600528FBE /* pcre2_convert.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
@@ -1737,6 +1760,7 @@
 				AB51287A23D2810600528FBE /* pcre2_serialize.c in Sources */,
 				AB51284A23D2810600528FBE /* pcre2_jit_compile.c in Sources */,
 				ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */,
+				AB2A304724524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				AB51287723D2810600528FBE /* pcre2_auto_possess.c in Sources */,
 				AB51281D23D2810600528FBE /* pcre2_script_run.c in Sources */,
@@ -1800,6 +1824,7 @@
 				AB51285123D2810600528FBE /* pcre2_maketables.c in Sources */,
 				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB51283323D2810600528FBE /* pcre2_extuni.c in Sources */,
+				AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */,
 				AB51284E23D2810600528FBE /* pcre2_tables.c in Sources */,
 				AB56390E23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB51283023D2810600528FBE /* pcre2_pattern_info.c in Sources */,
@@ -1807,6 +1832,7 @@
 				AB51284823D2810600528FBE /* pcre2_jit_compile.c in Sources */,
 				AB51287523D2810600528FBE /* pcre2_auto_possess.c in Sources */,
 				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
+				AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				AB4EB4C02430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				AB51281B23D2810600528FBE /* pcre2_script_run.c in Sources */,
 				AB51285423D2810600528FBE /* pcre2_ucd.c in Sources */,
@@ -1877,6 +1903,7 @@
 				ABDCE8B6241C59570054A16E /* NFileHandle.cpp in Sources */,
 				ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB4EB4C12430EE0F00D36016 /* NFilePath.cpp in Sources */,
+				AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
 				AB51286723D2810600528FBE /* pcre2_match_data.c in Sources */,
@@ -1888,6 +1915,7 @@
 				AB51283723D2810600528FBE /* pcre2_chartables.c in Sources */,
 				AB51284C23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
 				AB51282B23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
+				AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */,
 				AB51286A23D2810600528FBE /* pcre2_error.c in Sources */,
 				AB51284023D2810600528FBE /* pcre2_substring.c in Sources */,
 				AB51285823D2810600528FBE /* pcre2_find_bracket.c in Sources */,

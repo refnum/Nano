@@ -19,6 +19,7 @@ target_sources("${PROJECT_NAME}"
 	PRIVATE
 		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Debugging/TDebug.cpp"
+		"${TARGET_SOURCE_DIR}/Nano/Debugging/TDebugger.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Debugging/TLog.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Debugging/TLogOutput.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Debugging/TUsageBucket.cpp"

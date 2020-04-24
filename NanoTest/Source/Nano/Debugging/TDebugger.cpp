@@ -1,8 +1,8 @@
 /*	NAME:
-		NSharedDarwin.h
+		TDebugger.cpp
 
 	DESCRIPTION:
-		Darwin support.
+		NDebugger tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,61 +36,74 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_DARWIN_H
-#define NSHARED_DARWIN_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NFileInfo.h"
-#include "NFilePath.h"
-#include "NFileUtils.h"
-#include "NSemaphore.h"
-#include "NString.h"
-#include "NTime.h"
+#include "NDebugger.h"
+#include "NTestFixture.h"
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		Fixture
 //-----------------------------------------------------------------------------
-class NSharedDarwin
+NANO_FIXTURE(TDebugger){};
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TDebugger, "IsActive")
 {
-public:
-	// Time
-	static NTime                        GetTime();
-	static NInterval                    GetUpTime();
-	static uint64_t                     GetClockTicks();
-	static uint64_t                     GetClockFrequency();
 
 
-	// Debugger
-	static bool                         DebuggerIsActive();
-	static NVectorString                DebuggerGetBacktrace(size_t skipFrames, size_t numFrames);
-
-
-	// Get file state
-	static bool                         GetFileState(const NFilePath& thePath,
-													 NFileInfoFlags   theFlags,
-													 NFileInfoFlags&  validState,
-													 NFileInfoState&  theState);
-
-
-	// File paths
-	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
-	static NFilePath                    PathLocation(NFileLocation theLocation);
-
-
-	// Semaphores
-	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
-	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
-	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
-};
+	// Perform the test
+	bool isActive = NDebugger::IsActive();
+	NN_UNUSED(isActive);
+}
 
 
 
-#endif // NSHARED_DARWIN_H
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TDebugger, "GetBacktrace")
+{
+
+
+	// Perform the test
+	NVectorString trace1 = NDebugger::GetBacktrace();
+	NVectorString trace2 = NDebugger::GetBacktrace(2);
+	NVectorString trace3 = NDebugger::GetBacktrace(4, 40);
+
+	REQUIRE(trace1.size() >= 5);
+	REQUIRE(trace2.size() == (trace1.size() - 2));
+	REQUIRE(trace3.size() == (trace1.size() - 4));
+
+	REQUIRE(trace2[0] == trace1[2]);
+	REQUIRE(trace3[0] == trace1[4]);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TDebugger, "GetBacktraceID")
+{
+
+
+	// Perform the test
+	NString theID = NDebugger::GetBacktraceID();
+	REQUIRE(!theID.IsEmpty());
+}

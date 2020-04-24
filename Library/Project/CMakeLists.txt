@@ -24,6 +24,8 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Debugging/NDebug.cpp"
 		"${TARGET_SOURCE_DIR}/Debugging/NDebug.h"
 		"${TARGET_SOURCE_DIR}/Debugging/NDebug.inl"
+		"${TARGET_SOURCE_DIR}/Debugging/NDebugger.cpp"
+		"${TARGET_SOURCE_DIR}/Debugging/NDebugger.h"
 		"${TARGET_SOURCE_DIR}/Debugging/NLog.cpp"
 		"${TARGET_SOURCE_DIR}/Debugging/NLog.h"
 		"${TARGET_SOURCE_DIR}/Debugging/NLogOutput.cpp"
@@ -181,6 +183,7 @@ target_include_directories("${PROJECT_NAME}"
 if (NN_TARGET_ANDROID)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileUtils.cpp"
@@ -208,6 +211,7 @@ endif()
 if (NN_TARGET_IOS)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
+			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileUtils.cpp"
@@ -235,6 +239,7 @@ endif()
 if (NN_TARGET_LINUX)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileUtils.cpp"
@@ -263,6 +268,7 @@ endif()
 if (NN_TARGET_MACOS)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
+			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileUtils.mm"
@@ -294,6 +300,7 @@ if (NN_TARGET_TVOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedPOSIX.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileUtils.cpp"
@@ -320,6 +327,7 @@ if (NN_TARGET_WINDOWS)
 			"${PROJECT_SOURCE_DIR}/../Support/Visual Studio/Nano.natvis"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedWindows.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedWindows.h"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileUtils.cpp"
