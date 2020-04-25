@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NData.h"
+#include "NMixinComparable.h"
 #include "NString.h"
 
 
@@ -54,9 +55,9 @@
 //-----------------------------------------------------------------------------
 // Data digest
 //
-// Template to implement a digest of a fixed size.
+// Simple fixed-size data digest.
 template<size_t N>
-class NDigestX
+class NDigestX : public NMixinComparable<NDigestX<N>>
 {
 public:
 										NDigestX(size_t theSize, const uint8_t* thePtr);
@@ -89,11 +90,10 @@ public:
 	NString                             GetString() const;
 
 
-	// Operators
-	bool                                operator<( const NDigestX& otherDigest) const;
-	bool                                operator>( const NDigestX& otherDigest) const;
-	bool                                operator==(const NDigestX& otherDigest) const;
-	bool                                operator!=(const NDigestX& otherDigest) const;
+public:
+	// NMixinComparable
+	bool                                CompareEqual(const NDigestX<N>& theDigest) const;
+	NComparison                         CompareOrder(const NDigestX<N>& theDigest) const;
 
 
 private:

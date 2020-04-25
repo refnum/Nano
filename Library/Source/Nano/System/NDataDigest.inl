@@ -253,16 +253,17 @@ NString NDigestX<N>::GetString() const
 
 
 
+#pragma mark NMixinComparable
 //=============================================================================
-//		NDigestX::operator< : Less-than operator.
+//		NDigestX::CompareEqual : Perform an equality comparison.
 //-----------------------------------------------------------------------------
 template<size_t N>
-bool NDigestX<N>::operator<(const NDigestX<N>& otherDigest) const
+bool NDigestX<N>::CompareEqual(const NDigestX<N>& theDigest) const
 {
 
 
-	// For std::map
-	return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes));
+	// Compare the content
+	return CompareOrder(theDigest) == NComparison::EqualTo;
 }
 
 
@@ -270,47 +271,15 @@ bool NDigestX<N>::operator<(const NDigestX<N>& otherDigest) const
 
 
 //=============================================================================
-//		NDigestX::operator> : Greater-than operator.
+//		NDigestX::CompareOrder : Perform a three-way comparison.
 //-----------------------------------------------------------------------------
 template<size_t N>
-bool NDigestX<N>::operator>(const NDigestX<N>& otherDigest) const
+NComparison NDigestX<N>::CompareOrder(const NDigestX<N>& theDigest) const
 {
 
 
-	// For comparisons
-	return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes));
-}
-
-
-
-
-
-//=============================================================================
-//		NDigestX::operator== : Equality operator.
-//-----------------------------------------------------------------------------
-template<size_t N>
-bool NDigestX<N>::operator==(const NDigestX<N>& otherDigest) const
-{
-
-
-	// For std::unordered_map
-	return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes)) == 0;
-}
-
-
-
-
-
-//=============================================================================
-//		NDigestX::operator!= : Inequaliy operator.
-//-----------------------------------------------------------------------------
-template<size_t N>
-bool NDigestX<N>::operator!=(const NDigestX<N>& otherDigest) const
-{
-
-
-	// For comparisons
-	return memcmp(mBytes, &otherDigest.mBytes, sizeof(mBytes)) != 0;
+	// Compare the content
+	return NCompare(sizeof(mBytes), mBytes, sizeof(mBytes), theDigest.mBytes);
 }
 
 
