@@ -61,7 +61,7 @@ NDigestX<N>::NDigestX(size_t theSize, const uint8_t* thePtr)
 
 
 	// Validate our parameters
-	NN_REQUIRE(theSize == N);
+	NN_REQUIRE(theSize == sizeof(mBytes));
 
 
 
@@ -193,12 +193,12 @@ void NDigestX<N>::SetData(const NData& theData)
 
 
 	// Validate our parameters
-	NN_REQUIRE(theData.GetSize() == N);
+	NN_REQUIRE(theData.GetSize() == sizeof(mBytes));
 
 
 
 	// Set the data
-	memcpy(mBytes, theData.GetData(), N);
+	memcpy(mBytes, theData.GetData(), sizeof(mBytes));
 }
 
 
