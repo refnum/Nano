@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NData.h"
+#include "NString.h"
 
 
 
@@ -82,6 +83,10 @@ public:
 	// Get the bytes
 	const uint8_t*                      GetBytes() const;
 	uint8_t*                            GetMutableBytes();
+
+
+	// Get a hex string
+	NString                             GetString() const;
 
 
 	// Operators

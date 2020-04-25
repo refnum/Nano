@@ -44,6 +44,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NTextUtils.h"
 #include "Nano_xxHash.h"
 
 
@@ -230,6 +231,22 @@ uint8_t* NDigestX<N>::GetMutableBytes()
 
 	// Get the bytes
 	return mBytes;
+}
+
+
+
+
+
+//=============================================================================
+//		NDigestX::GetString : Get a hex string.
+//-----------------------------------------------------------------------------
+template<size_t N>
+NString NDigestX<N>::GetString() const
+{
+
+
+	// Get the hex
+	return NTextUtils::GetHex(sizeof(mBytes), mBytes);
 }
 
 
