@@ -47,12 +47,7 @@ extern "C" {
 /****************************************************************************
  *		Nano																*
  ****************************************************************************/
-// Defined sized-types for Windows
-#if NN_TARGET_WINDOWS
-	typedef uint8_t  u_int8_t;
-	typedef uint32_t u_int32_t;
-	typedef uint64_t u_int64_t;
-#endif
+#define SHA2_USE_INTTYPES_H
 
 
 

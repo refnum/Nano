@@ -64,13 +64,18 @@
 /****************************************************************************
  *		Nano																*
  ****************************************************************************/
-// Use NN_ASSERT to avoid 64-bit warnings from assert()
+#include "NDebug.h"
+
+#include <stdbool.h>
+
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-align");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wshorten-64-to-32");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");
+
 #undef  assert
-#define assert(_e)		NN_ASSERT(_e)
+#define assert(_e)		NN_REQUIRE(_e)
 
-
-// Define byte order for Windows
-#if NN_TARGET_WINDOWS
+#if !defined(BYTE_ORDER)
 	#define LITTLE_ENDIAN 1234
 	#define BIG_ENDIAN    4321
 

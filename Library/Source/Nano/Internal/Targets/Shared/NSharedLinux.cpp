@@ -89,8 +89,6 @@ constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreation
 
 
 
-
-
 #if NN_TARGET_LINUX && defined(SYS_statx)
 //=============================================================================
 //		Internal Functions

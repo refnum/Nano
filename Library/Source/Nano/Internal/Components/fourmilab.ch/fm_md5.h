@@ -1,24 +1,23 @@
 #ifndef FM_MD5_H
 #define FM_MD5_H
 
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include "NanoTargets.h"
+#include <stdint.h>
 
-
-/****************************************************************************
- *		Nano																*
- ****************************************************************************/
-#if defined(NANO_TARGET_HDR)
+#if defined(NANO_TARGETS_H)
 
 #if NN_ENDIAN_BIG
 	#define HIGHFIRST
 #endif
 
-#ifndef _UINT32
-	typedef uint32_t uint32;
-#endif
+
 
 
 
@@ -41,21 +40,18 @@ extern "C" {
 
 #define HIGHFIRST
 
-#ifdef __i386__
+#if defined(__i386__) || defined(__x86_64__) || defined(__amd64__)
 #undef HIGHFIRST
-#endif
-
-/*  On machines where "long" is 64 bits, we need to declare
-    uint32 as something guaranteed to be 32 bits.  */
-#if NN_ARCH_64 || defined(__alpha)
-typedef unsigned int uint32;
-#else
-typedef unsigned long uint32;
 #endif
 
 #endif // !NANO_TARGET_HDR
 
 
+
+/*  On machines where "long" is 64 bits, we need to declare
+    uint32 as something guaranteed to be 32 bits.  */
+
+typedef uint32_t uint32;
 
 struct MD5Context {
         uint32 buf[4];
@@ -73,16 +69,19 @@ extern void MD5Transform(uint32 buf[4], uint32 in[16]);
  */
 typedef struct MD5Context MD5_CTX;
 
-/*  Define CHECK_HARDWARE_PROPERTIES to have main,c verify
+/*  Define CHECK_HARDWARE_PROPERTIES to have main.c verify
     byte order and uint32 settings.  */
 #define CHECK_HARDWARE_PROPERTIES
 
 
 
+
+
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
 #ifdef    __cplusplus
 }
 #endif /* __cplusplus */
-
-
 
 #endif /* !FM_MD5_H */

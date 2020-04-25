@@ -13,6 +13,30 @@
 #ifndef ZUTIL_H
 #define ZUTIL_H
 
+
+
+
+
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
+#include "NanoMacros.h"
+
+#include <stdbool.h>
+#include <assert.h>
+
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-qual");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcomma");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcovered-switch-default");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-int-conversion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-variable-declarations");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wshorten-64-to-32");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-macros");
+
+
+
+
 #define ZLIB_INTERNAL
 #include "nano_zlib.h"
 

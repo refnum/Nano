@@ -27,6 +27,48 @@
 		AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304E24524F5F00F21BF6 /* iOSNDebugger.cpp */; };
 		AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */; };
 		AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */; };
+		AB2F1DBA2453A1AD005F8C4F /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
+		AB2F1DBB2453A1AD005F8C4F /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
+		AB2F1DBC2453A1AD005F8C4F /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
+		AB2F1DBD2453AD30005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
+		AB2F1DBE2453AD31005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
+		AB2F1DBF2453AD31005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
+		AB2F1DC02453B735005F8C4F /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA67F1018AB360060ED12 /* adler32.c */; };
+		AB2F1DC12453B735005F8C4F /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6801018AB360060ED12 /* compress.c */; };
+		AB2F1DC22453B735005F8C4F /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; };
+		AB2F1DC32453B735005F8C4F /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6831018AB360060ED12 /* deflate.c */; };
+		AB2F1DC42453B735005F8C4F /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6861018AB360060ED12 /* gzio.c */; };
+		AB2F1DC52453B735005F8C4F /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6871018AB360060ED12 /* infback.c */; };
+		AB2F1DC62453B735005F8C4F /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6881018AB360060ED12 /* inffast.c */; };
+		AB2F1DC72453B735005F8C4F /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68B1018AB360060ED12 /* inflate.c */; };
+		AB2F1DC82453B735005F8C4F /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68D1018AB360060ED12 /* inftrees.c */; };
+		AB2F1DC92453B735005F8C4F /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6901018AB360060ED12 /* trees.c */; };
+		AB2F1DCA2453B735005F8C4F /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6921018AB360060ED12 /* uncompr.c */; };
+		AB2F1DCB2453B735005F8C4F /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6961018AB360060ED12 /* zutil.c */; };
+		AB2F1DCC2453B735005F8C4F /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA67F1018AB360060ED12 /* adler32.c */; };
+		AB2F1DCD2453B735005F8C4F /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6801018AB360060ED12 /* compress.c */; };
+		AB2F1DCE2453B735005F8C4F /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; };
+		AB2F1DCF2453B735005F8C4F /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6831018AB360060ED12 /* deflate.c */; };
+		AB2F1DD02453B735005F8C4F /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6861018AB360060ED12 /* gzio.c */; };
+		AB2F1DD12453B735005F8C4F /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6871018AB360060ED12 /* infback.c */; };
+		AB2F1DD22453B735005F8C4F /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6881018AB360060ED12 /* inffast.c */; };
+		AB2F1DD32453B735005F8C4F /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68B1018AB360060ED12 /* inflate.c */; };
+		AB2F1DD42453B735005F8C4F /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68D1018AB360060ED12 /* inftrees.c */; };
+		AB2F1DD52453B735005F8C4F /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6901018AB360060ED12 /* trees.c */; };
+		AB2F1DD62453B735005F8C4F /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6921018AB360060ED12 /* uncompr.c */; };
+		AB2F1DD72453B735005F8C4F /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6961018AB360060ED12 /* zutil.c */; };
+		AB2F1DD82453B736005F8C4F /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA67F1018AB360060ED12 /* adler32.c */; };
+		AB2F1DD92453B736005F8C4F /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6801018AB360060ED12 /* compress.c */; };
+		AB2F1DDA2453B736005F8C4F /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6811018AB360060ED12 /* crc32.c */; };
+		AB2F1DDB2453B736005F8C4F /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6831018AB360060ED12 /* deflate.c */; };
+		AB2F1DDC2453B736005F8C4F /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6861018AB360060ED12 /* gzio.c */; };
+		AB2F1DDD2453B736005F8C4F /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6871018AB360060ED12 /* infback.c */; };
+		AB2F1DDE2453B736005F8C4F /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6881018AB360060ED12 /* inffast.c */; };
+		AB2F1DDF2453B736005F8C4F /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68B1018AB360060ED12 /* inflate.c */; };
+		AB2F1DE02453B736005F8C4F /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA68D1018AB360060ED12 /* inftrees.c */; };
+		AB2F1DE12453B736005F8C4F /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6901018AB360060ED12 /* trees.c */; };
+		AB2F1DE22453B736005F8C4F /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6921018AB360060ED12 /* uncompr.c */; };
+		AB2F1DE32453B736005F8C4F /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA6961018AB360060ED12 /* zutil.c */; };
 		AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */; };
 		AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
 		AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
@@ -1714,6 +1756,7 @@
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				AB51283823D2810600528FBE /* pcre2_chartables.c in Sources */,
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
+				AB2F1DD92453B736005F8C4F /* compress.c in Sources */,
 				AB51286B23D2810600528FBE /* pcre2_error.c in Sources */,
 				AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB51282F23D2810600528FBE /* pcre2_string_utils.c in Sources */,
@@ -1733,13 +1776,19 @@
 				AB51284D23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
 				AB51285C23D2810600528FBE /* pcre2_substitute.c in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
+				AB2F1DDC2453B736005F8C4F /* gzio.c in Sources */,
+				AB2F1DBC2453A1AD005F8C4F /* sha2.c in Sources */,
 				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB62326A242AF51300651349 /* NLog.cpp in Sources */,
+				AB2F1DDF2453B736005F8C4F /* inflate.c in Sources */,
+				AB2F1DD82453B736005F8C4F /* adler32.c in Sources */,
 				AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */,
 				AB623270242AF51300651349 /* NDebug.cpp in Sources */,
+				AB2F1DE12453B736005F8C4F /* trees.c in Sources */,
 				AB51282023D2810600528FBE /* pcre2_convert.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
+				AB2F1DDA2453B736005F8C4F /* crc32.c in Sources */,
 				AB51286823D2810600528FBE /* pcre2_match_data.c in Sources */,
 				AB51284123D2810600528FBE /* pcre2_substring.c in Sources */,
 				AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */,
@@ -1747,13 +1796,17 @@
 				ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */,
 				ABDCE8D5241C61880054A16E /* tvOSNSemaphore.cpp in Sources */,
+				AB2F1DE02453B736005F8C4F /* inftrees.c in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB51285323D2810600528FBE /* pcre2_maketables.c in Sources */,
+				AB2F1DBD2453AD30005F8C4F /* fm_md5.c in Sources */,
+				AB2F1DDD2453B736005F8C4F /* infback.c in Sources */,
 				ABDCE8D3241C61880054A16E /* tvOSNFileHandle.cpp in Sources */,
 				AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABDCE8D4241C61880054A16E /* tvOSNFileInfo.cpp in Sources */,
 				AB51283523D2810600528FBE /* pcre2_extuni.c in Sources */,
+				AB2F1DE22453B736005F8C4F /* uncompr.c in Sources */,
 				AB51285023D2810600528FBE /* pcre2_tables.c in Sources */,
 				AB56391023C2A3A900675F68 /* NString.cpp in Sources */,
 				AB51283223D2810600528FBE /* pcre2_pattern_info.c in Sources */,
@@ -1772,9 +1825,12 @@
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB51285923D2810600528FBE /* pcre2_find_bracket.c in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
+				AB2F1DDB2453B736005F8C4F /* deflate.c in Sources */,
 				AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
 				AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
+				AB2F1DDE2453B736005F8C4F /* inffast.c in Sources */,
+				AB2F1DE32453B736005F8C4F /* zutil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1786,6 +1842,7 @@
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
 				AB51283623D2810600528FBE /* pcre2_chartables.c in Sources */,
+				AB2F1DC12453B735005F8C4F /* compress.c in Sources */,
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB4EB4CA2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB51286923D2810600528FBE /* pcre2_error.c in Sources */,
@@ -1805,13 +1862,19 @@
 				AB51286023D2810600528FBE /* pcre2_valid_utf.c in Sources */,
 				AB51284B23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
 				AB51285A23D2810600528FBE /* pcre2_substitute.c in Sources */,
+				AB2F1DC42453B735005F8C4F /* gzio.c in Sources */,
+				AB2F1DBA2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
 				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				ABDCE8CF241C60540054A16E /* iOSNFileHandle.cpp in Sources */,
+				AB2F1DC72453B735005F8C4F /* inflate.c in Sources */,
+				AB2F1DC02453B735005F8C4F /* adler32.c in Sources */,
 				AB623268242AF51300651349 /* NLog.cpp in Sources */,
 				AB62326E242AF51300651349 /* NDebug.cpp in Sources */,
+				AB2F1DC92453B735005F8C4F /* trees.c in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB51281E23D2810600528FBE /* pcre2_convert.c in Sources */,
+				AB2F1DC22453B735005F8C4F /* crc32.c in Sources */,
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				AB51286623D2810600528FBE /* pcre2_match_data.c in Sources */,
 				ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */,
@@ -1819,13 +1882,17 @@
 				AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB51283F23D2810600528FBE /* pcre2_substring.c in Sources */,
 				ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */,
+				AB2F1DC82453B735005F8C4F /* inftrees.c in Sources */,
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
 				AB51285123D2810600528FBE /* pcre2_maketables.c in Sources */,
+				AB2F1DBF2453AD31005F8C4F /* fm_md5.c in Sources */,
+				AB2F1DC52453B735005F8C4F /* infback.c in Sources */,
 				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB51283323D2810600528FBE /* pcre2_extuni.c in Sources */,
 				AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */,
 				AB51284E23D2810600528FBE /* pcre2_tables.c in Sources */,
+				AB2F1DCA2453B735005F8C4F /* uncompr.c in Sources */,
 				AB56390E23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB51283023D2810600528FBE /* pcre2_pattern_info.c in Sources */,
 				AB51287823D2810600528FBE /* pcre2_serialize.c in Sources */,
@@ -1844,9 +1911,12 @@
 				AB51285723D2810600528FBE /* pcre2_find_bracket.c in Sources */,
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
+				AB2F1DC32453B735005F8C4F /* deflate.c in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
+				AB2F1DC62453B735005F8C4F /* inffast.c in Sources */,
+				AB2F1DCB2453B735005F8C4F /* zutil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1858,6 +1928,7 @@
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB51287623D2810600528FBE /* pcre2_auto_possess.c in Sources */,
+				AB2F1DCD2453B735005F8C4F /* compress.c in Sources */,
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB4EB4CB2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB51285E23D2810600528FBE /* pcre2_study.c in Sources */,
@@ -1877,13 +1948,19 @@
 				AB51286D23D2810600528FBE /* pcre2_config.c in Sources */,
 				AB51282223D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
 				AB51281923D2810600528FBE /* pcre2_xclass.c in Sources */,
+				AB2F1DD02453B735005F8C4F /* gzio.c in Sources */,
+				AB2F1DBB2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */,
 				AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB51285523D2810600528FBE /* pcre2_ucd.c in Sources */,
+				AB2F1DD32453B735005F8C4F /* inflate.c in Sources */,
+				AB2F1DCC2453B735005F8C4F /* adler32.c in Sources */,
 				AB623269242AF51300651349 /* NLog.cpp in Sources */,
 				AB62326F242AF51300651349 /* NDebug.cpp in Sources */,
+				AB2F1DD52453B735005F8C4F /* trees.c in Sources */,
 				AB51286123D2810600528FBE /* pcre2_valid_utf.c in Sources */,
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
+				AB2F1DCE2453B735005F8C4F /* crc32.c in Sources */,
 				ABDCE8DF241C61960054A16E /* macOSNFileHandle.cpp in Sources */,
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,
 				AB51283A23D2810600528FBE /* pcre2_match.c in Sources */,
@@ -1891,13 +1968,17 @@
 				ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */,
+				AB2F1DD42453B735005F8C4F /* inftrees.c in Sources */,
 				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABDCE8E0241C61960054A16E /* macOSNFileInfo.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
+				AB2F1DBE2453AD31005F8C4F /* fm_md5.c in Sources */,
+				AB2F1DD12453B735005F8C4F /* infback.c in Sources */,
 				AB51281F23D2810600528FBE /* pcre2_convert.c in Sources */,
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
+				AB2F1DD62453B735005F8C4F /* uncompr.c in Sources */,
 				ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				AB51281C23D2810600528FBE /* pcre2_script_run.c in Sources */,
 				ABDCE8B6241C59570054A16E /* NFileHandle.cpp in Sources */,
@@ -1916,9 +1997,12 @@
 				AB51284C23D2810600528FBE /* pcre2_ord2utf.c in Sources */,
 				AB51282B23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
 				AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */,
+				AB2F1DCF2453B735005F8C4F /* deflate.c in Sources */,
 				AB51286A23D2810600528FBE /* pcre2_error.c in Sources */,
 				AB51284023D2810600528FBE /* pcre2_substring.c in Sources */,
 				AB51285823D2810600528FBE /* pcre2_find_bracket.c in Sources */,
+				AB2F1DD22453B735005F8C4F /* inffast.c in Sources */,
+				AB2F1DD72453B735005F8C4F /* zutil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

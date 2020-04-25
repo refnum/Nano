@@ -4,6 +4,7 @@
  */
 
 /* @(#) $Id$ */
+#include "zutil.h"
 
 #define ZLIB_INTERNAL
 #include "nano_zlib.h"
