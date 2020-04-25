@@ -28,6 +28,9 @@
 		AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304824524CD700F21BF6 /* TDebugger.cpp */; };
 		AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304824524CD700F21BF6 /* TDebugger.cpp */; };
 		AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304824524CD700F21BF6 /* TDebugger.cpp */; };
+		AB2F1DB724539CF3005F8C4F /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
+		AB2F1DB824539CF3005F8C4F /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
+		AB2F1DB924539CF3005F8C4F /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
@@ -866,6 +869,7 @@
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */,
+				AB2F1DB824539CF3005F8C4F /* TDataDigest.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
 				AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
@@ -911,6 +915,7 @@
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */,
+				AB2F1DB724539CF3005F8C4F /* TDataDigest.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
 				AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
@@ -956,6 +961,7 @@
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */,
+				AB2F1DB924539CF3005F8C4F /* TDataDigest.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
 				AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
