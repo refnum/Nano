@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NData.h"
 #include "NTestFixture.h"
 #include "NTextUtils.h"
 
@@ -51,6 +52,8 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 static const NVectorString kTestStrings                     = {"One", "Two", "", "", "Three", "Four", ""};
+static const uint8_t       kTestBytes[]                     = {0xA1, 0xB2, 0xC3, 0xD4};
+static const NData         kTestData(sizeof(kTestBytes), kTestBytes);
 
 
 
@@ -171,6 +174,22 @@ NANO_TEST(NTextUtils, "IsSentence")
 	REQUIRE(!NTextUtils::IsSentence(U'Z'));
 	REQUIRE(!NTextUtils::IsSentence(U'a'));
 	REQUIRE(!NTextUtils::IsSentence(U'z'));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "GetHex")
+{
+
+
+	// Perform the test
+	REQUIRE(NTextUtils::GetHex(kTestData) == "a1b2c3d4");
+	REQUIRE(NTextUtils::GetHex(std::size(kTestBytes), kTestBytes) == "a1b2c3d4");
 }
 
 

@@ -49,6 +49,15 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+class NData;
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NTextUtils
@@ -63,6 +72,11 @@ public:
 	static constexpr bool               IsDigit(   utf32_t theChar);
 	static constexpr bool               IsAlpha(   utf32_t theChar);
 	static constexpr bool               IsSentence(utf32_t theChar);
+
+
+	// Get a hex string
+	static NString                      GetHex(const NData& theData);
+	static NString                      GetHex(size_t theSize, const void* thePtr);
 
 
 	// Remove empty

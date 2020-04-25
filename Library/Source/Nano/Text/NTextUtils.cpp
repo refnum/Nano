@@ -42,7 +42,57 @@
 #include "NTextUtils.h"
 
 // Nano
+#include "NData.h"
 #include "NStdAlgorithm.h"
+
+
+
+
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr char kHexMap[] =
+	{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+
+
+
+
+//=============================================================================
+//		NTextUtils::GetHex : Get a hex string.
+//-----------------------------------------------------------------------------
+NString NTextUtils::GetHex(const NData& theData)
+{
+
+
+	// Get the hex
+	return NTextUtils::GetHex(theData.GetSize(), theData.GetData());
+}
+
+
+
+
+
+//=============================================================================
+//		NTextUtils::GetHex : Get a hex string.
+//-----------------------------------------------------------------------------
+NString NTextUtils::GetHex(size_t theSize, const void* thePtr)
+{
+
+
+	// Get the hex
+	const uint8_t*    theBytes = static_cast<const uint8_t*>(thePtr);
+	std::vector<char> hexChars(theSize * 2);
+
+	for (size_t n = 0; n < theSize; n++)
+	{
+		hexChars[(2 * n) + 0] = kHexMap[(theBytes[n] & 0xF0) >> 4];
+		hexChars[(2 * n) + 1] = kHexMap[(theBytes[n] & 0x0F) >> 0];
+	}
+
+	return NString(NStringEncoding::UTF8, hexChars.size(), &hexChars[0]);
+}
 
 
 
