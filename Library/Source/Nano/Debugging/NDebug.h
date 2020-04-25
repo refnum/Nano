@@ -42,10 +42,10 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NanoConstants.h"
 #include "NanoMacros.h"
 
 #if defined(__cplusplus)
+	#include "NanoConstants.h"
 	#include "Nano_fmt.h"
 #endif
 
@@ -81,12 +81,12 @@
 // Log levels
 //
 // The log level indicates the priority of the message.
-enum NLogLevel
+typedef enum
 {
 	kNLogLevelInfo,
 	kNLogLevelWarning,
 	kNLogLevelError
-};
+} NLogLevel;
 
 
 
