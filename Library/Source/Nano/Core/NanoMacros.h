@@ -252,6 +252,20 @@
 
 
 
+// Declare a function as a C symbol
+//
+// Example:
+//
+//		NN_EXTERN_C void SomeFunction(uint32_t theValue);
+//
+#if defined(__cplusplus)
+	#define NN_EXTERN_C                                     extern "C"
+#else
+	#define NN_EXTERN_C
+#endif
+
+
+
 // Function name
 //
 // The name of the current function.

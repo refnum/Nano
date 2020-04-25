@@ -107,6 +107,7 @@ void NanoLogFormatArgs(NLogLevel                           logLevel,
 
 
 // Log with printf-style formatting
+NN_EXTERN_C
 NN_VALIDATE_PRINTF(4, 5)
 void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const char* theMsg, ...);
 
