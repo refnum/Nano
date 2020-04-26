@@ -47,8 +47,8 @@
 #include "NTimeUtils.h"
 
 // System
-#include <fcntl.h>
 #include <linux/fs.h>
+#include <fcntl.h>
 #include <semaphore.h>
 #include <sys/stat.h>
 #include <sys/syscall.h>
@@ -56,6 +56,7 @@
 
 #if !defined(__statx_timestamp_defined)
 	#include <linux/stat.h>
+	#include <linux/fcntl.h>
 #endif // __statx_timestamp_defined
 
 
