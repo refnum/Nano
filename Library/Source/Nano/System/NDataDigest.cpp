@@ -293,7 +293,7 @@ NDigest128 NDataDigest::GetMD5(size_t theSize, const void* thePtr, const NDigest
 			MD5Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
 		}
 
-		MD5Update(&theContext, static_cast<const u_int8_t*>(thePtr), theSize);
+		MD5Update(&theContext, static_cast<const uint8_t*>(thePtr), theSize);
 		MD5Final(theDigest.GetMutableBytes(), &theContext);
 	}
 
@@ -337,7 +337,7 @@ NDigest160 NDataDigest::GetSHA1(size_t theSize, const void* thePtr, const NDiges
 			SHA1_Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
 		}
 
-		SHA1_Update(&theContext, static_cast<const u_int8_t*>(thePtr), theSize);
+		SHA1_Update(&theContext, static_cast<const uint8_t*>(thePtr), theSize);
 		SHA1_Final(theDigest.GetMutableBytes(), &theContext);
 	}
 
