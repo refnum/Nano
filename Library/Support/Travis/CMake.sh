@@ -29,8 +29,11 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 
 elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 
-	CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1-Linux-x86_64.tar.gz"
-	wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C "${TRAVIS_BUILD_DIR}/Build/cmake"
+	wget https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1-Linux-x86_64.tar.gz
+	tar xvfz cmake-3.17.1-Linux-x86_64.tar.gz
+	
+	ls -l 
+
 	export PATH="${TRAVIS_BUILD_DIR}/Build/cmake/bin:${PATH}"
 
 	CMAKE_GENERATOR="Unix Makefiles"
