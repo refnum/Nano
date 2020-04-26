@@ -1,5 +1,11 @@
 language: cpp
 
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo apt-get install cmake
+    fi
+  - cmake --version
+
 jobs:
   include:
     - name: "Android"
