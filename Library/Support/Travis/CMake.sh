@@ -20,9 +20,9 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 	wget -q --show-progress https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip -O android-ndk-r20b-linux-x86_64.zip
 	unzip -q android-ndk-r20b-linux-x86_64.zip
 
-	CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1-Linux-x86_64.tar.gz"
-	wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C "${TRAVIS_BUILD_DIR}/Build/cmake"
-	export PATH="${TRAVIS_BUILD_DIR}/Build/cmake/bin:${PATH}"
+	wget -q --show-progress https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1-Linux-x86_64.tar.gz
+	tar xfz cmake-3.17.1-Linux-x86_64.tar.gz
+	export PATH="${TRAVIS_BUILD_DIR}/Build/cmake-3.17.1-Linux-x86_64/bin:${PATH}"
 
 	CMAKE_GENERATOR="Unix Makefiles"
 	CMAKE_PARAMS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/Build/android-ndk-r20b/build/cmake/android.toolchain.cmake"
@@ -31,9 +31,6 @@ elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 
 	wget -q --show-progress https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1-Linux-x86_64.tar.gz
 	tar xfz cmake-3.17.1-Linux-x86_64.tar.gz
-	
-	ls -l "${TRAVIS_BUILD_DIR}/Build/cmake-3.17.1-Linux-x86_64/bin"
-
 	export PATH="${TRAVIS_BUILD_DIR}/Build/cmake-3.17.1-Linux-x86_64/bin:${PATH}"
 
 	CMAKE_GENERATOR="Unix Makefiles"
