@@ -22,8 +22,8 @@
  ****************************************************************************/
 #include "NanoMacros.h"
 
-#include <stdbool.h>
 #include <assert.h>
+#include <stdbool.h>
 
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-qual");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wcomma");
