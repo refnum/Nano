@@ -22,6 +22,24 @@
 #include <memory.h>		 /* for memcpy() */
 #include "fm_md5.h"
 
+
+
+
+
+/****************************************************************************
+ *		Nano																*
+ ****************************************************************************/
+#include "NanoMacros.h"
+
+#include <assert.h>
+#include <stdbool.h>
+
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-align");
+
+
+
+
+
 #ifndef HIGHFIRST
 #define byteReverse(buf, len)	/* Nothing */
 #else
