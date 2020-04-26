@@ -47,8 +47,8 @@
 #include "NTimeUtils.h"
 
 // System
-#include <linux/fs.h>
 #include <fcntl.h>
+#include <linux/fs.h>
 #include <semaphore.h>
 #include <sys/stat.h>
 #include <sys/syscall.h>
@@ -56,7 +56,6 @@
 
 #if !defined(__statx_timestamp_defined)
 	#include <linux/stat.h>
-	#include <linux/fcntl.h>
 #endif // __statx_timestamp_defined
 
 
@@ -87,6 +86,19 @@ static constexpr NFileInfoFlags kNFileInfoMaskStat          = kNFileInfoExists |
 													 kNFileInfoModifiedTime | kNFileInfoFileSize;
 
 constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreationTime | kNFileInfoModifiedTime;
+
+
+// fcntl.h
+//
+// We require both open (fcntl.h) and AT_STATX_SYNC_AS_STAT (linux/fcntl.h)
+// but on some distributions both headers cannot be included simultaneously.
+//
+// As AT_STATX_SYNC_AS_STAT is simply 0 we provide our own.
+#if !defined(AT_STATX_SYNC_AS_STAT)
+	#define AT_STATX_SYNC_AS_STAT                           0x0000
+#endif
+
+static_assert(AT_STATX_SYNC_AS_STAT == 0x0000);
 
 
 

@@ -35,6 +35,8 @@ elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
 
 	CMAKE_GENERATOR="Unix Makefiles"
 	CMAKE_PARAMS=""
+	
+	grep -ri AT_STATX_SYNC_AS_STAT /usr/include
 
 elif [[ "${TRAVIS_PLATFORM}" == "Windows" ]]; then
 
