@@ -24,6 +24,13 @@ if [[ "${TRAVIS_PLATFORM}" == "Android" ]]; then
 	CMAKE_PARAMS="-DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=26 -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/Build/android-ndk-r20b/build/cmake/android.toolchain.cmake"
 
 elif [[ "${TRAVIS_PLATFORM}" == "Linux" ]]; then
+
+	mkdir cmake
+	
+	CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.17.1/cmake-3.17.1-Linux-x86_64.tar.gz"
+	wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+	export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+
 	CMAKE_GENERATOR="Unix Makefiles"
 	CMAKE_PARAMS=""
 
@@ -54,6 +61,7 @@ for BUILD_CONFIG in "Debug" "Release"; do
 
 
 	# Perform the build
+	cmake --version
 	cmake -G "${CMAKE_GENERATOR}" ${CMAKE_PARAMS} -DCMAKE_BUILD_TYPE="${BUILD_CONFIG}" "${TRAVIS_BUILD_DIR}"
 	echo ""
 
