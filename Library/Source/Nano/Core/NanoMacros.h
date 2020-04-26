@@ -135,11 +135,11 @@
 //
 //		NN_DIAGNOSTIC_POP();
 //
-#define NN_DIAGNOSTIC_PUSH()                                static_assert(true)
-#define NN_DIAGNOSTIC_POP()                                 static_assert(true)
-#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)                static_assert(true)
-#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)                  static_assert(true)
-#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)                 static_assert(true)
+#define NN_DIAGNOSTIC_PUSH()
+#define NN_DIAGNOSTIC_POP()
+#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)
+#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)
+#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)
 
 #if NN_COMPILER_CLANG
 	#undef NN_DIAGNOSTIC_PUSH
@@ -166,10 +166,9 @@
 	#undef NN_DIAGNOSTIC_POP
 	#undef NN_DIAGNOSTIC_IGNORE_MSVC
 
-	#define NN_DIAGNOSTIC_PUSH()                            __pragma(warning(push)) static_assert(true)
-	#define NN_DIAGNOSTIC_POP()                             __pragma(warning(pop)) static_assert(true)
-	#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)             \
-		__pragma(warning(disable : _warning)) static_assert(true)
+	#define NN_DIAGNOSTIC_PUSH()                            __pragma(warning(push))
+	#define NN_DIAGNOSTIC_POP()                             __pragma(warning(pop))
+	#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)             __pragma(warning(disable : _warning))
 #endif
 
 
