@@ -43,7 +43,7 @@
 
 // Nano
 #include "fm_md5.h"
-#include "nano_zlib.h"
+#include "Nano_zlib.h"
 #include "sha2.h"
 
 

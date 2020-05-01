@@ -1,5 +1,5 @@
 /*	NAME:
-		nano_zlib.h
+		Nano_zlib.h
 
 	DESCRIPTION:
 		ZLib wrapper.
@@ -39,9 +39,39 @@
 #ifndef NANO_ZLIB_H
 #define NANO_ZLIB_H
 //=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+#define Z_PREFIX                                            Nano
+#define ZLIB_CONST                                          1
+#define Z_HAVE_UNISTD_H                                     1
+#define Z_HAVE_STDARG_H                                     1
+
+
+
+//=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "zlib_1.2.3.h"
+#include "NanoMacros.h"
+
+#include <assert.h>
+#include <stdbool.h>
+
+NN_DIAGNOSTIC_PUSH();
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcomma");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-variable-declarations");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcovered-switch-default");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wshorten-64-to-32");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-int-conversion");
+
+#include "zlib.h"
+
+#if !defined(ZLIB_INTERNAL)
+NN_DIAGNOSTIC_POP();
+#endif
+
+
 
 
 
