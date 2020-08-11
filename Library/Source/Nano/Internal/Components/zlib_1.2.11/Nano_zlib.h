@@ -48,13 +48,14 @@
 
 
 
+
+
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NanoMacros.h"
-
 #include <assert.h>
 #include <stdbool.h>
+#include "NanoMacros.h"
 
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
@@ -70,8 +71,6 @@ NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-int-conversion");
 #if !defined(ZLIB_INTERNAL)
 NN_DIAGNOSTIC_POP();
 #endif
-
-
 
 
 
