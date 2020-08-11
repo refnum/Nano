@@ -817,7 +817,7 @@
 			path = sqlite_3.7.17;
 			sourceTree = "<group>";
 		};
-		AB04AC1F243FA91700485373 /* fmt_6.2.0 */ = {
+		AB04AC1F243FA91700485373 /* fmt_7.0.3 */ = {
 			isa = PBXGroup;
 			children = (
 				AB04AC21243FA91700485373 /* fmt_core.h */,
@@ -828,7 +828,7 @@
 				AB04AC25243FA91700485373 /* LICENSE.rst */,
 				AB04AC23243FA91700485373 /* Nano_fmt.h */,
 			);
-			path = fmt_6.2.0;
+			path = fmt_7.0.3;
 			sourceTree = "<group>";
 		};
 		AB078D2611D4A988006C9347 /* UIKit */ = {
@@ -1277,7 +1277,7 @@
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
 				ABB146050FF36F84006F178C /* expat_2.0.1 */,
-				AB04AC1F243FA91700485373 /* fmt_6.2.0 */,
+				AB04AC1F243FA91700485373 /* fmt_7.0.3 */,
 				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
 				AB1694D510028C8200F7D4B7 /* libb64_1.1 */,
 				AB5127EF23D2810600528FBE /* pcre2_10.34 */,

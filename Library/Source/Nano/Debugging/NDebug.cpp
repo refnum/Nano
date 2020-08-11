@@ -64,7 +64,7 @@ void NanoLogFormatArgs(NLogLevel                           logLevel,
 
 	// Log the message
 	fmt::memory_buffer theBuffer;
-	fmt::internal::vformat_to(theBuffer, formatStr, theArgs);
+	fmt::detail::vformat_to(theBuffer, formatStr, theArgs);
 
 	NanoLogPrintf(logLevel, filePath, lineNum, "%.*s", int(theBuffer.size()), theBuffer.data());
 }

@@ -54,7 +54,7 @@ NString NFormatArgsToString(const fmt::basic_string_view<char>& formatStr, fmt::
 
 	// Format the string
 	fmt::memory_buffer theBuffer;
-	fmt::internal::vformat_to(theBuffer, formatStr, theArgs);
+	fmt::detail::vformat_to(theBuffer, formatStr, theArgs);
 
 	return NString(NStringEncoding::UTF8, theBuffer.size(), theBuffer.data());
 }
@@ -73,7 +73,7 @@ NString NSprintfArgsToString(const fmt::basic_string_view<char>&         formatS
 
 	// Format the string
 	fmt::memory_buffer theBuffer;
-	fmt::internal::printf(theBuffer, formatStr, theArgs);
+	fmt::detail::vprintf(theBuffer, formatStr, theArgs);
 
 	return NString(NStringEncoding::UTF8, theBuffer.size(), theBuffer.data());
 }

@@ -107,7 +107,7 @@ Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Threads"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Time"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Types"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Utilities"
-Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/fmt_6.2.0"
+Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/fmt_7.0.3"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/xxHash_0.7.2"
 
 Nano_UHSP_Private = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/zlib_1.2.11"

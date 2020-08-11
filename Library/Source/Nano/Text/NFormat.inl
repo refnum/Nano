@@ -100,7 +100,7 @@ NString NFormatPackToString(const S& formatStr, Args&&... theArgs)
 	//	https://www.zverovich.net/2016/11/05/reducing-printf-call-overhead.html
 	//
 	return NFormatArgsToString(formatStr,
-							   {fmt::internal::make_args_checked<Args...>(formatStr, theArgs...)});
+							   {fmt::detail::make_args_checked<Args...>(formatStr, theArgs...)});
 }
 
 
@@ -156,7 +156,7 @@ constexpr auto NSimpleFormatter::parse(fmt::format_parse_context& theContext) co
 	// simple base class for objects that format with "{}".
 	//
 	auto theIter = theContext.begin();
-	if (*theIter != '}')
+	if (theIter != theContext.end() && *theIter != '}')
 	{
 		throw fmt::format_error("Unexpected specifier!");
 	}
