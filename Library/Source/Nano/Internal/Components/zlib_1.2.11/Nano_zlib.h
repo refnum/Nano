@@ -39,23 +39,29 @@
 #ifndef NANO_ZLIB_H
 #define NANO_ZLIB_H
 //=============================================================================
-//		Macros
+//		Includes
 //-----------------------------------------------------------------------------
-#define Z_PREFIX                                            Nano
-#define ZLIB_CONST                                          1
-#define Z_HAVE_UNISTD_H                                     1
-#define Z_HAVE_STDARG_H                                     1
+// Nano
+#include "NanoMacros.h"
+
+// System
+#include <assert.h>
+#include <stdbool.h>
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		Zlib
 //-----------------------------------------------------------------------------
-#include <assert.h>
-#include <stdbool.h>
-#include "NanoMacros.h"
+#define Z_PREFIX                                            Nano
+#define ZLIB_CONST                                          1
+#define Z_HAVE_STDARG_H                                     1
+
+#if !NN_TARGET_WINDOWS
+	#define Z_HAVE_UNISTD_H                                 1
+#endif // !NN_TARGET_WINDOWS
 
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
