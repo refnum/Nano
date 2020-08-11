@@ -327,6 +327,38 @@
 #define NN_STRUCT_PACK_16(...)                              _nn_struct_pack(16, __VA_ARGS__)
 
 
+
+// Indicate support for CTAD
+//
+// Marks a type as opting-in to class template argument deduction.
+//
+// Example:
+//
+//		template<typename T>
+//		class NClassName
+//		{
+//			...
+//		}
+//
+//		NN_SUPPORTS_CTAD(NClassName);
+//
+// Some compilers allow CTAD to be made "opt-in" by issuing a warning for
+// types that appear to support CTAD but have no user defined deduction
+// guides.
+//
+// Clang enables this behaviour through the -Wctad-maybe-unsupported warning.
+//
+#if NN_COMPILER_CLANG
+	#define NN_SUPPORTS_CTAD(_ClassName)                    \
+		template<class _Tag = void>                         \
+		_ClassName(typename _Tag::__supports_ctad)->_ClassName<void>
+
+#else
+	#define NN_SUPPORTS_CTAD(_ClassName)                    static_assert(true)
+#endif
+
+
+
 // Mark as unused
 //
 // Marks a variable, or expression, as unused without evaluation.

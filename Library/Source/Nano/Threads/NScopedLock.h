@@ -41,6 +41,10 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nanp
+#include "NanoMacros.h"
+
+// System
 #include <utility>
 
 
@@ -75,6 +79,8 @@ public:
 private:
 	T&                                  mLock;
 };
+
+NN_SUPPORTS_CTAD(NScopedLock);
 
 
 

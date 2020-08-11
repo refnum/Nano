@@ -470,9 +470,17 @@ template<typename H, typename N>
 H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd)
 {
 #if NN_COMPILER_CLANG
+
+	NN_DIAGNOSTIC_PUSH();
+	NN_DIAGNOSTIC_IGNORE_CLANG("-Wunknown-warning-option");
+	NN_DIAGNOSTIC_IGNORE_CLANG("-Wctad-maybe-unsupported");
+
 	return std::search(hayBegin,
 					   hayEnd,
 					   std::experimental::boyer_moore_horspool_searcher(needleBegin, needleEnd));
+
+	NN_DIAGNOSTIC_POP();
+
 #else
 	return std::search(hayBegin,
 					   hayEnd,
