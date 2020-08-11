@@ -156,10 +156,10 @@
 	#undef NN_DIAGNOSTIC_POP
 	#undef NN_DIAGNOSTIC_IGNORE_GCC
 
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push)) static_assert(true)
-	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop)) static_assert(true)
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push)) static_assert(true, "")
+	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop)) static_assert(true, "")
 	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              \
-		_Pragma(NN_STRINGIFY(GCC diagnostic ignored _warning)) static_assert(true)
+		_Pragma(NN_STRINGIFY(GCC diagnostic ignored _warning)) static_assert(true, "")
 
 #elif NN_COMPILER_MSVC
 	#undef NN_DIAGNOSTIC_PUSH
