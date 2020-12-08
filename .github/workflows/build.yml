@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  macos:
+  Darwin:
     runs-on: macOS-latest
 
     strategy:
@@ -23,19 +23,22 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Project
-        run: |
-          xcodebuild build -project NanoTest/Project/NanoTest.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES Nano="${GITHUB_WORKSPACE}" SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty && exit ${PIPESTATUS[0]}
+        run: xcodebuild build                                         \
+               -project NanoTest/Project/NanoTest.xcodeproj           \
+               -scheme      '${{ matrix.run-config['scheme'] }}'      \
+               -destination '${{ matrix.run-config['destination'] }}' \
+               -enableAddressSanitizer YES                            \
+               -enableUndefinedBehaviorSanitizer YES                  \
+               Nano="${GITHUB_WORKSPACE}"                             \
+               SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Run Tests
-        run: env
-
-      - name: Run Tests
-        run: ls -l "$GITHUB_WORKSPACE"
+        run: find "$GITHUB_WORKSPACE" -name NanoTest
 
 
 
 
-  linux:
+  Linux:
     runs-on: ubuntu-latest
 
     strategy:
@@ -63,4 +66,4 @@ jobs:
       - name: Run Tests
         run: |
           cd "${GITHUB_WORKSPACE}/Build/'${{ matrix.run-config['config'] }}'"
-          find . -name NanoTest
+          ./NanoTest/Project/NanoTest
