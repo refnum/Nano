@@ -30,7 +30,6 @@ jobs:
             -destination '${{ matrix.run-config['destination'] }}' \
             -parallelizeTargets                                    \
             -enableAddressSanitizer           YES                  \
-            -enableThreadSanitizer            YES                  \
             -enableUndefinedBehaviorSanitizer YES                  \
             Nano="${GITHUB_WORKSPACE}"                             \
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
@@ -70,4 +69,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d 1
+          ./NanoTest/Project/NanoTest -d 1 Nano/TFileHandle/OpenTemporary/Named
