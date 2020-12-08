@@ -19,19 +19,12 @@ jobs:
 #          - { scheme: 'NanoTest_tvOS - Release',  destination: 'generic/platform=tvOS' }
 
     steps:
-      - name: Show Files1
-        run: xcpretty --version
-
       - name: Checkout Project
         uses: actions/checkout@v2
 
-      - name: Show Files2
-        run: ls -l
-
       - name: Build Project
         run: |
-          mkdir -p "${GITHUB_WORKSPACE}/Build"
-          xcodebuild build -project NanoTest/Project/NanoTest.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty && exit ${PIPESTATUS[0]}
+          xcodebuild build -project NanoTest/Project/NanoTest.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES Nano="${GITHUB_WORKSPACE}" SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Run Tests
         run: env
@@ -45,6 +38,12 @@ jobs:
   linux:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        run-config:
+          - { config: 'Debug' }
+          - { config: 'Release' }
+
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
@@ -52,13 +51,16 @@ jobs:
       - name: Prepare Build
         run: |
           ls -l
-          mkdir -p "${GITHUB_WORKSPACE}/Build/Debug"
-          cd       "${GITHUB_WORKSPACE}/Build/Debug"
-          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" "${GITHUB_WORKSPACE}"
+          mkdir -p "${GITHUB_WORKSPACE}/Build/'${{ matrix.run-config['config'] }}'"
+          cd       "${GITHUB_WORKSPACE}/Build/'${{ matrix.run-config['config'] }}'"
+          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="'${{ matrix.run-config['config'] }}'" "${GITHUB_WORKSPACE}"
           
-
       - name: Build Project
         run: |
-          ls -l
-          cd "${GITHUB_WORKSPACE}/Build/Debug"
+          cd "${GITHUB_WORKSPACE}/Build/'${{ matrix.run-config['config'] }}'"
           make -j2 "NanoTest"
+          
+      - name: Run Tests
+        run: |
+          cd "${GITHUB_WORKSPACE}/Build/'${{ matrix.run-config['config'] }}'"
+          find . -name NanoTest
