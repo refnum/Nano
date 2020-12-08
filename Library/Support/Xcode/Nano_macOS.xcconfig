@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 NANO_PLATFORM							= macOS
 
-MACOSX_DEPLOYMENT_TARGET				= 10.13
+MACOSX_DEPLOYMENT_TARGET				= 10.14
 SUPPORTED_PLATFORMS						= macosx
 
 #include "Nano.xcconfig"

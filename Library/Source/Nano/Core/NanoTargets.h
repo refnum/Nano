@@ -210,6 +210,7 @@
 	#if defined(__arm__) || defined(__arm64__)
 		#undef  NN_ARCH_ARM
 		#define NN_ARCH_ARM                                 1
+
 	#elif defined(__i386__) || defined(__x86_64__)
 		#undef  NN_ARCH_X86
 		#define NN_ARCH_X86                                 1
@@ -232,8 +233,14 @@
 
 // macOS
 #if NN_TARGET_MACOS
-	#undef  NN_ARCH_X86
-	#define NN_ARCH_X86                                     1
+	#if defined(__arm64__)
+		#undef  NN_ARCH_ARM
+		#define NN_ARCH_ARM                                 1
+
+	#elif defined(__i386__) || defined(__x86_64__)
+		#undef  NN_ARCH_X86
+		#define NN_ARCH_X86                                 1
+	#endif
 #endif
 
 
@@ -242,6 +249,7 @@
 	#if defined(__arm__) || defined(__arm64__)
 		#undef  NN_ARCH_ARM
 		#define NN_ARCH_ARM                                 1
+
 	#elif defined(__i386__) || defined(__x86_64__)
 		#undef  NN_ARCH_X86
 		#define NN_ARCH_X86                                 1
@@ -313,7 +321,7 @@
 
 // macOS
 #if NN_TARGET_MACOS
-	#if defined(__x86_64__) || defined(__ppc64__)
+	#if defined(__arm64__) || defined(__x86_64__) || defined(__ppc64__)
 		#undef  NN_ARCH_64
 		#define NN_ARCH_64                                  1
 	#else
