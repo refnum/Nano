@@ -24,17 +24,19 @@ jobs:
 
       - name: Build Project
         run: |
-          xcodebuild build                             \
-             -project NanoTest/Project/NanoTest.xcodeproj \
-             -scheme      '${{ matrix.run-config['scheme'] }}' \
-             -destination '${{ matrix.run-config['destination'] }}' \
-             -enableAddressSanitizer YES \
-             -enableUndefinedBehaviorSanitizer YES \
-             Nano="${GITHUB_WORKSPACE}" \
-             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
+          xcodebuild build                                         \
+            -project NanoTest/Project/NanoTest.xcodeproj           \
+            -scheme      '${{ matrix.run-config['scheme'] }}'      \
+            -destination '${{ matrix.run-config['destination'] }}' \
+            -parallelizeTargets                                    \
+            -enableAddressSanitizer           YES                  \
+            -enableThreadSanitizer            YES                  \
+            -enableUndefinedBehaviorSanitizer YES                  \
+            Nano="${GITHUB_WORKSPACE}"                             \
+            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Run Tests
-        run: find "$GITHUB_WORKSPACE" -name NanoTest
+        run: find "$GITHUB_WORKSPACE" -name NanoTest_macOS
 
 
 
@@ -56,7 +58,9 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="'${{ matrix.run-config['config'] }}'" "${GITHUB_WORKSPACE}"
+          cmake -G "Unix Makefiles"                                   \
+            -DCMAKE_BUILD_TYPE="'${{ matrix.run-config['config'] }}'" \
+            "${GITHUB_WORKSPACE}"
           
       - name: Build Project
         run: |
@@ -66,4 +70,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest
+          ./NanoTest/Project/NanoTest -d 1
