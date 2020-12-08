@@ -35,7 +35,9 @@ jobs:
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Run Tests
-        run: find "$GITHUB_WORKSPACE" -name NanoTest_macOS
+        run: |
+          cd Build
+          Build/Debug/NanoTest_macOS -d 1
 
 
 
@@ -69,4 +71,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d 1 Nano/TFileHandle/OpenTemporary/Named
+          ./NanoTest/Project/NanoTest -d 1 "Nano/TFileHandle/*"
