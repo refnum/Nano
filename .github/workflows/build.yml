@@ -12,7 +12,7 @@ jobs:
       matrix:
         run-config:
           - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS' }
-          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
+#          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
 #          - { scheme: 'NanoTest_iOS - Debug',     destination: 'generic/platform=iOS' }
 #          - { scheme: 'NanoTest_iOS - Release',   destination: 'generic/platform=iOS' }
 #          - { scheme: 'NanoTest_tvOS - Debug',    destination: 'generic/platform=tvOS' }
@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Show Files1
-        run: ls -l
+        run: xcpretty
 
       - name: Checkout Project
         uses: actions/checkout@v2
@@ -29,7 +29,9 @@ jobs:
         run: ls -l
 
       - name: Build Project
-        run: xcodebuild build -project NanoTest/Project/NanoTest.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES
+        run: |
+          mkdir -p "${GITHUB_WORKSPACE}/Build
+          xcodebuild build -project NanoTest/Project/NanoTest.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Run Tests
         run: env
@@ -50,12 +52,12 @@ jobs:
       - name: Prepare Build
         run: |
           ls -l
-          mkdir "${GITHUB_WORKSPACE}/Build"
-          cd    "${GITHUB_WORKSPACE}/Build"
+          mkdir -p "${GITHUB_WORKSPACE}/Build/Debug"
+          cd       "${GITHUB_WORKSPACE}/Build/Debug"
           cmake --version
-          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" "${GITHUB_WORKSPACE}/Build"
+          lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'
+          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" "${GITHUB_WORKSPACE}"
           
 
       - name: Build Project
-        run: |
-          cmake --build . --parallel --config "Debug" --target "NanoTest"
+        run: make -j2 "NanoTest"
