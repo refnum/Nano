@@ -525,7 +525,6 @@
 		AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataEncoder.cpp; sourceTree = "<group>"; };
 		AB8CE2B4104D5F7000306EDC /* NDataEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataEncoder.h; sourceTree = "<group>"; };
 		AB8DBDE623777E6500619B6A /* Nano.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano.xcconfig; sourceTree = "<group>"; };
-		AB8DBDE923777E6500619B6A /* Nano.lldb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Nano.lldb; sourceTree = "<group>"; };
 		AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_iOS.xcconfig; sourceTree = "<group>"; };
 		AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_macOS.xcconfig; sourceTree = "<group>"; };
 		AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
@@ -595,6 +594,7 @@
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFString.cpp; sourceTree = "<group>"; };
+		AB944D732580260300529AE5 /* Nano.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = Nano.py; sourceTree = "<group>"; };
 		AB9DA5D8102AF78F0062E311 /* NCFData.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFData.cpp; sourceTree = "<group>"; };
 		AB9DA5D9102AF78F0062E311 /* NCFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFData.h; sourceTree = "<group>"; };
 		AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFDictionary.cpp; sourceTree = "<group>"; };
@@ -1193,7 +1193,7 @@
 				AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */,
 				AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */,
 				AB8DBDE623777E6500619B6A /* Nano.xcconfig */,
-				AB8DBDE923777E6500619B6A /* Nano.lldb */,
+				AB944D732580260300529AE5 /* Nano.py */,
 			);
 			path = Xcode;
 			sourceTree = "<group>";
