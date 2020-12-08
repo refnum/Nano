@@ -37,7 +37,7 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          Build/Debug/NanoTest_macOS -d 1
+          ./Debug/NanoTest_macOS -d 1
 
 
 
@@ -71,4 +71,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d 1 "Nano/TFileHandle/*"
+          ./NanoTest/Project/NanoTest -d 1 "Nano/TFile/*" "Nano/TFileInfo/*" "Nano/TFilePath/*"
