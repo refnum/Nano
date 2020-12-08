@@ -13,16 +13,19 @@ jobs:
         run-config:
           - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS' }
           - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
-          - { scheme: 'NanoTest_iOS - Debug',     destination: 'generic/platform=iOS' }
-          - { scheme: 'NanoTest_iOS - Release',   destination: 'generic/platform=iOS' }
-          - { scheme: 'NanoTest_tvOS - Debug',    destination: 'generic/platform=tvOS' }
-          - { scheme: 'NanoTest_tvOS - Release',  destination: 'generic/platform=tvOS' }
+#          - { scheme: 'NanoTest_iOS - Debug',     destination: 'generic/platform=iOS' }
+#          - { scheme: 'NanoTest_iOS - Release',   destination: 'generic/platform=iOS' }
+#          - { scheme: 'NanoTest_tvOS - Debug',    destination: 'generic/platform=tvOS' }
+#          - { scheme: 'NanoTest_tvOS - Release',  destination: 'generic/platform=tvOS' }
 
     steps:
-      - name: Checkout Project
-        uses: actions/checkout@v1
+      - name: Show Files1
+        run: ls -l
 
-      - name: Show Files
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Show Files2
         run: ls -l
 
       - name: Build Project
@@ -30,7 +33,11 @@ jobs:
 
       - name: Run Tests
         run: env
-        
+
+      - name: Run Tests
+        run: ls -l "$GITHUB_WORKSPACE"
+
+
 
 
   linux:
@@ -38,10 +45,17 @@ jobs:
 
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: Show Files
-        run: ls -l
+      - name: Prepare Build
+        run: |
+          ls -l
+          mkdir "${GITHUB_WORKSPACE}/Build"
+          cd    "${GITHUB_WORKSPACE}/Build"
+          cmake --version
+          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" "${GITHUB_WORKSPACE}/Build"
+          
 
       - name: Build Project
-        run: cmake
+        run: |
+          cmake --build . --parallel --config "Debug" --target "NanoTest"
