@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Show Files1
-        run: xcpretty
+        run: xcpretty --version
 
       - name: Checkout Project
         uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Project
         run: |
-          mkdir -p "${GITHUB_WORKSPACE}/Build
+          mkdir -p "${GITHUB_WORKSPACE}/Build"
           xcodebuild build -project NanoTest/Project/NanoTest.xcodeproj -scheme '${{ matrix.run-config['scheme'] }}' -destination '${{ matrix.run-config['destination'] }}' -enableAddressSanitizer YES -enableUndefinedBehaviorSanitizer YES SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty && exit ${PIPESTATUS[0]}
 
       - name: Run Tests
@@ -54,10 +54,11 @@ jobs:
           ls -l
           mkdir -p "${GITHUB_WORKSPACE}/Build/Debug"
           cd       "${GITHUB_WORKSPACE}/Build/Debug"
-          cmake --version
-          lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'
           cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" "${GITHUB_WORKSPACE}"
           
 
       - name: Build Project
-        run: make -j2 "NanoTest"
+        run: |
+          ls -l
+          cd "${GITHUB_WORKSPACE}/Build/Debug"
+          make -j2 "NanoTest"
