@@ -220,22 +220,22 @@ NN_LOG_INFO("SharedSupport");
 
 NFilePath thePath;
 thePath = NPOSIX::getenv("XDG_DATA_DIRS");
-NN_LOG_INFO("thePath.1=[{}]", thePath);
+NN_LOG_INFO("thePath.1=[%s]", thePath.GetPath().GetUTF8());
 if (thePath.GetPath().Contains(":"))
 {
-NN_LOG_INFO("thePath.2=[{}]", thePath);
+NN_LOG_INFO("thePath.2=[%s]", thePath.GetPath().GetUTF8());
 	thePath = thePath.GetPath().Split(":").front();
-NN_LOG_INFO("thePath.3=[{}]", thePath);
+NN_LOG_INFO("thePath.3=[%s]", thePath.GetPath().GetUTF8());
 }
 
-NN_LOG_INFO("thePath.4=[{}]", thePath);
+NN_LOG_INFO("thePath.4=[%s]", thePath.GetPath().GetUTF8());
 if (!thePath.IsValid())
 {
-NN_LOG_INFO("thePath.5=[{}]", thePath);
+NN_LOG_INFO("thePath.5=[%s]", thePath.GetPath().GetUTF8());
 	thePath = NString("/usr/local/share");
-NN_LOG_INFO("thePath.6=[{}]", thePath);
+NN_LOG_INFO("thePath.6=[%s]", thePath.GetPath().GetUTF8());
 }
-NN_LOG_INFO("thePath.7=[{}]", thePath);
+NN_LOG_INFO("thePath.7=[%s]", thePath.GetPath().GetUTF8());
 
 
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::SharedSupport).IsValid());

@@ -176,9 +176,7 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          mkdir foo
-          ls
-          cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" "${GITHUB_WORKSPACE}"
+          cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" ..
 
       - name: Build Project
         run: |
