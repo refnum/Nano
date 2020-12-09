@@ -215,6 +215,27 @@ NN_LOG_INFO("AppTemporaries");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsValid());
 
 NN_LOG_INFO("SharedSupport");
+
+NFilePath thePath;
+thePath = NPOSIX::getenv("XDG_DATA_DIRS");
+NN_LOG_INFO("thePath.1=[{}]", thePath);
+if (thePath.GetPath().Contains(":"))
+{
+NN_LOG_INFO("thePath.2=[{}]", thePath);
+	thePath = thePath.GetPath().Split(":").front();
+NN_LOG_INFO("thePath.3=[{}]", thePath);
+}
+
+NN_LOG_INFO("thePath.4=[{}]", thePath);
+if (!thePath.IsValid())
+{
+NN_LOG_INFO("thePath.5=[{}]", thePath);
+	thePath = NString("/usr/local/share");
+NN_LOG_INFO("thePath.6=[{}]", thePath);
+}
+NN_LOG_INFO("thePath.7=[{}]", thePath);
+
+
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::SharedSupport).IsValid());
 
 NN_LOG_INFO("UserDesktop");
