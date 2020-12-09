@@ -5,34 +5,12 @@ on:
     branches: [master]
 
 jobs:
-  Darwin:
+  macOS:
     runs-on: macOS-latest
 
     strategy:
       matrix:
-        platform: ['macOS', 'iOS', 'tvOS']
         config: ['Debug', 'Release']
-
-
-
-
-
-#        run-config:
-#          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS', app: './Debug/NanoTest_macOS' }
-#          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
-
-
-#          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS' }
-#          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
-#          - { scheme: 'NanoTest_iOS - Debug',     destination: 'generic/platform=iOS' }
-#          - { scheme: 'NanoTest_iOS - Release',   destination: 'generic/platform=iOS' }
-#          - { scheme: 'NanoTest_tvOS - Debug',    destination: 'generic/platform=tvOS' }
-#          - { scheme: 'NanoTest_tvOS - Release',  destination: 'generic/platform=tvOS' }
-
-
-#            -scheme      '${{ matrix.run-config['scheme'] }}'      \
-#            -destination '${{ matrix.run-config['destination'] }}' \
-
 
     steps:
       - name: Checkout Project
@@ -40,22 +18,66 @@ jobs:
 
       - name: Build Project
         run: |
-          xcodebuild build                                                        \
-            -project NanoTest/Project/NanoTest.xcodeproj                          \
-            -scheme      "NanoTest_${{ matrix.platform }} - ${{ matrix.config }}" \
-            -destination "generic/platform=${{ matrix.platform }}"                \
-            -parallelizeTargets                                                   \
-            -enableAddressSanitizer           YES                                 \
-            -enableUndefinedBehaviorSanitizer YES                                 \
-            Nano="${GITHUB_WORKSPACE}"                                            \
+          xcodebuild build                                       \
+            -project NanoTest/Project/NanoTest.xcodeproj         \
+            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
+            -destination "generic/platform=macOS"                \
+            -parallelizeTargets                                  \
+            -enableAddressSanitizer           YES                \
+            -enableUndefinedBehaviorSanitizer YES                \
+            Nano="${GITHUB_WORKSPACE}"                           \
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Run Tests
-        if: matrix.platform == 'macOS'
         run: |
           cd Build
           "./${{ matrix.config }}/NanoTest_macOS" -d 1
 
+
+
+  iOS:
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Build Project
+        run: |
+          xcodebuild build                                       \
+            -project Library/Project/Nano.xcodeproj              \
+            -scheme      "Nano_iOS - ${{ matrix.config }}"       \
+            -destination "generic/platform=iOS"                  \
+            -parallelizeTargets                                  \
+            Nano="${GITHUB_WORKSPACE}"                           \
+            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
+
+
+
+  tvOS:
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Build Project
+        run: |
+          xcodebuild build                                       \
+            -project Library/Project/Nano.xcodeproj              \
+            -scheme      "Nano_tvOS - ${{ matrix.config }}"      \
+            -destination "generic/platform=tvOS"                 \
+            -parallelizeTargets                                  \
+            Nano="${GITHUB_WORKSPACE}"                           \
+            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
 
 
@@ -86,4 +108,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d 1 "Nano/TFilePath/*"
+          ./NanoTest/Project/NanoTest -d 1 "Nano/TFileScanner/*"
