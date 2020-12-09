@@ -461,8 +461,8 @@ XXH_PUBLIC_API XXH64_hash_t XXH3_64bits_withSeed(const void* data, size_t len, X
 /* streaming 64-bit */
 
 #if defined (__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)   /* C11+ */
-#if defined(_MSC_FULL_VER)		// Nano, VS2019 does not have stdalign.h
-#include <cstdalign>
+#if defined(_MSC_VER)		// Nano, VS2019 does not have stdalign.h
+#  define XXH_ALIGN(n)      __declspec(align(n))
 #else
 #  include <stdalign.h>
 #endif // _MSC_FULL_VER
