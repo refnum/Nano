@@ -148,6 +148,7 @@ if (NN_COMPILER_CLANG)
 	list(APPEND NN_COMPILER_WARNINGS -Wno-switch-enum)
 	list(APPEND NN_COMPILER_WARNINGS -Wno-unreachable-code-break)
 	list(APPEND NN_COMPILER_WARNINGS -Wno-weak-vtables)
+	list(APPEND NN_COMPILER_WARNINGS -Wno-c++2a-compat)
 
 
 elseif (NN_COMPILER_GCC)
