@@ -2,7 +2,7 @@
 		Nano_pcre2.h
 
 	DESCRIPTION:
-		pcre2 support.
+		Nano pcre2 support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -41,8 +41,16 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NanoMacros.h"
 
+
+
+
+
+//=============================================================================
+//		pcre2
+//-----------------------------------------------------------------------------
 NN_DIAGNOSTIC_PUSH();
 
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
