@@ -461,7 +461,7 @@ XXH_PUBLIC_API XXH64_hash_t XXH3_64bits_withSeed(const void* data, size_t len, X
 /* streaming 64-bit */
 
 #if defined (__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)   /* C11+ */
-#if NN_COMPILER_MSVC && __cplusplus
+#if defined(_MSC_FULL_VER) && __cplusplus
 #include <cstdalign>
 #else
 #  include <stdalign.h>
