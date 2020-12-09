@@ -176,7 +176,7 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" ..
+          cmake -G "Visual Studio 16 2019 Win64" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" ..
 
       - name: Build Project
         run: |
