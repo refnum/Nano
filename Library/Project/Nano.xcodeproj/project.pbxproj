@@ -33,6 +33,9 @@
 		AB2F1DBD2453AD30005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
 		AB2F1DBE2453AD31005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
 		AB2F1DBF2453AD31005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
+		AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
+		AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
+		AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */; };
 		AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
 		AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
@@ -285,10 +288,6 @@
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
 		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
-		AB01819116BAA03C0033152D /* nano_sqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nano_sqlite.h; sourceTree = "<group>"; };
-		AB01819216BAA03C0033152D /* sqlite_3.7.17_fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.17_fts3_tokenizer.h; sourceTree = "<group>"; };
-		AB01819316BAA03C0033152D /* sqlite_3.7.17.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite_3.7.17.c; sourceTree = "<group>"; };
-		AB01819416BAA03C0033152D /* sqlite_3.7.17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite_3.7.17.h; sourceTree = "<group>"; };
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
@@ -386,6 +385,9 @@
 		AB3326B21046C6F000C8DF0A /* NShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NShape.h; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
+		AB3A4984258194580065B4DA /* sqlite3.34.0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.34.0.c; sourceTree = "<group>"; };
+		AB3A4985258194580065B4DA /* Nano_sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_sqlite3.h; sourceTree = "<group>"; };
+		AB3A4986258194580065B4DA /* sqlite3.34.0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.34.0.h; sourceTree = "<group>"; };
 		AB3B53A6143DCD9400EC0F55 /* NProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NProgressable.cpp; sourceTree = "<group>"; };
 		AB3B53A7143DCD9400EC0F55 /* NProgressable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProgressable.h; sourceTree = "<group>"; };
 		AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = macOSNFileUtils.mm; sourceTree = "<group>"; };
@@ -831,17 +833,6 @@
 			path = CoreGraphics;
 			sourceTree = "<group>";
 		};
-		AB01819016BAA03C0033152D /* sqlite_3.7.17 */ = {
-			isa = PBXGroup;
-			children = (
-				AB01819116BAA03C0033152D /* nano_sqlite.h */,
-				AB01819216BAA03C0033152D /* sqlite_3.7.17_fts3_tokenizer.h */,
-				AB01819316BAA03C0033152D /* sqlite_3.7.17.c */,
-				AB01819416BAA03C0033152D /* sqlite_3.7.17.h */,
-			);
-			path = sqlite_3.7.17;
-			sourceTree = "<group>";
-		};
 		AB078D2611D4A988006C9347 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -937,6 +928,16 @@
 				AB328C8C17612D8400782F40 /* NTestFixture.h */,
 			);
 			path = Catch;
+			sourceTree = "<group>";
+		};
+		AB3A4983258194580065B4DA /* sqlite-3.34.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A4985258194580065B4DA /* Nano_sqlite3.h */,
+				AB3A4984258194580065B4DA /* sqlite3.34.0.c */,
+				AB3A4986258194580065B4DA /* sqlite3.34.0.h */,
+			);
+			path = "sqlite-3.34.0";
 			sourceTree = "<group>";
 		};
 		AB481C2512A531220052C55F /* Network */ = {
@@ -1229,7 +1230,7 @@
 				ABC646D025818466009B82AD /* pcre2-10.36 */,
 				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
-				AB01819016BAA03C0033152D /* sqlite_3.7.17 */,
+				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				ABD68173167AAB9800CB2E04 /* udp.github.com */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
@@ -1883,6 +1884,7 @@
 				AB62326D242AF51300651349 /* NLogOutput.cpp in Sources */,
 				ABF824E4245CD8AE00C8566C /* inflate.c in Sources */,
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
+				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				ABF824EA245CD8AE00C8566C /* deflate.c in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */,
@@ -1977,6 +1979,7 @@
 				AB62326B242AF51300651349 /* NLogOutput.cpp in Sources */,
 				ABF824E2245CD8AE00C8566C /* inflate.c in Sources */,
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
+				AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				ABF824E8245CD8AE00C8566C /* deflate.c in Sources */,
 				AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
@@ -2071,6 +2074,7 @@
 				ABC646872581666F009B82AD /* xmlparse.c in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB62326C242AF51300651349 /* NLogOutput.cpp in Sources */,
+				AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				ABF82501245CD8AE00C8566C /* gzwrite.c in Sources */,
 				ABF824F5245CD8AE00C8566C /* zutil.c in Sources */,
 				ABF824E3245CD8AE00C8566C /* inflate.c in Sources */,
