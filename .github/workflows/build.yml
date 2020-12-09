@@ -52,9 +52,7 @@ jobs:
 
     strategy:
       matrix:
-        run-config:
-          - { config: 'Debug' }
-          - { config: 'Release' }
+        config: ['Debug', 'Release']
 
     steps:
       - name: Checkout Project
@@ -65,7 +63,7 @@ jobs:
           mkdir Build
           cd    Build
           cmake -G "Unix Makefiles"                                 \
-            -DCMAKE_BUILD_TYPE="${{ matrix.run-config['config'] }}" \
+            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
             "${GITHUB_WORKSPACE}"
           
       - name: Build Project
