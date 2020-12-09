@@ -183,6 +183,15 @@
 		ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
 		ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
 		ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
+		ABC646802581666F009B82AD /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6466B2581666F009B82AD /* xmlrole.c */; };
+		ABC646812581666F009B82AD /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6466B2581666F009B82AD /* xmlrole.c */; };
+		ABC646822581666F009B82AD /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6466B2581666F009B82AD /* xmlrole.c */; };
+		ABC646862581666F009B82AD /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646712581666F009B82AD /* xmlparse.c */; };
+		ABC646872581666F009B82AD /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646712581666F009B82AD /* xmlparse.c */; };
+		ABC646882581666F009B82AD /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646712581666F009B82AD /* xmlparse.c */; };
+		ABC646892581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
+		ABC6468A2581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
+		ABC6468B2581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
 		ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
@@ -626,21 +635,6 @@
 		ABB145D50FF36B03006F178C /* NXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLNode.h; sourceTree = "<group>"; };
 		ABB145D60FF36B03006F178C /* NXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLParser.h; sourceTree = "<group>"; };
 		ABB145D70FF36B03006F178C /* NXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLParser.cpp; sourceTree = "<group>"; };
-		ABB146060FF36F84006F178C /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
-		ABB146070FF36F84006F178C /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
-		ABB146080FF36F84006F178C /* expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_config.h; sourceTree = "<group>"; };
-		ABB146090FF36F84006F178C /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
-		ABB1460A0FF36F84006F178C /* expat_external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_external.h; sourceTree = "<group>"; };
-		ABB1460B0FF36F84006F178C /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
-		ABB1460C0FF36F84006F178C /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
-		ABB1460D0FF36F84006F178C /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
-		ABB1460E0FF36F84006F178C /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
-		ABB1460F0FF36F84006F178C /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
-		ABB146100FF36F84006F178C /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
-		ABB146110FF36F84006F178C /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
-		ABB146120FF36F84006F178C /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
-		ABB146130FF36F84006F178C /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
-		ABB146140FF36F84006F178C /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
 		ABB146540FF37315006F178C /* NTargetPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPreferences.h; sourceTree = "<group>"; };
 		ABB146550FF37321006F178C /* NWinPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPreferences.cpp; sourceTree = "<group>"; };
 		ABB146560FF37325006F178C /* NMacPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPreferences.cpp; sourceTree = "<group>"; };
@@ -670,6 +664,27 @@
 		ABBE8C8E2446096C009E9B53 /* NUsageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageLog.h; sourceTree = "<group>"; };
 		ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageBucket.cpp; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
+		ABC6466B2581666F009B82AD /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
+		ABC6466C2581666F009B82AD /* expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_config.h; sourceTree = "<group>"; };
+		ABC6466D2581666F009B82AD /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		ABC6466E2581666F009B82AD /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
+		ABC6466F2581666F009B82AD /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
+		ABC646702581666F009B82AD /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
+		ABC646712581666F009B82AD /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
+		ABC646722581666F009B82AD /* siphash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = siphash.h; sourceTree = "<group>"; };
+		ABC646732581666F009B82AD /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
+		ABC646742581666F009B82AD /* expat_external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_external.h; sourceTree = "<group>"; };
+		ABC646752581666F009B82AD /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
+		ABC646762581666F009B82AD /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
+		ABC646772581666F009B82AD /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
+		ABC646782581666F009B82AD /* Nano_expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_expat_config.h; sourceTree = "<group>"; };
+		ABC646792581666F009B82AD /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
+		ABC6467A2581666F009B82AD /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		ABC6467B2581666F009B82AD /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
+		ABC6467C2581666F009B82AD /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
+		ABC6467D2581666F009B82AD /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
+		ABC6467E2581666F009B82AD /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
+		ABC6467F2581666F009B82AD /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
 		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
 		ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReadWriteLock.cpp; sourceTree = "<group>"; };
@@ -1276,7 +1291,7 @@
 			isa = PBXGroup;
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
-				ABB146050FF36F84006F178C /* expat_2.0.1 */,
+				ABC6466A2581666F009B82AD /* expat-2.2.10 */,
 				AB04AC1F243FA91700485373 /* fmt_7.0.3 */,
 				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
 				AB1694D510028C8200F7D4B7 /* libb64_1.1 */,
@@ -1564,28 +1579,6 @@
 			path = Qt;
 			sourceTree = "<group>";
 		};
-		ABB146050FF36F84006F178C /* expat_2.0.1 */ = {
-			isa = PBXGroup;
-			children = (
-				ABB146060FF36F84006F178C /* ascii.h */,
-				ABB146070FF36F84006F178C /* asciitab.h */,
-				ABB146080FF36F84006F178C /* expat_config.h */,
-				ABB1460A0FF36F84006F178C /* expat_external.h */,
-				ABB146090FF36F84006F178C /* expat.h */,
-				ABB1460B0FF36F84006F178C /* iasciitab.h */,
-				ABB1460C0FF36F84006F178C /* internal.h */,
-				ABB1460D0FF36F84006F178C /* latin1tab.h */,
-				ABB1460E0FF36F84006F178C /* nametab.h */,
-				ABB1460F0FF36F84006F178C /* utf8tab.h */,
-				ABB146100FF36F84006F178C /* xmlparse.c */,
-				ABB146110FF36F84006F178C /* xmlrole.c */,
-				ABB146120FF36F84006F178C /* xmlrole.h */,
-				ABB146130FF36F84006F178C /* xmltok.c */,
-				ABB146140FF36F84006F178C /* xmltok.h */,
-			);
-			path = expat_2.0.1;
-			sourceTree = "<group>";
-		};
 		ABB95B640FB7241B00C5A7FF /* Internal */ = {
 			isa = PBXGroup;
 			children = (
@@ -1641,6 +1634,34 @@
 				ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		ABC6466A2581666F009B82AD /* expat-2.2.10 */ = {
+			isa = PBXGroup;
+			children = (
+				ABC6466B2581666F009B82AD /* xmlrole.c */,
+				ABC6466C2581666F009B82AD /* expat_config.h */,
+				ABC6466D2581666F009B82AD /* internal.h */,
+				ABC6466E2581666F009B82AD /* xmltok.h */,
+				ABC6466F2581666F009B82AD /* xmltok_ns.c */,
+				ABC646702581666F009B82AD /* nametab.h */,
+				ABC646712581666F009B82AD /* xmlparse.c */,
+				ABC646722581666F009B82AD /* siphash.h */,
+				ABC646732581666F009B82AD /* latin1tab.h */,
+				ABC646742581666F009B82AD /* expat_external.h */,
+				ABC646752581666F009B82AD /* xmltok_impl.h */,
+				ABC646762581666F009B82AD /* utf8tab.h */,
+				ABC646772581666F009B82AD /* ascii.h */,
+				ABC646782581666F009B82AD /* Nano_expat_config.h */,
+				ABC646792581666F009B82AD /* xmlrole.h */,
+				ABC6467A2581666F009B82AD /* COPYING */,
+				ABC6467B2581666F009B82AD /* expat.h */,
+				ABC6467C2581666F009B82AD /* xmltok.c */,
+				ABC6467D2581666F009B82AD /* xmltok_impl.c */,
+				ABC6467E2581666F009B82AD /* asciitab.h */,
+				ABC6467F2581666F009B82AD /* iasciitab.h */,
+			);
+			path = "expat-2.2.10";
 			sourceTree = "<group>";
 		};
 		ABD68173167AAB9800CB2E04 /* udp.github.com */ = {
@@ -1771,6 +1792,7 @@
 			files = (
 				AB51286E23D2810600528FBE /* pcre2_config.c in Sources */,
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
+				ABC6468B2581666F009B82AD /* xmltok.c in Sources */,
 				AB51283823D2810600528FBE /* pcre2_chartables.c in Sources */,
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				ABF824E7245CD8AE00C8566C /* compress.c in Sources */,
@@ -1787,6 +1809,7 @@
 				AB51286523D2810600528FBE /* pcre2_context.c in Sources */,
 				AB51282323D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
 				ABF8250B245CD8AE00C8566C /* inffast.c in Sources */,
+				ABC646822581666F009B82AD /* xmlrole.c in Sources */,
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
 				AB51286223D2810600528FBE /* pcre2_valid_utf.c in Sources */,
 				ABDCE8D6241C61880054A16E /* tvOSNTimeUtils.cpp in Sources */,
@@ -1834,6 +1857,7 @@
 				ABF824FF245CD8AE00C8566C /* uncompr.c in Sources */,
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				AB51287723D2810600528FBE /* pcre2_auto_possess.c in Sources */,
+				ABC646882581666F009B82AD /* xmlparse.c in Sources */,
 				AB51281D23D2810600528FBE /* pcre2_script_run.c in Sources */,
 				AB51285623D2810600528FBE /* pcre2_ucd.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
@@ -1860,6 +1884,7 @@
 			files = (
 				AB51286C23D2810600528FBE /* pcre2_config.c in Sources */,
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
+				ABC646892581666F009B82AD /* xmltok.c in Sources */,
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
 				AB51283623D2810600528FBE /* pcre2_chartables.c in Sources */,
 				ABF824E5245CD8AE00C8566C /* compress.c in Sources */,
@@ -1876,6 +1901,7 @@
 				AB51284523D2810600528FBE /* pcre2_compile.c in Sources */,
 				AB51286323D2810600528FBE /* pcre2_context.c in Sources */,
 				ABF82509245CD8AE00C8566C /* inffast.c in Sources */,
+				ABC646802581666F009B82AD /* xmlrole.c in Sources */,
 				AB51282123D2810600528FBE /* pcre2_fuzzsupport.c in Sources */,
 				AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
@@ -1923,6 +1949,7 @@
 				ABF824FD245CD8AE00C8566C /* uncompr.c in Sources */,
 				AB4EB4C02430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				AB51281B23D2810600528FBE /* pcre2_script_run.c in Sources */,
+				ABC646862581666F009B82AD /* xmlparse.c in Sources */,
 				AB51285423D2810600528FBE /* pcre2_ucd.c in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				AB51282A23D2810600528FBE /* pcre2_dfa_match.c in Sources */,
@@ -1949,6 +1976,7 @@
 			files = (
 				AB51287923D2810600528FBE /* pcre2_serialize.c in Sources */,
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
+				ABC6468A2581666F009B82AD /* xmltok.c in Sources */,
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB51287623D2810600528FBE /* pcre2_auto_possess.c in Sources */,
 				ABF824E6245CD8AE00C8566C /* compress.c in Sources */,
@@ -1965,6 +1993,7 @@
 				AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				AB51285223D2810600528FBE /* pcre2_maketables.c in Sources */,
 				ABF8250A245CD8AE00C8566C /* inffast.c in Sources */,
+				ABC646812581666F009B82AD /* xmlrole.c in Sources */,
 				AB51284623D2810600528FBE /* pcre2_compile.c in Sources */,
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
@@ -2012,6 +2041,7 @@
 				ABF824FE245CD8AE00C8566C /* uncompr.c in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
 				AB51286723D2810600528FBE /* pcre2_match_data.c in Sources */,
+				ABC646872581666F009B82AD /* xmlparse.c in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB51286423D2810600528FBE /* pcre2_context.c in Sources */,
 				AB51284923D2810600528FBE /* pcre2_jit_compile.c in Sources */,

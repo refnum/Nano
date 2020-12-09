@@ -364,7 +364,7 @@ inline size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t
 #if NN_ARCH_64
 		theDigest = XXH64(thePtr, theSize, prevValue);
 #else
-		theDigest = XXH32(thePtr, theSize, prevValue);
+		theDigest      = XXH32(thePtr, theSize, prevValue);
 #endif
 
 		NN_DIAGNOSTIC_POP();
@@ -396,7 +396,7 @@ inline uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, ui
 #if NN_ARCH_64
 		theDigest = uint32_t(XXH64(thePtr, theSize, prevValue));
 #else
-		theDigest = XXH32(thePtr, theSize, prevValue);
+		theDigest      = XXH32(thePtr, theSize, prevValue);
 #endif
 
 		NN_DIAGNOSTIC_POP();

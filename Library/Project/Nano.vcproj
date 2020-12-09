@@ -1451,7 +1451,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\xmlparse.c"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\xmlparse.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1473,7 +1473,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\xmlrole.c"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\xmlrole.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1495,7 +1495,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\xmltok.c"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\xmltok.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1545,11 +1545,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\ascii.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\ascii.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\asciitab.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\asciitab.h"
 				>
 			</File>
 			<File
@@ -1585,15 +1585,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\expat.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\expat.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\expat_config.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\expat_config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\expat_external.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\expat_external.h"
 				>
 			</File>
 			<File
@@ -1601,7 +1601,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\iasciitab.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\iasciitab.h"
 				>
 			</File>
 			<File
@@ -1621,7 +1621,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\internal.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\internal.h"
 				>
 			</File>
 			<File
@@ -1629,11 +1629,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\latin1tab.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\latin1tab.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\nametab.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\nametab.h"
 				>
 			</File>
 			<File
@@ -2145,19 +2145,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\utf8tab.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\utf8tab.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\xmlrole.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\xmlrole.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\xmltok.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\xmltok.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\expat_2.0.1\xmltok_impl.h"
+				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\xmltok_impl.h"
 				>
 			</File>
 			<File

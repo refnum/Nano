@@ -1,8 +1,8 @@
 /*	NAME:
-		Nano Prefix.h
+		Nano_expat_config.h
 
 	DESCRIPTION:
-		Nano prefix header.
+		Nano expat config.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,30 +36,44 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NANO_PREFIX_H
-#define NANO_PREFIX_H
+#ifndef NANO_EXPAT_CONFIG_H
+#define NANO_EXPAT_CONFIG_H
 //=============================================================================
-//		Macros
+//		Includes
 //-----------------------------------------------------------------------------
-// PCRE
-#define HAVE_CONFIG_H                                       1
-#define SUPPORT_UNICODE                                     1
-#define PCRE2_STATIC                                        1
-#define PCRE2_CODE_UNIT_WIDTH                               8
+// Nano
+#include "NanoMacros.h"
+#include "NanoTargets.h"
+
+// System
+#include <assert.h>
+#include <stdbool.h>
 
 
-// Expat
-#define XML_STATIC                                          1
 
 
 
-// Nano 3.x
-/*
+//=============================================================================
+//		Expat
+//-----------------------------------------------------------------------------
+#define BYTEORDER                                           (NN_ENDIAN_BIG ? 4321 : 1234)
+#define XML_CONTEXT_BYTES                                   1024
+#define XML_DTD                                             1
+#define XML_LARGE_SIZE                                      1
+#define XML_NS                                              1
 
-   // ZLib
- #define Z_PREFIX                                           1
- #define z_Byte                                             uint8_t
- */
+#if !NN_TARGET_WINDOWS
+	#define HAVE_ARC4RANDOM                                 1
+#endif
+
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-qual");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-int-conversion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wshorten-64-to-32");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-macros");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wunreachable-code");
 
 
-#endif // NANO_PREFIX_H
+
+#endif // NANO_EXPAT_CONFIG_H
