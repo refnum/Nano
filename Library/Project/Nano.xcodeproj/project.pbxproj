@@ -500,8 +500,6 @@
 		AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_iOS.xcconfig; sourceTree = "<group>"; };
 		AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_macOS.xcconfig; sourceTree = "<group>"; };
 		AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Read Me.txt"; sourceTree = "<group>"; };
-		AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
-		AB9155050F9B4DD5009FFEAF /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
 		AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCommandLine.cpp; sourceTree = "<group>"; };
 		AB9155080F9B4DD5009FFEAF /* NCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCommandLine.h; sourceTree = "<group>"; };
 		AB91550C0F9B4DD5009FFEAF /* NanoTargets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTargets.h; sourceTree = "<group>"; };
@@ -1247,20 +1245,10 @@
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
-				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
 				ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		AB9155030F9B4DD5009FFEAF /* unicode.org */ = {
-			isa = PBXGroup;
-			children = (
-				AB9155040F9B4DD5009FFEAF /* ConvertUTF.c */,
-				AB9155050F9B4DD5009FFEAF /* ConvertUTF.h */,
-			);
-			path = unicode.org;
 			sourceTree = "<group>";
 		};
 		AB9155060F9B4DD5009FFEAF /* Application */ = {
