@@ -108,12 +108,10 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/CreateDirectory"
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetChildren"
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetLocation"
           ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetUniqueChild"
           ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Rename"
           ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Exchange"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetLocation"
 
 
 
@@ -160,3 +158,31 @@ jobs:
 #        run: |
 #          cd Build
 #          make -j2 "NanoTest"
+
+
+
+  Windows:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Prepare Build
+        run: |
+          mkdir Build
+          cd    Build
+          cmake -G "Visual Studio 15 2017 Win64"      \
+            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
+            "${GITHUB_WORKSPACE}"
+
+      - name: Build Project
+        run: |
+          cd Build
+          cmake --build . --parallel --config "${{ matrix.config }}" --target NanoTest
+
+

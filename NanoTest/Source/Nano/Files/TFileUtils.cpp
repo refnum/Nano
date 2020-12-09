@@ -205,16 +205,37 @@ NANO_TEST(TFileUtils, "GetLocation")
 
 
 	// Perform the test
+NN_LOG_INFO("AppCaches");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppCaches).IsValid());
+
+NN_LOG_INFO("AppSupport");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppSupport).IsValid());
+
+NN_LOG_INFO("AppTemporaries");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsValid());
+
+NN_LOG_INFO("SharedSupport");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::SharedSupport).IsValid());
+
+NN_LOG_INFO("UserDesktop");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDesktop).IsValid());
+
+NN_LOG_INFO("UserDocuments");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDocuments).IsValid());
+
+NN_LOG_INFO("UserDownloads");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDownloads).IsValid());
+
+NN_LOG_INFO("UserHome");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserHome).IsValid());
+
+NN_LOG_INFO("UserLogs");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserLogs).IsValid());
+
+NN_LOG_INFO("UserPictures");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPictures).IsValid());
+
+NN_LOG_INFO("UserPreferences");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPreferences).IsValid());
 }
 
