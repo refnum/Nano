@@ -348,10 +348,6 @@
 		AB1BCB611771A4D800F3364C /* NCGImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGImage.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
-		AB2000C62386885F00CAB0F1 /* xxhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxhash.h; sourceTree = "<group>"; };
-		AB2000C72386885F00CAB0F1 /* Nano_xxHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_xxHash.h; sourceTree = "<group>"; };
-		AB2000C82386885F00CAB0F1 /* xxhash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xxhash.c; sourceTree = "<group>"; };
-		AB2000C92386885F00CAB0F1 /* xxh3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxh3.h; sourceTree = "<group>"; };
 		AB2000CD2386911800CAB0F1 /* NDataDigest.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDataDigest.inl; sourceTree = "<group>"; };
 		AB23BAED102B5B95009CA347 /* NDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandle.cpp; sourceTree = "<group>"; };
 		AB23BAEE102B5B95009CA347 /* NDBHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandle.h; sourceTree = "<group>"; };
@@ -624,7 +620,6 @@
 		ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageBucket.cpp; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
 		ABC6466B2581666F009B82AD /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
-		ABC6466C2581666F009B82AD /* expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_config.h; sourceTree = "<group>"; };
 		ABC6466D2581666F009B82AD /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
 		ABC6466E2581666F009B82AD /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
 		ABC6466F2581666F009B82AD /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
@@ -703,6 +698,9 @@
 		ABC75E601753910100BB5983 /* NReadWriteLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NReadWriteLock.h; sourceTree = "<group>"; };
 		ABC75E621753910100BB5983 /* NSpinLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSpinLock.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
+		ABCA9E3925818E4000E0B965 /* xxhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxhash.h; sourceTree = "<group>"; };
+		ABCA9E3B25818E4000E0B965 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		ABCA9E4725818ED600E0B965 /* Nano_xxhash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_xxhash.h; sourceTree = "<group>"; };
 		ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGShading.cpp; sourceTree = "<group>"; };
 		ABCFE3901773A0100054EEA3 /* NCGShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGShading.h; sourceTree = "<group>"; };
 		ABD681641679DEC400CB2E04 /* NMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageClient.cpp; sourceTree = "<group>"; };
@@ -903,17 +901,6 @@
 				AB003FDD1096FC56006029F9 /* NNSSingleton.h */,
 			);
 			path = Cocoa;
-			sourceTree = "<group>";
-		};
-		AB2000C52386885F00CAB0F1 /* xxHash_0.7.2 */ = {
-			isa = PBXGroup;
-			children = (
-				AB2000C72386885F00CAB0F1 /* Nano_xxHash.h */,
-				AB2000C62386885F00CAB0F1 /* xxhash.h */,
-				AB2000C82386885F00CAB0F1 /* xxhash.c */,
-				AB2000C92386885F00CAB0F1 /* xxh3.h */,
-			);
-			path = xxHash_0.7.2;
 			sourceTree = "<group>";
 		};
 		AB23BAEC102B5B95009CA347 /* Database */ = {
@@ -1246,7 +1233,7 @@
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				ABD68173167AAB9800CB2E04 /* udp.github.com */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
-				AB2000C52386885F00CAB0F1 /* xxHash_0.7.2 */,
+				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
 				ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */,
 			);
 			path = Components;
@@ -1583,27 +1570,26 @@
 		ABC6466A2581666F009B82AD /* expat-2.2.10 */ = {
 			isa = PBXGroup;
 			children = (
-				ABC6466B2581666F009B82AD /* xmlrole.c */,
-				ABC6466C2581666F009B82AD /* expat_config.h */,
-				ABC6466D2581666F009B82AD /* internal.h */,
-				ABC6466E2581666F009B82AD /* xmltok.h */,
-				ABC6466F2581666F009B82AD /* xmltok_ns.c */,
-				ABC646702581666F009B82AD /* nametab.h */,
-				ABC646712581666F009B82AD /* xmlparse.c */,
-				ABC646722581666F009B82AD /* siphash.h */,
-				ABC646732581666F009B82AD /* latin1tab.h */,
-				ABC646742581666F009B82AD /* expat_external.h */,
-				ABC646752581666F009B82AD /* xmltok_impl.h */,
-				ABC646762581666F009B82AD /* utf8tab.h */,
 				ABC646772581666F009B82AD /* ascii.h */,
-				ABC646782581666F009B82AD /* Nano_expat_config.h */,
-				ABC646792581666F009B82AD /* xmlrole.h */,
-				ABC6467A2581666F009B82AD /* COPYING */,
-				ABC6467B2581666F009B82AD /* expat.h */,
-				ABC6467C2581666F009B82AD /* xmltok.c */,
-				ABC6467D2581666F009B82AD /* xmltok_impl.c */,
 				ABC6467E2581666F009B82AD /* asciitab.h */,
+				ABC6467A2581666F009B82AD /* COPYING */,
+				ABC646742581666F009B82AD /* expat_external.h */,
+				ABC6467B2581666F009B82AD /* expat.h */,
 				ABC6467F2581666F009B82AD /* iasciitab.h */,
+				ABC6466D2581666F009B82AD /* internal.h */,
+				ABC646732581666F009B82AD /* latin1tab.h */,
+				ABC646702581666F009B82AD /* nametab.h */,
+				ABC646782581666F009B82AD /* Nano_expat_config.h */,
+				ABC646722581666F009B82AD /* siphash.h */,
+				ABC646762581666F009B82AD /* utf8tab.h */,
+				ABC646712581666F009B82AD /* xmlparse.c */,
+				ABC6466B2581666F009B82AD /* xmlrole.c */,
+				ABC646792581666F009B82AD /* xmlrole.h */,
+				ABC6467D2581666F009B82AD /* xmltok_impl.c */,
+				ABC646752581666F009B82AD /* xmltok_impl.h */,
+				ABC6466F2581666F009B82AD /* xmltok_ns.c */,
+				ABC6467C2581666F009B82AD /* xmltok.c */,
+				ABC6466E2581666F009B82AD /* xmltok.h */,
 			);
 			path = "expat-2.2.10";
 			sourceTree = "<group>";
@@ -1611,13 +1597,13 @@
 		ABC646AE25817DF2009B82AD /* fmt-7.1.3 */ = {
 			isa = PBXGroup;
 			children = (
-				ABC646AF25817DF2009B82AD /* Nano_fmt_format.h */,
-				ABC646B025817DF2009B82AD /* fmt_ostream.h */,
 				ABC646B125817DF2009B82AD /* fmt_core.h */,
 				ABC646B225817DF2009B82AD /* fmt_format-inl.h */,
 				ABC646B325817DF2009B82AD /* fmt_format.h */,
-				ABC646B425817DF2009B82AD /* LICENSE.rst */,
+				ABC646B025817DF2009B82AD /* fmt_ostream.h */,
 				ABC646B525817DF2009B82AD /* fmt_printf.h */,
+				ABC646B425817DF2009B82AD /* LICENSE.rst */,
+				ABC646AF25817DF2009B82AD /* Nano_fmt_format.h */,
 			);
 			path = "fmt-7.1.3";
 			sourceTree = "<group>";
@@ -1625,11 +1611,11 @@
 		ABC646BA258180BD009B82AD /* libb64-1.2 */ = {
 			isa = PBXGroup;
 			children = (
-				ABC646BB258180BD009B82AD /* LICENSE */,
-				ABC646BC258180BD009B82AD /* cencode.h */,
-				ABC646BD258180BD009B82AD /* cdecode.h */,
 				ABC646BE258180BD009B82AD /* cdecode.c */,
+				ABC646BD258180BD009B82AD /* cdecode.h */,
 				ABC646BF258180BD009B82AD /* cencode.c */,
+				ABC646BC258180BD009B82AD /* cencode.h */,
+				ABC646BB258180BD009B82AD /* LICENSE */,
 				ABC646CC2581829F009B82AD /* Nano_libb64.h */,
 			);
 			path = "libb64-1.2";
@@ -1680,6 +1666,16 @@
 				ABC646ED25818466009B82AD /* pcre2.h */,
 			);
 			path = "pcre2-10.36";
+			sourceTree = "<group>";
+		};
+		ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */ = {
+			isa = PBXGroup;
+			children = (
+				ABCA9E3B25818E4000E0B965 /* LICENSE */,
+				ABCA9E4725818ED600E0B965 /* Nano_xxhash.h */,
+				ABCA9E3925818E4000E0B965 /* xxhash.h */,
+			);
+			path = "xxHash-0.8.0";
 			sourceTree = "<group>";
 		};
 		ABD68173167AAB9800CB2E04 /* udp.github.com */ = {

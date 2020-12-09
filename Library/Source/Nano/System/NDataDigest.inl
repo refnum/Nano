@@ -45,7 +45,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NTextUtils.h"
-#include "Nano_xxHash.h"
+#include "Nano_xxhash.h"
 
 
 

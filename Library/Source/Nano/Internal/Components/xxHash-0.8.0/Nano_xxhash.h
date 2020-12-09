@@ -1,8 +1,8 @@
 /*	NAME:
-		Nano_xxHash.h
+		Nano_xxhash.h
 
 	DESCRIPTION:
-		xxHash support.
+		Nano xxHash support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,34 +36,36 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NANO_XX_HASH_H
-#define NANO_XX_HASH_H
-//=============================================================================
-//		Macros
-//-----------------------------------------------------------------------------
-#define XXH_INLINE_ALL
-
-
-
-
-
+#ifndef NANO_XXHASH_H
+#define NANO_XXHASH_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NanoMacros.h"
 
+
+
+
+
+//=============================================================================
+//		xxhash
+//-----------------------------------------------------------------------------
+#define XXH_INLINE_ALL
+
 NN_DIAGNOSTIC_PUSH();
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wunknown-warning-option");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wextra-semi-stmt");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-fallthrough");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wold-style-cast");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wzero-as-null-pointer-constant");
 
-#include "xxh3.h"
 #include "xxhash.h"
 
 NN_DIAGNOSTIC_POP();
 
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
 
 
-#endif // NANO_XX_HASH_H
+
+#endif // NANO_XXHASH_H
