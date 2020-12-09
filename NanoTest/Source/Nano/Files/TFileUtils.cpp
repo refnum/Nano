@@ -200,65 +200,21 @@ NANO_TEST(TFileUtils, "GetChildren")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-#include "NPOSIX.h"
-
 NANO_TEST(TFileUtils, "GetLocation")
 {
 
 
 	// Perform the test
-NN_LOG_INFO("AppCaches");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppCaches).IsValid());
-
-NN_LOG_INFO("AppSupport");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppSupport).IsValid());
-
-NN_LOG_INFO("AppTemporaries");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::AppTemporaries).IsValid());
-
-NN_LOG_INFO("SharedSupport");
-
-NString thePath;
-thePath = NPOSIX::getenv("XDG_DATA_DIRS");
-NN_LOG_INFO("thePath.1=[%s]", thePath.GetUTF8());
-if (thePath.Contains(":"))
-{
-NN_LOG_INFO("thePath.2=[%s]", thePath.GetUTF8());
-	thePath = thePath.Split(":").front();
-NN_LOG_INFO("thePath.3=[%s]", thePath.GetUTF8());
-}
-
-NN_LOG_INFO("thePath.4=[%s]", thePath.GetUTF8());
-if (thePath.IsEmpty())
-{
-NN_LOG_INFO("thePath.5=[%s]", thePath.GetUTF8());
-	thePath = NString("/usr/local/share");
-NN_LOG_INFO("thePath.6=[%s]", thePath.GetUTF8());
-}
-NN_LOG_INFO("thePath.7=[%s]", thePath.GetUTF8());
-
-
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::SharedSupport).IsValid());
-
-NN_LOG_INFO("UserDesktop");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDesktop).IsValid());
-
-NN_LOG_INFO("UserDocuments");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDocuments).IsValid());
-
-NN_LOG_INFO("UserDownloads");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserDownloads).IsValid());
-
-NN_LOG_INFO("UserHome");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserHome).IsValid());
-
-NN_LOG_INFO("UserLogs");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserLogs).IsValid());
-
-NN_LOG_INFO("UserPictures");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPictures).IsValid());
-
-NN_LOG_INFO("UserPreferences");
 	REQUIRE(NFileUtils::GetLocation(NFileLocation::UserPreferences).IsValid());
 }
 

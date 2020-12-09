@@ -461,7 +461,11 @@ XXH_PUBLIC_API XXH64_hash_t XXH3_64bits_withSeed(const void* data, size_t len, X
 /* streaming 64-bit */
 
 #if defined (__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)   /* C11+ */
+#if NN_COMPILER_MSVC && __cplusplus
+#include <cstdalign>
+#else
 #  include <stdalign.h>
+#endif // NN_COMPILER_MSVC
 #  define XXH_ALIGN(n)      alignas(n)
 #elif defined(__GNUC__)
 #  define XXH_ALIGN(n)      __attribute__ ((aligned(n)))
