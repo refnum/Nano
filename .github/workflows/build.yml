@@ -108,7 +108,7 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileHandle/*"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/*"
 
 
 
@@ -138,10 +138,15 @@ jobs:
 
       - name: Install NDK
         if: steps.ndk-cache.outputs.cache-hit != 'true'
-        run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669"
+        run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" | grep -v = || true
 
       - name: Prepare Build
         run: |
+          ls -l /usr/local/lib/
+          ls -l /usr/local/lib/android
+          ls -l /usr/local/lib/android/sdk
+          ls -l /usr/local/lib/android/sdk/ndk
+          find /usr/local/lib -name "*toolchain.cmake"
           mkdir Build
           cd    Build
           cmake -G "Unix Makefiles"                                                                     \
