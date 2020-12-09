@@ -10,9 +10,16 @@ jobs:
 
     strategy:
       matrix:
-        run-config:
-          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS', app: './Debug/NanoTest_macOS' }
-          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
+        platform: ['macOS', 'iOS', 'tvOS']
+        config: ['Debug', 'Release']
+
+
+
+
+
+#        run-config:
+#          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS', app: './Debug/NanoTest_macOS' }
+#          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
 
 
 #          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS' }
@@ -22,27 +29,32 @@ jobs:
 #          - { scheme: 'NanoTest_tvOS - Debug',    destination: 'generic/platform=tvOS' }
 #          - { scheme: 'NanoTest_tvOS - Release',  destination: 'generic/platform=tvOS' }
 
+
+#            -scheme      '${{ matrix.run-config['scheme'] }}'      \
+#            -destination '${{ matrix.run-config['destination'] }}' \
+
+
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
 
       - name: Build Project
         run: |
-          xcodebuild build                                         \
-            -project NanoTest/Project/NanoTest.xcodeproj           \
-            -scheme      '${{ matrix.run-config['scheme'] }}'      \
-            -destination '${{ matrix.run-config['destination'] }}' \
-            -parallelizeTargets                                    \
-            -enableAddressSanitizer           YES                  \
-            -enableUndefinedBehaviorSanitizer YES                  \
-            Nano="${GITHUB_WORKSPACE}"                             \
+          xcodebuild build                                                        \
+            -project NanoTest/Project/NanoTest.xcodeproj                          \
+            -scheme      "NanoTest_${{ matrix.platform }} - ${{ matrix.config }}" \
+            -destination "generic/platform=${{ matrix.platform }}"                \
+            -parallelizeTargets                                                   \
+            -enableAddressSanitizer           YES                                 \
+            -enableUndefinedBehaviorSanitizer YES                                 \
+            Nano="${GITHUB_WORKSPACE}"                                            \
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Run Tests
-        if: matrix.run-config['app'] != ''
+        if: matrix.platform == 'macOS'
         run: |
           cd Build
-          "${{ matrix.run-config['app'] }}" -d 1
+          "./${{ matrix.config }}/NanoTest_macOS" -d 1
 
 
 
@@ -62,7 +74,7 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          cmake -G "Unix Makefiles"                                 \
+          cmake -G "Unix Makefiles"                   \
             -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
             "${GITHUB_WORKSPACE}"
           
@@ -74,4 +86,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d 1 "Nano/TFileInfo/*"
+          ./NanoTest/Project/NanoTest -d 1 "Nano/TFilePath/*"
