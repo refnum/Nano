@@ -11,7 +11,11 @@ jobs:
     strategy:
       matrix:
         run-config:
-          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS' }
+          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS', app: './Debug/NanoTest_macOS' }
+          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
+
+
+#          - { scheme: 'NanoTest_macOS - Debug',   destination: 'generic/platform=macOS' }
 #          - { scheme: 'NanoTest_macOS - Release', destination: 'generic/platform=macOS' }
 #          - { scheme: 'NanoTest_iOS - Debug',     destination: 'generic/platform=iOS' }
 #          - { scheme: 'NanoTest_iOS - Release',   destination: 'generic/platform=iOS' }
@@ -35,9 +39,10 @@ jobs:
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Run Tests
+        if: matrix.run-config['app'] != ''
         run: |
           cd Build
-          ./Debug/NanoTest_macOS -d 1
+          "${{ matrix.run-config['app'] }}" -d 1
 
 
 
@@ -59,8 +64,8 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          cmake -G "Unix Makefiles"                                   \
-            -DCMAKE_BUILD_TYPE="'${{ matrix.run-config['config'] }}'" \
+          cmake -G "Unix Makefiles"                                 \
+            -DCMAKE_BUILD_TYPE="${{ matrix.run-config['config'] }}" \
             "${GITHUB_WORKSPACE}"
           
       - name: Build Project
@@ -71,4 +76,4 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d 1 "Nano/TFile/*"
+          ./NanoTest/Project/NanoTest -d 1 "Nano/TFileInfo/*"
