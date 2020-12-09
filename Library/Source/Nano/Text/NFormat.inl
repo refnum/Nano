@@ -99,8 +99,7 @@ NString NFormatPackToString(const S& formatStr, Args&&... theArgs)
 	//	https://www.zverovich.net/2017/12/09/improving-compile-times.html
 	//	https://www.zverovich.net/2016/11/05/reducing-printf-call-overhead.html
 	//
-	return NFormatArgsToString(formatStr,
-							   {fmt::detail::make_args_checked<Args...>(formatStr, theArgs...)});
+	return NFormatArgsToString(formatStr, {fmt::make_args_checked<Args...>(formatStr, theArgs...)});
 }
 
 

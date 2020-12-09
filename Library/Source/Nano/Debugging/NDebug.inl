@@ -94,7 +94,7 @@ void NanoLogFormat(L logLevel, P filePath, Ln lineNum, const S& formatStr, Args&
 					  filePath,
 					  lineNum,
 					  formatStr,
-					  {fmt::detail::make_args_checked<Args...>(formatStr, theArgs...)});
+					  {fmt::make_args_checked<Args...>(formatStr, theArgs...)});
 }
 #endif // defined(__cplusplus)
 

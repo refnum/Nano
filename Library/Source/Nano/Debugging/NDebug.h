@@ -46,7 +46,7 @@
 
 #if defined(__cplusplus)
 	#include "NanoConstants.h"
-	#include "Nano_fmt.h"
+	#include "Nano_fmt_format.h"
 #endif
 
 #include "NDebug.inl"

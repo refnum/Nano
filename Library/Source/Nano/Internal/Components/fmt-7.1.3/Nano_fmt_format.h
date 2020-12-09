@@ -1,8 +1,8 @@
 /*	NAME:
-		Nano_fmt.h
+		Nano_fmt_format.h
 
 	DESCRIPTION:
-		fmt support.
+		Nano fmt support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -36,21 +36,27 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NANO_FMT_H
-#define NANO_FMT_H
-//=============================================================================
-//		Macros
-//-----------------------------------------------------------------------------
-#define FMT_HEADER_ONLY
-
-
-
-
-
+#ifndef NANO_FMT_FORMAT_H
+#define NANO_FMT_FORMAT_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NanoMacros.h"
+
+
+
+
+
+//=============================================================================
+//		fmt
+//-----------------------------------------------------------------------------
+#define FMT_HEADER_ONLY
+
+#if !NN_DEBUG && !defined(NDEBUG)
+	#define NDEBUG
+#endif
+
 
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
@@ -59,16 +65,10 @@ NN_DIAGNOSTIC_IGNORE_MSVC(4355);    // 'this' used in base member initializer
 NN_DIAGNOSTIC_IGNORE_MSVC(4365);    // Signed / unsigned mismatch
 NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
 
-#if !NN_DEBUG && !defined(NDEBUG)
-	#define NDEBUG
-#endif
-
 #include "fmt_format.h"
 
 NN_DIAGNOSTIC_POP();
 
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-member-function");
 
 
-#endif // NANO_FMT_H
+#endif // NANO_FMT_FORMAT_H
