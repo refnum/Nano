@@ -108,7 +108,7 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/CreateDirectory"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/CreateFile"
 
 
 
@@ -130,7 +130,7 @@ jobs:
           sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
 
       - name: Cache NDK
-        id:   ndk-cache
+        id: ndk-cache
         uses: actions/cache@v2
         with:
           path: /usr/local/lib/android/sdk/ndk
