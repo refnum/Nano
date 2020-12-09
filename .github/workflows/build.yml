@@ -108,7 +108,7 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/CreateFile"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/DeleteChildren"
 
 
 
