@@ -108,7 +108,12 @@ jobs:
       - name: Run Tests
         run: |
           cd Build
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/DeleteChildren"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/CreateDirectory"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetChildren"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetLocation"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetUniqueChild"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Rename"
+          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Exchange"
 
 
 
