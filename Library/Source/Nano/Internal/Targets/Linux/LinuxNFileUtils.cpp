@@ -168,7 +168,7 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 
 		case NFileLocation::SharedSupport:
 			thePath = NPOSIX::getenv("XDG_DATA_DIRS");
-			if (thePath.GetPath().Contains(":"))
+			if (thePath.IsValid() && thePath.GetPath().Contains(":"))
 			{
 				thePath = thePath.GetPath().Split(":").front();
 			}
