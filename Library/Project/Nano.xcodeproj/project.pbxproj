@@ -36,6 +36,9 @@
 		AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
+		AB3A4995258199E70065B4DA /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4991258199E70065B4DA /* json.c */; };
+		AB3A4996258199E70065B4DA /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4991258199E70065B4DA /* json.c */; };
+		AB3A4997258199E70065B4DA /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4991258199E70065B4DA /* json.c */; };
 		AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */; };
 		AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
 		AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF54D2422FEC600E665D4 /* NFileScanner.cpp */; };
@@ -388,6 +391,9 @@
 		AB3A4984258194580065B4DA /* sqlite3.34.0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.34.0.c; sourceTree = "<group>"; };
 		AB3A4985258194580065B4DA /* Nano_sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_sqlite3.h; sourceTree = "<group>"; };
 		AB3A4986258194580065B4DA /* sqlite3.34.0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.34.0.h; sourceTree = "<group>"; };
+		AB3A4991258199E70065B4DA /* json.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
+		AB3A4992258199E70065B4DA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		AB3A4994258199E70065B4DA /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		AB3B53A6143DCD9400EC0F55 /* NProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NProgressable.cpp; sourceTree = "<group>"; };
 		AB3B53A7143DCD9400EC0F55 /* NProgressable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProgressable.h; sourceTree = "<group>"; };
 		AB42DBBC2425B21800962DD9 /* macOSNFileUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = macOSNFileUtils.mm; sourceTree = "<group>"; };
@@ -709,8 +715,6 @@
 		ABD681651679DEC400CB2E04 /* NMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageClient.h; sourceTree = "<group>"; };
 		ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageEntity.cpp; sourceTree = "<group>"; };
 		ABD681671679DEC400CB2E04 /* NMessageEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageEntity.h; sourceTree = "<group>"; };
-		ABD68174167AAB9900CB2E04 /* json.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
-		ABD68175167AAB9900CB2E04 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NJSONEncoder.cpp; sourceTree = "<group>"; };
 		ABD6817A167AB1FE00CB2E04 /* NJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJSONEncoder.h; sourceTree = "<group>"; };
 		ABDCE89A241BD9130054A16E /* NTime.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTime.inl; sourceTree = "<group>"; };
@@ -938,6 +942,16 @@
 				AB3A4986258194580065B4DA /* sqlite3.34.0.h */,
 			);
 			path = "sqlite-3.34.0";
+			sourceTree = "<group>";
+		};
+		AB3A4990258199E70065B4DA /* json-parser-1.1.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A4991258199E70065B4DA /* json.c */,
+				AB3A4994258199E70065B4DA /* json.h */,
+				AB3A4992258199E70065B4DA /* LICENSE */,
+			);
+			path = "json-parser-1.1.0";
 			sourceTree = "<group>";
 		};
 		AB481C2512A531220052C55F /* Network */ = {
@@ -1226,13 +1240,13 @@
 				ABC6466A2581666F009B82AD /* expat-2.2.10 */,
 				ABC646AE25817DF2009B82AD /* fmt-7.1.3 */,
 				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
+				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
 				ABC646BA258180BD009B82AD /* libb64-1.2 */,
 				ABC646D025818466009B82AD /* pcre2-10.36 */,
 				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
-				ABD68173167AAB9800CB2E04 /* udp.github.com */,
 				AB9155030F9B4DD5009FFEAF /* unicode.org */,
 				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
 				ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */,
@@ -1679,15 +1693,6 @@
 			path = "xxHash-0.8.0";
 			sourceTree = "<group>";
 		};
-		ABD68173167AAB9800CB2E04 /* udp.github.com */ = {
-			isa = PBXGroup;
-			children = (
-				ABD68174167AAB9900CB2E04 /* json.c */,
-				ABD68175167AAB9900CB2E04 /* json.h */,
-			);
-			path = udp.github.com;
-			sourceTree = "<group>";
-		};
 		ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1860,6 +1865,7 @@
 				AB2F1DBD2453AD30005F8C4F /* fm_md5.c in Sources */,
 				ABF82505245CD8AE00C8566C /* trees.c in Sources */,
 				ABC6470125818466009B82AD /* pcre2_convert.c in Sources */,
+				AB3A4997258199E70065B4DA /* json.c in Sources */,
 				ABC6472225818466009B82AD /* pcre2_compile.c in Sources */,
 				ABDCE8D3241C61880054A16E /* tvOSNFileHandle.cpp in Sources */,
 				AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
@@ -1955,6 +1961,7 @@
 				AB2F1DBF2453AD31005F8C4F /* fm_md5.c in Sources */,
 				ABF82503245CD8AE00C8566C /* trees.c in Sources */,
 				ABC646FF25818466009B82AD /* pcre2_convert.c in Sources */,
+				AB3A4995258199E70065B4DA /* json.c in Sources */,
 				ABC6472025818466009B82AD /* pcre2_compile.c in Sources */,
 				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABF824F1245CD8AE00C8566C /* infback.c in Sources */,
@@ -2050,6 +2057,7 @@
 				ABF824FB245CD8AE00C8566C /* inftrees.c in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				ABC6470025818466009B82AD /* pcre2_convert.c in Sources */,
+				AB3A4996258199E70065B4DA /* json.c in Sources */,
 				ABC6472125818466009B82AD /* pcre2_compile.c in Sources */,
 				AB2F1DBE2453AD31005F8C4F /* fm_md5.c in Sources */,
 				ABF82504245CD8AE00C8566C /* trees.c in Sources */,

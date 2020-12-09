@@ -449,7 +449,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\udp.github.com\json.c"
+				RelativePath="..\Source\Nano\Internal\Components\json-parser-1.1.0\json.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1625,7 +1625,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\udp.github.com\json.h"
+				RelativePath="..\Source\Nano\Internal\Components\json-parser-1.1.0\json.h"
 				>
 			</File>
 			<File
