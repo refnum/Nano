@@ -78,43 +78,43 @@ jobs:
 #            -parallelizeTargets                                  \
 #            Nano="${GITHUB_WORKSPACE}"                           \
 #            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
-
-
-
-  Linux:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        config: ['Debug', 'Release']
-
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v2
-
-      - name: Prepare Build
-        run: |
-          mkdir Build
-          cd    Build
-          cmake -G "Unix Makefiles"                   \
-            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
-            "${GITHUB_WORKSPACE}"
-
-      - name: Build Project
-        run: |
-          cd Build
-          make -j2 "NanoTest"
-
-      - name: Run Tests
-        run: |
-          cd Build
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetUniqueChild"
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Rename"
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Exchange"
-          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetLocation"
-
-
-
+#
+#
+#
+#  Linux:
+#    runs-on: ubuntu-latest
+#
+#    strategy:
+#      matrix:
+#        config: ['Debug', 'Release']
+#
+#    steps:
+#      - name: Checkout Project
+#        uses: actions/checkout@v2
+#
+#      - name: Prepare Build
+#        run: |
+#          mkdir Build
+#          cd    Build
+#          cmake -G "Unix Makefiles"                   \
+#            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
+#            "${GITHUB_WORKSPACE}"
+#
+#      - name: Build Project
+#        run: |
+#          cd Build
+#          make -j2 "NanoTest"
+#
+#      - name: Run Tests
+#        run: |
+#          cd Build
+#          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetUniqueChild"
+#          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Rename"
+#          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/Exchange"
+#          ./NanoTest/Project/NanoTest -d yes "Nano/TFileUtils/GetLocation"
+#
+#
+#
 #  Android:
 #    runs-on: ubuntu-latest
 #
@@ -176,9 +176,7 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          cmake -G "Visual Studio 16 2019"            \
-            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
-            "${GITHUB_WORKSPACE}"
+          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" "${GITHUB_WORKSPACE}"
 
       - name: Build Project
         run: |
