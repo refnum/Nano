@@ -176,7 +176,7 @@ jobs:
         run: |
           mkdir Build
           cd    Build
-          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" "${GITHUB_WORKSPACE}"
+          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" "$env:GITHUB_WORKSPACE"
 
       - name: Build Project
         run: |
