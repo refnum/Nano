@@ -5,7 +5,11 @@ This is part of the libb64 project, and has been placed in the public domain.
 For details, see http://sourceforge.net/projects/libb64
 */
 
-#include "cencode.h"
+//=============================================================================
+//		Nano
+//-----------------------------------------------------------------------------
+#include "Nano_libb64.h"
+//#include <b64/cencode.h>
 
 const int CHARS_PER_LINE = 72;
 
@@ -106,3 +110,4 @@ int base64_encode_blockend(char* code_out, base64_encodestate* state_in)
 	
 	return codechar - code_out;
 }
+
