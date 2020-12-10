@@ -8,4 +8,4 @@ Nano is Open Source and distributed under the BSD licence.
 
 ![BuildStatus](https://github.com/refnum/nano/workflows/Build/badge.svg)
 
-![Build macOS](https://github.com/refnum/nano/workflows/Build macOS/badge.svg) | ![Test macOS](https://github.com/refnum/nano/workflows/Test macOS/badge.svg)
+![Build macOS](https://github.com/refnum/nano/workflows/Build%20macOS/badge.svg) | ![Test macOS](https://github.com/refnum/nano/workflows/Test%20macOS/badge.svg)
