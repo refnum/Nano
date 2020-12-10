@@ -6,4 +6,4 @@ Nano provides a set of cross-platform data types such as strings or dictionaries
 
 Nano is Open Source and distributed under the BSD licence.
 
-[![Build Status](https://travis-ci.org/refnum/Nano.svg?branch=master)](https://travis-ci.org/refnum/Nano)
+![BuildStatus](https://github.com/refnum/nano/workflows/Build/badge.svg)
