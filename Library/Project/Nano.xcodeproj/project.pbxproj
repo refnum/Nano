@@ -81,6 +81,18 @@
 		AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB62327124301A4000651349 /* NSharedDarwin.mm */; };
 		AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB62327124301A4000651349 /* NSharedDarwin.mm */; };
 		AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB62327124301A4000651349 /* NSharedDarwin.mm */; };
+		AB8453652581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535C2581A09D00B78BF7 /* WjCryptLib_Aes.c */; };
+		AB8453662581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535C2581A09D00B78BF7 /* WjCryptLib_Aes.c */; };
+		AB8453672581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535C2581A09D00B78BF7 /* WjCryptLib_Aes.c */; };
+		AB8453682581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535D2581A09D00B78BF7 /* WjCryptLib_Sha1.c */; };
+		AB8453692581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535D2581A09D00B78BF7 /* WjCryptLib_Sha1.c */; };
+		AB84536A2581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535D2581A09D00B78BF7 /* WjCryptLib_Sha1.c */; };
+		AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535E2581A09D00B78BF7 /* WjCryptLib_Sha256.c */; };
+		AB84536C2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535E2581A09D00B78BF7 /* WjCryptLib_Sha256.c */; };
+		AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = AB84535E2581A09D00B78BF7 /* WjCryptLib_Sha256.c */; };
+		AB84536E2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; };
+		AB84536F2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; };
+		AB8453702581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; };
 		AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
@@ -491,6 +503,15 @@
 		AB7AB1BB103AED18004B1F6E /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
 		AB7AB1BC103AED18004B1F6E /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
 		AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish_dat.c; sourceTree = "<group>"; };
+		AB84535C2581A09D00B78BF7 /* WjCryptLib_Aes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Aes.c; sourceTree = "<group>"; };
+		AB84535D2581A09D00B78BF7 /* WjCryptLib_Sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Sha1.c; sourceTree = "<group>"; };
+		AB84535E2581A09D00B78BF7 /* WjCryptLib_Sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Sha256.c; sourceTree = "<group>"; };
+		AB84535F2581A09D00B78BF7 /* WjCryptLib_Md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Md5.h; sourceTree = "<group>"; };
+		AB8453602581A09D00B78BF7 /* UNLICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UNLICENSE; sourceTree = "<group>"; };
+		AB8453612581A09D00B78BF7 /* WjCryptLib_Sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Sha1.h; sourceTree = "<group>"; };
+		AB8453622581A09D00B78BF7 /* WjCryptLib_Aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Aes.h; sourceTree = "<group>"; };
+		AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Md5.c; sourceTree = "<group>"; };
+		AB8453642581A09D00B78BF7 /* WjCryptLib_Sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Sha256.h; sourceTree = "<group>"; };
 		AB86FDF123999A4D0062CAA0 /* NSharedDarwin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedDarwin.h; sourceTree = "<group>"; };
 		AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedPOSIX.cpp; sourceTree = "<group>"; };
 		AB86FDF423999A4D0062CAA0 /* NSharedPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedPOSIX.h; sourceTree = "<group>"; };
@@ -1121,6 +1142,22 @@
 			path = schneier.com;
 			sourceTree = "<group>";
 		};
+		AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AB8453602581A09D00B78BF7 /* UNLICENSE */,
+				AB84535C2581A09D00B78BF7 /* WjCryptLib_Aes.c */,
+				AB8453622581A09D00B78BF7 /* WjCryptLib_Aes.h */,
+				AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */,
+				AB84535F2581A09D00B78BF7 /* WjCryptLib_Md5.h */,
+				AB84535D2581A09D00B78BF7 /* WjCryptLib_Sha1.c */,
+				AB8453612581A09D00B78BF7 /* WjCryptLib_Sha1.h */,
+				AB84535E2581A09D00B78BF7 /* WjCryptLib_Sha256.c */,
+				AB8453642581A09D00B78BF7 /* WjCryptLib_Sha256.h */,
+			);
+			path = "WjCryptLib-2.3.0";
+			sourceTree = "<group>";
+		};
 		AB86FDF023999A4D0062CAA0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,6 +1282,7 @@
 				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
+				AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */,
 				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
 				ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */,
 			);
@@ -1805,6 +1843,7 @@
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				ABF824E7245CD8AE00C8566C /* compress.c in Sources */,
 				AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */,
+				AB8453672581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				ABDCE8BA241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646C2258180BD009B82AD /* cdecode.c in Sources */,
 				AB4AF5512422FEC600E665D4 /* NFileScanner.cpp in Sources */,
@@ -1819,6 +1858,7 @@
 				AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */,
 				ABF824F0245CD8AE00C8566C /* crc32.c in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
+				AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				AB2F1DBC2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABC6473A25818466009B82AD /* pcre2_study.c in Sources */,
 				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
@@ -1872,6 +1912,7 @@
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABC646882581666F009B82AD /* xmlparse.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
+				AB84536A2581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABF82502245CD8AE00C8566C /* gzwrite.c in Sources */,
 				ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				ABF824F6245CD8AE00C8566C /* zutil.c in Sources */,
@@ -1887,6 +1928,7 @@
 				ABC6474625818466009B82AD /* pcre2_error.c in Sources */,
 				ABF8250E245CD8AE00C8566C /* adler32.c in Sources */,
 				ABC6471325818466009B82AD /* pcre2_extuni.c in Sources */,
+				AB8453702581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1901,6 +1943,7 @@
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
 				ABF824E5245CD8AE00C8566C /* compress.c in Sources */,
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
+				AB8453652581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				AB4EB4CA2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				ABDCE8B8241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646C0258180BD009B82AD /* cdecode.c in Sources */,
@@ -1915,6 +1958,7 @@
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */,
 				ABF824EE245CD8AE00C8566C /* crc32.c in Sources */,
+				AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				AB2F1DBA2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABC6473825818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
@@ -1968,6 +2012,7 @@
 				ABC646862581666F009B82AD /* xmlparse.c in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				ABDCE8AA241C2A550054A16E /* NPOSIX.cpp in Sources */,
+				AB8453682581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABF82500245CD8AE00C8566C /* gzwrite.c in Sources */,
 				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
 				ABF824F4245CD8AE00C8566C /* zutil.c in Sources */,
@@ -1983,6 +2028,7 @@
 				ABC6474425818466009B82AD /* pcre2_error.c in Sources */,
 				ABF8250C245CD8AE00C8566C /* adler32.c in Sources */,
 				ABC6471125818466009B82AD /* pcre2_extuni.c in Sources */,
+				AB84536E2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1997,6 +2043,7 @@
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				ABF824E6245CD8AE00C8566C /* compress.c in Sources */,
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
+				AB8453662581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				AB4EB4CB2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				ABC646C1258180BD009B82AD /* cdecode.c in Sources */,
@@ -2011,6 +2058,7 @@
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */,
+				AB84536C2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				ABF824EF245CD8AE00C8566C /* crc32.c in Sources */,
 				ABC6473925818466009B82AD /* pcre2_study.c in Sources */,
 				AB2F1DBB2453A1AD005F8C4F /* sha2.c in Sources */,
@@ -2064,6 +2112,7 @@
 				AB4EB4C12430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABF824EC245CD8AE00C8566C /* gzread.c in Sources */,
 				AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */,
+				AB8453692581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
 				ABF824FE245CD8AE00C8566C /* uncompr.c in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
@@ -2079,6 +2128,7 @@
 				ABC6474525818466009B82AD /* pcre2_error.c in Sources */,
 				ABF8250D245CD8AE00C8566C /* adler32.c in Sources */,
 				ABC6471225818466009B82AD /* pcre2_extuni.c in Sources */,
+				AB84536F2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
