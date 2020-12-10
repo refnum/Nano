@@ -2,7 +2,7 @@
 		Nano_zlib.h
 
 	DESCRIPTION:
-		ZLib wrapper.
+		Nano zlib support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software

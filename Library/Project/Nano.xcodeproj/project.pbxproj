@@ -21,6 +21,51 @@
 		AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
 		AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
 		AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA523F2F90800B304D3 /* NStringTransformer.cpp */; };
+		AB230A082581AB8600919EBD /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309EE2581AB8600919EBD /* inflate.c */; };
+		AB230A092581AB8600919EBD /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309EE2581AB8600919EBD /* inflate.c */; };
+		AB230A0A2581AB8600919EBD /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309EE2581AB8600919EBD /* inflate.c */; };
+		AB230A0B2581AB8600919EBD /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F02581AB8600919EBD /* compress.c */; };
+		AB230A0C2581AB8600919EBD /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F02581AB8600919EBD /* compress.c */; };
+		AB230A0D2581AB8600919EBD /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F02581AB8600919EBD /* compress.c */; };
+		AB230A0E2581AB8600919EBD /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F12581AB8600919EBD /* deflate.c */; };
+		AB230A0F2581AB8600919EBD /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F12581AB8600919EBD /* deflate.c */; };
+		AB230A102581AB8600919EBD /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F12581AB8600919EBD /* deflate.c */; };
+		AB230A112581AB8600919EBD /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F32581AB8600919EBD /* gzread.c */; };
+		AB230A122581AB8600919EBD /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F32581AB8600919EBD /* gzread.c */; };
+		AB230A132581AB8600919EBD /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F32581AB8600919EBD /* gzread.c */; };
+		AB230A142581AB8600919EBD /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F62581AB8600919EBD /* crc32.c */; };
+		AB230A152581AB8600919EBD /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F62581AB8600919EBD /* crc32.c */; };
+		AB230A162581AB8600919EBD /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F62581AB8600919EBD /* crc32.c */; };
+		AB230A172581AB8600919EBD /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F82581AB8600919EBD /* infback.c */; };
+		AB230A182581AB8600919EBD /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F82581AB8600919EBD /* infback.c */; };
+		AB230A192581AB8600919EBD /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F82581AB8600919EBD /* infback.c */; };
+		AB230A1A2581AB8600919EBD /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F92581AB8600919EBD /* zutil.c */; };
+		AB230A1B2581AB8600919EBD /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F92581AB8600919EBD /* zutil.c */; };
+		AB230A1C2581AB8600919EBD /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309F92581AB8600919EBD /* zutil.c */; };
+		AB230A1D2581AB8600919EBD /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309FD2581AB8600919EBD /* gzlib.c */; };
+		AB230A1E2581AB8600919EBD /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309FD2581AB8600919EBD /* gzlib.c */; };
+		AB230A1F2581AB8600919EBD /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309FD2581AB8600919EBD /* gzlib.c */; };
+		AB230A202581AB8600919EBD /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309FF2581AB8600919EBD /* inftrees.c */; };
+		AB230A212581AB8600919EBD /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309FF2581AB8600919EBD /* inftrees.c */; };
+		AB230A222581AB8600919EBD /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = AB2309FF2581AB8600919EBD /* inftrees.c */; };
+		AB230A232581AB8600919EBD /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A002581AB8600919EBD /* uncompr.c */; };
+		AB230A242581AB8600919EBD /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A002581AB8600919EBD /* uncompr.c */; };
+		AB230A252581AB8600919EBD /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A002581AB8600919EBD /* uncompr.c */; };
+		AB230A262581AB8600919EBD /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A012581AB8600919EBD /* gzwrite.c */; };
+		AB230A272581AB8600919EBD /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A012581AB8600919EBD /* gzwrite.c */; };
+		AB230A282581AB8600919EBD /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A012581AB8600919EBD /* gzwrite.c */; };
+		AB230A292581AB8600919EBD /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A022581AB8600919EBD /* trees.c */; };
+		AB230A2A2581AB8600919EBD /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A022581AB8600919EBD /* trees.c */; };
+		AB230A2B2581AB8600919EBD /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A022581AB8600919EBD /* trees.c */; };
+		AB230A2C2581AB8600919EBD /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A032581AB8600919EBD /* gzclose.c */; };
+		AB230A2D2581AB8600919EBD /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A032581AB8600919EBD /* gzclose.c */; };
+		AB230A2E2581AB8600919EBD /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A032581AB8600919EBD /* gzclose.c */; };
+		AB230A2F2581AB8600919EBD /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A052581AB8600919EBD /* inffast.c */; };
+		AB230A302581AB8600919EBD /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A052581AB8600919EBD /* inffast.c */; };
+		AB230A312581AB8600919EBD /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A052581AB8600919EBD /* inffast.c */; };
+		AB230A322581AB8600919EBD /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A062581AB8600919EBD /* adler32.c */; };
+		AB230A332581AB8600919EBD /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A062581AB8600919EBD /* adler32.c */; };
+		AB230A342581AB8600919EBD /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB230A062581AB8600919EBD /* adler32.c */; };
 		AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304324524C9100F21BF6 /* NDebugger.cpp */; };
 		AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304324524C9100F21BF6 /* NDebugger.cpp */; };
 		AB2A304724524C9100F21BF6 /* NDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304324524C9100F21BF6 /* NDebugger.cpp */; };
@@ -235,51 +280,6 @@
 		ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E3241F8ACD0054A16E /* NFile.cpp */; };
 		ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E3241F8ACD0054A16E /* NFile.cpp */; };
 		ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E3241F8ACD0054A16E /* NFile.cpp */; };
-		ABF824E2245CD8AE00C8566C /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CA245CD8AE00C8566C /* inflate.c */; };
-		ABF824E3245CD8AE00C8566C /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CA245CD8AE00C8566C /* inflate.c */; };
-		ABF824E4245CD8AE00C8566C /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CA245CD8AE00C8566C /* inflate.c */; };
-		ABF824E5245CD8AE00C8566C /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CB245CD8AE00C8566C /* compress.c */; };
-		ABF824E6245CD8AE00C8566C /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CB245CD8AE00C8566C /* compress.c */; };
-		ABF824E7245CD8AE00C8566C /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CB245CD8AE00C8566C /* compress.c */; };
-		ABF824E8245CD8AE00C8566C /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CC245CD8AE00C8566C /* deflate.c */; };
-		ABF824E9245CD8AE00C8566C /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CC245CD8AE00C8566C /* deflate.c */; };
-		ABF824EA245CD8AE00C8566C /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CC245CD8AE00C8566C /* deflate.c */; };
-		ABF824EB245CD8AE00C8566C /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CE245CD8AE00C8566C /* gzread.c */; };
-		ABF824EC245CD8AE00C8566C /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CE245CD8AE00C8566C /* gzread.c */; };
-		ABF824ED245CD8AE00C8566C /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824CE245CD8AE00C8566C /* gzread.c */; };
-		ABF824EE245CD8AE00C8566C /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D1245CD8AE00C8566C /* crc32.c */; };
-		ABF824EF245CD8AE00C8566C /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D1245CD8AE00C8566C /* crc32.c */; };
-		ABF824F0245CD8AE00C8566C /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D1245CD8AE00C8566C /* crc32.c */; };
-		ABF824F1245CD8AE00C8566C /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D2245CD8AE00C8566C /* infback.c */; };
-		ABF824F2245CD8AE00C8566C /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D2245CD8AE00C8566C /* infback.c */; };
-		ABF824F3245CD8AE00C8566C /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D2245CD8AE00C8566C /* infback.c */; };
-		ABF824F4245CD8AE00C8566C /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D3245CD8AE00C8566C /* zutil.c */; };
-		ABF824F5245CD8AE00C8566C /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D3245CD8AE00C8566C /* zutil.c */; };
-		ABF824F6245CD8AE00C8566C /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D3245CD8AE00C8566C /* zutil.c */; };
-		ABF824F7245CD8AE00C8566C /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D7245CD8AE00C8566C /* gzlib.c */; };
-		ABF824F8245CD8AE00C8566C /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D7245CD8AE00C8566C /* gzlib.c */; };
-		ABF824F9245CD8AE00C8566C /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D7245CD8AE00C8566C /* gzlib.c */; };
-		ABF824FA245CD8AE00C8566C /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D9245CD8AE00C8566C /* inftrees.c */; };
-		ABF824FB245CD8AE00C8566C /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D9245CD8AE00C8566C /* inftrees.c */; };
-		ABF824FC245CD8AE00C8566C /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824D9245CD8AE00C8566C /* inftrees.c */; };
-		ABF824FD245CD8AE00C8566C /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DA245CD8AE00C8566C /* uncompr.c */; };
-		ABF824FE245CD8AE00C8566C /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DA245CD8AE00C8566C /* uncompr.c */; };
-		ABF824FF245CD8AE00C8566C /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DA245CD8AE00C8566C /* uncompr.c */; };
-		ABF82500245CD8AE00C8566C /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DB245CD8AE00C8566C /* gzwrite.c */; };
-		ABF82501245CD8AE00C8566C /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DB245CD8AE00C8566C /* gzwrite.c */; };
-		ABF82502245CD8AE00C8566C /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DB245CD8AE00C8566C /* gzwrite.c */; };
-		ABF82503245CD8AE00C8566C /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DC245CD8AE00C8566C /* trees.c */; };
-		ABF82504245CD8AE00C8566C /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DC245CD8AE00C8566C /* trees.c */; };
-		ABF82505245CD8AE00C8566C /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DC245CD8AE00C8566C /* trees.c */; };
-		ABF82506245CD8AE00C8566C /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DD245CD8AE00C8566C /* gzclose.c */; };
-		ABF82507245CD8AE00C8566C /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DD245CD8AE00C8566C /* gzclose.c */; };
-		ABF82508245CD8AE00C8566C /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DD245CD8AE00C8566C /* gzclose.c */; };
-		ABF82509245CD8AE00C8566C /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DF245CD8AE00C8566C /* inffast.c */; };
-		ABF8250A245CD8AE00C8566C /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DF245CD8AE00C8566C /* inffast.c */; };
-		ABF8250B245CD8AE00C8566C /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824DF245CD8AE00C8566C /* inffast.c */; };
-		ABF8250C245CD8AE00C8566C /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824E0245CD8AE00C8566C /* adler32.c */; };
-		ABF8250D245CD8AE00C8566C /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824E0245CD8AE00C8566C /* adler32.c */; };
-		ABF8250E245CD8AE00C8566C /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = ABF824E0245CD8AE00C8566C /* adler32.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -357,6 +357,34 @@
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB2000CD2386911800CAB0F1 /* NDataDigest.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDataDigest.inl; sourceTree = "<group>"; };
+		AB2309EC2581AB8600919EBD /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		AB2309ED2581AB8600919EBD /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
+		AB2309EE2581AB8600919EBD /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
+		AB2309EF2581AB8600919EBD /* Nano_zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_zlib.h; sourceTree = "<group>"; };
+		AB2309F02581AB8600919EBD /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
+		AB2309F12581AB8600919EBD /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deflate.c; sourceTree = "<group>"; };
+		AB2309F22581AB8600919EBD /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
+		AB2309F32581AB8600919EBD /* gzread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzread.c; sourceTree = "<group>"; };
+		AB2309F42581AB8600919EBD /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
+		AB2309F52581AB8600919EBD /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
+		AB2309F62581AB8600919EBD /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
+		AB2309F72581AB8600919EBD /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		AB2309F82581AB8600919EBD /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infback.c; sourceTree = "<group>"; };
+		AB2309F92581AB8600919EBD /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
+		AB2309FA2581AB8600919EBD /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deflate.h; sourceTree = "<group>"; };
+		AB2309FB2581AB8600919EBD /* gzguts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gzguts.h; sourceTree = "<group>"; };
+		AB2309FC2581AB8600919EBD /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
+		AB2309FD2581AB8600919EBD /* gzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzlib.c; sourceTree = "<group>"; };
+		AB2309FE2581AB8600919EBD /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inflate.h; sourceTree = "<group>"; };
+		AB2309FF2581AB8600919EBD /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
+		AB230A002581AB8600919EBD /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
+		AB230A012581AB8600919EBD /* gzwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzwrite.c; sourceTree = "<group>"; };
+		AB230A022581AB8600919EBD /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trees.c; sourceTree = "<group>"; };
+		AB230A032581AB8600919EBD /* gzclose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzclose.c; sourceTree = "<group>"; };
+		AB230A042581AB8600919EBD /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
+		AB230A052581AB8600919EBD /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
+		AB230A062581AB8600919EBD /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
+		AB230A072581AB8600919EBD /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
 		AB23BAED102B5B95009CA347 /* NDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandle.cpp; sourceTree = "<group>"; };
 		AB23BAEE102B5B95009CA347 /* NDBHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandle.h; sourceTree = "<group>"; };
 		AB23BAEF102B5B95009CA347 /* NDBHandlePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBHandlePool.cpp; sourceTree = "<group>"; };
@@ -761,33 +789,6 @@
 		ABED2B7B10BFE28900EA8ECC /* NCacheValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCacheValue.h; sourceTree = "<group>"; };
 		ABF5130A2397AF7F001F9F8B /* NMixinAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinAttributes.h; sourceTree = "<group>"; };
 		ABF5130B2397AF7F001F9F8B /* NMixinAttributes.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinAttributes.inl; sourceTree = "<group>"; };
-		ABF824C8245CD8AE00C8566C /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
-		ABF824C9245CD8AE00C8566C /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
-		ABF824CA245CD8AE00C8566C /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
-		ABF824CB245CD8AE00C8566C /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
-		ABF824CC245CD8AE00C8566C /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deflate.c; sourceTree = "<group>"; };
-		ABF824CD245CD8AE00C8566C /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
-		ABF824CE245CD8AE00C8566C /* gzread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzread.c; sourceTree = "<group>"; };
-		ABF824CF245CD8AE00C8566C /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
-		ABF824D0245CD8AE00C8566C /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
-		ABF824D1245CD8AE00C8566C /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
-		ABF824D2245CD8AE00C8566C /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infback.c; sourceTree = "<group>"; };
-		ABF824D3245CD8AE00C8566C /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
-		ABF824D4245CD8AE00C8566C /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deflate.h; sourceTree = "<group>"; };
-		ABF824D5245CD8AE00C8566C /* gzguts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gzguts.h; sourceTree = "<group>"; };
-		ABF824D7245CD8AE00C8566C /* gzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzlib.c; sourceTree = "<group>"; };
-		ABF824D8245CD8AE00C8566C /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inflate.h; sourceTree = "<group>"; };
-		ABF824D9245CD8AE00C8566C /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
-		ABF824DA245CD8AE00C8566C /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
-		ABF824DB245CD8AE00C8566C /* gzwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzwrite.c; sourceTree = "<group>"; };
-		ABF824DC245CD8AE00C8566C /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trees.c; sourceTree = "<group>"; };
-		ABF824DD245CD8AE00C8566C /* gzclose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzclose.c; sourceTree = "<group>"; };
-		ABF824DE245CD8AE00C8566C /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
-		ABF824DF245CD8AE00C8566C /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
-		ABF824E0245CD8AE00C8566C /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
-		ABF824E1245CD8AE00C8566C /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
-		ABF8250F245CD8CA00C8566C /* Nano_zlib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_zlib.h; sourceTree = "<group>"; };
-		ABF82510245CDA2700C8566C /* zlib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		ABFAA552101871460060ED12 /* NEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncoder.h; sourceTree = "<group>"; };
 		ABFAA553101871460060ED12 /* NEncodable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEncodable.h; sourceTree = "<group>"; };
 		ABFAA554101871460060ED12 /* NEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NEncoder.cpp; sourceTree = "<group>"; };
@@ -905,6 +906,41 @@
 				AB003FDD1096FC56006029F9 /* NNSSingleton.h */,
 			);
 			path = Cocoa;
+			sourceTree = "<group>";
+		};
+		AB2309EB2581AB8600919EBD /* zlib-1.2.11 */ = {
+			isa = PBXGroup;
+			children = (
+				AB230A062581AB8600919EBD /* adler32.c */,
+				AB2309F02581AB8600919EBD /* compress.c */,
+				AB2309F62581AB8600919EBD /* crc32.c */,
+				AB230A042581AB8600919EBD /* crc32.h */,
+				AB2309F12581AB8600919EBD /* deflate.c */,
+				AB2309FA2581AB8600919EBD /* deflate.h */,
+				AB230A032581AB8600919EBD /* gzclose.c */,
+				AB2309FB2581AB8600919EBD /* gzguts.h */,
+				AB2309FD2581AB8600919EBD /* gzlib.c */,
+				AB2309F32581AB8600919EBD /* gzread.c */,
+				AB230A012581AB8600919EBD /* gzwrite.c */,
+				AB2309F82581AB8600919EBD /* infback.c */,
+				AB230A052581AB8600919EBD /* inffast.c */,
+				AB2309F52581AB8600919EBD /* inffast.h */,
+				AB2309F22581AB8600919EBD /* inffixed.h */,
+				AB2309EE2581AB8600919EBD /* inflate.c */,
+				AB2309FE2581AB8600919EBD /* inflate.h */,
+				AB2309FF2581AB8600919EBD /* inftrees.c */,
+				AB2309ED2581AB8600919EBD /* inftrees.h */,
+				AB2309EF2581AB8600919EBD /* Nano_zlib.h */,
+				AB2309F72581AB8600919EBD /* README */,
+				AB230A022581AB8600919EBD /* trees.c */,
+				AB2309F42581AB8600919EBD /* trees.h */,
+				AB230A002581AB8600919EBD /* uncompr.c */,
+				AB230A072581AB8600919EBD /* zconf.h */,
+				AB2309FC2581AB8600919EBD /* zlib.h */,
+				AB2309F92581AB8600919EBD /* zutil.c */,
+				AB2309EC2581AB8600919EBD /* zutil.h */,
+			);
+			path = "zlib-1.2.11";
 			sourceTree = "<group>";
 		};
 		AB23BAEC102B5B95009CA347 /* Database */ = {
@@ -1254,7 +1290,7 @@
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */,
 				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
-				ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */,
+				AB2309EB2581AB8600919EBD /* zlib-1.2.11 */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1689,40 +1725,6 @@
 			path = "xxHash-0.8.0";
 			sourceTree = "<group>";
 		};
-		ABF824C7245CD8AE00C8566C /* zlib_1.2.11 */ = {
-			isa = PBXGroup;
-			children = (
-				ABF824E0245CD8AE00C8566C /* adler32.c */,
-				ABF824CB245CD8AE00C8566C /* compress.c */,
-				ABF824D1245CD8AE00C8566C /* crc32.c */,
-				ABF824DE245CD8AE00C8566C /* crc32.h */,
-				ABF824CC245CD8AE00C8566C /* deflate.c */,
-				ABF824D4245CD8AE00C8566C /* deflate.h */,
-				ABF824DD245CD8AE00C8566C /* gzclose.c */,
-				ABF824D5245CD8AE00C8566C /* gzguts.h */,
-				ABF824D7245CD8AE00C8566C /* gzlib.c */,
-				ABF824CE245CD8AE00C8566C /* gzread.c */,
-				ABF824DB245CD8AE00C8566C /* gzwrite.c */,
-				ABF824D2245CD8AE00C8566C /* infback.c */,
-				ABF824DF245CD8AE00C8566C /* inffast.c */,
-				ABF824D0245CD8AE00C8566C /* inffast.h */,
-				ABF824CD245CD8AE00C8566C /* inffixed.h */,
-				ABF824CA245CD8AE00C8566C /* inflate.c */,
-				ABF824D8245CD8AE00C8566C /* inflate.h */,
-				ABF824D9245CD8AE00C8566C /* inftrees.c */,
-				ABF824C9245CD8AE00C8566C /* inftrees.h */,
-				ABF8250F245CD8CA00C8566C /* Nano_zlib.h */,
-				ABF824DC245CD8AE00C8566C /* trees.c */,
-				ABF824CF245CD8AE00C8566C /* trees.h */,
-				ABF824DA245CD8AE00C8566C /* uncompr.c */,
-				ABF824E1245CD8AE00C8566C /* zconf.h */,
-				ABF82510245CDA2700C8566C /* zlib.h */,
-				ABF824D3245CD8AE00C8566C /* zutil.c */,
-				ABF824C8245CD8AE00C8566C /* zutil.h */,
-			);
-			path = zlib_1.2.11;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1807,26 +1809,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABC6471925818466009B82AD /* pcre2_match.c in Sources */,
+				AB230A0A2581AB8600919EBD /* inflate.c in Sources */,
+				AB230A1C2581AB8600919EBD /* zutil.c in Sources */,
 				ABC6473D25818466009B82AD /* pcre2_valid_utf.c in Sources */,
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				ABC6468B2581666F009B82AD /* xmltok.c in Sources */,
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
-				ABF824E7245CD8AE00C8566C /* compress.c in Sources */,
 				AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB8453672581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				ABDCE8BA241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646C2258180BD009B82AD /* cdecode.c in Sources */,
 				AB4AF5512422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				ABC6472B25818466009B82AD /* pcre2_tables.c in Sources */,
+				AB230A2B2581AB8600919EBD /* trees.c in Sources */,
 				ABC646FB25818466009B82AD /* pcre2_xclass.c in Sources */,
-				ABF8250B245CD8AE00C8566C /* inffast.c in Sources */,
+				AB230A102581AB8600919EBD /* deflate.c in Sources */,
 				ABC646822581666F009B82AD /* xmlrole.c in Sources */,
+				AB230A1F2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470A25818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
 				ABC6470425818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
 				ABDCE8D6241C61880054A16E /* tvOSNTimeUtils.cpp in Sources */,
+				AB230A162581AB8600919EBD /* crc32.c in Sources */,
 				AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */,
-				ABF824F0245CD8AE00C8566C /* crc32.c in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
 				AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				ABC6473A25818466009B82AD /* pcre2_study.c in Sources */,
@@ -1836,6 +1841,7 @@
 				ABC6472E25818466009B82AD /* pcre2_maketables.c in Sources */,
 				AB62326A242AF51300651349 /* NLog.cpp in Sources */,
 				ABC6474F25818466009B82AD /* pcre2_newline.c in Sources */,
+				AB230A222581AB8600919EBD /* inftrees.c in Sources */,
 				ABC6471025818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABC6472525818466009B82AD /* pcre2_jit_compile.c in Sources */,
 				AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */,
@@ -1844,8 +1850,7 @@
 				ABC6475525818466009B82AD /* pcre2_serialize.c in Sources */,
 				ABC646C5258180BD009B82AD /* cencode.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
-				ABF82508245CD8AE00C8566C /* gzclose.c in Sources */,
-				ABF824F9245CD8AE00C8566C /* gzlib.c in Sources */,
+				AB230A132581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471625818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473425818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6473125818466009B82AD /* pcre2_ucd.c in Sources */,
@@ -1853,48 +1858,45 @@
 				ABBE8C912446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				ABC6474325818466009B82AD /* pcre2_match_data.c in Sources */,
+				AB230A192581AB8600919EBD /* infback.c in Sources */,
 				ABC6473725818466009B82AD /* pcre2_substitute.c in Sources */,
 				AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */,
 				ABDCE8D5241C61880054A16E /* tvOSNSemaphore.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
-				ABF824FC245CD8AE00C8566C /* inftrees.c in Sources */,
-				ABF82505245CD8AE00C8566C /* trees.c in Sources */,
 				ABC6470125818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4997258199E70065B4DA /* json.c in Sources */,
 				ABC6472225818466009B82AD /* pcre2_compile.c in Sources */,
 				ABDCE8D3241C61880054A16E /* tvOSNFileHandle.cpp in Sources */,
 				AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
-				ABF824F3245CD8AE00C8566C /* infback.c in Sources */,
 				ABC6472825818466009B82AD /* pcre2_ord2utf.c in Sources */,
 				ABDCE8D4241C61880054A16E /* tvOSNFileInfo.cpp in Sources */,
 				ABC6474925818466009B82AD /* pcre2_config.c in Sources */,
 				AB56391023C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC646FE25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6474025818466009B82AD /* pcre2_context.c in Sources */,
-				ABF824ED245CD8AE00C8566C /* gzread.c in Sources */,
 				ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				ABC6475225818466009B82AD /* pcre2_auto_possess.c in Sources */,
 				AB2A304724524C9100F21BF6 /* NDebugger.cpp in Sources */,
-				ABF824FF245CD8AE00C8566C /* uncompr.c in Sources */,
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABC646882581666F009B82AD /* xmlparse.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB84536A2581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
-				ABF82502245CD8AE00C8566C /* gzwrite.c in Sources */,
 				ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */,
-				ABF824F6245CD8AE00C8566C /* zutil.c in Sources */,
 				AB62326D242AF51300651349 /* NLogOutput.cpp in Sources */,
-				ABF824E4245CD8AE00C8566C /* inflate.c in Sources */,
+				AB230A342581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
-				ABF824EA245CD8AE00C8566C /* deflate.c in Sources */,
+				AB230A282581AB8600919EBD /* gzwrite.c in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */,
+				AB230A312581AB8600919EBD /* inffast.c in Sources */,
+				AB230A252581AB8600919EBD /* uncompr.c in Sources */,
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
+				AB230A2E2581AB8600919EBD /* gzclose.c in Sources */,
 				AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
+				AB230A0D2581AB8600919EBD /* compress.c in Sources */,
 				ABC6474625818466009B82AD /* pcre2_error.c in Sources */,
-				ABF8250E245CD8AE00C8566C /* adler32.c in Sources */,
 				ABC6471325818466009B82AD /* pcre2_extuni.c in Sources */,
 				AB8453702581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
 			);
@@ -1905,27 +1907,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABC6471725818466009B82AD /* pcre2_match.c in Sources */,
+				AB230A082581AB8600919EBD /* inflate.c in Sources */,
+				AB230A1A2581AB8600919EBD /* zutil.c in Sources */,
 				ABC6473B25818466009B82AD /* pcre2_valid_utf.c in Sources */,
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
 				ABC646892581666F009B82AD /* xmltok.c in Sources */,
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
-				ABF824E5245CD8AE00C8566C /* compress.c in Sources */,
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB8453652581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				AB4EB4CA2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				ABDCE8B8241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646C0258180BD009B82AD /* cdecode.c in Sources */,
 				ABC6472925818466009B82AD /* pcre2_tables.c in Sources */,
+				AB230A292581AB8600919EBD /* trees.c in Sources */,
 				ABC646F925818466009B82AD /* pcre2_xclass.c in Sources */,
 				AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */,
-				ABF82509245CD8AE00C8566C /* inffast.c in Sources */,
+				AB230A0E2581AB8600919EBD /* deflate.c in Sources */,
+				AB230A1D2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470825818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				ABC646802581666F009B82AD /* xmlrole.c in Sources */,
 				ABC6470225818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
 				AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */,
+				AB230A142581AB8600919EBD /* crc32.c in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */,
-				ABF824EE245CD8AE00C8566C /* crc32.c in Sources */,
 				AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				ABC6473825818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
@@ -1934,6 +1939,7 @@
 				ABC6472C25818466009B82AD /* pcre2_maketables.c in Sources */,
 				ABDCE8CF241C60540054A16E /* iOSNFileHandle.cpp in Sources */,
 				ABC6474D25818466009B82AD /* pcre2_newline.c in Sources */,
+				AB230A202581AB8600919EBD /* inftrees.c in Sources */,
 				ABC6470E25818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABC6472325818466009B82AD /* pcre2_jit_compile.c in Sources */,
 				AB623268242AF51300651349 /* NLog.cpp in Sources */,
@@ -1942,8 +1948,7 @@
 				ABC6475325818466009B82AD /* pcre2_serialize.c in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABC646C3258180BD009B82AD /* cencode.c in Sources */,
-				ABF82506245CD8AE00C8566C /* gzclose.c in Sources */,
-				ABF824F7245CD8AE00C8566C /* gzlib.c in Sources */,
+				AB230A112581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471425818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473225818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6472F25818466009B82AD /* pcre2_ucd.c in Sources */,
@@ -1951,48 +1956,45 @@
 				ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				ABC6474125818466009B82AD /* pcre2_match_data.c in Sources */,
+				AB230A172581AB8600919EBD /* infback.c in Sources */,
 				ABC6473525818466009B82AD /* pcre2_substitute.c in Sources */,
 				AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */,
 				ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
-				ABF824FA245CD8AE00C8566C /* inftrees.c in Sources */,
-				ABF82503245CD8AE00C8566C /* trees.c in Sources */,
 				ABC646FF25818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4995258199E70065B4DA /* json.c in Sources */,
 				ABC6472025818466009B82AD /* pcre2_compile.c in Sources */,
 				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
-				ABF824F1245CD8AE00C8566C /* infback.c in Sources */,
 				AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */,
 				ABC6472625818466009B82AD /* pcre2_ord2utf.c in Sources */,
 				AB56390E23C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC6474725818466009B82AD /* pcre2_config.c in Sources */,
-				ABF824EB245CD8AE00C8566C /* gzread.c in Sources */,
 				ABC646FC25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6473E25818466009B82AD /* pcre2_context.c in Sources */,
 				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
 				AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				ABC6475025818466009B82AD /* pcre2_auto_possess.c in Sources */,
-				ABF824FD245CD8AE00C8566C /* uncompr.c in Sources */,
 				AB4EB4C02430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABC646862581666F009B82AD /* xmlparse.c in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				ABDCE8AA241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB8453682581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
-				ABF82500245CD8AE00C8566C /* gzwrite.c in Sources */,
 				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
-				ABF824F4245CD8AE00C8566C /* zutil.c in Sources */,
 				AB62326B242AF51300651349 /* NLogOutput.cpp in Sources */,
-				ABF824E2245CD8AE00C8566C /* inflate.c in Sources */,
+				AB230A322581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */,
-				ABF824E8245CD8AE00C8566C /* deflate.c in Sources */,
+				AB230A262581AB8600919EBD /* gzwrite.c in Sources */,
 				AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
+				AB230A2F2581AB8600919EBD /* inffast.c in Sources */,
+				AB230A232581AB8600919EBD /* uncompr.c in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
+				AB230A2C2581AB8600919EBD /* gzclose.c in Sources */,
 				AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
+				AB230A0B2581AB8600919EBD /* compress.c in Sources */,
 				ABC6474425818466009B82AD /* pcre2_error.c in Sources */,
-				ABF8250C245CD8AE00C8566C /* adler32.c in Sources */,
 				ABC6471125818466009B82AD /* pcre2_extuni.c in Sources */,
 				AB84536E2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
 			);
@@ -2003,35 +2005,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABC6471825818466009B82AD /* pcre2_match.c in Sources */,
+				AB230A092581AB8600919EBD /* inflate.c in Sources */,
+				AB230A1B2581AB8600919EBD /* zutil.c in Sources */,
 				ABC6473C25818466009B82AD /* pcre2_valid_utf.c in Sources */,
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				ABC6468A2581666F009B82AD /* xmltok.c in Sources */,
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
-				ABF824E6245CD8AE00C8566C /* compress.c in Sources */,
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB8453662581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				AB4EB4CB2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				ABC646C1258180BD009B82AD /* cdecode.c in Sources */,
 				ABC6472A25818466009B82AD /* pcre2_tables.c in Sources */,
+				AB230A2A2581AB8600919EBD /* trees.c in Sources */,
 				ABC646FA25818466009B82AD /* pcre2_xclass.c in Sources */,
 				AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */,
+				AB230A0F2581AB8600919EBD /* deflate.c in Sources */,
 				AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */,
+				AB230A1E2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470925818466009B82AD /* pcre2_dfa_match.c in Sources */,
-				ABF8250A245CD8AE00C8566C /* inffast.c in Sources */,
 				ABC6470325818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
 				ABC646812581666F009B82AD /* xmlrole.c in Sources */,
+				AB230A152581AB8600919EBD /* crc32.c in Sources */,
 				ABBB2B842380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB84536C2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
-				ABF824EF245CD8AE00C8566C /* crc32.c in Sources */,
 				ABC6473925818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */,
 				ABC6471E25818466009B82AD /* pcre2_substring.c in Sources */,
 				ABC6472D25818466009B82AD /* pcre2_maketables.c in Sources */,
 				AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				ABC6474E25818466009B82AD /* pcre2_newline.c in Sources */,
+				AB230A212581AB8600919EBD /* inftrees.c in Sources */,
 				ABC6470F25818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABC6472425818466009B82AD /* pcre2_jit_compile.c in Sources */,
 				AB623269242AF51300651349 /* NLog.cpp in Sources */,
@@ -2040,8 +2046,7 @@
 				ABC6475425818466009B82AD /* pcre2_serialize.c in Sources */,
 				ABC646C4258180BD009B82AD /* cencode.c in Sources */,
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
-				ABF82507245CD8AE00C8566C /* gzclose.c in Sources */,
-				ABF824F8245CD8AE00C8566C /* gzlib.c in Sources */,
+				AB230A122581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471525818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473325818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6473025818466009B82AD /* pcre2_ucd.c in Sources */,
@@ -2049,21 +2054,19 @@
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,
 				ABBE8C902446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABC6474225818466009B82AD /* pcre2_match_data.c in Sources */,
+				AB230A182581AB8600919EBD /* infback.c in Sources */,
 				ABC6473625818466009B82AD /* pcre2_substitute.c in Sources */,
 				ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABDCE8E0241C61960054A16E /* macOSNFileInfo.cpp in Sources */,
-				ABF824FB245CD8AE00C8566C /* inftrees.c in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				ABC6470025818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4996258199E70065B4DA /* json.c in Sources */,
 				ABC6472125818466009B82AD /* pcre2_compile.c in Sources */,
-				ABF82504245CD8AE00C8566C /* trees.c in Sources */,
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABC6472725818466009B82AD /* pcre2_ord2utf.c in Sources */,
-				ABF824F2245CD8AE00C8566C /* infback.c in Sources */,
 				ABC6474825818466009B82AD /* pcre2_config.c in Sources */,
 				ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */,
 				ABC646FD25818466009B82AD /* pcre2_script_run.c in Sources */,
@@ -2074,23 +2077,22 @@
 				ABDCE8B6241C59570054A16E /* NFileHandle.cpp in Sources */,
 				ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB4EB4C12430EE0F00D36016 /* NFilePath.cpp in Sources */,
-				ABF824EC245CD8AE00C8566C /* gzread.c in Sources */,
 				AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				AB8453692581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
-				ABF824FE245CD8AE00C8566C /* uncompr.c in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646872581666F009B82AD /* xmlparse.c in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
+				AB230A332581AB8600919EBD /* adler32.c in Sources */,
 				AB62326C242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */,
-				ABF82501245CD8AE00C8566C /* gzwrite.c in Sources */,
-				ABF824F5245CD8AE00C8566C /* zutil.c in Sources */,
-				ABF824E3245CD8AE00C8566C /* inflate.c in Sources */,
-				ABF824E9245CD8AE00C8566C /* deflate.c in Sources */,
+				AB230A272581AB8600919EBD /* gzwrite.c in Sources */,
+				AB230A302581AB8600919EBD /* inffast.c in Sources */,
+				AB230A242581AB8600919EBD /* uncompr.c in Sources */,
+				AB230A2D2581AB8600919EBD /* gzclose.c in Sources */,
 				AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */,
+				AB230A0C2581AB8600919EBD /* compress.c in Sources */,
 				ABC6474525818466009B82AD /* pcre2_error.c in Sources */,
-				ABF8250D245CD8AE00C8566C /* adler32.c in Sources */,
 				ABC6471225818466009B82AD /* pcre2_extuni.c in Sources */,
 				AB84536F2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
 			);
