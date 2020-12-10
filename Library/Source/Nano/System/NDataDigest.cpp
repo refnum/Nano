@@ -43,7 +43,7 @@
 
 // Nano
 #include "Nano_zlib.h"
-#include "fm_md5.h"
+#include "WjCryptLib_Md5.h"
 #include "sha2.h"
 
 
@@ -272,6 +272,11 @@ NDigest128 NDataDigest::GetMD5(size_t theSize, const void* thePtr, const NDigest
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(theSize <= kNUInt32Max);
+
+
+
 	// Get the state we need
 	NDigest128 theDigest;
 
@@ -285,16 +290,16 @@ NDigest128 NDataDigest::GetMD5(size_t theSize, const void* thePtr, const NDigest
 	// Get the digest
 	if (theSize != 0)
 	{
-		MD5Context theContext;
-		MD5Init(&theContext);
+		Md5Context theContext;
+		Md5Initialise(&theContext);
 
 		if (prevValue != nullptr)
 		{
-			MD5Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
+			Md5Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
 		}
 
-		MD5Update(&theContext, static_cast<const uint8_t*>(thePtr), theSize);
-		MD5Final(theDigest.GetMutableBytes(), &theContext);
+		Md5Update(&theContext, static_cast<const uint8_t*>(thePtr), uint32_t(theSize));
+		Md5Finalise(&theContext, reinterpret_cast<MD5_HASH*>(theDigest.GetMutableBytes()));
 	}
 
 	return theDigest;
