@@ -45,6 +45,7 @@
 #include "Nano_zlib.h"
 #include "WjCryptLib_Md5.h"
 #include "WjCryptLib_Sha1.h"
+#include "WjCryptLib_Sha256.h"
 
 
 
@@ -134,6 +135,21 @@ NDigest160 NDataDigest::GetSHA1(const NData& theData, const NDigest160* prevValu
 
 	// Get the digest
 	return GetSHA1(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetSHA256 : Get an SHA256 digest.
+//-----------------------------------------------------------------------------
+NDigest256 NDataDigest::GetSHA256(const NData& theData, const NDigest256* prevValue)
+{
+
+
+	// Get the digest
+	return GetSHA256(theData.GetSize(), theData.GetData(), prevValue);
 }
 
 
@@ -344,6 +360,50 @@ NDigest160 NDataDigest::GetSHA1(size_t theSize, const void* thePtr, const NDiges
 
 		Sha1Update(&theContext, static_cast<const uint8_t*>(thePtr), uint32_t(theSize));
 		Sha1Finalise(&theContext, reinterpret_cast<SHA1_HASH*>(theDigest.GetMutableBytes()));
+	}
+
+	return theDigest;
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetSHA256 : Get an SHA256 digest.
+//-----------------------------------------------------------------------------
+NDigest256 NDataDigest::GetSHA256(size_t theSize, const void* thePtr, const NDigest256* prevValue)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theSize <= kNUInt32Max);
+
+
+
+	// Get the state we need
+	NDigest256 theDigest;
+
+	if (prevValue != nullptr)
+	{
+		theDigest = *prevValue;
+	}
+
+
+
+	// Get the digest
+	if (theSize != 0)
+	{
+		Sha256Context theContext;
+		Sha256Initialise(&theContext);
+
+		if (prevValue != nullptr)
+		{
+			Sha256Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
+		}
+
+		Sha256Update(&theContext, static_cast<const uint8_t*>(thePtr), uint32_t(theSize));
+		Sha256Finalise(&theContext, reinterpret_cast<SHA256_HASH*>(theDigest.GetMutableBytes()));
 	}
 
 	return theDigest;

@@ -164,6 +164,7 @@ NANO_TEST(TDataDigest, "MD5")
 
 	REQUIRE(NDataDigest::GetMD5(std::size(kBytes1), kBytes1).GetString() ==
 			"ca6ffbf95b47864fd4e73f2601326304");
+
 	REQUIRE(NDataDigest::GetMD5(std::size(kBytes2), kBytes2).GetString() ==
 			"d15ae53931880fd7b724dd7888b4b4ed");
 }
@@ -186,8 +187,37 @@ NANO_TEST(TDataDigest, "SHA1")
 
 	REQUIRE(NDataDigest::GetSHA1(std::size(kBytes1), kBytes1).GetString() ==
 			"a7b7e9592daa0896db0517bf8ad53e56b1246923");
+
 	REQUIRE(NDataDigest::GetSHA1(std::size(kBytes2), kBytes2).GetString() ==
 			"868460d98d09d8bbb93d7b6cdd15cc7fbec676b9");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TDataDigest, "SHA256")
+{
+
+
+	// Perform the test
+	REQUIRE(NDataDigest::GetSHA256(kData1).GetString() ==
+			"8d70d691c822d55638b6e7fd54cd94170c87d19eb1f628b757506ede5688d297");
+
+	REQUIRE(NDataDigest::GetSHA256(kData2).GetString() ==
+			"17e88db187afd62c16e5debf3e6527cd006bc012bc90b51a810cd80c2d511f43");
+
+	REQUIRE(NDataDigest::GetSHA256(kData3).GetString() ==
+			"0000000000000000000000000000000000000000000000000000000000000000");
+
+	REQUIRE(NDataDigest::GetSHA256(std::size(kBytes1), kBytes1).GetString() ==
+			"8d70d691c822d55638b6e7fd54cd94170c87d19eb1f628b757506ede5688d297");
+
+	REQUIRE(NDataDigest::GetSHA256(std::size(kBytes2), kBytes2).GetString() ==
+			"17e88db187afd62c16e5debf3e6527cd006bc012bc90b51a810cd80c2d511f43");
 }
 
 

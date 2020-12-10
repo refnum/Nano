@@ -147,6 +147,7 @@ private:
 // Digests
 NDIGEST(128);
 NDIGEST(160);
+NDIGEST(256);
 
 
 
@@ -187,6 +188,7 @@ public:
 	static uint64_t                     GetXXHash64(const NData& theData, uint64_t          prevValue = 0);
 	static NDigest128                   GetMD5(     const NData& theData, const NDigest128* prevValue = nullptr);
 	static NDigest160                   GetSHA1(    const NData& theData, const NDigest160* prevValue = nullptr);
+	static NDigest256                   GetSHA256(  const NData& theData, const NDigest256* prevValue = nullptr);
 
 	static uint16_t                     GetInternet(size_t            theSize, const void* thePtr, uint16_t prevValue = 0);
 	static uint32_t                     GetAdler32( size_t            theSize, const void* thePtr, uint32_t prevValue = 0);
@@ -198,6 +200,9 @@ public:
 	static NDigest160                   GetSHA1(size_t            theSize,
 												const void*       thePtr,
 												const NDigest160* prevValue = nullptr);
+	static NDigest256                   GetSHA256(size_t            theSize,
+												  const void*       thePtr,
+												  const NDigest256* prevValue = nullptr);
 };
 
 
