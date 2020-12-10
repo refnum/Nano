@@ -511,17 +511,12 @@
 		AB62327124301A4000651349 /* NSharedDarwin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSharedDarwin.mm; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
-		AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tero_des.cpp; sourceTree = "<group>"; };
-		AB6B2F48116CCAB80095D5A5 /* tero_des.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tero_des.h; sourceTree = "<group>"; };
 		AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUncopyable.cpp; sourceTree = "<group>"; };
 		AB76913E10FCEA6200AD6A3F /* NUncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUncopyable.h; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataCipher.h; sourceTree = "<group>"; };
 		AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataDigest.h; sourceTree = "<group>"; };
 		AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataDigest.cpp; sourceTree = "<group>"; };
-		AB7AB1BB103AED18004B1F6E /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
-		AB7AB1BC103AED18004B1F6E /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
-		AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish_dat.c; sourceTree = "<group>"; };
 		AB84535C2581A09D00B78BF7 /* WjCryptLib_Aes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Aes.c; sourceTree = "<group>"; };
 		AB84535D2581A09D00B78BF7 /* WjCryptLib_Sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Sha1.c; sourceTree = "<group>"; };
 		AB84535E2581A09D00B78BF7 /* WjCryptLib_Sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Sha256.c; sourceTree = "<group>"; };
@@ -1132,25 +1127,6 @@
 			path = Debugging;
 			sourceTree = "<group>";
 		};
-		AB6B2F46116CCAB80095D5A5 /* tero.co.uk */ = {
-			isa = PBXGroup;
-			children = (
-				AB6B2F47116CCAB80095D5A5 /* tero_des.cpp */,
-				AB6B2F48116CCAB80095D5A5 /* tero_des.h */,
-			);
-			path = tero.co.uk;
-			sourceTree = "<group>";
-		};
-		AB7AB1BA103AED18004B1F6E /* schneier.com */ = {
-			isa = PBXGroup;
-			children = (
-				AB7AB1BB103AED18004B1F6E /* blowfish.c */,
-				AB7AB1BC103AED18004B1F6E /* blowfish.h */,
-				AB7AB1BD103AED18004B1F6E /* blowfish_dat.c */,
-			);
-			path = schneier.com;
-			sourceTree = "<group>";
-		};
 		AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1286,9 +1262,7 @@
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
 				ABC646BA258180BD009B82AD /* libb64-1.2 */,
 				ABC646D025818466009B82AD /* pcre2-10.36 */,
-				AB7AB1BA103AED18004B1F6E /* schneier.com */,
 				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
-				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */,
 				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
 				AB2309EB2581AB8600919EBD /* zlib-1.2.11 */,

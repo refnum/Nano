@@ -153,46 +153,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\schneier.com\blowfish.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Components\schneier.com\blowfish_dat.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Internal\Components\libb64-1.2\cdecode.c"
 				>
 				<FileConfiguration
@@ -1325,28 +1285,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\tero.co.uk\tero_des.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						WarningLevel="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						WarningLevel="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Internal\Components\zlib-1.2.11\trees.c"
 				>
 				<FileConfiguration
@@ -1490,10 +1428,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\asciitab.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Components\schneier.com\blowfish.h"
 				>
 			</File>
 			<File
@@ -2054,10 +1988,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Targets\Windows\StdAfx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Components\tero.co.uk\tero_des.h"
 				>
 			</File>
 			<File
