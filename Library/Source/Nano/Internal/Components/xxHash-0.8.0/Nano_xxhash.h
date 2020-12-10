@@ -54,7 +54,9 @@
 #define XXH_INLINE_ALL
 
 NN_DIAGNOSTIC_PUSH();
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wunknown-warning-option");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wextra-semi-stmt");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-fallthrough");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wold-style-cast");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");

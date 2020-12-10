@@ -64,6 +64,7 @@ NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
 NN_DIAGNOSTIC_IGNORE_MSVC(4355);    // 'this' used in base member initializer
 NN_DIAGNOSTIC_IGNORE_MSVC(4365);    // Signed / unsigned mismatch
 NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
+NN_DIAGNOSTIC_IGNORE_MSVC(4668);    // Undefined macro treated as 0
 
 #include "fmt_format.h"
 

@@ -11,6 +11,7 @@
 
 
 // WjCryptLib
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-align");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-qual");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-macros");
 
