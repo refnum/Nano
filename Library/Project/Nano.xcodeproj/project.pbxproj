@@ -357,6 +357,7 @@
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB2000CD2386911800CAB0F1 /* NDataDigest.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDataDigest.inl; sourceTree = "<group>"; };
+		AB2277AB2581B39F0008538E /* winconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = winconfig.h; sourceTree = "<group>"; };
 		AB2309EC2581AB8600919EBD /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		AB2309ED2581AB8600919EBD /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
 		AB2309EE2581AB8600919EBD /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
@@ -1629,6 +1630,7 @@
 				ABC646782581666F009B82AD /* Nano_expat_config.h */,
 				ABC646722581666F009B82AD /* siphash.h */,
 				ABC646762581666F009B82AD /* utf8tab.h */,
+				AB2277AB2581B39F0008538E /* winconfig.h */,
 				ABC646712581666F009B82AD /* xmlparse.c */,
 				ABC6466B2581666F009B82AD /* xmlrole.c */,
 				ABC646792581666F009B82AD /* xmlrole.h */,
