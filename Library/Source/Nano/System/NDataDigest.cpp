@@ -44,7 +44,7 @@
 // Nano
 #include "Nano_zlib.h"
 #include "WjCryptLib_Md5.h"
-#include "sha2.h"
+#include "WjCryptLib_Sha1.h"
 
 
 
@@ -316,8 +316,8 @@ NDigest160 NDataDigest::GetSHA1(size_t theSize, const void* thePtr, const NDiges
 {
 
 
-	// Validate our state
-	static_assert(sizeof(NDigest160) == SHA1_DIGEST_LENGTH);
+	// Validate our parameters
+	NN_REQUIRE(theSize <= kNUInt32Max);
 
 
 
@@ -334,16 +334,16 @@ NDigest160 NDataDigest::GetSHA1(size_t theSize, const void* thePtr, const NDiges
 	// Get the digest
 	if (theSize != 0)
 	{
-		SHA_CTX theContext;
-		SHA1_Init(&theContext);
+		Sha1Context theContext;
+		Sha1Initialise(&theContext);
 
 		if (prevValue != nullptr)
 		{
-			SHA1_Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
+			Sha1Update(&theContext, prevValue->GetBytes(), sizeof(theDigest));
 		}
 
-		SHA1_Update(&theContext, static_cast<const uint8_t*>(thePtr), theSize);
-		SHA1_Final(theDigest.GetMutableBytes(), &theContext);
+		Sha1Update(&theContext, static_cast<const uint8_t*>(thePtr), uint32_t(theSize));
+		Sha1Finalise(&theContext, reinterpret_cast<SHA1_HASH*>(theDigest.GetMutableBytes()));
 	}
 
 	return theDigest;
