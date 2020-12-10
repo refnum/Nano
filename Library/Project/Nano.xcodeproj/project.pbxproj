@@ -27,12 +27,6 @@
 		AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304E24524F5F00F21BF6 /* iOSNDebugger.cpp */; };
 		AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */; };
 		AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */; };
-		AB2F1DBA2453A1AD005F8C4F /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
-		AB2F1DBB2453A1AD005F8C4F /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
-		AB2F1DBC2453A1AD005F8C4F /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0AE103ADB17004B1F6E /* sha2.c */; };
-		AB2F1DBD2453AD30005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
-		AB2F1DBE2453AD31005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
-		AB2F1DBF2453AD31005F8C4F /* fm_md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB08B103AD6B5004B1F6E /* fm_md5.c */; };
 		AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
@@ -494,10 +488,6 @@
 		AB76913E10FCEA6200AD6A3F /* NUncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUncopyable.h; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataCipher.h; sourceTree = "<group>"; };
-		AB7AB08B103AD6B5004B1F6E /* fm_md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fm_md5.c; sourceTree = "<group>"; };
-		AB7AB08C103AD6B5004B1F6E /* fm_md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fm_md5.h; sourceTree = "<group>"; };
-		AB7AB0AE103ADB17004B1F6E /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha2.c; sourceTree = "<group>"; };
-		AB7AB0AF103ADB17004B1F6E /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha2.h; sourceTree = "<group>"; };
 		AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataDigest.h; sourceTree = "<group>"; };
 		AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataDigest.cpp; sourceTree = "<group>"; };
 		AB7AB1BB103AED18004B1F6E /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
@@ -1114,24 +1104,6 @@
 			path = tero.co.uk;
 			sourceTree = "<group>";
 		};
-		AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */ = {
-			isa = PBXGroup;
-			children = (
-				AB7AB08B103AD6B5004B1F6E /* fm_md5.c */,
-				AB7AB08C103AD6B5004B1F6E /* fm_md5.h */,
-			);
-			path = fourmilab.ch;
-			sourceTree = "<group>";
-		};
-		AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */ = {
-			isa = PBXGroup;
-			children = (
-				AB7AB0AE103ADB17004B1F6E /* sha2.c */,
-				AB7AB0AF103ADB17004B1F6E /* sha2.h */,
-			);
-			path = sha2_1.1a;
-			sourceTree = "<group>";
-		};
 		AB7AB1BA103AED18004B1F6E /* schneier.com */ = {
 			isa = PBXGroup;
 			children = (
@@ -1274,12 +1246,10 @@
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
 				ABC6466A2581666F009B82AD /* expat-2.2.10 */,
 				ABC646AE25817DF2009B82AD /* fmt-7.1.3 */,
-				AB7AB08A103AD6B5004B1F6E /* fourmilab.ch */,
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
 				ABC646BA258180BD009B82AD /* libb64-1.2 */,
 				ABC646D025818466009B82AD /* pcre2-10.36 */,
 				AB7AB1BA103AED18004B1F6E /* schneier.com */,
-				AB7AB0AD103ADB17004B1F6E /* sha2_1.1a */,
 				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
 				AB6B2F46116CCAB80095D5A5 /* tero.co.uk */,
 				AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */,
@@ -1859,7 +1829,6 @@
 				ABF824F0245CD8AE00C8566C /* crc32.c in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
 				AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
-				AB2F1DBC2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABC6473A25818466009B82AD /* pcre2_study.c in Sources */,
 				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
@@ -1890,7 +1859,6 @@
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				ABF824FC245CD8AE00C8566C /* inftrees.c in Sources */,
-				AB2F1DBD2453AD30005F8C4F /* fm_md5.c in Sources */,
 				ABF82505245CD8AE00C8566C /* trees.c in Sources */,
 				ABC6470125818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4997258199E70065B4DA /* json.c in Sources */,
@@ -1959,7 +1927,6 @@
 				AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */,
 				ABF824EE245CD8AE00C8566C /* crc32.c in Sources */,
 				AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
-				AB2F1DBA2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABC6473825818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
 				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
@@ -1990,7 +1957,6 @@
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
 				ABF824FA245CD8AE00C8566C /* inftrees.c in Sources */,
-				AB2F1DBF2453AD31005F8C4F /* fm_md5.c in Sources */,
 				ABF82503245CD8AE00C8566C /* trees.c in Sources */,
 				ABC646FF25818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4995258199E70065B4DA /* json.c in Sources */,
@@ -2061,7 +2027,6 @@
 				AB84536C2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				ABF824EF245CD8AE00C8566C /* crc32.c in Sources */,
 				ABC6473925818466009B82AD /* pcre2_study.c in Sources */,
-				AB2F1DBB2453A1AD005F8C4F /* sha2.c in Sources */,
 				ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */,
 				ABC6471E25818466009B82AD /* pcre2_substring.c in Sources */,
 				ABC6472D25818466009B82AD /* pcre2_maketables.c in Sources */,
@@ -2095,7 +2060,6 @@
 				ABC6470025818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4996258199E70065B4DA /* json.c in Sources */,
 				ABC6472125818466009B82AD /* pcre2_compile.c in Sources */,
-				AB2F1DBE2453AD31005F8C4F /* fm_md5.c in Sources */,
 				ABF82504245CD8AE00C8566C /* trees.c in Sources */,
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABC6472725818466009B82AD /* pcre2_ord2utf.c in Sources */,

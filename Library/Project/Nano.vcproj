@@ -299,26 +299,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\fourmilab.ch\fm_md5.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Internal\Components\zlib_1.2.3\gzio.c"
 				>
 				<FileConfiguration
@@ -1303,26 +1283,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Source\Nano\Internal\Components\sha2_1.1a\sha2.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Source\Nano\Internal\Components\sqlite-3.34.0\sqlite3.34.0.c"
 				>
 				<FileConfiguration
@@ -1570,10 +1530,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Components\expat-2.2.10\expat_external.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Components\fourmilab.ch\fm_md5.h"
 				>
 			</File>
 			<File
@@ -2086,10 +2042,6 @@
 			</File>
 			<File
 				RelativePath="..\Source\Nano\Internal\Components\pcre_7.8\pcre_internal.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\Nano\Internal\Components\sha2_1.1a\sha2.h"
 				>
 			</File>
 			<File
