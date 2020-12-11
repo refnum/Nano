@@ -27,3 +27,12 @@ jobs:
             -enableUndefinedBehaviorSanitizer YES                \
             Nano="${GITHUB_WORKSPACE}"                           \
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
+
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: NanoTest
+          path: "Build/${{ matrix.config }}/NanoTest_macOS"
+          retention-days: 1
+
+

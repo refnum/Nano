@@ -4,8 +4,14 @@ on:
   push:
     branches: [master]
 
+  workflow_run:
+    workflows: ["Build macOS"]
+    types:
+      - completed
+
 jobs:
   test:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: macOS-latest
 
     strategy:
@@ -13,22 +19,23 @@ jobs:
         config: ['Debug', 'Release']
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Build
+#        run: |
+#          xcodebuild build                                       \
+#            -project NanoTest/Project/NanoTest.xcodeproj         \
+#            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
+#            -destination "generic/platform=macOS"                \
+#            -parallelizeTargets                                  \
+#            -enableAddressSanitizer           YES                \
+#            -enableUndefinedBehaviorSanitizer YES                \
+#            Nano="${GITHUB_WORKSPACE}"                           \
+#            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
-      - name: Build
-        run: |
-          xcodebuild build                                       \
-            -project NanoTest/Project/NanoTest.xcodeproj         \
-            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
-            -destination "generic/platform=macOS"                \
-            -parallelizeTargets                                  \
-            -enableAddressSanitizer           YES                \
-            -enableUndefinedBehaviorSanitizer YES                \
-            Nano="${GITHUB_WORKSPACE}"                           \
-            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
+      - name: Download
+        uses: actions/download-artifact@v2
 
       - name: Test
-        run: |
-          cd Build
-          "./${{ matrix.config }}/NanoTest_macOS" -d yes
+        run: "Build/${{ matrix.config }}/NanoTest_macOS" -d yes
