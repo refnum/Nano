@@ -12,13 +12,18 @@ on:
 jobs:
   Test_macOS:
     runs-on: macOS-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     strategy:
       matrix:
         config: ['Debug', 'Release']
 
     steps:
+      - name: Print github context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Download
         uses: actions/download-artifact@v2
 
