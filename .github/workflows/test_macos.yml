@@ -19,23 +19,10 @@ jobs:
         config: ['Debug', 'Release']
 
     steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Build
-#        run: |
-#          xcodebuild build                                       \
-#            -project NanoTest/Project/NanoTest.xcodeproj         \
-#            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
-#            -destination "generic/platform=macOS"                \
-#            -parallelizeTargets                                  \
-#            -enableAddressSanitizer           YES                \
-#            -enableUndefinedBehaviorSanitizer YES                \
-#            Nano="${GITHUB_WORKSPACE}"                           \
-#            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
-
       - name: Download
         uses: actions/download-artifact@v2
 
       - name: Test
-        run: "Build/${{ matrix.config }}/NanoTest_macOS" -d yes
+        run: |
+          ls -lR Build
+          "NanoTest_${{ matrix.config }}_macOS" -d yes
