@@ -1,11 +1,11 @@
-name: Build macOS
+name: Test tvOS
 
 on:
   push:
     branches: [master]
 
 jobs:
-  build:
+  test:
     runs-on: macOS-latest
 
     strategy:
@@ -19,11 +19,14 @@ jobs:
       - name: Build
         run: |
           xcodebuild build                                       \
-            -project NanoTest/Project/NanoTest.xcodeproj         \
-            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
-            -destination "generic/platform=macOS"                \
+            -project Library/Project/Nano.xcodeproj              \
+            -scheme      "Nano_tvOS - ${{ matrix.config }}"      \
+            -destination "generic/platform=tvOS"                 \
             -parallelizeTargets                                  \
-            -enableAddressSanitizer           YES                \
-            -enableUndefinedBehaviorSanitizer YES                \
             Nano="${GITHUB_WORKSPACE}"                           \
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
+
+      - name: Test
+        run: |
+          cd Build
+          exit 0

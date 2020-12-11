@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  macOS:
+  test:
     runs-on: macOS-latest
 
     strategy:

@@ -1,4 +1,4 @@
-name: Build macOS
+name: Build iOS
 
 on:
   push:
@@ -19,11 +19,9 @@ jobs:
       - name: Build
         run: |
           xcodebuild build                                       \
-            -project NanoTest/Project/NanoTest.xcodeproj         \
-            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
-            -destination "generic/platform=macOS"                \
+            -project Library/Project/Nano.xcodeproj              \
+            -scheme      "Nano_iOS - ${{ matrix.config }}"       \
+            -destination "generic/platform=iOS"                  \
             -parallelizeTargets                                  \
-            -enableAddressSanitizer           YES                \
-            -enableUndefinedBehaviorSanitizer YES                \
             Nano="${GITHUB_WORKSPACE}"                           \
             SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty

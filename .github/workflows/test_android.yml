@@ -1,0 +1,55 @@
+name: Test Android
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Prepare NDK
+        run: |
+          sudo mkdir -p             /usr/local/lib/android/sdk/ndk
+          sudo chmod -R 777         /usr/local/lib/android/sdk/ndk
+          sudo chown -R $USER:$USER /usr/local/lib/android/sdk/ndk
+
+      - name: Cache NDK
+        id: ndk-cache
+        uses: actions/cache@v2
+        with:
+          path: /usr/local/lib/android/sdk/ndk
+          key: ndk-cache-21.0.6113669-v2
+
+      - name: Install NDK
+        if: steps.ndk-cache.outputs.cache-hit != 'true'
+        run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" | grep -v = || true
+
+      - name: CMake
+        run: |
+          mkdir Build
+          cd    Build
+          cmake -G "Unix Makefiles"                       \
+            -DANDROID_ABI=arm64-v8a                       \
+            -DANDROID_NATIVE_API_LEVEL=26                 \
+            -DCMAKE_TOOLCHAIN_FILE="/usr/local/lib/android/sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake" \
+            -DCMAKE_BUILD_TYPE="${{ matrix.config }}"     \
+            "${GITHUB_WORKSPACE}"
+
+      - name: Build
+        run: |
+          cd Build
+          make -j2 "NanoTest"
+
+      - name: Test
+        run: |
+          cd Build
+          exit 0

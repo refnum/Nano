@@ -1,0 +1,28 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: CMake
+        run: |
+          mkdir Build
+          cd    Build
+          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" "$env:GITHUB_WORKSPACE"
+
+      - name: Build
+        run: |
+          cd Build
+          cmake --build . --parallel --config "${{ matrix.config }}" --target NanoTest
