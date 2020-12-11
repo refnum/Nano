@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  Build iOS:
+  Build_iOS:
     runs-on: macOS-latest
 
     strategy:

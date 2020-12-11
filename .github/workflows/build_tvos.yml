@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  Build tvOS:
+  Build_tvOS:
     runs-on: macOS-latest
 
     strategy:

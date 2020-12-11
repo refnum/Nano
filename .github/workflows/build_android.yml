@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  Build Android:
+  Build_Android:
     runs-on: ubuntu-latest
 
     strategy:

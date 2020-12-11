@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  Build Linux:
+  Build_Linux:
     runs-on: ubuntu-latest
 
     strategy:

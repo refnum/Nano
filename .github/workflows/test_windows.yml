@@ -5,12 +5,12 @@ on:
     branches: [master]
 
   workflow_run:
-    workflows: ["Build Windows"]
+    workflows: ["Build_Windows"]
     types:
       - completed
 
 jobs:
-  Test Windows:
+  Test_Windows:
     runs-on: windows-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
