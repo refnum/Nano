@@ -1,4 +1,4 @@
-name: Build macOS
+name: Build_macOS
 
 on:
   push:
@@ -34,5 +34,4 @@ jobs:
         with:
           name: NanoTest
           path: "NanoTest_${{ matrix.config }}_macOS"
-          retention-days: 1
 
