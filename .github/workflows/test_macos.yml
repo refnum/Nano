@@ -5,7 +5,7 @@ on:
     branches: [master]
 
   workflow_run:
-    workflows: ["Build_macOS"]
+    workflows: ["Build%20macOS"]
     types:
       - completed
 
