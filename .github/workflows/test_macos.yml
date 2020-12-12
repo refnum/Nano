@@ -19,14 +19,13 @@ jobs:
 
     steps:
       - name: Download
-        uses: actions/download-artifact@v2
+        uses: dawidd6/action-download-artifact@v2
+        workflow: build_macos.yml
+        workflow_conclusion: success
 
       - name: Test
         run: |
           ls -lR
 #          "NanoTest_${{ matrix.config }}_macOS" -d yes
 
-      - name: CheckExists
-        run: |
-           '(test -f "NanoTest_${{ matrix.config }}_macOS" && "NanoTest_${{ matrix.config }}_macOS" -d 1) || echo "NanoTest_${{ matrix.config }}_macOS" does not exist'
 
