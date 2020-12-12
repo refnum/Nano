@@ -26,3 +26,7 @@ jobs:
           ls -lR
 #          "NanoTest_${{ matrix.config }}_macOS" -d yes
 
+      - name: CheckExists
+        run: |
+           '(test -f "NanoTest_${{ matrix.config }}_macOS" && "NanoTest_${{ matrix.config }}_macOS" -d 1) || echo "NanoTest_${{ matrix.config }}_macOS" does not exist'
+
