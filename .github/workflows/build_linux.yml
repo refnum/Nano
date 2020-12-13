@@ -28,7 +28,7 @@ jobs:
         run: |
           cd Build
           make -j2 "NanoTest"
-          mv "NanoTest/Project/NanoTest" "NanoTest_${{ matrix.config }}_Linux"
+          mv "NanoTest/Project/NanoTest" "../NanoTest_${{ matrix.config }}_Linux"
 
       - name: Upload
         uses: actions/upload-artifact@v2
