@@ -20,6 +20,7 @@ jobs:
     steps:
       - name: Download
         uses: dawidd6/action-download-artifact@v2
+        with:
           workflow: build_macos.yml
           workflow_conclusion: success
 
