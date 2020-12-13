@@ -18,6 +18,7 @@ jobs:
 
       - name: Build
         run: |
+          set -euf -o pipefail
           xcodebuild build                                       \
             -project Library/Project/Nano.xcodeproj              \
             -scheme      "Nano_tvOS - ${{ matrix.config }}"      \

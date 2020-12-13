@@ -26,7 +26,7 @@ jobs:
         run: |
           cd Build
           cmake --build . --parallel --config "${{ matrix.config }}" --target NanoTest
-           mv "Build\NanoTest\Project\${{ matrix.config }}\NanoTest.exe" "NanoTest_${{ matrix.config }}_Windows.exe"
+          mv "Build\NanoTest\Project\${{ matrix.config }}\NanoTest.exe" "NanoTest_${{ matrix.config }}_Windows.exe"
 
       - name: Upload
         uses: actions/upload-artifact@v2

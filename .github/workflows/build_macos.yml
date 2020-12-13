@@ -18,6 +18,7 @@ jobs:
 
       - name: Build
         run: |
+          set -euf -o pipefail
           xcodebuild build                                       \
             -project NanoTest/Project/NanoTest.xcodeproj         \
             -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
