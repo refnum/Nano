@@ -6,7 +6,6 @@ Nano provides a set of cross-platform data types such as strings or dictionaries
 Nano is Open Source and distributed under the BSD licence.
 
 
-
 ## Status
 
 |                                                                                      |                                                                                    |
