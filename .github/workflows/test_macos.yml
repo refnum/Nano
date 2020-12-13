@@ -26,7 +26,6 @@ jobs:
 
       - name: Test
         run: |
-          ls -lR
-#          "NanoTest_${{ matrix.config }}_macOS" -d yes
+          "NanoTest/NanoTest_${{ matrix.config }}_macOS" -d yes
 
 
