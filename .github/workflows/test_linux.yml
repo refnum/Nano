@@ -12,30 +12,20 @@ on:
 jobs:
   Test_Linux:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     strategy:
       matrix:
         config: ['Debug', 'Release']
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: CMake
-        run: |
-          mkdir Build
-          cd    Build
-          cmake -G "Unix Makefiles"                   \
-            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
-            "${GITHUB_WORKSPACE}"
-
-      - name: Build
-        run: |
-          cd Build
-          make -j2 "NanoTest"
+      - name: Download
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build_linux.yml
+          workflow_conclusion: success
 
       - name: Test
         run: |
-          cd Build
-          ./NanoTest/Project/NanoTest -d yes
+          chmod 755 "NanoTest/NanoTest_${{ matrix.config }}_Linux"
+          "NanoTest/NanoTest_${{ matrix.config }}_Linux" -d yes
+

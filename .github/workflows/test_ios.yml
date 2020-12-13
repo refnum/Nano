@@ -12,26 +12,12 @@ on:
 jobs:
   Test_iOS:
     runs-on: macOS-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     strategy:
       matrix:
         config: ['Debug', 'Release']
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: |
-          xcodebuild build                                       \
-            -project Library/Project/Nano.xcodeproj              \
-            -scheme      "Nano_iOS - ${{ matrix.config }}"       \
-            -destination "generic/platform=iOS"                  \
-            -parallelizeTargets                                  \
-            Nano="${GITHUB_WORKSPACE}"                           \
-            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
-
       - name: Test
         run: |
           cd Build
