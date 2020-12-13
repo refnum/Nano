@@ -18,4 +18,3 @@ Nano is Open Source and distributed under the BSD licence.
 | ![Build Android](https://github.com/refnum/nano/workflows/Build%20Android/badge.svg) | ![Test Android](https://github.com/refnum/nano/workflows/Test%20Android/badge.svg) |
 | ![Build Windows](https://github.com/refnum/nano/workflows/Build%20Windows/badge.svg) | ![Test Windows](https://github.com/refnum/nano/workflows/Test%20Windows/badge.svg) |
 
-
