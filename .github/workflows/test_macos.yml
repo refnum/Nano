@@ -26,6 +26,7 @@ jobs:
 
       - name: Test
         run: |
+          chmod 755 "NanoTest/NanoTest_${{ matrix.config }}_macOS"
           "NanoTest/NanoTest_${{ matrix.config }}_macOS" -d yes
 
 
