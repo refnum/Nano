@@ -44,10 +44,6 @@
 
 
 // System
-#if NN_TARGET_WINDOWS
-	#include <Windows.h>
-#endif // NN_TARGET_WINDOWS
-
 #if NN_ARCH_X86
 	#include <immintrin.h>
 #endif // NN_ARCH_X86
@@ -74,34 +70,6 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 		theFunction(theArgs...);
 		mIsComplete = true;
 	});
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::GetID : Get the thread ID.
-//-----------------------------------------------------------------------------
-inline NThreadID NThread::GetID()
-{
-
-
-	// Get the ID
-	//
-	// A std::thread::id is deliberately opaque and must be pushed through
-	// std::hash to obtain an integer representation.
-	//
-	// This takes about a dozen instructions, which we can avoid by using
-	// the native thread identifier directly.
-#if NN_TARGET_WINDOWS
-	static_assert(sizeof(NThreadID) >= sizeof(DWORD));
-	return NThreadID(GetCurrentThreadId());
-
-#else
-	static_assert(sizeof(NThreadID) >= sizeof(pthread_t));
-	return NThreadID(pthread_self());
-#endif
 }
 
 

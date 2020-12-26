@@ -43,7 +43,7 @@
 
 // Nano
 #include "NScopedLock.h"
-#include "NThread.h"
+#include "NThreadID.h"
 #include "NTimeUtils.h"
 
 // System
@@ -241,7 +241,10 @@ void NLog::FormatTagThread(NLogMessage& theMsg) const
 
 
 	// Format the thread
-	snprintf(theMsg.tagThread, sizeof(theMsg.tagThread), "%08" PRIX32, uint32_t(NThread::GetID()));
+	snprintf(theMsg.tagThread,
+			 sizeof(theMsg.tagThread),
+			 "%08" PRIX32,
+			 uint32_t(NThreadID::Get().GetValue()));
 }
 
 
