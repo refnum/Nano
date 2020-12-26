@@ -15,6 +15,9 @@
 		AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
+		AB1980E72596C52F002C5591 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
+		AB1980EB2596C52F002C5591 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
+		AB1980EF2596C52F002C5591 /* NThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A7936103248AF00DFBA38 /* NThread.cpp */; };
 		AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */; };
 		AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */; };
 		AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9C23F0250C00B304D3 /* NStringScanner.cpp */; };
@@ -1794,6 +1797,7 @@
 				AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB8453672581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				ABDCE8BA241C59570054A16E /* NFileInfo.cpp in Sources */,
+				AB1980E72596C52F002C5591 /* NThread.cpp in Sources */,
 				ABC646C2258180BD009B82AD /* cdecode.c in Sources */,
 				AB4AF5512422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				ABC6472B25818466009B82AD /* pcre2_tables.c in Sources */,
@@ -1892,6 +1896,7 @@
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB8453652581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				AB4EB4CA2430F3AF00D36016 /* NFormat.cpp in Sources */,
+				AB1980EF2596C52F002C5591 /* NThread.cpp in Sources */,
 				ABDCE8B8241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646C0258180BD009B82AD /* cdecode.c in Sources */,
 				ABC6472925818466009B82AD /* pcre2_tables.c in Sources */,
@@ -1990,6 +1995,7 @@
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB8453662581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				AB4EB4CB2430F3AF00D36016 /* NFormat.cpp in Sources */,
+				AB1980EB2596C52F002C5591 /* NThread.cpp in Sources */,
 				AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				ABC646C1258180BD009B82AD /* cdecode.c in Sources */,
 				ABC6472A25818466009B82AD /* pcre2_tables.c in Sources */,

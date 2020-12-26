@@ -41,7 +41,11 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NanoTypes.h"
+
 // System
+#include <atomic>
 #include <thread>
 
 
@@ -64,35 +68,6 @@ static constexpr NThreadID kNThreadIDNone                   = 0;
 
 
 
-// Nano 3.x
-#if 0
-	#include "NFunctor.h"
-	#include "NSemaphore.h"
-
-
-
-
-
-//=============================================================================
-//		Types
-//-----------------------------------------------------------------------------
-// Thread local value
-typedef uintptr_t NThreadLocalRef;
-
-static const NThreadLocalRef kNThreadLocalRefNone           = (NThreadLocalRef) -1;
-
-
-// Lists
-class NThread;
-
-typedef std::vector<NThread*>                                       NThreadList;
-typedef NThreadList::iterator NThreadListIterator;
-typedef NThreadList::const_iterator NThreadListConstIterator;
-
-#endif
-
-
-
 
 
 //=============================================================================
@@ -101,98 +76,62 @@ typedef NThreadList::const_iterator NThreadListConstIterator;
 class NThread
 {
 public:
+	template<class Function, class... Args>
+	explicit                            NThread(Function&& theFunction, Args&&... theArgs);
+
+										NThread() = delete;
+									   ~NThread();
+
+										NThread(  const NThread& otherThread) = delete;
+	NThread&                            operator=(const NThread& otherThread) = delete;
+
+										NThread(  NThread&& otherThread);
+	NThread&                            operator=(NThread&& otherThread);
+
+
+	// Test / wait for completion
+	//
+	// A thread is complete when it has finished executing.
+	//
+	// Destroying an NThread will wait for the associated thread to complete.
+	bool                                IsComplete() const;
+	void                                WaitForCompletion();
+
+
+	// Request / test for stopping
+	//
+	// A running thread may be asked to stop early.
+	//
+	// A thread must poll the stopping state periodically if it can support
+	// stopping early.
+	void                                RequestStop();
+	bool                                ShouldStop() const;
+
+
 	// Get the thread ID
-	static inline NThreadID             GetID();
+	static NThreadID                    GetID();
 
 
 	// Switch the current thread
 	//
 	// Allows the OS to schedule another thread.
-	inline static void                  Switch();
+	static void                         Switch();
 
 
 	// Pause the  current thread
 	//
 	// Allows the CPU to adapt to a busy-wait loop.
-	inline static void                  Pause();
+	static void                         Pause();
 
 
-// Nano 3.x
-#if 0
-NThread();
-	virtual                            ~NThread();
-
-
-// Is this the main thread?
-static bool                         IsMain();
-
-
-// Is the thread running?
-bool                                IsRunning() const;
-
-
-// Get/set the current thread name
-static NString                      GetName();
-static void                         SetName(const NString &theName);
-
-
-// Are two thread IDs equal?
-static bool                         AreEqual(NThreadID thread1, NThreadID thread2);
-
-
-// Get/set the auto-delete state
-//
-// Auto-delete threads will delete themselves once Run returns.
-bool                                IsAutoDelete() const;
-void                                SetAutoDelete(bool autoDelete);
-
-
-// Start/stop the thread
-void                                Start();
-void                                Stop(bool shouldWait=true);
-
-
-// Sleep the current thread
-//
-// A sleep time of kNTimeNone indicates a request to yield the processor
-// if desireable, rather than actually sleeping the thread.
-static void                         Sleep(NTime theTime=kNThreadSleepTime);
-
-
-// Create/destroy a thread-local value
-static NThreadLocalRef              CreateLocal();
-static void                         DestroyLocal(NThreadLocalRef theKey);
-
-
-// Get/set a thread-local value
-static void                        *GetLocalValue(NThreadLocalRef theKey);
-static void                         SetLocalValue(NThreadLocalRef theKey, void *theValue);
-
-
-// Invoke a functor on the main thread
-//
-// The thread will block until the functor has executed.
-static void                         InvokeMain(const NFunctor &theFunctor);
-
-
-protected:
-// Should the thread stop?
-bool                                ShouldStop() const;
-
-
-// Run the thread
-virtual void                        Run() = 0;
+	// Sleep the current thread
+	static void                         Sleep(NInterval sleepFor);
 
 
 private:
-void                                InvokeRun();
-
-
-private:
-bool mIsRunning;
-bool mAutoDelete;
-bool mShouldStop;
-#endif
+	std::thread                         mThread;
+	std::atomic_bool                    mIsComplete;
+	std::atomic_bool                    mShouldStop;
 };
 
 

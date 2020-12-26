@@ -39,21 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NTestFixture.h"
 #include "NThread.h"
-
-
-
-
-
-//=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-// Nano 3.x
-#if 0
-static void * const kValueLocal                             = (void *) 0x12345678;
-static const NString kThreadName                            = "Main Thread";
-#endif
 
 
 
@@ -98,56 +86,21 @@ NANO_TEST(TThread, "Yield")
 
 
 
-// Nano 3.x
-#if 0
-
-
-
 
 
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-TEST_NTHREAD("Name")
+NANO_TEST(TThread, "IsComplete")
 {
 
 
-  // Perform the test
-  NThread::SetName(kThreadName);
-  REQUIRE(NThread::GetName() == kThreadName);
+	// Perform the test
+	NThread theThread([]() {
+		NThread::Sleep(0.050);
+	});
+
+	REQUIRE(!theThread.IsComplete());
+	NThread::Sleep(0.100);
+	REQUIRE(theThread.IsComplete());
 }
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-TEST_NTHREAD("TLS")
-{
-  void                *theValue;
-  NThreadLocalRef localRef;
-
-
-
-  // Perform the test
-  localRef = NThread::CreateLocal();
-  REQUIRE(localRef != kNThreadLocalRefNone);
-
-  theValue = NThread::GetLocalValue(localRef);
-  REQUIRE(theValue == (void *) NULL);
-
-  NThread::SetLocalValue(localRef, kValueLocal);
-  theValue = NThread::GetLocalValue(localRef);
-  REQUIRE(theValue == kValueLocal);
-
-  NThread::SetLocalValue(localRef, NULL);
-  theValue = NThread::GetLocalValue(localRef);
-  REQUIRE(theValue == (void *) NULL);
-
-  NThread::DestroyLocal(localRef);
-}
-
-
-#endif

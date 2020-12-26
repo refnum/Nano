@@ -41,30 +41,8 @@
 //-----------------------------------------------------------------------------
 #include "NThread.h"
 
-
-
-// Nano 3.x
-#if 0
-	#include "NSystemUtilities.h"
-	#include "NTargetThread.h"
-	#include "NThread.h"
-
-
-
-
-
-//=============================================================================
-//		NThread::NThread : Constructor.
-//-----------------------------------------------------------------------------
-NThread::NThread()
-{
-
-
-  // Initialise ourselves
-  mIsRunning  = false;
-  mAutoDelete = false;
-  mShouldStop = false;
-}
+// Nano
+#include "NDebug.h"
 
 
 
@@ -77,12 +55,8 @@ NThread::~NThread()
 {
 
 
-  // Validate our state
-  //
-  // Sub-classes must call Stop() in their destructor; if we call it here
-  // then the sub-class has already been destroyed, even though its Run()
-  // method may still be executing.
-  NN_ASSERT(!IsRunning());
+	// Wait for the thread
+	WaitForCompletion();
 }
 
 
@@ -90,14 +64,20 @@ NThread::~NThread()
 
 
 //=============================================================================
-//		NThread::IsMain : Is this the main thread?
+//		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
-bool NThread::IsMain()
+NThread::NThread(NThread&& otherThread)
+	: mThread(std::move(otherThread.mThread))
+	, mIsComplete(otherThread.mIsComplete.load())
+	, mShouldStop(otherThread.mShouldStop.load())
 {
 
 
-  // Is this the main thread
-  return NTargetThread::ThreadIsMain();
+	// Reset the other thread
+	NN_REQUIRE(otherThread.mThread.get_id() == std::thread::id());
+
+	otherThread.mIsComplete = true;
+	otherThread.mShouldStop = false;
 }
 
 
@@ -105,163 +85,93 @@ bool NThread::IsMain()
 
 
 //=============================================================================
-//		NThread::IsRunning : Is the thread running?
+//		NThread::operator= : Assignment operator.
 //-----------------------------------------------------------------------------
-bool NThread::IsRunning() const
+inline NThread& NThread::operator=(NThread&& otherThread)
 {
 
 
-  // Get our state
-  return mIsRunning;
-}
+	// Validate our state
+	NN_REQUIRE(mThread.get_id() == std::thread::id());
+	NN_REQUIRE(mIsComplete);
 
 
 
+	// Move the thread
+	if (this != &otherThread)
+	{
+		std::swap(mThread, otherThread.mThread);
+		mIsComplete = otherThread.mIsComplete.load();
+		mShouldStop = otherThread.mShouldStop.load();
 
-
-//=============================================================================
-//		NThread::GetName : Get the current thread name.
-//-----------------------------------------------------------------------------
-NString NThread::GetName()
-{
-
-
-  // Get the name
-  return NTargetThread::ThreadGetName();
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::SetName : Set the current thread name.
-//-----------------------------------------------------------------------------
-void NThread::SetName(const NString &theName)
-{
-
-
-  // Validate our parameters
-  NN_ASSERT(!theName.IsEmpty());
-
-
-
-  // Set the name
-  NTargetThread::ThreadSetName(theName);
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::AreEqual : Are two thread IDs equal?
-//-----------------------------------------------------------------------------
-bool NThread::AreEqual(NThreadID thread1, NThreadID thread2)
-{
-  bool areEqual;
-
-
-
-  // Check the IDs
-  //
-  // An invalid ID can only be compared to another invalid ID.
-  if (thread1 == kNThreadIDNone || thread2 == kNThreadIDNone) {
-	areEqual = (thread1 == thread2);
-  }
-  else{
-	areEqual = NTargetThread::ThreadAreEqual(thread1, thread2);
-  }
-
-  return areEqual;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::IsAutoDelete : Is this an auto-delete thread?
-//-----------------------------------------------------------------------------
-bool NThread::IsAutoDelete() const
-{
-
-
-  // Get our state
-  return mAutoDelete;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::SetAutoDelete : Set the auto-delete state.
-//-----------------------------------------------------------------------------
-void NThread::SetAutoDelete(bool autoDelete)
-{
-
-
-  // Set our state
-  mAutoDelete = autoDelete;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::Start : Start the thread.
-//-----------------------------------------------------------------------------
-void NThread::Start()
-{
-
-
-  // Validate our state
-  NN_ASSERT(!IsRunning());
-
-
-
-  // Create the thread
-  NTargetThread::ThreadCreate(BindSelf(NThread::InvokeRun));
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::Stop : Stop the thread.
-//-----------------------------------------------------------------------------
-void NThread::Stop(bool shouldWait)
-{
-  bool autoDelete;
-
-
-
-  // Stop the thread
-  mShouldStop = true;
-
-
-
-  // Wait if necessary
-  //
-  // If we're to wait for the thread to stop, we also need to handle deletion
-  // for the thread (otherwise the thread will delete itself when it stops,
-  // and we'll call IsRunning on a dead object).
-  if (shouldWait)
-  {
-	autoDelete  = mAutoDelete;
-	mAutoDelete = false;
-
-	while (IsRunning()) {
-	  Sleep();
+		otherThread.mIsComplete = true;
+		otherThread.mShouldStop = false;
 	}
 
-	if (autoDelete) {
-	  delete this;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::IsComplete : Is the thread complete?
+//-----------------------------------------------------------------------------
+bool NThread::IsComplete() const
+{
+
+
+	// Get our state
+	return mIsComplete;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::WaitForCompletion : Wait for the thread.
+//-----------------------------------------------------------------------------
+void NThread::WaitForCompletion()
+{
+
+
+	// Wait for the thread
+	if (mThread.joinable())
+	{
+		mThread.join();
 	}
-  }
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::RequestStop : Request that the thread stop.
+//-----------------------------------------------------------------------------
+void NThread::RequestStop()
+{
+
+
+	// Update our state
+	mShouldStop = true;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::ShouldStop : Should a thread stop?
+//-----------------------------------------------------------------------------
+bool NThread::ShouldStop() const
+{
+
+
+	// Get our state
+	return mShouldStop;
 }
 
 
@@ -271,140 +181,11 @@ void NThread::Stop(bool shouldWait)
 //=============================================================================
 //		NThread::Sleep : Sleep the current thread.
 //-----------------------------------------------------------------------------
-void NThread::Sleep(NTime theTime)
+void NThread::Sleep(NInterval sleepFor)
 {
 
 
-  // Validate our parameters
-  NN_ASSERT(theTime >= 0);
-
-
-
-  // Sleep the thread
-  NTargetThread::ThreadSleep(theTime);
+	// Sleep the thread
+	int64_t timeNS = int64_t(sleepFor / kNTimeNanosecond);
+	std::this_thread::sleep_for(std::chrono::nanoseconds(timeNS));
 }
-
-
-
-
-
-//=============================================================================
-//		NThread::CreateLocal : Create a thread-local value.
-//-----------------------------------------------------------------------------
-NThreadLocalRef NThread::CreateLocal()
-{
-
-
-  // Create the value
-  return NTargetThread::LocalCreate();
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::DestroyLocal : Destroy a thread-local value.
-//-----------------------------------------------------------------------------
-void NThread::DestroyLocal(NThreadLocalRef theKey)
-{
-
-
-  // Destroy the value
-  NTargetThread::LocalDestroy(theKey);
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::GetLocalValue : Get a thread-local value.
-//-----------------------------------------------------------------------------
-void *NThread::GetLocalValue(NThreadLocalRef theKey)
-{
-
-
-  // Get the value
-  return NTargetThread::LocalGetValue(theKey);
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::SetLocalValue : Set a thread-local value.
-//-----------------------------------------------------------------------------
-void NThread::SetLocalValue(NThreadLocalRef theKey, void *theValue)
-{
-
-
-  // Set the value
-  NTargetThread::LocalSetValue(theKey, theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::InvokeMain : Perform a functor on the main thread.
-//-----------------------------------------------------------------------------
-void NThread::InvokeMain(const NFunctor &theFunctor)
-{
-
-
-  // Invoke the functor
-  NTargetThread::ThreadInvokeMain(theFunctor);
-}
-
-
-
-	#pragma mark protected
-//=============================================================================
-//		NThread::ShouldStop : Should the thread stop?
-//-----------------------------------------------------------------------------
-bool NThread::ShouldStop() const
-{
-
-
-  // Get our state
-  return mShouldStop;
-}
-
-
-
-	#pragma mark private
-//=============================================================================
-//		NThread::InvokeRun : Invoke a thread.
-//-----------------------------------------------------------------------------
-void NThread::InvokeRun()
-{
-
-
-  // Validate our state
-  NN_ASSERT(!mIsRunning);
-
-
-
-  // Run the thread
-  mIsRunning = true;
-  Run();
-
-
-
-  // Reset our state
-  mIsRunning  = false;
-  mShouldStop = false;
-
-
-
-  // Clean up
-  if (mAutoDelete) {
-	delete this;
-  }
-}
-
-
-#endif

@@ -39,8 +39,11 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NanoTargets.h"
 
+
+// System
 #if NN_TARGET_WINDOWS
 	#include <Windows.h>
 #endif // NN_TARGET_WINDOWS
@@ -54,9 +57,31 @@
 
 
 //=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+template<class Function, class... Args>
+NThread::NThread(Function&& theFunction, Args&&... theArgs)
+	: mThread()
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Invoke the thread
+	mThread = std::thread([=]() {
+		theFunction(theArgs...);
+		mIsComplete = true;
+	});
+}
+
+
+
+
+
+//=============================================================================
 //		NThread::GetID : Get the thread ID.
 //-----------------------------------------------------------------------------
-NThreadID NThread::GetID()
+inline NThreadID NThread::GetID()
 {
 
 
@@ -84,7 +109,7 @@ NThreadID NThread::GetID()
 //=============================================================================
 //		NThread::Switch : Switch the current thread.
 //-----------------------------------------------------------------------------
-void NThread::Switch()
+inline void NThread::Switch()
 {
 
 
@@ -99,7 +124,7 @@ void NThread::Switch()
 //=============================================================================
 //		NThread::Pause : Pause the current thread.
 //-----------------------------------------------------------------------------
-void NThread::Pause()
+inline void NThread::Pause()
 {
 
 
