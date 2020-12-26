@@ -76,19 +76,19 @@ public:
 	// Acquire/release the lock
 	//
 	// A mutex can be locked multiple times by the same thread.
-	inline bool                         Lock(NInterval waitFor = kNTimeForever);
-	inline void                         Unlock();
+	bool                                Lock(NInterval waitFor = kNTimeForever);
+	void                                Unlock();
 
 
 private:
 	bool                                WaitForLock(     NInterval waitFor);
 	bool                                WaitForSemaphore(NInterval waitFor);
 
-	inline bool                         AcquireCount();
-	inline bool                         ReleaseCount();
+	bool                                AcquireCount();
+	bool                                ReleaseCount();
 
-	inline uint32_t                     IncrementCount();
-	inline uint32_t                     DecrementCount();
+	uint32_t                            IncrementCount();
+	uint32_t                            DecrementCount();
 
 
 private:

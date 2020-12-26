@@ -49,7 +49,7 @@
 //=============================================================================
 //		NMutex::Lock : Acquire the lock.
 //-----------------------------------------------------------------------------
-bool NMutex::Lock(NInterval waitFor)
+inline bool NMutex::Lock(NInterval waitFor)
 {
 
 
@@ -80,7 +80,7 @@ bool NMutex::Lock(NInterval waitFor)
 //=============================================================================
 //		NMutex::Unlock : Release the lock.
 //-----------------------------------------------------------------------------
-void NMutex::Unlock()
+inline void NMutex::Unlock()
 {
 
 
@@ -122,7 +122,7 @@ void NMutex::Unlock()
 //=============================================================================
 //		NMutex::AcquireCount : Acquire the lock count.
 //-----------------------------------------------------------------------------
-bool NMutex::AcquireCount()
+inline bool NMutex::AcquireCount()
 {
 
 
@@ -145,7 +145,7 @@ bool NMutex::AcquireCount()
 //=============================================================================
 //		NMutex::ReleaseCount : Release the lock count.
 //-----------------------------------------------------------------------------
-bool NMutex::ReleaseCount()
+inline bool NMutex::ReleaseCount()
 {
 
 
@@ -174,7 +174,7 @@ bool NMutex::ReleaseCount()
 //=============================================================================
 //		NMutex::IncrementCount : Increment the lock count.
 //-----------------------------------------------------------------------------
-uint32_t NMutex::IncrementCount()
+inline uint32_t NMutex::IncrementCount()
 {
 
 
@@ -194,7 +194,7 @@ uint32_t NMutex::IncrementCount()
 //=============================================================================
 //		NMutex::DecrementCount : Decrement the lock count.
 //-----------------------------------------------------------------------------
-uint32_t NMutex::DecrementCount()
+inline uint32_t NMutex::DecrementCount()
 {
 
 
