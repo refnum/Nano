@@ -42,11 +42,11 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NMutex.h"
 #include "NanoTypes.h"
 
 // System
 #include <atomic>
-#include <mutex>
 #include <thread>
 
 
@@ -112,7 +112,7 @@ private:
 
 
 private:
-	std::mutex                          mLock;
+	NMutex                              mLock;
 	std::thread                         mThread;
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;

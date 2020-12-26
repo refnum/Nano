@@ -43,6 +43,7 @@
 
 // Nano
 #include "NDebug.h"
+#include "NScopedLock.h"
 
 
 
@@ -150,7 +151,7 @@ void NThread::WaitForCompletion()
 	// Wait for the thread
 	if (mThread.joinable())
 	{
-		std::lock_guard<std::mutex> acquireLock(mLock);
+		NScopedLock acquireLock(mLock);
 		mThread.join();
 	}
 }
