@@ -1,8 +1,8 @@
 /*	NAME:
-		TThread.cpp
+		AndroidNThread.cpp
 
 	DESCRIPTION:
-		NThread tests.
+		Android thread.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -39,116 +39,49 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NTestFixture.h"
 #include "NThread.h"
-#include "NTimeUtils.h"
+
+// System
+#include <native_app_glue/android_native_app_glue.h>
 
 
 
 
 
 //=============================================================================
-//		Fixture
+//		Global variables
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TThread){};
+// Nano application
+//
+// The android_main method is invoked with a pointer to the android_app
+// instance, which must be assigned to this global on startup.
+android_app* gNanoAndroidApp;
 
 
 
 
 
 //=============================================================================
-//		Test case
+//		NThread::ThreadIsMain : Is this the main thread?
 //-----------------------------------------------------------------------------
-NANO_TEST(TThread, "WaitForCompletion")
+bool NThread::ThreadIsMain()
 {
 
 
-	// Perform the test
-	NThread theThread([]() {
-		NThread::Sleep(0.050);
-	});
+	// Check the thread
+	//
+	// The first thread in an NDK application is an internal thread that
+	// performs static initialisastion and destruction, spawns a second
+	// thread to invoke android_main, then processes the NDK / JDK connection.
+	//
+	// The second thread is the one that executes code from android_main
+	// onwards so we use this as the "main thread".
+	bool isMain = false;
 
-	REQUIRE(!theThread.IsComplete());
-	theThread.WaitForCompletion();
-	REQUIRE(theThread.IsComplete());
-}
+	if (gNanoAndroidApp != nullptr)
+	{
+		isMain = (gNanoAndroidApp->looper == ALooper_forThread());
+	}
 
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "RequestStop")
-{
-
-
-	// Perform the test
-	NThread theThread([]() {
-		while (!NThread::ShouldStop())
-		{
-			NThread::Sleep(0.001);
-		}
-	});
-
-	REQUIRE(!theThread.IsComplete());
-	theThread.RequestStop();
-	NThread::Sleep(0.100);
-	REQUIRE(theThread.IsComplete());
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Yield")
-{
-
-
-	// Perform the test
-	NThread::Switch();
-	NThread::Pause();
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Sleep")
-{
-
-
-	// Perform the test
-	NTime timeBefore = NTimeUtils::GetTime();
-	NThread::Sleep(0.100);
-	NTime timeAfter = NTimeUtils::GetTime();
-
-	REQUIRE(timeAfter >= (timeBefore + 0.100));
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "IsMain")
-{
-
-
-	// Perform the test
-	REQUIRE(NThread::IsMain());
-
-	NThread theThread([]() {
-		REQUIRE(!NThread::IsMain());
-	});
+	return isMain;
 }

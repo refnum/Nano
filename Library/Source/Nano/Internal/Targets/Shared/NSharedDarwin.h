@@ -84,6 +84,10 @@ public:
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 
 
+	// Threads
+	static bool                         ThreadIsMain();
+
+
 	// Semaphores
 	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);

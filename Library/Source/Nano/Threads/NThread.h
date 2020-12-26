@@ -107,8 +107,14 @@ public:
 	static void                         Sleep(NInterval sleepFor);
 
 
+	// Is the current thred the main thread?
+	static bool                         IsMain();
+
+
 private:
 	static NThread*&                    GetThread();
+
+	static bool                         ThreadIsMain();
 
 
 private:

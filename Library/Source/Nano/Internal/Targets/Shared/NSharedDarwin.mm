@@ -592,6 +592,24 @@ NFilePath NSharedDarwin::PathLocation(NFileLocation theLocation)
 
 
 //=============================================================================
+//		NSharedDarwin::ThreadIsMain : Is this the main thread?
+//-----------------------------------------------------------------------------
+bool NSharedDarwin::ThreadIsMain()
+{
+
+
+	// Check the thread
+	int sysErr = pthread_main_np();
+	NN_REQUIRE(sysErr == 1 || sysErr == 0);
+
+	return sysErr == 1;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)

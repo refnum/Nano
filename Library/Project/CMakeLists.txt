@@ -253,6 +253,7 @@ if (NN_TARGET_ANDROID)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNSemaphore.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNThread.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.h"
@@ -281,6 +282,7 @@ if (NN_TARGET_IOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNSemaphore.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNThread.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/iOS/iOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.mm"
@@ -309,6 +311,7 @@ if (NN_TARGET_LINUX)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNSemaphore.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNThread.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux/LinuxNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedLinux.h"
@@ -338,6 +341,7 @@ if (NN_TARGET_MACOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNFileUtils.mm"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNSemaphore.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNThread.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/macOS/macOSNTimeUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.h"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Shared/NSharedDarwin.mm"
@@ -370,6 +374,7 @@ if (NN_TARGET_TVOS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNSemaphore.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNThread.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/tvOS/tvOSNTimeUtils.cpp"
 		)
 
@@ -397,6 +402,7 @@ if (NN_TARGET_WINDOWS)
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileInfo.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNFileUtils.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNSemaphore.cpp"
+			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNThread.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Windows/WindowsNTimeUtils.cpp"
 	)
 

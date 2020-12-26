@@ -1,8 +1,8 @@
 /*	NAME:
-		TThread.cpp
+		LinuxNThread.cpp
 
 	DESCRIPTION:
-		NThread tests.
+		Linux thread.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2020, refNum Software
@@ -39,116 +39,26 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NTestFixture.h"
 #include "NThread.h"
-#include "NTimeUtils.h"
+
+// System
+#include <syscall.h>
 
 
 
 
 
 //=============================================================================
-//		Fixture
+//		NThread::ThreadIsMain : Is this the main thread?
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TThread){};
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "WaitForCompletion")
+bool NThread::ThreadIsMain()
 {
 
 
-	// Perform the test
-	NThread theThread([]() {
-		NThread::Sleep(0.050);
-	});
+	// Check the thread
+	//
+	// The main thread has the same ID as the process ID.
+	bool isMain = (syscall(SYS_gettid) == getpid());
 
-	REQUIRE(!theThread.IsComplete());
-	theThread.WaitForCompletion();
-	REQUIRE(theThread.IsComplete());
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "RequestStop")
-{
-
-
-	// Perform the test
-	NThread theThread([]() {
-		while (!NThread::ShouldStop())
-		{
-			NThread::Sleep(0.001);
-		}
-	});
-
-	REQUIRE(!theThread.IsComplete());
-	theThread.RequestStop();
-	NThread::Sleep(0.100);
-	REQUIRE(theThread.IsComplete());
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Yield")
-{
-
-
-	// Perform the test
-	NThread::Switch();
-	NThread::Pause();
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Sleep")
-{
-
-
-	// Perform the test
-	NTime timeBefore = NTimeUtils::GetTime();
-	NThread::Sleep(0.100);
-	NTime timeAfter = NTimeUtils::GetTime();
-
-	REQUIRE(timeAfter >= (timeBefore + 0.100));
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "IsMain")
-{
-
-
-	// Perform the test
-	REQUIRE(NThread::IsMain());
-
-	NThread theThread([]() {
-		REQUIRE(!NThread::IsMain());
-	});
+	return isMain;
 }

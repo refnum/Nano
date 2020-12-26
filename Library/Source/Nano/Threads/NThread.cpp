@@ -222,3 +222,23 @@ NThread*& NThread::GetThread()
 
 	return sThread;
 }
+
+
+
+
+
+//=============================================================================
+//		NThread::IsMain : Is the current thread the main thread?
+//-----------------------------------------------------------------------------
+bool NThread::IsMain()
+{
+
+
+	// Check the thread
+	//
+	// Checking the main thread can be expensive on some platforms
+	// so we cache the result.
+	static thread_local bool sIsMain = ThreadIsMain();
+
+	return sIsMain;
+}
