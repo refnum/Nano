@@ -63,7 +63,7 @@ inline bool NMutex::Lock(NInterval waitFor)
 	// acquire an uncontended lock.
 	if (AcquireCount())
 	{
-		mOwner.store(NThread::GetID(), std::memory_order_relaxed);
+		mOwner.store(NThreadID::Get(), std::memory_order_relaxed);
 		mRecursion++;
 		return true;
 	}
@@ -85,7 +85,7 @@ inline void NMutex::Unlock()
 
 
 	// Validate our state
-	NN_REQUIRE(mOwner.load(std::memory_order_relaxed) == NThread::GetID());
+	NN_REQUIRE(mOwner.load(std::memory_order_relaxed) == NThreadID::Get());
 	NN_REQUIRE(mRecursion >= 1);
 
 
@@ -96,7 +96,7 @@ inline void NMutex::Unlock()
 	bool didUnlock = (mRecursion == 0);
 	if (didUnlock)
 	{
-		mOwner.store(kNThreadIDNone, std::memory_order_relaxed);
+		mOwner.store(NThreadID(), std::memory_order_relaxed);
 	}
 
 

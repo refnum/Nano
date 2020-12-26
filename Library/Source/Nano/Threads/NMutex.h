@@ -43,7 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NSemaphore.h"
-#include "NThread.h"
+#include "NThreadID.h"
 
 
 // System

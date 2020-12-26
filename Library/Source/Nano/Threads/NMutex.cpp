@@ -71,6 +71,9 @@
 //-----------------------------------------------------------------------------
 #include "NMutex.h"
 
+// Nano
+#include "NThread.h"
+
 
 
 
@@ -89,7 +92,7 @@ static constexpr size_t kNMutexSpinCount                    = 5000;
 //-----------------------------------------------------------------------------
 NMutex::NMutex()
 	: mSemaphore(kNSemaphoreNone)
-	, mOwner(kNThreadIDNone)
+	, mOwner()
 	, mLockCount(0)
 	, mRecursion(0)
 {
@@ -146,7 +149,7 @@ bool NMutex::WaitForLock(NInterval waitFor)
 	//
 	// If we're already the owner then we have acquired the lock recursively.
 	NThreadID currentOwner = mOwner.load(std::memory_order_relaxed);
-	NThreadID thisThread   = NThread::GetID();
+	NThreadID thisThread   = NThreadID::Get();
 
 	if (NN_EXPECT_UNLIKELY(currentOwner == thisThread))
 	{
