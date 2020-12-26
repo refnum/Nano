@@ -70,6 +70,7 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 
 	// Invoke the thread
 	mThread = std::thread([=]() {
+		GetThread() = this;
 		theFunction(theArgs...);
 		mIsComplete = true;
 	});

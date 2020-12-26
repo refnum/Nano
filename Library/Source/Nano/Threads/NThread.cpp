@@ -181,12 +181,12 @@ void NThread::RequestStop()
 //=============================================================================
 //		NThread::ShouldStop : Should a thread stop?
 //-----------------------------------------------------------------------------
-bool NThread::ShouldStop() const
+bool NThread::ShouldStop()
 {
 
 
 	// Get our state
-	return mShouldStop;
+	return GetThread()->mShouldStop;
 }
 
 
@@ -203,4 +203,21 @@ void NThread::Sleep(NInterval sleepFor)
 	// Sleep the thread
 	int64_t timeNS = int64_t(sleepFor / kNTimeNanosecond);
 	std::this_thread::sleep_for(std::chrono::nanoseconds(timeNS));
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetThread : Get the current thread.
+//-----------------------------------------------------------------------------
+NThread*& NThread::GetThread()
+{
+
+
+	// Get the thread
+	static thread_local NThread* sThread;
+
+	return sThread;
 }

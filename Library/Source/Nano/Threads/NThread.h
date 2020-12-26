@@ -106,7 +106,7 @@ public:
 	// A thread must poll the stopping state periodically if it can support
 	// stopping early.
 	void                                RequestStop();
-	bool                                ShouldStop() const;
+	static bool                         ShouldStop();
 
 
 	// Get the thread ID
@@ -127,6 +127,10 @@ public:
 
 	// Sleep the current thread
 	static void                         Sleep(NInterval sleepFor);
+
+
+private:
+	static NThread*&                    GetThread();
 
 
 private:
