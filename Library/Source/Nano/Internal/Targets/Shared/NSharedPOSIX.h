@@ -44,6 +44,7 @@
 #include "NFile.h"
 #include "NFileHandle.h"
 #include "NFileInfo.h"
+#include "NThread.h"
 #include "NTime.h"
 
 // System
@@ -126,6 +127,11 @@ public:
 	static NStatus                      PathCreate(  const NFilePath& thePath);
 	static NStatus                      PathDelete(  const NFilePath& thePath);
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);
+
+
+	// Threads
+	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
+	static void                         ThreadJoin(NThreadHandle theThread);
 };
 
 

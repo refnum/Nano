@@ -53,23 +53,44 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr NThreadHandle kNThreadNone                 = 0;
+
+
+
+
+
+//=============================================================================
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
-template<class Function, class... Args>
+template<typename Function, typename... Args>
 NThread::NThread(Function&& theFunction, Args&&... theArgs)
 	: mLock()
-	, mThread()
+	, mID()
+	, mThread(kNThreadNone)
 	, mIsComplete(false)
 	, mShouldStop(false)
 {
 
 
-	// Invoke the thread
-	mThread = std::thread([=]() {
+	// Create the context
+	NThreadContext* theContext = new NThreadContext{};
+
+	theContext->threadEntry = [=]() {
 		GetThread() = this;
+		mID         = NThreadID::Get();
+
 		theFunction(theArgs...);
+
 		mIsComplete = true;
-	});
+	};
+
+
+
+	// Create the thread
+	mThread = ThreadCreate(theContext);
+	NN_REQUIRE(mThread != kNThreadNone);
 }
 
 

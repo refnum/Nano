@@ -220,6 +220,29 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 
 
 
+//=============================================================================
+//		NThreadEntry : Thread entry point.
+//-----------------------------------------------------------------------------
+static void* NThreadEntry(void* theParam)
+{
+
+
+	// Get the state we need
+	NThreadContext* theContext = reinterpret_cast<NThreadContext*>(theParam);
+
+
+
+	// Invoke the thread
+	theContext->threadEntry();
+
+	delete theContext;
+	return nullptr;
+}
+
+
+
+
+
 #pragma mark NSharedPOSIX
 //=============================================================================
 //		NSharedPOSIX::gettimeofday : Get the time of day.
@@ -1292,4 +1315,57 @@ NVectorFilePath NSharedPOSIX::PathChildren(const NFilePath& thePath)
 	closedir(theDir);
 
 	return theChildren;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ThreadCreate : Create a native thread.
+//-----------------------------------------------------------------------------
+NThreadHandle NSharedPOSIX::ThreadCreate(NThreadContext* theContext)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NThreadHandle) >= sizeof(pthread_t));
+
+
+
+	// Create the attributes
+	pthread_t      threadID;
+	pthread_attr_t threadAttrs;
+
+	int sysErr = pthread_attr_init(&threadAttrs);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+
+
+	// Create the thread
+	sysErr = pthread_create(&threadID, &threadAttrs, NThreadEntry, theContext);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	sysErr = pthread_attr_destroy(&threadAttrs);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	return NThreadHandle(threadID);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ThreadJoin : Join a native thread.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::ThreadJoin(NThreadHandle theThread)
+{
+
+
+	// Join the thread
+	pthread_t threadID = pthread_t(theThread);
+
+	int sysErr = pthread_join(threadID, nullptr);
+	NN_EXPECT(sysErr == 0 || sysErr == ESRCH);
 }

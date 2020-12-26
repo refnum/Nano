@@ -61,6 +61,32 @@ static DWORD gMainThreadID                                  = GetCurrentThreadId
 
 
 //=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		NThreadEntry : Thread entry point.
+//-----------------------------------------------------------------------------
+static DWORD WINAPI NThreadEntry(void* userData)
+{
+
+
+	// Get the state we need
+	NThreadContext* theContext = reinterpret_cast<NThreadContext*>(theParam);
+
+
+
+	// Invoke the thread
+	theContext->threadEntry();
+
+	delete theContext;
+	return 0;
+}
+
+
+
+
+
+#pragma mark NThread
+//=============================================================================
 //		NThread::GetStackSize : Get the current thread's stack size.
 //-----------------------------------------------------------------------------
 size_t NThread::GetStackSize()
@@ -77,6 +103,49 @@ size_t NThread::GetStackSize()
 
 	// Get the size
 	return uintptr_t(threadInfo->StackBase) - uintptr_t(threadInfo->StackLimit);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::ThreadCreate : Create a native thread.
+//-----------------------------------------------------------------------------
+NThreadHandle NThread::ThreadCreate(NThreadContext* theContext)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NThreadHandle) >= sizeof(HANDLE));
+
+
+
+	// Create the thread
+	HANDLE threadHnd = CreateThread(nullptr, 0, NThreadEntry, theContext, 0, nullptr);
+	NN_EXPECT(threadHnd != nullptr);
+
+	return NThreadHandle(threadHnd);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::ThreadJoin : Join a native thread.
+//-----------------------------------------------------------------------------
+void NThread::ThreadJoin(NThreadHandle theThread)
+{
+
+
+	// Join the thread
+	HANDLE threadHnd = HANDLE(theThread);
+
+	DWORD winErr = WaitForSingleObject(threadHnd, INFINITE);
+	NN_EXPECT(winErr == WAIT_OBJECT_0);
+
+	CloseHandle(threadHnd);
 }
 
 

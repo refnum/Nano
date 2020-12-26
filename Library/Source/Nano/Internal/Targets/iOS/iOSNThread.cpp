@@ -43,6 +43,7 @@
 
 // Nano
 #include "NSharedDarwin.h"
+#include "NSharedPOSIX.h"
 
 
 
@@ -57,6 +58,36 @@ size_t NThread::GetStackSize()
 
 	// Get the size
 	return NSharedDarwin::ThreadStackSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::ThreadCreate : Create a native thread.
+//-----------------------------------------------------------------------------
+NThreadHandle NThread::ThreadCreate(NThreadContext* theContext)
+{
+
+
+	// Create the thread
+	return NSharedPOSIX::ThreadCreate(theContext);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::ThreadJoin : Join a native thread.
+//-----------------------------------------------------------------------------
+void NThread::ThreadJoin(NThreadHandle theThread)
+{
+
+
+	// Join the thread
+	NSharedPOSIX::ThreadJoin(theThread);
 }
 
 

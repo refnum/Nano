@@ -69,15 +69,16 @@ NThread::~NThread()
 //-----------------------------------------------------------------------------
 NThread::NThread(NThread&& otherThread)
 	: mLock()
-	, mThread(std::move(otherThread.mThread))
+	, mID(otherThread.mID)
+	, mThread(otherThread.mThread)
 	, mIsComplete(otherThread.mIsComplete.load())
 	, mShouldStop(otherThread.mShouldStop.load())
 {
 
 
 	// Reset the other thread
-	NN_REQUIRE(otherThread.mThread.get_id() == std::thread::id());
-
+	otherThread.mID.Clear();
+	otherThread.mThread     = kNThreadNone;
 	otherThread.mIsComplete = true;
 	otherThread.mShouldStop = false;
 }
@@ -94,7 +95,7 @@ inline NThread& NThread::operator=(NThread&& otherThread)
 
 
 	// Validate our state
-	NN_REQUIRE(mThread.get_id() == std::thread::id());
+	NN_REQUIRE(!mID.IsValid());
 	NN_REQUIRE(mIsComplete);
 
 
@@ -102,15 +103,36 @@ inline NThread& NThread::operator=(NThread&& otherThread)
 	// Move the thread
 	if (this != &otherThread)
 	{
-		std::swap(mThread, otherThread.mThread);
+		// Move the thread
+		mID         = otherThread.mID;
+		mThread     = otherThread.mThread;
 		mIsComplete = otherThread.mIsComplete.load();
 		mShouldStop = otherThread.mShouldStop.load();
 
+
+		// Reset the other thread
+		otherThread.mID.Clear();
+		otherThread.mThread     = kNThreadNone;
 		otherThread.mIsComplete = true;
 		otherThread.mShouldStop = false;
 	}
 
 	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetID : Get the thread ID.
+//-----------------------------------------------------------------------------
+NThreadID NThread::GetID() const
+{
+
+
+	// Get the ID
+	return mID;
 }
 
 
@@ -125,7 +147,7 @@ bool NThread::IsComplete() const
 
 
 	// Validate our state
-	NN_REQUIRE(mThread.get_id() != std::this_thread::get_id());
+	NN_REQUIRE(NThreadID::Get() != mID, "The running thread is never complete!");
 
 
 
@@ -145,15 +167,15 @@ void NThread::WaitForCompletion()
 
 
 	// Validate our state
-	NN_REQUIRE(mThread.get_id() != std::this_thread::get_id());
+	NN_REQUIRE(NThreadID::Get() != mID, "The running thread cannot wait for itself!");
+
 
 
 	// Wait for the thread
-	if (mThread.joinable())
-	{
-		NScopedLock acquireLock(mLock);
-		mThread.join();
-	}
+	NScopedLock acquireLock(mLock);
+
+	ThreadJoin(mThread);
+	mThread = kNThreadNone;
 }
 
 
@@ -165,10 +187,6 @@ void NThread::WaitForCompletion()
 //-----------------------------------------------------------------------------
 void NThread::RequestStop()
 {
-
-
-	// Validate our state
-	NN_REQUIRE(mThread.get_id() != std::this_thread::get_id());
 
 
 	// Update our state

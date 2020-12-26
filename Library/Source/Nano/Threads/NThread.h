@@ -54,12 +54,31 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NThread;
+
+// Thread handle
+using NThreadHandle = uintptr_t;
+
+// Thread context
+struct NThreadContext
+{
+	std::function<void()> threadEntry;
+};
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NThread
 {
 public:
-	template<class Function, class... Args>
+	template<typename Function, typename... Args>
 	explicit                            NThread(Function&& theFunction, Args&&... theArgs);
 
 										NThread() = delete;
@@ -70,6 +89,10 @@ public:
 
 										NThread(  NThread&& otherThread);
 	NThread&                            operator=(NThread&& otherThread);
+
+
+	// Get the thread ID
+	NThreadID                           GetID() const;
 
 
 	// Test / wait for completion
@@ -118,12 +141,16 @@ public:
 private:
 	static NThread*&                    GetThread();
 
+	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
+	static void                         ThreadJoin(NThreadHandle theThread);
 	static bool                         ThreadIsMain();
 
 
 private:
 	NMutex                              mLock;
-	std::thread                         mThread;
+
+	NThreadID                           mID;
+	NThreadHandle                       mThread;
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;
 };
