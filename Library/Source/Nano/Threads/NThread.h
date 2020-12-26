@@ -139,8 +139,6 @@ public:
 
 
 private:
-	static NThread*&                    GetThread();
-
 	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
 	static void                         ThreadJoin(NThreadHandle theThread);
 	static bool                         ThreadIsMain();
@@ -153,6 +151,8 @@ private:
 	NThreadHandle                       mThread;
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;
+
+	static thread_local NThread*        mThisThread;
 };
 
 

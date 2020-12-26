@@ -78,7 +78,7 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 	NThreadContext* theContext = new NThreadContext{};
 
 	theContext->threadEntry = [=]() {
-		GetThread() = this;
+		mThisThread = this;
 		mID         = NThreadID::Get();
 
 		theFunction(theArgs...);

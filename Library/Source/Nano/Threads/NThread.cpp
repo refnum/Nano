@@ -50,6 +50,15 @@
 
 
 //=============================================================================
+//		Static variables
+//-----------------------------------------------------------------------------
+thread_local NThread* NThread::mThisThread;
+
+
+
+
+
+//=============================================================================
 //		NThread::~NThread : Destructor.
 //-----------------------------------------------------------------------------
 NThread::~NThread()
@@ -205,7 +214,7 @@ bool NThread::ShouldStop()
 
 
 	// Get our state
-	return GetThread()->mShouldStop;
+	return mThisThread->mShouldStop;
 }
 
 
@@ -222,23 +231,6 @@ void NThread::Sleep(NInterval sleepFor)
 	// Sleep the thread
 	int64_t timeNS = int64_t(sleepFor / kNTimeNanosecond);
 	std::this_thread::sleep_for(std::chrono::nanoseconds(timeNS));
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::GetThread : Get the current thread.
-//-----------------------------------------------------------------------------
-NThread*& NThread::GetThread()
-{
-
-
-	// Get the thread
-	static thread_local NThread* sThread;
-
-	return sThread;
 }
 
 
