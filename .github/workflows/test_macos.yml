@@ -4,11 +4,6 @@ on:
   push:
     branches: [master]
 
-  workflow_run:
-    workflows: ["Build_macOS"]
-    types:
-      - completed
-
 jobs:
   Test_macOS:
     runs-on: macOS-latest
@@ -18,14 +13,22 @@ jobs:
         config: ['Debug', 'Release']
 
     steps:
-      - name: Download
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: build_macos.yml
-          workflow_conclusion: success
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          set -euf -o pipefail
+          xcodebuild build                                       \
+            -project NanoTest/Project/NanoTest.xcodeproj         \
+            -scheme      "NanoTest_macOS - ${{ matrix.config }}" \
+            -destination "generic/platform=macOS"                \
+            -parallelizeTargets                                  \
+            -enableAddressSanitizer           YES                \
+            -enableUndefinedBehaviorSanitizer YES                \
+            Nano="${GITHUB_WORKSPACE}"                           \
+            SYMROOT="${GITHUB_WORKSPACE}/Build" | xcpretty
 
       - name: Test
         run: |
-          chmod 755 "NanoTest/NanoTest_${{ matrix.config }}_macOS"
-          "NanoTest/NanoTest_${{ matrix.config }}_macOS" -d yes
-
+          "Build/${{ matrix.config }}/NanoTest_macOS"

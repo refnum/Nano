@@ -4,11 +4,6 @@ on:
   push:
     branches: [master]
 
-  workflow_run:
-    workflows: ["Build_Linux"]
-    types:
-      - completed
-
 jobs:
   Test_Linux:
     runs-on: ubuntu-latest
@@ -18,14 +13,23 @@ jobs:
         config: ['Debug', 'Release']
 
     steps:
-      - name: Download
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: build_linux.yml
-          workflow_conclusion: success
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: CMake
+        run: |
+          mkdir Build
+          cd    Build
+          cmake -G "Unix Makefiles"                   \
+            -DCMAKE_BUILD_TYPE="${{ matrix.config }}" \
+            "${GITHUB_WORKSPACE}"
+
+      - name: Build
+        run: |
+          cd Build
+          make -j2 "NanoTest"
 
       - name: Test
         run: |
-          chmod 755 "NanoTest/NanoTest_${{ matrix.config }}_Linux"
-          "NanoTest/NanoTest_${{ matrix.config }}_Linux" -d yes
-
+          cd Build
+          "NanoTest/Project/NanoTest"

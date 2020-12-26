@@ -4,11 +4,6 @@ on:
   push:
     branches: [master]
 
-  workflow_run:
-    workflows: ["Build_Windows"]
-    types:
-      - completed
-
 jobs:
   Test_Windows:
     runs-on: windows-latest
@@ -18,12 +13,21 @@ jobs:
         config: ['Debug', 'Release']
 
     steps:
-      - name: Download
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: build_windows.yml
-          workflow_conclusion: success
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: CMake
+        run: |
+          mkdir Build
+          cd    Build
+          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE="${{ matrix.config }}" "$env:GITHUB_WORKSPACE"
+
+      - name: Build
+        run: |
+          cd Build
+          cmake --build . --parallel --config "${{ matrix.config }}" --target NanoTest
 
       - name: Test
         run: |
-          "NanoTest/NanoTest_${{ matrix.config }}_Windows.exe" -d yes
+          cd Build
+          "NanoTest\Project\${{ matrix.config }}\NanoTest.exe"
