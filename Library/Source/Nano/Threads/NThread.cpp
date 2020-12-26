@@ -67,7 +67,8 @@ NThread::~NThread()
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
 NThread::NThread(NThread&& otherThread)
-	: mThread(std::move(otherThread.mThread))
+	: mLock()
+	, mThread(std::move(otherThread.mThread))
 	, mIsComplete(otherThread.mIsComplete.load())
 	, mShouldStop(otherThread.mShouldStop.load())
 {
@@ -140,6 +141,7 @@ void NThread::WaitForCompletion()
 	// Wait for the thread
 	if (mThread.joinable())
 	{
+		std::lock_guard<std::mutex> acquireLock(mLock);
 		mThread.join();
 	}
 }

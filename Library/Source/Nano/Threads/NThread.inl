@@ -61,7 +61,8 @@
 //-----------------------------------------------------------------------------
 template<class Function, class... Args>
 NThread::NThread(Function&& theFunction, Args&&... theArgs)
-	: mThread()
+	: mLock()
+	, mThread()
 	, mIsComplete(false)
 	, mShouldStop(false)
 {

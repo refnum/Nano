@@ -46,6 +46,7 @@
 
 // System
 #include <atomic>
+#include <mutex>
 #include <thread>
 
 
@@ -129,6 +130,7 @@ public:
 
 
 private:
+	std::mutex                          mLock;
 	std::thread                         mThread;
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;
