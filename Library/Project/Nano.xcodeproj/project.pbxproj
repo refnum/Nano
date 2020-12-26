@@ -327,6 +327,8 @@
 		AB0DBE7B2399A03400F6AD43 /* NSpinLock.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NSpinLock.inl; sourceTree = "<group>"; };
 		AB1431F4103F5102002BD0D1 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
 		AB1431F5103F5102002BD0D1 /* NColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NColor.h; sourceTree = "<group>"; };
+		AB1980F325975CD9002C5591 /* NThreadID.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NThreadID.inl; sourceTree = "<group>"; };
+		AB1980F425975CD9002C5591 /* NThreadID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NThreadID.h; sourceTree = "<group>"; };
 		AB1A789D103234BE00DFBA38 /* NUndoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoSource.h; sourceTree = "<group>"; };
 		AB1A789E103234BE00DFBA38 /* NUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoManager.h; sourceTree = "<group>"; };
 		AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoSource.cpp; sourceTree = "<group>"; };
@@ -1443,6 +1445,8 @@
 				AB1A7936103248AF00DFBA38 /* NThread.cpp */,
 				AB1A7937103248AF00DFBA38 /* NThread.h */,
 				AB0DBE7A23999E2D00F6AD43 /* NThread.inl */,
+				AB1980F425975CD9002C5591 /* NThreadID.h */,
+				AB1980F325975CD9002C5591 /* NThreadID.inl */,
 				AB1A7935103248AF00DFBA38 /* NThreadPool.cpp */,
 				AB1A7938103248AF00DFBA38 /* NThreadPool.h */,
 				AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */,
