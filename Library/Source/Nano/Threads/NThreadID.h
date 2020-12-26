@@ -58,11 +58,15 @@ public:
 										NThreadID();
 
 
-	// Is the thread ID valid?
+	// Is the ID valid?
 	bool                                IsValid() const;
 
 
-	// Get the thread ID value
+	// Clear the ID
+	void                                Clear();
+
+
+	// Get the value
 	//
 	// Returns 0 if the ID does not represent a thread.
 	uintptr_t                           GetValue() const;

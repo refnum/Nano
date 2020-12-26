@@ -39,6 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NDebug.h"
+
 // System
 #if NN_TARGET_WINDOWS
 	#include <Windows.h>
@@ -51,10 +54,19 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr uintptr_t kNThreadIDNone                   = 0;
+
+
+
+
+
+//=============================================================================
 //		NThreadID::NThreadID : Constructor.
 //-----------------------------------------------------------------------------
 inline NThreadID::NThreadID()
-	: mValue(0)
+	: mValue(kNThreadIDNone)
 {
 }
 
@@ -70,7 +82,22 @@ inline bool NThreadID::IsValid() const
 
 
 	// Check the ID
-	return mValue != 0;
+	return mValue != kNThreadIDNone;
+}
+
+
+
+
+
+//=============================================================================
+//		NThreadID::Clear : Clear the ID.
+//-----------------------------------------------------------------------------
+inline void NThreadID::Clear()
+{
+
+
+	// Clear the ID
+	mValue = kNThreadIDNone;
 }
 
 
@@ -116,6 +143,8 @@ inline NThreadID NThreadID::Get()
 	static_assert(sizeof(uintptr_t) >= sizeof(pthread_t));
 	theID.mValue = uintptr_t(pthread_self());
 #endif
+
+	NN_REQUIRE(theID.IsValid());
 
 	return theID;
 }
