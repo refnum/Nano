@@ -123,6 +123,11 @@ bool NThread::IsComplete() const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(mThread.get_id() != std::this_thread::get_id());
+
+
+
 	// Get our state
 	return mIsComplete;
 }
@@ -136,6 +141,10 @@ bool NThread::IsComplete() const
 //-----------------------------------------------------------------------------
 void NThread::WaitForCompletion()
 {
+
+
+	// Validate our state
+	NN_REQUIRE(mThread.get_id() != std::this_thread::get_id());
 
 
 	// Wait for the thread
@@ -155,6 +164,10 @@ void NThread::WaitForCompletion()
 //-----------------------------------------------------------------------------
 void NThread::RequestStop()
 {
+
+
+	// Validate our state
+	NN_REQUIRE(mThread.get_id() != std::this_thread::get_id());
 
 
 	// Update our state
