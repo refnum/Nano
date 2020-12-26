@@ -144,6 +144,7 @@ private:
 	void                                RecordStats(const std::string& theTag, const NUsageStats& theStats);
 	void                                ReportStats();
 
+
 private:
 	NSetUsageBucket                     mBuckets;
 	NMapUsageStats                      mStats;
