@@ -42,6 +42,7 @@
 // Nano
 #include "NTestFixture.h"
 #include "NThread.h"
+#include "NTimeUtils.h"
 
 
 
@@ -59,7 +60,53 @@ NANO_FIXTURE(TThread){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TThread, "ID")
+NANO_TEST(TThread, "WaitForCompletion")
+{
+
+
+	// Perform the test
+	NThread theThread([]() {
+		NThread::Sleep(0.050);
+	});
+
+	REQUIRE(!theThread.IsComplete());
+	theThread.WaitForCompletion();
+	REQUIRE(theThread.IsComplete());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "RequestStop")
+{
+
+
+	// Perform the test
+	NThread theThread([]() {
+		while (!NThread::ShouldStop())
+		{
+			NThread::Sleep(0.001);
+		}
+	});
+
+	REQUIRE(!theThread.IsComplete());
+	theThread.RequestStop();
+	NThread::Sleep(0.100);
+	REQUIRE(theThread.IsComplete());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "GetID")
 {
 
 
@@ -91,16 +138,14 @@ NANO_TEST(TThread, "Yield")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TThread, "IsComplete")
+NANO_TEST(TThread, "Sleep")
 {
 
 
 	// Perform the test
-	NThread theThread([]() {
-		NThread::Sleep(0.050);
-	});
-
-	REQUIRE(!theThread.IsComplete());
+	NTime timeBefore = NTimeUtils::GetTime();
 	NThread::Sleep(0.100);
-	REQUIRE(theThread.IsComplete());
+	NTime timeAfter = NTimeUtils::GetTime();
+
+	REQUIRE(timeAfter >= (timeBefore + 0.100));
 }
