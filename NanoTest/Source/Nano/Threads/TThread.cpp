@@ -152,3 +152,19 @@ NANO_TEST(TThread, "IsMain")
 		REQUIRE(!NThread::IsMain());
 	});
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "GetStackSize")
+{
+
+
+	// Perform the test
+	size_t theSize = NThread::GetStackSize();
+	REQUIRE(theSize != 0);
+}

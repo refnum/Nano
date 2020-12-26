@@ -610,6 +610,21 @@ bool NSharedDarwin::ThreadIsMain()
 
 
 //=============================================================================
+//		NSharedDarwin::ThreadStackSize : Get the thread stack size.
+//-----------------------------------------------------------------------------
+size_t NSharedDarwin::ThreadStackSize()
+{
+
+
+	// Get the stack size
+	return pthread_get_stacksize_np(pthread_self());
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)

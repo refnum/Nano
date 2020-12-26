@@ -111,6 +111,10 @@ public:
 	static bool                         IsMain();
 
 
+	// Get the current thread's stack size
+	static size_t                       GetStackSize();
+
+
 private:
 	static NThread*&                    GetThread();
 

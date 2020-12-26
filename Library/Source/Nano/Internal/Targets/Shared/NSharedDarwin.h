@@ -86,6 +86,7 @@ public:
 
 	// Threads
 	static bool                         ThreadIsMain();
+	static size_t                       ThreadStackSize();
 
 
 	// Semaphores

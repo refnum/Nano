@@ -61,6 +61,29 @@ static DWORD gMainThreadID                                  = GetCurrentThreadId
 
 
 //=============================================================================
+//		NThread::GetStackSize : Get the current thread's stack size.
+//-----------------------------------------------------------------------------
+size_t NThread::GetStackSize()
+{
+
+
+	// Get the Thread Information Block
+#if NN_TARGET_ARCH_32
+	NT_TIB32* threadInfo = (NT_TIB32*) __readfsdword(0x18);
+#else
+	NT_TIB64* threadInfo = (NT_TIB64*) __readgsqword(0x30);
+#endif
+
+
+	// Get the size
+	return uintptr_t(threadInfo->StackBase) - uintptr_t(threadInfo->StackLimit);
+}
+
+
+
+
+
+//=============================================================================
 //		NThread::ThreadIsMain : Is this the main thread?
 //-----------------------------------------------------------------------------
 bool NThread::ThreadIsMain()

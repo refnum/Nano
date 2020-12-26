@@ -49,6 +49,21 @@
 
 
 //=============================================================================
+//		NThread::GetStackSize : Get the current thread's stack size.
+//-----------------------------------------------------------------------------
+size_t NThread::GetStackSize()
+{
+
+
+	// Get the size
+	return NSharedDarwin::ThreadStackSize();
+}
+
+
+
+
+
+//=============================================================================
 //		NThread::ThreadIsMain : Is this the main thread?
 //-----------------------------------------------------------------------------
 bool NThread::ThreadIsMain()

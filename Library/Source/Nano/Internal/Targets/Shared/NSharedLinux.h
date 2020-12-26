@@ -77,6 +77,10 @@ public:
 	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
 
 
+	// Threads
+	static size_t                       ThreadStackSize();
+
+
 	// Semaphores
 	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);

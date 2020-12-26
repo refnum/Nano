@@ -41,8 +41,26 @@
 //-----------------------------------------------------------------------------
 #include "NThread.h"
 
+// Nano
+#include "NSharedLinux.h"
+
 // System
 #include <syscall.h>
+
+
+
+
+
+//=============================================================================
+//		NThread::GetStackSize : Get the current thread's stack size.
+//-----------------------------------------------------------------------------
+size_t NThread::GetStackSize()
+{
+
+
+	// Get the size
+	return NSharedLinux::ThreadStackSize();
+}
 
 
 

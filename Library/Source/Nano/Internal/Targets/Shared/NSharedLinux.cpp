@@ -460,6 +460,41 @@ NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& ne
 
 
 //=============================================================================
+//		NSharedLinux::ThreadStackSize : Get the thread stack size.
+//-----------------------------------------------------------------------------
+size_t NSharedLinux::ThreadStackSize()
+{
+
+
+	// Get the stack size
+	pthread_attr_t threadAttr{};
+	size_t         stackSize = 0;
+	int            sysErr    = pthread_getattr_np(pthread_self(), &threadAttr);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr == 0)
+	{
+		void* stackBase = nullptr;
+		sysErr          = pthread_attr_getstack(&threadAttr, &stackBase, &stackSize);
+		NN_EXPECT_NOT_ERR(sysErr);
+
+		if (sysErr != 0)
+		{
+			stackSize = 0;
+		}
+
+		sysErr = pthread_attr_destroy(&threadAttr);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
+
+	return stackSize;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)

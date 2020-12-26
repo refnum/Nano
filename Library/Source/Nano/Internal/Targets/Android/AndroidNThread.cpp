@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NThread.h"
 
+// Nano
+#include "NSharedLinux.h"
+
 // System
 #include <native_app_glue/android_native_app_glue.h>
 
@@ -56,6 +59,21 @@
 // The android_main method is invoked with a pointer to the android_app
 // instance, which must be assigned to this global on startup.
 android_app* gNanoAndroidApp;
+
+
+
+
+
+//=============================================================================
+//		NThread::GetStackSize : Get the current thread's stack size.
+//-----------------------------------------------------------------------------
+size_t NThread::GetStackSize()
+{
+
+
+	// Get the size
+	return NSharedLinux::ThreadStackSize();
+}
 
 
 
