@@ -192,6 +192,55 @@ void NThread::SetName(const NString& theName)
 
 
 
+//=============================================================================
+//		NThread::GetPriority : Get the current thread's priority.
+//-----------------------------------------------------------------------------
+float NThread::GetPriority()
+{
+
+
+	// Get the priority
+	int winPriority = GetThreadPriority(GetCurrentThread());
+	NN_EXPECT(winPriorty >= THREAD_PRIORITY_LOWEST);
+	NN_EXPECT(winPriorty <= THREAD_PRIORITY_HIGHEST);
+
+	float thePriority = float(winPriority - THREAD_PRIORITY_LOWEST) /
+						float(THREAD_PRIORITY_HIGHEST - THREAD_PRIORITY_LOWEST);
+	NN_REQUIRE(thePriority >= 0.0f && thePriority <= 1.0f);
+
+	return thePriority;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::SetPriority : Set the current thread's priority.
+//-----------------------------------------------------------------------------
+void NThread::SetPriority(float thePriority)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePriority >= 0.0f && thePriority <= 1.0f);
+
+
+
+	// Set the priority
+	int winPriority = THREAD_PRIORITY_LOWEST +
+					  DWORD(thePriority * (THREAD_PRIORITY_HIGHEST - THREAD_PRIORITY_LOWEST));
+	NN_EXPECT(winPriorty >= THREAD_PRIORITY_LOWEST);
+	NN_EXPECT(winPriorty <= THREAD_PRIORITY_HIGHEST);
+
+	BOOL wasOK = SetThreadPriority(GetCurrentThread(), winPriority);
+	NN_EXPECT(wasOK);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NThread::ThreadCreate : Create a native thread.

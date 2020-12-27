@@ -164,6 +164,13 @@ public:
 	static void                         SetName(const NString& theName);
 
 
+	// Get / set the current thread's priority
+	//
+	// Thread priorities range from 0.0 (lowest) to 1.0 (highest).
+	static float                        GetPriority();
+	static void                         SetPriority(float thePriority);
+
+
 private:
 	template<typename Function, typename... Args>
 	void                                CreateThread(const NString& theName,

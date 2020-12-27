@@ -1446,3 +1446,82 @@ void NSharedPOSIX::ThreadSetName(const NString& theName)
 	NN_EXPECT_NOT_ERR(sysErr);
 #endif // NN_PLATFORM_DARWIN
 }
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ThreadGetPriority : Get the current thread's priority.
+//-----------------------------------------------------------------------------
+float NSharedPOSIX::ThreadGetPriority()
+{
+
+
+	// Get the state we need
+	struct sched_param schedParams;
+	float              thePriority = 0.5f;
+	int                schedPolicy = 0;
+
+	int sysErr = pthread_getschedparam(pthread_self(), &schedPolicy, &schedParams);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+
+
+	// Get the priority
+	if (sysErr == 0)
+	{
+		int valueMin = sched_get_priority_min(SCHED_RR);
+		int valueMax = sched_get_priority_max(SCHED_RR);
+
+		NN_REQUIRE(schedParams.sched_priority >= valueMin);
+		NN_REQUIRE(schedParams.sched_priority <= valueMax);
+		NN_REQUIRE(valueMax >= valueMin);
+
+		thePriority = float(schedParams.sched_priority - valueMin) / float(valueMax - valueMin);
+		NN_REQUIRE(thePriority >= 0.0f && thePriority <= 1.0f);
+	}
+
+	return thePriority;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ThreadSetPriority : Set the current thread's priority.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::ThreadSetPriority(float thePriority)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePriority >= 0.0f && thePriority <= 1.0f);
+
+
+
+	// Get the state we need
+	struct sched_param schedParams;
+	int                schedPolicy = 0;
+
+	int sysErr = pthread_getschedparam(pthread_self(), &schedPolicy, &schedParams);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+
+
+	// Set the priority
+	if (sysErr == 0)
+	{
+		int valueMin = sched_get_priority_min(SCHED_RR);
+		int valueMax = sched_get_priority_max(SCHED_RR);
+		NN_REQUIRE(valueMax >= valueMin);
+
+		schedParams.sched_priority = valueMin + int(thePriority * (valueMax - valueMin));
+		NN_REQUIRE(schedParams.sched_priority >= valueMin);
+		NN_REQUIRE(schedParams.sched_priority <= valueMax);
+
+		sysErr = pthread_setschedparam(pthread_self(), SCHED_RR, &schedParams);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
+}

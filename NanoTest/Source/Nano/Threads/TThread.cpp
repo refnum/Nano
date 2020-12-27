@@ -198,3 +198,31 @@ NANO_TEST(TThread, "Name")
 		REQUIRE(NThread::GetName() == "TestName");
 	});
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "Priority")
+{
+
+
+	// Perform the test
+	float thePriority = NThread::GetPriority();
+	REQUIRE(thePriority == 0.5f);
+
+	NThread::SetPriority(0.0f);
+	thePriority = NThread::GetPriority();
+	REQUIRE(thePriority == 0.0f);
+
+	NThread::SetPriority(1.0f);
+	thePriority = NThread::GetPriority();
+	REQUIRE(thePriority == 1.0f);
+
+	NThread::SetPriority(0.5f);
+	thePriority = NThread::GetPriority();
+	REQUIRE(thePriority == 0.5f);
+}

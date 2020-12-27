@@ -134,6 +134,8 @@ public:
 	static void                         ThreadJoin(NThreadHandle theThread);
 	static NString                      ThreadGetName();
 	static void                         ThreadSetName(const NString& theName);
+	static float                        ThreadGetPriority();
+	static void                         ThreadSetPriority(float thePriority);
 };
 
 

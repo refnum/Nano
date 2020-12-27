@@ -94,6 +94,36 @@ void NThread::SetName(const NString& theName)
 
 
 
+//=============================================================================
+//		NThread::GetPriority : Get the current thread's priority.
+//-----------------------------------------------------------------------------
+float NThread::GetPriority()
+{
+
+
+	// Get the priority
+	return NSharedPOSIX::ThreadGetPriority();
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::SetPriority : Set the current thread's priority.
+//-----------------------------------------------------------------------------
+void NThread::SetPriority(float thePriority)
+{
+
+
+	// Set the priority
+	NSharedPOSIX::ThreadSetPriority(thePriorty);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NThread::ThreadCreate : Create a native thread.
