@@ -117,7 +117,7 @@ void NThread::SetPriority(float thePriority)
 
 
 	// Set the priority
-	NSharedPOSIX::ThreadSetPriority(thePriorty);
+	NSharedPOSIX::ThreadSetPriority(thePriority);
 }
 
 

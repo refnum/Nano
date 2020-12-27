@@ -201,8 +201,8 @@ float NThread::GetPriority()
 
 	// Get the priority
 	int winPriority = GetThreadPriority(GetCurrentThread());
-	NN_EXPECT(winPriorty >= THREAD_PRIORITY_LOWEST);
-	NN_EXPECT(winPriorty <= THREAD_PRIORITY_HIGHEST);
+	NN_EXPECT(winPriority >= THREAD_PRIORITY_LOWEST);
+	NN_EXPECT(winPriority <= THREAD_PRIORITY_HIGHEST);
 
 	float thePriority = float(winPriority - THREAD_PRIORITY_LOWEST) /
 						float(THREAD_PRIORITY_HIGHEST - THREAD_PRIORITY_LOWEST);
@@ -229,9 +229,9 @@ void NThread::SetPriority(float thePriority)
 
 	// Set the priority
 	int winPriority = THREAD_PRIORITY_LOWEST +
-					  DWORD(thePriority * (THREAD_PRIORITY_HIGHEST - THREAD_PRIORITY_LOWEST));
-	NN_EXPECT(winPriorty >= THREAD_PRIORITY_LOWEST);
-	NN_EXPECT(winPriorty <= THREAD_PRIORITY_HIGHEST);
+					  int(thePriority * (THREAD_PRIORITY_HIGHEST - THREAD_PRIORITY_LOWEST));
+	NN_EXPECT(winPriority >= THREAD_PRIORITY_LOWEST);
+	NN_EXPECT(winPriority <= THREAD_PRIORITY_HIGHEST);
 
 	BOOL wasOK = SetThreadPriority(GetCurrentThread(), winPriority);
 	NN_EXPECT(wasOK);
@@ -253,16 +253,18 @@ NVectorUInt8 NThread::GetCores()
 	// The current thread affinity is queried by setting some other affinity,
 	// then restoring the previous value afterwards.
 	DWORD_PTR threadAffinity = SetThreadAffinityMask(GetCurrentThread(), 1 << 0);
-	NN_EXPECT_NOT_ERR(oldAffinity);
+	NN_EXPECT_NOT_ERR(threadAffinity);
 
 	(void) SetThreadAffinityMask(GetCurrentThread(), threadAffinity);
 
 
 
 	// Convert to cores
+	NVectorUInt8 theCores;
+
 	for (auto n = 0; n < kNUInt8Max; n++)
 	{
-		if (threadAffinity & (1 << n))
+		if (threadAffinity & (DWORD_PTR(1) << n))
 		{
 			theCores.push_back(n);
 		}
@@ -287,7 +289,7 @@ void NThread::SetCores(const NVectorUInt8& theCores)
 
 	for (auto n : theCores)
 	{
-		threadAffinity |= (1 << n);
+		threadAffinity |= (DWORD_PTR(1) << n);
 	}
 
 
