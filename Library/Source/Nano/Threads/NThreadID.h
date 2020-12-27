@@ -55,7 +55,7 @@
 class NN_EMPTY_BASE NThreadID final : public NMixinComparable<NThreadID>
 {
 public:
-										NThreadID();
+										NThreadID() noexcept;
 
 
 	// Is the ID valid?

@@ -65,7 +65,7 @@ static constexpr uintptr_t kNThreadIDNone                   = 0;
 //=============================================================================
 //		NThreadID::NThreadID : Constructor.
 //-----------------------------------------------------------------------------
-inline NThreadID::NThreadID()
+inline NThreadID::NThreadID() noexcept
 	: mValue(kNThreadIDNone)
 {
 }
