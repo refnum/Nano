@@ -513,7 +513,7 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 	// Convert to cores
 	NVectorUInt8 theCores;
 
-	for (auto n = 0; n < kNUInt8Max; n++)
+	for (uint8_t n = 0; n < kNUInt8Max; n++)
 	{
 		if (CPU_ISSET(n, &affinityMask))
 		{
