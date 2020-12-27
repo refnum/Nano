@@ -65,6 +65,25 @@
 
 
 //=============================================================================
+//		Function prototypes
+//-----------------------------------------------------------------------------
+// mach/thread_policy.h
+extern "C" kern_return_t thread_policy_set(thread_t               thread,
+										   thread_policy_flavor_t flavor,
+										   thread_policy_t        policy_info,
+										   mach_msg_type_number_t count);
+
+extern "C" kern_return_t thread_policy_get(thread_t                thread,
+										   thread_policy_flavor_t  flavor,
+										   thread_policy_t         policy_info,
+										   mach_msg_type_number_t* count,
+										   boolean_t*              get_default);
+
+
+
+
+
+//=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Debugger
