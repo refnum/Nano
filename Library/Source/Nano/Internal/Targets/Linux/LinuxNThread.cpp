@@ -68,6 +68,36 @@ size_t NThread::GetStackSize()
 
 
 
+//=============================================================================
+//		NThread::GetName : Get the current thread's name.
+//-----------------------------------------------------------------------------
+NString NThread::GetName()
+{
+
+
+	// Get the name
+	return NSharedPOSIX::ThreadGetName();
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::SetName : Set the current thread's name.
+//-----------------------------------------------------------------------------
+void NThread::SetName(const NString& theName)
+{
+
+
+	// Set the name
+	NSharedPOSIX::ThreadSetName(theName);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NThread::ThreadCreate : Create a native thread.

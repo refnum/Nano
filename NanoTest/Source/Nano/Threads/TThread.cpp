@@ -160,7 +160,7 @@ NANO_TEST(TThread, "IsMain")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TThread, "GetStackSize")
+NANO_TEST(TThread, "StackSize")
 {
 
 
@@ -168,8 +168,33 @@ NANO_TEST(TThread, "GetStackSize")
 	size_t theSize = NThread::GetStackSize();
 	REQUIRE(theSize != 0);
 
-	NThread theThread(size_t(300 * kNMebibyte), []() {
+	NThread theThread("", size_t(300 * kNMebibyte), []() {
 		size_t customSize = NThread::GetStackSize();
 		REQUIRE(customSize >= 295 * kNMebibyte);
+	});
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "Name")
+{
+
+
+	// Perform the test
+	REQUIRE(NThread::GetName().IsEmpty());
+
+	NThread::SetName("Test");
+	REQUIRE(NThread::GetName() == "Test");
+
+	NThread::SetName("");
+	REQUIRE(NThread::GetName().IsEmpty());
+
+	NThread theThread("TestName", []() {
+		REQUIRE(NThread::GetName() == "TestName");
 	});
 }

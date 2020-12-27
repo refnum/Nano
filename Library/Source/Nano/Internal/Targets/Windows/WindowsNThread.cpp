@@ -49,12 +49,44 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+// MSVC thread support
+static const DWORD MSVC_DEBUGGER                            = 0x406D1388;
+static const DWORD MSVC_SET_THREADNAME                      = 0x1000;
+
+
+
+
+
+//=============================================================================
+//		Internal Types
+//-----------------------------------------------------------------------------
+// MSVC thread support
+//
+// Documented at:
+//
+//	http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
+//
+NN_STRUCT_PACK_8(THREADNAME_INFO {
+	DWORD  dwType;
+	LPCSTR szName;
+	DWORD  dwThreadID;
+	DWORD  dwFlags;
+});
+
+
+
+
+
+//=============================================================================
 //		Global variables
 //-----------------------------------------------------------------------------
-// Main thread
+// Thread
 //
 // The main thread performs static initialisation.
-static DWORD gMainThreadID                                  = GetCurrentThreadId();
+static DWORD                gMainThreadID                   = GetCurrentThreadId();
+static thread_local NString gThreadName;
 
 
 
@@ -103,6 +135,57 @@ size_t NThread::GetStackSize()
 
 	// Get the size
 	return uintptr_t(threadInfo->StackBase) - uintptr_t(threadInfo->StackLimit);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetName : Get the current thread's name.
+//-----------------------------------------------------------------------------
+NString NThread::GetName()
+{
+
+
+	// Get the name
+	return gThreadName;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::SetName : Set the current thread's name.
+//-----------------------------------------------------------------------------
+void NThread::SetName(const NString& theName)
+{
+
+
+	// Get the state we need
+	THREADNAME_INFO theInfo{};
+
+	theInfo.dwType     = MSVC_SET_THREADNAME;
+	theInfo.szName     = theName.GetUTF8();
+	theInfo.dwThreadID = GetCurrentThreadId();
+	theInfo.dwFlags    = 0;
+
+
+
+	// Set the name
+	__try
+	{
+		RaiseException(MSVC_DEBUGGER,
+					   0,
+					   sizeof(theInfo) / sizeof(ULONG_PTR),
+					   (ULONG_PTR*) &theInfo);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+	}
+
+	gThreadName = theName;
 }
 
 

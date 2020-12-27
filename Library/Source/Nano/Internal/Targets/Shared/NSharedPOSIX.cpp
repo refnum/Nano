@@ -44,6 +44,7 @@
 // Nano
 #include "NDebug.h"
 #include "NFileUtils.h"
+#include "NFormat.h"
 #include "NString.h"
 #include "NTimeUtils.h"
 
@@ -68,8 +69,16 @@
 #if NN_TARGET_ANDROID
 static constexpr int NN_AT_EACCESS                          = 0;
 #else
-static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
+static constexpr int    NN_AT_EACCESS                       = AT_EACCESS;
 #endif
+
+
+// Thread name
+#if NN_PLATFORM_DARWIN
+static constexpr size_t kNThreadNameMax                     = 63;
+#else
+static constexpr size_t kNThreadNameMax                     = 15;
+#endif // NN_PLATFORM_DARWIN
 
 
 
@@ -1374,4 +1383,66 @@ void NSharedPOSIX::ThreadJoin(NThreadHandle theThread)
 
 	int sysErr = pthread_join(threadID, nullptr);
 	NN_EXPECT(sysErr == 0 || sysErr == ESRCH);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ThreadGetName : Get the current thread's name.
+//-----------------------------------------------------------------------------
+NString NSharedPOSIX::ThreadGetName()
+{
+
+
+	// Get the thread name
+	char theBuffer[NAME_MAX]{};
+
+	int sysErr = pthread_getname_np(pthread_self(), theBuffer, sizeof(theBuffer));
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		theBuffer[0] = 0x00;
+	}
+
+	return NString(NStringEncoding::UTF8, strlen(theBuffer), theBuffer);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::ThreadSetName : Set the current thread's name.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::ThreadSetName(const NString& theName)
+{
+
+
+	// Prepare the name
+	//
+	// The supplied name is truncated to fit within the maximum thread
+	// name lenght supported by this platform.
+	char theBuffer[NAME_MAX]{};
+
+	size_t nameLen = std::min(kNThreadNameMax, sizeof(theBuffer) - 1);
+	strncpy(theBuffer, theName.GetUTF8(), nameLen);
+
+	if (theName.GetSize() > nameLen)
+	{
+		NN_LOG_WARNING("NSharedPOSIX::ThreadSetName truncated '{}' to '{}'", theName, theBuffer);
+	}
+
+
+
+	// Set the thread name
+#if NN_PLATFORM_DARWIN
+	int sysErr = pthread_setname_np(theBuffer);
+	NN_EXPECT_NOT_ERR(sysErr);
+#else
+	int sysErr = pthread_setname_np(pthread_self(), theBuffer);
+	NN_EXPECT_NOT_ERR(sysErr);
+#endif // NN_PLATFORM_DARWIN
 }

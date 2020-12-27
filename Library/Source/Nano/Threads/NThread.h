@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMutex.h"
+#include "NString.h"
 #include "NanoTypes.h"
 
 // System
@@ -79,6 +80,10 @@ struct NThreadContext
 class NThread
 {
 public:
+	// Create a thread
+	//
+	// A thread may be created with a name, a stack size, and an invocable
+	// object such as a lambda / function (with zero or more arguments).
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
@@ -87,7 +92,15 @@ public:
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
-	explicit                            NThread(size_t stackSize, Function&& theFunction, Args&&... theArgs);
+	explicit                            NThread(const NString& theName, Function&& theFunction, Args&&... theArgs);
+
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
+	explicit                            NThread(const NString& theName,
+												size_t         stackSize,
+												Function&&     theFunction,
+												Args&&... theArgs);
 
 										NThread() = delete;
 									   ~NThread();
@@ -146,9 +159,17 @@ public:
 	static size_t                       GetStackSize();
 
 
+	// Get / set the current thread's name
+	static NString                      GetName();
+	static void                         SetName(const NString& theName);
+
+
 private:
 	template<typename Function, typename... Args>
-	void                                CreateThread(size_t stackSize, Function&& theFunction, Args&&... theArgs);
+	void                                CreateThread(const NString& theName,
+													 size_t         stackSize,
+													 Function&&     theFunction,
+													 Args&&... theArgs);
 
 	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
 	static void                         ThreadJoin(NThreadHandle theThread);

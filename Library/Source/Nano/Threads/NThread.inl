@@ -75,7 +75,7 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 
 
 	// Create the thread
-	CreateThread(0, theFunction, theArgs...);
+	CreateThread("", 0, theFunction, theArgs...);
 }
 
 
@@ -86,7 +86,7 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
 template<typename Function, typename... Args, typename Enabled>
-NThread::NThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
+NThread::NThread(const NString& theName, Function&& theFunction, Args&&... theArgs)
 	: mLock()
 	, mID()
 	, mThread(kNThreadNone)
@@ -96,7 +96,31 @@ NThread::NThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
 
 
 	// Create the thread
-	CreateThread(stackSize, theFunction, theArgs...);
+	CreateThread(theName, 0, theFunction, theArgs...);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+template<typename Function, typename... Args, typename Enabled>
+NThread::NThread(const NString& theName,
+				 size_t         stackSize,
+				 Function&&     theFunction,
+				 Args&&... theArgs)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Create the thread
+	CreateThread(theName, stackSize, theFunction, theArgs...);
 }
 
 
@@ -149,7 +173,10 @@ inline void NThread::Pause()
 //		CreateThread : Create a thread.
 //-----------------------------------------------------------------------------
 template<typename Function, typename... Args>
-void NThread::CreateThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
+void NThread::CreateThread(const NString& theName,
+						   size_t         stackSize,
+						   Function&&     theFunction,
+						   Args&&... theArgs)
 {
 
 
@@ -162,9 +189,18 @@ void NThread::CreateThread(size_t stackSize, Function&& theFunction, Args&&... t
 
 	theContext->stackSize   = stackSize;
 	theContext->threadEntry = [=]() {
+		// Prepare the thread
 		mThisThread = this;
 		mID         = NThreadID::Get();
 
+		if (!theName.IsEmpty())
+		{
+			NThread::SetName(theName);
+		}
+
+
+
+		// Invoke the function
 		theFunction(theArgs...);
 
 		mIsComplete = true;
