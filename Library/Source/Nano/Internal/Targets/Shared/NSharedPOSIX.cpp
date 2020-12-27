@@ -1340,6 +1340,12 @@ NThreadHandle NSharedPOSIX::ThreadCreate(NThreadContext* theContext)
 	int sysErr = pthread_attr_init(&threadAttrs);
 	NN_EXPECT_NOT_ERR(sysErr);
 
+	if (theContext->stackSize != 0)
+	{
+		sysErr = pthread_attr_setstacksize(&threadAttrs, theContext->stackSize);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
+
 
 
 	// Create the thread

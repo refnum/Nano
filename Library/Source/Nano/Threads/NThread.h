@@ -65,6 +65,7 @@ using NThreadHandle = uintptr_t;
 // Thread context
 struct NThreadContext
 {
+	size_t                stackSize;
 	std::function<void()> threadEntry;
 };
 
@@ -78,8 +79,15 @@ struct NThreadContext
 class NThread
 {
 public:
-	template<typename Function, typename... Args>
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
 	explicit                            NThread(Function&& theFunction, Args&&... theArgs);
+
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
+	explicit                            NThread(size_t stackSize, Function&& theFunction, Args&&... theArgs);
 
 										NThread() = delete;
 									   ~NThread();
@@ -139,6 +147,9 @@ public:
 
 
 private:
+	template<typename Function, typename... Args>
+	void                                CreateThread(size_t stackSize, Function&& theFunction, Args&&... theArgs);
+
 	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
 	static void                         ThreadJoin(NThreadHandle theThread);
 	static bool                         ThreadIsMain();

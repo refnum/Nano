@@ -123,7 +123,8 @@ NThreadHandle NThread::ThreadCreate(NThreadContext* theContext)
 
 
 	// Create the thread
-	HANDLE threadHnd = CreateThread(nullptr, 0, NThreadEntry, theContext, 0, nullptr);
+	HANDLE threadHnd =
+		CreateThread(nullptr, theContext->stackSize, NThreadEntry, theContext, 0, nullptr);
 	NN_EXPECT(threadHnd != nullptr);
 
 	return NThreadHandle(threadHnd);

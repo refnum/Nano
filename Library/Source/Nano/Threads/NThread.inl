@@ -64,7 +64,7 @@ static constexpr NThreadHandle kNThreadNone                 = 0;
 //=============================================================================
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
-template<typename Function, typename... Args>
+template<typename Function, typename... Args, typename Enabled>
 NThread::NThread(Function&& theFunction, Args&&... theArgs)
 	: mLock()
 	, mID()
@@ -74,23 +74,29 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 {
 
 
-	// Create the context
-	NThreadContext* theContext = new NThreadContext{};
+	// Create the thread
+	CreateThread(0, theFunction, theArgs...);
+}
 
-	theContext->threadEntry = [=]() {
-		mThisThread = this;
-		mID         = NThreadID::Get();
 
-		theFunction(theArgs...);
 
-		mIsComplete = true;
-	};
 
+
+//=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+template<typename Function, typename... Args, typename Enabled>
+NThread::NThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
 
 
 	// Create the thread
-	mThread = ThreadCreate(theContext);
-	NN_REQUIRE(mThread != kNThreadNone);
+	CreateThread(stackSize, theFunction, theArgs...);
 }
 
 
@@ -132,4 +138,41 @@ inline void NThread::Pause()
 #elif NN_ARCH_ARM
 	__asm__ __volatile__("yield");
 #endif
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		CreateThread : Create a thread.
+//-----------------------------------------------------------------------------
+template<typename Function, typename... Args>
+void NThread::CreateThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mThread == kNThreadNone);
+
+
+	// Create the context
+	NThreadContext* theContext = new NThreadContext{};
+
+	theContext->stackSize   = stackSize;
+	theContext->threadEntry = [=]() {
+		mThisThread = this;
+		mID         = NThreadID::Get();
+
+		theFunction(theArgs...);
+
+		mIsComplete = true;
+	};
+
+
+
+	// Create the thread
+	mThread = ThreadCreate(theContext);
+	NN_REQUIRE(mThread != kNThreadNone);
 }

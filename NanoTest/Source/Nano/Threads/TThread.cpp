@@ -167,4 +167,9 @@ NANO_TEST(TThread, "GetStackSize")
 	// Perform the test
 	size_t theSize = NThread::GetStackSize();
 	REQUIRE(theSize != 0);
+
+	NThread theThread(size_t(300 * kNMebibyte), []() {
+		size_t customSize = NThread::GetStackSize();
+		REQUIRE(customSize >= 295 * kNMebibyte);
+	});
 }
