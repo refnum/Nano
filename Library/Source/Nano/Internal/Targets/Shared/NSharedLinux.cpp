@@ -495,6 +495,67 @@ size_t NSharedLinux::ThreadStackSize()
 
 
 //=============================================================================
+//		NSharedLinux::ThreadGetCores : Get the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+NVectorUInt8 NSharedLinux::ThreadGetCores()
+{
+
+
+	// Get the thread affinity
+	cpu_set_t affinityMask;
+	CPU_ZERO(&affinityMask);
+
+	int sysErr = sched_getaffinity(0, sizeof(affinityMask), &affinityMask);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+
+
+	// Convert to cores
+	NVectorUInt8 theCores;
+
+	for (auto n = 0; n < kNUInt8Max; n++)
+	{
+		if (CPU_ISSET(n, &affinityMask))
+		{
+			theCores.push_back(n);
+		}
+	}
+
+	return theCores;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::ThreadSetCores : Set the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
+{
+
+
+	// Get the state we need
+	cpu_set_t affinityMask;
+	CPU_ZERO(&affinityMask);
+
+	for (auto n : theCores)
+	{
+		CPU_SET(n, &affinityMask);
+	}
+
+
+
+	// Set the thread affinity
+	int sysErr = sched_setaffinity(0, sizeof(affinityMask), &affinityMask);
+	NN_EXPECT_NOT_ERR(sysErr);
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)

@@ -124,6 +124,36 @@ void NThread::SetPriority(float thePriority)
 
 
 
+//=============================================================================
+//		NThread::GetCores : Get the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+NVectorUInt8 NThread::GetCores()
+{
+
+
+	// Get the cores
+	return NSharedDarwin::ThreadGetCores();
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::SetCores : Set the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+void NThread::SetCores(const NVectorUInt8& theCores)
+{
+
+
+	// Set the cores
+	NSharedDarwin::ThreadSetCores(theCores);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NThread::ThreadCreate : Create a native thread.

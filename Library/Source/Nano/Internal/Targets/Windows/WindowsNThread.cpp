@@ -241,6 +241,66 @@ void NThread::SetPriority(float thePriority)
 
 
 
+//=============================================================================
+//		NThread::GetCores : Get the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+NVectorUInt8 NThread::GetCores()
+{
+
+
+	// Get the thread affinity
+	//
+	// The current thread affinity is queried by setting some other affinity,
+	// then restoring the previous value afterwards.
+	DWORD_PTR threadAffinity = SetThreadAffinityMask(GetCurrentThread(), 1 << 0);
+	NN_EXPECT_NOT_ERR(oldAffinity);
+
+	(void) SetThreadAffinityMask(GetCurrentThread(), threadAffinity);
+
+
+
+	// Convert to cores
+	for (auto n = 0; n < kNUInt8Max; n++)
+	{
+		if (threadAffinity & (1 << n))
+		{
+			theCores.push_back(n);
+		}
+	}
+
+	return theCores;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::SetCores : Set the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+void NThread::SetCores(const NVectorUInt8& theCores)
+{
+
+
+	// Get the state we need
+	DWORD_PTR threadAffinity = 0;
+
+	for (auto n : theCores)
+	{
+		threadAffinity |= (1 << n);
+	}
+
+
+
+	// Set the thread affinity
+	DWORD_PTR oldAffinity = SetThreadAffinityMask(GetCurrentThread(), threadAffinity);
+	NN_EXPECT_NOT_ERR(oldAffinity);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NThread::ThreadCreate : Create a native thread.

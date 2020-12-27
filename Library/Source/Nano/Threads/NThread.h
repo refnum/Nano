@@ -171,6 +171,15 @@ public:
 	static void                         SetPriority(float thePriority);
 
 
+	// Get / set the current thread's preferred cores
+	//
+	// Cores are indexed from 0 to the number of logical cores.
+	//
+	// An empty list indicates no preference.
+	static NVectorUInt8                 GetCores();
+	static void                         SetCores(const NVectorUInt8& theCores);
+
+
 private:
 	template<typename Function, typename... Args>
 	void                                CreateThread(const NString& theName,

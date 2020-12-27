@@ -55,6 +55,7 @@
 #include <execinfo.h>
 #include <fcntl.h>
 #include <mach/mach_time.h>
+#include <mach/thread_policy.h>
 #include <sys/stat.h>
 #include <sys/sysctl.h>
 #include <unistd.h>
@@ -618,6 +619,89 @@ size_t NSharedDarwin::ThreadStackSize()
 
 	// Get the stack size
 	return pthread_get_stacksize_np(pthread_self());
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ThreadGetCores : Get the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+NVectorUInt8 NSharedDarwin::ThreadGetCores()
+{
+
+
+	// Get the thread affinity
+	thread_affinity_policy_data_t threadAffinity{};
+	mach_msg_type_number_t        numInfo    = 1;
+	boolean_t                     getDefault = false;
+
+
+	kern_return_t machErr = thread_policy_get(pthread_mach_thread_np(pthread_self()),
+											  THREAD_AFFINITY_POLICY,
+											  thread_policy_t(&threadAffinity),
+											  &numInfo,
+											  &getDefault);
+	NN_EXPECT_NOT_ERR(machErr);
+	NN_EXPECT(threadAffinity.affinity_tag <= kNUInt8Max);
+
+
+
+	// Convert to cores
+	//
+	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
+	NVectorUInt8 theCores;
+
+	if (threadAffinity.affinity_tag != 0)
+	{
+		theCores.push_back(uint8_t(threadAffinity.affinity_tag - 1));
+	}
+
+	return theCores;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ThreadSetCores : Set the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
+{
+
+
+	// Get the state we need
+	//
+	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
+	thread_affinity_policy_data_t threadAffinity{};
+
+	switch (theCores.size())
+	{
+		case 0:
+			threadAffinity.affinity_tag = 0;
+			break;
+
+		case 1:
+			threadAffinity.affinity_tag = theCores[0] + 1;
+			break;
+
+		default:
+			threadAffinity.affinity_tag = theCores[0] + 1;
+			NN_LOG_WARNING("NSharedDarwin::ThreadSetCores only supports one core!");
+			break;
+	}
+
+
+
+	// Set the thread affinity
+	kern_return_t machErr = thread_policy_set(pthread_mach_thread_np(pthread_self()),
+											  THREAD_AFFINITY_POLICY,
+											  thread_policy_t(&threadAffinity),
+											  1);
+
+	NN_EXPECT_NOT_ERR(machErr);
 }
 
 

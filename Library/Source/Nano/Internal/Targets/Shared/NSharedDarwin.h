@@ -87,6 +87,8 @@ public:
 	// Threads
 	static bool                         ThreadIsMain();
 	static size_t                       ThreadStackSize();
+	static NVectorUInt8                 ThreadGetCores();
+	static void                         ThreadSetCores(const NVectorUInt8& theCores);
 
 
 	// Semaphores

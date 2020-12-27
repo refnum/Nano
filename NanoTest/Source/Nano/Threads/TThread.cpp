@@ -226,3 +226,27 @@ NANO_TEST(TThread, "Priority")
 	thePriority = NThread::GetPriority();
 	REQUIRE(thePriority == 0.5f);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "Cores")
+{
+
+
+	// Perform the test
+	NVectorUInt8 theCores = NThread::GetCores();
+	REQUIRE(theCores.empty());
+
+	NThread::SetCores({0});
+	theCores = NThread::GetCores();
+	REQUIRE(!theCores.empty());
+
+	NThread::SetCores({});
+	theCores = NThread::GetCores();
+	REQUIRE(theCores.empty());
+}
