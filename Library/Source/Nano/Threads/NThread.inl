@@ -75,7 +75,7 @@ NThread::NThread(Function&& theFunction, Args&&... theArgs)
 
 
 	// Create the thread
-	CreateThread(0, theFunction, theArgs...);
+	StartThread(0, theFunction, theArgs...);
 }
 
 
@@ -96,7 +96,7 @@ NThread::NThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
 
 
 	// Create the thread
-	CreateThread(stackSize, theFunction, theArgs...);
+	StartThread(stackSize, theFunction, theArgs...);
 }
 
 
@@ -146,10 +146,10 @@ inline void NThread::Pause()
 
 #pragma mark private
 //=============================================================================
-//		CreateThread : Create a thread.
+//		StartThread : Start a thread.
 //-----------------------------------------------------------------------------
 template<typename Function, typename... Args>
-void NThread::CreateThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
+void NThread::StartThread(size_t stackSize, Function&& theFunction, Args&&... theArgs)
 {
 
 
