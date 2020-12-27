@@ -124,7 +124,7 @@ NThreadHandle NThread::ThreadCreate(NThreadContext* theContext)
 
 	// Create the thread
 	HANDLE threadHnd =
-		:;CreateThread(nullptr, theContext->stackSize, NThreadEntry, theContext, 0, nullptr);
+		::CreateThread(nullptr, theContext->stackSize, NThreadEntry, theContext, 0, nullptr);
 	NN_EXPECT(threadHnd != nullptr);
 
 	return NThreadHandle(threadHnd);

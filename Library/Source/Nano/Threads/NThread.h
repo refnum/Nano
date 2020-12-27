@@ -148,7 +148,7 @@ public:
 
 private:
 	template<typename Function, typename... Args>
-	void                                StartThread(size_t stackSize, Function&& theFunction, Args&&... theArgs);
+	void                                CreateThread(size_t stackSize, Function&& theFunction, Args&&... theArgs);
 
 	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
 	static void                         ThreadJoin(NThreadHandle theThread);
