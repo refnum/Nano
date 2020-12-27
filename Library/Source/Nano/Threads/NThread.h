@@ -135,22 +135,6 @@ public:
 	static bool                         ShouldStop();
 
 
-	// Switch the current thread
-	//
-	// Allows the OS to schedule another thread.
-	static void                         Switch();
-
-
-	// Pause the  current thread
-	//
-	// Allows the CPU to adapt to a busy-wait loop.
-	static void                         Pause();
-
-
-	// Sleep the current thread
-	static void                         Sleep(NInterval sleepFor);
-
-
 	// Is the current thred the main thread?
 	static bool                         IsMain();
 
@@ -178,6 +162,22 @@ public:
 	// An empty list indicates no preference.
 	static NVectorUInt8                 GetCores();
 	static void                         SetCores(const NVectorUInt8& theCores);
+
+
+	// Sleep the current thread
+	static void                         Sleep(NInterval sleepFor);
+
+
+	// Switch the current thread
+	//
+	// Allows the OS to schedule another thread.
+	static void                         Switch();
+
+
+	// Pause the  current thread
+	//
+	// Allows the CPU to adapt to a busy-wait loop.
+	static void                         Pause();
 
 
 private:

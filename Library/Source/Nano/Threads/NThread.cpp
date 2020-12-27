@@ -222,22 +222,6 @@ bool NThread::ShouldStop()
 
 
 //=============================================================================
-//		NThread::Sleep : Sleep the current thread.
-//-----------------------------------------------------------------------------
-void NThread::Sleep(NInterval sleepFor)
-{
-
-
-	// Sleep the thread
-	int64_t timeNS = int64_t(sleepFor / kNTimeNanosecond);
-	std::this_thread::sleep_for(std::chrono::nanoseconds(timeNS));
-}
-
-
-
-
-
-//=============================================================================
 //		NThread::IsMain : Is the current thread the main thread?
 //-----------------------------------------------------------------------------
 bool NThread::IsMain()
@@ -251,4 +235,20 @@ bool NThread::IsMain()
 	static thread_local bool sIsMain = ThreadIsMain();
 
 	return sIsMain;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::Sleep : Sleep the current thread.
+//-----------------------------------------------------------------------------
+void NThread::Sleep(NInterval sleepFor)
+{
+
+
+	// Sleep the thread
+	int64_t timeNS = int64_t(sleepFor / kNTimeNanosecond);
+	std::this_thread::sleep_for(std::chrono::nanoseconds(timeNS));
 }

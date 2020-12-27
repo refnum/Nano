@@ -106,41 +106,6 @@ NANO_TEST(TThread, "RequestStop")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Yield")
-{
-
-
-	// Perform the test
-	NThread::Switch();
-	NThread::Pause();
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThread, "Sleep")
-{
-
-
-	// Perform the test
-	NTime timeBefore = NTimeUtils::GetTime();
-	NThread::Sleep(0.100);
-	NTime timeAfter = NTimeUtils::GetTime();
-
-	REQUIRE(timeAfter >= (timeBefore + 0.100));
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
 NANO_TEST(TThread, "IsMain")
 {
 
@@ -249,4 +214,53 @@ NANO_TEST(TThread, "Cores")
 	NThread::SetCores({});
 	theCores = NThread::GetCores();
 	REQUIRE(theCores.empty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "Sleep")
+{
+
+
+	// Perform the test
+	NTime timeBefore = NTimeUtils::GetTime();
+	NThread::Sleep(0.100);
+	NTime timeAfter = NTimeUtils::GetTime();
+
+	REQUIRE(timeAfter >= (timeBefore + 0.100));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "Switch")
+{
+
+
+	// Perform the test
+	NThread::Switch();
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TThread, "Pause")
+{
+
+
+	// Perform the test
+	NThread::Pause();
 }
