@@ -65,7 +65,7 @@ static DWORD gMainThreadID                                  = GetCurrentThreadId
 //-----------------------------------------------------------------------------
 //		NThreadEntry : Thread entry point.
 //-----------------------------------------------------------------------------
-static DWORD WINAPI NThreadEntry(void* userData)
+static DWORD WINAPI NThreadEntry(void* theParam)
 {
 
 
@@ -94,10 +94,10 @@ size_t NThread::GetStackSize()
 
 
 	// Get the Thread Information Block
-#if NN_TARGET_ARCH_32
-	NT_TIB32* threadInfo = (NT_TIB32*) __readfsdword(0x18);
-#else
+#if NN_ARCH_64
 	NT_TIB64* threadInfo = (NT_TIB64*) __readgsqword(0x30);
+#else
+	NT_TIB32* threadInfo = (NT_TIB32*) __readfsdword(0x18);
 #endif
 
 
@@ -124,7 +124,7 @@ NThreadHandle NThread::ThreadCreate(NThreadContext* theContext)
 
 	// Create the thread
 	HANDLE threadHnd =
-		CreateThread(nullptr, theContext->stackSize, NThreadEntry, theContext, 0, nullptr);
+		:;CreateThread(nullptr, theContext->stackSize, NThreadEntry, theContext, 0, nullptr);
 	NN_EXPECT(threadHnd != nullptr);
 
 	return NThreadHandle(threadHnd);
