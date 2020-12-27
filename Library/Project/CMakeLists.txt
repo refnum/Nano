@@ -263,6 +263,7 @@ if (NN_TARGET_ANDROID)
 
 	target_include_directories("${PROJECT_NAME}"
 		PRIVATE
+			"${ANDROID_NDK}/sources/android"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android"
 	)
 endif()

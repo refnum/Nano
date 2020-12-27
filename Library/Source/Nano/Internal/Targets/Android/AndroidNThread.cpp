@@ -46,6 +46,9 @@
 #include "NSharedPOSIX.h"
 
 // System
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-variable-declarations");
+
 #include <native_app_glue/android_native_app_glue.h>
 
 
