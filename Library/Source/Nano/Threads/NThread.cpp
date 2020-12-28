@@ -99,7 +99,7 @@ NThread::NThread(NThread&& otherThread)
 //=============================================================================
 //		NThread::operator= : Assignment operator.
 //-----------------------------------------------------------------------------
-inline NThread& NThread::operator=(NThread&& otherThread)
+NThread& NThread::operator=(NThread&& otherThread)
 {
 
 
