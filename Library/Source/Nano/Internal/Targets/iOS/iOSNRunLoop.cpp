@@ -40,3 +40,52 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NRunLoop.h"
+
+
+// Nano
+#include "NSharedDarwin.h"
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopCreate : Create a runloop.
+//-----------------------------------------------------------------------------
+NRunLoopHandle NRunLoop::RunLoopCreate()
+{
+
+
+	// Create the runloop
+	return NSharedDarwin::RunLoopCreate();
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopSleep : Sleep a runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
+{
+
+
+	// Sleep the runloop
+	NSharedDarwin::RunLoopSleep(runLoop, sleepFor);
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopWake : Wake a runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
+{
+
+
+	// Wake the runloop
+	NSharedDarwin::RunLoopWake(runLoop);
+}

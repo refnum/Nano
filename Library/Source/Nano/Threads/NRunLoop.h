@@ -157,9 +157,17 @@ public:
 
 
 private:
-	NMutex                              mLock;
+	static NRunLoopHandle               RunLoopCreate();
+	static void                         RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor);
+	static void                         RunLoopWake( NRunLoopHandle runLoop);
+
+
+private:
+	mutable NMutex                      mLock;
+	NRunLoopHandle                      mRunLoop;
 	NThreadID                           mOwnerID;
 
+	bool*                               mStopWork;
 	bool                                mNewWork;
 	NRunLoopWorkID                      mNextID;
 	std::deque<NRunLoopWork>            mWork;

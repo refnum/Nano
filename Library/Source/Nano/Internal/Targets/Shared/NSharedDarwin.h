@@ -45,6 +45,7 @@
 #include "NFileInfo.h"
 #include "NFilePath.h"
 #include "NFileUtils.h"
+#include "NRunLoop.h"
 #include "NSemaphore.h"
 #include "NString.h"
 #include "NTime.h"
@@ -89,6 +90,12 @@ public:
 	static size_t                       ThreadStackSize();
 	static NVectorUInt8                 ThreadGetCores();
 	static void                         ThreadSetCores(const NVectorUInt8& theCores);
+
+
+	// Runloops
+	static NRunLoopHandle               RunLoopCreate();
+	static void                         RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor);
+	static void                         RunLoopWake( NRunLoopHandle runLoop);
 
 
 	// Semaphores

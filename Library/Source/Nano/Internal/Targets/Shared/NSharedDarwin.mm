@@ -100,14 +100,26 @@ static constexpr NFileInfoFlags kNFileInfoMaskStat =
 
 
 //=============================================================================
+//		Internal Types
+//-----------------------------------------------------------------------------
+// Runloop
+struct NDarwinRunLoop
+{
+	CFRunLoopRef      cfRunLoop   = nullptr;
+	CFRunLoopTimerRef cfStopTimer = nullptr;
+};
+
+
+
+
+
+//=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
 //      GetBootTime : Get the boot time.
 //-----------------------------------------------------------------------------
 static NTime GetBootTime()
 {
-
-
 	// Get the boot time
 	struct timeval timeVal    = {};
 	size_t         theSize    = sizeof(timeVal);
@@ -245,6 +257,21 @@ static NFilePath GetNSSearchPath(NSSearchPathDomainMask theDomain,
 	}
 
 	return thePath;
+}
+
+
+
+
+
+//=============================================================================
+//		RunLoopStop : RunLoop timer callback.
+//-----------------------------------------------------------------------------
+static void RunLoopStop(CFRunLoopTimerRef /*cfTimer*/, void* /*userData*/)
+{
+
+
+	// Stop the runloop
+	CFRunLoopStop(CFRunLoopGetCurrent());
 }
 
 
@@ -721,6 +748,110 @@ void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
 											  1);
 
 	NN_EXPECT_NOT_ERR(machErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::RunLoopCreate : Create a runloop.
+//-----------------------------------------------------------------------------
+NRunLoopHandle NSharedDarwin::RunLoopCreate()
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NRunLoopHandle) >= sizeof(NDarwinRunLoop*));
+
+
+
+	// Create the runloop
+	//
+	// CFRunLoop does not track the number of pending stop requests on a
+	// runlop and so a call to CFRunLoopStop on one thread may be lost if it
+	// occurs just before a CFRunLoopRunInMode on another thread.
+	//
+	// To avoid this we stop runloops by using a timer that performs the stop
+	// on the runloop's own thread.
+	//
+	// This timer is initialised to repeat in the far future and is rescheduled
+	// whenever we want to stop the runloop.
+	//
+	//
+	// This timer also ensure that CFRunLoopRunInMode honours its timeout parameter.
+	//
+	// CFRunLoopRunInMode will immediately return with kCFRunLoopRunFinished if
+	// called on an empty runloop, regardless of the timeout parameter.
+	//
+	//
+	// We can release our reference to the timer as it will be retained by the runloop,
+	// and released when the runloop itself is released.
+	NDarwinRunLoop* darwinRunLoop = new NDarwinRunLoop{};
+
+	darwinRunLoop->cfRunLoop = CFRunLoopGetCurrent();
+	darwinRunLoop->cfStopTimer =
+		CFRunLoopTimerCreate(kCFAllocatorDefault,
+							 CFAbsoluteTimeGetCurrent() + kNTimeDistantFuture,
+							 kNTimeDistantFuture,
+							 0,
+							 0,
+							 RunLoopStop,
+							 nullptr);
+
+	CFRunLoopAddTimer(darwinRunLoop->cfRunLoop, darwinRunLoop->cfStopTimer, kCFRunLoopCommonModes);
+	CFRelease(darwinRunLoop->cfStopTimer);
+
+	return NRunLoopHandle(darwinRunLoop);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::RunLoopSleep : Sleep a runloop.
+//-----------------------------------------------------------------------------
+void NSharedDarwin::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
+{
+
+
+	// Get the state we need
+	NDarwinRunLoop* darwinRunLoop = reinterpret_cast<NDarwinRunLoop*>(runLoop);
+
+	NN_REQUIRE(darwinRunLoop->cfRunLoop == CFRunLoopGetCurrent());
+	NN_UNUSED(darwinRunLoop);
+
+
+	// Sleep the runloop
+	if (sleepFor == kNTimeForever)
+	{
+		CFRunLoopRun();
+	}
+	else
+	{
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, sleepFor, false);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::RunLoopWake : Wake a runloop.
+//-----------------------------------------------------------------------------
+void NSharedDarwin::RunLoopWake(NRunLoopHandle runLoop)
+{
+
+
+	// Get the state we need
+	NDarwinRunLoop* darwinRunLoop = reinterpret_cast<NDarwinRunLoop*>(runLoop);
+
+
+
+	// Wake the runloop
+	CFRunLoopTimerSetNextFireDate(darwinRunLoop->cfStopTimer, CFAbsoluteTimeGetCurrent());
 }
 
 

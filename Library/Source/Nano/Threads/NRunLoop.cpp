@@ -54,7 +54,9 @@
 //-----------------------------------------------------------------------------
 NRunLoop::NRunLoop()
 	: mLock()
+	, mRunLoop(RunLoopCreate())
 	, mOwnerID(NThreadID::Get())
+	, mStopWork(nullptr)
 	, mNewWork(false)
 	, mNextID(NRunLoopWorkNone)
 	, mWork{}
@@ -70,6 +72,10 @@ NRunLoop::NRunLoop()
 //-----------------------------------------------------------------------------
 void NRunLoop::Run(NInterval /*runFor*/)
 {
+
+
+	// Wait for work
+	RunLoopSleep(mRunLoop, kNTimeForever);
 }
 
 
@@ -81,6 +87,18 @@ void NRunLoop::Run(NInterval /*runFor*/)
 //-----------------------------------------------------------------------------
 void NRunLoop::Stop()
 {
+
+
+	// Validate our state
+	NN_REQUIRE(mStopWork != nullptr);
+
+
+
+	// Stop the runloop
+	NScopedLock acquireLock(mLock);
+
+	*mStopWork = true;
+	RunLoopWake(mRunLoop);
 }
 
 
