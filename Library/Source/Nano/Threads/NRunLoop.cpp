@@ -43,6 +43,7 @@
 
 // Nano
 #include "NScopedLock.h"
+#include "NThread.h"
 #include "NTimeUtils.h"
 
 
@@ -52,9 +53,9 @@
 //=============================================================================
 //		NRunLoop::NRunLoop : Constructor.
 //-----------------------------------------------------------------------------
-NRunLoop::NRunLoop()
+NRunLoop::NRunLoop(bool isMain)
 	: mLock()
-	, mRunLoop(RunLoopCreate())
+	, mRunLoop(RunLoopCreate(isMain))
 	, mOwnerID(NThreadID::Get())
 	, mStopWork(nullptr)
 	, mNewWork(false)
@@ -68,10 +69,29 @@ NRunLoop::NRunLoop()
 
 
 //=============================================================================
+//		NRunLoop::~NRunLoop : Destructor.
+//-----------------------------------------------------------------------------
+NRunLoop::~NRunLoop()
+{
+
+
+	// Clean up
+	RunLoopDestroy(mRunLoop);
+}
+
+
+
+
+
+//=============================================================================
 //		NRunLoop::Run : Run the runloop.
 //-----------------------------------------------------------------------------
 void NRunLoop::Run(NInterval /*runFor*/)
 {
+
+
+	// Validate our state
+	NN_REQUIRE(mOwnerID == NThreadID::Get());
 
 
 	// Wait for work
@@ -119,8 +139,6 @@ NRunLoopWorkID NRunLoop::Add(const NRunLoopWorkFunction&  theFunctor,
 	NN_REQUIRE(theFunctor != nullptr);
 	NN_REQUIRE(executeAfter >= 0.0);
 	NN_REQUIRE(executeEvery >= 0.0);
-
-	NN_REQUIRE(mOwnerID == NThreadID::Get());
 
 
 
@@ -309,4 +327,45 @@ void NRunLoop::SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval)
 	}
 
 	NN_LOG_ERROR("Unable to find work {}", theID);
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::GetMain : Get the main thread's runloop.
+//-----------------------------------------------------------------------------
+NRunLoop* NRunLoop::GetMain()
+{
+
+
+	// Get the runloop
+	static NRunLoop sRunLoop(true);
+
+	return &sRunLoop;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::GetCurrent : Get the current thread's runloop.
+//-----------------------------------------------------------------------------
+NRunLoop* NRunLoop::GetCurrent()
+{
+
+
+	// Get the runloop
+	if (NThread::IsMain())
+	{
+		return GetMain();
+	}
+	else
+	{
+		static NRunLoop sRunLoop(false);
+
+		return &sRunLoop;
+	}
 }

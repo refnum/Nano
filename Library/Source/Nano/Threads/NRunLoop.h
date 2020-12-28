@@ -99,8 +99,7 @@ struct NRunLoopWork
 class NRunLoop
 {
 public:
-										NRunLoop();
-									   ~NRunLoop() = default;
+									   ~NRunLoop();
 
 										NRunLoop( const NRunLoop& otherRunLoop) = delete;
 	NRunLoop&                           operator=(const NRunLoop& otherRunLoop) = delete;
@@ -156,10 +155,23 @@ public:
 	void                                SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval);
 
 
+	// Get the main thread's runloop
+	static NRunLoop*                    GetMain();
+
+
+	// Get the current thread's runloop
+	static NRunLoop*                    GetCurrent();
+
+
 private:
-	static NRunLoopHandle               RunLoopCreate();
-	static void                         RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor);
-	static void                         RunLoopWake( NRunLoopHandle runLoop);
+										NRunLoop(bool isMain);
+
+
+private:
+	static NRunLoopHandle               RunLoopCreate(bool isMain);
+	static void                         RunLoopDestroy(NRunLoopHandle runLoop);
+	static void                         RunLoopSleep(  NRunLoopHandle runLoop, NInterval sleepFor);
+	static void                         RunLoopWake(   NRunLoopHandle runLoop);
 
 
 private:

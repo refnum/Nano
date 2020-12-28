@@ -52,12 +52,27 @@
 //=============================================================================
 //		NRunLoop::RunLoopCreate : Create a runloop.
 //-----------------------------------------------------------------------------
-NRunLoopHandle NRunLoop::RunLoopCreate()
+NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
 {
 
 
 	// Create the runloop
-	return NSharedDarwin::RunLoopCreate();
+	return NSharedDarwin::RunLoopCreate(isMain);
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopDestroy : Destroy a runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
+{
+
+
+	// Sleep the runloop
+	NSharedDarwin::RunLoopDestroy(runLoop);
 }
 
 
@@ -71,7 +86,7 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 {
 
 
-	// Sleep the runloop
+	// Destroy the runloop
 	NSharedDarwin::RunLoopSleep(runLoop, sleepFor);
 }
 

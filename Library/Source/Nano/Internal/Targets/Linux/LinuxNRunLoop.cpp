@@ -40,3 +40,60 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NRunLoop.h"
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopCreate : Create a runloop.
+//-----------------------------------------------------------------------------
+NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
+{
+
+
+	// Create the runloop
+	return nullptr;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopDestroy : Destroy a runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
+{
+
+
+	// Destroy the runloop
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopSleep : Sleep a runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
+{
+
+
+	// Sleep the runloop
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::RunLoopWake : Wake a runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
+{
+
+
+	// Wake the runloop
+}

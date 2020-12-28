@@ -93,9 +93,10 @@ public:
 
 
 	// Runloops
-	static NRunLoopHandle               RunLoopCreate();
-	static void                         RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor);
-	static void                         RunLoopWake( NRunLoopHandle runLoop);
+	static NRunLoopHandle               RunLoopCreate(bool isMain);
+	static void                         RunLoopDestroy(NRunLoopHandle runLoop);
+	static void                         RunLoopSleep(  NRunLoopHandle runLoop, NInterval sleepFor);
+	static void                         RunLoopWake(   NRunLoopHandle runLoop);
 
 
 	// Semaphores
