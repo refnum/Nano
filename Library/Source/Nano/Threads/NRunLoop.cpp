@@ -41,6 +41,10 @@
 //-----------------------------------------------------------------------------
 #include "NRunLoop.h"
 
+// Nano
+#include "NScopedLock.h"
+#include "NTimeUtils.h"
+
 
 
 
@@ -49,6 +53,11 @@
 //		NRunLoop::NRunLoop : Constructor.
 //-----------------------------------------------------------------------------
 NRunLoop::NRunLoop()
+	: mLock()
+	, mOwnerID(NThreadID::Get())
+	, mNewWork(false)
+	, mNextID(NRunLoopWorkNone)
+	, mWork{}
 {
 }
 
@@ -57,9 +66,9 @@ NRunLoop::NRunLoop()
 
 
 //=============================================================================
-//		NRunLoop::~NRunLoop : Destructor.
+//		NRunLoop::Run : Run the runloop.
 //-----------------------------------------------------------------------------
-NRunLoop::~NRunLoop()
+void NRunLoop::Run(NInterval /*runFor*/)
 {
 }
 
@@ -68,9 +77,9 @@ NRunLoop::~NRunLoop()
 
 
 //=============================================================================
-//		NRunLoop::NRunLoop : Constructor.
+//		NRunLoop::Stop : Stop the runloop.
 //-----------------------------------------------------------------------------
-NRunLoop::NRunLoop(NRunLoop&& /*otherRunLoop*/)
+void NRunLoop::Stop()
 {
 }
 
@@ -79,9 +88,207 @@ NRunLoop::NRunLoop(NRunLoop&& /*otherRunLoop*/)
 
 
 //=============================================================================
-//		NRunLoop::operator= : Assignment operator.
+//		NRunLoop::Add : Add a function.
 //-----------------------------------------------------------------------------
-NRunLoop& NRunLoop::operator=(NRunLoop&& /*otherRunLoop*/)
+NRunLoopWorkID NRunLoop::Add(const NRunLoopWorkFunction&  theFunctor,
+							 NInterval                    executeAfter,
+							 NInterval                    executeEvery,
+							 std::shared_ptr<NSemaphore>* theSemaphore)
 {
-	return *this;
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theFunctor != nullptr);
+	NN_REQUIRE(executeAfter >= 0.0);
+	NN_REQUIRE(executeEvery >= 0.0);
+
+	NN_REQUIRE(mOwnerID == NThreadID::Get());
+
+
+
+	// Get the state we need
+	NRunLoopWork theWork{};
+
+	theWork.theID        = NRunLoopWorkNone;
+	theWork.executeAt    = NTimeUtils::GetTime() + executeAfter;
+	theWork.executeEvery = executeEvery;
+	theWork.theFunction  = theFunctor;
+
+	if (theSemaphore != nullptr)
+	{
+		theWork.theSemaphore = *theSemaphore;
+	}
+
+
+
+	// Add the work
+	NScopedLock acquireLock(mLock);
+
+	mNewWork = true;
+	mNextID += 1;
+
+	theWork.theID = mNextID;
+	mWork.emplace_back(theWork);
+
+
+
+	// Schedule it
+	SetWorkTime(theWork.theID, theWork.executeAt);
+
+	return theWork.theID;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::Remove : Remove a function.
+//-----------------------------------------------------------------------------
+void NRunLoop::Remove(NRunLoopWorkID theID)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theID != NRunLoopWorkNone);
+
+
+
+	// Remove the work
+	NScopedLock acquireLock(mLock);
+
+	for (auto theIter = mWork.begin(); theIter != mWork.end(); theIter++)
+	{
+		if (theIter->theID == theID)
+		{
+			mWork.erase(theIter);
+			return;
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::GetWorkTime : Get the execution time for work.
+//-----------------------------------------------------------------------------
+NTime NRunLoop::GetWorkTime(NRunLoopWorkID theID) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theID != NRunLoopWorkNone);
+
+
+
+	// Get the execution time
+	NScopedLock acquireLock(mLock);
+
+	for (auto theIter = mWork.begin(); theIter != mWork.end(); theIter++)
+	{
+		if (theIter->theID == theID)
+		{
+			return theIter->executeAt;
+		}
+	}
+
+	NN_LOG_ERROR("Unable to find work {}", theID);
+	return kNTimeDistantFuture;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::SetWorkTime :Set the execution time for work.
+//-----------------------------------------------------------------------------
+void NRunLoop::SetWorkTime(NRunLoopWorkID theID, NTime theTime)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theID != NRunLoopWorkNone);
+
+
+
+	// Set the execution time
+	NScopedLock acquireLock(mLock);
+
+	for (auto theIter = mWork.begin(); theIter != mWork.end(); theIter++)
+	{
+		if (theIter->theID == theID)
+		{
+			mNewWork           = true;
+			theIter->executeAt = theTime;
+			return;
+		}
+	}
+
+	NN_LOG_ERROR("Unable to find work {}", theID);
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::GetWorkInterval : Get the execution interval for work.
+//-----------------------------------------------------------------------------
+NInterval NRunLoop::GetWorkInterval(NRunLoopWorkID theID) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theID != NRunLoopWorkNone);
+
+
+
+	// Get the execution interval
+	NScopedLock acquireLock(mLock);
+
+	for (auto theIter = mWork.begin(); theIter != mWork.end(); theIter++)
+	{
+		if (theIter->theID == theID)
+		{
+			return theIter->executeEvery;
+		}
+	}
+
+	NN_LOG_ERROR("Unable to find work {}", theID);
+	return kNTimeNone;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::SetWorkInterval : Set the execution interval for work.
+//-----------------------------------------------------------------------------
+void NRunLoop::SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theID != NRunLoopWorkNone);
+
+
+
+	// Set the execution interval
+	NScopedLock acquireLock(mLock);
+
+	for (auto theIter = mWork.begin(); theIter != mWork.end(); theIter++)
+	{
+		if (theIter->theID == theID)
+		{
+			mNewWork              = true;
+			theIter->executeEvery = theInterval;
+			return;
+		}
+	}
+
+	NN_LOG_ERROR("Unable to find work {}", theID);
 }

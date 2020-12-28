@@ -41,6 +41,53 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
+#include "NMutex.h"
+#include "NThreadID.h"
+#include "NTime.h"
+
+// System
+#include <deque>
+#include <functional>
+#include <memory>
+
+
+
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// RunLoop work
+using NRunLoopWorkID                                        = uint32_t;
+
+static constexpr NRunLoopWorkID NRunLoopWorkNone            = 0;
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NSemaphore;
+
+// RunLoop handle
+using NRunLoopHandle = uintptr_t;
+
+
+// RunLoop work
+using NRunLoopWorkFunction = std::function<void()>;
+
+struct NRunLoopWork
+{
+	NRunLoopWorkID              theID;
+	NTime                       executeAt;
+	NInterval                   executeEvery;
+	NRunLoopWorkFunction        theFunction;
+	std::shared_ptr<NSemaphore> theSemaphore;
+};
 
 
 
@@ -53,16 +100,69 @@ class NRunLoop
 {
 public:
 										NRunLoop();
-									   ~NRunLoop();
+									   ~NRunLoop() = default;
 
 										NRunLoop( const NRunLoop& otherRunLoop) = delete;
 	NRunLoop&                           operator=(const NRunLoop& otherRunLoop) = delete;
 
-										NRunLoop( NRunLoop&& otherRunLoop);
-	NRunLoop&                           operator=(NRunLoop&& otherRunLoop);
+										NRunLoop( NRunLoop&& otherRunLoop) = delete;
+	NRunLoop&                           operator=(NRunLoop&& otherRunLoop) = delete;
+
+
+	// Run the runloop
+	//
+	// Executes work until the timeout expires or the runloop is stopped.
+	//
+	// A timeout of kNTimeNone will execute at most one function.
+	//
+	// A runloop may be run recursively.
+	void                                Run(NInterval runFor = kNTimeForever);
+
+
+	// Stop the runloop
+	//
+	// Stop the current call to Run on the runloop.
+	//
+	// A runloop may be stopped from any thread.
+	void                                Stop();
+
+
+	// Add a function
+	//
+	// The function will be executed after the specified delay, and may be
+	// repeated indefinitely with a specified interval.
+	//
+	// An optional semaphore can be supplied which will be signalled whenever
+	// the function has been executed.
+	NRunLoopWorkID                      Add(const NRunLoopWorkFunction&  theFunctor,
+											NInterval                    executeAfter = kNTimeNone,
+											NInterval                    executeEvery = kNTimeNone,
+											std::shared_ptr<NSemaphore>* theSemaphore = nullptr);
+
+
+	// Remove a function
+	//
+	// A function may be removed from any thread.
+	void                                Remove(NRunLoopWorkID theID);
+
+
+	// Get / set work execution time
+	NTime                               GetWorkTime(NRunLoopWorkID theID) const;
+	void                                SetWorkTime(NRunLoopWorkID theID, NTime theTime);
+
+
+	// Get / set work execution interval
+	NInterval                           GetWorkInterval(NRunLoopWorkID theID) const;
+	void                                SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval);
 
 
 private:
+	NMutex                              mLock;
+	NThreadID                           mOwnerID;
+
+	bool                                mNewWork;
+	NRunLoopWorkID                      mNextID;
+	std::deque<NRunLoopWork>            mWork;
 };
 
 
