@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NRunLoop.h"
 
+// Nano
+#include "NSemaphore.h"
+
 
 
 
@@ -52,8 +55,14 @@ NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
 {
 
 
+	// Validate our state
+	static_assert(sizeof(NRunLoopHandle) >= sizeof(NSemaphore*));
+
+
 	// Create the runloop
-	return nullptr;
+	NSemaphore* windowsRunLoop = new NSemaphore;
+
+	return NRunLoopHandle(windowsRunLoop);
 }
 
 
@@ -67,7 +76,13 @@ void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
 {
 
 
+	// Get the state we need
+	NSemaphore* windowsRunLoop = reinterpret_cast<NSemaphore*>(windowsRunLoop);
+
+
+
 	// Destroy the runloop
+	delete windowsRunLoop;
 }
 
 
@@ -81,7 +96,35 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 {
 
 
+	// Get the state we need
+	NSemaphore* windowsRunLoop = reinterpret_cast<NSemaphore*>(windowsRunLoop);
+
+
+
+	// Run the system message queue
+	//
+	// We can use some of our time processing system messages.
+	NInterval timeLeft = (sleepFor == kNTimeForever) ? kNTimeDistantFuture : sleepFor;
+	NClock    theClock;
+	MSG       winMsg;
+
+	while (timeLeft > 0 && PeekMessage(&winMsg, nullptr, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&winMsg);
+		DispatchMessage(&winMsg);
+
+		timeLeft -= theClock.GetTime();
+		theClock.Start();
+	}
+
+	timeLeft -= theClock.GetTime();
+
+
+
 	// Sleep the runloop
+	//
+	// We spend the remaining time waiting for us to awake.
+	(void) windowsRunLoop->Wait(sleepFor == kNTimeForever ? kNTimeForever : timeLeft);
 }
 
 
@@ -95,5 +138,10 @@ void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
 {
 
 
+	// Get the state we need
+	NSemaphore* windowsRunLoop = reinterpret_cast<NSemaphore*>(windowsRunLoop);
+
+
 	// Wake the runloop
+	windowsRunLoop->Signal();
 }

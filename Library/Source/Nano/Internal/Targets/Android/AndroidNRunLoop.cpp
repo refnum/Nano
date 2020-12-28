@@ -42,6 +42,25 @@
 #include "NRunLoop.h"
 
 
+// System
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-variable-declarations");
+
+#include <native_app_glue/android_native_app_glue.h>
+
+
+
+
+
+//=============================================================================
+//		Global variables
+//-----------------------------------------------------------------------------
+// Nano application
+//
+// Defined in AndroidNThread.cpp.
+extern android_app* gNanoAndroidApp;
+
+
 
 
 
@@ -52,8 +71,25 @@ NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
 {
 
 
+	// Validate our state
+	static_assert(sizeof(NRunLoopHandle) >= sizeof(ALooper*));
+
+
+
 	// Create the runloop
-	return nullptr;
+	ALooper* androidRunLoop = nullptr;
+
+	if (isMain)
+	{
+		androidRunLoop = gNanoAndroidApp->looper;
+		ALooper_acquire(androidRunLoop);
+	}
+	else
+	{
+		androidRunLoop = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
+	}
+
+	return NRunLoopHandle(androidRunLoop);
 }
 
 
@@ -67,7 +103,13 @@ void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
 {
 
 
+	// Get the state we need
+	ALooper* androidRunLoop = reinterpret_cast<ALooper*>(runLoop);
+
+
+
 	// Destroy the runloop
+	ALooper_release(androidRunLoop);
 }
 
 
@@ -81,7 +123,29 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 {
 
 
+	// Get the state we need
+	ALooper* androidRunLoop = reinterpret_cast<ALooper*>(runLoop);
+	NN_REQUIRE(ALooper_forThread() == androidRunLoop);
+
+	struct android_poll_source* pollSource = nullptr;
+	int                         timeMS     = -1;
+
+	if (sleepFor != kNTimeForever)
+	{
+		NN_REQUIRE(sleepFor >= 0.0);
+		timeMS = int(NTime::ToMS(sleepFor));
+	}
+
+
+
 	// Sleep the runloop
+	if (ALooper_pollAll(timeMS, nullptr, nullptr, (void**) &pollSource) >= 0)
+	{
+		if (pollSource != nullptr)
+		{
+			pollSource->process(pollSource->app, pollSource);
+		}
+	}
 }
 
 
@@ -95,5 +159,10 @@ void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
 {
 
 
+	// Get the state we need
+	ALooper* androidRunLoop = reinterpret_cast<ALooper*>(runLoop);
+
+
 	// Wake the runloop
+	ALooper_wake(androidRunLoop);
 }

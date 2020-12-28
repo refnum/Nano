@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NRunLoop.h"
 
+// Nano
+#include "NSemaphore.h"
+
 
 
 
@@ -52,8 +55,14 @@ NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
 {
 
 
+	// Validate our state
+	static_assert(sizeof(NRunLoopHandle) >= sizeof(NSemaphore*));
+
+
 	// Create the runloop
-	return nullptr;
+	NSemaphore* linuxRunLoop = new NSemaphore;
+
+	return NRunLoopHandle(linuxRunLoop);
 }
 
 
@@ -67,7 +76,13 @@ void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
 {
 
 
+	// Get the state we need
+	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(linuxRunLoop);
+
+
+
 	// Destroy the runloop
+	delete linuxRunLoop;
 }
 
 
@@ -81,7 +96,12 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 {
 
 
+	// Get the state we need
+	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(linuxRunLoop);
+
+
 	// Sleep the runloop
+	(void) linuxRunLoop->Wait(sleepFor);
 }
 
 
@@ -95,5 +115,10 @@ void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
 {
 
 
+	// Get the state we need
+	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(linuxRunLoop);
+
+
 	// Wake the runloop
+	linuxRunLoop->Signal();
 }
