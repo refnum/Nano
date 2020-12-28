@@ -22,6 +22,9 @@
 		AB1980F625975D17002C5591 /* TThreadID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1980F525975D17002C5591 /* TThreadID.cpp */; };
 		AB1980F725975D17002C5591 /* TThreadID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1980F525975D17002C5591 /* TThreadID.cpp */; };
 		AB1980F825975D17002C5591 /* TThreadID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1980F525975D17002C5591 /* TThreadID.cpp */; };
+		AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB19811C259953C8002C5591 /* TRunLoop.cpp */; };
+		AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB19811C259953C8002C5591 /* TRunLoop.cpp */; };
+		AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB19811C259953C8002C5591 /* TRunLoop.cpp */; };
 		AB1B4D9923F024FE00B304D3 /* TStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */; };
 		AB1B4D9A23F024FE00B304D3 /* TStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */; };
 		AB1B4D9B23F024FE00B304D3 /* TStringScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */; };
@@ -183,6 +186,7 @@
 		AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtils.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB1980F525975D17002C5591 /* TThreadID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadID.cpp; sourceTree = "<group>"; };
+		AB19811C259953C8002C5591 /* TRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRunLoop.cpp; sourceTree = "<group>"; };
 		AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringScanner.cpp; sourceTree = "<group>"; };
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
@@ -577,6 +581,7 @@
 				AB514D961034184B00E5A6AD /* TLock.cpp */,
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
+				AB19811C259953C8002C5591 /* TRunLoop.cpp */,
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
 				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
 				AB514D9A1034184B00E5A6AD /* TThread.cpp */,
@@ -864,6 +869,7 @@
 				ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
@@ -912,6 +918,7 @@
 				ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
@@ -960,6 +967,7 @@
 				ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
