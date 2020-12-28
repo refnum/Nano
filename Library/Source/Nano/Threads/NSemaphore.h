@@ -53,7 +53,7 @@
 // Native semaphore
 using NSemaphoreRef                                         = void*;
 
-// Forward declaration
+// Forward declarations
 class NMutex;
 
 
