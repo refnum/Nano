@@ -519,6 +519,32 @@ void sort(T& container, const C& comparator)
 
 
 //=============================================================================
+//		nstd::stable_sort : Sort the values within a container.
+//-----------------------------------------------------------------------------
+template<typename T>
+void stable_sort(T& container)
+{
+	std::stable_sort(std::begin(container), std::end(container));
+}
+
+
+
+
+
+//=============================================================================
+//		nstd::stable_sort : Sort the values within a container with a comparator.
+//-----------------------------------------------------------------------------
+template<typename T, typename C>
+void stable_sort(T& container, const C& comparator)
+{
+	std::stable_sort(std::begin(container), std::end(container), comparator);
+}
+
+
+
+
+
+//=============================================================================
 //		nstd::stable_uniquify : Order-preserving uniquify the values in a container.
 //-----------------------------------------------------------------------------
 template<class T>
