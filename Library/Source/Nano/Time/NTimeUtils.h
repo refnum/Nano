@@ -65,6 +65,12 @@ public:
 	static NInterval                    GetUpTime();
 
 
+	// Get an absolute time
+	//
+	// Returns a time relative to the current time.
+	static NTime                        GetAbsolute(NInterval theInterval);
+
+
 	// Get the clock ticks
 	//
 	// Returns the ticks since boot in the sytem clock.

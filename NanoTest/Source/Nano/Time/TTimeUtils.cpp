@@ -100,6 +100,25 @@ NANO_TEST(TTimeUtils, "GetUpTime")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TTimeUtils, "GetAbsolute")
+{
+
+
+	// Perform the test
+	NTime timeNow = NTimeUtils::GetTime();
+
+	REQUIRE(NTimeUtils::GetAbsolute(kNTimeNone) >= timeNow);
+	REQUIRE(NTimeUtils::GetAbsolute(kNTimeForever) > timeNow);
+	REQUIRE(NTimeUtils::GetAbsolute(1.0) > timeNow);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TTimeUtils, "Convert/timespec")
 {
 

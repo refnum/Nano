@@ -53,6 +53,31 @@
 
 
 //=============================================================================
+//		NTimeUtils::GetAbsolute : Get an absolute time.
+//-----------------------------------------------------------------------------
+NTime NTimeUtils::GetAbsolute(NInterval theInterval)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theInterval == kNTimeForever || theInterval >= 0.0);
+
+
+
+	// Get the absolute time
+	if (theInterval == kNTimeForever)
+	{
+		theInterval = kNTimeDistantFuture;
+	}
+
+	return NTimeUtils::GetTime() + theInterval;
+}
+
+
+
+
+
+//=============================================================================
 //		NTimeUtils::ToTimespec : Convert to a timespec.
 //-----------------------------------------------------------------------------
 struct timespec NTimeUtils::ToTimespec(NInterval theInterval)
