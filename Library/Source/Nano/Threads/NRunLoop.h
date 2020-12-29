@@ -166,8 +166,11 @@ public:
 private:
 										NRunLoop(bool isMain);
 
+	void                                PerformWork(bool onlyOne);
+	bool                                WaitForWork(NTime endTime);
+	bool                                FetchNextWork(NRunLoopWork& theWork);
+	NRunLoopWork*                       GetNextWork();
 
-private:
 	static NRunLoopHandle               RunLoopCreate(bool isMain);
 	static void                         RunLoopDestroy(NRunLoopHandle runLoop);
 	static void                         RunLoopSleep(  NRunLoopHandle runLoop, NInterval sleepFor);
@@ -180,7 +183,7 @@ private:
 	NThreadID                           mOwnerID;
 
 	bool*                               mStopWork;
-	bool                                mNewWork;
+	bool                                mSortWork;
 	NRunLoopWorkID                      mNextID;
 	std::deque<NRunLoopWork>            mWork;
 };

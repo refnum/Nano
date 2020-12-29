@@ -43,6 +43,7 @@
 
 // Nano
 #include "NScopedLock.h"
+#include "NStdAlgorithm.h"
 #include "NThread.h"
 #include "NTimeUtils.h"
 
@@ -58,7 +59,7 @@ NRunLoop::NRunLoop(bool isMain)
 	, mRunLoop(RunLoopCreate(isMain))
 	, mOwnerID(NThreadID::Get())
 	, mStopWork(nullptr)
-	, mNewWork(false)
+	, mSortWork(false)
 	, mNextID(NRunLoopWorkNone)
 	, mWork{}
 {
@@ -86,16 +87,54 @@ NRunLoop::~NRunLoop()
 //=============================================================================
 //		NRunLoop::Run : Run the runloop.
 //-----------------------------------------------------------------------------
-void NRunLoop::Run(NInterval /*runFor*/)
+void NRunLoop::Run(NInterval runFor)
 {
 
 
-	// Validate our state
+	// Validate our parameters and state
+	NN_REQUIRE(runFor == kNTimeForever || runFor >= 0.0);
 	NN_REQUIRE(mOwnerID == NThreadID::Get());
 
 
-	// Wait for work
-	RunLoopSleep(mRunLoop, kNTimeForever);
+
+	// Prepare to run
+	//
+	// Runloops can be nested so we use a local flag to hold the stop
+	// state for each depth.
+	mLock.Lock();
+
+	bool  stopWork     = false;
+	bool* prevStopWork = mStopWork;
+	mStopWork          = &stopWork;
+
+	mLock.Unlock();
+
+
+
+	// Execute the runloop
+	//
+	// The runloop alternates between executing work and sleeping,
+	// until it is explicitly stopped or it reaches the end time.
+	NTime endTime = NTimeUtils::GetAbsolute(runFor);
+	bool  onlyOne = (runFor == kNTimeNone);
+
+	while (true)
+	{
+		PerformWork(onlyOne);
+		if (onlyOne || stopWork || WaitForWork(endTime))
+		{
+			break;
+		}
+	}
+
+
+
+	// Restore our state
+	mLock.Lock();
+
+	mStopWork = prevStopWork;
+
+	mLock.Unlock();
 }
 
 
@@ -160,8 +199,8 @@ NRunLoopWorkID NRunLoop::Add(const NRunLoopWorkFunction&  theFunctor,
 	// Add the work
 	NScopedLock acquireLock(mLock);
 
-	mNewWork = true;
-	mNextID += 1;
+	mSortWork = true;
+	mNextID   = mNextID + 1;
 
 	theWork.theID = mNextID;
 	mWork.emplace_back(theWork);
@@ -257,8 +296,8 @@ void NRunLoop::SetWorkTime(NRunLoopWorkID theID, NTime theTime)
 	{
 		if (theIter->theID == theID)
 		{
-			mNewWork           = true;
 			theIter->executeAt = theTime;
+			mSortWork          = true;
 			return;
 		}
 	}
@@ -320,8 +359,8 @@ void NRunLoop::SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval)
 	{
 		if (theIter->theID == theID)
 		{
-			mNewWork              = true;
 			theIter->executeEvery = theInterval;
+			mSortWork             = true;
 			return;
 		}
 	}
@@ -368,4 +407,187 @@ NRunLoop* NRunLoop::GetCurrent()
 
 		return &sRunLoop;
 	}
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NRunLoop::PerformWork : Perform work.
+//-----------------------------------------------------------------------------
+void NRunLoop::PerformWork(bool onlyOne)
+{
+
+
+	// Perform the work
+	NRunLoopWork theWork;
+
+	while (FetchNextWork(theWork))
+	{
+		// Perform the work
+		theWork.theFunction();
+
+		if (theWork.theSemaphore != nullptr)
+		{
+			theWork.theSemaphore->Signal();
+		}
+
+
+
+		// Stop after one if necessary
+		if (onlyOne)
+		{
+			break;
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::WaitForWork : Wait for work.
+//-----------------------------------------------------------------------------
+bool NRunLoop::WaitForWork(NTime endTime)
+{
+
+
+	// Calculate the wake time
+	//
+	// We want to sleep until the end time, or the next work is due.
+	mLock.Lock();
+
+	const NRunLoopWork* nextWork = GetNextWork();
+	NTime               wakeTime = endTime;
+
+	if (nextWork != nullptr)
+	{
+		wakeTime = std::min(wakeTime, nextWork->executeAt);
+	}
+
+	mLock.Unlock();
+
+
+
+	// Calculate the sleep time
+	//
+	// We always sleep, even if work is due, to ensure that platforms with
+	// an underlying native runloop always get a chance to handle events.
+	//
+	// If we're waiting for the distant future then we wait forever to let
+	// the native runloop sleep without an associated timer.
+	NInterval sleepFor = wakeTime - NTimeUtils::GetTime();
+
+	if (sleepFor < 0.0)
+	{
+		sleepFor = 0.0;
+	}
+	else if (wakeTime >= kNTimeDistantFuture)
+	{
+		sleepFor = kNTimeForever;
+	}
+
+
+
+	// Sleep the runloop
+	//
+	// Sleeping is never exact so we must re-check the end time when we wake.
+	RunLoopSleep(mRunLoop, sleepFor);
+
+	return NTimeUtils::GetTime() >= endTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::FetchNextWork : Fetch the next work to perform.
+//-----------------------------------------------------------------------------
+bool NRunLoop::FetchNextWork(NRunLoopWork& theWork)
+{
+
+
+	// Determine if we have work
+	NScopedLock acquireLock(mLock);
+
+	NRunLoopWork* nextWork = GetNextWork();
+	bool          haveWork = (nextWork != nullptr);
+	NTime         timeNow  = NTimeUtils::GetTime();
+
+	if (haveWork)
+	{
+		haveWork = (nextWork->executeAt <= timeNow);
+	}
+
+
+
+	// Fetch the work
+	//
+	// Repeating work is re-scheduled using the existing work item,
+	// and will be sorted into the correct place on the next pass.
+	if (haveWork)
+	{
+		theWork = *nextWork;
+
+		if (nextWork->executeEvery == kNTimeNone)
+		{
+			mWork.pop_front();
+		}
+		else
+		{
+			nextWork->executeAt = timeNow + nextWork->executeEvery;
+			mSortWork           = true;
+		}
+	}
+
+	return haveWork;
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::GetNextWork : Get the next work in the queue.
+//-----------------------------------------------------------------------------
+NRunLoopWork* NRunLoop::GetNextWork()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mLock.IsLocked());
+
+
+
+	// Check our state
+	if (mWork.empty() || *mStopWork)
+	{
+		return nullptr;
+	}
+
+
+
+	// Sort the work
+	//
+	// As work can arrive at any time the queue must be sorted if dirty.
+	//
+	// We use a stable sort to preserve submit order in the event of equal
+	// timestamps.
+	if (mSortWork)
+	{
+		nstd::stable_sort(mWork, [](const NRunLoopWork& workA, const NRunLoopWork& workB) {
+			return workA.executeAt < workB.executeAt;
+		});
+
+		mSortWork = false;
+	}
+
+
+
+	// Get the next work
+	return &mWork.front();
 }
