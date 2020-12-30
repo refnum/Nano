@@ -167,7 +167,7 @@ private:
 										NRunLoop(bool isMain);
 
 	void                                PerformWork(bool onlyOne);
-	bool                                WaitForWork(NTime endTime);
+	bool                                FinishedSleep(NTime endTime);
 	bool                                FetchNextWork(NRunLoopWork& theWork);
 	NRunLoopWork*                       GetNextWork();
 

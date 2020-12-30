@@ -121,7 +121,7 @@ void NRunLoop::Run(NInterval runFor)
 	while (true)
 	{
 		PerformWork(onlyOne);
-		if (onlyOne || stopWork || WaitForWork(endTime))
+		if (onlyOne || stopWork || FinishedSleep(endTime))
 		{
 			break;
 		}
@@ -199,10 +199,7 @@ NRunLoopWorkID NRunLoop::Add(const NRunLoopWorkFunction&  theFunctor,
 	// Add the work
 	NScopedLock acquireLock(mLock);
 
-	mSortWork = true;
-	mNextID   = mNextID + 1;
-
-	theWork.theID = mNextID;
+	theWork.theID = ++mNextID;
 	mWork.emplace_back(theWork);
 
 
@@ -290,6 +287,9 @@ void NRunLoop::SetWorkTime(NRunLoopWorkID theID, NTime theTime)
 
 
 	// Set the execution time
+	//
+	// Changing the execution time may imply that new work should
+	// be executed, so we must wake the runloop to process it.
 	NScopedLock acquireLock(mLock);
 
 	for (auto theIter = mWork.begin(); theIter != mWork.end(); theIter++)
@@ -298,6 +298,8 @@ void NRunLoop::SetWorkTime(NRunLoopWorkID theID, NTime theTime)
 		{
 			theIter->executeAt = theTime;
 			mSortWork          = true;
+
+			RunLoopWake(mRunLoop);
 			return;
 		}
 	}
@@ -360,7 +362,6 @@ void NRunLoop::SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval)
 		if (theIter->theID == theID)
 		{
 			theIter->executeEvery = theInterval;
-			mSortWork             = true;
 			return;
 		}
 	}
@@ -449,9 +450,9 @@ void NRunLoop::PerformWork(bool onlyOne)
 
 
 //=============================================================================
-//		NRunLoop::WaitForWork : Wait for work.
+//		NRunLoop::FinishedSleep : Sleep until the next work / timeout.
 //-----------------------------------------------------------------------------
-bool NRunLoop::WaitForWork(NTime endTime)
+bool NRunLoop::FinishedSleep(NTime endTime)
 {
 
 
