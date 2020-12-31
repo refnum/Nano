@@ -42,6 +42,23 @@
 // Nano
 #include "NRunLoop.h"
 #include "NTestFixture.h"
+#include "NThread.h"
+#include "NTimeUtils.h"
+
+
+
+
+
+//=============================================================================
+//		InteranlFunctions
+//-----------------------------------------------------------------------------
+static void TestIncrement(size_t& theValue)
+{
+
+
+	// Update the value
+	theValue++;
+}
 
 
 
@@ -50,7 +67,19 @@
 //=============================================================================
 //		Fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TRunLoop){};
+NANO_FIXTURE(TRunLoop)
+{
+	NRunLoop*      runLoop;
+	NRunLoopWorkID workID;
+	size_t         theValue;
+
+	SETUP
+	{
+		runLoop  = NRunLoop::GetCurrent();
+		workID   = NRunLoopWorkNone;
+		theValue = 0;
+	}
+};
 
 
 
@@ -59,6 +88,146 @@ NANO_FIXTURE(TRunLoop){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TRunLoop, "Default")
+NANO_TEST(TRunLoop, "GetMain")
 {
+
+
+	// Perform the teest
+	REQUIRE(runLoop == NRunLoop::GetMain());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRunLoop, "GetCurrent")
+{
+
+
+	// Perform the test
+	NSemaphore theSemaphore;
+	bool       isMain = true;
+
+	NThread theThread("TRunLoop_GetCurrent", [&]() {
+		isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
+		theSemaphore.Signal();
+	});
+
+	theSemaphore.Wait();
+	REQUIRE(!isMain);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRunLoop, "Stop")
+{
+
+
+	// Perform the test
+	NThread theThread("NRunLoop");
+
+	NRunLoop* threadLoop = theThread.GetRunLoop();
+	threadLoop->Add(std::bind(TestIncrement, theValue), kNTimeMillisecond);
+
+	runLoop->Run(kNTimeMillisecond * 5);
+	threadLoop->Stop();
+	size_t stoppedValue = theValue;
+
+	runLoop->Run(kNTimeMillisecond * 5);
+	REQUIRE(theValue == stoppedValue);
+	REQUIRE(theValue >= 4);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRunLoop, "Add")
+{
+
+
+	// Perform the test
+	workID = runLoop->Add(std::bind(TestIncrement, theValue));
+	runLoop->Run(kNTimeNone);
+	REQUIRE(theValue == 1);
+
+	workID = runLoop->Add(std::bind(TestIncrement, theValue));
+	runLoop->Run(kNTimeNanosecond);
+	REQUIRE(theValue == 2);
+
+	workID = runLoop->Add(std::bind(TestIncrement, theValue));
+	runLoop->Run(kNTimeMillisecond);
+	REQUIRE(theValue == 3);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRunLoop, "Remove")
+{
+
+
+	// Perform the test
+	workID = runLoop->Add(std::bind(TestIncrement, theValue), kNTimeHour);
+	REQUIRE(workID != NRunLoopWorkNone);
+
+	runLoop->Remove(workID);
+	REQUIRE(theValue == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRunLoop, "GetWorkTime")
+{
+
+
+	// Perform the test
+	workID = runLoop->Add(std::bind(TestIncrement, theValue), kNTimeHour);
+	runLoop->SetWorkTime(workID, NTimeUtils::GetTime() + 10.0);
+
+	NTime workTime = runLoop->GetWorkTime(workID);
+	REQUIRE(workTime <= (NTimeUtils::GetTime() + 10.0));
+
+	runLoop->Remove(workID);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TRunLoop, "GetWorkInterval")
+{
+
+
+	// Perform the test
+	workID = runLoop->Add(std::bind(TestIncrement, theValue), kNTimeHour, kNTimeHour);
+	runLoop->SetWorkInterval(workID, 10.0);
+
+	NInterval workInterval = runLoop->GetWorkInterval(workID);
+	REQUIRE(workInterval == 10.0);
+
+	runLoop->Remove(workID);
 }
