@@ -65,6 +65,28 @@ static constexpr NThreadHandle kNThreadNone                 = 0;
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
 template<typename Function, typename... Args, typename Enabled>
+NThread::NThread(const NString& theName, Function&& theFunction, Args&&... theArgs)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mRunLoop(nullptr)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Create the thread
+	CreateThread(theName, 0, theFunction, theArgs...);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+template<typename Function, typename... Args, typename Enabled>
 NThread::NThread(const NString& theName,
 				 size_t         stackSize,
 				 Function&&     theFunction,
@@ -80,28 +102,6 @@ NThread::NThread(const NString& theName,
 
 	// Create the thread
 	CreateThread(theName, stackSize, theFunction, theArgs...);
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::NThread : Constructor.
-//-----------------------------------------------------------------------------
-template<typename Function, typename... Args, typename Enabled>
-NThread::NThread(Function&& theFunction, Args&&... theArgs)
-	: mLock()
-	, mID()
-	, mThread(kNThreadNone)
-	, mRunLoop(nullptr)
-	, mIsComplete(false)
-	, mShouldStop(false)
-{
-
-
-	// Create the thread
-	CreateThread("", 0, theFunction, theArgs...);
 }
 
 

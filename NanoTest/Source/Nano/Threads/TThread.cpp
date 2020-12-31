@@ -65,7 +65,7 @@ NANO_TEST(TThread, "WaitForCompletion")
 
 
 	// Perform the test
-	NThread theThread([]() {
+	NThread theThread("TThread_WaitForCompletion", []() {
 		NThread::Sleep(0.050);
 	});
 
@@ -86,7 +86,7 @@ NANO_TEST(TThread, "RequestStop")
 
 
 	// Perform the test
-	NThread theThread([]() {
+	NThread theThread("TThread_RequestStop", []() {
 		while (!NThread::ShouldStop())
 		{
 			NThread::Sleep(0.001);
@@ -113,7 +113,7 @@ NANO_TEST(TThread, "IsMain")
 	// Perform the test
 	REQUIRE(NThread::IsMain());
 
-	NThread theThread([]() {
+	NThread theThread("TThread_IsMain", []() {
 		REQUIRE(!NThread::IsMain());
 	});
 }
@@ -152,7 +152,7 @@ NANO_TEST(TThread, "StackSize")
 	size_t theSize = NThread::GetStackSize();
 	REQUIRE(theSize != 0);
 
-	NThread theThread("", size_t(300 * kNMebibyte), []() {
+	NThread theThread("TThread_StackSize", size_t(300 * kNMebibyte), []() {
 		size_t customSize = NThread::GetStackSize();
 		REQUIRE(customSize >= 295 * kNMebibyte);
 	});

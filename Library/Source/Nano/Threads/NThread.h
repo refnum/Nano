@@ -96,6 +96,13 @@ public:
 	// Every thread, even one created with an invocable, has its own runloop.
 										NThread(const NString& theName, size_t stackSize = 0);
 
+
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
+	explicit                            NThread(const NString& theName, Function&& theFunction, Args&&... theArgs);
+
+
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
@@ -103,11 +110,6 @@ public:
 												size_t         stackSize,
 												Function&&     theFunction,
 												Args&&... theArgs);
-
-	template<typename Function,
-			 typename... Args,
-			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
-	explicit                            NThread(Function&& theFunction, Args&&... theArgs);
 
 									   ~NThread();
 
@@ -133,10 +135,9 @@ public:
 
 	// Request / test for stopping
 	//
-	// A running thread may be asked to stop early.
+	// A thread that supports stopping must poll the stopping state.
 	//
-	// A thread must poll the stopping state periodically if it can support
-	// stopping early.
+	// Only available to NThread threads.
 	void                                RequestStop();
 	static bool                         ShouldStop();
 
