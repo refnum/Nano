@@ -59,6 +59,29 @@ thread_local NThread* NThread::mThisThread;
 
 
 //=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+NThread::NThread(const NString& theName, size_t stackSize)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mRunLoop(nullptr)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Create the thread
+	CreateThread(theName, stackSize, [&]() {
+		mRunLoop->Run();
+	});
+}
+
+
+
+
+
+//=============================================================================
 //		NThread::~NThread : Destructor.
 //-----------------------------------------------------------------------------
 NThread::~NThread()
@@ -213,8 +236,31 @@ bool NThread::ShouldStop()
 {
 
 
+	// Validate our state
+	NN_REQUIRE(mThisThread != nullptr);
+
+
 	// Get our state
 	return mThisThread->mShouldStop;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetRunLoop : Get the current thread's runloop.
+//-----------------------------------------------------------------------------
+NRunLoop* NThread::GetRunLoop()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mThisThread != nullptr);
+
+
+	// Get our state
+	return mThisThread->mRunLoop;
 }
 
 

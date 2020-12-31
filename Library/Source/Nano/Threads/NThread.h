@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMutex.h"
+#include "NRunLoop.h"
 #include "NString.h"
 #include "NanoTypes.h"
 
@@ -82,17 +83,18 @@ class NThread
 public:
 	// Create a thread
 	//
-	// A thread may be created with a name, a stack size, and an invocable
-	// object such as a lambda / function (with zero or more arguments).
-	template<typename Function,
-			 typename... Args,
-			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
-	explicit                            NThread(Function&& theFunction, Args&&... theArgs);
-
-	template<typename Function,
-			 typename... Args,
-			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
-	explicit                            NThread(const NString& theName, Function&& theFunction, Args&&... theArgs);
+	// A thread may be created with a name and stack size.
+	//
+	// A stack size of 0 is a request for the platform default.
+	//
+	//
+	// A thread may also be created with an invocable object and its arguments,
+	// such as a lambda or function.
+	//
+	// A thread created without an invocable will enter its runloop.
+	//
+	// Every thread, even one created with an invocable, has its own runloop.
+										NThread(const NString& theName, size_t stackSize = 0);
 
 	template<typename Function,
 			 typename... Args,
@@ -102,7 +104,11 @@ public:
 												Function&&     theFunction,
 												Args&&... theArgs);
 
-										NThread() = delete;
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
+	explicit                            NThread(Function&& theFunction, Args&&... theArgs);
+
 									   ~NThread();
 
 										NThread(  const NThread& otherThread) = delete;
@@ -137,6 +143,12 @@ public:
 
 	// Is the current thred the main thread?
 	static bool                         IsMain();
+
+
+	// Get the current thread's runloop
+	//
+	// Only available to NThread threads.
+	static NRunLoop*                    GetRunLoop();
 
 
 	// Get the current thread's stack size
@@ -197,6 +209,7 @@ private:
 
 	NThreadID                           mID;
 	NThreadHandle                       mThread;
+	NRunLoop*                           mRunLoop;
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;
 

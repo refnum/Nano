@@ -125,6 +125,25 @@ NANO_TEST(TThread, "IsMain")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TThread, "GetRunLoop")
+{
+
+
+	// Perform the test
+	NThread theThread2("TThread_GetRunLoop", []() {
+		REQUIRE(NThread::GetRunLoop() != nullptr);
+		REQUIRE(NThread::GetRunLoop() == NRunLoop::GetCurrent());
+		REQUIRE(NThread::GetRunLoop() != NRunLoop::GetMain());
+	});
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TThread, "StackSize")
 {
 
