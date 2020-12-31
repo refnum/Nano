@@ -414,6 +414,40 @@ NRunLoop* NRunLoop::GetCurrent()
 
 
 
+//=============================================================================
+//		NRunLoop::Main : Add a function to the  main runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::Main(const NRunLoopWorkFunction& theFunctor)
+{
+
+
+	// Add the function
+	auto theSemaphore = std::make_shared<NSemaphore>();
+
+	(void) NRunLoop::GetMain()->Add(theFunctor, 0.0, 0.0, &theSemaphore);
+
+	theSemaphore->Wait();
+}
+
+
+
+
+
+//=============================================================================
+//		NRunLoop::MainAsync : Add a function to the  main runloop.
+//-----------------------------------------------------------------------------
+void NRunLoop::MainAsync(const NRunLoopWorkFunction& theFunctor)
+{
+
+
+	// Add the function
+	(void) NRunLoop::GetMain()->Add(theFunctor);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NRunLoop::PerformWork : Perform work.
