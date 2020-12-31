@@ -52,7 +52,7 @@
 //=============================================================================
 //		Static variables
 //-----------------------------------------------------------------------------
-thread_local NThread* NThread::mThisThread;
+thread_local NThread* NThread::mCurrentThread;
 
 
 
@@ -172,6 +172,21 @@ NThreadID NThread::GetID() const
 
 
 //=============================================================================
+//		NThread::GetRunLoop : Get the runloop.
+//-----------------------------------------------------------------------------
+NRunLoop* NThread::GetRunLoop() const
+{
+
+
+	// Get our state
+	return mRunLoop;
+}
+
+
+
+
+
+//=============================================================================
 //		NThread::IsComplete : Is the thread complete?
 //-----------------------------------------------------------------------------
 bool NThread::IsComplete() const
@@ -200,6 +215,12 @@ void NThread::WaitForCompletion()
 
 	// Validate our state
 	NN_REQUIRE(NThreadID::Get() != mID, "The running thread cannot wait for itself!");
+
+
+
+	// Stop the thread
+	RequestStop();
+	mRunLoop->Stop();
 
 
 
@@ -236,31 +257,8 @@ bool NThread::ShouldStop()
 {
 
 
-	// Validate our state
-	NN_REQUIRE(mThisThread != nullptr);
-
-
 	// Get our state
-	return mThisThread->mShouldStop;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::GetRunLoop : Get the current thread's runloop.
-//-----------------------------------------------------------------------------
-NRunLoop* NThread::GetRunLoop()
-{
-
-
-	// Validate our state
-	NN_REQUIRE(mThisThread != nullptr);
-
-
-	// Get our state
-	return mThisThread->mRunLoop;
+	return mShouldStop;
 }
 
 
@@ -281,6 +279,21 @@ bool NThread::IsMain()
 	static thread_local bool sIsMain = ThreadIsMain();
 
 	return sIsMain;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetCurrent : Get the current thread.
+//-----------------------------------------------------------------------------
+NThread* NThread::GetCurrent()
+{
+
+
+	// Get the thread
+	return mCurrentThread;
 }
 
 

@@ -77,6 +77,27 @@ NANO_TEST(TThread, "GetID")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TThread, "GetRunLoop")
+{
+
+
+	// Perform the test
+	NThread theThread2("TThread_GetRunLoop", []() {
+		NThread* currentThread = NThread::GetCurrent();
+
+		REQUIRE(currentThread->GetRunLoop() != nullptr);
+		REQUIRE(currentThread->GetRunLoop() != NRunLoop::GetMain());
+		REQUIRE(currentThread->GetRunLoop() == NRunLoop::GetCurrent());
+	});
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TThread, "WaitForCompletion")
 {
 
@@ -104,7 +125,9 @@ NANO_TEST(TThread, "RequestStop")
 
 	// Perform the test
 	NThread theThread("TThread_RequestStop", []() {
-		while (!NThread::ShouldStop())
+		NThread* currentThread = NThread::GetCurrent();
+
+		while (!currentThread->ShouldStop())
 		{
 			NThread::Sleep(0.001);
 		}
@@ -142,15 +165,15 @@ NANO_TEST(TThread, "IsMain")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TThread, "GetRunLoop")
+NANO_TEST(TThread, "GetCurrent")
 {
 
 
 	// Perform the test
-	NThread theThread2("TThread_GetRunLoop", []() {
-		REQUIRE(NThread::GetRunLoop() != nullptr);
-		REQUIRE(NThread::GetRunLoop() == NRunLoop::GetCurrent());
-		REQUIRE(NThread::GetRunLoop() != NRunLoop::GetMain());
+	REQUIRE(NThread::GetCurrent() == nullptr);
+
+	NThread theThread2("TThread_GetCurrent", []() {
+		REQUIRE(NThread::GetCurrent() != nullptr);
 	});
 }
 

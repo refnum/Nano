@@ -171,9 +171,10 @@ void NThread::CreateThread(const NString& theName,
 	theContext->stackSize   = stackSize;
 	theContext->threadEntry = [=]() {
 		// Prepare the thread
-		mThisThread = this;
-		mID         = NThreadID::Get();
-		mRunLoop    = NRunLoop::GetCurrent();
+		mCurrentThread = this;
+
+		mID      = NThreadID::Get();
+		mRunLoop = NRunLoop::GetCurrent();
 
 		if (!theName.IsEmpty())
 		{

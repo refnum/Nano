@@ -124,6 +124,10 @@ public:
 	NThreadID                           GetID() const;
 
 
+	// Get the runloop
+	NRunLoop*                           GetRunLoop() const;
+
+
 	// Test / wait for completion
 	//
 	// A thread is complete when it has finished executing.
@@ -136,20 +140,18 @@ public:
 	// Request / test for stopping
 	//
 	// A thread that supports stopping must poll the stopping state.
-	//
-	// Only available to NThread threads.
 	void                                RequestStop();
-	static bool                         ShouldStop();
+	bool                                ShouldStop();
 
 
 	// Is the current thred the main thread?
 	static bool                         IsMain();
 
 
-	// Get the current thread's runloop
+	// Get the current thread
 	//
 	// Only available to NThread threads.
-	static NRunLoop*                    GetRunLoop();
+	static NThread*                     GetCurrent();
 
 
 	// Get the current thread's stack size
@@ -214,7 +216,7 @@ private:
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;
 
-	static thread_local NThread*        mThisThread;
+	static thread_local NThread*        mCurrentThread;
 };
 
 
