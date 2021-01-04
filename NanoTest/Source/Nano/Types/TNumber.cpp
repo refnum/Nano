@@ -49,9 +49,7 @@
 //=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-#define TEST_NNUMBER(...)                                   TEST_NANO(TNumber, ##__VA_ARGS__)
-
-FIXTURE_NANO(TNumber)
+NANO_FIXTURE(TNumber)
 {
 	NNumber theNumber;
 };
@@ -63,11 +61,16 @@ FIXTURE_NANO(TNumber)
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-TEST_NNUMBER("Default")
+NANO_TEST(TNumber, "Default")
 {
 
 
 	// Perform the test
+	REQUIRE(theNumber.IsValid());
 	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(!theNumber.IsNegative());
+
 	REQUIRE(theNumber.GetUInt8() == 0);
 }

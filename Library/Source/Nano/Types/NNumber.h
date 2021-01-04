@@ -108,8 +108,12 @@ public:
 										NNumber();
 
 
-	// Is the number an integer?
-	bool                                IsInteger() const;
+	// Test the number
+	bool                                IsValid()    const;
+	bool                                IsInteger()  const;
+	bool                                IsReal()     const;
+	bool                                IsSigned()   const;
+	bool                                IsNegative() const;
 
 
 	// Get the precision
@@ -158,8 +162,8 @@ public:
 
 	// Set a value
 	/*
-	bool                                SetValue(const NVariant &theValue);
-	bool                                SetValue(const NString  &theValue);
+   bool                                SetValue(const NVariant &theValue);
+   bool                                SetValue(const NString  &theValue);
  */
 
 

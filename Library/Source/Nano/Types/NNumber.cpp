@@ -207,7 +207,7 @@ NNumber::NNumber(int32_t theValue)
 
 
 	// Initialise ourselves
-	Setint32(theValue);
+	SetInt32(theValue);
 }
 
 
@@ -275,36 +275,141 @@ NNumber::NNumber()
 
 
 //=============================================================================
+//		NNumber::IsValid : Is the number valid?
+//-----------------------------------------------------------------------------
+bool NNumber::IsValid() const
+{
+
+
+	// Check the precision
+	return mPrecision != NPrecision::None;
+}
+
+
+
+
+
+//=============================================================================
 //		NNumber::IsInteger : Is the number an integer?
 //-----------------------------------------------------------------------------
 bool NNumber::IsInteger() const
 {
-	bool isInteger;
 
 
-
-	// Check the type
+	// Check the precision
+	bool isInteger = false;
 	switch (mPrecision)
 	{
-		case kNPrecisionInt8:
-		case kNPrecisionInt16:
-		case kNPrecisionInt32:
-		case kNPrecisionInt64:
+		case NPrecision::UInt8:
+		case NPrecision::UInt16:
+		case NPrecision::UInt32:
+		case NPrecision::UInt64:
+		case NPrecision::Int8:
+		case NPrecision::Int16:
+		case NPrecision::Int32:
+		case NPrecision::Int64:
 			isInteger = true;
 			break;
 
-		case kNPrecisionFloat32:
-		case kNPrecisionFloat64:
-			isInteger = false;
-			break;
-
 		default:
-			NN_LOG("Unknown precision: %d", mPrecision);
-			isInteger = false;
 			break;
 	}
 
 	return isInteger;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::IsReal : Is the number a real number?
+//-----------------------------------------------------------------------------
+bool NNumber::IsReal() const
+{
+
+
+	// Check the precision
+	bool isReal = false;
+
+	switch (mPrecision)
+	{
+		case NPrecision::Float32:
+		case NPrecision::Float64:
+			isReal = true;
+			break;
+
+		default:
+			break;
+	}
+
+	return isReal;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::IsSigned : Is the number a signed number?
+//-----------------------------------------------------------------------------
+bool NNumber::IsSigned() const
+{
+
+
+	// Check the precision
+	bool isSigned = false;
+
+	switch (mPrecision)
+	{
+		case NPrecision::Int8:
+		case NPrecision::Int16:
+		case NPrecision::Int32:
+		case NPrecision::Int64:
+		case NPrecision::Float32:
+		case NPrecision::Float64:
+			isSigned = true;
+			break;
+
+		default:
+			break;
+	}
+
+	return isSigned;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::IsNegative : Is the number negative?
+//-----------------------------------------------------------------------------
+bool NNumber::IsNegative() const
+{
+
+
+	// Check the precision
+	bool isNegative = false;
+
+	switch (mPrecision)
+	{
+		case NPrecision::Int8:
+		case NPrecision::Int16:
+		case NPrecision::Int32:
+		case NPrecision::Int64:
+			isNegative = (GetInt64() < 0);
+
+		case NPrecision::Float32:
+		case NPrecision::Float64:
+			isNegative = (GetFloat64() < 0.0);
+			break;
+
+		default:
+			break;
+	}
+
+	return isNegative;
 }
 
 
