@@ -113,6 +113,8 @@
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint8_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -128,6 +130,8 @@ NNumber::NNumber(uint8_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint16_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -143,6 +147,8 @@ NNumber::NNumber(uint16_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint32_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -158,6 +164,8 @@ NNumber::NNumber(uint32_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint64_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -173,6 +181,8 @@ NNumber::NNumber(uint64_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int8_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -188,6 +198,8 @@ NNumber::NNumber(int8_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int16_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -203,6 +215,8 @@ NNumber::NNumber(int16_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int32_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -218,6 +232,8 @@ NNumber::NNumber(int32_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int64_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -233,6 +249,8 @@ NNumber::NNumber(int64_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(float32_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -248,6 +266,8 @@ NNumber::NNumber(float32_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(float64_t theValue)
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
@@ -263,6 +283,8 @@ NNumber::NNumber(float64_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber()
+	: mPrecision(NPrecision::None)
+	, mValue()
 {
 
 
