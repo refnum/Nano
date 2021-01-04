@@ -118,15 +118,8 @@ public:
 
 	// Get the precision
 	//
-	// Numbers may be stored with a greater precision than an assigned
-	// value, however the internal precision will never be lossy.
+	// A number may be stored with a greater precision than it was created with.
 	NPrecision                          GetPrecision() const;
-
-
-	// Get the number as a string
-	//
-	// May return kNStringNaN or kNStringInfinityXXX.
-	NString                             GetString() const;
 
 
 	// Compare the value
@@ -135,8 +128,12 @@ public:
 
 	// Get/set the value
 	//
-	// If the value needs to be cast from a different precision, conversion
-	// is performed using C's normal (potentially lossy) promotion rules.
+	// Casting to a different precision follows normal C++ promotion rules.
+	//
+	// GetString returns an empty strings for unrepresentable numbers (such
+	// as NaN or infinities).
+	//
+	// SetString will assign zero if passed an unparseable string.
 	uint8_t                             GetUInt8()   const;
 	uint16_t                            GetUInt16()  const;
 	uint32_t                            GetUInt32()  const;
@@ -147,24 +144,20 @@ public:
 	int64_t                             GetInt64()   const;
 	float32_t                           GetFloat32() const;
 	float64_t                           GetFloat64() const;
+	NString                             GetString()  const;
 
-	void                                SetUInt8(uint8_t     theValue);
-	void                                SetUInt16(uint16_t   theValue);
-	void                                SetUInt32(uint32_t   theValue);
-	void                                SetUInt64(uint64_t   theValue);
-	void                                SetInt8(int8_t       theValue);
-	void                                SetInt16(int16_t     theValue);
-	void                                SetInt32(int32_t     theValue);
-	void                                SetInt64(int64_t     theValue);
-	void                                SetFloat32(float32_t theValue);
-	void                                SetFloat64(float64_t theValue);
+	void                                SetUInt8(uint8_t         theValue);
+	void                                SetUInt16(uint16_t       theValue);
+	void                                SetUInt32(uint32_t       theValue);
+	void                                SetUInt64(uint64_t       theValue);
+	void                                SetInt8(int8_t           theValue);
+	void                                SetInt16(int16_t         theValue);
+	void                                SetInt32(int32_t         theValue);
+	void                                SetInt64(int64_t         theValue);
+	void                                SetFloat32(float32_t     theValue);
+	void                                SetFloat64(float64_t     theValue);
+	void                                SetString(const NString& theValue) const;
 
-
-	// Set a value
-	/*
-   bool                                SetValue(const NVariant &theValue);
-   bool                                SetValue(const NString  &theValue);
- */
 
 
 public:

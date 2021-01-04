@@ -454,68 +454,6 @@ NPrecision NNumber::GetPrecision() const
 
 
 //=============================================================================
-//		NNumber::GetString : Get the number as a string.
-//-----------------------------------------------------------------------------
-NString NNumber::GetString() const
-{
-	NString valueText;
-
-
-
-	// Get the string
-	switch (mPrecision)
-	{
-		case kNPrecisionInt8:
-		case kNPrecisionInt16:
-		case kNPrecisionInt32:
-		case kNPrecisionInt64:
-			valueText.Format("%lld", mValue.integer);
-			break;
-
-		case kNPrecisionFloat32:
-		case kNPrecisionFloat64:
-			if (NTargetPOSIX::is_nan(mValue.real))
-			{
-				valueText = kNStringNaN;
-			}
-
-			else if (NTargetPOSIX::is_inf(mValue.real))
-			{
-				valueText = (mValue.real < 0.0) ? kNStringInfinityNeg : kNStringInfinityPos;
-			}
-
-			else if (NMathUtilities::IsZero(mValue.real))
-			{
-				valueText = kNStringZero;
-			}
-
-			else
-			{
-				if (mPrecision == kNPrecisionFloat32)
-				{
-					valueText.Format(kFormatFloat32, (float32_t) mValue.real);
-				}
-				else
-				{
-					valueText.Format(kFormatFloat64, mValue.real);
-				}
-			}
-			break;
-
-		default:
-			NN_LOG("Unknown precision: %d", mPrecision);
-			valueText = kNStringZero;
-			break;
-	}
-
-	return valueText;
-}
-
-
-
-
-
-//=============================================================================
 //		NNumber::Compare : Compare the value.
 //-----------------------------------------------------------------------------
 NComparison NNumber::Compare(const NNumber& theValue) const
@@ -781,6 +719,68 @@ float64_t NNumber::GetFloat64() const
 
 
 //=============================================================================
+//		NNumber::GetString : Get a string value.
+//-----------------------------------------------------------------------------
+NString NNumber::GetString() const
+{
+	NString valueText;
+
+
+
+	// Get the string
+	switch (mPrecision)
+	{
+		case kNPrecisionInt8:
+		case kNPrecisionInt16:
+		case kNPrecisionInt32:
+		case kNPrecisionInt64:
+			valueText.Format("%lld", mValue.integer);
+			break;
+
+		case kNPrecisionFloat32:
+		case kNPrecisionFloat64:
+			if (NTargetPOSIX::is_nan(mValue.real))
+			{
+				valueText = kNStringNaN;
+			}
+
+			else if (NTargetPOSIX::is_inf(mValue.real))
+			{
+				valueText = (mValue.real < 0.0) ? kNStringInfinityNeg : kNStringInfinityPos;
+			}
+
+			else if (NMathUtilities::IsZero(mValue.real))
+			{
+				valueText = kNStringZero;
+			}
+
+			else
+			{
+				if (mPrecision == kNPrecisionFloat32)
+				{
+					valueText.Format(kFormatFloat32, (float32_t) mValue.real);
+				}
+				else
+				{
+					valueText.Format(kFormatFloat64, mValue.real);
+				}
+			}
+			break;
+
+		default:
+			NN_LOG("Unknown precision: %d", mPrecision);
+			valueText = kNStringZero;
+			break;
+	}
+
+	return valueText;
+}
+
+
+
+
+
+//=============================================================================
 //		NNumber::SetUInt8 : Set a uint8_t value.
 //-----------------------------------------------------------------------------
 void NNumber::SetUInt8(uint8_t theValue)
@@ -938,13 +938,12 @@ void NNumber::SetFloat64(float64_t theValue)
 
 
 
-
-
-//=============================================================================
-//		NNumber::SetValue : Set the value.
-//-----------------------------------------------------------------------------
-bool NNumber::SetValue(const NVariant& theValue)
-{
+/*
+   //=============================================================================
+   //		NNumber::SetValue : Set the value.
+   //-----------------------------------------------------------------------------
+   bool NNumber::SetValue(const NVariant& theValue)
+   {
 	uint8_t   valueUInt8;
 	uint16_t  valueUInt16;
 	uint32_t  valueUInt32;
@@ -1039,16 +1038,17 @@ bool NNumber::SetValue(const NVariant& theValue)
 	}
 
 	return true;
-}
+   }
+ */
 
 
 
 
 
 //=============================================================================
-//		NNumber::SetValue : Set the value.
+//		NNumber::SetString : Set a string value.
 //-----------------------------------------------------------------------------
-bool NNumber::SetValue(const NString& theValue)
+bool NNumber::SetString(const NString& theValue)
 {
 	NRange    foundDot, foundE;
 	NIndex    thePrecision;
