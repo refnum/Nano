@@ -5,7 +5,7 @@
 		iOS file info.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2020, refNum Software
+		Copyright (c) 2006-2021, refNum Software
 		All rights reserved.
 
 		Redistribution and use in source and binary forms, with or without
