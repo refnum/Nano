@@ -78,6 +78,9 @@
 		AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393523C75C1A00675F68 /* TUnicodeView.cpp */; };
 		AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393523C75C1A00675F68 /* TUnicodeView.cpp */; };
 		AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393523C75C1A00675F68 /* TUnicodeView.cpp */; };
+		AB8E64AD25A2A68000AF2CE9 /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
+		AB8E64B125A2A68000AF2CE9 /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
+		AB8E64B525A2A68100AF2CE9 /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
 		AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */; };
 		ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */; };
@@ -893,6 +896,7 @@
 				AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
+				AB8E64B125A2A68000AF2CE9 /* TNumber.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -942,6 +946,7 @@
 				AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
+				AB8E64B525A2A68100AF2CE9 /* TNumber.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,6 +996,7 @@
 				AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
+				AB8E64AD25A2A68000AF2CE9 /* TNumber.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

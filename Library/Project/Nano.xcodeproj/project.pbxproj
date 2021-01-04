@@ -147,6 +147,9 @@
 		AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
 		AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB86FDF223999A4D0062CAA0 /* NSharedPOSIX.cpp */; };
+		AB8E64A425A2A67800AF2CE9 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
+		AB8E64A825A2A67800AF2CE9 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
+		AB8E64A925A2A67800AF2CE9 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
 		ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
@@ -1847,6 +1850,7 @@
 				AB19810D2597C0E9002C5591 /* tvOSNThread.cpp in Sources */,
 				ABC646FB25818466009B82AD /* pcre2_xclass.c in Sources */,
 				AB230A102581AB8600919EBD /* deflate.c in Sources */,
+				AB8E64A925A2A67800AF2CE9 /* NNumber.cpp in Sources */,
 				ABC646822581666F009B82AD /* xmlrole.c in Sources */,
 				AB230A1F2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470A25818466009B82AD /* pcre2_dfa_match.c in Sources */,
@@ -1949,6 +1953,7 @@
 				AB4AF54F2422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				AB230A0E2581AB8600919EBD /* deflate.c in Sources */,
 				AB19813825995538002C5591 /* iOSNRunLoop.cpp in Sources */,
+				AB8E64A425A2A67800AF2CE9 /* NNumber.cpp in Sources */,
 				AB230A1D2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470825818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				ABC646802581666F009B82AD /* xmlrole.c in Sources */,
@@ -2051,6 +2056,7 @@
 				AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */,
 				AB230A0F2581AB8600919EBD /* deflate.c in Sources */,
 				AB4AF5502422FEC600E665D4 /* NFileScanner.cpp in Sources */,
+				AB8E64A825A2A67800AF2CE9 /* NNumber.cpp in Sources */,
 				AB230A1E2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470925818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				ABC6470325818466009B82AD /* pcre2_fuzzsupport.c in Sources */,

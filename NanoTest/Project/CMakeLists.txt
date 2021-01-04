@@ -56,6 +56,7 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinComparable.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinContainer.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinHashable.cpp"
+		"${TARGET_SOURCE_DIR}/Nano/Types/TNumber.cpp"
 		"${TARGET_SOURCE_DIR}/Nano/Types/TRange.cpp"
 		"${TARGET_SOURCE_DIR}/NanoTest.cpp"
 )
