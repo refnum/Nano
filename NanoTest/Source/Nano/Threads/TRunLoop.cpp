@@ -69,9 +69,9 @@ static void TestIncrement(size_t* theValue)
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TRunLoop)
 {
-	NRunLoop*      runLoop;
-	NRunLoopWorkID workID;
-	size_t         theValue;
+	std::shared_ptr<NRunLoop> runLoop;
+	NRunLoopWorkID            workID;
+	size_t                    theValue;
 
 	SETUP
 	{
@@ -134,7 +134,7 @@ NANO_TEST(TRunLoop, "Stop")
 	// Perform the test
 	NThread theThread("NRunLoop");
 
-	NRunLoop* threadLoop = theThread.GetRunLoop();
+	std::shared_ptr<NRunLoop> threadLoop = theThread.GetRunLoop();
 	threadLoop->Add(std::bind(TestIncrement, &theValue), kNTimeMillisecond, kNTimeMillisecond);
 
 	runLoop->Run(kNTimeMillisecond * 10);

@@ -374,14 +374,14 @@ void NRunLoop::SetWorkInterval(NRunLoopWorkID theID, NInterval theInterval)
 //=============================================================================
 //		NRunLoop::GetMain : Get the main thread's runloop.
 //-----------------------------------------------------------------------------
-NRunLoop* NRunLoop::GetMain()
+std::shared_ptr<NRunLoop> NRunLoop::GetMain()
 {
 
 
 	// Get the runloop
-	static NRunLoop sRunLoop(true);
+	static auto sRunLoop = std::make_shared<NRunLoop>(true);
 
-	return &sRunLoop;
+	return sRunLoop;
 }
 
 
@@ -391,7 +391,7 @@ NRunLoop* NRunLoop::GetMain()
 //=============================================================================
 //		NRunLoop::GetCurrent : Get the current thread's runloop.
 //-----------------------------------------------------------------------------
-NRunLoop* NRunLoop::GetCurrent()
+std::shared_ptr<NRunLoop> NRunLoop::GetCurrent()
 {
 
 
@@ -402,9 +402,9 @@ NRunLoop* NRunLoop::GetCurrent()
 	}
 	else
 	{
-		static thread_local NRunLoop sRunLoop(false);
+		static thread_local auto sRunLoop = std::make_shared<NRunLoop>(false);
 
-		return &sRunLoop;
+		return sRunLoop;
 	}
 }
 

@@ -170,7 +170,7 @@ NThreadID NThread::GetID() const
 //=============================================================================
 //		NThread::GetRunLoop : Get the runloop.
 //-----------------------------------------------------------------------------
-NRunLoop* NThread::GetRunLoop() const
+std::shared_ptr<NRunLoop> NThread::GetRunLoop() const
 {
 
 
@@ -214,17 +214,21 @@ void NThread::WaitForCompletion()
 
 
 
-	// Stop the thread
-	RequestStop();
-	mRunLoop->Stop();
-
-
-
 	// Wait for the thread
-	NScopedLock acquireLock(mLock);
+	if (mThread != kNThreadNone)
+	{
+		// Stop the thread
+		RequestStop();
+		mRunLoop->Stop();
 
-	ThreadJoin(mThread);
-	mThread = kNThreadNone;
+
+
+		// Wait for completion
+		NScopedLock acquireLock(mLock);
+
+		ThreadJoin(mThread);
+		Clear();
+	}
 }
 
 

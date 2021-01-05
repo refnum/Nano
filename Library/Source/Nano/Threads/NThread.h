@@ -125,7 +125,7 @@ public:
 
 
 	// Get the runloop
-	NRunLoop*                           GetRunLoop() const;
+	std::shared_ptr<NRunLoop>           GetRunLoop() const;
 
 
 	// Test / wait for completion
@@ -214,7 +214,7 @@ private:
 
 	NThreadID                           mID;
 	NThreadHandle                       mThread;
-	NRunLoop*                           mRunLoop;
+	std::shared_ptr<NRunLoop>           mRunLoop;
 	std::atomic_bool                    mIsComplete;
 	std::atomic_bool                    mShouldStop;
 
