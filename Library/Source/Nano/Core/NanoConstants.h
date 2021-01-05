@@ -69,6 +69,9 @@ static constexpr int16_t kNInt16Min                         = std::numeric_limit
 static constexpr int32_t kNInt32Min                         = std::numeric_limits<int32_t>::min();
 static constexpr int64_t kNInt64Min                         = std::numeric_limits<int64_t>::min();
 
+static constexpr float32_t kNFloat32Min                     = std::numeric_limits<float32_t>::min();
+static constexpr float64_t kNFloat64Min                     = std::numeric_limits<float64_t>::min();
+
 static constexpr uint8_t  kNUInt8Max                        = std::numeric_limits<uint8_t>::max();
 static constexpr uint16_t kNUInt16Max                       = std::numeric_limits<uint16_t>::max();
 static constexpr uint32_t kNUInt32Max                       = std::numeric_limits<uint32_t>::max();
