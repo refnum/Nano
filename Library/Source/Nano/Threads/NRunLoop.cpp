@@ -404,7 +404,7 @@ NRunLoop* NRunLoop::GetCurrent()
 	}
 	else
 	{
-		static NRunLoop sRunLoop(false);
+		static thread_local NRunLoop sRunLoop(false);
 
 		return &sRunLoop;
 	}
