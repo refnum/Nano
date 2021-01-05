@@ -96,10 +96,10 @@ NANO_TEST(TNumber, "uint64_t")
 	REQUIRE(theNumber.IsPositive());
 	REQUIRE(!theNumber.IsNegative());
 
-	REQUIRE(theNumber.GetUInt8() == theValue);
-	REQUIRE(theNumber.GetUInt16() == theValue);
-	REQUIRE(theNumber.GetUInt32() == theValue);
-	REQUIRE(theNumber.GetUInt64() == theValue);
+	REQUIRE(theNumber.GetUInt8() == uint8_t(theValue));
+	REQUIRE(theNumber.GetUInt16() == uint16_t(theValue));
+	REQUIRE(theNumber.GetUInt32() == uint32_t(theValue));
+	REQUIRE(theNumber.GetUInt64() == uint64_t(theValue));
 
 	REQUIRE(theNumber.GetInt8() == int8_t(theValue));
 	REQUIRE(theNumber.GetInt16() == int16_t(theValue));
@@ -122,18 +122,42 @@ NANO_TEST(TNumber, "int64_t")
 
 
 	// Perform the test
-	int64_t theValue = -1;
+	int64_t theValue = 1;
 	theNumber.SetInt64(theValue);
 
 	REQUIRE(theNumber.IsInteger());
 	REQUIRE(!theNumber.IsReal());
 	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(!theNumber.IsNegative());
+
+	REQUIRE(theNumber.GetUInt8() == uint8_t(theValue));
+	REQUIRE(theNumber.GetUInt16() == uint16_t(theValue));
+	REQUIRE(theNumber.GetUInt32() == uint32_t(theValue));
+	REQUIRE(theNumber.GetUInt64() == uint64_t(theValue));
+
+	REQUIRE(theNumber.GetInt8() == int8_t(theValue));
+	REQUIRE(theNumber.GetInt16() == int16_t(theValue));
+	REQUIRE(theNumber.GetInt32() == int32_t(theValue));
+	REQUIRE(theNumber.GetInt64() == int64_t(theValue));
+
+	REQUIRE(theNumber.GetFloat32() == float32_t(theValue));
+	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
+
+
+	theValue = -theValue;
+	theNumber.SetInt64(theValue);
+
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
 	REQUIRE(theNumber.IsNegative());
 
-	REQUIRE(theNumber.GetInt8() == theValue);
-	REQUIRE(theNumber.GetInt16() == theValue);
-	REQUIRE(theNumber.GetInt32() == theValue);
-	REQUIRE(theNumber.GetInt64() == theValue);
+	REQUIRE(theNumber.GetInt8() == int8_t(theValue));
+	REQUIRE(theNumber.GetInt16() == int16_t(theValue));
+	REQUIRE(theNumber.GetInt32() == int32_t(theValue));
+	REQUIRE(theNumber.GetInt64() == int64_t(theValue));
 
 	REQUIRE(theNumber.GetFloat32() == float32_t(theValue));
 	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
@@ -154,20 +178,39 @@ NANO_TEST(TNumber, "float64_t")
 	float64_t theValue = 1.5;
 	theNumber.SetFloat64(theValue);
 
-	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsInteger());
 	REQUIRE(theNumber.IsReal());
 	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(!theNumber.IsNegative());
+
+	REQUIRE(theNumber.GetUInt8() == uint8_t(theValue));
+	REQUIRE(theNumber.GetUInt16() == uint16_t(theValue));
+	REQUIRE(theNumber.GetUInt32() == uint32_t(theValue));
+	REQUIRE(theNumber.GetUInt64() == uint64_t(theValue));
+
+	REQUIRE(theNumber.GetInt8() == int8_t(theValue));
+	REQUIRE(theNumber.GetInt16() == int16_t(theValue));
+	REQUIRE(theNumber.GetInt32() == int32_t(theValue));
+	REQUIRE(theNumber.GetInt64() == int64_t(theValue));
+
+	REQUIRE(theNumber.GetFloat32() == float32_t(theValue));
+	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
+
+
+	theValue = -theValue;
+	theNumber.SetFloat64(theValue);
+
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
 	REQUIRE(theNumber.IsNegative());
 
-	REQUIRE(theNumber.GetUInt8() == float64_t(theValue));
-	REQUIRE(theNumber.GetUInt16() == float64_t(theValue));
-	REQUIRE(theNumber.GetUInt32() == float64_t(theValue));
-	REQUIRE(theNumber.GetUInt64() == float64_t(theValue));
-
-	REQUIRE(theNumber.GetInt8() == float64_t(theValue));
-	REQUIRE(theNumber.GetInt16() == float64_t(theValue));
-	REQUIRE(theNumber.GetInt32() == float64_t(theValue));
-	REQUIRE(theNumber.GetInt64() == float64_t(theValue));
+	REQUIRE(theNumber.GetInt8() == int8_t(theValue));
+	REQUIRE(theNumber.GetInt16() == int16_t(theValue));
+	REQUIRE(theNumber.GetInt32() == int32_t(theValue));
+	REQUIRE(theNumber.GetInt64() == int64_t(theValue));
 
 	REQUIRE(theNumber.GetFloat32() == float32_t(theValue));
 	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
