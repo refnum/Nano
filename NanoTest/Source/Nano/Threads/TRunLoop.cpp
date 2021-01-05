@@ -52,12 +52,12 @@
 //=============================================================================
 //		InteranlFunctions
 //-----------------------------------------------------------------------------
-static void TestIncrement(size_t& theValue)
+static void TestIncrement(size_t* theValue)
 {
 
 
 	// Update the value
-	theValue++;
+	*theValue = *theValue + 1;
 }
 
 
@@ -135,7 +135,7 @@ NANO_TEST(TRunLoop, "Stop")
 	NThread theThread("NRunLoop");
 
 	NRunLoop* threadLoop = theThread.GetRunLoop();
-	threadLoop->Add(std::bind(TestIncrement, theValue), kNTimeMillisecond);
+	threadLoop->Add(std::bind(TestIncrement, &theValue), kNTimeMillisecond, kNTimeMillisecond);
 
 	runLoop->Run(kNTimeMillisecond * 5);
 	threadLoop->Stop();
@@ -158,15 +158,15 @@ NANO_TEST(TRunLoop, "Add")
 
 
 	// Perform the test
-	workID = runLoop->Add(std::bind(TestIncrement, theValue));
+	workID = runLoop->Add(std::bind(TestIncrement, &theValue));
 	runLoop->Run(kNTimeNone);
 	REQUIRE(theValue == 1);
 
-	workID = runLoop->Add(std::bind(TestIncrement, theValue));
+	workID = runLoop->Add(std::bind(TestIncrement, &theValue));
 	runLoop->Run(kNTimeNanosecond);
 	REQUIRE(theValue == 2);
 
-	workID = runLoop->Add(std::bind(TestIncrement, theValue));
+	workID = runLoop->Add(std::bind(TestIncrement, &theValue));
 	runLoop->Run(kNTimeMillisecond);
 	REQUIRE(theValue == 3);
 }
@@ -183,7 +183,7 @@ NANO_TEST(TRunLoop, "Remove")
 
 
 	// Perform the test
-	workID = runLoop->Add(std::bind(TestIncrement, theValue), kNTimeHour);
+	workID = runLoop->Add(std::bind(TestIncrement, &theValue), kNTimeHour);
 	REQUIRE(workID != NRunLoopWorkNone);
 
 	runLoop->Remove(workID);
@@ -202,7 +202,7 @@ NANO_TEST(TRunLoop, "GetWorkTime")
 
 
 	// Perform the test
-	workID = runLoop->Add(std::bind(TestIncrement, theValue), kNTimeHour);
+	workID = runLoop->Add(std::bind(TestIncrement, &theValue), kNTimeHour);
 	runLoop->SetWorkTime(workID, NTimeUtils::GetTime() + 10.0);
 
 	NTime workTime = runLoop->GetWorkTime(workID);
@@ -223,7 +223,7 @@ NANO_TEST(TRunLoop, "GetWorkInterval")
 
 
 	// Perform the test
-	workID = runLoop->Add(std::bind(TestIncrement, theValue), kNTimeHour, kNTimeHour);
+	workID = runLoop->Add(std::bind(TestIncrement, &theValue), kNTimeHour, kNTimeHour);
 	runLoop->SetWorkInterval(workID, 10.0);
 
 	NInterval workInterval = runLoop->GetWorkInterval(workID);
