@@ -41,13 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NNumber.h"
 
-/*
- #include "NEncoder.h"
- #include "NMathUtilities.h"
- #include "NNumber.h"
- #include "NTargetPOSIX.h"
- #include "NVariant.h"
- */
+// Nano
+#include "NDebug.h"
+#include "NanoConstants.h"
 
 
 
@@ -56,54 +52,9 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-/*
-   static const NString kNStringZero                        = "0";
-
-   static const NIndex kDecimalsFloat32                     = 7;
-   static const NIndex kDecimalsFloat64                     = 17;
-
-   static const NString kFormatFloat32                      = "%.7g";
-   static const NString kFormatFloat64                      = "%.17g";
- */
-
-
-
-/*
-   //=============================================================================
-   //		NNumber::NNumber : Constructor.
-   //-----------------------------------------------------------------------------
-   NNumber::NNumber(const NVariant& theValue)
-   {
-
-
-	// Initialise ourselves
-	SetUInt8(0);
-
-	if (theValue.IsNumeric())
-	{
-		SetValue(theValue);
-	}
-   }
-
-
-
-
-   //=============================================================================
-   //		NNumber::NNumber : Constructor.
-   //-----------------------------------------------------------------------------
-   NNumber::NNumber(const NString& theValue)
-   {
-
-
-	// Initialise ourselves
-	SetUInt8(0);
-
-	if (!theValue.IsEmpty())
-	{
-		SetValue(theValue);
-	}
-   }
- */
+// Limits
+static constexpr float64_t kNSafeIntegerMin                 = -9007199254740991.0;
+static constexpr float64_t kNSafeIntegerMax                 = 9007199254740991.0;
 
 
 
@@ -113,13 +64,8 @@
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint8_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(uint64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetUInt8(theValue);
 }
 
 
@@ -130,13 +76,8 @@ NNumber::NNumber(uint8_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint16_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(uint64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetUInt16(theValue);
 }
 
 
@@ -147,13 +88,8 @@ NNumber::NNumber(uint16_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint32_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(uint64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetUInt32(theValue);
 }
 
 
@@ -164,13 +100,8 @@ NNumber::NNumber(uint32_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(uint64_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(theValue)
 {
-
-
-	// Initialise ourselves
-	SetUInt64(theValue);
 }
 
 
@@ -181,13 +112,8 @@ NNumber::NNumber(uint64_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int8_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(int64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetInt8(theValue);
 }
 
 
@@ -198,13 +124,8 @@ NNumber::NNumber(int8_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int16_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(int64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetInt16(theValue);
 }
 
 
@@ -215,13 +136,8 @@ NNumber::NNumber(int16_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int32_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(int64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetInt32(theValue);
 }
 
 
@@ -232,13 +148,8 @@ NNumber::NNumber(int32_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(int64_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(theValue)
 {
-
-
-	// Initialise ourselves
-	SetInt64(theValue);
 }
 
 
@@ -249,13 +160,8 @@ NNumber::NNumber(int64_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(float32_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(float64_t(theValue))
 {
-
-
-	// Initialise ourselves
-	SetFloat32(theValue);
 }
 
 
@@ -266,13 +172,8 @@ NNumber::NNumber(float32_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber(float64_t theValue)
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue(theValue)
 {
-
-
-	// Initialise ourselves
-	SetFloat64(theValue);
 }
 
 
@@ -283,28 +184,8 @@ NNumber::NNumber(float64_t theValue)
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
 NNumber::NNumber()
-	: mPrecision(NPrecision::None)
-	, mValue()
+	: mValue()
 {
-
-
-	// Initialise ourselves
-	SetUInt8(0);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::IsValid : Is the number valid?
-//-----------------------------------------------------------------------------
-bool NNumber::IsValid() const
-{
-
-
-	// Check the precision
-	return mPrecision != NPrecision::None;
 }
 
 
@@ -318,23 +199,13 @@ bool NNumber::IsInteger() const
 {
 
 
-	// Check the precision
-	bool isInteger = false;
-	switch (mPrecision)
-	{
-		case NPrecision::UInt8:
-		case NPrecision::UInt16:
-		case NPrecision::UInt32:
-		case NPrecision::UInt64:
-		case NPrecision::Int8:
-		case NPrecision::Int16:
-		case NPrecision::Int32:
-		case NPrecision::Int64:
-			isInteger = true;
-			break;
+	// Check the value
+	bool isInteger = true;
 
-		default:
-			break;
+	if (std::holds_alternative<float64_t>(mValue))
+	{
+		float64_t theValue = GetFloat64();
+		isInteger          = (fmod(theValue, 1.0) == 0.0);
 	}
 
 	return isInteger;
@@ -351,21 +222,8 @@ bool NNumber::IsReal() const
 {
 
 
-	// Check the precision
-	bool isReal = false;
-
-	switch (mPrecision)
-	{
-		case NPrecision::Float32:
-		case NPrecision::Float64:
-			isReal = true;
-			break;
-
-		default:
-			break;
-	}
-
-	return isReal;
+	// Check the value
+	return std::holds_alternative<float64_t>(mValue);
 }
 
 
@@ -379,25 +237,23 @@ bool NNumber::IsSigned() const
 {
 
 
-	// Check the precision
-	bool isSigned = false;
+	// Check the value
+	return std::holds_alternative<int64_t>(mValue) || std::holds_alternative<float64_t>(mValue);
+}
 
-	switch (mPrecision)
-	{
-		case NPrecision::Int8:
-		case NPrecision::Int16:
-		case NPrecision::Int32:
-		case NPrecision::Int64:
-		case NPrecision::Float32:
-		case NPrecision::Float64:
-			isSigned = true;
-			break;
 
-		default:
-			break;
-	}
 
-	return isSigned;
+
+
+//=============================================================================
+//		NNumber::IsPositive : Is the number positive?
+//-----------------------------------------------------------------------------
+bool NNumber::IsPositive() const
+{
+
+
+	// Check the value
+	return !IsNegative();
 }
 
 
@@ -411,124 +267,19 @@ bool NNumber::IsNegative() const
 {
 
 
-	// Check the precision
+	// Check the value
 	bool isNegative = false;
 
-	switch (mPrecision)
+	if (std::holds_alternative<int64_t>(mValue))
 	{
-		case NPrecision::Int8:
-		case NPrecision::Int16:
-		case NPrecision::Int32:
-		case NPrecision::Int64:
-			isNegative = (GetInt64() < 0);
-
-		case NPrecision::Float32:
-		case NPrecision::Float64:
-			isNegative = (GetFloat64() < 0.0);
-			break;
-
-		default:
-			break;
+		isNegative = (std::get<int64_t>(mValue) < 0);
+	}
+	else if (std::holds_alternative<float64_t>(mValue))
+	{
+		isNegative = (std::get<float64_t>(mValue) < 0);
 	}
 
 	return isNegative;
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::GetPrecision : Get the precision.
-//-----------------------------------------------------------------------------
-NPrecision NNumber::GetPrecision() const
-{
-
-
-	// Get the precision
-	return mPrecision;
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::Compare : Compare the value.
-//-----------------------------------------------------------------------------
-NComparison NNumber::Compare(const NNumber& theValue) const
-{
-	float64_t   valueFloat64_1, valueFloat64_2;
-	float32_t   valueFloat32_1, valueFloat32_2;
-	int64_t     valueInt64_1, valueInt64_2;
-	NComparison theResult;
-
-
-
-	// Compare equal types
-	if (mPrecision == theValue.mPrecision || (IsInteger() && theValue.IsInteger()))
-	{
-		switch (mPrecision)
-		{
-			case kNPrecisionInt8:
-			case kNPrecisionInt16:
-			case kNPrecisionInt32:
-			case kNPrecisionInt64:
-				theResult = GetComparison(mValue.integer, theValue.mValue.integer);
-				break;
-
-			case kNPrecisionFloat32:
-				valueFloat32_1 = (float32_t) mValue.real;
-				valueFloat32_2 = (float32_t) theValue.mValue.real;
-				theResult      = GetComparison(valueFloat32_1, valueFloat32_2);
-				break;
-
-			case kNPrecisionFloat64:
-				theResult = GetComparison(mValue.real, theValue.mValue.real);
-				break;
-
-			default:
-				NN_LOG("Unknown precision: %d", mPrecision);
-				theResult = kNCompareLessThan;
-				break;
-		}
-	}
-
-
-	// Compare dis-similar types
-	else
-	{
-		switch (mPrecision)
-		{
-			case kNPrecisionInt8:
-			case kNPrecisionInt16:
-			case kNPrecisionInt32:
-			case kNPrecisionInt64:
-				valueInt64_1 = GetInt64();
-				valueInt64_2 = theValue.GetInt64();
-				theResult    = GetComparison(valueInt64_1, valueInt64_2);
-				break;
-
-			case kNPrecisionFloat32:
-				valueFloat32_1 = GetFloat32();
-				valueFloat32_2 = theValue.GetFloat32();
-				theResult      = GetComparison(valueFloat32_1, valueFloat32_2);
-				break;
-
-			case kNPrecisionFloat64:
-				valueFloat64_1 = GetFloat64();
-				valueFloat64_2 = theValue.GetFloat64();
-				theResult      = GetComparison(valueFloat64_1, valueFloat64_2);
-				break;
-
-			default:
-				NN_LOG("Unknown precision: %d", mPrecision);
-				theResult = kNCompareLessThan;
-				break;
-		}
-	}
-
-	return theResult;
 }
 
 
@@ -543,7 +294,10 @@ uint8_t NNumber::GetUInt8() const
 
 
 	// Get the value
-	return (uint8_t) GetInt64();
+	uint64_t theValue = GetUInt64();
+	NN_REQUIRE(theValue <= kNUInt8Max);
+
+	return uint8_t(theValue);
 }
 
 
@@ -558,7 +312,10 @@ uint16_t NNumber::GetUInt16() const
 
 
 	// Get the value
-	return (uint16_t) GetInt64();
+	uint64_t theValue = GetUInt64();
+	NN_REQUIRE(theValue <= kNUInt16Max);
+
+	return uint16_t(theValue);
 }
 
 
@@ -573,7 +330,10 @@ uint32_t NNumber::GetUInt32() const
 
 
 	// Get the value
-	return (uint32_t) GetInt64();
+	uint64_t theValue = GetUInt64();
+	NN_REQUIRE(theValue <= kNUInt32Max);
+
+	return uint32_t(theValue);
 }
 
 
@@ -587,8 +347,31 @@ uint64_t NNumber::GetUInt64() const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsPositive());
+
+
 	// Get the value
-	return (uint64_t) GetInt64();
+	uint64_t theValue = 0;
+
+	if (std::holds_alternative<uint64_t>(mValue))
+	{
+		theValue = std::get<uint64_t>(mValue);
+	}
+	else if (std::holds_alternative<int64_t>(mValue))
+	{
+		theValue = uint64_t(std::get<int64_t>(mValue));
+	}
+	else if (std::holds_alternative<float64_t>(mValue))
+	{
+		theValue = uint64_t(std::get<float64_t>(mValue));
+	}
+	else
+	{
+		NN_LOG_UNIMPLEMENTED();
+	}
+
+	return theValue;
 }
 
 
@@ -603,7 +386,10 @@ int8_t NNumber::GetInt8() const
 
 
 	// Get the value
-	return (int8_t) GetInt64();
+	int64_t theValue = GetInt64();
+	NN_REQUIRE(theValue >= kNInt8Min && theValue <= kNInt8Max);
+
+	return int8_t(theValue);
 }
 
 
@@ -618,7 +404,10 @@ int16_t NNumber::GetInt16() const
 
 
 	// Get the value
-	return (int16_t) GetInt64();
+	int64_t theValue = GetInt64();
+	NN_REQUIRE(theValue >= kNInt16Min && theValue <= kNInt16Max);
+
+	return int16_t(theValue);
 }
 
 
@@ -633,7 +422,10 @@ int32_t NNumber::GetInt32() const
 
 
 	// Get the value
-	return (int32_t) GetInt64();
+	int64_t theValue = GetInt64();
+	NN_REQUIRE(theValue >= kNInt32Min && theValue <= kNInt32Max);
+
+	return int32_t(theValue);
 }
 
 
@@ -645,18 +437,26 @@ int32_t NNumber::GetInt32() const
 //-----------------------------------------------------------------------------
 int64_t NNumber::GetInt64() const
 {
-	int64_t theValue;
-
 
 
 	// Get the value
-	if (IsInteger())
+	int64_t theValue = 0;
+
+	if (std::holds_alternative<uint64_t>(mValue))
 	{
-		theValue = (int64_t) mValue.integer;
+		theValue = int64_t(std::get<uint64_t>(mValue));
+	}
+	else if (std::holds_alternative<int64_t>(mValue))
+	{
+		theValue = std::get<int64_t>(mValue);
+	}
+	else if (std::holds_alternative<float64_t>(mValue))
+	{
+		theValue = int64_t(std::get<float64_t>(mValue));
 	}
 	else
 	{
-		theValue = (int64_t) mValue.real;
+		NN_LOG_UNIMPLEMENTED();
 	}
 
 	return theValue;
@@ -671,21 +471,13 @@ int64_t NNumber::GetInt64() const
 //-----------------------------------------------------------------------------
 float32_t NNumber::GetFloat32() const
 {
-	float32_t theValue;
-
 
 
 	// Get the value
-	if (IsInteger())
-	{
-		theValue = (float32_t) mValue.integer;
-	}
-	else
-	{
-		theValue = (float32_t) mValue.real;
-	}
+	float64_t theValue = GetInt64();
+	NN_REQUIRE(theValue >= float64_t(kNFloat32Min) && theValue <= float64_t(kNFloat32Max));
 
-	return theValue;
+	return float32_t(theValue);
 }
 
 
@@ -697,83 +489,29 @@ float32_t NNumber::GetFloat32() const
 //-----------------------------------------------------------------------------
 float64_t NNumber::GetFloat64() const
 {
-	float64_t theValue;
-
 
 
 	// Get the value
-	if (IsInteger())
+	float64_t theValue = 0.0;
+
+	if (std::holds_alternative<uint64_t>(mValue))
 	{
-		theValue = (float64_t) mValue.integer;
+		theValue = float64_t(std::get<uint64_t>(mValue));
+	}
+	else if (std::holds_alternative<int64_t>(mValue))
+	{
+		theValue = float64_t(std::get<int64_t>(mValue));
+	}
+	else if (std::holds_alternative<float64_t>(mValue))
+	{
+		theValue = std::get<float64_t>(mValue);
 	}
 	else
 	{
-		theValue = (float64_t) mValue.real;
+		NN_LOG_UNIMPLEMENTED();
 	}
 
 	return theValue;
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::GetString : Get a string value.
-//-----------------------------------------------------------------------------
-NString NNumber::GetString() const
-{
-	NString valueText;
-
-
-
-	// Get the string
-	switch (mPrecision)
-	{
-		case kNPrecisionInt8:
-		case kNPrecisionInt16:
-		case kNPrecisionInt32:
-		case kNPrecisionInt64:
-			valueText.Format("%lld", mValue.integer);
-			break;
-
-		case kNPrecisionFloat32:
-		case kNPrecisionFloat64:
-			if (NTargetPOSIX::is_nan(mValue.real))
-			{
-				valueText = kNStringNaN;
-			}
-
-			else if (NTargetPOSIX::is_inf(mValue.real))
-			{
-				valueText = (mValue.real < 0.0) ? kNStringInfinityNeg : kNStringInfinityPos;
-			}
-
-			else if (NMathUtilities::IsZero(mValue.real))
-			{
-				valueText = kNStringZero;
-			}
-
-			else
-			{
-				if (mPrecision == kNPrecisionFloat32)
-				{
-					valueText.Format(kFormatFloat32, (float32_t) mValue.real);
-				}
-				else
-				{
-					valueText.Format(kFormatFloat64, mValue.real);
-				}
-			}
-			break;
-
-		default:
-			NN_LOG("Unknown precision: %d", mPrecision);
-			valueText = kNStringZero;
-			break;
-	}
-
-	return valueText;
 }
 
 
@@ -788,8 +526,7 @@ void NNumber::SetUInt8(uint8_t theValue)
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt8;
-	mValue.integer = theValue;
+	mValue = uint64_t(theValue);
 }
 
 
@@ -804,8 +541,7 @@ void NNumber::SetUInt16(uint16_t theValue)
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt16;
-	mValue.integer = theValue;
+	mValue = uint64_t(theValue);
 }
 
 
@@ -820,8 +556,7 @@ void NNumber::SetUInt32(uint32_t theValue)
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt32;
-	mValue.integer = theValue;
+	mValue = uint64_t(theValue);
 }
 
 
@@ -836,8 +571,7 @@ void NNumber::SetUInt64(uint64_t theValue)
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt64;
-	mValue.integer = theValue;
+	mValue = theValue;
 }
 
 
@@ -845,15 +579,14 @@ void NNumber::SetUInt64(uint64_t theValue)
 
 
 //=============================================================================
-//		NNumber::SetInt8 : Set an int8_t value.
+//		NNumber::SetInt8 : Set a int8_t value.
 //-----------------------------------------------------------------------------
 void NNumber::SetInt8(int8_t theValue)
 {
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt8;
-	mValue.integer = theValue;
+	mValue = int64_t(theValue);
 }
 
 
@@ -861,15 +594,14 @@ void NNumber::SetInt8(int8_t theValue)
 
 
 //=============================================================================
-//		NNumber::SetInt16 : Set an int16_t value.
+//		NNumber::SetInt16 : Set a int16_t value.
 //-----------------------------------------------------------------------------
 void NNumber::SetInt16(int16_t theValue)
 {
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt16;
-	mValue.integer = theValue;
+	mValue = int64_t(theValue);
 }
 
 
@@ -877,15 +609,14 @@ void NNumber::SetInt16(int16_t theValue)
 
 
 //=============================================================================
-//		NNumber::SetInt32 : Set an int32_t value.
+//		NNumber::SetInt32 : Set a int32_t value.
 //-----------------------------------------------------------------------------
 void NNumber::SetInt32(int32_t theValue)
 {
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt32;
-	mValue.integer = theValue;
+	mValue = int64_t(theValue);
 }
 
 
@@ -893,15 +624,14 @@ void NNumber::SetInt32(int32_t theValue)
 
 
 //=============================================================================
-//		NNumber::SetInt64 : Set an int64_t value.
+//		NNumber::SetInt64 : Set a int64_t value.
 //-----------------------------------------------------------------------------
 void NNumber::SetInt64(int64_t theValue)
 {
 
 
 	// Set the value
-	mPrecision     = kNPrecisionInt64;
-	mValue.integer = theValue;
+	mValue = theValue;
 }
 
 
@@ -916,8 +646,7 @@ void NNumber::SetFloat32(float32_t theValue)
 
 
 	// Set the value
-	mPrecision  = kNPrecisionFloat32;
-	mValue.real = theValue;
+	mValue = float64_t(theValue);
 }
 
 
@@ -932,184 +661,7 @@ void NNumber::SetFloat64(float64_t theValue)
 
 
 	// Set the value
-	mPrecision  = kNPrecisionFloat64;
-	mValue.real = theValue;
-}
-
-
-
-/*
-   //=============================================================================
-   //		NNumber::SetValue : Set the value.
-   //-----------------------------------------------------------------------------
-   bool NNumber::SetValue(const NVariant& theValue)
-   {
-	uint8_t   valueUInt8;
-	uint16_t  valueUInt16;
-	uint32_t  valueUInt32;
-	uint64_t  valueUInt64;
-	int8_t    valueSInt8;
-	int16_t   valueSInt16;
-	int32_t   valueSInt32;
-	int64_t   valueSInt64;
-	float32_t valueFloat32;
-	float64_t valueFloat64;
-	int       valueInt;
-	long      valueLong;
-	NString   valueString;
-
-
-
-	// Set the value
-	//
-	// NVariant treats some unsized types as numeric, to support literal constants.
-	if (theValue.GetValue(*this))
-	{
-		;    // Assigned to this
-	}
-	else if (theValue.GetValue(valueUInt8))
-	{
-		SetUInt8(valueUInt8);
-	}
-
-	else if (theValue.GetValue(valueUInt16))
-	{
-		SetUInt16(valueUInt16);
-	}
-
-	else if (theValue.GetValue(valueUInt32))
-	{
-		SetUInt32(valueUInt32);
-	}
-
-	else if (theValue.GetValue(valueUInt64))
-	{
-		SetUInt64(valueUInt64);
-	}
-
-	else if (theValue.GetValue(valueSInt8))
-	{
-		SetInt8(valueSInt8);
-	}
-
-	else if (theValue.GetValue(valueSInt16))
-	{
-		SetInt16(valueSInt16);
-	}
-
-	else if (theValue.GetValue(valueSInt32))
-	{
-		SetInt32(valueSInt32);
-	}
-
-	else if (theValue.GetValue(valueSInt64))
-	{
-		SetInt64(valueSInt64);
-	}
-
-	else if (theValue.GetValue(valueFloat32))
-	{
-		SetFloat32(valueFloat32);
-	}
-
-	else if (theValue.GetValue(valueFloat64))
-	{
-		SetFloat64(valueFloat64);
-	}
-
-	else if (theValue.GetValue(valueInt))
-	{
-		SetInt64(valueInt);
-	}
-
-	else if (theValue.GetValue(valueLong))
-	{
-		SetInt64(valueLong);
-	}
-
-	else if (theValue.GetValue(valueString))
-	{
-		return SetValue(valueString);
-	}
-
-	else
-	{
-		return false;
-	}
-
-	return true;
-   }
- */
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetString : Set a string value.
-//-----------------------------------------------------------------------------
-bool NNumber::SetString(const NString& theValue)
-{
-	NRange    foundDot, foundE;
-	NIndex    thePrecision;
-	int64_t   valueInteger;
-	float64_t valueReal;
-
-
-
-	// Parse the value
-	//
-	// Some integers will also pass parsing as floats, however we coerce these
-	// back to integers when possible to allow us to use more tightly packed
-	// types for storage in the future.
-	if (sscanf(theValue.GetUTF8(), "%lf", &valueReal) == 1)
-	{
-		// Get the state we need
-		foundDot = theValue.Find(".");
-		foundE   = theValue.Find("e", kNStringNoCase);
-
-		if (foundDot.IsEmpty() || !foundE.IsEmpty())
-		{
-			thePrecision = kDecimalsFloat64;
-		}
-		else
-		{
-			thePrecision = theValue.GetSize() - foundDot.GetNext();
-		}
-
-
-
-		// Cast the value
-		if (foundDot.IsEmpty() && foundE.IsEmpty() && valueReal >= kInt64Min &&
-			valueReal <= kInt64Max)
-		{
-			SetInt64((int64_t) valueReal);
-		}
-
-		else if (thePrecision <= kDecimalsFloat32 && valueReal >= kFloat32Min &&
-				 valueReal <= kFloat32Max)
-		{
-			SetFloat32((float32_t) valueReal);
-		}
-
-		else
-		{
-			SetFloat64(valueReal);
-		}
-
-		return true;
-	}
-
-	else if (sscanf(theValue.GetUTF8(), "%lld", &valueInteger) == 1 ||
-			 sscanf(theValue.GetUTF8(), "%llx", &valueInteger) == 1 ||
-			 sscanf(theValue.GetUTF8(), "0x%llx", &valueInteger) == 1 ||
-			 sscanf(theValue.GetUTF8(), "0X%llx", &valueInteger) == 1)
-	{
-		SetInt64(valueInteger);
-		return true;
-	}
-
-	return false;
+	mValue = theValue;
 }
 
 
@@ -1125,7 +677,7 @@ bool NNumber::CompareEqual(const NNumber& theNumber) const
 
 
 	// Compare the number
-	return false;
+	return CompareOrder(theNumber) == NComparison::EqualTo;
 }
 
 
@@ -1139,6 +691,141 @@ NComparison NNumber::CompareOrder(const NNumber& theNumber) const
 {
 
 
-	// Order by value
-	return NComparison::EqualTo;
+	// Compare by sign
+	//
+	// Negative numbers are ordered before positive numbers
+	NComparison theResult = NComparison::EqualTo;
+
+	if (IsNegative() && !theNumber.IsNegative())
+	{
+		theResult = NComparison::LessThan;
+	}
+	else if (!IsNegative() && theNumber.IsNegative())
+	{
+		theResult = NComparison::GreaterThan;
+	}
+
+
+	// Compare integer / integer
+	else if (IsInteger() && theNumber.IsInteger())
+	{
+		if (IsNegative())
+		{
+			theResult = NCompare(GetInt64(), theNumber.GetInt64());
+		}
+		else
+		{
+			theResult = NCompare(GetUInt64(), theNumber.GetUInt64());
+		}
+	}
+
+
+	// Compare real / real
+	else if (IsReal() && theNumber.IsReal())
+	{
+		theResult = NCompare(GetFloat64(), theNumber.GetFloat64());
+	}
+
+
+	// Compare integer / real
+	else
+	{
+		if (IsInteger())
+		{
+			theResult = CompareIntReal(theNumber);
+		}
+		else
+		{
+			theResult = theNumber.CompareIntReal(*this);
+		}
+	}
+
+	return theResult;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NNumber::CompareIntReal : Compare an integer to a real.
+//-----------------------------------------------------------------------------
+NComparison NNumber::CompareIntReal(const NNumber& theNumber) const
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(IsNegative() == theNumber.IsNegative());
+	NN_REQUIRE(IsInteger() && theNumber.IsReal());
+
+
+
+	// Compare integer / real
+	//
+	// A float64_t can only represent 53-bit integers exactly, which range from:
+	//
+	//		kNSafeIntegerMin			-9007199254740991
+	//		kNSafeIntegerMax			 9007199254740991
+	//
+	// As a float64_t can hold values outside that range this gives us two
+	// cases where always-correct comparisons can be made:
+	//
+	//	o A real outside the maximum integer range can be ordered correctly
+	//	regardless of its value.
+	//
+	//	o A real within the safe integer range can be ordered correctly
+	//	based on its value.
+	//
+	// Comparing integers to reals between the safe integer range (2^53) and
+	// the maximum integer range (2^64) may give inconsistent results vs
+	// comparisons between two numbers of the same type.
+	//
+	// We log a warning for this case as the caller may need to normalise
+	// types before attempting a comparison.
+	NComparison theResult = NComparison::EqualTo;
+
+	if (IsNegative())
+	{
+		// Real is outside integer range
+		if (theNumber.GetFloat64() < float64_t(kNInt64Min))
+		{
+			theResult = NComparison::GreaterThan;
+		}
+
+		// Real is within integer range
+		else
+		{
+			// Real is outside safe range
+			if (theNumber.GetFloat64() < kNSafeIntegerMin)
+			{
+				NN_LOG_WARNING("Integer/real comparison outside safe integer range");
+			}
+
+			theResult = NCompare(GetFloat64(), theNumber.GetFloat64());
+		}
+	}
+
+	else
+	{
+		// Real is outside integer range
+		if (theNumber.GetFloat64() > float64_t(kNUInt64Max))
+		{
+			theResult = NComparison::LessThan;
+		}
+
+		// Real is within integer range
+		else
+		{
+			// Real is outside safe range
+			if (theNumber.GetFloat64() > kNSafeIntegerMax)
+			{
+				NN_LOG_WARNING("Integer/real comparison outside safe integer range");
+			}
+
+			theResult = NCompare(GetFloat64(), theNumber.GetFloat64());
+		}
+	}
+
+	return theResult;
 }

@@ -41,31 +41,11 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NMixinComparable.h"
-#include "NString.h"
 
-
-
-
-
-//=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-// Precision
-enum class NPrecision
-{
-	None,
-	UInt8,
-	UInt16,
-	UInt32,
-	UInt64,
-	Int8,
-	Int16,
-	Int32,
-	Int64,
-	Float32,
-	Float64,
-};
+// System
+#include <variant>
 
 
 
@@ -74,13 +54,8 @@ enum class NPrecision
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Values
-union NNumberValue
-{
-	uint64_t  uint64;
-	int64_t   int64;
-	float64_t float64;
-};
+// Value
+using NNumberValue                                          = std::variant<uint64_t, int64_t, float64_t>;
 
 
 
@@ -108,32 +83,27 @@ public:
 										NNumber();
 
 
-	// Test the number
-	bool                                IsValid()    const;
-	bool                                IsInteger()  const;
-	bool                                IsReal()     const;
-	bool                                IsSigned()   const;
+	// Is this an integer number?
+	bool                                IsInteger() const;
+
+
+	// Is this a real number?
+	bool                                IsReal() const;
+
+
+	// Is this a signed number?
+	bool                                IsSigned() const;
+
+
+	// Is this a positive / negative number?
+	bool                                IsPositive() const;
 	bool                                IsNegative() const;
 
 
-	// Get the precision
+	// Get / set the value
 	//
-	// A number may be stored with a greater precision than it was created with.
-	NPrecision                          GetPrecision() const;
-
-
-	// Compare the value
-	NComparison                         Compare(const NNumber& theValue) const;
-
-
-	// Get/set the value
-	//
-	// Casting to a different precision follows normal C++ promotion rules.
-	//
-	// GetString returns an empty strings for unrepresentable numbers (such
-	// as NaN or infinities).
-	//
-	// SetString will assign zero if passed an unparseable string.
+	// A number may only be obtained as a specific type if it can be
+	// converted to that type without loss of information.
 	uint8_t                             GetUInt8()   const;
 	uint16_t                            GetUInt16()  const;
 	uint32_t                            GetUInt32()  const;
@@ -144,19 +114,17 @@ public:
 	int64_t                             GetInt64()   const;
 	float32_t                           GetFloat32() const;
 	float64_t                           GetFloat64() const;
-	NString                             GetString()  const;
 
-	void                                SetUInt8(uint8_t         theValue);
-	void                                SetUInt16(uint16_t       theValue);
-	void                                SetUInt32(uint32_t       theValue);
-	void                                SetUInt64(uint64_t       theValue);
-	void                                SetInt8(int8_t           theValue);
-	void                                SetInt16(int16_t         theValue);
-	void                                SetInt32(int32_t         theValue);
-	void                                SetInt64(int64_t         theValue);
-	void                                SetFloat32(float32_t     theValue);
-	void                                SetFloat64(float64_t     theValue);
-	void                                SetString(const NString& theValue) const;
+	void                                SetUInt8(uint8_t     theValue);
+	void                                SetUInt16(uint16_t   theValue);
+	void                                SetUInt32(uint32_t   theValue);
+	void                                SetUInt64(uint64_t   theValue);
+	void                                SetInt8(int8_t       theValue);
+	void                                SetInt16(int16_t     theValue);
+	void                                SetInt32(int32_t     theValue);
+	void                                SetInt64(int64_t     theValue);
+	void                                SetFloat32(float32_t theValue);
+	void                                SetFloat64(float64_t theValue);
 
 
 
@@ -167,7 +135,10 @@ public:
 
 
 private:
-	NPrecision                          mPrecision;
+	NComparison                         CompareIntReal(const NNumber& theNumber) const;
+
+
+private:
 	NNumberValue                        mValue;
 };
 
