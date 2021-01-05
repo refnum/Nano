@@ -148,16 +148,14 @@ void NRunLoop::Stop()
 {
 
 
-	// Validate our state
-	NN_REQUIRE(mStopWork != nullptr);
-
-
-
 	// Stop the runloop
 	NScopedLock acquireLock(mLock);
 
-	*mStopWork = true;
-	RunLoopWake(mRunLoop);
+	if (mStopWork != nullptr)
+	{
+		*mStopWork = true;
+		RunLoopWake(mRunLoop);
+	}
 }
 
 
