@@ -137,11 +137,11 @@ NANO_TEST(TRunLoop, "Stop")
 	std::shared_ptr<NRunLoop> threadLoop = theThread.GetRunLoop();
 	threadLoop->Add(std::bind(TestIncrement, &theValue), kNTimeMillisecond, kNTimeMillisecond);
 
-	runLoop->Run(kNTimeMillisecond * 10);
+	runLoop->Run(kNTimeMillisecond * 100);
 	threadLoop->Stop();
 	size_t stoppedValue = theValue;
 
-	runLoop->Run(kNTimeMillisecond * 10);
+	runLoop->Run(kNTimeMillisecond * 100);
 	REQUIRE(theValue == stoppedValue);
 	REQUIRE(theValue >= 5);
 }
