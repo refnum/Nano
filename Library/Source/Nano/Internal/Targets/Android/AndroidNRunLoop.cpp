@@ -139,7 +139,7 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 
 
 	// Sleep the runloop
-	if (ALooper_pollAll(timeMS, nullptr, nullptr, (void**) &pollSource) >= 0)
+	if (ALooper_pollAll(timeMS, nullptr, nullptr, reinterpret_cast<void**>(&pollSource)) >= 0)
 	{
 		if (pollSource != nullptr)
 		{
